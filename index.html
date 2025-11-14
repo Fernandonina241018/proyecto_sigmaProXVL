@@ -11,17 +11,20 @@
 
     <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ccc;">
         <div style="display: flex; align-items: center;">
-            <div style="font-weight: bold; margin-right: 15px;">Fernando Alberto Nina Ramirez's Workspace</div>
+            <div style="font-weight: bold; margin-right: 15px;">Fernando Alberto Nina Ramirez</div>
             <button>+ Crear</button>
         </div>
         <div style="display: flex; align-items: center;">
-            <input type="search" placeholder="Buscar Ctrl+K" style="margin-right: 10px;">
+            <input type="search" placeholder="Buscar Ctrl+J" style="margin-left: 10px;">
+
             <span style="margin-right: 10px;">Iconos (No visibles en HTML)</span>
             <span style="font-weight: bold;">FA</span>
         </div>
     </header>
 
-    <nav style="width: 250px; float: left; padding: 10px; border-right: 1px solid #ccc; height: calc(100vh - 70px); overflow-y: auto;">
+    <button id="btnToggleNav">Alternar Navegación</button>
+
+    <nav id="nav1", style="width: 250px; float: left; padding: 10px; border-right: 1px solid #ccc; height: calc(100vh - 70px); overflow-y: auto;">
         <section>
             <h3>Inicio</h3>
             <ul>
@@ -34,7 +37,7 @@
         </section>
 
         <section style="margin-top: 20px;">
-            <h3>Favoritas</h3>
+            <h3>Favoritos</h3>
             <ul>
                 <li>Elementos favoritos aquí...</li>
             </ul>
@@ -91,7 +94,7 @@
             <button>+ Más</button>
         </section>
         <section style="margin-top: 20px;">
-            <h3>Favoritas</h3>
+            <h3>Favoritos</h3>
             <ul>
                 <li>Elementos favoritos aquí...</li>
             </ul>
@@ -144,6 +147,7 @@
                 <a href="#">Proyectos</a> &gt;
                 <a href="#">Proyecto 1</a> <button>+</button>
             </nav>
+            
             <div>
                 <button>Agentes</button>
                 <button>Automatizar</button>
