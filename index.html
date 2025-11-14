@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fernando Alberto Nina Ramirez's Workspace - Proyecto 1</title>
+    <title>Apartado del Usuario</title>
 </head>
     <!-- Contenedor de metadatos y configuraciones de la página -->
     <link rel="stylesheet" href="styles.css">
@@ -11,20 +11,29 @@
 
     <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ccc;">
         <div style="display: flex; align-items: center;">
-            <div style="font-weight: bold; margin-right: 15px;">Fernando Alberto Nina Ramirez</div>
+            <div style="font-weight: bold; margin-right: 15px;">Apartado del Usuario</div>
             <button>+ Crear</button>
         </div>
         <div style="display: flex; align-items: center;">
-            <input type="search" placeholder="Buscar Ctrl+J" style="margin-left: 10px;">
+           <input type="search" id="search-input" placeholder="Search Ctrl+J" style="margin-right: 550px;">
 
             <span style="margin-right: 10px;">Iconos (No visibles en HTML)</span>
             <span style="font-weight: bold;">FA</span>
         </div>
     </header>
 
-    <button id="btnToggleNav">Alternar Navegación</button>
+    <nav id="nav1", style="width: 60px; float: left; padding: 10px; border-right: 1px solid #ccc; height: calc(100vh - 70px); overflow-y: auto;">
+        <button>+</button>
+        <button>+</button>
+        <button>+</button>
+        <button>+</button>
+        <button>+</button>
+        <button>+</button>
+        <button>+</button>
+        <button>+</button>
+    </Nav>
 
-    <nav id="nav1", style="width: 250px; float: left; padding: 10px; border-right: 1px solid #ccc; height: calc(100vh - 70px); overflow-y: auto;">
+    <nav id="nav2", style="width: 250px; float: left; padding: 10px; border-right: 1px solid #ccc; height: calc(100vh - 70px); overflow-y: auto;">
         <section>
             <h3>Inicio</h3>
             <ul>
@@ -47,7 +56,7 @@
         <section style="margin-top: 20px;">
             <h3>Espacios</h3>
             <ul>
-                <li><a href="#">Todas las tareas: Fernando Albe...</a></li>
+                <li><a href="#">Todas las tareas: </a></li>
                 <li><a href="#">Espacio del equipo [ES]</a></li>
                 <ul>
                     <li><a href="#">Proyectos</a> <button>...</button></li>
@@ -66,15 +75,15 @@
             <ul>
                 <li><a href="#"># Welcome</a></li>
             </ul>
-            <button>+ Añadir canal</button>
+            <button>Añadir canal</button>
         </section>
 
         <section style="margin-top: 20px;">
             <h3>Mensajes directos</h3>
             <ul>
-                <li><a href="#">Fernando Alberto Nina Ra...</a></li>
+                <li><a href="#">Apartado del Usuario</a></li>
             </ul>
-            <button>+ Nuevo mensaje</button>
+            <button>Nuevo mensaje</button>
         </section>
         
         <div style="position: sticky; bottom: 0; background: #f0f0f0; padding: 10px; border-top: 1px solid #ccc;">
@@ -104,7 +113,7 @@
         <section style="margin-top: 20px;">
             <h3>Espacios</h3>
             <ul>
-                <li><a href="#">Todas las tareas: Fernando Albe...</a></li>
+                <li><a href="#">Todas las tareas: Usuario</a></li>
                 <li><a href="#">Espacio del equipo [ES]</a></li>
                 <ul>
                     <li><a href="#">Proyectos</a> <button>...</button></li>
@@ -129,7 +138,7 @@
         <section style="margin-top: 20px;">
             <h3>Mensajes directos</h3>
             <ul>
-                <li><a href="#">Fernando Alberto Nina Ra...</a></li>
+                <li><a href="#">Usuario</a></li>
             </ul>
             <button>+ Nuevo mensaje</button>
         </section>
@@ -139,9 +148,9 @@
         </div>
     </nav>
 
-    <main style="margin-left: 220px; padding: 10px;">
+    <main style="margin-left: 260px; padding: 10px; padding-left: 60px;">
 
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px;">
             <nav>
                 <a href="#">Espacio del equipo [ES]</a> &gt;
                 <a href="#">Proyectos</a> &gt;
@@ -157,22 +166,24 @@
         </div>
 
         <div style="display: flex; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px;">
-            <button style="background-color: #ddd;">Añadir canal</button>
+            
             <nav style="margin-left: 10px;">
-                <button style="font-weight: bold;">Lista</button>
+                <button>Añadir canal</button>
+                <button>Lista</button>
                 <button>Tablero</button>
                 <button>Calendario</button>
                 <button>Gantt</button>
                 <button>Tabla</button>
-                <button>+ Vista</button>
+                <button>Vista</button>
             </nav>
-            <div style="margin-left: auto; display: flex;">
+
+            <nav style="margin-left: 10px; float: right;">
                 <button>Filtro</button>
                 <button>Cerrada</button>
                 <button>Persona asignada</button>
                 <button>Personalizar</button>
-                <button style="background-color: #007bff; color: white;">Add Tarea</button>
-            </div>
+                <button>Add Tarea</button>
+            </nav>
         </div>
 
         <section>

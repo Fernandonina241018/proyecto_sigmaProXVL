@@ -656,21 +656,13 @@ footer {
     margin-left: auto;
 }
 
-/* ───────────────────────────────────────────────────────────────────────────
-   DARK MODE (Opcional - descomentar para activar)
-   ─────────────────────────────────────────────────────────────────────────── */
-
-/*
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg-primary: #1e1e1e;
-        --bg-secondary: #2d2d2d;
-        --bg-tertiary: #3d3d3d;
-        --bg-hover: #333333;
-        --text-primary: #ffffff;
-        --text-secondary: #b0b0b0;
-        --text-tertiary: #808080;
-        --border-color: #404040;
-    }
+#nav1 {
+    display: flex;          /* 1. Activa Flexbox */
+    flex-direction: column; /* 2. Apila los botones verticalmente */
+    gap: 10px;              /* 3. Añade 10px de espacio (gap) entre cada botón */
 }
-*/
+
+/* Opcional: hacer que los botones ocupen todo el ancho del nav */
+#nav1 button {
+    width: 100%;
+}
