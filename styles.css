@@ -672,6 +672,7 @@ footer {
     box-sizing: border-box;
     /* Fuente moderna y limpia */
     font-family: "Segoe UI", sans-serif;
+    font-size: large;
 }
 
 /* Contenedor principal para establecer la posición relativa para la etiqueta absoluta */
@@ -715,12 +716,37 @@ footer {
     pointer-events: none;
     background-color: transparent;
     transition: all 0.3s ease;
-    z-index: 2; /* Asegura que la etiqueta esté sobre el borde del input */
+    /*z-index: 2; Asegura que la etiqueta esté sobre el borde del input */
 }
+
+.input-box span {
+    position: absolute; 
+    /* POSICIONAMIENTO CORREGIDO: Basado en el contenedor relativo (.input-box) */
+    left: 15px; /* Inicia justo dentro del padding del input */
+    top: 5px;  /* Coloca la etiqueta en el centro vertical del input (asumiendo 35px height) */
+    
+    background: #f8f9fa; 
+    padding: 0 5px;
+    color: #777;
+    font-size: 16px;
+    pointer-events: none;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    /*z-index: 2; Asegura que la etiqueta esté sobre el borde del input */
+}
+
 
 /* Mueve la etiqueta hacia arriba cuando el input está enfocado o tiene valor */
 .input-box input:focus + label,
+.input-box input:focus + span,
 .input-box input:valid + label {
+    top: -15px; /* Mueve la etiqueta por encima del borde superior */
+    left: 8px; /* Ajusta la posición horizontal en la parte superior */
+    font-size: 12px; /* Reducir el tamaño para el efecto flotante */
+    color: #000000;
+}
+
+.input-box input:valid + span {
     top: -15px; /* Mueve la etiqueta por encima del borde superior */
     left: 8px; /* Ajusta la posición horizontal en la parte superior */
     font-size: 12px; /* Reducir el tamaño para el efecto flotante */
