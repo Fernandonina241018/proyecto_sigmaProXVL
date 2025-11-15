@@ -666,3 +666,63 @@ footer {
 #nav1 button {
     width: 100%;
 }
+
+* {
+    /* Mantiene las dimensiones del elemento incluyendo padding y borde */
+    box-sizing: border-box;
+    /* Fuente moderna y limpia */
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* Contenedor principal para establecer la posición relativa para la etiqueta absoluta */
+.input-box {
+    position: relative; /* ¡CRUCIAL! Permite que la etiqueta se posicione correctamente dentro. */
+    width: 290px; /* Establece el ancho del contenedor */
+    /* Asegúrate de que el contenedor tenga suficiente altura si usas padding/margin */
+    margin: 15px 0; /* Agrega margen vertical para separación */
+}
+
+.input-box input {
+    width: 100%; /* El input debe ocupar todo el ancho del contenedor padre (.input-box) */
+    height: 35px;
+    padding: 12px;
+    border: 2px solid #999;
+    border-radius: 10px;
+    outline: none;
+    /* 'position: center;' no es una propiedad CSS válida. Se elimina. */
+    background: transparent;
+    transition: all 0.3s ease;
+    /* El input debe tener un z-index más bajo o igual si la etiqueta está encima */
+    z-index: 1; 
+}
+
+.input-box input:focus {
+    border-color: #000508;
+    /* Sombra más sutil y estándar para accesibilidad */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4); 
+}
+
+.input-box label {
+    position: absolute; 
+    /* POSICIONAMIENTO CORREGIDO: Basado en el contenedor relativo (.input-box) */
+    left: 15px; /* Inicia justo dentro del padding del input */
+    top: 5px;  /* Coloca la etiqueta en el centro vertical del input (asumiendo 35px height) */
+    
+    background: #f8f9fa; 
+    padding: 0 5px;
+    color: #777;
+    font-size: 16px;
+    pointer-events: none;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    z-index: 2; /* Asegura que la etiqueta esté sobre el borde del input */
+}
+
+/* Mueve la etiqueta hacia arriba cuando el input está enfocado o tiene valor */
+.input-box input:focus + label,
+.input-box input:valid + label {
+    top: -15px; /* Mueve la etiqueta por encima del borde superior */
+    left: 8px; /* Ajusta la posición horizontal en la parte superior */
+    font-size: 12px; /* Reducir el tamaño para el efecto flotante */
+    color: #000000;
+}

@@ -9,16 +9,47 @@
     <link rel="stylesheet" href="styles.css">
 <body>
 
-    <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ccc;">
-        <div style="display: flex; align-items: center;">
-            <div style="font-weight: bold; margin-right: 15px;">Apartado del Usuario</div>
-            <button>+ Crear</button>
-        </div>
-        <div style="display: flex; align-items: center;">
-           <input type="search" id="search-input" placeholder="Search Ctrl+J" style="margin-right: 550px;">
+    <header style="
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        padding: 10px 20px; 
+        border-bottom: 1px solid #ddd;
+        background-color: #f8f8f8; /* Color de fondo ligero */
+    ">
 
-            <span style="margin-right: 10px;">Iconos (No visibles en HTML)</span>
-            <span style="font-weight: bold;">FA</span>
+        <div class="header-left" style="display: flex; align-items: center;">
+            
+            <div style="font-weight: bold; font-size: 1.1em; margin-right: 25px; color: #333;">
+                Apartado del Usuario
+            </div>
+            
+            <button id="bottom-cargar">+ Cargar</button>
+
+        </div>
+
+        <div class="header-right" style="display: flex; align-items: center;">
+
+            <div class="input-box" id="search-input" style="margin-right: 20px;">
+                <input type="text" required>
+                <label>Buscar...</label>
+                </div>
+
+            <div class="icon-group" style="display: flex; align-items: center; margin-right: 15px;">
+                <span style="color: #666; font-size: 1.2em;">🔔 ⚙️</span>
+            </div>
+
+            <div class="user-avatar" style="
+                font-weight: bold; 
+                background-color: #ffc107; 
+                color: #333; 
+                padding: 5px 10px; 
+                border-radius: 50%;
+                cursor: pointer;
+            ">
+                FA
+            </div>
+
         </div>
     </header>
 
@@ -166,8 +197,7 @@
             </div>
         </div>
 
-        <div style="display: flex; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px;">
-            
+        <div style="display: flex; margin-right: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px;">           
             <nav style="margin-left: 10px;">
                 <button>Añadir canal</button>
                 <button>Lista</button>
@@ -176,9 +206,6 @@
                 <button>Gantt</button>
                 <button>Tabla</button>
                 <button>Vista</button>
-            </nav>
-
-            <nav style="margin-left: 10px; float: right;">
                 <button>Filtro</button>
                 <button>Cerrada</button>
                 <button>Persona asignada</button>
