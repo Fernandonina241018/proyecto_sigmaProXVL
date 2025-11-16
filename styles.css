@@ -35,8 +35,8 @@
     
     /* Bordes */
     --border-color: #e4e5e7;
-    --border-radius: 8px;
-    --border-radius-sm: 4px;
+    --border-radius: 10px;
+    --border-radius-sm: 8px;
     
     /* Sombras */
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -708,8 +708,6 @@ footer {
     /* POSICIONAMIENTO CORREGIDO: Basado en el contenedor relativo (.input-box) */
     left: 15px; /* Inicia justo dentro del padding del input */
     top: 5px;  /* Coloca la etiqueta en el centro vertical del input (asumiendo 35px height) */
-    
-    background: #f8f9fa; 
     padding: 0 5px;
     color: #777;
     font-size: 16px;
@@ -722,10 +720,8 @@ footer {
 .input-box span {
     position: absolute; 
     /* POSICIONAMIENTO CORREGIDO: Basado en el contenedor relativo (.input-box) */
-    left: 15px; /* Inicia justo dentro del padding del input */
+    left: 65px; /* Inicia justo dentro del padding del input */
     top: 5px;  /* Coloca la etiqueta en el centro vertical del input (asumiendo 35px height) */
-    
-    background: #f8f9fa; 
     padding: 0 5px;
     color: #777;
     font-size: 16px;
@@ -738,17 +734,18 @@ footer {
 
 /* Mueve la etiqueta hacia arriba cuando el input está enfocado o tiene valor */
 .input-box input:focus + label,
-.input-box input:focus + span,
+
 .input-box input:valid + label {
     top: -15px; /* Mueve la etiqueta por encima del borde superior */
     left: 8px; /* Ajusta la posición horizontal en la parte superior */
-    font-size: 12px; /* Reducir el tamaño para el efecto flotante */
+    font-size: 11px; /* Reducir el tamaño para el efecto flotante */
     color: #000000;
 }
 
-.input-box input:valid + span {
-    top: -15px; /* Mueve la etiqueta por encima del borde superior */
-    left: 8px; /* Ajusta la posición horizontal en la parte superior */
-    font-size: 12px; /* Reducir el tamaño para el efecto flotante */
-    color: #000000;
+.input-box input:focus ~ span,
+.input-box input:valid ~ span {
+    top: 33px; /* Mueve la etiqueta por encima del borde superior */
+    left: 231px; /* Ajusta la posición horizontal en la parte superior */
+    font-size: 11px; /* Reducir el tamaño para el efecto flotante */
+    color: #401be9;
 }

@@ -3,282 +3,328 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apartado del Usuario</title>
+    <title>Análisis Estadístico - Opción 1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar izquierdo - Menú de estadísticos */
+        .sidebar {
+            width: 280px;
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .stats-category {
+            margin-bottom: 25px;
+        }
+
+        .category-title {
+            font-size: 0.9rem;
+            color: #95a5a6;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .stat-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: #34495e;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .stat-item:hover {
+            background: #3498db;
+            transform: translateX(5px);
+        }
+
+        /* Área principal */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 20px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+        }
+
+        .header-actions button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .btn-secondary:hover {
+            background: #bdc3c7;
+        }
+
+        /* Contenido principal */
+        .content-wrapper {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .work-area {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .placeholder {
+            background: white;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .placeholder h3 {
+            color: #95a5a6;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .placeholder p {
+            color: #bdc3c7;
+        }
+
+        /* Panel derecho - Estadísticos activos */
+        .active-stats-panel {
+            width: 300px;
+            background: white;
+            padding: 20px;
+            border-left: 1px solid #ecf0f1;
+            overflow-y: auto;
+        }
+
+        .active-stats-panel h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .active-stat-card {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .active-stat-card h4 {
+            font-size: 1rem;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .active-stat-card p {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+
+        .stat-status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .remove-stat {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .remove-stat:hover {
+            background: #c0392b;
+        }
+
+        .empty-active {
+            text-align: center;
+            color: #95a5a6;
+            padding: 40px 20px;
+        }
+    </style>
 </head>
-    <!-- Contenedor de metadatos y configuraciones de la página -->
-    <link rel="stylesheet" href="styles.css">
 <body>
-
-    <header style="
-        display: flex; 
-        justify-content: space-between; 
-        align-items: center; 
-        padding: 10px 20px; 
-        border-bottom: 1px solid #ddd;
-        background-color: #f8f8f8; /* Color de fondo ligero */
-    ">
-
-        <div class="header-left" style="display: flex; align-items: center;">
+    <div class="container">
+        <!-- Sidebar Izquierdo -->
+        <aside class="sidebar">
+            <h2>📊 Estadísticos</h2>
             
-            <div style="font-weight: bold; font-size: 1.1em; margin-right: 25px; color: #333;">
-                Apartado del Usuario
+            <div class="stats-category">
+                <div class="category-title">Descriptivos</div>
+                <div class="stat-item">Media y Mediana</div>
+                <div class="stat-item">Desviación Estándar</div>
+                <div class="stat-item">Varianza</div>
+                <div class="stat-item">Cuartiles</div>
             </div>
-            
-            <button id="bottom-cargar">+ Cargar</button>
 
-        </div>
+            <div class="stats-category">
+                <div class="category-title">Inferenciales</div>
+                <div class="stat-item">Prueba T-Student</div>
+                <div class="stat-item">ANOVA</div>
+                <div class="stat-item">Chi-Cuadrado</div>
+                <div class="stat-item">Regresión Lineal</div>
+            </div>
 
-        <div class="header-right" style="display: flex; align-items: center;">
+            <div class="stats-category">
+                <div class="category-title">Correlación</div>
+                <div class="stat-item">Pearson</div>
+                <div class="stat-item">Spearman</div>
+                <div class="stat-item">Kendall</div>
+            </div>
 
-            <div class="input-box" id="search-input" style="margin-right: 600px;">
-                <input type="text" required>
-                <label>Buscar...</label>
-                <span>Elementos</span>
+            <div class="stats-category">
+                <div class="category-title">No Paramétricos</div>
+                <div class="stat-item">Mann-Whitney U</div>
+                <div class="stat-item">Kruskal-Wallis</div>
+                <div class="stat-item">Wilcoxon</div>
+            </div>
+        </aside>
+
+        <!-- Área Principal -->
+        <main class="main-content">
+            <header class="header">
+                <h1>Análisis de Datos</h1>
+                <div class="header-actions">
+                    <button class="btn-secondary">Importar Datos</button>
+                    <button class="btn-primary">Ejecutar Análisis</button>
                 </div>
+            </header>
 
-            <div class="icon-group" style="display: flex; align-items: center; margin-right: 15px;">
-                <span style="color: #666; font-size: 1.2em;">🔔 ⚙️</span>
-            </div>
-
-            <div class="user-avatar" style="
-                font-weight: bold; 
-                background-color: #ffc107; 
-                color: #333; 
-                padding: 5px 10px; 
-                border-radius: 50%;
-                cursor: pointer;
-            ">
-                FA
-            </div>
-
-        </div>
-    </header>
-
-    <nav id="nav1", style="width: 60px; float: left; padding: 10px; border-right: 1px solid #ccc; height: calc(100vh - 70px); overflow-y: auto;">
-        <button>+</button>
-        <button>+</button>
-        <button>+</button>
-        <button>+</button>
-        <button>+</button>
-        <button>+</button>
-        <button>+</button>
-        <button>+</button>
-        <button>+</button>
-    </Nav>
-
-    <nav id="nav2", style="width: 250px; float: left; padding: 10px; border-right: 1px solid #ccc; height: calc(100vh - 70px); overflow-y: auto;">
-        <section>
-            <h3>Inicio</h3>
-            <ul>
-                <li><a href="#">Bandeja de entrada</a></li>
-                <li><a href="#">Respuestas</a></li>
-                <li><a href="#">Comentarios asignados</a></li>
-                <li><a href="#">Mis tareas</a></li>
-            </ul>
-            <button>+ Más</button>
-        </section>
-
-        <section style="margin-top: 20px;">
-            <h3>Favoritos</h3>
-            <ul>
-                <li>Elementos favoritos aquí...</li>
-            </ul>
-            <button>+ Favoritos</button>
-        </section>
-
-        <section style="margin-top: 20px;">
-            <h3>Espacios</h3>
-            <ul>
-                <li><a href="#">Todas las tareas: </a></li>
-                <li><a href="#">Espacio del equipo [ES]</a></li>
-                <ul>
-                    <li><a href="#">Proyectos</a> <button>...</button></li>
-                    <ul>
-                        <li><a href="#">Proyecto 1</a> <span>3</span></li>
-                        <li><a href="#">Proyecto 2</a> <span>3</span></li>
-                        <li><a href="#">Get Started with ClickUp</a> <span>5</span></li>
-                    </ul>
-                </ul>
-            </ul>
-            <button>+ Nuevo espacio</button>
-        </section>
-
-        <section style="margin-top: 20px;">
-            <h3>Canales</h3>
-            <ul>
-                <li><a href="#"># Welcome</a></li>
-            </ul>
-            <button>Añadir canal</button>
-        </section>
-
-        <section style="margin-top: 20px;">
-            <h3>Mensajes directos</h3>
-            <ul>
-                <li><a href="#">Apartado del Usuario</a></li>
-            </ul>
-            <button>Nuevo mensaje</button>
-        </section>
-        
-        <div style="position: sticky; bottom: 0; background: #f0f0f0; padding: 10px; border-top: 1px solid #ccc;">
-            <button>Salir de...</button>
-        </div>
-    </nav>
-
-    <nav style="width: 250px; float: right; padding: 10px; border-right: 1px solid #ccc; height: calc(100vh - 70px); overflow-y: auto;">
-        <section>
-            <h3>Inicio</h3>
-            <ul>
-                <li><a href="#">Bandeja de entrada</a></li>
-                <li><a href="#">Respuestas</a></li>
-                <li><a href="#">Comentarios asignados</a></li>
-                <li><a href="#">Mis tareas</a></li>
-            </ul>
-            <button>+ Más</button>
-        </section>
-        <section style="margin-top: 20px;">
-            <h3>Favoritos</h3>
-            <ul>
-                <li>Elementos favoritos aquí...</li>
-            </ul>
-            <button>+ Favoritos</button>
-        </section>
-
-        <section style="margin-top: 20px;">
-            <h3>Espacios</h3>
-            <ul>
-                <li><a href="#">Todas las tareas: Usuario</a></li>
-                <li><a href="#">Espacio del equipo [ES]</a></li>
-                <ul>
-                    <li><a href="#">Proyectos</a> <button>...</button></li>
-                    <ul>
-                        <li><a href="#">Proyecto 1</a> <span>3</span></li>
-                        <li><a href="#">Proyecto 2</a> <span>3</span></li>
-                        <li><a href="#">Get Started with ClickUp</a> <span>5</span></li>
-                    </ul>
-                </ul>
-            </ul>
-            <button>+ Nuevo espacio</button>
-        </section>
-
-        <section style="margin-top: 20px;">
-            <h3>Canales</h3>
-            <ul>
-                <li><a href="#"># Welcome</a></li>
-            </ul>
-            <button>+ Añadir canal</button>
-        </section>
-
-        <section style="margin-top: 20px;">
-            <h3>Mensajes directos</h3>
-            <ul>
-                <li><a href="#">Usuario</a></li>
-            </ul>
-            <button>+ Nuevo mensaje</button>
-        </section>
-        
-        <div style="position: sticky; bottom: 0; background: #f0f0f0; padding: 10px; border-top: 1px solid #ccc;">
-            <button>Salir de...</button>
-        </div>
-    </nav>
-
-    <main style="margin-left: 260px; padding: 10px; padding-left: 60px;">
-
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px;">
-            <nav>
-                <a href="#">Espacio del equipo [ES]</a> &gt;
-                <a href="#">Proyectos</a> &gt;
-                <a href="#">Proyecto 1</a> <button>+</button>
-            </nav>
-            
-            <div>
-                <button>Agentes</button>
-                <button>Automatizar</button>
-                <button>Ask AI</button>
-                <button>Compartir</button>
-            </div>
-        </div>
-
-        <div style="display: flex; margin-right: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px;">           
-            <nav style="margin-left: 10px;">
-                <button>Añadir canal</button>
-                <button>Lista</button>
-                <button>Tablero</button>
-                <button>Calendario</button>
-                <button>Gantt</button>
-                <button>Tabla</button>
-                <button>Vista</button>
-                <button>Filtro</button>
-                <button>Cerrada</button>
-                <button>Persona asignada</button>
-                <button>Personalizar</button>
-                <button>Add Tarea</button>
-            </nav>
-        </div>
-
-        <section>
-            <div style="margin-bottom: 20px;">
-                <h3>Grupo: Estado <button>Subtareas</button> <button>Columnas</button></h3>
-                <h4>EN CURSO <span>1</span></h4>
-                <div style="display: flex; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 5px;">
-                    <span style="width: 20%;">Nombre</span>
-                    <span style="width: 20%;">Persona asignada</span>
-                    <span style="width: 20%;">Fecha límite</span>
-                    <span style="width: 10%;">Prioridad</span>
-                    <span style="width: 15%;">Estado</span>
-                    <span style="width: 15%;">Comentarios</span>
-                </div>
-                <div>
-                    <div style="display: flex; border: 1px solid #ddd; padding: 5px; margin-bottom: 5px; background-color: #f9f9f9;">
-                        <span style="width: 20%;">Tarea 1</span>
-                        <span style="width: 20%;">Icono Persona</span>
-                        <span style="width: 20%;">Icono Calendario</span>
-                        <span style="width: 10%;">Icono Bandera</span>
-                        <span style="width: 15%; background-color: #e0f7fa; padding: 2px; text-align: center;">EN CURSO</span>
-                        <span style="width: 15%;">Icono Comentarios</span>
+            <div class="content-wrapper">
+                <section class="work-area">
+                    <div class="placeholder">
+                        <h3>Área de Trabajo</h3>
+                        <p>Selecciona un estadístico del menú para comenzar</p>
                     </div>
-                </div>
-                <button>+ Añadir Tarea</button>
-            </div>
+                </section>
 
-            <div>
-                <h4>PENDIENTE <span>2</span></h4>
-                <div style="display: flex; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 5px;">
-                    <span style="width: 20%;">Nombre</span>
-                    <span style="width: 20%;">Persona asignada</span>
-                    <span style="width: 20%;">Fecha límite</span>
-                    <span style="width: 10%;">Prioridad</span>
-                    <span style="width: 15%;">Estado</span>
-                    <span style="width: 15%;">Comentarios</span>
-                </div>
-                <div>
-                    <div style="display: flex; border: 1px solid #ddd; padding: 5px; margin-bottom: 5px; background-color: #f9f9f9;">
-                        <span style="width: 20%;">Tarea 2</span>
-                        <span style="width: 20%;">Icono Persona</span>
-                        <span style="width: 20%;">Icono Calendario</span>
-                        <span style="width: 10%;">Icono Bandera</span>
-                        <span style="width: 15%; background-color: #fffde7; padding: 2px; text-align: center;">PENDIENTE</span>
-                        <span style="width: 15%;">Icono Comentarios</span>
+                <!-- Panel Derecho -->
+                <aside class="active-stats-panel">
+                    <h3>Estadísticos Activos</h3>
+                    
+                    <div class="active-stat-card">
+                        <button class="remove-stat">✕</button>
+                        <h4>Media y Mediana</h4>
+                        <p>Análisis de tendencia central</p>
+                        <span class="stat-status status-active">Activo</span>
                     </div>
-                    <div style="display: flex; border: 1px solid #ddd; padding: 5px; margin-bottom: 5px; background-color: #f9f9f9;">
-                        <span style="width: 20%;">Tarea 3</span>
-                        <span style="width: 20%;">Icono Persona</span>
-                        <span style="width: 20%;">Icono Calendario</span>
-                        <span style="width: 10%;">Icono Bandera</span>
-                        <span style="width: 15%; background-color: #fffde7; padding: 2px; text-align: center;">PENDIENTE</span>
-                        <span style="width: 15%;">Icono Comentarios</span>
+
+                    <div class="active-stat-card">
+                        <button class="remove-stat">✕</button>
+                        <h4>Desviación Estándar</h4>
+                        <p>Medida de dispersión</p>
+                        <span class="stat-status status-pending">Pendiente</span>
                     </div>
-                </div>
-                <button>+ Añadir Tarea</button>
+
+                    <div class="empty-active" style="display: none;">
+                        <p>No hay estadísticos seleccionados</p>
+                    </div>
+                </aside>
             </div>
-        </section>
+        </main>
+    </div>
 
-    </main>
+    <script>
+        // Interactividad básica
+        document.querySelectorAll('.stat-item').forEach(item => {
+            item.addEventListener('click', function() {
+                console.log('Seleccionado:', this.textContent);
+            });
+        });
 
-    <footer style="position: fixed; bottom: 10px; right: 10px; background-color: #333; color: white; padding: 5px 10px; border-radius: 5px;">
-        0/5
-    </footer>
-
-    <script src="03-control/08-for-in.js"></script>
+        document.querySelectorAll('.remove-stat').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.parentElement.remove();
+            });
+        });
+    </script>
 </body>
-
 </html>
