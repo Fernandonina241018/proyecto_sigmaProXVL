@@ -232,12 +232,12 @@ body {
 
 .content-placeholder {
     text-align: center;
-    padding: 80px 20px;
+    padding: 1px 20px;
     color: #999;
 }
 
 .content-placeholder h3 {
-    font-size: 1.5rem;
+    font-size: 0.8rem;
     margin-bottom: 15px;
 }
 
@@ -392,7 +392,7 @@ body {
 
 .columns-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 10px;
 }
 
@@ -407,21 +407,21 @@ body {
 }
 
 .column-number {
-    background: #667eea;
+    background: #1a39c7;
     color: white;
     width: 24px;
-    height: 24px;
+    height: 20px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     font-weight: 600;
 }
 
 .column-name {
-    font-weight: 600;
-    color: #333;
+    font-weight: 400;
+    color: #000000;
 }
 
 .data-table-container {
