@@ -3,328 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Análisis Estadístico - Opción 1</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f7fa;
-            color: #2c3e50;
-        }
-
-        .container {
-            display: flex;
-            height: 100vh;
-        }
-
-        /* Sidebar izquierdo - Menú de estadísticos */
-        .sidebar {
-            width: 280px;
-            background: #2c3e50;
-            color: white;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .sidebar h2 {
-            font-size: 1.5rem;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #3498db;
-        }
-
-        .stats-category {
-            margin-bottom: 25px;
-        }
-
-        .category-title {
-            font-size: 0.9rem;
-            color: #95a5a6;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .stat-item {
-            padding: 12px 15px;
-            margin-bottom: 8px;
-            background: #34495e;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-        }
-
-        .stat-item:hover {
-            background: #3498db;
-            transform: translateX(5px);
-        }
-
-        /* Área principal */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Header */
-        .header {
-            background: white;
-            padding: 20px 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header h1 {
-            font-size: 1.8rem;
-            color: #2c3e50;
-        }
-
-        .header-actions button {
-            padding: 10px 20px;
-            margin-left: 10px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background: #3498db;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #2980b9;
-        }
-
-        .btn-secondary {
-            background: #ecf0f1;
-            color: #2c3e50;
-        }
-
-        .btn-secondary:hover {
-            background: #bdc3c7;
-        }
-
-        /* Contenido principal */
-        .content-wrapper {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .work-area {
-            flex: 1;
-            padding: 30px;
-            overflow-y: auto;
-        }
-
-        .placeholder {
-            background: white;
-            border-radius: 8px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            min-height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-
-        .placeholder h3 {
-            color: #95a5a6;
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-
-        .placeholder p {
-            color: #bdc3c7;
-        }
-
-        /* Panel derecho - Estadísticos activos */
-        .active-stats-panel {
-            width: 300px;
-            background: white;
-            padding: 20px;
-            border-left: 1px solid #ecf0f1;
-            overflow-y: auto;
-        }
-
-        .active-stats-panel h3 {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            color: #2c3e50;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #3498db;
-        }
-
-        .active-stat-card {
-            background: #ecf0f1;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 12px;
-            position: relative;
-        }
-
-        .active-stat-card h4 {
-            font-size: 1rem;
-            color: #2c3e50;
-            margin-bottom: 8px;
-        }
-
-        .active-stat-card p {
-            font-size: 0.85rem;
-            color: #7f8c8d;
-            margin-bottom: 10px;
-        }
-
-        .stat-status {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .status-active {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .remove-stat {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 4px 8px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-
-        .remove-stat:hover {
-            background: #c0392b;
-        }
-
-        .empty-active {
-            text-align: center;
-            color: #95a5a6;
-            padding: 40px 20px;
-        }
-    </style>
+    <title>Análisis Estadístico - StatAnalyzer Pro</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Sidebar Izquierdo -->
-        <aside class="sidebar">
-            <h2>📊 Estadísticos</h2>
-            
-            <div class="stats-category">
-                <div class="category-title">Descriptivos</div>
-                <div class="stat-item">Media y Mediana</div>
-                <div class="stat-item">Desviación Estándar</div>
-                <div class="stat-item">Varianza</div>
-                <div class="stat-item">Cuartiles</div>
-            </div>
-
-            <div class="stats-category">
-                <div class="category-title">Inferenciales</div>
-                <div class="stat-item">Prueba T-Student</div>
-                <div class="stat-item">ANOVA</div>
-                <div class="stat-item">Chi-Cuadrado</div>
-                <div class="stat-item">Regresión Lineal</div>
-            </div>
-
-            <div class="stats-category">
-                <div class="category-title">Correlación</div>
-                <div class="stat-item">Pearson</div>
-                <div class="stat-item">Spearman</div>
-                <div class="stat-item">Kendall</div>
-            </div>
-
-            <div class="stats-category">
-                <div class="category-title">No Paramétricos</div>
-                <div class="stat-item">Mann-Whitney U</div>
-                <div class="stat-item">Kruskal-Wallis</div>
-                <div class="stat-item">Wilcoxon</div>
-            </div>
-        </aside>
-
-        <!-- Área Principal -->
-        <main class="main-content">
-            <header class="header">
-                <h1>Análisis de Datos</h1>
-                <div class="header-actions">
-                    <button class="btn-secondary">Importar Datos</button>
-                    <button class="btn-primary">Ejecutar Análisis</button>
+    <div class="app-container">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="nav-content">
+                <div class="logo">📊 StatAnalyzer Pro</div>
+                <div class="nav-menu">
+                    <div class="nav-item active">Análisis</div>
+                    <div class="nav-item">Datos</div>
+                    <div class="nav-item">Visualización</div>
+                    <div class="nav-item">Reportes</div>
                 </div>
-            </header>
-
-            <div class="content-wrapper">
-                <section class="work-area">
-                    <div class="placeholder">
-                        <h3>Área de Trabajo</h3>
-                        <p>Selecciona un estadístico del menú para comenzar</p>
-                    </div>
-                </section>
-
-                <!-- Panel Derecho -->
-                <aside class="active-stats-panel">
-                    <h3>Estadísticos Activos</h3>
-                    
-                    <div class="active-stat-card">
-                        <button class="remove-stat">✕</button>
-                        <h4>Media y Mediana</h4>
-                        <p>Análisis de tendencia central</p>
-                        <span class="stat-status status-active">Activo</span>
-                    </div>
-
-                    <div class="active-stat-card">
-                        <button class="remove-stat">✕</button>
-                        <h4>Desviación Estándar</h4>
-                        <p>Medida de dispersión</p>
-                        <span class="stat-status status-pending">Pendiente</span>
-                    </div>
-
-                    <div class="empty-active" style="display: none;">
-                        <p>No hay estadísticos seleccionados</p>
-                    </div>
-                </aside>
             </div>
-        </main>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-area">
+            <!-- Statistics Menu -->
+            <div class="stats-menu">
+                <h2>Seleccionar Estadísticos</h2>
+                
+                <!-- Estadística Descriptiva -->
+                <div class="menu-section">
+                    <div class="accordion-header active">
+                        <span>📈 Estadística Descriptiva</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content active">
+                        <div class="menu-option">Media Aritmética</div>
+                        <div class="menu-option">Mediana y Moda</div>
+                        <div class="menu-option">Desviación Estándar</div>
+                        <div class="menu-option">Varianza</div>
+                        <div class="menu-option">Percentiles</div>
+                        <div class="menu-option">Rango y Amplitud</div>
+                    </div>
+                </div>
+
+                <!-- Pruebas de Hipótesis -->
+                <div class="menu-section">
+                    <div class="accordion-header">
+                        <span>🧪 Pruebas de Hipótesis</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="menu-option">T-Test (una muestra)</div>
+                        <div class="menu-option">T-Test (dos muestras)</div>
+                        <div class="menu-option">ANOVA One-Way</div>
+                        <div class="menu-option">ANOVA Two-Way</div>
+                        <div class="menu-option">Chi-Cuadrado</div>
+                        <div class="menu-option">Test de Normalidad</div>
+                    </div>
+                </div>
+
+                <!-- Correlación y Regresión -->
+                <div class="menu-section">
+                    <div class="accordion-header">
+                        <span>📉 Correlación y Regresión</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="menu-option">Correlación Pearson</div>
+                        <div class="menu-option">Correlación Spearman</div>
+                        <div class="menu-option">Regresión Lineal Simple</div>
+                        <div class="menu-option">Regresión Lineal Múltiple</div>
+                        <div class="menu-option">Regresión Logística</div>
+                        <div class="menu-option">Regresión Polinomial</div>
+                    </div>
+                </div>
+
+                <!-- Tests No Paramétricos -->
+                <div class="menu-section">
+                    <div class="accordion-header">
+                        <span>🔬 Tests No Paramétricos</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="menu-option">Mann-Whitney U</div>
+                        <div class="menu-option">Wilcoxon</div>
+                        <div class="menu-option">Kruskal-Wallis</div>
+                        <div class="menu-option">Friedman</div>
+                        <div class="menu-option">Test de Signos</div>
+                    </div>
+                </div>
+
+                <!-- Análisis Multivariado -->
+                <div class="menu-section">
+                    <div class="accordion-header">
+                        <span>🎯 Análisis Multivariado</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="menu-option">PCA (Componentes Principales)</div>
+                        <div class="menu-option">Análisis Factorial</div>
+                        <div class="menu-option">Análisis de Cluster</div>
+                        <div class="menu-option">Análisis Discriminante</div>
+                        <div class="menu-option">MANOVA</div>
+                    </div>
+
+                <!-- Análisis Multivariado -->
+                <div class="menu-section2">
+                    <div class="accordion-header">
+                        <span>🎯 Análisis Multivariado</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="menu-option">PCA (Componentes Principales)</div>
+                        <div class="menu-option">Análisis Factorial</div>
+                        <div class="menu-option">Análisis de Cluster</div>
+                        <div class="menu-option">Análisis Discriminante</div>
+                        <div class="menu-option">MANOVA</div>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <!-- Work Space -->
+            <div class="work-space">
+                <div class="workspace-header">
+                    <h2>Espacio de Trabajo</h2>
+                    <div class="action-buttons">
+                        <button class="btn-import">📁 Importar Datos</button>
+                        <button class="btn-run">▶ Ejecutar Análisis</button>
+                    </div>
+                </div>
+                
+                <div class="content-placeholder">
+                    <h3>¡Comienza tu análisis!</h3>
+                    <p>Selecciona los estadísticos del menú lateral</p>
+                </div>
+            </div>
+
+            <!-- Active Stats Sidebar -->
+            <div class="active-sidebar">
+                <h3>En Proceso</h3>
+                
+                <div id="activeStatsContainer">
+                    <!-- Las estadísticas seleccionadas aparecerán aquí -->
+                </div>
+
+                <div class="stats-count" id="statsCount">
+                    0 estadísticos activos
+                </div>
+
+                <div class="empty-state" id="emptyState">
+                    <p>No hay estadísticos seleccionados</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script>
-        // Interactividad básica
-        document.querySelectorAll('.stat-item').forEach(item => {
-            item.addEventListener('click', function() {
-                console.log('Seleccionado:', this.textContent);
-            });
-        });
-
-        document.querySelectorAll('.remove-stat').forEach(btn => {
-            btn.addEventListener('click', function() {
-                this.parentElement.remove();
-            });
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
