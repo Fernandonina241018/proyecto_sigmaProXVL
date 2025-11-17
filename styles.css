@@ -109,8 +109,8 @@ body {
    ======================================== */
 .accordion-header {
     padding: 12px;
-    background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
-    color: rgb(0, 0, 0);
+    background: linear-gradient(135deg, #000000 0%, #000000 100%);
+    color: rgb(255, 255, 255);
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.5s ease;
@@ -170,7 +170,7 @@ body {
 }
 
 .menu-option.selected {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
     color: #667eea;
     border-left-color: #764ba2;
     font-weight: 600;
@@ -222,7 +222,7 @@ body {
 }
 
 .btn-run {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #000000 0%, #000000 100%);
     color: white;
 }
 
