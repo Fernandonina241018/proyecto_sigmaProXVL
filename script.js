@@ -1,4 +1,61 @@
 // ========================================
+// NAVEGACIÓN DINÁMICA ENTRE VISTAS
+// ========================================
+
+/**
+ * Cambia la vista activa en el workspace
+ * @param {string} viewName - Nombre de la vista (analisis, datos, visualizacion, reportes)
+ */
+function switchView(viewName) {
+    // Ocultar todas las vistas
+    document.querySelectorAll('.workspace-view').forEach(view => {
+        view.classList.remove('active');
+    });
+    
+    // Mostrar la vista seleccionada
+    const targetView = document.getElementById(`view-${viewName}`);
+    if (targetView) {
+        targetView.classList.add('active');
+    }
+    
+    console.log(`Vista cambiada a: ${viewName}`);
+}
+
+// ========================================
+// NAVEGACIÓN SUPERIOR
+// ========================================
+
+document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function() {
+        // Remover clase active de todos
+        document.querySelectorAll('.nav-item').forEach(nav => {
+            nav.classList.remove('active');
+        });
+        
+        // Agregar clase active al clickeado
+        this.classList.add('active');
+        
+        // Obtener el nombre de la vista desde el texto
+        const viewName = this.textContent.trim().toLowerCase();
+        
+        // Mapear nombres españoles a IDs de vistas
+        const viewMap = {
+            'análisis': 'analisis',
+            'datos': 'datos',
+            'visualización': 'visualizacion',
+            'reportes': 'reportes'
+        };
+        
+        const targetView = viewMap[viewName];
+        if (targetView) {
+            switchView(targetView);
+        }
+        
+        console.log('Navegación clickeada:', this.textContent);
+    });
+});
+
+// ========================================
 // FUNCIONALIDAD DE ACORDEÓN
 // ========================================
 

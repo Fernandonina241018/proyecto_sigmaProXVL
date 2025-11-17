@@ -241,12 +241,12 @@ body {
 
 .content-placeholder {
     text-align: center;
-    padding: 1px 20px;
-    color: #999;
+    padding: 1px 10px;
+    color: #000000;
 }
 
 .content-placeholder h3 {
-    font-size: 0.8rem;
+    font-size: 1.5rem;
     margin-bottom: 15px;
 }
 
@@ -254,7 +254,7 @@ body {
    PANEL DE ESTADÍSTICOS ACTIVOS (DERECHA)
    ======================================== */
 .active-sidebar {
-    width: 280px;
+    width: 230px;
     background: white;
     border-radius: 15px;
     padding: 25px;
