@@ -184,11 +184,10 @@ function displayImportedData(parsedData) {
     placeholder.innerHTML = `
         <div class="data-preview">
             <div class="preview-header">
-                <h3>✅ Datos importados exitosamente</h3>
+                <h3>✅ Datos Importados Exitosamente</h3>
                 <p class="file-info">Archivo: <strong>${fileName}</strong></p>
                 <p class="data-info">
-                    📊 ${parsedData.rowCount} filas | 
-                    📋 ${parsedData.headers.length} columnas
+                    📊 ${parsedData.rowCount} filas | 📋 ${parsedData.headers.length} columnas
                 </p>
             </div>
             

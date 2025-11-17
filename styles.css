@@ -9,7 +9,7 @@
 
 body {
     font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0b2dc2 0%, #661ab3 100%);
     min-height: 100vh;
 }
 
@@ -35,6 +35,7 @@ body {
 .nav-content {
     display: flex;
     justify-content: space-between;
+    border-radius: 15px;
     align-items: center;
 }
 
@@ -139,6 +140,7 @@ body {
 .accordion-content {
     max-height: 0;
     overflow: hidden;
+    color: rgb(0, 0, 0);
     transition: max-height 0.3s ease, padding 0.4s ease;
     padding: 0 10px;
 }
@@ -146,6 +148,7 @@ body {
 .accordion-content.active {
     max-height: 100%;
     font-size: 0.5rem;
+    color: rgb(0, 0, 0);
     padding: 8px 8px 10px;
 }
 
@@ -170,8 +173,8 @@ body {
 }
 
 .menu-option.selected {
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
-    color: #667eea;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%);
+    color: #000000;
     border-left-color: #764ba2;
     font-weight: 600;
 }
@@ -261,7 +264,7 @@ body {
 }
 
 .stat-chip {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #000000 0%, #000000 100%);
     color: white;
     padding: 12px 15px;
     border-radius: 10px;
@@ -351,8 +354,9 @@ body {
    VISTA PREVIA DE DATOS
    ======================================== */
 .data-preview {
-    text-align: left;
+    text-align: center;
     padding: 0;
+    border-radius: 15px;
 }
 
 .preview-header {
@@ -446,7 +450,7 @@ body {
 }
 
 .data-table thead {
-    background: linear-gradient(135deg, #2746d1 0%, #6e1cc0 100%);
+    background: linear-gradient(135deg, #000000 0%, #000000 100%);
     color: white;
 }
 
