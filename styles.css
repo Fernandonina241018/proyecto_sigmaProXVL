@@ -28,6 +28,9 @@ body {
 .top-nav {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
     padding: 15px 30px;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
@@ -84,11 +87,12 @@ body {
     overflow: hidden;
 }
 
-/* ========================================
+/* ======================================== 
    MENÚ DE ESTADÍSTICOS (IZQUIERDA)
    ======================================== */
 .stats-menu {
-    width: 320px;
+    width: 260px;
+    margin-left: 2px;
     background: white;
     border-radius: 15px;
     padding: 25px;
