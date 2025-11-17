@@ -135,19 +135,158 @@
                 </div>
             </div>
 
-            <!-- Work Space -->
+<!-- Work Space -->
             <div class="work-space">
-                <div class="workspace-header">
-                    <h2>Espacio de Trabajo</h2>
-                    <div class="action-buttons">
-                        <button class="btn-import">📁 Importar Datos</button>
-                        <button class="btn-run">▶ Ejecutar Análisis</button>
+                <!-- Vista de Análisis (por defecto) -->
+                <div id="view-analisis" class="workspace-view active">
+                    <div class="workspace-header">
+                        <h2>Espacio de Trabajo</h2>
+                        <div class="action-buttons">
+                            <button class="btn-import">📁 Importar Datos</button>
+                            <button class="btn-run">▶ Ejecutar Análisis</button>
+                        </div>
+                    </div>
+                    
+                    <div class="content-placeholder">
+                        <h3>¡Comienza tu análisis!</h3>
+                        <p>Selecciona los estadísticos del menú lateral</p>
                     </div>
                 </div>
-                
-                <div class="content-placeholder">
-                    <h3>¡Comienza tu análisis!</h3>
-                    <p>Selecciona los estadísticos del menú lateral</p>
+
+                <!-- Vista de Datos -->
+                <div id="view-datos" class="workspace-view">
+                    <div class="workspace-header">
+                        <h2>📊 Gestión de Datos</h2>
+                        <div class="action-buttons">
+                            <button class="btn-import">📁 Importar Datos</button>
+                            <button class="btn-export">💾 Exportar Datos</button>
+                        </div>
+                    </div>
+                    
+                    <div class="datos-content">
+                        <div class="datos-panel">
+                            <div class="panel-card">
+                                <h3>📂 Archivos Recientes</h3>
+                                <div id="recent-files-list" class="files-list">
+                                    <p class="empty-message">No hay archivos cargados</p>
+                                </div>
+                            </div>
+                            
+                            <div class="panel-card">
+                                <h3>🔧 Transformaciones</h3>
+                                <div class="transform-options">
+                                    <button class="transform-btn">🧹 Limpiar Datos</button>
+                                    <button class="transform-btn">🔄 Normalizar</button>
+                                    <button class="transform-btn">➕ Crear Columna</button>
+                                    <button class="transform-btn">🗑️ Eliminar Nulos</button>
+                                </div>
+                            </div>
+                            
+                            <div class="panel-card">
+                                <h3>📈 Resumen Estadístico</h3>
+                                <div id="data-summary" class="data-summary">
+                                    <p class="empty-message">Carga datos para ver el resumen</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vista de Visualización -->
+                <div id="view-visualizacion" class="workspace-view">
+                    <div class="workspace-header">
+                        <h2>📉 Visualización de Datos</h2>
+                        <div class="action-buttons">
+                            <button class="btn-new-chart">➕ Nuevo Gráfico</button>
+                            <button class="btn-export-chart">🖼️ Exportar Imagen</button>
+                        </div>
+                    </div>
+                    
+                    <div class="visualization-content">
+                        <div class="chart-selector">
+                            <h3>Tipos de Gráficos</h3>
+                            <div class="chart-types">
+                                <div class="chart-type-card">
+                                    <div class="chart-icon">📊</div>
+                                    <p>Barras</p>
+                                </div>
+                                <div class="chart-type-card">
+                                    <div class="chart-icon">📈</div>
+                                    <p>Líneas</p>
+                                </div>
+                                <div class="chart-type-card">
+                                    <div class="chart-icon">🥧</div>
+                                    <p>Circular</p>
+                                </div>
+                                <div class="chart-type-card">
+                                    <div class="chart-icon">📉</div>
+                                    <p>Dispersión</p>
+                                </div>
+                                <div class="chart-type-card">
+                                    <div class="chart-icon">📦</div>
+                                    <p>Box Plot</p>
+                                </div>
+                                <div class="chart-type-card">
+                                    <div class="chart-icon">🗺️</div>
+                                    <p>Mapa de Calor</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-preview">
+                            <div class="empty-chart">
+                                <h3>📊 Canvas de Visualización</h3>
+                                <p>Selecciona un tipo de gráfico y carga datos para comenzar</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vista de Reportes -->
+                <div id="view-reportes" class="workspace-view">
+                    <div class="workspace-header">
+                        <h2>📄 Generación de Reportes</h2>
+                        <div class="action-buttons">
+                            <button class="btn-new-report">➕ Nuevo Reporte</button>
+                            <button class="btn-export-pdf">📑 Exportar PDF</button>
+                        </div>
+                    </div>
+                    
+                    <div class="reportes-content">
+                        <div class="reports-sidebar">
+                            <h3>Plantillas</h3>
+                            <div class="report-templates">
+                                <div class="template-item">
+                                    <span>📋</span> Reporte Descriptivo
+                                </div>
+                                <div class="template-item">
+                                    <span>🧪</span> Análisis de Hipótesis
+                                </div>
+                                <div class="template-item">
+                                    <span>📊</span> Reporte Completo
+                                </div>
+                                <div class="template-item">
+                                    <span>📈</span> Dashboard Ejecutivo
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="report-editor">
+                            <div class="editor-toolbar">
+                                <button class="editor-btn">✏️ Editar</button>
+                                <button class="editor-btn">👁️ Vista Previa</button>
+                                <button class="editor-btn">⚙️ Configurar</button>
+                            </div>
+                            
+                            <div class="report-canvas">
+                                <div class="empty-report">
+                                    <h3>📝 Editor de Reportes</h3>
+                                    <p>Selecciona una plantilla o crea un reporte personalizado</p>
+                                    <button class="btn-start-report">Comenzar Reporte</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

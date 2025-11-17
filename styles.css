@@ -523,6 +523,317 @@ body {
 }
 
 /* ========================================
+   SISTEMA DE VISTAS DINÁMICAS
+   ======================================== */
+.workspace-view {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.workspace-view.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   VISTA DE DATOS
+   ======================================== */
+.datos-content {
+    padding: 20px 0;
+}
+
+.datos-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.panel-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid #e9ecef;
+}
+
+.panel-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.files-list,
+.data-summary {
+    min-height: 100px;
+}
+
+.empty-message {
+    text-align: center;
+    color: #999;
+    padding: 30px;
+    font-style: italic;
+}
+
+.transform-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.transform-btn {
+    padding: 12px;
+    background: white;
+    border: 2px solid #667eea;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.transform-btn:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   VISTA DE VISUALIZACIÓN
+   ======================================== */
+.visualization-content {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.chart-selector {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.chart-selector h3 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.chart-types {
+    display: grid;
+    gap: 10px;
+}
+
+.chart-type-card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.chart-type-card:hover {
+    border-color: #667eea;
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.chart-icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.chart-type-card p {
+    margin: 0;
+    font-weight: 500;
+    color: #333;
+}
+
+.chart-preview {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 40px;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-chart {
+    text-align: center;
+    color: #666;
+}
+
+.empty-chart h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+/* ========================================
+   VISTA DE REPORTES
+   ======================================== */
+.reportes-content {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.reports-sidebar {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.reports-sidebar h3 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.report-templates {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.template-item {
+    background: white;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.template-item:hover {
+    border-color: #667eea;
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.template-item span {
+    font-size: 1.3rem;
+}
+
+.report-editor {
+    background: #f8f9fa;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.editor-toolbar {
+    background: white;
+    padding: 15px 20px;
+    display: flex;
+    gap: 10px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.editor-btn {
+    padding: 8px 16px;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.editor-btn:hover {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.report-canvas {
+    padding: 40px;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-report {
+    text-align: center;
+    color: #666;
+}
+
+.empty-report h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.btn-start-report {
+    margin-top: 20px;
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-start-report:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-new-chart,
+.btn-export-chart,
+.btn-new-report,
+.btn-export-pdf,
+.btn-export {
+    padding: 12px 24px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-new-chart,
+.btn-new-report {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-export-chart,
+.btn-export-pdf,
+.btn-export {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.btn-new-chart:hover,
+.btn-new-report:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-export-chart:hover,
+.btn-export-pdf:hover,
+.btn-export:hover {
+    background: #e0e0e0;
+}
+
+/* ========================================
    RESPONSIVE (OPCIONAL)
    ======================================== */
 @media (max-width: 1200px) {
