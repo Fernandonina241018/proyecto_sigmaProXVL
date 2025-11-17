@@ -126,7 +126,7 @@ let fileName = '';
 function createFileInput() {
     const input = document.createElement('input');
     input.type = 'file';
-    input.accept = '.csv, .xlsx, .xls, .json, .txt';
+    input.accept = '.csv, .xlsm, .xlsx, .xls, .json, .txt';
     input.style.display = 'none';
     return input;
 }
@@ -289,7 +289,7 @@ document.querySelector('.btn-import').addEventListener('click', function() {
         const fileExtension = file.name.split('.').pop().toLowerCase();
         
         // Validar tipo de archivo
-        const validExtensions = ['csv', 'xlsx', 'xls', 'json', 'txt'];
+        const validExtensions = ['csv', 'xlsx',  'xlsm', 'xls', 'json', 'txt'];
         if (!validExtensions.includes(fileExtension)) {
             alert('Formato de archivo no soportado. Use CSV, Excel, JSON o TXT');
             return;

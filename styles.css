@@ -29,6 +29,7 @@ body {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     padding: 15px 30px;
+    border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
@@ -57,17 +58,17 @@ body {
     padding: 10px 20px;
     background: white;
     border: 2px solid #667eea;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    color: #667eea;
+    transition: all 0.2s ease;
+    font-weight: 400;
+    color: #000000;
 }
 
 .nav-item:hover,
 .nav-item.active {
-    background: #667eea;
-    color: white;
+    background: #000000;
+    color: rgb(255, 255, 255);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
@@ -318,7 +319,7 @@ body {
     text-align: center;
     margin-top: 20px;
     font-weight: 600;
-    color: #667eea;
+    color: #000000;
 }
 
 /* ========================================
@@ -356,30 +357,29 @@ body {
 .data-preview {
     text-align: center;
     padding: 0;
-    border-radius: 15px;
 }
 
 .preview-header {
     background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
     padding: 25px;
-    border-radius: 10px;
+    border-radius: 15px;
     margin-bottom: 25px;
 }
 
 .preview-header h3 {
-    color: #2e7d32;
+    color: #000000;
     font-size: 1.4rem;
     margin-bottom: 10px;
 }
 
 .file-info {
-    color: #555;
+    color: #000000;
     margin: 8px 0;
     font-size: 0.95rem;
 }
 
 .data-info {
-    color: #666;
+    color: #000000;
     font-size: 1rem;
     margin-top: 10px;
     font-weight: 600;
