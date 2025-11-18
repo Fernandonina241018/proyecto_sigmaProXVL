@@ -70,7 +70,7 @@ body {
 
 .nav-item:hover,
 .nav-item.active {
-    background: #000000;
+    background: #171ac9;
     color: rgb(255, 255, 255);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
