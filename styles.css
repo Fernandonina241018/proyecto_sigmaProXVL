@@ -5,10 +5,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
 }
 
 body {
-    font-family: 'Segoe UI', sans-serif;
     background: linear-gradient(135deg, #0b2dc2 0%, #661ab3 100%);
     min-height: 100vh;
 }
