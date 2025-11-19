@@ -31,7 +31,7 @@ body {
     margin-top: 20px;
     margin-left: 20px;
     margin-right: 20px;
-    padding: 15px 30px;
+    padding: 7px 10px;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
@@ -211,7 +211,7 @@ body {
 }
 
 .action-buttons button {
-    padding: 12px 24px;
+    padding: 12px 20px;
     margin-left: 10px;
     border: none;
     border-radius: 8px;
@@ -568,7 +568,7 @@ body {
 .panel-card h3 {
     font-size: 1.1rem;
     margin-bottom: 15px;
-    color: #333;
+    color: #000000;
 }
 
 .files-list,
@@ -923,6 +923,205 @@ body {
 .btn-export-pdf:hover,
 .btn-export:hover {
     background: #e0e0e0;
+}
+
+/* ========================================
+   VISTA DE TRABAJO - TABLA EDITABLE
+   ======================================== */
+.trabajo-content {
+    padding: 20px 0;
+}
+
+.table-controls {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.control-group label {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.control-group input[type="number"] {
+    width: 80px;
+    padding: 8px 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.btn-generate-table,
+.btn-paste-data,
+.btn-add-row,
+.btn-add-column,
+.btn-clear-table,
+.btn-save-work {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 400;
+    transition: all 0.3s ease;
+}
+
+.btn-generate-table {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-paste-data {
+    background: #4caf50;
+    color: white;
+}
+
+.btn-add-row,
+.btn-add-column {
+    background: #2196F3;
+    color: white;
+}
+
+.btn-clear-table {
+    background: #f44336;
+    color: white;
+}
+
+.btn-save-work {
+    background: linear-gradient(135deg, #000000 0%, #211ed1 100%);
+    color: white;
+}
+
+.btn-generate-table:hover,
+.btn-paste-data:hover,
+.btn-add-row:hover,
+.btn-add-column:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.editable-table-container {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.table-info {
+    background: #e3f2fd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #2196F3;
+}
+
+.table-info p {
+    margin: 0 0 10px 0;
+    color: #1976D2;
+    font-weight: 600;
+}
+
+.table-info ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.table-info li {
+    color: #555;
+    margin: 5px 0;
+}
+
+#editable-table-wrapper {
+    overflow-x: auto;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.work-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.work-table th,
+.work-table td {
+    border: 2px solid #e0e0e0;
+    padding: 10px;
+    min-width: 120px;
+    position: relative;
+}
+
+.work-table th {
+    background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+    color: white;
+    font-weight: 600;
+    text-align: center;
+}
+
+.work-table td {
+    background: white;
+    cursor: text;
+}
+
+.work-table td:hover {
+    background: #f5f5f5;
+}
+
+.work-table td:focus-within {
+    background: #fff3cd;
+    border-color: #667eea;
+}
+
+.editable-cell {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 8px;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.editable-cell:focus {
+    background: #fffbf0;
+}
+
+.table-summary {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.table-summary h4 {
+    margin: 0 0 15px 0;
+    color: #333;
+}
+
+.summary-stats {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.summary-stats span {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.summary-stats strong {
+    color: #667eea;
+    font-size: 1.1rem;
 }
 
 /* ========================================

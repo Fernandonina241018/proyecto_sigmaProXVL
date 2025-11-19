@@ -17,6 +17,7 @@
                     <div class="nav-item">Datos</div>
                     <div class="nav-item">Visualización</div>
                     <div class="nav-item">Reportes</div>
+                    <div class="nav-item">Trabajo</div>
                 </div>
             </div>
         </nav> 
@@ -179,6 +180,10 @@
                                     <button class="transform-btn">🔄 Normalizar</button>
                                     <button class="transform-btn">➕ Crear Columna</button>
                                     <button class="transform-btn">🗑️ Eliminar Nulos</button>
+                                    <button class="transform-btn">🧹 Limpiar Datos</button>
+                                    <button class="transform-btn">🔄 Normalizar</button>
+                                    <button class="transform-btn">➕ Crear Columna</button>
+                                    <button class="transform-btn">🗑️ Eliminar Nulos</button>
                                 </div>
                             </div>
                             
@@ -288,6 +293,59 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Vista de Trabajo -->
+                <div id="view-trabajo" class="workspace-view">
+                    <div class="workspace-header">
+                        <h2>📋 Hoja de Trabajo - Ingreso Directo de Datos</h2>
+                        <div class="action-buttons">
+                            <button class="btn-add-row">➕ Agregar Fila</button>
+                            <button class="btn-add-column">➕ Agregar Columna</button>
+                            <button class="btn-clear-table">🗑️ Limpiar Todo</button>
+                            <button class="btn-save-work">💾 Guardar Datos</button>
+                        </div>
+                    </div>
+                    
+                    <div class="trabajo-content">
+                        <div class="table-controls">
+                            <div class="control-group">
+                                <label>📊 Filas iniciales:</label>
+                                <input type="number" id="initial-rows" value="10" min="1" max="100">
+                            </div>
+                            <div class="control-group">
+                                <label>📋 Columnas iniciales:</label>
+                                <input type="number" id="initial-cols" value="5" min="1" max="20">
+                            </div>
+                            <button class="btn-generate-table">🔄 Generar Tabla</button>
+                            <button class="btn-paste-data">📋 Pegar desde Excel</button>
+                        </div>
+                        
+                        <div class="editable-table-container">
+                            <div class="table-info">
+                                <p>💡 <strong>Instrucciones:</strong></p>
+                                <ul>
+                                    <li>Haz clic en cualquier celda para editarla</li>
+                                    <li>Presiona Tab para moverte a la siguiente celda</li>
+                                    <li>Pega datos desde Excel usando Ctrl+V</li>
+                                    <li>La primera fila son los encabezados de columna</li>
+                                </ul>
+                            </div>
+                            
+                            <div id="editable-table-wrapper">
+                                <!-- La tabla se generará dinámicamente aquí -->
+                            </div>
+                        </div>
+                        
+                        <div class="table-summary" id="work-summary">
+                            <h4>📈 Resumen de Datos</h4>
+                            <div class="summary-stats">
+                                <span>Filas: <strong id="count-rows">0</strong></span>
+                                <span>Columnas: <strong id="count-cols">0</strong></span>
+                                <span>Celdas completas: <strong id="count-filled">0</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>           
             </div>
 
             <!-- Active Stats Sidebar -->

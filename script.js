@@ -11,7 +11,7 @@ let activeStats = [];
 
 /**
  * Cambia la vista activa en el workspace
- * @param {string} viewName - Nombre de la vista (analisis, datos, visualizacion, reportes)
+ * @param {string} viewName - Nombre de la vista (analisis, datos, visualizacion, reportes, trabajo)
  */
 function switchView(viewName) {
     // Ocultar todas las vistas
@@ -50,7 +50,8 @@ document.querySelectorAll('.nav-item').forEach(item => {
             'análisis': 'analisis',
             'datos': 'datos',
             'visualización': 'visualizacion',
-            'reportes': 'reportes'
+            'reportes': 'reportes',
+            'trabajo': 'trabajo'
         };
         
         const targetView = viewMap[viewName];
@@ -702,16 +703,16 @@ function clearImportedData() {
  */
 function downloadSampleData() {
     const sampleCSV = `ID,Nombre,Edad,Peso,Altura,Grupo
-1,Juan,25,70,1.75,A
-2,María,30,65,1.68,B
-3,Pedro,28,80,1.80,A
-4,Ana,35,58,1.62,B
-5,Luis,22,75,1.78,A
-6,Carmen,27,62,1.65,B
-7,José,32,85,1.82,A
-8,Laura,29,60,1.70,B
-9,Miguel,26,72,1.76,A
-10,Sofia,31,67,1.72,B`;
+    1,Juan,25,70,1.75,A
+    2,María,30,65,1.68,B
+    3,Pedro,28,80,1.80,A
+    4,Ana,35,58,1.62,B
+    5,Luis,22,75,1.78,A
+    6,Carmen,27,62,1.65,B
+    7,José,32,85,1.82,A
+    8,Laura,29,60,1.70,B
+    9,Miguel,26,72,1.76,A
+    10,Sofia,31,67,1.72,B`;
 
     const blob = new Blob([sampleCSV], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
@@ -744,7 +745,7 @@ document.querySelectorAll('.btn-import').forEach(btn => {
             const fileExtension = file.name.split('.').pop().toLowerCase();
             
             // Validar tipo de archivo
-            const validExtensions = ['csv', 'xlsx',  'xlsm', 'xls', 'json', 'txt'];
+            const validExtensions = ['csv', 'xlsx', 'xlsm', 'xls', 'json', 'txt'];
             if (!validExtensions.includes(fileExtension)) {
                 alert('Formato de archivo no soportado. Use CSV, Excel, JSON o TXT');
                 return;
@@ -837,3 +838,317 @@ console.log('StatAnalyzer Pro inicializado correctamente');
 console.log('Formatos soportados: CSV, JSON, TXT');
 console.log('Tip: Puedes descargar una plantilla CSV de ejemplo');
 console.log('Transformaciones disponibles: Limpiar, Normalizar, Crear Columna, Eliminar Nulos');
+
+// ========================================
+// VISTA DE TRABAJO - TABLA EDITABLE
+// ========================================
+
+let workTableData = {
+    headers: [],
+    data: [],
+    rows: 10,
+    cols: 5
+};
+
+/**
+ * Genera una tabla editable vacía
+ */
+function generateWorkTable() {
+    const rows = parseInt(document.getElementById('initial-rows').value) || 10;
+    const cols = parseInt(document.getElementById('initial-cols').value) || 5;
+    
+    workTableData.rows = rows;
+    workTableData.cols = cols;
+    workTableData.headers = Array.from({length: cols}, (_, i) => `Columna_${i + 1}`);
+    workTableData.data = Array.from({length: rows}, () => 
+        Array.from({length: cols}, () => '')
+    );
+    
+    renderWorkTable();
+    updateWorkSummary();
+}
+
+/**
+ * Renderiza la tabla HTML editable
+ */
+function renderWorkTable() {
+    const wrapper = document.getElementById('editable-table-wrapper');
+    
+    let tableHTML = '<table class="work-table"><thead><tr>';
+    
+    // Encabezados editables
+    workTableData.headers.forEach((header, index) => {
+        tableHTML += `
+            <th>
+                <input type="text" 
+                       class="editable-cell header-cell" 
+                       value="${header}"
+                       data-col="${index}"
+                       placeholder="Columna ${index + 1}">
+            </th>
+        `;
+    });
+    
+    tableHTML += '</tr></thead><tbody>';
+    
+    // Filas de datos editables
+    workTableData.data.forEach((row, rowIndex) => {
+        tableHTML += '<tr>';
+        row.forEach((cell, colIndex) => {
+            tableHTML += `
+                <td>
+                    <input type="text" 
+                           class="editable-cell data-cell" 
+                           value="${cell}"
+                           data-row="${rowIndex}"
+                           data-col="${colIndex}"
+                           placeholder="...">
+                </td>
+            `;
+        });
+        tableHTML += '</tr>';
+    });
+    
+    tableHTML += '</tbody></table>';
+    wrapper.innerHTML = tableHTML;
+    
+    // Agregar eventos
+    attachTableEvents();
+}
+
+/**
+ * Adjunta eventos a las celdas editables
+ */
+function attachTableEvents() {
+    // Eventos para encabezados
+    document.querySelectorAll('.header-cell').forEach(input => {
+        input.addEventListener('input', function() {
+            const col = parseInt(this.dataset.col);
+            workTableData.headers[col] = this.value;
+            updateWorkSummary();
+        });
+        
+        // Tab navigation
+        input.addEventListener('keydown', handleTabNavigation);
+    });
+    
+    // Eventos para celdas de datos
+    document.querySelectorAll('.data-cell').forEach(input => {
+        input.addEventListener('input', function() {
+            const row = parseInt(this.dataset.row);
+            const col = parseInt(this.dataset.col);
+            workTableData.data[row][col] = this.value;
+            updateWorkSummary();
+        });
+        
+        // Tab navigation
+        input.addEventListener('keydown', handleTabNavigation);
+    });
+}
+
+/**
+ * Maneja navegación con Tab
+ */
+function handleTabNavigation(e) {
+    if (e.key === 'Tab') {
+        e.preventDefault();
+        const inputs = Array.from(document.querySelectorAll('.editable-cell'));
+        const currentIndex = inputs.indexOf(this);
+        const nextIndex = e.shiftKey ? currentIndex - 1 : currentIndex + 1;
+        
+        if (inputs[nextIndex]) {
+            inputs[nextIndex].focus();
+            inputs[nextIndex].select();
+        }
+    }
+}
+
+/**
+ * Actualiza el resumen de la tabla
+ */
+function updateWorkSummary() {
+    const totalRows = workTableData.data.length;
+    const totalCols = workTableData.headers.length;
+    
+    let filledCount = 0;
+    workTableData.data.forEach(row => {
+        row.forEach(cell => {
+            if (cell && cell.trim() !== '') filledCount++;
+        });
+    });
+    
+    document.getElementById('count-rows').textContent = totalRows;
+    document.getElementById('count-cols').textContent = totalCols;
+    document.getElementById('count-filled').textContent = filledCount;
+}
+
+/**
+ * Agrega una nueva fila
+ */
+function addWorkRow() {
+    const newRow = Array.from({length: workTableData.cols}, () => '');
+    workTableData.data.push(newRow);
+    workTableData.rows++;
+    renderWorkTable();
+    updateWorkSummary();
+}
+
+/**
+ * Agrega una nueva columna
+ */
+function addWorkColumn() {
+    workTableData.cols++;
+    workTableData.headers.push(`Columna_${workTableData.cols}`);
+    workTableData.data.forEach(row => row.push(''));
+    renderWorkTable();
+    updateWorkSummary();
+}
+
+/**
+ * Limpia toda la tabla
+ */
+function clearWorkTable() {
+    if (confirm('¿Seguro que deseas limpiar todos los datos?')) {
+        workTableData.data = Array.from({length: workTableData.rows}, () => 
+            Array.from({length: workTableData.cols}, () => '')
+        );
+        renderWorkTable();
+        updateWorkSummary();
+    }
+}
+
+/**
+ * Guarda los datos de trabajo como datos importados
+ */
+function saveWorkData() {
+    // Filtrar filas vacías
+    const nonEmptyData = workTableData.data.filter(row => 
+        row.some(cell => cell && cell.trim() !== '')
+    );
+    
+    if (nonEmptyData.length === 0) {
+        alert('⚠️ No hay datos para guardar');
+        return;
+    }
+    
+    // Convertir a formato compatible con importedData
+    const formattedData = nonEmptyData.map(row => {
+        const obj = {};
+        workTableData.headers.forEach((header, index) => {
+            obj[header] = row[index] || '';
+        });
+        return obj;
+    });
+    
+    importedData = {
+        headers: workTableData.headers,
+        data: formattedData,
+        rowCount: formattedData.length
+    };
+    
+    fileName = 'datos_trabajo.csv';
+    
+    // Actualizar vistas
+    updateDataView();
+    displayImportedData(importedData);
+    
+    // Cambiar a vista de análisis
+    switchView('analisis');
+    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+    document.querySelector('.nav-item').classList.add('active');
+    
+    alert(`✅ Datos guardados correctamente\n\n📊 ${importedData.rowCount} filas\n📋 ${importedData.headers.length} columnas`);
+}
+
+/**
+ * Permite pegar datos desde Excel
+ */
+function enablePasteData() {
+    alert('📋 Función de pegado habilitada\n\n1. Copia datos desde Excel (Ctrl+C)\n2. Haz clic en la primera celda\n3. Pega con Ctrl+V\n\nLos datos se distribuirán automáticamente en la tabla.');
+    
+    // Agregar listener de paste a la primera celda
+    const firstCell = document.querySelector('.data-cell');
+    if (firstCell) {
+        firstCell.focus();
+        
+        firstCell.addEventListener('paste', function(e) {
+            e.preventDefault();
+            const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+            processPastedData(pastedText);
+        }, { once: true });
+    }
+}
+
+/**
+ * Procesa datos pegados desde Excel
+ */
+function processPastedData(text) {
+    const rows = text.split('\n').filter(row => row.trim() !== '');
+    const maxCols = Math.max(...rows.map(row => row.split('\t').length));
+    
+    // Ajustar tamaño de tabla si es necesario
+    if (rows.length > workTableData.rows || maxCols > workTableData.cols) {
+        workTableData.rows = Math.max(rows.length, workTableData.rows);
+        workTableData.cols = Math.max(maxCols, workTableData.cols);
+        
+        // Extender headers
+        while (workTableData.headers.length < workTableData.cols) {
+            workTableData.headers.push(`Columna_${workTableData.headers.length + 1}`);
+        }
+        
+        // Extender data
+        workTableData.data = Array.from({length: workTableData.rows}, () => 
+            Array.from({length: workTableData.cols}, () => '')
+        );
+    }
+    
+    // Llenar con datos pegados
+    rows.forEach((row, rowIndex) => {
+        const cells = row.split('\t');
+        cells.forEach((cell, colIndex) => {
+            if (rowIndex < workTableData.rows && colIndex < workTableData.cols) {
+                workTableData.data[rowIndex][colIndex] = cell.trim();
+            }
+        });
+    });
+    
+    renderWorkTable();
+    updateWorkSummary();
+    alert(`✅ Datos pegados correctamente\n\n📊 ${rows.length} filas × ${maxCols} columnas`);
+}
+
+// Conectar botones
+function setupWorkButtons() {
+    setTimeout(() => {
+        const btnGenerate = document.querySelector('.btn-generate-table');
+        const btnPaste = document.querySelector('.btn-paste-data');
+        const btnAddRow = document.querySelector('.btn-add-row');
+        const btnAddCol = document.querySelector('.btn-add-column');
+        const btnClear = document.querySelector('.btn-clear-table');
+        const btnSave = document.querySelector('.btn-save-work');
+        
+        if (btnGenerate) btnGenerate.onclick = generateWorkTable;
+        if (btnPaste) btnPaste.onclick = enablePasteData;
+        if (btnAddRow) btnAddRow.onclick = addWorkRow;
+        if (btnAddCol) btnAddCol.onclick = addWorkColumn;
+        if (btnClear) btnClear.onclick = clearWorkTable;
+        if (btnSave) btnSave.onclick = saveWorkData;
+    }, 100);
+}
+
+// Inicializar tabla al cargar
+setupWorkButtons();
+
+// Generar tabla inicial cuando se abre la vista de Trabajo
+const trabajoNavItem = Array.from(document.querySelectorAll('.nav-item'))
+    .find(item => item.textContent.trim() === 'Trabajo');
+
+if (trabajoNavItem) {
+    trabajoNavItem.addEventListener('click', function() {
+        setTimeout(() => {
+            if (!document.querySelector('.work-table')) {
+                generateWorkTable();
+            }
+        }, 100);
+    });
+}
