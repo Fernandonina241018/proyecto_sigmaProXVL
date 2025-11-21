@@ -846,28 +846,47 @@ console.log('Transformaciones disponibles: Limpiar, Normalizar, Crear Columna, E
 let workTableData = {
     headers: [],
     data: [],
-    rows: 10,
+    rows: 100,
     cols: 5
 };
 
 /**
- * Genera una tabla editable vacía
+ * Genera una tabla editable vacía con una columna de índice al inicio.
  */
 function generateWorkTable() {
-    const rows = parseInt(document.getElementById('initial-rows').value) || 10;
+    // Eliminamos la variable local 'index' ya que no se usa.
+    
+    const rows = parseInt(document.getElementById('initial-rows').value) || 100;
     const cols = parseInt(document.getElementById('initial-cols').value) || 5;
     
+    // Asignaciones de metadatos
+    workTableData.index = Array.from({length: rows}, (_, i) => i + 1); 
     workTableData.rows = rows;
     workTableData.cols = cols;
-    workTableData.headers = Array.from({length: cols}, (_, i) => `C${i + 1}`);
-    workTableData.data = Array.from({length: rows}, () => 
-        Array.from({length: cols}, () => '')
-    );
+
+    // 1. MODIFICACIÓN DE HEADERS (Encabezados)
+    // Se añade el encabezado '#' al inicio de la lista de encabezados.
+    workTableData.headers = [
+        '✨', 
+        ...Array.from({length: cols}, (_, i) => `C${i + 1}`)
+    ];
+
+    // 2. MODIFICACIÓN DE DATA (Matriz de datos)
+    // Por cada fila, se añade el índice (i + 1) al inicio del array de celdas vacías.
+    workTableData.data = Array.from({length: rows}, (_, rowIndex) => {
+        // Genera primero el valor del índice de la fila (comenzando en 1)
+        const rowIndexValue = rowIndex + 0;
+        
+        // Genera las celdas vacías para las 5 columnas de datos
+        const emptyCells = Array.from({length: cols}, () => '');
+        
+        // Retorna la fila completa, comenzando con el índice
+        return [rowIndexValue, ...emptyCells];
+    });
     
     renderWorkTable();
     updateWorkSummary();
 }
-
 /**
  * Renderiza la tabla HTML editable
  */
