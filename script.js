@@ -162,13 +162,13 @@ document.querySelectorAll('.menu-option').forEach(option => {
 
 function initSheetsSystem() {
     console.log('Inicializando sistema de hojas...');
-    createNewSheet('Hoja 1');
+    createNewSheet('Sheet 1');
     setupSheetEvents();
 }
 
 function createNewSheet(name = null) {
     sheetCounter++;
-    const sheetName = name || `Hoja ${sheetCounter}`;
+    const sheetName = name || `Sheet ${sheetCounter}`;
     
     const newSheet = {
         id: sheetCounter,

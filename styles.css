@@ -316,7 +316,7 @@ body {
     text-align: center;
     margin-top: 20px;
     font-weight: 600;
-    color: #333;
+    color: #000000;
     border: 2px solid #e9ecef;
 }
 
@@ -453,6 +453,7 @@ body {
     color: #333;
     border: 2px solid #e0e0e0;
     font-size: 0.9rem;
+    margin-bottom: 5px;
 }
 
 .stats-count.has-stats {
