@@ -859,7 +859,7 @@ function generateWorkTable() {
     
     workTableData.rows = rows;
     workTableData.cols = cols;
-    workTableData.headers = Array.from({length: cols}, (_, i) => `Columna_${i + 1}`);
+    workTableData.headers = Array.from({length: cols}, (_, i) => `C${i + 1}`);
     workTableData.data = Array.from({length: rows}, () => 
         Array.from({length: cols}, () => '')
     );
@@ -998,7 +998,7 @@ function addWorkRow() {
  */
 function addWorkColumn() {
     workTableData.cols++;
-    workTableData.headers.push(`Columna_${workTableData.cols}`);
+    workTableData.headers.push(`C${workTableData.cols}`);
     workTableData.data.forEach(row => row.push(''));
     renderWorkTable();
     updateWorkSummary();
