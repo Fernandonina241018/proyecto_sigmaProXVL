@@ -21,6 +21,7 @@
                 </div>
             </div>
         </nav> 
+
         <!-- Main Content -->
         <div class="main-area">
             <!-- Statistics Menu -->
@@ -119,24 +120,9 @@
                         <div class="menu-option">Análisis Bayesiano</div>
                     </div>
                 </div>
-
-                <!-- Análisis Extras -->
-                <div class="menu-section">
-                    <div class="accordion-header">
-                        <span>✨ Análisis Extras</span>
-                        <span class="accordion-icon">▼</span>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="menu-option">Series Temporales</div>
-                        <div class="menu-option">Bootstrap</div>
-                        <div class="menu-option">Análisis de Supervivencia</div>
-                        <div class="menu-option">Modelos Mixtos</div>
-                        <div class="menu-option">Análisis Bayesiano</div>
-                    </div>
-                </div>
             </div>
 
-<!-- Work Space -->
+            <!-- Work Space -->
             <div class="work-space">
                 <!-- Vista de Análisis (por defecto) -->
                 <div id="view-analisis" class="workspace-view active">
@@ -147,7 +133,6 @@
                             <button class="btn-run">▶ Ejecutar Análisis</button>
                         </div>
                     </div>
-                    
                     <div class="content-placeholder">
                         <h3>¡Comienza tu análisis!</h3>
                         <p>Selecciona los estadísticos del menú lateral</p>
@@ -163,7 +148,6 @@
                             <button class="btn-export">💾 Exportar Datos</button>
                         </div>
                     </div>
-                    
                     <div class="datos-content">
                         <div class="datos-panel">
                             <div class="panel-card">
@@ -172,7 +156,6 @@
                                     <p class="empty-message">No hay archivos cargados</p>
                                 </div>
                             </div>
-                            
                             <div class="panel-card">
                                 <h3>🔧 Transformaciones</h3>
                                 <div class="transform-options">
@@ -180,13 +163,8 @@
                                     <button class="transform-btn">🔄 Normalizar</button>
                                     <button class="transform-btn">➕ Crear Columna</button>
                                     <button class="transform-btn">🗑️ Eliminar Nulos</button>
-                                    <button class="transform-btn">🧹 Limpiar Datos</button>
-                                    <button class="transform-btn">🔄 Normalizar</button>
-                                    <button class="transform-btn">➕ Crear Columna</button>
-                                    <button class="transform-btn">🗑️ Eliminar Nulos</button>
                                 </div>
                             </div>
-                            
                             <div class="panel-card">
                                 <h3>📈 Resumen Estadístico</h3>
                                 <div id="data-summary" class="data-summary">
@@ -206,7 +184,6 @@
                             <button class="btn-export-chart">🖼️ Exportar Imagen</button>
                         </div>
                     </div>
-                    
                     <div class="visualization-content">
                         <div class="chart-selector">
                             <h3>Tipos de Gráficos</h3>
@@ -237,7 +214,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                         <div class="chart-preview">
                             <div class="empty-chart">
                                 <h3>📊 Canvas de Visualización</h3>
@@ -256,33 +232,22 @@
                             <button class="btn-export-pdf">📑 Exportar PDF</button>
                         </div>
                     </div>
-                    
                     <div class="reportes-content">
                         <div class="reports-sidebar">
                             <h3>Plantillas</h3>
                             <div class="report-templates">
-                                <div class="template-item">
-                                    <span>📋</span> Reporte Descriptivo
-                                </div>
-                                <div class="template-item">
-                                    <span>🧪</span> Análisis de Hipótesis
-                                </div>
-                                <div class="template-item">
-                                    <span>📊</span> Reporte Completo
-                                </div>
-                                <div class="template-item">
-                                    <span>📈</span> Dashboard Ejecutivo
-                                </div>
+                                <div class="template-item"><span>📋</span> Reporte Descriptivo</div>
+                                <div class="template-item"><span>🧪</span> Análisis de Hipótesis</div>
+                                <div class="template-item"><span>📊</span> Reporte Completo</div>
+                                <div class="template-item"><span>📈</span> Dashboard Ejecutivo</div>
                             </div>
                         </div>
-                        
                         <div class="report-editor">
                             <div class="editor-toolbar">
                                 <button class="editor-btn">✏️ Editar</button>
                                 <button class="editor-btn">👁️ Vista Previa</button>
                                 <button class="editor-btn">⚙️ Configurar</button>
                             </div>
-                            
                             <div class="report-canvas">
                                 <div class="empty-report">
                                     <h3>📝 Editor de Reportes</h3>
@@ -294,34 +259,48 @@
                     </div>
                 </div>
 
-                <!-- Vista de Trabajo -->
+                <!-- Vista de Trabajo con Multi-Hojas -->
                 <div id="view-trabajo" class="workspace-view">
                     <div class="workspace-header">
                         <h2>📋 Hoja de Trabajo - Ingreso Directo de Datos</h2>
-                    </div>
-                    <div class="control-group">
                         <div class="action-buttons">
-                            <button class="btn-add-row">➕ Agregar Fila</button>
-                            <button class="btn-add-column">➕ Agregar Columna</button>
-                            <button class="btn-clear-table">🗑️ Limpiar Todo</button>
-                            <button class="btn-save-work">💾 Guardar Datos</button>
+                            <button class="btn-add-row">➕ Fila</button>
+                            <button class="btn-add-column">➕ Columna</button>
+                            <button class="btn-clear-table">🗑️ Limpiar</button>
+                            <button class="btn-save-work">💾 Guardar</button>
                         </div>
-                    </div>                    
-                    
+                    </div>
+
+                    <!-- Sistema de Pestañas de Hojas -->
+                    <div class="sheets-tabs-container">
+                        <div class="sheets-tabs" id="sheetsTabs">
+                            <!-- Las pestañas se generan dinámicamente -->
+                        </div>
+                        <button class="btn-new-sheet" id="btnNewSheet" title="Nueva hoja">
+                            <span>+</span>
+                        </button>
+                    </div>
+
+                    <!-- Info de hojas -->
+                    <div class="sheets-info">
+                        <span>📊 Hoja activa: <strong id="activeSheetName">-</strong></span>
+                        <span>📑 Total hojas: <strong id="totalSheets">0</strong></span>
+                    </div>
+
                     <div class="trabajo-content">
                         <div class="table-controls">
                             <div class="control-group">
-                                <label>📊 Filas iniciales:</label>
+                                <label>📊 Filas:</label>
                                 <input type="number" id="initial-rows" value="10" min="1" max="100">
                             </div>
                             <div class="control-group">
-                                <label>📋 Columnas iniciales:</label>
+                                <label>📋 Columnas:</label>
                                 <input type="number" id="initial-cols" value="5" min="1" max="20">
                             </div>
                             <button class="btn-generate-table">🔄 Generar Tabla</button>
                             <button class="btn-paste-data">📋 Pegar desde Excel</button>
                         </div>
-                        
+
                         <div class="editable-table-container">
                             <div class="table-info">
                                 <p>💡 <strong>Instrucciones:</strong></p>
@@ -329,39 +308,31 @@
                                     <li>Haz clic en cualquier celda para editarla</li>
                                     <li>Presiona Tab para moverte a la siguiente celda</li>
                                     <li>Pega datos desde Excel usando Ctrl+V</li>
-                                    <li>La primera fila son los encabezados de columna</li>
+                                    <li>Doble clic en nombre de hoja para renombrar</li>
                                 </ul>
                             </div>
-                            
                             <div id="editable-table-wrapper">
-                                <!-- La tabla se generará dinámicamente aquí -->
+                                <!-- La tabla se genera dinámicamente -->
                             </div>
                         </div>
-                        
+
                         <div class="table-summary" id="work-summary">
                             <h4>📈 Resumen de Datos</h4>
                             <div class="summary-stats">
                                 <span>Filas: <strong id="count-rows">0</strong></span>
                                 <span>Columnas: <strong id="count-cols">0</strong></span>
-                                <span>Celdas completas: <strong id="count-filled">0</strong></span>
+                                <span>Celdas con datos: <strong id="count-filled">0</strong></span>
                             </div>
                         </div>
                     </div>
-                </div>           
+                </div>
             </div>
 
             <!-- Active Stats Sidebar -->
             <div class="active-sidebar">
                 <h3>En Proceso</h3>
-                
-                <div id="activeStatsContainer">
-                    <!-- Las estadísticas seleccionadas aparecerán aquí -->
-                </div>
-
-                <div class="stats-count" id="statsCount">
-                    0 estadísticos activos
-                </div>
-
+                <div id="activeStatsContainer"></div>
+                <div class="stats-count" id="statsCount">0 estadísticos activos</div>
                 <div class="empty-state" id="emptyState">
                     <p>No hay estadísticos seleccionados</p>
                 </div>
@@ -371,5 +342,4 @@
 
     <script src="script.js"></script>
 </body>
-
 </html>
