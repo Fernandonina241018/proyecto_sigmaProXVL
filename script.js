@@ -166,26 +166,47 @@ function initSheetsSystem() {
     setupSheetEvents();
 }
 
+// La variable sheetCounter AÚN SE USA como un GENERADOR DE ID ÚNICO.
+// La variable allSheets AÚN DEBE CONTENER el array de hojas activas.
+
 function createNewSheet(name = null) {
+    // 1. Lógica del ID (Mantenemos la secuencia global para IDs únicos)
     sheetCounter++;
-    const sheetName = name || `Sheet ${sheetCounter}`;
-    
+    const newId = sheetCounter;
+
+    let sheetName = name;
+
+    // 2. Lógica del Nombre (SOLO si el nombre es NULL/Por Defecto)
+    if (!name) {
+        // Encontrar el número de hoja consecutivo más bajo que esté disponible
+        let sequentialNumber = 1;
+        
+        // Bucle para verificar si un nombre "Sheet X" ya existe en allSheets
+        while (allSheets.some(sheet => sheet.name === `Sheet ${sequentialNumber}`)) {
+            sequentialNumber++;
+        }
+        
+        sheetName = `Sheet ${sequentialNumber}`;
+    }
+
+    // 3. Creación del Objeto (Usando el nuevo ID único y el nombre corregido)
     const newSheet = {
-        id: sheetCounter,
-        name: sheetName,
+        id: newId, // Único (3)
+        name: sheetName, // Secuencial (2)
         headers: ['#', 'C1', 'C2', 'C3', 'C4', 'C5'],
         data: Array.from({length: 10}, (_, i) => [i + 1, '', '', '', '', '']),
         rows: 10,
         cols: 6
     };
     
+    // 4. Actualización del Estado y UI
     allSheets.push(newSheet);
     activeSheetId = newSheet.id;
     
     renderSheetTabs();
     loadSheetData(newSheet.id);
     
-    console.log(`Hoja "${sheetName}" creada. Total: ${allSheets.length}`);
+    console.log(`Hoja "${sheetName}" creada. ID único: ${newId}.`);
     return newSheet;
 }
 
