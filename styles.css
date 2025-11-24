@@ -871,8 +871,10 @@ body {
 
 .btn-generate-table,
 .btn-paste-data,
-.btn-add-row,
+.btn-add-row,   
 .btn-add-column,
+.btn-delete-row,
+.btn-delete-column,
 .btn-clear-table,
 .btn-save-work {
     padding: 10px 16px;
@@ -890,6 +892,8 @@ body {
 .btn-generate-table:hover,
 .btn-paste-data:hover,
 .btn-add-row:hover,
+.btn-delete-row:hover,
+.btn-delete-column:hover,
 .btn-add-column:hover,
 .btn-save-work:hover {
     transform: translateY(-2px);

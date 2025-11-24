@@ -162,51 +162,30 @@ document.querySelectorAll('.menu-option').forEach(option => {
 
 function initSheetsSystem() {
     console.log('Inicializando sistema de hojas...');
-    createNewSheet('Sheet 1');
+    createNewSheet('Hoja 1');
     setupSheetEvents();
 }
 
-// La variable sheetCounter AÚN SE USA como un GENERADOR DE ID ÚNICO.
-// La variable allSheets AÚN DEBE CONTENER el array de hojas activas.
-
 function createNewSheet(name = null) {
-    // 1. Lógica del ID (Mantenemos la secuencia global para IDs únicos)
     sheetCounter++;
-    const newId = sheetCounter;
-
-    let sheetName = name;
-
-    // 2. Lógica del Nombre (SOLO si el nombre es NULL/Por Defecto)
-    if (!name) {
-        // Encontrar el número de hoja consecutivo más bajo que esté disponible
-        let sequentialNumber = 1;
-        
-        // Bucle para verificar si un nombre "Sheet X" ya existe en allSheets
-        while (allSheets.some(sheet => sheet.name === `Sheet ${sequentialNumber}`)) {
-            sequentialNumber++;
-        }
-        
-        sheetName = `Sheet ${sequentialNumber}`;
-    }
-
-    // 3. Creación del Objeto (Usando el nuevo ID único y el nombre corregido)
+    const sheetName = name || `Hoja ${sheetCounter}`;
+    
     const newSheet = {
-        id: newId, // Único (3)
-        name: sheetName, // Secuencial (2)
+        id: sheetCounter,
+        name: sheetName,
         headers: ['#', 'C1', 'C2', 'C3', 'C4', 'C5'],
         data: Array.from({length: 10}, (_, i) => [i + 1, '', '', '', '', '']),
         rows: 10,
         cols: 6
     };
     
-    // 4. Actualización del Estado y UI
     allSheets.push(newSheet);
     activeSheetId = newSheet.id;
     
     renderSheetTabs();
     loadSheetData(newSheet.id);
     
-    console.log(`Hoja "${sheetName}" creada. ID único: ${newId}.`);
+    console.log(`Hoja "${sheetName}" creada. Total: ${allSheets.length}`);
     return newSheet;
 }
 
@@ -488,6 +467,56 @@ function addWorkColumn() {
     updateWorkSummary();
 }
 
+/**
+ * ELIMINA la última fila de la tabla de trabajo
+ * @throws {Error} Si no hay filas para eliminar
+ */
+function deleteWorkRow() {
+    if (workTableData.data.length === 1) {
+        throw new Error('No hay filas para eliminar');
+    }
+    
+    // Eliminar última fila
+    workTableData.data.pop();
+    workTableData.rows = Math.max(0, workTableData.rows - 1);
+    
+    renderWorkTable();
+    updateWorkSummary();
+    
+    console.log(`Fila eliminada. Filas restantes: ${workTableData.rows}`);
+}
+
+/**
+ * ELIMINA la última columna de la tabla de trabajo
+ * @throws {Error} Si no hay columnas para eliminar o solo queda una columna
+ */
+function deleteWorkColumn() {
+    if (workTableData.cols <= 2) {
+        throw new Error('No se puede eliminar la única columna restante');
+    }
+    
+    if (workTableData.headers.length === 0) {
+        throw new Error('No hay encabezados para eliminar');
+    }
+    
+    // Eliminar último header
+    workTableData.headers.pop();
+    
+    // Eliminar última columna de cada fila
+    workTableData.data.forEach(row => {
+        if (row.length > 1) {
+            row.pop();
+        }
+    });
+    
+    workTableData.cols = Math.max(1, workTableData.cols - 1);
+    
+    renderWorkTable();
+    updateWorkSummary();
+    
+    console.log(`Columna eliminada. Columnas restantes: ${workTableData.cols}`);
+}
+
 function clearWorkTable() {
     if (confirm('¿Limpiar todos los datos de esta hoja?')) {
         workTableData.data = Array.from({length: workTableData.rows}, (_, i) => [
@@ -595,6 +624,8 @@ function setupWorkButtons() {
         const btnPaste = document.querySelector('.btn-paste-data');
         const btnAddRow = document.querySelector('.btn-add-row');
         const btnAddCol = document.querySelector('.btn-add-column');
+        const btnDelRow = document.querySelector('.btn-delete-row');
+        const btnDelCol = document.querySelector('.btn-delete-column');
         const btnClear = document.querySelector('.btn-clear-table');
         const btnSave = document.querySelector('.btn-save-work');
         
@@ -602,6 +633,8 @@ function setupWorkButtons() {
         if (btnPaste) btnPaste.onclick = enablePasteData;
         if (btnAddRow) btnAddRow.onclick = addWorkRow;
         if (btnAddCol) btnAddCol.onclick = addWorkColumn;
+        if (btnDelRow) btnDelRow.onclick = deleteWorkRow;
+        if (btnDelCol) btnDelCol.onclick = deleteWorkColumn;
         if (btnClear) btnClear.onclick = clearWorkTable;
         if (btnSave) btnSave.onclick = saveWorkData;
     }, 100);
