@@ -1005,43 +1005,81 @@ function removeNulls() {
     console.log('Filas con nulos eliminadas:', removedCount);
 }
 
-function createCalculatedColumn(columnName) {
-    const numericCols = importedData.headers.filter(header => {
-        const values = importedData.data.map(row => parseFloat(row[header]));
-        return values.every(v => !isNaN(v));
-    });
-    
-    if (numericCols.length < 2) {
-        alert('⚠️ Se necesitan al menos 2 columnas numéricas');
+/**
+ * TRANSFORMACIÓN 3: Crea una nueva columna calculada a partir de una fórmula.
+ * Implementación segura que evita el uso de eval().
+ */
+function createCalculatedColumn(columnName = 'Columna Calculada') {
+    if (!importedData) {
+        alert('⚠️ No hay datos cargados para crear una columna.');
         return;
     }
-    
+
+    const numericCols = importedData.headers.filter(header => {
+        // Validación de columna numérica, mejorando la de calculateDataSummary
+        const values = importedData.data.map(row => parseFloat(row[header])).filter(v => !isNaN(v));
+        return values.length > 0 && values.length / importedData.rowCount > 0.8; // Más del 80% deben ser números
+    });
+
+    if (numericCols.length < 2) {
+        alert('⚠️ Se necesitan al menos 2 columnas con más del 80% de datos numéricos.');
+        return;
+    }
+
     const colsList = numericCols.join(', ');
-    const formula = prompt(`Fórmula (usa nombres de columnas):\nEjemplo: Peso / (Altura * Altura)\n\nColumnas disponibles: ${colsList}`, '');
-    if (!formula) return;
-    
+    const formula = prompt(`Fórmula (usa nombres de columnas):\nEjemplo: Peso / (Altura * Altura)\n\nColumnas disponibles: ${colsList}`, columnName);
+
+    if (!formula || !formula.trim()) return;
+
     try {
-        importedData.headers.push(columnName);
+        // 1. Crear una nueva columna en los headers
+        const finalColumnName = prompt('Ingrese el nombre de la nueva columna:', formula.slice(0, 15) + '_calc') || columnName;
+        if (importedData.headers.includes(finalColumnName)) {
+            alert(`⚠️ La columna "${finalColumnName}" ya existe.`);
+            return;
+        }
+        importedData.headers.push(finalColumnName);
+
+        // 2. Crear un array de nombres de columnas para el constructor Function
+        const argNames = numericCols;
+
+        // 3. Reemplazar nombres de columnas en la fórmula con variables
+        let safeExpression = formula;
+        argNames.forEach(col => {
+            // Aseguramos que solo reemplazamos el nombre de columna si está como palabra completa (evita colisiones)
+            safeExpression = safeExpression.replace(new RegExp('\\b' + col + '\\b', 'g'), col);
+        });
+
+        // 4. Construir la función usando el constructor Function (más seguro que eval)
+        // La función retornará la evaluación de la expresión.
+        const mathFunction = new Function(...argNames, `return (${safeExpression});`);
+
+        // 5. Aplicar la función a cada fila
         importedData.data.forEach(row => {
-            let expression = formula;
+            const args = argNames.map(col => parseFloat(row[col]) || 0);
             
-            // Reemplazar nombres de columnas por valores
-            numericCols.forEach(col => {
-                const value = parseFloat(row[col]) || 0;
-                expression = expression.replace(new RegExp(col, 'g'), value);
-            });
+            let result;
+            try {
+                result = mathFunction(...args);
+                if (isNaN(result) || !isFinite(result)) {
+                    result = 0; // Manejar NaN y Infinity
+                }
+            } catch (e) {
+                console.error("Error al ejecutar fórmula:", e);
+                result = 0;
+            }
             
-            // Evaluar expresión
-            const result = eval(expression);
-            row[columnName] = isNaN(result) ? 0 : result.toFixed(4);
+            row[finalColumnName] = result.toFixed(4);
         });
         
         updateDataView();
         displayImportedData(importedData);
-        alert(`✅ Columna "${columnName}" creada con fórmula: ${formula}`);
+        alert(`✅ Columna "${finalColumnName}" creada con fórmula: ${formula}`);
+
     } catch (error) {
-        alert('⚠️ Error en la fórmula: ' + error.message);
-        console.error('Error en fórmula:', error);
+        // Si el error ocurre antes de la ejecución (ej. fórmula inválida), lo capturamos aquí
+        alert('⚠️ Error en la sintaxis de la fórmula. Verifica la expresión: ' + error.message);
+        console.error('Error en la fórmula:', error);
     }
 }
 
@@ -1076,4 +1114,69 @@ function cleanData() {
     
     alert(`✅ Limpieza completada\n\n🔧 ${changesCount} valores modificados\n📊 Espacios en blanco eliminados\n✨ Datos normalizados`);
     console.log('Limpieza de datos completada:', changesCount, 'cambios');
+}
+
+// ========================================
+// DELEGACIÓN DE EVENTOS DE TABLA
+// ========================================
+function setupTableDelegation() {
+    const wrapper = document.getElementById('editable-table-wrapper');
+    if (!wrapper) return;
+
+    // Listener único para todos los eventos de input y keydown dentro del contenedor
+    wrapper.addEventListener('input', handleTableInput);
+    wrapper.addEventListener('keydown', handleTableKeydown);
+
+    console.log('✅ Delegación de eventos de tabla configurada.');
+}
+
+function handleTableInput(e) {
+    const target = e.target;
+    
+    // Solo actuamos si el objetivo es una celda editable
+    if (target.classList.contains('editable-cell')) {
+        
+        // 1. Manejar Input en Encabezado (Header)
+        if (target.classList.contains('header-cell')) {
+            const col = parseInt(target.dataset.col);
+            if (col > 0) { // Asegura que no es la columna '#'
+                workTableData.headers[col] = target.value;
+                // No necesita re-renderizar, solo actualizar el estado.
+            }
+        } 
+        
+        // 2. Manejar Input en Datos (Data)
+        else if (target.classList.contains('data-cell')) {
+            const row = parseInt(target.dataset.row);
+            const col = parseInt(target.dataset.col);
+            
+            if (row >= 0 && col > 0) {
+                // Actualizar el estado global sin re-renderizar todo
+                workTableData.data[row][col] = target.value;
+                updateWorkSummary();
+            }
+        }
+        
+        // ¡Importante! Guardar el estado actual de la hoja
+        saveCurrentSheetData();
+    }
+}
+
+function handleTableKeydown(e) {
+    if (e.key === 'Tab') {
+        e.preventDefault();
+        
+        // Lógica de navegación de Tab (refactorizada para ser más eficiente)
+        const target = e.target;
+        if (!target.classList.contains('editable-cell')) return;
+
+        const inputs = Array.from(document.querySelectorAll('.editable-cell'));
+        const currentIndex = inputs.indexOf(target);
+        const nextIndex = e.shiftKey ? currentIndex - 1 : currentIndex + 1;
+
+        if (inputs[nextIndex]) {
+            inputs[nextIndex].focus();
+            inputs[nextIndex].select();
+        }
+    }
 }
