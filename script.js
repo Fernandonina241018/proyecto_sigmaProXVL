@@ -1,6 +1,7 @@
 // ========================================
 // VARIABLES GLOBALES
 // ========================================
+
 let importedData = null;
 let fileName = '';
 let activeStats = [];
@@ -17,6 +18,8 @@ let workTableData = {
     rows: 10,
     cols: 5
 };
+
+//import StateManager from './state.js';
 
 // ========================================
 // NAVEGACIÓN DINÁMICA ENTRE VISTAS
@@ -220,7 +223,8 @@ function renameSheet(sheetId, newName) {
 function switchSheet(sheetId) {
     saveCurrentSheetData();
     activeSheetId = sheetId;
-    loadSheetData(sheetId);
+    //loadSheetData(sheetId);
+    StateManager.setWorkTableData(sheet.data);
     renderSheetTabs();
     console.log(`Cambiado a hoja ID: ${sheetId}`);
 }
@@ -408,7 +412,8 @@ function attachTableEvents() {
         input.addEventListener('input', function() {
             const row = parseInt(this.dataset.row);
             const col = parseInt(this.dataset.col);
-            workTableData.data[row][col] = this.value;
+            //workTableData.data[row][col] = this.value;
+            StateManager.updateCell(row, col, this.value);
             updateWorkSummary();
         });
         input.addEventListener('keydown', handleTabNavigation);
