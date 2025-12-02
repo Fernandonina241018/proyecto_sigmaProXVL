@@ -169,28 +169,46 @@ function initSheetsSystem() {
     setupSheetEvents();
 }
 
-function createNewSheet(name = null) {
-    sheetCounter++;
-    const sheetName = name || `Sheet ${sheetCounter}`;
-    
+function createNewSheet(name = null, rows = 10, cols = 6, headers = null) {
+    // Buscar el menor número disponible para el nombre
+    function getNextSheetName() {
+        const existingNames = allSheets.map(s => s.name);
+        let i = 1;
+        while (existingNames.includes(`Sheet ${i}`)) {
+            i++;
+        }
+        return `Sheet ${i}`;
+    }
+
+    // Determinar nombre de la hoja
+    const sheetName = name || getNextSheetName();
+
+    // Generar encabezados por defecto si no se pasan
+    const defaultHeaders = ['#', ...Array.from({length: cols - 1}, (_, i) => `C${i + 1}`)];
+
+    // Crear objeto hoja
     const newSheet = {
-        id: sheetCounter,
+        id: Date.now(), // id único basado en timestamp (más robusto que un contador)
         name: sheetName,
-        headers: ['#', 'C1', 'C2', 'C3', 'C4', 'C5'],
-        data: Array.from({length: 10}, (_, i) => [i + 1, '', '', '', '', '']),
-        rows: 10,
-        cols: 6
+        headers: headers || defaultHeaders,
+        data: Array.from({length: rows}, (_, i) => [i + 1, ...Array(cols - 1).fill('')]),
+        rows,
+        cols
     };
-    
+
+    // Actualizar estado global
     allSheets.push(newSheet);
     activeSheetId = newSheet.id;
-    
+
+    // Actualizar interfaz
     renderSheetTabs();
     loadSheetData(newSheet.id);
-    
+
     console.log(`Hoja "${sheetName}" creada. Total: ${allSheets.length}`);
     return newSheet;
 }
+
+
 
 function deleteSheet(sheetId) {
     if (allSheets.length <= 1) {
