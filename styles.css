@@ -721,7 +721,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 12px;
+    padding: 8px 8px;
     background: #f0f0f0;
     border: 2px solid #e0e0e0;
     border-bottom: none;
@@ -786,7 +786,7 @@ body {
 }
 
 .sheet-tab-close:hover {
-    background: #ff4444;
+    background: #000000;
     color: white;
 }
 
