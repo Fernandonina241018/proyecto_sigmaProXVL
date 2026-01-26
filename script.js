@@ -683,6 +683,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             console.warn("No se encontró el botón .btn-run en el DOM");
         }
+        
 });
 
 function updateSheetsInfo() {
@@ -850,6 +851,47 @@ function downloadSampleData() {
     link.download = 'plantilla_datos.csv';
     link.click();
     URL.revokeObjectURL(link.href);
+}
+
+function ejecutarAnalisis() {
+    console.log("Ejecutar Análisis presionado");
+
+    const importedData = StateManager.getImportedData();
+    const activeStats = StateManager.getActiveStats();
+
+    if (!importedData || !importedData.data || importedData.data.length === 0) {
+        alert('⚠️ Debes guardar o importar datos primero');
+        return;
+    }
+
+    if (activeStats.length === 0) {
+        alert('⚠️ Selecciona al menos un estadístico descriptivo');
+        return;
+    }
+
+    // Mostrar cargando (si tienes la función)
+    if (typeof mostrarCargando === 'function') mostrarCargando();
+
+    try {
+        const resultados = EstadisticaDescriptiva.ejecutarAnalisis(importedData, activeStats);
+        console.log("Resultados:", resultados);
+
+        const html = EstadisticaDescriptiva.generarHTML(resultados);
+
+        // Mostrar resultados
+        const placeholder = document.querySelector('#view-analisis .content-placeholder');
+        if (placeholder) {
+            placeholder.innerHTML = html;
+        }
+
+        // Cambiar vista
+        switchView('analisis');
+
+        alert('✅ Análisis completado');
+    } catch (err) {
+        console.error("Error en análisis:", err);
+        alert('❌ Error: ' + err.message);
+    }
 }
 
 function setupTransformButtons() {
