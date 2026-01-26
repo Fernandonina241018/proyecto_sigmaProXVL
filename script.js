@@ -298,6 +298,16 @@ function setupWorkButtons() {
     if (btnDelCol) btnDelCol.onclick = deleteWorkColumn;
     if (btnClear) btnClear.onclick = clearWorkTable;
     if (btnSave) btnSave.onclick = saveWorkData;
+    const btnNewSheet = document.getElementById('btnNewSheet');
+    if (btnNewSheet) {
+        btnNewSheet.onclick = () => {
+            StateManager.createSheet();  // crea hoja con nombre automático
+            renderWorkTable();
+            updateWorkSummary();
+            updateSheetsInfo();           // si tienes esta función para pestañas
+            console.log("Nueva hoja creada");
+        };
+    }
 }
 
 function generateWorkTable() {
