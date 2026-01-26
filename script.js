@@ -677,6 +677,44 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ Estado centralizado activo');
 });
 
+function updateSheetsInfo() {
+    const activeSheet = StateManager.getActiveSheet();
+    const totalSheets = StateManager.getAllSheets().length;
+
+    document.getElementById('activeSheetName').textContent = activeSheet ? activeSheet.name : '-';
+    document.getElementById('totalSheets').textContent = totalSheets;
+}
+
+function renderSheetTabs() {
+    const container = document.getElementById('sheetsTabs');
+    if (!container) return;
+
+    const sheets = StateManager.getAllSheets();
+    container.innerHTML = sheets.map(sheet => `
+        <div class="sheet-tab ${sheet.id === StateManager.getActiveSheet()?.id ? 'active' : ''}" 
+             data-sheet-id="${sheet.id}"
+             onclick="switchToSheet(${sheet.id})">
+            <span class="sheet-tab-name">${sheet.name}</span>
+            <button class="sheet-tab-close" onclick="event.stopPropagation(); deleteSheet(${sheet.id})">×</button>
+        </div>
+    `).join('');
+}
+
+function switchToSheet(sheetId) {
+    StateManager.setActiveSheet(sheetId);
+    renderWorkTable();
+    updateWorkSummary();
+    updateSheetsInfo();
+}
+
+function deleteSheet(sheetId) {
+    if (!confirm('¿Eliminar esta hoja?')) return;
+    StateManager.deleteSheet(sheetId);
+    renderSheetTabs();
+    renderWorkTable();
+    updateWorkSummary();
+}
+
 // ========================================
 // MANTENER TUS OTRAS FUNCIONES
 // ========================================
