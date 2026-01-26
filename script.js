@@ -919,6 +919,37 @@ function ejecutarAnalisis() {
     }
 }
 
+function mostrarCargando() {
+    const placeholder = document.querySelector('#view-analisis .content-placeholder');
+    if (placeholder) {
+        placeholder.innerHTML = `
+            <div class="loading-indicator">
+                <div class="spinner"></div>
+                <h3>🔬 Procesando análisis...</h3>
+                <p>Calculando estadísticas descriptivas</p>
+            </div>
+        `;
+    }
+}
+
+function ocultarCargando() {
+    const placeholder = document.querySelector('#view-analisis .content-placeholder');
+    if (placeholder) {
+        placeholder.innerHTML = `
+            <h3>¡Comienza tu análisis!</h3>
+            <p>Selecciona los estadísticos del menú lateral</p>
+        `;
+    }
+}
+
+function mostrarResultados(htmlResultados) {
+    const placeholder = document.querySelector('#view-analisis .content-placeholder');
+    if (placeholder) {
+        placeholder.innerHTML = htmlResultados;
+    }
+    ocultarCargando();
+}
+
 // ========================================
 // MANTENER TUS OTRAS FUNCIONES
 // ========================================
