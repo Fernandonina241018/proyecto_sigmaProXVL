@@ -676,6 +676,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log('✅ Formatos soportados: CSV, JSON, TXT');
     console.log('✅ Estado centralizado activo');
+    const btnRun = document.querySelector('.btn-run');
+        if (btnRun) {
+            btnRun.addEventListener('click', ejecutarAnalisis);
+            console.log("Evento click asignado al botón Ejecutar Análisis");
+        } else {
+            console.warn("No se encontró el botón .btn-run en el DOM");
+        }
 });
 
 function updateSheetsInfo() {
