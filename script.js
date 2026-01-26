@@ -852,6 +852,24 @@ function downloadSampleData() {
     URL.revokeObjectURL(link.href);
 }
 
+function setupTransformButtons() {
+    setTimeout(() => {  // Pequeño delay para asegurar que el DOM esté listo
+        const buttons = document.querySelectorAll('.transform-btn');
+        if (buttons.length < 4) {
+            console.warn("No se encontraron suficientes botones .transform-btn");
+            return;
+        }
+
+        // Asignar funciones a cada botón (ajusta el orden según tu HTML)
+        buttons[0].onclick = cleanData;              // 🧹 Limpiar Datos
+        buttons[1].onclick = normalizeData;          // 🔄 Normalizar
+        buttons[2].onclick = createCalculatedColumn; // ➕ Crear Columna
+        buttons[3].onclick = removeNulls;            // 🗑️ Eliminar Nulos
+
+        console.log("Botones de transformaciones configurados");
+    }, 100);
+}
+
 // ========================================
 // EJECUTAR ANÁLISIS
 // ========================================
