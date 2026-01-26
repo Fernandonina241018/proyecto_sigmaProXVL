@@ -651,6 +651,17 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ Estado centralizado activo');
 });
 
+const btnNewSheet = document.getElementById('btnNewSheet');
+if (btnNewSheet) {
+    btnNewSheet.onclick = () => {
+        StateManager.createSheet();  // crea hoja con nombre automático
+        renderWorkTable();
+        updateWorkSummary();
+        updateSheetsInfo();           // si tienes esta función para pestañas
+        console.log("Nueva hoja creada");
+    };
+}
+
 // ========================================
 // MANTENER TUS OTRAS FUNCIONES
 // ========================================
