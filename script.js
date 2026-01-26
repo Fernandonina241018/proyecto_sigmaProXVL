@@ -761,6 +761,90 @@ function calculateDataSummary(data) {
     };
 }
 
+// Muestra la vista previa de los datos importados en la interfaz
+function displayImportedData(data) {
+    if (!data || !data.headers || !data.data) {
+        console.warn("displayImportedData: datos inválidos");
+        return;
+    }
+
+    const placeholder = document.querySelector('#view-analisis .content-placeholder');
+    if (!placeholder) return;
+
+    const fileName = StateManager.getState().fileName || 'datos importados';
+
+    let html = `
+        <div class="data-preview">
+            <div class="preview-header">
+                <h3>✅ Datos Cargados</h3>
+                <p>Archivo: <strong>${escapeHtml(fileName)}</strong></p>
+                <p>📊 ${data.rowCount || data.data.length} filas | 📋 ${data.headers.length} columnas</p>
+            </div>
+            
+            <div style="margin: 20px 0;">
+                <h4 style="margin-bottom: 10px;">Columnas:</h4>
+                <div class="columns-grid">
+                    ${data.headers.map((h, i) => `
+                        <div class="column-item">
+                            <span class="column-number">${i + 1}</span>
+                            <span>${escapeHtml(h)}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            
+            <div style="margin: 20px 0; overflow-x: auto; max-height: 300px;">
+                <h4 style="margin-bottom: 10px;">Vista previa (primeras 5 filas):</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>${data.headers.map(h => `<th>${escapeHtml(h)}</th>`).join('')}</tr>
+                    </thead>
+                    <tbody>
+                        ${data.data.slice(0, 5).map(row => `
+                            <tr>${data.headers.map(h => `<td>${escapeHtml(row[h] || '')}</td>`).join('')}</tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="data-actions">
+                <button class="btn-clear" onclick="clearImportedData()">🗑️ Limpiar Datos</button>
+                <button class="btn-download" onclick="downloadSampleData()">📥 Descargar Plantilla CSV</button>
+            </div>
+        </div>
+    `;
+
+    placeholder.innerHTML = html;
+}
+
+function clearImportedData() {
+    StateManager.clearImportedData();
+    const placeholder = document.querySelector('#view-analisis .content-placeholder');
+    if (placeholder) {
+        placeholder.innerHTML = `
+            <h3>¡Comienza tu análisis!</h3>
+            <p>Selecciona los estadísticos del menú lateral</p>
+        `;
+    }
+    updateDataView();
+}
+
+function downloadSampleData() {
+    const csv = `ID,Nombre,Edad,Peso,Altura,Grupo
+1,Juan,25,70,1.75,A
+2,María,30,65,1.68,B
+3,Pedro,28,80,1.80,A
+4,Ana,35,58,1.62,B
+5,Luis,22,75,1.78,A`;
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'plantilla_datos.csv';
+    link.click();
+    URL.revokeObjectURL(link.href);
+}
+
 // ========================================
 // MANTENER TUS OTRAS FUNCIONES
 // ========================================
