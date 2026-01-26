@@ -912,6 +912,63 @@ function setupTransformButtons() {
     }, 100);
 }
 
+/**
+ * Transformación: Limpiar Datos
+ * - Elimina espacios en blanco extras
+ * - Normaliza espacios múltiples a uno solo
+ * - No toca valores numéricos ni otros tipos
+ * - Actualiza la vista de datos y muestra mensaje
+ */
+function cleanData() {
+    const imported = StateManager.getImportedData();
+    
+    if (!imported || !imported.data || imported.data.length === 0) {
+        alert('⚠️ No hay datos cargados para limpiar.\n\nImporta o guarda datos primero.');
+        return;
+    }
+
+    let changesCount = 0;
+
+    // Recorrer cada fila y cada columna
+    imported.data.forEach(row => {
+        imported.headers.forEach(header => {
+            const originalValue = row[header];
+            
+            // Solo procesamos strings
+            if (typeof originalValue === 'string') {
+                // Eliminar espacios al inicio/final + reducir múltiples espacios a uno
+                const cleaned = originalValue.trim().replace(/\s+/g, ' ');
+                
+                if (cleaned !== originalValue) {
+                    row[header] = cleaned;
+                    changesCount++;
+                }
+            }
+        });
+    });
+
+    // Guardar los cambios en StateManager
+    StateManager.setImportedData(
+        imported,
+        StateManager.getState().fileName || 'datos_limpiados.csv'
+    );
+
+    // Actualizar vistas
+    updateDataView();
+    if (typeof displayImportedData === 'function') {
+        displayImportedData(imported);
+    }
+
+    // Mensaje al usuario
+    if (changesCount === 0) {
+        alert('✅ Limpieza completada\nNo se encontraron espacios extras para limpiar.');
+    } else {
+        alert(`✅ Limpieza completada\n${changesCount} valores fueron modificados (espacios extras eliminados).`);
+    }
+
+    console.log(`Limpieza realizada - Cambios: ${changesCount}`);
+}
+
 // ========================================
 // EJECUTAR ANÁLISIS
 // ========================================
