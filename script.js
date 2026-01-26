@@ -931,6 +931,9 @@ function setupTransformButtons() {
 // ========================================
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 StatAnalyzer Pro inicializado');
+
+    // ¡Esto es crítico!
+    StateManager.init();   // ← restaura hojas, datos importados, stats activos, etc.
     
     // Configurar estado inicial
     updateActiveStats();
