@@ -372,47 +372,63 @@ function clearWorkTable() {
 
 function saveWorkData() {
     const sheet = StateManager.getActiveSheet();
+    
     if (!sheet) {
-        alert('⚠️ No hay hoja activa para guardar');
+        console.error("No hay hoja activa al intentar guardar");
+        alert('⚠️ No hay hoja activa. Crea o selecciona una hoja primero.');
         return;
     }
 
-    // Filtrar filas con al menos un dato (excluyendo #)
-    const nonEmptyData = sheet.data.filter(row => 
-        row.slice(1).some(cell => cell && cell.toString().trim() !== '')
+    console.log("Hoja activa al guardar:", sheet.name, "Filas:", sheet.data.length);
+
+    // Filtrar filas con datos reales (excluyendo columna #)
+    const nonEmptyRows = sheet.data.filter(row => 
+        row.slice(1).some(cell => cell && String(cell).trim() !== '')
     );
 
-    if (nonEmptyData.length === 0) {
-        alert('⚠️ No hay datos válidos para guardar');
+    if (nonEmptyRows.length === 0) {
+        alert('⚠️ No hay datos válidos para guardar (todas las filas están vacías)');
         return;
     }
 
-    const headers = sheet.headers.slice(1); // sin #
-    const formattedData = nonEmptyData.map(row => {
+    const headers = sheet.headers.slice(1); // sin la columna #
+    const formattedData = nonEmptyRows.map(row => {
         const obj = {};
-        headers.forEach((header, index) => {
-            obj[header] = row[index + 1] || '';
+        headers.forEach((header, i) => {
+            obj[header] = row[i + 1] || '';
         });
         return obj;
     });
 
-    const fileName = `${sheet.name || 'datos'}.csv`;
+    const fileName = `${sheet.name || 'hoja_trabajo'}_${new Date().toISOString().slice(0,10)}.csv`;
 
-    // Guardar en StateManager
-    StateManager.setImportedData({
-        headers: headers,
-        data: formattedData,
-        rowCount: formattedData.length
-    }, fileName);
+    try {
+        StateManager.setImportedData({
+            headers: headers,
+            data: formattedData,
+            rowCount: formattedData.length
+        }, fileName);
 
-    updateDataView();
-    displayImportedData(StateManager.getImportedData());
+        console.log("Datos guardados en StateManager:", {
+            rowCount: formattedData.length,
+            columns: headers.length,
+            fileName
+        });
 
-    switchView('analisis');
-    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-    document.querySelector('.nav-item').classList.add('active');
+        // Actualizar vistas
+        updateDataView();
+        displayImportedData(StateManager.getImportedData());
 
-    alert(`✅ Datos guardados correctamente\n\n📊 ${formattedData.length} filas\n📋 ${headers.length} columnas`);
+        // Cambiar a pestaña análisis
+        switchView('analisis');
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.querySelector('.nav-item').classList.add('active'); // la primera suele ser Análisis
+
+        alert(`✅ Guardado exitoso!\n\n${formattedData.length} filas\n${headers.length} columnas\nNombre: ${fileName}`);
+    } catch (err) {
+        console.error("Error al guardar:", err);
+        alert('❌ Error al guardar: ' + err.message);
+    }
 }
 
 // ========================================
