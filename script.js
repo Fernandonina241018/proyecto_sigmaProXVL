@@ -853,6 +853,73 @@ function downloadSampleData() {
 }
 
 // ========================================
+// EJECUTAR ANÁLISIS
+// ========================================
+
+function ejecutarAnalisis() {
+    console.log("Botón Ejecutar Análisis presionado");
+
+    const importedData = StateManager.getImportedData();
+    const activeStats = StateManager.getActiveStats();
+
+    console.log("Datos importados:", importedData);
+    console.log("Estadísticos activos:", activeStats);
+
+    // Validaciones
+    if (!importedData || !importedData.data || importedData.data.length === 0) {
+        alert('⚠️ Debes importar o guardar datos primero.\n\nVe a "Trabajo" o "Datos" y carga/guardar datos.');
+        console.warn("No hay datos importados");
+        return;
+    }
+
+    if (!activeStats || activeStats.length === 0) {
+        alert('⚠️ Debes seleccionar al menos un estadístico descriptivo del menú lateral.');
+        console.warn("No hay estadísticos seleccionados");
+        return;
+    }
+
+    // Verificar que sean solo descriptivos (como en tu versión original)
+    const estadisticosDescriptivos = [
+        'Media Aritmética',
+        'Mediana y Moda',
+        'Desviación Estándar',
+        'Varianza',
+        'Percentiles',
+        'Rango y Amplitud'
+    ];
+
+    const noImplementados = activeStats.filter(stat => !estadisticosDescriptivos.includes(stat));
+    if (noImplementados.length > 0) {
+        alert(`⚠️ Los siguientes estadísticos no están implementados:\n${noImplementados.join('\n')}\n\nSolo Estadística Descriptiva disponible por ahora.`);
+        return;
+    }
+
+    // Mostrar cargando
+    mostrarCargando();
+
+    try {
+        console.log("Iniciando análisis...");
+        const resultados = EstadisticaDescriptiva.ejecutarAnalisis(importedData, activeStats);
+        console.log("Resultados obtenidos:", resultados);
+
+        ultimosResultados = resultados; // si tienes esta variable global
+
+        const html = EstadisticaDescriptiva.generarHTML(resultados);
+        mostrarResultados(html);
+
+        switchView('analisis');
+        document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+        document.querySelector('.nav-item').classList.add('active'); // Asumiendo que la primera es Análisis
+
+        console.log("Análisis completado con éxito");
+    } catch (error) {
+        ocultarCargando();
+        console.error("Error en análisis:", error);
+        alert('❌ Error al ejecutar el análisis:\n\n' + error.message);
+    }
+}
+
+// ========================================
 // MANTENER TUS OTRAS FUNCIONES
 // ========================================
 
