@@ -101,7 +101,7 @@ const statsCount = document.getElementById('statsCount');
 const emptyState = document.getElementById('emptyState');
 
 function updateActiveStats() {
-    if (activeStats.length === 0) {
+    if (StateManager.getActiveStats().length === 0) {
         emptyState.style.display = 'block';
         statsCount.textContent = '0 estadísticos activos';
     } else {
