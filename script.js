@@ -1204,3 +1204,198 @@ function handleTableKeydown(e) {
         }
     }
 }
+
+// ========================================
+// AGREGAR ESTAS FUNCIONES AL FINAL DE script.js
+// (ANTES DE document.addEventListener('DOMContentLoaded'))
+// ========================================
+
+// ========================================
+// EJECUTAR ANÁLISIS - ESTADÍSTICA DESCRIPTIVA
+// ========================================
+
+/**
+ * Variable global para almacenar últimos resultados
+ */
+let ultimosResultados = null;
+
+/**
+ * Ejecuta el análisis estadístico descriptivo
+ */
+function ejecutarAnalisis() {
+    const importedData = StateManager.getImportedData();
+    const activeStats = StateManager.getActiveStats();
+    
+    // Validaciones
+    if (!importedData) {
+        alert('⚠️ Debes importar datos primero\n\nVe a la pestaña "Datos" y carga un archivo CSV/JSON o usa la "Hoja de Trabajo" para crear datos.');
+        return;
+    }
+    
+    if (activeStats.length === 0) {
+        alert('⚠️ Debes seleccionar al menos un estadístico\n\nSelecciona uno o más estadísticos del menú lateral en la sección "Estadística Descriptiva".');
+        return;
+    }
+    
+    // Verificar que solo hay estadísticos descriptivos
+    const estadisticosDescriptivos = [
+        'Media Aritmética',
+        'Mediana y Moda',
+        'Desviación Estándar',
+        'Varianza',
+        'Percentiles',
+        'Rango y Amplitud'
+    ];
+    
+    const estadisticosNoImplementados = activeStats.filter(
+        stat => !estadisticosDescriptivos.includes(stat)
+    );
+    
+    if (estadisticosNoImplementados.length > 0) {
+        alert(`⚠️ Los siguientes estadísticos aún no están implementados:\n\n${estadisticosNoImplementados.join('\n')}\n\nPor ahora solo está disponible Estadística Descriptiva.`);
+        return;
+    }
+    
+    // Mostrar indicador de carga
+    mostrarCargando();
+    
+    try {
+        // Ejecutar análisis
+        const resultados = EstadisticaDescriptiva.ejecutarAnalisis(importedData, activeStats);
+        
+        // Guardar resultados
+        ultimosResultados = resultados;
+        
+        // Generar y mostrar HTML
+        const htmlResultados = EstadisticaDescriptiva.generarHTML(resultados);
+        mostrarResultados(htmlResultados);
+        
+        // Cambiar a vista de análisis
+        switchView('analisis');
+        document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+        document.querySelector('.nav-item').classList.add('active');
+        
+        console.log('✅ Análisis completado:', resultados);
+        
+    } catch (error) {
+        ocultarCargando();
+        alert('❌ Error al ejecutar análisis:\n\n' + error.message);
+        console.error('Error en análisis:', error);
+    }
+}
+
+/**
+ * Muestra indicador de carga
+ */
+function mostrarCargando() {
+    const placeholder = document.querySelector('#view-analisis .content-placeholder');
+    if (placeholder) {
+        placeholder.innerHTML = `
+            <div class="loading-indicator">
+                <div class="spinner"></div>
+                <h3>🔬 Procesando análisis...</h3>
+                <p>Calculando estadísticas descriptivas</p>
+            </div>
+        `;
+    }
+}
+
+/**
+ * Oculta indicador de carga
+ */
+function ocultarCargando() {
+    const placeholder = document.querySelector('#view-analisis .content-placeholder');
+    if (placeholder) {
+        placeholder.innerHTML = `
+            <h3>¡Comienza tu análisis!</h3>
+            <p>Selecciona los estadísticos del menú lateral</p>
+        `;
+    }
+}
+
+/**
+ * Muestra los resultados del análisis
+ */
+function mostrarResultados(htmlResultados) {
+    const placeholder = document.querySelector('#view-analisis .content-placeholder');
+    if (placeholder) {
+        placeholder.innerHTML = htmlResultados;
+    }
+    ocultarCargando();
+}
+
+/**
+ * Exporta los resultados en formato texto
+ */
+function exportarResultados() {
+    if (!ultimosResultados) {
+        alert('⚠️ No hay resultados para exportar');
+        return;
+    }
+    
+    const reporte = EstadisticaDescriptiva.generarReporte(ultimosResultados);
+    
+    // Crear archivo de texto
+    const blob = new Blob([reporte], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `analisis_estadistico_${new Date().toISOString().slice(0, 10)}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    alert('✅ Resultados exportados correctamente');
+}
+
+/**
+ * Limpia los resultados y permite nuevo análisis
+ */
+function nuevoAnalisis() {
+    ultimosResultados = null;
+    ocultarCargando();
+    
+    const importedData = StateManager.getImportedData();
+    if (importedData) {
+        displayImportedData(importedData);
+    }
+}
+
+// ========================================
+// ACTUALIZAR EVENT LISTENER DEL BOTÓN EJECUTAR
+// ========================================
+
+// REEMPLAZAR la función existente del botón ejecutar análisis:
+// Busca en tu script.js esta sección y reemplázala:
+
+/*
+// ========================================
+// EJECUTAR ANÁLISIS (VERSIÓN ANTERIOR - ELIMINAR)
+// ========================================
+document.querySelector('.btn-run')?.addEventListener('click', function() {
+    const importedData = StateManager.getImportedData();
+    const activeStats = StateManager.getActiveStats();
+    
+    if (!importedData) {
+        alert('⚠️ Importa datos primero');
+        return;
+    }
+    
+    if (activeStats.length === 0) {
+        alert('⚠️ Selecciona al menos un estadístico');
+        return;
+    }
+    
+    alert(`✅ Ejecutando análisis:
+    
+📊 Datos: ${importedData.rowCount} filas
+📋 Columnas: ${importedData.headers.length}
+🔬 Estadísticos: ${activeStats.length}
+
+${activeStats.map((s, i) => `${i + 1}. ${s}`).join('\n')}`);
+});
+*/
+
+// NUEVA VERSIÓN:
+document.querySelector('.btn-run')?.addEventListener('click', ejecutarAnalisis);
