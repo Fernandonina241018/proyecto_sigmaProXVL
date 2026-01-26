@@ -3,22 +3,22 @@
 //test
 // ========================================
 
-let importedData = null;
-let fileName = '';
-let activeStats = [];
+//let importedData = null;
+//let fileName = '';
+//let activeStats = [];
 
 // Variables para el sistema de hojas
-let allSheets = [];
-let activeSheetId = null;
-let sheetCounter = 0;
+//let allSheets = [];
+//let activeSheetId = null;
+//let sheetCounter = 0;
 
 // Datos de la hoja actual
-let workTableData = {
-    headers: [],
-    data: [],
-    rows: 10,
-    cols: 5
-};
+//let workTableData = {
+//    headers: [],
+//    data: [],
+//    rows: 10,
+//    cols: 5
+//};
 
 //import StateManager from './state.js';
 
