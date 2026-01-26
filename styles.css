@@ -1174,3 +1174,302 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* ========================================
+   ESTILOS PARA RESULTADOS DE ANÁLISIS
+   AGREGAR AL FINAL DE styles.css
+   ======================================== */
+
+/* ========================================
+   INDICADOR DE CARGA
+   ======================================== */
+.loading-indicator {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 30px;
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-indicator h3 {
+    color: #333;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.loading-indicator p {
+    color: #666;
+    font-size: 1rem;
+}
+
+/* ========================================
+   CONTENEDOR DE RESULTADOS
+   ======================================== */
+.analisis-resultado {
+    animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   HEADER DE RESULTADOS
+   ======================================== */
+.resultado-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+}
+
+.resultado-header h2 {
+    margin: 0 0 15px 0;
+    font-size: 1.8rem;
+}
+
+.resultado-info {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    font-size: 1rem;
+    opacity: 0.95;
+}
+
+.resultado-info span {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+/* ========================================
+   COLUMNAS ANALIZADAS
+   ======================================== */
+.columnas-analizadas {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border-left: 4px solid #667eea;
+}
+
+.columnas-analizadas h3 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.columnas-tags {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.columna-tag {
+    background: white;
+    color: #667eea;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 2px solid #667eea;
+    transition: all 0.3s ease;
+}
+
+.columna-tag:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* ========================================
+   SECCIONES DE ESTADÍSTICOS
+   ======================================== */
+.estadistico-section {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+}
+
+.estadistico-section:hover {
+    border-color: #667eea;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
+}
+
+.estadistico-section h3 {
+    color: #333;
+    font-size: 1.3rem;
+    margin: 0 0 20px 0;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #667eea;
+}
+
+/* ========================================
+   TABLAS DE RESULTADOS
+   ======================================== */
+.resultado-tabla-wrapper {
+    overflow-x: auto;
+    border-radius: 8px;
+}
+
+.resultado-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    font-size: 0.95rem;
+}
+
+.resultado-tabla thead {
+    background: linear-gradient(135deg, #37474f 0%, #263238 100%);
+    color: white;
+}
+
+.resultado-tabla th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.resultado-tabla tbody tr {
+    border-bottom: 1px solid #e9ecef;
+    transition: background 0.2s ease;
+}
+
+.resultado-tabla tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.resultado-tabla tbody tr:last-child {
+    border-bottom: none;
+}
+
+.resultado-tabla td {
+    padding: 14px 15px;
+}
+
+.resultado-tabla td:first-child {
+    font-weight: 600;
+    color: #667eea;
+}
+
+.resultado-tabla td:not(:first-child) {
+    font-family: 'Courier New', monospace;
+    color: #333;
+}
+
+.resultado-tabla em {
+    color: #999;
+    font-style: italic;
+}
+
+/* ========================================
+   FOOTER DE RESULTADOS
+   ======================================== */
+.resultado-footer {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 2px solid #e9ecef;
+}
+
+.btn-export-results,
+.btn-new-analysis {
+    padding: 14px 28px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-export-results {
+    background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+    color: white;
+}
+
+.btn-export-results:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
+}
+
+.btn-new-analysis {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-new-analysis:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 768px) {
+    .resultado-header {
+        padding: 20px;
+    }
+    
+    .resultado-header h2 {
+        font-size: 1.4rem;
+    }
+    
+    .resultado-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .resultado-footer {
+        flex-direction: column;
+    }
+    
+    .btn-export-results,
+    .btn-new-analysis {
+        width: 100%;
+    }
+    
+    .estadistico-section {
+        padding: 15px;
+    }
+    
+    .resultado-tabla {
+        font-size: 0.85rem;
+    }
+    
+    .resultado-tabla th,
+    .resultado-tabla td {
+        padding: 10px;
+    }
+}
