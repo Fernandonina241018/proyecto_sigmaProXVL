@@ -366,57 +366,6 @@ function generateWorkTable() {
     saveCurrentSheetData();
 }
 
-function renderWorkTable() {
-    const wrapper = document.getElementById('editable-table-wrapper');
-    if (!wrapper) return;
-    
-    let tableHTML = '<table class="work-table"><thead><tr>';
-    
-    workTableData.headers.forEach((header, index) => {
-        if (index === 0) {
-            tableHTML += `<th><span class="header-cell">${header}</span></th>`;
-        } else {
-            tableHTML += `
-                <th>
-                    <input type="text" 
-                           class="editable-cell header-cell" 
-                           value="${header}"
-                           data-col="${index}"
-                           placeholder="Col ${index}">
-                </th>
-            `;
-        }
-    });
-    
-    tableHTML += '</tr></thead><tbody>';
-    
-    workTableData.data.forEach((row, rowIndex) => {
-        tableHTML += '<tr>';
-        row.forEach((cell, colIndex) => {
-            if (colIndex === 0) {
-                tableHTML += `<td><div class="index-cell">${cell}</div></td>`;
-            } else {
-                tableHTML += `
-                    <td>
-                        <input type="text" 
-                               class="editable-cell data-cell" 
-                               value="${cell}"
-                               data-row="${rowIndex}"
-                               data-col="${colIndex}"
-                               placeholder="...">
-                    </td>
-                `;
-            }
-        });
-        tableHTML += '</tr>';
-    });
-    
-    tableHTML += '</tbody></table>';
-    wrapper.innerHTML = tableHTML;
-    
-    attachTableEvents();
-}
-
 function attachTableEvents() {
     document.querySelectorAll('.header-cell[data-col]').forEach(input => {
         input.addEventListener('input', function() {
@@ -934,6 +883,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ¡Esto es crítico!
     StateManager.init();   // ← restaura hojas, datos importados, stats activos, etc.
+
+    // Reactividad: cuando cambian los estadísticos activos
+    StateManager.addEventListener('statsChange', (newState) => {
+        updateActiveStatsUI();
+    });
+
+    // Cuando cambian los datos importados
+    StateManager.addEventListener('dataChange', (newState) => {
+        // Actualizar vista de datos si estamos en esa pestaña
+        if (document.getElementById('view-datos').classList.contains('active')) {
+            updateDataView(); // tu función existente
+        }
+    });
+
+    // Cuando cambia la hoja activa o sus datos
+    StateManager.addEventListener('sheetChange', () => {
+        renderWorkTableFromState();
+        updateSheetsInfoFromState();
+        updateWorkSummaryFromState();
+    });
     
     // Configurar estado inicial
     updateActiveStats();
@@ -1402,3 +1371,96 @@ ${activeStats.map((s, i) => `${i + 1}. ${s}`).join('\n')}`);
 
 // NUEVA VERSIÓN:
 document.querySelector('.btn-run')?.addEventListener('click', ejecutarAnalisis);
+
+function getActiveStats() {
+    return StateManager.getActiveStats();
+}
+
+function updateActiveStatsUI() {
+    const stats = getActiveStats();
+    const container = document.getElementById('activeStatsContainer');
+    const countEl = document.getElementById('statsCount');
+    const emptyEl = document.getElementById('emptyState');
+
+    container.innerHTML = ''; // limpiar chips anteriores
+
+    if (stats.length === 0) {
+        emptyEl.style.display = 'block';
+        countEl.textContent = '0 estadísticos activos';
+    } else {
+        emptyEl.style.display = 'none';
+        countEl.textContent = `${stats.length} estadístico${stats.length !== 1 ? 's' : ''} activo${stats.length !== 1 ? 's' : ''}`;
+
+        stats.forEach(name => {
+            const chip = document.createElement('div');
+            chip.className = 'stat-chip';
+            chip.setAttribute('data-stat-name', name);
+            chip.innerHTML = `
+                <span>${name}</span>
+                <button class="chip-remove" onclick="removeActiveStat('${name}')">×</button>
+            `;
+            container.appendChild(chip);
+        });
+    }
+}
+
+// Y esta función la llamaremos desde los listeners de StateManager
+function removeActiveStat(name) {
+    StateManager.removeActiveStat(name);
+    // No necesitas actualizar manualmente → lo hará el listener
+}
+
+function renderWorkTable() {
+    const sheet = StateManager.getActiveSheet();
+    if (!sheet) {
+        document.getElementById('editable-table-wrapper').innerHTML = '<p>No hay hoja activa</p>';
+        return;
+    }
+
+    const wrapper = document.getElementById('editable-table-wrapper');
+    let tableHTML = '<table class="work-table"><thead><tr>';
+
+    sheet.headers.forEach((header, index) => {
+        if (index === 0) {
+            tableHTML += `<th><span class="header-cell">${header}</span></th>`;
+        } else {
+            tableHTML += `
+                <th>
+                    <input type="text" 
+                           class="editable-cell header-cell" 
+                           value="${header.replace(/"/g, '&quot;')}"
+                           data-col="${index}"
+                           data-type="header">
+                </th>
+            `;
+        }
+    });
+
+    tableHTML += '</tr></thead><tbody>';
+
+    sheet.data.forEach((row, rowIndex) => {
+        tableHTML += '<tr>';
+        row.forEach((cell, colIndex) => {
+            if (colIndex === 0) {
+                tableHTML += `<td><div class="index-cell">${cell}</div></td>`;
+            } else {
+                tableHTML += `
+                    <td>
+                        <input type="text" 
+                               class="editable-cell data-cell" 
+                               value="${(cell || '').toString().replace(/"/g, '&quot;')}"
+                               data-row="${rowIndex}"
+                               data-col="${colIndex}"
+                               data-type="data">
+                    </td>
+                `;
+            }
+        });
+        tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    wrapper.innerHTML = tableHTML;
+
+    attachTableEventsFromState(); // nueva función que usa StateManager.updateCell
+}
