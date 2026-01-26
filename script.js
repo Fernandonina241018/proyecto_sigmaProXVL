@@ -716,6 +716,51 @@ function deleteSheet(sheetId) {
     updateWorkSummary();
 }
 
+function calculateDataSummary(data) {
+    if (!data) {
+        console.warn("calculateDataSummary: no hay datos");
+        return { totalRows: 0, totalColumns: 0, numericColumns: 0, textColumns: 0 };
+    }
+
+    const headers = data.headers || [];
+    const rows = data.data || [];
+    const totalRows = data.rowCount || rows.length;
+    const totalColumns = headers.length;
+
+    let numericColumns = 0;
+    let textColumns = 0;
+
+    headers.forEach(header => {
+        let numericCount = 0;
+        let validCount = 0;
+
+        rows.forEach(row => {
+            const value = row[header];
+            if (value !== undefined && value !== null && value !== '') {
+                validCount++;
+                const num = parseFloat(value);
+                if (!isNaN(num) && isFinite(num)) {
+                    numericCount++;
+                }
+            }
+        });
+
+        // Si hay suficientes valores válidos y la mayoría son numéricos → numérica
+        if (validCount > 0 && numericCount / validCount >= 0.7) {
+            numericColumns++;
+        } else {
+            textColumns++;
+        }
+    });
+
+    return {
+        totalRows,
+        totalColumns,
+        numericColumns,
+        textColumns
+    };
+}
+
 // ========================================
 // MANTENER TUS OTRAS FUNCIONES
 // ========================================
