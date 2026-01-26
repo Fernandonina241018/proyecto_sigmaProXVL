@@ -242,8 +242,7 @@ function renameSheet(sheetId, newName) {
 function switchSheet(sheetId) {
     saveCurrentSheetData();
     activeSheetId = sheetId;
-    //loadSheetData(sheetId);
-    StateManager.setWorkTableData(sheet.data);
+    loadSheetData(sheetId);  // Descomentado
     renderSheetTabs();
     console.log(`Cambiado a hoja ID: ${sheetId}`);
 }
