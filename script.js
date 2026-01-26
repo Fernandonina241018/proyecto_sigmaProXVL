@@ -635,6 +635,7 @@ function setupStateListeners() {
 
     // Cambios en hojas o datos
     StateManager.addEventListener('sheetChange', () => {
+        renderSheetTabs();
         renderWorkTable();
         updateWorkSummary();
         updateSheetsInfo();
