@@ -111,37 +111,37 @@ function updateActiveStats() {
     }
 }
 
-function addActiveStat(name) {
-    if (activeStats.includes(name)) return;
+//function addActiveStat(name) {
+//    if (StateManager.getActiveStats().includes(name)) return;
     
-    activeStats.push(name);
+//    StateManager.addActiveStat(name);
     
-    const chip = document.createElement('div');
-    chip.className = 'stat-chip';
-    chip.setAttribute('data-stat-name', name);
-    chip.innerHTML = `
-        <span>${name}</span>
-        <button class="chip-remove" onclick="removeActiveStatByName('${name}')">×</button>
-    `;
+//    const chip = document.createElement('div');
+//    chip.className = 'stat-chip';
+//    chip.setAttribute('data-stat-name', name);
+//    chip.innerHTML = `
+//        <span>${name}</span>
+//        <button class="chip-remove" onclick="removeActiveStatByName('${name}')">×</button>
+//    `;
     
-    activeStatsContainer.appendChild(chip);
-    updateActiveStats();
-}
+//    activeStatsContainer.appendChild(chip);
+//    updateActiveStats();
+//}
 
-function removeActiveStatByName(name) {
-    activeStats = activeStats.filter(stat => stat !== name);
+//function removeActiveStatByName(name) {
+//    StateManager.removeActiveStat(stat => stat !== name);
+//    
+//    const chip = activeStatsContainer.querySelector(`[data-stat-name="${name}"]`);
+//    if (chip) chip.remove();
     
-    const chip = activeStatsContainer.querySelector(`[data-stat-name="${name}"]`);
-    if (chip) chip.remove();
+//    document.querySelectorAll('.menu-option').forEach(option => {
+//        if (option.textContent === name) {
+//            option.classList.remove('selected');
+//        }
+//    });
     
-    document.querySelectorAll('.menu-option').forEach(option => {
-        if (option.textContent === name) {
-            option.classList.remove('selected');
-        }
-    });
-    
-    updateActiveStats();
-}
+//    updateActiveStats();
+//}
 
 // ========================================
 // SELECCIÓN DE ESTADÍSTICOS
@@ -1235,7 +1235,7 @@ function ejecutarAnalisis() {
         return;
     }
     
-    if (activeStats.length === 0) {
+    if (StateManager.getActiveStats().length === 0) {
         alert('⚠️ Debes seleccionar al menos un estadístico\n\nSelecciona uno o más estadísticos del menú lateral en la sección "Estadística Descriptiva".');
         return;
     }
