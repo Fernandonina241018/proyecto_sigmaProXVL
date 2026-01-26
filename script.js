@@ -891,25 +891,26 @@ document.querySelectorAll('.btn-import').forEach(btn => {
 // ========================================
 // EJECUTAR ANÁLISIS
 // ========================================
-document.querySelector('.btn-run')?.addEventListener('click', function() {
-    if (!importedData) {
-        alert('⚠️ Importa datos primero');
-        return;
-    }
+document.querySelector('.btn-run')?.addEventListener('click', ejecutarAnalisis);
+//document.querySelector('.btn-run')?.addEventListener('click', function() {
+//   if (!importedData) {
+//        alert('⚠️ Importa datos primero');
+//        return;
+//    }
+//    
+//    if (activeStats.length === 0) {
+//          alert('⚠️ Selecciona al menos un estadístico');
+//        return;
+//    }
     
-    if (activeStats.length === 0) {
-        alert('⚠️ Selecciona al menos un estadístico');
-        return;
-    }
+//    alert(`✅ Ejecutando análisis:
     
-    alert(`✅ Ejecutando análisis:
-    
-📊 Datos: ${importedData.rowCount} filas
-📋 Columnas: ${importedData.headers.length}
-🔬 Estadísticos: ${activeStats.length}
+//📊 Datos: ${importedData.rowCount} filas
+//📋 Columnas: ${importedData.headers.length}
+//🔬 Estadísticos: ${activeStats.length}
 
-${activeStats.map((s, i) => `${i + 1}. ${s}`).join('\n')}`);
-});
+//${activeStats.map((s, i) => `${i + 1}. ${s}`).join('\n')}`);
+//});
 
 // ========================================
 // TRANSFORMACIONES
