@@ -16,9 +16,9 @@ function escapeHtml(unsafe) {
         .replace(/'/g, "&#039;");
 }
 
-// =======================================
+// ==================================
 // NAVEGACIÓN DINÁMICA ENTRE VISTAS
-// =======================================
+// ==================================
 
 function switchView(viewName) {
     document.querySelectorAll('.workspace-view').forEach(view => {
