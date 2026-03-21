@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Análisis Estadístico - StatAnalyzer Pro</title>
+    <link rel="stylesheet" href="visualizacion.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -180,47 +181,10 @@
                     <div class="workspace-header">
                         <h2>📉 Visualización de Datos</h2>
                         <div class="action-buttons">
-                            <button class="btn-new-chart">➕ Nuevo Gráfico</button>
-                            <button class="btn-export-chart">🖼️ Exportar Imagen</button>
+                            <button class="btn-export-chart" onclick="Visualizacion.exportarImagen()">🖼️ Exportar PNG</button>
                         </div>
                     </div>
-                    <div class="visualization-content">
-                        <div class="chart-selector">
-                            <h3>Tipos de Gráficos</h3>
-                            <div class="chart-types">
-                                <div class="chart-type-card">
-                                    <div class="chart-icon">📊</div>
-                                    <p>Barras</p>
-                                </div>
-                                <div class="chart-type-card">
-                                    <div class="chart-icon">📈</div>
-                                    <p>Líneas</p>
-                                </div>
-                                <div class="chart-type-card">
-                                    <div class="chart-icon">🥧</div>
-                                    <p>Circular</p>
-                                </div>
-                                <div class="chart-type-card">
-                                    <div class="chart-icon">📉</div>
-                                    <p>Dispersión</p>
-                                </div>
-                                <div class="chart-type-card">
-                                    <div class="chart-icon">📦</div>
-                                    <p>Box Plot</p>
-                                </div>
-                                <div class="chart-type-card">
-                                    <div class="chart-icon">🗺️</div>
-                                    <p>Mapa de Calor</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chart-preview">
-                            <div class="empty-chart">
-                                <h3>📊 Canvas de Visualización</h3>
-                                <p>Selecciona un tipo de gráfico y carga datos para comenzar</p>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="viz-container"></div>
                 </div>
 
                 <!-- Vista de Reportes -->
@@ -347,6 +311,8 @@
 
     <script src="StateManager.js"></script>
     <script src="EstadisticaDescriptiva.js"></script>
+    <script src="Visualizacion.js"></script>
     <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </body>
 </html>
