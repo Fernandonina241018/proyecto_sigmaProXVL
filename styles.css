@@ -1473,3 +1473,46 @@ body {
         padding: 10px;
     }
 }
+
+/* ========================================
+   SIDEBAR HEADER CON BOTÓN LIMPIAR
+   ======================================== */
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.sidebar-header h3 {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.btn-clear-stats {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid #e0e0e0;
+    background: white;
+    color: #999;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.btn-clear-stats:hover {
+    background: #ff5252;
+    border-color: #ff5252;
+    color: white;
+    transform: scale(1.1);
+}

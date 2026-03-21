@@ -158,6 +158,16 @@ function removeActiveStat(name) {
     });
 }
 
+function clearAllStats() {
+    if (StateManager.getActiveStats().length === 0) return;
+    StateManager.clearActiveStats();
+
+    // Desmarcar todos los ítems del menú lateral
+    document.querySelectorAll('.menu-option').forEach(opt => {
+        opt.classList.remove('selected');
+    });
+}
+
 // Selección de estadísticos desde menú lateral
 document.querySelectorAll('.menu-option').forEach(option => {
     option.addEventListener('click', function () {

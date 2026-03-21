@@ -332,7 +332,10 @@
 
             <!-- Active Stats Sidebar -->
             <div class="active-sidebar">
-                <h3>En Proceso</h3>
+                <div class="sidebar-header">
+                    <h3>En Proceso</h3>
+                    <button class="btn-clear-stats" id="btnClearStats" title="Limpiar todos" onclick="clearAllStats()">✕</button>
+                </div>
                 <div id="activeStatsContainer"></div>
                 <div class="stats-count" id="statsCount">0 estadísticos activos</div>
                 <div class="empty-state" id="emptyState">
