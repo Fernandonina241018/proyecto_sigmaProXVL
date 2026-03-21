@@ -784,8 +784,8 @@ tr:hover td{background:#f7faff}
             <div class="rep-card">
               <div class="rep-card-title">${t('ui_instHeader')}</div>
               <div class="rep-form-grid">
-                <div class="rep-field"><label>Organización</label><input id="rep-org" placeholder="Pharma Corp S.A."></div>
-                <div class="rep-field"><label>Departamento</label><input id="rep-dept" placeholder="Bioestadística Clínica"></div>
+                <div class="rep-field"><label>Organización</label><input id="rep-org" placeholder="Laboratorio SUED S.R.L."></div>
+                <div class="rep-field"><label>Departamento</label><input id="rep-dept" placeholder="Validaciones"></div>
                 <div class="rep-field"><label>Protocolo / Estudio</label><input id="rep-proto" placeholder="PROTO-2024-001"></div>
                 <div class="rep-field"><label>Fase</label>
                   <select id="rep-fase">
