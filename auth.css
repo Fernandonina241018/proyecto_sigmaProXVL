@@ -1,0 +1,468 @@
+/* ========================================
+   auth.css — StatAnalyzer Pro
+   Login overlay + sesión + timeout
+   ======================================== */
+
+/* ── Overlay completo ── */
+#auth-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ── Fondo animado ── */
+.auth-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #0a1628 0%, #0b2dc2 50%, #1a0a3d 100%);
+    overflow: hidden;
+}
+
+.auth-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(200, 169, 81, 0.6);
+    animation: auth-float linear infinite;
+}
+
+@keyframes auth-float {
+    0%   { transform: translateY(0px) scale(1);   opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { transform: translateY(-120px) scale(0.8); opacity: 0; }
+}
+
+/* ── Card central ── */
+.auth-card {
+    position: relative;
+    z-index: 1;
+    background: white;
+    border-radius: 20px;
+    padding: 40px 44px;
+    width: min(440px, 94vw);
+    box-shadow:
+        0 32px 80px rgba(0,0,0,0.45),
+        0 0 0 1px rgba(255,255,255,0.08);
+    animation: auth-card-in 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+@keyframes auth-card-in {
+    from { opacity: 0; transform: translateY(32px) scale(0.95); }
+    to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+/* Animación de éxito: card sube y desaparece */
+.auth-card.auth-success-exit {
+    animation: auth-success 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes auth-success {
+    to { opacity: 0; transform: translateY(-24px) scale(1.02); }
+}
+
+/* Shake en error */
+.auth-card.auth-shake {
+    animation: auth-shake 0.45s ease;
+}
+@keyframes auth-shake {
+    0%,100%{ transform: translateX(0); }
+    20%    { transform: translateX(-10px); }
+    40%    { transform: translateX(10px); }
+    60%    { transform: translateX(-7px); }
+    80%    { transform: translateX(7px); }
+}
+
+/* ── Brand ── */
+.auth-brand {
+    text-align: center;
+    margin-bottom: 32px;
+}
+.auth-brand-icon {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+    display: block;
+}
+.auth-brand-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a3a6b;
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+}
+.auth-brand-sub {
+    font-size: 0.72rem;
+    color: #94a3b8;
+    letter-spacing: 0.4px;
+    font-family: 'Courier New', monospace;
+}
+
+/* ── Mensaje de razón ── */
+.auth-reason-msg {
+    background: #fffbeb;
+    border: 1.5px solid #f6e05e;
+    color: #744210;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* ── Campos ── */
+.auth-field {
+    margin-bottom: 20px;
+}
+.auth-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 7px;
+}
+.auth-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.auth-input-icon {
+    position: absolute;
+    left: 12px;
+    font-size: 0.9rem;
+    pointer-events: none;
+    z-index: 1;
+}
+.auth-input {
+    width: 100%;
+    padding: 11px 44px 11px 38px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-family: 'Segoe UI', sans-serif;
+    color: #1e293b;
+    background: #f8fafc;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    outline: none;
+}
+.auth-input:focus {
+    border-color: #1a3a6b;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(26,58,107,0.12);
+}
+
+/* ── Botón ojo ── */
+.auth-eye-btn {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 6px;
+    font-size: 1rem;
+    color: #94a3b8;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+    line-height: 1;
+}
+.auth-eye-btn:hover {
+    color: #1a3a6b;
+    background: rgba(26,58,107,0.06);
+}
+
+/* ── Checkbox mostrar contraseña ── */
+.auth-checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+.auth-checkbox-row input[type="checkbox"] {
+    display: none;
+}
+.auth-checkbox-custom {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #cbd5e1;
+    border-radius: 4px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+.auth-checkbox-row input:checked + .auth-checkbox-custom {
+    background: #1a3a6b;
+    border-color: #1a3a6b;
+}
+.auth-checkbox-row input:checked + .auth-checkbox-custom::after {
+    content: '✓';
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+.auth-checkbox-text {
+    font-size: 0.82rem;
+    color: #64748b;
+}
+
+/* ── Error y advertencias ── */
+.auth-error {
+    background: #fff5f5;
+    border: 1.5px solid #feb2b2;
+    color: #c53030;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+.auth-attempts {
+    background: #fffbeb;
+    border: 1.5px solid #fbd38d;
+    color: #c05621;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    margin-bottom: 16px;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* ── Botón principal ── */
+.auth-btn-login {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, #0b2dc2 0%, #1a3a6b 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: 0.3px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+}
+.auth-btn-login::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0);
+    transition: background 0.2s;
+}
+.auth-btn-login:hover:not(:disabled)::before {
+    background: rgba(255,255,255,0.08);
+}
+.auth-btn-login:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(11,45,194,0.35);
+}
+.auth-btn-login:active:not(:disabled) {
+    transform: translateY(0);
+}
+.auth-btn-login:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+.auth-btn-arrow {
+    font-size: 1.1rem;
+    transition: transform 0.2s;
+}
+.auth-btn-login:hover .auth-btn-arrow {
+    transform: translateX(4px);
+}
+
+/* ── Divider ── */
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    color: #cbd5e1;
+    font-size: 0.8rem;
+}
+.auth-divider::before,
+.auth-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e2e8f0;
+}
+
+/* ── Botón crear usuario ── */
+.auth-btn-create {
+    width: 100%;
+    padding: 10px;
+    background: white;
+    color: #475569;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.auth-btn-create:hover {
+    border-color: #1a3a6b;
+    color: #1a3a6b;
+    background: rgba(26,58,107,0.04);
+}
+.auth-admin-badge {
+    font-size: 0.65rem;
+    background: #e2e8f0;
+    color: #64748b;
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+/* ── Bloqueo ── */
+.auth-lockout {
+    text-align: center;
+    padding: 10px 0;
+}
+.auth-lockout-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    display: block;
+}
+.auth-lockout h3 {
+    color: #c53030;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+}
+.auth-lockout p {
+    color: #4a5568;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+.auth-support-box {
+    background: #f7fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: 18px;
+    font-size: 0.88rem;
+    color: #2d3748;
+    line-height: 2;
+    font-family: 'Courier New', monospace;
+}
+
+/* ── Footer ── */
+.auth-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid #f1f5f9;
+    font-size: 0.68rem;
+    color: #94a3b8;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.3px;
+}
+
+/* ── Banner de advertencia de timeout ── */
+.auth-timeout-warn {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+    background: #1a3a6b;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    white-space: nowrap;
+}
+.auth-timeout-warn[style*="opacity: 1"],
+.auth-timeout-warn[style*="opacity:1"] {
+    pointer-events: all;
+}
+.auth-warn-btn {
+    padding: 5px 14px;
+    background: #c8a951;
+    color: #1a3a6b;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+.auth-warn-btn:hover {
+    background: #e6c56b;
+    transform: scale(1.05);
+}
+
+/* ── Botón logout en la app ── */
+.auth-logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    color: #475569;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.auth-logout-btn:hover {
+    border-color: #c53030;
+    color: #c53030;
+    background: #fff5f5;
+}
+.auth-user-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: rgba(26,58,107,0.07);
+    border-radius: 20px;
+    font-size: 0.78rem;
+    color: #1a3a6b;
+    font-weight: 600;
+}
+.auth-user-chip-avatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0b2dc2, #1a3a6b);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+}

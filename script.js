@@ -1221,12 +1221,27 @@ function inicializarReportes() {
 document.addEventListener('DOMContentLoaded', function () {
     console.log('🚀 StatAnalyzer Pro inicializado');
 
+    // Auth va primero — bloquea la app hasta login exitoso
+    Auth.init({
+        onLogin: ({ username }) => {
+            console.log('✅ Sesión iniciada:', username);
+            _initApp();
+            _renderUserChip(username);
+        },
+        onLogout: (reason) => {
+            console.log('🔒 Sesión cerrada:', reason);
+        }
+    });
+});
+
+// Inicialización de la app (solo tras login exitoso)
+function _initApp() {
     StateManager.init();
     setupStateListeners();
     updateActiveStatsUI();
     switchView('analisis');
     setupWorkButtons();
-    setupTransformButtons(); // FIX: ya no necesita setTimeout
+    setupTransformButtons();
 
     renderSheetTabs();
     updateSheetsInfo();
@@ -1246,6 +1261,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
     console.log('✅ Formatos soportados: CSV, JSON, TXT');
     console.log('✅ Estado centralizado activo');
-});
+}
+
+// Chip de usuario y botón logout en la barra superior
+function _renderUserChip(username) {
+    const navContent = document.querySelector('.nav-content');
+    if (!navContent) return;
+
+    document.getElementById('auth-user-info')?.remove();
+
+    const initials = username.slice(0, 2).toUpperCase();
+    const chip = document.createElement('div');
+    chip.id = 'auth-user-info';
+    chip.style.cssText = 'display:flex;align-items:center;gap:10px;';
+    chip.innerHTML = `
+        <div class="auth-user-chip">
+            <div class="auth-user-chip-avatar">${initials}</div>
+            <span>${username}</span>
+        </div>
+        <button class="auth-logout-btn" onclick="Auth.logout()" title="Cerrar sesión">
+            🔓 Salir
+        </button>
+    `;
+    navContent.appendChild(chip);
+}
 
 console.log('✅ script.js cargado');
