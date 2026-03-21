@@ -784,7 +784,7 @@ tr:hover td{background:#f7faff}
             <div class="rep-card">
               <div class="rep-card-title">${t('ui_instHeader')}</div>
               <div class="rep-form-grid">
-              
+
                 <div class="rep-field"><label>Organización</label>
                   <select id="rep-org">
                     <option value="">— Seleccionar —</option>
@@ -792,7 +792,13 @@ tr:hover td{background:#f7faff}
                   </select>
                 </div>
 
-                <div class="rep-field"><label>Departamento</label><input id="rep-dept" placeholder="Validaciones"></div>
+                <div class="rep-field"><label>Organización</label>
+                  <select id="rep-dept">
+                    <option value="">— Seleccionar —</option>
+                    <option>Validaciones</option><option>Producción</option>Control de Calidad</option>Investigación y Desarrollo</option>
+                  </select>
+                </div>
+
                 <div class="rep-field"><label>Protocolo / Estudio</label><input id="rep-proto" placeholder="PROTO-2024-001"></div>
 
                 <div class="rep-field"><label>Fase</label>
