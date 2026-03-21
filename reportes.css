@@ -1,0 +1,375 @@
+/* ========================================
+   VISTA DE REPORTES — reportes.css
+   Agregar al final de styles.css
+   ======================================== */
+
+/* Layout dos columnas */
+.rep-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 20px;
+    align-items: start;
+    padding: 4px 0 20px;
+}
+
+/* ── Cards ── */
+.rep-card {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.rep-card-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+/* ── Banner de estado ── */
+.rep-status {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    border: 2px solid transparent;
+}
+
+.rep-status-ok {
+    background: #f0fff4;
+    border-color: #9ae6b4;
+}
+
+.rep-status-warn {
+    background: #fffbeb;
+    border-color: #f6e05e;
+}
+
+.rep-status-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #276749;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.rep-status-warn .rep-status-icon {
+    background: #b7791f;
+}
+
+.rep-status-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.rep-status-sub {
+    font-size: 0.8rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* ── Resumen del análisis ── */
+.rep-summary-rows { display: flex; flex-direction: column; gap: 8px; }
+
+.rep-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    font-size: 0.85rem;
+    padding: 6px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.rep-summary-row:last-child { border-bottom: none; }
+.rep-summary-row span { color: #777; }
+.rep-summary-row strong { color: #333; text-align: right; font-size: 0.82rem; }
+
+/* ── Formularios ── */
+.rep-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 16px;
+}
+
+.rep-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.rep-field label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.rep-field input,
+.rep-field select {
+    padding: 8px 10px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.84rem;
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+    background: white;
+    transition: border-color 0.2s;
+}
+
+.rep-field input:focus,
+.rep-field select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+/* ── Firmas ── */
+.rep-sig-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.rep-sig-block {
+    background: white;
+    border: 1.5px solid #e9ecef;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.rep-sig-role {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #1a3a6b;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+/* ── Panel de formatos (derecha) ── */
+.rep-format-card {
+    position: sticky;
+    top: 20px;
+}
+
+.rep-format-hint {
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.rep-format-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.rep-format-item {
+    cursor: pointer;
+    display: block;
+}
+
+.rep-format-item input[type="checkbox"] {
+    display: none;
+}
+
+.rep-format-body {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.rep-format-item:hover .rep-format-body {
+    border-color: #667eea;
+    background: #fafafe;
+}
+
+.rep-format-active .rep-format-body {
+    border-color: #667eea;
+    background: rgba(102, 126, 234, 0.06);
+}
+
+.rep-format-icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+}
+
+.rep-format-info { flex: 1; }
+
+.rep-format-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.rep-format-desc {
+    font-size: 0.75rem;
+    color: #888;
+    line-height: 1.4;
+}
+
+.rep-format-checkmark {
+    width: 22px;
+    height: 22px;
+    border: 2px solid #e0e0e0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: transparent;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.rep-format-active .rep-format-checkmark {
+    background: #667eea;
+    border-color: #667eea;
+    color: white;
+}
+
+/* Badges en nombres de formato */
+.rep-fmt-badge-recommended {
+    font-size: 0.62rem;
+    background: #ebf8ff;
+    color: #2b6cb0;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.rep-fmt-badge-pdf {
+    font-size: 0.62rem;
+    background: #f0fff4;
+    color: #276749;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* Contador de formatos */
+.rep-fmt-count-row {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.rep-fmt-count {
+    font-size: 0.78rem;
+    color: #667eea;
+    font-weight: 600;
+    background: rgba(102,126,234,0.08);
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+/* Botón principal de descarga */
+.rep-btn-download {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, #000, #211ed1);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 12px;
+}
+
+.rep-btn-download:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+}
+
+.rep-btn-download:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.rep-no-data-msg {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #999;
+    margin-bottom: 14px;
+    font-style: italic;
+}
+
+/* Caja de marco regulatorio */
+.rep-reg-box {
+    background: white;
+    border: 1.5px solid #e9ecef;
+    border-radius: 10px;
+    padding: 14px;
+    margin-top: 6px;
+}
+
+.rep-reg-title {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #1a3a6b;
+    margin-bottom: 10px;
+}
+
+.rep-reg-row {
+    font-size: 0.75rem;
+    color: #666;
+    padding: 4px 0;
+    border-bottom: 1px solid #f0f0f0;
+    line-height: 1.4;
+}
+
+.rep-reg-row:last-child { border-bottom: none; }
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+    .rep-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .rep-format-card {
+        position: static;
+    }
+
+    .rep-sig-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .rep-form-grid {
+        grid-template-columns: 1fr;
+    }
+}

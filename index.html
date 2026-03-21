@@ -6,6 +6,7 @@
     <title>Análisis Estadístico - StatAnalyzer Pro</title>
     <link rel="stylesheet" href="visualizacion.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="reportes.css">
 </head>
 <body>
     <div class="app-container">
@@ -192,35 +193,10 @@
                     <div class="workspace-header">
                         <h2>📄 Generación de Reportes</h2>
                         <div class="action-buttons">
-                            <button class="btn-new-report">➕ Nuevo Reporte</button>
-                            <button class="btn-export-pdf">📑 Exportar PDF</button>
+                            <button onclick="inicializarReportes()">🔄 Actualizar</button>
                         </div>
                     </div>
-                    <div class="reportes-content">
-                        <div class="reports-sidebar">
-                            <h3>Plantillas</h3>
-                            <div class="report-templates">
-                                <div class="template-item"><span>📋</span> Reporte Descriptivo</div>
-                                <div class="template-item"><span>🧪</span> Análisis de Hipótesis</div>
-                                <div class="template-item"><span>📊</span> Reporte Completo</div>
-                                <div class="template-item"><span>📈</span> Dashboard Ejecutivo</div>
-                            </div>
-                        </div>
-                        <div class="report-editor">
-                            <div class="editor-toolbar">
-                                <button class="editor-btn">✏️ Editar</button>
-                                <button class="editor-btn">👁️ Vista Previa</button>
-                                <button class="editor-btn">⚙️ Configurar</button>
-                            </div>
-                            <div class="report-canvas">
-                                <div class="empty-report">
-                                    <h3>📝 Editor de Reportes</h3>
-                                    <p>Selecciona una plantilla o crea un reporte personalizado</p>
-                                    <button class="btn-start-report">Comenzar Reporte</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="reportes-editor-container"></div>
                 </div>
 
                 <!-- Vista de Trabajo con Multi-Hojas -->

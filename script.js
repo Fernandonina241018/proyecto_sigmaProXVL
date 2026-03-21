@@ -86,6 +86,10 @@ document.querySelectorAll('.nav-item').forEach(item => {
             if (targetView === 'visualizacion') {
                 inicializarVisualizacion();
             }
+
+            if (targetView === 'reportes') {
+                inicializarReportes();
+            }
         }
     });
 });
@@ -1002,12 +1006,14 @@ function exportarResultados() {
         alert('⚠️ No hay resultados para exportar. Ejecuta un análisis primero.');
         return;
     }
-    ReporteManager.abrirModal();
+    // Navegar a vista Reportes y construir la UI con los datos actuales
+    switchView('reportes');
+    inicializarReportes();
 }
 
 function nuevoAnalisis() {
     ultimosResultados = null;
-    ocultarCargando(); // vuelve al placeholder inicial
+    ocultarCargando();
 }
 
 // ========================================
@@ -1201,6 +1207,15 @@ function inicializarVisualizacion() {
     } else {
         Visualizacion.refreshSelects();
     }
+}
+
+// ========================================
+// REPORTES
+// ========================================
+
+function inicializarReportes() {
+    // Reconstruye siempre para reflejar el análisis más reciente
+    ReporteManager.buildReportesView();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
