@@ -795,7 +795,7 @@ tr:hover td{background:#f7faff}
                 <div class="rep-field"><label>Organización</label>
                   <select id="rep-dept">
                     <option value="">— Seleccionar —</option>
-                    <option>Validaciones</option><option>Producción</option>Control de Calidad</option>Investigación y Desarrollo</option>
+                    <option>Validaciones</option><option>Producción</option>Control de Calidad<option>Investigación y Desarrollo<option>Logística</option>
                   </select>
                 </div>
 
