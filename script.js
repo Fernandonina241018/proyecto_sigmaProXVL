@@ -76,11 +76,15 @@ document.querySelectorAll('.nav-item').forEach(item => {
         const targetView = viewMap[label];
 
         if (targetView) {
-            switchView(targetView); // switchView ya maneja el estado active del nav
+            switchView(targetView);
 
             if (targetView === 'trabajo') {
                 renderWorkTable();
                 updateWorkSummary();
+            }
+
+            if (targetView === 'visualizacion') {
+                inicializarVisualizacion();
             }
         }
     });
@@ -1192,8 +1196,19 @@ function createCalculatedColumn() {
 }
 
 // ========================================
-// INICIALIZACIÓN
+// VISUALIZACIÓN
 // ========================================
+
+let vizBuilt = false;
+
+function inicializarVisualizacion() {
+    if (!vizBuilt) {
+        Visualizacion.buildUI('viz-container');
+        vizBuilt = true;
+    } else {
+        Visualizacion.refreshSelects();
+    }
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     console.log('🚀 StatAnalyzer Pro inicializado');
