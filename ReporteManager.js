@@ -784,16 +784,25 @@ tr:hover td{background:#f7faff}
             <div class="rep-card">
               <div class="rep-card-title">${t('ui_instHeader')}</div>
               <div class="rep-form-grid">
-                <div class="rep-field"><label>Organización</label><input id="rep-org" placeholder="Laboratorio SUED S.R.L."></div>
+              
+                <div class="rep-field"><label>Organización</label>
+                  <select id="rep-org">
+                    <option value="">— Seleccionar —</option>
+                    <option>Laboratorio SUED S.R.L.</option><option>Laboratorio X</option>
+                  </select>
+                </div>
+
                 <div class="rep-field"><label>Departamento</label><input id="rep-dept" placeholder="Validaciones"></div>
                 <div class="rep-field"><label>Protocolo / Estudio</label><input id="rep-proto" placeholder="PROTO-2024-001"></div>
+
                 <div class="rep-field"><label>Fase</label>
                   <select id="rep-fase">
                     <option value="">— Seleccionar —</option>
-                    <option>Phase I</option><option>Phase II</option><option>Phase III</option>
+                    <option>DQ</option><option>IQ</option><option>OQ</option><option>PQ</option>
                     <option>Phase IV</option><option>Pre-clinical</option><option>Post-market</option><option>Internal QC</option>
                   </select>
                 </div>
+
                 <div class="rep-field"><label>Código de proyecto</label><input id="rep-code" placeholder="PRJ-2024-XXX"></div>
                 <div class="rep-field"><label>Versión</label><input id="rep-version" value="1.0"></div>
               </div>
