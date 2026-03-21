@@ -1002,14 +1002,7 @@ function exportarResultados() {
         alert('⚠️ No hay resultados para exportar. Ejecuta un análisis primero.');
         return;
     }
-
-    const reporte = EstadisticaDescriptiva.generarReporte(ultimosResultados);
-    const blob    = new Blob([reporte], { type: 'text/plain;charset=utf-8;' });
-    const link    = document.createElement('a');
-    link.href     = URL.createObjectURL(blob);
-    link.download = `reporte_estadistico_${new Date().toISOString().slice(0, 10)}.txt`;
-    link.click();
-    URL.revokeObjectURL(link.href);
+    ReporteManager.abrirModal();
 }
 
 function nuevoAnalisis() {
