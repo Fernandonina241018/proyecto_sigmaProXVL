@@ -19,6 +19,294 @@ const ReporteManager = (() => {
         N_MIN: 30,   OUTLIER_IQR: 1.5, SKEW_MODERATE: 0.5
     };
 
+    // ── Idioma activo ─────────────────────
+    let currentLang = 'en'; // 'en' | 'es'
+
+    const I18N = {
+        en: {
+            reportTitle:       'STATISTICAL ANALYSIS REPORT',
+            compliant:         'COMPLIANT',
+            docId:             'Document ID',
+            generated:         'Generated',
+            software:          'Software',
+            regulatoryRef:     'Regulatory Ref',
+            sec1:              'SECTION 1 — INSTITUTIONAL HEADER',
+            sec2:              'SECTION 2 — DATASET TRACEABILITY',
+            sec3:              'SECTION 3 — EXECUTIVE SUMMARY',
+            sec4:              'SECTION 4 — STATISTICAL RESULTS BY VARIABLE',
+            sec5:              'SECTION 5 — METHODOLOGICAL NOTES',
+            sec6:              'SECTION 6 — AUDIT TRAIL & ELECTRONIC SIGNATURE',
+            organization:      'Organization',
+            department:        'Department',
+            studyProtocol:     'Study/Protocol',
+            phase:             'Phase',
+            projectCode:       'Project Code',
+            reportVersion:     'Report Version',
+            confidentiality:   'Confidentiality',
+            datasetName:       'Dataset Name',
+            sourceFile:        'Source File',
+            collectionDate:    'Collection Date',
+            analysisDate:      'Analysis Date',
+            totalRecords:      'Total Records',
+            numericColumns:    'Numeric Columns',
+            analyzed:          'Analyzed',
+            statistics:        'Statistics',
+            integrityHash:     'Integrity Hash',
+            noFlags:           '✓  No automatic flags detected.',
+            flagsDetected:     (n) => `⚠  ${n} flag(s) detected:`,
+            variable:          'Variable',
+            statistic:         'Statistic',
+            value:             'Value',
+            reference:         'Reference',
+            cv:                'Coeff. of Variation (CV%)',
+            cvRef:             'SD/Mean × 100',
+            flagsLabel:        'FLAGS',
+            preparedBy:        'Prepared by',
+            reviewedBy:        'Reviewed by',
+            approvedBy:        'Approved by',
+            name:              'Name',
+            title:             'Title / Position',
+            date:              'Date',
+            elecRecord:        'Electronic record',
+            endOfReport:       'END OF REPORT',
+            variance:          'Variance: s² = Σ(xᵢ - x̄)² / (n-1)  [Bessel correction]',
+            percentiles:       'Percentiles: linear interpolation (NIST)',
+            outliers:          (f) => `Outliers: Tukey fence Q1-${f}×IQR / Q3+${f}×IQR`,
+            cvFlags:           (h, v) => `CV flags: >${h}% high  >${v}% extreme`,
+            alpha:             (a, ci) => `α = ${a}  CI = ${ci}`,
+            auditMeta:         'AUDIT METADATA',
+            // UI labels
+            ui_langToggle:     'Idioma / Language',
+            ui_langBtn_es:     '🇪🇸 Español',
+            ui_langBtn_en:     '🇺🇸 English',
+            ui_instHeader:     '🏛️ Institutional Information',
+            ui_traceability:   '🔗 Dataset Traceability',
+            ui_signatures:     '✍️ Electronic Signatures — 21 CFR Part 11',
+            ui_formatTitle:    '📥 Download Format',
+            ui_formatHint:     'Select one or more formats. The button downloads all selected.',
+            ui_formatCount:    (n) => `${n} format${n !== 1 ? 's' : ''} selected`,
+            ui_download:       '📥 Download Report',
+            ui_noData:         'Run a statistical analysis first to enable download.',
+            ui_regTitle:       'Regulatory Framework',
+            ui_statusOk:       'Analysis ready to export',
+            ui_statusWarn:     'No analysis available',
+            ui_statusSubWarn:  'Run a statistical analysis in the <strong>Analysis</strong> view first.',
+            ui_statusSubOk:    (r, c, s) => `${r} records · ${c} variables · ${s} statistics`,
+            ui_analysisLoaded: '📊 Loaded Analysis',
+            ui_variables:      'Variables',
+            ui_statsUsed:      'Statistics',
+            ui_records:        'Records',
+            ui_source:         'Source',
+            ui_org:            'Organization',
+            ui_dept:           'Department',
+            ui_proto:          'Protocol / Study',
+            ui_phase:          'Phase',
+            ui_code:           'Project Code',
+            ui_version:        'Version',
+            ui_dataset:        'Dataset Name',
+            ui_file:           'Source File',
+            ui_collect:        'Collection Date',
+            ui_conf:           'Confidentiality',
+            ui_conf_internal:  'Confidential — Internal',
+            ui_conf_strict:    'Strictly Confidential',
+            ui_conf_prop:      'Proprietary',
+            ui_conf_reg:       'Regulatory Submission Only',
+            ui_phaseOptions:   ['Phase I','Phase II','Phase III','Phase IV','Pre-clinical','Post-market','Internal QC'],
+            ui_prep:           'Prepared by',
+            ui_rev:            'Reviewed by',
+            ui_app:            'Approved by',
+            ui_sigName:        'Name',
+            ui_sigTitle:       'Title / Position',
+            ui_sigDate:        'Date',
+            ui_recommended:    'Recommended',
+            ui_pdfReady:       'PDF-ready',
+            ui_txtDesc:        'Structured FDA 21 CFR Part 11 report. Numbered sections, ASCII borders, traceability hash.',
+            ui_csvDesc:        'Pipe-delimited (|). Compatible with SAS PROC IMPORT and R read.table. Metadata in commented header.',
+            ui_htmlDesc:       'Visual report with cover, tables and signatures. Open in browser → Ctrl+P → Save as PDF.',
+            ui_update:         '🔄 Update',
+            ui_alertDownload:  (fmts, base, html) => `✅ Download started\n\nFormats: ${fmts}\nFile: ${base}${html ? '\n\nThe .html file can be printed as PDF from the browser.' : ''}`,
+            ui_alertNoFmt:     '⚠️ Select at least one download format.',
+            // HTML report labels
+            html_cover_logo:   'StatAnalyzer Pro · Statistical Report',
+            html_title:        'Statistical Analysis Report',
+            html_sec1:         'Institutional Header',
+            html_sec2:         'Dataset Traceability',
+            html_sec3:         'Executive Summary',
+            html_sec4:         'Statistical Results by Variable',
+            html_sec5:         'Methodological Notes',
+            html_sec6:         'Audit Trail & Electronic Signature',
+            html_auditSubpart: '21 CFR Part 11 — Subpart C',
+            html_statCol:      'Statistic',
+            html_valCol:       'Value',
+            html_refCol:       'Reference',
+            html_flagsLabel:   'Flags',
+            html_noFlags:      '✓ No flags for this variable',
+            html_noFlagsGlobal:'✓ No automatic flags detected. All variables within expected ranges.',
+            html_flagsGlobal:  (n) => `⚠ ${n} automatic flag(s) detected:`,
+            html_auditMeta:    'AUDIT METADATA',
+            html_method_v:     'Variance & SD', html_method_v_d: "Bessel's correction (n-1).",
+            html_method_p:     'Percentile Interpolation', html_method_p_d: 'Linear interpolation (NIST).',
+            html_method_o:     'Outlier Detection',
+            html_method_s:     'Skewness', html_method_s_d: "Pearson 2nd coefficient.",
+            html_method_cv:    'CV Thresholds',
+            html_method_sig:   'Significance',
+            html_rec_n:        'n =',
+            html_execSummary:  (ds, rows, cols, std) => `Dataset <strong>"${ds}"</strong> · <strong>${rows}</strong> observations · <strong>${cols}</strong> numeric variable(s) · ${std}.`,
+            statRefs: {
+                'Media Aritmética':    'Central tendency',
+                'Mediana':             'Robust to outliers',
+                'Moda':                'Most frequent',
+                'Desviación Estándar': 'Sample SD (n-1)',
+                'Varianza':            'Sample s² (n-1)',
+            }
+        },
+
+        es: {
+            reportTitle:       'REPORTE DE ANÁLISIS ESTADÍSTICO',
+            compliant:         'CUMPLIMIENTO',
+            docId:             'ID del Documento',
+            generated:         'Generado',
+            software:          'Software',
+            regulatoryRef:     'Referencia Regulatoria',
+            sec1:              'SECCIÓN 1 — ENCABEZADO INSTITUCIONAL',
+            sec2:              'SECCIÓN 2 — TRAZABILIDAD DEL DATASET',
+            sec3:              'SECCIÓN 3 — RESUMEN EJECUTIVO',
+            sec4:              'SECCIÓN 4 — RESULTADOS ESTADÍSTICOS POR VARIABLE',
+            sec5:              'SECCIÓN 5 — NOTAS METODOLÓGICAS',
+            sec6:              'SECCIÓN 6 — AUDITORÍA Y FIRMA ELECTRÓNICA',
+            organization:      'Organización',
+            department:        'Departamento',
+            studyProtocol:     'Estudio/Protocolo',
+            phase:             'Fase',
+            projectCode:       'Código de Proyecto',
+            reportVersion:     'Versión del Reporte',
+            confidentiality:   'Confidencialidad',
+            datasetName:       'Nombre del Dataset',
+            sourceFile:        'Archivo Fuente',
+            collectionDate:    'Fecha de Recolección',
+            analysisDate:      'Fecha de Análisis',
+            totalRecords:      'Total de Registros',
+            numericColumns:    'Columnas Numéricas',
+            analyzed:          'Analizadas',
+            statistics:        'Estadísticos',
+            integrityHash:     'Hash de Integridad',
+            noFlags:           '✓  Sin alertas automáticas detectadas.',
+            flagsDetected:     (n) => `⚠  ${n} alerta(s) detectada(s):`,
+            variable:          'Variable',
+            statistic:         'Estadístico',
+            value:             'Valor',
+            reference:         'Referencia',
+            cv:                'Coef. de Variación (CV%)',
+            cvRef:             'DE/Media × 100',
+            flagsLabel:        'ALERTAS',
+            preparedBy:        'Preparado por',
+            reviewedBy:        'Revisado por',
+            approvedBy:        'Aprobado por',
+            name:              'Nombre',
+            title:             'Cargo / Posición',
+            date:              'Fecha',
+            elecRecord:        'Registro electrónico',
+            endOfReport:       'FIN DEL REPORTE',
+            variance:          'Varianza: s² = Σ(xᵢ - x̄)² / (n-1)  [corrección de Bessel]',
+            percentiles:       'Percentiles: interpolación lineal (NIST)',
+            outliers:          (f) => `Valores atípicos: cerca de Tukey Q1-${f}×IQR / Q3+${f}×IQR`,
+            cvFlags:           (h, v) => `Umbrales CV: >${h}% alto  >${v}% extremo`,
+            alpha:             (a, ci) => `α = ${a}  IC = ${ci}`,
+            auditMeta:         'METADATOS DE AUDITORÍA',
+            // UI labels
+            ui_langToggle:     'Idioma / Language',
+            ui_langBtn_es:     '🇪🇸 Español',
+            ui_langBtn_en:     '🇺🇸 English',
+            ui_instHeader:     '🏛️ Información Institucional',
+            ui_traceability:   '🔗 Trazabilidad del Dataset',
+            ui_signatures:     '✍️ Firmas Electrónicas — 21 CFR Part 11',
+            ui_formatTitle:    '📥 Formato de Descarga',
+            ui_formatHint:     'Selecciona uno o más formatos. El botón descarga todos los seleccionados.',
+            ui_formatCount:    (n) => `${n} formato${n !== 1 ? 's' : ''} seleccionado${n !== 1 ? 's' : ''}`,
+            ui_download:       '📥 Descargar Reporte',
+            ui_noData:         'Ejecuta un análisis estadístico primero para habilitar la descarga.',
+            ui_regTitle:       'Marco Regulatorio',
+            ui_statusOk:       'Análisis listo para exportar',
+            ui_statusWarn:     'Sin análisis disponible',
+            ui_statusSubWarn:  'Ejecuta un análisis estadístico en la vista <strong>Análisis</strong> primero.',
+            ui_statusSubOk:    (r, c, s) => `${r} registros · ${c} variables · ${s} estadísticos`,
+            ui_analysisLoaded: '📊 Análisis Cargado',
+            ui_variables:      'Variables',
+            ui_statsUsed:      'Estadísticos',
+            ui_records:        'Registros',
+            ui_source:         'Fuente',
+            ui_org:            'Organización',
+            ui_dept:           'Departamento',
+            ui_proto:          'Protocolo / Estudio',
+            ui_phase:          'Fase',
+            ui_code:           'Código de Proyecto',
+            ui_version:        'Versión',
+            ui_dataset:        'Nombre del Dataset',
+            ui_file:           'Archivo Fuente',
+            ui_collect:        'Fecha de Recolección',
+            ui_conf:           'Confidencialidad',
+            ui_conf_internal:  'Confidencial — Interno',
+            ui_conf_strict:    'Estrictamente Confidencial',
+            ui_conf_prop:      'Propietario',
+            ui_conf_reg:       'Solo para Presentación Regulatoria',
+            ui_phaseOptions:   ['Fase I','Fase II','Fase III','Fase IV','Pre-clínico','Post-mercado','Control de Calidad Interno'],
+            ui_prep:           'Preparado por',
+            ui_rev:            'Revisado por',
+            ui_app:            'Aprobado por',
+            ui_sigName:        'Nombre',
+            ui_sigTitle:       'Cargo / Posición',
+            ui_sigDate:        'Fecha',
+            ui_recommended:    'Recomendado',
+            ui_pdfReady:       'Listo para PDF',
+            ui_txtDesc:        'Reporte estructurado FDA 21 CFR Part 11. Secciones numeradas, bordes ASCII, hash de trazabilidad.',
+            ui_csvDesc:        'Delimitado por pipes (|). Compatible con SAS PROC IMPORT y R read.table. Metadatos en cabecera comentada.',
+            ui_htmlDesc:       'Reporte visual con portada, tablas y firmas. Abre en navegador → Ctrl+P → Guardar como PDF.',
+            ui_update:         '🔄 Actualizar',
+            ui_alertDownload:  (fmts, base, html) => `✅ Descarga iniciada\n\nFormatos: ${fmts}\nArchivo: ${base}${html ? '\n\nEl archivo .html puede imprimirse como PDF desde el navegador.' : ''}`,
+            ui_alertNoFmt:     '⚠️ Selecciona al menos un formato de descarga.',
+            // HTML report labels
+            html_cover_logo:   'StatAnalyzer Pro · Reporte Estadístico',
+            html_title:        'Reporte de Análisis Estadístico',
+            html_sec1:         'Encabezado Institucional',
+            html_sec2:         'Trazabilidad del Dataset',
+            html_sec3:         'Resumen Ejecutivo',
+            html_sec4:         'Resultados Estadísticos por Variable',
+            html_sec5:         'Notas Metodológicas',
+            html_sec6:         'Auditoría y Firma Electrónica',
+            html_auditSubpart: '21 CFR Part 11 — Subparte C',
+            html_statCol:      'Estadístico',
+            html_valCol:       'Valor',
+            html_refCol:       'Referencia',
+            html_flagsLabel:   'Alertas',
+            html_noFlags:      '✓ Sin alertas para esta variable',
+            html_noFlagsGlobal:'✓ Sin alertas automáticas detectadas. Todas las variables dentro de rangos esperados.',
+            html_flagsGlobal:  (n) => `⚠ ${n} alerta(s) automática(s) detectada(s):`,
+            html_auditMeta:    'METADATOS DE AUDITORÍA',
+            html_method_v:     'Varianza y DE', html_method_v_d: 'Corrección de Bessel (n-1).',
+            html_method_p:     'Interpolación de Percentiles', html_method_p_d: 'Interpolación lineal (NIST).',
+            html_method_o:     'Detección de Valores Atípicos',
+            html_method_s:     'Asimetría', html_method_s_d: 'Coeficiente de Pearson (2do).',
+            html_method_cv:    'Umbrales CV',
+            html_method_sig:   'Significancia',
+            html_rec_n:        'n =',
+            html_execSummary:  (ds, rows, cols, std) => `Dataset <strong>"${ds}"</strong> · <strong>${rows}</strong> observaciones · <strong>${cols}</strong> variable(s) numérica(s) · ${std}.`,
+            statRefs: {
+                'Media Aritmética':    'Tendencia central',
+                'Mediana':             'Resistente a valores atípicos',
+                'Moda':                'Valor más frecuente',
+                'Desviación Estándar': 'DE muestral (n-1)',
+                'Varianza':            'Varianza muestral (n-1)',
+            }
+        }
+    };
+
+    function t(key, ...args) {
+        const dict = I18N[currentLang];
+        const val  = dict[key];
+        if (typeof val === 'function') return val(...args);
+        return val ?? I18N['en'][key] ?? key;
+    }
+
     // ── Utilidades ────────────────────────
     function pad(str, len) {
         const s = String(str);
@@ -86,77 +374,70 @@ const ReporteManager = (() => {
         return ext;
     }
 
-    // ── Generador TXT ─────────────────────
+    // ── Generador TXT (i18n) ─────────────
     function generarTXT(resultados, meta) {
         const hash = generateHash(meta, resultados);
         const ext  = computeExtendedStats(resultados);
         const W    = 80;
         const L    = [];
         const p    = s => L.push(s);
+        const NA   = currentLang === 'es' ? 'NO ESPECIFICADO' : 'NOT SPECIFIED';
 
         p(doubleLine(W));
-        p('  STATISTICAL ANALYSIS REPORT');
-        p(`  ${REGULATORY.standard} COMPLIANT`);
+        p(`  ${t('reportTitle')}`);
+        p(`  ${REGULATORY.standard} — ${t('compliant')}`);
         p(doubleLine(W));
         p('');
-        p(`  Document ID     : RPT-${hash}`);
-        p(`  Generated       : ${timestamp()}`);
-        p(`  Software        : ${REGULATORY.software}`);
-        p(`  Regulatory Ref  : ${REGULATORY.standard}`);
+        p(`  ${pad(t('docId')+' :', 20)}: RPT-${hash}`);
+        p(`  ${pad(t('generated')+' :', 20)}: ${timestamp()}`);
+        p(`  ${pad(t('software')+' :', 20)}: ${REGULATORY.software}`);
+        p(`  ${pad(t('regulatoryRef')+' :', 20)}: ${REGULATORY.standard}`);
         p('');
 
         p(singleLine(W));
-        p('  SECTION 1 — INSTITUTIONAL HEADER');
+        p(`  ${t('sec1')}`);
         p(singleLine(W));
-        p(`  Organization    : ${meta.organizacion   || 'NOT SPECIFIED'}`);
-        p(`  Department      : ${meta.departamento   || 'NOT SPECIFIED'}`);
-        p(`  Study/Protocol  : ${meta.protocolo      || 'NOT SPECIFIED'}`);
-        p(`  Phase           : ${meta.fase           || 'NOT SPECIFIED'}`);
-        p(`  Project Code    : ${meta.codigoProyecto || 'NOT SPECIFIED'}`);
-        p(`  Report Version  : ${meta.version        || '1.0'}`);
-        p(`  Confidentiality : ${meta.confidencialidad || 'CONFIDENTIAL'}`);
+        p(`  ${pad(t('organization')+' :', 22)}: ${meta.organizacion   || NA}`);
+        p(`  ${pad(t('department')+' :', 22)}: ${meta.departamento   || NA}`);
+        p(`  ${pad(t('studyProtocol')+' :', 22)}: ${meta.protocolo      || NA}`);
+        p(`  ${pad(t('phase')+' :', 22)}: ${meta.fase           || NA}`);
+        p(`  ${pad(t('projectCode')+' :', 22)}: ${meta.codigoProyecto || NA}`);
+        p(`  ${pad(t('reportVersion')+' :', 22)}: ${meta.version        || '1.0'}`);
+        p(`  ${pad(t('confidentiality')+' :', 22)}: ${meta.confidencialidad || 'CONFIDENTIAL'}`);
         p('');
 
         p(singleLine(W));
-        p('  SECTION 2 — DATASET TRACEABILITY');
+        p(`  ${t('sec2')}`);
         p(singleLine(W));
-        p(`  Dataset Name    : ${meta.nombreDataset   || 'NOT SPECIFIED'}`);
-        p(`  Source File     : ${meta.archivoFuente   || 'NOT SPECIFIED'}`);
-        p(`  Collection Date : ${meta.fechaRecoleccion|| 'NOT SPECIFIED'}`);
-        p(`  Analysis Date   : ${shortDate()}`);
-        p(`  Total Records   : ${resultados.totalFilas}`);
-        p(`  Numeric Columns : ${resultados.totalColumnas}`);
-        p(`  Analyzed        : ${resultados.columnasAnalizadas.join(', ')}`);
-        p(`  Statistics      : ${resultados.estadisticos.join(', ')}`);
-        p(`  Integrity Hash  : RPT-${hash}`);
+        p(`  ${pad(t('datasetName')+' :', 22)}: ${meta.nombreDataset   || NA}`);
+        p(`  ${pad(t('sourceFile')+' :', 22)}: ${meta.archivoFuente   || NA}`);
+        p(`  ${pad(t('collectionDate')+' :', 22)}: ${meta.fechaRecoleccion|| NA}`);
+        p(`  ${pad(t('analysisDate')+' :', 22)}: ${shortDate()}`);
+        p(`  ${pad(t('totalRecords')+' :', 22)}: ${resultados.totalFilas}`);
+        p(`  ${pad(t('numericColumns')+' :', 22)}: ${resultados.totalColumnas}`);
+        p(`  ${pad(t('analyzed')+' :', 22)}: ${resultados.columnasAnalizadas.join(', ')}`);
+        p(`  ${pad(t('statistics')+' :', 22)}: ${resultados.estadisticos.join(', ')}`);
+        p(`  ${pad(t('integrityHash')+' :', 22)}: RPT-${hash}`);
         p('');
 
         p(singleLine(W));
-        p('  SECTION 3 — EXECUTIVE SUMMARY');
+        p(`  ${t('sec3')}`);
         p(singleLine(W));
         const allFlags = Object.entries(ext).flatMap(([col, d]) => d.flags.map(f => `  ${col}: ${f}`));
-        p(allFlags.length > 0 ? `  ⚠  ${allFlags.length} flag(s) detected:` : '  ✓  No automatic flags detected.');
+        p(allFlags.length > 0 ? `  ${t('flagsDetected', allFlags.length)}` : `  ${t('noFlags')}`);
         allFlags.forEach(f => p(`     ${f}`));
         p('');
 
         p(singleLine(W));
-        p('  SECTION 4 — STATISTICAL RESULTS BY VARIABLE');
+        p(`  ${t('sec4')}`);
         p(singleLine(W));
-
-        const refs = {
-            'Media Aritmética':    'Central tendency',
-            'Mediana':             'Robust to outliers',
-            'Moda':                'Most frequent value(s)',
-            'Desviación Estándar': 'Sample SD (Bessel n-1)',
-            'Varianza':            'Sample s² (n-1)',
-        };
 
         resultados.columnasAnalizadas.forEach(col => {
             p('');
             p(`  ┌${'─'.repeat(W-4)}┐`);
-            p(`  │  Variable: ${pad(col, W-16)}│`);
+            p(`  │  ${t('variable')}: ${pad(col, W-18)}│`);
             p(`  └${'─'.repeat(W-4)}┘`);
-            p(`  ${pad('Statistic',28)}${pad('Value',18)}Reference`);
+            p(`  ${pad(t('statistic'), 28)}${pad(t('value'), 18)}${t('reference')}`);
             p(`  ${singleLine(W-4)}`);
 
             Object.entries(resultados.resultados).forEach(([stat, data]) => {
@@ -166,44 +447,44 @@ const ReporteManager = (() => {
                     p(`  ${pad(stat+':', 28)}`);
                     Object.entries(val).forEach(([k, v]) => p(`    ${pad('  · '+k, 28)}${pad(fmtNum(v), 18)}`));
                 } else {
-                    p(`  ${pad(stat+':', 28)}${pad(fmtNum(val), 18)}${refs[stat] || ''}`);
+                    p(`  ${pad(stat+':', 28)}${pad(fmtNum(val), 18)}${t('statRefs')[stat] || ''}`);
                 }
             });
             if (ext[col]?.cv != null)
-                p(`  ${pad('Coeff. of Variation (CV%):', 28)}${pad(ext[col].cv.toFixed(2)+'%', 18)}SD/Mean × 100`);
+                p(`  ${pad(t('cv')+':', 28)}${pad(ext[col].cv.toFixed(2)+'%', 18)}${t('cvRef')}`);
             if (ext[col].flags.length) {
                 p('');
-                p('  ⚠  FLAGS:');
+                p(`  ⚠  ${t('flagsLabel')}:`);
                 ext[col].flags.forEach(f => p(`     ${f}`));
             }
             p('');
         });
 
         p(singleLine(W));
-        p('  SECTION 5 — METHODOLOGICAL NOTES');
+        p(`  ${t('sec5')}`);
         p(singleLine(W));
-        p('  Variance: s² = Σ(xᵢ - x̄)² / (n-1)  [Bessel correction]');
-        p('  Percentiles: linear interpolation (NIST)');
-        p(`  Outliers: Tukey fence Q1-${FLAGS.OUTLIER_IQR}×IQR / Q3+${FLAGS.OUTLIER_IQR}×IQR`);
-        p(`  CV flags: >${FLAGS.CV_HIGH}% high  >${FLAGS.CV_VERY_HIGH}% extreme`);
-        p(`  α = ${REGULATORY.alphaLevel}  CI = ${REGULATORY.ciLevel}`);
+        p(`  ${t('variance')}`);
+        p(`  ${t('percentiles')}`);
+        p(`  ${t('outliers', FLAGS.OUTLIER_IQR)}`);
+        p(`  ${t('cvFlags', FLAGS.CV_HIGH, FLAGS.CV_VERY_HIGH)}`);
+        p(`  ${t('alpha', REGULATORY.alphaLevel, REGULATORY.ciLevel)}`);
         p('');
 
         p(singleLine(W));
-        p('  SECTION 6 — AUDIT TRAIL & ELECTRONIC SIGNATURE (21 CFR Part 11)');
+        p(`  ${t('sec6')} (21 CFR Part 11)`);
         p(singleLine(W));
-        [['Prepared', 'preparedBy','preparedTitle','preparedDate'],
-         ['Reviewed', 'reviewedBy','reviewedTitle','reviewedDate'],
-         ['Approved', 'approvedBy','approvedTitle','approvedDate']].forEach(([role, kb, kt, kd]) => {
+        [[t('preparedBy'), 'preparedBy','preparedTitle','preparedDate'],
+         [t('reviewedBy'), 'reviewedBy','reviewedTitle','reviewedDate'],
+         [t('approvedBy'), 'approvedBy','approvedTitle','approvedDate']].forEach(([role, kb, kt, kd]) => {
             p('');
-            p(`  ${role} by`);
-            p(`    Name  : ${meta[kb] || '_________________________'}`);
-            p(`    Title : ${meta[kt] || '_________________________'}`);
-            p(`    Date  : ${meta[kd] || '_________________________'}`);
+            p(`  ${role}`);
+            p(`    ${t('name')}  : ${meta[kb] || '_________________________'}`);
+            p(`    ${t('title')} : ${meta[kt] || '_________________________'}`);
+            p(`    ${t('date')}  : ${meta[kd] || '_________________________'}`);
         });
         p('');
         p(doubleLine(W));
-        p(`  END OF REPORT — RPT-${hash}`);
+        p(`  ${t('endOfReport')} — RPT-${hash}`);
         p(`  ${REGULATORY.software} | ${REGULATORY.standard} | ${timestamp()}`);
         p(doubleLine(W));
 
@@ -215,18 +496,18 @@ const ReporteManager = (() => {
         const hash = generateHash(meta, resultados);
         const ext  = computeExtendedStats(resultados);
         const rows = [
-            `## STATISTICAL ANALYSIS REPORT`,
-            `## Document_ID|RPT-${hash}`,
-            `## Generated|${timestamp()}`,
-            `## Software|${REGULATORY.software}`,
+            `## ${t('reportTitle')}`,
+            `## ${t('docId')}|RPT-${hash}`,
+            `## ${t('generated')}|${timestamp()}`,
+            `## ${t('software')}|${REGULATORY.software}`,
             `## Standard|${REGULATORY.standard}`,
-            `## Organization|${meta.organizacion || ''}`,
+            `## ${t('organization')}|${meta.organizacion || ''}`,
             `## Protocol|${meta.protocolo || ''}`,
-            `## Dataset|${meta.nombreDataset || ''}`,
-            `## Prepared_By|${meta.preparedBy || ''}`,
-            `## Total_Records|${resultados.totalFilas}`,
+            `## ${t('datasetName')}|${meta.nombreDataset || ''}`,
+            `## ${t('preparedBy')}|${meta.preparedBy || ''}`,
+            `## ${t('totalRecords')}|${resultados.totalFilas}`,
             '##',
-            'VARIABLE|STATISTIC|SUB_KEY|VALUE|CV_PCT|FLAG_COUNT|FLAGS'
+            `${t('variable')}|${t('statistic')}|SUB_KEY|${t('value')}|CV_PCT|FLAG_COUNT|FLAGS`
         ];
 
         resultados.columnasAnalizadas.forEach(col => {
@@ -257,15 +538,8 @@ const ReporteManager = (() => {
         const ext  = computeExtendedStats(resultados);
         const totalFlags = Object.values(ext).reduce((a, d) => a + d.flags.length, 0);
 
-        const refs = {
-            'Media Aritmética':    'Central tendency',
-            'Mediana':             'Robust to outliers',
-            'Moda':                'Most frequent',
-            'Desviación Estándar': 'Sample SD (n-1)',
-            'Varianza':            'Sample s² (n-1)',
-        };
-
         function statsRows(col) {
+            const refs = t('statRefs');
             let h = '';
             Object.entries(resultados.resultados).forEach(([stat, data]) => {
                 const val = data[col];
@@ -280,28 +554,30 @@ const ReporteManager = (() => {
                 }
             });
             if (ext[col]?.cv != null)
-                h += `<tr style="background:#fffaf0"><td><strong>Coeff. of Variation</strong></td><td style="font-family:monospace;text-align:right;font-weight:600;color:#b7791f">${ext[col].cv.toFixed(2)}%</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">SD/Mean × 100</td></tr>`;
+                h += `<tr style="background:#fffaf0"><td><strong>${t('cv')}</strong></td><td style="font-family:monospace;text-align:right;font-weight:600;color:#b7791f">${ext[col].cv.toFixed(2)}%</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">${t('cvRef')}</td></tr>`;
             return h;
         }
 
         function flagBadges(col) {
-            if (!ext[col]?.flags?.length) return '<span style="background:#c6f6d5;color:#276749;font-family:monospace;font-size:7.5pt;padding:3px 8px;border-radius:3px">✓ No flags</span>';
+            if (!ext[col]?.flags?.length) return `<span style="background:#c6f6d5;color:#276749;font-family:monospace;font-size:7.5pt;padding:3px 8px;border-radius:3px">${t('html_noFlags')}</span>`;
             return ext[col].flags.map(f => {
                 const c = f.includes('EXTREME')||f.includes('OUTLIER') ? '#fed7d7;color:#c53030' : f.includes('HIGH')||f.includes('SKEW') ? '#fefcbf;color:#b7791f' : '#bee3f8;color:#2b6cb0';
                 return `<span style="background:${c};font-family:monospace;font-size:7.5pt;padding:3px 8px;border-radius:3px;display:inline-block;margin:2px 2px 2px 0">${f}</span>`;
             }).join('');
         }
 
-        const sigBlocks = ['Prepared','Reviewed','Approved'].map(role => {
-            const k = role.toLowerCase();
+        const roleLabels = [t('preparedBy'), t('reviewedBy'), t('approvedBy')];
+        const roleKeys   = ['prepared','reviewed','approved'];
+        const pending    = currentLang === 'es' ? 'Pendiente' : 'Pending';
+        const sigBlocks  = roleKeys.map((k, i) => {
             const name  = meta[k+'By']    || '';
             const title = meta[k+'Title'] || '';
             const date  = meta[k+'Date']  || '';
             return `<div style="border:1px solid #e2e8f0;border-radius:6px;padding:14px">
-              <div style="font-family:monospace;font-size:7pt;text-transform:uppercase;letter-spacing:1.5px;color:#1a3a6b;margin-bottom:10px;border-bottom:1px solid #e2e8f0;padding-bottom:5px">${role} by</div>
-              ${[['Name',name||'Pending'],['Title',title||'—'],['Date',date||'—']].map(([l,v]) =>
-                `<div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">${l}</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:${v==='Pending'||v==='—'?'#cbd5e0':'#1a202c'};${v==='Pending'||v==='—'?'font-style:italic':''}">${v}</span></div>`).join('')}
-              <div style="border-top:1px solid #1a202c;margin-top:14px;padding-top:5px;font-size:7pt;color:#718096;font-family:monospace">Electronic record · ${REGULATORY.standard}</div>
+              <div style="font-family:monospace;font-size:7pt;text-transform:uppercase;letter-spacing:1.5px;color:#1a3a6b;margin-bottom:10px;border-bottom:1px solid #e2e8f0;padding-bottom:5px">${roleLabels[i]}</div>
+              ${[[t('name'),name||pending],[t('title'),title||'—'],[t('date'),date||'—']].map(([l,v]) =>
+                `<div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">${l}</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:${v===pending||v==='—'?'#cbd5e0':'#1a202c'};${v===pending||v==='—'?'font-style:italic':''}">${v}</span></div>`).join('')}
+              <div style="border-top:1px solid #1a202c;margin-top:14px;padding-top:5px;font-size:7pt;color:#718096;font-family:monospace">${t('elecRecord')} · ${REGULATORY.standard}</div>
             </div>`;
         }).join('');
 
@@ -485,28 +761,28 @@ tr:hover td{background:#f7faff}
             <div class="rep-status ${tieneRes ? 'rep-status-ok' : 'rep-status-warn'}">
               <div class="rep-status-icon">${tieneRes ? '✓' : '!'}</div>
               <div>
-                <div class="rep-status-title">${tieneRes ? 'Análisis listo para exportar' : 'Sin análisis disponible'}</div>
+                <div class="rep-status-title">${tieneRes ? t('ui_statusOk') : t('ui_statusWarn')}</div>
                 <div class="rep-status-sub">
                   ${tieneRes
-                    ? `${resultados.totalFilas} registros · ${resultados.totalColumnas} variables · ${resultados.estadisticos.length} estadísticos`
-                    : 'Ejecuta un análisis estadístico en la vista <strong>Análisis</strong> primero.'}
+                    ? t('ui_statusSubOk', resultados.totalFilas, resultados.totalColumnas, resultados.estadisticos.length)
+                    : t('ui_statusSubWarn')}
                 </div>
               </div>
             </div>
 
             ${tieneRes ? `
             <div class="rep-card">
-              <div class="rep-card-title">📊 Análisis cargado</div>
+              <div class="rep-card-title">${t('ui_analysisLoaded')}</div>
               <div class="rep-summary-rows">
-                <div class="rep-summary-row"><span>Variables</span><strong>${resultados.columnasAnalizadas.join(', ')}</strong></div>
-                <div class="rep-summary-row"><span>Estadísticos</span><strong>${resultados.estadisticos.join(', ')}</strong></div>
-                <div class="rep-summary-row"><span>Registros</span><strong>${resultados.totalFilas}</strong></div>
-                <div class="rep-summary-row"><span>Fuente</span><strong>${fileName || 'dataset'}</strong></div>
+                <div class="rep-summary-row"><span>${t('ui_variables')}</span><strong>${resultados.columnasAnalizadas.join(', ')}</strong></div>
+                <div class="rep-summary-row"><span>${t('ui_statsUsed')}</span><strong>${resultados.estadisticos.join(', ')}</strong></div>
+                <div class="rep-summary-row"><span>${t('ui_records')}</span><strong>${resultados.totalFilas}</strong></div>
+                <div class="rep-summary-row"><span>${t('ui_source')}</span><strong>${fileName || 'dataset'}</strong></div>
               </div>
             </div>` : ''}
 
             <div class="rep-card">
-              <div class="rep-card-title">🏛️ Información institucional</div>
+              <div class="rep-card-title">${t('ui_instHeader')}</div>
               <div class="rep-form-grid">
                 <div class="rep-field"><label>Organización</label><input id="rep-org" placeholder="Pharma Corp S.A."></div>
                 <div class="rep-field"><label>Departamento</label><input id="rep-dept" placeholder="Bioestadística Clínica"></div>
@@ -524,7 +800,7 @@ tr:hover td{background:#f7faff}
             </div>
 
             <div class="rep-card">
-              <div class="rep-card-title">🔗 Trazabilidad del dataset</div>
+              <div class="rep-card-title">${t('ui_traceability')}</div>
               <div class="rep-form-grid">
                 <div class="rep-field"><label>Nombre del dataset</label><input id="rep-dataset" value="${fileName.replace(/\.[^.]+$/,'')}" placeholder="Nombre_Dataset"></div>
                 <div class="rep-field"><label>Archivo fuente</label><input id="rep-file" value="${fileName}" placeholder="datos.csv"></div>
@@ -541,7 +817,7 @@ tr:hover td{background:#f7faff}
             </div>
 
             <div class="rep-card">
-              <div class="rep-card-title">✍️ Firmas electrónicas — 21 CFR Part 11</div>
+              <div class="rep-card-title">${t('ui_signatures')}</div>
               <div class="rep-sig-grid">
                 ${['Prepared by','Reviewed by','Approved by'].map((role, i) => {
                     const pfx = ['prep','rev','app'][i];
@@ -560,7 +836,18 @@ tr:hover td{background:#f7faff}
           <!-- DERECHA: selector de formato + descarga -->
           <div class="rep-right">
             <div class="rep-card rep-format-card">
-              <div class="rep-card-title">📥 Formato de descarga</div>
+
+              <!-- Toggle de idioma -->
+              <div class="rep-lang-toggle">
+                <span class="rep-lang-label">🌐 Idioma / Language</span>
+                <div class="rep-lang-btns">
+                  <button class="rep-lang-btn ${currentLang === 'es' ? 'active' : ''}" id="rep-lang-es" data-lang="es">🇪🇸 Español</button>
+                  <button class="rep-lang-btn ${currentLang === 'en' ? 'active' : ''}" id="rep-lang-en" data-lang="en">🇺🇸 English</button>
+                </div>
+              </div>
+
+              <div class="rep-card-title">${t('ui_formatTitle')}</div>
+              <p class="rep-format-hint">${t('ui_formatHint')}</p>
               <p class="rep-format-hint">Selecciona uno o más formatos. El botón descarga todos los seleccionados.</p>
 
               <div class="rep-format-list">
@@ -569,8 +856,8 @@ tr:hover td{background:#f7faff}
                   <div class="rep-format-body">
                     <div class="rep-format-icon">📄</div>
                     <div class="rep-format-info">
-                      <div class="rep-format-name">.TXT <span class="rep-fmt-badge-recommended">Recomendado</span></div>
-                      <div class="rep-format-desc">Reporte estructurado FDA 21 CFR Part 11. Secciones numeradas, bordes ASCII, hash de trazabilidad.</div>
+                      <div class="rep-format-name">.TXT <span class="rep-fmt-badge-recommended">${t('ui_recommended')}</span></div>
+                      <div class="rep-format-desc">${t('ui_txtDesc')}</div>
                     </div>
                     <div class="rep-format-checkmark">✓</div>
                   </div>
@@ -582,7 +869,7 @@ tr:hover td{background:#f7faff}
                     <div class="rep-format-icon">🗃️</div>
                     <div class="rep-format-info">
                       <div class="rep-format-name">.CSV</div>
-                      <div class="rep-format-desc">Pipe-delimited (|). Compatible con SAS PROC IMPORT y R read.table. Metadatos en cabecera comentada.</div>
+                      <div class="rep-format-desc">${t('ui_csvDesc')}</div>
                     </div>
                     <div class="rep-format-checkmark">✓</div>
                   </div>
@@ -593,8 +880,8 @@ tr:hover td{background:#f7faff}
                   <div class="rep-format-body">
                     <div class="rep-format-icon">🌐</div>
                     <div class="rep-format-info">
-                      <div class="rep-format-name">.HTML <span class="rep-fmt-badge-pdf">PDF-ready</span></div>
-                      <div class="rep-format-desc">Reporte visual con portada, tablas y firmas. Abre en navegador → Ctrl+P → Guardar como PDF.</div>
+                      <div class="rep-format-name">.HTML <span class="rep-fmt-badge-pdf">${t('ui_pdfReady')}</span></div>
+                      <div class="rep-format-desc">${t('ui_htmlDesc')}</div>
                     </div>
                     <div class="rep-format-checkmark">✓</div>
                   </div>
@@ -602,17 +889,17 @@ tr:hover td{background:#f7faff}
               </div>
 
               <div class="rep-fmt-count-row">
-                <span class="rep-fmt-count" id="rep-fmt-count">1 formato seleccionado</span>
+                <span class="rep-fmt-count" id="rep-fmt-count">${t('ui_formatCount', 1)}</span>
               </div>
 
               <button class="rep-btn-download" id="rep-btn-download" ${!tieneRes ? 'disabled' : ''}>
-                📥 Descargar reporte
+                ${t('ui_download')}
               </button>
 
-              ${!tieneRes ? `<p class="rep-no-data-msg">Ejecuta un análisis primero para activar la descarga.</p>` : ''}
+              ${!tieneRes ? `<p class="rep-no-data-msg">${t('ui_noData')}</p>` : ''}
 
               <div class="rep-reg-box">
-                <div class="rep-reg-title">Marco regulatorio</div>
+                <div class="rep-reg-title">${t('ui_regTitle')}</div>
                 <div class="rep-reg-row">📋 ${REGULATORY.standard}</div>
                 <div class="rep-reg-row">📐 ${REGULATORY.guideline}</div>
                 <div class="rep-reg-row">⚗️ ${REGULATORY.software}</div>
@@ -634,17 +921,26 @@ tr:hover td{background:#f7faff}
         });
         updateFmtCount();
 
+        // Toggle de idioma — reconstruye la vista completa al cambiar
+        ['es','en'].forEach(lang => {
+            document.getElementById(`rep-lang-${lang}`)?.addEventListener('click', () => {
+                if (currentLang === lang) return;
+                currentLang = lang;
+                buildReportesView(); // reconstruir con el nuevo idioma
+            });
+        });
+
         // Botón descargar
         document.getElementById('rep-btn-download')?.addEventListener('click', () => {
             if (!tieneRes) return;
             const formatos = ['txt','csv','html'].filter(f => document.getElementById(`fmt-${f}`)?.checked);
-            if (!formatos.length) { alert('⚠️ Selecciona al menos un formato.'); return; }
+            if (!formatos.length) { alert(t('ui_alertNoFmt')); return; }
 
             const meta   = collectMeta();
             const result = descargar(formatos, resultados, meta);
 
             setTimeout(() => {
-                alert(`✅ Descarga iniciada\n\nFormatos: ${result.formatos.map(f => `.${f.toUpperCase()}`).join(' · ')}\nArchivo: ${result.base}${formatos.includes('html') ? '\n\nEl .html puede imprimirse como PDF desde el navegador.' : ''}`);
+                alert(t('ui_alertDownload', result.formatos.map(f => `.${f.toUpperCase()}`).join(' · '), result.base, formatos.includes('html')));
             }, formatos.length * 350 + 100);
         });
     }
@@ -656,7 +952,7 @@ tr:hover td{background:#f7faff}
     function updateFmtCount() {
         const n   = ['txt','csv','html'].filter(f => document.getElementById(`fmt-${f}`)?.checked).length;
         const el  = document.getElementById('rep-fmt-count');
-        if (el) el.textContent = `${n} formato${n !== 1 ? 's' : ''} seleccionado${n !== 1 ? 's' : ''}`;
+        if (el) el.textContent = t('ui_formatCount', n);
     }
 
     function collectMeta() {
