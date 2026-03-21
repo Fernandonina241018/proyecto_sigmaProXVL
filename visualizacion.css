@@ -1,0 +1,297 @@
+/* ========================================
+   VISTA DE VISUALIZACIÓN — visualizacion.css
+   Agregar al final de styles.css
+   ======================================== */
+
+/* Layout principal de dos columnas */
+.viz-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 20px;
+    padding: 10px 0;
+    height: calc(100vh - 220px);
+    min-height: 480px;
+}
+
+/* ========================================
+   PANEL DE CONTROLES (izquierda)
+   ======================================== */
+.viz-controls-panel {
+    background: #f8f9fa;
+    border-radius: 14px;
+    padding: 20px;
+    border: 2px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    overflow-y: auto;
+}
+
+.viz-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.viz-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+/* Fuente de datos toggle */
+.viz-source-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.viz-source-btn {
+    padding: 8px 6px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background: white;
+    color: #666;
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.viz-source-btn:hover {
+    border-color: #667eea;
+    color: #667eea;
+}
+
+.viz-source-btn.active {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-color: transparent;
+    color: white;
+}
+
+/* Tipos de gráfico */
+.viz-chart-types {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+}
+
+.viz-type-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 4px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    background: white;
+    color: #666;
+    font-size: 0.72rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.viz-type-btn:hover {
+    border-color: #667eea;
+    color: #667eea;
+    transform: translateY(-1px);
+}
+
+.viz-type-btn.active {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 4px 12px rgba(102,126,234,0.35);
+}
+
+.viz-type-icon {
+    font-size: 1rem;
+    line-height: 1;
+    display: block;
+}
+
+/* Selects */
+.viz-select {
+    width: 100%;
+    padding: 9px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background: white;
+    color: #333;
+    font-size: 0.85rem;
+    font-family: 'Segoe UI', sans-serif;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    appearance: auto;
+}
+
+.viz-select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+/* Slider de bins */
+.viz-slider {
+    width: 100%;
+    accent-color: #667eea;
+    cursor: pointer;
+}
+
+/* Checkboxes box plot */
+.viz-checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 160px;
+    overflow-y: auto;
+}
+
+.viz-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: #444;
+    cursor: pointer;
+    padding: 4px 0;
+}
+
+.viz-checkbox-label input[type="checkbox"] {
+    accent-color: #667eea;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.viz-checkbox-label span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Botones de acción */
+.viz-btn-render {
+    padding: 12px;
+    background: linear-gradient(135deg, #000, #211ed1);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: auto;
+}
+
+.viz-btn-render:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+}
+
+.viz-btn-export {
+    padding: 10px;
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.viz-btn-export:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   PANEL DEL CANVAS (derecha)
+   ======================================== */
+.viz-canvas-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.viz-canvas-wrapper {
+    flex: 1;
+    background: white;
+    border-radius: 14px;
+    border: 2px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 380px;
+    padding: 20px;
+}
+
+#viz-canvas {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 440px;
+}
+
+.viz-empty-state {
+    text-align: center;
+    color: #aaa;
+    padding: 40px 20px;
+}
+
+.viz-empty-icon {
+    font-size: 3.5rem;
+    margin-bottom: 16px;
+    opacity: 0.4;
+}
+
+.viz-empty-state p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #bbb;
+}
+
+.viz-empty-state strong {
+    color: #667eea;
+}
+
+/* Info bar debajo del gráfico */
+.viz-chart-info {
+    background: linear-gradient(135deg, #f0f0ff, #e8e8f8);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 0.82rem;
+    color: #555;
+    border-left: 3px solid #667eea;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.viz-chart-info::before {
+    content: '📊';
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 1100px) {
+    .viz-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .viz-canvas-wrapper {
+        min-height: 320px;
+    }
+}
