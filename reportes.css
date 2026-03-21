@@ -421,3 +421,31 @@
     color: white;
     font-weight: 600;
 }
+
+/* ── Campo de ancho completo ── */
+.rep-field-full {
+    grid-column: 1 / -1;
+}
+
+.rep-field textarea:focus {
+    outline: none;
+    border-color: #667eea !important;
+}
+
+/* ── Preview de fecha ── */
+.rep-date-display {
+    padding: 8px 10px;
+    border: 1.5px solid #e9ecef;
+    border-radius: 8px;
+    background: #f8f9fa;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.82rem;
+    color: #667eea;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.5px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
