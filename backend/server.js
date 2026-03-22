@@ -19,7 +19,7 @@ app.use(express.json());
 
 app.use(cors({
     origin: [
-        'https://fernandonina241018.github.io',  // ← sin la ruta /proyecto_sigmaProXVL/
+        'https://fernandonina241018.github.io',
         'http://127.0.0.1:5500',
         'http://localhost:5500',
         'http://localhost:3000',
@@ -72,6 +72,21 @@ function getClientIP(req) {
 // Health check
 app.get('/api/health', (req, res) => {
     res.json({ ok: true, service: 'StatAnalyzer Pro API', time: new Date().toISOString() });
+});
+
+// ⚠️ TEMPORAL — resetear contraseña del admin
+// Usar UNA SOLA VEZ y luego borrar este bloque
+app.get('/api/reset-admin', async (req, res) => {
+    try {
+        const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD, 12);
+        await db.run(
+            'UPDATE users SET password = ? WHERE username = ?',
+            [hash, process.env.ADMIN_USERNAME]
+        );
+        res.json({ ok: true, msg: `Contraseña de "${process.env.ADMIN_USERNAME}" actualizada correctamente` });
+    } catch (err) {
+        res.status(500).json({ ok: false, error: err.message });
+    }
 });
 
 // POST /api/login
