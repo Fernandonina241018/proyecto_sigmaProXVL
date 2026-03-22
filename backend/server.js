@@ -176,7 +176,8 @@ app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
     if (!username?.trim() || !password?.trim()) {
         return res.status(400).json({ error: 'Usuario y contraseña son requeridos' });
     }
-    if (!['admin', 'user', 'readonly'].includes(role)) {
+    //if (!['admin', 'user', 'readonly'].includes(role)) {
+    if (!['admin', 'user', 'readonly', 'supervisor', 'analista', 'gerente', 'coordinador'].includes(role)) {
         return res.status(400).json({ error: 'Rol inválido' });
     }
     if (password.length < 8) {
@@ -221,7 +222,8 @@ app.put('/api/users/password', requireAuth, async (req, res) => {
 // PUT /api/users/:id/role (solo admin)
 app.put('/api/users/:id/role', requireAuth, requireAdmin, async (req, res) => {
     const { role } = req.body;
-    if (!['admin', 'user', 'readonly'].includes(role)) {
+    //if (!['admin', 'user', 'readonly'].includes(role)) {
+    if (!['admin', 'user', 'readonly', 'supervisor', 'analista', 'gerente', 'coordinador'].includes(role)) {
         return res.status(400).json({ error: 'Rol inválido' });
     }
     await db.changeRole(req.params.id, role);

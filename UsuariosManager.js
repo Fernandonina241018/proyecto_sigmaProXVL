@@ -157,9 +157,13 @@ const UsuariosManager = (() => {
                         <div class="usr-field">
                             <label>🎭 Rol</label>
                             <select id="usr-new-role">
-                                <option value="user">👤 Usuario</option>
-                                <option value="admin">🔴 Administrador</option>
-                                <option value="readonly">👁 Solo lectura</option>
+                                <option value="user"        ${u.role==='user'        ?'selected':''}>👤 Usuario</option>
+                                <option value="admin"       ${u.role==='admin'       ?'selected':''}>🔴 Admin</option>
+                                <option value="supervisor"  ${u.role==='supervisor'  ?'selected':''}>🟡 Supervisor</option>
+                                <option value="analista"    ${u.role==='analista'    ?'selected':''}>🔵 Analista</option>
+                                <option value="gerente"     ${u.role==='gerente'     ?'selected':''}>🟣 Gerente</option>
+                                <option value="coordinador" ${u.role==='coordinador' ?'selected':''}>🟠 Coordinador</option>
+                                <option value="readonly"    ${u.role==='readonly'    ?'selected':''}>👁 Solo lectura</option>
                             </select>
                         </div>
                         <div class="usr-field usr-field-btn">
@@ -218,8 +222,27 @@ const UsuariosManager = (() => {
         const rows = usuarios.map(u => {
             const isMe    = u.username === currentUser;
             const activo  = u.active === 1;
-            const rolLabel = { admin: '🔴 Admin', user: '👤 Usuario', readonly: '👁 Solo lectura' }[u.role] || u.role;
-            const rolClass = { admin: 'usr-role-admin', user: 'usr-role-user', readonly: 'usr-role-readonly' }[u.role] || '';
+            //const rolLabel = { admin: '🔴 Admin', user: '👤 Usuario', readonly: '👁 Solo lectura' }[u.role] || u.role;
+            //const rolClass = { admin: 'usr-role-admin', user: 'usr-role-user', readonly: 'usr-role-readonly' }[u.role] || '';
+            const rolLabel = {
+                admin:        '🔴 Admin',
+                user:         '👤 Usuario',
+                supervisor:   '🟡 Supervisor',
+                analista:     '🔵 Analista',
+                gerente:      '🟣 Gerente',
+                coordinador:  '🟠 Coordinador',
+                readonly:     '👁 Solo lectura'
+            }[u.role] || u.role;
+
+            const rolClass = {
+                admin:        'usr-role-admin',
+                user:         'usr-role-user',
+                supervisor:   'usr-role-supervisor',
+                analista:     'usr-role-analista',
+                gerente:      'usr-role-gerente',
+                coordinador:  'usr-role-coordinador',
+                readonly:     'usr-role-readonly'
+            }[u.role] || '';
 
             return `
             <tr class="${!activo ? 'usr-row-inactive' : ''}">
