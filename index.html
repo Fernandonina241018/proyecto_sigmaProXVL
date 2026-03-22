@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="reportes.css">
     <link rel="stylesheet" href="auditoria.css">
+    <link rel="stylesheet" href="usuarios.css">
 </head>
 <body>
     <div class="app-container">
@@ -23,6 +24,7 @@
                     <div class="nav-item">Reportes</div>
                     <div class="nav-item">Trabajo</div>
                     <div class="nav-item" id="nav-auditoria" style="display:none">Auditoría</div>
+                    <div class="nav-item" id="nav-usuarios" style="display:none">Usuarios</div>
                 </div>
             </div>
         </nav>
@@ -262,6 +264,13 @@
                     <div id="auditoria-container"></div>
                 </div>
 
+                <div id="view-usuarios" class="workspace-view">
+                    <div class="workspace-header">
+                        <h2>👥 Gestión de Usuarios</h2>
+                    </div>
+                    <div id="usuarios-container"></div>
+                </div>
+
             </div>
             <!-- ↑ CIERRE de work-space -->
 
@@ -288,6 +297,7 @@
     <script src="Visualizacion.js"></script>
     <script src="ReporteManager.js"></script>
     <script src="AuditoriaManager.js"></script>
+    <script src="UsuariosManager.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

@@ -45,7 +45,8 @@ function switchView(viewName) {
         'visualizacion': 'visualización',
         'reportes':      'reportes',
         'trabajo':       'trabajo',
-        'auditoria':     'auditoría'
+        'auditoria':     'auditoría',
+        'usuarios':      'usuarios'
     };
 
     const expectedLabel = viewMap[viewName];
@@ -71,7 +72,8 @@ document.querySelectorAll('.nav-item').forEach(item => {
             'visualización': 'visualizacion',
             'reportes':      'reportes',
             'trabajo':       'trabajo',
-            'auditoría':     'auditoria'
+            'auditoría':     'auditoria',
+            'usuarios':      'usuarios'
         };
 
         const label      = this.textContent.trim().toLowerCase();
@@ -95,6 +97,10 @@ document.querySelectorAll('.nav-item').forEach(item => {
 
             if (targetView === 'auditoria') {
                 inicializarAuditoria();
+            }
+
+            if (targetView === 'usuarios') {
+                inicializarUsuarios();
             }
         }
     });
@@ -1229,11 +1235,19 @@ function inicializarReportes() {
 // ========================================
 
 function inicializarAuditoria() {
-    // La misma URL que usa auth.js
-    // Cambia esta URL si cambias el backend
     const API_URL = 'https://proyecto-sigmaproxvl.onrender.com';
     AuditoriaManager.init(API_URL);
     AuditoriaManager.buildView();
+}
+
+// ========================================
+// USUARIOS
+// ========================================
+
+function inicializarUsuarios() {
+    const API_URL = 'https://proyecto-sigmaproxvl.onrender.com';
+    UsuariosManager.init(API_URL);
+    UsuariosManager.buildView();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -1306,9 +1320,12 @@ function _renderUserChip(username) {
         </button>
     `;
 
-    // Mostrar pestaña Auditoría solo para admins
+    // Mostrar pestañas solo para admins
     const audTab = document.getElementById('nav-auditoria');
     if (audTab) audTab.style.display = isAdmin ? '' : 'none';
+
+    const usrTab = document.getElementById('nav-usuarios');
+    if (usrTab) usrTab.style.display = isAdmin ? '' : 'none';
     navContent.appendChild(chip);
 }
 

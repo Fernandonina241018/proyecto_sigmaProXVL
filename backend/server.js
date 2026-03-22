@@ -20,7 +20,6 @@ app.use((req, res, next) => {
     const origin = req.headers.origin;
     const allowed = [
         'https://fernandonina241018.github.io',
-        //'https://fernandonan2418.github.io/proyecto-sigmapro',
         'http://127.0.0.1:5500',
         'http://localhost:5500',
         'http://localhost:3000',
@@ -90,6 +89,20 @@ function getClientIP(req) {
 // Health check
 app.get('/api/health', (req, res) => {
     res.json({ ok: true, service: 'StatAnalyzer Pro API', time: new Date().toISOString() });
+});
+
+// ⚠️ TEMPORAL — resetear contraseña del admin
+// Borrar este bloque después de usarlo
+app.get('/api/reset-admin', async (req, res) => {
+    try {
+        await db.changePassword(
+            process.env.ADMIN_USERNAME,
+            process.env.ADMIN_PASSWORD
+        );
+        res.json({ ok: true, msg: `Contraseña de "${process.env.ADMIN_USERNAME}" actualizada correctamente` });
+    } catch (err) {
+        res.status(500).json({ ok: false, error: err.message });
+    }
 });
 
 // POST /api/login
@@ -202,6 +215,41 @@ app.put('/api/users/password', requireAuth, async (req, res) => {
         return res.status(401).json({ error: 'Contraseña actual incorrecta' });
     }
     await db.changePassword(req.user.username, newPassword);
+    res.json({ ok: true });
+});
+
+// PUT /api/users/:id/role (solo admin)
+app.put('/api/users/:id/role', requireAuth, requireAdmin, async (req, res) => {
+    const { role } = req.body;
+    if (!['admin', 'user', 'readonly'].includes(role)) {
+        return res.status(400).json({ error: 'Rol inválido' });
+    }
+    await db.changeRole(req.params.id, role);
+    res.json({ ok: true });
+});
+
+// PUT /api/users/reset-password (solo admin — resetea contraseña de otro usuario)
+app.put('/api/users/reset-password', requireAuth, requireAdmin, async (req, res) => {
+    const { username, newPassword } = req.body;
+    if (!username?.trim()) {
+        return res.status(400).json({ error: 'Usuario requerido' });
+    }
+    if (!newPassword || newPassword.length < 8) {
+        return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres' });
+    }
+    const user = await db.getUserByUsername(username);
+    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+
+    await db.changePassword(username, newPassword);
+
+    await db.logAccess({
+        username:  req.user.username,
+        action:    `RESET_PASSWORD:${username}`,
+        success:   true,
+        ip:        getClientIP(req),
+        userAgent: req.headers['user-agent'],
+    });
+
     res.json({ ok: true });
 });
 

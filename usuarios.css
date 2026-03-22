@@ -1,0 +1,450 @@
+/* ========================================
+   usuarios.css — StatAnalyzer Pro
+   Gestión de usuarios — Solo Admin
+   ======================================== */
+
+#view-usuarios .usr-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 4px 0 20px;
+}
+
+/* ── Card de creación ── */
+#view-usuarios .usr-create-card {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+#view-usuarios .usr-create-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #1a3a6b, #2c5282);
+    color: white;
+}
+
+#view-usuarios .usr-create-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+#view-usuarios .usr-toggle-form {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.78rem;
+    transition: background 0.2s;
+}
+#view-usuarios .usr-toggle-form:hover { background: rgba(255,255,255,0.25); }
+
+#view-usuarios .usr-create-form {
+    padding: 20px;
+}
+
+#view-usuarios .usr-form-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    align-items: end;
+}
+
+#view-usuarios .usr-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+#view-usuarios .usr-field label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#view-usuarios .usr-field input,
+#view-usuarios .usr-field select {
+    padding: 9px 11px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+    background: white;
+    transition: border-color 0.2s;
+}
+
+#view-usuarios .usr-field input:focus,
+#view-usuarios .usr-field select:focus {
+    outline: none;
+    border-color: #1a3a6b;
+}
+
+#view-usuarios .usr-pass-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#view-usuarios .usr-pass-wrap input {
+    width: 100%;
+    padding-right: 36px;
+}
+
+#view-usuarios .usr-eye-btn {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #aaa;
+    padding: 2px;
+    transition: color 0.2s;
+}
+#view-usuarios .usr-eye-btn:hover { color: #1a3a6b; }
+
+#view-usuarios .usr-btn-create {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(135deg, #000, #211ed1);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+#view-usuarios .usr-btn-create:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(33,30,209,0.3);
+}
+#view-usuarios .usr-btn-create:disabled { opacity: 0.6; cursor: not-allowed; }
+
+#view-usuarios .usr-form-msg {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+/* ── Toolbar ── */
+#view-usuarios .usr-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#view-usuarios .usr-search {
+    flex: 1;
+    padding: 9px 14px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+    transition: border-color 0.2s;
+}
+#view-usuarios .usr-search:focus { outline: none; border-color: #1a3a6b; }
+
+#view-usuarios .usr-count {
+    font-size: 0.8rem;
+    color: #888;
+    white-space: nowrap;
+}
+
+#view-usuarios .usr-btn-refresh {
+    padding: 8px 12px;
+    background: white;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+#view-usuarios .usr-btn-refresh:hover { background: #ebf8ff; border-color: #90cdf4; }
+
+/* ── Tabla ── */
+#view-usuarios .usr-table-wrap {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 14px;
+    overflow: hidden;
+    overflow-x: auto;
+}
+
+#view-usuarios .usr-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+#view-usuarios .usr-table thead th {
+    background: linear-gradient(135deg, #1a3a6b, #2c5282);
+    color: white;
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+}
+
+#view-usuarios .usr-table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.15s;
+}
+#view-usuarios .usr-table tbody tr:last-child { border-bottom: none; }
+#view-usuarios .usr-table tbody tr:hover { background: #f7faff; }
+#view-usuarios .usr-row-inactive { opacity: 0.55; }
+
+#view-usuarios .usr-table td {
+    padding: 11px 14px;
+    vertical-align: middle;
+}
+
+#view-usuarios .usr-td-date {
+    font-family: 'Courier New', monospace;
+    font-size: 0.78rem;
+    color: #666;
+    white-space: nowrap;
+}
+
+#view-usuarios .usr-td-logins {
+    font-family: 'Courier New', monospace;
+    font-size: 0.82rem;
+    color: #888;
+    text-align: center;
+}
+
+#view-usuarios .usr-td-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ── Badges ── */
+#view-usuarios .usr-role-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+#view-usuarios .usr-role-admin    { background: #fed7d7; color: #c53030; }
+#view-usuarios .usr-role-user     { background: #bee3f8; color: #2b6cb0; }
+#view-usuarios .usr-role-readonly { background: #e9ecef; color: #555; }
+
+#view-usuarios .usr-status-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+#view-usuarios .usr-status-ok  { background: #c6f6d5; color: #276749; }
+#view-usuarios .usr-status-off { background: #e9ecef; color: #888; }
+
+#view-usuarios .usr-me-badge {
+    background: #ebf8ff;
+    color: #2b6cb0;
+    font-size: 0.65rem;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-weight: 700;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+/* ── Select de rol en tabla ── */
+#view-usuarios .usr-role-select {
+    padding: 5px 8px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+#view-usuarios .usr-role-select:focus { outline: none; border-color: #1a3a6b; }
+#view-usuarios .usr-role-select:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Botones de acción ── */
+#view-usuarios .usr-btn-action {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#view-usuarios .usr-btn-action:disabled { opacity: 0.4; cursor: not-allowed; }
+
+#view-usuarios .usr-btn-pass {
+    background: #ebf8ff;
+    color: #2b6cb0;
+}
+#view-usuarios .usr-btn-pass:hover:not(:disabled) { background: #bee3f8; transform: scale(1.1); }
+
+#view-usuarios .usr-btn-deactivate {
+    background: #fff5f5;
+    color: #c53030;
+}
+#view-usuarios .usr-btn-deactivate:hover:not(:disabled) { background: #fed7d7; transform: scale(1.1); }
+
+#view-usuarios .usr-btn-activate {
+    background: #f0fff4;
+    color: #276749;
+}
+#view-usuarios .usr-btn-activate:hover:not(:disabled) { background: #c6f6d5; transform: scale(1.1); }
+
+/* ── Estados ── */
+#view-usuarios .usr-loading {
+    text-align: center;
+    padding: 50px 20px;
+    color: #aaa;
+}
+#view-usuarios .usr-spinner {
+    width: 36px;
+    height: 36px;
+    border: 4px solid #f0f0f0;
+    border-top: 4px solid #1a3a6b;
+    border-radius: 50%;
+    animation: usr-spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+}
+@keyframes usr-spin { to { transform: rotate(360deg); } }
+
+#view-usuarios .usr-empty { text-align: center; padding: 40px; color: #aaa; font-style: italic; }
+#view-usuarios .usr-error { text-align: center; padding: 30px; color: #c53030; background: #fff5f5; }
+
+#view-usuarios .usr-no-access { text-align: center; padding: 60px 20px; color: #666; }
+#view-usuarios .usr-no-access-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.4; }
+#view-usuarios .usr-no-access h3 { font-size: 1.2rem; color: #333; margin-bottom: 8px; }
+
+/* ── Modal reset password ── */
+#usr-reset-modal { display: none; }
+#usr-reset-modal.usr-modal-visible { display: block; }
+
+.usr-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(3px);
+    z-index: 2000;
+    animation: usr-fadein 0.2s ease;
+}
+.usr-modal-card {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2001;
+    background: white;
+    border-radius: 16px;
+    width: min(400px, 94vw);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    animation: usr-slidein 0.25s cubic-bezier(0.34,1.4,0.64,1);
+    overflow: hidden;
+}
+@keyframes usr-fadein  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes usr-slidein { from { opacity: 0; transform: translate(-50%,-46%); } to { opacity: 1; transform: translate(-50%,-50%); } }
+
+.usr-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #1a3a6b, #2c5282);
+    color: white;
+}
+.usr-modal-header h3 { font-size: 1rem; font-weight: 600; }
+.usr-modal-close {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: white;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background 0.2s;
+}
+.usr-modal-close:hover { background: rgba(255,255,255,0.3); }
+
+.usr-modal-body { padding: 20px; }
+.usr-modal-body p { font-size: 0.9rem; color: #555; }
+
+.usr-modal-footer {
+    padding: 14px 20px;
+    background: #f8f9fa;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-top: 1px solid #e9ecef;
+}
+.usr-btn-cancel {
+    padding: 8px 18px;
+    background: white;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    color: #666;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.usr-btn-cancel:hover { background: #f0f0f0; }
+.usr-btn-confirm {
+    padding: 8px 18px;
+    background: linear-gradient(135deg, #000, #211ed1);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.usr-btn-confirm:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(33,30,209,0.3); }
+
+/* ── Toast ── */
+.usr-toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    z-index: 3000;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    opacity: 0;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+.usr-toast.usr-toast-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+.usr-toast-ok    { background: #276749; color: white; }
+.usr-toast-error { background: #c53030; color: white; }
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+    #view-usuarios .usr-form-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 700px) {
+    #view-usuarios .usr-form-grid { grid-template-columns: 1fr; }
+}

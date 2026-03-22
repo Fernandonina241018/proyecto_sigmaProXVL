@@ -152,6 +152,10 @@ async function changePassword(username, newPassword) {
     await run('UPDATE users SET password = ? WHERE username = ?', [hash, username]);
 }
 
+async function changeRole(id, role) {
+    await run('UPDATE users SET role = ? WHERE id = ?', [role, id]);
+}
+
 // ── Auditoría ─────────────────────────
 
 async function logAccess({ username, action, success, ip, userAgent }) {
@@ -178,6 +182,8 @@ module.exports = {
     getAllUsers,
     toggleUserActive,
     changePassword,
+    changeRole,
     logAccess,
     getAuditLog,
+    run,
 };
