@@ -16,7 +16,8 @@ const Auth = (() => {
         // Local:   'http://localhost:3000'
         // Railway: 'https://TU-PROYECTO.railway.app'
         // API_URL: 'http://localhost:3000',
-        API_URL: 'https://proyecto-sigmapro-production.railway.app',
+        //API_URL: 'https://proyecto-sigmapro-production.railway.app',
+        API_URL: 'https://proyecto-sigmapro.onrender.com',
     };
 
     let _sessionTimer=null, _warnTimer=null, _countdownTimer=null;
