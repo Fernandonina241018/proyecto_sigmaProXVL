@@ -7,7 +7,7 @@ const Auth = (() => {
 
     const CFG = {
         SESSION_TIMEOUT_MS: 5 * 60 * 1000,
-        MAX_ATTEMPTS:       10,
+        MAX_ATTEMPTS:       5,
         SESSION_STORAGE_KEY:'auth_session',
         TOKEN_STORAGE_KEY:  'auth_token',
         WARN_BEFORE_MS:     60 * 1000,
