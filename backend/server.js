@@ -92,20 +92,6 @@ app.get('/api/health', (req, res) => {
     res.json({ ok: true, service: 'StatAnalyzer Pro API', time: new Date().toISOString() });
 });
 
-// ⚠️ TEMPORAL — resetear contraseña del admin
-// Borrar este bloque después de usarlo
-app.get('/api/reset-admin', async (req, res) => {
-    try {
-        await db.changePassword(
-            process.env.ADMIN_USERNAME,
-            process.env.ADMIN_PASSWORD
-        );
-        res.json({ ok: true, msg: `Contraseña de "${process.env.ADMIN_USERNAME}" actualizada correctamente` });
-    } catch (err) {
-        res.status(500).json({ ok: false, error: err.message });
-    }
-});
-
 // POST /api/login
 app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
