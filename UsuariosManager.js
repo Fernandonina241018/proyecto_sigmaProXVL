@@ -157,13 +157,13 @@ const UsuariosManager = (() => {
                         <div class="usr-field">
                             <label>🎭 Rol</label>
                             <select id="usr-new-role">
-                                <option value="user"        ${u.role==='user'        ?'selected':''}>👤 Usuario</option>
-                                <option value="admin"       ${u.role==='admin'       ?'selected':''}>🔴 Admin</option>
-                                <option value="supervisor"  ${u.role==='supervisor'  ?'selected':''}>🟡 Supervisor</option>
-                                <option value="analista"    ${u.role==='analista'    ?'selected':''}>🔵 Analista</option>
-                                <option value="gerente"     ${u.role==='gerente'     ?'selected':''}>🟣 Gerente</option>
-                                <option value="coordinador" ${u.role==='coordinador' ?'selected':''}>🟠 Coordinador</option>
-                                <option value="readonly"    ${u.role==='readonly'    ?'selected':''}>👁 Solo lectura</option>
+                                <option value="user">👤 Usuario</option>
+                                <option value="admin">🔴 Admin</option>
+                                <option value="supervisor">🟡 Supervisor</option>
+                                <option value="analista">🔵 Analista</option>
+                                <option value="gerente">🟣 Gerente</option>
+                                <option value="coordinador">🟠 Coordinador</option>
+                                <option value="readonly">👁 Solo lectura</option>
                             </select>
                         </div>
                         <div class="usr-field usr-field-btn">
