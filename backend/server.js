@@ -8,45 +8,43 @@ require('dotenv').config();
 const express = require('express');
 const bcrypt  = require('bcryptjs');
 const jwt     = require('jsonwebtoken');
-const cors    = require('cors');
 const db      = require('./database');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
 
-// ── Middlewares ───────────────────────
-app.use(express.json());
-
-// Headers CORS explícitos — necesarios para Railway
+// ── CORS manual — primero que todo ────
+// Railway sobreescribe los headers del paquete 'cors'
+// así que lo hacemos manualmente antes de cualquier otra cosa
 app.use((req, res, next) => {
+    const origin = req.headers.origin;
     const allowed = [
         'https://fernandonina241018.github.io',
         'http://127.0.0.1:5500',
         'http://localhost:5500',
         'http://localhost:3000',
     ];
-    const origin = req.headers.origin;
-    if (allowed.includes(origin)) {
+
+    if (origin && allowed.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
+    } else if (!origin) {
+        // peticiones sin origen (curl, Postman, etc.)
+        res.setHeader('Access-Control-Allow-Origin', '*');
     }
+
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
-    if (req.method === 'OPTIONS') return res.sendStatus(200);
+    res.setHeader('Vary', 'Origin');
+
+    if (req.method === 'OPTIONS') {
+        return res.status(204).end();
+    }
+
     next();
 });
 
-app.use(cors({
-    origin: [
-        'https://fernandonina241018.github.io',
-        'http://127.0.0.1:5500',
-        'http://localhost:5500',
-        'http://localhost:3000',
-        'null',
-    ],
-    methods:     ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
-}));
+app.use(express.json());
 
 // ── Inicializar BD al arrancar ────────
 (async () => {
@@ -94,7 +92,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // ⚠️ TEMPORAL — resetear contraseña del admin
-// Usar UNA SOLA VEZ y luego borrar este bloque
+// Borrar este bloque después de usarlo
 app.get('/api/reset-admin', async (req, res) => {
     try {
         await db.changePassword(
