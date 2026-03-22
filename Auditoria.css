@@ -1,0 +1,392 @@
+/* ========================================
+   auditoria.css — StatAnalyzer Pro
+   Vista de auditoría de accesos
+   ======================================== */
+
+/* ── Layout ── */
+.aud-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 4px 0 20px;
+}
+
+/* ── KPIs ── */
+.aud-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+
+.aud-kpi {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 18px 20px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.aud-kpi:hover { transform: translateY(-2px); }
+
+.aud-kpi-loading {
+    grid-column: 1 / -1;
+    color: #aaa;
+    font-style: italic;
+    padding: 20px;
+}
+
+.aud-kpi-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a3a6b;
+    line-height: 1;
+    margin-bottom: 6px;
+}
+
+.aud-kpi-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.aud-kpi-ok   { border-color: #9ae6b4; background: #f0fff4; }
+.aud-kpi-ok   .aud-kpi-value { color: #276749; }
+
+.aud-kpi-fail { border-color: #feb2b2; background: #fff5f5; }
+.aud-kpi-fail .aud-kpi-value { color: #c53030; }
+
+.aud-kpi-rate { border-color: #90cdf4; background: #ebf8ff; }
+.aud-kpi-rate .aud-kpi-value { color: #2b6cb0; }
+
+/* ── Barra de filtros ── */
+.aud-filters-bar {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+.aud-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.aud-filter-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.aud-filter-input {
+    padding: 8px 10px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.84rem;
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+    background: white;
+    transition: border-color 0.2s;
+    min-width: 140px;
+}
+
+.aud-filter-input:focus {
+    outline: none;
+    border-color: #1a3a6b;
+}
+
+.aud-filter-check {
+    justify-content: flex-end;
+    padding-bottom: 4px;
+}
+
+.aud-checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    font-size: 0.84rem;
+    color: #444;
+    user-select: none;
+}
+
+.aud-checkbox-row input[type="checkbox"] { display: none; }
+
+.aud-checkbox-custom {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #cbd5e1;
+    border-radius: 4px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.aud-checkbox-row input:checked + .aud-checkbox-custom {
+    background: #1a3a6b;
+    border-color: #1a3a6b;
+}
+
+.aud-checkbox-row input:checked + .aud-checkbox-custom::after {
+    content: '✓';
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+/* Botones de filtro */
+.aud-btn-filter,
+.aud-btn-reset,
+.aud-btn-export,
+.aud-btn-refresh {
+    padding: 9px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    align-self: flex-end;
+}
+
+.aud-btn-filter {
+    background: linear-gradient(135deg, #000, #211ed1);
+    color: white;
+}
+
+.aud-btn-filter:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(33,30,209,0.3);
+}
+
+.aud-btn-reset {
+    background: white;
+    color: #666;
+    border: 1.5px solid #e0e0e0;
+}
+
+.aud-btn-reset:hover {
+    background: #f0f0f0;
+    border-color: #ccc;
+}
+
+.aud-btn-export {
+    background: #f0fff4;
+    color: #276749;
+    border: 1.5px solid #9ae6b4;
+}
+
+.aud-btn-export:hover {
+    background: #c6f6d5;
+    transform: translateY(-1px);
+}
+
+.aud-btn-refresh {
+    background: white;
+    color: #1a3a6b;
+    border: 1.5px solid #e0e0e0;
+    padding: 9px 12px;
+    font-size: 1rem;
+}
+
+.aud-btn-refresh:hover {
+    background: #ebf8ff;
+    border-color: #90cdf4;
+}
+
+/* ── Info de resultados ── */
+.aud-results-info {
+    font-size: 0.8rem;
+    color: #888;
+    font-style: italic;
+    padding-left: 2px;
+}
+
+/* ── Tabla principal ── */
+.aud-table-wrap {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    overflow: hidden;
+    overflow-x: auto;
+}
+
+.aud-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.aud-table thead th {
+    background: linear-gradient(135deg, #1a3a6b 0%, #2c5282 100%);
+    color: white;
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+}
+
+.aud-table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.15s;
+}
+
+.aud-table tbody tr:last-child { border-bottom: none; }
+.aud-table tbody tr:hover { background: #f7faff; }
+
+.aud-table td {
+    padding: 10px 14px;
+    color: #333;
+    vertical-align: middle;
+}
+
+.aud-td-mono {
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.aud-td-ip {
+    color: #888;
+    font-size: 0.78rem;
+}
+
+.aud-td-date {
+    font-family: 'Courier New', monospace;
+    font-size: 0.78rem;
+    color: #555;
+    white-space: nowrap;
+}
+
+.aud-td-action {
+    font-size: 0.8rem;
+    color: #1a3a6b;
+    font-weight: 500;
+}
+
+/* ── Badges ── */
+.aud-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+.aud-badge-ok   { background: #c6f6d5; color: #276749; }
+.aud-badge-fail { background: #fed7d7; color: #c53030; }
+.aud-risk-high  { background: #fed7d7; color: #c53030; }
+.aud-risk-med   { background: #fefcbf; color: #b7791f; }
+.aud-risk-low   { background: #c6f6d5; color: #276749; }
+
+/* ── Sección de intentos fallidos ── */
+.aud-fails-section {
+    background: #fffbeb;
+    border: 2px solid #f6e05e;
+    border-radius: 12px;
+    padding: 18px 20px;
+}
+
+.aud-fails-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #b7791f;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f6e05e;
+}
+
+.aud-table-compact td,
+.aud-table-compact th {
+    padding: 8px 14px;
+}
+
+/* ── Estados ── */
+.aud-loading {
+    text-align: center;
+    padding: 50px 20px;
+    color: #aaa;
+}
+
+.aud-spinner {
+    width: 36px;
+    height: 36px;
+    border: 4px solid #f0f0f0;
+    border-top: 4px solid #1a3a6b;
+    border-radius: 50%;
+    animation: aud-spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+}
+
+@keyframes aud-spin {
+    to { transform: rotate(360deg); }
+}
+
+.aud-empty {
+    text-align: center;
+    padding: 40px;
+    color: #aaa;
+    font-style: italic;
+}
+
+.aud-error {
+    text-align: center;
+    padding: 30px;
+    color: #c53030;
+    background: #fff5f5;
+}
+
+/* ── Sin acceso ── */
+.aud-no-access {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.aud-no-access-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    opacity: 0.4;
+}
+
+.aud-no-access h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+    .aud-kpis {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .aud-kpis {
+        grid-template-columns: 1fr 1fr;
+    }
+    .aud-filters-bar {
+        flex-direction: column;
+    }
+    .aud-filter-input {
+        min-width: 100%;
+    }
+}

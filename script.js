@@ -44,7 +44,8 @@ function switchView(viewName) {
         'datos':         'datos',
         'visualizacion': 'visualización',
         'reportes':      'reportes',
-        'trabajo':       'trabajo'
+        'trabajo':       'trabajo',
+        'auditoria':     'auditoría'
     };
 
     const expectedLabel = viewMap[viewName];
@@ -69,7 +70,8 @@ document.querySelectorAll('.nav-item').forEach(item => {
             'datos':         'datos',
             'visualización': 'visualizacion',
             'reportes':      'reportes',
-            'trabajo':       'trabajo'
+            'trabajo':       'trabajo',
+            'auditoría':     'auditoria'
         };
 
         const label      = this.textContent.trim().toLowerCase();
@@ -89,6 +91,10 @@ document.querySelectorAll('.nav-item').forEach(item => {
 
             if (targetView === 'reportes') {
                 inicializarReportes();
+            }
+
+            if (targetView === 'auditoria') {
+                inicializarAuditoria();
             }
         }
     });
@@ -1218,6 +1224,18 @@ function inicializarReportes() {
     ReporteManager.buildReportesView();
 }
 
+// ========================================
+// AUDITORÍA
+// ========================================
+
+function inicializarAuditoria() {
+    // La misma URL que usa auth.js
+    // Cambia esta URL si cambias el backend
+    const API_URL = 'https://proyecto-sigmaproxvl.onrender.com';
+    AuditoriaManager.init(API_URL);
+    AuditoriaManager.buildView();
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     console.log('🚀 StatAnalyzer Pro inicializado');
 
@@ -1274,15 +1292,23 @@ function _renderUserChip(username) {
     const chip = document.createElement('div');
     chip.id = 'auth-user-info';
     chip.style.cssText = 'display:flex;align-items:center;gap:10px;';
+    const session = Auth.getSession();
+    const isAdmin = session?.role === 'admin';
+
     chip.innerHTML = `
         <div class="auth-user-chip">
             <div class="auth-user-chip-avatar">${initials}</div>
             <span>${username}</span>
+            ${isAdmin ? '<span class="auth-admin-chip">Admin</span>' : ''}
         </div>
         <button class="auth-logout-btn" onclick="Auth.logout()" title="Cerrar sesión">
             🔓 Salir
         </button>
     `;
+
+    // Mostrar pestaña Auditoría solo para admins
+    const audTab = document.getElementById('nav-auditoria');
+    if (audTab) audTab.style.display = isAdmin ? '' : 'none';
     navContent.appendChild(chip);
 }
 
