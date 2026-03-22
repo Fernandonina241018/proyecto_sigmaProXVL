@@ -20,7 +20,7 @@ app.use((req, res, next) => {
     const origin = req.headers.origin;
     const allowed = [
         'https://fernandonina241018.github.io',
-        'https://fernandonan2418.github.io/proyecto-sigmapro',
+        //'https://fernandonan2418.github.io/proyecto-sigmapro',
         'http://127.0.0.1:5500',
         'http://localhost:5500',
         'http://localhost:3000',
