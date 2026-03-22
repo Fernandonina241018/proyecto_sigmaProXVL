@@ -78,10 +78,9 @@ app.get('/api/health', (req, res) => {
 // Usar UNA SOLA VEZ y luego borrar este bloque
 app.get('/api/reset-admin', async (req, res) => {
     try {
-        const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD, 12);
-        await db.run(
-            'UPDATE users SET password = ? WHERE username = ?',
-            [hash, process.env.ADMIN_USERNAME]
+        await db.changePassword(
+            process.env.ADMIN_USERNAME,
+            process.env.ADMIN_PASSWORD
         );
         res.json({ ok: true, msg: `Contraseña de "${process.env.ADMIN_USERNAME}" actualizada correctamente` });
     } catch (err) {
