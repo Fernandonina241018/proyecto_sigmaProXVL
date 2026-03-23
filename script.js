@@ -87,16 +87,16 @@ document.querySelectorAll('.nav-item').forEach(item => {
                 updateWorkSummary();
             }
 
-            if (viewName === 'datos') {
-                DatosManager.buildView();
-            }
-
             if (targetView === 'visualizacion') {
                 inicializarVisualizacion();
             }
 
             if (targetView === 'reportes') {
                 inicializarReportes();
+            }
+
+            if (targetView === 'datos') {
+                DatosManager.buildView();
             }
 
             if (targetView === 'auditoria') {
@@ -706,7 +706,7 @@ function setupStateListeners() {
 
     StateManager.addEventListener('dataChange', () => {
         if (document.getElementById('view-datos').classList.contains('active')) {
-            updateDataView();
+            DatosManager.buildView();
         }
     });
 }
@@ -1277,7 +1277,7 @@ function _initApp() {
     updateActiveStatsUI();
     switchView('analisis');
     setupWorkButtons();
-    setupTransformButtons();
+    // setupTransformButtons(); — reemplazado por DatosManager
 
     renderSheetTabs();
     updateSheetsInfo();
