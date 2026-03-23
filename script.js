@@ -60,7 +60,8 @@ function switchView(viewName) {
     // Inicializar vistas al navegar
     if (viewName === 'analisis') {
         const imported = StateManager.getImportedData();
-        if (imported) displayImportedData(imported);
+        // Solo mostrar dashboard si NO hay resultados de análisis activos
+        if (imported && !ultimosResultados) displayImportedData(imported);
     }
     if (viewName === 'datos')         DatosManager.buildView();
     if (viewName === 'visualizacion') inicializarVisualizacion();
