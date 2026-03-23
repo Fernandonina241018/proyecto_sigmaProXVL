@@ -87,6 +87,10 @@ document.querySelectorAll('.nav-item').forEach(item => {
                 updateWorkSummary();
             }
 
+            if (viewName === 'datos') {
+                DatosManager.buildView();
+            }
+
             if (targetView === 'visualizacion') {
                 inicializarVisualizacion();
             }
