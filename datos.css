@@ -1,0 +1,495 @@
+/* ========================================
+   datos.css — StatAnalyzer Pro
+   Vista de datos mejorada
+   ======================================== */
+
+#view-datos .dm-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 4px 0 20px;
+}
+
+/* ── Secciones ── */
+#view-datos .dm-section {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+#view-datos .dm-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+    background: linear-gradient(135deg, #1a3a6b, #2c5282);
+    color: white;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+#view-datos .dm-section-title {
+    font-weight: 700;
+    font-size: 0.88rem;
+    letter-spacing: 0.3px;
+}
+
+#view-datos .dm-section-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* ── Botones ── */
+#view-datos .dm-btn {
+    padding: 7px 14px;
+    border: none;
+    border-radius: 7px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+#view-datos .dm-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+#view-datos .dm-btn-primary {
+    background: white;
+    color: #1a3a6b;
+}
+#view-datos .dm-btn-primary:hover:not(:disabled) {
+    background: #ebf8ff;
+    transform: translateY(-1px);
+}
+
+#view-datos .dm-btn-secondary {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+#view-datos .dm-btn-secondary:hover:not(:disabled) {
+    background: rgba(255,255,255,0.25);
+}
+
+#view-datos .dm-btn-tool {
+    background: rgba(255,255,255,0.12);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    font-size: 0.76rem;
+    padding: 6px 10px;
+}
+#view-datos .dm-btn-tool:hover:not(:disabled) {
+    background: rgba(255,255,255,0.22);
+    transform: translateY(-1px);
+}
+
+#view-datos .dm-btn-icon {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 6px 10px;
+    font-size: 0.8rem;
+}
+#view-datos .dm-btn-icon:hover { background: rgba(255,255,255,0.25); }
+
+#view-datos .dm-btn-danger-sm {
+    background: rgba(197,48,48,0.15);
+    color: #feb2b2;
+    border: 1px solid rgba(197,48,48,0.3);
+    border-radius: 7px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+#view-datos .dm-btn-danger-sm:hover {
+    background: rgba(197,48,48,0.3);
+    color: white;
+}
+
+/* ── File card ── */
+#view-datos .dm-files-area { padding: 16px 18px; }
+#view-datos .dm-no-file { color: #aaa; font-style: italic; font-size: 0.85rem; }
+
+#view-datos .dm-file-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 14px 16px;
+}
+
+#view-datos .dm-file-icon { font-size: 2rem; flex-shrink: 0; }
+
+#view-datos .dm-file-info { flex: 1; }
+#view-datos .dm-file-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #1a3a6b;
+    margin-bottom: 4px;
+}
+#view-datos .dm-file-meta { font-size: 0.78rem; color: #888; }
+
+#view-datos .dm-file-kpis {
+    display: flex;
+    gap: 20px;
+}
+
+#view-datos .dm-kpi { text-align: center; }
+#view-datos .dm-kpi-val {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1a3a6b;
+    line-height: 1;
+}
+#view-datos .dm-kpi-lbl {
+    font-size: 0.65rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+}
+
+/* ── Buscar y reemplazar ── */
+#view-datos .dm-search-replace {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    padding: 14px 18px;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    flex-wrap: wrap;
+}
+
+#view-datos .dm-sr-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+    min-width: 130px;
+}
+
+#view-datos .dm-sr-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#view-datos .dm-sr-input,
+#view-datos .dm-sr-select {
+    padding: 8px 10px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 7px;
+    font-size: 0.84rem;
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+    background: white;
+    transition: border-color 0.2s;
+}
+#view-datos .dm-sr-input:focus,
+#view-datos .dm-sr-select:focus { outline: none; border-color: #1a3a6b; }
+
+#view-datos .dm-search-replace .dm-btn-primary {
+    background: linear-gradient(135deg, #000, #211ed1);
+    color: white;
+    align-self: flex-end;
+    padding: 9px 18px;
+}
+#view-datos .dm-search-replace .dm-btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(33,30,209,0.3);
+}
+
+/* ── Buscador de tabla ── */
+#view-datos .dm-search-input {
+    padding: 6px 12px;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 7px;
+    font-size: 0.82rem;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    width: 200px;
+    transition: all 0.2s;
+}
+#view-datos .dm-search-input::placeholder { color: rgba(255,255,255,0.6); }
+#view-datos .dm-search-input:focus { outline: none; background: rgba(255,255,255,0.25); }
+
+#view-datos .dm-page-info {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.8);
+    white-space: nowrap;
+}
+
+/* ── Tabla ── */
+#view-datos .dm-section-table { overflow: visible; }
+#view-datos .dm-table-wrap { overflow-x: auto; max-height: 500px; overflow-y: auto; }
+
+#view-datos .dm-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+}
+
+#view-datos .dm-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+#view-datos .dm-table thead th {
+    background: #f0f4ff;
+    padding: 0;
+    border-bottom: 2px solid #d0d9f0;
+    white-space: nowrap;
+    font-weight: 700;
+    color: #1a3a6b;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#view-datos .dm-th-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    gap: 6px;
+}
+
+#view-datos .dm-th-sort {
+    cursor: pointer;
+    user-select: none;
+    flex: 1;
+}
+#view-datos .dm-th-sort:hover { color: #2b6cb0; }
+
+#view-datos .dm-th-btns { display: flex; gap: 3px; opacity: 0; transition: opacity 0.2s; }
+#view-datos .dm-table thead th:hover .dm-th-btns { opacity: 1; }
+
+#view-datos .dm-th-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.75rem;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: background 0.2s;
+    color: #666;
+}
+#view-datos .dm-th-btn:hover { background: #dbeafe; color: #1a3a6b; }
+
+#view-datos .dm-table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.1s;
+}
+#view-datos .dm-table tbody tr:hover { background: #f7faff; }
+
+#view-datos .dm-table td {
+    padding: 7px 12px;
+    color: #333;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#view-datos .dm-row-num {
+    color: #aaa;
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    text-align: right;
+    user-select: none;
+    background: #fafafa;
+}
+
+#view-datos .dm-cell-outlier {
+    background: #fff5f5 !important;
+    color: #c53030 !important;
+    font-weight: 600;
+}
+
+#view-datos .dm-no-results {
+    text-align: center;
+    color: #aaa;
+    font-style: italic;
+    padding: 30px;
+}
+
+/* ── Estado vacío ── */
+#view-datos .dm-empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+#view-datos .dm-empty-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.4; }
+#view-datos .dm-empty-state h3 { font-size: 1.2rem; color: #333; margin-bottom: 8px; }
+#view-datos .dm-empty-state p  { font-size: 0.88rem; color: #888; margin-bottom: 20px; }
+#view-datos .dm-empty-state .dm-btn-primary {
+    background: linear-gradient(135deg, #000, #211ed1);
+    color: white;
+    padding: 10px 24px;
+    font-size: 0.9rem;
+}
+
+/* ── Modales ── */
+.dm-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(3px);
+    z-index: 2000;
+    animation: dm-fadein 0.2s ease;
+}
+.dm-modal-card {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2001;
+    background: white;
+    border-radius: 16px;
+    width: min(480px, 94vw);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    overflow: hidden;
+    animation: dm-slidein 0.25s cubic-bezier(0.34,1.4,0.64,1);
+}
+#dm-calcol-modal,
+#dm-delcol-modal { display: none; }
+#dm-calcol-modal.dm-modal-visible,
+#dm-delcol-modal.dm-modal-visible { display: block; }
+
+@keyframes dm-fadein  { from { opacity:0; } to { opacity:1; } }
+@keyframes dm-slidein { from { opacity:0; transform:translate(-50%,-46%); } to { opacity:1; transform:translate(-50%,-50%); } }
+
+.dm-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #1a3a6b, #2c5282);
+    color: white;
+}
+.dm-modal-header h3 { font-size: 1rem; font-weight: 600; }
+.dm-modal-close {
+    background: rgba(255,255,255,0.15);
+    border: none; color: white;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    cursor: pointer; font-size: 0.8rem;
+    transition: background 0.2s;
+}
+.dm-modal-close:hover { background: rgba(255,255,255,0.3); }
+
+.dm-modal-body { padding: 20px; }
+
+.dm-modal-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 12px;
+    align-items: end;
+}
+
+.dm-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.dm-field label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.dm-field input,
+.dm-field select {
+    padding: 9px 10px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 7px;
+    font-size: 0.85rem;
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+    background: white;
+    transition: border-color 0.2s;
+}
+.dm-field input:focus,
+.dm-field select:focus { outline: none; border-color: #1a3a6b; }
+
+.dm-col-checks {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px;
+    max-height: 250px;
+    overflow-y: auto;
+    padding: 4px;
+}
+.dm-check-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 6px 10px;
+    border-radius: 7px;
+    border: 1.5px solid #e0e0e0;
+    transition: all 0.2s;
+}
+.dm-check-row:hover { border-color: #1a3a6b; background: #f0f4ff; }
+.dm-check-row input[type=checkbox] { accent-color: #1a3a6b; }
+
+.dm-modal-footer {
+    padding: 14px 20px;
+    background: #f8f9fa;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-top: 1px solid #e9ecef;
+}
+
+.dm-btn-danger {
+    padding: 8px 18px;
+    background: #c53030;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.dm-btn-danger:hover { background: #9b2c2c; transform: translateY(-1px); }
+
+/* ── Toast ── */
+.datos-toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    z-index: 3000;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    opacity: 0;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    max-width: 90vw;
+    text-align: center;
+}
+.datos-toast.datos-toast-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+.datos-toast-ok    { background: #276749; color: white; }
+.datos-toast-error { background: #c53030; color: white; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+    #view-datos .dm-file-kpis { display: none; }
+    #view-datos .dm-search-replace { flex-direction: column; }
+    #view-datos .dm-sr-group { min-width: 100%; }
+    .dm-modal-grid { grid-template-columns: 1fr; }
+}

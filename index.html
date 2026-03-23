@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="reportes.css">
     <link rel="stylesheet" href="auditoria.css">
     <link rel="stylesheet" href="usuarios.css">
+    <link rel="stylesheet" href="datos.css">
 </head>
 <body>
     <div class="app-container">
@@ -145,36 +146,8 @@
                 <div id="view-datos" class="workspace-view">
                     <div class="workspace-header">
                         <h2>📊 Gestión de Datos</h2>
-                        <div class="action-buttons">
-                            <button class="btn-import">📁 Importar Datos</button>
-                            <button class="btn-export">💾 Exportar Datos</button>
-                        </div>
                     </div>
-                    <div class="datos-content">
-                        <div class="datos-panel">
-                            <div class="panel-card">
-                                <h3>📂 Archivos Recientes</h3>
-                                <div id="recent-files-list" class="files-list">
-                                    <p class="empty-message">No hay archivos cargados</p>
-                                </div>
-                            </div>
-                            <div class="panel-card">
-                                <h3>🔧 Transformaciones</h3>
-                                <div class="transform-options">
-                                    <button class="transform-btn">🧹 Limpiar Datos</button>
-                                    <button class="transform-btn">🔄 Normalizar</button>
-                                    <button class="transform-btn">➕ Crear Columna</button>
-                                    <button class="transform-btn">🗑️ Eliminar Nulos</button>
-                                </div>
-                            </div>
-                            <div class="panel-card">
-                                <h3>📈 Resumen Estadístico</h3>
-                                <div id="data-summary" class="data-summary">
-                                    <p class="empty-message">Carga datos para ver el resumen</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="datos-main-container"></div>
                 </div>
 
                 <!-- Vista de Visualización -->
@@ -298,6 +271,7 @@
     <script src="ReporteManager.js"></script>
     <script src="AuditoriaManager.js"></script>
     <script src="UsuariosManager.js"></script>
+    <script src="DatosManager.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
