@@ -57,6 +57,17 @@ function switchView(viewName) {
         }
     });
 
+    // Inicializar vistas al navegar
+    if (viewName === 'analisis') {
+        const imported = StateManager.getImportedData();
+        if (imported) displayImportedData(imported);
+    }
+    if (viewName === 'datos')         DatosManager.buildView();
+    if (viewName === 'visualizacion') inicializarVisualizacion();
+    if (viewName === 'reportes')      inicializarReportes();
+    if (viewName === 'auditoria')     inicializarAuditoria();
+    if (viewName === 'usuarios')      inicializarUsuarios();
+
     console.log(`Vista cambiada a: ${viewName}`);
 }
 
@@ -463,12 +474,9 @@ function saveWorkData() {
             rowCount: formattedData.length
         }, fileName);
 
-        updateDataView();
-        displayImportedData(StateManager.getImportedData());
+        switchView('datos');
 
-        switchView('analisis');
-
-        alert(`✅ Guardado exitoso!\n\n${formattedData.length} filas\n${headers.length} columnas\nNombre: ${fileName}`);
+        alert(`✅ Datos guardados correctamente.\n\n${formattedData.length} filas · ${headers.length} columnas\nRevísalos en la vista Datos y usa "Enviar a Análisis" cuando estés listo.`);
     } catch (err) {
         console.error('Error al guardar:', err);
         alert('❌ Error al guardar: ' + err.message);
