@@ -103,6 +103,8 @@ const ReporteManager = (() => {
             ui_location:    'Location',
             ui_description: 'Description',
             ui_assay:       'Assay / Test',
+            ui_modelo:      'Equipment Model',
+            ui_marca:       'Equipment Brand',
             ui_proto:       'Protocol / Study',
             ui_phase:       'Phase',
             ui_code:        'Project Code',
@@ -241,6 +243,8 @@ const ReporteManager = (() => {
             ui_location:    'Ubicación',
             ui_description: 'Descripción',
             ui_assay:       'Ensayo / Prueba',
+            ui_modelo:      'Modelo del Equipo',
+            ui_marca:       'Marca del Equipo',
             ui_proto:       'Protocolo / Estudio',
             ui_phase:       'Fase',
             ui_code:        'Código de Proyecto',
@@ -415,6 +419,8 @@ const ReporteManager = (() => {
         p(`  ${pad(t('location')+' :',24)}: ${meta.ubicacion        ||NA}`);
         p(`  ${pad(t('description')+' :',24)}: ${meta.descripcion     ||NA}`);
         p(`  ${pad(t('assay')+' :',24)}: ${meta.ensayo           ||NA}`);
+        p(`  ${pad(t('ui_modelo')+' :',24)}: ${meta.modelo          ||NA}`);
+        p(`  ${pad(t('ui_marca')+' :',24)}: ${meta.marca           ||NA}`);
         p(`  ${pad(t('studyProtocol')+' :',24)}: ${meta.protocolo       ||NA}`);
         p(`  ${pad(t('phase')+' :',24)}: ${meta.fase             ||NA}`);
         p(`  ${pad(t('projectCode')+' :',24)}: ${meta.codigoProyecto  ||NA}`);
@@ -492,6 +498,8 @@ const ReporteManager = (() => {
             `## ${t('department')}|${meta.departamento||''}`,
             `## ${t('location')}|${meta.ubicacion||''}`,
             `## ${t('assay')}|${meta.ensayo||''}`,
+            `## ${t('ui_modelo')}|${meta.modelo||''}`,
+            `## ${t('ui_marca')}|${meta.marca||''}`,
             `## Protocol|${meta.protocolo||''}`,
             `## ${t('datasetName')}|${meta.nombreDataset||''}`,
             `## ${t('preparedBy')}|${meta.preparedBy||''}`,
@@ -620,6 +628,8 @@ tr:hover td{background:#f7faff}
       ${mRow(t('projectCode'),   meta.codigoProyecto)}
       ${mRow(t('reportVersion'), meta.version||'1.0')}
       <div style="grid-column:1/-1">${mRow(t('assay'),          meta.ensayo)}</div>
+      ${mRow(t('ui_modelo'),       meta.modelo)}
+      ${mRow(t('ui_marca'),        meta.marca)}
       <div style="grid-column:1/-1">${mRow(t('description'),    meta.descripcion)}</div>
       <div style="grid-column:1/-1">${mRow(t('confidentiality'),meta.confidencialidad||'CONFIDENTIAL')}</div>
     </div>
@@ -790,19 +800,19 @@ tr:hover td{background:#f7faff}
 
                 <div class="rep-field">
                   <label>${t('ui_modelo')}</label>
-                  <input id="rep-proto" placeholder="VANQUISH">
+                  <input id="rep-modelo" placeholder="VANQUISH">
                 </div>
 
                 <div class="rep-field">
                   <label>${t('ui_marca')}</label>
-                  <input id="rep-proto" placeholder="THERMO">
+                  <input id="rep-marca" placeholder="THERMO FISHER">
                 </div>
 
                 <div class="rep-field">
                   <label>${t('ui_phase')}</label>
                   <select id="rep-fase">
                     <option value="">— ${currentLang==='es'?'Seleccionar':'Select'} —</option>
-                    <option>Calificación de Diseño(DQ)</option><option>Calificación de Instalación(IQ)</option><option>Calificación de Operación(OQ)</option><option>Calificación de Desempeño(PQ)</option>
+                    <option>DQ</option><option>IQ</option><option>OQ</option><option>PQ</option>
                     <option>Phase I</option><option>Phase II</option><option>Phase III</option><option>Phase IV</option>
                     <option>Pre-clinical</option><option>Post-market</option><option>Internal QC</option>
                   </select>
@@ -820,7 +830,7 @@ tr:hover td{background:#f7faff}
 
                 <div class="rep-field rep-field-full">
                   <label>${t('ui_description')}</label>
-                  <input id="rep-descripcion" placeholder="${currentLang==='es'?'Descripción breve del análisis o producto...':'Brief description of the analysis or product...'}" style="width:100%;padding:8px 10px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:0.84rem;font-family:inherit;resize:vertical;color:#333;background:white;transition:border-color 0.2s;"></textarea>
+                  <textarea id="rep-descripcion" rows="2" placeholder="${currentLang==='es'?'Descripción breve del análisis o producto...':'Brief description of the analysis or product...'}" style="width:100%;padding:8px 10px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:0.84rem;font-family:inherit;resize:vertical;color:#333;background:white;transition:border-color 0.2s;"></textarea>
                 </div>
 
                 <div class="rep-field">
@@ -1010,6 +1020,8 @@ tr:hover td{background:#f7faff}
             ubicacion:       g('rep-ubicacion'),
             descripcion:     document.getElementById('rep-descripcion')?.value.trim()||'',
             ensayo:          g('rep-ensayo'),
+            modelo:          g('rep-modelo'),
+            marca:           g('rep-marca'),
             protocolo:       g('rep-proto'),
             fase:            g('rep-fase'),
             codigoProyecto:  g('rep-code'),
