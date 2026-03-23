@@ -149,6 +149,9 @@ const DatosManager = (() => {
                 <div class="dm-kpi"><div class="dm-kpi-val">${numNums}</div><div class="dm-kpi-lbl">Numéricas</div></div>
                 <div class="dm-kpi"><div class="dm-kpi-val">${_countNulls(imported)}</div><div class="dm-kpi-lbl">Nulos</div></div>
             </div>
+            <button class="dm-btn dm-btn-send" id="dm-btn-send-analisis" title="Enviar a Análisis">
+                ▶ Enviar a Análisis
+            </button>
             <button class="dm-btn dm-btn-danger-sm" id="dm-btn-clear-data" title="Eliminar datos">🗑️</button>
         </div>`;
     }
@@ -287,6 +290,11 @@ const DatosManager = (() => {
             StateManager.clearImportedData?.();
             _outlierCols.clear();
             buildView();
+        });
+
+        // Enviar a Análisis
+        document.getElementById('dm-btn-send-analisis')?.addEventListener('click', () => {
+            switchView('analisis');
         });
 
         // Herramientas
