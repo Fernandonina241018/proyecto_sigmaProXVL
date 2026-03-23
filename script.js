@@ -473,9 +473,11 @@ function saveWorkData() {
         updateDataView();
         displayImportedData(StateManager.getImportedData());
 
-        switchView('analisis');
-
-        alert(`✅ Guardado exitoso!\n\n${formattedData.length} filas\n${headers.length} columnas\nNombre: ${fileName}`);
+        //switchView('analisis');
+        //alert(`✅ Guardado exitoso!\n\n${formattedData.length} filas\n${headers.length} columnas\nNombre: ${fileName}`);
+        switchView('datos');
+        alert(`✅ Datos guardados. Puedes verlos y editarlos en esta vista.`);
+        
     } catch (err) {
         console.error('Error al guardar:', err);
         alert('❌ Error al guardar: ' + err.message);
