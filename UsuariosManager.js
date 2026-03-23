@@ -259,9 +259,13 @@ const UsuariosManager = (() => {
                 <td class="usr-td-actions">
                     <!-- Cambiar rol -->
                     <select class="usr-role-select" data-id="${u.id}" data-current="${u.role}" ${isMe ? 'disabled' : ''} title="Cambiar rol">
-                        <option value="user"     ${u.role==='user'     ?'selected':''}>👤 Usuario</option>
-                        <option value="admin"    ${u.role==='admin'    ?'selected':''}>🔴 Admin</option>
-                        <option value="readonly" ${u.role==='readonly' ?'selected':''}>👁 Solo lectura</option>
+                        <option value="user"        ${u.role==='user'        ?'selected':''}>👤 Usuario</option>
+                        <option value="admin"       ${u.role==='admin'       ?'selected':''}>🔴 Admin</option>
+                        <option value="supervisor"  ${u.role==='supervisor'  ?'selected':''}>🟡 Supervisor</option>
+                        <option value="analista"    ${u.role==='analista'    ?'selected':''}>🔵 Analista</option>
+                        <option value="gerente"     ${u.role==='gerente'     ?'selected':''}>🟣 Gerente</option>
+                        <option value="coordinador" ${u.role==='coordinador' ?'selected':''}>🟠 Coordinador</option>
+                        <option value="readonly"    ${u.role==='readonly'    ?'selected':''}>👁 Solo lectura</option>
                     </select>
                     <!-- Reset password -->
                     <button class="usr-btn-action usr-btn-pass" data-username="${escapeHtml(u.username)}" title="Resetear contraseña" ${isMe ? 'disabled' : ''}>
