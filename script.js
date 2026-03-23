@@ -57,6 +57,13 @@ function switchView(viewName) {
         }
     });
 
+        // ← AGREGA ESTO AL FINAL DE switchView:
+    if (viewName === 'datos')         DatosManager.buildView();
+    if (viewName === 'visualizacion') inicializarVisualizacion();
+    if (viewName === 'reportes')      inicializarReportes();
+    if (viewName === 'auditoria')     inicializarAuditoria();
+    if (viewName === 'usuarios')      inicializarUsuarios();
+
     console.log(`Vista cambiada a: ${viewName}`);
 }
 
