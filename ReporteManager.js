@@ -789,6 +789,16 @@ tr:hover td{background:#f7faff}
                 </div>
 
                 <div class="rep-field">
+                  <label>${t('ui_modelo')}</label>
+                  <input id="rep-proto" placeholder="VANQUISH">
+                </div>
+
+                <div class="rep-field">
+                  <label>${t('ui_marca')}</label>
+                  <input id="rep-proto" placeholder="THERMO">
+                </div>
+
+                <div class="rep-field">
                   <label>${t('ui_phase')}</label>
                   <select id="rep-fase">
                     <option value="">— ${currentLang==='es'?'Seleccionar':'Select'} —</option>
