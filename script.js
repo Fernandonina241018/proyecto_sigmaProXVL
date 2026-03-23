@@ -57,13 +57,6 @@ function switchView(viewName) {
         }
     });
 
-        // ← AGREGA ESTO AL FINAL DE switchView:
-    if (viewName === 'datos')         DatosManager.buildView();
-    if (viewName === 'visualizacion') inicializarVisualizacion();
-    if (viewName === 'reportes')      inicializarReportes();
-    if (viewName === 'auditoria')     inicializarAuditoria();
-    if (viewName === 'usuarios')      inicializarUsuarios();
-
     console.log(`Vista cambiada a: ${viewName}`);
 }
 
@@ -473,11 +466,9 @@ function saveWorkData() {
         updateDataView();
         displayImportedData(StateManager.getImportedData());
 
-        //switchView('analisis');
-        //alert(`✅ Guardado exitoso!\n\n${formattedData.length} filas\n${headers.length} columnas\nNombre: ${fileName}`);
-        switchView('datos');
-        alert(`✅ Datos guardados. Puedes verlos y editarlos en esta vista.`);
-        
+        switchView('analisis');
+
+        alert(`✅ Guardado exitoso!\n\n${formattedData.length} filas\n${headers.length} columnas\nNombre: ${fileName}`);
     } catch (err) {
         console.error('Error al guardar:', err);
         alert('❌ Error al guardar: ' + err.message);
@@ -835,50 +826,70 @@ function displayImportedData(data) {
     const placeholder = document.querySelector('#view-analisis .content-placeholder');
     if (!placeholder) return;
 
-    const fileName = StateManager.getState().fileName || 'datos importados';
+    const fileName  = StateManager.getState().fileName || 'datos importados';
+    const numRows   = data.rowCount || data.data.length;
+    const numCols   = data.headers.length;
+    const today     = new Date().toLocaleDateString('es-DO', { day:'2-digit', month:'short', year:'numeric' });
+
+    const numericCols = data.headers.filter(h => {
+        const vals = data.data.slice(0,10).map(r => parseFloat(r[h]));
+        return vals.filter(v => !isNaN(v)).length >= vals.length * 0.7;
+    });
+    const nullCount = (() => {
+        let n = 0;
+        data.data.forEach(row => data.headers.forEach(h => {
+            if (row[h] === null || row[h] === undefined || String(row[h]).trim() === '') n++;
+        }));
+        return n;
+    })();
+
+    const colRows = data.headers.map((h, i) => {
+        const tipo = numericCols.includes(h) ? 'numerica' : 'texto';
+        return `<div class="dp-col-row"><span class="dp-col-num">${i+1}</span><span class="dp-col-name">${escapeHtml(h)}</span><span class="dp-col-type dp-col-${tipo}">${numericCols.includes(h) ? 'numérica' : 'texto'}</span></div>`;
+    }).join('');
+
+    const previewRows = data.data.slice(0, 5).map((row, i) => {
+        const cells = data.headers.map(h => `<td>${escapeHtml(String(row[h] ?? ''))}</td>`).join('');
+        return `<tr><td class="dp-row-num">${i+1}</td>${cells}</tr>`;
+    }).join('');
 
     placeholder.innerHTML = `
-        <div class="data-preview">
-            <div class="preview-header">
-                <h3>✅ Datos Cargados</h3>
-                <p>Archivo: <strong>${escapeHtml(fileName)}</strong></p>
-                <p>📊 ${data.rowCount || data.data.length} filas | 📋 ${data.headers.length} columnas</p>
+    <div class="dp-dashboard">
+        <div class="dp-header">
+            <div>
+                <div class="dp-filename">${escapeHtml(fileName)}</div>
+                <div class="dp-date">Cargado · ${today}</div>
             </div>
-
-            <div style="margin: 20px 0;">
-                <h4 style="margin-bottom: 10px;">Columnas:</h4>
-                <div class="columns-grid">
-                    ${data.headers.map((h, i) => `
-                        <div class="column-item">
-                            <span class="column-number">${i + 1}</span>
-                            <span>${escapeHtml(h)}</span>
-                        </div>
-                    `).join('')}
+            <button class="dp-btn-run" id="dp-btn-run">Ejecutar análisis →</button>
+        </div>
+        <div class="dp-kpis">
+            <div class="dp-kpi"><div class="dp-kpi-val">${numRows}</div><div class="dp-kpi-lbl">Filas</div></div>
+            <div class="dp-kpi"><div class="dp-kpi-val">${numCols}</div><div class="dp-kpi-lbl">Columnas</div></div>
+            <div class="dp-kpi"><div class="dp-kpi-val">${numericCols.length}</div><div class="dp-kpi-lbl">Numéricas</div></div>
+            <div class="dp-kpi ${nullCount > 0 ? 'dp-kpi-warn' : ''}"><div class="dp-kpi-val">${nullCount}</div><div class="dp-kpi-lbl">Nulos</div></div>
+        </div>
+        <div class="dp-body">
+            <div class="dp-cols-panel">
+                <div class="dp-panel-title">Columnas detectadas</div>
+                ${colRows}
+            </div>
+            <div class="dp-preview-panel">
+                <div class="dp-panel-title">Vista previa</div>
+                <div class="dp-preview-wrap">
+                    <table class="dp-preview-table">
+                        <thead><tr><th>#</th>${data.headers.map(h => `<th>${escapeHtml(h)}</th>`).join('')}</tr></thead>
+                        <tbody>${previewRows}</tbody>
+                    </table>
                 </div>
             </div>
-
-            <div style="margin: 20px 0; overflow-x: auto; max-height: 300px;">
-                <h4 style="margin-bottom: 10px;">Vista previa (primeras 5 filas):</h4>
-                <table class="data-table">
-                    <thead>
-                        <tr>${data.headers.map(h => `<th>${escapeHtml(h)}</th>`).join('')}</tr>
-                    </thead>
-                    <tbody>
-                        ${data.data.slice(0, 5).map(row => `
-                            <tr>${data.headers.map(h => `<td>${escapeHtml(String(row[h] || ''))}</td>`).join('')}</tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="data-actions">
-                <button class="btn-clear" id="btn-clear-imported">🗑️ Limpiar Datos</button>
-                <button class="btn-download" id="btn-download-sample">📥 Descargar Plantilla CSV</button>
-            </div>
         </div>
-    `;
+        <div class="dp-footer">
+            <button class="dp-btn-secondary" id="btn-clear-imported">Limpiar datos</button>
+            <button class="dp-btn-secondary" id="btn-download-sample">Descargar plantilla CSV</button>
+        </div>
+    </div>`;
 
-    // FIX: botones con addEventListener, no onclick inline
+    document.getElementById('dp-btn-run')?.addEventListener('click', ejecutarAnalisis);
     document.getElementById('btn-clear-imported')?.addEventListener('click', clearImportedData);
     document.getElementById('btn-download-sample')?.addEventListener('click', downloadSampleData);
 }
