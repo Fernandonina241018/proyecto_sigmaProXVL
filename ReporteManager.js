@@ -820,7 +820,7 @@ tr:hover td{background:#f7faff}
 
                 <div class="rep-field rep-field-full">
                   <label>${t('ui_description')}</label>
-                  <textarea id="rep-descripcion" rows="2" placeholder="${currentLang==='es'?'Descripción breve del análisis o producto...':'Brief description of the analysis or product...'}" style="width:100%;padding:8px 10px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:0.84rem;font-family:inherit;resize:vertical;color:#333;background:white;transition:border-color 0.2s;"></textarea>
+                  <input id="rep-descripcion" placeholder="${currentLang==='es'?'Descripción breve del análisis o producto...':'Brief description of the analysis or product...'}" style="width:100%;padding:8px 10px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:0.84rem;font-family:inherit;resize:vertical;color:#333;background:white;transition:border-color 0.2s;"></textarea>
                 </div>
 
                 <div class="rep-field">
