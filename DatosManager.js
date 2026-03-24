@@ -271,13 +271,15 @@ const DatosManager = (() => {
 
     // ── Listeners principales ─────────────
     function _attachListeners(imported) {
-        // Importar
-        document.getElementById('dm-btn-import')?.addEventListener('click', () => {
+        // Importar — protegido por permisos
+        const _doImport = () => {
+            if (!PermisosManager.puede('importar_datos')) {
+                PermisosManager.mostrarDenegado('importar_datos'); return;
+            }
             document.querySelector('.btn-import')?.click();
-        });
-        document.getElementById('dm-btn-import-empty')?.addEventListener('click', () => {
-            document.querySelector('.btn-import')?.click();
-        });
+        };
+        document.getElementById('dm-btn-import')?.addEventListener('click', _doImport);
+        document.getElementById('dm-btn-import-empty')?.addEventListener('click', _doImport);
 
         // Exportar
         document.getElementById('dm-btn-export')?.addEventListener('click', () => {
@@ -297,14 +299,20 @@ const DatosManager = (() => {
             switchView('analisis');
         });
 
-        // Herramientas
-        document.getElementById('dm-btn-clean')?.addEventListener('click', _doClean);
-        document.getElementById('dm-btn-nulos')?.addEventListener('click', _doRemoveNulls);
-        document.getElementById('dm-btn-norm')?.addEventListener('click', _doNormalize);
+        // Herramientas — protegidas por permisos
+        const _wrapEditar = (fn) => () => {
+            if (!PermisosManager.puede('editar_datos')) {
+                PermisosManager.mostrarDenegado('editar_datos'); return;
+            }
+            fn();
+        };
+        document.getElementById('dm-btn-clean')?.addEventListener('click', _wrapEditar(_doClean));
+        document.getElementById('dm-btn-nulos')?.addEventListener('click', _wrapEditar(_doRemoveNulls));
+        document.getElementById('dm-btn-norm')?.addEventListener('click', _wrapEditar(_doNormalize));
         document.getElementById('dm-btn-outliers')?.addEventListener('click', _doDetectOutliers);
-        document.getElementById('dm-btn-calcol')?.addEventListener('click', _doCreateColumn);
-        document.getElementById('dm-btn-delcol')?.addEventListener('click', _doDeleteColumns);
-        document.getElementById('dm-btn-replace')?.addEventListener('click', _doSearchReplace);
+        document.getElementById('dm-btn-calcol')?.addEventListener('click', _wrapEditar(_doCreateColumn));
+        document.getElementById('dm-btn-delcol')?.addEventListener('click', _wrapEditar(_doDeleteColumns));
+        document.getElementById('dm-btn-replace')?.addEventListener('click', _wrapEditar(_doSearchReplace));
         document.getElementById('dm-btn-combine')?.addEventListener('click', _doCombine);
 
         // Búsqueda

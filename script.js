@@ -66,8 +66,12 @@ function switchView(viewName) {
     if (viewName === 'datos')         DatosManager.buildView();
     if (viewName === 'visualizacion') inicializarVisualizacion();
     if (viewName === 'reportes')      inicializarReportes();
-    if (viewName === 'auditoria')     inicializarAuditoria();
-    if (viewName === 'usuarios')      inicializarUsuarios();
+    if (viewName === 'auditoria') {
+        if (PermisosManager.protegerVista('auditoria-container', 'ver_auditoria')) inicializarAuditoria();
+    }
+    if (viewName === 'usuarios') {
+        if (PermisosManager.protegerVista('usuarios-container', 'gestionar_usuarios')) inicializarUsuarios();
+    }
 
     console.log(`Vista cambiada a: ${viewName}`);
 }
@@ -441,6 +445,10 @@ function clearWorkTable() {
 // ========================================
 
 function saveWorkData() {
+    if (!PermisosManager.puede('usar_trabajo')) {
+        PermisosManager.mostrarDenegado('usar_trabajo');
+        return;
+    }
     const sheet = StateManager.getActiveSheet();
 
     if (!sheet) {
@@ -948,6 +956,10 @@ function downloadSampleData() {
 // ========================================
 
 function ejecutarAnalisis() {
+    if (!PermisosManager.puede('ejecutar_analisis')) {
+        PermisosManager.mostrarDenegado('ejecutar_analisis');
+        return;
+    }
     console.log('Botón Ejecutar Análisis presionado');
 
     const importedData = StateManager.getImportedData();
@@ -1047,6 +1059,10 @@ function mostrarResultados(htmlResultados) {
 // ========================================
 
 function exportarResultados() {
+    if (!PermisosManager.puede('exportar_reportes')) {
+        PermisosManager.mostrarDenegado('exportar_reportes');
+        return;
+    }
     if (!ultimosResultados) {
         alert('⚠️ No hay resultados para exportar. Ejecuta un análisis primero.');
         return;
@@ -1292,6 +1308,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('✅ Sesión iniciada:', username);
             _initApp();
             _renderUserChip(username);
+            PermisosManager.aplicarUI(Auth.getSession());
         },
         onLogout: (reason) => {
             console.log('🔒 Sesión cerrada:', reason);
