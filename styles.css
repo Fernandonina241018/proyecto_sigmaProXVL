@@ -1516,3 +1516,101 @@ body {
     color: white;
     transform: scale(1.1);
 }
+
+/* ========================================
+   SIDEBAR COLLAPSIBLE TOGGLE
+   ======================================== */
+
+.stats-menu,
+.active-sidebar {
+    transition: width 0.3s ease, min-width 0.3s ease, padding 0.3s ease;
+    position: relative;
+    overflow: visible; /* necesario para que el botón sobresalga */
+}
+
+/* ── Botón de toggle ── */
+.sidebar-toggle-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 52px;
+    background: #6c63ff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 11px;
+    z-index: 100;
+    transition: background 0.2s, opacity 0.2s;
+    padding: 0;
+    line-height: 1;
+}
+
+.sidebar-toggle-btn:hover {
+    background: #5a52d5;
+}
+
+/* Botón del sidebar izquierdo: sobresale por la derecha */
+.stats-menu .sidebar-toggle-btn {
+    right: -18px;
+    border-radius: 0 6px 6px 0;
+}
+
+/* Botón del sidebar derecho: sobresale por la izquierda */
+.active-sidebar .sidebar-toggle-btn {
+    left: -18px;
+    border-radius: 6px 0 0 6px;
+}
+
+/* ── Estado colapsado ── */
+.stats-menu.sidebar-collapsed {
+    width: 36px !important;
+    min-width: 36px !important;
+    padding: 0 !important;
+}
+
+.active-sidebar.sidebar-collapsed {
+    width: 36px !important;
+    min-width: 36px !important;
+    padding: 0 !important;
+}
+
+/* Ocultar contenido interno al colapsar */
+.stats-menu.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label),
+.active-sidebar.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label) {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+/* Mostrar contenido al expandir */
+.stats-menu:not(.sidebar-collapsed) > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label),
+.active-sidebar:not(.sidebar-collapsed) > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label) {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.25s ease 0.05s; /* leve delay para que espere al ancho */
+}
+
+/* ── Etiqueta vertical en franja colapsada ── */
+.sidebar-strip-label {
+    display: none;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 10px;
+    font-weight: 600;
+    color: #888;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    text-align: center;
+    width: 100%;
+    margin-top: 12px;
+    pointer-events: none;
+    user-select: none;
+}
+
+.sidebar-collapsed .sidebar-strip-label {
+    display: block;
+}

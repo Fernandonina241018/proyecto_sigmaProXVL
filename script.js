@@ -1341,6 +1341,8 @@ function _initApp() {
         console.warn('No se encontró el botón .btn-run en el DOM');
     }
 
+    setupSidebarToggles(); // ← agregar aquí
+    
     console.log('✅ Formatos soportados: CSV, JSON, TXT');
     console.log('✅ Estado centralizado activo');
 }
@@ -1377,6 +1379,81 @@ function _renderUserChip(username) {
     const usrTab = document.getElementById('nav-usuarios');
     if (usrTab) usrTab.style.display = isAdmin ? '' : 'none';
     navContent.appendChild(chip);
+}
+
+// ========================================
+// SIDEBAR COLLAPSIBLE
+// ========================================
+
+function setupSidebarToggles() {
+    const STORAGE_KEY_LEFT  = 'sidebar_left_collapsed';
+    const STORAGE_KEY_RIGHT = 'sidebar_right_collapsed';
+
+    const leftSidebar  = document.querySelector('.stats-menu');
+    const rightSidebar = document.querySelector('.active-sidebar');
+
+    if (!leftSidebar || !rightSidebar) return;
+
+    // ── Crear botones de toggle ──
+
+    function crearBoton(arrowExpandida, arrowColapsada) {
+        const btn = document.createElement('button');
+        btn.className = 'sidebar-toggle-btn';
+        btn.setAttribute('aria-label', 'Toggle sidebar');
+        btn.dataset.arrowExp = arrowExpandida;
+        btn.dataset.arrowCol = arrowColapsada;
+        btn.textContent = arrowExpandida;
+        return btn;
+    }
+
+    function crearLabel(texto) {
+        const label = document.createElement('div');
+        label.className = 'sidebar-strip-label';
+        label.textContent = texto;
+        return label;
+    }
+
+    const btnLeft  = crearBoton('◀', '▶');
+    const btnRight = crearBoton('▶', '◀');
+
+    leftSidebar.appendChild(btnLeft);
+    leftSidebar.appendChild(crearLabel('Estadísticos'));
+
+    rightSidebar.appendChild(btnRight);
+    rightSidebar.appendChild(crearLabel('En Proceso'));
+
+    // ── Aplicar estado guardado en sesión ──
+
+    function aplicarEstado(sidebar, btn, collapsed) {
+        if (collapsed) {
+            sidebar.classList.add('sidebar-collapsed');
+            btn.textContent = btn.dataset.arrowCol;
+        } else {
+            sidebar.classList.remove('sidebar-collapsed');
+            btn.textContent = btn.dataset.arrowExp;
+        }
+    }
+
+    aplicarEstado(leftSidebar,  btnLeft,  sessionStorage.getItem(STORAGE_KEY_LEFT)  === 'true');
+    aplicarEstado(rightSidebar, btnRight, sessionStorage.getItem(STORAGE_KEY_RIGHT) === 'true');
+
+    // ── Click handlers ──
+
+    btnLeft.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const collapsed = !leftSidebar.classList.contains('sidebar-collapsed');
+        sessionStorage.setItem(STORAGE_KEY_LEFT, collapsed);
+        aplicarEstado(leftSidebar, btnLeft, collapsed);
+    });
+
+    btnRight.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const collapsed = !rightSidebar.classList.contains('sidebar-collapsed');
+        sessionStorage.setItem(STORAGE_KEY_RIGHT, collapsed);
+        aplicarEstado(rightSidebar, btnRight, collapsed);
+    });
+
+    console.log('✅ Sidebar toggles inicializados');
 }
 
 console.log('✅ script.js cargado');
