@@ -235,4 +235,16 @@ function aplicarUI(session) {
     }
 }
 
+    return {
+        puede,
+        getRol,
+        mostrarDenegado,
+        proteger,
+        protegerVista,
+        aplicarUI,
+        PERMISOS,
+    };
+
+    })();
+
 console.log('✅ PermisosManager cargado');
