@@ -139,68 +139,100 @@ const PermisosManager = (() => {
     }
 
     // ── Ocultar/deshabilitar elementos ────
-    function aplicarUI(session) {
-        if (!session) return;
-        const rol = session.role || 'readonly';
+    // ── Ocultar/deshabilitar elementos ────
+function aplicarUI(session) {
+    if (!session) return;
+    const rol = session.role || 'readonly';
 
-        // Pestañas del nav — ya manejadas por _renderUserChip para admin
-        // Aquí manejamos visibilidad de botones en vistas
+    // ─────────────────────────────────────────────────────────
+    // RESET: devolver TODOS los elementos a su estado neutro
+    // antes de aplicar los permisos del nuevo rol.
+    // Sin este reset, los estilos del usuario anterior persisten.
+    // ─────────────────────────────────────────────────────────
 
-        // Botón Importar Datos
-        document.querySelectorAll('.btn-import').forEach(btn => {
-            btn.style.display = PERMISOS['importar_datos'].includes(rol) ? '' : 'none';
-        });
+    // Resetear btn-import
+    document.querySelectorAll('.btn-import').forEach(btn => {
+        btn.style.display = '';
+    });
 
-        // Botón Ejecutar Análisis
-        document.querySelectorAll('.btn-run').forEach(btn => {
-            if (!PERMISOS['ejecutar_analisis'].includes(rol)) {
-                btn.style.opacity   = '0.4';
-                btn.style.cursor    = 'not-allowed';
-                btn.title           = 'Sin permisos para ejecutar análisis';
-            }
-        });
+    // Resetear btn-run
+    document.querySelectorAll('.btn-run').forEach(btn => {
+        btn.style.opacity = '';
+        btn.style.cursor  = '';
+        btn.title         = '';
+    });
 
-        // Botones de transformación en Datos
-        document.querySelectorAll('.dm-btn-tool, #dm-btn-replace').forEach(btn => {
-            if (!PERMISOS['editar_datos'].includes(rol)) {
-                btn.style.opacity   = '0.4';
-                btn.style.cursor    = 'not-allowed';
-                btn.title           = 'Sin permisos para editar datos';
-            }
-        });
+    // Resetear botones de transformación en Datos
+    document.querySelectorAll('.dm-btn-tool, #dm-btn-replace').forEach(btn => {
+        btn.style.opacity = '';
+        btn.style.cursor  = '';
+        btn.title         = '';
+    });
 
-        // Botones de Trabajo
-        document.querySelectorAll('.btn-add-row,.btn-add-column,.btn-delete-row,.btn-delete-column,.btn-clear-table,.btn-save-work,.btn-generate-table,.btn-paste-data').forEach(btn => {
-            if (!PERMISOS['usar_trabajo'].includes(rol)) {
-                btn.style.opacity   = '0.4';
-                btn.style.cursor    = 'not-allowed';
-                btn.title           = 'Sin permisos para editar la hoja de trabajo';
-            }
-        });
+    // Resetear botones de Trabajo
+    document.querySelectorAll([
+        '.btn-add-row','.btn-add-column',
+        '.btn-delete-row','.btn-delete-column',
+        '.btn-clear-table','.btn-save-work',
+        '.btn-generate-table','.btn-paste-data'
+    ].join(',')).forEach(btn => {
+        btn.style.opacity = '';
+        btn.style.cursor  = '';
+        btn.title         = '';
+    });
 
-        // Pestaña Auditoría — visible para supervisor, gerente, admin
-        const audTab = document.getElementById('nav-auditoria');
-        if (audTab) {
-            audTab.style.display = PERMISOS['ver_auditoria'].includes(rol) ? '' : 'none';
+    // ─────────────────────────────────────────────────────────
+    // APLICAR permisos del rol actual (desde cero)
+    // ─────────────────────────────────────────────────────────
+
+    // Botón Importar Datos
+    document.querySelectorAll('.btn-import').forEach(btn => {
+        btn.style.display = PERMISOS['importar_datos'].includes(rol) ? '' : 'none';
+    });
+
+    // Botón Ejecutar Análisis
+    document.querySelectorAll('.btn-run').forEach(btn => {
+        if (!PERMISOS['ejecutar_analisis'].includes(rol)) {
+            btn.style.opacity = '0.4';
+            btn.style.cursor  = 'not-allowed';
+            btn.title         = 'Sin permisos para ejecutar análisis';
         }
+    });
 
-        // Pestaña Usuarios — solo admin
-        const usrTab = document.getElementById('nav-usuarios');
-        if (usrTab) {
-            usrTab.style.display = PERMISOS['gestionar_usuarios'].includes(rol) ? '' : 'none';
+    // Botones de transformación en Datos
+    document.querySelectorAll('.dm-btn-tool, #dm-btn-replace').forEach(btn => {
+        if (!PERMISOS['editar_datos'].includes(rol)) {
+            btn.style.opacity = '0.4';
+            btn.style.cursor  = 'not-allowed';
+            btn.title         = 'Sin permisos para editar datos';
         }
+    });
+
+    // Botones de Trabajo
+    document.querySelectorAll([
+        '.btn-add-row','.btn-add-column',
+        '.btn-delete-row','.btn-delete-column',
+        '.btn-clear-table','.btn-save-work',
+        '.btn-generate-table','.btn-paste-data'
+    ].join(',')).forEach(btn => {
+        if (!PERMISOS['usar_trabajo'].includes(rol)) {
+            btn.style.opacity = '0.4';
+            btn.style.cursor  = 'not-allowed';
+            btn.title         = 'Sin permisos para editar la hoja de trabajo';
+        }
+    });
+
+    // Pestaña Auditoría
+    const audTab = document.getElementById('nav-auditoria');
+    if (audTab) {
+        audTab.style.display = PERMISOS['ver_auditoria'].includes(rol) ? '' : 'none';
     }
 
-    return {
-        puede,
-        getRol,
-        mostrarDenegado,
-        proteger,
-        protegerVista,
-        aplicarUI,
-        PERMISOS,
-    };
-
-})();
+    // Pestaña Usuarios
+    const usrTab = document.getElementById('nav-usuarios');
+    if (usrTab) {
+        usrTab.style.display = PERMISOS['gestionar_usuarios'].includes(rol) ? '' : 'none';
+    }
+}
 
 console.log('✅ PermisosManager cargado');
