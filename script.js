@@ -904,137 +904,11 @@ function displayImportedData(data) {
             <button class="dp-btn-secondary" id="btn-clear-imported">Limpiar datos</button>
             <button class="dp-btn-secondary" id="btn-download-sample">Descargar plantilla CSV</button>
         </div>
-    </div>
-
-    ${_buildParamsPanel(data)}`;
+    </div>`;
 
     document.getElementById('dp-btn-run')?.addEventListener('click', ejecutarAnalisis);
     document.getElementById('btn-clear-imported')?.addEventListener('click', clearImportedData);
     document.getElementById('btn-download-sample')?.addEventListener('click', downloadSampleData);
-
-    _attachParamsListeners(data);
-}
-
-// ── Panel de parámetros de control ────
-function _buildParamsPanel(data) {
-    const state   = ParametrosManager.getRawState();
-    const global  = state.global  || {};
-    const columns = state.columns || {};
-
-    const numericCols = data.headers.filter(h => {
-        const vals = data.data.slice(0, 10).map(r => parseFloat(r[h]));
-        return vals.filter(v => !isNaN(v)).length >= vals.length * 0.7;
-    });
-
-    if (!numericCols.length) return '';
-
-    const colRows = numericCols.map(col => {
-        const c = columns[col] || {};
-        return `
-        <div class="pc-col-row" data-col="${escapeHtml(col)}">
-            <div class="pc-col-name">${escapeHtml(col)}</div>
-            <input class="pc-input" type="number" step="any"
-                   placeholder="${global.min !== '' && global.min !== undefined ? 'Global: '+global.min : 'LSL'}"
-                   value="${c.min ?? ''}" data-field="min" data-col="${escapeHtml(col)}">
-            <input class="pc-input" type="number" step="any"
-                   placeholder="${global.max !== '' && global.max !== undefined ? 'Global: '+global.max : 'USL'}"
-                   value="${c.max ?? ''}" data-field="max" data-col="${escapeHtml(col)}">
-            <input class="pc-input" type="number" step="any"
-                   placeholder="${global.esp !== '' && global.esp !== undefined ? 'Global: '+global.esp : 'Target'}"
-                   value="${c.esp ?? ''}" data-field="esp" data-col="${escapeHtml(col)}">
-        </div>`;
-    }).join('');
-
-    return `
-    <div class="pc-panel" id="pc-panel">
-        <div class="pc-header">
-            <div class="pc-header-left">
-                <span class="pc-title">⚙️ Parámetros de Control</span>
-                <span class="pc-subtitle">LSL · USL · Target por columna numérica</span>
-            </div>
-            <button class="pc-toggle-btn" id="pc-toggle-btn">▼ Ocultar</button>
-        </div>
-
-        <div class="pc-body" id="pc-body">
-            <!-- Global -->
-            <div class="pc-section-label">Valores globales (aplican a todas las columnas si no tienen valor propio)</div>
-            <div class="pc-global-row">
-                <div class="pc-col-name pc-global-label">Global</div>
-                <div class="pc-input-wrap">
-                    <label class="pc-input-label">LSL (Mínimo)</label>
-                    <input class="pc-input pc-global-input" type="number" step="any"
-                           id="pc-global-min" value="${global.min ?? ''}" placeholder="—">
-                </div>
-                <div class="pc-input-wrap">
-                    <label class="pc-input-label">USL (Máximo)</label>
-                    <input class="pc-input pc-global-input" type="number" step="any"
-                           id="pc-global-max" value="${global.max ?? ''}" placeholder="—">
-                </div>
-                <div class="pc-input-wrap">
-                    <label class="pc-input-label">Target</label>
-                    <input class="pc-input pc-global-input" type="number" step="any"
-                           id="pc-global-esp" value="${global.esp ?? ''}" placeholder="—">
-                </div>
-            </div>
-
-            <!-- Por columna -->
-            <div class="pc-section-label" style="margin-top:14px">Valores por columna (sobreescriben el global)</div>
-            <div class="pc-cols-header">
-                <div class="pc-col-name">Columna</div>
-                <div>LSL</div><div>USL</div><div>Target</div>
-            </div>
-            ${colRows}
-
-            <div class="pc-footer-row">
-                <button class="pc-btn-save" id="pc-btn-save">💾 Guardar parámetros</button>
-                <button class="pc-btn-reset" id="pc-btn-reset">✕ Limpiar todo</button>
-                <span class="pc-saved-msg" id="pc-saved-msg"></span>
-            </div>
-        </div>
-    </div>`;
-}
-
-function _attachParamsListeners(data) {
-    // Toggle panel
-    document.getElementById('pc-toggle-btn')?.addEventListener('click', () => {
-        const body = document.getElementById('pc-body');
-        const btn  = document.getElementById('pc-toggle-btn');
-        if (!body || !btn) return;
-        const open = body.style.display !== 'none';
-        body.style.display = open ? 'none' : 'block';
-        btn.textContent    = open ? '▶ Mostrar' : '▼ Ocultar';
-    });
-
-    // Guardar parámetros
-    document.getElementById('pc-btn-save')?.addEventListener('click', () => {
-        // Global
-        const gMin = document.getElementById('pc-global-min')?.value.trim();
-        const gMax = document.getElementById('pc-global-max')?.value.trim();
-        const gEsp = document.getElementById('pc-global-esp')?.value.trim();
-        ParametrosManager.setGlobal(gMin, gMax, gEsp);
-
-        // Por columna
-        document.querySelectorAll('.pc-col-row').forEach(row => {
-            const col = row.dataset.col;
-            const min = row.querySelector('[data-field="min"]')?.value.trim();
-            const max = row.querySelector('[data-field="max"]')?.value.trim();
-            const esp = row.querySelector('[data-field="esp"]')?.value.trim();
-            ParametrosManager.setColumna(col, min, max, esp);
-        });
-
-        const msg = document.getElementById('pc-saved-msg');
-        if (msg) {
-            msg.textContent = '✅ Guardado';
-            setTimeout(() => { msg.textContent = ''; }, 2500);
-        }
-    });
-
-    // Reset
-    document.getElementById('pc-btn-reset')?.addEventListener('click', () => {
-        if (!confirm('¿Limpiar todos los parámetros de control?')) return;
-        ParametrosManager.reset();
-        displayImportedData(data);
-    });
 }
 
 function clearImportedData() {
@@ -1132,9 +1006,6 @@ function ejecutarAnalisis() {
             // FIX: solo inyecta los resultados. NO llama a ocultarCargando().
             mostrarResultados(html);
 
-            // Inyectar bloque de cumplimiento si hay parámetros definidos
-            _mostrarCumplimiento(resultados);
-
             switchView('analisis');
             console.log('Análisis completado con éxito');
 
@@ -1145,69 +1016,6 @@ function ejecutarAnalisis() {
             alert('❌ Error al ejecutar el análisis:\n\n' + error.message);
         }
     }, 50);
-}
-
-// ── Bloque de cumplimiento de parámetros ─
-function _mostrarCumplimiento(resultados) {
-    const imported = StateManager.getImportedData();
-    if (!imported) return;
-
-    const cols = resultados.columnasAnalizadas || [];
-    const bloques = cols.map(col => {
-        const verif = ParametrosManager.verificarColumna(imported, col);
-        if (!verif) return '';
-
-        const p   = verif.parametros;
-        const pct = parseFloat(verif.porcentajeCumplimiento);
-        const badgeCls = pct >= 99 ? 'pc-badge-ok' : pct >= 90 ? 'pc-badge-warn' : 'pc-badge-fail';
-        const badgeTxt = pct >= 99 ? '✓ Cumple' : pct >= 90 ? '⚠ Parcial' : '✗ No cumple';
-
-        const lslStr    = p.min !== null ? p.min : '—';
-        const uslStr    = p.max !== null ? p.max : '—';
-        const targetStr = p.esp !== null ? p.esp : '—';
-
-        return `
-        <div class="pc-compliance-row">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-                <strong style="font-size:0.85rem">${escapeHtml(col)}</strong>
-                <span class="pc-badge ${badgeCls}">${badgeTxt} · ${pct}%</span>
-            </div>
-            <div class="pc-compliance-grid">
-                <div class="pc-compliance-item">
-                    <div class="pc-compliance-val">${lslStr}</div>
-                    <div class="pc-compliance-lbl">LSL</div>
-                </div>
-                <div class="pc-compliance-item">
-                    <div class="pc-compliance-val">${uslStr}</div>
-                    <div class="pc-compliance-lbl">USL</div>
-                </div>
-                <div class="pc-compliance-item">
-                    <div class="pc-compliance-val">${targetStr}</div>
-                    <div class="pc-compliance-lbl">Target</div>
-                </div>
-            </div>
-            <div style="margin-top:8px;font-size:0.78rem;color:#64748b">
-                ${verif.fueraDeRango} de ${verif.total} valor${verif.total !== 1 ? 'es' : ''} fuera de rango
-                ${verif.mediaReal !== null ? ` · Media: ${Number(verif.mediaReal).toFixed(4)}` : ''}
-            </div>
-        </div>`;
-    }).filter(Boolean).join('');
-
-    if (!bloques) return;
-
-    const placeholder = document.querySelector('#view-analisis .content-placeholder');
-    if (!placeholder) return;
-
-    const wrapper = document.createElement('div');
-    wrapper.innerHTML = `
-    <div style="margin-top:16px;padding:14px 16px;background:white;border:0.5px solid #e2e8f0;border-radius:12px">
-        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#94a3b8;margin-bottom:12px">
-            ⚙️ Cumplimiento de parámetros de control
-        </div>
-        ${bloques}
-    </div>`;
-
-    placeholder.appendChild(wrapper);
 }
 
 // Muestra el spinner de carga
@@ -1533,6 +1341,8 @@ function _initApp() {
         console.warn('No se encontró el botón .btn-run en el DOM');
     }
 
+    setupSidebarToggles(); // ← agregar aquí
+    
     console.log('✅ Formatos soportados: CSV, JSON, TXT');
     console.log('✅ Estado centralizado activo');
 }
@@ -1569,6 +1379,81 @@ function _renderUserChip(username) {
     const usrTab = document.getElementById('nav-usuarios');
     if (usrTab) usrTab.style.display = isAdmin ? '' : 'none';
     navContent.appendChild(chip);
+}
+
+// ========================================
+// SIDEBAR COLLAPSIBLE
+// ========================================
+
+function setupSidebarToggles() {
+    const STORAGE_KEY_LEFT  = 'sidebar_left_collapsed';
+    const STORAGE_KEY_RIGHT = 'sidebar_right_collapsed';
+
+    const leftSidebar  = document.querySelector('.stats-menu');
+    const rightSidebar = document.querySelector('.active-sidebar');
+
+    if (!leftSidebar || !rightSidebar) return;
+
+    // ── Crear botones de toggle ──
+
+    function crearBoton(arrowExpandida, arrowColapsada) {
+        const btn = document.createElement('button');
+        btn.className = 'sidebar-toggle-btn';
+        btn.setAttribute('aria-label', 'Toggle sidebar');
+        btn.dataset.arrowExp = arrowExpandida;
+        btn.dataset.arrowCol = arrowColapsada;
+        btn.textContent = arrowExpandida;
+        return btn;
+    }
+
+    function crearLabel(texto) {
+        const label = document.createElement('div');
+        label.className = 'sidebar-strip-label';
+        label.textContent = texto;
+        return label;
+    }
+
+    const btnLeft  = crearBoton('◀', '▶');
+    const btnRight = crearBoton('▶', '◀');
+
+    leftSidebar.appendChild(btnLeft);
+    leftSidebar.appendChild(crearLabel('Estadísticos'));
+
+    rightSidebar.appendChild(btnRight);
+    rightSidebar.appendChild(crearLabel('En Proceso'));
+
+    // ── Aplicar estado guardado en sesión ──
+
+    function aplicarEstado(sidebar, btn, collapsed) {
+        if (collapsed) {
+            sidebar.classList.add('sidebar-collapsed');
+            btn.textContent = btn.dataset.arrowCol;
+        } else {
+            sidebar.classList.remove('sidebar-collapsed');
+            btn.textContent = btn.dataset.arrowExp;
+        }
+    }
+
+    aplicarEstado(leftSidebar,  btnLeft,  sessionStorage.getItem(STORAGE_KEY_LEFT)  === 'true');
+    aplicarEstado(rightSidebar, btnRight, sessionStorage.getItem(STORAGE_KEY_RIGHT) === 'true');
+
+    // ── Click handlers ──
+
+    btnLeft.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const collapsed = !leftSidebar.classList.contains('sidebar-collapsed');
+        sessionStorage.setItem(STORAGE_KEY_LEFT, collapsed);
+        aplicarEstado(leftSidebar, btnLeft, collapsed);
+    });
+
+    btnRight.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const collapsed = !rightSidebar.classList.contains('sidebar-collapsed');
+        sessionStorage.setItem(STORAGE_KEY_RIGHT, collapsed);
+        aplicarEstado(rightSidebar, btnRight, collapsed);
+    });
+
+    console.log('✅ Sidebar toggles inicializados');
 }
 
 console.log('✅ script.js cargado');
