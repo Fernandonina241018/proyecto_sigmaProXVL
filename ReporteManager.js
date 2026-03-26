@@ -765,7 +765,25 @@ const ReporteManager = (() => {
                     notes.push('Distribución no normal sospechada.');
                 }
             }
-            ext[col]={cv,flags,notes};
+            //ext[col]={cv,flags,notes};
+            // ★ Integración ParametrosManager
+            let paramVerificacion = null;
+            if (typeof ParametrosManager !== 'undefined') {
+                const _imported = (typeof StateManager !== 'undefined') ? StateManager.getImportedData() : null;
+                if (_imported) {
+                    paramVerificacion = ParametrosManager.verificarColumna(_imported, col);
+                    if (paramVerificacion && paramVerificacion.fueraDeRango > 0) {
+                        const p = paramVerificacion.parametros;
+                        const limites = [
+                            p.min !== null ? `Mín=${p.min}` : null,
+                            p.max !== null ? `Máx=${p.max}` : null,
+                            p.esp !== null ? `Esp=${p.esp}` : null,
+                        ].filter(Boolean).join(' · ');
+                        flags.push(`[FLAG-PARAM] ${paramVerificacion.fueraDeRango}/${paramVerificacion.total} valores fuera de parámetros (${limites})`);
+                    }
+                }
+            }
+            ext[col] = { cv, flags, notes, paramVerificacion };
         });
         return ext;
     }
@@ -834,8 +852,27 @@ const ReporteManager = (() => {
                 }
             });
             if(ext[col]?.cv!=null) p(`  ${pad(t('cv')+':',28)}${pad(ext[col].cv.toFixed(2)+'%',18)}${t('cvRef')}`);
+            //if(ext[col].flags.length){p('');p(`  ⚠  ${t('flagsLabel')}:`);ext[col].flags.forEach(f=>p(`     ${f}`));}
+            //p('');
+
+            // Parámetros de control definidos por el usuario
+            if (ext[col]?.paramVerificacion) {
+                const pv = ext[col].paramVerificacion;
+                const p_ = pv.parametros;
+                p('');
+                p(`  ${singleLine(W-4)}`);
+                p(`  PARÁMETROS DE CONTROL DEFINIDOS`);
+                if (p_.min !== null) p(`  ${pad('  Límite Mínimo :',28)}${pad(String(p_.min),18)}`);
+                if (p_.max !== null) p(`  ${pad('  Límite Máximo :',28)}${pad(String(p_.max),18)}`);
+                if (p_.esp !== null) p(`  ${pad('  Esperanza     :',28)}${pad(String(p_.esp),18)}`);
+                p(`  ${pad('  Fuera de rango:',28)}${pv.fueraDeRango} / ${pv.total} valores`);
+                p(`  ${pad('  Cumplimiento  :',28)}${pv.porcentajeCumplimiento}%`);
+                p(`  ${pad('  Media real    :',28)}${pv.mediaReal !== null ? Number(pv.mediaReal).toFixed(4) : '—'}`);
+            }
             if(ext[col].flags.length){p('');p(`  ⚠  ${t('flagsLabel')}:`);ext[col].flags.forEach(f=>p(`     ${f}`));}
             p('');
+
+
         });
         p(singleLine(W)); p(`  ${t('sec5')}`); p(singleLine(W));
         p(`  ${t('variance')}`);p(`  ${t('percentiles')}`);
@@ -878,9 +915,10 @@ const ReporteManager = (() => {
             `## ${t('preparedBy')}|${meta.preparedBy||''}`,
             `## ${t('totalRecords')}|${resultados.totalFilas}`,
             '##',
-            `${t('variable')}|${t('statistic')}|SUB_KEY|${t('value')}|CV_PCT|FLAG_COUNT|FLAGS`
+            //`${t('variable')}|${t('statistic')}|SUB_KEY|${t('value')}|CV_PCT|FLAG_COUNT|FLAGS`
+            `${t('variable')}|${t('statistic')}|SUB_KEY|${t('value')}|CV_PCT|PARAM_MIN|PARAM_MAX|PARAM_ESP|PARAM_FUERA|PARAM_CUMPLIMIENTO_PCT|FLAG_COUNT|FLAGS`
         ];
-        resultados.columnasAnalizadas.forEach(col=>{
+        /*resultados.columnasAnalizadas.forEach(col=>{
             const cv=ext[col]?.cv?.toFixed(4)??'';
             const flagCount=ext[col]?.flags?.length??0;
             const flagsTxt=(ext[col]?.flags??[]).join(' | ');
@@ -892,6 +930,31 @@ const ReporteManager = (() => {
                     rows.push([col,stat,'MODE',val.map(v=>fmtNum(v,6)).join(';'),cv,flagCount,flagsTxt].join('|'));
                 } else {
                     rows.push([col,stat,'',fmtNum(val,6),cv,flagCount,flagsTxt].join('|'));
+                }
+            });
+        }); */
+
+        resultados.columnasAnalizadas.forEach(col=>{
+            const cv          = ext[col]?.cv?.toFixed(4) ?? '';
+            const flagCount   = ext[col]?.flags?.length  ?? 0;
+            const flagsTxt    = (ext[col]?.flags ?? []).join(' | ');
+            const pv          = ext[col]?.paramVerificacion;
+            const paramMin    = pv?.parametros?.min  ?? '';
+            const paramMax    = pv?.parametros?.max  ?? '';
+            const paramEsp    = pv?.parametros?.esp  ?? '';
+            const paramFuera  = pv != null ? pv.fueraDeRango  : '';
+            const paramCumpl  = pv != null ? pv.porcentajeCumplimiento : '';
+
+            Object.entries(resultados.resultados).forEach(([stat,data])=>{
+                const val=data[col]; if(val===undefined)return;
+                if(typeof val==='object'&&!Array.isArray(val)){
+                    Object.entries(val).forEach(([k,v])=>rows.push(
+                        [col,stat,k,fmtNum(v,6),cv,paramMin,paramMax,paramEsp,paramFuera,paramCumpl,flagCount,flagsTxt].join('|')
+                    ));
+                } else if(Array.isArray(val)){
+                    rows.push([col,stat,'MODE',val.map(v=>fmtNum(v,6)).join(';'),cv,paramMin,paramMax,paramEsp,paramFuera,paramCumpl,flagCount,flagsTxt].join('|'));
+                } else {
+                    rows.push([col,stat,'',fmtNum(val,6),cv,paramMin,paramMax,paramEsp,paramFuera,paramCumpl,flagCount,flagsTxt].join('|'));
                 }
             });
         });
@@ -918,6 +981,20 @@ const ReporteManager = (() => {
                 }
             });
             if(ext[col]?.cv!=null) h+=`<tr style="background:#fffaf0"><td><strong>${t('cv')}</strong></td><td style="font-family:monospace;text-align:right;font-weight:600;color:#b7791f">${ext[col].cv.toFixed(2)}%</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">${t('cvRef')}</td></tr>`;
+            // ★ Parámetros de control
+            const pv = ext[col]?.paramVerificacion;
+            if (pv) {
+                const p_ = pv.parametros;
+                const cumplPct = parseFloat(pv.porcentajeCumplimiento);
+                const cumplColor = cumplPct >= 95 ? '#276749' : cumplPct >= 80 ? '#b7791f' : '#c53030';
+                const cumplBg    = cumplPct >= 95 ? '#f0fff4' : cumplPct >= 80 ? '#fffbeb' : '#fff5f5';
+                h += `<tr style="background:#eef2ff"><td colspan="3" style="padding:5px 14px;font-size:8pt;color:#3730a3;font-weight:600;letter-spacing:.5px">🎯 PARÁMETROS DE CONTROL</td></tr>`;
+                if (p_.min !== null) h += `<tr><td style="padding-left:26px;color:#555">· Límite Mínimo</td><td style="font-family:monospace;text-align:right;color:#3730a3;font-weight:500">${p_.min}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">Definido por usuario</td></tr>`;
+                if (p_.max !== null) h += `<tr><td style="padding-left:26px;color:#555">· Límite Máximo</td><td style="font-family:monospace;text-align:right;color:#3730a3;font-weight:500">${p_.max}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">Definido por usuario</td></tr>`;
+                if (p_.esp !== null) h += `<tr><td style="padding-left:26px;color:#555">· Esperanza</td><td style="font-family:monospace;text-align:right;color:#3730a3;font-weight:500">${p_.esp}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">Definido por usuario</td></tr>`;
+                h += `<tr><td style="padding-left:26px;color:#555">· Fuera de rango</td><td style="font-family:monospace;text-align:right;font-weight:600;color:${pv.fueraDeRango > 0 ? '#c53030' : '#276749'}">${pv.fueraDeRango} / ${pv.total}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">valores</td></tr>`;
+                h += `<tr style="background:${cumplBg}"><td style="padding-left:26px;color:#555;font-weight:600">· Cumplimiento</td><td style="font-family:monospace;text-align:right;font-weight:700;color:${cumplColor}">${pv.porcentajeCumplimiento}%</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">Media real: ${pv.mediaReal !== null ? Number(pv.mediaReal).toFixed(4) : '—'}</td></tr>`;
+            }
             return h;
         }
         function flagBadges(col){
@@ -1033,6 +1110,43 @@ tr:hover td{background:#f7faff}
         ?`<strong>${t('html_flagsGlobal',totalFlags)}</strong><br><br>${Object.entries(ext).flatMap(([col,d])=>d.flags.map(f=>`<strong>${col}:</strong> ${f}`)).join('<br>')}`
         :`<strong>${t('html_noFlagsGlobal')}</strong>`}
     </div>
+    ${(() => {
+      const colsConParam = resultados.columnasAnalizadas
+          .map(col => ext[col]?.paramVerificacion)
+          .filter(pv => pv !== null && pv !== undefined);
+      if (colsConParam.length === 0) return '';
+      const totalFuera = colsConParam.reduce((a, pv) => a + pv.fueraDeRango, 0);
+      const rows = colsConParam.map(pv => {
+          const cumplPct = parseFloat(pv.porcentajeCumplimiento);
+          const color = cumplPct >= 95 ? '#276749' : cumplPct >= 80 ? '#b7791f' : '#c53030';
+          const bg    = cumplPct >= 95 ? '#f0fff4' : cumplPct >= 80 ? '#fffbeb' : '#fff5f5';
+          return `<tr style="background:${bg}">
+              <td style="font-weight:600">${pv.col}</td>
+              <td style="font-family:monospace;text-align:center">${pv.parametros.min ?? '—'}</td>
+              <td style="font-family:monospace;text-align:center">${pv.parametros.max ?? '—'}</td>
+              <td style="font-family:monospace;text-align:center">${pv.parametros.esp ?? '—'}</td>
+              <td style="font-family:monospace;text-align:right;font-weight:600;color:${pv.fueraDeRango > 0 ? '#c53030' : '#276749'}">${pv.fueraDeRango} / ${pv.total}</td>
+              <td style="font-family:monospace;text-align:right;font-weight:700;color:${color}">${pv.porcentajeCumplimiento}%</td>
+          </tr>`;
+      }).join('');
+      return `
+      <div style="margin-top:14px;border:1px solid #c7d2fe;border-radius:6px;overflow:hidden">
+          <div style="background:#3730a3;color:white;padding:8px 14px;font-family:monospace;font-size:8pt;letter-spacing:1px">
+              🎯 CONTROL DE PARÁMETROS — ${totalFuera === 0 ? '✓ TODOS DENTRO DE LÍMITES' : `⚠ ${totalFuera} VALORES FUERA DE LÍMITES`}
+          </div>
+          <table style="width:100%;border-collapse:collapse;font-size:9pt">
+              <thead><tr style="background:#eef2ff">
+                  <th style="padding:7px 12px;text-align:left;font-family:monospace;font-size:7pt;color:#3730a3">VARIABLE</th>
+                  <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#3730a3">MÍN</th>
+                  <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#3730a3">MÁX</th>
+                  <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#3730a3">ESPERANZA</th>
+                  <th style="padding:7px 12px;text-align:right;font-family:monospace;font-size:7pt;color:#3730a3">FUERA RANGO</th>
+                  <th style="padding:7px 12px;text-align:right;font-family:monospace;font-size:7pt;color:#3730a3">CUMPLIMIENTO</th>
+              </tr></thead>
+              <tbody>${rows}</tbody>
+          </table>
+      </div>`;
+  })()}
   </div>
   <div class="sec">
     <div class="sec-title"><span class="sec-num">04</span>${t('html_sec4')}</div>
@@ -1560,9 +1674,10 @@ console.log('✅ ReporteManager cargado — FDA 21 CFR Part 11');
             `## ${t('preparedBy')}|${meta.preparedBy||''}`,
             `## ${t('totalRecords')}|${resultados.totalFilas}`,
             '##',
-            `${t('variable')}|${t('statistic')}|SUB_KEY|${t('value')}|CV_PCT|FLAG_COUNT|FLAGS`
+            //`${t('variable')}|${t('statistic')}|SUB_KEY|${t('value')}|CV_PCT|FLAG_COUNT|FLAGS`
+            `${t('variable')}|${t('statistic')}|SUB_KEY|${t('value')}|CV_PCT|PARAM_MIN|PARAM_MAX|PARAM_ESP|PARAM_FUERA|PARAM_CUMPLIMIENTO_PCT|FLAG_COUNT|FLAGS`
         ];
-        resultados.columnasAnalizadas.forEach(col=>{
+        /*resultados.columnasAnalizadas.forEach(col=>{
             const cv=ext[col]?.cv?.toFixed(4)??'';
             const flagCount=ext[col]?.flags?.length??0;
             const flagsTxt=(ext[col]?.flags??[]).join(' | ');
@@ -1576,7 +1691,33 @@ console.log('✅ ReporteManager cargado — FDA 21 CFR Part 11');
                     rows.push([col,stat,'',fmtNum(val,6),cv,flagCount,flagsTxt].join('|'));
                 }
             });
+        });*/
+
+        resultados.columnasAnalizadas.forEach(col=>{
+            const cv          = ext[col]?.cv?.toFixed(4) ?? '';
+            const flagCount   = ext[col]?.flags?.length  ?? 0;
+            const flagsTxt    = (ext[col]?.flags ?? []).join(' | ');
+            const pv          = ext[col]?.paramVerificacion;
+            const paramMin    = pv?.parametros?.min  ?? '';
+            const paramMax    = pv?.parametros?.max  ?? '';
+            const paramEsp    = pv?.parametros?.esp  ?? '';
+            const paramFuera  = pv != null ? pv.fueraDeRango  : '';
+            const paramCumpl  = pv != null ? pv.porcentajeCumplimiento : '';
+
+            Object.entries(resultados.resultados).forEach(([stat,data])=>{
+                const val=data[col]; if(val===undefined)return;
+                if(typeof val==='object'&&!Array.isArray(val)){
+                    Object.entries(val).forEach(([k,v])=>rows.push(
+                        [col,stat,k,fmtNum(v,6),cv,paramMin,paramMax,paramEsp,paramFuera,paramCumpl,flagCount,flagsTxt].join('|')
+                    ));
+                } else if(Array.isArray(val)){
+                    rows.push([col,stat,'MODE',val.map(v=>fmtNum(v,6)).join(';'),cv,paramMin,paramMax,paramEsp,paramFuera,paramCumpl,flagCount,flagsTxt].join('|'));
+                } else {
+                    rows.push([col,stat,'',fmtNum(val,6),cv,paramMin,paramMax,paramEsp,paramFuera,paramCumpl,flagCount,flagsTxt].join('|'));
+                }
+            });
         });
+
         return rows.join('\n');
     }
 
@@ -1600,6 +1741,20 @@ console.log('✅ ReporteManager cargado — FDA 21 CFR Part 11');
                 }
             });
             if(ext[col]?.cv!=null) h+=`<tr style="background:#fffaf0"><td><strong>${t('cv')}</strong></td><td style="font-family:monospace;text-align:right;font-weight:600;color:#b7791f">${ext[col].cv.toFixed(2)}%</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">${t('cvRef')}</td></tr>`;
+            // ★ Parámetros de control
+            const pv = ext[col]?.paramVerificacion;
+            if (pv) {
+                const p_ = pv.parametros;
+                const cumplPct = parseFloat(pv.porcentajeCumplimiento);
+                const cumplColor = cumplPct >= 95 ? '#276749' : cumplPct >= 80 ? '#b7791f' : '#c53030';
+                const cumplBg    = cumplPct >= 95 ? '#f0fff4' : cumplPct >= 80 ? '#fffbeb' : '#fff5f5';
+                h += `<tr style="background:#eef2ff"><td colspan="3" style="padding:5px 14px;font-size:8pt;color:#3730a3;font-weight:600;letter-spacing:.5px">🎯 PARÁMETROS DE CONTROL</td></tr>`;
+                if (p_.min !== null) h += `<tr><td style="padding-left:26px;color:#555">· Límite Mínimo</td><td style="font-family:monospace;text-align:right;color:#3730a3;font-weight:500">${p_.min}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">Definido por usuario</td></tr>`;
+                if (p_.max !== null) h += `<tr><td style="padding-left:26px;color:#555">· Límite Máximo</td><td style="font-family:monospace;text-align:right;color:#3730a3;font-weight:500">${p_.max}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">Definido por usuario</td></tr>`;
+                if (p_.esp !== null) h += `<tr><td style="padding-left:26px;color:#555">· Esperanza</td><td style="font-family:monospace;text-align:right;color:#3730a3;font-weight:500">${p_.esp}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">Definido por usuario</td></tr>`;
+                h += `<tr><td style="padding-left:26px;color:#555">· Fuera de rango</td><td style="font-family:monospace;text-align:right;font-weight:600;color:${pv.fueraDeRango > 0 ? '#c53030' : '#276749'}">${pv.fueraDeRango} / ${pv.total}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">valores</td></tr>`;
+                h += `<tr style="background:${cumplBg}"><td style="padding-left:26px;color:#555;font-weight:600">· Cumplimiento</td><td style="font-family:monospace;text-align:right;font-weight:700;color:${cumplColor}">${pv.porcentajeCumplimiento}%</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">Media real: ${pv.mediaReal !== null ? Number(pv.mediaReal).toFixed(4) : '—'}</td></tr>`;
+            }
             return h;
         }
         function flagBadges(col){
@@ -1715,6 +1870,43 @@ tr:hover td{background:#f7faff}
         ?`<strong>${t('html_flagsGlobal',totalFlags)}</strong><br><br>${Object.entries(ext).flatMap(([col,d])=>d.flags.map(f=>`<strong>${col}:</strong> ${f}`)).join('<br>')}`
         :`<strong>${t('html_noFlagsGlobal')}</strong>`}
     </div>
+    ${(() => {
+      const colsConParam = resultados.columnasAnalizadas
+          .map(col => ext[col]?.paramVerificacion)
+          .filter(pv => pv !== null && pv !== undefined);
+      if (colsConParam.length === 0) return '';
+      const totalFuera = colsConParam.reduce((a, pv) => a + pv.fueraDeRango, 0);
+      const rows = colsConParam.map(pv => {
+          const cumplPct = parseFloat(pv.porcentajeCumplimiento);
+          const color = cumplPct >= 95 ? '#276749' : cumplPct >= 80 ? '#b7791f' : '#c53030';
+          const bg    = cumplPct >= 95 ? '#f0fff4' : cumplPct >= 80 ? '#fffbeb' : '#fff5f5';
+          return `<tr style="background:${bg}">
+              <td style="font-weight:600">${pv.col}</td>
+              <td style="font-family:monospace;text-align:center">${pv.parametros.min ?? '—'}</td>
+              <td style="font-family:monospace;text-align:center">${pv.parametros.max ?? '—'}</td>
+              <td style="font-family:monospace;text-align:center">${pv.parametros.esp ?? '—'}</td>
+              <td style="font-family:monospace;text-align:right;font-weight:600;color:${pv.fueraDeRango > 0 ? '#c53030' : '#276749'}">${pv.fueraDeRango} / ${pv.total}</td>
+              <td style="font-family:monospace;text-align:right;font-weight:700;color:${color}">${pv.porcentajeCumplimiento}%</td>
+          </tr>`;
+      }).join('');
+      return `
+      <div style="margin-top:14px;border:1px solid #c7d2fe;border-radius:6px;overflow:hidden">
+          <div style="background:#3730a3;color:white;padding:8px 14px;font-family:monospace;font-size:8pt;letter-spacing:1px">
+              🎯 CONTROL DE PARÁMETROS — ${totalFuera === 0 ? '✓ TODOS DENTRO DE LÍMITES' : `⚠ ${totalFuera} VALORES FUERA DE LÍMITES`}
+          </div>
+          <table style="width:100%;border-collapse:collapse;font-size:9pt">
+              <thead><tr style="background:#eef2ff">
+                  <th style="padding:7px 12px;text-align:left;font-family:monospace;font-size:7pt;color:#3730a3">VARIABLE</th>
+                  <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#3730a3">MÍN</th>
+                  <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#3730a3">MÁX</th>
+                  <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#3730a3">ESPERANZA</th>
+                  <th style="padding:7px 12px;text-align:right;font-family:monospace;font-size:7pt;color:#3730a3">FUERA RANGO</th>
+                  <th style="padding:7px 12px;text-align:right;font-family:monospace;font-size:7pt;color:#3730a3">CUMPLIMIENTO</th>
+              </tr></thead>
+              <tbody>${rows}</tbody>
+          </table>
+      </div>`;
+  })()}
   </div>
   <div class="sec">
     <div class="sec-title"><span class="sec-num">04</span>${t('html_sec4')}</div>
