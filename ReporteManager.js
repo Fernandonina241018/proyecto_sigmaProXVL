@@ -287,12 +287,28 @@ const ReporteManager = (() => {
             html_noFlagsGlobal:'✓ Sin alertas automáticas detectadas. Todas las variables dentro de rangos esperados.',
             html_flagsGlobal:(n) => `⚠ ${n} alerta(s) automática(s) detectada(s):`,
             html_auditMeta: 'METADATOS DE AUDITORÍA',
-            html_method_v:  'Varianza y DE',            html_method_v_d:'Corrección de Bessel (n-1).',
-            html_method_p:  'Interpolación Percentiles',html_method_p_d:'Interpolación lineal (NIST).',
-            html_method_o:  'Detección Valores Atípicos',
-            html_method_s:  'Asimetría',               html_method_s_d:'Coeficiente de Pearson (2do).',
-            html_method_cv: 'Umbrales CV',
-            html_method_sig:'Significancia',
+
+            html_method_v:    'Varianza y DE',
+            html_method_v_d:  'Corrección de Bessel (n-1).',
+            html_method_v_why:'Cuantifica la dispersión de los datos respecto a la media. Una DE alta indica baja reproducibilidad del proceso; es el indicador principal de variabilidad en validaciones analíticas y control de calidad.',
+
+            html_method_p:    'Interpolación Percentiles',
+            html_method_p_d:  'Interpolación lineal (NIST).',
+            html_method_p_why:'Permite identificar la distribución real de los datos sin asumir normalidad. P25, P50 y P75 revelan asimetrías y son fundamentales para especificaciones de límites de aceptación en procesos regulados.',
+
+            html_method_o:    'Detección Valores Atípicos',
+            html_method_o_why:'Los outliers pueden distorsionar todos los estadísticos de tendencia central y dispersión. Su identificación temprana es crítica para decidir si un dato es un error de medición, una contaminación o una señal de proceso fuera de control.',
+
+            html_method_s:    'Asimetría',
+            html_method_s_d:  'Coeficiente de Pearson (2do).',
+            html_method_s_why:'Una distribución asimétrica indica que la media no representa bien al conjunto. En datos de pureza, concentración o tiempo de disolución, la asimetría puede revelar problemas sistemáticos en el proceso de manufactura.',
+
+            html_method_cv:   'Umbrales CV',
+            html_method_cv_why:'El Coeficiente de Variación normaliza la dispersión respecto a la magnitud de la media, permitiendo comparar variabilidad entre columnas con diferentes unidades o escalas. CV > 30% suele indicar proceso fuera de control.',
+
+            html_method_sig:  'Significancia',
+            html_method_sig_why:'El nivel α = 0.05 define el umbral de error tipo I aceptable. Establece con qué certeza se puede rechazar una hipótesis nula, siendo el estándar internacional en ensayos clínicos (ICH E9) y validaciones de métodos analíticos.',
+
             html_execSummary:(ds,rows,cols,std) => `Dataset <strong>"${ds}"</strong> · <strong>${rows}</strong> observaciones · <strong>${cols}</strong> variable(s) numérica(s) · ${std}.`,
             statRefs: {
                 'Media Aritmética':   'Tendencia central',
@@ -520,12 +536,28 @@ const ReporteManager = (() => {
             html_noFlagsGlobal:'✓ No automatic flags detected. All variables within expected ranges.',
             html_flagsGlobal:(n) => `⚠ ${n} automatic flag(s) detected:`,
             html_auditMeta: 'AUDIT METADATA',
-            html_method_v:  'Variance & SD',       html_method_v_d:"Bessel's correction (n-1).",
-            html_method_p:  'Percentile Interp.',  html_method_p_d:'Linear interpolation (NIST).',
-            html_method_o:  'Outlier Detection',
-            html_method_s:  'Skewness',            html_method_s_d:"Pearson 2nd coefficient.",
-            html_method_cv: 'CV Thresholds',
-            html_method_sig:'Significance',
+
+            html_method_v:    'Variance & SD',
+            html_method_v_d:  "Bessel's correction (n-1).",
+            html_method_v_why:"Quantifies data dispersion around the mean. A high SD indicates low process reproducibility; it is the primary variability indicator in analytical validations and quality control.",
+
+            html_method_p:    'Percentile Interp.',
+            html_method_p_d:  'Linear interpolation (NIST).',
+            html_method_p_why:'Reveals the actual data distribution without assuming normality. P25, P50, and P75 expose asymmetries and are essential for defining acceptance limit specifications in regulated processes.',
+
+            html_method_o:    'Outlier Detection',
+            html_method_o_why:'Outliers can distort all central tendency and dispersion statistics. Early identification is critical to determine whether a data point is a measurement error, contamination, or an out-of-control process signal.',
+
+            html_method_s:    'Skewness',
+            html_method_s_d:  "Pearson 2nd coefficient.",
+            html_method_s_why:'A skewed distribution indicates the mean does not adequately represent the dataset. In purity, concentration, or dissolution time data, skewness can reveal systematic issues in the manufacturing process.',
+
+            html_method_cv:   'CV Thresholds',
+            html_method_cv_why:'The Coefficient of Variation normalizes dispersion relative to the mean magnitude, enabling variability comparisons between columns with different units or scales. CV > 30% typically signals an out-of-control process.',
+
+            html_method_sig:  'Significance',
+            html_method_sig_why:'The α = 0.05 level defines the accepted Type I error threshold. It establishes the certainty with which a null hypothesis can be rejected — the international standard in clinical trials (ICH E9) and analytical method validations.',
+
             html_execSummary:(ds,rows,cols,std) => `Dataset <strong>"${ds}"</strong> · <strong>${rows}</strong> observations · <strong>${cols}</strong> numeric variable(s) · ${std}.`,
             statRefs: {
                 'Media Aritmética':   'Central tendency',
@@ -1063,6 +1095,8 @@ tr:hover td{background:#f7faff}
 .mi h4{font-size:9pt;font-weight:600;color:#1a3a6b;margin-bottom:3px}
 .mi p{font-size:8.5pt;color:#4a5568;line-height:1.5}
 .mi code{font-family:'JetBrains Mono',monospace;background:#f7f8fa;padding:1px 4px;border-radius:2px;display:block;margin-top:3px;color:#2c5282;font-size:8pt}
+.mi-why{font-size:8pt;color:#718096;line-height:1.55;margin-top:6px;padding-top:6px;border-top:1px dashed #e2e8f0;font-style:italic}
+
 .sig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .audit-box{background:#f7f8fa;border:1px solid #e2e8f0;border-radius:6px;padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:8pt;color:#718096;line-height:1.8}
 .doc-footer{margin-top:44px;padding-top:18px;border-top:2px solid #1a3a6b;display:flex;justify-content:space-between;align-items:flex-end;font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}
@@ -1857,6 +1891,7 @@ tr:hover td{background:#f7faff}
 .mi h4{font-size:9pt;font-weight:600;color:#1a3a6b;margin-bottom:3px}
 .mi p{font-size:8.5pt;color:#4a5568;line-height:1.5}
 .mi code{font-family:'JetBrains Mono',monospace;background:#f7f8fa;padding:1px 4px;border-radius:2px;display:block;margin-top:3px;color:#2c5282;font-size:8pt}
+.mi-why{font-size:8pt;color:#718096;line-height:1.55;margin-top:6px;padding-top:6px;border-top:1px dashed #e2e8f0;font-style:italic}
 .sig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .audit-box{background:#f7f8fa;border:1px solid #e2e8f0;border-radius:6px;padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:8pt;color:#718096;line-height:1.8}
 .doc-footer{margin-top:44px;padding-top:18px;border-top:2px solid #1a3a6b;display:flex;justify-content:space-between;align-items:flex-end;font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}
@@ -1979,14 +2014,43 @@ tr:hover td{background:#f7faff}
   </div>
   <div class="sec">
     <div class="sec-title"><span class="sec-num">05</span>${t('html_sec5')}</div>
+
     <div class="method-grid">
-      <div class="mi"><h4>${t('html_method_v')}</h4><p>${t('html_method_v_d')}</p><code>s² = Σ(xᵢ - x̄)² / (n-1)</code></div>
-      <div class="mi"><h4>${t('html_method_p')}</h4><p>${t('html_method_p_d')}</p><code>i = k/100 × (n-1)</code></div>
-      <div class="mi"><h4>${t('html_method_o')}</h4><p>Q1−${FLAGS.OUTLIER_IQR}×IQR / Q3+${FLAGS.OUTLIER_IQR}×IQR.</p></div>
-      <div class="mi"><h4>${t('html_method_s')}</h4><p>${t('html_method_s_d')}</p><code>g = 3(x̄−mediana)/s</code></div>
-      <div class="mi"><h4>${t('html_method_cv')}</h4><p>&gt;${FLAGS.CV_HIGH}% ${lang==='es'?'alto':'high'} · &gt;${FLAGS.CV_VERY_HIGH}% ${lang==='es'?'extremo':'extreme'}</p></div>
-      <div class="mi"><h4>${t('html_method_sig')}</h4><p>α=${REGULATORY.alphaLevel} · IC=${REGULATORY.ciLevel}</p></div>
+      <div class="mi">
+        <h4>${t('html_method_v')}</h4>
+        <p>${t('html_method_v_d')}</p>
+        <code>s² = Σ(xᵢ - x̄)² / (n-1)</code>
+        <p class="mi-why">${t('html_method_v_why')}</p>
+      </div>
+      <div class="mi">
+        <h4>${t('html_method_p')}</h4>
+        <p>${t('html_method_p_d')}</p>
+        <code>i = k/100 × (n-1)</code>
+        <p class="mi-why">${t('html_method_p_why')}</p>
+      </div>
+      <div class="mi">
+        <h4>${t('html_method_o')}</h4>
+        <p>Q1−${FLAGS.OUTLIER_IQR}×IQR / Q3+${FLAGS.OUTLIER_IQR}×IQR.</p>
+        <p class="mi-why">${t('html_method_o_why')}</p>
+      </div>
+      <div class="mi">
+        <h4>${t('html_method_s')}</h4>
+        <p>${t('html_method_s_d')}</p>
+        <code>g = 3(x̄−mediana)/s</code>
+        <p class="mi-why">${t('html_method_s_why')}</p>
+      </div>
+      <div class="mi">
+        <h4>${t('html_method_cv')}</h4>
+        <p>&gt;${FLAGS.CV_HIGH}% ${lang==='es'?'alto':'high'} · &gt;${FLAGS.CV_VERY_HIGH}% ${lang==='es'?'extremo':'extreme'}</p>
+        <p class="mi-why">${t('html_method_cv_why')}</p>
+      </div>
+      <div class="mi">
+        <h4>${t('html_method_sig')}</h4>
+        <p>α=${REGULATORY.alphaLevel} · IC=${REGULATORY.ciLevel}</p>
+        <p class="mi-why">${t('html_method_sig_why')}</p>
+      </div>
     </div>
+
   </div>
   <div class="sec">
     <div class="sec-title"><span class="sec-num">06</span>${t('html_sec6')} <span style="font-size:7pt;font-weight:400;color:#a0aec0;margin-left:8px">${t('html_auditSubpart')}</span></div>
