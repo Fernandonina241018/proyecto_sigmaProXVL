@@ -102,7 +102,10 @@ const DatosManager = (() => {
                 </div>
             </div>
 
-            <!-- Sección 3: Preview de datos -->
+            <!-- Sección 3: Parámetros de Control -->
+            ${_renderParametrosPanel(imported)}
+
+            <!-- Sección 4: Preview de datos -->
             <div class="dm-section dm-section-table">
                 <div class="dm-section-header">
                     <span class="dm-section-title">📊 Vista previa de datos</span>
@@ -128,6 +131,77 @@ const DatosManager = (() => {
         </div>`;
 
         _attachListeners(imported);
+    }
+
+    // ── Panel de parámetros de control ────
+    function _renderParametrosPanel(imported) {
+        const numCols  = _getNumericCols(imported);
+        const rawState = ParametrosManager.getRawState();
+        const g        = rawState.global  || {};
+        const cols     = rawState.columns || {};
+
+        const colRows = numCols.map(h => {
+            const c = cols[h] || {};
+            return `
+            <div class="dm-params-col-row">
+                <span class="dm-params-colname" title="${escapeHtml(h)}">${escapeHtml(h)}</span>
+                <input class="dm-params-input" type="number" step="any"
+                       data-col="${escapeHtml(h)}" data-type="min"
+                       placeholder="Mín" value="${escapeHtml(String(c.min ?? ''))}">
+                <input class="dm-params-input" type="number" step="any"
+                       data-col="${escapeHtml(h)}" data-type="max"
+                       placeholder="Máx" value="${escapeHtml(String(c.max ?? ''))}">
+                <input class="dm-params-input" type="number" step="any"
+                       data-col="${escapeHtml(h)}" data-type="esp"
+                       placeholder="Esp." value="${escapeHtml(String(c.esp ?? ''))}">
+            </div>`;
+        }).join('');
+
+        return `
+        <div class="dm-section dm-params-section">
+            <div class="dm-section-header dm-params-header" id="dm-params-toggle-header" style="cursor:pointer">
+                <span class="dm-section-title">🎯 Parámetros de Control</span>
+                <div class="dm-section-actions">
+                    <span class="dm-params-hint">Define mínimo, máximo y esperanza por columna</span>
+                    <span class="dm-params-chevron" id="dm-params-chevron">▼</span>
+                </div>
+            </div>
+            <div class="dm-params-body" id="dm-params-body">
+
+                <!-- Fila global -->
+                <div class="dm-params-global-row">
+                    <span class="dm-params-global-label">📌 Global (todas las columnas)</span>
+                    <input class="dm-params-input" type="number" step="any"
+                           id="pm-g-min" placeholder="Mín" value="${escapeHtml(String(g.min ?? ''))}">
+                    <input class="dm-params-input" type="number" step="any"
+                           id="pm-g-max" placeholder="Máx" value="${escapeHtml(String(g.max ?? ''))}">
+                    <input class="dm-params-input" type="number" step="any"
+                           id="pm-g-esp" placeholder="Esp." value="${escapeHtml(String(g.esp ?? ''))}">
+                    <button class="dm-btn dm-btn-secondary dm-params-apply-global" id="dm-params-apply-global">
+                        Aplicar a todas
+                    </button>
+                </div>
+
+                <!-- Cabecera de columnas -->
+                <div class="dm-params-cols-header">
+                    <span>Columna</span>
+                    <span>Mínimo</span>
+                    <span>Máximo</span>
+                    <span>Esperanza</span>
+                </div>
+
+                <!-- Filas por columna -->
+                <div class="dm-params-cols-list">
+                    ${numCols.length > 0 ? colRows : '<p class="dm-params-empty">No hay columnas numéricas detectadas</p>'}
+                </div>
+
+                <!-- Acciones -->
+                <div class="dm-params-footer">
+                    <button class="dm-btn dm-btn-primary" id="dm-params-save">💾 Guardar parámetros</button>
+                    <button class="dm-btn dm-btn-secondary" id="dm-params-reset">🗑️ Limpiar todo</button>
+                </div>
+            </div>
+        </div>`;
     }
 
     function _renderFilesArea(imported) {
@@ -204,20 +278,6 @@ const DatosManager = (() => {
                     </div>
                 </div>
             </th>`).join('');
-
-        const rows = pageData.map((row, ri) => {
-            const cells = imported.headers.map(h => {
-                const val  = row[h] ?? '';
-                const num  = parseFloat(val);
-                let cls    = '';
-                if (_outlierCols.has(h) && !isNaN(num)) {
-                    const range = outlierRanges[h];
-                    if (num < range.low || num > range.high) cls = ' dm-cell-outlier';
-                }
-                return `<td class="${cls}">${escapeHtml(String(val))}</td>`;
-            }).join('');
-            return `<tr>${cells}</tr>`;
-        }).join('');
 
         return `
         <table class="dm-table">
@@ -334,8 +394,12 @@ const DatosManager = (() => {
         });
 
         _attachTableListeners();
+
+        // ★ Parámetros de control — solo si hay datos cargados
+        if (imported) _attachParamsListeners(imported);
     }
 
+    // ── Listeners de la tabla ─────────────
     function _attachTableListeners() {
         // Ordenar por columna
         document.querySelectorAll('.dm-th-sort').forEach(el => {
@@ -374,6 +438,75 @@ const DatosManager = (() => {
                 _showToast(`✅ Columna renombrada: "${oldName}" → "${newName}"`);
                 buildView();
             });
+        });
+    }
+
+    // ── Listeners de parámetros de control ─
+    function _attachParamsListeners(imported) {
+        // Toggle colapsar/expandir panel
+        const toggleHeader = document.getElementById('dm-params-toggle-header');
+        const body         = document.getElementById('dm-params-body');
+        const chevron      = document.getElementById('dm-params-chevron');
+
+        const COLLAPSED_KEY = 'dm_params_collapsed';
+        const isCollapsed   = sessionStorage.getItem(COLLAPSED_KEY) === 'true';
+        if (isCollapsed && body) {
+            body.style.display               = 'none';
+            if (chevron) chevron.textContent = '▶';
+        }
+
+        toggleHeader?.addEventListener('click', () => {
+            if (!body) return;
+            const nowCollapsed               = body.style.display !== 'none';
+            body.style.display               = nowCollapsed ? 'none' : '';
+            if (chevron) chevron.textContent = nowCollapsed ? '▶' : '▼';
+            sessionStorage.setItem(COLLAPSED_KEY, nowCollapsed);
+        });
+
+        // Aplicar valores globales a todas las columnas
+        document.getElementById('dm-params-apply-global')?.addEventListener('click', () => {
+            const min = document.getElementById('pm-g-min')?.value.trim() ?? '';
+            const max = document.getElementById('pm-g-max')?.value.trim() ?? '';
+            const esp = document.getElementById('pm-g-esp')?.value.trim() ?? '';
+
+            document.querySelectorAll('.dm-params-col-row').forEach(row => {
+                const col = row.querySelector('[data-type="min"]')?.dataset.col;
+                if (!col) return;
+                row.querySelector('[data-type="min"]').value = min;
+                row.querySelector('[data-type="max"]').value = max;
+                row.querySelector('[data-type="esp"]').value = esp;
+            });
+
+            _showToast('✅ Valores globales copiados a todas las columnas. Guarda para confirmar.');
+        });
+
+        // Guardar parámetros
+        document.getElementById('dm-params-save')?.addEventListener('click', () => {
+            // Guardar global
+            const gMin = document.getElementById('pm-g-min')?.value.trim() ?? '';
+            const gMax = document.getElementById('pm-g-max')?.value.trim() ?? '';
+            const gEsp = document.getElementById('pm-g-esp')?.value.trim() ?? '';
+            ParametrosManager.setGlobal(gMin, gMax, gEsp);
+
+            // Guardar por columna
+            document.querySelectorAll('.dm-params-col-row').forEach(row => {
+                const col = row.querySelector('[data-type="min"]')?.dataset.col;
+                if (!col) return;
+                const min = row.querySelector('[data-type="min"]').value.trim();
+                const max = row.querySelector('[data-type="max"]').value.trim();
+                const esp = row.querySelector('[data-type="esp"]').value.trim();
+                ParametrosManager.setColumna(col, min, max, esp);
+            });
+
+            _showToast('✅ Parámetros guardados. Se aplicarán en el próximo análisis.');
+        });
+
+        // Limpiar todos los parámetros
+        document.getElementById('dm-params-reset')?.addEventListener('click', () => {
+            if (!confirm('¿Limpiar todos los parámetros de control?')) return;
+            ParametrosManager.reset();
+            buildView();
+            _showToast('✅ Parámetros limpiados.');
         });
     }
 
@@ -631,7 +764,6 @@ const DatosManager = (() => {
 
     function _doCombine() {
         _showToast('📋 Importa un segundo archivo — se combinará con el actual automáticamente');
-        // La combinación real se hace en script.js al detectar que ya hay datos cargados
     }
 
     return { buildView };

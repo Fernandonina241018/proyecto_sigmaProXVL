@@ -487,6 +487,104 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
             </div>
             `;
         });
+
+        // ── Sección de control de parámetros ──────────────────
+        const _importedData = (typeof StateManager !== 'undefined') ? StateManager.getImportedData() : null;
+        if (_importedData && typeof ParametrosManager !== 'undefined') {
+            const _numCols = getNumericColumns(_importedData);
+            const _verifs  = _numCols
+                .map(col => ParametrosManager.verificarColumna(_importedData, col))
+                .filter(v => v !== null);
+
+            if (_verifs.length > 0) {
+                // ── Tabla resumen ──
+                html += `
+                <div class="estadistico-section param-control-section">
+                    <h3>🎯 Control de Parámetros</h3>
+                    <div class="resultado-tabla-wrapper">
+                        <table class="resultado-tabla">
+                            <thead>
+                                <tr>
+                                    <th>Columna</th>
+                                    <th>Mínimo def.</th>
+                                    <th>Máximo def.</th>
+                                    <th>Esperanza def.</th>
+                                    <th>Media real</th>
+                                    <th>Fuera de rango</th>
+                                    <th>Cumplimiento</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${_verifs.map(v => {
+                                    const pct = parseFloat(v.porcentajeCumplimiento);
+                                    const cls = pct >= 95 ? 'param-ok' : pct >= 80 ? 'param-warn' : 'param-danger';
+                                    return `
+                                    <tr>
+                                        <td><strong>${v.col}</strong></td>
+                                        <td>${v.parametros.min !== null ? v.parametros.min : '—'}</td>
+                                        <td>${v.parametros.max !== null ? v.parametros.max : '—'}</td>
+                                        <td>${v.parametros.esp !== null ? v.parametros.esp : '—'}</td>
+                                        <td>${v.mediaReal !== null ? v.mediaReal.toFixed(4) : '—'}</td>
+                                        <td class="${v.fueraDeRango > 0 ? 'param-cell-danger' : 'param-cell-ok'}">
+                                            ${v.fueraDeRango} / ${v.total}
+                                        </td>
+                                        <td class="${cls}">${v.porcentajeCumplimiento}%</td>
+                                    </tr>`;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`;
+
+                // ── Detalle por columna (solo las que tienen violaciones) ──
+                _verifs.filter(v => v.fueraDeRango > 0).forEach(v => {
+                    const p       = v.parametros;
+                    const outRows = _importedData.data
+                        .map((row, i) => ({ i, val: parseFloat(row[v.col]) }))
+                        .filter(({ val }) => {
+                            if (isNaN(val)) return false;
+                            if (p.min !== null && !isNaN(p.min) && val < p.min) return true;
+                            if (p.max !== null && !isNaN(p.max) && val > p.max) return true;
+                            return false;
+                        });
+
+                    html += `
+                    <div class="estadistico-section param-detail-section">
+                        <h4>⚠️ Valores fuera de rango — <span class="param-col-name">${v.col}</span>
+                            <span class="param-col-count">${outRows.length} valor${outRows.length !== 1 ? 'es' : ''}</span>
+                        </h4>
+                        <div class="resultado-tabla-wrapper">
+                            <table class="resultado-tabla">
+                                <thead>
+                                    <tr><th>Fila #</th><th>Valor</th><th>Razón</th></tr>
+                                </thead>
+                                <tbody>
+                                    ${outRows.slice(0, 100).map(({ i, val }) => {
+                                        const razones = [];
+                                        if (p.min !== null && !isNaN(p.min) && val < p.min)
+                                            razones.push(`por debajo del mínimo (${p.min})`);
+                                        if (p.max !== null && !isNaN(p.max) && val > p.max)
+                                            razones.push(`por encima del máximo (${p.max})`);
+                                        return `
+                                        <tr class="param-row-danger">
+                                            <td>${i + 1}</td>
+                                            <td class="param-cell-danger"><strong>${val}</strong></td>
+                                            <td>${razones.join(' · ')}</td>
+                                        </tr>`;
+                                    }).join('')}
+                                    ${outRows.length > 100
+                                        ? `<tr><td colspan="3" class="param-more-rows">
+                                            … y ${outRows.length - 100} valores más
+                                        </td></tr>`
+                                        : ''}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>`;
+                });
+            }
+        }
+        // ── Fin control de parámetros ──────────────────────────
         
         html += `
             <div class="resultado-footer">
