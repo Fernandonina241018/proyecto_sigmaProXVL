@@ -869,6 +869,23 @@ const ReporteManager = (() => {
                 p(`  ${pad('  Cumplimiento  :',28)}${pv.porcentajeCumplimiento}%`);
                 p(`  ${pad('  Media real    :',28)}${pv.mediaReal !== null ? Number(pv.mediaReal).toFixed(4) : '—'}`);
             }
+            /*if(ext[col].flags.length){p('');p(`  ⚠  ${t('flagsLabel')}:`);ext[col].flags.forEach(f=>p(`     ${f}`));}
+            p('');*/
+
+            // Parámetros de control definidos por el usuario
+            if (ext[col]?.paramVerificacion) {
+                const pv = ext[col].paramVerificacion;
+                const p_ = pv.parametros;
+                p('');
+                p(`  ${singleLine(W-4)}`);
+                p(`  PARÁMETROS DE CONTROL DEFINIDOS`);
+                if (p_.min !== null) p(`  ${pad('  Límite Mínimo :',28)}${pad(String(p_.min),18)}`);
+                if (p_.max !== null) p(`  ${pad('  Límite Máximo :',28)}${pad(String(p_.max),18)}`);
+                if (p_.esp !== null) p(`  ${pad('  Esperanza     :',28)}${pad(String(p_.esp),18)}`);
+                p(`  ${pad('  Fuera de rango:',28)}${pv.fueraDeRango} / ${pv.total} valores`);
+                p(`  ${pad('  Cumplimiento  :',28)}${pv.porcentajeCumplimiento}%`);
+                p(`  ${pad('  Media real    :',28)}${pv.mediaReal !== null ? Number(pv.mediaReal).toFixed(4) : '—'}`);
+            }
             if(ext[col].flags.length){p('');p(`  ⚠  ${t('flagsLabel')}:`);ext[col].flags.forEach(f=>p(`     ${f}`));}
             p('');
 
@@ -1561,7 +1578,24 @@ console.log('✅ ReporteManager cargado — FDA 21 CFR Part 11');
                     notes.push('Distribución no normal sospechada.');
                 }
             }
-            ext[col]={cv,flags,notes};
+            // ★ Integración ParametrosManager
+            let paramVerificacion = null;
+            if (typeof ParametrosManager !== 'undefined') {
+                const _imported = (typeof StateManager !== 'undefined') ? StateManager.getImportedData() : null;
+                if (_imported) {
+                    paramVerificacion = ParametrosManager.verificarColumna(_imported, col);
+                    if (paramVerificacion && paramVerificacion.fueraDeRango > 0) {
+                        const p = paramVerificacion.parametros;
+                        const limites = [
+                            p.min !== null ? `Mín=${p.min}` : null,
+                            p.max !== null ? `Máx=${p.max}` : null,
+                            p.esp !== null ? `Esp=${p.esp}` : null,
+                        ].filter(Boolean).join(' · ');
+                        flags.push(`[FLAG-PARAM] ${paramVerificacion.fueraDeRango}/${paramVerificacion.total} valores fuera de parámetros (${limites})`);
+                    }
+                }
+            }
+            ext[col] = { cv, flags, notes, paramVerificacion };
         });
         return ext;
     }
@@ -1630,6 +1664,23 @@ console.log('✅ ReporteManager cargado — FDA 21 CFR Part 11');
                 }
             });
             if(ext[col]?.cv!=null) p(`  ${pad(t('cv')+':',28)}${pad(ext[col].cv.toFixed(2)+'%',18)}${t('cvRef')}`);
+            /*if(ext[col].flags.length){p('');p(`  ⚠  ${t('flagsLabel')}:`);ext[col].flags.forEach(f=>p(`     ${f}`));}
+            p('');*/
+
+            // Parámetros de control definidos por el usuario
+            if (ext[col]?.paramVerificacion) {
+                const pv = ext[col].paramVerificacion;
+                const p_ = pv.parametros;
+                p('');
+                p(`  ${singleLine(W-4)}`);
+                p(`  PARÁMETROS DE CONTROL DEFINIDOS`);
+                if (p_.min !== null) p(`  ${pad('  Límite Mínimo :',28)}${pad(String(p_.min),18)}`);
+                if (p_.max !== null) p(`  ${pad('  Límite Máximo :',28)}${pad(String(p_.max),18)}`);
+                if (p_.esp !== null) p(`  ${pad('  Esperanza     :',28)}${pad(String(p_.esp),18)}`);
+                p(`  ${pad('  Fuera de rango:',28)}${pv.fueraDeRango} / ${pv.total} valores`);
+                p(`  ${pad('  Cumplimiento  :',28)}${pv.porcentajeCumplimiento}%`);
+                p(`  ${pad('  Media real    :',28)}${pv.mediaReal !== null ? Number(pv.mediaReal).toFixed(4) : '—'}`);
+            }
             if(ext[col].flags.length){p('');p(`  ⚠  ${t('flagsLabel')}:`);ext[col].flags.forEach(f=>p(`     ${f}`));}
             p('');
         });
