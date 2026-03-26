@@ -1,0 +1,273 @@
+/* ========================================
+   parametros.css — StatAnalyzer Pro
+   Panel de parámetros de control LSL/USL/Target
+   ======================================== */
+
+.pc-panel {
+    background: white;
+    border: 0.5px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 12px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ── Header ── */
+.pc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 18px;
+    border-bottom: 0.5px solid #e2e8f0;
+    background: #fafafa;
+}
+
+.pc-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pc-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #1a202c;
+}
+
+.pc-subtitle {
+    font-size: 0.72rem;
+    color: #94a3b8;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.3px;
+}
+
+.pc-toggle-btn {
+    padding: 5px 12px;
+    background: white;
+    border: 0.5px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.pc-toggle-btn:hover { background: #f1f5f9; }
+
+/* ── Body ── */
+.pc-body {
+    padding: 16px 18px;
+}
+
+.pc-section-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #94a3b8;
+    margin-bottom: 8px;
+}
+
+/* ── Fila global ── */
+.pc-global-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 1fr 1fr;
+    gap: 10px;
+    align-items: end;
+    padding: 12px 14px;
+    background: #f8fafc;
+    border: 0.5px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+.pc-global-label {
+    font-weight: 600;
+    color: #1a3a6b;
+    font-size: 0.82rem;
+    padding-bottom: 4px;
+}
+
+.pc-input-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pc-input-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #94a3b8;
+}
+
+/* ── Header de columnas ── */
+.pc-cols-header {
+    display: grid;
+    grid-template-columns: 140px 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 6px 14px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #94a3b8;
+    border-bottom: 0.5px solid #f0f0f0;
+    margin-bottom: 4px;
+}
+
+/* ── Filas por columna ── */
+.pc-col-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 1fr 1fr;
+    gap: 10px;
+    align-items: center;
+    padding: 7px 14px;
+    border-bottom: 0.5px solid #f8fafc;
+    transition: background 0.15s;
+}
+.pc-col-row:last-of-type { border-bottom: none; }
+.pc-col-row:hover { background: #f8fafc; }
+
+.pc-col-name {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #1a202c;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ── Inputs ── */
+.pc-input {
+    padding: 6px 9px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 7px;
+    font-size: 0.82rem;
+    font-family: 'Segoe UI', sans-serif;
+    color: #1a202c;
+    background: white;
+    width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.pc-input:focus {
+    outline: none;
+    border-color: #1a3a6b;
+    box-shadow: 0 0 0 3px rgba(26,58,107,0.08);
+}
+.pc-input::placeholder { color: #cbd5e0; }
+
+/* Input global con fondo diferente */
+.pc-global-input {
+    background: white;
+    border-color: #1a3a6b;
+    border-width: 1.5px;
+}
+
+/* ── Footer del panel ── */
+.pc-footer-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 0.5px solid #e2e8f0;
+}
+
+.pc-btn-save {
+    padding: 8px 18px;
+    background: #1a3a6b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.pc-btn-save:hover {
+    background: #2c5282;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(26,58,107,0.25);
+}
+
+.pc-btn-reset {
+    padding: 8px 14px;
+    background: white;
+    color: #c53030;
+    border: 1.5px solid #fed7d7;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.pc-btn-reset:hover { background: #fff5f5; }
+
+.pc-saved-msg {
+    font-size: 0.8rem;
+    color: #276749;
+    font-weight: 500;
+}
+
+/* ── Badges de cumplimiento en resultados ── */
+.pc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.pc-badge-ok    { background: #c6f6d5; color: #276749; }
+.pc-badge-warn  { background: #fefcbf; color: #b7791f; }
+.pc-badge-fail  { background: #fed7d7; color: #c53030; }
+
+.pc-compliance-row {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 10px;
+    font-size: 0.82rem;
+}
+
+.pc-compliance-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.pc-compliance-item {
+    text-align: center;
+    background: white;
+    border: 0.5px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 6px 10px;
+}
+
+.pc-compliance-val {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a202c;
+    line-height: 1.2;
+}
+
+.pc-compliance-lbl {
+    font-size: 0.65rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-top: 1px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+    .pc-global-row,
+    .pc-col-row,
+    .pc-cols-header { grid-template-columns: 1fr 1fr 1fr; }
+    .pc-col-name,
+    .pc-global-label { display: none; }
+}
