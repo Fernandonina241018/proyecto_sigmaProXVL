@@ -1286,7 +1286,7 @@ tr:hover td{background:#f7faff}
           </div>`).join('');
 
       return `
-      <div class="sec" style="page-break-before:auto">
+      <div class="sec" style="page-break-before:always">
           <div class="sec-title">
               <span class="sec-num">07</span>
               ${currentLang === 'es' ? 'Gráficos y Visualizaciones' : 'Charts & Visualizations'}
@@ -2162,7 +2162,7 @@ tr:hover td{background:#f7faff}
           </div>`).join('');
 
       return `
-      <div class="sec" style="page-break-before:auto">
+      <div class="sec" style="page-break-before:always">
           <div class="sec-title">
               <span class="sec-num">07</span>
               ${currentLang === 'es' ? 'Gráficos y Visualizaciones' : 'Charts & Visualizations'}
