@@ -1075,19 +1075,23 @@ const ReporteManager = (() => {
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Source Serif 4',Georgia,serif;font-size:11pt;color:#1a202c;background:white;line-height:1.6}
-.cover{background:#1a3a6b;color:white;padding:60px 70px 50px;border-bottom:6px solid #c8a951}
-.doc{max-width:880px;margin:0 auto;padding:50px 70px}
-.sec{margin-bottom:40px}
+
+.cover{background:#1a3a6b;color:white;padding:32px 50px 28px;border-bottom:6px solid #c8a951}
+
+.doc{max-width:880px;margin:0 auto;padding:28px 50px}
+.sec{margin-bottom:20px}
 .sec-title{font-family:'JetBrains Mono',monospace;font-size:7.5pt;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:#1a3a6b;border-bottom:2px solid #1a3a6b;padding-bottom:6px;margin-bottom:16px;display:flex;align-items:baseline;gap:10px}
 .sec-num{background:#1a3a6b;color:white;font-size:7pt;padding:2px 7px;border-radius:2px}
 .meta-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 32px}
 .ml{font-family:'JetBrains Mono',monospace;font-size:7pt;color:#718096;text-transform:uppercase;letter-spacing:.8px;display:block;margin-bottom:2px}
 .mv{font-size:10.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;min-height:20px;display:block}
-.var-block{margin-bottom:28px;border:1px solid #e2e8f0;border-radius:6px;overflow:hidden}
+
+.var-block{margin-bottom:14px;border:1px solid #e2e8f0;border-radius:6px;overflow:hidden}
+
 .var-hdr{background:#1a3a6b;color:white;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
 table{width:100%;border-collapse:collapse;font-size:9.5pt}
 th{background:#f0f4f8;color:#1a3a6b;font-family:'JetBrains Mono',monospace;font-size:7pt;letter-spacing:1px;text-transform:uppercase;padding:8px 14px;text-align:left;border-bottom:1px solid #e2e8f0}
-td{padding:7px 14px;border-bottom:1px solid #edf2f7;vertical-align:middle}
+td{padding:4px 12px;border-bottom:1px solid #edf2f7;vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#f7faff}
 .method-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 28px}
@@ -1100,7 +1104,7 @@ tr:hover td{background:#f7faff}
 .sig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .audit-box{background:#f7f8fa;border:1px solid #e2e8f0;border-radius:6px;padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:8pt;color:#718096;line-height:1.8}
 .doc-footer{margin-top:44px;padding-top:18px;border-top:2px solid #1a3a6b;display:flex;justify-content:space-between;align-items:flex-end;font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}
-@media print{body{font-size:9.5pt}.cover{padding:40px 50px}.doc{padding:30px 50px}.var-block,.sec{page-break-inside:avoid}@page{margin:1.5cm;size:A4}}
+@media print{body{font-size:9pt}.cover{padding:24px 40px}.doc{padding:20px 40px}.var-block{page-break-inside:avoid}.sec{page-break-inside:auto}@page{margin:1.2cm;size:A4}}
 </style></head><body>
 
 <div class="cover">
@@ -1871,19 +1875,19 @@ console.log('✅ ReporteManager cargado — FDA 21 CFR Part 11');
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Source Serif 4',Georgia,serif;font-size:11pt;color:#1a202c;background:white;line-height:1.6}
-.cover{background:#1a3a6b;color:white;padding:60px 70px 50px;border-bottom:6px solid #c8a951}
-.doc{max-width:880px;margin:0 auto;padding:50px 70px}
-.sec{margin-bottom:40px}
+.cover{background:#1a3a6b;color:white;padding:32px 50px 28px;border-bottom:6px solid #c8a951}
+.doc{max-width:880px;margin:0 auto;padding:28px 50px}
+.sec{margin-bottom:20px}
 .sec-title{font-family:'JetBrains Mono',monospace;font-size:7.5pt;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:#1a3a6b;border-bottom:2px solid #1a3a6b;padding-bottom:6px;margin-bottom:16px;display:flex;align-items:baseline;gap:10px}
 .sec-num{background:#1a3a6b;color:white;font-size:7pt;padding:2px 7px;border-radius:2px}
 .meta-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 32px}
 .ml{font-family:'JetBrains Mono',monospace;font-size:7pt;color:#718096;text-transform:uppercase;letter-spacing:.8px;display:block;margin-bottom:2px}
 .mv{font-size:10.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;min-height:20px;display:block}
-.var-block{margin-bottom:28px;border:1px solid #e2e8f0;border-radius:6px;overflow:hidden}
+.var-block{margin-bottom:14px;border:1px solid #e2e8f0;border-radius:6px;overflow:hidden}
 .var-hdr{background:#1a3a6b;color:white;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
 table{width:100%;border-collapse:collapse;font-size:9.5pt}
 th{background:#f0f4f8;color:#1a3a6b;font-family:'JetBrains Mono',monospace;font-size:7pt;letter-spacing:1px;text-transform:uppercase;padding:8px 14px;text-align:left;border-bottom:1px solid #e2e8f0}
-td{padding:7px 14px;border-bottom:1px solid #edf2f7;vertical-align:middle}
+td{padding:4px 12px;border-bottom:1px solid #edf2f7;vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#f7faff}
 .method-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 28px}
@@ -1895,7 +1899,7 @@ tr:hover td{background:#f7faff}
 .sig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .audit-box{background:#f7f8fa;border:1px solid #e2e8f0;border-radius:6px;padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:8pt;color:#718096;line-height:1.8}
 .doc-footer{margin-top:44px;padding-top:18px;border-top:2px solid #1a3a6b;display:flex;justify-content:space-between;align-items:flex-end;font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}
-@media print{body{font-size:9.5pt}.cover{padding:40px 50px}.doc{padding:30px 50px}.var-block,.sec{page-break-inside:avoid}@page{margin:1.5cm;size:A4}}
+@media print{body{font-size:9pt}.cover{padding:24px 40px}.doc{padding:20px 40px}.var-block{page-break-inside:avoid}.sec{page-break-inside:auto}@page{margin:1.2cm;size:A4}}
 </style></head><body>
 
 <div class="cover">
