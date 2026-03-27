@@ -1104,7 +1104,25 @@ tr:hover td{background:#f7faff}
 .sig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .audit-box{background:#f7f8fa;border:1px solid #e2e8f0;border-radius:6px;padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:8pt;color:#718096;line-height:1.8}
 .doc-footer{margin-top:44px;padding-top:18px;border-top:2px solid #1a3a6b;display:flex;justify-content:space-between;align-items:flex-end;font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}
-@media print{body{font-size:9pt}.cover{padding:24px 40px}.doc{padding:20px 40px}.var-block{page-break-inside:avoid}.sec{page-break-inside:auto}@page{margin:1.2cm;size:A4}}
+
+@media print{
+    body{font-size:9pt}
+    .cover{padding:24px 40px;page-break-after:always}
+    .doc{padding:20px 40px}
+    .sec{page-break-before:always;page-break-inside:auto}
+    .sec:first-of-type{page-break-before:avoid}
+    .var-block{page-break-inside:avoid;page-break-before:always}
+    .var-block:first-child{page-break-before:avoid}
+    .param-detail-section{page-break-before:always}
+    .param-control-section{page-break-before:always}
+    .method-grid{page-break-inside:avoid}
+    .mi{page-break-inside:avoid}
+    .sig-grid{page-break-inside:avoid}
+    .audit-box{page-break-inside:avoid}
+    .doc-footer{page-break-inside:avoid;page-break-before:avoid}
+    @page{margin:1.2cm;size:A4}
+}
+
 </style></head><body>
 
 <div class="cover">
@@ -1935,7 +1953,23 @@ tr:hover td{background:#f7faff}
 .sig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .audit-box{background:#f7f8fa;border:1px solid #e2e8f0;border-radius:6px;padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:8pt;color:#718096;line-height:1.8}
 .doc-footer{margin-top:44px;padding-top:18px;border-top:2px solid #1a3a6b;display:flex;justify-content:space-between;align-items:flex-end;font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}
-@media print{body{font-size:9pt}.cover{padding:24px 40px}.doc{padding:20px 40px}.var-block{page-break-inside:avoid}.sec{page-break-inside:auto}@page{margin:1.2cm;size:A4}}
+@media print{
+    body{font-size:9pt}
+    .cover{padding:24px 40px;page-break-after:always}
+    .doc{padding:20px 40px}
+    .sec{page-break-before:always;page-break-inside:auto}
+    .sec:first-of-type{page-break-before:avoid}
+    .var-block{page-break-inside:avoid;page-break-before:always}
+    .var-block:first-child{page-break-before:avoid}
+    .param-detail-section{page-break-before:always}
+    .param-control-section{page-break-before:always}
+    .method-grid{page-break-inside:avoid}
+    .mi{page-break-inside:avoid}
+    .sig-grid{page-break-inside:avoid}
+    .audit-box{page-break-inside:avoid}
+    .doc-footer{page-break-inside:avoid;page-break-before:avoid}
+    @page{margin:1.2cm;size:A4}
+}
 </style></head><body>
 
 <div class="cover">
