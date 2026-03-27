@@ -446,6 +446,264 @@ const Visualizacion = (() => {
     }
 
     // ========================================
+    // GRÁFICO DE CONTROL
+    // datos + regresión + UCL/LCL/UWL/LWL + ecuación + R²
+    // ========================================
+
+    function renderControlChart(data, col) {
+        const values = getColumnValues(data, col);
+        if (values.length === 0) throw new Error(`"${col}" no tiene valores numéricos.`);
+
+        const n      = values.length;
+        const labels = values.map((_, i) => String(i + 1));
+
+        // ── Estadísticos base ──────────────────────────
+        const mean = values.reduce((a, b) => a + b, 0) / n;
+        const sd   = Math.sqrt(
+            values.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / (n - 1)
+        );
+
+        // ── Regresión lineal ───────────────────────────
+        const xs   = values.map((_, i) => i + 1);
+        const sumX = xs.reduce((a, b) => a + b, 0);
+        const sumY = values.reduce((a, b) => a + b, 0);
+        const sumXY= xs.reduce((a, x, i) => a + x * values[i], 0);
+        const sumX2= xs.reduce((a, x) => a + x * x, 0);
+
+        const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+        const intercept = (sumY - slope * sumX) / n;
+
+        const yHat  = xs.map(x => slope * x + intercept);
+        const ssTot = values.reduce((a, y) => a + Math.pow(y - mean, 2), 0);
+        const ssRes = values.reduce((a, y, i) => a + Math.pow(y - yHat[i], 2), 0);
+        const r2    = isFinite(ssTot) && ssTot > 0 ? 1 - ssRes / ssTot : 0;
+
+        // ── Límites ────────────────────────────────────
+        const UCL = mean + 3 * sd;
+        const LCL = mean - 3 * sd;
+        const UWL = mean + 2 * sd;
+        const LWL = mean - 2 * sd;
+
+        const flat = val => labels.map(() => val);
+
+        const signStr = intercept >= 0 ? '+' : '-';
+        const title   = [
+            `Gráfico de Control — ${col}`,
+            `y = ${slope.toFixed(4)}x ${signStr} ${Math.abs(intercept).toFixed(4)}`,
+            `R² = ${r2.toFixed(4)}`,
+            `μ = ${mean.toFixed(4)}   σ = ${sd.toFixed(4)}`
+        ].join('   |   ');
+
+        const cfg = {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: col,
+                        data: values,
+                        backgroundColor: COLORS.primary,
+                        borderColor:     COLORS.border.primary,
+                        borderWidth: 1.5,
+                        pointRadius: 4,
+                        pointHoverRadius: 7,
+                        tension: 0,
+                        fill: false,
+                        order: 1,
+                    },
+                    {
+                        label: `Tendencia: y = ${slope.toFixed(4)}x ${signStr} ${Math.abs(intercept).toFixed(4)}  (R²=${r2.toFixed(4)})`,
+                        data: yHat,
+                        borderColor: COLORS.border.accent,
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0,
+                        fill: false,
+                        order: 2,
+                    },
+                    {
+                        label: `Media  ${mean.toFixed(4)}`,
+                        data: flat(mean),
+                        borderColor: 'rgba(80,80,80,0.75)',
+                        backgroundColor: 'transparent',
+                        borderWidth: 1.5,
+                        borderDash: [8, 4],
+                        pointRadius: 0,
+                        tension: 0,
+                        fill: false,
+                        order: 3,
+                    },
+                    {
+                        label: `UCL +3σ  ${UCL.toFixed(4)}`,
+                        data: flat(UCL),
+                        borderColor: COLORS.border.danger,
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        borderDash: [6, 3],
+                        pointRadius: 0,
+                        tension: 0,
+                        fill: false,
+                        order: 4,
+                    },
+                    {
+                        label: `LCL −3σ  ${LCL.toFixed(4)}`,
+                        data: flat(LCL),
+                        borderColor: COLORS.border.danger,
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        borderDash: [6, 3],
+                        pointRadius: 0,
+                        tension: 0,
+                        fill: false,
+                        order: 5,
+                    },
+                    {
+                        label: `UWL +2σ  ${UWL.toFixed(4)}`,
+                        data: flat(UWL),
+                        borderColor: COLORS.border.warning,
+                        backgroundColor: 'transparent',
+                        borderWidth: 1.5,
+                        borderDash: [4, 4],
+                        pointRadius: 0,
+                        tension: 0,
+                        fill: false,
+                        order: 6,
+                    },
+                    {
+                        label: `LWL −2σ  ${LWL.toFixed(4)}`,
+                        data: flat(LWL),
+                        borderColor: COLORS.border.warning,
+                        backgroundColor: 'transparent',
+                        borderWidth: 1.5,
+                        borderDash: [4, 4],
+                        pointRadius: 0,
+                        tension: 0,
+                        fill: false,
+                        order: 7,
+                    },
+                ]
+            },
+            options: {
+                ...baseOptions(title),
+                plugins: {
+                    ...baseOptions().plugins,
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            font: { family: "'Segoe UI', sans-serif", size: 10 },
+                            color: '#555',
+                            padding: 10,
+                            usePointStyle: true,
+                            pointStyleWidth: 14,
+                        }
+                    },
+                }
+            }
+        };
+
+        destroyChart();
+        chartInstance = new Chart(getCanvas(), cfg);
+    }
+
+    // ========================================
+    // DISTRIBUCIÓN NORMAL
+    // histograma observado + curva teórica superpuesta
+    // ========================================
+
+    function renderDistribucionNormal(data, col) {
+        const values = getColumnValues(data, col);
+        if (values.length === 0) throw new Error(`"${col}" no tiene valores numéricos.`);
+
+        const n    = values.length;
+        const mean = values.reduce((a, b) => a + b, 0) / n;
+        const sd   = Math.sqrt(
+            values.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / (n - 1)
+        );
+
+        // ── Histograma ─────────────────────────────────
+        const bins    = Math.max(8, Math.min(20, Math.ceil(Math.sqrt(n))));
+        const minVal  = Math.min(...values);
+        const maxVal  = Math.max(...values);
+        const binSize = (maxVal - minVal) / bins;
+
+        const counts     = Array(bins).fill(0);
+        const binCenters = [];
+        const binLabels  = [];
+
+        for (let i = 0; i < bins; i++) {
+            const lo     = minVal + i * binSize;
+            const hi     = lo + binSize;
+            const center = (lo + hi) / 2;
+            binCenters.push(center);
+            binLabels.push(center.toFixed(4));
+            values.forEach(v => {
+                if (v >= lo && (v < hi || (i === bins - 1 && v <= hi))) counts[i]++;
+            });
+        }
+
+        // ── Curva normal teórica (escalada a frecuencias) ──
+        const pdf = x =>
+            (1 / (sd * Math.sqrt(2 * Math.PI))) *
+            Math.exp(-0.5 * Math.pow((x - mean) / sd, 2));
+
+        const normalFreqs = binCenters.map(x => pdf(x) * binSize * n);
+
+        const title = `Distribución Normal — ${col}   |   μ = ${mean.toFixed(4)}   σ = ${sd.toFixed(4)}   n = ${n}`;
+
+        const cfg = {
+            type: 'bar',
+            data: {
+                labels: binLabels,
+                datasets: [
+                    {
+                        label: `Frecuencia observada — ${col}`,
+                        data: counts,
+                        backgroundColor: 'rgba(102,126,234,0.40)',
+                        borderColor:     'rgba(102,126,234,1)',
+                        borderWidth: 1,
+                        borderRadius: 2,
+                        borderSkipped: false,
+                        barPercentage: 1.0,
+                        categoryPercentage: 1.0,
+                        order: 2,
+                    },
+                    {
+                        label: `Curva teórica  μ=${mean.toFixed(4)}  σ=${sd.toFixed(4)}`,
+                        data: normalFreqs,
+                        type: 'line',
+                        borderColor:     COLORS.border.danger,
+                        backgroundColor: 'rgba(229,57,53,0.07)',
+                        borderWidth: 2.5,
+                        pointRadius: 0,
+                        tension: 0.45,
+                        fill: true,
+                        order: 1,
+                    },
+                ]
+            },
+            options: {
+                ...baseOptions(title),
+                plugins: {
+                    ...baseOptions().plugins,
+                    tooltip: {
+                        ...baseOptions().plugins.tooltip,
+                        callbacks: {
+                            label: ctx => ctx.datasetIndex === 0
+                                ? ` ${ctx.raw} observaciones`
+                                : ` Frec. esperada: ${Number(ctx.raw).toFixed(2)}`
+                        }
+                    }
+                }
+            }
+        };
+
+        destroyChart();
+        chartInstance = new Chart(getCanvas(), cfg);
+    }
+
+    // ========================================
     // UTILIDAD PERCENTIL (para box plot)
     // ========================================
 
@@ -494,36 +752,44 @@ const Visualizacion = (() => {
 
                     <div class="viz-section">
                         <label class="viz-label">Tipo de gráfico</label>
-                        <div class="viz-chart-types">
-                            <button class="viz-type-btn active" data-type="barras" title="Barras">
-                                <span class="viz-type-icon">▊▋▌</span>
-                                <span>Barras</span>
-                            </button>
-                            <button class="viz-type-btn" data-type="barras-h" title="Barras horizontales">
-                                <span class="viz-type-icon">≡</span>
-                                <span>Horiz.</span>
-                            </button>
-                            <button class="viz-type-btn" data-type="lineas" title="Líneas">
-                                <span class="viz-type-icon">∿</span>
-                                <span>Líneas</span>
-                            </button>
-                            <button class="viz-type-btn" data-type="area" title="Área">
-                                <span class="viz-type-icon">◿</span>
-                                <span>Área</span>
-                            </button>
-                            <button class="viz-type-btn" data-type="dispersion" title="Dispersión">
-                                <span class="viz-type-icon">⁖</span>
-                                <span>Scatter</span>
-                            </button>
-                            <button class="viz-type-btn" data-type="histograma" title="Histograma">
-                                <span class="viz-type-icon">▁▃▅▇</span>
-                                <span>Histog.</span>
-                            </button>
-                            <button class="viz-type-btn" data-type="boxplot" title="Box Plot">
-                                <span class="viz-type-icon">⊡</span>
-                                <span>Box Plot</span>
-                            </button>
-                        </div>
+                            <div class="viz-chart-types">
+                                <button class="viz-type-btn active" data-type="barras" title="Barras">
+                                    <span class="viz-type-icon">▊▋▌</span>
+                                    <span>Barras</span>
+                                </button>
+                                <button class="viz-type-btn" data-type="barras-h" title="Barras horizontales">
+                                    <span class="viz-type-icon">≡</span>
+                                    <span>Horiz.</span>
+                                </button>
+                                <button class="viz-type-btn" data-type="lineas" title="Líneas">
+                                    <span class="viz-type-icon">∿</span>
+                                    <span>Líneas</span>
+                                </button>
+                                <button class="viz-type-btn" data-type="area" title="Área">
+                                    <span class="viz-type-icon">◿</span>
+                                    <span>Área</span>
+                                </button>
+                                <button class="viz-type-btn" data-type="dispersion" title="Dispersión">
+                                    <span class="viz-type-icon">⁖</span>
+                                    <span>Scatter</span>
+                                </button>
+                                <button class="viz-type-btn" data-type="histograma" title="Histograma">
+                                    <span class="viz-type-icon">▁▃▅▇</span>
+                                    <span>Histog.</span>
+                                </button>
+                                <button class="viz-type-btn" data-type="boxplot" title="Box Plot">
+                                    <span class="viz-type-icon">⊡</span>
+                                    <span>Box Plot</span>
+                                </button>
+                                <button class="viz-type-btn" data-type="control" title="Gráfico de Control">
+                                    <span class="viz-type-icon">📉</span>
+                                    <span>Control</span>
+                                </button>
+                                <button class="viz-type-btn" data-type="dnormal" title="Distribución Normal">
+                                    <span class="viz-type-icon">⌒</span>
+                                    <span>Dist. N.</span>
+                                </button>
+                            </div>
                     </div>
 
                     <div class="viz-section" id="viz-col-x-section">
@@ -721,6 +987,8 @@ const Visualizacion = (() => {
                 labelY.textContent = 'Columna Y (numérica)';
                 break;
             case 'histograma':
+            case 'control':
+            case 'dnormal':
                 labelX.textContent = 'Columna a analizar';
                 break;
             default:
@@ -732,6 +1000,11 @@ const Visualizacion = (() => {
     function updateControlVisibility() {
         const isBoxPlot    = currentType === 'boxplot';
         const isHistograma = currentType === 'histograma';
+        const isControl    = currentType === 'control';
+        const isDNormal    = currentType === 'dnormal';
+
+        // Tipos que solo necesitan una columna (colX)
+        const soloColX = isHistograma || isControl || isDNormal;
 
         const colXSection    = document.getElementById('viz-col-x-section');
         const colYSection    = document.getElementById('viz-col-y-section');
@@ -739,9 +1012,9 @@ const Visualizacion = (() => {
         const boxplotSection = document.getElementById('viz-boxplot-section');
 
         if (colXSection)    colXSection.style.display    = isBoxPlot ? 'none' : 'block';
-        if (colYSection)    colYSection.style.display    = (isBoxPlot || isHistograma) ? 'none' : 'block';
+        if (colYSection)    colYSection.style.display    = (isBoxPlot || soloColX) ? 'none' : 'block';
         if (binsSection)    binsSection.style.display    = isHistograma ? 'block' : 'none';
-        if (boxplotSection) boxplotSection.style.display = isBoxPlot   ? 'block' : 'none';
+        if (boxplotSection) boxplotSection.style.display = isBoxPlot ? 'block' : 'none';
 
         updateColLabels();
     }
@@ -823,6 +1096,20 @@ const Visualizacion = (() => {
                     mostrarInfo(`Box Plot: ${checked.join(', ')} · ${data.rowCount} registros`);
                     break;
                 }
+
+                case 'control': {
+                    if (!colX) { alert('⚠️ Selecciona la columna a analizar.'); return; }
+                    renderControlChart(data, colX);
+                    mostrarInfo(`Gráfico de Control: ${colX} · ${data.rowCount} observaciones`);
+                    break;
+                }
+
+                case 'dnormal': {
+                    if (!colX) { alert('⚠️ Selecciona la columna a analizar.'); return; }
+                    renderDistribucionNormal(data, colX);
+                    mostrarInfo(`Distribución Normal: ${colX} · ${data.rowCount} observaciones`);
+                    break;
+                }
             }
         } catch (err) {
             console.error('Error al generar gráfico:', err);
@@ -900,12 +1187,40 @@ const Visualizacion = (() => {
             }
         }
 
+        // Gráfico de control por columna numérica
+        numCols.forEach(col => {
+            predefinidos.push({
+                id:     `control_${col}`.replace(/\W+/g, '_'),
+                label:  `Control — ${col}`,
+                icono:  '📉',
+                tipo:   'control',
+                config: { col }
+            });
+        });
+
+        // Distribución normal por columna numérica
+        numCols.forEach(col => {
+            predefinidos.push({
+                id:     `dnormal_${col}`.replace(/\W+/g, '_'),
+                label:  `Dist. Normal — ${col}`,
+                icono:  '⌒',
+                tipo:   'dnormal',
+                config: { col }
+            });
+        });
+
         return predefinidos;
     }
 
     function _tipoLabel(tipo) {
-        return { histograma:'Histograma', boxplot:'Box Plot',
-                lineas_indice:'Gráfico de Líneas', dispersion:'Dispersión' }[tipo] || tipo;
+        return {
+            histograma:    'Histograma',
+            boxplot:       'Box Plot',
+            lineas_indice: 'Gráfico de Líneas',
+            dispersion:    'Dispersión',
+            control:       'Gráfico de Control',
+            dnormal:       'Distribución Normal',
+        }[tipo] || tipo;
     }
 
     // ── Inyectar panel de selección en la vista ──
@@ -1103,6 +1418,14 @@ function _attachExportPanelListeners(predefinidos, controlsPanel) {
 
             default:
                 throw new Error(`Tipo desconocido: ${pred.tipo}`);
+
+            case 'control':
+                renderControlChart(data, pred.config.col);
+                break;
+
+            case 'dnormal':
+                renderDistribucionNormal(data, pred.config.col);
+                break;
         }
 
         // Esperar animación de Chart.js (600ms de baseOptions + margen)
