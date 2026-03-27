@@ -1111,8 +1111,9 @@ tr:hover td{background:#f7faff}
     .doc{padding:20px 40px}
     .sec{page-break-before:always;page-break-inside:auto}
     .sec:first-of-type{page-break-before:avoid}
-    .var-block{page-break-inside:avoid;page-break-before:always}
-    .var-block:first-child{page-break-before:avoid}
+
+    .var-block{page-break-inside:avoid}
+
     .param-detail-section{page-break-before:always}
     .param-control-section{page-break-before:always}
     .method-grid{page-break-inside:avoid}
@@ -1223,8 +1224,8 @@ tr:hover td{background:#f7faff}
   </div>
   <div class="sec">
     <div class="sec-title"><span class="sec-num">04</span>${t('html_sec4')}</div>
-    ${resultados.columnasAnalizadas.map(col=>`
-    <div class="var-block">
+    ${resultados.columnasAnalizadas.map((col, _varIdx)=>`
+    <div class="var-block" style="${_varIdx === 0 ? 'page-break-before:avoid' : 'page-break-before:always'}">
       <div class="var-hdr">
         <span style="font-family:monospace;font-size:11pt;font-weight:500">${col}</span>
         <span style="font-family:monospace;font-size:8pt;color:rgba(255,255,255,.6)">n = ${resultados.totalFilas}</span>
@@ -1959,8 +1960,9 @@ tr:hover td{background:#f7faff}
     .doc{padding:20px 40px}
     .sec{page-break-before:always;page-break-inside:auto}
     .sec:first-of-type{page-break-before:avoid}
-    .var-block{page-break-inside:avoid;page-break-before:always}
-    .var-block:first-child{page-break-before:avoid}
+
+    .var-block{page-break-inside:avoid}
+    
     .param-detail-section{page-break-before:always}
     .param-control-section{page-break-before:always}
     .method-grid{page-break-inside:avoid}
@@ -2070,8 +2072,8 @@ tr:hover td{background:#f7faff}
   </div>
   <div class="sec">
     <div class="sec-title"><span class="sec-num">04</span>${t('html_sec4')}</div>
-    ${resultados.columnasAnalizadas.map(col=>`
-    <div class="var-block">
+    ${resultados.columnasAnalizadas.map((col, _varIdx)=>`
+    <div class="var-block" style="${_varIdx === 0 ? 'page-break-before:avoid' : 'page-break-before:always'}">
       <div class="var-hdr">
         <span style="font-family:monospace;font-size:11pt;font-weight:500">${col}</span>
         <span style="font-family:monospace;font-size:8pt;color:rgba(255,255,255,.6)">n = ${resultados.totalFilas}</span>
