@@ -909,120 +909,120 @@ const Visualizacion = (() => {
     }
 
     // ── Inyectar panel de selección en la vista ──
-    function activarModoExportacion() {
-        _modoExportacion     = true;
-        _graficosParaReporte = [];
+  function activarModoExportacion() {
+    _modoExportacion     = true;
+    _graficosParaReporte = [];
 
-        document.getElementById('viz-export-panel')?.remove();
+    document.getElementById('viz-export-panel')?.remove();
 
-        const layout = document.querySelector('.viz-layout');
-        if (!layout) return;
+    // ★ FIX: operar sobre el panel de controles, NO sobre viz-layout
+    const controlsPanel = document.querySelector('.viz-controls-panel');
+    if (!controlsPanel) return;
 
-        const predefinidos = _getPredefinidosDisponibles();
+    const predefinidos = _getPredefinidosDisponibles();
 
-        const panel = document.createElement('div');
-        panel.id        = 'viz-export-panel';
-        panel.className = 'viz-export-panel';
+    const panel = document.createElement('div');
+    panel.id        = 'viz-export-panel';
+    panel.className = 'viz-export-panel';
 
-        panel.innerHTML = `
-            <div class="viz-export-header">
-                <div class="viz-export-title">
-                    <span class="viz-export-badge">MODO REPORTE</span>
-                    <div>
-                        <h3>Selecciona los gráficos para incluir en el reporte</h3>
-                        <p>Marca los que quieras · luego genera y continúa</p>
-                    </div>
-                </div>
-                <button class="viz-export-close" id="viz-export-close">✕ Cancelar</button>
-            </div>
+    panel.innerHTML = `
+        <div class="viz-export-header">
+            <span class="viz-export-badge">MODO REPORTE</span>
+            <button class="viz-export-close" id="viz-export-close" title="Cancelar">✕</button>
+        </div>
+        <div class="viz-export-subtitle">
+            <p>Selecciona los gráficos a incluir</p>
+        </div>
 
-            <div class="viz-predefinidos-grid" id="viz-predefinidos-grid">
-                ${predefinidos.length === 0
-                    ? '<p class="viz-pred-empty">No hay datos cargados. Importa datos primero.</p>'
-                    : predefinidos.map(p => `
-                        <label class="viz-pred-item viz-pred-selected" id="viz-pred-wrap-${p.id}">
-                            <input type="checkbox" class="viz-pred-check"
-                                id="viz-pred-${p.id}" value="${p.id}" checked>
-                            <div class="viz-pred-body">
-                                <div class="viz-pred-icon">${p.icono}</div>
-                                <div class="viz-pred-info">
-                                    <div class="viz-pred-label">${p.label}</div>
-                                    <div class="viz-pred-type">${_tipoLabel(p.tipo)}</div>
-                                </div>
-                                <div class="viz-pred-checkmark">✓</div>
+        <div class="viz-predefinidos-list" id="viz-predefinidos-grid">
+            ${predefinidos.length === 0
+                ? '<p class="viz-pred-empty">No hay datos cargados.</p>'
+                : predefinidos.map(p => `
+                    <label class="viz-pred-item viz-pred-selected"
+                           id="viz-pred-wrap-${p.id}">
+                        <input type="checkbox" class="viz-pred-check"
+                               id="viz-pred-${p.id}" value="${p.id}" checked>
+                        <div class="viz-pred-body">
+                            <div class="viz-pred-icon">${p.icono}</div>
+                            <div class="viz-pred-info">
+                                <div class="viz-pred-label">${p.label}</div>
+                                <div class="viz-pred-type">${_tipoLabel(p.tipo)}</div>
                             </div>
-                        </label>`).join('')
-                }
+                            <div class="viz-pred-checkmark">✓</div>
+                        </div>
+                    </label>`).join('')
+            }
+        </div>
+
+        <div class="viz-export-progress" id="viz-export-progress" style="display:none">
+            <div class="viz-progress-bar">
+                <div class="viz-progress-fill" id="viz-progress-fill" style="width:0%"></div>
             </div>
+            <span id="viz-progress-text" class="viz-progress-text">Preparando...</span>
+        </div>
 
-            <div class="viz-export-progress" id="viz-export-progress" style="display:none">
-                <div class="viz-progress-bar">
-                    <div class="viz-progress-fill" id="viz-progress-fill" style="width:0%"></div>
-                </div>
-                <span id="viz-progress-text">Preparando...</span>
-            </div>
+        <div class="viz-export-footer">
+            <span class="viz-export-count" id="viz-export-count">
+                ${predefinidos.length} gráfico(s) seleccionado(s)
+            </span>
+            <button class="viz-btn-generate-all" id="viz-btn-generate-all"
+                    ${predefinidos.length === 0 ? 'disabled' : ''}>
+                ⚙️ Generar seleccionados
+            </button>
+            <button class="viz-btn-continue" id="viz-btn-continue" disabled>
+                Continuar al reporte →
+            </button>
+        </div>`;
 
-            <div class="viz-export-footer">
-                <span class="viz-export-count" id="viz-export-count">
-                    ${predefinidos.length} gráfico(s) seleccionado(s)
-                </span>
-                <div class="viz-export-actions">
-                    <button class="viz-btn-generate-all" id="viz-btn-generate-all"
-                            ${predefinidos.length === 0 ? 'disabled' : ''}>
-                        ⚙️ Generar seleccionados
-                    </button>
-                    <button class="viz-btn-continue" id="viz-btn-continue" disabled>
-                        Continuar al reporte →
-                    </button>
-                </div>
-            </div>`;
+    // ★ FIX: reemplazar el panel de controles en el DOM
+    controlsPanel.style.display = 'none';
+    controlsPanel.parentNode.insertBefore(panel, controlsPanel);
 
-        layout.insertBefore(panel, layout.firstChild);
-        _attachExportPanelListeners(predefinidos);
-    }
+    _attachExportPanelListeners(predefinidos, controlsPanel);
+}
 
-    function _attachExportPanelListeners(predefinidos) {
-        // Cancelar
-        document.getElementById('viz-export-close')?.addEventListener('click', () => {
-            document.getElementById('viz-export-panel')?.remove();
-            _modoExportacion     = false;
+function _attachExportPanelListeners(predefinidos, controlsPanel) {
+
+    // ★ FIX: al cancelar, restaurar el panel de controles
+    document.getElementById('viz-export-close')?.addEventListener('click', () => {
+        document.getElementById('viz-export-panel')?.remove();
+        if (controlsPanel) controlsPanel.style.display = '';
+        _modoExportacion     = false;
+        _graficosParaReporte = [];
+    });
+
+    predefinidos.forEach(p => {
+        document.getElementById(`viz-pred-${p.id}`)?.addEventListener('change', e => {
+            document.getElementById(`viz-pred-wrap-${p.id}`)
+                ?.classList.toggle('viz-pred-selected', e.target.checked);
+            _actualizarContadorExport();
+            const btnCont = document.getElementById('viz-btn-continue');
+            if (btnCont) btnCont.disabled = true;
             _graficosParaReporte = [];
         });
+    });
 
-        // Checkboxes
-        predefinidos.forEach(p => {
-            document.getElementById(`viz-pred-${p.id}`)?.addEventListener('change', e => {
-                document.getElementById(`viz-pred-wrap-${p.id}`)
-                    ?.classList.toggle('viz-pred-selected', e.target.checked);
-                _actualizarContadorExport();
-                // Si ya había generado, resetear el botón continuar
-                const btnCont = document.getElementById('viz-btn-continue');
-                if (btnCont) btnCont.disabled = true;
-                _graficosParaReporte = [];
-            });
-        });
+    document.getElementById('viz-btn-generate-all')?.addEventListener('click', async () => {
+        const seleccionados = predefinidos.filter(p =>
+            document.getElementById(`viz-pred-${p.id}`)?.checked
+        );
+        if (seleccionados.length === 0) {
+            alert('⚠️ Selecciona al menos un gráfico.');
+            return;
+        }
+        await _generarTodos(seleccionados);
+    });
 
-        // Generar
-        document.getElementById('viz-btn-generate-all')?.addEventListener('click', async () => {
-            const seleccionados = predefinidos.filter(p =>
-                document.getElementById(`viz-pred-${p.id}`)?.checked
-            );
-            if (seleccionados.length === 0) {
-                alert('⚠️ Selecciona al menos un gráfico.');
-                return;
-            }
-            await _generarTodos(seleccionados);
-        });
-
-        // Continuar al reporte
-        document.getElementById('viz-btn-continue')?.addEventListener('click', () => {
-            if (_graficosParaReporte.length === 0) return;
-            document.getElementById('viz-export-panel')?.remove();
-            _modoExportacion = false;
-            switchView('reportes');
-            inicializarReportes();
-        });
-    }
+    // ★ FIX: restaurar controles también al continuar
+    document.getElementById('viz-btn-continue')?.addEventListener('click', () => {
+        if (_graficosParaReporte.length === 0) return;
+        document.getElementById('viz-export-panel')?.remove();
+        if (controlsPanel) controlsPanel.style.display = '';
+        _modoExportacion = false;
+        switchView('reportes');
+        inicializarReportes();
+    });
+    }   
 
     function _actualizarContadorExport() {
         const n  = document.querySelectorAll('.viz-pred-check:checked').length;

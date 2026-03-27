@@ -298,66 +298,64 @@
 
 /* ========================================
    PANEL MODO EXPORTACIÓN
+   — ocupa exactamente la columna izquierda
+     del grid (260px), igual que viz-controls-panel
    ======================================== */
 
 .viz-export-panel {
-    background: white;
+    background: #f8f9fa;
+    border-radius: 14px;
     border: 2px solid #6c63ff;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 20px rgba(108, 99, 255, 0.15);
+    padding: 16px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(108, 99, 255, 0.18);
+    /* mismo ancho que .viz-controls-panel en el grid */
+    width: 260px;
+    min-width: 260px;
+    max-height: calc(100vh - 220px);
 }
 
+/* Cabecera compacta */
 .viz-export-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 16px;
-    gap: 16px;
-}
-
-.viz-export-title {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
+    align-items: center;
+    gap: 8px;
 }
 
 .viz-export-badge {
     background: #6c63ff;
     color: white;
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 1.5px;
     padding: 3px 8px;
     border-radius: 4px;
     white-space: nowrap;
-    margin-top: 3px;
 }
 
-.viz-export-title h3 {
-    font-size: 0.95rem;
+.viz-export-subtitle p {
+    font-size: 0.78rem;
+    color: #555;
     font-weight: 600;
-    color: #1a202c;
-    margin: 0 0 3px 0;
-}
-
-.viz-export-title p {
-    font-size: 0.8rem;
-    color: #718096;
     margin: 0;
+    line-height: 1.3;
 }
 
 .viz-export-close {
     background: none;
     border: 1px solid #e2e8f0;
-    border-radius: 6px;
-    padding: 5px 10px;
-    font-size: 0.8rem;
+    border-radius: 5px;
+    padding: 3px 7px;
+    font-size: 0.75rem;
     color: #718096;
     cursor: pointer;
-    white-space: nowrap;
+    flex-shrink: 0;
     transition: all 0.2s;
+    line-height: 1;
 }
 
 .viz-export-close:hover {
@@ -366,20 +364,32 @@
     color: #c53030;
 }
 
-/* Grid de predefinidos */
-.viz-predefinidos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 10px;
-    margin-bottom: 16px;
+/* Lista scrollable de gráficos predefinidos */
+.viz-predefinidos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 2px;
 }
 
+.viz-predefinidos-list::-webkit-scrollbar {
+    width: 4px;
+}
+.viz-predefinidos-list::-webkit-scrollbar-thumb {
+    background: #c7d2fe;
+    border-radius: 4px;
+}
+
+/* Item de gráfico */
 .viz-pred-item {
     border: 1.5px solid #e2e8f0;
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.18s;
+    transition: all 0.15s;
     display: block;
+    flex-shrink: 0;
 }
 
 .viz-pred-item input[type="checkbox"] {
@@ -389,15 +399,16 @@
 .viz-pred-body {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
+    gap: 8px;
+    padding: 7px 10px;
 }
 
 .viz-pred-icon {
-    font-size: 1.1rem;
-    width: 28px;
+    font-size: 0.9rem;
+    width: 22px;
     text-align: center;
     flex-shrink: 0;
+    color: #6c63ff;
 }
 
 .viz-pred-info {
@@ -406,7 +417,7 @@
 }
 
 .viz-pred-label {
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     font-weight: 600;
     color: #2d3748;
     white-space: nowrap;
@@ -415,19 +426,19 @@
 }
 
 .viz-pred-type {
-    font-size: 0.73rem;
+    font-size: 0.68rem;
     color: #a0aec0;
     margin-top: 1px;
 }
 
 .viz-pred-checkmark {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 700;
-    color: #c6f6d5;
-    width: 20px;
+    color: transparent;
+    width: 16px;
     text-align: center;
     flex-shrink: 0;
-    transition: color 0.18s;
+    transition: color 0.15s;
 }
 
 /* Estado seleccionado */
@@ -447,22 +458,21 @@
 
 .viz-pred-empty {
     color: #a0aec0;
-    font-size: 0.85rem;
-    grid-column: 1 / -1;
-    padding: 12px;
+    font-size: 0.82rem;
+    padding: 8px 4px;
 }
 
 /* Barra de progreso */
 .viz-export-progress {
-    margin-bottom: 14px;
+    flex-shrink: 0;
 }
 
 .viz-progress-bar {
-    height: 6px;
+    height: 5px;
     background: #e2e8f0;
     border-radius: 999px;
     overflow: hidden;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
 }
 
 .viz-progress-fill {
@@ -472,43 +482,41 @@
     transition: width 0.3s ease;
 }
 
-#viz-progress-text {
-    font-size: 0.78rem;
+.viz-progress-text {
+    font-size: 0.72rem;
     color: #718096;
+    display: block;
 }
 
 /* Footer del panel */
 .viz-export-footer {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 14px;
+    flex-direction: column;
+    gap: 7px;
+    padding-top: 10px;
     border-top: 1px solid #e2e8f0;
-    gap: 12px;
-    flex-wrap: wrap;
+    flex-shrink: 0;
 }
 
 .viz-export-count {
-    font-size: 0.82rem;
+    font-size: 0.75rem;
     color: #6c63ff;
     font-weight: 600;
-}
-
-.viz-export-actions {
-    display: flex;
-    gap: 10px;
+    text-align: center;
 }
 
 .viz-btn-generate-all {
-    padding: 8px 16px;
+    width: 100%;
+    padding: 9px;
     background: #f5f3ff;
     color: #6c63ff;
     border: 1.5px solid #6c63ff;
     border-radius: 8px;
-    font-size: 0.84rem;
+    font-size: 0.82rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
+    text-align: center;
 }
 
 .viz-btn-generate-all:hover:not(:disabled) {
@@ -522,24 +530,24 @@
 }
 
 .viz-btn-continue {
-    padding: 8px 18px;
+    width: 100%;
+    padding: 9px;
     background: #6c63ff;
     color: white;
     border: none;
     border-radius: 8px;
-    font-size: 0.84rem;
+    font-size: 0.82rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
+    text-align: center;
 }
 
 .viz-btn-continue:hover:not(:disabled) {
     background: #5a52d5;
-    transform: translateX(2px);
 }
 
 .viz-btn-continue:disabled {
     opacity: 0.35;
     cursor: not-allowed;
-    transform: none;
 }
