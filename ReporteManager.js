@@ -491,6 +491,7 @@ const ReporteManager = (() => {
             ui_dept:        'Department',
             ui_location:    'Location',
             ui_description: 'Description',
+            ui_serial:       'Serial number',
             ui_assay:       'Assay / Test',
             ui_modelo:      'Equipment Model',
             ui_marca:       'Equipment Brand',
@@ -647,6 +648,7 @@ const ReporteManager = (() => {
             ui_dept:        'Departamento',
             ui_location:    'Ubicación',
             ui_description: 'Descripción',
+            ui_serie:       'Número de Serie',
             ui_assay:       'Ensayo / Prueba',
             ui_modelo:      'Modelo del Equipo',
             ui_marca:       'Marca del Equipo',
@@ -1388,6 +1390,11 @@ tr:hover td{background:#f7faff}
                 <div class="rep-field">
                   <label>${t('ui_location')}</label>
                   <input id="rep-ubicacion" placeholder="${currentLang==='es'?'Ej: Santo Domingo, DO':'E.g.: Santo Domingo, DO'}">
+                </div>
+
+                <div class="rep-field">
+                  <label>${t('ui_serial')}</label>
+                  <input id="rep-serial" placeholder="123456789">
                 </div>
 
                 <div class="rep-field">
@@ -2265,6 +2272,11 @@ tr:hover td{background:#f7faff}
                 <div class="rep-field">
                   <label>${t('ui_location')}</label>
                   <input id="rep-ubicacion" placeholder="${currentLang==='es'?'Ej: Santo Domingo, DO':'E.g.: Santo Domingo, DO'}">
+                </div>
+
+                 <div class="rep-field">
+                  <label>${t('ui_serie')}</label>
+                  <input id="rep-serie" placeholder="123456789">
                 </div>
 
                 <div class="rep-field">
