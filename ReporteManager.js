@@ -1241,6 +1241,42 @@ tr:hover td{background:#f7faff}
       Standard: ${REGULATORY.standard} &nbsp;|&nbsp; Guideline: ${REGULATORY.guideline}
     </div>
   </div>
+  
+  ${(() => {
+      const graficos = (typeof Visualizacion !== 'undefined')
+          ? Visualizacion.getGraficosParaReporte()
+          : [];
+      if (!graficos || graficos.length === 0) return '';
+
+      const filas = graficos.map((g, i) => `
+          <div style="margin-bottom:20px;border:1px solid #e2e8f0;border-radius:6px;
+                      overflow:hidden;page-break-inside:avoid">
+              <div style="background:#1a3a6b;color:white;padding:8px 14px;
+                          display:flex;justify-content:space-between;align-items:center">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:9pt;font-weight:500">
+                      ${currentLang === 'es' ? 'Figura' : 'Figure'} ${i + 1} — ${g.titulo}
+                  </span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:7.5pt;
+                              color:rgba(255,255,255,0.55)">${g.tipo}</span>
+              </div>
+              <div style="padding:14px;text-align:center;background:#fafafa">
+                  <img src="${g.imagen}"
+                      style="max-width:100%;height:auto;border-radius:4px;
+                              box-shadow:0 1px 6px rgba(0,0,0,0.1)"
+                      alt="${g.titulo}">
+              </div>
+          </div>`).join('');
+
+      return `
+      <div class="sec" style="page-break-before:auto">
+          <div class="sec-title">
+              <span class="sec-num">07</span>
+              ${currentLang === 'es' ? 'Gráficos y Visualizaciones' : 'Charts & Visualizations'}
+          </div>
+          ${filas}
+      </div>`;
+  })()}
+
   <div class="doc-footer">
     <div><strong style="color:#1a3a6b">RPT-${hash}</strong><br>${REGULATORY.software}</div>
     <div style="text-align:center">${meta.confidencialidad||'CONFIDENTIAL'}</div>
@@ -2065,6 +2101,42 @@ tr:hover td{background:#f7faff}
       Standard: ${REGULATORY.standard} &nbsp;|&nbsp; Guideline: ${REGULATORY.guideline}
     </div>
   </div>
+
+  ${(() => {
+      const graficos = (typeof Visualizacion !== 'undefined')
+          ? Visualizacion.getGraficosParaReporte()
+          : [];
+      if (!graficos || graficos.length === 0) return '';
+
+      const filas = graficos.map((g, i) => `
+          <div style="margin-bottom:20px;border:1px solid #e2e8f0;border-radius:6px;
+                      overflow:hidden;page-break-inside:avoid">
+              <div style="background:#1a3a6b;color:white;padding:8px 14px;
+                          display:flex;justify-content:space-between;align-items:center">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:9pt;font-weight:500">
+                      ${currentLang === 'es' ? 'Figura' : 'Figure'} ${i + 1} — ${g.titulo}
+                  </span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:7.5pt;
+                              color:rgba(255,255,255,0.55)">${g.tipo}</span>
+              </div>
+              <div style="padding:14px;text-align:center;background:#fafafa">
+                  <img src="${g.imagen}"
+                      style="max-width:100%;height:auto;border-radius:4px;
+                              box-shadow:0 1px 6px rgba(0,0,0,0.1)"
+                      alt="${g.titulo}">
+              </div>
+          </div>`).join('');
+
+      return `
+      <div class="sec" style="page-break-before:auto">
+          <div class="sec-title">
+              <span class="sec-num">07</span>
+              ${currentLang === 'es' ? 'Gráficos y Visualizaciones' : 'Charts & Visualizations'}
+          </div>
+          ${filas}
+      </div>`;
+  })()}
+
   <div class="doc-footer">
     <div><strong style="color:#1a3a6b">RPT-${hash}</strong><br>${REGULATORY.software}</div>
     <div style="text-align:center">${meta.confidencialidad||'CONFIDENTIAL'}</div>

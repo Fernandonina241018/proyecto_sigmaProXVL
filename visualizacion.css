@@ -295,3 +295,251 @@
         min-height: 320px;
     }
 }
+
+/* ========================================
+   PANEL MODO EXPORTACIÓN
+   ======================================== */
+
+.viz-export-panel {
+    background: white;
+    border: 2px solid #6c63ff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(108, 99, 255, 0.15);
+}
+
+.viz-export-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    gap: 16px;
+}
+
+.viz-export-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.viz-export-badge {
+    background: #6c63ff;
+    color: white;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    margin-top: 3px;
+}
+
+.viz-export-title h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0 0 3px 0;
+}
+
+.viz-export-title p {
+    font-size: 0.8rem;
+    color: #718096;
+    margin: 0;
+}
+
+.viz-export-close {
+    background: none;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    color: #718096;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.viz-export-close:hover {
+    background: #fff5f5;
+    border-color: #fc8181;
+    color: #c53030;
+}
+
+/* Grid de predefinidos */
+.viz-predefinidos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.viz-pred-item {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.18s;
+    display: block;
+}
+
+.viz-pred-item input[type="checkbox"] {
+    display: none;
+}
+
+.viz-pred-body {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+}
+
+.viz-pred-icon {
+    font-size: 1.1rem;
+    width: 28px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.viz-pred-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.viz-pred-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2d3748;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.viz-pred-type {
+    font-size: 0.73rem;
+    color: #a0aec0;
+    margin-top: 1px;
+}
+
+.viz-pred-checkmark {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #c6f6d5;
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+    transition: color 0.18s;
+}
+
+/* Estado seleccionado */
+.viz-pred-selected {
+    border-color: #6c63ff;
+    background: #f5f3ff;
+}
+
+.viz-pred-selected .viz-pred-checkmark {
+    color: #6c63ff;
+}
+
+.viz-pred-item:hover {
+    border-color: #6c63ff;
+    background: #faf9ff;
+}
+
+.viz-pred-empty {
+    color: #a0aec0;
+    font-size: 0.85rem;
+    grid-column: 1 / -1;
+    padding: 12px;
+}
+
+/* Barra de progreso */
+.viz-export-progress {
+    margin-bottom: 14px;
+}
+
+.viz-progress-bar {
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.viz-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6c63ff, #a78bfa);
+    border-radius: 999px;
+    transition: width 0.3s ease;
+}
+
+#viz-progress-text {
+    font-size: 0.78rem;
+    color: #718096;
+}
+
+/* Footer del panel */
+.viz-export-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 14px;
+    border-top: 1px solid #e2e8f0;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.viz-export-count {
+    font-size: 0.82rem;
+    color: #6c63ff;
+    font-weight: 600;
+}
+
+.viz-export-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.viz-btn-generate-all {
+    padding: 8px 16px;
+    background: #f5f3ff;
+    color: #6c63ff;
+    border: 1.5px solid #6c63ff;
+    border-radius: 8px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.viz-btn-generate-all:hover:not(:disabled) {
+    background: #6c63ff;
+    color: white;
+}
+
+.viz-btn-generate-all:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.viz-btn-continue {
+    padding: 8px 18px;
+    background: #6c63ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.viz-btn-continue:hover:not(:disabled) {
+    background: #5a52d5;
+    transform: translateX(2px);
+}
+
+.viz-btn-continue:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+}

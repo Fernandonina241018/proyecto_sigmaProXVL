@@ -834,17 +834,302 @@ const Visualizacion = (() => {
     // API PÚBLICA
     // ========================================
 
+    // ========================================
+    // MODO EXPORTACIÓN — SELECCIÓN DE GRÁFICOS
+    // ========================================
+
+    let _graficosParaReporte = [];
+    let _modoExportacion     = false;
+
+    // ── Lista de gráficos predefinidos según el dataset ──
+    function _getPredefinidosDisponibles() {
+        const data = StateManager.getImportedData();
+        if (!data) return [];
+
+        const numCols    = getNumericColumns(data);
+        const predefinidos = [];
+
+        // Histograma por columna numérica
+        numCols.forEach(col => {
+            predefinidos.push({
+                id:     `hist_${col}`.replace(/\W+/g, '_'),
+                label:  `Histograma — ${col}`,
+                icono:  '▁▃▅▇',
+                tipo:   'histograma',
+                config: { colX: col, bins: 10 }
+            });
+        });
+
+        // Box Plot de todas las columnas
+        if (numCols.length > 0) {
+            predefinidos.push({
+                id:     'boxplot_all',
+                label:  `Box Plot — ${numCols.slice(0, 3).join(', ')}${numCols.length > 3 ? '…' : ''}`,
+                icono:  '⊡',
+                tipo:   'boxplot',
+                config: { columnas: numCols }
+            });
+        }
+
+        // Líneas (tendencia) por columna numérica
+        numCols.forEach(col => {
+            predefinidos.push({
+                id:     `lineas_${col}`.replace(/\W+/g, '_'),
+                label:  `Tendencia (Líneas) — ${col}`,
+                icono:  '∿',
+                tipo:   'lineas_indice',
+                config: { colY: col }
+            });
+        });
+
+        // Dispersión por pares (máx 3)
+        if (numCols.length >= 2) {
+            let pares = 0;
+            outer: for (let i = 0; i < numCols.length; i++) {
+                for (let j = i + 1; j < numCols.length; j++) {
+                    if (pares >= 3) break outer;
+                    predefinidos.push({
+                        id:     `scatter_${numCols[i]}_${numCols[j]}`.replace(/\W+/g, '_'),
+                        label:  `Dispersión — ${numCols[i]} vs ${numCols[j]}`,
+                        icono:  '⁖',
+                        tipo:   'dispersion',
+                        config: { colX: numCols[i], colY: numCols[j] }
+                    });
+                    pares++;
+                }
+            }
+        }
+
+        return predefinidos;
+    }
+
+    function _tipoLabel(tipo) {
+        return { histograma:'Histograma', boxplot:'Box Plot',
+                lineas_indice:'Gráfico de Líneas', dispersion:'Dispersión' }[tipo] || tipo;
+    }
+
+    // ── Inyectar panel de selección en la vista ──
+    function activarModoExportacion() {
+        _modoExportacion     = true;
+        _graficosParaReporte = [];
+
+        document.getElementById('viz-export-panel')?.remove();
+
+        const layout = document.querySelector('.viz-layout');
+        if (!layout) return;
+
+        const predefinidos = _getPredefinidosDisponibles();
+
+        const panel = document.createElement('div');
+        panel.id        = 'viz-export-panel';
+        panel.className = 'viz-export-panel';
+
+        panel.innerHTML = `
+            <div class="viz-export-header">
+                <div class="viz-export-title">
+                    <span class="viz-export-badge">MODO REPORTE</span>
+                    <div>
+                        <h3>Selecciona los gráficos para incluir en el reporte</h3>
+                        <p>Marca los que quieras · luego genera y continúa</p>
+                    </div>
+                </div>
+                <button class="viz-export-close" id="viz-export-close">✕ Cancelar</button>
+            </div>
+
+            <div class="viz-predefinidos-grid" id="viz-predefinidos-grid">
+                ${predefinidos.length === 0
+                    ? '<p class="viz-pred-empty">No hay datos cargados. Importa datos primero.</p>'
+                    : predefinidos.map(p => `
+                        <label class="viz-pred-item viz-pred-selected" id="viz-pred-wrap-${p.id}">
+                            <input type="checkbox" class="viz-pred-check"
+                                id="viz-pred-${p.id}" value="${p.id}" checked>
+                            <div class="viz-pred-body">
+                                <div class="viz-pred-icon">${p.icono}</div>
+                                <div class="viz-pred-info">
+                                    <div class="viz-pred-label">${p.label}</div>
+                                    <div class="viz-pred-type">${_tipoLabel(p.tipo)}</div>
+                                </div>
+                                <div class="viz-pred-checkmark">✓</div>
+                            </div>
+                        </label>`).join('')
+                }
+            </div>
+
+            <div class="viz-export-progress" id="viz-export-progress" style="display:none">
+                <div class="viz-progress-bar">
+                    <div class="viz-progress-fill" id="viz-progress-fill" style="width:0%"></div>
+                </div>
+                <span id="viz-progress-text">Preparando...</span>
+            </div>
+
+            <div class="viz-export-footer">
+                <span class="viz-export-count" id="viz-export-count">
+                    ${predefinidos.length} gráfico(s) seleccionado(s)
+                </span>
+                <div class="viz-export-actions">
+                    <button class="viz-btn-generate-all" id="viz-btn-generate-all"
+                            ${predefinidos.length === 0 ? 'disabled' : ''}>
+                        ⚙️ Generar seleccionados
+                    </button>
+                    <button class="viz-btn-continue" id="viz-btn-continue" disabled>
+                        Continuar al reporte →
+                    </button>
+                </div>
+            </div>`;
+
+        layout.insertBefore(panel, layout.firstChild);
+        _attachExportPanelListeners(predefinidos);
+    }
+
+    function _attachExportPanelListeners(predefinidos) {
+        // Cancelar
+        document.getElementById('viz-export-close')?.addEventListener('click', () => {
+            document.getElementById('viz-export-panel')?.remove();
+            _modoExportacion     = false;
+            _graficosParaReporte = [];
+        });
+
+        // Checkboxes
+        predefinidos.forEach(p => {
+            document.getElementById(`viz-pred-${p.id}`)?.addEventListener('change', e => {
+                document.getElementById(`viz-pred-wrap-${p.id}`)
+                    ?.classList.toggle('viz-pred-selected', e.target.checked);
+                _actualizarContadorExport();
+                // Si ya había generado, resetear el botón continuar
+                const btnCont = document.getElementById('viz-btn-continue');
+                if (btnCont) btnCont.disabled = true;
+                _graficosParaReporte = [];
+            });
+        });
+
+        // Generar
+        document.getElementById('viz-btn-generate-all')?.addEventListener('click', async () => {
+            const seleccionados = predefinidos.filter(p =>
+                document.getElementById(`viz-pred-${p.id}`)?.checked
+            );
+            if (seleccionados.length === 0) {
+                alert('⚠️ Selecciona al menos un gráfico.');
+                return;
+            }
+            await _generarTodos(seleccionados);
+        });
+
+        // Continuar al reporte
+        document.getElementById('viz-btn-continue')?.addEventListener('click', () => {
+            if (_graficosParaReporte.length === 0) return;
+            document.getElementById('viz-export-panel')?.remove();
+            _modoExportacion = false;
+            switchView('reportes');
+            inicializarReportes();
+        });
+    }
+
+    function _actualizarContadorExport() {
+        const n  = document.querySelectorAll('.viz-pred-check:checked').length;
+        const el = document.getElementById('viz-export-count');
+        if (el) el.textContent = `${n} gráfico(s) seleccionado(s)`;
+    }
+
+    async function _generarTodos(seleccionados) {
+        const progress = document.getElementById('viz-export-progress');
+        const fill     = document.getElementById('viz-progress-fill');
+        const text     = document.getElementById('viz-progress-text');
+        const btnGen   = document.getElementById('viz-btn-generate-all');
+        const btnCont  = document.getElementById('viz-btn-continue');
+
+        if (progress) progress.style.display = 'block';
+        if (btnGen)   btnGen.disabled        = true;
+
+        _graficosParaReporte = [];
+
+        for (let i = 0; i < seleccionados.length; i++) {
+            const pred = seleccionados[i];
+            const pct  = Math.round((i / seleccionados.length) * 100);
+
+            if (fill) fill.style.width   = `${pct}%`;
+            if (text) text.textContent   = `Generando ${i + 1} / ${seleccionados.length}: ${pred.label}...`;
+
+            try {
+                const imagen = await _generarYCapturar(pred);
+                _graficosParaReporte.push({
+                    titulo: pred.label,
+                    tipo:   _tipoLabel(pred.tipo),
+                    imagen
+                });
+            } catch (err) {
+                console.warn(`No se pudo generar "${pred.label}":`, err);
+            }
+
+            await new Promise(r => setTimeout(r, 200));
+        }
+
+        if (fill) fill.style.width = '100%';
+        if (text) text.textContent =
+            `✅ ${_graficosParaReporte.length} / ${seleccionados.length} gráfico(s) listo(s) para el reporte`;
+        if (btnCont) btnCont.disabled = (_graficosParaReporte.length === 0);
+        if (btnGen)  btnGen.disabled  = false;
+    }
+
+    async function _generarYCapturar(pred) {
+        // Asegurarse que el canvas está visible
+        mostrarCanvas();
+
+        const data = StateManager.getImportedData();
+        if (!data) throw new Error('Sin datos');
+
+        switch (pred.tipo) {
+            case 'histograma':
+                renderHistograma(data, pred.config.colX, pred.config.bins);
+                break;
+
+            case 'boxplot':
+                renderBoxPlot(data, pred.config.columnas);
+                break;
+
+            case 'lineas_indice': {
+                // Agregar columna de índice como eje X
+                const dataConN = {
+                    headers:  ['N°', ...data.headers],
+                    data:     data.data.map((row, i) => ({ 'N°': i + 1, ...row })),
+                    rowCount: data.rowCount
+                };
+                renderLineas(dataConN, 'N°', pred.config.colY, false);
+                break;
+            }
+
+            case 'dispersion':
+                renderDispersion(data, pred.config.colX, pred.config.colY);
+                break;
+
+            default:
+                throw new Error(`Tipo desconocido: ${pred.tipo}`);
+        }
+
+        // Esperar animación de Chart.js (600ms de baseOptions + margen)
+        await new Promise(r => setTimeout(r, 750));
+
+        const canvas = getCanvas();
+        if (!canvas) throw new Error('Canvas no encontrado');
+        return canvas.toDataURL('image/png');
+    }
+
+    // Getter público para ReporteManager
+    function getGraficosParaReporte() {
+        return [..._graficosParaReporte];
+    }
+
     return {
         buildUI,
         refreshSelects,
         exportarImagen,
-        // Acceso directo a renders para uso externo
         renderBarras,
         renderLineas,
         renderDispersion,
         renderHistograma,
         renderBoxPlot,
-        destroyChart
+        destroyChart,
+        activarModoExportacion,   // ★ nueva
+        getGraficosParaReporte,   // ★ nueva
     };
 
 })();

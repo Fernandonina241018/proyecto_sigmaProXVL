@@ -1067,14 +1067,9 @@ function exportarResultados() {
         alert('⚠️ No hay resultados para exportar. Ejecuta un análisis primero.');
         return;
     }
-    // Navegar a vista Reportes y construir la UI con los datos actuales
-    switchView('reportes');
-    inicializarReportes();
-}
-
-function nuevoAnalisis() {
-    ultimosResultados = null;
-    ocultarCargando();
+    // ★ Nuevo flujo: ir a Visualización para seleccionar gráficos
+    switchView('visualizacion');
+    setTimeout(() => Visualizacion.activarModoExportacion(), 80);
 }
 
 // ========================================
