@@ -609,9 +609,9 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
 
     }
     
-    // ========================================
+    // =======================================
     // API PÚBLICA
-    // ========================================
+    // =======================================
     
     return {
         // Funciones individuales
