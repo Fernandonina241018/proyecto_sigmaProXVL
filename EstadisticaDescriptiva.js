@@ -557,8 +557,12 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                     <div class="ar-params-block">
                         <div class="ar-params-title">🎯 Control de Parámetros</div>
                         <div class="ar-params-header">
-                            <span>Variable</span><span>Mín</span><span>Máx</span>
-                            <span>Esperanza</span><span>Fuera rango</span><span>Cumplimiento</span>
+                            <span>Variable</span>
+                            <span>Mín</span>
+                            <span>Máx</span>
+                            <span>Esperanza</span>
+                            <span>Fuera rango</span>
+                            <span>Cumplimiento</span>
                         </div>
                         ${rows}
                     </div>`;
