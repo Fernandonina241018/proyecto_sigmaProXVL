@@ -559,6 +559,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                         <div class="ar-params-header">
                             <span>Variable</span><span>Mín</span><span>Máx</span>
                             <span>Esperanza</span><span>Fuera rango</span><span>Cumplimiento</span>
+                            <span class="dm-params-chevron" id="dm-params-chevron">▼</span>
                         </div>
                         ${rows}
                     </div>`;
