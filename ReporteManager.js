@@ -1884,7 +1884,6 @@ console.log('✅ ReporteManager cargado — FDA 21 CFR Part 11');
     function generarHTML(resultados, meta) {
         const hash=generateHash(meta,resultados);
         const ext=computeExtendedStats(resultados);
-        const W=80, L=[], p=s=>L.push(s);
         const totalFlags=Object.values(ext).reduce((a,d)=>a+d.flags.length,0);
         const lang=currentLang;
 
@@ -2401,7 +2400,7 @@ tr:hover td{background:#f7faff}
 
               <div class="rep-format-list">
                 <label class="rep-format-item" id="fmt-txt-wrap">
-                  <input type="checkbox" id="fmt-txt" value="txt" checked>
+                  <input type="checkbox" id="fmt-txt" value="txt">
                   <div class="rep-format-body">
                     <div class="rep-format-icon">📄</div>
                     <div class="rep-format-info">
@@ -2423,7 +2422,7 @@ tr:hover td{background:#f7faff}
                   </div>
                 </label>
                 <label class="rep-format-item" id="fmt-html-wrap">
-                  <input type="checkbox" id="fmt-html" value="html">
+                  <input type="checkbox" id="fmt-html" value="html" checked>
                   <div class="rep-format-body">
                     <div class="rep-format-icon">🌐</div>
                     <div class="rep-format-info">
