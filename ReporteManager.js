@@ -1159,7 +1159,7 @@ tr:hover td{background:#f7faff}
       <div style="grid-column:1/-1">${mRow(t('description'),    meta.descripcion)}</div>
       ${mRow(t('ui_modelo'),       meta.modelo)}
       ${mRow(t('ui_marca'),        meta.marca)}
-      ${mRow(ui_serial,           meta.serie)}
+      ${mRow('ui_serial',           meta.serie)}
       <div style="grid-column:1/-1">${mRow(t('confidentiality'),meta.confidencialidad||'CONFIDENTIAL')}</div>
     </div>
   </div>
@@ -2015,7 +2015,7 @@ tr:hover td{background:#f7faff}
       <div style="grid-column:1/-1">${mRow(t('assay'),          meta.ensayo)}</div>
       ${mRow(t('ui_modelo'),       meta.modelo)}
       ${mRow(t('ui_marca'),        meta.marca)}
-      ${mRow(ui_serial,          meta.serie)}
+      ${mRow('ui_serial',          meta.serie)}
       <div style="grid-column:1/-1">${mRow(t('description'),    meta.descripcion)}</div>
       <div style="grid-column:1/-1">${mRow(t('confidentiality'),meta.confidencialidad||'CONFIDENTIAL')}</div>
     </div>
