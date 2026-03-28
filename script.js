@@ -1051,6 +1051,8 @@ function ocultarCargando() {
 function nuevoAnalisis() {
     // 1. Limpiar el contenedor de resultados (inyectar el placeholder vacío)
     const container = document.getElementById('analisis-resultados-container');
+    ultimosResultados = null;
+    ocultarCargando();
     if (container) {
         container.innerHTML = `
             <div class="analisis-placeholder">
