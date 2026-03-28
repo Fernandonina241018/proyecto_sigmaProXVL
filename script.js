@@ -1073,8 +1073,7 @@ function _attachNavListeners() {
 
     // ★ Botón Nuevo análisis
     document.querySelector('.ar-btn-secondary')
-        //?.addEventListener('click', () => nuevoAnalisis());
-        btn.addEventListener('click', () => nuevoAnalisis());
+        ?.addEventListener('click', () => nuevoAnalisis());
 
     document.querySelector('.ar-btn-primary')
         ?.addEventListener('click', () => exportarResultados());
