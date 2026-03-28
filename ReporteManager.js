@@ -847,7 +847,7 @@ const ReporteManager = (() => {
         p(`  ${pad(t('description')+' :',24)}: ${meta.descripcion     ||NA}`);
         p(`  ${pad(t('assay')+' :',24)}: ${meta.ensayo           ||NA}`);
         p(`  ${pad(t('ui_modelo')+' :',24)}: ${meta.modelo          ||NA}`);
-        p(`  ${pad('ui_serial',24)}: ${meta.serie || NA}`);
+        p(`  ${pad(t('ui_serial'),24)}: ${meta.serie || NA}`);
         p(`  ${pad(t('ui_marca')+' :',24)}: ${meta.marca           ||NA}`);
         p(`  ${pad(t('studyProtocol')+' :',24)}: ${meta.protocolo       ||NA}`);
         p(`  ${pad(t('phase')+' :',24)}: ${meta.fase             ||NA}`);
@@ -1161,7 +1161,7 @@ tr:hover td{background:#f7faff}
       <div style="grid-column:1/-1">${mRow(t('description'),    meta.descripcion)}</div>
       ${mRow(t('ui_modelo'),       meta.modelo)}
       ${mRow(t('ui_marca'),        meta.marca)}
-      ${mRow('ui_serial',          meta.serie)}
+      ${mRow(t('ui_serial'),          meta.serie)}
       <div style="grid-column:1/-1">${mRow(t('confidentiality'),meta.confidencialidad||'CONFIDENTIAL')}</div>
     </div>
   </div>
@@ -1729,7 +1729,7 @@ console.log('✅ ReporteManager cargado — FDA 21 CFR Part 11');
         p(`  ${pad(t('description')+' :',24)}: ${meta.descripcion     ||NA}`);
         p(`  ${pad(t('assay')+' :',24)}: ${meta.ensayo           ||NA}`);
         p(`  ${pad(t('ui_modelo')+' :',24)}: ${meta.modelo          ||NA}`);
-        p(`  ${pad('ui_serial',24)}: ${meta.serie || NA}`);
+        p(`  ${pad(t('ui_serial'),24)}: ${meta.serie || NA}`);
         p(`  ${pad(t('ui_marca')+' :',24)}: ${meta.marca           ||NA}`);
         p(`  ${pad(t('studyProtocol')+' :',24)}: ${meta.protocolo       ||NA}`);
         p(`  ${pad(t('phase')+' :',24)}: ${meta.fase             ||NA}`);
@@ -2017,7 +2017,7 @@ tr:hover td{background:#f7faff}
       <div style="grid-column:1/-1">${mRow(t('assay'),          meta.ensayo)}</div>
       ${mRow(t('ui_modelo'),       meta.modelo)}
       ${mRow(t('ui_marca'),        meta.marca)}
-      ${mRow('ui_serial',          meta.serie)}
+      ${mRow(t('ui_serial'),          meta.serie)}
       <div style="grid-column:1/-1">${mRow(t('description'),    meta.descripcion)}</div>
       <div style="grid-column:1/-1">${mRow(t('confidentiality'),meta.confidencialidad||'CONFIDENTIAL')}</div>
     </div>
