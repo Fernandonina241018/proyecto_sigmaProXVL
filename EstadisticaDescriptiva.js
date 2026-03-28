@@ -408,205 +408,206 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
     /**
      * Genera resultados en formato HTML para mostrar en la interfaz
      */
-function generarHTML(analisisResultado) {
+    function generarHTML(analisisResultado) {
 
-    const STAT_META = {
-        'Media Aritmética':   { formula: 'x̄ = Σxᵢ / n',                        desc: 'Tendencia central de la distribución. Suma de todos los valores dividida entre el número de observaciones.',          icono: '📐' },
-        'Mediana':            { formula: 'P₅₀ — valor central al ordenar datos', desc: 'Divide la distribución en dos mitades iguales. Resistente a valores atípicos a diferencia de la media.',             icono: '📊' },
-        'Moda':               { formula: 'Valor con mayor frecuencia absoluta',   desc: 'Valor que aparece con más frecuencia. Puede ser multimodal si varios valores comparten la frecuencia máxima.',        icono: '🔢' },
-        'Desviación Estándar':{ formula: 's = √[Σ(xᵢ − x̄)² / (n−1)]',          desc: 'Dispersión típica respecto a la media con corrección de Bessel (n−1). Principal indicador de variabilidad del proceso.',icono: '📉' },
-        'Varianza':           { formula: 's² = Σ(xᵢ − x̄)² / (n−1)',             desc: 'Dispersión cuadrática media. Base para el cálculo de la desviación estándar y análisis de varianza (ANOVA).',       icono: '📈' },
-        'Percentiles':        { formula: 'i = k/100 × (n−1)  [interp. lineal NIST]', desc: 'Dividen la distribución en 100 partes iguales. P25, P50 y P75 definen los cuartiles y el rango intercuartílico.', icono: '📶' },
-        'Rango y Amplitud':   { formula: 'R = Máx − Mín',                        desc: 'Extensión total de la distribución. Sensible a valores extremos, complementa la desviación estándar.',               icono: '↔️' },
-    };
+        const STAT_META = {
+            'Media Aritmética':   { formula: 'x̄ = Σxᵢ / n',                        desc: 'Tendencia central de la distribución. Suma de todos los valores dividida entre el número de observaciones.',          icono: '📐' },
+            'Mediana':            { formula: 'P₅₀ — valor central al ordenar datos', desc: 'Divide la distribución en dos mitades iguales. Resistente a valores atípicos a diferencia de la media.',             icono: '📊' },
+            'Moda':               { formula: 'Valor con mayor frecuencia absoluta',   desc: 'Valor que aparece con más frecuencia. Puede ser multimodal si varios valores comparten la frecuencia máxima.',        icono: '🔢' },
+            'Desviación Estándar':{ formula: 's = √[Σ(xᵢ − x̄)² / (n−1)]',          desc: 'Dispersión típica respecto a la media con corrección de Bessel (n−1). Principal indicador de variabilidad del proceso.',icono: '📉' },
+            'Varianza':           { formula: 's² = Σ(xᵢ − x̄)² / (n−1)',             desc: 'Dispersión cuadrática media. Base para el cálculo de la desviación estándar y análisis de varianza (ANOVA).',       icono: '📈' },
+            'Percentiles':        { formula: 'i = k/100 × (n−1)  [interp. lineal NIST]', desc: 'Dividen la distribución en 100 partes iguales. P25, P50 y P75 definen los cuartiles y el rango intercuartílico.', icono: '📶' },
+            'Rango y Amplitud':   { formula: 'R = Máx − Mín',                        desc: 'Extensión total de la distribución. Sensible a valores extremos, complementa la desviación estándar.',               icono: '↔️' },
+        };
 
-    const statKeys = Object.keys(analisisResultado.resultados);
-    const cols     = analisisResultado.columnasAnalizadas;
-    const hasParams = typeof ParametrosManager !== 'undefined';
+        const statKeys = Object.keys(analisisResultado.resultados);
+        const cols     = analisisResultado.columnasAnalizadas;
+        const hasParams = typeof ParametrosManager !== 'undefined';
 
-    // ── KPI cards para un estadístico ─────────────────────
-    function kpiCards(statKey) {
-        const data = analisisResultado.resultados[statKey];
-        if (!data) return '';
+        // ── KPI cards para un estadístico ─────────────────────
+        function kpiCards(statKey) {
+            const data = analisisResultado.resultados[statKey];
+            if (!data) return '';
 
-        return cols.map(col => {
-            const val = data[col];
-            if (val === undefined) return '';
+            return cols.map(col => {
+                const val = data[col];
+                if (val === undefined) return '';
 
-            // Verificar cumplimiento de parámetros
-            let compliance = null;
-            if (hasParams) {
-                const p      = ParametrosManager.getParametros(col);
-                const numVal = typeof val === 'number' ? val : null;
-                if (numVal !== null && (p.min !== null || p.max !== null)) {
-                    const out = (p.min !== null && numVal < p.min) ||
-                                (p.max !== null && numVal > p.max);
-                    compliance = !out;
+                // Verificar cumplimiento de parámetros
+                let compliance = null;
+                if (hasParams) {
+                    const p      = ParametrosManager.getParametros(col);
+                    const numVal = typeof val === 'number' ? val : null;
+                    if (numVal !== null && (p.min !== null || p.max !== null)) {
+                        const out = (p.min !== null && numVal < p.min) ||
+                                    (p.max !== null && numVal > p.max);
+                        compliance = !out;
+                    }
                 }
-            }
 
-            const statusClass  = compliance === true  ? 'ar-kpi-ok'
-                               : compliance === false ? 'ar-kpi-danger' : '';
-            const badgeHTML    = compliance !== null
-                ? `<div class="ar-kpi-badge ${compliance ? 'ar-badge-ok' : 'ar-badge-danger'}">
-                       ${compliance ? '✓ Dentro de parámetros' : '✗ Fuera de parámetros'}
-                   </div>` : '';
+                const statusClass  = compliance === true  ? 'ar-kpi-ok'
+                                : compliance === false ? 'ar-kpi-danger' : '';
+                const badgeHTML    = compliance !== null
+                    ? `<div class="ar-kpi-badge ${compliance ? 'ar-badge-ok' : 'ar-badge-danger'}">
+                        ${compliance ? '✓ Dentro de parámetros' : '✗ Fuera de parámetros'}
+                    </div>` : '';
 
-            // Objeto (percentiles, rango)
-            if (typeof val === 'object' && !Array.isArray(val)) {
-                const rows = Object.entries(val).map(([k, v]) => `
-                    <div class="ar-kpi-sub">
-                        <span class="ar-kpi-sub-k">${k}</span>
-                        <span class="ar-kpi-sub-v">${typeof v === 'number' ? v.toFixed(4) : v}</span>
-                    </div>`).join('');
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi ${statusClass}">
-                        <div class="ar-kpi-col-label">${col}</div>
-                        <div class="ar-kpi-sub-grid">${rows}</div>
-                        ${badgeHTML}
-                    </div>`;
-            }
+                // Objeto (percentiles, rango)
+                if (typeof val === 'object' && !Array.isArray(val)) {
+                    const rows = Object.entries(val).map(([k, v]) => `
+                        <div class="ar-kpi-sub">
+                            <span class="ar-kpi-sub-k">${k}</span>
+                            <span class="ar-kpi-sub-v">${typeof v === 'number' ? v.toFixed(4) : v}</span>
+                        </div>`).join('');
+                    return `
+                        <div class="ar-kpi-card ar-kpi-multi ${statusClass}">
+                            <div class="ar-kpi-col-label">${col}</div>
+                            <div class="ar-kpi-sub-grid">${rows}</div>
+                            ${badgeHTML}
+                        </div>`;
+                }
 
-            // Array (moda)
-            if (Array.isArray(val)) {
-                const display = val.length > 0 ? val.map(v => v.toFixed(4)).join(', ') : '—';
+                // Array (moda)
+                if (Array.isArray(val)) {
+                    const display = val.length > 0 ? val.map(v => v.toFixed(4)).join(', ') : '—';
+                    return `
+                        <div class="ar-kpi-card ${statusClass}">
+                            <div class="ar-kpi-col-label">${col}</div>
+                            <div class="ar-kpi-val ar-kpi-val-sm">${display}</div>
+                            ${badgeHTML}
+                        </div>`;
+                }
+
+                // Escalar simple
+                const display = typeof val === 'number' ? val.toFixed(4) : String(val);
                 return `
                     <div class="ar-kpi-card ${statusClass}">
-                        <div class="ar-kpi-col-label">${col}</div>
-                        <div class="ar-kpi-val ar-kpi-val-sm">${display}</div>
+                        <div class="ar-kpi-col-label">COLUMNA ${col}</div>
+                        <div class="ar-kpi-val">${display}</div>
                         ${badgeHTML}
                     </div>`;
-            }
 
-            // Escalar simple
-            const display = typeof val === 'number' ? val.toFixed(4) : String(val);
-            return `
-                <div class="ar-kpi-card ${statusClass}">
-                    <div class="ar-kpi-col-label">COLUMNA ${col}</div>
-                    <div class="ar-kpi-val">${display}</div>
-                    ${badgeHTML}
-                </div>`;
-
-        }).join('');
-    }
-
-    // ── Nav items ──────────────────────────────────────────
-    const navItems = statKeys.map((key, i) => {
-        const meta = STAT_META[key] || { icono: '📊' };
-        return `
-            <div class="ar-nav-item ${i === 0 ? 'active' : ''}" data-stat="${key}">
-                <span class="ar-nav-icon">${meta.icono}</span>
-                <span>${key}</span>
-            </div>`;
-    }).join('');
-
-    // ── Paneles de contenido ───────────────────────────────
-    const panels = statKeys.map((key, i) => {
-        const meta = STAT_META[key] || { formula: '', desc: '' };
-        return `
-            <div class="ar-panel ${i === 0 ? 'active' : ''}" data-panel="${key}">
-                <div class="ar-panel-title">
-                    ${key}
-                    <span class="ar-panel-n">— ${analisisResultado.totalFilas} observaciones</span>
-                </div>
-                <div class="ar-kpis-grid">
-                    ${kpiCards(key)}
-                </div>
-                <div class="ar-formula">
-                    <span class="ar-formula-icon">∑</span>
-                    <div>
-                        <div class="ar-formula-eq">${meta.formula}</div>
-                        <div class="ar-formula-desc">${meta.desc}</div>
-                    </div>
-                </div>
-            </div>`;
-    }).join('');
-
-    // ── Tags de columnas ───────────────────────────────────
-    const colTags = cols.map(c =>
-        `<span class="ar-col-tag">${c}</span>`
-    ).join('');
-
-    // ── Sección de parámetros de control ──────────────────
-    let paramSection = '';
-    if (hasParams) {
-        const verifs = cols
-            .map(col => ParametrosManager.verificarColumna(
-                StateManager.getImportedData(), col
-            ))
-            .filter(v => v !== null);
-
-        if (verifs.length > 0) {
-            const rows = verifs.map(v => {
-                const pct   = parseFloat(v.porcentajeCumplimiento);
-                const cls   = pct >= 95 ? 'ar-param-ok' : pct >= 80 ? 'ar-param-warn' : 'ar-param-danger';
-                const badge = pct >= 95 ? 'ar-badge-ok' : pct >= 80 ? 'ar-badge-warn' : 'ar-badge-danger';
-                const label = pct >= 95 ? '✓ OK' : pct >= 80 ? '⚠ Revisar' : '✗ Fuera';
-                return `
-                    <div class="ar-param-row ${cls}">
-                        <span class="ar-param-col">${v.col}</span>
-                        <span class="ar-param-val">${v.parametros.min ?? '—'}</span>
-                        <span class="ar-param-val">${v.parametros.max ?? '—'}</span>
-                        <span class="ar-param-val">${v.parametros.esp ?? '—'}</span>
-                        <span class="ar-param-val">${v.fueraDeRango} / ${v.total}</span>
-                        <span class="ar-kpi-badge ${badge}">${label} ${v.porcentajeCumplimiento}%</span>
-                    </div>`;
             }).join('');
-
-            paramSection = `
-                <div class="ar-params-block">
-                    <div class="ar-params-title">🎯 Control de Parámetros</div>
-                    <div class="ar-params-header">
-                        <span>Variable</span><span>Mín</span><span>Máx</span>
-                        <span>Esperanza</span><span>Fuera rango</span><span>Cumplimiento</span>
-                    </div>
-                    ${rows}
-                </div>`;
         }
-    }
 
-    return `
-    <div class="ar-layout">
+        // ── Nav items ──────────────────────────────────────────
+        const navItems = statKeys.map((key, i) => {
+            const meta = STAT_META[key] || { icono: '📊' };
+            return `
+                <div class="ar-nav-item ${i === 0 ? 'active' : ''}" data-stat="${key}">
+                    <span class="ar-nav-icon">${meta.icono}</span>
+                    <span>${key}</span>
+                </div>`;
+        }).join('');
 
-        <!-- Header -->
-        <div class="ar-header">
-            <div>
-                <h2 class="ar-title">📊 Resultados del Análisis Estadístico</h2>
-                <div class="ar-header-meta">
-                    <span class="ar-meta-chip">📋 ${analisisResultado.totalFilas} filas</span>
-                    <span class="ar-meta-chip">📊 ${analisisResultado.totalColumnas} columnas numéricas</span>
-                    <span class="ar-meta-chip">🔬 ${analisisResultado.estadisticos.length} estadísticos</span>
+        // ── Paneles de contenido ───────────────────────────────
+        const panels = statKeys.map((key, i) => {
+            const meta = STAT_META[key] || { formula: '', desc: '' };
+            return `
+                <div class="ar-panel ${i === 0 ? 'active' : ''}" data-panel="${key}">
+                    <div class="ar-panel-title">
+                        ${key}
+                        <span class="ar-panel-n">— ${analisisResultado.totalFilas} observaciones</span>
+                    </div>
+                    <div class="ar-kpis-grid">
+                        ${kpiCards(key)}
+                    </div>
+                    <div class="ar-formula">
+                        <span class="ar-formula-icon">∑</span>
+                        <div>
+                            <div class="ar-formula-eq">${meta.formula}</div>
+                            <div class="ar-formula-desc">${meta.desc}</div>
+                        </div>
+                    </div>
+                </div>`;
+        }).join('');
+
+        // ── Tags de columnas ───────────────────────────────────
+        const colTags = cols.map(c =>
+            `<span class="ar-col-tag">${c}</span>`
+        ).join('');
+
+        // ── Sección de parámetros de control ──────────────────
+        let paramSection = '';
+        if (hasParams) {
+            const verifs = cols
+                .map(col => ParametrosManager.verificarColumna(
+                    StateManager.getImportedData(), col
+                ))
+                .filter(v => v !== null);
+
+            if (verifs.length > 0) {
+                const rows = verifs.map(v => {
+                    const pct   = parseFloat(v.porcentajeCumplimiento);
+                    const cls   = pct >= 95 ? 'ar-param-ok' : pct >= 80 ? 'ar-param-warn' : 'ar-param-danger';
+                    const badge = pct >= 95 ? 'ar-badge-ok' : pct >= 80 ? 'ar-badge-warn' : 'ar-badge-danger';
+                    const label = pct >= 95 ? '✓ OK' : pct >= 80 ? '⚠ Revisar' : '✗ Fuera';
+                    return `
+                        <div class="ar-param-row ${cls}">
+                            <span class="ar-param-col">${v.col}</span>
+                            <span class="ar-param-val">${v.parametros.min ?? '—'}</span>
+                            <span class="ar-param-val">${v.parametros.max ?? '—'}</span>
+                            <span class="ar-param-val">${v.parametros.esp ?? '—'}</span>
+                            <span class="ar-param-val">${v.fueraDeRango} / ${v.total}</span>
+                            <span class="ar-kpi-badge ${badge}">${label} ${v.porcentajeCumplimiento}%</span>
+                        </div>`;
+                }).join('');
+
+                paramSection = `
+                    <div class="ar-params-block">
+                        <div class="ar-params-title">🎯 Control de Parámetros</div>
+                        <div class="ar-params-header">
+                            <span>Variable</span><span>Mín</span><span>Máx</span>
+                            <span>Esperanza</span><span>Fuera rango</span><span>Cumplimiento</span>
+                        </div>
+                        ${rows}
+                    </div>`;
+            }
+        }
+
+        return `
+        <div class="ar-layout">
+
+            <!-- Header -->
+            <div class="ar-header">
+                <div>
+                    <h2 class="ar-title">📊 Resultados del Análisis Estadístico</h2>
+                    <div class="ar-header-meta">
+                        <span class="ar-meta-chip">📋 ${analisisResultado.totalFilas} filas</span>
+                        <span class="ar-meta-chip">📊 ${analisisResultado.totalColumnas} columnas numéricas</span>
+                        <span class="ar-meta-chip">🔬 ${analisisResultado.estadisticos.length} estadísticos</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Columnas -->
-        <div class="ar-cols-row">
-            <span class="ar-cols-label">Columnas analizadas:</span>
-            ${colTags}
-        </div>
-
-        <!-- Parámetros de control (si existen) -->
-        ${paramSection}
-
-        <!-- Body: nav + contenido -->
-        <div class="ar-body">
-            <div class="ar-nav">
-                <div class="ar-nav-title">ESTADÍSTICOS</div>
-                ${navItems}
+            <!-- Columnas -->
+            <div class="ar-cols-row">
+                <span class="ar-cols-label">Columnas analizadas:</span>
+                ${colTags}
             </div>
-            <div class="ar-content">
-                ${panels}
-            </div>
-        </div>
 
-        <!-- Footer -->
-        <div class="ar-footer">
-            <button class="ar-btn-secondary" onclick="nuevoAnalisis()">🔄 Nuevo análisis</button>
-            <button class="ar-btn-primary"   onclick="exportarResultados()">📥 Exportar reporte →</button>
-        </div>
-    </div>
-}
+            <!-- Parámetros de control (si existen) -->
+            ${paramSection}
+
+            <!-- Body: nav + contenido -->
+            <div class="ar-body">
+                <div class="ar-nav">
+                    <div class="ar-nav-title">ESTADÍSTICOS</div>
+                    ${navItems}
+                </div>
+                <div class="ar-content">
+                    ${panels}
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="ar-footer">
+                <button class="ar-btn-secondary" onclick="nuevoAnalisis()">🔄 Nuevo análisis</button>
+                <button class="ar-btn-primary"   onclick="exportarResultados()">📥 Exportar reporte →</button>
+            </div>
+        </div>`;
+
+    }
     
     // ========================================
     // API PÚBLICA
