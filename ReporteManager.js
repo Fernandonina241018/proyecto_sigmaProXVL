@@ -1884,6 +1884,7 @@ console.log('✅ ReporteManager cargado — FDA 21 CFR Part 11');
     function generarHTML(resultados, meta) {
         const hash=generateHash(meta,resultados);
         const ext=computeExtendedStats(resultados);
+        const W=80, L=[], p=s=>L.push(s);
         const totalFlags=Object.values(ext).reduce((a,d)=>a+d.flags.length,0);
         const lang=currentLang;
 
