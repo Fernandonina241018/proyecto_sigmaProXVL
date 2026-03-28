@@ -577,7 +577,7 @@ const ReporteManager = (() => {
             generated:      'Generado',
             software:       'Software',
             regulatoryRef:  'Referencia Regulatoria',
-            sec1:           'SECCIÓN 1 — ENCABEZADO INSTITUCIONAL',
+            sec1:           'SECCIÓN 1 — DESCRIPCIÓN GENERAL',
             sec2:           'SECCIÓN 2 — TRAZABILIDAD DEL DATASET',
             sec3:           'SECCIÓN 3 — RESUMEN EJECUTIVO',
             sec4:           'SECCIÓN 4 — RESULTADOS ESTADÍSTICOS POR VARIABLE',
