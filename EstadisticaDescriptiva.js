@@ -606,18 +606,6 @@ function generarHTML(analisisResultado) {
             <button class="ar-btn-primary"   onclick="exportarResultados()">📥 Exportar reporte →</button>
         </div>
     </div>
-
-    <script>
-        document.querySelectorAll('.ar-nav-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const stat = item.dataset.stat;
-                document.querySelectorAll('.ar-nav-item').forEach(i => i.classList.remove('active'));
-                document.querySelectorAll('.ar-panel').forEach(p => p.classList.remove('active'));
-                item.classList.add('active');
-                document.querySelector('.ar-panel[data-panel="' + stat + '"]')?.classList.add('active');
-            });
-        });
-    </script>`;
 }
     
     // ========================================

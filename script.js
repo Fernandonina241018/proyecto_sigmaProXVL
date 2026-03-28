@@ -1050,7 +1050,25 @@ function mostrarResultados(htmlResultados) {
     const placeholder = document.querySelector('#view-analisis .content-placeholder');
     if (placeholder) {
         placeholder.innerHTML = htmlResultados;
+
+        // ★ FIX: adjuntar listeners DESPUÉS de inyectar el HTML
+        _attachNavListeners();
     }
+}
+
+function _attachNavListeners() {
+    document.querySelectorAll('.ar-nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const stat = item.dataset.stat;
+            document.querySelectorAll('.ar-nav-item')
+                .forEach(i => i.classList.remove('active'));
+            document.querySelectorAll('.ar-panel')
+                .forEach(p => p.classList.remove('active'));
+            item.classList.add('active');
+            document.querySelector(`.ar-panel[data-panel="${stat}"]`)
+                ?.classList.add('active');
+        });
+    });
 }
 
 // ========================================
