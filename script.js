@@ -1073,11 +1073,10 @@ function _attachNavListeners() {
 
     // ★ Botón Nuevo análisis
     document.querySelector('.ar-btn-secondary')
-        ?.addEventListener('click', nuevoAnalisis);
+        ?.addEventListener('click', () => nuevoAnalisis());
 
-    // ★ Botón Exportar reporte
     document.querySelector('.ar-btn-primary')
-        ?.addEventListener('click', exportarResultados);
+        ?.addEventListener('click', () => exportarResultados());
 }
 
 // ========================================
