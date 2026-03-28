@@ -1044,6 +1044,30 @@ function ocultarCargando() {
     }
 }
 
+/**
+ * Limpia el panel de resultados y restablece la interfaz 
+ * para permitir un nuevo cálculo estadístico.
+ */
+function nuevoAnalisis() {
+    // 1. Limpiar el contenedor de resultados (inyectar el placeholder vacío)
+    const container = document.getElementById('analisis-resultados-container');
+    if (container) {
+        container.innerHTML = `
+            <div class="analisis-placeholder">
+                <p>Seleccione los estadísticos en el panel izquierdo y haga clic en "Ejecutar Análisis"</p>
+            </div>`;
+    }
+
+    // 2. Opcional: Limpiar los estadísticos activos en el StateManager si deseas un reset total
+    // StateManager.clearActiveStats(); 
+    // updateActiveStatsUI(); // Función que refresca los chips en el sidebar derecho
+
+    // 3. Hacer scroll hacia arriba para que el usuario vea el inicio
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    console.log("Interfaz reiniciada para nuevo análisis.");
+}
+
 // FIX: solo inyecta HTML. Eliminada la llamada interna a ocultarCargando()
 //      que borraba los resultados al instante de mostrarlos.
 function mostrarResultados(htmlResultados) {
