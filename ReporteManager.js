@@ -648,7 +648,7 @@ const ReporteManager = (() => {
             ui_dept:        'Departamento',
             ui_location:    'Ubicación',
             ui_description: 'Descripción',
-            ui_serie:       'Número de Serie',
+            ui_serial:       'Número de Serie',
             ui_assay:       'Ensayo / Prueba',
             ui_modelo:      'Modelo del Equipo',
             ui_marca:       'Marca del Equipo',
@@ -1159,7 +1159,7 @@ tr:hover td{background:#f7faff}
       <div style="grid-column:1/-1">${mRow(t('description'),    meta.descripcion)}</div>
       ${mRow(t('ui_modelo'),       meta.modelo)}
       ${mRow(t('ui_marca'),        meta.marca)}
-      ${mRow('ui_serie',           meta.serie)}
+      ${mRow('ui_serial',           meta.serie)}
       <div style="grid-column:1/-1">${mRow(t('confidentiality'),meta.confidencialidad||'CONFIDENTIAL')}</div>
     </div>
   </div>
@@ -2282,7 +2282,7 @@ tr:hover td{background:#f7faff}
                 </div>
 
                  <div class="rep-field">
-                  <label>${t('ui_serie')}</label>
+                  <label>${t('ui_serial')}</label>
                   <input id="rep-serie" placeholder="123456789">
                 </div>
 
