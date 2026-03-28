@@ -602,8 +602,8 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
 
             <!-- Footer -->
             <div class="ar-footer">
-                <button class="ar-btn-secondary" onclick="nuevoAnalisis()">🔄 Nuevo análisis</button>
-                <button class="ar-btn-primary"   onclick="exportarResultados()">📥 Exportar reporte →</button>
+                <button class="ar-btn-secondary">🔄 Nuevo análisis</button>
+                <button class="ar-btn-primary">📥 Exportar reporte →</button>
             </div>
         </div>`;
 

@@ -1057,6 +1057,7 @@ function mostrarResultados(htmlResultados) {
 }
 
 function _attachNavListeners() {
+    // Nav lateral — cambiar estadístico activo
     document.querySelectorAll('.ar-nav-item').forEach(item => {
         item.addEventListener('click', () => {
             const stat = item.dataset.stat;
@@ -1069,6 +1070,14 @@ function _attachNavListeners() {
                 ?.classList.add('active');
         });
     });
+
+    // ★ Botón Nuevo análisis
+    document.querySelector('.ar-btn-secondary')
+        ?.addEventListener('click', nuevoAnalisis);
+
+    // ★ Botón Exportar reporte
+    document.querySelector('.ar-btn-primary')
+        ?.addEventListener('click', exportarResultados);
 }
 
 // ========================================
