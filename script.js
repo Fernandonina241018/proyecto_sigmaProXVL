@@ -1368,6 +1368,7 @@ function _initApp() {
     StateManager.init();
     setupStateListeners();
     updateActiveStatsUI();
+    sincronizarMenuLateral(); // ← agregar aquí
     switchView('analisis');
     setupWorkButtons();
     // setupTransformButtons(); — reemplazado por DatosManager
@@ -1501,6 +1502,28 @@ function setupSidebarToggles() {
     });
 
     console.log('✅ Sidebar toggles inicializados');
+}
+
+// ========================================
+// SINCRONIZAR VISUAL DEL MENÚ LATERAL
+// con los estadísticos activos en StateManager
+// Se llama al iniciar la app para restaurar
+// el estado visual tras recargar la página
+// ========================================
+function sincronizarMenuLateral() {
+    const activeStats = StateManager.getActiveStats();
+    if (!activeStats || activeStats.length === 0) return;
+
+    document.querySelectorAll('.menu-option').forEach(opt => {
+        const nombre = opt.textContent.trim();
+        if (activeStats.includes(nombre)) {
+            opt.classList.add('selected');
+        } else {
+            opt.classList.remove('selected');
+        }
+    });
+
+    console.log(`🔄 Menú lateral sincronizado: ${activeStats.length} estadístico(s) activo(s)`);
 }
 
 console.log('✅ script.js cargado');
