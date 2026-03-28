@@ -177,7 +177,7 @@ const DatosManager = (() => {
                            id="pm-g-max" placeholder="Máx" value="${escapeHtml(String(g.max ?? ''))}">
                     <input class="dm-params-input" type="number" step="any"
                            id="pm-g-esp" placeholder="Esp." value="${escapeHtml(String(g.esp ?? ''))}">
-                    <button class="dm-btn dm-btn-secondary dm-params-apply-global" id="dm-params-apply-global">
+                    <button class="dm-btn dm-btn-primary dm-params-apply-global" id="dm-params-apply-global">
                         Aplicar a todas
                     </button>
                 </div>
