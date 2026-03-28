@@ -104,6 +104,7 @@ const ReporteManager = (() => {
             ui_description: 'Description',
             ui_assay:       'Assay / Test',
             ui_modelo:      'Equipment Model',
+            ui_serial:      'Serial number',
             ui_marca:       'Equipment Brand',
             ui_proto:       'Protocol / Study',
             ui_phase:       'Phase',
@@ -244,6 +245,7 @@ const ReporteManager = (() => {
             ui_description: 'Descripción',
             ui_assay:       'Ensayo / Prueba',
             ui_modelo:      'Modelo del Equipo',
+            ui_serial:      'Serial number',
             ui_marca:       'Marca del Equipo',
             ui_proto:       'Protocolo / Estudio',
             ui_phase:       'Fase',
@@ -845,7 +847,7 @@ const ReporteManager = (() => {
         p(`  ${pad(t('description')+' :',24)}: ${meta.descripcion     ||NA}`);
         p(`  ${pad(t('assay')+' :',24)}: ${meta.ensayo           ||NA}`);
         p(`  ${pad(t('ui_modelo')+' :',24)}: ${meta.modelo          ||NA}`);
-        p(`  ${pad('Serial number :',24)}: ${meta.serie || NA}`);
+        p(`  ${pad('ui_serial',24)}: ${meta.serie || NA}`);
         p(`  ${pad(t('ui_marca')+' :',24)}: ${meta.marca           ||NA}`);
         p(`  ${pad(t('studyProtocol')+' :',24)}: ${meta.protocolo       ||NA}`);
         p(`  ${pad(t('phase')+' :',24)}: ${meta.fase             ||NA}`);
@@ -961,7 +963,7 @@ const ReporteManager = (() => {
             `## ${t('location')}|${meta.ubicacion||''}`,
             `## ${t('assay')}|${meta.ensayo||''}`,
             `## ${t('ui_modelo')}|${meta.modelo||''}`,
-            `## ${t('Serial number')}|${meta.serie||''}`,
+            `## ${t('ui_serial')}|${meta.serie||''}`,
             `## ${t('ui_marca')}|${meta.marca||''}`,
             `## Protocol|${meta.protocolo||''}`,
             `## ${t('datasetName')}|${meta.nombreDataset||''}`,
@@ -1159,7 +1161,7 @@ tr:hover td{background:#f7faff}
       <div style="grid-column:1/-1">${mRow(t('description'),    meta.descripcion)}</div>
       ${mRow(t('ui_modelo'),       meta.modelo)}
       ${mRow(t('ui_marca'),        meta.marca)}
-      ${mRow('ui_serial',           meta.serie)}
+      ${mRow('ui_serial',          meta.serie)}
       <div style="grid-column:1/-1">${mRow(t('confidentiality'),meta.confidencialidad||'CONFIDENTIAL')}</div>
     </div>
   </div>
@@ -1727,7 +1729,7 @@ console.log('✅ ReporteManager cargado — FDA 21 CFR Part 11');
         p(`  ${pad(t('description')+' :',24)}: ${meta.descripcion     ||NA}`);
         p(`  ${pad(t('assay')+' :',24)}: ${meta.ensayo           ||NA}`);
         p(`  ${pad(t('ui_modelo')+' :',24)}: ${meta.modelo          ||NA}`);
-        p(`  ${pad('Número de Serie :',24)}: ${meta.serie || NA}`);
+        p(`  ${pad('ui_serial',24)}: ${meta.serie || NA}`);
         p(`  ${pad(t('ui_marca')+' :',24)}: ${meta.marca           ||NA}`);
         p(`  ${pad(t('studyProtocol')+' :',24)}: ${meta.protocolo       ||NA}`);
         p(`  ${pad(t('phase')+' :',24)}: ${meta.fase             ||NA}`);
@@ -1824,7 +1826,7 @@ console.log('✅ ReporteManager cargado — FDA 21 CFR Part 11');
             `## ${t('location')}|${meta.ubicacion||''}`,
             `## ${t('assay')}|${meta.ensayo||''}`,
             `## ${t('ui_modelo')}|${meta.modelo||''}`,
-            `## ${t('Serial number')}|${meta.serie||''}`,
+            `## ${t('ui_serial')}|${meta.serie||''}`,
             `## ${t('ui_marca')}|${meta.marca||''}`,
             `## Protocol|${meta.protocolo||''}`,
             `## ${t('datasetName')}|${meta.nombreDataset||''}`,
