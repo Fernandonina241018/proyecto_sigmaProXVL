@@ -982,6 +982,7 @@ function ejecutarAnalisis() {
          'Varianza',
          'Percentiles',
          'Rango y Amplitud',
+         'Coeficiente de Variación',
          'Asimetría (Skewness)',
          'Curtosis (Kurtosis)',
          'Error Estándar',
