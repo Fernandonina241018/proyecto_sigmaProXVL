@@ -444,6 +444,7 @@ const ReporteManager = (() => {
         const hash=generateHash(meta,resultados);
         const ext=computeExtendedStats(resultados);
         const W=80, L=[], p=s=>L.push(s);
+        const lang=currentLang;
         const NA=currentLang==='es'?'NO ESPECIFICADO':'NOT SPECIFIED';
 
         p(doubleLine(W));
@@ -494,7 +495,9 @@ const ReporteManager = (() => {
             p(`  └${'─'.repeat(W-4)}┘`);
             p(`  ${pad(t('statistic'),28)}${pad(t('value'),18)}${t('reference')}`);
             p(`  ${singleLine(W-4)}`);
+            const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad'];
             Object.entries(resultados.resultados).forEach(([stat,data])=>{
+                if (hypothesisTests.includes(stat)) return;
                 const val=data[col]; if(val===undefined)return;
                 if(typeof val==='object'&&!Array.isArray(val)){
                     p(`  ${pad(stat+':',28)}`);
@@ -525,6 +528,50 @@ const ReporteManager = (() => {
 
 
         });
+        
+        // ── Pruebas de Hipótesis ──
+        const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad'];
+        const hypResults = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.includes(stat));
+        if (hypResults.length > 0) {
+            p(singleLine(W)); p(`  ${lang === 'es' ? 'PRUEBAS DE HIPÓTESIS' : 'HYPOTHESIS TESTS'} (α = 0.05)`); p(singleLine(W));
+            p('');
+            hypResults.forEach(([stat, data]) => {
+                if (stat === 'T-Test (dos muestras)') {
+                    const keys = Object.keys(data).filter(k => !['columnaAgrupacion','columnaValores','grupo1','grupo2'].includes(k));
+                    const gk = keys[0];
+                    const r = data[gk] || {};
+                    p(`  ${stat} (${gk})`);
+                    p(`    t = ${fmtNum(r.estadisticoT)}, df = ${fmtNum(r.gradosLibertad)}, p = ${fmtNum(r.valorP)}`);
+                    p(`    Decisión: ${r.significativo ? '✗ Rechazar H₀ (significativo)' : '✓ No rechazar H₀'}`);
+                } else if (stat === 'ANOVA One-Way') {
+                    p(`  ${stat}`);
+                    p(`    F = ${fmtNum(data.estadisticoF)}, df = ${data.dfEntre}/${data.dfDentro}, p = ${fmtNum(data.valorP)}`);
+                    p(`    Decisión: ${data.significativo ? '✗ Rechazar H₀ (significativo)' : '✓ No rechazar H₀'}`);
+                } else if (stat === 'Chi-Cuadrado') {
+                    p(`  ${stat} (${data.columna1} vs ${data.columna2})`);
+                    p(`    χ² = ${fmtNum(data.estadisticoChi2)}, df = ${data.gradosLibertad}, p = ${fmtNum(data.valorP)}`);
+                    p(`    Decisión: ${data.significativo ? '✗ Asociación significativa' : '✓ Variables independientes'}`);
+                } else if (stat === 'ANOVA Two-Way') {
+                    p(`  ${stat}`);
+                    p(`    Factor 1: F = ${fmtNum(data.factor1?.F)}, p = ${fmtNum(data.factor1?.p)}`);
+                    p(`    Factor 2: F = ${fmtNum(data.factor2?.F)}, p = ${fmtNum(data.factor2?.p)}`);
+                } else if (stat === 'Test de Normalidad') {
+                    Object.entries(data).filter(([k]) => k !== 'error').forEach(([col, r]) => {
+                        p(`  ${stat} (${col})`);
+                        p(`    JB = ${fmtNum(r.estadisticoJB)}, p = ${fmtNum(r.valorP)}`);
+                        p(`    Decisión: ${r.esNormal ? '✓ Distribución normal' : '✗ No normal'}`);
+                    });
+                } else if (stat === 'T-Test (una muestra)') {
+                    Object.entries(data).filter(([k]) => k !== 'error').forEach(([col, r]) => {
+                        p(`  ${stat} (${col})`);
+                        p(`    t = ${fmtNum(r.estadisticoT)}, p = ${fmtNum(r.valorP)}`);
+                        p(`    Decisión: ${r.significativo ? '✗ Rechazar H₀' : '✓ No rechazar H₀'}`);
+                    });
+                }
+                p('');
+            });
+        }
+        
         p(singleLine(W)); p(`  ${t('sec5')}`); p(singleLine(W));
         const txtStatsInfo = {
           'Media Aritmética': {
@@ -676,7 +723,9 @@ const ReporteManager = (() => {
 
         function statsRows(col){
             const refs=t('statRefs'); let h='';
+            const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad'];
             Object.entries(resultados.resultados).forEach(([stat,data])=>{
+                if (hypothesisTests.includes(stat)) return; // Skip hypothesis tests - shown separately
                 const val=data[col]; if(val===undefined)return;
                 if(typeof val==='object'&&!Array.isArray(val)){
                     h+=`<tr style="background:#f7f8fa"><td colspan="3" style="padding:5px 14px;font-size:8.5pt;color:#666"><em>${stat}</em></td></tr>`;
@@ -977,6 +1026,49 @@ tr:hover td{background:#f7faff}
       })()}
     </div>
   </div>
+  ${(() => {
+      const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad'];
+      const hypResults = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.includes(stat));
+      if (hypResults.length === 0) return '';
+
+      const hypRows = hypResults.map(([stat, data]) => {
+          let content = '';
+          if (stat === 'T-Test (dos muestras)') {
+              const keys = Object.keys(data).filter(k => !['columnaAgrupacion','columnaValores','grupo1','grupo2'].includes(k));
+              const gk = keys[0];
+              const r = data[gk] || {};
+              content = `<tr><td>${stat} (${gk})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">t=${fmtNum(r.estadisticoT)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${r.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${r.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`;
+          } else if (stat === 'ANOVA One-Way') {
+              content = `<tr><td>${stat}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">F=${fmtNum(data.estadisticoF)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`;
+          } else if (stat === 'Chi-Cuadrado') {
+              content = `<tr><td>${stat} (${data.columna1} vs ${data.columna2})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">χ²=${fmtNum(data.estadisticoChi2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significativo?'✗ Asociación significativa':'✓ Independientes'}</span></td></tr>`;
+          } else if (stat === 'ANOVA Two-Way') {
+              content = `<tr><td>${stat}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">F1=${fmtNum(data.factor1?.F)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p1=${fmtNum(data.factor1?.p)}</td><td style="text-align:center">—</td></tr>`;
+          } else if (stat === 'Test de Normalidad') {
+              content = Object.entries(data).filter(([k]) => k !== 'error').map(([col, r]) => `<tr><td>${stat} (${col})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">JB=${fmtNum(r.estadisticoJB)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${!r.esNormal?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${!r.esNormal?'✗ No normal':'✓ Normal'}</span></td></tr>`).join('');
+          } else if (stat === 'T-Test (una muestra)') {
+              content = Object.entries(data).filter(([k]) => k !== 'error').map(([col, r]) => `<tr><td>${stat} (${col})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">t=${fmtNum(r.estadisticoT)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${r.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${r.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`).join('');
+          }
+          return content;
+      }).join('');
+
+      return `
+      <div class="sec">
+        <div class="sec-title"><span class="sec-num">05B</span>${lang === 'es' ? 'Pruebas de Hipótesis' : 'Hypothesis Tests'} <span style="font-size:7pt;font-weight:400;color:#a0aec0;margin-left:8px">α = 0.05</span></div>
+        <table style="width:100%;border-collapse:collapse;font-size:9pt">
+          <thead><tr style="background:#f0f4f8">
+            <th style="padding:7px 12px;text-align:left;font-family:monospace;font-size:7pt;color:#1a3a6b">${lang === 'es' ? 'PRUEBA' : 'TEST'}</th>
+            <th style="padding:7px 12px;text-align:right;font-family:monospace;font-size:7pt;color:#1a3a6b">${lang === 'es' ? 'ESTADÍSTICO' : 'STATISTIC'}</th>
+            <th style="padding:7px 12px;text-align:right;font-family:monospace;font-size:7pt;color:#1a3a6b">${lang === 'es' ? 'VALOR p' : 'p-VALUE'}</th>
+            <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#1a3a6b">${lang === 'es' ? 'DECISIÓN' : 'DECISION'}</th>
+          </tr></thead>
+          <tbody>${hypRows}</tbody>
+        </table>
+        <div style="margin-top:10px;padding:10px 14px;background:#f7f8fa;border-radius:4px;font-size:8.5pt;color:#555">
+          ${lang === 'es' ? 'H₀: Hipótesis nula. Si p < 0.05, se rechaza H₀ con 95% de confianza.' : 'H₀: Null hypothesis. If p < 0.05, H₀ is rejected with 95% confidence.'}
+        </div>
+      </div>`;
+  })()}
   <div class="sec">
     <div class="sec-title"><span class="sec-num">06</span>${t('html_sec6')} <span style="font-size:7pt;font-weight:400;color:#a0aec0;margin-left:8px">${t('html_auditSubpart')}</span></div>
     <div class="sig-grid">${sigBlocks}</div><br>

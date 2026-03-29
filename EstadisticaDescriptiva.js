@@ -1276,10 +1276,18 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         const cols     = analisisResultado.columnasAnalizadas;
         const hasParams = typeof ParametrosManager !== 'undefined';
 
+        // Pruebas de hipótesis que tienen estructura diferente
+        const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad'];
+
         // ── KPI cards para un estadístico ─────────────────────
         function kpiCards(statKey) {
             const data = analisisResultado.resultados[statKey];
             if (!data) return '';
+
+            // Si es prueba de hipótesis, generar vista especial
+            if (hypothesisTests.includes(statKey)) {
+                return hypothesisKpiCards(statKey, data);
+            }
 
             return cols.map(col => {
                 const val = data[col];
@@ -1340,6 +1348,136 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                     </div>`;
 
             }).join('');
+        }
+
+        // ── KPI cards para pruebas de hipótesis ─────────────────
+        function hypothesisKpiCards(statKey, data) {
+            // Manejar T-Test (dos muestras) que tiene estructura { 'grupo1 vs grupo2': {...} }
+            if (statKey === 'T-Test (dos muestras)') {
+                const keys = Object.keys(data).filter(k => k !== 'columnaAgrupacion' && k !== 'columnaValores' && k !== 'grupo1' && k !== 'grupo2');
+                const groupKey = keys[0];
+                if (!groupKey || !data[groupKey]) return '<p>No hay resultados</p>';
+                const result = data[groupKey];
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">${groupKey}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estadístico t</span><span class="ar-kpi-sub-v">${result.estadisticoT?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grados de libertad</span><span class="ar-kpi-sub-v">${result.gradosLibertad?.toFixed(2) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Diferencia medias</span><span class="ar-kpi-sub-v">${result.diferenciaMedias?.toFixed(4) ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${result.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
+                            ${result.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
+                        </div>
+                    </div>`;
+            }
+
+            // Manejar ANOVA One-Way
+            if (statKey === 'ANOVA One-Way') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">${data.grupos?.join(', ') || 'Grupos'}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estadístico F</span><span class="ar-kpi-sub-v">${data.estadisticoF?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grupos</span><span class="ar-kpi-sub-v">${data.grupos ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Total obs.</span><span class="ar-kpi-sub-v">${data.totalObservaciones ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df entre</span><span class="ar-kpi-sub-v">${data.dfEntre ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df dentro</span><span class="ar-kpi-sub-v">${data.dfDentro ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
+                            ${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
+                        </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">💬</span>
+                        <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
+                    </div>`;
+            }
+
+            // Manejar Chi-Cuadrado
+            if (statKey === 'Chi-Cuadrado') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">${data.columna1 || ''} vs ${data.columna2 || ''}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estadístico χ²</span><span class="ar-kpi-sub-v">${data.estadisticoChi2?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grados de libertad</span><span class="ar-kpi-sub-v">${data.gradosLibertad ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">N</span><span class="ar-kpi-sub-v">${data.N ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
+                            ${data.significativo ? '✗ Asociación significativa (p < 0.05)' : '✓ Independientes (p ≥ 0.05)'}
+                        </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">💬</span>
+                        <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
+                    </div>`;
+            }
+
+            // Manejar ANOVA Two-Way
+            if (statKey === 'ANOVA Two-Way') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                const f1Val = typeof data.factor1 === 'object' ? data.factor1.F : '—';
+                const p1Val = typeof data.factor1 === 'object' ? data.factor1.p : '—';
+                const f2Val = typeof data.factor2 === 'object' ? data.factor2.F : '—';
+                const p2Val = typeof data.factor2 === 'object' ? data.factor2.p : '—';
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">${data.factor1 || 'Factor 1'} + ${data.factor2 || 'Factor 2'}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">F Factor 1</span><span class="ar-kpi-sub-v">${typeof f1Val === 'number' ? f1Val.toFixed(4) : f1Val}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p Factor 1</span><span class="ar-kpi-sub-v">${typeof p1Val === 'number' ? p1Val.toFixed(4) : p1Val}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">F Factor 2</span><span class="ar-kpi-sub-v">${typeof f2Val === 'number' ? f2Val.toFixed(4) : f2Val}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p Factor 2</span><span class="ar-kpi-sub-v">${typeof p2Val === 'number' ? p2Val.toFixed(4) : p2Val}</span></div>
+                        </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">💬</span>
+                        <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
+                    </div>`;
+            }
+
+            // Manejar Test de Normalidad
+            if (statKey === 'Test de Normalidad') {
+                return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">${col}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">JB</span><span class="ar-kpi-sub-v">${result.estadisticoJB?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Asimetría</span><span class="ar-kpi-sub-v">${result.asimetria?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Curtosis</span><span class="ar-kpi-sub-v">${result.curtosis?.toFixed(4) ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">
+                            ${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // T-Test una muestra
+            if (statKey === 'T-Test (una muestra)') {
+                return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">${col}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">t</span><span class="ar-kpi-sub-v">${result.estadisticoT?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Media</span><span class="ar-kpi-sub-v">${result.media?.toFixed(4) ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${result.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
+                            ${result.significativo ? '✗ Significativo' : '✓ No significativo'}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            return '<p>Tipo de prueba no reconocido</p>';
         }
 
         // ── Nav items ──────────────────────────────────────────
