@@ -536,6 +536,49 @@ const EstadisticaDescriptiva = (() => {
                         };
                     });
                     break;
+
+                case 'Asimetría (Skewness)':
+                    resultados['Asimetría (Skewness)'] = {};
+                    numericCols.forEach(col => {
+                        const values = getNumericValues(data, col);
+                        resultados['Asimetría (Skewness)'][col] = calcularAsimetria(values);
+                    });
+                    break;
+
+                case 'Curtosis (Kurtosis)':
+                    resultados['Curtosis (Kurtosis)'] = {};
+                    numericCols.forEach(col => {
+                        const values = getNumericValues(data, col);
+                        resultados['Curtosis (Kurtosis)'][col] = calcularCurtosis(values);
+                    });
+                    break;
+
+                case 'Error Estándar':
+                    resultados['Error Estándar'] = {};
+                    numericCols.forEach(col => {
+                        const values = getNumericValues(data, col);
+                        resultados['Error Estándar'][col] = calcularErrorEstandar(values);
+                    });
+                    break;
+
+                case 'Intervalos de Confianza':
+                    resultados['Intervalos de Confianza'] = {};
+                    numericCols.forEach(col => {
+                        const values = getNumericValues(data, col);
+                        resultados['Intervalos de Confianza'][col] = calcularIntervalosConfianza(values);
+                    });
+                    break;
+
+                case 'Detección de Outliers':
+                    resultados['Detección de Outliers'] = {};
+                    numericCols.forEach(col => {
+                        const values = getNumericValues(data, col);
+                        resultados['Detección de Outliers'][col] = {
+                            IQR: detectarOutliersIQR(values),
+                            ZScore: detectarOutliersZScore(values)
+                        };
+                    });
+                    break;
             }
         });
         
@@ -612,6 +655,11 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
             'Varianza':           { formula: 's² = Σ(xᵢ − x̄)² / (n−1)',             desc: 'Dispersión cuadrática media. Base para el cálculo de la desviación estándar y análisis de varianza (ANOVA).',       icono: '📈' },
             'Percentiles':        { formula: 'i = k/100 × (n−1)  [interp. lineal NIST]', desc: 'Dividen la distribución en 100 partes iguales. P25, P50 y P75 definen los cuartiles y el rango intercuartílico.', icono: '📶' },
             'Rango y Amplitud':   { formula: 'R = Máx − Mín',                        desc: 'Extensión total de la distribución. Sensible a valores extremos, complementa la desviación estándar.',               icono: '↔️' },
+            'Asimetría (Skewness)': { formula: 'g₁ = Σ(xᵢ − x̄)³ / (n × s³)',      desc: 'Simetría de la distribución. >0 cola derecha, <0 cola izquierda, ≈0 simétrica.',                                   icono: '📐' },
+            'Curtosis (Kurtosis)':  { formula: 'g₂ = [Σ(xᵢ − x̄)⁴ / (n × s⁴)] − 3', desc: 'Apuntamiento de la distribución. >0 leptocúrtica, <0 platicúrtica, ≈0 mesocúrtica (normal).',                      icono: '🔺' },
+            'Error Estándar':       { formula: 'SE = s / √n',                         desc: 'Error estándar de la media. Estima la variabilidad de la media muestral. Base para intervalos de confianza.',       icono: '📏' },
+            'Intervalos de Confianza': { formula: 'IC = x̄ ± t(α/2) × SE',            desc: 'Rango donde se espera que esté el parámetro poblacional con cierto nivel de confianza (90%, 95%, 99%).',           icono: '📊' },
+            'Detección de Outliers':   { formula: 'IQR: [Q1−1.5×IQR, Q3+1.5×IQR]',   desc: 'Identifica valores atípicos usando IQR (Tukey fence) y Z-score (|z|>3). Útil para detectar errores o datos extremos.', icono: '🎯' },
         };
 
         const statKeys = Object.keys(analisisResultado.resultados);
