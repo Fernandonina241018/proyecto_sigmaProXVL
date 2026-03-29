@@ -890,8 +890,11 @@ const EstadisticaDescriptiva = (() => {
     
     /**
      * Ejecuta análisis según estadísticos seleccionados
+     * @param {Object} data - Datos importados
+     * @param {Array} estadisticos - Lista de estadísticos a calcular
+     * @param {Object} hypothesisConfig - Configuración de pruebas de hipótesis (opcional)
      */
-    function ejecutarAnalisis(data, estadisticos) {
+    function ejecutarAnalisis(data, estadisticos, hypothesisConfig = {}) {
         const numericCols = getNumericColumns(data);
         
         if (numericCols.length === 0) {
@@ -1023,7 +1026,41 @@ const EstadisticaDescriptiva = (() => {
                     break;
 
                 case 'T-Test (dos muestras)':
-                    if (numericCols.length >= 2) {
+                    // Usar configuración de hipótesis si está disponible
+                    if (hypothesisConfig['T-Test (dos muestras)']) {
+                        const cfg = hypothesisConfig['T-Test (dos muestras)'];
+                        const catCol = cfg.categoricalCols[0];
+                        const numCol = cfg.numericCol;
+                        
+                        // Obtener los 2 grupos únicos
+                        const gruposUnicos = [...new Set(data.data.map(row => row[catCol]).filter(v => v !== null && v !== ''))];
+                        
+                        if (gruposUnicos.length !== 2) {
+                            resultados['T-Test (dos muestras)'] = { error: `Se requieren exactamente 2 grupos. Se encontraron ${gruposUnicos.length} en "${catCol}".` };
+                        } else {
+                            const grupo1 = gruposUnicos[0];
+                            const grupo2 = gruposUnicos[1];
+                            
+                            const values1 = data.data
+                                .filter(row => row[catCol] === grupo1)
+                                .map(row => parseFloat(row[numCol]))
+                                .filter(v => !isNaN(v) && isFinite(v));
+                            
+                            const values2 = data.data
+                                .filter(row => row[catCol] === grupo2)
+                                .map(row => parseFloat(row[numCol]))
+                                .filter(v => !isNaN(v) && isFinite(v));
+                            
+                            resultados['T-Test (dos muestras)'] = {
+                                [`${grupo1} vs ${grupo2}`]: calcularTTestDosMuestras([values1, values2])
+                            };
+                            resultados['T-Test (dos muestras)'].columnaAgrupacion = catCol;
+                            resultados['T-Test (dos muestras)'].columnaValores = numCol;
+                            resultados['T-Test (dos muestras)'].grupo1 = grupo1;
+                            resultados['T-Test (dos muestras)'].grupo2 = grupo2;
+                        }
+                    } else if (numericCols.length >= 2) {
+                        // Fallback: usar columnas numéricas (comportamiento anterior)
                         const values1 = getNumericValues(data, numericCols[0]);
                         const values2 = getNumericValues(data, numericCols[1]);
                         resultados['T-Test (dos muestras)'] = {
@@ -1033,17 +1070,62 @@ const EstadisticaDescriptiva = (() => {
                     break;
 
                 case 'ANOVA One-Way':
-                    if (numericCols.length >= 2) {
+                    // Usar configuración de hipótesis si está disponible
+                    if (hypothesisConfig['ANOVA One-Way']) {
+                        const cfg = hypothesisConfig['ANOVA One-Way'];
+                        const catCol = cfg.categoricalCols[0];
+                        const numCol = cfg.numericCol;
+                        
+                        // Obtener grupos únicos
+                        const gruposUnicos = [...new Set(data.data.map(row => row[catCol]).filter(v => v !== null && v !== ''))];
+                        
+                        // Crear grupos con valores numéricos
+                        const grupos = gruposUnicos.map(grupo => {
+                            const values = data.data
+                                .filter(row => row[catCol] === grupo)
+                                .map(row => parseFloat(row[numCol]))
+                                .filter(v => !isNaN(v) && isFinite(v));
+                            return values;
+                        });
+                        
+                        resultados['ANOVA One-Way'] = calcularANOVA(grupos);
+                        resultados['ANOVA One-Way'].columnaAgrupacion = catCol;
+                        resultados['ANOVA One-Way'].columnaValores = numCol;
+                        resultados['ANOVA One-Way'].grupos = gruposUnicos;
+                    } else if (numericCols.length >= 2) {
+                        // Fallback: usar columnas numéricas como grupos (comportamiento anterior)
                         const grupos = numericCols.map(col => getNumericValues(data, col));
                         resultados['ANOVA One-Way'] = calcularANOVA(grupos);
                     }
                     break;
 
                 case 'Chi-Cuadrado':
-                    if (numericCols.length >= 2) {
+                    // Usar configuración de hipótesis si está disponible
+                    if (hypothesisConfig['Chi-Cuadrado']) {
+                        const cfg = hypothesisConfig['Chi-Cuadrado'];
+                        const catCol1 = cfg.categoricalCols[0];
+                        const catCol2 = cfg.categoricalCols[1];
+                        
+                        // Obtener valores únicos de cada columna categórica
+                        const valores1 = [...new Set(data.data.map(row => row[catCol1]).filter(v => v !== null && v !== ''))];
+                        const valores2 = [...new Set(data.data.map(row => row[catCol2]).filter(v => v !== null && v !== ''))];
+                        
+                        // Crear tabla de contingencia
+                        const tabla = valores1.map(v1 => 
+                            valores2.map(v2 => 
+                                data.data.filter(row => row[catCol1] === v1 && row[catCol2] === v2).length
+                            )
+                        );
+                        
+                        resultados['Chi-Cuadrado'] = calcularChiCuadrado(tabla);
+                        resultados['Chi-Cuadrado'].columna1 = catCol1;
+                        resultados['Chi-Cuadrado'].columna2 = catCol2;
+                        resultados['Chi-Cuadrado'].valores1 = valores1;
+                        resultados['Chi-Cuadrado'].valores2 = valores2;
+                    } else if (numericCols.length >= 2) {
+                        // Fallback: usar columnas numéricas con binning (comportamiento anterior)
                         const col1 = getNumericValues(data, numericCols[0]);
                         const col2 = getNumericValues(data, numericCols[1]);
-                        // Crear tabla de contingencia simple (binning)
                         const bins = 4;
                         const min1 = Math.min(...col1), max1 = Math.max(...col1);
                         const min2 = Math.min(...col2), max2 = Math.max(...col2);
@@ -1067,7 +1149,35 @@ const EstadisticaDescriptiva = (() => {
                     break;
 
                 case 'ANOVA Two-Way':
-                    if (numericCols.length >= 3) {
+                    // Usar configuración de hipótesis si está disponible
+                    if (hypothesisConfig['ANOVA Two-Way']) {
+                        const cfg = hypothesisConfig['ANOVA Two-Way'];
+                        const catCol1 = cfg.categoricalCols[0];
+                        const catCol2 = cfg.categoricalCols[1];
+                        const numCol = cfg.numericCol;
+                        
+                        // Obtener valores únicos de cada factor
+                        const factor1Labels = [...new Set(data.data.map(row => row[catCol1]).filter(v => v !== null && v !== ''))];
+                        const factor2Labels = [...new Set(data.data.map(row => row[catCol2]).filter(v => v !== null && v !== ''))];
+                        
+                        // Crear estructura de datos para ANOVA two-way
+                        // Necesitamos una matriz donde cada fila corresponde a una combinación de factores
+                        const datos = factor1Labels.map(f1 => 
+                            factor2Labels.map(f2 => {
+                                const values = data.data
+                                    .filter(row => row[catCol1] === f1 && row[catCol2] === f2)
+                                    .map(row => parseFloat(row[numCol]))
+                                    .filter(v => !isNaN(v) && isFinite(v));
+                                return values.length > 0 ? values[0] : 0;
+                            })
+                        );
+                        
+                        resultados['ANOVA Two-Way'] = calcularANOVA2Factores(datos, factor1Labels, factor2Labels);
+                        resultados['ANOVA Two-Way'].factor1 = catCol1;
+                        resultados['ANOVA Two-Way'].factor2 = catCol2;
+                        resultados['ANOVA Two-Way'].columnaValores = numCol;
+                    } else if (numericCols.length >= 3) {
+                        // Fallback: usar columnas numéricas (comportamiento anterior)
                         const grupos = numericCols.map(col => getNumericValues(data, col));
                         resultados['ANOVA Two-Way'] = calcularANOVA2Factores(grupos, numericCols.slice(0, 2), numericCols.slice(2));
                     }

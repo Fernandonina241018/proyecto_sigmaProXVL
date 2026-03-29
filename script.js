@@ -23,6 +23,17 @@ function escapeHtml(unsafe) {
         .replace(/'/g, "&#039;");
 }
 
+function _showToast(msg, isError = false) {
+    document.getElementById('script-toast')?.remove();
+    const t = document.createElement('div');
+    t.id = 'script-toast';
+    t.className = `datos-toast ${isError ? 'datos-toast-error' : 'datos-toast-ok'}`;
+    t.textContent = msg;
+    document.body.appendChild(t);
+    requestAnimationFrame(() => t.classList.add('datos-toast-visible'));
+    setTimeout(() => { t.classList.remove('datos-toast-visible'); setTimeout(() => t.remove(), 300); }, 3000);
+}
+
 // ========================================
 // NAVEGACIÓN DINÁMICA ENTRE VISTAS
 // ========================================
@@ -213,12 +224,20 @@ document.querySelectorAll('.menu-option').forEach(option => {
     option.addEventListener('click', function () {
         const statName = this.textContent.trim();
 
+        // Pruebas de hipótesis que requieren configuración de grupos
+        const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)'];
+        
         if (this.classList.contains('selected')) {
             this.classList.remove('selected');
             StateManager.removeActiveStat(statName);
         } else {
-            this.classList.add('selected');
-            StateManager.addActiveStat(statName);
+            // Para pruebas de hipótesis, abrir modal de configuración
+            if (hipotesisTests.includes(statName)) {
+                mostrarModalConfiguracionHypothesis(statName);
+            } else {
+                this.classList.add('selected');
+                StateManager.addActiveStat(statName);
+            }
         }
     });
 });
@@ -964,6 +983,7 @@ function ejecutarAnalisis() {
 
     const importedData = StateManager.getImportedData();
     const activeStats  = StateManager.getActiveStats();
+    const hypothesisConfig = StateManager.getAllHypothesisConfig();
 
     if (!importedData || !importedData.data || importedData.data.length === 0) {
         alert('⚠️ Debes importar o guardar datos primero.\n\nVe a "Trabajo" o usa "Importar Datos".');
@@ -1008,7 +1028,7 @@ function ejecutarAnalisis() {
     // Pequeño delay para que el spinner sea visible antes del bloqueo del hilo
     setTimeout(() => {
         try {
-            const resultados = EstadisticaDescriptiva.ejecutarAnalisis(importedData, activeStats);
+            const resultados = EstadisticaDescriptiva.ejecutarAnalisis(importedData, activeStats, hypothesisConfig);
             console.log('Resultados obtenidos:', resultados);
 
             ultimosResultados = resultados;
@@ -1514,6 +1534,238 @@ function setupSidebarToggles() {
     });
 
     console.log('✅ Sidebar toggles inicializados');
+}
+
+// ========================================
+// MODAL DE CONFIGURACIÓN DE PRUEBAS DE HIPÓTESIS
+// ========================================
+function mostrarModalConfiguracionHypothesis(statName) {
+    document.getElementById('hypo-config-modal')?.remove();
+    
+    const imported = StateManager.getImportedData();
+    if (!imported) {
+        _showToast('⚠️ Primero importa datos', true);
+        return false;
+    }
+    
+    const allCols = imported.headers || [];
+    if (allCols.length < 2) {
+        _showToast('⚠️ Se necesitan al menos 2 columnas', true);
+        return false;
+    }
+    
+    // Definir configuración según la prueba
+    const configs = {
+        'ANOVA One-Way': { title: '🧪 Configurar ANOVA One-Way', catCols: 1, numCols: 1, catLabel: 'Columna de Agrupación (Factor)', numLabel: 'Columna de Valores (Variable Dependiente)' },
+        'ANOVA Two-Way': { title: '🧪 Configurar ANOVA Two-Way', catCols: 2, numCols: 1, catLabel: 'Factores (2 columnas categóricas)', numLabel: 'Columna de Valores (Variable Dependiente)' },
+        'Chi-Cuadrado': { title: '📊 Configurar Chi-Cuadrado', catCols: 2, numCols: 0, catLabel: 'Variables categóricas (2 columnas)', numLabel: null },
+        'T-Test (dos muestras)': { title: '📈 Configurar T-Test (dos muestras)', catCols: 1, numCols: 1, catLabel: 'Columna de Agrupación (2 grupos)', numLabel: 'Columna de Valores (Variable Dependiente)' }
+    };
+    
+    const config = configs[statName];
+    if (!config) {
+        _showToast('⚠️ Configuración no disponible para esta prueba', true);
+        return false;
+    }
+    
+    // Detectar columnas categóricas y numéricas
+    const numericCols = allCols.filter(col => {
+        const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
+        const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
+        return numericCount / values.length > 0.5; // 50% o más valores numéricos
+    });
+    
+    const categoricalCols = allCols.filter(col => !numericCols.includes(col));
+    
+    const modal = document.createElement('div');
+    modal.id = 'hypo-config-modal';
+    modal.innerHTML = `
+        <div class="dm-modal-overlay" id="hypo-modal-overlay"></div>
+        <div class="dm-modal-card" style="width: min(560px, 96vw);">
+            <div class="dm-modal-header">
+                <h3>${config.title}</h3>
+                <button class="dm-modal-close" id="hypo-modal-close">✕</button>
+            </div>
+            <div class="dm-modal-body">
+                ${config.catCols >= 1 ? `
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>🏷️ ${config.catLabel}</label>
+                    <div class="dm-col-checks" id="hypo-cat-checks">
+                        ${categoricalCols.length > 0 ? categoricalCols.map(col => `
+                            <label class="dm-check-row">
+                                <input type="checkbox" value="${escapeHtml(col)}" name="hypo-cat-col">
+                                ${escapeHtml(col)}
+                            </label>
+                        `).join('') : '<p style="font-size:0.8rem;color:#999;grid-column:1/-1;">No se detectaron columnas categóricas. Selecciona columnas numéricas como factores.</p>'}
+                        ${numericCols.length > 0 ? `<p style="font-size:0.75rem;color:#666;grid-column:1/-1;margin-top:8px;">Columnas numéricas (pueden usarse como factores si tienen valores discretos):</p>` : ''}
+                        ${numericCols.map(col => `
+                            <label class="dm-check-row" style="border-color:#e8e8e8;">
+                                <input type="checkbox" value="${escapeHtml(col)}" name="hypo-cat-col">
+                                ${escapeHtml(col)} <span style="font-size:0.7rem;color:#999;">(numérica)</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>` : ''}
+                ${config.numCols >= 1 ? `
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📈 ${config.numLabel}</label>
+                    <div class="dm-col-checks" id="hypo-num-checks">
+                        ${numericCols.map(col => `
+                            <label class="dm-check-row">
+                                <input type="radio" value="${escapeHtml(col)}" name="hypo-num-col">
+                                ${escapeHtml(col)}
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>` : ''}
+                <div id="hypo-preview" style="margin-top: 16px; padding: 12px; background: #f8f9fa; border-radius: 8px; display: none;">
+                    <p style="font-size: 0.85rem; font-weight: 600; margin-bottom: 8px;">📋 Grupos detectados:</p>
+                    <div id="hypo-groups-list" style="font-size: 0.8rem; color: #555;"></div>
+                </div>
+                <div id="hypo-error" style="margin-top: 12px; padding: 10px; background: #fff5f5; border-radius: 8px; color: #c53030; font-size: 0.85rem; display: none;"></div>
+            </div>
+            <div class="dm-modal-footer">
+                <button class="dm-btn dm-btn-secondary" id="hypo-modal-cancel">Cancelar</button>
+                <button class="dm-btn dm-btn-primary" id="hypo-modal-confirm">✓ Aceptar</button>
+            </div>
+        </div>`;
+    document.body.appendChild(modal);
+    requestAnimationFrame(() => modal.classList.add('dm-modal-visible'));
+    
+    const close = () => { modal.classList.remove('dm-modal-visible'); setTimeout(() => modal.remove(), 250); };
+    document.getElementById('hypo-modal-close').addEventListener('click', close);
+    document.getElementById('hypo-modal-cancel').addEventListener('click', close);
+    document.getElementById('hypo-modal-overlay').addEventListener('click', close);
+    
+    // Actualizar preview de grupos cuando cambian las selecciones
+    const updatePreview = () => {
+        const preview = document.getElementById('hypo-preview');
+        const groupsList = document.getElementById('hypo-groups-list');
+        const errorDiv = document.getElementById('hypo-error');
+        
+        const selectedCatCols = [...modal.querySelectorAll('input[name="hypo-cat-col"]:checked')].map(cb => cb.value);
+        const selectedNumCol = modal.querySelector('input[name="hypo-num-col"]:checked')?.value;
+        
+        // Validaciones
+        errorDiv.style.display = 'none';
+        
+        if (config.catCols > 0 && selectedCatCols.length < config.catCols) {
+            preview.style.display = 'none';
+            return;
+        }
+        
+        if (config.numCols > 0 && !selectedNumCol) {
+            preview.style.display = 'none';
+            return;
+        }
+        
+        // Mostrar preview de grupos
+        preview.style.display = 'block';
+        
+        if (config.catCols === 1 && selectedCatCols.length === 1) {
+            // Un solo factor categórico
+            const catCol = selectedCatCols[0];
+            const groups = [...new Set(imported.data.map(row => row[catCol]).filter(v => v !== null && v !== ''))];
+            
+            if (statName === 'T-Test (dos muestras)' && groups.length !== 2) {
+                errorDiv.textContent = `⚠️ T-Test requiere exactamente 2 grupos. Se detectaron ${groups.length} grupos en "${catCol}".`;
+                errorDiv.style.display = 'block';
+                preview.style.display = 'none';
+                return;
+            }
+            
+            if (statName === 'ANOVA One-Way' && groups.length < 2) {
+                errorDiv.textContent = `⚠️ ANOVA requiere al menos 2 grupos. Se detectaron ${groups.length} grupos en "${catCol}".`;
+                errorDiv.style.display = 'block';
+                preview.style.display = 'none';
+                return;
+            }
+            
+            const groupsHtml = groups.map(g => {
+                const count = imported.data.filter(row => row[catCol] === g).length;
+                return `<div style="padding: 4px 0; border-bottom: 1px solid #eee;"><strong>${escapeHtml(String(g))}</strong> (n=${count})</div>`;
+            }).join('');
+            
+            groupsList.innerHTML = `<p style="margin-bottom:6px;">Factor: <strong>${escapeHtml(catCol)}</strong></p>${groupsHtml}`;
+        } else if (config.catCols === 2 && selectedCatCols.length === 2) {
+            // Dos factores categóricos
+            const [catCol1, catCol2] = selectedCatCols;
+            const groups1 = [...new Set(imported.data.map(row => row[catCol1]).filter(v => v !== null && v !== ''))];
+            const groups2 = [...new Set(imported.data.map(row => row[catCol2]).filter(v => v !== null && v !== ''))];
+            
+            groupsList.innerHTML = `
+                <p style="margin-bottom:4px;">Factor 1: <strong>${escapeHtml(catCol1)}</strong> (${groups1.length} niveles)</p>
+                <p style="margin-bottom:4px;">Factor 2: <strong>${escapeHtml(catCol2)}</strong> (${groups2.length} niveles)</p>
+                <p style="font-size:0.75rem;color:#888;margin-top:6px;">Total observaciones: ${imported.data.length}</p>
+            `;
+        }
+    };
+    
+    // Agregar listeners para actualizar preview
+    modal.querySelectorAll('input[name="hypo-cat-col"], input[name="hypo-num-col"]').forEach(input => {
+        input.addEventListener('change', updatePreview);
+    });
+    
+    // Limitar selección de columnas categóricas según la configuración
+    const catCheckboxes = modal.querySelectorAll('input[name="hypo-cat-col"]');
+    catCheckboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+            const checked = [...catCheckboxes].filter(c => c.checked);
+            if (checked.length > config.catCols) {
+                cb.checked = false;
+                _showToast(`⚠️ Solo puedes seleccionar ${config.catCols} columna(s) categórica(s)`, true);
+            }
+        });
+    });
+    
+    // Confirmar selección
+    document.getElementById('hypo-modal-confirm').addEventListener('click', () => {
+        const selectedCatCols = [...modal.querySelectorAll('input[name="hypo-cat-col"]:checked')].map(cb => cb.value);
+        const selectedNumCol = modal.querySelector('input[name="hypo-num-col"]:checked')?.value;
+        
+        // Validaciones finales
+        if (config.catCols > 0 && selectedCatCols.length < config.catCols) {
+            _showToast(`⚠️ Selecciona ${config.catCols} columna(s) categórica(s)`, true);
+            return;
+        }
+        
+        if (config.numCols > 0 && !selectedNumCol) {
+            _showToast('⚠️ Selecciona una columna numérica', true);
+            return;
+        }
+        
+        if (statName === 'T-Test (dos muestras)' && selectedCatCols.length === 1) {
+            const catCol = selectedCatCols[0];
+            const groups = [...new Set(imported.data.map(row => row[catCol]).filter(v => v !== null && v !== ''))];
+            if (groups.length !== 2) {
+                _showToast(`⚠️ T-Test requiere exactamente 2 grupos. Se detectaron ${groups.length}.`, true);
+                return;
+            }
+        }
+        
+        // Guardar configuración en StateManager
+        const hypothesisConfig = {
+            statName: statName,
+            categoricalCols: selectedCatCols,
+            numericCol: selectedNumCol || null,
+            timestamp: Date.now()
+        };
+        
+        StateManager.setHypothesisConfig(statName, hypothesisConfig);
+        StateManager.addActiveStat(statName);
+        
+        // Marcar visualmente
+        document.querySelectorAll('.menu-option').forEach(opt => {
+            if (opt.textContent.trim() === statName) {
+                opt.classList.add('selected');
+            }
+        });
+        
+        _showToast(`✅ ${statName} configurado correctamente`);
+        close();
+    });
+    
+    return true;
 }
 
 // ========================================

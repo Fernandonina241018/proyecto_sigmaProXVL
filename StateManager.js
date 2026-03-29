@@ -28,6 +28,9 @@ const StateManager = (() => {
         // Estadísticos seleccionados
         activeStats: [],
         
+        // Configuración de pruebas de hipótesis
+        hypothesisConfig: {},
+        
         // Configuración
         config: {
             autoSave: true,
@@ -481,6 +484,29 @@ const StateManager = (() => {
     }
     
     // ========================================
+    // CONFIGURACIÓN DE PRUEBAS DE HIPÓTESIS
+    // ========================================
+    
+    function setHypothesisConfig(statName, config) {
+        state.hypothesisConfig[statName] = config;
+        scheduleAutoSave();
+        console.log(`⚙️ Configuración guardada para ${statName}`);
+    }
+    
+    function getHypothesisConfig(statName) {
+        return state.hypothesisConfig[statName] || null;
+    }
+    
+    function clearHypothesisConfig(statName) {
+        delete state.hypothesisConfig[statName];
+        scheduleAutoSave();
+    }
+    
+    function getAllHypothesisConfig() {
+        return { ...state.hypothesisConfig };
+    }
+    
+    // ========================================
     // PERSISTENCIA (LocalStorage)
     // ========================================
     
@@ -493,6 +519,7 @@ const StateManager = (() => {
                 importedData: state.importedData,
                 fileName: state.fileName,
                 activeStats: state.activeStats,
+                hypothesisConfig: state.hypothesisConfig,
                 savedAt: new Date().toISOString()
             });
             
@@ -521,6 +548,7 @@ const StateManager = (() => {
             state.importedData = loaded.importedData || null;
             state.fileName = loaded.fileName || '';
             state.activeStats = loaded.activeStats || [];
+            state.hypothesisConfig = loaded.hypothesisConfig || {};
             
             console.log(`📂 Estado cargado (guardado: ${loaded.savedAt})`);
             return true;
@@ -706,6 +734,12 @@ const StateManager = (() => {
         removeActiveStat,
         getActiveStats,
         clearActiveStats,
+        
+        // Configuración de hipótesis
+        setHypothesisConfig,
+        getHypothesisConfig,
+        clearHypothesisConfig,
+        getAllHypothesisConfig,
         
         // Persistencia
         saveToLocalStorage,
