@@ -87,6 +87,43 @@
 
 ---
 
+### 28 de Marzo 2026 - Fix: Integración de nuevas funciones en flujo de análisis
+
+**Cambio:** Agregados cases faltantes en `ejecutarAnalisis()` para las 5 nuevas funciones estadísticas
+- **Archivo:** `EstadisticaDescriptiva.js`
+- **Problema:** Las funciones matemáticas existían pero no estaban conectadas al flujo de análisis principal
+- **Estado:** ✅ COMPLETADO
+- **Commit:** `e5bb638`
+
+**Detalles:**
+
+**Problema identificado:**
+- Las 5 nuevas funciones (Asimetría, Curtosis, Error Estándar, IC, Outliers) estaban implementadas correctamente
+- El menú HTML (`index.html`) y la validación (`script.js`) las reconocían
+- PERO el switch en `ejecutarAnalisis()` no tenía los `case` correspondientes
+- Resultado: al seleccionarlas se ignoraban silenciosamente
+
+**Solución aplicada:**
+
+1. **Switch `ejecutarAnalisis()`** - Agregados 5 cases:
+   - `case 'Asimetría (Skewness)'` → llama a `calcularAsimetria()`
+   - `case 'Curtosis (Kurtosis)'` → llama a `calcularCurtosis()`
+   - `case 'Error Estándar'` → llama a `calcularErrorEstandar()`
+   - `case 'Intervalos de Confianza'` → llama a `calcularIntervalosConfianza()`
+   - `case 'Detección de Outliers'` → llama a `detectarOutliersIQR()` + `detectarOutliersZScore()`
+
+2. **`STAT_META`** - Agregadas 5 entradas con:
+   - Fórmulas matemáticas
+   - Descripciones técnicas
+   - Iconos para la interfaz
+
+**Validación:**
+- ✅ Las 5 opciones ahora generan resultados al ejecutar análisis
+- ✅ Fórmulas y descripciones se muestran en la interfaz HTML
+- ✅ Outliers retorna ambos métodos (IQR + Z-Score)
+
+**Estadísticas:** +48 líneas de código, 1 archivo modificado
+
 ---
 
 ## 🎯 Descripción General
