@@ -19,6 +19,31 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 29 de Marzo 2026 - Modal de configuración para pruebas de hipótesis con selección de grupos
+
+**Cambio:** Implementación de modal de configuración para pruebas de hipótesis que requieren columnas categóricas
+- **Archivos:** `script.js`, `StateManager.js`, `EstadisticaDescriptiva.js`
+- **Razón:** Las pruebas de hipótesis (ANOVA, Chi-Cuadrado, T-Test) necesitan definir grupos a partir de columnas categóricas, no solo columnas numéricas
+- **Estado:** ✅ COMPLETADO
+- **Commit:** `435fdce` - feat: modal de configuración para pruebas de hipótesis con selección de grupos
+
+**Detalles:**
+- Modal de configuración para: ANOVA One-Way, ANOVA Two-Way, Chi-Cuadrado, T-Test (dos muestras)
+- Detección automática de columnas categóricas vs numéricas
+- Preview de grupos detectados con conteo de observaciones
+- Validaciones en tiempo real (T-Test: exactamente 2 grupos, ANOVA: mínimo 2 grupos)
+- StateManager: métodos para guardar/cargar configuración de hipótesis
+- ejecutarAnalisis: usa configuración de grupos cuando está disponible, fallback al comportamiento anterior
+
+**Archivos modificados:**
+1. `script.js` (~210 líneas nuevas) - Modal, handler de menú, _showToast
+2. `StateManager.js` (~20 líneas nuevas) - hypothesisConfig, métodos set/get/clear
+3. `EstadisticaDescriptiva.js` (~80 líneas modificadas) - Casos de hipótesis con configuración
+
+**Estadísticas:** +405 líneas, -9 líneas, 3 archivos modificados
+
+---
+
 ### 29 de Marzo 2026 - Coeficiente de Variación como opción seleccionable
 
 **Cambio:** Coeficiente de Variación ahora es una opción en el navbar con descripción y fórmula en notas metodológicas
