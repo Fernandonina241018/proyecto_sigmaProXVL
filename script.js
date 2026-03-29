@@ -986,7 +986,13 @@ function ejecutarAnalisis() {
          'Curtosis (Kurtosis)',
          'Error Estándar',
          'Intervalos de Confianza',
-         'Detección de Outliers'
+         'Detección de Outliers',
+         'T-Test (una muestra)',
+         'T-Test (dos muestras)',
+         'ANOVA One-Way',
+         'ANOVA Two-Way',
+         'Chi-Cuadrado',
+         'Test de Normalidad'
      ];
 
     const noImplementados = activeStats.filter(stat => !estadisticosDescriptivos.includes(stat));

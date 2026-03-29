@@ -126,6 +126,62 @@
 
 ---
 
+### 28 de Marzo 2026 - Nueva sección: Pruebas de Hipótesis (Inferencial)
+
+**Cambio:** Implementadas 6 funciones de pruebas de hipótesis estadísticas
+- **Archivos:** `EstadisticaDescriptiva.js`, `script.js`
+- **Estado:** ✅ COMPLETADO
+- **Commit:** `pending`
+
+**Funciones implementadas:**
+
+**1. T-Test (una muestra)**
+  - Función: `calcularTTestUnaMuestra(values, mediaHipotesis)`
+  - Compara media muestral con valor hipotético
+  - Retorna: estadístico t, grados de libertad, valor p, interpretación
+
+**2. T-Test (dos muestras)**
+  - Función: `calcularTTestDosMuestras(grupo1, grupo2)`
+  - Welch's t-test (no asume varianzas iguales)
+  - Retorna: estadístico t, df de Welch-Satterthwaite, valor p
+
+**3. ANOVA One-Way**
+  - Función: `calcularANOVA(grupos)`
+  - Compara medias de 3+ grupos independientes
+  - Retorna: F, MSB, MSW, SSB, SSW, valor p
+
+**4. ANOVA Two-Way**
+  - Función: `calcularANOVA2Factores(datos, factor1, factor2)`
+  - Análisis de varianza con dos factores simultáneos
+  - Retorna: F para cada factor, SS, MS, valor p
+
+**5. Chi-Cuadrado**
+  - Función: `calcularChiCuadrado(tabla)`
+  - Prueba de independencia para variables categóricas
+  - Retorna: χ², grados de libertad, valor p, significancia
+
+**6. Test de Normalidad (Jarque-Bera)**
+  - Función: `calcularTestNormalidad(values)`
+  - Verifica si datos siguen distribución normal
+  - Usa asimetría y curtosis para el cálculo
+
+**Funciones auxiliares implementadas:**
+- `tDistributionCDF()` - CDF distribución t
+- `lgamma()` - Log-gamma (Lanczos)
+- `calcularValorP_T()` - Valor p para t-test
+- `betaIncomplete()` - Beta incompleta regularizada
+- `normalCDF()` - CDF normal estándar
+- `calcularValorP_ChiCuadrado()` - Valor p para chi-cuadrado
+- `gammaIncomplete()` - Gamma incompleta inferior
+- `calcularValorP_F()` - Valor p para distribución F
+
+**Secciones en menú HTML actualizadas:**
+- ✅ Pruebas de Hipótesis (6/6 opciones)
+
+**Estadísticas:** +350 líneas de código, 2 archivos modificados
+
+---
+
 ## 🎯 Descripción General
 
 ### Propósito del Proyecto
