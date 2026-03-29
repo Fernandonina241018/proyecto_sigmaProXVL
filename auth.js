@@ -135,8 +135,6 @@ const Auth = (() => {
                 <div class="auth-error"    id="auth-error"         style="display:none"></div>
                 <div class="auth-attempts" id="auth-attempts-info" style="display:none"></div>
                 <button class="auth-btn-login"  id="auth-btn-login"  type="button"><span id="auth-btn-text">Iniciar sesión</span><span class="auth-btn-arrow">→</span></button>
-                <div class="auth-divider"><span>o</span></div>
-                <button class="auth-btn-create" id="auth-btn-create" type="button">➕ Crear nuevo usuario <span class="auth-admin-badge">Solo Admin</span></button>
             </div>
             <div id="auth-lockout-msg" style="display:none" class="auth-lockout">
                 <div class="auth-lockout-icon">🔒</div>
@@ -183,12 +181,12 @@ const Auth = (() => {
             el?.addEventListener('input',()=>{ document.getElementById('auth-error').style.display='none'; });
         });
         document.getElementById('auth-btn-login')?.addEventListener('click',_doLogin);
-        document.getElementById('auth-btn-create')?.addEventListener('click',()=>{
+        /*document.getElementById('auth-btn-create')?.addEventListener('click',()=>{
             const e=document.getElementById('auth-error');
             if(!e) return;
             e.style.cssText='display:block;background:#ebf8ff;border-color:#90cdf4;color:#2b6cb0;';
             e.innerHTML='🔐 La creación de usuarios requiere privilegios de <strong>Administrador</strong>.<br>Esta funcionalidad estará disponible próximamente.';
-        });
+        });*/
     }
 
     async function _doLogin() {
