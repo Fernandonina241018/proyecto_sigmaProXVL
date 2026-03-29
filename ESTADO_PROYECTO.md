@@ -19,6 +19,28 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 29 de Marzo 2026 - Firmas electrónicas: Campos vacíos en lugar de "Pendiente"
+
+**Cambio:** Eliminado texto "Pendiente"/"Pending" de firmas electrónicas no completadas
+- **Archivo:** `ReporteManager.js`
+- **Razón:** Mejorar presentación profesional mostrando campos vacíos en lugar de texto genérico
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- HTML: Nombre vacío muestra campo en blanco (antes mostraba "Pendiente")
+- TXT: Nombre vacío muestra campo vacío (antes mostraba "_________________________")
+- Estilo visual mantenido: color gris + cursiva para campos sin completar
+- Variable `pending` eliminada (ya no es necesaria)
+
+**Formatos afectados:**
+- ✅ HTML - Campo nombre vacío
+- ✅ TXT - Campo nombre vacío
+- ✅ CSV - Ya funcionaba correctamente
+
+**Estadísticas:** ~5 líneas modificadas, 1 archivo modificado
+
+---
+
 ### 29 de Marzo 2026 - Formato HTML como predefinido en Reportes
 
 **Cambio:** HTML establecido como formato de descarga predeterminado + soporte PDF

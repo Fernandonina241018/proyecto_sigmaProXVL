@@ -534,8 +534,8 @@ const ReporteManager = (() => {
          [t('reviewedBy'),'reviewedBy','reviewedTitle','reviewedDate'],
          [t('approvedBy'),'approvedBy','approvedTitle','approvedDate']].forEach(([role,kb,kt,kd])=>{
             p('');p(`  ${role}`);
-            p(`    ${t('name')}  : ${meta[kb]||'_________________________'}`);
-            p(`    ${t('title')} : ${meta[kt]||'_________________________'}`);
+            p(`    ${t('name')}  : ${meta[kb]||''}`);
+            p(`    ${t('title')} : ${meta[kt]||''}`);
             p(`    ${t('date')}  : ${formatDate(meta[kd])}`);
         });
         p('');p(doubleLine(W));
@@ -642,13 +642,12 @@ const ReporteManager = (() => {
         }
         const roleLabels=[t('preparedBy'),t('reviewedBy'),t('approvedBy')];
         const roleKeys=['prepared','reviewed','approved'];
-        const pending=lang==='es'?'Pendiente':'Pending';
         const sigBlocks=roleKeys.map((k,i)=>{
             const name=meta[k+'By']||'', title=meta[k+'Title']||'', date=meta[k+'Date']||'';
             return `<div style="border:1px solid #e2e8f0;border-radius:6px;padding:14px">
               <div style="font-family:monospace;font-size:7pt;text-transform:uppercase;letter-spacing:1.5px;color:#1a3a6b;margin-bottom:10px;border-bottom:1px solid #e2e8f0;padding-bottom:5px">${roleLabels[i]}</div>
-              ${[[t('name'),name||pending],[t('title'),title||'—'],[t('date'),formatDate(date)]].map(([l,v])=>
-                `<div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">${l}</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:${v===pending||v==='—'?'#cbd5e0':'#1a202c'};${v===pending||v==='—'?'font-style:italic':''}">${v}</span></div>`).join('')}
+              ${[[t('name'),name],[t('title'),title||'—'],[t('date'),formatDate(date)]].map(([l,v])=>
+                `<div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">${l}</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:${!v||v==='—'?'#cbd5e0':'#1a202c'};${!v||v==='—'?'font-style:italic':''}">${v||''}</span></div>`).join('')}
               <div style="border-top:1px solid #1a202c;margin-top:14px;padding-top:5px;font-size:7pt;color:#718096;font-family:monospace">${t('elecRecord')} · ${REGULATORY.standard}</div>
             </div>`;
         }).join('');
