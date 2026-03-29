@@ -1006,6 +1006,14 @@ const EstadisticaDescriptiva = (() => {
                     });
                     break;
 
+                case 'Coeficiente de Variación':
+                    resultados['Coeficiente de Variación'] = {};
+                    numericCols.forEach(col => {
+                        const values = getNumericValues(data, col);
+                        resultados['Coeficiente de Variación'][col] = calcularCoeficienteVariacion(values);
+                    });
+                    break;
+
                 case 'T-Test (una muestra)':
                     resultados['T-Test (una muestra)'] = {};
                     numericCols.forEach(col => {

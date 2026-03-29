@@ -557,6 +557,11 @@ const ReporteManager = (() => {
             desc: lang === 'es' ? 'Diferencia entre máximo y mínimo' : 'Difference between max and min',
             formula: 'R = xₘₐₓ - xₘᵢₙ'
           },
+          'Coeficiente de Variación': {
+            name: lang === 'es' ? 'Coeficiente de Variación' : 'Coefficient of Variation',
+            desc: lang === 'es' ? 'Dispersión relativa respecto a la media (en porcentaje)' : 'Relative dispersion relative to mean (percentage)',
+            formula: 'CV = (s / x̄) × 100%'
+          },
           'Asimetría (Skewness)': {
             name: lang === 'es' ? 'Asimetría' : 'Skewness',
             desc: lang === 'es' ? 'Falta de simetría de la distribución' : 'Distribution asymmetry',
@@ -926,6 +931,11 @@ tr:hover td{background:#f7faff}
             title: lang === 'es' ? 'Rango y Amplitud' : 'Range',
             desc: lang === 'es' ? 'Diferencia entre el valor máximo y mínimo. Indica la extensión total de los datos.' : 'Difference between maximum and minimum values. Indicates total data extent.',
             formula: 'R = xₘₐₓ - xₘᵢₙ'
+          },
+          'Coeficiente de Variación': {
+            title: lang === 'es' ? 'Coeficiente de Variación' : 'Coefficient of Variation',
+            desc: lang === 'es' ? 'Mide la dispersión relativa respecto a la media expresada en porcentaje. Permite comparar variabilidad entre variables con diferentes unidades o escalas.' : 'Measures relative dispersion relative to the mean expressed as a percentage. Allows comparing variability between variables with different units or scales.',
+            formula: 'CV = (s / |x̄|) × 100%'
           },
           'Asimetría (Skewness)': {
             title: lang === 'es' ? 'Asimetría (Skewness)' : 'Skewness',

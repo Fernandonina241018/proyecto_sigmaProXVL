@@ -19,6 +19,28 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 29 de Marzo 2026 - Coeficiente de Variación como opción seleccionable
+
+**Cambio:** Coeficiente de Variación ahora es una opción en el navbar con descripción y fórmula en notas metodológicas
+- **Archivos:** `index.html`, `EstadisticaDescriptiva.js`, `ReporteManager.js`
+- **Razón:** Antes se calculaba automáticamente sin ser seleccionable. Ahora es una opción explícita con documentación completa
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Navbar: Agregada opción "Coeficiente de Variación" en sección Estadística Descriptiva
+- EstadisticaDescriptiva.js: Agregado case 'Coeficiente de Variación' en ejecutarAnalisis()
+- ReporteManager.js: Agregada descripción y fórmula en notas metodológicas (HTML y TXT)
+- Fórmula: CV = (s / |x̄|) × 100%
+
+**Archivos modificados:**
+1. `index.html` - Opción en navbar
+2. `EstadisticaDescriptiva.js` - Case en switch de análisis
+3. `ReporteManager.js` - Descripción en notas metodológicas
+
+**Estadísticas:** +25 líneas, 3 archivos modificados
+
+---
+
 ### 29 de Marzo 2026 - Sección de Notas Metodológicas dinámica
 
 **Cambio:** Sección de notas metodológicas ahora se adapta a los estadísticos usados en el análisis
