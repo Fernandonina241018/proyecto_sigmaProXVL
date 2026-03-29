@@ -975,14 +975,19 @@ function ejecutarAnalisis() {
         return;
     }
 
-    const estadisticosDescriptivos = [
-        'Media Aritmética',
-        'Mediana y Moda',
-        'Desviación Estándar',
-        'Varianza',
-        'Percentiles',
-        'Rango y Amplitud'
-    ];
+     const estadisticosDescriptivos = [
+         'Media Aritmética',
+         'Mediana y Moda',
+         'Desviación Estándar',
+         'Varianza',
+         'Percentiles',
+         'Rango y Amplitud',
+         'Asimetría (Skewness)',
+         'Curtosis (Kurtosis)',
+         'Error Estándar',
+         'Intervalos de Confianza',
+         'Detección de Outliers'
+     ];
 
     const noImplementados = activeStats.filter(stat => !estadisticosDescriptivos.includes(stat));
     if (noImplementados.length > 0) {
