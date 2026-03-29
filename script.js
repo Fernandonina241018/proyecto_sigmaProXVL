@@ -1421,7 +1421,7 @@ function _initApp() {
         console.warn('No se encontró el botón .btn-run en el DOM');
     }
 
-    setupSidebarToggles(); // ← agregar aquí
+    setupSidebarToggles();
     
     console.log('✅ Formatos soportados: CSV, JSON, TXT');
     console.log('✅ Estado centralizado activo');
