@@ -105,6 +105,18 @@ const Auth = (() => {
         overlay.innerHTML=`
         <div class="auth-bg"><div class="auth-particles" id="auth-particles"></div></div>
         <div class="auth-card" role="dialog" aria-modal="true">
+            <div class="auth-avatar-container">
+                <svg class="auth-avatar-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Círculo de fondo -->
+                    <circle cx="60" cy="60" r="55" fill="#e8f4f8" stroke="#1a3a6b" stroke-width="2"/>
+                    <!-- Cabeza -->
+                    <circle cx="60" cy="40" r="18" fill="#1a3a6b"/>
+                    <!-- Cuerpo -->
+                    <path d="M 42 58 Q 42 70 45 85 L 75 85 Q 78 70 78 58 Z" fill="#1a3a6b"/>
+                    <!-- Hombros/cuello -->
+                    <rect x="48" y="55" width="24" height="5" fill="#1a3a6b" rx="2"/>
+                </svg>
+            </div>
             <div class="auth-brand">
                 <div class="auth-brand-icon">📊</div>
                 <div class="auth-brand-name">StatAnalyzer Pro</div>
@@ -141,141 +153,3 @@ const Auth = (() => {
                 <h3>Acceso bloqueado</h3>
                 <p>Has superado el máximo de intentos permitidos (<strong>${CFG.MAX_ATTEMPTS}</strong>).</p>
                 <p>Por favor, comunícate con <strong>Soporte Técnico</strong> para restablecer tu acceso.</p>
-                <div class="auth-support-box"><div>📧 soporte@statanalyzer.com</div><div>📞 +1 (800) 000-0000</div></div>
-            </div>
-            <div class="auth-footer"><span>FDA 21 CFR Part 11 Compliant</span><span>v1.0</span></div>
-        </div>
-        <div class="auth-timeout-warn" id="auth-timeout-warn">
-            ⏱ Tu sesión expirará en <strong id="auth-warn-countdown">60</strong> segundos por inactividad.
-            <button onclick="Auth.keepAlive()" class="auth-warn-btn">Mantener sesión</button>
-        </div>`;
-        document.body.appendChild(overlay);
-        _attachLoginListeners();
-        _renderParticles();
-    }
-
-    function _renderParticles() {
-        const c=document.getElementById('auth-particles'); if(!c) return;
-        for(let i=0;i<18;i++){
-            const p=document.createElement('div'); p.className='auth-particle';
-            p.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${2+Math.random()*4}px;height:${2+Math.random()*4}px;opacity:${0.1+Math.random()*0.25};animation-delay:${Math.random()*8}s;animation-duration:${6+Math.random()*6}s;`;
-            c.appendChild(p);
-        }
-    }
-
-    function _attachLoginListeners() {
-        const inputUser=document.getElementById('auth-user');
-        const inputPass=document.getElementById('auth-pass');
-        const showCb   =document.getElementById('auth-show-pass');
-        const eyeIcon  =document.getElementById('auth-eye-icon');
-
-        function togglePass(show){
-            inputPass.type=show?'text':'password';
-            eyeIcon.textContent=show?'🙈':'👁';
-            if(showCb.checked!==show) showCb.checked=show;
-        }
-        document.getElementById('auth-show-pass')?.addEventListener('change',()=>togglePass(showCb.checked));
-        document.getElementById('auth-eye')?.addEventListener('click',()=>togglePass(inputPass.type==='password'));
-        [inputUser,inputPass].forEach(el=>{
-            el?.addEventListener('keydown',(e)=>{ if(e.key==='Enter') _doLogin(); });
-            el?.addEventListener('input',()=>{ document.getElementById('auth-error').style.display='none'; });
-        });
-        document.getElementById('auth-btn-login')?.addEventListener('click',_doLogin);
-        /*document.getElementById('auth-btn-create')?.addEventListener('click',()=>{
-            const e=document.getElementById('auth-error');
-            if(!e) return;
-            e.style.cssText='display:block;background:#ebf8ff;border-color:#90cdf4;color:#2b6cb0;';
-            e.innerHTML='🔐 La creación de usuarios requiere privilegios de <strong>Administrador</strong>.<br>Esta funcionalidad estará disponible próximamente.';
-        });*/
-    }
-
-    async function _doLogin() {
-        if(_locked) return;
-        const user=document.getElementById('auth-user')?.value.trim();
-        const pass=document.getElementById('auth-pass')?.value;
-        const errorEl =document.getElementById('auth-error');
-        const attempEl=document.getElementById('auth-attempts-info');
-        const btnText =document.getElementById('auth-btn-text');
-        const btn     =document.getElementById('auth-btn-login');
-
-        if(!user||!pass){
-            errorEl.textContent='❌ Completa usuario y contraseña.';
-            errorEl.style.cssText='display:block;';
-            return;
-        }
-
-        if(btnText) btnText.textContent='Verificando...';
-        btn.disabled=true;
-
-        const result=await _verifyCredentials(user,pass);
-
-        if(result.ok){
-            _attempts=0;
-            _onLoginSuccess({username:result.username,role:result.role});
-        } else {
-            const blocked=_registerFailedAttempt();
-            if(!blocked){
-                errorEl.textContent=`❌ ${result.error||'Credenciales incorrectas.'}`;
-                errorEl.style.cssText='display:block;';
-                const remaining=CFG.MAX_ATTEMPTS-_attempts;
-                if(remaining<=2){
-                    attempEl.textContent=`⚠️ ${remaining} intento${remaining!==1?'s':''} restante${remaining!==1?'s':''} antes del bloqueo.`;
-                    attempEl.style.display='block';
-                }
-                const card=document.querySelector('.auth-card');
-                card?.classList.add('auth-shake');
-                setTimeout(()=>card?.classList.remove('auth-shake'),500);
-            }
-            if(btnText) btnText.textContent='Iniciar sesión';
-            btn.disabled=false;
-        }
-    }
-
-    function _onLoginSuccess(userData){
-        const card=document.querySelector('.auth-card');
-        card?.classList.add('auth-success-exit');
-        setTimeout(()=>{
-            _startSession(userData);
-            document.getElementById('auth-overlay')?.remove();
-            _registerActivityListeners();
-            if(_onLogin) _onLogin(userData);
-        },600);
-    }
-
-    // ── Actividad ─────────────────────────
-    function _registerActivityListeners(){
-        ['mousemove','keydown','click','scroll','touchstart'].forEach(e=>document.addEventListener(e,_onActivity,{passive:true}));
-    }
-    function _unregisterActivityListeners(){
-        ['mousemove','keydown','click','scroll','touchstart'].forEach(e=>document.removeEventListener(e,_onActivity));
-    }
-    let _lastActivity=0;
-    function _onActivity(){ const now=Date.now(); if(now-_lastActivity<10000) return; _lastActivity=now; _resetActivityTimer(); }
-
-    // ── API pública ───────────────────────
-    function showLogin(reason=''){
-        _unregisterActivityListeners();
-        _renderLoginModal(reason);
-    }
-
-    function init({onLogin,onLogout}={}){
-        _onLogin=onLogin||null; _onLogout=onLogout||null;
-        if(_isSessionValid()){ _scheduleTimers(); _registerActivityListeners(); if(_onLogin) _onLogin(_getSession()); return; }
-        showLogin();
-    }
-
-    function logout(){
-        const token=getToken();
-        if(token){ fetch(`${CFG.API_URL}/api/logout`,{method:'POST',headers:{Authorization:`Bearer ${token}`}}).catch(()=>{}); }
-        _clearSession(); _unregisterActivityListeners(); showLogin('logout'); if(_onLogout) _onLogout('logout');
-    }
-
-    function keepAlive(){ _resetActivityTimer(); const w=document.getElementById('auth-timeout-warn'); if(w) w.style.opacity='0'; }
-    function getSession(){ return _isSessionValid()?_getSession():null; }
-    function isAuthenticated(){ return _isSessionValid(); }
-
-    return { init, showLogin, logout, keepAlive, getSession, isAuthenticated, getToken };
-
-})();
-
-console.log('✅ Auth module cargado');

@@ -466,3 +466,48 @@
     font-size: 0.65rem;
     font-weight: 700;
 }
+/* ── Avatar de Usuario en Login ── */
+.auth-avatar-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 32px;
+    animation: auth-avatar-fade-in 0.8s ease-out;
+}
+
+.auth-avatar-svg {
+    width: 140px;
+    height: 140px;
+    filter: drop-shadow(0 8px 16px rgba(26, 58, 107, 0.15));
+    animation: auth-avatar-bounce 3s ease-in-out infinite;
+}
+
+@keyframes auth-avatar-fade-in {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes auth-avatar-bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .auth-avatar-svg {
+        width: 100px;
+        height: 100px;
+    }
+    .auth-avatar-container {
+        margin-bottom: 24px;
+    }
+}
