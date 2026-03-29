@@ -105,6 +105,11 @@ const Auth = (() => {
         overlay.innerHTML=`
         <div class="auth-bg"><div class="auth-particles" id="auth-particles"></div></div>
         <div class="auth-card" role="dialog" aria-modal="true">
+            <div class="auth-brand">
+                <div class="auth-brand-icon">📊</div>
+                <div class="auth-brand-name">StatAnalyzer Pro</div>
+                <div class="auth-brand-sub">Sistema de Análisis Estadístico · FDA 21 CFR Part 11</div>
+            </div>
             <div class="auth-avatar-container">
                 <svg class="auth-avatar-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
                     <!-- Círculo de fondo -->
@@ -116,11 +121,6 @@ const Auth = (() => {
                     <!-- Hombros/cuello -->
                     <rect x="48" y="55" width="24" height="5" fill="#1a3a6b" rx="2"/>
                 </svg>
-            </div>
-            <div class="auth-brand">
-                <div class="auth-brand-icon">📊</div>
-                <div class="auth-brand-name">StatAnalyzer Pro</div>
-                <div class="auth-brand-sub">Sistema de Análisis Estadístico · FDA 21 CFR Part 11</div>
             </div>
             ${reasonMsg?`<div class="auth-reason-msg">${reasonMsg}</div>`:''}
             <div id="auth-form-area">
