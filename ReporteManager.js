@@ -1191,6 +1191,7 @@ tr:hover td{background:#f7faff}
     }
     function collectMeta(){
         const g=id=>document.getElementById(id)?.value.trim()||'';
+        const gOrFallback=(id1,id2)=>document.getElementById(id1)?.value.trim()||document.getElementById(id2)?.value.trim()||'';
         return {
             organizacion:    g('rep-org'),
             departamento:    g('rep-dept'),
@@ -1198,7 +1199,7 @@ tr:hover td{background:#f7faff}
             descripcion:     document.getElementById('rep-descripcion')?.value.trim()||'',
             ensayo:          g('rep-ensayo'),
             modelo:          g('rep-modelo'),
-            serie:           g('rep-serie'),
+            serie:           gOrFallback('rep-serie','rep-serial'),
             marca:           g('rep-marca'),
             protocolo:       g('rep-proto'),
             fase:            g('rep-fase'),
