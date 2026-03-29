@@ -19,6 +19,30 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 29 de Marzo 2026 - Formato HTML como predefinido en Reportes
+
+**Cambio:** HTML establecido como formato de descarga predeterminado + soporte PDF
+- **Archivo:** `ReporteManager.js`
+- **Razón:** HTML permite visualización inmediata y conversión a PDF desde navegador
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Checkbox HTML marcado por defecto (antes era TXT)
+- Badge "Recomendado" movido de TXT a HTML
+- Nuevo formato PDF agregado (abre ventana de impresión)
+- Orden de formatos: HTML → PDF → TXT → CSV
+- Event listeners actualizados para incluir PDF
+- Contador de formatos actualizado
+
+**Funcionalidad PDF:**
+- Abre ventana nueva con el reporte HTML
+- Ejecuta `window.print()` automáticamente
+- Usuario puede guardar como PDF desde el diálogo del navegador
+
+**Estadísticas:** ~15 líneas modificadas, 1 archivo modificado
+
+---
+
 ### 29 de Marzo 2026 - I18N: Explicaciones WHY en español para ReporteManager
 
 **Cambio:** Recuperadas 6 explicaciones regulatorias `_why` desde ReporteManager.js.backup

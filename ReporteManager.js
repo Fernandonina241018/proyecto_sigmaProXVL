@@ -123,6 +123,7 @@ const ReporteManager = (() => {
             ui_txtDesc:     'Structured FDA 21 CFR Part 11 report. Numbered sections, ASCII borders, traceability hash.',
             ui_csvDesc:     'Pipe-delimited (|). Compatible with SAS PROC IMPORT and R read.table. Metadata in commented header.',
             ui_htmlDesc:    'Visual report with cover, tables and signatures. Open in browser → Ctrl+P → Save as PDF.',
+            ui_pdfDesc:     'Report in PDF format ready to print. Generated from HTML report.',
             ui_alertDownload:(fmts,base,html) => `✅ Download started\n\nFormats: ${fmts}\nFile: ${base}${html?'\n\nThe .html file can be printed as PDF from the browser.':''}`,
             ui_alertNoFmt:  '⚠️ Select at least one download format.',
             html_cover_logo:'StatAnalyzer Pro · Statistical Report',
@@ -280,6 +281,7 @@ const ReporteManager = (() => {
             ui_txtDesc:     'Reporte estructurado FDA 21 CFR Part 11. Secciones numeradas, bordes ASCII, hash de trazabilidad.',
             ui_csvDesc:     'Delimitado por pipes (|). Compatible con SAS PROC IMPORT y R read.table. Metadatos en cabecera comentada.',
             ui_htmlDesc:    'Reporte visual con portada, tablas y firmas. Abre en navegador → Ctrl+P → Guardar como PDF.',
+            ui_pdfDesc:     'Reporte en formato PDF listo para imprimir. Se genera a partir del reporte HTML.',
             ui_alertDownload:(fmts,base,html) => `✅ Descarga iniciada\n\nFormatos: ${fmts}\nArchivo: ${base}${html?'\n\nEl archivo .html puede imprimirse como PDF desde el navegador.':''}`,
             ui_alertNoFmt:  '⚠️ Selecciona al menos un formato de descarga.',
             html_cover_logo:'StatAnalyzer Pro · Reporte Estadístico',
@@ -904,9 +906,10 @@ tr:hover td{background:#f7faff}
         const hash=generateHash(meta,resultados);
         const base=`RPT-${hash}_${new Date().toISOString().slice(0,10)}`;
         let delay=0;
+        if(formatos.includes('html')){setTimeout(()=>downloadBlob(generarHTML(resultados,meta),`${base}.html`,'text/html;charset=utf-8'),delay);delay+=350;}
+        if(formatos.includes('pdf')){setTimeout(()=>{const html=generarHTML(resultados,meta);const w=window.open('','_blank');w.document.write(html);w.document.close();w.print();},delay);delay+=350;}
         if(formatos.includes('txt')){setTimeout(()=>downloadBlob(generarTXT(resultados,meta),`${base}.txt`,'text/plain;charset=utf-8'),delay);delay+=350;}
-        if(formatos.includes('csv')){setTimeout(()=>downloadBlob(generarCSV(resultados,meta),`${base}.csv`,'text/csv;charset=utf-8'),delay);delay+=350;}
-        if(formatos.includes('html')){setTimeout(()=>downloadBlob(generarHTML(resultados,meta),`${base}.html`,'text/html;charset=utf-8'),delay);}
+        if(formatos.includes('csv')){setTimeout(()=>downloadBlob(generarCSV(resultados,meta),`${base}.csv`,'text/csv;charset=utf-8'),delay);}
         return {base,formatos};
     }
 
@@ -1092,12 +1095,34 @@ tr:hover td{background:#f7faff}
               <p class="rep-format-hint">${t('ui_formatHint')}</p>
 
               <div class="rep-format-list">
-                <label class="rep-format-item" id="fmt-txt-wrap">
-                  <input type="checkbox" id="fmt-txt" value="txt" checked>
+                <label class="rep-format-item" id="fmt-html-wrap">
+                  <input type="checkbox" id="fmt-html" value="html" checked>
+                  <div class="rep-format-body">
+                    <div class="rep-format-icon">🌐</div>
+                    <div class="rep-format-info">
+                      <div class="rep-format-name">.HTML <span class="rep-fmt-badge-recommended">${t('ui_recommended')}</span> <span class="rep-fmt-badge-pdf">${t('ui_pdfReady')}</span></div>
+                      <div class="rep-format-desc">${t('ui_htmlDesc')}</div>
+                    </div>
+                    <div class="rep-format-checkmark">✓</div>
+                  </div>
+                </label>
+                <label class="rep-format-item" id="fmt-pdf-wrap">
+                  <input type="checkbox" id="fmt-pdf" value="pdf">
                   <div class="rep-format-body">
                     <div class="rep-format-icon">📄</div>
                     <div class="rep-format-info">
-                      <div class="rep-format-name">.TXT <span class="rep-fmt-badge-recommended">${t('ui_recommended')}</span></div>
+                      <div class="rep-format-name">.PDF</div>
+                      <div class="rep-format-desc">${t('ui_pdfDesc') || 'Reporte en formato PDF listo para imprimir.'}</div>
+                    </div>
+                    <div class="rep-format-checkmark">✓</div>
+                  </div>
+                </label>
+                <label class="rep-format-item" id="fmt-txt-wrap">
+                  <input type="checkbox" id="fmt-txt" value="txt">
+                  <div class="rep-format-body">
+                    <div class="rep-format-icon">📄</div>
+                    <div class="rep-format-info">
+                      <div class="rep-format-name">.TXT</div>
                       <div class="rep-format-desc">${t('ui_txtDesc')}</div>
                     </div>
                     <div class="rep-format-checkmark">✓</div>
@@ -1110,17 +1135,6 @@ tr:hover td{background:#f7faff}
                     <div class="rep-format-info">
                       <div class="rep-format-name">.CSV</div>
                       <div class="rep-format-desc">${t('ui_csvDesc')}</div>
-                    </div>
-                    <div class="rep-format-checkmark">✓</div>
-                  </div>
-                </label>
-                <label class="rep-format-item" id="fmt-html-wrap">
-                  <input type="checkbox" id="fmt-html" value="html">
-                  <div class="rep-format-body">
-                    <div class="rep-format-icon">🌐</div>
-                    <div class="rep-format-info">
-                      <div class="rep-format-name">.HTML <span class="rep-fmt-badge-pdf">${t('ui_pdfReady')}</span></div>
-                      <div class="rep-format-desc">${t('ui_htmlDesc')}</div>
                     </div>
                     <div class="rep-format-checkmark">✓</div>
                   </div>
@@ -1148,7 +1162,7 @@ tr:hover td{background:#f7faff}
         </div>`;
 
         // ── Checkboxes ──
-        ['txt','csv','html'].forEach(fmt=>{
+        ['html','pdf','txt','csv'].forEach(fmt=>{
             const cb=document.getElementById(`fmt-${fmt}`);
             const wrap=document.getElementById(`fmt-${fmt}-wrap`);
             if(!cb||!wrap)return;
@@ -1182,7 +1196,7 @@ tr:hover td{background:#f7faff}
         // ── Botón descargar ──
         document.getElementById('rep-btn-download')?.addEventListener('click',()=>{
             if(!tieneRes)return;
-            const formatos=['txt','csv','html'].filter(f=>document.getElementById(`fmt-${f}`)?.checked);
+            const formatos=['html','pdf','txt','csv'].filter(f=>document.getElementById(`fmt-${f}`)?.checked);
             if(!formatos.length){alert(t('ui_alertNoFmt'));return;}
             const meta=collectMeta();
             const result=descargar(formatos,resultados,meta);
@@ -1196,7 +1210,7 @@ tr:hover td{background:#f7faff}
 
     function updateFormatWrap(wrap,checked){wrap.classList.toggle('rep-format-active',checked);}
     function updateFmtCount(){
-        const n=['txt','csv','html'].filter(f=>document.getElementById(`fmt-${f}`)?.checked).length;
+        const n=['html','pdf','txt','csv'].filter(f=>document.getElementById(`fmt-${f}`)?.checked).length;
         const el=document.getElementById('rep-fmt-count');
         if(el)el.textContent=t('ui_formatCount',n);
     }
