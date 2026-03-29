@@ -300,11 +300,22 @@ const ReporteManager = (() => {
             html_flagsGlobal:(n) => `⚠ ${n} alerta(s) automática(s) detectada(s):`,
             html_auditMeta: 'METADATOS DE AUDITORÍA',
             html_method_v:  'Varianza y DE',            html_method_v_d:'Corrección de Bessel (n-1).',
+            html_method_v_why:'Cuantifica la dispersión de los datos respecto a la media. Una DE alta indica baja reproducibilidad del proceso; es el indicador principal de variabilidad en validaciones analíticas y control de calidad.',
+
             html_method_p:  'Interpolación Percentiles',html_method_p_d:'Interpolación lineal (NIST).',
+            html_method_p_why:'Permite identificar la distribución real de los datos sin asumir normalidad. P25, P50 y P75 revelan asimetrías y son fundamentales para especificaciones de límites de aceptación en procesos regulados.',
+
             html_method_o:  'Detección Valores Atípicos',
+            html_method_o_why:'Los outliers pueden distorsionar todos los estadísticos de tendencia central y dispersión. Su identificación temprana es crítica para decidir si un dato es un error de medición, una contaminación o una señal de proceso fuera de control.',
+
             html_method_s:  'Asimetría',               html_method_s_d:'Coeficiente de Pearson (2do).',
+            html_method_s_why:'Una distribución asimétrica indica que la media no representa bien al conjunto. En datos de pureza, concentración o tiempo de disolución, la asimetría puede revelar problemas sistemáticos en el proceso de manufactura.',
+
             html_method_cv: 'Umbrales CV',
+            html_method_cv_why:'El Coeficiente de Variación normaliza la dispersión respecto a la magnitud de la media, permitiendo comparar variabilidad entre columnas con diferentes unidades o escalas. CV > 30% suele indicar proceso fuera de control.',
+
             html_method_sig:'Significancia',
+            html_method_sig_why:'El nivel α = 0.05 define el umbral de error tipo I aceptable. Establece con qué certeza se puede rechazar una hipótesis nula, siendo el estándar internacional en ensayos clínicos (ICH E9) y validaciones de métodos analíticos.',
             html_execSummary:(ds,rows,cols,std) => `Dataset <strong>"${ds}"</strong> · <strong>${rows}</strong> observaciones · <strong>${cols}</strong> variable(s) numérica(s) · ${std}.`,
             statRefs: {
                 'Media Aritmética':   'Tendencia central',

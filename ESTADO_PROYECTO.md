@@ -19,6 +19,25 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 29 de Marzo 2026 - I18N: Explicaciones WHY en español para ReporteManager
+
+**Cambio:** Recuperadas 6 explicaciones regulatorias `_why` desde ReporteManager.js.backup
+- **Archivo:** `ReporteManager.js`
+- **Razón:** Las claves `_why` existían en inglés pero faltaban en la sección española del I18N
+- **Estado:** ✅ COMPLETADO
+
+**Claves agregadas:**
+- `html_method_v_why` - Varianza/DE: variabilidad en validaciones analíticas
+- `html_method_p_why` - Percentiles: límites de aceptación en procesos regulados
+- `html_method_o_why` - Outliers: detección de errores o procesos fuera de control
+- `html_method_s_why` - Asimetría: problemas sistemáticos en manufactura
+- `html_method_cv_why` - CV: comparar variabilidad entre escalas (CV>30%=fuera de control)
+- `html_method_sig_why` - Significancia: α=0.05 estándar ICH E9
+
+**Estadísticas:** +12 líneas agregadas, 1 archivo modificado
+
+---
+
 ### 28 de Marzo 2026 - Expansión de Estadística Descriptiva
 
 **Cambio:** Implementadas 5 nuevas funcionalidades estadísticas avanzadas
