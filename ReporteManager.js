@@ -526,9 +526,74 @@ const ReporteManager = (() => {
 
         });
         p(singleLine(W)); p(`  ${t('sec5')}`); p(singleLine(W));
-        p(`  ${t('variance')}`);p(`  ${t('percentiles')}`);
-        p(`  ${t('outliers',FLAGS.OUTLIER_IQR)}`);p(`  ${t('cvFlags',FLAGS.CV_HIGH,FLAGS.CV_VERY_HIGH)}`);
-        p(`  ${t('alpha',REGULATORY.alphaLevel,REGULATORY.ciLevel)}`);p('');
+        const txtStatsInfo = {
+          'Media Aritmética': {
+            name: lang === 'es' ? 'Media Aritmética' : 'Arithmetic Mean',
+            desc: lang === 'es' ? 'Suma de valores / n observaciones' : 'Sum of values / n observations',
+            formula: 'x̄ = Σxᵢ / n'
+          },
+          'Mediana y Moda': {
+            name: lang === 'es' ? 'Mediana' : 'Median',
+            desc: lang === 'es' ? 'Valor central de datos ordenados' : 'Central value of sorted data',
+            formula: lang === 'es' ? 'Si n impar: x₍(n+1)/2₎ · Si n par: (x₍n/2₎ + x₍n/2+1₎) / 2' : 'If n odd: x₍(n+1)/2₎ · If n even: (x₍n/2₎ + x₍n/2+1₎) / 2'
+          },
+          'Desviación Estándar': {
+            name: lang === 'es' ? 'Desviación Estándar' : 'Standard Deviation',
+            desc: lang === 'es' ? 'Raíz cuadrada de la varianza' : 'Square root of variance',
+            formula: 's = √[Σ(xᵢ - x̄)² / (n-1)]'
+          },
+          'Varianza': {
+            name: lang === 'es' ? 'Varianza' : 'Variance',
+            desc: lang === 'es' ? 'Cuadrado de la desviación estándar' : 'Square of standard deviation',
+            formula: 's² = Σ(xᵢ - x̄)² / (n-1)'
+          },
+          'Percentiles': {
+            name: lang === 'es' ? 'Percentiles' : 'Percentiles',
+            desc: lang === 'es' ? 'Valores que dividen la distribución en 100 partes' : 'Values dividing distribution into 100 parts',
+            formula: lang === 'es' ? 'Posición = (p/100) × (n+1)' : 'Position = (p/100) × (n+1)'
+          },
+          'Rango y Amplitud': {
+            name: lang === 'es' ? 'Rango' : 'Range',
+            desc: lang === 'es' ? 'Diferencia entre máximo y mínimo' : 'Difference between max and min',
+            formula: 'R = xₘₐₓ - xₘᵢₙ'
+          },
+          'Asimetría (Skewness)': {
+            name: lang === 'es' ? 'Asimetría' : 'Skewness',
+            desc: lang === 'es' ? 'Falta de simetría de la distribución' : 'Distribution asymmetry',
+            formula: 'g₁ = [Σ(xᵢ - x̄)³ / n] / s³'
+          },
+          'Curtosis (Kurtosis)': {
+            name: lang === 'es' ? 'Curtosis' : 'Kurtosis',
+            desc: lang === 'es' ? 'Apuntamiento de la distribución' : 'Distribution peakedness',
+            formula: 'g₂ = [Σ(xᵢ - x̄)⁴ / n] / s⁴ - 3'
+          },
+          'Error Estándar': {
+            name: lang === 'es' ? 'Error Estándar' : 'Standard Error',
+            desc: lang === 'es' ? 'Variabilidad de la media muestral' : 'Sample mean variability',
+            formula: 'SE = s / √n'
+          },
+          'Intervalos de Confianza': {
+            name: lang === 'es' ? 'Intervalos de Confianza' : 'Confidence Intervals',
+            desc: lang === 'es' ? 'Rango del parámetro poblacional' : 'Population parameter range',
+            formula: 'IC = x̄ ± t(α/2, n-1) × SE'
+          },
+          'Detección de Outliers': {
+            name: lang === 'es' ? 'Detección de Outliers' : 'Outlier Detection',
+            desc: lang === 'es' ? 'Identifica valores atípicos (IQR)' : 'Identifies outliers (IQR)',
+            formula: lang === 'es' ? '[Q1-1.5×IQR, Q3+1.5×IQR]' : '[Q1-1.5×IQR, Q3+1.5×IQR]'
+          }
+        };
+        const usedTxtStats = resultados.estadisticos || [];
+        usedTxtStats.forEach(stat => {
+          const info = txtStatsInfo[stat];
+          if (info) {
+            p('');
+            p(`  ${info.name}`);
+            p(`    ${info.desc}`);
+            p(`    Fórmula: ${info.formula}`);
+          }
+        });
+        p('');
         p(singleLine(W)); p(`  ${t('sec6')} (21 CFR Part 11)`); p(singleLine(W));
         [[t('preparedBy'),'preparedBy','preparedTitle','preparedDate'],
          [t('reviewedBy'),'reviewedBy','reviewedTitle','reviewedDate'],
@@ -830,12 +895,76 @@ tr:hover td{background:#f7faff}
   <div class="sec">
     <div class="sec-title"><span class="sec-num">05</span>${t('html_sec5')}</div>
     <div class="method-grid">
-      <div class="mi"><h4>${t('html_method_v')}</h4><p>${t('html_method_v_d')}</p><code>s² = Σ(xᵢ - x̄)² / (n-1)</code></div>
-      <div class="mi"><h4>${t('html_method_p')}</h4><p>${t('html_method_p_d')}</p><code>i = k/100 × (n-1)</code></div>
-      <div class="mi"><h4>${t('html_method_o')}</h4><p>Q1−${FLAGS.OUTLIER_IQR}×IQR / Q3+${FLAGS.OUTLIER_IQR}×IQR.</p></div>
-      <div class="mi"><h4>${t('html_method_s')}</h4><p>${t('html_method_s_d')}</p><code>g = 3(x̄−mediana)/s</code></div>
-      <div class="mi"><h4>${t('html_method_cv')}</h4><p>&gt;${FLAGS.CV_HIGH}% ${lang==='es'?'alto':'high'} · &gt;${FLAGS.CV_VERY_HIGH}% ${lang==='es'?'extremo':'extreme'}</p></div>
-      <div class="mi"><h4>${t('html_method_sig')}</h4><p>α=${REGULATORY.alphaLevel} · IC=${REGULATORY.ciLevel}</p></div>
+      ${(() => {
+        const statsInfo = {
+          'Media Aritmética': {
+            title: lang === 'es' ? 'Media Aritmética' : 'Arithmetic Mean',
+            desc: lang === 'es' ? 'Suma de todos los valores dividida entre el número de observaciones. Representa el centro de la distribución.' : 'Sum of all values divided by the number of observations. Represents the center of the distribution.',
+            formula: 'x̄ = Σxᵢ / n'
+          },
+          'Mediana y Moda': {
+            title: lang === 'es' ? 'Mediana' : 'Median',
+            desc: lang === 'es' ? 'Valor que divide los datos ordenados en dos mitades iguales. Robusto ante valores atípicos.' : 'Value that divides sorted data into two equal halves. Robust against outliers.',
+            formula: lang === 'es' ? 'Si n impar: x₍(n+1)/2₎ · Si n par: (x₍n/2₎ + x₍n/2+1₎) / 2' : 'If n odd: x₍(n+1)/2₎ · If n even: (x₍n/2₎ + x₍n/2+1₎) / 2'
+          },
+          'Desviación Estándar': {
+            title: lang === 'es' ? 'Desviación Estándar' : 'Standard Deviation',
+            desc: lang === 'es' ? 'Cuantifica la dispersión de los datos respecto a la media. Una DE alta indica baja reproducibilidad del proceso.' : 'Quantifies data dispersion around the mean. A high SD indicates low process reproducibility.',
+            formula: 's = √[Σ(xᵢ - x̄)² / (n-1)]'
+          },
+          'Varianza': {
+            title: lang === 'es' ? 'Varianza' : 'Variance',
+            desc: lang === 'es' ? 'Cuadrado de la desviación estándar. Mide la variabilidad total de los datos.' : 'Square of the standard deviation. Measures total data variability.',
+            formula: 's² = Σ(xᵢ - x̄)² / (n-1)'
+          },
+          'Percentiles': {
+            title: lang === 'es' ? 'Percentiles' : 'Percentiles',
+            desc: lang === 'es' ? 'Valores que dividen la distribución en 100 partes iguales. P25, P50 y P75 definen los cuartiles.' : 'Values that divide the distribution into 100 equal parts. P25, P50 and P75 define the quartiles.',
+            formula: lang === 'es' ? 'Posición = (p/100) × (n+1) · Interpolación lineal' : 'Position = (p/100) × (n+1) · Linear interpolation'
+          },
+          'Rango y Amplitud': {
+            title: lang === 'es' ? 'Rango y Amplitud' : 'Range',
+            desc: lang === 'es' ? 'Diferencia entre el valor máximo y mínimo. Indica la extensión total de los datos.' : 'Difference between maximum and minimum values. Indicates total data extent.',
+            formula: 'R = xₘₐₓ - xₘᵢₙ'
+          },
+          'Asimetría (Skewness)': {
+            title: lang === 'es' ? 'Asimetría (Skewness)' : 'Skewness',
+            desc: lang === 'es' ? 'Mide la falta de simetría de la distribución. Valores positivos indican cola derecha, negativos cola izquierda.' : 'Measures distribution asymmetry. Positive values indicate right tail, negative left tail.',
+            formula: 'g₁ = [Σ(xᵢ - x̄)³ / n] / s³'
+          },
+          'Curtosis (Kurtosis)': {
+            title: lang === 'es' ? 'Curtosis (Kurtosis)' : 'Kurtosis',
+            desc: lang === 'es' ? 'Mide el apuntamiento de la distribución. Valores > 0 indican colas pesadas (leptocúrtica).' : 'Measures distribution peakedness. Values > 0 indicate heavy tails (leptokurtic).',
+            formula: 'g₂ = [Σ(xᵢ - x̄)⁴ / n] / s⁴ - 3'
+          },
+          'Error Estándar': {
+            title: lang === 'es' ? 'Error Estándar' : 'Standard Error',
+            desc: lang === 'es' ? 'Estimación de la variabilidad de la media muestral. Base para intervalos de confianza.' : 'Estimates sample mean variability. Basis for confidence intervals.',
+            formula: 'SE = s / √n'
+          },
+          'Intervalos de Confianza': {
+            title: lang === 'es' ? 'Intervalos de Confianza' : 'Confidence Intervals',
+            desc: lang === 'es' ? 'Rango donde se espera que esté el verdadero parámetro poblacional con cierto nivel de confianza.' : 'Range where the true population parameter is expected to be with a certain confidence level.',
+            formula: 'IC = x̄ ± t(α/2, n-1) × SE'
+          },
+          'Detección de Outliers': {
+            title: lang === 'es' ? 'Detección de Outliers' : 'Outlier Detection',
+            desc: lang === 'es' ? 'Identifica valores atípicos usando el método IQR (rango intercuartílico). Outliers están fuera de [Q1-1.5×IQR, Q3+1.5×IQR].' : 'Identifies outliers using IQR method. Outliers are outside [Q1-1.5×IQR, Q3+1.5×IQR].',
+            formula: lang === 'es' ? 'Límites: Q1 - 1.5×IQR y Q3 + 1.5×IQR donde IQR = Q3 - Q1' : 'Limits: Q1 - 1.5×IQR and Q3 + 1.5×IQR where IQR = Q3 - Q1'
+          }
+        };
+        
+        const usedStats = resultados.estadisticos || [];
+        const methodItems = usedStats
+          .filter(stat => statsInfo[stat])
+          .map(stat => {
+            const info = statsInfo[stat];
+            return `<div class="mi"><h4>${info.title}</h4><p>${info.desc}</p><code>${info.formula}</code></div>`;
+          })
+          .join('');
+        
+        return methodItems || `<div class="mi"><p>${lang === 'es' ? 'No se seleccionaron estadísticos para el análisis.' : 'No statistics selected for analysis.'}</p></div>`;
+      })()}
     </div>
   </div>
   <div class="sec">

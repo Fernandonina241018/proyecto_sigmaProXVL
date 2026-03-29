@@ -19,6 +19,36 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 29 de Marzo 2026 - Sección de Notas Metodológicas dinámica
+
+**Cambio:** Sección de notas metodológicas ahora se adapta a los estadísticos usados en el análisis
+- **Archivos:** `ReporteManager.js`
+- **Razón:** Mostrar solo información relevante según los estadísticos seleccionados
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- HTML: Sección dinámica que muestra solo estadísticos usados
+- TXT: Sección dinámica con descripción y fórmula de cada estadístico
+- 11 estadísticos soportados con descripción bilingüe y fórmulas
+- Cada estadístico incluye: nombre, explicación y fórmula matemática
+
+**Estadísticos soportados:**
+1. Media Aritmética (x̄ = Σxᵢ / n)
+2. Mediana (valor central)
+3. Desviación Estándar (s = √[Σ(xᵢ - x̄)² / (n-1)])
+4. Varianza (s² = Σ(xᵢ - x̄)² / (n-1))
+5. Percentiles (interpolación lineal)
+6. Rango y Amplitud (R = xₘₐₓ - xₘᵢₙ)
+7. Asimetría (g₁ = [Σ(xᵢ - x̄)³ / n] / s³)
+8. Curtosis (g₂ = [Σ(xᵢ - x̄)⁴ / n] / s⁴ - 3)
+9. Error Estándar (SE = s / √n)
+10. Intervalos de Confianza (IC = x̄ ± t(α/2, n-1) × SE)
+11. Detección de Outliers ([Q1-1.5×IQR, Q3+1.5×IQR])
+
+**Estadísticas:** +120 líneas, 1 archivo modificado
+
+---
+
 ### 29 de Marzo 2026 - Firmas electrónicas: Campos vacíos en lugar de "Pendiente"
 
 **Cambio:** Eliminado texto "Pendiente"/"Pending" de firmas electrónicas no completadas
