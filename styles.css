@@ -1567,14 +1567,14 @@ body {
 
 /* ── Estado colapsado ── */
 .stats-menu.sidebar-collapsed {
-    width: 36px !important;
-    min-width: 36px !important;
+    width: 50px !important;
+    min-width: 50px !important;
     padding: 0 !important;
 }
 
 .active-sidebar.sidebar-collapsed {
-    width: 36px !important;
-    min-width: 36px !important;
+    width: 50px !important;
+    min-width: 50px !important;
     padding: 0 !important;
 }
 
@@ -1601,7 +1601,7 @@ body {
     transform: rotate(180deg);
     font-size: 10px;
     font-weight: 600;
-    color: #888;
+    color: #000000;
     letter-spacing: 0.08em;
     white-space: nowrap;
     text-align: center;
