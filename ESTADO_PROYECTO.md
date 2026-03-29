@@ -19,21 +19,73 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
-### 28 de Marzo 2026 - Eliminación del botón "Crear nuevo usuario"
+### 28 de Marzo 2026 - Expansión de Estadística Descriptiva
 
-**Cambio:** Eliminado botón de crear nuevo usuario del formulario de login
-- **Archivo:** `auth.js`
-- **Líneas eliminadas:** 138-139 (HTML), 186-191 (Event listener)
-- **Razón:** Simplificar interfaz de login
+**Cambio:** Implementadas 5 nuevas funcionalidades estadísticas avanzadas
+- **Archivos:** `EstadisticaDescriptiva.js`, `index.html`, `script.js`
+- **Funciones Agregadas:** 5 nuevas (Asimetría, Curtosis, Error Estándar, IC, Outliers)
+- **Opciones en Navbar:** +5 nuevas opciones en sección "Estadística Descriptiva"
 - **Estado:** ✅ COMPLETADO
-- **Detalles:**
-  - Eliminada línea divisor: `<div class="auth-divider"><span>o</span></div>`
-  - Eliminado botón: `<button class="auth-btn-create" id="auth-btn-create"...`
-  - Eliminado listener: `document.getElementById('auth-btn-create')?.addEventListener...`
-  - CSS no eliminado (puede ser limpiado después si es necesario)
+- **Commit:** `1d905c9`
+
+**Detalles:**
+
+**1. Asimetría (Skewness)**
+  - Función: `calcularAsimetria(values, esMuestral)`
+  - Detecta distribuciones simétricas vs. sesgadas
+  - Fórmula: Σ[(xᵢ - x̄)³] / (n × s³)
+
+**2. Curtosis (Kurtosis)**
+  - Función: `calcularCurtosis(values, esMuestral)`
+  - Mide apuntamiento de la distribución
+  - Fórmula: [Σ(xᵢ - x̄)⁴ / (n × s⁴)] - 3
+
+**3. Error Estándar**
+  - Función: `calcularErrorEstandar(values)`
+  - Cálculo: SE = σ / √n
+  - Base para Intervalos de Confianza
+
+**4. Intervalos de Confianza**
+  - Función: `calcularIntervalosConfianza(values)`
+  - Niveles: 90%, 95%, 99%
+  - Método: t-student para muestras pequeñas
+  - Retorna: {inferior, superior, margen}
+
+**5. Detección de Outliers (2 Métodos)**
+  - IQR: `detectarOutliersIQR(values)` - Rango: [Q1 - 1.5×IQR, Q3 + 1.5×IQR]
+  - Z-Score: `detectarOutliersZScore(values, umbral)` - Umbral: |z| > 3
+
+**Navbar Actualizado:**
+  - ✅ Media Aritmética
+  - ✅ Mediana y Moda
+  - ✅ Desviación Estándar
+  - ✅ Varianza
+  - ✅ Percentiles
+  - ✅ Rango y Amplitud
+  - ✨ Asimetría (Skewness) ← NUEVO
+  - ✨ Curtosis (Kurtosis) ← NUEVO
+  - ✨ Error Estándar ← NUEVO
+  - ✨ Intervalos de Confianza ← NUEVO
+  - ✨ Detección de Outliers ← NUEVO
+
+**Estadísticas:** +231 líneas de código, 3 archivos modificados
 
 ---
 
+### 28 de Marzo 2026 - UI Mejorada: Avatar de Usuario en Login
+
+**Cambio:** Eliminado botón "Crear nuevo usuario" y agregado avatar SVG
+- **Archivo:** `auth.js`, `auth.css`
+- **Razón:** Simplificar interfaz de login y mejorar UX
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Avatar SVG: Silueta de usuario (140x140px)
+- Animaciones: Fade-in + bounce continuo
+- Posición: DESPUÉS del branding (StatAnalyzer Pro)
+- Estilos: Colores coordinados, responsive para móviles
+
+---
 
 ---
 
@@ -63,7 +115,7 @@
 |---|---|---|
 | Autenticación JWT | ✅ Completo | Login/logout seguro con tokens |
 | Gestión de Datos | ✅ Completo | Importar CSV, JSON, TXT; edición directa |
-| Estadística Descriptiva | ✅ Completo | 13 métricas estadísticas |
+| Estadística Descriptiva | ✅ Completo | 18 métricas (básicas + avanzadas: asimetría, curtosis, IC, outliers) |
 | Visualización | ✅ Completo | 6 tipos de gráficos |
 | Generación de Reportes | ✅ Completo | HTML, PDF, CSV, TXT |
 | Control de Acceso (RBAC) | ✅ Completo | 7 roles con permisos granulares |
