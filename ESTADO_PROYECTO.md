@@ -19,6 +19,28 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 29 de Marzo 2026 - Corregir visualización de pruebas de hipótesis en vista y reportes
+
+**Cambio:** Las pruebas de hipótesis ahora se muestran correctamente en la vista de análisis y en los reportes
+- **Archivos:** `EstadisticaDescriptiva.js`, `ReporteManager.js`
+- **Razón:** Las pruebas de hipótesis (ANOVA, Chi-Cuadrado, T-Test) no se mostraban porque la función kpiCards intentaba acceder a data[column] pero la estructura de datos es diferente
+- **Estado:** ✅ COMPLETADO
+- **Commit:** `d85a8a8` - fix: corregir visualización de pruebas de hipótesis en vista y reportes
+
+**Detalles:**
+- Vista de análisis: Agregada función hypothesisKpiCards para mostrar resultados de hipótesis
+- Reporte HTML: Agregada sección 05B para pruebas de hipótesis con tabla de resultados
+- Reporte TXT: Agregada sección de pruebas de hipótesis con formato legible
+- Corregida variable lang en función generarTXT
+
+**Archivos modificados:**
+1. `EstadisticaDescriptiva.js` (+138 líneas) - hypothesisKpiCards, modificación de kpiCards
+2. `ReporteManager.js` (+92 líneas) - Sección 05B HTML, sección hipótesis TXT, corrección lang
+
+**Estadísticas:** +230 líneas, 2 archivos modificados
+
+---
+
 ### 29 de Marzo 2026 - Modal de configuración para pruebas de hipótesis con selección de grupos
 
 **Cambio:** Implementación de modal de configuración para pruebas de hipótesis que requieren columnas categóricas
