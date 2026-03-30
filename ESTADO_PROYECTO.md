@@ -19,6 +19,25 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 29 de Marzo 2026 - Fix: Iconos de sidebar no aparecían al colapsar
+
+**Cambio:** Corregido bug que impedía que los iconos con badges en sidebars colapsados fueran visibles
+- **Archivos:** `styles.css`
+- **Razón:** La regla CSS que oculta el contenido al colapsar (`opacity: 0`) no tenía a `.sidebar-icons-container` en sus excepciones, por lo que los iconos se generaban correctamente pero permanecían invisibles
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Línea 1835-1836: Agregada excepción `:not(.sidebar-icons-container)` a la regla que oculta hijos del sidebar colapsado
+- Antes: `.stats-menu.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label)` aplicaba `opacity: 0` a todo, incluyendo los iconos
+- Ahora: `.sidebar-icons-container` se excluye de esa regla y los iconos son visibles cuando el sidebar está colapsado
+
+**Archivos modificados:**
+1. `styles.css` (+2, -2 líneas) - Excepción de CSS agregada
+
+**Estadísticas:** 1 archivo modificado
+
+---
+
 ### 29 de Marzo 2026 - Iconos con badges en sidebars colapsados (Modelo E)
 
 **Cambio:** Los sidebars colapsados ahora muestran iconos representativos con badges numéricos indicando la cantidad de elementos seleccionados

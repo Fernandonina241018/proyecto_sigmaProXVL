@@ -1832,8 +1832,8 @@ body {
 }
 
 /* Ocultar contenido interno al colapsar */
-.stats-menu.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label),
-.active-sidebar.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label) {
+.stats-menu.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label):not(.sidebar-icons-container),
+.active-sidebar.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label):not(.sidebar-icons-container) {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease;
