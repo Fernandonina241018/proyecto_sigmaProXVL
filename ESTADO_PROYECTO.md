@@ -19,23 +19,6 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
-### 30 de Marzo 2026 - 6 iconos en sidebar en lugar de 3
-
-**Cambio:** Completado SIDEBAR_SECTIONS con las 6 secciones del sidebar
-- **Archivos:** `script.js`
-- **Razón:** Solo se mostraban 3 iconos porque faltaban 3 secciones en la definición
-- **Estado:** ✅ COMPLETADO
-
-**Detalles:**
-- Agregadas secciones: No Paramétricos, Multivariado, Extras
-- Completada sección Correlación con todas las opciones de regresión
-- Total: 6 secciones = 6 iconos en sidebar colapsado
-
-**Archivos modificados:**
-1. `script.js` - Líneas 1714-1760 (SIDEBAR_SECTIONS)
-
----
-
 ### 30 de Marzo 2026 - Nombres de columnas con letras estilo Excel
 
 **Cambio:** Las nuevas columnas ahora se nombran con letras (A, B, C, ..., Z, AA, AB, ...) en lugar de C1, C2, C3...

@@ -1734,31 +1734,7 @@ const SIDEBAR_SECTIONS = {
         icon: '📈',
         label: 'Correlación',
         options: [
-            'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple',
-            'Regresión Lineal Múltiple', 'Regresión Logística', 'Regresión Polinomial'
-        ]
-    },
-    noParametricos: {
-        icon: '🔬',
-        label: 'No Paramétricos',
-        options: [
-            'Mann-Whitney U', 'Wilcoxon', 'Kruskal-Wallis', 'Friedman', 'Test de Signos'
-        ]
-    },
-    multivariado: {
-        icon: '🎯',
-        label: 'Multivariado',
-        options: [
-            'PCA (Componentes Principales)', 'Análisis Factorial', 'Análisis de Cluster',
-            'Análisis Discriminante', 'M-ANOVA'
-        ]
-    },
-    extras: {
-        icon: '✨',
-        label: 'Extras',
-        options: [
-            'Series Temporales', 'Bootstrap', 'Análisis de Supervivencia',
-            'Modelos Mixtos', 'Análisis Bayesiano'
+            'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple'
         ]
     }
 };
