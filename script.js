@@ -1942,61 +1942,7 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Backward compatibility - mantener función anterior
-    // Contenedor de iconos para sidebar izquierdo
-    const leftIcons = document.createElement('div');
-    leftIcons.className = 'sidebar-icons-container';
-    
-    Object.entries(SIDEBAR_SECTIONS).forEach(([key, section]) => {
-        const iconItem = document.createElement('div');
-        iconItem.className = 'sidebar-icon-item';
-        iconItem.innerHTML = `
-            <span class="sidebar-icon">${section.icon}</span>
-            <span class="sidebar-icon-badge" data-section="${key}">0</span>
-        `;
-        iconItem.title = section.label;
-        iconItem.addEventListener('click', (e) => {
-            e.stopPropagation();
-            // Expandir sidebar y abrir la sección correspondiente
-            leftSidebar.classList.remove('sidebar-collapsed');
-            sessionStorage.setItem('sidebar_left_collapsed', false);
-            
-            const accordionHeader = leftSidebar.querySelectorAll('.accordion-header');
-            const sections = Object.keys(SIDEBAR_SECTIONS);
-            const sectionIndex = sections.indexOf(key);
-            
-            if (sectionIndex >= 0 && accordionHeader[sectionIndex]) {
-                accordionHeader[sectionIndex].click();
-            }
-        });
-        leftIcons.appendChild(iconItem);
-    });
-    
-    leftSidebar.appendChild(leftIcons);
 
-    // Contenedor de iconos para sidebar derecho
-    const rightIcons = document.createElement('div');
-    rightIcons.className = 'sidebar-icons-container';
-    
-    const rightIconItem = document.createElement('div');
-    rightIconItem.className = 'sidebar-icon-item proceso-icon';
-    rightIconItem.innerHTML = `
-        <span class="sidebar-icon">⚡</span>
-        <span class="sidebar-icon-badge" data-section="proceso">0</span>
-    `;
-    rightIconItem.title = 'En Proceso';
-    rightIconItem.addEventListener('click', (e) => {
-        e.stopPropagation();
-        rightSidebar.classList.remove('sidebar-collapsed');
-        sessionStorage.setItem('sidebar_right_collapsed', false);
-    });
-    rightIcons.appendChild(rightIconItem);
-    
-    rightSidebar.appendChild(rightIcons);
-
-    // Actualizar badges DESPUÉS de crear los contenedores
-    updateSidebarIconBadges();
-}
 
 // ========================================
 // MODAL DE CONFIGURACIÓN DE PRUEBAS DE HIPÓTESIS
