@@ -1874,23 +1874,14 @@ body {
 /* ── Iconos de sidebar con badges (Modelo E) ── */
 
 .sidebar-icons-container {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    padding: 20px 0;
+    gap: 8px;
+    padding: 10px 0;
     width: 100%;
-    min-height: 200px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 0;
-    right: 0;
+    min-height: 150px;
 }
 
 .sidebar-icon-item {
@@ -1899,8 +1890,8 @@ body {
     align-items: center;
     gap: 2px;
     cursor: pointer;
-    padding: 6px 4px;
-    border-radius: 6px;
+    padding: 4px 2px;
+    border-radius: 4px;
     transition: background 0.2s;
     position: relative;
 }
@@ -1932,10 +1923,25 @@ body {
     background: #667eea;
 }
 
-/* En sidebar colapsado, iconos siempre visibles */
+/* Sidebar expandido: iconos en la parte inferior, sin interferir */
+.stats-menu:not(.sidebar-collapsed) .sidebar-icons-container,
+.active-sidebar:not(.sidebar-collapsed) .sidebar-icons-container {
+    display: flex;
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    background: transparent;
+    z-index: 10;
+}
+
+/* Sidebar colapsado: iconos centrados */
 .sidebar-collapsed .sidebar-icons-container {
-    visibility: visible !important;
-    opacity: 1 !important;
+    display: flex;
+    position: static;
+    justify-content: center;
+    min-height: 100%;
+    padding-top: 30px;
 }
 
 /* Ocultar label vertical cuando hay iconos visibles */
@@ -1943,7 +1949,7 @@ body {
     display: none;
 }
 
-/* Labels visibles cuando NO hay iconos (por si acaso) */
+/* Labels visibles cuando NO hay iconos */
 .sidebar-strip-label {
     display: block;
 }
