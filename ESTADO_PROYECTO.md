@@ -1,6 +1,6 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
-**Fecha de Análisis:** 28 de Marzo de 2026  
+**Fecha de Análisis:** 29 de Marzo de 2026  
 **Versión del Proyecto:** 2.0  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
 **Estado General:** MVP Funcional (~65% Completo)
@@ -18,6 +18,25 @@
 7. [Próximos Pasos Recomendados](#próximos-pasos-recomendados)
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
+
+### 29 de Marzo 2026 - Corrección de inconsistencias en ESTADO_PROYECTO.md
+
+**Cambio:** Actualización y corrección de datos desactualizados en documento de estado
+- **Archivos:** `ESTADO_PROYECTO.md`
+- **Razón:** Documento contenía inconsistencias entre funcionalidades implementadas y estado reportado
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Pruebas de hipótesis: Cambiado de ❌ En roadmap a ✅ Completo (6 pruebas ya implementadas)
+- Métricas estadísticas: Actualizado conteo de 13 a 18 (12 descriptiva + 6 hipótesis)
+- Coeficiente de Variación: Agregado a lista de estadísticas implementadas
+- Paths de archivos: Actualizados de paths absolutos desactualizados a paths relativos
+- Testing: Agregada nota explicativa sobre validación manual
+- Cobertura análisis estadístico: Actualizada de 30% a 60% (descriptiva + hipótesis)
+
+**Estadísticas:** 6 correcciones en 1 archivo
+
+---
 
 ### 29 de Marzo 2026 - Nuevo layout Opción A para módulo de trabajo + bug fix vista por defecto
 
@@ -422,7 +441,8 @@
 |---|---|---|
 | Autenticación JWT | ✅ Completo | Login/logout seguro con tokens |
 | Gestión de Datos | ✅ Completo | Importar CSV, JSON, TXT; edición directa |
-| Estadística Descriptiva | ✅ Completo | 18 métricas (básicas + avanzadas: asimetría, curtosis, IC, outliers) |
+| Estadística Descriptiva | ✅ Completo | 12 métricas (media, mediana, moda, DE, varianza, percentiles, rango, asimetría, curtosis, error estándar, IC, outliers) |
+| Pruebas de Hipótesis | ✅ Completo | 6 pruebas (T-Test x2, ANOVA One/Two-Way, Chi-Cuadrado, Normalidad) |
 | Visualización | ✅ Completo | 6 tipos de gráficos |
 | Generación de Reportes | ✅ Completo | HTML, PDF, CSV, TXT |
 | Control de Acceso (RBAC) | ✅ Completo | 7 roles con permisos granulares |
@@ -601,6 +621,17 @@ Usuario Login → Auth.init() → JWT Token → StateManager.init()
 - ✅ Rango, Rango intercuartílico
 - ✅ Coeficiente de variación
 - ✅ Asimetría, Curtosis
+- ✅ Error Estándar
+- ✅ Intervalos de Confianza (90%, 95%, 99%)
+- ✅ Detección de Outliers (IQR + Z-Score)
+
+**Pruebas de Hipótesis Implementadas:**
+- ✅ T-Test (una muestra)
+- ✅ T-Test (dos muestras) - Welch's t-test
+- ✅ ANOVA One-Way
+- ✅ ANOVA Two-Way
+- ✅ Chi-Cuadrado
+- ✅ Test de Normalidad (Jarque-Bera)
 
 ---
 
@@ -817,10 +848,13 @@ Usuario Login → Auth.init() → JWT Token → StateManager.init()
 
 | Análisis | Estado | Detalles |
 |---|---|---|
-| Descriptiva | ✅ | 13 métricas |
-| Inferencial (T-test) | ❌ | En roadmap |
-| ANOVA | ❌ | En roadmap |
-| Chi-Cuadrado | ❌ | En roadmap |
+| Descriptiva | ✅ | 12 métricas |
+| T-Test (una muestra) | ✅ | Compara media muestral con valor hipotético |
+| T-Test (dos muestras) | ✅ | Welch's t-test, no asume varianzas iguales |
+| ANOVA One-Way | ✅ | Compara medias de 3+ grupos independientes |
+| ANOVA Two-Way | ✅ | Análisis de varianza con dos factores |
+| Chi-Cuadrado | ✅ | Prueba de independencia para variables categóricas |
+| Test de Normalidad | ✅ | Jarque-Bera, verifica distribución normal |
 | Correlación | ❌ | En roadmap |
 | Regresión | ❌ | En roadmap |
 | No-paramétricos | ❌ | En roadmap |
@@ -1120,33 +1154,33 @@ let ultimosResultados = null; // PROBLEMA: Variable global
 
 | Archivo | Ruta | Líneas | Propósito |
 |---|---|---|---|
-| index.html | `C:\Users\WinterOS\Documents\Miproyecto\index.html` | 150+ | Punto de entrada |
-| StateManager.js | `...\StateManager.js` | 744 | Estado centralizado |
-| script.js | `...\script.js` | 1487+ | Controlador principal |
-| auth.js | `...\auth.js` | 283 | Autenticación |
-| EstadisticaDescriptiva.js | `...\EstadisticaDescriptiva.js` | 650+ | Cálculos estadísticos |
-| Visualizacion.js | `...\Visualizacion.js` | 1460+ | Gráficos |
-| ReporteManager.js | `...\ReporteManager.js` | 1233 | Reportes ✅ OPTIMIZADO |
-| DatosManager.js | `...\DatosManager.js` | 773+ | Gestión datos |
-| UsuariosManager.js | `...\UsuariosManager.js` | 505+ | Gestión usuarios |
-| PermisosManager.js | `...\PermisosManager.js` | 250+ | Control acceso |
-| AuditoriaManager.js | `...\AuditoriaManager.js` | 353+ | Auditoría |
-| ParametrosManager.js | `...\ParametrosManager.js` | 109+ | Parámetros |
+| index.html | `./index.html` | 150+ | Punto de entrada |
+| StateManager.js | `./StateManager.js` | 744 | Estado centralizado |
+| script.js | `./script.js` | 1487+ | Controlador principal |
+| auth.js | `./auth.js` | 283 | Autenticación |
+| EstadisticaDescriptiva.js | `./EstadisticaDescriptiva.js` | 650+ | Cálculos estadísticos |
+| Visualizacion.js | `./Visualizacion.js` | 1460+ | Gráficos |
+| ReporteManager.js | `./ReporteManager.js` | 1233 | Reportes ✅ OPTIMIZADO |
+| DatosManager.js | `./DatosManager.js` | 773+ | Gestión datos |
+| UsuariosManager.js | `./UsuariosManager.js` | 505+ | Gestión usuarios |
+| PermisosManager.js | `./PermisosManager.js` | 250+ | Control acceso |
+| AuditoriaManager.js | `./AuditoriaManager.js` | 353+ | Auditoría |
+| ParametrosManager.js | `./ParametrosManager.js` | 109+ | Parámetros |
 
 ### Backend
 
 | Archivo | Ruta | Líneas | Propósito |
 |---|---|---|---|
-| server.js | `...\backend\server.js` | 260+ | Express app |
-| database.js | `...\backend\database.js` | 177+ | Queries DB |
-| package.json | `...\backend\package.json` | - | Dependencias |
+| server.js | `./backend/server.js` | 260+ | Express app |
+| database.js | `./backend/database.js` | 177+ | Queries DB |
+| package.json | `./backend/package.json` | - | Dependencias |
 
 ### Python
 
 | Archivo | Ruta | Líneas | Propósito |
 |---|---|---|---|
-| redneuronal.py | `...\redneuronal.py` | 286 | Red neuronal TF |
-| test.py | `...\test.py` | 161 | Regresión logística |
+| redneuronal.py | `./redneuronal.py` | 286 | Red neuronal TF |
+| test.py | `./test.py` | 161 | Regresión logística |
 
 ### CSS
 
@@ -1193,7 +1227,7 @@ TOTAL APROXIMADO:       ~13,100 líneas
 - **API Endpoints:** 15+
 - **Roles de Usuario:** 7 niveles
 - **Gráficos:** 6 tipos
-- **Estadísticas:** 13 métricas
+- **Estadísticas:** 18 métricas (12 descriptiva + 6 hipótesis)
 - **Permisos:** 20+ acciones granulares
 
 ### Cobertura de Funcionalidades
@@ -1201,12 +1235,12 @@ TOTAL APROXIMADO:       ~13,100 líneas
 | Área | Completitud |
 |---|---|
 | MVP Core | 100% ✅ |
-| Análisis Estadístico | 30% (solo descriptiva) |
+| Análisis Estadístico | 60% (descriptiva + hipótesis, falta correlación/regresión) |
 | Machine Learning | 20% (no integrado) |
-| Testing | 0% ⚠️ |
+| Testing | 0% ⚠️ (validación manual en desarrollo, sin tests automatizados) |
 | Documentación | 10% (README vacío) |
 | Performance | 60% (optimizable) |
-| **PROMEDIO** | **~37%** |
+| **PROMEDIO** | **~42%** |
 | **ESTADO GENERAL** | **~65% Completo** |
 
 ---
