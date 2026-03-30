@@ -174,7 +174,7 @@ function aplicarUI(session) {
         '.btn-add-row','.btn-add-column',
         '.btn-delete-row','.btn-delete-column',
         '.btn-clear-table','.btn-save-work',
-        '.btn-generate-table','.btn-paste-data'
+        '.btn-generate-table'
     ].join(',')).forEach(btn => {
         btn.style.opacity = '';
         btn.style.cursor  = '';
@@ -213,7 +213,7 @@ function aplicarUI(session) {
         '.btn-add-row','.btn-add-column',
         '.btn-delete-row','.btn-delete-column',
         '.btn-clear-table','.btn-save-work',
-        '.btn-generate-table','.btn-paste-data'
+        '.btn-generate-table'
     ].join(',')).forEach(btn => {
         if (!PERMISOS['usar_trabajo'].includes(rol)) {
             btn.style.opacity = '0.4';

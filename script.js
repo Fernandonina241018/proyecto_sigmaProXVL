@@ -377,7 +377,6 @@ function updateWorkSummary() {
 
 function setupWorkButtons() {
     const btnGenerate = document.querySelector('.btn-generate-table');
-    const btnPaste    = document.querySelector('.btn-paste-data');
     const btnAddRow   = document.querySelector('.btn-add-row');
     const btnAddCol   = document.querySelector('.btn-add-column');
     const btnDelRow   = document.querySelector('.btn-delete-row');
@@ -387,13 +386,15 @@ function setupWorkButtons() {
     const btnNewSheet = document.getElementById('btnNewSheet');
 
     if (btnGenerate) btnGenerate.onclick = generateWorkTable;
-    if (btnPaste)    btnPaste.onclick    = enablePasteData;
     if (btnAddRow)   btnAddRow.onclick   = addWorkRow;
     if (btnAddCol)   btnAddCol.onclick   = addWorkColumn;
     if (btnDelRow)   btnDelRow.onclick   = deleteWorkRow;
     if (btnDelCol)   btnDelCol.onclick   = deleteWorkColumn;
     if (btnClear)    btnClear.onclick    = clearWorkTable;
     if (btnSave)     btnSave.onclick     = saveWorkData;
+
+    // Configurar pegado automático
+    setupAutoPaste();
 
     if (btnNewSheet) {
         btnNewSheet.onclick = () => {
@@ -512,53 +513,70 @@ function saveWorkData() {
 }
 
 // ========================================
-// PEGAR DESDE EXCEL
+// PEGADO AUTOMÁTICO DESDE EXCEL
 // ========================================
 
-function enablePasteData() {
-    alert('📋 Función de pegado habilitada\n\n1. Copia datos desde Excel (Ctrl+C)\n2. Haz clic en la primera celda de datos\n3. Pega con Ctrl+V');
-
+function setupAutoPaste() {
     const wrapper = document.getElementById('editable-table-wrapper');
     if (!wrapper) return;
 
-    wrapper.addEventListener('paste', function handlePaste(e) {
-        e.preventDefault();
+    wrapper.addEventListener('paste', function(e) {
         const pastedText = (e.clipboardData || window.clipboardData).getData('text');
-        processPastedData(pastedText);
-        wrapper.removeEventListener('paste', handlePaste);
-    }, { once: true });
+        
+        // Detectar si es dato tabular (de Excel) o texto simple
+        const isTabularData = pastedText.includes('\t') || pastedText.split('\n').filter(r => r.trim()).length > 1;
+        
+        if (isTabularData) {
+            e.preventDefault();
+            processPastedData(pastedText);
+        }
+        // Si no es tabular, se pega normalmente en la celda
+    });
 }
 
 function processPastedData(text) {
-    const rows  = text.split('\n').filter(r => r.trim());
+    const rows = text.split('\n').filter(r => r.trim());
     if (rows.length === 0) return;
 
     const maxCols = Math.max(...rows.map(r => r.split('\t').length));
-    const sheet   = StateManager.getActiveSheet();
+    const sheet = StateManager.getActiveSheet();
     if (!sheet) return;
 
     try {
-        while (sheet.data.length < rows.length)        StateManager.addRow();
-        while ((sheet.headers.length - 1) < maxCols)   StateManager.addColumn();
+        while (sheet.data.length < rows.length) StateManager.addRow();
+        while ((sheet.headers.length - 1) < maxCols) StateManager.addColumn();
     } catch (err) {
         alert('⚠️ No se pudo expandir la hoja: ' + err.message);
         return;
     }
 
+    // Obtener posición de la celda activa si existe
+    const activeCell = document.querySelector('.editable-cell:focus');
+    let startRow = 0;
+    let startCol = 1;
+    
+    if (activeCell) {
+        const cellRow = parseInt(activeCell.dataset.row);
+        const cellCol = parseInt(activeCell.dataset.col);
+        if (!isNaN(cellRow)) startRow = cellRow;
+        if (!isNaN(cellCol)) startCol = cellCol;
+    }
+
     rows.forEach((rowText, rowIdx) => {
-        if (rowIdx >= sheet.data.length) return;
+        const targetRow = startRow + rowIdx;
+        if (targetRow >= sheet.data.length) return;
         const cells = rowText.split('\t');
         cells.forEach((cell, colIdx) => {
-            const dataCol = colIdx + 1;
-            if (dataCol < sheet.headers.length) {
-                StateManager.updateCell(rowIdx, dataCol, cell.trim());
+            const targetCol = startCol + colIdx;
+            if (targetCol < sheet.headers.length) {
+                StateManager.updateCell(targetRow, targetCol, cell.trim());
             }
         });
     });
 
     renderWorkTable();
     updateWorkSummary();
-    alert(`✅ Pegado completado: ${rows.length} filas × ${maxCols} columnas`);
+    _showToast(`✅ Pegado: ${rows.length} fila(s) × ${maxCols} columna(s)`);
 }
 
 // ========================================
