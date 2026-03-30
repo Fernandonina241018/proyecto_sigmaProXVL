@@ -1562,7 +1562,9 @@ document.addEventListener('DOMContentLoaded', function () {
 // Inicialización de la app (solo tras login exitoso)
 function _initApp() {
     setupStateListeners(); // Primero registrar listeners
-    StateManager.init();   // Luego inicializar (puede cargar estado y disparar stateLoad)
+    setupSidebarToggles(); // Crear contenedores de iconos ANTES de cargar estado
+    updateSidebarIconBadges(); // Inicializar badges antes de cargar estado
+    StateManager.init();   // Luego inicializar (puede cargar estado y dispara stateLoad)
     updateActiveStatsUI();
     sincronizarMenuLateral();
     switchView('trabajo'); // Vista por defecto: módulo de trabajo
@@ -1584,8 +1586,6 @@ function _initApp() {
     } else {
         console.warn('No se encontró el botón .btn-run en el DOM');
     }
-
-    setupSidebarToggles();
     
     console.log('✅ Formatos soportados: CSV, JSON, TXT');
     console.log('✅ Estado centralizado activo');
