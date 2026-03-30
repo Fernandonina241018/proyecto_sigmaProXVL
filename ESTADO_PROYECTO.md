@@ -19,6 +19,31 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 29 de Marzo 2026 - Optimizar módulo de trabajo: pegado automático y vista por defecto
+
+**Cambio:** Vista de trabajo aparece por defecto al abrir el programa y pegado automático desde Excel
+- **Archivos:** `index.html`, `script.js`, `PermisosManager.js`
+- **Razón:** Mejorar experiencia de usuario - la vista de trabajo es más usada y el pegado desde Excel requería 3 pasos innecesarios
+- **Estado:** ✅ COMPLETADO
+- **Commit:** `c16f6ad` - feat: optimizar módulo de trabajo - pegado automático y vista por defecto
+
+**Detalles:**
+- Vista por defecto: Cambiada de 'Análisis' a 'Trabajo'
+- Orden de navegación: 'Trabajo' movido al inicio
+- Botón 'Pegar desde Excel' eliminado
+- Pegado automático: Ctrl+V detecta datos tabulares automáticamente
+- Inteligente: datos tabulares se procesan, texto simple se pega normalmente
+- Posición de pegado: usa celda activa como punto de inicio
+
+**Archivos modificados:**
+1. `index.html` (-3 líneas) - Cambiar vista activa, eliminar botón
+2. `script.js` (+42, -25 líneas) - setupAutoPaste, eliminar enablePasteData
+3. `PermisosManager.js` (-2 líneas) - Limpiar referencias a btn-paste-data
+
+**Estadísticas:** +42 líneas, -25 líneas, 3 archivos modificados
+
+---
+
 ### 29 de Marzo 2026 - Corregir visualización de pruebas de hipótesis en vista y reportes
 
 **Cambio:** Las pruebas de hipótesis ahora se muestran correctamente en la vista de análisis y en los reportes
