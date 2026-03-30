@@ -261,15 +261,24 @@ function renderWorkTable() {
 
     sheet.headers.forEach((header, colIndex) => {
         if (colIndex === 0) {
-            html += `<th><span class="header-cell">${escapeHtml(String(header))}</span></th>`;
+            html += `<th><span class="header-cell">#</span></th>`;
         } else {
             html += `
-                <th>
-                    <input type="text"
-                           class="editable-cell header-cell"
-                           value="${escapeHtml(String(header))}"
-                           data-col="${colIndex}"
-                           data-type="header">
+                <th class="col-header">
+                    <div class="header-wrapper">
+                        <input type="text"
+                               class="editable-cell header-cell"
+                               value="${escapeHtml(String(header))}"
+                               data-col="${colIndex}"
+                               data-type="header">
+                        <button class="col-menu-btn" data-col="${colIndex}" title="Opciones de columna">⋮</button>
+                    </div>
+                    <div class="col-dropdown" data-col="${colIndex}">
+                        <button class="dropdown-item" data-action="insert-left" data-col="${colIndex}">← Insertar columna izquierda</button>
+                        <button class="dropdown-item" data-action="insert-right" data-col="${colIndex}">Insertar columna derecha →</button>
+                        <hr>
+                        <button class="dropdown-item danger" data-action="delete-col" data-col="${colIndex}">Eliminar columna</button>
+                    </div>
                 </th>`;
         }
     });
@@ -280,7 +289,19 @@ function renderWorkTable() {
         html += '<tr>';
         row.forEach((cell, colIndex) => {
             if (colIndex === 0) {
-                html += `<td><div class="index-cell">${escapeHtml(String(cell))}</div></td>`;
+                html += `
+                    <td class="row-header">
+                        <div class="index-wrapper">
+                            <span class="index-cell">${escapeHtml(String(cell))}</span>
+                            <button class="row-menu-btn" data-row="${rowIndex}" title="Opciones de fila">⋮</button>
+                        </div>
+                        <div class="row-dropdown" data-row="${rowIndex}">
+                            <button class="dropdown-item" data-action="insert-above" data-row="${rowIndex}">↑ Insertar fila arriba</button>
+                            <button class="dropdown-item" data-action="insert-below" data-row="${rowIndex}">Insertar fila abajo ↓</button>
+                            <hr>
+                            <button class="dropdown-item danger" data-action="delete-row" data-row="${rowIndex}">Eliminar fila</button>
+                        </div>
+                    </td>`;
             } else {
                 html += `
                     <td>
@@ -300,6 +321,7 @@ function renderWorkTable() {
     wrapper.innerHTML = html;
 
     attachTableInputListeners();
+    attachHeaderMenuListeners();
 }
 
 function attachTableInputListeners() {
@@ -373,6 +395,97 @@ function attachTableInputListeners() {
             processPastedData(pastedText, startRow, startCol);
         }
         // Si no es tabular, se pega normalmente en el input
+    });
+}
+
+function attachHeaderMenuListeners() {
+    const wrapper = document.getElementById('editable-table-wrapper');
+    if (!wrapper) return;
+
+    // Toggle menús de columna
+    wrapper.addEventListener('click', (e) => {
+        const colMenuBtn = e.target.closest('.col-menu-btn');
+        if (colMenuBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+            const colIndex = colMenuBtn.dataset.col;
+            const dropdown = wrapper.querySelector(`.col-dropdown[data-col="${colIndex}"]`);
+            
+            // Cerrar otros menús abiertos
+            wrapper.querySelectorAll('.col-dropdown.active, .row-dropdown.active').forEach(d => d.classList.remove('active'));
+            
+            if (dropdown) dropdown.classList.toggle('active');
+            return;
+        }
+
+        const rowMenuBtn = e.target.closest('.row-menu-btn');
+        if (rowMenuBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+            const rowIndex = rowMenuBtn.dataset.row;
+            const dropdown = wrapper.querySelector(`.row-dropdown[data-row="${rowIndex}"]`);
+            
+            // Cerrar otros menús abiertos
+            wrapper.querySelectorAll('.col-dropdown.active, .row-dropdown.active').forEach(d => d.classList.remove('active'));
+            
+            if (dropdown) dropdown.classList.toggle('active');
+            return;
+        }
+
+        // Acciones de menú de columna
+        const colAction = e.target.closest('.col-dropdown .dropdown-item');
+        if (colAction) {
+            e.preventDefault();
+            e.stopPropagation();
+            const action = colAction.dataset.action;
+            const colIndex = parseInt(colAction.dataset.col);
+            
+            try {
+                if (action === 'insert-left') {
+                    StateManager.insertColumn(colIndex);
+                    renderWorkTable();
+                } else if (action === 'insert-right') {
+                    StateManager.insertColumn(colIndex + 1);
+                    renderWorkTable();
+                } else if (action === 'delete-col') {
+                    StateManager.deleteColumn(colIndex);
+                    renderWorkTable();
+                }
+            } catch (err) {
+                console.error(err);
+            }
+            return;
+        }
+
+        // Acciones de menú de fila
+        const rowAction = e.target.closest('.row-dropdown .dropdown-item');
+        if (rowAction) {
+            e.preventDefault();
+            e.stopPropagation();
+            const action = rowAction.dataset.action;
+            const rowIndex = parseInt(rowAction.dataset.row);
+            
+            try {
+                if (action === 'insert-above') {
+                    StateManager.insertRow(rowIndex);
+                    renderWorkTable();
+                } else if (action === 'insert-below') {
+                    StateManager.insertRow(rowIndex + 1);
+                    renderWorkTable();
+                } else if (action === 'delete-row') {
+                    StateManager.deleteRow(rowIndex);
+                    renderWorkTable();
+                }
+            } catch (err) {
+                console.error(err);
+            }
+            return;
+        }
+
+        // Cerrar menús al hacer clic fuera
+        if (!e.target.closest('.col-dropdown') && !e.target.closest('.row-dropdown')) {
+            wrapper.querySelectorAll('.col-dropdown.active, .row-dropdown.active').forEach(d => d.classList.remove('active'));
+        }
     });
 }
 

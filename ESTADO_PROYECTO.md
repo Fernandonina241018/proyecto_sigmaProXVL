@@ -19,6 +19,30 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 29 de Marzo 2026 - Menús contextuales para insertar/eliminar filas y columnas en módulo de trabajo
+
+**Cambio:** Agregados menús desplegables en encabezados de columnas y filas para insertar/eliminar en posiciones intermedias
+- **Archivos:** `script.js`, `StateManager.js`, `styles.css`
+- **Razón:** Antes solo se podían agregar/eliminar filas y columnas al final. Ahora se puede insertar/eliminar en cualquier posición
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Menú de columnas: Botón ⋮ en cada encabezado con opciones "Insertar izquierda/derecha" y "Eliminar columna"
+- Menú de filas: Botón ⋮ en cada índice de fila con opciones "Insertar arriba/abajo" y "Eliminar fila"
+- Nuevos métodos en StateManager: `insertRow(rowIndex)` e `insertColumn(colIndex, header)`
+- Reindexación automática de filas después de inserción/eliminación
+- Estilos CSS: Menús flotantes con hover effects y opción "Eliminar" en color rojo
+- Cierre automático de menús al hacer clic fuera
+
+**Archivos modificados:**
+1. `script.js` (+105, -5 líneas) - renderWorkTable() con menús, attachHeaderMenuListeners()
+2. `StateManager.js` (+52 líneas) - insertRow(), insertColumn(), exportaciones
+3. `styles.css` (+95 líneas) - Estilos para .col-dropdown, .row-dropdown, .dropdown-item
+
+**Estadísticas:** +252 líneas, 3 archivos modificados
+
+---
+
 ### 29 de Marzo 2026 - Corrección de inconsistencias en ESTADO_PROYECTO.md
 
 **Cambio:** Actualización y corrección de datos desactualizados en documento de estado

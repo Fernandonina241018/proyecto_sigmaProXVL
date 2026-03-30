@@ -360,6 +360,64 @@ const StateManager = (() => {
         return deletedHeader;
     }
     
+    function insertRow(rowIndex) {
+        const sheet = getActiveSheet();
+        if (!sheet) {
+            throw new Error('No hay hoja activa');
+        }
+        
+        if (sheet.data.length >= state.config.maxRows) {
+            throw new Error(`Límite de ${state.config.maxRows} filas alcanzado`);
+        }
+        
+        if (rowIndex < 0 || rowIndex > sheet.data.length) {
+            throw new Error('Índice de fila inválido');
+        }
+        
+        const newRow = [rowIndex + 1, ...Array(sheet.cols - 1).fill('')];
+        sheet.data.splice(rowIndex, 0, newRow);
+        
+        // Reindexar primera columna
+        sheet.data.forEach((row, i) => {
+            row[0] = i + 1;
+        });
+        
+        sheet.rows = sheet.data.length;
+        sheet.modified = new Date().toISOString();
+        
+        notifyListeners('dataChange');
+        scheduleAutoSave();
+        
+        return newRow;
+    }
+    
+    function insertColumn(colIndex, header = null) {
+        const sheet = getActiveSheet();
+        if (!sheet) {
+            throw new Error('No hay hoja activa');
+        }
+        
+        if (sheet.cols >= state.config.maxCols) {
+            throw new Error(`Límite de ${state.config.maxCols} columnas alcanzado`);
+        }
+        
+        if (colIndex < 1 || colIndex > sheet.headers.length) {
+            throw new Error('Índice de columna inválido');
+        }
+        
+        const newHeader = header || `C${colIndex}`;
+        sheet.headers.splice(colIndex, 0, newHeader);
+        sheet.data.forEach(row => row.splice(colIndex, 0, ''));
+        
+        sheet.cols = sheet.headers.length;
+        sheet.modified = new Date().toISOString();
+        
+        notifyListeners('dataChange');
+        scheduleAutoSave();
+        
+        return newHeader;
+    }
+    
     function clearSheetData() {
         const sheet = getActiveSheet();
         if (!sheet) {
@@ -717,8 +775,10 @@ const StateManager = (() => {
         updateCell,
         updateHeader,
         addRow,
+        insertRow,
         deleteRow,
         addColumn,
+        insertColumn,
         deleteColumn,
         clearSheetData,
         setSheetData,
