@@ -19,6 +19,24 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 30 de Marzo 2026 - Fix crítico: secuencia de inicialización de badges del sidebar
+
+**Cambio:** Corregido el orden de ejecución para que los badges se actualicen DESPUÉS de crear los contenedores de iconos
+- **Archivos:** `script.js`
+- **Razón:** Los badges se buscaban ANTES de que existieran en el DOM
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Movido `updateSidebarIconBadges()` dentro de `createSidebarIconContainers()` (línea ~1813)
+- Removida llamada duplicada en `_initApp()`
+- Expandido `SIDEBAR_SECTIONS` con las 6 secciones completas (antes solo 3)
+- Los badges ahora se inicializan correctamente tanto al abrir como al cerrar
+
+**Archivos modificados:**
+1. `script.js` - Líneas 1713-1760 (SIDEBAR_SECTIONS), 1813 (updateSidebarIconBadges al final), 1585 (removida duplicada)
+
+---
+
 ### 30 de Marzo 2026 - Nombres de columnas con letras estilo Excel
 
 **Cambio:** Las nuevas columnas ahora se nombran con letras (A, B, C, ..., Z, AA, AB, ...) en lugar de C1, C2, C3...
