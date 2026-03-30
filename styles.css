@@ -700,33 +700,8 @@ body {
 
 /* ========================================
    SISTEMA DE MÚLTIPLES HOJAS (SHEETS)
+   Estilos movidos a sección de trabajo
    ======================================== */
-.sheets-tabs-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 0;
-    border-bottom: 3px solid #e0e0e0;
-    margin-bottom: 15px;
-    overflow-x: auto;
-}
-
-.sheets-tabs {
-    display: flex;
-    gap: 5px;
-    flex-wrap: nowrap;
-}
-
-.sheet-tab {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 8px;
-    background: #f0f0f0;
-    border: 2px solid #e0e0e0;
-    border-bottom: none;
-    border-radius: 12px 12px 12px 12px;
-    cursor: pointer;
     transition: all 0.3s ease;
     min-width: max-content;
     position: relative;
@@ -737,17 +712,163 @@ body {
     background: #e0e0e0;
 }
 
+
+/* ========================================
+   VISTA DE TRABAJO - LAYOUT OPCIÓN A
+   ======================================== */
+.trabajo-toolbar {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    border: 2px solid #e9ecef;
+}
+
+.toolbar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.toolbar-row.sheets-row {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.toolbar-buttons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.toolbar-divider {
+    width: 1px;
+    height: 24px;
+    background: #d0d0d0;
+    margin: 0 4px;
+}
+
+.toolbar-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.control-group label {
+    font-weight: 600;
+    color: #555;
+    font-size: 0.8rem;
+}
+
+.control-group input[type="number"] {
+    width: 55px;
+    padding: 6px 8px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.btn-generate-table,
+.btn-add-row,
+.btn-add-column,
+.btn-delete-row,
+.btn-delete-column,
+.btn-clear-table,
+.btn-save-work {
+    padding: 7px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    font-size: 0.8rem;
+    background: linear-gradient(135deg, #240bb3 0%, #000000 100%);
+    color: rgb(255, 255, 255);
+    white-space: nowrap;
+}
+
+.btn-generate-table:hover,
+.btn-add-row:hover,
+.btn-delete-row:hover,
+.btn-delete-column:hover,
+.btn-add-column:hover,
+.btn-save-work:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.4);
+}
+
+.btn-clear-table:hover {
+    transform: translateY(-1px);
+}
+
+.btn-new-sheet {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: white;
+    color: #667eea;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #667eea;
+}
+
+.btn-new-sheet:hover {
+    background: #667eea;
+    color: white;
+    transform: scale(1.1);
+}
+
+.sheets-tabs {
+    display: flex;
+    gap: 5px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    flex: 1;
+}
+
+.sheet-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    background: #f0f0f0;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: max-content;
+}
+
+.sheet-tab:hover {
+    background: #e0e0e0;
+}
+
 .sheet-tab.active {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border-color: #667eea;
-    box-shadow: 0 -4px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
 .sheet-tab-name {
     font-weight: 500;
-    font-size: 0.9rem;
-    max-width: 120px;
+    font-size: 0.8rem;
+    max-width: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -756,23 +877,23 @@ body {
 .sheet-tab-name-input {
     background: white;
     color: black;
-    padding: 4px 8px;
+    padding: 3px 6px;
     border-radius: 4px;
     border: none;
     outline: none;
-    width: 100px;
-    font-size: 0.85rem;
+    width: 80px;
+    font-size: 0.8rem;
 }
 
 .sheet-tab-close {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     border: none;
     background: rgba(255,255,255,0.3);
     color: inherit;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1;
     opacity: 0;
     transition: all 0.2s ease;
@@ -790,52 +911,82 @@ body {
     color: white;
 }
 
-.btn-new-sheet {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-   /* border: 2px dashed #667eea;*/
+/* Layout principal: tabla + sidebar */
+.trabajo-main {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    gap: 12px;
+    height: calc(100vh - 280px);
+    min-height: 350px;
+}
+
+.trabajo-table-area {
     background: white;
-    color: #667eea;
-    font-size: 1.8rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    overflow: hidden;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
 }
 
-.btn-new-sheet:hover {
-    background: #667eea;
-    color: white;
-    border-style: solid;
-    transform: scale(1.1);
+#editable-table-wrapper {
+    flex: 1;
+    overflow: auto;
+    padding: 0;
 }
 
-.sheets-info {
+/* Sidebar de resumen */
+.trabajo-sidebar {
+    background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 10px;
+    padding: 16px;
+    border: 2px solid #e9ecef;
     display: flex;
-    gap: 20px;
-    padding: 10px 15px;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-radius: 8px;
-    margin-bottom: 15px;
-    font-size: 0.9rem;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.sheets-info span {
-    color: #555;
+.summary-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #333;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #667eea;
 }
 
-.sheets-info strong {
-    color: #667eea;
+.summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
-/* ========================================
-   VISTA DE TRABAJO - TABLA EDITABLE
-   ======================================== */
-.trabajo-content {
-    padding: 10px 0;
+.summary-label {
+    font-size: 0.75rem;
+    color: #777;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
+
+.summary-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.summary-divider {
+    height: 1px;
+    background: #d0d0d0;
+    margin: 4px 0;
+}
+
+/* Eliminar estilos antiguos que ya no se usan */
+.trabajo-content { display: none; }
+.table-controls { display: none; }
+.table-info { display: none; }
+.table-summary { display: none; }
+.sheets-info { display: none; }
+.sheets-tabs-container { display: none; }
 
 .table-controls {
     background: #f8f9fa;

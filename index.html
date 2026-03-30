@@ -183,50 +183,64 @@
                 <!-- Vista de Trabajo -->
                 <div id="view-trabajo" class="workspace-view active">
                     <div class="workspace-header">
-                        <h2>📋 Hoja de Trabajo - Ingreso Directo de Datos</h2>
-                        <div class="action-buttons">
-                            <button class="btn-add-row">➕ Fila</button>
-                            <button class="btn-add-column">➕ Columna</button>
-                            <button class="btn-delete-row">➖ Fila</button>
-                            <button class="btn-delete-column">➖ Columna</button>
-                            <button class="btn-clear-table">🗑️ Limpiar</button>
-                            <button class="btn-save-work">💾 Guardar</button>
+                        <h2>📋 Hoja de Trabajo</h2>
+                    </div>
+                    <div class="trabajo-toolbar">
+                        <div class="toolbar-row">
+                            <div class="toolbar-buttons">
+                                <button class="btn-add-row" title="Agregar fila">➕ Fila</button>
+                                <button class="btn-add-column" title="Agregar columna">➕ Col</button>
+                                <button class="btn-delete-row" title="Eliminar fila">➖ Fila</button>
+                                <button class="btn-delete-column" title="Eliminar columna">➖ Col</button>
+                                <span class="toolbar-divider"></span>
+                                <button class="btn-clear-table" title="Limpiar todo">🗑️</button>
+                                <button class="btn-save-work" title="Guardar datos">💾</button>
+                            </div>
+                            <div class="toolbar-controls">
+                                <div class="control-group">
+                                    <label>Filas:</label>
+                                    <input type="number" id="initial-rows" value="10" min="1" max="100">
+                                </div>
+                                <div class="control-group">
+                                    <label>Cols:</label>
+                                    <input type="number" id="initial-cols" value="5" min="1" max="20">
+                                </div>
+                                <button class="btn-generate-table">🔄 Generar</button>
+                            </div>
+                        </div>
+                        <div class="toolbar-row sheets-row">
+                            <div class="sheets-tabs" id="sheetsTabs"></div>
+                            <button class="btn-new-sheet" id="btnNewSheet" title="Nueva hoja">
+                                <span>+</span>
+                            </button>
                         </div>
                     </div>
-                    <div class="sheets-tabs-container">
-                        <div class="sheets-tabs" id="sheetsTabs"></div>
-                        <button class="btn-new-sheet" id="btnNewSheet" title="Nueva hoja">
-                            <span>+</span>
-                        </button>
-                    </div>
-                    <div class="sheets-info">
-                        <span>📊 Hoja activa: <strong id="activeSheetName">-</strong></span>
-                        <span>📑 Total hojas: <strong id="totalSheets">0</strong></span>
-                    </div>
-                    <div class="trabajo-content">
-                        <div class="table-controls">
-                            <div class="control-group">
-                                <label>📊 Filas:</label>
-                                <input type="number" id="initial-rows" value="10" min="1" max="100">
-                            </div>
-                            <div class="control-group">
-                                <label>📋 Columnas:</label>
-                                <input type="number" id="initial-cols" value="5" min="1" max="20">
-                            </div>
-                            <button class="btn-generate-table">🔄 Generar Tabla</button>
-                        </div>
-                        <div class="editable-table-container">
-                            <div class="table-info">
-                                <p>💡 <strong>Hoja de Trabajo:</strong></p>
-                            </div>
+                    <div class="trabajo-main">
+                        <div class="trabajo-table-area">
                             <div id="editable-table-wrapper"></div>
                         </div>
-                        <div class="table-summary" id="work-summary">
-                            <h4>📈 Resumen de Datos</h4>
-                            <div class="summary-stats">
-                                <span>Filas: <strong id="count-rows">0</strong></span>
-                                <span>Columnas: <strong id="count-cols">0</strong></span>
-                                <span>Celdas con datos: <strong id="count-filled">0</strong></span>
+                        <div class="trabajo-sidebar" id="work-summary">
+                            <div class="summary-title">📈 Resumen</div>
+                            <div class="summary-item">
+                                <span class="summary-label">Filas</span>
+                                <span class="summary-value" id="count-rows">0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Columnas</span>
+                                <span class="summary-value" id="count-cols">0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Celdas con datos</span>
+                                <span class="summary-value" id="count-filled">0</span>
+                            </div>
+                            <div class="summary-divider"></div>
+                            <div class="summary-item">
+                                <span class="summary-label">Hoja activa</span>
+                                <span class="summary-value" id="activeSheetName">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Total hojas</span>
+                                <span class="summary-value" id="totalSheets">0</span>
                             </div>
                         </div>
                     </div>

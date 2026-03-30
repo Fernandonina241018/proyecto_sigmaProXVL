@@ -1419,7 +1419,7 @@ function _initApp() {
     setupStateListeners();
     updateActiveStatsUI();
     sincronizarMenuLateral(); // ← agregar aquí
-    switchView('analisis');
+    switchView('trabajo'); // Vista por defecto: módulo de trabajo
     setupWorkButtons();
     // setupTransformButtons(); — reemplazado por DatosManager
 
