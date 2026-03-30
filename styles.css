@@ -1981,6 +1981,7 @@ body {
     align-items: center;
     background: #f8f9fa;
     border-right: 1px solid #e0e0e0;
+    position: relative;
 }
 
 .sidebar-toggle-btn-left {
@@ -1992,9 +1993,14 @@ body {
     border-radius: 6px;
     cursor: pointer;
     font-size: 12px;
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .sidebar-icons-compact {
