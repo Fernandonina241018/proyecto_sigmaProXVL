@@ -425,7 +425,14 @@ const StateManager = (() => {
             throw new Error('Índice de columna inválido');
         }
         
-        const newHeader = header || generateUniqueColumnName(sheet.headers);
+        // La nueva columna toma el nombre correspondiente a su posición
+        const newHeader = header || indexToExcelColumn(colIndex);
+        
+        // Renombrar columnas existentes desde colIndex+1 para mantener secuencia
+        for (let i = colIndex + 1; i < sheet.headers.length; i++) {
+            sheet.headers[i] = indexToExcelColumn(i + 1);
+        }
+        
         sheet.headers.splice(colIndex, 0, newHeader);
         sheet.data.forEach(row => row.splice(colIndex, 0, ''));
         
