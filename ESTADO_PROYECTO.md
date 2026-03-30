@@ -19,6 +19,23 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 30 de Marzo 2026 - Nombres de columnas con letras estilo Excel
+
+**Cambio:** Las nuevas columnas ahora se nombran con letras (A, B, C, ..., Z, AA, AB, ...) en lugar de C1, C2, C3...
+- **Archivos:** `StateManager.js`
+- **Razón:** Mejor experiencia de usuario similar a Excel, evitar nombres duplicados
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Nueva función `indexToExcelColumn()` convierte números a letras estilo Excel
+- Nueva función `generateUniqueColumnName()` genera nombres únicos sin duplicados
+- Actualizadas funciones `addColumn()` e `insertColumn()` para usar el nuevo sistema
+
+**Archivos modificados:**
+1. `StateManager.js` - Líneas 313-329 (nuevas funciones), 342, 448 (uso en addColumn e insertColumn)
+
+---
+
 ### 30 de Marzo 2026 - Iconos de sidebar más grandes y centrados verticalmente
 
 **Cambio:** Los iconos de sidebar ahora son más grandes (1.6rem → 1.8rem) y están centrados verticalmente cuando el sidebar está colapsado

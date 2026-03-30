@@ -307,6 +307,26 @@ const StateManager = (() => {
         
         return deletedRow;
     }
+
+    function indexToExcelColumn(index) {
+        let column = '';
+        while (index > 0) {
+            const remainder = (index - 1) % 26;
+            column = String.fromCharCode(65 + remainder) + column;
+            index = Math.floor((index - 1) / 26);
+        }
+        return column;
+    }
+    
+    function generateUniqueColumnName(existingHeaders) {
+        let counter = 1;
+        let newName = 'A';
+        while (existingHeaders.includes(newName)) {
+            newName = indexToExcelColumn(counter);
+            counter++;
+        }
+        return newName;
+    }
     
     function addColumn(header = null) {
         const sheet = getActiveSheet();
@@ -319,7 +339,7 @@ const StateManager = (() => {
         }
         
         const newColNum = sheet.headers.length;
-        const newHeader = header || `C${newColNum}`;
+        const newHeader = header || generateUniqueColumnName(sheet.headers);
         
         sheet.headers.push(newHeader);
         sheet.data.forEach(row => row.push(''));
@@ -405,7 +425,7 @@ const StateManager = (() => {
             throw new Error('Índice de columna inválido');
         }
         
-        const newHeader = header || `C${colIndex}`;
+        const newHeader = header || generateUniqueColumnName(sheet.headers);
         sheet.headers.splice(colIndex, 0, newHeader);
         sheet.data.forEach(row => row.splice(colIndex, 0, ''));
         
