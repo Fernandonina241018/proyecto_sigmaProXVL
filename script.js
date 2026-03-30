@@ -2,6 +2,7 @@
 // script.js - StatAnalyzer Pro
 // Versión corregida
 // ========================================
+console.log('=== SCRIPT.JS CARGADO ===');
 
 // ========================================
 // VARIABLE GLOBAL DE ÚLTIMOS RESULTADOS
@@ -887,11 +888,13 @@ function viewFileDetails() {
 
 function setupStateListeners() {
     StateManager.addEventListener('statsChange', () => {
+        console.log('>>> LISTENER: statsChange Disparado');
         updateActiveStatsUI();
         updateSidebarIconBadges();
     });
 
     StateManager.addEventListener('stateLoad', () => {
+        console.log('>>> LISTENER: stateLoad Disparado');
         sincronizarMenuLateral();
         updateActiveStatsUI();
         updateSidebarIconBadges();
@@ -1561,10 +1564,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Inicialización de la app (solo tras login exitoso)
 function _initApp() {
+    console.log('>>> _initApp: INICIO');
     setupStateListeners(); // Primero registrar listeners
-    setupSidebarToggles(); // Crear contenedores de iconos ANTES de cargar estado
-    updateSidebarIconBadges(); // Inicializar badges antes de cargar estado
-    StateManager.init();   // Luego inicializar (puede cargar estado y dispara stateLoad)
+    console.log('>>> _initApp: Después de setupStateListeners');
+    setupSidebarToggles(); // Crear contenedores de iconos
+    console.log('>>> _initApp: Después de setupSidebarToggles');
+    console.log('>>> _initApp: Llamando StateManager.init()...');
+    StateManager.init();   // Carga estado y dispara stateLoad
+    console.log('>>> _initApp: Después de StateManager.init()');
+    console.log('>>> _initApp: Estado actual de activeStats:', StateManager.getActiveStats());
+    updateSidebarIconBadges(); // Actualizar badges DESPUÉS de cargar estado
+    console.log('>>> _initApp: Después de updateSidebarIconBadges');
     updateActiveStatsUI();
     sincronizarMenuLateral();
     switchView('trabajo'); // Vista por defecto: módulo de trabajo
@@ -1768,14 +1778,21 @@ const SIDEBAR_SECTIONS = {
 
 function updateSidebarIconBadges() {
     const activeStats = StateManager.getActiveStats();
+    console.log('>>> updateSidebarIconBadges: activeStats =', activeStats);
+    
+    // Verificar que los contenedores existan
+    const badgesEnDOM = document.querySelectorAll('.sidebar-icon-badge');
+    console.log('>>> updateSidebarIconBadges: Badges encontrados en DOM:', badgesEnDOM.length);
     
     // Actualizar badges del sidebar izquierdo
     Object.entries(SIDEBAR_SECTIONS).forEach(([key, section]) => {
         const badge = document.querySelector(`.sidebar-icon-badge[data-section="${key}"]`);
+        console.log(`>>> updateSidebarIconBadges: Section ${key}, badge encontrado:`, !!badge);
         if (badge) {
             const count = activeStats.filter(stat => section.options.includes(stat)).length;
             badge.textContent = count;
             badge.classList.toggle('has-items', count > 0);
+            console.log(`>>> updateSidebarIconBadges: ${key} = ${count}`);
         }
     });
 
@@ -1784,6 +1801,7 @@ function updateSidebarIconBadges() {
     if (rightBadge) {
         rightBadge.textContent = activeStats.length;
         rightBadge.classList.toggle('has-items', activeStats.length > 0);
+        console.log(`>>> updateSidebarIconBadges: proceso = ${activeStats.length}`);
     }
 }
 
