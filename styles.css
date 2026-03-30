@@ -1874,7 +1874,7 @@ body {
 /* ── Iconos de sidebar con badges (Modelo E) ── */
 
 .sidebar-icons-container {
-    display: none;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -1882,6 +1882,10 @@ body {
     padding: 20px 0;
     width: 100%;
     min-height: 200px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -1928,16 +1932,20 @@ body {
     background: #667eea;
 }
 
-/* Mostrar iconos solo cuando sidebar está colapsado */
+/* En sidebar colapsado, iconos siempre visibles */
 .sidebar-collapsed .sidebar-icons-container {
-    display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
 }
 
-/* Ocultar label vertical cuando hay iconos */
-.sidebar-collapsed .sidebar-strip-label {
+/* Ocultar label vertical cuando hay iconos visibles */
+.sidebar-icons-container ~ .sidebar-strip-label {
     display: none;
+}
+
+/* Labels visibles cuando NO hay iconos (por si acaso) */
+.sidebar-strip-label {
+    display: block;
 }
 
 /* Ajustes para sidebar izquierdo */

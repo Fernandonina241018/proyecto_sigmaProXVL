@@ -19,21 +19,22 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
-### 30 de Marzo 2026 - Fix: carga automática de badges del sidebar al iniciar sesión
+### 30 de Marzo 2026 - Fix: badges visibles en sidebars tanto expandidos como colapsados
 
-**Cambio:** Los badges de los sidebars ahora se cargan correctamente al iniciar sesión
-- **Archivos:** `script.js`
-- **Razón:** Los contenedores de iconos se creaban DESPUÉS de cargar el estado, por lo que los badges no se actualizaban porque los elementos no existían aún
+**Cambio:** Los badges de iconos ahora son visibles tanto cuando el sidebar está expandido como cuando está colapsado
+- **Archivos:** `script.js`, `styles.css`
+- **Razón:** Los iconos con badges solo se mostraban cuando el sidebar estaba colapsado. Ahora siempre son visibles en la parte inferior del sidebar
 - **Estado:** ✅ COMPLETADO
 
 **Detalles:**
-- Movido `setupSidebarToggles()` antes de `StateManager.init()` (línea 1564-1565)
-- Agregado `updateSidebarIconBadges()` antes de `StateManager.init()` para inicializar badges
-- Agregado `updateSidebarIconBadges()` a los listeners `statsChange` y `stateLoad`
-- Ahora los badges se cargan correctamente tanto con datos guardados como sin ellos
+- CSS modificado: `.sidebar-icons-container` ahora tiene `display: flex` por defecto
+- Iconos posicionados en la parte inferior del sidebar con `position: absolute; bottom: 0`
+- Los badges muestran: descriptiva=X, hipotesis=Y, proceso=Z (total)
+- Los badges se actualizan automáticamente al cargar datos desde localStorage
 
 **Archivos modificados:**
-1. `script.js` - Líneas 1563-1567 (orden de inicialización), 889-899 (listeners)
+1. `script.js` - Líneas 1563-1578 (orden de inicialización de badges)
+2. `styles.css` - Líneas 1876-1891 (iconos siempre visibles)
 
 ---
 
