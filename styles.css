@@ -1992,7 +1992,7 @@ body {
     border-radius: 6px;
     cursor: pointer;
     font-size: 12px;
-    margin-bottom: 15px;
+    margin-top: auto;
     display: flex;
     align-items: center;
     justify-content: center;
