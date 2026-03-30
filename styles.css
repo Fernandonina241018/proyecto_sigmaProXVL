@@ -1985,7 +1985,7 @@ body {
 }
 
 .sidebar-toggle-btn-left {
-    width: 18px;
+    width: 16px;
     height: 50px;
     background: #667eea;
     color: white;
@@ -1997,7 +1997,7 @@ body {
     align-items: center;
     justify-content: center;
     position: absolute;
-    right: -20px;
+    right: -18px;
     top: 50%;
     transform: translateY(-50%);
     z-index: 100;
