@@ -702,6 +702,7 @@ body {
    SISTEMA DE MÚLTIPLES HOJAS (SHEETS)
    Estilos movidos a sección de trabajo
    ======================================== */
+.sheet-tab {
     transition: all 0.3s ease;
     min-width: max-content;
     position: relative;
