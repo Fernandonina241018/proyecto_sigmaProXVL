@@ -19,6 +19,24 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 30 de Marzo 2026 - Iconos de sidebar más grandes y centrados verticalmente
+
+**Cambio:** Los iconos de sidebar ahora son más grandes (1.6rem → 1.8rem) y están centrados verticalmente cuando el sidebar está colapsado
+- **Archivos:** `styles.css`
+- **Razón:** Los iconos aparecían abajo y eran muy pequeños, ahora aparecen a la mitad verticalmente y son más visibles
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- `justify-content: center` para centrar verticalmente
+- `min-height: 200px` para asegurar espacio de centrado
+- Iconos aumentados de 1.2rem a 1.6rem (1.8rem para proceso)
+- Mayor separación entre iconos (gap: 12px)
+
+**Archivos modificados:**
+1. `styles.css` - Líneas 1873-1880 y 1898-1900
+
+---
+
 ### 30 de Marzo 2026 - Botones Seleccionar/Desmarcar todos en panel de exportación de gráficos
 
 **Cambio:** Agregados botones para seleccionar y desmarcar todos los gráficos en el panel de exportación de visualización
