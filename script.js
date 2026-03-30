@@ -196,6 +196,9 @@ function updateActiveStatsUI() {
             container.appendChild(chip);
         });
     }
+
+    // Actualizar badges de iconos en sidebar
+    updateSidebarIconBadges();
 }
 
 function removeActiveStat(name) {
@@ -1654,6 +1657,9 @@ function setupSidebarToggles() {
     rightSidebar.appendChild(btnRight);
     rightSidebar.appendChild(crearLabel('En Proceso'));
 
+    // ── Crear contenedores de iconos ──
+    createSidebarIconContainers(leftSidebar, rightSidebar);
+
     // ── Aplicar estado guardado en sesión ──
 
     function aplicarEstado(sidebar, btn, collapsed) {
@@ -1686,6 +1692,113 @@ function setupSidebarToggles() {
     });
 
     console.log('✅ Sidebar toggles inicializados');
+}
+
+// ========================================
+// ICONOS DE SIDEBAR CON BADGES (Modelo E)
+// ========================================
+
+// Definir secciones con sus iconos y opciones
+const SIDEBAR_SECTIONS = {
+    descriptiva: {
+        icon: '📊',
+        label: 'Descriptiva',
+        options: [
+            'Media Aritmética', 'Mediana y Moda', 'Desviación Estándar', 'Varianza',
+            'Percentiles', 'Rango y Amplitud', 'Coeficiente de Variación',
+            'Asimetría (Skewness)', 'Curtosis (Kurtosis)', 'Error Estándar',
+            'Intervalos de Confianza', 'Detección de Outliers'
+        ]
+    },
+    hipotesis: {
+        icon: '🧪',
+        label: 'Hipótesis',
+        options: [
+            'T-Test (una muestra)', 'T-Test (dos muestras)', 'ANOVA One-Way',
+            'ANOVA Two-Way', 'Chi-Cuadrado', 'Test de Normalidad'
+        ]
+    },
+    correlacion: {
+        icon: '📈',
+        label: 'Correlación',
+        options: [
+            'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple'
+        ]
+    }
+};
+
+function updateSidebarIconBadges() {
+    const activeStats = StateManager.getActiveStats();
+    
+    // Actualizar badges del sidebar izquierdo
+    Object.entries(SIDEBAR_SECTIONS).forEach(([key, section]) => {
+        const badge = document.querySelector(`.sidebar-icon-badge[data-section="${key}"]`);
+        if (badge) {
+            const count = activeStats.filter(stat => section.options.includes(stat)).length;
+            badge.textContent = count;
+            badge.classList.toggle('has-items', count > 0);
+        }
+    });
+
+    // Actualizar badge del sidebar derecho (total activos)
+    const rightBadge = document.querySelector('.sidebar-icon-badge[data-section="proceso"]');
+    if (rightBadge) {
+        rightBadge.textContent = activeStats.length;
+        rightBadge.classList.toggle('has-items', activeStats.length > 0);
+    }
+}
+
+function createSidebarIconContainers(leftSidebar, rightSidebar) {
+    // Contenedor de iconos para sidebar izquierdo
+    const leftIcons = document.createElement('div');
+    leftIcons.className = 'sidebar-icons-container';
+    
+    Object.entries(SIDEBAR_SECTIONS).forEach(([key, section]) => {
+        const iconItem = document.createElement('div');
+        iconItem.className = 'sidebar-icon-item';
+        iconItem.innerHTML = `
+            <span class="sidebar-icon">${section.icon}</span>
+            <span class="sidebar-icon-badge" data-section="${key}">0</span>
+        `;
+        iconItem.title = section.label;
+        iconItem.addEventListener('click', (e) => {
+            e.stopPropagation();
+            // Expandir sidebar y abrir la sección correspondiente
+            leftSidebar.classList.remove('sidebar-collapsed');
+            sessionStorage.setItem('sidebar_left_collapsed', false);
+            
+            const accordionHeader = leftSidebar.querySelectorAll('.accordion-header');
+            const sections = Object.keys(SIDEBAR_SECTIONS);
+            const sectionIndex = sections.indexOf(key);
+            
+            if (sectionIndex >= 0 && accordionHeader[sectionIndex]) {
+                accordionHeader[sectionIndex].click();
+            }
+        });
+        leftIcons.appendChild(iconItem);
+    });
+    
+    leftSidebar.appendChild(leftIcons);
+
+    // Contenedor de iconos para sidebar derecho
+    const rightIcons = document.createElement('div');
+    rightIcons.className = 'sidebar-icons-container';
+    
+    const rightIconItem = document.createElement('div');
+    rightIconItem.className = 'sidebar-icon-item proceso-icon';
+    rightIconItem.innerHTML = `
+        <span class="sidebar-icon">⚡</span>
+        <span class="sidebar-icon-badge" data-section="proceso">0</span>
+    `;
+    rightIconItem.title = 'En Proceso';
+    rightIconItem.addEventListener('click', (e) => {
+        e.stopPropagation();
+        rightSidebar.classList.remove('sidebar-collapsed');
+        sessionStorage.setItem('sidebar_right_collapsed', false);
+    });
+    rightIcons.appendChild(rightIconItem);
+    
+    rightSidebar.appendChild(rightIcons);
 }
 
 // ========================================

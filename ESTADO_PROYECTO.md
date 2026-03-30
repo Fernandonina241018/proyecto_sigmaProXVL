@@ -19,6 +19,37 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 29 de Marzo 2026 - Iconos con badges en sidebars colapsados (Modelo E)
+
+**Cambio:** Los sidebars colapsados ahora muestran iconos representativos con badges numéricos indicando la cantidad de elementos seleccionados
+- **Archivos:** `script.js`, `styles.css`
+- **Razón:** Los sidebars colapsados mostraban área en blanco sin utilidad. Ahora muestran iconos que reflejan el contenido
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- **Sidebar izquierdo (Estadísticos):**
+  - 📊 Estadística Descriptiva + badge con cantidad seleccionada
+  - 🧪 Pruebas de Hipótesis + badge con cantidad seleccionada
+  - 📈 Correlación y Regresión + badge con cantidad seleccionada
+  - Click en icono → expande sidebar y abre la sección correspondiente
+
+- **Sidebar derecho (En Proceso):**
+  - ⚡ Icono de "En Proceso" + badge con total de estadísticos activos
+  - Click en icono → expande sidebar
+
+- **Badges dinámicos:**
+  - Se actualizan automáticamente al seleccionar/deseleccionar estadísticos
+  - Color gris cuando hay 0 elementos
+  - Color azul (izquierdo) o verde (derecho) cuando hay elementos activos
+
+**Archivos modificados:**
+1. `script.js` (+110 líneas) - SIDEBAR_SECTIONS, updateSidebarIconBadges(), createSidebarIconContainers()
+2. `styles.css` (+55 líneas) - Estilos para .sidebar-icons-container, .sidebar-icon-item, .sidebar-icon-badge
+
+**Estadísticas:** +165 líneas, 2 archivos modificados
+
+---
+
 ### 29 de Marzo 2026 - Filtrar columnas vacías al guardar desde Trabajo a Datos
 
 **Cambio:** Al presionar el botón de guardar (💾), solo se pasan al módulo de Datos las columnas que contienen al menos una celda con datos

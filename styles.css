@@ -1867,3 +1867,72 @@ body {
 .sidebar-collapsed .sidebar-strip-label {
     display: block;
 }
+
+/* ── Iconos de sidebar con badges (Modelo E) ── */
+
+.sidebar-icons-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    width: 100%;
+}
+
+.sidebar-icon-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+    padding: 6px 4px;
+    border-radius: 6px;
+    transition: background 0.2s;
+    position: relative;
+}
+
+.sidebar-icon-item:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-icon {
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.sidebar-icon-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #999;
+    background: #f0f0f0;
+    border-radius: 8px;
+    padding: 1px 5px;
+    min-width: 18px;
+    text-align: center;
+    line-height: 1.2;
+    transition: all 0.2s;
+}
+
+.sidebar-icon-badge.has-items {
+    color: white;
+    background: #667eea;
+}
+
+/* Mostrar iconos solo cuando sidebar está colapsado */
+.sidebar-collapsed .sidebar-icons-container {
+    display: flex;
+}
+
+/* Ocultar label vertical cuando hay iconos */
+.sidebar-collapsed .sidebar-strip-label {
+    display: none;
+}
+
+/* Ajustes para sidebar derecho */
+.proceso-icon .sidebar-icon {
+    font-size: 1.4rem;
+}
+
+.proceso-icon .sidebar-icon-badge.has-items {
+    background: #4caf50;
+}
