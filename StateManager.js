@@ -103,8 +103,8 @@ const StateManager = (() => {
             throw new Error(`Ya existe una hoja con el nombre "${sheetName}"`);
         }
         
-        // Generar headers por defecto
-        const defaultHeaders = ['#', ...Array.from({length: cols - 1}, (_, i) => `C${i + 1}`)];
+        // Generar headers por defecto usando letras estilo Excel
+        const defaultHeaders = ['#', ...Array.from({length: cols - 1}, (_, i) => indexToExcelColumn(i + 1))];
         
         // Generar datos vacíos por defecto
         const defaultData = Array.from({length: rows}, (_, i) => [
