@@ -19,6 +19,15 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 30 de Marzo 2026 - Fix: Eliminar código muerto que rompía JavaScript
+
+**Cambio:** Eliminado código muerto en script.js (líneas 1945-1999) que estaba fuera de cualquier función
+- **Archivo:** `script.js`
+- **Razón:** El código residual causaba errores de JavaScript porque referenciaba variables fuera de scope
+- **Estado:** ✅ COMPLETADO
+
+---
+
 ### 30 de Marzo 2026 - Rediseño: Sidebar compacto con iconos y modal de selección
 
 **Cambio:** Nuevo diseño de sidebar izquierdo con solo iconos y modal de selección
