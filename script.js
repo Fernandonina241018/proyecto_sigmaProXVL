@@ -1767,7 +1767,7 @@ function createSidebarIconContainers(leftSidebar, rightSidebar) {
     const totalItem = document.createElement('div');
     totalItem.className = 'sidebar-icon-compact';
     totalItem.innerHTML = `
-        <span class="sidebar-compact-icon">🔢</span>
+        <span class="sidebar-compact-icon">📊</span>
         <span class="sidebar-compact-badge has-items" id="sidebarTotalBadge">0</span>
     `;
     totalItem.title = 'Total activos';
@@ -1868,7 +1868,7 @@ function openStatModal(sectionKey) {
 
 function updateModalCount() {
     const count = Object.values(tempModalSelection).filter(v => v).length;
-    document.getElementById('modalStatCount').textContent = `Seleccionados: ${count}`;
+    document.getElementById('modalStatCount').textContent = `Selec: ${count}`;
 }
 
 function closeStatModal() {
