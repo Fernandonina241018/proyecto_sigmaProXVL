@@ -19,6 +19,23 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 30 de Marzo 2026 - Carga automática de badges al abrir la página
+
+**Cambio:** Los badges de los sidebars ahora se actualizan automáticamente al cargar la página con datos guardados
+- **Archivos:** `script.js`
+- **Razón:** Los badges no mostraban los números de estadísticos seleccionados al abrir la página porque no había listener para actualizar badges en el evento stateLoad
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Agregado `updateSidebarIconBadges()` al listener `statsChange`
+- Agregado `updateSidebarIconBadges()` al listener `stateLoad`
+- Ahora los badges se actualizan automáticamente cuando se cargan datos desde localStorage o cuando se selecciona/deselecciona un estadístico
+
+**Archivos modificados:**
+1. `script.js` - Líneas 889-897 (setupStateListeners)
+
+---
+
 ### 30 de Marzo 2026 - Fix crítico: secuencia de inicialización de badges del sidebar
 
 **Cambio:** Corregido el orden de ejecución para que los badges se actualicen DESPUÉS de crear los contenedores de iconos

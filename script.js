@@ -886,11 +886,15 @@ function viewFileDetails() {
 // ========================================
 
 function setupStateListeners() {
-    StateManager.addEventListener('statsChange', updateActiveStatsUI);
+    StateManager.addEventListener('statsChange', () => {
+        updateActiveStatsUI();
+        updateSidebarIconBadges();
+    });
 
     StateManager.addEventListener('stateLoad', () => {
         sincronizarMenuLateral();
         updateActiveStatsUI();
+        updateSidebarIconBadges();
     });
 
     StateManager.addEventListener('sheetChange', () => {
