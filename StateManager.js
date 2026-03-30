@@ -428,8 +428,8 @@ const StateManager = (() => {
         // La nueva columna toma el nombre correspondiente a su posición
         const newHeader = header || indexToExcelColumn(colIndex);
         
-        // Renombrar columnas existentes desde colIndex+1 para mantener secuencia
-        for (let i = colIndex + 1; i < sheet.headers.length; i++) {
+        // Renombrar columnas existentes desde colIndex para mantener secuencia
+        for (let i = colIndex; i < sheet.headers.length; i++) {
             sheet.headers[i] = indexToExcelColumn(i + 1);
         }
         
