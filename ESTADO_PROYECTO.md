@@ -19,6 +19,28 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 30 de Marzo 2026 - Rediseño: Sidebar compacto con iconos y modal de selección
+
+**Cambio:** Nuevo diseño de sidebar izquierdo con solo iconos y modal de selección
+- **Archivos:** `index.html`, `styles.css`, `script.js`
+- **Razón:** El diseño anterior con acordeones generaba conflictos visuales. Ahora sidebar compacto con iconos que abren modal de selección
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Sidebar izquierdo ahora tiene solo iconos (📊, 📈, 🧪, 📉, 🔬, 🎯, ✨)
+- Cada icono tiene badge con cantidad de estadísticos seleccionados
+- Click en icono abre modal con checkboxes para seleccionar múltiples opciones
+- Modal tiene botones: "Seleccionar todos", "Deseleccionar todos", "Aplicar"
+- Badge total en la parte superior del sidebar
+- Diseño limpio y funcional
+
+**Archivos modificados:**
+1. `index.html` - Eliminado acordeones, agregado sidebar compacto y modal
+2. `styles.css` - Nuevos estilos para sidebar compacto y modal
+3. `script.js` - Funciones: createSidebarIconContainers, openStatModal, applyStatSelection, etc.
+
+---
+
 ### 30 de Marzo 2026 - Fix: badges visibles en sidebars tanto expandidos como colapsados
 
 **Cambio:** Los badges de iconos ahora son visibles tanto cuando el sidebar está expandido como cuando está colapsado

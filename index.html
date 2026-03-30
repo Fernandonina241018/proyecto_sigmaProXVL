@@ -34,102 +34,10 @@
 
         <!-- Main Content -->
         <div class="main-area">
-            <!-- Statistics Menu -->
-            <div class="stats-menu">
-                <h2>Estadísticos</h2>
-
-                <div class="menu-section">
-                    <div class="accordion-header">
-                        <span>📈 Estadística Descriptiva</span>
-                        <span class="accordion-icon">▼</span>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="menu-option">Media Aritmética</div>
-                        <div class="menu-option">Mediana y Moda</div>
-                        <div class="menu-option">Desviación Estándar</div>
-                        <div class="menu-option">Varianza</div>
-                        <div class="menu-option">Percentiles</div>
-                        <div class="menu-option">Rango y Amplitud</div>
-                        <div class="menu-option">Coeficiente de Variación</div>
-                        <div class="menu-option">Asimetría (Skewness)</div>
-                        <div class="menu-option">Curtosis (Kurtosis)</div>
-                        <div class="menu-option">Error Estándar</div>
-                        <div class="menu-option">Intervalos de Confianza</div>
-                        <div class="menu-option">Detección de Outliers</div>
-                    </div>
-                </div>
-
-                <div class="menu-section">
-                    <div class="accordion-header">
-                        <span>🧪 Pruebas de Hipótesis</span>
-                        <span class="accordion-icon">▼</span>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="menu-option">T-Test (una muestra)</div>
-                        <div class="menu-option">T-Test (dos muestras)</div>
-                        <div class="menu-option">ANOVA One-Way</div>
-                        <div class="menu-option">ANOVA Two-Way</div>
-                        <div class="menu-option">Chi-Cuadrado</div>
-                        <div class="menu-option">Test de Normalidad</div>
-                    </div>
-                </div>
-
-                <div class="menu-section">
-                    <div class="accordion-header">
-                        <span>📉 Correlación y Regresión</span>
-                        <span class="accordion-icon">▼</span>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="menu-option">Correlación Pearson</div>
-                        <div class="menu-option">Correlación Spearman</div>
-                        <div class="menu-option">Regresión Lineal Simple</div>
-                        <div class="menu-option">Regresión Lineal Múltiple</div>
-                        <div class="menu-option">Regresión Logística</div>
-                        <div class="menu-option">Regresión Polinomial</div>
-                    </div>
-                </div>
-
-                <div class="menu-section">
-                    <div class="accordion-header">
-                        <span>🔬 Tests No Paramétricos</span>
-                        <span class="accordion-icon">▼</span>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="menu-option">Mann-Whitney U</div>
-                        <div class="menu-option">Wilcoxon</div>
-                        <div class="menu-option">Kruskal-Wallis</div>
-                        <div class="menu-option">Friedman</div>
-                        <div class="menu-option">Test de Signos</div>
-                    </div>
-                </div>
-
-                <div class="menu-section">
-                    <div class="accordion-header">
-                        <span>🎯 Análisis Multivariado</span>
-                        <span class="accordion-icon">▼</span>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="menu-option">PCA (Componentes Principales)</div>
-                        <div class="menu-option">Análisis Factorial</div>
-                        <div class="menu-option">Análisis de Cluster</div>
-                        <div class="menu-option">Análisis Discriminante</div>
-                        <div class="menu-option">M-ANOVA</div>
-                    </div>
-                </div>
-
-                <div class="menu-section">
-                    <div class="accordion-header">
-                        <span>✨ Análisis Extras</span>
-                        <span class="accordion-icon">▼</span>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="menu-option">Series Temporales</div>
-                        <div class="menu-option">Bootstrap</div>
-                        <div class="menu-option">Análisis de Supervivencia</div>
-                        <div class="menu-option">Modelos Mixtos</div>
-                        <div class="menu-option">Análisis Bayesiano</div>
-                    </div>
-                </div>
+            <!-- Statistics Menu - Compacto con Iconos -->
+            <div class="stats-menu" id="stats-menu-compact">
+                <div class="sidebar-toggle-btn-left" id="btnLeft"></div>
+                <div class="sidebar-icons-compact" id="sidebarIconsCompact"></div>
             </div>
 
             <!-- Work Space -->
@@ -278,6 +186,26 @@
                 <div class="stats-count" id="statsCount">0 estadísticos activos</div>
                 <div class="empty-state" id="emptyState">
                     <p>No hay estadísticos seleccionados</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Selección de Estadísticos -->
+    <div id="stat-selection-modal" class="stat-modal">
+        <div class="stat-modal-content">
+            <div class="stat-modal-header">
+                <span class="stat-modal-icon" id="modalStatIcon"></span>
+                <h3 id="modalStatTitle">Selección de Estadísticos</h3>
+                <button class="stat-modal-close" onclick="closeStatModal()">✕</button>
+            </div>
+            <div class="stat-modal-body" id="modalStatList"></div>
+            <div class="stat-modal-footer">
+                <span class="stat-modal-count" id="modalStatCount">Seleccionados: 0</span>
+                <div class="stat-modal-buttons">
+                    <button class="btn-select-all" onclick="selectAllInModal()">Seleccionar todos</button>
+                    <button class="btn-deselect-all" onclick="deselectAllInModal()">Deseleccionar todos</button>
+                    <button class="btn-apply" onclick="applyStatSelection()">Aplicar</button>
                 </div>
             </div>
         </div>

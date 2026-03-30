@@ -1626,7 +1626,7 @@ function _renderUserChip(username) {
 }
 
 // ========================================
-// SIDEBAR COLLAPSIBLE
+// SIDEBAR COMPACTO CON ICONOS
 // ========================================
 
 function setupSidebarToggles() {
@@ -1638,79 +1638,40 @@ function setupSidebarToggles() {
 
     if (!leftSidebar || !rightSidebar) return;
 
-    // ── Crear botones de toggle ──
-
-    function crearBoton(arrowExpandida, arrowColapsada) {
-        const btn = document.createElement('button');
-        btn.className = 'sidebar-toggle-btn';
-        btn.setAttribute('aria-label', 'Toggle sidebar');
-        btn.dataset.arrowExp = arrowExpandida;
-        btn.dataset.arrowCol = arrowColapsada;
-        btn.textContent = arrowExpandida;
-        return btn;
-    }
-
-    function crearLabel(texto) {
-        const label = document.createElement('div');
-        label.className = 'sidebar-strip-label';
-        label.textContent = texto;
-        return label;
-    }
-
-    const btnLeft  = crearBoton('◀', '▶');
-    const btnRight = crearBoton('▶', '◀');
-
-    leftSidebar.appendChild(btnLeft);
-    leftSidebar.appendChild(crearLabel('Estadísticos'));
-
-    rightSidebar.appendChild(btnRight);
-    rightSidebar.appendChild(crearLabel('En Proceso'));
-
-    // ── Crear contenedores de iconos ──
+    // Crear contenedor de iconos para sidebar compacto
     createSidebarIconContainers(leftSidebar, rightSidebar);
 
-    // ── Aplicar estado guardado en sesión ──
+    // Botón para sidebar derecho
+    const btnRight = document.createElement('button');
+    btnRight.className = 'sidebar-toggle-btn';
+    btnRight.textContent = '▶';
+    rightSidebar.appendChild(btnRight);
 
-    function aplicarEstado(sidebar, btn, collapsed) {
-        if (collapsed) {
-            sidebar.classList.add('sidebar-collapsed');
-            btn.textContent = btn.dataset.arrowCol;
-        } else {
-            sidebar.classList.remove('sidebar-collapsed');
-            btn.textContent = btn.dataset.arrowExp;
-        }
+    const labelRight = document.createElement('div');
+    labelRight.className = 'sidebar-strip-label';
+    labelRight.textContent = 'En Proceso';
+    rightSidebar.appendChild(labelRight);
+
+    // Aplicar estado guardado del sidebar derecho
+    const rightCollapsed = sessionStorage.getItem(STORAGE_KEY_RIGHT) === 'true';
+    if (rightCollapsed) {
+        rightSidebar.classList.add('sidebar-collapsed');
+        btnRight.textContent = '◀';
     }
 
-    aplicarEstado(leftSidebar,  btnLeft,  sessionStorage.getItem(STORAGE_KEY_LEFT)  === 'true');
-    aplicarEstado(rightSidebar, btnRight, sessionStorage.getItem(STORAGE_KEY_RIGHT) === 'true');
-
-    // ── Click handlers ──
-
-    btnLeft.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const collapsed = !leftSidebar.classList.contains('sidebar-collapsed');
-        if (collapsed) {
-            document.querySelectorAll('.accordion-header.active').forEach(h => {
-                h.classList.remove('active');
-                h.nextElementSibling.classList.remove('active');
-            });
-        }
-        sessionStorage.setItem(STORAGE_KEY_LEFT, collapsed);
-        aplicarEstado(leftSidebar, btnLeft, collapsed);
-    });
-
+    // Click handler para sidebar derecho
     btnRight.addEventListener('click', (e) => {
         e.stopPropagation();
         const collapsed = !rightSidebar.classList.contains('sidebar-collapsed');
+        rightSidebar.classList.toggle('sidebar-collapsed');
+        btnRight.textContent = collapsed ? '◀' : '▶';
+        labelRight.style.display = collapsed ? 'block' : 'none';
         sessionStorage.setItem(STORAGE_KEY_RIGHT, collapsed);
-        aplicarEstado(rightSidebar, btnRight, collapsed);
     });
-
-    console.log('✅ Sidebar toggles inicializados');
 }
 
 // ========================================
-// ICONOS DE SIDEBAR CON BADGES (Modelo E)
+// SIDEBAR COMPACTO - ICONOS Y MODAL
 // ========================================
 
 // Definir secciones con sus iconos y opciones
@@ -1769,8 +1730,9 @@ const SIDEBAR_SECTIONS = {
 function updateSidebarIconBadges() {
     const activeStats = StateManager.getActiveStats();
     
+    // Actualizar badges del sidebar compacto
     Object.entries(SIDEBAR_SECTIONS).forEach(([key, section]) => {
-        const badge = document.querySelector(`.sidebar-icon-badge[data-section="${key}"]`);
+        const badge = document.querySelector(`.sidebar-compact-badge[data-section="${key}"]`);
         if (badge) {
             const count = activeStats.filter(stat => section.options.includes(stat)).length;
             badge.textContent = count;
@@ -1778,14 +1740,209 @@ function updateSidebarIconBadges() {
         }
     });
 
+    // Actualizar badge del sidebar derecho (En Proceso)
     const rightBadge = document.querySelector('.sidebar-icon-badge[data-section="proceso"]');
     if (rightBadge) {
         rightBadge.textContent = activeStats.length;
         rightBadge.classList.toggle('has-items', activeStats.length > 0);
     }
+    
+    // Actualizar contador en header
+    const totalBadge = document.getElementById('sidebarTotalBadge');
+    if (totalBadge) {
+        totalBadge.textContent = activeStats.length;
+    }
 }
 
+// Variable para guardar la selección temporal del modal
+let tempModalSelection = {};
+let currentModalSection = null;
+
 function createSidebarIconContainers(leftSidebar, rightSidebar) {
+    // Crear sidebar compacto con iconos
+    const iconsContainer = document.getElementById('sidebarIconsCompact');
+    if (!iconsContainer) return;
+    
+    // Agregar badge total al inicio
+    const totalItem = document.createElement('div');
+    totalItem.className = 'sidebar-icon-compact';
+    totalItem.innerHTML = `
+        <span class="sidebar-compact-icon">📊</span>
+        <span class="sidebar-compact-badge has-items" id="sidebarTotalBadge">0</span>
+    `;
+    totalItem.title = 'Total activos';
+    iconsContainer.appendChild(totalItem);
+    
+    // Crear iconos para cada sección
+    Object.entries(SIDEBAR_SECTIONS).forEach(([key, section]) => {
+        const iconItem = document.createElement('div');
+        iconItem.className = 'sidebar-icon-compact';
+        iconItem.innerHTML = `
+            <span class="sidebar-compact-icon">${section.icon}</span>
+            <span class="sidebar-compact-badge" data-section="${key}">0</span>
+        `;
+        iconItem.title = section.label;
+        iconItem.addEventListener('click', () => {
+            openStatModal(key);
+        });
+        iconsContainer.appendChild(iconItem);
+    });
+
+    // Configurar botón de toggle
+    const btnLeft = document.getElementById('btnLeft');
+    if (btnLeft) {
+        btnLeft.textContent = '◀';
+        btnLeft.addEventListener('click', () => {
+            const isCollapsed = leftSidebar.classList.contains('sidebar-collapsed');
+            leftSidebar.classList.toggle('sidebar-collapsed');
+            btnLeft.textContent = isCollapsed ? '◀' : '▶';
+            sessionStorage.setItem('sidebar_left_collapsed', !isCollapsed);
+        });
+    }
+    
+    // Aplicar estado guardado
+    const savedCollapsed = sessionStorage.getItem('sidebar_left_collapsed') === 'true';
+    if (savedCollapsed) {
+        leftSidebar.classList.add('sidebar-collapsed');
+        if (btnLeft) btnLeft.textContent = '▶';
+    }
+
+    // Inicializar badges
+    updateSidebarIconBadges();
+}
+
+// ========================================
+// MODAL DE SELECCIÓN DE ESTADÍSTICOS
+// ========================================
+
+function openStatModal(sectionKey) {
+    const section = SIDEBAR_SECTIONS[sectionKey];
+    if (!section) return;
+    
+    currentModalSection = sectionKey;
+    const activeStats = StateManager.getActiveStats();
+    
+    // Inicializar selección temporal
+    tempModalSelection = {};
+    section.options.forEach(opt => {
+        tempModalSelection[opt] = activeStats.includes(opt);
+    });
+    
+    // Configurar header del modal
+    document.getElementById('modalStatIcon').textContent = section.icon;
+    document.getElementById('modalStatTitle').textContent = section.label;
+    
+    // Generar lista de opciones
+    const listContainer = document.getElementById('modalStatList');
+    listContainer.innerHTML = section.options.map(opt => `
+        <div class="stat-option ${tempModalSelection[opt] ? 'selected' : ''}" data-stat="${opt}">
+            <input type="checkbox" id="stat-${opt}" ${tempModalSelection[opt] ? 'checked' : ''}>
+            <label for="stat-${opt}">${opt}</label>
+        </div>
+    `).join('');
+    
+    // Agregar event listeners
+    listContainer.querySelectorAll('.stat-option').forEach(item => {
+        const statName = item.dataset.stat;
+        const checkbox = item.querySelector('input');
+        
+        item.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'INPUT') {
+                checkbox.checked = !checkbox.checked;
+            }
+            tempModalSelection[statName] = checkbox.checked;
+            item.classList.toggle('selected', checkbox.checked);
+            updateModalCount();
+        });
+        
+        checkbox.addEventListener('change', (e) => {
+            tempModalSelection[statName] = e.target.checked;
+            item.classList.toggle('selected', e.target.checked);
+            updateModalCount();
+        });
+    });
+    
+    updateModalCount();
+    document.getElementById('stat-selection-modal').classList.add('active');
+}
+
+function updateModalCount() {
+    const count = Object.values(tempModalSelection).filter(v => v).length;
+    document.getElementById('modalStatCount').textContent = `Seleccionados: ${count}`;
+}
+
+function closeStatModal() {
+    document.getElementById('stat-selection-modal').classList.remove('active');
+    currentModalSection = null;
+    tempModalSelection = {};
+}
+
+function selectAllInModal() {
+    if (!currentModalSection) return;
+    const section = SIDEBAR_SECTIONS[currentModalSection];
+    
+    section.options.forEach(opt => {
+        tempModalSelection[opt] = true;
+    });
+    
+    document.querySelectorAll('.stat-option').forEach(item => {
+        const checkbox = item.querySelector('input');
+        checkbox.checked = true;
+        item.classList.add('selected');
+    });
+    
+    updateModalCount();
+}
+
+function deselectAllInModal() {
+    if (!currentModalSection) return;
+    const section = SIDEBAR_SECTIONS[currentModalSection];
+    
+    section.options.forEach(opt => {
+        tempModalSelection[opt] = false;
+    });
+    
+    document.querySelectorAll('.stat-option').forEach(item => {
+        const checkbox = item.querySelector('input');
+        checkbox.checked = false;
+        item.classList.remove('selected');
+    });
+    
+    updateModalCount();
+}
+
+function applyStatSelection() {
+    if (!currentModalSection) return;
+    
+    const section = SIDEBAR_SECTIONS[currentModalSection];
+    const currentActive = StateManager.getActiveStats();
+    
+    // Remover estadísticas de esta sección
+    const newActive = currentActive.filter(stat => !section.options.includes(stat));
+    
+    // Agregar las seleccionadas
+    section.options.forEach(opt => {
+        if (tempModalSelection[opt]) {
+            newActive.push(opt);
+        }
+    });
+    
+    // Actualizar StateManager
+    StateManager.clearActiveStats();
+    newActive.forEach(stat => StateManager.addActiveStat(stat));
+    
+    closeStatModal();
+}
+
+// Cerrar modal al hacer click fuera
+document.addEventListener('click', (e) => {
+    const modal = document.getElementById('stat-selection-modal');
+    if (e.target === modal) {
+        closeStatModal();
+    }
+});
+
+// Backward compatibility - mantener función anterior
     // Contenedor de iconos para sidebar izquierdo
     const leftIcons = document.createElement('div');
     leftIcons.className = 'sidebar-icons-container';
