@@ -1923,34 +1923,28 @@ body {
     background: #667eea;
 }
 
-/* Sidebar expandido: iconos en la parte inferior, sin interferir */
+/* Sidebar expandido: iconos ocultos */
 .stats-menu:not(.sidebar-collapsed) .sidebar-icons-container,
 .active-sidebar:not(.sidebar-collapsed) .sidebar-icons-container {
-    display: flex;
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    right: 0;
-    background: transparent;
-    z-index: 10;
+    display: none !important;
 }
 
-/* Sidebar colapsado: iconos centrados */
+/* Sidebar colapsado: iconos visibles */
 .sidebar-collapsed .sidebar-icons-container {
-    display: flex;
-    position: static;
+    display: flex !important;
     justify-content: center;
     min-height: 100%;
     padding-top: 30px;
 }
 
-/* Ocultar label vertical cuando hay iconos visibles */
-.sidebar-icons-container ~ .sidebar-strip-label {
+/* Ocultar label vertical cuando sidebar colapsado */
+.sidebar-collapsed .sidebar-strip-label {
     display: none;
 }
 
-/* Labels visibles cuando NO hay iconos */
-.sidebar-strip-label {
+/* Labels visibles cuando sidebar expandido */
+.stats-menu:not(.sidebar-collapsed) .sidebar-strip-label,
+.active-sidebar:not(.sidebar-collapsed) .sidebar-strip-label {
     display: block;
 }
 
