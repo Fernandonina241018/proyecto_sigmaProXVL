@@ -888,6 +888,11 @@ function viewFileDetails() {
 function setupStateListeners() {
     StateManager.addEventListener('statsChange', updateActiveStatsUI);
 
+    StateManager.addEventListener('stateLoad', () => {
+        sincronizarMenuLateral();
+        updateActiveStatsUI();
+    });
+
     StateManager.addEventListener('sheetChange', () => {
         renderSheetTabs();
         renderWorkTable();
@@ -1552,10 +1557,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Inicialización de la app (solo tras login exitoso)
 function _initApp() {
-    StateManager.init();
-    setupStateListeners();
+    setupStateListeners(); // Primero registrar listeners
+    StateManager.init();   // Luego inicializar (puede cargar estado y disparar stateLoad)
     updateActiveStatsUI();
-    sincronizarMenuLateral(); // ← agregar aquí
+    sincronizarMenuLateral();
     switchView('trabajo'); // Vista por defecto: módulo de trabajo
     setupWorkButtons();
     // setupTransformButtons(); — reemplazado por DatosManager
@@ -1577,6 +1582,7 @@ function _initApp() {
     }
 
     setupSidebarToggles();
+    updateSidebarIconBadges();
     
     console.log('✅ Formatos soportados: CSV, JSON, TXT');
     console.log('✅ Estado centralizado activo');
