@@ -1821,9 +1821,9 @@ body {
 
 /* ── Estado colapsado ── */
 .stats-menu.sidebar-collapsed {
-    width: 50px !important;
-    min-width: 50px !important;
-    padding: 0 !important;
+    width: 70px !important;
+    min-width: 70px !important;
+    padding: 10px 5px !important;
     position: relative;
 }
 
@@ -1835,7 +1835,7 @@ body {
 }
 
 /* Ocultar contenido interno al colapsar */
-.stats-menu.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label):not(.sidebar-icons-container),
+.stats-menu.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left):not(.sidebar-strip-label):not(.sidebar-icons-container):not(.sidebar-icons-compact):not(.sidebar-icons-container-top),
 .active-sidebar.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label):not(.sidebar-icons-container) {
     opacity: 0;
     pointer-events: none;
