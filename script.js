@@ -1680,6 +1680,12 @@ function setupSidebarToggles() {
     btnLeft.addEventListener('click', (e) => {
         e.stopPropagation();
         const collapsed = !leftSidebar.classList.contains('sidebar-collapsed');
+        if (collapsed) {
+            document.querySelectorAll('.accordion-header.active').forEach(h => {
+                h.classList.remove('active');
+                h.nextElementSibling.classList.remove('active');
+            });
+        }
         sessionStorage.setItem(STORAGE_KEY_LEFT, collapsed);
         aplicarEstado(leftSidebar, btnLeft, collapsed);
     });

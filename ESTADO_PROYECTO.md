@@ -19,6 +19,25 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 29 de Marzo 2026 - Fix: Cerrar menús acordeón al colapsar sidebar izquierdo
+
+**Cambio:** Al colapsar el sidebar izquierdo, se cierran automáticamente los menús acordeón abiertos para que los iconos sean visibles
+- **Archivos:** `script.js`
+- **Razón:** Si un menú acordeón estaba abierto al momento de colapsar el sidebar, el contenido del acordeón se superponía y ocultaba los iconos con badges
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- En el click handler de `btnLeft`, antes de colapsar se verifican y cierran todos los `.accordion-header.active`
+- Se elimina la clase `active` tanto del header como de su contenido siguiente
+- Solo aplica al colapsar (no al expandir)
+
+**Archivos modificados:**
+1. `script.js` (+5 líneas) - Cierre de acordeones en btnLeft click handler
+
+**Estadísticas:** 1 archivo modificado
+
+---
+
 ### 29 de Marzo 2026 - Fix: Iconos de sidebar no aparecían al colapsar
 
 **Cambio:** Corregido bug que impedía que los iconos con badges en sidebars colapsados fueran visibles
