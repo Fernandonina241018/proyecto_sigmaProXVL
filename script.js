@@ -626,14 +626,31 @@ function saveWorkData() {
         return;
     }
 
-    const headers       = sheet.headers.slice(1);
+    // Identificar columnas que tienen al menos una celda con datos
+    const allHeaders = sheet.headers.slice(1);
+    const colHasData = allHeaders.map((_, colIdx) =>
+        nonEmptyRows.some(row => {
+            const cell = row[colIdx + 1];
+            return cell && String(cell).trim() !== '';
+        })
+    );
+
+    // Filtrar headers y datos solo por columnas con datos
+    const headers = allHeaders.filter((_, colIdx) => colHasData[colIdx]);
     const formattedData = nonEmptyRows.map(row => {
         const obj = {};
-        headers.forEach((header, i) => {
-            obj[header] = row[i + 1] || '';
+        allHeaders.forEach((header, colIdx) => {
+            if (colHasData[colIdx]) {
+                obj[header] = row[colIdx + 1] || '';
+            }
         });
         return obj;
     });
+
+    if (headers.length === 0) {
+        alert('⚠️ No hay columnas con datos válidos para guardar');
+        return;
+    }
 
     const fileName = `${sheet.name || 'hoja_trabajo'}_${new Date().toISOString().slice(0, 10)}.csv`;
 

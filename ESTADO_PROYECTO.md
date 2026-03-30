@@ -19,6 +19,27 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 29 de Marzo 2026 - Filtrar columnas vacías al guardar desde Trabajo a Datos
+
+**Cambio:** Al presionar el botón de guardar (💾), solo se pasan al módulo de Datos las columnas que contienen al menos una celda con datos
+- **Archivos:** `script.js`
+- **Razón:** Antes se pasaban todas las columnas incluso si estaban completamente vacías, generando columnas innecesarias en el módulo de Datos
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Se identifica qué columnas tienen al menos una celda con datos (no vacía)
+- Solo se incluyen en los headers las columnas con datos
+- Solo se incluyen en los datos los valores de las columnas con datos
+- Se mantiene el filtrado de filas vacías que ya existía
+- Se agrega validación: si no hay columnas con datos, se muestra alerta
+
+**Archivos modificados:**
+1. `script.js` (+17, -7 líneas) - saveWorkData() con filtro de columnas
+
+**Estadísticas:** +10 líneas netas, 1 archivo modificado
+
+---
+
 ### 29 de Marzo 2026 - Menús contextuales para insertar/eliminar filas y columnas en módulo de trabajo
 
 **Cambio:** Agregados menús desplegables en encabezados de columnas y filas para insertar/eliminar en posiciones intermedias
