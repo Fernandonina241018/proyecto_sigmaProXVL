@@ -19,6 +19,31 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 29 de Marzo 2026 - Nuevo layout Opción A para módulo de trabajo + bug fix vista por defecto
+
+**Cambio:** Rediseño completo del módulo de trabajo con layout ergonómico y corrección de bug de vista por defecto
+- **Archivos:** `index.html`, `script.js`, `styles.css`
+- **Razón:** Layout anterior tenía controles dispersos, tabla pequeña y resumen lejos de la vista. Bug: el programa siempre abría en 'Análisis' a pesar de configurar 'Trabajo' como vista por defecto
+- **Estado:** ✅ COMPLETADO
+- **Commit:** `7884205` - feat: nuevo layout Opción A para módulo de trabajo + bug fix vista por defecto
+
+**Detalles:**
+- Bug fix: Cambiar `switchView('analisis')` a `switchView('trabajo')` en `_initApp()` de script.js
+- Layout Opción A: Toolbar unificada + layout grid (tabla + sidebar resumen)
+- Toolbar compacta: botones fila/columna + controles de generación + pestañas de hojas
+- Sidebar de resumen: muestra filas, columnas, celdas con datos, hoja activa, total hojas
+- Tabla editable ocupa máximo espacio disponible
+- Eliminar elementos innecesarios: table-info, sheets-info, sheets-tabs-container
+
+**Archivos modificados:**
+1. `index.html` (+90, -50 líneas) - Reestructurar HTML del módulo de trabajo
+2. `script.js` (+1, -1 línea) - Cambiar vista por defecto
+3. `styles.css` (+258, -93 líneas) - Nuevos estilos para toolbar unificada y layout grid
+
+**Estadísticas:** +349 líneas, -144 líneas, 3 archivos modificados
+
+---
+
 ### 29 de Marzo 2026 - Optimizar módulo de trabajo: pegado automático y vista por defecto
 
 **Cambio:** Vista de trabajo aparece por defecto al abrir el programa y pegado automático desde Excel
