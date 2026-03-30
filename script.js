@@ -343,6 +343,37 @@ function attachTableInputListeners() {
             inputs[next].select();
         }
     });
+
+    // Listener de paste para datos tabulares de Excel
+    freshWrapper.addEventListener('paste', (e) => {
+        const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+        if (!pastedText) return;
+
+        // Detectar si es dato tabular (de Excel) o texto simple
+        const hasTab = pastedText.includes('\t');
+        const hasMultipleLines = pastedText.split('\n').filter(r => r.trim()).length > 1;
+        const isTabularData = hasTab || hasMultipleLines;
+
+        if (isTabularData) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Obtener celda activa
+            const activeCell = document.activeElement;
+            let startRow = 0;
+            let startCol = 1;
+
+            if (activeCell && activeCell.classList.contains('editable-cell')) {
+                const cellRow = parseInt(activeCell.dataset.row);
+                const cellCol = parseInt(activeCell.dataset.col);
+                if (!isNaN(cellRow)) startRow = cellRow;
+                if (!isNaN(cellCol)) startCol = cellCol;
+            }
+
+            processPastedData(pastedText, startRow, startCol);
+        }
+        // Si no es tabular, se pega normalmente en el input
+    });
 }
 
 function updateWorkSummary() {
@@ -392,9 +423,6 @@ function setupWorkButtons() {
     if (btnDelCol)   btnDelCol.onclick   = deleteWorkColumn;
     if (btnClear)    btnClear.onclick    = clearWorkTable;
     if (btnSave)     btnSave.onclick     = saveWorkData;
-
-    // Configurar pegado automático
-    setupAutoPaste();
 
     if (btnNewSheet) {
         btnNewSheet.onclick = () => {
@@ -514,27 +542,10 @@ function saveWorkData() {
 
 // ========================================
 // PEGADO AUTOMÁTICO DESDE EXCEL
+// El listener de paste se agrega en attachTableInputListeners()
 // ========================================
 
-function setupAutoPaste() {
-    const wrapper = document.getElementById('editable-table-wrapper');
-    if (!wrapper) return;
-
-    wrapper.addEventListener('paste', function(e) {
-        const pastedText = (e.clipboardData || window.clipboardData).getData('text');
-        
-        // Detectar si es dato tabular (de Excel) o texto simple
-        const isTabularData = pastedText.includes('\t') || pastedText.split('\n').filter(r => r.trim()).length > 1;
-        
-        if (isTabularData) {
-            e.preventDefault();
-            processPastedData(pastedText);
-        }
-        // Si no es tabular, se pega normalmente en la celda
-    });
-}
-
-function processPastedData(text) {
+function processPastedData(text, startRow = 0, startCol = 1) {
     const rows = text.split('\n').filter(r => r.trim());
     if (rows.length === 0) return;
 
@@ -542,26 +553,19 @@ function processPastedData(text) {
     const sheet = StateManager.getActiveSheet();
     if (!sheet) return;
 
+    // Expandir hoja si es necesario
+    const neededRows = startRow + rows.length;
+    const neededCols = startCol + maxCols;
+    
     try {
-        while (sheet.data.length < rows.length) StateManager.addRow();
-        while ((sheet.headers.length - 1) < maxCols) StateManager.addColumn();
+        while (sheet.data.length < neededRows) StateManager.addRow();
+        while ((sheet.headers.length - 1) < neededCols) StateManager.addColumn();
     } catch (err) {
         alert('⚠️ No se pudo expandir la hoja: ' + err.message);
         return;
     }
 
-    // Obtener posición de la celda activa si existe
-    const activeCell = document.querySelector('.editable-cell:focus');
-    let startRow = 0;
-    let startCol = 1;
-    
-    if (activeCell) {
-        const cellRow = parseInt(activeCell.dataset.row);
-        const cellCol = parseInt(activeCell.dataset.col);
-        if (!isNaN(cellRow)) startRow = cellRow;
-        if (!isNaN(cellCol)) startCol = cellCol;
-    }
-
+    // Pegar datos
     rows.forEach((rowText, rowIdx) => {
         const targetRow = startRow + rowIdx;
         if (targetRow >= sheet.data.length) return;
