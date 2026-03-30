@@ -1247,6 +1247,8 @@ const Visualizacion = (() => {
         </div>
         <div class="viz-export-subtitle">
             <p>Selecciona los gráficos a incluir</p>
+            <button class="viz-btn-sel-all" id="viz-btn-sel-all">✓ Seleccionar todos</button>
+            <button class="viz-btn-desel-all" id="viz-btn-desel-all">✕ Desmarcar todos</button>
         </div>
 
         <div class="viz-predefinidos-list" id="viz-predefinidos-grid">
@@ -1303,6 +1305,36 @@ function _attachExportPanelListeners(predefinidos, controlsPanel) {
         document.getElementById('viz-export-panel')?.remove();
         if (controlsPanel) controlsPanel.style.display = '';
         _modoExportacion     = false;
+        _graficosParaReporte = [];
+    });
+
+    document.getElementById('viz-btn-sel-all')?.addEventListener('click', () => {
+        predefinidos.forEach(p => {
+            const cb = document.getElementById(`viz-pred-${p.id}`);
+            const wrap = document.getElementById(`viz-pred-wrap-${p.id}`);
+            if (cb && !cb.checked) {
+                cb.checked = true;
+                wrap?.classList.add('viz-pred-selected');
+            }
+        });
+        _actualizarContadorExport();
+        const btnCont = document.getElementById('viz-btn-continue');
+        if (btnCont) btnCont.disabled = true;
+        _graficosParaReporte = [];
+    });
+
+    document.getElementById('viz-btn-desel-all')?.addEventListener('click', () => {
+        predefinidos.forEach(p => {
+            const cb = document.getElementById(`viz-pred-${p.id}`);
+            const wrap = document.getElementById(`viz-pred-wrap-${p.id}`);
+            if (cb) {
+                cb.checked = false;
+                wrap?.classList.remove('viz-pred-selected');
+            }
+        });
+        _actualizarContadorExport();
+        const btnCont = document.getElementById('viz-btn-continue');
+        if (btnCont) btnCont.disabled = true;
         _graficosParaReporte = [];
     });
 

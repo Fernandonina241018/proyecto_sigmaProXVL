@@ -345,6 +345,45 @@
     line-height: 1.3;
 }
 
+.viz-export-subtitle {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.viz-btn-sel-all,
+.viz-btn-desel-all {
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.viz-btn-sel-all {
+    color: #2f855a;
+    border-color: #68d391;
+}
+
+.viz-btn-sel-all:hover {
+    background: #f0fff4;
+    border-color: #48bb78;
+}
+
+.viz-btn-desel-all {
+    color: #c53030;
+    border-color: #fc8181;
+}
+
+.viz-btn-desel-all:hover {
+    background: #fff5f5;
+    border-color: #f56565;
+}
+
 .viz-export-close {
     background: none;
     border: 1px solid #e2e8f0;

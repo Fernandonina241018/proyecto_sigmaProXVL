@@ -19,6 +19,26 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 30 de Marzo 2026 - Botones Seleccionar/Desmarcar todos en panel de exportación de gráficos
+
+**Cambio:** Agregados botones para seleccionar y desmarcar todos los gráficos en el panel de exportación de visualización
+- **Archivos:** `Visualizacion.js`, `visualizacion.css`
+- **Razón:** Facilitar la selección masiva de gráficos para incluir en el reporte
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Botón "✓ Seleccionar todos" - marca todos los checkboxes de gráficos
+- Botón "✕ Desmarcar todos" - desmarca todos los checkboxes de gráficos
+- Los botones actualizan el contador y resetean los gráficos generados
+
+**Archivos modificados:**
+1. `Visualizacion.js` (+27 líneas) - HTML de botones y event listeners
+2. `visualizacion.css` (+40 líneas) - Estilos para los nuevos botones
+
+**Estadísticas:** 2 archivos modificados
+
+---
+
 ### 29 de Marzo 2026 - Fix: Cerrar menús acordeón al colapsar sidebar izquierdo
 
 **Cambio:** Al colapsar el sidebar izquierdo, se cierran automáticamente los menús acordeón abiertos para que los iconos sean visibles
