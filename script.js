@@ -2004,18 +2004,56 @@ function applyStatSelection() {
     // Remover estadísticas de esta sección
     const newActive = currentActive.filter(stat => !section.options.includes(stat));
     
-    // Agregar las seleccionadas
+    // Identificar qué pruebas requieren configuración de columnas
+    const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)'];
+    const statsQueNecesitanConfig = [];
+    const statsNormales = [];
+    
     section.options.forEach(opt => {
         if (tempModalSelection[opt]) {
-            newActive.push(opt);
+            if (hipotesisTests.includes(opt)) {
+                statsQueNecesitanConfig.push(opt);
+            } else {
+                statsNormales.push(opt);
+            }
         }
     });
     
-    // Actualizar StateManager
+    // Agregar estadísticas normales directamente
+    statsNormales.forEach(stat => newActive.push(stat));
+    
+    // Actualizar StateManager con estadísticas normales
     StateManager.clearActiveStats();
     newActive.forEach(stat => StateManager.addActiveStat(stat));
     
     closeStatModal();
+    
+    // Para pruebas de hipótesis, abrir modal de configuración
+    // Se abren en secuencia: cada modal guarda su config y cierra
+    if (statsQueNecesitanConfig.length > 0) {
+        _abrirModalesHipotesisSecuencia(statsQueNecesitanConfig, 0);
+    }
+}
+
+// Función auxiliar: abre modales de configuración de hipótesis en secuencia
+function _abrirModalesHipotesisSecuencia(stats, index) {
+    if (index >= stats.length) return;
+    
+    const statName = stats[index];
+    setTimeout(() => {
+        mostrarModalConfiguracionHypothesis(statName);
+        
+        // Interceptar el botón de confirmar para continuar con la siguiente
+        const confirmBtn = document.getElementById('hypo-modal-confirm');
+        if (confirmBtn) {
+            confirmBtn.addEventListener('click', function handler() {
+                // Continuar con la siguiente prueba de hipótesis
+                setTimeout(() => {
+                    _abrirModalesHipotesisSecuencia(stats, index + 1);
+                }, 300);
+            }, { once: true });
+        }
+    }, 200);
 }
 
 // Cerrar modal al hacer click fuera
