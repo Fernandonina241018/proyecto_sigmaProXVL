@@ -1679,6 +1679,7 @@ const SIDEBAR_SECTIONS = {
     descriptiva: {
         icon: '📊',
         label: 'Descriptiva',
+        description: 'Análisis de tendencias centrales, dispersión y forma de datos',
         options: [
             'Media Aritmética', 'Mediana y Moda', 'Desviación Estándar', 'Varianza',
             'Percentiles', 'Rango y Amplitud', 'Coeficiente de Variación',
@@ -1689,6 +1690,7 @@ const SIDEBAR_SECTIONS = {
     hipotesis: {
         icon: '🧪',
         label: 'Hipótesis',
+        description: 'Pruebas estadísticas para validar suposiciones sobre los datos',
         options: [
             'T-Test (una muestra)', 'T-Test (dos muestras)', 'ANOVA One-Way',
             'ANOVA Two-Way', 'Chi-Cuadrado', 'Test de Normalidad'
@@ -1697,6 +1699,7 @@ const SIDEBAR_SECTIONS = {
     correlacion: {
         icon: '📈',
         label: 'Correlación',
+        description: 'Análisis de relaciones entre variables y modelos predictivos',
         options: [
             'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple',
             'Regresión Lineal Múltiple', 'Regresión Logística', 'Regresión Polinomial'
@@ -1705,6 +1708,7 @@ const SIDEBAR_SECTIONS = {
     noParametricos: {
         icon: '🔬',
         label: 'No Paramétricos',
+        description: 'Tests sin distribución normal requerida para muestras pequeñas',
         options: [
             'Mann-Whitney U', 'Wilcoxon', 'Kruskal-Wallis', 'Friedman', 'Test de Signos'
         ]
@@ -1712,6 +1716,7 @@ const SIDEBAR_SECTIONS = {
     multivariado: {
         icon: '🎯',
         label: 'Multivariado',
+        description: 'Análisis de múltiples variables simultáneamente',
         options: [
             'PCA (Componentes Principales)', 'Análisis Factorial', 'Análisis de Cluster',
             'Análisis Discriminante', 'M-ANOVA'
@@ -1720,6 +1725,7 @@ const SIDEBAR_SECTIONS = {
     extras: {
         icon: '✨',
         label: 'Extras',
+        description: 'Técnicas avanzadas de análisis estadístico',
         options: [
             'Series Temporales', 'Bootstrap', 'Análisis de Supervivencia',
             'Modelos Mixtos', 'Análisis Bayesiano'
@@ -1771,6 +1777,8 @@ function createSidebarIconContainers(leftSidebar, rightSidebar) {
         <span class="sidebar-compact-badge has-items" id="sidebarTotalBadge">0</span>
     `;
     totalItem.title = 'Total activos';
+    totalItem.addEventListener('mouseenter', (e) => showTotalTooltip(e));
+    totalItem.addEventListener('mouseleave', hideTooltip);
     iconsContainer.appendChild(totalItem);
     
     // Crear iconos para cada sección
@@ -1785,6 +1793,11 @@ function createSidebarIconContainers(leftSidebar, rightSidebar) {
         iconItem.addEventListener('click', () => {
             openStatModal(key);
         });
+        
+        // Tooltip events
+        iconItem.addEventListener('mouseenter', (e) => showTooltip(key, e));
+        iconItem.addEventListener('mouseleave', hideTooltip);
+        
         iconsContainer.appendChild(iconItem);
     });
 
@@ -1809,6 +1822,85 @@ function createSidebarIconContainers(leftSidebar, rightSidebar) {
 
     // Inicializar badges
     updateSidebarIconBadges();
+}
+
+// ========================================
+// TOOLTIP FLOTANTE
+// ========================================
+
+function showTooltip(sectionKey, event) {
+    const section = SIDEBAR_SECTIONS[sectionKey];
+    if (!section) return;
+    
+    const tooltip = document.getElementById('sidebar-tooltip');
+    const activeStats = StateManager.getActiveStats();
+    const selectedOptions = section.options.filter(opt => activeStats.includes(opt));
+    
+    // Llenar contenido del tooltip
+    tooltip.querySelector('.tooltip-icon').textContent = section.icon;
+    tooltip.querySelector('.tooltip-title').textContent = section.label;
+    tooltip.querySelector('.tooltip-description').textContent = section.description;
+    
+    // Mostrar opciones disponibles y las seleccionadas
+    let statsHtml = '';
+    section.options.forEach(opt => {
+        const isSelected = activeStats.includes(opt);
+        statsHtml += `<span class="tooltip-stat-tag" style="${isSelected ? 'background: #667eea; color: white;' : 'background: #e8eaf6; color: #5a6fd6;'}">${opt}</span>`;
+    });
+    tooltip.querySelector('.tooltip-stats').innerHTML = statsHtml;
+    
+    // Posicionar tooltip
+    const rect = event.target.getBoundingClientRect();
+    tooltip.style.left = (rect.right + 10) + 'px';
+    tooltip.style.top = (rect.top - 10) + 'px';
+    
+    // Ajustar si se sale de la pantalla
+    const tooltipRect = tooltip.getBoundingClientRect();
+    if (tooltipRect.right > window.innerWidth) {
+        tooltip.style.left = (rect.left - tooltipRect.width - 10) + 'px';
+    }
+    if (tooltipRect.bottom > window.innerHeight) {
+        tooltip.style.top = (window.innerHeight - tooltipRect.height - 10) + 'px';
+    }
+    
+    tooltip.classList.add('active');
+}
+
+function hideTooltip() {
+    document.getElementById('sidebar-tooltip').classList.remove('active');
+}
+
+function showTotalTooltip(event) {
+    const activeStats = StateManager.getActiveStats();
+    const tooltip = document.getElementById('sidebar-tooltip');
+    
+    tooltip.querySelector('.tooltip-icon').textContent = '🔢';
+    tooltip.querySelector('.tooltip-title').textContent = 'Total de Estadísticos';
+    tooltip.querySelector('.tooltip-description').textContent = 'Cantidad total de análisis estadísticos seleccionados';
+    
+    let statsHtml = '';
+    if (activeStats.length === 0) {
+        statsHtml = '<span class="tooltip-stat-tag" style="background: #e8eaf6; color: #999;">Sin selección</span>';
+    } else {
+        activeStats.forEach(opt => {
+            statsHtml += `<span class="tooltip-stat-tag" style="background: #667eea; color: white;">${opt}</span>`;
+        });
+    }
+    tooltip.querySelector('.tooltip-stats').innerHTML = statsHtml;
+    
+    const rect = event.target.getBoundingClientRect();
+    tooltip.style.left = (rect.right + 10) + 'px';
+    tooltip.style.top = (rect.top - 10) + 'px';
+    
+    const tooltipRect = tooltip.getBoundingClientRect();
+    if (tooltipRect.right > window.innerWidth) {
+        tooltip.style.left = (rect.left - tooltipRect.width - 10) + 'px';
+    }
+    if (tooltipRect.bottom > window.innerHeight) {
+        tooltip.style.top = (window.innerHeight - tooltipRect.height - 10) + 'px';
+    }
+    
+    tooltip.classList.add('active');
 }
 
 // ========================================

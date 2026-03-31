@@ -2226,3 +2226,73 @@ body {
 .btn-apply:hover {
     background: #5a6fd6;
 }
+
+/* ========================================
+   TOOLTIP FLOTANTE PARA SIDEBAR
+   ======================================== */
+
+.sidebar-tooltip {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    padding: 12px 15px;
+    min-width: 220px;
+    max-width: 280px;
+    font-size: 0.85rem;
+    border: 1px solid #e0e0e0;
+}
+
+.sidebar-tooltip.active {
+    display: block;
+    animation: tooltipFadeIn 0.2s ease;
+}
+
+@keyframes tooltipFadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.tooltip-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.tooltip-icon {
+    font-size: 1.2rem;
+}
+
+.tooltip-title {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.tooltip-description {
+    color: #666;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+.tooltip-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.tooltip-stat-tag {
+    background: #e8eaf6;
+    color: #5a6fd6;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
