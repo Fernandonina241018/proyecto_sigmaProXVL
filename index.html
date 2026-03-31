@@ -125,39 +125,8 @@
                             </button>
                         </div>
                     </div>
-<<<<<<< HEAD
                     <div class="trabajo-main">
                         <div class="trabajo-table-area">
-=======
-                    <div class="sheets-tabs-container">
-                        <div class="sheets-tabs" id="sheetsTabs"></div>
-                        <button class="btn-new-sheet" id="btnNewSheet" title="Nueva hoja">
-                            <span>+</span>
-                        </button>
-                    </div>
-                    <div class="sheets-info">
-                        <span>📊 Hoja activa: <strong id="activeSheetName">-</strong></span>
-                        <span>📑 Total hojas: <strong id="totalSheets">0</strong></span>
-                    </div>
-                    <div class="trabajo-content">
-                        <div class="table-controls">
-                            <div class="control-group">
-                                <label>📊 Filas:</label>
-                                <input type="number" id="initial-rows" value="10" min="1" max="100">
-                            </div>
-                            <div class="control-group">
-                                <label>📋 Columnas:</label>
-                                <input type="number" id="initial-cols" value="5" min="1" max="20">
-                            </div>
-                            <button class="btn-generate-table">🔄 Generar Tabla</button>
-                            <button class="btn-normal-data" onclick="openNormalDataModal()">📊 Datos Normales</button>
-                            <button class="btn-paste-data">📋 Pegar desde Excel</button>
-                        </div>
-                        <div class="editable-table-container">
-                            <div class="table-info">
-                                <p>💡 <strong>Hoja de Trabajo:</strong></p>
-                            </div>
->>>>>>> 0d211d5321b107abc2a4864c64b170f64009e405
                             <div id="editable-table-wrapper"></div>
                         </div>
                         <div class="trabajo-sidebar" id="work-summary">
@@ -224,7 +193,6 @@
         </div>
     </div>
 
-<<<<<<< HEAD
     <!-- Tooltip Flotante para Sidebar -->
     <div id="sidebar-tooltip" class="sidebar-tooltip">
         <div class="tooltip-header">
@@ -252,51 +220,6 @@
                     <button class="btn-apply" onclick="applyStatSelection()">Aplicar</button>
                 </div>
             </div>
-=======
-    <!-- Modal: Generar Datos Normales -->
-    <div id="normal-data-modal" class="modal-overlay" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>📊 Generar Datos Normales</h3>
-                <button class="modal-close" onclick="closeNormalDataModal()">✕</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Valor Mínimo:</label>
-                        <input type="number" id="nd-min" value="0" step="any">
-                    </div>
-                    <div class="form-group">
-                        <label>Valor Máximo:</label>
-                        <input type="number" id="nd-max" value="100" step="any">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Desviación Estándar:</label>
-                        <input type="number" id="nd-stddev" value="15" min="0.1" step="any">
-                    </div>
-                    <div class="form-group">
-                        <label>Decimales:</label>
-                        <input type="number" id="nd-decimals" value="2" min="0" max="10">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Filas:</label>
-                        <input type="number" id="nd-rows" value="10" min="1" max="100">
-                    </div>
-                    <div class="form-group">
-                        <label>Columnas:</label>
-                        <input type="number" id="nd-cols" value="5" min="1" max="50">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-cancel" onclick="closeNormalDataModal()">Cancelar</button>
-                <button class="btn-accept" onclick="generateNormalData()">✓ Aceptar</button>
-            </div>
->>>>>>> 0d211d5321b107abc2a4864c64b170f64009e405
         </div>
     </div>
 
