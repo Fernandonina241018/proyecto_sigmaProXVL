@@ -89,4 +89,9 @@ function _showToast(msg, isError = false) {
     showToast(msg, isError);
 }
 
+// Mantener fmtDate como alias para formatDate
+function fmtDate(ts, format = 'full') {
+    return formatDate(ts, format);
+}
+
 console.log('✅ Utils cargado correctamente');
