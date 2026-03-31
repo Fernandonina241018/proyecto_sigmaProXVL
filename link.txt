@@ -2,3 +2,9 @@ https://fernandonina241018.github.io/proyecto_sigmaProXVL/
 
 
 VSC   RUTA = G:\My Drive\SigmaProWeb\proyecto_sigmaProXVL
+
+
+
+ mensage que quiero que veas {"Quiero que leas este artículo de Anthropic sobre las mejores prácticas para crear *prompts* y luego crees un comando `/prompt` que yo pueda usar más tarde para optimizar todos mis *prompts*. De modo que yo pueda decir '/prompt este es el prompt a optimizar'. Recuerda que esto es opencode, así que debe hacerse siguiendo el patrón de opencode.
+
+ Esta es la url que debes leer: [https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices), y este es el estándar de comandos de opencode: [https://opencode.ai/docs/commands/](https://opencode.ai/docs/commands/)"}
