@@ -786,16 +786,17 @@ body {
 .btn-delete-row,
 .btn-delete-column,
 .btn-clear-table,
-.btn-save-work {
-    padding: 7px 12px;
+.btn-save-work,
+.btn-normal-data {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
     border: none;
+    padding: 8px 14px;
     border-radius: 6px;
     cursor: pointer;
-    font-weight: 600;
+    font-size: 0.85rem;
+    font-weight: 500;
     transition: all 0.2s ease;
-    font-size: 0.8rem;
-    background: linear-gradient(135deg, #240bb3 0%, #000000 100%);
-    color: rgb(255, 255, 255);
     white-space: nowrap;
 }
 
@@ -804,9 +805,11 @@ body {
 .btn-delete-row:hover,
 .btn-delete-column:hover,
 .btn-add-column:hover,
-.btn-save-work:hover {
+.btn-save-work:hover,
+.btn-normal-data:hover {
+    background: linear-gradient(135deg, #5a6fd6, #6b44a0);
     transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 3px 8px rgba(102, 126, 234, 0.3);
 }
 
 .btn-clear-table:hover {
@@ -816,22 +819,22 @@ body {
 .btn-new-sheet {
     width: 32px;
     height: 32px;
-    border-radius: 8px;
-    background: white;
-    color: #667eea;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
     font-size: 1.4rem;
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid #667eea;
+    border: none;
 }
 
 .btn-new-sheet:hover {
-    background: #667eea;
-    color: white;
-    transform: scale(1.1);
+    background: linear-gradient(135deg, #5a6fd6, #6b44a0);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(102, 126, 234, 0.3);
 }
 
 .sheets-tabs {
@@ -1028,18 +1031,19 @@ body {
 .btn-delete-row,
 .btn-delete-column,
 .btn-clear-table,
-.btn-save-work {
-    padding: 10px 16px;
+.btn-save-work,
+.btn-normal-data {
+    padding: 8px 14px;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     font-size: 0.85rem;
-    background: linear-gradient(135deg, #240bb3 0%, #000000 100%);
-    color: rgb(255, 255, 255);
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    white-space: nowrap;
 }
-
 
 .btn-generate-table:hover,
 .btn-paste-data:hover,
@@ -1047,13 +1051,15 @@ body {
 .btn-delete-row:hover,
 .btn-delete-column:hover,
 .btn-add-column:hover,
-.btn-save-work:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+.btn-save-work:hover,
+.btn-normal-data:hover {
+    background: linear-gradient(135deg, #5a6fd6, #6b44a0);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(102, 126, 234, 0.3);
 }
 
 .btn-clear-table:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 }
 
 .editable-table-container {
@@ -2300,25 +2306,6 @@ body {
 /* ========================================
    MODAL DE DATOS NORMALES
    ======================================== */
-
-.btn-normal-data {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    margin-left: 8px;
-}
-
-.btn-normal-data:hover {
-    background: linear-gradient(135deg, #5a6fd6, #6b44a0);
-    transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(102, 126, 234, 0.3);
-}
 
 .normal-data-form {
     display: flex;
