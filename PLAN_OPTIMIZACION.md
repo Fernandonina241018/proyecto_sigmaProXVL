@@ -1,8 +1,20 @@
 # 📋 Plan de Optimización - SigmaProXVL
 
 **Fecha de creación:** 30 de Marzo de 2026  
-**Última actualización:** 30 de Marzo de 2026  
-**Estado actual:** 2/7 etapas completadas
+**Última actualización:** 30 de Marzo de 2026 22:00  
+**Estado actual:** 2/7 etapas completadas + fix sidebar hipótesis
+
+---
+
+## 🔧 FIXES REALIZADOS (fuera del plan de optimización)
+
+### Fix: Sidebar conectado con modal de configuración de hipótesis
+- **Commit:** `472400f`
+- **Fecha:** 30/03/2026 22:00
+- **Problema:** Las pruebas de hipótesis (ANOVA, T-Test, Chi-Cuadrado) no mostraban modal de configuración de columnas al seleccionarse desde el nuevo sidebar con iconos
+- **Solución:** Modificado `applyStatSelection()` para detectar pruebas de hipótesis y abrir modal de configuración en secuencia
+- **Archivos:** script.js (+41 líneas)
+- **Funciones afectadas:** applyStatSelection(), _abrirModalesHipotesisSecuencia() (nueva)
 
 ---
 

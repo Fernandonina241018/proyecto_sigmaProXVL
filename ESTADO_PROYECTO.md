@@ -19,6 +19,29 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 30 de Marzo 2026 - Fix: Sidebar conectado con modal de configuración de hipótesis
+
+**Cambio:** Las pruebas de hipótesis (ANOVA, T-Test, Chi-Cuadrado) ahora muestran modal de configuración de columnas al seleccionarse desde el sidebar
+- **Archivo:** `script.js`
+- **Commit:** `472400f`
+- **Razón:** El nuevo sidebar con iconos no pasaba por el sistema de configuración de columnas (renglones/numero)
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- `applyStatSelection()` ahora separa pruebas de hipótesis de estadísticas normales
+- Estadísticas normales se agregan directamente a StateManager
+- Pruebas de hipótesis abren modal de configuración en secuencia
+- Nueva función `_abrirModalesHipotesisSecuencia()` para manejar múltiples pruebas
+- Cada modal guarda su configuración (columna de agrupación + columna de valores)
+
+**Pruebas afectadas:**
+- 🧪 ANOVA One-Way (1 factor + 1 variable numérica)
+- 🧪 ANOVA Two-Way (2 factores + 1 variable numérica)
+- 📊 Chi-Cuadrado (2 variables categóricas)
+- 📈 T-Test (dos muestras) (1 columna agrupación + 1 variable numérica)
+
+---
+
 ### 30 de Marzo 2026 - Fix: Eliminar código muerto que rompía JavaScript
 
 **Cambio:** Eliminado código muerto en script.js (líneas 1945-1999) que estaba fuera de cualquier función
