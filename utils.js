@@ -95,3 +95,4 @@ function fmtDate(ts, format = 'full') {
 }
 
 console.log('✅ Utils cargado correctamente');
+// PRUEBA VSCODE - comentario de prueba 31/03/2026
