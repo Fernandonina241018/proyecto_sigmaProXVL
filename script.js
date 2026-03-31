@@ -1767,7 +1767,7 @@ function createSidebarIconContainers(leftSidebar, rightSidebar) {
     const totalItem = document.createElement('div');
     totalItem.className = 'sidebar-icon-compact';
     totalItem.innerHTML = `
-        <span class="sidebar-compact-icon">📊</span>
+        <span class="sidebar-compact-icon">🔢</span>
         <span class="sidebar-compact-badge has-items" id="sidebarTotalBadge">0</span>
     `;
     totalItem.title = 'Total activos';
