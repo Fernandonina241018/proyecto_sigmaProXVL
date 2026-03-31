@@ -2350,3 +2350,59 @@ body {
     color: #888;
     margin-top: 4px;
 }
+
+/* ========================================
+   MODAL DE AMPLIAR DATOS
+   ======================================== */
+
+.btn-ampliar-datos {
+    background: linear-gradient(135deg, #11998e, #38ef7d);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-ampliar-datos:hover {
+    background: linear-gradient(135deg, #0e8a7e, #32d96f);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(56, 239, 125, 0.3);
+}
+
+.ampliar-data-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ampliar-data-form select {
+    padding: 8px 10px;
+    border: 1.5px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+    background: white;
+    cursor: pointer;
+}
+
+.ampliar-data-form select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+.ad-params-section {
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.ad-params-section .form-row {
+    margin: 0;
+}

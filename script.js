@@ -2413,3 +2413,256 @@ function boxMullerRandom(media, std) {
     const z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
     return media + z0 * std;
 }
+
+// ========================================
+// AMPLIAR DATOS
+// ========================================
+
+function abrirModalAmpliarDatos() {
+    document.getElementById('modal-ampliar-datos').classList.add('active');
+    actualizarParametrosMetodo();
+}
+
+function cerrarModalAmpliarDatos() {
+    document.getElementById('modal-ampliar-datos').classList.remove('active');
+}
+
+function actualizarParametrosMetodo() {
+    const metodo = document.getElementById('ad-metodo').value;
+    const factor = document.getElementById('ad-factor').value;
+
+    document.getElementById('ad-params-interpolacion').style.display = metodo === 'interpolacion' ? 'block' : 'none';
+    document.getElementById('ad-params-bootstrap').style.display = metodo === 'bootstrap' ? 'block' : 'none';
+    document.getElementById('ad-params-augmentation').style.display = metodo === 'augmentation' ? 'block' : 'none';
+
+    document.getElementById('ad-custom-factor-row').style.display = factor === 'custom' ? 'flex' : 'none';
+
+    const infoTextos = {
+        'interpolacion': '💡 La interpolación genera valores suaves entre puntos conocidos',
+        'bootstrap': '🔄 Bootstrap re-muestrea los datos con reemplazo manteniendo distribución',
+        'augmentation': '🎲 Data Augmentation añade ruido gaussiano controlado a los datos'
+    };
+    document.getElementById('ad-info-texto').textContent = infoTextos[metodo] || '';
+}
+
+function ampliarDatos() {
+    const metodo = document.getElementById('ad-metodo').value;
+    const tipo = document.getElementById('ad-tipo').value;
+    let factor = parseInt(document.getElementById('ad-factor').value);
+    const decimals = parseInt(document.getElementById('ad-decimals').value);
+    const guardado = document.getElementById('ad-guardado').value;
+
+    if (document.getElementById('ad-factor').value === 'custom') {
+        factor = parseInt(document.getElementById('ad-custom-factor').value);
+        if (isNaN(factor) || factor < 2 || factor > 100) {
+            alert('⚠️ El factor personal debe ser entre 2 y 100');
+            return;
+        }
+    }
+
+    const sheet = StateManager.getActiveSheet();
+    if (!sheet) {
+        alert('⚠️ No hay hoja activa. Primero importa o genera datos.');
+        return;
+    }
+
+    const numericCol = sheet.headers.findIndex((h, i) => i > 0 && sheet.data.some(row => row[i] && !isNaN(parseFloat(row[i]))));
+    if (numericCol === -1) {
+        alert('⚠️ No hay columnas numéricas para ampliar');
+        return;
+    }
+
+    const valores = sheet.data
+        .map(row => parseFloat(row[numericCol]))
+        .filter(v => !isNaN(v));
+
+    if (valores.length < 2) {
+        alert('⚠️ Se necesitan al menos 2 valores numéricos para ampliar');
+        return;
+    }
+
+    let nuevosValores;
+
+    switch (metodo) {
+        case 'interpolacion':
+            const interpTipo = document.getElementById('ad-interp-tipo').value;
+            nuevosValores = ampliarPorInterpolacion(valores, factor, decimals, interpTipo);
+            break;
+        case 'bootstrap':
+            const reps = parseInt(document.getElementById('ad-bootstrap-reps').value);
+            nuevosValores = ampliarPorBootstrap(valores, factor, reps, decimals);
+            break;
+        case 'augmentation':
+            const ruido = parseFloat(document.getElementById('ad-ruido-nivel').value);
+            nuevosValores = ampliarPorAugmentation(valores, factor, ruido, decimals);
+            break;
+        default:
+            alert('⚠️ Método no válido');
+            return;
+    }
+
+    guardarAmpliacion(nuevosValores, guardado, sheet, numericCol);
+    cerrarModalAmpliarDatos();
+    _showToast(`✅ ${nuevosValores.length} datos generados (${metodo})`);
+}
+
+function ampliarPorInterpolacion(valores, factor, decimals, tipo) {
+    const resultado = [];
+
+    if (tipo === 'lineal') {
+        for (let i = 0; i < valores.length - 1; i++) {
+            const a = valores[i];
+            const b = valores[i + 1];
+            for (let j = 0; j < factor; j++) {
+                const t = j / factor;
+                resultado.push(parseFloat((a + (b - a) * t).toFixed(decimals)));
+            }
+        }
+        resultado.push(parseFloat(valores[valores.length - 1].toFixed(decimals)));
+
+    } else if (tipo === 'spline') {
+        const n = valores.length;
+        const h = [];
+        const alpha = [];
+        const l = [1];
+        const mu = [0];
+        const z = [0];
+        const c = [0];
+        const b = [];
+        const d = [];
+
+        for (let i = 0; i < n - 1; i++) {
+            h.push(1);
+            alpha.push(0);
+        }
+
+        for (let i = 1; i < n - 1; i++) {
+            l.push(1);
+            mu.push(0);
+            z.push(0);
+            c.push(0);
+        }
+        l.push(1);
+        z.push(0);
+        c.push(0);
+
+        for (let i = 1; i < n - 1; i++) {
+            alpha[i] = (3 / h[i]) * (valores[i + 1] - valores[i]) - (3 / h[i - 1]) * (valores[i] - valores[i - 1]);
+        }
+
+        for (let i = 1; i < n - 1; i++) {
+            l[i] = 2 * (i + 1 - (i - 1)) - h[i - 1] * mu[i - 1];
+            mu[i] = h[i] / l[i];
+            z[i] = (alpha[i] - h[i - 1] * z[i - 1]) / l[i];
+        }
+
+        l[n - 1] = 1;
+        z[n - 1] = 0;
+        c[n - 1] = 0;
+
+        for (let j = n - 2; j >= 0; j--) {
+            c[j] = z[j] - mu[j] * c[j + 1];
+            b[j] = (valores[j + 1] - valores[j]) / h[j] - h[j] * (c[j + 1] + 2 * c[j]) / 3;
+            d[j] = (c[j + 1] - c[j]) / (3 * h[j]);
+        }
+
+        for (let i = 0; i < n - 1; i++) {
+            for (let j = 0; j < factor; j++) {
+                const t = j / factor;
+                const valor = valores[i] + b[i] * t + c[i] * t * t + d[i] * t * t * t;
+                resultado.push(parseFloat(valor.toFixed(decimals)));
+            }
+        }
+        resultado.push(parseFloat(valores[n - 1].toFixed(decimals)));
+
+    } else {
+        for (let i = 0; i < valores.length - 1; i++) {
+            const a = valores[i];
+            const b = valores[i + 1];
+            for (let j = 0; j < factor; j++) {
+                const t = j / factor;
+                const valor = a + (b - a) * (t * t * (3 - 2 * t));
+                resultado.push(parseFloat(valor.toFixed(decimals)));
+            }
+        }
+        resultado.push(parseFloat(valores[valores.length - 1].toFixed(decimals)));
+    }
+
+    return resultado;
+}
+
+function ampliarPorBootstrap(valores, factor, repeticiones, decimals) {
+    const resultado = [];
+    const n = valores.length;
+
+    for (let i = 0; i < factor * n; i++) {
+        const idx = Math.floor(Math.random() * n);
+        resultado.push(parseFloat(valores[idx].toFixed(decimals)));
+    }
+
+    return resultado;
+}
+
+function ampliarPorAugmentation(valores, factor, nivelRuido, decimals) {
+    const resultado = [];
+    const media = valores.reduce((a, b) => a + b, 0) / valores.length;
+    const std = Math.sqrt(valores.reduce((acc, v) => acc + Math.pow(v - media, 2), 0) / valores.length);
+
+    for (let r = 0; r < factor; r++) {
+        for (let i = 0; i < valores.length; i++) {
+            const ruido = boxMullerRandom(0, std * nivelRuido);
+            resultado.push(parseFloat((valores[i] + ruido).toFixed(decimals)));
+        }
+    }
+
+    return resultado;
+}
+
+function guardarAmpliacion(valores, guardado, sheet, colIndex) {
+    const colName = sheet.headers[colIndex];
+
+    if (guardado === 'nueva-hoja') {
+        const headers = ['#', 'Valor_Ampliado'];
+        const data = valores.map((v, i) => [i + 1, v]);
+        StateManager.createSheet(null, valores.length, 2, headers, data);
+
+    } else if (guardado === 'nueva-columna') {
+        const currentSheet = StateManager.getActiveSheet();
+        const newColName = 'Amp_' + colName;
+
+        currentSheet.headers.push(newColName);
+        const maxRows = Math.max(currentSheet.data.length, valores.length);
+
+        for (let i = 0; i < maxRows; i++) {
+            if (!currentSheet.data[i]) {
+                currentSheet.data[i] = [i + 1, ...Array(currentSheet.headers.length - 2).fill('')];
+            }
+            currentSheet.data[i].push(i < valores.length ? valores[i] : '');
+        }
+
+    } else {
+        const headers = sheet.headers.slice();
+        const data = [];
+        for (let i = 0; i < valores.length; i++) {
+            const rowData = [i + 1];
+            for (let j = 1; j < headers.length; j++) {
+                if (j === colIndex) {
+                    rowData.push(valores[i]);
+                } else {
+                    rowData.push('');
+                }
+            }
+            data.push(rowData);
+        }
+        StateManager.createSheet(null, valores.length, headers.length, headers, data);
+    }
+
+    renderWorkTable();
+    updateWorkSummary();
+    renderSheetTabs();
+    updateSheetsInfo();
+}
+
+document.getElementById('ad-factor')?.addEventListener('change', function() {
+    document.getElementById('ad-custom-factor-row').style.display = this.value === 'custom' ? 'flex' : 'none';
+});
