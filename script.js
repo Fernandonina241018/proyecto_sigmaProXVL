@@ -7,6 +7,9 @@
 // VARIABLE GLOBAL DE ÚLTIMOS RESULTADOS
 // FIX: antes se asignaba sin declarar → variable global implícita en modo no-strict,
 //      error silencioso en strict mode. Se declara explícitamente aquí.
+// 
+// Deprecated - use StateManager.getUltimosResultados() y StateManager.setUltimosResultados()
+// Se mantiene por compatibilidad con código legacy
 // ========================================
 let ultimosResultados = null;
 
@@ -1097,6 +1100,7 @@ function displayImportedData(data) {
 function clearImportedData() {
     StateManager.clearImportedData();
     ultimosResultados = null;
+    StateManager.setUltimosResultados(null);
 
     const placeholder = document.querySelector('#view-analisis .content-placeholder');
     if (placeholder) {
@@ -1196,6 +1200,7 @@ function ejecutarAnalisis() {
             console.log('Resultados obtenidos:', resultados);
 
             ultimosResultados = resultados;
+            StateManager.setUltimosResultados(resultados);
 
             const html = EstadisticaDescriptiva.generarHTML(resultados);
 
@@ -1248,6 +1253,7 @@ function nuevoAnalisis() {
     // 1. Limpiar el contenedor de resultados (inyectar el placeholder vacío)
     const container = document.getElementById('analisis-resultados-container');
     ultimosResultados = null;
+    StateManager.setUltimosResultados(null);
     ocultarCargando();
     if (container) {
         container.innerHTML = `

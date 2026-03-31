@@ -28,6 +28,9 @@ const StateManager = (() => {
         // Estadísticos seleccionados
         activeStats: [],
         
+        // Resultados del último análisis
+        ultimosResultados: null,
+        
         // Configuración de pruebas de hipótesis
         hypothesisConfig: {},
         
@@ -842,6 +845,10 @@ const StateManager = (() => {
         exportState,
         importState,
         resetState,
+        
+        // Resultados de análisis
+        setUltimosResultados: (results) => { state.ultimosResultados = results; },
+        getUltimosResultados: () => state.ultimosResultados,
         
         // Listeners
         addEventListener,
