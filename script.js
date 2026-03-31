@@ -2321,3 +2321,95 @@ function sincronizarMenuLateral() {
 }
 
 console.log('✅ script.js cargado');
+
+// ========================================
+// GENERADOR DE DATOS NORMALES
+// ========================================
+
+function abrirModalDatosNormales() {
+    document.getElementById('modal-normal-data').classList.add('active');
+}
+
+function cerrarModalDatosNormales() {
+    document.getElementById('modal-normal-data').classList.remove('active');
+}
+
+function generarDatosNormales() {
+    const min = parseFloat(document.getElementById('nd-min').value);
+    const max = parseFloat(document.getElementById('nd-max').value);
+    const std = parseFloat(document.getElementById('nd-std').value);
+    const decimals = parseInt(document.getElementById('nd-decimals').value);
+    const rows = parseInt(document.getElementById('nd-rows').value);
+    const cols = parseInt(document.getElementById('nd-cols').value);
+
+    if (isNaN(min) || isNaN(max) || isNaN(std) || isNaN(decimals) || isNaN(rows) || isNaN(cols)) {
+        alert('⚠️ Todos los campos deben tener valores numéricos');
+        return;
+    }
+
+    if (min >= max) {
+        alert('⚠️ El valor máximo debe ser mayor que el mínimo');
+        return;
+    }
+
+    if (std <= 0) {
+        alert('⚠️ La desviación estándar debe ser mayor que 0');
+        return;
+    }
+
+    if (rows < 1 || rows > 1000) {
+        alert('⚠️ El número de filas debe estar entre 1 y 1000');
+        return;
+    }
+
+    if (cols < 1 || cols > 20) {
+        alert('⚠️ El número de columnas debe estar entre 1 y 20');
+        return;
+    }
+
+    const media = (min + max) / 2;
+
+    const headers = ['#'];
+    for (let i = 0; i < cols; i++) {
+        let colName = '';
+        let idx = i;
+        do {
+            colName = String.fromCharCode(65 + (idx % 26)) + colName;
+            idx = Math.floor(idx / 26) - 1;
+        } while (idx >= 0);
+        headers.push(colName);
+    }
+
+    const data = [];
+    for (let r = 0; r < rows; r++) {
+        const rowData = [r + 1];
+        for (let c = 0; c < cols; c++) {
+            let valor;
+            do {
+                valor = boxMullerRandom(media, std);
+            } while (valor < min || valor > max);
+            rowData.push(parseFloat(valor.toFixed(decimals)));
+        }
+        data.push(rowData);
+    }
+
+    StateManager.createSheet(null, rows, cols + 1, headers, data);
+
+    renderWorkTable();
+    updateWorkSummary();
+    renderSheetTabs();
+    updateSheetsInfo();
+
+    cerrarModalDatosNormales();
+    _showToast(`✅ ${rows * cols} datos normales generados`);
+}
+
+function boxMullerRandom(media, std) {
+    let u1 = 0;
+    let u2 = 0;
+    while (u1 === 0) u1 = Math.random();
+    while (u2 === 0) u2 = Math.random();
+
+    const z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
+    return media + z0 * std;
+}

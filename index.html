@@ -116,6 +116,7 @@
                                     <input type="number" id="initial-cols" value="5" min="1" max="20">
                                 </div>
                                 <button class="btn-generate-table">🔄 Generar</button>
+                                <button class="btn-normal-data" onclick="abrirModalDatosNormales()" title="Generar datos con distribución normal">🎲 Datos Normales</button>
                             </div>
                         </div>
                         <div class="toolbar-row sheets-row">
@@ -218,6 +219,59 @@
                     <button class="btn-select-all" onclick="selectAllInModal()">Seleccionar todos</button>
                     <button class="btn-deselect-all" onclick="deselectAllInModal()">Deseleccionar todos</button>
                     <button class="btn-apply" onclick="applyStatSelection()">Aplicar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Generar Datos Normales -->
+    <div id="modal-normal-data" class="stat-modal">
+        <div class="stat-modal-content">
+            <div class="stat-modal-header">
+                <span class="stat-modal-icon">🎲</span>
+                <h3>Generar Datos Normales</h3>
+                <button class="stat-modal-close" onclick="cerrarModalDatosNormales()">✕</button>
+            </div>
+            <div class="stat-modal-body">
+                <div class="normal-data-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nd-min">Mínimo</label>
+                            <input type="number" id="nd-min" value="0" step="any">
+                        </div>
+                        <div class="form-group">
+                            <label for="nd-max">Máximo</label>
+                            <input type="number" id="nd-max" value="100" step="any">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nd-std">Desviación Estándar</label>
+                            <input type="number" id="nd-std" value="15" step="any" min="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="nd-decimals">Decimales</label>
+                            <input type="number" id="nd-decimals" value="2" min="0" max="10">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nd-rows">Filas</label>
+                            <input type="number" id="nd-rows" value="10" min="1" max="1000">
+                        </div>
+                        <div class="form-group">
+                            <label for="nd-cols">Columnas</label>
+                            <input type="number" id="nd-cols" value="3" min="1" max="20">
+                        </div>
+                    </div>
+                    <div class="form-info">
+                        <p><small>La media se calcula automáticamente como (mínimo + máximo) / 2</small></p>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-modal-footer">
+                <div class="stat-modal-buttons" style="justify-content: flex-end;">
+                    <button class="btn-apply" onclick="generarDatosNormales()">✅ Aceptar</button>
                 </div>
             </div>
         </div>
