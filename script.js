@@ -2628,7 +2628,7 @@ function guardarAmpliacion(valores, guardado, sheet, colIndex) {
 
     } else if (guardado === 'nueva-columna') {
         const currentSheet = StateManager.getActiveSheet();
-        const newColName = 'Amp_' + colName;
+        const newColName = 'Valor_Ampliado(' + colName + ')';
 
         currentSheet.headers.push(newColName);
         const maxRows = Math.max(currentSheet.data.length, valores.length);
@@ -2661,6 +2661,26 @@ function guardarAmpliacion(valores, guardado, sheet, colIndex) {
     updateWorkSummary();
     renderSheetTabs();
     updateSheetsInfo();
+
+    if (guardado === 'nueva-columna') {
+        marcarCeldasOriginales(colIndex);
+    }
+}
+
+function marcarCeldasOriginales(colIndex) {
+    const wrapper = document.getElementById('editable-table-wrapper');
+    if (!wrapper) return;
+
+    const rows = wrapper.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        if (cells[colIndex]) {
+            const input = cells[colIndex].querySelector('input');
+            if (input) {
+                input.classList.add('cell-original-data');
+            }
+        }
+    });
 }
 
 document.getElementById('ad-factor')?.addEventListener('change', function() {

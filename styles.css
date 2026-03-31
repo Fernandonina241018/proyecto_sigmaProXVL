@@ -2406,3 +2406,13 @@ body {
 .ad-params-section .form-row {
     margin: 0;
 }
+
+/* ========================================
+   CELDAS DE DATOS ORIGINALES (AMPLIACIÓN)
+   ======================================== */
+
+.cell-original-data {
+    background-color: #f0f0f0 !important;
+    font-weight: 500;
+    color: #555;
+}
