@@ -1,7 +1,6 @@
 ---
 description: Optimizar un prompt usando mejores prácticas de Anthropic
 agent: general
-model: anthropic/claude-3-5-sonnet-20241022
 ---
 
 Optimiza el siguiente prompt usando las mejores prácticas de prompt engineering de Anthropic:
