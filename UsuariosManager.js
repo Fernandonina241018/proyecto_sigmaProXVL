@@ -15,17 +15,7 @@ const UsuariosManager = (() => {
     // ── Utilidades ────────────────────────
     function getToken() { return Auth.getToken(); }
 
-    function fmtDate(ts) {
-        if (!ts) return '—';
-        const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-        const d = new Date(ts.includes('T') ? ts : ts + 'Z');
-        if (isNaN(d)) return ts;
-        return `${String(d.getDate()).padStart(2,'0')}/${months[d.getMonth()]}/${d.getFullYear()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-    }
-
-    function escapeHtml(str) {
-        return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
+    // fmtDate() y escapeHtml() ahora están en utils.js
 
     // ── API calls ─────────────────────────
     async function apiGet(path) {
@@ -413,17 +403,7 @@ const UsuariosManager = (() => {
     }
 
     function _showToast(msg, isError = false) {
-        document.getElementById('usr-toast')?.remove();
-        const toast = document.createElement('div');
-        toast.id = 'usr-toast';
-        toast.className = `usr-toast ${isError ? 'usr-toast-error' : 'usr-toast-ok'}`;
-        toast.textContent = msg;
-        document.body.appendChild(toast);
-        requestAnimationFrame(() => toast.classList.add('usr-toast-visible'));
-        setTimeout(() => {
-            toast.classList.remove('usr-toast-visible');
-            setTimeout(() => toast.remove(), 300);
-        }, 3000);
+        showToast(msg, isError);
     }
 
     function _attachListeners() {

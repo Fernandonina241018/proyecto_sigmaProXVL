@@ -120,10 +120,7 @@ const PermisosManager = (() => {
         if (!container) return false;
 
         const rol = getRol();
-        const rolLabel = {
-            admin:'Administrador', gerente:'Gerente', supervisor:'Supervisor',
-            analista:'Analista', coordinador:'Coordinador', user:'Usuario', readonly:'Solo lectura'
-        }[rol] || rol;
+        const rolLabel = getRolLabel(rol);
 
         container.innerHTML = `
         <div class="pm-vista-denegada">

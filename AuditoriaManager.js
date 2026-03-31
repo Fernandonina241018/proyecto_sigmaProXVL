@@ -16,19 +16,7 @@ const AuditoriaManager = (() => {
     }
 
     // ── Formatear fecha legible ────────────
-    function fmtDate(ts) {
-        if (!ts) return '—';
-        const d = new Date(ts.includes('T') ? ts : ts + 'Z');
-        if (isNaN(d)) return ts;
-        const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-        const day  = String(d.getDate()).padStart(2,'0');
-        const mon  = months[d.getMonth()];
-        const yr   = d.getFullYear();
-        const hh   = String(d.getHours()).padStart(2,'0');
-        const mm   = String(d.getMinutes()).padStart(2,'0');
-        const ss   = String(d.getSeconds()).padStart(2,'0');
-        return `${day}/${mon}/${yr} ${hh}:${mm}:${ss}`;
-    }
+    // fmtDate() ahora está en utils.js
 
     // ── Cargar logs desde el backend ───────
     async function cargarLogs(limit = 200) {
@@ -339,12 +327,7 @@ const AuditoriaManager = (() => {
         });
     }
 
-    // Utilidad escapeHtml (por si no está disponible globalmente)
-    function escapeHtml(str) {
-        return String(str)
-            .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-            .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
+    // escapeHtml() ahora está en utils.js
 
     return { init, buildView, cargarLogs, exportarCSV };
 

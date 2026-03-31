@@ -17,25 +17,11 @@ let ultimosResultados = null;
 // UTILIDADES GENERALES
 // ========================================
 
-function escapeHtml(unsafe) {
-    return unsafe
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-function _showToast(msg, isError = false) {
-    document.getElementById('script-toast')?.remove();
-    const t = document.createElement('div');
-    t.id = 'script-toast';
-    t.className = `datos-toast ${isError ? 'datos-toast-error' : 'datos-toast-ok'}`;
-    t.textContent = msg;
-    document.body.appendChild(t);
-    requestAnimationFrame(() => t.classList.add('datos-toast-visible'));
-    setTimeout(() => { t.classList.remove('datos-toast-visible'); setTimeout(() => t.remove(), 300); }, 3000);
-}
+// Funciones movidas a utils.js:
+// - escapeHtml()
+// - showToast() / _showToast()
+// - formatDate()
+// - getRolLabel()
 
 // ========================================
 // NAVEGACIÓN DINÁMICA ENTRE VISTAS

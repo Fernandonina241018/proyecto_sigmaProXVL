@@ -14,21 +14,13 @@ const DatosManager = (() => {
     let _outlierCols   = new Set();
 
     // ── Utilidades ────────────────────────
-    function escapeHtml(str) {
-        return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
+    // escapeHtml() y showToast() ahora están en utils.js
 
     function _getData() { return StateManager.getImportedData(); }
 
+    // _showToast ahora usa showToast() de utils.js
     function _showToast(msg, isError = false) {
-        document.getElementById('datos-toast')?.remove();
-        const t = document.createElement('div');
-        t.id = 'datos-toast';
-        t.className = `datos-toast ${isError ? 'datos-toast-error' : 'datos-toast-ok'}`;
-        t.textContent = msg;
-        document.body.appendChild(t);
-        requestAnimationFrame(() => t.classList.add('datos-toast-visible'));
-        setTimeout(() => { t.classList.remove('datos-toast-visible'); setTimeout(() => t.remove(), 300); }, 3000);
+        showToast(msg, isError);
     }
 
     // ── Calcular outliers ─────────────────
