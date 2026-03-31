@@ -1871,6 +1871,7 @@ body {
     display: block;
 }
 
+<<<<<<< HEAD
 /* ── Iconos de sidebar con badges (Modelo E) ── */
 
 .sidebar-icons-container {
@@ -2069,11 +2070,18 @@ body {
 
 .stat-modal {
     display: none;
+=======
+/* ========================================
+   MODAL: DATOS NORMALES
+   ======================================== */
+.modal-overlay {
+>>>>>>> 0d211d5321b107abc2a4864c64b170f64009e405
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+<<<<<<< HEAD
     background: rgba(0, 0, 0, 0.5);
     z-index: 10000;
     justify-content: center;
@@ -2295,4 +2303,123 @@ body {
     border-radius: 12px;
     font-size: 0.7rem;
     font-weight: 500;
+=======
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 0;
+    width: 90%;
+    max-width: 480px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #0b2dc2 0%, #661ab3 100%);
+    color: white;
+    padding: 16px 20px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    opacity: 0.8;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.form-group input {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #0b2dc2;
+}
+
+.modal-footer {
+    padding: 16px 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    border-radius: 0 0 12px 12px;
+}
+
+.btn-cancel {
+    padding: 10px 20px;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #666;
+}
+
+.btn-cancel:hover {
+    background: #e5e5e5;
+}
+
+.btn-accept {
+    padding: 10px 24px;
+    background: linear-gradient(135deg, #0b2dc2 0%, #661ab3 100%);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.btn-accept:hover {
+    opacity: 0.9;
+>>>>>>> 0d211d5321b107abc2a4864c64b170f64009e405
 }
