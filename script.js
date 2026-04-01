@@ -1167,7 +1167,8 @@ function ejecutarAnalisis() {
          'ANOVA One-Way',
          'ANOVA Two-Way',
          'Chi-Cuadrado',
-         'Test de Normalidad'
+         'Test de Normalidad',
+         'Límites de Cuantificación'
      ];
 
     const noImplementados = activeStats.filter(stat => !estadisticosDescriptivos.includes(stat));
