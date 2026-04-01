@@ -2660,17 +2660,17 @@ function ampliarPorAugmentation(valores, factor, nivelRuido, decimals) {
 
 function guardarAmpliacion(valores, guardado, sheet, colIndex) {
     const colName = sheet.headers[colIndex];
+    const nombreAmpliado = 'Valor_Ampliado(' + colName + ')';
 
     if (guardado === 'nueva-hoja') {
-        const headers = ['#', 'Valor_Ampliado'];
+        const headers = ['#', nombreAmpliado];
         const data = valores.map((v, i) => [i + 1, v]);
         StateManager.createSheet(null, valores.length, 2, headers, data);
 
     } else if (guardado === 'nueva-columna') {
         const currentSheet = StateManager.getActiveSheet();
-        const newColName = 'Valor_Ampliado(' + colName + ')';
 
-        currentSheet.headers.push(newColName);
+        currentSheet.headers.push(nombreAmpliado);
         const maxRows = Math.max(currentSheet.data.length, valores.length);
 
         for (let i = 0; i < maxRows; i++) {
@@ -2682,6 +2682,7 @@ function guardarAmpliacion(valores, guardado, sheet, colIndex) {
 
     } else {
         const headers = sheet.headers.slice();
+        headers[colIndex] = nombreAmpliado;
         const data = [];
         for (let i = 0; i < valores.length; i++) {
             const rowData = [i + 1];
