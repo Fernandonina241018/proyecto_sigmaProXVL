@@ -498,7 +498,10 @@ body {
 }
 
 .workspace-view.active {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
 }
 
 @keyframes fadeIn {
@@ -922,7 +925,7 @@ body {
 .trabajo-main {
     display: grid;
     grid-template-columns: 1fr 200px;
-    grid-template-rows: 1fr auto;
+    grid-template-rows: 1fr;
     gap: 12px;
     flex: 1;
     min-height: 0;
@@ -954,6 +957,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    overflow-y: auto;
+    min-height: 0;
 }
 
 .summary-title {
