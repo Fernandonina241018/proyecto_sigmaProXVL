@@ -92,7 +92,7 @@ const StateManager = (() => {
     // GESTIÓN DE HOJAS (SHEETS)
     // ========================================
     
-    function createSheet(name = null, rows = 10, cols = 6, headers = null, data = null) {
+    function createSheet(name = null, rows = 13, cols = 11, headers = null, data = null) {
         // Validar límite de hojas
         if (state.sheets.length >= state.config.maxSheets) {
             throw new Error(`Límite de ${state.config.maxSheets} hojas alcanzado`);
@@ -696,7 +696,7 @@ const StateManager = (() => {
     }
     
     function createDefaultSheet() {
-        createSheet('Sheet 1', 10, 6);
+        createSheet('Sheet 1', 13, 11);
     }
     
     function getStats() {
