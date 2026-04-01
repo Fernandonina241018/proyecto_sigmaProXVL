@@ -1548,6 +1548,7 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         onLogout: (reason) => {
             console.log('🔒 Sesión cerrada:', reason);
+            cerrarModalPerfil();
         }
     });
 });
@@ -1599,14 +1600,11 @@ function _renderUserChip(username) {
     const isAdmin = session?.role === 'admin';
 
     chip.innerHTML = `
-        <div class="auth-user-chip">
+        <div class="auth-user-chip" onclick="abrirModalPerfil()" style="cursor:pointer;">
             <div class="auth-user-chip-avatar">${initials}</div>
             <span>${username}</span>
             ${isAdmin ? '<span class="auth-admin-chip">Admin</span>' : ''}
         </div>
-        <button class="auth-logout-btn" onclick="Auth.logout()" title="Cerrar sesión">
-            🔓 Salir
-        </button>
     `;
 
     // Mostrar pestañas solo para admins
@@ -1616,6 +1614,59 @@ function _renderUserChip(username) {
     const usrTab = document.getElementById('nav-usuarios');
     if (usrTab) usrTab.style.display = isAdmin ? '' : 'none';
     navContent.appendChild(chip);
+}
+
+// ========================================
+// MODAL DE PERFIL DE USUARIO
+// ========================================
+
+function abrirModalPerfil() {
+    const session = Auth.getSession();
+    if (!session) return;
+
+    const username = session.username || 'Usuario';
+    const role = session.role || 'user';
+    const email = session.email || username + '@sigmapro.com';
+    const initials = username.slice(0, 2).toUpperCase();
+
+    const saludo = obtenerSaludo();
+
+    document.getElementById('perfil-modal')?.remove();
+
+    const modal = document.createElement('div');
+    modal.id = 'perfil-modal';
+    modal.innerHTML = `
+        <div class="perfil-overlay" onclick="cerrarModalPerfil()"></div>
+        <div class="perfil-card">
+            <button class="perfil-close" onclick="cerrarModalPerfil()">✕</button>
+            <div class="perfil-avatar">
+                <div class="perfil-avatar-circle">${initials}</div>
+            </div>
+            <div class="perfil-greeting">${saludo}, ${username}!</div>
+            <div class="perfil-email">${email}</div>
+            <div class="perfil-role">
+                <span class="perfil-role-badge">${role === 'admin' ? 'Administrador' : 'Usuario'}</span>
+            </div>
+            <div class="perfil-actions">
+                <button class="perfil-btn perfil-btn-logout" onclick="Auth.logout(); cerrarModalPerfil();">
+                    🔓 Cerrar Sesión
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+}
+
+function cerrarModalPerfil() {
+    document.getElementById('perfil-modal')?.remove();
+}
+
+function obtenerSaludo() {
+    const hora = new Date().getHours();
+    if (hora < 12) return 'Buenos días';
+    if (hora < 18) return 'Buenas tardes';
+    return 'Buenas noches';
 }
 
 // ========================================

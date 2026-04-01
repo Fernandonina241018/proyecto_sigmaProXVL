@@ -2416,3 +2416,140 @@ body {
     font-weight: 500;
     color: #555;
 }
+
+/* ========================================
+   MODAL DE PERFIL DE USUARIO
+   ======================================== */
+
+#perfil-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.perfil-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.perfil-card {
+    position: relative;
+    background: white;
+    border-radius: 12px;
+    padding: 30px 40px;
+    min-width: 320px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    animation: perfilSlideIn 0.3s ease;
+}
+
+@keyframes perfilSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.perfil-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.perfil-close:hover {
+    color: #333;
+}
+
+.perfil-avatar {
+    margin-bottom: 15px;
+}
+
+.perfil-avatar-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0 auto;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.perfil-greeting {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.perfil-email {
+    font-size: 0.85rem;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.perfil-role {
+    margin-bottom: 20px;
+}
+
+.perfil-role-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: #e8eaf6;
+    color: #5a6fd6;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.perfil-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.perfil-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.perfil-btn-logout {
+    background: linear-gradient(135deg, #fc8181, #f56565);
+    color: white;
+}
+
+.perfil-btn-logout:hover {
+    background: linear-gradient(135deg, #f56565, #e53e3e);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(252, 129, 129, 0.3);
+}
