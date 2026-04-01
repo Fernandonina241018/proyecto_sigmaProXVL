@@ -1631,6 +1631,27 @@ function abrirModalPerfil() {
 
     const saludo = obtenerSaludo();
 
+    // Fecha de último login
+    const ultimoLogin = localStorage.getItem('ultimoLogin');
+    const ultimoLoginFmt = ultimoLogin ? formatearFecha(ultimoLogin) : 'No disponible';
+
+    // Tiempo de sesión activa
+    const sessionStart = localStorage.getItem('sessionStart');
+    let tiempoSesion = 'Calculando...';
+    if (sessionStart) {
+        const diff = Date.now() - parseInt(sessionStart);
+        const horas = Math.floor(diff / 3600000);
+        const minutos = Math.floor((diff % 3600000) / 60000);
+        tiempoSesion = horas > 0 ? `${horas}h ${minutos}min` : `${minutos} min`;
+    }
+
+    // Permisos del usuario
+    let permisos = ['Usar trabajo', 'Importar datos'];
+    if (role === 'admin') {
+        permisos = ['Usar trabajo', 'Importar datos', 'Exportar reportes', 'Gestión de usuarios', 'Configuración', 'Auditoría'];
+    }
+    const permisosHtml = permisos.map(p => `<li>• ${p}</li>`).join('');
+
     document.getElementById('perfil-modal')?.remove();
 
     const modal = document.createElement('div');
@@ -1647,6 +1668,31 @@ function abrirModalPerfil() {
             <div class="perfil-role">
                 <span class="perfil-role-badge">${role === 'admin' ? 'Administrador' : 'Usuario'}</span>
             </div>
+
+            <div class="perfil-info-card">
+                <div class="perfil-info-icon">📅</div>
+                <div class="perfil-info-content">
+                    <div class="perfil-info-label">Último acceso</div>
+                    <div class="perfil-info-value">${ultimoLoginFmt}</div>
+                </div>
+            </div>
+
+            <div class="perfil-info-card">
+                <div class="perfil-info-icon">⏱️</div>
+                <div class="perfil-info-content">
+                    <div class="perfil-info-label">Sesión activa</div>
+                    <div class="perfil-info-value">${tiempoSesion}</div>
+                </div>
+            </div>
+
+            <div class="perfil-info-card">
+                <div class="perfil-info-icon">✅</div>
+                <div class="perfil-info-content">
+                    <div class="perfil-info-label">Permisos activos</div>
+                    <ul class="perfil-permisos-lista">${permisosHtml}</ul>
+                </div>
+            </div>
+
             <div class="perfil-actions">
                 <button class="perfil-btn perfil-btn-logout" onclick="Auth.logout(); cerrarModalPerfil();">
                     🔓 Cerrar Sesión
@@ -1667,6 +1713,20 @@ function obtenerSaludo() {
     if (hora < 12) return 'Buenos días';
     if (hora < 18) return 'Buenas tardes';
     return 'Buenas noches';
+}
+
+function formatearFecha(isoString) {
+    try {
+        const fecha = new Date(isoString);
+        const dia = fecha.getDate().toString().padStart(2, '0');
+        const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+        const anio = fecha.getFullYear();
+        const hora = fecha.getHours().toString().padStart(2, '0');
+        const min = fecha.getMinutes().toString().padStart(2, '0');
+        return `${dia}/${mes}/${anio} ${hora}:${min}`;
+    } catch (e) {
+        return 'No disponible';
+    }
 }
 
 // ========================================
