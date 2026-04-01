@@ -530,10 +530,10 @@ const ReporteManager = (() => {
         });
         
         // ── Pruebas de Hipótesis ──
-        const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad'];
+        const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Límites de Cuantificación'];
         const hypResults = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.includes(stat));
         if (hypResults.length > 0) {
-            p(singleLine(W)); p(`  ${lang === 'es' ? 'PRUEBAS DE HIPÓTESIS' : 'HYPOTHESIS TESTS'} (α = 0.05)`); p(singleLine(W));
+            p(singleLine(W)); p(`  ${lang === 'es' ? 'PRUEBAS DE HIPÓTESIS Y ESPECIFICACIÓN' : 'HYPOTHESIS AND SPECIFICATION TESTS'} (α = 0.05)`); p(singleLine(W));
             p('');
             hypResults.forEach(([stat, data]) => {
                 if (stat === 'T-Test (dos muestras)') {
@@ -567,6 +567,20 @@ const ReporteManager = (() => {
                         p(`    t = ${fmtNum(r.estadisticoT)}, p = ${fmtNum(r.valorP)}`);
                         p(`    Decisión: ${r.significativo ? '✗ Rechazar H₀' : '✓ No rechazar H₀'}`);
                     });
+                } else if (stat === 'Límites de Cuantificación') {
+                    if (data.error) {
+                        p(`  ${stat}: ERROR - ${data.error}`);
+                    } else {
+                        p(`  ${stat} (${data.columna}) — ${data.norma}`);
+                        p(`    LSL = ${data.lsl} | USL = ${data.usl}`);
+                        p(`    N = ${data.n} | Media = ${data.media} | DE = ${data.std}`);
+                        p(`    Min = ${data.min} | Max = ${data.max}`);
+                        p(`    Dentro límites: ${data.dentro} (${data.porcentajeDentro}%)`);
+                        p(`    OOS: ${data.fuera} (${data.porcentajeFuera}%) [Sup: ${data.fueraSuperior} | Inf: ${data.fueraInferior}]`);
+                        p(`    Cp = ${fmtNum(data.cp)} | Cpk = ${fmtNum(data.cpk)}`);
+                        const cpkText = data.cpk === 'N/A' ? 'N/A' : (data.cpk >= 1.33 ? '✓ Capable (Cpk ≥ 1.33)' : (data.cpk >= 1.0 ? '⚠ Marginal' : '✗ Not Capable'));
+                        p(`    Decisión: ${cpkText}`);
+                    }
                 }
                 p('');
             });
@@ -1048,6 +1062,14 @@ tr:hover td{background:#f7faff}
               content = Object.entries(data).filter(([k]) => k !== 'error').map(([col, r]) => `<tr><td>${stat} (${col})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">JB=${fmtNum(r.estadisticoJB)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${!r.esNormal?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${!r.esNormal?'✗ No normal':'✓ Normal'}</span></td></tr>`).join('');
           } else if (stat === 'T-Test (una muestra)') {
               content = Object.entries(data).filter(([k]) => k !== 'error').map(([col, r]) => `<tr><td>${stat} (${col})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">t=${fmtNum(r.estadisticoT)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${r.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${r.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`).join('');
+          } else if (stat === 'Límites de Cuantificación') {
+              if (data.error) {
+                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+              } else {
+                  const cpkClass = data.cpk === 'N/A' ? 'background:#e2e8f0;color:#4a5568' : (data.cpk >= 1.33 ? 'background:#c6f6d5;color:#276749' : (data.cpk >= 1.0 ? 'background:#fefcbf;color:#b7791f' : 'background:#fed7d7;color:#c53030'));
+                  const cpkText = data.cpk === 'N/A' ? 'N/A' : (data.cpk >= 1.33 ? '✓ Capable' : (data.cpk >= 1.0 ? '⚠ Marginal' : '✗ Not Capable'));
+                  content = `<tr><td>${stat} (${data.columna})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">Cpk=${fmtNum(data.cpk)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">${data.porcentajeFuera}% OOS</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${cpkClass}">${cpkText}</span></td></tr>`;
+              }
           }
           return content;
       }).join('');

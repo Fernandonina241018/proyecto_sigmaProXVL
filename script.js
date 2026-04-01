@@ -1722,6 +1722,14 @@ const SIDEBAR_SECTIONS = {
             'Series Temporales', 'Bootstrap', 'Análisis de Supervivencia',
             'Modelos Mixtos', 'Análisis Bayesiano'
         ]
+    },
+    especificacion: {
+        icon: '📐',
+        label: 'Especificación',
+        description: 'Límites de cuantificación y capacidad del proceso',
+        options: [
+            'Límites de Cuantificación'
+        ]
     }
 };
 
@@ -2005,7 +2013,7 @@ function applyStatSelection() {
     const newActive = currentActive.filter(stat => !section.options.includes(stat));
     
     // Identificar qué pruebas requieren configuración de columnas
-    const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)'];
+    const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'Límites de Cuantificación'];
     const statsQueNecesitanConfig = [];
     const statsNormales = [];
     
@@ -2089,13 +2097,19 @@ function mostrarModalConfiguracionHypothesis(statName) {
         'ANOVA One-Way': { title: '🧪 Configurar ANOVA One-Way', catCols: 1, numCols: 1, catLabel: 'Columna de Agrupación (Factor)', numLabel: 'Columna de Valores (Variable Dependiente)' },
         'ANOVA Two-Way': { title: '🧪 Configurar ANOVA Two-Way', catCols: 2, numCols: 1, catLabel: 'Factores (2 columnas categóricas)', numLabel: 'Columna de Valores (Variable Dependiente)' },
         'Chi-Cuadrado': { title: '📊 Configurar Chi-Cuadrado', catCols: 2, numCols: 0, catLabel: 'Variables categóricas (2 columnas)', numLabel: null },
-        'T-Test (dos muestras)': { title: '📈 Configurar T-Test (dos muestras)', catCols: 1, numCols: 1, catLabel: 'Columna de Agrupación (2 grupos)', numLabel: 'Columna de Valores (Variable Dependiente)' }
+        'T-Test (dos muestras)': { title: '📈 Configurar T-Test (dos muestras)', catCols: 1, numCols: 1, catLabel: 'Columna de Agrupación (2 grupos)', numLabel: 'Columna de Valores (Variable Dependiente)' },
+        'Límites de Cuantificación': { title: '📐 Configurar Límites de Cuantificación', catCols: 0, numCols: 1, catLabel: null, numLabel: 'Columna a analizar', extraFields: ['lsl', 'usl', 'norma', 'nivelConfianza'] }
     };
     
     const config = configs[statName];
     if (!config) {
         _showToast('⚠️ Configuración no disponible para esta prueba', true);
         return false;
+    }
+    
+    // Para Límites de Cuantificación, mostrar modal especial
+    if (statName === 'Límites de Cuantificación') {
+        return mostrarModalLimitesCuantificacion(imported);
     }
     
     // Detectar columnas categóricas y numéricas
@@ -2295,6 +2309,141 @@ function mostrarModalConfiguracionHypothesis(statName) {
         close();
     });
     
+    return true;
+}
+
+// ========================================
+// MODAL DE CONFIGURACIÓN DE LÍMITES DE CUANTIFICACIÓN
+// ========================================
+function mostrarModalLimitesCuantificacion(imported) {
+    document.getElementById('limites-config-modal')?.remove();
+
+    const numericCols = imported.headers.filter(col => {
+        const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
+        const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
+        return numericCount / values.length > 0.5;
+    });
+
+    if (numericCols.length === 0) {
+        _showToast('⚠️ No se encontraron columnas numéricas', true);
+        return false;
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'limites-config-modal';
+    modal.innerHTML = `
+        <div class="dm-modal-overlay" id="limites-modal-overlay"></div>
+        <div class="dm-modal-card" style="width: min(500px, 96vw);">
+            <div class="dm-modal-header">
+                <h3>📐 Configurar Límites de Cuantificación</h3>
+                <button class="dm-modal-close" id="limites-modal-close">✕</button>
+            </div>
+            <div class="dm-modal-body">
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📊 Columna a analizar</label>
+                    <select id="limites-columna" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
+                    </select>
+                </div>
+                <div style="display:flex;gap:12px;margin-bottom:14px;">
+                    <div class="dm-field" style="flex:1;">
+                        <label>⬇️ Límite Inferior (LSL)</label>
+                        <input type="number" id="limites-lsl" step="any" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                    </div>
+                    <div class="dm-field" style="flex:1;">
+                        <label>⬆️ Límite Superior (USL)</label>
+                        <input type="number" id="limites-usl" step="any" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                    </div>
+                </div>
+                <div style="display:flex;gap:12px;margin-bottom:14px;">
+                    <div class="dm-field" style="flex:1;">
+                        <label>📋 Norma de referencia</label>
+                        <select id="limites-norma" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                            <option value="USP <232>">USP &lt;232&gt;</option>
+                            <option value="EP 2.2.42">EP 2.2.42</option>
+                            <option value="ICH Q2(R1)">ICH Q2(R1)</option>
+                            <option value="Personalizado">Personalizado</option>
+                        </select>
+                    </div>
+                    <div class="dm-field" style="flex:1;">
+                        <label>📊 Nivel de Confianza</label>
+                        <select id="limites-confianza" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                            <option value="0.90">90%</option>
+                            <option value="0.95" selected>95%</option>
+                            <option value="0.99">99%</option>
+                        </select>
+                    </div>
+                </div>
+                <p style="font-size:0.75rem;color:#666;margin-bottom:0;">
+                    💡 Ingresa los límites según la norma farmacéutica aplicable
+                </p>
+            </div>
+            <div class="dm-modal-footer">
+                <button class="btn-apply" id="limites-modal-confirm">✅ Confirmar</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    // Cerrar modal
+    document.getElementById('limites-modal-close').onclick = () => modal.remove();
+    document.getElementById('limites-modal-overlay').onclick = () => modal.remove();
+
+    // Auto-llenar LSL/USL con Min/Max de la columna seleccionada
+    const selectCol = document.getElementById('limites-columna');
+    function autoFillLSL_USL() {
+        const col = selectCol.value;
+        const values = imported.data.map(row => parseFloat(row[col])).filter(v => !isNaN(v));
+        if (values.length > 0) {
+            document.getElementById('limites-lsl').value = Math.min(...values);
+            document.getElementById('limites-usl').value = Math.max(...values);
+        }
+    }
+    autoFillLSL_USL();
+    selectCol.addEventListener('change', autoFillLSL_USL);
+
+    // Confirmar
+    document.getElementById('limites-modal-confirm').onclick = () => {
+        const col = document.getElementById('limites-columna').value;
+        const lsl = document.getElementById('limites-lsl').value;
+        const usl = document.getElementById('limites-usl').value;
+        const norma = document.getElementById('limites-norma').value;
+        const nivelConfianza = document.getElementById('limites-confianza').value;
+
+        if (!lsl || !usl) {
+            _showToast('⚠️ Ingresa ambos límites (LSL y USL)', true);
+            return;
+        }
+
+        if (parseFloat(lsl) >= parseFloat(usl)) {
+            _showToast('⚠️ LSL debe ser menor que USL', true);
+            return;
+        }
+
+        const hypothesisConfig = {
+            statName: 'Límites de Cuantificación',
+            columna: col,
+            lsl: lsl,
+            usl: usl,
+            norma: norma,
+            nivelConfianza: nivelConfianza,
+            timestamp: Date.now()
+        };
+
+        StateManager.setHypothesisConfig('Límites de Cuantificación', hypothesisConfig);
+        StateManager.addActiveStat('Límites de Cuantificación');
+
+        // Marcar visualmente
+        document.querySelectorAll('.menu-option').forEach(opt => {
+            if (opt.textContent.trim() === 'Límites de Cuantificación') {
+                opt.classList.add('selected');
+            }
+        });
+
+        _showToast('✅ Límites de Cuantificación configurado');
+        modal.remove();
+    };
+
     return true;
 }
 

@@ -1182,6 +1182,64 @@ const EstadisticaDescriptiva = (() => {
                         resultados['ANOVA Two-Way'] = calcularANOVA2Factores(grupos, numericCols.slice(0, 2), numericCols.slice(2));
                     }
                     break;
+
+                case 'Límites de Cuantificación':
+                    if (hypothesisConfig['Límites de Cuantificación']) {
+                        const cfg = hypothesisConfig['Límites de Cuantificación'];
+                        const col = cfg.columna;
+                        const lsl = parseFloat(cfg.lsl);
+                        const usl = parseFloat(cfg.usl);
+                        const norma = cfg.norma;
+                        const nivelConfianza = parseFloat(cfg.nivelConfianza);
+
+                        const values = getNumericValues(data, col);
+                        if (values.length === 0) {
+                            resultados['Límites de Cuantificación'] = { error: `No se encontraron valores numéricos en "${col}".` };
+                        } else {
+                            const n = values.length;
+                            const media = calcularMedia(values);
+                            const std = calcularDesviacionEstandar(values);
+                            const min = Math.min(...values);
+                            const max = Math.max(...values);
+
+                            const dentro = values.filter(v => v >= lsl && v <= usl);
+                            const fuera = values.filter(v => v < lsl || v > usl);
+                            const fueraSuperior = values.filter(v => v > usl);
+                            const fueraInferior = values.filter(v => v < lsl);
+
+                            const cp = std > 0 ? (usl - lsl) / (6 * std) : Infinity;
+
+                            const cpk = std > 0 ?
+                                Math.min(
+                                    (usl - media) / (3 * std),
+                                    (media - lsl) / (3 * std)
+                                ) : Infinity;
+
+                            resultados['Límites de Cuantificación'] = {
+                                columna: col,
+                                lsl: lsl,
+                                usl: usl,
+                                norma: norma,
+                                nivelConfianza: nivelConfianza,
+                                n: n,
+                                media: parseFloat(media.toFixed(4)),
+                                std: parseFloat(std.toFixed(4)),
+                                min: min,
+                                max: max,
+                                dentro: dentro.length,
+                                fuera: fuera.length,
+                                fueraSuperior: fueraSuperior.length,
+                                fueraInferior: fueraInferior.length,
+                                porcentajeDentro: parseFloat(((dentro.length / n) * 100).toFixed(2)),
+                                porcentajeFuera: parseFloat(((fuera.length / n) * 100).toFixed(2)),
+                                cp: isFinite(cp) ? parseFloat(cp.toFixed(4)) : 'N/A',
+                                cpk: isFinite(cpk) ? parseFloat(cpk.toFixed(4)) : 'N/A'
+                            };
+                        }
+                    } else {
+                        resultados['Límites de Cuantificación'] = { error: 'Configuración no encontrada. Seleccione columna, LSL, USL y norma.' };
+                    }
+                    break;
             }
         });
         
@@ -1475,6 +1533,47 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                         </div>
                     </div>
                 `).join('');
+            }
+
+            // Manejar Límites de Cuantificación
+            if (statKey === 'Límites de Cuantificación') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+
+                const cpkClass = data.cpk === 'N/A' ? 'ar-badge-info' : (data.cpk >= 1.33 ? 'ar-badge-ok' : (data.cpk >= 1.0 ? 'ar-badge-warn' : 'ar-badge-danger'));
+                const cpkText = data.cpk === 'N/A' ? 'N/A' : (data.cpk >= 1.33 ? '✓ Capable (Cpk ≥ 1.33)' : (data.cpk >= 1.0 ? '⚠️ Marginal (1.0 ≤ Cpk < 1.33)' : '✗ Not Capable (Cpk < 1.0)'));
+
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">📐 ${data.columna} — ${data.norma}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">LSL</span><span class="ar-kpi-sub-v">${data.lsl}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">USL</span><span class="ar-kpi-sub-v">${data.usl}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">N total</span><span class="ar-kpi-sub-v">${data.n}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Media</span><span class="ar-kpi-sub-v">${data.media}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">DE</span><span class="ar-kpi-sub-v">${data.std}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Mínimo</span><span class="ar-kpi-sub-v">${data.min}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Máximo</span><span class="ar-kpi-sub-v">${data.max}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Dentro límites</span><span class="ar-kpi-sub-v">${data.dentro} (${data.porcentajeDentro}%)</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">OOS</span><span class="ar-kpi-sub-v">${data.fuera} (${data.porcentajeFuera}%)</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Cp</span><span class="ar-kpi-sub-v">${data.cp}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Cpk</span><span class="ar-kpi-sub-v">${data.cpk}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${cpkClass}">
+                            ${cpkText}
+                        </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">💬</span>
+                        <div>
+                            <div class="ar-formula-desc">
+                                Cp = (USL - LSL) / (6 × σ) &nbsp;&nbsp;|&nbsp;&nbsp;
+                                Cpk = min((USL - μ) / (3 × σ), (μ - LSL) / (3 × σ))
+                            </div>
+                            <div class="ar-formula-desc" style="margin-top:8px;">
+                                Fuera superior: ${data.fueraSuperior} | Fuera inferior: ${data.fueraInferior}
+                            </div>
+                        </div>
+                    </div>`;
             }
 
             return '<p>Tipo de prueba no reconocido</p>';
