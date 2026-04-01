@@ -1880,6 +1880,9 @@ function createSidebarIconContainers(leftSidebar, rightSidebar) {
     // Crear sidebar compacto con iconos
     const iconsContainer = document.getElementById('sidebarIconsCompact');
     if (!iconsContainer) return;
+
+    // Limpiar contenedor para evitar duplicación
+    iconsContainer.innerHTML = '';
     
     // Agregar badge total al inicio
     const totalItem = document.createElement('div');
