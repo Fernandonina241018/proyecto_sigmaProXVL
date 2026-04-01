@@ -2419,8 +2419,45 @@ function boxMullerRandom(media, std) {
 // ========================================
 
 function abrirModalAmpliarDatos() {
+    const sheet = StateManager.getActiveSheet();
+    const select = document.getElementById('ad-columna');
+
+    select.innerHTML = '<option value="">-- Seleccionar columna --</option>';
+
+    if (sheet) {
+        sheet.headers.forEach((h, i) => {
+            if (i > 0) {
+                const hasNumeric = sheet.data.some(row => row[i] && !isNaN(parseFloat(row[i])));
+                if (hasNumeric) {
+                    const opt = document.createElement('option');
+                    opt.value = i;
+                    opt.textContent = h;
+                    select.appendChild(opt);
+                }
+            }
+        });
+    }
+
     document.getElementById('modal-ampliar-datos').classList.add('active');
     actualizarParametrosMetodo();
+}
+
+function actualizarInfoColumna() {
+    const colIndex = parseInt(document.getElementById('ad-columna').value);
+    if (isNaN(colIndex)) return;
+
+    const sheet = StateManager.getActiveSheet();
+    if (!sheet) return;
+
+    const valores = sheet.data.map(row => parseFloat(row[colIndex])).filter(v => !isNaN(v));
+    const info = document.getElementById('ad-info-texto');
+
+    if (valores.length > 0) {
+        const media = (valores.reduce((a, b) => a + b, 0) / valores.length).toFixed(2);
+        const min = Math.min(...valores).toFixed(2);
+        const max = Math.max(...valores).toFixed(2);
+        info.textContent = `📊 ${valores.length} valores | Media: ${media} | Min: ${min} | Max: ${max}`;
+    }
 }
 
 function cerrarModalAmpliarDatos() {
@@ -2466,11 +2503,14 @@ function ampliarDatos() {
         return;
     }
 
-    const numericCol = sheet.headers.findIndex((h, i) => i > 0 && sheet.data.some(row => row[i] && !isNaN(parseFloat(row[i]))));
-    if (numericCol === -1) {
-        alert('⚠️ No hay columnas numéricas para ampliar');
+    const colIndexStr = document.getElementById('ad-columna').value;
+    if (!colIndexStr) {
+        alert('⚠️ Selecciona una columna para ampliar');
         return;
     }
+
+    const numericCol = parseInt(colIndexStr);
+    const colName = sheet.headers[numericCol] || 'Sin_Nombre';
 
     const valores = sheet.data
         .map(row => parseFloat(row[numericCol]))

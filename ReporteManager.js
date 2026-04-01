@@ -1251,7 +1251,7 @@ tr:hover td{background:#f7faff}
 
                 <div class="rep-field rep-field-full">
                   <label>${t('ui_description')}</label>
-                  <input id="rep-descripcion" placeholder="${currentLang==='es'?'Descripción breve del análisis o Equipo...':'Description of the analysis or product...'}">
+                  <input id="rep-descripcion" placeholder="${currentLang==='es'?'Descripción breve del análisis o Equipo...':'Description of the analysis or Equipment...'}">
                 </div>
 
                 <div class="rep-field">

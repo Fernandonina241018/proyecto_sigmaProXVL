@@ -290,6 +290,14 @@
                 <div class="ampliar-data-form">
                     <div class="form-row">
                         <div class="form-group">
+                            <label for="ad-columna">Columna a Ampliar</label>
+                            <select id="ad-columna" onchange="actualizarInfoColumna()">
+                                <option value="">-- Seleccionar columna --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
                             <label for="ad-metodo">Método de Ampliación</label>
                             <select id="ad-metodo" onchange="actualizarParametrosMetodo()">
                                 <option value="interpolacion">📐 Interpolación</option>
