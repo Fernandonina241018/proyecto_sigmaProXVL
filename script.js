@@ -956,6 +956,9 @@ function createCalculatedColumn() {
 // ========================================
 
 let vizBuilt = false;
+let reportesBuilt = false;
+let auditoriaBuilt = false;
+let usuariosBuilt = false;
 
 function inicializarVisualizacion() {
     if (!vizBuilt) {
@@ -971,8 +974,12 @@ function inicializarVisualizacion() {
 // ========================================
 
 function inicializarReportes() {
-    // Reconstruye siempre para reflejar el análisis más reciente
-    ReporteManager.buildReportesView();
+    if (!reportesBuilt) {
+        ReporteManager.buildReportesView();
+        reportesBuilt = true;
+    } else {
+        ReporteManager.refreshReportes();
+    }
 }
 
 // ========================================
@@ -980,9 +987,14 @@ function inicializarReportes() {
 // ========================================
 
 function inicializarAuditoria() {
-    const API_URL = 'https://proyecto-sigmaproxvl.onrender.com';
-    AuditoriaManager.init(API_URL);
-    AuditoriaManager.buildView();
+    if (!auditoriaBuilt) {
+        const API_URL = 'https://proyecto-sigmaproxvl.onrender.com';
+        AuditoriaManager.init(API_URL);
+        AuditoriaManager.buildView();
+        auditoriaBuilt = true;
+    } else {
+        AuditoriaManager.buildView();
+    }
 }
 
 // ========================================
@@ -990,9 +1002,14 @@ function inicializarAuditoria() {
 // ========================================
 
 function inicializarUsuarios() {
-    const API_URL = 'https://proyecto-sigmaproxvl.onrender.com';
-    UsuariosManager.init(API_URL);
-    UsuariosManager.buildView();
+    if (!usuariosBuilt) {
+        const API_URL = 'https://proyecto-sigmaproxvl.onrender.com';
+        UsuariosManager.init(API_URL);
+        UsuariosManager.buildView();
+        usuariosBuilt = true;
+    } else {
+        UsuariosManager.buildView();
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
