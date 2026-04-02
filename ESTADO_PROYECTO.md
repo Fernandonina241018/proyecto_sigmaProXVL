@@ -19,6 +19,26 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 2 de Abril 2026 - Seguridad: Validación de JWT_SECRET al iniciar servidor
+
+**Cambio:** Validación de JWT_SECRET para prevenir inicio sin configuración
+- **Archivos:** `backend/server.js`
+- **Estado:** ✅ COMPLETADO
+- **Backup:** `backend/server.js.bak3`
+
+**Detalles:**
+- El servidor no inicia si JWT_SECRET no está definido
+- El servidor no inicia si JWT_SECRET tiene menos de 32 caracteres
+- Mensajes de error claros con instrucciones para generar clave
+- Validación se ejecuta al inicio del servidor
+
+**Seguridad mejorada:**
+- Previene configuración insegura en producción
+- Asegura que JWT_SECRET tenga longitud adecuada (mínimo 32 caracteres)
+- Mensajes de error útiles para debugging
+
+---
+
 ### 2 de Abril 2026 - Seguridad: Rate Limiting + Bloqueo Temporal + Alertas
 
 **Cambio:** Implementación de protección contra brute force en login

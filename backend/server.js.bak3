@@ -5,21 +5,6 @@
 
 require('dotenv').config();
 
-// ── Validación de variables de entorno críticas ──
-if (!process.env.JWT_SECRET) {
-    console.error('ERROR: JWT_SECRET no está definido en el archivo .env');
-    console.error('Por favor, agrega JWT_SECRET=tu-clave-secreta-aqui al archivo .env');
-    console.error('Genera una clave: node -e "console.log(require(\'crypto\').randomBytes(32).toString(\'hex\'))"');
-    process.exit(1);
-}
-
-if (process.env.JWT_SECRET.length < 32) {
-    console.error('ERROR: JWT_SECRET debe tener al menos 32 caracteres');
-    console.error(`Actual: ${process.env.JWT_SECRET.length} caracteres`);
-    console.error('Genera una clave: node -e "console.log(require(\'crypto\').randomBytes(32).toString(\'hex\'))"');
-    process.exit(1);
-}
-
 const express = require('express');
 const bcrypt  = require('bcryptjs');
 const jwt     = require('jsonwebtoken');
