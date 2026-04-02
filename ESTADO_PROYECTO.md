@@ -19,6 +19,29 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 2 de Abril 2026 - Seguridad: CORS restringido - solo orígenes permitidos
+
+**Cambio:** Middleware CORS modificado para rechazar peticiones sin header Origin o de orígenes no autorizados
+- **Archivos:** `backend/server.js`
+- **Estado:** ✅ COMPLETADO (en pruebas)
+- **Backup:** `backend/server.js.bak4`
+
+**Detalles:**
+- Solo se aceptan peticiones de orígenes en la lista permitida
+- Peticiones sin header Origin retornan 403 Forbidden
+- Orígenes permitidos: fernandonina241018.github.io, localhost (5500, 3000)
+- Protección contra ataques CSRF y enumeración de usuarios
+
+**Archivos modificados:**
+1. `backend/server.js` - Middleware CORS reescrito (líneas 33-61)
+
+**Seguridad mejorada:**
+- Previene ataques CSRF desde scripts maliciosos
+- Previene enumeración de usuarios desde herramientas automatizadas
+- Solo permite peticiones desde orígenes confiables
+
+---
+
 ### 2 de Abril 2026 - Seguridad: Validación de JWT_SECRET al iniciar servidor (actualización)
 
 **Cambio:** Reducida longitud mínima de JWT_SECRET de 32 a 26 caracteres (temporal)
