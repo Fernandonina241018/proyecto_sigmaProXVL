@@ -1510,7 +1510,7 @@ body {
    HEADER DE RESULTADOS
    ======================================== */
 .resultado-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #082bc7 0%, #764ba2 100%);
     color: white;
     padding: 30px;
     border-radius: 15px;
@@ -2370,7 +2370,7 @@ body {
    ======================================== */
 
 .btn-ampliar-datos {
-    background: linear-gradient(135deg, #11998e, #38ef7d);
+    background: linear-gradient(135deg, #082bc7, #764ba2);
     color: white;
     border: none;
     padding: 8px 14px;
