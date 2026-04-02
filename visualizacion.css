@@ -424,11 +424,12 @@
 /* Item de gráfico */
 .viz-pred-item {
     border: 1.5px solid #e2e8f0;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: all 0.2s;
     display: block;
     flex-shrink: 0;
+    margin-bottom: 4px;
 }
 
 .viz-pred-item input[type="checkbox"] {
@@ -436,48 +437,66 @@
 }
 
 .viz-pred-body {
-    display: flex;
+    display: grid;
+    grid-template-columns: 36px 1fr 24px;
     align-items: center;
-    gap: 8px;
-    padding: 7px 10px;
+    gap: 10px;
+    padding: 10px 12px;
 }
 
 .viz-pred-icon {
-    font-size: 0.9rem;
-    width: 22px;
-    text-align: center;
-    flex-shrink: 0;
+    font-size: 1.1rem;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ede9fe;
+    border-radius: 8px;
     color: #6c63ff;
+    flex-shrink: 0;
 }
 
 .viz-pred-info {
-    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
     min-width: 0;
+    overflow: hidden;
 }
 
 .viz-pred-label {
-    font-size: 0.78rem;
+    font-size: 0.82rem;
     font-weight: 600;
     color: #2d3748;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: 1.3;
 }
 
 .viz-pred-type {
-    font-size: 0.68rem;
-    color: #a0aec0;
-    margin-top: 1px;
+    font-size: 0.7rem;
+    color: #718096;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
 }
 
 .viz-pred-checkmark {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     font-weight: 700;
     color: transparent;
-    width: 16px;
-    text-align: center;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: transparent;
+    transition: all 0.2s;
     flex-shrink: 0;
-    transition: color 0.15s;
 }
 
 /* Estado seleccionado */
@@ -486,13 +505,23 @@
     background: #f5f3ff;
 }
 
+.viz-pred-selected .viz-pred-icon {
+    background: #6c63ff;
+    color: white;
+}
+
 .viz-pred-selected .viz-pred-checkmark {
-    color: #6c63ff;
+    color: white;
+    background: #6c63ff;
 }
 
 .viz-pred-item:hover {
     border-color: #6c63ff;
     background: #faf9ff;
+}
+
+.viz-pred-item:hover .viz-pred-icon {
+    background: #ddd6fe;
 }
 
 .viz-pred-empty {
