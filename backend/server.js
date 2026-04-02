@@ -46,18 +46,22 @@ app.use((req, res, next) => {
     if (origin && allowed.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
         res.setHeader('Vary', 'Origin');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-        res.setHeader('Access-Control-Allow-Credentials', 'true');
-        
-        if (req.method === 'OPTIONS') {
-            return res.status(204).end();
-        }
-        next();
+    } else if (!origin) {
+        // Permitir peticiones sin origen (file://, desarrollo local, curl)
+        res.setHeader('Access-Control-Allow-Origin', '*');
     } else {
-        // Rechazar peticiones sin origen o de orígenes no permitidos
+        // Rechazar orígenes no permitidos
         return res.status(403).json({ error: 'Origen no permitido' });
     }
+    
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    
+    if (req.method === 'OPTIONS') {
+        return res.status(204).end();
+    }
+    next();
 });
 
 app.use(express.json());
