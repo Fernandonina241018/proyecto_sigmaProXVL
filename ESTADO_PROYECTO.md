@@ -1,6 +1,6 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
-**Fecha de Análisis:** 29 de Marzo de 2026  
+**Fecha de Análisis:** 2 de Abril de 2026  
 **Versión del Proyecto:** 2.0  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
 **Estado General:** MVP Funcional (~65% Completo)
@@ -18,6 +18,57 @@
 7. [Próximos Pasos Recomendados](#próximos-pasos-recomendados)
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
+
+### 2 de Abril 2026 - Sistema de optimización de prompts (/prompt)
+
+**Cambio:** Implementación completa del sistema de optimización de prompts usando mejores prácticas de Anthropic
+- **Archivos:** `.opencode/commands/prompt.md`, `AGENTS.md`
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Comando `/prompt` completamente funcional para optimizar prompts
+- Implementa 8 técnicas de optimización basadas en documentación oficial de Anthropic:
+  1. Claridad y directitud
+  2. Contexto y motivación
+  3. Ejemplos (few-shot) con etiquetas XML
+  4. Estructura XML para organización
+  5. Roles específicos para el modelo
+  6. Control explícito de formato de salida
+  7. Manejo de herramientas y acciones
+  8. Pensamiento y razonamiento guiado
+- Actualización de AGENTS.md con regla de optimización automática
+- Sistema de respuesta estructurada con <optimized_prompt>, <explanation>, y <best_practices_applied>
+
+**Archivos modificados:**
+1. `.opencode/commands/prompt.md` (+80 líneas) - Lógica completa de optimización
+2. `AGENTS.md` (+30 líneas) - Reglas de optimización automática
+
+**Uso:**
+```
+/prompt [texto del prompt a optimizar]
+```
+
+---
+
+### 2 de Abril 2026 - Mejora UI: Panel de exportación de gráficos rediseñado
+
+**Cambio:** Rediseño completo del panel de exportación de gráficos para mejor UX
+- **Archivos:** `Visualizacion.js`, `visualizacion.css`
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Panel de exportación ampliado de 260px a 350px para mejor visualización
+- Elementos de gráficos reorganizados con layout grid (icono | texto | checkmark)
+- Iconos ahora en cuadros de 36×36px con fondo redondeado
+- Checkmarks convertidos en círculos que se llenan al seleccionar
+- Botones "Seleccionar todos" y "Desmarcar todos" rediseñados con sombras y hover effects
+- Botones centrados debajo del texto para mejor balance visual
+
+**Archivos modificados:**
+1. `visualizacion.css` - Ancho panel, estilos de elementos, botones
+2. `Visualizacion.js` - Estructura HTML de botones
+
+---
 
 ### 30 de Marzo 2026 - Fix: Sidebar conectado con modal de configuración de hipótesis
 
@@ -1415,11 +1466,11 @@ let ultimosResultados = null; // PROBLEMA: Variable global
 | Archivo | Ruta | Líneas | Propósito |
 |---|---|---|---|
 | index.html | `./index.html` | 150+ | Punto de entrada |
-| StateManager.js | `./StateManager.js` | 744 | Estado centralizado |
-| script.js | `./script.js` | 1487+ | Controlador principal |
+| StateManager.js | `./StateManager.js` | 901 | Estado centralizado |
+| script.js | `./script.js` | 2046 | Controlador principal |
 | auth.js | `./auth.js` | 283 | Autenticación |
 | EstadisticaDescriptiva.js | `./EstadisticaDescriptiva.js` | 650+ | Cálculos estadísticos |
-| Visualizacion.js | `./Visualizacion.js` | 1460+ | Gráficos |
+| Visualizacion.js | `./Visualizacion.js` | 1490 | Gráficos |
 | ReporteManager.js | `./ReporteManager.js` | 1233 | Reportes ✅ OPTIMIZADO |
 | DatosManager.js | `./DatosManager.js` | 773+ | Gestión datos |
 | UsuariosManager.js | `./UsuariosManager.js` | 505+ | Gestión usuarios |
@@ -1472,13 +1523,13 @@ let ultimosResultados = null; // PROBLEMA: Variable global
 ### Código
 
 ```
-Frontend JavaScript:    ~10,000 líneas
+Frontend JavaScript:    ~12,000 líneas
 Backend Node.js:          ~500 líneas
 Python:                   ~450 líneas
-CSS:                     ~2,000 líneas
+CSS:                     ~2,500 líneas
 HTML:                    ~150 líneas
 ────────────────────────────────────
-TOTAL APROXIMADO:       ~13,100 líneas
+TOTAL APROXIMADO:       ~15,600 líneas
 ```
 
 ### Complejidad
@@ -1552,6 +1603,6 @@ Este es un **proyecto MVP bien construido** con potencial de convertirse en una 
 
 ---
 
-**Documento generado:** 28 de Marzo de 2026  
+**Documento generado:** 2 de Abril de 2026  
 **Analista:** OpenCode  
-**Versión del documento:** 1.0
+**Versión del documento:** 1.1
