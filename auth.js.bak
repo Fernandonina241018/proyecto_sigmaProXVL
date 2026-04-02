@@ -27,12 +27,10 @@ const Auth = (() => {
             const res  = await fetch(`${CFG.API_URL}/api/login`, {
                 method:  'POST',
                 headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
                 body:    JSON.stringify({ username: user, password }),
             });
             const data = await res.json();
             if (!res.ok) return { ok: false, error: data.error || 'Credenciales incorrectas' };
-            // Fallback: guardar en sessionStorage por compatibilidad
             sessionStorage.setItem(CFG.TOKEN_STORAGE_KEY, data.token);
             return { ok: true, username: data.username, role: data.role, token: data.token };
         } catch {
@@ -40,11 +38,7 @@ const Auth = (() => {
         }
     }
 
-    function getToken() { 
-        // 1. Intentar leer de cookies (no es posible directamente por httpOnly)
-        // 2. Fallback: sessionStorage (legacy + compatibilidad)
-        return sessionStorage.getItem(CFG.TOKEN_STORAGE_KEY); 
-    }
+    function getToken() { return sessionStorage.getItem(CFG.TOKEN_STORAGE_KEY); }
 
     // ── Sesión ────────────────────────────
     function _startSession(userData) {
@@ -281,13 +275,7 @@ const Auth = (() => {
 
     function logout(){
         const token=getToken();
-        if(token){ 
-            fetch(`${CFG.API_URL}/api/logout`,{
-                method:'POST',
-                headers:{Authorization:`Bearer ${token}`},
-                credentials:'include'
-            }).catch(()=>{}); 
-        }
+        if(token){ fetch(`${CFG.API_URL}/api/logout`,{method:'POST',headers:{Authorization:`Bearer ${token}`}}).catch(()=>{}); }
         _clearSession(); _unregisterActivityListeners(); showLogin('logout'); if(_onLogout) _onLogout('logout');
     }
 

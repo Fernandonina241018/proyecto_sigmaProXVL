@@ -20,7 +20,8 @@ const UsuariosManager = (() => {
     // ── API calls ─────────────────────────
     async function apiGet(path) {
         const res = await fetch(`${_apiUrl}${path}`, {
-            headers: { Authorization: `Bearer ${getToken()}` }
+            headers: { Authorization: `Bearer ${getToken()}` },
+            credentials: 'include'
         });
         return res.json();
     }
@@ -29,7 +30,8 @@ const UsuariosManager = (() => {
         const res = await fetch(`${_apiUrl}${path}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getToken()}` },
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            credentials: 'include'
         });
         return res.json();
     }
@@ -38,7 +40,8 @@ const UsuariosManager = (() => {
         const res = await fetch(`${_apiUrl}${path}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getToken()}` },
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            credentials: 'include'
         });
         return res.json();
     }

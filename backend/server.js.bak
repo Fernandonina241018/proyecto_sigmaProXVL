@@ -8,7 +8,6 @@ require('dotenv').config();
 const express = require('express');
 const bcrypt  = require('bcryptjs');
 const jwt     = require('jsonwebtoken');
-const cookieParser = require('cookie-parser');
 const db      = require('./database');
 
 const app  = express();
@@ -46,7 +45,6 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
-app.use(cookieParser());
 
 // ── Inicializar BD al arrancar ────────
 (async () => {
@@ -61,25 +59,12 @@ app.use(cookieParser());
 
 // ── Middleware JWT ────────────────────
 function requireAuth(req, res, next) {
-    let token = null;
-    
-    // 1. Intentar leer del header Authorization
     const header = req.headers.authorization;
-    if (header?.startsWith('Bearer ')) {
-        token = header.split(' ')[1];
-    }
-    
-    // 2. Fallback: leer de cookie httpOnly
-    if (!token && req.cookies?.token) {
-        token = req.cookies.token;
-    }
-    
-    if (!token) {
+    if (!header?.startsWith('Bearer ')) {
         return res.status(401).json({ error: 'Token requerido' });
     }
-    
     try {
-        req.user = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = jwt.verify(header.split(' ')[1], process.env.JWT_SECRET);
         next();
     } catch {
         return res.status(401).json({ error: 'Token inválido o expirado' });
@@ -141,14 +126,6 @@ app.post('/api/login', async (req, res) => {
             { expiresIn: process.env.JWT_EXPIRES_IN || '8h' }
         );
 
-        // Enviar token como cookie httpOnly
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
-            maxAge: 8 * 60 * 60 * 1000 // 8 horas
-        });
-
         return res.json({ ok: true, token, username: user.username, role: user.role });
 
     } catch (err) {
@@ -166,7 +143,6 @@ app.post('/api/logout', requireAuth, async (req, res) => {
         ip:        getClientIP(req),
         userAgent: req.headers['user-agent'],
     });
-    res.clearCookie('token');
     res.json({ ok: true });
 });
 

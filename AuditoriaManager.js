@@ -25,7 +25,8 @@ const AuditoriaManager = (() => {
 
         try {
             const res  = await fetch(`${_apiUrl}/api/audit?limit=${limit}`, {
-                headers: { Authorization: `Bearer ${token}` }
+                headers: { Authorization: `Bearer ${token}` },
+                credentials: 'include'
             });
             const data = await res.json();
             if (!res.ok) return { ok: false, error: data.error };
