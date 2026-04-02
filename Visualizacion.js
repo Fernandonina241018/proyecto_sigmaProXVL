@@ -950,19 +950,19 @@ const Visualizacion = (() => {
         const numCols  = getNumericColumns(data);
 
         // ColX: todas las columnas
-        selX.innerHTML = allCols.map(c => `<option value="${c}">${c}</option>`).join('');
+        selX.innerHTML = allCols.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
 
         // ColY: solo numéricas
         selY.innerHTML = numCols.length > 0
-            ? numCols.map(c => `<option value="${c}">${c}</option>`).join('')
+            ? numCols.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('')
             : '<option value="">No hay columnas numéricas</option>';
 
         // Box plot checkboxes
         if (cbGroup) {
             cbGroup.innerHTML = numCols.map((c, i) => `
                 <label class="viz-checkbox-label">
-                    <input type="checkbox" value="${c}" ${i < 3 ? 'checked' : ''}>
-                    <span>${c}</span>
+                    <input type="checkbox" value="${escapeHtml(c)}" ${i < 3 ? 'checked' : ''}>
+                    <span>${escapeHtml(c)}</span>
                 </label>
             `).join('');
         }
@@ -1253,14 +1253,14 @@ const Visualizacion = (() => {
                 ? '<p class="viz-pred-empty">No hay datos cargados.</p>'
                 : predefinidos.map(p => `
                     <label class="viz-pred-item viz-pred-selected"
-                           id="viz-pred-wrap-${p.id}">
+                           id="viz-pred-wrap-${escapeHtml(p.id)}">
                         <input type="checkbox" class="viz-pred-check"
-                               id="viz-pred-${p.id}" value="${p.id}" checked>
+                               id="viz-pred-${escapeHtml(p.id)}" value="${escapeHtml(p.id)}" checked>
                         <div class="viz-pred-body">
-                            <div class="viz-pred-icon">${p.icono}</div>
+                            <div class="viz-pred-icon">${escapeHtml(p.icono)}</div>
                             <div class="viz-pred-info">
-                                <div class="viz-pred-label">${p.label}</div>
-                                <div class="viz-pred-type">${_tipoLabel(p.tipo)}</div>
+                                <div class="viz-pred-label">${escapeHtml(p.label)}</div>
+                                <div class="viz-pred-type">${escapeHtml(_tipoLabel(p.tipo))}</div>
                             </div>
                             <div class="viz-pred-checkmark">✓</div>
                         </div>

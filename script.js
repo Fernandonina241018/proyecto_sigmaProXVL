@@ -1060,8 +1060,8 @@ function _renderUserChip(username) {
 
     chip.innerHTML = `
         <div class="auth-user-chip" onclick="abrirModalPerfil()" style="cursor:pointer;">
-            <div class="auth-user-chip-avatar">${initials}</div>
-            <span>${username}</span>
+            <div class="auth-user-chip-avatar">${escapeHtml(initials)}</div>
+            <span>${escapeHtml(username)}</span>
             ${isAdmin ? '<span class="auth-admin-chip">Admin</span>' : ''}
         </div>
     `;
@@ -1416,12 +1416,18 @@ function showTooltip(sectionKey, event) {
     tooltip.querySelector('.tooltip-description').textContent = section.description;
     
     // Mostrar opciones disponibles y las seleccionadas
-    let statsHtml = '';
+    const statsContainer = tooltip.querySelector('.tooltip-stats');
+    statsContainer.textContent = ''; // Limpiar de forma segura
     section.options.forEach(opt => {
+        const span = document.createElement('span');
+        span.className = 'tooltip-stat-tag';
         const isSelected = activeStats.includes(opt);
-        statsHtml += `<span class="tooltip-stat-tag" style="${isSelected ? 'background: #667eea; color: white;' : 'background: #e8eaf6; color: #5a6fd6;'}">${opt}</span>`;
+        span.style.cssText = isSelected 
+            ? 'background: #667eea; color: white;' 
+            : 'background: #e8eaf6; color: #5a6fd6;';
+        span.textContent = opt; // textContent NO ejecuta HTML
+        statsContainer.appendChild(span);
     });
-    tooltip.querySelector('.tooltip-stats').innerHTML = statsHtml;
     
     // Posicionar tooltip
     const rect = event.target.getBoundingClientRect();
@@ -1457,7 +1463,7 @@ function showTotalTooltip(event) {
         statsHtml = '<span class="tooltip-stat-tag" style="background: #e8eaf6; color: #999;">Sin selección</span>';
     } else {
         activeStats.forEach(opt => {
-            statsHtml += `<span class="tooltip-stat-tag" style="background: #667eea; color: white;">${opt}</span>`;
+            statsHtml += `<span class="tooltip-stat-tag" style="background: #667eea; color: white;">${escapeHtml(opt)}</span>`;
         });
     }
     tooltip.querySelector('.tooltip-stats').innerHTML = statsHtml;
@@ -1501,9 +1507,9 @@ function openStatModal(sectionKey) {
     // Generar lista de opciones
     const listContainer = document.getElementById('modalStatList');
     listContainer.innerHTML = section.options.map(opt => `
-        <div class="stat-option ${tempModalSelection[opt] ? 'selected' : ''}" data-stat="${opt}">
-            <input type="checkbox" id="stat-${opt}" ${tempModalSelection[opt] ? 'checked' : ''}>
-            <label for="stat-${opt}">${opt}</label>
+        <div class="stat-option ${tempModalSelection[opt] ? 'selected' : ''}" data-stat="${escapeHtml(opt)}">
+            <input type="checkbox" id="stat-${escapeHtml(opt)}" ${tempModalSelection[opt] ? 'checked' : ''}>
+            <label for="stat-${escapeHtml(opt)}">${escapeHtml(opt)}</label>
         </div>
     `).join('');
     
