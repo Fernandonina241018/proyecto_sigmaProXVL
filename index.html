@@ -116,8 +116,8 @@
                                     <input type="number" id="initial-cols" value="10" min="1" max="20">
                                 </div>
                                 <button class="btn-generate-table">🔄 Generar</button>
-                                <button class="btn-normal-data" onclick="abrirModalDatosNormales()" title="Generar datos con distribución normal">🎲 Datos Normales</button>
-                                <button class="btn-ampliar-datos" onclick="abrirModalAmpliarDatos()" title="Ampliar datos existentes">📈 Ampliar Datos</button>
+                                <button class="btn-normal-data" onclick="TM.abrirModalDatosNormales()" title="Generar datos con distribución normal">🎲 Datos Normales</button>
+                                <button class="btn-ampliar-datos" onclick="TM.abrirModalAmpliarDatos()" title="Ampliar datos existentes">📈 Ampliar Datos</button>
                             </div>
                         </div>
                         <div class="toolbar-row sheets-row">
@@ -231,7 +231,7 @@
             <div class="stat-modal-header">
                 <span class="stat-modal-icon">🎲</span>
                 <h3>Generar Datos Normales</h3>
-                <button class="stat-modal-close" onclick="cerrarModalDatosNormales()">✕</button>
+                <button class="stat-modal-close" onclick="TM.cerrarModalDatosNormales()">✕</button>
             </div>
             <div class="stat-modal-body">
                 <div class="normal-data-form">
@@ -272,7 +272,7 @@
             </div>
             <div class="stat-modal-footer">
                 <div class="stat-modal-buttons" style="justify-content: flex-end;">
-                    <button class="btn-apply" onclick="generarDatosNormales()">✅ Aceptar</button>
+                    <button class="btn-apply" onclick="TM.generarDatosNormales()">✅ Aceptar</button>
                 </div>
             </div>
         </div>
@@ -284,14 +284,14 @@
             <div class="stat-modal-header">
                 <span class="stat-modal-icon">📈</span>
                 <h3>Ampliar Datos</h3>
-                <button class="stat-modal-close" onclick="cerrarModalAmpliarDatos()">✕</button>
+                <button class="stat-modal-close" onclick="TM.cerrarModalAmpliarDatos()">✕</button>
             </div>
             <div class="stat-modal-body">
                 <div class="ampliar-data-form">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="ad-columna">Columna a Ampliar</label>
-                            <select id="ad-columna" onchange="actualizarInfoColumna()">
+                            <select id="ad-columna" onchange="TM.actualizarInfoColumna()">
                                 <option value="">-- Seleccionar columna --</option>
                             </select>
                         </div>
@@ -299,7 +299,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="ad-metodo">Método de Ampliación</label>
-                            <select id="ad-metodo" onchange="actualizarParametrosMetodo()">
+                            <select id="ad-metodo" onchange="TM.actualizarParametrosMetodo()">
                                 <option value="interpolacion">📐 Interpolación</option>
                                 <option value="bootstrap">🔄 Bootstrap (Re-muestreo)</option>
                                 <option value="augmentation">🎲 Data Augmentation (Ruido)</option>
@@ -399,7 +399,7 @@
             </div>
             <div class="stat-modal-footer">
                 <div class="stat-modal-buttons" style="justify-content: flex-end;">
-                    <button class="btn-apply" onclick="ampliarDatos()">✅ Aceptar</button>
+                    <button class="btn-apply" onclick="TM.ampliarDatos()">✅ Aceptar</button>
                 </div>
             </div>
         </div>
@@ -410,6 +410,7 @@
     <script src="utils.js"></script>
     <script src="auth.js"></script>
     <script src="StateManager.js"></script>
+    <script src="TrabajoManager.js"></script>
     <script src="EstadisticaDescriptiva.js"></script>
     <script src="Visualizacion.js"></script>
     <script src="ReporteManager.js"></script>
