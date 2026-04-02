@@ -19,6 +19,64 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 2 de Abril 2026 - Seguridad: Rate Limiting + Bloqueo Temporal + Alertas
+
+**Cambio:** Implementación de protección contra brute force en login
+- **Archivos:** `backend/server.js`
+- **Estado:** ✅ COMPLETADO (en pruebas)
+- **Backup:** `backend/server.js.bak2`
+
+**Detalles:**
+- Rate limiting por IP: máximo 5 intentos de login cada 15 minutos
+- Bloqueo temporal por usuario: 30 segundos después de 3 fallos consecutivos
+- Alertas al admin: log cuando +3 fallos desde misma IP en 5 minutos
+- Dependencia: `express-rate-limit` instalada
+
+**Capas de protección implementadas:**
+1. **IP** - 5 intentos / 15 min por dirección IP
+2. **Usuario** - Bloqueo de 30s después de 3 fallos consecutivos
+3. **Admin** - Log de alerta cuando +3 fallos desde misma IP en 5 min
+
+**Archivos modificados:**
+1. `backend/server.js` (+65 líneas) - Rate limiting, tracking de fallos, alertas
+2. `backend/package.json` - express-rate-limit agregada
+
+**Seguridad mejorada:**
+- Brute force mitigado con múltiples capas
+- Detección temprana de ataques mediante logs de alerta
+- Bloqueo temporal por usuario previene enumeración de usuarios
+
+---
+
+### 2 de Abril 2026 - Seguridad: Token JWT en cookies httpOnly con fallback
+
+**Cambio:** Implementación de cookies httpOnly para almacenamiento seguro de token JWT
+- **Archivos:** `backend/server.js`, `auth.js`, `UsuariosManager.js`, `AuditoriaManager.js`
+- **Estado:** ✅ COMPLETADO (en pruebas)
+- **Backup:** `backend/server.js.bak`, `auth.js.bak`
+
+**Detalles:**
+- Backend: Agregado `cookie-parser` y configuración de cookies httpOnly
+- Backend: Modificado `requireAuth` para leer token de cookie o header Authorization
+- Backend: Login envía cookie httpOnly (secure en producción, sameSite: 'strict')
+- Backend: Logout limpia la cookie
+- Frontend: Agregado `credentials: 'include'` a todos los fetch
+- Frontend: Fallback a sessionStorage mantenido para compatibilidad
+- Dependencia: `cookie-parser@1.4.7` instalada en backend
+
+**Archivos modificados:**
+1. `backend/server.js` (+15 líneas) - cookie-parser, cookies httpOnly
+2. `auth.js` (+5 líneas) - credentials: 'include'
+3. `UsuariosManager.js` (+3 líneas) - credentials: 'include' en apiGet/apiPost/apiPut
+4. `AuditoriaManager.js` (+1 línea) - credentials: 'include' en cargarLogs
+
+**Seguridad mejorada:**
+- Token JWT protegido contra XSS (httpOnly: true)
+- Cookies con sameSite: 'strict' protegen contra CSRF
+- Fallback a sessionStorage para compatibilidad con código legacy
+
+---
+
 ### 2 de Abril 2026 - Sistema de optimización de prompts (/prompt)
 
 **Cambio:** Implementación completa del sistema de optimización de prompts usando mejores prácticas de Anthropic

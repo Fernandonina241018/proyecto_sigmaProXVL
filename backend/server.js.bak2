@@ -9,7 +9,6 @@ const express = require('express');
 const bcrypt  = require('bcryptjs');
 const jwt     = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
-const rateLimit = require('express-rate-limit');
 const db      = require('./database');
 
 const app  = express();
@@ -48,68 +47,6 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 app.use(cookieParser());
-
-// ── Rate Limiting y Tracking de fallos ──
-const loginLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,  // 15 minutos
-    max: 5,                     // máximo 5 intentos por IP
-    message: { error: 'Demasiados intentos de login. Intente de nuevo en 15 minutos.' },
-    standardHeaders: true,
-    legacyHeaders: false,
-    keyGenerator: (req) => {
-        return req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
-    }
-});
-
-// Track de fallos por usuario (en memoria)
-const _userFailures = new Map(); // username -> { count, lockedUntil }
-
-function checkUserBlock(username) {
-    const userData = _userFailures.get(username);
-    if (userData && userData.lockedUntil > Date.now()) {
-        const waitSec = Math.ceil((userData.lockedUntil - Date.now()) / 1000);
-        return { blocked: true, waitSeconds: waitSec };
-    }
-    return { blocked: false };
-}
-
-function recordFailedAttempt(username) {
-    let userData = _userFailures.get(username) || { count: 0, lockedUntil: 0 };
-    userData.count++;
-    if (userData.count >= 3 && !userData.lockedUntil) {
-        userData.lockedUntil = Date.now() + 30 * 1000; // 30 segundos
-    }
-    if (userData.lockedUntil < Date.now()) {
-        userData.count = 1;
-        userData.lockedUntil = 0;
-    }
-    _userFailures.set(username, userData);
-}
-
-function clearUserFailure(username) {
-    _userFailures.delete(username);
-}
-
-// Track de fallos por IP para alertas
-const _ipFailures = new Map(); // ip -> { count, lastFailure }
-
-function checkAndAlertIP(ip, username) {
-    let ipData = _ipFailures.get(ip) || { count: 0, lastFailure: 0 };
-    const now = Date.now();
-    
-    if (now - ipData.lastFailure < 5 * 60 * 1000) { // 5 minutos
-        ipData.count++;
-    } else {
-        ipData.count = 1;
-    }
-    ipData.lastFailure = now;
-    _ipFailures.set(ip, ipData);
-    
-    // Alerta si +3 fallos en 5 minutos
-    if (ipData.count >= 3) {
-        console.warn(`⚠️ ALERTA DE SEGURIDAD: ${ipData.count} intentos fallidos desde IP ${ip} para usuario ${username}`);
-    }
-}
 
 // ── Inicializar BD al arrancar ────────
 (async () => {
@@ -172,7 +109,7 @@ app.get('/api/health', (req, res) => {
 
 
 // POST /api/login
-app.post('/api/login', loginLimiter, async (req, res) => {
+app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
     const ip        = getClientIP(req);
     const userAgent = req.headers['user-agent'];
@@ -181,34 +118,20 @@ app.post('/api/login', loginLimiter, async (req, res) => {
         return res.status(400).json({ error: 'Usuario y contraseña son requeridos' });
     }
 
-    // Verificar bloqueo temporal por usuario
-    const userBlock = checkUserBlock(username.trim());
-    if (userBlock.blocked) {
-        return res.status(429).json({ 
-            error: `Usuario bloqueado temporalmente. Espere ${userBlock.waitSeconds} segundos.` 
-        });
-    }
-
     try {
         const user = await db.getUserByUsername(username.trim());
 
         if (!user) {
-            recordFailedAttempt(username.trim());
-            checkAndAlertIP(ip, username.trim());
             await db.logAccess({ username, action: 'LOGIN', success: false, ip, userAgent });
             return res.status(401).json({ error: 'Credenciales incorrectas' });
         }
 
         const passwordOk = bcrypt.compareSync(password, user.password);
         if (!passwordOk) {
-            recordFailedAttempt(username.trim());
-            checkAndAlertIP(ip, username.trim());
             await db.logAccess({ username, action: 'LOGIN', success: false, ip, userAgent });
             return res.status(401).json({ error: 'Credenciales incorrectas' });
         }
 
-        // Login exitoso: limpiar bloqueos
-        clearUserFailure(username.trim());
         await db.updateLastLogin(username);
         await db.logAccess({ username, action: 'LOGIN', success: true, ip, userAgent });
 
