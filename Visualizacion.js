@@ -230,6 +230,141 @@ const Visualizacion = (() => {
         chartInstance = new Chart(getCanvas(), cfg);
     }
 
+    function renderBoxPlot(data, columnas) {
+        if (columnas.length === 0) throw new Error('Selecciona al menos una columna.');
+
+        const datasets = columnas.map((col, i) => {
+            const vals = getColumnValues(data, col).sort((a, b) => a - b);
+            const n    = vals.length;
+            if (n === 0) return null;
+
+            const q1  = percentil(vals, 25);
+            const med = percentil(vals, 50);
+            const q3  = percentil(vals, 75);
+            const iqr = q3 - q1;
+            const lo  = q1 - 1.5 * iqr;
+            const hi  = q3 + 1.5 * iqr;
+            const min = vals.find(v => v >= lo) ?? vals[0];
+            const max = [...vals].reverse().find(v => v <= hi) ?? vals[n - 1];
+            const outliers = vals.filter(v => v < lo || v > hi);
+
+            return { col, q1, med, q3, min, max, outliers, color: PALETTE[i % PALETTE.length], borderColor: PALETTE_BORDER[i % PALETTE.length] };
+        }).filter(Boolean);
+
+        destroyChart();
+
+        const canvas = getCanvas();
+        const ctx    = canvas.getContext('2d');
+        const W      = canvas.offsetWidth  || 600;
+        const H      = canvas.offsetHeight || 380;
+        canvas.width  = W;
+        canvas.height = H;
+
+        const padL = 60, padR = 30, padT = 40, padB = 50;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+
+        const allVals = datasets.flatMap(d => [d.min, d.max, ...d.outliers]);
+        const gMin = Math.min(...allVals);
+        const gMax = Math.max(...allVals);
+        const range = gMax - gMin || 1;
+
+        function toY(v) {
+            return padT + plotH - ((v - gMin) / range) * plotH;
+        }
+
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.setLineDash([4, 4]);
+        ctx.strokeStyle = 'rgba(0,0,0,0.07)';
+        ctx.lineWidth   = 1;
+        const gridLines = 6;
+        for (let i = 0; i <= gridLines; i++) {
+            const y = padT + (plotH / gridLines) * i;
+            ctx.beginPath();
+            ctx.moveTo(padL, y);
+            ctx.lineTo(W - padR, y);
+            ctx.stroke();
+        }
+        ctx.setLineDash([]);
+
+        ctx.fillStyle  = '#777';
+        ctx.font       = '11px "Segoe UI", sans-serif';
+        ctx.textAlign  = 'right';
+        for (let i = 0; i <= gridLines; i++) {
+            const v = gMin + (range / gridLines) * (gridLines - i);
+            const y = padT + (plotH / gridLines) * i;
+            ctx.fillText(v.toFixed(2), padL - 8, y + 4);
+        }
+
+        const boxW   = Math.min(60, plotW / (datasets.length * 2));
+        const slotW  = plotW / datasets.length;
+
+        datasets.forEach((d, i) => {
+            const cx   = padL + slotW * i + slotW / 2;
+            const yQ1  = toY(d.q1);
+            const yMed = toY(d.med);
+            const yQ3  = toY(d.q3);
+            const yMin = toY(d.min);
+            const yMax = toY(d.max);
+
+            ctx.strokeStyle = d.borderColor;
+            ctx.lineWidth   = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(cx, yMin); ctx.lineTo(cx, yQ1);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(cx, yQ3); ctx.lineTo(cx, yMax);
+            ctx.stroke();
+
+            const cap = boxW * 0.4;
+            ctx.beginPath();
+            ctx.moveTo(cx - cap, yMin); ctx.lineTo(cx + cap, yMin);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(cx - cap, yMax); ctx.lineTo(cx + cap, yMax);
+            ctx.stroke();
+
+            ctx.fillStyle   = d.color;
+            ctx.strokeStyle = d.borderColor;
+            ctx.lineWidth   = 1.5;
+            ctx.beginPath();
+            ctx.roundRect(cx - boxW / 2, yQ3, boxW, yQ1 - yQ3, 4);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth   = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(cx - boxW / 2, yMed);
+            ctx.lineTo(cx + boxW / 2, yMed);
+            ctx.stroke();
+
+            ctx.fillStyle = d.borderColor;
+            d.outliers.forEach(v => {
+                ctx.beginPath();
+                ctx.arc(cx + (Math.random() - 0.5) * 10, toY(v), 3, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            ctx.fillStyle  = '#444';
+            ctx.font       = '12px "Segoe UI", sans-serif';
+            ctx.textAlign  = 'center';
+            ctx.fillText(d.col, cx, H - padB + 20);
+
+            ctx.fillStyle = '#999';
+            ctx.font      = '10px "Segoe UI", sans-serif';
+            ctx.fillText(`med: ${d.med.toFixed(2)}`, cx, H - padB + 34);
+        });
+
+        ctx.fillStyle  = '#333';
+        ctx.font       = '600 14px "Segoe UI", sans-serif';
+        ctx.textAlign  = 'center';
+        ctx.fillText('Box Plot', W / 2, 22);
+
+        chartInstance = null;
+    }
+
     function renderHistograma(data, colX, bins = 10) {
         const values = getColumnValues(data, colX);
         if (values.length === 0) throw new Error(`"${colX}" no tiene valores numéricos.`);
