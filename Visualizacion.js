@@ -23,6 +23,17 @@ const Visualizacion = (() => {
     ];
     const PALETTE_BORDER = PALETTE.map(c => c.replace('0.82', '1'));
 
+    // ← Agrega aquí
+    const COLORS = {
+        primary: 'rgba(102,126,234,0.82)',
+        border: {
+            primary: 'rgba(102,126,234,1)',
+            danger:  'rgba(229,57,53,1)',
+            warning: 'rgba(251,140,0,1)',
+            accent:  'rgba(67,160,71,1)',
+        }
+    };
+
     // ========================================
     // UTILIDADES INTERNAS
     // ========================================
