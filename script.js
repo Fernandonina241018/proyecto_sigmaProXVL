@@ -250,43 +250,19 @@ function createFileInput() {
 }
 
 function parseCSV(content) {
-    // Usar Papa Parse para manejo robusto de CSV
-    if (typeof Papa === 'undefined') {
-        console.warn('Papa Parse no está cargado, usando parser manual');
-        // Fallback: parser manual original
-        const lines = content.split('\n').filter(line => line.trim());
-        if (lines.length === 0) return null;
-        
-        const headers = lines[0].split(',').map(h => h.trim());
-        const data = [];
-        
-        for (let i = 1; i < lines.length; i++) {
-            const values = lines[i].split(',').map(v => v.trim());
-            const row = {};
-            headers.forEach((h, idx) => row[h] = values[idx] || '');
-            data.push(row);
-        }
-        
-        return { headers, data, rowCount: data.length };
+    const lines = content.split('\n').filter(line => line.trim());
+    if (lines.length === 0) return null;
+
+    const headers = lines[0].split(',').map(h => h.trim());
+    const data    = [];
+
+    for (let i = 1; i < lines.length; i++) {
+        const values = lines[i].split(',').map(v => v.trim());
+        const row    = {};
+        headers.forEach((h, idx) => row[h] = values[idx] || '');
+        data.push(row);
     }
-    
-    const result = Papa.parse(content.trim(), {
-        header: true,
-        skipEmptyLines: true,
-        quoteChar: '"',
-        escapeChar: '"',
-        delimiter: ',',
-        transformHeader: (header) => header.trim(),
-        transform: (value) => value.trim()
-    });
-    
-    if (result.errors && result.errors.length > 0) {
-        console.warn('Advertencias de parsing CSV:', result.errors);
-    }
-    
-    const headers = result.meta.fields || [];
-    const data = result.data || [];
-    
+
     return { headers, data, rowCount: data.length };
 }
 
