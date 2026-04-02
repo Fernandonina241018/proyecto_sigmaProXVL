@@ -1242,8 +1242,10 @@ const Visualizacion = (() => {
         </div>
         <div class="viz-export-subtitle">
             <p>Selecciona los gráficos a incluir</p>
-            <button class="viz-btn-sel-all" id="viz-btn-sel-all">✓ Seleccionar todos</button>
-            <button class="viz-btn-desel-all" id="viz-btn-desel-all">✕ Desmarcar todos</button>
+            <div class="viz-export-subtitle-row">
+                <button class="viz-btn-sel-all" id="viz-btn-sel-all">✓ Seleccionar todos</button>
+                <button class="viz-btn-desel-all" id="viz-btn-desel-all">✕ Desmarcar todos</button>
+            </div>
         </div>
 
         <div class="viz-predefinidos-list" id="viz-predefinidos-grid">
