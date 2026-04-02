@@ -58,6 +58,7 @@ const StateManager = (() => {
     };
     
     let autoSaveTimer = null;
+    let debounceSaveTimer = null;
 
     // ========================================
     // INICIALIZACIÓN
@@ -676,9 +677,14 @@ const StateManager = (() => {
     }
     
     function scheduleAutoSave() {
-        // Guardar inmediatamente después de un cambio
+        // Debounce: espera 400ms antes de guardar.
+        // Agrupa múltiples cambios rápidos (como escribir en celdas)
+        // en una sola serialización a localStorage.
         if (state.config.autoSave) {
-            saveToLocalStorage();
+            clearTimeout(debounceSaveTimer);
+            debounceSaveTimer = setTimeout(() => {
+                saveToLocalStorage();
+            }, 400);
         }
     }
     
