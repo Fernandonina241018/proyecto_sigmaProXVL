@@ -2043,5 +2043,3 @@ function sincronizarMenuLateral() {
 }
 
 console.log('✅ script.js cargado');
-
-});
