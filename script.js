@@ -974,12 +974,7 @@ function inicializarVisualizacion() {
 // ========================================
 
 function inicializarReportes() {
-    if (!reportesBuilt) {
-        ReporteManager.buildReportesView();
-        reportesBuilt = true;
-    } else {
-        ReporteManager.refreshReportes();
-    }
+    ReporteManager.buildReportesView();
 }
 
 // ========================================
