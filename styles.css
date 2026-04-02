@@ -1130,10 +1130,7 @@ body {
 .work-table td:first-child {
     min-width: 50px;
     max-width: 50px;
-}
-
-.work-table td:first-child {
-    background: linear-gradient(135deg, #37474f 0%, #263238 100%) !important;
+    background: #f5f5f5;
 }
 
 .work-table th {
