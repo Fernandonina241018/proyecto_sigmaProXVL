@@ -14,7 +14,6 @@ const Visualizacion = (() => {
             chartInstance = null;
         }
     }
-    };
 
     const PALETTE = [
         'rgba(102,126,234,0.82)', 'rgba(118,75,162,0.82)',
