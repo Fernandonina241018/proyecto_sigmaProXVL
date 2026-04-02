@@ -7,23 +7,31 @@ const Visualizacion = (() => {
 
     // Instancia activa del gráfico (solo uno a la vez)
     let chartInstance = null;
+    let lastChartType = null;
 
-    // Paleta coherente con el diseño de la app
-    const COLORS = {
-        primary:   'rgba(102, 126, 234, 0.85)',
-        secondary: 'rgba(118,  75, 162, 0.85)',
-        accent:    'rgba( 67, 160,  71, 0.85)',
-        danger:    'rgba(229,  57,  53, 0.85)',
-        warning:   'rgba(251, 140,   0, 0.85)',
-        info:      'rgba( 30, 136, 229, 0.85)',
-        border: {
-            primary:   'rgba(102, 126, 234, 1)',
-            secondary: 'rgba(118,  75, 162, 1)',
-            accent:    'rgba( 67, 160,  71, 1)',
-            danger:    'rgba(229,  57,  53, 1)',
-            warning:   'rgba(251, 140,   0, 1)',
-            info:      'rgba( 30, 136, 229, 1)',
+    function destroyChart() {
+        if (chartInstance) {
+            chartInstance.destroy();
+            chartInstance = null;
+            lastChartType = null;
         }
+    }
+
+    // Reutiliza el chart existente si el tipo es el mismo.
+    // Solo destruye y recrea cuando el tipo de gráfico cambia.
+    function getOrCreateChart(newType, cfg) {
+        if (chartInstance && lastChartType === newType) {
+            // Mismo tipo: actualizar datos y opciones sin recrear
+            chartInstance.data = cfg.data;
+            chartInstance.options = cfg.options;
+            chartInstance.update('none'); // Sin animación para update
+            return;
+        }
+        // Tipo diferente: destruir y crear nuevo
+        destroyChart();
+        chartInstance = new Chart(getCanvas(), cfg);
+        lastChartType = newType;
+    }
     };
 
     const PALETTE = [
@@ -122,6 +130,8 @@ const Visualizacion = (() => {
                 }
             }
         };
+
+        getOrCreateChart('barras', cfg);
     }
 
     // ========================================
@@ -134,6 +144,7 @@ const Visualizacion = (() => {
 
         const cfg = {
             type: horizontal ? 'bar' : 'bar',
+            chartId: 'barras',
             data: {
                 labels,
                 datasets: [{
@@ -152,8 +163,7 @@ const Visualizacion = (() => {
             }
         };
 
-        destroyChart();
-        chartInstance = new Chart(getCanvas(), cfg);
+        getOrCreateChart('barras', cfg);
     }
 
     function renderLineas(data, colX, colY, area = false) {
@@ -162,6 +172,7 @@ const Visualizacion = (() => {
 
         const cfg = {
             type: 'line',
+            chartId: 'lineas',
             data: {
                 labels,
                 datasets: [{
@@ -182,8 +193,7 @@ const Visualizacion = (() => {
             options: baseOptions(`${colY} a lo largo de ${colX}`)
         };
 
-        destroyChart();
-        chartInstance = new Chart(getCanvas(), cfg);
+        getOrCreateChart('lineas', cfg);
     }
 
     function renderDispersion(data, colX, colY) {
@@ -196,6 +206,7 @@ const Visualizacion = (() => {
 
         const cfg = {
             type: 'scatter',
+            chartId: 'dispersion',
             data: {
                 datasets: [{
                     label: `${colX} vs ${colY}`,
@@ -232,8 +243,7 @@ const Visualizacion = (() => {
             }
         };
 
-        destroyChart();
-        chartInstance = new Chart(getCanvas(), cfg);
+        getOrCreateChart('dispersion', cfg);
     }
 
     function renderHistograma(data, colX, bins = 10) {
@@ -258,6 +268,7 @@ const Visualizacion = (() => {
 
         const cfg = {
             type: 'bar',
+            chartId: 'histograma',
             data: {
                 labels,
                 datasets: [{
@@ -286,8 +297,7 @@ const Visualizacion = (() => {
             }
         };
 
-        destroyChart();
-        chartInstance = new Chart(getCanvas(), cfg);
+        getOrCreateChart('histograma', cfg);
     }
 
     function renderBoxPlot(data, columnas) {
@@ -493,6 +503,7 @@ const Visualizacion = (() => {
 
         const cfg = {
             type: 'line',
+            chartId: 'control',
             data: {
                 labels,
                 datasets: [
@@ -600,8 +611,7 @@ const Visualizacion = (() => {
             }
         };
 
-        destroyChart();
-        chartInstance = new Chart(getCanvas(), cfg);
+        getOrCreateChart('control', cfg);
     }
 
     // ========================================
@@ -651,6 +661,7 @@ const Visualizacion = (() => {
 
         const cfg = {
             type: 'bar',
+            chartId: 'histograma',
             data: {
                 labels: binLabels,
                 datasets: [
@@ -696,8 +707,7 @@ const Visualizacion = (() => {
             }
         };
 
-        destroyChart();
-        chartInstance = new Chart(getCanvas(), cfg);
+        getOrCreateChart('histograma', cfg);
     }
 
     // ========================================
