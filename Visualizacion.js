@@ -127,7 +127,6 @@ const Visualizacion = (() => {
 
         const cfg = {
             type: horizontal ? 'bar' : 'bar',
-            chartId: 'barras',
             data: {
                 labels,
                 datasets: [{
@@ -156,7 +155,6 @@ const Visualizacion = (() => {
 
         const cfg = {
             type: 'line',
-            chartId: 'lineas',
             data: {
                 labels,
                 datasets: [{
@@ -191,7 +189,6 @@ const Visualizacion = (() => {
 
         const cfg = {
             type: 'scatter',
-            chartId: 'dispersion',
             data: {
                 datasets: [{
                     label: `${colX} vs ${colY}`,
@@ -254,7 +251,6 @@ const Visualizacion = (() => {
 
         const cfg = {
             type: 'bar',
-            chartId: 'histograma',
             data: {
                 labels,
                 datasets: [{
@@ -333,7 +329,6 @@ const Visualizacion = (() => {
 
         const cfg = {
             type: 'line',
-            chartId: 'control',
             data: {
                 labels,
                 datasets: [
@@ -492,7 +487,6 @@ const Visualizacion = (() => {
 
         const cfg = {
             type: 'bar',
-            chartId: 'histograma',
             data: {
                 labels: binLabels,
                 datasets: [
