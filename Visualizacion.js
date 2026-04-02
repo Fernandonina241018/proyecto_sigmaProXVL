@@ -20,14 +20,17 @@ const Visualizacion = (() => {
     // Reutiliza el chart existente si el tipo es el mismo.
     // Solo destruye y recrea cuando el tipo de gráfico cambia.
     function getOrCreateChart(newType, cfg) {
+        console.log('getOrCreateChart called:', newType, !!chartInstance, lastChartType);
         if (chartInstance && lastChartType === newType) {
             // Mismo tipo: actualizar datos y opciones sin recrear
             chartInstance.data = cfg.data;
             chartInstance.options = cfg.options;
             chartInstance.update('none'); // Sin animación para update
+            console.log('Updating existing chart');
             return;
         }
         // Tipo diferente: destruir y crear nuevo
+        console.log('Creating new chart');
         destroyChart();
         chartInstance = new Chart(getCanvas(), cfg);
         lastChartType = newType;
