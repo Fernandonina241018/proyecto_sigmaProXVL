@@ -296,7 +296,6 @@ const TrabajoManager = (() => {
         const btnDelCol   = document.querySelector('.btn-delete-column');
         const btnClear    = document.querySelector('.btn-clear-table');
         const btnSave     = document.querySelector('.btn-save-work');
-        const btnNewSheet = document.getElementById('btnNewSheet');
 
         if (btnGenerate) btnGenerate.onclick = generateWorkTable;
         if (btnAddRow)   btnAddRow.onclick   = addWorkRow;
@@ -305,20 +304,6 @@ const TrabajoManager = (() => {
         if (btnDelCol)   btnDelCol.onclick   = deleteWorkColumn;
         if (btnClear)    btnClear.onclick    = clearWorkTable;
         if (btnSave)     btnSave.onclick     = saveWorkData;
-
-        if (btnNewSheet) {
-            btnNewSheet.onclick = () => {
-                try {
-                    StateManager.createSheet();
-                    renderWorkTable();
-                    updateWorkSummary();
-                    renderSheetTabs();
-                    updateSheetsInfo();
-                } catch (err) {
-                    alert('⚠️ ' + err.message);
-                }
-            };
-        }
     }
 
     function generateWorkTable() {
