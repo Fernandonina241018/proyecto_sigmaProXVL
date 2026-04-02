@@ -1050,7 +1050,7 @@ body {
     font-weight: 500;
     transition: all 0.2s ease;
     font-size: 0.85rem;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #082bc7, #764ba2);
     color: white;
     white-space: nowrap;
 }
@@ -1062,7 +1062,7 @@ body {
 .btn-add-column:hover,
 .btn-save-work:hover,
 .btn-normal-data:hover {
-    background: linear-gradient(135deg, #5a6fd6, #6b44a0);
+    background: linear-gradient(135deg, #082bc7, #6b44a0);
     transform: translateY(-1px);
     box-shadow: 0 3px 8px rgba(102, 126, 234, 0.3);
 }
