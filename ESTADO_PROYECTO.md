@@ -19,6 +19,33 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 2 de Abril 2026 - Seguridad: Parsing CSV robusto con Papa Parse
+
+**Cambio:** Implementación de parser CSV robusto usando librería Papa Parse
+- **Archivos:** `script.js`, `index.html`, `package.json`
+- **Estado:** ✅ COMPLETADO
+- **Backup:** `script.js.bak`
+
+**Detalles:**
+- Reemplazada función parseCSV manual por Papa Parse
+- Maneja correctamente: comillas anidadas, saltos de línea, comas en valores
+- Validación de estructura CSV
+- Manejo de errores con warnings en consola
+
+**Archivos modificados:**
+1. `script.js` - Función parseCSV reescrita (~30 líneas)
+2. `index.html` - Agregado script CDN de Papa Parse
+3. `package.json` - Dependencia papaparse agregada
+
+**Seguridad mejorada:**
+- Previene corrupción de datos al importar CSV
+- Manejo correcto de caracteres especiales y comillas
+- Validación de estructura de datos
+
+**Dependencia:** `papaparse@5.4.1`
+
+---
+
 ### 2 de Abril 2026 - Seguridad: CORS restringido - solo orígenes permitidos
 
 **Cambio:** Middleware CORS modificado para rechazar peticiones sin header Origin o de orígenes no autorizados
