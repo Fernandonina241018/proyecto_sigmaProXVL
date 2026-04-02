@@ -1036,7 +1036,6 @@ body {
 }
 
 .btn-generate-table,
-.btn-paste-data,
 .btn-add-row,   
 .btn-add-column,
 .btn-delete-row,
@@ -1057,7 +1056,6 @@ body {
 }
 
 .btn-generate-table:hover,
-.btn-paste-data:hover,
 .btn-add-row:hover,
 .btn-delete-row:hover,
 .btn-delete-column:hover,
