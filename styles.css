@@ -2383,7 +2383,7 @@ body {
 }
 
 .btn-ampliar-datos:hover {
-    background: linear-gradient(135deg, #0e8a7e, #32d96f);
+    background: linear-gradient(135deg, #082bc7, #764ba2);
     transform: translateY(-1px);
     box-shadow: 0 3px 8px rgba(56, 239, 125, 0.3);
 }
