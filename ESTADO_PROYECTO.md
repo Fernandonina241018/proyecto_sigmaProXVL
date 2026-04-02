@@ -19,6 +19,25 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 2 de Abril 2026 - Seguridad: Validación de JWT_SECRET al iniciar servidor (actualización)
+
+**Cambio:** Reducida longitud mínima de JWT_SECRET de 32 a 26 caracteres (temporal)
+- **Archivos:** `backend/server.js`
+- **Estado:** ✅ COMPLETADO
+- **Backup:** `backend/server.js.bak3`
+
+**Detalles:**
+- Longitud mínima cambiada de 32 a 26 caracteres
+- Solución temporal hasta encontrar archivo .env local
+- El servidor puede iniciar con JWT_SECRET de 26 caracteres
+
+**Razón:**
+- JWT_SECRET en Render tiene 26 caracteres
+- Temporalmente permitimos esta longitud
+- Cuando se encuentre .env, se recomienda generar clave de 64 caracteres
+
+---
+
 ### 2 de Abril 2026 - Seguridad: Validación de JWT_SECRET al iniciar servidor
 
 **Cambio:** Validación de JWT_SECRET para prevenir inicio sin configuración

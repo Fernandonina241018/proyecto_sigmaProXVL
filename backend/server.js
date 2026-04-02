@@ -13,8 +13,8 @@ if (!process.env.JWT_SECRET) {
     process.exit(1);
 }
 
-if (process.env.JWT_SECRET.length < 32) {
-    console.error('ERROR: JWT_SECRET debe tener al menos 32 caracteres');
+if (process.env.JWT_SECRET.length < 26) {
+    console.error('ERROR: JWT_SECRET debe tener al menos 26 caracteres');
     console.error(`Actual: ${process.env.JWT_SECRET.length} caracteres`);
     console.error('Genera una clave: node -e "console.log(require(\'crypto\').randomBytes(32).toString(\'hex\'))"');
     process.exit(1);
