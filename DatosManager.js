@@ -305,9 +305,7 @@ const DatosManager = (() => {
 
     // ── Utilidades de datos ───────────────
     function _getNumericCols(imported) {
-        return imported.headers.filter(h =>
-            imported.data.slice(0,20).some(r => !isNaN(parseFloat(r[h])) && r[h] !== '')
-        );
+        return StateManager.getNumericCols(imported);
     }
 
     function _countNulls(imported) {

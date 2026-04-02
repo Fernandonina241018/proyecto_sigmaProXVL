@@ -483,10 +483,7 @@ function displayImportedData(data) {
     const numCols   = data.headers.length;
     const today     = new Date().toLocaleDateString('es-DO', { day:'2-digit', month:'short', year:'numeric' });
 
-    const numericCols = data.headers.filter(h => {
-        const vals = data.data.slice(0,10).map(r => parseFloat(r[h]));
-        return vals.filter(v => !isNaN(v)).length >= vals.length * 0.7;
-    });
+    const numericCols = StateManager.getNumericCols(data);
     const nullCount = (() => {
         let n = 0;
         data.data.forEach(row => data.headers.forEach(h => {

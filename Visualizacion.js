@@ -40,10 +40,7 @@ const Visualizacion = (() => {
 
     function getNumericColumns(data) {
         if (!data || !data.headers) return [];
-        return data.headers.filter(h => {
-            const vals = data.data.map(r => parseFloat(r[h])).filter(v => !isNaN(v));
-            return vals.length / data.data.length > 0.7;
-        });
+        return StateManager.getNumericCols(data);
     }
 
     function getAllColumns(data) {

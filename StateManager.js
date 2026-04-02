@@ -506,10 +506,11 @@ const StateManager = (() => {
     function setImportedData(data, filename = 'datos.csv') {
         state.importedData = data;
         state.fileName = filename;
-        
+        invalidateNumericColsCache();
+
         notifyListeners('dataChange');
         scheduleAutoSave();
-        
+
         console.log(`📥 Datos importados: ${filename}`);
     }
     
@@ -520,7 +521,8 @@ const StateManager = (() => {
     function clearImportedData() {
         state.importedData = null;
         state.fileName = '';
-        
+        invalidateNumericColsCache();
+
         notifyListeners('dataChange');
         scheduleAutoSave();
         
@@ -705,6 +707,27 @@ const StateManager = (() => {
         createSheet('Sheet 1', 13, 11);
     }
     
+    // Caché de columnas numéricas (evita recalcular en cada render)
+    let _numericColsCache = null;
+
+    function getNumericCols(imported) {
+        if (!imported || !imported.headers) return [];
+        const dataHash = imported.headers.join('|') + '|' + (imported.data?.length || 0);
+        if (_numericColsCache && _numericColsCache.hash === dataHash) {
+            return _numericColsCache.result;
+        }
+        const result = imported.headers.filter(h => {
+            const vals = imported.data.slice(0, 20).map(r => parseFloat(r[h]));
+            return vals.filter(v => !isNaN(v)).length >= vals.length * 0.7;
+        });
+        _numericColsCache = { hash: dataHash, result };
+        return result;
+    }
+
+    function invalidateNumericColsCache() {
+        _numericColsCache = null;
+    }
+
     function getStats() {
         return {
             totalSheets: state.sheets.length,
@@ -848,6 +871,7 @@ const StateManager = (() => {
         
         // Utilidades
         getStats,
+        getNumericCols,
         exportState,
         importState,
         resetState,
