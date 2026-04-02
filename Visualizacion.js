@@ -55,13 +55,6 @@ const Visualizacion = (() => {
         return data.data.map(r => r[col] || '');
     }
 
-    function destroyChart() {
-        if (chartInstance) {
-            chartInstance.destroy();
-            chartInstance = null;
-        }
-    }
-
     function getCanvas() {
         return document.getElementById('viz-canvas');
     }
@@ -123,8 +116,6 @@ const Visualizacion = (() => {
             }
         };
 
-        destroyChart();
-        chartInstance = new Chart(getCanvas(), cfg);
     }
 
     // ========================================
@@ -245,7 +236,31 @@ const Visualizacion = (() => {
 
         const min = Math.min(...values);
         const max = Math.max(...values);
-        const binSize = (max - min) / bins;
+        const range = max - min;
+
+        // Si todos los valores son iguales, mostrar un solo bin
+        if (range === 0) {
+            const cfg = {
+                type: 'bar',
+                data: {
+                    labels: [`${min.toFixed(2)}`],
+                    datasets: [{
+                        label: `Frecuencia de ${colX}`,
+                        data: [values.length],
+                        backgroundColor: COLORS.primary,
+                        borderColor: COLORS.border.primary,
+                        borderWidth: 1,
+                        borderRadius: 3,
+                    }]
+                },
+                options: baseOptions(`Histograma de ${colX}`)
+            };
+            destroyChart();
+            chartInstance = new Chart(getCanvas(), cfg);
+            return;
+        }
+
+        const binSize = range / bins;
 
         const counts = Array(bins).fill(0);
         const labels = [];
@@ -551,9 +566,11 @@ const Visualizacion = (() => {
     // ========================================
 
     function percentil(sorted, p) {
+        if (!sorted.length) return 0;
         const idx = (p / 100) * (sorted.length - 1);
         const lo  = Math.floor(idx);
         const hi  = Math.ceil(idx);
+        if (lo === hi) return sorted[lo];
         return sorted[lo] + (sorted[hi] - sorted[lo]) * (idx - lo);
     }
 
@@ -1291,9 +1308,6 @@ function _attachExportPanelListeners(predefinidos, controlsPanel) {
                 renderDispersion(data, pred.config.colX, pred.config.colY);
                 break;
 
-            default:
-                throw new Error(`Tipo desconocido: ${pred.tipo}`);
-
             case 'control':
                 renderControlChart(data, pred.config.col);
                 break;
@@ -1301,6 +1315,9 @@ function _attachExportPanelListeners(predefinidos, controlsPanel) {
             case 'dnormal':
                 renderDistribucionNormal(data, pred.config.col);
                 break;
+
+            default:
+                throw new Error(`Tipo desconocido: ${pred.tipo}`);
         }
 
         // Esperar animación de Chart.js (600ms de baseOptions + margen)
@@ -1325,9 +1342,11 @@ function _attachExportPanelListeners(predefinidos, controlsPanel) {
         renderDispersion,
         renderHistograma,
         renderBoxPlot,
+        renderControlChart,
+        renderDistribucionNormal,
         destroyChart,
-        activarModoExportacion,   // ★ nueva
-        getGraficosParaReporte,   // ★ nueva
+        activarModoExportacion,
+        getGraficosParaReporte,
     };
 
 })();

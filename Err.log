@@ -1,0 +1,112 @@
+utils.js:97 ✅ Utils cargado correctamente
+auth.js:293 ✅ Auth module cargado
+StateManager.js:902 ✅ StateManager cargado correctamente
+TrabajoManager.js:973 ✅ TrabajoManager cargado
+EstadisticaDescriptiva.js:1763 ✅ Módulo de Estadística Descriptiva cargado
+Visualizacion.js:1327 Uncaught ReferenceError: renderBoxPlot is not defined
+    at Visualizacion.js:1327:9
+    at Visualizacion.js:1333:3
+(anonymous) @ Visualizacion.js:1327
+(anonymous) @ Visualizacion.js:1333
+ReporteManager.js:1511 ✅ ReporteManager cargado — FDA 21 CFR Part 11
+AuditoriaManager.js:336 ✅ AuditoriaManager cargado
+UsuariosManager.js:485 ✅ UsuariosManager cargado
+DatosManager.js:763 ✅ DatosManager cargado
+PermisosManager.js:247 ✅ PermisosManager cargado
+ParametrosManager.js:109 ✅ ParametrosManager cargado
+script.js:2046 ✅ script.js cargado
+script.js:1011 🚀 StatAnalyzer Pro inicializado
+script.js:1016 ✅ Sesión iniciada: f.nina
+StateManager.js:68 🚀 StateManager: Inicializando...
+StateManager.js:644 📂 Estado cargado (guardado: 2026-04-02T16:54:30.768Z)
+StateManager.js:72 ✅ Estado restaurado desde localStorage
+script.js:2043 🔄 Menú lateral sincronizado: 12 estadístico(s) activo(s)
+StateManager.js:670 ⏰ Auto-guardado activado (cada 5s)
+StateManager.js:89 ✅ StateManager inicializado correctamente
+script.js:2043 🔄 Menú lateral sincronizado: 12 estadístico(s) activo(s)
+script.js:76 Vista cambiada a: trabajo
+script.js:1043 ✅ Formatos soportados: CSV, JSON, TXT
+script.js:1044 ✅ Estado centralizado activo
+favicon.ico:1  GET https://fernandonina241018.github.io/favicon.ico 404 (Not Found)
+script.js:76 Vista cambiada a: analisis
+StateManager.js:618 💾 Estado guardado en localStorage
+script.js:596 Botón Ejecutar Análisis presionado
+script.js:647 Resultados obtenidos: {columnasAnalizadas: Array(3), totalColumnas: 3, totalFilas: 10, estadisticos: Array(12), resultados: {…}}
+script.js:76 Vista cambiada a: analisis
+script.js:658 Análisis completado con éxito
+script.js:965 Uncaught ReferenceError: Visualizacion is not defined
+    at inicializarVisualizacion (script.js:965:9)
+    at switchView (script.js:67:39)
+    at exportarResultados (script.js:772:5)
+    at HTMLButtonElement.<anonymous> (script.js:754:43)
+inicializarVisualizacion @ script.js:965
+switchView @ script.js:67
+exportarResultados @ script.js:772
+(anonymous) @ script.js:754
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
