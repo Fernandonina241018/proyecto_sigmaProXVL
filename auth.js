@@ -177,7 +177,7 @@ const Auth = (() => {
             'rgba(200, 169, 81,',   // dorado
             'rgba(102, 126, 234,',  // púrpura/azul app
             'rgba(255, 255, 255,',  // blanco suave
-            'rgba(0, 0, 0,',  // negro
+            'rgba(0, 0, 255,',  // azul
             'rgba(0, 255, 0,',  // verde
             'rgba(255, 0, 0,',  // rojo
         ];
