@@ -1060,12 +1060,12 @@ const EstadisticaDescriptiva = (() => {
        // Para simplicidad, usamos una aproximación razonable
        if (t === 0) return 0.5;
        
-       const x = df / (df + t * t);
-       // Aproximación simple para demostración - en producción usar biblioteca especializada
-       if (df > 30) {
-         // Para df grande, aproximar con normal
-         return 0.5 * (1 + Math.erf(t / Math.sqrt(2)));
-       }
+        const x = df / (df + t * t);
+        // Aproximación simple para demostración - en producción usar biblioteca especializada
+        if (df > 30) {
+          // Para df grande, aproximar con normal usando función erf local
+          return 0.5 * (1 + erf(t / Math.sqrt(2)));
+        }
        
        // Usamos una aproximación razonable para df pequeños
        // Esto es una simplificación - en producción usar biblioteca estadística adecuada
