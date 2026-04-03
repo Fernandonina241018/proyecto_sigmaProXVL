@@ -186,7 +186,7 @@ const Auth = (() => {
         for (let i = 0; i < 25; i++) {
             const p       = document.createElement('div');
             p.className   = 'auth-particle';
-            const size    = 2 + Math.random() * 5;
+            const size    = 2 + Math.random() * 10;
             const color   = COLORS[Math.floor(Math.random() * COLORS.length)];
             const opacity = 0.08 + Math.random() * 0.20;
             p.style.cssText = `
