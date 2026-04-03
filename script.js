@@ -711,6 +711,9 @@ function nuevoAnalisis() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     
     console.log("Interfaz reiniciada para nuevo análisis.");
+    
+    // 4. Navegar al módulo Trabajo después de limpiar
+    switchView('trabajo');
 }
 
 // FIX: solo inyecta HTML. Eliminada la llamada interna a ocultarCargando()
