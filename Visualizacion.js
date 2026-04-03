@@ -1234,30 +1234,66 @@ const Visualizacion = (() => {
             });
         });
 
-        // Distribución normal por columna numérica
-        numCols.forEach(col => {
-            predefinidos.push({
-                id:     `dnormal_${col}`.replace(/\W+/g, '_'),
-                label:  `Dist. Normal — ${col}`,
-                icono:  '⌒',
-                tipo:   'dnormal',
-                config: { col }
-            });
-        });
+         // Distribución normal por columna numérica
+         numCols.forEach(col => {
+             predefinidos.push({
+                 id:     `dnormal_${col}`.replace(/\W+/g, '_'),
+                 label:  `Dist. Normal — ${col}`,
+                 icono:  '⌒',
+                 tipo:   'dnormal',
+                 config: { col }
+             });
+         });
+
+         // Heatmap de correlación (solo uno para todas las variables numéricas)
+         if (numCols.length >= 2) {
+             predefinidos.push({
+                 id:     'heatmap_correlacion',
+                 label:  'Matriz de Correlación',
+                 icono:  '▦',
+                 tipo:   'heatmap',
+                 config: {} // Se usan todas las columnas numéricas
+             });
+         }
+
+         // Violin Plot de todas las columnas numéricas
+         if (numCols.length > 0) {
+             predefinidos.push({
+                 id:     'violin_all',
+                 label:  `Violin Plot — ${numCols.slice(0, 3).join(', ')}${numCols.length > 3 ? '…' : ''}`,
+                 icono:  '▽',
+                 tipo:   'violin',
+                 config: { columnas: numCols }
+             });
+         }
+
+         // Radar Chart de todas las columnas numéricas
+         if (numCols.length >= 2) {
+             predefinidos.push({
+                 id:     'radar_all',
+                 label:  `Radar Chart — ${numCols.slice(0, 3).join(', ')}${numCols.length > 3 ? '…' : ''}`,
+                 icono:  '⬡',
+                 tipo:   'radar',
+                 config: { columnas: numCols }
+             });
+         }
 
         return predefinidos;
     }
 
-    function _tipoLabel(tipo) {
-        return {
-            histograma:    'Histograma',
-            boxplot:       'Box Plot',
-            lineas_indice: 'Gráfico de Líneas',
-            dispersion:    'Dispersión',
-            control:       'Gráfico de Control',
-            dnormal:       'Distribución Normal',
-        }[tipo] || tipo;
-    }
+     function _tipoLabel(tipo) {
+         return {
+             histograma:    'Histograma',
+             boxplot:       'Box Plot',
+             lineas_indice: 'Gráfico de Líneas',
+             dispersion:    'Dispersión',
+             control:       'Gráfico de Control',
+             dnormal:       'Distribución Normal',
+             heatmap:       'Matriz de Correlación',
+             violin:        'Violin Plot',
+             radar:         'Radar Chart'
+         }[tipo] || tipo;
+     }
 
     // ── Inyectar panel de selección en la vista ──
   function activarModoExportacion() {

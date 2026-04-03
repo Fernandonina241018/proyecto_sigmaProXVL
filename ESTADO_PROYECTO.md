@@ -21,17 +21,20 @@
 
 ### 2 de Abril 2026 - Visualización: Nuevos tipos de gráfico agregados
 
-**Cambio:** Implementación de 3 nuevos tipos de visualización para análisis estadístico avanzado
+**Cambio:** Implementación de 3 nuevos tipos de visualización para análisis estadístico avanzado, incluidos en exportación de reportes
 - **Archivos:** `Visualizacion.js`, `visualizacion.css`
 - **Estado:** ✅ COMPLETADO
 
 **Detalles:**
 - **Heatmap de Correlación:** Muestra matriz de correlación entre variables numéricas con escala de colores (azul=-1, blanco=0, rojo=+1)
 - **Violin Plot:** Combina boxplot con estimación de densidad kernel para mostrar distribución completa de datos
-- **Radar Chart:** Permite comparar múltiples métricas normalizadas en ejes radiales (ideal para perfilesmultidimensionales)
+- **Radar Chart:** Permite comparar múltiples métricas normalizadas en ejes radiales (ideal para perfiles multidimensionales)
+- **Integración con Reportes:** Los nuevos gráficos aparecen automáticamente en la lista de predefinidos al exportar reportes
 
 **Archivos modificados:**
 1. `Visualizacion.js` - Agregados renderHeatmap(), renderViolin(), renderRadar() + funciones auxiliares (líneas 1531-2046)
+   - Actualizado _getPredefinidosDisponibles() para incluir nuevos gráficos en exportación (líneas 1248-1270)
+   - Actualizado _tipoLabel() para mostrar nombres correctos en reportes (línea 1251-1260)
 2. `visualizacion.css` - Estilos para tooltips y contenedores específicos de nuevos gráficos (líneas 621-640)
 
 **Mejoras analíticas:**
@@ -39,6 +42,7 @@
 - Visualización de distribución de datos mejorada vs boxplot tradicional
 - Comparación de perfiles entre múltiples variables
 - Interfaz intuitiva con selección de variables en panel de controls
+- Inclusión automática en exportación de reportes (modo exportación)
 
 ---
 
