@@ -181,9 +181,9 @@ const AuditoriaManager = (() => {
 
     async function _loadAndRender() {
         const result = await cargarLogs(500);
-        if (!result.ok) {
-            document.getElementById('aud-table-wrap').innerHTML =
-                `<div class="aud-error">❌ ${result.error}</div>`;
+    if (!result.ok) {
+        document.getElementById('aud-table-wrap').innerHTML =
+            `<div class="aud-error">❌ ${escapeHtml(result.error)}</div>`;
             return;
         }
         _renderKPIs();

@@ -192,7 +192,7 @@ const UsuariosManager = (() => {
         const result = await cargarUsuarios();
         if (!result.ok) {
             document.getElementById('usr-table-wrap').innerHTML =
-                `<div class="usr-error">❌ ${result.error}</div>`;
+                `<div class="usr-error">❌ ${escapeHtml(result.error)}</div>`;
             return;
         }
         _renderTabla(_usuarios);
