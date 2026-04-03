@@ -2646,9 +2646,11 @@ body {
     gap: 12px;
     font-size: 1.3rem;
     font-weight: 700;
-    color: #1e293b;
+    color: #1e293b !important;
     cursor: pointer;
     flex-shrink: 0;
+    background: none !important;
+    -webkit-text-fill-color: #1e293b !important;
 }
 
 .top-nav .logo-icon {
