@@ -1136,9 +1136,130 @@ const EstadisticaDescriptiva = (() => {
        let y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * t * t * t * t;
        y = y * Math.exp(-x * x);
        
-       return sign * y; // erf(-x) = -erf(x);
-     }
+        return sign * y; // erf(-x) = -erf(x);
+      }
      
+     /**
+      * Calcula la regresión lineal simple (Y = a + bX)
+      * @param {Array<number>} x - Variable independiente
+      * @param {Array<number>} y - Variable dependiente
+      * @returns {Object} Resultados de la regresión
+      */
+     function calcularRegresionLinealSimple(x, y) {
+       if (x.length !== y.length || x.length < 3) {
+         return { error: 'Se necesitan al menos 3 pares de datos válidos' };
+       }
+       
+       const n = x.length;
+       
+       // Eliminar pares donde alguno sea NaN o infinito
+       const paresValidos = [];
+       for (let i = 0; i < n; i++) {
+         if (!isNaN(x[i]) && !isNaN(y[i]) && isFinite(x[i]) && isFinite(y[i])) {
+           paresValidos.push([x[i], y[i]]);
+         }
+       }
+       
+       if (paresValidos.length < 3) {
+         return { error: 'Se necesitan al menos 3 pares de datos válidos después de limpiar' };
+       }
+       
+       const nVal = paresValidos.length;
+       const xVals = paresValidos.map(p => p[0]);
+       const yVals = paresValidos.map(p => p[1]);
+       
+       // Calcular sumas necesarias
+       let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, sumY2 = 0;
+       
+       for (let i = 0; i < nVal; i++) {
+         sumX += xVals[i];
+         sumY += yVals[i];
+         sumXY += xVals[i] * yVals[i];
+         sumX2 += xVals[i] * xVals[i];
+         sumY2 += yVals[i] * yVals[i];
+       }
+       
+       // Calcular pendientes e intercept
+       const mediaX = sumX / nVal;
+       const mediaY = sumY / nVal;
+       
+       const numerador = sumXY - nVal * mediaX * mediaY;
+       const denominador = sumX2 - nVal * mediaX * mediaX;
+       
+       if (denominador === 0) {
+         return { error: 'La variable X tiene varianza cero (todos los valores iguales)' };
+       }
+       
+       const b = numerador / denominador; // Pendiente
+       const a = mediaY - b * mediaX; // Intercept
+       
+       // Calcular predicciones y residuos
+       const predicciones = xVals.map(xi => a + b * xi);
+       const residuos = yVals.map((yi, i) => yi - predicciones[i]);
+       
+       // Calcular suma de cuadrados
+       const SCRegresion = predicciones.reduce((sum, pred) => sum + Math.pow(pred - mediaY, 2), 0);
+       const SCResidual = residuos.reduce((sum, res) => sum + res * res, 0);
+       const SCTotal = sumY2 - nVal * mediaY * mediaY;
+       
+       // R² y R² ajustado
+       const r2 = SCRegresion / SCTotal;
+       const r2Adj = 1 - (SCResidual / (nVal - 2)) / (SCTotal / (nVal - 1));
+       
+       // Error estándar de la estimación
+       const errorEstandar = Math.sqrt(SCResidual / (nVal - 2));
+       
+       // Error estándar de los coeficientes
+       const eePendiente = errorEstandar / Math.sqrt(denominador);
+       const eeIntercept = errorEstandar * Math.sqrt(1 / nVal + (mediaX * mediaX) / denominador);
+       
+       // Valor p para pendiente (H0: b = 0)
+       const tPendiente = b / eePendiente;
+       const pPendiente = 2 * (1 - calcularCDF_T(Math.abs(tPendiente), nVal - 2));
+       
+       // Intervalo de confianza para pendiente (95%)
+       const tCritico = calcularValorP_TInverso(0.975, nVal - 2);
+       const icPendienteLower = b - tCritico * eePendiente;
+       const icPendienteUpper = b + tCritico * eePendiente;
+       
+       // Interpretación
+       let interpretacion = '';
+       if (pPendiente < 0.001) {
+         interpretacion = 'La relación lineal es altamente significativa (p < 0.001)';
+       } else if (pPendiente < 0.01) {
+         interpretacion = 'La relación lineal es muy significativa (p < 0.01)';
+       } else if (pPendiente < 0.05) {
+         interpretacion = 'La relación lineal es significativa (p < 0.05)';
+       } else if (pPendiente < 0.1) {
+         interpretacion = 'La relación lineal es marginalmente significativa (p < 0.1)';
+       } else {
+         interpretacion = 'La relación lineal NO es significativa (p >= 0.1)';
+       }
+       
+       return {
+         prueba: 'Regresión Lineal Simple',
+         modelo: 'Y = a + bX',
+         formula: `Y = ${a.toFixed(4)} + ${b.toFixed(4)}X`,
+         a: parseFloat(a.toFixed(4)),
+         b: parseFloat(b.toFixed(4)),
+         r2: parseFloat(r2.toFixed(4)),
+         r2Adj: parseFloat(r2Adj.toFixed(4)),
+         errorEstandar: parseFloat(errorEstandar.toFixed(4)),
+         eePendiente: parseFloat(eePendiente.toFixed(4)),
+         eeIntercept: parseFloat(eeIntercept.toFixed(4)),
+         tPendiente: parseFloat(tPendiente.toFixed(4)),
+         pPendiente: parseFloat(pPendiente.toFixed(6)),
+         icPendienteLower: parseFloat(icPendienteLower.toFixed(4)),
+         icPendienteUpper: parseFloat(icPendienteUpper.toFixed(4)),
+         significante: pPendiente < 0.05,
+         interpretacion: interpretacion,
+         n: nVal,
+         predicciones: predicciones.map(p => parseFloat(p.toFixed(4))),
+         residuos: residuos.map(r => parseFloat(r.toFixed(4))),
+         variables: ['X', 'Y']
+       };
+     }
+      
      // ========================================
      // FUNCIONES PRINCIPALES (API PÚBLICA)
      // ========================================
@@ -1640,7 +1761,37 @@ const EstadisticaDescriptiva = (() => {
                          resultados['Correlación Spearman'] = { error: 'Configuración no encontrada. Configure la correlación en el menú de hipótesis.' };
                      }
                      break;
-            }
+                 case 'Regresión Lineal Simple':
+                     if (hypothesisConfig['Regresión Lineal Simple']) {
+                         const cfg = hypothesisConfig['Regresión Lineal Simple'];
+                         const colX = cfg.columnaX;
+                         const colY = cfg.columnaY;
+                         
+                         if (!colX || !colY) {
+                             resultados['Regresión Lineal Simple'] = { error: 'Seleccione columnas X e Y' };
+                         } else if (colX === colY) {
+                             resultados['Regresión Lineal Simple'] = { error: 'Las columnas X e Y deben ser diferentes' };
+                         } else {
+                             const valuesX = getNumericValues(data, colX);
+                             const valuesY = getNumericValues(data, colY);
+                             
+                             if (valuesX.length === 0 || valuesY.length === 0) {
+                                 resultados['Regresión Lineal Simple'] = { error: 'Una o ambas columnas no tienen valores numéricos válidos' };
+                             } else {
+                                 const minLength = Math.min(valuesX.length, valuesY.length);
+                                 const xValues = valuesX.slice(0, minLength);
+                                 const yValues = valuesY.slice(0, minLength);
+                                 
+                                 resultados['Regresión Lineal Simple'] = calcularRegresionLinealSimple(xValues, yValues);
+                                 resultados['Regresión Lineal Simple'].columnaX = colX;
+                                 resultados['Regresión Lineal Simple'].columnaY = colY;
+                             }
+                         }
+                     } else {
+                         resultados['Regresión Lineal Simple'] = { error: 'Configure la regresión en el menú de correlación.' };
+                     }
+                     break;
+             }
         });
         
         return {
@@ -1730,6 +1881,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
              'Test de Normalidad':      { formula: 'JB = (n/6)(S² + K²/4)',             desc: 'Jarque-Bera: verifica si los datos siguen distribución normal usando asimetría y curtosis.', icono: '🔔' },
              'Correlación Pearson':     { formula: 'r = cov(X,Y)/(σx * σy)',            desc: 'Mide la relación lineal entre dos variables. Valores entre -1 y 1. Cercano a ±1 indica fuerte relación lineal.', icono: '🔗' },
              'Correlación Spearman':    { formula: 'ρ = correlación de Pearson sobre rangos', desc: 'Mide la relación monotónica entre dos variables basada en rangos. Menos sensible a outliers que Pearson.', icono: '🔗' },
+             'Regresión Lineal Simple': { formula: 'Y = a + bX', desc: 'Modelo predictivo lineal simple. Estima la variable dependiente Y a partir de una variable independiente X usando mínimos cuadrados.', icono: '📈' },
         };
 
         const statKeys = Object.keys(analisisResultado.resultados);
@@ -1737,7 +1889,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         const hasParams = typeof ParametrosManager !== 'undefined';
 
          // Pruebas de hipótesis que tienen estructura diferente
-         const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Correlación Pearson', 'Correlación Spearman'];
+         const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple'];
 
         // ── KPI cards para un estadístico ─────────────────────
         function kpiCards(statKey) {

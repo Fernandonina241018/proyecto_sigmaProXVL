@@ -216,7 +216,7 @@ document.querySelectorAll('.menu-option').forEach(option => {
         const statName = this.textContent.trim();
 
         // Pruebas de hipótesis que requieren configuración de grupos
-        const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)'];
+        const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple'];
         
         if (this.classList.contains('selected')) {
             this.classList.remove('selected');
@@ -628,7 +628,10 @@ function ejecutarAnalisis() {
          'ANOVA Two-Way',
          'Chi-Cuadrado',
          'Test de Normalidad',
-         'Límites de Cuantificación'
+         'Límites de Cuantificación',
+         'Correlación Pearson',
+         'Correlación Spearman',
+         'Regresión Lineal Simple'
      ];
 
     const noImplementados = activeStats.filter(stat => !estadisticosDescriptivos.includes(stat));
@@ -1593,7 +1596,7 @@ function applyStatSelection() {
     const newActive = currentActive.filter(stat => !section.options.includes(stat));
     
      // Identificar qué pruebas requieren configuración de columnas
-     const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman'];
+     const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple'];
      const statsQueNecesitanConfig = [];
      const statsNormales = [];
     
@@ -1678,7 +1681,10 @@ function mostrarModalConfiguracionHypothesis(statName) {
         'ANOVA Two-Way': { title: '🧪 Configurar ANOVA Two-Way', catCols: 2, numCols: 1, catLabel: 'Factores (2 columnas categóricas)', numLabel: 'Columna de Valores (Variable Dependiente)' },
         'Chi-Cuadrado': { title: '📊 Configurar Chi-Cuadrado', catCols: 2, numCols: 0, catLabel: 'Variables categóricas (2 columnas)', numLabel: null },
         'T-Test (dos muestras)': { title: '📈 Configurar T-Test (dos muestras)', catCols: 1, numCols: 1, catLabel: 'Columna de Agrupación (2 grupos)', numLabel: 'Columna de Valores (Variable Dependiente)' },
-        'Límites de Cuantificación': { title: '📐 Configurar Límites de Cuantificación', catCols: 0, numCols: 1, catLabel: null, numLabel: 'Columna a analizar', extraFields: ['lsl', 'usl', 'norma', 'nivelConfianza'] }
+        'Límites de Cuantificación': { title: '📐 Configurar Límites de Cuantificación', catCols: 0, numCols: 1, catLabel: null, numLabel: 'Columna a analizar', extraFields: ['lsl', 'usl', 'norma', 'nivelConfianza'] },
+        'Correlación Pearson': { title: '🔗 Configurar Correlación de Pearson', customFunc: 'abrirModalConfigCorrelacion' },
+        'Correlación Spearman': { title: '🔗 Configurar Correlación de Spearman', customFunc: 'abrirModalConfigCorrelacion' },
+        'Regresión Lineal Simple': { title: '📈 Configurar Regresión Lineal Simple', customFunc: 'abrirModalConfigRegresion' }
     };
     
     const config = configs[statName];
@@ -1690,6 +1696,11 @@ function mostrarModalConfiguracionHypothesis(statName) {
     // Para Límites de Cuantificación, mostrar modal especial
     if (statName === 'Límites de Cuantificación') {
         return mostrarModalLimitesCuantificacion(imported);
+    }
+    
+    // Para funciones con modal personalizado (Correlación, Regresión)
+    if (config.customFunc && typeof window[config.customFunc] === 'function') {
+        return window[config.customFunc](imported);
     }
     
     // Detectar columnas categóricas y numéricas
@@ -1893,121 +1904,213 @@ function mostrarModalConfiguracionHypothesis(statName) {
 }
 
 // ========================================
+// MODAL DE CONFIGURACIÓN PARA CORRELACIÓN
+// ========================================
+function abrirModalConfigCorrelacion(imported) {
+    // Clean up previous modals
+    document.getElementById('correlacion-config-modal')?.remove();
+    document.getElementById('limites-config-modal')?.remove();
+    document.getElementById('regresion-config-modal')?.remove();
+
+    const numericCols = imported.headers.filter(col => {
+        const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
+        const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
+        return numericCount / values.length > 0.5;
+    });
+
+    if (numericCols.length < 2) {
+        _showToast('⚠️ Se necesitan al menos 2 columnas numéricas para correlación', true);
+        return false;
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'correlacion-config-modal';
+    modal.innerHTML = `
+        <div class="dm-modal-overlay" id="correlacion-modal-overlay"></div>
+        <div class="dm-modal-card" style="width: min(500px, 96vw);">
+            <div class="dm-modal-header">
+                <h3>🔗 Configurar Correlación</h3>
+                <button class="dm-modal-close" id="correlacion-modal-close">✕</button>
+            </div>
+            <div class="dm-modal-body">
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📊 Columna X (Variable 1)</label>
+                    <select id="correlacion-columna-x" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📊 Columna Y (Variable 2)</label>
+                    <select id="correlacion-columna-y" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📈 Tipo de Correlación</label>
+                    <select id="correlacion-tipo" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        <option value="pearson">Correlación de Pearson</option>
+                        <option value="spearman">Correlación de Spearman</option>
+                    </select>
+                </div>
+                <p style="font-size:0.75rem;color:#666;margin-bottom:0;">
+                    💡 Seleccione dos columnas numéricas diferentes para analizar su relación
+                </p>
+            </div>
+            <div class="dm-modal-footer">
+                <button class="btn-secondary" id="correlacion-modal-cancel">Cancelar</button>
+                <button class="btn-primary" id="correlacion-modal-confirm">✅ Confirmar</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    document.getElementById('correlacion-modal-close').onclick = () => modal.remove();
+    document.getElementById('correlacion-modal-overlay').onclick = () => modal.remove();
+    document.getElementById('correlacion-modal-cancel').onclick = () => modal.remove();
+
+    document.getElementById('correlacion-modal-confirm').onclick = () => {
+        const colX = document.getElementById('correlacion-columna-x')?.value;
+        const colY = document.getElementById('correlacion-columna-y')?.value;
+        const tipo = document.getElementById('correlacion-tipo')?.value;
+
+        if (!colX || !colY) {
+            _showToast('⚠️ Seleccione ambas columnas', true);
+            return;
+        }
+
+        if (colX === colY) {
+            _showToast('⚠️ Las columnas deben ser diferentes', true);
+            return;
+        }
+
+        const statName = tipo === 'pearson' ? 'Correlación Pearson' : 'Correlación Spearman';
+        const hypothesisConfig = {
+            [statName]: {
+                columnaX: colX,
+                columnaY: colY,
+                timestamp: Date.now()
+            }
+        };
+
+        StateManager.setHypothesisConfig(statName, hypothesisConfig[statName]);
+        StateManager.addActiveStat(statName);
+
+        document.querySelectorAll('.menu-option').forEach(opt => {
+            if (opt.textContent.trim() === statName) {
+                opt.classList.add('selected');
+            }
+        });
+
+        _showToast(`✅ ${statName} configurado: ${colX} vs ${colY}`);
+        modal.remove();
+        return true;
+    };
+
+    return true;
+}
+
+// ========================================
+// MODAL DE CONFIGURACIÓN PARA REGRESIÓN LINEAL SIMPLE
+// ========================================
+function abrirModalConfigRegresion(imported) {
+    document.getElementById('regresion-config-modal')?.remove();
+    document.getElementById('correlacion-config-modal')?.remove();
+    document.getElementById('limites-config-modal')?.remove();
+
+    const numericCols = imported.headers.filter(col => {
+        const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
+        const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
+        return numericCount / values.length > 0.5;
+    });
+
+    if (numericCols.length < 2) {
+        _showToast('⚠️ Se necesitan al menos 2 columnas numéricas para regresión', true);
+        return false;
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'regresion-config-modal';
+    modal.innerHTML = `
+        <div class="dm-modal-overlay" id="regresion-modal-overlay"></div>
+        <div class="dm-modal-card" style="width: min(500px, 96vw);">
+            <div class="dm-modal-header">
+                <h3>📈 Configurar Regresión Lineal Simple</h3>
+                <button class="dm-modal-close" id="regresion-modal-close">✕</button>
+            </div>
+            <div class="dm-modal-body">
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📊 Variable Independiente (X)</label>
+                    <select id="regresion-columna-x" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📊 Variable Dependiente (Y)</label>
+                    <select id="regresion-columna-y" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
+                    </select>
+                </div>
+                <p style="font-size:0.75rem;color:#666;margin-bottom:0;">
+                    💡 Seleccione la variable X (independiente) e Y (dependiente) para el modelo de regresión
+                </p>
+            </div>
+            <div class="dm-modal-footer">
+                <button class="btn-secondary" id="regresion-modal-cancel">Cancelar</button>
+                <button class="btn-primary" id="regresion-modal-confirm">✅ Confirmar</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    document.getElementById('regresion-modal-close').onclick = () => modal.remove();
+    document.getElementById('regresion-modal-overlay').onclick = () => modal.remove();
+    document.getElementById('regresion-modal-cancel').onclick = () => modal.remove();
+
+    document.getElementById('regresion-modal-confirm').onclick = () => {
+        const colX = document.getElementById('regresion-columna-x')?.value;
+        const colY = document.getElementById('regresion-columna-y')?.value;
+
+        if (!colX || !colY) {
+            _showToast('⚠️ Seleccione ambas columnas', true);
+            return;
+        }
+
+        if (colX === colY) {
+            _showToast('⚠️ Las columnas deben ser diferentes', true);
+            return;
+        }
+
+        const hypothesisConfig = {
+            'Regresión Lineal Simple': {
+                columnaX: colX,
+                columnaY: colY,
+                timestamp: Date.now()
+            }
+        };
+
+        StateManager.setHypothesisConfig('Regresión Lineal Simple', hypothesisConfig['Regresión Lineal Simple']);
+        StateManager.addActiveStat('Regresión Lineal Simple');
+
+        document.querySelectorAll('.menu-option').forEach(opt => {
+            if (opt.textContent.trim() === 'Regresión Lineal Simple') {
+                opt.classList.add('selected');
+            }
+        });
+
+        _showToast(`✅ Regresión Lineal Simple configurado: Y = f(${colX})`);
+        modal.remove();
+        return true;
+    };
+
+    return true;
+}
+
+// ========================================
 // MODAL DE CONFIGURACIÓN DE LÍMITES DE CUANTIFICACIÓN
 // ========================================
 function mostrarModalLimitesCuantificacion(imported) {
-     // MODAL DE CONFIGURACIÓN PARA CORRELACIÓN
-     function abrirModalConfigCorrelacion() {
-         // Limpiar modales previos
-         document.getElementById('correlacion-config-modal')?.remove();
-         document.getElementById('limites-config-modal')?.remove();
-
-         const numericCols = imported.headers.filter(col => {
-             const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
-             const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
-             return numericCount / values.length > 0.5;
-         });
-
-         if (numericCols.length < 2) {
-             _showToast('⚠️ Se necesitan al menos 2 columnas numéricas para correlación', true);
-             return false;
-         }
-
-         const modal = document.createElement('div');
-         modal.id = 'correlacion-config-modal';
-         modal.innerHTML = `
-             <div class="dm-modal-overlay" id="correlacion-modal-overlay"></div>
-             <div class="dm-modal-card" style="width: min(500px, 96vw);">
-                 <div class="dm-modal-header">
-                     <h3>🔗 Configurar Correlación</h3>
-                     <button class="dm-modal-close" id="correlacion-modal-close">✕</button>
-                 </div>
-                 <div class="dm-modal-body">
-                     <div class="dm-field" style="margin-bottom: 14px;">
-                         <label>📊 Columna X (Variable 1)</label>
-                         <select id="correlacion-columna-x" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
-                             ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
-                         </select>
-                     </div>
-                     <div class="dm-field" style="margin-bottom: 14px;">
-                         <label>📊 Columna Y (Variable 2)</label>
-                         <select id="correlacion-columna-y" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
-                             ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
-                         </select>
-                     </div>
-                     <div class="dm-field" style="margin-bottom: 14px;">
-                         <label>📈 Tipo de Correlación</label>
-                         <select id="correlacion-tipo" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
-                             <option value="pearson">Correlación de Pearson</option>
-                             <option value="spearman">Correlación de Spearman</option>
-                         </select>
-                     </div>
-                     <p style="font-size:0.75rem;color:#666;margin-bottom:0;">
-                         💡 Seleccione dos columnas numéricas diferentes para analizar su relación
-                     </p>
-                 </div>
-                 <div class="dm-modal-footer">
-                     <button class="btn-secondary" id="correlacion-modal-cancel">Cancelar</button>
-                     <button class="btn-primary" id="correlacion-modal-confirm">✅ Confirmar</button>
-                 </div>
-             </div>
-         `;
-
-         document.body.appendChild(modal);
-
-         // Event listeners
-         document.getElementById('correlacion-modal-close').onclick = () => modal.remove();
-         document.getElementById('correlacion-modal-overlay').onclick = () => modal.remove();
-         document.getElementById('correlacion-modal-cancel').onclick = () => modal.remove();
-
-         document.getElementById('correlacion-modal-confirm').onclick = () => {
-             const colX = document.getElementById('correlacion-columna-x')?.value;
-             const colY = document.getElementById('correlacion-columna-y')?.value;
-             const tipo = document.getElementById('correlacion-tipo')?.value;
-
-             if (!colX || !colY) {
-                 _showToast('⚠️ Seleccione ambas columnas', true);
-                 return;
-             }
-
-             if (colX === colY) {
-                 _showToast('⚠️ Las columnas deben ser diferentes', true);
-                 return;
-             }
-
-             // Guardar configuración según tipo
-             const statName = tipo === 'pearson' ? 'Correlación Pearson' : 'Correlación Spearman';
-             const hypothesisConfig = {
-                 [statName]: {
-                     columnaX: colX,
-                     columnaY: colY,
-                     timestamp: Date.now()
-                 }
-             };
-
-             StateManager.setHypothesisConfig(statName, hypothesisConfig[statName]);
-             StateManager.addActiveStat(statName);
-
-             // Marcar visualmente en el menú
-             document.querySelectorAll('.menu-option').forEach(opt => {
-                 if (opt.textContent.trim() === statName) {
-                     opt.classList.add('selected');
-                 }
-             });
-
-             _showToast(`✅ ${statName} configurado: ${colX} vs ${colY}`);
-             modal.remove();
-             return true;
-         };
-
-         return true;
-     }
-
-     // ========================================
-     // CONFIGURAR LÍMITES DE CUANTIFICACIÓN
-     // ========================================
-
-     document.getElementById('limites-config-modal')?.remove();
 
      const numericCols = imported.headers.filter(col => {
         const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);

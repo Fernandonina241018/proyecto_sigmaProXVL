@@ -46,28 +46,28 @@
 
 ---
 
-### 2 de Abril 2026 - Estadística: Correlación Pearson y Spearman agregadas
+### 2 de Abril 2026 - Estadística: Correlación Pearson, Spearman y Regresión Lineal Simple agregadas
 
-**Cambio:** Implementación de las funciones de correlación de Pearson y Spearman con configuración manual vía modal
+**Cambio:** Implementación de funciones de correlación y regresión con configuración manual vía modal
 - **Archivos:** `EstadisticaDescriptiva.js`, `script.js`
 - **Estado:** ✅ COMPLETADO
 
 **Detalles:**
 - **Correlación de Pearson:** Mide relación lineal entre dos variables (-1 a +1) con valor p, intervalo de confianza 95% e interpretación
 - **Correlación de Spearman:** Mide relación monotónica usando rangos (robusta a outliers) con valor p e interpretación
-- **Modal de configuración:** Permite seleccionar columnas X e Y específicas desde el menú de Hipótesis
-- **Integración completa:** Aparecen en resultados de análisis, KPI cards, y reportes HTML/TXT
+- **Regresión Lineal Simple:** Modelo Y = a + bX con R², R² ajustado, error estándar, valores p de coeficientes, IC 95%
+- **Modales de configuración:** Permite seleccionar columnas X e Y específicas desde el menú de correlación
+- **Integración completa:** Aparecen en resultados de análisis, KPI cards, y whitelist de ejecución
 
 **Archivos modificados:**
-1. `EstadisticaDescriptiva.js` - Agregadas funciones calcularCorrelacionPearson(), calcularCorrelacionSpearman(), obtenerRangos(), calcularCDF_T(), calcularValorP_TInverso(), erf() + cases en ejecutarAnalisis() (líneas ~1100-1200)
-2. `script.js` - Agregado abrirModalConfigCorrelacion() para configuración manual de columnas (líneas ~1900-2000)
+1. `EstadisticaDescriptiva.js` - Agregadas funciones calcularCorrelacionPearson(), calcularCorrelacionSpearman(), calcularRegresionLinealSimple(), obtenerRangos(), calcularCDF_T(), calcularValorP_TInverso(), erf() + cases en ejecutarAnalisis()
+2. `script.js` - Agregadas funciones abrirModalConfigCorrelacion(), abrirModalConfigRegresion() + whitelist actualizada
 
 **Mejoras analíticas:**
-- Análisis de relación entre variables específicas
-- Medición de fuerza y dirección de asociaciones
-- Detección de correlaciones lineales y monótónicas
-- Interpretación automática (muy fuerte, fuerte, moderada, débil)
-- Validación de significancia estadística (valor p < 0.05)
+- Análisis de relación lineal entre variables específicas
+- Modelos predictivos simples con validación estadística completa
+- Interpretación automática de significancia (p < 0.05)
+- Output completo con intervalos de confianza y error estándar
 
 ---
 
