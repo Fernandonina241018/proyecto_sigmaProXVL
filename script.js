@@ -37,22 +37,10 @@ function switchView(viewName) {
         targetView.classList.add('active');
     }
 
-    // FIX: sincronizar el nav-item activo de forma robusta,
-    // sin depender de posición ni de querySelector('.nav-item') ciego.
-    const viewMap = {
-        'analisis':      'análisis',
-        'datos':         'datos',
-        'visualizacion': 'visualización',
-        'reportes':      'reportes',
-        'trabajo':       'trabajo',
-        'auditoria':     'auditoría',
-        'usuarios':      'usuarios'
-    };
-
-    const expectedLabel = viewMap[viewName];
-    document.querySelectorAll('.nav-item').forEach(nav => {
+    // Sincronizar el nav-item activo usando data-view
+    document.querySelectorAll('.top-nav .nav-item').forEach(nav => {
         nav.classList.remove('active');
-        if (nav.textContent.trim().toLowerCase() === expectedLabel) {
+        if (nav.dataset.view === viewName) {
             nav.classList.add('active');
         }
     });
