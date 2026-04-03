@@ -183,7 +183,7 @@ const Auth = (() => {
         ];
 
         // ── Partículas circulares (fondo) ──────────────────
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 25; i++) {
             const p       = document.createElement('div');
             p.className   = 'auth-particle';
             const size    = 2 + Math.random() * 5;
