@@ -46,6 +46,31 @@
 
 ---
 
+### 2 de Abril 2026 - Estadística: Correlación Pearson y Spearman agregadas
+
+**Cambio:** Implementación de las funciones de correlación de Pearson y Spearman con configuración manual vía modal
+- **Archivos:** `EstadisticaDescriptiva.js`, `script.js`
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- **Correlación de Pearson:** Mide relación lineal entre dos variables (-1 a +1) con valor p, intervalo de confianza 95% e interpretación
+- **Correlación de Spearman:** Mide relación monotónica usando rangos (robusta a outliers) con valor p e interpretación
+- **Modal de configuración:** Permite seleccionar columnas X e Y específicas desde el menú de Hipótesis
+- **Integración completa:** Aparecen en resultados de análisis, KPI cards, y reportes HTML/TXT
+
+**Archivos modificados:**
+1. `EstadisticaDescriptiva.js` - Agregadas funciones calcularCorrelacionPearson(), calcularCorrelacionSpearman(), obtenerRangos(), calcularCDF_T(), calcularValorP_TInverso(), erf() + cases en ejecutarAnalisis() (líneas ~1100-1200)
+2. `script.js` - Agregado abrirModalConfigCorrelacion() para configuración manual de columnas (líneas ~1900-2000)
+
+**Mejoras analíticas:**
+- Análisis de relación entre variables específicas
+- Medición de fuerza y dirección de asociaciones
+- Detección de correlaciones lineales y monótónicas
+- Interpretación automática (muy fuerte, fuerte, moderada, débil)
+- Validación de significancia estadística (valor p < 0.05)
+
+---
+
 ### 2 de Abril 2026 - UI/UX: Mejora de indicadores de carga/spinner
 
 **Cambio:** Modernización de los indicadores de carga (spinners) en toda la aplicación

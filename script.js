@@ -1592,10 +1592,10 @@ function applyStatSelection() {
     // Remover estadísticas de esta sección
     const newActive = currentActive.filter(stat => !section.options.includes(stat));
     
-    // Identificar qué pruebas requieren configuración de columnas
-    const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'Límites de Cuantificación'];
-    const statsQueNecesitanConfig = [];
-    const statsNormales = [];
+     // Identificar qué pruebas requieren configuración de columnas
+     const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman'];
+     const statsQueNecesitanConfig = [];
+     const statsNormales = [];
     
     section.options.forEach(opt => {
         if (tempModalSelection[opt]) {
@@ -1896,9 +1896,120 @@ function mostrarModalConfiguracionHypothesis(statName) {
 // MODAL DE CONFIGURACIÓN DE LÍMITES DE CUANTIFICACIÓN
 // ========================================
 function mostrarModalLimitesCuantificacion(imported) {
-    document.getElementById('limites-config-modal')?.remove();
+     // MODAL DE CONFIGURACIÓN PARA CORRELACIÓN
+     function abrirModalConfigCorrelacion() {
+         // Limpiar modales previos
+         document.getElementById('correlacion-config-modal')?.remove();
+         document.getElementById('limites-config-modal')?.remove();
 
-    const numericCols = imported.headers.filter(col => {
+         const numericCols = imported.headers.filter(col => {
+             const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
+             const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
+             return numericCount / values.length > 0.5;
+         });
+
+         if (numericCols.length < 2) {
+             _showToast('⚠️ Se necesitan al menos 2 columnas numéricas para correlación', true);
+             return false;
+         }
+
+         const modal = document.createElement('div');
+         modal.id = 'correlacion-config-modal';
+         modal.innerHTML = `
+             <div class="dm-modal-overlay" id="correlacion-modal-overlay"></div>
+             <div class="dm-modal-card" style="width: min(500px, 96vw);">
+                 <div class="dm-modal-header">
+                     <h3>🔗 Configurar Correlación</h3>
+                     <button class="dm-modal-close" id="correlacion-modal-close">✕</button>
+                 </div>
+                 <div class="dm-modal-body">
+                     <div class="dm-field" style="margin-bottom: 14px;">
+                         <label>📊 Columna X (Variable 1)</label>
+                         <select id="correlacion-columna-x" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                             ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
+                         </select>
+                     </div>
+                     <div class="dm-field" style="margin-bottom: 14px;">
+                         <label>📊 Columna Y (Variable 2)</label>
+                         <select id="correlacion-columna-y" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                             ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
+                         </select>
+                     </div>
+                     <div class="dm-field" style="margin-bottom: 14px;">
+                         <label>📈 Tipo de Correlación</label>
+                         <select id="correlacion-tipo" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                             <option value="pearson">Correlación de Pearson</option>
+                             <option value="spearman">Correlación de Spearman</option>
+                         </select>
+                     </div>
+                     <p style="font-size:0.75rem;color:#666;margin-bottom:0;">
+                         💡 Seleccione dos columnas numéricas diferentes para analizar su relación
+                     </p>
+                 </div>
+                 <div class="dm-modal-footer">
+                     <button class="btn-secondary" id="correlacion-modal-cancel">Cancelar</button>
+                     <button class="btn-primary" id="correlacion-modal-confirm">✅ Confirmar</button>
+                 </div>
+             </div>
+         `;
+
+         document.body.appendChild(modal);
+
+         // Event listeners
+         document.getElementById('correlacion-modal-close').onclick = () => modal.remove();
+         document.getElementById('correlacion-modal-overlay').onclick = () => modal.remove();
+         document.getElementById('correlacion-modal-cancel').onclick = () => modal.remove();
+
+         document.getElementById('correlacion-modal-confirm').onclick = () => {
+             const colX = document.getElementById('correlacion-columna-x')?.value;
+             const colY = document.getElementById('correlacion-columna-y')?.value;
+             const tipo = document.getElementById('correlacion-tipo')?.value;
+
+             if (!colX || !colY) {
+                 _showToast('⚠️ Seleccione ambas columnas', true);
+                 return;
+             }
+
+             if (colX === colY) {
+                 _showToast('⚠️ Las columnas deben ser diferentes', true);
+                 return;
+             }
+
+             // Guardar configuración según tipo
+             const statName = tipo === 'pearson' ? 'Correlación Pearson' : 'Correlación Spearman';
+             const hypothesisConfig = {
+                 [statName]: {
+                     columnaX: colX,
+                     columnaY: colY,
+                     timestamp: Date.now()
+                 }
+             };
+
+             StateManager.setHypothesisConfig(statName, hypothesisConfig[statName]);
+             StateManager.addActiveStat(statName);
+
+             // Marcar visualmente en el menú
+             document.querySelectorAll('.menu-option').forEach(opt => {
+                 if (opt.textContent.trim() === statName) {
+                     opt.classList.add('selected');
+                 }
+             });
+
+             _showToast(`✅ ${statName} configurado: ${colX} vs ${colY}`);
+             modal.remove();
+             return true;
+         };
+
+         return true;
+     }
+
+     // ========================================
+     // CONFIGURAR LÍMITES DE CUANTIFICACIÓN
+     // ========================================
+
+     document.getElementById('limites-config-modal')?.remove();
+
+     const numericCols = imported.headers.filter(col => {
         const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
         const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
         return numericCount / values.length > 0.5;

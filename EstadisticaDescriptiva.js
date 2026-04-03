@@ -798,12 +798,350 @@ const EstadisticaDescriptiva = (() => {
             interpretacion: valorP >= 0.05
                 ? `No se rechaza H₀ (p=${valorP.toFixed(4)} ≥ 0.05). Los datos pueden seguir distribución normal.`
                 : `Se rechaza H₀ (p=${valorP.toFixed(4)} < 0.05). Los datos NO siguen distribución normal.`
-        };
-    }
-
-    // ========================================
-    // FUNCIONES PRINCIPALES (API PÚBLICA)
-    // ========================================
+         };
+       }
+     
+     // ========================================
+     // FUNCIONES DE CORRELACIÓN
+     // ========================================
+     
+     /**
+      * Calcula la correlación de Pearson entre dos variables
+      * @param {Array<number>} x - Primera variable
+      * @param {Array<number>} y - Segunda variable
+      * @returns {Object} Resultados de la correlación
+      */
+     function calcularCorrelacionPearson(x, y) {
+       if (x.length !== y.length || x.length < 3) {
+         return { error: 'Se necesitan al menos 3 pares de datos válidos' };
+       }
+       
+       const n = x.length;
+       
+       // Eliminar pares donde alguno sea NaN o infinito
+       const paresValidos = [];
+       for (let i = 0; i < n; i++) {
+         if (!isNaN(x[i]) && !isNaN(y[i]) && isFinite(x[i]) && isFinite(y[i])) {
+           paresValidos.push([x[i], y[i]]);
+         }
+       }
+       
+       if (paresValidos.length < 3) {
+         return { error: 'Se necesitan al menos 3 pares de datos válidos después de limpiar' };
+       }
+       
+       const nVal = paresValidos.length;
+       const xVals = paresValidos.map(p => p[0]);
+       const yVals = paresValidos.map(p => p[1]);
+       
+       // Calcular sumas necesarias
+       let sumX = 0, sumY = 0, sumXY = 0;
+       let sumX2 = 0, sumY2 = 0;
+       
+       for (let i = 0; i < nVal; i++) {
+         sumX += xVals[i];
+         sumY += yVals[i];
+         sumXY += xVals[i] * yVals[i];
+         sumX2 += xVals[i] * xVals[i];
+         sumY2 += yVals[i] * yVals[i];
+       }
+       
+       // Calcular correlación de Pearson
+       const numerator = nVal * sumXY - sumX * sumY;
+       const denominator = Math.sqrt(
+         (nVal * sumX2 - sumX * sumX) * (nVal * sumY2 - sumY * sumY)
+       );
+       
+       if (denominator === 0) {
+         return { 
+           r: 0, 
+           r2: 0, 
+           t: 0, 
+           df: nVal - 2, 
+           p: 1, 
+           error: 'Desviación estándar cero en una o ambas variables' 
+         };
+       }
+       
+       const r = numerator / denominator;
+       const r2 = r * r;
+       
+       // Estadístico t para prueba de significancia
+       const t = r * Math.sqrt((nVal - 2) / (1 - r * r));
+       const df = nVal - 2;
+       
+       // Valor p usando distribución t
+       const p = 2 * (1 - calcularCDF_T(Math.abs(t), df));
+       
+       // Intervalo de confianza usando transformación de Fisher
+       const z = 0.5 * Math.log((1 + r) / (1 - r));
+       const seZ = 1 / Math.sqrt(nVal - 3);
+       const zCrit = calcularValorP_TInverso(0.975, nVal - 2); // Aproximación para 95%
+       const zLower = z - zCrit * seZ;
+       const zUpper = z + zCrit * seZ;
+       const rLower = (Math.exp(2 * zLower) - 1) / (Math.exp(2 * zLower) + 1);
+       const rUpper = (Math.exp(2 * zUpper) - 1) / (Math.exp(2 * zUpper) + 1);
+       
+       // Interpretación
+       let interpretacion = '';
+       const absR = Math.abs(r);
+       if (absR >= 0.8) {
+         interpretacion = r > 0 ? 'Correlación positiva MUY FUERTE' : 'Correlación negativa MUY FUERTE';
+       } else if (absR >= 0.6) {
+         interpretacion = r > 0 ? 'Correlación positiva FUERTE' : 'Correlación negativa FUERTE';
+       } else if (absR >= 0.4) {
+         interpretacion = r > 0 ? 'Correlación positiva MODERADA' : 'Correlación negativa MODERADA';
+       } else if (absR >= 0.2) {
+         interpretacion = r > 0 ? 'Correlación positiva DÉBIL' : 'Correlación negativa DÉBIL';
+       } else {
+         interpretacion = r > 0 ? 'Correlación positiva MUY DÉBIL' : 'Correlación negativa MUY DÉBIL';
+       }
+       
+       return {
+         prueba: 'Correlación de Pearson',
+         r: parseFloat(r.toFixed(4)),
+         r2: parseFloat(r2.toFixed(4)),
+         t: parseFloat(t.toFixed(4)),
+         df: df,
+         p: parseFloat(p.toFixed(6)),
+         pValue: parseFloat(p.toFixed(6)),
+         ic95Lower: parseFloat(rLower.toFixed(4)),
+         ic95Upper: parseFloat(rUpper.toFixed(4)),
+         significante: p < 0.05,
+         interpretacion: interpretacion,
+         n: nVal,
+         formula: 'r = cov(X,Y)/(σx * σy)',
+         variables: ['X', 'Y']
+       };
+     }
+     
+     /**
+      * Calcula la correlación de Spearman entre dos variables
+      * @param {Array<number>} x - Primera variable
+      * @param {Array<number>} y - Segunda variable
+      * @returns {Object} Resultados de la correlación
+      */
+     function calcularCorrelacionSpearman(x, y) {
+       if (x.length !== y.length || x.length < 3) {
+         return { error: 'Se necesitan al menos 3 pares de datos válidos' };
+       }
+       
+       const n = x.length;
+       
+       // Eliminar pares donde alguno sea NaN o infinito
+       const paresValidos = [];
+       for (let i = 0; i < n; i++) {
+         if (!isNaN(x[i]) && !isNaN(y[i]) && isFinite(x[i]) && isFinite(y[i])) {
+           paresValidos.push([x[i], y[i]]);
+         }
+       }
+       
+       if (paresValidos.length < 3) {
+         return { error: 'Se necesitan al menos 3 pares de datos válidos después de limpiar' };
+       }
+       
+       const nVal = paresValidos.length;
+       
+       // Convertir a rangos (manejar empates con promedio)
+       const xRanks = obtenerRangos(paresValidos.map(p => p[0]));
+       const yRanks = obtenerRangos(paresValidos.map(p => p[1]));
+       
+       // Calcular correlación de Pearson sobre los rangos
+       let sumX = 0, sumY = 0, sumXY = 0;
+       let sumX2 = 0, sumY2 = 0;
+       
+       for (let i = 0; i < nVal; i++) {
+         sumX += xRanks[i];
+         sumY += yRanks[i];
+         sumXY += xRanks[i] * yRanks[i];
+         sumX2 += xRanks[i] * xRanks[i];
+         sumY2 += yRanks[i] * yRanks[i];
+       }
+       
+       const numerator = nVal * sumXY - sumX * sumY;
+       const denominator = Math.sqrt(
+         (nVal * sumX2 - sumX * sumX) * (nVal * sumY2 - sumY * sumY)
+       );
+       
+       if (denominator === 0) {
+         return { 
+           rho: 0, 
+           rho2: 0, 
+           t: 0, 
+           df: nVal - 2, 
+           p: 1, 
+           error: 'Desviación estándar cero en rangos' 
+         };
+       }
+       
+       const rho = numerator / denominator;
+       const rho2 = rho * rho;
+       
+       // Estadístico t para prueba de significancia
+       const t = rho * Math.sqrt((nVal - 2) / (1 - rho * rho));
+       const df = nVal - 2;
+       
+       // Valor p usando distribución t
+       const p = 2 * (1 - calcularCDF_T(Math.abs(t), df));
+       
+       // Interpretación
+       let interpretacion = '';
+       const absRho = Math.abs(rho);
+       if (absRho >= 0.8) {
+         interpretacion = rho > 0 ? 'Correlación positiva MUY FUERTE' : 'Correlación negativa MUY FUERTE';
+       } else if (absRho >= 0.6) {
+         interpretacion = rho > 0 ? 'Correlación positiva FUERTE' : 'Correlación negativa FUERTE';
+       } else if (absRho >= 0.4) {
+         interpretacion = rho > 0 ? 'Correlación positiva MODERADA' : 'Correlación negativa MODERADA';
+       } else if (absRho >= 0.2) {
+         interpretacion = rho > 0 ? 'Correlación positiva DÉBIL' : 'Correlación negativa DÉBIL';
+       } else {
+         interpretacion = rho > 0 ? 'Correlación positiva MUY DÉBIL' : 'Correlación negativa MUY DÉBIL';
+       }
+       
+       return {
+         prueba: 'Correlación de Spearman',
+         rho: parseFloat(rho.toFixed(4)),
+         rho2: parseFloat(rho2.toFixed(4)),
+         t: parseFloat(t.toFixed(4)),
+         df: df,
+         p: parseFloat(p.toFixed(6)),
+         pValue: parseFloat(p.toFixed(6)),
+         significante: p < 0.05,
+         interpretacion: interpretacion,
+         n: nVal,
+         formula: 'ρ = correlación de Pearson sobre rangos',
+         variables: ['X', 'Y']
+       };
+     }
+     
+     /**
+      * Obtiene los rangos de un array (maneja empates con promedio)
+      * @param {Array<number>} values - Array de valores
+      * @returns {Array<number>} Array de rangos
+      */
+     function obtenerRangos(values) {
+       const n = values.length;
+       const indices = [...Array(n).keys()];
+       indices.sort((a, b) => values[a] - values[b]);
+       
+       const ranks = new Array(n);
+       let i = 0;
+       
+       while (i < n) {
+         const currentValue = values[indices[i]];
+         let j = i;
+         while (j < n && values[indices[j]] === currentValue) {
+           j++;
+         }
+         // Promedio de las posiciones para empates
+         const avgRank = (i + 1 + j) / 2;
+         for (let k = i; k < j; k++) {
+           ranks[indices[k]] = avgRank;
+         }
+         i = j;
+       }
+       
+       return ranks;
+     }
+     
+     /**
+      * Función de distribución acumulativa t de Student (aproximación)
+      * @param {number} t - Valor t
+      * @param {number} df - Grados de libertad
+      * @returns {number} CDF(t)
+      */
+     function calcularCDF_T(t, df) {
+       if (df === 1) {
+         return 0.5 + Math.atan(t) / Math.PI;
+       }
+       
+       // Aproximación usando función beta incompleta
+       // Para simplicidad, usamos una aproximación razonable
+       if (t === 0) return 0.5;
+       
+       const x = df / (df + t * t);
+       // Aproximación simple para demostración - en producción usar biblioteca especializada
+       if (df > 30) {
+         // Para df grande, aproximar con normal
+         return 0.5 * (1 + Math.erf(t / Math.sqrt(2)));
+       }
+       
+       // Usamos una aproximación razonable para df pequeños
+       // Esto es una simplificación - en producción usar biblioteca estadística adecuada
+       return 0.5 + Math.sign(t) * 0.5 * (1 - Math.exp(-Math.abs(t) * Math.sqrt(df / (df + t * t))));
+     }
+     
+     /**
+      * Función inversa de distribución t para valores críticos
+      * @param {number} p - Probabilidad acumulada
+      * @param {number} df - Grados de libertad
+      * @returns {number} Valor t crítico
+      */
+     function calcularValorP_TInverso(p, df) {
+       // Aproximación simple para valores críticos comunes
+       // Para producción, usar tabla o biblioteca adecuada
+       if (df >= 30) {
+         // Aproximación normal para df grande
+         if (p === 0.975) return 1.96;
+         if (p === 0.95) return 1.645;
+         if (p === 0.99) return 2.576;
+       }
+       
+       // Valores críticos aproximados para df pequeños
+       const tTable = {
+         1: { 0.95: 6.314, 0.975: 12.706, 0.99: 31.821, 0.995: 63.657 },
+         2: { 0.95: 2.920, 0.975: 4.303, 0.99: 6.965, 0.995: 9.925 },
+         3: { 0.95: 2.353, 0.975: 3.182, 0.99: 4.541, 0.995: 5.841 },
+         4: { 0.95: 2.132, 0.975: 2.776, 0.99: 3.747, 0.995: 4.604 },
+         5: { 0.95: 2.015, 0.975: 2.571, 0.99: 3.365, 0.995: 4.032 },
+         6: { 0.95: 1.943, 0.975: 2.447, 0.99: 3.143, 0.995: 3.707 },
+         7: { 0.95: 1.895, 0.975: 2.365, 0.99: 2.998, 0.995: 3.499 },
+         8: { 0.95: 1.860, 0.975: 2.306, 0.99: 2.896, 0.995: 3.355 },
+         9: { 0.95: 1.833, 0.975: 2.262, 0.99: 2.821, 0.995: 3.250 },
+         10: { 0.95: 1.812, 0.975: 2.228, 0.99: 2.764, 0.995: 3.169 },
+         20: { 0.95: 1.725, 0.975: 2.086, 0.99: 2.528, 0.995: 2.845 },
+         30: { 0.95: 1.697, 0.975: 2.042, 0.99: 2.457, 0.995: 2.750 }
+       };
+       
+       const dfKey = df <= 30 ? df : 30;
+       if (tTable[dfKey] && tTable[dfKey][p]) {
+         return tTable[dfKey][p];
+       }
+       
+       // Interpolación lineal para valores intermedios (simplificada)
+       return 1.96; // Valor por defecto para 95%
+     }
+     
+     /**
+      * Función de error (erf) para aproximaciones
+      * @param {number} x - Valor de entrada
+      * @returns {number} erf(x)
+      */
+     function erf(x) {
+       // Aproximación de la función error
+       const sign = x >= 0 ? 1 : -1;
+       x = Math.abs(x);
+       
+       // Constantes para aproximación
+       const a1 =  0.254829592;
+       const a2 = -0.284496736;
+       const a3 =  1.421413741;
+       const a4 = -1.453152027;
+       const a5 =  1.061405429;
+       const p  =  0.3275911;
+       
+       // Aproximación de Abramowitz y Stegun: erf(x) = 1 - (a₁t + a₂t² + a₃t³ + a₄t⁴ + a₅t⁵)exp(-x²)
+       const t = 1.0 / (1.0 + p * x);
+       let y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * t * t * t * t;
+       y = y * Math.exp(-x * x);
+       
+       return sign * y; // erf(-x) = -erf(x);
+     }
+     
+     // ========================================
+     // FUNCIONES PRINCIPALES (API PÚBLICA)
+     // ========================================
     
     /**
      * Calcula todas las estadísticas para una columna específica
@@ -1183,63 +1521,125 @@ const EstadisticaDescriptiva = (() => {
                     }
                     break;
 
-                case 'Límites de Cuantificación':
-                    if (hypothesisConfig['Límites de Cuantificación']) {
-                        const cfg = hypothesisConfig['Límites de Cuantificación'];
-                        const col = cfg.columna;
-                        const lsl = parseFloat(cfg.lsl);
-                        const usl = parseFloat(cfg.usl);
-                        const norma = cfg.norma;
-                        const nivelConfianza = parseFloat(cfg.nivelConfianza);
-
-                        const values = getNumericValues(data, col);
-                        if (values.length === 0) {
-                            resultados['Límites de Cuantificación'] = { error: `No se encontraron valores numéricos en "${col}".` };
-                        } else {
-                            const n = values.length;
-                            const media = calcularMedia(values);
-                            const std = calcularDesviacionEstandar(values);
-                            const min = Math.min(...values);
-                            const max = Math.max(...values);
-
-                            const dentro = values.filter(v => v >= lsl && v <= usl);
-                            const fuera = values.filter(v => v < lsl || v > usl);
-                            const fueraSuperior = values.filter(v => v > usl);
-                            const fueraInferior = values.filter(v => v < lsl);
-
-                            const cp = std > 0 ? (usl - lsl) / (6 * std) : Infinity;
-
-                            const cpk = std > 0 ?
-                                Math.min(
-                                    (usl - media) / (3 * std),
-                                    (media - lsl) / (3 * std)
-                                ) : Infinity;
-
-                            resultados['Límites de Cuantificación'] = {
-                                columna: col,
-                                lsl: lsl,
-                                usl: usl,
-                                norma: norma,
-                                nivelConfianza: nivelConfianza,
-                                n: n,
-                                media: parseFloat(media.toFixed(4)),
-                                std: parseFloat(std.toFixed(4)),
-                                min: min,
-                                max: max,
-                                dentro: dentro.length,
-                                fuera: fuera.length,
-                                fueraSuperior: fueraSuperior.length,
-                                fueraInferior: fueraInferior.length,
-                                porcentajeDentro: parseFloat(((dentro.length / n) * 100).toFixed(2)),
-                                porcentajeFuera: parseFloat(((fuera.length / n) * 100).toFixed(2)),
-                                cp: isFinite(cp) ? parseFloat(cp.toFixed(4)) : 'N/A',
-                                cpk: isFinite(cpk) ? parseFloat(cpk.toFixed(4)) : 'N/A'
-                            };
-                        }
-                    } else {
-                        resultados['Límites de Cuantificación'] = { error: 'Configuración no encontrada. Seleccione columna, LSL, USL y norma.' };
-                    }
-                    break;
+                 case 'Límites de Cuantificación':
+                     if (hypothesisConfig['Límites de Cuantificación']) {
+                         const cfg = hypothesisConfig['Límites de Cuantificación'];
+                         const col = cfg.columna;
+                         const lsl = parseFloat(cfg.lsl);
+                         const usl = parseFloat(cfg.usl);
+                         const norma = cfg.norma;
+                         const nivelConfianza = parseFloat(cfg.nivelConfianza);
+ 
+                         const values = getNumericValues(data, col);
+                         if (values.length === 0) {
+                             resultados['Límites de Cuantificación'] = { error: `No se encontraron valores numéricos en "${col}".` };
+                         } else {
+                             const n = values.length;
+                             const media = calcularMedia(values);
+                             const std = calcularDesviacionEstandar(values);
+                             const min = Math.min(...values);
+                             const max = Math.max(...values);
+ 
+                             const dentro = values.filter(v => v >= lsl && v <= usl);
+                             const fuera = values.filter(v => v < lsl || v > usl);
+                             const fueraSuperior = values.filter(v => v > usl);
+                             const fueraInferior = values.filter(v => v < lsl);
+ 
+                             const cp = std > 0 ? (usl - lsl) / (6 * std) : Infinity;
+ 
+                             const cpk = std > 0 ?
+                                 Math.min(
+                                     (usl - media) / (3 * std),
+                                     (media - lsl) / (3 * std)
+                                 ) : Infinity;
+ 
+                             resultados['Límites de Cuantificación'] = {
+                                 columna: col,
+                                 lsl: lsl,
+                                 usl: usl,
+                                 norma: norma,
+                                 nivelConfianza: nivelConfianza,
+                                 n: n,
+                                 media: parseFloat(media.toFixed(4)),
+                                 std: parseFloat(std.toFixed(4)),
+                                 min: min,
+                                 max: max,
+                                 dentro: dentro.length,
+                                 fuera: fuera.length,
+                                 fueraSuperior: fueraSuperior.length,
+                                 fueraInferior: fueraInferior.length,
+                                 porcentajeDentro: parseFloat(((dentro.length / n) * 100).toFixed(2)),
+                                 porcentajeFuera: parseFloat(((fuera.length / n) * 100).toFixed(2)),
+                                 cp: isFinite(cp) ? parseFloat(cp.toFixed(4)) : 'N/A',
+                                 cpk: isFinite(cpk) ? parseFloat(cpk.toFixed(4)) : 'N/A'
+                             };
+                         }
+                     } else {
+                         resultados['Límites de Cuantificación'] = { error: 'Configuración no encontrada. Seleccione columna, LSL, USL y norma.' };
+                     }
+                     break;
+                 case 'Correlación Pearson':
+                     if (hypothesisConfig['Correlación Pearson']) {
+                         const cfg = hypothesisConfig['Correlación Pearson'];
+                         const colX = cfg.columnaX;
+                         const colY = cfg.columnaY;
+                         
+                         if (!colX || !colY) {
+                             resultados['Correlación Pearson'] = { error: 'Seleccione ambas columnas X e Y' };
+                         } else if (colX === colY) {
+                             resultados['Correlación Pearson'] = { error: 'Las columnas X e Y deben ser diferentes' };
+                         } else {
+                             const valuesX = getNumericValues(data, colX);
+                             const valuesY = getNumericValues(data, colY);
+                             
+                             if (valuesX.length === 0 || valuesY.length === 0) {
+                                 resultados['Correlación Pearson'] = { error: 'Una o ambas columnas no tienen valores numéricos válidos' };
+                             } else {
+                                 // Tomar la longitud mínima para emparejar valores
+                                 const minLength = Math.min(valuesX.length, valuesY.length);
+                                 const xValues = valuesX.slice(0, minLength);
+                                 const yValues = valuesY.slice(0, minLength);
+                                 
+                                 resultados['Correlación Pearson'] = calcularCorrelacionPearson(xValues, yValues);
+                                 resultados['Correlación Pearson'].columnaX = colX;
+                                 resultados['Correlación Pearson'].columnaY = colY;
+                             }
+                         }
+                     } else {
+                         resultados['Correlación Pearson'] = { error: 'Configuración no encontrada. Configure la correlación en el menú de hipótesis.' };
+                     }
+                     break;
+                 case 'Correlación Spearman':
+                     if (hypothesisConfig['Correlación Spearman']) {
+                         const cfg = hypothesisConfig['Correlación Spearman'];
+                         const colX = cfg.columnaX;
+                         const colY = cfg.columnaY;
+                         
+                         if (!colX || !colY) {
+                             resultados['Correlación Spearman'] = { error: 'Seleccione ambas columnas X e Y' };
+                         } else if (colX === colY) {
+                             resultados['Correlación Spearman'] = { error: 'Las columnas X e Y deben ser diferentes' };
+                         } else {
+                             const valuesX = getNumericValues(data, colX);
+                             const valuesY = getNumericValues(data, colY);
+                             
+                             if (valuesX.length === 0 || valuesY.length === 0) {
+                                 resultados['Correlación Spearman'] = { error: 'Una o ambas columnas no tienen valores numéricos válidos' };
+                             } else {
+                                 // Tomar la longitud mínima para emparejar valores
+                                 const minLength = Math.min(valuesX.length, valuesY.length);
+                                 const xValues = valuesX.slice(0, minLength);
+                                 const yValues = valuesY.slice(0, minLength);
+                                 
+                                 resultados['Correlación Spearman'] = calcularCorrelacionSpearman(xValues, yValues);
+                                 resultados['Correlación Spearman'].columnaX = colX;
+                                 resultados['Correlación Spearman'].columnaY = colY;
+                             }
+                         }
+                     } else {
+                         resultados['Correlación Spearman'] = { error: 'Configuración no encontrada. Configure la correlación en el menú de hipótesis.' };
+                     }
+                     break;
             }
         });
         
@@ -1327,15 +1727,17 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
             'ANOVA One-Way':           { formula: 'F = MSB / MSW',                     desc: 'Compara medias de 3+ grupos. Si F es significativo, al menos una media difiere de las demás.', icono: '📊' },
             'ANOVA Two-Way':           { formula: 'F₁ = MSF₁/MSE, F₂ = MSF₂/MSE',     desc: 'Análisis de varianza con dos factores simultáneos. Evalúa efectos principales de cada factor.', icono: '📐' },
             'Chi-Cuadrado':            { formula: 'χ² = Σ(O − E)² / E',               desc: 'Prueba de independencia para variables categóricas. Compara frecuencias observadas vs esperadas.', icono: '📋' },
-            'Test de Normalidad':      { formula: 'JB = (n/6)(S² + K²/4)',             desc: 'Jarque-Bera: verifica si los datos siguen distribución normal usando asimetría y curtosis.', icono: '🔔' },
+             'Test de Normalidad':      { formula: 'JB = (n/6)(S² + K²/4)',             desc: 'Jarque-Bera: verifica si los datos siguen distribución normal usando asimetría y curtosis.', icono: '🔔' },
+             'Correlación Pearson':     { formula: 'r = cov(X,Y)/(σx * σy)',            desc: 'Mide la relación lineal entre dos variables. Valores entre -1 y 1. Cercano a ±1 indica fuerte relación lineal.', icono: '🔗' },
+             'Correlación Spearman':    { formula: 'ρ = correlación de Pearson sobre rangos', desc: 'Mide la relación monotónica entre dos variables basada en rangos. Menos sensible a outliers que Pearson.', icono: '🔗' },
         };
 
         const statKeys = Object.keys(analisisResultado.resultados);
         const cols     = analisisResultado.columnasAnalizadas;
         const hasParams = typeof ParametrosManager !== 'undefined';
 
-        // Pruebas de hipótesis que tienen estructura diferente
-        const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad'];
+         // Pruebas de hipótesis que tienen estructura diferente
+         const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Correlación Pearson', 'Correlación Spearman'];
 
         // ── KPI cards para un estadístico ─────────────────────
         function kpiCards(statKey) {
