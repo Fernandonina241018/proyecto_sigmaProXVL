@@ -2196,11 +2196,21 @@ const EstadisticaDescriptiva = (() => {
                               } else {
                                   const minLength = Math.min(yValues.length, ...xValues.map(arr => arr.length));
                                   const ySlice = yValues.slice(0, minLength);
-                                  const xSlice = xValues.map(arr => arr.slice(0, minLength));
                                   
-                                  resultados['Regresión Lineal Múltiple'] = calcularRegresionMultiple(xSlice, ySlice);
-                                  resultados['Regresión Lineal Múltiple'].columnaY = colY;
-                                  resultados['Regresión Lineal Múltiple'].columnasX = colsX;
+                                  // CORRECCIÓN: Transponer X para que cada array interno sea una observación
+                                  const xTransposed = [];
+                                  for (let i = 0; i < minLength; i++) {
+                                      const row = xValues.map(arr => arr[i]);
+                                      xTransposed.push(row);
+                                  }
+                                  
+                                  if (xTransposed.length !== ySlice.length) {
+                                      resultados['Regresión Lineal Múltiple'] = { error: 'Las dimensiones de X e Y no coinciden: ' + xTransposed.length + ' vs ' + ySlice.length };
+                                  } else {
+                                      resultados['Regresión Lineal Múltiple'] = calcularRegresionMultiple(xTransposed, ySlice);
+                                      resultados['Regresión Lineal Múltiple'].columnaY = colY;
+                                      resultados['Regresión Lineal Múltiple'].columnasX = colsX;
+                                  }
                               }
                           }
                       } else {
@@ -2262,11 +2272,21 @@ const EstadisticaDescriptiva = (() => {
                                   } else {
                                       const minLength = Math.min(yValues.length, ...xValues.map(arr => arr.length));
                                       const ySlice = yValues.slice(0, minLength);
-                                      const xSlice = xValues.map(arr => arr.slice(0, minLength));
                                       
-                                      resultados['Regresión Logística'] = calcularRegresionLogistica(xSlice, ySlice);
-                                      resultados['Regresión Logística'].columnaY = colY;
-                                      resultados['Regresión Logística'].columnasX = colsX;
+                                      // CORRECCIÓN: Transponer X para que cada array interno sea una observación
+                                      const xTransposed = [];
+                                      for (let i = 0; i < minLength; i++) {
+                                          const row = xValues.map(arr => arr[i]);
+                                          xTransposed.push(row);
+                                      }
+                                      
+                                      if (xTransposed.length !== ySlice.length) {
+                                          resultados['Regresión Logística'] = { error: 'Las dimensiones de X e Y no coinciden' };
+                                      } else {
+                                          resultados['Regresión Logística'] = calcularRegresionLogistica(xTransposed, ySlice);
+                                          resultados['Regresión Logística'].columnaY = colY;
+                                          resultados['Regresión Logística'].columnasX = colsX;
+                                      }
                                   }
                               }
                           }
