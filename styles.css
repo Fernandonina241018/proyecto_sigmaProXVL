@@ -2655,6 +2655,8 @@ body {
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 10px;
+    z-index: 9998 !important;
+    position: relative;
 }
 
 .top-nav .logo {
@@ -2846,7 +2848,7 @@ body {
     visibility: hidden;
     transform: translateY(-10px);
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1000;
+    z-index: 9999 !important;
 }
 
 .top-nav .user-dropdown.open {
