@@ -166,11 +166,62 @@ const Auth = (() => {
     }
 
     function _renderParticles() {
-        const c=document.getElementById('auth-particles'); if(!c) return;
-        for(let i=0;i<18;i++){
-            const p=document.createElement('div'); p.className='auth-particle';
-            p.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${2+Math.random()*4}px;height:${2+Math.random()*4}px;opacity:${0.1+Math.random()*0.25};animation-delay:${Math.random()*8}s;animation-duration:${6+Math.random()*6}s;`;
+        const c = document.getElementById('auth-particles');
+        if (!c) return;
+
+        // Símbolos estadísticos
+        const SYMBOLS = ['∑', 'σ', 'μ', 'χ²', 'β', 'α', 'ρ', 'Δ', '∞', 'π', 'φ', 'λ'];
+
+        // Paleta: dorado de la app + azul de la app
+        const COLORS = [
+            'rgba(200, 169, 81,',   // dorado
+            'rgba(102, 126, 234,',  // púrpura/azul app
+            'rgba(255, 255, 255,',  // blanco suave
+        ];
+
+        // ── Partículas circulares (fondo) ──────────────────
+        for (let i = 0; i < 20; i++) {
+            const p       = document.createElement('div');
+            p.className   = 'auth-particle';
+            const size    = 2 + Math.random() * 5;
+            const color   = COLORS[Math.floor(Math.random() * COLORS.length)];
+            const opacity = 0.08 + Math.random() * 0.20;
+            p.style.cssText = `
+                left:               ${Math.random() * 100}%;
+                top:                ${Math.random() * 100}%;
+                width:              ${size}px;
+                height:             ${size}px;
+                background:         ${color}${opacity});
+                animation-delay:    ${Math.random() * 10}s;
+                animation-duration: ${7 + Math.random() * 8}s;
+            `;
             c.appendChild(p);
+        }
+
+        // ── Símbolos estadísticos flotantes ────────────────
+        for (let i = 0; i < 16; i++) {
+            const span     = document.createElement('span');
+            span.className = 'auth-symbol';
+            span.textContent = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
+
+            const size    = 11 + Math.random() * 18;       // 11px – 29px
+            const color   = COLORS[Math.floor(Math.random() * COLORS.length)];
+            const opacity = 0.10 + Math.random() * 0.22;
+            const dur     = 8  + Math.random() * 12;       // 8s – 20s
+            const delay   = Math.random() * 10;
+            const rotDir  = Math.random() > 0.5 ? 1 : -1;  // sentido de rotación
+            const drift   = (Math.random() - 0.5) * 60;    // deriva horizontal ±30px
+
+            span.style.cssText = `
+                left:               ${Math.random() * 100}%;
+                top:                ${100 + Math.random() * 20}%;
+                font-size:          ${size}px;
+                color:              ${color}${opacity});
+                animation:          auth-symbol-float ${dur}s ${delay}s linear infinite;
+                --rot:              ${rotDir * (20 + Math.random() * 40)}deg;
+                --drift:            ${drift}px;
+            `;
+            c.appendChild(span);
         }
     }
 
