@@ -19,6 +19,39 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 2 de Abril 2026 - UI/UX: Mejora de indicadores de carga/spinner
+
+**Cambio:** Modernización de los indicadores de carga (spinners) en toda la aplicación
+- **Archivos:** `styles.css`, `auth.css`, `auth.js`
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- **Spinner general (styles.css):** Actualizado con gradiente, efecto de brillo, animación mejorada y puntos animados en texto
+- **Spinner de auth (auth.css):** Nuevo spinner específico para modal de login, integrado con estados de carga del botón
+- **Lógica en auth.js:** Agregado manejo de mostrar/ocultar spinner durante procesos de login/validación
+
+**Archivos modificados:**
+1. `styles.css` - Spinner general mejorado (líneas 1462-1491)
+2. `auth.css` - Nuevo spinner para login + estados de carga (líneas 548-570)  
+3. `auth.js` - Lógica de mostrar/ocultar spinner durante login (líneas 266-268, 278-281)
+
+**Mejoras visuales:**
+- Animaciones más fluidas con easing personalizado
+- Gradientes de colores modernos (azul → morado)
+- Efectos de brillo y sombra
+- Puntos animados "..." en texto de carga
+- Estado visual claro del botón durante carga
+
+**Experiencia de usuario mejorada:**
+- Feedback visual claro durante operaciones
+- Menor percepción de espera
+- Diseño más moderno y profesional
+- Consistencia visual en toda la aplicación
+
+---
+
+### 2 de Abril 2026 - Seguridad: Parsing CSV robusto con Papa Parse
+
 ### 2 de Abril 2026 - Seguridad: Parsing CSV robusto con Papa Parse
 
 **Cambio:** Implementación de parser CSV robusto usando librería Papa Parse

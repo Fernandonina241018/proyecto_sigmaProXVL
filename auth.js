@@ -120,6 +120,9 @@ const Auth = (() => {
                 </svg>
             </div>
             ${reasonMsg?`<div class="auth-reason-msg">${reasonMsg}</div>`:''}
+            <div class="auth-spinner-container" id="auth-spinner-container">
+                <div class="auth-spinner" id="auth-spinner"></div>
+            </div>
             <div id="auth-form-area">
                 <div class="auth-field">
                     <label class="auth-label" for="auth-user">Usuario</label>
@@ -170,7 +173,7 @@ const Auth = (() => {
         if (!c) return;
 
         // Símbolos estadísticos
-        const SYMBOLS = ['∑', 'σ', 'μ', 'χ²', 'β', 'α', 'ρ', 'Δ', '∞', 'π', 'φ', 'λ', 'ζ', 'η', 'θ', 'κ', 'ν', 'τ', 'ω', '∂', '∇', '∈', '∉', '∪', '∩', '⊕', '⊗', '∀', '∃', '∄', '℃', '℉', '‰', '‱', '€', '£', '¥', '¢', '₽', '₩', '₪', '₫', '₴', '₦', '₱', '₲', '₳', '₵', '₸', '₺', '₼', '₽', '₾', '₿'];
+        const SYMBOLS = ['∑', 'σ', 'μ', 'χ²', 'β', 'α', 'ρ', 'Δ', '∞', 'π', 'φ', 'λ', 'ζ', 'η', 'θ', 'κ', 'ν', 'τ', 'ω', '∂', '∇', '∈', '∉', '∪', '∩', '⊕', '⊗', '∀', '∃', '∄', '℃', '℉', '‰', '‱', '€', '£', '¥', '¢', '₽', '₩', '₪', '₫', '₴', '₦', '₱', '₲', '₳', '₵', '₸', '₺', '₼', '₽', '₾', '₿', '%', '∭', '∮', '∯', '∰', '∱', '∲', '∳', '∴', '∵', '∶', '∷', '∸', '∹', '∺', '∻', '∼', '∽', '∾', '∿'];
 
         // Paleta: dorado de la app + azul de la app
         const COLORS = [
@@ -259,14 +262,20 @@ const Auth = (() => {
 
         if(!user||!pass){
             errorEl.textContent='❌ Completa usuario y contraseña.';
-            errorEl.style.cssText='display:block;';
+            errorEl.style.cssText='display:block';
             return;
         }
 
-        if(btnText) btnText.textContent='Verificando...';
+        // Mostrar indicador de carga
+        const spinnerEl = document.getElementById('auth-spinner');
+        if(spinnerEl) spinnerEl.classList.add('active');
+        if(btnText) btnText.textContent='Iniciando sesión...';
         btn.disabled=true;
 
         const result=await _verifyCredentials(user,pass);
+
+        // Ocultar indicador de carga
+        if(spinnerEl) spinnerEl.classList.remove('active');
 
         if(result.ok){
             _attempts=0;
