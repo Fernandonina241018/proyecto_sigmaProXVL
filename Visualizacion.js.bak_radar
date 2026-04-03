@@ -780,22 +780,10 @@ const Visualizacion = (() => {
                                     <span class="viz-type-icon">📉</span>
                                     <span>Control</span>
                                 </button>
-                                 <button class="viz-type-btn" data-type="dnormal" title="Distribución Normal">
-                                     <span class="viz-type-icon">⌒</span>
-                                     <span>Dist. N.</span>
-                                 </button>
-                                 <button class="viz-type-btn" data-type="heatmap" title="Matriz de Correlación">
-                                     <span class="viz-type-icon">▦</span>
-                                     <span>Correlación</span>
-                                 </button>
-                                 <button class="viz-type-btn" data-type="violin" title="Violin Plot">
-                                     <span class="viz-type-icon">▽</span>
-                                     <span>Violin</span>
-                                 </button>
-                                 <button class="viz-type-btn" data-type="radar" title="Radar Chart">
-                                     <span class="viz-type-icon">⬡</span>
-                                     <span>Radar</span>
-                                 </button>
+                                <button class="viz-type-btn" data-type="dnormal" title="Distribución Normal">
+                                    <span class="viz-type-icon">⌒</span>
+                                    <span>Dist. N.</span>
+                                </button>
                             </div>
                     </div>
 
@@ -988,26 +976,20 @@ const Visualizacion = (() => {
         const labelY = document.getElementById('viz-col-y-label');
         if (!labelX || !labelY) return;
 
-         switch (currentType) {
-             case 'dispersion':
-                 labelX.textContent = 'Columna X (numérica)';
-                 labelY.textContent = 'Columna Y (numérica)';
-                 break;
-             case 'histograma':
-             case 'control':
-             case 'dnormal':
-                 labelX.textContent = 'Columna a analizar';
-                 break;
-             case 'heatmap':
-             case 'violin':
-             case 'radar':
-                 labelX.textContent = 'Selecciona variables';
-                 labelY.textContent = '';
-                 break;
-             default:
-                 labelX.textContent = 'Columna X (categoría / eje)';
-                 labelY.textContent = 'Columna Y (valor numérico)';
-         }
+        switch (currentType) {
+            case 'dispersion':
+                labelX.textContent = 'Columna X (numérica)';
+                labelY.textContent = 'Columna Y (numérica)';
+                break;
+            case 'histograma':
+            case 'control':
+            case 'dnormal':
+                labelX.textContent = 'Columna a analizar';
+                break;
+            default:
+                labelX.textContent = 'Columna X (categoría / eje)';
+                labelY.textContent = 'Columna Y (valor numérico)';
+        }
     }
 
     function updateControlVisibility() {
@@ -1117,35 +1099,12 @@ const Visualizacion = (() => {
                     break;
                 }
 
-                 case 'dnormal': {
-                     if (!colX) { alert('⚠️ Selecciona la columna a analizar.'); return; }
-                     renderDistribucionNormal(data, colX);
-                     mostrarInfo(`Distribución Normal: ${colX} · ${data.rowCount} observaciones`);
-                     break;
-                 }
-                 case 'heatmap': {
-                     const numCols = getNumericColumns(data);
-                     if (numCols.length === 0) { alert('⚠️ No hay columnas numéricas para correlación.'); return; }
-                     renderHeatmap(data, numCols);
-                     mostrarInfo(`Matriz de Correlación: ${numCols.length} variables`);
-                     break;
-                 }
-                 case 'violin': {
-                     const checked = Array.from(document.querySelectorAll('#viz-boxplot-cols input[type="checkbox"]:checked'))
-                         .map(cb => cb.value);
-                     if (checked.length === 0) { alert('⚠️ Selecciona al menos una columna.'); return; }
-                     renderViolin(data, checked);
-                     mostrarInfo(`Violin Plot: ${checked.length} variables`);
-                     break;
-                 }
-                 case 'radar': {
-                     const checked = Array.from(document.querySelectorAll('#viz-boxplot-cols input[type="checkbox"]:checked'))
-                         .map(cb => cb.value);
-                     if (checked.length === 0) { alert('⚠️ Selecciona al menos una columna.'); return; }
-                     renderRadar(data, checked);
-                     mostrarInfo(`Radar Chart: ${checked.length} variables`);
-                     break;
-                 }
+                case 'dnormal': {
+                    if (!colX) { alert('⚠️ Selecciona la columna a analizar.'); return; }
+                    renderDistribucionNormal(data, colX);
+                    mostrarInfo(`Distribución Normal: ${colX} · ${data.rowCount} observaciones`);
+                    break;
+                }
             }
         } catch (err) {
             console.error('Error al generar gráfico:', err);
@@ -1490,22 +1449,12 @@ function _attachExportPanelListeners(predefinidos, controlsPanel) {
                 renderControlChart(data, pred.config.col);
                 break;
 
-             case 'dnormal':
-                 renderDistribucionNormal(data, pred.config.col);
-                 break;
-             case 'heatmap':
-                 const heatmapCols = getNumericColumns(data);
-                 renderHeatmap(data, heatmapCols);
-                 break;
-             case 'violin':
-                 renderViolin(data, pred.config.columnas);
-                 break;
-             case 'radar':
-                 renderRadar(data, pred.config.columnas);
-                 break;
+            case 'dnormal':
+                renderDistribucionNormal(data, pred.config.col);
+                break;
 
-             default:
-                 throw new Error(`Tipo desconocido: ${pred.tipo}`);
+            default:
+                throw new Error(`Tipo desconocido: ${pred.tipo}`);
         }
 
         // Esperar animación de Chart.js (600ms de baseOptions + margen)
@@ -1517,516 +1466,11 @@ function _attachExportPanelListeners(predefinidos, controlsPanel) {
     }
 
     // Getter público para ReporteManager
-     function getGraficosParaReporte() {
-         return [..._graficosParaReporte];
-     }
+    function getGraficosParaReporte() {
+        return [..._graficosParaReporte];
+    }
 
-     // ========================================
-     // NUEVOS TIPOS DE GRÁFICO
-     // ========================================
-
-     /**
-      * Renderiza matriz de correlación (heatmap)
-      */
-     function renderHeatmap(data, columnas) {
-         destroyChart();
-         const canvas = getCanvas();
-         const ctx = canvas.getContext('2d');
-         
-         // Ajustar tamaño del canvas
-         const W = canvas.offsetWidth || 600;
-         const H = canvas.offsetHeight || 400;
-         canvas.width = W;
-         canvas.height = H;
-         
-         // Calcular matriz de correlación
-         const corrMatrix = calcularMatrizCorrelacion(data, columnas);
-         
-         // Configuración de layout
-         const padding = { top: 80, right: 40, bottom: 80, left: 80 };
-         const plotW = W - padding.left - padding.right;
-         const plotH = H - padding.top - padding.bottom;
-         
-         const n = columnas.length;
-         const cellW = plotW / n;
-         const cellH = plotH / n;
-         
-         // Limpiar canvas
-         ctx.clearRect(0, 0, W, H);
-         
-         // Dibujar grid de correlación
-         for (let i = 0; i < n; i++) {
-             for (let j = 0; j < n; j++) {
-                 const valor = corrMatrix[i][j];
-                 
-                 // Color: azul (-1) → blanco (0) → rojo (1)
-                 let r, g, b;
-                 if (valor >= 0) {
-                     // Rojo para correlación positiva
-                     r = Math.floor(255 * valor);
-                     g = Math.floor(255 * (1 - valor));
-                     b = 0;
-                 } else {
-                     // Azul para correlación negativa
-                     r = 0;
-                     g = Math.floor(255 * (1 + valor));
-                     b = Math.floor(255 * (1 + valor));
-                 }
-                 
-                 ctx.fillStyle = `rgb(${r},${g},${b})`;
-                 ctx.fillRect(
-                     padding.left + j * cellW,
-                     padding.top + i * cellH,
-                     cellW,
-                     cellH
-                 );
-                 
-                 // Texto del valor de correlación
-                 ctx.fillStyle = '#000';
-                 ctx.font = '10px "Segoe UI", sans-serif';
-                 ctx.textAlign = 'center';
-                 ctx.textBaseline = 'middle';
-                 ctx.fillText(
-                     valor.toFixed(2),
-                     padding.left + j * cellW + cellW / 2,
-                     padding.top + i * cellH + cellH / 2
-                 );
-             }
-         }
-         
-         // Dibujar etiquetas de ejes
-         ctx.fillStyle = '#333';
-         ctx.font = '11px "Segoe UI", sans-serif';
-         ctx.textAlign = 'center';
-         
-         // Etiquetas X (abajo)
-         columnas.forEach((col, i) => {
-             ctx.save();
-             ctx.translate(
-                 padding.left + i * cellW + cellW / 2,
-                 padding.top + plotH + 20
-             );
-             ctx.rotate(-Math.PI / 4); // 45 grados
-             ctx.fillText(col, 0, 0);
-             ctx.restore();
-         });
-         
-         // Etiquetas Y (izquierda)
-         columnas.forEach((col, i) => {
-             ctx.fillText(
-                 col,
-                 padding.left - 10,
-                 padding.top + i * cellH + cellH / 2 + 4
-             );
-         });
-         
-         // Título
-         ctx.fillStyle = '#222';
-         ctx.font = '14px "Segoe UI", sans-serif';
-         ctx.textAlign = 'center';
-         ctx.fillText('Matriz de Correlación', W / 2, padding.top / 2);
-         
-         chartInstance = null; // No usamos Chart.js para este gráfico
-     }
-
-     /**
-      * Renderiza violin plot
-      */
-     function renderViolin(data, columnas) {
-         destroyChart();
-         const canvas = getCanvas();
-         const ctx = canvas.getContext('2d');
-         
-         // Ajustar tamaño del canvas
-         const W = canvas.offsetWidth || 800;
-         const H = canvas.offsetHeight || 400;
-         canvas.width = W;
-         canvas.height = H;
-         
-         // Preparar datos
-         const datasets = columnas.map(col => getColumnValues(data, col).sort((a, b) => a - b));
-         
-         // Configuración de layout
-         const padding = { top: 60, right: 40, bottom: 60, left: 80 };
-         const plotW = W - padding.left - padding.right;
-         const plotH = H - padding.top - padding.bottom;
-         
-         const n = columnas.length;
-         const slotW = plotW / (n * 2); // Espacio para cada violín + separación
-         
-         // Limpiar canvas
-         ctx.clearRect(0, 0, W, H);
-         
-         // Dibujar grid horizontal
-         ctx.setLineDash([2, 2]);
-         ctx.strokeStyle = 'rgba(0,0,0,0.07)';
-         ctx.lineWidth = 1;
-         for (let i = 0; i <= 5; i++) {
-             const y = padding.top + (plotH / 5) * i;
-             ctx.beginPath();
-             ctx.moveTo(padding.left, y);
-             ctx.lineTo(W - padding.right, y);
-             ctx.stroke();
-         }
-         ctx.setLineDash([]);
-         
-         // Dibujar etiquetas Y
-         ctx.fillStyle = '#777';
-         ctx.font = '11px "Segoe UI", sans-serif';
-         ctx.textAlign = 'right';
-         for (let i = 0; i <= 5; i++) {
-             const valor = getMinMax(datasets).min + (getMinMax(datasets).max - getMinMax(datasets).min) * (i / 5);
-             ctx.fillText(
-                 valor.toFixed(2),
-                 padding.left - 8,
-                 padding.top + (plotH / 5) * i + 4
-             );
-         }
-         
-         // Dibujar cada violín
-         columnas.forEach((col, colIndex) => {
-             const values = datasets[colIndex];
-             if (values.length === 0) return;
-             
-             const centerX = padding.left + slotW * 3 + colIndex * slotW * 2;
-             
-             // Calcular KDE (Kernel Density Estimation) simplificado
-             const kde = calcularKDE(values);
-             
-             // Encontrar máximo para normalizar
-             const maxDensity = Math.max(...kde.densities);
-             
-             // Dibujar forma del violín
-             ctx.beginPath();
-             kde.xValues.forEach((x, i) => {
-                 const density = kde.densities[i];
-                 const width = (density / maxDensity) * slotW * 0.8;
-                 
-                 if (i === 0) {
-                     ctx.moveTo(
-                         centerX - width,
-                         padding.top + (1 - x) * plotH
-                     );
-                 } else {
-                     ctx.lineTo(
-                         centerX - width,
-                         padding.top + (1 - x) * plotH
-                     );
-                 }
-             });
-             
-             // Lado derecho (espejo)
-             for (let i = kde.xValues.length - 1; i >= 0; i--) {
-                 const density = kde.densities[i];
-                 const width = (density / maxDensity) * slotW * 0.8;
-                 
-                 ctx.lineTo(
-                     centerX + width,
-                     padding.top + (1 - kde.xValues[i]) * plotH
-                 );
-             }
-             
-             ctx.closePath();
-             
-             // Estilos del violín
-             ctx.fillStyle = 'rgba(102,126,234,0.2)';
-             ctx.strokeStyle = PALETTE[colIndex % PALETTE.length];
-             ctx.lineWidth = 2;
-             ctx.fill();
-             ctx.stroke();
-             
-             // Dibujar boxplot interno
-             dibujarBoxPlotInterno(ctx, values, centerX, padding.top, plotH);
-             
-             // Etiqueta
-             ctx.fillStyle = '#333';
-             ctx.font = '11px "Segoe UI", sans-serif';
-             ctx.textAlign = 'center';
-             ctx.fillText(col, centerX, padding.top + plotH + 20);
-         });
-         
-         chartInstance = null; // No usamos Chart.js para este gráfico
-     }
-
-     /**
-      * Renderiza radar chart usando Chart.js
-      */
-     function renderRadar(data, columnas) {
-         destroyChart();
-         const canvas = getCanvas();
-         const ctx = canvas.getContext('2d');
-         
-         // Preparar datos para Chart.js
-         const datasets = columnas.map((col, index) => {
-             const values = getColumnValues(data, col);
-             
-             // Normalizar valores a 0-1 para escala consistente
-             const normalized = valoresNormalizados(values);
-             
-             return {
-                 label: col,
-                 data: normalized,
-                 backgroundColor: `rgba(${hexToRgb(PALETTE[index % PALETTE.length].replace('rgba(', '').replace(')', ''))},0.2)`,
-                 borderColor: PALETTE[index % PALETTE.length],
-                 pointBackgroundColor: PALETTE[index % PALETTE.length],
-                 pointBorderColor: '#fff',
-                 pointHoverBackgroundColor: '#fff',
-                 pointHoverBorderColor: PALETTE[index % PALETTE.length]
-             };
-         });
-         
-         const cfg = {
-             type: 'radar',
-             data: {
-                 labels: generarEtiquetasRadar(datasets[0].data.length),
-                 datasets: datasets
-             },
-             options: {
-                 responsive: true,
-                 maintainAspectRatio: false,
-                 animation: { duration: 600, easing: 'easeInOutQuart' },
-                 plugins: {
-                     legend: {
-                         position: 'top',
-                         labels: {
-                             font: { family: "'Segoe UI', sans-serif", size: 12 }
-                         }
-                     },
-                     tooltip: {
-                         backgroundColor: 'rgba(30,30,40,0.92)',
-                         titleFont: { family: "'Segoe UI', sans-serif", size: 12, weight: '600' },
-                         bodyFont: { family: "'Segoe UI', sans-serif", size: 11 }
-                     }
-                 },
-                 scales: {
-                     r: {
-                         angleLines: { color: 'rgba(0,0,0,0.1)' },
-                         grid: { color: 'rgba(0,0,0,0.1)' },
-                         pointLabels: {
-                             font: { family: "'Segoe UI', sans-serif", size: 10 }
-                         },
-                         suggestedMin: 0,
-                         suggestedMax: 1
-                     }
-                 }
-             }
-         };
-         
-         chartInstance = new Chart(ctx, cfg);
-     }
-
-     // ========================================
-     // FUNCIONES AUXILIARES PARA NUEVOS GRÁFICOS
-     // ========================================
-
-     /**
-      * Calcula matriz de correlación de Pearson
-      */
-     function calcularMatrizCorrelacion(data, columnas) {
-         const n = columnas.length;
-         const matrix = Array(n).fill().map(() => Array(n).fill(0));
-         
-         // Para cada par de columnas
-         for (let i = 0; i < n; i++) {
-             for (let j = 0; j < n; j++) {
-                 if (i === j) {
-                     matrix[i][j] = 1; // Correlación de una variable consigo misma
-                 } else if (i < j) {
-                     // Calcular correlación solo una vez y aprovechar simetría
-                     const corr = calcularCorrelacionPearson(
-                         getColumnValues(data, columnas[i]),
-                         getColumnValues(data, columnas[j])
-                     );
-                     matrix[i][j] = corr;
-                     matrix[j][i] = corr; // Simétrica
-                 }
-             }
-         }
-         
-         return matrix;
-     }
-
-     /**
-      * Calcula correlación de Pearson entre dos arrays
-      */
-     function calcularCorrelacionPearson(x, y) {
-         if (x.length !== y.length || x.length === 0) return 0;
-         
-         const n = x.length;
-         let sumX = 0, sumY = 0, sumXY = 0;
-         let sumX2 = 0, sumY2 = 0;
-         
-         for (let i = 0; i < n; i++) {
-             sumX += x[i];
-             sumY += y[i];
-             sumXY += x[i] * y[i];
-             sumX2 += x[i] * x[i];
-             sumY2 += y[i] * y[i];
-         }
-         
-         const numerator = n * sumXY - sumX * sumY;
-         const denominator = Math.sqrt(
-             (n * sumX2 - sumX * sumX) * (n * sumY2 - sumY * sumY)
-         );
-         
-         return denominator === 0 ? 0 : numerator / denominator;
-     }
-
-     /**
-      * Calcula KDE (Kernel Density Estimation) simplificado
-      */
-     function calcularKDE(values) {
-         if (values.length === 0) return { xValues: [], densities: [] };
-         
-         const minVal = Math.min(...values);
-         const maxVal = Math.max(...values);
-         const range = maxVal - minVal;
-         
-         // Número de puntos para la curva
-         const puntos = 100;
-         const xValues = [];
-         const densities = [];
-         
-         for (let i = 0; i < puntos; i++) {
-             const x = minVal + (range * i) / (puntos - 1);
-             xValues.push(x);
-             
-             // Kernel gaussiano
-             let density = 0;
-             const bandwidth = Math.pow(values.length, -1/5) * range; // Regla de Silverman
-             
-             for (let j = 0; j < values.length; j++) {
-                 const diff = (x - values[j]) / bandwidth;
-                 density += Math.exp(-0.5 * diff * diff) / (bandwidth * Math.sqrt(2 * Math.PI));
-             }
-             
-             densities.push(density / values.length);
-         }
-         
-         return { xValues, densities };
-     }
-
-     /**
-      * Obtiene min y max de múltiples datasets
-      */
-     function getMinMax(datasets) {
-         let min = Infinity;
-         let max = -Infinity;
-         
-         datasets.forEach(dataset => {
-             if (dataset.length > 0) {
-                 min = Math.min(min, ...dataset);
-                 max = Math.max(max, ...dataset);
-             }
-         });
-         
-         return { min: isFinite(min) ? min : 0, max: isFinite(max) ? max : 1 };
-     }
-
-     /**
-      * Normaliza un array de valores a 0-1
-      */
-     function valoresNormalizados(values) {
-         if (values.length === 0) return [];
-         
-         const min = Math.min(...values);
-         const max = Math.max(...values);
-         const range = max - min;
-         
-         if (range === 0) return values.map(() => 0.5);
-         
-         return values.map(v => (v - min) / range);
-     }
-
-     /**
-      * Convierte hex a rgb (para colores de Chart.js)
-      */
-     function hexToRgb(hex) {
-         // Asumimos que ya viene en formato rgba desde PALETTE
-         const match = hex.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-         if (match) {
-             return `${match[1]}, ${match[2]}, ${match[3]}`;
-         }
-         return "102, 126, 234"; // fallback
-     }
-
-     /**
-      * Genera etiquetas para radar chart
-      */
-     function generarEtiquetasRadar(longitud) {
-         return Array.from({ length: longitud }, (_, i) => `Valor ${i + 1}`);
-     }
-
-     /**
-      * Dibuja boxplot interno en violin plot
-      */
-     function dibujarBoxPlotInterno(ctx, values, centerX, topY, plotH) {
-         if (values.length === 0) return;
-         
-         const sorted = [...values].sort((a, b) => a - b);
-         const n = sorted.length;
-         
-         const q1 = sorted[Math.floor(n * 0.25)];
-         const med = sorted[Math.floor(n * 0.5)];
-         const q3 = sorted[Math.floor(n * 0.75)];
-         const minVal = sorted[0];
-         const maxVal = sorted[n - 1];
-         
-         // Escalar valores al plot
-         const datasetMin = Math.min(...values);
-         const datasetMax = Math.max(...values);
-         const datasetRange = datasetMax - datasetMin || 1;
-         
-         const toPlotY = (value) => {
-             return topY + plotH - ((value - datasetMin) / datasetRange) * plotH;
-         };
-         
-         const boxWidth = 20;
-         
-         // Dibujar caja
-         ctx.fillStyle = 'rgba(255,255,255,0.8)';
-         ctx.fillRect(
-             centerX - boxWidth / 2,
-             toPlotY(q1),
-             boxWidth,
-             toPlotY(q3) - toPlotY(q1)
-         );
-         
-         // Dibujar mediana
-         ctx.strokeStyle = '#d62828';
-         ctx.lineWidth = 2;
-         ctx.beginPath();
-         ctx.moveTo(centerX - boxWidth / 2, toPlotY(med));
-         ctx.lineTo(centerX + boxWidth / 2, toPlotY(med));
-         ctx.stroke();
-         
-         // Dibujar whiskers
-         ctx.strokeStyle = '#666';
-         ctx.lineWidth = 1;
-         
-         // Whisker inferior
-         ctx.beginPath();
-         ctx.moveTo(centerX, toPlotY(q1));
-         ctx.lineTo(centerX, toPlotY(minVal));
-         ctx.stroke();
-         
-         // Whisker superior
-         ctx.beginPath();
-         ctx.moveTo(centerX, toPlotY(q3));
-         ctx.lineTo(centerX, toPlotY(maxVal));
-         ctx.stroke();
-         
-         // Capillas (ticks)
-         const tickSize = 4;
-         ctx.beginPath();
-         ctx.moveTo(centerX - tickSize, toPlotY(minVal));
-         ctx.lineTo(centerX + tickSize, toPlotY(minVal));
-         ctx.moveTo(centerX - tickSize, toPlotY(maxVal));
-         ctx.lineTo(centerX + tickSize, toPlotY(maxVal));
-         ctx.stroke();
-     }
-
-     return {
+    return {
         buildUI,
         refreshSelects,
         exportarImagen,

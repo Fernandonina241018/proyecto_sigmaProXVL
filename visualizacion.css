@@ -627,6 +627,50 @@
 }
 
 .viz-btn-continue:disabled {
-    opacity: 0.35;
+    opacity: 0.4;
     cursor: not-allowed;
+}
+
+/* ========================================
+   ESTILOS PARA NUEVOS GRÁFICOS
+   ======================================== */
+
+/* Contenedores específicos para nuevos tipos de gráfico */
+.viz-heatmap-info,
+.viz-violin-info,
+.viz-radar-info {
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+/* Tooltip mejorado para heatmap */
+.viz-heatmap-tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 1000;
+    white-space: nowrap;
+}
+
+/* Estilos para violin plot */
+.viz-violin-line {
+    stroke-width: 2;
+    fill: rgba(102,126,234,0.2);
+}
+
+/* Estilos para radar chart */
+.viz-radar-label {
+    font-size: 0.85rem;
+    fill: #333;
 }

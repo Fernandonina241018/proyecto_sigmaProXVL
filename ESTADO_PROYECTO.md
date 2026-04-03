@@ -19,6 +19,29 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 CAMBIOS RECIENTES
 
+### 2 de Abril 2026 - Visualización: Nuevos tipos de gráfico agregados
+
+**Cambio:** Implementación de 3 nuevos tipos de visualización para análisis estadístico avanzado
+- **Archivos:** `Visualizacion.js`, `visualizacion.css`
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- **Heatmap de Correlación:** Muestra matriz de correlación entre variables numéricas con escala de colores (azul=-1, blanco=0, rojo=+1)
+- **Violin Plot:** Combina boxplot con estimación de densidad kernel para mostrar distribución completa de datos
+- **Radar Chart:** Permite comparar múltiples métricas normalizadas en ejes radiales (ideal para perfilesmultidimensionales)
+
+**Archivos modificados:**
+1. `Visualizacion.js` - Agregados renderHeatmap(), renderViolin(), renderRadar() + funciones auxiliares (líneas 1531-2046)
+2. `visualizacion.css` - Estilos para tooltips y contenedores específicos de nuevos gráficos (líneas 621-640)
+
+**Mejoras analíticas:**
+- Análisis de correlación multidimensional
+- Visualización de distribución de datos mejorada vs boxplot tradicional
+- Comparación de perfiles entre múltiples variables
+- Interfaz intuitiva con selección de variables en panel de controls
+
+---
+
 ### 2 de Abril 2026 - UI/UX: Mejora de indicadores de carga/spinner
 
 **Cambio:** Modernización de los indicadores de carga (spinners) en toda la aplicación
