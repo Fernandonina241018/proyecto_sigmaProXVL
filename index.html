@@ -21,17 +21,69 @@
     <div class="app-container">
         <!-- Top Navigation -->
         <nav class="top-nav">
-            <div class="nav-content">
-                <div class="logo">📊 StatAnalyzer XYZ (2.0)</div>
-                <div class="nav-menu">
-                    <div class="nav-item active">Trabajo</div>
-                    <div class="nav-item">Datos</div>
-                    <div class="nav-item">Análisis</div>
-                    <div class="nav-item">Visualización</div>
-                    <div class="nav-item">Reportes</div>
-                    <div class="nav-item" id="nav-auditoria" style="display:none">Auditoría</div>
-                    <div class="nav-item" id="nav-usuarios" style="display:none">Usuarios</div>
+            <div class="logo">
+                <div class="logo-icon">SAP2</div>
+                <span>StatAnalyzer Pro</span>
+            </div>
+            
+            <div class="nav-center">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="Buscar..." id="globalSearch" onkeyup="handleGlobalSearch(event)">
                 </div>
+            </div>
+            
+            <div class="nav-right">
+                <button class="notification-btn" onclick="showNotifications()" title="Notificaciones">
+                    🔔
+                    <span class="notification-badge" id="notifBadge" style="display:none">0</span>
+                </button>
+                
+                <div class="user-menu">
+                    <div class="user-trigger" onclick="toggleUserDropdown()">
+                        <div class="user-avatar" id="userAvatar">FN</div>
+                        <div class="user-info">
+                            <span class="user-name" id="userName">Usuario</span>
+                            <span class="user-role" id="userRole">Usuario</span>
+                        </div>
+                        <span class="user-dropdown-icon">▼</span>
+                    </div>
+                    
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="dropdown-header">
+                            <div class="dropdown-header-name" id="dropdownName">Usuario</div>
+                            <div class="dropdown-header-email" id="dropdownEmail">usuario@sigmapro.com</div>
+                        </div>
+                        <div class="dropdown-item" onclick="abrirModalPerfil()">
+                            <span class="dropdown-item-icon">👤</span>
+                            Mi Perfil
+                        </div>
+                        <div class="dropdown-item">
+                            <span class="dropdown-item-icon">⚙️</span>
+                            Configuración
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item">
+                            <span class="dropdown-item-icon">🔒</span>
+                            Cambiar Contraseña
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item logout" onclick="Auth.logout()">
+                            <span class="dropdown-item-icon">🚪</span>
+                            Cerrar Sesión
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nav-menu">
+                <div class="nav-item active" data-view="trabajo" onclick="switchView('trabajo')"><span class="nav-icon">📋</span>Trabajo</div>
+                <div class="nav-item" data-view="datos" onclick="switchView('datos')"><span class="nav-icon">📊</span>Datos</div>
+                <div class="nav-item" data-view="analisis" onclick="switchView('analisis')"><span class="nav-icon">🔬</span>Análisis</div>
+                <div class="nav-item" data-view="visualizacion" onclick="switchView('visualizacion')"><span class="nav-icon">📈</span>Visualización</div>
+                <div class="nav-item" data-view="reportes" onclick="switchView('reportes')"><span class="nav-icon">📄</span>Reportes</div>
+                <div class="nav-item" data-view="auditoria" id="nav-auditoria" onclick="switchView('auditoria')" style="display:none"><span class="nav-icon">📋</span>Auditoría</div>
+                <div class="nav-item" data-view="usuarios" id="nav-usuarios" onclick="switchView('usuarios')" style="display:none"><span class="nav-icon">👥</span>Usuarios</div>
             </div>
         </nav>
 

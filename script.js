@@ -1052,33 +1052,38 @@ function _initApp() {
 
 // Chip de usuario y botón logout en la barra superior
 function _renderUserChip(username) {
-    const navContent = document.querySelector('.nav-content');
-    if (!navContent) return;
-
-    document.getElementById('auth-user-info')?.remove();
-
-    const initials = username.slice(0, 2).toUpperCase();
-    const chip = document.createElement('div');
-    chip.id = 'auth-user-info';
-    chip.style.cssText = 'display:flex;align-items:center;gap:10px;';
     const session = Auth.getSession();
     const isAdmin = session?.role === 'admin';
-
-    chip.innerHTML = `
-        <div class="auth-user-chip" onclick="abrirModalPerfil()" style="cursor:pointer;">
-            <div class="auth-user-chip-avatar">${escapeHtml(initials)}</div>
-            <span>${escapeHtml(username)}</span>
-            ${isAdmin ? '<span class="auth-admin-chip">Admin</span>' : ''}
-        </div>
-    `;
-
-    // Mostrar pestañas solo para admins
+    const initials = username.slice(0, 2).toUpperCase();
+    
+    // Actualizar avatar
+    const userAvatar = document.getElementById('userAvatar');
+    if (userAvatar) {
+        userAvatar.textContent = initials;
+        userAvatar.classList.toggle('admin', isAdmin);
+    }
+    
+    // Actualizar nombre
+    const userName = document.getElementById('userName');
+    if (userName) userName.textContent = username;
+    
+    // Actualizar rol
+    const userRole = document.getElementById('userRole');
+    if (userRole) userRole.textContent = isAdmin ? 'Administrador' : 'Usuario';
+    
+    // Actualizar dropdown
+    const dropdownName = document.getElementById('dropdownName');
+    if (dropdownName) dropdownName.textContent = username;
+    
+    const dropdownEmail = document.getElementById('dropdownEmail');
+    if (dropdownEmail) dropdownEmail.textContent = session?.email || username + '@sigmapro.com';
+    
+    // Mostrar/ocultar pestañas según rol
     const audTab = document.getElementById('nav-auditoria');
     if (audTab) audTab.style.display = isAdmin ? '' : 'none';
-
+    
     const usrTab = document.getElementById('nav-usuarios');
     if (usrTab) usrTab.style.display = isAdmin ? '' : 'none';
-    navContent.appendChild(chip);
 }
 
 // ========================================
@@ -2571,4 +2576,60 @@ function sincronizarMenuLateral() {
     console.log(`🔄 Menú lateral sincronizado: ${activeStats.length} estadístico(s) activo(s)`);
 }
 
-console.log('✅ script.js cargado');
+// ========================================
+// NUEVO NAVBAR - FUNCIONES
+// ========================================
+
+function toggleUserDropdown() {
+    const trigger = document.querySelector('.top-nav .user-trigger');
+    const dropdown = document.getElementById('userDropdown');
+    if (trigger && dropdown) {
+        trigger.classList.toggle('open');
+        dropdown.classList.toggle('open');
+    }
+}
+
+function handleGlobalSearch(event) {
+    if (event.key === 'Enter') {
+        const query = event.target.value.trim().toLowerCase();
+        if (!query) return;
+        
+        // Buscar en las vistas
+        const views = ['trabajo', 'datos', 'analisis', 'visualizacion', 'reportes'];
+        for (const view of views) {
+            if (query.includes(view)) {
+                switchView(view);
+                return;
+            }
+        }
+        
+        // Si no encuentra vista, buscar en los módulos
+        if (query.includes('dato') || query.includes('import')) {
+            switchView('datos');
+        } else if (query.includes('anális') || query.includes('estadís')) {
+            switchView('analisis');
+        } else if (query.includes('gráfico') || query.includes('visual')) {
+            switchView('visualizacion');
+        } else if (query.includes('report') || query.includes('pdf')) {
+            switchView('reportes');
+        } else {
+            _showToast('No se encontró: ' + query);
+        }
+    }
+}
+
+function showNotifications() {
+    _showToast('📢 No hay notificaciones nuevas');
+}
+
+// Cerrar dropdown al hacer click fuera
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.user-menu')) {
+        const trigger = document.querySelector('.top-nav .user-trigger');
+        const dropdown = document.getElementById('userDropdown');
+        if (trigger) trigger.classList.remove('open');
+        if (dropdown) dropdown.classList.remove('open');
+    }
+});
+
+console.log('✅ script.js cargado - Nuevo navbar integrado');

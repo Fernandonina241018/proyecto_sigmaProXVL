@@ -19,7 +19,7 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 RESUMEN DE IMPLEMENTACIÓN DE ESTADÍSTICOS
 
-### 📊 ESTADÍSTICOS IMPLEMENTADOS (22 de 40)
+### 📊 ESTADÍSTICOS IMPLEMENTADOS (25 de 40)
 
 | # | Categoría | Estadístico | Estado |
 |---|-----------|-------------|--------|
@@ -44,17 +44,17 @@
 | 19 | Correlación | Correlación Pearson | ✅ |
 | 20 | Correlación | Correlación Spearman | ✅ |
 | 21 | Correlación | Regresión Lineal Simple | ✅ |
-| 22 | Especificación | Límites de Cuantificación | ✅ |
+| 22 | Correlación | Regresión Lineal Múltiple | ✅ |
+| 23 | Correlación | Regresión Polinomial | ✅ |
+| 24 | Correlación | Regresión Logística | ✅ |
+| 25 | Especificación | Límites de Cuantificación | ✅ |
 
 ---
 
-### ❌ ESTADÍSTICOS PENDIENTES (18 de 40)
+### ❌ ESTADÍSTICOS PENDIENTES (15 de 40)
 
 | # | Categoría | Estadístico |
 |---|-----------|-------------|
-| 23 | Correlación | Regresión Lineal Múltiple |
-| 24 | Correlación | Regresión Logística |
-| 25 | Correlación | Regresión Polinomial |
 | 26 | No Paramétricos | Mann-Whitney U |
 | 27 | No Paramétricos | Wilcoxon |
 | 28 | No Paramétricos | Kruskal-Wallis |
@@ -97,6 +97,28 @@
 ---
 
 ## 🔧 CAMBIOS RECIENTES
+
+### 3 de Abril 2026 - Regresión Lineal Múltiple, Polinomial y Logística
+
+**Cambio:** Implementación de tres nuevas funciones de regresión
+- **Archivos:** `EstadisticaDescriptiva.js`, `script.js`, `ReporteManager.js`
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- **Regresión Lineal Múltiple:** Y = β₀ + β₁X₁ + ... + βₖXₖ con matriz de coeficientes, R², R² ajustado, error estándar, valores p
+- **Regresión Polinomial:** Y = a₀ + a₁X + a₂X² + ... con grado seleccionable (1-10)
+- **Regresión Logística:** Clasificación binaria con gradient descent, exactitud, precisión, recall, F1
+
+**Archivos modificados:**
+1. `EstadisticaDescriptiva.js` - Funciones calcularRegresionMultiple(), calcularRegresionPolinomial(), calcularRegresionLogistica() + helpers de matriz + cases en ejecutarAnalisis() + KPI cards HTML
+2. `script.js` - Modales de configuración para las 3 regresiones + whitelist actualizada
+3. `ReporteManager.js` - Integración completa para TXT y HTML
+
+**Correcciones aplicadas:**
+- Fix: Transposición correcta de matrices X para regresión múltiple y logística
+- Fix: Math.erf() → función local erf() para compatibilidad con navegadores antiguos
+
+---
 
 ### 2 de Abril 2026 - Estadística: Correlación Pearson, Spearman y Regresión Lineal Simple agregadas
 
