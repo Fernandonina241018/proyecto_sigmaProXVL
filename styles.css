@@ -2657,13 +2657,14 @@ body {
     height: 40px;
     padding: 0 10px;
     border-radius: 10px;
-    background: linear-gradient(135deg, #3046ac 0%, #7c3aed 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 800;
-    font-size: 0.85rem;
+    background: linear-gradient(135deg, #3046ac 0%, #7c3aed 100%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: white !important;
+    font-weight: 800 !important;
+    font-size: 0.85rem !important;
+    font-family: 'Segoe UI', Arial, sans-serif !important;
     box-shadow: 0 4px 12px rgba(48, 70, 172, 0.35);
 }
 
