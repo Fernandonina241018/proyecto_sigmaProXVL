@@ -23,15 +23,39 @@ body {
 }
 
 /* ========================================
-   NAVEGACIÓN SUPERIOR
+   NAVEGACIÓN SUPERIOR (LEGACY - usar .top-nav nuevo)
    ======================================== */
-.top-nav {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    margin: 20px 20px 0;
-    padding: 7px 10px;
+/* Los estilos del navbar antiguo fueron migrados al nuevo diseño */
+/* Ver sección "NUEVO TOP-NAV" líneas 2628+ */
+
+/* .top-nav { */
+/*     background: rgba(255, 255, 255, 0.95); */
+/*     backdrop-filter: blur(10px); */
+/*     margin: 20px 20px 0; */
+/*     padding: 7px 10px; */
+/*     border-radius: 10px; */
+/*     box-shadow: 0 4px 20px rgba(0,0,0,0.1); */
+/* } */
+
+/* .nav-content { */
+/*     display: flex; */
+/*     justify-content: space-between; */
+/*     align-items: center; */
+/* } */
+
+/* .logo - ver .top-nav .logo para el nuevo diseño */
+
+/* .nav-menu - ver .top-nav .nav-menu para el nuevo diseño */
+
+.nav-item {
+    padding: 10px 20px;
+    background: white;
+    border: 2px solid #667eea;
     border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 400;
+    color: #000;
 }
 
 .nav-content {
@@ -2752,6 +2776,8 @@ body {
     flex-grow: 1;
     padding: 0 20px;
 }
+
+.top-nav .nav-right {
     display: flex;
     align-items: center;
     gap: 16px;
