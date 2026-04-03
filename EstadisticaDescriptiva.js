@@ -1254,12 +1254,400 @@ const EstadisticaDescriptiva = (() => {
          significante: pPendiente < 0.05,
          interpretacion: interpretacion,
          n: nVal,
+          predicciones: predicciones.map(p => parseFloat(p.toFixed(4))),
+          residuos: residuos.map(r => parseFloat(r.toFixed(4))),
+          variables: ['X', 'Y']
+        };
+      }
+     
+     /**
+      * Calcula la regresión lineal múltiple (Y = β₀ + β₁X₁ + ... + βₖXₖ)
+      * @param {Array<Array<number>>} X - Matriz de variables independientes
+      * @param {Array<number>} y - Variable dependiente
+      * @returns {Object} Resultados de la regresión múltiple
+      */
+     function calcularRegresionMultiple(X, y) {
+       if (!X || X.length === 0 || X[0].length === 0) {
+         return { error: 'Se necesita una matriz de variables independientes' };
+       }
+       if (X.length !== y.length) {
+         return { error: 'Las dimensiones de X e Y no coinciden' };
+       }
+       if (y.length < X[0].length + 2) {
+         return { error: 'Se necesitan más observaciones que variables independientes' };
+       }
+       
+       const n = y.length;
+       const k = X[0].length; // número de predictores
+       
+       // Preparar datos: añadir columna de 1s para intercepto
+       const XWithIntercept = X.map(row => [1, ...row]);
+       
+       // Transponer X
+       const Xt = transpose(XWithIntercept);
+       
+       // Calcular X'X
+       const XtX = multiplyMatrices(Xt, XWithIntercept);
+       
+       // Calcular X'y
+       const Xty = multiplyMatrixVector(Xt, y);
+       
+       // Invertir X'X usando método de Gauss-Jordan
+       const XtXInv = inverseMatrix(XtX);
+       
+       if (!XtXInv) {
+         return { error: 'La matriz no es invertible (multicolinealidad)' };
+       }
+       
+       // Calcular coeficientes: β = (X'X)⁻¹ X'y
+       const betas = multiplyMatrixVector(XtXInv, Xty);
+       
+       // Predicciones
+       const predicciones = XWithIntercept.map(row => 
+         row.reduce((sum, val, i) => sum + val * betas[i], 0)
+       );
+       
+       // Residuos
+       const residuos = y.map((yi, i) => yi - predicciones[i]);
+       
+       // Calcular estadísticas
+       const mediaY = y.reduce((a, b) => a + b, 0) / n;
+       const SCTotal = y.reduce((sum, yi) => sum + Math.pow(yi - mediaY, 2), 0);
+       const SCResidual = residuos.reduce((sum, r) => sum + r * r, 0);
+       
+       const r2 = SCTotal > 0 ? 1 - SCResidual / SCTotal : 0;
+       const r2Adj = n > k + 1 ? 1 - (SCResidual / (n - k - 1)) / (SCTotal / (n - 1)) : 0;
+       const errorEstandar = Math.sqrt(SCResidual / (n - k - 1));
+       
+       // Error estándar de coeficientes
+       const eeCoef = XtXInv.map(row => Math.sqrt(row[row.length - 1] * SCResidual / (n - k - 1)));
+       
+       // Valores t y p para cada coeficiente
+       const tStats = betas.map((b, i) => eeCoef[i] !== 0 ? b / eeCoef[i] : 0);
+       const pValues = tStats.map(t => 2 * (1 - calcularCDF_T(Math.abs(t), n - k - 1)));
+       
+       // Determinar significancia
+       const coeficientes = betas.map((b, i) => ({
+         valor: parseFloat(b.toFixed(4)),
+         ee: parseFloat(eeCoef[i].toFixed(4)),
+         t: parseFloat(tStats[i].toFixed(4)),
+         p: parseFloat(pValues[i].toFixed(6)),
+         significativo: pValues[i] < 0.05
+       }));
+       
+       // Interpretación general
+       const significativoGlobal = pValues.slice(1).some(p => p < 0.05);
+       const interpretacion = significativoGlobal 
+         ? 'Al menos un predictor es significativo (p < 0.05)'
+         : 'Ningún predictor es significativo (p ≥ 0.05)';
+       
+       return {
+         prueba: 'Regresión Lineal Múltiple',
+         modelo: `Y = β₀ + β₁X₁ + ... + βₖXₖ`,
+         formula: `Y = ${betas.map((b, i) => `${b.toFixed(4)}${i === 0 ? '' : 'X' + i}`).join(' + ')}`,
+         betas: betas.map(b => parseFloat(b.toFixed(4))),
+         coeficientes: coeficientes,
+         r2: parseFloat(r2.toFixed(4)),
+         r2Adj: parseFloat(r2Adj.toFixed(4)),
+         errorEstandar: parseFloat(errorEstandar.toFixed(4)),
+         significante: significativoGlobal,
+         interpretacion: interpretacion,
+         n: n,
+         k: k,
          predicciones: predicciones.map(p => parseFloat(p.toFixed(4))),
-         residuos: residuos.map(r => parseFloat(r.toFixed(4))),
-         variables: ['X', 'Y']
+         residuos: residuos.map(r => parseFloat(r.toFixed(4)))
        };
      }
-      
+     
+     /**
+      * Calcula la regresión polinomial (Y = a₀ + a₁X + a₂X² + ... + aₖXᵏ)
+      * @param {Array<number>} x - Variable independiente
+      * @param {Array<number>} y - Variable dependiente
+      * @param {number} grado - Grado del polinomio
+      * @returns {Object} Resultados de la regresión polinomial
+      */
+     function calcularRegresionPolinomial(x, y, grado) {
+       if (x.length !== y.length || x.length < grado + 2) {
+         return { error: 'Se necesitan al menos ' + (grado + 2) + ' datos para ajuste polinomial' };
+       }
+       
+       const n = x.length;
+       
+       // Crear matriz de diseño con términos polinómicos
+       const X = x.map(xi => {
+         const row = [];
+         for (let i = 0; i <= grado; i++) {
+           row.push(Math.pow(xi, i));
+         }
+         return row;
+       });
+       
+       // Transponer X
+       const Xt = transpose(X);
+       
+       // Calcular X'X
+       const XtX = multiplyMatrices(Xt, X);
+       
+       // Calcular X'y
+       const Xty = multiplyMatrixVector(Xt, y);
+       
+       // Invertir X'X
+       const XtXInv = inverseMatrix(XtX);
+       
+       if (!XtXInv) {
+         return { error: 'La matriz no es invertible' };
+       }
+       
+       // Calcular coeficientes
+       const coefs = multiplyMatrixVector(XtXInv, Xty);
+       
+       // Predicciones
+       const predicciones = x.map(xi => {
+         let pred = 0;
+         for (let i = 0; i <= grado; i++) {
+           pred += coefs[i] * Math.pow(xi, i);
+         }
+         return pred;
+       });
+       
+       // Residuos
+       const residuos = y.map((yi, i) => yi - predicciones[i]);
+       
+       // Estadísticas
+       const mediaY = y.reduce((a, b) => a + b, 0) / n;
+       const SCTotal = y.reduce((sum, yi) => sum + Math.pow(yi - mediaY, 2), 0);
+       const SCResidual = residuos.reduce((sum, r) => sum + r * r, 0);
+       
+       const r2 = SCTotal > 0 ? 1 - SCResidual / SCTotal : 0;
+       const r2Adj = n > grado + 1 ? 1 - (SCResidual / (n - grado - 1)) / (SCTotal / (n - 1)) : 0;
+       const errorEstandar = Math.sqrt(SCResidual / (n - grado - 1));
+       
+       // Formato de coeficientes
+       const coefFormat = coefs.map((c, i) => ({
+         term: i === 0 ? 'a₀ (intercepto)' : `a${i} (X^${i})`,
+         valor: parseFloat(c.toFixed(4))
+       }));
+       
+       // Construir fórmula
+       let formulaStr = 'Y = ';
+       formulaStr += coefs.map((c, i) => {
+         if (i === 0) return c.toFixed(4);
+         return (c >= 0 ? ' + ' : ' - ') + Math.abs(c).toFixed(4) + (i === 1 ? 'X' : 'X^' + i);
+       }).join('');
+       
+       const interpretacion = r2 >= 0.7 
+         ? `El modelo polinomial de grado ${grado} tiene buen ajuste (R² = ${r2.toFixed(4)})`
+         : r2 >= 0.4 
+           ? `El modelo polinomial de grado ${grado} tiene ajuste moderado (R² = ${r2.toFixed(4)})`
+           : `El modelo polinomial de grado ${grado} tiene ajuste débil (R² = ${r2.toFixed(4)})`;
+       
+       return {
+         prueba: 'Regresión Polinomial',
+         modelo: `Y = a₀ + a₁X + a₂X² + ... + a${grado}X^${grado}`,
+         formula: formulaStr,
+         grado: grado,
+         coeficientes: coefFormat,
+         r2: parseFloat(r2.toFixed(4)),
+         r2Adj: parseFloat(r2Adj.toFixed(4)),
+         errorEstandar: parseFloat(errorEstandar.toFixed(4)),
+         significante: r2 > 0.3,
+         interpretacion: interpretacion,
+         n: n,
+         predicciones: predicciones.map(p => parseFloat(p.toFixed(4))),
+         residuos: residuos.map(r => parseFloat(r.toFixed(4)))
+       };
+     }
+     
+     /**
+      * Calcula la regresión logística (clasificación binaria)
+      * @param {Array<Array<number>>} X - Matriz de variables independientes
+      * @param {Array<number>} y - Variable dependiente binaria (0/1)
+      * @returns {Object} Resultados de la regresión logística
+      */
+     function calcularRegresionLogistica(X, y) {
+       if (!X || X.length === 0) {
+         return { error: 'Se necesita una matriz de variables independientes' };
+       }
+       if (X.length !== y.length) {
+         return { error: 'Las dimensiones de X e Y no coinciden' };
+       }
+       
+       const n = y.length;
+       const k = X[0].length;
+       
+       // Verificar que y sea binario
+       const uniqueVals = [...new Set(y)];
+       if (uniqueVals.length !== 2 || !uniqueVals.includes(0) || !uniqueVals.includes(1)) {
+         return { error: 'La variable dependiente debe ser binaria (0 y 1)' };
+       }
+       
+       // Añadir intercepto
+       const XWithIntercept = X.map(row => [1, ...row]);
+       const numParams = k + 1;
+       
+       // Inicializar coeficientes con ceros
+       let betas = new Array(numParams).fill(0);
+       
+       // Optimización usando gradiente descendente
+       const learningRate = 0.01;
+       const maxIter = 1000;
+       const tolerance = 1e-6;
+       
+       for (let iter = 0; iter < maxIter; iter++) {
+         const gradient = new Array(numParams).fill(0);
+         
+         // Calcular gradiente
+         for (let i = 0; i < n; i++) {
+           const xi = XWithIntercept[i];
+           const z = xi.reduce((sum, xj, j) => sum + xj * betas[j], 0);
+           const p = 1 / (1 + Math.exp(-z));
+           const error = y[i] - p;
+           
+           for (let j = 0; j < numParams; j++) {
+             gradient[j] += error * xi[j];
+           }
+         }
+         
+         // Actualizar betas
+         let maxChange = 0;
+         for (let j = 0; j < numParams; j++) {
+           const change = learningRate * gradient[j];
+           betas[j] += change;
+           maxChange = Math.max(maxChange, Math.abs(change));
+         }
+         
+         if (maxChange < tolerance) break;
+       }
+       
+       // Predicciones
+       const predicciones = XWithIntercept.map(xi => {
+         const z = xi.reduce((sum, xj, j) => sum + xj * betas[j], 0);
+         return z >= 0 ? 1 : 0;
+       });
+       
+       // Calcular métricas
+       const vp = y.reduce((sum, yi, i) => sum + (yi === 1 && predicciones[i] === 1 ? 1 : 0), 0);
+       const fp = y.reduce((sum, yi, i) => sum + (yi === 0 && predicciones[i] === 1 ? 1 : 0), 0);
+       const vn = y.reduce((sum, yi, i) => sum + (yi === 0 && predicciones[i] === 0 ? 1 : 0), 0);
+       const fn = y.reduce((sum, yi, i) => sum + (yi === 1 && predicciones[i] === 0 ? 1 : 0), 0);
+       
+       const exactitud = (vp + vn) / n;
+       const precision = vp / (vp + fp) || 0;
+       const recall = vp / (vp + fn) || 0;
+       const f1 = 2 * precision * recall / (precision + recall) || 0;
+       
+       // Odds ratios
+       const oddsRatios = betas.slice(1).map(b => Math.exp(b));
+       
+       const interpretacion = exactitud >= 0.8 
+         ? `Modelo con buena exactitud (${(exactitud * 100).toFixed(1)}%)`
+         : exactitud >= 0.6 
+           ? `Modelo con exactitud moderada (${(exactitud * 100).toFixed(1)}%)`
+           : `Modelo con exactitud baja (${(exactitud * 100).toFixed(1)}%). Considera más datos o predictores.`;
+       
+       return {
+         prueba: 'Regresión Logística',
+         modelo: 'P(Y=1) = 1 / (1 + e^(-z))',
+         formula: `z = ${betas[0].toFixed(4)} + ${betas.slice(1).map((b, i) => `${b.toFixed(4)}X${i+1}`).join(' + ')}`,
+         betas: betas.map(b => parseFloat(b.toFixed(4))),
+         oddsRatios: oddsRatios.map(or => parseFloat(or.toFixed(4))),
+         exactitud: parseFloat(exactitud.toFixed(4)),
+         precision: parseFloat(precision.toFixed(4)),
+         recall: parseFloat(recall.toFixed(4)),
+         f1: parseFloat(f1.toFixed(4)),
+         vp: vp,
+         fp: fp,
+         vn: vn,
+         fn: fn,
+         n: n,
+         k: k,
+         interpretacion: interpretacion,
+         predicciones: predicciones
+       };
+     }
+     
+     // ========================================
+     // FUNCIONES AUXILIARES DE ÁLGEBRA LINEAL
+     // ========================================
+     
+     /**
+      * Multiplica dos matrices
+      */
+     function multiplyMatrices(A, B) {
+       const rowsA = A.length;
+       const colsA = A[0].length;
+       const colsB = B[0].length;
+       
+       const result = new Array(rowsA).fill(0).map(() => new Array(colsB).fill(0));
+       
+       for (let i = 0; i < rowsA; i++) {
+         for (let j = 0; j < colsB; j++) {
+           for (let k = 0; k < colsA; k++) {
+             result[i][j] += A[i][k] * B[k][j];
+           }
+         }
+       }
+       
+       return result;
+     }
+     
+     /**
+      * Multiplica matriz por vector
+      */
+     function multiplyMatrixVector(A, v) {
+       return A.map(row => row.reduce((sum, val, i) => sum + val * v[i], 0));
+     }
+     
+     /**
+      * Transpone una matriz
+      */
+     function transpose(matrix) {
+       return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
+     }
+     
+     /**
+      * Invierte una matriz usando Gauss-Jordan
+      */
+     function inverseMatrix(matrix) {
+       const n = matrix.length;
+       const augmented = matrix.map((row, i) => [...row, ...Array(n).fill(0).map((_, j) => i === j ? 1 : 0)]);
+       
+       for (let i = 0; i < n; i++) {
+         // Buscar pivote
+         let maxRow = i;
+         for (let j = i + 1; j < n; j++) {
+           if (Math.abs(augmented[j][i]) > Math.abs(augmented[maxRow][i])) {
+             maxRow = j;
+           }
+         }
+         
+         if (Math.abs(augmented[maxRow][i]) < 1e-10) {
+           return null; // Matriz singular
+         }
+         
+         // Intercambiar filas
+         [augmented[i], augmented[maxRow]] = [augmented[maxRow], augmented[i]];
+         
+         // Normalizar fila pivote
+         const pivot = augmented[i][i];
+         for (let j = 0; j < 2 * n; j++) {
+           augmented[i][j] /= pivot;
+         }
+         
+         // Eliminar otras filas
+         for (let j = 0; j < n; j++) {
+           if (j !== i) {
+             const factor = augmented[j][i];
+             for (let k = 0; k < 2 * n; k++) {
+               augmented[j][k] -= factor * augmented[i][k];
+             }
+           }
+         }
+       }
+       
+       return augmented.map(row => row.slice(n));
+     }
+       
      // ========================================
      // FUNCIONES PRINCIPALES (API PÚBLICA)
      // ========================================
@@ -1787,10 +2175,105 @@ const EstadisticaDescriptiva = (() => {
                                  resultados['Regresión Lineal Simple'].columnaY = colY;
                              }
                          }
-                     } else {
-                         resultados['Regresión Lineal Simple'] = { error: 'Configure la regresión en el menú de correlación.' };
-                     }
-                     break;
+                      } else {
+                          resultados['Regresión Lineal Simple'] = { error: 'Configure la regresión en el menú de correlación.' };
+                      }
+                      break;
+                  case 'Regresión Lineal Múltiple':
+                      if (hypothesisConfig['Regresión Lineal Múltiple']) {
+                          const cfg = hypothesisConfig['Regresión Lineal Múltiple'];
+                          const colY = cfg.columnaY;
+                          const colsX = cfg.columnasX;
+                          
+                          if (!colY || !colsX || colsX.length === 0) {
+                              resultados['Regresión Lineal Múltiple'] = { error: 'Seleccione variable Y y al menos una X' };
+                          } else {
+                              const yValues = getNumericValues(data, colY);
+                              const xValues = colsX.map(col => getNumericValues(data, col));
+                              
+                              if (yValues.length === 0 || xValues.some(arr => arr.length === 0)) {
+                                  resultados['Regresión Lineal Múltiple'] = { error: 'Una o más columnas no tienen valores numéricos válidos' };
+                              } else {
+                                  const minLength = Math.min(yValues.length, ...xValues.map(arr => arr.length));
+                                  const ySlice = yValues.slice(0, minLength);
+                                  const xSlice = xValues.map(arr => arr.slice(0, minLength));
+                                  
+                                  resultados['Regresión Lineal Múltiple'] = calcularRegresionMultiple(xSlice, ySlice);
+                                  resultados['Regresión Lineal Múltiple'].columnaY = colY;
+                                  resultados['Regresión Lineal Múltiple'].columnasX = colsX;
+                              }
+                          }
+                      } else {
+                          resultados['Regresión Lineal Múltiple'] = { error: 'Configure la regresión múltiple en el menú.' };
+                      }
+                      break;
+                  case 'Regresión Polinomial':
+                      if (hypothesisConfig['Regresión Polinomial']) {
+                          const cfg = hypothesisConfig['Regresión Polinomial'];
+                          const colX = cfg.columnaX;
+                          const colY = cfg.columnaY;
+                          const grado = cfg.grado || 2;
+                          
+                          if (!colX || !colY) {
+                              resultados['Regresión Polinomial'] = { error: 'Seleccione columnas X e Y' };
+                          } else if (colX === colY) {
+                              resultados['Regresión Polinomial'] = { error: 'Las columnas X e Y deben ser diferentes' };
+                          } else {
+                              const valuesX = getNumericValues(data, colX);
+                              const valuesY = getNumericValues(data, colY);
+                              
+                              if (valuesX.length === 0 || valuesY.length === 0) {
+                                  resultados['Regresión Polinomial'] = { error: 'Una o ambas columnas no tienen valores numéricos válidos' };
+                              } else {
+                                  const minLength = Math.min(valuesX.length, valuesY.length);
+                                  const xValues = valuesX.slice(0, minLength);
+                                  const yValues = valuesY.slice(0, minLength);
+                                  
+                                  resultados['Regresión Polinomial'] = calcularRegresionPolinomial(xValues, yValues, grado);
+                                  resultados['Regresión Polinomial'].columnaX = colX;
+                                  resultados['Regresión Polinomial'].columnaY = colY;
+                              }
+                          }
+                      } else {
+                          resultados['Regresión Polinomial'] = { error: 'Configure la regresión polinomial en el menú.' };
+                      }
+                      break;
+                  case 'Regresión Logística':
+                      if (hypothesisConfig['Regresión Logística']) {
+                          const cfg = hypothesisConfig['Regresión Logística'];
+                          const colY = cfg.columnaY;
+                          const colsX = cfg.columnasX;
+                          
+                          if (!colY || !colsX || colsX.length === 0) {
+                              resultados['Regresión Logística'] = { error: 'Seleccione variable Y y al menos una X' };
+                          } else {
+                              const yValues = getNumericValues(data, colY);
+                              const xValues = colsX.map(col => getNumericValues(data, col));
+                              
+                              if (yValues.length === 0 || xValues.some(arr => arr.length === 0)) {
+                                  resultados['Regresión Logística'] = { error: 'Una o más columnas no tienen valores numéricos válidos' };
+                              } else {
+                                  // Verificar que Y sea binario
+                                  const uniqueY = [...new Set(yValues)];
+                                  const isBinary = uniqueY.length === 2 && uniqueY.includes(0) && uniqueY.includes(1);
+                                  
+                                  if (!isBinary) {
+                                      resultados['Regresión Logística'] = { error: 'La variable Y debe ser binaria (solo 0 y 1)' };
+                                  } else {
+                                      const minLength = Math.min(yValues.length, ...xValues.map(arr => arr.length));
+                                      const ySlice = yValues.slice(0, minLength);
+                                      const xSlice = xValues.map(arr => arr.slice(0, minLength));
+                                      
+                                      resultados['Regresión Logística'] = calcularRegresionLogistica(xSlice, ySlice);
+                                      resultados['Regresión Logística'].columnaY = colY;
+                                      resultados['Regresión Logística'].columnasX = colsX;
+                                  }
+                              }
+                          }
+                      } else {
+                          resultados['Regresión Logística'] = { error: 'Configure la regresión logística en el menú.' };
+                      }
+                      break;
              }
         });
         
@@ -1882,6 +2365,9 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
              'Correlación Pearson':     { formula: 'r = cov(X,Y)/(σx * σy)',            desc: 'Mide la relación lineal entre dos variables. Valores entre -1 y 1. Cercano a ±1 indica fuerte relación lineal.', icono: '🔗' },
              'Correlación Spearman':    { formula: 'ρ = correlación de Pearson sobre rangos', desc: 'Mide la relación monotónica entre dos variables basada en rangos. Menos sensible a outliers que Pearson.', icono: '🔗' },
              'Regresión Lineal Simple': { formula: 'Y = a + bX', desc: 'Modelo predictivo lineal simple. Estima la variable dependiente Y a partir de una variable independiente X usando mínimos cuadrados.', icono: '📈' },
+             'Regresión Lineal Múltiple': { formula: 'Y = β₀ + β₁X₁ + ... + βₖXₖ', desc: 'Modelo con múltiples predictores. Estima Y usando múltiples variables independientes simultáneamente.', icono: '📊' },
+             'Regresión Polinomial': { formula: 'Y = a₀ + a₁X + a₂X² + ...', desc: 'Modelo de regresión no lineal que ajusta un polinomio de grado especificado a los datos.', icono: '📈' },
+             'Regresión Logística': { formula: 'P = 1/(1+e^(-z))', desc: 'Modelo de clasificación binaria. Estima la probabilidad de pertenencia a una clase (0/1).', icono: '🔐' },
         };
 
         const statKeys = Object.keys(analisisResultado.resultados);
@@ -1889,7 +2375,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         const hasParams = typeof ParametrosManager !== 'undefined';
 
          // Pruebas de hipótesis que tienen estructura diferente
-         const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple'];
+         const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística'];
 
         // ── KPI cards para un estadístico ─────────────────────
         function kpiCards(statKey) {
@@ -2205,6 +2691,88 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                         <span class="ar-formula-icon">📐</span>
                         <div>
                             <div class="ar-formula-eq">${data.formula || `Y = ${data.a} + ${data.b}X`}</div>
+                            <div class="ar-formula-desc">${data.interpretacion || ''}</div>
+                        </div>
+                    </div>`;
+            }
+
+            // Manejar Regresión Lineal Múltiple
+            if (statKey === 'Regresión Lineal Múltiple') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                const coefRows = data.coeficientes ? data.coeficientes.map(c => 
+                    `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${c.valor !== undefined ? 'β' + data.coeficientes.indexOf(c) : ''}</span><span class="ar-kpi-sub-v">${c.valor?.toFixed(4) ?? '—'}</span></div>`
+                ).join('') : '';
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">📊 Y = f(${data.columnasX?.join(', ') || 'X₁,...,Xₖ'})</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R² Ajustado</span><span class="ar-kpi-sub-v">${data.r2Adj ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Error Estándar</span><span class="ar-kpi-sub-v">${data.errorEstandar ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Predictores (k)</span><span class="ar-kpi-sub-v">${data.k ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">
+                            ${data.significante ? '★Modelo significativo' : '✓Modelo no significativo'}
+                        </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">📐</span>
+                        <div>
+                            <div class="ar-formula-eq">${data.formula || data.modelo || ''}</div>
+                            <div class="ar-formula-desc">${data.interpretacion || ''}</div>
+                        </div>
+                    </div>`;
+            }
+
+            // Manejar Regresión Polinomial
+            if (statKey === 'Regresión Polinomial') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">📈 Y = f(${data.columnaX || 'X'}) - Grado ${data.grado || 2}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R² Ajustado</span><span class="ar-kpi-sub-v">${data.r2Adj ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Error Estándar</span><span class="ar-kpi-sub-v">${data.errorEstandar ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grado</span><span class="ar-kpi-sub-v">${data.grado ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">
+                            ${data.significante ? '★Modelo significativo' : '✓Modelo no significativo'}
+                        </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">📐</span>
+                        <div>
+                            <div class="ar-formula-eq">${data.formula || data.modelo || ''}</div>
+                            <div class="ar-formula-desc">${data.interpretacion || ''}</div>
+                        </div>
+                    </div>`;
+            }
+
+            // Manejar Regresión Logística
+            if (statKey === 'Regresión Logística') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">🔐 Clasificación: Y = f(${data.columnasX?.join(', ') || 'X₁,...,Xₖ'})</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Exactitud</span><span class="ar-kpi-sub-v">${((data.exactitud || 0) * 100).toFixed(1)}%</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Precisión</span><span class="ar-kpi-sub-v">${((data.precision || 0) * 100).toFixed(1)}%</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Recall</span><span class="ar-kpi-sub-v">${((data.recall || 0) * 100).toFixed(1)}%</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">F1-Score</span><span class="ar-kpi-sub-v">${((data.f1 || 0) * 100).toFixed(1)}%</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">VP/FP/VN/FN</span><span class="ar-kpi-sub-v">${data.vp}/${data.fp}/${data.vn}/${data.fn}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${data.exactitud >= 0.7 ? 'ar-badge-ok' : 'ar-badge-warn'}">
+                            ${data.exactitud >= 0.8 ? '✓Excelente' : data.exactitud >= 0.6 ? '⚠Aceptable' : '✗Bajo'}
+                        </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">📐</span>
+                        <div>
+                            <div class="ar-formula-eq">${data.formula || data.modelo || ''}</div>
                             <div class="ar-formula-desc">${data.interpretacion || ''}</div>
                         </div>
                     </div>`;

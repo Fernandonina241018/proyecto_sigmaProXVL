@@ -495,7 +495,7 @@ const ReporteManager = (() => {
             p(`  └${'─'.repeat(W-4)}┘`);
             p(`  ${pad(t('statistic'),28)}${pad(t('value'),18)}${t('reference')}`);
             p(`  ${singleLine(W-4)}`);
-            const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple'];
+            const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística'];
             Object.entries(resultados.resultados).forEach(([stat,data])=>{
                 if (hypothesisTests.includes(stat)) return;
                 // Skip hypothesisTests, handled separately
@@ -531,7 +531,7 @@ const ReporteManager = (() => {
         });
         
         // ── Pruebas de Hipótesis ──
-        const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple'];
+        const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística'];
         const hypResults = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.includes(stat));
         if (hypResults.length > 0) {
             p(singleLine(W)); p(`  ${lang === 'es' ? 'PRUEBAS DE HIPÓTESIS Y ESPECIFICACIÓN' : 'HYPOTHESIS AND SPECIFICATION TESTS'} (α = 0.05)`); p(singleLine(W));
@@ -616,6 +616,41 @@ const ReporteManager = (() => {
                         p(`    n = ${data.n} | ${data.significante ? '★ Modelo significativo' : '✓ Modelo no significativo'}`);
                         p(`    Interpretación: ${data.interpretacion}`);
                     }
+                } else if (stat === 'Regresión Lineal Múltiple') {
+                    if (data.error) {
+                        p(`  ${stat}: ERROR - ${data.error}`);
+                    } else {
+                        p(`  ${stat} (Y = ${data.columnaY}, X = [${data.columnasX?.join(', ')}])`);
+                        p(`    R² = ${fmtNum(data.r2)} | R² ajustado = ${fmtNum(data.r2Adj)}`);
+                        p(`    Error estándar = ${fmtNum(data.errorEstandar)}`);
+                        p(`    Predictores = ${data.k} | Observaciones = ${data.n}`);
+                        p(`    Coeficientes: ${data.betas?.join(', ') || 'N/A'}`);
+                        p(`    ${data.significante ? '★ Al menos un predictor significativo' : '✓ Ningún predictor significativo'}`);
+                        p(`    Interpretación: ${data.interpretacion}`);
+                    }
+                } else if (stat === 'Regresión Polinomial') {
+                    if (data.error) {
+                        p(`  ${stat}: ERROR - ${data.error}`);
+                    } else {
+                        p(`  ${stat} (${data.columnaX} → ${data.columnaY}, grado ${data.grado})`);
+                        p(`    Modelo: ${data.formula}`);
+                        p(`    R² = ${fmtNum(data.r2)} | R² ajustado = ${fmtNum(data.r2Adj)}`);
+                        p(`    Error estándar = ${fmtNum(data.errorEstandar)}`);
+                        p(`    Observaciones = ${data.n} | Grado = ${data.grado}`);
+                        p(`    ${data.significante ? '★ Modelo significativo' : '✓ Modelo no significativo'}`);
+                        p(`    Interpretación: ${data.interpretacion}`);
+                    }
+                } else if (stat === 'Regresión Logística') {
+                    if (data.error) {
+                        p(`  ${stat}: ERROR - ${data.error}`);
+                    } else {
+                        p(`  ${stat} (Y = ${data.columnaY}, X = [${data.columnasX?.join(', ')}])`);
+                        p(`    Exactitud = ${fmtNum(data.exactitud * 100)}% | Precisión = ${fmtNum(data.precision * 100)}%`);
+                        p(`    Recall = ${fmtNum(data.recall * 100)}% | F1 = ${fmtNum(data.f1 * 100)}%`);
+                        p(`    VP=${data.vp} FP=${data.fp} VN=${data.vn} FN=${data.fn}`);
+                        p(`    Variables = ${data.k} | Observaciones = ${data.n}`);
+                        p(`    Interpretación: ${data.interpretacion}`);
+                    }
                 }
                 p('');
             });
@@ -697,6 +732,21 @@ const ReporteManager = (() => {
             name: lang === 'es' ? 'Regresión Lineal Simple' : 'Simple Linear Regression',
             desc: lang === 'es' ? 'Modelo predictivo Y = a + bX' : 'Predictive model Y = a + bX',
             formula: 'Y = a + bX'
+          },
+          'Regresión Lineal Múltiple': {
+            name: lang === 'es' ? 'Regresión Lineal Múltiple' : 'Multiple Linear Regression',
+            desc: lang === 'es' ? 'Modelo con múltiples predictores' : 'Model with multiple predictors',
+            formula: 'Y = β₀ + β₁X₁ + ... + βₖXₖ'
+          },
+          'Regresión Polinomial': {
+            name: lang === 'es' ? 'Regresión Polinomial' : 'Polynomial Regression',
+            desc: lang === 'es' ? 'Modelo de ajuste polinomial' : 'Polynomial curve fitting model',
+            formula: 'Y = a₀ + a₁X + a₂X² + ...'
+          },
+          'Regresión Logística': {
+            name: lang === 'es' ? 'Regresión Logística' : 'Logistic Regression',
+            desc: lang === 'es' ? 'Clasificación binaria' : 'Binary classification',
+            formula: 'P = 1/(1+e^(-z))'
           }
         };
         const usedTxtStats = resultados.estadisticos || [];
@@ -787,7 +837,7 @@ const ReporteManager = (() => {
 
         function statsRows(col){
             const refs=t('statRefs'); let h='';
-            const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple'];
+            const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística'];
             Object.entries(resultados.resultados).forEach(([stat,data])=>{
                 if (hypothesisTests.includes(stat)) return; // Skip hypothesis tests - shown separately
                 const val=data[col]; if(val===undefined)return;
@@ -1089,6 +1139,21 @@ tr:hover td{background:#f7faff}
             title: lang === 'es' ? 'Regresión Lineal Simple' : 'Simple Linear Regression',
             desc: lang === 'es' ? 'Modelo predictivo que estima la variable dependiente Y a partir de una variable independiente X mediante mínimos cuadrados.' : 'Predictive model that estimates dependent variable Y from independent variable X using least squares.',
             formula: 'Y = a + bX'
+          },
+          'Regresión Lineal Múltiple': {
+            title: lang === 'es' ? 'Regresión Lineal Múltiple' : 'Multiple Linear Regression',
+            desc: lang === 'es' ? 'Modelo con múltiples variables independientes que predice Y usando mínimos cuadrados.' : 'Model with multiple independent variables that predicts Y using least squares.',
+            formula: 'Y = β₀ + β₁X₁ + ... + βₖXₖ'
+          },
+          'Regresión Polinomial': {
+            title: lang === 'es' ? 'Regresión Polinomial' : 'Polynomial Regression',
+            desc: lang === 'es' ? 'Ajusta un polinomio de grado especificado a los datos para capturar relaciones no lineales.' : 'Fits a polynomial of specified degree to data to capture non-linear relationships.',
+            formula: 'Y = a₀ + a₁X + a₂X² + ...'
+          },
+          'Regresión Logística': {
+            title: lang === 'es' ? 'Regresión Logística' : 'Logistic Regression',
+            desc: lang === 'es' ? 'Modelo de clasificación binaria que estima la probabilidad de pertenencia a una clase.' : 'Binary classification model that estimates probability of class membership.',
+            formula: 'P = 1/(1+e^(-z))'
           }
         };
         
@@ -1106,7 +1171,7 @@ tr:hover td{background:#f7faff}
     </div>
   </div>
   ${(() => {
-      const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple'];
+      const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística'];
       const hypResults = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.includes(stat));
       if (hypResults.length === 0) return '';
 
@@ -1152,6 +1217,24 @@ tr:hover td{background:#f7faff}
                   content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
               } else {
                   content = `<tr><td>${stat} (${data.columnaX} → ${data.columnaY})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">R²=${fmtNum(data.r2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.pPendiente)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
+              }
+          } else if (stat === 'Regresión Lineal Múltiple') {
+              if (data.error) {
+                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+              } else {
+                  content = `<tr><td>${stat} (${data.columnasX?.join(', ')})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">R²=${fmtNum(data.r2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">k=${data.k}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
+              }
+          } else if (stat === 'Regresión Polinomial') {
+              if (data.error) {
+                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+              } else {
+                  content = `<tr><td>${stat} (grado ${data.grado})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">R²=${fmtNum(data.r2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">g=${data.grado}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
+              }
+          } else if (stat === 'Regresión Logística') {
+              if (data.error) {
+                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+              } else {
+                  content = `<tr><td>${stat}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">ACC=${fmtNum(data.exactitud*100)}%</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">F1=${fmtNum(data.f1*100)}%</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.exactitud >= 0.7 ? 'background:#c6f6d5;color:#276749' : 'background:#fefcbf;color:#b7791f'}">${data.exactitud >= 0.8 ? '✓Excelente' : data.exactitud >= 0.6 ? '⚠Aceptable' : '✗Bajo'}</span></td></tr>`;
               }
           }
           return content;

@@ -216,7 +216,7 @@ document.querySelectorAll('.menu-option').forEach(option => {
         const statName = this.textContent.trim();
 
         // Pruebas de hipótesis que requieren configuración de grupos
-        const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple'];
+        const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística'];
         
         if (this.classList.contains('selected')) {
             this.classList.remove('selected');
@@ -631,7 +631,10 @@ function ejecutarAnalisis() {
          'Límites de Cuantificación',
          'Correlación Pearson',
          'Correlación Spearman',
-         'Regresión Lineal Simple'
+         'Regresión Lineal Simple',
+         'Regresión Lineal Múltiple',
+         'Regresión Polinomial',
+         'Regresión Logística'
      ];
 
     const noImplementados = activeStats.filter(stat => !estadisticosDescriptivos.includes(stat));
@@ -1596,7 +1599,7 @@ function applyStatSelection() {
     const newActive = currentActive.filter(stat => !section.options.includes(stat));
     
      // Identificar qué pruebas requieren configuración de columnas
-     const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple'];
+     const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística'];
      const statsQueNecesitanConfig = [];
      const statsNormales = [];
     
@@ -1684,7 +1687,10 @@ function mostrarModalConfiguracionHypothesis(statName) {
         'Límites de Cuantificación': { title: '📐 Configurar Límites de Cuantificación', catCols: 0, numCols: 1, catLabel: null, numLabel: 'Columna a analizar', extraFields: ['lsl', 'usl', 'norma', 'nivelConfianza'] },
         'Correlación Pearson': { title: '🔗 Configurar Correlación de Pearson', customFunc: 'abrirModalConfigCorrelacion' },
         'Correlación Spearman': { title: '🔗 Configurar Correlación de Spearman', customFunc: 'abrirModalConfigCorrelacion' },
-        'Regresión Lineal Simple': { title: '📈 Configurar Regresión Lineal Simple', customFunc: 'abrirModalConfigRegresion' }
+        'Regresión Lineal Simple': { title: '📈 Configurar Regresión Lineal Simple', customFunc: 'abrirModalConfigRegresion' },
+        'Regresión Lineal Múltiple': { title: '📊 Configurar Regresión Lineal Múltiple', customFunc: 'abrirModalConfigRegresionMultiple' },
+        'Regresión Polinomial': { title: '📈 Configurar Regresión Polinomial', customFunc: 'abrirModalConfigRegresionPolinomial' },
+        'Regresión Logística': { title: '🔐 Configurar Regresión Logística', customFunc: 'abrirModalConfigRegresionLogistica' }
     };
     
     const config = configs[statName];
@@ -2100,6 +2106,308 @@ function abrirModalConfigRegresion(imported) {
         });
 
         _showToast(`✅ Regresión Lineal Simple configurado: Y = f(${colX})`);
+        modal.remove();
+        return true;
+    };
+
+    return true;
+}
+
+// ========================================
+// MODAL DE CONFIGURACIÓN REGRESIÓN LINEAL MÚLTIPLE
+// ========================================
+function abrirModalConfigRegresionMultiple(imported) {
+    document.getElementById('regresion-multiple-modal')?.remove();
+    document.getElementById('correlacion-config-modal')?.remove();
+    document.getElementById('regresion-config-modal')?.remove();
+
+    const numericCols = imported.headers.filter(col => {
+        const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
+        const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
+        return numericCount / values.length > 0.5;
+    });
+
+    if (numericCols.length < 2) {
+        _showToast('⚠️ Se necesitan al menos 2 columnas numéricas', true);
+        return false;
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'regresion-multiple-modal';
+    modal.innerHTML = `
+        <div class="dm-modal-overlay" id="rm-multiple-overlay"></div>
+        <div class="dm-modal-card" style="width: min(550px, 96vw);">
+            <div class="dm-modal-header">
+                <h3>📊 Configurar Regresión Lineal Múltiple</h3>
+                <button class="dm-modal-close" id="rm-multiple-close">✕</button>
+            </div>
+            <div class="dm-modal-body">
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📊 Variable Dependiente (Y)</label>
+                    <select id="rm-multiple-y" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📈 Variables Independientes (X) - Selecciona múltiplas</label>
+                    <div style="max-height:150px;overflow-y:auto;border:1.5px solid #ddd;border-radius:6px;padding:8px;">
+                        ${numericCols.map(col => `
+                            <div style="display:flex;align-items:center;margin:4px 0;">
+                                <input type="checkbox" id="rm-multiple-x-${col.replace(/\s/g,'_')}" value="${escapeHtml(col)}" style="margin-right:8px;">
+                                <label for="rm-multiple-x-${col.replace(/\s/g,'_')}">${escapeHtml(col)}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <p style="font-size:0.75rem;color:#666;margin-bottom:0;">
+                    💡 Selecciona 1 variable Y (dependiente) y al menos 1 variable X (independiente)
+                </p>
+            </div>
+            <div class="dm-modal-footer">
+                <button class="btn-secondary" id="rm-multiple-cancel">Cancelar</button>
+                <button class="btn-primary" id="rm-multiple-confirm">✅ Confirmar</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    document.getElementById('rm-multiple-close').onclick = () => modal.remove();
+    document.getElementById('rm-multiple-overlay').onclick = () => modal.remove();
+    document.getElementById('rm-multiple-cancel').onclick = () => modal.remove();
+
+    document.getElementById('rm-multiple-confirm').onclick = () => {
+        const colY = document.getElementById('rm-multiple-y')?.value;
+        const checkedX = Array.from(document.querySelectorAll('#regresion-multiple-modal input[type="checkbox"]:checked')).map(cb => cb.value);
+
+        if (!colY) {
+            _showToast('⚠️ Selecciona la variable Y', true);
+            return;
+        }
+        if (checkedX.length === 0) {
+            _showToast('⚠️ Selecciona al menos una variable X', true);
+            return;
+        }
+        if (checkedX.includes(colY)) {
+            _showToast('⚠️ La variable Y no puede estar en las X', true);
+            return;
+        }
+
+        StateManager.setHypothesisConfig('Regresión Lineal Múltiple', {
+            columnaY: colY,
+            columnasX: checkedX,
+            timestamp: Date.now()
+        });
+        StateManager.addActiveStat('Regresión Lineal Múltiple');
+
+        document.querySelectorAll('.menu-option').forEach(opt => {
+            if (opt.textContent.trim() === 'Regresión Lineal Múltiple') {
+                opt.classList.add('selected');
+            }
+        });
+
+        _showToast(`✅ Regresión Múltiple: Y=${colY}, X=[${checkedX.join(',')}]`);
+        modal.remove();
+        return true;
+    };
+
+    return true;
+}
+
+// ========================================
+// MODAL DE CONFIGURACIÓN REGRESIÓN POLINOMIAL
+// ========================================
+function abrirModalConfigRegresionPolinomial(imported) {
+    document.getElementById('regresion-poly-modal')?.remove();
+
+    const numericCols = imported.headers.filter(col => {
+        const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
+        const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
+        return numericCount / values.length > 0.5;
+    });
+
+    if (numericCols.length < 2) {
+        _showToast('⚠️ Se necesitan al menos 2 columnas numéricas', true);
+        return false;
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'regresion-poly-modal';
+    modal.innerHTML = `
+        <div class="dm-modal-overlay" id="rm-poly-overlay"></div>
+        <div class="dm-modal-card" style="width: min(500px, 96vw);">
+            <div class="dm-modal-header">
+                <h3>📈 Configurar Regresión Polinomial</h3>
+                <button class="dm-modal-close" id="rm-poly-close">✕</button>
+            </div>
+            <div class="dm-modal-body">
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📊 Variable Independiente (X)</label>
+                    <select id="rm-poly-x" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📊 Variable Dependiente (Y)</label>
+                    <select id="rm-poly-y" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>🔢 Grado del Polinomio (1-5)</label>
+                    <select id="rm-poly-grado" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        <option value="2">Grado 2 (cuadrática)</option>
+                        <option value="3">Grado 3 (cúbica)</option>
+                        <option value="4">Grado 4</option>
+                        <option value="5">Grado 5</option>
+                    </select>
+                </div>
+                <p style="font-size:0.75rem;color:#666;margin-bottom:0;">
+                    💡 Selecciona X (independiente), Y (dependiente) y el grado del polinomio
+                </p>
+            </div>
+            <div class="dm-modal-footer">
+                <button class="btn-secondary" id="rm-poly-cancel">Cancelar</button>
+                <button class="btn-primary" id="rm-poly-confirm">✅ Confirmar</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    document.getElementById('rm-poly-close').onclick = () => modal.remove();
+    document.getElementById('rm-poly-overlay').onclick = () => modal.remove();
+    document.getElementById('rm-poly-cancel').onclick = () => modal.remove();
+
+    document.getElementById('rm-poly-confirm').onclick = () => {
+        const colX = document.getElementById('rm-poly-x')?.value;
+        const colY = document.getElementById('rm-poly-y')?.value;
+        const grado = parseInt(document.getElementById('rm-poly-grado')?.value);
+
+        if (!colX || !colY) {
+            _showToast('⚠️ Selecciona ambas columnas', true);
+            return;
+        }
+        if (colX === colY) {
+            _showToast('⚠️ Las columnas deben ser diferentes', true);
+            return;
+        }
+
+        StateManager.setHypothesisConfig('Regresión Polinomial', {
+            columnaX: colX,
+            columnaY: colY,
+            grado: grado,
+            timestamp: Date.now()
+        });
+        StateManager.addActiveStat('Regresión Polinomial');
+
+        document.querySelectorAll('.menu-option').forEach(opt => {
+            if (opt.textContent.trim() === 'Regresión Polinomial') {
+                opt.classList.add('selected');
+            }
+        });
+
+        _showToast(`✅ Regresión Polinomial grado ${grado}: Y = f(${colX})`);
+        modal.remove();
+        return true;
+    };
+
+    return true;
+}
+
+// ========================================
+// MODAL DE CONFIGURACIÓN REGRESIÓN LOGÍSTICA
+// ========================================
+function abrirModalConfigRegresionLogistica(imported) {
+    document.getElementById('regresion-logistica-modal')?.remove();
+
+    const allCols = imported.headers || [];
+    const numericCols = allCols.filter(col => {
+        const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
+        const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
+        return numericCount / values.length > 0.5;
+    });
+
+    if (numericCols.length < 2) {
+        _showToast('⚠️ Se necesitan al menos 2 columnas', true);
+        return false;
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'regresion-logistica-modal';
+    modal.innerHTML = `
+        <div class="dm-modal-overlay" id="rm-logistica-overlay"></div>
+        <div class="dm-modal-card" style="width: min(550px, 96vw);">
+            <div class="dm-modal-header">
+                <h3>🔐 Configurar Regresión Logística</h3>
+                <button class="dm-modal-close" id="rm-logistica-close">✕</button>
+            </div>
+            <div class="dm-modal-body">
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>🎯 Variable Dependiente (Y) - Binaria (0/1)</label>
+                    <select id="rm-logistica-y" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📈 Variables Independientes (X) - Selecciona múltiplas</label>
+                    <div style="max-height:150px;overflow-y:auto;border:1.5px solid #ddd;border-radius:6px;padding:8px;">
+                        ${numericCols.map(col => `
+                            <div style="display:flex;align-items:center;margin:4px 0;">
+                                <input type="checkbox" id="rm-logistica-x-${col.replace(/\s/g,'_')}" value="${escapeHtml(col)}" style="margin-right:8px;">
+                                <label for="rm-logistica-x-${col.replace(/\s/g,'_')}">${escapeHtml(col)}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <p style="font-size:0.75rem;color:#666;margin-bottom:0;">
+                    💡 La variable Y debe ser binaria (0 y 1). Selecciona predictores X.
+                </p>
+            </div>
+            <div class="dm-modal-footer">
+                <button class="btn-secondary" id="rm-logistica-cancel">Cancelar</button>
+                <button class="btn-primary" id="rm-logistica-confirm">✅ Confirmar</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    document.getElementById('rm-logistica-close').onclick = () => modal.remove();
+    document.getElementById('rm-logistica-overlay').onclick = () => modal.remove();
+    document.getElementById('rm-logistica-cancel').onclick = () => modal.remove();
+
+    document.getElementById('rm-logistica-confirm').onclick = () => {
+        const colY = document.getElementById('rm-logistica-y')?.value;
+        const checkedX = Array.from(document.querySelectorAll('#regresion-logistica-modal input[type="checkbox"]:checked')).map(cb => cb.value);
+
+        if (!colY) {
+            _showToast('⚠️ Selecciona la variable Y', true);
+            return;
+        }
+        if (checkedX.length === 0) {
+            _showToast('⚠️ Selecciona al menos una variable X', true);
+            return;
+        }
+        if (checkedX.includes(colY)) {
+            _showToast('⚠️ La variable Y no puede estar en las X', true);
+            return;
+        }
+
+        StateManager.setHypothesisConfig('Regresión Logística', {
+            columnaY: colY,
+            columnasX: checkedX,
+            timestamp: Date.now()
+        });
+        StateManager.addActiveStat('Regresión Logística');
+
+        document.querySelectorAll('.menu-option').forEach(opt => {
+            if (opt.textContent.trim() === 'Regresión Logística') {
+                opt.classList.add('selected');
+            }
+        });
+
+        _showToast(`✅ Regresión Logística: Y=${colY}, X=[${checkedX.join(',')}]`);
         modal.remove();
         return true;
     };

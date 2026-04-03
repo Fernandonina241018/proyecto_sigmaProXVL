@@ -17,34 +17,86 @@
 6. [Problemas y Deuda Técnica](#problemas-y-deuda-técnica)
 7. [Próximos Pasos Recomendados](#próximos-pasos-recomendados)
 8. [Referencias de Archivos](#referencias-de-archivos)
-## 🔧 CAMBIOS RECIENTES
+## 🔧 RESUMEN DE IMPLEMENTACIÓN DE ESTADÍSTICOS
 
-### 2 de Abril 2026 - Visualización: Nuevos tipos de gráfico agregados
+### 📊 ESTADÍSTICOS IMPLEMENTADOS (22 de 40)
 
-**Cambio:** Implementación de 3 nuevos tipos de visualización para análisis estadístico avanzado, incluidos en exportación de reportes
-- **Archivos:** `Visualizacion.js`, `visualizacion.css`
-- **Estado:** ✅ COMPLETADO
-
-**Detalles:**
-- **Heatmap de Correlación:** Muestra matriz de correlación entre variables numéricas con escala de colores (azul=-1, blanco=0, rojo=+1)
-- **Violin Plot:** Combina boxplot con estimación de densidad kernel para mostrar distribución completa de datos
-- **Radar Chart:** Permite comparar múltiples métricas normalizadas en ejes radiales (ideal para perfiles multidimensionales)
-- **Integración con Reportes:** Los nuevos gráficos aparecen automáticamente en la lista de predefinidos al exportar reportes
-
-**Archivos modificados:**
-1. `Visualizacion.js` - Agregados renderHeatmap(), renderViolin(), renderRadar() + funciones auxiliares (líneas 1531-2046)
-   - Actualizado _getPredefinidosDisponibles() para incluir nuevos gráficos en exportación (líneas 1248-1270)
-   - Actualizado _tipoLabel() para mostrar nombres correctos en reportes (línea 1251-1260)
-2. `visualizacion.css` - Estilos para tooltips y contenedores específicos de nuevos gráficos (líneas 621-640)
-
-**Mejoras analíticas:**
-- Análisis de correlación multidimensional
-- Visualización de distribución de datos mejorada vs boxplot tradicional
-- Comparación de perfiles entre múltiples variables
-- Interfaz intuitiva con selección de variables en panel de controls
-- Inclusión automática en exportación de reportes (modo exportación)
+| # | Categoría | Estadístico | Estado |
+|---|-----------|-------------|--------|
+| 1 | Descriptiva | Media Aritmética | ✅ |
+| 2 | Descriptiva | Mediana y Moda | ✅ |
+| 3 | Descriptiva | Desviación Estándar | ✅ |
+| 4 | Descriptiva | Varianza | ✅ |
+| 5 | Descriptiva | Percentiles | ✅ |
+| 6 | Descriptiva | Rango y Amplitud | ✅ |
+| 7 | Descriptiva | Coeficiente de Variación | ✅ |
+| 8 | Descriptiva | Asimetría (Skewness) | ✅ |
+| 9 | Descriptiva | Curtosis (Kurtosis) | ✅ |
+| 10 | Descriptiva | Error Estándar | ✅ |
+| 11 | Descriptiva | Intervalos de Confianza | ✅ |
+| 12 | Descriptiva | Detección de Outliers | ✅ |
+| 13 | Hipótesis | T-Test (una muestra) | ✅ |
+| 14 | Hipótesis | T-Test (dos muestras) | ✅ |
+| 15 | Hipótesis | ANOVA One-Way | ✅ |
+| 16 | Hipótesis | ANOVA Two-Way | ✅ |
+| 17 | Hipótesis | Chi-Cuadrado | ✅ |
+| 18 | Hipótesis | Test de Normalidad | ✅ |
+| 19 | Correlación | Correlación Pearson | ✅ |
+| 20 | Correlación | Correlación Spearman | ✅ |
+| 21 | Correlación | Regresión Lineal Simple | ✅ |
+| 22 | Especificación | Límites de Cuantificación | ✅ |
 
 ---
+
+### ❌ ESTADÍSTICOS PENDIENTES (18 de 40)
+
+| # | Categoría | Estadístico |
+|---|-----------|-------------|
+| 23 | Correlación | Regresión Lineal Múltiple |
+| 24 | Correlación | Regresión Logística |
+| 25 | Correlación | Regresión Polinomial |
+| 26 | No Paramétricos | Mann-Whitney U |
+| 27 | No Paramétricos | Wilcoxon |
+| 28 | No Paramétricos | Kruskal-Wallis |
+| 29 | No Paramétricos | Friedman |
+| 30 | No Paramétricos | Test de Signos |
+| 31 | Multivariado | PCA (Componentes Principales) |
+| 32 | Multivariado | Análisis Factorial |
+| 33 | Multivariado | Análisis de Cluster |
+| 34 | Multivariado | Análisis Discriminante |
+| 35 | Multivariado | M-ANOVA |
+| 36 | Extras | Series Temporales |
+| 37 | Extras | Bootstrap |
+| 38 | Extras | Análisis de Supervivencia |
+| 39 | Extras | Modelos Mixtos |
+| 40 | Extras | Análisis Bayesiano |
+
+---
+
+### 📁 ARCHIVOS MODIFICADOS
+
+1. **script.js**
+   - Whitelist de ejecutables: líneas 612-635
+   - Config de modales: línea ~1600 (hipotesisTests)
+   - Funciones de modal: abrirModalConfigCorrelacion(), abrirModalConfigRegresion()
+
+2. **EstadisticaDescriptiva.js**
+   - Funciones de correlación: líneas ~803-950
+   - Función de regresión: líneas ~1145-1240
+   - Cases en ejecutarAnalisis(): líneas ~1367-1790
+   - Templates HTML para resultados: líneas ~1966-2130
+
+3. **ReporteManager.js**
+   - Agregados a listas de hypothesisTests en múltiples secciones
+   - Agregadas fórmulas y descripciones para nuevos tests
+   - Agregados outputs en TXT y HTML
+
+4. **ESTADO_PROYECTO.md**
+   - Documentación de cambios realizados
+
+---
+
+## 🔧 CAMBIOS RECIENTES
 
 ### 2 de Abril 2026 - Estadística: Correlación Pearson, Spearman y Regresión Lineal Simple agregadas
 
