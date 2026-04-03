@@ -202,15 +202,15 @@ const Auth = (() => {
         }
 
         // ── Símbolos estadísticos flotantes ────────────────
-        for (let i = 0; i < 16; i++) {
+        for (let i = 0; i < 20; i++) {
             const span     = document.createElement('span');
             span.className = 'auth-symbol';
             span.textContent = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
 
-            const size    = 11 + Math.random() * 18;       // 11px – 29px
+            const size    = 11 + Math.random() * 28;       // 11px – 29px
             const color   = COLORS[Math.floor(Math.random() * COLORS.length)];
             const opacity = 0.10 + Math.random() * 0.22;
-            const dur     = 8  + Math.random() * 12;       // 8s – 20s
+            const dur     = 8  + Math.random() * 22;       // 8s – 20s
             const delay   = Math.random() * 10;
             const rotDir  = Math.random() > 0.5 ? 1 : -1;  // sentido de rotación
             const drift   = (Math.random() - 0.5) * 60;    // deriva horizontal ±30px
