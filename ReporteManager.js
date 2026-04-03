@@ -495,9 +495,10 @@ const ReporteManager = (() => {
             p(`  └${'─'.repeat(W-4)}┘`);
             p(`  ${pad(t('statistic'),28)}${pad(t('value'),18)}${t('reference')}`);
             p(`  ${singleLine(W-4)}`);
-            const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad'];
+            const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple'];
             Object.entries(resultados.resultados).forEach(([stat,data])=>{
                 if (hypothesisTests.includes(stat)) return;
+                // Skip hypothesisTests, handled separately
                 const val=data[col]; if(val===undefined)return;
                 if(typeof val==='object'&&!Array.isArray(val)){
                     p(`  ${pad(stat+':',28)}`);
@@ -530,7 +531,7 @@ const ReporteManager = (() => {
         });
         
         // ── Pruebas de Hipótesis ──
-        const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Límites de Cuantificación'];
+        const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple'];
         const hypResults = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.includes(stat));
         if (hypResults.length > 0) {
             p(singleLine(W)); p(`  ${lang === 'es' ? 'PRUEBAS DE HIPÓTESIS Y ESPECIFICACIÓN' : 'HYPOTHESIS AND SPECIFICATION TESTS'} (α = 0.05)`); p(singleLine(W));
@@ -580,6 +581,40 @@ const ReporteManager = (() => {
                         p(`    Cp = ${fmtNum(data.cp)} | Cpk = ${fmtNum(data.cpk)}`);
                         const cpkText = data.cpk === 'N/A' ? 'N/A' : (data.cpk >= 1.33 ? '✓ Capable (Cpk ≥ 1.33)' : (data.cpk >= 1.0 ? '⚠ Marginal' : '✗ Not Capable'));
                         p(`    Decisión: ${cpkText}`);
+                    }
+                } else if (stat === 'Correlación Pearson') {
+                    if (data.error) {
+                        p(`  ${stat}: ERROR - ${data.error}`);
+                    } else {
+                        p(`  ${stat} (${data.columnaX} vs ${data.columnaY})`);
+                        p(`    r = ${fmtNum(data.r)} | R² = ${fmtNum(data.r2)}`);
+                        p(`    Valor p = ${fmtNum(data.pValue)} | IC 95% = [${fmtNum(data.ic95Lower)}, ${fmtNum(data.ic95Upper)}]`);
+                        p(`    n = ${data.n} | ${data.significante ? '★ Significativo' : '✓ No significativo'}`);
+                        p(`    Interpretación: ${data.interpretacion}`);
+                    }
+                } else if (stat === 'Correlación Spearman') {
+                    if (data.error) {
+                        p(`  ${stat}: ERROR - ${data.error}`);
+                    } else {
+                        p(`  ${stat} (${data.columnaX} vs ${data.columnaY})`);
+                        p(`    ρ = ${fmtNum(data.rho)} | ρ² = ${fmtNum(data.rho2)}`);
+                        p(`    Valor p = ${fmtNum(data.pValue)}`);
+                        p(`    n = ${data.n} | ${data.significante ? '★ Significativo' : '✓ No significativo'}`);
+                        p(`    Interpretación: ${data.interpretacion}`);
+                    }
+                } else if (stat === 'Regresión Lineal Simple') {
+                    if (data.error) {
+                        p(`  ${stat}: ERROR - ${data.error}`);
+                    } else {
+                        p(`  ${stat} (${data.columnaX} → ${data.columnaY})`);
+                        p(`    Modelo: ${data.formula}`);
+                        p(`    Intercepto (a) = ${fmtNum(data.a)} | Pendiente (b) = ${fmtNum(data.b)}`);
+                        p(`    R² = ${fmtNum(data.r2)} | R² ajustado = ${fmtNum(data.r2Adj)}`);
+                        p(`    Error estándar = ${fmtNum(data.errorEstandar)}`);
+                        p(`    p-valor (pendiente) = ${fmtNum(data.pPendiente)}`);
+                        p(`    IC 95% pendiente = [${fmtNum(data.icPendienteLower)}, ${fmtNum(data.icPendienteUpper)}]`);
+                        p(`    n = ${data.n} | ${data.significante ? '★ Modelo significativo' : '✓ Modelo no significativo'}`);
+                        p(`    Interpretación: ${data.interpretacion}`);
                     }
                 }
                 p('');
@@ -647,6 +682,21 @@ const ReporteManager = (() => {
             name: lang === 'es' ? 'Detección de Outliers' : 'Outlier Detection',
             desc: lang === 'es' ? 'Identifica valores atípicos (IQR)' : 'Identifies outliers (IQR)',
             formula: lang === 'es' ? '[Q1-1.5×IQR, Q3+1.5×IQR]' : '[Q1-1.5×IQR, Q3+1.5×IQR]'
+          },
+          'Correlación Pearson': {
+            name: lang === 'es' ? 'Correlación de Pearson' : 'Pearson Correlation',
+            desc: lang === 'es' ? 'Mide relación lineal entre dos variables' : 'Measures linear relationship between two variables',
+            formula: 'r = cov(X,Y) / (σx × σy)'
+          },
+          'Correlación Spearman': {
+            name: lang === 'es' ? 'Correlación de Spearman' : 'Spearman Correlation',
+            desc: lang === 'es' ? 'Mide relación monotónica basada en rangos' : 'Measures monotonic relationship based on ranks',
+            formula: 'ρ = correlación de Pearson sobre rangos'
+          },
+          'Regresión Lineal Simple': {
+            name: lang === 'es' ? 'Regresión Lineal Simple' : 'Simple Linear Regression',
+            desc: lang === 'es' ? 'Modelo predictivo Y = a + bX' : 'Predictive model Y = a + bX',
+            formula: 'Y = a + bX'
           }
         };
         const usedTxtStats = resultados.estadisticos || [];
@@ -737,7 +787,7 @@ const ReporteManager = (() => {
 
         function statsRows(col){
             const refs=t('statRefs'); let h='';
-            const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad'];
+            const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple'];
             Object.entries(resultados.resultados).forEach(([stat,data])=>{
                 if (hypothesisTests.includes(stat)) return; // Skip hypothesis tests - shown separately
                 const val=data[col]; if(val===undefined)return;
@@ -1024,6 +1074,21 @@ tr:hover td{background:#f7faff}
             title: lang === 'es' ? 'Detección de Outliers' : 'Outlier Detection',
             desc: lang === 'es' ? 'Identifica valores atípicos usando el método IQR (rango intercuartílico). Outliers están fuera de [Q1-1.5×IQR, Q3+1.5×IQR].' : 'Identifies outliers using IQR method. Outliers are outside [Q1-1.5×IQR, Q3+1.5×IQR].',
             formula: lang === 'es' ? 'Límites: Q1 - 1.5×IQR y Q3 + 1.5×IQR donde IQR = Q3 - Q1' : 'Limits: Q1 - 1.5×IQR and Q3 + 1.5×IQR where IQR = Q3 - Q1'
+          },
+          'Correlación Pearson': {
+            title: lang === 'es' ? 'Correlación de Pearson' : 'Pearson Correlation',
+            desc: lang === 'es' ? 'Mide la fuerza y dirección de la relación lineal entre dos variables. Coeficiente entre -1 y +1.' : 'Measures the strength and direction of the linear relationship between two variables. Coefficient between -1 and +1.',
+            formula: 'r = cov(X,Y) / (σx × σy)'
+          },
+          'Correlación Spearman': {
+            title: lang === 'es' ? 'Correlación de Spearman' : 'Spearman Correlation',
+            desc: lang === 'es' ? 'Mide la relación monotónica entre dos variables usando rangos. Menos sensible a outliers que Pearson.' : 'Measures monotonic relationship between two variables using ranks. Less sensitive to outliers than Pearson.',
+            formula: 'ρ = correlación de Pearson sobre rangos'
+          },
+          'Regresión Lineal Simple': {
+            title: lang === 'es' ? 'Regresión Lineal Simple' : 'Simple Linear Regression',
+            desc: lang === 'es' ? 'Modelo predictivo que estima la variable dependiente Y a partir de una variable independiente X mediante mínimos cuadrados.' : 'Predictive model that estimates dependent variable Y from independent variable X using least squares.',
+            formula: 'Y = a + bX'
           }
         };
         
@@ -1041,7 +1106,7 @@ tr:hover td{background:#f7faff}
     </div>
   </div>
   ${(() => {
-      const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad'];
+      const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple'];
       const hypResults = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.includes(stat));
       if (hypResults.length === 0) return '';
 
@@ -1069,6 +1134,24 @@ tr:hover td{background:#f7faff}
                   const cpkClass = data.cpk === 'N/A' ? 'background:#e2e8f0;color:#4a5568' : (data.cpk >= 1.33 ? 'background:#c6f6d5;color:#276749' : (data.cpk >= 1.0 ? 'background:#fefcbf;color:#b7791f' : 'background:#fed7d7;color:#c53030'));
                   const cpkText = data.cpk === 'N/A' ? 'N/A' : (data.cpk >= 1.33 ? '✓ Capable' : (data.cpk >= 1.0 ? '⚠ Marginal' : '✗ Not Capable'));
                   content = `<tr><td>${stat} (${data.columna})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">Cpk=${fmtNum(data.cpk)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">${data.porcentajeFuera}% OOS</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${cpkClass}">${cpkText}</span></td></tr>`;
+              }
+          } else if (stat === 'Correlación Pearson') {
+              if (data.error) {
+                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+              } else {
+                  content = `<tr><td>${stat} (${data.columnaX} vs ${data.columnaY})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">r=${fmtNum(data.r)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.pValue)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
+              }
+          } else if (stat === 'Correlación Spearman') {
+              if (data.error) {
+                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+              } else {
+                  content = `<tr><td>${stat} (${data.columnaX} vs ${data.columnaY})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">ρ=${fmtNum(data.rho)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.pValue)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
+              }
+          } else if (stat === 'Regresión Lineal Simple') {
+              if (data.error) {
+                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+              } else {
+                  content = `<tr><td>${stat} (${data.columnaX} → ${data.columnaY})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">R²=${fmtNum(data.r2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.pPendiente)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
               }
           }
           return content;
