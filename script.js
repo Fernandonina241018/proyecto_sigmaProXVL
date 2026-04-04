@@ -1339,60 +1339,58 @@ let currentModalSection = null;
 
 function createSidebarIconContainers(leftSidebar, rightSidebar) {
     // ========================================
-    // 1. GENERAR CONTENIDO EXPANDIDO (default)
+    // 1. GENERAR CONTENIDO EXPANDIDO (acordeón)
     // ========================================
     
     // Título del sidebar
     const sidebarTitle = document.createElement('h2');
     sidebarTitle.textContent = '📊 Estadísticos';
-    sidebarTitle.style.cssText = 'font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid #e2e8f0;';
-    leftSidebar.appendChild(sidebarTitle);
+    leftSidebar.insertBefore(sidebarTitle, leftSidebar.firstChild);
 
-    // Generar secciones con opciones
+    // Generar secciones con acordeón
     Object.entries(SIDEBAR_SECTIONS).forEach(([key, section]) => {
-        // Sección
+        // Contenedor de sección
         const sectionEl = document.createElement('div');
         sectionEl.className = 'menu-section';
-        sectionEl.style.cssText = 'margin-bottom: 16px;';
-        
-        // Label de sección
-        const sectionLabel = document.createElement('div');
-        sectionLabel.style.cssText = 'font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;';
-        sectionLabel.textContent = section.label;
-        sectionEl.appendChild(sectionLabel);
 
-        // Opciones de la sección
+        // Header del acordeón
+        const header = document.createElement('div');
+        header.className = 'accordion-header';
+        header.innerHTML = `<span>${section.icon} ${section.label}</span><span class="accordion-icon">▼</span>`;
+        sectionEl.appendChild(header);
+
+        // Contenido del acordeón
+        const content = document.createElement('div');
+        content.className = 'accordion-content';
+
+        // Opciones dentro del acordeón
         section.options.forEach(opt => {
-            const trigger = document.createElement('div');
-            trigger.className = 'stat-modal-trigger';
-            trigger.textContent = opt;
-            trigger.style.cssText = `
-                display: flex;
-                align-items: center;
-                gap: 6px;
-                padding: 7px 10px;
-                font-size: 0.82rem;
-                color: #475569;
-                cursor: pointer;
-                border-radius: 6px;
-                transition: all 0.15s ease;
-                margin-bottom: 2px;
-            `;
-            trigger.addEventListener('mouseenter', () => {
-                trigger.style.background = '#f1f5f9';
-                trigger.style.color = '#3046ac';
-            });
-            trigger.addEventListener('mouseleave', () => {
-                trigger.style.background = 'transparent';
-                trigger.style.color = '#475569';
-            });
-            trigger.addEventListener('click', () => {
+            const optEl = document.createElement('div');
+            optEl.className = 'menu-option';
+            optEl.textContent = opt;
+            optEl.addEventListener('click', () => {
                 openStatModal(key, opt);
             });
-            sectionEl.appendChild(trigger);
+            content.appendChild(optEl);
         });
 
+        sectionEl.appendChild(content);
         leftSidebar.appendChild(sectionEl);
+
+        // Toggle del acordeón
+        header.addEventListener('click', () => {
+            const isActive = header.classList.contains('active');
+            // Cerrar todos los acordeones
+            leftSidebar.querySelectorAll('.accordion-header').forEach(h => {
+                h.classList.remove('active');
+                h.nextElementSibling.classList.remove('active');
+            });
+            // Abrir el clickeado (si no estaba activo)
+            if (!isActive) {
+                header.classList.add('active');
+                content.classList.add('active');
+            }
+        });
     });
 
     // ========================================
