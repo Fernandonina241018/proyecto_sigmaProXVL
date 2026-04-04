@@ -67,21 +67,6 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(cookieParser());
 
-// ── Request Logging (sin dependencias nuevas) ──
-app.use((req, res, next) => {
-    const start = Date.now();
-    res.on('finish', () => {
-        const duration = Date.now() - start;
-        const log = `${req.method} ${res.statusCode} ${req.path} - ${duration}ms`;
-        if (res.statusCode >= 400) {
-            console.warn(`⚠️ ${log}`);
-        } else if (req.path.startsWith('/api/')) {
-            console.log(`📋 ${log}`);
-        }
-    });
-    next();
-});
-
 // ── Rate Limiting y Tracking de fallos ──
 const loginLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,  // 15 minutos
@@ -252,28 +237,6 @@ app.get('/api/health', async (req, res) => {
             heapUsed: `${Math.round(mem.heapUsed / 1024 / 1024)}MB`,
         },
         pid: process.pid,
-    });
-});
-
-// Métricas del servidor (solo admin)
-app.get('/api/metrics', requireAuth, requireAdmin, async (req, res) => {
-    const users = await db.getAllUsers();
-    const auditLogs = await db.getAuditLog(1);
-    
-    res.json({
-        ok: true,
-        metrics: {
-            totalUsers: users?.length || 0,
-            activeUsers: users?.filter(u => u.active === 1)?.length || 0,
-            totalAuditLogs: auditLogs?.length > 0 ? 'available' : 'empty',
-            uptime: `${Math.floor((Date.now() - startTime) / 1000)}s`,
-            nodeVersion: process.version,
-            platform: process.platform,
-            memoryUsage: {
-                rss: `${Math.round(process.memoryUsage().rss / 1024 / 1024)}MB`,
-                heapUsed: `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB`,
-            },
-        },
     });
 });
 
