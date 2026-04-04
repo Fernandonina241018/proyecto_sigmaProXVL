@@ -1206,6 +1206,28 @@ function setupSidebarToggles() {
     // Crear contenedor de iconos para sidebar compacto
     createSidebarIconContainers(leftSidebar, rightSidebar);
 
+    // Botón para sidebar izquierdo (igual que el derecho, pero en el borde derecho del sidebar)
+    const btnLeft = document.createElement('button');
+    btnLeft.className = 'sidebar-toggle-btn';
+    btnLeft.textContent = '◀';
+    leftSidebar.appendChild(btnLeft);
+
+    // Aplicar estado guardado del sidebar izquierdo
+    const leftCollapsed = sessionStorage.getItem(STORAGE_KEY_LEFT) === 'true';
+    if (leftCollapsed) {
+        leftSidebar.classList.add('sidebar-collapsed');
+        btnLeft.textContent = '▶';
+    }
+
+    // Click handler para sidebar izquierdo
+    btnLeft.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const collapsed = !leftSidebar.classList.contains('sidebar-collapsed');
+        leftSidebar.classList.toggle('sidebar-collapsed');
+        btnLeft.textContent = collapsed ? '▶' : '◀';
+        sessionStorage.setItem(STORAGE_KEY_LEFT, collapsed);
+    });
+
     // Botón para sidebar derecho
     const btnRight = document.createElement('button');
     btnRight.className = 'sidebar-toggle-btn';
@@ -1394,27 +1416,6 @@ function createSidebarIconContainers(leftSidebar, rightSidebar) {
             iconItem.addEventListener('mouseleave', hideTooltip);
             iconsContainer.appendChild(iconItem);
         });
-    }
-
-    // ========================================
-    // 3. CONFIGURAR TOGGLE
-    // ========================================
-    const btnLeft = document.getElementById('btnLeft');
-    if (btnLeft) {
-        btnLeft.textContent = '◀';
-        btnLeft.addEventListener('click', () => {
-            const isCollapsed = leftSidebar.classList.contains('sidebar-collapsed');
-            leftSidebar.classList.toggle('sidebar-collapsed');
-            btnLeft.textContent = isCollapsed ? '◀' : '▶';
-            sessionStorage.setItem('sidebar_left_collapsed', !isCollapsed);
-        });
-    }
-    
-    // Aplicar estado guardado (por defecto EXPANDIDO)
-    const savedCollapsed = sessionStorage.getItem('sidebar_left_collapsed') === 'true';
-    if (savedCollapsed) {
-        leftSidebar.classList.add('sidebar-collapsed');
-        if (btnLeft) btnLeft.textContent = '▶';
     }
 
     // Inicializar badges
