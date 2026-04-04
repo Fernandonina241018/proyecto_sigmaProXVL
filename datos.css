@@ -490,6 +490,19 @@
 }
 .dm-btn-success:hover { background: #1b4332; transform: translateY(-1px); }
 
+.dm-btn-cancel {
+    padding: 8px 18px;
+    background: #c53030;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.dm-btn-cancel:hover { background: #9b2c2c; transform: translateY(-1px); }
+
 /* ── Toast ── */
 .datos-toast {
     position: fixed;
