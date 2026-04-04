@@ -312,8 +312,9 @@
     gap: 10px;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(108, 99, 255, 0.18);
-    width: 100%;
-    max-width: 350px;
+    /* mismo ancho que .viz-controls-panel en el grid */
+    width: 350px;
+    min-width: 350px;
     max-height: calc(100vh - 220px);
 }
 
