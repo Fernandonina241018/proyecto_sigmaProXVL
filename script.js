@@ -1338,46 +1338,101 @@ let tempModalSelection = {};
 let currentModalSection = null;
 
 function createSidebarIconContainers(leftSidebar, rightSidebar) {
-    // Crear sidebar compacto con iconos
-    const iconsContainer = document.getElementById('sidebarIconsCompact');
-    if (!iconsContainer) return;
+    // ========================================
+    // 1. GENERAR CONTENIDO EXPANDIDO (default)
+    // ========================================
+    
+    // Título del sidebar
+    const sidebarTitle = document.createElement('h2');
+    sidebarTitle.textContent = '📊 Estadísticos';
+    sidebarTitle.style.cssText = 'font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid #e2e8f0;';
+    leftSidebar.appendChild(sidebarTitle);
 
-    // Limpiar contenedor para evitar duplicación
-    iconsContainer.innerHTML = '';
-    
-    // Agregar badge total al inicio
-    const totalItem = document.createElement('div');
-    totalItem.className = 'sidebar-icon-compact';
-    totalItem.innerHTML = `
-        <span class="sidebar-compact-icon">🔢</span>
-        <span class="sidebar-compact-badge has-items" id="sidebarTotalBadge">0</span>
-    `;
-    totalItem.title = 'Total activos';
-    totalItem.addEventListener('mouseenter', (e) => showTotalTooltip(e));
-    totalItem.addEventListener('mouseleave', hideTooltip);
-    iconsContainer.appendChild(totalItem);
-    
-    // Crear iconos para cada sección
+    // Generar secciones con opciones
     Object.entries(SIDEBAR_SECTIONS).forEach(([key, section]) => {
-        const iconItem = document.createElement('div');
-        iconItem.className = 'sidebar-icon-compact';
-        iconItem.innerHTML = `
-            <span class="sidebar-compact-icon">${section.icon}</span>
-            <span class="sidebar-compact-badge" data-section="${key}">0</span>
-        `;
-        iconItem.title = section.label;
-        iconItem.addEventListener('click', () => {
-            openStatModal(key);
+        // Sección
+        const sectionEl = document.createElement('div');
+        sectionEl.className = 'menu-section';
+        sectionEl.style.cssText = 'margin-bottom: 16px;';
+        
+        // Label de sección
+        const sectionLabel = document.createElement('div');
+        sectionLabel.style.cssText = 'font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;';
+        sectionLabel.textContent = section.label;
+        sectionEl.appendChild(sectionLabel);
+
+        // Opciones de la sección
+        section.options.forEach(opt => {
+            const trigger = document.createElement('div');
+            trigger.className = 'stat-modal-trigger';
+            trigger.textContent = opt;
+            trigger.style.cssText = `
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                padding: 7px 10px;
+                font-size: 0.82rem;
+                color: #475569;
+                cursor: pointer;
+                border-radius: 6px;
+                transition: all 0.15s ease;
+                margin-bottom: 2px;
+            `;
+            trigger.addEventListener('mouseenter', () => {
+                trigger.style.background = '#f1f5f9';
+                trigger.style.color = '#3046ac';
+            });
+            trigger.addEventListener('mouseleave', () => {
+                trigger.style.background = 'transparent';
+                trigger.style.color = '#475569';
+            });
+            trigger.addEventListener('click', () => {
+                openStatModal(key, opt);
+            });
+            sectionEl.appendChild(trigger);
         });
-        
-        // Tooltip events
-        iconItem.addEventListener('mouseenter', (e) => showTooltip(key, e));
-        iconItem.addEventListener('mouseleave', hideTooltip);
-        
-        iconsContainer.appendChild(iconItem);
+
+        leftSidebar.appendChild(sectionEl);
     });
 
-    // Configurar botón de toggle
+    // ========================================
+    // 2. GENERAR ICONOS COMPACTOS (colapsado)
+    // ========================================
+    const iconsContainer = document.getElementById('sidebarIconsCompact');
+    if (iconsContainer) {
+        iconsContainer.innerHTML = '';
+        
+        // Badge total
+        const totalItem = document.createElement('div');
+        totalItem.className = 'sidebar-icon-compact';
+        totalItem.innerHTML = `
+            <span class="sidebar-compact-icon">🔢</span>
+            <span class="sidebar-compact-badge has-items" id="sidebarTotalBadge">0</span>
+        `;
+        totalItem.title = 'Total activos';
+        totalItem.addEventListener('mouseenter', (e) => showTotalTooltip(e));
+        totalItem.addEventListener('mouseleave', hideTooltip);
+        iconsContainer.appendChild(totalItem);
+        
+        // Iconos por sección
+        Object.entries(SIDEBAR_SECTIONS).forEach(([key, section]) => {
+            const iconItem = document.createElement('div');
+            iconItem.className = 'sidebar-icon-compact';
+            iconItem.innerHTML = `
+                <span class="sidebar-compact-icon">${section.icon}</span>
+                <span class="sidebar-compact-badge" data-section="${key}">0</span>
+            `;
+            iconItem.title = section.label;
+            iconItem.addEventListener('click', () => openStatModal(key));
+            iconItem.addEventListener('mouseenter', (e) => showTooltip(key, e));
+            iconItem.addEventListener('mouseleave', hideTooltip);
+            iconsContainer.appendChild(iconItem);
+        });
+    }
+
+    // ========================================
+    // 3. CONFIGURAR TOGGLE
+    // ========================================
     const btnLeft = document.getElementById('btnLeft');
     if (btnLeft) {
         btnLeft.textContent = '◀';
@@ -1389,7 +1444,7 @@ function createSidebarIconContainers(leftSidebar, rightSidebar) {
         });
     }
     
-    // Aplicar estado guardado
+    // Aplicar estado guardado (por defecto EXPANDIDO)
     const savedCollapsed = sessionStorage.getItem('sidebar_left_collapsed') === 'true';
     if (savedCollapsed) {
         leftSidebar.classList.add('sidebar-collapsed');
@@ -1489,7 +1544,7 @@ function showTotalTooltip(event) {
 // MODAL DE SELECCIÓN DE ESTADÍSTICOS
 // ========================================
 
-function openStatModal(sectionKey) {
+function openStatModal(sectionKey, specificOpt) {
     const section = SIDEBAR_SECTIONS[sectionKey];
     if (!section) return;
     
@@ -1514,6 +1569,14 @@ function openStatModal(sectionKey) {
             <label for="stat-${escapeHtml(opt)}">${escapeHtml(opt)}</label>
         </div>
     `).join('');
+    
+    // Si se especificó una opción, hacer scroll hasta ella
+    if (specificOpt) {
+        setTimeout(() => {
+            const target = listContainer.querySelector(`[data-stat="${escapeHtml(specificOpt)}"]`);
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+    }
     
     // Agregar event listeners
     listContainer.querySelectorAll('.stat-option').forEach(item => {
