@@ -130,43 +130,13 @@ function checkAndAlertIP(ip, username) {
 }
 
 // ── Inicializar BD al arrancar ────────
-const startTime = Date.now();
-let server;
-
 (async () => {
     await db.initDatabase();
     await db.createInitialAdmin();
 
-    // '0.0.0.0' es requerido por Render para detectar el puerto
-    server = app.listen(PORT, '0.0.0.0', () => {
-        console.log(`🚀 Servidor corriendo en http://0.0.0.0:${PORT}`);
+    app.listen(PORT, () => {
+        console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
         console.log(`📋 Health check: http://localhost:${PORT}/api/health`);
-    });
-
-    // ── Graceful shutdown (solo para producción) ──
-    const shutdown = (signal) => {
-        console.log(`🛑 ${signal} recibido, cerrando servidor...`);
-        if (server) {
-            server.close(() => {
-                console.log('✅ Servidor cerrado correctamente');
-                process.exit(0);
-            });
-            // Forzar cierre después de 10s
-            setTimeout(() => process.exit(1), 10000);
-        }
-    };
-
-    process.on('SIGTERM', () => shutdown('SIGTERM'));
-    process.on('SIGINT', () => shutdown('SIGINT'));
-    
-    // Capturar errores no manejados
-    process.on('uncaughtException', (err) => {
-        console.error('❌ Error no capturado:', err.message);
-        process.exit(1);
-    });
-    
-    process.on('unhandledRejection', (reason) => {
-        console.error('⚠️ Promesa rechazada:', String(reason));
     });
 })();
 
@@ -212,32 +182,9 @@ function getClientIP(req) {
 // RUTAS
 // ========================================
 
-// Health check completo
-app.get('/api/health', async (req, res) => {
-    const uptime = Math.floor((Date.now() - startTime) / 1000);
-    const mem = process.memoryUsage();
-    
-    let dbStatus = 'unknown';
-    try {
-        await db.run('SELECT 1');
-        dbStatus = 'connected';
-    } catch {
-        dbStatus = 'disconnected';
-    }
-    
-    res.json({
-        ok: true,
-        service: 'StatAnalyzer Pro API',
-        version: '2.0.0',
-        timestamp: new Date().toISOString(),
-        uptime: `${uptime}s`,
-        database: dbStatus,
-        memory: {
-            rss: `${Math.round(mem.rss / 1024 / 1024)}MB`,
-            heapUsed: `${Math.round(mem.heapUsed / 1024 / 1024)}MB`,
-        },
-        pid: process.pid,
-    });
+// Health check
+app.get('/api/health', (req, res) => {
+    res.json({ ok: true, service: 'StatAnalyzer Pro API', time: new Date().toISOString() });
 });
 
 
