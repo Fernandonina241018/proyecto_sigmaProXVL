@@ -234,8 +234,7 @@ body {
 }
 
 /* Mostrar iconos compactos solo cuando colapsado */
-.stats-menu:not(.sidebar-collapsed) .sidebar-icons-compact,
-.stats-menu:not(.sidebar-collapsed) .sidebar-toggle-btn-left {
+.stats-menu:not(.sidebar-collapsed) .sidebar-icons-compact {
     display: none !important;
 }
 
@@ -246,6 +245,34 @@ body {
     width: 100%;
     align-items: center;
     margin-top: 10px;
+}
+
+/* Botón toggle izquierdo - siempre visible */
+.sidebar-toggle-btn-left {
+    width: 20px;
+    height: 56px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    font-size: 11px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    transition: all 0.2s ease;
+    box-shadow: 2px 0 8px rgba(102, 126, 234, 0.3);
+}
+
+.sidebar-toggle-btn-left:hover {
+    background: linear-gradient(135deg, #5a52d5, #6a3f91);
+    width: 24px;
+    box-shadow: 3px 0 12px rgba(102, 126, 234, 0.4);
 }
 
 /* ========================================
@@ -2154,8 +2181,7 @@ body {
 }
 
 /* Mostrar iconos compactos solo cuando colapsado */
-.stats-menu:not(.sidebar-collapsed) .sidebar-icons-compact,
-.stats-menu:not(.sidebar-collapsed) .sidebar-toggle-btn-left {
+.stats-menu:not(.sidebar-collapsed) .sidebar-icons-compact {
     display: none !important;
 }
 
