@@ -3408,11 +3408,11 @@ body {
 .top-nav .nav-item.active {
     color: #3046ac !important;
     font-weight: 700 !important;
-    font-size: 1.1rem !important;
+    font-size: 0.9rem !important;
 }
 
 .top-nav .nav-item.active .nav-icon {
-    font-size: 1.4rem !important;
+    font-size: 1.2rem !important;
 }
 
 /* ========================================
