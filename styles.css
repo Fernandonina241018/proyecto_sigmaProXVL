@@ -2000,6 +2000,271 @@ body {
 .active-sidebar:not(.sidebar-collapsed) > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label) {
     opacity: 1;
     pointer-events: auto;
+    transition: opacity 0.25s ease 0.05s;
+}
+
+/* ── Etiqueta vertical en franja colapsada ── */
+.sidebar-strip-label {
+    display: none;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 10px 0;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.sidebar-collapsed .sidebar-strip-label {
+    display: block;
+}
+
+/* ── Iconos en sidebar colapsado ── */
+.stats-menu:not(.sidebar-collapsed) .sidebar-icons-container,
+.active-sidebar:not(.sidebar-collapsed) .sidebar-icons-container {
+    display: none;
+}
+
+.sidebar-collapsed .sidebar-icons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.sidebar-collapsed .sidebar-strip-label {
+    display: none;
+}
+
+.stats-menu:not(.sidebar-collapsed) .sidebar-strip-label,
+.active-sidebar:not(.sidebar-collapsed) .sidebar-strip-label {
+    display: none;
+}
+
+.stats-menu .sidebar-icons-container .sidebar-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.stats-menu .sidebar-icon-badge.has-items {
+    background: #ef4444;
+    color: white;
+    font-size: 0.6rem;
+    padding: 1px 4px;
+    border-radius: 6px;
+    position: absolute;
+    top: -4px;
+    right: -4px;
+}
+
+/* ========================================
+   SIDEBAR COMPACTO CON ICONOS
+   Diseño moderno con transiciones suaves
+   ======================================== */
+
+/* Estado por defecto: EXPANDIDO */
+.stats-menu {
+    width: 260px;
+    min-width: 260px;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                min-width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Estado colapsado: solo iconos */
+.stats-menu.sidebar-collapsed {
+    width: 70px !important;
+    min-width: 70px !important;
+    padding: 15px 8px !important;
+    align-items: center;
+    background: #f8f9fa;
+    border-right: 1px solid #e0e0e0;
+}
+
+/* Ocultar contenido expandido cuando colapsado */
+.stats-menu.sidebar-collapsed .menu-section,
+.stats-menu.sidebar-collapsed .stat-modal-trigger,
+.stats-menu.sidebar-collapsed h2 {
+    display: none !important;
+}
+
+/* Mostrar iconos compactos solo cuando colapsado */
+.stats-menu:not(.sidebar-collapsed) .sidebar-icons-compact,
+.stats-menu:not(.sidebar-collapsed) .sidebar-toggle-btn-left {
+    display: none !important;
+}
+
+.stats-menu.sidebar-collapsed .sidebar-icons-compact {
+    display: flex !important;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* Botón toggle izquierdo */
+.sidebar-toggle-btn-left {
+    width: 20px;
+    height: 56px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    transition: all 0.2s ease;
+    box-shadow: 2px 0 8px rgba(102, 126, 234, 0.3);
+}
+
+.sidebar-toggle-btn-left:hover {
+    background: linear-gradient(135deg, #5a52d5, #6a3f91);
+    width: 24px;
+    box-shadow: 3px 0 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Iconos compactos */
+.sidebar-icon-compact {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    gap: 2px;
+}
+
+.sidebar-icon-compact:hover {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    transform: scale(1.08);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.sidebar-icon-compact:hover .sidebar-compact-icon {
+    color: white;
+    transform: scale(1.1);
+}
+
+.sidebar-icon-compact:hover .sidebar-compact-badge {
+    background: white;
+    color: #667eea;
+}
+
+.sidebar-compact-icon {
+    font-size: 1.3rem;
+    color: #333;
+    line-height: 1;
+    transition: all 0.2s ease;
+}
+
+.sidebar-compact-badge {
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: white;
+    background: #667eea;
+    border-radius: 6px;
+    padding: 1px 4px;
+    min-width: 14px;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.sidebar-compact-badge.has-items {
+    background: #ef4444;
+    animation: badge-pulse 2s infinite;
+}
+
+@keyframes badge-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Tooltip para iconos colapsados */
+#sidebar-tooltip {
+    position: fixed;
+    background: #1e293b;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    z-index: 10001;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    max-width: 200px;
+}
+
+#sidebar-tooltip.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+#sidebar-tooltip::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 6px solid transparent;
+    border-right-color: #1e293b;
+}
+
+.active-sidebar.sidebar-collapsed {
+    width: 50px !important;
+    min-width: 50px !important;
+    padding: 0 !important;
+    position: relative;
+}
+
+/* Ocultar contenido interno al colapsar */
+.stats-menu.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left):not(.sidebar-strip-label):not(.sidebar-icons-container):not(.sidebar-icons-compact):not(.sidebar-icons-container-top),
+.active-sidebar.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label):not(.sidebar-icons-container) {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+/* Mostrar contenido al expandir */
+.stats-menu:not(.sidebar-collapsed) > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label),
+.active-sidebar:not(.sidebar-collapsed) > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label) {
+    opacity: 1;
+    pointer-events: auto;
     transition: opacity 0.25s ease 0.05s; /* leve delay para que espere al ancho */
 }
 
@@ -2122,70 +2387,114 @@ body {
 }
 
 /* ========================================
-   SIDEBAR COMPACTO CON ICONOS (NUEVO)
+   SIDEBAR COMPACTO CON ICONOS
+   Diseño moderno con transiciones suaves
    ======================================== */
 
+/* Estado por defecto: EXPANDIDO */
 .stats-menu {
-    width: 60px !important;
-    min-width: 60px !important;
-    padding: 10px 5px !important;
+    width: 260px;
+    min-width: 260px;
+    padding: 20px 15px;
     display: flex;
     flex-direction: column;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                min-width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Estado colapsado: solo iconos */
+.stats-menu.sidebar-collapsed {
+    width: 70px !important;
+    min-width: 70px !important;
+    padding: 15px 8px !important;
     align-items: center;
     background: #f8f9fa;
     border-right: 1px solid #e0e0e0;
-    position: relative;
 }
 
+/* Ocultar contenido expandido cuando colapsado */
+.stats-menu.sidebar-collapsed .menu-section,
+.stats-menu.sidebar-collapsed .stat-modal-trigger,
+.stats-menu.sidebar-collapsed h2 {
+    display: none !important;
+}
+
+/* Mostrar iconos compactos solo cuando colapsado */
+.stats-menu:not(.sidebar-collapsed) .sidebar-icons-compact,
+.stats-menu:not(.sidebar-collapsed) .sidebar-toggle-btn-left {
+    display: none !important;
+}
+
+.stats-menu.sidebar-collapsed .sidebar-icons-compact {
+    display: flex !important;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* Botón toggle izquierdo */
 .sidebar-toggle-btn-left {
-    width: 17px;
-    height: 50px;
-    background: #667eea;
+    width: 20px;
+    height: 56px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
     border: none;
-    border-radius: 0 6px 6px 0;
+    border-radius: 0 8px 8px 0;
     cursor: pointer;
-    font-size: 10px;
+    font-size: 11px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
-    right: -17px;
+    right: -20px;
     top: 50%;
     transform: translateY(-50%);
     z-index: 100;
+    transition: all 0.2s ease;
+    box-shadow: 2px 0 8px rgba(102, 126, 234, 0.3);
 }
 
-.sidebar-icons-compact {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-    align-items: center;
+.sidebar-toggle-btn-left:hover {
+    background: linear-gradient(135deg, #5a52d5, #6a3f91);
+    width: 24px;
+    box-shadow: 3px 0 12px rgba(102, 126, 234, 0.4);
 }
 
+/* Iconos compactos */
 .sidebar-icon-compact {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    border-radius: 8px;
+    border-radius: 10px;
     background: white;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    gap: 2px;
 }
 
 .sidebar-icon-compact:hover {
-    background: #667eea;
-    transform: scale(1.05);
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    transform: scale(1.08);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
 .sidebar-icon-compact:hover .sidebar-compact-icon {
     color: white;
+    transform: scale(1.1);
 }
 
 .sidebar-icon-compact:hover .sidebar-compact-badge {
@@ -2194,26 +2503,65 @@ body {
 }
 
 .sidebar-compact-icon {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     color: #333;
     line-height: 1;
+    transition: all 0.2s ease;
 }
 
 .sidebar-compact-badge {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     font-weight: 700;
-    color: #999;
-    background: #e9ecef;
-    border-radius: 8px;
-    padding: 1px 5px;
-    min-width: 16px;
+    color: white;
+    background: #667eea;
+    border-radius: 6px;
+    padding: 1px 4px;
+    min-width: 14px;
     text-align: center;
-    margin-top: 2px;
+    transition: all 0.2s ease;
 }
 
 .sidebar-compact-badge.has-items {
-    background: #667eea;
+    background: #ef4444;
+    animation: badge-pulse 2s infinite;
+}
+
+@keyframes badge-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Tooltip para iconos colapsados */
+#sidebar-tooltip {
+    position: fixed;
+    background: #1e293b;
     color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    z-index: 10001;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    max-width: 200px;
+}
+
+#sidebar-tooltip.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+#sidebar-tooltip::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 6px solid transparent;
+    border-right-color: #1e293b;
 }
 
 /* ========================================
