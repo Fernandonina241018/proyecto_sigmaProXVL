@@ -417,7 +417,7 @@ const TrabajoManager = (() => {
 
             switchView('datos');
 
-            alert(`✅ Datos guardados correctamente.\n\n${formattedData.length} filas · ${headers.length} columnas\nRevísalos en la vista Datos y usa "Enviar a Análisis" cuando estés listo.`);
+           // alert(`✅ Datos guardados correctamente.\n\n${formattedData.length} filas · ${headers.length} columnas\nRevísalos en la vista Datos y usa "Enviar a Análisis" cuando estés listo.`);
         } catch (err) {
             console.error('Error al guardar:', err);
             alert('❌ Error al guardar: ' + err.message);
