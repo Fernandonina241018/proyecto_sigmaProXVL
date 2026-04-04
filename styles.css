@@ -1,15 +1,84 @@
 /* ========================================
+   SISTEMA DE DISEÑO - CSS VARIABLES
+   ======================================== */
+:root {
+    /* Colores Primarios */
+    --color-primary: #667eea;
+    --color-primary-dark: #3046ac;
+    --color-primary-light: #764ba2;
+    --color-secondary: #1a3a6b;
+    
+    /* Gradiente Principal Unificado */
+    --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+    --gradient-dark: linear-gradient(135deg, #000 0%, #211ed1 100%);
+    --gradient-navy: linear-gradient(135deg, var(--color-secondary) 0%, #2c5282 100%);
+    
+    /* Fondos */
+    --bg-body: linear-gradient(135deg, #0b2dc2 0%, #661ab3 100%);
+    --bg-card: #f8f9fa;
+    --bg-panel: #ffffff;
+    --bg-hover: #f1f5f9;
+    --bg-input: #f8fafc;
+    
+    /* Bordes */
+    --border-color: #e9ecef;
+    --border-color-light: #e2e8f0;
+    --border-radius-sm: 6px;
+    --border-radius-md: 10px;
+    --border-radius-lg: 12px;
+    --border-radius-xl: 16px;
+    
+    /* Texto */
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --text-light: #ffffff;
+    
+    /* Estados */
+    --color-success: #276749;
+    --color-success-bg: #c6f6d5;
+    --color-warning: #b7791f;
+    --color-warning-bg: #fefcbf;
+    --color-danger: #c53030;
+    --color-danger-bg: #fed7d7;
+    --color-info: #2b6cb0;
+    --color-info-bg: #bee3f8;
+    
+    /* Sombras */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
+    
+    /* Espaciado */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 12px;
+    --spacing-lg: 16px;
+    --spacing-xl: 20px;
+    --spacing-2xl: 24px;
+    
+    /* Fuentes */
+    --font-family: 'Segoe UI', sans-serif;
+    --font-mono: 'Courier New', monospace;
+    
+    /* Z-Index */
+    --z-dropdown: 1000;
+    --z-modal: 2000;
+    --z-toast: 3000;
+}
+
+/* ========================================
    RESET Y CONFIGURACIÓN GENERAL
    ======================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: var(--font-family);
 }
 
 body {
-    background: linear-gradient(135deg, #0b2dc2 0%, #661ab3 100%);
+    background: var(--bg-body);
     min-height: 100vh;
 }
 
@@ -3078,4 +3147,161 @@ body {
 
 .top-nav .nav-item.active .nav-icon {
     font-size: 1.4rem !important;
+}
+
+/* ========================================
+   CLASES UTILITARIAS - SISTEMA DE DISEÑO
+   Usar estas clases para nuevos componentes
+   ======================================== */
+
+/* --- Botones --- */
+.btn-primary {
+    background: var(--gradient-primary) !important;
+    color: var(--text-light) !important;
+    border: none !important;
+    border-radius: var(--border-radius-md) !important;
+    padding: var(--spacing-sm) var(--spacing-lg) !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border: 2px solid var(--color-primary) !important;
+    border-radius: var(--border-radius-md) !important;
+    padding: var(--spacing-sm) var(--spacing-lg) !important;
+    font-weight: 500 !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background: var(--color-primary) !important;
+    color: var(--text-light) !important;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, var(--color-danger) 0%, #9b2c2c 100%) !important;
+    color: var(--text-light) !important;
+    border: none !important;
+    border-radius: var(--border-radius-md) !important;
+    padding: var(--spacing-sm) var(--spacing-lg) !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+}
+
+/* --- Tablas Estándar --- */
+.table-standard {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.table-standard thead {
+    background: var(--gradient-primary) !important;
+    color: var(--text-light) !important;
+}
+
+.table-standard th {
+    padding: var(--spacing-md) var(--spacing-lg) !important;
+    font-weight: 600;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.table-standard td {
+    padding: var(--spacing-sm) var(--spacing-md) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.table-standard tr:hover {
+    background: var(--bg-hover) !important;
+}
+
+.table-standard tbody tr:nth-child(even) {
+    background: var(--bg-card);
+}
+
+/* --- Badges de Estado --- */
+.badge-success {
+    background: var(--color-success-bg) !important;
+    color: var(--color-success) !important;
+    padding: 2px 8px !important;
+    border-radius: 20px !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+}
+
+.badge-warning {
+    background: var(--color-warning-bg) !important;
+    color: var(--color-warning) !important;
+    padding: 2px 8px !important;
+    border-radius: 20px !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+}
+
+.badge-danger {
+    background: var(--color-danger-bg) !important;
+    color: var(--color-danger) !important;
+    padding: 2px 8px !important;
+    border-radius: 20px !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+}
+
+.badge-info {
+    background: var(--color-info-bg) !important;
+    color: var(--color-info) !important;
+    padding: 2px 8px !important;
+    border-radius: 20px !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+}
+
+/* --- Tarjetas (Cards) --- */
+.card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--border-radius-lg) !important;
+    padding: var(--spacing-lg) !important;
+    box-shadow: var(--shadow-sm);
+}
+
+.card-header {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* --- Inputs Estándar --- */
+.input-standard {
+    border: 2px solid var(--border-color-light) !important;
+    border-radius: var(--border-radius-md) !important;
+    padding: var(--spacing-sm) var(--spacing-md) !important;
+    font-size: 0.9rem;
+    background: var(--bg-input) !important;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+}
+
+.input-standard:focus {
+    outline: none;
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
 }

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Estadístico - StatAnalyzer Pro</title>
+    <link rel="stylesheet" href="visualizacion.css">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="reportes.css">
+    <link rel="stylesheet" href="auditoria.css">
+    <link rel="stylesheet" href="usuarios.css">
+    <link rel="stylesheet" href="datos.css">
+    <link rel="stylesheet" href="analisis-dashboard.css">
+    <link rel="stylesheet" href="permisos.css">
+    <link rel="stylesheet" href="parametros.css">
+</head>
+<body>
+    <!-- Botón oculto para importar datos (trigger para script.js) -->
+    <button class="btn-import" style="display:none" aria-hidden="true"></button>
+    
+    <div class="app-container">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="logo">
+                <div class="logo-icon" style="font-family: Arial, sans-serif !important; color: white !important; display: flex !important; align-items: center !important; justify-content: center !important;">SAP2.0</div>
+                <span>StatAnalyzer Pro</span>
+            </div>
+            
+            <div class="nav-center">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="Buscar..." id="globalSearch" onkeyup="handleGlobalSearch(event)">
+                </div>
+            </div>
+            
+            <div class="nav-right">
+                <button class="notification-btn" onclick="showNotifications()" title="Notificaciones">
+                    🔔
+                    <span class="notification-badge" id="notifBadge" style="display:none">0</span>
+                </button>
+                
+                <div class="user-menu">
+                    <div class="user-trigger" onclick="toggleUserDropdown()">
+                        <div class="user-avatar" id="userAvatar">FN</div>
+                        <div class="user-info">
+                            <span class="user-name" id="userName">Usuario</span>
+                            <span class="user-role" id="userRole">Usuario</span>
+                        </div>
+                        <span class="user-dropdown-icon">▼</span>
+                    </div>
+                    
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="dropdown-header">
+                            <div class="dropdown-header-name" id="dropdownName">Usuario</div>
+                            <div class="dropdown-header-email" id="dropdownEmail">usuario@sigmapro.com</div>
+                        </div>
+                        <div class="dropdown-item" onclick="abrirModalPerfil()">
+                            <span class="dropdown-item-icon">👤</span>
+                            Mi Perfil
+                        </div>
+                        <div class="dropdown-item">
+                            <span class="dropdown-item-icon">⚙️</span>
+                            Configuración
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item">
+                            <span class="dropdown-item-icon">🔒</span>
+                            Cambiar Contraseña
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item logout" onclick="Auth.logout()">
+                            <span class="dropdown-item-icon">🚪</span>
+                            Cerrar Sesión
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nav-menu">
+                <div class="nav-item active" data-view="trabajo" onclick="switchView('trabajo')"><span class="nav-icon">📋</span>Trabajo</div>
+                <div class="nav-item" data-view="datos" onclick="switchView('datos')"><span class="nav-icon">📊</span>Datos</div>
+                <div class="nav-item" data-view="analisis" onclick="switchView('analisis')"><span class="nav-icon">🔬</span>Análisis</div>
+                <div class="nav-item" data-view="visualizacion" onclick="switchView('visualizacion')"><span class="nav-icon">📈</span>Visualización</div>
+                <div class="nav-item" data-view="reportes" onclick="switchView('reportes')"><span class="nav-icon">📄</span>Reportes</div>
+                <div class="nav-item" data-view="auditoria" id="nav-auditoria" onclick="switchView('auditoria')" style="display:none"><span class="nav-icon">📋</span>Auditoría</div>
+                <div class="nav-item" data-view="usuarios" id="nav-usuarios" onclick="switchView('usuarios')" style="display:none"><span class="nav-icon">👥</span>Usuarios</div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-area">
+            <!-- Statistics Menu - Compacto con Iconos -->
+            <div class="stats-menu" id="stats-menu-compact">
+                <div class="sidebar-toggle-btn-left" id="btnLeft"></div>
+                <div class="sidebar-icons-container-top">
+                    <div class="sidebar-icons-compact" id="sidebarIconsCompact"></div>
+                </div>
+            </div>
+
+            <!-- Work Space -->
+            <div class="work-space">
+
+                <!-- Vista de Análisis -->
+                <div id="view-analisis" class="workspace-view">
+                    <div class="workspace-header">
+                        <h2>🔬 Espacio de Trabajo</h2>
+                    </div>
+                    <div class="content-placeholder">
+                        <h3>¡Comienza tu análisis!</h3>
+                        <p>Selecciona los estadísticos del menú lateral</p>
+                    </div>
+                </div>
+
+                <!-- Vista de Datos -->
+                <div id="view-datos" class="workspace-view">
+                    <div class="workspace-header">
+                        <h2>📊 Gestión de Datos</h2>
+                    </div>
+                    <div id="datos-main-container"></div>
+                </div>
+
+                <!-- Vista de Visualización -->
+                <div id="view-visualizacion" class="workspace-view">
+                    <div class="workspace-header">
+                        <h2>📉 Visualización de Datos</h2>
+                        <div class="action-buttons">
+                            <button class="btn-export-chart" onclick="Visualizacion.exportarImagen()">🖼️ Exportar PNG</button>
+                        </div>
+                    </div>
+                    <div id="viz-container"></div>
+                </div>
+
+                <!-- Vista de Reportes -->
+                <div id="view-reportes" class="workspace-view">
+                    <div class="workspace-header">
+                        <h2>📄 Generación de Reportes</h2>
+                        <div class="action-buttons">
+                            <button onclick="inicializarReportes()">🔄 Actualizar</button>
+                        </div>
+                    </div>
+                    <div id="reportes-editor-container"></div>
+                </div>
+
+                <!-- Vista de Trabajo -->
+                <div id="view-trabajo" class="workspace-view active">
+                    <div class="workspace-header">
+                        <h2>📋 Hoja de Trabajo</h2>
+                    </div>
+                    <div class="trabajo-toolbar">
+                        <div class="toolbar-row">
+                            <div class="toolbar-buttons">
+                                <button class="btn-add-row" title="Agregar fila">➕ Fila</button>
+                                <button class="btn-add-column" title="Agregar columna">➕ Col</button>
+                                <button class="btn-delete-row" title="Eliminar fila">➖ Fila</button>
+                                <button class="btn-delete-column" title="Eliminar columna">➖ Col</button>
+                                <span class="toolbar-divider"></span>
+                                <button class="btn-clear-table" title="Limpiar todo">🗑️</button>
+                                <button class="btn-save-work" title="Guardar datos">💾</button>
+                            </div>
+                            <div class="toolbar-controls">
+                                <div class="control-group">
+                                    <label>Filas:</label>
+                                    <input type="number" id="initial-rows" value="13" min="1" max="100">
+                                </div>
+                                <div class="control-group">
+                                    <label>Cols:</label>
+                                    <input type="number" id="initial-cols" value="10" min="1" max="20">
+                                </div>
+                                <button class="btn-generate-table">🔄 Generar</button>
+                                <button class="btn-normal-data" onclick="TM.abrirModalDatosNormales()" title="Generar datos con distribución normal">🎲 Datos Normales</button>
+                                <button class="btn-ampliar-datos" onclick="TM.abrirModalAmpliarDatos()" title="Ampliar datos existentes">📈 Ampliar Datos</button>
+                            </div>
+                        </div>
+                        <div class="toolbar-row sheets-row">
+                            <div class="sheets-tabs" id="sheetsTabs"></div>
+                        </div>
+                    </div>
+                    <div class="trabajo-main">
+                        <div class="trabajo-table-area">
+                            <div id="editable-table-wrapper"></div>
+                        </div>
+                        <div class="trabajo-sidebar" id="work-summary">
+                            <div class="summary-title">📈 Resumen</div>
+                            <div class="summary-item">
+                                <span class="summary-label">Filas</span>
+                                <span class="summary-value" id="count-rows">0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Columnas</span>
+                                <span class="summary-value" id="count-cols">0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Celdas con datos</span>
+                                <span class="summary-value" id="count-filled">0</span>
+                            </div>
+                            <div class="summary-divider"></div>
+                            <div class="summary-item">
+                                <span class="summary-label">Hoja activa</span>
+                                <span class="summary-value" id="activeSheetName">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Total hojas</span>
+                                <span class="summary-value" id="totalSheets">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ↑ CIERRE CORRECTO de view-trabajo -->
+
+                <!-- Vista de Auditoría — FUERA de view-trabajo -->
+                <div id="view-auditoria" class="workspace-view">
+                    <div class="workspace-header">
+                        <h2>🔍 Auditoría de Accesos</h2>
+                        <div class="action-buttons">
+                            <button onclick="AuditoriaManager.exportarCSV()">📥 Exportar CSV</button>
+                        </div>
+                    </div>
+                    <div id="auditoria-container"></div>
+                </div>
+
+                <div id="view-usuarios" class="workspace-view">
+                    <div class="workspace-header">
+                        <h2>👥 Gestión de Usuarios</h2>
+                    </div>
+                    <div id="usuarios-container"></div>
+                </div>
+
+            </div>
+            <!-- ↑ CIERRE de work-space -->
+
+            <!-- Active Stats Sidebar -->
+            <div class="active-sidebar">
+                <div class="sidebar-header">
+                    <h3>En Proceso</h3>
+                    <button class="btn-clear-stats" id="btnClearStats" title="Limpiar todos" onclick="clearAllStats()">✕</button>
+                </div>
+                <div id="activeStatsContainer"></div>
+                <div class="stats-count" id="statsCount">0 estadísticos activos</div>
+                <div class="empty-state" id="emptyState">
+                    <p>No hay estadísticos seleccionados</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltip Flotante para Sidebar -->
+    <div id="sidebar-tooltip" class="sidebar-tooltip">
+        <div class="tooltip-header">
+            <span class="tooltip-icon"></span>
+            <span class="tooltip-title"></span>
+        </div>
+        <div class="tooltip-description"></div>
+        <div class="tooltip-stats"></div>
+    </div>
+
+    <!-- Modal de Selección de Estadísticos -->
+    <div id="stat-selection-modal" class="stat-modal">
+        <div class="stat-modal-content">
+            <div class="stat-modal-header">
+                <span class="stat-modal-icon" id="modalStatIcon"></span>
+                <h3 id="modalStatTitle">Selección de Estadísticos</h3>
+                <button class="stat-modal-close" onclick="closeStatModal()">✕</button>
+            </div>
+            <div class="stat-modal-body" id="modalStatList"></div>
+            <div class="stat-modal-footer">
+                <span class="stat-modal-count" id="modalStatCount">Seleccionados: 0</span>
+                <div class="stat-modal-buttons">
+                    <button class="btn-select-all" onclick="selectAllInModal()">Seleccionar todos</button>
+                    <button class="btn-deselect-all" onclick="deselectAllInModal()">Deseleccionar todos</button>
+                    <button class="btn-apply" onclick="applyStatSelection()">Aplicar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Generar Datos Normales -->
+    <div id="modal-normal-data" class="stat-modal">
+        <div class="stat-modal-content">
+            <div class="stat-modal-header">
+                <span class="stat-modal-icon">🎲</span>
+                <h3>Generar Datos Normales</h3>
+                <button class="stat-modal-close" onclick="TM.cerrarModalDatosNormales()">✕</button>
+            </div>
+            <div class="stat-modal-body">
+                <div class="normal-data-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nd-min">Mínimo</label>
+                            <input type="number" id="nd-min" value="0" step="any">
+                        </div>
+                        <div class="form-group">
+                            <label for="nd-max">Máximo</label>
+                            <input type="number" id="nd-max" value="100" step="any">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nd-std">Desviación Estándar</label>
+                            <input type="number" id="nd-std" value="15" step="any" min="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="nd-decimals">Decimales</label>
+                            <input type="number" id="nd-decimals" value="2" min="0" max="10">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nd-rows">Filas</label>
+                            <input type="number" id="nd-rows" value="10" min="1" max="1000">
+                        </div>
+                        <div class="form-group">
+                            <label for="nd-cols">Columnas</label>
+                            <input type="number" id="nd-cols" value="3" min="1" max="20">
+                        </div>
+                    </div>
+                    <div class="form-info">
+                        <p><small>La media se calcula automáticamente como (mínimo + máximo) / 2</small></p>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-modal-footer">
+                <div class="stat-modal-buttons" style="justify-content: flex-end;">
+                    <button class="btn-apply" onclick="TM.generarDatosNormales()">✅ Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Ampliar Datos -->
+    <div id="modal-ampliar-datos" class="stat-modal">
+        <div class="stat-modal-content" style="max-width: 500px;">
+            <div class="stat-modal-header">
+                <span class="stat-modal-icon">📈</span>
+                <h3>Ampliar Datos</h3>
+                <button class="stat-modal-close" onclick="TM.cerrarModalAmpliarDatos()">✕</button>
+            </div>
+            <div class="stat-modal-body">
+                <div class="ampliar-data-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ad-columna">Columna a Ampliar</label>
+                            <select id="ad-columna" onchange="TM.actualizarInfoColumna()">
+                                <option value="">-- Seleccionar columna --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ad-metodo">Método de Ampliación</label>
+                            <select id="ad-metodo" onchange="TM.actualizarParametrosMetodo()">
+                                <option value="interpolacion">📐 Interpolación</option>
+                                <option value="bootstrap">🔄 Bootstrap (Re-muestreo)</option>
+                                <option value="augmentation">🎲 Data Augmentation (Ruido)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ad-tipo">Tipo de Datos</label>
+                            <select id="ad-tipo">
+                                <option value="temporales">📅 Series Temporales</option>
+                                <option value="transversales">📊 Datos Transversales</option>
+                                <option value="experimentales">🔬 Datos Experimentales</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ad-factor">Factor de Ampliación</label>
+                            <select id="ad-factor">
+                                <option value="2">2x (Duplicar)</option>
+                                <option value="3">3x (Triplicar)</option>
+                                <option value="5">5x</option>
+                                <option value="10">10x</option>
+                                <option value="custom">Personalizado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row" id="ad-custom-factor-row" style="display: none;">
+                        <div class="form-group">
+                            <label for="ad-custom-factor">Factor Personal (2-100)</label>
+                            <input type="number" id="ad-custom-factor" value="2" min="2" max="100">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ad-decimals">Decimales a Preservar</label>
+                            <input type="number" id="ad-decimals" value="4" min="0" max="10">
+                        </div>
+                    </div>
+
+                    <!-- Parámetros Interpolación -->
+                    <div id="ad-params-interpolacion" class="ad-params-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ad-interp-tipo">Tipo de Interpolación</label>
+                                <select id="ad-interp-tipo">
+                                    <option value="lineal">Lineal (Rápida)</option>
+                                    <option value="spline">Spline Cúbica (Suave)</option>
+                                    <option value="polinomica">Polinómica (Curvatura)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Parámetros Bootstrap -->
+                    <div id="ad-params-bootstrap" class="ad-params-section" style="display: none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ad-bootstrap-reps">Repeticiones</label>
+                                <select id="ad-bootstrap-reps">
+                                    <option value="100">100 (Rápido)</option>
+                                    <option value="500">500 (Estándar)</option>
+                                    <option value="1000">1000 (Precisión)</option>
+                                    <option value="5000">5000 (Alta Precisión)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Parámetros Augmentation -->
+                    <div id="ad-params-augmentation" class="ad-params-section" style="display: none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ad-ruido-nivel">Nivel de Ruido</label>
+                                <select id="ad-ruido-nivel">
+                                    <option value="0.1">Bajo (0.1) - Mínimo cambio</option>
+                                    <option value="0.2">Medio (0.2) - Moderado</option>
+                                    <option value="0.3">Alto (0.3) - Mayor variación</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ad-guardado">Opción de Guardado</label>
+                            <select id="ad-guardado">
+                                <option value="nueva-hoja">📋 Nueva Hoja (Recomendado)</option>
+                                <option value="nueva-columna">📊 Nueva Columna</option>
+                                <option value="reemplazar">⚠️ Reemplazar Datos Originales</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-info">
+                        <p><small id="ad-info-texto">💡 La interpolación genera valores entre puntos conocidos</small></p>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-modal-footer">
+                <div class="stat-modal-buttons" style="justify-content: flex-end;">
+                    <button class="btn-apply" onclick="TM.ampliarDatos()">✅ Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts — chart.js ANTES de script.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="utils.js"></script>
+    <script src="auth.js"></script>
+    <script src="StateManager.js"></script>
+    <script src="TrabajoManager.js"></script>
+    <script src="EstadisticaDescriptiva.js"></script>
+    <script src="Visualizacion.js"></script>
+    <script src="ReporteManager.js"></script>
+    <script src="AuditoriaManager.js"></script>
+    <script src="UsuariosManager.js"></script>
+    <script src="DatosManager.js"></script>
+    <script src="PermisosManager.js"></script>
+    <script src="ParametrosManager.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
