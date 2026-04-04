@@ -1,6 +1,6 @@
 // ========================================
 // server.js — StatAnalyzer Pro Backend
-// Express + PostgreSQL + JWT
+// Express + SQLite (sqlite3) + JWT
 // ========================================
 
 require('dotenv').config();
@@ -25,46 +25,10 @@ const bcrypt  = require('bcryptjs');
 const jwt     = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
-const helmet = require('helmet');
-const compression = require('compression');
-const pinoHttp = require('pino-http');
-const { v4: uuidv4 } = require('uuid');
 const db      = require('./database');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
-
-// ── Logging con Pino (estructurado) ──
-const logger = pinoHttp({
-    level: process.env.LOG_LEVEL || 'info',
-    serializers: {
-        req: (req) => ({
-            method: req.method,
-            url: req.url,
-        }),
-        res: (res) => ({
-            statusCode: res.statusCode,
-        }),
-    },
-});
-app.use(logger);
-
-// ── Helmet - Headers de seguridad ──
-app.use(helmet({
-    crossOriginResourcePolicy: { policy: 'cross-origin' },
-    crossOriginEmbedderPolicy: false,
-}));
-
-// ── Compression - Respuestas comprimidas ──
-app.use(compression());
-
-// ── Request ID tracking ──
-app.use((req, res, next) => {
-    const requestId = req.headers['x-request-id'] || uuidv4();
-    req.id = requestId;
-    res.setHeader('X-Request-ID', requestId);
-    next();
-});
 
 // ── CORS manual — primero que todo ────
 // Railway sobreescribe los headers del paquete 'cors'
@@ -91,7 +55,7 @@ app.use((req, res, next) => {
     }
     
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Request-ID');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     
     if (req.method === 'OPTIONS') {
@@ -166,55 +130,13 @@ function checkAndAlertIP(ip, username) {
 }
 
 // ── Inicializar BD al arrancar ────────
-const startTime = Date.now();
-let server;
-
 (async () => {
     await db.initDatabase();
     await db.createInitialAdmin();
 
-    server = app.listen(PORT, () => {
-        logger.info({ msg: 'Servidor iniciado', port: PORT, pid: process.pid });
-        logger.info({ msg: 'Health check', url: `http://localhost:${PORT}/api/health` });
-    });
-
-    // ── Graceful shutdown ──
-    const gracefulShutdown = async (signal) => {
-        logger.info({ msg: `Señal ${signal} recibida, cerrando servidor...` });
-        
-        if (server) {
-            server.close(async () => {
-                logger.info({ msg: 'Servidor HTTP cerrado' });
-                
-                try {
-                    await db.run('SELECT 1');
-                    logger.info({ msg: 'Conexión a DB cerrada correctamente' });
-                } catch (err) {
-                    logger.warn({ msg: 'Error al cerrar DB', error: err.message });
-                }
-                
-                process.exit(0);
-            });
-            
-            // Forzar cierre después de 10 segundos
-            setTimeout(() => {
-                logger.error({ msg: 'Forzando cierre después de 10s' });
-                process.exit(1);
-            }, 10000);
-        }
-    };
-
-    process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
-    process.on('SIGINT', () => gracefulShutdown('SIGINT'));
-    
-    // Manejar errores no capturados
-    process.on('uncaughtException', (err) => {
-        logger.error({ msg: 'Error no capturado', error: err.message, stack: err.stack });
-        process.exit(1);
-    });
-    
-    process.on('unhandledRejection', (reason) => {
-        logger.error({ msg: 'Promesa rechazada no manejada', reason: String(reason) });
+    app.listen(PORT, () => {
+        console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+        console.log(`📋 Health check: http://localhost:${PORT}/api/health`);
     });
 })();
 
@@ -260,34 +182,9 @@ function getClientIP(req) {
 // RUTAS
 // ========================================
 
-// Health check completo
-app.get('/api/health', async (req, res) => {
-    const uptime = Math.floor((Date.now() - startTime) / 1000);
-    const memUsage = process.memoryUsage();
-    
-    let dbStatus = 'unknown';
-    try {
-        await db.run('SELECT 1');
-        dbStatus = 'connected';
-    } catch (err) {
-        dbStatus = 'disconnected';
-    }
-    
-    res.json({
-        ok: true,
-        service: 'StatAnalyzer Pro API',
-        version: '2.0.0',
-        timestamp: new Date().toISOString(),
-        uptime: `${uptime}s`,
-        database: dbStatus,
-        memory: {
-            rss: `${Math.round(memUsage.rss / 1024 / 1024)}MB`,
-            heapUsed: `${Math.round(memUsage.heapUsed / 1024 / 1024)}MB`,
-            heapTotal: `${Math.round(memUsage.heapTotal / 1024 / 1024)}MB`,
-        },
-        pid: process.pid,
-        nodeVersion: process.version,
-    });
+// Health check
+app.get('/api/health', (req, res) => {
+    res.json({ ok: true, service: 'StatAnalyzer Pro API', time: new Date().toISOString() });
 });
 
 
