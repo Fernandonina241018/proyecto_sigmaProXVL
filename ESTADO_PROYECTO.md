@@ -98,6 +98,57 @@
 
 ## 🔧 CAMBIOS RECIENTES
 
+### 4 de Abril 2026 - Fix: Partículas de símbolos estadísticos en login (animación JS)
+
+**Cambio:** Reemplazadas animaciones CSS con variables CSS por animación JavaScript con `requestAnimationFrame`
+- **Archivos:** `auth.js`, `auth.css`
+- **Razón:** Las variables CSS (`var(--drift)`, `var(--rot)`) dentro de `@keyframes` no funcionaban en navegadores de PC, solo en móvil. Los símbolos aparecían y desaparecían sin volver a aparecer
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Eliminada regla `.auth-symbol` y `@keyframes auth-symbol-float` de `auth.css` (usaban `calc(var(...))` incompatible)
+- Nueva función `_renderParticles()` en `auth.js` crea partículas de símbolos dinámicamente con estilos inline
+- Loop de animación con `requestAnimationFrame` calcula posición Y (sube desde abajo), deriva X, rotación, opacidad y escala
+- 20 símbolos estadísticos flotantes con distribución horizontal completa (5%-95% del ancho)
+- Cada partícula tiene duración, delay, dirección de rotación y deriva aleatorios
+- Ciclo infinito: los símbolos reaparecen desde abajo al completar cada ciclo
+- Las partículas circulares de fondo mantienen su animación CSS (funcionaban correctamente)
+
+**Archivos modificados:**
+1. `auth.js` - Función `_renderParticles()` reescrita (~120 líneas nuevas)
+2. `auth.css` - Eliminada regla `.auth-symbol` y `@keyframes auth-symbol-float` (~20 líneas removidas)
+
+**Problemas resueltos:**
+1. Símbolos no aparecían en PC → Causa: `calc(var(--drift))` en `@keyframes` no soportado
+2. Símbolos aparecían solo en columna izquierda → Causa: falta de `left` definido en cada partícula
+3. Símbolos desaparecían sin reaparecer → Causa: cálculo incorrecto del ciclo con `elapsed % dur`
+
+---
+
+### 4 de Abril 2026 - Fix: Botón toggle del sidebar izquierdo posicionado entre sidebar y área de trabajo
+
+**Cambio:** El botón de toggle del sidebar izquierdo ahora se posiciona correctamente en el espacio entre el sidebar y el área de trabajo
+- **Archivos:** `script.js`, `styles.css`, `index.html`
+- **Razón:** El botón aparecía dentro del sidebar en lugar de en el borde entre el sidebar y el área central
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Eliminado `<div class="sidebar-toggle-btn-left" id="btnLeft">` estático del HTML
+- Botón izquierdo creado dinámicamente como hijo de `.main-area` (no del sidebar)
+- Clase `.sidebar-toggle-btn-left-pos` con posicionamiento absoluto relativo al `.main-area`
+- Posición `left: 280px` cuando expandido, `left: 90px` cuando colapsado
+- Transición suave de `0.3s ease` en la propiedad `left`
+- `.main-area` tiene `position: relative` y `overflow: hidden`
+- Eliminado regla CSS duplicada `.sidebar-toggle-btn-left`
+- Eliminado definición duplicada de `.stats-menu` que forzaba `width: 60px !important`
+
+**Archivos modificados:**
+1. `index.html` - Eliminado div estático del botón izquierdo
+2. `script.js` - Botón creado dinámicamente en `setupSidebarToggles()`, toggle de clase `sidebar-collapsed`
+3. `styles.css` - Nueva regla `.sidebar-toggle-btn-left-pos`, limpieza de reglas duplicadas
+
+---
+
 ### 3 de Abril 2026 - Regresión Lineal Múltiple, Polinomial y Logística
 
 **Cambio:** Implementación de tres nuevas funciones de regresión

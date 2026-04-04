@@ -15,6 +15,11 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false },
 });
 
+// ── Manejo de errores del pool ───────────────
+pool.on('error', (err) => {
+    console.error('❌ Error inesperado en cliente inactivo del pool:', err.message);
+});
+
 // ── Utilidades de query ───────────────
 async function run(sql, params = []) {
     const client = await pool.connect();
@@ -68,7 +73,13 @@ async function initDatabase() {
         )
     `);
 
+    // ── Índices de rendimiento ───────────────
+    await run(`CREATE INDEX IF NOT EXISTS idx_users_username ON users (username)`);
+    await run(`CREATE INDEX IF NOT EXISTS idx_audit_log_timestamp ON audit_log (timestamp DESC)`);
+    await run(`CREATE INDEX IF NOT EXISTS idx_audit_log_username ON audit_log (username)`);
+
     console.log('✅ Tablas verificadas en Supabase');
+    console.log('✅ Índices de rendimiento aplicados');
 }
 
 // ── Admin inicial ─────────────────────
