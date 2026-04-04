@@ -69,6 +69,7 @@ const DatosManager = (() => {
                         <button class="dm-btn dm-btn-tool" id="dm-btn-norm"     title="Normalización Min-Max">📐 Normalizar</button>
                         <button class="dm-btn dm-btn-tool" id="dm-btn-outliers" title="Detectar outliers (IQR)">⚠️ Detectar outliers</button>
                         <button class="dm-btn dm-btn-tool" id="dm-btn-calcol"   title="Crear columna calculada">➕ Crear columna</button>
+                        <button class="dm-btn dm-btn-tool" id="dm-btn-dupcol"   title="Duplicar columna">📋 Duplicar columna</button>
                         <button class="dm-btn dm-btn-tool" id="dm-btn-delcol"   title="Eliminar columnas">✂️ Eliminar columnas</button>
                     </div>
                 </div>
@@ -361,6 +362,7 @@ const DatosManager = (() => {
         document.getElementById('dm-btn-norm')?.addEventListener('click', _wrapEditar(_doNormalize));
         document.getElementById('dm-btn-outliers')?.addEventListener('click', _doDetectOutliers);
         document.getElementById('dm-btn-calcol')?.addEventListener('click', _wrapEditar(_doCreateColumn));
+        document.getElementById('dm-btn-dupcol')?.addEventListener('click', _wrapEditar(_doDuplicateColumn));
         document.getElementById('dm-btn-delcol')?.addEventListener('click', _wrapEditar(_doDeleteColumns));
         document.getElementById('dm-btn-replace')?.addEventListener('click', _wrapEditar(_doSearchReplace));
         document.getElementById('dm-btn-combine')?.addEventListener('click', _doCombine);
@@ -687,6 +689,74 @@ const DatosManager = (() => {
             close();
             buildView();
             _showToast(`✅ Columna "${newName}" creada`);
+        });
+    }
+
+    function _doDuplicateColumn() {
+        const imported = _getData();
+        if (!imported) return _showToast('⚠️ No hay datos cargados', true);
+        if (!imported.headers.length) return _showToast('⚠️ No hay columnas disponibles', true);
+
+        document.getElementById('dm-dupcol-modal')?.remove();
+
+        const modal = document.createElement('div');
+        modal.id = 'dm-dupcol-modal';
+        modal.innerHTML = `
+        <div class="dm-modal-overlay" id="dm-dupcol-overlay"></div>
+        <div class="dm-modal-card">
+            <div class="dm-modal-header">
+                <h3>📋 Duplicar columna</h3>
+                <button class="dm-modal-close" id="dm-dupcol-close">✕</button>
+            </div>
+            <div class="dm-modal-body">
+                <div class="dm-field">
+                    <label>Columna a duplicar</label>
+                    <select id="dm-dupcol-source">
+                        ${imported.headers.map(h=>`<option value="${escapeHtml(h)}">${escapeHtml(h)}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="dm-field" style="margin-top:14px">
+                    <label>Nombre de la nueva columna</label>
+                    <input id="dm-dupcol-name" type="text" placeholder="nombre_copia" value="">
+                </div>
+            </div>
+            <div class="dm-modal-footer">
+                <button class="dm-btn dm-btn-cancel" id="dm-dupcol-cancel">Cancelar</button>
+                <button class="dm-btn dm-btn-success" id="dm-dupcol-confirm">📋 Duplicar</button>
+            </div>
+        </div>`;
+        document.body.appendChild(modal);
+        requestAnimationFrame(() => modal.classList.add('dm-modal-visible'));
+
+        const sourceSelect = document.getElementById('dm-dupcol-source');
+        const nameInput = document.getElementById('dm-dupcol-name');
+        nameInput.value = sourceSelect.value + '_copia';
+
+        sourceSelect.addEventListener('change', () => {
+            nameInput.value = sourceSelect.value + '_copia';
+        });
+
+        const close = () => { modal.classList.remove('dm-modal-visible'); setTimeout(() => modal.remove(), 250); };
+        document.getElementById('dm-dupcol-close').addEventListener('click', close);
+        document.getElementById('dm-dupcol-cancel').addEventListener('click', close);
+        document.getElementById('dm-dupcol-overlay').addEventListener('click', close);
+
+        document.getElementById('dm-dupcol-confirm').addEventListener('click', () => {
+            const sourceCol = sourceSelect.value;
+            const newName = nameInput.value.trim();
+
+            if (!newName) return _showToast('⚠️ Escribe un nombre para la nueva columna', true);
+            if (imported.headers.includes(newName)) return _showToast(`⚠️ Ya existe una columna llamada "${newName}"`, true);
+
+            imported.headers.push(newName);
+            imported.data.forEach(row => {
+                row[newName] = row[sourceCol];
+            });
+
+            StateManager.setImportedData(imported, StateManager.getState().fileName);
+            close();
+            buildView();
+            _showToast(`✅ Columna "${sourceCol}" duplicada como "${newName}"`);
         });
     }
 
