@@ -13,8 +13,6 @@ const bcrypt   = require('bcryptjs');
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false },
-    idleTimeoutMillis: 10000,
-    connectionTimeoutMillis: 5000,
 });
 
 // ── Manejo de errores del pool ───────────────
