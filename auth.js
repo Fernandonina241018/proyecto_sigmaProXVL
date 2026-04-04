@@ -208,15 +208,6 @@ const Auth = (() => {
         const symbolParticles = [];
         for (let i = 0; i < 20; i++) {
             const span = document.createElement('span');
-            span.style.cssText = `
-                position: absolute;
-                font-family: 'Segoe UI', 'Georgia', serif;
-                font-weight: 700;
-                line-height: 1;
-                pointer-events: none;
-                user-select: none;
-            `;
-            span.textContent = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
 
             const size    = 11 + Math.random() * 28;
             const color   = COLORS[Math.floor(Math.random() * COLORS.length)];
@@ -228,8 +219,19 @@ const Auth = (() => {
             const rotAmt  = rotDir * (30 + Math.random() * 60);
             const startX  = 5 + Math.random() * 90;          // 5% a 95% del ancho
 
-            span.style.fontSize = size + 'px';
-            span.style.color = color + baseOpacity + ')';
+            span.style.cssText = `
+                position: absolute;
+                left: ${startX}%;
+                top: 0;
+                font-family: 'Segoe UI', 'Georgia', serif;
+                font-weight: 700;
+                line-height: 1;
+                pointer-events: none;
+                user-select: none;
+                font-size: ${size}px;
+                color: ${color}${baseOpacity});
+            `;
+            span.textContent = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
 
             c.appendChild(span);
 
