@@ -37,38 +37,8 @@
     100% { transform: translateY(-130px) scale(0.75); opacity: 0; }
 }
 
-/* ── Símbolos estadísticos ── */
-.auth-symbol {
-    position: absolute;
-    font-family: 'Segoe UI', 'Georgia', serif;
-    font-weight: 700;
-    line-height: 1;
-    pointer-events: none;
-    user-select: none;
-    animation: auth-symbol-float linear infinite;
-    /* Variables CSS definidas inline desde JS */
-}
-
-@keyframes auth-symbol-float {
-    0% {
-        transform:  translateY(0)     translateX(0)          rotate(0deg)      scale(0.6);
-        opacity: 0;
-    }
-    8% {
-        opacity: 1;
-        transform:  translateY(-8vh)  translateX(calc(var(--drift) * 0.2))  rotate(calc(var(--rot) * 0.2)) scale(1);
-    }
-    50% {
-        transform:  translateY(-50vh) translateX(calc(var(--drift) * 0.7))  rotate(calc(var(--rot) * 0.6)) scale(1.05);
-    }
-    92% {
-        opacity: 1;
-    }
-    100% {
-        transform:  translateY(-110vh) translateX(var(--drift))             rotate(var(--rot))              scale(0.7);
-        opacity: 0;
-    }
-}
+/* ── Símbolos estadísticos (animados via JS) ── */
+/* Las partículas de símbolos se crean dinámicamente en auth.js con requestAnimationFrame */
 
 /* ── Card central ── */
 .auth-card {

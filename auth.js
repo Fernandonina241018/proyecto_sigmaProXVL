@@ -220,7 +220,7 @@ const Auth = (() => {
 
             const size    = 11 + Math.random() * 28;
             const color   = COLORS[Math.floor(Math.random() * COLORS.length)];
-            const opacity = 0.10 + Math.random() * 0.22;
+            const baseOpacity = 0.15 + Math.random() * 0.20;
             const dur     = 10000 + Math.random() * 20000;  // duración en ms
             const delay   = Math.random() * 15000;           // delay en ms
             const rotDir  = Math.random() > 0.5 ? 1 : -1;
@@ -229,31 +229,27 @@ const Auth = (() => {
             const startX  = 5 + Math.random() * 90;          // 5% a 95% del ancho
 
             span.style.fontSize = size + 'px';
-            span.style.color = color + opacity + ')';
-            span.style.left = startX + '%';
+            span.style.color = color + baseOpacity + ')';
 
             c.appendChild(span);
 
             symbolParticles.push({
                 el: span,
                 startX,
-                dur, delay, drift, rotAmt,
+                dur, delay, drift, rotAmt, baseOpacity,
                 startTime: performance.now() + delay
             });
         }
 
         // ── Loop de animación con requestAnimationFrame ──
-        let animId = null;
         function animateParticles(now) {
-            const containerH = c.offsetHeight;
-
             for (let i = 0; i < symbolParticles.length; i++) {
                 const p = symbolParticles[i];
                 const elapsed = now - p.startTime;
 
                 if (elapsed < 0) {
                     // Aún no empezó (delay) - mantener oculto abajo
-                    p.el.style.transform = `translateY(110vh) translateX(0) rotate(0deg) scale(0.6)`;
+                    p.el.style.transform = `translateY(${window.innerHeight}px) translateX(0) rotate(0deg) scale(0.6)`;
                     p.el.style.opacity = 0;
                     continue;
                 }
@@ -261,9 +257,9 @@ const Auth = (() => {
                 // Progreso normalizado (0 a 1) dentro de cada ciclo
                 const t = (elapsed % p.dur) / p.dur;
 
-                // Movimiento vertical: de +110vh (abajo fuera) a -10vh (arriba fuera)
-                const yStart = containerH * 1.1;   // empieza abajo fuera de vista
-                const yEnd = -containerH * 0.1;    // termina arriba fuera de vista
+                // Movimiento vertical: de abajo (window.innerHeight) a arriba (-100px)
+                const yStart = window.innerHeight;
+                const yEnd = -100;
                 const y = yStart + t * (yEnd - yStart);
 
                 // Deriva horizontal
@@ -272,11 +268,11 @@ const Auth = (() => {
                 // Rotación
                 const rot = t * p.rotAmt;
 
-                // Opacidad: fade in al inicio, visible en medio, fade out al final
-                let op = 0;
-                if (t < 0.1) op = t / 0.1;
-                else if (t > 0.85) op = (1 - t) / 0.15;
-                else op = 1;
+                // Opacidad: fade in al 10%, visible hasta 85%, fade out al final
+                let opFactor = 0;
+                if (t < 0.1) opFactor = t / 0.1;
+                else if (t > 0.85) opFactor = (1 - t) / 0.15;
+                else opFactor = 1;
 
                 // Scale: crece al inicio, se mantiene, decrece al final
                 let sc = 0.6;
@@ -286,13 +282,13 @@ const Auth = (() => {
                 else sc = 1;
 
                 p.el.style.transform = `translateY(${y}px) translateX(${x}px) rotate(${rot}deg) scale(${sc})`;
-                p.el.style.opacity = op * (0.10 + (p.opacity || 0.15));
+                p.el.style.opacity = opFactor;
             }
 
-            animId = requestAnimationFrame(animateParticles);
+            requestAnimationFrame(animateParticles);
         }
 
-        animId = requestAnimationFrame(animateParticles);
+        requestAnimationFrame(animateParticles);
     }
 
     function _attachLoginListeners() {
