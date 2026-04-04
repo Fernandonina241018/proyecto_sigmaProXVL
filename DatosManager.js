@@ -540,19 +540,37 @@ const DatosManager = (() => {
         const numCols = _getNumericCols(imported);
         if (!numCols.length) return _showToast('⚠️ No hay columnas numéricas', true);
 
+        let normalized = 0, skipped = 0;
+
         numCols.forEach(col => {
             const vals = imported.data.map(r => parseFloat(r[col])).filter(v => !isNaN(v));
             const min = Math.min(...vals), max = Math.max(...vals), range = max - min;
             if (range === 0) return;
+
+            const normMin = Math.min(...vals.map(v => ((v - min) / range)));
+            const normMax = Math.max(...vals.map(v => ((v - min) / range)));
+            if (Math.abs(normMin - 0) < 0.0001 && Math.abs(normMax - 1) < 0.0001) {
+                skipped++;
+                return;
+            }
+
             imported.data.forEach(row => {
                 const v = parseFloat(row[col]);
                 if (!isNaN(v)) row[col] = ((v - min) / range).toFixed(4);
             });
+            normalized++;
         });
 
         StateManager.setImportedData(imported, StateManager.getState().fileName);
         _refreshTable();
-        _showToast(`✅ Normalización Min-Max en ${numCols.length} columna(s)`);
+
+        if (normalized > 0 && skipped > 0) {
+            _showToast(`✅ ${normalized} columna(s) normalizada(s), ${skipped} ya normalizada(s)`);
+        } else if (normalized > 0) {
+            _showToast(`✅ Normalización Min-Max en ${normalized} columna(s)`);
+        } else {
+            _showToast('ℹ️ Todas las columnas ya están normalizadas');
+        }
     }
 
     function _doDetectOutliers() {
