@@ -1339,7 +1339,7 @@ let currentModalSection = null;
 
 function createSidebarIconContainers(leftSidebar, rightSidebar) {
     // ========================================
-    // 1. GENERAR CONTENIDO EXPANDIDO (acordeón)
+    // 1. GENERAR CONTENIDO EXPANDIDO (icono + label)
     // ========================================
     
     // Título del sidebar
@@ -1347,50 +1347,18 @@ function createSidebarIconContainers(leftSidebar, rightSidebar) {
     sidebarTitle.textContent = '📊 Estadísticos';
     leftSidebar.insertBefore(sidebarTitle, leftSidebar.firstChild);
 
-    // Generar secciones con acordeón
+    // Generar secciones como icono + label (sin acordeón)
     Object.entries(SIDEBAR_SECTIONS).forEach(([key, section]) => {
-        // Contenedor de sección
-        const sectionEl = document.createElement('div');
-        sectionEl.className = 'menu-section';
-
-        // Header del acordeón
-        const header = document.createElement('div');
-        header.className = 'accordion-header';
-        header.innerHTML = `<span>${section.icon} ${section.label}</span><span class="accordion-icon">▼</span>`;
-        sectionEl.appendChild(header);
-
-        // Contenido del acordeón
-        const content = document.createElement('div');
-        content.className = 'accordion-content';
-
-        // Opciones dentro del acordeón
-        section.options.forEach(opt => {
-            const optEl = document.createElement('div');
-            optEl.className = 'menu-option';
-            optEl.textContent = opt;
-            optEl.addEventListener('click', () => {
-                openStatModal(key, opt);
-            });
-            content.appendChild(optEl);
+        const item = document.createElement('div');
+        item.className = 'sidebar-section-item';
+        item.innerHTML = `
+            <span class="sidebar-section-icon">${section.icon}</span>
+            <span class="sidebar-section-label">${section.label}</span>
+        `;
+        item.addEventListener('click', () => {
+            openStatModal(key);
         });
-
-        sectionEl.appendChild(content);
-        leftSidebar.appendChild(sectionEl);
-
-        // Toggle del acordeón
-        header.addEventListener('click', () => {
-            const isActive = header.classList.contains('active');
-            // Cerrar todos los acordeones
-            leftSidebar.querySelectorAll('.accordion-header').forEach(h => {
-                h.classList.remove('active');
-                h.nextElementSibling.classList.remove('active');
-            });
-            // Abrir el clickeado (si no estaba activo)
-            if (!isActive) {
-                header.classList.add('active');
-                content.classList.add('active');
-            }
-        });
+        leftSidebar.appendChild(item);
     });
 
     // ========================================
