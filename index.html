@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StatAnalyzer Pro - Herramienta profesional de análisis estadístico">
     <title>Análisis Estadístico - StatAnalyzer Pro</title>
     <link rel="stylesheet" href="visualizacion.css">
     <link rel="stylesheet" href="auth.css">
@@ -35,6 +36,11 @@
             </div>
             
             <div class="nav-right">
+                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Cambiar tema" title="Cambiar tema">
+                    <span class="icon-sun">☀️</span>
+                    <span class="icon-moon">🌙</span>
+                </button>
+                
                 <button class="notification-btn" onclick="showNotifications()" title="Notificaciones">
                     🔔
                     <span class="notification-badge" id="notifBadge" style="display:none">0</span>

@@ -2623,4 +2623,34 @@ document.addEventListener('click', function(e) {
     }
 });
 
+// ========================================
+// DARK MODE TOGGLE
+// ========================================
+
+function toggleTheme() {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    const icon = newTheme === 'dark' ? '🌙' : '☀️';
+    _showToast(`Tema cambiado a ${newTheme === 'dark' ? 'oscuro' : 'claro'} ${icon}`);
+}
+
+// Initialize theme on page load
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+    
+    document.documentElement.setAttribute('data-theme', theme);
+}
+
+// Ejecutar al cargar
+document.addEventListener('DOMContentLoaded', initTheme);
+
+console.log('✅ Tema inicializado');
+
 console.log('✅ script.js cargado - Nuevo navbar integrado');
