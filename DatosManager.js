@@ -697,7 +697,7 @@ const DatosManager = (() => {
                 </div>
             </div>
             <div class="dm-modal-footer">
-                <button class="dm-btn dm-btn-secondary" id="dm-delcol-cancel">Cancelar</button>
+                <button class="dm-btn dm-btn-success" id="dm-delcol-cancel">Cancelar</button>
                 <button class="dm-btn dm-btn-danger" id="dm-delcol-confirm">✂️ Eliminar seleccionadas</button>
             </div>
         </div>`;
