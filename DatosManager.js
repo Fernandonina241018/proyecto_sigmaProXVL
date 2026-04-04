@@ -218,7 +218,7 @@ const DatosManager = (() => {
             <button class="dm-btn dm-btn-send" id="dm-btn-send-analisis" title="Enviar a Análisis">
                 ▶ Enviar a Análisis
             </button>
-            <button class="dm-btn dm-btn-danger-sm" id="dm-btn-clear-data" title="Eliminar datos">🗑️</button>
+            <button class="dm-btn dm-btn-danger-sm" id="dm-btn-clear-data" title="Eliminar datos">🗑️ Elimar Datos</button>
         </div>`;
     }
 
