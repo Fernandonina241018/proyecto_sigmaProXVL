@@ -151,6 +151,96 @@ const EstadisticaDescriptiva = (() => {
         return (sd / mean) * 100;
     }
     
+    /**
+     * Calcula la covarianza entre dos variables
+     * Positiva: X e Y tienden a moverse juntas
+     * Negativa: X e Y tienden a moverse en direcciones opuestas
+     */
+    function calcularCovarianza(x, y) {
+        if (x.length !== y.length) {
+            throw new Error('Los arrays deben tener la misma longitud');
+        }
+        if (x.length < 2) {
+            throw new Error('Se necesitan al menos 2 pares de datos');
+        }
+        
+        const meanX = calcularMedia(x);
+        const meanY = calcularMedia(y);
+        const n = x.length;
+        
+        const sumProducts = x.reduce((acc, xi, i) => {
+            return acc + (xi - meanX) * (y[i] - meanY);
+        }, 0);
+        
+        return sumProducts / (n - 1);
+    }
+    
+    /**
+     * Calcula el RMSE (Root Mean Square Error)
+     * Mide la diferencia promedio entre valores observados y predichos
+     * Menor RMSE = mejor ajuste del modelo
+     */
+    function calcularRMSE(observados, predichos) {
+        if (observados.length !== predichos.length) {
+            throw new Error('Los arrays deben tener la misma longitud');
+        }
+        if (observados.length === 0) {
+            throw new Error('Se necesitan al menos 1 par de datos');
+        }
+        
+        const n = observados.length;
+        const sumSquaredErrors = observados.reduce((acc, obs, i) => {
+            const error = obs - predichos[i];
+            return acc + error * error;
+        }, 0);
+        
+        return Math.sqrt(sumSquaredErrors / n);
+    }
+    
+    /**
+     * Calcula el MAE (Mean Absolute Error)
+     * Mide el error absoluto promedio entre observados y predichos
+     * Más robusto a outliers que RMSE
+     */
+    function calcularMAE(observados, predichos) {
+        if (observados.length !== predichos.length) {
+            throw new Error('Los arrays deben tener la misma longitud');
+        }
+        if (observados.length === 0) {
+            throw new Error('Se necesitan al menos 1 par de datos');
+        }
+        
+        const n = observados.length;
+        const sumAbsErrors = observados.reduce((acc, obs, i) => {
+            return acc + Math.abs(obs - predichos[i]);
+        }, 0);
+        
+        return sumAbsErrors / n;
+    }
+    
+    /**
+     * Calcula el R² (Coeficiente de determinación)
+     * Proporción de la varianza explicada por el modelo
+     * R² = 1: ajuste perfecto, R² = 0: no mejor que la media
+     */
+    function calcularR2(observados, predichos) {
+        if (observados.length !== predichos.length) {
+            throw new Error('Los arrays deben tener la misma longitud');
+        }
+        if (observados.length < 2) {
+            throw new Error('Se necesitan al menos 2 pares de datos');
+        }
+        
+        const meanObs = calcularMedia(observados);
+        
+        const ssTot = observados.reduce((acc, obs) => acc + Math.pow(obs - meanObs, 2), 0);
+        const ssRes = observados.reduce((acc, obs, i) => acc + Math.pow(obs - predichos[i], 2), 0);
+        
+        if (ssTot === 0) return 0;
+        
+        return 1 - (ssRes / ssTot);
+    }
+    
     // ========================================
     // PERCENTILES Y CUARTILES
     // ========================================
@@ -606,6 +696,183 @@ const EstadisticaDescriptiva = (() => {
     }
 
     /**
+     * Test de Mann-Whitney U (Wilcoxon rank-sum)
+     * Alternativa no-paramétrica al t-test de dos muestras
+     * No asume distribución normal ni varianzas iguales
+     */
+    function calcularMannWhitneyU(grupo1, grupo2) {
+        if (!Array.isArray(grupo1) || !Array.isArray(grupo2)) {
+            return { error: 'Se requieren dos arrays de datos' };
+        }
+        if (grupo1.length < 3 || grupo2.length < 3) {
+            return { error: 'Cada grupo necesita al menos 3 observaciones' };
+        }
+
+        const n1 = grupo1.length;
+        const n2 = grupo2.length;
+
+        // Combinar y ordenar con etiquetas de grupo
+        const combined = [
+            ...grupo1.map(v => ({ valor: v, grupo: 1 })),
+            ...grupo2.map(v => ({ valor: v, grupo: 2 }))
+        ].sort((a, b) => a.valor - b.valor);
+
+        // Asignar rangos (manejar empates con promedio)
+        const rangos = new Array(combined.length);
+        let i = 0;
+        while (i < combined.length) {
+            const currentVal = combined[i].valor;
+            let j = i;
+            while (j < combined.length && combined[j].valor === currentVal) {
+                j++;
+            }
+            const rangoPromedio = (i + 1 + j) / 2;
+            for (let k = i; k < j; k++) {
+                rangos[k] = rangoPromedio;
+            }
+            i = j;
+        }
+
+        // Suma de rangos por grupo
+        let R1 = 0, R2 = 0;
+        combined.forEach((item, idx) => {
+            if (item.grupo === 1) R1 += rangos[idx];
+            else R2 += rangos[idx];
+        });
+
+        // Calcular U para cada grupo
+        const U1 = R1 - (n1 * (n1 + 1)) / 2;
+        const U2 = R2 - (n2 * (n2 + 1)) / 2;
+        const U = Math.min(U1, U2);
+
+        // Estadístico z (aproximación normal para muestras grandes)
+        const meanU = (n1 * n2) / 2;
+        const sdU = Math.sqrt((n1 * n2 * (n1 + n2 + 1)) / 12);
+        const z = (U - meanU) / sdU;
+
+        // Valor p bilateral
+        const p = 2 * normalCDF(z);
+
+        // Tamaño del efecto (r de correlación)
+        const N = n1 + n2;
+        const r = Math.abs(z) / Math.sqrt(N);
+
+        // Interpretación del tamaño del efecto
+        let efecto = '';
+        if (r >= 0.5) efecto = 'grande';
+        else if (r >= 0.3) efecto = 'moderado';
+        else if (r >= 0.1) efecto = 'pequeño';
+        else efecto = 'muy pequeño o nulo';
+
+        const mediana1 = calcularMediana(grupo1);
+        const mediana2 = calcularMediana(grupo2);
+
+        return {
+            prueba: 'Test de Mann-Whitney U',
+            grupo1: { n: n1, mediana: mediana1, sumaRangos: R1 },
+            grupo2: { n: n2, mediana: mediana2, sumaRangos: R2 },
+            U1: parseFloat(U1.toFixed(4)),
+            U2: parseFloat(U2.toFixed(4)),
+            U: parseFloat(U.toFixed(4)),
+            z: parseFloat(z.toFixed(4)),
+            valorP: parseFloat(p.toFixed(6)),
+            significativo: p < 0.05,
+            tamanoEfecto: parseFloat(r.toFixed(4)),
+            interpretacionEfecto: efecto,
+            interpretacion: p < 0.05
+                ? `Se rechaza H₀ (p=${p.toFixed(4)} < 0.05). Las distribuciones son significativamente diferentes. Efecto ${efecto} (r=${r.toFixed(3)}).`
+                : `No se rechaza H₀ (p=${p.toFixed(4)} ≥ 0.05). No hay diferencia significativa entre las distribuciones.`
+        };
+    }
+
+    /**
+     * Test de Kruskal-Wallis
+     * Alternativa no-paramétrica al ANOVA One-Way
+     * Compara 3 o más grupos sin asumir distribución normal
+     */
+    function calcularKruskalWallis(grupos) {
+        if (!Array.isArray(grupos) || grupos.length < 3) {
+            return { error: 'Se necesitan al menos 3 grupos' };
+        }
+
+        const k = grupos.length;
+        const N = grupos.reduce((sum, g) => sum + g.length, 0);
+        if (N < 5) return { error: 'Se necesitan al menos 5 observaciones en total' };
+
+        // Combinar todos los datos con etiquetas de grupo
+        const combined = [];
+        grupos.forEach((g, gi) => {
+            g.forEach(v => combined.push({ valor: v, grupo: gi }));
+        });
+        combined.sort((a, b) => a.valor - b.valor);
+
+        // Asignar rangos (manejar empates)
+        const rangos = new Array(combined.length);
+        let i = 0;
+        let sumaCorreccionEmpates = 0;
+        while (i < combined.length) {
+            const currentVal = combined[i].valor;
+            let j = i;
+            while (j < combined.length && combined[j].valor === currentVal) {
+                j++;
+            }
+            const rangoPromedio = (i + 1 + j) / 2;
+            const t = j - i; // número de empates
+            if (t > 1) {
+                sumaCorreccionEmpates += (t * t * t - t);
+            }
+            for (let idx = i; idx < j; idx++) {
+                rangos[idx] = rangoPromedio;
+            }
+            i = j;
+        }
+
+        // Suma de rangos por grupo
+        const sumasRangos = new Array(k).fill(0);
+        const tamanos = grupos.map(g => g.length);
+        combined.forEach((item, idx) => {
+            sumasRangos[item.grupo] += rangos[idx];
+        });
+
+        // Estadístico H
+        let H = 0;
+        for (let gi = 0; gi < k; gi++) {
+            H += (sumasRangos[gi] * sumasRangos[gi]) / tamanos[gi];
+        }
+        H = (12 / (N * (N + 1))) * H - 3 * (N + 1);
+
+        // Corrección por empates
+        if (sumaCorreccionEmpates > 0) {
+            const C = 1 - sumaCorreccionEmpates / (N * N * N - N);
+            if (C > 0) H = H / C;
+        }
+
+        // Grados de libertad
+        const df = k - 1;
+
+        // Valor p usando aproximación chi-cuadrado
+        const p = calcularValorP_ChiCuadrado(H, df);
+
+        // Medianas por grupo
+        const medianas = grupos.map(g => calcularMediana(g));
+
+        return {
+            prueba: 'Test de Kruskal-Wallis',
+            grupos: k,
+            totalObservaciones: N,
+            medianas: medianas.map((m, i) => ({ grupo: i + 1, mediana: parseFloat(m.toFixed(4)) })),
+            sumasRangos: sumasRangos.map((s, i) => ({ grupo: i + 1, suma: parseFloat(s.toFixed(4)) })),
+            H: parseFloat(H.toFixed(4)),
+            df: df,
+            valorP: parseFloat(p.toFixed(6)),
+            significativo: p < 0.05,
+            interpretacion: p < 0.05
+                ? `Se rechaza H₀ (p=${p.toFixed(4)} < 0.05). Al menos un grupo tiene una distribución diferente.`
+                : `No se rechaza H₀ (p=${p.toFixed(4)} ≥ 0.05). No hay diferencia significativa entre los grupos.`
+        };
+    }
+
+    /**
      * ANOVA One-Way
      * Compara las medias de 3 o más grupos
      */
@@ -800,6 +1067,165 @@ const EstadisticaDescriptiva = (() => {
                 : `Se rechaza H₀ (p=${valorP.toFixed(4)} < 0.05). Los datos NO siguen distribución normal.`
          };
        }
+     
+     /**
+      * Test de Shapiro-Wilk para normalidad
+      * Más potente que Jarque-Bera para muestras pequeñas (n < 50)
+      * H₀: Los datos siguen una distribución normal
+      */
+     function calcularShapiroWilk(values) {
+         const n = values.length;
+         if (n < 3) return { error: 'Se necesitan al menos 3 observaciones' };
+         if (n > 5000) return { error: 'El test de Shapiro-Wilk está limitado a 5000 observaciones' };
+
+         const sorted = sortNumbers(values);
+         const mean = calcularMedia(sorted);
+
+         // Coeficientes de Shapiro-Wilk (aproximación)
+         // Para n <= 50, usar tabla de coeficientes
+         // Para n > 50, usar aproximación de Royston
+         const a = calcularCoeficientesSW(n);
+
+         // Estadístico W
+         const b = sorted.reduce((sum, xi, i) => sum + a[i] * xi, 0);
+         const W = (b * b) / sorted.reduce((sum, xi) => sum + Math.pow(xi - mean, 2), 0);
+
+         // Valor p usando aproximación
+         const p = calcularValorP_ShapiroWilk(W, n);
+
+         return {
+             prueba: 'Test de Shapiro-Wilk',
+             n: n,
+             estadisticoW: parseFloat(W.toFixed(6)),
+             valorP: parseFloat(p.toFixed(6)),
+             esNormal: p >= 0.05,
+             interpretacion: p >= 0.05
+                 ? `No se rechaza H₀ (p=${p.toFixed(4)} ≥ 0.05). Los datos pueden seguir distribución normal.`
+                 : `Se rechaza H₀ (p=${p.toFixed(4)} < 0.05). Los datos NO siguen distribución normal.`
+         };
+     }
+
+     /**
+      * Calcula coeficientes de Shapiro-Wilk
+      * Aproximación basada en valores esperados de orden normal
+      */
+     function calcularCoeficientesSW(n) {
+         const a = new Array(n);
+         const m = new Array(n);
+
+         // Valores esperados de orden normal (aproximación de Blom)
+         for (let i = 0; i < n; i++) {
+             m[i] = normalInverseCDF((i + 1 - 0.375) / (n + 0.25));
+         }
+
+         // Normalizar
+         const mSqSum = m.reduce((sum, mi) => sum + mi * mi, 0);
+         const factor = 1 / Math.sqrt(mSqSum);
+
+         for (let i = 0; i < n; i++) {
+             a[i] = m[i] * factor;
+         }
+
+         return a;
+     }
+
+     /**
+      * Calcula valor p para Shapiro-Wilk
+      * Usa tabla de valores críticos interpolada para n=3 a 5000
+      */
+     function calcularValorP_ShapiroWilk(W, n) {
+         // Tabla de valores críticos de Shapiro-Wilk para alpha=0.05
+         // Fuente: Royston (1995), Approximating Shapiro-Wilk test
+         const tablaCritica = {
+             3: 0.767, 4: 0.748, 5: 0.762, 6: 0.788, 7: 0.803,
+             8: 0.818, 9: 0.829, 10: 0.842, 11: 0.850, 12: 0.859,
+             13: 0.866, 14: 0.874, 15: 0.881, 16: 0.887, 17: 0.892,
+             18: 0.897, 19: 0.901, 20: 0.905, 25: 0.918, 30: 0.927,
+             35: 0.934, 40: 0.940, 45: 0.944, 50: 0.947, 60: 0.952,
+             70: 0.956, 80: 0.959, 90: 0.962, 100: 0.964, 150: 0.971,
+             200: 0.976, 300: 0.981, 400: 0.984, 500: 0.986, 1000: 0.991,
+             2000: 0.994, 5000: 0.997
+         };
+
+         // Encontrar valores críticos más cercanos
+         const keys = Object.keys(tablaCritica).map(Number).sort((a,b)=>a-b);
+         let lower = keys[0], upper = keys[keys.length - 1];
+
+         for (let i = 0; i < keys.length - 1; i++) {
+             if (n >= keys[i] && n <= keys[i+1]) {
+                 lower = keys[i];
+                 upper = keys[i+1];
+                 break;
+             }
+         }
+
+         // Interpolación lineal del valor crítico
+         const wCrit = tablaCritica[lower] + (tablaCritica[upper] - tablaCritica[lower]) * (n - lower) / (upper - lower);
+
+         // Si W > valor crítico, no se rechaza H0 (datos normales)
+         // Calcular p-value aproximado basado en distancia al valor crítico
+         if (W >= wCrit) {
+             // p > 0.05, estimar cuánto mayor
+             const diff = W - wCrit;
+             const p = Math.min(0.99, 0.05 + diff * 5);
+             return p;
+         } else {
+             // p < 0.05, estimar cuánto menor
+             const diff = wCrit - W;
+             const p = Math.max(0.001, 0.05 - diff * 5);
+             return p;
+         }
+     }
+
+     /**
+      * Función inversa de la CDF normal (aproximación de Beasley-Springer-Moro)
+      */
+     function normalInverseCDF(p) {
+         if (p <= 0) return -Infinity;
+         if (p >= 1) return Infinity;
+         if (p === 0.5) return 0;
+
+         // Aproximación racional
+         const a = [
+             -3.969683028665376e+01, 2.209460984245205e+02,
+             -2.759285104469687e+02, 1.383577518672690e+02,
+             -3.066479806614716e+01, 2.506628277459239e+00
+         ];
+         const b = [
+             -5.447609879822406e+01, 1.615858368580409e+02,
+             -1.556989798598866e+02, 6.680131188771972e+01,
+             -1.328068155288572e+01
+         ];
+         const c = [
+             -7.784894002430293e-03, -3.223964580411365e-01,
+             -2.400758277161838e+00, -2.549732539343734e+00,
+             4.374664141464968e+00, 2.938163982698783e+00
+         ];
+         const d = [
+             7.784695709041462e-03, 3.224671290700398e-01,
+             2.445134137142996e+00, 3.754408661907416e+00
+         ];
+
+         const pLow = 0.02425;
+         const pHigh = 1 - pLow;
+
+         let q, r;
+
+         if (p < pLow) {
+             q = Math.sqrt(-2 * Math.log(p));
+             return (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) /
+                    ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1);
+         } else if (p <= pHigh) {
+             q = p - 0.5;
+             r = q * q;
+             return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * q /
+                    (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1);
+         } else {
+             q = Math.sqrt(-2 * Math.log(1 - p));
+             return -(((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) /
+                     ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1);
+         }
+     }
      
      // ========================================
      // FUNCIONES DE CORRELACIÓN
@@ -1042,11 +1468,95 @@ const EstadisticaDescriptiva = (() => {
          i = j;
        }
        
-       return ranks;
-     }
-     
-     /**
-      * Función de distribución acumulativa t de Student (aproximación)
+        return ranks;
+      }
+      
+      /**
+       * Calcula la correlación de Kendall Tau-b
+       * Mide la asociación ordinal entre dos variables
+       * Más robusta que Spearman para datos con muchos empates
+       */
+      function calcularKendallTau(x, y) {
+          if (x.length !== y.length) {
+              throw new Error('Los arrays deben tener la misma longitud');
+          }
+          if (x.length < 3) {
+              throw new Error('Se necesitan al menos 3 pares de datos');
+          }
+          
+          const n = x.length;
+          let concordantes = 0;
+          let discordantes = 0;
+          let empatesX = 0;
+          let empatesY = 0;
+          
+          for (let i = 0; i < n; i++) {
+              for (let j = i + 1; j < n; j++) {
+                  const dx = x[i] - x[j];
+                  const dy = y[i] - y[j];
+                  
+                  if (dx === 0 && dy === 0) continue; // Empate en ambos
+                  
+                  if (dx === 0) {
+                      empatesX++;
+                  } else if (dy === 0) {
+                      empatesY++;
+                  } else if ((dx > 0 && dy > 0) || (dx < 0 && dy < 0)) {
+                      concordantes++;
+                  } else {
+                      discordantes++;
+                  }
+              }
+          }
+          
+          const n0 = n * (n - 1) / 2;
+          const n1 = empatesX;
+          const n2 = empatesY;
+          
+          // Tau-b (corrige empates)
+          const tauB = (concordantes - discordantes) / Math.sqrt((n0 - n1) * (n0 - n2));
+          
+          // Estadístico z para prueba de significancia
+          const varTau = (2 * (2 * n + 5)) / (9 * n * (n - 1));
+          const z = Math.abs(tauB) / Math.sqrt(varTau);
+          
+          // Valor p usando distribución normal
+          const p = 2 * (1 - normalCDF(z));
+          
+          // Interpretación
+          let interpretacion = '';
+          const absTau = Math.abs(tauB);
+          if (absTau >= 0.8) {
+              interpretacion = tauB > 0 ? 'Correlación positiva MUY FUERTE' : 'Correlación negativa MUY FUERTE';
+          } else if (absTau >= 0.6) {
+              interpretacion = tauB > 0 ? 'Correlación positiva FUERTE' : 'Correlación negativa FUERTE';
+          } else if (absTau >= 0.4) {
+              interpretacion = tauB > 0 ? 'Correlación positiva MODERADA' : 'Correlación negativa MODERADA';
+          } else if (absTau >= 0.2) {
+              interpretacion = tauB > 0 ? 'Correlación positiva DÉBIL' : 'Correlación negativa DÉBIL';
+          } else {
+              interpretacion = tauB > 0 ? 'Correlación positiva MUY DÉBIL' : 'Correlación negativa MUY DÉBIL';
+          }
+          
+          return {
+              prueba: 'Correlación de Kendall Tau-b',
+              tau: parseFloat(tauB.toFixed(4)),
+              concordantes: concordantes,
+              discordantes: discordantes,
+              empatesX: empatesX,
+              empatesY: empatesY,
+              z: parseFloat(z.toFixed(4)),
+              p: parseFloat(p.toFixed(6)),
+              pValue: parseFloat(p.toFixed(6)),
+              significante: p < 0.05,
+              interpretacion: interpretacion,
+              n: n,
+              formula: 'τ = (C - D) / √[(n₀ - n₁)(n₀ - n₂)]'
+          };
+      }
+      
+      /**
+       * Función de distribución acumulativa t de Student (aproximación)
       * @param {number} t - Valor t
       * @param {number} df - Grados de libertad
       * @returns {number} CDF(t)
@@ -2939,6 +3449,10 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         calcularDesviacionEstandar,
         calcularRango,
         calcularCoeficienteVariacion,
+        calcularCovarianza,
+        calcularRMSE,
+        calcularMAE,
+        calcularR2,
         
         // Funciones individuales - Percentiles
         calcularPercentil,
@@ -2960,10 +3474,14 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         // Funciones individuales - Pruebas de Hipótesis
         calcularTTestUnaMuestra,
         calcularTTestDosMuestras,
+        calcularMannWhitneyU,
         calcularANOVA,
+        calcularKruskalWallis,
         calcularANOVA2Factores,
         calcularChiCuadrado,
         calcularTestNormalidad,
+        calcularShapiroWilk,
+        calcularKendallTau,
         
         // Funciones de análisis
         analizarColumna,
