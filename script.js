@@ -526,7 +526,7 @@ function displayImportedData(data) {
         </div>
     </div>`;
 
-    document.getElementById('dp-btn-run')?.addEventListener('click', ejecutarAnalisis);
+    document.getElementById('dp-btn-run')?.addEventListener('click', () => verificarParametrosAntesAnalisis(ejecutarAnalisis));
     document.getElementById('btn-clear-imported')?.addEventListener('click', clearImportedData);
     document.getElementById('btn-download-sample')?.addEventListener('click', downloadSampleData);
 }
@@ -560,6 +560,140 @@ function downloadSampleData() {
     link.download = 'plantilla_datos.csv';
     link.click();
     URL.revokeObjectURL(link.href);
+}
+
+// ========================================
+// VERIFICAR PARÁMETROS ANTES DE ANÁLISIS
+// ========================================
+
+function verificarParametrosAntesAnalisis(callback) {
+    const imported = StateManager.getImportedData();
+    if (!imported || !imported.data || imported.data.length === 0) {
+        callback();
+        return;
+    }
+
+    const numCols = imported.headers.filter((_, i) =>
+        imported.data.some(row => {
+            const val = parseFloat(row[i + 1]);
+            return !isNaN(val);
+        })
+    );
+
+    const sinParams = [];
+    numCols.forEach((col, i) => {
+        if (typeof ParametrosManager.getParametros === 'function') {
+            const p = ParametrosManager.getParametros(col);
+            if (!p || (!p.min && !p.max && !p.esp)) {
+                sinParams.push(col);
+            }
+        }
+    });
+
+    if (sinParams.length === 0) {
+        callback();
+        return;
+    }
+
+    mostrarModalParametros(sinParams, imported, callback);
+}
+
+function mostrarModalParametros(sinParams, imported, callback) {
+    const existing = document.getElementById('parametros-check-modal');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'parametros-check-modal';
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `
+        <div class="parametros-modal">
+            <div class="parametros-modal-header">
+                <h3>⚙️ Parámetros no definidos</h3>
+                <button class="parametros-modal-close" id="pm-close">&times;</button>
+            </div>
+            <div class="parametros-modal-body">
+                <p class="pm-description">
+                    Las siguientes <strong>${sinParams.length} columna(s)</strong> no tienen parámetros definidos:
+                </p>
+                <ul class="pm-columns-list">
+                    ${sinParams.map(c => `<li>📊 ${c}</li>`).join('')}
+                </ul>
+                <p class="pm-hint">¿Qué deseas hacer?</p>
+                <div class="pm-actions">
+                    <button class="pm-btn pm-btn-primary" id="pm-btn-define">
+                        📝 Definir parámetros
+                    </button>
+                    <button class="pm-btn pm-btn-auto" id="pm-btn-auto">
+                        🔬 Generar automáticamente
+                    </button>
+                    <button class="pm-btn pm-btn-skip" id="pm-btn-skip">
+                        ⏭️ Omitir
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    document.getElementById('pm-close').addEventListener('click', () => overlay.remove());
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+
+    document.getElementById('pm-btn-define').addEventListener('click', () => {
+        overlay.remove();
+        const paramsSection = document.querySelector('.dm-params-section');
+        if (paramsSection) {
+            paramsSection.scrollIntoView({ behavior: 'smooth' });
+            const body = document.getElementById('dm-params-body');
+            const chevron = document.getElementById('dm-params-chevron');
+            if (body && body.style.display === 'none') {
+                body.style.display = 'block';
+                if (chevron) chevron.textContent = '▲';
+                localStorage.setItem('dm_params_collapsed', 'false');
+            }
+        } else {
+            switchView('datos');
+            setTimeout(() => {
+                const ps = document.querySelector('.dm-params-section');
+                if (ps) ps.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+    });
+
+    document.getElementById('pm-btn-auto').addEventListener('click', () => {
+        overlay.remove();
+        generarParametrosAuto(imported, sinParams, callback);
+    });
+
+    document.getElementById('pm-btn-skip').addEventListener('click', () => {
+        overlay.remove();
+        callback();
+    });
+}
+
+function generarParametrosAuto(imported, sinParams, callback) {
+    let count = 0;
+    sinParams.forEach(col => {
+        const colIdx = imported.headers.indexOf(col);
+        if (colIdx === -1) return;
+
+        const vals = imported.data
+            .map(row => parseFloat(row[colIdx + 1]))
+            .filter(v => !isNaN(v));
+
+        if (vals.length === 0) return;
+
+        const min = Math.min(...vals);
+        const max = Math.max(...vals);
+        const esp = vals.reduce((a, b) => a + b, 0) / vals.length;
+
+        if (typeof ParametrosManager.setColumna === 'function') {
+            ParametrosManager.setColumna(col, min.toFixed(4), max.toFixed(4), esp.toFixed(4));
+        }
+        count++;
+    });
+
+    callback();
 }
 
 // ========================================
