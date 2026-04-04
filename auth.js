@@ -204,31 +204,92 @@ const Auth = (() => {
             c.appendChild(p);
         }
 
-        // ── Símbolos estadísticos flotantes ────────────────
+        // ── Símbolos estadísticos flotantes (animación JS) ─
+        const symbolParticles = [];
         for (let i = 0; i < 20; i++) {
-            const span     = document.createElement('span');
-            span.className = 'auth-symbol';
+            const span = document.createElement('span');
+            span.style.cssText = `
+                position: absolute;
+                font-family: 'Segoe UI', 'Georgia', serif;
+                font-weight: 700;
+                line-height: 1;
+                pointer-events: none;
+                user-select: none;
+            `;
             span.textContent = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
 
-            const size    = 11 + Math.random() * 28;       // 11px – 29px
+            const size    = 11 + Math.random() * 28;
             const color   = COLORS[Math.floor(Math.random() * COLORS.length)];
             const opacity = 0.10 + Math.random() * 0.22;
-            const dur     = 8  + Math.random() * 22;       // 8s – 20s
-            const delay   = Math.random() * 10;
-            const rotDir  = Math.random() > 0.5 ? 1 : -1;  // sentido de rotación
-            const drift   = (Math.random() - 0.5) * 60;    // deriva horizontal ±30px
+            const dur     = 8000 + Math.random() * 22000;  // duración en ms
+            const delay   = Math.random() * 10000;          // delay en ms
+            const rotDir  = Math.random() > 0.5 ? 1 : -1;
+            const drift   = (Math.random() - 0.5) * 60;
+            const rotAmt  = rotDir * (20 + Math.random() * 40);
 
-            span.style.cssText = `
-                left:               ${Math.random() * 100}%;
-                top:                ${100 + Math.random() * 20}%;
-                font-size:          ${size}px;
-                color:              ${color}${opacity});
-                animation:          auth-symbol-float ${dur}s ${delay}s linear infinite;
-                --rot:              ${rotDir * (20 + Math.random() * 40)}deg;
-                --drift:            ${drift}px;
-            `;
+            span.style.fontSize = size + 'px';
+            span.style.color = color + opacity + ')';
+
+            const startX = Math.random() * 100;
+            const startY = 100 + Math.random() * 20;
+
             c.appendChild(span);
+
+            symbolParticles.push({
+                el: span,
+                startX, startY,
+                dur, delay, drift, rotAmt,
+                startTime: performance.now() + delay
+            });
         }
+
+        // ── Loop de animación con requestAnimationFrame ──
+        function animateParticles(now) {
+            const containerRect = c.getBoundingClientRect();
+            const containerH = containerRect.height;
+
+            for (let i = 0; i < symbolParticles.length; i++) {
+                const p = symbolParticles[i];
+                const elapsed = now - p.startTime;
+
+                if (elapsed < 0) continue; // aún no empezó (delay)
+
+                // Progreso normalizado (0 a 1)
+                const t = (elapsed % p.dur) / p.dur;
+
+                // Posición Y: de startY a -110vh (sube)
+                const startYpx = (p.startY / 100) * containerH;
+                const y = startYpx - (t * 1.1 * containerH);
+
+                // Posición X: deriva horizontal suave
+                const x = p.startX + (t * p.drift / containerRect.width * 100);
+
+                // Rotación: de 0 a rotAmt
+                const rot = t * p.rotAmt;
+
+                // Opacidad: fade in early, fade out late
+                let opacity = 1;
+                if (t < 0.08) opacity = t / 0.08;
+                else if (t > 0.92) opacity = (1 - t) / 0.08;
+
+                // Scale: crece al inicio, se mantiene, decrece al final
+                let scale = 0.6;
+                if (t < 0.08) scale = 0.6 + (t / 0.08) * 0.4;
+                else if (t > 0.92) scale = 1 - ((t - 0.92) / 0.08) * 0.3;
+                else if (t > 0.5) scale = 1.05;
+                else scale = 1;
+
+                p.el.style.transform = `translateY(${y - startYpx}px) translateX(${(t * p.drift)}px) rotate(${rot}deg) scale(${scale})`;
+                p.el.style.opacity = opacity;
+                p.el.style.left = p.startX + '%';
+                p.el.style.top = p.startY + '%';
+            }
+
+            // Mantener el loop activo
+            requestAnimationFrame(animateParticles);
+        }
+
+        requestAnimationFrame(animateParticles);
     }
 
     function _attachLoginListeners() {
