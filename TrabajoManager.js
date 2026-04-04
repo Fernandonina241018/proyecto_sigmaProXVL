@@ -237,7 +237,7 @@ const TrabajoManager = (() => {
                         renderWorkTable();
                     }
                 } catch (err) {
-                    //console.error(err);
+                    console.error(err);
                 }
                 return;
             }
