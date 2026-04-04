@@ -1206,16 +1206,18 @@ function setupSidebarToggles() {
     // Crear contenedor de iconos para sidebar compacto
     createSidebarIconContainers(leftSidebar, rightSidebar);
 
-    // Botón para sidebar izquierdo (igual que el derecho, pero en el borde derecho del sidebar)
+    // Botón para sidebar izquierdo (se agrega al main-area, no al sidebar)
+    const mainArea = document.querySelector('.main-area');
     const btnLeft = document.createElement('button');
-    btnLeft.className = 'sidebar-toggle-btn';
+    btnLeft.className = 'sidebar-toggle-btn-left-pos';
     btnLeft.textContent = '◀';
-    leftSidebar.appendChild(btnLeft);
+    mainArea.insertBefore(btnLeft, mainArea.firstChild);
 
     // Aplicar estado guardado del sidebar izquierdo
     const leftCollapsed = sessionStorage.getItem(STORAGE_KEY_LEFT) === 'true';
     if (leftCollapsed) {
         leftSidebar.classList.add('sidebar-collapsed');
+        btnLeft.classList.add('sidebar-collapsed');
         btnLeft.textContent = '▶';
     }
 
@@ -1224,6 +1226,7 @@ function setupSidebarToggles() {
         e.stopPropagation();
         const collapsed = !leftSidebar.classList.contains('sidebar-collapsed');
         leftSidebar.classList.toggle('sidebar-collapsed');
+        btnLeft.classList.toggle('sidebar-collapsed', collapsed);
         btnLeft.textContent = collapsed ? '▶' : '◀';
         sessionStorage.setItem(STORAGE_KEY_LEFT, collapsed);
     });

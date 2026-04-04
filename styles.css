@@ -185,8 +185,8 @@ body {
     flex: 1;
     padding: 20px;
     gap: 20px;
-    overflow-x: visible;
-    overflow-y: hidden;
+    overflow: hidden;
+    position: relative;
 }
 
 /* ========================================
@@ -2034,10 +2034,36 @@ body {
     background: #5a52d5;
 }
 
-/* Botón del sidebar izquierdo: sobresale por la derecha */
-.stats-menu .sidebar-toggle-btn {
-    right: -18px;
+/* Botón del sidebar izquierdo: posicionado en el main-area, en el borde entre sidebar y área de trabajo */
+.sidebar-toggle-btn-left-pos {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 280px; /* padding(20px) + ancho sidebar(260px) */
+    width: 18px;
+    height: 52px;
+    background: #6c63ff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 11px;
+    z-index: 100;
+    transition: left 0.3s ease, background 0.2s;
+    padding: 0;
+    line-height: 1;
     border-radius: 0 6px 6px 0;
+}
+
+.sidebar-toggle-btn-left-pos:hover {
+    background: #5a52d5;
+}
+
+/* Cuando el sidebar izquierdo está colapsado, el botón se mueve al borde del sidebar colapsado */
+.sidebar-toggle-btn-left-pos.sidebar-collapsed {
+    left: 90px !important; /* padding(20px) + ancho colapsado(70px) */
 }
 
 /* Botón del sidebar derecho: sobresale por la izquierda */
