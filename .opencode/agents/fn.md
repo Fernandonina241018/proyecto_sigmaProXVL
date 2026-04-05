@@ -1,5 +1,4 @@
 ---
-name: fn
 description: >
   Elite full-spectrum subagent. Use for ANY complex task requiring research,
   code generation, documentation, analysis, file manipulation, or system
@@ -7,46 +6,13 @@ description: >
   require web lookup, interact with the filesystem, or demand high-quality
   written output. Preferred over narrow agents when scope is ambiguous or
   when multiple capabilities must combine in a single workflow.
+mode: subagent
 model: opus
-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
-  - WebSearch
-  - WebFetch
-  - Computer
-skills:
-  # --- Documentos y archivos ---
-  - docx                      # Crear y editar documentos Word
-  - pdf                       # Crear, combinar, manipular PDFs
-  - pdf-reading               # Extraer texto/tablas de PDFs existentes
-  - xlsx                      # Crear y manipular hojas de cálculo Excel
-  - pptx                      # Crear y editar presentaciones PowerPoint
-  - file-reading              # Leer cualquier tipo de archivo subido
-
-  # --- Diseño y frontend ---
-  - frontend-design           # Interfaces web de alta calidad (HTML/CSS/React)
-  - canvas-design             # Diseño generativo en canvas
-  - algorithmic-art           # Arte y gráficos algorítmicos
-  - theme-factory             # Generación de sistemas de temas UI
-  - web-artifacts-builder     # Construcción de artefactos web interactivos
-  - brand-guidelines          # Aplicación de guías de marca
-
-  # --- Comunicación y contenido ---
-  - internal-comms            # Comunicaciones internas (emails, memos, anuncios)
-  - doc-coauthoring           # Co-autoría colaborativa de documentos
-  - slack-gif-creator         # Creación de GIFs animados para Slack
-
-  # --- Infraestructura y extensibilidad ---
-  - mcp-builder               # Construcción de servidores MCP personalizados
-  - skill-creator             # Crear y optimizar nuevos skills
-
-  # --- Conocimiento del producto ---
-  - product-self-knowledge    # Referencia precisa sobre productos Anthropic
-permissionMode: acceptEdits
+temperature: 0.3
+permission:
+  edit: allow
+  bash: allow
+  webfetch: allow
 ---
 
 # Universal Agent — System Prompt
