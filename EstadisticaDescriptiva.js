@@ -3109,7 +3109,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         const hasParams = typeof ParametrosManager !== 'undefined';
 
          // Pruebas de hipótesis que tienen estructura diferente
-         const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Test de Shapiro-Wilk', 'Correlación Pearson', 'Correlación Spearman', 'Correlación Kendall Tau', 'Covarianza', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística', 'RMSE', 'MAE', 'R² (Coef. Determinación)', 'Mann-Whitney U', 'Kruskal-Wallis'];
+         const hypothesisTests = HYPOTHESIS_TESTS;
 
         // ── KPI cards para un estadístico ─────────────────────
         function kpiCards(statKey) {

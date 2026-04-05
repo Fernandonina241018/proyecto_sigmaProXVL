@@ -81,6 +81,24 @@ function getRolLabel(rol) {
 }
 
 // ========================================
+// CONSTANTES DE PRUEBAS ESTADÍSTICAS
+// ========================================
+
+// Lista unificada de todas las pruebas de hipótesis que requieren configuración
+const HYPOTHESIS_TESTS = [
+    'ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado',
+    'T-Test (dos muestras)', 'T-Test (una muestra)',
+    'Test de Normalidad', 'Test de Shapiro-Wilk',
+    'Límites de Cuantificación',
+    'Correlación Pearson', 'Correlación Spearman', 'Correlación Kendall Tau',
+    'Covarianza',
+    'Regresión Lineal Simple', 'Regresión Lineal Múltiple',
+    'Regresión Polinomial', 'Regresión Logística',
+    'RMSE', 'MAE', 'R² (Coef. Determinación)',
+    'Mann-Whitney U', 'Kruskal-Wallis'
+];
+
+// ========================================
 // BACKWARD COMPATIBILITY
 // ========================================
 
@@ -95,4 +113,3 @@ function fmtDate(ts, format = 'full') {
 }
 
 console.log('✅ Utils cargado correctamente');
-// PRUEBA VSCODE - comentario de prueba 31/03/2026

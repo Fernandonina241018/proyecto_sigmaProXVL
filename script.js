@@ -204,7 +204,7 @@ document.querySelectorAll('.menu-option').forEach(option => {
         const statName = this.textContent.trim();
 
         // Pruebas de hipótesis que requieren configuración de grupos
-        const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística', 'Covarianza', 'Correlación Kendall Tau', 'RMSE', 'MAE', 'R² (Coef. Determinación)', 'Mann-Whitney U', 'Kruskal-Wallis'];
+        const hipotesisTests = HYPOTHESIS_TESTS;
         
         if (this.classList.contains('selected')) {
             this.classList.remove('selected');
@@ -1772,7 +1772,7 @@ function applyStatSelection() {
     const newActive = currentActive.filter(stat => !section.options.includes(stat));
     
      // Identificar qué pruebas requieren configuración de columnas
-     const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística', 'Covarianza', 'Correlación Kendall Tau', 'RMSE', 'MAE', 'R² (Coef. Determinación)', 'Mann-Whitney U', 'Kruskal-Wallis'];
+     const hipotesisTests = HYPOTHESIS_TESTS;
      const statsQueNecesitanConfig = [];
      const statsNormales = [];
     
