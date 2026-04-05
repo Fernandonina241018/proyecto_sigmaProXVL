@@ -458,8 +458,8 @@ const ReporteManager = (() => {
     }
 
     // ── Generador TXT ─────────────────────
-    function generarTXT(resultados, meta) {
-        const hash=generateHash(meta,resultados);
+    function generarTXT(resultados, meta, pregeneratedHash) {
+        const hash = pregeneratedHash || generateHash(meta,resultados);
         const ext=computeExtendedStats(resultados);
         const W=80, L=[], p=s=>L.push(s);
         const lang=currentLang;
@@ -835,8 +835,8 @@ const ReporteManager = (() => {
     }
 
     // ── Generador CSV ─────────────────────
-    function generarCSV(resultados, meta) {
-        const hash=generateHash(meta,resultados);
+    function generarCSV(resultados, meta, pregeneratedHash) {
+        const hash = pregeneratedHash || generateHash(meta,resultados);
         const ext=computeExtendedStats(resultados);
         const rows=[
             `## ${t('reportTitle')}`,
@@ -887,8 +887,8 @@ const ReporteManager = (() => {
     }
 
     // ── Generador HTML ────────────────────
-    function generarHTML(resultados, meta) {
-        const hash=generateHash(meta,resultados);
+    function generarHTML(resultados, meta, pregeneratedHash) {
+        const hash = pregeneratedHash || generateHash(meta,resultados);
         const ext=computeExtendedStats(resultados);
         const totalFlags=Object.values(ext).reduce((a,d)=>a+d.flags.length,0);
         const lang=currentLang;
@@ -1504,10 +1504,10 @@ tr:hover td{background:#f7faff}
         const hash=generateHash(meta,resultados);
         const base=`RPT-${hash}_${new Date().toISOString().slice(0,10)}`;
         let delay=0;
-        if(formatos.includes('html')){setTimeout(()=>downloadBlob(generarHTML(resultados,meta),`${base}.html`,'text/html;charset=utf-8'),delay);delay+=350;}
-        if(formatos.includes('pdf')){setTimeout(()=>{const html=generarHTML(resultados,meta);const w=window.open('','_blank');w.document.write(html);w.document.close();w.print();},delay);delay+=350;}
-        if(formatos.includes('txt')){setTimeout(()=>downloadBlob(generarTXT(resultados,meta),`${base}.txt`,'text/plain;charset=utf-8'),delay);delay+=350;}
-        if(formatos.includes('csv')){setTimeout(()=>downloadBlob(generarCSV(resultados,meta),`${base}.csv`,'text/csv;charset=utf-8'),delay);}
+        if(formatos.includes('html')){setTimeout(()=>downloadBlob(generarHTML(resultados,meta,hash),`${base}.html`,'text/html;charset=utf-8'),delay);delay+=350;}
+        if(formatos.includes('pdf')){setTimeout(()=>{const html=generarHTML(resultados,meta,hash);const w=window.open('','_blank');w.document.write(html);w.document.close();w.print();},delay);delay+=350;}
+        if(formatos.includes('txt')){setTimeout(()=>downloadBlob(generarTXT(resultados,meta,hash),`${base}.txt`,'text/plain;charset=utf-8'),delay);delay+=350;}
+        if(formatos.includes('csv')){setTimeout(()=>downloadBlob(generarCSV(resultados,meta,hash),`${base}.csv`,'text/csv;charset=utf-8'),delay);}
         return {base,formatos};
     }
 
