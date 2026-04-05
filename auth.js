@@ -206,7 +206,7 @@ const Auth = (() => {
 
         // ── Símbolos estadísticos flotantes (animación JS) ─
         const symbolParticles = [];
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 28; i++) {
             const span = document.createElement('span');
 
             const size    = 11 + Math.random() * 28;
