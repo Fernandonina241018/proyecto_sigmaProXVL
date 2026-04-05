@@ -1889,6 +1889,9 @@ function mostrarModalConfiguracionHypothesis(statName) {
         if (config.customFunc === 'abrirModalConfigObsPred') {
             return window[config.customFunc](imported, statName);
         }
+        if (config.customFunc === 'abrirModalConfigCorrelacion') {
+            return window[config.customFunc](imported, statName);
+        }
         return window[config.customFunc](imported);
     }
     
