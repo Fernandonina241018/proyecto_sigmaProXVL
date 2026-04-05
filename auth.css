@@ -115,47 +115,202 @@
     text-align: center;
 }
 
-/* ── Campos ── */
+/* ── Campos con Labels Flotantes ── */
 .auth-field {
-    margin-bottom: 20px;
+    margin-bottom: 28px;
+    position: relative;
 }
-.auth-label {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #475569;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 7px;
-}
+
 .auth-input-wrap {
     position: relative;
     display: flex;
     align-items: center;
 }
+
+/* Línea inferior animada con gradiente dorado */
+.auth-input-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #1a3a6b, #c8a951);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(-50%);
+}
+
+.auth-input-wrap:focus-within::after,
+.auth-input:not(:placeholder-shown) ~ .auth-input-wrap::after {
+    width: 100%;
+}
+
+/* Label flotante */
+.auth-label {
+    position: absolute;
+    left: 38px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #64748b;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+    background: transparent;
+}
+
+.auth-input:focus ~ .auth-label,
+.auth-input:not(:placeholder-shown) ~ .auth-label {
+    top: -10px;
+    left: 2px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #c8a951;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    background: white;
+    padding: 0 6px;
+}
+
+/* Icono dinámico */
 .auth-input-icon {
     position: absolute;
     left: 12px;
     font-size: 0.9rem;
     pointer-events: none;
     z-index: 1;
+    color: #94a3b8;
+    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.auth-input:focus ~ .auth-input-icon,
+.auth-input:not(:placeholder-shown) ~ .auth-input-icon {
+    color: #c8a951;
+}
+
+/* Input con línea inferior */
 .auth-input {
     width: 100%;
-    padding: 11px 44px 11px 38px;
-    border: 2px solid #e2e8f0;
-    border-radius: 10px;
+    padding: 18px 44px 18px 38px;
+    border: none;
+    border-bottom: 2px solid #e2e8f0;
+    border-radius: 8px 8px 0 0;
     font-size: 0.95rem;
     font-family: 'Segoe UI', sans-serif;
     color: #1e293b;
     background: #f8fafc;
-    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     outline: none;
 }
+
 .auth-input:focus {
-    border-color: #1a3a6b;
     background: white;
-    box-shadow: 0 0 0 3px rgba(26,58,107,0.12);
+}
+
+.auth-input-wrap:focus-within .auth-input {
+    transform: translateY(-2px);
+    background: white;
+    box-shadow: 0 4px 12px rgba(26, 58, 107, 0.08);
+}
+
+.auth-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Línea inferior animada con gradiente dorado */
+.auth-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.auth-input-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #1a3a6b, #c8a951);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(-50%);
+}
+
+.auth-input-wrap:focus-within::after,
+.auth-input:not(:placeholder-shown) ~ .auth-input-wrap::after {
+    width: 100%;
+}
+
+/* Label flotante */
+.auth-label {
+    position: absolute;
+    left: 38px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #64748b;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+    background: transparent;
+}
+
+.auth-input:focus ~ .auth-label,
+.auth-input:not(:placeholder-shown) ~ .auth-label {
+    top: -10px;
+    left: 2px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #c8a951;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    background: white;
+    padding: 0 6px;
+}
+
+/* Icono dinámico */
+.auth-input-icon {
+    position: absolute;
+    left: 12px;
+    font-size: 0.9rem;
+    pointer-events: none;
+    z-index: 1;
+    color: #94a3b8;
+    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.auth-input:focus ~ .auth-input-icon,
+.auth-input:not(:placeholder-shown) ~ .auth-input-icon {
+    color: #c8a951;
+}
+
+/* Input con línea inferior */
+.auth-input {
+    width: 100%;
+    padding: 18px 44px 18px 38px;
+    border: none;
+    border-bottom: 2px solid #e2e8f0;
+    border-radius: 8px 8px 0 0;
+    font-size: 0.95rem;
+    font-family: 'Segoe UI', sans-serif;
+    color: #1e293b;
+    background: #f8fafc;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+}
+
+.auth-input:focus {
+    background: white;
+}
+
+.auth-field:focus-within .auth-input {
+    transform: translateY(-2px);
+    background: white;
+    box-shadow: 0 4px 12px rgba(26, 58, 107, 0.08);
 }
 
 /* ── Botón ojo ── */
@@ -239,54 +394,65 @@
     font-weight: 500;
 }
 
-/* ── Botón principal ── */
+/* ── Botón principal con efecto shimmer y ripple ── */
 .auth-btn-login {
     width: 100%;
-    padding: 13px;
-    background: linear-gradient(135deg, #0b2dc2 0%, #1a3a6b 100%);
+    padding: 16px 24px;
+    background: linear-gradient(135deg, #1a3a6b 0%, #0b2dc2 50%, #1a3a6b 100%);
+    background-size: 200% 200%;
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     font-size: 0.95rem;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    letter-spacing: 0.3px;
+    gap: 10px;
+    letter-spacing: 0.5px;
     margin-bottom: 16px;
     position: relative;
     overflow: hidden;
 }
+
+/* Efecto shimmer al hover */
 .auth-btn-login::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(255,255,255,0);
-    transition: background 0.2s;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
 }
-.auth-btn-login:hover:not(:disabled)::before {
-    background: rgba(255,255,255,0.08);
+
+.auth-btn-login:hover::before {
+    transform: translateX(100%);
 }
+
 .auth-btn-login:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(11,45,194,0.35);
 }
+
 .auth-btn-login:active:not(:disabled) {
     transform: translateY(0);
 }
+
 .auth-btn-login:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
+
+/* Flecha animada */
 .auth-btn-arrow {
     font-size: 1.1rem;
-    transition: transform 0.2s;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .auth-btn-login:hover .auth-btn-arrow {
-    transform: translateX(4px);
+    transform: translateX(6px);
 }
 
 /* ── Divider ── */
