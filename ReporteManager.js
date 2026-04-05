@@ -370,11 +370,29 @@ const ReporteManager = (() => {
         return formatDate(new Date().toISOString().slice(0,10));
     }
 
+    // Store generated hashes to ensure uniqueness
+    const generatedHashes = new Set();
+    
     function generateHash(meta, res) {
-        const s = JSON.stringify({ meta, r: res?.totalFilas });
-        let h = 0;
-        for (let i = 0; i < s.length; i++) h = ((h<<5)-h+s.charCodeAt(i))|0;
-        return Math.abs(h).toString(16).toUpperCase().padStart(8,'0');
+        let hash;
+        let attempts = 0;
+        const maxAttempts = 100;
+        
+        do {
+            const timestamp = Date.now();
+            const random = Math.random().toString(36).substring(2, 10);
+            const counter = attempts;
+            const s = JSON.stringify({ meta, r: res?.totalFilas, ts: timestamp, rnd: random, cnt: counter });
+            let h = 0;
+            for (let i = 0; i < s.length; i++) h = ((h<<5)-h+s.charCodeAt(i))|0;
+            hash = Math.abs(h).toString(16).toUpperCase().padStart(8,'0');
+            attempts++;
+        } while (generatedHashes.has(hash) && attempts < maxAttempts);
+        
+        // Store the hash to prevent future duplicates
+        generatedHashes.add(hash);
+        
+        return hash;
     }
     function fmtNum(val, d=4) {
         if (val===null||val===undefined) return 'N/A';
