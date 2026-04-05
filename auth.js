@@ -168,135 +168,326 @@ const Auth = (() => {
         _renderParticles();
     }
 
+// ========================================
+// _renderParticles — Auth.js
+// Reemplaza la función existente completa
+// 3 modos aleatorios + optimización móvil
+// ========================================
+
     function _renderParticles() {
-        const c = document.getElementById('auth-particles');
-        if (!c) return;
+        const container = document.getElementById('auth-particles');
+        if (!container) return;
 
-        // Símbolos estadísticos
-        const SYMBOLS = ['Psi','Kpi','EXP%','SD','RSD','∑', 'σ', 'μ', 'χ²', 'β', 'α', 'ρ', 
-                         'kg','Δ', '∞', 'π', 'φ', 'λ', 'ζ', 'η', 'θ', 'κ', 'ν', 'τ', 'ω', 
-                         'bar','∂', '∇', '∈', '∉', '∪', '∩', '⊕', '⊗', '∀', '∃', '∄', '℃', 
-                         'g','℉', '‰', '‱', '€', '£', '¥', '¢', '₽', '₩', '₪', '₫', '₴', 
-                         '₦', '₱', '₲', '₳', '₵', '₸', '₺', '₼', '₽', '₾', '₿', '%', '∭', 
-                         '∮', '∯', '∰', '∱', '∲', '∳', '∴', '∵', '∶', '∷', '∸', '∹', '∺', 
-                         'ft','∻', '∼', '∽', '∾', '∿'];
+        // ── Detectar móvil ────────────────────────────────────────
+        const isMobile = window.innerWidth < 768 ||
+            /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
 
-        // Paleta: dorado de la app + azul de la app
-        const COLORS = [
-            'rgba(200, 169, 81,',   // dorado
-            'rgba(102, 126, 234,',  // púrpura/azul app
-            'rgba(255, 255, 255,',  // blanco suave
-            'rgba(0, 0, 255,',  // azul
-            'rgba(0, 255, 0,',  // verde
-            'rgba(255, 0, 0,',  // rojo
+        const PARTICLE_COUNT = isMobile ? 16 : 30;
+        const SYMBOL_COUNT   = isMobile ? 18 : 32;
+
+        // ── Canvas ────────────────────────────────────────────────
+        const canvas = document.createElement('canvas');
+        canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;';
+        container.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+
+        let W = 0, H = 0;
+        function resize() {
+            const rect = container.getBoundingClientRect();
+            W = canvas.width  = rect.width  || window.innerWidth;
+            H = canvas.height = rect.height || window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        // ── Símbolos estadísticos ─────────────────────────────────
+        const SYMBOLS = [
+            'Σ','σ','μ','χ²','β','α','ρ','Δ','π','φ',
+            'λ','ζ','η','θ','κ','ν','τ','ω','SD','RSD',
+            '∂','∇','∈','∪','∩','∀','∃','‰','%','R²',
+            'p','n','CV','F','H₀','H₁','df','SE','CI',
         ];
 
-        // ── Partículas circulares (fondo) ──────────────────
-        for (let i = 0; i < 25; i++) {
-            const p       = document.createElement('div');
-            p.className   = 'auth-particle';
-            const size    = 2 + Math.random() * 10;
-            const color   = COLORS[Math.floor(Math.random() * COLORS.length)];
-            const opacity = 0.08 + Math.random() * 0.20;
-            p.style.cssText = `
-                left:               ${Math.random() * 100}%;
-                top:                ${Math.random() * 100}%;
-                width:              ${size}px;
-                height:             ${size}px;
-                background:         ${color}${opacity});
-                animation-delay:    ${Math.random() * 10}s;
-                animation-duration: ${7 + Math.random() * 8}s;
-            `;
-            c.appendChild(p);
+        // ── Paletas de color (RGB) ────────────────────────────────
+        const PALETTES = {
+            symbols: [
+                [200,169, 81],   // dorado app
+                [102,126,234],   // púrpura app
+                [255,255,255],   // blanco
+                [ 67,200,140],   // verde suave
+                [220,100,100],   // rojo suave
+            ],
+            orbits: [
+                [102,126,234],
+                [150,100,230],
+                [ 67,180,200],
+                [200,220,255],
+            ],
+            network: [
+                [ 80,200,120],
+                [102,126,234],
+                [255,200, 80],
+                [200,100,100],
+            ],
+        };
+
+        // ── Elegir modo aleatorio al cargar ───────────────────────
+        const MODES  = ['symbols', 'orbits', 'network'];
+        const mode   = MODES[Math.floor(Math.random() * MODES.length)];
+        let   particles    = [];
+        let   networkNodes = [];
+
+        // ════════════════════════════════════════════════════════════
+        // MODO 1 — SÍMBOLOS ESTADÍSTICOS FLOTANTES
+        // ════════════════════════════════════════════════════════════
+        function makeSymbol() {
+            const pal = PALETTES.symbols;
+            const col = pal[Math.floor(Math.random() * pal.length)];
+            return {
+                x:       Math.random() * W,
+                y:       H + 20,
+                vx:      (Math.random() - 0.5) * 0.5,
+                vy:      -(0.25 + Math.random() * 0.55),
+                angle:   Math.random() * Math.PI * 2,
+                rot:     (Math.random() - 0.5) * 0.025,
+                size:    10 + Math.random() * 24,
+                col,
+                opacity: 0,
+                life:    0,
+                maxLife: 200 + Math.random() * 200,
+                delay:   Math.random() * 80,
+                sym:     SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
+            };
         }
 
-        // ── Símbolos estadísticos flotantes (animación JS) ─
-        const symbolParticles = [];
-        for (let i = 0; i < 28; i++) {
-            const span = document.createElement('span');
-
-            const size    = 11 + Math.random() * 28;
-            const color   = COLORS[Math.floor(Math.random() * COLORS.length)];
-            const baseOpacity = 0.15 + Math.random() * 0.20;
-            const dur     = 10000 + Math.random() * 20000;  // duración en ms
-            const delay   = Math.random() * 15000;           // delay en ms
-            const rotDir  = Math.random() > 0.5 ? 1 : -1;
-            const drift   = (Math.random() - 0.5) * 80;     // deriva horizontal ±40px
-            const rotAmt  = rotDir * (30 + Math.random() * 60);
-            const startX  = 5 + Math.random() * 90;          // 5% a 95% del ancho
-
-            span.style.cssText = `
-                position: absolute;
-                left: ${startX}%;
-                top: 0;
-                font-family: 'Segoe UI', 'Georgia', serif;
-                font-weight: 700;
-                line-height: 1;
-                pointer-events: none;
-                user-select: none;
-                font-size: ${size}px;
-                color: ${color}${baseOpacity});
-            `;
-            span.textContent = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
-
-            c.appendChild(span);
-
-            symbolParticles.push({
-                el: span,
-                startX,
-                dur, delay, drift, rotAmt, baseOpacity,
-                startTime: performance.now() + delay
-            });
-        }
-
-        // ── Loop de animación con requestAnimationFrame ──
-        function animateParticles(now) {
-            for (let i = 0; i < symbolParticles.length; i++) {
-                const p = symbolParticles[i];
-                const elapsed = now - p.startTime;
-
-                if (elapsed < 0) {
-                    // Aún no empezó (delay) - mantener oculto abajo
-                    p.el.style.transform = `translateY(${window.innerHeight}px) translateX(0) rotate(0deg) scale(0.6)`;
-                    p.el.style.opacity = 0;
-                    continue;
-                }
-
-                // Progreso normalizado (0 a 1) dentro de cada ciclo
-                const t = (elapsed % p.dur) / p.dur;
-
-                // Movimiento vertical: de abajo (window.innerHeight) a arriba (-100px)
-                const yStart = window.innerHeight;
-                const yEnd = -100;
-                const y = yStart + t * (yEnd - yStart);
-
-                // Deriva horizontal
-                const x = t * p.drift;
-
-                // Rotación
-                const rot = t * p.rotAmt;
-
-                // Opacidad: fade in al 10%, visible hasta 85%, fade out al final
-                let opFactor = 0;
-                if (t < 0.1) opFactor = t / 0.1;
-                else if (t > 0.85) opFactor = (1 - t) / 0.15;
-                else opFactor = 1;
-
-                // Scale: crece al inicio, se mantiene, decrece al final
-                let sc = 0.6;
-                if (t < 0.1) sc = 0.6 + (t / 0.1) * 0.4;
-                else if (t > 0.85) sc = 1 - ((t - 0.85) / 0.15) * 0.4;
-                else if (t > 0.4 && t <= 0.6) sc = 1.05;
-                else sc = 1;
-
-                p.el.style.transform = `translateY(${y}px) translateX(${x}px) rotate(${rot}deg) scale(${sc})`;
-                p.el.style.opacity = opFactor;
+        function initSymbols() {
+            particles = [];
+            for (let i = 0; i < SYMBOL_COUNT; i++) {
+                const p = makeSymbol();
+                p.delay  = Math.random() * 120;
+                p.y      = Math.random() * H;
+                p.life   = Math.random() * p.maxLife * 0.6;
+                particles.push(p);
             }
-
-            requestAnimationFrame(animateParticles);
         }
 
-        requestAnimationFrame(animateParticles);
+        function updateSymbols() {
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+                if (p.delay > 0) { p.delay--; continue; }
+                p.life++;
+                p.x += p.vx;
+                p.y += p.vy;
+                p.angle += p.rot;
+                const t = p.life / p.maxLife;
+                if      (t < 0.12) p.opacity = (t / 0.12) * 0.75;
+                else if (t > 0.80) p.opacity = ((1 - t) / 0.20) * 0.75;
+                else               p.opacity = 0.75;
+
+                if (p.life >= p.maxLife || p.y < -60) {
+                    particles[i] = makeSymbol();
+                }
+            }
+        }
+
+        function drawSymbols() {
+            for (const p of particles) {
+                if (p.delay > 0 || p.opacity <= 0.01) continue;
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.angle);
+                ctx.globalAlpha = p.opacity;
+                ctx.fillStyle   = `rgb(${p.col[0]},${p.col[1]},${p.col[2]})`;
+                ctx.font        = `600 ${p.size}px 'Segoe UI', sans-serif`;
+                ctx.textAlign   = 'center';
+                ctx.textBaseline= 'middle';
+                ctx.fillText(p.sym, 0, 0);
+                ctx.restore();
+            }
+        }
+
+        // ════════════════════════════════════════════════════════════
+        // MODO 2 — ÓRBITAS
+        // ════════════════════════════════════════════════════════════
+        function initOrbits() {
+            particles = [];
+            const pal = PALETTES.orbits;
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                const orbitR = 55 + Math.floor(i / 7) * 60;
+                particles.push({
+                    orbitR,
+                    angle:      (i / PARTICLE_COUNT) * Math.PI * 2,
+                    speed:      (0.002 + Math.random() * 0.004) * (i % 2 === 0 ? 1 : -1),
+                    col:        pal[i % pal.length],
+                    r:          2.5 + Math.random() * 3.5,
+                    trail:      [],
+                    sym:        SYMBOLS[i % SYMBOLS.length],
+                    useSymbol:  Math.random() > 0.55,
+                    x: 0, y: 0,
+                });
+            }
+        }
+
+        function updateOrbits() {
+            const cx = W / 2, cy = H / 2;
+            for (const p of particles) {
+                p.angle += p.speed;
+                p.x = cx + Math.cos(p.angle) * p.orbitR;
+                p.y = cy + Math.sin(p.angle) * p.orbitR * 0.42;
+                p.trail.push({ x: p.x, y: p.y });
+                if (p.trail.length > 20) p.trail.shift();
+            }
+        }
+
+        function drawOrbits() {
+            const cx = W / 2, cy = H / 2;
+            // Elipses guía
+            const radii = [...new Set(particles.map(p => p.orbitR))];
+            for (const r of radii) {
+                ctx.beginPath();
+                ctx.ellipse(cx, cy, r, r * 0.42, 0, 0, Math.PI * 2);
+                ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+                ctx.lineWidth   = 0.5;
+                ctx.stroke();
+            }
+            // Trails + puntos
+            for (const p of particles) {
+                if (p.trail.length > 1) {
+                    for (let i = 1; i < p.trail.length; i++) {
+                        const a = (i / p.trail.length) * 0.30;
+                        ctx.beginPath();
+                        ctx.moveTo(p.trail[i-1].x, p.trail[i-1].y);
+                        ctx.lineTo(p.trail[i].x,   p.trail[i].y);
+                        ctx.strokeStyle = `rgba(${p.col[0]},${p.col[1]},${p.col[2]},${a})`;
+                        ctx.lineWidth   = 1.2;
+                        ctx.stroke();
+                    }
+                }
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${p.col[0]},${p.col[1]},${p.col[2]},0.9)`;
+                ctx.fill();
+
+                if (p.useSymbol) {
+                    ctx.globalAlpha  = 0.45;
+                    ctx.fillStyle    = `rgb(${p.col[0]},${p.col[1]},${p.col[2]})`;
+                    ctx.font         = '10px Segoe UI';
+                    ctx.textAlign    = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(p.sym, p.x + p.r + 8, p.y - p.r - 5);
+                    ctx.globalAlpha  = 1;
+                }
+            }
+        }
+
+        // ════════════════════════════════════════════════════════════
+        // MODO 3 — RED NEURONAL
+        // ════════════════════════════════════════════════════════════
+        function initNetwork() {
+            networkNodes = [];
+            const pal   = PALETTES.network;
+            const count = PARTICLE_COUNT;
+            for (let i = 0; i < count; i++) {
+                networkNodes.push({
+                    x:    40 + Math.random() * (W - 80),
+                    y:    40 + Math.random() * (H - 80),
+                    vx:   (Math.random() - 0.5) * 0.35,
+                    vy:   (Math.random() - 0.5) * 0.35,
+                    r:    2.5 + Math.random() * 3.5,
+                    col:  pal[i % pal.length],
+                    sym:  SYMBOLS[i % SYMBOLS.length],
+                    pulse: Math.random() * Math.PI * 2,
+                });
+            }
+        }
+
+        function updateNetwork() {
+            for (const n of networkNodes) {
+                n.x     += n.vx;
+                n.y     += n.vy;
+                n.pulse += 0.025;
+                if (n.x < 20 || n.x > W - 20) n.vx *= -1;
+                if (n.y < 20 || n.y > H - 20) n.vy *= -1;
+            }
+        }
+
+        function drawNetwork() {
+            const maxDist = isMobile ? 90 : 115;
+            // Conexiones
+            for (let i = 0; i < networkNodes.length; i++) {
+                for (let j = i + 1; j < networkNodes.length; j++) {
+                    const a  = networkNodes[i], b = networkNodes[j];
+                    const dx = a.x - b.x, dy = a.y - b.y;
+                    const d  = Math.sqrt(dx*dx + dy*dy);
+                    if (d < maxDist) {
+                        const alpha = (1 - d / maxDist) * 0.22;
+                        ctx.beginPath();
+                        ctx.moveTo(a.x, a.y);
+                        ctx.lineTo(b.x, b.y);
+                        ctx.strokeStyle = `rgba(${a.col[0]},${a.col[1]},${a.col[2]},${alpha})`;
+                        ctx.lineWidth   = 0.8;
+                        ctx.stroke();
+                    }
+                }
+            }
+            // Nodos
+            for (const n of networkNodes) {
+                const glow = 1 + Math.sin(n.pulse) * 0.28;
+                // Halo
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, n.r * glow * 2.8, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${n.col[0]},${n.col[1]},${n.col[2]},0.07)`;
+                ctx.fill();
+                // Núcleo
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, n.r * glow, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${n.col[0]},${n.col[1]},${n.col[2]},0.88)`;
+                ctx.fill();
+                // Símbolo flotante
+                ctx.globalAlpha  = 0.40;
+                ctx.fillStyle    = `rgb(${n.col[0]},${n.col[1]},${n.col[2]})`;
+                ctx.font         = '10px Segoe UI';
+                ctx.textAlign    = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(n.sym, n.x + n.r + 8, n.y - n.r - 5);
+                ctx.globalAlpha  = 1;
+            }
+        }
+
+        // ════════════════════════════════════════════════════════════
+        // INICIALIZACIÓN SEGÚN MODO
+        // ════════════════════════════════════════════════════════════
+        if      (mode === 'symbols') initSymbols();
+        else if (mode === 'orbits')  initOrbits();
+        else if (mode === 'network') initNetwork();
+
+        // ════════════════════════════════════════════════════════════
+        // LOOP PRINCIPAL
+        // ════════════════════════════════════════════════════════════
+        let rafId = null;
+
+        function loop() {
+            ctx.clearRect(0, 0, W, H);
+
+            if      (mode === 'symbols') { updateSymbols(); drawSymbols(); }
+            else if (mode === 'orbits')  { updateOrbits();  drawOrbits();  }
+            else if (mode === 'network') { updateNetwork(); drawNetwork(); }
+
+            rafId = requestAnimationFrame(loop);
+        }
+
+        loop();
+
+        // ── Limpiar al destruir el overlay ────────────────────────
+        // Se detiene automáticamente cuando el overlay es removido
+        const observer = new MutationObserver(() => {
+            if (!document.contains(canvas)) {
+                cancelAnimationFrame(rafId);
+                window.removeEventListener('resize', resize);
+                observer.disconnect();
+            }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
     }
 
     function _attachLoginListeners() {
