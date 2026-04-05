@@ -1434,7 +1434,7 @@ const SIDEBAR_SECTIONS = {
         label: 'Correlación',
         description: 'Análisis de relaciones entre variables y modelos predictivos',
         options: [
-            'Correlación 3X',,
+            'Correlación Pearson', 'Correlación Spearman', 'Correlación Kendall Tau',
             'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Logística',
             'Regresión Polinomial', 'RMSE', 'MAE', 'R² (Coef. Determinación)'
         ]
