@@ -202,7 +202,6 @@ function clearAllStats() {
 document.querySelectorAll('.menu-option').forEach(option => {
     option.addEventListener('click', function () {
         const statName = this.textContent.trim();
-        console.log('📊 Sidebar clicked:', statName);
 
         // Pruebas de hipótesis que requieren configuración de grupos
         const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística', 'Covarianza', 'Correlación Kendall Tau', 'RMSE', 'MAE', 'R² (Coef. Determinación)', 'Mann-Whitney U', 'Kruskal-Wallis'];
@@ -213,10 +212,8 @@ document.querySelectorAll('.menu-option').forEach(option => {
         } else {
             // Para pruebas de hipótesis, abrir modal de configuración
             if (hipotesisTests.includes(statName)) {
-                console.log('🔍 Opening config modal for:', statName);
                 mostrarModalConfiguracionHypothesis(statName);
             } else {
-                console.log('📊 Adding stat directly (no config needed):', statName);
                 this.classList.add('selected');
                 StateManager.addActiveStat(statName);
             }
@@ -1840,7 +1837,6 @@ document.addEventListener('click', (e) => {
 // MODAL DE CONFIGURACIÓN DE PRUEBAS DE HIPÓTESIS
 // ========================================
 function mostrarModalConfiguracionHypothesis(statName) {
-    console.log('🔍 mostrarModalConfiguracionHypothesis called with:', statName);
     document.getElementById('hypo-config-modal')?.remove();
     
     const imported = StateManager.getImportedData();
@@ -1870,15 +1866,14 @@ function mostrarModalConfiguracionHypothesis(statName) {
         'Regresión Logística': { title: '🔐 Configurar Regresión Logística', customFunc: 'abrirModalConfigRegresionLogistica' },
         'Mann-Whitney U': { title: '⚖️ Configurar Mann-Whitney U', catCols: 1, numCols: 1, catLabel: 'Columna de Agrupación (2 grupos)', numLabel: 'Columna de Valores' },
         'Kruskal-Wallis': { title: '📊 Configurar Kruskal-Wallis', catCols: 1, numCols: 1, catLabel: 'Columna de Agrupación (3+ grupos)', numLabel: 'Columna de Valores' },
-        'Covarianza': { title: '📐 Configurar Covarianza', customFunc: 'abrirModalConfigCorrelacion', statName: 'Covarianza' },
-        'Correlación Kendall Tau': { title: '🔗 Configurar Correlación Kendall Tau', customFunc: 'abrirModalConfigCorrelacion', statName: 'Correlación Kendall Tau' },
+        'Covarianza': { title: '📐 Configurar Covarianza', customFunc: 'abrirModalConfigCorrelacion' },
+        'Correlación Kendall Tau': { title: '🔗 Configurar Correlación Kendall Tau', customFunc: 'abrirModalConfigCorrelacion' },
         'RMSE': { title: '📏 Configurar RMSE', customFunc: 'abrirModalConfigObsPred' },
         'MAE': { title: '📏 Configurar MAE', customFunc: 'abrirModalConfigObsPred' },
         'R² (Coef. Determinación)': { title: '📊 Configurar R²', customFunc: 'abrirModalConfigObsPred' }
     };
     
     const config = configs[statName];
-    console.log('🔍 Config found:', config ? 'YES' : 'NO', '| customFunc:', config?.customFunc);
     if (!config) {
         _showToast('⚠️ Configuración no disponible para esta prueba', true);
         return false;
@@ -1891,7 +1886,6 @@ function mostrarModalConfiguracionHypothesis(statName) {
     
     // Para funciones con modal personalizado (Correlación, Regresión, etc.)
     if (config.customFunc && typeof window[config.customFunc] === 'function') {
-        console.log('🔍 Calling customFunc:', config.customFunc, '| on window:', typeof window[config.customFunc]);
         if (config.customFunc === 'abrirModalConfigObsPred') {
             return window[config.customFunc](imported, statName);
         }
@@ -1899,8 +1893,6 @@ function mostrarModalConfiguracionHypothesis(statName) {
             return window[config.customFunc](imported, statName);
         }
         return window[config.customFunc](imported);
-    } else if (config.customFunc) {
-        console.error('❌ customFunc not found on window:', config.customFunc, '| typeof:', typeof window[config.customFunc]);
     }
     
     // Detectar columnas categóricas y numéricas
@@ -2154,9 +2146,7 @@ function abrirModalConfigCorrelacion(imported, statName) {
         return false;
     }
 
-    const isCovariance = statName === 'Covarianza';
-    const isKendall = statName === 'Correlación Kendall Tau';
-    const modalTitle = isCovariance ? '📐 Configurar Covarianza' : isKendall ? '🔗 Configurar Kendall Tau' : '🔗 Configurar Correlación';
+    const preSelect = statName === 'Covarianza' ? 'covarianza' : statName === 'Correlación Kendall Tau' ? 'kendall' : 'pearson';
 
     const modal = document.createElement('div');
     modal.id = 'correlacion-config-modal';
@@ -2164,7 +2154,7 @@ function abrirModalConfigCorrelacion(imported, statName) {
         <div class="dm-modal-overlay" id="correlacion-modal-overlay"></div>
         <div class="dm-modal-card" style="width: min(500px, 96vw);">
             <div class="dm-modal-header">
-                <h3>${modalTitle}</h3>
+                <h3>🔗 Configurar Correlación</h3>
                 <button class="dm-modal-close" id="correlacion-modal-close">✕</button>
             </div>
             <div class="dm-modal-body">
@@ -2180,16 +2170,17 @@ function abrirModalConfigCorrelacion(imported, statName) {
                         ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
                     </select>
                 </div>
-                ${!isCovariance && !isKendall ? `
                 <div class="dm-field" style="margin-bottom: 14px;">
-                    <label>📈 Tipo de Correlación</label>
+                    <label>📈 Tipo de Análisis</label>
                     <select id="correlacion-tipo" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
-                        <option value="pearson">Correlación de Pearson</option>
-                        <option value="spearman">Correlación de Spearman</option>
+                        <option value="pearson" ${preSelect === 'pearson' ? 'selected' : ''}>Correlación de Pearson</option>
+                        <option value="spearman" ${preSelect === 'spearman' ? 'selected' : ''}>Correlación de Spearman</option>
+                        <option value="kendall" ${preSelect === 'kendall' ? 'selected' : ''}>Correlación de Kendall Tau</option>
+                        <option value="covarianza" ${preSelect === 'covarianza' ? 'selected' : ''}>Covarianza</option>
                     </select>
-                </div>` : ''}
+                </div>
                 <p style="font-size:0.75rem;color:#666;margin-bottom:0;">
-                    💡 Seleccione dos columnas numéricas diferentes para analizar su relación
+                    💡 <strong>Pearson:</strong> relación lineal entre variables | <strong>Spearman:</strong> relación monotónica (rangos) | <strong>Kendall:</strong> asociación ordinal (robusta a empates) | <strong>Covarianza:</strong> variación conjunta
                 </p>
             </div>
             <div class="dm-modal-footer">
@@ -2208,6 +2199,7 @@ function abrirModalConfigCorrelacion(imported, statName) {
     document.getElementById('correlacion-modal-confirm').onclick = () => {
         const colX = document.getElementById('correlacion-columna-x')?.value;
         const colY = document.getElementById('correlacion-columna-y')?.value;
+        const tipo = document.getElementById('correlacion-tipo')?.value;
 
         if (!colX || !colY) {
             _showToast('⚠️ Seleccione ambas columnas', true);
@@ -2220,13 +2212,11 @@ function abrirModalConfigCorrelacion(imported, statName) {
         }
 
         let finalStatName;
-        if (isCovariance) {
-            finalStatName = 'Covarianza';
-        } else if (isKendall) {
-            finalStatName = 'Correlación Kendall Tau';
-        } else {
-            const tipo = document.getElementById('correlacion-tipo')?.value;
-            finalStatName = tipo === 'pearson' ? 'Correlación Pearson' : 'Correlación Spearman';
+        switch (tipo) {
+            case 'pearson': finalStatName = 'Correlación Pearson'; break;
+            case 'spearman': finalStatName = 'Correlación Spearman'; break;
+            case 'kendall': finalStatName = 'Correlación Kendall Tau'; break;
+            case 'covarianza': finalStatName = 'Covarianza'; break;
         }
 
         const hypothesisConfig = {
