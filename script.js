@@ -750,13 +750,21 @@ function ejecutarAnalisis() {
          'ANOVA Two-Way',
          'Chi-Cuadrado',
          'Test de Normalidad',
+         'Test de Shapiro-Wilk',
          'Límites de Cuantificación',
          'Correlación Pearson',
          'Correlación Spearman',
+         'Correlación Kendall Tau',
+         'Covarianza',
          'Regresión Lineal Simple',
          'Regresión Lineal Múltiple',
          'Regresión Polinomial',
-         'Regresión Logística'
+         'Regresión Logística',
+         'RMSE',
+         'MAE',
+         'R² (Coef. Determinación)',
+         'Mann-Whitney U',
+         'Kruskal-Wallis'
      ];
 
     const noImplementados = activeStats.filter(stat => !estadisticosDescriptivos.includes(stat));
@@ -1408,7 +1416,7 @@ const SIDEBAR_SECTIONS = {
             'Media Aritmética', 'Mediana y Moda', 'Desviación Estándar', 'Varianza',
             'Percentiles', 'Rango y Amplitud', 'Coeficiente de Variación',
             'Asimetría (Skewness)', 'Curtosis (Kurtosis)', 'Error Estándar',
-            'Intervalos de Confianza', 'Detección de Outliers'
+            'Intervalos de Confianza', 'Detección de Outliers', 'Covarianza'
         ]
     },
     hipotesis: {
@@ -1417,7 +1425,8 @@ const SIDEBAR_SECTIONS = {
         description: 'Pruebas estadísticas para validar suposiciones sobre los datos',
         options: [
             'T-Test (una muestra)', 'T-Test (dos muestras)', 'ANOVA One-Way',
-            'ANOVA Two-Way', 'Chi-Cuadrado', 'Test de Normalidad'
+            'ANOVA Two-Way', 'Chi-Cuadrado', 'Test de Normalidad',
+            'Test de Shapiro-Wilk', 'Mann-Whitney U', 'Kruskal-Wallis'
         ]
     },
     correlacion: {
@@ -1425,8 +1434,9 @@ const SIDEBAR_SECTIONS = {
         label: 'Correlación',
         description: 'Análisis de relaciones entre variables y modelos predictivos',
         options: [
-            'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple',
-            'Regresión Lineal Múltiple', 'Regresión Logística', 'Regresión Polinomial'
+            'Correlación Pearson', 'Correlación Spearman', 'Correlación Kendall Tau',
+            'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Logística',
+            'Regresión Polinomial', 'RMSE', 'MAE', 'R² (Coef. Determinación)'
         ]
     },
     noParametricos: {
@@ -1853,7 +1863,14 @@ function mostrarModalConfiguracionHypothesis(statName) {
         'Regresión Lineal Simple': { title: '📈 Configurar Regresión Lineal Simple', customFunc: 'abrirModalConfigRegresion' },
         'Regresión Lineal Múltiple': { title: '📊 Configurar Regresión Lineal Múltiple', customFunc: 'abrirModalConfigRegresionMultiple' },
         'Regresión Polinomial': { title: '📈 Configurar Regresión Polinomial', customFunc: 'abrirModalConfigRegresionPolinomial' },
-        'Regresión Logística': { title: '🔐 Configurar Regresión Logística', customFunc: 'abrirModalConfigRegresionLogistica' }
+        'Regresión Logística': { title: '🔐 Configurar Regresión Logística', customFunc: 'abrirModalConfigRegresionLogistica' },
+        'Mann-Whitney U': { title: '⚖️ Configurar Mann-Whitney U', catCols: 1, numCols: 1, catLabel: 'Columna de Agrupación (2 grupos)', numLabel: 'Columna de Valores' },
+        'Kruskal-Wallis': { title: '📊 Configurar Kruskal-Wallis', catCols: 1, numCols: 1, catLabel: 'Columna de Agrupación (3+ grupos)', numLabel: 'Columna de Valores' },
+        'Covarianza': { title: '📐 Configurar Covarianza', customFunc: 'abrirModalConfigCorrelacion' },
+        'Correlación Kendall Tau': { title: '🔗 Configurar Correlación Kendall Tau', customFunc: 'abrirModalConfigCorrelacion' },
+        'RMSE': { title: '📏 Configurar RMSE', customFunc: 'abrirModalConfigObsPred' },
+        'MAE': { title: '📏 Configurar MAE', customFunc: 'abrirModalConfigObsPred' },
+        'R² (Coef. Determinación)': { title: '📊 Configurar R²', customFunc: 'abrirModalConfigObsPred' }
     };
     
     const config = configs[statName];
@@ -1867,8 +1884,11 @@ function mostrarModalConfiguracionHypothesis(statName) {
         return mostrarModalLimitesCuantificacion(imported);
     }
     
-    // Para funciones con modal personalizado (Correlación, Regresión)
+    // Para funciones con modal personalizado (Correlación, Regresión, etc.)
     if (config.customFunc && typeof window[config.customFunc] === 'function') {
+        if (config.customFunc === 'abrirModalConfigObsPred') {
+            return window[config.customFunc](imported, statName);
+        }
         return window[config.customFunc](imported);
     }
     
@@ -1984,6 +2004,20 @@ function mostrarModalConfiguracionHypothesis(statName) {
                 preview.style.display = 'none';
                 return;
             }
+
+            if (statName === 'Mann-Whitney U' && groups.length !== 2) {
+                errorDiv.textContent = `⚠️ Mann-Whitney U requiere exactamente 2 grupos. Se detectaron ${groups.length} grupos en "${catCol}".`;
+                errorDiv.style.display = 'block';
+                preview.style.display = 'none';
+                return;
+            }
+
+            if (statName === 'Kruskal-Wallis' && groups.length < 3) {
+                errorDiv.textContent = `⚠️ Kruskal-Wallis requiere al menos 3 grupos. Se detectaron ${groups.length} grupos en "${catCol}".`;
+                errorDiv.style.display = 'block';
+                preview.style.display = 'none';
+                return;
+            }
             
             const groupsHtml = groups.map(g => {
                 const count = imported.data.filter(row => row[catCol] === g).length;
@@ -2043,6 +2077,24 @@ function mostrarModalConfiguracionHypothesis(statName) {
             const groups = [...new Set(imported.data.map(row => row[catCol]).filter(v => v !== null && v !== ''))];
             if (groups.length !== 2) {
                 _showToast(`⚠️ T-Test requiere exactamente 2 grupos. Se detectaron ${groups.length}.`, true);
+                return;
+            }
+        }
+
+        if (statName === 'Mann-Whitney U' && selectedCatCols.length === 1) {
+            const catCol = selectedCatCols[0];
+            const groups = [...new Set(imported.data.map(row => row[catCol]).filter(v => v !== null && v !== ''))];
+            if (groups.length !== 2) {
+                _showToast(`⚠️ Mann-Whitney U requiere exactamente 2 grupos. Se detectaron ${groups.length}.`, true);
+                return;
+            }
+        }
+
+        if (statName === 'Kruskal-Wallis' && selectedCatCols.length === 1) {
+            const catCol = selectedCatCols[0];
+            const groups = [...new Set(imported.data.map(row => row[catCol]).filter(v => v !== null && v !== ''))];
+            if (groups.length < 3) {
+                _showToast(`⚠️ Kruskal-Wallis requiere al menos 3 grupos. Se detectaron ${groups.length}.`, true);
                 return;
             }
         }
@@ -2813,6 +2865,90 @@ function initTheme() {
     const theme = savedTheme || (prefersDark ? 'dark' : 'light');
     
     document.documentElement.setAttribute('data-theme', theme);
+}
+
+// ========================================
+// MODAL DE CONFIGURACIÓN PARA OBSERVADO vs PREDICHO (RMSE, MAE, R²)
+// ========================================
+function abrirModalConfigObsPred(imported, statName) {
+    const statLabel = statName || 'RMSE';
+    document.getElementById('obs-pred-config-modal')?.remove();
+    
+    const numericCols = (imported.headers || []).filter(col => {
+        const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
+        const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
+        return numericCount / values.length > 0.5;
+    });
+    
+    if (numericCols.length < 2) {
+        _showToast('⚠️ Se necesitan al menos 2 columnas numéricas', true);
+        return false;
+    }
+    
+    const modal = document.createElement('div');
+    modal.id = 'obs-pred-config-modal';
+    modal.innerHTML = `
+        <div class="dm-modal-overlay" id="obs-pred-overlay"></div>
+        <div class="dm-modal-card" style="width: min(450px, 96vw);">
+            <div class="dm-modal-header">
+                <h3>📏 Configurar ${statLabel}</h3>
+                <button class="dm-modal-close" id="obs-pred-close">✕</button>
+            </div>
+            <div class="dm-modal-body">
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📊 Columna Observada (valores reales)</label>
+                    <select id="obs-pred-obs" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="dm-field">
+                    <label>🎯 Columna Predicha (valores del modelo)</label>
+                    <select id="obs-pred-pred" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
+                    </select>
+                </div>
+            </div>
+            <div class="dm-modal-footer">
+                <button class="dm-btn dm-btn-cancel" id="obs-pred-cancel">Cancelar</button>
+                <button class="dm-btn dm-btn-success" id="obs-pred-confirm">✓ Aceptar</button>
+            </div>
+        </div>`;
+    document.body.appendChild(modal);
+    requestAnimationFrame(() => modal.classList.add('dm-modal-visible'));
+    
+    const close = () => { modal.classList.remove('dm-modal-visible'); setTimeout(() => modal.remove(), 250); };
+    document.getElementById('obs-pred-close').addEventListener('click', close);
+    document.getElementById('obs-pred-cancel').addEventListener('click', close);
+    document.getElementById('obs-pred-overlay').addEventListener('click', close);
+    
+    document.getElementById('obs-pred-confirm').addEventListener('click', () => {
+        const colObs = document.getElementById('obs-pred-obs').value;
+        const colPred = document.getElementById('obs-pred-pred').value;
+        
+        if (colObs === colPred) {
+            _showToast('⚠️ Las columnas deben ser diferentes', true);
+            return;
+        }
+        
+        const config = {
+            statName: statName,
+            columnaObservada: colObs,
+            columnaPredicha: colPred,
+            timestamp: Date.now()
+        };
+        
+        StateManager.setHypothesisConfig(statLabel, config);
+        StateManager.addActiveStat(statLabel);
+        
+        document.querySelectorAll('.menu-option').forEach(opt => {
+            if (opt.textContent.trim() === statLabel) opt.classList.add('selected');
+        });
+        
+        _showToast(`✅ ${statLabel} configurado correctamente`);
+        close();
+    });
+    
+    return true;
 }
 
 // Ejecutar al cargar

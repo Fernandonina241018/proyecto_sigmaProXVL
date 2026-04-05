@@ -2803,7 +2803,203 @@ const EstadisticaDescriptiva = (() => {
                       } else {
                           resultados['Regresión Logística'] = { error: 'Configure la regresión logística en el menú.' };
                       }
-                      break;
+                       break;
+
+                 case 'Test de Shapiro-Wilk':
+                     resultados['Test de Shapiro-Wilk'] = {};
+                     numericCols.forEach(col => {
+                         const values = getNumericValues(data, col);
+                         resultados['Test de Shapiro-Wilk'][col] = calcularShapiroWilk(values);
+                     });
+                     break;
+
+                 case 'Covarianza':
+                     if (hypothesisConfig['Covarianza']) {
+                         const cfg = hypothesisConfig['Covarianza'];
+                         const colX = cfg.columnaX;
+                         const colY = cfg.columnaY;
+                         if (!colX || !colY) {
+                             resultados['Covarianza'] = { error: 'Seleccione ambas columnas X e Y' };
+                         } else if (colX === colY) {
+                             resultados['Covarianza'] = { error: 'Las columnas X e Y deben ser diferentes' };
+                         } else {
+                             const valuesX = getNumericValues(data, colX);
+                             const valuesY = getNumericValues(data, colY);
+                             const minLength = Math.min(valuesX.length, valuesY.length);
+                             const cov = calcularCovarianza(valuesX.slice(0, minLength), valuesY.slice(0, minLength));
+                             resultados['Covarianza'] = {
+                                 covarianza: cov,
+                                 columnaX: colX,
+                                 columnaY: colY,
+                                 n: minLength
+                             };
+                         }
+                     } else {
+                         resultados['Covarianza'] = { error: 'Configuración no encontrada. Seleccione dos columnas numéricas.' };
+                     }
+                     break;
+
+                 case 'Correlación Kendall Tau':
+                     if (hypothesisConfig['Correlación Kendall Tau']) {
+                         const cfg = hypothesisConfig['Correlación Kendall Tau'];
+                         const colX = cfg.columnaX;
+                         const colY = cfg.columnaY;
+                         if (!colX || !colY) {
+                             resultados['Correlación Kendall Tau'] = { error: 'Seleccione ambas columnas X e Y' };
+                         } else if (colX === colY) {
+                             resultados['Correlación Kendall Tau'] = { error: 'Las columnas X e Y deben ser diferentes' };
+                         } else {
+                             const valuesX = getNumericValues(data, colX);
+                             const valuesY = getNumericValues(data, colY);
+                             const minLength = Math.min(valuesX.length, valuesY.length);
+                             resultados['Correlación Kendall Tau'] = calcularKendallTau(valuesX.slice(0, minLength), valuesY.slice(0, minLength));
+                             resultados['Correlación Kendall Tau'].columnaX = colX;
+                             resultados['Correlación Kendall Tau'].columnaY = colY;
+                         }
+                     } else {
+                         resultados['Correlación Kendall Tau'] = { error: 'Configuración no encontrada. Seleccione dos columnas numéricas.' };
+                     }
+                     break;
+
+                 case 'RMSE':
+                     if (hypothesisConfig['RMSE']) {
+                         const cfg = hypothesisConfig['RMSE'];
+                         const colObs = cfg.columnaObservada;
+                         const colPred = cfg.columnaPredicha;
+                         if (!colObs || !colPred) {
+                             resultados['RMSE'] = { error: 'Seleccione ambas columnas (observada y predicha)' };
+                         } else if (colObs === colPred) {
+                             resultados['RMSE'] = { error: 'Las columnas deben ser diferentes' };
+                         } else {
+                             const obs = getNumericValues(data, colObs);
+                             const pred = getNumericValues(data, colPred);
+                             const minLength = Math.min(obs.length, pred.length);
+                             resultados['RMSE'] = {
+                                 rmse: calcularRMSE(obs.slice(0, minLength), pred.slice(0, minLength)),
+                                 columnaObservada: colObs,
+                                 columnaPredicha: colPred,
+                                 n: minLength
+                             };
+                         }
+                     } else {
+                         resultados['RMSE'] = { error: 'Configuración no encontrada. Seleccione columnas observada y predicha.' };
+                     }
+                     break;
+
+                 case 'MAE':
+                     if (hypothesisConfig['MAE']) {
+                         const cfg = hypothesisConfig['MAE'];
+                         const colObs = cfg.columnaObservada;
+                         const colPred = cfg.columnaPredicha;
+                         if (!colObs || !colPred) {
+                             resultados['MAE'] = { error: 'Seleccione ambas columnas (observada y predicha)' };
+                         } else if (colObs === colPred) {
+                             resultados['MAE'] = { error: 'Las columnas deben ser diferentes' };
+                         } else {
+                             const obs = getNumericValues(data, colObs);
+                             const pred = getNumericValues(data, colPred);
+                             const minLength = Math.min(obs.length, pred.length);
+                             resultados['MAE'] = {
+                                 mae: calcularMAE(obs.slice(0, minLength), pred.slice(0, minLength)),
+                                 columnaObservada: colObs,
+                                 columnaPredicha: colPred,
+                                 n: minLength
+                             };
+                         }
+                     } else {
+                         resultados['MAE'] = { error: 'Configuración no encontrada. Seleccione columnas observada y predicha.' };
+                     }
+                     break;
+
+                 case 'R² (Coef. Determinación)':
+                     if (hypothesisConfig['R² (Coef. Determinación)']) {
+                         const cfg = hypothesisConfig['R² (Coef. Determinación)'];
+                         const colObs = cfg.columnaObservada;
+                         const colPred = cfg.columnaPredicha;
+                         if (!colObs || !colPred) {
+                             resultados['R² (Coef. Determinación)'] = { error: 'Seleccione ambas columnas (observada y predicha)' };
+                         } else if (colObs === colPred) {
+                             resultados['R² (Coef. Determinación)'] = { error: 'Las columnas deben ser diferentes' };
+                         } else {
+                             const obs = getNumericValues(data, colObs);
+                             const pred = getNumericValues(data, colPred);
+                             const minLength = Math.min(obs.length, pred.length);
+                             resultados['R² (Coef. Determinación)'] = {
+                                 r2: calcularR2(obs.slice(0, minLength), pred.slice(0, minLength)),
+                                 columnaObservada: colObs,
+                                 columnaPredicha: colPred,
+                                 n: minLength
+                             };
+                         }
+                     } else {
+                         resultados['R² (Coef. Determinación)'] = { error: 'Configuración no encontrada. Seleccione columnas observada y predicha.' };
+                     }
+                     break;
+
+                 case 'Mann-Whitney U':
+                     if (hypothesisConfig['Mann-Whitney U']) {
+                         const cfg = hypothesisConfig['Mann-Whitney U'];
+                         const catCol = cfg.categoricalCols[0];
+                         const numCol = cfg.numericCol;
+                         if (!catCol || !numCol) {
+                             resultados['Mann-Whitney U'] = { error: 'Seleccione columna categórica y numérica' };
+                         } else {
+                             const groups = {};
+                             data.data.forEach(row => {
+                                 const g = row[catCol];
+                                 const v = parseFloat(row[numCol]);
+                                 if (g !== null && g !== '' && !isNaN(v) && isFinite(v)) {
+                                     if (!groups[g]) groups[g] = [];
+                                     groups[g].push(v);
+                                 }
+                             });
+                             const groupKeys = Object.keys(groups);
+                             if (groupKeys.length !== 2) {
+                                 resultados['Mann-Whitney U'] = { error: `Se necesitan exactamente 2 grupos (encontrados: ${groupKeys.length})` };
+                             } else {
+                                 resultados['Mann-Whitney U'] = calcularMannWhitneyU(groups[groupKeys[0]], groups[groupKeys[1]]);
+                                 resultados['Mann-Whitney U'].columnaAgrupacion = catCol;
+                                 resultados['Mann-Whitney U'].columnaValores = numCol;
+                                 resultados['Mann-Whitney U'].grupos = groupKeys;
+                             }
+                         }
+                     } else {
+                         resultados['Mann-Whitney U'] = { error: 'Configuración no encontrada. Seleccione columna categórica (2 grupos) y numérica.' };
+                     }
+                     break;
+
+                 case 'Kruskal-Wallis':
+                     if (hypothesisConfig['Kruskal-Wallis']) {
+                         const cfg = hypothesisConfig['Kruskal-Wallis'];
+                         const catCol = cfg.categoricalCols[0];
+                         const numCol = cfg.numericCol;
+                         if (!catCol || !numCol) {
+                             resultados['Kruskal-Wallis'] = { error: 'Seleccione columna categórica y numérica' };
+                         } else {
+                             const groups = {};
+                             data.data.forEach(row => {
+                                 const g = row[catCol];
+                                 const v = parseFloat(row[numCol]);
+                                 if (g !== null && g !== '' && !isNaN(v) && isFinite(v)) {
+                                     if (!groups[g]) groups[g] = [];
+                                     groups[g].push(v);
+                                 }
+                             });
+                             const groupKeys = Object.keys(groups);
+                             if (groupKeys.length < 3) {
+                                 resultados['Kruskal-Wallis'] = { error: `Se necesitan al menos 3 grupos (encontrados: ${groupKeys.length})` };
+                             } else {
+                                 const grupos = groupKeys.map(k => groups[k]);
+                                 resultados['Kruskal-Wallis'] = calcularKruskalWallis(grupos);
+                                 resultados['Kruskal-Wallis'].columnaAgrupacion = catCol;
+                                 resultados['Kruskal-Wallis'].columnaValores = numCol;
+                                 resultados['Kruskal-Wallis'].grupos = groupKeys;
+                             }
+                         }
+                     } else {
+                         resultados['Kruskal-Wallis'] = { error: 'Configuración no encontrada. Seleccione columna categórica (3+ grupos) y numérica.' };
+                     }
+                     break;
              }
         });
         
@@ -2892,8 +3088,16 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
             'ANOVA Two-Way':           { formula: 'F₁ = MSF₁/MSE, F₂ = MSF₂/MSE',     desc: 'Análisis de varianza con dos factores simultáneos. Evalúa efectos principales de cada factor.', icono: '📐' },
             'Chi-Cuadrado':            { formula: 'χ² = Σ(O − E)² / E',               desc: 'Prueba de independencia para variables categóricas. Compara frecuencias observadas vs esperadas.', icono: '📋' },
              'Test de Normalidad':      { formula: 'JB = (n/6)(S² + K²/4)',             desc: 'Jarque-Bera: verifica si los datos siguen distribución normal usando asimetría y curtosis.', icono: '🔔' },
+             'Test de Shapiro-Wilk':    { formula: 'W = (Σaᵢx₍ᵢ₎)² / Σ(xᵢ − x̄)²',      desc: 'Test de normalidad más potente para muestras pequeñas (n < 50). Compara datos ordenados con valores esperados normales.', icono: '🔔' },
              'Correlación Pearson':     { formula: 'r = cov(X,Y)/(σx * σy)',            desc: 'Mide la relación lineal entre dos variables. Valores entre -1 y 1. Cercano a ±1 indica fuerte relación lineal.', icono: '🔗' },
              'Correlación Spearman':    { formula: 'ρ = correlación de Pearson sobre rangos', desc: 'Mide la relación monotónica entre dos variables basada en rangos. Menos sensible a outliers que Pearson.', icono: '🔗' },
+             'Correlación Kendall Tau': { formula: 'τ = (C − D) / √[(n₀−n₁)(n₀−n₂)]',   desc: 'Mide la asociación ordinal entre dos variables. Más robusta que Spearman para datos con muchos empates.', icono: '🔗' },
+             'Covarianza':              { formula: 'Cov(X,Y) = Σ(xi−x̄)(yi−ȳ) / (n−1)',  desc: 'Mide la relación lineal entre dos variables. Positiva: se mueven juntas, Negativa: direcciones opuestas.', icono: '📐' },
+             'RMSE':                    { formula: 'RMSE = √[Σ(obs−pred)²/n]',           desc: 'Error cuadrático medio. Mide la diferencia promedio entre valores observados y predichos.', icono: '📏' },
+             'MAE':                     { formula: 'MAE = Σ|obs−pred|/n',                desc: 'Error absoluto medio. Más robusto a outliers que RMSE.', icono: '📏' },
+             'R² (Coef. Determinación)':{ formula: 'R² = 1 − SSres/SStot',               desc: 'Proporción de la varianza explicada por el modelo. R²=1: ajuste perfecto, R²=0: no mejor que la media.', icono: '📊' },
+             'Mann-Whitney U':          { formula: 'U = min(U₁, U₂)',                    desc: 'Alternativa no-paramétrica al t-test. Compara distribuciones de dos grupos sin asumir normalidad.', icono: '⚖️' },
+             'Kruskal-Wallis':          { formula: 'H = [12/(N(N+1))]Σ(Rᵢ²/nᵢ) − 3(N+1)', desc: 'Alternativa no-paramétrica al ANOVA. Compara 3+ grupos sin asumir distribución normal.', icono: '📊' },
              'Regresión Lineal Simple': { formula: 'Y = a + bX', desc: 'Modelo predictivo lineal simple. Estima la variable dependiente Y a partir de una variable independiente X usando mínimos cuadrados.', icono: '📈' },
              'Regresión Lineal Múltiple': { formula: 'Y = β₀ + β₁X₁ + ... + βₖXₖ', desc: 'Modelo con múltiples predictores. Estima Y usando múltiples variables independientes simultáneamente.', icono: '📊' },
              'Regresión Polinomial': { formula: 'Y = a₀ + a₁X + a₂X² + ...', desc: 'Modelo de regresión no lineal que ajusta un polinomio de grado especificado a los datos.', icono: '📈' },
@@ -2905,7 +3109,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         const hasParams = typeof ParametrosManager !== 'undefined';
 
          // Pruebas de hipótesis que tienen estructura diferente
-         const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística'];
+         const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Test de Shapiro-Wilk', 'Correlación Pearson', 'Correlación Spearman', 'Correlación Kendall Tau', 'Covarianza', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística', 'RMSE', 'MAE', 'R² (Coef. Determinación)', 'Mann-Whitney U', 'Kruskal-Wallis'];
 
         // ── KPI cards para un estadístico ─────────────────────
         function kpiCards(statKey) {
@@ -3305,6 +3509,182 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                             <div class="ar-formula-eq">${data.formula || data.modelo || ''}</div>
                             <div class="ar-formula-desc">${data.interpretacion || ''}</div>
                         </div>
+                    </div>`;
+            }
+
+            // Test de Shapiro-Wilk
+            if (statKey === 'Test de Shapiro-Wilk') {
+                return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">${col}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">W</span><span class="ar-kpi-sub-v">${result.estadisticoW?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${result.n ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">
+                            ${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Covarianza
+            if (statKey === 'Covarianza') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                const covVal = data.covarianza;
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">📐 ${data.columnaX || 'X'} vs ${data.columnaY || 'Y'}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Covarianza</span><span class="ar-kpi-sub-v">${typeof covVal === 'number' ? covVal.toFixed(4) : '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                        </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">📐</span>
+                        <div>
+                            <div class="ar-formula-eq">Cov(X,Y) = Σ(xi−x̄)(yi−ȳ) / (n−1)</div>
+                            <div class="ar-formula-desc">${covVal > 0 ? 'Covarianza positiva: X e Y tienden a moverse juntas' : covVal < 0 ? 'Covarianza negativa: X e Y tienden a moverse en direcciones opuestas' : 'Covarianza cero: sin relación lineal'}</div>
+                        </div>
+                    </div>`;
+            }
+
+            // Correlación Kendall Tau
+            if (statKey === 'Correlación Kendall Tau') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">📊 ${data.columnaX || 'X'} vs ${data.columnaY || 'Y'}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Tau (τ)</span><span class="ar-kpi-sub-v">${data.tau ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Concordantes</span><span class="ar-kpi-sub-v">${data.concordantes ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Discordantes</span><span class="ar-kpi-sub-v">${data.discordantes ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.pValue?.toFixed(6) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">
+                            ${data.significante ? '★ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
+                        </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">📐</span>
+                        <div>
+                            <div class="ar-formula-eq">${data.formula || 'τ = (C − D) / √[(n₀−n₁)(n₀−n₂)]'}</div>
+                            <div class="ar-formula-desc">${data.interpretacion || ''}</div>
+                        </div>
+                    </div>`;
+            }
+
+            // RMSE
+            if (statKey === 'RMSE') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">📏 ${data.columnaObservada || 'Obs'} vs ${data.columnaPredicha || 'Pred'}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">RMSE</span><span class="ar-kpi-sub-v">${data.rmse?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                        </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">📐</span>
+                        <div>
+                            <div class="ar-formula-eq">RMSE = √[Σ(obs−pred)²/n]</div>
+                            <div class="ar-formula-desc">Menor RMSE = mejor ajuste. RMSE=0 indica ajuste perfecto.</div>
+                        </div>
+                    </div>`;
+            }
+
+            // MAE
+            if (statKey === 'MAE') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">📏 ${data.columnaObservada || 'Obs'} vs ${data.columnaPredicha || 'Pred'}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">MAE</span><span class="ar-kpi-sub-v">${data.mae?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                        </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">📐</span>
+                        <div>
+                            <div class="ar-formula-eq">MAE = Σ|obs−pred|/n</div>
+                            <div class="ar-formula-desc">Menor MAE = mejor ajuste. Más robusto a outliers que RMSE.</div>
+                        </div>
+                    </div>`;
+            }
+
+            // R²
+            if (statKey === 'R² (Coef. Determinación)') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                const r2 = data.r2;
+                const r2Class = r2 >= 0.9 ? 'ar-badge-ok' : r2 >= 0.7 ? 'ar-badge-warn' : 'ar-badge-danger';
+                const r2Text = r2 >= 0.9 ? '✓ Excelente ajuste' : r2 >= 0.7 ? '⚠ Ajuste moderado' : '✗ Ajuste pobre';
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">📊 ${data.columnaObservada || 'Obs'} vs ${data.columnaPredicha || 'Pred'}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${r2?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${r2Class}">
+                            ${r2Text}
+                        </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">📐</span>
+                        <div>
+                            <div class="ar-formula-eq">R² = 1 − SSres/SStot</div>
+                            <div class="ar-formula-desc">Proporción de la varianza explicada por el modelo.</div>
+                        </div>
+                    </div>`;
+            }
+
+            // Mann-Whitney U
+            if (statKey === 'Mann-Whitney U') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">⚖️ ${data.columnaAgrupacion || ''} → ${data.columnaValores || ''}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">U</span><span class="ar-kpi-sub-v">${data.U ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">z</span><span class="ar-kpi-sub-v">${data.z ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Efecto (r)</span><span class="ar-kpi-sub-v">${data.tamanoEfecto ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grupos</span><span class="ar-kpi-sub-v">${(data.grupos || []).join(' vs ')}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
+                            ${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
+                        </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">💬</span>
+                        <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
+                    </div>`;
+            }
+
+            // Kruskal-Wallis
+            if (statKey === 'Kruskal-Wallis') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">📊 ${data.columnaAgrupacion || ''} → ${data.columnaValores || ''}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">H</span><span class="ar-kpi-sub-v">${data.H ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df</span><span class="ar-kpi-sub-v">${data.df ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grupos</span><span class="ar-kpi-sub-v">${data.grupos?.length ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Total obs.</span><span class="ar-kpi-sub-v">${data.totalObservaciones ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
+                            ${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
+                        </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">💬</span>
+                        <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
                     </div>`;
             }
 

@@ -495,7 +495,7 @@ const ReporteManager = (() => {
             p(`  └${'─'.repeat(W-4)}┘`);
             p(`  ${pad(t('statistic'),28)}${pad(t('value'),18)}${t('reference')}`);
             p(`  ${singleLine(W-4)}`);
-            const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística'];
+            const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Test de Shapiro-Wilk', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Correlación Kendall Tau', 'Covarianza', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística', 'RMSE', 'MAE', 'R² (Coef. Determinación)', 'Mann-Whitney U', 'Kruskal-Wallis'];
             Object.entries(resultados.resultados).forEach(([stat,data])=>{
                 if (hypothesisTests.includes(stat)) return;
                 // Skip hypothesisTests, handled separately
@@ -747,6 +747,46 @@ const ReporteManager = (() => {
             name: lang === 'es' ? 'Regresión Logística' : 'Logistic Regression',
             desc: lang === 'es' ? 'Clasificación binaria' : 'Binary classification',
             formula: 'P = 1/(1+e^(-z))'
+          },
+          'Test de Shapiro-Wilk': {
+            name: lang === 'es' ? 'Test de Shapiro-Wilk' : 'Shapiro-Wilk Test',
+            desc: lang === 'es' ? 'Verifica distribución normal (más potente para n<50)' : 'Verifies normal distribution (more powerful for n<50)',
+            formula: 'W = (Σaᵢx₍ᵢ₎)² / Σ(xᵢ − x̄)²'
+          },
+          'Correlación Kendall Tau': {
+            name: lang === 'es' ? 'Correlación de Kendall Tau' : 'Kendall Tau Correlation',
+            desc: lang === 'es' ? 'Asociación ordinal entre dos variables' : 'Ordinal association between two variables',
+            formula: 'τ = (C − D) / √[(n₀−n₁)(n₀−n₂)]'
+          },
+          'Covarianza': {
+            name: lang === 'es' ? 'Covarianza' : 'Covariance',
+            desc: lang === 'es' ? 'Relación lineal entre dos variables' : 'Linear relationship between two variables',
+            formula: 'Cov(X,Y) = Σ(xi−x̄)(yi−ȳ) / (n−1)'
+          },
+          'RMSE': {
+            name: 'RMSE',
+            desc: lang === 'es' ? 'Error cuadrático medio' : 'Root Mean Square Error',
+            formula: 'RMSE = √[Σ(obs−pred)²/n]'
+          },
+          'MAE': {
+            name: 'MAE',
+            desc: lang === 'es' ? 'Error absoluto medio' : 'Mean Absolute Error',
+            formula: 'MAE = Σ|obs−pred|/n'
+          },
+          'R² (Coef. Determinación)': {
+            name: lang === 'es' ? 'R² (Coef. de Determinación)' : 'R² (Coefficient of Determination)',
+            desc: lang === 'es' ? 'Varianza explicada por el modelo' : 'Variance explained by the model',
+            formula: 'R² = 1 − SSres/SStot'
+          },
+          'Mann-Whitney U': {
+            name: 'Mann-Whitney U',
+            desc: lang === 'es' ? 'Alternativa no-paramétrica al t-test' : 'Non-parametric alternative to t-test',
+            formula: 'U = min(U₁, U₂)'
+          },
+          'Kruskal-Wallis': {
+            name: 'Kruskal-Wallis',
+            desc: lang === 'es' ? 'Alternativa no-paramétrica al ANOVA' : 'Non-parametric alternative to ANOVA',
+            formula: 'H = [12/(N(N+1))]Σ(Rᵢ²/nᵢ) − 3(N+1)'
           }
         };
         const usedTxtStats = resultados.estadisticos || [];
@@ -837,7 +877,7 @@ const ReporteManager = (() => {
 
         function statsRows(col){
             const refs=t('statRefs'); let h='';
-            const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística'];
+            const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Test de Shapiro-Wilk', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Correlación Kendall Tau', 'Covarianza', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística', 'RMSE', 'MAE', 'R² (Coef. Determinación)', 'Mann-Whitney U', 'Kruskal-Wallis'];
             Object.entries(resultados.resultados).forEach(([stat,data])=>{
                 if (hypothesisTests.includes(stat)) return; // Skip hypothesis tests - shown separately
                 const val=data[col]; if(val===undefined)return;
