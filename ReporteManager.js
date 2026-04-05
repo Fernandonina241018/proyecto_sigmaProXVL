@@ -531,7 +531,7 @@ const ReporteManager = (() => {
         });
         
         // ── Pruebas de Hipótesis ──
-        const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística'];
+        const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Test de Shapiro-Wilk', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Correlación Kendall Tau', 'Covarianza', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística', 'RMSE', 'MAE', 'R² (Coef. Determinación)', 'Mann-Whitney U', 'Kruskal-Wallis'];
         const hypResults = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.includes(stat));
         if (hypResults.length > 0) {
             p(singleLine(W)); p(`  ${lang === 'es' ? 'PRUEBAS DE HIPÓTESIS Y ESPECIFICACIÓN' : 'HYPOTHESIS AND SPECIFICATION TESTS'} (α = 0.05)`); p(singleLine(W));
@@ -1211,7 +1211,7 @@ tr:hover td{background:#f7faff}
     </div>
   </div>
   ${(() => {
-      const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística'];
+      const hypothesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'T-Test (una muestra)', 'Test de Normalidad', 'Test de Shapiro-Wilk', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Correlación Kendall Tau', 'Covarianza', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística', 'RMSE', 'MAE', 'R² (Coef. Determinación)', 'Mann-Whitney U', 'Kruskal-Wallis'];
       const hypResults = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.includes(stat));
       if (hypResults.length === 0) return '';
 
@@ -1230,6 +1230,8 @@ tr:hover td{background:#f7faff}
               content = `<tr><td>${stat}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">F1=${fmtNum(data.factor1?.F)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p1=${fmtNum(data.factor1?.p)}</td><td style="text-align:center">—</td></tr>`;
           } else if (stat === 'Test de Normalidad') {
               content = Object.entries(data).filter(([k]) => k !== 'error').map(([col, r]) => `<tr><td>${stat} (${col})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">JB=${fmtNum(r.estadisticoJB)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${!r.esNormal?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${!r.esNormal?'✗ No normal':'✓ Normal'}</span></td></tr>`).join('');
+          } else if (stat === 'Test de Shapiro-Wilk') {
+              content = Object.entries(data).filter(([k]) => k !== 'error').map(([col, r]) => `<tr><td>${stat} (${col})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">W=${fmtNum(r.estadisticoW)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${!r.esNormal?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${!r.esNormal?'✗ No normal':'✓ Normal'}</span></td></tr>`).join('');
           } else if (stat === 'T-Test (una muestra)') {
               content = Object.entries(data).filter(([k]) => k !== 'error').map(([col, r]) => `<tr><td>${stat} (${col})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">t=${fmtNum(r.estadisticoT)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${r.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${r.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`).join('');
           } else if (stat === 'Límites de Cuantificación') {
