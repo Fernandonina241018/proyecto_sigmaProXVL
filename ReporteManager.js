@@ -1194,6 +1194,81 @@ tr:hover td{background:#f7faff}
             title: lang === 'es' ? 'Regresión Logística' : 'Logistic Regression',
             desc: lang === 'es' ? 'Modelo de clasificación binaria que estima la probabilidad de pertenencia a una clase.' : 'Binary classification model that estimates probability of class membership.',
             formula: 'P = 1/(1+e^(-z))'
+          },
+          'Test de Shapiro-Wilk': {
+            title: lang === 'es' ? 'Test de Shapiro-Wilk' : 'Shapiro-Wilk Test',
+            desc: lang === 'es' ? 'Prueba de normalidad más potente para muestras pequeñas (n < 50). Compara datos ordenados con valores esperados de distribución normal.' : 'Most powerful normality test for small samples (n < 50). Compares ordered data with expected normal distribution values.',
+            formula: 'W = (Σaᵢx₍ᵢ₎)² / Σ(xᵢ − x̄)²'
+          },
+          'Test de Normalidad': {
+            title: lang === 'es' ? 'Test de Normalidad (Jarque-Bera)' : 'Normality Test (Jarque-Bera)',
+            desc: lang === 'es' ? 'Prueba de normalidad basada en asimetría y curtosis. Compara la distribución de los datos con una distribución normal.' : 'Normality test based on skewness and kurtosis. Compares data distribution with a normal distribution.',
+            formula: 'JB = (n/6)(S² + K²/4)'
+          },
+          'Correlación Kendall Tau': {
+            title: lang === 'es' ? 'Correlación de Kendall Tau' : 'Kendall Tau Correlation',
+            desc: lang === 'es' ? 'Mide la asociación ordinal entre dos variables. Más robusta que Spearman para datos con muchos empates.' : 'Measures ordinal association between two variables. More robust than Spearman for data with many ties.',
+            formula: 'τ = (C − D) / √[(n₀−n₁)(n₀−n₂)]'
+          },
+          'Covarianza': {
+            title: lang === 'es' ? 'Covarianza' : 'Covariance',
+            desc: lang === 'es' ? 'Mide la variación conjunta de dos variables. Positiva: se mueven juntas. Negativa: direcciones opuestas.' : 'Measures joint variation of two variables. Positive: move together. Negative: opposite directions.',
+            formula: 'Cov(X,Y) = Σ(xi−x̄)(yi−ȳ) / (n−1)'
+          },
+          'RMSE': {
+            title: 'RMSE',
+            desc: lang === 'es' ? 'Error cuadrático medio de la raíz. Mide la diferencia promedio entre valores observados y predichos. Penaliza errores grandes.' : 'Root mean square error. Measures average difference between observed and predicted values. Penalizes large errors.',
+            formula: 'RMSE = √[Σ(obs−pred)²/n]'
+          },
+          'MAE': {
+            title: 'MAE',
+            desc: lang === 'es' ? 'Error absoluto medio. Mide la diferencia promedio absoluta entre valores observados y predichos. Más robusto a outliers.' : 'Mean absolute error. Measures average absolute difference between observed and predicted values. More robust to outliers.',
+            formula: 'MAE = Σ|obs−pred|/n'
+          },
+          'R² (Coef. Determinación)': {
+            title: lang === 'es' ? 'R² (Coeficiente de Determinación)' : 'R² (Coefficient of Determination)',
+            desc: lang === 'es' ? 'Proporción de la varianza explicada por el modelo. R²=1 indica ajuste perfecto, R²=0 indica que no es mejor que predecir la media.' : 'Proportion of variance explained by the model. R²=1 indicates perfect fit, R²=0 indicates not better than predicting the mean.',
+            formula: 'R² = 1 − SSres/SStot'
+          },
+          'Mann-Whitney U': {
+            title: 'Mann-Whitney U',
+            desc: lang === 'es' ? 'Prueba no paramétrica que compara distribuciones de dos grupos. Alternativa al t-test sin asumir normalidad.' : 'Non-parametric test that compares distributions of two groups. Alternative to t-test without assuming normality.',
+            formula: 'U = min(U₁, U₂)'
+          },
+          'Kruskal-Wallis': {
+            title: 'Kruskal-Wallis',
+            desc: lang === 'es' ? 'Prueba no paramétrica que compara 3+ grupos. Alternativa al ANOVA sin asumir distribución normal.' : 'Non-parametric test that compares 3+ groups. Alternative to ANOVA without assuming normal distribution.',
+            formula: 'H = [12/(N(N+1))]Σ(Rᵢ²/nᵢ) − 3(N+1)'
+          },
+          'ANOVA One-Way': {
+            title: lang === 'es' ? 'ANOVA de un factor' : 'One-Way ANOVA',
+            desc: lang === 'es' ? 'Análisis de varianza de un factor. Compara medias de 3 o más grupos para determinar si al menos una difiere significativamente.' : 'One-way analysis of variance. Compares means of 3 or more groups to determine if at least one differs significantly.',
+            formula: 'F = MSB / MSW'
+          },
+          'ANOVA Two-Way': {
+            title: lang === 'es' ? 'ANOVA de dos factores' : 'Two-Way ANOVA',
+            desc: lang === 'es' ? 'Análisis de varianza con dos factores simultáneos. Evalúa efectos principales de cada factor y su interacción.' : 'Analysis of variance with two simultaneous factors. Evaluates main effects of each factor and their interaction.',
+            formula: 'F₁ = MSF₁/MSE, F₂ = MSF₂/MSE'
+          },
+          'Chi-Cuadrado': {
+            title: lang === 'es' ? 'Prueba Chi-Cuadrado' : 'Chi-Square Test',
+            desc: lang === 'es' ? 'Prueba de independencia para variables categóricas. Compara frecuencias observadas con esperadas bajo independencia.' : 'Independence test for categorical variables. Compares observed frequencies with expected under independence.',
+            formula: 'χ² = Σ(O − E)² / E'
+          },
+          'T-Test (dos muestras)': {
+            title: lang === 'es' ? 'T-Test (dos muestras)' : 'T-Test (two samples)',
+            desc: lang === 'es' ? 'Compara las medias de dos grupos independientes usando la prueba de Welch (sin asumir varianzas iguales).' : 'Compares means of two independent groups using Welch test (without assuming equal variances).',
+            formula: 't = (x̄₁ − x̄₂) / √(s₁²/n₁ + s₂²/n₂)'
+          },
+          'T-Test (una muestra)': {
+            title: lang === 'es' ? 'T-Test (una muestra)' : 'T-Test (one sample)',
+            desc: lang === 'es' ? 'Compara la media muestral con un valor hipotético (μ₀). Prueba bilateral para detectar diferencias significativas.' : 'Compares sample mean with a hypothetical value (μ₀). Two-sided test to detect significant differences.',
+            formula: 't = (x̄ − μ₀) / (s/√n)'
+          },
+          'Límites de Cuantificación': {
+            title: lang === 'es' ? 'Límites de Cuantificación' : 'Limits of Quantification',
+            desc: lang === 'es' ? 'Calcula LCL, UCL, Cp y Cpk para verificar si el proceso cumple con especificaciones.' : 'Calculates LCL, UCL, Cp and Cpk to verify if process meets specifications.',
+            formula: 'Cp = (USL-LSL)/6σ, Cpk = min((USL-μ)/3σ, (μ-LSL)/3σ)'
           }
         };
         
