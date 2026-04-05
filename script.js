@@ -202,6 +202,7 @@ function clearAllStats() {
 document.querySelectorAll('.menu-option').forEach(option => {
     option.addEventListener('click', function () {
         const statName = this.textContent.trim();
+        console.log('📊 Sidebar clicked:', statName);
 
         // Pruebas de hipótesis que requieren configuración de grupos
         const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística', 'Covarianza', 'Correlación Kendall Tau', 'RMSE', 'MAE', 'R² (Coef. Determinación)', 'Mann-Whitney U', 'Kruskal-Wallis'];
@@ -212,8 +213,10 @@ document.querySelectorAll('.menu-option').forEach(option => {
         } else {
             // Para pruebas de hipótesis, abrir modal de configuración
             if (hipotesisTests.includes(statName)) {
+                console.log('🔍 Opening config modal for:', statName);
                 mostrarModalConfiguracionHypothesis(statName);
             } else {
+                console.log('📊 Adding stat directly (no config needed):', statName);
                 this.classList.add('selected');
                 StateManager.addActiveStat(statName);
             }
@@ -1837,6 +1840,7 @@ document.addEventListener('click', (e) => {
 // MODAL DE CONFIGURACIÓN DE PRUEBAS DE HIPÓTESIS
 // ========================================
 function mostrarModalConfiguracionHypothesis(statName) {
+    console.log('🔍 mostrarModalConfiguracionHypothesis called with:', statName);
     document.getElementById('hypo-config-modal')?.remove();
     
     const imported = StateManager.getImportedData();
@@ -1874,6 +1878,7 @@ function mostrarModalConfiguracionHypothesis(statName) {
     };
     
     const config = configs[statName];
+    console.log('🔍 Config found:', config ? 'YES' : 'NO', '| customFunc:', config?.customFunc);
     if (!config) {
         _showToast('⚠️ Configuración no disponible para esta prueba', true);
         return false;
@@ -1886,6 +1891,7 @@ function mostrarModalConfiguracionHypothesis(statName) {
     
     // Para funciones con modal personalizado (Correlación, Regresión, etc.)
     if (config.customFunc && typeof window[config.customFunc] === 'function') {
+        console.log('🔍 Calling customFunc:', config.customFunc, '| on window:', typeof window[config.customFunc]);
         if (config.customFunc === 'abrirModalConfigObsPred') {
             return window[config.customFunc](imported, statName);
         }
@@ -1893,6 +1899,8 @@ function mostrarModalConfiguracionHypothesis(statName) {
             return window[config.customFunc](imported, statName);
         }
         return window[config.customFunc](imported);
+    } else if (config.customFunc) {
+        console.error('❌ customFunc not found on window:', config.customFunc, '| typeof:', typeof window[config.customFunc]);
     }
     
     // Detectar columnas categóricas y numéricas
