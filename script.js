@@ -1772,7 +1772,7 @@ function applyStatSelection() {
     const newActive = currentActive.filter(stat => !section.options.includes(stat));
     
      // Identificar qué pruebas requieren configuración de columnas
-     const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística'];
+     const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística', 'Covarianza', 'Correlación Kendall Tau', 'RMSE', 'MAE', 'R² (Coef. Determinación)', 'Mann-Whitney U', 'Kruskal-Wallis'];
      const statsQueNecesitanConfig = [];
      const statsNormales = [];
     
@@ -1887,12 +1887,15 @@ function mostrarModalConfiguracionHypothesis(statName) {
     // Para funciones con modal personalizado (Correlación, Regresión, etc.)
     if (config.customFunc && typeof window[config.customFunc] === 'function') {
         if (config.customFunc === 'abrirModalConfigObsPred') {
+            console.log('🔍 Calling abrirModalConfigObsPred with statName:', statName);
             return window[config.customFunc](imported, statName);
         }
         if (config.customFunc === 'abrirModalConfigCorrelacion') {
             return window[config.customFunc](imported, statName);
         }
         return window[config.customFunc](imported);
+    } else if (config.customFunc) {
+        console.error('❌ customFunc not found:', config.customFunc, '| type:', typeof window[config.customFunc]);
     }
     
     // Detectar columnas categóricas y numéricas
