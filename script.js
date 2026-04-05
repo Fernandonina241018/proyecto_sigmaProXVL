@@ -204,7 +204,7 @@ document.querySelectorAll('.menu-option').forEach(option => {
         const statName = this.textContent.trim();
 
         // Pruebas de hipótesis que requieren configuración de grupos
-        const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística'];
+        const hipotesisTests = ['ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado', 'T-Test (dos muestras)', 'Límites de Cuantificación', 'Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística', 'Covarianza', 'Correlación Kendall Tau', 'RMSE', 'MAE', 'R² (Coef. Determinación)', 'Mann-Whitney U', 'Kruskal-Wallis'];
         
         if (this.classList.contains('selected')) {
             this.classList.remove('selected');
@@ -1866,8 +1866,8 @@ function mostrarModalConfiguracionHypothesis(statName) {
         'Regresión Logística': { title: '🔐 Configurar Regresión Logística', customFunc: 'abrirModalConfigRegresionLogistica' },
         'Mann-Whitney U': { title: '⚖️ Configurar Mann-Whitney U', catCols: 1, numCols: 1, catLabel: 'Columna de Agrupación (2 grupos)', numLabel: 'Columna de Valores' },
         'Kruskal-Wallis': { title: '📊 Configurar Kruskal-Wallis', catCols: 1, numCols: 1, catLabel: 'Columna de Agrupación (3+ grupos)', numLabel: 'Columna de Valores' },
-        'Covarianza': { title: '📐 Configurar Covarianza', customFunc: 'abrirModalConfigCorrelacion' },
-        'Correlación Kendall Tau': { title: '🔗 Configurar Correlación Kendall Tau', customFunc: 'abrirModalConfigCorrelacion' },
+        'Covarianza': { title: '📐 Configurar Covarianza', customFunc: 'abrirModalConfigCorrelacion', statName: 'Covarianza' },
+        'Correlación Kendall Tau': { title: '🔗 Configurar Correlación Kendall Tau', customFunc: 'abrirModalConfigCorrelacion', statName: 'Correlación Kendall Tau' },
         'RMSE': { title: '📏 Configurar RMSE', customFunc: 'abrirModalConfigObsPred' },
         'MAE': { title: '📏 Configurar MAE', customFunc: 'abrirModalConfigObsPred' },
         'R² (Coef. Determinación)': { title: '📊 Configurar R²', customFunc: 'abrirModalConfigObsPred' }
@@ -2127,8 +2127,7 @@ function mostrarModalConfiguracionHypothesis(statName) {
 // ========================================
 // MODAL DE CONFIGURACIÓN PARA CORRELACIÓN
 // ========================================
-function abrirModalConfigCorrelacion(imported) {
-    // Clean up previous modals
+function abrirModalConfigCorrelacion(imported, statName) {
     document.getElementById('correlacion-config-modal')?.remove();
     document.getElementById('limites-config-modal')?.remove();
     document.getElementById('regresion-config-modal')?.remove();
@@ -2140,9 +2139,13 @@ function abrirModalConfigCorrelacion(imported) {
     });
 
     if (numericCols.length < 2) {
-        _showToast('⚠️ Se necesitan al menos 2 columnas numéricas para correlación', true);
+        _showToast('⚠️ Se necesitan al menos 2 columnas numéricas', true);
         return false;
     }
+
+    const isCovariance = statName === 'Covarianza';
+    const isKendall = statName === 'Correlación Kendall Tau';
+    const modalTitle = isCovariance ? '📐 Configurar Covarianza' : isKendall ? '🔗 Configurar Kendall Tau' : '🔗 Configurar Correlación';
 
     const modal = document.createElement('div');
     modal.id = 'correlacion-config-modal';
@@ -2150,7 +2153,7 @@ function abrirModalConfigCorrelacion(imported) {
         <div class="dm-modal-overlay" id="correlacion-modal-overlay"></div>
         <div class="dm-modal-card" style="width: min(500px, 96vw);">
             <div class="dm-modal-header">
-                <h3>🔗 Configurar Correlación</h3>
+                <h3>${modalTitle}</h3>
                 <button class="dm-modal-close" id="correlacion-modal-close">✕</button>
             </div>
             <div class="dm-modal-body">
@@ -2166,13 +2169,14 @@ function abrirModalConfigCorrelacion(imported) {
                         ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
                     </select>
                 </div>
+                ${!isCovariance && !isKendall ? `
                 <div class="dm-field" style="margin-bottom: 14px;">
                     <label>📈 Tipo de Correlación</label>
                     <select id="correlacion-tipo" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
                         <option value="pearson">Correlación de Pearson</option>
                         <option value="spearman">Correlación de Spearman</option>
                     </select>
-                </div>
+                </div>` : ''}
                 <p style="font-size:0.75rem;color:#666;margin-bottom:0;">
                     💡 Seleccione dos columnas numéricas diferentes para analizar su relación
                 </p>
@@ -2193,7 +2197,6 @@ function abrirModalConfigCorrelacion(imported) {
     document.getElementById('correlacion-modal-confirm').onclick = () => {
         const colX = document.getElementById('correlacion-columna-x')?.value;
         const colY = document.getElementById('correlacion-columna-y')?.value;
-        const tipo = document.getElementById('correlacion-tipo')?.value;
 
         if (!colX || !colY) {
             _showToast('⚠️ Seleccione ambas columnas', true);
@@ -2205,25 +2208,32 @@ function abrirModalConfigCorrelacion(imported) {
             return;
         }
 
-        const statName = tipo === 'pearson' ? 'Correlación Pearson' : 'Correlación Spearman';
+        let finalStatName;
+        if (isCovariance) {
+            finalStatName = 'Covarianza';
+        } else if (isKendall) {
+            finalStatName = 'Correlación Kendall Tau';
+        } else {
+            const tipo = document.getElementById('correlacion-tipo')?.value;
+            finalStatName = tipo === 'pearson' ? 'Correlación Pearson' : 'Correlación Spearman';
+        }
+
         const hypothesisConfig = {
-            [statName]: {
-                columnaX: colX,
-                columnaY: colY,
-                timestamp: Date.now()
-            }
+            columnaX: colX,
+            columnaY: colY,
+            timestamp: Date.now()
         };
 
-        StateManager.setHypothesisConfig(statName, hypothesisConfig[statName]);
-        StateManager.addActiveStat(statName);
+        StateManager.setHypothesisConfig(finalStatName, hypothesisConfig);
+        StateManager.addActiveStat(finalStatName);
 
         document.querySelectorAll('.menu-option').forEach(opt => {
-            if (opt.textContent.trim() === statName) {
+            if (opt.textContent.trim() === finalStatName) {
                 opt.classList.add('selected');
             }
         });
 
-        _showToast(`✅ ${statName} configurado: ${colX} vs ${colY}`);
+        _showToast(`✅ ${finalStatName} configurado: ${colX} vs ${colY}`);
         modal.remove();
         return true;
     };
