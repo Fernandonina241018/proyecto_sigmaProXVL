@@ -900,11 +900,11 @@ const ReporteManager = (() => {
                 if (hypothesisTests.includes(stat)) return; // Skip hypothesis tests - shown separately
                 const val=data[col]; if(val===undefined)return;
                 if(typeof val==='object'&&!Array.isArray(val)){
-                    h+=`<tr style="background:#f7f8fa"><td colspan="3" style="padding:5px 14px;font-size:8.5pt;color:#666"><em>${stat}</em></td></tr>`;
-                    Object.entries(val).forEach(([k,v])=>h+=`<tr><td style="padding-left:26px;color:#555">· ${k}</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${fmtNum(v)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">—</td></tr>`);
+                    h+=`<tr style="background:#f7f8fa"><td colspan="3" style="padding:5px 14px;font-size:8.5pt;color:#666"><em>${escapeHtml(stat)}</em></td></tr>`;
+                    Object.entries(val).forEach(([k,v])=>h+=`<tr><td style="padding-left:26px;color:#555">· ${escapeHtml(k)}</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${fmtNum(v)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">—</td></tr>`);
                 } else {
                     const vf=Array.isArray(val)?(val.length?val.map(v=>fmtNum(v)).join(', '):'<em>—</em>'):fmtNum(val);
-                    h+=`<tr><td>${stat}</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${vf}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">${refs[stat]||''}</td></tr>`;
+                    h+=`<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${vf}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">${refs[stat]||''}</td></tr>`;
                 }
             });
             if(ext[col]?.cv!=null) h+=`<tr style="background:#fffaf0"><td><strong>${t('cv')}</strong></td><td style="font-family:monospace;text-align:right;font-weight:600;color:#b7791f">${ext[col].cv.toFixed(2)}%</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">${t('cvRef')}</td></tr>`;
@@ -928,22 +928,22 @@ const ReporteManager = (() => {
             if(!ext[col]?.flags?.length) return `<span style="background:#c6f6d5;color:#276749;font-family:monospace;font-size:7.5pt;padding:3px 8px;border-radius:3px">${t('html_noFlags')}</span>`;
             return ext[col].flags.map(f=>{
                 const c=f.includes('EXTREME')||f.includes('OUTLIER')?'#fed7d7;color:#c53030':f.includes('HIGH')||f.includes('SKEW')?'#fefcbf;color:#b7791f':'#bee3f8;color:#2b6cb0';
-                return `<span style="background:${c};font-family:monospace;font-size:7.5pt;padding:3px 8px;border-radius:3px;display:inline-block;margin:2px 2px 2px 0">${f}</span>`;
+                return `<span style="background:${c};font-family:monospace;font-size:7.5pt;padding:3px 8px;border-radius:3px;display:inline-block;margin:2px 2px 2px 0">${escapeHtml(f)}</span>`;
             }).join('');
         }
         const roleLabels=[t('preparedBy'),t('reviewedBy'),t('approvedBy')];
         const roleKeys=['prepared','reviewed','approved'];
         const sigBlocks=roleKeys.map((k,i)=>{
-            const name=meta[k+'By']||'', title=meta[k+'Title']||'', date=meta[k+'Date']||'';
+            const name=escapeHtml(meta[k+'By']||''), title=escapeHtml(meta[k+'Title']||'—'), date=escapeHtml(formatDate(meta[k+'Date']||''));
             return `<div style="border:1px solid #e2e8f0;border-radius:6px;padding:14px">
               <div style="font-family:monospace;font-size:7pt;text-transform:uppercase;letter-spacing:1.5px;color:#1a3a6b;margin-bottom:10px;border-bottom:1px solid #e2e8f0;padding-bottom:5px">${roleLabels[i]}</div>
-              ${[[t('name'),name],[t('title'),title||'—'],[t('date'),formatDate(date)]].map(([l,v])=>
+              ${[[t('name'),name],[t('title'),title||'—'],[t('date'),date]].map(([l,v])=>
                 `<div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">${l}</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:${!v||v==='—'?'#cbd5e0':'#1a202c'};${!v||v==='—'?'font-style:italic':''}">${v||''}</span></div>`).join('')}
               <div style="border-top:1px solid #1a202c;margin-top:14px;padding-top:5px;font-size:7pt;color:#718096;font-family:monospace">${t('elecRecord')} · ${REGULATORY.standard}</div>
             </div>`;
         }).join('');
 
-        const mRow=(label,val)=>val?`<div><span class="ml">${label}</span><span class="mv">${val}</span></div>`:'';
+        const mRow=(label,val)=>val?`<div><span class="ml">${escapeHtml(label)}</span><span class="mv">${escapeHtml(val)}</span></div>`:'';
 
         return `<!DOCTYPE html>
 <html lang="${lang}"><head><meta charset="UTF-8">
@@ -1009,9 +1009,9 @@ tr:hover td{background:#f7faff}
   <div style="font-size:11pt;color:#c8a951;font-weight:300;letter-spacing:1px;margin-bottom:44px">${REGULATORY.standard} — ${t('compliant')}</div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 40px;font-family:'JetBrains Mono',monospace;font-size:8pt;color:rgba(255,255,255,.7);border-top:1px solid rgba(255,255,255,.2);padding-top:22px">
     <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('docId')}</strong>RPT-${hash}</div>
-    <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('organization')}</strong>${meta.organizacion||'—'}</div>
-    <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('assay')}</strong>${meta.ensayo||'—'}</div>
-    <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('phase')}</strong>${meta.fase||'—'}</div>
+    <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('organization')}</strong>${escapeHtml(meta.organizacion)||'—'}</div>
+    <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('assay')}</strong>${escapeHtml(meta.ensayo)||'—'}</div>
+    <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('phase')}</strong>${escapeHtml(meta.fase)||'—'}</div>
     <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('generated')}</strong>${nowFormatted()}</div>
     <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('totalRecords')}</strong>${resultados.totalFilas}</div>
   </div>
@@ -1055,11 +1055,11 @@ tr:hover td{background:#f7faff}
     <div style="background:#f7f8fa;border-left:4px solid #1a3a6b;border-radius:0 6px 6px 0;padding:16px 20px;font-size:10.5pt;line-height:1.7">
       ${t('html_execSummary',meta.nombreDataset||'N/A',resultados.totalFilas,resultados.totalColumnas,REGULATORY.standard)}<br>
       ${t('statistics')}: ${resultados.estadisticos.join(' · ')}.
-      ${meta.descripcion?`<br><br><em style="font-size:10pt;color:#4a5568">${meta.descripcion}</em>`:''}
+      ${meta.descripcion?`<br><br><em style="font-size:10pt;color:#4a5568">${escapeHtml(meta.descripcion)}</em>`:''}
     </div>
     <div style="margin-top:14px;padding:12px 16px;border-radius:6px;${totalFlags>0?'background:#fffbeb;border:1px solid #f6e05e':'background:#f0fff4;border:1px solid #9ae6b4'}">
       ${totalFlags>0
-        ?`<strong>${t('html_flagsGlobal',totalFlags)}</strong><br><br>${Object.entries(ext).flatMap(([col,d])=>d.flags.map(f=>`<strong>${col}:</strong> ${f}`)).join('<br>')}`
+        ?`<strong>${t('html_flagsGlobal',totalFlags)}</strong><br><br>${Object.entries(ext).flatMap(([col,d])=>d.flags.map(f=>`<strong>${escapeHtml(col)}:</strong> ${escapeHtml(f)}`)).join('<br>')}`
         :`<strong>${t('html_noFlagsGlobal')}</strong>`}
     </div>
     ${(() => {
@@ -1073,7 +1073,7 @@ tr:hover td{background:#f7faff}
           const color = cumplPct >= 95 ? '#276749' : cumplPct >= 80 ? '#b7791f' : '#c53030';
           const bg    = cumplPct >= 95 ? '#f0fff4' : cumplPct >= 80 ? '#fffbeb' : '#fff5f5';
           return `<tr style="background:${bg}">
-              <td style="font-weight:600">${pv.col}</td>
+              <td style="font-weight:600">${escapeHtml(pv.col)}</td>
               <td style="font-family:monospace;text-align:center">${pv.parametros.min ?? '—'}</td>
               <td style="font-family:monospace;text-align:center">${pv.parametros.max ?? '—'}</td>
               <td style="font-family:monospace;text-align:center">${pv.parametros.esp ?? '—'}</td>
@@ -1082,41 +1082,41 @@ tr:hover td{background:#f7faff}
           </tr>`;
       }).join('');
       return `
-      <div style="margin-top:14px;border:1px solid #c7d2fe;border-radius:6px;overflow:hidden">
-          <div style="background:#3730a3;color:white;padding:8px 14px;font-family:monospace;font-size:8pt;letter-spacing:1px">
-              🎯 CONTROL DE PARÁMETROS — ${totalFuera === 0 ? '✓ TODOS DENTRO DE LÍMITES' : `⚠ ${totalFuera} VALORES FUERA DE LÍMITES`}
-          </div>
-          <table style="width:100%;border-collapse:collapse;font-size:9pt">
-              <thead><tr style="background:#eef2ff">
-                  <th style="padding:7px 12px;text-align:left;font-family:monospace;font-size:7pt;color:#3730a3">VARIABLE</th>
-                  <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#3730a3">MÍN</th>
-                  <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#3730a3">MÁX</th>
-                  <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#3730a3">ESPERANZA</th>
-                  <th style="padding:7px 12px;text-align:right;font-family:monospace;font-size:7pt;color:#3730a3">FUERA RANGO</th>
-                  <th style="padding:7px 12px;text-align:right;font-family:monospace;font-size:7pt;color:#3730a3">CUMPLIMIENTO</th>
-              </tr></thead>
-              <tbody>${rows}</tbody>
-          </table>
-      </div>`;
-  })()}
-  </div>
-  <div class="sec">
-    <div class="sec-title"><span class="sec-num">04</span>${t('html_sec4')}</div>
-    ${resultados.columnasAnalizadas.map((col, _varIdx)=>`
-    <div class="var-block" style="${_varIdx === 0 ? 'page-break-before:avoid' : 'page-break-before:always'}">
-      <div class="var-hdr">
-        <span style="font-family:monospace;font-size:11pt;font-weight:500">${col}</span>
-        <span style="font-family:monospace;font-size:8pt;color:rgba(255,255,255,.6)">n = ${resultados.totalFilas}</span>
-      </div>
-      <table><thead><tr>
-        <th>${t('html_statCol')}</th>
-        <th style="text-align:right">${t('html_valCol')}</th>
-        <th style="text-align:right">${t('html_refCol')}</th>
-      </tr></thead><tbody>${statsRows(col)}</tbody></table>
-      ${ext[col]?.flags?.length
-        ?`<div style="padding:12px 16px;background:#fffcf0;border-top:1px solid #fce8a0"><div style="font-family:monospace;font-size:7.5pt;color:#b7791f;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">⚠ ${t('html_flagsLabel')}</div>${flagBadges(col)}</div>`
-        :`<div style="padding:10px 16px;background:#f0fff4;border-top:1px solid #c6f6d5;color:#276749;font-size:9pt">${t('html_noFlags')}</div>`}
-    </div>`).join('')}
+       <div style="margin-top:14px;border:1px solid #c7d2fe;border-radius:6px;overflow:hidden">
+           <div style="background:#3730a3;color:white;padding:8px 14px;font-family:monospace;font-size:8pt;letter-spacing:1px">
+               🎯 CONTROL DE PARÁMETROS — ${totalFuera === 0 ? '✓ TODOS DENTRO DE LÍMITES' : `⚠ ${totalFuera} VALORES FUERA DE LÍMITES`}
+           </div>
+           <table style="width:100%;border-collapse:collapse;font-size:9pt">
+               <thead><tr style="background:#eef2ff">
+                   <th style="padding:7px 12px;text-align:left;font-family:monospace;font-size:7pt;color:#3730a3">VARIABLE</th>
+                   <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#3730a3">MÍN</th>
+                   <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#3730a3">MÁX</th>
+                   <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#3730a3">ESPERANZA</th>
+                   <th style="padding:7px 12px;text-align:right;font-family:monospace;font-size:7pt;color:#3730a3">FUERA RANGO</th>
+                   <th style="padding:7px 12px;text-align:right;font-family:monospace;font-size:7pt;color:#3730a3">CUMPLIMIENTO</th>
+               </tr></thead>
+               <tbody>${rows}</tbody>
+           </table>
+       </div>`;
+   })()}
+   </div>
+   <div class="sec">
+     <div class="sec-title"><span class="sec-num">04</span>${t('html_sec4')}</div>
+     ${resultados.columnasAnalizadas.map((col, _varIdx)=>`
+     <div class="var-block" style="${_varIdx === 0 ? 'page-break-before:avoid' : 'page-break-before:always'}">
+       <div class="var-hdr">
+         <span style="font-family:monospace;font-size:11pt;font-weight:500">${escapeHtml(col)}</span>
+         <span style="font-family:monospace;font-size:8pt;color:rgba(255,255,255,.6)">n = ${resultados.totalFilas}</span>
+       </div>
+       <table><thead><tr>
+         <th>${t('html_statCol')}</th>
+         <th style="text-align:right">${t('html_valCol')}</th>
+         <th style="text-align:right">${t('html_refCol')}</th>
+       </tr></thead><tbody>${statsRows(col)}</tbody></table>
+       ${ext[col]?.flags?.length
+         ?`<div style="padding:12px 16px;background:#fffcf0;border-top:1px solid #fce8a0"><div style="font-family:monospace;font-size:7.5pt;color:#b7791f;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">⚠ ${t('html_flagsLabel')}</div>${flagBadges(col)}</div>`
+         :`<div style="padding:10px 16px;background:#f0fff4;border-top:1px solid #c6f6d5;color:#276749;font-size:9pt">${t('html_noFlags')}</div>`}
+     </div>`).join('')}
   </div>
   <div class="sec">
     <div class="sec-title"><span class="sec-num">05</span>${t('html_sec5')}</div>
@@ -1314,107 +1314,107 @@ tr:hover td{background:#f7faff}
               const keys = Object.keys(data).filter(k => !['columnaAgrupacion','columnaValores','grupo1','grupo2'].includes(k));
               const gk = keys[0];
               const r = data[gk] || {};
-              content = `<tr><td>${stat} (${gk})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">t=${fmtNum(r.estadisticoT)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${r.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${r.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`;
+              content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(gk)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">t=${fmtNum(r.estadisticoT)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${r.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${r.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`;
           } else if (stat === 'ANOVA One-Way') {
-              content = `<tr><td>${stat}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">F=${fmtNum(data.estadisticoF)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`;
+              content = `<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">F=${fmtNum(data.estadisticoF)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`;
           } else if (stat === 'Chi-Cuadrado') {
-              content = `<tr><td>${stat} (${data.columna1} vs ${data.columna2})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">χ²=${fmtNum(data.estadisticoChi2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significativo?'✗ Asociación significativa':'✓ Independientes'}</span></td></tr>`;
+              content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columna1)} vs ${escapeHtml(data.columna2)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">χ²=${fmtNum(data.estadisticoChi2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significativo?'✗ Asociación significativa':'✓ Independientes'}</span></td></tr>`;
           } else if (stat === 'ANOVA Two-Way') {
-              content = `<tr><td>${stat}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">F1=${fmtNum(data.factor1?.F)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p1=${fmtNum(data.factor1?.p)}</td><td style="text-align:center">—</td></tr>`;
+              content = `<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">F1=${fmtNum(data.factor1?.F)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p1=${fmtNum(data.factor1?.p)}</td><td style="text-align:center">—</td></tr>`;
           } else if (stat === 'Test de Normalidad') {
-              content = Object.entries(data).filter(([k]) => k !== 'error').map(([col, r]) => `<tr><td>${stat} (${col})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">JB=${fmtNum(r.estadisticoJB)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${!r.esNormal?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${!r.esNormal?'✗ No normal':'✓ Normal'}</span></td></tr>`).join('');
+              content = Object.entries(data).filter(([k]) => k !== 'error').map(([col, r]) => `<tr><td>${escapeHtml(stat)} (${escapeHtml(col)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">JB=${fmtNum(r.estadisticoJB)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${!r.esNormal?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${!r.esNormal?'✗ No normal':'✓ Normal'}</span></td></tr>`).join('');
           } else if (stat === 'Test de Shapiro-Wilk') {
-              content = Object.entries(data).filter(([k]) => k !== 'error').map(([col, r]) => `<tr><td>${stat} (${col})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">W=${fmtNum(r.estadisticoW)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${!r.esNormal?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${!r.esNormal?'✗ No normal':'✓ Normal'}</span></td></tr>`).join('');
+              content = Object.entries(data).filter(([k]) => k !== 'error').map(([col, r]) => `<tr><td>${escapeHtml(stat)} (${escapeHtml(col)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">W=${fmtNum(r.estadisticoW)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${!r.esNormal?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${!r.esNormal?'✗ No normal':'✓ Normal'}</span></td></tr>`).join('');
           } else if (stat === 'T-Test (una muestra)') {
-              content = Object.entries(data).filter(([k]) => k !== 'error').map(([col, r]) => `<tr><td>${stat} (${col})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">t=${fmtNum(r.estadisticoT)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${r.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${r.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`).join('');
+              content = Object.entries(data).filter(([k]) => k !== 'error').map(([col, r]) => `<tr><td>${escapeHtml(stat)} (${escapeHtml(col)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">t=${fmtNum(r.estadisticoT)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${r.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${r.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`).join('');
           } else if (stat === 'Límites de Cuantificación') {
               if (data.error) {
-                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
                   const cpkClass = data.cpk === 'N/A' ? 'background:#e2e8f0;color:#4a5568' : (data.cpk >= 1.33 ? 'background:#c6f6d5;color:#276749' : (data.cpk >= 1.0 ? 'background:#fefcbf;color:#b7791f' : 'background:#fed7d7;color:#c53030'));
                   const cpkText = data.cpk === 'N/A' ? 'N/A' : (data.cpk >= 1.33 ? '✓ Capable' : (data.cpk >= 1.0 ? '⚠ Marginal' : '✗ Not Capable'));
-                  content = `<tr><td>${stat} (${data.columna})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">Cpk=${fmtNum(data.cpk)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">${data.porcentajeFuera}% OOS</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${cpkClass}">${cpkText}</span></td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columna)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">Cpk=${fmtNum(data.cpk)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">${data.porcentajeFuera}% OOS</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${cpkClass}">${cpkText}</span></td></tr>`;
               }
           } else if (stat === 'Correlación Pearson') {
               if (data.error) {
-                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
-                  content = `<tr><td>${stat} (${data.columnaX} vs ${data.columnaY})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">r=${fmtNum(data.r)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.pValue)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columnaX)} vs ${escapeHtml(data.columnaY)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">r=${fmtNum(data.r)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.pValue)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
               }
           } else if (stat === 'Correlación Spearman') {
               if (data.error) {
-                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
-                  content = `<tr><td>${stat} (${data.columnaX} vs ${data.columnaY})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">ρ=${fmtNum(data.rho)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.pValue)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columnaX)} vs ${escapeHtml(data.columnaY)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">ρ=${fmtNum(data.rho)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.pValue)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
               }
           } else if (stat === 'Regresión Lineal Simple') {
               if (data.error) {
-                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
-                  content = `<tr><td>${stat} (${data.columnaX} → ${data.columnaY})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">R²=${fmtNum(data.r2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.pPendiente)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columnaX)} → ${escapeHtml(data.columnaY)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">R²=${fmtNum(data.r2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.pPendiente)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
               }
           } else if (stat === 'Regresión Lineal Múltiple') {
               if (data.error) {
-                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
-                  content = `<tr><td>${stat} (${data.columnasX?.join(', ')})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">R²=${fmtNum(data.r2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">k=${data.k}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)} (${data.columnasX?.map(escapeHtml).join(', ')})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">R²=${fmtNum(data.r2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">k=${data.k}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
               }
           } else if (stat === 'Regresión Polinomial') {
               if (data.error) {
-                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
-                  content = `<tr><td>${stat} (grado ${data.grado})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">R²=${fmtNum(data.r2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">g=${data.grado}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)} (grado ${data.grado})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">R²=${fmtNum(data.r2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">g=${data.grado}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
               }
           } else if (stat === 'Regresión Logística') {
               if (data.error) {
-                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
-                  content = `<tr><td>${stat}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">ACC=${fmtNum(data.exactitud*100)}%</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">F1=${fmtNum(data.f1*100)}%</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.exactitud >= 0.7 ? 'background:#c6f6d5;color:#276749' : 'background:#fefcbf;color:#b7791f'}">${data.exactitud >= 0.8 ? '✓Excelente' : data.exactitud >= 0.6 ? '⚠Aceptable' : '✗Bajo'}</span></td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">ACC=${fmtNum(data.exactitud*100)}%</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">F1=${fmtNum(data.f1*100)}%</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.exactitud >= 0.7 ? 'background:#c6f6d5;color:#276749' : 'background:#fefcbf;color:#b7791f'}">${data.exactitud >= 0.8 ? '✓Excelente' : data.exactitud >= 0.6 ? '⚠Aceptable' : '✗Bajo'}</span></td></tr>`;
               }
           } else if (stat === 'R² (Coef. Determinación)') {
               if (data.error) {
-                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
                   const r2 = data.r2;
                   const r2Class = r2 >= 0.9 ? 'background:#c6f6d5;color:#276749' : r2 >= 0.7 ? 'background:#fefcbf;color:#b7791f' : 'background:#fed7d7;color:#c53030';
                   const r2Text = r2 >= 0.9 ? '✓Excelente' : r2 >= 0.7 ? '⚠Moderado' : '✗Pobre';
-                  content = `<tr><td>${stat} (${data.columnaObservada} vs ${data.columnaPredicha})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">R²=${fmtNum(data.r2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">n=${data.n}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${r2Class}">${r2Text}</span></td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columnaObservada)} vs ${escapeHtml(data.columnaPredicha)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">R²=${fmtNum(data.r2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">n=${data.n}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${r2Class}">${r2Text}</span></td></tr>`;
               }
           } else if (stat === 'RMSE') {
               if (data.error) {
-                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
-                  content = `<tr><td>${stat} (${data.columnaObservada} vs ${data.columnaPredicha})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">RMSE=${fmtNum(data.rmse)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">n=${data.n}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;background:#e2e8f0;color:#4a5568">—</span></td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columnaObservada)} vs ${escapeHtml(data.columnaPredicha)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">RMSE=${fmtNum(data.rmse)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">n=${data.n}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;background:#e2e8f0;color:#4a5568">—</span></td></tr>`;
               }
           } else if (stat === 'MAE') {
               if (data.error) {
-                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
-                  content = `<tr><td>${stat} (${data.columnaObservada} vs ${data.columnaPredicha})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">MAE=${fmtNum(data.mae)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">n=${data.n}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;background:#e2e8f0;color:#4a5568">—</span></td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columnaObservada)} vs ${escapeHtml(data.columnaPredicha)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">MAE=${fmtNum(data.mae)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">n=${data.n}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;background:#e2e8f0;color:#4a5568">—</span></td></tr>`;
               }
           } else if (stat === 'Covarianza') {
               if (data.error) {
-                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
-                  content = `<tr><td>${stat} (${data.columnaX} vs ${data.columnaY})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">Cov=${fmtNum(data.covarianza)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">n=${data.n}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;background:#e2e8f0;color:#4a5568">—</span></td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columnaX)} vs ${escapeHtml(data.columnaY)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">Cov=${fmtNum(data.covarianza)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">n=${data.n}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;background:#e2e8f0;color:#4a5568">—</span></td></tr>`;
               }
           } else if (stat === 'Correlación Kendall Tau') {
               if (data.error) {
-                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
-                  content = `<tr><td>${stat} (${data.columnaX} vs ${data.columnaY})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">τ=${fmtNum(data.tau)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.pValue)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columnaX)} vs ${escapeHtml(data.columnaY)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">τ=${fmtNum(data.tau)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.pValue)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
               }
           } else if (stat === 'Mann-Whitney U') {
               if (data.error) {
-                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
-                  content = `<tr><td>${stat} (${data.columnaAgrupacion})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">U=${fmtNum(data.U)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columnaAgrupacion)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">U=${fmtNum(data.U)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`;
               }
           } else if (stat === 'Kruskal-Wallis') {
               if (data.error) {
-                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
-                  content = `<tr><td>${stat} (${data.columnaAgrupacion})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">H=${fmtNum(data.H)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`;
+                  content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columnaAgrupacion)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">H=${fmtNum(data.H)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`;
               }
           }
           return content;
