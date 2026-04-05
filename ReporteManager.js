@@ -1278,6 +1278,51 @@ tr:hover td{background:#f7faff}
               } else {
                   content = `<tr><td>${stat}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">ACC=${fmtNum(data.exactitud*100)}%</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">F1=${fmtNum(data.f1*100)}%</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.exactitud >= 0.7 ? 'background:#c6f6d5;color:#276749' : 'background:#fefcbf;color:#b7791f'}">${data.exactitud >= 0.8 ? '✓Excelente' : data.exactitud >= 0.6 ? '⚠Aceptable' : '✗Bajo'}</span></td></tr>`;
               }
+          } else if (stat === 'R² (Coef. Determinación)') {
+              if (data.error) {
+                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+              } else {
+                  const r2 = data.r2;
+                  const r2Class = r2 >= 0.9 ? 'background:#c6f6d5;color:#276749' : r2 >= 0.7 ? 'background:#fefcbf;color:#b7791f' : 'background:#fed7d7;color:#c53030';
+                  const r2Text = r2 >= 0.9 ? '✓Excelente' : r2 >= 0.7 ? '⚠Moderado' : '✗Pobre';
+                  content = `<tr><td>${stat} (${data.columnaObservada} vs ${data.columnaPredicha})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">R²=${fmtNum(data.r2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">n=${data.n}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${r2Class}">${r2Text}</span></td></tr>`;
+              }
+          } else if (stat === 'RMSE') {
+              if (data.error) {
+                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+              } else {
+                  content = `<tr><td>${stat} (${data.columnaObservada} vs ${data.columnaPredicha})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">RMSE=${fmtNum(data.rmse)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">n=${data.n}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;background:#e2e8f0;color:#4a5568">—</span></td></tr>`;
+              }
+          } else if (stat === 'MAE') {
+              if (data.error) {
+                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+              } else {
+                  content = `<tr><td>${stat} (${data.columnaObservada} vs ${data.columnaPredicha})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">MAE=${fmtNum(data.mae)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">n=${data.n}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;background:#e2e8f0;color:#4a5568">—</span></td></tr>`;
+              }
+          } else if (stat === 'Covarianza') {
+              if (data.error) {
+                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+              } else {
+                  content = `<tr><td>${stat} (${data.columnaX} vs ${data.columnaY})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">Cov=${fmtNum(data.covarianza)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">n=${data.n}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;background:#e2e8f0;color:#4a5568">—</span></td></tr>`;
+              }
+          } else if (stat === 'Correlación Kendall Tau') {
+              if (data.error) {
+                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+              } else {
+                  content = `<tr><td>${stat} (${data.columnaX} vs ${data.columnaY})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">τ=${fmtNum(data.tau)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.pValue)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
+              }
+          } else if (stat === 'Mann-Whitney U') {
+              if (data.error) {
+                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+              } else {
+                  content = `<tr><td>${stat} (${data.columnaAgrupacion})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">U=${fmtNum(data.U)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`;
+              }
+          } else if (stat === 'Kruskal-Wallis') {
+              if (data.error) {
+                  content = `<tr><td>${stat}</td><td colspan="3" style="color:#c53030;font-style:italic">${data.error}</td></tr>`;
+              } else {
+                  content = `<tr><td>${stat} (${data.columnaAgrupacion})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">H=${fmtNum(data.H)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`;
+              }
           }
           return content;
       }).join('');
