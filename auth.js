@@ -125,17 +125,17 @@ const Auth = (() => {
             </div>
             <div id="auth-form-area">
                 <div class="auth-field">
-                    <label class="auth-label" for="auth-user">Usuario</label>
                     <div class="auth-input-wrap">
                         <span class="auth-input-icon">👤</span>
-                        <input class="auth-input" type="text" id="auth-user" placeholder="Ingresa tu usuario" autocomplete="username" autofocus>
+                        <input class="auth-input" type="text" id="auth-user" placeholder=" " autocomplete="username" autofocus>
+                        <label class="auth-label" for="auth-user">Usuario</label>
                     </div>
                 </div>
                 <div class="auth-field">
-                    <label class="auth-label" for="auth-pass">Contraseña</label>
                     <div class="auth-input-wrap">
                         <span class="auth-input-icon">🔒</span>
-                        <input class="auth-input" type="password" id="auth-pass" placeholder="Ingresa tu contraseña" autocomplete="current-password">
+                        <input class="auth-input" type="password" id="auth-pass" placeholder=" " autocomplete="current-password">
+                        <label class="auth-label" for="auth-pass">Contraseña</label>
                         <button class="auth-eye-btn" id="auth-eye" type="button" aria-label="Mostrar contraseña"><span id="auth-eye-icon">👁</span></button>
                     </div>
                     <label class="auth-checkbox-row">

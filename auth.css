@@ -115,34 +115,65 @@
     text-align: center;
 }
 
-/* ── Campos ── */
+/* ── Campos con Floating Labels ── */
 .auth-field {
-    margin-bottom: 20px;
+    margin-bottom: 28px;
+    position: relative;
 }
-.auth-label {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #475569;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 7px;
-}
+
 .auth-input-wrap {
     position: relative;
     display: flex;
     align-items: center;
 }
+
+.auth-label {
+    position: absolute;
+    left: 38px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #64748b;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+    background: transparent;
+    padding: 0 4px;
+}
+
+/* Cuando hay focus O el input tiene contenido, el label sube */
+.auth-input:focus ~ .auth-label,
+.auth-input:not(:placeholder-shown) ~ .auth-label {
+    top: 0;
+    left: 10px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #c8a951;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    background: white;
+    transform: translateY(-50%);
+}
+
+/* Icono dinámico */
 .auth-input-icon {
     position: absolute;
     left: 12px;
     font-size: 0.9rem;
     pointer-events: none;
     z-index: 1;
+    color: #94a3b8;
+    transition: color 0.3s ease;
 }
+
+.auth-input:focus ~ .auth-input-icon {
+    color: #c8a951;
+}
+
 .auth-input {
     width: 100%;
-    padding: 11px 44px 11px 38px;
+    padding: 14px 44px 14px 38px;
     border: 2px solid #e2e8f0;
     border-radius: 10px;
     font-size: 0.95rem;
@@ -152,6 +183,7 @@
     transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
     outline: none;
 }
+
 .auth-input:focus {
     border-color: #1a3a6b;
     background: white;
