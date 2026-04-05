@@ -1,5 +1,5 @@
 ---
-name: universal-agent
+name: fn
 description: >
   Elite full-spectrum subagent. Use for ANY complex task requiring research,
   code generation, documentation, analysis, file manipulation, or system
