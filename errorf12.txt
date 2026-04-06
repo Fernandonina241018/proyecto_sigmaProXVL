@@ -1,13 +1,15 @@
 
-script.js:1405 Uncaught ReferenceError: btnRight is not defined
-    at setupSidebarToggles (script.js:1405:5)
-    at _initApp (script.js:1174:5)
-    at onLogin (script.js:1160:13)
-    at Object.init (auth.js:595:94)
-    at HTMLDocument.<anonymous> (script.js:1157:10)
-setupSidebarToggles @ script.js:1405
-_initApp @ script.js:1174
-onLogin @ script.js:1160
-init @ auth.js:595
-(anonymous) @ script.js:1157
+script.js:723 Botón Ejecutar Análisis presionado
+script.js:804 Error en análisis: Error: La columna "A" no contiene valores numéricos válidos
+    at getNumericValues (EstadisticaDescriptiva.js:20:19)
+    at EstadisticaDescriptiva.js:2874:42
+    at Array.forEach (<anonymous>)
+    at Object.ejecutarAnalisis (EstadisticaDescriptiva.js:2263:22)
+    at script.js:787:55
+(anonymous) @ script.js:804
+setTimeout
+ejecutarAnalisis @ script.js:785
+verificarParametrosAntesAnalisis @ script.js:599
+
+
 

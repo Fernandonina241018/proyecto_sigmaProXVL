@@ -28,12 +28,14 @@ const EstadisticaDescriptiva = (() => {
      */
     function getNumericColumns(data) {
         const numericCols = [];
+        const indexColumns = ['#', 'A', 'Row', 'row', 'INDEX', 'index', 'row_index'];
         
         data.headers.forEach(header => {
+            if (indexColumns.includes(header)) return;
+            
             const values = data.data.map(row => row[header]);
             const numericCount = values.filter(v => !isNaN(parseFloat(v)) && isFinite(parseFloat(v))).length;
             
-            // Si más del 80% son numéricos, consideramos la columna como numérica
             if (numericCount / values.length > 0.8) {
                 numericCols.push(header);
             }
@@ -2866,8 +2868,11 @@ const EstadisticaDescriptiva = (() => {
                          const cfg = hypothesisConfig['RMSE'];
                          const colObs = cfg.columnaObservada;
                          const colPred = cfg.columnaPredicha;
+                         const indexColumns = ['#', 'A', 'Row', 'row', 'INDEX', 'index', 'row_index'];
                          if (!colObs || !colPred) {
                              resultados['RMSE'] = { error: 'Seleccione ambas columnas (observada y predicha)' };
+                         } else if (indexColumns.includes(colObs) || indexColumns.includes(colPred)) {
+                             resultados['RMSE'] = { error: 'Las columnas seleccionadas no son válidas. Reconfigure las métricas de error.' };
                          } else if (colObs === colPred) {
                              resultados['RMSE'] = { error: 'Las columnas deben ser diferentes' };
                          } else {
@@ -2891,8 +2896,11 @@ const EstadisticaDescriptiva = (() => {
                          const cfg = hypothesisConfig['MAE'];
                          const colObs = cfg.columnaObservada;
                          const colPred = cfg.columnaPredicha;
+                         const indexColumns = ['#', 'A', 'Row', 'row', 'INDEX', 'index', 'row_index'];
                          if (!colObs || !colPred) {
                              resultados['MAE'] = { error: 'Seleccione ambas columnas (observada y predicha)' };
+                         } else if (indexColumns.includes(colObs) || indexColumns.includes(colPred)) {
+                             resultados['MAE'] = { error: 'Las columnas seleccionadas no son válidas. Reconfigure las métricas de error.' };
                          } else if (colObs === colPred) {
                              resultados['MAE'] = { error: 'Las columnas deben ser diferentes' };
                          } else {
@@ -2916,8 +2924,11 @@ const EstadisticaDescriptiva = (() => {
                          const cfg = hypothesisConfig['R² (Coef. Determinación)'];
                          const colObs = cfg.columnaObservada;
                          const colPred = cfg.columnaPredicha;
+                         const indexColumns = ['#', 'A', 'Row', 'row', 'INDEX', 'index', 'row_index'];
                          if (!colObs || !colPred) {
                              resultados['R² (Coef. Determinación)'] = { error: 'Seleccione ambas columnas (observada y predicha)' };
+                         } else if (indexColumns.includes(colObs) || indexColumns.includes(colPred)) {
+                             resultados['R² (Coef. Determinación)'] = { error: 'Las columnas seleccionadas no son válidas. Reconfigure las métricas de error.' };
                          } else if (colObs === colPred) {
                              resultados['R² (Coef. Determinación)'] = { error: 'Las columnas deben ser diferentes' };
                          } else {
