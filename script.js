@@ -3,6 +3,8 @@
 // Versión corregida
 // ========================================
 
+const DEBUG = false;
+
 // ========================================
 // VARIABLE GLOBAL DE ÚLTIMOS RESULTADOS
 // FIX: antes se asignaba sin declarar → variable global implícita en modo no-strict,
@@ -780,7 +782,7 @@ function ejecutarAnalisis() {
     setTimeout(() => {
         try {
             const resultados = EstadisticaDescriptiva.ejecutarAnalisis(importedData, activeStats, hypothesisConfig);
-            console.log('Resultados obtenidos:', resultados);
+            if (DEBUG) console.log('Resultados obtenidos:', resultados);
 
             ultimosResultados = resultados;
             StateManager.setUltimosResultados(resultados);
@@ -1152,7 +1154,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Auth va primero — bloquea la app hasta login exitoso
     Auth.init({
         onLogin: ({ username }) => {
-            console.log('✅ Sesión iniciada:', username);
+            if (DEBUG) console.log('✅ Sesión iniciada:', username);
             _initApp();
             _renderUserChip(username);
             PermisosManager.aplicarUI(Auth.getSession());
