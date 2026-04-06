@@ -503,6 +503,35 @@
 }
 .dm-btn-cancel:hover { background: #9b2c2c; transform: translateY(-1px); }
 
+/* ── Botones genéricos del modal de hipótesis ── */
+.dm-btn {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+.dm-btn-primary {
+    background: #1a3a6b;
+    color: white;
+}
+.dm-btn-primary:hover:not(:disabled) {
+    background: #0b2dc2;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(26,58,107,0.3);
+}
+.dm-btn-secondary {
+    background: #e2e8f0;
+    color: #475569;
+}
+.dm-btn-secondary:hover:not(:disabled) {
+    background: #cbd5e1;
+    transform: translateY(-1px);
+}
+
 /* ── Toast ── */
 .datos-toast {
     position: fixed;
