@@ -1872,15 +1872,15 @@ function mostrarModalConfiguracionHypothesis(statName) {
         'Correlación Spearman': { title: '🔗 Configurar Correlación de Spearman', customFunc: 'abrirModalConfigCorrelacion' },
         'Regresión Lineal Simple': { title: '📈 Configurar Regresión Lineal Simple', customFunc: 'abrirModalConfigRegresion' },
         'Regresión Lineal Múltiple': { title: '📊 Configurar Regresión Lineal Múltiple', customFunc: 'abrirModalConfigRegresionMultiple' },
-        'Regresión Polinomial': { title: '📈 Configurar Regresión Polinomial', customFunc: 'abrirModalConfigRegresionPolinomial' },
+        'Regresión Polinomial': { title: '📈 Configurar Regresión Polinomial', customFunc: 'abrirModalConfigRegresion' },
         'Regresión Logística': { title: '🔐 Configurar Regresión Logística', customFunc: 'abrirModalConfigRegresionLogistica' },
         'Mann-Whitney U': { title: '⚖️ Configurar Mann-Whitney U', catCols: 1, numCols: 1, catLabel: 'Columna de Agrupación (2 grupos)', numLabel: 'Columna de Valores' },
         'Kruskal-Wallis': { title: '📊 Configurar Kruskal-Wallis', catCols: 1, numCols: 1, catLabel: 'Columna de Agrupación (3+ grupos)', numLabel: 'Columna de Valores' },
         'Covarianza': { title: '📐 Configurar Covarianza', customFunc: 'abrirModalConfigCorrelacion' },
         'Correlación Kendall Tau': { title: '🔗 Configurar Correlación Kendall Tau', customFunc: 'abrirModalConfigCorrelacion' },
-        'RMSE': { title: '📏 Configurar RMSE', customFunc: 'abrirModalConfigObsPred' },
-        'MAE': { title: '📏 Configurar MAE', customFunc: 'abrirModalConfigObsPred' },
-        'R² (Coef. Determinación)': { title: '📊 Configurar R²', customFunc: 'abrirModalConfigObsPred' }
+        'RMSE': { title: '📏 Configurar RMSE', customFunc: 'abrirModalConfigRegresion' },
+        'MAE': { title: '📏 Configurar MAE', customFunc: 'abrirModalConfigRegresion' },
+        'R² (Coef. Determinación)': { title: '📊 Configurar R²', customFunc: 'abrirModalConfigRegresion' }
     };
     
     const config = configs[statName];
@@ -1900,6 +1900,9 @@ function mostrarModalConfiguracionHypothesis(statName) {
             return window[config.customFunc](imported, statName);
         }
         if (config.customFunc === 'abrirModalConfigCorrelacion') {
+            return window[config.customFunc](imported, statName);
+        }
+        if (config.customFunc === 'abrirModalConfigRegresion') {
             return window[config.customFunc](imported, statName);
         }
         return window[config.customFunc](imported);
@@ -2183,16 +2186,28 @@ function abrirModalConfigCorrelacion(imported, statName) {
                     </select>
                 </div>
                 <div class="dm-field" style="margin-bottom: 14px;">
-                    <label>📈 Tipo de Análisis</label>
-                    <select id="correlacion-tipo" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
-                        <option value="pearson" ${preSelect === 'pearson' ? 'selected' : ''}>Correlación de Pearson</option>
-                        <option value="spearman" ${preSelect === 'spearman' ? 'selected' : ''}>Correlación de Spearman</option>
-                        <option value="kendall" ${preSelect === 'kendall' ? 'selected' : ''}>Correlación de Kendall Tau</option>
-                        <option value="covarianza" ${preSelect === 'covarianza' ? 'selected' : ''}>Covarianza</option>
-                    </select>
+                    <label>📈 Tipos de Análisis (seleccione uno o más)</label>
+                    <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">
+                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
+                            <input type="checkbox" id="corr-pearson" value="pearson" ${preSelect === 'pearson' ? 'checked' : ''}>
+                            <span><strong>Pearson</strong> — relación lineal</span>
+                        </label>
+                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
+                            <input type="checkbox" id="corr-spearman" value="spearman" ${preSelect === 'spearman' ? 'checked' : ''}>
+                            <span><strong>Spearman</strong> — relación monotónica (rangos)</span>
+                        </label>
+                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
+                            <input type="checkbox" id="corr-kendall" value="kendall" ${preSelect === 'kendall' ? 'checked' : ''}>
+                            <span><strong>Kendall Tau</strong> — asociación ordinal (robusta a empates)</span>
+                        </label>
+                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
+                            <input type="checkbox" id="corr-covarianza" value="covarianza" ${preSelect === 'covarianza' ? 'checked' : ''}>
+                            <span><strong>Covarianza</strong> — variación conjunta</span>
+                        </label>
+                    </div>
                 </div>
                 <p style="font-size:0.75rem;color:#666;margin-bottom:0;">
-                    💡 Seleccione dos columnas numéricas diferentes para analizar su relación
+                    💡 Puede seleccionar varios tipos para comparar resultados
                 </p>
             </div>
             <div class="dm-modal-footer">
@@ -2211,7 +2226,6 @@ function abrirModalConfigCorrelacion(imported, statName) {
     document.getElementById('correlacion-modal-confirm').onclick = () => {
         const colX = document.getElementById('correlacion-columna-x')?.value;
         const colY = document.getElementById('correlacion-columna-y')?.value;
-        const tipo = document.getElementById('correlacion-tipo')?.value;
 
         if (!colX || !colY) {
             _showToast('⚠️ Seleccione ambas columnas', true);
@@ -2223,30 +2237,38 @@ function abrirModalConfigCorrelacion(imported, statName) {
             return;
         }
 
-        let finalStatName;
-        switch (tipo) {
-            case 'pearson': finalStatName = 'Correlación Pearson'; break;
-            case 'spearman': finalStatName = 'Correlación Spearman'; break;
-            case 'kendall': finalStatName = 'Correlación Kendall Tau'; break;
-            case 'covarianza': finalStatName = 'Covarianza'; break;
+        const seleccionados = [];
+        if (document.getElementById('corr-pearson')?.checked) seleccionados.push('pearson');
+        if (document.getElementById('corr-spearman')?.checked) seleccionados.push('spearman');
+        if (document.getElementById('corr-kendall')?.checked) seleccionados.push('kendall');
+        if (document.getElementById('corr-covarianza')?.checked) seleccionados.push('covarianza');
+
+        if (seleccionados.length === 0) {
+            _showToast('⚠️ Seleccione al menos un tipo de análisis', true);
+            return;
         }
 
-        const hypothesisConfig = {
-            columnaX: colX,
-            columnaY: colY,
-            timestamp: Date.now()
+        const statMap = {
+            'pearson': 'Correlación Pearson',
+            'spearman': 'Correlación Spearman',
+            'kendall': 'Correlación Kendall Tau',
+            'covarianza': 'Covarianza'
         };
 
-        StateManager.setHypothesisConfig(finalStatName, hypothesisConfig);
-        StateManager.addActiveStat(finalStatName);
+        const hypothesisConfig = { columnaX: colX, columnaY: colY, timestamp: Date.now() };
+        const nombres = [];
 
-        document.querySelectorAll('.menu-option').forEach(opt => {
-            if (opt.textContent.trim() === finalStatName) {
-                opt.classList.add('selected');
-            }
+        seleccionados.forEach(tipo => {
+            const statName = statMap[tipo];
+            StateManager.setHypothesisConfig(statName, hypothesisConfig);
+            StateManager.addActiveStat(statName);
+            nombres.push(statName);
+            document.querySelectorAll('.menu-option').forEach(opt => {
+                if (opt.textContent.trim() === statName) opt.classList.add('selected');
+            });
         });
 
-        _showToast(`✅ ${finalStatName} configurado: ${colX} vs ${colY}`);
+        _showToast(`✅ ${nombres.length} análisis configurado(s): ${nombres.join(', ')} (${colX} vs ${colY})`);
         modal.remove();
         return true;
     };
@@ -2255,9 +2277,9 @@ function abrirModalConfigCorrelacion(imported, statName) {
 }
 
 // ========================================
-// MODAL DE CONFIGURACIÓN PARA REGRESIÓN LINEAL SIMPLE
+// MODAL DE CONFIGURACIÓN UNIFICADO PARA REGRESIÓN
 // ========================================
-function abrirModalConfigRegresion(imported) {
+function abrirModalConfigRegresion(imported, statName) {
     document.getElementById('regresion-config-modal')?.remove();
     document.getElementById('correlacion-config-modal')?.remove();
     document.getElementById('limites-config-modal')?.remove();
@@ -2273,13 +2295,15 @@ function abrirModalConfigRegresion(imported) {
         return false;
     }
 
+    const preSelect = statName === 'RMSE' ? 'rmse' : statName === 'MAE' ? 'mae' : statName === 'R² (Coef. Determinación)' ? 'r2' : 'lineal';
+
     const modal = document.createElement('div');
     modal.id = 'regresion-config-modal';
     modal.innerHTML = `
         <div class="dm-modal-overlay" id="regresion-modal-overlay"></div>
-        <div class="dm-modal-card" style="width: min(500px, 96vw);">
+        <div class="dm-modal-card" style="width: min(550px, 96vw);">
             <div class="dm-modal-header">
-                <h3>📈 Configurar Regresión Lineal Simple</h3>
+                <h3>📉 Configurar Regresión</h3>
                 <button class="dm-modal-close" id="regresion-modal-close">✕</button>
             </div>
             <div class="dm-modal-body">
@@ -2295,13 +2319,38 @@ function abrirModalConfigRegresion(imported) {
                         ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
                     </select>
                 </div>
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📈 Tipos de Modelo (seleccione uno o más)</label>
+                    <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">
+                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
+                            <input type="checkbox" id="reg-lineal" value="lineal" ${preSelect === 'lineal' ? 'checked' : ''}>
+                            <span><strong>Lineal Simple</strong> — Y = a + bX</span>
+                        </label>
+                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
+                            <input type="checkbox" id="reg-polinomial" value="polinomial" ${preSelect === 'polinomial' ? 'checked' : ''}>
+                            <span><strong>Polinomial</strong> — Y = a + bX + cX²</span>
+                        </label>
+                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
+                            <input type="checkbox" id="reg-rmse" value="rmse" ${preSelect === 'rmse' ? 'checked' : ''}>
+                            <span><strong>RMSE</strong> — error cuadrático medio</span>
+                        </label>
+                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
+                            <input type="checkbox" id="reg-mae" value="mae" ${preSelect === 'mae' ? 'checked' : ''}>
+                            <span><strong>MAE</strong> — error absoluto medio</span>
+                        </label>
+                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
+                            <input type="checkbox" id="reg-r2" value="r2" ${preSelect === 'r2' ? 'checked' : ''}>
+                            <span><strong>R²</strong> — coeficiente de determinación</span>
+                        </label>
+                    </div>
+                </div>
                 <p style="font-size:0.75rem;color:#666;margin-bottom:0;">
-                    💡 Seleccione la variable X (independiente) e Y (dependiente) para el modelo de regresión
+                    💡 Puede seleccionar varios modelos para comparar resultados
                 </p>
             </div>
             <div class="dm-modal-footer">
-                <button class="btn-secondary" id="regresion-modal-cancel">Cancelar</button>
-                <button class="btn-primary" id="regresion-modal-confirm">✅ Confirmar</button>
+                <button class="dm-btn dm-btn-secondary" id="regresion-modal-cancel">Cancelar</button>
+                <button class="dm-btn dm-btn-primary" id="regresion-modal-confirm">✅ Confirmar</button>
             </div>
         </div>
     `;
@@ -2326,24 +2375,40 @@ function abrirModalConfigRegresion(imported) {
             return;
         }
 
-        const hypothesisConfig = {
-            'Regresión Lineal Simple': {
-                columnaX: colX,
-                columnaY: colY,
-                timestamp: Date.now()
-            }
+        const seleccionados = [];
+        if (document.getElementById('reg-lineal')?.checked) seleccionados.push('lineal');
+        if (document.getElementById('reg-polinomial')?.checked) seleccionados.push('polinomial');
+        if (document.getElementById('reg-rmse')?.checked) seleccionados.push('rmse');
+        if (document.getElementById('reg-mae')?.checked) seleccionados.push('mae');
+        if (document.getElementById('reg-r2')?.checked) seleccionados.push('r2');
+
+        if (seleccionados.length === 0) {
+            _showToast('⚠️ Seleccione al menos un tipo de modelo', true);
+            return;
+        }
+
+        const statMap = {
+            'lineal': 'Regresión Lineal Simple',
+            'polinomial': 'Regresión Polinomial',
+            'rmse': 'RMSE',
+            'mae': 'MAE',
+            'r2': 'R² (Coef. Determinación)'
         };
 
-        StateManager.setHypothesisConfig('Regresión Lineal Simple', hypothesisConfig['Regresión Lineal Simple']);
-        StateManager.addActiveStat('Regresión Lineal Simple');
+        const hypothesisConfig = { columnaX: colX, columnaY: colY, timestamp: Date.now() };
+        const nombres = [];
 
-        document.querySelectorAll('.menu-option').forEach(opt => {
-            if (opt.textContent.trim() === 'Regresión Lineal Simple') {
-                opt.classList.add('selected');
-            }
+        seleccionados.forEach(tipo => {
+            const statName = statMap[tipo];
+            StateManager.setHypothesisConfig(statName, hypothesisConfig);
+            StateManager.addActiveStat(statName);
+            nombres.push(statName);
+            document.querySelectorAll('.menu-option').forEach(opt => {
+                if (opt.textContent.trim() === statName) opt.classList.add('selected');
+            });
         });
 
-        _showToast(`✅ Regresión Lineal Simple configurado: Y = f(${colX})`);
+        _showToast(`✅ ${nombres.length} modelo(s) configurado(s): ${nombres.join(', ')} (${colX} → ${colY})`);
         modal.remove();
         return true;
     };
