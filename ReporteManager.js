@@ -371,28 +371,12 @@ const ReporteManager = (() => {
     }
 
     // Store generated hashes to ensure uniqueness
-    const generatedHashes = new Set();
-    
-    function generateHash(meta, res) {
-        let hash;
-        let attempts = 0;
-        const maxAttempts = 100;
-        
-        do {
-            const timestamp = Date.now();
-            const random = Math.random().toString(36).substring(2, 10);
-            const counter = attempts;
-            const s = JSON.stringify({ meta, r: res?.totalFilas, ts: timestamp, rnd: random, cnt: counter });
-            let h = 0;
-            for (let i = 0; i < s.length; i++) h = ((h<<5)-h+s.charCodeAt(i))|0;
-            hash = Math.abs(h).toString(16).toUpperCase().padStart(8,'0');
-            attempts++;
-        } while (generatedHashes.has(hash) && attempts < maxAttempts);
-        
-        // Store the hash to prevent future duplicates
-        generatedHashes.add(hash);
-        
-        return hash;
+    async function generateHash(meta, res) {
+        const s = JSON.stringify({ meta, r: res?.totalFilas });
+        const data = new TextEncoder().encode(s);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.slice(0, 8).map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
     }
     function fmtNum(val, d=4) {
         if (val===null||val===undefined) return 'N/A';
@@ -458,8 +442,7 @@ const ReporteManager = (() => {
     }
 
     // ── Generador TXT ─────────────────────
-    function generarTXT(resultados, meta, pregeneratedHash) {
-        const hash = pregeneratedHash || generateHash(meta,resultados);
+    function generarTXT(resultados, meta, hash) {
         const ext=computeExtendedStats(resultados);
         const W=80, L=[], p=s=>L.push(s);
         const lang=currentLang;
@@ -835,8 +818,7 @@ const ReporteManager = (() => {
     }
 
     // ── Generador CSV ─────────────────────
-    function generarCSV(resultados, meta, pregeneratedHash) {
-        const hash = pregeneratedHash || generateHash(meta,resultados);
+    function generarCSV(resultados, meta, hash) {
         const ext=computeExtendedStats(resultados);
         const rows=[
             `## ${t('reportTitle')}`,
@@ -887,8 +869,7 @@ const ReporteManager = (() => {
     }
 
     // ── Generador HTML ────────────────────
-    function generarHTML(resultados, meta, pregeneratedHash) {
-        const hash = pregeneratedHash || generateHash(meta,resultados);
+    function generarHTML(resultados, meta, hash) {
         const ext=computeExtendedStats(resultados);
         const totalFlags=Object.values(ext).reduce((a,d)=>a+d.flags.length,0);
         const lang=currentLang;
@@ -1500,15 +1481,15 @@ tr:hover td{background:#f7faff}
         link.click();
         URL.revokeObjectURL(link.href);
     }
-    function descargar(formatos, resultados, meta) {
-        const hash=generateHash(meta,resultados);
-        const base=`RPT-${hash}_${new Date().toISOString().slice(0,10)}`;
-        let delay=0;
+    async function descargar(formatos, resultados, meta) {
+        const hash = await generateHash(meta, resultados);
+        const base = `RPT-${hash}_${new Date().toISOString().slice(0,10)}`;
+        let delay = 0;
         if(formatos.includes('html')){setTimeout(()=>downloadBlob(generarHTML(resultados,meta,hash),`${base}.html`,'text/html;charset=utf-8'),delay);delay+=350;}
         if(formatos.includes('pdf')){setTimeout(()=>{const html=generarHTML(resultados,meta,hash);const w=window.open('','_blank');w.document.write(html);w.document.close();w.print();},delay);delay+=350;}
         if(formatos.includes('txt')){setTimeout(()=>downloadBlob(generarTXT(resultados,meta,hash),`${base}.txt`,'text/plain;charset=utf-8'),delay);delay+=350;}
         if(formatos.includes('csv')){setTimeout(()=>downloadBlob(generarCSV(resultados,meta,hash),`${base}.csv`,'text/csv;charset=utf-8'),delay);}
-        return {base,formatos};
+        return {base, formatos};
     }
 
     // ── UI embebida ───────────────────────
@@ -1792,12 +1773,12 @@ tr:hover td{background:#f7faff}
         });
 
         // ── Botón descargar ──
-        document.getElementById('rep-btn-download')?.addEventListener('click',()=>{
-            if(!tieneRes)return;
+        document.getElementById('rep-btn-download')?.addEventListener('click', async () => {
+            if(!tieneRes) return;
             const formatos=['html','pdf','txt','csv'].filter(f=>document.getElementById(`fmt-${f}`)?.checked);
             if(!formatos.length){alert(t('ui_alertNoFmt'));return;}
             const meta=collectMeta();
-            const result=descargar(formatos,resultados,meta);
+            const result=await descargar(formatos,resultados,meta);
             setTimeout(()=>alert(t('ui_alertDownload',
                 result.formatos.map(f=>`.${f.toUpperCase()}`).join(' · '),
                 result.base,
