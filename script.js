@@ -49,7 +49,7 @@ function switchView(viewName) {
 
     // Inicializar vistas al navegar
     if (viewName === 'analisis') {
-        const imported = StateManager.getImportedData();
+        const imported = getDataForModal();
         // Solo mostrar dashboard si NO hay resultados de análisis activos
         if (imported && !ultimosResultados) displayImportedData(imported);
     }
@@ -327,7 +327,7 @@ document.querySelectorAll('.btn-import').forEach(btn => {
 function updateDataView() {
     const recentFilesList = document.getElementById('recent-files-list');
     const dataSummary     = document.getElementById('data-summary');
-    const imported        = StateManager.getImportedData();
+    const imported        = getDataForModal();
 
     if (!imported) {
         if (recentFilesList) recentFilesList.innerHTML = '<p class="empty-message">No hay archivos cargados</p>';
@@ -383,7 +383,7 @@ function updateDataView() {
 
 // FIX: función ahora definida correctamente en scope global
 function viewFileDetails() {
-    const imported = StateManager.getImportedData();
+    const imported = getDataForModal();
     if (!imported) {
         alert('No hay datos cargados.');
         return;
@@ -568,11 +568,30 @@ function downloadSampleData() {
 }
 
 // ========================================
+// HELPER: obtener datos para modales (imported o sheet activa)
+// ========================================
+
+function getDataForModal() {
+    const imported = StateManager.getImportedData();
+    if (imported && imported.data && imported.data.length > 0) return imported;
+
+    const sheet = StateManager.getActiveSheet();
+    if (!sheet || !sheet.data || sheet.data.length === 0) return null;
+
+    const data = sheet.data.map(row => {
+        const obj = {};
+        sheet.headers.forEach((h, i) => obj[h] = row[i]);
+        return obj;
+    });
+    return { headers: sheet.headers, data, rowCount: data.length };
+}
+
+// ========================================
 // VERIFICAR PARÁMETROS ANTES DE ANÁLISIS
 // ========================================
 
 function verificarParametrosAntesAnalisis(callback) {
-    const imported = StateManager.getImportedData();
+    const imported = getDataForModal();
     if (!imported || !imported.data || imported.data.length === 0) {
         callback();
         return;
@@ -722,7 +741,7 @@ function ejecutarAnalisis() {
     }
     console.log('Botón Ejecutar Análisis presionado');
 
-    const importedData = StateManager.getImportedData();
+    const importedData = getDataForModal();
     const activeStats  = StateManager.getActiveStats();
     const hypothesisConfig = StateManager.getAllHypothesisConfig();
 
@@ -940,7 +959,7 @@ function setupTransformButtons() {
 }
 
 function cleanData() {
-    const imported = StateManager.getImportedData();
+    const imported = getDataForModal();
 
     if (!imported || !imported.data || imported.data.length === 0) {
         alert('⚠️ No hay datos cargados para limpiar.\n\nImporta o guarda datos primero.');
@@ -973,7 +992,7 @@ function cleanData() {
 }
 
 function normalizeData() {
-    const imported = StateManager.getImportedData();
+    const imported = getDataForModal();
 
     if (!imported || !imported.data || imported.data.length === 0) {
         alert('⚠️ No hay datos cargados para normalizar.');
@@ -1015,7 +1034,7 @@ function normalizeData() {
 }
 
 function removeNulls() {
-    const imported = StateManager.getImportedData();
+    const imported = getDataForModal();
 
     if (!imported || !imported.data || imported.data.length === 0) {
         alert('⚠️ No hay datos cargados.');
@@ -1045,7 +1064,7 @@ function removeNulls() {
 }
 
 function createCalculatedColumn() {
-    const imported = StateManager.getImportedData();
+    const imported = getDataForModal();
 
     if (!imported || !imported.data || imported.data.length === 0) {
         alert('⚠️ No hay datos cargados.');
@@ -1868,7 +1887,7 @@ document.addEventListener('click', (e) => {
 function mostrarModalConfiguracionHypothesis(statName) {
     document.getElementById('hypo-config-modal')?.remove();
     
-    const imported = StateManager.getImportedData();
+    const imported = getDataForModal();
     if (!imported) {
         _showToast('⚠️ Primero importa datos', true);
         return false;
