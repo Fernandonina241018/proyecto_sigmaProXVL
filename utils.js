@@ -104,6 +104,9 @@ const HYPOTHESIS_TESTS = [
     'Mann-Whitney U', 'Kruskal-Wallis'
 ];
 
+// Set para búsquedas O(1) — usado internamente por includes()
+const HYPOTHESIS_SET = new Set(HYPOTHESIS_TESTS);
+
 // ========================================
 // BACKWARD COMPATIBILITY
 // ========================================

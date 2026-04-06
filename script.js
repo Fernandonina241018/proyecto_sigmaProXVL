@@ -206,14 +206,12 @@ document.querySelectorAll('.menu-option').forEach(option => {
         const statName = this.textContent.trim();
 
         // Pruebas de hipótesis que requieren configuración de grupos
-        const hipotesisTests = HYPOTHESIS_TESTS;
-        
         if (this.classList.contains('selected')) {
             this.classList.remove('selected');
             StateManager.removeActiveStat(statName);
         } else {
             // Para pruebas de hipótesis, abrir modal de configuración
-            if (hipotesisTests.includes(statName)) {
+            if (HYPOTHESIS_SET.has(statName)) {
                 mostrarModalConfiguracionHypothesis(statName);
             } else {
                 this.classList.add('selected');
@@ -1150,8 +1148,7 @@ function inicializarUsuarios() {
         UsuariosManager.buildView();
     }
 }
-}
-}
+
 
 document.addEventListener('DOMContentLoaded', function () {
     console.log('🚀 StatAnalyzer Pro inicializado');
@@ -1787,13 +1784,12 @@ function applyStatSelection() {
     const newActive = currentActive.filter(stat => !section.options.includes(stat));
     
      // Identificar qué pruebas requieren configuración de columnas
-     const hipotesisTests = HYPOTHESIS_TESTS;
      const statsQueNecesitanConfig = [];
      const statsNormales = [];
     
     section.options.forEach(opt => {
         if (tempModalSelection[opt]) {
-            if (hipotesisTests.includes(opt)) {
+            if (HYPOTHESIS_SET.has(opt)) {
                 statsQueNecesitanConfig.push(opt);
             } else {
                 statsNormales.push(opt);

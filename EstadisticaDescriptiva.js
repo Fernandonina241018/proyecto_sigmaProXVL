@@ -3109,7 +3109,6 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         const hasParams = typeof ParametrosManager !== 'undefined';
 
          // Pruebas de hipótesis que tienen estructura diferente
-         const hypothesisTests = HYPOTHESIS_TESTS;
 
         // ── KPI cards para un estadístico ─────────────────────
         function kpiCards(statKey) {
@@ -3117,7 +3116,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
             if (!data) return '';
 
             // Si es prueba de hipótesis, generar vista especial
-            if (hypothesisTests.includes(statKey)) {
+            if (HYPOTHESIS_SET.has(statKey)) {
                 return hypothesisKpiCards(statKey, data);
             }
 

@@ -8,6 +8,8 @@ const ReporteManager = (() => {
         alphaLevel:'0.05'
     };
 
+    const EXCLUDE_KEYS = new Set(['columnaAgrupacion','columnaValores','grupo1','grupo2']);
+
     const FLAGS = {
         CV_HIGH: 30, CV_VERY_HIGH: 50,
         N_MIN: 30,   OUTLIER_IQR: 1.5, SKEW_MODERATE: 0.5
@@ -496,9 +498,9 @@ const ReporteManager = (() => {
             p(`  └${'─'.repeat(W-4)}┘`);
             p(`  ${pad(t('statistic'),28)}${pad(t('value'),18)}${t('reference')}`);
             p(`  ${singleLine(W-4)}`);
-            const hypothesisTests = HYPOTHESIS_TESTS;
+            const hypothesisTests = HYPOTHESIS_SET;
             Object.entries(resultados.resultados).forEach(([stat,data])=>{
-                if (hypothesisTests.includes(stat)) return;
+                if (hypothesisTests.has(stat)) return;
                 // Skip hypothesisTests, handled separately
                 const val=data[col]; if(val===undefined)return;
                 if(typeof val==='object'&&!Array.isArray(val)){
@@ -532,14 +534,14 @@ const ReporteManager = (() => {
         });
         
         // ── Pruebas de Hipótesis ──
-        const hypothesisTests = HYPOTHESIS_TESTS;
-        const hypResults = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.includes(stat));
+        const hypothesisTests = HYPOTHESIS_SET;
+        const hypResults = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.has(stat));
         if (hypResults.length > 0) {
             p(singleLine(W)); p(`  ${lang === 'es' ? 'PRUEBAS DE HIPÓTESIS Y ESPECIFICACIÓN' : 'HYPOTHESIS AND SPECIFICATION TESTS'} (α = 0.05)`); p(singleLine(W));
             p('');
             hypResults.forEach(([stat, data]) => {
                 if (stat === 'T-Test (dos muestras)') {
-                    const keys = Object.keys(data).filter(k => !['columnaAgrupacion','columnaValores','grupo1','grupo2'].includes(k));
+                    const keys = Object.keys(data).filter(k => !EXCLUDE_KEYS.has(k));
                     const gk = keys[0];
                     const r = data[gk] || {};
                     p(`  ${stat} (${gk})`);
@@ -876,9 +878,9 @@ const ReporteManager = (() => {
 
         function statsRows(col){
             const refs=t('statRefs'); let h='';
-            const hypothesisTests = HYPOTHESIS_TESTS;
+            const hypothesisTests = HYPOTHESIS_SET;
             Object.entries(resultados.resultados).forEach(([stat,data])=>{
-                if (hypothesisTests.includes(stat)) return; // Skip hypothesis tests - shown separately
+                if (hypothesisTests.has(stat)) return; // Skip hypothesis tests - shown separately
                 const val=data[col]; if(val===undefined)return;
                 if(typeof val==='object'&&!Array.isArray(val)){
                     h+=`<tr style="background:#f7f8fa"><td colspan="3" style="padding:5px 14px;font-size:8.5pt;color:#666"><em>${escapeHtml(stat)}</em></td></tr>`;
@@ -1285,14 +1287,14 @@ tr:hover td{background:#f7faff}
     </div>
   </div>
   ${(() => {
-      const hypothesisTests = HYPOTHESIS_TESTS;
-      const hypResults = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.includes(stat));
+      const hypothesisTests = HYPOTHESIS_SET;
+      const hypResults = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.has(stat));
       if (hypResults.length === 0) return '';
 
       const hypRows = hypResults.map(([stat, data]) => {
           let content = '';
           if (stat === 'T-Test (dos muestras)') {
-              const keys = Object.keys(data).filter(k => !['columnaAgrupacion','columnaValores','grupo1','grupo2'].includes(k));
+              const keys = Object.keys(data).filter(k => !EXCLUDE_KEYS.has(k));
               const gk = keys[0];
               const r = data[gk] || {};
               content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(gk)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">t=${fmtNum(r.estadisticoT)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${r.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${r.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`;
