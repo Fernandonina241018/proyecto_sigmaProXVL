@@ -1878,9 +1878,9 @@ function mostrarModalConfiguracionHypothesis(statName) {
         'Kruskal-Wallis': { title: '📊 Configurar Kruskal-Wallis', catCols: 1, numCols: 1, catLabel: 'Columna de Agrupación (3+ grupos)', numLabel: 'Columna de Valores' },
         'Covarianza': { title: '📐 Configurar Covarianza', customFunc: 'abrirModalConfigCorrelacion' },
         'Correlación Kendall Tau': { title: '🔗 Configurar Correlación Kendall Tau', customFunc: 'abrirModalConfigCorrelacion' },
-        'RMSE': { title: '📏 Configurar RMSE', customFunc: 'abrirModalConfigRegresion' },
-        'MAE': { title: '📏 Configurar MAE', customFunc: 'abrirModalConfigRegresion' },
-        'R² (Coef. Determinación)': { title: '📊 Configurar R²', customFunc: 'abrirModalConfigRegresion' }
+        'RMSE': { title: '📏 Configurar RMSE', customFunc: 'abrirModalConfigMetricasError' },
+        'MAE': { title: '📏 Configurar MAE', customFunc: 'abrirModalConfigMetricasError' },
+        'R² (Coef. Determinación)': { title: '📊 Configurar R²', customFunc: 'abrirModalConfigMetricasError' }
     };
     
     const config = configs[statName];
@@ -1903,6 +1903,9 @@ function mostrarModalConfiguracionHypothesis(statName) {
             return window[config.customFunc](imported, statName);
         }
         if (config.customFunc === 'abrirModalConfigRegresion') {
+            return window[config.customFunc](imported, statName);
+        }
+        if (config.customFunc === 'abrirModalConfigMetricasError') {
             return window[config.customFunc](imported, statName);
         }
         return window[config.customFunc](imported);
@@ -2295,7 +2298,7 @@ function abrirModalConfigRegresion(imported, statName) {
         return false;
     }
 
-    const preSelect = statName === 'RMSE' ? 'rmse' : statName === 'MAE' ? 'mae' : statName === 'R² (Coef. Determinación)' ? 'r2' : 'lineal';
+    const preSelect = statName === 'Regresión Polinomial' ? 'polinomial' : 'lineal';
 
     const modal = document.createElement('div');
     modal.id = 'regresion-config-modal';
@@ -2329,18 +2332,6 @@ function abrirModalConfigRegresion(imported, statName) {
                         <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
                             <input type="checkbox" id="reg-polinomial" value="polinomial" ${preSelect === 'polinomial' ? 'checked' : ''}>
                             <span><strong>Polinomial</strong> — Y = a + bX + cX²</span>
-                        </label>
-                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
-                            <input type="checkbox" id="reg-rmse" value="rmse" ${preSelect === 'rmse' ? 'checked' : ''}>
-                            <span><strong>RMSE</strong> — error cuadrático medio</span>
-                        </label>
-                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
-                            <input type="checkbox" id="reg-mae" value="mae" ${preSelect === 'mae' ? 'checked' : ''}>
-                            <span><strong>MAE</strong> — error absoluto medio</span>
-                        </label>
-                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
-                            <input type="checkbox" id="reg-r2" value="r2" ${preSelect === 'r2' ? 'checked' : ''}>
-                            <span><strong>R²</strong> — coeficiente de determinación</span>
                         </label>
                     </div>
                 </div>
@@ -2378,9 +2369,6 @@ function abrirModalConfigRegresion(imported, statName) {
         const seleccionados = [];
         if (document.getElementById('reg-lineal')?.checked) seleccionados.push('lineal');
         if (document.getElementById('reg-polinomial')?.checked) seleccionados.push('polinomial');
-        if (document.getElementById('reg-rmse')?.checked) seleccionados.push('rmse');
-        if (document.getElementById('reg-mae')?.checked) seleccionados.push('mae');
-        if (document.getElementById('reg-r2')?.checked) seleccionados.push('r2');
 
         if (seleccionados.length === 0) {
             _showToast('⚠️ Seleccione al menos un tipo de modelo', true);
@@ -2389,10 +2377,7 @@ function abrirModalConfigRegresion(imported, statName) {
 
         const statMap = {
             'lineal': 'Regresión Lineal Simple',
-            'polinomial': 'Regresión Polinomial',
-            'rmse': 'RMSE',
-            'mae': 'MAE',
-            'r2': 'R² (Coef. Determinación)'
+            'polinomial': 'Regresión Polinomial'
         };
 
         const hypothesisConfig = { columnaX: colX, columnaY: colY, timestamp: Date.now() };
@@ -2409,6 +2394,134 @@ function abrirModalConfigRegresion(imported, statName) {
         });
 
         _showToast(`✅ ${nombres.length} modelo(s) configurado(s): ${nombres.join(', ')} (${colX} → ${colY})`);
+        modal.remove();
+        return true;
+    };
+
+    return true;
+}
+
+// ========================================
+// MODAL DE CONFIGURACIÓN PARA MÉTRICAS DE ERROR DE PREDICCIÓN
+// ========================================
+function abrirModalConfigMetricasError(imported, statName) {
+    document.getElementById('metricas-error-config-modal')?.remove();
+    document.getElementById('correlacion-config-modal')?.remove();
+    document.getElementById('regresion-config-modal')?.remove();
+
+    const numericCols = imported.headers.filter(col => {
+        const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
+        const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
+        return numericCount / values.length > 0.5;
+    });
+
+    if (numericCols.length < 2) {
+        _showToast('⚠️ Se necesitan al menos 2 columnas numéricas', true);
+        return false;
+    }
+
+    const preSelect = statName === 'RMSE' ? 'rmse' : statName === 'MAE' ? 'mae' : 'r2';
+
+    const modal = document.createElement('div');
+    modal.id = 'metricas-error-config-modal';
+    modal.innerHTML = `
+        <div class="dm-modal-overlay" id="metricas-error-modal-overlay"></div>
+        <div class="dm-modal-card" style="width: min(500px, 96vw);">
+            <div class="dm-modal-header">
+                <h3>📏 Configurar Métricas de Error</h3>
+                <button class="dm-modal-close" id="metricas-error-modal-close">✕</button>
+            </div>
+            <div class="dm-modal-body">
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📊 Columna Observada (Y real)</label>
+                    <select id="metricas-error-observada" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📊 Columna Predicha (Ŷ)</label>
+                    <select id="metricas-error-predicha" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📈 Métricas a Calcular (seleccione una o más)</label>
+                    <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">
+                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
+                            <input type="checkbox" id="metrica-rmse" value="rmse" ${preSelect === 'rmse' ? 'checked' : ''}>
+                            <span><strong>RMSE</strong> — error cuadrático medio (penaliza errores grandes)</span>
+                        </label>
+                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
+                            <input type="checkbox" id="metrica-mae" value="mae" ${preSelect === 'mae' ? 'checked' : ''}>
+                            <span><strong>MAE</strong> — error absoluto medio (robusto a outliers)</span>
+                        </label>
+                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
+                            <input type="checkbox" id="metrica-r2" value="r2" ${preSelect === 'r2' ? 'checked' : ''}>
+                            <span><strong>R²</strong> — coeficiente de determinación (varianza explicada)</span>
+                        </label>
+                    </div>
+                </div>
+                <p style="font-size:0.75rem;color:#666;margin-bottom:0;">
+                    💡 Compare múltiples métricas de error para evaluar su modelo
+                </p>
+            </div>
+            <div class="dm-modal-footer">
+                <button class="dm-btn dm-btn-secondary" id="metricas-error-modal-cancel">Cancelar</button>
+                <button class="dm-btn dm-btn-primary" id="metricas-error-modal-confirm">✅ Confirmar</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    document.getElementById('metricas-error-modal-close').onclick = () => modal.remove();
+    document.getElementById('metricas-error-modal-overlay').onclick = () => modal.remove();
+    document.getElementById('metricas-error-modal-cancel').onclick = () => modal.remove();
+
+    document.getElementById('metricas-error-modal-confirm').onclick = () => {
+        const colObservada = document.getElementById('metricas-error-observada')?.value;
+        const colPredicha = document.getElementById('metricas-error-predicha')?.value;
+
+        if (!colObservada || !colPredicha) {
+            _showToast('⚠️ Seleccione ambas columnas', true);
+            return;
+        }
+
+        if (colObservada === colPredicha) {
+            _showToast('⚠️ Las columnas deben ser diferentes', true);
+            return;
+        }
+
+        const seleccionados = [];
+        if (document.getElementById('metrica-rmse')?.checked) seleccionados.push('rmse');
+        if (document.getElementById('metrica-mae')?.checked) seleccionados.push('mae');
+        if (document.getElementById('metrica-r2')?.checked) seleccionados.push('r2');
+
+        if (seleccionados.length === 0) {
+            _showToast('⚠️ Seleccione al menos una métrica', true);
+            return;
+        }
+
+        const statMap = {
+            'rmse': 'RMSE',
+            'mae': 'MAE',
+            'r2': 'R² (Coef. Determinación)'
+        };
+
+        const hypothesisConfig = { columnaObservada: colObservada, columnaPredicha: colPredicha, timestamp: Date.now() };
+        const nombres = [];
+
+        seleccionados.forEach(tipo => {
+            const name = statMap[tipo];
+            StateManager.setHypothesisConfig(name, hypothesisConfig);
+            StateManager.addActiveStat(name);
+            nombres.push(name);
+            document.querySelectorAll('.menu-option').forEach(opt => {
+                if (opt.textContent.trim() === name) opt.classList.add('selected');
+            });
+        });
+
+        _showToast(`✅ ${nombres.length} métrica(s) configurada(s): ${nombres.join(', ')} (${colObservada} vs ${colPredicha})`);
         modal.remove();
         return true;
     };
