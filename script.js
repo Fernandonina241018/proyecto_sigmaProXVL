@@ -2152,7 +2152,7 @@ function abrirModalConfigCorrelacion(imported, statName) {
         return false;
     }
 
-    const preSelect = statName === 'Covarianza' ? 'covarianza' : statName === 'Correlación Kendall Tau' ? 'kendall' : 'pearson';
+    const preSelect = statName === 'Covarianza' ? 'covarianza' : statName === 'Correlación Kendall Tau' ? 'kendall' : statName === 'Correlación Spearman' ? 'spearman' : 'pearson';
 
     const modal = document.createElement('div');
     modal.id = 'correlacion-config-modal';
@@ -2177,21 +2177,33 @@ function abrirModalConfigCorrelacion(imported, statName) {
                     </select>
                 </div>
                 <div class="dm-field" style="margin-bottom: 14px;">
-                    <label>📈 Tipo de Análisis</label>
-                    <select id="correlacion-tipo" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
-                        <option value="pearson" ${preSelect === 'pearson' ? 'selected' : ''}>Correlación de Pearson</option>
-                        <option value="spearman" ${preSelect === 'spearman' ? 'selected' : ''}>Correlación de Spearman</option>
-                        <option value="kendall" ${preSelect === 'kendall' ? 'selected' : ''}>Correlación de Kendall Tau</option>
-                        <option value="covarianza" ${preSelect === 'covarianza' ? 'selected' : ''}>Covarianza</option>
-                    </select>
+                    <label>📈 Tipos de Análisis (seleccione uno o más)</label>
+                    <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">
+                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
+                            <input type="checkbox" id="corr-pearson" value="pearson" ${preSelect === 'pearson' ? 'checked' : ''}>
+                            <span><strong>Pearson</strong> — relación lineal</span>
+                        </label>
+                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
+                            <input type="checkbox" id="corr-spearman" value="spearman" ${preSelect === 'spearman' ? 'checked' : ''}>
+                            <span><strong>Spearman</strong> — relación monotónica (rangos)</span>
+                        </label>
+                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
+                            <input type="checkbox" id="corr-kendall" value="kendall" ${preSelect === 'kendall' ? 'checked' : ''}>
+                            <span><strong>Kendall Tau</strong> — asociación ordinal (robusta a empates)</span>
+                        </label>
+                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
+                            <input type="checkbox" id="corr-covarianza" value="covarianza" ${preSelect === 'covarianza' ? 'checked' : ''}>
+                            <span><strong>Covarianza</strong> — variación conjunta</span>
+                        </label>
+                    </div>
                 </div>
                 <p style="font-size:0.75rem;color:#666;margin-bottom:0;">
-                    💡 <strong>Pearson:</strong> relación lineal entre variables | <strong>Spearman:</strong> relación monotónica (rangos) | <strong>Kendall:</strong> asociación ordinal (robusta a empates) | <strong>Covarianza:</strong> variación conjunta
+                    💡 Puede seleccionar varios tipos para comparar resultados
                 </p>
             </div>
             <div class="dm-modal-footer">
-                <button class="btn-secondary" id="correlacion-modal-cancel">Cancelar</button>
-                <button class="btn-primary" id="correlacion-modal-confirm">✅ Confirmar</button>
+                <button class="dm-btn dm-btn-secondary" id="correlacion-modal-cancel">Cancelar</button>
+                <button class="dm-btn dm-btn-primary" id="correlacion-modal-confirm">✅ Confirmar</button>
             </div>
         </div>
     `;
@@ -2205,7 +2217,6 @@ function abrirModalConfigCorrelacion(imported, statName) {
     document.getElementById('correlacion-modal-confirm').onclick = () => {
         const colX = document.getElementById('correlacion-columna-x')?.value;
         const colY = document.getElementById('correlacion-columna-y')?.value;
-        const tipo = document.getElementById('correlacion-tipo')?.value;
 
         if (!colX || !colY) {
             _showToast('⚠️ Seleccione ambas columnas', true);
@@ -2217,13 +2228,23 @@ function abrirModalConfigCorrelacion(imported, statName) {
             return;
         }
 
-        let finalStatName;
-        switch (tipo) {
-            case 'pearson': finalStatName = 'Correlación Pearson'; break;
-            case 'spearman': finalStatName = 'Correlación Spearman'; break;
-            case 'kendall': finalStatName = 'Correlación Kendall Tau'; break;
-            case 'covarianza': finalStatName = 'Covarianza'; break;
+        const tiposSeleccionados = [];
+        if (document.getElementById('corr-pearson')?.checked) tiposSeleccionados.push('pearson');
+        if (document.getElementById('corr-spearman')?.checked) tiposSeleccionados.push('spearman');
+        if (document.getElementById('corr-kendall')?.checked) tiposSeleccionados.push('kendall');
+        if (document.getElementById('corr-covarianza')?.checked) tiposSeleccionados.push('covarianza');
+
+        if (tiposSeleccionados.length === 0) {
+            _showToast('⚠️ Seleccione al menos un tipo de análisis', true);
+            return;
         }
+
+        const statMap = {
+            'pearson': 'Correlación Pearson',
+            'spearman': 'Correlación Spearman',
+            'kendall': 'Correlación Kendall Tau',
+            'covarianza': 'Covarianza'
+        };
 
         const hypothesisConfig = {
             columnaX: colX,
@@ -2231,16 +2252,21 @@ function abrirModalConfigCorrelacion(imported, statName) {
             timestamp: Date.now()
         };
 
-        StateManager.setHypothesisConfig(finalStatName, hypothesisConfig);
-        StateManager.addActiveStat(finalStatName);
+        const nombres = [];
+        tiposSeleccionados.forEach(tipo => {
+            const statName = statMap[tipo];
+            StateManager.setHypothesisConfig(statName, hypothesisConfig);
+            StateManager.addActiveStat(statName);
+            nombres.push(statName);
 
-        document.querySelectorAll('.menu-option').forEach(opt => {
-            if (opt.textContent.trim() === finalStatName) {
-                opt.classList.add('selected');
-            }
+            document.querySelectorAll('.menu-option').forEach(opt => {
+                if (opt.textContent.trim() === statName) {
+                    opt.classList.add('selected');
+                }
+            });
         });
 
-        _showToast(`✅ ${finalStatName} configurado: ${colX} vs ${colY}`);
+        _showToast(`✅ ${nombres.length} análisis configurado(s): ${nombres.join(', ')} (${colX} vs ${colY})`);
         modal.remove();
         return true;
     };
