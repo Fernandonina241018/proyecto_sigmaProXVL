@@ -1349,6 +1349,9 @@ function setupSidebarToggles() {
 
     if (!leftSidebar || !rightSidebar) return;
 
+    // Limpiar contenido previo para evitar duplicados
+    rightSidebar.innerHTML = '';
+
     // Crear contenedor de iconos para sidebar compacto
     createSidebarIconContainers(leftSidebar, rightSidebar);
 
@@ -1523,10 +1526,13 @@ function createSidebarIconContainers(leftSidebar, rightSidebar) {
     // 1. GENERAR CONTENIDO EXPANDIDO (icono + label)
     // ========================================
     
+    // Limpiar contenido previo para evitar duplicados
+    leftSidebar.innerHTML = '';
+    
     // Título del sidebar
     const sidebarTitle = document.createElement('h2');
     sidebarTitle.textContent = '📊 Estadísticos';
-    leftSidebar.insertBefore(sidebarTitle, leftSidebar.firstChild);
+    leftSidebar.appendChild(sidebarTitle);
 
     // Generar secciones como icono + label (sin acordeón)
     Object.entries(SIDEBAR_SECTIONS).forEach(([key, section]) => {
