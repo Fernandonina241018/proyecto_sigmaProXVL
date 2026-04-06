@@ -283,6 +283,11 @@ document.querySelectorAll('.btn-import').forEach(btn => {
 
             if (!file) return;
 
+            if (file.size > 10 * 1024 * 1024) {
+                alert('⚠️ El archivo es demasiado grande (máx. 10MB)');
+                return;
+            }
+
             const fileName = file.name;
             const ext      = file.name.split('.').pop().toLowerCase();
             const reader   = new FileReader();
@@ -1124,7 +1129,6 @@ function inicializarReportes() {
 
 function inicializarAuditoria() {
     if (!auditoriaBuilt) {
-        const API_URL = 'https://proyecto-sigmaproxvl.onrender.com';
         AuditoriaManager.init(API_URL);
         AuditoriaManager.buildView();
         auditoriaBuilt = true;
@@ -1139,13 +1143,14 @@ function inicializarAuditoria() {
 
 function inicializarUsuarios() {
     if (!usuariosBuilt) {
-        const API_URL = 'https://proyecto-sigmaproxvl.onrender.com';
         UsuariosManager.init(API_URL);
         UsuariosManager.buildView();
         usuariosBuilt = true;
     } else {
         UsuariosManager.buildView();
     }
+}
+}
 }
 
 document.addEventListener('DOMContentLoaded', function () {

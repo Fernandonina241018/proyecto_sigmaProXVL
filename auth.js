@@ -15,7 +15,7 @@ const Auth = (() => {
         // ▼ CAMBIA ESTA URL ▼
         // Local:   'http://localhost:3000'
         //API_URL: 'https://proyecto-sigmapro.onrender.com',
-        API_URL: 'https://proyecto-sigmaproxvl.onrender.com',
+        API_URL: API_URL,
     };
 
     let _sessionTimer=null, _warnTimer=null, _countdownTimer=null;
