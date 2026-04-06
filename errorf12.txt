@@ -1,0 +1,13 @@
+
+script.js:1405 Uncaught ReferenceError: btnRight is not defined
+    at setupSidebarToggles (script.js:1405:5)
+    at _initApp (script.js:1174:5)
+    at onLogin (script.js:1160:13)
+    at Object.init (auth.js:595:94)
+    at HTMLDocument.<anonymous> (script.js:1157:10)
+setupSidebarToggles @ script.js:1405
+_initApp @ script.js:1174
+onLogin @ script.js:1160
+init @ auth.js:595
+(anonymous) @ script.js:1157
+
