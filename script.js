@@ -1349,10 +1349,10 @@ function setupSidebarToggles() {
 
     if (!leftSidebar || !rightSidebar) return;
 
-    // Limpiar contenido previo para evitar duplicados
-    rightSidebar.innerHTML = '';
+    // Limpiar solo el sidebar izquierdo (evitar duplicados de secciones)
+    leftSidebar.innerHTML = '';
 
-    // Crear contenedor de iconos para sidebar compacto
+    // Crear contenido del sidebar izquierdo
     createSidebarIconContainers(leftSidebar, rightSidebar);
 
     // Botón para sidebar izquierdo (se agrega al main-area, no al sidebar)
@@ -1380,16 +1380,19 @@ function setupSidebarToggles() {
         sessionStorage.setItem(STORAGE_KEY_LEFT, collapsed);
     });
 
-    // Botón para sidebar derecho
-    const btnRight = document.createElement('button');
-    btnRight.className = 'sidebar-toggle-btn';
-    btnRight.textContent = '▶';
-    rightSidebar.appendChild(btnRight);
+    // NO limpiar rightSidebar — contiene #activeStatsContainer, #statsCount, #emptyState
+    // Solo agregar botones de toggle si no existen
+    if (!rightSidebar.querySelector('.sidebar-toggle-btn')) {
+        const btnRight = document.createElement('button');
+        btnRight.className = 'sidebar-toggle-btn';
+        btnRight.textContent = '▶';
+        rightSidebar.appendChild(btnRight);
 
-    const labelRight = document.createElement('div');
-    labelRight.className = 'sidebar-strip-label';
-    labelRight.textContent = 'En Proceso';
-    rightSidebar.appendChild(labelRight);
+        const labelRight = document.createElement('div');
+        labelRight.className = 'sidebar-strip-label';
+        labelRight.textContent = 'En Proceso';
+        rightSidebar.appendChild(labelRight);
+    }
 
     // Aplicar estado guardado del sidebar derecho
     const rightCollapsed = sessionStorage.getItem(STORAGE_KEY_RIGHT) === 'true';

@@ -9,6 +9,19 @@ const TrabajoManager = (() => {
     const ROW_HEIGHT = 32;
     const BUFFER_ROWS = 10;
 
+    // ── Scroll Listener (Virtual Scroll) ─────────────────────
+    const _onTableScroll = debounce(() => {
+        renderWorkTable();
+    }, 16);
+
+    function attachScrollListener() {
+        const wrapper = document.getElementById('editable-table-wrapper');
+        if (!wrapper) return;
+
+        wrapper.removeEventListener('scroll', _onTableScroll);
+        wrapper.addEventListener('scroll', _onTableScroll);
+    }
+
     // ── Build Thead HTML ─────────────────────────────────────
     function buildTheadHtml(headers) {
         let html = '<thead><tr>';
@@ -115,19 +128,6 @@ const TrabajoManager = (() => {
         attachHeaderMenuListeners();
         attachScrollListener();
     }
-
-    // ── Scroll Listener (Virtual Scroll) ─────────────────────
-    function attachScrollListener() {
-        const wrapper = document.getElementById('editable-table-wrapper');
-        if (!wrapper) return;
-
-        wrapper.removeEventListener('scroll', _onTableScroll);
-        wrapper.addEventListener('scroll', _onTableScroll);
-    }
-
-    const _onTableScroll = debounce(() => {
-        renderWorkTable();
-    }, 16);
 
     function attachTableInputListeners() {
         const wrapper = document.getElementById('editable-table-wrapper');
