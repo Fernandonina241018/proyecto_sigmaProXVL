@@ -121,4 +121,16 @@ function fmtDate(ts, format = 'full') {
     return formatDate(ts, format);
 }
 
+// ========================================
+// DEBOUNCE
+// ========================================
+
+function debounce(fn, delay) {
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn(...args), delay);
+    };
+}
+
 console.log('✅ Utils cargado correctamente');

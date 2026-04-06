@@ -1336,6 +1336,21 @@ body {
     background: white;
 }
 
+/* Virtual Scroll Spacers */
+.vs-spacer-top td,
+.vs-spacer-bottom td {
+    padding: 0;
+    border: none;
+    background: transparent;
+    pointer-events: none;
+    height: 0;
+}
+
+.vs-spacer-top,
+.vs-spacer-bottom {
+    pointer-events: none;
+}
+
 .work-table tr:hover td {
     background: #fafafa;
 }

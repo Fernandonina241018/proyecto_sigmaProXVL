@@ -5,21 +5,14 @@
 
 const TrabajoManager = (() => {
 
-    // ── Table Rendering ──────────────────────────────────────
-    function renderWorkTable() {
-        const sheet = StateManager.getActiveSheet();
-        if (!sheet) {
-            const wrapper = document.getElementById('editable-table-wrapper');
-            if (wrapper) wrapper.innerHTML = '<p class="empty-message">No hay hoja activa</p>';
-            return;
-        }
+    // ── Virtual Scroll Config ────────────────────────────────
+    const ROW_HEIGHT = 32;
+    const BUFFER_ROWS = 10;
 
-        const wrapper = document.getElementById('editable-table-wrapper');
-        if (!wrapper) return;
-
-        let html = '<table class="work-table"><thead><tr>';
-
-        sheet.headers.forEach((header, colIndex) => {
+    // ── Build Thead HTML ─────────────────────────────────────
+    function buildTheadHtml(headers) {
+        let html = '<thead><tr>';
+        headers.forEach((header, colIndex) => {
             if (colIndex === 0) {
                 html += `<th><span class="header-cell">#</span></th>`;
             } else {
@@ -42,211 +35,271 @@ const TrabajoManager = (() => {
                     </th>`;
             }
         });
+        html += '</tr></thead>';
+        return html;
+    }
 
-        html += '</tr></thead><tbody>';
-
-        sheet.data.forEach((row, rowIndex) => {
-            html += '<tr>';
-            row.forEach((cell, colIndex) => {
-                if (colIndex === 0) {
-                    html += `
-                        <td class="row-header">
-                            <div class="index-wrapper">
-                                <span class="index-cell">${escapeHtml(String(cell))}</span>
-                                <button class="row-menu-btn" data-row="${rowIndex}" title="Opciones de fila">⋮</button>
-                            </div>
-                            <div class="row-dropdown" data-row="${rowIndex}">
-                                <button class="dropdown-item" data-action="insert-above" data-row="${rowIndex}">↑ Insertar fila arriba</button>
-                                <button class="dropdown-item" data-action="insert-below" data-row="${rowIndex}">Insertar fila abajo ↓</button>
-                                <hr>
-                                <button class="dropdown-item danger" data-action="delete-row" data-row="${rowIndex}">Eliminar fila</button>
-                            </div>
-                        </td>`;
-                } else {
-                    html += `
-                        <td>
-                            <input type="text"
-                                   class="editable-cell data-cell"
-                                   value="${escapeHtml(String(cell || ''))}"
-                                   data-row="${rowIndex}"
-                                   data-col="${colIndex}"
-                                   data-type="data">
-                        </td>`;
-                }
-            });
-            html += '</tr>';
+    // ── Build Single Row HTML ────────────────────────────────
+    function buildRowHtml(row, rowIndex) {
+        let html = '<tr>';
+        row.forEach((cell, colIndex) => {
+            if (colIndex === 0) {
+                html += `
+                    <td class="row-header">
+                        <div class="index-wrapper">
+                            <span class="index-cell">${escapeHtml(String(cell))}</span>
+                            <button class="row-menu-btn" data-row="${rowIndex}" title="Opciones de fila">⋮</button>
+                        </div>
+                        <div class="row-dropdown" data-row="${rowIndex}">
+                            <button class="dropdown-item" data-action="insert-above" data-row="${rowIndex}">↑ Insertar fila arriba</button>
+                            <button class="dropdown-item" data-action="insert-below" data-row="${rowIndex}">Insertar fila abajo ↓</button>
+                            <hr>
+                            <button class="dropdown-item danger" data-action="delete-row" data-row="${rowIndex}">Eliminar fila</button>
+                        </div>
+                    </td>`;
+            } else {
+                html += `
+                    <td>
+                        <input type="text"
+                               class="editable-cell data-cell"
+                               value="${escapeHtml(String(cell || ''))}"
+                               data-row="${rowIndex}"
+                               data-col="${colIndex}"
+                               data-type="data">
+                    </td>`;
+            }
         });
+        html += '</tr>';
+        return html;
+    }
+
+    // ── Table Rendering ──────────────────────────────────────
+    function renderWorkTable() {
+        const sheet = StateManager.getActiveSheet();
+        if (!sheet) {
+            const wrapper = document.getElementById('editable-table-wrapper');
+            if (wrapper) wrapper.innerHTML = '<p class="empty-message">No hay hoja activa</p>';
+            return;
+        }
+
+        const wrapper = document.getElementById('editable-table-wrapper');
+        if (!wrapper) return;
+
+        const totalRows = sheet.data.length;
+        const scrollTop = wrapper.scrollTop || 0;
+        const viewHeight = wrapper.clientHeight || 600;
+
+        const startRow = Math.max(0, Math.floor(scrollTop / ROW_HEIGHT) - BUFFER_ROWS);
+        const endRow = Math.min(totalRows, startRow + Math.ceil(viewHeight / ROW_HEIGHT) + BUFFER_ROWS * 2);
+
+        let html = '<table class="work-table">';
+        html += buildTheadHtml(sheet.headers);
+        html += '<tbody>';
+
+        if (startRow > 0) {
+            html += `<tr class="vs-spacer-top" style="height:${startRow * ROW_HEIGHT}px"><td colspan="${sheet.headers.length}"></td></tr>`;
+        }
+
+        for (let r = startRow; r < endRow; r++) {
+            html += buildRowHtml(sheet.data[r], r);
+        }
+
+        if (endRow < totalRows) {
+            html += `<tr class="vs-spacer-bottom" style="height:${(totalRows - endRow) * ROW_HEIGHT}px"><td colspan="${sheet.headers.length}"></td></tr>`;
+        }
 
         html += '</tbody></table>';
         wrapper.innerHTML = html;
 
         attachTableInputListeners();
         attachHeaderMenuListeners();
+        attachScrollListener();
     }
+
+    // ── Scroll Listener (Virtual Scroll) ─────────────────────
+    function attachScrollListener() {
+        const wrapper = document.getElementById('editable-table-wrapper');
+        if (!wrapper) return;
+
+        wrapper.removeEventListener('scroll', _onTableScroll);
+        wrapper.addEventListener('scroll', _onTableScroll);
+    }
+
+    const _onTableScroll = debounce(() => {
+        renderWorkTable();
+    }, 16);
 
     function attachTableInputListeners() {
         const wrapper = document.getElementById('editable-table-wrapper');
         if (!wrapper) return;
 
-        // FIX: clonar el nodo para eliminar listeners anteriores acumulados
-        // que se generaban cada vez que se llamaba a renderWorkTable()
-        const freshWrapper = wrapper.cloneNode(true);
-        wrapper.parentNode.replaceChild(freshWrapper, wrapper);
+        // Preserve scroll position before any DOM manipulation
+        const savedScrollTop = wrapper.scrollTop;
 
-        freshWrapper.addEventListener('input', (e) => {
-            const target = e.target;
-            if (!target.classList.contains('editable-cell')) return;
+        // Event delegation — single listener per event type, no clone needed
+        wrapper.removeEventListener('input', _onTableInput);
+        wrapper.removeEventListener('keydown', _onTableKeydown);
+        wrapper.removeEventListener('paste', _onTablePaste);
 
-            const type  = target.dataset.type;
-            const value = target.value;
+        wrapper.addEventListener('input', _onTableInput);
+        wrapper.addEventListener('keydown', _onTableKeydown);
+        wrapper.addEventListener('paste', _onTablePaste);
 
-            if (type === 'header') {
-                const col = parseInt(target.dataset.col);
-                if (!isNaN(col) && col > 0) {
-                    StateManager.updateHeader(col, value);
-                }
-            } else if (type === 'data') {
-                const row = parseInt(target.dataset.row);
-                const col = parseInt(target.dataset.col);
-                if (!isNaN(row) && !isNaN(col) && col > 0) {
-                    StateManager.updateCell(row, col, value);
-                }
+        // Restore scroll position
+        wrapper.scrollTop = savedScrollTop;
+    }
+
+    function _onTableInput(e) {
+        const target = e.target;
+        if (!target.classList.contains('editable-cell')) return;
+
+        const type  = target.dataset.type;
+        const value = target.value;
+
+        if (type === 'header') {
+            const col = parseInt(target.dataset.col);
+            if (!isNaN(col) && col > 0) {
+                StateManager.updateHeader(col, value);
             }
-        });
+        } else if (type === 'data') {
+            const row = parseInt(target.dataset.row);
+            const col = parseInt(target.dataset.col);
+            if (!isNaN(row) && !isNaN(col) && col > 0) {
+                StateManager.updateCell(row, col, value);
+            }
+        }
+    }
 
-        freshWrapper.addEventListener('keydown', (e) => {
-            if (e.key !== 'Tab') return;
+    function _onTableKeydown(e) {
+        if (e.key !== 'Tab') return;
+        e.preventDefault();
+        const wrapper = document.getElementById('editable-table-wrapper');
+        if (!wrapper) return;
+        const inputs  = Array.from(wrapper.querySelectorAll('.editable-cell'));
+        const current = inputs.indexOf(e.target);
+        const next    = e.shiftKey ? current - 1 : current + 1;
+        if (inputs[next]) {
+            inputs[next].focus();
+            inputs[next].select();
+        }
+    }
+
+    function _onTablePaste(e) {
+        const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+        if (!pastedText) return;
+
+        const hasTab = pastedText.includes('\t');
+        const hasMultipleLines = pastedText.split('\n').filter(r => r.trim()).length > 1;
+        const isTabularData = hasTab || hasMultipleLines;
+
+        if (isTabularData) {
             e.preventDefault();
-            const inputs  = Array.from(freshWrapper.querySelectorAll('.editable-cell'));
-            const current = inputs.indexOf(e.target);
-            const next    = e.shiftKey ? current - 1 : current + 1;
-            if (inputs[next]) {
-                inputs[next].focus();
-                inputs[next].select();
+            e.stopPropagation();
+
+            const activeCell = document.activeElement;
+            let startRow = 0;
+            let startCol = 1;
+
+            if (activeCell && activeCell.classList.contains('editable-cell')) {
+                const cellRow = parseInt(activeCell.dataset.row);
+                const cellCol = parseInt(activeCell.dataset.col);
+                if (!isNaN(cellRow)) startRow = cellRow;
+                if (!isNaN(cellCol)) startCol = cellCol;
             }
-        });
 
-        // Listener de paste para datos tabulares de Excel
-        freshWrapper.addEventListener('paste', (e) => {
-            const pastedText = (e.clipboardData || window.clipboardData).getData('text');
-            if (!pastedText) return;
-
-            // Detectar si es dato tabular (de Excel) o texto simple
-            const hasTab = pastedText.includes('\t');
-            const hasMultipleLines = pastedText.split('\n').filter(r => r.trim()).length > 1;
-            const isTabularData = hasTab || hasMultipleLines;
-
-            if (isTabularData) {
-                e.preventDefault();
-                e.stopPropagation();
-
-                // Obtener celda activa
-                const activeCell = document.activeElement;
-                let startRow = 0;
-                let startCol = 1;
-
-                if (activeCell && activeCell.classList.contains('editable-cell')) {
-                    const cellRow = parseInt(activeCell.dataset.row);
-                    const cellCol = parseInt(activeCell.dataset.col);
-                    if (!isNaN(cellRow)) startRow = cellRow;
-                    if (!isNaN(cellCol)) startCol = cellCol;
-                }
-
-                processPastedData(pastedText, startRow, startCol);
-            }
-            // Si no es tabular, se pega normalmente en el input
-        });
+            processPastedData(pastedText, startRow, startCol);
+        }
     }
 
     function attachHeaderMenuListeners() {
         const wrapper = document.getElementById('editable-table-wrapper');
         if (!wrapper) return;
 
-        // Toggle menus de columna
-        wrapper.addEventListener('click', (e) => {
-            const colMenuBtn = e.target.closest('.col-menu-btn');
-            if (colMenuBtn) {
-                e.preventDefault();
-                e.stopPropagation();
-                const colIndex = colMenuBtn.dataset.col;
-                const dropdown = wrapper.querySelector(`.col-dropdown[data-col="${colIndex}"]`);
+        wrapper.removeEventListener('click', _onTableClick);
+        wrapper.addEventListener('click', _onTableClick);
+    }
 
-                // Cerrar otros menus abiertos
-                wrapper.querySelectorAll('.col-dropdown.active, .row-dropdown.active').forEach(d => d.classList.remove('active'));
+    function _onTableClick(e) {
+        const wrapper = document.getElementById('editable-table-wrapper');
+        if (!wrapper) return;
 
-                if (dropdown) dropdown.classList.toggle('active');
-                return;
-            }
+        const colMenuBtn = e.target.closest('.col-menu-btn');
+        if (colMenuBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+            const colIndex = colMenuBtn.dataset.col;
+            const dropdown = wrapper.querySelector(`.col-dropdown[data-col="${colIndex}"]`);
 
-            const rowMenuBtn = e.target.closest('.row-menu-btn');
-            if (rowMenuBtn) {
-                e.preventDefault();
-                e.stopPropagation();
-                const rowIndex = rowMenuBtn.dataset.row;
-                const dropdown = wrapper.querySelector(`.row-dropdown[data-row="${rowIndex}"]`);
+            wrapper.querySelectorAll('.col-dropdown.active, .row-dropdown.active').forEach(d => d.classList.remove('active'));
 
-                // Cerrar otros menus abiertos
-                wrapper.querySelectorAll('.col-dropdown.active, .row-dropdown.active').forEach(d => d.classList.remove('active'));
+            if (dropdown) dropdown.classList.toggle('active');
+            return;
+        }
 
-                if (dropdown) dropdown.classList.toggle('active');
-                return;
-            }
+        const rowMenuBtn = e.target.closest('.row-menu-btn');
+        if (rowMenuBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+            const rowIndex = rowMenuBtn.dataset.row;
+            const dropdown = wrapper.querySelector(`.row-dropdown[data-row="${rowIndex}"]`);
 
-            // Acciones de menu de columna
-            const colAction = e.target.closest('.col-dropdown .dropdown-item');
-            if (colAction) {
-                e.preventDefault();
-                e.stopPropagation();
-                const action = colAction.dataset.action;
-                const colIndex = parseInt(colAction.dataset.col);
+            wrapper.querySelectorAll('.col-dropdown.active, .row-dropdown.active').forEach(d => d.classList.remove('active'));
 
-                try {
-                    if (action === 'insert-left') {
-                        StateManager.insertColumn(colIndex);
-                        renderWorkTable();
-                    } else if (action === 'insert-right') {
-                        StateManager.insertColumn(colIndex + 1);
-                        renderWorkTable();
-                    } else if (action === 'delete-col') {
-                        StateManager.deleteColumn(colIndex);
-                        renderWorkTable();
-                    }
-                } catch (err) {
-                    console.error(err);
+            if (dropdown) dropdown.classList.toggle('active');
+            return;
+        }
+
+        const colAction = e.target.closest('.col-dropdown .dropdown-item');
+        if (colAction) {
+            e.preventDefault();
+            e.stopPropagation();
+            const action = colAction.dataset.action;
+            const colIndex = parseInt(colAction.dataset.col);
+
+            try {
+                if (action === 'insert-left') {
+                    StateManager.insertColumn(colIndex);
+                    renderWorkTable();
+                } else if (action === 'insert-right') {
+                    StateManager.insertColumn(colIndex + 1);
+                    renderWorkTable();
+                } else if (action === 'delete-col') {
+                    StateManager.deleteColumn(colIndex);
+                    renderWorkTable();
                 }
-                return;
+            } catch (err) {
+                console.error(err);
             }
+            return;
+        }
 
-            // Acciones de menu de fila
-            const rowAction = e.target.closest('.row-dropdown .dropdown-item');
-            if (rowAction) {
-                e.preventDefault();
-                e.stopPropagation();
-                const action = rowAction.dataset.action;
-                const rowIndex = parseInt(rowAction.dataset.row);
+        const rowAction = e.target.closest('.row-dropdown .dropdown-item');
+        if (rowAction) {
+            e.preventDefault();
+            e.stopPropagation();
+            const action = rowAction.dataset.action;
+            const rowIndex = parseInt(rowAction.dataset.row);
 
-                try {
-                    if (action === 'insert-above') {
-                        StateManager.insertRow(rowIndex);
-                        renderWorkTable();
-                    } else if (action === 'insert-below') {
-                        StateManager.insertRow(rowIndex + 1);
-                        renderWorkTable();
-                    } else if (action === 'delete-row') {
-                        StateManager.deleteRow(rowIndex);
-                        renderWorkTable();
-                    }
-                } catch (err) {
-                    console.error(err);
+            try {
+                if (action === 'insert-above') {
+                    StateManager.insertRow(rowIndex);
+                    renderWorkTable();
+                } else if (action === 'insert-below') {
+                    StateManager.insertRow(rowIndex + 1);
+                    renderWorkTable();
+                } else if (action === 'delete-row') {
+                    StateManager.deleteRow(rowIndex);
+                    renderWorkTable();
                 }
-                return;
+            } catch (err) {
+                console.error(err);
             }
+            return;
+        }
 
-            // Cerrar menus al hacer clic fuera
-            if (!e.target.closest('.col-dropdown') && !e.target.closest('.row-dropdown')) {
-                wrapper.querySelectorAll('.col-dropdown.active, .row-dropdown.active').forEach(d => d.classList.remove('active'));
-            }
-        });
+        if (!e.target.closest('.col-dropdown') && !e.target.closest('.row-dropdown')) {
+            wrapper.querySelectorAll('.col-dropdown.active, .row-dropdown.active').forEach(d => d.classList.remove('active'));
+        }
     }
 
     // ── Summary Sidebar ───────────────────────────────────────

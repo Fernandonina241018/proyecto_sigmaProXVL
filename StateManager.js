@@ -39,8 +39,8 @@ const StateManager = (() => {
             autoSave: true,
             autoSaveInterval: 5000, // 5 segundos
             maxSheets: 20,
-            maxRows: 1000,
-            maxCols: 50
+            maxRows: 10000,
+            maxCols: 100
         },
         
         // Historial para undo/redo (opcional)
