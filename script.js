@@ -1416,7 +1416,7 @@ const SIDEBAR_SECTIONS = {
             'Media Aritmética', 'Mediana y Moda', 'Desviación Estándar', 'Varianza',
             'Percentiles', 'Rango y Amplitud', 'Coeficiente de Variación',
             'Asimetría (Skewness)', 'Curtosis (Kurtosis)', 'Error Estándar',
-            'Intervalos de Confianza', 'Detección de Outliers', 'Covarianza'
+            'Intervalos de Confianza', 'Detección de Outliers'
         ]
     },
     hipotesis: {
@@ -1426,17 +1426,25 @@ const SIDEBAR_SECTIONS = {
         options: [
             'T-Test (una muestra)', 'T-Test (dos muestras)', 'ANOVA One-Way',
             'ANOVA Two-Way', 'Chi-Cuadrado', 'Test de Normalidad',
-            'Test de Shapiro-Wilk', 'Mann-Whitney U', 'Kruskal-Wallis'
+            'Test de Shapiro-Wilk'
         ]
     },
     correlacion: {
         icon: '📈',
         label: 'Correlación',
-        description: 'Análisis de relaciones entre variables y modelos predictivos',
+        description: 'Medidas de asociación y dependencia entre variables',
         options: [
             'Correlación Pearson', 'Correlación Spearman', 'Correlación Kendall Tau',
-            'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Logística',
-            'Regresión Polinomial', 'RMSE', 'MAE', 'R² (Coef. Determinación)'
+            'Covarianza'
+        ]
+    },
+    regresion: {
+        icon: '📉',
+        label: 'Regresión',
+        description: 'Modelos predictivos y métricas de ajuste',
+        options: [
+            'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial',
+            'Regresión Logística', 'RMSE', 'MAE', 'R² (Coef. Determinación)'
         ]
     },
     noParametricos: {
@@ -1444,7 +1452,7 @@ const SIDEBAR_SECTIONS = {
         label: 'No Paramétricos',
         description: 'Tests sin distribución normal requerida para muestras pequeñas',
         options: [
-            'Mann-Whitney U', 'Wilcoxon', 'Kruskal-Wallis', 'Friedman', 'Test de Signos'
+            'Mann-Whitney U', 'Kruskal-Wallis', 'Wilcoxon', 'Friedman', 'Test de Signos'
         ]
     },
     multivariado: {
@@ -1806,45 +1814,14 @@ function applyStatSelection() {
 function _abrirModalesHipotesisSecuencia(stats, index) {
     if (index >= stats.length) return;
     
-    // Agrupar estadísticos de correlación para abrir un solo modal
-    const corrTypes = ['Correlación Pearson', 'Correlación Spearman', 'Correlación Kendall Tau', 'Covarianza'];
-    const remaining = stats.slice(index);
-    const corrInBatch = remaining.filter(s => corrTypes.includes(s));
-    
-    if (corrInBatch.length > 0 && index === 0) {
-        // Si hay múltiples correlaciones, abrir un modal agrupado
-        // pero pasar el statName del primero para que pre-seleccione
-        mostrarModalConfiguracionHypothesis(corrInBatch[0], corrInBatch);
-        
-        // Interceptar confirmación para saltar las demás correlaciones
-        const confirmBtn = document.getElementById('correlacion-modal-confirm');
-        if (confirmBtn) {
-            const origOnclick = confirmBtn.onclick;
-            confirmBtn.onclick = function() {
-                // Las correlaciones ya se agregaron en el modal, saltarlas
-                const nextNonCorr = remaining.findIndex((s, i) => !corrTypes.includes(s));
-                if (nextNonCorr !== -1) {
-                    setTimeout(() => {
-                        _abrirModalesHipotesisSecuencia(
-                            remaining.filter(s => !corrTypes.includes(s)),
-                            0
-                        );
-                    }, 300);
-                }
-            };
-        }
-        return;
-    }
-    
     const statName = stats[index];
     setTimeout(() => {
         mostrarModalConfiguracionHypothesis(statName);
         
         // Interceptar el botón de confirmar para continuar con la siguiente
-        const confirmBtn = document.getElementById('hypo-modal-confirm');
+        const confirmBtn = document.getElementById('hypo-modal-confirm') || document.getElementById('correlacion-modal-confirm');
         if (confirmBtn) {
             confirmBtn.addEventListener('click', function handler() {
-                // Continuar con la siguiente prueba de hipótesis
                 setTimeout(() => {
                     _abrirModalesHipotesisSecuencia(stats, index + 1);
                 }, 300);
@@ -1866,7 +1843,7 @@ document.addEventListener('click', (e) => {
 // ========================================
 // MODAL DE CONFIGURACIÓN DE PRUEBAS DE HIPÓTESIS
 // ========================================
-function mostrarModalConfiguracionHypothesis(statName, preSelectedCorr) {
+function mostrarModalConfiguracionHypothesis(statName) {
     document.getElementById('hypo-config-modal')?.remove();
     
     const imported = StateManager.getImportedData();
@@ -1923,7 +1900,7 @@ function mostrarModalConfiguracionHypothesis(statName, preSelectedCorr) {
             return window[config.customFunc](imported, statName);
         }
         if (config.customFunc === 'abrirModalConfigCorrelacion') {
-            return window[config.customFunc](imported, statName, preSelectedCorr);
+            return window[config.customFunc](imported, statName);
         }
         return window[config.customFunc](imported);
     } else if (config.customFunc) {
@@ -2165,7 +2142,7 @@ function mostrarModalConfiguracionHypothesis(statName, preSelectedCorr) {
 // ========================================
 // MODAL DE CONFIGURACIÓN PARA CORRELACIÓN
 // ========================================
-function abrirModalConfigCorrelacion(imported, statName, preSelectedCorr) {
+function abrirModalConfigCorrelacion(imported, statName) {
     document.getElementById('correlacion-config-modal')?.remove();
     document.getElementById('limites-config-modal')?.remove();
     document.getElementById('regresion-config-modal')?.remove();
@@ -2181,18 +2158,7 @@ function abrirModalConfigCorrelacion(imported, statName, preSelectedCorr) {
         return false;
     }
 
-    // Si viene preSelectedCorr (array de correlaciones seleccionadas en batch), usarlo
-    const corrTypeMap = {
-        'Correlación Pearson': 'pearson',
-        'Correlación Spearman': 'spearman',
-        'Correlación Kendall Tau': 'kendall',
-        'Covarianza': 'covarianza'
-    };
-    
-    const checkedTypes = preSelectedCorr ? preSelectedCorr.map(s => corrTypeMap[s]).filter(Boolean) : [];
     const preSelect = statName === 'Covarianza' ? 'covarianza' : statName === 'Correlación Kendall Tau' ? 'kendall' : statName === 'Correlación Spearman' ? 'spearman' : 'pearson';
-    
-    const isChecked = (type) => checkedTypes.length > 0 ? checkedTypes.includes(type) : type === preSelect;
 
     const modal = document.createElement('div');
     modal.id = 'correlacion-config-modal';
@@ -2217,28 +2183,16 @@ function abrirModalConfigCorrelacion(imported, statName, preSelectedCorr) {
                     </select>
                 </div>
                 <div class="dm-field" style="margin-bottom: 14px;">
-                    <label>📈 Tipos de Análisis (seleccione uno o más)</label>
-                    <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">
-                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
-                            <input type="checkbox" id="corr-pearson" value="pearson" ${isChecked('pearson') ? 'checked' : ''}>
-                            <span><strong>Pearson</strong> — relación lineal</span>
-                        </label>
-                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
-                            <input type="checkbox" id="corr-spearman" value="spearman" ${isChecked('spearman') ? 'checked' : ''}>
-                            <span><strong>Spearman</strong> — relación monotónica (rangos)</span>
-                        </label>
-                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
-                            <input type="checkbox" id="corr-kendall" value="kendall" ${isChecked('kendall') ? 'checked' : ''}>
-                            <span><strong>Kendall Tau</strong> — asociación ordinal (robusta a empates)</span>
-                        </label>
-                        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8fafc;border-radius:6px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:0.85rem;">
-                            <input type="checkbox" id="corr-covarianza" value="covarianza" ${isChecked('covarianza') ? 'checked' : ''}>
-                            <span><strong>Covarianza</strong> — variación conjunta</span>
-                        </label>
-                    </div>
+                    <label>📈 Tipo de Análisis</label>
+                    <select id="correlacion-tipo" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        <option value="pearson" ${preSelect === 'pearson' ? 'selected' : ''}>Correlación de Pearson</option>
+                        <option value="spearman" ${preSelect === 'spearman' ? 'selected' : ''}>Correlación de Spearman</option>
+                        <option value="kendall" ${preSelect === 'kendall' ? 'selected' : ''}>Correlación de Kendall Tau</option>
+                        <option value="covarianza" ${preSelect === 'covarianza' ? 'selected' : ''}>Covarianza</option>
+                    </select>
                 </div>
                 <p style="font-size:0.75rem;color:#666;margin-bottom:0;">
-                    💡 Puede seleccionar varios tipos para comparar resultados
+                    💡 Seleccione dos columnas numéricas diferentes para analizar su relación
                 </p>
             </div>
             <div class="dm-modal-footer">
@@ -2257,6 +2211,7 @@ function abrirModalConfigCorrelacion(imported, statName, preSelectedCorr) {
     document.getElementById('correlacion-modal-confirm').onclick = () => {
         const colX = document.getElementById('correlacion-columna-x')?.value;
         const colY = document.getElementById('correlacion-columna-y')?.value;
+        const tipo = document.getElementById('correlacion-tipo')?.value;
 
         if (!colX || !colY) {
             _showToast('⚠️ Seleccione ambas columnas', true);
@@ -2268,23 +2223,13 @@ function abrirModalConfigCorrelacion(imported, statName, preSelectedCorr) {
             return;
         }
 
-        const tiposSeleccionados = [];
-        if (document.getElementById('corr-pearson')?.checked) tiposSeleccionados.push('pearson');
-        if (document.getElementById('corr-spearman')?.checked) tiposSeleccionados.push('spearman');
-        if (document.getElementById('corr-kendall')?.checked) tiposSeleccionados.push('kendall');
-        if (document.getElementById('corr-covarianza')?.checked) tiposSeleccionados.push('covarianza');
-
-        if (tiposSeleccionados.length === 0) {
-            _showToast('⚠️ Seleccione al menos un tipo de análisis', true);
-            return;
+        let finalStatName;
+        switch (tipo) {
+            case 'pearson': finalStatName = 'Correlación Pearson'; break;
+            case 'spearman': finalStatName = 'Correlación Spearman'; break;
+            case 'kendall': finalStatName = 'Correlación Kendall Tau'; break;
+            case 'covarianza': finalStatName = 'Covarianza'; break;
         }
-
-        const statMap = {
-            'pearson': 'Correlación Pearson',
-            'spearman': 'Correlación Spearman',
-            'kendall': 'Correlación Kendall Tau',
-            'covarianza': 'Covarianza'
-        };
 
         const hypothesisConfig = {
             columnaX: colX,
@@ -2292,21 +2237,16 @@ function abrirModalConfigCorrelacion(imported, statName, preSelectedCorr) {
             timestamp: Date.now()
         };
 
-        const nombres = [];
-        tiposSeleccionados.forEach(tipo => {
-            const statName = statMap[tipo];
-            StateManager.setHypothesisConfig(statName, hypothesisConfig);
-            StateManager.addActiveStat(statName);
-            nombres.push(statName);
+        StateManager.setHypothesisConfig(finalStatName, hypothesisConfig);
+        StateManager.addActiveStat(finalStatName);
 
-            document.querySelectorAll('.menu-option').forEach(opt => {
-                if (opt.textContent.trim() === statName) {
-                    opt.classList.add('selected');
-                }
-            });
+        document.querySelectorAll('.menu-option').forEach(opt => {
+            if (opt.textContent.trim() === finalStatName) {
+                opt.classList.add('selected');
+            }
         });
 
-        _showToast(`✅ ${nombres.length} análisis configurado(s): ${nombres.join(', ')} (${colX} vs ${colY})`);
+        _showToast(`✅ ${finalStatName} configurado: ${colX} vs ${colY}`);
         modal.remove();
         return true;
     };
