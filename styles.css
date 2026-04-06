@@ -1307,12 +1307,20 @@ body {
     min-width: 50px;
     max-width: 50px;
     background: linear-gradient(135deg, #37474f 0%, #263238 100%);
+    position: sticky;
+    left: 0;
+    z-index: 11;
+    border-right: 2px solid #546e7a;
 }
 
 .work-table td:first-child {
     min-width: 50px;
     max-width: 50px;
     background: #f5f5f5;
+    position: sticky;
+    left: 0;
+    z-index: 9;
+    border-right: 2px solid #e0e0e0;
 }
 
 .work-table th {
