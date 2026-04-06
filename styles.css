@@ -1057,7 +1057,7 @@ body {
 
 .sheet-tab-name {
     font-weight: 500;
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     max-width: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
