@@ -163,7 +163,7 @@ const EDAManager = (function () {
 
         const numericCols = getNumericColumns(data);
         if (numericCols.length === 0) {
-            return { error: 'No se encontraron columnas numéricas con suficientes datos válidos' };
+            return { error: 'No se encontraron columnas numéricas con suficientes datos válidos. Verifique que las columnas contengan números.' };
         }
 
         const totalRows = data.data.length;

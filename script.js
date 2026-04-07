@@ -578,17 +578,27 @@ function clearImportedData() {
 // ========================================
 
 function ejecutarEDA() {
-    const data = getDataForModal();
+    const container = document.getElementById('eda-container');
+    if (!container) return;
+
+    // Obtener datos normalizados directamente
+    const data = getEDAData();
     if (!data || !data.headers || !data.data || data.data.length === 0) {
         showToast('No hay datos disponibles para el análisis exploratorio', 'warning');
         return;
     }
 
-    // Normalizar datos: si son objetos, convertir a arrays por índice
-    const normalizedData = normalizeDataForEDA(data);
+    // Verificar que hay columnas numéricas
+    const hasNumeric = data.headers.some((_, idx) => {
+        const values = data.data.map(row => parseFloat(row[idx]));
+        const valid = values.filter(v => !isNaN(v) && isFinite(v));
+        return valid.length >= Math.min(3, data.data.length * 0.5);
+    });
 
-    const container = document.getElementById('eda-container');
-    if (!container) return;
+    if (!hasNumeric) {
+        showToast('No se encontraron columnas con suficientes datos numéricos válidos', 'warning');
+        return;
+    }
 
     // Mostrar loading
     container.innerHTML = `
@@ -597,35 +607,37 @@ function ejecutarEDA() {
             <div class="eda-loading-text">Ejecutando Análisis Exploratorio...</div>
         </div>`;
 
-    // Ejecutar con un pequeño delay para mostrar el loading
     setTimeout(() => {
         try {
-            const html = EDAManager.renderDashboard(normalizedData);
+            const html = EDAManager.renderDashboard(data);
             container.innerHTML = html;
             showToast('Análisis Exploratorio completado exitosamente', 'success');
         } catch (error) {
             container.innerHTML = `<div class="eda-loading"><div class="eda-loading-text" style="color:#c53030;">Error: ${error.message}</div></div>`;
             showToast('Error al ejecutar el EDA: ' + error.message, 'error');
+            console.error('EDA Error:', error);
         }
     }, 300);
 }
 
-function normalizeDataForEDA(data) {
-    // Si los datos ya son arrays (formato importado), usarlos directamente
-    if (Array.isArray(data.data[0])) {
-        return data;
+function getEDAData() {
+    // Intentar primero con datos importados (ya vienen en formato array)
+    const imported = StateManager.getImportedData();
+    if (imported && imported.data && imported.data.length > 0) {
+        return imported;
     }
 
-    // Si son objetos (formato hoja de trabajo), convertir a arrays
-    const headers = data.headers;
-    const rows = data.data.map(obj => {
-        return headers.map(h => obj[h]);
-    });
+    // Obtener datos de la hoja activa directamente como arrays
+    const sheet = StateManager.getActiveSheet();
+    if (!sheet || !sheet.headers || !sheet.data || sheet.data.length === 0) {
+        return null;
+    }
 
+    // sheet.data ya es array de arrays: [[val1, val2, ...], [val1, val2, ...]]
     return {
-        headers: headers,
-        data: rows,
-        rowCount: rows.length
+        headers: sheet.headers,
+        data: sheet.data,
+        rowCount: sheet.data.length
     };
 }
 
