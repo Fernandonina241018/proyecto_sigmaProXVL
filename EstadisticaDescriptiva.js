@@ -98,7 +98,7 @@ const EstadisticaDescriptiva = (() => {
     function getNumericColumns(data) {
         return Stats.getNumericColumns(data, {
             threshold: 0.8,
-            excludeColumns: ['#', 'A', 'Row', 'row', 'INDEX', 'index', 'row_index']
+            excludeColumns: ['#', 'Row', 'row', 'INDEX', 'index', 'row_index', 'No.', 'N°']
         });
     }
     
