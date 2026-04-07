@@ -343,18 +343,10 @@ const TrabajoManager = (() => {
     // ── Toolbar CRUD ──────────────────────────────────────────
     function setupWorkButtons() {
         const btnGenerate = document.querySelector('.btn-generate-table');
-        const btnAddRow   = document.querySelector('.btn-add-row');
-        const btnAddCol   = document.querySelector('.btn-add-column');
-        const btnDelRow   = document.querySelector('.btn-delete-row');
-        const btnDelCol   = document.querySelector('.btn-delete-column');
         const btnClear    = document.querySelector('.btn-clear-table');
         const btnSave     = document.querySelector('.btn-save-work');
 
         if (btnGenerate) btnGenerate.onclick = generateWorkTable;
-        if (btnAddRow)   btnAddRow.onclick   = addWorkRow;
-        if (btnAddCol)   btnAddCol.onclick   = addWorkColumn;
-        if (btnDelRow)   btnDelRow.onclick   = deleteWorkRow;
-        if (btnDelCol)   btnDelCol.onclick   = deleteWorkColumn;
         if (btnClear)    btnClear.onclick    = clearWorkTable;
         if (btnSave)     btnSave.onclick     = saveWorkData;
     }
@@ -367,38 +359,6 @@ const TrabajoManager = (() => {
         updateWorkSummary();
         renderSheetTabs();
         updateSheetsInfo();
-    }
-
-    function addWorkRow() {
-        try {
-            StateManager.addRow();
-            renderWorkTable();
-            updateWorkSummary();
-        } catch (err) { alert('⚠️ ' + err.message); }
-    }
-
-    function addWorkColumn() {
-        try {
-            StateManager.addColumn();
-            renderWorkTable();
-            updateWorkSummary();
-        } catch (err) { alert('⚠️ ' + err.message); }
-    }
-
-    function deleteWorkRow() {
-        try {
-            StateManager.deleteRow();
-            renderWorkTable();
-            updateWorkSummary();
-        } catch (err) { alert('⚠️ ' + err.message); }
-    }
-
-    function deleteWorkColumn() {
-        try {
-            StateManager.deleteColumn();
-            renderWorkTable();
-            updateWorkSummary();
-        } catch (err) { alert('⚠️ ' + err.message); }
     }
 
     function clearWorkTable() {
