@@ -609,6 +609,14 @@ function ejecutarEDA() {
 
     setTimeout(() => {
         try {
+            const result = EDAManager.ejecutarEDA(data);
+            
+            if (result.error) {
+                container.innerHTML = `<div class="eda-loading"><div class="eda-loading-text" style="color:#c53030;">${result.error}</div></div>`;
+                showToast(result.error, 'warning');
+                return;
+            }
+            
             const html = EDAManager.renderDashboard(data);
             container.innerHTML = html;
             showToast('Análisis Exploratorio completado exitosamente', 'success');
@@ -623,13 +631,19 @@ function ejecutarEDA() {
 function getEDAData() {
     // Intentar primero con datos importados (ya vienen en formato array)
     const imported = StateManager.getImportedData();
+    console.log('EDA - getImportedData:', imported);
+    
     if (imported && imported.data && imported.data.length > 0) {
+        console.log('EDA - Usando datos importados:', imported.headers?.slice(0, 3), 'filas:', imported.data.length);
         return imported;
     }
 
     // Obtener datos de la hoja activa directamente como arrays
     const sheet = StateManager.getActiveSheet();
+    console.log('EDA - getActiveSheet:', sheet?.name, 'data:', sheet?.data?.length, 'headers:', sheet?.headers?.slice(0, 3));
+    
     if (!sheet || !sheet.headers || !sheet.data || sheet.data.length === 0) {
+        console.log('EDA - No hay sheet activa');
         return null;
     }
 

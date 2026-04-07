@@ -27,9 +27,12 @@ const EDAManager = (function () {
     function getNumericColumns(data) {
         if (!data || !data.headers || !data.data) return [];
         return data.headers.filter((_, idx) => {
-            const values = data.data.map(row => parseFloat(row[idx]));
+            const values = data.data.map(row => {
+                const val = Array.isArray(row) ? row[idx] : row[data.headers[idx]];
+                return parseFloat(val);
+            });
             const valid = values.filter(v => !isNaN(v) && isFinite(v));
-            return valid.length > 0 && valid.length >= data.data.length * 0.8;
+            return valid.length > 0 && valid.length >= data.data.length * 0.3; // Umbral reducido para hojas con pocos datos
         }).map((_, idx) => data.headers[idx]);
     }
 
@@ -37,7 +40,10 @@ const EDAManager = (function () {
         const idx = data.headers.indexOf(colName);
         if (idx === -1) return [];
         return data.data
-            .map(row => parseFloat(row[idx]))
+            .map(row => {
+                const val = Array.isArray(row) ? row[idx] : row[colName];
+                return parseFloat(val);
+            })
             .filter(v => !isNaN(v) && isFinite(v));
     }
 
@@ -170,11 +176,12 @@ const EDAManager = (function () {
         const totalCols = data.headers.length;
         const categoricalCols = data.headers.filter(h => !numericCols.includes(h));
 
-        // Contar valores faltantes
+        // Contar valores faltantes - manejar ambos formatos (array y objeto)
         let missingCount = 0;
         data.data.forEach(row => {
-            row.forEach(val => {
-                if (val === null || val === '' || val === undefined) missingCount++;
+            data.headers.forEach((h, idx) => {
+                const val = Array.isArray(row) ? row[idx] : row[h];
+                if (val === null || val === '' || val === undefined || isNaN(parseFloat(val))) missingCount++;
             });
         });
 
