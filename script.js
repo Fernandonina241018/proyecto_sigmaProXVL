@@ -628,30 +628,72 @@ function ejecutarEDA() {
     }, 300);
 }
 
+// ========================================
+// EDA - OBTENER DATOS (importados O módulo Trabajo)
+// ========================================
+
 function getEDAData() {
-    // Intentar primero con datos importados (ya vienen en formato array)
+    // 1. Prioridad: datos importados via btn-import
     const imported = StateManager.getImportedData();
-    console.log('EDA - getImportedData:', imported);
-    
     if (imported && imported.data && imported.data.length > 0) {
         console.log('EDA - Usando datos importados:', imported.headers?.slice(0, 3), 'filas:', imported.data.length);
-        return imported;
+        return _normalizeToEDAFormat(imported, 'object');
     }
 
-    // Obtener datos de la hoja activa directamente como arrays
+    // 2. Fallback: hoja activa del módulo Trabajo
     const sheet = StateManager.getActiveSheet();
-    console.log('EDA - getActiveSheet:', sheet?.name, 'data:', sheet?.data?.length, 'headers:', sheet?.headers?.slice(0, 3));
-    
-    if (!sheet || !sheet.headers || !sheet.data || sheet.data.length === 0) {
-        console.log('EDA - No hay sheet activa');
+    console.log('EDA - getActiveSheet:', sheet?.name, 'rows:', sheet?.data?.length, 'headers:', sheet?.headers?.slice(0, 3));
+
+    if (!sheet || !sheet.headers || !sheet.headers.length) {
+        console.log('EDA - No hay sheet activa con cabeceras');
         return null;
     }
 
-    // sheet.data ya es array de arrays: [[val1, val2, ...], [val1, val2, ...]]
+    const rawData = sheet.data || [];
+    if (rawData.length === 0) {
+        console.log('EDA - Sheet activa sin filas');
+        return null;
+    }
+
+    // Detectar si sheet.data es array-de-arrays o array-de-objetos
+    const firstRow = rawData[0];
+    const format = Array.isArray(firstRow) ? 'array' : 'object';
+
+    return _normalizeToEDAFormat(
+        { headers: sheet.headers, data: rawData, rowCount: rawData.length },
+        format
+    );
+}
+
+/**
+ * Normaliza cualquier estructura de datos al formato
+ * que EDAManager espera: { headers, data: [[v1,v2,...], ...], rowCount }
+ *
+ * @param {object} source  - { headers, data, rowCount }
+ * @param {'array'|'object'} format - formato actual de source.data
+ */
+function _normalizeToEDAFormat(source, format) {
+    const headers  = source.headers || [];
+    const rawData  = source.data    || [];
+
+    let normalized;
+
+    if (format === 'array') {
+        // Ya es array-de-arrays — verificar longitud de cada fila
+        normalized = rawData.map(row =>
+            headers.map((_, i) => (row[i] !== undefined && row[i] !== null ? row[i] : ''))
+        );
+    } else {
+        // array-de-objetos → convertir a array-de-arrays
+        normalized = rawData.map(row =>
+            headers.map(h => (row[h] !== undefined && row[h] !== null ? row[h] : ''))
+        );
+    }
+
     return {
-        headers: sheet.headers,
-        data: sheet.data,
-        rowCount: sheet.data.length
+        headers,
+        data:     normalized,
+        rowCount: normalized.length
     };
 }
 
