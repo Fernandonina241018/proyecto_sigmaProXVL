@@ -16,7 +16,18 @@ const DatosManager = (() => {
     // ── Utilidades ────────────────────────
     // escapeHtml() y showToast() ahora están en utils.js
 
-    function _getData() { return StateManager.getImportedData(); }
+    function _getData() {
+        const imported = StateManager.getImportedData();
+        if (imported && imported.data && imported.data.length > 0) return imported;
+        const sheet = StateManager.getActiveSheet();
+        if (!sheet || !sheet.data || sheet.data.length === 0) return null;
+        const data = sheet.data.map(row => {
+            const obj = {};
+            sheet.headers.forEach((h, i) => obj[h] = row[i]);
+            return obj;
+        });
+        return { headers: sheet.headers, data, rowCount: data.length };
+    }
 
     // _showToast ahora usa showToast() de utils.js
     function _showToast(msg, isError = false) {

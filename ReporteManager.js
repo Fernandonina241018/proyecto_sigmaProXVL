@@ -424,7 +424,7 @@ const ReporteManager = (() => {
              // ★ Integración ParametrosManager
             let paramVerificacion = null;
             if (typeof ParametrosManager !== 'undefined') {
-                const _imported = (typeof StateManager !== 'undefined') ? StateManager.getImportedData() : null;
+                const _imported = (typeof StateManager !== 'undefined') ? (typeof getDataForModal === 'function' ? getDataForModal() : StateManager.getImportedData()) : null;
                 if (_imported) {
                     paramVerificacion = ParametrosManager.verificarColumna(_imported, col);
                     if (paramVerificacion && paramVerificacion.fueraDeRango > 0) {

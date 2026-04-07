@@ -15,6 +15,23 @@ const Visualizacion = (() => {
         }
     }
 
+    function _getSheetData() {
+        const sheet = StateManager.getActiveSheet();
+        if (!sheet || !sheet.data || sheet.data.length === 0) return null;
+        const data = sheet.data.map(row => {
+            const obj = {};
+            sheet.headers.forEach((h, i) => obj[h] = row[i]);
+            return obj;
+        });
+        return { headers: sheet.headers, data, rowCount: data.length };
+    }
+
+    function _getData() {
+        const imported = StateManager.getImportedData();
+        if (imported && imported.data && imported.data.length > 0) return imported;
+        return _getSheetData();
+    }
+
     const PALETTE = [
         'rgba(102,126,234,0.82)', 'rgba(118,75,162,0.82)',
         'rgba(67,160,71,0.82)',   'rgba(30,136,229,0.82)',
@@ -905,7 +922,7 @@ const Visualizacion = (() => {
 
     function getCurrentData() {
         if (currentSource === 'imported') {
-            return StateManager.getImportedData();
+            return _getData();
         }
         // Fuente: resultados del análisis — construimos un dataset a partir de ultimosResultados
         if (typeof ultimosResultados !== 'undefined' && ultimosResultados) {
@@ -1166,7 +1183,7 @@ const Visualizacion = (() => {
 
     // ── Lista de gráficos predefinidos según el dataset ──
     function _getPredefinidosDisponibles() {
-        const data = StateManager.getImportedData();
+        const data = _getData();
         if (!data) return [];
 
         const numCols    = getNumericColumns(data);
@@ -1495,7 +1512,7 @@ function _attachExportPanelListeners(predefinidos, controlsPanel) {
         // Asegurarse que el canvas está visible
         mostrarCanvas();
 
-        const data = StateManager.getImportedData();
+        const data = _getData();
         if (!data) throw new Error('Sin datos');
 
         switch (pred.tipo) {
