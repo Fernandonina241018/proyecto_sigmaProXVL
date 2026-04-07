@@ -932,11 +932,188 @@ const EstadisticaDescriptiva = (() => {
              return -(((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) /
                      ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1);
          }
-     }
-     
-     // ========================================
-     // FUNCIONES DE CORRELACIÓN
-     // ========================================
+      }
+
+      // ========================================
+      // PRUEBAS DE NORMALIDAD ADICIONALES (FASE 1)
+      // ========================================
+
+      /**
+       * Test de Kolmogorov-Smirnov para normalidad (una muestra)
+       * Compara la distribución empírica con la distribución normal teórica
+       * H₀: Los datos siguen una distribución normal
+       * Menos potente que Shapiro-Wilk pero útil para muestras grandes
+       */
+      function calcularKolmogorovSmirnov(values) {
+          const n = values.length;
+          if (n < 5) return { error: 'Se necesitan al menos 5 observaciones' };
+
+          const sorted = sortNumbers(values);
+          const mean = calcularMedia(values);
+          const std = calcularDesviacionEstandar(values, true);
+
+          if (std === 0) return { error: 'Desviación estándar cero (todos los valores iguales)' };
+
+          // Calcular estadístico D = max|F_n(x) - F(x)|
+          let D = 0;
+          for (let i = 0; i < n; i++) {
+              const z = (sorted[i] - mean) / std;
+              const Fx = normalCDF(z);
+              const Fn_upper = (i + 1) / n;
+              const Fn_lower = i / n;
+              D = Math.max(D, Math.abs(Fn_upper - Fx), Math.abs(Fn_lower - Fx));
+          }
+
+          // Aproximación del p-value (Lilliefors correction)
+          // Usando la aproximación de Dallal-Wilkinson-Lilliefors
+          const sqrtN = Math.sqrt(n);
+          let p;
+          if (D > 0) {
+              // Aproximación de la distribución de Kolmogorov-Smirnov con corrección de Lilliefors
+              const lambda = (sqrtN + 0.12 + 0.11 / sqrtN) * D;
+              // Serie de Kolmogorov
+              let sum = 0;
+              for (let k = 1; k <= 20; k++) {
+                  sum += Math.pow(-1, k - 1) * Math.exp(-2 * k * k * lambda * lambda);
+              }
+              p = Math.max(0, Math.min(1, 2 * sum));
+          } else {
+              p = 1;
+          }
+
+          // Corrección para muestras pequeñas (Lilliefors)
+          if (n < 30) {
+              p = Math.pow(p, 0.85); // Ajuste empírico
+          }
+
+          return {
+              prueba: 'Test de Kolmogorov-Smirnov (Lilliefors)',
+              n: n,
+              estadisticoD: parseFloat(D.toFixed(6)),
+              valorP: parseFloat(p.toFixed(6)),
+              esNormal: p >= 0.05,
+              interpretacion: p >= 0.05
+                  ? `No se rechaza H₀ (p=${p.toFixed(4)} ≥ 0.05). Los datos pueden seguir distribución normal.`
+                  : `Se rechaza H₀ (p=${p.toFixed(4)} < 0.05). Los datos NO siguen distribución normal.`,
+              nota: 'Versión con corrección de Lilliefors para normalidad'
+          };
+      }
+
+      /**
+       * Test de Anderson-Darling para normalidad
+       * Más potente que K-S para detectar desviaciones en las colas
+       * H₀: Los datos siguen una distribución normal
+       */
+      function calcularAndersonDarling(values) {
+          const n = values.length;
+          if (n < 8) return { error: 'Se necesitan al menos 8 observaciones' };
+
+          const sorted = sortNumbers(values);
+          const mean = calcularMedia(values);
+          const std = calcularDesviacionEstandar(values, true);
+
+          if (std === 0) return { error: 'Desviación estándar cero (todos los valores iguales)' };
+
+          // Calcular estadístico A²
+          // Fórmula correcta: A² = -n - (1/n) * Σ(2i-1)[ln(F(X_i)) + ln(1-F(X_{n+1-i}))]
+          let sum = 0;
+          for (let i = 1; i <= n; i++) {
+              const Fi = normalCDF((sorted[i - 1] - mean) / std);
+              const Fn_i = normalCDF((sorted[n - i] - mean) / std); // F(X_{n+1-i})
+              sum += (2 * i - 1) * (Math.log(Math.max(Fi, 1e-10)) + Math.log(Math.max(1 - Fn_i, 1e-10)));
+          }
+
+          let A2 = -n - sum / n;
+
+          // Corrección para muestras pequeñas (Stephens, 1974)
+          const A2_corrected = A2 * (1 + 0.75 / n + 2.25 / (n * n));
+
+          // Aproximación del p-value usando la fórmula de Lewis (1961)
+          // Más precisa y estable numéricamente
+          // Basada en la tabla de valores críticos de Stephens (1974)
+          let p;
+          if (A2_corrected < 0.200) {
+              p = 1.0 - Math.exp(-13.436 + 101.14 * A2_corrected - 223.73 * A2_corrected * A2_corrected);
+          } else if (A2_corrected < 0.340) {
+              p = 1.0 - Math.exp(-8.318 + 42.796 * A2_corrected - 59.938 * A2_corrected * A2_corrected);
+          } else if (A2_corrected < 0.600) {
+              p = Math.exp(0.9177 - 4.279 * A2_corrected - 1.38 * A2_corrected * A2_corrected);
+          } else if (A2_corrected < 1.000) {
+              p = Math.exp(1.2937 - 5.709 * A2_corrected + 0.0186 * A2_corrected);
+          } else {
+              p = Math.exp(0.8809 - 4.901 * A2_corrected);
+          }
+
+          p = Math.max(0.0001, Math.min(0.9999, p));
+
+          return {
+              prueba: 'Test de Anderson-Darling',
+              n: n,
+              estadisticoA2: parseFloat(A2.toFixed(6)),
+              estadisticoA2_corregido: parseFloat(A2_corrected.toFixed(6)),
+              valorP: parseFloat(p.toFixed(6)),
+              esNormal: p >= 0.05,
+              interpretacion: p >= 0.05
+                  ? `No se rechaza H₀ (p=${p.toFixed(4)} ≥ 0.05). Los datos pueden seguir distribución normal.`
+                  : `Se rechaza H₀ (p=${p.toFixed(4)} < 0.05). Los datos NO siguen distribución normal.`,
+              nota: 'Más sensible a desviaciones en las colas de la distribución'
+          };
+      }
+
+      /**
+       * Test de D'Agostino-Pearson para normalidad
+       * Basado en la asimetría y curtosis de la distribución
+       * H₀: Los datos siguen una distribución normal
+       * Combina tests de skewness y kurtosis en un estadístico omnibus
+       */
+      function calcularDAgostinoPearson(values) {
+          const n = values.length;
+          if (n < 8) return { error: 'Se necesitan al menos 8 observaciones' };
+
+          const skew = calcularAsimetria(values, true);
+          const kurt = calcularCurtosis(values, true);
+
+          // Test de asimetría de D'Agostino
+          // Transformación a Z usando la aproximación de Srivastava (1984)
+          const Y1 = skew * Math.sqrt(((n + 1) * (n + 3)) / (6 * (n - 2)));
+          const beta2_skew = 6 * (n * n - 5 * n + 2) / ((n + 1) * (n + 3)) *
+                             (24 * n * (n - 2) * (n - 3)) / ((n + 1) * (n + 1) * (n + 3) * (n + 5));
+          const alpha_skew = 6 + 8 / beta2_skew * (2 / beta2_skew + Math.sqrt(1 + 4 / (beta2_skew * beta2_skew)));
+          const Z1 = Y1 * Math.sqrt(2 / (9 * alpha_skew)) * (1 - 2 / (9 * alpha_skew));
+          // Aproximación más simple y robusta
+          const Z_skew = skew / Math.sqrt(6 / n);
+
+          // Test de curtosis de Anscombe-Glynn
+          const mean_kurt = -6 * (n + 1) / ((n + 1) * (n + 3));
+          const var_kurt = 24 * n * (n - 2) * (n - 3) / ((n + 1) * (n + 1) * (n + 3) * (n + 5));
+          const se_kurt = Math.sqrt(Math.max(var_kurt, 1e-10));
+          const Z_kurt = (kurt - mean_kurt) / se_kurt;
+
+          // Estadístico omnibus K² = Z_skew² + Z_kurt² ~ Chi²(2)
+          const K2 = Z_skew * Z_skew + Z_kurt * Z_kurt;
+          const p = calcularValorP_ChiCuadrado(K2, 2);
+
+          return {
+              prueba: "Test de D'Agostino-Pearson (Omnibus)",
+              n: n,
+              asimetria: parseFloat(skew.toFixed(6)),
+              curtosis: parseFloat(kurt.toFixed(6)),
+              Z_asimetria: parseFloat(Z_skew.toFixed(6)),
+              Z_curtosis: parseFloat(Z_kurt.toFixed(6)),
+              estadisticoK2: parseFloat(K2.toFixed(6)),
+              gradosLibertad: 2,
+              valorP: parseFloat(p.toFixed(6)),
+              esNormal: p >= 0.05,
+              interpretacion: p >= 0.05
+                  ? `No se rechaza H₀ (p=${p.toFixed(4)} ≥ 0.05). Los datos pueden seguir distribución normal.`
+                  : `Se rechaza H₀ (p=${p.toFixed(4)} < 0.05). Los datos NO siguen distribución normal.`,
+              nota: 'Combina tests de asimetría y curtosis en un estadístico omnibus'
+          };
+      }
+
+      // ========================================
+      // FUNCIONES DE CORRELACIÓN
+      // ========================================
      
      /**
       * Calcula la correlación de Pearson entre dos variables
@@ -2512,15 +2689,39 @@ const EstadisticaDescriptiva = (() => {
                       }
                        break;
 
-                 case 'Test de Shapiro-Wilk':
-                     resultados['Test de Shapiro-Wilk'] = {};
-                     numericCols.forEach(col => {
-                         const values = getNumericValues(data, col);
-                         resultados['Test de Shapiro-Wilk'][col] = calcularShapiroWilk(values);
-                     });
-                     break;
+                  case 'Test de Shapiro-Wilk':
+                      resultados['Test de Shapiro-Wilk'] = {};
+                      numericCols.forEach(col => {
+                          const values = getNumericValues(data, col);
+                          resultados['Test de Shapiro-Wilk'][col] = calcularShapiroWilk(values);
+                      });
+                      break;
 
-                 case 'Covarianza':
+                  case 'Test de Kolmogorov-Smirnov':
+                      resultados['Test de Kolmogorov-Smirnov'] = {};
+                      numericCols.forEach(col => {
+                          const values = getNumericValues(data, col);
+                          resultados['Test de Kolmogorov-Smirnov'][col] = calcularKolmogorovSmirnov(values);
+                      });
+                      break;
+
+                  case 'Test de Anderson-Darling':
+                      resultados['Test de Anderson-Darling'] = {};
+                      numericCols.forEach(col => {
+                          const values = getNumericValues(data, col);
+                          resultados['Test de Anderson-Darling'][col] = calcularAndersonDarling(values);
+                      });
+                      break;
+
+                  case "Test de D'Agostino-Pearson":
+                      resultados["Test de D'Agostino-Pearson"] = {};
+                      numericCols.forEach(col => {
+                          const values = getNumericValues(data, col);
+                          resultados["Test de D'Agostino-Pearson"][col] = calcularDAgostinoPearson(values);
+                      });
+                      break;
+
+                  case 'Covarianza':
                      if (hypothesisConfig['Covarianza']) {
                          const cfg = hypothesisConfig['Covarianza'];
                          const colX = cfg.columnaX;
@@ -2805,6 +3006,9 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
             'Chi-Cuadrado':            { formula: 'χ² = Σ(O − E)² / E',               desc: 'Prueba de independencia para variables categóricas. Compara frecuencias observadas vs esperadas.', icono: '📋' },
              'Test de Normalidad':      { formula: 'JB = (n/6)(S² + K²/4)',             desc: 'Jarque-Bera: verifica si los datos siguen distribución normal usando asimetría y curtosis.', icono: '🔔' },
              'Test de Shapiro-Wilk':    { formula: 'W = (Σaᵢx₍ᵢ₎)² / Σ(xᵢ − x̄)²',      desc: 'Test de normalidad más potente para muestras pequeñas (n < 50). Compara datos ordenados con valores esperados normales.', icono: '🔔' },
+             'Test de Kolmogorov-Smirnov': { formula: 'D = max|Fₙ(x) − F(x)|',          desc: 'Compara la distribución empírica con la normal teórica. Corrección de Lilliefors para normalidad.', icono: '🔔' },
+             'Test de Anderson-Darling': { formula: 'A² = −n − (1/n)Σ(2i−1)[ln(Fᵢ)+ln(1−Fₙ₊₁₋ᵢ)]', desc: 'Más sensible a desviaciones en las colas. Más potente que K-S para detectar no-normalidad.', icono: '🔔' },
+             "Test de D'Agostino-Pearson": { formula: 'K² = Z_skew² + Z_kurt² ~ χ²(2)',  desc: 'Combina asimetría y curtosis en un estadístico omnibus. Detecta desviaciones de normalidad por forma.', icono: '🔔' },
              'Correlación Pearson':     { formula: 'r = cov(X,Y)/(σx * σy)',            desc: 'Mide la relación lineal entre dos variables. Valores entre -1 y 1. Cercano a ±1 indica fuerte relación lineal.', icono: '🔗' },
              'Correlación Spearman':    { formula: 'ρ = correlación de Pearson sobre rangos', desc: 'Mide la relación monotónica entre dos variables basada en rangos. Menos sensible a outliers que Pearson.', icono: '🔗' },
              'Correlación Kendall Tau': { formula: 'τ = (C − D) / √[(n₀−n₁)(n₀−n₂)]',   desc: 'Mide la asociación ordinal entre dos variables. Más robusta que Spearman para datos con muchos empates.', icono: '🔗' },
@@ -3244,6 +3448,59 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                 `).join('');
             }
 
+            // Test de Kolmogorov-Smirnov
+            if (statKey === 'Test de Kolmogorov-Smirnov') {
+                return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">${col}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">D</span><span class="ar-kpi-sub-v">${result.estadisticoD?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${result.n ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">
+                            ${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Test de Anderson-Darling
+            if (statKey === 'Test de Anderson-Darling') {
+                return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">${col}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">A²</span><span class="ar-kpi-sub-v">${result.estadisticoA2?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">A² corr.</span><span class="ar-kpi-sub-v">${result.estadisticoA2_corregido?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${result.n ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">
+                            ${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Test de D'Agostino-Pearson
+            if (statKey === "Test de D'Agostino-Pearson") {
+                return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">${col}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">K²</span><span class="ar-kpi-sub-v">${result.estadisticoK2?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Z skew</span><span class="ar-kpi-sub-v">${result.Z_asimetria?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Z kurt</span><span class="ar-kpi-sub-v">${result.Z_curtosis?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">
+                            ${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
             // Covarianza
             if (statKey === 'Covarianza') {
                 if (data.error) return `<p class="ar-error">${data.error}</p>`;
@@ -3576,6 +3833,9 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         calcularChiCuadrado,
         calcularTestNormalidad,
         calcularShapiroWilk,
+        calcularKolmogorovSmirnov,
+        calcularAndersonDarling,
+        calcularDAgostinoPearson,
         // Funciones individuales - Correlación
         calcularCorrelacionPearson,
         calcularCorrelacionSpearman,

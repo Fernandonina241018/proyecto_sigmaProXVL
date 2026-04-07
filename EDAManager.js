@@ -177,12 +177,26 @@ const EDAManager = (function () {
             };
         });
 
-        // ── Tests de normalidad (Jarque-Bera) ─────────────────────────────
+        // ── Tests de normalidad (5 tests completos) ────────────────────────
         const normalidad = {};
+        const normalidadShapiro = {};
+        const normalidadKS = {};
+        const normalidadAD = {};
+        const normalidadDP = {};
         numericCols.forEach(col => {
             const values = valCache[col];
             if (values.length < 3) return;
             normalidad[col] = testNormalidadJB(values);
+            if (values.length >= 3 && values.length <= 5000) {
+                normalidadShapiro[col] = EstadisticaDescriptiva.calcularShapiroWilk(values);
+            }
+            if (values.length >= 5) {
+                normalidadKS[col] = EstadisticaDescriptiva.calcularKolmogorovSmirnov(values);
+            }
+            if (values.length >= 8) {
+                normalidadAD[col] = EstadisticaDescriptiva.calcularAndersonDarling(values);
+                normalidadDP[col] = EstadisticaDescriptiva.calcularDAgostinoPearson(values);
+            }
         });
 
         // ── Detección de outliers (usando StatsUtils) ──────────────────────
@@ -248,6 +262,10 @@ const EDAManager = (function () {
             },
             descriptivas,
             normalidad,
+            normalidadShapiro,
+            normalidadKS,
+            normalidadAD,
+            normalidadDP,
             outliers,
             correlaciones: {
                 matrix:   corrMatrix,
@@ -452,43 +470,61 @@ const EDAManager = (function () {
         const cols = Object.keys(results.normalidad);
         if (!cols.length) return '';
 
-        let html = buildSectionHeader('🔔', 'Tests de Normalidad', `${cols.length} tests`);
+        let html = buildSectionHeader('🔔', 'Tests de Normalidad (Comparativa)', `${cols.length} columnas`);
         html += `<div class="eda-section-content">
                  <p style="font-size:0.72rem;color:#888;margin:0 0 12px;">
-                     Método: <strong>Jarque-Bera (aproximación)</strong> — basado en asimetría y curtosis.
-                     H₀: la distribución es normal. Rechazar si p ≤ 0.05.
+                     Se aplicaron 5 tests de normalidad. H₀: la distribución es normal. Rechazar si p ≤ 0.05.
+                     <strong>Verde</strong> = Normal, <strong>Rojo</strong> = No Normal.
                  </p>
-                 <div class="eda-normality-grid">`;
+                 <div style="overflow-x:auto;">
+                 <table class="eda-stats-table" style="font-size:0.75rem;">
+                     <thead><tr>
+                         <th>Columna</th>
+                         <th>Jarque-Bera (p)</th>
+                         <th>Shapiro-Wilk (p)</th>
+                         <th>Kolmogorov-Smirnov (p)</th>
+                         <th>Anderson-Darling (p)</th>
+                         <th>D'Agostino-Pearson (p)</th>
+                         <th>Consenso</th>
+                     </tr></thead><tbody>`;
 
         cols.forEach(col => {
-            const n   = results.normalidad[col];
-            const cls = n.esNormal ? 'eda-normal' : 'eda-not-normal';
-            html += `
-                <div class="eda-normality-card ${cls}">
-                    <div class="eda-normality-col">${escHtml(col)}</div>
-                    <div class="eda-normality-stats">
-                        <div class="eda-normality-stat">
-                            <span class="eda-stat-val">${n.JB}</span>
-                            <span class="eda-stat-label">JB</span>
-                        </div>
-                        <div class="eda-normality-stat">
-                            <span class="eda-stat-val">${n.p}</span>
-                            <span class="eda-stat-label">p-value</span>
-                        </div>
-                        <div class="eda-normality-stat">
-                            <span class="eda-stat-val">${n.skew}</span>
-                            <span class="eda-stat-label">Skew</span>
-                        </div>
-                        <div class="eda-normality-stat">
-                            <span class="eda-stat-val">${n.kurt}</span>
-                            <span class="eda-stat-label">Kurt</span>
-                        </div>
-                    </div>
-                    <div class="eda-normality-badge">${n.esNormal ? '✓ Normal' : '✗ No Normal'}</div>
-                </div>`;
+            const jb = results.normalidad[col];
+            const sw = results.normalidadShapiro?.[col];
+            const ks = results.normalidadKS?.[col];
+            const ad = results.normalidadAD?.[col];
+            const dp = results.normalidadDP?.[col];
+
+            // Calcular consenso (mayoría de tests dicen normal)
+            const tests = [jb, sw, ks, ad, dp].filter(t => t && t.valorP !== undefined);
+            const normalCount = tests.filter(t => t.esNormal).length;
+            const totalTests = tests.length;
+            const consensus = totalTests > 0 ? (normalCount / totalTests >= 0.5 ? 'normal' : 'no-normal') : 'unknown';
+
+            const pValue = (t) => t ? (t.valorP !== undefined ? t.valorP.toFixed(4) : (t.p !== undefined ? t.p.toFixed(4) : '—')) : '—';
+            const badgeClass = (t) => t ? (t.esNormal ? 'eda-kpi-ok' : 'eda-kpi-warn') : '';
+
+            html += `<tr>
+                <td><strong>${escHtml(col)}</strong></td>
+                <td class="${badgeClass(jb)}">${pValue(jb)}${jb?.esNormal ? ' ✓' : ' ✗'}</td>
+                <td class="${badgeClass(sw)}">${sw ? pValue(sw) + (sw.esNormal ? ' ✓' : ' ✗') : 'n/a'}</td>
+                <td class="${badgeClass(ks)}">${ks ? pValue(ks) + (ks.esNormal ? ' ✓' : ' ✗') : 'n/a'}</td>
+                <td class="${badgeClass(ad)}">${ad ? pValue(ad) + (ad.esNormal ? ' ✓' : ' ✗') : 'n/a'}</td>
+                <td class="${badgeClass(dp)}">${dp ? pValue(dp) + (dp.esNormal ? ' ✓' : ' ✗') : 'n/a'}</td>
+                <td style="text-align:center;">
+                    <span class="eda-normality-badge ${consensus === 'normal' ? 'eda-normal' : 'eda-not-normal'}">
+                        ${consensus === 'normal' ? '✓ Normal' : consensus === 'no-normal' ? '✗ No Normal' : '—'}
+                    </span>
+                </td>
+            </tr>`;
         });
 
-        html += `</div></div></div>`;
+        html += `</tbody></table></div>
+                 <p style="font-size:0.68rem;color:#999;margin-top:8px;">
+                     n/a = tamaño de muestra insuficiente para ese test.
+                     Jarque-Bera: n≥3, Shapiro-Wilk: 3≤n≤5000, Kolmogorov-Smirnov: n≥5, Anderson-Darling/D'Agostino: n≥8.
+                 </p>
+                 </div></div>`;
         return html;
     }
 
@@ -754,9 +790,28 @@ const EDAManager = (function () {
             txt += `    Asimetría: ${d.asimetria}  Curtosis: ${d.curtosis}\n`;
         });
 
-        txt += '\n🔔 TESTS DE NORMALIDAD (Jarque-Bera aprox.)\n───────────────────────────────────────────\n';
-        Object.entries(_edaResults.normalidad).forEach(([col, n]) => {
-            txt += `  ${col}: JB=${n.JB}, p=${n.p} → ${n.esNormal ? '✓ Normal' : '✗ No Normal'}\n`;
+        txt += '\n🔔 TESTS DE NORMALIDAD (5 tests comparativos)\n───────────────────────────────────────────\n';
+        const allNormalityCols = new Set([
+            ...Object.keys(_edaResults.normalidad || {}),
+            ...Object.keys(_edaResults.normalidadShapiro || {}),
+            ...Object.keys(_edaResults.normalidadKS || {}),
+            ...Object.keys(_edaResults.normalidadAD || {}),
+            ...Object.keys(_edaResults.normalidadDP || {})
+        ]);
+        allNormalityCols.forEach(col => {
+            const jb = _edaResults.normalidad?.[col];
+            const sw = _edaResults.normalidadShapiro?.[col];
+            const ks = _edaResults.normalidadKS?.[col];
+            const ad = _edaResults.normalidadAD?.[col];
+            const dp = _edaResults.normalidadDP?.[col];
+            const pVal = (t) => t ? (t.valorP !== undefined ? t.valorP.toFixed(4) : (t.p !== undefined ? t.p.toFixed(4) : '—')) : 'n/a';
+            const status = (t) => t ? (t.esNormal ? '✓' : '✗') : '—';
+            txt += `  ${col}:\n`;
+            txt += `    Jarque-Bera:       p=${pVal(jb)} ${status(jb)}\n`;
+            txt += `    Shapiro-Wilk:      p=${pVal(sw)} ${status(sw)}\n`;
+            txt += `    Kolmogorov-Smirnov: p=${pVal(ks)} ${status(ks)}\n`;
+            txt += `    Anderson-Darling:  p=${pVal(ad)} ${status(ad)}\n`;
+            txt += `    D'Agostino-Pearson: p=${pVal(dp)} ${status(dp)}\n`;
         });
 
         txt += '\n🔴 OUTLIERS\n───────────────────────────────────────────\n';
