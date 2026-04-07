@@ -3743,7 +3743,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         if (hasParams) {
             const verifs = cols
                 .map(col => ParametrosManager.verificarColumna(
-                    StateManager.getImportedData(), col
+                    typeof getDataForModal === 'function' ? getDataForModal() : StateManager.getImportedData(), col
                 ))
                 .filter(v => v !== null);
 
