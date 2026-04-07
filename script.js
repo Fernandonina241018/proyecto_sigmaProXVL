@@ -584,6 +584,9 @@ function ejecutarEDA() {
         return;
     }
 
+    // Normalizar datos: si son objetos, convertir a arrays por índice
+    const normalizedData = normalizeDataForEDA(data);
+
     const container = document.getElementById('eda-container');
     if (!container) return;
 
@@ -597,7 +600,7 @@ function ejecutarEDA() {
     // Ejecutar con un pequeño delay para mostrar el loading
     setTimeout(() => {
         try {
-            const html = EDAManager.renderDashboard(data);
+            const html = EDAManager.renderDashboard(normalizedData);
             container.innerHTML = html;
             showToast('Análisis Exploratorio completado exitosamente', 'success');
         } catch (error) {
@@ -605,6 +608,25 @@ function ejecutarEDA() {
             showToast('Error al ejecutar el EDA: ' + error.message, 'error');
         }
     }, 300);
+}
+
+function normalizeDataForEDA(data) {
+    // Si los datos ya son arrays (formato importado), usarlos directamente
+    if (Array.isArray(data.data[0])) {
+        return data;
+    }
+
+    // Si son objetos (formato hoja de trabajo), convertir a arrays
+    const headers = data.headers;
+    const rows = data.data.map(obj => {
+        return headers.map(h => obj[h]);
+    });
+
+    return {
+        headers: headers,
+        data: rows,
+        rowCount: rows.length
+    };
 }
 
 function downloadSampleData() {
