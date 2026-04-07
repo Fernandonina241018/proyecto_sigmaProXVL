@@ -1611,7 +1611,7 @@ const SIDEBAR_SECTIONS = {
         options: [
             'T-Test (una muestra)', 'T-Test (dos muestras)', 'ANOVA One-Way',
             'ANOVA Two-Way', 'Chi-Cuadrado', 'Test de Normalidad',
-            'Test de Shapiro-Wilk'
+            'Test de Shapiro-Wilk', 'Test TOST (Equivalencia)'
         ]
     },
     correlacion: {

@@ -1,20 +1,89 @@
 // ========================================
 // MÓDULO DE ESTADÍSTICA DESCRIPTIVA
+// StatAnalyzer Pro v2.2 — REFACTORIZADO CON STATSUTILS
+//
+// REF-1: Funciones estadísticas básicas delegadas a StatsUtils.js
+// REF-2: Se mantienen pruebas de hipótesis, correlaciones avanzadas,
+//         regresiones y generación de reportes como lógica propia.
 // ========================================
 
 const EstadisticaDescriptiva = (() => {
     
     // ========================================
-    // UTILIDADES INTERNAS
+    // REF-1: Delegación a StatsUtils
+    // ========================================
+    
+    const Stats = StatsUtils;
+
+    // Aliases para mantener compatibilidad con la API pública existente
+    const calcularMedia = Stats.calcularMedia;
+    const calcularMediana = Stats.calcularMediana;
+    const calcularModa = Stats.calcularModa;
+    const calcularVarianza = Stats.calcularVarianza;
+    const calcularDesviacionEstandar = Stats.calcularDesviacionEstandar;
+    const calcularRango = Stats.calcularRango;
+    const calcularCoeficienteVariacion = Stats.calcularCoeficienteVariacion;
+    const calcularPercentil = Stats.calcularPercentil;
+    const calcularCuartiles = Stats.calcularCuartiles;
+    const calcularIQR = Stats.calcularIQR;
+    const calcularAsimetria = Stats.calcularAsimetria;
+    const calcularCurtosis = Stats.calcularCurtosis;
+    const calcularErrorEstandar = Stats.calcularErrorEstandar;
+    const calcularCovarianza = Stats.calcularCovarianza;
+    const detectarOutliersIQR = Stats.detectarOutliersIQR;
+    const detectarOutliersZScore = Stats.detectarOutliersZScore;
+    
+    /**
+     * Calcula intervalos de confianza usando distribución t
+     * Retorna IC al 95%, 90% y 99%
+     */
+    function calcularIntervalosConfianza(values) {
+        const n = values.length;
+        if (n < 2) return { ic90: null, ic95: null, ic99: null };
+        
+        const media = Stats.calcularMedia(values);
+        const se = Stats.calcularErrorEstandar(values);
+        
+        // Valores t críticos aproximados
+        const t_values = { 90: 1.645, 95: 1.96, 99: 2.576 };
+        
+        if (n < 30) {
+            const df = n - 1;
+            t_values[90] = df <= 5 ? 1.943 : df <= 10 ? 1.812 : df <= 20 ? 1.729 : 1.645;
+            t_values[95] = df <= 5 ? 2.571 : df <= 10 ? 2.228 : df <= 20 ? 2.086 : 1.96;
+            t_values[99] = df <= 5 ? 4.032 : df <= 10 ? 3.169 : df <= 20 ? 2.845 : 2.576;
+        }
+        
+        return {
+            media: media,
+            se: se,
+            ic90: { inferior: media - (t_values[90] * se), superior: media + (t_values[90] * se), margen: t_values[90] * se },
+            ic95: { inferior: media - (t_values[95] * se), superior: media + (t_values[95] * se), margen: t_values[95] * se },
+            ic99: { inferior: media - (t_values[99] * se), superior: media + (t_values[99] * se), margen: t_values[99] * se }
+        };
+    }
+    
+    // ========================================
+    // FUNCIONES PROPIAS NO DUPLICADAS
+    // ========================================
+    
+    /**
+     * Ordena un array de números (usada por Shapiro-Wilk y otras funciones avanzadas)
+     */
+    function sortNumbers(arr) {
+        return [...arr].sort((a, b) => a - b);
+    }
+    
+    // ========================================
+    // UTILIDADES INTERNAS PROPIAS
     // ========================================
     
     /**
      * Valida y extrae valores numéricos de una columna
+     * Versión con validación estricta (lanza error si no hay datos)
      */
     function getNumericValues(data, columnName) {
-        const values = data.data
-            .map(row => parseFloat(row[columnName]))
-            .filter(v => !isNaN(v) && isFinite(v));
+        const values = Stats.getNumericValues(data, columnName);
         
         if (values.length === 0) {
             throw new Error(`La columna "${columnName}" no contiene valores numéricos válidos`);
@@ -24,158 +93,18 @@ const EstadisticaDescriptiva = (() => {
     }
     
     /**
-     * Identifica columnas numéricas en los datos
+     * Identifica columnas numéricas (umbral 80%, específico de este módulo)
      */
     function getNumericColumns(data) {
-        const numericCols = [];
-        const indexColumns = ['#', 'A', 'Row', 'row', 'INDEX', 'index', 'row_index'];
-        
-        data.headers.forEach(header => {
-            if (indexColumns.includes(header)) return;
-            
-            const values = data.data.map(row => row[header]);
-            const numericCount = values.filter(v => !isNaN(parseFloat(v)) && isFinite(parseFloat(v))).length;
-            
-            if (numericCount / values.length > 0.8) {
-                numericCols.push(header);
-            }
+        return Stats.getNumericColumns(data, {
+            threshold: 0.8,
+            excludeColumns: ['#', 'A', 'Row', 'row', 'INDEX', 'index', 'row_index']
         });
-        
-        return numericCols;
-    }
-    
-    /**
-     * Ordena un array de números
-     */
-    function sortNumbers(arr) {
-        return [...arr].sort((a, b) => a - b);
     }
     
     // ========================================
-    // MEDIDAS DE TENDENCIA CENTRAL
+    // FUNCIONES PROPIAS NO DUPLICADAS
     // ========================================
-    
-    /**
-     * Calcula la media aritmética
-     */
-    function calcularMedia(values) {
-        if (values.length === 0) return 0;
-        const sum = values.reduce((acc, val) => acc + val, 0);
-        return sum / values.length;
-    }
-    
-    /**
-     * Calcula la mediana
-     */
-    function calcularMediana(values) {
-        if (values.length === 0) return 0;
-        
-        const sorted = sortNumbers(values);
-        const mid = Math.floor(sorted.length / 2);
-        
-        if (sorted.length % 2 === 0) {
-            return (sorted[mid - 1] + sorted[mid]) / 2;
-        } else {
-            return sorted[mid];
-        }
-    }
-    
-    /**
-     * Calcula la moda (puede retornar múltiples valores)
-     */
-    function calcularModa(values) {
-        if (values.length === 0) return [];
-        
-        const frequency = {};
-        let maxFreq = 0;
-        
-        values.forEach(val => {
-            const key = val.toString();
-            frequency[key] = (frequency[key] || 0) + 1;
-            if (frequency[key] > maxFreq) {
-                maxFreq = frequency[key];
-            }
-        });
-        
-        const modes = Object.keys(frequency)
-            .filter(key => frequency[key] === maxFreq)
-            .map(key => parseFloat(key));
-        
-        // Si todos los valores tienen la misma frecuencia, no hay moda
-        if (modes.length === values.length) {
-            return [];
-        }
-        
-        return modes;
-    }
-    
-    // ========================================
-    // MEDIDAS DE DISPERSIÓN
-    // ========================================
-    
-    /**
-     * Calcula la varianza
-     */
-    function calcularVarianza(values, esMuestral = true) {
-        if (values.length === 0) return 0;
-        
-        const mean = calcularMedia(values);
-        const squaredDiffs = values.map(val => Math.pow(val - mean, 2));
-        const sumSquaredDiffs = squaredDiffs.reduce((acc, val) => acc + val, 0);
-        
-        const divisor = esMuestral ? values.length - 1 : values.length;
-        return sumSquaredDiffs / divisor;
-    }
-    
-    /**
-     * Calcula la desviación estándar
-     */
-    function calcularDesviacionEstandar(values, esMuestral = true) {
-        return Math.sqrt(calcularVarianza(values, esMuestral));
-    }
-    
-    /**
-     * Calcula el rango
-     */
-    function calcularRango(values) {
-        if (values.length === 0) return 0;
-        return Math.max(...values) - Math.min(...values);
-    }
-    
-    /**
-     * Calcula el coeficiente de variación
-     */
-    function calcularCoeficienteVariacion(values) {
-        const mean = calcularMedia(values);
-        if (mean === 0) return 0;
-        
-        const sd = calcularDesviacionEstandar(values);
-        return (sd / mean) * 100;
-    }
-    
-    /**
-     * Calcula la covarianza entre dos variables
-     * Positiva: X e Y tienden a moverse juntas
-     * Negativa: X e Y tienden a moverse en direcciones opuestas
-     */
-    function calcularCovarianza(x, y) {
-        if (x.length !== y.length) {
-            throw new Error('Los arrays deben tener la misma longitud');
-        }
-        if (x.length < 2) {
-            throw new Error('Se necesitan al menos 2 pares de datos');
-        }
-        
-        const meanX = calcularMedia(x);
-        const meanY = calcularMedia(y);
-        const n = x.length;
-        
-        const sumProducts = x.reduce((acc, xi, i) => {
-            return acc + (xi - meanX) * (y[i] - meanY);
-        }, 0);
-        
-        return sumProducts / (n - 1);
-    }
     
     /**
      * Calcula el RMSE (Root Mean Square Error)
@@ -241,230 +170,6 @@ const EstadisticaDescriptiva = (() => {
         if (ssTot === 0) return 0;
         
         return 1 - (ssRes / ssTot);
-    }
-    
-    // ========================================
-    // PERCENTILES Y CUARTILES
-    // ========================================
-    
-    /**
-     * Calcula un percentil específico
-     */
-    function calcularPercentil(values, percentil) {
-        if (values.length === 0) return 0;
-        if (percentil < 0 || percentil > 100) {
-            throw new Error('El percentil debe estar entre 0 y 100');
-        }
-        
-        const sorted = sortNumbers(values);
-        const index = (percentil / 100) * (sorted.length - 1);
-        
-        if (Number.isInteger(index)) {
-            return sorted[index];
-        } else {
-            const lower = Math.floor(index);
-            const upper = Math.ceil(index);
-            const weight = index - lower;
-            return sorted[lower] * (1 - weight) + sorted[upper] * weight;
-        }
-    }
-    
-    /**
-     * Calcula cuartiles
-     */
-    function calcularCuartiles(values) {
-        return {
-            Q1: calcularPercentil(values, 25),
-            Q2: calcularPercentil(values, 50), // Mediana
-            Q3: calcularPercentil(values, 75)
-        };
-    }
-    
-    /**
-     * Calcula el rango intercuartílico (IQR)
-     */
-    function calcularIQR(values) {
-        const quartiles = calcularCuartiles(values);
-        return quartiles.Q3 - quartiles.Q1;
-    }
-
-    // ========================================
-    // MEDIDAS DE FORMA (ASIMETRÍA Y CURTOSIS)
-    // ========================================
-
-    /**
-     * Calcula la asimetría (Skewness)
-     * Mide si la distribución es simétrica
-     * Positiva: cola derecha más larga, Negativa: cola izquierda más larga
-     */
-    function calcularAsimetria(values, esMuestral = true) {
-        if (values.length < 3) return 0;
-        
-        const media = calcularMedia(values);
-        const n = values.length;
-        const desvEst = calcularDesviacionEstandar(values, esMuestral);
-        
-        if (desvEst === 0) return 0;
-        
-        const sumCubos = values.reduce((acc, val) => {
-            const diff = val - media;
-            return acc + Math.pow(diff, 3);
-        }, 0);
-        
-        if (esMuestral && n > 2) {
-            // Asimetría muestral (Fisher-Pearson) con corrección
-            const factor = (n * Math.pow(desvEst, 3));
-            return (sumCubos / factor) * (n / Math.sqrt(n - 1)) / (n - 2);
-        }
-        
-        return sumCubos / (n * Math.pow(desvEst, 3));
-    }
-
-    /**
-     * Calcula la curtosis (Kurtosis)
-     * Mide el "apuntamiento" de la distribución
-     * Positiva: más picos (leptocúrtica), Negativa: más plana (platicúrtica)
-     */
-    function calcularCurtosis(values, esMuestral = true) {
-        if (values.length < 4) return 0;
-        
-        const media = calcularMedia(values);
-        const n = values.length;
-        const desvEst = calcularDesviacionEstandar(values, esMuestral);
-        
-        if (desvEst === 0) return 0;
-        
-        const sumCuartas = values.reduce((acc, val) => {
-            const diff = val - media;
-            return acc + Math.pow(diff, 4);
-        }, 0);
-        
-        if (esMuestral && n > 3) {
-            // Curtosis muestral (exceso de curtosis, resta 3 para comparar con normal)
-            const factor = n * Math.pow(desvEst, 4);
-            const curtosis = (sumCuartas / factor) - 3;
-            return curtosis;
-        }
-        
-        return (sumCuartas / (n * Math.pow(desvEst, 4))) - 3;
-    }
-
-    // ========================================
-    // ERRORES Y INTERVALOS DE CONFIANZA
-    // ========================================
-
-    /**
-     * Calcula el error estándar
-     * SE = desviación estándar / sqrt(n)
-     */
-    function calcularErrorEstandar(values) {
-        if (values.length < 2) return 0;
-        const desvEst = calcularDesviacionEstandar(values, true);
-        return desvEst / Math.sqrt(values.length);
-    }
-
-    /**
-     * Calcula intervalos de confianza usando distribución t
-     * Retorna IC al 95%, 90% y 99%
-     */
-    function calcularIntervalosConfianza(values) {
-        const n = values.length;
-        if (n < 2) return { ic90: null, ic95: null, ic99: null };
-        
-        const media = calcularMedia(values);
-        const se = calcularErrorEstandar(values);
-        
-        // Valores t críticos aproximados (para muestras pequeñas-medianas)
-        // En producción, usar una tabla t-student completa
-        const t_values = {
-            90: 1.645,  // z-score para 90%
-            95: 1.96,   // z-score para 95%
-            99: 2.576   // z-score para 99%
-        };
-        
-        // Para muestras pequeñas (n < 30), usar aproximación de t-student
-        if (n < 30) {
-            // Valores t aproximados para diferentes grados de libertad
-            const df = n - 1;
-            t_values[90] = df <= 5 ? 1.943 : df <= 10 ? 1.812 : df <= 20 ? 1.729 : 1.645;
-            t_values[95] = df <= 5 ? 2.571 : df <= 10 ? 2.228 : df <= 20 ? 2.086 : 1.96;
-            t_values[99] = df <= 5 ? 4.032 : df <= 10 ? 3.169 : df <= 20 ? 2.845 : 2.576;
-        }
-        
-        return {
-            media: media,
-            se: se,
-            ic90: {
-                inferior: media - (t_values[90] * se),
-                superior: media + (t_values[90] * se),
-                margen: t_values[90] * se
-            },
-            ic95: {
-                inferior: media - (t_values[95] * se),
-                superior: media + (t_values[95] * se),
-                margen: t_values[95] * se
-            },
-            ic99: {
-                inferior: media - (t_values[99] * se),
-                superior: media + (t_values[99] * se),
-                margen: t_values[99] * se
-            }
-        };
-    }
-
-    // ========================================
-    // DETECCIÓN DE OUTLIERS
-    // ========================================
-
-    /**
-     * Detecta outliers usando el método IQR
-     * Outliers son valores fuera de [Q1 - 1.5*IQR, Q3 + 1.5*IQR]
-     */
-    function detectarOutliersIQR(values) {
-        const quartiles = calcularCuartiles(values);
-        const iqr = calcularIQR(values);
-        
-        const limiteInferior = quartiles.Q1 - (1.5 * iqr);
-        const limiteSuperior = quartiles.Q3 + (1.5 * iqr);
-        
-        const outliers = values.filter(v => v < limiteInferior || v > limiteSuperior);
-        
-        return {
-            outliers: outliers,
-            cantidad: outliers.length,
-            porcentaje: (outliers.length / values.length) * 100,
-            limiteInferior: limiteInferior,
-            limiteSuperior: limiteSuperior,
-            percentajeOutliers: ((outliers.length / values.length) * 100).toFixed(2)
-        };
-    }
-
-    /**
-     * Detecta outliers usando el método Z-score
-     * Outliers son valores con |z-score| > 3 (o > 2.5 para más sensibilidad)
-     */
-    function detectarOutliersZScore(values, umbral = 3) {
-        const media = calcularMedia(values);
-        const desvEst = calcularDesviacionEstandar(values, true);
-        
-        if (desvEst === 0) return { outliers: [], cantidad: 0 };
-        
-        const zscores = values.map(v => ({
-            valor: v,
-            zscore: Math.abs((v - media) / desvEst)
-        }));
-        
-        const outliers = zscores
-            .filter(item => item.zscore > umbral)
-            .map(item => item.valor);
-        
-        return {
-            outliers: outliers,
-            cantidad: outliers.length,
-            porcentaje: (outliers.length / values.length) * 100,
-            umbralZScore: umbral,
-            percentajeOutliers: ((outliers.length / values.length) * 100).toFixed(2)
-        };
     }
     
     // ========================================
@@ -3871,6 +3576,9 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         calcularChiCuadrado,
         calcularTestNormalidad,
         calcularShapiroWilk,
+        // Funciones individuales - Correlación
+        calcularCorrelacionPearson,
+        calcularCorrelacionSpearman,
         calcularKendallTau,
         
         // Funciones de análisis

@@ -1,30 +1,25 @@
 /**
  * EDAManager.js - Exploratory Data Analysis Manager
- * StatAnalyzer Pro v2.1 — FIXED & OPTIMIZED
+ * StatAnalyzer Pro v2.2 — REFACTORIZADO CON STATSUTILS
  *
- * FIXES APLICADOS:
- *  FIX-1  getNumericColumns devolvía columnas incorrectas (índice del array
- *          filtrado vs índice del array original).
- *  FIX-2  missingCount sobrecontabilizaba columnas de texto legítimas al
- *          tratar cualquier valor no numérico como faltante.
- *  FIX-3  XSS en nombres de columnas dentro de innerHTML (recomendaciones,
- *          tooltip de correlaciones fuertes).
- *  FIX-4  ejecutarEDA se llamaba dos veces: una desde script.js y otra
- *          dentro de renderDashboard. Ahora renderDashboard reutiliza caché.
- *  FIX-5  Correlación no alineaba pares por fila; si dos columnas tenían
- *          nulos en posiciones distintas el resultado era incorrecto.
- *          Se añade getAlignedPairs() que filtra las dos columnas juntas.
- *  FIX-6  testNormalidadRapido calculaba Jarque-Bera pero se presentaba
- *          en el UI como "Shapiro-Wilk / W". Renombrado a "JB" con etiqueta
- *          "Test Jarque-Bera (aproximación)".
- *  FIX-7  getNumericValues se llamaba 4 veces por columna (descriptivas,
- *          normalidad, outliers, correlaciones). Se cachean al inicio de
- *          ejecutarEDA y se reutilizan en todo el análisis.
- *  FIX-8  toggleSection no actualizaba el ícono ▼/▶ ni controlaba
- *          max-height por JS, dependiendo solo de CSS que podía fallar.
- *  FIX-9  drawHeatmap usaba setTimeout(100ms) frágil. Sustituido por
- *          MutationObserver que dibuja exactamente cuando el canvas
- *          aparece en el DOM.
+ * CAMBIOS PRINCIPALES (v2.2):
+ *  REF-1: Eliminada duplicación de funciones estadísticas. Ahora delega
+ *          en StatsUtils.js (módulo centralizado compartido).
+ *  REF-2: getNumericColumns unificado con StatsUtils.getNumericColumns()
+ *          manteniendo el umbral 30% específico de EDA.
+ *  REF-3: Outliers usan StatsUtils con formato detallado consistente.
+ *  REF-4: Correlación usa StatsUtils.calcularCorrelacionPearson().
+ *
+ * FIXES PREVIOS MANTENIDOS (v2.1):
+ *  FIX-1  getNumericColumns corregido (índice original vs filtrado).
+ *  FIX-2  missingCount solo cuenta celdas genuinamente vacías.
+ *  FIX-3  XSS prevenido con escHtml() en nombres de columnas.
+ *  FIX-4  renderDashboard reutiliza caché, no ejecuta EDA dos veces.
+ *  FIX-5  Correlación con pares alineados por fila (getAlignedPairs).
+ *  FIX-6  Test de normalidad renombrado a Jarque-Bera (no Shapiro-Wilk).
+ *  FIX-7  ValuesCache construido una vez, reutilizado en todo el análisis.
+ *  FIX-8  toggleSection actualiza ícono + max-height por JS.
+ *  FIX-9  drawHeatmap usa MutationObserver en lugar de setTimeout.
  */
 
 const EDAManager = (function () {
@@ -34,101 +29,49 @@ const EDAManager = (function () {
     let _edaResults = null;  // caché del último análisis ejecutado
 
     // ========================================
-    // FIX-1 / FIX-7 : UTILIDADES BASE
+    // REF-1 : DELEGACIÓN A STATSUTILS
     // ========================================
 
     /**
-     * FIX-1: la versión anterior hacía .filter().map((_, idx) => headers[idx])
-     * donde idx era el índice del array YA filtrado, no del original,
-     * devolviendo los primeros N headers en lugar de los correctos.
-     * Ahora .filter() devuelve directamente los strings de header.
+     * Todas las funciones estadísticas genéricas se delegan a StatsUtils.
+     * Esto elimina duplicación con EstadisticaDescriptiva.js y centraliza
+     * la lógica estadística en un único módulo mantenible y testeable.
+     *
+     * Funciones delegadas:
+     * - calcularMedia, calcularMediana, calcularDesviacionEstandar
+     * - calcularPercentil, calcularAsimetria, calcularCurtosis
+     * - calcularCorrelacionPearson
+     * - detectarOutliersIQR, detectarOutliersZScore
+     */
+
+    const Stats = StatsUtils;
+
+    // ========================================
+    // FIX-1 / REF-2 : UTILIDADES BASE
+    // ========================================
+
+    /**
+     * FIX-1 / REF-2: Usa StatsUtils.getNumericColumns con umbral 30%
+     * específico para EDA (tolera datasets pequeños con algún nulo).
+     * El umbral por defecto de StatsUtils es 80%, por eso se pasa options.
      */
     function getNumericColumns(data) {
-        if (!data || !data.headers || !data.data) return [];
-        return data.headers.filter((header, idx) => {
-            const values = data.data.map(row => {
-                const val = Array.isArray(row) ? row[idx] : row[header];
-                return parseFloat(val);
-            });
-            const valid = values.filter(v => !isNaN(v) && isFinite(v));
-            // Umbral 30 %: tolera datasets pequeños con algún nulo
-            return valid.length > 0 && valid.length >= data.data.length * 0.3;
+        return Stats.getNumericColumns(data, {
+            threshold: 0.3,
+            excludeColumns: ['#', 'A', 'Row', 'row', 'INDEX', 'index', 'row_index']
         });
-        // .filter ya devuelve los strings; .map adicional era el bug.
     }
 
     /**
      * FIX-7: caché de valores numéricos por columna.
-     * En la versión anterior getNumericValues se llamaba hasta 4 veces
-     * por columna (descriptivas + normalidad + outliers + correlaciones).
-     * Ahora se construye una vez al inicio de ejecutarEDA.
-     *
-     * @param {object} data        - { headers, data }
-     * @param {string[]} numCols   - columnas numéricas detectadas
-     * @returns {Object.<string, number[]>}
+     * Usa StatsUtils.getNumericValues internamente.
      */
     function buildValuesCache(data, numCols) {
         const cache = {};
         numCols.forEach(col => {
-            const idx = data.headers.indexOf(col);
-            cache[col] = data.data
-                .map(row => parseFloat(Array.isArray(row) ? row[idx] : row[col]))
-                .filter(v => !isNaN(v) && isFinite(v));
+            cache[col] = Stats.getNumericValues(data, col);
         });
         return cache;
-    }
-
-    // ========================================
-    // ESTADÍSTICAS DESCRIPTIVAS
-    // ========================================
-
-    function calcularMedia(values) {
-        return values.reduce((a, b) => a + b, 0) / values.length;
-    }
-
-    function calcularDesviacionEstandar(values) {
-        if (values.length < 2) return 0;
-        const mean = calcularMedia(values);
-        const sqDiffs = values.map(v => Math.pow(v - mean, 2));
-        return Math.sqrt(sqDiffs.reduce((a, b) => a + b, 0) / (values.length - 1));
-    }
-
-    function calcularMediana(values) {
-        const sorted = [...values].sort((a, b) => a - b);
-        const mid = Math.floor(sorted.length / 2);
-        return sorted.length % 2 !== 0
-            ? sorted[mid]
-            : (sorted[mid - 1] + sorted[mid]) / 2;
-    }
-
-    function calcularPercentil(values, p) {
-        const sorted = [...values].sort((a, b) => a - b);
-        const index  = (p / 100) * (sorted.length - 1);
-        const lower  = Math.floor(index);
-        const upper  = Math.ceil(index);
-        if (lower === upper) return sorted[lower];
-        return sorted[lower] * (1 - (index - lower)) + sorted[upper] * (index - lower);
-    }
-
-    function calcularAsimetria(values) {
-        const n    = values.length;
-        if (n < 3) return 0;
-        const mean = calcularMedia(values);
-        const std  = calcularDesviacionEstandar(values);
-        if (std === 0) return 0;
-        const sum  = values.reduce((acc, v) => acc + Math.pow((v - mean) / std, 3), 0);
-        return (n / ((n - 1) * (n - 2))) * sum;
-    }
-
-    function calcularCurtosis(values) {
-        const n    = values.length;
-        if (n < 4) return 0;
-        const mean = calcularMedia(values);
-        const std  = calcularDesviacionEstandar(values);
-        if (std === 0) return 0;
-        const sum  = values.reduce((acc, v) => acc + Math.pow((v - mean) / std, 4), 0);
-        const kurt = ((n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3))) * sum;
-        return kurt - (3 * Math.pow(n - 1, 2)) / ((n - 2) * (n - 3));
     }
 
     // ========================================
@@ -136,14 +79,9 @@ const EDAManager = (function () {
     // ========================================
 
     /**
-     * FIX-5: la versión anterior hacía slice(0, minLen) sobre los arrays
-     * de cada columna por separado. Si columna A tenía nulos en filas 2 y 5,
-     * y columna B en filas 7 y 9, los arrays resultantes de distintas
-     * longitudes se truncaban al mínimo pero NO correspondían a las
-     * mismas filas, produciendo correlaciones incorrectas.
-     *
-     * Ahora se filtran las dos columnas juntas: solo se incluyen filas
-     * donde AMBAS tienen valor numérico válido.
+     * FIX-5: filtra las dos columnas juntas para que solo se incluyan
+     * filas donde AMBAS tienen valor numérico válido.
+     * Usa StatsUtils.calcularCorrelacionPearson para el cálculo.
      */
     function getAlignedPairs(data, col1, col2) {
         const idx1 = data.headers.indexOf(col1);
@@ -160,42 +98,26 @@ const EDAManager = (function () {
         return { x, y };
     }
 
-    function calcularCorrelacionPearson(x, y) {
-        const n = x.length;
-        if (n < 3) return 0;
-        const meanX = x.reduce((a, b) => a + b, 0) / n;
-        const meanY = y.reduce((a, b) => a + b, 0) / n;
-        let num = 0, denX = 0, denY = 0;
-        for (let i = 0; i < n; i++) {
-            const dx = x[i] - meanX;
-            const dy = y[i] - meanY;
-            num  += dx * dy;
-            denX += dx * dx;
-            denY += dy * dy;
-        }
-        const den = Math.sqrt(denX * denY);
-        return den === 0 ? 0 : num / den;
-    }
-
     // ========================================
     // FIX-6 : TEST DE NORMALIDAD (JARQUE-BERA)
     // ========================================
 
     /**
-     * FIX-6: la función anterior calculaba Jarque-Bera pero presentaba
-     * el estadístico como "W" (Shapiro-Wilk), lo cual es estadísticamente
-     * incorrecto. Renombrado y documentado honestamente como Jarque-Bera.
-     * El UI ahora muestra "JB" y "Test Jarque-Bera (aprox.)".
+     * FIX-6: calcula Jarque-Bera usando StatsUtils para asimetría y curtosis.
+     * Presentado honestamente como "JB" (no como W de Shapiro-Wilk).
      */
     function testNormalidadJB(values) {
         const n = values.length;
         if (n < 3) return { JB: 0, p: 1, esNormal: true, skew: 0, kurt: 0 };
-        const skew = calcularAsimetria(values);
-        const kurt = calcularCurtosis(values);
+
+        const skew = Stats.calcularAsimetria(values);
+        const kurt = Stats.calcularCurtosis(values);
+
         // Estadístico Jarque-Bera: JB = (n/6) * (S² + K²/4)
-        const jb   = (n / 6) * (Math.pow(skew, 2) + Math.pow(kurt, 2) / 4);
+        const jb = (n / 6) * (Math.pow(skew, 2) + Math.pow(kurt, 2) / 4);
         // Aproximación p-value con distribución chi-cuadrado(2 grados)
-        const p    = Math.exp(-jb / 2);
+        const p = Math.exp(-jb / 2);
+
         return {
             JB:       parseFloat(jb.toFixed(4)),
             p:        parseFloat(Math.min(1, Math.max(0, p)).toFixed(4)),
@@ -206,48 +128,15 @@ const EDAManager = (function () {
     }
 
     // ========================================
-    // DETECCIÓN DE OUTLIERS
-    // ========================================
-
-    function detectarOutliersIQR(values) {
-        const q1    = calcularPercentil(values, 25);
-        const q3    = calcularPercentil(values, 75);
-        const iqr   = q3 - q1;
-        const lower = q1 - 1.5 * iqr;
-        const upper = q3 + 1.5 * iqr;
-        return values.reduce((acc, v, i) => {
-            if (v < lower || v > upper) acc.push({ index: i, value: v, method: 'IQR' });
-            return acc;
-        }, []);
-    }
-
-    function detectarOutliersZScore(values) {
-        const mean = calcularMedia(values);
-        const std  = calcularDesviacionEstandar(values);
-        if (std === 0) return [];
-        return values.reduce((acc, v, i) => {
-            const z = Math.abs((v - mean) / std);
-            if (z > 3) acc.push({ index: i, value: v, zScore: parseFloat(z.toFixed(2)), method: 'Z-Score' });
-            return acc;
-        }, []);
-    }
-
-    // ========================================
     // FIX-2 / FIX-3 / FIX-7 : ANÁLISIS PRINCIPAL
     // ========================================
 
-    /**
-     * FIX-2: missingCount ahora solo cuenta celdas genuinamente vacías
-     *        (null / undefined / ''), no columnas de texto legítimas.
-     * FIX-3: nombres de columnas se escapan antes de insertarse en HTML.
-     * FIX-7: valuesCache construido una vez, reutilizado en todo el análisis.
-     */
     function ejecutarEDA(data) {
         if (!data || !data.headers || !data.data || data.data.length === 0) {
             return { error: 'No hay datos disponibles para analizar.' };
         }
 
-        const numericCols     = getNumericColumns(data);   // FIX-1
+        const numericCols     = getNumericColumns(data);
         if (numericCols.length === 0) {
             return { error: 'No se encontraron columnas numéricas con suficientes datos válidos. Verifique que las columnas contengan números.' };
         }
@@ -268,42 +157,43 @@ const EDAManager = (function () {
             });
         });
 
-        // ── Estadísticas descriptivas ──────────────────────────────────────
+        // ── Estadísticas descriptivas (usando StatsUtils) ──────────────────
         const descriptivas = {};
         numericCols.forEach(col => {
-            const values = valCache[col];           // FIX-7
+            const values = valCache[col];
             if (!values.length) return;
             descriptivas[col] = {
                 n:        values.length,
-                media:    parseFloat(calcularMedia(values).toFixed(4)),
-                mediana:  parseFloat(calcularMediana(values).toFixed(4)),
-                de:       parseFloat(calcularDesviacionEstandar(values).toFixed(4)),
+                media:    parseFloat(Stats.calcularMedia(values).toFixed(4)),
+                mediana:  parseFloat(Stats.calcularMediana(values).toFixed(4)),
+                de:       parseFloat(Stats.calcularDesviacionEstandar(values).toFixed(4)),
                 min:      parseFloat(Math.min(...values).toFixed(4)),
                 max:      parseFloat(Math.max(...values).toFixed(4)),
-                q1:       parseFloat(calcularPercentil(values, 25).toFixed(4)),
-                q3:       parseFloat(calcularPercentil(values, 75).toFixed(4)),
-                iqr:      parseFloat((calcularPercentil(values, 75) - calcularPercentil(values, 25)).toFixed(4)),
-                asimetria:parseFloat(calcularAsimetria(values).toFixed(4)),
-                curtosis: parseFloat(calcularCurtosis(values).toFixed(4))
+                q1:       parseFloat(Stats.calcularPercentil(values, 25).toFixed(4)),
+                q3:       parseFloat(Stats.calcularPercentil(values, 75).toFixed(4)),
+                iqr:      parseFloat((Stats.calcularPercentil(values, 75) - Stats.calcularPercentil(values, 25)).toFixed(4)),
+                asimetria:parseFloat(Stats.calcularAsimetria(values).toFixed(4)),
+                curtosis: parseFloat(Stats.calcularCurtosis(values).toFixed(4))
             };
         });
 
         // ── Tests de normalidad (Jarque-Bera) ─────────────────────────────
         const normalidad = {};
         numericCols.forEach(col => {
-            const values = valCache[col];           // FIX-7
+            const values = valCache[col];
             if (values.length < 3) return;
-            normalidad[col] = testNormalidadJB(values); // FIX-6
+            normalidad[col] = testNormalidadJB(values);
         });
 
-        // ── Detección de outliers ──────────────────────────────────────────
+        // ── Detección de outliers (usando StatsUtils) ──────────────────────
         const outliers    = {};
         let totalOutliers = 0;
         numericCols.forEach(col => {
-            const values    = valCache[col];         // FIX-7
+            const values = valCache[col];
             if (!values.length) return;
-            const iqrOuts   = detectarOutliersIQR(values);
-            const zOuts     = detectarOutliersZScore(values)
+            // REF-3: StatsUtils retorna array de objetos {index, value, method}
+            const iqrOuts   = Stats.detectarOutliersIQR(values);
+            const zOuts     = Stats.detectarOutliersZScore(values)
                 .filter(z => !iqrOuts.some(i => i.index === z.index));
             outliers[col]   = [...iqrOuts, ...zOuts];
             totalOutliers  += outliers[col].length;
@@ -319,10 +209,11 @@ const EDAManager = (function () {
                 if (i === j) {
                     corrMatrix[i][j] = 1;
                 } else if (j < i) {
-                    corrMatrix[i][j] = corrMatrix[j][i]; // simetría
+                    corrMatrix[i][j] = corrMatrix[j][i];
                 } else {
-                    const { x, y } = getAlignedPairs(data, numericCols[i], numericCols[j]); // FIX-5
-                    corrMatrix[i][j] = parseFloat(calcularCorrelacionPearson(x, y).toFixed(4));
+                    const { x, y } = getAlignedPairs(data, numericCols[i], numericCols[j]);
+                    // REF-4: delegar a StatsUtils
+                    corrMatrix[i][j] = parseFloat(Stats.calcularCorrelacionPearson(x, y).toFixed(4));
                 }
             }
         }
@@ -374,12 +265,6 @@ const EDAManager = (function () {
     // FIX-3 : RECOMENDACIONES (nombres escapados)
     // ========================================
 
-    /**
-     * FIX-3: los strings de recomendaciones incluían nombres de columna
-     * directamente dentro de <strong> sin escapar. Un nombre como
-     * "<script>alert(1)</script>" generaría XSS.
-     * Ahora todos los nombres de columna pasan por escHtml().
-     */
     function generarRecomendaciones({ numericCols, normalidad, outliers, correlacionesFuertes, descriptivas, missingCount, totalRows }) {
         const recs = [];
 
@@ -393,7 +278,6 @@ const EDAManager = (function () {
             recs.push({
                 tipo:  'success',
                 icono: '✅',
-                // FIX-3: escHtml en cada nombre
                 texto: `<strong>${colsNormales.map(escHtml).join(', ')}</strong> siguen distribución normal (p > 0.05). Puede usar pruebas paramétricas: T-Test, ANOVA, Pearson.`
             });
         }
@@ -408,7 +292,7 @@ const EDAManager = (function () {
 
         const colsConOutliers = Object.entries(outliers)
             .filter(([, outs]) => outs.length > 0)
-            .map(([col, outs]) => `${escHtml(col)} (${outs.length})`); // FIX-3
+            .map(([col, outs]) => `${escHtml(col)} (${outs.length})`);
 
         if (colsConOutliers.length > 0) {
             recs.push({
@@ -420,7 +304,7 @@ const EDAManager = (function () {
 
         if (correlacionesFuertes.length > 0) {
             const details = correlacionesFuertes.map(c =>
-                `${escHtml(c.col1)} ↔ ${escHtml(c.col2)} (r=${c.r.toFixed(3)})` // FIX-3
+                `${escHtml(c.col1)} ↔ ${escHtml(c.col2)} (r=${c.r.toFixed(3)})`
             ).join('; ');
             recs.push({
                 tipo:  'info',
@@ -461,15 +345,8 @@ const EDAManager = (function () {
     // FIX-4 : RENDER DASHBOARD (sin doble ejecución)
     // ========================================
 
-    /**
-     * FIX-4: la versión anterior llamaba ejecutarEDA internamente, lo que
-     * provocaba que se ejecutara dos veces (una desde script.js y otra aquí).
-     * Ahora renderDashboard reutiliza _edaResults si ya existe, y solo
-     * llama ejecutarEDA si el caché está vacío.
-     */
     function renderDashboard(data) {
-        // Reutilizar caché si ya se ejecutó para estos mismos datos
-        const results = _edaResults || ejecutarEDA(data); // FIX-4
+        const results = _edaResults || ejecutarEDA(data);
 
         if (results.error) {
             return `<div class="eda-loading">
@@ -530,12 +407,12 @@ const EDAManager = (function () {
 
         // ── Secciones ────────────────────────────────────────────────────────
         html += renderDescriptivas(results);
-        html += renderNormalidad(results);   // FIX-6 etiqueta JB
+        html += renderNormalidad(results);
         html += renderOutliers(results);
-        html += renderCorrelacion(results);  // FIX-9 heatmap con observer
+        html += renderCorrelacion(results);
         html += renderRecomendaciones(results);
 
-        html += '</div>'; // cierra .eda-dashboard
+        html += '</div>';
         return html;
     }
 
@@ -567,14 +444,10 @@ const EDAManager = (function () {
             </tr>`;
         });
 
-        html += `</tbody></table></div></div></div>`; // section-content + eda-section
+        html += `</tbody></table></div></div></div>`;
         return html;
     }
 
-    /**
-     * FIX-6: muestra "JB" en lugar de "W" y etiqueta
-     * "Test Jarque-Bera (aprox.)" en lugar de "Shapiro-Wilk".
-     */
     function renderNormalidad(results) {
         const cols = Object.keys(results.normalidad);
         if (!cols.length) return '';
@@ -650,17 +523,12 @@ const EDAManager = (function () {
         return html;
     }
 
-    /**
-     * FIX-9: drawHeatmap ya no usa setTimeout.
-     * Se lanza un MutationObserver que dibuja cuando el canvas
-     * aparece en el DOM, sea inmediatamente o tras una animación.
-     */
     function renderCorrelacion(results) {
         const cols   = results.correlaciones.columnas;
         const matrix = results.correlaciones.matrix;
         if (cols.length < 2) return '';
 
-        const canvasId = `eda-heatmap-${Date.now()}`; // id único por render
+        const canvasId = `eda-heatmap-${Date.now()}`;
 
         let html = buildSectionHeader('🔗', 'Matriz de Correlación (Pearson)', `${cols.length}×${cols.length}`);
         html += `<div class="eda-section-content">
@@ -700,7 +568,6 @@ const EDAManager = (function () {
                  <p style="font-size:0.72rem;color:#999;margin-top:8px;">* |r| ≥ 0.4 moderada &nbsp;|&nbsp; ** |r| ≥ 0.7 fuerte</p>
                  </div></div>`;
 
-        // FIX-9: observer en lugar de setTimeout
         _scheduleHeatmap(canvasId, cols, matrix);
 
         return html;
@@ -726,16 +593,9 @@ const EDAManager = (function () {
     }
 
     // ========================================
-    // FIX-8 : TOGGLE SECTION (ícono + max-height por JS)
+    // FIX-8 : TOGGLE SECTION
     // ========================================
 
-    /**
-     * FIX-8: la versión anterior solo añadía/quitaba la clase .collapsed
-     * en el padre y dependía exclusivamente de CSS (max-height: 0).
-     * En navegadores con transiciones deshabilitadas o contenido que
-     * no tenía max-height inicial definido, el contenido no colapsaba.
-     * Ahora se controla max-height por JS y se actualiza el ícono.
-     */
     function toggleSection(headerEl) {
         const section = headerEl.closest('.eda-section');
         if (!section) return;
@@ -757,20 +617,13 @@ const EDAManager = (function () {
     // FIX-9 : HEATMAP CON MUTATIONOBSERVER
     // ========================================
 
-    /**
-     * FIX-9: reemplaza el setTimeout(100ms) frágil por un MutationObserver
-     * que detecta exactamente cuándo el canvas aparece en el DOM y dibuja.
-     * Si el canvas ya existe (render síncrono), dibuja inmediatamente.
-     */
     function _scheduleHeatmap(canvasId, cols, matrix) {
-        // Intento inmediato (render síncrono)
         const existing = document.getElementById(canvasId);
         if (existing) {
             drawHeatmap(existing, cols, matrix);
             return;
         }
 
-        // Observar inserción asíncrona
         const observer = new MutationObserver(() => {
             const canvas = document.getElementById(canvasId);
             if (canvas) {
@@ -779,11 +632,8 @@ const EDAManager = (function () {
             }
         });
 
-        // Observar el contenedor EDA o document.body como fallback
         const root = document.getElementById('eda-container') || document.body;
         observer.observe(root, { childList: true, subtree: true });
-
-        // Safety timeout: desconectar si el canvas nunca apareció (tab oculta, etc.)
         setTimeout(() => observer.disconnect(), 5000);
     }
 
@@ -800,7 +650,6 @@ const EDAManager = (function () {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // ── Celdas ──────────────────────────────────────────────────────────
         for (let i = 0; i < n; i++) {
             for (let j = 0; j < n; j++) {
                 const x = labelW + j * cellSize;
@@ -822,7 +671,6 @@ const EDAManager = (function () {
             }
         }
 
-        // ── Labels columnas (arriba) ─────────────────────────────────────────
         ctx.fillStyle    = '#1a202c';
         ctx.font         = `bold 10px 'Segoe UI', sans-serif`;
         ctx.textAlign    = 'left';
@@ -835,15 +683,10 @@ const EDAManager = (function () {
             ctx.restore();
         }
 
-        // ── Labels filas (izquierda) ─────────────────────────────────────────
         ctx.textAlign    = 'right';
         ctx.textBaseline = 'middle';
         for (let i = 0; i < n; i++) {
-            ctx.fillText(
-                _truncate(cols[i], 12),
-                labelW - 6,
-                labelH + i * cellSize + cellSize / 2
-            );
+            ctx.fillText(_truncate(cols[i], 12), labelW - 6, labelH + i * cellSize + cellSize / 2);
         }
     }
 
@@ -864,14 +707,12 @@ const EDAManager = (function () {
     // UTILIDADES INTERNAS
     // ========================================
 
-    /** Escapa HTML — independiente de la función global escapeHtml() */
     function escHtml(str) {
         const d = document.createElement('div');
         d.textContent = String(str);
         return d.innerHTML;
     }
 
-    /** Genera el header colapsable de una sección */
     function buildSectionHeader(icon, title, badge) {
         return `
         <div class="eda-section">
@@ -881,7 +722,6 @@ const EDAManager = (function () {
                 <span class="eda-section-badge">${badge}</span>
                 <span class="eda-section-toggle">▼</span>
             </div>`;
-        // La sección se cierra en cada renderXxx() con </div>
     }
 
     // ========================================
@@ -959,12 +799,11 @@ const EDAManager = (function () {
     // ========================================
 
     return {
-        ejecutarEDA,        // calcula y guarda en caché
-        renderDashboard,    // FIX-4: reutiliza caché, no recalcula
-        toggleSection,      // FIX-8: actualiza ícono + max-height
+        ejecutarEDA,
+        renderDashboard,
+        toggleSection,
         exportarResumen,
         getResults: () => _edaResults,
-        // Exponer para tests / script.js si se necesita invalidar caché:
         clearCache: () => { _edaResults = null; }
     };
 })();
