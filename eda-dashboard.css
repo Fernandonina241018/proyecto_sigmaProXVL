@@ -1,0 +1,651 @@
+/* ========================================
+   EDA - EXPLORATORY DATA ANALYSIS DASHBOARD
+   eda-dashboard.css
+   ======================================== */
+
+/* ── Botón EDA ───────────────────────────── */
+.eda-trigger-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 24px;
+    background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s;
+    width: 100%;
+    margin-top: 16px;
+    box-shadow: 0 4px 14px rgba(14, 165, 233, 0.25);
+}
+
+.eda-trigger-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.35);
+}
+
+.eda-trigger-btn:active {
+    transform: translateY(0);
+}
+
+.eda-trigger-btn .eda-btn-icon {
+    font-size: 1.3rem;
+}
+
+.eda-trigger-btn .eda-btn-text {
+    flex: 1;
+    text-align: left;
+}
+
+.eda-trigger-btn .eda-btn-sub {
+    font-size: 0.72rem;
+    font-weight: 400;
+    opacity: 0.85;
+    display: block;
+    margin-top: 2px;
+}
+
+/* ── Loading State ───────────────────────── */
+.eda-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 60px 20px;
+    color: #667eea;
+}
+
+.eda-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #e8e6ff;
+    border-top-color: #667eea;
+    border-radius: 50%;
+    animation: eda-spin 0.8s linear infinite;
+}
+
+@keyframes eda-spin {
+    to { transform: rotate(360deg); }
+}
+
+.eda-loading-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* ── EDA Dashboard Container ─────────────── */
+.eda-dashboard {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid #e9ecef;
+    overflow: hidden;
+    margin-top: 16px;
+    animation: eda-slideIn 0.3s ease;
+}
+
+@keyframes eda-slideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── EDA Header ──────────────────────────── */
+.eda-header {
+    background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.eda-header-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.eda-header-title .eda-icon {
+    font-size: 1.4rem;
+}
+
+.eda-header-info {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.8);
+    margin-top: 4px;
+}
+
+.eda-header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.eda-btn-export {
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 8px;
+    font-size: 0.80rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    backdrop-filter: blur(4px);
+}
+
+.eda-btn-export:hover {
+    background: rgba(255,255,255,0.25);
+}
+
+/* ── EDA Summary KPIs ────────────────────── */
+.eda-summary-kpis {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-bottom: 1px solid #e9ecef;
+}
+
+.eda-summary-kpi {
+    padding: 16px 12px;
+    text-align: center;
+    border-right: 1px solid #e9ecef;
+}
+
+.eda-summary-kpi:last-child { border-right: none; }
+
+.eda-summary-kpi .eda-kpi-icon {
+    font-size: 1.3rem;
+    margin-bottom: 6px;
+}
+
+.eda-summary-kpi .eda-kpi-val {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a202c;
+    line-height: 1;
+}
+
+.eda-summary-kpi .eda-kpi-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-top: 5px;
+}
+
+.eda-summary-kpi.eda-kpi-warn .eda-kpi-val { color: #e53935; }
+.eda-summary-kpi.eda-kpi-ok .eda-kpi-val { color: #276749; }
+.eda-summary-kpi.eda-kpi-info .eda-kpi-val { color: #0ea5e9; }
+
+/* ── EDA Sections ────────────────────────── */
+.eda-section {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.eda-section:last-child { border-bottom: none; }
+
+.eda-section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    background: #f8f9fa;
+    cursor: pointer;
+    transition: background 0.15s;
+    user-select: none;
+}
+
+.eda-section-header:hover {
+    background: #f0f4f8;
+}
+
+.eda-section-icon {
+    font-size: 1.2rem;
+}
+
+.eda-section-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1a202c;
+    flex: 1;
+}
+
+.eda-section-badge {
+    font-size: 0.70rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 20px;
+    background: #e8e6ff;
+    color: #667eea;
+}
+
+.eda-section-toggle {
+    font-size: 0.85rem;
+    color: #999;
+    transition: transform 0.2s;
+}
+
+.eda-section.collapsed .eda-section-toggle {
+    transform: rotate(-90deg);
+}
+
+.eda-section-content {
+    padding: 16px 20px;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.eda-section.collapsed .eda-section-content {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* ── Descriptive Stats Table ─────────────── */
+.eda-stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.80rem;
+}
+
+.eda-stats-table th {
+    background: #f0f4f8;
+    color: #3730a3;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 8px 10px;
+    text-align: right;
+    border-bottom: 2px solid #e2e8f0;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+}
+
+.eda-stats-table th:first-child {
+    text-align: left;
+    position: sticky;
+    left: 0;
+    background: #f0f4f8;
+    z-index: 1;
+}
+
+.eda-stats-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #edf2f7;
+    color: #4a5568;
+    font-family: 'Segoe UI', monospace;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.eda-stats-table td:first-child {
+    text-align: left;
+    font-weight: 600;
+    color: #1a202c;
+    font-family: inherit;
+    position: sticky;
+    left: 0;
+    background: white;
+}
+
+.eda-stats-table tr:hover td {
+    background: #f7faff;
+}
+
+.eda-stats-table tr:hover td:first-child {
+    background: #f7faff;
+}
+
+/* ── Normality Results ───────────────────── */
+.eda-normality-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.eda-normality-card {
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 14px 16px;
+    transition: all 0.2s;
+}
+
+.eda-normality-card.eda-normal {
+    border-color: #9ae6b4;
+    background: #f0fff4;
+}
+
+.eda-normality-card.eda-not-normal {
+    border-color: #fc8181;
+    background: #fff5f5;
+}
+
+.eda-normality-col {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 8px;
+}
+
+.eda-normality-stats {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 0.76rem;
+}
+
+.eda-normality-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.eda-normality-stat .eda-stat-val {
+    font-weight: 700;
+    font-family: 'Segoe UI', monospace;
+    color: #3730a3;
+}
+
+.eda-normality-stat .eda-stat-label {
+    font-size: 0.65rem;
+    color: #999;
+    text-transform: uppercase;
+}
+
+.eda-normality-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.eda-normality-card.eda-normal .eda-normality-badge {
+    background: #c6f6d5;
+    color: #276749;
+}
+
+.eda-normality-card.eda-not-normal .eda-normality-badge {
+    background: #fed7d7;
+    color: #c53030;
+}
+
+/* ── Outliers List ───────────────────────── */
+.eda-outliers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.eda-outlier-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: #fff5f5;
+    border: 1px solid #fed7d7;
+    border-radius: 8px;
+    font-size: 0.82rem;
+}
+
+.eda-outlier-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.eda-outlier-col {
+    font-weight: 700;
+    color: #1a202c;
+    min-width: 80px;
+}
+
+.eda-outlier-val {
+    font-family: 'Segoe UI', monospace;
+    font-weight: 600;
+    color: #c53030;
+}
+
+.eda-outlier-method {
+    font-size: 0.70rem;
+    color: #999;
+    margin-left: auto;
+}
+
+.eda-no-outliers {
+    text-align: center;
+    padding: 20px;
+    color: #276749;
+    font-weight: 600;
+    font-size: 0.90rem;
+}
+
+/* ── Correlation Heatmap ─────────────────── */
+.eda-heatmap-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.eda-heatmap-canvas {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    max-width: 100%;
+}
+
+.eda-heatmap-legend {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 0.76rem;
+    color: #666;
+}
+
+.eda-heatmap-legend-bar {
+    width: 200px;
+    height: 14px;
+    border-radius: 7px;
+    background: linear-gradient(to right, #ef4444, #f8fafc, #3b82f6);
+}
+
+/* ── Correlation Table ───────────────────── */
+.eda-corr-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    margin-top: 12px;
+}
+
+.eda-corr-table th,
+.eda-corr-table td {
+    padding: 6px 10px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    font-family: 'Segoe UI', monospace;
+}
+
+.eda-corr-table th {
+    background: #f0f4f8;
+    color: #3730a3;
+    font-weight: 700;
+    font-size: 0.70rem;
+    text-transform: uppercase;
+}
+
+.eda-corr-table td {
+    font-weight: 600;
+}
+
+.eda-corr-strong-pos { background: #dbeafe; color: #1d4ed8; }
+.eda-corr-moderate-pos { background: #eff6ff; color: #2563eb; }
+.eda-corr-strong-neg { background: #fee2e2; color: #dc2626; }
+.eda-corr-moderate-neg { background: #fef2f2; color: #ef4444; }
+.eda-corr-weak { background: #f8fafc; color: #94a3b8; }
+.eda-corr-diagonal { background: #f0f4f8; font-weight: 700; }
+
+/* ── Recommendations ─────────────────────── */
+.eda-recommendations {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.eda-rec-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 0.84rem;
+    line-height: 1.5;
+}
+
+.eda-rec-info {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1e40af;
+}
+
+.eda-rec-success {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+}
+
+.eda-rec-warning {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    color: #92400e;
+}
+
+.eda-rec-danger {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+}
+
+.eda-rec-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.eda-rec-text {
+    flex: 1;
+}
+
+.eda-rec-text strong {
+    font-weight: 700;
+}
+
+/* ── Histograms Grid ─────────────────────── */
+.eda-histograms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.eda-histogram-card {
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+}
+
+.eda-histogram-title {
+    padding: 10px 14px;
+    background: #f8f9fa;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #1a202c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.eda-histogram-canvas {
+    width: 100%;
+    height: 160px;
+    display: block;
+}
+
+/* ── Responsive ──────────────────────────── */
+@media (max-width: 1100px) {
+    .eda-summary-kpis {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .eda-summary-kpi:nth-child(3) {
+        border-right: none;
+    }
+
+    .eda-summary-kpi:nth-child(1),
+    .eda-summary-kpi:nth-child(2),
+    .eda-summary-kpi:nth-child(3) {
+        border-bottom: 1px solid #e9ecef;
+    }
+}
+
+@media (max-width: 768px) {
+    .eda-summary-kpis {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .eda-summary-kpi:nth-child(2) {
+        border-right: none;
+    }
+
+    .eda-normality-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .eda-histograms-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .eda-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .eda-header-actions {
+        align-self: flex-end;
+    }
+
+    .eda-stats-table {
+        font-size: 0.72rem;
+    }
+
+    .eda-stats-table th,
+    .eda-stats-table td {
+        padding: 5px 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .eda-summary-kpis {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .eda-section-header {
+        padding: 12px 14px;
+    }
+
+    .eda-section-content {
+        padding: 12px 14px;
+    }
+
+    .eda-trigger-btn {
+        padding: 12px 18px;
+        font-size: 0.90rem;
+    }
+}

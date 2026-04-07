@@ -534,6 +534,28 @@ function displayImportedData(data) {
     document.getElementById('dp-btn-run')?.addEventListener('click', () => verificarParametrosAntesAnalisis(ejecutarAnalisis));
     document.getElementById('btn-clear-imported')?.addEventListener('click', clearImportedData);
     document.getElementById('btn-download-sample')?.addEventListener('click', downloadSampleData);
+
+    // Botón EDA Automático
+    const edaContainer = document.createElement('div');
+    edaContainer.id = 'eda-container';
+    placeholder.appendChild(edaContainer);
+    renderEDATrigger();
+}
+
+function renderEDATrigger() {
+    const container = document.getElementById('eda-container');
+    if (!container) return;
+
+    container.innerHTML = `
+        <button class="eda-trigger-btn" id="eda-run-btn">
+            <span class="eda-btn-icon">🔍</span>
+            <span class="eda-btn-text">
+                Análisis Exploratorio Automático (EDA)
+                <span class="eda-btn-sub">Panorama completo del dataset con un solo clic</span>
+            </span>
+        </button>`;
+
+    document.getElementById('eda-run-btn')?.addEventListener('click', ejecutarEDA);
 }
 
 function clearImportedData() {
@@ -549,6 +571,40 @@ function clearImportedData() {
         `;
     }
     updateDataView();
+}
+
+// ========================================
+// EDA - EXPLORATORY DATA ANALYSIS
+// ========================================
+
+function ejecutarEDA() {
+    const data = getDataForModal();
+    if (!data || !data.headers || !data.data || data.data.length === 0) {
+        showToast('No hay datos disponibles para el análisis exploratorio', 'warning');
+        return;
+    }
+
+    const container = document.getElementById('eda-container');
+    if (!container) return;
+
+    // Mostrar loading
+    container.innerHTML = `
+        <div class="eda-loading">
+            <div class="eda-spinner"></div>
+            <div class="eda-loading-text">Ejecutando Análisis Exploratorio...</div>
+        </div>`;
+
+    // Ejecutar con un pequeño delay para mostrar el loading
+    setTimeout(() => {
+        try {
+            const html = EDAManager.renderDashboard(data);
+            container.innerHTML = html;
+            showToast('Análisis Exploratorio completado exitosamente', 'success');
+        } catch (error) {
+            container.innerHTML = `<div class="eda-loading"><div class="eda-loading-text" style="color:#c53030;">Error: ${error.message}</div></div>`;
+            showToast('Error al ejecutar el EDA: ' + error.message, 'error');
+        }
+    }, 300);
 }
 
 function downloadSampleData() {
