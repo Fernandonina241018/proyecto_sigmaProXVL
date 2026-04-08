@@ -1981,8 +1981,13 @@ function buildInterpretacion(nombre, significativo, valores) {
 // EXPORTAR PARA USO GLOBAL
 // ════════════════════════════════════════
 
+console.log('[estadisticosConfig] Asignando a global...');
+
 // Asignar directamente al objeto global (funciona en navegador y Node)
 const globalObj = typeof window !== 'undefined' ? window : (typeof global !== 'undefined' ? global : this);
+console.log('[estadisticosConfig] globalObj:', typeof globalObj);
+console.log('[estadisticosConfig] getSeccionesSidebar function:', typeof getSeccionesSidebar);
+
 globalObj.ESTADISTICOS_CONFIG = ESTADISTICOS_CONFIG;
 globalObj.getSeccionesSidebar = getSeccionesSidebar;
 globalObj.getEstadisticosList = getEstadisticosList;
@@ -1993,6 +1998,8 @@ globalObj.getEstadisticosEDA = getEstadisticosEDA;
 globalObj.getEstadisticosDobleColumna = getEstadisticosDobleColumna;
 globalObj.getNivelAlfa = getNivelAlfa;
 globalObj.buildInterpretacion = buildInterpretacion;
+
+console.log('[estadisticosConfig] Asignaciones feitas. window.getSeccionesSidebar:', typeof window.getSeccionesSidebar);
 
 // Debug: verificar que las funciones están asignadas al objeto global
 if (typeof window !== 'undefined') {

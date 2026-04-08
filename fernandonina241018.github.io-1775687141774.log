@@ -1,0 +1,32 @@
+utils.js:136 ✅ Utils cargado correctamente
+auth.js:613 ✅ Auth module cargado
+StateManager.js:902 ✅ StateManager cargado correctamente
+TrabajoManager.js:986 ✅ TrabajoManager cargado
+estadisticosConfig.js:1999 [estadisticosConfig] Carga completa. getSeccionesSidebar: function
+estadisticosConfig.js:2000 [estadisticosConfig] getEstadisticosList: function
+EstadisticaDescriptiva.js:3949 ✅ Módulo de Estadística Descriptiva cargado
+Visualizacion.js:2100 ✅ Módulo de Visualización cargado
+ReporteManager.js:1840 ✅ ReporteManager cargado — FDA 21 CFR Part 11
+AuditoriaManager.js:337 ✅ AuditoriaManager cargado
+UsuariosManager.js:488 ✅ UsuariosManager cargado
+DatosManager.js:862 ✅ DatosManager cargado
+PermisosManager.js:247 ✅ PermisosManager cargado
+ParametrosManager.js:109 ✅ ParametrosManager cargado
+script.js:3280 ✅ Tema inicializado
+script.js:3282 ✅ script.js cargado - Nuevo navbar integrado
+script.js:1322 🚀 StatAnalyzer Pro inicializado
+StateManager.js:68 🚀 StateManager: Inicializando...
+StateManager.js:644 📂 Estado cargado (guardado: 2026-04-08T22:25:20.206Z)
+StateManager.js:72 ✅ Estado restaurado desde localStorage
+script.js:3109 🔄 Menú lateral sincronizado: 12 estadístico(s) activo(s)
+StateManager.js:670 ⏰ Auto-guardado activado (cada 5s)
+StateManager.js:89 ✅ StateManager inicializado correctamente
+script.js:3109 🔄 Menú lateral sincronizado: 12 estadístico(s) activo(s)
+script.js:66 Vista cambiada a: trabajo
+script.js:1354 ✅ Formatos soportados: CSV, JSON, TXT
+script.js:1355 ✅ Estado centralizado activo
+favicon.ico:1  GET https://fernandonina241018.github.io/favicon.ico 404 (Not Found)
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
+StateManager.js:618 💾 Estado guardado en localStorage
