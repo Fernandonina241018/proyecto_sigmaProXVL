@@ -1979,15 +1979,31 @@ function buildInterpretacion(nombre, significativo, valores) {
 // EXPORTAR PARA USO GLOBAL
 // ════════════════════════════════════════
 
-if (typeof window !== 'undefined') {
-    window.ESTADISTICOS_CONFIG        = ESTADISTICOS_CONFIG;
-    window.getSeccionesSidebar        = getSeccionesSidebar;
-    window.getEstadisticosList        = getEstadisticosList;
-    window.getStatMetaConfig          = getStatMetaConfig;
-    window.getEstadisticoConfig       = getEstadisticoConfig;
-    window.getEstadisticosPorSeccion  = getEstadisticosPorSeccion;
-    window.getEstadisticosEDA         = getEstadisticosEDA;
-    window.getEstadisticosDobleColumna = getEstadisticosDobleColumna;
-    window.getNivelAlfa               = getNivelAlfa;
-    window.buildInterpretacion        = buildInterpretacion;
+// Asignar directamente al objeto global (funciona en navegador y Node)
+const globalObj = typeof window !== 'undefined' ? window : (typeof global !== 'undefined' ? global : this);
+globalObj.ESTADISTICOS_CONFIG = ESTADISTICOS_CONFIG;
+globalObj.getSeccionesSidebar = getSeccionesSidebar;
+globalObj.getEstadisticosList = getEstadisticosList;
+globalObj.getStatMetaConfig = getStatMetaConfig;
+globalObj.getEstadisticoConfig = getEstadisticoConfig;
+globalObj.getEstadisticosPorSeccion = getEstadisticosPorSeccion;
+globalObj.getEstadisticosEDA = getEstadisticosEDA;
+globalObj.getEstadisticosDobleColumna = getEstadisticosDobleColumna;
+globalObj.getNivelAlfa = getNivelAlfa;
+globalObj.buildInterpretacion = buildInterpretacion;
+
+// Para CommonJS / Node.js (opcional)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        ESTADISTICOS_CONFIG,
+        getSeccionesSidebar,
+        getEstadisticosList,
+        getStatMetaConfig,
+        getEstadisticoConfig,
+        getEstadisticosPorSeccion,
+        getEstadisticosEDA,
+        getEstadisticosDobleColumna,
+        getNivelAlfa,
+        buildInterpretacion
+    };
 }
