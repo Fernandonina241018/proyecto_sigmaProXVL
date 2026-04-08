@@ -901,44 +901,8 @@ function ejecutarAnalisis() {
         return;
     }
 
-     const estadisticosDescriptivos = [
-         'Media Aritmética',
-         'Mediana y Moda',
-         'Desviación Estándar',
-         'Varianza',
-         'Percentiles',
-         'Rango y Amplitud',
-         'Coeficiente de Variación',
-         'Asimetría (Skewness)',
-         'Curtosis (Kurtosis)',
-         'Error Estándar',
-         'Intervalos de Confianza',
-         'Detección de Outliers',
-         'T-Test (una muestra)',
-         'T-Test (dos muestras)',
-         'ANOVA One-Way',
-         'ANOVA Two-Way',
-         'Chi-Cuadrado',
-         'Test de Normalidad',
-         'Test de Shapiro-Wilk',
-         'Test de Kolmogorov-Smirnov',
-         'Test de Anderson-Darling',
-         "Test de D'Agostino-Pearson",
-         'Límites de Cuantificación',
-         'Correlación Pearson',
-         'Correlación Spearman',
-         'Correlación Kendall Tau',
-         'Covarianza',
-         'Regresión Lineal Simple',
-         'Regresión Lineal Múltiple',
-         'Regresión Polinomial',
-         'Regresión Logística',
-         'RMSE',
-         'MAE',
-         'R² (Coef. Determinación)',
-         'Mann-Whitney U',
-         'Kruskal-Wallis'
-     ];
+    // Obtener lista de estadísticos permitidos desde estadisticosConfig.js
+    const estadisticosDescriptivos = getEstadisticosList();
 
     const noImplementados = activeStats.filter(stat => !estadisticosDescriptivos.includes(stat));
     if (noImplementados.length > 0) {
