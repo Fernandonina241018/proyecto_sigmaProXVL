@@ -2981,12 +2981,33 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         
         const statKeys = Object.keys(analisisResultado.resultados);
         statKeys.forEach(key => {
-            const meta = STAT_META[key] || { formula: '', desc: '' };
+            const meta = STAT_META[key] || { formula: '', desc: '', icono: '📊' };
             if (!meta.desc) return;
             
-            reporte += `\n${meta.icono || '📊'} ${key}\n`;
+            reporte += `\n${meta.icono} ${key}\n`;
             reporte += `   Fórmula: ${meta.formula}\n`;
             reporte += `   ${meta.desc}\n`;
+            
+            // Agregar hipótesis si existe
+            if (meta.hipotesis) {
+                reporte += `   └─ H₀: ${meta.hipotesis.h0}\n`;
+                reporte += `   └─ H₁: ${meta.hipotesis.h1}\n`;
+            }
+            
+            // Agregar supuestos si existen
+            if (meta.supuestos && meta.supuestos.length > 0) {
+                reporte += `   └─ Supuestos: ${meta.supuestos.join(', ')}\n`;
+            }
+            
+            // Agregar tamaño de efecto si existe
+            if (meta.efectoTamano) {
+                reporte += `   └─ Tamaño efecto: ${meta.efectoTamano.metrica} (${meta.efectoTamano.formula})\n`;
+            }
+            
+            // Agregar referencia si existe
+            if (meta.referencia) {
+                reporte += `   └─ Ref: ${meta.referencia}\n`;
+            }
         });
         
         reporte += `\n${'═'.repeat(63)}\n`;
@@ -3047,12 +3068,29 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         
         const statKeys = Object.keys(analisisResultado.resultados);
         statKeys.forEach(key => {
-            const meta = STAT_META[key] || { formula: '', desc: '' };
+            const meta = STAT_META[key] || { formula: '', desc: '', icono: '📊' };
             if (!meta.desc) return;
             
-            reporte += `\n${meta.icono || '📊'} ${key}\n`;
+            reporte += `\n${meta.icono} ${key}\n`;
             reporte += `   Fórmula: ${meta.formula}\n`;
             reporte += `   ${meta.desc}\n`;
+            
+            if (meta.hipotesis) {
+                reporte += `   └─ H₀: ${meta.hipotesis.h0}\n`;
+                reporte += `   └─ H₁: ${meta.hipotesis.h1}\n`;
+            }
+            
+            if (meta.supuestos && meta.supuestos.length > 0) {
+                reporte += `   └─ Supuestos: ${meta.supuestos.join(', ')}\n`;
+            }
+            
+            if (meta.efectoTamano) {
+                reporte += `   └─ Tamaño efecto: ${meta.efectoTamano.metrica} (${meta.efectoTamano.formula})\n`;
+            }
+            
+            if (meta.referencia) {
+                reporte += `   └─ Ref: ${meta.referencia}\n`;
+            }
         });
         
         reporte += `\n${'═'.repeat(63)}\n`;
@@ -3853,18 +3891,49 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                 <div class="ar-notes-title">📚 Notas Metodológicas</div>
                 <div class="ar-notes-grid">
                     ${statKeys.map(key => {
-                        const meta = STAT_META[key] || { formula: '', desc: '' };
+                        const meta = STAT_META[key] || { formula: '', desc: '', icono: '📊' };
                         if (!meta.desc) return '';
-                        return `
-                            <div class="ar-note-card">
-                                <div class="ar-note-header">
-                                    <span class="ar-note-icon">${meta.icono}</span>
-                                    <span class="ar-note-stat">${key}</span>
-                                </div>
-                                <div class="ar-note-formula">${meta.formula}</div>
-                                <div class="ar-note-desc">${meta.desc}</div>
-                            </div>
-                        `;
+                        
+                        let extraContent = '';
+                        
+                        if (meta.hipotesis) {
+                            extraContent += '<div class="ar-note-hipotesis">' +
+                                '<strong>Hipótesis:</strong>' +
+                                '<div>H₀: ' + meta.hipotesis.h0 + '</div>' +
+                                '<div>H₁: ' + meta.hipotesis.h1 + '</div>' +
+                            '</div>';
+                        }
+                        
+                        if (meta.supuestos && meta.supuestos.length > 0) {
+                            extraContent += '<div class="ar-note-supuestos">' +
+                                '<strong>📋 Supuestos:</strong>' +
+                                '<ul>' + meta.supuestos.map(s => '<li>' + s + '</li>').join('') + '</ul>' +
+                            '</div>';
+                        }
+                        
+                        if (meta.efectoTamano) {
+                            const et = meta.efectoTamano;
+                            extraContent += '<div class="ar-note-efecto">' +
+                                '<strong>📏 Tamaño de efecto:</strong> ' + et.metrica +
+                                '<span class="ar-note-formula">' + et.formula + '</span>' +
+                            '</div>';
+                        }
+                        
+                        if (meta.referencia) {
+                            extraContent += '<div class="ar-note-referencia">' +
+                                '<strong>📚 Referencia:</strong> ' + meta.referencia +
+                            '</div>';
+                        }
+                        
+                        return '<div class="ar-note-card">' +
+                            '<div class="ar-note-header">' +
+                                '<span class="ar-note-icon">' + meta.icono + '</span>' +
+                                '<span class="ar-note-stat">' + key + '</span>' +
+                            '</div>' +
+                            '<div class="ar-note-formula">' + meta.formula + '</div>' +
+                            '<div class="ar-note-desc">' + meta.desc + '</div>' +
+                            extraContent +
+                        '</div>';
                     }).join('')}
                 </div>
             </div>
