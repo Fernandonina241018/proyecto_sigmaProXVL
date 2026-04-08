@@ -2043,7 +2043,7 @@ function mostrarModalConfiguracionHypothesis(statName) {
                     <div class="dm-col-checks" id="hypo-num-checks">
                         ${numericCols.map(col => `
                             <label class="dm-check-row">
-                                <input type="radio" value="${escapeHtml(col)}" name="hypo-num-col">
+                                <input type="${config.paired ? 'checkbox' : 'radio'}" value="${escapeHtml(col)}" name="hypo-num-col">
                                 ${escapeHtml(col)}
                             </label>
                         `).join('')}
@@ -2075,7 +2075,8 @@ function mostrarModalConfiguracionHypothesis(statName) {
         const errorDiv = document.getElementById('hypo-error');
         
         const selectedCatCols = [...modal.querySelectorAll('input[name="hypo-cat-col"]:checked')].map(cb => cb.value);
-        const selectedNumCol = modal.querySelector('input[name="hypo-num-col"]:checked')?.value;
+        const selectedNumCols = [...modal.querySelectorAll('input[name="hypo-num-col"]:checked')].map(cb => cb.value);
+        const selectedNumCol = selectedNumCols[0] || null;
         
         // Validaciones
         errorDiv.style.display = 'none';
@@ -2085,7 +2086,12 @@ function mostrarModalConfiguracionHypothesis(statName) {
             return;
         }
         
-        if (config.numCols > 0 && !selectedNumCol) {
+        if (config.numCols > 0 && selectedNumCols.length !== config.numCols) {
+            preview.style.display = 'none';
+            return;
+        }
+        
+        if (config.paired && config.numCols === 2 && selectedNumCols.length !== 2) {
             preview.style.display = 'none';
             return;
         }
@@ -2205,12 +2211,18 @@ function mostrarModalConfiguracionHypothesis(statName) {
                 return;
             }
         }
+
+        if ((statName === 'Wilcoxon' || statName === 'Test de Signos') && selectedNumCols.length !== 2) {
+            _showToast(`⚠️ ${statName} requiere exactamente 2 columnas pareadas. Seleccione 2 columnas.`, true);
+            return;
+        }
         
         // Guardar configuración en StateManager
         const hypothesisConfig = {
             statName: statName,
             categoricalCols: selectedCatCols,
             numericCol: selectedNumCol || null,
+            numericCols: config.paired ? selectedNumCols : null,
             timestamp: Date.now()
         };
         
