@@ -1,0 +1,55 @@
+// Mann-Whitney U — descriptor completo
+'Mann-Whitney U': {
+  // — existentes —
+  seccion:    'noParametricos',
+  calcular:   'calcularMannWhitney',
+  formula:    'U = min(U₁, U₂)',
+  desc:       'Alternativa no-paramétrica al t-test independiente.',
+  icono:      '⚖️',
+  minMuestra: 3,
+
+  // — nuevos —
+  hipotesis: {
+    h0: 'Las distribuciones de ambos grupos son iguales',
+    h1: 'Las distribuciones de los grupos difieren',
+  },
+
+  supuestos: [
+    'Variable al menos ordinal',
+    'Muestras independientes entre sí',
+    'Misma forma de distribución en ambos grupos',
+  ],
+
+  inputs: {
+    tipo:      'dos-grupos',
+    grupos:    2,
+    descripcion: 'Dos vectores numéricos independientes',
+  },  salidas: ['U', 'U1', 'U2', 'z', 'p', 'r', 'n1', 'n2', 'significativo'],
+
+  tipoTest: {
+    defecto:  'bilateral',
+    opciones: ['bilateral', 'unilateral-mayor', 'unilateral-menor'],
+  },
+
+  nivelAlfa: 0.05,
+
+  efectoTamano: {
+    metrica:  'r',
+    formula:  'r = Z / √N',
+    umbrales: { pequeno: 0.1, mediano: 0.3, grande: 0.5 },
+  },
+
+  interpretacion: {
+    significativo:   'Diferencia significativa entre grupos (U={U}, p={p})',
+    noSignificativo: 'Sin evidencia de diferencia (U={U}, p={p})',
+  },
+
+  alternativaParametrica: 't-test independiente',
+
+  advertencias: [
+    { condicion: 'n < 20',      mensaje: 'Muestra pequeña: la aproximación normal puede ser imprecisa.' },
+    { condicion: 'muchos_empates', mensaje: 'Empates detectados: Z fue corregido automáticamente.' },
+  ],
+
+  referencia: 'Mann & Whitney (1947). Ann. Math. Statist. 18(1):50–60',
+},

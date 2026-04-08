@@ -1,0 +1,631 @@
+// ========================================
+// estadisticosConfig.js - CONFIGURACIÓN CENTRALIZADA DE ESTADÍSTICOS
+// StatAnalyzer Pro
+// ========================================
+//
+// Este archivo define la configuración centralizada de todos los estadísticos
+// disponibles en la aplicación. Al agregar un nuevo estadístico, solo es
+// necesario modificar este archivo y agregar la función de cálculo correspondiente.
+//
+// ESTRUCTURA DE CADA ENTRADA:
+// {
+//     seccion:        'descriptiva' | 'hipotesis' | 'correlacion' | 'regresion' |
+//                    'noParametricos' | 'multivariado' | 'extras' | 'especificacion'
+//     calcular:       Nombre de la función en EstadisticaDescriptiva.js
+//     formula:        Fórmula matemática (para notas metodológicas)
+//     desc:           Descripción del estadístico
+//     icono:          Emoji para UI
+//     minMuestra:     Tamaño mínimo de muestra requerido
+//     maxMuestra:     Tamaño máximo de muestra (opcional)
+//     edaKey:         Clave para EDA automático (opcional)
+//     requiereDosColumnas: true si necesita 2 columnas (correlación, etc.)
+// }
+
+const ESTADISTICOS_CONFIG = {
+    // ========================================
+    // SECCIÓN: DESCRIPTIVA
+    // ========================================
+    
+    'Media Aritmética': {
+        seccion: 'descriptiva',
+        calcular: 'calcularMedia',
+        formula: 'x̄ = Σxᵢ / n',
+        desc: 'Tendencia central de la distribución. Suma de todos los valores dividida entre el número de observaciones.',
+        icono: '📐',
+        minMuestra: 1
+    },
+    'Mediana y Moda': {
+        seccion: 'descriptiva',
+        calcular: 'calcularMedianaModa',  // Especial: calcula ambos
+        formula: 'Mediana: P₅₀ | Moda: valor más frecuente',
+        desc: 'Mediana: divide la distribución en dos mitades iguales. Resistente a valores atípicos. Moda: valor con mayor frecuencia.',
+        icono: '📊',
+        minMuestra: 1
+    },
+    'Desviación Estándar': {
+        seccion: 'descriptiva',
+        calcular: 'calcularDesviacionEstandar',
+        formula: 's = √[Σ(xᵢ − x̄)² / (n−1)]',
+        desc: 'Dispersión típica respecto a la media con corrección de Bessel (n−1). Principal indicador de variabilidad del proceso.',
+        icono: '📉',
+        minMuestra: 2
+    },
+    'Varianza': {
+        seccion: 'descriptiva',
+        calcular: 'calcularVarianza',
+        formula: 's² = Σ(xᵢ − x̄)² / (n−1)',
+        desc: 'Dispersión cuadrática media. Base para el cálculo de la desviación estándar y análisis de varianza (ANOVA).',
+        icono: '📈',
+        minMuestra: 2
+    },
+    'Percentiles': {
+        seccion: 'descriptiva',
+        calcular: 'calcularPercentiles',
+        formula: 'i = k/100 × (n−1) [interpolación lineal NIST]',
+        desc: 'Dividen la distribución en 100 partes iguales. P25, P50 y P75 definen los cuartiles y el rango intercuartílico.',
+        icono: '📶',
+        minMuestra: 1
+    },
+    'Rango y Amplitud': {
+        seccion: 'descriptiva',
+        calcular: 'calcularRango',
+        formula: 'R = Máx − Mín',
+        desc: 'Extensión total de la distribución. Sensible a valores extremos, complementa la desviación estándar.',
+        icono: '↔️',
+        minMuestra: 1
+    },
+    'Coeficiente de Variación': {
+        seccion: 'descriptiva',
+        calcular: 'calcularCoeficienteVariacion',
+        formula: 'CV = (s / |x̄|) × 100%',
+        desc: 'Dispersión relativa respecto a la media expresada en porcentaje. Permite comparar variabilidad entre variables con diferentes unidades o escalas.',
+        icono: '📊',
+        minMuestra: 2
+    },
+    'Asimetría (Skewness)': {
+        seccion: 'descriptiva',
+        calcular: 'calcularAsimetria',
+        formula: 'g₁ = Σ(xᵢ − x̄)³ / (n × s³)',
+        desc: 'Simetría de la distribución. >0 cola derecha, <0 cola izquierda, ≈0 simétrica.',
+        icono: '📐',
+        minMuestra: 3
+    },
+    'Curtosis (Kurtosis)': {
+        seccion: 'descriptiva',
+        calcular: 'calcularCurtosis',
+        formula: 'g₂ = [Σ(xᵢ − x̄)⁴ / (n × s⁴)] − 3',
+        desc: 'Apuntamiento de la distribución. >0 leptocúrtica, <0 platicúrtica, ≈0 mesocúrtica (normal).',
+        icono: '🔺',
+        minMuestra: 3
+    },
+    'Error Estándar': {
+        seccion: 'descriptiva',
+        calcular: 'calcularErrorEstandar',
+        formula: 'SE = s / √n',
+        desc: 'Error estándar de la media. Estima la variabilidad de la media muestral. Base para intervalos de confianza.',
+        icono: '📏',
+        minMuestra: 2
+    },
+    'Intervalos de Confianza': {
+        seccion: 'descriptiva',
+        calcular: 'calcularIntervalosConfianza',
+        formula: 'IC = x̄ ± t(α/2) × SE',
+        desc: 'Rango donde se espera que esté el parámetro poblacional con cierto nivel de confianza (90%, 95%, 99%).',
+        icono: '📊',
+        minMuestra: 2
+    },
+    'Detección de Outliers': {
+        seccion: 'descriptiva',
+        calcular: 'detectarOutliers',
+        formula: 'IQR: [Q1−1.5×IQR, Q3+1.5×IQR]',
+        desc: 'Identifica valores atípicos usando IQR (Tukey fence) y Z-score (|z|>3). Útil para detectar errores o datos extremos.',
+        icono: '🎯',
+        minMuestra: 4
+    },
+
+    // ========================================
+    // SECCIÓN: HIPÓTESIS - TESTS DE NORMALIDAD
+    // ========================================
+
+    'Test de Normalidad': {
+        seccion: 'hipotesis',
+        calcular: 'calcularTestNormalidad',
+        formula: 'JB = (n/6)(S² + K²/4)',
+        desc: 'Jarque-Bera: Test basado en asimetría (S) y curtosis (K) de la distribución. H₀: los datos son normales. Aproximación chi-cuadrado con 2 g.l. Recomendado para n≥8. Potencia media para detectar desviaciones en colas.',
+        icono: '🔔',
+        minMuestra: 3,
+        edaKey: 'normalidad'
+    },
+    'Test de Shapiro-Wilk': {
+        seccion: 'hipotesis',
+        calcular: 'calcularShapiroWilk',
+        formula: 'W = (Σaᵢx₍ᵢ₎)² / Σ(xᵢ − x̄)²',
+        desc: 'Shapiro-Wilk: Test más potente para muestras pequeñas (n < 50). Compara cuantiles de la muestra con cuantiles normales teóricos. Requiere 3≤n≤5000. Excelente para detectar desviaciones generales de la normalidad.',
+        icono: '🔔',
+        minMuestra: 3,
+        maxMuestra: 5000,
+        edaKey: 'normalidadShapiro'
+    },
+    'Test de Kolmogorov-Smirnov': {
+        seccion: 'hipotesis',
+        calcular: 'calcularKolmogorovSmirnov',
+        formula: 'D = max|Fₙ(x) − F(x)|',
+        desc: 'Kolmogorov-Smirnov (Lilliefors): Compara la función de distribución empírica con la normal teórica. Corrección de Lilliefors para muestras pequeñas. Sensible a diferencias en el centro de la distribución. Requiere n≥5.',
+        icono: '🔔',
+        minMuestra: 5,
+        edaKey: 'normalidadKS'
+    },
+    'Test de Anderson-Darling': {
+        seccion: 'hipotesis',
+        calcular: 'calcularAndersonDarling',
+        formula: 'A² = −n − (1/n)Σ(2i−1)[ln(Fᵢ)+ln(1−Fₙ₊₁₋ᵢ)]',
+        desc: 'Anderson-Darling: Versión mejorada de K-S que pondera más las colas de la distribución. Más potente para detectar desviaciones en los extremos. Recomendado cuando se sospecha anomalías en colas. Requiere n≥8.',
+        icono: '🔔',
+        minMuestra: 8,
+        edaKey: 'normalidadAD'
+    },
+    "Test de D'Agostino-Pearson": {
+        seccion: 'hipotesis',
+        calcular: 'calcularDAgostinoPearson',
+        formula: 'K² = Z_skew² + Z_kurt² ~ χ²(2)',
+        desc: "D'Agostino-Pearson (Omnibus): Combina tests de asimetría y curtosis en estadístico K² = Z_skew² + Z_kurt² ~ χ²(2). Detecta desviaciones de normalidad por forma (no solo por colas). Útil para distribución simétrica pero platicúrtica o leptocúrtica. Requiere n≥8.",
+        icono: '🔔',
+        minMuestra: 8,
+        edaKey: 'normalidadDP'
+    },
+
+    // ========================================
+    // SECCIÓN: HIPÓTESIS - OTRAS PRUEBAS
+    // ========================================
+
+    'T-Test (una muestra)': {
+        seccion: 'hipotesis',
+        calcular: 'calcularTTestUnaMuestra',
+        formula: 't = (x̄ − μ₀) / (s/√n)',
+        desc: 'Compara la media muestral con un valor hipotético (μ₀). Prueba bilateral para detectar diferencias significativas.',
+        icono: '🔬',
+        minMuestra: 2
+    },
+    'T-Test (dos muestras)': {
+        seccion: 'hipotesis',
+        calcular: 'calcularTTestDosMuestras',
+        formula: 't = (x̄₁ − x̄₂) / √(s₁²/n₁ + s₂²/n₂)',
+        desc: 'Compara las medias de dos grupos independientes usando Welch (sin asumir varianzas iguales).',
+        icono: '⚖️',
+        minMuestra: 2,
+        requiereDosColumnas: true
+    },
+    'ANOVA One-Way': {
+        seccion: 'hipotesis',
+        calcular: 'calcularANOVAOneWay',
+        formula: 'F = MSB / MSW',
+        desc: 'Compara medias de 3+ grupos. Si F es significativo, al menos una media difiere de las demás.',
+        icono: '📊',
+        minMuestra: 2
+    },
+    'ANOVA Two-Way': {
+        seccion: 'hipotesis',
+        calcular: 'calcularANOVATwoWay',
+        formula: 'F₁ = MSF₁/MSE, F₂ = MSF₂/MSE',
+        desc: 'Análisis de varianza con dos factores simultáneos. Evalúa efectos principales de cada factor.',
+        icono: '📐',
+        minMuestra: 2
+    },
+    'Chi-Cuadrado': {
+        seccion: 'hipotesis',
+        calcular: 'calcularChiCuadrado',
+        formula: 'χ² = Σ(O − E)² / E',
+        desc: 'Prueba de independencia para variables categóricas. Compara frecuencias observadas vs esperadas.',
+        icono: '📋',
+        minMuestra: 5
+    },
+    'Test TOST (Equivalencia)': {
+        seccion: 'hipotesis',
+        calcular: 'calcularTOST',
+        formula: 'Equivalencia: |δ| < Δ (delta máximo)',
+        desc: 'Test de equivalencia Two One-Sided Tests. Compara si la diferencia entre grupos es menor a un umbral predefinido.',
+        icono: '🔄',
+        minMuestra: 2
+    },
+
+    // ========================================
+    // SECCIÓN: CORRELACIÓN
+    // ========================================
+
+    'Correlación Pearson': {
+        seccion: 'correlacion',
+        calcular: 'calcularCorrelacionPearson',
+        formula: 'r = cov(X,Y)/(σx × σy)',
+        desc: 'Mide la relación lineal entre dos variables. Valores entre -1 y 1. Cercano a ±1 indica fuerte relación lineal.',
+        icono: '🔗',
+        minMuestra: 2,
+        requiereDosColumnas: true
+    },
+    'Correlación Spearman': {
+        seccion: 'correlacion',
+        calcular: 'calcularCorrelacionSpearman',
+        formula: 'ρ = correlación de Pearson sobre rangos',
+        desc: 'Mide la relación monotónica entre dos variables basada en rangos. Menos sensible a outliers que Pearson.',
+        icono: '🔗',
+        minMuestra: 3,
+        requiereDosColumnas: true
+    },
+    'Correlación Kendall Tau': {
+        seccion: 'correlacion',
+        calcular: 'calcularCorrelacionKendall',
+        formula: 'τ = (C − D) / √[(n₀−n₁)(n₀−n₂)]',
+        desc: 'Mide la asociación ordinal entre dos variables. Más robusta que Spearman para datos con muchos empates.',
+        icono: '🔗',
+        minMuestra: 3,
+        requiereDosColumnas: true
+    },
+    'Covarianza': {
+        seccion: 'correlacion',
+        calcular: 'calcularCovarianza',
+        formula: 'Cov(X,Y) = Σ(xi−x̄)(yi−ȳ) / (n−1)',
+        desc: 'Mide la relación lineal entre dos variables. Positiva: se mueven juntas, Negativa: direcciones opuestas.',
+        icono: '📐',
+        minMuestra: 2,
+        requiereDosColumnas: true
+    },
+
+    // ========================================
+    // SECCIÓN: REGRESIÓN
+    // ========================================
+
+    'Regresión Lineal Simple': {
+        seccion: 'regresion',
+        calcular: 'calcularRegresionLinealSimple',
+        formula: 'Y = a + bX',
+        desc: 'Modelo predictivo lineal simple. Estima la variable dependiente Y a partir de una variable independiente X usando mínimos cuadrados.',
+        icono: '📈',
+        minMuestra: 3,
+        requiereDosColumnas: true
+    },
+    'Regresión Lineal Múltiple': {
+        seccion: 'regresion',
+        calcular: 'calcularRegresionLinealMultiple',
+        formula: 'Y = β₀ + β₁X₁ + ... + βₖXₖ',
+        desc: 'Modelo con múltiples predictores. Estima Y usando múltiples variables independientes simultáneamente.',
+        icono: '📊',
+        minMuestra: 5
+    },
+    'Regresión Polinomial': {
+        seccion: 'regresion',
+        calcular: 'calcularRegresionPolinomial',
+        formula: 'Y = a₀ + a₁X + a₂X² + ...',
+        desc: 'Modelo de regresión no lineal que ajusta un polinomio de grado especificado a los datos.',
+        icono: '📈',
+        minMuestra: 4,
+        requiereDosColumnas: true
+    },
+    'Regresión Logística': {
+        seccion: 'regresion',
+        calcular: 'calcularRegresionLogistica',
+        formula: 'P = 1/(1+e^(-z))',
+        desc: 'Modelo de clasificación binaria. Estima la probabilidad de pertenencia a una clase (0/1).',
+        icono: '🔐',
+        minMuestra: 10
+    },
+    'RMSE': {
+        seccion: 'regresion',
+        calcular: 'calcularRMSE',
+        formula: 'RMSE = √[Σ(obs−pred)²/n]',
+        desc: 'Error cuadrático medio. Mide la diferencia promedio entre valores observados y predichos.',
+        icono: '📏',
+        minMuestra: 2
+    },
+    'MAE': {
+        seccion: 'regresion',
+        calcular: 'calcularMAE',
+        formula: 'MAE = Σ|obs−pred|/n',
+        desc: 'Error absoluto medio. Más robusto a outliers que RMSE.',
+        icono: '📏',
+        minMuestra: 2
+    },
+    'R² (Coef. Determinación)': {
+        seccion: 'regresion',
+        calcular: 'calcularR2',
+        formula: 'R² = 1 − SSres/SStot',
+        desc: 'Proporción de la varianza explicada por el modelo. R²=1: ajuste perfecto, R²=0: no mejor que la media.',
+        icono: '📊',
+        minMuestra: 2
+    },
+
+    // ========================================
+    // SECCIÓN: NO PARAMÉTRICOS
+    // ========================================
+
+    'Mann-Whitney U': {
+        seccion: 'noParametricos',
+        calcular: 'calcularMannWhitney',
+        formula: 'U = min(U₁, U₂)',
+        desc: 'Alternativa no-paramétrica al t-test. Compara distribuciones de dos grupos sin asumir normalidad.',
+        icono: '⚖️',
+        minMuestra: 3
+    },
+    'Kruskal-Wallis': {
+        seccion: 'noParametricos',
+        calcular: 'calcularKruskalWallis',
+        formula: 'H = [12/(N(N+1))]Σ(Rᵢ²/nᵢ) − 3(N+1)',
+        desc: 'Alternativa no-paramétrica al ANOVA. Compara 3+ grupos sin asumir distribución normal.',
+        icono: '📊',
+        minMuestra: 3
+    },
+    'Wilcoxon': {
+        seccion: 'noParametricos',
+        calcular: 'calcularWilcoxon',
+        formula: 'W = suma de rangos con signo',
+        desc: 'Test no paramétrico para muestras pareadas. Alternativa al t-test pareado.',
+        icono: '📊',
+        minMuestra: 5
+    },
+    'Friedman': {
+        seccion: 'noParametricos',
+        calcular: 'calcularFriedman',
+        formula: 'χ²_r = [12/(nk(k+1))]ΣRᵢ² − 3n(k+1)',
+        desc: 'Test no paramétrico para diseños de bloques aleatorizados. Alternativa al ANOVA de medidas repetidas.',
+        icono: '📊',
+        minMuestra: 4
+    },
+    'Test de Signos': {
+        seccion: 'noParametricos',
+        calcular: 'calcularTestSignos',
+        formula: 'signos = count(+)/count(-)',
+        desc: 'Test no paramétrico simple basado en signos de diferencias. Para muestras pareadas.',
+        icono: '✚',
+        minMuestra: 5
+    },
+
+    // ========================================
+    // SECCIÓN: MULTIVARIADO
+    // ========================================
+
+    'PCA (Componentes Principales)': {
+        seccion: 'multivariado',
+        calcular: 'calcularPCA',
+        formula: 'PC = w₁X₁ + w₂X₂ + ...',
+        desc: 'Reducción de dimensionalidad que maximiza la varianza explicada. Transforma variables correlacionadas en componentes independientes.',
+        icono: '🎯',
+        minMuestra: 10
+    },
+    'Análisis Factorial': {
+        seccion: 'multivariado',
+        calcular: 'calcularAnalisisFactorial',
+        formula: 'X = LF + ε',
+        desc: 'Identifica estructura latente (factores) que explica correlaciones entre variables observadas.',
+        icono: '🔍',
+        minMuestra: 10
+    },
+    'Análisis de Cluster': {
+        seccion: 'multivariado',
+        calcular: 'calcularCluster',
+        formula: 'Distancia entre clusters',
+        desc: 'Agrupamiento de observaciones en clusters homogéneos. Métodos: k-medias, jerárquico.',
+        icono: '🧩',
+        minMuestra: 5
+    },
+    'Análisis Discriminante': {
+        seccion: 'multivariado',
+        calcular: 'calcularDiscriminante',
+        formula: 'D = wX + b',
+        desc: 'Clasifica observaciones en grupos predefinidos usando funciones discriminantes lineales.',
+        icono: '🎯',
+        minMuestra: 10
+    },
+    'M-ANOVA': {
+        seccion: 'multivariado',
+        calcular: 'calcularMANOVA',
+        formula: 'Λ = |E|/|H+E|',
+        desc: 'ANOVA multivariado. Evalúa efectos de factores sobre múltiples variables dependientes simultáneamente.',
+        icono: '📊',
+        minMuestra: 10
+    },
+
+    // ========================================
+    // SECCIÓN: EXTRAS
+    // ========================================
+
+    'Series Temporales': {
+        seccion: 'extras',
+        calcular: 'calcularSeriesTemporales',
+        formula: 'Y_t = f(Y_{t-1}, Y_{t-2}, ...) + ε_t',
+        desc: 'Análisis de datos ordenados en tiempo. Incluye tendencias, estacionalidad y Forecasting.',
+        icono: '📈',
+        minMuestra: 20
+    },
+    'Bootstrap': {
+        seccion: 'extras',
+        calcular: 'calcularBootstrap',
+        formula: 'θ* = estimador(remuestreo)',
+        desc: 'Método de remuestreo para estimar distribuciones y errores estándar. No requiere suposiciones distribucionales.',
+        icono: '🔄',
+        minMuestra: 10
+    },
+    'Análisis de Supervivencia': {
+        seccion: 'extras',
+        calcular: 'calcularSupervivencia',
+        formula: 'S(t) = P(T > t)',
+        desc: 'Análisis de tiempo hasta evento. Incluye Kaplan-Meier, modelos de Cox para datos censurados.',
+        icono: '⏱️',
+        minMuestra: 20
+    },
+    'Modelos Mixtos': {
+        seccion: 'extras',
+        calcular: 'calcularModelosMixtos',
+        formula: 'Y = Xβ + Zu + ε',
+        desc: 'Modelos con efectos fijos y aleatorios. Para datos agrupados o longitudinales.',
+        icono: '🔀',
+        minMuestra: 20
+    },
+    'Análisis Bayesiano': {
+        seccion: 'extras',
+        calcular: 'calcularBayesiano',
+        formula: 'P(θ|D) ∝ P(D|θ) × P(θ)',
+        desc: 'Inferencia estadística usando distribuciones previas y posteriores. Actualiza creencias con datos.',
+        icono: '🎲',
+        minMuestra: 15
+    },
+
+    // ========================================
+    // SECCIÓN: ESPECIFICACIÓN
+    // ========================================
+
+    'Límites de Cuantificación': {
+        seccion: 'especificacion',
+        calcular: 'calcularLimitesCuantificacion',
+        formula: 'LQC = 10×σ_blanco',
+        desc: 'Límites de cuantificación segúnガイドライン ICH y FDA. LOQ, LQC, MDL.',
+        icono: '📐',
+        minMuestra: 10
+    }
+};
+
+// ========================================
+// HELPERS - GENERAR DESDE CONFIG
+// ========================================
+
+/**
+ * Genera SIDEBAR_SECTIONS desde ESTADISTICOS_CONFIG
+ * @returns {Object} Secciones formateadas para el sidebar
+ */
+function getSeccionesSidebar() {
+    const secciones = {
+        descriptiva: {
+            icon: '📊',
+            label: 'Descriptiva',
+            description: 'Análisis de tendencias centrales, dispersión y forma de datos',
+            options: []
+        },
+        hipotesis: {
+            icon: '🧪',
+            label: 'Hipótesis',
+            description: 'Pruebas estadísticas para validar suposiciones sobre los datos',
+            options: []
+        },
+        correlacion: {
+            icon: '📈',
+            label: 'Correlación',
+            description: 'Medidas de asociación y dependencia entre variables',
+            options: []
+        },
+        regresion: {
+            icon: '📉',
+            label: 'Regresión',
+            description: 'Modelos predictivos y métricas de ajuste',
+            options: []
+        },
+        noParametricos: {
+            icon: '🔬',
+            label: 'No Paramétricos',
+            description: 'Tests sin distribución normal requerida para muestras pequeñas',
+            options: []
+        },
+        multivariado: {
+            icon: '🎯',
+            label: 'Multivariado',
+            description: 'Análisis de múltiples variables simultáneamente',
+            options: []
+        },
+        extras: {
+            icon: '✨',
+            label: 'Extras',
+            description: 'Técnicas avanzadas de análisis estadístico',
+            options: []
+        },
+        especificacion: {
+            icon: '📐',
+            label: 'Especificación',
+            description: 'Límites de cuantificación y capacidad del proceso',
+            options: []
+        }
+    };
+
+    Object.entries(ESTADISTICOS_CONFIG).forEach(([nombre, config]) => {
+        if (secciones[config.seccion]) {
+            secciones[config.seccion].options.push(nombre);
+        }
+    });
+
+    // Eliminar secciones vacías
+    Object.keys(secciones).forEach(key => {
+        if (secciones[key].options.length === 0) {
+            delete secciones[key];
+        }
+    });
+
+    return secciones;
+}
+
+/**
+ * Genera lista plana de todos los estadísticos implementados
+ * @returns {Array} Array con nombres de todos los estadísticos
+ */
+function getEstadisticosList() {
+    return Object.keys(ESTADISTICOS_CONFIG);
+}
+
+/**
+ * Genera metadata para reportes desde ESTADISTICOS_CONFIG
+ * @returns {Object} Objeto con formula, desc, icono por estadístico
+ */
+function getStatMetaConfig() {
+    const meta = {};
+    Object.entries(ESTADISTICOS_CONFIG).forEach(([nombre, config]) => {
+        meta[nombre] = {
+            formula: config.formula,
+            desc: config.desc,
+            icono: config.icono
+        };
+    });
+    return meta;
+}
+
+/**
+ * Obtiene configuración de un estadístico específico
+ * @param {string} nombre - Nombre del estadístico
+ * @returns {Object|null} Configuración del estadístico o null
+ */
+function getEstadisticoConfig(nombre) {
+    return ESTADISTICOS_CONFIG[nombre] || null;
+}
+
+/**
+ * Obtiene todos los estadísticos de una sección específica
+ * @param {string} seccion - Nombre de la sección
+ * @returns {Array} Nombres de estadísticos en esa sección
+ */
+function getEstadisticosPorSeccion(seccion) {
+    return Object.entries(ESTADISTICOS_CONFIG)
+        .filter(([_, config]) => config.seccion === seccion)
+        .map(([nombre, _]) => nombre);
+}
+
+/**
+ * Obtiene todos los estadísticos que tienen edaKey (para EDA automático)
+ * @returns {Object} Mapeo {edaKey: nombre del estadístico}
+ */
+function getEstadisticosEDA() {
+    const edaMap = {};
+    Object.entries(ESTADISTICOS_CONFIG).forEach(([nombre, config]) => {
+        if (config.edaKey) {
+            edaMap[config.edaKey] = nombre;
+        }
+    });
+    return edaMap;
+}
+
+// ========================================
+// EXPORTAR PARA USO GLOBAL
+// ========================================
+
+// Asignar al window para acceso global
+if (typeof window !== 'undefined') {
+    window.ESTADISTICOS_CONFIG = ESTADISTICOS_CONFIG;
+    window.getSeccionesSidebar = getSeccionesSidebar;
+    window.getEstadisticosList = getEstadisticosList;
+    window.getStatMetaConfig = getStatMetaConfig;
+    window.getEstadisticoConfig = getEstadisticoConfig;
+    window.getEstadisticosPorSeccion = getEstadisticosPorSeccion;
+    window.getEstadisticosEDA = getEstadisticosEDA;
+}
