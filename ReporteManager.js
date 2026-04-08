@@ -1128,11 +1128,32 @@ tr:hover td{background:#f7faff}
         }
         
         const usedStats = resultados.estadisticos || [];
+        
         const methodItems = usedStats
           .filter(stat => statsInfo[stat])
           .map(stat => {
             const info = statsInfo[stat];
-            return `<div class="mi"><h4>${info.title}</h4><p>${info.desc}</p><code>${info.formula}</code></div>`;
+            
+            // Construir contenido adicional
+            let extraHtml = '';
+            
+            if (info.hipotesis) {
+                extraHtml += `<div style="margin-top:6px;padding:4px 8px;background:#e7f3ff;border-radius:3px;font-size:7.5pt"><strong>Hipótesis:</strong> H₀: ${info.hipotesis.h0}</div>`;
+            }
+            
+            if (info.supuestos && info.supuestos.length > 0) {
+                extraHtml += `<div style="margin-top:4px;padding:4px 8px;background:#fff3cd;border-radius:3px;font-size:7.5pt"><strong>Supuestos:</strong> ${info.supuestos.join(', ')}</div>`;
+            }
+            
+            if (info.efectoTamano) {
+                extraHtml += `<div style="margin-top:4px;padding:4px 8px;background:#d1ecf1;border-radius:3px;font-size:7.5pt"><strong>Efecto:</strong> ${info.efectoTamano.metrica} (${info.efectoTamano.formula})</div>`;
+            }
+            
+            if (info.referencia) {
+                extraHtml += `<div style="margin-top:4px;padding:4px 8px;background:#f8f9fa;border-radius:3px;font-size:7pt;font-style:italic;color:#6c757d"><strong>Ref:</strong> ${info.referencia}</div>`;
+            }
+            
+            return `<div class="mi"><h4>${info.title}</h4><p>${info.desc}</p><code>${info.formula}</code>${extraHtml}</div>`;
           })
           .join('');
         

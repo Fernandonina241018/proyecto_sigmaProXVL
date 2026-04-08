@@ -3894,7 +3894,6 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
             <div class="ar-notes-section">
                 <div class="ar-notes-title">📚 Notas Metodológicas</div>
                 <div class="ar-notes-grid">
-                    <!-- DEBUG: statKeys = ${statKeys.join(', ')} -->
                     ${statKeys.map(key => {
                         const meta = STAT_META[key] || { formula: '', desc: '', icono: '📊' };
                         if (!meta.desc) return '';
