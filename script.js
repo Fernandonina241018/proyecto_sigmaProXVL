@@ -1594,17 +1594,8 @@ function setupSidebarToggles() {
 // SIDEBAR COMPACTO - ICONOS Y MODAL
 // ========================================
 
-// Debug: verificar que funciones del config están disponibles
-console.log('[script.js] getSeccionesSidebar tipo:', typeof getSeccionesSidebar);
-
 // Definir secciones con sus iconos y opciones (desde estadisticosConfig.js)
-const SIDEBAR_SECTIONS = (typeof getSeccionesSidebar === 'function') ? getSeccionesSidebar() : {
-    descriptiva: { icon: '📊', label: 'Descriptiva', description: 'Análisis de tendencias', options: [] },
-    hipotesis: { icon: '🧪', label: 'Hipótesis', description: 'Pruebas estadísticas', options: [] }
-};
-
-console.log('[script.js] SIDEBAR_SECTIONS:', SIDEBAR_SECTIONS);
-console.log('[script.js] SIDEBAR_SECTIONS.descriptiva:', SIDEBAR_SECTIONS.descriptiva);
+const SIDEBAR_SECTIONS = getSeccionesSidebar();
 
 function updateSidebarIconBadges() {
     const activeStats = StateManager.getActiveStats();
