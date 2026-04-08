@@ -3132,6 +3132,10 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
     function generarHTML(analisisResultado) {
 
         const STAT_META = getStatMeta();
+        
+        // DEBUG: verificar STAT_META
+        console.log('[generarHTML] STAT_META keys:', Object.keys(STAT_META).length);
+        console.log('[generarHTML] Sample statMeta:', STAT_META['Test de Shapiro-Wilk']);
 
         const statKeys = Object.keys(analisisResultado.resultados);
         const cols     = analisisResultado.columnasAnalizadas;
@@ -3890,6 +3894,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
             <div class="ar-notes-section">
                 <div class="ar-notes-title">📚 Notas Metodológicas</div>
                 <div class="ar-notes-grid">
+                    <!-- DEBUG: statKeys = ${statKeys.join(', ')} -->
                     ${statKeys.map(key => {
                         const meta = STAT_META[key] || { formula: '', desc: '', icono: '📊' };
                         if (!meta.desc) return '';
