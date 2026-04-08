@@ -101,7 +101,8 @@ const HYPOTHESIS_TESTS = [
     'Regresión Lineal Simple', 'Regresión Lineal Múltiple',
     'Regresión Polinomial', 'Regresión Logística',
     'RMSE', 'MAE', 'R² (Coef. Determinación)',
-    'Mann-Whitney U', 'Kruskal-Wallis'
+    'Mann-Whitney U', 'Kruskal-Wallis',
+    'Wilcoxon', 'Friedman', 'Test de Signos'
 ];
 
 // Set para búsquedas O(1) — usado internamente por includes()

@@ -580,6 +580,230 @@ const EstadisticaDescriptiva = (() => {
     }
 
     /**
+     * Test de Wilcoxon (signed-rank test)
+     * Para muestras pareadas - alternativa no paramétrica al t-test pareado
+     */
+    function calcularWilcoxon(datos1, datos2) {
+        if (!Array.isArray(datos1) || !Array.isArray(datos2) || datos1.length !== datos2.length) {
+            return { error: 'Las muestras deben tener el mismo tamaño' };
+        }
+        
+        const n = datos1.length;
+        if (n < 5) return { error: 'Se necesitan al menos 5 observaciones' };
+        
+        // Calcular diferencias
+        const diferencias = [];
+        for (let i = 0; i < n; i++) {
+            const diff = datos2[i] - datos1[i];
+            if (diff !== 0) {  // Ignorar diferencias cero
+                diferencias.push({ diff: Math.abs(diff), sign: Math.sign(diff) });
+            }
+        }
+        
+        if (diferencias.length < 5) {
+            return { error: 'Se necesitan al menos 5 diferencias no cero' };
+        }
+        
+        // Ordenar por valor absoluto
+        diferencias.sort((a, b) => a.diff - b.diff);
+        
+        // Asignar rangos (manejar empates)
+        const rangos = new Array(diferencias.length);
+        let correccionEmpates = 0;
+        let i = 0;
+        while (i < diferencias.length) {
+            const currentVal = diferencias[i].diff;
+            let j = i;
+            while (j < diferencias.length && diferencias[j].diff === currentVal) {
+                j++;
+            }
+            const rangoPromedio = (i + 1 + j) / 2;
+            const t = j - i;
+            if (t > 1) {
+                correccionEmpates += (t * t * t - t);
+            }
+            for (let idx = i; idx < j; idx++) {
+                rangos[idx] = rangoPromedio;
+            }
+            i = j;
+        }
+        
+        // Calcular estadístico W (suma de rangos positivos o negativos)
+        let Wpos = 0;
+        let Wneg = 0;
+        diferencias.forEach((d, idx) => {
+            if (d.sign > 0) Wpos += rangos[idx];
+            else Wneg += rangos[idx];
+        });
+        
+        const W = Math.min(Wpos, Wneg);
+        
+        // Calcular valor p (aproximación normal para n > 25, sino tabla exacta)
+        const N = diferencias.length;
+        const meanW = (N * (N + 1)) / 4;
+        let varW = (N * (N + 1) * (2 * N + 1)) / 24;
+        
+        // Corrección por empates
+        if (correccionEmpates > 0) {
+            varW -= (correccionEmpates / (24 * N * (N - 1)));
+        }
+        
+        const z = (W - meanW) / Math.sqrt(varW);
+        const p = 2 * (1 - normalCDF(Math.abs(z))); // Bilateral
+        
+        return {
+            prueba: 'Test de Wilcoxon',
+            n: N,
+            W: parseFloat(W.toFixed(4)),
+            Wpositivo: parseFloat(Wpos.toFixed(4)),
+            Wnegativo: parseFloat(Wneg.toFixed(4)),
+            z: parseFloat(z.toFixed(4)),
+            valorP: parseFloat(p.toFixed(6)),
+            significativo: p < 0.05,
+            interpretacion: p < 0.05
+                ? `Se rechaza H₀ (p=${p.toFixed(4)} < 0.05). Hay diferencia significativa entre las distribuciones.`
+                : `No se rechaza H₀ (p=${p.toFixed(4)} ≥ 0.05). No hay diferencia significativa.`
+        };
+    }
+
+    /**
+     * Test de Friedman
+     * Para datos de bloques aleatorizados (k tratamientos, n bloques)
+     */
+    function calcularFriedman(tratamientos) {
+        if (!Array.isArray(tratamientos) || tratamientos.length < 3) {
+            return { error: 'Se necesitan al menos 3 tratamientos' };
+        }
+        
+        const k = tratamientos.length;  // número de tratamientos
+        const n = tratamientos[0].length;  // número de bloques
+        
+        if (n < 3) return { error: 'Se necesitan al menos 3 bloques' };
+        
+        // Verificar que todos los tratamientos tengan el mismo número de bloques
+        for (let i = 1; i < k; i++) {
+            if (tratamientos[i].length !== n) {
+                return { error: 'Todos los tratamientos deben tener el mismo número de bloques' };
+            }
+        }
+        
+        // Asignar rangos dentro de cada bloque
+        const rangosPorBloque = [];
+        for (let bloque = 0; bloque < n; bloque++) {
+            const valoresConIdx = [];
+            for (let tr = 0; tr < k; tr++) {
+                valoresConIdx.push({ tr, val: tratamientos[tr][bloque] });
+            }
+            valoresConIdx.sort((a, b) => a.valor - b.valor);
+            
+            const rangosBloque = new Array(k);
+            let i = 0;
+            while (i < k) {
+                const currentVal = valoresConIdx[i].val;
+                let j = i;
+                while (j < k && valoresConIdx[j].val === currentVal) {
+                    j++;
+                }
+                const rangoPromedio = (i + 1 + j) / 2;
+                for (let idx = i; idx < j; idx++) {
+                    rangosBloque[valoresConIdx[idx].tr] = rangoPromedio;
+                }
+                i = j;
+            }
+            rangosPorBloque.push(rangosBloque);
+        }
+        
+        // Calcular suma de rangos por tratamiento
+        const sumasRangos = new Array(k).fill(0);
+        rangosPorBloque.forEach(bloque => {
+            bloque.forEach((r, tr) => {
+                sumasRangos[tr] += r;
+            });
+        });
+        
+        // Estadístico de Friedman
+        let chiSq = 0;
+        for (let tr = 0; tr < k; tr++) {
+            chiSq += (sumasRangos[tr] * sumasRangos[tr]);
+        }
+        const ChiSq = (12 / (n * k * (k + 1))) * chiSq - 3 * n * (k + 1);
+        
+        // Grados de libertad
+        const df = k - 1;
+        
+        // Valor p
+        const p = calcularValorP_ChiCuadrado(ChiSq, df);
+        
+        return {
+            prueba: 'Test de Friedman',
+            tratamientos: k,
+            bloques: n,
+            sumasRangos: sumasRangos.map((s, i) => ({ tratamiento: i + 1, suma: parseFloat(s.toFixed(4)) })),
+            ChiSq: parseFloat(ChiSq.toFixed(4)),
+            df: df,
+            valorP: parseFloat(p.toFixed(6)),
+            significativo: p < 0.05,
+            interpretacion: p < 0.05
+                ? `Se rechaza H₀ (p=${p.toFixed(4)} < 0.05). Al menos un tratamiento tiene efecto diferente.`
+                : `No se rechaza H₀ (p=${p.toFixed(4)} ≥ 0.05). No hay diferencia significativa entre tratamientos.`
+        };
+    }
+
+    /**
+     * Test de Signos (Sign test)
+     * Para muestras pareadas - prueba no paramétrica simple
+     */
+    function calcularTestSignos(datos1, datos2) {
+        if (!Array.isArray(datos1) || !Array.isArray(datos2)) {
+            return { error: 'Datos inválidos' };
+        }
+        
+        const n = Math.min(datos1.length, datos2.length);
+        if (n < 5) return { error: 'Se necesitan al menos 5 observaciones' };
+        
+        // Contar signos
+        let positivos = 0;
+        let negativos = 0;
+        let ceros = 0;
+        
+        for (let i = 0; i < n; i++) {
+            const diff = datos2[i] - datos1[i];
+            if (diff > 0) positivos++;
+            else if (diff < 0) negativos++;
+            else ceros++;
+        }
+        
+        const N = positivos + negativos; // Ignorar ceros
+        if (N < 5) return { error: 'Se necesitan al menos 5 diferencias no cero' };
+        
+        // Usar el menor de los dos conteos como estadístico
+        const k = Math.min(positivos, negativos);
+        
+        // Aproximación normal (con corrección de continuidad)
+        const mean = N / 2;
+        const varianza = N / 4;
+        const z = (k - mean - 0.5) / Math.sqrt(varianza);
+        
+        // Valor p bilateral
+        const p = 2 * (1 - normalCDF(Math.abs(z)));
+        
+        return {
+            prueba: 'Test de Signos',
+            n: n,
+            ceros: ceros,
+            positivos: positivos,
+            negativos: negativos,
+            k: k,
+            z: parseFloat(z.toFixed(4)),
+            valorP: parseFloat(p.toFixed(6)),
+            significativo: p < 0.05,
+            interpretacion: p < 0.05
+                ? `Se rechaza H₀ (p=${p.toFixed(4)} < 0.05). Hay diferencia significativa en la mediana.`
+                : `No se rechaza H₀ (p=${p.toFixed(4)} ≥ 0.05). No hay diferencia significativa.`
+        };
+    }
+
+    /**
      * ANOVA One-Way
      * Compara las medias de 3 o más grupos
      */
@@ -2915,9 +3139,101 @@ const EstadisticaDescriptiva = (() => {
                          }
                      } else {
                          resultados['Kruskal-Wallis'] = { error: 'Configuración no encontrada. Seleccione columna categórica (3+ grupos) y numérica.' };
-                     }
-                     break;
-             }
+                      }
+                      break;
+
+                  // ========================================
+                  // NO PARAMÉTRICOS - Tests adicionales
+                  // ========================================
+
+                  case 'Wilcoxon':
+                      if (hypothesisConfig['Wilcoxon']) {
+                          const cfg = hypothesisConfig['Wilcoxon'];
+                          const col1 = cfg.numericCols?.[0];
+                          const col2 = cfg.numericCols?.[1];
+                          if (!col1 || !col2) {
+                              resultados['Wilcoxon'] = { error: 'Seleccione dos columnas numéricas pareadas' };
+                          } else {
+                              const values1 = getNumericValues(data, col1);
+                              const values2 = getNumericValues(data, col2);
+                              if (values1.length < 5 || values2.length < 5) {
+                                  resultados['Wilcoxon'] = { error: 'Se necesitan al menos 5 observaciones por muestra' };
+                              } else if (values1.length !== values2.length) {
+                                  resultados['Wilcoxon'] = { error: 'Las muestras deben tener el mismo tamaño (muestras pareadas)' };
+                              } else {
+                                  resultados['Wilcoxon'] = calcularWilcoxon(values1, values2);
+                                  resultados['Wilcoxon'].columna1 = col1;
+                                  resultados['Wilcoxon'].columna2 = col2;
+                              }
+                          }
+                      } else {
+                          resultados['Wilcoxon'] = { error: 'Seleccione dos columnas numéricas pareadas' };
+                      }
+                      break;
+
+                  case 'Friedman':
+                      if (hypothesisConfig['Friedman']) {
+                          const cfg = hypothesisConfig['Friedman'];
+                          const catCol = cfg.categoricalCols?.[0];
+                          const numCol = cfg.numericCol;
+                          if (!catCol || !numCol) {
+                              resultados['Friedman'] = { error: 'Seleccione columna de bloques y columna de tratamientos' };
+                          } else {
+                              const grupos = {};
+                              data.data.forEach(row => {
+                                  const g = row[catCol];
+                                  const v = parseFloat(row[numCol]);
+                                  if (g !== null && g !== '' && !isNaN(v)) {
+                                      if (!grupos[g]) grupos[g] = [];
+                                      grupos[g].push(v);
+                                  }
+                              });
+                              const blockKeys = Object.keys(grupos);
+                              if (blockKeys.length < 3) {
+                                  resultados['Friedman'] = { error: 'Se necesitan al menos 3 bloques' };
+                              } else {
+                                  const k = grupos[blockKeys[0]].length;
+                                  if (k < 3) {
+                                      resultados['Friedman'] = { error: 'Se necesitan al menos 3 tratamientos por bloque' };
+                                  } else {
+                                      const treatments = [];
+                                      for (let i = 0; i < k; i++) {
+                                          treatments.push(blockKeys.map(b => grupos[b][i]));
+                                      }
+                                      resultados['Friedman'] = calcularFriedman(treatments);
+                                      resultados['Friedman'].bloques = blockKeys.length;
+                                      resultados['Friedman'].tratamientos = k;
+                                  }
+                              }
+                          }
+                      } else {
+                          resultados['Friedman'] = { error: 'Seleccione columna de bloques (mínimo 3) y numérica' };
+                      }
+                      break;
+
+                  case 'Test de Signos':
+                      if (hypothesisConfig['Test de Signos']) {
+                          const cfg = hypothesisConfig['Test de Signos'];
+                          const col1 = cfg.numericCols?.[0];
+                          const col2 = cfg.numericCols?.[1];
+                          if (!col1 || !col2) {
+                              resultados['Test de Signos'] = { error: 'Seleccione dos columnas numéricas pareadas' };
+                          } else {
+                              const values1 = getNumericValues(data, col1);
+                              const values2 = getNumericValues(data, col2);
+                              if (values1.length < 5) {
+                                  resultados['Test de Signos'] = { error: 'Se necesitan al menos 5 observaciones' };
+                              } else {
+                                  resultados['Test de Signos'] = calcularTestSignos(values1, values2);
+                                  resultados['Test de Signos'].columna1 = col1;
+                                  resultados['Test de Signos'].columna2 = col2;
+                              }
+                          }
+                      } else {
+                          resultados['Test de Signos'] = { error: 'Seleccione dos columnas numéricas pareadas' };
+                      }
+                      break;
+              }
         });
         
         return {
