@@ -3064,23 +3064,27 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
     
     /**
      * Función helper para obtener STAT_META (disponible en ambos reportes)
+     * Ahora usa estadisticosConfig.js para obtener metadata completa
      */
     function getStatMeta() {
+        // Usar getStatMetaConfig si está disponible (desde estadisticosConfig.js)
+        if (typeof getStatMetaConfig === 'function') {
+            return getStatMetaConfig();
+        }
+        
+        // Fallback: objeto hardcoded para compatibilidad
         return {
-            'Media Aritmética':   { formula: 'x̄ = Σxᵢ / n',                        desc: 'Tendencia central de la distribución. Suma de todos los valores dividida entre el número de observaciones.',          icono: '📐' },
-            'Mediana':            { formula: 'P₅₀ — valor central al ordenar datos', desc: 'Divide la distribución en dos mitades iguales. Resistente a valores atípicos a diferencia de la media.',             icono: '📊' },
-            'Moda':               { formula: 'Valor con mayor frecuencia absoluta',   desc: 'Valor que aparece con más frecuencia. Puede ser multimodal si varios valores comparten la frecuencia máxima.',        icono: '🔢' },
-            'Desviación Estándar':{ formula: 's = √[Σ(xᵢ − x̄)² / (n−1)]',          desc: 'Dispersión típica respecto a la media con corrección de Bessel (n−1). Principal indicador de variabilidad del proceso.',icono: '📉' },
-            'Test de Normalidad':      { formula: 'JB = (n/6)(S² + K²/4)',             desc: 'Jarque-Bera: Test basado en asimetría (S) y curtosis (K) de la distribución. H₀: los datos son normales. Aproximación chi-cuadrado con 2 g.l. Recomendado para n≥8. Potencia media para detectar desviaciones en colas.', icono: '🔔' },
-            'Test de Shapiro-Wilk':    { formula: 'W = (Σaᵢx₍ᵢ₎)² / Σ(xᵢ − x̄)²',      desc: 'Shapiro-Wilk: Test más potente para muestras pequeñas (n < 50). Compara cuantiles de la muestra con cuantiles normales teóricos. Requiere 3≤n≤5000. Excelente para detectar desviaciones generales de la normalidad.', icono: '🔔' },
-            'Test de Kolmogorov-Smirnov': { formula: 'D = max|Fₙ(x) − F(x)|',          desc: 'Kolmogorov-Smirnov (Lilliefors): Compara la función de distribución empírica con la normal teórica. Corrección de Lilliefors para muestras pequeñas. Sensible a diferencias en el centro de la distribución. Requiere n≥5.', icono: '🔔' },
-            'Test de Anderson-Darling': { formula: 'A² = −n − (1/n)Σ(2i−1)[ln(Fᵢ)+ln(1−Fₙ₊₁₋ᵢ)]', desc: 'Anderson-Darling: Versión mejorada de K-S que pondera más las colas de la distribución. Más potente para detectar desviaciones en los extremos. Recomendado cuando se sospecha anomalías en colas. Requiere n≥8.', icono: '🔔' },
-            "Test de D'Agostino-Pearson": { formula: 'K² = Z_skew² + Z_kurt² ~ χ²(2)',  desc: "D'Agostino-Pearson (Omnibus): Combina tests de asimetría y curtosis en estadístico K² = Z_skew² + Z_kurt² ~ χ²(2). Detecta desviaciones de normalidad por forma (no solo por colas). Útil para distribución simétrica pero platicúrtica o leptocúrtica. Requiere n≥8.", icono: '🔔' },
-            'Correlación Pearson':     { formula: 'r = cov(X,Y)/(σx * σy)',            desc: 'Mide la relación lineal entre dos variables. Valores entre -1 y 1. Cercano a ±1 indica fuerte relación lineal.', icono: '🔗' },
-            'T-Test (una muestra)':    { formula: 't = (x̄ − μ₀) / (s/√n)',            desc: 'Compara la media muestral con un valor hipotético (μ₀). Prueba bilateral para detectar diferencias significativas.', icono: '🔬' },
-            'ANOVA One-Way':           { formula: 'F = MSB / MSW',                     desc: 'Compara medias de 3+ grupos. Si F es significativo, al menos una media difiere de las demás.', icono: '📊' },
-            'Mann-Whitney U':          { formula: 'U = min(U₁, U₂)',                    desc: 'Alternativa no-paramétrica al t-test. Compara distribuciones de dos grupos sin asumir normalidad.', icono: '⚖️' },
-            'Kruskal-Wallis':          { formula: 'H = [12/(N(N+1))]Σ(Rᵢ²/nᵢ) − 3(N+1)', desc: 'Alternativa no-paramétrica al ANOVA. Compara 3+ grupos sin asumir distribución normal.', icono: '📊' }
+            'Media Aritmética':   { formula: 'x̄ = Σxᵢ / n',                        desc: 'Tendencia central de la distribución.',          icono: '📐' },
+            'Mediana':            { formula: 'P₅₀ — valor central al ordenar datos', desc: 'Divide la distribución en dos mitades iguales.',             icono: '📊' },
+            'Test de Normalidad': { formula: 'JB = (n/6)(S² + K²/4)', desc: 'Jarque-Bera: Test basado en asimetría y curtosis.', icono: '🔔' },
+            'Test de Shapiro-Wilk': { formula: 'W = (Σaᵢx₍ᵢ₎)² / Σ(xᵢ − x̄)²', desc: 'Shapiro-Wilk: Test más potente para muestras pequeñas.', icono: '🔔' },
+            'Test de Kolmogorov-Smirnov': { formula: 'D = max|Fₙ(x) − F(x)|', desc: 'Kolmogorov-Smirnov (Lilliefors).', icono: '🔔' },
+            'Test de Anderson-Darling': { formula: 'A² = −n − (1/n)Σ(2i−1)[ln(Fᵢ)+ln(1−Fₙ₊₁₋ᵢ)]', desc: 'Versión mejorada de K-S.', icono: '🔔' },
+            "Test de D'Agostino-Pearson": { formula: 'K² = Z_skew² + Z_kurt² ~ χ²(2)', desc: "D'Agostino-Pearson (Omnibus).", icono: '🔔' },
+            'T-Test (una muestra)': { formula: 't = (x̄ − μ₀) / (s/√n)', desc: 'Compara la media muestral con un valor hipotético.', icono: '🔬' },
+            'ANOVA One-Way': { formula: 'F = MSB / MSW', desc: 'Compara medias de 3+ grupos.', icono: '📊' },
+            'Mann-Whitney U': { formula: 'U = min(U₁, U₂)', desc: 'Alternativa no-paramétrica al t-test.', icono: '⚖️' },
+            'Kruskal-Wallis': { formula: 'H = [12/(N(N+1))]Σ(Rᵢ²/nᵢ) − 3(N+1)', desc: 'Alternativa no-paramétrica al ANOVA.', icono: '📊' }
         };
     }
     
