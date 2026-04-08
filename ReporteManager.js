@@ -1105,9 +1105,27 @@ tr:hover td{background:#f7faff}
     <div class="sec-title"><span class="sec-num">05</span>${t('html_sec5')}</div>
     <div class="method-grid">
       ${(() => {
-        const statsInfo = {
-          'Media Aritmética': {
-            title: lang === 'es' ? 'Media Aritmética' : 'Arithmetic Mean',
+        // Obtener metadata desde estadisticosConfig.js si está disponible
+        let statsInfo = {};
+        
+        if (typeof getStatMetaConfig === 'function') {
+          const metaConfig = getStatMetaConfig();
+          Object.entries(metaConfig).forEach(([key, val]) => {
+            statsInfo[key] = {
+              title: key,
+              desc: val.desc || '',
+              formula: val.formula || '',
+              hipotesis: val.hipotesis || null,
+              supuestos: val.supuestos || [],
+              efectoTamano: val.efectoTamano || null,
+              referencia: val.referencia || ''
+            };
+          });
+        } else {
+          // Fallback: objeto hardcoded
+          statsInfo = {
+            'Media Aritmética': {
+              title: lang === 'es' ? 'Media Aritmética' : 'Arithmetic Mean',
             desc: lang === 'es' ? 'Suma de todos los valores dividida entre el número de observaciones. Representa el centro de la distribución.' : 'Sum of all values divided by the number of observations. Represents the center of the distribution.',
             formula: 'x̄ = Σxᵢ / n'
           },
