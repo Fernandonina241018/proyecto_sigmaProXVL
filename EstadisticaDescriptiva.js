@@ -3777,6 +3777,27 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                 </div>
             </div>
 
+            <!-- Notas Metodológicas -->
+            <div class="ar-notes-section">
+                <div class="ar-notes-title">📚 Notas Metodológicas</div>
+                <div class="ar-notes-grid">
+                    ${statKeys.map(key => {
+                        const meta = STAT_META[key] || { formula: '', desc: '' };
+                        if (!meta.desc) return '';
+                        return `
+                            <div class="ar-note-card">
+                                <div class="ar-note-header">
+                                    <span class="ar-note-icon">${meta.icono}</span>
+                                    <span class="ar-note-stat">${key}</span>
+                                </div>
+                                <div class="ar-note-formula">${meta.formula}</div>
+                                <div class="ar-note-desc">${meta.desc}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            </div>
+
             <!-- Footer -->
             <div class="ar-footer">
                 <button class="ar-btn-secondary">🔄 Nuevo análisis</button>

@@ -365,6 +365,78 @@
     justify-content: flex-end;
 }
 
+/* ── Notas Metodológicas ─────────────────── */
+.ar-notes-section {
+    margin: 24px 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    border: 1px solid #dee2e6;
+}
+
+.ar-notes-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #495057;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #adb5bd;
+}
+
+.ar-notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+}
+
+.ar-note-card {
+    background: white;
+    border-radius: 8px;
+    padding: 14px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    transition: all 0.2s;
+}
+
+.ar-note-card:hover {
+    border-color: #667eea;
+    box-shadow: 0 4px 12px rgba(102,126,234,0.15);
+}
+
+.ar-note-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.ar-note-icon {
+    font-size: 1.1rem;
+}
+
+.ar-note-stat {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #343a40;
+}
+
+.ar-note-formula {
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    color: #6c757d;
+    background: #f8f9fa;
+    padding: 8px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    border-left: 3px solid #667eea;
+}
+
+.ar-note-desc {
+    font-size: 0.8rem;
+    color: #6c757d;
+    line-height: 1.5;
+}
+
 .ar-btn-primary {
     padding: 10px 22px;
     background: linear-gradient(135deg, #667eea, #764ba2);
