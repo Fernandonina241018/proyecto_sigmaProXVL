@@ -177,27 +177,46 @@ const EDAManager = (function () {
             };
         });
 
-        // ── Tests de normalidad (5 tests completos) ────────────────────────
-        const normalidad = {};
-        const normalidadShapiro = {};
-        const normalidadKS = {};
-        const normalidadAD = {};
-        const normalidadDP = {};
+        // ── Tests de normalidad (usando estadisticosConfig.js) ───────────────
+        const edaTests = getEstadisticosEDA();
+        const resultadosEDA = {};
+        
+        // Inicializar objetos para cada test con edaKey
+        Object.entries(edaTests).forEach(([edaKey, nombre]) => {
+            resultadosEDA[edaKey] = {};
+        });
+        
+        // Ejecutar cada test según su configuración
         numericCols.forEach(col => {
             const values = valCache[col];
-            if (values.length < 3) return;
-            normalidad[col] = testNormalidadJB(values);
-            if (values.length >= 3 && values.length <= 5000) {
-                normalidadShapiro[col] = EstadisticaDescriptiva.calcularShapiroWilk(values);
-            }
-            if (values.length >= 5) {
-                normalidadKS[col] = EstadisticaDescriptiva.calcularKolmogorovSmirnov(values);
-            }
-            if (values.length >= 8) {
-                normalidadAD[col] = EstadisticaDescriptiva.calcularAndersonDarling(values);
-                normalidadDP[col] = EstadisticaDescriptiva.calcularDAgostinoPearson(values);
-            }
+            const n = values.length;
+            
+            Object.entries(edaTests).forEach(([edaKey, nombre]) => {
+                const config = getEstadisticoConfig(nombre);
+                if (!config) return;
+                
+                const minN = config.minMuestra || 3;
+                const maxN = config.maxMuestra || Infinity;
+                
+                if (n >= minN && n <= maxN) {
+                    const calcular = EstadisticaDescriptiva[config.calcular];
+                    if (calcular && typeof calcular === 'function') {
+                        try {
+                            resultadosEDA[edaKey][col] = calcular(values);
+                        } catch (e) {
+                            console.warn('[EDAManager] Error ejecutando ' + nombre + ' en ' + col + ':', e.message);
+                        }
+                    }
+                }
+            });
         });
+
+        // Mantener compatibilidad: mapear al formato anterior
+        const normalidad = resultadosEDA.normalidad || {};
+        const normalidadShapiro = resultadosEDA.normalidadShapiro || {};
+        const normalidadKS = resultadosEDA.normalidadKS || {};
+        const normalidadAD = resultadosEDA.normalidadAD || {};
+        const normalidadDP = resultadosEDA.normalidadDP || {};
 
         // ── Detección de outliers (usando StatsUtils) ──────────────────────
         const outliers    = {};
