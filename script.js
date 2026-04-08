@@ -1595,7 +1595,11 @@ function setupSidebarToggles() {
 // ========================================
 
 // Definir secciones con sus iconos y opciones (desde estadisticosConfig.js)
-const SIDEBAR_SECTIONS = getSeccionesSidebar();
+const SIDEBAR_SECTIONS = (typeof getSeccionesSidebar === 'function') ? getSeccionesSidebar() : {
+    descriptiva: { icon: '📊', label: 'Descriptiva', description: 'Análisis de tendencias', options: [] },
+    hipotesis: { icon: '🧪', label: 'Hipótesis', description: 'Pruebas estadísticas', options: [] }
+};
+console.log('[script.js] SIDEBAR_SECTIONS cargado, secciones:', Object.keys(SIDEBAR_SECTIONS).length);
 
 function updateSidebarIconBadges() {
     const activeStats = StateManager.getActiveStats();

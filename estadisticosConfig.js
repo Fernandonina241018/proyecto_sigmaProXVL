@@ -2,6 +2,14 @@
 // estadisticosConfig.js - CONFIGURACIÓN CENTRALIZADA DE ESTADÍSTICOS
 // StatAnalyzer Pro
 // ========================================
+
+// Debug: verificar que el archivo se carga
+(function() {
+    console.log('[estadisticosConfig] Iniciando carga...');
+    console.log('[estadisticosConfig] ESTADISTICOS_CONFIG definido:', typeof ESTADISTICOS_CONFIG !== 'undefined');
+    console.log('[estadisticosConfig] getSeccionesSidebar definido:', typeof getSeccionesSidebar !== 'undefined');
+    console.log('[estadisticosConfig] window definido:', typeof window !== 'undefined');
+})();
 //
 // ESTRUCTURA DE CADA ENTRADA:
 // {
