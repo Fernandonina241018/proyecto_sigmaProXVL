@@ -2,14 +2,8 @@
 // estadisticosConfig.js - CONFIGURACIÓN CENTRALIZADA DE ESTADÍSTICOS
 // StatAnalyzer Pro
 // ========================================
-
-// Debug: verificar que el archivo se carga
-(function() {
-    console.log('[estadisticosConfig] Iniciando carga...');
-    console.log('[estadisticosConfig] ESTADISTICOS_CONFIG definido:', typeof ESTADISTICOS_CONFIG !== 'undefined');
-    console.log('[estadisticosConfig] getSeccionesSidebar definido:', typeof getSeccionesSidebar !== 'undefined');
-    console.log('[estadisticosConfig] window definido:', typeof window !== 'undefined');
-})();
+//
+// ESTRUCTURA DE CADA ENTRADA:
 //
 // ESTRUCTURA DE CADA ENTRADA:
 // {
@@ -1999,6 +1993,12 @@ globalObj.getEstadisticosEDA = getEstadisticosEDA;
 globalObj.getEstadisticosDobleColumna = getEstadisticosDobleColumna;
 globalObj.getNivelAlfa = getNivelAlfa;
 globalObj.buildInterpretacion = buildInterpretacion;
+
+// Debug: verificar que las funciones están asignadas al objeto global
+if (typeof window !== 'undefined') {
+    console.log('[estadisticosConfig] Carga completa. getSeccionesSidebar:', typeof window.getSeccionesSidebar);
+    console.log('[estadisticosConfig] getEstadisticosList:', typeof window.getEstadisticosList);
+}
 
 // Para CommonJS / Node.js (opcional)
 if (typeof module !== 'undefined' && module.exports) {

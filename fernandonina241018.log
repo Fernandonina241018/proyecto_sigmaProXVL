@@ -1,0 +1,38 @@
+utils.js:136 ✅ Utils cargado correctamente
+auth.js:613 ✅ Auth module cargado
+StateManager.js:902 ✅ StateManager cargado correctamente
+TrabajoManager.js:986 ✅ TrabajoManager cargado
+estadisticosConfig.js:8 [estadisticosConfig] Iniciando carga...
+estadisticosConfig.js:9 Uncaught ReferenceError: Cannot access 'ESTADISTICOS_CONFIG' before initialization
+    at estadisticosConfig.js:9:13
+    at estadisticosConfig.js:12:3
+(anonymous) @ estadisticosConfig.js:9
+(anonymous) @ estadisticosConfig.js:12
+EstadisticaDescriptiva.js:3949 ✅ Módulo de Estadística Descriptiva cargado
+Visualizacion.js:2100 ✅ Módulo de Visualización cargado
+ReporteManager.js:1840 ✅ ReporteManager cargado — FDA 21 CFR Part 11
+AuditoriaManager.js:337 ✅ AuditoriaManager cargado
+UsuariosManager.js:488 ✅ UsuariosManager cargado
+DatosManager.js:862 ✅ DatosManager cargado
+PermisosManager.js:247 ✅ PermisosManager cargado
+ParametrosManager.js:109 ✅ ParametrosManager cargado
+estadisticosConfig.js:1886 Uncaught ReferenceError: Cannot access 'ESTADISTICOS_CONFIG' before initialization
+    at getSeccionesSidebar (estadisticosConfig.js:1886:20)
+    at script.js:1598:72
+getSeccionesSidebar @ estadisticosConfig.js:1886
+(anonymous) @ script.js:1598
+script.js:1322 🚀 StatAnalyzer Pro inicializado
+script.js:1649 Uncaught ReferenceError: Cannot access 'SIDEBAR_SECTIONS' before initialization
+    at createSidebarIconContainers (script.js:1649:20)
+    at setupSidebarToggles (script.js:1524:5)
+    at _initApp (script.js:1342:5)
+    at onLogin (script.js:1328:13)
+    at Object.init (auth.js:595:94)
+    at HTMLDocument.<anonymous> (script.js:1325:10)
+createSidebarIconContainers @ script.js:1649
+setupSidebarToggles @ script.js:1524
+_initApp @ script.js:1342
+onLogin @ script.js:1328
+init @ auth.js:595
+(anonymous) @ script.js:1325
+favicon.ico:1  GET https://fernandonina241018.github.io/favicon.ico 404 (Not Found)

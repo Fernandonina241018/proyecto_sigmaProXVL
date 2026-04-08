@@ -1599,7 +1599,6 @@ const SIDEBAR_SECTIONS = (typeof getSeccionesSidebar === 'function') ? getSeccio
     descriptiva: { icon: '📊', label: 'Descriptiva', description: 'Análisis de tendencias', options: [] },
     hipotesis: { icon: '🧪', label: 'Hipótesis', description: 'Pruebas estadísticas', options: [] }
 };
-console.log('[script.js] SIDEBAR_SECTIONS cargado, secciones:', Object.keys(SIDEBAR_SECTIONS).length);
 
 function updateSidebarIconBadges() {
     const activeStats = StateManager.getActiveStats();
