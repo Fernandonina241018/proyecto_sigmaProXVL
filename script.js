@@ -1594,84 +1594,8 @@ function setupSidebarToggles() {
 // SIDEBAR COMPACTO - ICONOS Y MODAL
 // ========================================
 
-// Definir secciones con sus iconos y opciones
-const SIDEBAR_SECTIONS = {
-    descriptiva: {
-        icon: '📊',
-        label: 'Descriptiva',
-        description: 'Análisis de tendencias centrales, dispersión y forma de datos',
-        options: [
-            'Media Aritmética', 'Mediana y Moda', 'Desviación Estándar', 'Varianza',
-            'Percentiles', 'Rango y Amplitud', 'Coeficiente de Variación',
-            'Asimetría (Skewness)', 'Curtosis (Kurtosis)', 'Error Estándar',
-            'Intervalos de Confianza', 'Detección de Outliers'
-        ]
-    },
-    hipotesis: {
-        icon: '🧪',
-        label: 'Hipótesis',
-        description: 'Pruebas estadísticas para validar suposiciones sobre los datos',
-        options: [
-            'T-Test (una muestra)', 'T-Test (dos muestras)', 'ANOVA One-Way',
-            'ANOVA Two-Way', 'Chi-Cuadrado', 'Test de Normalidad',
-            'Test de Shapiro-Wilk', 'Test de Kolmogorov-Smirnov',
-            'Test de Anderson-Darling', "Test de D'Agostino-Pearson",
-            'Test TOST (Equivalencia)'
-        ]
-    },
-    correlacion: {
-        icon: '📈',
-        label: 'Correlación',
-        description: 'Medidas de asociación y dependencia entre variables',
-        options: [
-            'Correlación Pearson', 'Correlación Spearman', 'Correlación Kendall Tau',
-            'Covarianza'
-        ]
-    },
-    regresion: {
-        icon: '📉',
-        label: 'Regresión',
-        description: 'Modelos predictivos y métricas de ajuste',
-        options: [
-            'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial',
-            'Regresión Logística', 'RMSE', 'MAE', 'R² (Coef. Determinación)'
-        ]
-    },
-    noParametricos: {
-        icon: '🔬',
-        label: 'No Paramétricos',
-        description: 'Tests sin distribución normal requerida para muestras pequeñas',
-        options: [
-            'Mann-Whitney U', 'Kruskal-Wallis', 'Wilcoxon', 'Friedman', 'Test de Signos'
-        ]
-    },
-    multivariado: {
-        icon: '🎯',
-        label: 'Multivariado',
-        description: 'Análisis de múltiples variables simultáneamente',
-        options: [
-            'PCA (Componentes Principales)', 'Análisis Factorial', 'Análisis de Cluster',
-            'Análisis Discriminante', 'M-ANOVA'
-        ]
-    },
-    extras: {
-        icon: '✨',
-        label: 'Extras',
-        description: 'Técnicas avanzadas de análisis estadístico',
-        options: [
-            'Series Temporales', 'Bootstrap', 'Análisis de Supervivencia',
-            'Modelos Mixtos', 'Análisis Bayesiano'
-        ]
-    },
-    especificacion: {
-        icon: '📐',
-        label: 'Especificación',
-        description: 'Límites de cuantificación y capacidad del proceso',
-        options: [
-            'Límites de Cuantificación'
-        ]
-    }
-};
+// Definir secciones con sus iconos y opciones (desde estadisticosConfig.js)
+const SIDEBAR_SECTIONS = getSeccionesSidebar();
 
 function updateSidebarIconBadges() {
     const activeStats = StateManager.getActiveStats();
