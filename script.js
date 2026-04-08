@@ -2172,7 +2172,8 @@ function mostrarModalConfiguracionHypothesis(statName) {
     // Confirmar selección
     document.getElementById('hypo-modal-confirm').addEventListener('click', () => {
         const selectedCatCols = [...modal.querySelectorAll('input[name="hypo-cat-col"]:checked')].map(cb => cb.value);
-        const selectedNumCol = modal.querySelector('input[name="hypo-num-col"]:checked')?.value;
+        const selectedNumCols = [...modal.querySelectorAll('input[name="hypo-num-col"]:checked')].map(cb => cb.value);
+        const selectedNumCol = selectedNumCols[0] || null;
         
         // Validaciones finales
         if (config.catCols > 0 && selectedCatCols.length < config.catCols) {
@@ -2180,8 +2181,8 @@ function mostrarModalConfiguracionHypothesis(statName) {
             return;
         }
         
-        if (config.numCols > 0 && !selectedNumCol) {
-            _showToast('⚠️ Selecciona una columna numérica', true);
+        if (config.numCols > 0 && selectedNumCols.length !== config.numCols) {
+            _showToast(`⚠️ Selecciona ${config.numCols} columna(s) numérica(s)`, true);
             return;
         }
         
