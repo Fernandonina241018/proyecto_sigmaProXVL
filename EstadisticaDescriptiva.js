@@ -2974,6 +2974,22 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         });
         
         reporte += `\n${'═'.repeat(63)}\n`;
+        
+        // Agregar notas metodológicas
+        reporte += `\n📚 NOTAS METODOLÓGICAS\n`;
+        reporte += `${'─'.repeat(63)}\n`;
+        
+        const statKeys = Object.keys(analisisResultado.resultados);
+        statKeys.forEach(key => {
+            const meta = STAT_META[key] || { formula: '', desc: '' };
+            if (!meta.desc) return;
+            
+            reporte += `\n${meta.icono || '📊'} ${key}\n`;
+            reporte += `   Fórmula: ${meta.formula}\n`;
+            reporte += `   ${meta.desc}\n`;
+        });
+        
+        reporte += `\n${'═'.repeat(63)}\n`;
         reporte += `Generado: ${new Date().toLocaleString('es-ES')}\n`;
         reporte += `${'═'.repeat(63)}\n`;
         
@@ -2981,48 +2997,99 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
     }
     
     /**
-     * Genera resultados en formato HTML para mostrar en la interfaz
+     * Genera un reporte en texto formateado
      */
-    function generarHTML(analisisResultado) {
+    function generarReporte(analisisResultado) {
+        const STAT_META = getStatMeta();
+        
+        let reporte = `
+═════════════════════════════════════════════════════════
+            REPORTE DE ESTADÍSTICA DESCRIPTIVA
+═════════════════════════════════════════════════════════
 
-        const STAT_META = {
+📊 INFORMACIÓN GENERAL
+──────────────────────────────────────────────────────────
+Total de filas:              ${analisisResultado.totalFilas}
+Columnas numéricas:          ${analisisResultado.totalColumnas}
+Columnas analizadas:         ${analisisResultado.columnasAnalizadas.join(', ')}
+Estadísticos calculados:     ${analisisResultado.estadisticos.length}
+
+`;
+        
+        // Agregar resultados por estadístico
+        Object.keys(analisisResultado.resultados).forEach(estadistico => {
+            reporte += `\n📈 ${estadistico.toUpperCase()}\n`;
+            reporte += `${'─'.repeat(63)}\n`;
+            
+            const datos = analisisResultado.resultados[estadistico];
+            
+            Object.keys(datos).forEach(columna => {
+                const valor = datos[columna];
+                
+                if (typeof valor === 'object' && !Array.isArray(valor)) {
+                    reporte += `\n   ${columna}:\n`;
+                    Object.keys(valor).forEach(key => {
+                        reporte += `      ${key}: ${typeof valor[key] === 'number' ? valor[key].toFixed(4) : valor[key]}\n`;
+                    });
+                } else if (Array.isArray(valor)) {
+                    reporte += `   ${columna}: ${valor.length > 0 ? valor.map(v => v.toFixed(4)).join(', ') : 'No hay moda'}\n`;
+                } else {
+                    reporte += `   ${columna}: ${typeof valor === 'number' ? valor.toFixed(4) : valor}\n`;
+                }
+            });
+        });
+        
+        reporte += `\n${'─'.repeat(63)}\n`;
+        
+        // Agregar notas metodológicas
+        reporte += `\n📚 NOTAS METODOLÓGICAS\n`;
+        reporte += `${'─'.repeat(63)}\n`;
+        
+        const statKeys = Object.keys(analisisResultado.resultados);
+        statKeys.forEach(key => {
+            const meta = STAT_META[key] || { formula: '', desc: '' };
+            if (!meta.desc) return;
+            
+            reporte += `\n${meta.icono || '📊'} ${key}\n`;
+            reporte += `   Fórmula: ${meta.formula}\n`;
+            reporte += `   ${meta.desc}\n`;
+        });
+        
+        reporte += `\n${'═'.repeat(63)}\n`;
+        reporte += `Generado: ${new Date().toLocaleString('es-ES')}\n`;
+        reporte += `${'═'.repeat(63)}\n`;
+        
+        return reporte;
+    }
+    
+    /**
+     * Función helper para obtener STAT_META (disponible en ambos reportes)
+     */
+    function getStatMeta() {
+        return {
             'Media Aritmética':   { formula: 'x̄ = Σxᵢ / n',                        desc: 'Tendencia central de la distribución. Suma de todos los valores dividida entre el número de observaciones.',          icono: '📐' },
             'Mediana':            { formula: 'P₅₀ — valor central al ordenar datos', desc: 'Divide la distribución en dos mitades iguales. Resistente a valores atípicos a diferencia de la media.',             icono: '📊' },
             'Moda':               { formula: 'Valor con mayor frecuencia absoluta',   desc: 'Valor que aparece con más frecuencia. Puede ser multimodal si varios valores comparten la frecuencia máxima.',        icono: '🔢' },
             'Desviación Estándar':{ formula: 's = √[Σ(xᵢ − x̄)² / (n−1)]',          desc: 'Dispersión típica respecto a la media con corrección de Bessel (n−1). Principal indicador de variabilidad del proceso.',icono: '📉' },
-            'Varianza':           { formula: 's² = Σ(xᵢ − x̄)² / (n−1)',             desc: 'Dispersión cuadrática media. Base para el cálculo de la desviación estándar y análisis de varianza (ANOVA).',       icono: '📈' },
-            'Percentiles':        { formula: 'i = k/100 × (n−1)  [interp. lineal NIST]', desc: 'Dividen la distribución en 100 partes iguales. P25, P50 y P75 definen los cuartiles y el rango intercuartílico.', icono: '📶' },
-            'Rango y Amplitud':   { formula: 'R = Máx − Mín',                        desc: 'Extensión total de la distribución. Sensible a valores extremos, complementa la desviación estándar.',               icono: '↔️' },
-            'Coeficiente de Variación': { formula: 'CV = (s / |x̄|) × 100%',          desc: 'Dispersión relativa respecto a la media expresada en porcentaje. Permite comparar variabilidad entre variables con diferentes unidades o escalas.', icono: '📊' },
-            'Asimetría (Skewness)': { formula: 'g₁ = Σ(xᵢ − x̄)³ / (n × s³)',      desc: 'Simetría de la distribución. >0 cola derecha, <0 cola izquierda, ≈0 simétrica.',                                   icono: '📐' },
-            'Curtosis (Kurtosis)':  { formula: 'g₂ = [Σ(xᵢ − x̄)⁴ / (n × s⁴)] − 3', desc: 'Apuntamiento de la distribución. >0 leptocúrtica, <0 platicúrtica, ≈0 mesocúrtica (normal).',                      icono: '🔺' },
-            'Error Estándar':       { formula: 'SE = s / √n',                         desc: 'Error estándar de la media. Estima la variabilidad de la media muestral. Base para intervalos de confianza.',       icono: '📏' },
-            'Intervalos de Confianza': { formula: 'IC = x̄ ± t(α/2) × SE',            desc: 'Rango donde se espera que esté el parámetro poblacional con cierto nivel de confianza (90%, 95%, 99%).',           icono: '📊' },
-            'Detección de Outliers':   { formula: 'IQR: [Q1−1.5×IQR, Q3+1.5×IQR]',   desc: 'Identifica valores atípicos usando IQR (Tukey fence) y Z-score (|z|>3). Útil para detectar errores o datos extremos.', icono: '🎯' },
+            'Test de Normalidad':      { formula: 'JB = (n/6)(S² + K²/4)',             desc: 'Jarque-Bera: Test basado en asimetría (S) y curtosis (K) de la distribución. H₀: los datos son normales. Aproximación chi-cuadrado con 2 g.l. Recomendado para n≥8. Potencia media para detectar desviaciones en colas.', icono: '🔔' },
+            'Test de Shapiro-Wilk':    { formula: 'W = (Σaᵢx₍ᵢ₎)² / Σ(xᵢ − x̄)²',      desc: 'Shapiro-Wilk: Test más potente para muestras pequeñas (n < 50). Compara cuantiles de la muestra con cuantiles normales teóricos. Requiere 3≤n≤5000. Excelente para detectar desviaciones generales de la normalidad.', icono: '🔔' },
+            'Test de Kolmogorov-Smirnov': { formula: 'D = max|Fₙ(x) − F(x)|',          desc: 'Kolmogorov-Smirnov (Lilliefors): Compara la función de distribución empírica con la normal teórica. Corrección de Lilliefors para muestras pequeñas. Sensible a diferencias en el centro de la distribución. Requiere n≥5.', icono: '🔔' },
+            'Test de Anderson-Darling': { formula: 'A² = −n − (1/n)Σ(2i−1)[ln(Fᵢ)+ln(1−Fₙ₊₁₋ᵢ)]', desc: 'Anderson-Darling: Versión mejorada de K-S que pondera más las colas de la distribución. Más potente para detectar desviaciones en los extremos. Recomendado cuando se sospecha anomalías en colas. Requiere n≥8.', icono: '🔔' },
+            "Test de D'Agostino-Pearson": { formula: 'K² = Z_skew² + Z_kurt² ~ χ²(2)',  desc: "D'Agostino-Pearson (Omnibus): Combina tests de asimetría y curtosis en estadístico K² = Z_skew² + Z_kurt² ~ χ²(2). Detecta desviaciones de normalidad por forma (no solo por colas). Útil para distribución simétrica pero platicúrtica o leptocúrtica. Requiere n≥8.", icono: '🔔' },
+            'Correlación Pearson':     { formula: 'r = cov(X,Y)/(σx * σy)',            desc: 'Mide la relación lineal entre dos variables. Valores entre -1 y 1. Cercano a ±1 indica fuerte relación lineal.', icono: '🔗' },
             'T-Test (una muestra)':    { formula: 't = (x̄ − μ₀) / (s/√n)',            desc: 'Compara la media muestral con un valor hipotético (μ₀). Prueba bilateral para detectar diferencias significativas.', icono: '🔬' },
-            'T-Test (dos muestras)':   { formula: 't = (x̄₁ − x̄₂) / √(s₁²/n₁ + s₂²/n₂)', desc: 'Compara las medias de dos grupos independientes usando Welch (sin asumir varianzas iguales).', icono: '⚖️' },
             'ANOVA One-Way':           { formula: 'F = MSB / MSW',                     desc: 'Compara medias de 3+ grupos. Si F es significativo, al menos una media difiere de las demás.', icono: '📊' },
-            'ANOVA Two-Way':           { formula: 'F₁ = MSF₁/MSE, F₂ = MSF₂/MSE',     desc: 'Análisis de varianza con dos factores simultáneos. Evalúa efectos principales de cada factor.', icono: '📐' },
-            'Chi-Cuadrado':            { formula: 'χ² = Σ(O − E)² / E',               desc: 'Prueba de independencia para variables categóricas. Compara frecuencias observadas vs esperadas.', icono: '📋' },
-             'Test de Normalidad':      { formula: 'JB = (n/6)(S² + K²/4)',             desc: 'Jarque-Bera: Test basado en asimetría (S) y curtosis (K) de la distribución. H₀: los datos son normales. Aproximación chi-cuadrado con 2 g.l. Recomendado para n≥8. Potencia media para detectar desviaciones en colas.', icono: '🔔' },
-             'Test de Shapiro-Wilk':    { formula: 'W = (Σaᵢx₍ᵢ₎)² / Σ(xᵢ − x̄)²',      desc: 'Shapiro-Wilk: Test más potente para muestras pequeñas (n < 50). Compara cuantiles de la muestra con cuantiles normales teóricos. Requiere 3≤n≤5000. Excelente para detectar desviaciones generales de la normalidad.', icono: '🔔' },
-             'Test de Kolmogorov-Smirnov': { formula: 'D = max|Fₙ(x) − F(x)|',          desc: 'Kolmogorov-Smirnov (Lilliefors): Compara la función de distribución empírica con la normal teórica. Corrección de Lilliefors para muestras pequeñas. Sensible a diferencias en el centro de la distribución. Requiere n≥5.', icono: '🔔' },
-             'Test de Anderson-Darling': { formula: 'A² = −n − (1/n)Σ(2i−1)[ln(Fᵢ)+ln(1−Fₙ₊₁₋ᵢ)]', desc: 'Anderson-Darling: Versión mejorada de K-S que pondera más las colas de la distribución. Más potente para detectar desviaciones en los extremos. Recomendado cuando se sospecha anomalías en colas. Requiere n≥8.', icono: '🔔' },
-             "Test de D'Agostino-Pearson": { formula: 'K² = Z_skew² + Z_kurt² ~ χ²(2)',  desc: "D'Agostino-Pearson (Omnibus): Combina tests de asimetría y curtosis en estadístico K² = Z_skew² + Z_kurt² ~ χ²(2). Detecta desviaciones de normalidad por forma (no solo por colas). Útil para distribución simétrica pero platicúrtica o leptocúrtica. Requiere n≥8.", icono: '🔔' },
-             'Correlación Pearson':     { formula: 'r = cov(X,Y)/(σx * σy)',            desc: 'Mide la relación lineal entre dos variables. Valores entre -1 y 1. Cercano a ±1 indica fuerte relación lineal.', icono: '🔗' },
-             'Correlación Spearman':    { formula: 'ρ = correlación de Pearson sobre rangos', desc: 'Mide la relación monotónica entre dos variables basada en rangos. Menos sensible a outliers que Pearson.', icono: '🔗' },
-             'Correlación Kendall Tau': { formula: 'τ = (C − D) / √[(n₀−n₁)(n₀−n₂)]',   desc: 'Mide la asociación ordinal entre dos variables. Más robusta que Spearman para datos con muchos empates.', icono: '🔗' },
-             'Covarianza':              { formula: 'Cov(X,Y) = Σ(xi−x̄)(yi−ȳ) / (n−1)',  desc: 'Mide la relación lineal entre dos variables. Positiva: se mueven juntas, Negativa: direcciones opuestas.', icono: '📐' },
-             'RMSE':                    { formula: 'RMSE = √[Σ(obs−pred)²/n]',           desc: 'Error cuadrático medio. Mide la diferencia promedio entre valores observados y predichos.', icono: '📏' },
-             'MAE':                     { formula: 'MAE = Σ|obs−pred|/n',                desc: 'Error absoluto medio. Más robusto a outliers que RMSE.', icono: '📏' },
-             'R² (Coef. Determinación)':{ formula: 'R² = 1 − SSres/SStot',               desc: 'Proporción de la varianza explicada por el modelo. R²=1: ajuste perfecto, R²=0: no mejor que la media.', icono: '📊' },
-             'Mann-Whitney U':          { formula: 'U = min(U₁, U₂)',                    desc: 'Alternativa no-paramétrica al t-test. Compara distribuciones de dos grupos sin asumir normalidad.', icono: '⚖️' },
-             'Kruskal-Wallis':          { formula: 'H = [12/(N(N+1))]Σ(Rᵢ²/nᵢ) − 3(N+1)', desc: 'Alternativa no-paramétrica al ANOVA. Compara 3+ grupos sin asumir distribución normal.', icono: '📊' },
-             'Regresión Lineal Simple': { formula: 'Y = a + bX', desc: 'Modelo predictivo lineal simple. Estima la variable dependiente Y a partir de una variable independiente X usando mínimos cuadrados.', icono: '📈' },
-             'Regresión Lineal Múltiple': { formula: 'Y = β₀ + β₁X₁ + ... + βₖXₖ', desc: 'Modelo con múltiples predictores. Estima Y usando múltiples variables independientes simultáneamente.', icono: '📊' },
-             'Regresión Polinomial': { formula: 'Y = a₀ + a₁X + a₂X² + ...', desc: 'Modelo de regresión no lineal que ajusta un polinomio de grado especificado a los datos.', icono: '📈' },
-             'Regresión Logística': { formula: 'P = 1/(1+e^(-z))', desc: 'Modelo de clasificación binaria. Estima la probabilidad de pertenencia a una clase (0/1).', icono: '🔐' },
+            'Mann-Whitney U':          { formula: 'U = min(U₁, U₂)',                    desc: 'Alternativa no-paramétrica al t-test. Compara distribuciones de dos grupos sin asumir normalidad.', icono: '⚖️' },
+            'Kruskal-Wallis':          { formula: 'H = [12/(N(N+1))]Σ(Rᵢ²/nᵢ) − 3(N+1)', desc: 'Alternativa no-paramétrica al ANOVA. Compara 3+ grupos sin asumir distribución normal.', icono: '📊' }
         };
+    }
+    
+    /**
+     * Genera resultados en formato HTML para mostrar en la interfaz
+     */
+    function generarHTML(analisisResultado) {
+
+        const STAT_META = getStatMeta();
 
         const statKeys = Object.keys(analisisResultado.resultados);
         const cols     = analisisResultado.columnasAnalizadas;
