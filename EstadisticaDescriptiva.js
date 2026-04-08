@@ -4089,6 +4089,82 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                     </div>`;
             }
 
+            // Wilcoxon (signed-rank test)
+            if (statKey === 'Wilcoxon') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">⚖️ ${data.columna1 || ''} vs ${data.columna2 || ''} (muestras pareadas)</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">W</span><span class="ar-kpi-sub-v">${data.W ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">W⁺</span><span class="ar-kpi-sub-v">${data.Wpositivo ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">W⁻</span><span class="ar-kpi-sub-v">${data.Wnegativo ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">z</span><span class="ar-kpi-sub-v">${data.z?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
+                            ${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
+                        </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">💬</span>
+                        <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
+                    </div>`;
+            }
+
+            // Friedman
+            if (statKey === 'Friedman') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                const tratamientosInfo = (data.sumasRangos || []).map(t => `T${t.tratamiento}: ${t.suma.toFixed(2)}`).join(', ');
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">📊 Friedman: ${data.tratamientos} tratamientos, ${data.bloques} bloques</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">χ²_r</span><span class="ar-kpi-sub-v">${data.ChiSq ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df</span><span class="ar-kpi-sub-v">${data.df ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Tratamientos</span><span class="ar-kpi-sub-v">${data.tratamientos ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Bloques</span><span class="ar-kpi-sub-v">${data.bloques ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
+                            ${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
+                        </div>
+                        <div style="margin-top:8px;font-size:0.75rem;color:#666;">
+                            Rangos: ${tratamientosInfo}
+                        </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">💬</span>
+                        <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
+                    </div>`;
+            }
+
+            // Test de Signos
+            if (statKey === 'Test de Signos') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">✚ ${data.columna1 || ''} vs ${data.columna2 || ''} (muestras pareadas)</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">(+)</span><span class="ar-kpi-sub-v">${data.positivos ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">(−)</span><span class="ar-kpi-sub-v">${data.negativos ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">(0)</span><span class="ar-kpi-sub-v">${data.ceros ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">k</span><span class="ar-kpi-sub-v">${data.k ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">z</span><span class="ar-kpi-sub-v">${data.z?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
+                            ${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
+                        </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">💬</span>
+                        <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
+                    </div>`;
+            }
+
             return '<p>Tipo de prueba no reconocido</p>';
         }
 
