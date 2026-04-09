@@ -526,7 +526,11 @@ const ReporteManager = (() => {
                     p(`  ${pad(stat+':',28)}`);
                     Object.entries(val).forEach(([k,v])=>p(`    ${pad('  · '+k,28)}${pad(fmtNum(v),18)}`));
                 } else {
-                    p(`  ${pad(stat+':',28)}${pad(fmtNum(val),18)}${t('statRefs')[stat]||''}`);
+                    // Buscar referencia en estadisticosConfig.js (primera opción) o statRefs (fallback)
+                    const ref = (typeof estadisticosConfig !== 'undefined' && estadisticosConfig[stat]?.referencia) 
+                        ? estadisticosConfig[stat].referencia 
+                        : t('statRefs')[stat] || '';
+                    p(`  ${pad(stat+':',28)}${pad(fmtNum(val),18)}${ref}`);
                 }
             });
              if(ext[col]?.cv!=null) p(`  ${pad(t('cv')+':',28)}${pad(ext[col].cv.toFixed(2)+'%',18)}${t('cvRef')}`);
@@ -902,11 +906,17 @@ const ReporteManager = (() => {
                 if (hypothesisTests.has(stat)) return; // Skip hypothesis tests - shown separately
                 const val=data[col]; if(val===undefined)return;
                 if(typeof val==='object'&&!Array.isArray(val)){
+                    const ref = (typeof estadisticosConfig !== 'undefined' && estadisticosConfig[stat]?.referencia) 
+                        ? estadisticosConfig[stat].referencia 
+                        : '';
                     h+=`<tr style="background:#f7f8fa"><td colspan="3" style="padding:5px 14px;font-size:8.5pt;color:#666"><em>${escapeHtml(stat)}</em></td></tr>`;
-                    Object.entries(val).forEach(([k,v])=>h+=`<tr><td style="padding-left:26px;color:#555">· ${escapeHtml(k)}</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${fmtNum(v)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">—</td></tr>`);
+                    Object.entries(val).forEach(([k,v])=>h+=`<tr><td style="padding-left:26px;color:#555">· ${escapeHtml(k)}</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${fmtNum(v)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">${ref}</td></tr>`);
                 } else {
                     const vf=Array.isArray(val)?(val.length?val.map(v=>fmtNum(v)).join(', '):'<em>—</em>'):fmtNum(val);
-                    h+=`<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${vf}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">${refs[stat]||''}</td></tr>`;
+                    const ref = (typeof estadisticosConfig !== 'undefined' && estadisticosConfig[stat]?.referencia) 
+                        ? estadisticosConfig[stat].referencia 
+                        : refs[stat] || '';
+                    h+=`<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${vf}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">${ref}</td></tr>`;
                 }
             });
             if(ext[col]?.cv!=null) h+=`<tr style="background:#fffaf0"><td><strong>${t('cv')}</strong></td><td style="font-family:monospace;text-align:right;font-weight:600;color:#b7791f">${ext[col].cv.toFixed(2)}%</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">${t('cvRef')}</td></tr>`;
