@@ -385,6 +385,24 @@ const ReporteManager = (() => {
         if (val===null||val===undefined) return 'N/A';
         if (Array.isArray(val)) return val.length ? val.map(v=>Number(v).toFixed(d)).join('; ') : '—';
         if (typeof val==='number') return isFinite(val) ? val.toFixed(d) : 'N/A';
+        
+        // Manejar objetos (como Detección de Outliers)
+        if (typeof val === 'object' && !Array.isArray(val)) {
+            const cant = val.cantidad ?? val.cantidadOutliers ?? 0;
+            const pct = val.porcentaje ?? val.porcentajeOutliers ?? 0;
+            const pctStr = typeof pct === 'number' ? pct.toFixed(2) + '%' : pct;
+            
+            const lower = val.limiteInferior?.toFixed(2) ?? val.umbralZScore ?? '';
+            const upper = val.limiteSuperior?.toFixed(2) ?? '';
+            
+            if (lower && upper) {
+                return `${cant} (${pctStr}) [${lower}, ${upper}]`;
+            } else if (lower) {
+                return `${cant} (${pctStr}) umbral: ${lower}`;
+            }
+            return `${cant} (${pctStr})`;
+        }
+        
         return String(val);
     }
 
