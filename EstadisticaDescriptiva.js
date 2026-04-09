@@ -2378,6 +2378,22 @@ const EstadisticaDescriptiva = (() => {
                     });
                     break;
                     
+                case 'Mediana':
+                    resultados['Mediana'] = {};
+                    numericCols.forEach(col => {
+                        const values = getNumericValues(data, col);
+                        resultados['Mediana'][col] = calcularMediana(values);
+                    });
+                    break;
+                
+                case 'Moda':
+                    resultados['Moda'] = {};
+                    numericCols.forEach(col => {
+                        const values = getNumericValues(data, col);
+                        resultados['Moda'][col] = calcularModa(values);
+                    });
+                    break;
+                
                 case 'Mediana y Moda':
                     resultados['Mediana'] = {};
                     resultados['Moda'] = {};
