@@ -3494,11 +3494,51 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
 
                 // Objeto (percentiles, rango)
                 if (typeof val === 'object' && !Array.isArray(val)) {
-                    const rows = Object.entries(val).map(([k, v]) => `
-                        <div class="ar-kpi-sub">
-                            <span class="ar-kpi-sub-k">${k}</span>
-                            <span class="ar-kpi-sub-v">${typeof v === 'number' ? v.toFixed(4) : v}</span>
-                        </div>`).join('');
+                    // Caso especial: Detección de Outliers (contiene IQR y ZScore con objetos anidados)
+                    if (val.IQR && val.ZScore) {
+                        const renderOutlierMethod = (methodObj) => {
+                            if (!methodObj || typeof methodObj !== 'object') return '<div>—</div>';
+                            const cantidad = methodObj.cantidad ?? methodObj.cantidadOutliers ?? 0;
+                            const pct = methodObj.porcentaje ?? methodObj.porcentajeOutliers ?? 0;
+                            const lower = methodObj.limiteInferior?.toFixed(2) ?? '—';
+                            const upper = methodObj.limiteSuperior?.toFixed(2) ?? '—';
+                            return `
+                                <div class="ar-kpi-sub">
+                                    <span class="ar-kpi-sub-k">Cantidad</span>
+                                    <span class="ar-kpi-sub-v">${cantidad}</span>
+                                </div>
+                                <div class="ar-kpi-sub">
+                                    <span class="ar-kpi-sub-k">%</span>
+                                    <span class="ar-kpi-sub-v">${typeof pct === 'number' ? pct.toFixed(2) : pct}%</span>
+                                </div>
+                                <div class="ar-kpi-sub">
+                                    <span class="ar-kpi-sub-k">Límites</span>
+                                    <span class="ar-kpi-sub-v">[${lower}, ${upper}]</span>
+                                </div>
+                            `;
+                        };
+                        return `
+                            <div class="ar-kpi-card ar-kpi-multi ${statusClass}">
+                                <div class="ar-kpi-col-label">${col}</div>
+                                <div class="ar-kpi-sub-grid" style="margin-bottom:8px;">
+                                    <div style="font-weight:600;color:#e74c3c;grid-column:1/-1;">IQR</div>
+                                    ${renderOutlierMethod(val.IQR)}
+                                </div>
+                                <div class="ar-kpi-sub-grid">
+                                    <div style="font-weight:600;color:#3498db;grid-column:1/-1;">Z-Score</div>
+                                    ${renderOutlierMethod(val.ZScore)}
+                                </div>
+                                ${badgeHTML}
+                            </div>`;
+                    }
+                    
+                    const rows = Object.entries(val).map(([k, v]) => {
+                        // Si es array, mostrar longitud
+                        if (Array.isArray(v)) {
+                            return `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${k}</span><span class="ar-kpi-sub-v">${v.length} valores</span></div>`;
+                        }
+                        return `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${k}</span><span class="ar-kpi-sub-v">${typeof v === 'number' ? v.toFixed(4) : v}</span></div>`;
+                    }).join('');
                     return `
                         <div class="ar-kpi-card ar-kpi-multi ${statusClass}">
                             <div class="ar-kpi-col-label">${col}</div>
