@@ -139,7 +139,7 @@ const ReporteManager = (() => {
             html_auditSubpart:'21 CFR Part 11 — Subpart C',
             html_statCol:   'Statistic',
             html_valCol:    'Value',
-            html_refCol:    'Reference',
+            html_refCol:    'Formula',
             html_flagsLabel:'Flags',
             html_noFlags:   '✓ No flags for this variable',
             html_noFlagsGlobal:'✓ No automatic flags detected. All variables within expected ranges.',
@@ -170,7 +170,8 @@ const ReporteManager = (() => {
             html_execSummary:(ds,rows,cols,std) => `Dataset <strong>"${ds}"</strong> · <strong>${rows}</strong> observations · <strong>${cols}</strong> numeric variable(s) · ${std}.`,
             statRefs: {
                 'Media Aritmética':   'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
-                'Mediana y Moda':     'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
+                'Mediana':            'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
+                'Moda':               'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
                 'Desviación Estándar': 'Bessel, F. (1838). Correction to the estimation of variance. Astronomische Nachrichten.',
                 'Varianza':           'Bessel, F. (1838). Correction to the estimation of variance. Astronomische Nachrichten.',
                 'Percentiles':        'Hyndman, R.J. & Fan, Y. (1996). Sample quantiles in statistical packages. The American Statistician, 50(4):361–365.',
@@ -219,6 +220,59 @@ const ReporteManager = (() => {
                 'Modelos Mixtos':     'Laird, N.M. & Ware, J.H. (1982). Random-effects models for longitudinal data. Biometrics, 38(4):963–974.',
                 'Inferencia Bayesiana': 'Bayes, T. (1763). An essay towards solving a problem in the doctrine of chances. Phil Trans R Soc, 53:370–418.',
                 'Límites de Cuantificación': 'ICH Q2(R1) (2005). Validation of Analytical Procedures: Text and Methodology. International Council for Harmonisation.',
+            },
+            statFormulas: {
+                'Media Aritmética':   'x̄ = Σxᵢ / n',
+                'Mediana':            'P₅₀ = central value',
+                'Moda':               'most frequent value',
+                'Desviación Estándar': 's = √[Σ(xᵢ − x̄)² / (n−1)]',
+                'Varianza':           's² = Σ(xᵢ − x̄)² / (n−1)',
+                'Percentiles':        'i = k/100 × (n−1)',
+                'Rango y Amplitud':   'R = Max − Min',
+                'Coeficiente de Variación': 'CV = (s / |x̄|) × 100%',
+                'Asimetría (Skewness)': 'g₁ = Σ(xᵢ − x̄)³ / (n × s³)',
+                'Curtosis (Kurtosis)': 'g₂ = [Σ(xᵢ − x̄)⁴ / (n × s⁴)] − 3',
+                'Error Estándar':     'SE = s / √n',
+                'Intervalos de Confianza': 'IC = x̄ ± t(α/2) × SE',
+                'Detección de Outliers': '[Q1−1.5×IQR, Q3+1.5×IQR]',
+                'Jarque-Bera':        'JB = (n/6)(S² + K²/4)',
+                'Shapiro-Wilk':       'W ∈ [0, 1]',
+                'Kolmogorov-Smirnov': 'D = max|Fₙ(x) − F(x)|',
+                'Anderson-Darling':  'A² = −n − (1/n)Σ(2i−1)[ln(Fᵢ)+ln(1−Fₙ₊₁₋ᵢ)]',
+                "D'Agostino-Pearson": 'K² = Z_skew² + Z_kurt²',
+                'T-Test (una muestra)': 't = (x̄ − μ₀) / (s/√n)',
+                'T-Test (dos muestras)': 't = (x̄₁ − x̄₂) / √(s₁²/n₁ + s₂²/n₂)',
+                'ANOVA One-Way':     'F = MSB / MSW',
+                'ANOVA Two-Way':      'F₁ = MSF₁/MSE, F₂ = MSF₂/MSE',
+                'Chi-Cuadrado':       'χ² = Σ(O − E)² / E',
+                'TOST':               '|δ| < Δ',
+                'Correlación Pearson': 'r = cov(X,Y)/(σx × σy)',
+                'Correlación Spearman': 'ρ = Pearson correlation on ranks',
+                'Correlación Kendall Tau': 'τ = (C − D) / √[(n₀−n₁)(n₀−n₂)]',
+                'Covarianza':         'Cov(X,Y) = Σ(xi−x̄)(yi−ȳ) / (n−1)',
+                'Regresión Lineal Simple': 'Y = a + bX',
+                'Regresión Lineal Múltiple': 'Y = β₀ + β₁X₁ + ... + βₖXₖ',
+                'Regresión Polinomial': 'Y = a₀ + a₁X + a₂X² + ...',
+                'Regresión Logística': 'P = 1/(1+e^(−z))',
+                'RMSE':               'RMSE = √[Σ(obs−pred)²/n]',
+                'MAE':                'MAE = Σ|obs−pred|/n',
+                'R² (Coef. Determinación)': 'R² = 1 − SSres/SStot',
+                'Mann-Whitney U':    'U = min(U₁, U₂)',
+                'Kruskal-Wallis':     'H = [12/(N(N+1))]Σ(Rᵢ²/nᵢ) − 3(N+1)',
+                'Wilcoxon':           'W = sum of signed ranks',
+                'Friedman':           'χ²_r = [12/(nk(k+1))]ΣRᵢ² − 3n(k+1)',
+                'Test de Signos':     'signs = count(+)/count(−)',
+                'ACP':                'PC = w₁X₁ + w₂X₂ + ...',
+                'Análisis Factorial': 'X = LF + ε',
+                'K-Medias':           'Distance between clusters',
+                'LDA':                'D = wX + b',
+                'MANOVA':             'Λ = |E|/|H+E|',
+                'Análisis de Series Temporales': 'Y_t = f(Y_{t-1}, Y_{t-2}, ...) + ε_t',
+                'Bootstrap':          'θ* = estimator(bootstrap)',
+                'Análisis de Supervivencia': 'S(t) = P(T > t)',
+                'Modelos Mixtos':     'Y = Xβ + Zu + ε',
+                'Inferencia Bayesiana': 'P(θ|D) ∝ P(D|θ) × P(θ)',
+                'Límites de Cuantificación': 'LQC = 10×σ_blank',
             }
         },
         es: {
@@ -342,7 +396,7 @@ const ReporteManager = (() => {
             html_auditSubpart:'21 CFR Part 11 — Subparte C',
             html_statCol:   'Estadístico',
             html_valCol:    'Valor',
-            html_refCol:    'Referencia',
+            html_refCol:    'Fórmula',
             html_flagsLabel:'Alertas',
             html_noFlags:   '✓ Sin alertas para esta variable',
             html_noFlagsGlobal:'✓ Sin alertas automáticas detectadas. Todas las variables dentro de rangos esperados.',
@@ -368,7 +422,8 @@ const ReporteManager = (() => {
             html_execSummary:(ds,rows,cols,std) => `Dataset <strong>"${ds}"</strong> · <strong>${rows}</strong> observaciones · <strong>${cols}</strong> variable(s) numérica(s) · ${std}.`,
             statRefs: {
                 'Media Aritmética':   'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
-                'Mediana y Moda':     'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
+                'Mediana':            'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
+                'Moda':               'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
                 'Desviación Estándar': 'Bessel, F. (1838). Correction to the estimation of variance. Astronomische Nachrichten.',
                 'Varianza':           'Bessel, F. (1838). Correction to the estimation of variance. Astronomische Nachrichten.',
                 'Percentiles':        'Hyndman, R.J. & Fan, Y. (1996). Sample quantiles in statistical packages. The American Statistician, 50(4):361–365.',
@@ -417,6 +472,59 @@ const ReporteManager = (() => {
                 'Modelos Mixtos':     'Laird, N.M. & Ware, J.H. (1982). Random-effects models for longitudinal data. Biometrics, 38(4):963–974.',
                 'Inferencia Bayesiana': 'Bayes, T. (1763). An essay towards solving a problem in the doctrine of chances. Phil Trans R Soc, 53:370–418.',
                 'Límites de Cuantificación': 'ICH Q2(R1) (2005). Validation of Analytical Procedures: Text and Methodology. International Council for Harmonisation.',
+            },
+            statFormulas: {
+                'Media Aritmética':   'x̄ = Σxᵢ / n',
+                'Mediana':            'P₅₀ = valor central',
+                'Moda':               'valor más frecuente',
+                'Desviación Estándar': 's = √[Σ(xᵢ − x̄)² / (n−1)]',
+                'Varianza':           's² = Σ(xᵢ − x̄)² / (n−1)',
+                'Percentiles':        'i = k/100 × (n−1)',
+                'Rango y Amplitud':   'R = Máx − Mín',
+                'Coeficiente de Variación': 'CV = (s / |x̄|) × 100%',
+                'Asimetría (Skewness)': 'g₁ = Σ(xᵢ − x̄)³ / (n × s³)',
+                'Curtosis (Kurtosis)': 'g₂ = [Σ(xᵢ − x̄)⁴ / (n × s⁴)] − 3',
+                'Error Estándar':     'SE = s / √n',
+                'Intervalos de Confianza': 'IC = x̄ ± t(α/2) × SE',
+                'Detección de Outliers': '[Q1−1.5×IQR, Q3+1.5×IQR]',
+                'Jarque-Bera':        'JB = (n/6)(S² + K²/4)',
+                'Shapiro-Wilk':       'W ∈ [0, 1]',
+                'Kolmogorov-Smirnov': 'D = max|Fₙ(x) − F(x)|',
+                'Anderson-Darling':  'A² = −n − (1/n)Σ(2i−1)[ln(Fᵢ)+ln(1−Fₙ₊₁₋ᵢ)]',
+                "D'Agostino-Pearson": 'K² = Z_skew² + Z_kurt²',
+                'T-Test (una muestra)': 't = (x̄ − μ₀) / (s/√n)',
+                'T-Test (dos muestras)': 't = (x̄₁ − x̄₂) / √(s₁²/n₁ + s₂²/n₂)',
+                'ANOVA One-Way':     'F = MSB / MSW',
+                'ANOVA Two-Way':      'F₁ = MSF₁/MSE, F₂ = MSF₂/MSE',
+                'Chi-Cuadrado':       'χ² = Σ(O − E)² / E',
+                'TOST':               '|δ| < Δ',
+                'Correlación Pearson': 'r = cov(X,Y)/(σx × σy)',
+                'Correlación Spearman': 'ρ = correlación de Pearson sobre rangos',
+                'Correlación Kendall Tau': 'τ = (C − D) / √[(n₀−n₁)(n₀−n₂)]',
+                'Covarianza':         'Cov(X,Y) = Σ(xi−x̄)(yi−ȳ) / (n−1)',
+                'Regresión Lineal Simple': 'Y = a + bX',
+                'Regresión Lineal Múltiple': 'Y = β₀ + β₁X₁ + ... + βₖXₖ',
+                'Regresión Polinomial': 'Y = a₀ + a₁X + a₂X² + ...',
+                'Regresión Logística': 'P = 1/(1+e^(−z))',
+                'RMSE':               'RMSE = √[Σ(obs−pred)²/n]',
+                'MAE':                'MAE = Σ|obs−pred|/n',
+                'R² (Coef. Determinación)': 'R² = 1 − SSres/SStot',
+                'Mann-Whitney U':    'U = min(U₁, U₂)',
+                'Kruskal-Wallis':     'H = [12/(N(N+1))]Σ(Rᵢ²/nᵢ) − 3(N+1)',
+                'Wilcoxon':           'W = suma de rangos con signo',
+                'Friedman':           'χ²_r = [12/(nk(k+1))]ΣRᵢ² − 3n(k+1)',
+                'Test de Signos':     'signos = count(+)/count(−)',
+                'ACP':                'PC = w₁X₁ + w₂X₂ + ...',
+                'Análisis Factorial': 'X = LF + ε',
+                'K-Medias':           'Distancia entre clusters',
+                'LDA':                'D = wX + b',
+                'MANOVA':             'Λ = |E|/|H+E|',
+                'Análisis de Series Temporales': 'Y_t = f(Y_{t-1}, Y_{t-2}, ...) + ε_t',
+                'Bootstrap':          'θ* = estimador(remuestreo)',
+                'Análisis de Supervivencia': 'S(t) = P(T > t)',
+                'Modelos Mixtos':     'Y = Xβ + Zu + ε',
+                'Inferencia Bayesiana': 'P(θ|D) ∝ P(D|θ) × P(θ)',
+                'Límites de Cuantificación': 'LQC = 10×σ_blanco',
             }
         }
     };
@@ -990,23 +1098,21 @@ const ReporteManager = (() => {
         const lang=currentLang;
 
         function statsRows(col){
-            const refs=t('statRefs'); let h='';
+            const refs=t('statRefs');
+            const formulas=t('statFormulas');
+            let h='';
             const hypothesisTests = HYPOTHESIS_SET;
             Object.entries(resultados.resultados).forEach(([stat,data])=>{
                 if (hypothesisTests.has(stat)) return; // Skip hypothesis tests - shown separately
                 const val=data[col]; if(val===undefined)return;
                 if(typeof val==='object'&&!Array.isArray(val)){
-                    const ref = (typeof estadisticosConfig !== 'undefined' && estadisticosConfig[stat]?.referencia) 
-                        ? estadisticosConfig[stat].referencia 
-                        : '';
+                    const formula = formulas[stat] || '';
                     h+=`<tr style="background:#f7f8fa"><td colspan="3" style="padding:5px 14px;font-size:8.5pt;color:#666"><em>${escapeHtml(stat)}</em></td></tr>`;
-                    Object.entries(val).forEach(([k,v])=>h+=`<tr><td style="padding-left:26px;color:#555">· ${escapeHtml(k)}</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${fmtNum(v)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">${ref}</td></tr>`);
+                    Object.entries(val).forEach(([k,v])=>h+=`<tr><td style="padding-left:26px;color:#555">· ${escapeHtml(k)}</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${fmtNum(v)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">${formula}</td></tr>`);
                 } else {
                     const vf=Array.isArray(val)?(val.length?val.map(v=>fmtNum(v)).join(', '):'<em>—</em>'):fmtNum(val);
-                    const ref = (typeof estadisticosConfig !== 'undefined' && estadisticosConfig[stat]?.referencia) 
-                        ? estadisticosConfig[stat].referencia 
-                        : refs[stat] || '';
-                    h+=`<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${vf}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">${ref}</td></tr>`;
+                    const formula = formulas[stat] || '';
+                    h+=`<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${vf}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">${formula}</td></tr>`;
                 }
             });
             if(ext[col]?.cv!=null) h+=`<tr style="background:#fffaf0"><td><strong>${t('cv')}</strong></td><td style="font-family:monospace;text-align:right;font-weight:600;color:#b7791f">${ext[col].cv.toFixed(2)}%</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">${t('cvRef')}</td></tr>`;

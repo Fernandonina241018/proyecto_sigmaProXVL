@@ -61,10 +61,10 @@ const ESTADISTICOS_CONFIG = {
         referencia: 'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
     },
 
-    'Mediana y Moda': {
+    'Mediana': {
         seccion:   'descriptiva',
         calcular:  'calcularMedianaModa',
-        formula:   'Mediana: P₅₀ | Moda: valor más frecuente',
+        formula:   'Mediana: P₅₀ = valor central',
         desc:      'Mediana: divide la distribución en dos mitades iguales. Resistente a valores atípicos. Moda: valor con mayor frecuencia.',
         icono:     '📊',
         minMuestra: 1,
@@ -74,9 +74,32 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico o categórico',
         },
-        salidas: ['mediana', 'moda', 'esModoMultiple', 'n'],
+        salidas: ['mediana', 'esModoMultiple', 'n'],
         interpretacion: {
-            plantilla: 'Mediana: {mediana}. Moda: {moda}. Si mediana ≠ media, la distribución es asimétrica.',
+            plantilla: 'Mediana: {mediana}. Si mediana ≠ media, la distribución es asimétrica.',
+        },
+        advertencias: [
+            { condicion: 'moda_multiple', mensaje: 'Existen múltiples modas (distribución multimodal). Se reportan todas.' },
+        ],
+        referencia: 'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
+    },
+
+        'Moda': {
+        seccion:   'descriptiva',
+        calcular:  'calcularMedianaModa',
+        formula:   'Moda: valor más frecuente',
+        desc:      'Moda: valor con mayor frecuencia.',
+        icono:     '📊',
+        minMuestra: 1,
+
+        inputs: {
+            tipo:        'una-columna',
+            grupos:      1,
+            descripcion: 'Un vector numérico o categórico',
+        },
+        salidas: ['moda', 'esModoMultiple', 'n'],
+        interpretacion: {
+            plantilla: 'Moda: {moda}. Si hay múltiples modas, se reportan todas. Indica el valor o categoría más común en los datos.',
         },
         advertencias: [
             { condicion: 'moda_multiple', mensaje: 'Existen múltiples modas (distribución multimodal). Se reportan todas.' },
