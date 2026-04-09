@@ -1530,7 +1530,7 @@ function setupSidebarToggles() {
 
         labelRight = document.createElement('div');
         labelRight.className = 'sidebar-strip-label';
-        labelRight.textContent = 'En Proceso';
+        labelRight.textContent = '';
         rightSidebar.appendChild(labelRight);
     }
 
