@@ -2468,8 +2468,8 @@ const EstadisticaDescriptiva = (() => {
                     numericCols.forEach(col => {
                         const values = getNumericValues(data, col);
                         resultados['Detección de Outliers'][col] = {
-                            IQR: detectarOutliersIQR(values),
-                            ZScore: detectarOutliersZScore(values)
+                            IQR: detectarOutliersIQR(values, { detailed: true }),
+                            ZScore: detectarOutliersZScore(values, { detailed: true })
                         };
                     });
                     break;
