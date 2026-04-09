@@ -374,7 +374,8 @@ const ReporteManager = (() => {
 
     // Store generated hashes to ensure uniqueness
     async function generateHash(meta, res) {
-        const s = JSON.stringify({ meta, r: res?.totalFilas });
+        const timestamp = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+        const s = JSON.stringify({ meta, r: res?.totalFilas, uid: timestamp });
         const data = new TextEncoder().encode(s);
         const hashBuffer = await crypto.subtle.digest('SHA-256', data);
         const hashArray = Array.from(new Uint8Array(hashBuffer));
