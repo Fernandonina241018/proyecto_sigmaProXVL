@@ -247,8 +247,9 @@ const ESTADISTICOS_CONFIG = {
                 autores:  'Freedman, D., Pisani, R. & Purves, R.',
                 anio:     2007,
                 titulo:   'Statistics',
+                revista:  'W.W. Norton',
                 edicion:  '4ª ed.',
-                edition:  'W.W. Norton',
+                
             }
         ],
     },
