@@ -197,7 +197,7 @@ const ESTADISTICOS_CONFIG = {
         formula:   'i = k/100 × (n−1) [interpolación lineal NIST]',
         desc:      'Dividen la distribución en 100 partes iguales. P25, P50 y P75 definen los cuartiles y el rango intercuartílico.',
         icono:     '📶',
-        minMuestra: 1,
+        minMuestra: 4,
 
         inputs: {
             tipo:        'una-columna',
@@ -231,7 +231,7 @@ const ESTADISTICOS_CONFIG = {
         formula:   'R = Máx − Mín',
         desc:      'Extensión total de la distribución. Sensible a valores extremos, complementa la desviación estándar.',
         icono:     '↔️',
-        minMuestra: 1,
+        minMuestra: 2,
 
         inputs: {
             tipo:        'una-columna',
@@ -324,7 +324,7 @@ const ESTADISTICOS_CONFIG = {
         formula:   'g₂ = [Σ(xᵢ − x̄)⁴ / (n × s⁴)] − 3',
         desc:      'Apuntamiento de la distribución. >0 leptocúrtica, <0 platicúrtica, ≈0 mesocúrtica (normal).',
         icono:     '🔺',
-        minMuestra: 3,
+        minMuestra: 4,
 
         inputs: {
             tipo:        'una-columna',
@@ -388,7 +388,7 @@ const ESTADISTICOS_CONFIG = {
         formula:   'IC = x̄ ± t(α/2) × SE',
         desc:      'Rango donde se espera que esté el parámetro poblacional con cierto nivel de confianza (90%, 95%, 99%).',
         icono:     '📊',
-        minMuestra: 2,
+        minMuestra: 5,
 
         inputs: {
             tipo:        'una-columna',
@@ -763,7 +763,7 @@ const ESTADISTICOS_CONFIG = {
         formula:   't = (x̄₁ − x̄₂) / √(s₁²/n₁ + s₂²/n₂)',
         desc:      'Compara las medias de dos grupos independientes usando Welch (sin asumir varianzas iguales).',
         icono:     '⚖️',
-        minMuestra: 2,
+        minMuestra: 4,
         requiereDosColumnas: true,
 
         hipotesis: {
@@ -819,7 +819,7 @@ const ESTADISTICOS_CONFIG = {
         formula:   'F = MSB / MSW',
         desc:      'Compara medias de 3+ grupos. Si F es significativo, al menos una media difiere de las demás.',
         icono:     '📊',
-        minMuestra: 2,
+        minMuestra: 6,
 
         hipotesis: {
             h0: 'Las medias de todos los grupos son iguales (μ₁ = μ₂ = ... = μₖ)',
