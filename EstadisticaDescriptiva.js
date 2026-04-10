@@ -3568,8 +3568,19 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                             if (!methodObj || typeof methodObj !== 'object') return '<div>—</div>';
                             const cantidad = methodObj.cantidad ?? methodObj.cantidadOutliers ?? 0;
                             const pct = methodObj.porcentaje ?? methodObj.porcentajeOutliers ?? 0;
-                            const lower = methodObj.limiteInferior?.toFixed(2) ?? '—';
-                            const upper = methodObj.limiteSuperior?.toFixed(2) ?? '—';
+                            
+                            // Verificar si existen límites (no son null/undefined)
+                            const hasLimits = methodObj.limiteInferior !== undefined && methodObj.limiteSuperior !== undefined && 
+                                             methodObj.limiteInferior !== null && methodObj.limiteSuperior !== null;
+                            const hasUmbral = methodObj.umbralZScore !== undefined && methodObj.umbralZScore !== null;
+                            
+                            let limitsDisplay = '—';
+                            if (hasLimits) {
+                                limitsDisplay = `[${methodObj.limiteInferior.toFixed(4)}, ${methodObj.limiteSuperior.toFixed(4)}]`;
+                            } else if (hasUmbral) {
+                                limitsDisplay = `±${methodObj.umbralZScore.toFixed(4)}`;
+                            }
+                            
                             return `
                                 <div class="ar-kpi-sub">
                                     <span class="ar-kpi-sub-k">Cantidad</span>
@@ -3581,7 +3592,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                                 </div>
                                 <div class="ar-kpi-sub">
                                     <span class="ar-kpi-sub-k">Límites</span>
-                                    <span class="ar-kpi-sub-v">[${lower}, ${upper}]</span>
+                                    <span class="ar-kpi-sub-v">${limitsDisplay}</span>
                                 </div>
                             `;
                         };

@@ -612,18 +612,23 @@ const ReporteManager = (() => {
                 return `[${lower}, ${upper}]${margen ? ' ±' + margen : ''}`;
             }
             
-            // Caso: Outliers {cantidad, porcentaje, limiteInferior, limiteSuperior}
+            // Caso: Outliers {cantidad, porcentaje, limiteInferior, limiteSuperior} o {cantidad, porcentaje, umbralZScore}
             const cant = val.cantidad ?? val.cantidadOutliers ?? 0;
             const pct = val.porcentaje ?? val.porcentajeOutliers ?? 0;
             const pctStr = typeof pct === 'number' ? pct.toFixed(2) + '%' : pct;
             
-            const lower = val.limiteInferior?.toFixed(2) ?? val.umbralZScore ?? '';
-            const upper = val.limiteSuperior?.toFixed(2) ?? '';
+            // Verificar si existen límites IQR
+            const hasIQR = val.limiteInferior !== undefined && val.limiteSuperior !== undefined && 
+                          val.limiteInferior !== null && val.limiteSuperior !== null;
+            // Verificar si existe umbral Z-Score
+            const hasZScore = val.umbralZScore !== undefined && val.umbralZScore !== null;
             
-            if (lower && upper) {
+            if (hasIQR) {
+                const lower = val.limiteInferior.toFixed(4);
+                const upper = val.limiteSuperior.toFixed(4);
                 return `${cant} (${pctStr}) [${lower}, ${upper}]`;
-            } else if (lower) {
-                return `${cant} (${pctStr}) umbral: ${lower}`;
+            } else if (hasZScore) {
+                return `${cant} (${pctStr}) umbral: ${val.umbralZScore.toFixed(4)}`;
             }
             return `${cant} (${pctStr})`;
         }

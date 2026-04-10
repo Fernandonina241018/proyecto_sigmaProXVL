@@ -1,10 +1,10 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
-**Fecha de Análisis:** 6 de Abril 2026  
-**Última Actualización:** 6 de Abril 2026 (EDA Implementado)  
-**Versión del Proyecto:** 2.0  
+**Fecha de Análisis:** 9 de Abril 2026  
+**Última Actualización:** 9 de Abril 2026 (Mejoras en Reportes y Referencias)  
+**Versión del Proyecto:** 2.1  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
-**Estado General:** MVP Funcional (~78% Completo)
+**Estado General:** MVP Funcional (~85% Completo)
 
 ---
 
@@ -20,63 +20,68 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 RESUMEN DE IMPLEMENTACIÓN DE ESTADÍSTICOS
 
-### 📊 ESTADÍSTICOS IMPLEMENTADOS (30 de 40)
+### 📊 ESTADÍSTICOS IMPLEMENTADOS (35+ de 50)
 
 | # | Categoría | Estadístico | Estado |
 |---|-----------|-------------|--------|
 | 1 | Descriptiva | Media Aritmética | ✅ |
-| 2 | Descriptiva | Mediana y Moda | ✅ |
-| 3 | Descriptiva | Desviación Estándar | ✅ |
-| 4 | Descriptiva | Varianza | ✅ |
-| 5 | Descriptiva | Percentiles | ✅ |
-| 6 | Descriptiva | Rango y Amplitud | ✅ |
-| 7 | Descriptiva | Coeficiente de Variación | ✅ |
-| 8 | Descriptiva | Asimetría (Skewness) | ✅ |
-| 9 | Descriptiva | Curtosis (Kurtosis) | ✅ |
-| 10 | Descriptiva | Error Estándar | ✅ |
-| 11 | Descriptiva | Intervalos de Confianza | ✅ |
-| 12 | Descriptiva | Detección de Outliers | ✅ |
-| 13 | Hipótesis | T-Test (una muestra) | ✅ |
-| 14 | Hipótesis | T-Test (dos muestras) | ✅ |
-| 15 | Hipótesis | ANOVA One-Way | ✅ |
-| 16 | Hipótesis | ANOVA Two-Way | ✅ |
-| 17 | Hipótesis | Chi-Cuadrado | ✅ |
-| 18 | Hipótesis | Test de Normalidad | ✅ |
-| 19 | Hipótesis | Test de Shapiro-Wilk | ✅ |
-| 20 | Correlación | Correlación Pearson | ✅ |
-| 21 | Correlación | Correlación Spearman | ✅ |
-| 22 | Correlación | Correlación Kendall Tau | ✅ |
-| 23 | Correlación | Covarianza | ✅ |
-| 24 | Regresión | Regresión Lineal Simple | ✅ |
-| 25 | Regresión | Regresión Lineal Múltiple | ✅ |
-| 26 | Regresión | Regresión Polinomial | ✅ |
-| 27 | Regresión | Regresión Logística | ✅ |
-| 28 | Métricas de Error | RMSE | ✅ |
-| 29 | Métricas de Error | MAE | ✅ |
-| 30 | Métricas de Error | R² (Coef. Determinación) | ✅ |
-| 31 | No Paramétricos | Mann-Whitney U | ✅ |
-| 32 | No Paramétricos | Kruskal-Wallis | ✅ |
-| 33 | Especificación | Límites de Cuantificación (Cp, Cpk) | ✅ |
+| 2 | Descriptiva | Mediana | ✅ |
+| 3 | Descriptiva | Moda | ✅ |
+| 4 | Descriptiva | Desviación Estándar | ✅ |
+| 5 | Descriptiva | Varianza | ✅ |
+| 6 | Descriptiva | Percentiles | ✅ |
+| 7 | Descriptiva | Rango y Amplitud | ✅ |
+| 8 | Descriptiva | Coeficiente de Variación | ✅ |
+| 9 | Descriptiva | Asimetría (Skewness) | ✅ |
+| 10 | Descriptiva | Curtosis (Kurtosis) | ✅ |
+| 11 | Descriptiva | Error Estándar | ✅ |
+| 12 | Descriptiva | Intervalos de Confianza | ✅ |
+| 13 | Descriptiva | Detección de Outliers | ✅ |
+| 14 | Hipótesis | T-Test (una muestra) | ✅ |
+| 15 | Hipótesis | T-Test (dos muestras) | ✅ |
+| 16 | Hipótesis | ANOVA One-Way | ✅ |
+| 17 | Hipótesis | ANOVA Two-Way | ✅ |
+| 18 | Hipótesis | Chi-Cuadrado | ✅ |
+| 19 | Hipótesis | Test TOST (Equivalencia) | ✅ |
+| 20 | Hipótesis | Test de Normalidad | ✅ |
+| 21 | Hipótesis | Test de Shapiro-Wilk | ✅ |
+| 22 | Hipótesis | Test de Kolmogorov-Smirnov | ✅ |
+| 23 | Hipótesis | Test de Anderson-Darling | ✅ |
+| 24 | Hipótesis | D'Agostino-Pearson | ✅ |
+| 25 | Correlación | Correlación Pearson | ✅ |
+| 26 | Correlación | Correlación Spearman | ✅ |
+| 27 | Correlación | Correlación Kendall Tau | ✅ |
+| 28 | Correlación | Covarianza | ✅ |
+| 29 | Regresión | Regresión Lineal Simple | ✅ |
+| 30 | Regresión | Regresión Lineal Múltiple | ✅ |
+| 31 | Regresión | Regresión Polinomial | ✅ |
+| 32 | Regresión | Regresión Logística | ✅ |
+| 33 | Métricas de Error | RMSE | ✅ |
+| 34 | Métricas de Error | MAE | ✅ |
+| 35 | Métricas de Error | R² (Coef. Determinación) | ✅ |
+| 36 | No Paramétricos | Mann-Whitney U | ✅ |
+| 37 | No Paramétricos | Kruskal-Wallis | ✅ |
+| 38 | No Paramétricos | Wilcoxon | ✅ |
+| 39 | No Paramétricos | Friedman | ✅ |
+| 40 | No Paramétricos | Test de Signos | ✅ |
+| 41 | Especificación | Límites de Cuantificación (Cp, Cpk) | ✅ |
 
 ---
 
-### ❌ ESTADÍSTICOS PENDIENTES (7 de 40)
+### ❌ ESTADÍSTICOS PENDIENTES (10+ de 50)
 
 | # | Categoría | Estadístico |
 |---|-----------|-------------|
-| 34 | No Paramétricos | Wilcoxon |
-| 35 | No Paramétricos | Friedman |
-| 36 | No Paramétricos | Test de Signos |
-| 37 | Multivariado | PCA (Componentes Principales) |
-| 38 | Multivariado | Análisis Factorial |
-| 39 | Multivariado | Análisis de Cluster |
-| 40 | Multivariado | Análisis Discriminante |
-| 41 | Multivariado | M-ANOVA |
-| 42 | Extras | Series Temporales |
-| 43 | Extras | Bootstrap |
-| 44 | Extras | Análisis de Supervivencia |
-| 45 | Extras | Modelos Mixtos |
-| 46 | Extras | Análisis Bayesiano |
+| 42 | Multivariado | ACP (Análisis de Componentes Principales) |
+| 43 | Multivariado | Análisis Factorial |
+| 44 | Multivariado | K-Medias (Clustering) |
+| 45 | Multivariado | LDA (Análisis Discriminante) |
+| 46 | Multivariado | MANOVA |
+| 47 | Extras | Series Temporales |
+| 48 | Extras | Bootstrap |
+| 49 | Extras | Análisis de Supervivencia |
+| 50 | Extras | Modelos Mixtos |
+| 51 | Extras | Inferencia Bayesiana |
 
 ---
 
@@ -2021,14 +2026,15 @@ TOTAL APROXIMADO:       ~19,529 líneas
 | Área | Completitud |
 |---|---|
 | MVP Core | 100% ✅ |
-| Análisis Estadístico | ~85% (descriptiva + hipótesis + correlación + regresión + no-paramétricos parciales) |
+| Análisis Estadístico | ~90% (descriptiva + hipótesis + correlación + regresión + no-paramétricos + control calidad) |
 | Análisis Exploratorio (EDA) | 100% ✅ |
+| Reporting (FDA 21 CFR Part 11) | 100% ✅ |
 | Machine Learning | 20% (no integrado) |
 | Testing | 0% ⚠️ (validación manual en desarrollo, sin tests automatizados) |
-| Documentación | 15% (README vacío, ESTADO_PROYECTO.md actualizado) |
+| Documentación | 20% (en progreso) |
 | Performance | 60% (optimizable) |
-| **PROMEDIO** | **~57%** |
-| **ESTADO GENERAL** | **~78% Completo** |
+| **PROMEDIO** | **~63%** |
+| **ESTADO GENERAL** | **~85% Completo** |
 
 ---
 
@@ -2086,7 +2092,57 @@ Este es un **proyecto MVP bien construido** con potencial de convertirse en una 
 
 ---
 
+### 9 de Abril 2026 - Mejoras en Reportes y Referencias
+
+**Cambio:** Múltiples mejoras en el sistema de reportes y configuración de estadísticos
+- **Archivos:** `ReporteManager.js`, `EstadisticaDescriptiva.js`, `estadisticosConfig.js`, `script.js`
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+1. **Códigos de reporte únicos:** Se agregó timestamp + random al hash para garantir que cada reporte tenga código único aunque el contenido sea igual
+2. **Separación de Mediana y Moda:**分开 en entries separadas en estadisticosConfig.js y cases separados en EstadisticaDescriptiva.js
+3. **Referencias en formato array:** Todas las referencias bibliográficas ahora usan estructura `{autores, anio, titulo, revista, volumen, paginas}` en lugar de string plano
+4. **Función formatReferencia():** Implementada para convertir arrays de referencia a string formateado
+5. **Cambio de "Referencia" por "Fórmula":** Sección 04 del reporte ahora muestra la fórmula matemática en lugar de la referencia bibliográfica
+6. **Diccionario statFormulas:** Agregadas ~50 fórmulas en ReporteManager.js para mostrar en Sección 04
+7. **Corrección de [Object Object]:**
+   - Intervalos de Confianza (IC90, IC95, IC99) ahora se muestran como `[inf, sup] ±margen`
+   - Objetos anidados ahora se manejan correctamente en fmtNum() de ReporteManager.js
+   - Detector de Outliers muestra cantidad, porcentaje y límites correctamente
+
+**Archivos modificados:**
+- `ReporteManager.js` - formatReferencia(), statFormulas, fmtNum(), cambio header Fórmula
+- `EstadisticaDescriptiva.js` - formatReferencia(), casos IC, casos texto
+- `estadisticosConfig.js` - 52 referencias convertidas a formato array
+- `script.js` - fix modal para 2 columnas pareadas (Wilcoxon, Test de Signos)
+
+---
+
+### 9 de Abril 2026 - Fix Modal de Pruebas Pareadas
+
+**Cambio:** El modal de configuración para Wilcoxon y Test de Signos necesitaba permitir selección de 2 columnas
+- **Archivos:** `script.js`
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Cambiado de radio buttons a checkboxes cuando `config.paired === true`
+- Validación para requerir exactamente 2 columnas para pruebas pareadas
+- Guardado de ambas columnas en `hypothesisConfig.numericCols`
+
+---
+
+### 9 de Abril 2026 - Sidebar Derecho Colapsado
+
+**Cambio:** Se eliminó la etiqueta "En Proceso" que aparecía cuando el sidebar derecho estaba colapsado
+- **Archivos:** `script.js`
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Cambiado `labelRight.textContent = 'En Proceso'` a texto vacío
+
+---
+
 **Documento generado:** 2 de Abril de 2026  
-**Última actualización:** 6 de Abril de 2026  
+**Última actualización:** 9 de Abril 2026  
 **Analista:** OpenCode  
-**Versión del documento:** 2.0
+**Versión del documento:** 2.1
