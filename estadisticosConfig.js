@@ -173,7 +173,18 @@ const ESTADISTICOS_CONFIG = {
         advertencias: [
             { condicion: 'n_menor_10', mensaje: 'Con menos de 10 observaciones los percentiles extremos (P5, P95) son poco fiables.' },
         ],
-        referencia: 'Hyndman, R.J. & Fan, Y. (1996). Sample quantiles in statistical packages. The American Statistician, 50(4):361–365.',
+        referencia: [
+            {
+                autores:  'Hyndman, R.J. & Fan, Y.',
+                anio:     1996,
+                titulo:   'Sample quantiles in statistical packages',
+                revista:  'The American Statistician',
+                volumen:   '50',
+                numero:    '4',
+                paginas:   '361–365',
+            }
+
+        ],
     },
 
     'Rango y Amplitud': {
@@ -193,10 +204,16 @@ const ESTADISTICOS_CONFIG = {
         interpretacion: {
             plantilla: 'Rango total: {rango} (de {min} a {max}). Un rango muy amplio respecto a la DE sugiere outliers.',
         },
-        advertencias: [
-            { condicion: 'outliers_detectados', mensaje: 'El rango puede estar inflado por valores atípicos. Considere el IQR como alternativa robusta.' },
+        referencias: [
+            {
+                autores:  'Freedman, D., Pisani, R. & Purves, R.',
+                anio:     2007,
+                titulo:   'Statistics',
+                edicion:  '4ª ed.',
+                editorial:'W.W. Norton',
+                // doi o url opcional
+            }
         ],
-        referencia: 'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
     },
 
     'Coeficiente de Variación': {
