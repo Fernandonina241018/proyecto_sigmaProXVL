@@ -248,8 +248,7 @@ const ESTADISTICOS_CONFIG = {
                 anio:     2007,
                 titulo:   'Statistics',
                 edicion:  '4ª ed.',
-                editorial:'W.W. Norton',
-                // doi o url opcional
+                edition:  'W.W. Norton',
             }
         ],
     },
