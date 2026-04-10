@@ -3314,10 +3314,16 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                 const valor = datos[columna];
                 
                 if (typeof valor === 'object' && !Array.isArray(valor)) {
-                    // Para objetos (como percentiles)
+                    // Para objetos (como percentiles, IC, outliers)
                     reporte += `\n   ${columna}:\n`;
                     Object.keys(valor).forEach(key => {
-                        reporte += `      ${key}: ${typeof valor[key] === 'number' ? valor[key].toFixed(4) : valor[key]}\n`;
+                        const val = valor[key];
+                        if (val && typeof val === 'object' && !Array.isArray(val)) {
+                            // Objeto anidado (como IC: {inferior, superior, margen})
+                            reporte += `      ${key}: [${val.inferior?.toFixed(4) ?? 'N/A'}, ${val.superior?.toFixed(4) ?? 'N/A'}]\n`;
+                        } else {
+                            reporte += `      ${key}: ${typeof val === 'number' ? val.toFixed(4) : val}\n`;
+                        }
                     });
                 } else if (Array.isArray(valor)) {
                     // Para arrays (como moda)
@@ -3406,7 +3412,12 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                 if (typeof valor === 'object' && !Array.isArray(valor)) {
                     reporte += `\n   ${columna}:\n`;
                     Object.keys(valor).forEach(key => {
-                        reporte += `      ${key}: ${typeof valor[key] === 'number' ? valor[key].toFixed(4) : valor[key]}\n`;
+                        const val = valor[key];
+                        if (val && typeof val === 'object' && !Array.isArray(val)) {
+                            reporte += `      ${key}: [${val.inferior?.toFixed(4) ?? 'N/A'}, ${val.superior?.toFixed(4) ?? 'N/A'}]\n`;
+                        } else {
+                            reporte += `      ${key}: ${typeof val === 'number' ? val.toFixed(4) : val}\n`;
+                        }
                     });
                 } else if (Array.isArray(valor)) {
                     reporte += `   ${columna}: ${valor.length > 0 ? valor.map(v => v.toFixed(4)).join(', ') : 'No hay moda'}\n`;
@@ -3593,6 +3604,14 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                         // Si es array, mostrar longitud
                         if (Array.isArray(v)) {
                             return `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${k}</span><span class="ar-kpi-sub-v">${v.length} valores</span></div>`;
+                        }
+                        // Si es objeto anidado (como IC: {inferior, superior, margen})
+                        if (v && typeof v === 'object' && !Array.isArray(v)) {
+                            const lower = v.inferior?.toFixed(4) ?? v.limiteInferior?.toFixed(4) ?? '—';
+                            const upper = v.superior?.toFixed(4) ?? v.limiteSuperior?.toFixed(4) ?? '—';
+                            const margen = v.margen?.toFixed(4) ?? '';
+                            const display = margen ? `[${lower}, ${upper}] ±${margen}` : `[${lower}, ${upper}]`;
+                            return `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${k}</span><span class="ar-kpi-sub-v">${display}</span></div>`;
                         }
                         return `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${k}</span><span class="ar-kpi-sub-v">${typeof v === 'number' ? v.toFixed(4) : v}</span></div>`;
                     }).join('');
