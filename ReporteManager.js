@@ -602,8 +602,17 @@ const ReporteManager = (() => {
         if (Array.isArray(val)) return val.length ? val.map(v=>Number(v).toFixed(d)).join('; ') : '—';
         if (typeof val==='number') return isFinite(val) ? val.toFixed(d) : 'N/A';
         
-        // Manejar objetos (como Detección de Outliers)
+        // Manejar objetos (como Detección de Outliers o Intervalos de Confianza)
         if (typeof val === 'object' && !Array.isArray(val)) {
+            // Caso: Intervalos de Confianza {inferior, superior, margen}
+            if (val.inferior !== undefined && val.superior !== undefined) {
+                const lower = val.inferior?.toFixed(4) ?? '—';
+                const upper = val.superior?.toFixed(4) ?? '—';
+                const margen = val.margen?.toFixed(4) ?? '';
+                return `[${lower}, ${upper}]${margen ? ' ±' + margen : ''}`;
+            }
+            
+            // Caso: Outliers {cantidad, porcentaje, limiteInferior, limiteSuperior}
             const cant = val.cantidad ?? val.cantidadOutliers ?? 0;
             const pct = val.porcentaje ?? val.porcentajeOutliers ?? 0;
             const pctStr = typeof pct === 'number' ? pct.toFixed(2) + '%' : pct;
