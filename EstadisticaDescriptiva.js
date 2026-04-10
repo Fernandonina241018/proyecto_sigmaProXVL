@@ -2394,7 +2394,7 @@ const EstadisticaDescriptiva = (() => {
                     });
                     break;
                 
-                case 'Mediana y Moda':
+                /*case 'Mediana y Moda':
                     resultados['Mediana'] = {};
                     resultados['Moda'] = {};
                     numericCols.forEach(col => {
@@ -2402,7 +2402,7 @@ const EstadisticaDescriptiva = (() => {
                         resultados['Mediana'][col] = calcularMediana(values);
                         resultados['Moda'][col] = calcularModa(values);
                     });
-                    break;
+                    break;*/
                     
                 case 'Desviación Estándar':
                     resultados['Desviación Estándar'] = {};
