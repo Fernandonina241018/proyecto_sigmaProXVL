@@ -242,7 +242,7 @@ const ESTADISTICOS_CONFIG = {
         interpretacion: {
             plantilla: 'Rango total: {rango} (de {min} a {max}). Un rango muy amplio respecto a la DE sugiere outliers.',
         },
-        referencias: [
+        referencia: [
             {
                 autores:  'Freedman, D., Pisani, R. & Purves, R.',
                 anio:     2007,
