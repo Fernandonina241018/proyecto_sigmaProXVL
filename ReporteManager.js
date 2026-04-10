@@ -579,6 +579,24 @@ const ReporteManager = (() => {
         const hashArray = Array.from(new Uint8Array(hashBuffer));
         return hashArray.slice(0, 8).map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
     }
+    
+    function formatReferencia(ref) {
+        if (!ref) return '';
+        if (typeof ref === 'string') return ref;
+        
+        if (Array.isArray(ref) && ref.length > 0) {
+            const r = ref[0];
+            let citation = r.autores || '';
+            if (r.anio) citation += ` (${r.anio})`;
+            if (r.titulo) citation += `. ${r.titulo}`;
+            if (r.revista) citation += `. ${r.revista}`;
+            if (r.volumen) citation += `, ${r.volumen}`;
+            if (r.paginas) citation += `, ${r.paginas}`;
+            return citation;
+        }
+        return '';
+    }
+    
     function fmtNum(val, d=4) {
         if (val===null||val===undefined) return 'N/A';
         if (Array.isArray(val)) return val.length ? val.map(v=>Number(v).toFixed(d)).join('; ') : '—';
@@ -725,9 +743,10 @@ const ReporteManager = (() => {
                     Object.entries(val).forEach(([k,v])=>p(`    ${pad('  · '+k,28)}${pad(fmtNum(v),18)}`));
                 } else {
                     // Buscar referencia en estadisticosConfig.js (primera opción) o statRefs (fallback)
-                    const ref = (typeof estadisticosConfig !== 'undefined' && estadisticosConfig[stat]?.referencia) 
+                    const rawRef = (typeof estadisticosConfig !== 'undefined' && estadisticosConfig[stat]?.referencia) 
                         ? estadisticosConfig[stat].referencia 
                         : t('statRefs')[stat] || '';
+                    const ref = formatReferencia(rawRef);
                     p(`  ${pad(stat+':',28)}${pad(fmtNum(val),18)}${ref}`);
                 }
             });
@@ -1343,7 +1362,7 @@ tr:hover td{background:#f7faff}
               hipotesis: val.hipotesis || null,
               supuestos: val.supuestos || [],
               efectoTamano: val.efectoTamano || null,
-              referencia: val.referencia || ''
+              referencia: formatReferencia(val.referencia) || ''
             };
           });
         } else {

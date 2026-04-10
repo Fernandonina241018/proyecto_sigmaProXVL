@@ -58,7 +58,15 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'outliers_detectados', mensaje: 'Se detectaron valores atípicos. La media puede estar influenciada; considere complementar con la mediana.' },
             { condicion: 'asimetria_alta',      mensaje: 'Distribución asimétrica: la media puede no representar bien la tendencia central.' },
         ],
-        referencia: 'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
+        referencia: [
+            {
+                autores:  'Freedman, D., Pisani, R. & Purves, R.',
+                anio:     2007,
+                titulo:   'Statistics',
+                revista:  'W.W. Norton',
+                edition:  '4ª ed.'
+            }
+        ],
     },
 
     'Mediana': {
@@ -81,7 +89,15 @@ const ESTADISTICOS_CONFIG = {
         advertencias: [
             { condicion: 'moda_multiple', mensaje: 'Existen múltiples modas (distribución multimodal). Se reportan todas.' },
         ],
-        referencia: 'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
+        referencia: [
+            {
+                autores:  'Freedman, D., Pisani, R. & Purves, R.',
+                anio:     2007,
+                titulo:   'Statistics',
+                revista:  'W.W. Norton',
+                edition:  '4ª ed.'
+            }
+        ],
     },
 
         'Moda': {
@@ -104,7 +120,15 @@ const ESTADISTICOS_CONFIG = {
         advertencias: [
             { condicion: 'moda_multiple', mensaje: 'Existen múltiples modas (distribución multimodal). Se reportan todas.' },
         ],
-        referencia: 'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
+        referencia: [
+            {
+                autores:  'Freedman, D., Pisani, R. & Purves, R.',
+                anio:     2007,
+                titulo:   'Statistics',
+                revista:  'W.W. Norton',
+                edition:  '4ª ed.'
+            }
+        ],
     },
 
     'Desviación Estándar': {
@@ -127,7 +151,14 @@ const ESTADISTICOS_CONFIG = {
         advertencias: [
             { condicion: 'n_menor_30', mensaje: 'Con n<30 la estimación de σ puede tener alta incertidumbre.' },
         ],
-        referencia: 'Bessel, F. (1838). Correction to the estimation of variance. Astronomische Nachrichten.',
+        referencia: [
+            {
+                autores:  'Bessel, F.',
+                anio:     1838,
+                titulo:   'Correction to the estimation of variance',
+                revista:  'Astronomische Nachrichten',
+            }
+        ],
     },
 
     'Varianza': {
@@ -150,7 +181,14 @@ const ESTADISTICOS_CONFIG = {
         advertencias: [
             { condicion: 'unidades_cuadradas', mensaje: 'La varianza está en unidades al cuadrado. Para interpretación directa use la desviación estándar.' },
         ],
-        referencia: 'Bessel, F. (1838). Correction to the estimation of variance. Astronomische Nachrichten.',
+        referencia: [
+            {
+                autores:  'Bessel, F.',
+                anio:     1838,
+                titulo:   'Correction to the estimation of variance',
+                revista:  'Astronomische Nachrichten',
+            }
+        ],
     },
 
     'Percentiles': {
@@ -237,7 +275,15 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'media_cercana_cero', mensaje: 'La media es cercana a cero; el CV puede ser inestable o no interpretable.' },
             { condicion: 'valores_negativos',  mensaje: 'Los datos contienen valores negativos; el CV pierde su interpretación habitual.' },
         ],
-        referencia: 'Everitt, B.S. (2002). The Cambridge Dictionary of Statistics (2ª ed.). Cambridge University Press.',
+        referencia: [
+            {
+                autores:  'Everitt, B.S.',
+                anio:     2002,
+                titulo:   'The Cambridge Dictionary of Statistics',
+                revista:  'Cambridge University Press',
+                edition:  '2ª ed.'
+            }
+        ],
     },
 
     'Asimetría (Skewness)': {
@@ -260,7 +306,16 @@ const ESTADISTICOS_CONFIG = {
         advertencias: [
             { condicion: 'n_menor_30', mensaje: 'Con n<30 el estimador de asimetría tiene varianza elevada; interprete con cautela.' },
         ],
-        referencia: 'Joanes, D.N. & Gill, C.A. (1998). Comparing measures of sample skewness and kurtosis. The Statistician, 47(1):183–189.',
+        referencia: [
+            {
+                autores:  'Joanes, D.N. & Gill, C.A.',
+                anio:     1998,
+                titulo:   'Comparing measures of sample skewness and kurtosis',
+                revista:  'The Statistician',
+                volumen:  47,
+                paginas:  '183–189'
+            }
+        ],
     },
 
     'Curtosis (Kurtosis)': {
@@ -283,7 +338,16 @@ const ESTADISTICOS_CONFIG = {
         advertencias: [
             { condicion: 'n_menor_30', mensaje: 'Con n<30 el estimador de curtosis es muy sensible a valores extremos.' },
         ],
-        referencia: 'DeCarlo, L.T. (1997). On the meaning and use of kurtosis. Psychological Methods, 2(3):292–307.',
+        referencia: [
+            {
+                autores:  'DeCarlo, L.T.',
+                anio:     1997,
+                titulo:   'On the meaning and use of kurtosis',
+                revista:  'Psychological Methods',
+                volumen:  2,
+                paginas:  '292–307'
+            }
+        ],
     },
 
     'Error Estándar': {
@@ -306,7 +370,16 @@ const ESTADISTICOS_CONFIG = {
         advertencias: [
             { condicion: 'n_menor_10', mensaje: 'SE con n<10 tiene alta incertidumbre. Amplíe la muestra si es posible.' },
         ],
-        referencia: 'Cumming, G., Fidler, F. & Vaux, D.L. (2007). Error bars in experimental biology. J Cell Biol, 177(1):7–11.',
+        referencia: [
+            {
+                autores:  'Cumming, G., Fidler, F. & Vaux, D.L.',
+                anio:     2007,
+                titulo:   'Error bars in experimental biology',
+                revista:  'J Cell Biol',
+                volumen:  177,
+                paginas:  '7–11'
+            }
+        ],
     },
 
     'Intervalos de Confianza': {
@@ -330,7 +403,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'no_normalidad',      mensaje: 'Los datos no son normales. Con n<30 el IC basado en t puede ser inexacto; considere Bootstrap.' },
             { condicion: 'n_menor_10',         mensaje: 'IC muy amplio con muestras pequeñas. Interprete con cautela.' },
         ],
-        referencia: 'Neyman, J. (1937). Outline of a theory of statistical estimation. Phil Trans R Soc, 236:333–380.',
+        referencia: [
+            {
+                autores:  'Neyman, J.',
+                anio:     1937,
+                titulo:   'Outline of a theory of statistical estimation',
+                revista:  'Phil Trans R Soc',
+                volumen:  236,
+                paginas:  '333–380'
+            }
+        ],
     },
 
     'Detección de Outliers': {
@@ -354,7 +436,14 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'distribucion_asimetrica', mensaje: 'Con distribuciones muy asimétricas el método IQR puede sobredetectar outliers en la cola larga.' },
             { condicion: 'n_menor_10',              mensaje: 'Con muestras muy pequeñas los métodos de detección tienen baja fiabilidad.' },
         ],
-        referencia: 'Tukey, J.W. (1977). Exploratory Data Analysis. Addison-Wesley.',
+        referencia: [
+            {
+                autores:  'Tukey, J.W.',
+                anio:     1977,
+                titulo:   'Exploratory Data Analysis',
+                revista:  'Addison-Wesley'
+            }
+        ],
     },
 
     // ════════════════════════════════════════
@@ -398,7 +487,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'n_menor_8',    mensaje: 'Con n<8 la aproximación χ² no es fiable. Use Shapiro-Wilk.' },
             { condicion: 'n_mayor_2000', mensaje: 'Con n muy grande JB detecta desviaciones triviales. Evalúe también la magnitud (skewness, kurtosis).' },
         ],
-        referencia: 'Jarque, C.M. & Bera, A.K. (1987). A test for normality of observations and regression residuals. Int Stat Rev, 55(2):163–172.',
+        referencia: [
+            {
+                autores:  'Jarque, C.M. & Bera, A.K.',
+                anio:     1987,
+                titulo:   'A test for normality of observations and regression residuals',
+                revista:  'Int Stat Rev',
+                volumen:  55,
+                paginas:  '163–172'
+            }
+        ],
     },
 
     'Test de Shapiro-Wilk': {
@@ -445,7 +543,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'n_mayor_5000', mensaje: 'Shapiro-Wilk no está definido para n>5000. Use Kolmogorov-Smirnov o Anderson-Darling.' },
             { condicion: 'n_mayor_50',   mensaje: 'Con n>50 la potencia es alta; diferencias triviales pueden ser significativas.' },
         ],
-        referencia: 'Shapiro, S.S. & Wilk, M.B. (1965). An analysis of variance test for normality. Biometrika, 52(3–4):591–611.',
+        referencia: [
+            {
+                autores:  'Shapiro, S.S. & Wilk, M.B.',
+                anio:     1965,
+                titulo:   'An analysis of variance test for normality',
+                revista:  'Biometrika',
+                volumen:  52,
+                paginas:  '591–611'
+            }
+        ],
     },
 
     'Test de Kolmogorov-Smirnov': {
@@ -485,7 +592,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'n_menor_20', mensaje: 'Con n<20 prefiera Shapiro-Wilk, que tiene mayor potencia.' },
             { condicion: 'datos_discretos', mensaje: 'K-S es para datos continuos; con datos discretos el p-value es conservador.' },
         ],
-        referencia: 'Lilliefors, H.W. (1967). On the Kolmogorov-Smirnov test for normality with mean and variance unknown. JASA, 62(318):399–402.',
+        referencia: [
+            {
+                autores:  'Lilliefors, H.W.',
+                anio:     1967,
+                titulo:   'On the Kolmogorov-Smirnov test for normality with mean and variance unknown',
+                revista:  'JASA',
+                volumen:  62,
+                paginas:  '399–402'
+            }
+        ],
     },
 
     'Test de Anderson-Darling': {
@@ -524,7 +640,16 @@ const ESTADISTICOS_CONFIG = {
         advertencias: [
             { condicion: 'n_menor_8', mensaje: 'Con n<8 los valores críticos de Anderson-Darling no son fiables.' },
         ],
-        referencia: 'Anderson, T.W. & Darling, D.A. (1952). Asymptotic theory of certain goodness of fit criteria. Ann Math Statist, 23(2):193–212.',
+        referencia: [
+            {
+                autores:  'Anderson, T.W. & Darling, D.A.',
+                anio:     1952,
+                titulo:   'Asymptotic theory of certain goodness of fit criteria',
+                revista:  'Ann Math Statist',
+                volumen:  23,
+                paginas:  '193–212'
+            }
+        ],
     },
 
     "Test de D'Agostino-Pearson": {
@@ -563,7 +688,16 @@ const ESTADISTICOS_CONFIG = {
         advertencias: [
             { condicion: 'n_menor_20', mensaje: 'Con n<20 la aproximación χ² de K² puede ser imprecisa.' },
         ],
-        referencia: "D'Agostino, R.B., Belanger, A. & D'Agostino Jr, R.B. (1990). A suggestion for using powerful and informative tests of normality. The American Statistician, 44(4):316–321.",
+        referencia: [
+            {
+                autores:  'D Agostino, R.B., Belanger, A. & D Agostino Jr, R.B.',
+                anio:     1990,
+                titulo:   'A suggestion for using powerful and informative tests of normality',
+                revista:  'The American Statistician',
+                volumen:  44,
+                paginas:  '316–321'
+            }
+        ],
     },
 
     // ════════════════════════════════════════
@@ -611,7 +745,16 @@ const ESTADISTICOS_CONFIG = {
         advertencias: [
             { condicion: 'no_normalidad', mensaje: 'Los datos no son normales. Con n≥30 el TCL protege el test; de lo contrario use Wilcoxon.' },
         ],
-        referencia: "Student [W.S. Gosset] (1908). The probable error of a mean. Biometrika, 6(1):1–25.",
+        referencia: [
+            {
+                autores:  'Student [W.S. Gosset]',
+                anio:     1908,
+                titulo:   'The probable error of a mean',
+                revista:  'Biometrika',
+                volumen:  6,
+                paginas:  '1–25'
+            }
+        ],
     },
 
     'T-Test (dos muestras)': {
@@ -658,7 +801,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'no_normalidad_alguno', mensaje: 'Al menos un grupo no es normal. Considere Mann-Whitney U.' },
             { condicion: 'n_muy_desigual',       mensaje: 'Tamaños muy desiguales pueden afectar la robustez incluso con Welch.' },
         ],
-        referencia: "Welch, B.L. (1947). The generalization of Student's problem when several different population variances are involved. Biometrika, 34(1–2):28–35.",
+        referencia: [
+            {
+                autores:  'Welch, B.L.',
+                anio:     1947,
+                titulo:   'The generalization of Students problem when several different population variances are involved',
+                revista:  'Biometrika',
+                volumen:  34,
+                paginas:  '28–35'
+            }
+        ],
     },
 
     'ANOVA One-Way': {
@@ -704,7 +856,14 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'no_homocedasticidad', mensaje: 'Las varianzas no son homogéneas (Levene significativo). Considere Welch ANOVA o Kruskal-Wallis.' },
             { condicion: 'no_normalidad',       mensaje: 'Algún grupo no es normal. Considere Kruskal-Wallis.' },
         ],
-        referencia: 'Fisher, R.A. (1925). Statistical Methods for Research Workers. Oliver & Boyd.',
+        referencia: [
+            {
+                autores:  'Fisher, R.A.',
+                anio:     1925,
+                titulo:   'Statistical Methods for Research Workers',
+                revista:  'Oliver & Boyd'
+            }
+        ],
     },
 
     'ANOVA Two-Way': {
@@ -750,7 +909,14 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'diseno_desbalanceado', mensaje: 'Diseño no balanceado: los SS de tipo III son los adecuados.' },
             { condicion: 'interaccion_significativa', mensaje: 'Con interacción significativa, los efectos principales deben interpretarse con precaución.' },
         ],
-        referencia: 'Fisher, R.A. (1925). Statistical Methods for Research Workers. Oliver & Boyd.',
+        referencia: [
+            {
+                autores:  'Fisher, R.A.',
+                anio:     1925,
+                titulo:   'Statistical Methods for Research Workers',
+                revista:  'Oliver & Boyd'
+            }
+        ],
     },
 
     'Chi-Cuadrado': {
@@ -795,7 +961,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'frec_esperada_menor_5', mensaje: 'Hay celdas con frecuencia esperada <5. Considere la prueba exacta de Fisher o combinar categorías.' },
             { condicion: 'tabla_2x2',             mensaje: 'Para tablas 2×2 con n<20, use la prueba exacta de Fisher.' },
         ],
-        referencia: 'Pearson, K. (1900). On the criterion that a given system of deviations from the probable in the case of a correlated system of variables is such that it can be reasonably supposed to have arisen from random sampling. Phil Mag, 50(302):157–175.',
+        referencia: [
+            {
+                autores:  'Pearson, K.',
+                anio:     1900,
+                titulo:   'On the criterion that a given system of deviations from the probable in the case of a correlated system of variables is such that it can be reasonably supposed to have arisen from random sampling',
+                revista:  'Phil Mag',
+                volumen:  50,
+                paginas:  '157–175'
+            }
+        ],
     },
 
     'Test TOST (Equivalencia)': {
@@ -839,7 +1014,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'delta_no_justificado', mensaje: 'El umbral Δ debe definirse con criterios sustantivos antes de ver los datos.' },
             { condicion: 'n_insuficiente',       mensaje: 'Con muestras pequeñas el test TOST tiene poca potencia para detectar equivalencia.' },
         ],
-        referencia: 'Schuirmann, D.J. (1987). A comparison of the two one-sided tests procedure and the power approach for assessing the equivalence of average bioavailability. J Pharmacokinet Biopharm, 15(6):657–680.',
+        referencia: [
+            {
+                autores:  'Schuirmann, D.J.',
+                anio:     1987,
+                titulo:   'A comparison of the two one-sided tests procedure and the power approach for assessing the equivalence of average bioavailability',
+                revista:  'J Pharmacokinet Biopharm',
+                volumen:  15,
+                paginas:  '657–680'
+            }
+        ],
     },
 
     // ════════════════════════════════════════
@@ -891,7 +1075,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'outliers_detectados', mensaje: 'Hay outliers que pueden inflar o deflactar r artificialmente.' },
             { condicion: 'no_linealidad',       mensaje: 'La relación no parece lineal. Considere Spearman o transformación de variables.' },
         ],
-        referencia: 'Pearson, K. (1895). Notes on regression and inheritance in the case of two parents. Proc R Soc Lond, 58:240–242.',
+        referencia: [
+            {
+                autores:  'Pearson, K.',
+                anio:     1895,
+                titulo:   'Notes on regression and inheritance in the case of two parents',
+                revista:  'Proc R Soc Lond',
+                volumen:  '58',
+                paginas:  '240–242',
+            }
+        ],
     },
 
     'Correlación Spearman': {
@@ -936,7 +1129,16 @@ const ESTADISTICOS_CONFIG = {
         advertencias: [
             { condicion: 'muchos_empates', mensaje: 'Muchos valores repetidos afectan la precisión de ρ. Considere Kendall τ.' },
         ],
-        referencia: 'Spearman, C. (1904). The proof and measurement of association between two things. Am J Psychol, 15(1):72–101.',
+        referencia: [
+            {
+                autores:  'Spearman, C.',
+                anio:     1904,
+                titulo:   'The proof and measurement of association between two things',
+                revista:  'Am J Psychol',
+                volumen:  '15',
+                paginas:  '72–101',
+            }
+        ],
     },
 
     'Correlación Kendall Tau': {
@@ -980,7 +1182,16 @@ const ESTADISTICOS_CONFIG = {
         advertencias: [
             { condicion: 'n_grande', mensaje: 'Con n>100 Spearman es equivalente y más eficiente computacionalmente.' },
         ],
-        referencia: "Kendall, M.G. (1938). A new measure of rank correlation. Biometrika, 30(1–2):81–93.",
+        referencia: [
+            {
+                autores:  "Kendall, M.G.",
+                anio:     1938,
+                titulo:   'A new measure of rank correlation',
+                revista:  'Biometrika',
+                volumen:  '30',
+                paginas:  '81–93',
+            }
+        ],
     },
 
     'Covarianza': {
@@ -1004,7 +1215,14 @@ const ESTADISTICOS_CONFIG = {
         advertencias: [
             { condicion: 'unidades_diferentes', mensaje: 'La covarianza depende de las unidades de X e Y. Para comparar con otras variables, use la correlación de Pearson.' },
         ],
-        referencia: 'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
+        referencia: [
+            {
+                autores:  'Freedman, D., Pisani, R. & Purves, R.',
+                anio:     2007,
+                titulo:   'Statistics (4ª ed.)',
+                revista:  'W.W. Norton',
+            }
+        ],
     },
 
     // ════════════════════════════════════════
@@ -1057,7 +1275,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'heterocedasticidad',      mensaje: 'Varianza no constante en residuos (heterocedasticidad). Use errores estándar robustos.' },
             { condicion: 'outliers_influyentes',     mensaje: 'Hay puntos con alta influencia (Cook\'s D). Verifique su validez.' },
         ],
-        referencia: 'Galton, F. (1886). Regression towards mediocrity in hereditary stature. J Anthropological Inst, 15:246–263.',
+        referencia: [
+            {
+                autores:  'Galton, F.',
+                anio:     1886,
+                titulo:   'Regression towards mediocrity in hereditary stature',
+                revista:  'J Anthropological Inst',
+                volumen:  '15',
+                paginas:  '246–263',
+            }
+        ],
     },
 
     'Regresión Lineal Múltiple': {
@@ -1103,7 +1330,15 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'n_a_predictores',    mensaje: 'Regla general: al menos 10–20 observaciones por predictor.' },
             { condicion: 'heterocedasticidad', mensaje: 'Residuos heterocedásticos detectados. Use errores estándar robustos (HC3).' },
         ],
-        referencia: 'Draper, N.R. & Smith, H. (1998). Applied Regression Analysis (3ª ed.). Wiley.',
+        referencia: [
+            {
+                autores:  'Draper, N.R. & Smith, H.',
+                anio:     1998,
+                titulo:   'Applied Regression Analysis',
+                editorial: 'Wiley',
+                edicion: '3ª ed.',
+            }
+        ],
     },
 
     'Regresión Polinomial': {
@@ -1148,7 +1383,15 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'grado_alto',    mensaje: 'Grados >4 pueden producir sobreajuste. Valide con datos de prueba o validación cruzada.' },
             { condicion: 'extrapolacion', mensaje: 'Los polinomios oscilan fuertemente fuera del rango de entrenamiento. No extrapole.' },
         ],
-        referencia: 'Draper, N.R. & Smith, H. (1998). Applied Regression Analysis (3ª ed.). Wiley.',
+        referencia: [
+            {
+                autores:  'Draper, N.R. & Smith, H.',
+                anio:     1998,
+                titulo:   'Applied Regression Analysis',
+                editorial: 'Wiley',
+                edicion: '3ª ed.',
+            }
+        ],
     },
 
     'Regresión Logística': {
@@ -1193,7 +1436,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'clase_desbalanceada', mensaje: 'Las clases están desbalanceadas. Accuracy puede ser engañosa; evalúe F1-score o AUC.' },
             { condicion: 'separacion_perfecta', mensaje: 'Separación perfecta detectada: los coeficientes tienden a infinito. Use penalización (Ridge logístico).' },
         ],
-        referencia: 'Cox, D.R. (1958). The regression analysis of binary sequences. J R Stat Soc B, 20(2):215–242.',
+        referencia: [
+            {
+                autores:  'Cox, D.R.',
+                anio:     1958,
+                titulo:   'The regression analysis of binary sequences',
+                revista:  'J R Stat Soc B',
+                volumen:  '20(2)',
+                paginas:  '215–242',
+            }
+        ],
     },
 
     'RMSE': {
@@ -1216,7 +1468,16 @@ const ESTADISTICOS_CONFIG = {
         advertencias: [
             { condicion: 'outliers_residuos', mensaje: 'RMSE es sensible a outliers en los residuos. Complemente con MAE para una evaluación robusta.' },
         ],
-        referencia: 'Hyndman, R.J. & Koehler, A.B. (2006). Another look at measures of forecast accuracy. Int J Forecasting, 22(4):679–688.',
+        referencia: [
+            {
+                autores:  'Hyndman, R.J. & Koehler, A.B.',
+                anio:     2006,
+                titulo:   'Another look at measures of forecast accuracy',
+                revista:  'Int J Forecasting',
+                volumen:  '22(4)',
+                paginas:  '679–688',
+            }
+        ],
     },
 
     'MAE': {
@@ -1239,7 +1500,16 @@ const ESTADISTICOS_CONFIG = {
         advertencias: [
             { condicion: 'comparar_con_rmse', mensaje: 'Si MAE << RMSE, hay outliers grandes en los residuos que inflan el RMSE.' },
         ],
-        referencia: 'Willmott, C.J. & Matsuura, K. (2005). Advantages of the mean absolute error (MAE) over the root mean square error (RMSE). Climate Research, 30(1):79–82.',
+        referencia: [
+            {
+                autores:  'Willmott, C.J. & Matsuura, K.',
+                anio:     2005,
+                titulo:   'Advantages of the mean absolute error (MAE) over the root mean square error (RMSE)',
+                revista:  'Climate Research',
+                volumen:  '30(1)',
+                paginas:  '79–82',
+            }
+        ],
     },
 
     'R² (Coef. Determinación)': {
@@ -1263,7 +1533,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'r2_alto_sin_sentido', mensaje: 'R² alto no garantiza que el modelo sea correcto; verifique supuestos de residuos.' },
             { condicion: 'comparar_modelos',     mensaje: 'Para comparar modelos con distinto k, use R² ajustado, AIC o BIC.' },
         ],
-        referencia: 'Wright, S. (1921). Correlation and causation. J Agric Res, 20(7):557–585.',
+        referencia: [
+            {
+                autores:  'Wright, S.',
+                anio:     1921,
+                titulo:   'Correlation and causation',
+                revista:  'J Agric Res',
+                volumen:  '20(7)',
+                paginas:  '557–585',
+            }
+        ],
     },
 
     // ════════════════════════════════════════
@@ -1312,7 +1591,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'n_menor_20',    mensaje: 'Con n<20 la aproximación normal puede ser imprecisa; se recomienda el p-value exacto.' },
             { condicion: 'muchos_empates', mensaje: 'Muchos empates detectados: Z fue corregido automáticamente por empates.' },
         ],
-        referencia: 'Mann, H.B. & Whitney, D.R. (1947). On a test of whether one of two random variables is stochastically larger than the other. Ann Math Statist, 18(1):50–60.',
+        referencia: [
+            {
+                autores:  'Mann, H.B. & Whitney, D.R.',
+                anio:     1947,
+                titulo:   'On a test of whether one of two random variables is stochastically larger than the other',
+                revista:  'Ann Math Statist',
+                volumen:  '18(1)',
+                paginas:  '50–60',
+            }
+        ],
     },
 
     'Kruskal-Wallis': {
@@ -1358,7 +1646,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'muchos_empates', mensaje: 'Hay muchos empates; H fue corregido por empates automáticamente.' },
             { condicion: 'n_por_grupo_menor_5', mensaje: 'Grupos con menos de 5 observaciones reducen la potencia del test.' },
         ],
-        referencia: 'Kruskal, W.H. & Wallis, W.A. (1952). Use of ranks in one-criterion variance analysis. JASA, 47(260):583–621.',
+        referencia: [
+            {
+                autores:  'Kruskal, W.H. & Wallis, W.A.',
+                anio:     1952,
+                titulo:   'Use of ranks in one-criterion variance analysis',
+                revista:  'JASA',
+                volumen:  '47(260)',
+                paginas:  '583–621',
+            }
+        ],
     },
 
     'Wilcoxon': {
@@ -1403,7 +1700,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'n_menor_10',     mensaje: 'Con n<10 use el p-value exacto; la aproximación normal puede ser imprecisa.' },
             { condicion: 'muchos_empates', mensaje: 'Empates entre diferencias reducen la potencia. Se aplicó corrección.' },
         ],
-        referencia: 'Wilcoxon, F. (1945). Individual comparisons by ranking methods. Biometrics Bulletin, 1(6):80–83.',
+        referencia: [
+            {
+                autores:  'Wilcoxon, F.',
+                anio:     1945,
+                titulo:   'Individual comparisons by ranking methods',
+                revista:  'Biometrics Bulletin',
+                volumen:  '1(6)',
+                paginas:  '80–83',
+            }
+        ],
     },
 
     'Friedman': {
@@ -1449,7 +1755,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'n_menor_5',  mensaje: 'Con n<5 bloques los valores críticos de χ²_r son aproximados.' },
             { condicion: 'k_menor_3',  mensaje: 'Friedman requiere al menos 3 condiciones. Para 2 use Wilcoxon.' },
         ],
-        referencia: 'Friedman, M. (1937). The use of ranks to avoid the assumption of normality implicit in the analysis of variance. JASA, 32(200):675–701.',
+        referencia: [
+            {
+                autores:  'Friedman, M.',
+                anio:     1937,
+                titulo:   'The use of ranks to avoid the assumption of normality implicit in the analysis of variance',
+                revista:  'JASA',
+                volumen:  '32(200)',
+                paginas:  '675–701',
+            }
+        ],
     },
 
     'Test de Signos': {
@@ -1494,7 +1809,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'potencia_baja', mensaje: 'El test de signos tiene menos potencia que Wilcoxon. Úselo solo cuando no se pueda asumir simetría de diferencias.' },
             { condicion: 'muchos_empates', mensaje: 'Los empates (diferencia = 0) son excluidos del análisis; un alto número reduce la potencia.' },
         ],
-        referencia: 'Dixon, W.J. & Mood, A.M. (1946). The statistical sign test. JASA, 41(236):557–566.',
+        referencia: [
+            {
+                autores:  'Dixon, W.J. & Mood, A.M.',
+                anio:     1946,
+                titulo:   'The statistical sign test',
+                revista:  'JASA',
+                volumen:  '41(236)',
+                paginas:  '557–566',
+            }
+        ],
     },
 
     // ════════════════════════════════════════
@@ -1533,7 +1857,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'variables_no_correlacionadas', mensaje: 'Si las variables no están correlacionadas, PCA no reduce la dimensionalidad efectivamente.' },
             { condicion: 'escala_diferente',             mensaje: 'Variables en distintas escalas. Se aplicó estandarización (media=0, DE=1).' },
         ],
-        referencia: 'Pearson, K. (1901). On lines and planes of closest fit to systems of points in space. Phil Mag, 2(11):559–572.',
+        referencia: [
+            {
+                autores:  'Pearson, K.',
+                anio:     1901,
+                titulo:   'On lines and planes of closest fit to systems of points in space',
+                revista:  'Phil Mag',
+                volumen:  '2(11)',
+                paginas:  '559–572',
+            }
+        ],
     },
 
     'Análisis Factorial': {
@@ -1564,7 +1897,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'kmo_bajo',      mensaje: 'KMO<0.6: la estructura de correlaciones no es adecuada para análisis factorial.' },
             { condicion: 'n_insuficiente', mensaje: 'n<100 puede producir soluciones inestables. Aumente la muestra o reduzca variables.' },
         ],
-        referencia: 'Thurstone, L.L. (1931). Multiple factor analysis. Psychological Review, 38(5):406–427.',
+        referencia: [
+            {
+                autores:  'Thurstone, L.L.',
+                anio:     1931,
+                titulo:   'Multiple factor analysis',
+                revista:  'Psychological Review',
+                volumen:  '38(5)',
+                paginas:  '406–427',
+            }
+        ],
     },
 
     'Análisis de Cluster': {
@@ -1598,7 +1940,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'k_no_especificado', mensaje: 'Use el método del codo (inercia vs k) o Silhouette para seleccionar k óptimo.' },
             { condicion: 'escala_diferente',  mensaje: 'Variables en distintas escalas pueden dominar la métrica de distancia. Se aplicó estandarización.' },
         ],
-        referencia: 'MacQueen, J. (1967). Some methods for classification and analysis of multivariate observations. Proc 5th Berkeley Symp Math Stat Prob, 1:281–297.',
+        referencia: [
+            {
+                autores:  'MacQueen, J.',
+                anio:     1967,
+                titulo:   'Some methods for classification and analysis of multivariate observations',
+                revista:  'Proc 5th Berkeley Symp Math Stat Prob',
+                volumen:  '1',
+                paginas:  '281–297',
+            }
+        ],
     },
 
     'Análisis Discriminante': {
@@ -1719,7 +2070,14 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'no_estacionaria', mensaje: 'La serie no es estacionaria (ADF significativo). Aplique diferenciación antes de modelos ARIMA.' },
             { condicion: 'n_menor_50',      mensaje: 'Con menos de 50 observaciones la estimación de componentes estacionales es poco fiable.' },
         ],
-        referencia: 'Box, G.E.P. & Jenkins, G.M. (1976). Time Series Analysis: Forecasting and Control. Holden-Day.',
+        referencia: [
+            {
+                autores:  'Box, G.E.P. & Jenkins, G.M.',
+                anio:     1976,
+                titulo:   'Time Series Analysis: Forecasting and Control',
+                editorial: 'Holden-Day',
+            }
+        ],
     },
 
     'Bootstrap': {
@@ -1753,7 +2111,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'n_menor_30',   mensaje: 'Con n pequeño el bootstrap puede no representar bien la distribución muestral.' },
             { condicion: 'b_menor_1000', mensaje: 'Se recomienda B≥1000 para IC estables. Aumente el número de remuestreos.' },
         ],
-        referencia: 'Efron, B. (1979). Bootstrap methods: Another look at the jackknife. Ann Statist, 7(1):1–26.',
+        referencia: [
+            {
+                autores:  'Efron, B.',
+                anio:     1979,
+                titulo:   'Bootstrap methods: Another look at the jackknife',
+                revista:  'Ann Statist',
+                volumen:  '7(1)',
+                paginas:  '1–26',
+            }
+        ],
     },
 
     'Análisis de Supervivencia': {
@@ -1793,7 +2160,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'no_proporcionalidad', mensaje: 'Riesgos no proporcionales (Schoenfeld residuals): el modelo de Cox puede ser inapropiado.' },
             { condicion: 'pocos_eventos',       mensaje: 'Regla general: al menos 10 eventos por covariable en el modelo de Cox.' },
         ],
-        referencia: 'Kaplan, E.L. & Meier, P. (1958). Nonparametric estimation from incomplete observations. JASA, 53(282):457–481.',
+        referencia: [
+            {
+                autores:  'Kaplan, E.L. & Meier, P.',
+                anio:     1958,
+                titulo:   'Nonparametric estimation from incomplete observations',
+                revista:  'JASA',
+                volumen:  '53(282)',
+                paginas:  '457–481',
+            }
+        ],
     },
 
     'Modelos Mixtos': {
@@ -1828,7 +2204,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'icc_muy_bajo',           mensaje: 'ICC<0.05: la estructura jerárquica explica muy poca varianza; un modelo simple puede ser suficiente.' },
             { condicion: 'n_grupos_insuficiente',   mensaje: 'Se recomiendan ≥10–20 grupos de nivel superior para estimar varianzas aleatorias fiablemente.' },
         ],
-        referencia: 'Laird, N.M. & Ware, J.H. (1982). Random-effects models for longitudinal data. Biometrics, 38(4):963–974.',
+        referencia: [
+            {
+                autores:  'Laird, N.M. & Ware, J.H.',
+                anio:     1982,
+                titulo:   'Random-effects models for longitudinal data',
+                revista:  'Biometrics',
+                volumen:  '38(4)',
+                paginas:  '963–974',
+            }
+        ],
     },
 
     'Análisis Bayesiano': {
@@ -1862,7 +2247,16 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'prior_influyente',  mensaje: 'Con n pequeño el prior tiene alta influencia. Realice análisis de sensibilidad al prior.' },
             { condicion: 'no_convergencia',   mensaje: 'R̂>1.01 en algún parámetro: las cadenas MCMC no convergieron. Aumente iteraciones.' },
         ],
-        referencia: 'Bayes, T. (1763). An essay towards solving a problem in the doctrine of chances. Phil Trans R Soc, 53:370–418.',
+        referencia: [
+            {
+                autores:  'Bayes, T.',
+                anio:     1763,
+                titulo:   'An essay towards solving a problem in the doctrine of chances',
+                revista:  'Phil Trans R Soc',
+                volumen:  '53',
+                paginas:  '370–418',
+            }
+        ],
     },
 
     // ════════════════════════════════════════
@@ -1896,7 +2290,14 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'blancos_no_normales',   mensaje: 'Los blancos no tienen distribución normal. Los límites basados en 3σ y 10σ pueden ser conservadores.' },
             { condicion: 'drift_instrumental',    mensaje: 'Se detectó deriva en la señal del blanco a lo largo del tiempo. Verifique estabilidad del instrumento.' },
         ],
-        referencia: 'ICH Q2(R1) (2005). Validation of Analytical Procedures: Text and Methodology. International Council for Harmonisation.',
+        referencia: [
+            {
+                autores:  'ICH Q2(R1)',
+                anio:     2005,
+                titulo:   'Validation of Analytical Procedures: Text and Methodology',
+                editorial: 'International Council for Harmonisation',
+            }
+        ],
     },
 
 };
