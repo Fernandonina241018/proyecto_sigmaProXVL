@@ -73,7 +73,7 @@ const ESTADISTICOS_CONFIG = {
         seccion:   'descriptiva',
         calcular:  'calcularMedianaModa',
         formula:   'Mediana: P₅₀ = valor central',
-        desc:      'Mediana: divide la distribución en dos mitades iguales. Resistente a valores atípicos. Moda: valor con mayor frecuencia.',
+        desc:      'Mediana: divide la distribución en dos mitades iguales. Resistente a valores atípicos. Si mediana ≠ media, la distribución es asimétrica.',
         icono:     '📊',
         minMuestra: 1,
 
