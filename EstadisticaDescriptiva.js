@@ -3262,10 +3262,34 @@ const EstadisticaDescriptiva = (() => {
     }
     
     /**
+     * Formatea referencia bibliográfica desde array a string
+     */
+    function formatReferencia(ref) {
+        if (!ref) return '';
+        if (typeof ref === 'string') return ref;
+        
+        if (Array.isArray(ref) && ref.length > 0) {
+            const r = ref[0];
+            let citation = r.autores || '';
+            if (r.anio) citation += ` (${r.anio})`;
+            if (r.titulo) citation += `. ${r.titulo}`;
+            if (r.revista) citation += `. ${r.revista}`;
+            if (r.volumen) citation += `, ${r.volumen}`;
+            if (r.paginas) citation += `, ${r.paginas}`;
+            return citation;
+        }
+        return '';
+    }
+
+    /**
      * Genera un reporte en texto formateado
      */
     function generarReporte(analisisResultado) {
+        const STAT_META = getStatMeta();
+        
         let reporte = `
+═══════════════════════════════════════════════════════════
+            REPORTE DE ESTADÍSTICA DESCRIPTIVA
 ═══════════════════════════════════════════════════════════
             REPORTE DE ESTADÍSTICA DESCRIPTIVA
 ═══════════════════════════════════════════════════════════
@@ -3338,7 +3362,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
             
             // Agregar referencia si existe
             if (meta.referencia) {
-                reporte += `   └─ Ref: ${meta.referencia}\n`;
+                reporte += `   └─ Ref: ${formatReferencia(meta.referencia)}\n`;
             }
         });
         
@@ -3421,7 +3445,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
             }
             
             if (meta.referencia) {
-                reporte += `   └─ Ref: ${meta.referencia}\n`;
+                reporte += `   └─ Ref: ${formatReferencia(meta.referencia)}\n`;
             }
         });
         
@@ -3436,6 +3460,23 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
      * Función helper para obtener STAT_META (disponible en ambos reportes)
      * Ahora usa estadisticosConfig.js para obtener metadata completa
      */
+    function formatReferencia(ref) {
+        if (!ref) return '';
+        if (typeof ref === 'string') return ref;
+        
+        if (Array.isArray(ref) && ref.length > 0) {
+            const r = ref[0];
+            let citation = r.autores || '';
+            if (r.anio) citation += ` (${r.anio})`;
+            if (r.titulo) citation += `. ${r.titulo}`;
+            if (r.revista) citation += `. ${r.revista}`;
+            if (r.volumen) citation += `, ${r.volumen}`;
+            if (r.paginas) citation += `, ${r.paginas}`;
+            return citation;
+        }
+        return '';
+    }
+
     function getStatMeta() {
         // Usar getStatMetaConfig si está disponible (desde estadisticosConfig.js)
         if (typeof getStatMetaConfig === 'function') {
@@ -4373,7 +4414,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                         
                         if (meta.referencia) {
                             extraContent += '<div class="ar-note-referencia">' +
-                                '<strong>📚 Referencia:</strong> ' + meta.referencia +
+                                '<strong>📚 Referencia:</strong> ' + formatReferencia(meta.referencia) +
                             '</div>';
                         }
                         
