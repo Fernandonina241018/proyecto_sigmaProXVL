@@ -43,7 +43,20 @@ const DatosManager = (() => {
         }
 
         const headers = imported.headers;
-        const rows = imported.data;
+        const data = imported.data;
+        
+        // Detectar formato de datos: array de objetos o array de arrays
+        const isArrayOfArrays = Array.isArray(data[0]);
+        
+        // Convertir siempre a array de arrays para exportar
+        let rows;
+        if (isArrayOfArrays) {
+            rows = data;
+        } else {
+            // Array de objetos - convertir a array de arrays
+            rows = data.map(row => headers.map(h => row[h]));
+        }
+
         let content, filename, type;
 
         const date = new Date().toISOString().slice(0, 10);
@@ -56,9 +69,9 @@ const DatosManager = (() => {
                 type = 'text/csv;charset=utf-8';
                 break;
             case 'json':
-                const jsonData = rows.map(row => {
+                const jsonData = data.map(row => {
                     const obj = {};
-                    headers.forEach((h, i) => obj[h] = row[i]);
+                    headers.forEach((h, i) => obj[h] = row[h] ?? row[i]);
                     return obj;
                 });
                 content = JSON.stringify(jsonData, null, 2);
