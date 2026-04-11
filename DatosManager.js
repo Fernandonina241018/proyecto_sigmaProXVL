@@ -64,17 +64,19 @@ const DatosManager = (() => {
 
         switch (format) {
             case 'csv':
-                content = rows.map(row => 
+                console.log('DEBUG CSV - headers:', headers, 'rows:', rows);
+                const csvLines = rows.map(row => 
                     row.map(val => {
                         const str = String(val ?? '');
                         return str.includes(',') || str.includes('"') || str.includes('\n') 
                             ? `"${str.replace(/"/g, '""')}"` 
                             : str;
                     }).join(',')
-                ).join('\n');
-                content = headers.join(',') + '\n' + content;
+                );
+                content = [headers.join(','), ...csvLines].join('\n');
                 filename = `${baseName}.csv`;
                 type = 'text/csv;charset=utf-8';
+                console.log('DEBUG CSV - content generated');
                 break;
             case 'json':
                 const jsonData = data.map(row => {
@@ -101,12 +103,15 @@ const DatosManager = (() => {
         }
 
         const blob = new Blob([content], { type });
+        console.log('DEBUG - blob created, size:', blob.size);
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
         link.download = filename;
         document.body.appendChild(link);
+        console.log('DEBUG - clicking link');
         link.click();
         document.body.removeChild(link);
+        console.log('DEBUG - link clicked, done');
         URL.revokeObjectURL(link.href);
 
         _showToast(`✅ Datos exportados en formato ${format.toUpperCase()}`);
