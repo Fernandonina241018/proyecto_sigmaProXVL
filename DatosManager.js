@@ -64,7 +64,15 @@ const DatosManager = (() => {
 
         switch (format) {
             case 'csv':
-                content = Papa.unparse({ fields: headers, data: rows }, { quotes: true });
+                content = rows.map(row => 
+                    row.map(val => {
+                        const str = String(val ?? '');
+                        return str.includes(',') || str.includes('"') || str.includes('\n') 
+                            ? `"${str.replace(/"/g, '""')}"` 
+                            : str;
+                    }).join(',')
+                ).join('\n');
+                content = headers.join(',') + '\n' + content;
                 filename = `${baseName}.csv`;
                 type = 'text/csv;charset=utf-8';
                 break;
