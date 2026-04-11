@@ -137,9 +137,14 @@ const Logger = (() => {
 // Auto-inicializar cuando Auth esté disponible
 if (typeof window !== 'undefined') {
     window.addEventListener('DOMContentLoaded', () => {
-        if (typeof CFG !== 'undefined' && CFG.API_URL) {
+        if (typeof API_URL !== 'undefined') {
+            Logger.init(API_URL);
+            console.log('✅ Logger inicializado con:', API_URL);
+        } else if (typeof CFG !== 'undefined' && CFG.API_URL) {
             Logger.init(CFG.API_URL);
-            console.log('✅ Logger inicializado');
+            console.log('✅ Logger inicializado con CFG');
+        } else {
+            console.warn('⚠️ Logger: API_URL no disponible');
         }
     });
 }
