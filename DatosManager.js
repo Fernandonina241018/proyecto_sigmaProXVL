@@ -1004,7 +1004,7 @@ const DatosManager = (() => {
         _showToast('📋 Importa un segundo archivo — se combinará con el actual automáticamente');
     }
 
-    return { buildView };
+    return { buildView, _doExport, _showExportModal };
 
 })();
 

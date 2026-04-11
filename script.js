@@ -527,13 +527,13 @@ function displayImportedData(data) {
         </div>
         <div class="dp-footer">
             <button class="dp-btn-secondary" id="btn-clear-imported">Limpiar datos</button>
-            <button class="dp-btn-secondary" id="btn-download-sample">Descargar plantilla CSV</button>
+            <button class="dp-btn-secondary" id="btn-download-sample">💾 Exportar datos</button>
         </div>
     </div>`;
 
     document.getElementById('dp-btn-run')?.addEventListener('click', () => verificarParametrosAntesAnalisis(ejecutarAnalisis));
     document.getElementById('btn-clear-imported')?.addEventListener('click', clearImportedData);
-    document.getElementById('btn-download-sample')?.addEventListener('click', downloadSampleData);
+    document.getElementById('btn-download-sample')?.addEventListener('click', () => DatosManager._showExportModal());
 
     // Botón EDA Automático
     const edaContainer = document.createElement('div');
