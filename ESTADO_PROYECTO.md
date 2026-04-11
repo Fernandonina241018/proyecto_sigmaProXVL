@@ -2142,6 +2142,19 @@ Este es un **proyecto MVP bien construido** con potencial de convertirse en una 
 
 ---
 
+### 9 de Abril 2026 - Mejoras en Fórmulas de statFormulas
+
+**Cambio:** Actualización de fórmulas para estadísticos que devuelven múltiples valores
+- **Archivos:** `ReporteManager.js`
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+1. **Percentiles:** `i = k/100 × (n−1)` → `Pk = valor en posición k/100×(n+1), k∈{10,25,50,75,90}`
+2. **Rango y Amplitud:** `R = Máx − Mín` → `R = máx−mín | min = min(xi) | max = max(xi)`
+3. **Detección de Outliers:** `[Q1−1.5×IQR, Q3+1.5×IQR]` → `IQR: [Q1−1.5×IQR, Q3+1.5×IQR] | Z-Score: |z| > 3`
+
+---
+
 **Documento generado:** 2 de Abril de 2026  
 **Última actualización:** 9 de Abril 2026  
 **Analista:** OpenCode  

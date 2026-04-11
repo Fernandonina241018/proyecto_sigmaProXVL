@@ -34,6 +34,127 @@ const DatosManager = (() => {
         showToast(msg, isError);
     }
 
+    // ── Exportar datos ──────────────────────
+    function _doExport(format) {
+        const imported = _getData();
+        if (!imported || !imported.headers || imported.headers.length === 0) {
+            _showToast('⚠️ No hay datos para exportar', true);
+            return;
+        }
+
+        const headers = imported.headers;
+        const rows = imported.data;
+        let content, filename, type;
+
+        const date = new Date().toISOString().slice(0, 10);
+        const baseName = `datos_export_${date}`;
+
+        switch (format) {
+            case 'csv':
+                content = Papa.unparse({ fields: headers, data: rows }, { quotes: true });
+                filename = `${baseName}.csv`;
+                type = 'text/csv;charset=utf-8';
+                break;
+            case 'json':
+                const jsonData = rows.map(row => {
+                    const obj = {};
+                    headers.forEach((h, i) => obj[h] = row[i]);
+                    return obj;
+                });
+                content = JSON.stringify(jsonData, null, 2);
+                filename = `${baseName}.json`;
+                type = 'application/json;charset=utf-8';
+                break;
+            case 'txt':
+                let txt = headers.join('\t') + '\n';
+                rows.forEach(row => {
+                    txt += row.join('\t') + '\n';
+                });
+                content = txt;
+                filename = `${baseName}.txt`;
+                type = 'text/plain;charset=utf-8';
+                break;
+            default:
+                _showToast('⚠️ Formato no válido', true);
+                return;
+        }
+
+        const blob = new Blob([content], { type });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+
+        _showToast(`✅ Datos exportados en formato ${format.toUpperCase()}`);
+    }
+
+    function _showExportModal() {
+        const imported = _getData();
+        if (!imported) {
+            _showToast('⚠️ No hay datos para exportar', true);
+            return;
+        }
+
+        const modal = document.createElement('div');
+        modal.className = 'dm-modal-overlay';
+        modal.id = 'dm-export-modal';
+        modal.innerHTML = `
+            <div class="dm-modal">
+                <div class="dm-modal-header">
+                    <span class="dm-modal-title">💾 Exportar Datos</span>
+                    <button class="dm-modal-close" onclick="document.getElementById('dm-export-modal')?.remove()">✕</button>
+                </div>
+                <div class="dm-modal-body">
+                    <p class="dm-modal-desc">Selecciona el formato de exportación:</p>
+                    <div class="dm-export-formats">
+                        <label class="dm-export-option">
+                            <input type="radio" name="exportFormat" value="csv" checked>
+                            <span class="dm-export-label">
+                                <span class="dm-export-icon">📄</span>
+                                <span class="dm-export-name">CSV</span>
+                                <span class="dm-export-desc">Compatible con Excel</span>
+                            </span>
+                        </label>
+                        <label class="dm-export-option">
+                            <input type="radio" name="exportFormat" value="json">
+                            <span class="dm-export-label">
+                                <span class="dm-export-icon">{ }</span>
+                                <span class="dm-export-name">JSON</span>
+                                <span class="dm-export-desc">Estructura de objetos</span>
+                            </span>
+                        </label>
+                        <label class="dm-export-option">
+                            <input type="radio" name="exportFormat" value="txt">
+                            <span class="dm-export-label">
+                                <span class="dm-export-icon">📝</span>
+                                <span class="dm-export-name">TXT</span>
+                                <span class="dm-export-desc">Separado por tabs</span>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="dm-export-info">
+                        <span>📊 ${imported.headers.length} columnas × ${imported.data.length} filas</span>
+                    </div>
+                </div>
+                <div class="dm-modal-footer">
+                    <button class="dm-btn dm-btn-secondary" onclick="document.getElementById('dm-export-modal')?.remove()">Cancelar</button>
+                    <button class="dm-btn dm-btn-primary" id="dm-export-confirm">Exportar</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        document.getElementById('dm-export-confirm')?.addEventListener('click', () => {
+            const format = document.querySelector('input[name="exportFormat"]:checked')?.value || 'csv';
+            document.getElementById('dm-export-modal')?.remove();
+            _doExport(format);
+        });
+    }
+
     // ── Calcular outliers ─────────────────
     function _calcOutliers(data, col) {
         const vals = data.map(r => parseFloat(r[col])).filter(v => !isNaN(v)).sort((a,b)=>a-b);
@@ -59,9 +180,9 @@ const DatosManager = (() => {
                 <div class="dm-section-header">
                     <span class="dm-section-title">📂 Archivos</span>
                     <div class="dm-section-actions">
-                        <button class="dm-btn dm-btn-primary" id="dm-btn-import">📁 Importar datos</button>
-                        <button class="dm-btn dm-btn-secondary" id="dm-btn-combine" ${!imported ? 'disabled' : ''}>🔗 Combinar archivos</button>
-                        <button class="dm-btn dm-btn-secondary" id="dm-btn-export" ${!imported ? 'disabled' : ''}>💾 Exportar datos</button>
+                        <button class="dm-btn dm-btn-primary" id="dm-btn-import">📁 Importar Datos</button>
+                        <button class="dm-btn dm-btn-secondary" id="dm-btn-combine" ${!imported ? 'disabled' : ''}>🔗 Combinar Archivos</button>
+                        <button class="dm-btn dm-btn-secondary" id="dm-btn-export" ${!imported ? 'disabled' : ''}>💾 Exportar Datos</button>
                     </div>
                 </div>
                 <div class="dm-files-area" id="dm-files-area">
@@ -345,7 +466,7 @@ const DatosManager = (() => {
 
         // Exportar
         document.getElementById('dm-btn-export')?.addEventListener('click', () => {
-            document.querySelector('.btn-export')?.click();
+            _showExportModal();
         });
 
         // Limpiar datos

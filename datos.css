@@ -400,6 +400,100 @@
 
 .dm-modal-body { padding: 20px; }
 
+.dm-modal-desc {
+    margin: 0 0 16px;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.dm-export-formats {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.dm-export-option {
+    display: flex;
+    align-items: center;
+    padding: 12px 14px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.dm-export-option:hover {
+    border-color: #1a3a6b;
+    background: #f0f4ff;
+}
+
+.dm-export-option:has(input:checked) {
+    border-color: #1a3a6b;
+    background: #e8f0ff;
+}
+
+.dm-export-option input[type="radio"] {
+    accent-color: #1a3a6b;
+    width: 18px;
+    height: 18px;
+    margin-right: 12px;
+}
+
+.dm-export-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.dm-export-icon {
+    font-size: 1.1rem;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f4ff;
+    border-radius: 8px;
+    color: #1a3a6b;
+    font-weight: 600;
+}
+
+.dm-export-name {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.dm-export-desc {
+    color: #777;
+    font-size: 0.8rem;
+    margin-left: auto;
+}
+
+.dm-export-info {
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: #555;
+    text-align: center;
+}
+
+.dm-modal {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2001;
+    background: white;
+    border-radius: 16px;
+    width: min(420px, 94vw);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    overflow: hidden;
+    animation: dm-slidein 0.25s cubic-bezier(0.34,1.4,0.64,1);
+}
+
 .dm-modal-grid {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
