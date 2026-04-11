@@ -299,6 +299,9 @@ document.querySelectorAll('.btn-import').forEach(btn => {
                     StateManager.setImportedData(parsed, fileName);
                     displayImportedData(parsed);
                     updateDataView();
+                    if (typeof Logger !== 'undefined') {
+                        Logger.logImport(fileName, file.size);
+                    }
                 } else {
                     alert('❌ Error al procesar el archivo. Verifica el formato.');
                 }
@@ -913,6 +916,8 @@ function ejecutarAnalisis() {
     // Mostrar spinner antes del cálculo síncrono
     mostrarCargando();
 
+    const startTime = Date.now();
+
     // Pequeño delay para que el spinner sea visible antes del bloqueo del hilo
     setTimeout(() => {
         try {
@@ -930,10 +935,22 @@ function ejecutarAnalisis() {
             switchView('analisis');
             console.log('Análisis completado con éxito');
 
+            // Registrar en auditoría
+            if (typeof Logger !== 'undefined') {
+                const durationMs = Date.now() - startTime;
+                Logger.logAnalysis(activeStats, durationMs);
+            }
+
         } catch (error) {
             // Solo en error volvemos al placeholder vacío
             ocultarCargando();
             console.error('Error en análisis:', error);
+            
+            // Registrar error en auditoría
+            if (typeof Logger !== 'undefined') {
+                Logger.logError('ANALYSIS', error.message);
+            }
+            
             alert('❌ Error al ejecutar el análisis:\n\n' + error.message);
         }
     }, 50);

@@ -1624,6 +1624,12 @@ tr:hover td{background:#f7faff}
         if(formatos.includes('pdf')){setTimeout(()=>{const html=generarHTML(resultados,meta,hash);const w=window.open('','_blank');w.document.write(html);w.document.close();w.print();},delay);delay+=350;}
         if(formatos.includes('txt')){setTimeout(()=>downloadBlob(generarTXT(resultados,meta,hash),`${base}.txt`,'text/plain;charset=utf-8'),delay);delay+=350;}
         if(formatos.includes('csv')){setTimeout(()=>downloadBlob(generarCSV(resultados,meta,hash),`${base}.csv`,'text/csv;charset=utf-8'),delay);}
+        
+        // Registrar en auditoría
+        if (typeof Logger !== 'undefined') {
+            Logger.logReportGenerate(formatos.join(','), base);
+        }
+        
         return {base, formatos};
     }
 

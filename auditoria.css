@@ -292,6 +292,7 @@
 
 .aud-badge-ok   { background: #c6f6d5; color: #276749; }
 .aud-badge-fail { background: #fed7d7; color: #c53030; }
+.aud-badge-module { background: #e0e7ff; color: #3730a3; font-size: 0.7rem; }
 .aud-risk-high  { background: #fed7d7; color: #c53030; }
 .aud-risk-med   { background: #fefcbf; color: #b7791f; }
 .aud-risk-low   { background: #c6f6d5; color: #276749; }
@@ -389,4 +390,69 @@
     .aud-filter-input {
         min-width: 100%;
     }
+}
+
+/* ── Gráfico de actividad ── */
+.aud-chart-section {
+    background: #fff;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.aud-chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 120px;
+    gap: 8px;
+    padding-top: 10px;
+}
+
+.aud-bar-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.aud-bar {
+    width: 100%;
+    background: linear-gradient(180deg, #1a3a6b, #2c5282);
+    border-radius: 4px 4px 0 0;
+    min-height: 4px;
+    transition: height 0.3s ease;
+}
+
+.aud-bar-label {
+    font-size: 0.65rem;
+    color: #666;
+    margin-top: 4px;
+}
+
+/* ── Alertas de seguridad ── */
+.aud-alerts-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.aud-alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.aud-alert-alto {
+    background: #fee2e2;
+    border: 2px solid #ef4444;
+    color: #b91c1c;
+}
+
+.aud-alert-medio {
+    background: #fef3c7;
+    border: 2px solid #f59e0b;
+    color: #b45309;
 }

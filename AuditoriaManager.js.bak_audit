@@ -44,13 +44,6 @@ const AuditoriaManager = (() => {
         const exitosos = _logs.filter(l => l.success === 1).length;
         const fallidos = _logs.filter(l => l.success === 0).length;
 
-        // Por módulo
-        const byModule = {};
-        _logs.forEach(l => {
-            const m = l.module || 'SYSTEM';
-            byModule[m] = (byModule[m] || 0) + 1;
-        });
-
         // Intentos fallidos por usuario
         const failsByUser = {};
         _logs.filter(l => l.success === 0).forEach(l => {
@@ -63,52 +56,12 @@ const AuditoriaManager = (() => {
             actByUser[l.username] = (actByUser[l.username] || 0) + 1;
         });
 
-        // Actividad por día (últimos 7 días)
-        const actByDay = {};
-        const now = new Date();
-        for (let i = 6; i >= 0; i--) {
-            const d = new Date(now);
-            d.setDate(d.getDate() - i);
-            const key = d.toISOString().slice(0, 10);
-            actByDay[key] = 0;
-        }
-        _logs.forEach(l => {
-            const key = l.timestamp?.slice(0, 10);
-            if (key && actByDay[key] !== undefined) {
-                actByDay[key]++;
-            }
-        });
-
-        return { total, exitosos, fallidos, failsByUser, actByUser, byModule, actByDay };
-    }
-
-    // ── Alertas de seguridad ───────────────
-    function getAlertas() {
-        const alertas = [];
-        const s = calcStats();
-        
-        // FallsPorUsuario altos
-        Object.entries(s.failsByUser).forEach(([user, count]) => {
-            if (count >= 5) {
-                alertas.push({ tipo: 'ALTO', msg: `${count} intentos fallidos del usuario "${user}"` });
-            } else if (count >= 3) {
-                alertas.push({ tipo: 'MEDIO', msg: `${count} intentos fallidos del usuario "${user}"` });
-            }
-        });
-        
-        return alertas;
-    }
-
-    // ── Actividad por día para gráfico ───
-    function getActividadDiaria() {
-        const s = calcStats();
-        return Object.entries(s.actByDay).map(([fecha, cantidad]) => ({ fecha, cantidad }));
+        return { total, exitosos, fallidos, failsByUser, actByUser };
     }
 
     // ── Filtrar logs ───────────────────────
-    function filtrar({ module = '', usuario = '', desde = '', hasta = '', soloFallidos = false }) {
+    function filtrar({ usuario = '', desde = '', hasta = '', soloFallidos = false }) {
         _filteredLogs = _logs.filter(l => {
-            if (module && l.module !== module) return false;
             if (usuario && !l.username.toLowerCase().includes(usuario.toLowerCase())) return false;
             if (soloFallidos && l.success !== 0) return false;
             if (desde) {
@@ -177,26 +130,8 @@ const AuditoriaManager = (() => {
                 <div class="aud-kpi aud-kpi-loading">Cargando...</div>
             </div>
 
-            <!-- Gráfico de actividad -->
-            <div class="aud-chart-section" id="aud-chart-container"></div>
-
-            <!-- Alertas de seguridad -->
-            <div class="aud-alerts-section" id="aud-alerts-container"></div>
-
             <!-- Filtros -->
             <div class="aud-filters-bar">
-                <div class="aud-filter-group">
-                    <label class="aud-filter-label">📂 Módulo</label>
-                    <select class="aud-filter-input" id="aud-filter-module">
-                        <option value="">Todos</option>
-                        <option value="LOGIN">Login</option>
-                        <option value="DATOS">Datos</option>
-                        <option value="ANALISIS">Análisis</option>
-                        <option value="REPORTES">Reportes</option>
-                        <option value="USERS">Usuarios</option>
-                        <option value="SYSTEM">Sistema</option>
-                    </select>
-                </div>
                 <div class="aud-filter-group">
                     <label class="aud-filter-label">👤 Usuario</label>
                     <input class="aud-filter-input" type="text" id="aud-filter-user" placeholder="Buscar usuario...">
@@ -279,49 +214,6 @@ const AuditoriaManager = (() => {
                 <div class="aud-kpi-label">Tasa de éxito</div>
             </div>
         `;
-        
-        // Renderizar gráfico de actividad si existe contenedor
-        _renderGrafico();
-        _renderAlertas();
-    }
-
-    // ── Gráfico de actividad ──────────────
-    function _renderGrafico() {
-        const container = document.getElementById('aud-chart-container');
-        if (!container) return;
-        
-        const data = getActividadDiaria();
-        if (!data.length) {
-            container.innerHTML = '<div class="aud-empty">No hay datos para gráfico.</div>';
-            return;
-        }
-        
-        const max = Math.max(...data.map(d => d.cantidad), 1);
-        const bars = data.map(d => {
-            const height = Math.max(5, (d.cantidad / max) * 100);
-            return `<div class="aud-bar-container">
-                <div class="aud-bar" style="height: ${height}%" title="${d.fecha}: ${d.cantidad}"></div>
-                <div class="aud-bar-label">${d.fecha.slice(5)}</div>
-            </div>`;
-        }).join('');
-        
-        container.innerHTML = `<div class="aud-chart">${bars}</div>`;
-    }
-
-    // ── Alertas de seguridad ─────────────
-    function _renderAlertas() {
-        const container = document.getElementById('aud-alerts-container');
-        if (!container) return;
-        
-        const alertas = getAlertas();
-        if (!alertas.length) {
-            container.innerHTML = '';
-            return;
-        }
-        
-        container.innerHTML = alertas.map(a => 
-            `<div class="aud-alert aud-alert-${a.tipo.toLowerCase()}">⚠️ ${a.msg}</div>`
-        ).join('');
     }
 
     function _renderTable(logs) {
@@ -342,11 +234,9 @@ const AuditoriaManager = (() => {
             const ok      = l.success === 1;
             const badgeCls= ok ? 'aud-badge-ok' : 'aud-badge-fail';
             const badge   = ok ? '✓ Exitoso' : '✕ Fallido';
-            const module = l.module || 'SYSTEM';
             return `
             <tr>
                 <td class="aud-td-mono">${l.id}</td>
-                <td><span class="aud-badge aud-badge-module">${module}</span></td>
                 <td><strong>${escapeHtml(l.username)}</strong></td>
                 <td class="aud-td-action">${escapeHtml(l.action || '—')}</td>
                 <td><span class="aud-badge ${badgeCls}">${badge}</span></td>
@@ -360,7 +250,6 @@ const AuditoriaManager = (() => {
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Módulo</th>
                     <th>Usuario</th>
                     <th>Acción</th>
                     <th>Resultado</th>
@@ -405,17 +294,16 @@ const AuditoriaManager = (() => {
 
     function _attachListeners() {
         document.getElementById('aud-btn-filter')?.addEventListener('click', () => {
-            const module     = document.getElementById('aud-filter-module')?.value || '';
             const usuario    = document.getElementById('aud-filter-user')?.value  || '';
             const desde      = document.getElementById('aud-filter-desde')?.value || '';
             const hasta      = document.getElementById('aud-filter-hasta')?.value || '';
             const soloFallidos = document.getElementById('aud-filter-fallidos')?.checked || false;
-            const filtered   = filtrar({ module, usuario, desde, hasta, soloFallidos });
+            const filtered   = filtrar({ usuario, desde, hasta, soloFallidos });
             _renderTable(filtered);
         });
 
         document.getElementById('aud-btn-reset')?.addEventListener('click', () => {
-            const inputs = ['aud-filter-module','aud-filter-user','aud-filter-desde','aud-filter-hasta'];
+            const inputs = ['aud-filter-user','aud-filter-desde','aud-filter-hasta'];
             inputs.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
             const cb = document.getElementById('aud-filter-fallidos'); if (cb) cb.checked = false;
             _filteredLogs = [..._logs];

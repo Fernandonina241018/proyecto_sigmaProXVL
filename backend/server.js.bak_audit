@@ -455,24 +455,3 @@ app.get('/api/audit', requireAuth, requireAdmin, async (req, res) => {
     const logs = await db.getAuditLog(parseInt(req.query.limit) || 100);
     res.json({ ok: true, logs });
 });
-
-// POST /api/audit/event - registra eventos del frontend (usuario autenticado)
-app.post('/api/audit/event', requireAuth, async (req, res) => {
-    const { action, module, details, durationMs } = req.body;
-    if (!action) {
-        return res.status(400).json({ error: 'action es requerido' });
-    }
-    
-    await db.logAuditEvent({
-        username: req.user.username,
-        action,
-        success: 1,
-        ip: getClientIP(req),
-        userAgent: req.headers['user-agent'],
-        module: module || null,
-        details: details || null,
-        durationMs: durationMs || null,
-    });
-    
-    res.json({ ok: true });
-});
