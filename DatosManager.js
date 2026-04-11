@@ -59,7 +59,9 @@ const DatosManager = (() => {
 
         let content, filename, type;
 
-        const date = new Date().toISOString().slice(0, 10);
+        const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+        const now = new Date();
+        const date = `${String(now.getDate()).padStart(2,'0')}-${months[now.getMonth()]}-${now.getFullYear()}: ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
         const baseName = `datos_export_${date}`;
 
         switch (format) {
