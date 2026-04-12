@@ -2155,7 +2155,84 @@ Este es un **proyecto MVP bien construido** con potencial de convertirse en una 
 
 ---
 
+---
+
+### 12 de Abril 2026 - Módulo de Auditoría Completo (Opción 3)
+
+**Cambio:** Implementación completa del sistema de auditoría con logging automático de operaciones
+- **Archivos:** `backend/database.js`, `backend/server.js`, `Logger.js`, `AuditoriaManager.js`, `auditoria.css`, `StateManager.js`, `script.js`, `ReporteManager.js`, `index.html`
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+
+1. **Backend - Schema BD extendido:**
+   - Nuevas columnas en `audit_log`: `module`, `details`, `duration_ms`
+   - Nuevo endpoint `POST /api/audit/event` para eventos del frontend
+
+2. **Logger.js (nuevo):**
+   - Sistema de auditoría del frontend
+   - Métodos: `logImport()`, `logAnalysis()`, `logReportGenerate()`, `logDataChange()`
+   - Módulos: LOGIN, DATOS, ANALISIS, REPORTES, USERS, SYSTEM
+
+3. **StateManager.js:**
+   - Modificación de `updateCell()` para registrar cambios de celdas
+   - Parámetro `skipAudit` para control de logging
+   - Preserva decimales usando `String()` para valores
+
+4. **TrabajoManager.js:**
+   - `_onCellFocus()`: guarda valor original al entrar en celda
+   - `_onCellBlur()`: registra cambio al salir de celda
+   - `_onTableKeydown()`: Enter (guarda), Escape (cancela)
+   - `_savePendingChanges()`: registra cambios pendientes al cerrar
+
+5. **AuditoriaManager.js:**
+   - Filtro por módulo (LOGIN, DATOS, ANALISIS, REPORTES, USERS)
+   - Columna de detalles con parsed de JSON
+   - Gráfico de actividad (últimos 7 días)
+   - Alertas de seguridad (múltiples fallos)
+   - Formato 12 horas con AM/PM
+
+6. **utils.js:**
+   - `formatDate()` usa formato 12h global
+   - Preserva todos los decimales (String forzada)
+
+**Características:**
+- Los cambios de celda se registran en auditoría al presionar Enter o salir de la celda
+- Un solo registro por editing (no múltiples por cada keystroke)
+- Valoresanterires y nuevos completos preservados
+- Adaptación automática de timezone del navegador
+
+---
+
+### 11 de Abril 2026 - Exportar Datos en Módulo Datos
+
+**Cambio:** Implementación de funcionalidad de exportar datos con modal de selección de formato
+- **Archivos:** `DatosManager.js`, `datos.css`
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Modal con opciones: CSV, JSON, TXT
+- Función `_doExport()` genera exportación
+- Función `_showExportModal()` muestra modal
+- Mismo modal usado en botón "Exportar datos" de módulo Análisis
+- Nombre de archivo con formato de fecha: `dd-mmm-yyyy: hh:mm:ss`
+
+---
+
+### 10 de Abril 2026 - Ruta Raíz en Backend
+
+**Cambio:** Agregada ruta raíz `GET /` para mostrar información del servicio
+- **Archivos:** `backend/server.js`
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Endpoint raíz muestra JSON con información del servicio
+- Previene errores 404 en health checks
+- Versión actualizada a 2.1.0
+
+---
+
 **Documento generado:** 2 de Abril de 2026  
-**Última actualización:** 9 de Abril 2026  
+**Última actualización:** 12 de Abril 2026  
 **Analista:** OpenCode  
 **Versión del documento:** 2.1

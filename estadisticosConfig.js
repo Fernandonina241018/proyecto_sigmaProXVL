@@ -2283,7 +2283,7 @@ const ESTADISTICOS_CONFIG = {
         },
         salidas: ['LOD', 'LOQ', 'LQC', 'MDL', 'mediaBlancos', 'deBlancos', 'n'],
         interpretacion: {
-            plantilla: 'LOD = {LOD} (3σ), LOQ = {LOQ} (10σ). Valores por debajo de LOQ no deben reportarse cuantitativamente.',
+            planta: 'LOD = {LOD} (3σ), LOQ = {LOQ} (10σ). Valores por debajo de LOQ no deben reportarse cuantitativamente.',
         },
         advertencias: [
             { condicion: 'n_menor_10',           mensaje: 'ICH Q2(R1) recomienda al menos 10 réplicas de blanco para LOD/LOQ fiables.' },
@@ -2296,6 +2296,46 @@ const ESTADISTICOS_CONFIG = {
                 anio:     2005,
                 titulo:   'Validation of Analytical Procedures: Text and Methodology',
                 editorial: 'International Council for Harmonisation',
+            }
+        ],
+    },
+
+    // ════════════════════════════════════════
+    // SECCIÓN: CALIDAD (Six Sigma)
+    // ════════════════════════════════════════
+
+    'Diagrama de Pareto': {
+        seccion:   'calidad',
+        calcular:  'calcularPareto',
+        formula:   '80/20 — 80% de efectos provienen de 20% de causas',
+        desc:      'Distribución de defectos o problemas por categoría. Identifica el 20% de causas que generan el 80% de efectos. Principio de Pareto aplicado al control de calidad.',
+        icono:     '📊',
+        minMuestra: 2,
+
+        supuestos: [
+            'Datos categóricos (defectos, errores, categorías)',
+            'Conteo o frecuencia por categoría',
+            'Al menos 2 categorías diferentes',
+        ],
+        inputs: {
+            tipo:        'dos-columnas',
+            grupos:      1,
+            descripcion: 'Columna categórica (categorías/defectos) + Columna numérica (conteo/frecuencia)',
+        },
+        salidas: ['categorias', 'conteos', 'porcentajes', 'acumulado', 'pareto80', 'vitales', 'triviales', 'total'],
+        interpretacion: {
+            plantilla: 'Las {vitales} categorías ({porcentaje}%) causan el {acumulado}% de problemas. Enfocar en estas优化ará el proceso.',
+        },
+        advertencias: [
+            { condicion: 'pocos_datos',         mensaje: 'Con menos de 5 categorías, el análisis puede no ser representativo.' },
+            { condicion: 'distribucion_uniforme', mensaje: 'Distribución uniforme - no hay causas vitales. Revise la categorización.' },
+        ],
+        referencia: [
+            {
+                autores:  'Juran, J.M.',
+                anio:     1988,
+                titulo:   'Juran\'s Quality Control Handbook',
+                editorial: 'McGraw-Hill',
             }
         ],
     },
@@ -2316,6 +2356,7 @@ function getSeccionesSidebar() {
         multivariado:   { icon: '🎯', label: 'Multivariado',    description: 'Análisis de múltiples variables simultáneamente',                         options: [] },
         extras:         { icon: '✨', label: 'Extras',          description: 'Técnicas avanzadas de análisis estadístico',                              options: [] },
         especificacion: { icon: '📐', label: 'Especificación',  description: 'Límites de cuantificación y capacidad del proceso',                       options: [] },
+        calidad:       { icon: '⚙️', label: 'Calidad',        description: 'Herramientas de control de calidad y Six Sigma',                       options: [] },
     };
 
     Object.entries(ESTADISTICOS_CONFIG).forEach(([nombre, config]) => {
