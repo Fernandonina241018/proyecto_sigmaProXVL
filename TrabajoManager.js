@@ -144,6 +144,7 @@ const TrabajoManager = (() => {
         wrapper.addEventListener('input', _onTableInput);
         wrapper.addEventListener('keydown', _onTableKeydown);
         wrapper.addEventListener('paste', _onTablePaste);
+        wrapper.addEventListener('blur', _onCellBlur, true);
 
         // Restore scroll position
         wrapper.scrollTop = savedScrollTop;
@@ -165,7 +166,38 @@ const TrabajoManager = (() => {
             const row = parseInt(target.dataset.row);
             const col = parseInt(target.dataset.col);
             if (!isNaN(row) && !isNaN(col) && col > 0) {
-                StateManager.updateCell(row, col, value);
+                // Skip audit here - se registrará en _onCellBlur
+                StateManager.updateCell(row, col, value, true);
+            }
+        }
+    }
+    
+    function _onCellBlur(e) {
+        const target = e.target;
+        if (!target.classList.contains('editable-cell')) return;
+        
+        const type = target.dataset.type;
+        const value = target.value;
+        
+        if (type === 'data') {
+            const row = parseInt(target.dataset.row);
+            const col = parseInt(target.dataset.col);
+            if (!isNaN(row) && !isNaN(col) && col > 0) {
+                // Obtener valor anterior para registrar en auditoría
+                const sheet = StateManager.getActiveSheet();
+                if (sheet && sheet.data[row] && sheet.data[row][col] !== undefined) {
+                    const oldValue = String(sheet.data[row][col] ?? '');
+                    const newValueStr = String(value ?? '');
+                    if (oldValue !== newValueStr && typeof Logger !== 'undefined') {
+                        Logger.logDataChange('UPDATE', { 
+                            row: row, 
+                            col: col,
+                            colName: sheet.headers[col] || col,
+                            oldValue: oldValue,
+                            newValue: newValueStr
+                        });
+                    }
+                }
             }
         }
     }

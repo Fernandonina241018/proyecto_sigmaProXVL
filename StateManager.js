@@ -218,7 +218,7 @@ const StateManager = (() => {
     // GESTIÓN DE DATOS DE HOJA
     // ========================================
     
-    function updateCell(row, col, value) {
+    function updateCell(row, col, value, skipAudit = false) {
         const sheet = getActiveSheet();
         if (!sheet) {
             throw new Error('No hay hoja activa');
@@ -232,17 +232,19 @@ const StateManager = (() => {
             throw new Error('Índice de columna inválido');
         }
         
-        // Registrar cambio en auditoría antes de hacerlo (forzar como strings para preservar decimales)
-        const oldValue = String(sheet.data[row][col] ?? '');
-        const newValueStr = String(value ?? '');
-        if (oldValue !== newValueStr && typeof Logger !== 'undefined') {
-            Logger.logDataChange('UPDATE', { 
-                row: row, 
-                col: col,
-                colName: sheet.headers[col] || col,
-                oldValue: oldValue,
-                newValue: newValueStr
-            });
+        // Solo Registrar cambio en auditoría si no se indica skipAudit (forzar como strings para preservar decimales)
+        if (!skipAudit) {
+            const oldValue = String(sheet.data[row][col] ?? '');
+            const newValueStr = String(value ?? '');
+            if (oldValue !== newValueStr && typeof Logger !== 'undefined') {
+                Logger.logDataChange('UPDATE', { 
+                    row: row, 
+                    col: col,
+                    colName: sheet.headers[col] || col,
+                    oldValue: oldValue,
+                    newValue: newValueStr
+                });
+            }
         }
         
         sheet.data[row][col] = value;
