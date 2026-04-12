@@ -1290,7 +1290,65 @@ const EstadisticaDescriptiva = (() => {
        * H₀: Los datos siguen una distribución normal
        * Combina tests de skewness y kurtosis en un estadístico omnibus
        */
-      function calcularDAgostinoPearson(values) {
+      // ════════════════════════════════════════
+    // DIAGRAMA DE PARETO (Control de Calidad)
+    // ════════════════════════════════════════
+    function calcularPareto(datos) {
+        if (!datos || datos.length === 0) {
+            return { error: 'No hay datos para analizar' };
+        }
+        
+        let categorias = [];
+        
+        if (Array.isArray(datos)) {
+            if (datos[0] && typeof datos[0] === 'object') {
+                const keys = Object.keys(datos[0]);
+                const catKey = keys.find(k => k.toLowerCase().includes('categoria') || k.toLowerCase().includes('defecto') || k.toLowerCase().includes('tipo') || k.toLowerCase().includes('nombre'));
+                const countKey = keys.find(k => k.toLowerCase().includes('conteo') || k.toLowerCase().includes('count') || k.toLowerCase().includes('frecuencia'));
+                
+                if (catKey && countKey) {
+                    categorias = datos.map(d => ({ nombre: String(d[catKey]), conteo: parseFloat(d[countKey]) || 0 }));
+                } else {
+                    categorias = datos.map(d => ({ nombre: String(Object.values(d)[0]), conteo: parseFloat(Object.values(d)[1]) || 0 }));
+                }
+            } else {
+                categorias = datos.map(d => ({ nombre: String(Array.isArray(d) ? d[0] : d), conteo: Array.isArray(d) ? (parseFloat(d[1]) || 1) : 1 }));
+            }
+        } else if (typeof datos === 'object') {
+            categorias = Object.entries(datos).map(([nombre, conteo]) => ({ nombre: String(nombre), conteo: parseFloat(conteo) || 0 }));
+        }
+        
+        if (categorias.length < 2) return { error: 'Se requieren al menos 2 categorías para Pareto' };
+        
+        categorias.sort((a, b) => b.conteo - a.conteo);
+        const total = categorias.reduce((sum, c) => sum + c.conteo, 0);
+        if (total === 0) return { error: 'La suma de conteos es cero' };
+        
+        let acumulado = 0;
+        const resultados = categorias.map(c => {
+            acumulado += c.conteo;
+            const porcentaje = (c.conteo / total) * 100;
+            const acumuladoPct = (acumulado / total) * 100;
+            return { categoria: c.nombre, conteo: c.conteo, porcentaje: Math.round(porcentaje * 100) / 100, acumulado: Math.round(acumuladoPct * 100) / 100 };
+        });
+        
+        constidxPareto80 = resultados.findIndex(r => r.acumulado >= 80);
+        const pareto80 = idxPareto80 >= 0 ? resultados[idxPareto80].acumulado : 100;
+        
+        return {
+            categorias: resultados.map(r => r.categoria),
+            conteos: resultados.map(r => r.conteo),
+            porcentajes: resultados.map(r => r.porcentaje),
+            acumulado: resultados.map(r => r.acumulado),
+            pareto80: pareto80,
+            vitales: idxPareto80 >= 0 ? idxPareto80 + 1 : resultados.length,
+            triviales: idxPareto80 >= 0 ? resultados.length - idxPareto80 - 1 : 0,
+            total: total,
+            datosCompletos: resultados
+        };
+    }
+
+    function calcularDAgostinoPearson(values) {
           const n = values.length;
           if (n < 8) return { error: 'Se necesitan al menos 8 observaciones' };
 
@@ -4536,104 +4594,14 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         calcularErrorEstandar,
         calcularIntervalosConfianza,
         
-        // Funciones individuales - Outliers
+// Funciones individuales - Outliers
         detectarOutliersIQR,
         detectarOutliersZScore,
         
-        // ════════════════════════════════════════════════════════════════════════════════════════
-    // DIAGRAMA DE PARETO (Control de Calidad)
-    // ════════════════════════════════════════════════════════════════════════════════════════
-    
-    function calcularPareto(datos) {
-        if (!datos || datos.length === 0) {
-            return { error: 'No hay datos para analizar' };
-        }
+        // Funciones de calidad
+        calcularPareto,
         
-        // datos debe ser un array de objetos con categoria y conteo
-        // o un objeto { categoria: conteo }
-        
-        let categorias = [];
-        
-        if (Array.isArray(datos)) {
-            // Array de objetos: [{ categoria: 'A', conteo: 10 }, ...]
-            if (datos[0] && typeof datos[0] === 'object') {
-                // Detectar nombres de columnas
-                const keys = Object.keys(datos[0]);
-                const catKey = keys.find(k => k.toLowerCase().includes('categoria') || k.toLowerCase().includes('defecto') || k.toLowerCase().includes('tipo') || k.toLowerCase().includes('nombre'));
-                const countKey = keys.find(k => k.toLowerCase().includes('conteo') || k.toLowerCase().includes('count') || k.toLowerCase().includes('frecuencia'));
-                
-                if (catKey && countKey) {
-                    categorias = datos.map(d => ({
-                        nombre: String(d[catKey]),
-                        conteo: parseFloat(d[countKey]) || 0
-                    }));
-                } else {
-                    // Usar las dos primeras columnas
-                    categorias = datos.map(d => ({
-                        nombre: String(Object.values(d)[0]),
-                        conteo: parseFloat(Object.values(d)[1]) || 0
-                    }));
-                }
-            } else {
-                // Array simple [categoria, conteo] o [categoria]
-                categorias = datos.map(d => ({
-                    nombre: String(Array.isArray(d) ? d[0] : d),
-                    conteo: Array.isArray(d) ? (parseFloat(d[1]) || 1) : 1
-                }));
-            }
-        } else if (typeof datos === 'object') {
-            // Objeto: { categoria: conteo }
-            categorias = Object.entries(datos).map(([nombre, conteo]) => ({
-                nombre: String(nombre),
-                conteo: parseFloat(conteo) || 0
-            }));
-        }
-        
-        if (categorias.length < 2) {
-            return { error: 'Se requieren al menos 2 categorías para Pareto' };
-        }
-        
-        // Ordenar por conteo descendente
-        categorias.sort((a, b) => b.conteo - a.conteo);
-        
-        // Calcular totales y porcentajes
-        const total = categorias.reduce((sum, c) => sum + c.conteo, 0);
-        
-        if (total === 0) {
-            return { error: 'La suma de conteos es cero' };
-        }
-        
-        let acumulado = 0;
-        const resultados = categorias.map(c => {
-            acumulado += c.conteo;
-            const porcentaje = (c.conteo / total) * 100;
-            const acumuladoPct = (acumulado / total) * 100;
-            return {
-                categoria: c.nombre,
-                conteo: c.conteo,
-                porcentaje: Math.round(porcentaje * 100) / 100,
-                acumulado: Math.round(acumuladoPct * 100) / 100
-            };
-        });
-        
-        // Identificar causas vitales (80/20)
-        const vitales = resultados.filter(r => r.acumulado <= 80);
-        const triviales = resultados.filter(r => r.acumulado > 80);
-        
-        return {
-            categorias: resultados.map(r => r.categoria),
-            conteos: resultados.map(r => r.conteo),
-            porcentajes: resultados.map(r => r.porcentaje),
-            acumulado: resultados.map(r => r.acumulado),
-            pareto80: resultados[Math.min(vitales.length, resultados.length - 1)]?.acumulado || 100,
-            vitales: vitales.length,
-            triviales: triviales.length,
-            total: total,
-            datosCompletos: resultados
-        };
-    }
-    
-    // Funciones individuales - Pruebas de Hipótesis
+        // Funciones individuales - Pruebas de Hipótesis
         calcularTTestUnaMuestra,
         calcularTTestDosMuestras,
         calcularMannWhitneyU,
@@ -4663,7 +4631,12 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         generarHTML,
         
         // Utilidades
-        getNumericColumns
+        getNumericColumns,
+        
+        // ════════════════════════════════════════════════════════════════════════════════
+        // FUNCIONES DE CALIDAD
+        // ════════════════════════════════════════════════════════════════════════════════
+        calcularPareto
     };
 })();
 
