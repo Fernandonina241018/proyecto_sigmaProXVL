@@ -11,6 +11,19 @@ const TrabajoManager = (() => {
     
     // ── Track de valores originales para auditoría
     const _originalValues = new Map(); // key: "row,col", value: valor original
+    
+    // ── Guardar cambios pendientes al cerrar/pestaña cambio
+    function _savePendingChanges() {
+        const activeCell = document.activeElement;
+        if (activeCell && activeCell.classList.contains('editable-cell')) {
+            activeCell.blur();
+        }
+    }
+    
+    // Registrar antes de cerrar/pestaña cambio
+    if (typeof window !== 'undefined') {
+        window.addEventListener('beforeunload', _savePendingChanges);
+    }
 
     // ── Scroll Listener (Virtual Scroll) ─────────────────────
     const _onTableScroll = debounce(() => {
@@ -224,6 +237,29 @@ const TrabajoManager = (() => {
     }
 
     function _onTableKeydown(e) {
+        // Presionar Enter → forzar blur para registrar en auditoría
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            e.target.blur();
+            return;
+        }
+        
+        // Presionar Escape → cancelar edición y restaurar valor original
+        if (e.key === 'Escape') {
+            const target = e.target;
+            const row = target.dataset.row;
+            const col = target.dataset.col;
+            const key = `${row},${col}`;
+            if (_originalValues.has(key)) {
+                target.value = _originalValues.get(key);
+                _originalValues.delete(key);
+            }
+            e.preventDefault();
+            target.blur();
+            return;
+        }
+        
+        // Tab → mover a siguiente celda (ya causa blur)
         if (e.key !== 'Tab') return;
         e.preventDefault();
         const wrapper = document.getElementById('editable-table-wrapper');
