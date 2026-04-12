@@ -53,19 +53,28 @@ function formatDate(ts, format = 'full') {
     const day  = String(d.getDate()).padStart(2,'0');
     const mon  = months[d.getMonth()];
     const yr   = d.getFullYear();
-    const hh   = String(d.getHours()).padStart(2,'0');
-    const mm   = String(d.getMinutes()).padStart(2,'0');
-    const ss   = String(d.getSeconds()).padStart(2,'0');
+    
+    // Formato 12 horas con AM/PM
+    let hh24 = d.getHours();
+    const ampm = hh24 >= 12 ? 'PM' : 'AM';
+    hh24 = hh24 % 12;
+    if (hh24 === 0) hh24 = 12;
+    const hh = String(hh24).padStart(2,'0');
+    const mm = String(d.getMinutes()).padStart(2,'0');
+    const ss = String(d.getSeconds()).padStart(2,'0');
     
     switch(format) {
         case 'full':
-            return `${day}/${mon}/${yr} ${hh}:${mm}:${ss}`;
+            return `${day}/${mon}/${yr} ${hh}:${mm}:${ss} ${ampm}`;
         case 'short':
-            return `${day}/${Mon}/${yr}`;
+            return `${day}/${mon}/${yr}`;
         case 'time':
-            return `${hh}:${mm}:${ss}`;
+            return `${hh}:${mm}:${ss} ${ampm}`;
+        case 'time24':
+            const h24 = String(d.getHours()).padStart(2,'0');
+            return `${h24}:${mm}:${ss}`;
         default:
-            return `${day}/${mon}/${yr} ${hh}:${mm}:${ss}`;
+            return `${day}/${mon}/${yr} ${hh}:${mm}:${ss} ${ampm}`;
     }
 }
 
