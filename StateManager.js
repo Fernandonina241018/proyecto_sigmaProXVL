@@ -232,6 +232,18 @@ const StateManager = (() => {
             throw new Error('Índice de columna inválido');
         }
         
+        // Registrar cambio en auditoría antes de hacerlo
+        const oldValue = sheet.data[row][col];
+        if (oldValue !== value && typeof Logger !== 'undefined') {
+            Logger.logDataChange('UPDATE', { 
+                row: row, 
+                col: col,
+                colName: sheet.headers[col] || col,
+                oldValue: oldValue,
+                newValue: value
+            });
+        }
+        
         sheet.data[row][col] = value;
         sheet.modified = new Date().toISOString();
         
