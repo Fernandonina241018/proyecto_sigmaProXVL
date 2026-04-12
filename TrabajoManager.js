@@ -8,6 +8,9 @@ const TrabajoManager = (() => {
     // ── Virtual Scroll Config ────────────────────────────────
     const ROW_HEIGHT = 32;
     const BUFFER_ROWS = 10;
+    
+    // ── Track de valores originales para auditoría
+    const _originalValues = new Map(); // key: "row,col", value: valor original
 
     // ── Scroll Listener (Virtual Scroll) ─────────────────────
     const _onTableScroll = debounce(() => {
@@ -145,6 +148,7 @@ const TrabajoManager = (() => {
         wrapper.addEventListener('keydown', _onTableKeydown);
         wrapper.addEventListener('paste', _onTablePaste);
         wrapper.addEventListener('blur', _onCellBlur, true);
+        wrapper.addEventListener('focus', _onCellFocus, true);
 
         // Restore scroll position
         wrapper.scrollTop = savedScrollTop;
@@ -172,6 +176,21 @@ const TrabajoManager = (() => {
         }
     }
     
+    function _onCellFocus(e) {
+        const target = e.target;
+        if (!target.classList.contains('editable-cell')) return;
+        
+        const type = target.dataset.type;
+        if (type === 'data') {
+            const row = parseInt(target.dataset.row);
+            const col = parseInt(target.dataset.col);
+            if (!isNaN(row) && !isNaN(col)) {
+                const key = `${row},${col}`;
+                _originalValues.set(key, target.value);
+            }
+        }
+    }
+    
     function _onCellBlur(e) {
         const target = e.target;
         if (!target.classList.contains('editable-cell')) return;
@@ -182,22 +201,24 @@ const TrabajoManager = (() => {
         if (type === 'data') {
             const row = parseInt(target.dataset.row);
             const col = parseInt(target.dataset.col);
-            if (!isNaN(row) && !isNaN(col) && col > 0) {
-                // Obtener valor anterior para registrar en auditoría
-                const sheet = StateManager.getActiveSheet();
-                if (sheet && sheet.data[row] && sheet.data[row][col] !== undefined) {
-                    const oldValue = String(sheet.data[row][col] ?? '');
-                    const newValueStr = String(value ?? '');
-                    if (oldValue !== newValueStr && typeof Logger !== 'undefined') {
-                        Logger.logDataChange('UPDATE', { 
-                            row: row, 
-                            col: col,
-                            colName: sheet.headers[col] || col,
-                            oldValue: oldValue,
-                            newValue: newValueStr
-                        });
-                    }
+            const key = `${row},${col}`;
+            
+            if (!isNaN(row) && !isNaN(col)) {
+                const oldValue = _originalValues.get(key) ?? '';
+                const newValueStr = String(value ?? '');
+                
+                if (oldValue !== newValueStr && typeof Logger !== 'undefined') {
+                    const sheet = StateManager.getActiveSheet();
+                    Logger.logDataChange('UPDATE', { 
+                        row: row, 
+                        col: col,
+                        colName: sheet?.headers[col] || col,
+                        oldValue: oldValue,
+                        newValue: newValueStr
+                    });
                 }
+                
+                _originalValues.delete(key);
             }
         }
     }
