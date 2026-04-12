@@ -227,6 +227,23 @@ function getClientIP(req) {
 // RUTAS
 // ========================================
 
+// Raíz - información del servicio
+app.get('/', (req, res) => {
+    res.json({ 
+        ok: true, 
+        service: 'StatAnalyzer Pro API',
+        version: '2.1.0',
+        status: 'running',
+        endpoints: [
+            '/api/health',
+            '/api/login', 
+            '/api/me',
+            '/api/audit',
+            '/api/audit/event'
+        ]
+    });
+});
+
 // Health check completo
 app.get('/api/health', async (req, res) => {
     const uptime = Math.floor((Date.now() - startTime) / 1000);
@@ -243,7 +260,7 @@ app.get('/api/health', async (req, res) => {
     res.json({
         ok: true,
         service: 'StatAnalyzer Pro API',
-        version: '2.0.0',
+        version: '2.1.0',
         timestamp: new Date().toISOString(),
         uptime: `${uptime}s`,
         database: dbStatus,
