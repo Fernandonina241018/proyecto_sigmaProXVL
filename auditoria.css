@@ -281,19 +281,36 @@
 
 .aud-td-details {
     font-size: 0.75rem;
-    color: #555;
-    max-width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    color: #333;
+    max-width: 300px;
+    min-width: 180px;
+    padding: 6px 8px;
 }
 
-.aud-td-details:hover {
-    white-space: normal;
-    overflow: visible;
-    background: #f8f9fa;
-    position: relative;
-    z-index: 1;
+.aud-td-details .detail-row {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 2px;
+}
+
+.aud-td-details .detail-label {
+    color: #888;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.aud-td-details .detail-value {
+    color: #1a3a6b;
+    font-weight: 500;
+    word-break: break-all;
+}
+
+.aud-td-details .detail-old {
+    color: #c53030;
+}
+
+.aud-td-details .detail-new {
+    color: #276749;
 }
 
 /* ── Badges ── */

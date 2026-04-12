@@ -350,17 +350,39 @@ const AuditoriaManager = (() => {
                 try {
                     const d = typeof l.details === 'string' ? JSON.parse(l.details) : l.details;
                     if (d && typeof d === 'object') {
-                        const parts = [];
-                        if (d.colName) parts.push(`📊 ${d.colName}`);
-                        if (d.row !== undefined) parts.push(`Fila ${d.row}`);
-                        if (d.oldValue !== undefined) parts.push(` Anterior: ${d.oldValue}`);
-                        if (d.newValue !== undefined) parts.push(` Nuevo: ${d.newValue}`);
-                        if (d.filename) parts.push(`📁 ${d.filename}`);
-                        if (d.stats) parts.push(`📈 ${d.stats.join(', ')}`);
-                        if (d.format) parts.push(`📄 ${d.format}`);
-                        if (d.error) parts.push(`❌ ${d.error}`);
-                        if (parts.length > 0) {
-                            detailsHtml = parts.join(' | ');
+                        const rows = [];
+                        
+                        // Para DATA:UPDATE mostrar anterior y nuevo claramente
+                        if (d.colName || d.oldValue !== undefined || d.newValue !== undefined) {
+                            if (d.colName) {
+                                rows.push(`<div class="detail-row"><span class="detail-label">📊 Columna:</span><span class="detail-value">${escapeHtml(String(d.colName))}</span></div>`);
+                            }
+                            if (d.row !== undefined) {
+                                rows.push(`<div class="detail-row"><span class="detail-label">Fila:</span><span class="detail-value">${d.row}</span></div>`);
+                            }
+                            if (d.oldValue !== undefined) {
+                                rows.push(`<div class="detail-row"><span class="detail-label">Anterior:</span><span class="detail-value detail-old">${escapeHtml(String(d.oldValue))}</span></div>`);
+                            }
+                            if (d.newValue !== undefined) {
+                                rows.push(`<div class="detail-row"><span class="detail-label">Nuevo:</span><span class="detail-value detail-new">${escapeHtml(String(d.newValue))}</span></div>`);
+                            }
+                        }
+                        // Para otros tipos de acciones
+                        else if (d.filename) {
+                            rows.push(`<div class="detail-row"><span class="detail-label">📁 Archivo:</span><span class="detail-value">${escapeHtml(String(d.filename))}</span></div>`);
+                        }
+                        else if (d.stats) {
+                            rows.push(`<div class="detail-row"><span class="detail-label">📈 Estadísticos:</span><span class="detail-value">${escapeHtml(d.stats.join(', '))}</span></div>`);
+                        }
+                        else if (d.format) {
+                            rows.push(`<div class="detail-row"><span class="detail-label">📄 Formato:</span><span class="detail-value">${escapeHtml(String(d.format))}</span></div>`);
+                        }
+                        else if (d.error) {
+                            rows.push(`<div class="detail-row"><span class="detail-label">❌ Error:</span><span class="detail-value" style="color:#c53030">${escapeHtml(String(d.error))}</span></div>`);
+                        }
+                        
+                        if (rows.length > 0) {
+                            detailsHtml = rows.join('');
                         }
                     }
                 } catch (e) {
