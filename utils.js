@@ -45,8 +45,9 @@ function showToast(msg, isError = false) {
 
 function formatDate(ts, format = 'full') {
     if (!ts) return '—';
-    const d = new Date(ts.includes('T') ? ts : ts + 'Z');
-    if (isNaN(d)) return ts;
+    // Forzar interpretación como UTC y convertir automáticamente a hora local del navegador
+    const d = new Date(ts.includes('Z') ? ts : ts + 'Z');
+    if (isNaN(d.getTime())) return ts;
     
     const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
     const day  = String(d.getDate()).padStart(2,'0');
@@ -60,7 +61,7 @@ function formatDate(ts, format = 'full') {
         case 'full':
             return `${day}/${mon}/${yr} ${hh}:${mm}:${ss}`;
         case 'short':
-            return `${day}/${mon}/${yr}`;
+            return `${day}/${Mon}/${yr}`;
         case 'time':
             return `${hh}:${mm}:${ss}`;
         default:
