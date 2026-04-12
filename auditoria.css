@@ -279,6 +279,23 @@
     font-weight: 500;
 }
 
+.aud-td-details {
+    font-size: 0.75rem;
+    color: #555;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aud-td-details:hover {
+    white-space: normal;
+    overflow: visible;
+    background: #f8f9fa;
+    position: relative;
+    z-index: 1;
+}
+
 /* ── Badges ── */
 .aud-badge {
     display: inline-block;

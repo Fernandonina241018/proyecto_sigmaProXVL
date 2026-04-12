@@ -343,12 +343,38 @@ const AuditoriaManager = (() => {
             const badgeCls= ok ? 'aud-badge-ok' : 'aud-badge-fail';
             const badge   = ok ? '✓ Exitoso' : '✕ Fallido';
             const module = l.module || 'SYSTEM';
+            
+            // Procesar detalles si existen
+            let detailsHtml = '—';
+            if (l.details) {
+                try {
+                    const d = typeof l.details === 'string' ? JSON.parse(l.details) : l.details;
+                    if (d && typeof d === 'object') {
+                        const parts = [];
+                        if (d.colName) parts.push(`📊 ${d.colName}`);
+                        if (d.row !== undefined) parts.push(`Fila ${d.row}`);
+                        if (d.oldValue !== undefined) parts.push(` Anterior: ${d.oldValue}`);
+                        if (d.newValue !== undefined) parts.push(` Nuevo: ${d.newValue}`);
+                        if (d.filename) parts.push(`📁 ${d.filename}`);
+                        if (d.stats) parts.push(`📈 ${d.stats.join(', ')}`);
+                        if (d.format) parts.push(`📄 ${d.format}`);
+                        if (d.error) parts.push(`❌ ${d.error}`);
+                        if (parts.length > 0) {
+                            detailsHtml = parts.join(' | ');
+                        }
+                    }
+                } catch (e) {
+                    detailsHtml = escapeHtml(l.details);
+                }
+            }
+            
             return `
             <tr>
                 <td class="aud-td-mono">${l.id}</td>
                 <td><span class="aud-badge aud-badge-module">${module}</span></td>
                 <td><strong>${escapeHtml(l.username)}</strong></td>
                 <td class="aud-td-action">${escapeHtml(l.action || '—')}</td>
+                <td class="aud-td-details">${detailsHtml}</td>
                 <td><span class="aud-badge ${badgeCls}">${badge}</span></td>
                 <td class="aud-td-mono aud-td-ip">${escapeHtml(l.ip || '—')}</td>
                 <td class="aud-td-date">${fmtDate(l.timestamp)}</td>
@@ -363,6 +389,7 @@ const AuditoriaManager = (() => {
                     <th>Módulo</th>
                     <th>Usuario</th>
                     <th>Acción</th>
+                    <th>Detalles</th>
                     <th>Resultado</th>
                     <th>IP</th>
                     <th>Fecha y hora</th>
