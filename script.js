@@ -748,17 +748,35 @@ function getDataForModal() {
 // ========================================
 
 function verificarParametrosAntesAnalisis(callback) {
-    // ★ MODIFICADO: Saltar verificación old de parámetros (min/max/esp)
-    // Ahora solo se verifican los umbrales de dispersión DESPUÉS del análisis
-    // en kpiCards() de EstadisticaDescriptiva.js
     const imported = getDataForModal();
     if (!imported || !imported.data || imported.data.length === 0) {
         callback();
         return;
     }
-    
-    // Ir directamente al análisis - los badges de dispersión se muestran después
-    callback();
+
+    const numCols = imported.headers.filter((_, i) =>
+        imported.data.some(row => {
+            const val = parseFloat(row[i + 1]);
+            return !isNaN(val);
+        })
+    );
+
+    const sinParams = [];
+    numCols.forEach((col, i) => {
+        if (typeof ParametrosManager.getParametros === 'function') {
+            const p = ParametrosManager.getParametros(col);
+            if (!p || (!p.min && !p.max && !p.esp)) {
+                sinParams.push(col);
+            }
+        }
+    });
+
+    if (sinParams.length === 0) {
+        callback();
+        return;
+    }
+
+    mostrarModalParametros(sinParams, imported, callback);
 }
 
 function mostrarModalParametros(sinParams, imported, callback) {
