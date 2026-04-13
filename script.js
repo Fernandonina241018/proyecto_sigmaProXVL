@@ -535,7 +535,7 @@ function displayImportedData(data) {
         </div>
     </div>`;
 
-    document.getElementById('dp-btn-run')?.addEventListener('click', () => verificarParametrosAntesAnalisis(ejecutarAnalisis));
+    //document.getElementById('dp-btn-run')?.addEventListener('click', () => verificarParametrosAntesAnalisis(ejecutarAnalisis));
     document.getElementById('btn-clear-imported')?.addEventListener('click', clearImportedData);
     document.getElementById('btn-download-sample')?.addEventListener('click', () => DatosManager._showExportModal());
     document.getElementById('btn-config-dispersion')?.addEventListener('click', () => {
