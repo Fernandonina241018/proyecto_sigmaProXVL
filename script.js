@@ -530,6 +530,7 @@ function displayImportedData(data) {
         </div>
         <div class="dp-footer">
             <button class="dp-btn-secondary" id="btn-clear-imported">Limpiar datos</button>
+            <button class="dp-btn-secondary" id="btn-config-dispersion">🎯 Umbrales Dispersión</button>
             <button class="dp-btn-secondary" id="btn-download-sample">💾 Exportar datos</button>
         </div>
     </div>`;
@@ -537,6 +538,13 @@ function displayImportedData(data) {
     document.getElementById('dp-btn-run')?.addEventListener('click', () => verificarParametrosAntesAnalisis(ejecutarAnalisis));
     document.getElementById('btn-clear-imported')?.addEventListener('click', clearImportedData);
     document.getElementById('btn-download-sample')?.addEventListener('click', () => DatosManager._showExportModal());
+    document.getElementById('btn-config-dispersion')?.addEventListener('click', () => {
+        if (typeof ParametrosManager.openThresholdModal === 'function') {
+            ParametrosManager.openThresholdModal();
+        } else {
+            showToast('Funcionalidad de umbrales no disponible', 'warning');
+        }
+    });
 
     // Botón EDA Automático
     const edaContainer = document.createElement('div');

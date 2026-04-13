@@ -3632,7 +3632,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                 const val = data[col];
                 if (val === undefined) return '';
 
-                // Verificar cumplimiento de parámetros
+                // Verificar cumplimiento de parámetros (min/max)
                 let compliance = null;
                 if (hasParams) {
                     const p      = ParametrosManager.getParametros(col);
@@ -3644,11 +3644,29 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                     }
                 }
 
+                // Verificar semáforo de dispersión (DE, Varianza, CV, IC)
+                let dispersionEval = null;
+                const dispersionStats = {
+                    'Desviación Estándar': 'Desviación Estándar',
+                    'Varianza': 'Varianza',
+                    'Coeficiente de Variación': 'Coeficiente de Variación'
+                };
+                if (hasParams && dispersionStats[statKey]) {
+                    const numVal = typeof val === 'number' ? val : null;
+                    if (numVal !== null) {
+                        dispersionEval = ParametrosManager.evaluarDispersion(dispersionStats[statKey], numVal, col);
+                    }
+                }
+
                 const statusClass  = compliance === true  ? 'ar-kpi-ok'
                                 : compliance === false ? 'ar-kpi-danger' : '';
                 const badgeHTML    = compliance !== null
                     ? `<div class="ar-kpi-badge ${compliance ? 'ar-badge-ok' : 'ar-badge-danger'}">
                         ${compliance ? '✓ Dentro de parámetros' : '✗ Fuera de parámetros'}
+                    </div>` : '';
+                const dispersionBadgeHTML = dispersionEval && dispersionEval.status
+                    ? `<div class="ar-kpi-badge ar-badge-dispersion ar-badge-${dispersionEval.status}">
+                        ${dispersionEval.status === 'ok' ? '🟢' : dispersionEval.status === 'warn' ? '🟡' : '🔴'} ${dispersionEval.label}
                     </div>` : '';
 
                 // Objeto (percentiles, rango)
@@ -3699,6 +3717,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                                     ${renderOutlierMethod(val.ZScore)}
                                 </div>
                                 ${badgeHTML}
+                                ${dispersionBadgeHTML}
                             </div>`;
                     }
                     
@@ -3722,6 +3741,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                             <div class="ar-kpi-col-label">${col}</div>
                             <div class="ar-kpi-sub-grid">${rows}</div>
                             ${badgeHTML}
+                            ${dispersionBadgeHTML}
                         </div>`;
                 }
 
@@ -3733,6 +3753,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                             <div class="ar-kpi-col-label">${col}</div>
                             <div class="ar-kpi-val ar-kpi-val-sm">${display}</div>
                             ${badgeHTML}
+                            ${dispersionBadgeHTML}
                         </div>`;
                 }
 
@@ -3743,6 +3764,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                         <div class="ar-kpi-col-label">COLUMNA ${col}</div>
                         <div class="ar-kpi-val">${display}</div>
                         ${badgeHTML}
+                        ${dispersionBadgeHTML}
                     </div>`;
 
             }).join('');
