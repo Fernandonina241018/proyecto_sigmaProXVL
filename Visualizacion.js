@@ -714,6 +714,103 @@ const Visualizacion = (() => {
     }
 
     // ========================================
+    // GRÁFICO DE PARETO (barras + línea)
+    // ========================================
+    function renderPareto(data) {
+        if (!data || !data.datosCompletos) return;
+        
+        const labels = data.datosCompletos.map(d => d.categoria);
+        const conteos = data.datosCompletos.map(d => d.conteo);
+        const acumulado = data.datosCompletos.map(d => d.acumulado);
+        
+        const cfg = {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        type: 'bar',
+                        label: 'Conteo',
+                        data: conteos,
+                        backgroundColor: 'rgba(37, 99, 235, 0.8)',
+                        borderColor: 'rgba(29, 78, 189, 1)',
+                        borderWidth: 1.5,
+                        order: 2,
+                        yAxisID: 'y',
+                    },
+                    {
+                        type: 'line',
+                        label: '% Acumulado',
+                        data: acumulado,
+                        borderColor: 'rgba(220, 38, 38, 0.9)',
+                        backgroundColor: 'rgba(220, 38, 38, 0)',
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointBackgroundColor: 'rgba(220, 38, 38, 1)',
+                        tension: 0.1,
+                        order: 1,
+                        yAxisID: 'y1',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: `Diagrama de Pareto — ${data.vitales} categorías causan ${data.pareto80}% del problema`,
+                        font: { size: 15, weight: 'bold' },
+                        color: '#1e3a8a',
+                        padding: { bottom: 15 }
+                    },
+                    legend: {
+                        position: 'top',
+                        labels: { usePointStyle: true, padding: 15 }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => {
+                                if (ctx.dataset.label === 'Conteo') {
+                                    return `Conteo: ${ctx.raw}`;
+                                }
+                                return `% Acumulado: ${ctx.raw}%`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { maxRotation: 45, minRotation: 45 }
+                    },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: { display: true, text: 'Conteo' },
+                        grid: { color: 'rgba(0,0,0,0.08)' }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        min: 0,
+                        max: 100,
+                        title: { display: true, text: '% Acumulado' },
+                        grid: { display: false },
+                        ticks: { callback: v => v + '%' }
+                    }
+                }
+            }
+        };
+        
+        destroyChart();
+        chartInstance = new Chart(getCanvas(), cfg);
+    }
+
+    // ========================================
     // UTILIDAD PERCENTIL (para box plot)
     // ========================================
 
@@ -2079,12 +2176,13 @@ function _attachExportPanelListeners(predefinidos, controlsPanel) {
          ctx.stroke();
      }
 
-     return {
+return {
         buildUI,
         refreshSelects,
         exportarImagen,
         renderBarras,
         renderLineas,
+        renderPareto,
         renderDispersion,
         renderHistograma,
         renderBoxPlot,

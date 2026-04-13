@@ -1983,7 +1983,8 @@ function mostrarModalConfiguracionHypothesis(statName) {
         'Correlación Kendall Tau': { title: '🔗 Configurar Correlación Kendall Tau', customFunc: 'abrirModalConfigCorrelacion' },
         'RMSE': { title: '📏 Configurar RMSE', customFunc: 'abrirModalConfigMetricasError' },
         'MAE': { title: '📏 Configurar MAE', customFunc: 'abrirModalConfigMetricasError' },
-        'R² (Coef. Determinación)': { title: '📊 Configurar R²', customFunc: 'abrirModalConfigMetricasError' }
+        'R² (Coef. Determinación)': { title: '📊 Configurar R²', customFunc: 'abrirModalConfigMetricasError' },
+        'Diagrama de Pareto': { title: '📊 Configurar Diagrama de Pareto', customFunc: 'abrirModalConfigPareto' }
     };
     
     const config = configs[statName];
@@ -2638,6 +2639,104 @@ function abrirModalConfigMetricasError(imported, statName) {
         });
 
         _showToast(`✅ ${nombres.length} métrica(s) configurada(s): ${nombres.join(', ')} (${colObservada} vs ${colPredicha})`);
+        modal.remove();
+        return true;
+    };
+
+    return true;
+}
+
+// ========================================
+// MODAL DE CONFIGURACIÓN DIAGRAMA DE PARETO
+// ========================================
+function abrirModalConfigPareto(imported) {
+    document.getElementById('pareto-config-modal')?.remove();
+    document.getElementById('correlacion-config-modal')?.remove();
+    document.getElementById('regresion-config-modal')?.remove();
+    document.getElementById('metricas-error-config-modal')?.remove();
+
+    const allCols = imported.headers;
+    const catCols = allCols.filter(col => {
+        const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
+        const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
+        return numericCount / values.length <= 0.5;
+    });
+
+    const numericCols = allCols.filter(col => {
+        const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
+        const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
+        return numericCount / values.length > 0.5;
+    });
+
+    if (catCols.length === 0) {
+        _showToast('⚠️ Se necesita al menos 1 columna categórica', true);
+        return false;
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'pareto-config-modal';
+    modal.innerHTML = `
+        <div class="dm-modal-overlay" id="pareto-config-modal-overlay"></div>
+        <div class="dm-modal-card" style="width: min(450px, 96vw);">
+            <div class="dm-modal-header">
+                <h3>📊 Configurar Diagrama de Pareto</h3>
+                <button class="dm-modal-close" id="pareto-config-modal-close">✕</button>
+            </div>
+            <div class="dm-modal-body">
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📋 Columna de Categorías (defectos, tipos, errores)</label>
+                    <select id="pareto-columna-categoria" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        ${catCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📊 Columna de Conteo (opcional)</label>
+                    <select id="pareto-columna-conteo" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        <option value="">— Sin seleccionar (usar frecuencia) —</option>
+                        ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
+                    </select>
+                </div>
+                <p style="font-size:0.75rem;color:#666;margin-bottom:0;">
+                    💡 Si no selecciona columna de conteo, se contará la frecuencia de cada categoría automáticamente.
+                </p>
+            </div>
+            <div class="dm-modal-footer">
+                <button class="dm-btn dm-btn-secondary" id="pareto-config-modal-cancel">Cancelar</button>
+                <button class="dm-btn dm-btn-primary" id="pareto-config-modal-confirm">✅ Confirmar</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    document.getElementById('pareto-config-modal-close').onclick = () => modal.remove();
+    document.getElementById('pareto-config-modal-overlay').onclick = () => modal.remove();
+    document.getElementById('pareto-config-modal-cancel').onclick = () => modal.remove();
+
+    document.getElementById('pareto-config-modal-confirm').onclick = () => {
+        const colCategoria = document.getElementById('pareto-columna-categoria')?.value;
+        const colConteo = document.getElementById('pareto-columna-conteo')?.value;
+
+        if (!colCategoria) {
+            _showToast('⚠️ Seleccione columna de categorías', true);
+            return;
+        }
+
+        const hypothesisConfig = { 
+            columnaCategoria: colCategoria, 
+            columnaConteo: colConteo || null,
+            usarFrecuencia: !colConteo,
+            timestamp: Date.now() 
+        };
+
+        StateManager.setHypothesisConfig('Diagrama de Pareto', hypothesisConfig);
+        StateManager.addActiveStat('Diagrama de Pareto');
+
+        document.querySelectorAll('.menu-option').forEach(opt => {
+            if (opt.textContent.trim() === 'Diagrama de Pareto') opt.classList.add('selected');
+        });
+
+        _showToast(`✅ Diagrama de Pareto configurado para "${colCategoria}"`);
         modal.remove();
         return true;
     };
