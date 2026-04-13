@@ -927,6 +927,11 @@ function ejecutarAnalisis() {
             ultimosResultados = resultados;
             StateManager.setUltimosResultados(resultados);
 
+            // ★ Auto-detectar y pasar Pareto a Visualizacion
+            if (resultados['Diagrama de Pareto']) {
+                Visualizacion.setResultadosPareto(resultados['Diagrama de Pareto']);
+            }
+
             const html = EstadisticaDescriptiva.generarHTML(resultados);
 
             // FIX: solo inyecta los resultados. NO llama a ocultarCargando().
@@ -1061,6 +1066,12 @@ function exportarResultados() {
         alert('⚠️ No hay resultados para exportar. Ejecuta un análisis primero.');
         return;
     }
+    
+    // ★ Pasar resultados a Visualizacion para auto-detectar Pareto
+    if (ultimosResultados['Diagrama de Pareto']) {
+        Visualizacion.setResultadosPareto(ultimosResultados['Diagrama de Pareto']);
+    }
+    
     // ★ Nuevo flujo: ir a Visualización para seleccionar gráficos
     switchView('visualizacion');
     setTimeout(() => Visualizacion.activarModoExportacion(), 80);

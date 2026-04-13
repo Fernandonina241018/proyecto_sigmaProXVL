@@ -2219,16 +2219,52 @@ Este es un **proyecto MVP bien construido** con potencial de convertirse en una 
 
 ---
 
-### 10 de Abril 2026 - Ruta Raíz en Backend
+### 12 de Abril 2026 - Diagrama de Pareto (Completo)
 
-**Cambio:** Agregada ruta raíz `GET /` para mostrar información del servicio
-- **Archivos:** `backend/server.js`
+**Cambio:** Implementación completa del Diagrama de Pareto con configuración, cálculo y visualización
+- **Archivos:** `estadisticosConfig.js`, `EstadisticaDescriptiva.js`, `script.js`, `Visualizacion.js`
 - **Estado:** ✅ COMPLETADO
 
 **Detalles:**
-- Endpoint raíz muestra JSON con información del servicio
-- Previene errores 404 en health checks
-- Versión actualizada a 2.1.0
+
+1. **Configuración (estadisticosConfig.js):**
+   - Nueva sección "calidad" en el sidebar
+   - Configuración con descripción, fórmula 80/20, iconos
+
+2. **Cálculo (EstadisticaDescriptiva.js):**
+   - Función calcularPareto(datos) que procesa categorías y conteos
+   - Case en ejecutarAnalisis() para procesar datos de Pareto
+   - Retorna: categorias, conteos, porcentajes, acumulado, vitales, triviales
+
+3. **Modal de Configuración (script.js):**
+   - Nueva función abrirModalConfigPareto()
+   - Dropdown para seleccionar columna de categorías (requerido)
+   - Dropdown para seleccionar columna de conteo (opcional)
+   - Si no hay columna de conteo, usa frecuencia automática
+
+4. **Visualización (Visualizacion.js):**
+   - Función renderPareto() usando Chart.js
+   - Gráfico combo: barras (conteo) + línea (% acumulado)
+   - Eje Y izquierdo: Conteo
+   - Eje Y derecho: Porcentaje acumulado (0-100%)
+   - Auto-detección cuando hay resultados de Pareto
+
+5. **Integración:**
+   - Después de ejecutar análisis, los resultados de Pareto se pasan automáticamente a Visualización
+   - Al ir a Visualización, detecta y renderiza Pareto automáticamente
+
+---
+
+### 12 de Abril 2026 - Fix Error de Sintaxis en EstadisticaDescriptiva
+
+**Cambio:** Corregido error de sintaxis que impedía cargar el módulo
+- **Archivos:** `EstadisticaDescriptiva.js`
+- **Estado:** ✅ COMPLETADO
+
+**Detalles:**
+- Error: "Unexpected identifier" en función calcularPareto
+- Causa: Código duplicado插入en ubicación incorrecta
+- Solución: Eliminar código duplicado y mover función al lugar correcto
 
 ---
 

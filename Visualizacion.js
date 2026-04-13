@@ -975,6 +975,11 @@ const Visualizacion = (() => {
 
     let currentSource = 'imported';
     let currentType   = 'barras';
+    let _resultadosPareto = null; // guardar resultados de Pareto para auto-render
+    
+    function setResultadosPareto(data) {
+        _resultadosPareto = data;
+    }
 
     function attachUIListeners() {
         // Fuente de datos
@@ -1161,6 +1166,19 @@ const Visualizacion = (() => {
     }
 
     function renderGrafico() {
+// Auto-detectar Pareto en los resultados
+        const ultimosResultados = (typeof window.ultimosResultados !== 'undefined') ? window.ultimosResultados : null;
+        
+        if (ultimosResultados && ultimosResultados['Diagrama de Pareto']) {
+            renderPareto(ultimosResultados['Diagrama de Pareto']);
+            return;
+        }
+        
+        // Check if we have stored Pareto results
+        if (_resultadosPareto) {
+            renderPareto(_resultadosPareto);
+            return;
+        }
         const data = getCurrentData();
 
         if (!data || !data.data || data.data.length === 0) {
@@ -2183,6 +2201,8 @@ return {
         renderBarras,
         renderLineas,
         renderPareto,
+        setResultadosPareto,
+        setResultadosPareto,
         renderDispersion,
         renderHistograma,
         renderBoxPlot,
