@@ -2003,7 +2003,8 @@ function mostrarModalConfiguracionHypothesis(statName) {
         'RMSE': { title: '📏 Configurar RMSE', customFunc: 'abrirModalConfigMetricasError' },
         'MAE': { title: '📏 Configurar MAE', customFunc: 'abrirModalConfigMetricasError' },
         'R² (Coef. Determinación)': { title: '📊 Configurar R²', customFunc: 'abrirModalConfigMetricasError' },
-        'Diagrama de Pareto': { title: '📊 Configurar Diagrama de Pareto', customFunc: 'abrirModalConfigPareto' }
+        'Diagrama de Pareto': { title: '📊 Configurar Diagrama de Pareto', customFunc: 'abrirModalConfigPareto' },
+        'Bootstrap': { title: '🔄 Configurar Bootstrap', customFunc: 'abrirModalConfigBootstrap' }
     };
     
     const config = configs[statName];
@@ -3382,6 +3383,119 @@ function abrirModalConfigObsPred(imported, statName) {
         _showToast(`✅ ${statLabel} configurado correctamente`);
         close();
     });
+    
+    return true;
+}
+
+// MODAL DE CONFIGURACIÓN BOOTSTRAP
+// ========================================
+function abrirModalConfigBootstrap(imported) {
+    document.getElementById('bootstrap-config-modal')?.remove();
+    document.getElementById('correlacion-config-modal')?.remove();
+    document.getElementById('regresion-config-modal')?.remove();
+    document.getElementById('metricas-error-config-modal')?.remove();
+    document.getElementById('pareto-config-modal')?.remove();
+
+    const allCols = imported.headers;
+    const numericCols = allCols.filter(col => {
+        const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
+        const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
+        return numericCount / values.length > 0.5;
+    });
+
+    if (numericCols.length === 0) {
+        _showToast('⚠️ Se necesitan columnas numéricas', true);
+        return false;
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'bootstrap-config-modal';
+    modal.innerHTML = `
+        <div class="dm-modal-overlay" id="bootstrap-config-modal-overlay"></div>
+        <div class="dm-modal-card" style="width: min(450px, 96vw);">
+            <div class="dm-modal-header">
+                <h3>🔄 Configurar Bootstrap</h3>
+                <button class="dm-modal-close" id="bootstrap-config-modal-close">✕</button>
+            </div>
+            <div class="dm-modal-body">
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📊 Columna a analizar</label>
+                    <select id="bootstrap-columna" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        ${numericCols.map(col => `<option value="${escapeHtml(col)}">${escapeHtml(col)}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📐 Estimador (estadístico a calcular)</label>
+                    <select id="bootstrap-estimador" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        <option value="media">Media Aritmética</option>
+                        <option value="mediana">Mediana</option>
+                        <option value="desviacion">Desviación Estándar</option>
+                        <option value="varianza">Varianza</option>
+                    </select>
+                </div>
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>🔢 Número de remuestreos (B)</label>
+                    <select id="bootstrap-iteraciones" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        <option value="500">500 (rápido)</option>
+                        <option value="1000" selected>1000 (recomendado)</option>
+                        <option value="2000">2000 (preciso)</option>
+                        <option value="5000">5000 (muy preciso)</option>
+                    </select>
+                </div>
+                <div class="dm-field" style="margin-bottom: 14px;">
+                    <label>📊 Nivel de confianza</label>
+                    <select id="bootstrap-nivel" style="width:100%;padding:8px;border-radius:6px;border:1.5px solid #ddd;">
+                        <option value="0.90">90%</option>
+                        <option value="0.95" selected>95%</option>
+                        <option value="0.99">99%</option>
+                    </select>
+                </div>
+                <p style="font-size:0.75rem;color:#666;margin-bottom:0;">
+                    💡 Se recomienda B≥1000 para intervalos estables.
+                </p>
+            </div>
+            <div class="dm-modal-footer">
+                <button class="dm-btn dm-btn-secondary" id="bootstrap-config-modal-cancel">Cancelar</button>
+                <button class="dm-btn dm-btn-primary" id="bootstrap-config-modal-confirm">✅ Confirmar</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    const close = () => {
+        modal.classList.remove('dm-modal-visible');
+        setTimeout(() => modal.remove(), 250);
+    };
+
+    document.getElementById('bootstrap-config-modal-close').onclick = close;
+    document.getElementById('bootstrap-config-modal-overlay').onclick = close;
+    document.getElementById('bootstrap-config-modal-cancel').onclick = close;
+
+    document.getElementById('bootstrap-config-modal-confirm').onclick = () => {
+        const columna = document.getElementById('bootstrap-columna').value;
+        const estimador = document.getElementById('bootstrap-estimador').value;
+        const iteraciones = parseInt(document.getElementById('bootstrap-iteraciones').value);
+        const nivelConfianza = parseFloat(document.getElementById('bootstrap-nivel').value);
+
+        const config = {
+            estadistico: estimador,
+            columna: columna,
+            iteraciones: iteraciones,
+            nivelConfianza: nivelConfianza,
+            timestamp: Date.now()
+        };
+        
+        StateManager.setHypothesisConfig('Bootstrap', config);
+        StateManager.addActiveStat('Bootstrap');
+        
+        document.querySelectorAll('.menu-option').forEach(opt => {
+            if (opt.textContent.trim() === 'Bootstrap') opt.classList.add('selected');
+        });
+        
+        _showToast(`✅ Bootstrap configurado: ${estimador} con ${iteraciones} remuestreos`);
+        close();
+    };
     
     return true;
 }
