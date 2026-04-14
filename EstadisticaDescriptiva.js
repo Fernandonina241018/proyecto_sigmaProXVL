@@ -797,14 +797,99 @@ const EstadisticaDescriptiva = (() => {
             z: parseFloat(z.toFixed(4)),
             valorP: parseFloat(p.toFixed(6)),
             significativo: p < 0.05,
-            interpretacion: p < 0.05
+interpretacion: p < 0.05
                 ? `Se rechaza H₀ (p=${p.toFixed(4)} < 0.05). Hay diferencia significativa en la mediana.`
-                : `No se rechaza H₀ (p=${p.toFixed(4)} ≥ 0.05). No hay diferencia significativa.`
+                : `No se rechaza H₀ (p=${p.toFixed(4)} ≥ 0.05). No hay diferencia significativas.`
         };
     }
 
     /**
-     * ANOVA One-Way
+     * Bootstrap - Remuestreo para estimar distribuciones muestrales
+     */
+    function calcularBootstrap(values, statName = 'media', B = 1000, nivelConfianza = 0.95) {
+        const n = values.length;
+        if (n < 10) {
+            return { error: 'Se necesitan al menos 10 observaciones para bootstrap' };
+        }
+
+        // Función para calcular el estadístico
+        const calcularEstadistico = (data, stat) => {
+            switch (stat) {
+                case 'media':
+                    return calcularMedia(data);
+                case 'mediana':
+                    return calcularMediana(data);
+                case 'desviacion':
+                    return calcularDesviacionEstandar(data);
+                case 'varianza':
+                    return calcularVarianza(data);
+                default:
+                    return calcularMedia(data);
+            }
+        };
+
+        // Estimación puntual del estadístico original
+        const estimacion = calcularEstadistico(values, statName);
+
+        // Remuestreo bootstrap
+        const bootstrapEstimates = [];
+        for (let i = 0; i < B; i++) {
+            const resample = [];
+            for (let j = 0; j < n; j++) {
+                resample.push(values[Math.floor(Math.random() * n)]);
+            }
+            bootstrapEstimates.push(calcularEstadistico(resample, statName));
+        }
+
+        // Ordenar para percentiles
+        bootstrapEstimates.sort((a, b) => a - b);
+
+        // Error estándar bootstrap
+        const mediaBootstrap = bootstrapEstimates.reduce((a, b) => a + b, 0) / B;
+        const seBootstrap = Math.sqrt(bootstrapEstimates.reduce((sum, v) => sum + Math.pow(v - mediaBootstrap, 2), 0) / (B - 1));
+
+        // Intervalos de confianza
+        const alpha = 1 - nivelConfianza;
+        const idxLo = Math.floor(B * alpha / 2);
+        const idxHi = Math.floor(B * (1 - alpha / 2));
+
+        const ic95Lo = bootstrapEstimates[idxLo];
+        const ic95Hi = bootstrapEstimates[idxHi];
+
+        // Sesgo bootstrap
+        const sesgo = mediaBootstrap - estimacion;
+
+        // Percentiles adicionales
+        const p25 = bootstrapEstimates[Math.floor(B * 0.25)];
+        const p50 = bootstrapEstimates[Math.floor(B * 0.50)];
+        const p75 = bootstrapEstimates[Math.floor(B * 0.75)];
+
+        return {
+            prueba: 'Bootstrap',
+            estimador: statName,
+            estimacion: estimacion,
+            se_bootstrap: seBootstrap,
+            sesgo: sesgo,
+            ic: {
+                nivel: nivelConfianza,
+                inferior: ic95Lo,
+                superior: ic95Hi
+            },
+            distribucion: {
+                min: bootstrapEstimates[0],
+                p25: p25,
+                mediana: p50,
+                p75: p75,
+                max: bootstrapEstimates[B - 1]
+            },
+            B: B,
+            n: n,
+            interpretacion: `Estimación: ${estimacion.toFixed(4)} (SE=${seBootstrap.toFixed(4)}). IC ${(nivelConfianza * 100)}%: [${ic95Lo.toFixed(4)}, ${ic95Hi.toFixed(4)}] con ${B} remuestreos.`
+        };
+    }
+
+    /**
+     * Bootstrap - ANOVA One-Way
      * Compara las medias de 3 o más grupos
      */
     function calcularANOVA(grupos) {
@@ -3337,10 +3422,33 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                               }
                           }
                       } else {
-                          resultados['Test de Signos'] = { error: 'Seleccione dos columnas numéricas pareadas' };
-                      }
-                      break;
-              }
+resultados['Test de Signos'] = { error: 'Seleccione dos columnas numéricas pareadas' };
+                        break;
+
+                // ============================================================
+                // BOOTSTRAP
+                // ============================================================
+                case 'Bootstrap':
+                    if (hypothesisConfig['Bootstrap']) {
+                        const cfg = hypothesisConfig['Bootstrap'];
+                        const statName = cfg.estadistico || 'media';
+                        const B = cfg.iteraciones || 1000;
+                        const nivelConfianza = cfg.nivelConfianza || 0.95;
+                        
+                        numericCols.forEach(col => {
+                            const values = getNumericValues(data, col);
+                            if (values.length < 10) {
+                                resultados['Bootstrap'] = { error: 'Se necesitan al menos 10 observaciones' };
+                                return;
+                            }
+                            resultados['Bootstrap'] = calcularBootstrap(values, statName, B, nivelConfianza);
+                            resultados['Bootstrap'].columna = col;
+                        });
+                    } else {
+                        resultados['Bootstrap'] = { error: 'Configure el estimador y número de remuestreos en el menú de hipótesis' };
+                    }
+                    break;
+                }
         });
         
         return {
@@ -4415,6 +4523,44 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                         </div>
                         <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
                             ${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
+                        </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">💬</span>
+                        <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
+                    </div>`;
+            }
+
+            // Bootstrap
+            if (statKey === 'Bootstrap') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">🔄 ${data.columna || ''}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estimador</span><span class="ar-kpi-sub-v">${data.estimador ?? 'media'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estimación</span><span class="ar-kpi-sub-v">${data.estimacion?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">SE Bootstrap</span><span class="ar-kpi-sub-v">${data.se_bootstrap?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Sesgo</span><span class="ar-kpi-sub-v">${data.sesgo?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">B (remuestreos)</span><span class="ar-kpi-sub-v">${data.B ?? '—'}</span></div>
+                        </div>
+                    </div>
+                    <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px;">
+                        <div class="ar-kpi-col-label">📊 Intervalo de Confianza ${((data.ic?.nivel ?? 0.95) * 100)}%</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Inferior</span><span class="ar-kpi-sub-v">${data.ic?.inferior?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Superior</span><span class="ar-kpi-sub-v">${data.ic?.superior?.toFixed(4) ?? '—'}</span></div>
+                        </div>
+                    </div>
+                    <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px;">
+                        <div class="ar-kpi-col-label">📦 Distribución Bootstrap</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Mín</span><span class="ar-kpi-sub-v">${data.distribucion?.min?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">P25</span><span class="ar-kpi-sub-v">${data.distribucion?.p25?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Mediana</span><span class="ar-kpi-sub-v">${data.distribucion?.mediana?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">P75</span><span class="ar-kpi-sub-v">${data.distribucion?.p75?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Máx</span><span class="ar-kpi-sub-v">${data.distribucion?.max?.toFixed(4) ?? '—'}</span></div>
                         </div>
                     </div>
                     <div class="ar-formula" style="margin-top:12px;">
