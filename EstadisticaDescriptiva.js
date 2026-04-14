@@ -3632,17 +3632,23 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                 const val = data[col];
                 if (val === undefined) return '';
 
-                // Verificar cumplimiento de parámetros (min/max)
-                let compliance = null;
-                if (hasParams) {
-                    const p      = ParametrosManager.getParametros(col);
-                    const numVal = typeof val === 'number' ? val : null;
-                    if (numVal !== null && (p.min !== null || p.max !== null)) {
-                        const out = (p.min !== null && numVal < p.min) ||
-                                    (p.max !== null && numVal > p.max);
-                        compliance = !out;
-                    }
-                }
+                // ============================================================
+                // TEMPORAL: Validación de parámetros comentada para todos los estadísticos
+                // (Líneas 3637-3644 removidas temporalmente)
+                // La lógica original aplicaba min/max de la columna a valores de estadísticos,
+                // lo cual es incorrecto para estadísticos derivados (DE, Varianza, etc.)
+                // ============================================================
+                // let compliance = null;
+                // if (hasParams) {
+                //     const p      = ParametrosManager.getParametros(col);
+                //     const numVal = typeof val === 'number' ? val : null;
+                //     if (numVal !== null && (p.min !== null || p.max !== null)) {
+                //         const out = (p.min !== null && numVal < p.min) ||
+                //                     (p.max !== null && numVal > p.max);
+                //         compliance = !out;
+                //     }
+                // }
+                const compliance = null;
 
                 // ============================================================
                 // TEMPORAL: Semáforo de dispersión comentado para testing
@@ -3661,12 +3667,8 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                 //     }
                 // }
 
-                const statusClass  = compliance === true  ? 'ar-kpi-ok'
-                                : compliance === false ? 'ar-kpi-danger' : '';
-                const badgeHTML    = compliance !== null
-                    ? `<div class="ar-kpi-badge ${compliance ? 'ar-badge-ok' : 'ar-badge-danger'}">
-                        ${compliance ? '✓ Dentro de parámetros' : '✗ Fuera de parámetros'}
-                    </div>` : '';
+                const statusClass  = ''; // compliance siempre null - badge deshabilitado temporalmente
+                const badgeHTML    = ''; // badges de parámetros comentados temporalmente
                 // const dispersionBadgeHTML = dispersionEval && dispersionEval.status
                 //     ? `<div class="ar-kpi-badge ar-badge-dispersion ar-badge-${dispersionEval.status}">
                 //         ${dispersionEval.status === 'ok' ? '🟢' : dispersionEval.status === 'warn' ? '🟡' : '🔴'} ${dispersionEval.label}
