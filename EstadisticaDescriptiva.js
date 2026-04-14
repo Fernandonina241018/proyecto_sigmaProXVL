@@ -3670,9 +3670,17 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
 
                 const statusClass  = ''; 
                 const badgeHTML    = '';
+                
+                // Badge principal de estado (semáforo)
                 const dispersionBadgeHTML = dispersionEval && dispersionEval.status
                     ? `<div class="ar-kpi-badge ar-badge-dispersion ar-badge-${dispersionEval.status}">
                         ${dispersionEval.status === 'ok' ? '🟢' : dispersionEval.status === 'warn' ? '🟡' : '🔴'} ${dispersionEval.label}
+                    </div>` : '';
+                
+                // Badge secundario con los límites (umbrales) usados
+                const dispersionLimitsHTML = dispersionEval && dispersionEval.umbral
+                    ? `<div class="ar-kpi-badge ar-badge-dispersion" style="opacity:0.85;font-size:0.65rem;">
+                        📐 Límites: &lt;${dispersionEval.umbral.alerta} (ok) | ${dispersionEval.umbral.alerta}-${dispersionEval.umbral.critico} (⚠️) | ≥${dispersionEval.umbral.critico} (🔴)
                     </div>` : '';
 
                 // Objeto (percentiles, rango)
@@ -3724,6 +3732,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                                 </div>
                                 ${badgeHTML}
                                 ${dispersionBadgeHTML}
+                                ${dispersionLimitsHTML}
                             </div>`;
                     }
                     
@@ -3743,35 +3752,38 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                         return `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${k}</span><span class="ar-kpi-sub-v">${typeof v === 'number' ? v.toFixed(4) : v}</span></div>`;
                     }).join('');
                     return `
-                        <div class="ar-kpi-card ar-kpi-multi ${statusClass}">
+<div class="ar-kpi-card ar-kpi-multi ${statusClass}">
                             <div class="ar-kpi-col-label">${col}</div>
                             <div class="ar-kpi-sub-grid">${rows}</div>
                             ${badgeHTML}
                             ${dispersionBadgeHTML}
+                            ${dispersionLimitsHTML}
                         </div>`;
-                }
+            }
 
-                // Array (moda)
-                if (Array.isArray(val)) {
-                    const display = val.length > 0 ? val.map(v => v.toFixed(4)).join(', ') : '—';
-                    return `
+            // Array (moda)
+            if (Array.isArray(val)) {
+                const display = val.length > 0 ? val.map(v => v.toFixed(4)).join(', ') : '—';
+                return `
                         <div class="ar-kpi-card ${statusClass}">
                             <div class="ar-kpi-col-label">${col}</div>
                             <div class="ar-kpi-val ar-kpi-val-sm">${display}</div>
                             ${badgeHTML}
                             ${dispersionBadgeHTML}
+                            ${dispersionLimitsHTML}
                         </div>`;
-                }
+            }
 
-                // Escalar simple
-                const display = typeof val === 'number' ? val.toFixed(4) : String(val);
-                return `
-                    <div class="ar-kpi-card ${statusClass}">
-                        <div class="ar-kpi-col-label">COLUMNA ${col}</div>
-                        <div class="ar-kpi-val">${display}</div>
-                        ${badgeHTML}
-                        ${dispersionBadgeHTML}
-                    </div>`;
+            // Escalar simple
+            const display = typeof val === 'number' ? val.toFixed(4) : String(val);
+            return `
+                        <div class="ar-kpi-card ${statusClass}">
+                            <div class="ar-kpi-col-label">COLUMNA ${col}</div>
+                            <div class="ar-kpi-val">${display}</div>
+                            ${badgeHTML}
+                            ${dispersionBadgeHTML}
+                            ${dispersionLimitsHTML}
+                        </div>`;
 
             }).join('');
         }
