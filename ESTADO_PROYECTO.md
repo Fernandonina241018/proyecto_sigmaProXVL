@@ -1,8 +1,8 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
-**Fecha de Análisis:** 9 de Abril 2026  
-**Última Actualización:** 9 de Abril 2026 (Mejoras en Reportes y Referencias)  
-**Versión del Proyecto:** 2.1  
+**Fecha de Análisis:** 13 de Abril 2026  
+**Última Actualización:** 13 de Abril 2026 (Implementación de Bootstrap + Corrección Semáforo de Dispersión)  
+**Versión del Proyecto:** 2.2  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
 **Estado General:** MVP Funcional (~85% Completo)
 
@@ -20,7 +20,7 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 RESUMEN DE IMPLEMENTACIÓN DE ESTADÍSTICOS
 
-### 📊 ESTADÍSTICOS IMPLEMENTADOS (35+ de 50)
+### 📊 ESTADÍSTICOS IMPLEMENTADOS (36+ de 50)
 
 | # | Categoría | Estadístico | Estado |
 |---|-----------|-------------|--------|
@@ -65,6 +65,7 @@
 | 39 | No Paramétricos | Friedman | ✅ |
 | 40 | No Paramétricos | Test de Signos | ✅ |
 | 41 | Especificación | Límites de Cuantificación (Cp, Cpk) | ✅ |
+| 42 | Extras | Bootstrap | ✅ |
 
 ---
 
@@ -78,10 +79,15 @@
 | 45 | Multivariado | LDA (Análisis Discriminante) |
 | 46 | Multivariado | MANOVA |
 | 47 | Extras | Series Temporales |
-| 48 | Extras | Bootstrap |
-| 49 | Extras | Análisis de Supervivencia |
-| 50 | Extras | Modelos Mixtos |
-| 51 | Extras | Inferencia Bayesiana |
+| 48 | Extras | Análisis de Supervivencia |
+| 49 | Extras | Modelos Mixtos |
+| 50 | Extras | Inferencia Bayesiana |
+
+### ✅ ESTADÍSTICOS RECIENTEMENTE IMPLEMENTADOS
+
+| # | Categoría | Estadístico | Fecha |
+|---|-----------|-------------|--------|
+| 1 | Extras | Bootstrap | 13 Abr 2026 |
 
 ---
 
@@ -93,6 +99,7 @@
    - Regresión configurada: líneas 1480-1488
    - No Paramétricos configurados: líneas 1489-1496
    - Modales de configuración: líneas 2211-2850
+   - Modal Bootstrap: líneas ~2006, 3391-3520
 
 2. **EstadisticaDescriptiva.js**
    - Correlación Pearson: líneas ~1242-1350
@@ -107,7 +114,9 @@
    - Mann-Whitney U: líneas ~704-794
    - Kruskal-Wallis: líneas ~795-875
    - RMSE, MAE, R²: líneas ~185-244
-   - Cases en ejecutarAnalisis(): líneas ~2256-3024
+   - Cases en ejecutarAnalisis(): líneas ~2256-3450
+   - Función Bootstrap: líneas ~809-900
+   - Renderizado Bootstrap: líneas ~4533-4600
 
 3. **ReporteManager.js**
    - Integración de todos los estadísticos nuevos en reportes HTML/TXT
@@ -2268,7 +2277,33 @@ Este es un **proyecto MVP bien construido** con potencial de convertirse en una 
 
 ---
 
+### 13 de Abril 2026 - Implementación de Bootstrap + Corrección Semáforo
+
+**Cambio 1:** Implementación completa de Bootstrap
+- **Archivos:** `EstadisticaDescriptiva.js`, `script.js`
+- **Estado:** ✅ COMPLETADO
+- **Detalles:**
+  - Nueva función `calcularBootstrap()` con soporte para múltiples estimadores (media, mediana, DE, varianza)
+  - Cálculo de error estándar bootstrap, sesgo, intervalos de confianza
+  - Distribución bootstrap (min, P25, mediana, P75, máx)
+  - Modal de configuración en `script.js` (`abrirModalConfigBootstrap()`)
+  - Visualización en KPI cards con interpretación
+
+**Cambio 2:** Corrección del semáforo de dispersión (duplicación de badges)
+- **Archivos:** `EstadisticaDescriptiva.js`
+- **Estado:** ✅ COMPLETADO
+- **Detalles:**
+  -的问题: Se generaban badges duplicados para DE, Varianza, CV
+  - Solución: Comentar código de lógica de parámetros y habilitar semáforo solo para 4 estadísticos específicos
+  - Badge adicional para mostrar límites (umbrales) usados
+
+**Cambio 3:** Actualización de estado de proyecto
+- **Archivos:** `ESTADO_PROYECTO.md`
+- **Estado:** ✅ COMPLETADO
+
+---
+
 **Documento generado:** 2 de Abril de 2026  
-**Última actualización:** 12 de Abril 2026  
+**Última actualización:** 13 de Abril de 2026  
 **Analista:** OpenCode  
-**Versión del documento:** 2.1
+**Versión del documento:** 2.2
