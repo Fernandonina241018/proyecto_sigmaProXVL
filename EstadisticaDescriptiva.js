@@ -792,12 +792,12 @@ const EstadisticaDescriptiva = (() => {
             n: n,
             ceros: ceros,
             positivos: positivos,
-            negativos: negativos,
+negativos: negativos,
             k: k,
             z: parseFloat(z.toFixed(4)),
             valorP: parseFloat(p.toFixed(6)),
             significativo: p < 0.05,
-interpretacion: p < 0.05
+            interpretacion: p < 0.05
                 ? `Se rechaza H₀ (p=${p.toFixed(4)} < 0.05). Hay diferencia significativa en la mediana.`
                 : `No se rechaza H₀ (p=${p.toFixed(4)} ≥ 0.05). No hay diferencia significativas.`
         };
@@ -3417,37 +3417,38 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                                   resultados['Test de Signos'] = { error: 'Se necesitan al menos 5 observaciones' };
                               } else {
                                   resultados['Test de Signos'] = calcularTestSignos(values1, values2);
-                                  resultados['Test de Signos'].columna1 = col1;
-                                  resultados['Test de Signos'].columna2 = col2;
-                              }
-                          }
-                      } else {
-resultados['Test de Signos'] = { error: 'Seleccione dos columnas numéricas pareadas' };
+resultados['Test de Signos'].columna1 = col1;
+                                    resultados['Test de Signos'].columna2 = col2;
+                                }
+                            }
+                        } else {
+                            resultados['Test de Signos'] = { error: 'Seleccione dos columnas numéricas pareadas' };
+                        }
                         break;
 
-                // ============================================================
-                // BOOTSTRAP
-                // ============================================================
-                case 'Bootstrap':
-                    if (hypothesisConfig['Bootstrap']) {
-                        const cfg = hypothesisConfig['Bootstrap'];
-                        const statName = cfg.estadistico || 'media';
-                        const B = cfg.iteraciones || 1000;
-                        const nivelConfianza = cfg.nivelConfianza || 0.95;
-                        
-                        numericCols.forEach(col => {
-                            const values = getNumericValues(data, col);
-                            if (values.length < 10) {
-                                resultados['Bootstrap'] = { error: 'Se necesitan al menos 10 observaciones' };
-                                return;
-                            }
-                            resultados['Bootstrap'] = calcularBootstrap(values, statName, B, nivelConfianza);
-                            resultados['Bootstrap'].columna = col;
-                        });
-                    } else {
-                        resultados['Bootstrap'] = { error: 'Configure el estimador y número de remuestreos en el menú de hipótesis' };
-                    }
-                    break;
+                    // ============================================================
+                    // BOOTSTRAP
+                    // ============================================================
+                    case 'Bootstrap':
+                        if (hypothesisConfig['Bootstrap']) {
+                            const cfg = hypothesisConfig['Bootstrap'];
+                            const statName = cfg.estadistico || 'media';
+                            const B = cfg.iteraciones || 1000;
+                            const nivelConfianza = cfg.nivelConfianza || 0.95;
+                            
+                            numericCols.forEach(col => {
+                                const values = getNumericValues(data, col);
+                                if (values.length < 10) {
+                                    resultados['Bootstrap'] = { error: 'Se necesitan al menos 10 observaciones' };
+                                    return;
+                                }
+                                resultados['Bootstrap'] = calcularBootstrap(values, statName, B, nivelConfianza);
+                                resultados['Bootstrap'].columna = col;
+                            });
+                        } else {
+                            resultados['Bootstrap'] = { error: 'Configure el estimador y número de remuestreos en el menú de hipótesis' };
+                        }
+                        break;
                 }
         });
         
