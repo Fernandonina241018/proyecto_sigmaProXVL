@@ -3644,19 +3644,22 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                     }
                 }
 
-                // Verificar semáforo de dispersión (DE, Varianza, CV, IC)
-                let dispersionEval = null;
-                const dispersionStats = {
-                    'Desviación Estándar': 'Desviación Estándar',
-                    'Varianza': 'Varianza',
-                    'Coeficiente de Variación': 'Coeficiente de Variación'
-                };
-                if (hasParams && dispersionStats[statKey]) {
-                    const numVal = typeof val === 'number' ? val : null;
-                    if (numVal !== null) {
-                        dispersionEval = ParametrosManager.evaluarDispersion(dispersionStats[statKey], numVal, col);
-                    }
-                }
+                // ============================================================
+                // TEMPORAL: Semáforo de dispersión comentado para testing
+                // (Líneas 3647-3670 comentadas)
+                // ============================================================
+                // let dispersionEval = null;
+                // const dispersionStats = {
+                //     'Desviación Estándar': 'Desviación Estándar',
+                //     'Varianza': 'Varianza',
+                //     'Coeficiente de Variación': 'Coeficiente de Variación'
+                // };
+                // if (hasParams && dispersionStats[statKey]) {
+                //     const numVal = typeof val === 'number' ? val : null;
+                //     if (numVal !== null) {
+                //         dispersionEval = ParametrosManager.evaluarDispersion(dispersionStats[statKey], numVal, col);
+                //     }
+                // }
 
                 const statusClass  = compliance === true  ? 'ar-kpi-ok'
                                 : compliance === false ? 'ar-kpi-danger' : '';
@@ -3664,10 +3667,11 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                     ? `<div class="ar-kpi-badge ${compliance ? 'ar-badge-ok' : 'ar-badge-danger'}">
                         ${compliance ? '✓ Dentro de parámetros' : '✗ Fuera de parámetros'}
                     </div>` : '';
-                const dispersionBadgeHTML = dispersionEval && dispersionEval.status
-                    ? `<div class="ar-kpi-badge ar-badge-dispersion ar-badge-${dispersionEval.status}">
-                        ${dispersionEval.status === 'ok' ? '🟢' : dispersionEval.status === 'warn' ? '🟡' : '🔴'} ${dispersionEval.label}
-                    </div>` : '';
+                // const dispersionBadgeHTML = dispersionEval && dispersionEval.status
+                //     ? `<div class="ar-kpi-badge ar-badge-dispersion ar-badge-${dispersionEval.status}">
+                //         ${dispersionEval.status === 'ok' ? '🟢' : dispersionEval.status === 'warn' ? '🟡' : '🔴'} ${dispersionEval.label}
+                //     </div>` : '';
+                const dispersionBadgeHTML = '';
 
                 // Objeto (percentiles, rango)
                 if (typeof val === 'object' && !Array.isArray(val)) {
