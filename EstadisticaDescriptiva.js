@@ -3651,29 +3651,29 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                 const compliance = null;
 
                 // ============================================================
-                // TEMPORAL: Semáforo de dispersión comentado para testing
-                // (Líneas 3647-3670 comentadas)
+                // SEMÁFORO DE DISPERSIÓN - Solo para estadísticos de dispersión
+                // Implementado para: DE, Varianza, CV, IC
                 // ============================================================
-                // let dispersionEval = null;
-                // const dispersionStats = {
-                //     'Desviación Estándar': 'Desviación Estándar',
-                //     'Varianza': 'Varianza',
-                //     'Coeficiente de Variación': 'Coeficiente de Variación'
-                // };
-                // if (hasParams && dispersionStats[statKey]) {
-                //     const numVal = typeof val === 'number' ? val : null;
-                //     if (numVal !== null) {
-                //         dispersionEval = ParametrosManager.evaluarDispersion(dispersionStats[statKey], numVal, col);
-                //     }
-                // }
+                let dispersionEval = null;
+                const dispersionStats = {
+                    'Desviación Estándar': 'Desviación Estándar',
+                    'Varianza': 'Varianza',
+                    'Coeficiente de Variación': 'Coeficiente de Variación',
+                    'Intervalos de Confianza': 'Intervalos de Confianza'
+                };
+                if (hasParams && dispersionStats[statKey]) {
+                    const numVal = typeof val === 'number' ? val : null;
+                    if (numVal !== null) {
+                        dispersionEval = ParametrosManager.evaluarDispersion(dispersionStats[statKey], numVal, col);
+                    }
+                }
 
-                const statusClass  = ''; // compliance siempre null - badge deshabilitado temporalmente
-                const badgeHTML    = ''; // badges de parámetros comentados temporalmente
-                // const dispersionBadgeHTML = dispersionEval && dispersionEval.status
-                //     ? `<div class="ar-kpi-badge ar-badge-dispersion ar-badge-${dispersionEval.status}">
-                //         ${dispersionEval.status === 'ok' ? '🟢' : dispersionEval.status === 'warn' ? '🟡' : '🔴'} ${dispersionEval.label}
-                //     </div>` : '';
-                const dispersionBadgeHTML = '';
+                const statusClass  = ''; 
+                const badgeHTML    = '';
+                const dispersionBadgeHTML = dispersionEval && dispersionEval.status
+                    ? `<div class="ar-kpi-badge ar-badge-dispersion ar-badge-${dispersionEval.status}">
+                        ${dispersionEval.status === 'ok' ? '🟢' : dispersionEval.status === 'warn' ? '🟡' : '🔴'} ${dispersionEval.label}
+                    </div>` : '';
 
                 // Objeto (percentiles, rango)
                 if (typeof val === 'object' && !Array.isArray(val)) {
