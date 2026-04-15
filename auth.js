@@ -32,7 +32,7 @@ const Auth = (() => {
             const data = await res.json();
             if (!res.ok) return { ok: false, error: data.error || 'Credenciales incorrectas' };
             sessionStorage.setItem(CFG.TOKEN_STORAGE_KEY, data.token);
-            return { ok: true, username: data.username, role: data.role, token: data.token };
+            return { ok: true, username: data.username, role: data.role, token: data.token, mustChangePassword: data.mustChangePassword || false };
         } catch {
             return { ok: false, error: 'No se pudo conectar con el servidor.' };
         }
@@ -45,6 +45,7 @@ const Auth = (() => {
         const session = {
             username: userData.username, role: userData.role,
             loginTime: Date.now(), expiresAt: Date.now() + CFG.SESSION_TIMEOUT_MS,
+            mustChangePassword: userData.mustChangePassword || false
         };
         sessionStorage.setItem(CFG.SESSION_STORAGE_KEY, JSON.stringify(session));
         _scheduleTimers();

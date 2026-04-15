@@ -65,9 +65,13 @@ async function initDatabase() {
             email      TEXT,
             telefono   TEXT,
             avatar     TEXT,
-            updated_at TEXT
+            updated_at TEXT,
+            password_temp INTEGER DEFAULT 0
         )
     `);
+
+    // Agregar columna password_temp si no existe (para migraciones)
+    await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS password_temp INTEGER DEFAULT 0`);
 
     // Migrar usernames existentes al nuevo campo email
     await run(`
@@ -165,7 +169,16 @@ async function toggleUserActive(id, active) {
 
 async function changePassword(username, newPassword) {
     const hash = bcrypt.hashSync(newPassword, 12);
-    await run('UPDATE users SET password = $1 WHERE username = $2', [hash, username]);
+    await run('UPDATE users SET password = $1, password_temp = 0 WHERE username = $2', [hash, username]);
+}
+
+async function setPasswordTemp(username, value) {
+    await run('UPDATE users SET password_temp = $1 WHERE username = $2', [value ? 1 : 0, username]);
+}
+
+async function getUserPasswordTemp(username) {
+    const user = await get('SELECT password_temp FROM users WHERE username = $1', [username]);
+    return user ? user.password_temp === 1 : false;
 }
 
 async function updateUserProfile(username, { nombre, apellido, email, telefono }) {
@@ -223,6 +236,8 @@ module.exports = {
     getAllUsers,
     toggleUserActive,
     changePassword,
+    setPasswordTemp,
+    getUserPasswordTemp,
     updateUserProfile,
     updateUserProfileById,
     changeRole,

@@ -1323,11 +1323,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Auth va primero — bloquea la app hasta login exitoso
     Auth.init({
-        onLogin: ({ username }) => {
-            if (DEBUG) console.log('✅ Sesión iniciada:', username);
+        onLogin: (session) => {
+            if (DEBUG) console.log('✅ Sesión iniciada:', session.username);
             _initApp();
-            _renderUserChip(username);
-            PermisosManager.aplicarUI(Auth.getSession());
+            _renderUserChip(session.username);
+            PermisosManager.aplicarUI(session);
+            
+            // Verificar si debe cambiar contraseña temporal
+            if (session.mustChangePassword) {
+                mostrarModalCambioPasswordForzoso();
+            }
         },
         onLogout: (reason) => {
             console.log('🔒 Sesión cerrada:', reason);
@@ -3595,5 +3600,111 @@ function abrirModalConfigBootstrap(imported) {
 document.addEventListener('DOMContentLoaded', initTheme);
 
 console.log('✅ Tema inicializado');
+
+// ========================================
+// Modal de cambio de contraseña obligatorio
+// ========================================
+function mostrarModalCambioPasswordForzoso() {
+    const existing = document.getElementById('usr-force-pass-modal');
+    if (existing) existing.remove();
+
+    const modal = document.createElement('div');
+    modal.id = 'usr-force-pass-modal';
+    modal.innerHTML = `
+        <div style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:99999;display:flex;align-items:center;justify-content:center;">
+            <div style="background:white;border-radius:16px;padding:28px;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
+                <div style="text-align:center;margin-bottom:20px;">
+                    <div style="font-size:3rem;margin-bottom:12px;">🔐</div>
+                    <h2 style="margin:0;color:#1e293b;">Cambiar Contraseña</h2>
+                    <p style="margin:8px 0 0 0;color:#64748b;font-size:0.9rem;">Tu contraseña es temporal. Debes cambiarla para continuar.</p>
+                </div>
+                
+                <div style="margin-bottom:16px;">
+                    <label style="display:block;font-size:0.8rem;font-weight:600;color:#64748b;margin-bottom:6px;">🔑 Nueva contraseña (mín. 8 caracteres)</label>
+                    <input type="password" id="force-new-pass" placeholder="Nueva contraseña" style="width:100%;padding:14px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.95rem;box-sizing:border-box;">
+                </div>
+                
+                <div style="margin-bottom:20px;">
+                    <label style="display:block;font-size:0.8rem;font-weight:600;color:#64748b;margin-bottom:6px;">🔑 Confirmar contraseña</label>
+                    <input type="password" id="force-confirm-pass" placeholder="Confirmar contraseña" style="width:100%;padding:14px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.95rem;box-sizing:border-box;">
+                </div>
+                
+                <div id="force-pass-msg" style="display:none;margin-bottom:16px;padding:12px;border-radius:10px;font-size:0.85rem;"></div>
+                
+                <button id="force-pass-submit" style="width:100%;padding:16px;border:none;border-radius:12px;background:linear-gradient(135deg,#3046ac,#4338ca);color:white;font-weight:600;font-size:1rem;cursor:pointer;">
+                    ✓ Cambiar Contraseña
+                </button>
+            </div>
+        </div>`;
+
+    document.body.appendChild(modal);
+
+    document.getElementById('force-pass-submit').addEventListener('click', async () => {
+        const newPass = document.getElementById('force-new-pass').value;
+        const confirmPass = document.getElementById('force-confirm-pass').value;
+        const msgEl = document.getElementById('force-pass-msg');
+
+        if (!newPass || newPass.length < 8) {
+            msgEl.textContent = '⚠️ La contraseña debe tener al menos 8 caracteres';
+            msgEl.style.display = 'block';
+            msgEl.style.color = '#dc2626';
+            msgEl.style.background = '#fef2f2';
+            return;
+        }
+
+        if (newPass !== confirmPass) {
+            msgEl.textContent = '⚠️ Las contraseñas no coinciden';
+            msgEl.style.display = 'block';
+            msgEl.style.color = '#dc2626';
+            msgEl.style.background = '#fef2f2';
+            return;
+        }
+
+        const btn = document.getElementById('force-pass-submit');
+        btn.textContent = 'Cambiando...';
+        btn.disabled = true;
+
+        try {
+            const token = Auth.getToken();
+            const res = await fetch(`${API_URL}/api/users/password`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                body: JSON.stringify({ newPassword: newPass })
+            });
+            const data = await res.json();
+
+            if (data.ok) {
+                msgEl.textContent = '✅ Contraseña cambiada correctamente';
+                msgEl.style.display = 'block';
+                msgEl.style.color = '#16a34a';
+                msgEl.style.background = '#f0fdf4';
+                
+                setTimeout(() => {
+                    modal.remove();
+                    // Actualizar la sesión
+                    const session = Auth.getSession();
+                    if (session) {
+                        session.mustChangePassword = false;
+                        sessionStorage.setItem('auth_session', JSON.stringify(session));
+                    }
+                }, 1500);
+            } else {
+                msgEl.textContent = '❌ ' + (data.error || 'Error al cambiar contraseña');
+                msgEl.style.display = 'block';
+                msgEl.style.color = '#dc2626';
+                msgEl.style.background = '#fef2f2';
+                btn.textContent = '✓ Cambiar Contraseña';
+                btn.disabled = false;
+            }
+        } catch (err) {
+            msgEl.textContent = '❌ Error de conexión';
+            msgEl.style.display = 'block';
+            msgEl.style.color = '#dc2626';
+            msgEl.style.background = '#fef2f2';
+            btn.textContent = '✓ Cambiar Contraseña';
+            btn.disabled = false;
+        }
+    });
+}
 
 console.log('✅ script.js cargado - Nuevo navbar integrado');

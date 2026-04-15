@@ -337,6 +337,9 @@ app.post('/api/login', loginLimiter, async (req, res) => {
         await db.updateLastLogin(username);
         await db.logAccess({ username, action: 'LOGIN', success: true, ip, userAgent });
 
+        // Verificar si debe cambiar contraseña temporal
+        const mustChangePassword = user.password_temp === 1;
+
         const token = jwt.sign(
             { id: user.id, username: user.username, role: user.role },
             process.env.JWT_SECRET,
@@ -351,7 +354,7 @@ app.post('/api/login', loginLimiter, async (req, res) => {
             maxAge: 8 * 60 * 60 * 1000 // 8 horas
         });
 
-        return res.json({ ok: true, token, username: user.username, role: user.role });
+        return res.json({ ok: true, token, username: user.username, role: user.role, mustChangePassword });
 
     } catch (err) {
         console.error('Error en login:', err);
@@ -429,9 +432,18 @@ app.put('/api/users/password', requireAuth, async (req, res) => {
         return res.status(400).json({ error: 'La nueva contraseña debe tener al menos 8 caracteres' });
     }
     const user = await db.getUserByUsername(req.user.username);
-    if (!bcrypt.compareSync(currentPassword, user.password)) {
-        return res.status(401).json({ error: 'Contraseña actual incorrecta' });
+    
+    // Si tiene contraseña temporal, no requiere contraseña actual
+    const isTempPassword = user.password_temp === 1;
+    if (!isTempPassword) {
+        if (!currentPassword) {
+            return res.status(400).json({ error: 'Debe proporcionar la contraseña actual' });
+        }
+        if (!bcrypt.compareSync(currentPassword, user.password)) {
+            return res.status(401).json({ error: 'Contraseña actual incorrecta' });
+        }
     }
+    
     await db.changePassword(req.user.username, newPassword);
     res.json({ ok: true });
 });
@@ -476,6 +488,11 @@ app.put('/api/users/reset-password', requireAuth, requireAdmin, async (req, res)
     if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
 
     await db.changePassword(username, newPassword);
+
+    // Si la contraseña es "user0000", marcar como temporal
+    if (newPassword === 'user0000') {
+        await db.setPasswordTemp(username, true);
+    }
 
     await db.logAccess({
         username:  req.user.username,
