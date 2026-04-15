@@ -401,6 +401,9 @@ const UsuariosManager = (() => {
                         <button class="usr-eye-btn" id="usr-reset-eye" type="button">👁</button>
                     </div>
                 </div>
+                <button type="button" id="usr-reset-quick" style="margin-top:12px;padding:10px 16px;background:#f59e0b;color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;width:100%;">
+                    ⚡ Reset rápido a "user0000"
+                </button>
                 <div class="usr-modal-msg" id="usr-modal-msg" style="display:none"></div>
             </div>
             <div class="usr-modal-footer">
@@ -443,6 +446,21 @@ const UsuariosManager = (() => {
                 _showToast(`✅ Contraseña de "${username}" reseteada correctamente`);
             } else {
                 msgEl.textContent   = `❌ ${result.error}`;
+                msgEl.style.cssText = 'display:block;color:#c53030;background:#fff5f5;padding:10px;border-radius:8px;margin-top:12px;font-size:0.85rem;';
+            }
+        });
+
+        // Reset rápido a "user0000"
+        document.getElementById('usr-reset-quick').addEventListener('click', async () => {
+            if (!confirm('¿Resetear contraseña a "user0000"? El usuario podrá iniciar sesión con esa contraseña.')) return;
+            
+            const result = await resetPassword(username, 'user0000');
+            if (result.ok) {
+                close();
+                _showToast(`✅ Contraseña de "${username}" reseteada a "user0000"`);
+            } else {
+                const msgEl = document.getElementById('usr-modal-msg');
+                msgEl.textContent = `❌ ${result.error}`;
                 msgEl.style.cssText = 'display:block;color:#c53030;background:#fff5f5;padding:10px;border-radius:8px;margin-top:12px;font-size:0.85rem;';
             }
         });
