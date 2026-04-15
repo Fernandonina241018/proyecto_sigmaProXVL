@@ -155,7 +155,7 @@ async function updateLastLogin(username) {
 
 async function getAllUsers() {
     return all(
-        'SELECT id, username, role, active, created_at, last_login, login_count FROM users ORDER BY id ASC'
+        'SELECT id, username, role, active, created_at, last_login, login_count, nombre, apellido, email, telefono, avatar, updated_at FROM users ORDER BY id ASC'
     );
 }
 
