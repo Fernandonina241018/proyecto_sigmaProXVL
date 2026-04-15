@@ -143,56 +143,10 @@ const UsuariosManager = (() => {
                     <button class="usr-toggle-form" id="usr-toggle-form">▲ Ocultar</button>
                 </div>
                 <div class="usr-create-form" id="usr-create-form">
-                    <!-- BOTÓN TEMPORAL PARA TESTING -->
-                    <button class="usr-btn-test" id="usr-btn-test-modal" onclick="abrirModalCrearUsuario()" style="background:#f59e0b;color:white;padding:8px 16px;border-radius:8px;border:none;margin-bottom:12px;cursor:pointer;font-weight:600;">
-                        🧪 TEST - Abrir Modal Completo
+                    <!-- BOTÓN PARA ABRIR MODAL DE CREAR USUARIO -->
+                    <button class="usr-btn-create" id="usr-btn-create" onclick="abrirModalCrearUsuario()" style="background:#10b981;color:white;padding:12px 24px;border:none;border-radius:10px;cursor:pointer;font-weight:600;font-size:1rem;width:100%;">
+                        ➕ Créar Nuevo Usuario
                     </button>
-                    <div class="usr-form-grid">
-                        <div class="usr-field">
-                            <label>👤 Nombre de usuario *</label>
-                            <input id="usr-new-username" type="text" placeholder="usuario123" autocomplete="off">
-                        </div>
-                        <div class="usr-field">
-                            <label>🔒 Contraseña *</label>
-                            <div class="usr-pass-wrap">
-                                <input id="usr-new-password" type="password" placeholder="Mín. 8 caracteres" autocomplete="new-password">
-                                <button class="usr-eye-btn" id="usr-eye" type="button">👁</button>
-                            </div>
-                        </div>
-                        <div class="usr-field">
-                            <label>🎭 Rol *</label>
-                            <select id="usr-new-role">
-                                <option value="user">👤 Usuario</option>
-                                <option value="admin">🔴 Admin</option>
-                                <option value="supervisor">🟡 Supervisor</option>
-                                <option value="analista">🔵 Analista</option>
-                                <option value="gerente">🟣 Gerente</option>
-                                <option value="coordinador">🟠 Coordinador</option>
-                                <option value="readonly">👁 Solo lectura</option>
-                            </select>
-                        </div>
-                        <!-- NUEVOS CAMPOS -->
-                        <div class="usr-field">
-                            <label>👤 Nombre</label>
-                            <input id="usr-new-nombre" type="text" placeholder="Nombre completo">
-                        </div>
-                        <div class="usr-field">
-                            <label>👤 Apellido</label>
-                            <input id="usr-new-apellido" type="text" placeholder="Apellido">
-                        </div>
-                        <div class="usr-field">
-                            <label>📧 Email</label>
-                            <input id="usr-new-email" type="email" placeholder="correo@empresa.com">
-                        </div>
-                        <div class="usr-field">
-                            <label>📱 Teléfono</label>
-                            <input id="usr-new-telefono" type="tel" placeholder="+1234567890">
-                        </div>
-                        <div class="usr-field usr-field-btn">
-                            <label style="opacity:0">—</label>
-                            <button class="usr-btn-create" id="usr-btn-create">✓ Crear usuario</button>
-                        </div>
-                    </div>
                     <div class="usr-form-msg" id="usr-form-msg" style="display:none"></div>
                 </div>
             </div>
