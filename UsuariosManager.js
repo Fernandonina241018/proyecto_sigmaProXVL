@@ -131,6 +131,7 @@ const UsuariosManager = (() => {
                 .usr-card-info { flex: 1; min-width: 0; }
                 .usr-card-nombre { font-size: 1.05rem; font-weight: 600; color: #1e293b; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
                 .usr-card-email { font-size: 0.85rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+                .usr-card-phone { font-size: 0.8rem; color: #64748b; margin-top: 4px; }
                 .usr-card-me { background: #3046ac; color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
                 .usr-card-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
                 .usr-card-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
@@ -284,6 +285,7 @@ const UsuariosManager = (() => {
                     <div class="usr-card-info">
                         <div class="usr-card-nombre">${escapeHtml(nombreCompleto)}${isMe ? ' <span class="usr-card-me">Tú</span>' : ''}</div>
                         <div class="usr-card-email">${u.email || '-'}</div>
+                        <div class="usr-card-phone">📱 ${u.telefono || 'No registrado'}</div>
                     </div>
                 </div>
                 <div class="usr-card-badges">
