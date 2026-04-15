@@ -481,11 +481,11 @@ const UsuariosManager = (() => {
                         <hr style="border:none;border-top:1px solid #e2e8f0;margin:8px 0;">
                         <div>
                             <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">👤 NOMBRE</label>
-                            <input type="text" id="usr-edit-nombre" value="${escapeHtml(usuario.nombre || '')}" placeholder="Juan" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
+                            <input type="text" id="usr-edit-nombre" value="${escapeHtml(usuario.nombre || '')}" readonly style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;background:#f1f5f9;color:#64748b;cursor:not-allowed;" title="El nombre no puede ser modificado">
                         </div>
                         <div>
                             <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">👤 APELLIDO</label>
-                            <input type="text" id="usr-edit-apellido" value="${escapeHtml(usuario.apellido || '')}" placeholder="Pérez" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
+                            <input type="text" id="usr-edit-apellido" value="${escapeHtml(usuario.apellido || '')}" readonly style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;background:#f1f5f9;color:#64748b;cursor:not-allowed;" title="El apellido no puede ser modificado">
                         </div>
                         <div>
                             <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">📧 EMAIL</label>
@@ -519,8 +519,6 @@ const UsuariosManager = (() => {
             btn.disabled = true;
 
             const perfil = {
-                nombre: document.getElementById('usr-edit-nombre').value.trim(),
-                apellido: document.getElementById('usr-edit-apellido').value.trim(),
                 email: document.getElementById('usr-edit-email').value.trim(),
                 telefono: document.getElementById('usr-edit-telefono').value.trim()
             };
