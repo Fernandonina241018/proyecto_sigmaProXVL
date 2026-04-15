@@ -2326,7 +2326,28 @@ Este es un **proyecto MVP bien construido** con potencial de convertirse en una 
 
 ---
 
+### 15 de Abril 2026 - Funcionalidad de Editar Usuario
+
+**Cambio 1:** Implementación de botón "Editar" en cards de usuario
+- **Archivos:** `UsuariosManager.js`, `backend/server.js`, `backend/database.js`
+- **Estado:** ✅ COMPLETADO
+- **Detalles:**
+  - Agregado listener para botones de editar en cada card de usuario
+  - Creado modal de edición con campos: nombre, apellido, email, teléfono, rol
+  - Creada función `_showEditModal()` que abre el modal con datos del usuario
+  - Backend: agregado endpoint PUT `/api/users/:id/profile` para admins
+  - Base de datos: agregada función `updateUserProfileById()`
+
+**Cambio 2:** Query corregida para traer campos de perfil
+- **Archivos:** `backend/database.js`
+- **Estado:** ✅ COMPLETADO
+- **Detalles:**
+  - La función `getAllUsers()` ahora incluye nombre, apellido, email, telefono
+  - Los campos aparecen correctamente en las cards
+
+---
+
 **Documento generado:** 2 de Abril de 2026  
-**Última actualización:** 14 de Abril de 2026  
+**Última actualización:** 15 de Abril de 2026  
 **Analista:** OpenCode  
-**Versión del documento:** 2.3
+**Versión del documento:** 2.4

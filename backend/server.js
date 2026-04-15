@@ -443,6 +443,16 @@ app.put('/api/users/profile', requireAuth, async (req, res) => {
     res.json({ ok: true });
 });
 
+// PUT /api/users/:id/profile (admin puede editar cualquier usuario)
+app.put('/api/users/:id/profile', requireAuth, requireAdmin, async (req, res) => {
+    const { nombre, apellido, email, telefono, role } = req.body;
+    await db.updateUserProfileById(req.params.id, { nombre, apellido, email, telefono });
+    if (role) {
+        await db.changeRole(req.params.id, role);
+    }
+    res.json({ ok: true });
+});
+
 // PUT /api/users/:id/role (solo admin)
 app.put('/api/users/:id/role', requireAuth, requireAdmin, async (req, res) => {
     const { role } = req.body;

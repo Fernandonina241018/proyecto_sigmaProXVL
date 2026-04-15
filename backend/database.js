@@ -176,6 +176,14 @@ async function updateUserProfile(username, { nombre, apellido, email, telefono }
     );
 }
 
+async function updateUserProfileById(id, { nombre, apellido, email, telefono }) {
+    const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
+    await run(
+        `UPDATE users SET nombre = $1, apellido = $2, email = $3, telefono = $4, updated_at = $5 WHERE id = $6`,
+        [nombre, apellido, email, telefono, now, id]
+    );
+}
+
 async function changeRole(id, role) {
     await run('UPDATE users SET role = $1 WHERE id = $2', [role, id]);
 }
@@ -216,6 +224,7 @@ module.exports = {
     toggleUserActive,
     changePassword,
     updateUserProfile,
+    updateUserProfileById,
     changeRole,
     logAccess,
     logAuditEvent,

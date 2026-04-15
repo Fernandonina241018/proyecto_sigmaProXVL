@@ -297,6 +297,7 @@ const UsuariosManager = (() => {
                     <span class="usr-card-meta-item">🔑 ${u.login_count || 0} logins</span>
                 </div>
                 <div class="usr-card-actions">
+                    <button class="usr-btn-edit" data-id="${u.id}" data-username="${escapeHtml(u.username)}" data-nombre="${escapeHtml(u.nombre || '')}" data-apellido="${escapeHtml(u.apellido || '')}" data-email="${escapeHtml(u.email || '')}" data-telefono="${escapeHtml(u.telefono || '')}" data-rol="${u.role}" title="Editar usuario">✏️ Editar</button>
                     <select class="usr-role-select" data-id="${u.id}" data-current="${u.role}" ${isMe ? 'disabled' : ''} title="Cambiar rol">
                         <option value="user"        ${u.role==='user'        ?'selected':''}>👤 Usuario</option>
                         <option value="admin"       ${u.role==='admin'       ?'selected':''}>🔴 Admin</option>
@@ -360,6 +361,20 @@ const UsuariosManager = (() => {
                 } else {
                     _showToast(`❌ ${result.error}`, true);
                 }
+            });
+        });
+
+        // Editar usuario - listeners para botones de editar
+        wrap.querySelectorAll('.usr-btn-edit').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id       = btn.dataset.id;
+                const username = btn.dataset.username;
+                const nombre   = btn.dataset.nombre;
+                const apellido = btn.dataset.apellido;
+                const email    = btn.dataset.email;
+                const telefono = btn.dataset.telefono;
+                const rol      = btn.dataset.rol;
+                _showEditModal({ id, username, nombre, apellido, email, telefono, role: rol });
             });
         });
     }
@@ -431,6 +446,132 @@ const UsuariosManager = (() => {
                 msgEl.style.cssText = 'display:block;color:#c53030;background:#fff5f5;padding:10px;border-radius:8px;margin-top:12px;font-size:0.85rem;';
             }
         });
+    }
+
+    // ── Modal de edición de usuario ────────
+    function _showEditModal(usuario) {
+        document.getElementById('usr-edit-modal')?.remove();
+
+        const modal = document.createElement('div');
+        modal.id = 'usr-edit-modal';
+        modal.innerHTML = `
+            <div class="usr-modal-overlay" id="usr-edit-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;"></div>
+            <div class="usr-modal-card" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;border-radius:16px;padding:24px;max-width:500px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.3);z-index:10000;max-height:90vh;overflow-y:auto;">
+                <button class="usr-modal-close" id="usr-edit-close" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:20px;cursor:pointer;">✕</button>
+                <h2 style="margin:0 0 20px 0;color:#1e293b;">✏️ Editar Usuario</h2>
+                
+                <form id="usr-edit-form">
+                    <div style="display:grid;gap:16px;">
+                        <div>
+                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">👤 USUARIO</label>
+                            <input type="text" id="usr-edit-username" value="${escapeHtml(usuario.username)}" disabled style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;background:#f1f5f9;color:#64748b;">
+                        </div>
+                        <div>
+                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">🎭 ROL</label>
+                            <select id="usr-edit-role" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
+                                <option value="user"        ${usuario.role==='user'        ?'selected':''}>👤 Usuario</option>
+                                <option value="admin"       ${usuario.role==='admin'       ?'selected':''}>🔴 Admin</option>
+                                <option value="supervisor"  ${usuario.role==='supervisor'  ?'selected':''}>🟡 Supervisor</option>
+                                <option value="analista"    ${usuario.role==='analista'    ?'selected':''}>🔵 Analista</option>
+                                <option value="gerente"     ${usuario.role==='gerente'     ?'selected':''}>🟣 Gerente</option>
+                                <option value="coordinador" ${usuario.role==='coordinador' ?'selected':''}>🟠 Coordinador</option>
+                                <option value="readonly"    ${usuario.role==='readonly'    ?'selected':''}>👁 Solo lectura</option>
+                            </select>
+                        </div>
+                        <hr style="border:none;border-top:1px solid #e2e8f0;margin:8px 0;">
+                        <div>
+                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">👤 NOMBRE</label>
+                            <input type="text" id="usr-edit-nombre" value="${escapeHtml(usuario.nombre || '')}" placeholder="Juan" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
+                        </div>
+                        <div>
+                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">👤 APELLIDO</label>
+                            <input type="text" id="usr-edit-apellido" value="${escapeHtml(usuario.apellido || '')}" placeholder="Pérez" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
+                        </div>
+                        <div>
+                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">📧 EMAIL</label>
+                            <input type="email" id="usr-edit-email" value="${escapeHtml(usuario.email || '')}" placeholder="juan@empresa.com" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
+                        </div>
+                        <div>
+                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">📱 TELÉFONO</label>
+                            <input type="tel" id="usr-edit-telefono" value="${escapeHtml(usuario.telefono || '')}" placeholder="+1234567890" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:12px;margin-top:24px;">
+                        <button type="button" id="usr-edit-cancel" style="flex:1;padding:14px;border:2px solid #e2e8f0;border-radius:10px;background:#f1f5f9;color:#64748b;font-weight:600;cursor:pointer;">Cancelar</button>
+                        <button type="submit" id="usr-edit-save" style="flex:1;padding:14px;border:none;border-radius:10px;background:linear-gradient(135deg,#3046ac,#4338ca);color:white;font-weight:600;cursor:pointer;">✓ Guardar Cambios</button>
+                    </div>
+                    <div id="usr-edit-msg" style="margin-top:12px;display:none;"></div>
+                </form>
+            </div>`;
+
+        document.body.appendChild(modal);
+
+        const close = () => document.getElementById('usr-edit-modal')?.remove();
+
+        document.getElementById('usr-edit-close').addEventListener('click', close);
+        document.getElementById('usr-edit-cancel').addEventListener('click', close);
+        document.getElementById('usr-edit-overlay').addEventListener('click', close);
+
+        document.getElementById('usr-edit-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('usr-edit-save');
+            btn.textContent = 'Guardando...';
+            btn.disabled = true;
+
+            const perfil = {
+                nombre: document.getElementById('usr-edit-nombre').value.trim(),
+                apellido: document.getElementById('usr-edit-apellido').value.trim(),
+                email: document.getElementById('usr-edit-email').value.trim(),
+                telefono: document.getElementById('usr-edit-telefono').value.trim()
+            };
+            const role = document.getElementById('usr-edit-role').value;
+
+            try {
+                const result = await apiPut(`/api/users/${usuario.id}/profile`, { ...perfil, role });
+                const msgEl = document.getElementById('usr-edit-msg');
+
+                if (result.ok) {
+                    msgEl.textContent = '✅ Usuario actualizado correctamente';
+                    msgEl.style.color = '#10b981';
+                    msgEl.style.background = '#f0fdf4';
+                    msgEl.style.padding = '12px';
+                    msgEl.style.borderRadius = '8px';
+                    msgEl.style.display = 'block';
+
+                    setTimeout(() => {
+                        close();
+                        _loadAndRender();
+                    }, 1500);
+                } else {
+                    msgEl.textContent = '❌ ' + (result.error || 'Error al actualizar');
+                    msgEl.style.color = '#c53030';
+                    msgEl.style.background = '#fff5f5';
+                    msgEl.style.padding = '12px';
+                    msgEl.style.borderRadius = '8px';
+                    msgEl.style.display = 'block';
+                    btn.textContent = '✓ Guardar Cambios';
+                    btn.disabled = false;
+                }
+            } catch (err) {
+                const msgEl = document.getElementById('usr-edit-msg');
+                msgEl.textContent = '❌ Error de conexión';
+                msgEl.style.color = '#c53030';
+                msgEl.style.display = 'block';
+                btn.textContent = '✓ Guardar Cambios';
+                btn.disabled = false;
+            }
+        });
+    }
+
+    // ── Función para editar usuario (externa) ───
+    async function editarUsuario(id, perfil, role) {
+        try {
+            const data = await apiPut(`/api/users/${id}/profile`, { ...perfil, role });
+            if (!data.ok) return { ok: false, error: data.error };
+            return { ok: true };
+        } catch {
+            return { ok: false, error: 'Error de conexión' };
+        }
     }
 
     function _showToast(msg, isError = false) {
