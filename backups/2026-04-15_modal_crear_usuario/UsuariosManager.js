@@ -143,24 +143,20 @@ const UsuariosManager = (() => {
                     <button class="usr-toggle-form" id="usr-toggle-form">▲ Ocultar</button>
                 </div>
                 <div class="usr-create-form" id="usr-create-form">
-                    <!-- BOTÓN TEMPORAL PARA TESTING -->
-                    <button class="usr-btn-test" id="usr-btn-test-modal" onclick="abrirModalCrearUsuario()" style="background:#f59e0b;color:white;padding:8px 16px;border-radius:8px;border:none;margin-bottom:12px;cursor:pointer;font-weight:600;">
-                        🧪 TEST - Abrir Modal Completo
-                    </button>
                     <div class="usr-form-grid">
                         <div class="usr-field">
-                            <label>👤 Nombre de usuario *</label>
+                            <label>👤 Nombre de usuario</label>
                             <input id="usr-new-username" type="text" placeholder="usuario123" autocomplete="off">
                         </div>
                         <div class="usr-field">
-                            <label>🔒 Contraseña *</label>
+                            <label>🔒 Contraseña</label>
                             <div class="usr-pass-wrap">
                                 <input id="usr-new-password" type="password" placeholder="Mín. 8 caracteres" autocomplete="new-password">
                                 <button class="usr-eye-btn" id="usr-eye" type="button">👁</button>
                             </div>
                         </div>
                         <div class="usr-field">
-                            <label>🎭 Rol *</label>
+                            <label>🎭 Rol</label>
                             <select id="usr-new-role">
                                 <option value="user">👤 Usuario</option>
                                 <option value="admin">🔴 Admin</option>
@@ -170,23 +166,6 @@ const UsuariosManager = (() => {
                                 <option value="coordinador">🟠 Coordinador</option>
                                 <option value="readonly">👁 Solo lectura</option>
                             </select>
-                        </div>
-                        <!-- NUEVOS CAMPOS -->
-                        <div class="usr-field">
-                            <label>👤 Nombre</label>
-                            <input id="usr-new-nombre" type="text" placeholder="Nombre completo">
-                        </div>
-                        <div class="usr-field">
-                            <label>👤 Apellido</label>
-                            <input id="usr-new-apellido" type="text" placeholder="Apellido">
-                        </div>
-                        <div class="usr-field">
-                            <label>📧 Email</label>
-                            <input id="usr-new-email" type="email" placeholder="correo@empresa.com">
-                        </div>
-                        <div class="usr-field">
-                            <label>📱 Teléfono</label>
-                            <input id="usr-new-telefono" type="tel" placeholder="+1234567890">
                         </div>
                         <div class="usr-field usr-field-btn">
                             <label style="opacity:0">—</label>
@@ -509,127 +488,6 @@ const UsuariosManager = (() => {
             if (btn) btn.textContent = '🔄';
         });
     }
-
-    // ========================================
-    // MODAL DE CREAR USUARIO (TESTING)
-    // ========================================
-    async function abrirModalCrearUsuario() {
-        document.getElementById('usr-test-modal')?.remove();
-        
-        const modal = document.createElement('div');
-        modal.id = 'usr-test-modal';
-        modal.innerHTML = `
-            <div class="usr-modal-overlay" onclick="cerrarModalCrearUsuarioTest()"></div>
-            <div class="usr-modal-card" style="background:white;border-radius:16px;padding:24px;max-width:500px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.3);position:relative;">
-                <button class="usr-modal-close" onclick="cerrarModalCrearUsuarioTest()" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:20px;cursor:pointer;">✕</button>
-                <h2 style="margin:0 0 20px 0;color:#1e293b;">➕ Crear Nuevo Usuario</h2>
-                
-                <form id="usr-form-modal" onsubmit="guardarUsuarioModal(event)">
-                    <div style="display:grid;gap:16px;">
-                        <div>
-                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">👤 USUARIO *</label>
-                            <input type="text" id="usr-modal-username" required placeholder="usuario123" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
-                        </div>
-                        <div>
-                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">🔐 CONTRASEÑA *</label>
-                            <input type="password" id="usr-modal-password" required placeholder="Mín. 8 caracteres" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
-                        </div>
-                        <div>
-                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">🎭 ROL *</label>
-                            <select id="usr-modal-role" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
-                                <option value="user">👤 Usuario</option>
-                                <option value="admin">🔴 Admin</option>
-                                <option value="supervisor">🟡 Supervisor</option>
-                                <option value="analista">🔵 Analista</option>
-                                <option value="gerente">🟣 Gerente</option>
-                                <option value="coordinador">🟠 Coordinador</option>
-                                <option value="readonly">👁 Solo lectura</option>
-                            </select>
-                        </div>
-                        <hr style="border:none;border-top:1px solid #e2e8f0;margin:8px 0;">
-                        <div>
-                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">👤 NOMBRE</label>
-                            <input type="text" id="usr-modal-nombre" placeholder="Juan" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
-                        </div>
-                        <div>
-                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">👤 APELLIDO</label>
-                            <input type="text" id="usr-modal-apellido" placeholder="Pérez" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
-                        </div>
-                        <div>
-                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">📧 EMAIL</label>
-                            <input type="email" id="usr-modal-email" placeholder="juan@empresa.com" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
-                        </div>
-                        <div>
-                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">📱 TELÉFONO</label>
-                            <input type="tel" id="usr-modal-telefono" placeholder="+1234567890" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
-                        </div>
-                    </div>
-                    <div style="display:flex;gap:12px;margin-top:24px;">
-                        <button type="button" onclick="cerrarModalCrearUsuarioTest()" style="flex:1;padding:14px;border:2px solid #e2e8f0;border-radius:10px;background:#f1f5f9;color:#64748b;font-weight:600;cursor:pointer;">Cancelar</button>
-                        <button type="submit" style="flex:1;padding:14px;border:none;border-radius:10px;background:linear-gradient(135deg,#3046ac,#4338ca);color:white;font-weight:600;cursor:pointer;">✓ Crear Usuario</button>
-                    </div>
-                    <div id="usr-modal-msg" style="margin-top:12px;display:none;"></div>
-                </form>
-            </div>
-        `;
-        
-        document.body.appendChild(modal);
-    }
-    
-    window.cerrarModalCrearUsuarioTest = function() {
-        document.getElementById('usr-test-modal')?.remove();
-    };
-    
-    window.guardarUsuarioModal = async function(e) {
-        e.preventDefault();
-        
-        const username = document.getElementById('usr-modal-username').value.trim();
-        const password = document.getElementById('usr-modal-password').value.trim();
-        const role = document.getElementById('usr-modal-role').value;
-        const nombre = document.getElementById('usr-modal-nombre').value.trim();
-        const apellido = document.getElementById('usr-modal-apellido').value.trim();
-        const email = document.getElementById('usr-modal-email').value.trim();
-        const telefono = document.getElementById('usr-modal-telefono').value.trim();
-        
-        if (!username || !password) {
-            const msg = document.getElementById('usr-modal-msg');
-            msg.textContent = '❌ Usuario y contraseña son requeridos';
-            msg.style.display = 'block';
-            msg.style.color = '#c53030';
-            return;
-        }
-        
-        try {
-            const result = await crearUsuario(username, password, role, { nombre, apellido, email, telefono });
-            
-            const msg = document.getElementById('usr-modal-msg');
-            if (result.ok) {
-                msg.textContent = '✅ Usuario creado correctamente';
-                msg.style.color = '#10b981';
-                msg.style.background = '#f0fdf4';
-                msg.style.padding = '12px';
-                msg.style.borderRadius = '8px';
-                msg.style.display = 'block';
-                
-                setTimeout(() => {
-                    cerrarModalCrearUsuarioTest();
-                    _loadAndRender();
-                }, 1500);
-            } else {
-                msg.textContent = '❌ ' + (result.error || 'Error al crear');
-                msg.style.color = '#c53030';
-                msg.style.background = '#fff5f5';
-                msg.style.padding = '12px';
-                msg.style.borderRadius = '8px';
-                msg.style.display = 'block';
-            }
-        } catch (err) {
-            const msg = document.getElementById('usr-modal-msg');
-            msg.textContent = '❌ Error de conexión';
-            msg.style.color = '#c53030';
-            msg.style.display = 'block';
-        }
-    };
 
     return { init, buildView };
 
