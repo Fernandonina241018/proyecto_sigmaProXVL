@@ -519,8 +519,8 @@ const UsuariosManager = (() => {
         const modal = document.createElement('div');
         modal.id = 'usr-test-modal';
         modal.innerHTML = `
-            <div class="usr-modal-overlay" onclick="cerrarModalCrearUsuarioTest()"></div>
-            <div class="usr-modal-card" style="background:white;border-radius:16px;padding:24px;max-width:500px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.3);position:relative;">
+            <div class="usr-modal-overlay" onclick="cerrarModalCrearUsuarioTest()" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;"></div>
+            <div class="usr-modal-card" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;border-radius:16px;padding:24px;max-width:500px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.3);z-index:10000;max-height:90vh;overflow-y:auto;">
                 <button class="usr-modal-close" onclick="cerrarModalCrearUsuarioTest()" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:20px;cursor:pointer;">✕</button>
                 <h2 style="margin:0 0 20px 0;color:#1e293b;">➕ Crear Nuevo Usuario</h2>
                 
