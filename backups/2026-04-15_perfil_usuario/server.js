@@ -385,7 +385,7 @@ app.get('/api/users', requireAuth, requireAdmin, async (req, res) => {
 
 // POST /api/users (solo admin)
 app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
-    const { username, password, role = 'user', nombre, apellido, email, telefono } = req.body;
+    const { username, password, role = 'user' } = req.body;
 
     if (!username?.trim() || !password?.trim()) {
         return res.status(400).json({ error: 'Usuario y contraseña son requeridos' });
@@ -399,10 +399,6 @@ app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
 
     const result = await db.createUser({
         username: username.trim(), password, role,
-        nombre: nombre?.trim(),
-        apellido: apellido?.trim(),
-        email: email?.trim() || username.trim(),
-        telefono: telefono?.trim(),
         createdBy: req.user.username,
     });
 

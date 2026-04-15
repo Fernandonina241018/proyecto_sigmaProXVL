@@ -59,19 +59,8 @@ async function initDatabase() {
             created_by   TEXT,
             created_at   TEXT    DEFAULT to_char(now(), 'YYYY-MM-DD"T"HH24:MI:SS'),
             last_login   TEXT,
-            login_count  INTEGER DEFAULT 0,
-            nombre     TEXT,
-            apellido   TEXT,
-            email      TEXT,
-            telefono   TEXT,
-            avatar     TEXT,
-            updated_at TEXT
+            login_count  INTEGER DEFAULT 0
         )
-    `);
-
-    // Migrar usernames existentes al nuevo campo email
-    await run(`
-        UPDATE users SET email = username WHERE email IS NULL OR email = ''
     `);
 
     await run(`
@@ -128,13 +117,13 @@ async function getUserByUsername(username) {
     );
 }
 
-async function createUser({ username, password, role = 'user', nombre, apellido, email, telefono, createdBy }) {
+async function createUser({ username, password, role = 'user', createdBy }) {
     const hash = bcrypt.hashSync(password, 12);
     try {
         const result = await run(
-            `INSERT INTO users (username, password, role, nombre, apellido, email, telefono, created_by)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`,
-            [username, hash, role, nombre || null, apellido || null, email || username, telefono || null, createdBy]
+            `INSERT INTO users (username, password, role, created_by)
+             VALUES ($1, $2, $3, $4) RETURNING id`,
+            [username, hash, role, createdBy]
         );
         return { ok: true, id: result.lastID };
     } catch (err) {

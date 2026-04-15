@@ -59,17 +59,9 @@ const UsuariosManager = (() => {
     }
 
     // ── Crear usuario ─────────────────────
-    async function crearUsuario(username, password, role, perfil = {}) {
+    async function crearUsuario(username, password, role) {
         try {
-            const data = await apiPost('/api/users', { 
-                username, 
-                password, 
-                role,
-                nombre: perfil.nombre,
-                apellido: perfil.apellido,
-                email: perfil.email,
-                telefono: perfil.telefono
-            });
+            const data = await apiPost('/api/users', { username, password, role });
             if (!data.ok) return { ok: false, error: data.error };
             return { ok: true };
         } catch {

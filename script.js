@@ -1402,7 +1402,12 @@ function abrirModalPerfil() {
     const username = session.username || 'Usuario';
     const role = session.role || 'user';
     const email = session.email || username + '@sigmapro.com';
-    const initials = username.slice(0, 2).toUpperCase();
+    const nombre = session.nombre || '';
+    const apellido = session.apellido || '';
+    const telefono = session.telefono || 'No configurado';
+    const initials = (nombre && apellido) 
+        ? (nombre[0] + apellido[0]).toUpperCase() 
+        : username.slice(0, 2).toUpperCase();
 
     const saludo = obtenerSaludo();
 
@@ -1438,8 +1443,10 @@ function abrirModalPerfil() {
             <div class="perfil-avatar">
                 <div class="perfil-avatar-circle">${initials}</div>
             </div>
-            <div class="perfil-greeting">${saludo}, ${username}!</div>
-            <div class="perfil-email">${email}</div>
+            <div class="perfil-greeting">${saludo}, ${nombre || username}!</div>
+            <div class="perfil-nombre">${nombre} ${apellido}</div>
+            <div class="perfil-email">📧 ${email}</div>
+            <div class="perfil-telefono">📱 ${telefono}</div>
             <div class="perfil-role">
                 <span class="perfil-role-badge">${role === 'admin' ? 'Administrador' : 'Usuario'}</span>
             </div>
