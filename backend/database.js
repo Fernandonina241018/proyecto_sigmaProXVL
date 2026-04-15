@@ -168,6 +168,14 @@ async function changePassword(username, newPassword) {
     await run('UPDATE users SET password = $1 WHERE username = $2', [hash, username]);
 }
 
+async function updateUserProfile(username, { nombre, apellido, email, telefono }) {
+    const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
+    await run(
+        `UPDATE users SET nombre = $1, apellido = $2, email = $3, telefono = $4, updated_at = $5 WHERE username = $6`,
+        [nombre, apellido, email, telefono, now, username]
+    );
+}
+
 async function changeRole(id, role) {
     await run('UPDATE users SET role = $1 WHERE id = $2', [role, id]);
 }
@@ -207,6 +215,7 @@ module.exports = {
     getAllUsers,
     toggleUserActive,
     changePassword,
+    updateUserProfile,
     changeRole,
     logAccess,
     logAuditEvent,

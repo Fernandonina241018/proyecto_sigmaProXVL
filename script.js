@@ -1476,6 +1476,9 @@ function abrirModalPerfil() {
             </div>
 
             <div class="perfil-actions">
+                <button class="perfil-btn perfil-btn-edit" onclick="editarPerfil()" style="margin-bottom:8px;">
+                    ✏️ Editar Perfil
+                </button>
                 <button class="perfil-btn perfil-btn-logout" onclick="Auth.logout(); cerrarModalPerfil();">
                     🔓 Cerrar Sesión
                 </button>
@@ -1488,6 +1491,87 @@ function abrirModalPerfil() {
 
 function cerrarModalPerfil() {
     document.getElementById('perfil-modal')?.remove();
+}
+
+function editarPerfil() {
+    const session = Auth.getSession();
+    if (!session) return;
+    
+    const modal = document.getElementById('perfil-modal');
+    if (!modal) return;
+    
+    const nombre = session.nombre || '';
+    const apellido = session.apellido || '';
+    const email = session.email || '';
+    const telefono = session.telefono || '';
+    
+    modal.querySelector('.perfil-card').innerHTML = `
+        <button class="perfil-close" onclick="cerrarModalPerfil()">✕</button>
+        <div class="perfil-avatar">
+            <div class="perfil-avatar-circle">${(nombre && apellido) ? (nombre[0] + apellido[0]).toUpperCase() : (session.username || 'U').slice(0, 2).toUpperCase()}</div>
+        </div>
+        <div class="perfil-greeting">Editar Perfil</div>
+        
+        <form id="perfil-edit-form" onsubmit="guardarPerfil(event)">
+            <div class="perfil-field">
+                <label>Nombre</label>
+                <input type="text" id="perfil-nombre" value="${nombre}" placeholder="Tu nombre" required>
+            </div>
+            <div class="perfil-field">
+                <label>Apellido</label>
+                <input type="text" id="perfil-apellido" value="${apellido}" placeholder="Tu apellido" required>
+            </div>
+            <div class="perfil-field">
+                <label>Email</label>
+                <input type="email" id="perfil-email" value="${email}" placeholder="correo@empresa.com">
+            </div>
+            <div class="perfil-field">
+                <label>Teléfono</label>
+                <input type="tel" id="perfil-telefono" value="${telefono}" placeholder="+1234567890">
+            </div>
+            <div class="perfil-actions">
+                <button type="button" class="perfil-btn perfil-btn-cancel" onclick="abrirModalPerfil()">Cancelar</button>
+                <button type="submit" class="perfil-btn perfil-btn-save">💾 Guardar</button>
+            </div>
+        </form>
+    `;
+}
+
+async function guardarPerfil(e) {
+    e.preventDefault();
+    
+    const nombre = document.getElementById('perfil-nombre').value.trim();
+    const apellido = document.getElementById('perfil-apellido').value.trim();
+    const email = document.getElementById('perfil-email').value.trim();
+    const telefono = document.getElementById('perfil-telefono').value.trim();
+    
+    try {
+        const res = await fetch('/api/users/profile', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre, apellido, email, telefono }),
+            credentials: 'include'
+        });
+        
+        const data = await res.json();
+        
+        if (data.ok) {
+            const session = Auth.getSession();
+            if (session) {
+                session.nombre = nombre;
+                session.apellido = apellido;
+                session.email = email;
+                session.telefono = telefono;
+                Auth.setSession(session);
+            }
+            abrirModalPerfil();
+            _showToast('✅ Perfil actualizado correctamente');
+        } else {
+            _showToast('❌ ' + (data.error || 'Error al guardar'), true);
+        }
+    } catch {
+        _showToast('❌ Error de conexión', true);
+    }
 }
 
 function obtenerSaludo() {

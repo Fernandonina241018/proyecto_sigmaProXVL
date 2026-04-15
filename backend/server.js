@@ -436,6 +436,13 @@ app.put('/api/users/password', requireAuth, async (req, res) => {
     res.json({ ok: true });
 });
 
+// PUT /api/users/profile (usuario actual)
+app.put('/api/users/profile', requireAuth, async (req, res) => {
+    const { nombre, apellido, email, telefono } = req.body;
+    await db.updateUserProfile(req.user.username, { nombre, apellido, email, telefono });
+    res.json({ ok: true });
+});
+
 // PUT /api/users/:id/role (solo admin)
 app.put('/api/users/:id/role', requireAuth, requireAdmin, async (req, res) => {
     const { role } = req.body;
