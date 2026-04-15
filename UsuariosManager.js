@@ -631,8 +631,13 @@ const UsuariosManager = (() => {
         }
     };
 
-    return { init, buildView };
+    return { init, buildView, abrirModalCrearUsuario, guardarUsuarioModal, cerrarModalCrearUsuarioTest };
 
 })();
+
+// Exponer funciones al window para que funcionen los onclick
+window.abrirModalCrearUsuario = UsuariosManager.abrirModalCrearUsuario;
+window.guardarUsuarioModal = UsuariosManager.guardarUsuarioModal;
+window.cerrarModalCrearUsuarioTest = UsuariosManager.cerrarModalCrearUsuarioTest;
 
 console.log('✅ UsuariosManager cargado');
