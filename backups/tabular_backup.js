@@ -255,8 +255,6 @@ const UsuariosManager = (() => {
                         ${activo ? '🔒' : '🔓'}
                     </button>
                 </td>
-                <td class="usr-td-name">${u.nombre || '-'} ${u.apellido || ''}</td>
-                <td class="usr-td-email">${u.email || '-'}</td>
             </tr>`;
         }).join('');
 
@@ -265,11 +263,10 @@ const UsuariosManager = (() => {
             <thead>
                 <tr>
                     <th>Usuario</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
                     <th>Rol</th>
                     <th>Estado</th>
                     <th>Último acceso</th>
+                    <th>Creado</th>
                     <th>Logins</th>
                     <th>Acciones</th>
                 </tr>
