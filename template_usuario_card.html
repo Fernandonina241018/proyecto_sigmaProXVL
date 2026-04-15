@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantilla Usuario Card - SigmaPro</title>
+    <style>
+        /* ========================================
+           PLANTILLA USUARIO CARD
+           Para testing antes de implementar
+           ======================================== */
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #f8fafc;
+            padding: 20px;
+        }
+        
+        .usr-cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 16px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* ===== USER CARD ===== */
+        .usr-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        
+        .usr-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+        
+        .usr-card-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+        
+        .usr-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3046ac, #6366f1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        
+        .usr-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .usr-nombre {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .usr-email {
+            font-size: 0.85rem;
+            color: #64748b;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* ===== BADGES ===== */
+        .usr-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .usr-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        /* Rol Badges */
+        .usr-badge-rol-admin {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+        
+        .usr-badge-rol-gerente {
+            background: #faf5ff;
+            color: #9333ea;
+        }
+        
+        .usr-badge-rol-analista {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+        
+        .usr-badge-rol-supervisor {
+            background: #fefce8;
+            color: #ca8a04;
+        }
+        
+        .usr-badge-rol-coordinador {
+            background: #fff7ed;
+            color: #ea580c;
+        }
+        
+        .usr-badge-rol-usuario {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+        
+        .usr-badge-rol-readonly {
+            background: #f8fafc;
+            color: #64748b;
+        }
+        
+        /* Estado Badges */
+        .usr-badge-estado-activo {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+        
+        .usr-badge-estado-inactivo {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+        
+        /* ===== METADATA ===== */
+        .usr-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .usr-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .usr-meta-icon {
+            font-size: 0.9rem;
+        }
+        
+        /* ===== ACTIONS ===== */
+        .usr-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .usr-btn-action {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        
+        .usr-btn-config {
+            background: #f1f5f9;
+            color: #475569;
+        }
+        
+        .usr-btn-config:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+        
+        .usr-btn-delete {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+        
+        .usr-btn-delete:hover {
+            background: #dc2626;
+            color: white;
+        }
+        
+        /* ========================================
+           EJEMPLOS DATA - PARA TESTING
+           ======================================== */
+        
+        /*
+        const usuarios = [
+            {
+                username: "anagarcia",
+                nombre: "Ana",
+                apellido: "García",
+                email: "anagarcia@company.com",
+                rol: "gerente",
+                active: true,
+                last_login: "2026-04-15T10:30:00",
+                login_count: 45
+            },
+            {
+                username: "mjimenez",
+                nombre: "María",
+                apellido: "Jiménez",
+                email: "mjimenez@company.com",
+                rol: "analista",
+                active: true,
+                last_login: "2026-04-14T16:45:00",
+                login_count: 23
+            },
+            {
+                username: "admin",
+                nombre: "Administrador",
+                apellido: "Sistema",
+                email: "admin@company.com",
+                rol: "admin",
+                active: true,
+                last_login: "2026-04-15T08:00:00",
+                login_count: 156
+            }
+        ];
+        */
+        
+    </style>
+</head>
+<body>
+    <h1 style="margin-bottom: 20px; color: #1e293b;">👥 Gestión de Usuarios - Diseño Card</h1>
+    
+    <div class="usr-cards-container">
+        <!-- ===== EJEMPLO 1: GERENTE ACTIVO ===== -->
+        <div class="usr-card">
+            <div class="usr-card-header">
+                <div class="usr-avatar">AG</div>
+                <div class="usr-info">
+                    <div class="usr-nombre">Ana García</div>
+                    <div class="usr-email">anagarcia@company.com</div>
+                </div>
+            </div>
+            <div class="usr-badges">
+                <span class="usr-badge usr-badge-rol-gerente">🟣 Gerente</span>
+                <span class="usr-badge usr-badge-estado-activo">✓ Activo</span>
+            </div>
+            <div class="usr-meta">
+                <div class="usr-meta-item">
+                    <span class="usr-meta-icon">🕐</span>
+                    <span>Último acceso: Hoy 10:30</span>
+                </div>
+                <div class="usr-meta-item">
+                    <span class="usr-meta-icon">🔑</span>
+                    <span>45 logins</span>
+                </div>
+            </div>
+            <div class="usr-actions">
+                <button class="usr-btn-action usr-btn-config">⚙️ Configurar</button>
+                <button class="usr-btn-action usr-btn-delete">🗑️ Eliminar</button>
+            </div>
+        </div>
+        
+        <!-- ===== EJEMPLO 2: ANALISTA ACTIVO ===== -->
+        <div class="usr-card">
+            <div class="usr-card-header">
+                <div class="usr-avatar" style="background: linear-gradient(135deg, #2563eb, #3b82f6);">MJ</div>
+                <div class="usr-info">
+                    <div class="usr-nombre">María Jiménez</div>
+                    <div class="usr-email">mjimenez@company.com</div>
+                </div>
+            </div>
+            <div class="usr-badges">
+                <span class="usr-badge usr-badge-rol-analista">🔵 Analista</span>
+                <span class="usr-badge usr-badge-estado-activo">✓ Activo</span>
+            </div>
+            <div class="usr-meta">
+                <div class="usr-meta-item">
+                    <span class="usr-meta-icon">🕐</span>
+                    <span>Último acceso: Ayer 16:45</span>
+                </div>
+                <div class="usr-meta-item">
+                    <span class="usr-meta-icon">🔑</span>
+                    <span>23 logins</span>
+                </div>
+            </div>
+            <div class="usr-actions">
+                <button class="usr-btn-action usr-btn-config">⚙️ Configurar</button>
+                <button class="usr-btn-action usr-btn-delete">🗑️ Eliminar</button>
+            </div>
+        </div>
+        
+        <!-- ===== EJEMPLO 3: ADMIN INACTIVO ===== -->
+        <div class="usr-card" style="opacity: 0.7;">
+            <div class="usr-card-header">
+                <div class="usr-avatar" style="background: linear-gradient(135deg, #dc2626, #ef4444);">AS</div>
+                <div class="usr-info">
+                    <div class="usr-nombre">Admin Sistema</div>
+                    <div class="usr-email">admin@company.com</div>
+                </div>
+            </div>
+            <div class="usr-badges">
+                <span class="usr-badge usr-badge-rol-admin">🔴 Admin</span>
+                <span class="usr-badge usr-badge-estado-inactivo">✕ Inactivo</span>
+            </div>
+            <div class="usr-meta">
+                <div class="usr-meta-item">
+                    <span class="usr-meta-icon">🕐</span>
+                    <span>Último acceso: 12 Abr 2026</span>
+                </div>
+                <div class="usr-meta-item">
+                    <span class="usr-meta-icon">🔑</span>
+                    <span>156 logins</span>
+                </div>
+            </div>
+            <div class="usr-actions">
+                <button class="usr-btn-action usr-btn-config">⚙️ Configurar</button>
+                <button class="usr-btn-action usr-btn-delete">🗑️ Eliminar</button>
+            </div>
+        </div>
+    </div>
+    
+    <div style="margin-top: 40px; padding: 20px; background: #fefce8; border-radius: 12px;">
+        <h3 style="color: #ca8a04; margin-bottom: 10px;">📝 Notas de Implementación</h3>
+        <ul style="color: #92400e; font-size: 0.9rem; line-height: 1.8;">
+            <li><strong>Avatar:</strong> Primeras 2 letras del nombre (nombre + apellido)</li>
+            <li><strong>Colores por rol:</strong> Admin=rojo, Gerente=púrpura, Analista=azul, Supervisor=amarillo, Coordinador=naranja, Usuario=verde</li>
+            <li><strong>Estado:</strong> Verde para activo, rojo para inactivo (con opacidad si inactivo)</li>
+            <li><strong>Responsive:</strong> Grid auto-fill con minmax(340px)</li>
+            <li><strong>Hover:</strong> Efecto lift con shadow en cards</li>
+        </ul>
+    </div>
+    
+</body>
+</html>
