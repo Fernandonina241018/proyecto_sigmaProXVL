@@ -344,8 +344,10 @@ const UsuariosManager = (() => {
         });
 
         wrap.querySelectorAll('.usr-btn-pass').forEach(btn => {
+            console.log('🎯 Binding click para botón reset:', btn.dataset.username);
             btn.addEventListener('click', () => {
                 const username = btn.dataset.username;
+                console.log('🎯 Click en reset, username:', username);
                 _showResetPasswordModal(username);
             });
         });
@@ -384,6 +386,7 @@ const UsuariosManager = (() => {
     }
 
     function _showResetPasswordModal(username) {
+        console.log('🎯 [_showResetPasswordModal] Called with:', username);
         // Eliminar modal previo
         document.getElementById('usr-reset-modal')?.remove();
 
