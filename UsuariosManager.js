@@ -93,15 +93,19 @@ const UsuariosManager = (() => {
         // Usamos el endpoint de cambio de contraseña con una contraseña temporal
         // El admin puede resetear usando un endpoint especial
         try {
+            console.log('🔑 [resetPassword] Enviando:', { username, newPassword });
             const res = await fetch(`${_apiUrl}/api/users/reset-password`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getToken()}` },
                 body: JSON.stringify({ username, newPassword })
             });
+            console.log('🔑 [resetPassword] Response status:', res.status);
             const data = await res.json();
+            console.log('🔑 [resetPassword] Response data:', data);
             if (!data.ok) return { ok: false, error: data.error };
             return { ok: true };
-        } catch {
+        } catch (err) {
+            console.error('🔑 [resetPassword] Error:', err);
             return { ok: false, error: 'Error de conexión' };
         }
     }
@@ -452,9 +456,11 @@ const UsuariosManager = (() => {
 
         // Reset rápido a "user0000"
         document.getElementById('usr-reset-quick').addEventListener('click', async () => {
+            console.log('🔑 Click en reset rápido para:', username);
             if (!confirm('¿Resetear contraseña a "user0000"? El usuario podrá iniciar sesión con esa contraseña.')) return;
             
             const result = await resetPassword(username, 'user0000');
+            console.log('🔑 Resultado reset:', result);
             if (result.ok) {
                 close();
                 _showToast(`✅ Contraseña de "${username}" reseteada a "user0000"`);
