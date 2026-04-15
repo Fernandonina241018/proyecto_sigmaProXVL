@@ -3017,6 +3017,89 @@ body {
 }
 
 /* ========================================
+   CAMPOS DE EDITAR PERFIL
+   ======================================== */
+.perfil-field {
+    margin-bottom: 16px;
+}
+
+.perfil-field label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.perfil-field input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    background: #f8fafc;
+    color: #1e293b;
+    box-sizing: border-box;
+}
+
+.perfil-field input:focus {
+    outline: none;
+    border-color: #3046ac;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(48, 70, 172, 0.1);
+}
+
+.perfil-field input::placeholder {
+    color: #94a3b8;
+}
+
+.perfil-nombre,
+.perfil-apellido {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.perfil-btn-edit {
+    background: linear-gradient(135deg, #3046ac 0%, #4338ca 100%);
+    color: white;
+    border: none;
+}
+
+.perfil-btn-edit:hover {
+    background: linear-gradient(135deg, #4338ca 0%, #6366f1 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(48, 70, 172, 0.3);
+}
+
+.perfil-btn-cancel {
+    background: #f1f5f9;
+    color: #64748b;
+    border: 2px solid #e2e8f0;
+    margin-right: 8px;
+}
+
+.perfil-btn-cancel:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.perfil-btn-save {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+}
+
+.perfil-btn-save:hover {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* ========================================
    NUEVO TOP-NAV (MIGRACIÓN 2026)
    ======================================== */
 
