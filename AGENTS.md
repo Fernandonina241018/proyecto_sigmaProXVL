@@ -48,6 +48,12 @@
 ### /prompt [texto]
 Optimiza el prompt usando mejores prácticas de Anthropic.
 
+**IMPORTANTE:** Al optimizar con /prompt, también se aplica la Ley de No Romperse:
+- Verificar sintaxis del código a modificar
+- Verificar referencias y dependencias
+- Mostrar Informe de Seguridad antes de proceder
+- Si hay riesgo medio/alto, pedir confirmación antes de ejecutar
+
 **Ejemplo:**
 ```
 /prompt haz que el botón se vea mejor
@@ -65,6 +71,11 @@ Optimiza el prompt usando mejores prácticas de Anthropic.
 4. Asegura accesibilidad (contraste, tamaño)
 </requirements>
 <output_format>Código CSS limpio con explicaciones breves</output_format>
+<security_check>
+- Sintaxis: a verificar antes del edit
+- Referencias: verificar que elementos existen
+- Dependencias: revisar qué usa el código
+</security_check>
 ```
 
 ## Notas
@@ -72,3 +83,41 @@ Optimiza el prompt usando mejores prácticas de Anthropic.
 - Mantener commits descriptivos y organizados
 - Usar formato convencional: `fix:`, `feat:`, `docs:`, `refactor:`
 - La optimización de prompts mejora significativamente la calidad de las respuestas
+
+---
+
+## 🔒 LEY DE NO ROMPERSE (Obligatoria)
+
+**Principio Fundamental:** Antes de cualquier cambio en el código, MUST verificar que el proyecto no se rompa.
+
+### Verificaciones Obligatorias ANTES de cada cambio:
+
+| # | Verificación | Cómo hacerlo |
+|---|--------------|------------|
+| 1 | **Sintaxis** | `node -c archivo.js` antes de cada edit |
+| 2 | **Referencias** | Verificar con grep que funciones/variables existen |
+| 3 | **Dependencias** | Ver qué otras funciones usan el código a modificar |
+| 4 | **Contexto** | Leer código circundante antes de modificar |
+
+### Informe de Seguridad (mostrar antes de proceder):
+
+```
+✅ Verificaciones realizadas:
+- Sintaxis: [OK/ERROR]
+- Referencias: [OK/ERROR]
+- Dependencias: [OK/ERROR]
+- Riesgo de rotura: [BAJO/MEDIO/ALTO]
+```
+
+### Procedimiento ante Incertidumbre:
+
+- Si no estás seguro de algo: **PREGUNTAR** antes de asumir
+- Si el código no existe: **BUSCAR** primero, no inventar
+- Si riesgo alto: **RECHAZAR** hasta tener más información
+
+### Para Tests de Verificación:
+
+Después de cada cambio, verificar:
+1. Ejecutar `node -c` en archivos modificados
+2. Si hay errores de sintaxis: **CORREGIR** antes de continuar
+3. Probar manualmente la funcionalidad afectada
