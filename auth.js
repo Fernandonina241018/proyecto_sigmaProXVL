@@ -561,7 +561,6 @@ const Auth = (() => {
     }
 
     function _onLoginSuccess(userData){
-        console.log('🔐 [_onLoginSuccess] userData:', userData);
         // Guardar fechas para el modal de perfil
         localStorage.setItem('ultimoLogin', new Date().toISOString());
         localStorage.setItem('sessionStart', Date.now().toString());
