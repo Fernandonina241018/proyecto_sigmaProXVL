@@ -898,10 +898,6 @@ function generarParametrosAuto(imported, sinParams, callback) {
 // ========================================
 
 function ejecutarAnalisis() {
-    const session = Auth.getSession();
-    console.log('🔍 [ejecutarAnalisis] session:', session);
-    console.log('🔍 [ejecutarAnalisis] puede:', PermisosManager.puede('ejecutar_analisis'));
-    
     if (!PermisosManager.puede('ejecutar_analisis')) {
         PermisosManager.mostrarDenegado('ejecutar_analisis');
         return;
