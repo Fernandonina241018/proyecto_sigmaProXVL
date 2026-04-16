@@ -392,10 +392,11 @@ const UsuariosManager = (() => {
 
         const modal = document.createElement('div');
         modal.id = 'usr-reset-modal';
+        modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;display:flex;align-items:center;justify-content:center;';
         modal.innerHTML = `
-            <div class="usr-modal-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;" id="usr-reset-overlay"></div>
-            <div class="usr-modal-card" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;border-radius:16px;padding:24px;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.3);z-index:10000;">
-                <button class="usr-modal-close" id="usr-reset-close" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:20px;cursor:pointer;">✕</button>
+            <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);" id="usr-reset-overlay"></div>
+            <div style="position:relative;background:white;border-radius:16px;padding:24px;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
+                <button id="usr-reset-close" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:20px;cursor:pointer;">✕</button>
                 <h2 style="margin:0 0 20px 0;color:#1e293b;">🔑 Resetear contraseña</h2>
                 
                 <div style="background:#f8fafc;padding:16px;border-radius:12px;margin-bottom:20px;">
@@ -406,12 +407,12 @@ const UsuariosManager = (() => {
                 <div style="margin-bottom:16px;">
                     <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:6px;">🔐 Nueva contraseña (mín. 8 caracteres)</label>
                     <div style="position:relative;">
-                        <input id="usr-reset-pass" type="password" placeholder="Escribe la nueva contraseña" autocomplete="new-password" style="width:100%;padding:12px;padding-right:44px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.95rem;box-sizing:border-box;">
+                        <input id="usr-reset-pass" type="password" placeholder="Escribe la nueva contraseña" autocomplete="new-password" style="width:100%;padding:14px;padding-right:44px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.95rem;box-sizing:border-box;">
                         <button id="usr-reset-eye" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1.1rem;">👁</button>
                     </div>
                 </div>
                 
-                <button type="button" id="usr-reset-quick" style="margin-bottom:16px;padding:12px 16px;background:#f59e0b;color:white;border:none;border-radius:10px;cursor:pointer;font-weight:600;width:100%;font-size:0.95rem;">
+                <button type="button" id="usr-reset-quick" style="margin-bottom:16px;padding:14px 16px;background:#f59e0b;color:white;border:none;border-radius:10px;cursor:pointer;font-weight:600;width:100%;font-size:0.95rem;">
                     ⚡ Reset rápido a "user0000"
                 </button>
                 
@@ -423,7 +424,9 @@ const UsuariosManager = (() => {
                 </div>
             </div>`;
 
+        console.log('🎯 Modal creado, agregando al body');
         document.body.appendChild(modal);
+        console.log('🎯 Modal agregado al DOM');
 
         const close = () => document.getElementById('usr-reset-modal')?.remove();
 
