@@ -3177,10 +3177,11 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     flex-shrink: 0;
-    margin: 0 auto;
+    /* Centrar en pantallas grandes */
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    width: auto;
 }
 
 /* ========================================
@@ -3191,6 +3192,8 @@ body {
         margin: 0 10px;
         padding: 10px 12px;
         gap: 8px;
+        flex-wrap: wrap;
+        justify-content: space-between;
     }
     
     .top-nav .logo {
@@ -3241,7 +3244,7 @@ body {
         display: none;
     }
     
-    /* Nav menu - solo iconos */
+    /* Nav menu - solo iconos, centrado */
     .top-nav .nav-menu {
         order: 3;
         position: relative;
@@ -3249,7 +3252,7 @@ body {
         transform: none;
         margin: 0;
         width: 100%;
-        justify-content: space-between;
+        justify-content: center;
         padding: 4px;
         gap: 2px;
     }
@@ -3257,6 +3260,13 @@ body {
     .top-nav .nav-menu .nav-item {
         padding: 8px 10px;
         font-size: 0;
+        gap: 0;
+    }
+    
+    .top-nav .nav-menu .nav-item .nav-icon {
+        font-size: 1.3rem;
+    }
+}
         gap: 0;
     }
     
