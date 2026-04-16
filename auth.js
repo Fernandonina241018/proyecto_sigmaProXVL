@@ -540,7 +540,7 @@ const Auth = (() => {
 
         if(result.ok){
             _attempts=0;
-            _onLoginSuccess({username:result.username,role:result.role});
+            _onLoginSuccess({username:result.username,role:result.role,mustChangePassword:result.mustChangePassword});
         } else {
             const blocked=_registerFailedAttempt();
             if(!blocked){
@@ -561,6 +561,7 @@ const Auth = (() => {
     }
 
     function _onLoginSuccess(userData){
+        console.log('🔐 [_onLoginSuccess] userData:', userData);
         // Guardar fechas para el modal de perfil
         localStorage.setItem('ultimoLogin', new Date().toISOString());
         localStorage.setItem('sessionStart', Date.now().toString());
