@@ -2112,10 +2112,10 @@ body {
 
 /* ── RESPONSIVE: Sidebar toggle para móviles/tablet ── */
 @media (max-width: 768px) {
-    /* Alinear igual que el sidebar derecho - sobresale por la izquierda del contenido hacia la derecha */
+    /* Posicionar en el borde DERECHO del sidebar, sobresaliendo hacia la derecha (como el homolog derecho) */
     .sidebar-toggle-btn-left-pos {
-        left: 0 !important;
-        right: auto !important;
+        left: auto !important;
+        right: -14px !important;
         width: 14px;
         height: 40px;
         font-size: 10px;
@@ -2123,7 +2123,7 @@ body {
     }
     
     .sidebar-toggle-btn-left-pos.sidebar-collapsed {
-        left: 0 !important;
+        right: -14px !important;
     }
 }
 
