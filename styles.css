@@ -2088,6 +2088,22 @@ body {
     left: 90px !important; /* padding(20px) + ancho colapsado(70px) */
 }
 
+/* ── RESPONSIVE: Sidebar toggle para móviles/tablet ── */
+@media (max-width: 768px) {
+    .sidebar-toggle-btn-left-pos {
+        left: auto !important;
+        right: 0;
+        width: 14px;
+        height: 40px;
+        font-size: 10px;
+    }
+    
+    .sidebar-toggle-btn-left-pos.sidebar-collapsed {
+        left: auto !important;
+        right: 0;
+    }
+}
+
 /* Botón del sidebar derecho: sobresale por la izquierda */
 .active-sidebar .sidebar-toggle-btn {
     left: -18px;
