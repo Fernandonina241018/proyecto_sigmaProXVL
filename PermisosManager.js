@@ -44,8 +44,10 @@ const PermisosManager = (() => {
     // ── Verificar permiso ─────────────────
     function puede(accion) {
         const session = Auth.getSession();
+        console.log('🔐 [puede] accion:', accion, 'session:', session);
         if (!session) return false;
         const rol = session.role || 'readonly';
+        console.log('🔐 [puede] rol:', rol, 'permitidos:', PERMISOS[accion]);
         const permitidos = PERMISOS[accion] || [];
         return permitidos.includes(rol);
     }
