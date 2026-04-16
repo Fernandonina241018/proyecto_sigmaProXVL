@@ -395,33 +395,21 @@ const UsuariosManager = (() => {
         modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;display:flex;align-items:center;justify-content:center;';
         modal.innerHTML = `
             <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);" id="usr-reset-overlay"></div>
-            <div style="position:relative;background:white;border-radius:16px;padding:24px;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
+            <div style="position:relative;background:white;border-radius:16px;padding:24px;max-width:380px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.4);text-align:center;">
                 <button id="usr-reset-close" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:20px;cursor:pointer;">✕</button>
-                <h2 style="margin:0 0 20px 0;color:#1e293b;">🔑 Resetear contraseña</h2>
+                <div style="font-size:3rem;margin-bottom:12px;">🔑</div>
+                <h2 style="margin:0 0 8px 0;color:#1e293b;">Resetear contraseña</h2>
+                <p style="margin:0 0 20px 0;color:#64748b;font-size:0.9rem;">Usuario: <strong>${escapeHtml(username)}</strong></p>
                 
-                <div style="background:#f8fafc;padding:16px;border-radius:12px;margin-bottom:20px;">
-                    <p style="margin:0;font-size:0.85rem;color:#64748b;">Usuario:</p>
-                    <p style="margin:4px 0 0 0;font-size:1.1rem;font-weight:600;color:#1e293b;">${escapeHtml(username)}</p>
-                </div>
-                
-                <div style="margin-bottom:16px;">
-                    <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:6px;">🔐 Nueva contraseña (mín. 8 caracteres)</label>
-                    <div style="position:relative;">
-                        <input id="usr-reset-pass" type="password" placeholder="Escribe la nueva contraseña" autocomplete="new-password" style="width:100%;padding:14px;padding-right:44px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.95rem;box-sizing:border-box;">
-                        <button id="usr-reset-eye" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1.1rem;">👁</button>
-                    </div>
-                </div>
-                
-                <button type="button" id="usr-reset-quick" style="margin-bottom:16px;padding:14px 16px;background:#f59e0b;color:white;border:none;border-radius:10px;cursor:pointer;font-weight:600;width:100%;font-size:0.95rem;">
-                    ⚡ Reset rápido a "user0000"
+                <button type="button" id="usr-reset-quick" style="margin-bottom:16px;padding:16px 20px;background:linear-gradient(135deg,#f59e0b,#d97706);color:white;border:none;border-radius:12px;cursor:pointer;font-weight:600;width:100%;font-size:1rem;">
+                    ⚡ Resetear a "user0000"
                 </button>
+                
+                <p style="margin:0;color:#64748b;font-size:0.8rem;">El usuario podrá iniciar sesión con esta contraseña y deberá cambiarla al primer acceso.</p>
                 
                 <div id="usr-reset-msg" style="display:none;"></div>
                 
-                <div style="display:flex;gap:12px;margin-top:20px;">
-                    <button id="usr-reset-cancel" style="flex:1;padding:14px;border:2px solid #e2e8f0;border-radius:10px;background:#f1f5f9;color:#64748b;font-weight:600;cursor:pointer;font-size:0.95rem;">Cancelar</button>
-                    <button id="usr-reset-confirm" style="flex:1;padding:14px;border:none;border-radius:10px;background:linear-gradient(135deg,#3046ac,#4338ca);color:white;font-weight:600;cursor:pointer;font-size:0.95rem;">✓ Confirmar</button>
-                </div>
+                <button id="usr-reset-cancel" style="margin-top:20px;padding:12px;border:none;background:none;color:#64748b;font-size:0.9rem;cursor:pointer;width:100%;">Cancelar</button>
             </div>`;
 
         console.log('🎯 Modal creado, agregando al body');
@@ -434,36 +422,10 @@ const UsuariosManager = (() => {
         document.getElementById('usr-reset-cancel').addEventListener('click', close);
         document.getElementById('usr-reset-overlay').addEventListener('click', close);
 
-        // Toggle ojo
-        document.getElementById('usr-reset-eye').addEventListener('click', () => {
-            const inp = document.getElementById('usr-reset-pass');
-            inp.type = inp.type === 'password' ? 'text' : 'password';
-        });
-
-        document.getElementById('usr-reset-confirm').addEventListener('click', async () => {
-            const newPass = document.getElementById('usr-reset-pass').value;
-            const msgEl   = document.getElementById('usr-reset-msg');
-
-            if (!newPass || newPass.length < 8) {
-                msgEl.textContent    = '⚠️ La contraseña debe tener al menos 8 caracteres.';
-                msgEl.style.cssText  = 'display:block;color:#c53030;background:#fff5f5;padding:12px;border-radius:10px;margin-top:12px;font-size:0.85rem;';
-                return;
-            }
-
-            const result = await resetPassword(username, newPass);
-            if (result.ok) {
-                close();
-                _showToast(`✅ Contraseña de "${username}" reseteada correctamente`);
-            } else {
-                msgEl.textContent   = `❌ ${result.error}`;
-                msgEl.style.cssText = 'display:block;color:#c53030;background:#fff5f5;padding:12px;border-radius:10px;margin-top:12px;font-size:0.85rem;';
-            }
-        });
-
         // Reset rápido a "user0000"
         document.getElementById('usr-reset-quick').addEventListener('click', async () => {
             console.log('🔑 Click en reset rápido para:', username);
-            if (!confirm('¿Resetear contraseña a "user0000"? El usuario podrá iniciar sesión con esa contraseña.')) return;
+            if (!confirm('¿Resetear contraseña a "user0000"? El usuario podrá iniciar sesión con esa contraseña y deberá cambiarla al primer acceso.')) return;
             
             const result = await resetPassword(username, 'user0000');
             console.log('🔑 Resultado reset:', result);
@@ -473,7 +435,7 @@ const UsuariosManager = (() => {
             } else {
                 const msgEl = document.getElementById('usr-reset-msg');
                 msgEl.textContent = `❌ ${result.error}`;
-                msgEl.style.cssText = 'display:block;color:#c53030;background:#fff5f5;padding:12px;border-radius:10px;margin-top:12px;font-size:0.85rem;';
+                msgEl.style.cssText = 'display:block;color:#dc2626;background:#fef2f2;padding:12px;border-radius:10px;margin-top:12px;font-size:0.85rem;';
             }
         });
     }
