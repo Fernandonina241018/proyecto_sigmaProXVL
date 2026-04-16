@@ -592,6 +592,12 @@ function ejecutarEDA() {
     const container = document.getElementById('eda-container');
     if (!container) return;
 
+    // Verificar permisos
+    if (!PermisosManager.puede('ejecutar_eda')) {
+        PermisosManager.mostrarDenegado('ejecutar_eda');
+        return;
+    }
+
     // Obtener datos normalizados directamente
     const data = getEDAData();
     if (!data || !data.headers || !data.data || data.data.length === 0) {

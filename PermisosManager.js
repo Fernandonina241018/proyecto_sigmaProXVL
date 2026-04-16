@@ -15,6 +15,7 @@ const PermisosManager = (() => {
 
         // Análisis
         'ejecutar_analisis':    ['admin','gerente','supervisor','analista'],
+        'ejecutar_eda':         ['admin','gerente','supervisor','analista'],
         'ver_resultados':       ['admin','gerente','supervisor','analista','coordinador','user','readonly'],
         'usar_trabajo':         ['admin','gerente','supervisor','analista','coordinador'],
 
@@ -32,6 +33,7 @@ const PermisosManager = (() => {
         'importar_datos':     'Solo usuarios con rol Coordinador o superior pueden importar datos.',
         'editar_datos':       'No tienes permisos para editar o transformar datos. Contacta a tu supervisor.',
         'ejecutar_analisis':  'Solo Analistas, Supervisores, Gerentes y Administradores pueden ejecutar análisis.',
+        'ejecutar_eda':       'Solo Analistas, Supervisores, Gerentes y Administradores pueden ejecutar análisis exploratorio (EDA).',
         'exportar_reportes':  'No tienes permisos para exportar reportes. Requiere rol Analista o superior.',
         'usar_trabajo':       'La hoja de trabajo requiere rol Coordinador o superior.',
         'ver_auditoria':      'El registro de auditoría es accesible solo para Supervisores, Gerentes y Administradores.',
