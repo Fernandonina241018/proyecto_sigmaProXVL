@@ -3183,6 +3183,123 @@ body {
     transform: translateX(-50%);
 }
 
+/* ========================================
+   RESPONSIVE NAVBAR - MÓVIL
+   ======================================== */
+@media (max-width: 600px) {
+    .top-nav {
+        margin: 0 10px;
+        padding: 10px 12px;
+        gap: 8px;
+    }
+    
+    .top-nav .logo {
+        order: 1;
+        flex-shrink: 0;
+    }
+    
+    .top-nav .logo span {
+        display: none;
+    }
+    
+    .top-nav .logo-icon {
+        min-width: 36px;
+        height: 32px;
+        font-size: 0.7rem !important;
+    }
+    
+    .top-nav .nav-center {
+        display: none;
+    }
+    
+    .top-nav .nav-right {
+        order: 2;
+        gap: 8px;
+    }
+    
+    .top-nav .nav-right .theme-toggle,
+    .top-nav .nav-right .notification-btn {
+        padding: 8px;
+        font-size: 1rem;
+    }
+    
+    .top-nav .nav-right .user-menu .user-trigger {
+        padding: 6px 8px;
+    }
+    
+    .top-nav .nav-right .user-menu .user-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 0.7rem;
+    }
+    
+    .top-nav .nav-right .user-menu .user-info {
+        display: none;
+    }
+    
+    .top-nav .nav-right .user-menu .user-dropdown-icon {
+        display: none;
+    }
+    
+    /* Nav menu - solo iconos */
+    .top-nav .nav-menu {
+        order: 3;
+        position: relative;
+        left: auto;
+        transform: none;
+        margin: 0;
+        width: 100%;
+        justify-content: space-between;
+        padding: 4px;
+        gap: 2px;
+    }
+    
+    .top-nav .nav-menu .nav-item {
+        padding: 8px 10px;
+        font-size: 0;
+        gap: 0;
+    }
+    
+    .top-nav .nav-menu .nav-item .nav-icon {
+        font-size: 1.3rem;
+    }
+    
+    .top-nav .nav-menu .nav-item::after {
+        content: attr(data-view);
+        position: absolute;
+        bottom: 2px;
+        font-size: 0.55rem;
+        color: #64748b;
+        display: none;
+    }
+}
+
+/* ========================================
+   RESPONSIVE NAVBAR - TABLET
+   ======================================== */
+@media (min-width: 601px) and (max-width: 900px) {
+    .top-nav {
+        margin: 0 15px;
+        padding: 12px 16px;
+    }
+    
+    .top-nav .logo span {
+        display: none;
+    }
+    
+    .top-nav .nav-menu {
+        position: relative;
+        left: auto;
+        transform: none;
+        margin: 0;
+    }
+    
+    .top-nav .nav-menu .nav-item {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+}
+
 .top-nav .logo {
     display: flex;
     align-items: center;
