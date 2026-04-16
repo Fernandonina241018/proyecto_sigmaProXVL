@@ -85,7 +85,7 @@ app.use((req, res, next) => {
 // ── Rate Limiting y Tracking de fallos ──
 const loginLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,  // 15 minutos
-    max: 5,                     // máximo 5 intentos por IP
+    max: 20,                     // máximo 20 intentos por IP
     message: { error: 'Demasiados intentos de login. Intente de nuevo en 15 minutos.' },
     standardHeaders: true,
     legacyHeaders: false,
@@ -109,7 +109,7 @@ function checkUserBlock(username) {
 function recordFailedAttempt(username) {
     let userData = _userFailures.get(username) || { count: 0, lockedUntil: 0 };
     userData.count++;
-    if (userData.count >= 3 && !userData.lockedUntil) {
+    if (userData.count >= 5 && !userData.lockedUntil) {
         userData.lockedUntil = Date.now() + 30 * 1000; // 30 segundos
     }
     if (userData.lockedUntil < Date.now()) {
