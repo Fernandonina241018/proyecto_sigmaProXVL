@@ -1790,6 +1790,20 @@ function createSidebarIconContainers(leftSidebar, rightSidebar) {
             iconItem.addEventListener('mouseleave', hideTooltip);
             iconsContainer.appendChild(iconItem);
         });
+        
+        // Ícono del asistente de análisis
+        const asistenteItem = document.createElement('div');
+        asistenteItem.className = 'sidebar-icon-compact';
+        asistenteItem.innerHTML = `<span class="sidebar-compact-icon">🧭</span>`;
+        asistenteItem.title = 'Asistente de Análisis';
+        asistenteItem.addEventListener('click', mostrarAsistenteAnalisis);
+        asistenteItem.addEventListener('mouseenter', (e) => {
+            e.target.closest('.sidebar-icon-compact').classList.add('hovered');
+        });
+        asistenteItem.addEventListener('mouseleave', (e) => {
+            e.target.closest('.sidebar-icon-compact').classList.remove('hovered');
+        });
+        iconsContainer.appendChild(asistenteItem);
     }
 
     // Inicializar badges
@@ -3714,3 +3728,104 @@ function mostrarModalCambioPasswordForzoso() {
 }
 
 console.log('✅ script.js cargado - Nuevo navbar integrado');
+
+function mostrarAsistenteAnalisis() {
+    document.getElementById('asistente-modal')?.remove();
+    
+    const overlay = document.createElement('div');
+    overlay.id = 'asistente-modal';
+    overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:99999;display:flex;align-items:center;justify-content:center;';
+    
+    overlay.innerHTML = `
+        <div style="background:white;border-radius:16px;padding:24px;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                <h2 style="margin:0;color:#1e293b;">🧭 Asistente de Análisis</h2>
+                <button id="asistente-cerrar" style="background:none;border:none;font-size:20px;cursor:pointer;">✕</button>
+            </div>
+            <p style="margin:0 0 16px 0;color:#64748b;">Responde las preguntas para recibir una recomendación de prueba estadística.</p>
+            <div id="asistente-pregunta"></div>
+            <div id="asistente-opciones" style="display:flex;flex-direction:column;gap:10px;margin:16px 0;"></div>
+            <div id="asistente-resultado" style="display:none;padding:16px;border-radius:12px;margin-top:16px;"></div>
+            <button id="asistente-siguiente" style="padding:12px;border:none;border-radius:10px;background:#3046ac;color:white;font-weight:600;width:100%;cursor:pointer;" disabled>Siguiente</button>
+        </div>`;
+    
+    document.body.appendChild(overlay);
+    
+    let respuestaActual = null;
+    
+    function renderPregunta() {
+        const pregunta = getPreguntaAsistente();
+        if (!pregunta) {
+            renderResultado();
+            return;
+        }
+        
+        document.getElementById('asistente-pregunta').innerHTML = `<p style="font-size:1rem;font-weight:600;color:#1e293b;margin:0 0 8px 0;">${pregunta.numero}. ${pregunta.texto}</p>`;
+        
+        const opcionesContainer = document.getElementById('asistente-opciones');
+        opcionesContainer.innerHTML = '';
+        
+        pregunta.opciones.forEach(opcion => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.textContent = opcion.label;
+            btn.style.cssText = 'padding:12px;border:2px solid #e2e8f0;border-radius:10px;background:white;color:#1e293b;font-size:0.95rem;cursor:pointer;text-align:left;transition:all 0.2s;';
+            btn.onmouseover = () => { btn.style.borderColor = '#3046ac'; btn.style.background = '#f8fafc'; };
+            btn.onmouseout = () => { btn.style.borderColor = '#e2e8f0'; btn.style.background = 'white'; };
+            btn.onclick = () => {
+                opcionesContainer.querySelectorAll('button').forEach(b => { b.style.borderColor = '#e2e8f0'; b.style.background = 'white'; });
+                btn.style.borderColor = '#3046ac';
+                btn.style.background = '#eff6ff';
+                respuestaActual = opcion.value;
+                document.getElementById('asistente-siguiente').disabled = false;
+            };
+            opcionesContainer.appendChild(btn);
+        });
+        
+        document.getElementById('asistente-siguiente').textContent = pregunta.numero < pregunta.total ? 'Siguiente' : 'Ver resultado';
+        document.getElementById('asistente-siguiente').disabled = true;
+    }
+    
+    function renderResultado() {
+        const reco = getRecomendacionAsistente();
+        document.getElementById('asistente-pregunta').innerHTML = '';
+        document.getElementById('asistente-opciones').innerHTML = '';
+        
+        const resultado = document.getElementById('asistente-resultado');
+        resultado.style.display = 'block';
+        resultado.style.background = 'linear-gradient(135deg, #eff6ff, #dbeafe)';
+        resultado.innerHTML = `
+            <div style="font-size:2rem;text-align:center;margin-bottom:12px;">📊</div>
+            <h3 style="margin:0 0 8px 0;color:#1e293b;">${reco.nombre}</h3>
+            <p style="margin:0 0 16px 0;color:#64748b;">${reco.desc}</p>
+            <button id="asistente-ejecutar" style="padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#3046ac,#4338ca);color:white;font-weight:600;width:100%;cursor:pointer;">Ejecutar ${reco.nombre}</button>`;
+        
+        document.getElementById('asistente-siguiente').style.display = 'none';
+        
+        document.getElementById('asistente-ejecutar')?.addEventListener('click', () => {
+            overlay.remove();
+            showToast('Ejecutando: ' + reco.nombre);
+            switchView('analisis');
+        });
+    }
+    
+    document.getElementById('asistente-cerrar').addEventListener('click', () => {
+        resetAsistente();
+        overlay.remove();
+    });
+    overlay.addEventListener('click', (e) => { if (e.target.id === 'asistente-modal') { resetAsistente(); overlay.remove(); } });
+    document.getElementById('asistente-siguiente').addEventListener('click', () => {
+        if (respuestaActual) {
+            responderAsistente(getPreguntaAsistente().id, respuestaActual);
+            respuestaActual = null;
+            const estado = AsistenteAnalisis.getEstado();
+            if (estado.completo) {
+                renderResultado();
+            } else {
+                renderPregunta();
+            }
+        }
+    });
+    
+    renderPregunta();
+}
