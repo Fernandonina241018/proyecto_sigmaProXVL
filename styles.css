@@ -3301,6 +3301,18 @@ body {
     }
 }
 
+.top-nav .nav-menu .nav-item[onclick*="Asistente"] {
+    padding: 6px 8px !important;
+}
+
+.top-nav .nav-menu .nav-item[onclick*="Asistente"] .nav-icon {
+    font-size: 1.1rem;
+}
+
+.top-nav .nav-menu .nav-item[onclick*="Asistente"] span:nth-child(2) {
+    display: none;
+}
+
 /* ========================================
    RESPONSIVE NAVBAR - TABLET
    ======================================== */
