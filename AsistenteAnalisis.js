@@ -9,6 +9,7 @@ const MAPA_ESTADISTICOS = {
     'Chi-Cuadrado': 'Chi-Cuadrado',
     'T-Test Una Muestra': 'T-Test (una muestra)',
     'T-Test dos Muestras': 'T-Test (dos muestras)',
+    'T-Test Dos Muestras Independientes': 'T-Test (dos muestras)',
     'T-Test de Welch': 'T-Test (dos muestras)',
     'Mann-Whitney U': 'Mann-Whitney U',
     'T-Test Pareado': 'Wilcoxon',

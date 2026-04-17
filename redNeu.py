@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.linear_model import LogisticRegression
+from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
 from sklearn.metrics import (classification_report, roc_auc_score, roc_curve, 
                             precision_recall_curve, average_precision_score,
@@ -98,14 +98,21 @@ print(f"   Train: {len(X_train)} muestras ({y_train.mean():.1%} aprobados)")
 print(f"   Test:  {len(X_test)} muestras ({y_test.mean():.1%} aprobados)")
 
 # ============================================
-# PASO 3: ENTRENAMIENTO CON VALIDACIÓN CRUZADA
+# PASO 3: ENTRENAMIENTO CON RED PROFUNDA + VALIDACIÓN CRUZADA
 # ============================================
-# Configuración óptima del modelo (parámetros ajustados)
-modelo = LogisticRegression(
-    max_iter=200,           # Suficiente para convergencia
-    random_state=42,
-    C=1.0,                  # Regularización por defecto
-    class_weight='balanced' # Maneja posibles desbalances
+# Red neuronal profunda (4 capas ocultas) para capturar relaciones no lineales
+arquitectura_red = (128, 64, 32, 16)
+modelo = MLPClassifier(
+    hidden_layer_sizes=arquitectura_red,
+    activation='relu',
+    solver='adam',
+    alpha=0.0005,
+    learning_rate_init=0.001,
+    max_iter=800,
+    early_stopping=True,
+    validation_fraction=0.15,
+    n_iter_no_change=25,
+    random_state=42
 )
 
 # Entrenamiento
@@ -116,34 +123,50 @@ cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 cv_scores_auc = cross_val_score(modelo, X, y, cv=cv, scoring='roc_auc')
 cv_scores_accuracy = cross_val_score(modelo, X, y, cv=cv, scoring='accuracy')
 
-# Coeficientes del modelo
-beta_0 = modelo.intercept_[0]
-beta_1 = modelo.coef_[0][0]
-odds_ratio = np.exp(beta_1)
+# Umbral aproximado de horas para probabilidad 50%
+horas_grid = np.linspace(0, 15, 500).reshape(-1, 1)
+proba_grid = modelo.predict_proba(horas_grid)[:, 1]
+idx_umbral = np.abs(proba_grid - 0.5).argmin()
+horas_umbral_50 = horas_grid[idx_umbral, 0]
 
-# Intervalos de confianza bootstrap para odds ratio
-n_bootstraps = 1000
-boot_odds = []
+# Bootstrap de modelos para intervalos de confianza de predicción
+n_bootstraps = 150
+modelos_bootstrap = []
 np.random.seed(42)
-for _ in range(n_bootstraps):
+for i in range(n_bootstraps):
     indices = np.random.choice(len(X_train), len(X_train), replace=True)
     X_boot = X_train.iloc[indices]
     y_boot = y_train.iloc[indices]
-    model_boot = LogisticRegression(max_iter=200)
-    model_boot.fit(X_boot, y_boot)
-    boot_odds.append(np.exp(model_boot.coef_[0][0]))
 
-ci_odds = np.percentile(boot_odds, [2.5, 97.5])
+    if y_boot.nunique() < 2:
+        continue
+
+    try:
+        model_boot = MLPClassifier(
+            hidden_layer_sizes=arquitectura_red,
+            activation='relu',
+            solver='adam',
+            alpha=0.0005,
+            learning_rate_init=0.001,
+            max_iter=500,
+            early_stopping=True,
+            validation_fraction=0.15,
+            n_iter_no_change=20,
+            random_state=42 + i
+        )
+        model_boot.fit(X_boot, y_boot)
+        modelos_bootstrap.append(model_boot)
+    except Exception:
+        continue
 
 print("\n" + "=" * 60)
 print("MODELO ENTRENADO - RESULTADOS")
 print("=" * 60)
-print(f"\n📐 Ecuación: log(P/(1-P)) = {beta_0:.3f} + {beta_1:.3f} × Horas")
-print(f"\n📊 Interpretación:")
-print(f"   • Cada hora adicional multiplica las odds por {odds_ratio:.2f}")
-print(f"   • IC 95% para odds ratio: [{ci_odds[0]:.2f}, {ci_odds[1]:.2f}]")
-print(f"   • Con 0 horas, odds de aprobar = {np.exp(beta_0):.4f}")
-print(f"   • Horas necesarias para P=0.5: {-beta_0/beta_1:.2f} horas")
+print(f"\n🧠 Arquitectura red neuronal: {arquitectura_red}")
+print(f"⚙️  Activación: {modelo.activation} | Solver: {modelo.solver}")
+print(f"🔁 Iteraciones usadas: {modelo.n_iter_}")
+print(f"⏱️  Horas para ~50% de probabilidad: {horas_umbral_50:.2f} horas")
+print(f"🧪 Modelos bootstrap válidos: {len(modelos_bootstrap)}/{n_bootstraps}")
 
 print(f"\n🔍 Validación Cruzada (5 folds):")
 print(f"   • AUC promedio: {cv_scores_auc.mean():.3f} (±{cv_scores_auc.std():.3f})")
@@ -169,10 +192,11 @@ print(f"   • AUC-ROC: {auc_score:.3f}")
 print(f"   • Average Precision (PR-AUC): {ap_score:.3f}")
 
 # ============================================
-# PASO 5: ANÁLISIS DE RESIDUOS
+# PASO 5: ANÁLISIS DE RESIDUOS APROXIMADO
 # ============================================
 residuos = y_test - y_proba_test
-residuos_pearson = (y_test - y_proba_test) / np.sqrt(y_proba_test * (1 - y_proba_test))
+eps = 1e-6
+residuos_pearson = (y_test - y_proba_test) / np.sqrt(np.clip(y_proba_test * (1 - y_proba_test), eps, None))
 
 # ============================================
 # PASO 6: FUNCIÓN DE PREDICCIÓN MEJORADA
@@ -210,16 +234,13 @@ def predecir_aprobacion(horas_estudio, mostrar_intervalo=True):
     proba = modelo.predict_proba(X_nuevo)[0]
     clase = modelo.predict(X_nuevo)[0]
     
-    # Intervalos de confianza (método delta)
+    # Intervalos de confianza por ensamble bootstrap de redes
     if mostrar_intervalo:
-        # Matriz de covarianza de los coeficientes
-        cov_matrix = np.linalg.inv(np.dot(X_train.T, X_train)) * np.var(residuos_pearson)
-        se_log_odds = np.sqrt(cov_matrix[0,0] + 2*cov_matrix[0,1]*horas_estudio + cov_matrix[1,1]*horas_estudio**2)
-        log_odds = beta_0 + beta_1 * horas_estudio
-        ci_lower_log = log_odds - 1.96 * se_log_odds
-        ci_upper_log = log_odds + 1.96 * se_log_odds
-        ci_lower = 1 / (1 + np.exp(-ci_lower_log))
-        ci_upper = 1 / (1 + np.exp(-ci_upper_log))
+        if len(modelos_bootstrap) >= 30:
+            boot_probs = [m.predict_proba(X_nuevo)[0, 1] for m in modelos_bootstrap]
+            ci_lower, ci_upper = np.percentile(boot_probs, [2.5, 97.5])
+        else:
+            ci_lower, ci_upper = np.nan, np.nan
     
     # Resultados formateados
     print("\n" + "=" * 60)
@@ -231,8 +252,11 @@ def predecir_aprobacion(horas_estudio, mostrar_intervalo=True):
     
     if mostrar_intervalo:
         print(f"\n📏 Intervalo de confianza 95% para P(Aprobar):")
-        print(f"   • Límite inferior: {ci_lower:.1%}")
-        print(f"   • Límite superior: {ci_upper:.1%}")
+        if np.isnan(ci_lower) or np.isnan(ci_upper):
+            print("   • No disponible (muestras bootstrap insuficientes)")
+        else:
+            print(f"   • Límite inferior: {ci_lower:.1%}")
+            print(f"   • Límite superior: {ci_upper:.1%}")
     
     print(f"\n✅ Decisión: {'APRUEBA' if clase == 1 else 'REPRUEBA'}")
     
@@ -399,8 +423,8 @@ while True:
         elif entrada == 'info':
             print("\n📈 Estadísticas del modelo:")
             print(f"   • AUC-ROC: {auc_score:.3f}")
-            print(f"   • Horas para 50% de probabilidad: {-beta_0/beta_1:.2f}")
-            print(f"   • Odds ratio por hora: {odds_ratio:.2f}")
+            print(f"   • Horas para 50% de probabilidad: {horas_umbral_50:.2f}")
+            print(f"   • Arquitectura: {arquitectura_red}")
             continue
         
         horas_input = float(entrada)
@@ -418,7 +442,7 @@ while True:
         
         # Recomendación adicional si aplica
         if resultado['prob_aprobar'] < 0.5 and resultado['prob_aprobar'] > 0.3:
-            horas_necesarias = -beta_0/beta_1
+            horas_necesarias = horas_umbral_50
             print(f"\n💡 Recomendación: Necesitas aproximadamente {horas_necesarias:.1f} horas para tener 50% de probabilidad de aprobar.")
         
     except ValueError:

@@ -3844,7 +3844,7 @@ function renderizarResultado() {
                 <div style="text-align:center;margin-bottom:16px;">
                     <div style="font-size:3rem;">📊</div>
                     <h3 style="margin:12px 0;color:#1e293b;">${reco.nombre}</h3>
-                    <p style="color:#64748b;margin-bottom:16px;">${reco.desc}</p>
+                    <p style="color:#64748b;margin-bottom:16px;">${reco.descripcion || reco.desc || ''}</p>
                     <div style="text-align:left;background:#f8fafc;padding:12px;border-radius:8px;font-size:0.85rem;">
                         <strong>Cuándo usarlo:</strong> ${reco.cuando || 'N/A'}<br>
                         <strong>Supuestos:</strong> ${reco.supuesto1 || 'N/A'}
