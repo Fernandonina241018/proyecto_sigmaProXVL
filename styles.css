@@ -3259,6 +3259,32 @@ body {
         font-size: 1rem;
     }
     
+    .assistant-btn {
+        background: var(--bg-card);
+        border: 2px solid var(--border-color);
+        border-radius: var(--border-radius-lg);
+        padding: var(--spacing-sm);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        transition: all var(--transition-normal);
+        font-size: 1.2rem;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    
+    .assistant-btn:hover {
+        background: var(--bg-hover);
+        transform: scale(1.05);
+    }
+    
+    .assistant-btn:active {
+        transform: scale(0.95);
+    }
+    
     .top-nav .nav-right .user-menu .user-trigger {
         padding: 6px 8px;
     }

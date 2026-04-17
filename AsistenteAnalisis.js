@@ -12,7 +12,7 @@ const AsistenteAnalisis = (() => {
     ];
 
     const RECOMENDACIONES = {
-        'cualitativo_': { nombre: 'Chi-Cuadrado', desc: 'Prueba para datos categóricos' },
+        'cualitativo': { nombre: 'Chi-Cuadrado', desc: 'Prueba para datos categóricos' },
         'cuantitativo_1': { nombre: 'T-Test una muestra', desc: 'Compara media con valor conocido' },
         'cuantitativo_2_si': { nombre: 'T-Test dos muestras', desc: 'Compara medias de dos grupos' },
         'cuantitativo_2_no': { nombre: 'Mann-Whitney U', desc: 'Alternativa no paramétrica' },
@@ -22,21 +22,32 @@ const AsistenteAnalisis = (() => {
     let respuestas = {};
     let preguntaActual = 0;
 
-    function getPreguntaActual() {
-        return preguntaActual < PREGUNTAS.length ? PREGUNTAS[preguntaActual] : null;
+    function getPregunta() {
+        if (preguntaActual >= PREGUNTAS.length) return null;
+        const p = PREGUNTAS[preguntaActual];
+        return {
+            id: p.id,
+            texto: p.texto,
+            opciones: p.opciones
+        };
     }
 
-    function getPreguntaInfo() {
-        const p = getPreguntaActual();
-        if (!p) return null;
-        return { id: p.id, numero: preguntaActual + 1, total: PREGUNTAS.length, texto: p.texto, opciones: p.opciones };
+    function getInfo() {
+        if (preguntaActual >= PREGUNTAS.length) return null;
+        return {
+            id: PREGUNTAS[preguntaActual].id,
+            numero: preguntaActual + 1,
+            total: PREGUNTAS.length,
+            texto: PREGUNTAS[preguntaActual].texto,
+            opciones: PREGUNTAS[preguntaActual].opciones
+        };
     }
 
     function responder(id, value) {
         respuestas[id] = value;
         
         if (id === 'tipo_datos') {
-            preguntaActual = value === 'cualitativo' ? 4 : 1;
+            preguntaActual = value === 'cualitativo' ? PREGUNTAS.length : 1;
         } else if (id === 'num_grupos') {
             preguntaActual = 2;
         } else {
@@ -46,19 +57,17 @@ const AsistenteAnalisis = (() => {
         return true;
     }
 
-    function getRecomendacion() {
+    function getResultado() {
         const tipo = respuestas.tipo_datos || 'cuantitativo';
         const grupos = respuestas.num_grupos || '1';
-        const normal = respuestas.normalidad || 'si';
         
-        let key = tipo + '_';
-        if (tipo === 'cuantitativo' && grupos === '2') {
-            key += normal === 'si' ? 'si' : 'no';
-        } else if (tipo === 'cuantitativo') {
-            key += grupos;
-        }
+        if (tipo === 'cualitativo') return RECOMENDACIONES.cualitativo;
         
-        return RECOMENDACIONES[key] || RECOMENDACIONES.cuantitativo_1;
+        if (tipo === 'cuantitativo' && grupos === '1') return RECOMENDACIONES.cuantitativo_1;
+        if (tipo === 'cuantitativo' && grupos === '2') return RECOMENDACIONES.cuantitativo_2_si;
+        if (tipo === 'cuantitativo' && grupos === '3+') return RECOMENDACIONES['cuantitativo_3+'];
+        
+        return RECOMENDACIONES.cuantitativo_1;
     }
 
     function reset() {
@@ -71,19 +80,19 @@ const AsistenteAnalisis = (() => {
     }
 
     return {
-        getPreguntaActual,
-        getPreguntaInfo,
+        getPregunta,
+        getInfo,
         responder,
-        getRecomendacion,
+        getResultado,
         reset,
         getEstado
     };
 })();
 
 // Funciones globales
-function getPreguntaAsistente() { return AsistenteAnalisis.getPreguntaInfo(); }
+function getPreguntaAsistente() { return AsistenteAnalisis.getInfo(); }
 function responderAsistente(id, value) { return AsistenteAnalisis.responder(id, value); }
-function getRecomendacionAsistente() { return AsistenteAnalisis.getRecomendacion(); }
+function getRecomendacionAsistente() { return AsistenteAnalisis.getResultado(); }
 function resetAsistente() { return AsistenteAnalisis.reset(); }
 
 console.log('✅ AsistenteAnalisis cargado');
