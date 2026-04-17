@@ -3740,6 +3740,7 @@ function mostrarAsistenteAnalisis() {
     document.body.appendChild(overlay);
     
     let respuestaActual = null;
+    let historial = []; // Para manejar atrás
     
     function renderizar() {
         const pregunta = getPreguntaAsistente();
@@ -3749,15 +3750,24 @@ function mostrarAsistenteAnalisis() {
             return;
         }
         
+        const puedeRetroceder = pregunta.numero > 1;
+        
         overlay.innerHTML = `
             <div style="background:white;border-radius:16px;padding:24px;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
                     <h2 style="margin:0;color:#1e293b;">🧭 Asistente</h2>
                     <button id="asistente-cerrar" style="background:none;border:none;font-size:20px;cursor:pointer;">✕</button>
                 </div>
-                <p style="margin:0 0 16px 0;color:#64748b;">${pregunta.numero}. ${pregunta.texto}</p>
+                <div style="margin-bottom:12px;">
+                    <span style="background:#e2e8f0;padding:4px 10px;border-radius:20px;font-size:0.75rem;color:#64748b;">Pregunta ${pregunta.numero} de ${pregunta.total}</span>
+                </div>
+                <p style="margin:0 0 16px 0;font-weight:600;color:#1e293b;font-size:1.1rem;">${pregunta.texto}</p>
+                <p style="margin:0 0 16px 0;color:#64748b;font-size:0.9rem;">${pregunta.descripcion || ''}</p>
                 <div id="asistente-opciones" style="display:flex;flex-direction:column;gap:10px;"></div>
-                <button id="asistente-siguiente" style="margin-top:16px;padding:12px;border:none;border-radius:10px;background:#3046ac;color:white;font-weight:600;width:100%;cursor:pointer;" disabled>Siguiente</button>
+                <div style="display:flex;gap:10px;margin-top:16px;">
+                    <button id="asistente-atras" style="flex:1;padding:12px;border:2px solid #e2e8f0;border-radius:10px;background:white;color:#64748b;font-weight:600;cursor:pointer;" ${!puedeRetroceder ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''}>← Atrás</button>
+                    <button id="asistente-siguiente" style="flex:2;padding:12px;border:none;border-radius:10px;background:#3046ac;color:white;font-weight:600;cursor:pointer;">Continuar →</button>
+                </div>
             </div>`;
         
         const opcionesContainer = document.getElementById('asistente-opciones');
@@ -3768,25 +3778,50 @@ function mostrarAsistenteAnalisis() {
             btn.type = 'button';
             btn.textContent = opcion.label;
             btn.dataset.value = opcion.value;
-            btn.style.cssText = 'padding:12px;border:2px solid #e2e8f0;border-radius:10px;background:white;color:#1e293b;font-size:0.95rem;cursor:pointer;text-align:left;';
+            btn.style.cssText = 'padding:14px;border:2px solid #e2e8f0;border-radius:10px;background:white;color:#1e293b;font-size:0.95rem;cursor:pointer;text-align:left;transition:all 0.2s;';
+            btn.onmouseover = function() { this.style.borderColor = '#3046ac'; };
+            btn.onmouseout = function() { if (respuestaActual !== this.dataset.value) this.style.borderColor = '#e2e8f0'; };
             btn.onclick = function() {
                 opcionesContainer.querySelectorAll('button').forEach(b => { b.style.borderColor = '#e2e8f0'; b.style.background = 'white'; });
                 this.style.borderColor = '#3046ac';
                 this.style.background = '#eff6ff';
                 respuestaActual = this.dataset.value;
-                document.getElementById('asistente-siguiente').disabled = false;
+                // Auto avanzar al seleccionar
+                setTimeout(() => {
+                    if (respuestaActual) {
+                        historial.push({ id: pregunta.id, value: respuestaActual });
+                        responderAsistente(pregunta.id, respuestaActual);
+                        respuestaActual = null;
+                        if (AsistenteAnalisis.getEstado().completo) {
+                            renderizarResultado();
+                        } else {
+                            renderizar();
+                        }
+                    }
+                }, 300);
             };
             opcionesContainer.appendChild(btn);
         });
         
-        document.getElementById('asistente-siguiente').textContent = pregunta.numero < pregunta.total ? 'Siguiente' : 'Ver resultado';
-        document.getElementById('asistente-siguiente').disabled = true;
+        document.getElementById('asistente-cerrar').onclick = () => { resetAsistente(); historial = []; overlay.remove(); };
+        overlay.onclick = (e) => { if (e.target.id === 'asistente-modal') { resetAsistente(); historial = []; overlay.remove(); } };
         
-        document.getElementById('asistente-cerrar').onclick = () => { resetAsistente(); overlay.remove(); };
-        overlay.onclick = (e) => { if (e.target.id === 'asistente-modal') { resetAsistente(); overlay.remove(); } };
+        // Botón atrás
+        document.getElementById('asistente-atras').onclick = function() {
+            if (historial.length > 0) {
+                resetAsistente();
+                historial.pop();
+                historial.forEach(h => {
+                    responderAsistente(h.id, h.value);
+                });
+                renderizar();
+            }
+        };
         
+        // Botón siguiente (también funciona con Enter)
         document.getElementById('asistente-siguiente').onclick = function() {
             if (respuestaActual) {
+                historial.push({ id: pregunta.id, value: respuestaActual });
                 responderAsistente(pregunta.id, respuestaActual);
                 respuestaActual = null;
                 if (AsistenteAnalisis.getEstado().completo) {
@@ -3798,28 +3833,49 @@ function mostrarAsistenteAnalisis() {
         };
     }
     
-    function renderizarResultado() {
+function renderizarResultado() {
         const reco = getRecomendacionAsistente();
+        
+        // Buscar la key del estadístico basada en el nombre usando el mapeo
+        let statKey = MAPA_ESTADISTICOS[reco.nombre] || reco.nombre;
+        
         overlay.innerHTML = `
             <div style="background:white;border-radius:16px;padding:24px;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
                 <div style="text-align:center;margin-bottom:16px;">
                     <div style="font-size:3rem;">📊</div>
                     <h3 style="margin:12px 0;color:#1e293b;">${reco.nombre}</h3>
-                    <p style="color:#64748b;">${reco.desc}</p>
+                    <p style="color:#64748b;margin-bottom:16px;">${reco.desc}</p>
+                    <div style="text-align:left;background:#f8fafc;padding:12px;border-radius:8px;font-size:0.85rem;">
+                        <strong>Cuándo usarlo:</strong> ${reco.cuando || 'N/A'}<br>
+                        <strong>Supuestos:</strong> ${reco.supuesto1 || 'N/A'}
+                    </div>
                 </div>
-                <button id="asistente-ejecutar" style="padding:12px;border:none;border-radius:10px;background:#3046ac;color:white;font-weight:600;width:100%;cursor:pointer;">Ejecutar análisis</button>
+                <button id="asistente-ejecutar" style="padding:12px;border:none;border-radius:10px;background:#3046ac;color:white;font-weight:600;width:100%;cursor:pointer;">Agregar al sidebar →</button>
                 <button id="asistente-cerrar2" style="margin-top:8px;padding:8px;background:none;border:none;color:#64748b;width:100%;cursor:pointer;">Cerrar</button>
             </div>`;
         
         document.getElementById('asistente-ejecutar').onclick = function() {
+            // Cerrar overlay del asistente
             resetAsistente();
+            historial = [];
             overlay.remove();
+            
+            // Verificar si requiere configuración previa
+            if (HYPOTHESIS_SET.has(statKey)) {
+                mostrarModalConfiguracionHypothesis(statKey);
+            } else {
+                // Agregar directamente al sidebar
+                if (StateManager) {
+                    StateManager.addActiveStat(statKey);
+                    showToast('Agregado: ' + statKey);
+                }
+            }
             switchView('analisis');
-            showToast('Selecciona: ' + reco.nombre);
         };
         
         document.getElementById('asistente-cerrar2').onclick = function() {
             resetAsistente();
+            historial = [];
             overlay.remove();
         };
     }
