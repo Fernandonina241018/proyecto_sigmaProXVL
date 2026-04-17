@@ -3300,22 +3300,6 @@ body {
         font-size: 1.3rem;
     }
 }
-        gap: 0;
-    }
-    
-    .top-nav .nav-menu .nav-item .nav-icon {
-        font-size: 1.3rem;
-    }
-    
-    .top-nav .nav-menu .nav-item::after {
-        content: attr(data-view);
-        position: absolute;
-        bottom: 2px;
-        font-size: 0.55rem;
-        color: #64748b;
-        display: none;
-    }
-}
 
 /* ========================================
    RESPONSIVE NAVBAR - TABLET
