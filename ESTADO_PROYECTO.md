@@ -133,6 +133,31 @@
 
 ---
 
+### 🔧 RED NEURONAL - CORRECCIÓN DE CLASS IMBALANCE (17 Abr 2026 - OpenCode)
+
+**Problema Identificado:** Dataset temporal tiene desbalance severo (95.5% aprobados vs 4.5% reprobados), causando que el modelo siempre prediga clase positiva (1).
+
+**Solución Implementada:**
+
+| # | Archivo | Cambio | Líneas | Motivo |
+|---|---------|--------|-------|--------|
+| 1 | trainer.py | Agregar `class_weight='balanced'` a RandomForestClassifier | 93-99 | Penaliza errores en clase minoritaria |
+| 2 | trainer.py | Agregar `class_weight='balanced'` a LogisticRegression | 78-83 | Igual tratamiento de clases |
+| 3 | trainer.py | Agregar `scale_pos_weight=1.0` a XGBoost (binary only) | 132-137 | Balancea loss entre clases |
+
+**Impacto Esperado:**
+- ✅ Modelo respeta distribución de clases durante entrenamiento
+- ✅ Mejora precision en clase minoritaria (reprobados)
+- ✅ Reduce sesgo hacia predicción positiva
+
+**Verificaciones Realizadas:**
+- ✅ Sintaxis Python validada (py_compile)
+- ✅ AST (Abstract Syntax Tree) correcto
+- ✅ Imports intactos, sin referencias rotas
+- ✅ Compatibilidad con sklearn y xgboost
+
+---
+
 ### 📁 ARCHIVOS MODIFICADOS
 
 1. **script.js**

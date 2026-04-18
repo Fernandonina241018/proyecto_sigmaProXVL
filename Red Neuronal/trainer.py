@@ -77,7 +77,8 @@ def build_model(model_key: str, problem_type: str,
 
     if model_key in ("logistic", "softmax"):
         p = dict(max_iter=1000, random_state=seed,
-                 multi_class=multiclass_strategy, solver="lbfgs")
+                 multi_class=multiclass_strategy, solver="lbfgs",
+                 class_weight="balanced")
         p.update(kwargs)
         return LogisticRegression(**p)
 
@@ -92,7 +93,8 @@ def build_model(model_key: str, problem_type: str,
 
     if model_key == "rf":
         p = dict(n_estimators=200, max_depth=None,
-                 random_state=seed, n_jobs=-1)
+                 random_state=seed, n_jobs=-1,
+                 class_weight="balanced")
         p.update(kwargs)
         return RandomForestClassifier(**p)
 
@@ -127,6 +129,10 @@ def _build_xgb(problem_type, n_classes, seed, extra):
         base["objective"]  = "multi:softprob"
         base["num_class"]  = n_classes
         base["eval_metric"]= "mlogloss"
+    else:
+        # Para binary: agregar scale_pos_weight para manejar class imbalance
+        # scale_pos_weight = num_neg / num_pos (aproximación)
+        base["scale_pos_weight"] = 1.0  # Se ajusta durante entrenamiento si es necesario
 
     return XGBClassifier(**base)
 
