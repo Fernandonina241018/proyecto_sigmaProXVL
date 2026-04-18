@@ -234,6 +234,12 @@ def _print_prediction_report(X_input: pd.DataFrame, preds: pd.DataFrame,
         if "explicacion" in merged.columns:
             print(f"  Resumen    : {row['explicacion']}")
 
+        if "factores_a_favor" in merged.columns:
+            print(f"  A favor    : {row['factores_a_favor']}")
+
+        if "factores_en_contra" in merged.columns:
+            print(f"  En contra  : {row['factores_en_contra']}")
+
 
 def _format_input_row(row: pd.Series, columns) -> str:
     """Convierte una fila de entrada a texto breve."""

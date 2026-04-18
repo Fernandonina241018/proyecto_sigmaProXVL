@@ -211,6 +211,22 @@ def encode_target(y: pd.Series, problem_type: str):
 #  FUNCIÓN PRINCIPAL
 # ══════════════════════════════════════════════════════════════════
 
+def build_feature_baselines(X: pd.DataFrame,
+                            num_features: list,
+                            cat_features: list) -> dict:
+    """Calcula un valor de referencia por feature para explicaciones locales."""
+    baselines = {}
+
+    for col in num_features:
+        baselines[col] = pd.to_numeric(X[col], errors="coerce").median()
+
+    for col in cat_features:
+        non_null = X[col].dropna()
+        baselines[col] = non_null.mode().iloc[0] if not non_null.empty else None
+
+    return baselines
+
+
 def prepare_data(df: pd.DataFrame,
                  target: str,
                  problem_type: str = "auto",
@@ -280,6 +296,9 @@ def prepare_data(df: pd.DataFrame,
         ),
         "target_col": target,
         "n_features_in": len(num_features) + len(cat_features),
+        "feature_baselines": build_feature_baselines(
+            X_raw, num_features, cat_features
+        ),
     }
 
     return X_raw, y, preprocessor, meta

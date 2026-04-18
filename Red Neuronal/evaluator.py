@@ -247,7 +247,9 @@ def predict(pipeline, X_new: pd.DataFrame, meta: dict,
             )
             for i in range(len(preds))
         ]
-        return pd.DataFrame(results).set_index("index")
+        return _add_local_feature_reasoning(
+            pipeline, X_new, meta, pd.DataFrame(results).set_index("index")
+        )
 
     probas = pipeline.predict_proba(X_new)
     class_labels = _resolve_class_labels(pipeline, meta, probas.shape[1])
@@ -320,7 +322,9 @@ def predict(pipeline, X_new: pd.DataFrame, meta: dict,
             for i in range(len(predicted_display))
         ]
 
-    return pd.DataFrame(results).set_index("index")
+    return _add_local_feature_reasoning(
+        pipeline, X_new, meta, pd.DataFrame(results).set_index("index")
+    )
 
 
 def _normalize_binary_target(y_test):
@@ -351,8 +355,12 @@ def _humanize_class_label(label, meta: dict) -> str:
     label_str = str(label)
     target_col = meta.get("target_col")
 
-    if target_col and label_str.lower() in {"0", "1", "true", "false"}:
-        return f"{target_col}={label_str}"
+    if target_col:
+        lower = label_str.lower()
+        if lower in {"1", "true"}:
+            return f"{target_col}=si"
+        if lower in {"0", "false"}:
+            return f"{target_col}=no"
     return label_str
 
 
@@ -403,6 +411,157 @@ def _build_multiclass_explanation(predicted_label, predicted_prob,
         f"({predicted_prob:.1%}). La segunda opcion mas probable es "
         f"{second_label} ({second_prob:.1%})."
     )
+
+
+def _add_local_feature_reasoning(pipeline, X_new: pd.DataFrame,
+                                 meta: dict, pred_df: pd.DataFrame,
+                                 top_k: int = 3) -> pd.DataFrame:
+    """Agrega una explicacion local aproximada por feature."""
+    baselines = meta.get("feature_baselines") or {}
+    if pred_df.empty or not baselines:
+        return pred_df
+
+    X_local = X_new.reset_index(drop=True).copy()
+    pred_local = pred_df.reset_index(drop=False).copy()
+
+    factores_a_favor = []
+    factores_en_contra = []
+    explicaciones = []
+
+    for pos in range(len(X_local)):
+        row_df = X_local.iloc[[pos]].copy()
+        row_pred = pred_local.iloc[pos]
+        effects = _estimate_feature_effects(pipeline, row_df, row_pred, meta, baselines)
+        top_positive = [effect for effect in effects if effect["delta"] > 0][:top_k]
+        top_negative = [effect for effect in effects if effect["delta"] < 0][:top_k]
+
+        if not top_positive and not top_negative:
+            factores_a_favor.append("Sin factores claros a favor frente al caso de referencia.")
+            factores_en_contra.append("Sin factores claros en contra frente al caso de referencia.")
+            explicaciones.append(
+                "De forma aproximada, esta prediccion queda muy cerca del caso de referencia."
+            )
+            continue
+
+        factores_a_favor.append(
+            "; ".join(
+                _format_feature_effect(effect, meta["problem_type"])
+                for effect in top_positive
+            ) if top_positive else "Sin factores claros a favor."
+        )
+        factores_en_contra.append(
+            "; ".join(
+                _format_feature_effect(effect, meta["problem_type"])
+                for effect in top_negative
+            ) if top_negative else "Sin factores claros en contra."
+        )
+        explicaciones.append(
+            _build_feature_reasoning(top_positive, top_negative, meta["problem_type"])
+        )
+
+    pred_local["factores_a_favor"] = factores_a_favor
+    pred_local["factores_en_contra"] = factores_en_contra
+    pred_local["explicacion_factores"] = explicaciones
+    return pred_local.set_index("index")
+
+
+def _estimate_feature_effects(pipeline, row_df: pd.DataFrame, row_pred: pd.Series,
+                              meta: dict, baselines: dict) -> list:
+    """Mide el efecto aproximado de cada variable contra un valor de referencia."""
+    actual_score = _score_for_explanation(pipeline, row_df, row_pred, meta)
+    effects = []
+
+    for feature in row_df.columns:
+        probe = row_df.copy()
+        probe[feature] = probe[feature].astype(object)
+        probe.at[probe.index[0], feature] = baselines.get(feature, np.nan)
+        baseline_score = _score_for_explanation(pipeline, probe, row_pred, meta)
+        delta = actual_score - baseline_score
+
+        effects.append({
+            "feature": feature,
+            "actual": row_df.iloc[0][feature],
+            "baseline": baselines.get(feature, np.nan),
+            "delta": float(delta),
+        })
+
+    return sorted(effects, key=lambda item: abs(item["delta"]), reverse=True)
+
+
+def _score_for_explanation(pipeline, row_df: pd.DataFrame,
+                           row_pred: pd.Series, meta: dict) -> float:
+    """Calcula el score de soporte para la prediccion actual."""
+    problem_type = meta["problem_type"]
+
+    if problem_type == "regression":
+        return float(pipeline.predict(row_df)[0])
+
+    probas = pipeline.predict_proba(row_df)[0]
+    class_labels = _resolve_class_labels(pipeline, meta, len(probas))
+    predicted_raw = str(row_pred.get("clase_predicha", ""))
+
+    try:
+        class_idx = class_labels.index(predicted_raw)
+    except ValueError:
+        class_idx = int(np.argmax(probas))
+
+    return float(probas[class_idx])
+
+
+def _format_feature_effect(effect: dict, problem_type: str) -> str:
+    """Formatea un efecto de variable para salida humana."""
+    actual = _format_feature_value(effect["actual"])
+    baseline = _format_feature_value(effect["baseline"])
+
+    if problem_type == "regression":
+        direction = "sube" if effect["delta"] >= 0 else "baja"
+        return (
+            f"{effect['feature']}={actual} "
+            f"({direction} {abs(effect['delta']):.3f} vs ref {baseline})"
+        )
+
+    direction = "a favor" if effect["delta"] >= 0 else "en contra"
+    return (
+        f"{effect['feature']}={actual} "
+        f"({direction}, {abs(effect['delta']) * 100:.1f} pts vs ref {baseline})"
+    )
+
+
+def _build_feature_reasoning(top_positive: list, top_negative: list,
+                             problem_type: str) -> str:
+    """Resume en lenguaje natural las variables de mayor impacto."""
+    if not top_positive and not top_negative:
+        return "De forma aproximada, no aparece un factor dominante."
+
+    parts = []
+
+    if top_positive:
+        favor = "; ".join(
+            _format_feature_effect(effect, problem_type)
+            for effect in top_positive
+        )
+        parts.append(f"a favor: {favor}")
+
+    if top_negative:
+        contra = "; ".join(
+            _format_feature_effect(effect, problem_type)
+            for effect in top_negative
+        )
+        parts.append(f"en contra: {contra}")
+
+    return (
+        "De forma aproximada, las variables que mas pesan frente al caso "
+        f"de referencia son {'. '.join(parts)}."
+    )
+
+
+def _format_feature_value(value) -> str:
+    """Formatea valores numericos y categoricos para mostrar."""
+    if pd.isna(value):
+        return "valor_referencia"
+    if isinstance(value, (float, np.floating)):
+        return f"{value:.3f}"
+    return str(value)
 
 
 def _plot_feature_importance(pipeline, meta, ax):
