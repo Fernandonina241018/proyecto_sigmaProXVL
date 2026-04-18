@@ -1,10 +1,10 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
-**Fecha de Análisis:** 14 de Abril 2026  
-**Última Actualización:** 14 de Abril 2026 (Tests Unitarios + Ley de No Romperse)  
-**Versión del Proyecto:** 2.3  
+**Fecha de Análisis:** 17 de Abril 2026  
+**Última Actualización:** 17 de Abril 2026 (Evaluación de Cambios del Agente + Red Neuronal Mejorada)  
+**Versión del Proyecto:** 2.4  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
-**Estado General:** MVP Funcional (~85% Completo)
+**Estado General:** MVP Funcional (~90% Completo)
 
 ---
 
@@ -91,6 +91,48 @@
 
 ---
 
+### 🤖 RED NEURONAL - CAMBIOS DEL AGENTE ANTERIOR (17 Abr 2026)
+
+**Commit:** b97438e (2026-04-17 23:32:30)
+
+#### Cambios Realizados:
+
+| # | Archivo | Descripción | Líneas | Estado |
+|---|---------|-------------|-------|--------|
+| 1 | evaluator.py |Nueva función `_normalize_binary_target()` para convertir targets "si"/"no" a 0/1 | 326-333 | ✅ |
+| 2 | evaluator.py |Refactorización de `_eval_binary()` para usar conversor | 56-130 | ✅ |
+| 3 | evaluator.py |Reorganización de imports (alfabéticamente) | 1-30 | ✅ |
+| 4 | evaluator.py |Simplificación de docstrings | Todas | ✅ |
+| 5 | main.py |Agregada opción "texto" al menú DEMO_CSV_BY_FUENTE | 26 | ✅ |
+| 6 | main.py |Reorganización de imports | 1-27 | ✅ |
+| 7 | preprocessor.py |Ajustes menores | 55 líneas | ✅ |
+| 8 | trainer.py |Cambios menores | 7 líneas | ✅ |
+| 9 | datos/entrenamiento_texto.csv |Nuevo dataset para testeos con datos mixtos | 21 filas, 8 cols | ✅ |
+
+#### Nuevo Dataset (entrenamiento_texto.csv):
+
+- **Features Numéricas (3):** horas_estudio, asistencia_pct, promedio_previo
+- **Features Categóricas (4):** ciudad, modalidad_estudio, turno, tiene_internet
+- **Target:** aprobado (0/1 - binario)
+- **Total Filas:** 20 (+ header)
+
+#### Análisis de Riesgos Identificados:
+
+| # | Riesgo | Severidad | Descripción |
+|---|--------|----------|-------------|
+| 1 | Conversión ambigua de y_test | ALTO | Si y_test tiene valores mixtos ("si","no","1","0"), la conversión puede comportarse inesperadamente |
+| 2 | Falta error handling | MEDIO | `_normalize_binary_target()` no lanza excepciones para valores inesperados |
+| 3 | Sin tests unitarios | ALTO | No hay tests para validar la nueva función ni el dataset |
+
+#### Evaluación General:
+
+- **Funcionalidad:** 85% ✅
+- **Código Limpio:** 90% ✅
+- **Testing:** 0% ❌
+- **Documentación:** 60% ⚠️
+
+---
+
 ### 📁 ARCHIVOS MODIFICADOS
 
 1. **script.js**
@@ -126,6 +168,25 @@
    - Actualización de estadísticos implementados (25→30)
    - Actualización de porcentajes del proyecto
    - Auditoría código vs documentación completada
+
+5. **Red Neuronal/main.py**
+   - Menú con 4 opciones: temporal, alternativo, financiero, texto
+   - Función run_pipeline() como punto de entrada
+
+6. **Red Neuronal/evaluator.py**
+   - Función `_normalize_binary_target()`: líneas 326-333
+   - Evaluación binaria (ROC, PR, Confusion Matrix): líneas 56-130
+   - Evaluación multiclase: líneas 133-177
+   - Evaluación regresión: líneas 180-217
+
+7. **Red Neuronal/preprocessor.py**
+   - ColumnTransformer con OneHotEncoder: líneas 160-166
+   - Detección automática de numéricas/categóricas: líneas 65-91
+   - encode_target() para target binario: líneas 190-207
+
+8. **Red Neuronal/datos/entrenamiento_texto.csv**
+   - Dataset mixtos (3 numéricas + 4 categóricas)
+   - 20 filas, target binario (0/1)
 
 ---
 
