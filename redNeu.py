@@ -2,12 +2,11 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.neural_network import MLPClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
 from sklearn.metrics import (classification_report, roc_auc_score, roc_curve, 
                             precision_recall_curve, average_precision_score,
                             ConfusionMatrixDisplay)
-from scipy import stats
 import joblib
 import warnings
 warnings.filterwarnings('ignore')
@@ -98,21 +97,15 @@ print(f"   Train: {len(X_train)} muestras ({y_train.mean():.1%} aprobados)")
 print(f"   Test:  {len(X_test)} muestras ({y_test.mean():.1%} aprobados)")
 
 # ============================================
-# PASO 3: ENTRENAMIENTO CON RED PROFUNDA + VALIDACIÓN CRUZADA
+# PASO 3: ENTRENAMIENTO (REGRESIÓN LOGÍSTICA) + VALIDACIÓN CRUZADA
 # ============================================
-# Red neuronal profunda (4 capas ocultas) para capturar relaciones no lineales
-arquitectura_red = (128, 64, 32, 16)
-modelo = MLPClassifier(
-    hidden_layer_sizes=arquitectura_red,
-    activation='relu',
-    solver='adam',
-    alpha=0.0005,
-    learning_rate_init=0.001,
-    max_iter=800,
-    early_stopping=True,
-    validation_fraction=0.15,
-    n_iter_no_change=25,
-    random_state=42
+# Una sola feature y proceso generador logístico → modelo lineal en las probabilidades
+modelo = LogisticRegression(
+    solver='lbfgs',
+    penalty='l2',
+    C=1.0,
+    max_iter=2000,
+    random_state=42,
 )
 
 # Entrenamiento
@@ -142,17 +135,12 @@ for i in range(n_bootstraps):
         continue
 
     try:
-        model_boot = MLPClassifier(
-            hidden_layer_sizes=arquitectura_red,
-            activation='relu',
-            solver='adam',
-            alpha=0.0005,
-            learning_rate_init=0.001,
-            max_iter=500,
-            early_stopping=True,
-            validation_fraction=0.15,
-            n_iter_no_change=20,
-            random_state=42 + i
+        model_boot = LogisticRegression(
+            solver='lbfgs',
+            penalty='l2',
+            C=1.0,
+            max_iter=2000,
+            random_state=42 + i,
         )
         model_boot.fit(X_boot, y_boot)
         modelos_bootstrap.append(model_boot)
@@ -162,9 +150,9 @@ for i in range(n_bootstraps):
 print("\n" + "=" * 60)
 print("MODELO ENTRENADO - RESULTADOS")
 print("=" * 60)
-print(f"\n🧠 Arquitectura red neuronal: {arquitectura_red}")
-print(f"⚙️  Activación: {modelo.activation} | Solver: {modelo.solver}")
-print(f"🔁 Iteraciones usadas: {modelo.n_iter_}")
+print("\n📐 Modelo: regresión logística (L2)")
+print(f"⚙️  Solver: {modelo.solver} | C={modelo.C} | Penalty: {modelo.penalty}")
+print(f"🔁 Iteraciones optimización: {modelo.n_iter_[0]}")
 print(f"⏱️  Horas para ~50% de probabilidad: {horas_umbral_50:.2f} horas")
 print(f"🧪 Modelos bootstrap válidos: {len(modelos_bootstrap)}/{n_bootstraps}")
 
@@ -234,7 +222,7 @@ def predecir_aprobacion(horas_estudio, mostrar_intervalo=True):
     proba = modelo.predict_proba(X_nuevo)[0]
     clase = modelo.predict(X_nuevo)[0]
     
-    # Intervalos de confianza por ensamble bootstrap de redes
+    # Intervalos por bootstrap de modelos logísticos
     if mostrar_intervalo:
         if len(modelos_bootstrap) >= 30:
             boot_probs = [m.predict_proba(X_nuevo)[0, 1] for m in modelos_bootstrap]
@@ -391,10 +379,10 @@ print(df_resultados.round(3))
 # ============================================
 exportar_modelo = input("\n💾 ¿Deseas exportar el modelo entrenado? (s/n): ").lower()
 if exportar_modelo == 's':
-    nombre_archivo = 'modelo_regresion_logistica.pkl'
+    nombre_archivo = 'modelo_aprobacion_logistico.pkl'
     joblib.dump(modelo, nombre_archivo)
     print(f"✅ Modelo exportado exitosamente como '{nombre_archivo}'")
-    print("   Para cargar: modelo = joblib.load('modelo_regresion_logistica.pkl')")
+    print(f"   Para cargar: modelo = joblib.load('{nombre_archivo}')")
 
 # ============================================
 # PASO 10: INTERFAZ INTERACTIVA MEJORADA
@@ -424,7 +412,7 @@ while True:
             print("\n📈 Estadísticas del modelo:")
             print(f"   • AUC-ROC: {auc_score:.3f}")
             print(f"   • Horas para 50% de probabilidad: {horas_umbral_50:.2f}")
-            print(f"   • Arquitectura: {arquitectura_red}")
+            print("   • Modelo: regresión logística L2 (Horas_Estudio)")
             continue
         
         horas_input = float(entrada)
