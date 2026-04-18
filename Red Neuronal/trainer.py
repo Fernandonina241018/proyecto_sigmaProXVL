@@ -161,9 +161,35 @@ def train(X, y, preprocessor, model_key: str,
     """
     model_kwargs = model_kwargs or {}
     n_classes    = len(meta.get("target_classes") or [])
+    n_samples    = len(X)
 
+    # ── Ajustar cv_folds según tamaño del dataset ────────────
+    # Si hay pocas muestras, reducir folds automáticamente
+    if n_samples < 20 and cv_folds > 3:
+        cv_folds = max(2, n_samples // 5)
+        print(f"  ⚠️  Dataset pequeño ({n_samples} samples). CV folds ajustado a {cv_folds}")
+    elif n_samples < 10:
+        cv_folds = 2
+    
     # ── Split ─────────────────────────────────────────────────────
-    stratify = y if problem_type != "regression" else None
+    # Verificar si podemos stratificar (necesitamos al menos 2 samples por clase)
+    can_stratify = problem_type != "regression" and len(np.unique(y)) >= 2
+    
+    # Además verificar que cada clase tenga al menos 2 samples
+    if can_stratify:
+        from collections import Counter
+        class_counts = Counter(y)
+        if min(class_counts.values()) < 2:
+            can_stratify = False
+            print(f"  ⚠️  No se puede stratificar (clase mínima < 2 samples). Usando split simple.")
+    
+    stratify = y if can_stratify else None
+    
+    # Si test_size resulta en muy pocas muestras, ajustar
+    min_test_samples = max(1, int(n_samples * test_size))
+    if min_test_samples < 1:
+        test_size = 1 / n_samples if n_samples > 1 else 0.2
+    
     X_train, X_test, y_train, y_test = train_test_split(
         X, y,
         test_size=test_size,
@@ -184,12 +210,12 @@ def train(X, y, preprocessor, model_key: str,
     # ── Ajuste ───────────────────────────────────────────────────
     pipeline.fit(X_train, y_train)
 
-    # ── Validación cruzada ───────────────────────────────────────
+    # ── Validación cruzada ─────────────────────────────────────
     cv_results = _cross_validate(
         pipeline, X, y, problem_type, cv_folds, random_state
     )
 
-    # ── Log ──────────────────────────────────────────────────────
+    # ── Log ─────────────────────────────────────────────────────
     _print_train_summary(model_key, problem_type, splits, cv_results, pipeline)
 
     return pipeline, splits, cv_results
@@ -197,25 +223,44 @@ def train(X, y, preprocessor, model_key: str,
 
 def _cross_validate(pipeline, X, y, problem_type, cv_folds, random_state):
     """Ejecuta validación cruzada y retorna métricas relevantes."""
+    import warnings
+    
     if problem_type == "regression":
         cv = KFold(n_splits=cv_folds, shuffle=True, random_state=random_state)
-        r2    = cross_val_score(pipeline, X, y, cv=cv, scoring="r2")
-        rmse  = np.sqrt(-cross_val_score(
-            pipeline, X, y, cv=cv, scoring="neg_mean_squared_error"))
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            r2    = cross_val_score(pipeline, X, y, cv=cv, scoring="r2", error_score="raise")
+            rmse  = np.sqrt(-cross_val_score(
+                pipeline, X, y, cv=cv, scoring="neg_mean_squared_error", error_score="raise"))
         return {"r2": r2, "rmse": rmse}
 
     cv = StratifiedKFold(n_splits=cv_folds, shuffle=True,
                          random_state=random_state)
-    acc = cross_val_score(pipeline, X, y, cv=cv, scoring="accuracy")
+    
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        try:
+            acc = cross_val_score(pipeline, X, y, cv=cv, scoring="accuracy", error_score="raise")
+        except Exception as e:
+            print(f"  ⚠️  Error en CV accuracy: {e}")
+            acc = None
 
-    if problem_type == "binary":
-        auc = cross_val_score(pipeline, X, y, cv=cv, scoring="roc_auc")
-        return {"accuracy": acc, "auc_roc": auc}
+        if problem_type == "binary":
+            try:
+                auc = cross_val_score(pipeline, X, y, cv=cv, scoring="roc_auc", error_score="raise")
+            except Exception as e:
+                print(f"  ⚠️  Error en CV AUC: {e}")
+                auc = None
+            return {"accuracy": acc, "auc_roc": auc}
 
-    # Multiclase
-    f1 = cross_val_score(pipeline, X, y, cv=cv,
-                         scoring="f1_weighted")
-    return {"accuracy": acc, "f1_weighted": f1}
+        # Multiclase
+        try:
+            f1 = cross_val_score(pipeline, X, y, cv=cv,
+                                scoring="f1_weighted", error_score="raise")
+        except Exception as e:
+            print(f"  ⚠️  Error en CV f1: {e}")
+            f1 = None
+        return {"accuracy": acc, "f1_weighted": f1}
 
 
 def _print_train_summary(model_key, problem_type, splits, cv_results, pipeline):
@@ -234,7 +279,10 @@ def _print_train_summary(model_key, problem_type, splits, cv_results, pipeline):
 
     print(f"\n  Validación cruzada:")
     for metric, values in cv_results.items():
-        print(f"    {metric:<18} {values.mean():.4f}  (±{values.std():.4f})")
+        if values is not None and hasattr(values, 'mean'):
+            print(f"    {metric:<18} {values.mean():.4f}  (±{values.std():.4f})")
+        else:
+            print(f"    {metric:<18} N/A")
     print(sep)
 
 
@@ -260,9 +308,14 @@ def bootstrap_models(X_train, y_train, preprocessor, model_key: str,
 
     for i in range(n_bootstraps):
         idx   = np.random.choice(n, n, replace=True)
-        X_b   = X_train.iloc[idx]
-        y_b   = y_train[idx] if isinstance(y_train, np.ndarray) \
-                else y_train.iloc[idx]
+        X_b   = X_train.iloc[idx] if hasattr(X_train, 'iloc') else X_train[idx]
+        # Manejar tanto numpy arrays como pandas Series
+        if isinstance(y_train, np.ndarray):
+            y_b = y_train[idx]
+        elif hasattr(y_train, 'iloc'):
+            y_b = y_train.iloc[idx]
+        else:
+            y_b = np.array(y_train)[idx]
 
         # Saltar si solo hay una clase (bootstrap puede ser desbalanceado)
         if problem_type != "regression" and len(np.unique(y_b)) < 2:

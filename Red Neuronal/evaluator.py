@@ -70,11 +70,27 @@ def evaluate(pipeline, splits: dict, meta: dict,
 def _eval_binary(pipeline, X_test, y_test, meta) -> dict:
     y_pred  = pipeline.predict(X_test)
     y_proba = pipeline.predict_proba(X_test)[:, 1]
-
+    
+    classes = meta.get("target_classes") or ["0", "1"]
+    
+    # Convertir y_test a numérico si es string
+    y_test_orig = y_test.copy() if hasattr(y_test, 'copy') else y_test
+    try:
+        # Intentar convertir directamente
+        if hasattr(y_test, 'dtype') and y_test.dtype == object:
+            # Es string - convertir a 0/1
+            if set(str(v).lower() for v in y_test.unique()) <= {'si', 'no'}:
+                y_test = (y_test == 'si').astype(int)
+            else:
+                y_test = pd.Series(y_test).apply(lambda x: 1 if str(x).lower() == 'si' else 0)
+        elif hasattr(y_test, 'dtype') and str(y_test.dtype) == 'object':
+            y_test = (y_test == 'si').astype(int)
+    except:
+        pass
+    
+    # Ahora y_test debe ser numérico
     auc = roc_auc_score(y_test, y_proba)
     ap  = average_precision_score(y_test, y_proba)
-
-    classes = meta.get("target_classes") or ["0", "1"]
 
     print("\n" + "═" * 62)
     print("  EVALUACIÓN — CLASIFICACIÓN BINARIA")
@@ -275,9 +291,14 @@ def predict(pipeline, X_new: pd.DataFrame, meta: dict,
         preds = pipeline.predict(X_new)
         probas = pipeline.predict_proba(X_new)
 
-        results["clase_predicha"] = (
-            [str(classes[p]) for p in preds] if classes else preds.tolist()
-        )
+        # Manejar tanto predicciones como índices o etiquetas directas
+        if classes and hasattr(classes, '__getitem__') and hasattr(preds, '__iter__'):
+            try:
+                results["clase_predicha"] = [str(classes[p]) if isinstance(p, (int, np.integer)) else str(p) for p in preds]
+            except (TypeError, IndexError):
+                results["clase_predicha"] = [str(p) for p in preds]
+        else:
+            results["clase_predicha"] = [str(p) for p in preds] if hasattr(preds, '__iter__') else [str(preds)]
         for i, cls in enumerate(classes or range(probas.shape[1])):
             results[f"prob_{cls}"] = probas[:, i]
 

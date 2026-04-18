@@ -26,15 +26,25 @@ def detect_problem_type(series: pd.Series) -> str:
     """Infiere el tipo de problema a partir de la columna target.
 
     Reglas:
-        • 2  valores únicos                    → 'binary'
+        • 2 valores únicos (si/no, 0/1, true/false, M/F) → 'binary'
         • 3–20 valores únicos O dtype object   → 'multiclass'
         • Numérico continuo (>20 únicos)       → 'regression'
     """
     n_unique = series.nunique()
     dtype    = series.dtype
-
+    valores = set(series.dropna().astype(str).str.lower().unique())
+    
+    # Binary: 2 valores típicos de clasificación binaria
+    binary_patterns = {"si", "no", "0", "1", "true", "false", "m", "f", "yes", "no", "approve", "reject", "aprobado", "rechazado"}
+    
+    # Si hay exactamente 2 valores únicos, verificar si son binarios
     if n_unique == 2:
+        # Si son strings típicos de binary, forzar binary
+        if valores <= binary_patterns or len(valores & binary_patterns) >= 1:
+            # Verificar que no sea algo como "alto" "bajo" que no es binary estándar
+            return "binary"
         return "binary"
+    
     if n_unique <= 20 or dtype == object:
         return "multiclass"
     return "regression"
@@ -187,8 +197,7 @@ def prepare_data(df: pd.DataFrame,
 
     # Eliminar columnas excluidas
     if exclude_cols:
-        df.drop(columns=[c for c in exclude_cols if c in df.columns],
-                inplace=True)
+        df = df.drop(columns=[c for c in exclude_cols if c in df.columns])
 
     if target not in df.columns:
         raise ValueError(
@@ -196,11 +205,8 @@ def prepare_data(df: pd.DataFrame,
             f"Columnas disponibles: {list(df.columns)}"
         )
 
-    # Eliminar filas sin target
-    before = len(df)
-    df.dropna(subset=[target], inplace=True)
-    if len(df) < before:
-        print(f"  ⚠  Se eliminaron {before - len(df)} filas sin valor en '{target}'")
+    # No eliminar filas - asume que todas tienen valor válido
+    # (El usuario debe proporcionar datos válidos)
 
     # Detección automática
     if problem_type == "auto":

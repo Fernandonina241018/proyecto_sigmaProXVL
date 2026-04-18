@@ -19,14 +19,13 @@ Uso con datos reales (API):
     )
 
 Uso con CSV:
-
+    from main import run_pipeline
     run_pipeline(
         source="csv",
         source_kwargs={"path": "datos/entrenamiento_temporal.csv"},
         target="aprobado",
         model_key="rf",  # o "mlp", "logistic", "xgb", …
     )
-
 
 
 Uso con múltiples fuentes:
@@ -326,10 +325,16 @@ if __name__ == "__main__":
 
     print(f"\n  Fuente seleccionada: «{fuente_elegida}» → {demo_csv}\n")
 
+    # Columnas a excluir según la fuente
+    exclude_cols = None
+    if fuente_elegida == "financiero":
+        exclude_cols = ["id_cliente"]
+
     resultado = run_pipeline(
         source         = "csv",
         source_kwargs  = {"path": str(demo_csv)},
         target         = "aprobado",
+        exclude_cols   = exclude_cols,
         model_key      = "rf",
         problem_type   = "auto",
         run_bootstrap_ci = True,
