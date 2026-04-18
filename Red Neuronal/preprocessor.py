@@ -12,9 +12,21 @@ Capacidades:
 
 import numpy as np
 import pandas as pd
+from pandas.api.types import (
+    is_bool_dtype,
+    is_categorical_dtype,
+    is_numeric_dtype,
+    is_object_dtype,
+    is_string_dtype,
+)
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import StandardScaler, OneHotEncoder, LabelEncoder
+from sklearn.preprocessing import (
+    FunctionTransformer,
+    StandardScaler,
+    OneHotEncoder,
+    LabelEncoder,
+)
 from sklearn.impute import SimpleImputer
 
 
@@ -59,13 +71,22 @@ def detect_columns(df: pd.DataFrame, target: str):
     """
     feature_cols = [c for c in df.columns if c != target]
 
-    num_features = df[feature_cols].select_dtypes(
-        include=["int64", "float64", "int32", "float32"]
-    ).columns.tolist()
+    num_features = []
+    cat_features = []
 
-    cat_features = df[feature_cols].select_dtypes(
-        include=["object", "category", "bool"]
-    ).columns.tolist()
+    for col in feature_cols:
+        series = df[col]
+
+        if is_bool_dtype(series):
+            cat_features.append(col)
+        elif is_numeric_dtype(series):
+            num_features.append(col)
+        elif (
+            is_string_dtype(series)
+            or is_object_dtype(series)
+            or is_categorical_dtype(series)
+        ):
+            cat_features.append(col)
 
     return num_features, cat_features
 
@@ -130,6 +151,7 @@ def build_preprocessor(num_features: list, cat_features: list) -> ColumnTransfor
 
     if num_features:
         num_pipeline = Pipeline([
+            ("normalize", FunctionTransformer(_normalize_numeric_frame, validate=False)),
             ("imputer", SimpleImputer(strategy="median")),
             ("scaler",  StandardScaler()),
         ])
@@ -137,7 +159,8 @@ def build_preprocessor(num_features: list, cat_features: list) -> ColumnTransfor
 
     if cat_features:
         cat_pipeline = Pipeline([
-            ("imputer", SimpleImputer(strategy="most_frequent")),
+            ("normalize", FunctionTransformer(_normalize_categorical_frame, validate=False)),
+            ("imputer", SimpleImputer(strategy="most_frequent", missing_values=np.nan)),
             ("encoder", OneHotEncoder(handle_unknown="ignore", sparse_output=False)),
         ])
         transformers.append(("cat", cat_pipeline, cat_features))
@@ -146,6 +169,22 @@ def build_preprocessor(num_features: list, cat_features: list) -> ColumnTransfor
         raise ValueError("No se encontraron features numéricas ni categóricas.")
 
     return ColumnTransformer(transformers=transformers, remainder="drop")
+
+
+def _normalize_numeric_frame(X):
+    """Convierte dtypes numÃ©ricos anulables de pandas a floats con np.nan."""
+    if hasattr(X, "apply"):
+        return X.apply(pd.to_numeric, errors="coerce").astype(float)
+    return np.asarray(X, dtype=float)
+
+
+def _normalize_categorical_frame(X):
+    """Convierte string/category/bool anulables a object y reemplaza pd.NA por np.nan."""
+    if hasattr(X, "astype"):
+        X = X.astype(object)
+        return X.where(pd.notna(X), np.nan)
+    arr = np.asarray(X, dtype=object)
+    return np.where(pd.isna(arr), np.nan, arr)
 
 
 def encode_target(y: pd.Series, problem_type: str):

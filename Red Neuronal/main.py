@@ -1,140 +1,76 @@
 """
-main.py — Orquestador principal del sistema de ML modular.
+main.py - Orquestador principal del sistema de ML modular.
 
-Punto de entrada único. Conecta todos los módulos:
-    data_loader  → preprocessor → trainer → evaluator → model_store
-
-Uso rápido (demo con CSV en datos/):
-    python main.py
-    python main.py --fuente temporal      # logística aditiva (default)
-    python main.py --fuente alternativo   # patrón multiplicativo / interacciones
-
-Uso con datos reales (API):
-    from main import run_pipeline
-    run_pipeline(
-        source='api',
-        source_kwargs={'url': 'https://mi-api.com/data', 'record_path': 'records'},
-        target='resultado_examen',
-        model_key='rf',
-    )
-
-Uso con CSV:
-    from main import run_pipeline
-    run_pipeline(
-        source="csv",
-        source_kwargs={"path": "datos/entrenamiento_temporal.csv"},
-        target="aprobado",
-        model_key="rf",  # o "mlp", "logistic", "xgb", …
-    )
-
-
-Uso con múltiples fuentes:
-    run_pipeline(
-        source='multi',
-        source_kwargs={
-            'sources': [
-                {'type': 'csv',   'path': 'datos/entrenamiento_temporal.csv'},
-                {'type': 'excel', 'path': 'asistencia.xlsx'},
-                {'type': 'api',   'url':  'https://api.com/estres',
-                                  'record_path': 'data'},
-            ],
-            'join_on': 'student_id',
-        },
-        target='nota_final',
-        model_key='rf',
-        problem_type='auto',
-    )
+Punto de entrada unico. Conecta todos los modulos:
+    data_loader -> preprocessor -> trainer -> evaluator -> model_store
 """
 
-import numpy as np
-import pandas as pd
 from pathlib import Path
 
-from data_loader  import load_data
+import pandas as pd
+
+from config import TRAIN_DEFAULTS
+from data_loader import load_data
+from evaluator import evaluate, predict
+from model_store import save_model
 from preprocessor import prepare_data
-from trainer      import train, bootstrap_models as run_bootstrap
-from evaluator    import evaluate, predict
-from model_store  import save_model, load_model
-from config       import TRAIN_DEFAULTS
+from trainer import bootstrap_models as run_bootstrap
+from trainer import train
 
 
-# CSV de demo (elegir con python main.py --fuente temporal|alternativo|financiero)
 _BASE_DATOS = Path(__file__).resolve().parent / "datos"
 DEMO_CSV_BY_FUENTE = {
     "temporal": _BASE_DATOS / "entrenamiento_temporal.csv",
     "alternativo": _BASE_DATOS / "entrenamiento_patron_alternativo.csv",
     "financiero": _BASE_DATOS / "entrenamiento_financiero.csv",
+    "texto": _BASE_DATOS / "entrenamiento_texto.csv",
 }
 
 
-# ══════════════════════════════════════════════════════════════════
-#  PIPELINE COMPLETO
-# ══════════════════════════════════════════════════════════════════
-
 def run_pipeline(
-    # ── Datos ─────────────────────────────────────────────────────
-    source: str          = "synthetic",
-    source_kwargs: dict  = None,
-    target: str          = "aprobado",
-    exclude_cols: list   = None,
-
-    # ── Modelo ────────────────────────────────────────────────────
-    model_key: str       = "rf",
-    problem_type: str    = "auto",
-    model_kwargs: dict   = None,
-
-    # ── Entrenamiento ─────────────────────────────────────────────
-    test_size: float     = None,
-    cv_folds: int        = None,
-    random_state: int    = None,
-
-    # ── Bootstrap ─────────────────────────────────────────────────
+    source: str = "synthetic",
+    source_kwargs: dict = None,
+    target: str = "aprobado",
+    exclude_cols: list = None,
+    model_key: str = "rf",
+    problem_type: str = "auto",
+    model_kwargs: dict = None,
+    test_size: float = None,
+    cv_folds: int = None,
+    random_state: int = None,
     run_bootstrap_ci: bool = True,
-    n_bootstraps: int      = None,
-
-    # ── Guardado ──────────────────────────────────────────────────
-    save_path: str       = None,
-
-    # ── Predicciones nuevas ───────────────────────────────────────
-    X_new: pd.DataFrame  = None,
-    verbose: bool        = True,
+    n_bootstraps: int = None,
+    save_path: str = None,
+    X_new: pd.DataFrame = None,
+    verbose: bool = True,
 ) -> dict:
-    """Ejecuta el pipeline completo de ML.
+    """Ejecuta el pipeline completo de ML."""
 
-    Retorna:
-        dict con claves:
-            pipeline, meta, splits, cv_results,
-            eval_results, bootstrap_models,
-            predictions_new (si X_new dado)
-    """
+    source_kwargs = source_kwargs or {}
+    model_kwargs = model_kwargs or {}
+    test_size = test_size or TRAIN_DEFAULTS["test_size"]
+    cv_folds = cv_folds or TRAIN_DEFAULTS["cv_folds"]
+    random_state = random_state or TRAIN_DEFAULTS["random_state"]
+    n_bootstraps = n_bootstraps or TRAIN_DEFAULTS["bootstrap_n"]
 
-    # Valores por defecto desde config
-    source_kwargs  = source_kwargs  or {}
-    model_kwargs   = model_kwargs   or {}
-    test_size      = test_size      or TRAIN_DEFAULTS["test_size"]
-    cv_folds       = cv_folds       or TRAIN_DEFAULTS["cv_folds"]
-    random_state   = random_state   or TRAIN_DEFAULTS["random_state"]
-    n_bootstraps   = n_bootstraps   or TRAIN_DEFAULTS["bootstrap_n"]
+    _banner("SISTEMA DE ML MODULAR - INICIO")
 
-    _banner("SISTEMA DE ML MODULAR — INICIO")
-
-    # ── 1. Carga de datos ─────────────────────────────────────────
     _step(1, "Cargando datos")
     df = load_data(source, **source_kwargs)
 
-    # ── 2. Preprocesamiento y detección automática ────────────────
     _step(2, "Analizando y preparando datos")
     X_raw, y, preprocessor, meta = prepare_data(
-        df, target=target,
+        df,
+        target=target,
         problem_type=problem_type,
         exclude_cols=exclude_cols,
         verbose=verbose,
     )
 
-    # ── 3. Entrenamiento ──────────────────────────────────────────
     _step(3, f"Entrenando modelo [{model_key.upper()}]")
     pipeline, splits, cv_results = train(
-        X_raw, y,
+        X_raw,
+        y,
         preprocessor=preprocessor,
         model_key=model_key,
         problem_type=meta["problem_type"],
@@ -145,12 +81,12 @@ def run_pipeline(
         model_kwargs=model_kwargs,
     )
 
-    # ── 4. Bootstrap (intervalos de confianza) ────────────────────
     boot_models = []
     if run_bootstrap_ci:
         _step(4, f"Bootstrap ({n_bootstraps} modelos)")
         boot_models = run_bootstrap(
-            splits["X_train"], splits["y_train"],
+            splits["X_train"],
+            splits["y_train"],
             preprocessor=preprocessor,
             model_key=model_key,
             problem_type=meta["problem_type"],
@@ -159,21 +95,23 @@ def run_pipeline(
             random_state=random_state,
         )
 
-    # ── 5. Evaluación ─────────────────────────────────────────────
     _step(5, "Evaluando en datos de test")
     eval_results = evaluate(
-        pipeline, splits, meta,
+        pipeline,
+        splits,
+        meta,
         bootstrap_models=boot_models,
         X_new=X_new,
     )
 
-    # ── 6. Guardar modelo ─────────────────────────────────────────
     if save_path:
-        _step(6, f"Guardando modelo → {save_path}")
+        _step(6, f"Guardando modelo -> {save_path}")
         train_params = dict(
-            source=source, model_key=model_key,
+            source=source,
+            model_key=model_key,
             problem_type=meta["problem_type"],
-            test_size=test_size, cv_folds=cv_folds,
+            test_size=test_size,
+            cv_folds=cv_folds,
             n_bootstraps=n_bootstraps,
         )
         save_model(pipeline, meta, boot_models, train_params, path=save_path)
@@ -191,35 +129,27 @@ def run_pipeline(
     )
 
 
-# ══════════════════════════════════════════════════════════════════
-#  MODO INTERACTIVO  (CLI)
-# ══════════════════════════════════════════════════════════════════
-
 def interactive_cli(pipeline, meta: dict, bootstrap_models: list = None):
-    """CLI interactiva para predicciones manuales post-entrenamiento.
-
-    El usuario ingresa valores para cada feature detectada automáticamente.
-    """
+    """CLI interactiva para predicciones manuales post-entrenamiento."""
     num_feats = meta["num_features"]
     cat_feats = meta["cat_features"]
     all_feats = num_feats + cat_feats
-    problem   = meta["problem_type"]
-    classes   = meta.get("target_classes")
 
-    print("\n" + "═" * 62)
-    print("  MODO INTERACTIVO — PREDICCIÓN MANUAL")
+    print("\n" + "=" * 62)
+    print("  MODO INTERACTIVO - PREDICCION MANUAL")
     print(f"  Features: {all_feats}")
     print("  Escribe 'salir' para terminar")
-    print("═" * 62)
+    print("=" * 62)
 
     historial = []
 
     while True:
         print()
         valores = {}
+
         try:
             for feat in num_feats:
-                val = input(f"  {feat} (numérico): ").strip().lower()
+                val = input(f"  {feat} (numerico): ").strip().lower()
                 if val == "salir":
                     raise StopIteration
                 valores[feat] = float(val)
@@ -233,116 +163,140 @@ def interactive_cli(pipeline, meta: dict, bootstrap_models: list = None):
         except StopIteration:
             break
         except ValueError:
-            print("  ❌ Valor inválido. Intenta de nuevo.")
+            print("  Valor invalido. Intenta de nuevo.")
             continue
 
         X_new = pd.DataFrame([valores])
         result_df = predict(pipeline, X_new, meta, bootstrap_models)
 
-        print("\n  ── Resultado ──────────────────────────────")
-        if problem == "regression":
-            pred = result_df["prediccion"].iloc[0]
-            print(f"  Predicción : {pred:.4f}")
-            if "ic_lower_95" in result_df.columns:
-                lo = result_df["ic_lower_95"].iloc[0]
-                hi = result_df["ic_upper_95"].iloc[0]
-                print(f"  IC 95%     : [{lo:.4f}, {hi:.4f}]")
-        else:
-            clase = result_df["clase_predicha"].iloc[0]
-            print(f"  Clase predicha : {clase}")
-            prob_cols = [c for c in result_df.columns if c.startswith("prob_")]
-            for col in prob_cols:
-                print(f"  {col:<25} {result_df[col].iloc[0]:.1%}")
-            if "ic_lower_95" in result_df.columns:
-                lo = result_df["ic_lower_95"].iloc[0]
-                hi = result_df["ic_upper_95"].iloc[0]
-                print(f"  IC 95% P(pos.) : [{lo:.1%}, {hi:.1%}]")
+        print("\n  " + "-" * 30)
+        _print_prediction_report(X_new, result_df, meta, header="Resultado de la prediccion")
 
         historial.append(valores | result_df.to_dict(orient="records")[0])
 
     if historial:
-        print(f"\n  📊 Resumen: {len(historial)} predicciones realizadas.")
+        print(f"\n  Resumen: {len(historial)} predicciones realizadas.")
         print(pd.DataFrame(historial).to_string(index=False))
 
-    print("\n  👋 ¡Hasta luego!")
+    print("\n  Hasta luego!")
 
-
-# ══════════════════════════════════════════════════════════════════
-#  HELPERS
-# ══════════════════════════════════════════════════════════════════
 
 def _banner(msg: str):
-    sep = "═" * 62
+    sep = "=" * 62
     print(f"\n{sep}\n  {msg}\n{sep}")
 
+
 def _step(n: int, msg: str):
-    print(f"\n  [{n}] {msg}…")
+    print(f"\n  [{n}] {msg}...")
 
 
-# ══════════════════════════════════════════════════════════════════
-#  MODO INTERACTIVO (ejecutar directamente)
-# ══════════════════════════════════════════════════════════════════
+def _print_prediction_report(X_input: pd.DataFrame, preds: pd.DataFrame,
+                             meta: dict, header: str = "Resumen de predicciones"):
+    """Imprime predicciones en un formato explicativo y facil de leer."""
+    print(f"  {header}")
+
+    problem = meta["problem_type"]
+    merged = pd.concat(
+        [X_input.reset_index(drop=True), preds.reset_index(drop=True)],
+        axis=1,
+    )
+
+    for idx, row in merged.iterrows():
+        print(f"\n  Caso {idx + 1}")
+        print(f"  Datos      : {_format_input_row(row, X_input.columns)}")
+
+        if problem == "regression":
+            print(f"  Prediccion : {row['prediccion']:.4f}")
+            if "explicacion" in merged.columns:
+                print(f"  Resumen    : {row['explicacion']}")
+            continue
+
+        etiqueta = row.get("prediccion_legible", row.get("clase_predicha", "N/D"))
+        print(f"  Prediccion : {etiqueta}")
+
+        if "probabilidad_predicha" in merged.columns:
+            print(
+                f"  Confianza  : {row['nivel_confianza']} "
+                f"({row['probabilidad_predicha']:.1%})"
+            )
+
+        if "clase_alternativa_legible" in merged.columns:
+            print(
+                f"  Alternativa: {row['clase_alternativa_legible']} "
+                f"({row['probabilidad_alternativa']:.1%})"
+            )
+        elif "segunda_clase_legible" in merged.columns:
+            print(
+                f"  Segunda op.: {row['segunda_clase_legible']} "
+                f"({row['probabilidad_segunda_clase']:.1%})"
+            )
+
+        if "explicacion" in merged.columns:
+            print(f"  Resumen    : {row['explicacion']}")
+
+
+def _format_input_row(row: pd.Series, columns) -> str:
+    """Convierte una fila de entrada a texto breve."""
+    return ", ".join(f"{col}={row[col]}" for col in columns)
+
 
 if __name__ == "__main__":
-    # Menú interactivo para elegir fuente de datos
     print("\n" + "=" * 60)
-    print("  pipeline ML - SELECCIÓN DE FUENTE DE DATOS")
+    print("  pipeline ML - SELECCION DE FUENTE DE DATOS")
     print("=" * 60)
     print("\n  Elige una fuente de datos:\n")
-    
+
     for i, fuente in enumerate(DEMO_CSV_BY_FUENTE.keys(), 1):
         archivo = DEMO_CSV_BY_FUENTE[fuente].name
-        print(f"    {i}) {fuente:<15} → {archivo}")
-    
-    print(f"    0) Salir")
+        print(f"    {i}) {fuente:<15} -> {archivo}")
+
+    print("    0) Salir")
     print("")
-    
+
     while True:
         try:
-            opcion = input("  Opción: ").strip()
-            
+            opcion = input("  Opcion: ").strip()
+
             if opcion == "0":
-                print("\n  ¡Hasta luego!")
+                print("\n  Hasta luego!")
                 break
-                
+
             opciones = list(DEMO_CSV_BY_FUENTE.keys())
             idx = int(opcion) - 1
-            
+
             if 0 <= idx < len(opciones):
                 fuente_elegida = opciones[idx]
                 break
-            else:
-                print("  ❌ Opción inválida. Intenta de nuevo.")
+
+            print("  Opcion invalida. Intenta de nuevo.")
         except ValueError:
-            print("  ❌ Ingresa un número.")
-    
+            print("  Ingresa un numero.")
+
     if opcion == "0":
         raise SystemExit(0)
-    
+
     demo_csv = DEMO_CSV_BY_FUENTE[fuente_elegida]
     if not demo_csv.is_file():
-        raise SystemExit(f"No se encontró el CSV: {demo_csv}")
+        raise SystemExit(f"No se encontro el CSV: {demo_csv}")
 
-    print(f"\n  Fuente seleccionada: «{fuente_elegida}» → {demo_csv}\n")
+    print(f"\n  Fuente seleccionada: '{fuente_elegida}' -> {demo_csv}\n")
 
-    # Columnas a excluir según la fuente
     exclude_cols = None
     if fuente_elegida == "financiero":
         exclude_cols = ["id_cliente"]
 
     resultado = run_pipeline(
-        source         = "csv",
-        source_kwargs  = {"path": str(demo_csv)},
-        target         = "aprobado",
-        exclude_cols   = exclude_cols,
-        model_key      = "rf",
-        problem_type   = "auto",
-        run_bootstrap_ci = True,
-        n_bootstraps   = 80,
-        save_path      = "modelo_demo.pkl",
+        source="csv",
+        source_kwargs={"path": str(demo_csv)},
+        target="aprobado",
+        exclude_cols=exclude_cols,
+        model_key="rf",
+        problem_type="auto",
+        run_bootstrap_ci=True,
+        n_bootstraps=80,
+        save_path="modelo_demo.pkl",
     )
 
-    # Predicción de nuevos según la fuente
     if fuente_elegida == "financiero":
         nuevos = pd.DataFrame({
             "edad": [30, 45, 38],
@@ -359,28 +313,40 @@ if __name__ == "__main__":
             "score_credito": [620, 760, 690],
         })
         print("\n  Predicciones para 3 nuevos clientes:")
+    elif fuente_elegida == "texto":
+        nuevos = pd.DataFrame({
+            "horas_estudio": [3.5, 6.8, 8.9],
+            "asistencia_pct": [58, 83, 94],
+            "promedio_previo": [55, 77, 90],
+            "ciudad": ["Sevilla", "Bogota", "Madrid"],
+            "modalidad_estudio": ["presencial", "hibrida", "online"],
+            "turno": ["noche", "tarde", "manana"],
+            "tiene_internet": ["no", "si", "si"],
+        })
+        print("\n  Predicciones para 3 nuevos estudiantes con columnas de texto:")
     else:
         nuevos = pd.DataFrame({
-            "horas_estudio":     [2.0, 7.5, 11.0],
-            "asistencia_pct":    [55,  85,  95],
-            "promedio_previo":   [50,  72,  88],
-            "horas_sueno":       [5,   7,   8],
-            "actividades_extra": [0,   1,   2],
-            "nivel_estres":      [8,   5,   3],
+            "horas_estudio": [2.0, 7.5, 11.0],
+            "asistencia_pct": [55, 85, 95],
+            "promedio_previo": [50, 72, 88],
+            "horas_sueno": [5, 7, 8],
+            "actividades_extra": [0, 1, 2],
+            "nivel_estres": [8, 5, 3],
         })
         print("\n  Predicciones para 3 nuevos estudiantes:")
-    preds = predict(
-        resultado["pipeline"], nuevos,
-        resultado["meta"],
-        resultado["bootstrap_models"]
-    )
-    print(preds.to_string())
 
-    # CLI interactiva
-    respuesta = input("\n  ¿Iniciar modo interactivo? (s/n): ").strip().lower()
+    preds = predict(
+        resultado["pipeline"],
+        nuevos,
+        resultado["meta"],
+        resultado["bootstrap_models"],
+    )
+    _print_prediction_report(nuevos, preds, resultado["meta"])
+
+    respuesta = input("\n  Iniciar modo interactivo? (s/n): ").strip().lower()
     if respuesta == "s":
         interactive_cli(
             resultado["pipeline"],
             resultado["meta"],
-            resultado["bootstrap_models"]
+            resultado["bootstrap_models"],
         )

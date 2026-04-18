@@ -15,6 +15,7 @@ Incluye:
 
 import warnings
 import numpy as np
+from sklearn.base import clone
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import (
     train_test_split, cross_val_score,
@@ -135,10 +136,10 @@ def _build_xgb(problem_type, n_classes, seed, extra):
 # ══════════════════════════════════════════════════════════════════
 
 def build_pipeline(preprocessor, estimator) -> Pipeline:
-    """Envuelve preprocessor + estimador en un Pipeline de sklearn."""
+    """Envuelve copias independientes de preprocessor + estimador en un Pipeline."""
     return Pipeline([
-        ("preprocessor", preprocessor),
-        ("model",        estimator),
+        ("preprocessor", clone(preprocessor)),
+        ("model",        clone(estimator)),
     ])
 
 
