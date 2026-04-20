@@ -1,0 +1,1998 @@
+"use strict";
+// ========================================
+// MÓDULO DE VISUALIZACIÓN - Visualizacion.js
+// Chart.js debe estar cargado antes de este módulo
+// ========================================
+const Visualizacion = (() => {
+    // Instancia activa del gráfico (solo uno a la vez)
+    let chartInstance = null;
+    function destroyChart() {
+        if (chartInstance) {
+            chartInstance.destroy();
+            chartInstance = null;
+        }
+    }
+    function _getSheetData() {
+        const sheet = StateManager.getActiveSheet();
+        if (!sheet || !sheet.data || sheet.data.length === 0)
+            return null;
+        const data = sheet.data.map(row => {
+            const obj = {};
+            sheet.headers.forEach((h, i) => obj[h] = row[i]);
+            return obj;
+        });
+        return { headers: sheet.headers, data, rowCount: data.length };
+    }
+    function _getData() {
+        const imported = StateManager.getImportedData();
+        if (imported && imported.data && imported.data.length > 0)
+            return imported;
+        return _getSheetData();
+    }
+    const PALETTE = [
+        'rgba(102,126,234,0.82)', 'rgba(118,75,162,0.82)',
+        'rgba(67,160,71,0.82)', 'rgba(30,136,229,0.82)',
+        'rgba(251,140,0,0.82)', 'rgba(229,57,53,0.82)',
+        'rgba(0,172,193,0.82)', 'rgba(171,71,188,0.82)',
+    ];
+    const PALETTE_BORDER = PALETTE.map(c => c.replace('0.82', '1'));
+    // ← Agrega aquí
+    const COLORS = {
+        primary: 'rgba(102,126,234,0.82)',
+        border: {
+            primary: 'rgba(102,126,234,1)',
+            danger: 'rgba(229,57,53,1)',
+            warning: 'rgba(251,140,0,1)',
+            accent: 'rgba(67,160,71,1)',
+        }
+    };
+    // ========================================
+    // UTILIDADES INTERNAS
+    // ========================================
+    function getNumericColumns(data) {
+        if (!data || !data.headers)
+            return [];
+        return StateManager.getNumericCols(data);
+    }
+    function getAllColumns(data) {
+        return data?.headers || [];
+    }
+    function getColumnValues(data, col) {
+        return data.data.map(r => parseFloat(r[col])).filter(v => !isNaN(v) && isFinite(v));
+    }
+    function getColumnRawValues(data, col) {
+        return data.data.map(r => r[col] || '');
+    }
+    function getCanvas() {
+        return document.getElementById('viz-canvas');
+    }
+    // ========================================
+    // OPCIONES BASE DE CHART.JS
+    // ========================================
+    function baseOptions(title = '') {
+        return {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { duration: 600, easing: 'easeInOutQuart' },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        font: { family: "'Segoe UI', sans-serif", size: 12 },
+                        color: '#555',
+                        padding: 16,
+                        usePointStyle: true,
+                        pointStyleWidth: 10
+                    }
+                },
+                title: {
+                    display: !!title,
+                    text: title,
+                    font: { family: "'Segoe UI', sans-serif", size: 14, weight: '600' },
+                    color: '#333',
+                    padding: { bottom: 16 }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(30,30,40,0.92)',
+                    titleFont: { family: "'Segoe UI', sans-serif", size: 12, weight: '600' },
+                    bodyFont: { family: "'Segoe UI', sans-serif", size: 11 },
+                    padding: 10,
+                    cornerRadius: 8,
+                    displayColors: true,
+                    boxPadding: 4
+                }
+            },
+            scales: {
+                x: {
+                    grid: { color: 'rgba(0,0,0,0.05)', drawBorder: false },
+                    ticks: {
+                        font: { family: "'Segoe UI', sans-serif", size: 11 },
+                        color: '#777',
+                        maxRotation: 45
+                    }
+                },
+                y: {
+                    grid: { color: 'rgba(0,0,0,0.06)', drawBorder: false },
+                    ticks: {
+                        font: { family: "'Segoe UI', sans-serif", size: 11 },
+                        color: '#777'
+                    }
+                }
+            }
+        };
+    }
+    // ========================================
+    // TIPOS DE GRÁFICO
+    // ========================================
+    function renderBarras(data, colX, colY, horizontal = false) {
+        const labels = getColumnRawValues(data, colX);
+        const values = data.data.map(r => parseFloat(r[colY]));
+        const cfg = {
+            type: horizontal ? 'bar' : 'bar',
+            data: {
+                labels,
+                datasets: [{
+                        label: colY,
+                        data: values,
+                        backgroundColor: PALETTE,
+                        borderColor: PALETTE_BORDER,
+                        borderWidth: 1.5,
+                        borderRadius: 6,
+                        borderSkipped: false,
+                    }]
+            },
+            options: {
+                ...baseOptions(`${colY} por ${colX}`),
+                indexAxis: horizontal ? 'y' : 'x',
+            }
+        };
+        destroyChart();
+        chartInstance = new Chart(getCanvas(), cfg);
+    }
+    function renderLineas(data, colX, colY, area = false) {
+        const labels = getColumnRawValues(data, colX);
+        const values = data.data.map(r => parseFloat(r[colY]));
+        const cfg = {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [{
+                        label: colY,
+                        data: values,
+                        borderColor: COLORS.border.primary,
+                        backgroundColor: area
+                            ? 'rgba(102,126,234,0.15)'
+                            : 'rgba(102,126,234,0)',
+                        borderWidth: 2.5,
+                        pointRadius: values.length > 80 ? 0 : 4,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: COLORS.border.primary,
+                        tension: 0.35,
+                        fill: area,
+                    }]
+            },
+            options: baseOptions(`${colY} a lo largo de ${colX}`)
+        };
+        destroyChart();
+        chartInstance = new Chart(getCanvas(), cfg);
+    }
+    function renderDispersion(data, colX, colY) {
+        const points = data.data
+            .map(r => ({
+            x: parseFloat(r[colX]),
+            y: parseFloat(r[colY])
+        }))
+            .filter(p => !isNaN(p.x) && !isNaN(p.y));
+        const cfg = {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                        label: `${colX} vs ${colY}`,
+                        data: points,
+                        backgroundColor: COLORS.primary,
+                        borderColor: COLORS.border.primary,
+                        borderWidth: 1,
+                        pointRadius: 5,
+                        pointHoverRadius: 8,
+                    }]
+            },
+            options: {
+                ...baseOptions(`Dispersión: ${colX} vs ${colY}`),
+                scales: {
+                    x: {
+                        ...baseOptions().scales.x,
+                        title: {
+                            display: true,
+                            text: colX,
+                            font: { size: 12, weight: '500' },
+                            color: '#555'
+                        }
+                    },
+                    y: {
+                        ...baseOptions().scales.y,
+                        title: {
+                            display: true,
+                            text: colY,
+                            font: { size: 12, weight: '500' },
+                            color: '#555'
+                        }
+                    }
+                }
+            }
+        };
+        destroyChart();
+        chartInstance = new Chart(getCanvas(), cfg);
+    }
+    function renderBoxPlot(data, columnas) {
+        if (columnas.length === 0)
+            throw new Error('Selecciona al menos una columna.');
+        const datasets = columnas.map((col, i) => {
+            const vals = getColumnValues(data, col).sort((a, b) => a - b);
+            const n = vals.length;
+            if (n === 0)
+                return null;
+            const q1 = percentil(vals, 25);
+            const med = percentil(vals, 50);
+            const q3 = percentil(vals, 75);
+            const iqr = q3 - q1;
+            const lo = q1 - 1.5 * iqr;
+            const hi = q3 + 1.5 * iqr;
+            const min = vals.find(v => v >= lo) ?? vals[0];
+            const max = [...vals].reverse().find(v => v <= hi) ?? vals[n - 1];
+            const outliers = vals.filter(v => v < lo || v > hi);
+            return { col, q1, med, q3, min, max, outliers, color: PALETTE[i % PALETTE.length], borderColor: PALETTE_BORDER[i % PALETTE.length] };
+        }).filter(Boolean);
+        destroyChart();
+        const canvas = getCanvas();
+        const ctx = canvas.getContext('2d');
+        const W = canvas.offsetWidth || 600;
+        const H = canvas.offsetHeight || 380;
+        canvas.width = W;
+        canvas.height = H;
+        const padL = 60, padR = 30, padT = 40, padB = 50;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const allVals = datasets.flatMap(d => [d.min, d.max, ...d.outliers]);
+        const gMin = Math.min(...allVals);
+        const gMax = Math.max(...allVals);
+        const range = gMax - gMin || 1;
+        function toY(v) {
+            return padT + plotH - ((v - gMin) / range) * plotH;
+        }
+        ctx.clearRect(0, 0, W, H);
+        ctx.setLineDash([4, 4]);
+        ctx.strokeStyle = 'rgba(0,0,0,0.07)';
+        ctx.lineWidth = 1;
+        const gridLines = 6;
+        for (let i = 0; i <= gridLines; i++) {
+            const y = padT + (plotH / gridLines) * i;
+            ctx.beginPath();
+            ctx.moveTo(padL, y);
+            ctx.lineTo(W - padR, y);
+            ctx.stroke();
+        }
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#777';
+        ctx.font = '11px "Segoe UI", sans-serif';
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= gridLines; i++) {
+            const v = gMin + (range / gridLines) * (gridLines - i);
+            const y = padT + (plotH / gridLines) * i;
+            ctx.fillText(v.toFixed(2), padL - 8, y + 4);
+        }
+        const boxW = Math.min(60, plotW / (datasets.length * 2));
+        const slotW = plotW / datasets.length;
+        datasets.forEach((d, i) => {
+            const cx = padL + slotW * i + slotW / 2;
+            const yQ1 = toY(d.q1);
+            const yMed = toY(d.med);
+            const yQ3 = toY(d.q3);
+            const yMin = toY(d.min);
+            const yMax = toY(d.max);
+            ctx.strokeStyle = d.borderColor;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(cx, yMin);
+            ctx.lineTo(cx, yQ1);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(cx, yQ3);
+            ctx.lineTo(cx, yMax);
+            ctx.stroke();
+            const cap = boxW * 0.4;
+            ctx.beginPath();
+            ctx.moveTo(cx - cap, yMin);
+            ctx.lineTo(cx + cap, yMin);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(cx - cap, yMax);
+            ctx.lineTo(cx + cap, yMax);
+            ctx.stroke();
+            ctx.fillStyle = d.color;
+            ctx.strokeStyle = d.borderColor;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.roundRect(cx - boxW / 2, yQ3, boxW, yQ1 - yQ3, 4);
+            ctx.fill();
+            ctx.stroke();
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(cx - boxW / 2, yMed);
+            ctx.lineTo(cx + boxW / 2, yMed);
+            ctx.stroke();
+            ctx.fillStyle = d.borderColor;
+            d.outliers.forEach(v => {
+                ctx.beginPath();
+                ctx.arc(cx + (Math.random() - 0.5) * 10, toY(v), 3, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            ctx.fillStyle = '#444';
+            ctx.font = '12px "Segoe UI", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(d.col, cx, H - padB + 20);
+            ctx.fillStyle = '#999';
+            ctx.font = '10px "Segoe UI", sans-serif';
+            ctx.fillText(`med: ${d.med.toFixed(2)}`, cx, H - padB + 34);
+        });
+        ctx.fillStyle = '#333';
+        ctx.font = '600 14px "Segoe UI", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Box Plot', W / 2, 22);
+        chartInstance = null;
+    }
+    function renderHistograma(data, colX, bins = 10) {
+        const values = getColumnValues(data, colX);
+        if (values.length === 0)
+            throw new Error(`"${colX}" no tiene valores numéricos.`);
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+        const range = max - min;
+        // Si todos los valores son iguales, mostrar un solo bin
+        if (range === 0) {
+            const cfg = {
+                type: 'bar',
+                data: {
+                    labels: [`${min.toFixed(2)}`],
+                    datasets: [{
+                            label: `Frecuencia de ${colX}`,
+                            data: [values.length],
+                            backgroundColor: COLORS.primary,
+                            borderColor: COLORS.border.primary,
+                            borderWidth: 1,
+                            borderRadius: 3,
+                        }]
+                },
+                options: baseOptions(`Histograma de ${colX}`)
+            };
+            destroyChart();
+            chartInstance = new Chart(getCanvas(), cfg);
+            return;
+        }
+        const binSize = range / bins;
+        const counts = Array(bins).fill(0);
+        const labels = [];
+        for (let i = 0; i < bins; i++) {
+            const lo = min + i * binSize;
+            const hi = lo + binSize;
+            labels.push(`${lo.toFixed(2)}–${hi.toFixed(2)}`);
+            values.forEach(v => {
+                if (v >= lo && (v < hi || (i === bins - 1 && v <= hi)))
+                    counts[i]++;
+            });
+        }
+        const cfg = {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [{
+                        label: `Frecuencia de ${colX}`,
+                        data: counts,
+                        backgroundColor: COLORS.primary,
+                        borderColor: COLORS.border.primary,
+                        borderWidth: 1,
+                        borderRadius: 3,
+                        borderSkipped: false,
+                        barPercentage: 1.0,
+                        categoryPercentage: 1.0,
+                    }]
+            },
+            options: {
+                ...baseOptions(`Histograma de ${colX}`),
+                plugins: {
+                    ...baseOptions().plugins,
+                    tooltip: {
+                        ...baseOptions().plugins.tooltip,
+                        callbacks: {
+                            label: ctx => ` ${ctx.raw} observaciones`
+                        }
+                    }
+                }
+            }
+        };
+        destroyChart();
+        chartInstance = new Chart(getCanvas(), cfg);
+    }
+    function renderControlChart(data, col) {
+        const values = getColumnValues(data, col);
+        if (values.length === 0)
+            throw new Error(`"${col}" no tiene valores numéricos.`);
+        const n = values.length;
+        const labels = values.map((_, i) => String(i + 1));
+        // ── Estadísticos base ──────────────────────────
+        const mean = values.reduce((a, b) => a + b, 0) / n;
+        const sd = Math.sqrt(values.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / (n - 1));
+        // ── Regresión lineal ───────────────────────────
+        const xs = values.map((_, i) => i + 1);
+        const sumX = xs.reduce((a, b) => a + b, 0);
+        const sumY = values.reduce((a, b) => a + b, 0);
+        const sumXY = xs.reduce((a, x, i) => a + x * values[i], 0);
+        const sumX2 = xs.reduce((a, x) => a + x * x, 0);
+        const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+        const intercept = (sumY - slope * sumX) / n;
+        const yHat = xs.map(x => slope * x + intercept);
+        const ssTot = values.reduce((a, y) => a + Math.pow(y - mean, 2), 0);
+        const ssRes = values.reduce((a, y, i) => a + Math.pow(y - yHat[i], 2), 0);
+        const r2 = isFinite(ssTot) && ssTot > 0 ? 1 - ssRes / ssTot : 0;
+        // ── Límites ────────────────────────────────────
+        const UCL = mean + 3 * sd;
+        const LCL = mean - 3 * sd;
+        const UWL = mean + 2 * sd;
+        const LWL = mean - 2 * sd;
+        const flat = val => labels.map(() => val);
+        const signStr = intercept >= 0 ? '+' : '-';
+        const title = [
+            `Gráfico de Control — ${col}`,
+            `y = ${slope.toFixed(4)}x ${signStr} ${Math.abs(intercept).toFixed(4)}`,
+            `R² = ${r2.toFixed(4)}`,
+            `μ = ${mean.toFixed(4)}   σ = ${sd.toFixed(4)}`
+        ].join('   |   ');
+        const cfg = {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: col,
+                        data: values,
+                        backgroundColor: COLORS.primary,
+                        borderColor: COLORS.border.primary,
+                        borderWidth: 1.5,
+                        pointRadius: 4,
+                        pointHoverRadius: 7,
+                        tension: 0,
+                        fill: false,
+                        order: 1,
+                    },
+                    {
+                        label: `Tendencia: y = ${slope.toFixed(4)}x ${signStr} ${Math.abs(intercept).toFixed(4)}  (R²=${r2.toFixed(4)})`,
+                        data: yHat,
+                        borderColor: COLORS.border.accent,
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0,
+                        fill: false,
+                        order: 2,
+                    },
+                    {
+                        label: `Media  ${mean.toFixed(4)}`,
+                        data: flat(mean),
+                        borderColor: 'rgba(80,80,80,0.75)',
+                        backgroundColor: 'transparent',
+                        borderWidth: 1.5,
+                        borderDash: [8, 4],
+                        pointRadius: 0,
+                        tension: 0,
+                        fill: false,
+                        order: 3,
+                    },
+                    {
+                        label: `UCL +3σ  ${UCL.toFixed(4)}`,
+                        data: flat(UCL),
+                        borderColor: COLORS.border.danger,
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        borderDash: [6, 3],
+                        pointRadius: 0,
+                        tension: 0,
+                        fill: false,
+                        order: 4,
+                    },
+                    {
+                        label: `LCL −3σ  ${LCL.toFixed(4)}`,
+                        data: flat(LCL),
+                        borderColor: COLORS.border.danger,
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        borderDash: [6, 3],
+                        pointRadius: 0,
+                        tension: 0,
+                        fill: false,
+                        order: 5,
+                    },
+                    {
+                        label: `UWL +2σ  ${UWL.toFixed(4)}`,
+                        data: flat(UWL),
+                        borderColor: COLORS.border.warning,
+                        backgroundColor: 'transparent',
+                        borderWidth: 1.5,
+                        borderDash: [4, 4],
+                        pointRadius: 0,
+                        tension: 0,
+                        fill: false,
+                        order: 6,
+                    },
+                    {
+                        label: `LWL −2σ  ${LWL.toFixed(4)}`,
+                        data: flat(LWL),
+                        borderColor: COLORS.border.warning,
+                        backgroundColor: 'transparent',
+                        borderWidth: 1.5,
+                        borderDash: [4, 4],
+                        pointRadius: 0,
+                        tension: 0,
+                        fill: false,
+                        order: 7,
+                    },
+                ]
+            },
+            options: {
+                ...baseOptions(title),
+                plugins: {
+                    ...baseOptions().plugins,
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            font: { family: "'Segoe UI', sans-serif", size: 10 },
+                            color: '#555',
+                            padding: 10,
+                            usePointStyle: true,
+                            pointStyleWidth: 14,
+                        }
+                    },
+                }
+            }
+        };
+        destroyChart();
+        chartInstance = new Chart(getCanvas(), cfg);
+    }
+    // ========================================
+    // DISTRIBUCIÓN NORMAL
+    // histograma observado + curva teórica superpuesta
+    // ========================================
+    function renderDistribucionNormal(data, col) {
+        const values = getColumnValues(data, col);
+        if (values.length === 0)
+            throw new Error(`"${col}" no tiene valores numéricos.`);
+        const n = values.length;
+        const mean = values.reduce((a, b) => a + b, 0) / n;
+        const sd = Math.sqrt(values.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / (n - 1));
+        // ── Histograma ─────────────────────────────────
+        const bins = Math.max(8, Math.min(20, Math.ceil(Math.sqrt(n))));
+        const minVal = Math.min(...values);
+        const maxVal = Math.max(...values);
+        const binSize = (maxVal - minVal) / bins;
+        const counts = Array(bins).fill(0);
+        const binCenters = [];
+        const binLabels = [];
+        for (let i = 0; i < bins; i++) {
+            const lo = minVal + i * binSize;
+            const hi = lo + binSize;
+            const center = (lo + hi) / 2;
+            binCenters.push(center);
+            binLabels.push(center.toFixed(4));
+            values.forEach(v => {
+                if (v >= lo && (v < hi || (i === bins - 1 && v <= hi)))
+                    counts[i]++;
+            });
+        }
+        // ── Curva normal teórica (escalada a frecuencias) ──
+        const pdf = x => (1 / (sd * Math.sqrt(2 * Math.PI))) *
+            Math.exp(-0.5 * Math.pow((x - mean) / sd, 2));
+        const normalFreqs = binCenters.map(x => pdf(x) * binSize * n);
+        const title = `Distribución Normal — ${col}   |   μ = ${mean.toFixed(4)}   σ = ${sd.toFixed(4)}   n = ${n}`;
+        const cfg = {
+            type: 'bar',
+            data: {
+                labels: binLabels,
+                datasets: [
+                    {
+                        label: `Frecuencia observada — ${col}`,
+                        data: counts,
+                        backgroundColor: 'rgba(102,126,234,0.40)',
+                        borderColor: 'rgba(102,126,234,1)',
+                        borderWidth: 1,
+                        borderRadius: 2,
+                        borderSkipped: false,
+                        barPercentage: 1.0,
+                        categoryPercentage: 1.0,
+                        order: 2,
+                    },
+                    {
+                        label: `Curva teórica  μ=${mean.toFixed(4)}  σ=${sd.toFixed(4)}`,
+                        data: normalFreqs,
+                        type: 'line',
+                        borderColor: COLORS.border.danger,
+                        backgroundColor: 'rgba(229,57,53,0.07)',
+                        borderWidth: 2.5,
+                        pointRadius: 0,
+                        tension: 0.45,
+                        fill: true,
+                        order: 1,
+                    },
+                ]
+            },
+            options: {
+                ...baseOptions(title),
+                plugins: {
+                    ...baseOptions().plugins,
+                    tooltip: {
+                        ...baseOptions().plugins.tooltip,
+                        callbacks: {
+                            label: ctx => ctx.datasetIndex === 0
+                                ? ` ${ctx.raw} observaciones`
+                                : ` Frec. esperada: ${Number(ctx.raw).toFixed(2)}`
+                        }
+                    }
+                }
+            }
+        };
+        destroyChart();
+        chartInstance = new Chart(getCanvas(), cfg);
+    }
+    // ========================================
+    // GRÁFICO DE PARETO (barras + línea)
+    // ========================================
+    function renderPareto(data) {
+        if (!data || !data.datosCompletos)
+            return;
+        const labels = data.datosCompletos.map(d => d.categoria);
+        const conteos = data.datosCompletos.map(d => d.conteo);
+        const acumulado = data.datosCompletos.map(d => d.acumulado);
+        const cfg = {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        type: 'bar',
+                        label: 'Conteo',
+                        data: conteos,
+                        backgroundColor: 'rgba(37, 99, 235, 0.8)',
+                        borderColor: 'rgba(29, 78, 189, 1)',
+                        borderWidth: 1.5,
+                        order: 2,
+                        yAxisID: 'y',
+                    },
+                    {
+                        type: 'line',
+                        label: '% Acumulado',
+                        data: acumulado,
+                        borderColor: 'rgba(220, 38, 38, 0.9)',
+                        backgroundColor: 'rgba(220, 38, 38, 0)',
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointBackgroundColor: 'rgba(220, 38, 38, 1)',
+                        tension: 0.1,
+                        order: 1,
+                        yAxisID: 'y1',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: `Diagrama de Pareto — ${data.vitales} categorías causan ${data.pareto80}% del problema`,
+                        font: { size: 15, weight: 'bold' },
+                        color: '#1e3a8a',
+                        padding: { bottom: 15 }
+                    },
+                    legend: {
+                        position: 'top',
+                        labels: { usePointStyle: true, padding: 15 }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => {
+                                if (ctx.dataset.label === 'Conteo') {
+                                    return `Conteo: ${ctx.raw}`;
+                                }
+                                return `% Acumulado: ${ctx.raw}%`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { maxRotation: 45, minRotation: 45 }
+                    },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: { display: true, text: 'Conteo' },
+                        grid: { color: 'rgba(0,0,0,0.08)' }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        min: 0,
+                        max: 100,
+                        title: { display: true, text: '% Acumulado' },
+                        grid: { display: false },
+                        ticks: { callback: v => v + '%' }
+                    }
+                }
+            }
+        };
+        destroyChart();
+        chartInstance = new Chart(getCanvas(), cfg);
+    }
+    // ========================================
+    // UTILIDAD PERCENTIL (para box plot)
+    // ========================================
+    function percentil(sorted, p) {
+        if (!sorted.length)
+            return 0;
+        const idx = (p / 100) * (sorted.length - 1);
+        const lo = Math.floor(idx);
+        const hi = Math.ceil(idx);
+        if (lo === hi)
+            return sorted[lo];
+        return sorted[lo] + (sorted[hi] - sorted[lo]) * (idx - lo);
+    }
+    // ========================================
+    // EXPORTAR GRÁFICO COMO IMAGEN
+    // ========================================
+    function exportarImagen(nombreArchivo = 'grafico') {
+        const canvas = getCanvas();
+        if (!canvas) {
+            alert('No hay gráfico para exportar.');
+            return;
+        }
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = `${nombreArchivo}_${new Date().toISOString().slice(0, 10)}.png`;
+        link.click();
+    }
+    // ========================================
+    // CONSTRUIR LA UI DE VISUALIZACIÓN
+    // (llamada desde script.js al inicializar la vista)
+    // ========================================
+    function buildUI(containerId) {
+        const container = document.getElementById(containerId);
+        if (!container)
+            return;
+        container.innerHTML = `
+            <div class="viz-layout">
+
+                <!-- Panel de controles -->
+                <div class="viz-controls-panel">
+                    <div class="viz-section">
+                        <label class="viz-label">Fuente de datos</label>
+                        <div class="viz-source-toggle">
+                            <button class="viz-source-btn active" data-source="imported">📥 Importados</button>
+                            <button class="viz-source-btn" data-source="analisis">📊 Análisis</button>
+                        </div>
+                    </div>
+
+                    <div class="viz-section">
+                        <label class="viz-label">Tipo de gráfico</label>
+                            <div class="viz-chart-types">
+                                <button class="viz-type-btn active" data-type="barras" title="Barras">
+                                    <span class="viz-type-icon">▊▋▌</span>
+                                    <span>Barras</span>
+                                </button>
+                                <button class="viz-type-btn" data-type="barras-h" title="Barras horizontales">
+                                    <span class="viz-type-icon">≡</span>
+                                    <span>Horiz.</span>
+                                </button>
+                                <button class="viz-type-btn" data-type="lineas" title="Líneas">
+                                    <span class="viz-type-icon">∿</span>
+                                    <span>Líneas</span>
+                                </button>
+                                <button class="viz-type-btn" data-type="area" title="Área">
+                                    <span class="viz-type-icon">◿</span>
+                                    <span>Área</span>
+                                </button>
+                                <button class="viz-type-btn" data-type="dispersion" title="Dispersión">
+                                    <span class="viz-type-icon">⁖</span>
+                                    <span>Scatter</span>
+                                </button>
+                                <button class="viz-type-btn" data-type="histograma" title="Histograma">
+                                    <span class="viz-type-icon">▁▃▅▇</span>
+                                    <span>Histog.</span>
+                                </button>
+                                <button class="viz-type-btn" data-type="boxplot" title="Box Plot">
+                                    <span class="viz-type-icon">⊡</span>
+                                    <span>Box Plot</span>
+                                </button>
+                                <button class="viz-type-btn" data-type="control" title="Gráfico de Control">
+                                    <span class="viz-type-icon">📉</span>
+                                    <span>Control</span>
+                                </button>
+                                 <button class="viz-type-btn" data-type="dnormal" title="Distribución Normal">
+                                     <span class="viz-type-icon">⌒</span>
+                                     <span>Dist. N.</span>
+                                 </button>
+                                 <button class="viz-type-btn" data-type="heatmap" title="Matriz de Correlación">
+                                     <span class="viz-type-icon">▦</span>
+                                     <span>Correlación</span>
+                                 </button>
+                                 <button class="viz-type-btn" data-type="violin" title="Violin Plot">
+                                     <span class="viz-type-icon">▽</span>
+                                     <span>Violin</span>
+                                 </button>
+                                 <button class="viz-type-btn" data-type="radar" title="Radar Chart">
+                                     <span class="viz-type-icon">⬡</span>
+                                     <span>Radar</span>
+                                 </button>
+                            </div>
+                    </div>
+
+                    <div class="viz-section" id="viz-col-x-section">
+                        <label class="viz-label" id="viz-col-x-label">Columna X (categoría / eje)</label>
+                        <select class="viz-select" id="viz-col-x">
+                            <option value="">— Sin datos cargados —</option>
+                        </select>
+                    </div>
+
+                    <div class="viz-section" id="viz-col-y-section">
+                        <label class="viz-label" id="viz-col-y-label">Columna Y (valor numérico)</label>
+                        <select class="viz-select" id="viz-col-y">
+                            <option value="">— Sin datos cargados —</option>
+                        </select>
+                    </div>
+
+                    <!-- Bins para histograma -->
+                    <div class="viz-section" id="viz-bins-section" style="display:none">
+                        <label class="viz-label">Número de intervalos (bins): <strong id="viz-bins-val">10</strong></label>
+                        <input type="range" id="viz-bins" min="3" max="30" value="10" class="viz-slider">
+                    </div>
+
+                    <!-- Selección múltiple para box plot -->
+                    <div class="viz-section" id="viz-boxplot-section" style="display:none">
+                        <label class="viz-label">Columnas a comparar</label>
+                        <div id="viz-boxplot-cols" class="viz-checkbox-group"></div>
+                    </div>
+
+                    <button class="viz-btn-render" id="viz-btn-render">
+                        ▶ Generar gráfico
+                    </button>
+
+                    <button class="viz-btn-export" id="viz-btn-export">
+                        📥 Exportar PNG
+                    </button>
+                </div>
+
+                <!-- Canvas del gráfico -->
+                <div class="viz-canvas-panel">
+                    <div class="viz-canvas-wrapper" id="viz-canvas-wrapper">
+                        <div class="viz-empty-state" id="viz-empty-state">
+                            <div class="viz-empty-icon">📊</div>
+                            <p>Configura los parámetros y pulsa <strong>Generar gráfico</strong></p>
+                        </div>
+                        <canvas id="viz-canvas" style="display:none"></canvas>
+                    </div>
+
+                    <!-- Info del gráfico actual -->
+                    <div class="viz-chart-info" id="viz-chart-info" style="display:none">
+                        <span id="viz-info-text"></span>
+                    </div>
+                </div>
+            </div>
+        `;
+        attachUIListeners();
+    }
+    // ========================================
+    // LÓGICA DE LA UI
+    // ========================================
+    let currentSource = 'imported';
+    let currentType = 'barras';
+    let _resultadosPareto = null; // guardar resultados de Pareto para auto-render
+    function setResultadosPareto(data) {
+        _resultadosPareto = data;
+    }
+    function attachUIListeners() {
+        // Fuente de datos
+        document.querySelectorAll('.viz-source-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.viz-source-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentSource = btn.dataset.source;
+                refreshSelects();
+            });
+        });
+        // Tipo de gráfico
+        document.querySelectorAll('.viz-type-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.viz-type-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentType = btn.dataset.type;
+                updateControlVisibility();
+                refreshSelects();
+            });
+        });
+        // Bins slider
+        document.getElementById('viz-bins')?.addEventListener('input', e => {
+            document.getElementById('viz-bins-val').textContent = e.target.value;
+        });
+        // Botón generar
+        document.getElementById('viz-btn-render')?.addEventListener('click', renderGrafico);
+        // Botón exportar
+        document.getElementById('viz-btn-export')?.addEventListener('click', () => {
+            const colX = document.getElementById('viz-col-x')?.value || 'grafico';
+            exportarImagen(colX);
+        });
+        // Inicializar
+        refreshSelects();
+        updateControlVisibility();
+    }
+    function getCurrentData() {
+        if (currentSource === 'imported') {
+            return _getData();
+        }
+        // Fuente: resultados del análisis — construimos un dataset a partir de ultimosResultados
+        if (typeof ultimosResultados !== 'undefined' && ultimosResultados) {
+            return buildDataFromResultados(ultimosResultados);
+        }
+        return null;
+    }
+    function buildDataFromResultados(res) {
+        // Convertir resultados estadísticos a formato {headers, data, rowCount}
+        const stats = Object.keys(res.resultados);
+        const cols = res.columnasAnalizadas;
+        const headers = ['Estadístico', ...cols];
+        const data = [];
+        stats.forEach(stat => {
+            const row = { 'Estadístico': stat };
+            cols.forEach(col => {
+                const val = res.resultados[stat][col];
+                if (typeof val === 'object' && !Array.isArray(val)) {
+                    // Percentiles etc: aplanar
+                    Object.keys(val).forEach(k => {
+                        row[`${col}_${k}`] = val[k];
+                    });
+                }
+                else if (Array.isArray(val)) {
+                    row[col] = val.join(', ');
+                }
+                else {
+                    row[col] = val;
+                }
+            });
+            data.push(row);
+        });
+        return { headers, data, rowCount: data.length };
+    }
+    function refreshSelects() {
+        const data = getCurrentData();
+        const selX = document.getElementById('viz-col-x');
+        const selY = document.getElementById('viz-col-y');
+        const cbGroup = document.getElementById('viz-boxplot-cols');
+        if (!selX || !selY)
+            return;
+        if (!data) {
+            const empty = '<option value="">— Sin datos cargados —</option>';
+            selX.innerHTML = empty;
+            selY.innerHTML = empty;
+            if (cbGroup)
+                cbGroup.innerHTML = '<p style="color:#999;font-size:0.85rem;">Sin datos cargados</p>';
+            return;
+        }
+        const allCols = getAllColumns(data);
+        const numCols = getNumericColumns(data);
+        // ColX: todas las columnas
+        selX.innerHTML = allCols.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+        // ColY: solo numéricas
+        selY.innerHTML = numCols.length > 0
+            ? numCols.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('')
+            : '<option value="">No hay columnas numéricas</option>';
+        // Box plot checkboxes
+        if (cbGroup) {
+            cbGroup.innerHTML = numCols.map((c, i) => `
+                <label class="viz-checkbox-label">
+                    <input type="checkbox" value="${escapeHtml(c)}" ${i < 3 ? 'checked' : ''}>
+                    <span>${escapeHtml(c)}</span>
+                </label>
+            `).join('');
+        }
+        // Actualizar label col X según tipo
+        updateColLabels();
+    }
+    function updateColLabels() {
+        const labelX = document.getElementById('viz-col-x-label');
+        const labelY = document.getElementById('viz-col-y-label');
+        if (!labelX || !labelY)
+            return;
+        switch (currentType) {
+            case 'dispersion':
+                labelX.textContent = 'Columna X (numérica)';
+                labelY.textContent = 'Columna Y (numérica)';
+                break;
+            case 'histograma':
+            case 'control':
+            case 'dnormal':
+                labelX.textContent = 'Columna a analizar';
+                break;
+            case 'heatmap':
+            case 'violin':
+            case 'radar':
+                labelX.textContent = 'Selecciona variables';
+                labelY.textContent = '';
+                break;
+            default:
+                labelX.textContent = 'Columna X (categoría / eje)';
+                labelY.textContent = 'Columna Y (valor numérico)';
+        }
+    }
+    function updateControlVisibility() {
+        const isBoxPlot = currentType === 'boxplot';
+        const isHistograma = currentType === 'histograma';
+        const isControl = currentType === 'control';
+        const isDNormal = currentType === 'dnormal';
+        // Tipos que solo necesitan una columna (colX)
+        const soloColX = isHistograma || isControl || isDNormal;
+        const colXSection = document.getElementById('viz-col-x-section');
+        const colYSection = document.getElementById('viz-col-y-section');
+        const binsSection = document.getElementById('viz-bins-section');
+        const boxplotSection = document.getElementById('viz-boxplot-section');
+        if (colXSection)
+            colXSection.style.display = isBoxPlot ? 'none' : 'block';
+        if (colYSection)
+            colYSection.style.display = (isBoxPlot || soloColX) ? 'none' : 'block';
+        if (binsSection)
+            binsSection.style.display = isHistograma ? 'block' : 'none';
+        if (boxplotSection)
+            boxplotSection.style.display = isBoxPlot ? 'block' : 'none';
+        updateColLabels();
+    }
+    function mostrarCanvas() {
+        const empty = document.getElementById('viz-empty-state');
+        const canvas = document.getElementById('viz-canvas');
+        if (empty)
+            empty.style.display = 'none';
+        if (canvas)
+            canvas.style.display = 'block';
+    }
+    function mostrarInfo(texto) {
+        const info = document.getElementById('viz-chart-info');
+        const txt = document.getElementById('viz-info-text');
+        if (info)
+            info.style.display = 'flex';
+        if (txt)
+            txt.textContent = texto;
+    }
+    function renderGrafico() {
+        // Auto-detectar Pareto en los resultados
+        const ultimosResultados = (typeof window.ultimosResultados !== 'undefined') ? window.ultimosResultados : null;
+        if (ultimosResultados && ultimosResultados['Diagrama de Pareto']) {
+            renderPareto(ultimosResultados['Diagrama de Pareto']);
+            return;
+        }
+        // Check if we have stored Pareto results
+        if (_resultadosPareto) {
+            renderPareto(_resultadosPareto);
+            return;
+        }
+        const data = getCurrentData();
+        if (!data || !data.data || data.data.length === 0) {
+            alert('⚠️ No hay datos disponibles.\n\nImporta datos o ejecuta un análisis primero.');
+            return;
+        }
+        const colX = document.getElementById('viz-col-x')?.value;
+        const colY = document.getElementById('viz-col-y')?.value;
+        try {
+            mostrarCanvas();
+            switch (currentType) {
+                case 'barras':
+                    if (!colX || !colY) {
+                        alert('⚠️ Selecciona las columnas X e Y.');
+                        return;
+                    }
+                    renderBarras(data, colX, colY, false);
+                    mostrarInfo(`Barras: ${colY} por ${colX} · ${data.rowCount} registros`);
+                    break;
+                case 'barras-h':
+                    if (!colX || !colY) {
+                        alert('⚠️ Selecciona las columnas X e Y.');
+                        return;
+                    }
+                    renderBarras(data, colX, colY, true);
+                    mostrarInfo(`Barras horizontales: ${colY} por ${colX} · ${data.rowCount} registros`);
+                    break;
+                case 'lineas':
+                    if (!colX || !colY) {
+                        alert('⚠️ Selecciona las columnas X e Y.');
+                        return;
+                    }
+                    renderLineas(data, colX, colY, false);
+                    mostrarInfo(`Líneas: ${colY} a lo largo de ${colX} · ${data.rowCount} registros`);
+                    break;
+                case 'area':
+                    if (!colX || !colY) {
+                        alert('⚠️ Selecciona las columnas X e Y.');
+                        return;
+                    }
+                    renderLineas(data, colX, colY, true);
+                    mostrarInfo(`Área: ${colY} a lo largo de ${colX} · ${data.rowCount} registros`);
+                    break;
+                case 'dispersion': {
+                    if (!colX || !colY) {
+                        alert('⚠️ Selecciona las columnas X e Y.');
+                        return;
+                    }
+                    renderDispersion(data, colX, colY);
+                    mostrarInfo(`Dispersión: ${colX} vs ${colY} · ${data.rowCount} puntos`);
+                    break;
+                }
+                case 'histograma': {
+                    if (!colX) {
+                        alert('⚠️ Selecciona la columna a analizar.');
+                        return;
+                    }
+                    const bins = parseInt(document.getElementById('viz-bins')?.value) || 10;
+                    renderHistograma(data, colX, bins);
+                    mostrarInfo(`Histograma: ${colX} · ${bins} intervalos · ${data.rowCount} registros`);
+                    break;
+                }
+                case 'boxplot': {
+                    const checked = Array.from(document.querySelectorAll('#viz-boxplot-cols input:checked')).map(cb => cb.value);
+                    if (checked.length === 0) {
+                        alert('⚠️ Selecciona al menos una columna.');
+                        return;
+                    }
+                    renderBoxPlot(data, checked);
+                    mostrarInfo(`Box Plot: ${checked.join(', ')} · ${data.rowCount} registros`);
+                    break;
+                }
+                case 'control': {
+                    if (!colX) {
+                        alert('⚠️ Selecciona la columna a analizar.');
+                        return;
+                    }
+                    renderControlChart(data, colX);
+                    mostrarInfo(`Gráfico de Control: ${colX} · ${data.rowCount} observaciones`);
+                    break;
+                }
+                case 'dnormal': {
+                    if (!colX) {
+                        alert('⚠️ Selecciona la columna a analizar.');
+                        return;
+                    }
+                    renderDistribucionNormal(data, colX);
+                    mostrarInfo(`Distribución Normal: ${colX} · ${data.rowCount} observaciones`);
+                    break;
+                }
+                case 'heatmap': {
+                    const numCols = getNumericColumns(data);
+                    if (numCols.length === 0) {
+                        alert('⚠️ No hay columnas numéricas para correlación.');
+                        return;
+                    }
+                    renderHeatmap(data, numCols);
+                    mostrarInfo(`Matriz de Correlación: ${numCols.length} variables`);
+                    break;
+                }
+                case 'violin': {
+                    const checked = Array.from(document.querySelectorAll('#viz-boxplot-cols input[type="checkbox"]:checked'))
+                        .map(cb => cb.value);
+                    if (checked.length === 0) {
+                        alert('⚠️ Selecciona al menos una columna.');
+                        return;
+                    }
+                    renderViolin(data, checked);
+                    mostrarInfo(`Violin Plot: ${checked.length} variables`);
+                    break;
+                }
+                case 'radar': {
+                    const checked = Array.from(document.querySelectorAll('#viz-boxplot-cols input[type="checkbox"]:checked'))
+                        .map(cb => cb.value);
+                    if (checked.length === 0) {
+                        alert('⚠️ Selecciona al menos una columna.');
+                        return;
+                    }
+                    renderRadar(data, checked);
+                    mostrarInfo(`Radar Chart: ${checked.length} variables`);
+                    break;
+                }
+            }
+        }
+        catch (err) {
+            console.error('Error al generar gráfico:', err);
+            alert('❌ Error al generar el gráfico:\n\n' + err.message);
+        }
+    }
+    // ========================================
+    // API PÚBLICA
+    // ========================================
+    // ========================================
+    // MODO EXPORTACIÓN — SELECCIÓN DE GRÁFICOS
+    // ========================================
+    let _graficosParaReporte = [];
+    let _modoExportacion = false;
+    // ── Lista de gráficos predefinidos según el dataset ──
+    function _getPredefinidosDisponibles() {
+        const data = _getData();
+        if (!data)
+            return [];
+        const numCols = getNumericColumns(data);
+        const predefinidos = [];
+        // Histograma por columna numérica
+        numCols.forEach(col => {
+            predefinidos.push({
+                id: `hist_${col}`.replace(/\W+/g, '_'),
+                label: `Histograma — ${col}`,
+                icono: '▁▃▅▇',
+                tipo: 'histograma',
+                config: { colX: col, bins: 10 }
+            });
+        });
+        // Box Plot de todas las columnas
+        if (numCols.length > 0) {
+            predefinidos.push({
+                id: 'boxplot_all',
+                label: `Box Plot — ${numCols.slice(0, 3).join(', ')}${numCols.length > 3 ? '…' : ''}`,
+                icono: '⊡',
+                tipo: 'boxplot',
+                config: { columnas: numCols }
+            });
+        }
+        // Líneas (tendencia) por columna numérica
+        numCols.forEach(col => {
+            predefinidos.push({
+                id: `lineas_${col}`.replace(/\W+/g, '_'),
+                label: `Tendencia (Líneas) — ${col}`,
+                icono: '∿',
+                tipo: 'lineas_indice',
+                config: { colY: col }
+            });
+        });
+        // Dispersión por pares (máx 3)
+        if (numCols.length >= 2) {
+            let pares = 0;
+            outer: for (let i = 0; i < numCols.length; i++) {
+                for (let j = i + 1; j < numCols.length; j++) {
+                    if (pares >= 3)
+                        break outer;
+                    predefinidos.push({
+                        id: `scatter_${numCols[i]}_${numCols[j]}`.replace(/\W+/g, '_'),
+                        label: `Dispersión — ${numCols[i]} vs ${numCols[j]}`,
+                        icono: '⁖',
+                        tipo: 'dispersion',
+                        config: { colX: numCols[i], colY: numCols[j] }
+                    });
+                    pares++;
+                }
+            }
+        }
+        // Gráfico de control por columna numérica
+        numCols.forEach(col => {
+            predefinidos.push({
+                id: `control_${col}`.replace(/\W+/g, '_'),
+                label: `Control — ${col}`,
+                icono: '📉',
+                tipo: 'control',
+                config: { col }
+            });
+        });
+        // Distribución normal por columna numérica
+        numCols.forEach(col => {
+            predefinidos.push({
+                id: `dnormal_${col}`.replace(/\W+/g, '_'),
+                label: `Dist. Normal — ${col}`,
+                icono: '⌒',
+                tipo: 'dnormal',
+                config: { col }
+            });
+        });
+        // Heatmap de correlación (solo uno para todas las variables numéricas)
+        if (numCols.length >= 2) {
+            predefinidos.push({
+                id: 'heatmap_correlacion',
+                label: 'Matriz de Correlación',
+                icono: '▦',
+                tipo: 'heatmap',
+                config: {} // Se usan todas las columnas numéricas
+            });
+        }
+        // Violin Plot de todas las columnas numéricas
+        if (numCols.length > 0) {
+            predefinidos.push({
+                id: 'violin_all',
+                label: `Violin Plot — ${numCols.slice(0, 3).join(', ')}${numCols.length > 3 ? '…' : ''}`,
+                icono: '▽',
+                tipo: 'violin',
+                config: { columnas: numCols }
+            });
+        }
+        // Radar Chart de todas las columnas numéricas
+        if (numCols.length >= 2) {
+            predefinidos.push({
+                id: 'radar_all',
+                label: `Radar Chart — ${numCols.slice(0, 3).join(', ')}${numCols.length > 3 ? '…' : ''}`,
+                icono: '⬡',
+                tipo: 'radar',
+                config: { columnas: numCols }
+            });
+        }
+        return predefinidos;
+    }
+    function _tipoLabel(tipo) {
+        return {
+            histograma: 'Histograma',
+            boxplot: 'Box Plot',
+            lineas_indice: 'Gráfico de Líneas',
+            dispersion: 'Dispersión',
+            control: 'Gráfico de Control',
+            dnormal: 'Distribución Normal',
+            heatmap: 'Matriz de Correlación',
+            violin: 'Violin Plot',
+            radar: 'Radar Chart'
+        }[tipo] || tipo;
+    }
+    // ── Inyectar panel de selección en la vista ──
+    function activarModoExportacion() {
+        _modoExportacion = true;
+        _graficosParaReporte = [];
+        document.getElementById('viz-export-panel')?.remove();
+        // ★ FIX: operar sobre el panel de controles, NO sobre viz-layout
+        const controlsPanel = document.querySelector('.viz-controls-panel');
+        if (!controlsPanel)
+            return;
+        const predefinidos = _getPredefinidosDisponibles();
+        const panel = document.createElement('div');
+        panel.id = 'viz-export-panel';
+        panel.className = 'viz-export-panel';
+        panel.innerHTML = `
+        <div class="viz-export-header">
+            <span class="viz-export-badge">MODO REPORTE</span>
+            <button class="viz-export-close" id="viz-export-close" title="Cancelar">✕</button>
+        </div>
+        <div class="viz-export-subtitle">
+            <p>Selecciona los gráficos a incluir</p>
+            <div class="viz-export-subtitle-row">
+                <button class="viz-btn-sel-all" id="viz-btn-sel-all">✓ Seleccionar todos</button>
+                <button class="viz-btn-desel-all" id="viz-btn-desel-all">✕ Desmarcar todos</button>
+            </div>
+        </div>
+
+        <div class="viz-predefinidos-list" id="viz-predefinidos-grid">
+            ${predefinidos.length === 0
+            ? '<p class="viz-pred-empty">No hay datos cargados.</p>'
+            : predefinidos.map(p => `
+                    <label class="viz-pred-item viz-pred-selected"
+                           id="viz-pred-wrap-${escapeHtml(p.id)}">
+                        <input type="checkbox" class="viz-pred-check"
+                               id="viz-pred-${escapeHtml(p.id)}" value="${escapeHtml(p.id)}" checked>
+                        <div class="viz-pred-body">
+                            <div class="viz-pred-icon">${escapeHtml(p.icono)}</div>
+                            <div class="viz-pred-info">
+                                <div class="viz-pred-label">${escapeHtml(p.label)}</div>
+                                <div class="viz-pred-type">${escapeHtml(_tipoLabel(p.tipo))}</div>
+                            </div>
+                            <div class="viz-pred-checkmark">✓</div>
+                        </div>
+                    </label>`).join('')}
+        </div>
+
+        <div class="viz-export-progress" id="viz-export-progress" style="display:none">
+            <div class="viz-progress-bar">
+                <div class="viz-progress-fill" id="viz-progress-fill" style="width:0%"></div>
+            </div>
+            <span id="viz-progress-text" class="viz-progress-text">Preparando...</span>
+        </div>
+
+        <div class="viz-export-footer">
+            <span class="viz-export-count" id="viz-export-count">
+                ${predefinidos.length} gráfico(s) seleccionado(s)
+            </span>
+            <button class="viz-btn-generate-all" id="viz-btn-generate-all"
+                    ${predefinidos.length === 0 ? 'disabled' : ''}>
+                ⚙️ Generar seleccionados
+            </button>
+            <button class="viz-btn-continue" id="viz-btn-continue" disabled>
+                Continuar al reporte →
+            </button>
+        </div>`;
+        // ★ FIX: reemplazar el panel de controles en el DOM
+        controlsPanel.style.display = 'none';
+        controlsPanel.parentNode.insertBefore(panel, controlsPanel);
+        _attachExportPanelListeners(predefinidos, controlsPanel);
+    }
+    function _attachExportPanelListeners(predefinidos, controlsPanel) {
+        // ★ FIX: al cancelar, restaurar el panel de controles
+        document.getElementById('viz-export-close')?.addEventListener('click', () => {
+            document.getElementById('viz-export-panel')?.remove();
+            if (controlsPanel)
+                controlsPanel.style.display = '';
+            _modoExportacion = false;
+            _graficosParaReporte = [];
+        });
+        document.getElementById('viz-btn-sel-all')?.addEventListener('click', () => {
+            predefinidos.forEach(p => {
+                const cb = document.getElementById(`viz-pred-${p.id}`);
+                const wrap = document.getElementById(`viz-pred-wrap-${p.id}`);
+                if (cb && !cb.checked) {
+                    cb.checked = true;
+                    wrap?.classList.add('viz-pred-selected');
+                }
+            });
+            _actualizarContadorExport();
+            const btnCont = document.getElementById('viz-btn-continue');
+            if (btnCont)
+                btnCont.disabled = true;
+            _graficosParaReporte = [];
+        });
+        document.getElementById('viz-btn-desel-all')?.addEventListener('click', () => {
+            predefinidos.forEach(p => {
+                const cb = document.getElementById(`viz-pred-${p.id}`);
+                const wrap = document.getElementById(`viz-pred-wrap-${p.id}`);
+                if (cb) {
+                    cb.checked = false;
+                    wrap?.classList.remove('viz-pred-selected');
+                }
+            });
+            _actualizarContadorExport();
+            const btnCont = document.getElementById('viz-btn-continue');
+            if (btnCont)
+                btnCont.disabled = true;
+            _graficosParaReporte = [];
+        });
+        predefinidos.forEach(p => {
+            document.getElementById(`viz-pred-${p.id}`)?.addEventListener('change', e => {
+                document.getElementById(`viz-pred-wrap-${p.id}`)
+                    ?.classList.toggle('viz-pred-selected', e.target.checked);
+                _actualizarContadorExport();
+                const btnCont = document.getElementById('viz-btn-continue');
+                if (btnCont)
+                    btnCont.disabled = true;
+                _graficosParaReporte = [];
+            });
+        });
+        document.getElementById('viz-btn-generate-all')?.addEventListener('click', async () => {
+            const seleccionados = predefinidos.filter(p => document.getElementById(`viz-pred-${p.id}`)?.checked);
+            if (seleccionados.length === 0) {
+                alert('⚠️ Selecciona al menos un gráfico.');
+                return;
+            }
+            await _generarTodos(seleccionados);
+        });
+        // ★ FIX: restaurar controles también al continuar
+        document.getElementById('viz-btn-continue')?.addEventListener('click', () => {
+            if (_graficosParaReporte.length === 0)
+                return;
+            document.getElementById('viz-export-panel')?.remove();
+            if (controlsPanel)
+                controlsPanel.style.display = '';
+            _modoExportacion = false;
+            switchView('reportes');
+            inicializarReportes();
+        });
+    }
+    function _actualizarContadorExport() {
+        const n = document.querySelectorAll('.viz-pred-check:checked').length;
+        const el = document.getElementById('viz-export-count');
+        if (el)
+            el.textContent = `${n} gráfico(s) seleccionado(s)`;
+    }
+    async function _generarTodos(seleccionados) {
+        const progress = document.getElementById('viz-export-progress');
+        const fill = document.getElementById('viz-progress-fill');
+        const text = document.getElementById('viz-progress-text');
+        const btnGen = document.getElementById('viz-btn-generate-all');
+        const btnCont = document.getElementById('viz-btn-continue');
+        if (progress)
+            progress.style.display = 'block';
+        if (btnGen)
+            btnGen.disabled = true;
+        _graficosParaReporte = [];
+        for (let i = 0; i < seleccionados.length; i++) {
+            const pred = seleccionados[i];
+            const pct = Math.round((i / seleccionados.length) * 100);
+            if (fill)
+                fill.style.width = `${pct}%`;
+            if (text)
+                text.textContent = `Generando ${i + 1} / ${seleccionados.length}: ${pred.label}...`;
+            try {
+                const imagen = await _generarYCapturar(pred);
+                _graficosParaReporte.push({
+                    titulo: pred.label,
+                    tipo: _tipoLabel(pred.tipo),
+                    imagen
+                });
+            }
+            catch (err) {
+                console.warn(`No se pudo generar "${pred.label}":`, err);
+            }
+            await new Promise(r => setTimeout(r, 200));
+        }
+        if (fill)
+            fill.style.width = '100%';
+        if (text)
+            text.textContent =
+                `✅ ${_graficosParaReporte.length} / ${seleccionados.length} gráfico(s) listo(s) para el reporte`;
+        if (btnCont)
+            btnCont.disabled = (_graficosParaReporte.length === 0);
+        if (btnGen)
+            btnGen.disabled = false;
+    }
+    async function _generarYCapturar(pred) {
+        // Asegurarse que el canvas está visible
+        mostrarCanvas();
+        const data = _getData();
+        if (!data)
+            throw new Error('Sin datos');
+        switch (pred.tipo) {
+            case 'histograma':
+                renderHistograma(data, pred.config.colX, pred.config.bins);
+                break;
+            case 'boxplot':
+                renderBoxPlot(data, pred.config.columnas);
+                break;
+            case 'lineas_indice': {
+                // Agregar columna de índice como eje X
+                const dataConN = {
+                    headers: ['N°', ...data.headers],
+                    data: data.data.map((row, i) => ({ 'N°': i + 1, ...row })),
+                    rowCount: data.rowCount
+                };
+                renderLineas(dataConN, 'N°', pred.config.colY, false);
+                break;
+            }
+            case 'dispersion':
+                renderDispersion(data, pred.config.colX, pred.config.colY);
+                break;
+            case 'control':
+                renderControlChart(data, pred.config.col);
+                break;
+            case 'dnormal':
+                renderDistribucionNormal(data, pred.config.col);
+                break;
+            case 'heatmap':
+                const heatmapCols = getNumericColumns(data);
+                renderHeatmap(data, heatmapCols);
+                break;
+            case 'violin':
+                renderViolin(data, pred.config.columnas);
+                break;
+            case 'radar':
+                renderRadar(data, pred.config.columnas);
+                break;
+            default:
+                throw new Error(`Tipo desconocido: ${pred.tipo}`);
+        }
+        // Esperar animación de Chart.js (600ms de baseOptions + margen)
+        await new Promise(r => setTimeout(r, 750));
+        const canvas = getCanvas();
+        if (!canvas)
+            throw new Error('Canvas no encontrado');
+        return canvas.toDataURL('image/png');
+    }
+    // Getter público para ReporteManager
+    function getGraficosParaReporte() {
+        return [..._graficosParaReporte];
+    }
+    // ========================================
+    // NUEVOS TIPOS DE GRÁFICO
+    // ========================================
+    /**
+     * Renderiza matriz de correlación (heatmap)
+     */
+    function renderHeatmap(data, columnas) {
+        destroyChart();
+        const canvas = getCanvas();
+        const ctx = canvas.getContext('2d');
+        // Ajustar tamaño del canvas
+        const W = canvas.offsetWidth || 600;
+        const H = canvas.offsetHeight || 400;
+        canvas.width = W;
+        canvas.height = H;
+        // Calcular matriz de correlación
+        const corrMatrix = calcularMatrizCorrelacion(data, columnas);
+        // Configuración de layout
+        const padding = { top: 80, right: 40, bottom: 80, left: 80 };
+        const plotW = W - padding.left - padding.right;
+        const plotH = H - padding.top - padding.bottom;
+        const n = columnas.length;
+        const cellW = plotW / n;
+        const cellH = plotH / n;
+        // Limpiar canvas
+        ctx.clearRect(0, 0, W, H);
+        // Dibujar grid de correlación
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                const valor = corrMatrix[i][j];
+                // Color: azul (-1) → blanco (0) → rojo (1)
+                let r, g, b;
+                if (valor >= 0) {
+                    // Rojo para correlación positiva
+                    r = Math.floor(255 * valor);
+                    g = Math.floor(255 * (1 - valor));
+                    b = 0;
+                }
+                else {
+                    // Azul para correlación negativa
+                    r = 0;
+                    g = Math.floor(255 * (1 + valor));
+                    b = Math.floor(255 * (1 + valor));
+                }
+                ctx.fillStyle = `rgb(${r},${g},${b})`;
+                ctx.fillRect(padding.left + j * cellW, padding.top + i * cellH, cellW, cellH);
+                // Texto del valor de correlación
+                ctx.fillStyle = '#000';
+                ctx.font = '10px "Segoe UI", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(valor.toFixed(2), padding.left + j * cellW + cellW / 2, padding.top + i * cellH + cellH / 2);
+            }
+        }
+        // Dibujar etiquetas de ejes
+        ctx.fillStyle = '#333';
+        ctx.font = '11px "Segoe UI", sans-serif';
+        ctx.textAlign = 'center';
+        // Etiquetas X (abajo)
+        columnas.forEach((col, i) => {
+            ctx.save();
+            ctx.translate(padding.left + i * cellW + cellW / 2, padding.top + plotH + 20);
+            ctx.rotate(-Math.PI / 4); // 45 grados
+            ctx.fillText(col, 0, 0);
+            ctx.restore();
+        });
+        // Etiquetas Y (izquierda)
+        columnas.forEach((col, i) => {
+            ctx.fillText(col, padding.left - 10, padding.top + i * cellH + cellH / 2 + 4);
+        });
+        // Título
+        ctx.fillStyle = '#222';
+        ctx.font = '14px "Segoe UI", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Matriz de Correlación', W / 2, padding.top / 2);
+        chartInstance = null; // No usamos Chart.js para este gráfico
+    }
+    /**
+     * Renderiza violin plot
+     */
+    function renderViolin(data, columnas) {
+        destroyChart();
+        const canvas = getCanvas();
+        const ctx = canvas.getContext('2d');
+        // Ajustar tamaño del canvas
+        const W = canvas.offsetWidth || 800;
+        const H = canvas.offsetHeight || 400;
+        canvas.width = W;
+        canvas.height = H;
+        // Preparar datos
+        const datasets = columnas.map(col => getColumnValues(data, col).sort((a, b) => a - b));
+        // Configuración de layout
+        const padding = { top: 60, right: 40, bottom: 60, left: 80 };
+        const plotW = W - padding.left - padding.right;
+        const plotH = H - padding.top - padding.bottom;
+        const n = columnas.length;
+        const slotW = plotW / (n * 2); // Espacio para cada violín + separación
+        // Limpiar canvas
+        ctx.clearRect(0, 0, W, H);
+        // Dibujar grid horizontal
+        ctx.setLineDash([2, 2]);
+        ctx.strokeStyle = 'rgba(0,0,0,0.07)';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 5; i++) {
+            const y = padding.top + (plotH / 5) * i;
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(W - padding.right, y);
+            ctx.stroke();
+        }
+        ctx.setLineDash([]);
+        // Dibujar etiquetas Y
+        ctx.fillStyle = '#777';
+        ctx.font = '11px "Segoe UI", sans-serif';
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 5; i++) {
+            const valor = getMinMax(datasets).min + (getMinMax(datasets).max - getMinMax(datasets).min) * (i / 5);
+            ctx.fillText(valor.toFixed(2), padding.left - 8, padding.top + (plotH / 5) * i + 4);
+        }
+        // Dibujar cada violín
+        columnas.forEach((col, colIndex) => {
+            const values = datasets[colIndex];
+            if (values.length === 0)
+                return;
+            const centerX = padding.left + slotW * 3 + colIndex * slotW * 2;
+            // Calcular KDE (Kernel Density Estimation) simplificado
+            const kde = calcularKDE(values);
+            // Encontrar máximo para normalizar
+            const maxDensity = Math.max(...kde.densities);
+            // Dibujar forma del violín
+            ctx.beginPath();
+            kde.xValues.forEach((x, i) => {
+                const density = kde.densities[i];
+                const width = (density / maxDensity) * slotW * 0.8;
+                if (i === 0) {
+                    ctx.moveTo(centerX - width, padding.top + (1 - x) * plotH);
+                }
+                else {
+                    ctx.lineTo(centerX - width, padding.top + (1 - x) * plotH);
+                }
+            });
+            // Lado derecho (espejo)
+            for (let i = kde.xValues.length - 1; i >= 0; i--) {
+                const density = kde.densities[i];
+                const width = (density / maxDensity) * slotW * 0.8;
+                ctx.lineTo(centerX + width, padding.top + (1 - kde.xValues[i]) * plotH);
+            }
+            ctx.closePath();
+            // Estilos del violín
+            ctx.fillStyle = 'rgba(102,126,234,0.2)';
+            ctx.strokeStyle = PALETTE[colIndex % PALETTE.length];
+            ctx.lineWidth = 2;
+            ctx.fill();
+            ctx.stroke();
+            // Dibujar boxplot interno
+            dibujarBoxPlotInterno(ctx, values, centerX, padding.top, plotH);
+            // Etiqueta
+            ctx.fillStyle = '#333';
+            ctx.font = '11px "Segoe UI", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(col, centerX, padding.top + plotH + 20);
+        });
+        chartInstance = null; // No usamos Chart.js para este gráfico
+    }
+    /**
+     * Renderiza radar chart usando Chart.js
+     */
+    function renderRadar(data, columnas) {
+        destroyChart();
+        const canvas = getCanvas();
+        const ctx = canvas.getContext('2d');
+        // Preparar datos para Chart.js
+        const datasets = columnas.map((col, index) => {
+            const values = getColumnValues(data, col);
+            // Normalizar valores a 0-1 para escala consistente
+            const normalized = valoresNormalizados(values);
+            return {
+                label: col,
+                data: normalized,
+                backgroundColor: `rgba(${hexToRgb(PALETTE[index % PALETTE.length].replace('rgba(', '').replace(')', ''))},0.2)`,
+                borderColor: PALETTE[index % PALETTE.length],
+                pointBackgroundColor: PALETTE[index % PALETTE.length],
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: PALETTE[index % PALETTE.length]
+            };
+        });
+        const cfg = {
+            type: 'radar',
+            data: {
+                labels: generarEtiquetasRadar(datasets[0].data.length),
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: { duration: 600, easing: 'easeInOutQuart' },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: { family: "'Segoe UI', sans-serif", size: 12 }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(30,30,40,0.92)',
+                        titleFont: { family: "'Segoe UI', sans-serif", size: 12, weight: '600' },
+                        bodyFont: { family: "'Segoe UI', sans-serif", size: 11 }
+                    }
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(0,0,0,0.1)' },
+                        grid: { color: 'rgba(0,0,0,0.1)' },
+                        pointLabels: {
+                            font: { family: "'Segoe UI', sans-serif", size: 10 }
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 1
+                    }
+                }
+            }
+        };
+        chartInstance = new Chart(ctx, cfg);
+    }
+    // ========================================
+    // FUNCIONES AUXILIARES PARA NUEVOS GRÁFICOS
+    // ========================================
+    /**
+     * Calcula matriz de correlación de Pearson
+     */
+    function calcularMatrizCorrelacion(data, columnas) {
+        const n = columnas.length;
+        const matrix = Array(n).fill().map(() => Array(n).fill(0));
+        // Para cada par de columnas
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                if (i === j) {
+                    matrix[i][j] = 1; // Correlación de una variable consigo misma
+                }
+                else if (i < j) {
+                    // Calcular correlación solo una vez y aprovechar simetría
+                    const corr = calcularCorrelacionPearson(getColumnValues(data, columnas[i]), getColumnValues(data, columnas[j]));
+                    matrix[i][j] = corr;
+                    matrix[j][i] = corr; // Simétrica
+                }
+            }
+        }
+        return matrix;
+    }
+    /**
+     * Calcula correlación de Pearson entre dos arrays
+     */
+    function calcularCorrelacionPearson(x, y) {
+        if (x.length !== y.length || x.length === 0)
+            return 0;
+        const n = x.length;
+        let sumX = 0, sumY = 0, sumXY = 0;
+        let sumX2 = 0, sumY2 = 0;
+        for (let i = 0; i < n; i++) {
+            sumX += x[i];
+            sumY += y[i];
+            sumXY += x[i] * y[i];
+            sumX2 += x[i] * x[i];
+            sumY2 += y[i] * y[i];
+        }
+        const numerator = n * sumXY - sumX * sumY;
+        const denominator = Math.sqrt((n * sumX2 - sumX * sumX) * (n * sumY2 - sumY * sumY));
+        return denominator === 0 ? 0 : numerator / denominator;
+    }
+    /**
+     * Calcula KDE (Kernel Density Estimation) simplificado
+     */
+    function calcularKDE(values) {
+        if (values.length === 0)
+            return { xValues: [], densities: [] };
+        const minVal = Math.min(...values);
+        const maxVal = Math.max(...values);
+        const range = maxVal - minVal;
+        // Número de puntos para la curva
+        const puntos = 100;
+        const xValues = [];
+        const densities = [];
+        for (let i = 0; i < puntos; i++) {
+            const x = minVal + (range * i) / (puntos - 1);
+            xValues.push(x);
+            // Kernel gaussiano
+            let density = 0;
+            const bandwidth = Math.pow(values.length, -1 / 5) * range; // Regla de Silverman
+            for (let j = 0; j < values.length; j++) {
+                const diff = (x - values[j]) / bandwidth;
+                density += Math.exp(-0.5 * diff * diff) / (bandwidth * Math.sqrt(2 * Math.PI));
+            }
+            densities.push(density / values.length);
+        }
+        return { xValues, densities };
+    }
+    /**
+     * Obtiene min y max de múltiples datasets
+     */
+    function getMinMax(datasets) {
+        let min = Infinity;
+        let max = -Infinity;
+        datasets.forEach(dataset => {
+            if (dataset.length > 0) {
+                min = Math.min(min, ...dataset);
+                max = Math.max(max, ...dataset);
+            }
+        });
+        return { min: isFinite(min) ? min : 0, max: isFinite(max) ? max : 1 };
+    }
+    /**
+     * Normaliza un array de valores a 0-1
+     */
+    function valoresNormalizados(values) {
+        if (values.length === 0)
+            return [];
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+        const range = max - min;
+        if (range === 0)
+            return values.map(() => 0.5);
+        return values.map(v => (v - min) / range);
+    }
+    /**
+     * Convierte hex a rgb (para colores de Chart.js)
+     */
+    function hexToRgb(hex) {
+        // Asumimos que ya viene en formato rgba desde PALETTE
+        const match = hex.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+        if (match) {
+            return `${match[1]}, ${match[2]}, ${match[3]}`;
+        }
+        return "102, 126, 234"; // fallback
+    }
+    /**
+     * Genera etiquetas para radar chart
+     */
+    function generarEtiquetasRadar(longitud) {
+        return Array.from({ length: longitud }, (_, i) => `Valor ${i + 1}`);
+    }
+    /**
+     * Dibuja boxplot interno en violin plot
+     */
+    function dibujarBoxPlotInterno(ctx, values, centerX, topY, plotH) {
+        if (values.length === 0)
+            return;
+        const sorted = [...values].sort((a, b) => a - b);
+        const n = sorted.length;
+        const q1 = sorted[Math.floor(n * 0.25)];
+        const med = sorted[Math.floor(n * 0.5)];
+        const q3 = sorted[Math.floor(n * 0.75)];
+        const minVal = sorted[0];
+        const maxVal = sorted[n - 1];
+        // Escalar valores al plot
+        const datasetMin = Math.min(...values);
+        const datasetMax = Math.max(...values);
+        const datasetRange = datasetMax - datasetMin || 1;
+        const toPlotY = (value) => {
+            return topY + plotH - ((value - datasetMin) / datasetRange) * plotH;
+        };
+        const boxWidth = 20;
+        // Dibujar caja
+        ctx.fillStyle = 'rgba(255,255,255,0.8)';
+        ctx.fillRect(centerX - boxWidth / 2, toPlotY(q1), boxWidth, toPlotY(q3) - toPlotY(q1));
+        // Dibujar mediana
+        ctx.strokeStyle = '#d62828';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(centerX - boxWidth / 2, toPlotY(med));
+        ctx.lineTo(centerX + boxWidth / 2, toPlotY(med));
+        ctx.stroke();
+        // Dibujar whiskers
+        ctx.strokeStyle = '#666';
+        ctx.lineWidth = 1;
+        // Whisker inferior
+        ctx.beginPath();
+        ctx.moveTo(centerX, toPlotY(q1));
+        ctx.lineTo(centerX, toPlotY(minVal));
+        ctx.stroke();
+        // Whisker superior
+        ctx.beginPath();
+        ctx.moveTo(centerX, toPlotY(q3));
+        ctx.lineTo(centerX, toPlotY(maxVal));
+        ctx.stroke();
+        // Capillas (ticks)
+        const tickSize = 4;
+        ctx.beginPath();
+        ctx.moveTo(centerX - tickSize, toPlotY(minVal));
+        ctx.lineTo(centerX + tickSize, toPlotY(minVal));
+        ctx.moveTo(centerX - tickSize, toPlotY(maxVal));
+        ctx.lineTo(centerX + tickSize, toPlotY(maxVal));
+        ctx.stroke();
+    }
+    return {
+        buildUI,
+        refreshSelects,
+        exportarImagen,
+        renderBarras,
+        renderLineas,
+        renderPareto,
+        setResultadosPareto,
+        setResultadosPareto,
+        renderDispersion,
+        renderHistograma,
+        renderBoxPlot,
+        renderControlChart,
+        renderDistribucionNormal,
+        destroyChart,
+        activarModoExportacion,
+        getGraficosParaReporte,
+    };
+})();
+console.log('✅ Módulo de Visualización cargado');
