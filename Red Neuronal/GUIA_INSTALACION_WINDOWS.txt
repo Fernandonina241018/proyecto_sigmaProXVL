@@ -1,0 +1,290 @@
+═══════════════════════════════════════════════════════════════════════════════
+  🔧 GUÍA DE INSTALACIÓN Y TROUBLESHOOTING - WINDOWS + VS CODE
+═══════════════════════════════════════════════════════════════════════════════
+
+Este documento te ayuda a ejecutar los módulos de preview en Windows.
+
+
+📋 CHECKLIST DE REQUISITOS
+═══════════════════════════════════════════════════════════════════════════════
+
+Antes de ejecutar los demos, verifica que tienes:
+
+✓ Python 3.8+ instalado (recomendado 3.9+)
+✓ pip actualizado
+✓ Librerías básicas: numpy, pandas, scikit-learn, matplotlib
+✓ Carpeta "/Red Neuronal/" con todos los archivos
+
+
+🐍 PASO 1: VERIFICAR PYTHON
+═══════════════════════════════════════════════════════════════════════════════
+
+Abre PowerShell en Windows y ejecuta:
+
+  python --version
+
+Si no reconoce "python", intenta:
+
+  python3 --version
+
+Si devuelve error "command not found":
+  ❌ Python no está instalado
+  ✓ Solución: Instala Python desde https://www.python.org/downloads/
+  ✓ IMPORTANTE: En el instalador, marca "Add Python to PATH"
+
+
+📦 PASO 2: ACTUALIZAR PIP
+═══════════════════════════════════════════════════════════════════════════════
+
+PowerShell:
+  python -m pip install --upgrade pip
+
+O (si tienes Python 3.9+):
+  py -m pip install --upgrade pip
+
+
+📚 PASO 3: INSTALAR LIBRERÍAS BÁSICAS REQUERIDAS
+═══════════════════════════════════════════════════════════════════════════════
+
+OBLIGATORIAS (los demos fallarán sin éstas):
+
+  pip install numpy pandas scikit-learn matplotlib seaborn scipy
+
+Ejemplo completo:
+  python -m pip install numpy pandas scikit-learn matplotlib seaborn scipy
+
+Verificar instalación:
+  python -c "import numpy, pandas, sklearn, matplotlib; print('✓ OK')"
+
+
+📊 PASO 4: INSTALAR LIBRERÍAS OPCIONALES
+═══════════════════════════════════════════════════════════════════════════════
+
+Para SHAP (interpretabilidad):
+  pip install shap
+
+Para SMOTE (balanceo de clases):
+  pip install imbalanced-learn
+
+Para gráficos interactivos (futuro):
+  pip install plotly
+
+Instalación en una línea:
+  pip install shap imbalanced-learn plotly
+
+NOTA: Estas son opcionales. Los demos funcionan sin ellas.
+
+
+🎯 PASO 5: EJECUTAR DESDE VS CODE
+═══════════════════════════════════════════════════════════════════════════════
+
+Opción A: Terminal integrada de VS Code
+─────────────────────────────────────────
+
+1. Abre VS Code
+2. Abre carpeta: File → Open Folder → Selecciona "/Red Neuronal/"
+3. Abre terminal: Ctrl+Ñ (o View → Terminal)
+4. En la terminal, ejecuta:
+
+   cd "/ruta/completa/a/Red Neuronal"
+   python DEMO_interpretability.py
+
+O:
+   python DEMO_anomaly_detector.py
+
+
+Opción B: Run & Debug (F5)
+──────────────────────────
+
+1. Abre el archivo DEMO_interpretability.py en VS Code
+2. Presiona F5 (o Run → Start Debugging)
+3. Si es la primera vez, selecciona "Python" como debugger
+
+
+Opción C: Desde línea de comandos
+──────────────────────────────────
+
+PowerShell:
+  cd "G:\My Drive\SigmaProWeb\proyecto_sigmaProXVL\Red Neuronal"
+  python DEMO_interpretability.py
+
+
+🚨 SOLUCIÓN DE PROBLEMAS COMUNES
+═══════════════════════════════════════════════════════════════════════════════
+
+PROBLEMA 1: "ModuleNotFoundError: No module named 'numpy'"
+─────────────────────────────────────────────────────────────
+
+Causa: Librerías no instaladas
+
+Solución:
+  pip install numpy pandas scikit-learn matplotlib seaborn scipy
+
+
+PROBLEMA 2: "ModuleNotFoundError: No module named 'data_loader'"
+─────────────────────────────────────────────────────────────────
+
+Causa: Script no está en la carpeta "/Red Neuronal/" o rutas incorrectas
+
+Solución:
+  1. Verifica que estés en la carpeta correcta:
+     
+     cd "G:\My Drive\SigmaProWeb\proyecto_sigmaProXVL\Red Neuronal"
+  
+  2. Verifica que existan estos archivos:
+     - DEMO_interpretability.py
+     - DEMO_anomaly_detector.py
+     - interpretability.py
+     - anomaly_detector.py
+     - data_loader.py
+     - preprocessor.py
+     - trainer.py
+     - evaluator.py
+
+
+PROBLEMA 3: Python abre pero da error de sintaxis
+────────────────────────────────────────────────────
+
+Causa: Encoding o caracteres especiales en Windows
+
+Solución:
+  En PowerShell, antes de ejecutar:
+  $env:PYTHONIOENCODING = "utf-8"
+  python DEMO_interpretability.py
+
+
+PROBLEMA 4: "No such file or directory: datos/entrenamiento_financiero.csv"
+──────────────────────────────────────────────────────────────────────────────
+
+Causa: Carpeta "datos" no existe o CSVs no están
+
+Solución:
+  Los demos crean datos SINTÉTICOS automáticamente si no encuentra CSVs.
+  Este mensaje es solo una advertencia. El script continuará.
+  
+  Si quieres usar tus CSVs:
+  1. Verifica que existe: /Red Neuronal/datos/
+  2. Copia tus CSVs ahí con nombres:
+     - entrenamiento_financiero.csv
+     - entrenamiento_patron_alternativo.csv
+     - etc.
+
+
+PROBLEMA 5: "ImportError: No module named 'shap'"
+────────────────────────────────────────────────────
+
+Causa: SHAP no está instalado (es opcional)
+
+Solución 1 (Instalar SHAP):
+  pip install shap
+
+Solución 2 (Continuar sin SHAP):
+  Los demos funcionan sin SHAP, solo pierden esa funcionalidad
+
+
+PROBLEMA 6: Gráficos no aparecen o se abren en ventana en blanco
+──────────────────────────────────────────────────────────────────
+
+Causa: Matplotlib necesita configuración en Windows
+
+Solución:
+  En VS Code, abre settings.json (Ctrl+Shift+P → Preferences: Open Settings JSON)
+  y agrega:
+  
+  "python.linting.enabled": true,
+  "python.terminal.executeInFileDir": true
+
+
+PROBLEMA 7: "python: command not found" pero Python está instalado
+──────────────────────────────────────────────────────────────────
+
+Causa: Python no está en el PATH de Windows
+
+Solución:
+  Abre PowerShell como administrador:
+  $env:PATH += ";C:\Users\TU_USUARIO\AppData\Local\Programs\Python\Python39"
+  
+  O reinstala Python marcando "Add Python to PATH"
+
+
+✅ CÓMO VERIFICAR QUE TODO FUNCIONA
+═══════════════════════════════════════════════════════════════════════════════
+
+Antes de ejecutar los demos, prueba esto:
+
+1. Verificar Python:
+   python --version
+   Deberías ver: "Python 3.8.x" o superior
+
+2. Verificar librerías:
+   python -c "import numpy, pandas, sklearn, matplotlib; print('✓ Todas OK')"
+
+3. Verificar ubicación:
+   python -c "import os; print(os.getcwd())"
+   Deberías ver algo como: C:\...\Red Neuronal
+
+4. Si todo es OK, ejecuta un demo:
+   python DEMO_anomaly_detector.py
+   
+   Deberías ver salida sin errores de import
+
+
+🎯 PASOS RÁPIDOS (5 MINUTOS)
+═══════════════════════════════════════════════════════════════════════════════
+
+Si quieres empezar AHORA:
+
+1. Abre PowerShell
+
+2. Copia-pega esto (TODO JUNTO):
+
+   pip install numpy pandas scikit-learn matplotlib seaborn scipy
+
+3. Navega a tu carpeta:
+
+   cd "G:\My Drive\SigmaProWeb\proyecto_sigmaProXVL\Red Neuronal"
+
+4. Ejecuta un demo:
+
+   python DEMO_anomaly_detector.py
+
+LISTO! Los módulos deberían ejecutarse sin errores de import.
+
+
+💡 TIPS PARA WINDOWS + VS CODE
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Terminal recomendada: PowerShell (no cmd.exe)
+   - Abre PowerShell en VS Code: Terminal → New Terminal
+
+2. Si Python no se reconoce, usa:
+   python3 en lugar de python
+   o
+   py en lugar de python
+
+3. Para rutas largas con espacios, usa comillas:
+   cd "C:\Ruta\Con\Espacios\Red Neuronal"
+
+4. Si copias-pegas comandos multi-línea, pega línea por línea en la terminal
+
+5. Para instalar múltiples paquetes a la vez:
+   pip install numpy pandas scikit-learn matplotlib seaborn scipy shap imbalanced-learn
+
+6. Si necesitas actualizar una librería específica:
+   pip install --upgrade numpy
+
+7. Para ver qué está instalado:
+   pip list
+
+
+📞 SI AÚN TIENES PROBLEMAS
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Copia el MENSAJE DE ERROR completo
+2. Verifica que el archivo EXISTE y está en la carpeta correcta
+3. Revisa que Python versión tienes (python --version)
+4. Intenta con "python3" en lugar de "python"
+5. Intenta en una PowerShell NUEVA (a veces los cambios requieren reiniciar)
+
+
+═══════════════════════════════════════════════════════════════════════════════

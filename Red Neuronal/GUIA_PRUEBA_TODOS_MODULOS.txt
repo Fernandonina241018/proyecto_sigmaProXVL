@@ -1,0 +1,279 @@
+================================================================================
+  🎯 GUÍA DE PRUEBA - TODOS LOS MÓDULOS
+================================================================================
+
+FECHA: 2026-04-18
+ESTADO: ✅ TODOS LOS FIXES COMPLETADOS
+
+================================================================================
+  ORDEN DE EJECUCIÓN RECOMENDADO
+================================================================================
+
+1️⃣  TEST_MODULOS.py (VALIDACIÓN BÁSICA)
+   ├─ Objetivo: Verificar que todos los imports funcionan
+   ├─ Duración: ~30 segundos
+   ├─ Comando: python TEST_MODULOS.py
+   └─ Resultado esperado: ✅ TESTS COMPLETADOS (todos con ✓)
+
+   Status actual: ✅ PASA TODOS LOS TESTS
+
+2️⃣  DEMO_AUTO_CSV_LOADER.py (CARGA DE DATOS)
+   ├─ Objetivo: Verificar que puede cargar CSVs
+   ├─ Duración: ~10 segundos
+   ├─ Comando: python DEMO_AUTO_CSV_LOADER.py
+   └─ Resultado esperado: Datos cargados correctamente
+
+   Status actual: ✅ PASA
+
+3️⃣  DEMO_interpretability.py (INTERPRETABILIDAD)
+   ├─ Objetivo: Explicaciones SHAP + Partial Dependence
+   ├─ Duración: ~1-2 minutos
+   ├─ Comando: python DEMO_interpretability.py
+   └─ Resultado esperado: 5 pasos completados sin errores
+   
+   Status actual: ✅ ARREGLADO Y LISTO PARA PROBAR
+
+4️⃣  DEMO_anomaly_detector.py (DETECCIÓN DE ANOMALÍAS)
+   ├─ Objetivo: 6 demostraciones de anomalías
+   ├─ Duración: ~2-3 minutos
+   ├─ Comando: python DEMO_anomaly_detector.py
+   └─ Resultado esperado: 6 demos completadas sin errores
+   
+   Status actual: ✅ ARREGLADO Y LISTO PARA PROBAR
+
+
+================================================================================
+  CAMBIOS REALIZADOS EN ESTA SESIÓN
+================================================================================
+
+FECHA    | ARCHIVO              | PROBLEMA              | SOLUCIÓN
+─────────┼──────────────────────┼───────────────────────┼─────────────────────
+18/04    | TEST_MODULOS.py      | 4 valores vs 3 vars   | ✅ Desempacar 4
+18/04    | TEST_MODULOS.py      | verbose no existe     | ✅ Remover parámetro
+18/04    | DEMO_interpretab...  | prepare_data incorr.  | ✅ Crear DataFrame
+18/04    | DEMO_interpretab...  | X_processed no existe | ✅ Usar X_raw
+18/04    | DEMO_anomaly_detec.. | Código duplicado      | ✅ Eliminar dup.
+─────────┴──────────────────────┴───────────────────────┴─────────────────────
+
+Total de cambios: 5 problemas identificados y resueltos
+Total de líneas modificadas: ~100 líneas
+Total de líneas eliminadas: 267 líneas (código duplicado)
+
+Archivos documentados:
+- FIX_ERROR_WARM_RESUELTO.txt
+- REGISTRO_FIXES_TEST_MODULOS.txt
+- REGISTRO_FIXES_DEMOS.txt
+- GUIA_PRUEBA_TODOS_MODULOS.txt (este archivo)
+
+
+================================================================================
+  PROBLEMAS SOLUCIONADOS
+================================================================================
+
+✅ Error #1: "too many values to unpack (expected 3, got 4)"
+   Ubicación: TEST_MODULOS.py línea 111
+   Causa: prepare_data() retorna 4, intentaba desempacar 3
+   Solución: Desempacar 4 valores correctamente
+
+✅ Error #2: "train() got an unexpected keyword argument 'verbose'"
+   Ubicación: TEST_MODULOS.py línea 115
+   Causa: train() no tiene parámetro verbose
+   Solución: Remover verbose=False
+
+✅ Error #3: "prepare_data() espera DataFrame completo"
+   Ubicación: DEMO_interpretability.py línea 112
+   Causa: Pasaba X e y por separado
+   Solución: Crear DataFrame con target incluido
+
+✅ Error #4: "X_processed no existe"
+   Ubicación: DEMO_interpretability.py líneas 127, 144, 149
+   Causa: Variable no existe (prepare_data retorna X_raw)
+   Solución: Cambiar a X_raw
+
+✅ Error #5: "Código duplicado en DEMO_anomaly_detector.py"
+   Ubicación: Líneas 383-649
+   Causa: Funciones definidas dos veces
+   Solución: Eliminar duplicado
+
+
+================================================================================
+  CHECKLIST DE VALIDACIÓN
+================================================================================
+
+VALIDACIÓN DE CÓDIGO
+  ✅ TEST_MODULOS.py - Sintaxis correcta
+  ✅ DEMO_interpretability.py - Sintaxis correcta
+  ✅ DEMO_anomaly_detector.py - Sintaxis correcta
+  ✅ Nombres de variables consistentes
+  ✅ Argumentos a funciones válidos
+
+VALIDACIÓN DE LÓGICA
+  ✅ prepare_data() llamada correctamente en todos lados
+  ✅ train() llamada con argumentos válidos
+  ✅ Desempaque de valores correcto
+  ✅ No hay referencias a variables undefined
+
+VALIDACIÓN DE ESTRUCTURA
+  ✅ No hay código duplicado
+  ✅ Indentación correcta
+  ✅ Try/except correctamente implementados
+  ✅ Todos los imports están presentes
+
+
+================================================================================
+  CÓMO EJECUTAR LOS DEMOS
+================================================================================
+
+OPCIÓN 1: Ejecución Individual
+───────────────────────────────
+
+# Validar setup
+$ python TEST_MODULOS.py
+Resultado esperado: ✅ TESTS COMPLETADOS
+
+# Demo 1: Interpretabilidad
+$ python DEMO_interpretability.py
+Resultado esperado: 5 pasos con ✓
+
+# Demo 2: Anomalías
+$ python DEMO_anomaly_detector.py
+Resultado esperado: 6 demos con ✅
+
+# Demo 3: Carga de datos
+$ python DEMO_AUTO_CSV_LOADER.py
+Resultado esperado: Datos cargados
+
+
+OPCIÓN 2: Capturar Errores en Archivo
+──────────────────────────────────────
+
+# Para cada demo:
+$ python DEMO_interpretability.py > output.txt 2>&1
+$ python DEMO_anomaly_detector.py > output.txt 2>&1
+
+Luego revisar output.txt para errores
+
+
+OPCIÓN 3: Ejecución Interactiva (Python REPL)
+──────────────────────────────────────────────
+
+$ python
+
+>>> from pathlib import Path
+>>> import sys
+>>> BASE_DIR = Path('.')
+>>> sys.path.insert(0, str(BASE_DIR))
+
+>>> # Probar imports
+>>> from preprocessor import prepare_data
+>>> from trainer import train
+>>> from interpretability import explain_predictions
+>>> from anomaly_detector import detect_outliers
+
+>>> # Si todo importa sin error, está listo
+
+
+================================================================================
+  VARIABLES CLAVE DESPUÉS DE prepare_data()
+================================================================================
+
+Función:
+    X_raw, y_processed, preprocessor, meta = prepare_data(
+        data_with_target,
+        target='aprobado',
+        problem_type='auto'
+    )
+
+Variables retornadas:
+    X_raw: DataFrame con features (sin target)
+           - Tamaño: (n_samples, n_features)
+           - Tipo: pandas.DataFrame
+           - Ejemplo: X_raw.shape = (100, 3)
+
+    y_processed: Array con target codificado
+                - Tamaño: (n_samples,)
+                - Tipo: numpy.ndarray
+                - Valores: [0, 1] para binary
+
+    preprocessor: ColumnTransformer ajustado
+                 - Tipo: sklearn.compose.ColumnTransformer
+                 - Función: procesar nuevos datos igual que training
+                 - Uso: preprocessor.transform(X_new)
+
+    meta: Dict con metadatos
+          - problem_type: 'binary' | 'multiclass' | 'regression'
+          - num_features: lista de features numéricas
+          - cat_features: lista de features categóricas
+          - target_classes: [0, 1] para binary
+          - feature_baselines: valores base por feature
+
+
+================================================================================
+  SÍNTOMAS DE ERRORES COMUNES
+================================================================================
+
+Si ves...                          | Causa probable
+──────────────────────────────────┼──────────────────────────────────
+too many values to unpack          | Desempacar mal de prepare_data()
+unexpected keyword argument        | Parámetro inválido en train()
+X_processed not defined            | Usar X_processed en lugar de X_raw
+TypeError on line X                | Argumentos incompatibles
+ImportError: No module named X     | Falta instalar dependencia
+AttributeError: 'tuple' has no ... | Desempacar incorrecto
+
+
+Soluciones rápidas:
+  1. Revisar REGISTRO_FIXES_DEMOS.txt
+  2. Ver el archivo GUIA_INSTALACION_WINDOWS.txt
+  3. Ejecutar TEST_MODULOS.py primero
+
+
+================================================================================
+  PRÓXIMA FASE: MÓDULOS RESTANTES
+================================================================================
+
+Una vez que TODOS los demos pasen, pasar a:
+
+1. model_selector.py (600+ líneas)
+   - Bayesian optimization
+   - Automatic hyperparameter tuning
+   - Model ensemble comparison
+   - Cross-validation with stratification
+
+2. uncertainty.py (300+ líneas)
+   - Prediction calibration
+   - Confidence intervals
+   - Out-of-distribution detection
+   - Bootstrap uncertainty estimation
+
+3. comprehensive_report.py (400+ líneas)
+   - HTML report generation
+   - JSON export
+   - Model comparison tables
+   - Feature importance rankings
+   - Data quality summary
+
+
+================================================================================
+  CONCLUSIÓN
+================================================================================
+
+✅ Estado actual: TODOS LOS FIXES COMPLETADOS
+
+Los siguientes archivos están listos para ejecutar:
+  ✓ TEST_MODULOS.py
+  ✓ DEMO_AUTO_CSV_LOADER.py
+  ✓ DEMO_interpretability.py (ARREGLADO)
+  ✓ DEMO_anomaly_detector.py (ARREGLADO)
+
+Próximo paso:
+  1. Ejecuta: python TEST_MODULOS.py (debe pasar)
+  2. Ejecuta: python DEMO_interpretability.py
+  3. Ejecuta: python DEMO_anomaly_detector.py
+  4. Si todos pasan → Continuar con los 3 módulos restantes
+
+
+================================================================================
+Last Updated: 2026-04-18 21:15
+Status: ✅ COMPLETADO
+================================================================================

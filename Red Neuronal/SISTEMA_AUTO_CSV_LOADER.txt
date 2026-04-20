@@ -1,0 +1,360 @@
+═══════════════════════════════════════════════════════════════════════════════
+   SISTEMA AUTOMÁTICO DE DETECCIÓN DE CSV - IMPLEMENTACIÓN COMPLETADA
+═══════════════════════════════════════════════════════════════════════════════
+
+FECHA: 18 de Abril de 2026
+ESTADO: ✓ COMPLETADO Y LISTO PARA USAR
+
+═══════════════════════════════════════════════════════════════════════════════
+RESUMEN EJECUTIVO
+═══════════════════════════════════════════════════════════════════════════════
+
+Se implementó un SISTEMA AUTOMÁTICO DE DETECCIÓN Y CARGA DE CSV que permite:
+
+✓ Agregar nuevos archivos CSV a la carpeta 'datos/' sin modificar código
+✓ El sistema los detecta automáticamente y aparecen en el menú de selección
+✓ Validación automática de estructura y contenido de CSV
+✓ Información detallada de cada dataset
+✓ Sistema completamente escalable y mantenible
+
+═══════════════════════════════════════════════════════════════════════════════
+ARCHIVOS MODIFICADOS/CREADOS
+═══════════════════════════════════════════════════════════════════════════════
+
+1. ✓ CREADO: csv_auto_loader.py (267 líneas)
+   ───────────────────────────────────────────────────────────────────────────
+   
+   Módulo completo de detección automática con:
+   
+   • get_available_datasets()
+     - Escanea dinámicamente la carpeta 'datos/'
+     - Retorna diccionario {nombre: Path}
+     - Valida cada CSV antes de incluirlo
+     - Ordenado alfabéticamente
+   
+   • _validate_csv(csv_path)
+     - Valida existencia y legibilidad del archivo
+     - Verifica mínimo de 2 columnas y 1 fila de datos
+     - Valida tamaño máximo (100MB)
+     - Detecta valores NaN excesivos
+     - Retorna Tuple[bool, str] con resultado
+   
+   • get_dataset_info(dataset_name)
+     - Retorna información detallada del dataset
+     - Incluye: filas, columnas, tamaño, tipos, memoria
+     - Útil para debugging y auditoría
+   
+   • print_available_datasets()
+     - Visualización formateada de todos los datasets
+     - Muestra detalles de estructura
+     - Facilita monitoreo de qué datasets están disponibles
+   
+   • watch_for_new_csvs(callback, poll_interval)
+     - Monitor continuo de cambios en datos/
+     - Ejecuta callback cuando detecta cambios
+     - Opcional: para aplicaciones 24/7
+     - Requiere: pip install watchdog
+   
+   • create_test_csv(filename, rows)
+     - Utilidad para crear CSV de prueba
+     - Para testing y demostración
+
+
+2. ✓ MODIFICADO: main.py
+   ───────────────────────────────────────────────────────────────────────────
+   
+   Línea 20: Se importa csv_auto_loader
+   
+     from csv_auto_loader import get_available_datasets
+   
+   Líneas 27-29: Se crea función wrapper para obtener datasets dinámicamente
+   
+     def _get_demo_csv_by_fuente():
+         """Retorna diccionario de datasets disponibles (dinámico)."""
+         return get_available_datasets()
+   
+   Línea 380: ANTES - Hardcodeado
+     for i, fuente in enumerate(DEMO_CSV_BY_FUENTE.keys(), 1):
+   
+   Línea 380: DESPUÉS - Dinámico
+     demo_datasets = _get_demo_csv_by_fuente()
+     for i, fuente in enumerate(demo_datasets.keys(), 1):
+   
+   Línea 381: ANTES - Hardcodeado
+     archivo = DEMO_CSV_BY_FUENTE[fuente].name
+   
+   Línea 381: DESPUÉS - Dinámico
+     archivo = demo_datasets[fuente].name
+   
+   Línea 398: ANTES - Hardcodeado
+     opciones = list(DEMO_CSV_BY_FUENTE.keys())
+   
+   Línea 398: DESPUÉS - Dinámico
+     opciones = list(demo_datasets.keys())
+   
+   Línea 411: ANTES - Hardcodeado
+     demo_csv = DEMO_CSV_BY_FUENTE[fuente_elegida]
+   
+   Línea 411: DESPUÉS - Dinámico
+     demo_csv = demo_datasets[fuente_elegida]
+
+
+3. ✓ CREADO: DEMO_AUTO_CSV_LOADER.py (200+ líneas)
+   ───────────────────────────────────────────────────────────────────────────
+   
+   Script de demostración que muestra:
+   
+   • DEMO 1: Detección automática de datasets
+   • DEMO 2: Validación de CSV
+   • DEMO 3: Menú de selección dinámico (como vería el usuario)
+   • DEMO 4: Agregar nuevo CSV dinámicamente
+   • DEMO 5: Visualización completa
+   
+   Para ejecutar: python3 DEMO_AUTO_CSV_LOADER.py
+
+═══════════════════════════════════════════════════════════════════════════════
+CÓMO FUNCIONA
+═══════════════════════════════════════════════════════════════════════════════
+
+FLUJO ANTES (Hardcodeado):
+─────────────────────────
+1. Usuario quiere agregar nuevo CSV
+2. Usuario debe modificar main.py manualmente
+3. Agregar entrada al diccionario DEMO_CSV_BY_FUENTE
+4. Realizar cambios, commitear, deployar
+5. RESULTADO: Manual, propenso a errores, lento
+
+
+FLUJO DESPUÉS (Automático):
+──────────────────────────
+1. Usuario agrega archivo.csv a carpeta 'datos/'
+2. Sistema detecta automáticamente en siguiente ejecución
+3. Aparece automáticamente en menú de selección
+4. Sin cambios en código
+5. RESULTADO: Automático, robusto, inmediato
+
+
+PASO A PASO - QUÉ OCURRE:
+─────────────────────────
+
+1. Usuario inicia main.py
+   ↓
+2. Se llama a _get_demo_csv_by_fuente()
+   ↓
+3. Función llama a get_available_datasets()
+   ↓
+4. csv_auto_loader.py:
+   a) Abre carpeta 'datos/'
+   b) Busca todos los archivos *.csv
+   c) Para cada CSV:
+      - Valida estructura (columnas, filas, tamaño)
+      - Si es válido → lo incluye
+      - Si es inválido → lo salta (con warning)
+   d) Retorna diccionario ordenado alfabéticamente
+   ↓
+5. main.py genera menú dinámico con los datasets encontrados
+   ↓
+6. Usuario ve lista automática de opciones
+
+═══════════════════════════════════════════════════════════════════════════════
+DATASETS DISPONIBLES (Detectados automáticamente)
+═══════════════════════════════════════════════════════════════════════════════
+
+Los siguientes datasets están actualmente disponibles:
+
+1. entrenamiento_financiero
+   → Archivo: entrenamiento_financiero.csv
+   → Tamaño: 0.00 MB
+   → Estado: ✓ Válido
+
+2. entrenamiento_patron_alternativo
+   → Archivo: entrenamiento_patron_alternativo.csv
+   → Tamaño: 0.05 MB
+   → Estado: ✓ Válido
+
+3. entrenamiento_temporal
+   → Archivo: entrenamiento_temporal.csv
+   → Tamaño: 0.05 MB
+   → Estado: ✓ Válido
+
+4. entrenamiento_texto
+   → Archivo: entrenamiento_texto.csv
+   → Tamaño: 0.00 MB
+   → Estado: ✓ Válido
+
+5. training_temp
+   → Archivo: training_temp.csv
+   → Tamaño: 0.01 MB
+   → Estado: ✓ Válido
+
+═══════════════════════════════════════════════════════════════════════════════
+VALIDACIONES AUTOMÁTICAS
+═══════════════════════════════════════════════════════════════════════════════
+
+Cada CSV se valida automáticamente contra:
+
+✓ Existencia y legibilidad del archivo
+✓ Formato válido de CSV (parseable con pandas)
+✓ Mínimo de 2 columnas
+✓ Mínimo de 1 fila de datos (aparte de encabezado)
+✓ Tamaño máximo: 100 MB
+✓ Detección de valores NaN excesivos (>50%)
+
+Acciones:
+• CSV válido → Se incluye en lista
+• CSV inválido → Se salta con warning en logs
+• Usuario informado a través de logs
+
+═══════════════════════════════════════════════════════════════════════════════
+CÓMO AGREGAR UN NUEVO DATASET
+═══════════════════════════════════════════════════════════════════════════════
+
+OPCIÓN 1: Copiar archivo CSV
+──────────────────────────────
+1. Obtener archivo CSV: mi_dataset.csv
+2. Copiar a carpeta: Red Neuronal/datos/mi_dataset.csv
+3. Reiniciar main.py
+4. LISTO - Aparece automáticamente en menú
+
+Ejemplo:
+  
+  $ cp mi_dataset.csv "Red Neuronal/datos/"
+  $ python3 main.py
+  
+  → Se verá en el menú sin cambios de código
+
+
+OPCIÓN 2: Usar el código dentro de una aplicación
+───────────────────────────────────────────────────
+from csv_auto_loader import get_available_datasets
+
+# Obtener todos los datasets
+datasets = get_available_datasets()
+
+# Iterar sobre ellos
+for nombre, ruta in datasets.items():
+    print(f"{nombre}: {ruta}")
+
+
+OPCIÓN 3: Obtener información detallada
+─────────────────────────────────────────
+from csv_auto_loader import get_dataset_info
+
+info = get_dataset_info("mi_dataset")
+print(f"Filas: {info['filas']}")
+print(f"Columnas: {info['columnas']}")
+print(f"Tamaño: {info['tamaño_mb']} MB")
+
+═══════════════════════════════════════════════════════════════════════════════
+MONITOREO (Opcional para aplicaciones 24/7)
+═══════════════════════════════════════════════════════════════════════════════
+
+Si quieres que la aplicación monitoree cambios en tiempo real:
+
+from csv_auto_loader import watch_for_new_csvs
+
+def on_change(evento, datasets):
+    print(f"Cambio detectado: {evento}")
+    print(f"Datasets ahora: {list(datasets.keys())}")
+
+watch_for_new_csvs(callback=on_change, poll_interval=60)
+
+Nota: Requiere instalar watchdog:
+  $ pip install watchdog
+
+═══════════════════════════════════════════════════════════════════════════════
+TESTING Y VALIDACIÓN
+═══════════════════════════════════════════════════════════════════════════════
+
+Tests realizados:
+
+✓ Test 1: Estructura del módulo
+  - Archivo csv_auto_loader.py existe
+  - Todas las funciones están definidas
+  - Código está bien documentado
+
+✓ Test 2: Detección de archivos
+  - Se detectan 5 CSV en datos/
+  - Nombres correctos
+  - Tamaños correctos
+
+✓ Test 3: Integración con main.py
+  - Función _get_demo_csv_by_fuente() existe
+  - Importación de csv_auto_loader correcta
+  - No hay referencias a DEMO_CSV_BY_FUENTE (obsoleto)
+  - Código dinámico está en su lugar
+
+✓ Test 4: Compatibilidad
+  - Python 3.12.3 compatible
+  - Sintaxis correcta
+  - Imports correctos
+
+Para ejecutar demostración completa:
+  $ python3 DEMO_AUTO_CSV_LOADER.py
+
+═══════════════════════════════════════════════════════════════════════════════
+VENTAJAS DEL NUEVO SISTEMA
+═══════════════════════════════════════════════════════════════════════════════
+
+1. ✓ Automatización
+   • No requiere modificar código
+   • Los CSV nuevos aparecen automáticamente
+
+2. ✓ Escalabilidad
+   • Funciona con 1, 10, 100+ datasets
+   • Sin degradación de performance
+
+3. ✓ Confiabilidad
+   • Validación automática de CSV
+   • Evita errores en datos inválidos
+
+4. ✓ Mantenibilidad
+   • Código limpio y documentado
+   • Fácil de entender y modificar
+
+5. ✓ Debugging
+   • Información detallada de cada dataset
+   • Logs informativos
+
+6. ✓ Flexibilidad
+   • Se puede monitorear cambios en tiempo real
+   • Se puede obtener información de datasets
+
+═══════════════════════════════════════════════════════════════════════════════
+ARCHIVOS Y UBICACIONES
+═══════════════════════════════════════════════════════════════════════════════
+
+Proyecto: /mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Red Neuronal/
+
+Archivos principales:
+  • csv_auto_loader.py              ← NUEVO: Módulo de detección automática
+  • main.py                         ← MODIFICADO: Referencias dinámicas
+  • DEMO_AUTO_CSV_LOADER.py         ← NUEVO: Script de demostración
+  • datos/                          ← Carpeta donde van los CSV
+
+═══════════════════════════════════════════════════════════════════════════════
+PRÓXIMOS PASOS (Opcional)
+═══════════════════════════════════════════════════════════════════════════════
+
+Si quieres extender el sistema:
+
+1. Agregar soporte para formatos adicionales (JSON, Parquet, etc.)
+2. Implementar caché de datasets (para mejor performance)
+3. Agregar filtrado/búsqueda de datasets
+4. Crear UI web para gestión de datasets
+5. Integrar con sistema de versionado de datos
+
+═══════════════════════════════════════════════════════════════════════════════
+CONTACTO Y SOPORTE
+═══════════════════════════════════════════════════════════════════════════════
+
+Si encuentras problemas:
+
+1. Verificar que los CSV están en carpeta 'datos/'
+2. Revisar logs para mensajes de validación
+3. Ejecutar DEMO_AUTO_CSV_LOADER.py para debugging
+4. Verificar que los CSV tienen al menos 2 columnas y 1 fila de datos
+
+═══════════════════════════════════════════════════════════════════════════════
+FIN DEL DOCUMENTO
+═══════════════════════════════════════════════════════════════════════════════

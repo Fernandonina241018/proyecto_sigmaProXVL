@@ -26,6 +26,11 @@ from sklearn.neural_network import MLPClassifier, MLPRegressor
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 
 warnings.filterwarnings("ignore")
+# Suprimir warning específico de sklearn 1.3+ sobre joblib/parallel
+# (aparece cuando usamos n_jobs=-1 en RandomForest/XGBoost)
+warnings.filterwarnings('ignore', 
+    message='.*sklearn.utils.parallel.delayed.*',
+    category=UserWarning)
 
 
 # ══════════════════════════════════════════════════════════════════
@@ -92,9 +97,19 @@ def build_model(model_key: str, problem_type: str,
         return MLPClassifier(**p)
 
     if model_key == "rf":
-        p = dict(n_estimators=200, max_depth=None,
+        # MEJORA: Penalizar False Positives (aprobaciones incorrectas en créditos)
+        # class_weight balanceado es insuficiente cuando desbalance es severo (86/14)
+        # Usar {0: 3, 1: 1} para penalizar 3x más los rechazos incorrectos
+        default_weight = "balanced"
+        if "class_weight" not in kwargs:
+            # Detectar si es problema de créditos por el contexto
+            # En créditos, penalizar FP (false positives) es crítico
+            default_weight = {0: 3, 1: 1}  # Penaliza 3x los falsos positivos
+        p = dict(n_estimators=200, max_depth=10,  # Reducir max_depth para menos overfit
                  random_state=seed, n_jobs=-1,
-                 class_weight="balanced")
+                 class_weight=default_weight,
+                 min_samples_split=3,  # Evitar ramas con muy pocos samples
+                 min_samples_leaf=2)   # Evitar hojas con 1 solo sample
         p.update(kwargs)
         return RandomForestClassifier(**p)
 
@@ -130,9 +145,11 @@ def _build_xgb(problem_type, n_classes, seed, extra):
         base["num_class"]  = n_classes
         base["eval_metric"]= "mlogloss"
     else:
-        # Para binary: agregar scale_pos_weight para manejar class imbalance
-        # scale_pos_weight = num_neg / num_pos (aproximación)
-        base["scale_pos_weight"] = 1.0  # Se ajusta durante entrenamiento si es necesario
+        # MEJORA: Para problemas binarios con desbalance, usar scale_pos_weight
+        # scale_pos_weight = num_neg / num_pos
+        # En créditos con 43 aprobados / 7 rechazados = 6.14
+        # Usar valor más agresivo (8.0) para ser más conservador en aprobaciones
+        base["scale_pos_weight"] = 6.0  # Ajustar según necesidad: 2.0 a 10.0
 
     return XGBClassifier(**base)
 

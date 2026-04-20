@@ -1,0 +1,520 @@
+═══════════════════════════════════════════════════════════════════════════════
+  🎯 PREVIEW: MÓDULOS DE EXPANSIÓN (INTERPRETABILIDAD + ANOMALÍAS)
+═══════════════════════════════════════════════════════════════════════════════
+
+Este documento describe los 2 módulos de preview creados para validación antes
+de implementar los 5 módulos completos.
+
+⚠️ IMPORTANTE: Los módulos han sido ARREGLADOS para Windows + VS Code
+✓ Ahora funcionan con imports condicionales
+✓ Manejo correcto de rutas en Windows
+✓ Mensajes de error más claros
+✓ Script de test incluido para validar instalación
+
+
+🚀 INSTRUCCIONES RÁPIDAS (5 MINUTOS)
+═══════════════════════════════════════════════════════════════════════════════
+
+PASO 1: Instalar dependencias
+──────────────────────────────
+Abre PowerShell en VS Code (Ctrl+Ñ) y ejecuta:
+
+  pip install numpy pandas scikit-learn matplotlib seaborn scipy
+
+
+PASO 2: Test rápido (HAZLO PRIMERO)
+───────────────────────────────────
+En la misma terminal, ejecuta:
+
+  python TEST_MODULOS.py
+
+Deberías ver: ✅ TESTS COMPLETADOS con varios ✓
+
+
+PASO 3: Ejecutar demos
+──────────────────────
+Opción A - Demo de anomalías:
+  python DEMO_anomaly_detector.py
+
+Opción B - Demo de interpretabilidad:
+  python DEMO_interpretability.py
+
+(Nota: Estos requieren SHAP que es opcional. Si falta, instala con: pip install shap)
+
+
+PASO 4: Instalar opcionales (RECOMENDADO)
+──────────────────────────────────────────
+Para máxima funcionalidad:
+
+  pip install shap imbalanced-learn
+
+Si tienes problemas, lee: GUIA_INSTALACION_WINDOWS.txt
+
+
+📁 ARCHIVOS CREADOS EN PREVIEW
+═══════════════════════════════════════════════════════════════════════════════
+
+1. interpretability.py (550+ líneas)
+   └─ Módulo de interpretabilidad avanzada
+   
+   Funcionalidades principales:
+   ✓ SHAP values (explicaciones basadas en teoría de juegos)
+   ✓ SHAP summary plots (importancia global)
+   ✓ SHAP force plots (explicación por instancia individual)
+   ✓ Partial Dependence Plots (PDP - relación feature vs predicción)
+   ✓ ICE curves (variación de predicción por instancia)
+   ✓ Feature interactions (detecta si dos features interactúan)
+   ✓ explain_predictions() - función integral que ejecuta todo
+
+
+2. anomaly_detector.py (480+ líneas)
+   └─ Módulo de detección de anomalías y calidad de datos
+   
+   Funcionalidades principales:
+   ✓ detect_outliers() - Isolation Forest + Local Outlier Factor
+   ✓ data_quality_report() - Análisis de valores faltantes, duplicados, tipos
+   ✓ recommend_imbalance_handling() - Estrategias para desbalance de clases
+   ✓ apply_smote() - Oversampling sintético con SMOTE
+   ✓ detect_prediction_anomalies() - Predicciones sospechosas
+   ✓ detect_feature_drift() - Data drift detection (cambios en distribución)
+   ✓ comprehensive_anomaly_analysis() - Análisis integral
+
+
+3. DEMO_interpretability.py (130+ líneas)
+   └─ Script ejecutable demostrando interpretability.py
+   
+   Demo 1: demo_interpretability()
+   └─ Carga datos, entrena modelo, ejecuta explain_predictions() completo
+   
+   Demo 2: demo_feature_analysis()
+   └─ Análisis profundo de features con SHAP + PDP + interacciones
+
+
+4. DEMO_anomaly_detector.py (350+ líneas)
+   └─ Script ejecutable demostrando anomaly_detector.py
+   
+   Demo 1: demo_outlier_detection()
+   └─ Detección de outliers con Isolation Forest + LOF
+   
+   Demo 2: demo_data_quality()
+   └─ Reporte de calidad de datos (valores faltantes, duplicados, etc.)
+   
+   Demo 3: demo_class_imbalance()
+   └─ Análisis de desbalance y aplicación de SMOTE
+   
+   Demo 4: demo_prediction_anomalies()
+   └─ Detección de predicciones sospechosas
+   
+   Demo 5: demo_data_drift()
+   └─ Data drift detection usando Kolmogorov-Smirnov test
+   
+   Demo 6: demo_comprehensive_analysis()
+   └─ Análisis integral (todos los anteriores juntos)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  📊 MÓDULO 1: INTERPRETABILITY.PY
+═══════════════════════════════════════════════════════════════════════════════
+
+Funciones principales y cómo usarlas:
+
+1. EXPLICACIÓN INTEGRAL (PUNTO DE ENTRADA PRINCIPAL)
+─────────────────────────────────────────────────────────
+
+   def explain_predictions(pipeline, X_train, X_new=None, sample_idx=0, verbose=True):
+   
+   USO:
+   ────
+   shap_results = explain_predictions(
+       pipeline=mi_modelo,
+       X_train=datos_entrenamiento,
+       X_new=datos_nuevos,
+       sample_idx=0,  # Explicar la predicción #0
+       verbose=True
+   )
+   
+   SALIDA:
+   ──────
+   - SHAP summary plot (importancia global)
+   - SHAP force plot (explicación local de predicción)
+   - Partial Dependence Plots (relación feature vs predicción)
+   - Feature interactions (pares que interactúan)
+
+
+2. SHAP ANALYSIS (GLOBAL + LOCAL)
+─────────────────────────────────────
+
+   a) compute_shap_values() - Calcula valores SHAP
+   
+      shap_results = compute_shap_values(pipeline, X_sample, X_background)
+      
+      Retorna:
+      ├─ 'explainer': Objeto SHAP (TreeExplainer o KernelExplainer)
+      ├─ 'shap_values': Array con valores SHAP
+      ├─ 'base_value': Predicción promedio (baseline)
+      └─ 'feature_names': Nombres de features
+   
+   
+   b) plot_shap_summary() - Visualiza SHAP globalmente
+   
+      plot_shap_summary(shap_results, plot_type="bar", max_display=15)
+      
+      plot_type:
+      - "bar" → Feature importance (suma absoluta de SHAP)
+      - "beeswarm" → Distribución de SHAP values por feature
+   
+   
+   c) plot_shap_force() - Explicación por predicción individual
+   
+      plot_shap_force(shap_results, row_idx=0)
+      
+      Muestra cómo cada feature contribuye a alejar la predicción del baseline
+
+
+3. PARTIAL DEPENDENCE (RELACIÓN FEATURE VS PREDICCIÓN)
+────────────────────────────────────────────────────────
+
+   def plot_partial_dependence(pipeline, X_train, max_features=10):
+   
+   USO:
+   ────
+   plot_partial_dependence(mi_modelo, datos_entrenamiento)
+   
+   UTILIDAD:
+   ────────
+   - Responde: "¿Qué pasa con la predicción si cambio el valor de este feature?"
+   - Eje X: Rango de valores del feature
+   - Eje Y: Predicción promedio del modelo
+   - Muestra relaciones lineales, no-lineales, e interacciones
+
+
+4. ICE CURVES (INDIVIDUAL CONDITIONAL EXPECTATION)
+────────────────────────────────────────────────────
+
+   def compute_ice_curves(pipeline, X_sample, feature_idx=0, num_points=50):
+   
+   USO:
+   ────
+   ice_results = compute_ice_curves(mi_modelo, datos, feature_idx=0)
+   plot_ice_curves(ice_results)
+   
+   UTILIDAD:
+   ────────
+   - Como PDP pero para CADA instancia individualmente
+   - Detecta efectos heterogéneos (comportamiento diferente por grupo)
+   - Líneas azules = instancias individuales
+   - Línea naranja = promedio (PDP)
+
+
+5. FEATURE INTERACTIONS
+────────────────────────
+
+   def compute_feature_interactions(shap_results, top_k=10):
+   
+   USO:
+   ────
+   interactions = compute_feature_interactions(shap_results)
+   plot_feature_interactions(interactions)
+   
+   UTILIDAD:
+   ────────
+   - Detecta si el efecto de Feature A depende de Feature B
+   - Útil para entender comportamientos complejos
+
+
+EJEMPLO DE CÓDIGO COMPLETO (interpretability.py)
+════════════════════════════════════════════════════
+
+from interpretability import explain_predictions
+
+# Explicación integral (todo en 1 función)
+results = explain_predictions(
+    pipeline=mi_modelo_entrenado,
+    X_train=datos_entrenamiento,
+    X_new=datos_a_explicar,
+    sample_idx=0,
+    verbose=True
+)
+
+# Acceder a resultados individuales
+shap_results = results.get('shap')
+interactions = results.get('interactions')
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  📊 MÓDULO 2: ANOMALY_DETECTOR.PY
+═══════════════════════════════════════════════════════════════════════════════
+
+Funciones principales y cómo usarlas:
+
+1. ANÁLISIS INTEGRAL (PUNTO DE ENTRADA PRINCIPAL)
+─────────────────────────────────────────────────────
+
+   def comprehensive_anomaly_analysis(X_train, y_train, X_new=None, y_test=None,
+                                      y_pred=None, y_proba=None, verbose=True):
+   
+   USO:
+   ────
+   analysis = comprehensive_anomaly_analysis(
+       X_train=datos_entrenamiento,
+       y_train=targets,
+       X_new=datos_nuevos,
+       y_test=targets_prueba,
+       y_pred=predicciones_modelo,
+       y_proba=probabilidades_modelo,
+       verbose=True
+   )
+   
+   RETORNA:
+   ────────
+   ├─ 'quality': Reporte de calidad de datos
+   ├─ 'outliers_train': Outliers detectados
+   ├─ 'imbalance_recommendations': Estrategias para desbalance
+   ├─ 'prediction_anomalies': Predicciones sospechosas
+   └─ 'drift': Data drift detectado
+
+
+2. DETECCIÓN DE OUTLIERS
+───────────────────────────
+
+   a) detect_outliers() - Detecta valores anómalos
+   
+      outliers = detect_outliers(
+          X=datos,
+          method="isolation_forest",  # o "lof"
+          contamination=0.1,           # Porcentaje esperado
+          verbose=True
+      )
+      
+      Retorna:
+      ├─ 'outlier_mask': Boolean array
+      ├─ 'outlier_indices': Índices de outliers
+      ├─ 'outlier_scores': Score de anomalía
+      └─ 'outlier_count': Cantidad total
+   
+   
+   b) plot_outliers() - Visualiza outliers en 2D (PCA)
+   
+      plot_outliers(datos, outliers['outlier_mask'])
+
+
+3. REPORTE DE CALIDAD DE DATOS
+────────────────────────────────
+
+   def data_quality_report(X, y=None):
+   
+   Verifica:
+   ✓ Valores faltantes por columna
+   ✓ Filas duplicadas
+   ✓ Inconsistencias de tipo de dato
+   ✓ Distribución de clases (si y proporcionado)
+   
+   USO:
+   ────
+   quality = data_quality_report(datos, targets)
+   print_quality_report(quality)  # Imprime reporte bonito
+
+
+4. ANÁLISIS DE DESBALANCE DE CLASES
+──────────────────────────────────────
+
+   a) recommend_imbalance_handling() - Estrategias automáticas
+   
+      recommendations = recommend_imbalance_handling(y)
+      
+      Retorna estrategias según ratio:
+      - ratio >= 0.8: ✓ Balanceado (sin acción)
+      - ratio >= 0.3: ⚠️  Usar SMOTE + class_weights
+      - ratio < 0.3:  🚨 SMOTE + Oversampling + threshold tuning
+   
+   
+   b) apply_smote() - Crea samples sintéticos
+   
+      X_balanced, y_balanced = apply_smote(
+          X=datos,
+          y=targets,
+          sampling_strategy=0.8  # Llevar minoritarios a 80% de mayoritarios
+      )
+
+
+5. DETECCIÓN DE ANOMALÍAS EN PREDICCIONES
+───────────────────────────────────────────
+
+   def detect_prediction_anomalies(y_true, y_pred, y_proba=None,
+                                   confidence_threshold=0.6):
+   
+   Detecta:
+   ⚠️  Predicciones correctas con baja confianza (modelo tiene suerte)
+   🚨 Predicciones incorrectas con alta confianza (problema de confiabilidad)
+   
+   USO:
+   ────
+   anomalies = detect_prediction_anomalies(
+       y_true=targets_reales,
+       y_pred=predicciones,
+       y_proba=probabilidades,
+       confidence_threshold=0.7
+   )
+   print_anomaly_report(anomalies)
+
+
+6. DATA DRIFT DETECTION
+────────────────────────
+
+   def detect_feature_drift(X_train, X_new, threshold=0.05):
+   
+   Usa Kolmogorov-Smirnov test para detectar cambios en distribución.
+   Si X_new tiene distribución diferente a X_train, el modelo puede estar
+   prediciendo en un dominio distinto.
+   
+   USO:
+   ────
+   drift = detect_feature_drift(datos_entrenamiento, datos_nuevos)
+   print_drift_report(drift)
+   
+   INTERPRETA:
+   ───────────
+   - p_value < 0.05 → Diferencia significativa (DRIFT!)
+   - p_value >= 0.05 → Distribución similar
+
+
+EJEMPLO DE CÓDIGO COMPLETO (anomaly_detector.py)
+════════════════════════════════════════════════════
+
+from anomaly_detector import comprehensive_anomaly_analysis
+
+# Análisis integral (todo en 1 función)
+analysis = comprehensive_anomaly_analysis(
+    X_train=datos_entrenamiento,
+    y_train=targets,
+    X_new=datos_nuevos,
+    y_test=targets_prueba,
+    y_pred=predicciones,
+    y_proba=probabilidades,
+    verbose=True  # Muestra reportes bonitos
+)
+
+# Acceder a análisis individuales
+print(analysis['quality'])      # Calidad de datos
+print(analysis['outliers_train']) # Outliers
+print(analysis['imbalance_recommendations']) # Recomendaciones de balance
+print(analysis['prediction_anomalies']) # Anomalías en predicciones
+print(analysis['drift'])        # Data drift
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  ⚙️  DEPENDENCIAS NECESARIAS
+═══════════════════════════════════════════════════════════════════════════════
+
+Para que los módulos funcionen, instala:
+
+pip install shap imbalanced-learn scipy plotly
+
+Desglose:
+- shap:              Para SHAP values (interpretability.py)
+- imbalanced-learn:  Para SMOTE (anomaly_detector.py)
+- scipy:             Para Kolmogorov-Smirnov test (anomaly_detector.py)
+- plotly:            Para gráficos interactivos (expansión futura)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  🧪 CÓMO EJECUTAR LOS DEMOS
+═══════════════════════════════════════════════════════════════════════════════
+
+Demo 1: Interpretabilidad
+──────────────────────────
+python DEMO_interpretability.py
+
+Este script:
+1. Carga datos (reales o sintéticos)
+2. Entrena un Random Forest
+3. Genera explicaciones SHAP completas
+4. Crea gráficos de partial dependence
+5. Analiza interacciones entre features
+
+Tiempo estimado: 2-3 minutos (SHAP es lento)
+
+
+Demo 2: Anomalías
+──────────────────
+python DEMO_anomaly_detector.py
+
+Este script ejecuta 6 demostraciones:
+1. Detección de outliers
+2. Reporte de calidad de datos
+3. Análisis de desbalance + SMOTE
+4. Anomalías en predicciones
+5. Data drift detection
+6. Análisis integral
+
+Tiempo estimado: 1-2 minutos
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  ✅ VALIDACIÓN CHECKLIST
+═══════════════════════════════════════════════════════════════════════════════
+
+Después de revisar el preview, verifica:
+
+□ Sintaxis Python correcta (sin errores de import)
+□ Funcionalidad clara y útil
+□ Documentación clara (docstrings, ejemplos)
+□ Demos ejecutables sin errores
+□ Visualizaciones legibles
+□ Reportes bien formateados
+□ Manejo de errores robusto
+
+Preguntas para validación:
+
+1. ¿El enfoque de los módulos te parece correcto?
+2. ¿Hay funcionalidades que falten?
+3. ¿Hay funcionalidades que sobre?
+4. ¿Te gustan los nombres de funciones?
+5. ¿La documentación es clara?
+6. ¿Hay cambios que quieras hacer antes de implementar todo?
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  🚀 PRÓXIMOS PASOS (DESPUÉS DE VALIDACIÓN)
+═══════════════════════════════════════════════════════════════════════════════
+
+Si el preview es aprobado, implementaremos:
+
+1. model_selector.py (600+ líneas)
+   - Bayesian hyperparameter tuning
+   - Ensemble methods
+   - Head-to-head comparison
+
+2. uncertainty.py (300+ líneas)
+   - Calibration curves
+   - Prediction confidence
+   - Out-of-distribution detection
+
+3. comprehensive_report.py (400+ líneas)
+   - HTML reports auto-generados
+   - JSON export
+   - Executive summary
+
+4. Expansiones a módulos existentes
+   - trainer.py: Learning curves, cost-sensitive learning
+   - evaluator.py: Calibration, confidence scores
+   - main.py: Orquestar nuevas funciones
+
+5. Documentación integral
+   - 5 documentos .txt detallados
+   - 5 scripts DEMO_*.py adicionales
+   - Guía de integración
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  📞 FEEDBACK ESPERADO
+═══════════════════════════════════════════════════════════════════════════════
+
+Por favor responde:
+
+1. ¿Los módulos te parecen bien?
+2. ¿Hay cambios que quieras hacer?
+3. ¿Quieres que proceda con la implementación completa?
+4. ¿Alguna prioridad específica entre los 3 módulos restantes?
+
+═══════════════════════════════════════════════════════════════════════════════

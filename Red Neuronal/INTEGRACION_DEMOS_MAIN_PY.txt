@@ -1,0 +1,201 @@
+================================================================================
+  ✅ INTEGRACIÓN DE DEMOS EN main.py - COMPLETADO
+================================================================================
+
+FECHA: 2026-04-18
+STATUS: ✅ IMPLEMENTADO
+
+================================================================================
+  DESCRIPCIÓN DE LOS CAMBIOS
+================================================================================
+
+Se integraron los demos de INTERPRETABILIDAD y ANOMALY DETECTOR dentro de main.py
+para que usen el modelo y datos del último entrenamiento.
+
+================================================================================
+  CAMBIOS REALIZADOS
+================================================================================
+
+1. NUEVOS IMPORTS (Líneas ~21-28)
+───────────────────────────────────────
+   - interpretability (explain_predictions)
+   - anomaly_detector (detect_outliers, data_quality_report, etc.)
+   - Variable DEMOS_AVAILABLE (verifica si están instalados)
+   - Variable global _LAST_MODEL
+
+2. FUNCIONES WRAPPER (Líneas ~407-505)
+───────────────────────────────────────
+   - run_interpretability_demo(resultado)
+     * Ejecuta SHAP + Partial Dependence
+     * Usa splits['X_train'] del modelo actual
+   
+   - run_anomaly_demo(resultado)
+     * 4 demos: Data Quality, Outliers, Class Imbalance, Prediction Anomalies
+     * Usa splits del modelo actual
+   
+   - _update_last_model(resultado)
+     * Actualiza variable global con el último modelo entrenado
+
+3. MENÚ PRINCIPAL ACTUALIZADO (Líneas ~541-553)
+───────────────────────────────────────
+   Antes:
+     Opciones: 1) Entrenar 2) Cargar 3) Ver historial 4) Eliminar 0) Salir
+   
+   Ahora:
+     Opciones: 1) Entrenar 2) Cargar 3) Ver historial 4) Eliminar 
+              5) Demo INTERPRETABILIDAD 6) Demo ANOMALY 0) Salir
+
+4. LÓGICA DE OPCIONES 5 y 6 (Líneas ~763-785)
+───────────────────────────────────────
+   - Opción 5: Ejecuta run_interpretability_demo(_LAST_MODEL)
+   - Opción 6: Ejecuta run_anomaly_demo(_LAST_MODEL)
+   - Verifica que hay modelo entrenado antes de ejecutar
+
+5. PREGUNTA POST-ENTRENAMIENTO (Líneas ~735-752)
+───────────────────────────────────────
+   Después de entrenar, pregunta automáticamente:
+   
+   ========================================================
+     🎯 ¿QUIERES VER LAS DEMOS?
+   ========================================================
+     1) Ver interpretability (SHAP + Partial Dependence)
+     2) Ver anomaly detector (outliers + quality)
+     3) Volver al menú principal
+
+6. ACTUALIZACIÓN DEL MODELO (Línea ~705)
+───────────────────────────────────────
+   - Después de entrenar, llama a _update_last_model(resultado)
+
+
+================================================================================
+  FLUJO DE USO
+================================================================================
+
+FLUJO 1: Desde el menú principal
+───────────────────────────────────────
+1. $ python main.py
+2. Selecciona "1" para entrenar un modelo
+3.完成后 ve el menú
+4. Selecciona "5" para INTERPRETABILIDAD
+   o "6" para ANOMALY DETECTOR
+
+FLUJO 2: Post-entrenamiento (más rápido)
+─────────────���─────────────────────────
+1. $ python main.py
+2. Selecciona "1" para entrenar
+3. Después de entrenar, pregunta "¿QUIERES VER LAS DEMOS?"
+4. Selecciona "1" o "2" directamente
+5. Listo!
+
+
+================================================================================
+  DATOS USADOS POR LOS DEMOS
+================================================================================
+
+Los demos usan el ÚLTIMO MODELO ENTREGADO:
+
+_LAST_MODEL = {
+    "pipeline": pipeline,      # Modelo entrenado
+    "meta": meta,            # Metadatos
+    "splits": {             # Datos separados
+        "X_train": ...,
+        "X_test": ...,
+        "y_train": ...,
+        "y_test": ...
+    },
+    "predictions": ...,     # Predicciones nuevas
+    "probabilities": ...,   # Probabilidades
+}
+
+
+================================================================================
+  FUNCIONALIDADES DE CADA DEMO
+================================================================================
+
+DEMO INTERPRETABILIDAD (Opción 5)
+───────────────────────────────────────
+Muestra:
+  1) SHAP values (importancia de features)
+  2) Partial Dependence Plots
+  3) Feature interactions
+
+Requiere:
+  - SHAP instalado (pip install shap)
+
+
+DEMO ANOMALY DETECTOR (Opción 6)
+───────────────────────────────────────
+Muestra:
+  1) Data Quality Report
+  2) Outlier Detection (Isolation Forest)
+  3) Class Imbalance Analysis
+  4) Prediction Anomalies
+
+Requiere:
+  - sklearn (ya incluido)
+  - scipy (ya incluido)
+
+
+================================================================================
+  VERIFICACIÓN DE ERRORES
+================================================================================
+
+Si al ejecutar ves...
+───────────────────────────────────────
+"❌ Módulo interpretability no disponible"
+  → Faltan instalar: pip install shap
+
+"❌ Módulo anomaly_detector no disponible"
+  → Faltan instalar los módulos: anomaly_detector.py, interpretability.py
+
+"❌ No hay modelo entrenado"
+  → No has entrenado. Ejecuta opción 1 primero.
+
+"❌ No hay datos disponibles"
+  → El split no está disponible. Entrena de nuevo.
+
+"ℹ️  Demos no disponibles (módulos no instalados)"
+  → Revisa que interpretability.py y anomaly_detector.py existan
+
+
+================================================================================
+  ARCHIVOS MODIFICADOS
+================================================================================
+
+✓ main.py
+   - +192 líneas nuevas
+   - Funciones: run_interpretability_demo(), run_anomaly_demo(), _update_last_model()
+   - Menú: opciones 5 y 6
+   - Post-entrenamiento: pregunta automática
+
+
+================================================================================
+  ARCHIVOS REQUERIDOS
+================================================================================
+
+Asegúrate de tener en el directorio:
+  ✓ main.py (actualizado)
+  ✓ interpretability.py 
+  ✓ anomaly_detector.py
+  ✓ trainer.py
+  ✓ preprocessor.py
+  ✓ data_loader.py
+  ✓ evaluator.py
+
+
+================================================================================
+  PRÓXIMOS PASOS
+================================================================================
+
+1. Ejecuta: python main.py
+2. Selecciona opción 1 para entrenar un modelo
+3. Después de entrenar, selecciona "1" o "2" cuando pregunte
+4. También puedes usar opciones 5 y 6 desde el menú
+
+¡Listo! Los demos ahora están integrados.
+
+
+================================================================================
+Status: ✅ COMPLETADO
+Last Updated: 2026-04-18
+================================================================================

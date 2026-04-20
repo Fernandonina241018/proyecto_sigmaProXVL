@@ -1,0 +1,372 @@
+═══════════════════════════════════════════════════════════════════════════════
+   DIAGNÓSTICO Y SOLUCIÓN: ValueError "columns are missing"
+═══════════════════════════════════════════════════════════════════════════════
+
+PROBLEMA: ValueError: La columna target 'XXX' no existe
+          Columnas disponibles: [...]
+
+CAUSA RAÍZ: El dataset no contiene la columna que intentas usar como target (variable a predecir)
+
+═══════════════════════════════════════════════════════════════════════════════
+DÓNDE OCURRE EL ERROR
+═══════════════════════════════════════════════════════════════════════════════
+
+El error se genera en preprocessor.py, línea 257-261:
+
+    if target not in df.columns:
+        raise ValueError(
+            f"La columna target '{target}' no existe. "
+            f"Columnas disponibles: {list(df.columns)}"
+        )
+
+Esto ocurre cuando:
+1. Llamas a run_pipeline() con un parámetro target='nombre_columna'
+2. El DataFrame cargado NO contiene esa columna
+3. El sistema falla con ValueError
+
+═══════════════════════════════════════════════════════════════════════════════
+CHECKLIST DE DIAGNÓSTICO
+═══════════════════════════════════════════════════════════════════════════════
+
+✓ Paso 1: VERIFICAR QUE EL CSV EXISTE
+────────────────────────────────────────
+
+Ejecuta este código:
+
+    from pathlib import Path
+    
+    datos_dir = Path(__file__).resolve().parent / "datos"
+    csv_files = list(datos_dir.glob("*.csv"))
+    
+    print(f"Archivos CSV encontrados: {len(csv_files)}")
+    for f in csv_files:
+        print(f"  • {f.name}")
+
+Asegúrate que:
+- La carpeta 'datos/' existe
+- El archivo CSV está en esa carpeta
+- El nombre del archivo es correcto
+
+
+✓ Paso 2: VERIFICAR COLUMNAS DEL CSV
+────────────────────────────────────────
+
+Ejecuta este código:
+
+    import pandas as pd
+    from pathlib import Path
+    
+    # Cargar el CSV
+    csv_path = Path(__file__).resolve().parent / "datos" / "tu_archivo.csv"
+    df = pd.read_csv(csv_path)
+    
+    print("Columnas en el CSV:")
+    for i, col in enumerate(df.columns, 1):
+        print(f"  {i}. '{col}'")
+    
+    print(f"\nForma del dataset: {df.shape}")
+    print(f"Primeras filas:")
+    print(df.head())
+
+Comprueba:
+- ¿Cuáles son exactamente los nombres de las columnas?
+- ¿Hay espacios en blanco al inicio/final? (pueden causar este error)
+- ¿La columna que buscas existe?
+
+
+✓ Paso 3: MATCH ENTRE CSV y PARÁMETRO target
+────────────────────────────────────────────────
+
+Ejemplo de ERROR (mismatch):
+
+    # En el CSV tienes: ['id', 'edad', 'salario', 'aprobado']
+    # Pero llamaste:
+    run_pipeline(source='csv', target='aprobado_credito')  ← INCORRECTO
+    
+    # El sistema busca 'aprobado_credito' pero solo existe 'aprobado'
+    # ❌ ValueError: columns are missing
+
+
+Ejemplo de CORRECTO:
+
+    # En el CSV tienes: ['id', 'edad', 'salario', 'aprobado']
+    # Deberías llamar:
+    run_pipeline(source='csv', target='aprobado')  ← CORRECTO
+    
+    # ✓ Funciona porque 'aprobado' existe en el CSV
+
+
+═══════════════════════════════════════════════════════════════════════════════
+SOLUCIÓN RÁPIDA EN 3 PASOS
+═══════════════════════════════════════════════════════════════════════════════
+
+PASO 1: Identifica las columnas exactas de tu CSV
+────────────────────────────────────────────────────
+
+import pandas as pd
+from pathlib import Path
+
+csv_path = Path(__file__).resolve().parent / "datos" / "entrenamiento_financiero.csv"
+df = pd.read_csv(csv_path)
+
+print("Columnas:", list(df.columns))
+# Salida esperada: ['id_cliente', 'nombre', 'salario', 'aprobado', ...]
+
+
+PASO 2: Usa el nombre EXACTO de la columna en el parámetro target
+───────────────────────────────────────────────────────────────────
+
+# ANTES (incorrecto - causaba el error):
+# run_pipeline(source='csv', target='resultado')
+
+# DESPUÉS (correcto - usa nombre exacto):
+result = run_pipeline(
+    source='csv',
+    target='aprobado',  # ← Nombre exacto de la columna
+    model_key='rf'
+)
+
+
+PASO 3: Agrega validación previa
+────────────────────────────────────
+
+# Antes de entrenar, valida que la columna existe:
+
+from pathlib import Path
+import pandas as pd
+
+def validate_csv_and_target(csv_filename: str, target_col: str) -> bool:
+    """Valida que el CSV existe y contiene la columna target."""
+    
+    datos_dir = Path(__file__).resolve().parent / "datos"
+    csv_path = datos_dir / csv_filename
+    
+    # Validar que existe
+    if not csv_path.exists():
+        print(f"❌ Error: CSV no encontrado: {csv_path}")
+        return False
+    
+    # Cargar y validar columna
+    try:
+        df = pd.read_csv(csv_path)
+        
+        if target_col not in df.columns:
+            print(f"❌ Error: Columna '{target_col}' no existe en {csv_filename}")
+            print(f"   Columnas disponibles: {list(df.columns)}")
+            return False
+        
+        print(f"✓ CSV válido: {csv_filename}")
+        print(f"✓ Columna target encontrada: '{target_col}'")
+        print(f"✓ Filas: {len(df)}, Columnas: {len(df.columns)}")
+        return True
+        
+    except Exception as e:
+        print(f"❌ Error al leer CSV: {e}")
+        return False
+
+
+# Uso:
+if validate_csv_and_target("entrenamiento_financiero.csv", "aprobado"):
+    result = run_pipeline(source='csv', target='aprobado')
+else:
+    print("Revisar la configuración del CSV y target antes de continuar")
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ERRORES COMUNES Y SOLUCIONES
+═══════════════════════════════════════════════════════════════════════════════
+
+ERROR 1: Espacios en blanco en nombres de columnas
+──────────────────────────────────────────────────
+
+Problema:
+    CSV tiene: ['id ', ' nombre', 'salario ']  (con espacios)
+    Llamas:    run_pipeline(target='id')
+    Error:     'id' no está en columnas porque el CSV tiene 'id '
+
+Solución:
+    # Limpiar nombres de columnas
+    df.columns = df.columns.str.strip()  # Elimina espacios
+    df.to_csv(csv_path, index=False)  # Guarda limpio
+
+
+ERROR 2: Case sensitivity (mayúsculas/minúsculas)
+─────────────────────────────────────────────────
+
+Problema:
+    CSV tiene: 'Aprobado'
+    Llamas:    run_pipeline(target='aprobado')
+    Error:     'aprobado' ≠ 'Aprobado'
+
+Solución:
+    # Opción A: Usar el nombre exacto
+    run_pipeline(target='Aprobado')
+    
+    # Opción B: Normalizar nombres
+    df.columns = df.columns.str.lower()
+
+
+ERROR 3: Columna esperada no está en el CSV
+────────────────────────────────────────────
+
+Problema:
+    CSV tiene: ['id', 'edad', 'ingreso']
+    Llamas:    run_pipeline(target='aprobado')
+    Error:     'aprobado' no existe
+
+Solución:
+    # Opción A: Usar columna que SÍ existe
+    run_pipeline(target='ingreso')
+    
+    # Opción B: Crear la columna antes de entrenar
+    import pandas as pd
+    df = pd.read_csv('datos/tu_archivo.csv')
+    df['aprobado'] = df['ingreso'] > 50000  # Crea la columna
+    df.to_csv('datos/tu_archivo.csv', index=False)
+
+
+ERROR 4: Columnas eliminadas por exclude_cols
+──────────────────────────────────────────────
+
+Problema:
+    CSV tiene: ['id', 'nombre', 'aprobado']
+    Llamas:    run_pipeline(target='aprobado', exclude_cols=['aprobado'])
+    Error:     'aprobado' fue eliminado por exclude_cols
+
+Solución:
+    # NO incluyas la columna target en exclude_cols
+    run_pipeline(
+        target='aprobado',
+        exclude_cols=['id', 'nombre']  # Excluye otros, no el target
+    )
+
+
+═══════════════════════════════════════════════════════════════════════════════
+CÓMO VERIFICAR DATASETS DISPONIBLES (con csv_auto_loader)
+═══════════════════════════════════════════════════════════════════════════════
+
+Desde que implementamos el sistema automático, puedes hacer:
+
+from csv_auto_loader import get_available_datasets, get_dataset_info
+
+# Ver todos los datasets
+datasets = get_available_datasets()
+print("Datasets disponibles:")
+for nombre, ruta in datasets.items():
+    print(f"  • {nombre}")
+
+# Ver detalles de un dataset
+info = get_dataset_info('entrenamiento_financiero')
+if info:
+    print(f"\nDetalles de 'entrenamiento_financiero':")
+    print(f"  Filas: {info['filas']}")
+    print(f"  Columnas: {info['columnas']}")
+    print(f"  Nombres: {info['names']}")
+
+
+═══════════════════════════════════════════════════════════════════════════════
+GUÍA PASO A PASO PARA FIJAR EL PROBLEMA
+═══════════════════════════════════════════════════════════════════════════════
+
+1. DETENER LA EJECUCIÓN DEL PROGRAMA
+   └─ Presiona Ctrl+C si está corriendo
+
+2. ABRIR PYTHON INTERACTIVO
+   └─ Ejecuta: python3
+   
+3. EXPLORAR EL CSV
+   
+   >>> import pandas as pd
+   >>> df = pd.read_csv('datos/tu_archivo.csv')
+   >>> print(list(df.columns))
+   ['col1', 'col2', 'col3', ...]
+   
+4. IDENTIFICAR LA COLUMNA TARGET CORRECTA
+   
+   >>> # ¿Cuál es la columna que quieres predecir?
+   >>> # Por ejemplo: 'aprobado', 'resultado', 'status', etc.
+   
+5. ACTUALIZAR EL CÓDIGO
+   
+   >>> # En main.py o tu script, cambia:
+   >>> # result = run_pipeline(..., target='NOMBRE_INCORRECTO', ...)
+   >>> # a:
+   >>> # result = run_pipeline(..., target='NOMBRE_CORRECTO', ...)
+   
+6. VOLVER A EJECUTAR
+   
+   >>> # Ahora debería funcionar sin el ValueError
+
+7. SI SIGUE FALLANDO
+   
+   >>> # Ejecuta este código para debugging:
+   >>> from csv_auto_loader import get_dataset_info
+   >>> info = get_dataset_info('tu_archivo')
+   >>> print(info['names'])  # Lista exacta de columnas
+
+
+═══════════════════════════════════════════════════════════════════════════════
+EJEMPLO PRÁCTICO: ANTES vs DESPUÉS
+═══════════════════════════════════════════════════════════════════════════════
+
+ANTES (❌ Causaba ValueError):
+────────────────────────────────
+
+from main import run_pipeline
+
+# Sin validación previa
+result = run_pipeline(
+    source='csv',
+    target='resultado_credito',  # ← ¿Existe esta columna?
+    model_key='rf'
+)
+# ValueError: La columna target 'resultado_credito' no existe.
+# Columnas disponibles: ['id_cliente', 'nombre', 'salario', 'aprobado']
+
+
+DESPUÉS (✓ Valida primero):
+───────────────────────────
+
+from main import run_pipeline
+from csv_auto_loader import get_dataset_info
+import pandas as pd
+
+# Paso 1: Validar que el CSV existe y tiene la columna
+info = get_dataset_info('entrenamiento_financiero')
+if not info:
+    print("Dataset no encontrado")
+else:
+    print(f"Columnas disponibles: {info['names']}")
+    
+    # Paso 2: Usar el nombre correcto de la columna
+    target_column = 'aprobado'  # ← Nombre correcto
+    
+    if target_column in info['names']:
+        # Paso 3: Entrenar con seguridad
+        result = run_pipeline(
+            source='csv',
+            target=target_column,
+            model_key='rf'
+        )
+        print("✓ Entrenamiento exitoso")
+    else:
+        print(f"❌ Columna '{target_column}' no encontrada")
+        print(f"   Disponibles: {info['names']}")
+
+
+═══════════════════════════════════════════════════════════════════════════════
+RESUMEN Y CHECKLIST FINAL
+═══════════════════════════════════════════════════════════════════════════════
+
+Antes de ejecutar run_pipeline(), verifica:
+
+□ El archivo CSV existe en carpeta 'datos/'
+□ Conoces exactamente el nombre de cada columna (sin espacios extras)
+□ El parámetro target corresponde a una columna que existe
+□ El parámetro target NO está en exclude_cols
+□ Las mayúsculas/minúsculas coinciden exactamente
+□ Ejecutaste csv_auto_loader.get_dataset_info() para validar
+
+Si todo está ✓, el error desaparecerá.
+
+═══════════════════════════════════════════════════════════════════════════════

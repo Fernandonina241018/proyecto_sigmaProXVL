@@ -32,14 +32,20 @@ plt.style.use("seaborn-v0_8-darkgrid")
 
 def evaluate(pipeline, splits: dict, meta: dict,
              bootstrap_models: list = None,
-             X_new: pd.DataFrame = None) -> dict:
-    """Evalua el modelo segun el tipo de problema."""
+             X_new: pd.DataFrame = None,
+             threshold: float = 0.5) -> dict:
+    """Evalua el modelo segun el tipo de problema.
+    
+    Args:
+        threshold: Para problemas binarios, permite ajustar el umbral de decisión.
+                   Default 0.5 (estándar). Valores mayores = más conservador.
+    """
     problem_type = meta["problem_type"]
     X_test = splits["X_test"]
     y_test = splits["y_test"]
 
     if problem_type == "binary":
-        results = _eval_binary(pipeline, X_test, y_test, meta)
+        results = _eval_binary(pipeline, X_test, y_test, meta, threshold=threshold)
     elif problem_type == "multiclass":
         results = _eval_multiclass(pipeline, X_test, y_test, meta)
     else:
@@ -53,15 +59,32 @@ def evaluate(pipeline, splits: dict, meta: dict,
     return results
 
 
-def _eval_binary(pipeline, X_test, y_test, meta) -> dict:
-    y_pred = pipeline.predict(X_test)
+def _eval_binary(pipeline, X_test, y_test, meta, threshold: float = 0.5) -> dict:
+    """Evaluación binaria con soporte para threshold personalizado.
+    
+    Para problemas sensibles como créditos, el threshold por defecto 0.5
+    puede ser inapropiado. Este parámetro permite ajustarlo.
+    
+    Args:
+        pipeline: Pipeline entrenado
+        X_test: Features de prueba
+        y_test: Labels de prueba
+        meta: Metadatos
+        threshold: Valor umbral para decisión (0.0-1.0). Default=0.5
+    """
+    # Usar probabilidades para aplicar threshold personalizado
     y_proba = pipeline.predict_proba(X_test)[:, 1]
+    y_pred = (y_proba >= threshold).astype(int)
+    
     classes = meta.get("target_classes") or ["0", "1"]
-
     y_test_eval = _normalize_binary_target(y_test)
 
     auc = roc_auc_score(y_test_eval, y_proba)
     ap = average_precision_score(y_test_eval, y_proba)
+    
+    # Informar si se usó threshold no estándar
+    if threshold != 0.5:
+        print(f"  ⚠️  Usando threshold personalizado: {threshold:.2f} (no 0.50)")
 
     print("\n" + "=" * 62)
     print("  EVALUACION - CLASIFICACION BINARIA")

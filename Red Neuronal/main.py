@@ -6,7 +6,6 @@ Punto de entrada unico. Conecta todos los modulos:
 """
 
 from pathlib import Path
-
 import pandas as pd
 
 from config import TRAIN_DEFAULTS
@@ -16,15 +15,131 @@ from model_store import save_model
 from preprocessor import prepare_data
 from trainer import bootstrap_models as run_bootstrap
 from trainer import train
+from model_manager import ModelManager
+from csv_auto_loader import get_available_datasets  # ✨ NUEVO: Carga automática de CSV
+
+# ✨ DEMOS: Interpretability y Anomaly Detection
+try:
+    from interpretability import explain_predictions
+    from anomaly_detector import (
+        detect_outliers, data_quality_report, recommend_imbalance_handling,
+        detect_prediction_anomalies, print_quality_report
+    )
+    DEMOS_AVAILABLE = True
+except ImportError:
+    DEMOS_AVAILABLE = False
+    print("  ℹ️  Demos no disponibles (módulos no instalados)")
+
+# ✨ Variable global para mantener el último modelo entrenado
+_LAST_MODEL = {"pipeline": None, "meta": None, "splits": None, "predictions": None, "probabilities": None}
 
 
 _BASE_DATOS = Path(__file__).resolve().parent / "datos"
-DEMO_CSV_BY_FUENTE = {
-    "temporal": _BASE_DATOS / "entrenamiento_temporal.csv",
-    "alternativo": _BASE_DATOS / "entrenamiento_patron_alternativo.csv",
-    "financiero": _BASE_DATOS / "entrenamiento_financiero.csv",
-    "texto": _BASE_DATOS / "entrenamiento_texto.csv",
-}
+
+# ✨ CAMBIO: Ahora se carga dinámicamente en lugar de estar hardcodeado
+# Esto permite que nuevos CSV aparezcan automáticamente sin modificar este archivo
+def _get_demo_csv_by_fuente():
+    """Retorna diccionario de datasets disponibles (dinámico)."""
+    return get_available_datasets()
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# FUNCIONES AUXILIARES PARA DETECCIÓN AUTOMÁTICA (Evita hardcoding)
+# ═══════════════════════════════════════════════════════════════════════════
+
+def _get_target_column(df: pd.DataFrame, csv_name: str) -> str:
+    """
+    Detecta automáticamente la columna target (variable a predecir).
+    
+    Busca entre nombres comunes en orden de preferencia.
+    Si no encuentra, lanza error informativo en lugar de asumir.
+    
+    Args:
+        df: DataFrame con los datos
+        csv_name: Nombre del archivo (para mensajes de error)
+    
+    Returns:
+        Nombre de la columna target
+    
+    Raises:
+        ValueError: Si no se encuentra columna target
+    """
+    # Lista de nombres comunes para target (en orden de preferencia)
+    common_targets = ['aprobado', 'resultado', 'target', 'clase', 'label', 
+                      'outcome', 'prediccion', 'y']
+    
+    # Buscar en orden de preferencia
+    for target_name in common_targets:
+        if target_name in df.columns:
+            return target_name
+    
+    # Si no encuentra ninguno, error informativo
+    raise ValueError(
+        f"❌ No se encontró columna target en '{csv_name}'.\n"
+        f"   Se esperaba una de: {common_targets}\n"
+        f"   Columnas disponibles: {list(df.columns)}"
+    )
+
+
+def _detect_id_columns(df: pd.DataFrame) -> list:
+    """
+    Detecta automáticamente columnas ID para excluir del entrenamiento.
+    
+    Args:
+        df: DataFrame con los datos
+    
+    Returns:
+        Lista de nombres de columnas que parecen ser ID
+    """
+    id_columns = []
+    
+    for col in df.columns:
+        col_lower = col.lower()
+        # Heurística: columnas que contienen 'id' en el nombre
+        if 'id' in col_lower:
+            id_columns.append(col)
+    
+    return id_columns
+
+
+def _generate_prediction_data(df: pd.DataFrame, exclude_cols=None) -> pd.DataFrame:
+    """
+    Genera datos de predicción basado en las columnas reales del dataset.
+    
+    Crea un ejemplo con valores cercanos a la media/moda del dataset,
+    evitando hardcodear columnas específicas.
+    
+    Args:
+        df: DataFrame con los datos de entrenamiento
+        exclude_cols: Columnas a excluir (típicamente target e ID)
+    
+    Returns:
+        DataFrame con un ejemplo para predicción
+    """
+    import numpy as np
+    
+    exclude_cols = exclude_cols or []
+    
+    # Columnas disponibles para predicción
+    feature_cols = [c for c in df.columns if c not in exclude_cols]
+    
+    # Crear ejemplo con valores cercanos a media/moda
+    ejemplo = {}
+    
+    for col in feature_cols:
+        try:
+            if df[col].dtype in ['int64', 'float64', 'float32', 'int32']:
+                # Para numéricos: usar media
+                ejemplo[col] = df[col].mean()
+            else:
+                # Para categóricos: usar moda o primer valor
+                moda = df[col].mode()
+                ejemplo[col] = moda[0] if len(moda) > 0 else df[col].iloc[0]
+        except Exception as e:
+            # Si hay error, usar primer valor
+            ejemplo[col] = df[col].iloc[0]
+    
+    return pd.DataFrame([ejemplo])
 
 
 def run_pipeline(
@@ -43,8 +158,15 @@ def run_pipeline(
     save_path: str = None,
     X_new: pd.DataFrame = None,
     verbose: bool = True,
+    auto_save: bool = True,
+    dataset_name: str = None,
 ) -> dict:
-    """Ejecuta el pipeline completo de ML."""
+    """Ejecuta el pipeline completo de ML.
+    
+    Nuevo parámetro:
+        auto_save       : bool = True    Guardar automáticamente en modelos_guardados/
+        dataset_name    : str = None     Nombre del dataset (para registro)
+    """
 
     source_kwargs = source_kwargs or {}
     model_kwargs = model_kwargs or {}
@@ -57,6 +179,13 @@ def run_pipeline(
 
     _step(1, "Cargando datos")
     df = load_data(source, **source_kwargs)
+    
+    # Inferir nombre del dataset si no se proporciona
+    if dataset_name is None:
+        if source == "csv" and "path" in source_kwargs:
+            dataset_name = Path(source_kwargs["path"]).name
+        else:
+            dataset_name = f"{source}_{target}"
 
     _step(2, "Analizando y preparando datos")
     X_raw, y, preprocessor, meta = prepare_data(
@@ -115,6 +244,34 @@ def run_pipeline(
             n_bootstraps=n_bootstraps,
         )
         save_model(pipeline, meta, boot_models, train_params, path=save_path)
+    
+    # Guardado automático en modelos_guardados/ con metadatos completos
+    if auto_save:
+        _step(6, "Guardando automáticamente en modelos_guardados/")
+        manager = ModelManager()
+        
+        payload = {
+            "pipeline": pipeline,
+            "meta": meta,
+            "bootstrap_models": boot_models,
+            "train_params": dict(
+                source=source,
+                model_key=model_key,
+                problem_type=meta["problem_type"],
+                test_size=test_size,
+                cv_folds=cv_folds,
+                n_bootstraps=n_bootstraps,
+            ),
+            "saved_at": None,  # Se actualiza en save_model
+            "version": "1.0",
+        }
+        
+        model_id = manager.save_training(
+            payload=payload,
+            dataset_name=dataset_name,
+            model_key=model_key,
+            eval_results=eval_results,
+        )
 
     _banner("PIPELINE COMPLETADO")
 
@@ -246,113 +403,383 @@ def _format_input_row(row: pd.Series, columns) -> str:
     return ", ".join(f"{col}={row[col]}" for col in columns)
 
 
-if __name__ == "__main__":
-    print("\n" + "=" * 60)
-    print("  pipeline ML - SELECCION DE FUENTE DE DATOS")
-    print("=" * 60)
-    print("\n  Elige una fuente de datos:\n")
+# ═══════════════════════════════════════════════════════════════════════════════════
+# FUNCIONES WRAPPER PARA DEMOS (Interpretability + Anomaly Detection)
+# ═══════════════════════════════════════════════════════════════════════════════════
 
-    for i, fuente in enumerate(DEMO_CSV_BY_FUENTE.keys(), 1):
-        archivo = DEMO_CSV_BY_FUENTE[fuente].name
-        print(f"    {i}) {fuente:<15} -> {archivo}")
-
-    print("    0) Salir")
+def run_interpretability_demo(resultado: dict):
+    """Ejecuta demo de interpretability usando el modelo entrenado actual."""
+    if not DEMOS_AVAILABLE:
+        print("  ❌ Módulo interpretability no disponible.")
+        return
+    
+    pipeline = resultado.get("pipeline")
+    splits = resultado.get("splits")
+    
+    if pipeline is None or splits is None:
+        print("  ❌ No hay modelo entrenado disponible.")
+        return
+    
+    X_train = splits.get("X_train")
+    if X_train is None:
+        print("  ❌ No hay datos de entrenamiento disponibles.")
+        return
+    
+    print("\n" + "=" * 62)
+    print("  🎯 DEMO: INTERPRETABILIDAD (SHAP + Partial Dependence)")
+    print("=" * 62)
+    print("\n  Este demo muestra:")
+    print("    1) SHAP values (importancia de features)")
+    print("    2) Partial Dependence Plots")
+    print("    3) Feature interactions")
     print("")
+    
+    X_sample = X_train.iloc[:min(20, len(X_train))]
+    
+    try:
+        print("  Calculando SHAP values...")
+        explain_predictions(pipeline, X_train=X_train, X_new=X_sample, verbose=True)
+        print("\n  ✅ Demo de interpretability completado")
+    except Exception as e:
+        print(f"\n  ⚠️  Error: {e}")
+        print("     Asegúrate de tener SHAP instalado: pip install shap")
 
-    while True:
+
+def run_anomaly_demo(resultado: dict):
+    """Ejecuta demo de anomaly detection usando el modelo y datos actuales."""
+    if not DEMOS_AVAILABLE:
+        print("  ❌ Módulo anomaly_detector no disponible.")
+        return
+    
+    splits = resultado.get("splits")
+    
+    if splits is None:
+        print("  ❌ No hay datos disponibles. Entrena un modelo primero.")
+        return
+    
+    X_train = splits.get("X_train")
+    X_test = splits.get("X_test")
+    y_train = splits.get("y_train")
+    y_test = splits.get("y_test")
+    
+    if X_train is None or y_train is None:
+        print("  ❌ Datos de entrenamiento no disponibles.")
+        return
+    
+    print("\n" + "=" * 62)
+    print("  🚨 DEMO: ANOMALY DETECTOR")
+    print("=" * 62)
+    print("\n  Este demo muestra:")
+    print("    1) Data Quality Report")
+    print("    2) Outlier Detection")
+    print("    3) Class Imbalance Analysis")
+    print("    4) Prediction Anomalies")
+    print("")
+    
+    # 1. Data Quality Report
+    print("\n📊 [1/4] Data Quality Report...")
+    try:
+        report = data_quality_report(X_train, y_train)
+        print_quality_report(report)
+    except Exception as e:
+        print(f"  ⚠️  Error: {e}")
+    
+    # 2. Outlier Detection
+    print("\n📊 [2/4] Outlier Detection...")
+    try:
+        outliers = detect_outliers(X_train, method="isolation_forest", verbose=True)
+        print(f"  Outliers encontrados: {outliers.get('outlier_count', 0)}")
+    except Exception as e:
+        print(f"  ⚠️  Error: {e}")
+    
+    # 3. Class Imbalance
+    print("\n📊 [3/4] Class Imbalance Analysis...")
+    try:
+        imbalance = recommend_imbalance_handling(y_train)
+        print(f"  Imbalance ratio: {imbalance.get('imbalance_ratio', 'N/D'):.2f}")
+        print(f"  Clase minoritaria: {imbalance.get('minority_class', 'N/D')}")
+    except Exception as e:
+        print(f"  ⚠️  Error: {e}")
+    
+    # 4. Prediction Anomalies (si hay predicciones nuevas)
+    print("\n📊 [4/4] Prediction Anomalies...")
+    if resultado.get("predictions") is not None and X_test is not None:
         try:
-            opcion = input("  Opcion: ").strip()
-
-            if opcion == "0":
-                print("\n  Hasta luego!")
-                break
-
-            opciones = list(DEMO_CSV_BY_FUENTE.keys())
-            idx = int(opcion) - 1
-
-            if 0 <= idx < len(opciones):
-                fuente_elegida = opciones[idx]
-                break
-
-            print("  Opcion invalida. Intenta de nuevo.")
-        except ValueError:
-            print("  Ingresa un numero.")
-
-    if opcion == "0":
-        raise SystemExit(0)
-
-    demo_csv = DEMO_CSV_BY_FUENTE[fuente_elegida]
-    if not demo_csv.is_file():
-        raise SystemExit(f"No se encontro el CSV: {demo_csv}")
-
-    print(f"\n  Fuente seleccionada: '{fuente_elegida}' -> {demo_csv}\n")
-
-    exclude_cols = None
-    if fuente_elegida == "financiero":
-        exclude_cols = ["id_cliente"]
-
-    resultado = run_pipeline(
-        source="csv",
-        source_kwargs={"path": str(demo_csv)},
-        target="aprobado",
-        exclude_cols=exclude_cols,
-        model_key="rf",
-        problem_type="auto",
-        run_bootstrap_ci=True,
-        n_bootstraps=80,
-        save_path="modelo_demo.pkl",
-    )
-
-    if fuente_elegida == "financiero":
-        nuevos = pd.DataFrame({
-            "edad": [30, 45, 38],
-            "ingreso_mensual": [4000, 7000, 5200],
-            "monto_solicitado": [15000, 50000, 28000],
-            "plazo_meses": [24, 48, 36],
-            "tasa_interes": [18.0, 12.5, 15.0],
-            "historial_credito": [650, 750, 705],
-            "empleo_actual": ["empleado", "empleado", "empleado"],
-            "estado_civil": ["soltero", "casado", "casado"],
-            "tiene_vivienda": ["no", "si", "si"],
-            "tiene_vehiculo": ["si", "si", "si"],
-            "deuda_actual": [1000, 2500, 1800],
-            "score_credito": [620, 760, 690],
-        })
-        print("\n  Predicciones para 3 nuevos clientes:")
-    elif fuente_elegida == "texto":
-        nuevos = pd.DataFrame({
-            "horas_estudio": [3.5, 6.8, 8.9],
-            "asistencia_pct": [58, 83, 94],
-            "promedio_previo": [55, 77, 90],
-            "ciudad": ["Sevilla", "Bogota", "Madrid"],
-            "modalidad_estudio": ["presencial", "hibrida", "online"],
-            "turno": ["noche", "tarde", "manana"],
-            "tiene_internet": ["no", "si", "si"],
-        })
-        print("\n  Predicciones para 3 nuevos estudiantes con columnas de texto:")
+            y_pred = resultado.get("predictions")
+            y_proba = resultado.get("probabilities")
+            if y_proba is not None:
+                anomalies = detect_prediction_anomalies(y_test, y_pred, y_proba, confidence_threshold=0.7)
+                print(f"  Casos anomalos: {anomalies.get('anomaly_count', 0)}")
+        except Exception as e:
+            print(f"  ⚠️  Error: {e}")
     else:
-        nuevos = pd.DataFrame({
-            "horas_estudio": [2.0, 7.5, 11.0],
-            "asistencia_pct": [55, 85, 95],
-            "promedio_previo": [50, 72, 88],
-            "horas_sueno": [5, 7, 8],
-            "actividades_extra": [0, 1, 2],
-            "nivel_estres": [8, 5, 3],
-        })
-        print("\n  Predicciones para 3 nuevos estudiantes:")
+        print("  ℹ️  No hay predicciones nuevas para analizar.")
+    
+    print("\n  ✅ Demo de anomaly detector completado")
 
-    preds = predict(
-        resultado["pipeline"],
-        nuevos,
-        resultado["meta"],
-        resultado["bootstrap_models"],
-    )
-    _print_prediction_report(nuevos, preds, resultado["meta"])
 
-    respuesta = input("\n  Iniciar modo interactivo? (s/n): ").strip().lower()
-    if respuesta == "s":
-        interactive_cli(
-            resultado["pipeline"],
-            resultado["meta"],
-            resultado["bootstrap_models"],
-        )
+def _update_last_model(resultado: dict):
+    """Actualiza la variable global _LAST_MODEL con el resultado actual."""
+    global _LAST_MODEL
+    _LAST_MODEL = {
+        "pipeline": resultado.get("pipeline"),
+        "meta": resultado.get("meta"),
+        "splits": resultado.get("splits"),
+        "predictions": resultado.get("predictions_new"),
+        "probabilities": resultado.get("probabilities_new"),
+    }
+
+
+if __name__ == "__main__":
+    manager = ModelManager()
+    
+    # Menú principal
+    while True:
+        print("\n" + "=" * 62)
+        print("  SISTEMA ML MODULAR - MENÚ PRINCIPAL")
+        print("=" * 62)
+        print("\n  Opciones:\n")
+        print("    1) Entrenar NUEVO modelo")
+        print("    2) Cargar modelo EXISTENTE")
+        print("    3) Ver historial de modelos")
+        print("    4) Eliminar un modelo")
+        if DEMOS_AVAILABLE:
+            print("    5) Demo INTERPRETABILIDAD (SHAP)")
+            print("    6) Demo ANOMALY DETECTOR")
+        print("    0) Salir")
+        print("")
+        
+        opciones_disponibles = "0-4" if not DEMOS_AVAILABLE else "0-6"
+        opcion = input(f"  Selección ({opciones_disponibles}): ").strip()
+        
+        # ════════════════════════════════════════════════════════════════
+        # OPCIÓN 0: SALIR
+        # ════════════════════════════════════════════════════════════════
+        if opcion == "0":
+            print("\n  ¡Hasta luego!")
+            break
+        
+        # ════════════════════════════════════════════════════════════════
+        # OPCIÓN 3: VER HISTORIAL
+        # ════════════════════════════════════════════════════════════════
+        elif opcion == "3":
+            manager.print_models_table()
+            input("  Presiona Enter para continuar...")
+            continue
+        
+        # ════════════════════════════════════════════════════════════════
+        # OPCIÓN 4: ELIMINAR MODELO
+        # ════════════════════════════════════════════════════════════════
+        elif opcion == "4":
+            models = manager.list_models()
+            if not models:
+                print("\n  No hay modelos para eliminar.")
+                input("  Presiona Enter para continuar...")
+                continue
+            
+            manager.print_models_table(models)
+            model_id = input("  Ingresa el ID del modelo a eliminar (ej: modelo_001): ").strip()
+            
+            if model_id and manager.delete_model(model_id):
+                input("  Presiona Enter para continuar...")
+            continue
+        
+        # ════════════════════════════════════════════════════════════════
+        # OPCIÓN 2: CARGAR MODELO EXISTENTE
+        # ════════════════════════════════════════════════════════════════
+        elif opcion == "2":
+            resultado = manager.interactive_menu()
+            
+            if resultado is None:
+                continue
+            
+            # Modelo cargado exitosamente
+            print("\n  ¿Qué deseas hacer?\n")
+            print("    1) Hacer predicciones en nuevos datos")
+            print("    2) Volver al menú principal")
+            print("")
+            
+            accion = input("  Selección (1-2): ").strip()
+            
+            if accion == "1":
+                # Predicciones con el modelo cargado
+                pipeline = resultado['pipeline']
+                meta = resultado['meta']
+                boot_models = resultado.get('bootstrap_models', [])
+                
+                print("\n  Ingresa datos para predicción (escribe 'salir' para terminar)")
+                interactive_cli(pipeline, meta, boot_models)
+            
+            continue
+        
+        # ════════════════════════════════════════════════════════════════
+        # OPCIÓN 1: ENTRENAR NUEVO MODELO
+        # ════════════════════════════════════════════════════════════════
+        elif opcion == "1":
+            print("\n" + "=" * 62)
+            print("  ENTRENAR NUEVO MODELO - SELECCIONAR FUENTE DE DATOS")
+            print("=" * 62)
+            print("\n  Elige una fuente de datos:\n")
+            
+            demo_datasets = _get_demo_csv_by_fuente()
+            for i, fuente in enumerate(demo_datasets.keys(), 1):
+                archivo = demo_datasets[fuente].name
+                print(f"    {i}) {fuente:<15} -> {archivo}")
+            
+            print("    0) Volver")
+            print("")
+            
+            while True:
+                try:
+                    opcion_fuente = input("  Opción: ").strip()
+                    
+                    if opcion_fuente == "0":
+                        fuente_elegida = None
+                        break
+                    
+                    opciones = list(demo_datasets.keys())
+                    idx = int(opcion_fuente) - 1
+                    
+                    if 0 <= idx < len(opciones):
+                        fuente_elegida = opciones[idx]
+                        break
+                    
+                    print("  Opción inválida. Intenta de nuevo.")
+                except ValueError:
+                    print("  Ingresa un número.")
+            
+            if fuente_elegida is None:
+                continue
+            
+            demo_csv = demo_datasets[fuente_elegida]
+            if not demo_csv.is_file():
+                print(f"  ✗ No se encontró el CSV: {demo_csv}")
+                input("  Presiona Enter para continuar...")
+                continue
+            
+            print(f"\n  Fuente seleccionada: '{fuente_elegida}' -> {demo_csv}\n")
+            
+            # ═══════════════════════════════════════════════════════════════
+            # VALIDACIÓN AUTOMÁTICA DEL DATASET
+            # ═══════════════════════════════════════════════════════════════
+            try:
+                # Cargar temporalmente para inspeccionar
+                df_temp = pd.read_csv(demo_csv)
+                
+                # Detectar target automáticamente
+                target = _get_target_column(df_temp, demo_csv.name)
+                
+                # Detectar columnas ID automáticamente
+                exclude_cols = _detect_id_columns(df_temp)
+                
+                # Informar al usuario
+                print(f"  ℹ️  Target automático: '{target}'")
+                if exclude_cols:
+                    print(f"  ℹ️  Excluyendo columnas ID: {exclude_cols}")
+                print()
+                
+            except ValueError as e:
+                print(f"  {e}")
+                input("  Presiona Enter para continuar...")
+                continue
+            except Exception as e:
+                print(f"  ❌ Error al inspeccionar dataset: {e}")
+                input("  Presiona Enter para continuar...")
+                continue
+            
+            # ─────────────────────────────────────────────────────────────
+            # ENTRENAMIENTO (Dinámico)
+            # ─────────────────────────────────────────────────────────────
+            resultado = run_pipeline(
+                source="csv",
+                source_kwargs={"path": str(demo_csv)},
+                target=target,  # ✨ Dinámico
+                exclude_cols=exclude_cols,  # ✨ Dinámico
+                model_key="rf",
+                problem_type="auto",
+                run_bootstrap_ci=True,
+                n_bootstraps=80,
+                auto_save=True,
+                dataset_name=demo_csv.name,
+            )
+            
+            # ✨ ACTUALIZAR MODELO ACTUAL PARA DEMOS
+            _update_last_model(resultado)
+            
+            # ─────────────────────────────────────────────────────────────
+            # PREDICCIONES EN NUEVOS DATOS (Dinámico)
+            # ─────────────────────────────────────────────────────────────
+            try:
+                # Generar datos de predicción dinámicamente
+                nuevos = _generate_prediction_data(df_temp, exclude_cols=[target] + exclude_cols)
+                print(f"\n  Predicciones para {len(nuevos)} instancia(s) nuevo(a/s):")
+                
+            except Exception as e:
+                print(f"  ⚠️  No se pudo generar datos de predicción: {e}")
+                nuevos = None
+            
+            if nuevos is not None:
+                preds = predict(
+                    resultado["pipeline"],
+                    nuevos,
+                    resultado["meta"],
+                    resultado["bootstrap_models"],
+                )
+                _print_prediction_report(nuevos, preds, resultado["meta"])
+            
+            respuesta = input("\n  ¿Iniciar modo interactivo de predicción? (s/n): ").strip().lower()
+            if respuesta == "s":
+                interactive_cli(
+                    resultado["pipeline"],
+                    resultado["meta"],
+                    resultado["bootstrap_models"],
+                )
+            
+            # ✨ PREGUNTA DESPUÉS DE ENTRENAR: Ver demos?
+            if DEMOS_AVAILABLE:
+                print("\n" + "=" * 62)
+                print("  🎯 ¿QUIERES VER LAS DEMOS?")
+                print("=" * 62)
+                print("    1) Ver interpretability (SHAP + Partial Dependence)")
+                print("    2) Ver anomaly detector (outliers + quality)")
+                print("    3) Volver al menú principal")
+                print("")
+                
+                respuesta_demo = input("  Selección (1-3): ").strip()
+                
+                if respuesta_demo == "1":
+                    _update_last_model(resultado)
+                    run_interpretability_demo(resultado)
+                    input("\n  Presiona Enter para continuar...")
+                elif respuesta_demo == "2":
+                    _update_last_model(resultado)
+                    run_anomaly_demo(resultado)
+                    input("\n  Presiona Enter para continuar...")
+            
+            input("\n  Presiona Enter para volver al menú principal...")
+        
+        # ════════════════════════════════════════════════════════════════
+        # OPCIÓN 5: DEMO INTERPRETABILIDAD
+        # ════════════════════════════════════════════════════════════════
+        elif opcion == "5" and DEMOS_AVAILABLE:
+            if _LAST_MODEL["pipeline"] is None or _LAST_MODEL["splits"] is None:
+                print("\n  ❌ No hay modelo entrenado.")
+                print("  ℹ️  Entrena un modelo primero (opción 1).")
+            else:
+                run_interpretability_demo(_LAST_MODEL)
+            input("  Presiona Enter para continuar...")
+        
+        # ════════════════════════════════════════════════════════════════
+        # OPCIÓN 6: DEMO ANOMALY DETECTOR
+        # ════════════════════════════════════════════════════════════════
+        elif opcion == "6" and DEMOS_AVAILABLE:
+            if _LAST_MODEL["splits"] is None:
+                print("\n  ❌ No hay datos disponibles.")
+                print("  ℹ️  Entrena un modelo primero (opción 1).")
+            else:
+                run_anomaly_demo(_LAST_MODEL)
+            input("  Presiona Enter para continuar...")
+        
+        else:
+            print("  Opción inválida. Intenta de nuevo.")
+

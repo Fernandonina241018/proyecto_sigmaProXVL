@@ -1,0 +1,345 @@
+═══════════════════════════════════════════════════════════════════════════════
+   BUG IDENTIFICADO: Mismatch de Columnas Entre Datasets
+═══════════════════════════════════════════════════════════════════════════════
+
+PROBLEMA: Cuando se intenta entrenar con un dataset, el sistema solicita 
+          columnas de otro dataset, causando ValueError.
+
+CAUSA RAÍZ: Código hardcodeado en main.py que:
+1. Verifica nombre del dataset con lógica obsoleta
+2. Usa target hardcodeado ("aprobado") sin validar
+3. Excluye columnas específicas solo para un dataset
+4. Crea datos de predicción hardcodeados para cada dataset
+
+═══════════════════════════════════════════════════════════════════════════════
+ANÁLISIS DETALLADO
+═══════════════════════════════════════════════════════════════════════════════
+
+DATASETS DISPONIBLES Y SUS COLUMNAS:
+────────────────────────────────────
+
+1. entrenamiento_financiero.csv
+   ✅ Tiene "aprobado"
+   Columnas: id_cliente, edad, ingreso_mensual, monto_solicitado, plazo_meses,
+             tasa_interes, historial_credito, deuda_actual, score_credito, aprobado
+
+2. entrenamiento_patron_alternativo.csv
+   ✅ Tiene "aprobado"
+   Columnas: horas_estudio, asistencia_pct, promedio_previo, horas_sueno,
+             actividades_extra, nivel_estres, aprobado
+
+3. entrenamiento_temporal.csv
+   ✅ Tiene "aprobado"
+   Columnas: horas_estudio, asistencia_pct, promedio_previo, horas_sueno,
+             actividades_extra, nivel_estres, aprobado
+
+4. entrenamiento_texto.csv
+   ✅ Tiene "aprobado"
+   Columnas: horas_estudio, asistencia_pct, promedio_previo, ciudad,
+             modalidad_estudio, turno, tiene_internet, aprobado
+
+5. training_temp.csv
+   ❌ NO tiene "aprobado"
+   Columnas: temp_celcius, temp_farengeit
+   ⚠️  PROBLEMA: Si se intenta entrenar con este, fallará
+
+
+PROBLEMAS EN main.py:
+─────────────────────
+
+PROBLEMA 1 (Línea 419-420):
+─────────────────────────────
+    if fuente_elegida == "financiero":
+        exclude_cols = ["id_cliente"]
+
+❌ CAUSAS:
+  • Ahora fuente_elegida es "entrenamiento_financiero" (dinámico)
+  • Comparación con "financiero" NUNCA será verdadera
+  • Por lo tanto, exclude_cols nunca se define para este dataset
+  • Cuando se intenta excluir id_cliente, falla
+
+✓ IMPACTO: Bajo (exclude_cols queda None)
+
+
+PROBLEMA 2 (Línea 428):
+─────────────────────────
+    target="aprobado",
+
+❌ CAUSAS:
+  • Target está hardcodeado como "aprobado"
+  • No se valida que el dataset tenga esta columna
+  • Si alguien carga training_temp.csv, fallará
+  • No hay lógica para detectar automáticamente el target
+
+✓ IMPACTO: Alto (causa ValueError directo)
+
+
+PROBLEMA 3 (Línea 441-470):
+───────────────────────────
+    if fuente_elegida == "financiero":
+        nuevos = pd.DataFrame({...})
+    elif fuente_elegida == "texto":
+        nuevos = pd.DataFrame({...})
+
+❌ CAUSAS:
+  • Nuevamente, comparación con nombre obsoleto
+  • Los DataFrames hardcodeados tienen columnas específicas
+  • Si alguien carga "entrenamiento_patron_alternativo", va al else genérico
+  • Las columnas pueden no coincidir
+
+✓ IMPACTO: Medio (predicciones pueden fallar por mismatch)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ESCENARIOS QUE FALLAN
+═══════════════════════════════════════════════════════════════════════════════
+
+ESCENARIO 1: Usuario carga training_temp.csv
+──────────────────────────────────────────────
+1. Selecciona training_temp en el menú
+2. Código intenta: target="aprobado"
+3. CSV no tiene columna "aprobado"
+4. ❌ ValueError: La columna target 'aprobado' no existe
+
+Mensaje de error esperado:
+    ValueError: La columna target 'aprobado' no existe.
+    Columnas disponibles: ['temp_celcius', 'temp_farengeit']
+
+
+ESCENARIO 2: Usuario carga entrenamiento_patron_alternativo.csv
+────────────────────────────────────────────────────────────────
+1. Selecciona entrenamiento_patron_alternativo en el menú
+2. fuente_elegida = "entrenamiento_patron_alternativo"
+3. Condición "if fuente_elegida == 'financiero'" es FALSA
+4. Condición "elif fuente_elegida == 'texto'" es FALSA
+5. Va al else: crea DataFrame genérico con columnas incorrectas
+6. Las columnas no coinciden con el dataset
+7. ❌ Entrenamiento falla o usa datos incorrectos
+
+Problema específico:
+    El dataset "entrenamiento_patron_alternativo" necesita:
+    - horas_estudio, asistencia_pct, promedio_previo, horas_sueno,
+      actividades_extra, nivel_estres
+    
+    Pero el DataFrame genérico del else probablemente tiene otras columnas
+
+
+═══════════════════════════════════════════════════════════════════════════════
+SOLUCIÓN - ENFOQUE DINÁMICO
+═══════════════════════════════════════════════════════════════════════════════
+
+En lugar de hardcodear lógica específica para cada dataset, usar:
+
+1. ✅ Detección automática del target (columna más probable)
+2. ✅ Validación de columnas antes de entrenar
+3. ✅ Generación dinámica de datos de predicción basada en el dataset
+
+PASO 1: Crear función para detectar target automáticamente
+──────────────────────────────────────────────────────────
+
+def get_target_column(df, csv_name: str) -> str:
+    """Detecta automáticamente la columna target."""
+    
+    # Lista de nombres comunes para target (en orden de preferencia)
+    common_targets = ['aprobado', 'resultado', 'target', 'clase', 'label', 
+                      'outcome', 'prediccion']
+    
+    # Buscar en orden de preferencia
+    for target_name in common_targets:
+        if target_name in df.columns:
+            return target_name
+    
+    # Si no encuentra ninguno, error informativo
+    raise ValueError(
+        f"No se encontró columna target en {csv_name}. "
+        f"Se esperaba una de: {common_targets}. "
+        f"Columnas disponibles: {list(df.columns)}"
+    )
+
+
+PASO 2: Crear función para generar datos de predicción
+──────────────────────────────────────────────────────
+
+def generate_prediction_data(df, exclude_cols=None) -> pd.DataFrame:
+    """Genera datos de predicción basado en las columnas reales del dataset."""
+    
+    import numpy as np
+    
+    exclude_cols = exclude_cols or []
+    feature_cols = [c for c in df.columns if c not in exclude_cols]
+    
+    # Crear ejemplo con valores cercanos a la media/moda del dataset
+    ejemplo = {}
+    
+    for col in feature_cols:
+        if df[col].dtype in ['int64', 'float64']:
+            # Para numéricos: usar media
+            ejemplo[col] = df[col].mean()
+        else:
+            # Para categóricos: usar moda
+            ejemplo[col] = df[col].mode()[0] if len(df[col].mode()) > 0 else df[col].iloc[0]
+    
+    return pd.DataFrame([ejemplo])
+
+
+PASO 3: Refactorizar main.py (Sección de entrenamiento)
+────────────────────────────────────────────────────────
+
+# ANTES (Hardcodeado y con bugs):
+exclude_cols = None
+if fuente_elegida == "financiero":
+    exclude_cols = ["id_cliente"]
+
+resultado = run_pipeline(
+    source="csv",
+    source_kwargs={"path": str(demo_csv)},
+    target="aprobado",  # ❌ Hardcodeado
+    exclude_cols=exclude_cols,
+    ...
+)
+
+
+# DESPUÉS (Dinámico y robusto):
+# Cargar el CSV temporalmente para inspeccionar
+import pandas as pd
+df_temp = pd.read_csv(demo_csv)
+
+# Detectar target automáticamente
+try:
+    target = get_target_column(df_temp, demo_csv.name)
+except ValueError as e:
+    print(f"  ❌ Error: {e}")
+    input("  Presiona Enter para continuar...")
+    continue
+
+# Detectar columnas ID (típicamente primeras y con "id")
+exclude_cols = [c for c in df_temp.columns if 'id' in c.lower()]
+
+print(f"  ℹ️  Target automático: '{target}'")
+if exclude_cols:
+    print(f"  ℹ️  Excluyendo columnas ID: {exclude_cols}")
+
+resultado = run_pipeline(
+    source="csv",
+    source_kwargs={"path": str(demo_csv)},
+    target=target,  # ✅ Dinámico
+    exclude_cols=exclude_cols,  # ✅ Dinámico
+    ...
+)
+
+
+PASO 4: Reemplazar predicciones hardcodeadas
+────────────────────────────────────────────
+
+# ANTES (Múltiples condicionales hardcodeados):
+if fuente_elegida == "financiero":
+    nuevos = pd.DataFrame({...})
+elif fuente_elegida == "texto":
+    nuevos = pd.DataFrame({...})
+else:
+    nuevos = pd.DataFrame({...})  # Genérico e incorrecto
+
+
+# DESPUÉS (Una función dinámica):
+# Generar datos de predicción basado en el dataset real
+try:
+    nuevos = generate_prediction_data(df_temp, exclude_cols=exclude_cols)
+    print(f"\n  Predicciones para {len(nuevos)} instancia(s) nuevo(as):")
+except Exception as e:
+    print(f"  ❌ Error generando datos de predicción: {e}")
+    nuevos = None
+
+if nuevos is not None:
+    predicciones = predict(
+        model=resultado["model"],
+        X_new=nuevos,
+        preprocessor=resultado["preprocessor"],
+        meta=resultado["meta"],
+        verbose=True
+    )
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ARCHIVOS A MODIFICAR
+═══════════════════════════════════════════════════════════════════════════════
+
+📝 main.py
+
+Cambios necesarios:
+
+1. Agregar funciones auxiliares (después de imports):
+   ✓ get_target_column(df, csv_name)
+   ✓ generate_prediction_data(df, exclude_cols)
+
+2. Reemplazar líneas 418-436 (Sección de entrenamiento):
+   ✓ Detectar target dinámicamente
+   ✓ Detectar exclude_cols dinámicamente
+   ✓ Usar run_pipeline con valores dinámicos
+
+3. Reemplazar líneas 441-475 (Sección de predicción):
+   ✓ Usar generate_prediction_data
+   ✓ Eliminar condicionales hardcodeados
+   ✓ Una sola versión de predicción
+
+Resultado: 
+   ✓ Código más robusto
+   ✓ Soporta nuevos datasets automáticamente
+   ✓ Sin hardcoding específico por dataset
+
+
+═══════════════════════════════════════════════════════════════════════════════
+VALIDACIÓN
+═══════════════════════════════════════════════════════════════════════════════
+
+Después de hacer los cambios, ejecutar:
+
+1. python3 main.py
+2. Seleccionar opción 1: "Entrenar nuevo modelo"
+3. Probar con cada dataset:
+   ✓ entrenamiento_financiero
+   ✓ entrenamiento_patron_alternativo
+   ✓ entrenamiento_temporal
+   ✓ entrenamiento_texto
+   ✓ training_temp (debe dar error informativo, no ValueError confuso)
+
+4. Verificar que cada entrenamiento:
+   ✓ Detecta el target automáticamente
+   ✓ Detecta columnas ID automáticamente
+   ✓ Genera predicciones con datos correctos
+   ✓ Sin hardcoding específico
+
+
+═══════════════════════════════════════════════════════════════════════════════
+PREVENCIÓN FUTURA
+═══════════════════════════════════════════════════════════════════════════════
+
+1. ✅ Nunca hardcodear nombres de columnas
+   • Usar detección automática
+   • Validar antes de usar
+
+2. ✅ Nunca hardcodear nombres de datasets
+   • Usar lógica dinámica basada en estructura de datos
+   • No comparar strings específicos
+
+3. ✅ Siempre validar entrada de usuario
+   • Verificar que el dataset tiene las columnas esperadas
+   • Dar mensajes de error descriptivos
+
+4. ✅ Usar csv_auto_loader para inspeccionar datos
+   • Antes de entrenar, revisar get_dataset_info()
+   • Asegurarse que el dataset es compatible
+
+5. ✅ Escribir tests para múltiples datasets
+   • No solo probar con uno o dos
+   • Incluir edge cases (CSV sin target, etc.)
+
+═══════════════════════════════════════════════════════════════════════════════
+RESUMEN
+═══════════════════════════════════════════════════════════════════════════════
+
+PROBLEMA: Código hardcodeado que asume estructura específica de datasets
+SÍNTOMAS: ValueError cuando se usa dataset diferente
+SOLUCIÓN: Hacer el código dinámico y basado en estructura real de datos
+IMPACTO: Soportará nuevos datasets automáticamente sin cambios de código
+
+═══════════════════════════════════════════════════════════════════════════════

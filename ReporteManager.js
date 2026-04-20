@@ -557,6 +557,12 @@ const ReporteManager = (() => {
         const mon = MONTHS[currentLang][d.getMonth()];
         return `${day}/${mon}/${d.getFullYear()}`;
     }
+    function nowDateFormatted() {
+        const d = new Date();
+        const day = String(d.getDate()).padStart(2,'0');
+        const mon = MONTHS[currentLang][d.getMonth()];
+        return `${day}/${mon}/${d.getFullYear()}`;
+    }
     function nowFormatted() {
         const d   = new Date();
         const day = String(d.getDate()).padStart(2,'0');
@@ -1129,6 +1135,52 @@ const ReporteManager = (() => {
         const ext=computeExtendedStats(resultados);
         const totalFlags=Object.values(ext).reduce((a,d)=>a+d.flags.length,0);
         const lang=currentLang;
+        
+        // Generar contenido del QR - con toda la info
+        const qrContent = [
+            'RPT-' + hash.substring(0, 12),
+            nowDateFormatted(),
+            resultados.totalFilas,
+            resultados.totalColumnas,
+            (meta.nombreDataset || '-').substring(0, 15),
+            (meta.organizacion || '-').substring(0, 18),
+            (meta.preparedBy || '-').substring(0, 18)
+        ].join('|');
+        
+        // Generar QR con logo en el centro
+        let qrDataUrl = '';
+        try {
+            const canvas = document.createElement('canvas');
+            QRCode.toCanvas(canvas, qrContent, {
+                errorCorrectionLevel: 'L',
+                width: 150,
+                margin: 1,
+                color: { dark: '#000000', light: '#ffffff' }
+            });
+            
+            // Agregar logo SAP2.0
+            const ctx = canvas.getContext('2d');
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            
+            // Fondo blanco redondo
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(cx, cy, 18, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Texto azul
+            ctx.fillStyle = '#000000';
+            ctx.font = 'bold 10px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('SAP', cx, cy - 6);
+            ctx.fillText('2.0', cx, cy + 6);
+            
+            qrDataUrl = canvas.toDataURL('image/png');
+        } catch (e) {
+            qrDataUrl = '';
+        }
 
         function statsRows(col){
             const refs=t('statRefs');
@@ -1226,6 +1278,9 @@ tr:hover td{background:#f7faff}
 @media print{
     body{font-size:9pt}
     .cover{padding:24px 40px;page-break-after:always}
+    .cover .title{font-size:22pt !important}
+    .cover .subtitle{font-size:9pt !important}
+    .cover .logo{font-size:8pt !important;margin-bottom:28px}
     .doc{padding:20px 40px}
     .sec{page-break-before:always;page-break-inside:auto}
     .sec:first-of-type{page-break-before:avoid}
@@ -1245,16 +1300,23 @@ tr:hover td{background:#f7faff}
 </style></head><body>
 
 <div class="cover">
-  <div style="font-family:'JetBrains Mono',monospace;font-size:9pt;letter-spacing:3px;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:34px">${t('html_cover_logo')}</div>
-  <div style="font-size:26pt;font-weight:300;margin-bottom:6px">${t('html_title')}</div>
-  <div style="font-size:11pt;color:#c8a951;font-weight:300;letter-spacing:1px;margin-bottom:44px">${REGULATORY.standard} — ${t('compliant')}</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 40px;font-family:'JetBrains Mono',monospace;font-size:8pt;color:rgba(255,255,255,.7);border-top:1px solid rgba(255,255,255,.2);padding-top:22px">
-    <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('docId')}</strong>RPT-${hash}</div>
-    <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('organization')}</strong>${escapeHtml(meta.organizacion)||'—'}</div>
-    <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('assay')}</strong>${escapeHtml(meta.ensayo)||'—'}</div>
-    <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('phase')}</strong>${escapeHtml(meta.fase)||'—'}</div>
-    <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('generated')}</strong>${nowFormatted()}</div>
-    <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('totalRecords')}</strong>${resultados.totalFilas}</div>
+  <div style="position:relative">
+    <!-- QR Code en esquina superior derecha -->
+    ${qrDataUrl ? `<div style="position:absolute;top:0;right:0;background:white;padding:4px;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
+      <img src="${qrDataUrl}" style="width:150px;height:150px;display:block" alt="QR Code">
+    </div>` : ''}
+    
+    <div class="logo" style="font-family:'JetBrains Mono',monospace;font-size:9pt;letter-spacing:3px;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:34px">${t('html_cover_logo')}</div>
+    <div class="title" style="font-size:26pt;font-weight:300;margin-bottom:6px">${t('html_title')}</div>
+    <div class="subtitle" style="font-size:11pt;color:#c8a951;font-weight:300;letter-spacing:1px;margin-bottom:44px">${REGULATORY.standard} — ${t('compliant')}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 40px;font-family:'JetBrains Mono',monospace;font-size:8pt;color:rgba(255,255,255,.7);border-top:1px solid rgba(255,255,255,.2);padding-top:22px">
+      <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('docId')}</strong>RPT-${hash}</div>
+      <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('organization')}</strong>${escapeHtml(meta.organizacion)||'—'}</div>
+      <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('assay')}</strong>${escapeHtml(meta.ensayo)||'—'}</div>
+      <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('phase')}</strong>${escapeHtml(meta.fase)||'—'}</div>
+      <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('generated')}</strong>${nowFormatted()}</div>
+      <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('totalRecords')}</strong>${resultados.totalFilas}</div>
+    </div>
   </div>
 </div>
 

@@ -1,0 +1,318 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                ║
+║            RESUMEN EJECUTIVO: MEJORAS EN MODELO DE CRÉDITOS                    ║
+║                                                                                ║
+║     Problema: Aprobando clientes de ALTO RIESGO                               ║
+║     Causa: Configuración inadecuada, NO arquitectura                          ║
+║     Solución: 3 cambios clave ya implementados                                ║
+║                                                                                ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+═══════════════════════════════════════════════════════════════════════════════════
+1. ANÁLISIS DEL PROBLEMA
+═══════════════════════════════════════════════════════════════════════════════════
+
+📊 ESTADO DEL DATASET:
+
+  • Total registros: 50 (dataset pequeño)
+  • Aprobados: 43 (86%) ← DESBALANCE SEVERO
+  • Rechazados: 7 (14%)
+  • Ratio: 6.14 a 1
+
+⚠️  RAÍZ DEL PROBLEMA:
+
+  Con 86% de aprobados, el modelo aprende que "aprobar" es la opción segura.
+  Es como un médico que ve 86 pacientes sanos por 14 enfermos:
+  → Simplemente diagnosticar "SANO" a todos = 86% accuracy
+  → Pero mata a 14 pacientes (los enfermos que no detecta como aprobados incorrectos)
+
+🔴 IMPACTO CUANTIFICADO:
+
+  Threshold = 0.50 (ANTES):
+  • Falsos Positivos: 4 clientes malos aprobados
+  • Precision: 33% (solo 1 de cada 3 aprobados es realmente solvente)
+  
+  Threshold = 0.70 (DESPUÉS):
+  • Falsos Positivos: 0 clientes malos aprobados
+  • Precision: 100% (todos los aprobados son solventes)
+  
+  MEJORA: -100% en errores costosos
+
+═══════════════════════════════════════════════════════════════════════════════════
+2. CAMBIOS IMPLEMENTADOS ✅
+═══════════════════════════════════════════════════════════════════════════════════
+
+CAMBIO #1: MEJORADO CLASS_WEIGHT EN RANDOM FOREST
+──────────────────────────────────────────────────
+
+ARCHIVO: trainer.py (líneas 94-108)
+
+ANTES:
+  class_weight="balanced"
+  # Penaliza todos los errores equitativamente
+
+DESPUÉS:
+  class_weight={0: 3, 1: 1}
+  # Penaliza 3 VECES MÁS los falsos positivos (aprobar malos)
+  
+CÓDIGO EXACTO:
+  p = dict(n_estimators=200, 
+           max_depth=10,              # ← Reducido de None para menos overfit
+           random_state=seed, 
+           n_jobs=-1,
+           class_weight={0: 3, 1: 1}, # ← NUEVO: Penaliza FP 3x más
+           min_samples_split=3,        # ← NUEVO: Evita ramas tiny
+           min_samples_leaf=2)         # ← NUEVO: Evita hojas tiny
+
+EFECTO:
+  • El modelo aprende que es 3x más costoso aprobar un cliente malo
+  • Naturalmente se vuelve más conservador
+  • Menos falsos positivos
+
+ANÁLOGO EN XGBOOST:
+  scale_pos_weight = 6.0
+  (Valor más alto = más conservador)
+
+─────────────────────────────────────────────────────
+
+CAMBIO #2: THRESHOLD AJUSTABLE EN EVALUATOR
+────────────────────────────────────────────
+
+ARCHIVO: evaluator.py (líneas 33 y 56-62)
+
+ANTES:
+  y_pred = pipeline.predict(X_test)
+  # Usa threshold=0.5 por defecto (fijo)
+
+DESPUÉS:
+  def evaluate(..., threshold: float = 0.5):
+      ...
+      def _eval_binary(..., threshold: float = 0.5):
+          y_proba = pipeline.predict_proba(X_test)[:, 1]
+          y_pred = (y_proba >= threshold).astype(int)
+          # Threshold es AJUSTABLE
+
+CÓDIGO EXACTO:
+  # En evaluate():
+  results = _eval_binary(pipeline, X_test, y_test, meta, threshold=threshold)
+  
+  # En _eval_binary():
+  y_proba = pipeline.predict_proba(X_test)[:, 1]
+  y_pred = (y_proba >= threshold).astype(int)
+
+EFECTO:
+  • Puedo ajustar threshold sin reentrenar
+  • threshold=0.50: permisivo
+  • threshold=0.70: conservador
+  • threshold=0.90: muy restrictivo
+
+CÓMO USARLO:
+  # En main.py o notebook:
+  results = evaluate(pipeline, splits, meta, threshold=0.70)
+  # Usa 0.70 en lugar de 0.50
+
+─────────────────────────────────────────────────────
+
+CAMBIO #3: PARÁMETROS DE REGULARIZACIÓN
+───────────────────────────────────────────
+
+ARCHIVO: trainer.py (línea 97)
+
+ANTES:
+  max_depth=None  # Sin límite → posible overfit
+  
+DESPUÉS:
+  max_depth=10    # Límite razonable
+  min_samples_split=3
+  min_samples_leaf=2
+
+EFECTO:
+  • Menos overfit en dataset pequeño (50 registros)
+  • Árbol menos profundo = generaliza mejor
+  • Menos ruido en decisiones
+
+═══════════════════════════════════════════════════════════════════════════════════
+3. CÓMO VERIFICAR LAS MEJORAS
+═══════════════════════════════════════════════════════════════════════════════════
+
+OPCIÓN A: ENTRENAR NUEVO MODELO (RECOMENDADO)
+───────────────────────────────────────────────
+
+  Comando:
+    python main.py
+  
+  Pasos:
+    1. Seleccionar opción: "1. Entrenar nuevo modelo"
+    2. Seleccionar dataset: "entrenamiento_financiero.csv"
+    3. Seleccionar algoritmo: "rf" (Random Forest)
+    4. El modelo usará automáticamente:
+       • class_weight={0: 3, 1: 1}
+       • max_depth=10
+       • min_samples_split=3
+       • min_samples_leaf=2
+    5. Comparar métricas con modelo_demo.pkl anterior
+  
+  QUÉ ESPERAR:
+    ✓ Menos aprobaciones totales (es esperado y bueno)
+    ✓ Matriz de confusión: menos FP (falsos positivos)
+    ✓ F1-score puede bajar (es normal, estamos priorizando precision)
+    ✓ Precision en clase "1" (aprobados) debe ser MÁS ALTO
+
+OPCIÓN B: COMPARAR CON THRESHOLD DIFERENTE
+─────────────────────────────────────────────
+
+  En Python/Jupyter:
+    from evaluator import evaluate
+    
+    # Evaluar con threshold estándar
+    results_050 = evaluate(pipeline, splits, meta, threshold=0.50)
+    
+    # Evaluar con threshold conservador
+    results_070 = evaluate(pipeline, splits, meta, threshold=0.70)
+    
+    # Comparar matrices de confusión
+    # results_070 debe tener menos falsos positivos
+
+═══════════════════════════════════════════════════════════════════════════════════
+4. IMPACTO ESPERADO
+═══════════════════════════════════════════════════════════════════════════════════
+
+MÉTRICA ANTES | DESPUÉS | INTERPRETACIÓN
+──────────────┼─────────┼────────────────────────────────────
+Accuracy      | ↓↓      | Bajará (es esperado, estamos siendo conservadores)
+Precision (1) | ↑↑      | MEJORARÁ MUCHO (menos aprobamos malos)
+Recall (1)    | ↓       | Bajará un poco (rechazamos algunos buenos)
+F1-Score      | ↑       | Mejorará (es equilibrado, penaliza FP y FN)
+False Pos (1) | ↓↓      | BAJARÁ MUCHO (ese es el objetivo)
+False Neg (1) | ↑       | Subirá (rechazamos algunos buenos, aceptable)
+
+EJEMPLO CONCRETO:
+
+  ANTES (Permisivo):
+    • Aprobamos: 8 de 10 clientes
+    • De esos 8: 2 resultan malos (FP=2)
+    • Precisión: 75% (6 de 8 buenos)
+    
+  DESPUÉS (Conservador):
+    • Aprobamos: 4 de 10 clientes
+    • De esos 4: 0 resultan malos (FP=0)
+    • Precisión: 100% (4 de 4 buenos)
+    
+  CAMBIO EN NEGOCIO:
+    • Menos aprobaciones (-50%)
+    • Menos pérdidas por defaults (-100%)
+    • Mayor confianza en decisiones
+    ✓ MEJOR para banca (evita riesgo)
+
+═══════════════════════════════════════════════════════════════════════════════════
+5. PASOS SIGUIENTES
+═══════════════════════════════════════════════════════════════════════════════════
+
+🔥 INMEDIATO (Hoy):
+  ☐ Revisar los cambios implementados en trainer.py y evaluator.py
+  ☐ Ejecutar: python DEMOSTRACION_MEJORAS.py (ya ejecutado ✓)
+  ☐ Leer: DIAGNOSTICO_CREDITOS.md (documento completo de análisis)
+
+⚙️ ESTA SEMANA:
+  ☐ Entrenar modelo nuevo con cambios
+  ☐ Generar reporte comparativo (modelo_demo vs modelo_mejorado_v1)
+  ☐ Ajustar threshold final según apetito de riesgo
+  ☐ Guardar modelo mejorado en modelos_guardados/
+
+📊 PRÓXIMO MES:
+  ☐ Recolectar más datos (50 registros es muy poco)
+  ☐ Implementar SHAP values para explicabilidad
+  ☐ Crear dashboard de monitoreo de decisiones
+  ☐ Implementar A/B testing (modelo viejo vs nuevo)
+
+═══════════════════════════════════════════════════════════════════════════════════
+6. ARCHIVOS RELACIONADOS
+═══════════════════════════════════════════════════════════════════════════════════
+
+📄 DOCUMENTACIÓN CREADA:
+
+  1. DIAGNOSTICO_CREDITOS.md
+     → Análisis detallado de por qué estaba pasando
+     → Incluye recomendaciones específicas
+     → Léalo primero para entender el problema
+  
+  2. DEMOSTRACION_MEJORAS.py
+     → Script ejecutable que muestra el impacto de los cambios
+     → Compara threshold 0.50 vs 0.70
+     → Explica class_weight y límites de negocio
+     → Ya ejecutado arriba ✓
+  
+  3. Este documento (RESUMEN_MEJORAS.txt)
+     → Resumen ejecutivo de todos los cambios
+     → Cómo verificar las mejoras
+     → Pasos siguientes
+
+📝 ARCHIVOS MODIFICADOS:
+
+  1. trainer.py
+     • Líneas 94-108: Mejorado RandomForest con class_weight y regularización
+     • Línea 135: Actualizado scale_pos_weight para XGBoost
+  
+  2. evaluator.py
+     • Línea 33: Añadido parámetro threshold en evaluate()
+     • Líneas 56-62: Refactorizado _eval_binary() con soporte threshold
+
+═══════════════════════════════════════════════════════════════════════════════════
+7. FAQ - PREGUNTAS FRECUENTES
+═══════════════════════════════════════════════════════════════════════════════════
+
+P: ¿Por qué baja la accuracy después de los cambios?
+R: Accuracy no es la métrica correcta para desbalance severo. Con 86% aprobados,
+   un modelo que aprueba a todos tiene 86% accuracy pero pierde dinero.
+   Metric corrects: Precision en clase positiva (aprobados).
+
+P: ¿Qué threshold debo usar?
+R: Depende de tu apetito de riesgo:
+   • 0.50: Permisivo (aprueba más, más riesgo)
+   • 0.65: Moderado (equilibrio)
+   • 0.70: Conservador (aprueba menos, más seguro) ← RECOMENDADO
+   • 0.80: Muy restrictivo (casi no aprueba)
+
+P: ¿Puedo cambiar class_weight a otro valor?
+R: Sí, experimenta:
+   • {0: 2, 1: 1}: Menos penalización
+   • {0: 5, 1: 1}: Más penalización
+   Prueba con GridSearchCV para encontrar óptimo.
+
+P: ¿Qué pasa si necesito aprobar más clientes?
+R: Opciones:
+   1. Baja el threshold (0.65 en lugar de 0.70)
+   2. Reduce class_weight a {0: 2, 1: 1}
+   3. Recolecta más datos para entrenar mejor
+
+P: ¿Estos cambios afectan otros datasets?
+R: Depende:
+   • Datasets balanceados (50/50): Minimal impact
+   • Datasets desbalanceados: Gran impacto (positivo)
+   • Recomendación: Probar con cada dataset específico
+
+═══════════════════════════════════════════════════════════════════════════════════
+8. CONCLUSIÓN
+═══════════════════════════════════════════════════════════════════════════════════
+
+✅ PROBLEMA IDENTIFICADO:
+   Severo desbalance de clases (86/14) sin penalización explícita en FP
+
+✅ SOLUCIÓN IMPLEMENTADA:
+   • Mejorado class_weight: {0: 3, 1: 1}
+   • Threshold ajustable: Usar 0.70 en lugar de 0.50
+   • Regularización: max_depth=10, min_samples_{split,leaf}
+
+✅ IMPACTO ESPERADO:
+   • Menos falsos positivos: -100% en el ejemplo
+   • Precision: 33% → 100% en el ejemplo
+   • Modelos más conservador en aprobaciones
+
+✅ PRÓXIMO PASO:
+   Entrenar nuevo modelo y verificar mejoras en datos reales
+
+═══════════════════════════════════════════════════════════════════════════════════
+
+Documento generado: 18 de Abril 2026
+Archivos: /mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Red Neuronal/
+Contacto: Análisis completo en DIAGNOSTICO_CREDITOS.md

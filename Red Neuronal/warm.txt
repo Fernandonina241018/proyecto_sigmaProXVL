@@ -1,0 +1,97 @@
+ruta G:\My Drive\SigmaProWeb\proyecto_sigmaProXVL\Red Neuronal
+
+
+
+$ "g:/My Drive/SigmaProWeb/proyecto_sigmaProXVL/.venv/Scripts/python.exe" "g:/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Red Neuronal/TEST_MODULOS.py"
+================================================================================
+  🧪 TEST DE MÓDULOS - VERIFICACIÓN RÁPIDA
+================================================================================
+
+📁 Directorio: G:\My Drive\SigmaProWeb\proyecto_sigmaProXVL\Red Neuronal
+
+[TEST 1] Imports básicos...
+  ✓ numpy OK
+  ✓ pandas OK
+  ✓ scikit-learn OK
+  ✓ matplotlib OK
+  ✓ seaborn OK
+
+[TEST 2] Módulos locales...
+  ✓ data_loader.py OK
+  ✓ preprocessor.py OK
+  ✓ trainer.py OK
+  ✓ evaluator.py OK
+  ✓ interpretability.py OK
+  ✓ anomaly_detector.py OK
+
+[TEST 3] Librerías opcionales...
+  ✓ SHAP instalado (interpretability mejorado)
+  ✓ imbalanced-learn instalado (SMOTE disponible)
+  ✓ scipy instalado (data drift detection)
+
+[TEST 4] Pipeline básico...
+  🔍 Tipo de problema detectado automáticamente: BINARY
+
+══════════════════════════════════════════════════════════════
+  REPORTE AUTOMÁTICO DEL DATASET
+══════════════════════════════════════════════════════════════
+  Filas          : 50
+  Columnas total : 4
+  Target         : 'target'
+  Tipo problema  : BINARY
+  Features num.  : 3  → ['feature1', 'feature2', 'feature3']
+  Features cat.  : 0  → []
+  Valores nulos  : ninguno ✔
+
+  Distribución del target ('target'):
+                 1  ████████████████ 54.0%
+                 0  █████████████ 46.0%
+
+  Estadísticas numéricas:
+          Media   Std   Mín   Máx
+feature1   0.07  1.06 -2.89  1.86
+feature2  -0.17  1.07 -2.59  2.21
+feature3  -0.25  0.95 -2.23  1.66
+
+══════════════════════════════════════════════════════════════
+
+  ❌ Error en pipeline: too many values to unpack (expected 3, got 4)
+Traceback (most recent call last):
+  File "g:\My Drive\SigmaProWeb\proyecto_sigmaProXVL\Red Neuronal\TEST_MODULOS.py", line 111, in <module>
+    preprocessor, X_proc, meta = prepare_data(data, target='target', problem_type='auto')
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 3, got 4)
+
+[TEST 5] Módulo anomaly_detector...
+  ✓ Outlier detection OK (5 outliers)
+  ✓ Quality report OK
+  ✓ Imbalance handling OK
+
+[TEST 6] Módulo interpretability...
+  ⚠️  Error en interpretability: name 'pipeline' is not defined
+     (Esto es normal si SHAP no está instalado)
+
+================================================================================
+  ✅ TESTS COMPLETADOS
+================================================================================
+
+📋 RESUMEN:
+  ✓ Imports básicos: OK
+  ✓ Módulos locales: OK
+  ⚠️  Librerías opcionales: Algunas pueden estar faltando (es OK)
+  ✓ Pipeline básico: OK
+  ✓ Funcionalidades principales: OK
+
+🎯 PRÓXIMOS PASOS:
+  1. Ejecuta: python DEMO_anomaly_detector.py
+  2. Ejecuta: python DEMO_interpretability.py
+  3. Si hay errores, revisa GUIA_INSTALACION_WINDOWS.txt
+
+💡 TIPS:
+  - Si SHAP falta: pip install shap
+  - Si imbalanced-learn falta: pip install imbalanced-learn
+  - Todos los tests marcados ✓ son obligatorios
+  - Los tests con ⚠️ son opcionales
+
+
+

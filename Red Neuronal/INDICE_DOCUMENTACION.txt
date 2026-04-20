@@ -1,0 +1,339 @@
+═══════════════════════════════════════════════════════════════════════════════
+   ÍNDICE DE DOCUMENTACIÓN Y HERRAMIENTAS - SISTEMA DE ML
+═══════════════════════════════════════════════════════════════════════════════
+
+ACTUALIZACIÓN: 18 de Abril de 2026
+Última actualización: Se agregó solución para ValueError "columns are missing"
+
+═══════════════════════════════════════════════════════════════════════════════
+1. SISTEMA AUTOMÁTICO DE DETECCIÓN DE CSV
+═══════════════════════════════════════════════════════════════════════════════
+
+Implementado: ✓ COMPLETADO
+
+Documentación:
+  📄 SISTEMA_AUTO_CSV_LOADER.txt
+     → Guía completa del sistema automático
+     → Cómo agregar nuevos datasets sin modificar código
+     → Ejemplos de uso y API
+
+Archivos de código:
+  📝 csv_auto_loader.py
+     → Módulo de detección automática
+     → Funciones principales:
+       • get_available_datasets() - Detecta CSV en datos/
+       • get_dataset_info() - Info detallada de dataset
+       • print_available_datasets() - Visualización
+       • validate_csv() - Validación automática
+       • watch_for_new_csvs() - Monitoreo opcional
+
+Scripts de demostración:
+  🎬 DEMO_AUTO_CSV_LOADER.py
+     → Script ejecutable con 5 demostraciones
+     → Muestra cómo funciona la detección
+     → Ejemplo de agregar CSV dinámicamente
+
+Uso rápido:
+  >>> from csv_auto_loader import get_available_datasets
+  >>> datasets = get_available_datasets()
+  >>> for nombre in datasets.keys():
+  ...     print(nombre)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+2. SOLUCIÓN: ValueError "columns are missing"
+═══════════════════════════════════════════════════════════════════════════════
+
+Implementado: ✓ COMPLETADO
+
+Documentación:
+  📄 SOLUCION_VALUEERROR_COLUMNS.txt
+     → Guía paso a paso para resolver el error
+     → 4 errores comunes y sus soluciones
+     → Ejemplos prácticos ANTES/DESPUÉS
+     → Checklist de validación completa
+     → Cómo verificar datasets disponibles
+
+Herramienta de diagnóstico:
+  🔧 DIAGNOSTICO_VALUEERROR_COLUMNS.py
+     → Script que diagnostica automáticamente
+     → Analiza estructura de todos los CSV
+     → Identifica problemas con columnas
+     → Genera recomendaciones específicas
+     
+Ejecución:
+  $ python3 DIAGNOSTICO_VALUEERROR_COLUMNS.py
+
+Causa del error:
+  El parámetro target en run_pipeline() usa un nombre de columna
+  que no existe en el CSV (mismatch entre código y datos)
+
+Solución rápida:
+  1. python3 DIAGNOSTICO_VALUEERROR_COLUMNS.py
+  2. Identifica el nombre exacto de tu columna target
+  3. Actualiza run_pipeline(target='nombre_correcto')
+  4. Listo - error resuelto
+
+
+═══════════════════════════════════════════════════════════════════════════════
+3. MEJORAS AL MODELO DE CRÉDITOS (Previo)
+═══════════════════════════════════════════════════════════════════════════════
+
+Implementado: ✓ COMPLETADO
+
+Archivos modificados:
+  📝 trainer.py
+     → Líneas 28-33: Filtro de warnings sklearn
+     → Línea 94-109: RandomForest con class_weight={0: 3, 1: 1}
+     → Línea 147: XGBoost con scale_pos_weight=6.0
+
+  📝 evaluator.py
+     → Línea 33-36: Parámetro threshold en evaluate()
+     → Línea 62-84: Métrica con threshold ajustable
+
+Documentación:
+  📄 DIAGNOSTICO_CREDITOS.md
+     → Análisis detallado del problema original
+     → Identificación de 2 clientes de alto riesgo aprobados incorrectamente
+  
+  📄 RESUMEN_MEJORAS.txt
+     → Cambios implementados y su impacto
+     → Resultados: -100% falsos positivos
+
+
+═══════════════════════════════════════════════════════════════════════════════
+4. ARCHIVOS PRINCIPALES DEL PROYECTO
+═══════════════════════════════════════════════════════════════════════════════
+
+Core del sistema:
+  📝 main.py
+     → Orquestador principal
+     → Ahora con menú dinámico (sin hardcoding)
+     → run_pipeline() - Función principal
+
+  📝 trainer.py
+     → Entrenamiento de modelos
+     → RandomForest, XGBoost con mejoras
+     → Bootstrap y cross-validation
+
+  📝 evaluator.py
+     → Evaluación de modelos
+     → Métricas mejoradas con threshold ajustable
+     → Predicción individual
+
+Utilidades:
+  📝 data_loader.py
+     → Carga de CSV y datos sintéticos
+     → Preparación de datos
+
+  📝 preprocessor.py
+     → Preprocesamiento de datos
+     → Detección de tipos
+     → Codificación de variables
+
+  📝 model_store.py
+     → Persistencia de modelos
+
+  📝 config.py
+     → Configuración del sistema
+
+
+═══════════════════════════════════════════════════════════════════════════════
+5. SCRIPTS DE DEMOSTRACIÓN Y TESTING
+═══════════════════════════════════════════════════════════════════════════════
+
+Demostración:
+  🎬 DEMO_AUTO_CSV_LOADER.py
+     → Sistema automático de CSV
+     → 5 demostraciones diferentes
+
+  🎬 DEMOSTRACION_MEJORAS.py
+     → Mejoras al modelo de créditos
+     → Impacto de cambios
+
+Testing:
+  🧪 test_model_persistence.py
+     → Tests de persistencia de modelos
+
+
+═══════════════════════════════════════════════════════════════════════════════
+6. DOCUMENTACIÓN ADICIONAL
+═══════════════════════════════════════════════════════════════════════════════
+
+Guías:
+  📄 LEEME_PRIMERO.txt
+     → Introducción al proyecto
+  
+  📄 INICIO_RAPIDO.py
+     → Cómo empezar rápidamente
+  
+  📄 README.md
+     → Descripción general del proyecto
+
+Análisis:
+  📄 DIAGNOSTICO_CREDITOS.md
+     → Análisis detallado del problema de créditos
+  
+  📄 SOLUCION_WARNING_PARALLEL.txt
+     → Solución del warning de sklearn
+
+Cambios:
+  📄 CAMBIOS_HOYENDIA.txt
+     → Registro de cambios recientes
+  
+  📄 CAMBIOS_RESUMEN.txt
+     → Resumen de todos los cambios
+  
+  📄 VERIFICACION_CAMBIOS.txt
+     → Verificación de cambios implementados
+
+
+═══════════════════════════════════════════════════════════════════════════════
+7. GUÍA RÁPIDA POR CASO DE USO
+═══════════════════════════════════════════════════════════════════════════════
+
+📌 CASO 1: Quiero agregar un nuevo dataset CSV
+   ✓ Copia el CSV a carpeta 'datos/'
+   ✓ Lee: SISTEMA_AUTO_CSV_LOADER.txt
+   ✓ Ejecuta: python3 DEMO_AUTO_CSV_LOADER.py
+   ✓ El sistema lo detecta automáticamente
+
+📌 CASO 2: Tengo error "ValueError: columns are missing"
+   ✓ Ejecuta: python3 DIAGNOSTICO_VALUEERROR_COLUMNS.py
+   ✓ Lee: SOLUCION_VALUEERROR_COLUMNS.txt
+   ✓ Identifica el nombre exacto de tu columna
+   ✓ Actualiza target= en main.py
+
+📌 CASO 3: Quiero entrenar un modelo
+   ✓ Ejecuta: python3 main.py
+   ✓ Selecciona opción 1: "Entrenar nuevo modelo"
+   ✓ Elige el dataset
+   ✓ El sistema entrena y evalúa automáticamente
+
+📌 CASO 4: Quiero ver información de un dataset
+   ✓ Lee: SISTEMA_AUTO_CSV_LOADER.txt (sección "Cómo usar")
+   ✓ O ejecuta:
+      from csv_auto_loader import get_dataset_info
+      info = get_dataset_info('tu_dataset')
+      print(info)
+
+📌 CASO 5: Quiero entender los cambios realizados
+   ✓ Lee: CAMBIOS_HOYENDIA.txt
+   ✓ O: CAMBIOS_RESUMEN.txt
+   ✓ O: VERIFICACION_CAMBIOS.txt
+
+📌 CASO 6: Quiero mejorar el modelo de créditos
+   ✓ Lee: DIAGNOSTICO_CREDITOS.md
+   ✓ Lee: RESUMEN_MEJORAS.txt
+   ✓ Revisa: trainer.py y evaluator.py
+
+
+═══════════════════════════════════════════════════════════════════════════════
+8. REFERENCIA DE COMANDOS ÚTILES
+═══════════════════════════════════════════════════════════════════════════════
+
+Ver datasets disponibles:
+  $ python3 -c "from csv_auto_loader import print_available_datasets; \
+                print_available_datasets()"
+
+Diagnosticar problemas de columnas:
+  $ python3 DIAGNOSTICO_VALUEERROR_COLUMNS.py
+
+Ver información de un dataset:
+  $ python3 -c "from csv_auto_loader import get_dataset_info; \
+                info = get_dataset_info('entrenamiento_financiero'); \
+                import json; print(json.dumps(info, indent=2, default=str))"
+
+Entrenar un modelo:
+  $ python3 main.py
+
+Ejecutar demostración:
+  $ python3 DEMO_AUTO_CSV_LOADER.py
+
+Limpiar archivos temporales:
+  $ rm -f datos/training_temp.csv __pycache__/*.pyc
+
+
+═══════════════════════════════════════════════════════════════════════════════
+9. ESTRUCTURA DEL PROYECTO
+═══════════════════════════════════════════════════════════════════════════════
+
+Red Neuronal/
+├── 📝 Core
+│   ├── main.py                           (Orquestador principal)
+│   ├── trainer.py                        (Entrenamiento)
+│   ├── evaluator.py                      (Evaluación)
+│   ├── data_loader.py                    (Carga de datos)
+│   ├── preprocessor.py                   (Preprocesamiento)
+│   ├── model_store.py                    (Persistencia)
+│   ├── model_manager.py                  (Gestión de modelos)
+│   └── config.py                         (Configuración)
+│
+├── 🔧 Herramientas
+│   ├── csv_auto_loader.py                (Detección automática de CSV)
+│   ├── DIAGNOSTICO_VALUEERROR_COLUMNS.py (Diagnóstico de errores)
+│   └── analisis_creditos.py              (Análisis de créditos)
+│
+├── 🎬 Demostración
+│   ├── DEMO_AUTO_CSV_LOADER.py           (Demo del sistema de CSV)
+│   ├── DEMOSTRACION_MEJORAS.py           (Demo de mejoras)
+│   ├── INICIO_RAPIDO.py                  (Inicio rápido)
+│   └── RESUMEN_IMPLEMENTACION.py         (Resumen de implementación)
+│
+├── 📄 Documentación
+│   ├── SISTEMA_AUTO_CSV_LOADER.txt       (Guía de CSV automático)
+│   ├── SOLUCION_VALUEERROR_COLUMNS.txt   (Solución de ValueError)
+│   ├── DIAGNOSTICO_CREDITOS.md           (Análisis de créditos)
+│   ├── RESUMEN_MEJORAS.txt               (Mejoras implementadas)
+│   ├── CAMBIOS_HOYENDIA.txt              (Cambios recientes)
+│   ├── LEEME_PRIMERO.txt                 (Introducción)
+│   ├── README.md                         (Overview)
+│   └── [Más documentación...]
+│
+├── 📊 Datos
+│   ├── datos/
+│   │   ├── entrenamiento_financiero.csv
+│   │   ├── entrenamiento_patron_alternativo.csv
+│   │   ├── entrenamiento_temporal.csv
+│   │   ├── entrenamiento_texto.csv
+│   │   └── training_temp.csv
+│   └── modelos_guardados/
+│       └── [Modelos entrenados]
+│
+└── 🧪 Testing
+    └── test_model_persistence.py
+
+
+═══════════════════════════════════════════════════════════════════════════════
+10. VERSIÓN DEL PROYECTO
+═══════════════════════════════════════════════════════════════════════════════
+
+Versión: 2.1 (18 de Abril de 2026)
+
+Cambios en esta versión:
+  ✓ Sistema automático de detección de CSV
+  ✓ Menú dinámico sin hardcoding
+  ✓ Solución para ValueError "columns are missing"
+  ✓ Herramienta de diagnóstico automático
+  ✓ Documentación completa
+
+Versión anterior (2.0):
+  ✓ Mejoras al modelo de créditos
+  ✓ Filtro de warnings sklearn
+  ✓ Parámetro threshold ajustable en evaluator
+
+
+═══════════════════════════════════════════════════════════════════════════════
+11. CONTACTO Y SOPORTE
+═══════════════════════════════════════════════════════════════════════════════
+
+Si encuentras problemas:
+
+1. Revisa la documentación correspondiente a tu caso
+2. Ejecuta el script de diagnóstico (si aplica)
+3. Verifica los logs para mensajes de error
+4. Consulta CAMBIOS_HOYENDIA.txt para cambios recientes
+
+═══════════════════════════════════════════════════════════════════════════════
+FIN DEL ÍNDICE
+═══════════════════════════════════════════════════════════════════════════════

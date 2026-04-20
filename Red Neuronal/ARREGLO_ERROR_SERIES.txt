@@ -1,0 +1,144 @@
+═══════════════════════════════════════════════════════════════════════════════
+  ✅ ERROR ARREGLADO: "unhashable type: 'Series'"
+═══════════════════════════════════════════════════════════════════════════════
+
+PROBLEMA ENCONTRADO (del archivo warm.txt):
+───────────────────────────────────────────
+
+  ❌ Error en pipeline: unhashable type: 'Series'
+  
+  Línea 257 de preprocessor.py:
+    if target not in df.columns:
+       ^^^^^^^^^^^^^^^^^^^^^^^^
+       
+  TypeError: unhashable type: 'Series'
+
+
+CAUSA RAÍZ:
+───────────
+
+La función `prepare_data(df, target, problem_type)` espera:
+  • df: DataFrame COMPLETO con todas las columnas (incluyendo el target)
+  • target: STRING con el NOMBRE de la columna target (ej: "aprobado")
+
+Pero en TEST_MODULOS.py se estaba pasando:
+  • X: DataFrame sin el target
+  • y: Series (el objeto en sí, no su nombre)
+
+Cuando intenta hacer:
+  if y not in df.columns:  # ← 'y' es un Series, no un string!
+  
+Los Series no son hashable, por eso falla.
+
+
+SOLUCIÓN IMPLEMENTADA:
+──────────────────────
+
+ANTES (INCORRECTO):
+  X = pd.DataFrame({'feature1': ..., 'feature2': ...})
+  y = pd.Series([0, 1, 0, ...], name='target')
+  preprocessor, X_proc, meta = prepare_data(X, y, problem_type='auto')
+                                            ↑ X sin target, y es un Series ✗
+
+DESPUÉS (CORRECTO):
+  data = pd.DataFrame({
+      'feature1': ...,
+      'feature2': ...,
+      'target': [0, 1, 0, ...],  # Target DENTRO del DataFrame
+  })
+  preprocessor, X_proc, meta = prepare_data(data, target='target', problem_type='auto')
+                                            ↑ df completo  ↑ string con nombre ✓
+
+
+CAMBIOS EN TEST_MODULOS.py:
+────────────────────────────
+
+1. Crear DataFrame con target incluido:
+   data = pd.DataFrame({
+       'feature1': np.random.randn(50),
+       'feature2': np.random.randn(50),
+       'feature3': np.random.randn(50),
+       'target': np.random.randint(0, 2, 50),  # ← Target aquí
+   })
+
+2. Pasar df completo + nombre de columna:
+   preprocessor, X_proc, meta = prepare_data(
+       data,              # ← DataFrame completo
+       target='target',   # ← Nombre de columna como string
+       problem_type='auto'
+   )
+
+3. Extraer y para train:
+   y_train = data['target']  # Extraer cuando sea necesario
+   pipeline, splits, cv_results = train(
+       X_proc, y_train,
+       ...
+   )
+
+4. TEST 5 también arreglado:
+   - Crea su propio X_test, y_test
+   - Usa data_quality_report(X_test, y_test) correctamente
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  CÓMO EJECUTAR AHORA
+═══════════════════════════════════════════════════════════════════════════════
+
+PowerShell (en la carpeta /Red Neuronal/):
+
+  pip install numpy pandas scikit-learn matplotlib seaborn scipy
+  
+  python TEST_MODULOS.py
+
+Deberías ver:
+  ✓ numpy OK
+  ✓ pandas OK
+  ✓ scikit-learn OK
+  ✓ matplotlib OK
+  ✓ seaborn OK
+  ✓ data_loader.py OK
+  ✓ preprocessor.py OK
+  ✓ trainer.py OK
+  ✓ evaluator.py OK
+  ✓ Preprocesamiento OK
+  ✓ Entrenamiento OK
+  ✓ Predicción OK
+  ✓ Outlier detection OK
+  ✓ Quality report OK
+  ✓ Imbalance handling OK
+  ✓ Partial Dependence OK
+  ✅ TESTS COMPLETADOS
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  LECCIÓN: CÓMO USA PREPARE_DATA CORRECTAMENTE
+═══════════════════════════════════════════════════════════════════════════════
+
+Hay dos formas de usar prepare_data según de dónde venga el data:
+
+FORMA 1: CSV o DataFrame con target incluido (RECOMENDADO)
+──────────────────────────────────────────────────────────
+df = pd.read_csv("datos.csv")  # Contiene columna "aprobado"
+preprocessor, X_proc, meta = prepare_data(df, target='aprobado')
+
+FORMA 2: Si tienes X e y separados, combínalos primero
+──────────────────────────────────────────────────────
+X = pd.DataFrame(...)
+y = pd.Series([0, 1, ...])
+
+df = X.copy()
+df['target'] = y.values  # Agregar y como columna
+
+preprocessor, X_proc, meta = prepare_data(df, target='target')
+
+
+INCORRECTO (lo que estábamos haciendo antes)
+─────────────────────────────────────────────
+X = pd.DataFrame(...)
+y = pd.Series([0, 1, ...])
+
+prepare_data(X, y)  # ✗ X no tiene target, y es Series no string
+prepare_data(X, 'target')  # ✗ 'target' no existe en X
+
+
+═══════════════════════════════════════════════════════════════════════════════

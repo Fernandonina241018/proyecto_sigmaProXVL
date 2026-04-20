@@ -1,0 +1,214 @@
+================================================================================
+  🔧 REGISTRO COMPLETO DE FIXES - TEST_MODULOS.py
+================================================================================
+
+FECHA: 2026-04-18
+STATUS: ✅ RESUELTO (2 errores encontrados y arreglados)
+
+================================================================================
+  ERROR #1: "too many values to unpack (expected 3, got 4)"
+================================================================================
+
+📍 UBICACIÓN:
+   Archivo: TEST_MODULOS.py
+   Línea: 111
+   Función: prepare_data()
+
+❌ ERROR ORIGINAL:
+   ValueError: too many values to unpack (expected 3, got 4)
+
+🔍 CAUSA:
+   La función prepare_data() en preprocessor.py retorna 4 valores:
+   
+       return X_raw, y, preprocessor, meta
+   
+   Pero el código intentaba desempacar solo 3:
+   
+       preprocessor, X_proc, meta = prepare_data(...)
+
+✅ SOLUCIÓN APLICADA:
+   Línea 110-112:
+   
+       # Preprocesar - NOTA: prepare_data retorna (X_raw, y, preprocessor, meta)
+       X_raw, y_train, preprocessor, meta = prepare_data(data, target='target', problem_type='auto')
+       print(f"  ✓ Preprocesamiento OK (problema: {meta['problem_type']})")
+
+
+================================================================================
+  ERROR #2: "train() got an unexpected keyword argument 'verbose'"
+================================================================================
+
+📍 UBICACIÓN:
+   Archivo: TEST_MODULOS.py
+   Línea: 115-124
+   Función: train()
+
+❌ ERROR ORIGINAL:
+   TypeError: train() got an unexpected keyword argument 'verbose'
+
+🔍 CAUSA:
+   La función train() en trainer.py NO acepta argumento 'verbose'
+   
+   Argumentos que acepta:
+   - X, y, preprocessor, model_key (requeridos)
+   - problem_type, meta (requeridos)
+   - test_size, cv_folds, random_state, model_kwargs (opcionales)
+   
+   ❌ Argumentos que NO acepta:
+   - verbose (no existe)
+   - cualquier otro parámetro que no esté en la firma
+
+✅ SOLUCIÓN APLICADA:
+   Línea 114-123:
+   
+       # Entrenar
+       pipeline, splits, cv_results = train(
+           X_raw, y_train,
+           preprocessor=preprocessor,
+           model_key='rf',
+           problem_type=meta['problem_type'],
+           meta=meta,
+           cv_folds=2,
+           # ← Se removió: verbose=False
+       )
+
+
+================================================================================
+  CAMBIOS ADICIONALES (Mejoras)
+================================================================================
+
+CAMBIO 3: Línea 169-182
+   Se agregó validación de 'pipeline' antes de usarlo:
+   
+       if 'pipeline' in locals():
+           plot_partial_dependence(pipeline, X_raw.iloc[:20], max_features=2)
+           print("  ✓ Partial Dependence OK")
+       else:
+           print("  ⚠️  Pipeline no disponible (error en entrenamiento)")
+
+
+================================================================================
+  FIRMAS DE FUNCIONES IMPORTANTES
+================================================================================
+
+prepare_data(df, target, problem_type='auto', exclude_cols=None, verbose=True)
+    ↓
+    Retorna: X_raw, y, preprocessor, meta
+
+train(X, y, preprocessor, model_key, problem_type, meta, 
+      test_size=0.2, cv_folds=5, random_state=42, model_kwargs=None)
+    ↓
+    Retorna: pipeline, splits, cv_results
+
+plot_partial_dependence(pipeline, X, max_features=5, figsize=(15, 10), 
+                        output_path=None, show=True)
+    ↓
+    Retorna: None (solo plotea)
+
+
+================================================================================
+  CHECKLIST DE VALIDACIÓN
+================================================================================
+
+✅ Error #1 (too many values to unpack) - RESUELTO
+   - Desempacar 4 valores de prepare_data()
+   - X_raw, y_train asignados correctamente
+   
+✅ Error #2 (unexpected keyword 'verbose') - RESUELTO
+   - Removido verbose=False de train()
+   - Argumentos restantes son válidos
+   
+✅ Variables correctas en TEST 4
+   - X_raw: DataFrame con features
+   - y_train: array con target codificado
+   - preprocessor: ColumnTransformer
+   - meta: dict con metadatos
+   - pipeline: Pipeline entrenado
+   
+✅ Variables correctas en TEST 6
+   - pipeline: Pipeline del TEST 4 (si fue exitoso)
+   - X_raw: Datos para partial dependence
+   - Verificación de 'pipeline' en locals()
+
+
+================================================================================
+  RESUMEN DE CAMBIOS
+================================================================================
+
+Archivo: TEST_MODULOS.py
+
+Cambio 1 (Línea 110-112):
+   ANTES: preprocessor, X_proc, meta = prepare_data(...)
+   AHORA: X_raw, y_train, preprocessor, meta = prepare_data(...)
+
+Cambio 2 (Línea 114-123):
+   ANTES: train(..., verbose=False)
+   AHORA: train(...) [sin verbose]
+
+Cambio 3 (Línea 169-182):
+   ANTES: plot_partial_dependence(pipeline, X_proc.iloc[:20], ...)
+   AHORA: if 'pipeline' in locals(): plot_partial_dependence(pipeline, X_raw.iloc[:20], ...)
+
+Total de líneas modificadas: ~15
+
+
+================================================================================
+  PRUEBA DEL FIX
+================================================================================
+
+Para validar que los fixes funcionan:
+
+$ python TEST_MODULOS.py
+
+Debería ver:
+
+[TEST 4] Pipeline básico...
+  ✓ Preprocesamiento OK (problema: BINARY)
+  ✓ Entrenamiento OK
+  ✓ Predicción OK (50 samples)
+
+[TEST 5] Módulo anomaly_detector...
+  ✓ Outlier detection OK
+  ✓ Quality report OK
+  ✓ Imbalance handling OK
+
+[TEST 6] Módulo interpretability...
+  ✓ Partial Dependence OK
+
+✅ TESTS COMPLETADOS
+
+
+================================================================================
+  LECCIONES APRENDIDAS
+================================================================================
+
+1. Siempre verificar la FIRMA de una función antes de llamarla
+2. Los errores "too many values to unpack" indican desajuste en desempaque
+3. Los errores "unexpected keyword argument" indican que el parámetro no existe
+4. Usar locals() para verificar si una variable existe antes de usarla
+5. Lee el docstring de las funciones para conocer qué argumentos aceptan
+
+
+================================================================================
+  PRÓXIMOS PASOS
+================================================================================
+
+1. ✅ Ejecutar: python TEST_MODULOS.py
+   → Debe pasar TODOS los tests (todos con ✓)
+
+2. ✅ Si TEST 4 pasa, ejecutar: python DEMO_anomaly_detector.py
+   → Validar que anomaly_detector.py funciona
+
+3. ✅ Si TEST 6 pasa, ejecutar: python DEMO_interpretability.py
+   → Validar que interpretability.py funciona
+
+4. Siguiente fase: Implementar los 3 módulos restantes
+   - model_selector.py (600+ líneas)
+   - uncertainty.py (300+ líneas)
+   - comprehensive_report.py (400+ líneas)
+
+
+================================================================================
+Status: ✅ COMPLETADO
+Last Updated: 2026-04-18
+================================================================================

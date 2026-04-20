@@ -1,0 +1,377 @@
+{
+  "modelo_001": {
+    "id": "modelo_001",
+    "filename": "modelo_001_rf_entrenamiento_temporal_20260418_142523.pkl",
+    "model_key": "rf",
+    "dataset_name": "entrenamiento_temporal.csv",
+    "problem_type": "binary",
+    "created_at": "2026-04-18T14:25:29.300604",
+    "file_size_mb": 30.8,
+    "target_col": "aprobado",
+    "num_features": 6,
+    "cat_features": 0,
+    "metrics": {},
+    "train_params": {
+      "source": "csv",
+      "model_key": "rf",
+      "problem_type": "binary",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 80
+    },
+    "target_classes": [
+      0,
+      1
+    ]
+  },
+  "modelo_002": {
+    "id": "modelo_002",
+    "filename": "modelo_002_rf_entrenamiento_financiero_20260418_143339.pkl",
+    "model_key": "rf",
+    "dataset_name": "entrenamiento_financiero.csv",
+    "problem_type": "binary",
+    "created_at": "2026-04-18T14:33:43.333893",
+    "file_size_mb": 0.61,
+    "target_col": "aprobado",
+    "num_features": 8,
+    "cat_features": 0,
+    "metrics": {},
+    "train_params": {
+      "source": "csv",
+      "model_key": "rf",
+      "problem_type": "binary",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 80
+    },
+    "target_classes": [
+      0,
+      1
+    ]
+  },
+  "modelo_003": {
+    "id": "modelo_003",
+    "filename": "modelo_003_rf_entrenamiento_texto_20260418_144718.pkl",
+    "model_key": "rf",
+    "dataset_name": "entrenamiento_texto.csv",
+    "problem_type": "binary",
+    "created_at": "2026-04-18T14:47:23.053088",
+    "file_size_mb": 0.8,
+    "target_col": "aprobado",
+    "num_features": 3,
+    "cat_features": 4,
+    "metrics": {},
+    "train_params": {
+      "source": "csv",
+      "model_key": "rf",
+      "problem_type": "binary",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 80
+    },
+    "target_classes": [
+      0,
+      1
+    ]
+  },
+  "modelo_004": {
+    "id": "modelo_004",
+    "filename": "modelo_004_rf_entrenamiento_financiero_20260418_145117.pkl",
+    "model_key": "rf",
+    "dataset_name": "entrenamiento_financiero.csv",
+    "problem_type": "binary",
+    "created_at": "2026-04-18T14:51:21.298541",
+    "file_size_mb": 0.66,
+    "target_col": "aprobado",
+    "num_features": 8,
+    "cat_features": 0,
+    "metrics": {},
+    "train_params": {
+      "source": "csv",
+      "model_key": "rf",
+      "problem_type": "binary",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 80
+    },
+    "target_classes": [
+      0,
+      1
+    ]
+  },
+  "modelo_005": {
+    "id": "modelo_005",
+    "filename": "modelo_005_rf_entrenamiento_temporal_20260418_150423.pkl",
+    "model_key": "rf",
+    "dataset_name": "entrenamiento_temporal.csv",
+    "problem_type": "binary",
+    "created_at": "2026-04-18T15:04:29.217897",
+    "file_size_mb": 19.57,
+    "target_col": "aprobado",
+    "num_features": 6,
+    "cat_features": 0,
+    "metrics": {},
+    "train_params": {
+      "source": "csv",
+      "model_key": "rf",
+      "problem_type": "binary",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 80
+    },
+    "target_classes": [
+      0,
+      1
+    ]
+  },
+  "modelo_006": {
+    "id": "modelo_006",
+    "filename": "modelo_006_rf_entrenamiento_texto_20260418_152308.pkl",
+    "model_key": "rf",
+    "dataset_name": "entrenamiento_texto.csv",
+    "problem_type": "binary",
+    "created_at": "2026-04-18T15:23:12.912681",
+    "file_size_mb": 1.08,
+    "target_col": "aprobado",
+    "num_features": 3,
+    "cat_features": 4,
+    "metrics": {},
+    "train_params": {
+      "source": "csv",
+      "model_key": "rf",
+      "problem_type": "binary",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 80
+    },
+    "target_classes": [
+      0,
+      1
+    ]
+  },
+  "modelo_007": {
+    "id": "modelo_007",
+    "filename": "modelo_007_rf_entrenamiento_texto_20260418_152519.pkl",
+    "model_key": "rf",
+    "dataset_name": "entrenamiento_texto.csv",
+    "problem_type": "binary",
+    "created_at": "2026-04-18T15:25:23.157544",
+    "file_size_mb": 1.08,
+    "target_col": "aprobado",
+    "num_features": 3,
+    "cat_features": 4,
+    "metrics": {},
+    "train_params": {
+      "source": "csv",
+      "model_key": "rf",
+      "problem_type": "binary",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 80
+    },
+    "target_classes": [
+      0,
+      1
+    ]
+  },
+  "modelo_008": {
+    "id": "modelo_008",
+    "filename": "modelo_008_rf_entrenamiento_financiero_20260418_152608.pkl",
+    "model_key": "rf",
+    "dataset_name": "entrenamiento_financiero.csv",
+    "problem_type": "binary",
+    "created_at": "2026-04-18T15:26:12.443871",
+    "file_size_mb": 0.62,
+    "target_col": "aprobado",
+    "num_features": 9,
+    "cat_features": 0,
+    "metrics": {},
+    "train_params": {
+      "source": "csv",
+      "model_key": "rf",
+      "problem_type": "binary",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 80
+    },
+    "target_classes": [
+      0,
+      1
+    ]
+  },
+  "modelo_009": {
+    "id": "modelo_009",
+    "filename": "modelo_009_rf_entrenamiento_financiero_20260418_153009.pkl",
+    "model_key": "rf",
+    "dataset_name": "entrenamiento_financiero.csv",
+    "problem_type": "binary",
+    "created_at": "2026-04-18T15:30:13.032336",
+    "file_size_mb": 0.62,
+    "target_col": "aprobado",
+    "num_features": 9,
+    "cat_features": 0,
+    "metrics": {},
+    "train_params": {
+      "source": "csv",
+      "model_key": "rf",
+      "problem_type": "binary",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 80
+    },
+    "target_classes": [
+      0,
+      1
+    ]
+  },
+  "modelo_010": {
+    "id": "modelo_010",
+    "filename": "modelo_010_rf_entrenamiento_financiero_20260418_153516.pkl",
+    "model_key": "rf",
+    "dataset_name": "entrenamiento_financiero.csv",
+    "problem_type": "binary",
+    "created_at": "2026-04-18T15:35:20.850132",
+    "file_size_mb": 0.62,
+    "target_col": "aprobado",
+    "num_features": 9,
+    "cat_features": 0,
+    "metrics": {},
+    "train_params": {
+      "source": "csv",
+      "model_key": "rf",
+      "problem_type": "binary",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 80
+    },
+    "target_classes": [
+      0,
+      1
+    ]
+  },
+  "modelo_011": {
+    "id": "modelo_011",
+    "filename": "modelo_011_rf_entrenamiento_financiero_20260418_153754.pkl",
+    "model_key": "rf",
+    "dataset_name": "entrenamiento_financiero.csv",
+    "problem_type": "binary",
+    "created_at": "2026-04-18T15:37:58.231837",
+    "file_size_mb": 0.62,
+    "target_col": "aprobado",
+    "num_features": 9,
+    "cat_features": 0,
+    "metrics": {},
+    "train_params": {
+      "source": "csv",
+      "model_key": "rf",
+      "problem_type": "binary",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 80
+    },
+    "target_classes": [
+      0,
+      1
+    ]
+  },
+  "modelo_012": {
+    "id": "modelo_012",
+    "filename": "modelo_012_rf_entrenamiento_financiero_20260418_154231.pkl",
+    "model_key": "rf",
+    "dataset_name": "entrenamiento_financiero.csv",
+    "problem_type": "binary",
+    "created_at": "2026-04-18T15:42:35.092234",
+    "file_size_mb": 0.66,
+    "target_col": "aprobado",
+    "num_features": 8,
+    "cat_features": 0,
+    "metrics": {},
+    "train_params": {
+      "source": "csv",
+      "model_key": "rf",
+      "problem_type": "binary",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 80
+    },
+    "target_classes": [
+      0,
+      1
+    ]
+  },
+  "modelo_013": {
+    "id": "modelo_013",
+    "filename": "modelo_013_rf_entrenamiento_temporal_20260418_154408.pkl",
+    "model_key": "rf",
+    "dataset_name": "entrenamiento_temporal.csv",
+    "problem_type": "binary",
+    "created_at": "2026-04-18T15:44:12.814780",
+    "file_size_mb": 18.89,
+    "target_col": "aprobado",
+    "num_features": 5,
+    "cat_features": 0,
+    "metrics": {},
+    "train_params": {
+      "source": "csv",
+      "model_key": "rf",
+      "problem_type": "binary",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 80
+    },
+    "target_classes": [
+      0,
+      1
+    ]
+  },
+  "modelo_014": {
+    "id": "modelo_014",
+    "filename": "modelo_014_rf_entrenamiento_patron_alternativo_20260418_154531.pkl",
+    "model_key": "rf",
+    "dataset_name": "entrenamiento_patron_alternativo.csv",
+    "problem_type": "binary",
+    "created_at": "2026-04-18T15:45:37.571564",
+    "file_size_mb": 28.19,
+    "target_col": "aprobado",
+    "num_features": 5,
+    "cat_features": 0,
+    "metrics": {},
+    "train_params": {
+      "source": "csv",
+      "model_key": "rf",
+      "problem_type": "binary",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 80
+    },
+    "target_classes": [
+      0,
+      1
+    ]
+  },
+  "modelo_015": {
+    "id": "modelo_015",
+    "filename": "modelo_015_rf_training_temp_20260418_202334.pkl",
+    "model_key": "rf",
+    "dataset_name": "training_temp.csv",
+    "problem_type": "binary",
+    "created_at": "2026-04-18T20:23:39.345703",
+    "file_size_mb": 0.82,
+    "target_col": "resultado",
+    "num_features": 2,
+    "cat_features": 1,
+    "metrics": {},
+    "train_params": {
+      "source": "csv",
+      "model_key": "rf",
+      "problem_type": "binary",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 80
+    },
+    "target_classes": [
+      0,
+      1
+    ]
+  }
+}
