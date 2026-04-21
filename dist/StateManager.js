@@ -1,46 +1,36 @@
 "use strict";
-// ========================================
-// STATE MANAGER - Sistema de Gestión de Estado
-// ========================================
 /**
- * StateManager: Gestiona todo el estado de la aplicación de forma centralizada
- * - Sheets (hojas de trabajo)
- * - Datos importados
- * - Estadísticos activos
- * - Persistencia en localStorage
+ * StateManager.ts - Sistema de Gestión de Estado
+ * StatAnalyzer Pro v2.0
+ * Migrado a TypeScript
  */
+// ========================================
+// STATE MANAGER (IIFE pattern)
+// ========================================
 const StateManager = (() => {
     // ========================================
     // ESTADO PRIVADO
     // ========================================
     let state = {
-        // Sistema de hojas
         sheets: [],
         activeSheetId: null,
         sheetCounter: 0,
-        // Datos importados
         importedData: null,
         fileName: '',
-        // Estadísticos seleccionados
         activeStats: [],
-        // Resultados del último análisis
         ultimosResultados: null,
-        // Configuración de pruebas de hipótesis
         hypothesisConfig: {},
-        // Configuración
         config: {
             autoSave: true,
-            autoSaveInterval: 5000, // 5 segundos
+            autoSaveInterval: 5000,
             maxSheets: 20,
             maxRows: 10000,
             maxCols: 100
         },
-        // Historial para undo/redo (opcional)
         history: [],
         historyIndex: -1,
         maxHistorySize: 50
     };
-    // Listeners para cambios de estado
     const listeners = {
         sheetChange: [],
         dataChange: [],
@@ -50,612 +40,17 @@ const StateManager = (() => {
     let autoSaveTimer = null;
     let debounceSaveTimer = null;
     // ========================================
-    // INICIALIZACIÓN
+    // UTILIDADES PRIVADAS
     // ========================================
-    function init() {
-        console.log('🚀 StateManager: Inicializando...');
-        // Intentar cargar estado guardado
-        if (loadFromLocalStorage()) {
-            console.log('✅ Estado restaurado desde localStorage');
-            notifyListeners('stateLoad');
-        }
-        else {
-            console.log('📝 Creando nuevo estado inicial');
-            createDefaultSheet();
-        }
-        // Configurar auto-guardado
-        if (state.config.autoSave) {
-            startAutoSave();
-        }
-        // Listener para cerrar ventana (guardar antes de salir)
-        window.addEventListener('beforeunload', () => {
-            saveToLocalStorage();
-        });
-        console.log('✅ StateManager inicializado correctamente');
+    function generateId() {
+        return 'sheet_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
     }
-    // ========================================
-    // GESTIÓN DE HOJAS (SHEETS)
-    // ========================================
-    function createSheet(name = null, rows = 13, cols = 11, headers = null, data = null) {
-        // Validar límite de hojas
-        if (state.sheets.length >= state.config.maxSheets) {
-            throw new Error(`Límite de ${state.config.maxSheets} hojas alcanzado`);
-        }
-        // Generar nombre automático si no se proporciona
-        const sheetName = name || getNextSheetName();
-        // Validar nombre único
-        if (state.sheets.some(s => s.name === sheetName)) {
-            throw new Error(`Ya existe una hoja con el nombre "${sheetName}"`);
-        }
-        // Generar headers por defecto usando letras estilo Excel
-        const defaultHeaders = ['#', ...Array.from({ length: cols - 1 }, (_, i) => indexToExcelColumn(i + 1))];
-        // Generar datos vacíos por defecto
-        const defaultData = Array.from({ length: rows }, (_, i) => [
-            i + 1,
-            ...Array(cols - 1).fill('')
-        ]);
-        // Crear objeto sheet
-        const newSheet = {
-            id: Date.now() + Math.random(), // ID único
-            name: sheetName,
-            headers: headers || defaultHeaders,
-            data: data || defaultData,
-            rows: rows,
-            cols: cols,
-            created: new Date().toISOString(),
-            modified: new Date().toISOString()
-        };
-        state.sheets.push(newSheet);
-        state.activeSheetId = newSheet.id;
-        state.sheetCounter++;
-        notifyListeners('sheetChange');
-        scheduleAutoSave();
-        console.log(`✅ Hoja "${sheetName}" creada (ID: ${newSheet.id})`);
-        return newSheet;
-    }
-    function deleteSheet(sheetId) {
-        if (state.sheets.length <= 1) {
-            throw new Error('Debe haber al menos una hoja');
-        }
-        const sheetIndex = state.sheets.findIndex(s => s.id === sheetId);
-        if (sheetIndex === -1) {
-            throw new Error('Hoja no encontrada');
-        }
-        const deletedSheet = state.sheets.splice(sheetIndex, 1)[0];
-        // Si era la hoja activa, cambiar a otra
-        if (state.activeSheetId === sheetId) {
-            state.activeSheetId = state.sheets[0].id;
-        }
-        notifyListeners('sheetChange');
-        scheduleAutoSave();
-        console.log(`🗑️ Hoja "${deletedSheet.name}" eliminada`);
-        return deletedSheet;
-    }
-    function renameSheet(sheetId, newName) {
-        if (!newName || newName.trim() === '') {
-            throw new Error('El nombre no puede estar vacío');
-        }
-        const sheet = state.sheets.find(s => s.id === sheetId);
-        if (!sheet) {
-            throw new Error('Hoja no encontrada');
-        }
-        // Validar nombre único (excepto la misma hoja)
-        if (state.sheets.some(s => s.name === newName.trim() && s.id !== sheetId)) {
-            throw new Error(`Ya existe una hoja con el nombre "${newName}"`);
-        }
-        const oldName = sheet.name;
-        sheet.name = newName.trim();
-        sheet.modified = new Date().toISOString();
-        notifyListeners('sheetChange');
-        scheduleAutoSave();
-        console.log(`✏️ Hoja renombrada: "${oldName}" → "${sheet.name}"`);
-        return sheet;
-    }
-    function setActiveSheet(sheetId) {
-        const sheet = state.sheets.find(s => s.id === sheetId);
-        if (!sheet) {
-            throw new Error('Hoja no encontrada');
-        }
-        state.activeSheetId = sheetId;
-        notifyListeners('sheetChange');
-        console.log(`📄 Hoja activa: "${sheet.name}"`);
-        return sheet;
-    }
-    function getActiveSheet() {
-        return state.sheets.find(s => s.id === state.activeSheetId);
-    }
-    function getAllSheets() {
-        return [...state.sheets]; // Retornar copia para evitar mutaciones
-    }
-    function getSheet(sheetId) {
-        return state.sheets.find(s => s.id === sheetId);
-    }
-    // ========================================
-    // GESTIÓN DE DATOS DE HOJA
-    // ========================================
-    function updateCell(row, col, value, skipAudit = false) {
-        const sheet = getActiveSheet();
-        if (!sheet) {
-            throw new Error('No hay hoja activa');
-        }
-        if (row < 0 || row >= sheet.data.length) {
-            throw new Error('Índice de fila inválido');
-        }
-        if (col < 0 || col >= sheet.data[row].length) {
-            throw new Error('Índice de columna inválido');
-        }
-        // Solo Registrar cambio en auditoría si no se indica skipAudit (forzar como strings para preservar decimales)
-        if (!skipAudit) {
-            const oldValue = String(sheet.data[row][col] ?? '');
-            const newValueStr = String(value ?? '');
-            if (oldValue !== newValueStr && typeof Logger !== 'undefined') {
-                Logger.logDataChange('UPDATE', {
-                    row: row,
-                    col: col,
-                    colName: sheet.headers[col] || col,
-                    oldValue: oldValue,
-                    newValue: newValueStr
-                });
-            }
-        }
-        sheet.data[row][col] = value;
-        sheet.modified = new Date().toISOString();
-        notifyListeners('dataChange');
-        scheduleAutoSave();
-    }
-    function updateHeader(col, value) {
-        const sheet = getActiveSheet();
-        if (!sheet) {
-            throw new Error('No hay hoja activa');
-        }
-        if (col < 0 || col >= sheet.headers.length) {
-            throw new Error('Índice de columna inválido');
-        }
-        sheet.headers[col] = value;
-        sheet.modified = new Date().toISOString();
-        notifyListeners('dataChange');
-        scheduleAutoSave();
-    }
-    function addRow(values = null) {
-        const sheet = getActiveSheet();
-        if (!sheet) {
-            throw new Error('No hay hoja activa');
-        }
-        if (sheet.data.length >= state.config.maxRows) {
-            throw new Error(`Límite de ${state.config.maxRows} filas alcanzado`);
-        }
-        const newIndex = sheet.data.length + 1;
-        const newRow = values || [newIndex, ...Array(sheet.cols - 1).fill('')];
-        sheet.data.push(newRow);
-        sheet.rows = sheet.data.length;
-        sheet.modified = new Date().toISOString();
-        notifyListeners('dataChange');
-        scheduleAutoSave();
-        return newRow;
-    }
-    function deleteRow(rowIndex = null) {
-        const sheet = getActiveSheet();
-        if (!sheet) {
-            throw new Error('No hay hoja activa');
-        }
-        if (sheet.data.length <= 1) {
-            throw new Error('Debe haber al menos una fila');
-        }
-        // Si no se especifica índice, eliminar la última fila
-        const indexToDelete = rowIndex !== null ? rowIndex : sheet.data.length - 1;
-        if (indexToDelete < 0 || indexToDelete >= sheet.data.length) {
-            throw new Error('Índice de fila inválido');
-        }
-        const deletedRow = sheet.data.splice(indexToDelete, 1)[0];
-        // Reindexar primera columna
-        sheet.data.forEach((row, i) => {
-            row[0] = i + 1;
-        });
-        sheet.rows = sheet.data.length;
-        sheet.modified = new Date().toISOString();
-        notifyListeners('dataChange');
-        scheduleAutoSave();
-        return deletedRow;
-    }
-    function indexToExcelColumn(index) {
-        let column = '';
-        while (index > 0) {
-            const remainder = (index - 1) % 26;
-            column = String.fromCharCode(65 + remainder) + column;
-            index = Math.floor((index - 1) / 26);
-        }
-        return column;
-    }
-    function generateUniqueColumnName(existingHeaders) {
-        let counter = 1;
-        let newName = 'A';
-        while (existingHeaders.includes(newName)) {
-            newName = indexToExcelColumn(counter);
-            counter++;
-        }
-        return newName;
-    }
-    function addColumn(header = null) {
-        const sheet = getActiveSheet();
-        if (!sheet) {
-            throw new Error('No hay hoja activa');
-        }
-        if (sheet.cols >= state.config.maxCols) {
-            throw new Error(`Límite de ${state.config.maxCols} columnas alcanzado`);
-        }
-        const newColNum = sheet.headers.length;
-        const newHeader = header || generateUniqueColumnName(sheet.headers);
-        sheet.headers.push(newHeader);
-        sheet.data.forEach(row => row.push(''));
-        sheet.cols = sheet.headers.length;
-        sheet.modified = new Date().toISOString();
-        notifyListeners('dataChange');
-        scheduleAutoSave();
-        return newHeader;
-    }
-    function deleteColumn(colIndex = null) {
-        const sheet = getActiveSheet();
-        if (!sheet) {
-            throw new Error('No hay hoja activa');
-        }
-        if (sheet.cols <= 2) { // Mínimo 2: # + 1 columna de datos
-            throw new Error('Debe haber al menos una columna de datos');
-        }
-        // Si no se especifica índice, eliminar la última columna
-        const indexToDelete = colIndex !== null ? colIndex : sheet.headers.length - 1;
-        if (indexToDelete < 1 || indexToDelete >= sheet.headers.length) {
-            throw new Error('Índice de columna inválido');
-        }
-        const deletedHeader = sheet.headers.splice(indexToDelete, 1)[0];
-        sheet.data.forEach(row => row.splice(indexToDelete, 1));
-        sheet.cols = sheet.headers.length;
-        sheet.modified = new Date().toISOString();
-        notifyListeners('dataChange');
-        scheduleAutoSave();
-        return deletedHeader;
-    }
-    function insertRow(rowIndex) {
-        const sheet = getActiveSheet();
-        if (!sheet) {
-            throw new Error('No hay hoja activa');
-        }
-        if (sheet.data.length >= state.config.maxRows) {
-            throw new Error(`Límite de ${state.config.maxRows} filas alcanzado`);
-        }
-        if (rowIndex < 0 || rowIndex > sheet.data.length) {
-            throw new Error('Índice de fila inválido');
-        }
-        const newRow = [rowIndex + 1, ...Array(sheet.cols - 1).fill('')];
-        sheet.data.splice(rowIndex, 0, newRow);
-        // Reindexar primera columna
-        sheet.data.forEach((row, i) => {
-            row[0] = i + 1;
-        });
-        sheet.rows = sheet.data.length;
-        sheet.modified = new Date().toISOString();
-        notifyListeners('dataChange');
-        scheduleAutoSave();
-        return newRow;
-    }
-    function insertColumn(colIndex, header = null) {
-        const sheet = getActiveSheet();
-        if (!sheet) {
-            throw new Error('No hay hoja activa');
-        }
-        if (sheet.cols >= state.config.maxCols) {
-            throw new Error(`Límite de ${state.config.maxCols} columnas alcanzado`);
-        }
-        if (colIndex < 1 || colIndex > sheet.headers.length) {
-            throw new Error('Índice de columna inválido');
-        }
-        // La nueva columna toma el nombre correspondiente a su posición
-        const newHeader = header || indexToExcelColumn(colIndex);
-        // Renombrar columnas existentes desde colIndex para mantener secuencia
-        for (let i = colIndex; i < sheet.headers.length; i++) {
-            sheet.headers[i] = indexToExcelColumn(i + 1);
-        }
-        sheet.headers.splice(colIndex, 0, newHeader);
-        sheet.data.forEach(row => row.splice(colIndex, 0, ''));
-        sheet.cols = sheet.headers.length;
-        sheet.modified = new Date().toISOString();
-        notifyListeners('dataChange');
-        scheduleAutoSave();
-        return newHeader;
-    }
-    function clearSheetData() {
-        const sheet = getActiveSheet();
-        if (!sheet) {
-            throw new Error('No hay hoja activa');
-        }
-        sheet.data = Array.from({ length: sheet.rows }, (_, i) => [
-            i + 1,
-            ...Array(sheet.cols - 1).fill('')
-        ]);
-        sheet.modified = new Date().toISOString();
-        notifyListeners('dataChange');
-        scheduleAutoSave();
-        console.log(`🗑️ Datos de hoja "${sheet.name}" limpiados`);
-    }
-    function setSheetData(data, headers = null) {
-        const sheet = getActiveSheet();
-        if (!sheet) {
-            throw new Error('No hay hoja activa');
-        }
-        sheet.data = data;
-        if (headers) {
-            sheet.headers = headers;
-        }
-        sheet.rows = data.length;
-        sheet.cols = sheet.headers.length;
-        sheet.modified = new Date().toISOString();
-        notifyListeners('dataChange');
-        scheduleAutoSave();
-    }
-    function getSheetData() {
-        const sheet = getActiveSheet();
-        if (!sheet) {
-            return null;
-        }
-        return {
-            headers: [...sheet.headers],
-            data: sheet.data.map(row => [...row]),
-            rows: sheet.rows,
-            cols: sheet.cols
-        };
-    }
-    // ========================================
-    // GESTIÓN DE DATOS IMPORTADOS
-    // ========================================
-    function setImportedData(data, filename = 'datos.csv') {
-        state.importedData = data;
-        state.fileName = filename;
-        invalidateNumericColsCache();
-        notifyListeners('dataChange');
-        scheduleAutoSave();
-        console.log(`📥 Datos importados: ${filename}`);
-    }
-    function getImportedData() {
-        return state.importedData;
-    }
-    function clearImportedData() {
-        state.importedData = null;
-        state.fileName = '';
-        invalidateNumericColsCache();
-        notifyListeners('dataChange');
-        scheduleAutoSave();
-        console.log('🗑️ Datos importados eliminados');
-    }
-    // ========================================
-    // GESTIÓN DE ESTADÍSTICOS ACTIVOS
-    // ========================================
-    function addActiveStat(statName) {
-        if (state.activeStats.includes(statName)) {
-            console.warn(`Estadístico "${statName}" ya está activo`);
-            return false;
-        }
-        state.activeStats.push(statName);
-        notifyListeners('statsChange');
-        scheduleAutoSave();
-        console.log(`📊 Estadístico añadido: "${statName}"`);
-        return true;
-    }
-    function removeActiveStat(statName) {
-        const index = state.activeStats.indexOf(statName);
-        if (index === -1) {
-            console.warn(`Estadístico "${statName}" no está activo`);
-            return false;
-        }
-        state.activeStats.splice(index, 1);
-        notifyListeners('statsChange');
-        scheduleAutoSave();
-        console.log(`🗑️ Estadístico eliminado: "${statName}"`);
-        return true;
-    }
-    function getActiveStats() {
-        return [...state.activeStats];
-    }
-    function clearActiveStats() {
-        state.activeStats = [];
-        notifyListeners('statsChange');
-        scheduleAutoSave();
-        console.log('🗑️ Todos los estadísticos eliminados');
-    }
-    // ========================================
-    // CONFIGURACIÓN DE PRUEBAS DE HIPÓTESIS
-    // ========================================
-    function setHypothesisConfig(statName, config) {
-        state.hypothesisConfig[statName] = config;
-        scheduleAutoSave();
-        console.log(`⚙️ Configuración guardada para ${statName}`);
-    }
-    function getHypothesisConfig(statName) {
-        return state.hypothesisConfig[statName] || null;
-    }
-    function clearHypothesisConfig(statName) {
-        delete state.hypothesisConfig[statName];
-        scheduleAutoSave();
-    }
-    function getAllHypothesisConfig() {
-        return { ...state.hypothesisConfig };
-    }
-    // ========================================
-    // PERSISTENCIA (LocalStorage)
-    // ========================================
-    function saveToLocalStorage() {
-        try {
-            const serialized = JSON.stringify({
-                sheets: state.sheets,
-                activeSheetId: state.activeSheetId,
-                sheetCounter: state.sheetCounter,
-                importedData: state.importedData,
-                fileName: state.fileName,
-                activeStats: state.activeStats,
-                hypothesisConfig: state.hypothesisConfig,
-                savedAt: new Date().toISOString()
-            });
-            localStorage.setItem('statAnalyzerState', serialized);
-            console.log('💾 Estado guardado en localStorage');
-            return true;
-        }
-        catch (error) {
-            console.error('❌ Error al guardar estado:', error);
-            return false;
-        }
-    }
-    function loadFromLocalStorage() {
-        try {
-            const serialized = localStorage.getItem('statAnalyzerState');
-            if (!serialized) {
-                return false;
-            }
-            const loaded = JSON.parse(serialized);
-            // Restaurar estado
-            state.sheets = loaded.sheets || [];
-            state.activeSheetId = loaded.activeSheetId || null;
-            state.sheetCounter = loaded.sheetCounter || 0;
-            state.importedData = loaded.importedData || null;
-            state.fileName = loaded.fileName || '';
-            state.activeStats = loaded.activeStats || [];
-            state.hypothesisConfig = loaded.hypothesisConfig || {};
-            console.log(`📂 Estado cargado (guardado: ${loaded.savedAt})`);
-            return true;
-        }
-        catch (error) {
-            console.error('❌ Error al cargar estado:', error);
-            return false;
-        }
-    }
-    function clearLocalStorage() {
-        localStorage.removeItem('statAnalyzerState');
-        console.log('🗑️ LocalStorage limpiado');
-    }
-    // ========================================
-    // AUTO-GUARDADO
-    // ========================================
-    function startAutoSave() {
-        if (autoSaveTimer) {
-            clearInterval(autoSaveTimer);
-        }
-        autoSaveTimer = setInterval(() => {
-            saveToLocalStorage();
-        }, state.config.autoSaveInterval);
-        console.log(`⏰ Auto-guardado activado (cada ${state.config.autoSaveInterval / 1000}s)`);
-    }
-    function stopAutoSave() {
-        if (autoSaveTimer) {
-            clearInterval(autoSaveTimer);
-            autoSaveTimer = null;
-            console.log('⏸️ Auto-guardado desactivado');
-        }
-    }
-    function scheduleAutoSave() {
-        // Debounce: espera 400ms antes de guardar.
-        // Agrupa múltiples cambios rápidos (como escribir en celdas)
-        // en una sola serialización a localStorage.
-        if (state.config.autoSave) {
-            clearTimeout(debounceSaveTimer);
-            debounceSaveTimer = setTimeout(() => {
-                saveToLocalStorage();
-            }, 400);
-        }
-    }
-    // ========================================
-    // UTILIDADES
-    // ========================================
-    function getNextSheetName() {
-        const existingNames = state.sheets.map(s => s.name);
-        let i = 1;
-        while (existingNames.includes(`Sheet ${i}`)) {
-            i++;
-        }
-        return `Sheet ${i}`;
-    }
-    function createDefaultSheet() {
-        createSheet('Sheet 1', 13, 11);
-    }
-    // Caché de columnas numéricas (evita recalcular en cada render)
-    let _numericColsCache = null;
-    function getNumericCols(imported) {
-        if (!imported || !imported.headers)
-            return [];
-        const dataHash = imported.headers.join('|') + '|' + (imported.data?.length || 0);
-        if (_numericColsCache && _numericColsCache.hash === dataHash) {
-            return _numericColsCache.result;
-        }
-        const result = imported.headers.filter(h => {
-            const vals = imported.data.slice(0, 20).map(r => parseFloat(r[h]));
-            return vals.filter(v => !isNaN(v)).length >= vals.length * 0.7;
-        });
-        _numericColsCache = { hash: dataHash, result };
-        return result;
-    }
-    function invalidateNumericColsCache() {
-        _numericColsCache = null;
-    }
-    function getStats() {
-        return {
-            totalSheets: state.sheets.length,
-            activeSheet: getActiveSheet()?.name || 'Ninguna',
-            totalRows: state.sheets.reduce((sum, s) => sum + s.rows, 0),
-            totalCells: state.sheets.reduce((sum, s) => sum + (s.rows * s.cols), 0),
-            hasImportedData: !!state.importedData,
-            activeStatsCount: state.activeStats.length,
-            lastSaved: localStorage.getItem('statAnalyzerState') ?
-                JSON.parse(localStorage.getItem('statAnalyzerState')).savedAt : 'Nunca'
-        };
-    }
-    function exportState() {
-        return JSON.stringify(state, null, 2);
-    }
-    function importState(jsonString) {
-        try {
-            const imported = JSON.parse(jsonString);
-            state = { ...state, ...imported };
-            notifyListeners('stateLoad');
-            scheduleAutoSave();
-            console.log('✅ Estado importado correctamente');
-            return true;
-        }
-        catch (error) {
-            console.error('❌ Error al importar estado:', error);
-            return false;
-        }
-    }
-    function resetState() {
-        state.sheets = [];
-        state.activeSheetId = null;
-        state.sheetCounter = 0;
-        state.importedData = null;
-        state.fileName = '';
-        state.activeStats = [];
-        createDefaultSheet();
-        clearLocalStorage();
-        notifyListeners('stateLoad');
-        console.log('🔄 Estado reiniciado');
-    }
-    // ========================================
-    // SISTEMA DE LISTENERS
-    // ========================================
-    function addEventListener(event, callback) {
-        if (!listeners[event]) {
-            console.warn(`Evento "${event}" no existe`);
-            return;
-        }
-        listeners[event].push(callback);
-    }
-    function removeEventListener(event, callback) {
-        if (!listeners[event]) {
-            return;
-        }
-        const index = listeners[event].indexOf(callback);
-        if (index !== -1) {
-            listeners[event].splice(index, 1);
-        }
+    function cloneDeep(obj) {
+        return JSON.parse(JSON.stringify(obj));
     }
     function notifyListeners(event) {
-        if (!listeners[event]) {
+        if (!listeners[event])
             return;
-        }
         listeners[event].forEach(callback => {
             try {
                 callback(state);
@@ -666,12 +61,479 @@ const StateManager = (() => {
         });
     }
     // ========================================
+    // INICIALIZACIÓN
+    // ========================================
+    function init() {
+        console.log('🚀 StateManager: Inicializando...');
+        if (loadFromLocalStorage()) {
+            console.log('✅ Estado restaurado desde localStorage');
+            notifyListeners('stateLoad');
+        }
+        else {
+            console.log('📝 Creando nuevo estado inicial');
+            createDefaultSheet();
+        }
+        if (state.config.autoSave) {
+            startAutoSave();
+        }
+        console.log('✅ StateManager inicializado');
+    }
+    function createDefaultSheet() {
+        const sheet = {
+            id: generateId(),
+            name: 'Hoja 1',
+            headers: [],
+            data: []
+        };
+        // @ts-ignore - compatibilidad legacy
+        sheet.rows = sheet.data;
+        state.sheets = [sheet];
+        state.activeSheetId = sheet.id;
+        state.sheetCounter = 1;
+        return sheet;
+    }
+    function createSheet(name) {
+        if (state.sheets.length >= state.config.maxSheets) {
+            throw new Error(`Máximo de hojas alcanzado (${state.config.maxSheets})`);
+        }
+        state.sheetCounter++;
+        const sheet = {
+            id: generateId(),
+            name: name || `Hoja ${state.sheetCounter}`,
+            headers: [],
+            data: []
+        };
+        // @ts-ignore - compatibilidad legacy
+        sheet.rows = sheet.data;
+        state.sheets.push(sheet);
+        state.activeSheetId = sheet.id;
+        notifyListeners('sheetChange');
+        return sheet;
+    }
+    function deleteSheet(sheetId) {
+        const index = state.sheets.findIndex(s => s.id === sheetId);
+        if (index === -1) {
+            return false;
+        }
+        if (state.sheets.length === 1) {
+            createDefaultSheet();
+            state.sheets = [state.sheets[0]];
+        }
+        else {
+            state.sheets.splice(index, 1);
+        }
+        if (state.activeSheetId === sheetId) {
+            state.activeSheetId = state.sheets[0].id;
+        }
+        notifyListeners('sheetChange');
+        return true;
+    }
+    function renameSheet(sheetId, newName) {
+        const sheet = state.sheets.find(s => s.id === sheetId);
+        if (!sheet) {
+            return false;
+        }
+        sheet.name = newName;
+        notifyListeners('sheetChange');
+        return true;
+    }
+    function setActiveSheet(sheetId) {
+        const sheet = state.sheets.find(s => s.id === sheetId);
+        if (!sheet) {
+            return false;
+        }
+        state.activeSheetId = sheetId;
+        notifyListeners('sheetChange');
+        return true;
+    }
+    function getActiveSheet() {
+        return state.sheets.find(s => s.id === state.activeSheetId) || null;
+    }
+    function getAllSheets() {
+        return [...state.sheets];
+    }
+    function getSheet(sheetId) {
+        return state.sheets.find(s => s.id === sheetId) || null;
+    }
+    // ========================================
+    // GESTIÓN DE DATOS
+    // ========================================
+    function updateCell(sheetId, row, col, value) {
+        const sheet = state.sheets.find(s => s.id === sheetId);
+        if (!sheet) {
+            return false;
+        }
+        if (row >= sheet.data.length) {
+            while (sheet.data.length <= row) {
+                sheet.data.push(new Array(sheet.headers.length).fill(null));
+            }
+        }
+        if (col >= sheet.headers.length) {
+            for (let i = sheet.headers.length; i <= col; i++) {
+                sheet.headers.push(String.fromCharCode(65 + i));
+            }
+            sheet.data.forEach(row => {
+                while (row.length < sheet.headers.length) {
+                    row.push(null);
+                }
+            });
+        }
+        sheet.data[row][col] = value;
+        notifyListeners('dataChange');
+        return true;
+    }
+    function updateHeader(sheetId, col, newHeader) {
+        const sheet = state.sheets.find(s => s.id === sheetId);
+        if (!sheet || col < 0 || col >= sheet.headers.length) {
+            return false;
+        }
+        sheet.headers[col] = newHeader;
+        notifyListeners('dataChange');
+        return true;
+    }
+    function addRow(sheetId) {
+        const sheet = state.sheets.find(s => s.id === sheetId);
+        if (!sheet || sheet.data.length >= state.config.maxRows) {
+            return false;
+        }
+        sheet.data.push(new Array(sheet.headers.length).fill(null));
+        notifyListeners('dataChange');
+        return true;
+    }
+    function insertRow(sheetId, rowIndex) {
+        const sheet = state.sheets.find(s => s.id === sheetId);
+        if (!sheet || rowIndex < 0 || rowIndex > sheet.data.length) {
+            return false;
+        }
+        sheet.data.splice(rowIndex, 0, new Array(sheet.headers.length).fill(null));
+        notifyListeners('dataChange');
+        return true;
+    }
+    function deleteRow(sheetId, rowIndex) {
+        const sheet = state.sheets.find(s => s.id === sheetId);
+        if (!sheet || rowIndex < 0 || rowIndex >= sheet.data.length) {
+            return false;
+        }
+        sheet.data.splice(rowIndex, 1);
+        notifyListeners('dataChange');
+        return true;
+    }
+    function addColumn(sheetId, header) {
+        const sheet = state.sheets.find(s => s.id === sheetId);
+        if (!sheet || sheet.headers.length >= state.config.maxCols) {
+            return false;
+        }
+        const newHeader = header || String.fromCharCode(65 + sheet.headers.length);
+        sheet.headers.push(newHeader);
+        sheet.data.forEach(row => row.push(null));
+        notifyListeners('dataChange');
+        return true;
+    }
+    function insertColumn(sheetId, colIndex, header) {
+        const sheet = state.sheets.find(s => s.id === sheetId);
+        if (!sheet || colIndex < 0 || colIndex > sheet.headers.length) {
+            return false;
+        }
+        const newHeader = header || String.fromCharCode(65 + colIndex);
+        sheet.headers.splice(colIndex, 0, newHeader);
+        sheet.data.forEach(row => row.splice(colIndex, 0, null));
+        notifyListeners('dataChange');
+        return true;
+    }
+    function deleteColumn(sheetId, colIndex) {
+        const sheet = state.sheets.find(s => s.id === sheetId);
+        if (!sheet || colIndex < 0 || colIndex >= sheet.headers.length) {
+            return false;
+        }
+        sheet.headers.splice(colIndex, 1);
+        sheet.data.forEach(row => row.splice(colIndex, 1));
+        notifyListeners('dataChange');
+        return true;
+    }
+    function clearSheetData(sheetId) {
+        const sheet = state.sheets.find(s => s.id === sheetId);
+        if (!sheet) {
+            return false;
+        }
+        sheet.headers = [];
+        sheet.data = [];
+        notifyListeners('dataChange');
+        return true;
+    }
+    function setSheetData(sheetId, headers, rows) {
+        const sheet = state.sheets.find(s => s.id === sheetId);
+        if (!sheet) {
+            return false;
+        }
+        sheet.headers = headers;
+        sheet.data = rows;
+        notifyListeners('dataChange');
+        return true;
+    }
+    function getSheetData(sheetId) {
+        const sheet = state.sheets.find(s => s.id === sheetId);
+        if (!sheet) {
+            return null;
+        }
+        return {
+            headers: [...sheet.headers],
+            rows: sheet.data.map(row => [...row])
+        };
+    }
+    // ========================================
+    // DATOS IMPORTADOS
+    // ========================================
+    function setImportedData(data, fileName) {
+        state.importedData = data;
+        state.fileName = fileName;
+        notifyListeners('dataChange');
+    }
+    function getImportedData() {
+        if (!state.importedData) {
+            return null;
+        }
+        return {
+            data: {
+                headers: [...state.importedData.headers],
+                data: state.importedData.data.map(row => [...row])
+            },
+            fileName: state.fileName
+        };
+    }
+    function clearImportedData() {
+        state.importedData = null;
+        state.fileName = '';
+        notifyListeners('dataChange');
+    }
+    // ========================================
+    // ESTADÍSTICOS
+    // ========================================
+    function addActiveStat(stat) {
+        if (!state.activeStats.includes(stat)) {
+            state.activeStats.push(stat);
+            notifyListeners('statsChange');
+        }
+    }
+    function removeActiveStat(stat) {
+        const index = state.activeStats.indexOf(stat);
+        if (index === -1) {
+            return false;
+        }
+        state.activeStats.splice(index, 1);
+        notifyListeners('statsChange');
+        return true;
+    }
+    function getActiveStats() {
+        return [...state.activeStats];
+    }
+    function clearActiveStats() {
+        state.activeStats = [];
+        notifyListeners('statsChange');
+    }
+    // ========================================
+    // CONFIGURACIÓN DE HIPÓTESIS
+    // ========================================
+    function setHypothesisConfig(statName, config) {
+        state.hypothesisConfig[statName] = config;
+    }
+    function getHypothesisConfig(statName) {
+        return state.hypothesisConfig[statName] || null;
+    }
+    function clearHypothesisConfig(statName) {
+        if (!state.hypothesisConfig[statName]) {
+            return false;
+        }
+        delete state.hypothesisConfig[statName];
+        return true;
+    }
+    function getAllHypothesisConfig() {
+        return { ...state.hypothesisConfig };
+    }
+    // ========================================
+    // PERSISTENCIA
+    // ========================================
+    function saveToLocalStorage() {
+        try {
+            const dataToSave = {
+                sheets: state.sheets,
+                activeSheetId: state.activeSheetId,
+                sheetCounter: state.sheetCounter,
+                importedData: state.importedData,
+                fileName: state.fileName,
+                activeStats: state.activeStats,
+                hypothesisConfig: state.hypothesisConfig,
+                config: state.config
+            };
+            localStorage.setItem('sigmaProState', JSON.stringify(dataToSave));
+            return true;
+        }
+        catch (error) {
+            console.error('Error guardando en localStorage:', error);
+            return false;
+        }
+    }
+    function loadFromLocalStorage() {
+        try {
+            const savedData = localStorage.getItem('sigmaProState');
+            if (!savedData) {
+                return false;
+            }
+            const parsed = JSON.parse(savedData);
+            if (parsed.sheets && Array.isArray(parsed.sheets)) {
+                state.sheets = parsed.sheets.map(sheet => {
+                    // @ts-ignore - compatibilidad legacy con código que usa rows
+                    if (sheet.data && !sheet.rows) {
+                        sheet.rows = sheet.data;
+                    }
+                    return sheet;
+                });
+                state.activeSheetId = parsed.activeSheetId;
+                state.sheetCounter = parsed.sheetCounter;
+                state.importedData = parsed.importedData;
+                state.fileName = parsed.fileName || '';
+                state.activeStats = parsed.activeStats || [];
+                state.hypothesisConfig = parsed.hypothesisConfig || {};
+                state.config = parsed.config || state.config;
+                return true;
+            }
+            return false;
+        }
+        catch (error) {
+            console.error('Error cargando desde localStorage:', error);
+            return false;
+        }
+    }
+    function clearLocalStorage() {
+        try {
+            localStorage.removeItem('sigmaProState');
+        }
+        catch (error) {
+            console.error('Error limpiando localStorage:', error);
+        }
+    }
+    // ========================================
+    // AUTO-GUARDADO
+    // ========================================
+    function startAutoSave() {
+        stopAutoSave();
+        if (state.config.autoSave) {
+            autoSaveTimer = setInterval(() => {
+                saveToLocalStorage();
+            }, state.config.autoSaveInterval);
+        }
+    }
+    function stopAutoSave() {
+        if (autoSaveTimer) {
+            clearInterval(autoSaveTimer);
+            autoSaveTimer = null;
+        }
+    }
+    // ========================================
+    // UTILIDADES
+    // ========================================
+    function getStats() {
+        let totalRows = 0;
+        let totalCols = 0;
+        let totalCells = 0;
+        state.sheets.forEach(sheet => {
+            totalRows += sheet.data.length;
+            totalCols += sheet.headers.length;
+            sheet.data.forEach(row => {
+                totalCells += row.filter(cell => cell !== null && cell !== '').length;
+            });
+        });
+        return {
+            sheets: state.sheets.length,
+            rows: totalRows,
+            cols: totalCols,
+            cells: totalCells
+        };
+    }
+    function getNumericCols(sheetId) {
+        const sheet = state.sheets.find(s => s.id === sheetId);
+        if (!sheet) {
+            return [];
+        }
+        return sheet.headers.filter((header, colIndex) => {
+            const values = sheet.data.map(row => row[colIndex]).filter(v => v !== null && v !== '');
+            const numericCount = values.filter(v => !isNaN(parseFloat(String(v)))).length;
+            return numericCount / values.length >= 0.8;
+        });
+    }
+    function exportState() {
+        const exportData = {
+            sheets: state.sheets,
+            activeSheetId: state.activeSheetId,
+            sheetCounter: state.sheetCounter,
+            importedData: state.importedData,
+            fileName: state.fileName,
+            activeStats: state.activeStats,
+            config: state.config
+        };
+        return JSON.stringify(exportData, null, 2);
+    }
+    function importState(jsonString) {
+        try {
+            const imported = JSON.parse(jsonString);
+            if (imported.sheets) {
+                state.sheets = imported.sheets;
+                state.activeSheetId = imported.activeSheetId;
+                state.sheetCounter = imported.sheetCounter;
+                state.importedData = imported.importedData;
+                state.fileName = imported.fileName || '';
+                state.activeStats = imported.activeStats || [];
+                state.config = imported.config || state.config;
+                notifyListeners('stateLoad');
+                return true;
+            }
+            return false;
+        }
+        catch (error) {
+            console.error('Error importando estado:', error);
+            return false;
+        }
+    }
+    function resetState() {
+        stopAutoSave();
+        clearLocalStorage();
+        state.sheets = [];
+        state.activeSheetId = null;
+        state.sheetCounter = 0;
+        state.importedData = null;
+        state.fileName = '';
+        state.activeStats = [];
+        state.ultimosResultados = null;
+        state.hypothesisConfig = {};
+        state.history = [];
+        state.historyIndex = -1;
+        createDefaultSheet();
+        startAutoSave();
+    }
+    // ========================================
+    // EVENT LISTENERS
+    // ========================================
+    function addEventListener(event, callback) {
+        if (!listeners[event]) {
+            return;
+        }
+        listeners[event].push(callback);
+    }
+    function removeEventListener(event, callback) {
+        if (!listeners[event]) {
+            return false;
+        }
+        const index = listeners[event].indexOf(callback);
+        if (index !== -1) {
+            listeners[event].splice(index, 1);
+            return true;
+        }
+        return false;
+    }
+    // ========================================
     // API PÚBLICA
     // ========================================
     return {
-        // Inicialización
         init,
-        // Gestión de hojas
         createSheet,
         deleteSheet,
         renameSheet,
@@ -679,7 +541,6 @@ const StateManager = (() => {
         getActiveSheet,
         getAllSheets,
         getSheet,
-        // Gestión de datos
         updateCell,
         updateHeader,
         addRow,
@@ -691,48 +552,32 @@ const StateManager = (() => {
         clearSheetData,
         setSheetData,
         getSheetData,
-        // Datos importados
         setImportedData,
         getImportedData,
         clearImportedData,
-        // Estadísticos
         addActiveStat,
         removeActiveStat,
         getActiveStats,
         clearActiveStats,
-        // Configuración de hipótesis
         setHypothesisConfig,
         getHypothesisConfig,
         clearHypothesisConfig,
         getAllHypothesisConfig,
-        // Persistencia
         saveToLocalStorage,
         loadFromLocalStorage,
         clearLocalStorage,
-        // Auto-guardado
         startAutoSave,
         stopAutoSave,
-        // Utilidades
         getStats,
         getNumericCols,
         exportState,
         importState,
         resetState,
-        // Resultados de análisis
         setUltimosResultados: (results) => { state.ultimosResultados = results; },
         getUltimosResultados: () => state.ultimosResultados,
-        // Listeners
         addEventListener,
         removeEventListener,
-        // Acceso directo al estado (solo lectura)
         getState: () => ({ ...state })
     };
 })();
-// ========================================
-// EXPORTAR (si usas módulos)
-// ========================================
-// Si usas módulos ES6:
-// export default StateManager;
-// Si usas CommonJS:
-// module.exports = StateManager;
-console.log('✅ StateManager cargado correctamente');
+console.log('✅ StateManager.ts cargado correctamente');

@@ -77,7 +77,7 @@ $ARGUMENTS
 </explanation>
 
 <best_practices_applied>
-[Lista de las mejores prácticas aplicadas:
+[Listas de las mejores prácticas aplicadas:
 - [x] Claridad y directitud
 - [x] Contexto y motivación
 - [x] Ejemplos (few-shot)
@@ -85,5 +85,44 @@ $ARGUMENTS
 - [x] Rol específico
 - [x] Formato de salida
 - [x] Herramientas y acciones
-- [x] Pensamiento y razonamiento]
+- [x] Pensamiento y razonamiento
+- [x] Migración JS → TS (cuando aplique)]
 </best_practices_applied>
+
+---
+
+### 9. MIGRACIÓN JAVASCRIPT A TYPESCRIPT (cuando aplique)
+
+Cuando trabajes en migraciones de archivos JS a TS, SIEMPRE seguir este checklist:
+
+#### 9.1 DEPENDENCIAS EXTERNAS (documentar ANTES de migrar)
+- [ ] Variables globales (API_URL, CFG, Auth, etc.) → declarar en types.d.ts o con @ts-ignore
+- [ ] Módulos importados
+- [ ] Configuración necesaria (localStorage, window, etc.)
+- [ ] Dependencias de browser (fetch, DOM, etc.)
+
+#### 9.2 AUTO-INICIALIZACIÓN
+- [ ] ¿Tiene DOMContentLoaded? → Verificar que use variables globales correctas
+- [ ] ¿Inicializa con variables como API_URL?
+- [ ] Testing: mensaje en consola debe mostrar la URL correcta
+
+#### 9.3 VERIFICACIONES OBLIGATORIAS
+| Paso | Verificación |
+|------|------------|
+| 1 | Compila sin errores: `tsc --project tsconfig.json` |
+| 2 | Auto-init funciona → Browser console |
+| 3 | Funcionalidad probada |
+| 4 | Sin errores 405/404 en network |
+
+#### 9.4 PROTECCIÓN
+- [ ] SIEMPRE mantener .js original como backup
+- [ ] NO borrar .js hasta que .ts funcione 100%
+- [ ] Probar en browser antes de confirmar migración
+- [ ] Verificar que HTML cargue dist/[nombre].js
+
+#### 9.5 ERRORES COMUNES A EVITAR
+- ApiUrl vacía → no inicializa correctamente
+- Variables no declaradas → @ts-ignore o declare
+- any implícito → definir interfaces
+- Missing return types → especificar tipos
+- 405 Method Not Allowed → API_URL no está inicializado

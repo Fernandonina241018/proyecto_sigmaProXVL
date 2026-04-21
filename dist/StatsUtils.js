@@ -1,28 +1,13 @@
 "use strict";
 /**
- * StatsUtils.js - Utilidades Estadísticas Centralizadas
+ * StatsUtils.ts - Utilidades Estadísticas Centralizadas
  * StatAnalyzer Pro v2.0
- *
- * Módulo centralizado que elimina duplicación de código entre:
- * - EDAManager.js
- * - EstadisticaDescriptiva.js
- * - Otros módulos que requieran cálculos estadísticos
- *
- * Todas las funciones son puras y testables.
- * Compatible con ambos formatos de datos (arrays y objetos).
+ * Migrado a TypeScript
  */
 const StatsUtils = (function () {
     'use strict';
-    // ========================================
-    // VALIDACIÓN Y EXTRACCIÓN DE DATOS
-    // ========================================
     /**
      * Extrae valores numéricos válidos de una columna
-     * Compatible con datos en formato array de arrays o array de objetos
-     *
-     * @param {Object} data - { headers: string[], data: Array[]|Object[] }
-     * @param {string} colName - Nombre de la columna
-     * @returns {number[]} Array de valores numéricos válidos
      */
     function getNumericValues(data, colName) {
         if (!data || !data.headers || !data.data)
@@ -33,18 +18,12 @@ const StatsUtils = (function () {
         return data.data
             .map(row => {
             const val = Array.isArray(row) ? row[idx] : row[colName];
-            return parseFloat(val);
+            return parseFloat(String(val));
         })
             .filter(v => !isNaN(v) && isFinite(v));
     }
     /**
      * Identifica columnas numéricas en los datos
-     *
-     * @param {Object} data - { headers: string[], data: Array[]|Object[] }
-     * @param {Object} options - Configuración opcional
-     * @param {number} options.threshold - Umbral mínimo de valores válidos (0-1, default 0.8)
-     * @param {string[]} options.excludeColumns - Columnas a excluir (default: ['#', 'A', 'Row', 'index', etc.])
-     * @returns {string[]} Array de nombres de columnas numéricas
      */
     function getNumericColumns(data, options = {}) {
         if (!data || !data.headers || !data.data)
@@ -57,15 +36,15 @@ const StatsUtils = (function () {
                 const idx = data.headers.indexOf(header);
                 return Array.isArray(row) ? row[idx] : row[header];
             });
-            const numericCount = values.filter(v => !isNaN(parseFloat(v)) && isFinite(parseFloat(v))).length;
+            const numericCount = values.filter(v => {
+                const num = parseFloat(String(v));
+                return !isNaN(num) && isFinite(num);
+            }).length;
             return numericCount / values.length >= threshold;
         });
     }
     /**
      * Cuenta valores faltantes en el dataset
-     *
-     * @param {Object} data - { headers: string[], data: Array[]|Object[] }
-     * @returns {number} Total de valores faltantes
      */
     function countMissingValues(data) {
         if (!data || !data.headers || !data.data)
@@ -74,19 +53,14 @@ const StatsUtils = (function () {
         data.data.forEach(row => {
             data.headers.forEach((h, idx) => {
                 const val = Array.isArray(row) ? row[idx] : row[h];
-                if (val === null || val === '' || val === undefined || isNaN(parseFloat(val)))
+                if (val === null || val === '' || val === undefined || isNaN(parseFloat(String(val))))
                     count++;
             });
         });
         return count;
     }
-    // ========================================
-    // MEDIDAS DE TENDENCIA CENTRAL
-    // ========================================
     /**
      * Calcula la media aritmética
-     * @param {number[]} values
-     * @returns {number}
      */
     function calcularMedia(values) {
         if (!values || values.length === 0)
@@ -95,8 +69,6 @@ const StatsUtils = (function () {
     }
     /**
      * Calcula la mediana
-     * @param {number[]} values
-     * @returns {number}
      */
     function calcularMediana(values) {
         if (!values || values.length === 0)
@@ -108,9 +80,7 @@ const StatsUtils = (function () {
             : (sorted[mid - 1] + sorted[mid]) / 2;
     }
     /**
-     * Calcula la moda (puede retornar múltiples valores)
-     * @param {number[]} values
-     * @returns {number[]}
+     * Calcula la moda
      */
     function calcularModa(values) {
         if (!values || values.length === 0)
@@ -130,14 +100,8 @@ const StatsUtils = (function () {
             return [];
         return modes;
     }
-    // ========================================
-    // MEDIDAS DE DISPERSIÓN
-    // ========================================
     /**
      * Calcula la varianza
-     * @param {number[]} values
-     * @param {boolean} esMuestral - true para varianza muestral (n-1), false para poblacional (n)
-     * @returns {number}
      */
     function calcularVarianza(values, esMuestral = true) {
         if (!values || values.length === 0)
@@ -149,17 +113,12 @@ const StatsUtils = (function () {
     }
     /**
      * Calcula la desviación estándar
-     * @param {number[]} values
-     * @param {boolean} esMuestral
-     * @returns {number}
      */
     function calcularDesviacionEstandar(values, esMuestral = true) {
         return Math.sqrt(calcularVarianza(values, esMuestral));
     }
     /**
      * Calcula el rango
-     * @param {number[]} values
-     * @returns {number}
      */
     function calcularRango(values) {
         if (!values || values.length === 0)
@@ -168,8 +127,6 @@ const StatsUtils = (function () {
     }
     /**
      * Calcula el coeficiente de variación (%)
-     * @param {number[]} values
-     * @returns {number}
      */
     function calcularCoeficienteVariacion(values) {
         const mean = calcularMedia(values);
@@ -177,14 +134,8 @@ const StatsUtils = (function () {
             return 0;
         return (calcularDesviacionEstandar(values) / mean) * 100;
     }
-    // ========================================
-    // PERCENTILES Y CUARTILES
-    // ========================================
     /**
-     * Calcula un percentil específico usando interpolación lineal
-     * @param {number[]} values
-     * @param {number} p - Percentil (0-100)
-     * @returns {number}
+     * Calcula un percentil específico
      */
     function calcularPercentil(values, p) {
         if (!values || values.length === 0)
@@ -202,8 +153,6 @@ const StatsUtils = (function () {
     }
     /**
      * Calcula cuartiles (Q1, Q2, Q3)
-     * @param {number[]} values
-     * @returns {{Q1: number, Q2: number, Q3: number}}
      */
     function calcularCuartiles(values) {
         return {
@@ -214,23 +163,13 @@ const StatsUtils = (function () {
     }
     /**
      * Calcula el rango intercuartílico (IQR)
-     * @param {number[]} values
-     * @returns {number}
      */
     function calcularIQR(values) {
         const q = calcularCuartiles(values);
         return q.Q3 - q.Q1;
     }
-    // ========================================
-    // MEDIDAS DE FORMA
-    // ========================================
     /**
      * Calcula la asimetría (Skewness)
-     * Usa corrección Fisher-Pearson para muestras
-     *
-     * @param {number[]} values
-     * @param {boolean} esMuestral - true para corrección muestral
-     * @returns {number}
      */
     function calcularAsimetria(values, esMuestral = true) {
         if (!values || values.length < 3)
@@ -242,17 +181,12 @@ const StatsUtils = (function () {
             return 0;
         const sumCubed = values.reduce((acc, v) => acc + Math.pow((v - mean) / std, 3), 0);
         if (esMuestral && n > 2) {
-            // Corrección Fisher-Pearson para muestras
             return (n / ((n - 1) * (n - 2))) * sumCubed;
         }
         return sumCubed / n;
     }
     /**
-     * Calcula la curtosis (exceso de curtosis, resta 3 para comparar con normal)
-     *
-     * @param {number[]} values
-     * @param {boolean} esMuestral
-     * @returns {number}
+     * Calcula la curtosis
      */
     function calcularCurtosis(values, esMuestral = true) {
         if (!values || values.length < 4)
@@ -270,15 +204,8 @@ const StatsUtils = (function () {
         }
         return (sumFourth / n) - 3;
     }
-    // ========================================
-    // CORRELACIÓN
-    // ========================================
     /**
-     * Calcula la correlación de Pearson entre dos variables
-     *
-     * @param {number[]} x
-     * @param {number[]} y
-     * @returns {number} Coeficiente de correlación (-1 a 1)
+     * Calcula la correlación de Pearson
      */
     function calcularCorrelacionPearson(x, y) {
         if (!x || !y)
@@ -300,10 +227,7 @@ const StatsUtils = (function () {
         return den === 0 ? 0 : num / den;
     }
     /**
-     * Calcula la covarianza entre dos variables
-     * @param {number[]} x
-     * @param {number[]} y
-     * @returns {number}
+     * Calcula la covarianza
      */
     function calcularCovarianza(x, y) {
         if (!x || !y || x.length !== y.length)
@@ -315,21 +239,16 @@ const StatsUtils = (function () {
         const n = x.length;
         return x.reduce((acc, xi, i) => acc + (xi - meanX) * (y[i] - meanY), 0) / (n - 1);
     }
-    // ========================================
-    // DETECCIÓN DE OUTLIERS
-    // ========================================
     /**
-     * Detecta outliers usando el método IQR
-     * Outliers: valores fuera de [Q1 - 1.5*IQR, Q3 + 1.5*IQR]
-     *
-     * @param {number[]} values
-     * @param {Object} options
-     * @param {boolean} options.detailed - Si true, retorna objeto con metadata; si false, retorna array simple
-     * @returns {Array|Object}
+     * Detecta outliers usando IQR
      */
     function detectarOutliersIQR(values, options = {}) {
-        if (!values || values.length === 0)
-            return options.detailed ? { outliers: [], cantidad: 0, porcentaje: 0, limiteInferior: 0, limiteSuperior: 0 } : [];
+        const emptySimple = [];
+        if (!values || values.length === 0) {
+            return options.detailed
+                ? { outliers: [], cantidad: 0, porcentaje: 0, limiteInferior: 0, limiteSuperior: 0, porcentajeOutliers: '0', detalles: [] }
+                : emptySimple;
+        }
         const { detailed = false } = options;
         const q = calcularCuartiles(values);
         const iqr = q.Q3 - q.Q1;
@@ -355,23 +274,23 @@ const StatsUtils = (function () {
         };
     }
     /**
-     * Detecta outliers usando el método Z-Score
-     * Outliers: valores con |z-score| > umbral (default 3)
-     *
-     * @param {number[]} values
-     * @param {Object} options
-     * @param {number} options.umbral - Umbral Z-Score (default 3)
-     * @param {boolean} options.detailed - Si true, retorna objeto con metadata
-     * @returns {Array|Object}
+     * Detecta outliers usando Z-Score
      */
     function detectarOutliersZScore(values, options = {}) {
-        if (!values || values.length === 0)
-            return options.detailed ? { outliers: [], cantidad: 0, porcentaje: 0, umbralZScore: 3 } : [];
+        const emptySimple = [];
+        if (!values || values.length === 0) {
+            return options.detailed
+                ? { outliers: [], cantidad: 0, porcentaje: 0, umbralZScore: 3, porcentajeOutliers: '0', detalles: [] }
+                : emptySimple;
+        }
         const { umbral = 3, detailed = false } = options;
         const mean = calcularMedia(values);
         const std = calcularDesviacionEstandar(values, true);
-        if (std === 0)
-            return detailed ? { outliers: [], cantidad: 0, porcentaje: 0, umbralZScore: umbral } : [];
+        if (std === 0) {
+            return detailed
+                ? { outliers: [], cantidad: 0, porcentaje: 0, umbralZScore: umbral, porcentajeOutliers: '0', detalles: [] }
+                : emptySimple;
+        }
         const outliers = [];
         values.forEach((v, i) => {
             const z = Math.abs((v - mean) / std);
@@ -391,30 +310,16 @@ const StatsUtils = (function () {
             detalles: outliers
         };
     }
-    // ========================================
-    // ERRORES ESTADÍSTICOS
-    // ========================================
     /**
-     * Calcula el error estándar de la media
-     * SE = desviación estándar / sqrt(n)
-     *
-     * @param {number[]} values
-     * @returns {number}
+     * Calcula el error estándar
      */
     function calcularErrorEstandar(values) {
         if (!values || values.length < 2)
             return 0;
         return calcularDesviacionEstandar(values, true) / Math.sqrt(values.length);
     }
-    // ========================================
-    // RESUMEN ESTADÍSTICO RÁPIDO
-    // ========================================
     /**
-     * Genera un resumen estadístico completo de una columna
-     * Útil para dashboards y reportes rápidos
-     *
-     * @param {number[]} values
-     * @returns {Object}
+     * Genera un resumen estadístico completo
      */
     function resumenEstadistico(values) {
         if (!values || values.length === 0)
@@ -438,39 +343,28 @@ const StatsUtils = (function () {
             se: parseFloat(calcularErrorEstandar(values).toFixed(4))
         };
     }
-    // ========================================
-    // API PÚBLICA
-    // ========================================
     return {
-        // Extracción y validación
         getNumericValues,
         getNumericColumns,
         countMissingValues,
-        // Tendencia central
         calcularMedia,
         calcularMediana,
         calcularModa,
-        // Dispersión
         calcularVarianza,
         calcularDesviacionEstandar,
         calcularRango,
         calcularCoeficienteVariacion,
-        // Percentiles
         calcularPercentil,
         calcularCuartiles,
         calcularIQR,
-        // Forma
         calcularAsimetria,
         calcularCurtosis,
-        // Correlación
         calcularCorrelacionPearson,
         calcularCovarianza,
-        // Outliers
         detectarOutliersIQR,
         detectarOutliersZScore,
-        // Errores
         calcularErrorEstandar,
-        // Utilidades
         resumenEstadistico
     };
 })();
+console.log('✅ StatsUtils.ts cargado');

@@ -105,6 +105,8 @@ const TrabajoManager = (() => {
     // ── Table Rendering ──────────────────────────────────────
     function renderWorkTable() {
         const sheet = StateManager.getActiveSheet();
+        console.log('DEBUG renderWorkTable:', { sheet });
+        
         if (!sheet) {
             const wrapper = document.getElementById('editable-table-wrapper');
             if (wrapper) wrapper.innerHTML = '<p class="empty-message">No hay hoja activa</p>';
@@ -114,6 +116,11 @@ const TrabajoManager = (() => {
         const wrapper = document.getElementById('editable-table-wrapper');
         if (!wrapper) return;
 
+        if (!sheet.data) {
+            console.error('ERROR: sheet.data es undefined', sheet);
+            sheet.data = sheet.rows || [];
+        }
+        
         const totalRows = sheet.data.length;
         const scrollTop = wrapper.scrollTop || 0;
         const viewHeight = wrapper.clientHeight || 600;

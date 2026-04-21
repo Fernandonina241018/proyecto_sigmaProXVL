@@ -183,14 +183,23 @@ const Logger = (() => {
 })();
 
 // ========================================
-// AUTO-INICIALIZACIÓN
+// AUTO-INICIALIZACIÓN (usa API_URL de utils.js)
 // ========================================
 
 if (typeof window !== 'undefined') {
   window.addEventListener('DOMContentLoaded', () => {
     // Las variables globales se definen en utils.js
-    // Se deja para inicialización manual via Logger.init(url)
-    console.log('⚠️ Logger: Usa Logger.init(url) para inicializar');
+    if (typeof API_URL !== 'undefined') {
+      Logger.init(API_URL);
+      console.log('✅ Logger inicializado con:', API_URL);
+    // @ts-ignore - CFG es opcional
+    } else if (typeof CFG !== 'undefined' && CFG?.API_URL) {
+      // @ts-ignore
+      Logger.init(CFG.API_URL);
+      console.log('✅ Logger inicializado con CFG');
+    } else {
+      console.warn('⚠️ Logger: API_URL no disponible');
+    }
   });
 }
 

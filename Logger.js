@@ -60,8 +60,23 @@ const Logger = (() => {
                     durationMs,
                 }),
             });
-            const data = await res.json();
-            return data;
+            
+            if (!res.ok) {
+                const errorText = await res.text();
+                console.warn('⚠️ Logger: Error del servidor:', res.status, errorText);
+                return { ok: false, error: `HTTP ${res.status}` };
+            }
+            
+            const text = await res.text();
+            if (!text) {
+                return { ok: true };
+            }
+            
+            try {
+                return JSON.parse(text);
+            } catch {
+                return { ok: true, raw: text };
+            }
         } catch (err) {
             console.error('❌ Logger: Error al registrar evento:', err.message);
             return { ok: false, error: err.message };
