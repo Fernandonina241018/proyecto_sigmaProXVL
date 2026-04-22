@@ -100,8 +100,37 @@ Prompt patrón: "Escribe un script Python que analice [archivo JS]
 
 - **Severidad de bugs:** usar emojis 🔴/🟡/🟢 en análisis.
 - **Referencias al config:** mencionar siempre el campo exacto (`config.minMuestra`, `config.salidas`, etc.).
-- **Cambios de contrato:** advertir explícitamente si un fix cambia la firma de una función.
+- **Cambios de contrato:**advertir explícitamente si un fix cambia la firma de una función.
 - **Decisiones técnicas:** documentar en `05_BUGS_AND_DECISIONS.md` después de la sesión.
+
+---
+
+## Utilities Disponibles
+
+### Keyboard Shortcuts (script.js)
+| Atajo | Función |
+|-------|---------|
+| `Ctrl+Shift+D` | `toggleTheme()` |
+| `Ctrl+Shift+A` | `mostrarAsistenteAnalisis()` |
+| `Ctrl+Shift+T/R/S` | `switchView('trabajo'/'reportes'/'estadisticos')` |
+| `Ctrl+Z` | `StateManager.undo()` |
+| `Ctrl+Y` | `StateManager.redo()` |
+| `Escape` | `_closeAllModals()` |
+| `?` | `mostrarAyudaKeyboard()` |
+
+### StateManager Undo/Redo
+```js
+StateManager.undo()   // deshacer última acción
+StateManager.redo()   // rehacer
+StateManager.canUndo() // boolean
+StateManager.canRedo() // boolean
+```
+
+### Tutorial Inicial
+```js
+mostrarTutorial()  // fuerza mostrar modal de tutorial
+// Se muestra automáticamente al primer login, luego localStorage
+```
 
 ---
 

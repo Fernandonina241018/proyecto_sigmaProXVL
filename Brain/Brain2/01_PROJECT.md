@@ -144,6 +144,35 @@ Renderiza resultado + metadatos
 
 ---
 
+## Features de UX
+
+| Feature | Estado | Implementación |
+|---------|--------|---------------|
+| Tema claro/oscuro | ✅ | CSS variables + toggle en navbar |
+| Keyboard shortcuts | ✅ | Ctrl+Shift+D/A/T/R/S, Ctrl+Z/Y, Escape, ? |
+| Undo/Redo | ✅ | StateManager con historial (50 entries) |
+| Tutorial in-app | ✅ | Modal step-by-step, 6 pasos, localStorage |
+| Asistente de análisis | ✅ | Wizard guiado para pemilihan test |
+| Importación drag-and-drop | ✅ | HTML5 File API |
+
+---
+
+## Atajos de Teclado
+
+| Atajo | Acción |
+|-------|-------|
+| `Ctrl+Shift+D` | Toggle tema claro/oscuro |
+| `Ctrl+Shift+A` | Abrir asistente de análisis |
+| `Ctrl+Shift+T` | Ir a módulo Trabajo |
+| `Ctrl+Shift+R` | Ir a módulo Reportes |
+| `Ctrl+Shift+S` | Ir a módulo Estadísticos |
+| `Ctrl+Z` | Deshacer última acción |
+| `Ctrl+Y` | Rehacer acción |
+| `Escape` | Cerrar todos los modales |
+| `?` | Mostrar ayuda de atajos |
+
+---
+
 ## Variables globales expuestas en `window`
 
 Todos los módulos principales exponen funciones a `window`:
@@ -172,3 +201,4 @@ Todos los módulos principales exponen funciones a `window`:
 5. **Las claves de retorno deben coincidir con `config.salidas[]`**
 6. **Antes de modificar código, pedir análisis profundo**
 7. **Al finalizar cambios relevantes, actualizar el Brain**
+8. **Para nuevos features de UX, agregar a keyboard shortcuts si aplica**

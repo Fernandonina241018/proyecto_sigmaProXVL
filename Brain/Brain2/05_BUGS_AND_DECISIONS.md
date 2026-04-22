@@ -128,6 +128,20 @@
 
 ---
 
+### DEC-005 — Keyboard shortcuts
+**Fecha:** 23 Abril 2026  
+**Decisión:** Agregar atajos de teclado globally.  
+**Implementación:** Ctrl+Shift+D (tema), Ctrl+Shift+A (asistente), Ctrl+Z/Y (undo/redo), ? (ayuda)
+
+---
+
+### DEC-006 — Tutorial in-app
+**Fecha:** 23 Abril 2026  
+**Decisión:** Mostrar tutorial de 6 pasos al primer inicio.  
+**Implementación:** Modal step-by-step con localStorage para no repetir.  
+
+---
+
 ## Deuda Técnica Conocida
 
 | ID | Descripción | Severidad | Archivo |

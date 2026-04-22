@@ -594,9 +594,59 @@ const StateManager = (() => {
     // ========================================
     
     function setHypothesisConfig(statName, config) {
+        _pushToHistory('hypothesisConfig', statName, state.hypothesisConfig[statName]);
         state.hypothesisConfig[statName] = config;
         scheduleAutoSave();
         console.log(`⚙️ Configuración guardada para ${statName}`);
+    }
+
+    function _pushToHistory(type, key, oldValue) {
+        const entry = { type, key, oldValue: JSON.parse(JSON.stringify(oldValue)), timestamp: Date.now() };
+        state.history = state.history.slice(0, state.historyIndex + 1);
+        state.history.push(entry);
+        if (state.history.length > state.maxHistorySize) {
+            state.history.shift();
+        } else {
+            state.historyIndex++;
+        }
+    }
+
+    function undo() {
+        if (state.historyIndex < 0) {
+            console.log('ℹ️ No hay más acciones para deshacer');
+            return false;
+        }
+        const entry = state.history[state.historyIndex];
+        if (entry.type === 'hypothesisConfig') {
+            state.hypothesisConfig[entry.key] = entry.oldValue;
+            console.log(`↩️ Deshacer: ${entry.key}`);
+        }
+        state.historyIndex--;
+        scheduleAutoSave();
+        return true;
+    }
+
+    function redo() {
+        if (state.historyIndex >= state.history.length - 1) {
+            console.log('ℹ️ No hay más acciones para rehacer');
+            return false;
+        }
+        state.historyIndex++;
+        const entry = state.history[state.historyIndex];
+        if (entry.type === 'hypothesisConfig') {
+            state.hypothesisConfig[entry.key] = JSON.parse(JSON.stringify(entry.oldValue));
+            console.log(`↪️ Rehacer: ${entry.key}`);
+        }
+        scheduleAutoSave();
+        return true;
+    }
+
+    function canUndo() {
+        return state.historyIndex >= 0;
+    }
+
+    function canRedo() {
+        return state.historyIndex < state.history.length - 1;
     }
     
     function getHypothesisConfig(statName) {
@@ -874,6 +924,12 @@ const StateManager = (() => {
         getHypothesisConfig,
         clearHypothesisConfig,
         getAllHypothesisConfig,
+        
+        // Undo/Redo
+        undo,
+        redo,
+        canUndo,
+        canRedo,
         
         // Persistencia
         saveToLocalStorage,

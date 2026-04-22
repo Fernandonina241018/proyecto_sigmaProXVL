@@ -1364,6 +1364,9 @@ function _initApp() {
 
     console.log('✅ Formatos soportados: CSV, JSON, TXT');
     console.log('✅ Estado centralizado activo');
+    
+    // Mostrar tutorial en primer inicio
+    setTimeout(() => mostrarTutorial(), 1000);
 }
 
 // Chip de usuario y botón logout en la barra superior
@@ -3947,6 +3950,143 @@ window.abrirModalConfigAnalisisFactorial = function(importedParam) {
 document.addEventListener('DOMContentLoaded', initTheme);
 
 console.log('✅ Tema inicializado');
+
+// ========================================
+// KEYBOARD SHORTCUTS
+// ========================================
+const KEYBOARD_SHORTCUTS = {
+    'Ctrl+Shift+D': { action: 'toggleTheme', desc: 'Cambiar tema claro/oscuro' },
+    'Ctrl+Shift+A': { action: 'mostrarAsistenteAnalisis', desc: 'Abrir asistente' },
+    'Ctrl+Shift+T': { action: 'switchView("trabajo")', desc: 'Ir a Trabajo' },
+    'Ctrl+Shift+R': { action: 'switchView("reportes")', desc: 'Ir a Reportes' },
+    'Ctrl+Shift+S': { action: 'switchView("estadisticos")', desc: 'Ir a Estadísticos' },
+    'Ctrl+Z': { action: '_doUndo', desc: 'Deshacer última acción' },
+    'Ctrl+Y': { action: '_doRedo', desc: 'Rehacer acción' },
+    'Escape': { action: '_closeAllModals', desc: 'Cerrar modales' },
+    '?': { action: 'mostrarAyudaKeyboard', desc: 'Mostrar ayuda de atajos' }
+};
+
+function _doUndo() {
+    if (StateManager.undo()) {
+        _showToast('↩️ Acción deshecha');
+    }
+}
+
+function _doRedo() {
+    if (StateManager.redo()) {
+        _showToast('↪️ Acción rehecha');
+    }
+}
+
+function _closeAllModals() {
+    document.querySelectorAll('.modal-overlay, .modal, [id$="-modal"]').forEach(el => {
+        if (el.style.display !== 'none') el.style.display = 'none';
+    });
+    document.querySelectorAll('.modal-overlay-bg').forEach(el => el.remove());
+}
+
+function mostrarTutorial() {
+    const TUTORIAL_KEY = 'tutorial_visto_v1';
+    if (localStorage.getItem(TUTORIAL_KEY)) return;
+    localStorage.setItem(TUTORIAL_KEY, 'true');
+    
+    const pasos = [
+        { icon: '📊', titulo: 'Importar Datos', desc: 'Carga tus archivos CSV, JSON o Excel desde el panel de Trabajo' },
+        { icon: '🔬', titulo: 'Seleccionar Análisis', desc: 'Elige los estadísticos que quieres calcular desde el sidebar' },
+        { icon: '⚙️', titulo: 'Configurar tests', desc: 'Algunos tests permiten configurar hipótesis, valores de referencia, etc.' },
+        { icon: '📋', titulo: 'Ver Resultados', desc: 'Los resultados aparecen en tarjetas junto con interpretación' },
+        { icon: '📄', titulo: 'Generar Reportes', desc: 'Exporta tus análisis a PDF, HTML o texto' },
+        { icon: '⌨️', titulo: 'Atajos de Teclado', desc: 'Usa Ctrl+Shift+D para tema oscuro, ? para ver ayuda' }
+    ];
+    
+    let pasoActual = 0;
+    const existing = document.getElementById('tutorial-modal');
+    if (existing) existing.remove();
+    
+    const modal = document.createElement('div');
+    modal.id = 'tutorial-modal';
+    
+    function render() {
+        const p = pasos[pasoActual];
+        const esPrimero = pasoActual === 0;
+        const esUltimo = pasoActual === pasos.length - 1;
+        
+        modal.innerHTML = `
+            <div class="modal-overlay-bg" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:99998;"></div>
+            <div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;border-radius:16px;padding:32px;max-width:440px;width:90%;z-index:99999;box-shadow:0 20px 60px rgba(0,0,0,0.4);text-align:center;">
+                <div style="font-size:3rem;margin-bottom:16px;">${p.icon}</div>
+                <div style="margin-bottom:8px;"><span style="background:#e2e8f0;padding:4px 12px;border-radius:20px;font-size:0.75rem;color:#64748b;">Paso ${pasoActual + 1} de ${pasos.length}</span></div>
+                <h2 style="margin:0 0 8px 0;color:#1e293b;">${p.titulo}</h2>
+                <p style="margin:0 0 24px 0;color:#64748b;font-size:1rem;">${p.desc}</p>
+                <div style="display:flex;justify-content:center;gap:8px;margin-bottom:16px;">
+                    ${pasos.map((_, i) => `<span style="width:8px;height:8px;border-radius:50%;background:${i === pasoActual ? '#667eea' : '#e2e8f0'};"></span>`).join('')}
+                </div>
+                <div style="display:flex;gap:12px;">
+                    <button id="tutorial-atras" style="flex:1;padding:12px;border:2px solid #e2e8f0;border-radius:10px;background:white;color:#64748b;font-weight:600;cursor:pointer;" ${esPrimero ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''}>← Atrás</button>
+                    <button id="tutorial-siguiente" style="flex:1;padding:12px;border:none;border-radius:10px;background:#667eea;color:white;font-weight:600;cursor:pointer;">${esUltimo ? '¡Empezar!' : 'Continuar →'}</button>
+                </div>
+                <button id="tutorial-saltar" style="margin-top:12px;background:none;border:none;color:#94a3b8;font-size:0.85rem;cursor:pointer;">Saltar tutorial</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        document.getElementById('tutorial-atras')?.addEventListener('click', () => { if (pasoActual > 0) { pasoActual--; render(); } });
+        document.getElementById('tutorial-siguiente')?.addEventListener('click', () => { if (esUltimo) modal.remove(); else { pasoActual++; render(); } });
+        document.getElementById('tutorial-saltar')?.addEventListener('click', () => modal.remove());
+    }
+    render();
+}
+
+function mostrarAyudaKeyboard() {
+    const shortcuts = Object.entries(KEYBOARD_SHORTCUTS).map(([key, v]) => `<tr><td style="padding:8px;font-family:monospace;">${key}</td><td>${v.desc}</td></tr>`).join('');
+    const existing = document.getElementById('keyboard-help-modal');
+    if (existing) existing.remove();
+    
+    const modal = document.createElement('div');
+    modal.id = 'keyboard-help-modal';
+    modal.innerHTML = `
+        <div class="modal-overlay-bg" onclick="this.parentElement.remove()" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;"></div>
+        <div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;border-radius:12px;padding:24px;max-width:400px;width:90%;z-index:10000;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+            <h3 style="margin:0 0 16px 0;">⌨️ Atajos de Teclado</h3>
+            <table style="width:100%;font-size:0.9rem;border-collapse:collapse;">
+                <thead><tr style="border-bottom:2px solid #e2e8f0;"><th style="text-align:left;padding:8px;">Atajo</th><th style="text-align:left;padding:8px;">Acción</th></tr></thead>
+                <tbody>${shortcuts}</tbody>
+            </table>
+            <button onclick="document.getElementById('keyboard-help-modal').remove()" style="margin-top:16px;padding:10px 20px;background:#667eea;color:white;border:none;border-radius:8px;cursor:pointer;">Cerrar</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+function initKeyboardShortcuts() {
+    document.addEventListener('keydown', function(e) {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        
+        const keys = [];
+        if (e.ctrlKey) keys.push('Ctrl');
+        if (e.shiftKey) keys.push('Shift');
+        if (e.altKey) keys.push('Alt');
+        if (e.key && !['Control','Shift','Alt','Meta'].includes(e.key)) keys.push(e.key.toUpperCase());
+        
+        const combo = keys.join('+');
+        const shortcut = KEYBOARD_SHORTCUTS[combo];
+        
+        if (shortcut) {
+            e.preventDefault();
+            if (shortcut.action.includes('(')) {
+                eval(shortcut.action);
+            } else if (typeof window[shortcut.action] === 'function') {
+                window[shortcut.action]();
+            }
+            console.log(`⌨️ Atajo: ${combo} → ${shortcut.desc}`);
+        } else if (combo === 'Shift+?' || e.key === '?' && e.shiftKey) {
+            e.preventDefault();
+            mostrarAyudaKeyboard();
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', initKeyboardShortcuts);
 
 // ========================================
 // Modal de cambio de contraseña obligatorio
