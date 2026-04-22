@@ -2011,7 +2011,7 @@ function applyStatSelection() {
     
     // Obtener configs del objeto global
     const estadisticosConfig = typeof ESTADISTICOS_CONFIG !== 'undefined' ? ESTADISTICOS_CONFIG : {};
-    const customFuncStats = ['Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística', 'Covarianza', 'Correlación Kendall Tau', 'RMSE', 'MAE', 'R² (Coef. Determinación)', 'Diagrama de Pareto', 'Bootstrap', 'PCA (Componentes Principales)'];
+    const customFuncStats = ['Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística', 'Covarianza', 'Correlación Kendall Tau', 'RMSE', 'MAE', 'R² (Coef. Determinación)', 'Diagrama de Pareto', 'Bootstrap', 'PCA (Componentes Principales)', 'Análisis Factorial'];
     
     // Remover estadísticas de esta sección
     const newActive = currentActive.filter(stat => !section.options.includes(stat));
@@ -2057,8 +2057,18 @@ function _abrirModalesHipotesisSecuencia(stats, index) {
     setTimeout(() => {
         mostrarModalConfiguracionHypothesis(statName);
         
+        // Determinar el ID del botón de confirmación según el tipo de estadístico
+        let confirmBtnId = 'hypo-modal-confirm';
+        if (['Correlación Pearson', 'Correlación Spearman', 'Correlación Kendall Tau', 'Covarianza'].includes(statName)) {
+            confirmBtnId = 'correlacion-modal-confirm';
+        } else if (statName === 'PCA (Componentes Principales)') {
+            confirmBtnId = 'pca-save';
+        } else if (statName === 'Análisis Factorial') {
+            confirmBtnId = 'af-save';
+        }
+        
         // Interceptar el botón de confirmar para continuar con la siguiente
-        const confirmBtn = document.getElementById('hypo-modal-confirm') || document.getElementById('correlacion-modal-confirm');
+        const confirmBtn = document.getElementById(confirmBtnId);
         if (confirmBtn) {
             confirmBtn.addEventListener('click', function handler() {
                 setTimeout(() => {
@@ -2129,7 +2139,8 @@ function mostrarModalConfiguracionHypothesis(statName) {
         'R² (Coef. Determinación)': { title: '📊 Configurar R²', customFunc: 'abrirModalConfigMetricasError' },
         'Diagrama de Pareto': { title: '📊 Configurar Diagrama de Pareto', customFunc: 'abrirModalConfigPareto' },
         'Bootstrap': { title: '🔄 Configurar Bootstrap', customFunc: 'abrirModalConfigBootstrap' },
-        'PCA (Componentes Principales)': { title: '🎯 Configurar PCA', customFunc: 'abrirModalConfigPCA' }
+        'PCA (Componentes Principales)': { title: '🎯 Configurar PCA', customFunc: 'abrirModalConfigPCA' },
+        'Análisis Factorial': { title: '🔍 Configurar Análisis Factorial', customFunc: 'abrirModalConfigAnalisisFactorial' }
     };
     
     const config = configs[statName];
@@ -2162,6 +2173,10 @@ function mostrarModalConfiguracionHypothesis(statName) {
         console.log('[crearModalConfiguracionHipotesis] customFunc:', config.customFunc);
         if (config.customFunc === 'abrirModalConfigPCA') {
             console.log('[crearModalConfiguracionHipotesis] LLAMANDO a abrirModalConfigPCA');
+            return window[config.customFunc](imported);
+        }
+        if (config.customFunc === 'abrirModalConfigAnalisisFactorial') {
+            console.log('[crearModalConfiguracionHipotesis] LLAMANDO a abrirModalConfigAnalisisFactorial');
             return window[config.customFunc](imported);
         }
         return window[config.customFunc](imported);
@@ -2807,15 +2822,10 @@ function abrirModalConfigPareto(imported) {
     document.getElementById('regresion-config-modal')?.remove();
     document.getElementById('metricas-error-config-modal')?.remove();
 
-    const allCols = imported.headers;
-    const catCols = allCols.filter(col => {
+const allCols = imported.headers;
+const numericCols = allCols.filter(col => {
         const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
-        const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
-        return numericCount / values.length <= 0.5;
-    });
-
-    const numericCols = allCols.filter(col => {
-        const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
+        if (values.length === 0) return false;
         const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
         return numericCount / values.length > 0.5;
     });
@@ -3789,6 +3799,144 @@ window.abrirModalConfigPCA = function(importedParam) {
         });
         
         _showToast(`✅ PCA configurado con ${selectedCols.length} columnas`);
+        close();
+    };
+    
+    return true;
+};
+
+// MODAL DE CONFIGURACIÓN ANÁLISIS FACTORIAL
+// ========================================
+window.abrirModalConfigAnalisisFactorial = function(importedParam) {
+    console.log('[AF] === INICIO ===');
+    
+    let imported = importedParam;
+    
+    if (!imported || !imported.headers || imported.headers.length === 0) {
+        imported = getDataForModal();
+    }
+    
+    if (!imported || !imported.headers || imported.headers.length === 0) {
+        const sheet = StateManager.getActiveSheet();
+        if (sheet && sheet.data && sheet.data.length > 0) {
+            imported = { headers: sheet.headers, data: sheet.data };
+        }
+    }
+    
+    if (!imported || !imported.headers || imported.headers.length === 0) {
+        _showToast('⚠️ Primero importa datos para Análisis Factorial', true);
+        return false;
+    }
+    
+    const allCols = imported.headers;
+    const numericCols = allCols.filter(col => {
+        const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
+        const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
+        return numericCount / values.length > 0.5;
+    });
+    console.log('[AF] allCols count:', allCols.length, '| numericCols count:', numericCols.length, '| numericCols sample:', numericCols.slice(0, 5));
+
+    if (numericCols.length < 3) {
+        _showToast('⚠️ Se necesitan al menos 3 columnas numéricas para Análisis Factorial', true);
+        return false;
+    }
+
+    const prevConfig = StateManager.getHypothesisConfig('Análisis Factorial') || {};
+    const prevCols = prevConfig.columnas || [];
+
+    const modal = document.createElement('div');
+    modal.id = 'af-config-modal';
+    modal.innerHTML = `
+        <div class="dm-modal-overlay" id="af-config-modal-overlay"></div>
+        <div class="dm-modal-card" style="width: min(500px, 96vw);">
+            <div class="dm-modal-header">
+                <h3>🔍 Configurar Análisis Factorial</h3>
+                <button class="dm-modal-close" id="af-config-close">&times;</button>
+            </div>
+            <div class="dm-modal-body" style="max-height:60vh;overflow-y:auto;">
+                <p style="color:#64748b;font-size:0.9rem;margin-bottom:16px;">
+                    Seleccione las columnas numéricas para el Análisis Factorial. Se requieren al menos 3.
+                </p>
+                
+                <div style="margin-bottom:12px;">
+                    <button type="button" id="af-select-all" style="padding:6px 12px;background:#e2e8f0;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;margin-right:8px;">
+                        ✓ Seleccionar todas
+                    </button>
+                    <button type="button" id="af-deselect-all" style="padding:6px 12px;background:#e2e8f0;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">
+                        ✗ Deseleccionar todas
+                    </button>
+                </div>
+
+                <div id="af-columns-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;max-height:300px;overflow-y:auto;padding:8px;background:#f8fafc;border-radius:8px;">
+                    ${numericCols.map(col => `
+                        <label style="display:flex;align-items:center;gap:8px;padding:8px;background:white;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer;transition:all 0.2s;">
+                            <input type="checkbox" name="af-column" value="${col}" ${prevCols.includes(col) || prevCols.length === 0 ? 'checked' : ''} style="width:18px;height:18px;cursor:pointer;">
+                            <span style="font-size:0.9rem;font-weight:500;">${col}</span>
+                        </label>
+                    `).join('')}
+                </div>
+                
+                <div id="af-selected-count" style="margin-top:12px;font-size:0.85rem;color:#64748b;text-align:right;">
+                    Seleccionadas: <strong id="af-count">${prevCols.length > 0 ? prevCols.length : numericCols.length}</strong> de ${numericCols.length}
+                </div>
+            </div>
+            <div class="dm-modal-footer">
+                <button class="dm-btn dm-btn-secondary" id="af-cancel">Cancelar</button>
+                <button class="dm-btn dm-btn-primary" id="af-save">Guardar Configuración</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    const close = () => {
+        document.getElementById('af-config-modal-overlay')?.remove();
+        document.getElementById('af-config-modal')?.remove();
+    };
+
+    document.getElementById('af-config-close').onclick = close;
+    document.getElementById('af-config-modal-overlay').onclick = close;
+    document.getElementById('af-cancel').onclick = close;
+
+    document.getElementById('af-select-all').onclick = () => {
+        document.querySelectorAll('input[name="af-column"]').forEach(cb => cb.checked = true);
+        updateCount();
+    };
+    document.getElementById('af-deselect-all').onclick = () => {
+        document.querySelectorAll('input[name="af-column"]').forEach(cb => cb.checked = false);
+        updateCount();
+    };
+
+    function updateCount() {
+        const checked = document.querySelectorAll('input[name="af-column"]:checked').length;
+        document.getElementById('af-count').textContent = checked;
+    }
+    document.querySelectorAll('input[name="af-column"]').forEach(cb => {
+        cb.onchange = updateCount;
+    });
+
+    document.getElementById('af-save').onclick = () => {
+        const selectedCols = Array.from(document.querySelectorAll('input[name="af-column"]:checked')).map(cb => cb.value);
+
+        if (selectedCols.length < 3) {
+            _showToast('⚠️ Seleccione al menos 3 columnas para Análisis Factorial', true);
+            return;
+        }
+
+        const config = {
+            columnas: selectedCols,
+            timestamp: Date.now()
+        };
+        
+        StateManager.setHypothesisConfig('Análisis Factorial', config);
+        StateManager.addActiveStat('Análisis Factorial');
+        
+        document.querySelectorAll('.menu-option').forEach(opt => {
+            if (opt.textContent.trim() === 'Análisis Factorial') {
+                opt.classList.add('selected');
+            }
+        });
+        
+        _showToast(`✅ Análisis Factorial configurado con ${selectedCols.length} columnas`);
         close();
     };
     

@@ -1588,6 +1588,23 @@ tr:hover td{background:#f7faff}
               } else {
                   content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columnaAgrupacion)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">U=${fmtNum(data.U)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`;
               }
+          } else if (stat === 'Análisis Factorial') {
+              if (data.error) {
+                  content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
+              } else {
+                  const nFact = data.nFactores || 0;
+                  const kmoVal = data.KMO || 0;
+                  content = `<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">${nFact} factores</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">KMO=${kmoVal.toFixed(3)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${kmoVal >= 0.6 ? 'background:#c6f6d5;color:#276749' : 'background:#fed7d7;color:#c53030'}">${kmoVal >= 0.6 ? '✓ Aceptable' : '⚠ Bajo'}</span></td></tr>`;
+              }
+          } else if (stat === 'PCA (Componentes Principales)') {
+              if (data.error) {
+                  content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
+              } else {
+                  const nComp = data.nComponentes || 0;
+                  const cumVar = data.cumulativeVariance || [];
+                  const totalVar = cumVar.length > 0 ? cumVar[cumVar.length - 1].toFixed(1) : 0;
+                  content = `<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">${nComp} PC</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">Var=${totalVar}%</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;background:#c6f6d5;color:#276749">✓ Completado</span></td></tr>`;
+              }
           } else if (stat === 'Kruskal-Wallis') {
               if (data.error) {
                   content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;

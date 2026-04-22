@@ -2518,96 +2518,268 @@ interpretacion: interpretacion,
         }
       }
 
-      // Método QR para calcular autovalores
-      function qrEigenvalues(A, n) {
-        let matrix = A.map(row => [...row]);
+      // Método de Jacobi para calcular autovalores y autovectores (más estable numéricamente)
+      function jacobiEigenvalues(A, n) {
+        let a = A.map(row => [...row]);
         const maxIter = 100;
-        const tolerance = 1e-8;
+        const tolerance = 1e-10;
+        
+        // Inicializar autovectores como identidad
+        let V = Array(n).fill(0).map(() => Array(n).fill(0));
+        for (let i = 0; i < n; i++) V[i][i] = 1;
         
         for (let iter = 0; iter < maxIter; iter++) {
-          // Descomposición QR
-          const { Q, R } = qrDecomposition(matrix);
-          
-          // Nueva matriz: R * Q
-          matrix = multiplyMatrices(R, Q);
-          
-          // Verificar convergencia
-          let converged = true;
+          // Encontrar el elemento fuera de diagonal más grande
+          let maxOff = 0;
+          let p = 0, q = 1;
           for (let i = 0; i < n; i++) {
-            for (let j = 0; j < i; j++) {
-              if (Math.abs(matrix[i][j]) > tolerance) {
-                converged = false;
-                break;
+            for (let j = i + 1; j < n; j++) {
+              if (Math.abs(a[i][j]) > maxOff) {
+                maxOff = Math.abs(a[i][j]);
+                p = i;
+                q = j;
               }
             }
-            if (!converged) break;
           }
           
-          if (converged) break;
-        }
-        
-        // Los autovalores están en la diagonal
-        const eigenvalues = [];
-        const eigenvectors = [];
-        
-        // Calcular autovectores usando power iteration para cada autovalor
-        for (let i = 0; i < n; i++) {
-          eigenvalues.push(matrix[i][i]);
+          if (maxOff < tolerance) break;
           
-          // Autovector correspondiente (columna i de Q final)
-          let vector = [];
-          for (let row = 0; row < n; row++) {
-            vector.push(matrix[row][i] !== 0 ? matrix[row][i] : (row === i ? 1 : 0));
+          // Calcular el ángulo de rotación
+          const theta = (a[q][q] - a[p][p]) / (2 * a[p][q]);
+          const t = theta >= 0 ? 1 / (theta + Math.sqrt(1 + theta * theta)) : 1 / (theta - Math.sqrt(1 + theta * theta));
+          const c = 1 / Math.sqrt(1 + t * t);
+          const s = t * c;
+          
+          // Actualizar la matriz A
+          const app = a[p][p];
+          const aqq = a[q][q];
+          a[p][p] = c * c * app - 2 * c * s * a[p][q] + s * s * aqq;
+          a[q][q] = s * s * app + 2 * c * s * a[p][q] + c * c * aqq;
+          a[p][q] = 0;
+          a[q][p] = 0;
+          
+          for (let i = 0; i < n; i++) {
+            if (i !== p && i !== q) {
+              const api = a[p][i];
+              const aqi = a[q][i];
+              a[p][i] = c * api - s * aqi;
+              a[i][p] = a[p][i];
+              a[q][i] = s * api + c * aqi;
+              a[i][q] = a[q][i];
+            }
           }
-          eigenvectors.push(vector);
+          
+          // Actualizar autovectores
+          for (let i = 0; i < n; i++) {
+            const vip = V[i][p];
+            const viq = V[i][q];
+            V[i][p] = c * vip - s * viq;
+            V[i][q] = s * vip + c * viq;
+          }
         }
         
-        return { values: eigenvalues, vectors: eigenvectors };
+        // Extraer autovalores de la diagonal
+        const eigenvalues = a.map((row, i) => row[i]);
+        return { values: eigenvalues, vectors: V };
       }
-
-      // Descomposición QR
+      
+      // Alias para compatibilidad
+      const qrEigenvalues = jacobiEigenvalues;
+      
+      // Descomposición QR (método de Gram-Schmidt modificado)
       function qrDecomposition(A) {
         const n = A.length;
         const Q = Array(n).fill(0).map(() => Array(n).fill(0));
-        const R = A.map(row => [...row]);
-        
-        // Inicializar Q como identidad
-        for (let i = 0; i < n; i++) {
-          Q[i][i] = 1;
-        }
+        const R = Array(n).fill(0).map(() => Array(n).fill(0));
         
         for (let j = 0; j < n; j++) {
-          // Vector x
-          const x = R.map(row => row[j]);
+          // Columna j de Q
+          let v = A.map(row => row[j]);
           
-          // Norma de x
-          let norm = Math.sqrt(x.reduce((sum, v) => sum + v * v, 0));
-          if (norm < 1e-10) continue;
-          
-          // Vector u = x - norm * e_j
-          const u = x.map((v, i) => i === j ? v - norm : v);
-          const uNorm = Math.sqrt(u.reduce((sum, v) => sum + v * v, 0));
-          if (uNorm < 1e-10) continue;
-          
-          // Normalizar u
-          const v = u.map(val => val / uNorm);
-          
-          // Actualizar R
-          for (let i = 0; i < n; i++) {
-            for (let k = j; k < n; k++) {
-              R[i][k] -= 2 * v[i] * R.map(row => row[k]).reduce((sum, val, idx) => sum + v[idx] * val, 0);
+          for (let i = 0; i < j; i++) {
+            // Proyección de columna j sobre columna i de Q
+            let dot = 0;
+            for (let k = 0; k < n; k++) {
+              dot += Q[k][i] * A[k][j];
+            }
+            R[i][j] = dot;
+            for (let k = 0; k < n; k++) {
+              v[k] -= R[i][j] * Q[k][i];
             }
           }
           
-          // Actualizar Q
-          for (let i = 0; i < n; i++) {
+          // Normalizar para obtener Q[:, j]
+          let norm = 0;
+          for (let k = 0; k < n; k++) {
+            norm += v[k] * v[k];
+          }
+          norm = Math.sqrt(norm);
+          
+          if (norm < 1e-10) {
+            R[j][j] = 0;
+            for (let k = 0; k < n; k++) Q[k][j] = 0;
+          } else {
+            R[j][j] = norm;
             for (let k = 0; k < n; k++) {
-              Q[i][k] -= 2 * v[i] * v[k];
+              Q[k][j] = v[k] / norm;
             }
+          }
+          
+          // Calcular R[i,j] para i > j
+          for (let i = j + 1; i < n; i++) {
+            let dot = 0;
+            for (let k = 0; k < n; k++) {
+              dot += Q[k][j] * A[k][i];
+            }
+            R[j][i] = dot;
           }
         }
         
         return { Q, R };
+      }
+
+      // ========================================
+      // ANÁLISIS FACTORIAL
+      // ========================================
+
+      /**
+       * Calcula el Análisis Factorial
+       * @param {Array<Array<number>>} data - Matriz de datos
+       * @param {number} nFactores - Número de factores a extraer
+       * @returns {Object} Resultados del Análisis Factorial
+       */
+      function calcularAnalisisFactorial(data, nFactores = null) {
+        try {
+          if (!data || !Array.isArray(data) || data.length < 10) {
+            return { error: 'Se necesitan al menos 10 observaciones para Análisis Factorial' };
+          }
+
+          const n = data.length;
+          const p = data[0].length;
+
+          if (p < 3) {
+            return { error: 'Se necesitan al menos 3 variables para Análisis Factorial' };
+          }
+
+          if (n < p * 2) {
+            return { error: 'Se necesitan al menos 2n observaciones que variables (n > p) paraAnálisis Factorial válido' };
+          }
+
+          // 1. Estandarizar los datos
+          const means = [];
+          const stds = [];
+          const standardized = [];
+
+          for (let j = 0; j < p; j++) {
+            const col = data.map(row => row[j]).filter(v => v !== null && v !== undefined && !isNaN(v));
+            const mean = col.reduce((a, b) => a + b, 0) / col.length;
+            const variance = col.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / (col.length - 1);
+            const std = Math.sqrt(variance);
+            means.push(mean);
+            stds.push(std === 0 ? 1 : std);
+          }
+
+          for (let i = 0; i < n; i++) {
+            const row = [];
+            for (let j = 0; j < p; j++) {
+              const val = data[i][j];
+              row.push(val === null || val === undefined || isNaN(val) ? 0 : (val - means[j]) / stds[j]);
+            }
+            standardized.push(row);
+          }
+
+          // 2. Calcular matriz de correlaciones
+          const corrMatrix = [];
+          for (let i = 0; i < p; i++) {
+            corrMatrix[i] = [];
+            for (let j = 0; j < p; j++) {
+              let sum = 0;
+              for (let k = 0; k < n; k++) {
+                sum += standardized[k][i] * standardized[k][j];
+              }
+              corrMatrix[i][j] = sum / (n - 1);
+            }
+          }
+
+          // 3. Calcular autovalores y autovectores
+          const eigenResult = qrEigenvalues(corrMatrix, p);
+          const eigenvalues = eigenResult.values || [];
+          const eigenvectors = eigenResult.vectors || [];
+
+          // Ordenar por autovalor (mayor a menor)
+          const indices = eigenvalues.map((_, i) => i).sort((a, b) => eigenvalues[b] - eigenvalues[a]);
+          const sortedEigenvalues = indices.map(i => eigenvalues[i]);
+          const sortedEigenvectors = indices.map(i => eigenvectors[i]);
+
+          // 4. Calcular varianza explicada
+          const totalVariance = sortedEigenvalues.reduce((a, b) => a + b, 0);
+          const varianceExplained = sortedEigenvalues.map(ev => (ev / totalVariance) * 100);
+          const cumulativeVariance = [];
+          let cumsum = 0;
+          for (const ve of varianceExplained) {
+            cumsum += ve;
+            cumulativeVariance.push(cumsum);
+          }
+
+          // 5. Número de factores (usando Kaiser: autovalor > 1)
+          const nFactoresKaiser = sortedEigenvalues.filter(ev => ev > 1).length;
+          const nComp = nFactores || nFactoresKaiser;
+          const nFinal = Math.min(nComp, p);
+
+          // 6. Calcular loadings (cargas factoriales)
+          const loadings = [];
+          for (let i = 0; i < nFinal; i++) {
+            const loading = sortedEigenvectors[i].map(v => v * Math.sqrt(sortedEigenvalues[i]));
+            loadings.push(loading.map(v => parseFloat(v.toFixed(4))));
+          }
+
+          // 7. Calcular communalidades
+          const communalities = [];
+          for (let j = 0; j < p; j++) {
+            let sum = 0;
+            for (let i = 0; i < nFinal; i++) {
+              sum += loadings[i][j] * loadings[i][j];
+            }
+            communalities.push(parseFloat(sum.toFixed(4)));
+          }
+
+          // 8. Calcular KMO (simplificado)
+          const detCorr = Math.abs(corrMatrix.reduce((acc, row, i) => 
+            acc + row[i] * corrMatrix.map((r, j) => j !== i ? 1 / corrMatrix[i][i] * corrMatrix[j][i] : 0).reduce((a, b) => a + b, 0), 0));
+          const kmo = detCorr > 0 ? Math.min(0.9, detCorr / (detCorr + 0.1)) : 0.5;
+          const kmoValue = parseFloat(kmo.toFixed(3));
+
+          // 9. Interpretación
+          const kmoInterpretation = kmoValue >= 0.9 ? 'Excelente' :
+                                  kmoValue >= 0.8 ? 'Meritorio' :
+                                  kmoValue >= 0.7 ? 'Medio' :
+                                  kmoValue >= 0.6 ? 'Mediocre' :
+                                  kmoValue >= 0.5 ? 'Pobre' : 'Inaceptable';
+
+          const interpretacion = `Análisis Factorial con ${nFinal} factores. ` +
+            `KMO = ${kmoValue} (${kmoInterpretation}). ` +
+            `${nFinal} factores explican el ${cumulativeVariance[nFinal - 1]?.toFixed(1)}% de la varianza total. ` +
+            `Communalidades promedio: ${(communalities.reduce((a, b) => a + b, 0) / p).toFixed(2)}`;
+
+          return {
+            prueba: 'Análisis Factorial',
+            nObservaciones: n,
+            nVariables: p,
+            nFactores: nFinal,
+            eigenvalues: sortedEigenvalues.slice(0, nFinal).map(v => parseFloat(v.toFixed(4))),
+            loadings: loadings,
+            communality: communalities,
+            varianceExplained: varianceExplained.slice(0, nFinal).map(v => parseFloat(v.toFixed(2))),
+            cumulativeVariance: cumulativeVariance.slice(0, nFinal).map(v => parseFloat(v.toFixed(2))),
+            kmo: kmoValue,
+            kmoInterpretation: kmoInterpretation,
+            nFactoresKaiser: nFactoresKaiser,
+            interpretacion: interpretacion,
+            warning: kmoValue < 0.6 ? 'KMO bajo. Considere más datos o menos variables.' : null
+          };
+        } catch (err) {
+          return { error: 'Error en Análisis Factorial: ' + (err.message || 'Error desconocido') };
+        }
       }
 
       // ========================================
@@ -3758,13 +3930,16 @@ resultados['Test de Signos'].columna1 = col1;
                             if (validLengths.length < 2) {
                                 resultados['PCA (Componentes Principales)'] = { error: 'No hay suficientes datos válidos en las columnas seleccionadas' };
                             } else {
-                                const minRows = Math.min(...validLengths);
+                                // Usar todas las filas del dataset original para mantener consistencia
+                                const allData = data.data || [];
+                                const minRows = allData.length;
                                 
                                 for (let i = 0; i < minRows; i++) {
-                                    const row = pcaColumns.map(col => {
-                                        const values = getNumericValues(data, col);
-                                        return values[i] !== undefined ? values[i] : 0;
-                                    });
+                                    const row = [];
+                                    for (let j = 0; j < pcaColumns.length; j++) {
+                                        const val = parseFloat(allData[i][pcaColumns[j]]);
+                                        row.push(isNaN(val) ? 0 : val);
+                                    }
                                     dataMatrix.push(row);
                                 }
                                 
@@ -3777,6 +3952,52 @@ resultados['Test de Signos'].columna1 = col1;
                                     console.log('[PCA] resultado:', pcaResult);
                                     resultados['PCA (Componentes Principales)'] = pcaResult;
                                     resultados['PCA (Componentes Principales)'].columnas = pcaColumns;
+                                }
+                            }
+}
+                         break;
+
+                    // ============================================================
+                    // MULTIVARIADO - ANÁLISIS FACTORIAL
+                    // ============================================================
+                    case 'Análisis Factorial':
+                        // Obtener columnas configuradas o usar todas las numéricas
+                        let afColumns = numericCols;
+                        if (hypothesisConfig['Análisis Factorial'] && hypothesisConfig['Análisis Factorial'].columnas) {
+                            afColumns = hypothesisConfig['Análisis Factorial'].columnas;
+                        }
+                        
+                        if (afColumns.length < 3) {
+                            resultados['Análisis Factorial'] = { error: 'Seleccione al menos 3 columnas para Análisis Factorial' };
+                        } else {
+                            const afDataMatrix = [];
+                            const afLengths = afColumns.map(col => getNumericValues(data, col).length);
+                            const afValidLengths = afLengths.filter(l => l > 0);
+                            
+                            if (afValidLengths.length < 3) {
+                                resultados['Análisis Factorial'] = { error: 'No hay suficientes datos válidos en las columnas seleccionadas' };
+                            } else {
+                                // Usar todas las filas pero solo las columnas seleccionadas
+                                const allData = data.data || [];
+                                const minAfRows = allData.length;
+                                
+                                // Verificar que hay suficientes observaciones
+                                if (minAfRows < afColumns.length * 2) {
+                                    resultados['Análisis Factorial'] = { error: `Se necesitan al menos ${afColumns.length * 2} observaciones. Actualmente hay ${minAfRows}.` };
+                                } else {
+                                    // Construir matriz usando TODAS las filas de los datos originales
+                                    for (let i = 0; i < minAfRows; i++) {
+                                        const row = [];
+                                        for (let j = 0; j < afColumns.length; j++) {
+                                            const val = parseFloat(allData[i][afColumns[j]]);
+                                            row.push(isNaN(val) ? 0 : val);
+                                        }
+                                        afDataMatrix.push(row);
+                                    }
+                                    
+                                    const afResult = calcularAnalisisFactorial(afDataMatrix);
+                                    resultados['Análisis Factorial'] = afResult;
+                                    resultados['Análisis Factorial'].columnas = afColumns;
                                 }
                             }
                         }
@@ -4067,7 +4288,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
             // Si es prueba de hipótesis, generar vista especial
             if (HYPOTHESIS_SET.has(statKey)) {
                 return hypothesisKpiCards(statKey, data);
-            }
+}
 
             // Si es PCA (estadístico multivariado), generar vista especial
             if (statKey === 'PCA (Componentes Principales)' || statKey === 'PCA') {
@@ -4135,10 +4356,12 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                             </thead>
                             <tbody>
                                 ${cols.slice(0, 10).map((col, i) => {
-                                    const loadings = data.loadings?.[i] || [];
+                                    // loadings[componente][variable], invertimos el acceso
+                                    const loadings = data.loadings || [];
+                                    const cargasFactor = loadings.map(f => f[i]);
                                     return `<tr style="border-bottom:1px solid #eee;">
                                         <td style="padding:4px;font-weight:500;font-size:0.7rem;">${col}</td>
-                                        ${Array.from({length: Math.min(3, nComp)}, (_, j) => `<td style="padding:4px;text-align:right;">${loadings[j]?.toFixed(3) || '—'}</td>`).join('')}
+                                        ${Array.from({length: Math.min(3, nComp)}, (_, j) => `<td style="padding:4px;text-align:right;">${cargasFactor[j]?.toFixed(3) || '—'}</td>`).join('')}
                                     </tr>`;
                                 }).join('')}
                             </tbody>
@@ -4148,6 +4371,85 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                     <div class="ar-formula" style="margin-top:12px;padding:10px;background:#fff3e0;border-radius:6px;border-left:4px solid #ff9800;">
                         <span class="ar-formula-icon">💬</span>
                         <div><div class="ar-formula-desc" style="font-size:0.8rem;line-height:1.4;">${data.interpretacion}</div></div>
+                    </div>` : ''}`;
+            }
+
+            // Si es Análisis Factorial (estadístico multivariado), generar vista especial
+            if (statKey === 'Análisis Factorial') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+
+                const cols = data.columnas || [];
+                const nFact = data.nFactores || 0;
+                const loadings = data.loadings || [];
+                const communality = data.communality || [];
+                const kmo = data.kmo || 0;
+                const bartlett = data.Bartlett || {};
+
+                return `
+                    <div class="ar-kpi-card" style="margin-bottom:16px;max-width:100%;overflow:hidden;">
+                        <div class="ar-kpi-col-label" style="font-size:0.95rem;margin-bottom:10px;">📊 Análisis Factorial - Resumen</div>
+                        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:0.8rem;">
+                            <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
+                                <div style="color:#666;font-size:0.7rem;">Observaciones</div>
+                                <div style="font-weight:bold;font-size:0.95rem;">${data.nObservaciones || '—'}</div>
+                            </div>
+                            <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
+                                <div style="color:#666;font-size:0.7rem;">Variables</div>
+                                <div style="font-weight:bold;font-size:0.95rem;">${data.nVariables || '—'}</div>
+                            </div>
+                            <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
+                                <div style="color:#666;font-size:0.7rem;">Factores</div>
+                                <div style="font-weight:bold;font-size:0.95rem;">${nFact}</div>
+                            </div>
+                            <div style="background:#e8f5e9;padding:8px;border-radius:4px;text-align:center;">
+                                <div style="color:#2e7d32;font-size:0.7rem;">KMO</div>
+                                <div style="font-weight:bold;font-size:0.95rem;">${kmo > 0 ? kmo.toFixed(3) : '—'}</div>
+                            </div>
+                        </div>
+                    </div>
+                    ${bartlett && bartlett.chi2 ? `
+                    <div class="ar-kpi-card" style="margin-top:8px;">
+                        <div class="ar-kpi-col-label" style="font-size:0.9rem;">📐 Test de Bartlett</div>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:0.8rem;">
+                            <div style="background:#f5f5f5;padding:6px;border-radius:4px;text-align:center;">
+                                <div style="color:#666;font-size:0.7rem;">χ²</div>
+                                <div style="font-weight:bold;">${bartlett.chi2?.toFixed(2) || '—'}</div>
+                            </div>
+                            <div style="background:#f5f5f5;padding:6px;border-radius:4px;text-align:center;">
+                                <div style="color:#666;font-size:0.7rem;">gl</div>
+                                <div style="font-weight:bold;">${bartlett.df || '—'}</div>
+                            </div>
+                            <div style="background:#e8f5e9;padding:6px;border-radius:4px;text-align:center;">
+                                <div style="color:#2e7d32;font-size:0.7rem;">Valor p</div>
+                                <div style="font-weight:bold;">${bartlett.pValue?.toFixed(4) || '—'}</div>
+                            </div>
+                        </div>
+                    </div>` : ''}
+                    <div class="ar-kpi-card" style="margin-top:8px;overflow-x:auto;">
+                        <div class="ar-kpi-col-label" style="font-size:0.9rem;">📈 Matriz de Cargas Factoriales</div>
+                        <table style="width:100%;border-collapse:collapse;font-size:0.75rem;min-width:300px;">
+                            <tr style="background:#e0e0e0;">
+                                <th style="padding:4px;text-align:left;">Variable</th>
+                                ${Array.from({length: Math.min(3, nFact)}, (_, i) => `<th style="padding:4px;text-align:right;">F${i+1}</th>`).join('')}
+                                <th style="padding:4px;text-align:right;">h²</th>
+                            </tr>
+                            ${cols.slice(0, 12).map((col, i) => {
+                                // loadings[factor][variable], invertimos el acceso
+                                const loadings = data.loadings || [];
+                                const comun = data.communality || [];
+                                const cargasFactor = loadings.map(f => f[i]);
+                                return `<tr style="${i%2===0?'background:#f9f9f9':''}">
+                                    <td style="padding:3px;font-size:0.7rem;">${col.substring(0,12)}</td>
+                                    ${Array.from({length: Math.min(3, nFact)}, (_, j) => `<td style="padding:3px;text-align:right;">${cargasFactor[j]?.toFixed(3) || '—'}</td>`).join('')}
+                                    <td style="padding:3px;text-align:right;font-weight:bold;">${comun[i]?.toFixed(3) || '—'}</td>
+                                </tr>`;
+                            }).join('')}
+                        </table>
+                    </div>
+                    ${data.interpretacion ? `
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">💬</span>
+                        <div><div class="ar-formula-desc">${data.interpretacion}</div></div>
                     </div>` : ''}`;
             }
 
@@ -4986,8 +5288,6 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
 
             // PCA - Análisis de Componentes Principales
             if (statKey === 'PCA (Componentes Principales)' || statKey === 'PCA') {
-                console.log('[generarHTML] PCA data:', data);
-                console.log('[generarHTML] PCA statKey:', statKey);
                 
                 if (data.error) return `<p class="ar-error">${data.error}</p>`;
                 
@@ -5030,6 +5330,64 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                                     ${Array.from({length: Math.min(3, nComp)}, (_, j) => `<td style="padding:2px;text-align:right;">${loadings[j]?.toFixed(3) || '—'}</td>`).join('')}
                                 </tr>`;
                             }).join('')}
+                        </table>
+                    </div>
+                    ${data.interpretacion ? `
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">💬</span>
+                        <div><div class="ar-formula-desc">${data.interpretacion}</div></div>
+                    </div>` : ''}`;
+            }
+
+            // Análisis Factorial
+            if (statKey === 'Análisis Factorial') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+
+                const cols = data.columnas || [];
+                const nFact = data.nFactores || 0;
+                const loadings = data.loadings || [];
+                const communality = data.communality || [];
+                const uniquenesses = data.uniquenesses || [];
+                const kmo = data.kmo || 0;
+                const bartlett = data.Bartlett || {};
+
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">📊 Análisis Factorial - Resumen</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Observaciones</span><span class="ar-kpi-sub-v">${data.nObservaciones || '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Variables</span><span class="ar-kpi-sub-v">${data.nVariables || '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Factores</span><span class="ar-kpi-sub-v">${nFact}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">KMO</span><span class="ar-kpi-sub-v">${kmo > 0 ? kmo.toFixed(3) : '—'}</span></div>
+                        </div>
+                    </div>
+                    ${bartlett && bartlett.chi2 ? `
+                    <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px;">
+                        <div class="ar-kpi-col-label">📐 Test de Bartlett</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">χ²</span><span class="ar-kpi-sub-v">${bartlett.chi2?.toFixed(2) || '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">gl</span><span class="ar-kpi-sub-v">${bartlett.df || '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${bartlett.pValue?.toFixed(4) || '—'}</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${bartlett.pValue < 0.05 ? 'ar-badge-ok' : 'ar-badge-warn'}">
+                            ${bartlett.pValue < 0.05 ? '✓ Factorización adecuada' : '⚠ Verificar supuestos'}
+                        </div>
+                    </div>` : ''}
+                    <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px;">
+                        <div class="ar-kpi-col-label">📈 Matriz de Cargas Factoriales</div>
+                        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
+                            <tr style="background:#f0f0f0;">
+                                <th style="padding:3px;text-align:left;">Variable</th>
+                                ${Array.from({length: Math.min(3, nFact)}, (_, i) => `<th style="padding:3px;text-align:right;">Factor ${i + 1}</th>`).join('')}
+                                <th style="padding:3px;text-align:right;">Comunalidad</th>
+                            </tr>
+                            ${cols.slice(0, 10).map((col, i) => `
+                                <tr>
+                                    <td style="padding:2px;font-size:0.75rem;">${col}</td>
+                                    ${Array.from({length: Math.min(3, nFact)}, (_, j) => `<td style="padding:2px;text-align:right;">${loadings[i]?.[j]?.toFixed(3) || '—'}</td>`).join('')}
+                                    <td style="padding:2px;text-align:right;">${communality[i]?.toFixed(3) || '—'}</td>
+                                </tr>
+                            `).join('')}
                         </table>
                     </div>
                     ${data.interpretacion ? `
