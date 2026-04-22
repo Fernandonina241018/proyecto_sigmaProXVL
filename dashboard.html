@@ -35,8 +35,7 @@
 <div class="shell">
 
   <div class="top-row">
-    <!-- FIX: botón hamburger ahora tiene title descriptivo y el JS le asigna el listener -->
-    <button class="icon-btn" title="Alternar sidebar" aria-label="Alternar sidebar">
+    <button class="icon-btn" id="hamburgerBtn" title="Alternar sidebar" aria-label="Alternar sidebar">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
         <path d="M2 4h12M2 8h12M2 12h12"/>
       </svg>
@@ -66,6 +65,8 @@
       <button class="sb-collapse-btn" id="sbBtn" title="Colapsar sidebar">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 4l-4 4 4 4"/></svg>
       </button>
+      <!-- FIX #9: hint visible solo cuando sidebar está disabled -->
+      <div class="sidebar-hint">Navega a<br><b>Trabajo</b><br>para usar el análisis</div>
       <button class="sb-tab" data-key="descriptiva" onclick="setSb(this)">
         <svg viewBox="0 0 16 16"><path d="M2 4h12M2 7h8M2 10h10M2 13h6"/></svg>
         <span class="sb-label">Descriptiva</span>
@@ -117,16 +118,19 @@
             <div class="page-title">Datos</div>
             <div class="page-subtitle">Conjuntos de datos cargados</div>
           </div>
+          <!-- FIX #3: SVGs con wrapper correcto -->
           <div style="display:flex;gap:8px;align-items:center;">
-            <!-- FIX: botón de exportar todos los datasets -->
             <button class="btn-crystal-blue" onclick="exportAll()" title="Exportar todos como CSV">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="13" height="13">
                 <path d="M8 2v8M5 7l3 3 3-3M3 13h10"/>
               </svg>
-              Exportar
+              Exportar Datasets
             </button>
-            <button class="btn-crystal" onclick="loadToWork()" title="Cargar dataset seleccionado a Trabajo">
-              Cargar Datos
+            <button class="btn-crystal" onclick="loadToWork()" title="Cargar dataset seleccionado en Trabajo">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="13" height="13">
+                <path d="M3 3h10v10H3zM3 6h10M6 3v10"/>
+              </svg>
+              Cargar en Trabajo
             </button>
           </div>
         </div>
@@ -154,7 +158,6 @@
           </div>
         </div>
 
-        <!-- Grid: tabla de datasets + panel de info -->
         <div class="datos-grid" id="datosGrid">
           <div class="panel" id="panelDatasets">
             <div class="panel-label" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
@@ -162,8 +165,8 @@
               <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
                 <div class="sort-buttons">
                   <button class="sort-btn" onclick="sortDatasets('name')"  title="Ordenar por nombre">A-Z</button>
-                  <button class="sort-btn" onclick="sortDatasets('date')"  title="Ordenar por fecha">Fecha</button>
                   <button class="sort-btn" onclick="sortDatasets('size')"  title="Ordenar por tamaño">Tamaño</button>
+                  <button class="sort-btn" onclick="sortDatasets('date')"  title="Ordenar por fecha">Fecha</button>
                 </div>
                 <input type="text" class="search-input" id="datasetSearch"
                   placeholder="Buscar..." oninput="filterDatasets()">
@@ -186,21 +189,21 @@
                   </tr>
                 </thead>
                 <tbody id="datasetsTableBody">
-                  <tr data-name="encuesta_2024.csv">
+                  <tr data-name="encuesta_2024.csv" data-order="0">
                     <td><input type="checkbox" class="dataset-check"></td>
                     <td>encuesta_2024.csv</td>
                     <td><span class="tag tag-type">CSV</span></td>
                     <td>8,420</td><td>24</td>
                     <td><span class="status-dot" style="background:#2ecc71"></span>Listo</td>
                   </tr>
-                  <tr data-name="panel_hogares.xlsx">
+                  <tr data-name="panel_hogares.xlsx" data-order="1">
                     <td><input type="checkbox" class="dataset-check"></td>
                     <td>panel_hogares.xlsx</td>
                     <td><span class="tag tag-type">XLSX</span></td>
                     <td>4,200</td><td>18</td>
                     <td><span class="status-dot" style="background:#2ecc71"></span>Listo</td>
                   </tr>
-                  <tr data-name="precios_hist.csv">
+                  <tr data-name="precios_hist.csv" data-order="2">
                     <td><input type="checkbox" class="dataset-check"></td>
                     <td>precios_hist.csv</td>
                     <td><span class="tag tag-type">CSV</span></td>
@@ -211,26 +214,21 @@
               </table>
               <div class="bulk-actions" id="bulkActions" style="display:none;">
                 <span class="selected-count">0 seleccionados</span>
-                <button class="btn-crystal-red" onclick="deleteSelected()">Eliminar seleccionados</button>
+                <button class="btn-action btn-danger" onclick="deleteSelected()">Eliminar seleccionados</button>
               </div>
             </div>
           </div>
 
-          <!-- Panel de información del dataset seleccionado -->
           <div class="panel" id="panelInfo">
             <div class="panel-label" id="infoPanelLabel">Información</div>
             <div style="overflow:auto;flex:1;" id="infoPanelContent">
-              <div class="empty-state">
-                Haz click en un dataset para ver información
-              </div>
+              <div class="empty-state">Haz click en un dataset para ver información</div>
             </div>
           </div>
         </div>
 
-        <!-- Zona de upload (fuera del grid, abajo) -->
         <div class="panel" id="panelUpload" style="margin-top:10px;">
           <div class="panel-label">Cargar nuevo dataset</div>
-          <!-- FIX: input file separado del onclick para evitar doble trigger -->
           <input type="file" id="fileInput" accept=".csv,.xlsx,.json" style="display:none;">
           <div class="upload-area" id="uploadArea">
             <div class="upload-content" onclick="document.getElementById('fileInput').click()">
@@ -253,26 +251,63 @@
       <!-- ══ TRABAJO ══ -->
       <div class="page" id="page-trabajo">
         <div class="page-header">
-          <div><div class="page-title">Trabajo</div><div class="page-subtitle">Hoja de cálculo</div></div>
-          <div class="badge-orange" id="workDatasetName">Sin datos</div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div>
+              <div class="page-title">Trabajo</div>
+              <div class="page-subtitle">Hoja de datos activa</div>
+            </div>
+            <div class="work-toolbar" id="workToolbar">
+              <button class="tool-btn" data-tool="limpia" onclick="openToolMenu('limpia')">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 14h10M5 3v8M11 3v8M4 3l1-2h6l1 2"/></svg>
+                Limpieza
+              </button>
+              <button class="tool-btn" data-tool="transform" onclick="openToolMenu('transform')">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10l4-4 4 4M2 14l4-4 4 4M10 2v4M10 8v4"/></svg>
+                Transformar
+              </button>
+              <button class="tool-btn" data-tool="engineer" onclick="openToolMenu('engineer')">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v12M4 6h8M4 10h8"/></svg>
+                Ingeniera
+              </button>
+              <button class="tool-btn" data-tool="analysis" onclick="openToolMenu('analysis')">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 14l3-3 3 3 6-6"/></svg>
+                Análisis
+              </button>
+              <button class="tool-btn" data-tool="model" onclick="openToolMenu('model')">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"/><path d="M8 5v3M8 10v1"/></svg>
+                Modelo
+              </button>
+            </div>
+          </div>
+          <span class="badge-orange" id="workDatasetName"
+            style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+            Sin dataset
+          </span>
         </div>
-        
+
         <div class="work-layout">
-          <!-- Panel Grid Excel -->
-          <div class="panel work-grid-panel">
-            <div class="panel-label" id="gridLabel">Carga un dataset desde Datos</div>
+          <div class="work-grid-panel">
+            <div class="panel-label" id="gridLabel">
+              Carga un dataset desde la página <b style="color:#9e9e98">Datos</b> usando el botón "Cargar en Trabajo"
+            </div>
             <div class="excel-grid-wrapper" id="excelGridWrapper">
               <table class="excel-grid" id="excelGrid">
                 <thead id="excelGridHead"></thead>
                 <tbody id="excelGridBody"></tbody>
               </table>
             </div>
+            <!-- FIX #11: pie de grid -->
+            <div class="excel-grid-footer" id="excelGridFooter"></div>
           </div>
 
-          <!-- Panel Estadísticos (oculto si no hay selección) -->
-          <div class="panel work-stats-panel" id="workStatsPanel" style="display:none;">
-            <div class="panel-label">Resultados</div>
-            <div class="stats-results" id="statsResults"></div>
+          <div class="work-stats-panel" id="workStatsPanel">
+            <div class="panel-label" style="flex-shrink:0;">Cola de análisis</div>
+            <div class="stats-results" id="statsResults">
+              <div style="color:#4a4a48;font-size:11px;text-align:center;padding:24px 8px;line-height:1.7;">
+                Selecciona análisis desde el<br>menú lateral y haz clic en<br>
+                <b style="color:#6b6b65;">Aplicar selección</b>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -282,9 +317,8 @@
         <div class="page-header">
           <div><div class="page-title">Análisis</div><div class="page-subtitle">Resultados estadísticos</div></div>
           <div style="display:flex;gap:8px;align-items:center;">
-            <!-- FIX: botón exportar resultados de análisis -->
             <button class="btn-action" onclick="exportAnalysisResults()" title="Exportar como JSON">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="12" height="12">
                 <path d="M8 2v8M5 7l3 3 3-3M3 13h10"/>
               </svg>
               Exportar JSON

@@ -1,54 +1,44 @@
-// ─── ESTADO UI ────────────────────────────────────────────────────────────────
+// ─── ESTADO GLOBAL ENCAPSULADO (FIX #10) ──────────────────────────────────────
+const STATE = {
+  datasets:     {},        // { name: { columns, rows } }
+  selectedStats:{},        // { category: [statName, ...] }
+  workDataset:  null,      // { name, columns, rows }
+  datasetOrder: 0,         // contador para data-order al insertar filas
+};
+
+// ─── PERSISTENCIA UI ──────────────────────────────────────────────────────────
 const UI_STATE_KEY = 'dashboardUIState';
 
 function saveUIState() {
   try {
-    const state = {
+    sessionStorage.setItem(UI_STATE_KEY, JSON.stringify({
       sidebarCollapsed: document.getElementById('sb').classList.contains('collapsed'),
       navbarCollapsed:  document.getElementById('nb').classList.contains('collapsed'),
       activePage:       document.querySelector('.page.active')?.id || 'page-datos',
-      activeFloatingMenu: activeKey,          // FIX: ahora se guarda correctamente
+      activeFloatingMenu: activeKey,
       checkedItems:     JSON.parse(JSON.stringify(checked)),
-    };
-    sessionStorage.setItem(UI_STATE_KEY, JSON.stringify(state)); // FIX: sessionStorage en vez de localStorage
-  } catch(e) {
-    console.warn('Error guardando estado:', e);
-  }
+    }));
+  } catch(e) { console.warn('saveUIState:', e); }
 }
 
 function loadUIState() {
   try {
     const saved = sessionStorage.getItem(UI_STATE_KEY);
     if (!saved) return;
-    const state = JSON.parse(saved);
-
-    if (state.sidebarCollapsed) {
-      document.getElementById('sb').classList.add('collapsed');
-    }
-    if (state.navbarCollapsed) {
+    const s = JSON.parse(saved);
+    if (s.sidebarCollapsed) document.getElementById('sb').classList.add('collapsed');
+    if (s.navbarCollapsed) {
       document.getElementById('nb').classList.add('collapsed');
       document.getElementById('notch').classList.add('visible');
       document.querySelector('.top-row').classList.add('collapsed');
     }
-    if (state.activePage) {
-      navigateTo(state.activePage);
-    }
-    if (state.checkedItems) {
-      Object.assign(checked, state.checkedItems);
-    }
-    // FIX: restaurar menú flotante activo
-    if (state.activeFloatingMenu && MENUS[state.activeFloatingMenu]) {
-      const tab = document.querySelector(`.sb-tab[data-key="${state.activeFloatingMenu}"]`);
+    if (s.activePage) navigateTo(s.activePage);
+    if (s.checkedItems) Object.assign(checked, s.checkedItems);
+    if (s.activeFloatingMenu && MENUS[s.activeFloatingMenu]) {
+      const tab = document.querySelector(`.sb-tab[data-key="${s.activeFloatingMenu}"]`);
       if (tab) setSb(tab);
     }
-  } catch(e) {
-    console.warn('Error cargando estado:', e);
-  }
-}
-
-function resetUIState() {
-  sessionStorage.removeItem(UI_STATE_KEY);
-  location.reload();
+  } catch(e) { console.warn('loadUIState:', e); }
 }
 
 // ─── MENÚS FLOTANTES ──────────────────────────────────────────────────────────
@@ -148,8 +138,8 @@ function renderMenu(key) {
   fmTitle.style.color = data.color;
 
   const applyBtn = document.getElementById('fmApply');
-  applyBtn.style.background   = data.color;
-  applyBtn.style.borderColor  = data.color + '80';
+  applyBtn.style.background  = data.color;
+  applyBtn.style.borderColor = data.color + '80';
   applyBtn.onmouseenter = () => { applyBtn.style.background = data.color + 'dd'; };
   applyBtn.onmouseleave = () => { applyBtn.style.background = data.color; };
 
@@ -184,7 +174,7 @@ function setSb(el) {
   activeKey = key;
   if (!MENUS[key]) return;
   const rect = el.getBoundingClientRect();
-  fm.style.top  = Math.min(rect.top, window.innerHeight - 340) + 'px';
+  fm.style.top  = Math.min(rect.top, window.innerHeight - 380) + 'px';
   fm.style.left = (rect.right + 8) + 'px';
   renderMenu(key);
   fm.classList.add('open');
@@ -200,11 +190,7 @@ function updateAllCounters() {
     if (count === 0) {
       if (badge) badge.remove();
     } else {
-      if (!badge) {
-        badge = document.createElement('div');
-        badge.className = 'sb-count';
-        tab.appendChild(badge);
-      }
+      if (!badge) { badge = document.createElement('div'); badge.className = 'sb-count'; tab.appendChild(badge); }
       badge.textContent = count > 9 ? '9+' : count;
       badge.style.background = MENUS[key].color;
     }
@@ -219,72 +205,33 @@ function closeMenu() {
 
 document.getElementById('fmClose').addEventListener('click', closeMenu);
 
-document.getElementById('fmApply').addEventListener('click', () => {
-  const count = checked[activeKey] ? Object.values(checked[activeKey]).filter(Boolean).length : 0;
-  if (count === 0) { showToast('Selecciona al menos un elemento', 'warn'); return; }
-  const selectedItems = Object.entries(checked[activeKey]).filter(([_,v])=>v).map(([k])=>k);
-  console.log(`Aplicando ${count} items de ${MENUS[activeKey].title}:`, selectedItems);
-  
-  selectedItems.forEach(item => {
-    if (!SELECTED_STATS[activeKey]) SELECTED_STATS[activeKey] = [];
-    if (!SELECTED_STATS[activeKey].includes(item)) {
-      SELECTED_STATS[activeKey].push(item);
-    }
-  });
-  
-  showToast(`Aplicando ${count} análisis de ${MENUS[activeKey].title}`, 'ok');
-  closeMenu();
-  
-  if (CURRENT_WORK_DATASET) {
-    renderWorkStatsPanel();
-    navigateTo('page-trabajo');
+// Cerrar al clicar fuera — respeta tanto sidebar como tool menus
+document.addEventListener('click', e => {
+  if (!fm.contains(e.target) && !e.target.closest('.sb-tab') && !e.target.closest('.tool-btn')) {
+    if (fmMode === 'tool') closeFm();
+    else closeMenu();
   }
 });
 
-document.getElementById('fmSelectAll').addEventListener('click', () => {
-  if (!activeKey) return;
-  const allItems  = MENUS[activeKey].sections.flatMap(s => s.items.map(i => i.label));
-  const selectAll = !allChecked(activeKey);
-  if (!checked[activeKey]) checked[activeKey] = {};
-  allItems.forEach(l => { checked[activeKey][l] = selectAll; });
-  fmBody.querySelectorAll('.fm-item').forEach(el => el.classList.toggle('checked', selectAll));
-  updateSelectAllBtn(activeKey);
-  updateAllCounters();
-  saveUIState();
-});
-
-document.addEventListener('click', e => {
-  if (!fm.contains(e.target) && !e.target.closest('.sb-tab')) closeMenu();
-});
-
-// ─── TOAST NOTIFICACIONES ─────────────────────────────────────────────────────
+// ─── TOAST ────────────────────────────────────────────────────────────────────
 function showToast(msg, type = 'ok') {
-  let container = document.getElementById('toastContainer');
-  if (!container) {
-    container = document.createElement('div');
-    container.id = 'toastContainer';
-    container.style.cssText = `
-      position:fixed;bottom:20px;right:20px;z-index:9999;
-      display:flex;flex-direction:column;gap:8px;pointer-events:none;
-    `;
-    document.body.appendChild(container);
+  let c = document.getElementById('toastContainer');
+  if (!c) {
+    c = document.createElement('div');
+    c.id = 'toastContainer';
+    c.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;';
+    document.body.appendChild(c);
   }
   const colors = { ok:'#2ecc71', warn:'#f39c12', err:'#e74c3c', info:'#4a90d9' };
-  const toast = document.createElement('div');
-  toast.style.cssText = `
-    background:#2d2d2a;border:0.5px solid ${colors[type]}40;border-left:3px solid ${colors[type]};
+  const t = document.createElement('div');
+  t.style.cssText = `background:#2d2d2a;border:0.5px solid ${colors[type]}40;border-left:3px solid ${colors[type]};
     color:#d4d4d0;font-size:12px;padding:10px 14px;border-radius:8px;
-    box-shadow:0 4px 16px rgba(0,0,0,0.4);
-    transform:translateX(110%);transition:transform .3s cubic-bezier(.4,0,.2,1);
-    max-width:280px;pointer-events:none;
-  `;
-  toast.textContent = msg;
-  container.appendChild(toast);
-  requestAnimationFrame(() => { toast.style.transform = 'translateX(0)'; });
-  setTimeout(() => {
-    toast.style.transform = 'translateX(110%)';
-    setTimeout(() => toast.remove(), 350);
-  }, 3000);
+    box-shadow:0 4px 16px rgba(0,0,0,0.4);transform:translateX(110%);
+    transition:transform .3s cubic-bezier(.4,0,.2,1);max-width:280px;pointer-events:none;`;
+  t.textContent = msg;
+  c.appendChild(t);
+  requestAnimationFrame(() => { t.style.transform = 'translateX(0)'; });
+  setTimeout(() => { t.style.transform = 'translateX(110%)'; setTimeout(() => t.remove(), 350); }, 3000);
 }
 
 // ─── CHART ────────────────────────────────────────────────────────────────────
@@ -294,10 +241,7 @@ if (ca) bvals.forEach((h,i) => {
   const b = document.createElement('div');
   b.className = 'bar' + (i===9?' hi':'');
   b.style.height = h+'%';
-  b.onclick = () => {
-    document.querySelectorAll('#chartViz .bar').forEach(x=>x.classList.remove('hi'));
-    b.classList.add('hi');
-  };
+  b.onclick = () => { document.querySelectorAll('#chartViz .bar').forEach(x=>x.classList.remove('hi')); b.classList.add('hi'); };
   ca.appendChild(b);
 });
 
@@ -307,44 +251,44 @@ const notch  = document.getElementById('notch');
 const topRow = document.querySelector('.top-row');
 
 document.getElementById('nbBtn').addEventListener('click', () => {
-  nb.classList.add('collapsed');
-  notch.classList.add('visible');
-  topRow.classList.add('collapsed');
+  nb.classList.add('collapsed'); notch.classList.add('visible'); topRow.classList.add('collapsed');
   saveUIState();
 });
 notch.addEventListener('click', () => {
-  nb.classList.remove('collapsed');
-  notch.classList.remove('visible');
-  topRow.classList.remove('collapsed');
+  nb.classList.remove('collapsed'); notch.classList.remove('visible'); topRow.classList.remove('collapsed');
   saveUIState();
 });
 
 // ─── SIDEBAR ──────────────────────────────────────────────────────────────────
 document.getElementById('sbBtn').addEventListener('click', () => {
   document.getElementById('sb').classList.toggle('collapsed');
-  closeMenu();
-  saveUIState();
+  closeMenu(); saveUIState();
 });
 
-// FIX: botón hamburger ahora alterna sidebar
-const hamburgerBtn = document.querySelector('.icon-btn');
-if (hamburgerBtn) {
-  hamburgerBtn.addEventListener('click', () => {
-    document.getElementById('sb').classList.toggle('collapsed');
+document.getElementById('hamburgerBtn').addEventListener('click', () => {
+  document.getElementById('sb').classList.toggle('collapsed');
+  closeMenu(); saveUIState();
+});
+
+// FIX #9: actualizar estado del sidebar según la página activa
+function updateSidebarContext(pageId) {
+  const sb = document.getElementById('sb');
+  if (pageId === 'page-trabajo') {
+    sb.classList.remove('disabled');
+  } else {
+    sb.classList.add('disabled');
     closeMenu();
-    saveUIState();
-  });
+  }
 }
 
 // ─── MULTIPAGE ────────────────────────────────────────────────────────────────
 function navigateTo(targetId) {
   const target = document.getElementById(targetId);
-  console.log('navigateTo:', targetId, 'target found:', !!target);
   if (!target) return;
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   target.classList.add('active');
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.toggle('active', t.dataset.target === targetId));
-  console.log('Page active class added:', target.classList.contains('active'));
+  updateSidebarContext(targetId);
   saveUIState();
 }
 function setNav(el) { navigateTo(el.dataset.target); }
@@ -356,65 +300,88 @@ document.addEventListener('DOMContentLoaded', () => {
   initDataPreview();
   initDatasetClick();
   initDragDrop();
+  // Estado inicial del sidebar
+  const activePage = document.querySelector('.page.active')?.id || 'page-datos';
+  updateSidebarContext(activePage);
 });
 
-// ─── BÚSQUEDA ─────────────────────────────────────────────────────────────────
+// ─── BÚSQUEDA Y FILTRO SINCRONIZADOS (FIX #5) ────────────────────────────────
+let currentFilter = 'all';
+let currentSearch = '';
+
 function filterDatasets() {
-  const search = document.getElementById('datasetSearch').value.toLowerCase();
+  currentSearch = (document.getElementById('datasetSearch').value || '').toLowerCase();
+  applyFilters();
+}
+
+function applyFilters() {
+  const statusMap = { listo:'Listo', limpiando:'Limpiando', error:'Error' };
   document.querySelectorAll('#datasetsTableBody tr').forEach(row => {
-    // FIX: usar dataset.name en vez de cells[1] para ser más robusto
-    const name = (row.dataset.name || '').toLowerCase();
-    row.style.display = name.includes(search) ? '' : 'none';
+    const name       = (row.dataset.name || '').toLowerCase();
+    const statusCell = row.querySelector('td:last-child');
+    const statusText = statusCell ? statusCell.textContent.trim() : '';
+
+    const matchSearch = currentSearch === '' || name.includes(currentSearch);
+    const matchFilter = currentFilter === 'all' || statusText === statusMap[currentFilter];
+
+    row.style.display = (matchSearch && matchFilter) ? '' : 'none';
   });
 }
 
-// ─── ORDENAMIENTO ─────────────────────────────────────────────────────────────
+// ─── ORDENAMIENTO (FIX #7) ────────────────────────────────────────────────────
 function sortDatasets(criteria) {
   const tbody = document.getElementById('datasetsTableBody');
-  const rows  = Array.from(tbody.querySelectorAll('tr'));
+  // Capturar snapshot ANTES de ordenar para evitar inconsistencias
+  const rows = Array.from(tbody.querySelectorAll('tr'));
 
   rows.sort((a, b) => {
     if (criteria === 'name') {
       return (a.dataset.name || '').localeCompare(b.dataset.name || '');
     }
     if (criteria === 'size') {
-      // FIX: usar el texto de la columna Filas (índice 3) — parseamos correctamente
       const aVal = parseInt((a.cells[3]?.textContent || '0').replace(/[,.\s]/g, '')) || 0;
       const bVal = parseInt((b.cells[3]?.textContent || '0').replace(/[,.\s]/g, '')) || 0;
       return bVal - aVal;
     }
     if (criteria === 'date') {
-      // FIX: criterio 'date' ahora implementado (orden de inserción inverso)
-      // Los datasets reales tendrían un data-date; aquí usamos el índice
-      return rows.indexOf(b) - rows.indexOf(a);
+      // FIX #7: usar data-order numérico estable, no indexOf sobre array mutante
+      const aO = parseInt(a.dataset.order || '0');
+      const bO = parseInt(b.dataset.order || '0');
+      return bO - aO;
     }
     return 0;
   });
 
+  // Reinsertar en orden correcto
   rows.forEach(row => tbody.appendChild(row));
   showToast(`Ordenado por ${criteria}`, 'info');
 }
 
 // ─── SELECCIÓN MÚLTIPLE ───────────────────────────────────────────────────────
 function toggleSelectAll() {
-  const selectAll = document.getElementById('selectAll');
-  document.querySelectorAll('.dataset-check').forEach(cb => { cb.checked = selectAll.checked; });
+  const master = document.getElementById('selectAll');
+  document.querySelectorAll('.dataset-check').forEach(cb => { cb.checked = master.checked; });
   updateBulkActions();
 }
 
 function updateBulkActions() {
-  const checked  = document.querySelectorAll('.dataset-check:checked');
-  const bulkDiv  = document.getElementById('bulkActions');
+  const selected  = document.querySelectorAll('.dataset-check:checked');
+  const bulkDiv   = document.getElementById('bulkActions');
   const countSpan = bulkDiv.querySelector('.selected-count');
-  countSpan.textContent = `${checked.length} seleccionado${checked.length !== 1 ? 's' : ''}`;
-  bulkDiv.style.display = checked.length > 0 ? 'flex' : 'none';
+  countSpan.textContent = `${selected.length} seleccionado${selected.length !== 1 ? 's' : ''}`;
+  bulkDiv.style.display = selected.length > 0 ? 'flex' : 'none';
 }
 
 function deleteSelected() {
   const cbs = document.querySelectorAll('.dataset-check:checked');
   if (cbs.length === 0) return;
   if (!confirm(`¿Eliminar ${cbs.length} dataset(s)?`)) return;
-  cbs.forEach(cb => cb.closest('tr').remove());
+  cbs.forEach(cb => {
+    const row = cb.closest('tr');
+    const name = row?.dataset.name;
+    if (name) delete STATE.datasets[name];
+    row?.remove();
+  });
   updateBulkActions();
   showToast(`${cbs.length} dataset(s) eliminados`, 'err');
 }
@@ -423,32 +390,27 @@ function deleteSelected() {
 function initDragDrop() {
   const uploadArea = document.getElementById('uploadArea');
   const fileInput  = document.getElementById('fileInput');
-  if (!uploadArea || !fileInput) { console.error('Elementos de upload no encontrados'); return; }
+  if (!uploadArea || !fileInput) return;
 
   uploadArea.addEventListener('dragover',  e => { e.preventDefault(); uploadArea.classList.add('dragover'); });
   uploadArea.addEventListener('dragleave', ()=> { uploadArea.classList.remove('dragover'); });
   uploadArea.addEventListener('drop', e => {
-    e.preventDefault();
-    uploadArea.classList.remove('dragover');
+    e.preventDefault(); uploadArea.classList.remove('dragover');
     handleFiles(e.dataTransfer.files);
   });
 
-  // FIX: separar el listener del fileInput del onclick inline del HTML para evitar doble trigger
+  // FIX #6: un solo listener en fileInput, sin onclick inline
   fileInput.addEventListener('change', e => { if (e.target.files.length) handleFiles(e.target.files); });
 }
 
 function handleFiles(files) {
   if (!files || files.length === 0) return;
   const file      = files[0];
-  const validExts = ['.csv', '.xlsx', '.json'];
   const ext       = '.' + file.name.split('.').pop().toLowerCase();
+  const validExts = ['.csv', '.xlsx', '.json'];
 
-  if (!validExts.includes(ext)) {
-    showToast('Tipo no válido. Solo CSV, XLSX o JSON.', 'err'); return;
-  }
-  if (file.size > 50 * 1024 * 1024) {
-    showToast('Archivo demasiado grande. Máximo 50 MB.', 'err'); return;
-  }
+  if (!validExts.includes(ext)) { showToast('Tipo no válido. Solo CSV, XLSX o JSON.', 'err'); return; }
+  if (file.size > 50 * 1024 * 1024) { showToast('Archivo demasiado grande. Máximo 50 MB.', 'err'); return; }
 
   const uploadContent  = document.querySelector('.upload-content');
   const uploadProgress = document.getElementById('uploadProgress');
@@ -456,21 +418,16 @@ function handleFiles(files) {
   const uploadBar      = document.getElementById('uploadBar');
   const uploadStatus   = document.getElementById('uploadStatus');
 
-  if (!uploadContent || !uploadProgress || !uploadSuccess || !uploadBar || !uploadStatus) {
-    console.error('Faltan elementos del UI de upload'); return;
-  }
-
   uploadContent.style.display  = 'none';
   uploadProgress.style.display = 'block';
   uploadBar.style.width        = '0%';
   uploadStatus.textContent     = 'Leyendo archivo...';
 
-  // Leer el archivo real con FileReader
   const reader = new FileReader();
 
   reader.onprogress = e => {
     if (e.lengthComputable) {
-      const pct = Math.round((e.loaded / e.total) * 80); // hasta 80% en lectura
+      const pct = Math.round((e.loaded / e.total) * 80);
       uploadBar.style.width    = pct + '%';
       uploadStatus.textContent = `Leyendo... ${pct}%`;
     }
@@ -481,26 +438,13 @@ function handleFiles(files) {
     uploadStatus.textContent = 'Procesando datos...';
 
     let parsedData = null;
-
     try {
-      if (ext === '.csv') {
-        parsedData = parseCSV(e.target.result);
-      } else if (ext === '.json') {
-        parsedData = parseJSON(e.target.result);
-      } else if (ext === '.xlsx') {
-        // XLSX es binario — no parseable sin librería externa
-        // Guardamos null pero mostramos mensaje informativo
-        parsedData = null;
-      }
-    } catch (err) {
-      console.warn('Error parseando archivo:', err);
-      parsedData = null;
-    }
+      if (ext === '.csv')  parsedData = parseCSV(e.target.result);
+      else if (ext === '.json') parsedData = parseJSON(e.target.result);
+      // XLSX requiere librería externa; se registra sin datos de preview
+    } catch(err) { console.warn('Error parseando:', err); }
 
-    // Guardar en DATASETS_PREVIEW para que tooltip y panel de info funcionen
-    if (parsedData) {
-      DATASETS_PREVIEW[file.name] = parsedData;
-    }
+    if (parsedData) STATE.datasets[file.name] = parsedData;
 
     uploadBar.style.width    = '100%';
     uploadStatus.textContent = 'Completado';
@@ -524,62 +468,40 @@ function handleFiles(files) {
     showToast('Error leyendo el archivo', 'err');
   };
 
-  // CSV y JSON son texto; XLSX es binario
-  if (ext === '.xlsx') {
-    reader.readAsArrayBuffer(file);
-  } else {
-    reader.readAsText(file, 'UTF-8');
-  }
+  if (ext === '.xlsx') reader.readAsArrayBuffer(file);
+  else reader.readAsText(file, 'UTF-8');
 }
 
 // ─── PARSERS ──────────────────────────────────────────────────────────────────
-
-/** Parsea CSV a { columns, rows } — soporta comas y punto y coma como separador */
 function parseCSV(text) {
-  // Detectar separador automáticamente
   const firstLine = text.split('\n')[0] || '';
   const sep = firstLine.includes(';') ? ';' : ',';
-
   const lines = text.trim().split('\n').map(l => l.replace(/\r$/, ''));
   if (lines.length < 2) return null;
 
-  // Parser CSV que respeta comillas
   function parseLine(line) {
-    const result = [];
-    let cur = '';
-    let inQuotes = false;
+    const result = []; let cur = '', inQ = false;
     for (let i = 0; i < line.length; i++) {
       const ch = line[i];
-      if (ch === '"') {
-        if (inQuotes && line[i+1] === '"') { cur += '"'; i++; }
-        else inQuotes = !inQuotes;
-      } else if (ch === sep && !inQuotes) {
-        result.push(cur.trim()); cur = '';
-      } else {
-        cur += ch;
-      }
+      if (ch === '"') { if (inQ && line[i+1]==='"') { cur+='"'; i++; } else inQ = !inQ; }
+      else if (ch === sep && !inQ) { result.push(cur.trim()); cur = ''; }
+      else cur += ch;
     }
     result.push(cur.trim());
     return result;
   }
 
   const columns = parseLine(lines[0]);
-  const rows = lines.slice(1).filter(l => l.trim()).map(line => {
-    return parseLine(line).map(cell => {
-      const n = Number(cell);
-      return cell !== '' && !isNaN(n) ? n : cell;
-    });
-  });
-
-  return { columns, rows: rows.slice(0, 200) }; // máx 200 filas en preview
+  const rows = lines.slice(1).filter(l => l.trim()).map(line =>
+    parseLine(line).map(cell => { const n = Number(cell); return cell!==''&&!isNaN(n)?n:cell; })
+  );
+  return { columns, rows: rows.slice(0, 200) };
 }
 
-/** Parsea JSON (array de objetos) a { columns, rows } */
 function parseJSON(text) {
   const data = JSON.parse(text);
   const arr  = Array.isArray(data) ? data : (Array.isArray(data.data) ? data.data : null);
   if (!arr || arr.length === 0) return null;
-
   const columns = Object.keys(arr[0]);
   const rows    = arr.slice(0, 200).map(obj => columns.map(c => obj[c] ?? ''));
   return { columns, rows };
@@ -587,60 +509,97 @@ function parseJSON(text) {
 
 // ─── AGREGAR FILA A TABLA ─────────────────────────────────────────────────────
 function addDatasetToTable(name, file, parsedData) {
-  const tbody   = document.getElementById('datasetsTableBody');
-  const ext     = name.split('.').pop().toLowerCase();
-  const type    = ext === 'csv' ? 'CSV' : ext === 'xlsx' ? 'XLSX' : 'JSON';
-  const sizeStr = file ? formatFileSize(file.size) : '-';
+  const tbody    = document.getElementById('datasetsTableBody');
+  const ext      = name.split('.').pop().toLowerCase();
+  const type     = ext==='csv'?'CSV':ext==='xlsx'?'XLSX':'JSON';
   const rowCount = parsedData ? parsedData.rows.length.toLocaleString('es') : '-';
   const colCount = parsedData ? parsedData.columns.length : '-';
 
   const row = document.createElement('tr');
-  row.dataset.name = name;
+  row.dataset.name  = name;
+  row.dataset.order = STATE.datasetOrder++;    // FIX #7: orden estable
   row.innerHTML = `
     <td><input type="checkbox" class="dataset-check"></td>
     <td>${escapeHtml(name)}</td>
     <td><span class="tag tag-type">${type}</span></td>
-    <td>${rowCount}</td>
-    <td>${colCount}</td>
-    <td><span class="status-dot" style="background:#2ecc71"></span>Listo</td>
-  `;
+    <td>${rowCount}</td><td>${colCount}</td>
+    <td><span class="status-dot" style="background:#2ecc71"></span>Listo</td>`;
   tbody.appendChild(row);
 
-  // Agregar al tooltip de preview
-  row.addEventListener('mouseenter', e => {
-    const tooltip = document.getElementById('dataPreviewTooltip');
-    const data    = DATASETS_PREVIEW[name];
-    if (!tooltip || !data) return;
-    document.getElementById('previewTitle').textContent =
-      `Vista previa: ${name} (${data.rows.length} filas × ${data.columns.length} cols)`;
-    document.getElementById('previewTable').innerHTML = `
-      <thead><tr>${data.columns.map(c=>`<th>${escapeHtml(c)}</th>`).join('')}</tr></thead>
-      <tbody>${data.rows.slice(0,8).map(r =>
-        `<tr>${r.map(cell=>`<td>${escapeHtml(String(cell??''))}</td>`).join('')}</tr>`
-      ).join('')}</tbody>`;
-    let leftPos = e.clientX + 15;
-    if (leftPos + 360 > window.innerWidth) leftPos = e.clientX - 360 - 15;
-    tooltip.style.left = leftPos + 'px';
-    tooltip.style.top  = Math.min(e.clientY + 15, window.innerHeight - 240) + 'px';
-    tooltip.classList.add('visible');
-  });
-  row.addEventListener('mouseleave', () => {
-    document.getElementById('dataPreviewTooltip')?.classList.remove('visible');
-  });
-  row.addEventListener('mousemove', e => {
-    const tooltip = document.getElementById('dataPreviewTooltip');
-    if (!tooltip?.classList.contains('visible')) return;
-    let leftPos = e.clientX + 15;
-    if (leftPos + 360 > window.innerWidth) leftPos = e.clientX - 360 - 15;
-    tooltip.style.left = leftPos + 'px';
-    tooltip.style.top  = Math.min(e.clientY + 15, window.innerHeight - 240) + 'px';
-  });
-
+  // FIX #6: listeners de preview solo en addDatasetToTable (no duplicados en initDataPreview)
+  attachPreviewListeners(row, name);
   row.querySelector('.dataset-check').addEventListener('change', updateBulkActions);
   row.style.cursor = 'pointer';
-  row.addEventListener('click', (e) => {
+  row.addEventListener('click', e => {
     if (e.target.type === 'checkbox') return;
-    selectDatasetRow(row, name, DATASETS_PREVIEW[name] || null);
+    selectDatasetRow(row, name, STATE.datasets[name] || null);
+  });
+}
+
+// ─── DATA PREVIEW TOOLTIP ─────────────────────────────────────────────────────
+// Datos de ejemplo para los datasets iniciales
+STATE.datasets['encuesta_2024.csv'] = {
+  columns: ['id','edad','educacion','ingreso','region'],
+  rows: [
+    [1,25,'Universitaria',45000,'Norte'],[2,34,'Preparatoria',32000,'Sur'],
+    [3,45,'Universitaria',58000,'Centro'],[4,28,'Secundaria',18000,'Oriente'],
+    [5,52,'Universitaria',72000,'Norte'],[6,31,'Preparatoria',28000,'Sur'],
+    [7,41,'Universitaria',51000,'Centro'],[8,26,'Secundaria',22000,'Oriente'],
+    [9,38,'Preparatoria',35000,'Norte'],[10,29,'Universitaria',47000,'Sur']
+  ]
+};
+STATE.datasets['panel_hogares.xlsx'] = {
+  columns: ['hogar_id','integrantes','ingreso_total','gasto','zona'],
+  rows: [
+    [1,4,35000,28000,'Urbana'],[2,2,42000,31000,'Rural'],[3,5,28000,22000,'Urbana'],
+    [4,3,55000,42000,'Urbana'],[5,6,18000,15000,'Rural'],[6,2,65000,48000,'Urbana'],
+    [7,4,31000,25000,'Urbana'],[8,3,44000,36000,'Rural']
+  ]
+};
+STATE.datasets['precios_hist.csv'] = {
+  columns: ['producto','precio','mes','año'],
+  rows: [
+    ['Leche',24.50,'Ene',2024],['Pan',18.00,'Ene',2024],['Huevos',45.00,'Ene',2024],
+    ['Leche',25.00,'Feb',2024],['Pan',18.50,'Feb',2024],['Huevos',46.00,'Feb',2024],
+    ['Leche',25.50,'Mar',2024],['Pan',19.00,'Mar',2024]
+  ]
+};
+
+function attachPreviewListeners(row, name) {
+  const tooltip = document.getElementById('dataPreviewTooltip');
+  if (!tooltip) return;
+
+  row.addEventListener('mouseenter', e => {
+    const data = STATE.datasets[name];
+    if (!data) return;
+    document.getElementById('previewTitle').textContent =
+      `Vista previa: ${name} (${data.rows.length} filas × ${data.columns.length} cols)`;
+    document.getElementById('previewTable').innerHTML =
+      `<thead><tr>${data.columns.map(c=>`<th>${escapeHtml(c)}</th>`).join('')}</tr></thead>
+       <tbody>${data.rows.slice(0,8).map(r=>`<tr>${r.map(cell=>`<td>${escapeHtml(String(cell??''))}</td>`).join('')}</tr>`).join('')}</tbody>`;
+    positionTooltip(e);
+    tooltip.classList.add('visible');
+  });
+  row.addEventListener('mouseleave', () => tooltip.classList.remove('visible'));
+  row.addEventListener('mousemove', e => {
+    if (!tooltip.classList.contains('visible')) return;
+    positionTooltip(e);
+  });
+}
+
+function positionTooltip(e) {
+  const tooltip = document.getElementById('dataPreviewTooltip');
+  let left = e.clientX + 15;
+  if (left + 360 > window.innerWidth) left = e.clientX - 360 - 15;
+  tooltip.style.left = left + 'px';
+  tooltip.style.top  = Math.min(e.clientY + 15, window.innerHeight - 240) + 'px';
+}
+
+// FIX #6: initDataPreview solo agrega listeners a filas existentes en el HTML
+// (no duplica los que addDatasetToTable ya agrega a filas nuevas)
+function initDataPreview() {
+  document.querySelectorAll('#datasetsTableBody tr').forEach(row => {
+    attachPreviewListeners(row, row.dataset.name);
   });
 }
 
@@ -650,31 +609,21 @@ function initDatasetClick() {
     cb.addEventListener('change', updateBulkActions);
   });
 
-  // FIX: filtros de estado — comparación más robusta
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  filterBtns.forEach(btn => {
+  // FIX #5: filtros usan applyFilters() que combina búsqueda + filtro
+  document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const filter = btn.dataset.filter;
-      document.querySelectorAll('#datasetsTableBody tr').forEach(row => {
-        if (filter === 'all') { row.style.display = ''; return; }
-        // FIX: extraer solo el texto sin el dot usando lastChild
-        const statusCell = row.querySelector('td:last-child');
-        const statusText = statusCell ? statusCell.textContent.trim() : '';
-        const map = { listo:'Listo', limpiando:'Limpiando', error:'Error' };
-        row.style.display = (statusText === map[filter]) ? '' : 'none';
-      });
+      currentFilter = btn.dataset.filter;
+      applyFilters();
     });
   });
 
   document.querySelectorAll('#datasetsTableBody tr').forEach(row => {
     row.style.cursor = 'pointer';
-    row.addEventListener('click', (e) => {
+    row.addEventListener('click', e => {
       if (e.target.type === 'checkbox') return;
-      const name = row.dataset.name;
-      const data = DATASETS_PREVIEW[name] || null;
-      selectDatasetRow(row, name, data);
+      selectDatasetRow(row, row.dataset.name, STATE.datasets[row.dataset.name] || null);
     });
   });
 }
@@ -689,17 +638,14 @@ function renderInfoPanel(name, data) {
   const infoLabel   = document.getElementById('infoPanelLabel');
   const infoContent = document.getElementById('infoPanelContent');
   if (!infoLabel || !infoContent) return;
-
   infoLabel.textContent = `Información: ${name}`;
 
   const actionsHtml = buildActionsHtml(name);
 
   if (!data) {
-    infoContent.innerHTML = `
-      ${actionsHtml}
+    infoContent.innerHTML = `${actionsHtml}
       <div style="padding:20px;color:#6b6b65;text-align:center;margin-top:20px;">
-        Archivo cargado correctamente<br>
-        <small>Vista previa no disponible para archivos nuevos</small>
+        Archivo registrado<br><small>Vista previa no disponible para XLSX sin librería</small>
       </div>`;
     return;
   }
@@ -707,136 +653,96 @@ function renderInfoPanel(name, data) {
   const stats = data.columns.map((col, ci) => {
     const values    = data.rows.map(r => r[ci]);
     const numValues = values.filter(v => typeof v === 'number');
-    const nullCount = values.filter(v => v === null || v === '' || v === undefined).length;
-    const uniqueCount = new Set(values).size;
-    const min = numValues.length ? Math.min(...numValues) : '—';
-    const max = numValues.length ? Math.max(...numValues) : '—';
-    const type = numValues.length === values.length ? 'Número' : 'Texto';
-    return { col, type, uniqueCount, nullCount, min, max };
+    const nullCount = values.filter(v => v===null||v===''||v===undefined).length;
+    const unique    = new Set(values).size;
+    const min = numValues.length ? Math.min(...numValues) : '-';
+    const max = numValues.length ? Math.max(...numValues) : '-';
+    return { col, type: numValues.length===values.length?'Número':'Texto', unique, nullCount, min, max };
   });
 
-  infoContent.innerHTML = `
-    ${actionsHtml}
+  infoContent.innerHTML = `${actionsHtml}
     <table class="data-table" style="font-size:11px;margin-top:10px;">
       <thead><tr><th>Columna</th><th>Tipo</th><th>Únicos</th><th>Nulos</th><th>Min</th><th>Max</th></tr></thead>
-      <tbody>${stats.map(s =>
-        `<tr><td>${s.col}</td><td>${s.type}</td><td>${s.uniqueCount}</td><td>${s.nullCount}</td><td>${s.min}</td><td>${s.max}</td></tr>`
-      ).join('')}</tbody>
+      <tbody>${stats.map(s=>`<tr><td>${s.col}</td><td>${s.type}</td><td>${s.unique}</td><td>${s.nullCount}</td><td>${s.min}</td><td>${s.max}</td></tr>`).join('')}</tbody>
     </table>`;
 }
 
 function buildActionsHtml(name) {
   const safe = escapeHtml(name).replace(/'/g,"&#39;");
-  return `
-    <div class="dataset-actions">
-      <button class="btn-action" onclick="exportDataset('${safe}')" title="Exportar como CSV">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v8M5 7l3 3 3-3M3 13h10"/></svg>
-        Exportar
-      </button>
-      <button class="btn-action" onclick="duplicateDataset('${safe}')" title="Duplicar">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="8" height="8" rx="1"/><path d="M5 5V4a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1h-1"/></svg>
-        Duplicar
-      </button>
-      <button class="btn-action" onclick="renameDataset('${safe}')" title="Renombrar">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 2l3 3-8 8H3V10L11 2z"/></svg>
-        Renombrar
-      </button>
-      <button class="btn-action btn-danger" onclick="deleteDataset('${safe}')" title="Eliminar">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h10M5 4V3h6v1M4 4v9a1 1 0 001 1h6a1 1 0 001-1V4"/></svg>
-        Eliminar
-      </button>
-    </div>`;
+  return `<div class="dataset-actions">
+    <button class="btn-action" onclick="exportDataset('${safe}')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v8M5 7l3 3 3-3M3 13h10"/></svg>Exportar
+    </button>
+    <button class="btn-action" onclick="duplicateDataset('${safe}')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="8" height="8" rx="1"/><path d="M5 5V4a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1h-1"/></svg>Duplicar
+    </button>
+    <button class="btn-action" onclick="renameDataset('${safe}')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 2l3 3-8 8H3V10L11 2z"/></svg>Renombrar
+    </button>
+    <button class="btn-action btn-danger" onclick="deleteDataset('${safe}')">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h10M5 4V3h6v1M4 4v9a1 1 0 001 1h6a1 1 0 001-1V4"/></svg>Eliminar
+    </button>
+  </div>`;
 }
 
-// ─── ACCIONES DE DATASET (EXPORTACIÓN REAL) ───────────────────────────────────
-
-/**
- * FIX PRINCIPAL: exportDataset ahora genera y descarga un CSV real.
- * Si el dataset tiene datos de preview, exporta esos datos.
- * Si es un archivo recién subido, exporta un CSV de ejemplo/metadatos.
- */
+// ─── ACCIONES DE DATASET ──────────────────────────────────────────────────────
 function exportDataset(name) {
-  const data = DATASETS_PREVIEW[name];
-  let csvContent = '';
-
+  const data = STATE.datasets[name];
+  let csv = '';
   if (data) {
-    // Exportar datos reales del preview
     const header = data.columns.join(',');
-    const rows = data.rows.map(row =>
-      row.map(cell => {
-        const str = String(cell == null ? '' : cell);
-        // Escapar celdas que contengan coma, comilla o salto de línea
-        return (str.includes(',') || str.includes('"') || str.includes('\n'))
-          ? `"${str.replace(/"/g, '""')}"`
-          : str;
-      }).join(',')
-    );
-    csvContent = [header, ...rows].join('\r\n');
+    const rows   = data.rows.map(row => row.map(cell => {
+      const s = String(cell==null?'':cell);
+      return (s.includes(',')||s.includes('"')||s.includes('\n')) ? `"${s.replace(/"/g,'""')}"` : s;
+    }).join(','));
+    csv = [header, ...rows].join('\r\n');
   } else {
-    // Dataset sin datos de preview — exportar fila de metadatos
-    csvContent = 'nombre,estado,tipo\r\n' + `"${name}","Listo","importado"`;
+    csv = `nombre,estado\r\n"${name}","importado"`;
   }
-
-  downloadBlob(csvContent, name.replace(/\.[^.]+$/, '') + '_export.csv', 'text/csv;charset=utf-8;');
-  showToast(`"${name}" exportado como CSV`, 'ok');
+  downloadBlob(csv, name.replace(/\.[^.]+$/,'')+'_export.csv', 'text/csv;charset=utf-8;');
+  showToast(`"${name}" exportado`, 'ok');
 }
 
-/**
- * Exporta todos los datasets con datos de preview a un único CSV
- * con columna "dataset" como identificador.
- */
 function exportAll() {
-  const keys = Object.keys(DATASETS_PREVIEW);
+  const keys = Object.keys(STATE.datasets);
   if (keys.length === 0) { showToast('No hay datasets con datos para exportar', 'warn'); return; }
-
   let lines = [];
   keys.forEach(name => {
-    const d = DATASETS_PREVIEW[name];
-    if (!lines.length) {
-      // Escribir encabezado global (dataset + columnas del primer dataset)
-      lines.push(['dataset', ...d.columns].join(','));
-    }
+    const d = STATE.datasets[name];
+    if (!lines.length) lines.push(['dataset', ...d.columns].join(','));
     d.rows.forEach(row => {
       const cells = [name, ...row].map(cell => {
-        const str = String(cell == null ? '' : cell);
-        return (str.includes(',') || str.includes('"')) ? `"${str.replace(/"/g,'""')}"` : str;
+        const s = String(cell==null?'':cell);
+        return (s.includes(',')||s.includes('"')) ? `"${s.replace(/"/g,'""')}"` : s;
       });
       lines.push(cells.join(','));
     });
   });
-
   downloadBlob(lines.join('\r\n'), 'todos_los_datasets.csv', 'text/csv;charset=utf-8;');
   showToast('Todos los datasets exportados', 'ok');
 }
 
-/**
- * Exportar resultados de análisis como JSON
- */
 function exportAnalysisResults() {
   const results = {
     exportedAt: new Date().toISOString(),
     analyses: [
-      { test:'Regresión múltiple', vars:'ingreso ~ edad + educ + exp', stat:'F = 24.31', pvalue:0.0001, significant:true },
-      { test:'T-test pareado',     vars:'pre_test vs post_test',       stat:'t = -3.84', pvalue:0.0023, significant:true },
-      { test:'Pearson',            vars:'ingreso ~ educación',         stat:'r = 0.67',  pvalue:0.0000, significant:true },
-      { test:'ANOVA una vía',      vars:'satisfacción ~ región',       stat:'F = 1.92',  pvalue:0.1420, significant:false },
-      { test:'Shapiro-Wilk',       vars:'residuos ~ normalidad',       stat:'W = 0.981', pvalue:0.2310, significant:false },
-      { test:'Mann-Whitney U',     vars:'salario ~ género',            stat:'U = 1840',  pvalue:0.0341, significant:true },
+      { test:'Regresión múltiple', vars:'ingreso ~ edad + educ + exp', stat:'F=24.31', pvalue:0.0001, significant:true },
+      { test:'T-test pareado',     vars:'pre_test vs post_test',       stat:'t=-3.84', pvalue:0.0023, significant:true },
+      { test:'Pearson',            vars:'ingreso ~ educación',         stat:'r=0.67',  pvalue:0.0000, significant:true },
+      { test:'ANOVA una vía',      vars:'satisfacción ~ región',       stat:'F=1.92',  pvalue:0.1420, significant:false },
+      { test:'Shapiro-Wilk',       vars:'residuos ~ normalidad',       stat:'W=0.981', pvalue:0.2310, significant:false },
+      { test:'Mann-Whitney U',     vars:'salario ~ género',            stat:'U=1840',  pvalue:0.0341, significant:true },
     ]
   };
-  const json = JSON.stringify(results, null, 2);
-  downloadBlob(json, 'resultados_analisis.json', 'application/json');
+  downloadBlob(JSON.stringify(results,null,2), 'resultados_analisis.json', 'application/json');
   showToast('Resultados exportados como JSON', 'ok');
 }
 
-/** Utilidad para disparar descarga de un Blob en el navegador */
 function downloadBlob(content, filename, mimeType) {
-  const BOM  = mimeType.includes('csv') ? '\uFEFF' : ''; // BOM para CSV en Excel
+  const BOM  = mimeType.includes('csv') ? '\uFEFF' : '';
   const blob = new Blob([BOM + content], { type: mimeType });
   const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href     = url;
-  a.download = filename;
+  const a    = Object.assign(document.createElement('a'), { href:url, download:filename });
   a.style.display = 'none';
   document.body.appendChild(a);
   a.click();
@@ -847,377 +753,684 @@ function duplicateDataset(name) {
   const ext     = name.includes('.') ? name.slice(name.lastIndexOf('.')) : '';
   const base    = name.slice(0, name.lastIndexOf('.'));
   const newName = base + '_copia' + ext;
-  addDatasetToTable(newName, null);
-  // Si tiene datos, duplicar también el preview
-  if (DATASETS_PREVIEW[name]) {
-    DATASETS_PREVIEW[newName] = JSON.parse(JSON.stringify(DATASETS_PREVIEW[name]));
-  }
+  if (STATE.datasets[name]) STATE.datasets[newName] = JSON.parse(JSON.stringify(STATE.datasets[name]));
+  addDatasetToTable(newName, null, STATE.datasets[newName] || null);
   showToast(`"${name}" duplicado como "${newName}"`, 'ok');
 }
 
 function renameDataset(name) {
   const newName = prompt('Nuevo nombre del dataset:', name);
-  if (!newName || newName.trim() === '' || newName === name) return;
+  if (!newName || newName.trim()==='' || newName===name) return;
   const sanitized = newName.trim();
 
-  // Renombrar en la tabla
-  const row = document.querySelector(`#datasetsTableBody tr[data-name="${CSS.escape(name)}"]`);
-  if (row) {
-    row.dataset.name = sanitized;
-    row.cells[1].textContent = sanitized;
-  }
-  // Renombrar en preview
-  if (DATASETS_PREVIEW[name]) {
-    DATASETS_PREVIEW[sanitized] = DATASETS_PREVIEW[name];
-    delete DATASETS_PREVIEW[name];
-  }
-  // Actualizar info panel si estaba activo
+  // FIX #8: buscar por iteración en vez de CSS.escape + querySelector
+  const rows = document.querySelectorAll('#datasetsTableBody tr');
+  rows.forEach(row => {
+    if (row.dataset.name === name) {
+      row.dataset.name = sanitized;
+      row.cells[1].textContent = sanitized;
+    }
+  });
+
+  if (STATE.datasets[name]) { STATE.datasets[sanitized] = STATE.datasets[name]; delete STATE.datasets[name]; }
+
   const infoLabel = document.getElementById('infoPanelLabel');
-  if (infoLabel && infoLabel.textContent.includes(name)) {
-    infoLabel.textContent = `Información: ${sanitized}`;
-  }
+  if (infoLabel?.textContent.includes(name)) infoLabel.textContent = `Información: ${sanitized}`;
   showToast(`Renombrado a "${sanitized}"`, 'ok');
 }
 
 function deleteDataset(name) {
   if (!confirm(`¿Eliminar "${name}"? Esta acción no se puede deshacer.`)) return;
-  const row = document.querySelector(`#datasetsTableBody tr[data-name="${CSS.escape(name)}"]`);
-  if (row) row.remove();
-  delete DATASETS_PREVIEW[name];
-  // Limpiar info panel
+
+  // FIX #8: buscar por iteración
+  document.querySelectorAll('#datasetsTableBody tr').forEach(row => {
+    if (row.dataset.name === name) row.remove();
+  });
+  delete STATE.datasets[name];
+
   const infoLabel   = document.getElementById('infoPanelLabel');
   const infoContent = document.getElementById('infoPanelContent');
-  if (infoLabel && infoLabel.textContent.includes(name)) {
-    infoLabel.textContent = 'Información';
-    infoContent.innerHTML = `<div class="empty-state" style="display:flex;align-items:center;justify-content:center;height:100%;color:#4a4a48;font-size:12px;">
-      Haz click en un dataset para ver información</div>`;
+  if (infoLabel?.textContent.includes(name)) {
+    infoLabel.textContent  = 'Información';
+    infoContent.innerHTML  = '<div class="empty-state">Haz click en un dataset para ver información</div>';
   }
   updateBulkActions();
   showToast(`"${name}" eliminado`, 'err');
 }
 
-// ─── DATA PREVIEW TOOLTIP ─────────────────────────────────────────────────────
-const DATASETS_PREVIEW = {
-  'encuesta_2024.csv': {
-    columns: ['id','edad','educacion','ingreso','region'],
-    rows: [
-      [1,25,'Universitaria',45000,'Norte'],
-      [2,34,'Preparatoria',32000,'Sur'],
-      [3,45,'Universitaria',58000,'Centro'],
-      [4,28,'Secundaria',18000,'Oriente'],
-      [5,52,'Universitaria',72000,'Norte'],
-      [6,31,'Preparatoria',28000,'Sur'],
-      [7,41,'Universitaria',51000,'Centro'],
-      [8,26,'Secundaria',22000,'Oriente'],
-      [9,38,'Preparatoria',35000,'Norte'],
-      [10,29,'Universitaria',47000,'Sur']
-    ]
-  },
-  'panel_hogares.xlsx': {
-    columns: ['hogar_id','integrantes','ingreso_total','gasto','zona'],
-    rows: [
-      [1,4,35000,28000,'Urbana'],
-      [2,2,42000,31000,'Rural'],
-      [3,5,28000,22000,'Urbana'],
-      [4,3,55000,42000,'Urbana'],
-      [5,6,18000,15000,'Rural'],
-      [6,2,65000,48000,'Urbana'],
-      [7,4,31000,25000,'Urbana'],
-      [8,3,44000,36000,'Rural']
-    ]
-  },
-  'precios_hist.csv': {
-    columns: ['producto','precio','mes','año'],
-    rows: [
-      ['Leche',24.50,'Ene',2024],
-      ['Pan',18.00,'Ene',2024],
-      ['Huevos',45.00,'Ene',2024],
-      ['Leche',25.00,'Feb',2024],
-      ['Pan',18.50,'Feb',2024],
-      ['Huevos',46.00,'Feb',2024],
-      ['Leche',25.50,'Mar',2024],
-      ['Pan',19.00,'Mar',2024]
-    ]
+// ─── CARGAR EN TRABAJO ────────────────────────────────────────────────────────
+function loadToWork() {
+  const selectedRow = document.querySelector('#datasetsTableBody tr.active');
+  if (!selectedRow) { showToast('Selecciona un dataset haciendo click en la tabla', 'warn'); return; }
+
+  const name = selectedRow.dataset.name;
+  const data = STATE.datasets[name];
+  if (!data) { showToast('Este dataset no tiene datos de preview. Sube un CSV o JSON.', 'warn'); return; }
+
+  STATE.workDataset = { name, ...data };
+
+  document.getElementById('workDatasetName').textContent = name;
+  document.getElementById('gridLabel').textContent =
+    `${name}  ·  ${data.rows.length} filas × ${data.columns.length} columnas`;
+
+  renderExcelGrid(data);
+  renderWorkStatsPanel();
+  navigateTo('page-trabajo');
+  showToast(`"${name}" cargado en Trabajo`, 'ok');
+}
+
+// ─── RENDER GRID EXCEL ────────────────────────────────────────────────────────
+function renderExcelGrid(data) {
+  const thead  = document.getElementById('excelGridHead');
+  const tbody  = document.getElementById('excelGridBody');
+  const footer = document.getElementById('excelGridFooter');
+  if (!thead || !tbody) return;
+
+  thead.innerHTML = `<tr><th>#</th>${data.columns.map(c=>`<th>${escapeHtml(String(c))}</th>`).join('')}</tr>`;
+
+  const MAX_ROWS = 200;
+  const shown    = Math.min(data.rows.length, MAX_ROWS);
+  let html = '';
+  for (let r = 0; r < shown; r++) {
+    const cells = data.rows[r].map(cell => `<td contenteditable="true">${escapeHtml(String(cell??''))}</td>`).join('');
+    html += `<tr><td>${r+1}</td>${cells}</tr>`;
   }
-};
+  tbody.innerHTML = html;
 
-function initDataPreview() {
-  const tooltip = document.getElementById('dataPreviewTooltip');
-  if (!tooltip) return;
-  const titleEl = document.getElementById('previewTitle');
-  const tableEl = document.getElementById('previewTable');
-  const tableRows = document.querySelectorAll('#datasetsTableBody tr');
+  // FIX #11: pie con conteo
+  if (footer) {
+    footer.textContent = data.rows.length > MAX_ROWS
+      ? `Mostrando ${MAX_ROWS.toLocaleString('es')} de ${data.rows.length.toLocaleString('es')} filas`
+      : `${shown.toLocaleString('es')} filas · ${data.columns.length} columnas`;
+  }
+}
 
-  tableRows.forEach(row => {
-    row.addEventListener('mouseenter', e => {
-      const name = row.dataset.name;
-      const data = DATASETS_PREVIEW[name];
-      if (!data) return;
+// ─── RENDER PANEL DE ESTADÍSTICOS ────────────────────────────────────────────
+function renderWorkStatsPanel() {
+  const results = document.getElementById('statsResults');
+  if (!results) return;
 
-      const numCols = data.columns.length;
-      const minColWidth = 70;
-      const maxColWidth = 130;
-      const calculatedWidth = Math.min(Math.max(numCols * minColWidth, 250), window.innerWidth * 0.7);
-      
-      titleEl.textContent = `Vista previa: ${name} (${data.rows.length} filas × ${data.columns.length} cols)`;
-      tableEl.innerHTML = `
-        <thead><tr>${data.columns.map(c=>`<th style="min-width:${minColWidth}px;max-width:${maxColWidth}px">${escapeHtml(c)}</th>`).join('')}</tr></thead>
-        <tbody>${data.rows.slice(0,8).map(r =>
-          `<tr>${r.map(cell=>`<td>${escapeHtml(String(cell??''))}</td>`).join('')}</tr>`
-        ).join('')}</tbody>`;
+  const allStats = Object.entries(STATE.selectedStats).filter(([,items]) => items?.length);
 
-      tooltip.style.width = calculatedWidth + 'px';
-      
-      let leftPos = e.clientX + 20;
-      if (leftPos + calculatedWidth > window.innerWidth - 20) {
-        leftPos = e.clientX - calculatedWidth - 20;
-        if (leftPos < 20) leftPos = 20;
-      }
-      
-      tooltip.style.left = leftPos + 'px';
-      tooltip.style.top = Math.min(e.clientY + 20, window.innerHeight - tooltip.offsetHeight - 20) + 'px';
-      tooltip.classList.add('visible');
+  if (!allStats.length) {
+    results.innerHTML = `<div style="color:#4a4a48;font-size:11px;text-align:center;padding:20px 8px;line-height:1.6;">
+      Selecciona análisis desde el<br>menú lateral y haz clic en<br>
+      <b style="color:#6b6b65;">Aplicar selección</b></div>`;
+    return;
+  }
+
+  const total = allStats.reduce((acc,[,items]) => acc + items.length, 0);
+  let html = `<div style="display:flex;justify-content:space-between;align-items:center;
+    padding:6px 2px;margin-bottom:6px;">
+    <span style="font-size:10px;font-weight:600;color:#6b6b65;text-transform:uppercase;letter-spacing:.06em;">Análisis</span>
+    <span style="font-size:10px;background:rgba(166,10,237,0.2);color:#c060f0;padding:2px 7px;border-radius:10px;font-weight:600;">${total}</span>
+  </div>`;
+
+  allStats.forEach(([category, items]) => {
+    const color = MENUS[category]?.color || '#6b6b65';
+    const title = MENUS[category]?.title || category;
+    html += `<div style="margin-bottom:10px;">
+      <div style="display:flex;align-items:center;gap:6px;padding:5px 6px 5px 8px;border-radius:6px;
+        background:${color}14;border:0.5px solid ${color}30;margin-bottom:4px;">
+        <div style="width:6px;height:6px;border-radius:50%;background:${color};flex-shrink:0;"></div>
+        <span style="font-size:11px;font-weight:600;color:${color};flex:1;">${title}</span>
+        <span style="font-size:10px;background:${color}22;color:${color};padding:1px 6px;border-radius:8px;font-weight:600;">${items.length}</span>
+      </div>
+      <div style="padding-left:6px;">`;
+
+    items.forEach((statName, idx) => {
+      const badge = MENUS[category]?.sections?.flatMap(s=>s.items).find(i=>i.label===statName)?.tag || '';
+      html += `<div style="display:flex;align-items:center;justify-content:space-between;
+        padding:5px 8px;border-radius:5px;margin-bottom:3px;cursor:pointer;
+        border:0.5px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.02);
+        transition:background .15s;"
+        onmouseenter="this.style.background='rgba(255,255,255,0.06)'"
+        onmouseleave="this.style.background='rgba(255,255,255,0.02)'">
+        <div style="display:flex;align-items:center;gap:7px;">
+          <span style="font-size:10px;color:#4a4a48;font-weight:500;min-width:14px;text-align:right;">${idx+1}.</span>
+          <span style="font-size:12px;color:#c4c4be;">${escapeHtml(statName)}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:5px;">
+          <span style="font-size:10px;font-weight:500;color:${color};background:${color}18;
+            padding:1px 5px;border-radius:6px;font-family:monospace;">${badge}</span>
+          <button onclick="removeStatItem('${category}','${escapeHtml(statName)}')"
+            style="width:16px;height:16px;border-radius:3px;border:none;background:transparent;
+            color:#4a4a48;cursor:pointer;font-size:11px;display:flex;align-items:center;
+            justify-content:center;padding:0;transition:color .15s,background .15s;"
+            onmouseenter="this.style.color='#e74c3c';this.style.background='rgba(231,76,60,0.12)'"
+            onmouseleave="this.style.color='#4a4a48';this.style.background='transparent'"
+            title="Quitar">×</button>
+        </div>
+      </div>`;
     });
 
-    row.addEventListener('mouseleave', () => tooltip.classList.remove('visible'));
-    row.addEventListener('mousemove', e => {
-      if (!tooltip.classList.contains('visible')) return;
-      let leftPos = e.clientX + 20;
-      if (leftPos + tooltip.offsetWidth > window.innerWidth - 20) {
-        leftPos = e.clientX - tooltip.offsetWidth - 20;
-        if (leftPos < 20) leftPos = 20;
-      }
-      tooltip.style.left = leftPos + 'px';
-      tooltip.style.top = Math.min(e.clientY + 20, window.innerHeight - tooltip.offsetHeight - 20) + 'px';
+    html += `</div></div>`;
+  });
+
+  html += `<div style="margin-top:8px;padding-top:8px;border-top:0.5px solid rgba(255,255,255,0.06);">
+    <button onclick="clearAllStats()"
+      style="width:100%;padding:7px;border-radius:6px;border:0.5px solid rgba(231,76,60,0.2);
+      background:rgba(231,76,60,0.06);color:#e74c3c;font-size:11px;cursor:pointer;
+      font-family:inherit;transition:background .15s;"
+      onmouseenter="this.style.background='rgba(231,76,60,0.14)'"
+      onmouseleave="this.style.background='rgba(231,76,60,0.06)'">
+      Limpiar todo
+    </button></div>`;
+
+  results.innerHTML = html;
+}
+
+function removeStatItem(category, statName) {
+  if (!STATE.selectedStats[category]) return;
+  STATE.selectedStats[category] = STATE.selectedStats[category].filter(s => s !== statName);
+  if (STATE.selectedStats[category].length === 0) delete STATE.selectedStats[category];
+  if (checked[category]) checked[category][statName] = false;
+  updateAllCounters();
+  renderWorkStatsPanel();
+  showToast(`"${statName}" quitado`, 'info');
+}
+
+// FIX #4: clearAllStats ahora actualiza contadores y re-renderiza
+function clearAllStats() {
+  STATE.selectedStats = {};
+  Object.keys(checked).forEach(k => {
+    Object.keys(checked[k] || {}).forEach(l => { checked[k][l] = false; });
+  });
+  updateAllCounters();
+  renderWorkStatsPanel();
+  showToast('Lista limpiada', 'info');
+}
+
+// ─── TOOL MENUS (TRABAJO) ─────────────────────────────────────────────────────
+const TOOL_MENUS = {
+  limpia:    { title:'Limpieza',    color:'#e74c3c', items:[{label:'Eliminar valores nulos',tag:'NUL'},{label:'Eliminar outliers',tag:'OUT'},{label:'Eliminar duplicados',tag:'DUP'},{label:'Convertir tipos',tag:'TIP'}] },
+  transform: { title:'Transformar', color:'#9b59b6', items:[{label:'Estandarizar (Z-score)',tag:'Z'},{label:'Normalizar (Min-Max)',tag:'MN'},{label:'Logaritmo',tag:'LOG'},{label:'Discretizar',tag:'DISC'}] },
+  engineer:  { title:'Ingeniera',   color:'#3498db', items:[{label:'One-hot encoding',tag:'1H'},{label:'Label encoding',tag:'LB'},{label:'Crear variable',tag:'NEW'},{label:'Crear ratio',tag:'RAT'}] },
+  analysis:  { title:'Análisis',    color:'#2ecc71', items:[{label:'Matriz correlación',tag:'COR'},{label:'Histograma',tag:'HIS'},{label:'Boxplot',tag:'BOX'},{label:'Resumen estadístico',tag:'RES'}] },
+  model:     { title:'Modelo',      color:'#f39c12', items:[{label:'Train/Test split',tag:'TT'},{label:'Balancear datos',tag:'BAL'},{label:'Selección features',tag:'SEL'},{label:'Validación cruzada',tag:'VC'}] }
+};
+
+const toolChecked = {};
+
+// FIX error 1 — modo del menú flotante para evitar doble handler
+// 'sidebar' = menus estadísticos del sidebar
+// 'tool'    = herramientas de la toolbar de Trabajo
+let fmMode    = 'sidebar';
+let fmToolKey = null;      // key activa cuando fmMode === 'tool'
+
+// ─── HANDLER ÚNICO PARA fmApply ───────────────────────────────────────────────
+// Se registra UNA SOLA VEZ. Delega según fmMode en lugar de usar .onclick
+document.getElementById('fmApply').addEventListener('click', () => {
+  if (fmMode === 'tool') {
+    handleToolApply();
+  } else {
+    handleSidebarApply();
+  }
+});
+
+// ─── HANDLER ÚNICO PARA fmSelectAll ──────────────────────────────────────────
+document.getElementById('fmSelectAll').addEventListener('click', () => {
+  if (fmMode === 'tool') {
+    handleToolSelectAll();
+  } else {
+    handleSidebarSelectAll();
+  }
+});
+
+function handleSidebarApply() {
+  const count = checked[activeKey] ? Object.values(checked[activeKey]).filter(Boolean).length : 0;
+  if (count === 0) { showToast('Selecciona al menos un elemento', 'warn'); return; }
+  const selectedItems = Object.entries(checked[activeKey]).filter(([,v])=>v).map(([k])=>k);
+
+  if (!STATE.selectedStats[activeKey]) STATE.selectedStats[activeKey] = [];
+  selectedItems.forEach(item => {
+    if (!STATE.selectedStats[activeKey].includes(item)) STATE.selectedStats[activeKey].push(item);
+  });
+
+  showToast(`${count} análisis de ${MENUS[activeKey].title} agregados`, 'ok');
+  closeMenu();
+
+  if (STATE.workDataset) {
+    renderWorkStatsPanel();
+    navigateTo('page-trabajo');
+  } else {
+    showToast('Carga un dataset en Trabajo para ver resultados', 'info');
+  }
+}
+
+function handleSidebarSelectAll() {
+  if (!activeKey || !MENUS[activeKey]) return;
+  const allItems  = MENUS[activeKey].sections.flatMap(s => s.items.map(i => i.label));
+  const selectAll = !allChecked(activeKey);
+  if (!checked[activeKey]) checked[activeKey] = {};
+  allItems.forEach(l => { checked[activeKey][l] = selectAll; });
+  fmBody.querySelectorAll('.fm-item').forEach(el => el.classList.toggle('checked', selectAll));
+  updateSelectAllBtn(activeKey);
+  updateAllCounters();
+  saveUIState();
+}
+
+function handleToolApply() {
+  if (!fmToolKey) return;
+  const selected = Object.entries(toolChecked[fmToolKey] || {}).filter(([,v])=>v).map(([k])=>k);
+  if (selected.length === 0) { showToast('Selecciona al menos una opción', 'warn'); return; }
+
+  const log = [];
+  selected.forEach(op => {
+    const result = applyOperation(fmToolKey, op);
+    log.push(result);
+  });
+
+  closeFm();
+
+  // Re-renderizar grid con datos actualizados
+  if (['limpia','transform'].includes(fmToolKey)) {
+    renderExcelGrid(STATE.workDataset);
+    updateGridFooter();
+  }
+
+  // Mostrar resultados
+  log.forEach(r => showToast(r.msg, r.ok ? 'ok' : 'warn'));
+
+  // Si hay resultados de análisis, mostrarlos en el panel derecho
+  const analysisResults = log.filter(r => r.panel);
+  if (analysisResults.length) renderToolResultsPanel(analysisResults);
+}
+
+// ─── DESPACHADOR DE OPERACIONES ───────────────────────────────────────────────
+function applyOperation(category, op) {
+  const ds = STATE.workDataset;
+  if (!ds) return { ok: false, msg: 'Sin dataset activo' };
+
+  // ── LIMPIEZA ────────────────────────────────────────────────────────────────
+  if (category === 'limpia') {
+    if (op === 'Eliminar valores nulos') {
+      const before = ds.rows.length;
+      ds.rows = ds.rows.filter(row =>
+        row.every(cell => cell !== null && cell !== '' && cell !== undefined)
+      );
+      const removed = before - ds.rows.length;
+      return { ok: true, msg: `Nulos: ${removed} fila${removed!==1?'s':''} eliminada${removed!==1?'s':''}` };
+    }
+
+    if (op === 'Eliminar duplicados') {
+      const before = ds.rows.length;
+      const seen = new Set();
+      ds.rows = ds.rows.filter(row => {
+        const key = JSON.stringify(row);
+        if (seen.has(key)) return false;
+        seen.add(key); return true;
+      });
+      const removed = before - ds.rows.length;
+      return { ok: true, msg: `Duplicados: ${removed} fila${removed!==1?'s':''} eliminada${removed!==1?'s':''}` };
+    }
+
+    if (op === 'Convertir tipos') {
+      let converted = 0;
+      ds.rows.forEach(row => {
+        row.forEach((cell, ci) => {
+          if (typeof cell === 'string' && cell.trim() !== '') {
+            const n = Number(cell.replace(',', '.'));
+            if (!isNaN(n)) { row[ci] = n; converted++; }
+          }
+        });
+      });
+      return { ok: true, msg: `Tipos: ${converted} celda${converted!==1?'s':''} convertida${converted!==1?'s':''} a número` };
+    }
+  }
+
+  // ── TRANSFORMAR ─────────────────────────────────────────────────────────────
+  if (category === 'transform') {
+    if (op === 'Estandarizar (Z-score)') {
+      let transformed = 0, colsAffected = 0;
+      ds.columns.forEach((_, ci) => {
+        const vals = ds.rows.map(r => r[ci]).filter(v => typeof v === 'number');
+        if (!vals.length) return;
+        const mean = vals.reduce((a,b) => a+b, 0) / vals.length;
+        const std  = Math.sqrt(vals.reduce((acc,v) => acc + Math.pow(v-mean,2), 0) / vals.length);
+        if (std === 0) return;
+        colsAffected++;
+        ds.rows.forEach(row => {
+          if (typeof row[ci] === 'number') {
+            row[ci] = +((row[ci] - mean) / std).toFixed(6);
+            transformed++;
+          }
+        });
+      });
+      return { ok: true, msg: `Z-score: ${transformed} valores en ${colsAffected} columna${colsAffected!==1?'s':''}` };
+    }
+
+    if (op === 'Normalizar (Min-Max)') {
+      let transformed = 0, colsAffected = 0;
+      ds.columns.forEach((_, ci) => {
+        const vals = ds.rows.map(r => r[ci]).filter(v => typeof v === 'number');
+        if (!vals.length) return;
+        const min = Math.min(...vals), max = Math.max(...vals);
+        if (max === min) return;
+        colsAffected++;
+        ds.rows.forEach(row => {
+          if (typeof row[ci] === 'number') {
+            row[ci] = +((row[ci] - min) / (max - min)).toFixed(6);
+            transformed++;
+          }
+        });
+      });
+      return { ok: true, msg: `Min-Max: ${transformed} valores en ${colsAffected} columna${colsAffected!==1?'s':''}` };
+    }
+
+    if (op === 'Logaritmo') {
+      let transformed = 0, skipped = 0;
+      ds.rows.forEach(row => {
+        row.forEach((cell, ci) => {
+          if (typeof cell === 'number') {
+            if (cell > 0) { row[ci] = +Math.log(cell).toFixed(6); transformed++; }
+            else skipped++;
+          }
+        });
+      });
+      const note = skipped > 0 ? ` (${skipped} valor${skipped!==1?'es':''} ≤0 omitido${skipped!==1?'s':''})` : '';
+      return { ok: true, msg: `Log natural: ${transformed} valores${note}` };
+    }
+
+    if (op === 'Discretizar') {
+      let transformed = 0;
+      ds.columns.forEach((col, ci) => {
+        const vals = ds.rows.map(r => r[ci]).filter(v => typeof v === 'number');
+        if (!vals.length) return;
+        const min = Math.min(...vals), max = Math.max(...vals);
+        const step = (max - min) / 4;
+        if (step === 0) return;
+        const bins = ['Muy bajo','Bajo','Medio','Alto','Muy alto'];
+        ds.rows.forEach(row => {
+          if (typeof row[ci] === 'number') {
+            const idx = Math.min(Math.floor((row[ci] - min) / step), 4);
+            row[ci] = bins[idx];
+            transformed++;
+          }
+        });
+      });
+      return { ok: true, msg: `Discretizar: ${transformed} valores → 5 categorías` };
+    }
+  }
+
+  // ── ANÁLISIS ─────────────────────────────────────────────────────────────────
+  if (category === 'analysis') {
+    if (op === 'Resumen estadístico') {
+      const summary = ds.columns.map((col, ci) => {
+        const vals    = ds.rows.map(r => r[ci]).filter(v => typeof v === 'number');
+        const nulls   = ds.rows.filter(r => r[ci]===null||r[ci]===''||r[ci]===undefined).length;
+        if (!vals.length) return { col, type:'texto', count:ds.rows.length, nulls, unique: new Set(ds.rows.map(r=>r[ci])).size };
+        const sorted  = [...vals].sort((a,b) => a-b);
+        const mean    = vals.reduce((a,b)=>a+b,0) / vals.length;
+        const std     = Math.sqrt(vals.reduce((acc,v)=>acc+Math.pow(v-mean,2),0)/vals.length);
+        const mid     = Math.floor(sorted.length/2);
+        const median  = sorted.length%2 ? sorted[mid] : (sorted[mid-1]+sorted[mid])/2;
+        const q1      = sorted[Math.floor(sorted.length*0.25)];
+        const q3      = sorted[Math.floor(sorted.length*0.75)];
+        return { col, type:'número', count:vals.length, nulls,
+          mean:mean.toFixed(3), std:std.toFixed(3),
+          min:sorted[0], q1, median:median.toFixed(3), q3, max:sorted[sorted.length-1] };
+      });
+      return { ok:true, msg:'Resumen estadístico calculado', panel:{ type:'summary', data:summary } };
+    }
+
+    if (op === 'Histograma') {
+      const numCols = ds.columns.map((col,ci) => {
+        const vals = ds.rows.map(r=>r[ci]).filter(v=>typeof v==='number');
+        return { col, ci, vals };
+      }).filter(c => c.vals.length > 0);
+
+      if (!numCols.length) return { ok:false, msg:'No hay columnas numéricas para histograma' };
+
+      // Tomar la primera columna numérica
+      const { col, vals } = numCols[0];
+      const min  = Math.min(...vals), max = Math.max(...vals);
+      const bins = 8;
+      const step = (max - min) / bins || 1;
+      const freq = Array(bins).fill(0);
+      vals.forEach(v => {
+        const idx = Math.min(Math.floor((v - min) / step), bins - 1);
+        freq[idx]++;
+      });
+      const labels = freq.map((_,i) => `${(min + i*step).toFixed(1)}–${(min + (i+1)*step).toFixed(1)}`);
+      return { ok:true, msg:`Histograma de "${col}" calculado`, panel:{ type:'histogram', col, labels, freq, total:vals.length } };
+    }
+
+    if (op === 'Boxplot') {
+      const numCols = ds.columns.map((col,ci) => {
+        const vals = [...ds.rows.map(r=>r[ci]).filter(v=>typeof v==='number')].sort((a,b)=>a-b);
+        if (!vals.length) return null;
+        const q1  = vals[Math.floor(vals.length*0.25)];
+        const med = vals[Math.floor(vals.length*0.5)];
+        const q3  = vals[Math.floor(vals.length*0.75)];
+        const iqr = q3 - q1;
+        const lo  = q1 - 1.5*iqr, hi = q3 + 1.5*iqr;
+        const out = vals.filter(v => v<lo || v>hi).length;
+        return { col, min:vals[0], q1, med, q3, max:vals[vals.length-1], out };
+      }).filter(Boolean);
+      if (!numCols.length) return { ok:false, msg:'No hay columnas numéricas para boxplot' };
+      return { ok:true, msg:`Boxplot calculado para ${numCols.length} columna${numCols.length!==1?'s':''}`,
+               panel:{ type:'boxplot', data:numCols } };
+    }
+  }
+
+  return { ok:false, msg:`"${op}" aún no implementado` };
+}
+
+// ─── ACTUALIZAR PIE DEL GRID ──────────────────────────────────────────────────
+function updateGridFooter() {
+  const footer = document.getElementById('excelGridFooter');
+  const ds = STATE.workDataset;
+  if (!footer || !ds) return;
+  const MAX_ROWS = 200;
+  footer.textContent = ds.rows.length > MAX_ROWS
+    ? `Mostrando ${MAX_ROWS.toLocaleString('es')} de ${ds.rows.length.toLocaleString('es')} filas`
+    : `${ds.rows.length.toLocaleString('es')} filas · ${ds.columns.length} columnas`;
+}
+
+// ─── RENDER PANEL DE RESULTADOS DE TOOLS ─────────────────────────────────────
+function renderToolResultsPanel(results) {
+  const container = document.getElementById('statsResults');
+  if (!container) return;
+
+  let html = `<div style="display:flex;justify-content:space-between;align-items:center;
+    padding:6px 2px 8px;border-bottom:0.5px solid rgba(255,255,255,0.06);margin-bottom:8px;">
+    <span style="font-size:10px;font-weight:600;color:#6b6b65;text-transform:uppercase;letter-spacing:.06em;">Resultados</span>
+    <button onclick="renderWorkStatsPanel()" style="font-size:10px;color:#6b6b65;background:none;border:none;cursor:pointer;padding:2px 6px;border-radius:4px;"
+      onmouseenter="this.style.color='#d4d4d0'" onmouseleave="this.style.color='#6b6b65'">← Cola</button>
+  </div>`;
+
+  results.forEach(r => {
+    const p = r.panel;
+
+    // ── RESUMEN ESTADÍSTICO ──────────────────────────────────────────────────
+    if (p.type === 'summary') {
+      html += `<div style="overflow-x:auto;font-size:10px;">
+        <table style="width:100%;border-collapse:collapse;">
+          <thead><tr>
+            <th style="color:#6b6b65;font-weight:500;padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.08);text-align:left;white-space:nowrap;">Col</th>
+            <th style="color:#6b6b65;font-weight:500;padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.08);text-align:right;">N</th>
+            <th style="color:#6b6b65;font-weight:500;padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.08);text-align:right;">Media</th>
+            <th style="color:#6b6b65;font-weight:500;padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.08);text-align:right;">σ</th>
+            <th style="color:#6b6b65;font-weight:500;padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.08);text-align:right;">Min</th>
+            <th style="color:#6b6b65;font-weight:500;padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.08);text-align:right;">Med</th>
+            <th style="color:#6b6b65;font-weight:500;padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.08);text-align:right;">Max</th>
+            <th style="color:#6b6b65;font-weight:500;padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.08);text-align:right;">Nulos</th>
+          </tr></thead>
+          <tbody>${p.data.map(s => s.type === 'número' ? `
+            <tr>
+              <td style="color:#9e9e98;padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.04);white-space:nowrap;max-width:70px;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(s.col)}</td>
+              <td style="color:#9e9e98;padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.04);text-align:right;">${s.count}</td>
+              <td style="color:#c060f0;padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.04);text-align:right;">${s.mean}</td>
+              <td style="color:#4a90d9;padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.04);text-align:right;">${s.std}</td>
+              <td style="color:#9e9e98;padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.04);text-align:right;">${s.min}</td>
+              <td style="color:#9e9e98;padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.04);text-align:right;">${s.median}</td>
+              <td style="color:#9e9e98;padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.04);text-align:right;">${s.max}</td>
+              <td style="color:${s.nulls>0?'#e8682a':'#4a4a48'};padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.04);text-align:right;">${s.nulls}</td>
+            </tr>` : `
+            <tr>
+              <td style="color:#9e9e98;padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.04);white-space:nowrap;">${escapeHtml(s.col)}</td>
+              <td style="color:#9e9e98;padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.04);text-align:right;">${s.count}</td>
+              <td colspan="5" style="color:#4a4a48;padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.04);text-align:center;font-style:italic;">texto · ${s.unique} únicos</td>
+              <td style="color:${s.nulls>0?'#e8682a':'#4a4a48'};padding:4px 6px;border-bottom:0.5px solid rgba(255,255,255,0.04);text-align:right;">${s.nulls}</td>
+            </tr>`
+          ).join('')}</tbody>
+        </table>
+      </div>`;
+    }
+
+    // ── HISTOGRAMA ──────────────────────────────────────────────────────────
+    if (p.type === 'histogram') {
+      const maxFreq = Math.max(...p.freq);
+      html += `<div style="margin-bottom:10px;">
+        <div style="font-size:10px;color:#6b6b65;margin-bottom:6px;">Histograma: <b style="color:#9e9e98">${escapeHtml(p.col)}</b> (n=${p.total})</div>
+        <div style="display:flex;align-items:flex-end;gap:3px;height:60px;">
+          ${p.freq.map((f,i) => `
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:default;"
+              title="${p.labels[i]}: ${f}">
+              <div style="width:100%;background:#a60aed;border-radius:2px 2px 0 0;
+                height:${maxFreq ? Math.round((f/maxFreq)*52) : 0}px;
+                min-height:${f>0?2:0}px;transition:opacity .15s;opacity:.8;"
+                onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=.8">
+              </div>
+            </div>`).join('')}
+        </div>
+        <div style="display:flex;gap:3px;margin-top:2px;">
+          ${p.freq.map((f,i) => `
+            <div style="flex:1;font-size:8px;color:#4a4a48;text-align:center;overflow:hidden;white-space:nowrap;"
+              title="${p.labels[i]}">${f}</div>`).join('')}
+        </div>
+      </div>`;
+    }
+
+    // ── BOXPLOT ─────────────────────────────────────────────────────────────
+    if (p.type === 'boxplot') {
+      html += `<div style="margin-bottom:6px;">
+        <div style="font-size:10px;color:#6b6b65;margin-bottom:6px;">Boxplot por columna</div>
+        ${p.data.map(b => {
+          const range = b.max - b.min || 1;
+          const pct = v => ((v - b.min) / range * 100).toFixed(1);
+          return `<div style="margin-bottom:8px;">
+            <div style="font-size:10px;color:#9e9e98;margin-bottom:3px;">${escapeHtml(b.col)}
+              ${b.out>0?`<span style="color:#e8682a;margin-left:4px;">⚠ ${b.out} outlier${b.out!==1?'s':''}</span>`:''}
+            </div>
+            <div style="position:relative;height:16px;background:rgba(255,255,255,0.04);border-radius:3px;overflow:visible;">
+              <!-- whisker izq -->
+              <div style="position:absolute;left:${pct(b.min)}%;top:50%;width:${pct(b.q1)-pct(b.min)}%;height:1px;background:rgba(255,255,255,0.2);transform:translateY(-50%);"></div>
+              <!-- caja IQR -->
+              <div style="position:absolute;left:${pct(b.q1)}%;width:${pct(b.q3)-pct(b.q1)}%;top:20%;height:60%;background:rgba(166,10,237,0.35);border:0.5px solid #a60aed;border-radius:2px;"></div>
+              <!-- mediana -->
+              <div style="position:absolute;left:${pct(b.med)}%;top:10%;width:2px;height:80%;background:#fff;border-radius:1px;" title="Mediana: ${b.med}"></div>
+              <!-- whisker der -->
+              <div style="position:absolute;left:${pct(b.q3)}%;top:50%;width:${pct(b.max)-pct(b.q3)}%;height:1px;background:rgba(255,255,255,0.2);transform:translateY(-50%);"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:8px;color:#4a4a48;margin-top:2px;">
+              <span>${b.min}</span><span>Q1:${b.q1}</span><span style="color:#9e9e98">Md:${b.med}</span><span>Q3:${b.q3}</span><span>${b.max}</span>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`;
+    }
+  });
+
+  container.innerHTML = html;
+}
+
+function handleToolSelectAll() {
+  if (!fmToolKey) return;
+  const data   = TOOL_MENUS[fmToolKey];
+  const allSel = data.items.every(i => toolChecked[fmToolKey]?.[i.label]);
+  data.items.forEach(i => {
+    if (!toolChecked[fmToolKey]) toolChecked[fmToolKey] = {};
+    toolChecked[fmToolKey][i.label] = !allSel;
+  });
+  const btn = document.getElementById('fmSelectAll');
+  btn.textContent = allSel ? 'Seleccionar todo' : 'Deseleccionar todo';
+  renderToolItems(fmToolKey);
+}
+
+// Cierra el menú flotante sin tocar activeKey del sidebar
+function closeFm() {
+  fm.classList.remove('open');
+  fmMode    = 'sidebar';
+  fmToolKey = null;
+}
+
+function openToolMenu(key) {
+  if (!STATE.workDataset) { showToast('Carga un dataset primero desde Datos', 'warn'); return; }
+  const data = TOOL_MENUS[key];
+  if (!data) return;
+
+  // FIX error 3 — toggle: si ya está abierto el mismo tool, cerrar
+  if (fmMode === 'tool' && fmToolKey === key && fm.classList.contains('open')) {
+    closeFm(); return;
+  }
+
+  fmMode    = 'tool';
+  fmToolKey = key;
+  // Cerrar cualquier sidebar tab activo visualmente
+  document.querySelectorAll('.sb-tab').forEach(t => t.classList.remove('active'));
+  activeKey = null;
+
+  fm.style.setProperty('--menu-color', data.color);
+  fmTitle.textContent = data.title;
+  fmTitle.style.color = data.color;
+
+  const applyBtn = document.getElementById('fmApply');
+  applyBtn.style.background  = data.color;
+  applyBtn.style.borderColor = data.color + '80';
+
+  const selectAllBtn = document.getElementById('fmSelectAll');
+  selectAllBtn.textContent = 'Seleccionar todo';
+  selectAllBtn.classList.remove('all-selected');
+
+  // FIX error 6 — posicionamiento por data-tool en lugar de búsqueda por texto
+  const toolBtn = document.querySelector(`.tool-btn[data-tool="${key}"]`);
+  if (toolBtn) {
+    const rect = toolBtn.getBoundingClientRect();
+    const menuH = 280; // altura aproximada
+    let top  = rect.bottom + 6;
+    let left = rect.left;
+    // Evitar que salga de pantalla por abajo
+    if (top + menuH > window.innerHeight) top = rect.top - menuH - 6;
+    // Evitar que salga por la derecha
+    if (left + 220 > window.innerWidth) left = window.innerWidth - 228;
+    fm.style.top  = top + 'px';
+    fm.style.left = left + 'px';
+  }
+
+  renderToolItems(key);
+  fm.classList.add('open');
+}
+
+function renderToolItems(key) {
+  const data = TOOL_MENUS[key];
+  fmBody.innerHTML = data.items.map(item => {
+    const on = toolChecked[key]?.[item.label] || false;
+    return `<div class="fm-item${on?' checked':''}" data-key="${key}" data-label="${item.label}">
+      <div class="fm-cb"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2"/></svg></div>
+      <span style="font-size:13px;flex:1">${item.label}</span>
+      <span class="fm-item-badge" style="color:${data.color};background:${data.color}18">${item.tag}</span>
+    </div>`;
+  }).join('');
+
+  fmBody.querySelectorAll('.fm-item').forEach(el => {
+    el.addEventListener('click', () => {
+      const k = el.dataset.key, l = el.dataset.label;
+      if (!toolChecked[k]) toolChecked[k] = {};
+      toolChecked[k][l] = !toolChecked[k][l];
+      el.classList.toggle('checked', toolChecked[k][l]);
     });
   });
 }
 
 // ─── UTILIDADES ───────────────────────────────────────────────────────────────
 function escapeHtml(str) {
-  return String(str)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;');
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 function formatFileSize(bytes) {
-  if (bytes === 0) return '0 B';
-  const k = 1024;
-  const sizes = ['B','KB','MB','GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
-}
-
-// ─── TRABAJO: CARGAR DATASET EN GRID EXCEL ───────────────────────────────────
-let CURRENT_WORK_DATASET = null;
-let SELECTED_STATS = {};
-
-function loadToWork() {
-  const selectedRow = document.querySelector('#datasetsTableBody tr.active');
-  if (!selectedRow) {
-    alert('Selecciona un dataset en Datos primero');
-    return;
-  }
-  
-  const datasetName = selectedRow.dataset.name;
-  const data = DATASETS_PREVIEW[datasetName];
-  
-  if (!data) {
-    alert('Este dataset no tiene datos cargados. Carga uno nuevo o selecciona otro.');
-    return;
-  }
-
-  console.log('Cargando dataset:', datasetName, data);
-  
-  CURRENT_WORK_DATASET = { name: datasetName, ...data };
-  
-  document.getElementById('workDatasetName').textContent = datasetName;
-  document.getElementById('gridLabel').textContent = `${datasetName} (${data.rows.length} × ${data.columns.length})`;
-  
-  renderExcelGrid(data);
-  calculateWorkStats(data);
-  renderWorkStatsPanel();
-  
-  console.log('Navegando a page-trabajo');
-  navigateTo('page-trabajo');
-}
-
-function renderExcelGrid(data) {
-  const thead = document.getElementById('excelGridHead');
-  const tbody = document.getElementById('excelGridBody');
-  
-  const colLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-  const headerRow = ['#', ...data.columns.map((c, i) => c || `Col ${colLetters[i] || i}`)];
-  
-  thead.innerHTML = `<tr>${headerRow.map((h, i) => `<th>${escapeHtml(String(h))}</th>`).join('')}</tr>`;
-  
-  const maxRows = Math.min(data.rows.length, 100);
-  let bodyHtml = '';
-  for (let r = 0; r < maxRows; r++) {
-    const rowData = data.rows[r];
-    const cells = rowData.map(cell => escapeHtml(String(cell ?? '')));
-    const rowCells = [r + 1, ...cells];
-    bodyHtml += `<tr>${rowCells.map((cell, c) => `<td contenteditable="true">${cell}</td>`).join('')}</tr>`;
-  }
-  
-  tbody.innerHTML = bodyHtml;
-}
-
-function calculateWorkStats(data) {
-  const numericCols = [];
-  let nullCount = 0;
-  
-  for (let c = 0; c < data.columns.length; c++) {
-    const colValues = data.rows.map(r => r[c]).filter(v => v !== null && v !== '' && !isNaN(Number(v)));
-    if (colValues.length > data.rows.length * 0.5) {
-      numericCols.push(colValues.map(Number));
-    }
-  }
-  
-  nullCount = data.rows.reduce((acc, row) => acc + row.filter(v => v === null || v === '').length, 0);
-  
-  document.getElementById('statRows').textContent = data.rows.length;
-  document.getElementById('statCols').textContent = data.columns.length;
-  document.getElementById('statNulls').textContent = nullCount;
-  
-  if (numericCols.length > 0) {
-    const combined = numericCols.flat();
-    const sum = combined.reduce((a, b) => a + b, 0);
-    const mean = sum / combined.length;
-    const variance = combined.reduce((acc, v) => acc + Math.pow(v - mean, 2), 0) / combined.length;
-    const std = Math.sqrt(variance);
-    const min = Math.min(...combined);
-    const max = Math.max(...combined);
-    
-    document.getElementById('statMean').textContent = mean.toFixed(2);
-    document.getElementById('statStd').textContent = std.toFixed(2);
-    document.getElementById('statMin').textContent = min.toFixed(2);
-    document.getElementById('statMax').textContent = max.toFixed(2);
-  }
-}
-
-function renderWorkStatsPanel() {
-  const panel = document.getElementById('workStatsPanel');
-  const results = document.getElementById('statsResults');
-  
-  const allStats = Object.entries(SELECTED_STATS);
-  
-  if (allStats.length === 0 || !CURRENT_WORK_DATASET) {
-    panel.style.display = 'none';
-    return;
-  }
-  
-  panel.style.display = 'flex';
-  
-  let html = '';
-  
-  allStats.forEach(([category, items]) => {
-    if (!items || items.length === 0) return;
-    
-    const color = MENUS[category]?.color || '#6b6b65';
-    
-    html += `<div class="stat-category" style="margin-top:12px;border-top:0.5px solid rgba(255,255,255,0.08);padding-top:8px;">
-      <div class="stat-category-title" style="font-size:10px;font-weight:600;color:${color};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">
-        ${MENUS[category]?.title || category}
-      </div>`;
-    
-    items.forEach(statName => {
-      html += `<div class="stat-result-item">
-        <span class="stat-result-label">${statName}</span>
-      </div>`;
-    });
-    
-    html += '</div>';
-  });
-  
-  results.innerHTML = html;
-}
-
-function calculateStat(statName, data) {
-  if (!data) return '—';
-  
-  const numericCols = [];
-  for (let c = 0; c < data.columns.length; c++) {
-    const colValues = data.rows.map(r => r[c]).filter(v => v !== null && v !== '' && !isNaN(Number(v)));
-    if (colValues.length > data.rows.length * 0.3) {
-      numericCols.push(colValues.map(Number));
-    }
-  }
-  
-  if (numericCols.length === 0) return '—';
-  
-  const combined = numericCols.flat();
-  
-  const name = statName.toLowerCase();
-  
-  if (name === 'media' || name === 'mean') {
-    const sum = combined.reduce((a, b) => a + b, 0);
-    return (sum / combined.length).toFixed(2);
-  }
-  if (name === 'mediana' || name === 'mediana') {
-    const sorted = [...combined].sort((a, b) => a - b);
-    const mid = Math.floor(sorted.length / 2);
-    return sorted.length % 2 ? sorted[mid] : ((sorted[mid - 1] + sorted[mid]) / 2).toFixed(2);
-  }
-  if (name === 'moda' || name === 'moda') {
-    const freq = {};
-    combined.forEach(v => freq[v] = (freq[v] || 0) + 1);
-    const max = Math.max(...Object.values(freq));
-    const modes = Object.keys(freq).filter(k => freq[k] === max);
-    return modes.slice(0, 3).join(', ');
-  }
-  if (name === 'desviación estándar' || name === 'desviacion estandar' || name === 'desv') {
-    const mean = combined.reduce((a, b) => a + b, 0) / combined.length;
-    const variance = combined.reduce((acc, v) => acc + Math.pow(v - mean, 2), 0) / combined.length;
-    return Math.sqrt(variance).toFixed(2);
-  }
-  if (name === 'varianza' || name === 'varianza') {
-    const mean = combined.reduce((a, b) => a + b, 0) / combined.length;
-    const variance = combined.reduce((acc, v) => acc + Math.pow(v - mean, 2), 0) / combined.length;
-    return variance.toFixed(2);
-  }
-  if (name === 'mínimo' || name === 'min') return Math.min(...combined).toFixed(2);
-  if (name === 'máximo' || name === 'max') return Math.max(...combined).toFixed(2);
-  if (name === 'rango' || name === 'rango') {
-    return (Math.max(...combined) - Math.min(...combined)).toFixed(2);
-  }
-  if (name === 'q1' || name === '25%') {
-    const sorted = [...combined].sort((a, b) => a - b);
-    const pos = Math.floor(sorted.length * 0.25);
-    return sorted[pos]?.toFixed(2) || '—';
-  }
-  if (name === 'q3' || name === '75%') {
-    const sorted = [...combined].sort((a, b) => a - b);
-    const pos = Math.floor(sorted.length * 0.75);
-    return sorted[pos]?.toFixed(2) || '—';
-  }
-  if (name === 'iqr' || name === 'rango intercuartil') {
-    const sorted = [...combined].sort((a, b) => a - b);
-    const q1 = sorted[Math.floor(sorted.length * 0.25)];
-    const q3 = sorted[Math.floor(sorted.length * 0.75)];
-    return (q3 - q1).toFixed(2);
-  }
-  if (name === 'asimetría' || name === 'skew') {
-    const mean = combined.reduce((a, b) => a + b, 0) / combined.length;
-    const std = Math.sqrt(combined.reduce((acc, v) => acc + Math.pow(v - mean, 2), 0) / combined.length);
-    const n = combined.length;
-    const skew = combined.reduce((acc, v) => acc + Math.pow((v - mean) / std, 3), 0) / n;
-    return skew.toFixed(3);
-  }
-  if (name === 'curtosis' || name === 'kurt') {
-    const mean = combined.reduce((a, b) => a + b, 0) / combined.length;
-    const std = Math.sqrt(combined.reduce((acc, v) => acc + Math.pow(v - mean, 2), 0) / combined.length);
-    const n = combined.length;
-    const kurt = combined.reduce((acc, v) => acc + Math.pow((v - mean) / std, 4), 0) / n - 3;
-    return kurt.toFixed(3);
-  }
-  if (name === 'coef. de variación' || name === 'cv') {
-    const mean = combined.reduce((a, b) => a + b, 0) / combined.length;
-    const std = Math.sqrt(combined.reduce((acc, v) => acc + Math.pow(v - mean, 2), 0) / combined.length);
-    return ((std / mean) * 100).toFixed(2) + '%';
-  }
-  
-  return '—';
+  if (!bytes) return '0 B';
+  const i = Math.floor(Math.log(bytes) / Math.log(1024));
+  return (bytes / Math.pow(1024,i)).toFixed(1) + ' ' + ['B','KB','MB','GB'][i];
 }
