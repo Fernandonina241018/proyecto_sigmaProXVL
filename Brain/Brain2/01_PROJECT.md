@@ -148,7 +148,7 @@ Renderiza resultado + metadatos
 
 | Feature | Estado | Implementación |
 |---------|--------|---------------|
-| Tema claro/oscuro | ✅ | CSS variables + toggle en navbar |
+| Tema claro/oscuro | ✅ | CSS variables + toggle + script anti-FOUC |
 | Keyboard shortcuts | ✅ | Ctrl+Shift+D/A/T/R/S, Ctrl+Z/Y, Escape, ? |
 | Undo/Redo | ✅ | StateManager con historial (50 entries) |
 | Tutorial in-app | ✅ | Modal step-by-step, 6 pasos, localStorage |

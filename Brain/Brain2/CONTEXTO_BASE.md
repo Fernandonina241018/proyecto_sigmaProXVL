@@ -114,7 +114,7 @@ getDataForModal().headers
 
 | Feature | Atajo | Implementación |
 |---------|------|---------------|
-| Tema claro/oscuro | `Ctrl+Shift+D` | `toggleTheme()` en script.js |
+| Tema claro/oscuro | `Ctrl+Shift+D` | CSS variables (~40) + toggle + script anti-FOUC |
 | Keyboard shortcuts | `?` | `mostrarAyudaKeyboard()` |
 | Undo/Redo | `Ctrl+Z/Y` | `StateManager.undo()/redo()` |
 | Tutorial in-app | (auto) | Modal 6 pasos en primer login |
@@ -162,4 +162,4 @@ getDataForModal().headers
 
 ---
 
-*Documento generado automáticamente. Actualizado: 24 Abril 2026*
+*Documento generado automáticamente. Actualizado: 23 Abril 2026*

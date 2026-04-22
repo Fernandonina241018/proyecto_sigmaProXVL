@@ -73,28 +73,86 @@
 }
 
 /* ========================================
-   DARK MODE - VARIABLES
+   DARK MODE - VARIABLES EXTENDIDAS
    ======================================== */
 [data-theme="dark"] {
+    /* Fondos */
     --bg-card: #1e293b;
     --bg-panel: #0f172a;
     --bg-hover: #334155;
     --bg-input: #1e293b;
+    --bg-body: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    --bg-overlay: rgba(0, 0, 0, 0.7);
+    --bg-tooltip: #1e293b;
+    --bg-toast: #1e293b;
+    --bg-modal: #1e293b;
+    --bg-dropdown: #1e293b;
+    --bg-table-header: #334155;
+    --bg-table-stripe: #0f172a;
+    --bg-sidebar: #0f172a;
+    --bg-nav: rgba(15, 23, 42, 0.95);
     
+    /* Bordes */
     --border-color: #334155;
     --border-color-light: #475569;
+    --border-focus: #667eea;
     
+    /* Texto */
     --text-primary: #f1f5f9;
     --text-secondary: #cbd5e1;
     --text-muted: #64748b;
+    --text-link: #94a3b8;
+    --text-placeholder: #475569;
     
+    /* Color primario adaptado a dark */
+    --color-primary: #818cf8;
+    --color-primary-dark: #4f46e5;
+    --color-primary-light: #a5b4fc;
+    
+    /* Color secondary adaptado */
+    --color-secondary: #60a5fa;
+    
+    /* Estados */
+    --color-success: #34d399;
+    --color-success-bg: #064e3b;
+    --color-warning: #fbbf24;
+    --color-warning-bg: #78350f;
+    --color-danger: #f87171;
+    --color-danger-bg: #7f1d1d;
+    --color-info: #38bdf8;
+    --color-info-bg: #0c4a6e;
+    
+    /* Sombras */
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+    
+    /* Input fields en dark */
+    --input-bg: #1e293b;
+    --input-border: #475569;
+    --input-text: #f1f5f9;
+    --input-placeholder: #64748b;
+    
+    /* Scrollbar */
+    --scrollbar-bg: #1e293b;
+    --scrollbar-thumb: #475569;
 }
 
 [data-theme="dark"] body {
-    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    background: var(--bg-body);
+}
+
+/* Scrollbar custom para dark */
+[data-theme="dark"] ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--scrollbar-bg);
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 4px;
 }
 
 /* ========================================

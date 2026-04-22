@@ -5,11 +5,19 @@ agent: general
 
 # 📋 Contexto del Proyecto StatAnalyzer Pro
 
-Antes de optimizar, lee estos archivos para entender el contexto del proyecto:
+ANTES DE OPTIMIZAR, haz esto:
 
-- **Arquitectura:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/01_PROJECT.md`
-- **Workflow:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/03_WORKFLOW.md`
-- **Contexto base:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/CONTEXTO_BASE.md`
+1. Lee los archivos de contexto:
+   - **Sesión base:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/SESION_BASE.md` (más conciso)
+   - **Workflow:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/03_WORKFLOW.md`
+   - **Contexto base:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/CONTEXTO_BASE.md`
+
+2. **AL FINALIZAR, actualiza el Brain2** con cualquier cambio relevante:
+   - Si implements nuevos features → actualizar `CONTEXTO_BASE.md` y `SESION_BASE.md`
+   - Si resuelves bugs → agregar a `05_BUGS_AND_DECISIONS.md`
+   - Si cambias código → actualizar `04_CODE_GUIDELINES.md` si corresponde
+   -Si agregas nuevas features → actualizar `01_PROJECT.md` section de features
+   - Actualizar fechas de "Actualizado" en todos los archivos modificados
 
 ---
 

@@ -77,6 +77,18 @@ getDataForModal().headers              // Columnas
 
 ---
 
+## ✨ Features de UX
+
+| Feature | Atajo |
+|---------|-------|
+| Tema claro/oscuro | `Ctrl+Shift+D` |
+| Asistente análisis | `Ctrl+Shift+A` |
+| Undo/Redo | `Ctrl+Z` / `Ctrl+Y` |
+| Ayuda atajos | `?` |
+| Ir a Trabajo/Reportes/Estad | `Ctrl+Shift+T/R/S` |
+
+---
+
 ## 📖 Documentación (Brain2)
 
 | Archivo | Para qué |
@@ -90,4 +102,4 @@ getDataForModal().headers              // Columnas
 
 ---
 
-*Actualizado: 24 Abril 2026*
+*Actualizado: 23 Abril 2026*

@@ -138,7 +138,17 @@
 ### DEC-006 — Tutorial in-app
 **Fecha:** 23 Abril 2026  
 **Decisión:** Mostrar tutorial de 6 pasos al primer inicio.  
-**Implementación:** Modal step-by-step con localStorage para no repetir.  
+**Implementación:** Modal step-by-step con localStorage para no repetir.
+
+---
+
+### DEC-007 — Dark mode mejorado
+**Fecha:** 23 Abril 2026  
+**Decisión:** Expandir variables dark y prevenir FOUC.  
+**Implementación:** 
+- Script inline en `<head>` antes de CSS
+- ~40 variables CSS dark (antes ~8)
+- Scrollbars custom, inputs, tooltips, modals adaptados  
 
 ---
 

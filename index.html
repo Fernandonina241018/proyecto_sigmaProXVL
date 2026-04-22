@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="StatAnalyzer Pro - Herramienta profesional de análisis estadístico">
     <title>Análisis Estadístico - StatAnalyzer Pro</title>
+    
+    <!-- ANTI-FOUC: Aplicar tema antes de cargar CSS -->
+    <script>
+        (function() {
+            var t = localStorage.getItem('theme');
+            if (!t && window.matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';
+            if (t) document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
+    
     <link rel="icon" href="data:,">
     <link rel="stylesheet" href="visualizacion.css">
     <link rel="stylesheet" href="auth.css">
