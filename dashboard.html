@@ -35,11 +35,15 @@
 <div class="shell">
 
   <div class="top-row">
-    <button class="icon-btn">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+    <!-- FIX: botón hamburger ahora tiene title descriptivo y el JS le asigna el listener -->
+    <button class="icon-btn" title="Alternar sidebar" aria-label="Alternar sidebar">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M2 4h12M2 8h12M2 12h12"/>
+      </svg>
     </button>
+
     <div class="navbar" id="nb">
-      <button class="nav-collapse-btn" id="nbBtn">
+      <button class="nav-collapse-btn" id="nbBtn" title="Colapsar barra">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10l4-4 4 4"/></svg>
       </button>
       <div class="nav-tabs">
@@ -59,7 +63,7 @@
   <div class="body-row">
 
     <div class="sidebar" id="sb">
-      <button class="sb-collapse-btn" id="sbBtn">
+      <button class="sb-collapse-btn" id="sbBtn" title="Colapsar sidebar">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 4l-4 4 4 4"/></svg>
       </button>
       <button class="sb-tab" data-key="descriptiva" onclick="setSb(this)">
@@ -109,9 +113,23 @@
       <!-- ══ DATOS ══ -->
       <div class="page active" id="page-datos">
         <div class="page-header">
-          <div><div class="page-title">Datos</div><div class="page-subtitle">Conjuntos de datos cargados</div></div>
-          <div class="badge-blue">3 activos</div>
+          <div>
+            <div class="page-title">Datos</div>
+            <div class="page-subtitle">Conjuntos de datos cargados</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <!-- FIX: botón de exportar todos los datasets -->
+            <button class="btn-action" onclick="exportAll()" title="Exportar todos como CSV"
+              style="font-size:11px;">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M8 2v8M5 7l3 3 3-3M3 13h10"/>
+              </svg>
+              Exportar todo
+            </button>
+            <div class="badge-blue">3 activos</div>
+          </div>
         </div>
+
         <div class="cards">
           <div class="card">
             <div class="card-icon ic-b"><svg viewBox="0 0 16 16"><path d="M3 3h10v10H3zM3 6h10M6 3v10"/></svg></div>
@@ -134,42 +152,98 @@
             <div class="card-delta"><span class="neg">revisar</span> 3 vars</div>
           </div>
         </div>
+
+        <!-- Grid: tabla de datasets + panel de info -->
         <div class="datos-grid" id="datosGrid">
           <div class="panel" id="panelDatasets">
-            <div class="panel-label">Datasets cargados</div>
+            <div class="panel-label" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+              <span>Datasets cargados</span>
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                <div class="sort-buttons">
+                  <button class="sort-btn" onclick="sortDatasets('name')"  title="Ordenar por nombre">A-Z</button>
+                  <button class="sort-btn" onclick="sortDatasets('date')"  title="Ordenar por fecha">Fecha</button>
+                  <button class="sort-btn" onclick="sortDatasets('size')"  title="Ordenar por tamaño">Tamaño</button>
+                </div>
+                <input type="text" class="search-input" id="datasetSearch"
+                  placeholder="Buscar..." oninput="filterDatasets()">
+              </div>
+            </div>
+
+            <div class="filter-bar">
+              <button class="filter-btn active" data-filter="all">Todos</button>
+              <button class="filter-btn" data-filter="listo">Activos</button>
+              <button class="filter-btn" data-filter="limpiando">En limpieza</button>
+              <button class="filter-btn" data-filter="error">Error</button>
+            </div>
+
             <div style="overflow:auto;flex:1;">
               <table class="data-table">
-                <thead><tr><th>Nombre</th><th>Tipo</th><th>Filas</th><th>Vars</th><th>Estado</th></tr></thead>
+                <thead>
+                  <tr>
+                    <th><input type="checkbox" id="selectAll" onchange="toggleSelectAll()"></th>
+                    <th>Nombre</th><th>Tipo</th><th>Filas</th><th>Vars</th><th>Estado</th>
+                  </tr>
+                </thead>
                 <tbody id="datasetsTableBody">
-                  <tr data-name="encuesta_2024.csv"><td>encuesta_2024.csv</td><td><span class="tag tag-type">CSV</span></td><td>8,420</td><td>24</td><td><span class="status-dot" style="background:#2ecc71"></span>Listo</td></tr>
-                  <tr data-name="panel_hogares.xlsx"><td>panel_hogares.xlsx</td><td><span class="tag tag-type">XLSX</span></td><td>4,200</td><td>18</td><td><span class="status-dot" style="background:#2ecc71"></span>Listo</td></tr>
-                  <tr data-name="precios_hist.csv"><td>precios_hist.csv</td><td><span class="tag tag-type">CSV</span></td><td>2,200</td><td>5</td><td><span class="status-dot" style="background:#f39c12"></span>Limpiando</td></tr>
+                  <tr data-name="encuesta_2024.csv">
+                    <td><input type="checkbox" class="dataset-check"></td>
+                    <td>encuesta_2024.csv</td>
+                    <td><span class="tag tag-type">CSV</span></td>
+                    <td>8,420</td><td>24</td>
+                    <td><span class="status-dot" style="background:#2ecc71"></span>Listo</td>
+                  </tr>
+                  <tr data-name="panel_hogares.xlsx">
+                    <td><input type="checkbox" class="dataset-check"></td>
+                    <td>panel_hogares.xlsx</td>
+                    <td><span class="tag tag-type">XLSX</span></td>
+                    <td>4,200</td><td>18</td>
+                    <td><span class="status-dot" style="background:#2ecc71"></span>Listo</td>
+                  </tr>
+                  <tr data-name="precios_hist.csv">
+                    <td><input type="checkbox" class="dataset-check"></td>
+                    <td>precios_hist.csv</td>
+                    <td><span class="tag tag-type">CSV</span></td>
+                    <td>2,200</td><td>5</td>
+                    <td><span class="status-dot" style="background:#f39c12"></span>Limpiando</td>
+                  </tr>
                 </tbody>
               </table>
+              <div class="bulk-actions" id="bulkActions" style="display:none;">
+                <span class="selected-count">0 seleccionados</span>
+                <button class="btn-action btn-danger" onclick="deleteSelected()">Eliminar seleccionados</button>
+              </div>
             </div>
           </div>
+
+          <!-- Panel de información del dataset seleccionado -->
           <div class="panel" id="panelInfo">
             <div class="panel-label" id="infoPanelLabel">Información</div>
             <div style="overflow:auto;flex:1;" id="infoPanelContent">
-              <div class="empty-state" style="display:flex;align-items:center;justify-content:center;height:100%;color:#4a4a48;font-size:12px;">
+              <div class="empty-state">
                 Haz click en un dataset para ver información
               </div>
             </div>
           </div>
         </div>
 
+        <!-- Zona de upload (fuera del grid, abajo) -->
         <div class="panel" id="panelUpload" style="margin-top:10px;">
           <div class="panel-label">Cargar nuevo dataset</div>
-          <div style="display:flex;flex-direction:column;gap:8px;flex:1;">
-            <div class="upload-info" id="uploadInfo" style="flex:1;min-height:60px;">
-              <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#4a4a48;font-size:12px;">
-                Arrastra archivos aquí o haz click para seleccionar
-              </div>
-            </div>
-            <div class="upload-zone">
+          <!-- FIX: input file separado del onclick para evitar doble trigger -->
+          <input type="file" id="fileInput" accept=".csv,.xlsx,.json" style="display:none;">
+          <div class="upload-area" id="uploadArea">
+            <div class="upload-content" onclick="document.getElementById('fileInput').click()">
               <svg viewBox="0 0 16 16"><path d="M8 2v8M5 7l3-3 3 3M3 13h10"/></svg>
-              <div class="upload-label">Arrastra tu archivo aquí</div>
+              <div class="upload-label">Arrastra tu archivo aquí o haz click para seleccionar</div>
               <div class="upload-sub">CSV, XLSX, JSON · máx 50 MB</div>
+            </div>
+            <div class="upload-progress" id="uploadProgress" style="display:none;">
+              <div class="prog-wrap"><div class="prog-bar" id="uploadBar" style="width:0%"></div></div>
+              <div class="upload-status" id="uploadStatus">Cargando...</div>
+            </div>
+            <div class="upload-success" id="uploadSuccess" style="display:none;">
+              <svg viewBox="0 0 16 16"><path d="M3 8l3 3 7-7"/></svg>
+              <div>Archivo cargado correctamente</div>
             </div>
           </div>
         </div>
@@ -226,7 +300,16 @@
       <div class="page" id="page-analisis">
         <div class="page-header">
           <div><div class="page-title">Análisis</div><div class="page-subtitle">Resultados estadísticos</div></div>
-          <div class="badge">15 resultados</div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <!-- FIX: botón exportar resultados de análisis -->
+            <button class="btn-action" onclick="exportAnalysisResults()" title="Exportar como JSON">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M8 2v8M5 7l3 3 3-3M3 13h10"/>
+              </svg>
+              Exportar JSON
+            </button>
+            <div class="badge">15 resultados</div>
+          </div>
         </div>
         <div class="cards-3">
           <div class="card">
@@ -449,9 +532,9 @@
         </div>
       </div>
 
-    </div>
-  </div>
-</div>
+    </div><!-- /pages-container -->
+  </div><!-- /body-row -->
+</div><!-- /shell -->
 
 <script src="dashboard.js"></script>
 </body>
