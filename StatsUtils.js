@@ -51,7 +51,7 @@ const StatsUtils = (function () {
         if (!data || !data.headers || !data.data) return [];
 
         const {
-            threshold = 0.8,
+            threshold = 0.5,
             excludeColumns = ['#', 'A', 'Row', 'row', 'INDEX', 'index', 'row_index']
         } = options;
 

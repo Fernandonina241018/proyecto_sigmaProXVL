@@ -1483,7 +1483,8 @@ tr:hover td{background:#f7faff}
   </div>
   ${(() => {
       const hypothesisTests = HYPOTHESIS_SET;
-      const hypResults = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.has(stat));
+      const multivariadoTests = new Set(['Análisis Factorial', 'PCA (Componentes Principales)', 'PCA']);
+      const hypResults = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.has(stat) || multivariadoTests.has(stat));
       if (hypResults.length === 0) return '';
 
       const hypRows = hypResults.map(([stat, data]) => {
@@ -1593,8 +1594,36 @@ tr:hover td{background:#f7faff}
                   content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
                   const nFact = data.nFactores || 0;
-                  const kmoVal = data.KMO || 0;
-                  content = `<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">${nFact} factores</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">KMO=${kmoVal.toFixed(3)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${kmoVal >= 0.6 ? 'background:#c6f6d5;color:#276749' : 'background:#fed7d7;color:#c53030'}">${kmoVal >= 0.6 ? '✓ Aceptable' : '⚠ Bajo'}</span></td></tr>`;
+                  const kmoVal = data.kmo || 0;
+                  const cols = data.columnas || [];
+                  const loadings = data.loadings || [];
+                  const comun = data.communality || [];
+                  const nVars = cols.length;
+                  
+                  let loadingsTable = '';
+                  if (loadings.length > 0 && cols.length > 0) {
+                      loadingsTable = `<table style="width:100%;border-collapse:collapse;font-size:7pt;margin-top:8px">
+                          <tr style="background:#e8f5e9;">
+                              <th style="padding:4px;text-align:left;">Variable</th>
+                              ${loadings.map((_, i) => `<th style="padding:4px;text-align:right;">F${i+1}</th>`).join('')}
+                              <th style="padding:4px;text-align:right;">h²</th>
+                          </tr>
+                          ${cols.map((col, j) => {
+                              const cargas = loadings.map(f => f[j]);
+                              const com = comun[j];
+                              return `<tr style="border-bottom:1px solid #eee;">
+                                  <td style="padding:3px;">${col}</td>
+                                  ${cargas.map(c => `<td style="padding:3px;text-align:right;">${c?.toFixed(3) || '—'}</td>`).join('')}
+                                  <td style="padding:3px;text-align:right;font-weight:bold;">${com?.toFixed(3) || '—'}</td>
+                              </tr>`;
+                          }).join('')}
+                      </table>`;
+                  }
+                  
+                  content = `<tr><td colspan="4" style="padding:8px;">
+                      <div style="font-weight:600;color:#2c5282;margin-bottom:4px;">${nFact} factores | KMO=${kmoVal.toFixed(3)} | ${nVars} variables</div>
+                      ${loadingsTable}
+                  </td></tr>`;
               }
           } else if (stat === 'PCA (Componentes Principales)') {
               if (data.error) {
@@ -1603,7 +1632,31 @@ tr:hover td{background:#f7faff}
                   const nComp = data.nComponentes || 0;
                   const cumVar = data.cumulativeVariance || [];
                   const totalVar = cumVar.length > 0 ? cumVar[cumVar.length - 1].toFixed(1) : 0;
-                  content = `<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">${nComp} PC</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">Var=${totalVar}%</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;background:#c6f6d5;color:#276749">✓ Completado</span></td></tr>`;
+                  const cols = data.columnas || [];
+                  const loadings = data.loadings || [];
+                  const nVars = cols.length;
+                  
+                  let loadingsTable = '';
+                  if (loadings.length > 0 && cols.length > 0) {
+                      loadingsTable = `<table style="width:100%;border-collapse:collapse;font-size:7pt;margin-top:8px">
+                          <tr style="background:#e3f2fd;">
+                              <th style="padding:4px;text-align:left;">Variable</th>
+                              ${loadings.map((_, i) => `<th style="padding:4px;text-align:right;">PC${i+1}</th>`).join('')}
+                          </tr>
+                          ${cols.map((col, j) => {
+                              const cargas = loadings.map(f => f[j]);
+                              return `<tr style="border-bottom:1px solid #eee;">
+                                  <td style="padding:3px;">${col}</td>
+                                  ${cargas.map(c => `<td style="padding:3px;text-align:right;">${c?.toFixed(3) || '—'}</td>`).join('')}
+                              </tr>`;
+                          }).join('')}
+                      </table>`;
+                  }
+                  
+                  content = `<tr><td colspan="4" style="padding:8px;">
+                      <div style="font-weight:600;color:#2c5282;margin-bottom:4px;">${nComp} componentes | Var=${totalVar}% | ${nVars} variables</div>
+                      ${loadingsTable}
+                  </td></tr>`;
               }
           } else if (stat === 'Kruskal-Wallis') {
               if (data.error) {

@@ -1,8 +1,8 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
-**Fecha de Análisis:** 17 de Abril 2026  
-**Última Actualización:** 17 de Abril 2026 (Evaluación de Cambios del Agente + Red Neuronal Mejorada)  
-**Versión del Proyecto:** 2.4  
+**Fecha de Análisis:** 24 de Abril 2026  
+**Última Actualización:** 24 de Abril 2026 (PCA + Análisis Factorial implementados)  
+**Versión del Proyecto:** 2.5  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
 **Estado General:** MVP Funcional (~90% Completo)
 
@@ -20,7 +20,7 @@
 8. [Referencias de Archivos](#referencias-de-archivos)
 ## 🔧 RESUMEN DE IMPLEMENTACIÓN DE ESTADÍSTICOS
 
-### 📊 ESTADÍSTICOS IMPLEMENTADOS (36+ de 50)
+### 📊 ESTADÍSTICOS IMPLEMENTADOS (38 de 50)
 
 | # | Categoría | Estadístico | Estado |
 |---|-----------|-------------|--------|
@@ -73,8 +73,8 @@
 
 | # | Categoría | Estadístico |
 |---|-----------|-------------|
-| 42 | Multivariado | ACP (Análisis de Componentes Principales) |
-| 43 | Multivariado | Análisis Factorial |
+| 42 | Multivariado | ACP (Análisis de Componentes Principales) | ✅ |
+| 43 | Multivariado | Análisis Factorial | ✅ |
 | 44 | Multivariado | K-Medias (Clustering) |
 | 45 | Multivariado | LDA (Análisis Discriminante) |
 | 46 | Multivariado | MANOVA |
@@ -88,6 +88,8 @@
 | # | Categoría | Estadístico | Fecha |
 |---|-----------|-------------|--------|
 | 1 | Extras | Bootstrap | 13 Abr 2026 |
+| 2 | Multivariado | ACP (PCA) | 24 Abr 2026 |
+| 3 | Multivariado | Análisis Factorial | 24 Abr 2026 |
 
 ---
 
@@ -2184,6 +2186,13 @@ Este es un **proyecto MVP bien construido** con potencial de convertirse en una 
 **Recomendación:** Enfocarse primero en Fase 1-2 (correcciones críticas y rendimiento) antes de agregar nuevas características.
 
 **Nota de actualización (6 Abril 2026):** Se realizó auditoría completa del código vs documentación. Se descubrió que el proyecto está significativamente más avanzado de lo documentado: 30 estadísticos implementados (no 25), incluyendo correlación, regresión, métricas de error y tests no-paramétricos que figuraban como "en roadmap".
+
+**Nota de actualización (24 Abril 2026):** Se implementaron los análisis multivariados PCA (Análisis de Componentes Principales) y Análisis Factorial. Se agregó:
+- Modal de configuración para seleccionar múltiples columnas
+- Soporte para selección múltiple secuencial (cuando se seleccionan varios estadísticos)
+- Implementación del método de Jacobi para cálculo de eigenvalores (más estable numéricamente)
+- Plantillas HTML para mostrar loadings, communalities, KMO, varianza explicada
+- Soporte para reportes HTML y TXT
 
 ---
 

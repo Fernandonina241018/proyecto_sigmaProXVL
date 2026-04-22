@@ -101,7 +101,8 @@ const HYPOTHESIS_TESTS = [
     'RMSE', 'MAE', 'R² (Coef. Determinación)',
     'Mann-Whitney U', 'Kruskal-Wallis',
     'Wilcoxon', 'Friedman', 'Test de Signos',
-    'Bootstrap'
+    'Bootstrap',
+    'Análisis Factorial', 'PCA (Componentes Principales)'
 ];
 // Set para búsquedas O(1) — usado internamente por includes()
 const HYPOTHESIS_SET = new Set(HYPOTHESIS_TESTS);
