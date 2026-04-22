@@ -224,8 +224,21 @@ document.getElementById('fmApply').addEventListener('click', () => {
   if (count === 0) { showToast('Selecciona al menos un elemento', 'warn'); return; }
   const selectedItems = Object.entries(checked[activeKey]).filter(([_,v])=>v).map(([k])=>k);
   console.log(`Aplicando ${count} items de ${MENUS[activeKey].title}:`, selectedItems);
+  
+  selectedItems.forEach(item => {
+    if (!SELECTED_STATS[activeKey]) SELECTED_STATS[activeKey] = [];
+    if (!SELECTED_STATS[activeKey].includes(item)) {
+      SELECTED_STATS[activeKey].push(item);
+    }
+  });
+  
   showToast(`Aplicando ${count} análisis de ${MENUS[activeKey].title}`, 'ok');
   closeMenu();
+  
+  if (CURRENT_WORK_DATASET) {
+    renderWorkStatsPanel();
+    navigateTo('page-trabajo');
+  }
 });
 
 document.getElementById('fmSelectAll').addEventListener('click', () => {
@@ -326,10 +339,12 @@ if (hamburgerBtn) {
 // ─── MULTIPAGE ────────────────────────────────────────────────────────────────
 function navigateTo(targetId) {
   const target = document.getElementById(targetId);
+  console.log('navigateTo:', targetId, 'target found:', !!target);
   if (!target) return;
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   target.classList.add('active');
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.toggle('active', t.dataset.target === targetId));
+  console.log('Page active class added:', target.classList.contains('active'));
   saveUIState();
 }
 function setNav(el) { navigateTo(el.dataset.target); }
@@ -993,4 +1008,216 @@ function formatFileSize(bytes) {
   const sizes = ['B','KB','MB','GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+}
+
+// ─── TRABAJO: CARGAR DATASET EN GRID EXCEL ───────────────────────────────────
+let CURRENT_WORK_DATASET = null;
+let SELECTED_STATS = {};
+
+function loadToWork() {
+  const selectedRow = document.querySelector('#datasetsTableBody tr.active');
+  if (!selectedRow) {
+    alert('Selecciona un dataset en Datos primero');
+    return;
+  }
+  
+  const datasetName = selectedRow.dataset.name;
+  const data = DATASETS_PREVIEW[datasetName];
+  
+  if (!data) {
+    alert('Este dataset no tiene datos cargados. Carga uno nuevo o selecciona otro.');
+    return;
+  }
+
+  console.log('Cargando dataset:', datasetName, data);
+  
+  CURRENT_WORK_DATASET = { name: datasetName, ...data };
+  
+  document.getElementById('workDatasetName').textContent = datasetName;
+  document.getElementById('gridLabel').textContent = `${datasetName} (${data.rows.length} × ${data.columns.length})`;
+  
+  renderExcelGrid(data);
+  calculateWorkStats(data);
+  renderWorkStatsPanel();
+  
+  console.log('Navegando a page-trabajo');
+  navigateTo('page-trabajo');
+}
+
+function renderExcelGrid(data) {
+  const thead = document.getElementById('excelGridHead');
+  const tbody = document.getElementById('excelGridBody');
+  
+  const colLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const headerRow = ['#', ...data.columns.map((c, i) => c || `Col ${colLetters[i] || i}`)];
+  
+  thead.innerHTML = `<tr>${headerRow.map((h, i) => `<th>${escapeHtml(String(h))}</th>`).join('')}</tr>`;
+  
+  const maxRows = Math.min(data.rows.length, 100);
+  let bodyHtml = '';
+  for (let r = 0; r < maxRows; r++) {
+    const rowData = data.rows[r];
+    const cells = rowData.map(cell => escapeHtml(String(cell ?? '')));
+    const rowCells = [r + 1, ...cells];
+    bodyHtml += `<tr>${rowCells.map((cell, c) => `<td contenteditable="true">${cell}</td>`).join('')}</tr>`;
+  }
+  
+  tbody.innerHTML = bodyHtml;
+}
+
+function calculateWorkStats(data) {
+  const numericCols = [];
+  let nullCount = 0;
+  
+  for (let c = 0; c < data.columns.length; c++) {
+    const colValues = data.rows.map(r => r[c]).filter(v => v !== null && v !== '' && !isNaN(Number(v)));
+    if (colValues.length > data.rows.length * 0.5) {
+      numericCols.push(colValues.map(Number));
+    }
+  }
+  
+  nullCount = data.rows.reduce((acc, row) => acc + row.filter(v => v === null || v === '').length, 0);
+  
+  document.getElementById('statRows').textContent = data.rows.length;
+  document.getElementById('statCols').textContent = data.columns.length;
+  document.getElementById('statNulls').textContent = nullCount;
+  
+  if (numericCols.length > 0) {
+    const combined = numericCols.flat();
+    const sum = combined.reduce((a, b) => a + b, 0);
+    const mean = sum / combined.length;
+    const variance = combined.reduce((acc, v) => acc + Math.pow(v - mean, 2), 0) / combined.length;
+    const std = Math.sqrt(variance);
+    const min = Math.min(...combined);
+    const max = Math.max(...combined);
+    
+    document.getElementById('statMean').textContent = mean.toFixed(2);
+    document.getElementById('statStd').textContent = std.toFixed(2);
+    document.getElementById('statMin').textContent = min.toFixed(2);
+    document.getElementById('statMax').textContent = max.toFixed(2);
+  }
+}
+
+function renderWorkStatsPanel() {
+  const panel = document.getElementById('workStatsPanel');
+  const results = document.getElementById('statsResults');
+  
+  const allStats = Object.entries(SELECTED_STATS);
+  
+  if (allStats.length === 0 || !CURRENT_WORK_DATASET) {
+    panel.style.display = 'none';
+    return;
+  }
+  
+  panel.style.display = 'flex';
+  
+  let html = '';
+  
+  allStats.forEach(([category, items]) => {
+    if (!items || items.length === 0) return;
+    
+    const color = MENUS[category]?.color || '#6b6b65';
+    
+    html += `<div class="stat-category" style="margin-top:12px;border-top:0.5px solid rgba(255,255,255,0.08);padding-top:8px;">
+      <div class="stat-category-title" style="font-size:10px;font-weight:600;color:${color};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">
+        ${MENUS[category]?.title || category}
+      </div>`;
+    
+    items.forEach(statName => {
+      html += `<div class="stat-result-item">
+        <span class="stat-result-label">${statName}</span>
+      </div>`;
+    });
+    
+    html += '</div>';
+  });
+  
+  results.innerHTML = html;
+}
+
+function calculateStat(statName, data) {
+  if (!data) return '—';
+  
+  const numericCols = [];
+  for (let c = 0; c < data.columns.length; c++) {
+    const colValues = data.rows.map(r => r[c]).filter(v => v !== null && v !== '' && !isNaN(Number(v)));
+    if (colValues.length > data.rows.length * 0.3) {
+      numericCols.push(colValues.map(Number));
+    }
+  }
+  
+  if (numericCols.length === 0) return '—';
+  
+  const combined = numericCols.flat();
+  
+  const name = statName.toLowerCase();
+  
+  if (name === 'media' || name === 'mean') {
+    const sum = combined.reduce((a, b) => a + b, 0);
+    return (sum / combined.length).toFixed(2);
+  }
+  if (name === 'mediana' || name === 'mediana') {
+    const sorted = [...combined].sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    return sorted.length % 2 ? sorted[mid] : ((sorted[mid - 1] + sorted[mid]) / 2).toFixed(2);
+  }
+  if (name === 'moda' || name === 'moda') {
+    const freq = {};
+    combined.forEach(v => freq[v] = (freq[v] || 0) + 1);
+    const max = Math.max(...Object.values(freq));
+    const modes = Object.keys(freq).filter(k => freq[k] === max);
+    return modes.slice(0, 3).join(', ');
+  }
+  if (name === 'desviación estándar' || name === 'desviacion estandar' || name === 'desv') {
+    const mean = combined.reduce((a, b) => a + b, 0) / combined.length;
+    const variance = combined.reduce((acc, v) => acc + Math.pow(v - mean, 2), 0) / combined.length;
+    return Math.sqrt(variance).toFixed(2);
+  }
+  if (name === 'varianza' || name === 'varianza') {
+    const mean = combined.reduce((a, b) => a + b, 0) / combined.length;
+    const variance = combined.reduce((acc, v) => acc + Math.pow(v - mean, 2), 0) / combined.length;
+    return variance.toFixed(2);
+  }
+  if (name === 'mínimo' || name === 'min') return Math.min(...combined).toFixed(2);
+  if (name === 'máximo' || name === 'max') return Math.max(...combined).toFixed(2);
+  if (name === 'rango' || name === 'rango') {
+    return (Math.max(...combined) - Math.min(...combined)).toFixed(2);
+  }
+  if (name === 'q1' || name === '25%') {
+    const sorted = [...combined].sort((a, b) => a - b);
+    const pos = Math.floor(sorted.length * 0.25);
+    return sorted[pos]?.toFixed(2) || '—';
+  }
+  if (name === 'q3' || name === '75%') {
+    const sorted = [...combined].sort((a, b) => a - b);
+    const pos = Math.floor(sorted.length * 0.75);
+    return sorted[pos]?.toFixed(2) || '—';
+  }
+  if (name === 'iqr' || name === 'rango intercuartil') {
+    const sorted = [...combined].sort((a, b) => a - b);
+    const q1 = sorted[Math.floor(sorted.length * 0.25)];
+    const q3 = sorted[Math.floor(sorted.length * 0.75)];
+    return (q3 - q1).toFixed(2);
+  }
+  if (name === 'asimetría' || name === 'skew') {
+    const mean = combined.reduce((a, b) => a + b, 0) / combined.length;
+    const std = Math.sqrt(combined.reduce((acc, v) => acc + Math.pow(v - mean, 2), 0) / combined.length);
+    const n = combined.length;
+    const skew = combined.reduce((acc, v) => acc + Math.pow((v - mean) / std, 3), 0) / n;
+    return skew.toFixed(3);
+  }
+  if (name === 'curtosis' || name === 'kurt') {
+    const mean = combined.reduce((a, b) => a + b, 0) / combined.length;
+    const std = Math.sqrt(combined.reduce((acc, v) => acc + Math.pow(v - mean, 2), 0) / combined.length);
+    const n = combined.length;
+    const kurt = combined.reduce((acc, v) => acc + Math.pow((v - mean) / std, 4), 0) / n - 3;
+    return kurt.toFixed(3);
+  }
+  if (name === 'coef. de variación' || name === 'cv') {
+    const mean = combined.reduce((a, b) => a + b, 0) / combined.length;
+    const std = Math.sqrt(combined.reduce((acc, v) => acc + Math.pow(v - mean, 2), 0) / combined.length);
+    return ((std / mean) * 100).toFixed(2) + '%';
+  }
+  
+  return '—';
 }

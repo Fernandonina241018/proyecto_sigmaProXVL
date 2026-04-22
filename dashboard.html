@@ -119,14 +119,15 @@
           </div>
           <div style="display:flex;gap:8px;align-items:center;">
             <!-- FIX: botón de exportar todos los datasets -->
-            <button class="btn-action" onclick="exportAll()" title="Exportar todos como CSV"
-              style="font-size:11px;">
+            <button class="btn-crystal-blue" onclick="exportAll()" title="Exportar todos como CSV">
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
                 <path d="M8 2v8M5 7l3 3 3-3M3 13h10"/>
               </svg>
-              Exportar todo
+              Exportar
             </button>
-            <div class="badge-blue">3 activos</div>
+            <button class="btn-crystal" onclick="loadToWork()" title="Cargar dataset seleccionado a Trabajo">
+              Cargar Datos
+            </button>
           </div>
         </div>
 
@@ -210,7 +211,7 @@
               </table>
               <div class="bulk-actions" id="bulkActions" style="display:none;">
                 <span class="selected-count">0 seleccionados</span>
-                <button class="btn-action btn-danger" onclick="deleteSelected()">Eliminar seleccionados</button>
+                <button class="btn-crystal-red" onclick="deleteSelected()">Eliminar seleccionados</button>
               </div>
             </div>
           </div>
@@ -252,46 +253,26 @@
       <!-- ══ TRABAJO ══ -->
       <div class="page" id="page-trabajo">
         <div class="page-header">
-          <div><div class="page-title">Trabajo</div><div class="page-subtitle">Cola de análisis y ejecuciones</div></div>
-          <div class="badge-orange">2 en cola</div>
+          <div><div class="page-title">Trabajo</div><div class="page-subtitle">Hoja de cálculo</div></div>
+          <div class="badge-orange" id="workDatasetName">Sin datos</div>
         </div>
-        <div class="cards">
-          <div class="card">
-            <div class="card-icon ic-g"><svg viewBox="0 0 16 16"><path d="M3 8l3 3 7-7"/></svg></div>
-            <div class="card-label">Completados hoy</div><div class="card-value">12</div>
-            <div class="card-delta"><span>+4</span> vs ayer</div>
-          </div>
-          <div class="card">
-            <div class="card-icon ic-o"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5"/><path d="M8 5v3l2 2"/></svg></div>
-            <div class="card-label">En ejecución</div><div class="card-value">1</div>
-            <div class="card-delta"><span>Regresión múltiple</span></div>
-          </div>
-          <div class="card">
-            <div class="card-icon ic-b"><svg viewBox="0 0 16 16"><path d="M8 2v8M5 7l3 3 3-3M3 13h10"/></svg></div>
-            <div class="card-label">En cola</div><div class="card-value">2</div>
-            <div class="card-delta"><span>estimado 3m</span></div>
-          </div>
-          <div class="card">
-            <div class="card-icon ic-r"><svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></svg></div>
-            <div class="card-label">Fallidos</div><div class="card-value">0</div>
-            <div class="card-delta"><span>sin errores</span></div>
-          </div>
-        </div>
-        <div class="bottom-grid full">
-          <div class="panel">
-            <div class="panel-label">Cola de trabajos</div>
-            <div style="overflow:auto;flex:1;">
-              <table class="data-table">
-                <thead><tr><th>Análisis</th><th>Dataset</th><th>Estado</th><th>Progreso</th><th>Inicio</th></tr></thead>
-                <tbody>
-                  <tr><td>Regresión lineal múltiple</td><td>encuesta_2024.csv</td><td><span class="tag tag-run">Corriendo</span></td><td style="min-width:80px"><div class="prog-wrap"><div class="prog-bar" style="width:62%"></div></div></td><td>hace 2m</td></tr>
-                  <tr><td>ANOVA una vía</td><td>panel_hogares.xlsx</td><td><span class="tag">En cola</span></td><td><div class="prog-wrap"><div class="prog-bar" style="width:0%"></div></div></td><td>pendiente</td></tr>
-                  <tr><td>Correlación Pearson</td><td>encuesta_2024.csv</td><td><span class="tag">En cola</span></td><td><div class="prog-wrap"><div class="prog-bar" style="width:0%"></div></div></td><td>pendiente</td></tr>
-                  <tr><td>PCA — 5 componentes</td><td>panel_hogares.xlsx</td><td><span class="tag tag-run">Completado</span></td><td><div class="prog-wrap"><div class="prog-bar" style="width:100%"></div></div></td><td>hace 18m</td></tr>
-                  <tr><td>Shapiro-Wilk</td><td>precios_hist.csv</td><td><span class="tag tag-run">Completado</span></td><td><div class="prog-wrap"><div class="prog-bar" style="width:100%"></div></div></td><td>hace 45m</td></tr>
-                </tbody>
+        
+        <div class="work-layout">
+          <!-- Panel Grid Excel -->
+          <div class="panel work-grid-panel">
+            <div class="panel-label" id="gridLabel">Carga un dataset desde Datos</div>
+            <div class="excel-grid-wrapper" id="excelGridWrapper">
+              <table class="excel-grid" id="excelGrid">
+                <thead id="excelGridHead"></thead>
+                <tbody id="excelGridBody"></tbody>
               </table>
             </div>
+          </div>
+
+          <!-- Panel Estadísticos (oculto si no hay selección) -->
+          <div class="panel work-stats-panel" id="workStatsPanel" style="display:none;">
+            <div class="panel-label">Resultados</div>
+            <div class="stats-results" id="statsResults"></div>
           </div>
         </div>
       </div>
