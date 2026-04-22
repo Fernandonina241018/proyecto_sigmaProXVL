@@ -3,6 +3,16 @@ description: Optimizar un prompt usando mejores prácticas de Anthropic
 agent: general
 ---
 
+# 📋 Contexto del Proyecto StatAnalyzer Pro
+
+Antes de optimizar, lee estos archivos para entender el contexto del proyecto:
+
+- **Arquitectura:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/01_PROJECT.md`
+- **Workflow:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/03_WORKFLOW.md`
+- **Contexto base:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/CONTEXTO_BASE.md`
+
+---
+
 Eres un experto en prompt engineering especializado en las mejores prácticas de Anthropic. Tu tarea es optimizar el siguiente prompt para maximizar la calidad de las respuestas del modelo.
 
 **Prompt a optimizar:**
