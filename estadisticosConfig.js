@@ -82,7 +82,8 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico o categórico',
         },
-        salidas: ['mediana', 'esModoMultiple', 'n'],
+        // FIX BUG 6: eliminado 'esModoMultiple' — pertenece solo a Moda, no a Mediana
+        salidas: ['mediana', 'n'],
         interpretacion: {
             plantilla: 'Mediana: {mediana}. Si mediana ≠ media, la distribución es asimétrica.',
         },
@@ -100,7 +101,7 @@ const ESTADISTICOS_CONFIG = {
         ],
     },
 
-        'Moda': {
+    'Moda': {
         seccion:   'descriptiva',
         calcular:  'calcularMedianaModa',
         formula:   'Moda: valor más frecuente',
@@ -221,7 +222,6 @@ const ESTADISTICOS_CONFIG = {
                 numero:    '4',
                 paginas:   '361–365',
             }
-
         ],
     },
 
@@ -249,7 +249,6 @@ const ESTADISTICOS_CONFIG = {
                 titulo:   'Statistics',
                 revista:  'W.W. Norton',
                 edicion:  '4ª ed.',
-                
             }
         ],
     },
@@ -322,14 +321,15 @@ const ESTADISTICOS_CONFIG = {
         seccion:   'descriptiva',
         calcular:  'calcularCurtosis',
         formula:   'g₂ = [Σ(xᵢ − x̄)⁴ / (n × s⁴)] − 3',
-        desc:      'Apuntamiento de la distribución. >0 leptocúrtica, <0 platicúrtica, ≈0 mesocúrtica (normal).',
+        // FIX BUG 5: desc corregido de "al menos 3" a "al menos 4" (coincide con minMuestra: 4)
+        desc:      'Apuntamiento de la distribución. >0 leptocúrtica, <0 platicúrtica, ≈0 mesocúrtica (normal). Requiere al menos 4 observaciones.',
         icono:     '🔺',
         minMuestra: 4,
 
         inputs: {
             tipo:        'una-columna',
             grupos:      1,
-            descripcion: 'Un vector numérico de al menos 3 observaciones',
+            descripcion: 'Un vector numérico de al menos 4 observaciones',
         },
         salidas: ['curtosis', 'interpretacion', 'n'],
         interpretacion: {
@@ -872,7 +872,8 @@ const ESTADISTICOS_CONFIG = {
         formula:   'F₁ = MSF₁/MSE, F₂ = MSF₂/MSE',
         desc:      'Análisis de varianza con dos factores simultáneos. Evalúa efectos principales de cada factor.',
         icono:     '📐',
-        minMuestra: 2,
+        // FIX BUG 4: corregido de 2 a 8 — se requieren al menos 2 niveles × 2 factores × 2 réplicas
+        minMuestra: 8,
 
         hipotesis: {
             h0: 'Ni el factor A, ni el factor B, ni su interacción afectan la media de la variable dependiente',
@@ -906,8 +907,8 @@ const ESTADISTICOS_CONFIG = {
         },
         alternativaNoParametrica: 'Friedman (para diseños de bloques)',
         advertencias: [
-            { condicion: 'diseno_desbalanceado', mensaje: 'Diseño no balanceado: los SS de tipo III son los adecuados.' },
-            { condicion: 'interaccion_significativa', mensaje: 'Con interacción significativa, los efectos principales deben interpretarse con precaución.' },
+            { condicion: 'diseno_desbalanceado',      mensaje: 'Diseño no balanceado: los SS de tipo III son los adecuados.' },
+            { condicion: 'interaccion_significativa',  mensaje: 'Con interacción significativa, los efectos principales deben interpretarse con precaución.' },
         ],
         referencia: [
             {
@@ -1348,6 +1349,7 @@ const ESTADISTICOS_CONFIG = {
         desc:      'Modelo de regresión no lineal que ajusta un polinomio de grado especificado a los datos.',
         icono:     '📈',
         minMuestra: 4,
+        // FIX BUG 7: añadido requiereDosColumnas — inputs.tipo es 'dos-columnas-mas-grado'
         requiereDosColumnas: true,
 
         hipotesis: {
@@ -1455,6 +1457,8 @@ const ESTADISTICOS_CONFIG = {
         desc:      'Error cuadrático medio. Mide la diferencia promedio entre valores observados y predichos en las mismas unidades que Y.',
         icono:     '📏',
         minMuestra: 2,
+        // FIX BUG 7: añadido requiereDosColumnas — necesita vector observados + vector predicciones
+        requiereDosColumnas: true,
 
         inputs: {
             tipo:        'dos-columnas',
@@ -1487,6 +1491,8 @@ const ESTADISTICOS_CONFIG = {
         desc:      'Error absoluto medio. Más robusto a outliers que RMSE. Fácil de interpretar en las unidades de Y.',
         icono:     '📏',
         minMuestra: 2,
+        // FIX BUG 7: añadido requiereDosColumnas — necesita vector observados + vector predicciones
+        requiereDosColumnas: true,
 
         inputs: {
             tipo:        'dos-columnas',
@@ -1519,6 +1525,8 @@ const ESTADISTICOS_CONFIG = {
         desc:      'Proporción de la varianza de Y explicada por el modelo. R²=1: ajuste perfecto, R²=0: no mejor que la media.',
         icono:     '📊',
         minMuestra: 2,
+        // FIX BUG 7: añadido requiereDosColumnas — necesita vector observados + vector predicciones
+        requiereDosColumnas: true,
 
         inputs: {
             tipo:        'dos-columnas',
@@ -1556,6 +1564,8 @@ const ESTADISTICOS_CONFIG = {
         desc:      'Alternativa no-paramétrica al t-test independiente. Compara distribuciones de dos grupos sin asumir normalidad.',
         icono:     '⚖️',
         minMuestra: 3,
+        // FIX BUG 7: añadido requiereDosColumnas — inputs.tipo es 'dos-grupos'
+        requiereDosColumnas: true,
 
         hipotesis: {
             h0: 'Las distribuciones de los dos grupos son iguales (ninguno tiende a producir valores mayores)',
@@ -1643,8 +1653,8 @@ const ESTADISTICOS_CONFIG = {
         },
         alternativaParametrica: 'ANOVA One-Way',
         advertencias: [
-            { condicion: 'muchos_empates', mensaje: 'Hay muchos empates; H fue corregido por empates automáticamente.' },
-            { condicion: 'n_por_grupo_menor_5', mensaje: 'Grupos con menos de 5 observaciones reducen la potencia del test.' },
+            { condicion: 'muchos_empates',       mensaje: 'Hay muchos empates; H fue corregido por empates automáticamente.' },
+            { condicion: 'n_por_grupo_menor_5',  mensaje: 'Grupos con menos de 5 observaciones reducen la potencia del test.' },
         ],
         referencia: [
             {
@@ -1665,6 +1675,8 @@ const ESTADISTICOS_CONFIG = {
         desc:      'Test de rangos con signo para muestras pareadas. Alternativa no-paramétrica al t-test pareado.',
         icono:     '📊',
         minMuestra: 5,
+        // FIX BUG 7: añadido requiereDosColumnas — inputs.tipo es 'dos-columnas-pareadas'
+        requiereDosColumnas: true,
 
         hipotesis: {
             h0: 'La mediana de las diferencias pareadas es cero',
@@ -1774,6 +1786,8 @@ const ESTADISTICOS_CONFIG = {
         desc:      'Test no paramétrico simple basado en signos de diferencias para muestras pareadas. No requiere supuestos de simetría.',
         icono:     '✚',
         minMuestra: 5,
+        // FIX BUG 7: añadido requiereDosColumnas — inputs.tipo es 'dos-columnas-pareadas'
+        requiereDosColumnas: true,
 
         hipotesis: {
             h0: 'La probabilidad de diferencia positiva es igual a 0.5 (mediana de diferencias = 0)',
@@ -1806,7 +1820,7 @@ const ESTADISTICOS_CONFIG = {
         },
         alternativaParametrica: 'T-Test pareado',
         advertencias: [
-            { condicion: 'potencia_baja', mensaje: 'El test de signos tiene menos potencia que Wilcoxon. Úselo solo cuando no se pueda asumir simetría de diferencias.' },
+            { condicion: 'potencia_baja',  mensaje: 'El test de signos tiene menos potencia que Wilcoxon. Úselo solo cuando no se pueda asumir simetría de diferencias.' },
             { condicion: 'muchos_empates', mensaje: 'Los empates (diferencia = 0) son excluidos del análisis; un alto número reduce la potencia.' },
         ],
         referencia: [
@@ -1990,7 +2004,17 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'no_homocedasticidad', mensaje: 'Matrices de covarianza no homogéneas: use QDA en lugar de LDA.' },
             { condicion: 'multicolinealidad',   mensaje: 'Alta correlación entre predictores puede inestabilizar las funciones discriminantes.' },
         ],
-        referencia: "Fisher, R.A. (1936). The use of multiple measurements in taxonomic problems. Ann Eugenics, 7(2):179–188.",
+        // FIX BUG 1: convertido de string plano a array de objetos estructurado
+        referencia: [
+            {
+                autores:  'Fisher, R.A.',
+                anio:     1936,
+                titulo:   'The use of multiple measurements in taxonomic problems',
+                revista:  'Ann Eugenics',
+                volumen:  '7(2)',
+                paginas:  '179–188',
+            }
+        ],
     },
 
     'M-ANOVA': {
@@ -2037,7 +2061,17 @@ const ESTADISTICOS_CONFIG = {
             { condicion: 'box_m_significativo', mensaje: 'Box M significativo: matrices de covarianza no son homogéneas. Λ de Wilks puede no ser óptimo; considere Pillai.' },
             { condicion: 'n_insuficiente',      mensaje: 'n por grupo debe ser mayor que el número de variables dependientes para que Λ sea invertible.' },
         ],
-        referencia: "Wilks, S.S. (1932). Certain generalizations in the analysis of variance. Biometrika, 24(3–4):471–494.",
+        // FIX BUG 1: convertido de string plano a array de objetos estructurado
+        referencia: [
+            {
+                autores:  'Wilks, S.S.',
+                anio:     1932,
+                titulo:   'Certain generalizations in the analysis of variance',
+                revista:  'Biometrika',
+                volumen:  '24(3–4)',
+                paginas:  '471–494',
+            }
+        ],
     },
 
     // ════════════════════════════════════════
@@ -2201,8 +2235,8 @@ const ESTADISTICOS_CONFIG = {
             plantilla: 'Efectos fijos: {betasFijos}. ICC={icc} ({pctAgrupado}% de varianza explicada por agrupamiento). AIC={aic}.',
         },
         advertencias: [
-            { condicion: 'icc_muy_bajo',           mensaje: 'ICC<0.05: la estructura jerárquica explica muy poca varianza; un modelo simple puede ser suficiente.' },
-            { condicion: 'n_grupos_insuficiente',   mensaje: 'Se recomiendan ≥10–20 grupos de nivel superior para estimar varianzas aleatorias fiablemente.' },
+            { condicion: 'icc_muy_bajo',         mensaje: 'ICC<0.05: la estructura jerárquica explica muy poca varianza; un modelo simple puede ser suficiente.' },
+            { condicion: 'n_grupos_insuficiente', mensaje: 'Se recomiendan ≥10–20 grupos de nivel superior para estimar varianzas aleatorias fiablemente.' },
         ],
         referencia: [
             {
@@ -2244,8 +2278,8 @@ const ESTADISTICOS_CONFIG = {
             plantilla: 'Media posterior: {media_posterior}. IC 95% creíble: [{icLo}, {icHi}]. BF₁₀={bf}: {interpretacionBF}.',
         },
         advertencias: [
-            { condicion: 'prior_influyente',  mensaje: 'Con n pequeño el prior tiene alta influencia. Realice análisis de sensibilidad al prior.' },
-            { condicion: 'no_convergencia',   mensaje: 'R̂>1.01 en algún parámetro: las cadenas MCMC no convergieron. Aumente iteraciones.' },
+            { condicion: 'prior_influyente', mensaje: 'Con n pequeño el prior tiene alta influencia. Realice análisis de sensibilidad al prior.' },
+            { condicion: 'no_convergencia',  mensaje: 'R̂>1.01 en algún parámetro: las cadenas MCMC no convergieron. Aumente iteraciones.' },
         ],
         referencia: [
             {
@@ -2283,12 +2317,13 @@ const ESTADISTICOS_CONFIG = {
         },
         salidas: ['LOD', 'LOQ', 'LQC', 'MDL', 'mediaBlancos', 'deBlancos', 'n'],
         interpretacion: {
-            planta: 'LOD = {LOD} (3σ), LOQ = {LOQ} (10σ). Valores por debajo de LOQ no deben reportarse cuantitativamente.',
+            // FIX BUG 2: corregido 'planta' → 'plantilla'
+            plantilla: 'LOD = {LOD} (3σ), LOQ = {LOQ} (10σ). Valores por debajo de LOQ no deben reportarse cuantitativamente.',
         },
         advertencias: [
-            { condicion: 'n_menor_10',           mensaje: 'ICH Q2(R1) recomienda al menos 10 réplicas de blanco para LOD/LOQ fiables.' },
-            { condicion: 'blancos_no_normales',   mensaje: 'Los blancos no tienen distribución normal. Los límites basados en 3σ y 10σ pueden ser conservadores.' },
-            { condicion: 'drift_instrumental',    mensaje: 'Se detectó deriva en la señal del blanco a lo largo del tiempo. Verifique estabilidad del instrumento.' },
+            { condicion: 'n_menor_10',         mensaje: 'ICH Q2(R1) recomienda al menos 10 réplicas de blanco para LOD/LOQ fiables.' },
+            { condicion: 'blancos_no_normales', mensaje: 'Los blancos no tienen distribución normal. Los límites basados en 3σ y 10σ pueden ser conservadores.' },
+            { condicion: 'drift_instrumental',  mensaje: 'Se detectó deriva en la señal del blanco a lo largo del tiempo. Verifique estabilidad del instrumento.' },
         ],
         referencia: [
             {
@@ -2324,10 +2359,11 @@ const ESTADISTICOS_CONFIG = {
         },
         salidas: ['categorias', 'conteos', 'porcentajes', 'acumulado', 'pareto80', 'vitales', 'triviales', 'total'],
         interpretacion: {
-            plantilla: 'Las {vitales} categorías ({porcentaje}%) causan el {acumulado}% de problemas. Enfocar en estas优化ará el proceso.',
+            // FIX BUG 3: eliminado carácter chino '优化', reemplazado por 'optimizará'
+            plantilla: 'Las {vitales} categorías ({porcentaje}%) causan el {acumulado}% de problemas. Enfocarse en estas optimizará el proceso.',
         },
         advertencias: [
-            { condicion: 'pocos_datos',         mensaje: 'Con menos de 5 categorías, el análisis puede no ser representativo.' },
+            { condicion: 'pocos_datos',          mensaje: 'Con menos de 5 categorías, el análisis puede no ser representativo.' },
             { condicion: 'distribucion_uniforme', mensaje: 'Distribución uniforme - no hay causas vitales. Revise la categorización.' },
         ],
         referencia: [
@@ -2356,7 +2392,7 @@ function getSeccionesSidebar() {
         multivariado:   { icon: '🎯', label: 'Multivariado',    description: 'Análisis de múltiples variables simultáneamente',                         options: [] },
         extras:         { icon: '✨', label: 'Extras',          description: 'Técnicas avanzadas de análisis estadístico',                              options: [] },
         especificacion: { icon: '📐', label: 'Especificación',  description: 'Límites de cuantificación y capacidad del proceso',                       options: [] },
-        calidad:       { icon: '⚙️', label: 'Calidad',        description: 'Herramientas de control de calidad y Six Sigma',                       options: [] },
+        calidad:        { icon: '⚙️', label: 'Calidad',         description: 'Herramientas de control de calidad y Six Sigma',                         options: [] },
     };
 
     Object.entries(ESTADISTICOS_CONFIG).forEach(([nombre, config]) => {

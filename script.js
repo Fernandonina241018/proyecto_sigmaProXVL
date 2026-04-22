@@ -2009,6 +2009,10 @@ function applyStatSelection() {
     const section = SIDEBAR_SECTIONS[currentModalSection];
     const currentActive = StateManager.getActiveStats();
     
+    // Obtener configs del objeto global
+    const estadisticosConfig = typeof ESTADISTICOS_CONFIG !== 'undefined' ? ESTADISTICOS_CONFIG : {};
+    const customFuncStats = ['Correlación Pearson', 'Correlación Spearman', 'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial', 'Regresión Logística', 'Covarianza', 'Correlación Kendall Tau', 'RMSE', 'MAE', 'R² (Coef. Determinación)', 'Diagrama de Pareto', 'Bootstrap', 'PCA (Componentes Principales)'];
+    
     // Remover estadísticas de esta sección
     const newActive = currentActive.filter(stat => !section.options.includes(stat));
     
@@ -2018,7 +2022,10 @@ function applyStatSelection() {
     
     section.options.forEach(opt => {
         if (tempModalSelection[opt]) {
-            if (HYPOTHESIS_SET.has(opt)) {
+            // Verificar si necesita configuración (hipótesis o customFunc)
+            const necesitaConfig = customFuncStats.includes(opt);
+            
+            if (necesitaConfig) {
                 statsQueNecesitanConfig.push(opt);
             } else {
                 statsNormales.push(opt);
@@ -2076,6 +2083,7 @@ document.addEventListener('click', (e) => {
 // MODAL DE CONFIGURACIÓN DE PRUEBAS DE HIPÓTESIS
 // ========================================
 function mostrarModalConfiguracionHypothesis(statName) {
+    console.log('[mostrarModalConfiguracionHypothesis] statName:', statName);
     document.getElementById('hypo-config-modal')?.remove();
     
     const imported = getDataForModal();
@@ -2120,7 +2128,8 @@ function mostrarModalConfiguracionHypothesis(statName) {
         'MAE': { title: '📏 Configurar MAE', customFunc: 'abrirModalConfigMetricasError' },
         'R² (Coef. Determinación)': { title: '📊 Configurar R²', customFunc: 'abrirModalConfigMetricasError' },
         'Diagrama de Pareto': { title: '📊 Configurar Diagrama de Pareto', customFunc: 'abrirModalConfigPareto' },
-        'Bootstrap': { title: '🔄 Configurar Bootstrap', customFunc: 'abrirModalConfigBootstrap' }
+        'Bootstrap': { title: '🔄 Configurar Bootstrap', customFunc: 'abrirModalConfigBootstrap' },
+        'PCA (Componentes Principales)': { title: '🎯 Configurar PCA', customFunc: 'abrirModalConfigPCA' }
     };
     
     const config = configs[statName];
@@ -2135,7 +2144,9 @@ function mostrarModalConfiguracionHypothesis(statName) {
     }
     
     // Para funciones con modal personalizado (Correlación, Regresión, etc.)
+    console.log('[crearModalConfiguracionHipotesis] statName:', statName, 'config:', config);
     if (config.customFunc && typeof window[config.customFunc] === 'function') {
+        console.log('[crearModalConfiguracionHipotesis] ejecutando customFunc:', config.customFunc);
         if (config.customFunc === 'abrirModalConfigObsPred') {
             return window[config.customFunc](imported, statName);
         }
@@ -2147,6 +2158,11 @@ function mostrarModalConfiguracionHypothesis(statName) {
         }
         if (config.customFunc === 'abrirModalConfigMetricasError') {
             return window[config.customFunc](imported, statName);
+        }
+        console.log('[crearModalConfiguracionHipotesis] customFunc:', config.customFunc);
+        if (config.customFunc === 'abrirModalConfigPCA') {
+            console.log('[crearModalConfiguracionHipotesis] LLAMANDO a abrirModalConfigPCA');
+            return window[config.customFunc](imported);
         }
         return window[config.customFunc](imported);
     } else if (config.customFunc) {
@@ -3615,6 +3631,169 @@ function abrirModalConfigBootstrap(imported) {
     
     return true;
 }
+
+// MODAL DE CONFIGURACIÓN PCA
+// ========================================
+window.abrirModalConfigPCA = function(importedParam) {
+    console.log('[PCA] === INICIO ===');
+    console.log('[PCA] importedParam recibido:', importedParam);
+    
+    // Usar datos del parámetro o buscar del estado
+    let imported = importedParam;
+    
+    if (!imported || !imported.headers || imported.headers.length === 0) {
+        console.log('[PCA] Datos del parámetro vacíos. Buscando en getDataForModal()...');
+        imported = getDataForModal();
+        console.log('[PCA] getDataForModal() retornó:', imported ? 'OK' : 'NULL');
+    }
+    
+    if (!imported || !imported.headers || imported.headers.length === 0) {
+        console.log('[PCA] Intentando con StateManager...');
+        const sheet = StateManager.getActiveSheet();
+        if (sheet && sheet.data && sheet.data.length > 0) {
+            imported = {
+                headers: sheet.headers || [],
+                data: sheet.data || [],
+                rowCount: sheet.data.length
+            };
+            console.log('[PCA] StateManager OK:', imported.headers);
+        }
+    }
+    
+    if (!imported || !imported.headers || imported.headers.length === 0) {
+        _showToast('⚠️ Primero importa datos para realizar PCA', true);
+        console.log('[PCA] ERROR: No hay datos');
+        return false;
+    }
+    
+    console.log('[PCA] Datos disponibles:', imported.headers);
+    document.getElementById('bootstrap-config-modal')?.remove();
+    document.getElementById('correlacion-config-modal')?.remove();
+    document.getElementById('regresion-config-modal')?.remove();
+    document.getElementById('metricas-error-config-modal')?.remove();
+    document.getElementById('pareto-config-modal')?.remove();
+
+    const allCols = imported.headers;
+    const numericCols = allCols.filter(col => {
+        const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
+        const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
+        return numericCount / values.length > 0.5;
+    });
+
+    if (numericCols.length < 2) {
+        _showToast('⚠️ Se necesitan al menos 2 columnas numéricas para PCA', true);
+        return false;
+    }
+
+    // Obtener configuración previa si existe
+    const prevConfig = StateManager.getHypothesisConfig('PCA (Componentes Principales)') || {};
+    const prevCols = prevConfig.columnas || [];
+
+    const modal = document.createElement('div');
+    modal.id = 'pca-config-modal';
+    modal.innerHTML = `
+        <div class="dm-modal-overlay" id="pca-config-modal-overlay"></div>
+        <div class="dm-modal-card" style="width: min(500px, 96vw);">
+            <div class="dm-modal-header">
+                <h3>🎯 Configurar PCA</h3>
+                <button class="dm-modal-close" id="pca-config-close">&times;</button>
+            </div>
+            <div class="dm-modal-body" style="max-height:60vh;overflow-y:auto;">
+                <p style="color:#64748b;font-size:0.9rem;margin-bottom:16px;">
+                    Seleccione las columnas numéricas que desea incluir en el Análisis de Componentes Principales.
+                    Se requieren al menos 2 columnas.
+                </p>
+                
+                <div style="margin-bottom:12px;">
+                    <button type="button" id="pca-select-all" style="padding:6px 12px;background:#e2e8f0;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;margin-right:8px;">
+                        ✓ Seleccionar todas
+                    </button>
+                    <button type="button" id="pca-deselect-all" style="padding:6px 12px;background:#e2e8f0;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">
+                        ✗ Deseleccionar todas
+                    </button>
+                </div>
+
+                <div id="pca-columns-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;max-height:300px;overflow-y:auto;padding:8px;background:#f8fafc;border-radius:8px;">
+                    ${numericCols.map(col => `
+                        <label style="display:flex;align-items:center;gap:8px;padding:8px;background:white;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer;transition:all 0.2s;">
+                            <input type="checkbox" name="pca-column" value="${col}" ${prevCols.includes(col) || prevCols.length === 0 ? 'checked' : ''} style="width:18px;height:18px;cursor:pointer;">
+                            <span style="font-size:0.9rem;font-weight:500;">${col}</span>
+                        </label>
+                    `).join('')}
+                </div>
+                
+                <div id="pca-selected-count" style="margin-top:12px;font-size:0.85rem;color:#64748b;text-align:right;">
+                    Seleccionadas: <strong id="pca-count">${prevCols.length > 0 ? prevCols.length : numericCols.length}</strong> de ${numericCols.length}
+                </div>
+            </div>
+            <div class="dm-modal-footer">
+                <button class="dm-btn dm-btn-secondary" id="pca-cancel">Cancelar</button>
+                <button class="dm-btn dm-btn-primary" id="pca-save">Guardar Configuración</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    // Event listeners
+    const close = () => {
+        const overlay = document.getElementById('pca-config-modal-overlay');
+        const modalCard = document.getElementById('pca-config-modal');
+        if (overlay) overlay.remove();
+        if (modalCard) modalCard.remove();
+    };
+
+    document.getElementById('pca-config-close').onclick = close;
+    document.getElementById('pca-config-modal-overlay').onclick = close;
+    document.getElementById('pca-cancel').onclick = close;
+
+    // Select all / Deselect all
+    document.getElementById('pca-select-all').onclick = () => {
+        document.querySelectorAll('input[name="pca-column"]').forEach(cb => cb.checked = true);
+        updateCount();
+    };
+    document.getElementById('pca-deselect-all').onclick = () => {
+        document.querySelectorAll('input[name="pca-column"]').forEach(cb => cb.checked = false);
+        updateCount();
+    };
+
+    // Update count on change
+    function updateCount() {
+        const checked = document.querySelectorAll('input[name="pca-column"]:checked').length;
+        document.getElementById('pca-count').textContent = checked;
+    }
+    document.querySelectorAll('input[name="pca-column"]').forEach(cb => {
+        cb.onchange = updateCount;
+    });
+
+    // Save config
+    document.getElementById('pca-save').onclick = () => {
+        const selectedCols = Array.from(document.querySelectorAll('input[name="pca-column"]:checked')).map(cb => cb.value);
+
+        if (selectedCols.length < 2) {
+            _showToast('⚠️ Seleccione al menos 2 columnas para PCA', true);
+            return;
+        }
+
+        const config = {
+            columnas: selectedCols,
+            timestamp: Date.now()
+        };
+        
+        StateManager.setHypothesisConfig('PCA (Componentes Principales)', config);
+        StateManager.addActiveStat('PCA (Componentes Principales)');
+        
+        document.querySelectorAll('.menu-option').forEach(opt => {
+            if (opt.textContent.trim() === 'PCA (Componentes Principales)') {
+                opt.classList.add('selected');
+            }
+        });
+        
+        _showToast(`✅ PCA configurado con ${selectedCols.length} columnas`);
+        close();
+    };
+    
+    return true;
+};
 
 // Ejecutar al cargar
 document.addEventListener('DOMContentLoaded', initTheme);

@@ -2322,14 +2322,297 @@ negativos: negativos,
          fn: fn,
          n: n,
          k: k,
-         interpretacion: interpretacion,
-         predicciones: predicciones
-       };
-     }
-     
-     // ========================================
-     // FUNCIONES AUXILIARES DE ÁLGEBRA LINEAL
-     // ========================================
+interpretacion: interpretacion,
+          predicciones: predicciones
+        };
+      }
+
+      // ========================================
+      // ANÁLISIS DE COMPONENTES PRINCIPALES (PCA)
+      // ========================================
+
+      /**
+       * Calcula el Análisis de Componentes Principales (PCA)
+       * @param {Array<Array<number>>} data - Matriz de datos (filas=observaciones, columnas=variables)
+       * @param {number} nComponentes - Número de componentes a extraer (opcional, por defecto todos)
+       * @returns {Object} Resultados del PCA
+       */
+      function calcularPCA(data, nComponentes = null) {
+        try {
+          if (!data || !Array.isArray(data)) {
+            return { error: 'Se necesitan datos válidos para realizar PCA' };
+          }
+          
+          const n = data.length;
+          if (n < 2) {
+            return { error: 'Se necesitan al menos 2 observaciones para PCA' };
+          }
+          
+          // Filtrar filas vacías y obtener número de columnas
+          const validRows = data.filter(row => row && Array.isArray(row) && row.length > 0);
+          if (validRows.length < 2) {
+            return { error: 'Se necesitan al menos 2 observaciones válidas para PCA' };
+          }
+          
+          const p = validRows[0].length;
+          if (p < 2) {
+            return { error: 'Se necesitan al menos 2 variables para PCA' };
+          }
+
+          if (n < 10) {
+            return { error: 'Se necesitan al menos 10 observaciones para PCA' };
+          }
+
+          // 1. Estandarizar los datos (media=0, DE=1)
+          const means = [];
+          const stds = [];
+          const standardized = [];
+
+          for (let j = 0; j < p; j++) {
+            const col = validRows.map(row => row[j]).filter(v => v !== null && v !== undefined && !isNaN(v));
+            if (col.length < 2) {
+              return { error: 'La variable ' + j + ' no tiene suficientes datos válidos' };
+            }
+            const mean = col.reduce((a, b) => a + b, 0) / col.length;
+            const variance = col.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / (col.length - 1);
+            const std = Math.sqrt(variance);
+
+            means.push(mean);
+            stds.push(std === 0 ? 1 : std);
+          }
+
+          for (let i = 0; i < validRows.length; i++) {
+            const row = [];
+            for (let j = 0; j < p; j++) {
+              const val = validRows[i][j];
+              if (val === null || val === undefined || isNaN(val)) {
+                row.push(0);
+              } else {
+                row.push((val - means[j]) / stds[j]);
+              }
+            }
+            standardized.push(row);
+          }
+
+          // 2. Calcular matriz de covarianza
+          const covMatrix = [];
+          for (let i = 0; i < p; i++) {
+            covMatrix[i] = [];
+            for (let j = 0; j < p; j++) {
+              let sum = 0;
+              for (let k = 0; k < n; k++) {
+                sum += standardized[k][i] * standardized[k][j];
+              }
+              covMatrix[i][j] = sum / (n - 1);
+            }
+          }
+
+          // 3. Calcular autovalores y autovectores
+          const eigenResult = powerIterationEigen(covMatrix, p);
+          const eigenvalues = eigenResult.values || [];
+          const eigenvectors = eigenResult.vectors || [];
+
+          if (eigenvalues.length === 0) {
+            return { error: 'Error al calcular autovalores' };
+          }
+
+          // 4. Ordenar por autovalor (mayor a menor)
+          const indices = eigenvalues.map((_, i) => i).sort((a, b) => eigenvalues[b] - eigenvalues[a]);
+          const sortedEigenvalues = indices.map(i => eigenvalues[i]);
+          const sortedEigenvectors = indices.map(i => eigenvectors[i]);
+
+          // 5. Calcular varianza explicada
+          const totalVariance = sortedEigenvalues.reduce((a, b) => a + b, 0);
+          const varianceExplained = sortedEigenvalues.map(ev => (ev / totalVariance) * 100);
+          const cumulativeVariance = [];
+          let cumsum = 0;
+          for (const ve of varianceExplained) {
+            cumsum += ve;
+            cumulativeVariance.push(cumsum);
+          }
+
+          // 6. Determinar número de componentes
+          const nComp = nComponentes || p;
+          const nFinal = Math.min(nComp, p);
+
+          // 7. Calcular cargas factoriales (loadings)
+          const loadings = [];
+          for (let i = 0; i < nFinal; i++) {
+            const ev = sortedEigenvectors[i];
+            if (ev && Array.isArray(ev)) {
+              const loading = ev.map(v => v * Math.sqrt(sortedEigenvalues[i]));
+              loadings.push(loading.map(v => parseFloat(v.toFixed(4))));
+            }
+          }
+
+          // 8. Calcular scores (proyecciones)
+          const scores = [];
+          for (let i = 0; i < n; i++) {
+            const score = [];
+            for (let j = 0; j < nFinal; j++) {
+              if (sortedEigenvectors[j]) {
+                let sum = 0;
+                for (let k = 0; k < p; k++) {
+                  if (standardized[i] && standardized[i][k]) {
+                    sum += standardized[i][k] * sortedEigenvectors[j][k];
+                  }
+                }
+                score.push(parseFloat(sum.toFixed(4)));
+              }
+            }
+            scores.push(score);
+          }
+
+          // 9. Interpretación
+          const interpretacion = `${nFinal} componentes principales explican el ${cumulativeVariance[nFinal - 1]?.toFixed(1)}% de la varianza total. ` +
+            `PC1: ${varianceExplained[0]?.toFixed(1)}%, PC2: ${varianceExplained[1]?.toFixed(1)}%. ` +
+            (cumulativeVariance[nFinal - 1] >= 70 ? 'Varianza acumulada aceptable (≥70%).' : 'Varianza acumulada baja. Considere más componentes.');
+
+          return {
+            prueba: 'PCA (Componentes Principales)',
+            nObservaciones: n,
+            nVariables: p,
+            nComponentes: nFinal,
+            eigenvalues: sortedEigenvalues.slice(0, nFinal).map(v => parseFloat(v.toFixed(4))),
+            loadings: loadings,
+            varianceExplained: varianceExplained.slice(0, nFinal).map(v => parseFloat(v.toFixed(2))),
+            cumulativeVariance: cumulativeVariance.slice(0, nFinal).map(v => parseFloat(v.toFixed(2))),
+            scores: scores,
+            means: means.map(v => parseFloat(v.toFixed(4))),
+            stds: stds.map(v => parseFloat(v.toFixed(4))),
+            interpretacion: interpretacion,
+            warning: varianceExplained[0] < 10 ? 'La varianza está muy dispersa entre componentes.' : null
+          };
+        } catch (err) {
+          return { error: 'Error en PCA: ' + (err.message || 'Error desconocido') };
+        }
+      }
+
+      /**
+       * Método de potencia para calcular autovalores y autovectores
+       */
+      function powerIterationEigen(matrix, numIterations = 1000) {
+        try {
+          if (!matrix || !Array.isArray(matrix) || matrix.length < 2) {
+            return { values: [1], vectors: [[1]] };
+          }
+          
+          const n = matrix.length;
+          
+          // Verificar que la matriz sea válida
+          const isValid = matrix.every(row => row && Array.isArray(row) && row.length === n);
+          if (!isValid) {
+            return { values: Array(n).fill(1), vectors: Array(n).fill(0).map((_, i) => Array(n).fill(0).map((_, j) => i === j ? 1 : 0)) };
+          }
+          
+          // Usar método QR para calcular todos los autovalores
+          const result = qrEigenvalues(matrix, n);
+          return result;
+        } catch (err) {
+          // En caso de error, retornar identidad
+          const n = matrix.length;
+          return { 
+            values: Array(n).fill(1), 
+            vectors: Array(n).fill(0).map((_, i) => Array(n).fill(0).map((_, j) => i === j ? 1 : 0)) 
+          };
+        }
+      }
+
+      // Método QR para calcular autovalores
+      function qrEigenvalues(A, n) {
+        let matrix = A.map(row => [...row]);
+        const maxIter = 100;
+        const tolerance = 1e-8;
+        
+        for (let iter = 0; iter < maxIter; iter++) {
+          // Descomposición QR
+          const { Q, R } = qrDecomposition(matrix);
+          
+          // Nueva matriz: R * Q
+          matrix = multiplyMatrices(R, Q);
+          
+          // Verificar convergencia
+          let converged = true;
+          for (let i = 0; i < n; i++) {
+            for (let j = 0; j < i; j++) {
+              if (Math.abs(matrix[i][j]) > tolerance) {
+                converged = false;
+                break;
+              }
+            }
+            if (!converged) break;
+          }
+          
+          if (converged) break;
+        }
+        
+        // Los autovalores están en la diagonal
+        const eigenvalues = [];
+        const eigenvectors = [];
+        
+        // Calcular autovectores usando power iteration para cada autovalor
+        for (let i = 0; i < n; i++) {
+          eigenvalues.push(matrix[i][i]);
+          
+          // Autovector correspondiente (columna i de Q final)
+          let vector = [];
+          for (let row = 0; row < n; row++) {
+            vector.push(matrix[row][i] !== 0 ? matrix[row][i] : (row === i ? 1 : 0));
+          }
+          eigenvectors.push(vector);
+        }
+        
+        return { values: eigenvalues, vectors: eigenvectors };
+      }
+
+      // Descomposición QR
+      function qrDecomposition(A) {
+        const n = A.length;
+        const Q = Array(n).fill(0).map(() => Array(n).fill(0));
+        const R = A.map(row => [...row]);
+        
+        // Inicializar Q como identidad
+        for (let i = 0; i < n; i++) {
+          Q[i][i] = 1;
+        }
+        
+        for (let j = 0; j < n; j++) {
+          // Vector x
+          const x = R.map(row => row[j]);
+          
+          // Norma de x
+          let norm = Math.sqrt(x.reduce((sum, v) => sum + v * v, 0));
+          if (norm < 1e-10) continue;
+          
+          // Vector u = x - norm * e_j
+          const u = x.map((v, i) => i === j ? v - norm : v);
+          const uNorm = Math.sqrt(u.reduce((sum, v) => sum + v * v, 0));
+          if (uNorm < 1e-10) continue;
+          
+          // Normalizar u
+          const v = u.map(val => val / uNorm);
+          
+          // Actualizar R
+          for (let i = 0; i < n; i++) {
+            for (let k = j; k < n; k++) {
+              R[i][k] -= 2 * v[i] * R.map(row => row[k]).reduce((sum, val, idx) => sum + v[idx] * val, 0);
+            }
+          }
+          
+          // Actualizar Q
+          for (let i = 0; i < n; i++) {
+            for (let k = 0; k < n; k++) {
+              Q[i][k] -= 2 * v[i] * v[k];
+            }
+          }
+        }
+        
+        return { Q, R };
+      }
+
+      // ========================================
+      // FUNCIONES AUXILIARES DE ÁLGEBRA LINEAL
+      // ========================================
      
      /**
       * Multiplica dos matrices
@@ -3449,6 +3732,55 @@ resultados['Test de Signos'].columna1 = col1;
                             resultados['Bootstrap'] = { error: 'Configure el estimador y número de remuestreos en el menú de hipótesis' };
                         }
                         break;
+
+                    // ============================================================
+                    // MULTIVARIADO - PCA
+                    // ============================================================
+                    case 'PCA (Componentes Principales)':
+                    case 'PCA':
+                        // Obtener columnas configuradas o usar todas las numéricas
+                        let pcaColumns = numericCols;
+                        if (hypothesisConfig['PCA (Componentes Principales)'] && hypothesisConfig['PCA (Componentes Principales)'].columnas) {
+                            pcaColumns = hypothesisConfig['PCA (Componentes Principales)'].columnas;
+                        }
+                        
+                        console.log('[PCA] pcaColumns:', pcaColumns);
+                        
+                        if (pcaColumns.length < 2) {
+                            resultados['PCA (Componentes Principales)'] = { error: 'Seleccione al menos 2 columnas para PCA en la configuración' };
+                        } else {
+                            const dataMatrix = [];
+                            const lengths = pcaColumns.map(col => getNumericValues(data, col).length);
+                            const validLengths = lengths.filter(l => l > 0);
+                            
+                            console.log('[PCA] validLengths:', validLengths);
+                            
+                            if (validLengths.length < 2) {
+                                resultados['PCA (Componentes Principales)'] = { error: 'No hay suficientes datos válidos en las columnas seleccionadas' };
+                            } else {
+                                const minRows = Math.min(...validLengths);
+                                
+                                for (let i = 0; i < minRows; i++) {
+                                    const row = pcaColumns.map(col => {
+                                        const values = getNumericValues(data, col);
+                                        return values[i] !== undefined ? values[i] : 0;
+                                    });
+                                    dataMatrix.push(row);
+                                }
+                                
+                                console.log('[PCA] dataMatrix.length:', dataMatrix.length, 'dataMatrix[0]:', dataMatrix[0]);
+                                
+                                if (dataMatrix.length < 10) {
+                                    resultados['PCA (Componentes Principales)'] = { error: 'Se necesitan al menos 10 observaciones para PCA' };
+                                } else {
+                                    const pcaResult = calcularPCA(dataMatrix, pcaColumns.length);
+                                    console.log('[PCA] resultado:', pcaResult);
+                                    resultados['PCA (Componentes Principales)'] = pcaResult;
+                                    resultados['PCA (Componentes Principales)'].columnas = pcaColumns;
+                                }
+                            }
+                        }
+                        break;
                 }
         });
         
@@ -3735,6 +4067,88 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
             // Si es prueba de hipótesis, generar vista especial
             if (HYPOTHESIS_SET.has(statKey)) {
                 return hypothesisKpiCards(statKey, data);
+            }
+
+            // Si es PCA (estadístico multivariado), generar vista especial
+            if (statKey === 'PCA (Componentes Principales)' || statKey === 'PCA') {
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                
+                const cols = data.columnas || [];
+                const nComp = data.nComponentes || 0;
+                const varExp = data.varianceExplained || [];
+                const cumVar = data.cumulativeVariance || [];
+                const eigenvalues = data.eigenvalues || [];
+                
+                return `
+                    <div class="ar-kpi-card" style="margin-bottom:16px;max-width:100%;overflow:hidden;">
+                        <div class="ar-kpi-col-label" style="font-size:0.95rem;margin-bottom:10px;">📊 PCA - Análisis de Componentes Principales</div>
+                        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:0.8rem;">
+                            <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
+                                <div style="color:#666;font-size:0.7rem;">Observaciones</div>
+                                <div style="font-weight:bold;font-size:0.95rem;">${data.nObservaciones || '—'}</div>
+                            </div>
+                            <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
+                                <div style="color:#666;font-size:0.7rem;">Variables</div>
+                                <div style="font-weight:bold;font-size:0.95rem;">${data.nVariables || '—'}</div>
+                            </div>
+                            <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
+                                <div style="color:#666;font-size:0.7rem;">Componentes</div>
+                                <div style="font-weight:bold;font-size:0.95rem;">${nComp}</div>
+                            </div>
+                            <div style="background:#e8f5e9;padding:8px;border-radius:4px;text-align:center;">
+                                <div style="color:#2e7d32;font-size:0.7rem;">Varianza Total</div>
+                                <div style="font-weight:bold;font-size:0.95rem;color:#2e7d32;">${cumVar[cumVar.length - 1]?.toFixed(1) || '—'}%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ar-kpi-card" style="margin-bottom:16px;overflow-x:auto;">
+                        <div class="ar-kpi-col-label" style="font-size:0.85rem;margin-bottom:8px;">📈 Varianza Explicada por Componente</div>
+                        <table style="width:100%;min-width:280px;border-collapse:collapse;font-size:0.7rem;table-layout:fixed;">
+                            <thead>
+                                <tr style="background:#e3f2fd;">
+                                    <th style="padding:5px;text-align:center;width:50px;">PC</th>
+                                    <th style="padding:5px;text-align:right;">Autovalor</th>
+                                    <th style="padding:5px;text-align:right;">% Var</th>
+                                    <th style="padding:5px;text-align:right;">% Acum</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${eigenvalues.slice(0, Math.min(10, nComp)).map((ev, i) => `
+                                    <tr style="border-bottom:1px solid #eee;">
+                                        <td style="padding:4px;text-align:center;font-weight:bold;">PC${i + 1}</td>
+                                        <td style="padding:4px;text-align:right;">${ev?.toFixed(3) || '—'}</td>
+                                        <td style="padding:4px;text-align:right;">${varExp[i]?.toFixed(1) || '—'}%</td>
+                                        <td style="padding:4px;text-align:right;font-weight:bold;">${cumVar[i]?.toFixed(1) || '—'}%</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="ar-kpi-card" style="margin-bottom:16px;overflow-x:auto;">
+                        <div class="ar-kpi-col-label" style="font-size:0.85rem;margin-bottom:8px;">📋 Cargas Factoriales (Loadings)</div>
+                        <table style="width:100%;min-width:250px;border-collapse:collapse;font-size:0.7rem;table-layout:fixed;">
+                            <thead>
+                                <tr style="background:#e8f5e9;">
+                                    <th style="padding:5px;text-align:left;width:60px;">Variable</th>
+                                    ${Array.from({length: Math.min(3, nComp)}, (_, i) => `<th style="padding:5px;text-align:right;">PC${i + 1}</th>`).join('')}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${cols.slice(0, 10).map((col, i) => {
+                                    const loadings = data.loadings?.[i] || [];
+                                    return `<tr style="border-bottom:1px solid #eee;">
+                                        <td style="padding:4px;font-weight:500;font-size:0.7rem;">${col}</td>
+                                        ${Array.from({length: Math.min(3, nComp)}, (_, j) => `<td style="padding:4px;text-align:right;">${loadings[j]?.toFixed(3) || '—'}</td>`).join('')}
+                                    </tr>`;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    ${data.interpretacion ? `
+                    <div class="ar-formula" style="margin-top:12px;padding:10px;background:#fff3e0;border-radius:6px;border-left:4px solid #ff9800;">
+                        <span class="ar-formula-icon">💬</span>
+                        <div><div class="ar-formula-desc" style="font-size:0.8rem;line-height:1.4;">${data.interpretacion}</div></div>
+                    </div>` : ''}`;
             }
 
             return cols.map(col => {
@@ -4568,6 +4982,61 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
                         <span class="ar-formula-icon">💬</span>
                         <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
                     </div>`;
+            }
+
+            // PCA - Análisis de Componentes Principales
+            if (statKey === 'PCA (Componentes Principales)' || statKey === 'PCA') {
+                console.log('[generarHTML] PCA data:', data);
+                console.log('[generarHTML] PCA statKey:', statKey);
+                
+                if (data.error) return `<p class="ar-error">${data.error}</p>`;
+                
+                const cols = data.columnas || [];
+                const nComp = data.nComponentes || 0;
+                const varExp = data.varianceExplained || [];
+                const cumVar = data.cumulativeVariance || [];
+                const eigenvalues = data.eigenvalues || [];
+                
+                return `
+                    <div class="ar-kpi-card ar-kpi-multi">
+                        <div class="ar-kpi-col-label">📊 PCA - Resumen</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Observaciones</span><span class="ar-kpi-sub-v">${data.nObservaciones || '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Variables</span><span class="ar-kpi-sub-v">${data.nVariables || '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Componentes</span><span class="ar-kpi-sub-v">${nComp}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Varianza Total</span><span class="ar-kpi-sub-v">${cumVar[cumVar.length - 1]?.toFixed(1) || '—'}%</span></div>
+                        </div>
+                    </div>
+                    <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px;">
+                        <div class="ar-kpi-col-label">📈 Varianza Explicada por Componente</div>
+                        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+                            <tr style="background:#f0f0f0;"><th style="padding:4px;text-align:left;">PC</th><th style="padding:4px;text-align:right;">Autovalor</th><th style="padding:4px;text-align:right;">% Var</th><th style="padding:4px;text-align:right;">% Acum</th></tr>
+                            ${eigenvalues.slice(0, Math.min(10, nComp)).map((ev, i) => `
+                                <tr><td style="padding:3px;">PC${i + 1}</td><td style="padding:3px;text-align:right;">${ev?.toFixed(3) || '—'}</td><td style="padding:3px;text-align:right;">${varExp[i]?.toFixed(1) || '—'}%</td><td style="padding:3px;text-align:right;">${cumVar[i]?.toFixed(1) || '—'}%</td></tr>
+                            `).join('')}
+                        </table>
+                    </div>
+                    <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px;">
+                        <div class="ar-kpi-col-label">📋 Cargas Factoriales (Loadings)</div>
+                        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
+                            <tr style="background:#f0f0f0;">
+                                <th style="padding:3px;">Variable</th>
+                                ${Array.from({length: Math.min(3, nComp)}, (_, i) => `<th style="padding:3px;">PC${i + 1}</th>`).join('')}
+                            </tr>
+                            ${cols.slice(0, 10).map((col, i) => {
+                                const loadings = data.loadings?.[i] || [];
+                                return `<tr>
+                                    <td style="padding:2px;">${col}</td>
+                                    ${Array.from({length: Math.min(3, nComp)}, (_, j) => `<td style="padding:2px;text-align:right;">${loadings[j]?.toFixed(3) || '—'}</td>`).join('')}
+                                </tr>`;
+                            }).join('')}
+                        </table>
+                    </div>
+                    ${data.interpretacion ? `
+                    <div class="ar-formula" style="margin-top:12px;">
+                        <span class="ar-formula-icon">💬</span>
+                        <div><div class="ar-formula-desc">${data.interpretacion}</div></div>
+                    </div>` : ''}`;
             }
 
             return '<p>Tipo de prueba no reconocido</p>';
