@@ -180,15 +180,20 @@ body {
   top: 23px;
   left: 50%;
   height: 50px;
-  width: 100px;
+  width: 52px;
   transform: translateX(-50%);
   background: #3a3a38;
-  border-radius: 50px 50px 50px 50px;
+  border-radius: 0px 0px 50px 50px;
   padding: 8px;
   opacity: 0;
   pointer-events: none;
   transition: all 0.2s ease;
   z-index: 100;
+
+  /* 🔑 Centrado con flexbox */
+  display: flex;
+  align-items: center;   /* centra verticalmente */
+  justify-content: center; /* centra horizontalmente */
 }
 
 .navbar-island.visible {
@@ -197,8 +202,8 @@ body {
 }
 
 .navbar-island-btn {
-  width: 36px;
-  height: 36px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   border: none;
   background: #ffffff;
@@ -210,6 +215,7 @@ body {
   transition: all 0.2s ease;
 }
 
+
 .navbar-island-btn:hover {
   transform: scale(1.1);
 }
@@ -218,6 +224,78 @@ body {
   width: 16px;
   height: 16px;
 }
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: max-content;
+}
+
+.sidebar-toggle {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #9e9e98;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.sidebar-toggle svg {
+  width: 14px;
+  height: 14px;
+}
+
+.sidebar-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-tab {
+  padding: 10px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #9e9e98;
+  cursor: pointer;
+  border: none;
+  background: none;
+  text-align: left;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-tab svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.sidebar-tab:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-tab.active {
+  background: #ffffff;
+  color: #1a1a18;
+}
+
 
 @media (max-width: 768px) {
   .main-container {

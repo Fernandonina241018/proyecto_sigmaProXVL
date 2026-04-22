@@ -10,74 +10,62 @@
 
     <div class="main-container">
 
-        <div class="navbar-wrapper">
-            <div class="sidebar-wrapper">
-            <nav class="navbar-left" id="navbarLeft">
-                <button class="navbar-left-btn" title="Menú">
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M2 4h12M2 8h12M2 12h12"/>
-                    </svg>
-                </button>
-            </nav>
-
-            <nav class="sidebar" id="sidebar">
-                <div class="sidebar-item active">
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <rect x="1" y="1" width="6" height="6" rx="1.5"/>
-                        <rect x="9" y="1" width="6" height="6" rx="1.5"/>
-                        <rect x="1" y="9" width="6" height="6" rx="1.5"/>
-                        <rect x="9" y="9" width="6" height="6" rx="1.5"/>
-                    </svg>
-                    <span>Dashboard</span>
-                </div>
-                <div class="sidebar-item">
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <circle cx="8" cy="8" r="6.5"/>
-                        <path d="M8 5v3l2 2"/>
-                    </svg>
-                    <span>Agent</span>
-                </div>
-                <div class="sidebar-item">
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M8 1l1.5 3 3.5.5-2.5 2.5.5 3.5L8 9l-3 1.5.5-3.5L3 4.5 6.5 4z"/>
-                    </svg>
-                    <span>APIs</span>
-                </div>
-                <div class="sidebar-item">
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <rect x="1" y="3" width="14" height="4" rx="1.5"/>
-                        <rect x="1" y="9" width="14" height="4" rx="1.5"/>
-                    </svg>
-                    <span>Servers</span>
-                </div>
-                <div class="sidebar-item">
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M8 2v4M8 10v4M2 8h4M10 8h4"/>
-                    </svg>
-                    <span>Activity</span>
-                </div>
-            </nav>
-        </div>
+        <nav class="navbar-left" id="navbarLeft">
+<button class="navbar-left-btn" title="Menú">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M2 4h12M2 8h12M2 12h12"/>
+                </svg>
+            </button>
+        </nav>
 
         <nav class="navbar" id="mainNavbar">
-                <button class="navbar-toggle" id="navbarToggle" title="Minimizar navbar">
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M4 6l4 4 4-4"/>
-                    </svg>
+<button class="navbar-toggle" id="navbarToggle" title="Minimizar navbar">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6l4 4 4-4"/>
+                </svg>
+            </button>
+            <div class="navbar-tabs">
+                <button class="navbar-tab active">Dashboard</button>
+                <button class="navbar-tab">Agent</button>
+                <button class="navbar-tab">APIs</button>
+                <button class="navbar-tab">Servers</button>
+                <button class="navbar-tab">Activity</button>
+            </div>
+        </nav>
+
+<nav class="sidebar" id="sidebar">
+            <button class="sidebar-toggle" id="sidebarToggle" title="Minimizar sidebar">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6l4 4 4-4"/>
+                </svg>
+            </button>
+            <div class="sidebar-tabs">
+                <button class="sidebar-tab active">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 2.5h11v11h-11z"/><path d="M2.5 5.5h11M5.5 2.5v11"/></svg>
+                    Dashboard
                 </button>
-                <div class="navbar-tabs">
-                    <button class="navbar-tab active">Dashboard</button>
-                    <button class="navbar-tab">Agent</button>
-                    <button class="navbar-tab">APIs</button>
-                    <button class="navbar-tab">Servers</button>
-                    <button class="navbar-tab">Activity</button>
-                </div>
-            </nav>
-        </div>
+                <button class="sidebar-tab">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"/><path d="M8 2v2M8 12v2M2 8h2M12 8h2"/></svg>
+                    Agent
+                </button>
+                <button class="sidebar-tab">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h10v10H3z"/><path d="M7 3v10M3 7h10"/></svg>
+                    APIs
+                </button>
+                <button class="sidebar-tab">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="4" rx="1"/><rect x="2" y="9" width="12" height="4" rx="1"/></svg>
+                    Servers
+                </button>
+                <button class="sidebar-tab">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="5" r="2"/><path d="M8 2v1M4 3h1M8 13v1M12 13h-1"/><path d="M5 8h-1M12 8h1M5 6l-1-1M12 11l1-1"/></svg>
+                    Activity
+                </button>
+            </div>
+        </nav>
 
 <!-- Navbar isla flotante (estilo notch iPhone) -->
         <div class="navbar-island" id="navbarIsland">
-            <button class="navbar-island-btn" id="navbarExpand" title="Expandir navbar">
+<button class="navbar-island-btn" id="navbarExpand" title="Expandir navbar">
                 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M4 10l4-4 4 4"/>
                 </svg>
