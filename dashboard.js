@@ -300,6 +300,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initDataPreview();
   initDatasetClick();
   initDragDrop();
+  // Poner los datasets iniciales en la tabla
+  Object.keys(STATE.datasets).forEach(name => {
+    addDatasetToTable(name, null, STATE.datasets[name]);
+  });
   // Estado inicial del sidebar
   const activePage = document.querySelector('.page.active')?.id || 'page-datos';
   updateSidebarContext(activePage);
@@ -564,6 +568,22 @@ STATE.datasets['precios_hist.csv'] = {
     ['Leche',25.50,'Mar',2024],['Pan',19.00,'Mar',2024]
   ]
 };
+// Dataset de PRUEBA con valores nulos
+STATE.datasets['prueba_nulos.csv'] = {
+  columns: ['id','nombre','edad','sueldo','departamento'],
+  rows: [
+    [1,'Juan',30,50000,'Ventas'],
+    [2,'Maria',null,45000,'Marketing'],
+    [3,'Pedro',28,'','RH'],
+    [4,'Ana',35,55000,null],
+    [5,'Luis','NA',38000,'Ventas'],
+    [6,'Carlos',42,60000,'RH'],
+    [7,'Sofia',null,'N/A','Marketing'],
+    [8,'Miguel',31,null,'Ventas'],
+    ['','Rosa',27,40000,'Ventas'],
+    [9,'Jorge',38,52000,'RH']
+  ]
+};
 
 function attachPreviewListeners(row, name) {
   const tooltip = document.getElementById('dataPreviewTooltip');
@@ -807,13 +827,13 @@ function loadToWork() {
   const data = STATE.datasets[name];
   if (!data) { showToast('Este dataset no tiene datos de preview. Sube un CSV o JSON.', 'warn'); return; }
 
-  STATE.workDataset = { name, ...data };
+  STATE.workDataset = { name, columns: data.columns, rows: data.rows };
 
   document.getElementById('workDatasetName').textContent = name;
   document.getElementById('gridLabel').textContent =
     `${name}  ·  ${data.rows.length} filas × ${data.columns.length} columnas`;
 
-  renderExcelGrid(data);
+  renderExcelGrid(STATE.workDataset);
   renderWorkStatsPanel();
   navigateTo('page-trabajo');
   showToast(`"${name}" cargado en Trabajo`, 'ok');
@@ -1021,13 +1041,14 @@ function handleToolApply() {
     log.push(result);
   });
 
-  closeFm();
-
-  // Re-renderizar grid con datos actualizados
+  // Re-renderizar grid ANTES de cerrar el menú
   if (['limpia','transform'].includes(fmToolKey)) {
     renderExcelGrid(STATE.workDataset);
     updateGridFooter();
   }
+
+  // Cerrar el menú
+  closeFm();
 
   // Mostrar resultados
   log.forEach(r => showToast(r.msg, r.ok ? 'ok' : 'warn'));
@@ -1040,16 +1061,33 @@ function handleToolApply() {
 // ─── DESPACHADOR DE OPERACIONES ───────────────────────────────────────────────
 function applyOperation(category, op) {
   const ds = STATE.workDataset;
-  if (!ds) return { ok: false, msg: 'Sin dataset activo' };
+  if (!ds) { 
+    return { ok: false, msg: 'Sin dataset activo' }; 
+  }
 
   // ── LIMPIEZA ────────────────────────────────────────────────────────────────
   if (category === 'limpia') {
     if (op === 'Eliminar valores nulos') {
       const before = ds.rows.length;
-      ds.rows = ds.rows.filter(row =>
-        row.every(cell => cell !== null && cell !== '' && cell !== undefined)
-      );
+      // Fix: remove rows where ANY cell is null, empty, undefined, or "NA"/"N/A"
+      ds.rows = ds.rows.filter(row => {
+        return !row.some(cell => 
+          cell === null || 
+          cell === undefined || 
+          cell === '' ||
+          String(cell).toUpperCase() === 'NA' ||
+          String(cell).toUpperCase() === 'N/A' ||
+          String(cell).toLowerCase() === 'null' ||
+          String(cell).toLowerCase() === 'none'
+        );
+      });
       const removed = before - ds.rows.length;
+      // Also update columns if needed
+      if (ds.rows.length > 0) {
+        ds.columns = ds.columns.filter((_, ci) => 
+          ds.rows.some(row => row[ci] !== null && row[ci] !== '')
+        );
+      }
       return { ok: true, msg: `Nulos: ${removed} fila${removed!==1?'s':''} eliminada${removed!==1?'s':''}` };
     }
 
