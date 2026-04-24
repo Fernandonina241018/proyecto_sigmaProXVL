@@ -106,7 +106,18 @@ getDataForModal().headers
 | Communalities no aparecían | Cambiado a `communality` (singular) |
 | KMO no aparecía | Cambiado a `kmo` minúscula |
 | Solo 1 columna en reportes | Umbral降至 50% |
-| Selección múltiple fallaba | Interceptores de botones agregados |
+| Selección múltiples fallaba | Interceptores de botones agregados |
+
+---
+
+## ✨ FEATURES DE UX IMPLEMENTADAS
+
+| Feature | Atajo | Implementación |
+|---------|------|---------------|
+| Tema claro/oscuro | `Ctrl+Shift+D` | `toggleTheme()` en script.js |
+| Keyboard shortcuts | `?` | `mostrarAyudaKeyboard()` |
+| Undo/Redo | `Ctrl+Z/Y` | `StateManager.undo()/redo()` |
+| Tutorial in-app | (auto) | Modal 6 pasos en primer login |
 
 ---
 
