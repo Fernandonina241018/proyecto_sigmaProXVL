@@ -1,89 +1,458 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="dashboard.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StatLab</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
 
-    <div class="main-container">
+<div class="notch" id="notch">
+  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6l4 4 4-4"/></svg>
+</div>
 
-        <nav class="navbar-left" id="navbarLeft">
-<button class="navbar-left-btn" title="Menú">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M2 4h12M2 8h12M2 12h12"/>
-                </svg>
-            </button>
-        </nav>
+<div class="data-preview-tooltip" id="dataPreviewTooltip">
+  <div class="data-preview-tooltip-title" id="previewTitle"></div>
+  <table id="previewTable"></table>
+</div>
 
-        <nav class="navbar" id="mainNavbar">
-<button class="navbar-toggle" id="navbarToggle" title="Minimizar navbar">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 6l4 4 4-4"/>
-                </svg>
-            </button>
-            <div class="navbar-tabs">
-                <button class="navbar-tab active">Dashboard</button>
-                <button class="navbar-tab">Agent</button>
-                <button class="navbar-tab">APIs</button>
-                <button class="navbar-tab">Servers</button>
-                <button class="navbar-tab">Activity</button>
-            </div>
-        </nav>
+<div class="floating-menu" id="floatingMenu">
+  <div class="fm-header">
+    <span class="fm-title" id="fmTitle"></span>
+    <div style="display:flex;align-items:center;gap:6px">
+      <button class="fm-select-all" id="fmSelectAll">Seleccionar todo</button>
+      <button class="fm-close" id="fmClose">✕</button>
+    </div>
+  </div>
+  <div class="fm-body" id="fmBody"></div>
+  <div class="fm-footer">
+    <button class="fm-apply" id="fmApply">Aplicar selección</button>
+  </div>
+</div>
 
-<nav class="sidebar" id="sidebar">
-            <button class="sidebar-toggle" id="sidebarToggle" title="Minimizar sidebar">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 6l4 4 4-4"/>
-                </svg>
-            </button>
-            <div class="sidebar-tabs">
-                <button class="sidebar-tab active">
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 2.5h11v11h-11z"/><path d="M2.5 5.5h11M5.5 2.5v11"/></svg>
-                    Dashboard
-                </button>
-                <button class="sidebar-tab">
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"/><path d="M8 2v2M8 12v2M2 8h2M12 8h2"/></svg>
-                    Agent
-                </button>
-                <button class="sidebar-tab">
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h10v10H3z"/><path d="M7 3v10M3 7h10"/></svg>
-                    APIs
-                </button>
-                <button class="sidebar-tab">
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="4" rx="1"/><rect x="2" y="9" width="12" height="4" rx="1"/></svg>
-                    Servers
-                </button>
-                <button class="sidebar-tab">
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="5" r="2"/><path d="M8 2v1M4 3h1M8 13v1M12 13h-1"/><path d="M5 8h-1M12 8h1M5 6l-1-1M12 11l1-1"/></svg>
-                    Activity
-                </button>
-            </div>
-        </nav>
+<div class="shell">
 
-<!-- Navbar isla flotante (estilo notch iPhone) -->
-        <div class="navbar-island" id="navbarIsland">
-<button class="navbar-island-btn" id="navbarExpand" title="Expandir navbar">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 10l4-4 4 4"/>
-                </svg>
-            </button>
-        </div>
+  <div class="top-row">
+    <button class="icon-btn">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+    </button>
+    <div class="navbar" id="nb">
+      <button class="nav-collapse-btn" id="nbBtn">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10l4-4 4 4"/></svg>
+      </button>
+      <div class="nav-tabs">
+        <button class="nav-tab active"  data-target="page-datos"         onclick="setNav(this)">Datos</button>
+        <button class="nav-tab"         data-target="page-trabajo"       onclick="setNav(this)">Trabajo</button>
+        <button class="nav-tab"         data-target="page-analisis"      onclick="setNav(this)">Análisis</button>
+        <button class="nav-tab"         data-target="page-visualizacion" onclick="setNav(this)">Visualización</button>
+        <button class="nav-tab"         data-target="page-reportes"      onclick="setNav(this)">Reportes</button>
+        <button class="nav-tab"         data-target="page-auditrail"     onclick="setNav(this)">Audit Trail</button>
+        <button class="nav-tab"         data-target="page-usuarios"      onclick="setNav(this)">Usuarios</button>
+      </div>
+    </div>
+    <div class="timer">TM</div>
+    <div class="avatar">FN</div>
+  </div>
 
+  <div class="body-row">
+
+    <div class="sidebar" id="sb">
+      <button class="sb-collapse-btn" id="sbBtn">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 4l-4 4 4 4"/></svg>
+      </button>
+      <button class="sb-tab" data-key="descriptiva" onclick="setSb(this)">
+        <svg viewBox="0 0 16 16"><path d="M2 4h12M2 7h8M2 10h10M2 13h6"/></svg>
+        <span class="sb-label">Descriptiva</span>
+      </button>
+      <button class="sb-tab" data-key="hipotesis" onclick="setSb(this)">
+        <svg viewBox="0 0 16 16"><path d="M8 2v4M8 10v4M3 5l3 3-3 3M13 5l-3 3 3 3"/></svg>
+        <span class="sb-label">Hipótesis</span>
+      </button>
+      <div class="sb-divider"></div>
+      <button class="sb-tab" data-key="correlacion" onclick="setSb(this)">
+        <svg viewBox="0 0 16 16"><circle cx="4" cy="12" r="1.5"/><circle cx="7" cy="8" r="1.5"/><circle cx="10" cy="5" r="1.5"/><circle cx="13" cy="3" r="1.5"/></svg>
+        <span class="sb-label">Correlación</span>
+      </button>
+      <button class="sb-tab" data-key="regresion" onclick="setSb(this)">
+        <svg viewBox="0 0 16 16"><path d="M2 13L14 3M3 10l2-2M9 6l2-2"/></svg>
+        <span class="sb-label">Regresión</span>
+      </button>
+      <div class="sb-divider"></div>
+      <button class="sb-tab" data-key="noparametricos" onclick="setSb(this)">
+        <svg viewBox="0 0 16 16"><path d="M2 12c2-4 4 4 6 0s4-8 6-4"/></svg>
+        <span class="sb-label">No Paramétricos</span>
+      </button>
+      <button class="sb-tab" data-key="multivariado" onclick="setSb(this)">
+        <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3"/><path d="M8 2v2M8 12v2M2 8h2M12 8h2"/></svg>
+        <span class="sb-label">Multivariado</span>
+      </button>
+      <div class="sb-divider"></div>
+      <button class="sb-tab" data-key="especificacion" onclick="setSb(this)">
+        <svg viewBox="0 0 16 16"><path d="M3 3h10v10H3zM3 8h10M8 3v10"/></svg>
+        <span class="sb-label">Especificación</span>
+      </button>
+      <button class="sb-tab" data-key="calidad" onclick="setSb(this)">
+        <svg viewBox="0 0 16 16"><path d="M3 8l3 3 7-7"/></svg>
+        <span class="sb-label">Calidad</span>
+      </button>
+      <div class="sb-divider"></div>
+      <button class="sb-tab" data-key="extras" onclick="setSb(this)">
+        <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="1.5"/><circle cx="3" cy="8" r="1.5"/><circle cx="13" cy="8" r="1.5"/></svg>
+        <span class="sb-label">Extras</span>
+      </button>
     </div>
 
-</body>
-<script>
-document.getElementById('navbarToggle').addEventListener('click', function() {
-    document.getElementById('mainNavbar').classList.add('hidden');
-    document.getElementById('navbarIsland').classList.add('visible');
-});
+    <div class="pages-container">
 
-document.getElementById('navbarExpand').addEventListener('click', function() {
-    document.getElementById('mainNavbar').classList.remove('hidden');
-    document.getElementById('navbarIsland').classList.remove('visible');
-});
-</script>
+      <!-- ══ DATOS ══ -->
+      <div class="page active" id="page-datos">
+        <div class="page-header">
+          <div><div class="page-title">Datos</div><div class="page-subtitle">Conjuntos de datos cargados</div></div>
+          <div class="badge-blue">3 activos</div>
+        </div>
+        <div class="cards">
+          <div class="card">
+            <div class="card-icon ic-b"><svg viewBox="0 0 16 16"><path d="M3 3h10v10H3zM3 6h10M6 3v10"/></svg></div>
+            <div class="card-label">Datasets</div><div class="card-value">3</div>
+            <div class="card-delta"><span>2 CSV · 1 XLSX</span></div>
+          </div>
+          <div class="card">
+            <div class="card-icon ic-p"><svg viewBox="0 0 16 16"><path d="M2 12l4-4 3 3 5-6"/></svg></div>
+            <div class="card-label">Filas totales</div><div class="card-value">14,820</div>
+            <div class="card-delta"><span>+340</span> último import</div>
+          </div>
+          <div class="card">
+            <div class="card-icon ic-g"><svg viewBox="0 0 16 16"><path d="M3 5h10M3 8h7M3 11h5"/></svg></div>
+            <div class="card-label">Variables</div><div class="card-value">47</div>
+            <div class="card-delta"><span>38 num · 9 cat.</span></div>
+          </div>
+          <div class="card">
+            <div class="card-icon ic-o"><svg viewBox="0 0 16 16"><path d="M8 5v4M8 11v1"/></svg></div>
+            <div class="card-label">Valores faltantes</div><div class="card-value">2.3%</div>
+            <div class="card-delta"><span class="neg">revisar</span> 3 vars</div>
+          </div>
+        </div>
+        <div class="datos-grid" id="datosGrid">
+          <div class="panel" id="panelDatasets">
+            <div class="panel-label">Datasets cargados</div>
+            <div style="overflow:auto;flex:1;">
+              <table class="data-table">
+                <thead><tr><th>Nombre</th><th>Tipo</th><th>Filas</th><th>Vars</th><th>Estado</th></tr></thead>
+                <tbody id="datasetsTableBody">
+                  <tr data-name="encuesta_2024.csv"><td>encuesta_2024.csv</td><td><span class="tag tag-type">CSV</span></td><td>8,420</td><td>24</td><td><span class="status-dot" style="background:#2ecc71"></span>Listo</td></tr>
+                  <tr data-name="panel_hogares.xlsx"><td>panel_hogares.xlsx</td><td><span class="tag tag-type">XLSX</span></td><td>4,200</td><td>18</td><td><span class="status-dot" style="background:#2ecc71"></span>Listo</td></tr>
+                  <tr data-name="precios_hist.csv"><td>precios_hist.csv</td><td><span class="tag tag-type">CSV</span></td><td>2,200</td><td>5</td><td><span class="status-dot" style="background:#f39c12"></span>Limpiando</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel" id="panelInfo">
+            <div class="panel-label" id="infoPanelLabel">Información</div>
+            <div style="overflow:auto;flex:1;" id="infoPanelContent">
+              <div class="empty-state" style="display:flex;align-items:center;justify-content:center;height:100%;color:#4a4a48;font-size:12px;">
+                Haz click en un dataset para ver información
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" id="panelUpload" style="margin-top:10px;">
+          <div class="panel-label">Cargar nuevo dataset</div>
+          <div style="display:flex;flex-direction:column;gap:8px;flex:1;">
+            <div class="upload-info" id="uploadInfo" style="flex:1;min-height:60px;">
+              <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#4a4a48;font-size:12px;">
+                Arrastra archivos aquí o haz click para seleccionar
+              </div>
+            </div>
+            <div class="upload-zone">
+              <svg viewBox="0 0 16 16"><path d="M8 2v8M5 7l3-3 3 3M3 13h10"/></svg>
+              <div class="upload-label">Arrastra tu archivo aquí</div>
+              <div class="upload-sub">CSV, XLSX, JSON · máx 50 MB</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ TRABAJO ══ -->
+      <div class="page" id="page-trabajo">
+        <div class="page-header">
+          <div><div class="page-title">Trabajo</div><div class="page-subtitle">Cola de análisis y ejecuciones</div></div>
+          <div class="badge-orange">2 en cola</div>
+        </div>
+        <div class="cards">
+          <div class="card">
+            <div class="card-icon ic-g"><svg viewBox="0 0 16 16"><path d="M3 8l3 3 7-7"/></svg></div>
+            <div class="card-label">Completados hoy</div><div class="card-value">12</div>
+            <div class="card-delta"><span>+4</span> vs ayer</div>
+          </div>
+          <div class="card">
+            <div class="card-icon ic-o"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5"/><path d="M8 5v3l2 2"/></svg></div>
+            <div class="card-label">En ejecución</div><div class="card-value">1</div>
+            <div class="card-delta"><span>Regresión múltiple</span></div>
+          </div>
+          <div class="card">
+            <div class="card-icon ic-b"><svg viewBox="0 0 16 16"><path d="M8 2v8M5 7l3 3 3-3M3 13h10"/></svg></div>
+            <div class="card-label">En cola</div><div class="card-value">2</div>
+            <div class="card-delta"><span>estimado 3m</span></div>
+          </div>
+          <div class="card">
+            <div class="card-icon ic-r"><svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></svg></div>
+            <div class="card-label">Fallidos</div><div class="card-value">0</div>
+            <div class="card-delta"><span>sin errores</span></div>
+          </div>
+        </div>
+        <div class="bottom-grid full">
+          <div class="panel">
+            <div class="panel-label">Cola de trabajos</div>
+            <div style="overflow:auto;flex:1;">
+              <table class="data-table">
+                <thead><tr><th>Análisis</th><th>Dataset</th><th>Estado</th><th>Progreso</th><th>Inicio</th></tr></thead>
+                <tbody>
+                  <tr><td>Regresión lineal múltiple</td><td>encuesta_2024.csv</td><td><span class="tag tag-run">Corriendo</span></td><td style="min-width:80px"><div class="prog-wrap"><div class="prog-bar" style="width:62%"></div></div></td><td>hace 2m</td></tr>
+                  <tr><td>ANOVA una vía</td><td>panel_hogares.xlsx</td><td><span class="tag">En cola</span></td><td><div class="prog-wrap"><div class="prog-bar" style="width:0%"></div></div></td><td>pendiente</td></tr>
+                  <tr><td>Correlación Pearson</td><td>encuesta_2024.csv</td><td><span class="tag">En cola</span></td><td><div class="prog-wrap"><div class="prog-bar" style="width:0%"></div></div></td><td>pendiente</td></tr>
+                  <tr><td>PCA — 5 componentes</td><td>panel_hogares.xlsx</td><td><span class="tag tag-run">Completado</span></td><td><div class="prog-wrap"><div class="prog-bar" style="width:100%"></div></div></td><td>hace 18m</td></tr>
+                  <tr><td>Shapiro-Wilk</td><td>precios_hist.csv</td><td><span class="tag tag-run">Completado</span></td><td><div class="prog-wrap"><div class="prog-bar" style="width:100%"></div></div></td><td>hace 45m</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ ANÁLISIS ══ -->
+      <div class="page" id="page-analisis">
+        <div class="page-header">
+          <div><div class="page-title">Análisis</div><div class="page-subtitle">Resultados estadísticos</div></div>
+          <div class="badge">15 resultados</div>
+        </div>
+        <div class="cards-3">
+          <div class="card">
+            <div class="card-icon ic-p"><svg viewBox="0 0 16 16"><path d="M2 13L14 3M3 10l2-2M9 6l2-2"/></svg></div>
+            <div class="card-label">Análisis ejecutados</div><div class="card-value">15</div>
+            <div class="card-delta"><span>+3</span> esta sesión</div>
+          </div>
+          <div class="card">
+            <div class="card-icon ic-g"><svg viewBox="0 0 16 16"><path d="M3 8l3 3 7-7"/></svg></div>
+            <div class="card-label">Significativos p&lt;0.05</div><div class="card-value">9</div>
+            <div class="card-delta"><span>60%</span> del total</div>
+          </div>
+          <div class="card">
+            <div class="card-icon ic-o"><svg viewBox="0 0 16 16"><path d="M8 5v4M8 11v1"/></svg></div>
+            <div class="card-label">No significativos</div><div class="card-value">6</div>
+            <div class="card-delta"><span>revisar</span> hipótesis</div>
+          </div>
+        </div>
+        <div class="bottom-grid full">
+          <div class="panel">
+            <div class="panel-label">Resultados recientes</div>
+            <div style="overflow:auto;flex:1;">
+              <table class="data-table">
+                <thead><tr><th>Prueba</th><th>Variables</th><th>Estadístico</th><th>p-valor</th><th>Resultado</th></tr></thead>
+                <tbody>
+                  <tr><td>Regresión múltiple</td><td>ingreso ~ edad + educ + exp</td><td>F = 24.31</td><td>0.0001</td><td><span class="tag tag-run">Sig.</span></td></tr>
+                  <tr><td>T-test pareado</td><td>pre_test vs post_test</td><td>t = −3.84</td><td>0.0023</td><td><span class="tag tag-run">Sig.</span></td></tr>
+                  <tr><td>Pearson</td><td>ingreso ~ educación</td><td>r = 0.67</td><td>0.0000</td><td><span class="tag tag-run">Sig.</span></td></tr>
+                  <tr><td>ANOVA una vía</td><td>satisfacción ~ región</td><td>F = 1.92</td><td>0.1420</td><td><span class="tag tag-warn">No sig.</span></td></tr>
+                  <tr><td>Shapiro-Wilk</td><td>residuos ~ normalidad</td><td>W = 0.981</td><td>0.2310</td><td><span class="tag tag-warn">No sig.</span></td></tr>
+                  <tr><td>Mann-Whitney U</td><td>salario ~ género</td><td>U = 1840</td><td>0.0341</td><td><span class="tag tag-run">Sig.</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ VISUALIZACIÓN ══ -->
+      <div class="page" id="page-visualizacion">
+        <div class="page-header">
+          <div><div class="page-title">Visualización</div><div class="page-subtitle">Gráficos generados</div></div>
+          <div class="badge-purple">8 gráficos</div>
+        </div>
+        <div class="cards-3">
+          <div class="card">
+            <div class="card-icon ic-p"><svg viewBox="0 0 16 16"><path d="M2 12l4-4 3 3 5-6"/></svg></div>
+            <div class="card-label">Generados</div><div class="card-value">8</div>
+            <div class="card-delta"><span>+2</span> esta sesión</div>
+          </div>
+          <div class="card">
+            <div class="card-icon ic-b"><svg viewBox="0 0 16 16"><rect x="2" y="8" width="3" height="5"/><rect x="6.5" y="5" width="3" height="8"/><rect x="11" y="2" width="3" height="11"/></svg></div>
+            <div class="card-label">Exportados</div><div class="card-value">3</div>
+            <div class="card-delta"><span>PNG · SVG</span></div>
+          </div>
+          <div class="card">
+            <div class="card-icon ic-g"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5"/><path d="M8 3v5l3 3"/></svg></div>
+            <div class="card-label">En reporte</div><div class="card-value">5</div>
+            <div class="card-delta"><span>incluidos</span></div>
+          </div>
+        </div>
+        <div class="bottom-grid">
+          <div class="panel">
+            <div class="panel-label">Actividad — frecuencia de variables</div>
+            <div class="chart-area" id="chartViz"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-label">Galería de gráficos</div>
+            <div style="overflow:auto;flex:1;">
+              <table class="data-table">
+                <thead><tr><th>Gráfico</th><th>Tipo</th><th>Variables</th></tr></thead>
+                <tbody>
+                  <tr><td>Dispersión ingreso/edad</td><td><span class="tag">Scatter</span></td><td>ingreso, edad</td></tr>
+                  <tr><td>Histograma residuos</td><td><span class="tag">Hist</span></td><td>e_i</td></tr>
+                  <tr><td>Boxplot por región</td><td><span class="tag">Box</span></td><td>salario, región</td></tr>
+                  <tr><td>Mapa de correlación</td><td><span class="tag">Heatmap</span></td><td>12 vars</td></tr>
+                  <tr><td>Q-Q normalidad</td><td><span class="tag">QQ</span></td><td>residuos</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ REPORTES ══ -->
+      <div class="page" id="page-reportes">
+        <div class="page-header">
+          <div><div class="page-title">Reportes</div><div class="page-subtitle">Documentos generados</div></div>
+          <div class="badge-blue">4 reportes</div>
+        </div>
+        <div class="cards-3">
+          <div class="card">
+            <div class="card-icon ic-b"><svg viewBox="0 0 16 16"><path d="M4 2h6l4 4v8H4V2zM10 2v4h4"/></svg></div>
+            <div class="card-label">Reportes totales</div><div class="card-value">4</div>
+            <div class="card-delta"><span>+1</span> esta semana</div>
+          </div>
+          <div class="card">
+            <div class="card-icon ic-g"><svg viewBox="0 0 16 16"><path d="M3 8l3 3 7-7"/></svg></div>
+            <div class="card-label">Completados</div><div class="card-value">3</div>
+            <div class="card-delta"><span>listos para exportar</span></div>
+          </div>
+          <div class="card">
+            <div class="card-icon ic-o"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5"/><path d="M8 5v3l2 2"/></svg></div>
+            <div class="card-label">En borrador</div><div class="card-value">1</div>
+            <div class="card-delta"><span>en progreso</span></div>
+          </div>
+        </div>
+        <div class="bottom-grid full">
+          <div class="panel">
+            <div class="panel-label">Listado de reportes</div>
+            <div style="overflow:auto;flex:1;">
+              <table class="data-table">
+                <thead><tr><th>Nombre</th><th>Contenido</th><th>Estado</th><th>Creado</th></tr></thead>
+                <tbody>
+                  <tr><td>Informe regresión Q1-2024</td><td>5 pruebas · 3 gráficos</td><td><span class="tag tag-run">Listo</span></td><td>hace 1d</td></tr>
+                  <tr><td>Análisis panel hogares</td><td>8 pruebas · 5 gráficos</td><td><span class="tag tag-run">Listo</span></td><td>hace 3d</td></tr>
+                  <tr><td>Descriptivo vars. económicas</td><td>3 pruebas · 2 gráficos</td><td><span class="tag tag-run">Listo</span></td><td>hace 5d</td></tr>
+                  <tr><td>Estudio series de precios</td><td>2 pruebas · 1 gráfico</td><td><span class="tag tag-warn">Borrador</span></td><td>hoy</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ AUDIT TRAIL ══ -->
+      <div class="page" id="page-auditrail">
+        <div class="page-header">
+          <div><div class="page-title">Audit Trail</div><div class="page-subtitle">Historial completo de acciones</div></div>
+          <div class="badge-gray">38 eventos hoy</div>
+        </div>
+        <div class="cards-3">
+          <div class="card">
+            <div class="card-icon ic-b"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5"/><path d="M8 5v3l2 2"/></svg></div>
+            <div class="card-label">Acciones totales</div><div class="card-value">38</div>
+            <div class="card-delta"><span>últimas 24h</span></div>
+          </div>
+          <div class="card">
+            <div class="card-icon ic-g"><svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="3"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5"/></svg></div>
+            <div class="card-label">Usuarios activos</div><div class="card-value">3</div>
+            <div class="card-delta"><span>con actividad hoy</span></div>
+          </div>
+          <div class="card">
+            <div class="card-icon ic-r"><svg viewBox="0 0 16 16"><path d="M8 5v4M8 11v1"/></svg></div>
+            <div class="card-label">Acciones críticas</div><div class="card-value">2</div>
+            <div class="card-delta"><span class="neg">eliminar datos</span></div>
+          </div>
+        </div>
+        <div class="bottom-grid full">
+          <div class="panel">
+            <div class="panel-label">Log de eventos</div>
+            <div class="activity-list" style="overflow:auto;">
+              <div class="act-row"><div class="act-dot" style="background:#2ecc71"></div><div class="act-text"><b style="color:#d4d4d0">FN</b> — Ejecutó regresión múltiple en encuesta_2024.csv</div><div class="act-time">3m</div></div>
+              <div class="act-row"><div class="act-dot" style="background:#4a90d9"></div><div class="act-text"><b style="color:#d4d4d0">MR</b> — Exportó reporte "Informe Q1-2024" como PDF</div><div class="act-time">18m</div></div>
+              <div class="act-row"><div class="act-dot" style="background:#2ecc71"></div><div class="act-text"><b style="color:#d4d4d0">FN</b> — Cargó dataset panel_hogares.xlsx (4,200 filas)</div><div class="act-time">34m</div></div>
+              <div class="act-row"><div class="act-dot" style="background:#e74c3c"></div><div class="act-text"><b style="color:#d4d4d0">AJ</b> — Eliminó dataset legacy_2020.csv</div><div class="act-time">1h</div></div>
+              <div class="act-row"><div class="act-dot" style="background:#6c5ce7"></div><div class="act-text"><b style="color:#d4d4d0">MR</b> — Cambió rol de usuario AJ a "Editor"</div><div class="act-time">1h 20m</div></div>
+              <div class="act-row"><div class="act-dot" style="background:#2ecc71"></div><div class="act-text"><b style="color:#d4d4d0">FN</b> — Generó 3 gráficos para reporte panel hogares</div><div class="act-time">2h</div></div>
+              <div class="act-row"><div class="act-dot" style="background:#e74c3c"></div><div class="act-text"><b style="color:#d4d4d0">FN</b> — Eliminó análisis duplicado (t-test)</div><div class="act-time">3h</div></div>
+              <div class="act-row"><div class="act-dot" style="background:#4a90d9"></div><div class="act-text"><b style="color:#d4d4d0">AJ</b> — Inició sesión desde 192.168.1.42</div><div class="act-time">5h</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ USUARIOS ══ -->
+      <div class="page" id="page-usuarios">
+        <div class="page-header">
+          <div><div class="page-title">Usuarios</div><div class="page-subtitle">Gestión de accesos y roles</div></div>
+          <div class="badge-blue">3 activos</div>
+        </div>
+        <div class="cards-3">
+          <div class="card">
+            <div class="card-icon ic-b"><svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="3"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5"/></svg></div>
+            <div class="card-label">Total usuarios</div><div class="card-value">5</div>
+            <div class="card-delta"><span>3 activos</span> hoy</div>
+          </div>
+          <div class="card">
+            <div class="card-icon ic-p"><svg viewBox="0 0 16 16"><path d="M6 7h4M6 10h4M10 2H6L4 4H3a1 1 0 00-1 1v9h12V5a1 1 0 00-1-1h-1L10 2z"/></svg></div>
+            <div class="card-label">Administradores</div><div class="card-value">1</div>
+            <div class="card-delta"><span>acceso total</span></div>
+          </div>
+          <div class="card">
+            <div class="card-icon ic-o"><svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="3"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5"/></svg></div>
+            <div class="card-label">Pendientes</div><div class="card-value">1</div>
+            <div class="card-delta"><span class="neg">aprobar acceso</span></div>
+          </div>
+        </div>
+        <div class="bottom-grid full">
+          <div class="panel">
+            <div class="panel-label">Listado de usuarios</div>
+            <div style="overflow:auto;flex:1;">
+              <table class="data-table">
+                <thead><tr><th>Usuario</th><th>Nombre</th><th>Rol</th><th>Último acceso</th><th>Estado</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><div style="display:flex;align-items:center;gap:8px"><div class="u-avatar" style="background:linear-gradient(135deg,#e8682a,#6c5ce7)">FN</div>fn@stat.io</div></td>
+                    <td>F. Núñez</td><td><span class="tag tag-err">Admin</span></td><td>hace 3m</td><td><span class="status-dot" style="background:#2ecc71"></span>Activo</td>
+                  </tr>
+                  <tr>
+                    <td><div style="display:flex;align-items:center;gap:8px"><div class="u-avatar" style="background:linear-gradient(135deg,#4a90d9,#6c5ce7)">MR</div>mr@stat.io</div></td>
+                    <td>M. Reyes</td><td><span class="tag tag-type">Editor</span></td><td>hace 18m</td><td><span class="status-dot" style="background:#2ecc71"></span>Activo</td>
+                  </tr>
+                  <tr>
+                    <td><div style="display:flex;align-items:center;gap:8px"><div class="u-avatar" style="background:linear-gradient(135deg,#2ecc71,#4a90d9)">AJ</div>aj@stat.io</div></td>
+                    <td>A. Jiménez</td><td><span class="tag tag-type">Editor</span></td><td>hace 5h</td><td><span class="status-dot" style="background:#6b6b65"></span>Inactivo</td>
+                  </tr>
+                  <tr>
+                    <td><div style="display:flex;align-items:center;gap:8px"><div class="u-avatar" style="background:linear-gradient(135deg,#f39c12,#e8682a)">CP</div>cp@stat.io</div></td>
+                    <td>C. Pérez</td><td><span class="tag">Viewer</span></td><td>hace 2d</td><td><span class="status-dot" style="background:#6b6b65"></span>Inactivo</td>
+                  </tr>
+                  <tr>
+                    <td><div style="display:flex;align-items:center;gap:8px"><div class="u-avatar" style="background:#3a3a38;color:#6b6b65">?</div>nuevo@ext.io</div></td>
+                    <td>—</td><td><span class="tag tag-warn">Pendiente</span></td><td>nunca</td><td><span class="status-dot" style="background:#f39c12"></span>Esperando</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="dashboard.js"></script>
+</body>
 </html>

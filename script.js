@@ -2180,6 +2180,7 @@ function mostrarModalConfiguracionHypothesis(statName) {
         }
         if (config.customFunc === 'abrirModalConfigAnalisisFactorial') {
             console.log('[crearModalConfiguracionHipotesis] LLAMANDO a abrirModalConfigAnalisisFactorial');
+            console.log('[crearModalConfiguracionHipotesis] imported type:', typeof imported, '| imported:', imported ? 'exists' : 'null');
             return window[config.customFunc](imported);
         }
         return window[config.customFunc](imported);
@@ -3832,12 +3833,16 @@ window.abrirModalConfigAnalisisFactorial = function(importedParam) {
     }
     
     const allCols = imported.headers;
+    console.log('[AF] data rows:', imported.data.length, '| headers:', allCols.length);
     const numericCols = allCols.filter(col => {
         const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
+        if (values.length === 0) return false;
         const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
+        const pct = (numericCount / values.length * 100).toFixed(1);
+        console.log('[AF] col:', col, '| total:', values.length, '| numeric:', numericCount, '| pct:', pct, '%');
         return numericCount / values.length > 0.5;
     });
-    console.log('[AF] allCols count:', allCols.length, '| numericCols count:', numericCols.length, '| numericCols sample:', numericCols.slice(0, 5));
+    console.log('[AF] numericCols final:', numericCols.length, '| sample:', numericCols.slice(0, 5));
 
     if (numericCols.length < 3) {
         _showToast('⚠️ Se necesitan al menos 3 columnas numéricas para Análisis Factorial', true);
