@@ -80,7 +80,7 @@ html, body {
 .nav-tab.active { background: #fff; color: #1a1a18; }
 
 .avatar {
-  width: 50px; height: 50px; border-radius: 50px; flex-shrink: 0;
+  width: 40px; height: 40px; border-radius: 50px; flex-shrink: 0;
   background: linear-gradient(135deg, #e8682a, #6c5ce7);
   display: flex; align-items: center; justify-content: center;
   font-size: 12px; font-weight: 500; color: #fff; cursor: pointer;
@@ -438,6 +438,10 @@ html, body {
 .bottom-grid        { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; min-height: 0; overflow: hidden; }
 .bottom-grid.full   { grid-template-columns: 1fr; }
 .bottom-grid.thirds { grid-template-columns: 1fr 1fr 1fr; }
+.bottom-grid.wide   { grid-template-columns: 4fr 1fr; }
+
+.bottom-grid > .panel { min-width: 0; }
+.bottom-grid-second   { display: flex; flex-direction: column; gap: 8px; min-height: 0; }
 
 .panel {
   background: #3a3a38; border-radius: 9px;
@@ -505,7 +509,7 @@ html, body {
 .btn-crystal-gray {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 6px 14px; border-radius: 6px; border: 0.5px solid transparent;
-  font-size: 12px; font-weight: 500; cursor: pointer; font-family: inherit;
+  font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit;
   backdrop-filter: blur(8px); transition: all .2s;
 }
 .btn-crystal, .btn-crystal-blue {
@@ -549,6 +553,44 @@ html, body {
 .tool-btn svg  { width: 14px; height: 14px; }
 .tool-btn:hover  { background: rgba(255,255,255,0.08); color: #fff; }
 .tool-btn:active { background: rgba(255,255,255,0.12); transform: scale(0.97); }
+
+.tool-btn-trabajo {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255, 255, 255, 0.15); /* transparencia estilo cristal */
+  color: #e0e0e0;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .3s;
+  right: 10px;
+
+  /* 🔑 efecto cristal */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.tool-btn-trabajo svg {
+  width: 15px;
+  height: 15px;
+}
+
+.tool-btn-trabajo:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+.tool-btn-trabajo:active {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(0.97);
+}
+
 
 /* ─── PÁGINA TRABAJO ──────────────────────────────────────────────────────── */
 .work-layout {
@@ -633,5 +675,5 @@ html, body {
   .body-row { grid-template-columns: 1fr; }
   .sidebar  { display: none; }
   .cards, .cards-3 { grid-template-columns: 1fr 1fr; }
-  .bottom-grid, .bottom-grid.thirds { grid-template-columns: 1fr; }
+  .bottom-grid, .bottom-grid.thirds, .bottom-grid.wide { grid-template-columns: 1fr; }
 }

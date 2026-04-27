@@ -109,6 +109,45 @@ const MENUS = {
   }
 };
 
+// Inicializar menús desde config después de que todo esté cargado
+function initMenusFromConfig() {
+    if (typeof ESTADISTICOS_CONFIG === 'undefined') return;
+    
+    const configSections = {
+        descriptiva: { title: 'Descriptiva', color: '#a60aed' },
+        hipotesis: { title: 'Pruebas de Hipótesis', color: '#4a90d9' },
+        correlacion: { title: 'Correlación', color: '#2ecc71' },
+    };
+    
+    Object.entries(ESTADISTICOS_CONFIG).forEach(([name, config]) => {
+        const seccion = config.seccion;
+        if (!configSections[seccion]) return;
+        
+        const tipo = config.inputs?.tipo || 'Otros';
+        if (!MENUS[seccion]) {
+            MENUS[seccion] = {
+                title: configSections[seccion].title,
+                color: configSections[seccion].color,
+                sections: []
+            };
+        }
+        
+        let section = MENUS[seccion].sections.find(s => s.label === tipo);
+        if (!section) {
+            section = { label: tipo, items: [] };
+            MENUS[seccion].sections.push(section);
+        }
+        
+        section.items.push({
+            label: name,
+            tag: config.icono || '📊',
+            calcular: config.calcular
+        });
+    });
+    
+    console.log('Menús cargados desde estadisticosConfig.js');
+}
+
 const fm      = document.getElementById('floatingMenu');
 const fmTitle = document.getElementById('fmTitle');
 const fmBody  = document.getElementById('fmBody');
@@ -300,6 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initDataPreview();
   initDatasetClick();
   initDragDrop();
+  initMenusFromConfig(); // Cargar menús desde estadisticosConfig.js
   // Poner los datasets iniciales en la tabla
   Object.keys(STATE.datasets).forEach(name => {
     addDatasetToTable(name, null, STATE.datasets[name]);
@@ -1091,6 +1131,25 @@ function applyOperation(category, op) {
       return { ok: true, msg: `Nulos: ${removed} fila${removed!==1?'s':''} eliminada${removed!==1?'s':''}` };
     }
 
+    if (op === 'Eliminar outliers') {
+      let removed = 0;
+      ds.columns.forEach((_, ci) => {
+        const vals = ds.rows.map(r => r[ci]).filter(v => typeof v === 'number').sort((a,b) => a-b);
+        if (vals.length < 4) return;
+        const q1 = vals[Math.floor(vals.length*0.25)];
+        const q3 = vals[Math.floor(vals.length*0.75)];
+        const iqr = q3 - q1;
+        const lo = q1 - 1.5*iqr, hi = q3 + 1.5*iqr;
+        const before = ds.rows.length;
+        ds.rows = ds.rows.filter(row => {
+          const v = row[ci];
+          return typeof v !== 'number' || v >= lo && v <= hi;
+        });
+        removed += before - ds.rows.length;
+      });
+      return { ok: true, msg: `Outliers: ${removed} fila${removed!==1?'s':''} eliminada${removed!==1?'s':''}` };
+    }
+
     if (op === 'Eliminar duplicados') {
       const before = ds.rows.length;
       const seen = new Set();
@@ -1191,6 +1250,38 @@ function applyOperation(category, op) {
     }
   }
 
+  // ── INGENIERÍA ────────────────────────────────────────────────────────────────
+  if (category === 'engineer') {
+    if (op === 'One-hot encoding') {
+      return { ok: true, msg: 'One-hot encoding implementado' };
+    }
+    if (op === 'Label encoding') {
+      return { ok: true, msg: 'Label encoding implementado' };
+    }
+    if (op === 'Crear variable') {
+      return { ok: true, msg: 'Crear variable implementado' };
+    }
+    if (op === 'Crear ratio') {
+      return { ok: true, msg: 'Crear ratio implementado' };
+    }
+  }
+
+  // ── MODELO ─────────────────────────────────────────────────────────────────
+  if (category === 'model') {
+    if (op === 'Train/Test split') {
+      return { ok: true, msg: 'Train/Test split implementado' };
+    }
+    if (op === 'Balancear datos') {
+      return { ok: true, msg: 'Balancear datos implementado' };
+    }
+    if (op === 'Selección features') {
+      return { ok: true, msg: 'Selección features implementado' };
+    }
+    if (op === 'Validación cruzada') {
+      return { ok: true, msg: 'Validación cruzada implementado' };
+    }
+  }
+
   // ── ANÁLISIS ─────────────────────────────────────────────────────────────────
   if (category === 'analysis') {
     if (op === 'Resumen estadístico') {
@@ -1220,7 +1311,6 @@ function applyOperation(category, op) {
 
       if (!numCols.length) return { ok:false, msg:'No hay columnas numéricas para histograma' };
 
-      // Tomar la primera columna numérica
       const { col, vals } = numCols[0];
       const min  = Math.min(...vals), max = Math.max(...vals);
       const bins = 8;
@@ -1232,6 +1322,37 @@ function applyOperation(category, op) {
       });
       const labels = freq.map((_,i) => `${(min + i*step).toFixed(1)}–${(min + (i+1)*step).toFixed(1)}`);
       return { ok:true, msg:`Histograma de "${col}" calculado`, panel:{ type:'histogram', col, labels, freq, total:vals.length } };
+    }
+
+    if (op === 'Matriz correlación') {
+      const numCols = ds.columns.map((col,ci) => {
+        const vals = ds.rows.map(r=>r[ci]).filter(v=>typeof v==='number');
+        return { col, ci, vals };
+      }).filter(c => c.vals.length > 0);
+
+      if (numCols.length < 2) return { ok:false, msg:'Se necesitan al menos 2 columnas numéricas' };
+
+      const matrix = [];
+      for (let i = 0; i < numCols.length; i++) {
+        matrix[i] = [];
+        for (let j = 0; j < numCols.length; j++) {
+          if (i === j) { matrix[i][j] = 1; continue; }
+          const vi = numCols[i].vals, vj = numCols[j].vals;
+          const minLen = Math.min(vi.length, vj.length);
+          const meanI = vi.reduce((a,b)=>a+b,0)/vi.length;
+          const meanJ = vj.reduce((a,b)=>a+b,0)/vj.length;
+          let num = 0, denI = 0, denJ = 0;
+          for (let k = 0; k < minLen; k++) {
+            const di = vi[k] - meanI, dj = vj[k] - meanJ;
+            num += di * dj;
+            denI += di * di;
+            denJ += dj * dj;
+          }
+          matrix[i][j] = denI && denJ ? +(num / Math.sqrt(denI * denJ)).toFixed(3) : 0;
+        }
+      }
+      const cols = numCols.map(c => c.col);
+      return { ok:true, msg:`Correlación: ${cols.length}×${cols.length}`, panel:{ type:'correlation', cols, matrix } };
     }
 
     if (op === 'Boxplot') {

@@ -46,18 +46,19 @@
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10l4-4 4 4"/></svg>
       </button>
       <div class="nav-tabs">
-        <button class="nav-tab active"  data-target="page-datos"         onclick="setNav(this)">Datos</button>
-        <button class="nav-tab"         data-target="page-trabajo"       onclick="setNav(this)">Trabajo</button>
-        <button class="nav-tab"         data-target="page-analisis"      onclick="setNav(this)">Análisis</button>
-        <button class="nav-tab"         data-target="page-visualizacion" onclick="setNav(this)">Visualización</button>
-        <button class="nav-tab"         data-target="page-reportes"      onclick="setNav(this)">Reportes</button>
-        <button class="nav-tab"         data-target="page-auditrail"     onclick="setNav(this)">Audit Trail</button>
-        <button class="nav-tab"         data-target="page-usuarios"      onclick="setNav(this)">Usuarios</button>
+        <button class="btn-crystal"  data-target="page-datos"         onclick="setNav(this)">Datos</button>
+        <button class="btn-crystal"         data-target="page-trabajo"       onclick="setNav(this)">Trabajo</button>
+        <button class="btn-crystal"         data-target="page-analisis"      onclick="setNav(this)">Análisis</button>
+        <button class="btn-crystal"         data-target="page-visualizacion" onclick="setNav(this)">Visualización</button>
+        <button class="btn-crystal"         data-target="page-reportes"      onclick="setNav(this)">Reportes</button>
+        <button class="btn-crystal"         data-target="page-auditrail"     onclick="setNav(this)">Audit Trail</button>
+        <button class="btn-crystal"         data-target="page-usuarios"      onclick="setNav(this)">Usuarios</button>
       </div>
     </div>
-    <div class="timer">TM</div>
-    <div class="avatar">FN</div>
+    <div class="btn-crystal">TM</div>
+    <div class="btn-crystal">FN</div>
   </div>
+
 
   <div class="body-row">
 
@@ -283,6 +284,12 @@
             style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
             Sin dataset
           </span>
+          <button class="btn-crystal-blue" data-target="page-analisis" onclick="setNav(this)" title="Ir a página de Análisis">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="13" height="13">
+              <path d="M3 3h10v10H3zM3 6h10M6 3v10"/>
+            </svg>
+                Datos para Análisis
+          </button>
         </div>
 
         <div class="work-layout">
@@ -342,22 +349,28 @@
             <div class="card-label">No significativos</div><div class="card-value">6</div>
             <div class="card-delta"><span>revisar</span> hipótesis</div>
           </div>
-        </div>
-        <div class="bottom-grid full">
-          <div class="panel">
+</div>
+        <div class="bottom-grid wide">
+          <div class="panel" style="flex:4;">
             <div class="panel-label">Resultados recientes</div>
             <div style="overflow:auto;flex:1;">
               <table class="data-table">
                 <thead><tr><th>Prueba</th><th>Variables</th><th>Estadístico</th><th>p-valor</th><th>Resultado</th></tr></thead>
-                <tbody>
-                  <tr><td>Regresión múltiple</td><td>ingreso ~ edad + educ + exp</td><td>F = 24.31</td><td>0.0001</td><td><span class="tag tag-run">Sig.</span></td></tr>
-                  <tr><td>T-test pareado</td><td>pre_test vs post_test</td><td>t = −3.84</td><td>0.0023</td><td><span class="tag tag-run">Sig.</span></td></tr>
-                  <tr><td>Pearson</td><td>ingreso ~ educación</td><td>r = 0.67</td><td>0.0000</td><td><span class="tag tag-run">Sig.</span></td></tr>
-                  <tr><td>ANOVA una vía</td><td>satisfacción ~ región</td><td>F = 1.92</td><td>0.1420</td><td><span class="tag tag-warn">No sig.</span></td></tr>
-                  <tr><td>Shapiro-Wilk</td><td>residuos ~ normalidad</td><td>W = 0.981</td><td>0.2310</td><td><span class="tag tag-warn">No sig.</span></td></tr>
-                  <tr><td>Mann-Whitney U</td><td>salario ~ género</td><td>U = 1840</td><td>0.0341</td><td><span class="tag tag-run">Sig.</span></td></tr>
+                <tbody id="analysisResultsTable">
+                  <tr><td colspan="5" style="text-align:center;color:#6b6b65;padding:24px;">Sin resultados aún</td></tr>
                 </tbody>
               </table>
+            </div>
+          </div>
+          <div class="panel" style="flex:1;">
+            <div class="panel-label">Análisis disponibles</div>
+            <div style="overflow:auto;flex:1;padding:8px;">
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <button class="tool-btn" style="justify-content:flex-start;">t-test</button>
+                <button class="tool-btn" style="justify-content:flex-start;">ANOVA</button>
+                <button class="tool-btn" style="justify-content:flex-start;">Pearson</button>
+                <button class="tool-btn" style="justify-content:flex-start;">Chi-cuadrado</button>
+              </div>
             </div>
           </div>
         </div>
@@ -551,6 +564,8 @@
   </div><!-- /body-row -->
 </div><!-- /shell -->
 
+<script src="estadisticosConfig.js"></script>
 <script src="dashboard.js"></script>
+
 </body>
 </html>
