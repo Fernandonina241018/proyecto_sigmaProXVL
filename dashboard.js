@@ -339,7 +339,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initDataPreview();
   initDatasetClick();
   initDragDrop();
-  initMenusFromConfig(); // Cargar menús desde estadisticosConfig.js
+  initMenusFromConfig();
+  initGridPasteListener(); // Habilitar pegado directo en grid
   // Poner los datasets iniciales en la tabla
   Object.keys(STATE.datasets).forEach(name => {
     addDatasetToTable(name, null, STATE.datasets[name]);
@@ -347,6 +348,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Estado inicial del sidebar
   const activePage = document.querySelector('.page.active')?.id || 'page-datos';
   updateSidebarContext(activePage);
+  // Mostrar grid vacío para pegar datos si no hay workDataset
+  if (!STATE.workDataset) {
+    renderEmptyGrid();
+  }
 });
 
 // ─── BÚSQUEDA Y FILTRO SINCRONIZADOS (FIX #5) ────────────────────────────────
@@ -877,6 +882,91 @@ function loadToWork() {
   renderWorkStatsPanel();
   navigateTo('page-trabajo');
   showToast(`"${name}" cargado en Trabajo`, 'ok');
+}
+
+// ─── RENDER EMPTY GRID (PARA PEGAR DATOS DIRECTAMENTE) ───────────────────────────
+function renderEmptyGrid() {
+  const thead  = document.getElementById('excelGridHead');
+  const tbody  = document.getElementById('excelGridBody');
+  const footer = document.getElementById('excelGridFooter');
+  const label  = document.getElementById('gridLabel');
+  if (!thead || !tbody) return;
+
+  if (label) label.innerHTML = 'Pega datos aquí (Ctrl+V) · Excel, CSV o texto separado por tabs';
+
+  const EMPTY_ROWS = 25;
+  const EMPTY_COLS = 10;
+  const cols = Array.from({length: EMPTY_COLS}, (_, i) => `Columna${i+1}`);
+  
+  thead.innerHTML = `<tr><th>#</th>${cols.map(c=>`<th>${c}</th>`).join('')}</tr>`;
+  
+  let html = '';
+  for (let r = 0; r < EMPTY_ROWS; r++) {
+    const cells = cols.map((_, c) => `<td class="editable-cell" data-row="${r}" data-col="${c+1}" contenteditable="true"></td>`).join('');
+    html += `<tr><td>${r+1}</td>${cells}</tr>`;
+  }
+  tbody.innerHTML = html;
+
+  if (footer) footer.textContent = `${EMPTY_ROWS} filas · ${EMPTY_COLS} columnas (vacío)`;
+}
+
+// ─── PARSE PEGADO Y ACTUALIZAR GRID ───────────────────────────────────────────────
+function handleGridPaste(e) {
+  const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+  if (!pastedText || !pastedText.trim()) return;
+
+  const hasTab = pastedText.includes('\t');
+  const hasComma = pastedText.includes(',');
+  const hasMultipleLines = pastedText.split('\n').filter(r => r.trim()).length > 1;
+
+  let rows;
+  if (hasTab) {
+    rows = pastedText.split('\n').filter(r => r.trim()).map(line => line.split('\t').map(cell => cell.trim()));
+  } else if (hasComma) {
+    const quote = pastedText.includes('"');
+    rows = pastedText.split('\n').filter(r => r.trim()).map(line => {
+      const cells = [];
+      let inQuote = false, current = '';
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') inQuote = !inQuote;
+        else if (ch === ',' && !inQuote) { cells.push(current.trim()); current = ''; }
+        else current += ch;
+      }
+      cells.push(current.trim());
+      return cells;
+    });
+  } else {
+    rows = pastedText.split('\n').filter(r => r.trim()).map(line => line.split(/\s+/).filter(c => c.trim()));
+  }
+
+  if (!rows.length || rows.every(r => r.length === 0)) return;
+
+  const columns = rows[0] || [];
+  const dataRows = rows.slice(1).filter(r => r.length > 0);
+
+  if (dataRows.length === 0 && columns.length > 0) {
+    rows.forEach(r => { if (r.length > 0) dataRows.push(r); });
+  }
+
+  const name = 'Datos pegados';
+  STATE.workDataset = { name, columns, rows: dataRows };
+
+  document.getElementById('workDatasetName').textContent = name;
+  document.getElementById('gridLabel').textContent = `${name} · ${dataRows.length} filas × ${columns.length} columnas`;
+  
+  renderExcelGrid(STATE.workDataset);
+  navigateTo('page-trabajo');
+  showToast(`Datos pegados cargados: ${dataRows.length} filas × ${columns.length} columnas`, 'ok');
+}
+
+// ─── INIT GRID PASTE LISTENER ───────────────────────────────────────────────────
+function initGridPasteListener() {
+  const wrapper = document.getElementById('excelGridWrapper');
+  if (!wrapper) return;
+  
+  wrapper.removeEventListener('paste', handleGridPaste);
+  wrapper.addEventListener('paste', handleGridPaste);
 }
 
 // ─── RENDER GRID EXCEL ────────────────────────────────────────────────────────
