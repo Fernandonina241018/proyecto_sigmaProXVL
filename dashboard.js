@@ -11,20 +11,24 @@ const UI_STATE_KEY = 'dashboardUIState';
 
 function saveUIState() {
   try {
-    sessionStorage.setItem(UI_STATE_KEY, JSON.stringify({
+    localStorage.setItem(UI_STATE_KEY, JSON.stringify({
       sidebarCollapsed: document.getElementById('sb').classList.contains('collapsed'),
       navbarCollapsed:  document.getElementById('nb').classList.contains('collapsed'),
       activePage:       document.querySelector('.page.active')?.id || 'page-datos',
       activeFloatingMenu: activeKey,
       checkedItems:     JSON.parse(JSON.stringify(checked)),
+      workDataset:      STATE.workDataset || null,
     }));
   } catch(e) { console.warn('saveUIState:', e); }
 }
 
 function loadUIState() {
   try {
-    const saved = sessionStorage.getItem(UI_STATE_KEY);
-    if (!saved) return;
+    const saved = localStorage.getItem(UI_STATE_KEY);
+    if (!saved) {
+      renderEmptyGrid();
+      return;
+    }
     const s = JSON.parse(saved);
     if (s.sidebarCollapsed) document.getElementById('sb').classList.add('collapsed');
     if (s.navbarCollapsed) {
@@ -38,7 +42,19 @@ function loadUIState() {
       const tab = document.querySelector(`.sb-tab[data-key="${s.activeFloatingMenu}"]`);
       if (tab) setSb(tab);
     }
-  } catch(e) { console.warn('loadUIState:', e); }
+    if (s.workDataset) {
+      STATE.workDataset = s.workDataset;
+      document.getElementById('workDatasetName').textContent = STATE.workDataset.name;
+      document.getElementById('gridLabel').textContent = 
+        `${STATE.workDataset.name} · ${STATE.workDataset.rows.length} filas × ${STATE.workDataset.columns.length} columnas`;
+      renderExcelGrid(STATE.workDataset);
+    } else {
+      renderEmptyGrid();
+    }
+  } catch(e) { 
+    console.warn('loadUIState:', e);
+    renderEmptyGrid();
+  }
 }
 
 // ─── MENÚS FLOTANTES ──────────────────────────────────────────────────────────
@@ -340,7 +356,15 @@ document.addEventListener('DOMContentLoaded', () => {
   initDatasetClick();
   initDragDrop();
   initMenusFromConfig();
-  initGridPasteListener(); // Habilitar pegado directo en grid
+  initGridPasteListener();
+  // Guardar antes de cualquier cierre/reload
+  window.addEventListener('beforeunload', () => saveUIState());
+  // Guardar periódicamente cada 2 segundos
+  setInterval(() => {
+    if (STATE.workDataset?.rows?.length > 0) {
+      saveUIState();
+    }
+  }, 2000);
   // Poner los datasets iniciales en la tabla
   Object.keys(STATE.datasets).forEach(name => {
     addDatasetToTable(name, null, STATE.datasets[name]);
@@ -348,10 +372,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Estado inicial del sidebar
   const activePage = document.querySelector('.page.active')?.id || 'page-datos';
   updateSidebarContext(activePage);
-  // Mostrar grid vacío para pegar datos si no hay workDataset
-  if (!STATE.workDataset) {
-    renderEmptyGrid();
-  }
 });
 
 // ─── BÚSQUEDA Y FILTRO SINCRONIZADOS (FIX #5) ────────────────────────────────
@@ -865,6 +885,11 @@ function deleteDataset(name) {
 
 // ─── CARGAR EN TRABAJO ────────────────────────────────────────────────────────
 function loadToWork() {
+  if (STATE.workDataset && STATE.workDataset.rows?.length > 0) {
+    const confirmReplace = confirm('⚠️ Ya tienes datos en el grid. ¿Sobrescribir con el nuevo dataset?\n\nLos datos actuales se perderán.');
+    if (!confirmReplace) return;
+  }
+
   const selectedRow = document.querySelector('#datasetsTableBody tr.active');
   if (!selectedRow) { showToast('Selecciona un dataset haciendo click en la tabla', 'warn'); return; }
 
@@ -878,6 +903,7 @@ function loadToWork() {
   document.getElementById('gridLabel').textContent =
     `${name}  ·  ${data.rows.length} filas × ${data.columns.length} columnas`;
 
+  saveUIState();
   renderExcelGrid(STATE.workDataset);
   renderWorkStatsPanel();
   navigateTo('page-trabajo');
@@ -914,6 +940,11 @@ function renderEmptyGrid() {
 function handleGridPaste(e) {
   const pastedText = (e.clipboardData || window.clipboardData).getData('text');
   if (!pastedText || !pastedText.trim()) return;
+
+  if (STATE.workDataset && STATE.workDataset.rows?.length > 0) {
+    const confirmReplace = confirm('⚠️ Ya tienes datos en el grid. ¿Sobrescribir con los datos pegados?\n\nLos datos actuales se perderán.');
+    if (!confirmReplace) return;
+  }
 
   const hasTab = pastedText.includes('\t');
   const hasComma = pastedText.includes(',');
@@ -955,6 +986,7 @@ function handleGridPaste(e) {
   document.getElementById('workDatasetName').textContent = name;
   document.getElementById('gridLabel').textContent = `${name} · ${dataRows.length} filas × ${columns.length} columnas`;
   
+  saveUIState();
   renderExcelGrid(STATE.workDataset);
   navigateTo('page-trabajo');
   showToast(`Datos pegados cargados: ${dataRows.length} filas × ${columns.length} columnas`, 'ok');
