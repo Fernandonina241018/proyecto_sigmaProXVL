@@ -540,8 +540,9 @@ html, body {
 /* ─── WORK TOOLBAR ────────────────────────────────────────────────────────── */
 .work-toolbar {
   display: flex; gap: 4px; font-size: 15px;
-  padding: 4px; background: transparent;
-  border-radius: 8px; border: 0.5px solid rgba(255,255,255,0.06);
+}
+.work-toolbar-right {
+  display: flex; gap: 8px; align-items: center;
 }
 .tool-btn {
   display: flex; align-items: center; gap: 5px;

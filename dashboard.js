@@ -910,6 +910,23 @@ function loadToWork() {
   showToast(`"${name}" cargado en Trabajo`, 'ok');
 }
 
+// ─── BORRAR DATOS DEL GRID ────────────────────────────────────────────────────────
+function clearWorkDataset() {
+  if (!STATE.workDataset || !STATE.workDataset.rows?.length) {
+    showToast('No hay datos para borrar', 'info');
+    return;
+  }
+  
+  const confirmClear = confirm('¿Borrar todos los datos del grid?');
+  if (!confirmClear) return;
+  
+  STATE.workDataset = null;
+  document.getElementById('workDatasetName').textContent = 'Sin dataset';
+  localStorage.removeItem('dashboardUIState');
+  renderEmptyGrid();
+  showToast('Datos borrados', 'ok');
+}
+
 // ─── RENDER EMPTY GRID (PARA PEGAR DATOS DIRECTAMENTE) ───────────────────────────
 function renderEmptyGrid() {
   const thead  = document.getElementById('excelGridHead');

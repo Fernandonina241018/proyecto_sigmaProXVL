@@ -284,12 +284,20 @@
             style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
             Sin dataset
           </span>
-          <button class="btn-crystal-blue" data-target="page-analisis" onclick="setNav(this)" title="Ir a página de Análisis">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="13" height="13">
-              <path d="M3 3h10v10H3zM3 6h10M6 3v10"/>
-            </svg>
-                Datos para Análisis
-          </button>
+          <div class="work-toolbar-right">
+            <button class="btn-crystal-blue" data-target="page-analisis" onclick="setNav(this)" title="Ir a página de Análisis">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="13" height="13">
+                <path d="M3 3h10v10H3zM3 6h10M6 3v10"/>
+              </svg>
+                  Datos para Análisis
+            </button>
+            <button class="btn-crystal-red" onclick="clearWorkDataset()" title="Borrar datos del grid">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="13" height="13">
+                <path d="M3 4h10M5 4V3h6v1M4 4v9h8V4"/>
+              </svg>
+                  Borrar Datos
+            </button>
+          </div>
         </div>
 
         <div class="work-layout">
