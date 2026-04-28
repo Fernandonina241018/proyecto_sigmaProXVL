@@ -48,6 +48,7 @@ function loadUIState() {
       document.getElementById('gridLabel').textContent = 
         `${STATE.workDataset.name} · ${STATE.workDataset.rows.length} filas × ${STATE.workDataset.columns.length} columnas`;
       renderExcelGrid(STATE.workDataset);
+      renderDatasetInfo();
     } else {
       renderEmptyGrid();
     }
@@ -328,7 +329,7 @@ document.getElementById('hamburgerBtn').addEventListener('click', () => {
 // FIX #9: actualizar estado del sidebar según la página activa
 function updateSidebarContext(pageId) {
   const sb = document.getElementById('sb');
-  if (pageId === 'page-trabajo') {
+  if (pageId === 'page-trabajo' || pageId === 'page-analisis') {
     sb.classList.remove('disabled');
   } else {
     sb.classList.add('disabled');
@@ -905,6 +906,7 @@ function loadToWork() {
 
   saveUIState();
   renderExcelGrid(STATE.workDataset);
+      renderDatasetInfo();
   renderWorkStatsPanel();
   navigateTo('page-trabajo');
   showToast(`"${name}" cargado en Trabajo`, 'ok');
@@ -1005,6 +1007,7 @@ function handleGridPaste(e) {
   
   saveUIState();
   renderExcelGrid(STATE.workDataset);
+      renderDatasetInfo();
   navigateTo('page-trabajo');
   showToast(`Datos pegados cargados: ${dataRows.length} filas × ${columns.length} columnas`, 'ok');
 }
@@ -1044,16 +1047,105 @@ function renderExcelGrid(data) {
   }
 }
 
-// ─── RENDER PANEL DE ESTADÍSTICOS ────────────────────────────────────────────
-function renderWorkStatsPanel() {
+// ─── ANALIZAR TIPOS DE DATOS DEL DATASET ─────────────────────────────────────────
+function analyzeDatasetTypes(ds) {
+  if (!ds || !ds.columns || !ds.rows) return null;
+  
+  let numCount = 0;
+  let catCount = 0;
+  
+  ds.columns.forEach((col, idx) => {
+    const values = ds.rows.map(r => r[idx]).filter(v => v !== null && v !== undefined && v !== '');
+    const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
+    const totalValid = values.length;
+    
+    if (totalValid > 0 && numericCount / totalValid > 0.8) {
+      numCount++;
+    } else {
+      catCount++;
+    }
+  });
+  
+  return { numCount, catCount };
+}
+
+// ─── RENDER INFO DEL DATASET EN WORKSTATSPANEL ─────────────────────────────────
+function renderDatasetInfo() {
   const results = document.getElementById('statsResults');
   if (!results) return;
+  
+  const ds = STATE.workDataset;
+  
+  if (!ds || !ds.rows?.length) {
+    results.innerHTML = `<div style="color:#4a4a48;font-size:11px;text-align:center;padding:24px 8px;line-height:1.7;">
+      No hay datos cargados.<br>Pega datos o carga un dataset<br>desde la página <b style="color:#9e9e98;">Datos</b>
+    </div>`;
+    return;
+  }
+  
+  const tipos = analyzeDatasetTypes(ds);
+  const origen = ds.name === 'Datos pegados' ? '📋 Pegado' : `📁 ${ds.name}`;
+  const totalFilas = ds.rows.length.toLocaleString('es');
+  const totalCols = ds.columns.length;
+  
+  let html = `<div style="padding:8px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+      <div style="width:36px;height:36px;border-radius:8px;background:rgba(74,144,217,0.15);display:flex;align-items:center;justify-content:center;">
+        <svg viewBox="0 0 16 16" fill="none" stroke="#6cb4f5" stroke-width="1.5" width="18" height="18">
+          <path d="M2 13L14 3M3 10l2-2M9 6l2-2"/>
+        </svg>
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:#c4c4be;">${origen}</div>
+        <div style="font-size:10px;color:#6b6b65;">${totalFilas} filas × ${totalCols} columnas</div>
+      </div>
+    </div>
+    
+    <div style="display:flex;gap:8px;margin-bottom:12px;">`;
+  
+  if (tipos) {
+    html += `<div style="flex:1;padding:10px;border-radius:8px;background:rgba(46,204,113,0.08);border:0.5px solid rgba(46,204,113,0.15);">
+        <div style="font-size:18px;font-weight:700;color:#5fd97a;">${tipos.numCount}</div>
+        <div style="font-size:10px;color:#5fd97a;text-transform:uppercase;letter-spacing:.05em;">Numéricas</div>
+      </div>
+      <div style="flex:1;padding:10px;border-radius:8px;background:rgba(155,89,182,0.08);border:0.5px solid rgba(155,89,182,0.15);">
+        <div style="font-size:18px;font-weight:700;color:#be8ccf;">${tipos.catCount}</div>
+        <div style="font-size:10px;color:#be8ccf;text-transform:uppercase;letter-spacing:.05em;">Categóricas</div>
+      </div>`;
+  }
+  
+  html += `</div>
+    
+    <div style="font-size:10px;color:#6b6b65;margin-bottom:8px;">Columnas:</div>
+    <div style="display:flex;flex-wrap:wrap;gap:4px;">`;
+  
+  ds.columns.forEach((col, idx) => {
+    const isNumeric = tipos && idx < ds.columns.length && 
+      (() => {
+        const values = ds.rows.map(r => r[idx]).filter(v => v !== null && v !== '');
+        const num = values.filter(v => !isNaN(parseFloat(v))).length;
+        return values.length > 0 && num / values.length > 0.8;
+      })();
+    const badgeColor = isNumeric ? '#5fd97a' : '#be8ccf';
+    const badgeBg = isNumeric ? 'rgba(46,204,113,0.15)' : 'rgba(155,89,182,0.15)';
+    html += `<span style="font-size:10px;padding:3px 8px;border-radius:4px;background:${badgeBg};color:${badgeColor};">${escapeHtml(col)}</span>`;
+  });
+  
+  html += `</div></div>`;
+  
+  results.innerHTML = html;
+}
+
+// ─── RENDER PANEL DE COLA DE ANÁLISIS EN PAGE-ANALISIS ─────────────────────────
+function renderAnalisisQueuePanel() {
+  const panel = document.getElementById('analisisQueuePanel');
+  if (!panel) return;
 
   const allStats = Object.entries(STATE.selectedStats).filter(([,items]) => items?.length);
 
   if (!allStats.length) {
-    results.innerHTML = `<div style="color:#4a4a48;font-size:11px;text-align:center;padding:20px 8px;line-height:1.6;">
-      Selecciona análisis desde el<br>menú lateral y haz clic en<br>
+    panel.innerHTML = `<div style="color:#4a4a48;font-size:11px;text-align:center;padding:24px 8px;line-height:1.6;">
+      Selecciona análisis desde<br>el menú lateral y haz clic en<br>
       <b style="color:#6b6b65;">Aplicar selección</b></div>`;
     return;
   }
@@ -1061,7 +1153,7 @@ function renderWorkStatsPanel() {
   const total = allStats.reduce((acc,[,items]) => acc + items.length, 0);
   let html = `<div style="display:flex;justify-content:space-between;align-items:center;
     padding:6px 2px;margin-bottom:6px;">
-    <span style="font-size:10px;font-weight:600;color:#6b6b65;text-transform:uppercase;letter-spacing:.06em;">Análisis</span>
+    <span style="font-size:10px;font-weight:600;color:#6b6b65;text-transform:uppercase;letter-spacing:.06em;">Cola</span>
     <span style="font-size:10px;background:rgba(166,10,237,0.2);color:#c060f0;padding:2px 7px;border-radius:10px;font-weight:600;">${total}</span>
   </div>`;
 
@@ -1078,7 +1170,6 @@ function renderWorkStatsPanel() {
       <div style="padding-left:6px;">`;
 
     items.forEach((statName, idx) => {
-      const badge = MENUS[category]?.sections?.flatMap(s=>s.items).find(i=>i.label===statName)?.tag || '';
       html += `<div style="display:flex;align-items:center;justify-content:space-between;
         padding:5px 8px;border-radius:5px;margin-bottom:3px;cursor:pointer;
         border:0.5px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.02);
@@ -1089,17 +1180,12 @@ function renderWorkStatsPanel() {
           <span style="font-size:10px;color:#4a4a48;font-weight:500;min-width:14px;text-align:right;">${idx+1}.</span>
           <span style="font-size:12px;color:#c4c4be;">${escapeHtml(statName)}</span>
         </div>
-        <div style="display:flex;align-items:center;gap:5px;">
-          <span style="font-size:10px;font-weight:500;color:${color};background:${color}18;
-            padding:1px 5px;border-radius:6px;font-family:monospace;">${badge}</span>
-          <button onclick="removeStatItem('${category}','${escapeHtml(statName)}')"
-            style="width:16px;height:16px;border-radius:3px;border:none;background:transparent;
-            color:#4a4a48;cursor:pointer;font-size:11px;display:flex;align-items:center;
-            justify-content:center;padding:0;transition:color .15s,background .15s;"
-            onmouseenter="this.style.color='#e74c3c';this.style.background='rgba(231,76,60,0.12)'"
-            onmouseleave="this.style.color='#4a4a48';this.style.background='transparent'"
-            title="Quitar">×</button>
-        </div>
+        <button onclick="removeStatItemFromQueue('${category}','${escapeHtml(statName)}')"
+          style="width:16px;height:16px;border-radius:3px;border:none;background:transparent;
+          color:#4a4a48;cursor:pointer;font-size:11px;display:flex;align-items:center;
+          justify-content:center;padding:0;">
+          ×
+        </button>
       </div>`;
     });
 
@@ -1107,16 +1193,39 @@ function renderWorkStatsPanel() {
   });
 
   html += `<div style="margin-top:8px;padding-top:8px;border-top:0.5px solid rgba(255,255,255,0.06);">
-    <button onclick="clearAllStats()"
+    <button onclick="clearAllStatsFromQueue()"
       style="width:100%;padding:7px;border-radius:6px;border:0.5px solid rgba(231,76,60,0.2);
       background:rgba(231,76,60,0.06);color:#e74c3c;font-size:11px;cursor:pointer;
-      font-family:inherit;transition:background .15s;"
-      onmouseenter="this.style.background='rgba(231,76,60,0.14)'"
-      onmouseleave="this.style.background='rgba(231,76,60,0.06)'">
+      font-family:inherit;">
       Limpiar todo
     </button></div>`;
 
-  results.innerHTML = html;
+  panel.innerHTML = html;
+}
+
+function removeStatItemFromQueue(category, statName) {
+  if (!STATE.selectedStats[category]) return;
+  STATE.selectedStats[category] = STATE.selectedStats[category].filter(s => s !== statName);
+  if (STATE.selectedStats[category].length === 0) delete STATE.selectedStats[category];
+  if (checked[category]) checked[category][statName] = false;
+  updateAllCounters();
+  renderAnalisisQueuePanel();
+  showToast(`"${statName}" quitado`, 'info');
+}
+
+function clearAllStatsFromQueue() {
+  STATE.selectedStats = {};
+  Object.keys(checked).forEach(k => {
+    Object.keys(checked[k] || {}).forEach(l => { checked[k][l] = false; });
+  });
+  updateAllCounters();
+  renderAnalisisQueuePanel();
+  showToast('Cola limpiada', 'info');
+}
+
+// ─── RENDER PANEL DE ESTADÍSTICOS ────────────────────────────────────────────
+function renderWorkStatsPanel() {
+  renderDatasetInfo();
 }
 
 function removeStatItem(category, statName) {
@@ -1189,11 +1298,10 @@ function handleSidebarApply() {
   showToast(`${count} análisis de ${MENUS[activeKey].title} agregados`, 'ok');
   closeMenu();
 
-  if (STATE.workDataset) {
-    renderWorkStatsPanel();
-    navigateTo('page-trabajo');
-  } else {
-    showToast('Carga un dataset en Trabajo para ver resultados', 'info');
+  renderAnalisisQueuePanel();
+  navigateTo('page-analisis');
+  if (!STATE.workDataset) {
+    showToast('Carga un dataset en la página Datos para ejecutar análisis', 'info');
   }
 }
 
@@ -1223,6 +1331,7 @@ function handleToolApply() {
   // Re-renderizar grid ANTES de cerrar el menú
   if (['limpia','transform'].includes(fmToolKey)) {
     renderExcelGrid(STATE.workDataset);
+      renderDatasetInfo();
     updateGridFooter();
   }
 
