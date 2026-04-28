@@ -947,7 +947,7 @@ function renderEmptyGrid() {
   
   let html = '';
   for (let r = 0; r < EMPTY_ROWS; r++) {
-    const cells = cols.map((_, c) => `<td class="editable-cell" data-row="${r}" data-col="${c+1}" contenteditable="true"></td>`).join('');
+    const cells = cols.map((_, c) => `<td class="editable-cell" data-row="${r}" data-col="${c+1}" contenteditable="true" onblur="saveEmptyCellData(${r}, ${c+1}, this.innerText)"></td>`).join('');
     html += `<tr><td>${r+1}</td>${cells}</tr>`;
   }
   tbody.innerHTML = html;
@@ -1021,6 +1021,30 @@ function initGridPasteListener() {
   wrapper.addEventListener('paste', handleGridPaste);
 }
 
+// ─── GUARDAR DATOS DE CELDA ───────────────────────────────────────────────────
+function saveCellData(rowIdx, colIdx, newValue) {
+  if (!STATE.workDataset) return;
+  
+  const oldValue = STATE.workDataset.rows[rowIdx]?.[colIdx];
+  if (oldValue === newValue) return;
+  
+  STATE.workDataset.rows[rowIdx][colIdx] = newValue;
+  renderDatasetInfo();
+  saveUIState();
+}
+
+// ─── GUARDAR DATOS DE CELDA (GRID VACÍO) ────────────────────────────────────────
+function saveEmptyCellData(rowIdx, colIdx, newValue) {
+  if (!STATE.workDataset) return;
+  
+  const oldValue = STATE.workDataset.rows[rowIdx]?.[colIdx - 1];
+  if (oldValue === newValue) return;
+  
+  STATE.workDataset.rows[rowIdx][colIdx - 1] = newValue;
+  renderDatasetInfo();
+  saveUIState();
+}
+
 // ─── RENDER GRID EXCEL ────────────────────────────────────────────────────────
 function renderExcelGrid(data) {
   const thead  = document.getElementById('excelGridHead');
@@ -1034,7 +1058,7 @@ function renderExcelGrid(data) {
   const shown    = Math.min(data.rows.length, MAX_ROWS);
   let html = '';
   for (let r = 0; r < shown; r++) {
-    const cells = data.rows[r].map(cell => `<td contenteditable="true">${escapeHtml(String(cell??''))}</td>`).join('');
+    const cells = data.rows[r].map((cell, c) => `<td contenteditable="true" data-row="${r}" data-col="${c}" onblur="saveCellData(${r}, ${c}, this.innerText)">${escapeHtml(String(cell??''))}</td>`).join('');
     html += `<tr><td>${r+1}</td>${cells}</tr>`;
   }
   tbody.innerHTML = html;
@@ -1045,6 +1069,350 @@ function renderExcelGrid(data) {
       ? `Mostrando ${MAX_ROWS.toLocaleString('es')} de ${data.rows.length.toLocaleString('es')} filas`
       : `${shown.toLocaleString('es')} filas · ${data.columns.length} columnas`;
   }
+}
+
+// ─── MENÚ COLUMNA ────────────────────────────────────────────────────────────────
+function toggleColMenu(e, colIdx) {
+  e.stopPropagation();
+  closeAllMenus();
+  
+  const existing = document.querySelector(`.col-menu[data-col="${colIdx}"]`);
+  if (existing) {
+    existing.remove();
+    return;
+  }
+  
+  const colName = STATE.workDataset?.columns[colIdx] || `Columna${colIdx + 1}`;
+  const colData = STATE.workDataset?.rows.map(r => r[colIdx]).filter(v => v !== null && v !== '' && v !== undefined) || [];
+  
+  const menu = document.createElement('div');
+  menu.className = 'col-menu';
+  menu.dataset.col = colIdx;
+  menu.style.cssText = `position:absolute;z-index:100;background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);
+    border-radius:6px;padding:4px;min-width:140px;box-shadow:0 4px 12px rgba(0,0,0,0.4);`;
+  
+  menu.innerHTML = `
+    <div class="col-menu-item" onclick="insertColumn(${colIdx}, 'before')" style="padding:8px 12px;cursor:pointer;border-radius:4px;font-size:12px;color:#c4c4be;">+ Insertar antes</div>
+    <div class="col-menu-item" onclick="insertColumn(${colIdx}, 'after')" style="padding:8px 12px;cursor:pointer;border-radius:4px;font-size:12px;color:#c4c4be;">+ Insertar después</div>
+    <div style="padding:4px 12px;border-top:0.5px solid rgba(255,255,255,0.1);margin:2px 0;"></div>
+    <div class="col-menu-item" onclick="deleteColumn(${colIdx})" style="padding:8px 12px;cursor:pointer;border-radius:4px;font-size:12px;color:#e74c3c;">🗑 Eliminar</div>
+  `;
+  
+  const th = document.querySelector(`th .col-menu-toggle[data-col="${colIdx}"]`);
+  if (th) {
+    const rect = th.getBoundingClientRect();
+    menu.style.left = rect.left + 'px';
+    menu.style.top = (rect.bottom + 4) + 'px';
+  }
+  
+  document.body.appendChild(menu);
+}
+
+// ─── MENÚ FILA ────────────────────────────────────────────────────────────────
+function toggleRowMenu(e, rowIdx) {
+  e.stopPropagation();
+  closeAllMenus();
+  
+  const existing = document.querySelector(`.row-menu[data-row="${rowIdx}"]`);
+  if (existing) {
+    existing.remove();
+    return;
+  }
+  
+  const rowData = STATE.workDataset?.rows[rowIdx]?.filter(v => v !== null && v !== '' && v !== undefined) || [];
+  
+  const menu = document.createElement('div');
+  menu.className = 'row-menu';
+  menu.dataset.row = rowIdx;
+  menu.style.cssText = `position:absolute;z-index:100;background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);
+    border-radius:6px;padding:4px;min-width:140px;box-shadow:0 4px 12px rgba(0,0,0,0.4);`;
+  
+  menu.innerHTML = `
+    <div class="row-menu-item" onclick="insertRow(${rowIdx}, 'before')" style="padding:8px 12px;cursor:pointer;border-radius:4px;font-size:12px;color:#c4c4be;">+ Insertar antes</div>
+    <div class="row-menu-item" onclick="insertRow(${rowIdx}, 'after')" style="padding:8px 12px;cursor:pointer;border-radius:4px;font-size:12px;color:#c4c4be;">+ Insertar después</div>
+    <div style="padding:4px 12px;border-top:0.5px solid rgba(255,255,255,0.1);margin:2px 0;"></div>
+    <div class="row-menu-item" onclick="deleteRowGrid(${rowIdx})" style="padding:8px 12px;cursor:pointer;border-radius:4px;font-size:12px;color:#e74c3c;">🗑 Eliminar</div>
+  `;
+  
+  const td = document.querySelector(`td + span[data-row="${rowIdx}"]`) || document.querySelector(`td .row-menu-toggle[data-row="${rowIdx}"]`);
+  if (td) {
+    const rect = td.getBoundingClientRect();
+    menu.style.left = rect.left + 'px';
+    menu.style.top = (rect.bottom + 4) + 'px';
+  }
+  
+  document.body.appendChild(menu);
+}
+
+// ─── CERRAR MENÚS ─────────────────────────────────────────────────────────────
+function closeAllMenus() {
+  document.querySelectorAll('.col-menu, .row-menu').forEach(m => m.remove());
+}
+
+// ─── INSERTAR COLUMNA ───────────────────────────────────────────────────────
+function insertColumn(colIdx, position) {
+  closeAllMenus();
+  if (!STATE.workDataset) {
+    showToast('Carga o pega datos primero', 'warn');
+    return;
+  }
+  
+  const insertPos = position === 'after' ? colIdx + 1 : colIdx;
+  const newColName = `Columna${insertPos + 1}`;
+  STATE.workDataset.columns.splice(insertPos, 0, newColName);
+  STATE.workDataset.rows.forEach(row => row.splice(insertPos, 0, ''));
+  
+  renderExcelGrid(STATE.workDataset);
+  renderDatasetInfo();
+  saveUIState();
+  showToast(`Columna "${newColName}" insertada`, 'ok');
+}
+
+// ─── INSERTAR FILA ────────────────────────────────────────────────────────────
+function insertRow(rowIdx, position) {
+  closeAllMenus();
+  if (!STATE.workDataset) {
+    showToast('Carga o pega datos primero', 'warn');
+    return;
+  }
+  
+  const insertPos = position === 'after' ? rowIdx + 1 : rowIdx;
+  const newRow = STATE.workDataset.columns.map(() => '');
+  STATE.workDataset.rows.splice(insertPos, 0, newRow);
+  
+  renderExcelGrid(STATE.workDataset);
+  renderDatasetInfo();
+  saveUIState();
+  showToast(`Fila ${insertPos + 1} insertada`, 'ok');
+}
+
+// ─── ADMINISTRADOR DE COLUMNAS (MODAL) ─────────────────────────────────────
+function openColumnManager() {
+  if (!STATE.workDataset || !STATE.workDataset.columns.length) {
+    showToast('No hay datos cargados', 'warn');
+    return;
+  }
+  
+  closeAllMenus();
+  
+  const modal = document.createElement('div');
+  modal.id = 'columnManagerModal';
+  modal.style.cssText = `position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.8);
+    display:flex;align-items:center;justify-content:center;`;
+  
+  const colList = STATE.workDataset.columns.map((name, idx) => {
+    const data = STATE.workDataset.rows.map(r => r[idx]).filter(v => v !== null && v !== '' && v !== undefined).length;
+    return `<div style="display:flex;align-items:center;gap:8px;padding:8px;border-bottom:0.5px solid rgba(255,255,255,0.1);">
+      <input type="text" value="${escapeHtml(name)}" 
+        onchange="renameColumn(${idx}, this.value)"
+        style="flex:1;background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);color:#c4c4be;padding:6px 10px;border-radius:4px;font-size:13px;">
+      <span style="font-size:11px;color:#6b6b65;min-width:40px;text-align:right;">${data} datos</span>
+      <button onclick="deleteColumnIdx(${idx})" style="background:#e74c3c20;border:0.5px solid #e74c3c40;color:#e74c3c;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:12px;">Eliminar</button>
+    </div>`;
+  }).join('');
+  
+  modal.innerHTML = `
+    <div style="background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;max-width:500px;width:90%;max-height:80vh;overflow:auto;padding:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <h3 style="margin:0;color:#c4c4be;font-size:16px;font-weight:600;">Gestionar Columnas</h3>
+        <button onclick="document.getElementById('columnManagerModal').remove()" style="background:none;border:none;color:#6b6b65;font-size:20px;cursor:pointer;">✕</button>
+      </div>
+      <div style="margin-bottom:12px;display:flex;gap:8px;align-items:center;">
+        <input type="text" id="newColName" placeholder="Nombre de columna" style="flex:1;background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);color:#c4c4be;padding:8px 10px;border-radius:4px;font-size:13px;">
+        <select id="colPosition" style="background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);color:#c4c4be;padding:8px;border-radius:4px;font-size:13px;">
+          <option value="0">Al inicio</option>
+          ${STATE.workDataset.columns.map((c, i) => `<option value="${i + 1}">Después de ${escapeHtml(c)}</option>`).join('')}
+        </select>
+        <button onclick="addColumnAtPosition()" style="background:#4a90d920;border:0.5px solid #4a90d940;color:#6cb4f5;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:13px;">Agregar</button>
+      </div>
+      <div>${colList}</div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+}
+
+// ─── AGREGAR COLUMNA EN POSICIÓN ─────────────────────────────────────────
+function addColumnAtPosition() {
+  const nameInput = document.getElementById('newColName');
+  const posSelect = document.getElementById('colPosition');
+  
+  if (!nameInput || !posSelect) return;
+  
+  const newColName = nameInput.value.trim() || `Columna${STATE.workDataset.columns.length + 1}`;
+  const position = parseInt(posSelect.value);
+  
+  STATE.workDataset.columns.splice(position, 0, newColName);
+  STATE.workDataset.rows.forEach(row => row.splice(position, 0, ''));
+  
+  renderExcelGrid(STATE.workDataset);
+  renderDatasetInfo();
+  saveUIState();
+  showToast(`Columna "${newColName}" agregada`, 'ok');
+  
+  const modal = document.getElementById('columnManagerModal');
+  if (modal) modal.remove();
+}
+
+// ─── ELIMINAR COLUMNA POR ÍNDICE ─────────────────────────────────────────
+function deleteColumnIdx(colIdx) {
+  const colName = STATE.workDataset.columns[colIdx];
+  const colData = STATE.workDataset.rows.map(r => r[colIdx]).filter(v => v !== null && v !== '' && v !== undefined);
+  
+  if (colData.length > 0) {
+    const confirmDelete = confirm(`⚠️ La columna "${colName}" tiene ${colData.length} datos.\n\n¿Eliminar?`);
+    if (!confirmDelete) return;
+  }
+  
+  STATE.workDataset.columns.splice(colIdx, 1);
+  STATE.workDataset.rows.forEach(row => row.splice(colIdx, 1));
+  
+  renderExcelGrid(STATE.workDataset);
+  renderDatasetInfo();
+  saveUIState();
+  showToast(`Columna "${colName}" eliminada`, 'ok');
+  
+  const modal = document.getElementById('columnManagerModal');
+  if (modal) modal.remove();
+}
+
+// ─── RENOMBRAR COLUMNA ───────────────────────────────────────────────────────
+function renameColumn(colIdx, newName) {
+  if (!STATE.workDataset || !STATE.workDataset.columns[colIdx]) return;
+  
+  const oldName = STATE.workDataset.columns[colIdx];
+  if (oldName === newName) return;
+  
+  STATE.workDataset.columns[colIdx] = newName;
+  
+  renderExcelGrid(STATE.workDataset);
+  renderDatasetInfo();
+  saveUIState();
+  showToast(`Columna renombrada: "${oldName}" → "${newName}"`, 'ok');
+}
+
+// ─── ELIMINAR COLUMNA DESDE MENÚ ─────────────────��───────────────────────
+function deleteColumn(colIdx) {
+  closeAllMenus();
+  if (!STATE.workDataset || !STATE.workDataset.columns.length) return;
+  
+  const colName = STATE.workDataset.columns[colIdx];
+  const colData = STATE.workDataset.rows.map(r => r[colIdx]).filter(v => v !== null && v !== '' && v !== undefined);
+  
+  if (colData.length > 0) {
+    const confirmDelete = confirm(`⚠️ La columna "${colName}" tiene ${colData.length} datos.\n\n¿Eliminar? Los datos se perderán.`);
+    if (!confirmDelete) return;
+  }
+  
+  STATE.workDataset.columns.splice(colIdx, 1);
+  STATE.workDataset.rows.forEach(row => row.splice(colIdx, 1));
+  
+  renderExcelGrid(STATE.workDataset);
+  renderDatasetInfo();
+  saveUIState();
+  showToast(`Columna "${colName}" eliminada`, 'ok');
+}
+
+// ─── ELIMINAR FILA DESDE MENÚ ───────────────────────────────────────────
+function deleteRowGrid(rowIdx) {
+  closeAllMenus();
+  if (!STATE.workDataset || !STATE.workDataset.rows.length) return;
+  
+  const rowData = STATE.workDataset.rows[rowIdx].filter(v => v !== null && v !== '' && v !== undefined);
+  
+  if (rowData.length > 0) {
+    const confirmDelete = confirm(`⚠️ La fila ${rowIdx + 1} tiene ${rowData.length} datos.\n\n¿Eliminar? Los datos se perderán.`);
+    if (!confirmDelete) return;
+  }
+  
+  STATE.workDataset.rows.splice(rowIdx, 1);
+  
+  renderExcelGrid(STATE.workDataset);
+  renderDatasetInfo();
+  saveUIState();
+  showToast(`Fila ${rowIdx + 1} eliminada`, 'ok');
+}
+
+// ─── AGREGAR COLUMNA ───────────────────────────────────────────────────────
+function addColumn() {
+  if (!STATE.workDataset) {
+    showToast('Carga o pega datos primero', 'warn');
+    return;
+  }
+  
+  const newColName = `Columna${STATE.workDataset.columns.length + 1}`;
+  STATE.workDataset.columns.push(newColName);
+  STATE.workDataset.rows.forEach(row => row.push(''));
+  
+  renderExcelGrid(STATE.workDataset);
+  renderDatasetInfo();
+  saveUIState();
+  showToast(`Columna "${newColName}" agregada`, 'ok');
+}
+
+// ─── AGREGAR FILA ────────────────────────────────────────────────────────────
+function addRow() {
+  if (!STATE.workDataset) {
+    showToast('Carga o pega datos primero', 'warn');
+    return;
+  }
+  
+  const newRow = STATE.workDataset.columns.map(() => '');
+  STATE.workDataset.rows.push(newRow);
+  
+  renderExcelGrid(STATE.workDataset);
+  renderDatasetInfo();
+  saveUIState();
+  showToast(`Fila ${STATE.workDataset.rows.length} agregada`, 'ok');
+}
+
+// ─── ELIMINAR ÚLTIMA COLUMNA ──────────────────────────────────────────────
+function deleteColumn() {
+  if (!STATE.workDataset || !STATE.workDataset.columns.length) {
+    showToast('No hay columnas para eliminar', 'warn');
+    return;
+  }
+  
+  const colIdx = STATE.workDataset.columns.length - 1;
+  const colName = STATE.workDataset.columns[colIdx];
+  const colData = STATE.workDataset.rows.map(r => r[colIdx]).filter(v => v !== null && v !== '' && v !== undefined);
+  
+  if (colData.length > 0) {
+    const confirmDelete = confirm(`⚠️ La columna "${colName}" tiene ${colData.length} datos.\n\n¿Eliminar de todas formas? Los datos se perderán.`);
+    if (!confirmDelete) return;
+  }
+  
+  STATE.workDataset.columns.splice(colIdx, 1);
+  STATE.workDataset.rows.forEach(row => row.splice(colIdx, 1));
+  
+  renderExcelGrid(STATE.workDataset);
+  renderDatasetInfo();
+  saveUIState();
+  showToast(`Columna "${colName}" eliminada`, 'ok');
+}
+
+// ─── ELIMINAR ÚLTIMA FILA ────────────────────────────────────────────────
+function deleteRow() {
+  if (!STATE.workDataset || !STATE.workDataset.rows.length) {
+    showToast('No hay filas para eliminar', 'warn');
+    return;
+  }
+  
+  const rowIdx = STATE.workDataset.rows.length - 1;
+  const rowData = STATE.workDataset.rows[rowIdx].filter(v => v !== null && v !== '' && v !== undefined);
+  
+  if (rowData.length > 0) {
+    const confirmDelete = confirm(`⚠️ La fila ${rowIdx + 1} tiene ${rowData.length} datos.\n\n¿Eliminar de todas formas? Los datos se perderán.`);
+    if (!confirmDelete) return;
+  }
+  
+  STATE.workDataset.rows.splice(rowIdx, 1);
+  
+  renderExcelGrid(STATE.workDataset);
+  renderDatasetInfo();
+  saveUIState();
+  showToast(`Fila ${rowIdx + 1} eliminada`, 'ok');
 }
 
 // ─── ANALIZAR TIPOS DE DATOS DEL DATASET ─────────────────────────────────────────
