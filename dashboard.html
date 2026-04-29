@@ -270,10 +270,6 @@
                 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v12M4 6h8M4 10h8"/></svg>
                 Ingeniera
               </button>
-              <button class="tool-btn" data-tool="analysis" onclick="openToolMenu('analysis')">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 14l3-3 3 3 6-6"/></svg>
-                Análisis
-              </button>
               <button class="tool-btn" data-tool="model" onclick="openToolMenu('model')">
                 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"/><path d="M8 5v3M8 10v1"/></svg>
                 Modelo
@@ -289,7 +285,7 @@
             Sin dataset
           </span>
           <div class="work-toolbar-right">
-            <button class="btn-crystal-blue" data-target="page-analisis" onclick="setNav(this)" title="Ir a página de Análisis">
+            <button class="btn-crystal-blue" onclick="openAnalysisModal()" title="Ir a página de Análisis">
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="13" height="13">
                 <path d="M3 3h10v10H3zM3 6h10M6 3v10"/>
               </svg>
@@ -300,6 +296,18 @@
                 <path d="M3 4h10M5 4V3h6v1M4 4v9h8V4"/>
               </svg>
                   Borrar Datos
+            </button>
+            <button class="btn-crystal" id="btnLoadTrain" onclick="loadTrainData()" title="Cargar datos de entrenamiento" style="display:none;">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="13" height="13">
+                <path d="M2 12l4-4 4 4M2 16l4-4 4 4"/>
+              </svg>
+                  Train
+            </button>
+            <button class="btn-crystal" id="btnLoadTest" onclick="loadTestData()" title="Cargar datos de prueba" style="display:none;">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="13" height="13">
+                <path d="M2 8l4-4 4 4M2 12l4-4 4 4"/>
+              </svg>
+                  Test
             </button>
           </div>
         </div>
@@ -335,7 +343,7 @@
         <div class="page-header">
           <div><div class="page-title">Análisis</div><div class="page-subtitle">Resultados estadísticos</div></div>
           <div style="display:flex;gap:8px;align-items:center;">
-            <button class="btn-action" onclick="exportAnalysisResults()" title="Exportar como JSON">
+            <button class="btn-crystal-blue" onclick="exportAnalysisResults()" title="Exportar como JSON">
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="12" height="12">
                 <path d="M8 2v8M5 7l3 3 3-3M3 13h10"/>
               </svg>
@@ -574,6 +582,7 @@
 </div><!-- /shell -->
 
 <script src="estadisticosConfig.js"></script>
+<script src="ParametrosManager.js"></script>
 <script src="utils.js"></script>
 <script src="dist/StatsUtils.js"></script>
 <script src="EstadisticaDescriptiva.js"></script>

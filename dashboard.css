@@ -653,6 +653,18 @@ html, body {
   flex-shrink: 0; text-align: right;
 }
 
+/* ─── LIMIT VALIDATION ─────────────────────────────────────────────────────────── */
+.excel-grid td.limit-error {
+  background: rgba(231, 76, 60, 0.25) !important;
+  color: #ff6b5b !important;
+  border: 0.5px solid rgba(231, 76, 60, 0.5) !important;
+}
+.excel-grid td.limit-warning {
+  background: rgba(245, 176, 65, 0.2) !important;
+  color: #f5b041 !important;
+  border: 0.5px solid rgba(245, 176, 65, 0.4) !important;
+}
+
 /* ─── STATS RESULTS ───────────────────────────────────────────────────────── */
 .stats-results {
   flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 4px;

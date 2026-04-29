@@ -3,7 +3,11 @@ const STATE = {
   datasets:     {},        // { name: { columns, rows } }
   selectedStats:{},        // { category: [statName, ...] }
   workDataset:  null,      // { name, columns, rows }
-  datasetOrder: 0,         // contador para data-order al insertar filas
+  datasetOrder: 0,        // contador para data-order al insertar filas
+  appliedOperations: [],   // [{ category, op, timestamp }]
+  trainData: null,         // datos de entrenamiento
+  testData: null,         // datos de prueba
+  analysisData: null,     // datos seleccionados para análisis
 };
 
 // ─── PERSISTENCIA UI ──────────────────────────────────────────────────────────
@@ -1022,30 +1026,87 @@ function initGridPasteListener() {
 }
 
 // ─── GUARDAR DATOS DE CELDA ───────────────────────────────────────────────────
-function saveCellData(rowIdx, colIdx, newValue) {
-  if (!STATE.workDataset) return;
-  
-  const oldValue = STATE.workDataset.rows[rowIdx]?.[colIdx];
-  if (oldValue === newValue) return;
-  
-  STATE.workDataset.rows[rowIdx][colIdx] = newValue;
-  renderDatasetInfo();
-  saveUIState();
+function saveCellData(rowIdx, colIdx, cellEl) {
+  try {
+    if (!STATE.workDataset) return;
+    
+    const newValue = cellEl.innerText;
+    const oldValue = STATE.workDataset.rows[rowIdx]?.[colIdx];
+    if (oldValue === newValue) return;
+    
+    STATE.workDataset.rows[rowIdx][colIdx] = newValue;
+    
+    if (STATE.workDataset.columns[colIdx]) {
+      const limitStatus = getCellLimitStatus(STATE.workDataset.columns[colIdx], newValue);
+      cellEl.className = 'data-cell' + (limitStatus ? ' limit-' + limitStatus : '');
+    }
+    
+    renderDatasetInfo();
+    saveUIState();
+  } catch (e) {
+    console.error('Error saveCellData:', e);
+  }
 }
 
 // ─── GUARDAR DATOS DE CELDA (GRID VACÍO) ────────────────────────────────────────
 function saveEmptyCellData(rowIdx, colIdx, newValue) {
-  if (!STATE.workDataset) return;
-  
-  const oldValue = STATE.workDataset.rows[rowIdx]?.[colIdx - 1];
-  if (oldValue === newValue) return;
-  
-  STATE.workDataset.rows[rowIdx][colIdx - 1] = newValue;
-  renderDatasetInfo();
-  saveUIState();
+  try {
+    const newValueTrimmed = newValue.trim();
+    
+    if (!STATE.workDataset) {
+      STATE.workDataset = {
+        name: 'Datos ingresados',
+        columns: Array.from({length: 10}, (_, i) => `Columna${i+1}`),
+        rows: Array.from({length: 25}, () => Array(10).fill(''))
+      };
+    }
+    
+    const colIndex = colIdx - 1;
+    const oldValue = STATE.workDataset.rows[rowIdx]?.[colIndex];
+    if (oldValue === newValueTrimmed) return;
+    
+    STATE.workDataset.rows[rowIdx][colIndex] = newValueTrimmed;
+    document.getElementById('workDatasetName').textContent = STATE.workDataset.name;
+    document.getElementById('gridLabel').textContent = 
+      `${STATE.workDataset.name} · ${STATE.workDataset.rows.length} filas × ${STATE.workDataset.columns.length} columnas`;
+    renderDatasetInfo();
+    renderExcelGrid(STATE.workDataset);
+    saveUIState();
+  } catch (e) {
+    console.error('Error saveEmptyCellData:', e);
+  }
 }
 
 // ─── RENDER GRID EXCEL ────────────────────────────────────────────────────────
+// ─── VALIDACIÓN DE LÍMITES ──────────────────────────────────────────────────────────────
+// Retorna: 'error' si fuera de min/max, 'warning' si fuera de esperanza±tolerancia, null si válido
+function getCellLimitStatus(colName, value) {
+  try {
+    if (typeof ParametrosManager === 'undefined') return null;
+    if (!value || value === null || value === '' || value === undefined) return null;
+    
+    const num = parseFloat(String(value).replace(/,/g, '.'));
+    if (isNaN(num)) return null;
+    
+    const params = ParametrosManager.getParametros(colName);
+    if (!params || (params.min === null && params.max === null && params.esp === null)) return null;
+    
+    if (params.min !== null && num < params.min) return 'error';
+    if (params.max !== null && num > params.max) return 'error';
+    
+    if (params.esp !== null) {
+      const tol = Math.abs(params.esp) * 0.1 || Math.abs(params.esp || 1) * 0.1;
+      if (Math.abs(num - params.esp) > tol * 3) return 'warning';
+    }
+    
+    return null;
+  } catch (e) {
+    console.error('Error getCellLimitStatus:', e);
+    return null;
+  }
+}
+
+// ─── RENDER GRID ─────────────────────────────────────────────────────────────────
 function renderExcelGrid(data) {
   const thead  = document.getElementById('excelGridHead');
   const tbody  = document.getElementById('excelGridBody');
@@ -1058,7 +1119,13 @@ function renderExcelGrid(data) {
   const shown    = Math.min(data.rows.length, MAX_ROWS);
   let html = '';
   for (let r = 0; r < shown; r++) {
-    const cells = data.rows[r].map((cell, c) => `<td contenteditable="true" data-row="${r}" data-col="${c}" onblur="saveCellData(${r}, ${c}, this.innerText)">${escapeHtml(String(cell??''))}</td>`).join('');
+    const cells = data.rows[r].map((cell, c) => {
+      const colName = data.columns[c];
+      const limitStatus = getCellLimitStatus(colName, cell);
+      const limitClass = limitStatus ? ` limit-${limitStatus}` : '';
+      const safeVal = escapeHtml(String(cell ?? ''));
+      return `<td contenteditable="true" class="data-cell${limitClass}" data-row="${r}" data-col="${c}" onblur="saveCellData(${r}, ${c}, this)">${safeVal}</td>`;
+    }).join('');
     html += `<tr><td>${r+1}</td>${cells}</tr>`;
   }
   tbody.innerHTML = html;
@@ -1195,35 +1262,77 @@ function openColumnManager() {
   
   closeAllMenus();
   
+  const colList = STATE.workDataset.columns.map((name, idx) => {
+    const data = STATE.workDataset.rows.map(r => r[idx]).filter(v => v !== null && v !== '' && v !== undefined).length;
+    const params = typeof ParametrosManager !== 'undefined' ? ParametrosManager.getParametros(name) : { min: null, max: null, esp: null };
+    return `<div style="display:flex;align-items:center;gap:8px;padding:8px;border-bottom:0.5px solid rgba(255,255,255,0.1);flex-wrap:wrap;">
+      <input type="text" value="${escapeHtml(name)}" 
+        onchange="renameColumn(${idx}, this.value)"
+        style="flex:1 1 100px;background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);color:#c4c4be;padding:6px 10px;border-radius:4px;font-size:13px;">
+      <span style="font-size:11px;color:#6b6b65;min-width:30px;text-align:right;">${data}</span>
+      <input type="number" placeholder="Min" value="${params.min || ''}" 
+        onchange="setColumnLimit(${idx}, '${escapeHtml(name)}', 'min', this.value)"
+        style="width:55px;background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);color:#c4c4be;padding:4px 6px;border-radius:4px;font-size:11px;" title="Límite mínimo">
+      <input type="number" placeholder="Esp" value="${params.esp || ''}" 
+        onchange="setColumnLimit(${idx}, '${escapeHtml(name)}', 'esp', this.value)"
+        style="width:55px;background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);color:#f5b041;padding:4px 6px;border-radius:4px;font-size:11px;" title="Esperanza/Target">
+      <input type="number" placeholder="Max" value="${params.max || ''}" 
+        onchange="setColumnLimit(${idx}, '${escapeHtml(name)}', 'max', this.value)"
+        style="width:55px;background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);color:#c4c4be;padding:4px 6px;border-radius:4px;font-size:11px;" title="Límite máximo">
+      <button onclick="deleteColumnIdx(${idx})" style="background:#e74c3c20;border:0.5px solid #e74c3c40;color:#e74c3c;padding:4px 8px;border-radius:4px;cursor:pointer;font-size:11px;">✕</button>
+    </div>`;
+  }).join('');
+  
+  const globalParams = typeof ParametrosManager !== 'undefined' ? ParametrosManager._state?.global : { min: '', max: '', esp: '' };
+  
   const modal = document.createElement('div');
   modal.id = 'columnManagerModal';
   modal.style.cssText = `position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.8);
     display:flex;align-items:center;justify-content:center;`;
   
-  const colList = STATE.workDataset.columns.map((name, idx) => {
-    const data = STATE.workDataset.rows.map(r => r[idx]).filter(v => v !== null && v !== '' && v !== undefined).length;
-    return `<div style="display:flex;align-items:center;gap:8px;padding:8px;border-bottom:0.5px solid rgba(255,255,255,0.1);">
-      <input type="text" value="${escapeHtml(name)}" 
-        onchange="renameColumn(${idx}, this.value)"
-        style="flex:1;background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);color:#c4c4be;padding:6px 10px;border-radius:4px;font-size:13px;">
-      <span style="font-size:11px;color:#6b6b65;min-width:40px;text-align:right;">${data} datos</span>
-      <button onclick="deleteColumnIdx(${idx})" style="background:#e74c3c20;border:0.5px solid #e74c3c40;color:#e74c3c;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:12px;">Eliminar</button>
-    </div>`;
-  }).join('');
-  
   modal.innerHTML = `
-    <div style="background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;max-width:500px;width:90%;max-height:80vh;overflow:auto;padding:16px;">
+    <div style="background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);border-radius:10px;max-width:650px;width:90%;max-height:85vh;overflow:auto;padding:16px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-        <h3 style="margin:0;color:#c4c4be;font-size:16px;font-weight:600;">Gestionar Columnas</h3>
+        <h3 style="margin:0;color:#c4c4be;font-size:16px;font-weight:600;">Gestionar Columnas y Límites</h3>
         <button onclick="document.getElementById('columnManagerModal').remove()" style="background:none;border:none;color:#6b6b65;font-size:20px;cursor:pointer;">✕</button>
       </div>
+      
+      <div style="margin-bottom:12px;padding:12px;background:#2a2a28;border-radius:6px;border:0.5px solid rgba(255,255,255,0.1);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-size:12px;color:#888;">Límites globales</span>
+          <button onclick="applyGlobalLimitsToAll()" style="background:#e67e2230;border:0.5px solid #e67e2260;color:#f5b041;padding:4px 12px;border-radius:4px;cursor:pointer;font-size:11px;">Aplicar a todas</button>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <input type="number" id="globalMin" placeholder="Min" value="${globalParams?.min || ''}" 
+            onchange="setGlobalLimit('min', this.value)"
+            style="flex:1;background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);color:#c4c4be;padding:6px 8px;border-radius:4px;font-size:12px;">
+          <input type="number" id="globalEsp" placeholder="Esp" value="${globalParams?.esp || ''}" 
+            onchange="setGlobalLimit('esp', this.value)"
+            style="flex:1;background:#1a1a18;border:0.5px solid rgba(245,176,65,0.3);color:#f5b041;padding:6px 8px;border-radius:4px;font-size:12px;" title="Esperanza/Target">
+          <input type="number" id="globalMax" placeholder="Max" value="${globalParams?.max || ''}" 
+            onchange="setGlobalLimit('max', this.value)"
+            style="flex:1;background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);color:#c4c4be;padding:6px 8px;border-radius:4px;font-size:12px;">
+          <button onclick="applyGlobalLimitsToAll(); document.getElementById('columnManagerModal').remove();" 
+            style="background:#4a90d920;border:0.5px solid #4a90d940;color:#6cb4f5;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:11px;">✓</button>
+        </div>
+      </div>
+      
       <div style="margin-bottom:12px;display:flex;gap:8px;align-items:center;">
-        <input type="text" id="newColName" placeholder="Nombre de columna" style="flex:1;background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);color:#c4c4be;padding:8px 10px;border-radius:4px;font-size:13px;">
+        <input type="text" id="newColName" placeholder="Nueva columna" style="flex:1;background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);color:#c4c4be;padding:8px 10px;border-radius:4px;font-size:13px;">
         <select id="colPosition" style="background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);color:#c4c4be;padding:8px;border-radius:4px;font-size:13px;">
           <option value="0">Al inicio</option>
           ${STATE.workDataset.columns.map((c, i) => `<option value="${i + 1}">Después de ${escapeHtml(c)}</option>`).join('')}
         </select>
-        <button onclick="addColumnAtPosition()" style="background:#4a90d920;border:0.5px solid #4a90d940;color:#6cb4f5;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:13px;">Agregar</button>
+        <button onclick="addColumnAtPosition()" style="background:#4a90d920;border:0.5px solid #4a90d940;color:#6cb4f5;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:13px;">+</button>
+      </div>
+      
+      <div style="font-size:11px;color:#888;margin-bottom:8px;display:flex;gap:8px;align-items:center;">
+        <span style="flex:1 1 100px;">Columna</span>
+        <span style="min-width:30px;">#</span>
+        <span style="width:55px;font-size:10px;color:#888;">Min</span>
+        <span style="width:55px;font-size:10px;color:#f5b041;">Esperanza</span>
+        <span style="width:55px;font-size:10px;color:#888;">Max</span>
+        <span style="width:30px;"></span>
       </div>
       <div>${colList}</div>
     </div>
@@ -1231,6 +1340,130 @@ function openColumnManager() {
   
   document.body.appendChild(modal);
   modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+}
+
+// ─── CONFIGURAR LÍMITES ───────────────────────────────────────────────────
+function setColumnLimit(idx, colName, type, value) {
+  try {
+    if (typeof ParametrosManager === 'undefined') {
+      console.warn('ParametrosManager no disponible');
+      return;
+    }
+    const params = ParametrosManager.getParametros(colName);
+    const numVal = (!value || value === '') ? null : parseFloat(value);
+    if (numVal === null && value && !isNaN(parseFloat(value))) {
+      showToast('Valor inválido para límite', 'warn');
+      return;
+    }
+    ParametrosManager.setColumna(colName, 
+      type === 'min' ? numVal : params.min, 
+      type === 'max' ? numVal : params.max,
+      type === 'esp' ? numVal : params.esp
+    );
+    setTimeout(revalidateGridLimits, 50);
+  } catch (e) {
+    console.error('Error setColumnLimit:', e);
+  }
+}
+
+function setGlobalLimit(type, value) {
+  try {
+    if (typeof ParametrosManager === 'undefined') {
+      console.warn('ParametrosManager no disponible');
+      return;
+    }
+    const params = ParametrosManager._state?.global || {};
+    const numVal = (!value || value === '') ? null : parseFloat(value);
+    if (numVal === null && value && !isNaN(parseFloat(value))) {
+      showToast('Valor inválido para límite', 'warn');
+      return;
+    }
+    ParametrosManager.setGlobal(
+      type === 'min' ? numVal : params.min,
+      type === 'max' ? numVal : params.max,
+      type === 'esp' ? numVal : params.esp
+    );
+    setTimeout(revalidateGridLimits, 50);
+  } catch (e) {
+    console.error('Error setGlobalLimit:', e);
+  }
+}
+
+function applyGlobalLimitsToAll() {
+  try {
+    if (typeof ParametrosManager === 'undefined') {
+      console.warn('ParametrosManager no disponible');
+      showToast('ParametrosManager no disponible', 'error');
+      return;
+    }
+    
+    const minInput = document.getElementById('globalMin');
+    const maxInput = document.getElementById('globalMax');
+    const espInput = document.getElementById('globalEsp');
+    
+    const min = (!minInput?.value || minInput?.value === '') ? null : parseFloat(minInput?.value);
+    const max = (!maxInput?.value || maxInput?.value === '') ? null : parseFloat(maxInput?.value);
+    const esp = (!espInput?.value || espInput?.value === '') ? null : parseFloat(espInput?.value);
+    
+    if (min === null && max === null && esp === null) {
+      showToast('Define al menos un límite global primero', 'warn');
+      return;
+    }
+    
+    STATE.workDataset.columns.forEach(colName => {
+      ParametrosManager.setColumna(colName, min, max, esp);
+    });
+    
+    showToast('Límites aplicados a todas las columnas', 'ok');
+    
+    setTimeout(() => {
+      try {
+        const tbody = document.getElementById('excelGridBody');
+        if (tbody) {
+          const rows = tbody.querySelectorAll('tr');
+          rows.forEach((row) => {
+            const cells = row.querySelectorAll('td:not(:first-child)');
+            cells.forEach((cell, c) => {
+              if (STATE.workDataset?.columns?.[c]) {
+                const colName = STATE.workDataset.columns[c];
+                const limitStatus = getCellLimitStatus(colName, cell.innerText);
+                cell.className = 'data-cell' + (limitStatus ? ' limit-' + limitStatus : '');
+              }
+            });
+          });
+        }
+      } catch (e2) {
+        console.error('Error revalidating grid:', e2);
+      }
+    }, 100);
+    
+    const oldModal = document.getElementById('columnManagerModal');
+    if (oldModal) oldModal.remove();
+  } catch (e) {
+    console.error('Error applyGlobalLimitsToAll:', e);
+    showToast('Error al aplicar límites', 'error');
+  }
+}
+
+function revalidateGridLimits() {
+  try {
+    const tbody = document.getElementById('excelGridBody');
+    if (!tbody || !STATE.workDataset) return;
+    
+    const rows = tbody.querySelectorAll('tr');
+    rows.forEach((row, r) => {
+      const cells = row.querySelectorAll('td:not(:first-child)');
+      cells.forEach((cell, c) => {
+        if (!STATE.workDataset.columns[c]) return;
+        const colName = STATE.workDataset.columns[c];
+        const value = cell.innerText;
+        const limitStatus = getCellLimitStatus(colName, value);
+        cell.className = `data-cell${limitStatus ? ' limit-' + limitStatus : ''}`;
+      });
+    });
+  } catch (e) {
+    console.error('Error revalidateGridLimits:', e);
+  }
 }
 
 // ─── AGREGAR COLUMNA EN POSICIÓN ─────────────────────────────────────────
@@ -1421,20 +1654,23 @@ function analyzeDatasetTypes(ds) {
   
   let numCount = 0;
   let catCount = 0;
+  let emptyCount = 0;
   
   ds.columns.forEach((col, idx) => {
     const values = ds.rows.map(r => r[idx]).filter(v => v !== null && v !== undefined && v !== '');
     const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
     const totalValid = values.length;
     
-    if (totalValid > 0 && numericCount / totalValid > 0.8) {
+    if (totalValid === 0) {
+      emptyCount++;
+    } else if (numericCount / totalValid > 0.8) {
       numCount++;
     } else {
       catCount++;
     }
   });
   
-  return { numCount, catCount };
+  return { numCount, catCount, emptyCount };
 }
 
 // ─── RENDER INFO DEL DATASET EN WORKSTATSPANEL ─────────────────────────────────
@@ -1469,16 +1705,20 @@ function renderDatasetInfo() {
       </div>
     </div>
     
-    <div style="display:flex;gap:8px;margin-bottom:12px;">`;
-  
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;">`;
+
   if (tipos) {
-    html += `<div style="flex:1;padding:10px;border-radius:8px;background:rgba(46,204,113,0.08);border:0.5px solid rgba(46,204,113,0.15);">
-        <div style="font-size:18px;font-weight:700;color:#5fd97a;">${tipos.numCount}</div>
-        <div style="font-size:10px;color:#5fd97a;text-transform:uppercase;letter-spacing:.05em;">Numéricas</div>
+    html += `<div style="flex:1 1 calc(33% - 4px);min-width:80px;padding:8px;border-radius:6px;background:rgba(46,204,113,0.08);border:0.5px solid rgba(46,204,113,0.15);">
+        <div style="font-size:16px;font-weight:700;color:#5fd97a;">${tipos.numCount}</div>
+        <div style="font-size:9px;color:#5fd97a;text-transform:uppercase;">Numéricas</div>
       </div>
-      <div style="flex:1;padding:10px;border-radius:8px;background:rgba(155,89,182,0.08);border:0.5px solid rgba(155,89,182,0.15);">
-        <div style="font-size:18px;font-weight:700;color:#be8ccf;">${tipos.catCount}</div>
-        <div style="font-size:10px;color:#be8ccf;text-transform:uppercase;letter-spacing:.05em;">Categóricas</div>
+      <div style="flex:1 1 calc(33% - 4px);min-width:80px;padding:8px;border-radius:6px;background:rgba(155,89,182,0.08);border:0.5px solid rgba(155,89,182,0.15);">
+        <div style="font-size:16px;font-weight:700;color:#be8ccf;">${tipos.catCount}</div>
+        <div style="font-size:9px;color:#be8ccf;text-transform:uppercase;">Categóricas</div>
+      </div>
+      <div style="flex:1 1 calc(33% - 4px);min-width:80px;padding:8px;border-radius:6px;background:rgba(100,100,100,0.08);border:0.5px solid rgba(100,100,100,0.15);">
+        <div style="font-size:16px;font-weight:700;color:#888;">${tipos.emptyCount}</div>
+        <div style="font-size:9px;color:#888;text-transform:uppercase;">Vacías</div>
       </div>`;
   }
   
@@ -1488,14 +1728,17 @@ function renderDatasetInfo() {
     <div style="display:flex;flex-wrap:wrap;gap:4px;">`;
   
   ds.columns.forEach((col, idx) => {
-    const isNumeric = tipos && idx < ds.columns.length && 
+    const isEmpty = tipos && tipos.emptyCount > 0 && 
+      ds.rows.map(r => r[idx]).filter(v => v !== null && v !== '' && v !== undefined).length === 0;
+    const isNumeric = !isEmpty && tipos && 
+      ds.rows.map(r => r[idx]).filter(v => v !== null && v !== '' && v !== undefined).length > 0 &&
       (() => {
         const values = ds.rows.map(r => r[idx]).filter(v => v !== null && v !== '');
         const num = values.filter(v => !isNaN(parseFloat(v))).length;
         return values.length > 0 && num / values.length > 0.8;
       })();
-    const badgeColor = isNumeric ? '#5fd97a' : '#be8ccf';
-    const badgeBg = isNumeric ? 'rgba(46,204,113,0.15)' : 'rgba(155,89,182,0.15)';
+    const badgeColor = isEmpty ? '#666' : (isNumeric ? '#5fd97a' : '#be8ccf');
+    const badgeBg = isEmpty ? 'rgba(100,100,100,0.15)' : (isNumeric ? 'rgba(46,204,113,0.15)' : 'rgba(155,89,182,0.15)');
     html += `<span style="font-size:10px;padding:3px 8px;border-radius:4px;background:${badgeBg};color:${badgeColor};">${escapeHtml(col)}</span>`;
   });
   
@@ -1622,7 +1865,6 @@ const TOOL_MENUS = {
   limpia:    { title:'Limpieza',    color:'#e74c3c', items:[{label:'Eliminar valores nulos',tag:'NUL'},{label:'Eliminar outliers',tag:'OUT'},{label:'Eliminar duplicados',tag:'DUP'},{label:'Convertir tipos',tag:'TIP'}] },
   transform: { title:'Transformar', color:'#9b59b6', items:[{label:'Estandarizar (Z-score)',tag:'Z'},{label:'Normalizar (Min-Max)',tag:'MN'},{label:'Logaritmo',tag:'LOG'},{label:'Discretizar',tag:'DISC'}] },
   engineer:  { title:'Ingeniera',   color:'#3498db', items:[{label:'One-hot encoding',tag:'1H'},{label:'Label encoding',tag:'LB'},{label:'Crear variable',tag:'NEW'},{label:'Crear ratio',tag:'RAT'}] },
-  analysis:  { title:'Análisis',    color:'#2ecc71', items:[{label:'Matriz correlación',tag:'COR'},{label:'Histograma',tag:'HIS'},{label:'Boxplot',tag:'BOX'},{label:'Resumen estadístico',tag:'RES'}] },
   model:     { title:'Modelo',      color:'#f39c12', items:[{label:'Train/Test split',tag:'TT'},{label:'Balancear datos',tag:'BAL'},{label:'Selección features',tag:'SEL'},{label:'Validación cruzada',tag:'VC'}] }
 };
 
@@ -1693,14 +1935,29 @@ function handleToolApply() {
   const log = [];
   selected.forEach(op => {
     const result = applyOperation(fmToolKey, op);
+    if (result.ok) {
+      STATE.appliedOperations.push({
+        category: fmToolKey,
+        op: op,
+        timestamp: Date.now()
+      });
+    }
     log.push(result);
   });
 
-  // Re-renderizar grid ANTES de cerrar el menú
-  if (['limpia','transform'].includes(fmToolKey)) {
+  // Re-renderizar grid
+  if (['limpia','transform','engineer'].includes(fmToolKey)) {
     renderExcelGrid(STATE.workDataset);
-      renderDatasetInfo();
+    renderDatasetInfo();
     updateGridFooter();
+  }
+
+  // Mostrar botones train/test si se aplicó split
+  if (STATE.trainData || STATE.testData) {
+    const btnTrain = document.getElementById('btnLoadTrain');
+    const btnTest = document.getElementById('btnLoadTest');
+    if (STATE.trainData?.rows?.length) btnTrain.style.display = 'inline-flex';
+    if (STATE.testData?.rows?.length) btnTest.style.display = 'inline-flex';
   }
 
   // Cerrar el menú
@@ -1708,10 +1965,6 @@ function handleToolApply() {
 
   // Mostrar resultados
   log.forEach(r => showToast(r.msg, r.ok ? 'ok' : 'warn'));
-
-  // Si hay resultados de análisis, mostrarlos en el panel derecho
-  const analysisResults = log.filter(r => r.panel);
-  if (analysisResults.length) renderToolResultsPanel(analysisResults);
 }
 
 // ─── DESPACHADOR DE OPERACIONES ───────────────────────────────────────────────
@@ -1868,124 +2121,213 @@ function applyOperation(category, op) {
 
   // ── INGENIERÍA ────────────────────────────────────────────────────────────────
   if (category === 'engineer') {
+    // ── ONE-HOT ENCODING ───────────────────────────────────────────
     if (op === 'One-hot encoding') {
-      return { ok: true, msg: 'One-hot encoding implementado' };
+      const catCols = ds.columns.map((col, ci) => {
+        const unique = new Set(ds.rows.map(r => r[ci]).filter(v => v != null && v !== ''));
+        return { col, ci, unique: unique.size };
+      }).filter(c => c.unique > 0 && c.unique <= 10);
+      
+      if (catCols.length === 0) {
+        return { ok: false, msg: 'No hay columnas categóricas para one-hot' };
+      }
+      
+      const { col, ci } = catCols[0];
+      const uniqueVals = [...new Set(ds.rows.map(r => r[ci]).filter(v => v != null && v !== ''))];
+      let newCols = 0;
+      uniqueVals.forEach(val => {
+        const newCol = `${col}_${String(val).replace(/[^a-zA-Z0-9]/g, '_')}`;
+        if (!ds.columns.includes(newCol)) {
+          ds.columns.push(newCol);
+          ds.rows.forEach((row, ri) => {
+            row.push(String(row[ci]) === String(val) ? 1 : 0);
+          });
+          newCols++;
+        }
+      });
+      
+      return { ok: true, msg: `One-hot: ${newCols} columnas creadas para "${col}"` };
     }
+    
+    // ── LABEL ENCODING ───────────────────────────────────────────
     if (op === 'Label encoding') {
-      return { ok: true, msg: 'Label encoding implementado' };
+      const catCols = ds.columns.map((col, ci) => {
+        const unique = new Set(ds.rows.map(r => r[ci]).filter(v => v != null && v !== '' && isNaN(v)));
+        return { col, ci, unique: unique.size };
+      }).filter(c => c.unique > 0 && c.unique <= 50);
+      
+      if (catCols.length === 0) {
+        return { ok: false, msg: 'No hay columnas categóricas para label encoding' };
+      }
+      
+      let encoded = 0;
+      catCols.forEach(({ col, ci, unique }) => {
+        const uniqueVals = [...new Set(ds.rows.map(r => r[ci]).filter(v => v != null && v !== '' && isNaN(v)))];
+        const mapping = {};
+        uniqueVals.forEach((val, idx) => { mapping[val] = idx; });
+        ds.rows.forEach(row => {
+          if (row[ci] != null && row[ci] !== '' && isNaN(row[ci])) {
+            row[ci] = mapping[row[ci]];
+            encoded++;
+          }
+        });
+      });
+      
+      return { ok: true, msg: `Label encoding: ${encoded} valores convertidos` };
     }
+    
+    // ── CREAR VARIABLE ──────────────────────────────────────────
     if (op === 'Crear variable') {
-      return { ok: true, msg: 'Crear variable implementado' };
+      const numCols = ds.columns.filter((col, ci) => 
+        ds.rows.map(r => r[ci]).filter(v => typeof v === 'number').length > 0
+      );
+      
+      if (numCols.length < 2) {
+        return { ok: false, msg: 'Se necesitan ≥2 columnas numéricas' };
+      }
+      
+      const col1 = numCols[0], col2 = numCols[1];
+      const idx1 = ds.columns.indexOf(col1);
+      const idx2 = ds.columns.indexOf(col2);
+      const newCol = `${col1}_${col2}_diff`;
+      
+      ds.columns.push(newCol);
+      ds.rows.forEach(row => {
+        const v1 = parseFloat(row[idx1]), v2 = parseFloat(row[idx2]);
+        row.push(!isNaN(v1) && !isNaN(v2) ? +(v1 - v2).toFixed(4) : null);
+      });
+      
+      return { ok: true, msg: `Nueva columna: ${newCol}` };
     }
+    
+    // ── CREAR RATIO ──────────────────────���──────────────────────────
     if (op === 'Crear ratio') {
-      return { ok: true, msg: 'Crear ratio implementado' };
+      const numCols = ds.columns.filter((col, ci) => 
+        ds.rows.map(r => r[ci]).filter(v => typeof v === 'number' && v !== 0).length > 0
+      );
+      
+      if (numCols.length < 2) {
+        return { ok: false, msg: 'Se necesitan ≥2 columnas numéricas' };
+      }
+      
+      const col1 = numCols[0], col2 = numCols[1];
+      const idx1 = ds.columns.indexOf(col1);
+      const idx2 = ds.columns.indexOf(col2);
+      const newCol = `${col1}_${col2}_ratio`;
+      
+      ds.columns.push(newCol);
+      let created = 0;
+      ds.rows.forEach(row => {
+        const v1 = parseFloat(row[idx1]), v2 = parseFloat(row[idx2]);
+        if (!isNaN(v1) && !isNaN(v2) && v2 !== 0) {
+          row.push(+(v1 / v2).toFixed(4));
+          created++;
+        } else {
+          row.push(null);
+        }
+      });
+      
+      return { ok: true, msg: `Ratio: ${created} valores en "${newCol}"` };
     }
   }
 
   // ── MODELO ─────────────────────────────────────────────────────────────────
   if (category === 'model') {
+    // ── TRAIN/TEST SPLIT ───────────────────────────────────────────────
     if (op === 'Train/Test split') {
-      return { ok: true, msg: 'Train/Test split implementado' };
+      const testRatio = 0.2;
+      const shuffled = [...ds.rows].sort(() => Math.random() - 0.5);
+      const splitIdx = Math.floor(shuffled.length * (1 - testRatio));
+      const train = shuffled.slice(0, splitIdx);
+      const test = shuffled.slice(splitIdx);
+      
+      STATE.trainData = { name: ds.name + '_train', columns: ds.columns, rows: train };
+      STATE.testData = { name: ds.name + '_test', columns: ds.columns, rows: test };
+      
+      return { ok: true, msg: `Split: ${train.length} train / ${test.length} test (${Math.round(testRatio*100)}%)` };
     }
+    
+    // ── BALANCEAR DATOS ────────────────────────────────────────────
     if (op === 'Balancear datos') {
-      return { ok: true, msg: 'Balancear datos implementado' };
-    }
-    if (op === 'Selección features') {
-      return { ok: true, msg: 'Selección features implementado' };
-    }
-    if (op === 'Validación cruzada') {
-      return { ok: true, msg: 'Validación cruzada implementado' };
-    }
-  }
-
-  // ── ANÁLISIS ─────────────────────────────────────────────────────────────────
-  if (category === 'analysis') {
-    if (op === 'Resumen estadístico') {
-      const summary = ds.columns.map((col, ci) => {
-        const vals    = ds.rows.map(r => r[ci]).filter(v => typeof v === 'number');
-        const nulls   = ds.rows.filter(r => r[ci]===null||r[ci]===''||r[ci]===undefined).length;
-        if (!vals.length) return { col, type:'texto', count:ds.rows.length, nulls, unique: new Set(ds.rows.map(r=>r[ci])).size };
-        const sorted  = [...vals].sort((a,b) => a-b);
-        const mean    = vals.reduce((a,b)=>a+b,0) / vals.length;
-        const std     = Math.sqrt(vals.reduce((acc,v)=>acc+Math.pow(v-mean,2),0)/vals.length);
-        const mid     = Math.floor(sorted.length/2);
-        const median  = sorted.length%2 ? sorted[mid] : (sorted[mid-1]+sorted[mid])/2;
-        const q1      = sorted[Math.floor(sorted.length*0.25)];
-        const q3      = sorted[Math.floor(sorted.length*0.75)];
-        return { col, type:'número', count:vals.length, nulls,
-          mean:mean.toFixed(3), std:std.toFixed(3),
-          min:sorted[0], q1, median:median.toFixed(3), q3, max:sorted[sorted.length-1] };
+      const targetCol = ds.columns[0];
+      const classCounts = {};
+      ds.rows.forEach(row => {
+        const key = String(row[0]);
+        classCounts[key] = (classCounts[key] || 0) + 1;
       });
-      return { ok:true, msg:'Resumen estadístico calculado', panel:{ type:'summary', data:summary } };
-    }
-
-    if (op === 'Histograma') {
-      const numCols = ds.columns.map((col,ci) => {
-        const vals = ds.rows.map(r=>r[ci]).filter(v=>typeof v==='number');
-        return { col, ci, vals };
-      }).filter(c => c.vals.length > 0);
-
-      if (!numCols.length) return { ok:false, msg:'No hay columnas numéricas para histograma' };
-
-      const { col, vals } = numCols[0];
-      const min  = Math.min(...vals), max = Math.max(...vals);
-      const bins = 8;
-      const step = (max - min) / bins || 1;
-      const freq = Array(bins).fill(0);
-      vals.forEach(v => {
-        const idx = Math.min(Math.floor((v - min) / step), bins - 1);
-        freq[idx]++;
-      });
-      const labels = freq.map((_,i) => `${(min + i*step).toFixed(1)}–${(min + (i+1)*step).toFixed(1)}`);
-      return { ok:true, msg:`Histograma de "${col}" calculado`, panel:{ type:'histogram', col, labels, freq, total:vals.length } };
-    }
-
-    if (op === 'Matriz correlación') {
-      const numCols = ds.columns.map((col,ci) => {
-        const vals = ds.rows.map(r=>r[ci]).filter(v=>typeof v==='number');
-        return { col, ci, vals };
-      }).filter(c => c.vals.length > 0);
-
-      if (numCols.length < 2) return { ok:false, msg:'Se necesitan al menos 2 columnas numéricas' };
-
-      const matrix = [];
-      for (let i = 0; i < numCols.length; i++) {
-        matrix[i] = [];
-        for (let j = 0; j < numCols.length; j++) {
-          if (i === j) { matrix[i][j] = 1; continue; }
-          const vi = numCols[i].vals, vj = numCols[j].vals;
-          const minLen = Math.min(vi.length, vj.length);
-          const meanI = vi.reduce((a,b)=>a+b,0)/vi.length;
-          const meanJ = vj.reduce((a,b)=>a+b,0)/vj.length;
-          let num = 0, denI = 0, denJ = 0;
-          for (let k = 0; k < minLen; k++) {
-            const di = vi[k] - meanI, dj = vj[k] - meanJ;
-            num += di * dj;
-            denI += di * di;
-            denJ += dj * dj;
-          }
-          matrix[i][j] = denI && denJ ? +(num / Math.sqrt(denI * denJ)).toFixed(3) : 0;
-        }
+      
+      const counts = Object.values(classCounts);
+      const minCount = Math.min(...counts);
+      const maxCount = Math.max(...counts);
+      
+      if (minCount === maxCount) {
+        return { ok: true, msg: 'Dataset ya está balanceado' };
       }
-      const cols = numCols.map(c => c.col);
-      return { ok:true, msg:`Correlación: ${cols.length}×${cols.length}`, panel:{ type:'correlation', cols, matrix } };
+      
+      const balancedRows = [];
+      Object.entries(classCounts).forEach(([cls, cnt]) => {
+        const clsRows = ds.rows.filter(row => String(row[0]) === cls);
+        if (cnt === maxCount) {
+          balancedRows.push(...clsRows);
+        } else {
+          while (clsRows.length < maxCount) {
+            clsRows.push(...clsRows);
+          }
+          balancedRows.push(...clsRows.slice(0, maxCount));
+        }
+      });
+      
+      const removed = ds.rows.length - balancedRows.length;
+      ds.rows = balancedRows.sort(() => Math.random() - 0.5);
+      
+      return { ok: true, msg: `Balanceado: ${maxCount} por clase (${ds.rows.length} filas)` };
     }
-
-    if (op === 'Boxplot') {
-      const numCols = ds.columns.map((col,ci) => {
-        const vals = [...ds.rows.map(r=>r[ci]).filter(v=>typeof v==='number')].sort((a,b)=>a-b);
-        if (!vals.length) return null;
-        const q1  = vals[Math.floor(vals.length*0.25)];
-        const med = vals[Math.floor(vals.length*0.5)];
-        const q3  = vals[Math.floor(vals.length*0.75)];
-        const iqr = q3 - q1;
-        const lo  = q1 - 1.5*iqr, hi = q3 + 1.5*iqr;
-        const out = vals.filter(v => v<lo || v>hi).length;
-        return { col, min:vals[0], q1, med, q3, max:vals[vals.length-1], out };
-      }).filter(Boolean);
-      if (!numCols.length) return { ok:false, msg:'No hay columnas numéricas para boxplot' };
-      return { ok:true, msg:`Boxplot calculado para ${numCols.length} columna${numCols.length!==1?'s':''}`,
-               panel:{ type:'boxplot', data:numCols } };
+    
+    // ── SELECCIÓN FEATURES ──────────────────────────────────────────
+    if (op === 'Selección features') {
+      const numCols = ds.columns.map((col, ci) => {
+        const vals = ds.rows.map(r => r[ci]).filter(v => typeof v === 'number');
+        return { col, ci, vals, variance: 0 };
+      }).filter(c => c.vals.length > 0);
+      
+      if (numCols.length < 2) {
+        return { ok: false, msg: 'Se necesitan ≥2 columnas numéricas' };
+      }
+      
+      numCols.forEach(c => {
+        const mean = c.vals.reduce((a,b) => a+b, 0) / c.vals.length;
+        c.variance = c.vals.reduce((acc,v) => acc + Math.pow(v-mean,2), 0) / c.vals.length;
+      });
+      
+      const sorted = numCols.sort((a, b) => b.variance - a.variance);
+      const selected = sorted.slice(0, Math.ceil(sorted.length * 0.5));
+      const selectedCols = selected.map(s => s.col);
+      
+      return { ok: true, msg: `Features: ${selectedCols.length} de ${ds.columns.length} seleccionadas` };
+    }
+    
+    // ── VALIDACIÓN CRUZADA ────────────────────────────────────────────
+    if (op === 'Validación cruzada') {
+      const k = 5;
+      const folds = Array(k).fill(null).map(() => []);
+      
+      ds.rows.forEach((row, i) => {
+        folds[i % k].push(row);
+      });
+      
+      const foldStats = folds.map((fold, i) => {
+        const trainFold = folds.filter((_, fi) => fi !== i).flat();
+        const valFold = fold;
+        const trainMean = trainFold.length > 0 
+          ? trainFold.map(r => r.filter(v => typeof v === 'number')).flat().reduce((a,b)=>a+b,0) / trainFold.length 
+          : 0;
+        const valMean = valFold.length > 0
+          ? valFold.map(r => r.filter(v => typeof v === 'number')).flat().reduce((a,b)=>a+b,0) / valFold.length
+          : 0;
+        return { fold: i+1, train: trainFold.length, val: valFold.length, trainMean: trainMean.toFixed(2), valMean: valMean.toFixed(2) };
+      });
+      
+      return { ok: true, msg: `K-Fold CV: ${k} folds ejecutados` };
     }
   }
 
@@ -2001,6 +2343,30 @@ function updateGridFooter() {
   footer.textContent = ds.rows.length > MAX_ROWS
     ? `Mostrando ${MAX_ROWS.toLocaleString('es')} de ${ds.rows.length.toLocaleString('es')} filas`
     : `${ds.rows.length.toLocaleString('es')} filas · ${ds.columns.length} columnas`;
+}
+
+function loadTrainData() {
+  if (!STATE.trainData || !STATE.trainData.rows?.length) {
+    showToast('No hay datos de entrenamiento', 'warn');
+    return;
+  }
+  STATE.workDataset = STATE.trainData;
+  renderExcelGrid(STATE.workDataset);
+  renderDatasetInfo();
+  updateGridFooter();
+  showToast(`Train: ${STATE.trainData.rows.length} filas`, 'ok');
+}
+
+function loadTestData() {
+  if (!STATE.testData || !STATE.testData.rows?.length) {
+    showToast('No hay datos de prueba', 'warn');
+    return;
+  }
+  STATE.workDataset = STATE.testData;
+  renderExcelGrid(STATE.workDataset);
+  renderDatasetInfo();
+  updateGridFooter();
+  showToast(`Test: ${STATE.testData.rows.length} filas`, 'ok');
 }
 
 // ─── RENDER PANEL DE RESULTADOS DE TOOLS ─────────────────────────────────────
@@ -2208,4 +2574,149 @@ function formatFileSize(bytes) {
   if (!bytes) return '0 B';
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
   return (bytes / Math.pow(1024,i)).toFixed(1) + ' ' + ['B','KB','MB','GB'][i];
+}
+
+// ─── MODAL PASAR A ANÁLISIS ───────────────────────────────────────────────
+function openAnalysisModal() {
+  const ds = STATE.workDataset;
+  if (!ds || !ds.rows?.length) {
+    showToast('No hay datos para analizar', 'warn');
+    return;
+  }
+  
+  const hasTrain = STATE.trainData?.rows?.length > 0;
+  const hasTest = STATE.testData?.rows?.length > 0;
+  const hasOps = STATE.appliedOperations?.length > 0;
+  
+  const opsHtml = hasOps 
+    ? STATE.appliedOperations.slice(-5).map(op => 
+        `<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:rgba(74,144,217,0.08);border:0.5px solid rgba(74,144,217,0.15);border-radius:4px;font-size:11px;color:#a0c8f0;">
+          <span style="color:#5fd97a;">✓</span> ${op.op}
+        </div>`
+      ).join('')
+    : '<div style="font-size:11px;color:#6b6b65;font-style:italic;">Sin operaciones aplicadas</div>';
+  
+  const optionsHtml = `
+    <label class="dataset-option selected" id="opt-work" style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:#252523;border:0.5px solid #4a90d9;border-radius:8px;margin-bottom:8px;cursor:pointer;">
+      <input type="checkbox" checked style="accent-color:#4a90d9;width:16px;height:16px;">
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:500;color:#e8e8e6;">Datos trabajados</div>
+        <div style="font-size:11px;color:#6b6b65;">${ds.rows.length} filas × ${ds.columns.length} columnas</div>
+      </div>
+    </label>
+    ${hasTrain ? `
+    <label class="dataset-option" id="opt-train" style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:#252523;border:0.5px solid rgba(255,255,255,0.08);border-radius:8px;margin-bottom:8px;cursor:pointer;">
+      <input type="checkbox" style="accent-color:#4a90d9;width:16px;height:16px;">
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:500;color:#e8e8e6;">Train (entrenamiento)</div>
+        <div style="font-size:11px;color:#6b6b65;">${STATE.trainData.rows.length} filas</div>
+      </div>
+    </label>` : ''}
+    ${hasTest ? `
+    <label class="dataset-option" id="opt-test" style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:#252523;border:0.5px solid rgba(255,255,255,0.08);border-radius:8px;cursor:pointer;">
+      <input type="checkbox" style="accent-color:#4a90d9;width:16px;height:16px;">
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:500;color:#e8e8e6;">Test (prueba)</div>
+        <div style="font-size:11px;color:#6b6b65;">${STATE.testData.rows.length} filas</div>
+      </div>
+    </label>` : ''}
+  `;
+  
+  const modal = document.createElement('div');
+  modal.id = 'analysisModal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;z-index:1000;';
+  
+  modal.innerHTML = `
+    <div style="background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);border-radius:12px;width:90%;max-width:400px;overflow:hidden;">
+      <div style="padding:16px 20px;border-bottom:0.5px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:10px;">
+        <svg viewBox="0 0 20 20" fill="none" stroke="#4a90d9" stroke-width="1.5" width="20" height="20">
+          <path d="M3 10l4-4 4 4M3 14l4-4 4 4M11 4l4 4M11 10v6"/>
+        </svg>
+        <h2 style="font-size:16px;font-weight:600;color:#e8e8e6;margin:0;">Pasar a Análisis</h2>
+      </div>
+      
+      <div style="padding:20px;">
+        <div style="background:#252523;border-radius:8px;padding:14px;margin-bottom:16px;">
+          <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Dataset</div>
+          <div style="font-size:18px;font-weight:600;color:#6cb4f5;">${ds.rows.length} filas × ${ds.columns.length} columnas</div>
+          <div style="font-size:11px;color:#6b6b65;margin-top:4px;">${ds.name}</div>
+        </div>
+        
+        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Operaciones aplicadas</div>
+        <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:16px;">${opsHtml}</div>
+        
+        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Seleccionar datos</div>
+        <div id="datasetOptions">${optionsHtml}</div>
+      </div>
+      
+      <div style="padding:14px 20px;border-top:0.5px solid rgba(255,255,255,0.08);display:flex;gap:10px;justify-content:flex-end;">
+        <button onclick="document.getElementById('analysisModal').remove()" style="padding:10px 18px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;background:transparent;color:#888;border:0.5px solid rgba(255,255,255,0.1);">Cancelar</button>
+        <button onclick="passToAnalysis()" style="padding:10px 18px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;background:#4a90d9;color:#fff;border:none;">Pasar a Análisis</button>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+  
+  // Toggle selection
+  modal.querySelectorAll('.dataset-option').forEach(opt => {
+    opt.addEventListener('click', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      const cb = opt.querySelector('input');
+      cb.checked = !cb.checked;
+      opt.style.borderColor = cb.checked ? '#4a90d9' : 'rgba(255,255,255,0.08)';
+      opt.style.background = cb.checked ? 'rgba(74,144,217,0.1)' : '#252523';
+    });
+  });
+}
+
+function passToAnalysis() {
+  const modal = document.getElementById('analysisModal');
+  if (!modal) return;
+  
+  const optWork = modal.querySelector('#opt-work input')?.checked;
+  const optTrain = modal.querySelector('#opt-train input')?.checked;
+  const optTest = modal.querySelector('#opt-test input')?.checked;
+  
+  const datasets = [];
+  if (optWork && STATE.workDataset) datasets.push({ name: STATE.workDataset.name, data: STATE.workDataset });
+  if (optTrain && STATE.trainData) datasets.push({ name: STATE.trainData.name, data: STATE.trainData });
+  if (optTest && STATE.testData) datasets.push({ name: STATE.testData.name, data: STATE.testData });
+  
+  if (datasets.length === 0) {
+    showToast('Selecciona al menos un dataset', 'warn');
+    return;
+  }
+  
+  STATE.analysisData = datasets;
+  modal.remove();
+  navigateTo('page-analisis');
+  renderAnalysisDataset(datasets);
+  showToast(`${datasets.length} dataset(s) listo(s) para análisis`, 'ok');
+}
+
+function renderAnalysisDataset(datasets) {
+  const tableBody = document.getElementById('analysisResultsTable');
+  if (!tableBody || !datasets?.length) return;
+  
+  let html = '';
+  datasets.forEach(ds => {
+    if (!ds.data?.rows?.length) return;
+    const firstCols = ds.data.columns.slice(0, 3);
+    const sampleRow = ds.data.rows[0];
+    
+    firstCols.forEach((col, ci) => {
+      const isNum = !isNaN(parseFloat(sampleRow[ci]));
+      html += `<tr>
+        <td style="color:#c4c4be;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">${ds.name}</td>
+        <td style="color:#9e9e98;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">${col}</td>
+        <td style="color:#6cb4f5;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">${isNum ? 'numérico' : 'texto'}</td>
+        <td style="color:#6b6b65;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">-</td>
+        <td style="color:#5fd97a;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">${ds.data.rows.length} filas</td>
+      </tr>`;
+    });
+  });
+  
+  tableBody.innerHTML = html || '<tr><td colspan="5" style="text-align:center;color:#6b6b65;padding:24px;">Sin datos</td></tr>';
 }
