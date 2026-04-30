@@ -8,6 +8,7 @@ const STATE = {
   trainData: null,         // datos de entrenamiento
   testData: null,         // datos de prueba
   analysisData: null,     // datos seleccionados para análisis
+  edaDataset: null,      // dataset seleccionado para EDA (persistente)
 };
 
 // ─── PERSISTENCIA UI ──────────────────────────────────────────────────────────
@@ -22,6 +23,7 @@ function saveUIState() {
       activeFloatingMenu: activeKey,
       checkedItems:     JSON.parse(JSON.stringify(checked)),
       workDataset:      STATE.workDataset || null,
+      edaDataset:     STATE.edaDataset || null,
     }));
   } catch(e) { console.warn('saveUIState:', e); }
 }
@@ -55,6 +57,10 @@ function loadUIState() {
       renderDatasetInfo();
     } else {
       renderEmptyGrid();
+    }
+    if (s.edaDataset) {
+      STATE.edaDataset = s.edaDataset;
+      renderEDASelectedBadge();
     }
   } catch(e) { 
     console.warn('loadUIState:', e);
@@ -203,16 +209,16 @@ function renderMenu(key) {
   applyBtn.onmouseenter = () => { applyBtn.style.background = data.color + 'dd'; };
   applyBtn.onmouseleave = () => { applyBtn.style.background = data.color; };
 
-  fmBody.innerHTML = data.sections.map(sec => `
-    <div class="fm-section-label">${sec.label}</div>
-    ${sec.items.map(item => {
-      const on = isChecked(key, item.label);
-      return `<div class="fm-item${on?' checked':''}" data-key="${key}" data-label="${item.label}">
-        <div class="fm-cb"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2"/></svg></div>
-        <span style="font-size:13px;flex:1">${item.label}</span>
-        <span class="fm-item-badge" style="color:${data.color};background:${data.color}18">${item.tag}</span>
-      </div>`;
-    }).join('')}`).join('');
+       fmBody.innerHTML = data.sections.map(sec => `
+     <div class="fm-section-label">${sec.label}</div>
+     ${sec.items.map(item => {
+       const on = isChecked(key, item.label);
+       return `<div class="fm-item${on?' checked':''}" data-key="${key}" data-label="${item.label}">
+         <div class="fm-cb"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2"/></svg></div>
+         <span style="font-size:13px;flex:1">${item.label}</span>
+         <span class="fm-item-badge" style="color:${data.color};background:${data.color}22">${item.tag}</span>
+       </div>`;
+     }).join('')}`).join('');
 
   fmBody.querySelectorAll('.fm-item').forEach(el => {
     el.addEventListener('click', () => {
@@ -908,6 +914,7 @@ function loadToWork() {
   document.getElementById('gridLabel').textContent =
     `${name}  ·  ${data.rows.length} filas × ${data.columns.length} columnas`;
 
+  resetToolSelections();
   saveUIState();
   renderExcelGrid(STATE.workDataset);
       renderDatasetInfo();
@@ -928,6 +935,8 @@ function clearWorkDataset() {
   
   STATE.workDataset = null;
   document.getElementById('workDatasetName').textContent = 'Sin dataset';
+  document.getElementById('gridLabel').textContent = '';
+  resetToolSelections();
   localStorage.removeItem('dashboardUIState');
   renderEmptyGrid();
   showToast('Datos borrados', 'ok');
@@ -1009,6 +1018,7 @@ function handleGridPaste(e) {
   document.getElementById('workDatasetName').textContent = name;
   document.getElementById('gridLabel').textContent = `${name} · ${dataRows.length} filas × ${columns.length} columnas`;
   
+  resetToolSelections();
   saveUIState();
   renderExcelGrid(STATE.workDataset);
       renderDatasetInfo();
@@ -1658,7 +1668,7 @@ function analyzeDatasetTypes(ds) {
   
   ds.columns.forEach((col, idx) => {
     const values = ds.rows.map(r => r[idx]).filter(v => v !== null && v !== undefined && v !== '');
-    const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
+        const numericCount = values.filter(v => { const s = String(v).trim(); const n = Number(s); return !isNaN(n) && s !== '' && String(n) === s; }).length;
     const totalValid = values.length;
     
     if (totalValid === 0) {
@@ -1734,7 +1744,7 @@ function renderDatasetInfo() {
       ds.rows.map(r => r[idx]).filter(v => v !== null && v !== '' && v !== undefined).length > 0 &&
       (() => {
         const values = ds.rows.map(r => r[idx]).filter(v => v !== null && v !== '');
-        const num = values.filter(v => !isNaN(parseFloat(v))).length;
+         const num = values.filter(v => { const s = String(v).trim(); const n = Number(s); return !isNaN(n) && s !== '' && String(n) === s; }).length;
         return values.length > 0 && num / values.length > 0.8;
       })();
     const badgeColor = isEmpty ? '#666' : (isNumeric ? '#5fd97a' : '#be8ccf');
@@ -1863,12 +1873,23 @@ function clearAllStats() {
 // ─── TOOL MENUS (TRABAJO) ─────────────────────────────────────────────────────
 const TOOL_MENUS = {
   limpia:    { title:'Limpieza',    color:'#e74c3c', items:[{label:'Eliminar valores nulos',tag:'NUL'},{label:'Eliminar outliers',tag:'OUT'},{label:'Eliminar duplicados',tag:'DUP'},{label:'Convertir tipos',tag:'TIP'}] },
-  transform: { title:'Transformar', color:'#9b59b6', items:[{label:'Estandarizar (Z-score)',tag:'Z'},{label:'Normalizar (Min-Max)',tag:'MN'},{label:'Logaritmo',tag:'LOG'},{label:'Discretizar',tag:'DISC'}] },
+  transform: { title:'Transformar', color:'#9b59b6', items:[{label:'Estandarizar (Z-score)',tag:'Z'},{label:'Normalizar (Min-Max)',tag:'MN'},{label:'Log natural',tag:'LOG'},{label:'Log10',tag:'LOG10'},{label:'Raíz cuadrada',tag:'SQRT'},{label:'Reciproco',tag:'REC'},{label:'Box-Cox',tag:'BC'},{label:'Discretizar',tag:'DISC'}] },
   engineer:  { title:'Ingeniera',   color:'#3498db', items:[{label:'One-hot encoding',tag:'1H'},{label:'Label encoding',tag:'LB'},{label:'Crear variable',tag:'NEW'},{label:'Crear ratio',tag:'RAT'}] },
   model:     { title:'Modelo',      color:'#f39c12', items:[{label:'Train/Test split',tag:'TT'},{label:'Balancear datos',tag:'BAL'},{label:'Selección features',tag:'SEL'},{label:'Validación cruzada',tag:'VC'}] }
 };
 
 const toolChecked = {};
+
+function resetToolSelections() {
+  Object.keys(toolChecked).forEach(key => {
+    Object.keys(toolChecked[key]).forEach(label => {
+      toolChecked[key][label] = false;
+    });
+  });
+  
+  document.querySelectorAll('.fm-item').forEach(el => el.classList.remove('checked'));
+  document.querySelectorAll('.fm-header-check').forEach(el => el.classList.remove('checked'));
+}
 
 // FIX error 1 — modo del menú flotante para evitar doble handler
 // 'sidebar' = menus estadísticos del sidebar
@@ -2084,7 +2105,7 @@ function applyOperation(category, op) {
       return { ok: true, msg: `Min-Max: ${transformed} valores en ${colsAffected} columna${colsAffected!==1?'s':''}` };
     }
 
-    if (op === 'Logaritmo') {
+    if (op === 'Log natural') {
       let transformed = 0, skipped = 0;
       ds.rows.forEach(row => {
         row.forEach((cell, ci) => {
@@ -2096,6 +2117,93 @@ function applyOperation(category, op) {
       });
       const note = skipped > 0 ? ` (${skipped} valor${skipped!==1?'es':''} ≤0 omitido${skipped!==1?'s':''})` : '';
       return { ok: true, msg: `Log natural: ${transformed} valores${note}` };
+    }
+
+    if (op === 'Log10') {
+      let transformed = 0, skipped = 0;
+      ds.rows.forEach(row => {
+        row.forEach((cell, ci) => {
+          if (typeof cell === 'number') {
+            if (cell > 0) { row[ci] = +Math.log10(cell).toFixed(6); transformed++; }
+            else skipped++;
+          }
+        });
+      });
+      const note = skipped > 0 ? ` (${skipped} valor${skipped!==1?'es':''} ≤0 omitido${skipped!==1?'s':''})` : '';
+      return { ok: true, msg: `Log10: ${transformed} valores${note}` };
+    }
+
+    if (op === 'Raíz cuadrada') {
+      let transformed = 0, skipped = 0;
+      ds.rows.forEach(row => {
+        row.forEach((cell, ci) => {
+          if (typeof cell === 'number') {
+            if (cell >= 0) { row[ci] = +Math.sqrt(cell).toFixed(6); transformed++; }
+            else skipped++;
+          }
+        });
+      });
+      const note = skipped > 0 ? ` (${skipped} valor${skipped!==1?'es':''} <0 omitido${skipped!==1?'s':''})` : '';
+      return { ok: true, msg: `√x: ${transformed} valores${note}` };
+    }
+
+    if (op === 'Reciproco') {
+      let transformed = 0, skipped = 0;
+      ds.rows.forEach(row => {
+        row.forEach((cell, ci) => {
+          if (typeof cell === 'number') {
+            if (cell !== 0) { row[ci] = +(1 / cell).toFixed(6); transformed++; }
+            else skipped++;
+          }
+        });
+      });
+      const note = skipped > 0 ? ` (${skipped} valor${skipped!==1?'es':''} =0 omitido${skipped!==1?'s':''})` : '';
+      return { ok: true, msg: `1/x: ${transformed} valores${note}` };
+    }
+
+    if (op === 'Box-Cox') {
+      let transformed = 0, colsAffected = 0;
+      ds.columns.forEach((_, ci) => {
+        const vals = ds.rows.map(r => r[ci]).filter(v => typeof v === 'number' && v > 0);
+        if (!vals.length) return;
+        
+        // Calculate mean for lambda estimation
+        const mean = vals.reduce((a,b) => a+b, 0) / vals.length;
+        
+        // Find optimal lambda using log-likelihood approximation
+        let bestLambda = 1;
+        let bestLL = -Infinity;
+        for (let lam = -3; lam <= 3; lam += 0.5) {
+          if (Math.abs(lam) < 0.01) lam = 0.001;
+           const transformed = vals.map(v => (Math.pow(v, lam) - 1) / lam);
+           const meanTransformed = transformed.reduce((a, b) => a + b, 0) / transformed.length;
+           const ll = transformed.reduce((sum, t) => {
+             return sum + (lam - 1) * Math.log(t) - (vals.length / 2) * Math.log(
+               transformed.reduce((s, x) => s + Math.pow(x - meanTransformed, 2), 0) / vals.length
+             );
+           }, 0);
+          if (ll > bestLL) { bestLL = ll; bestLambda = lam; }
+        }
+        
+        const lambda = Math.round(bestLambda * 10) / 10;
+        if (lambda === 0) {
+          ds.rows.forEach(row => {
+            if (typeof row[ci] === 'number' && row[ci] > 0) {
+              row[ci] = +Math.log(row[ci]).toFixed(6);
+              transformed++;
+            }
+          });
+        } else {
+          ds.rows.forEach(row => {
+            if (typeof row[ci] === 'number' && row[ci] > 0) {
+              row[ci] = +((Math.pow(row[ci], lambda) - 1) / lambda).toFixed(6);
+              transformed++;
+            }
+          });
+        }
+        colsAffected++;
+      });
+      return { ok: true, msg: `Box-Cox: ${transformed} valores en ${colsAffected} columna${colsAffected!==1?'s':''}` };
     }
 
     if (op === 'Discretizar') {
@@ -2202,9 +2310,9 @@ function applyOperation(category, op) {
     
     // ── CREAR RATIO ──────────────────────���──────────────────────────
     if (op === 'Crear ratio') {
-      const numCols = ds.columns.filter((col, ci) => 
-        ds.rows.map(r => r[ci]).filter(v => typeof v === 'number' && v !== 0).length > 0
-      );
+        const numCols = ds.columns.filter((col, ci) => 
+         ds.rows.map(r => r[ci]).filter(v => { const n = Number(v); return !isNaN(n) && v !== '' && v !== null; }).length > 0
+       );
       
       if (numCols.length < 2) {
         return { ok: false, msg: 'Se necesitan ≥2 columnas numéricas' };
@@ -2546,13 +2654,13 @@ function openToolMenu(key) {
 
 function renderToolItems(key) {
   const data = TOOL_MENUS[key];
-  fmBody.innerHTML = data.items.map(item => {
-    const on = toolChecked[key]?.[item.label] || false;
-    return `<div class="fm-item${on?' checked':''}" data-key="${key}" data-label="${item.label}">
-      <div class="fm-cb"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2"/></svg></div>
-      <span style="font-size:13px;flex:1">${item.label}</span>
-      <span class="fm-item-badge" style="color:${data.color};background:${data.color}18">${item.tag}</span>
-    </div>`;
+       fmBody.innerHTML = data.items.map(item => {
+       const on = toolChecked[key]?.[item.label] || false;
+       return `<div class="fm-item${on?' checked':''}" data-key="${key}" data-label="${item.label}">
+       <div class="fm-cb"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2"/></svg></div>
+       <span style="font-size:13px;flex:1">${item.label}</span>
+       <span class="fm-item-badge" style="color:${data.color};background:${data.color}22">${item.tag}</span>
+     </div>`;
   }).join('');
 
   fmBody.querySelectorAll('.fm-item').forEach(el => {
@@ -2697,26 +2805,481 @@ function passToAnalysis() {
 }
 
 function renderAnalysisDataset(datasets) {
-  const tableBody = document.getElementById('analysisResultsTable');
-  if (!tableBody || !datasets?.length) return;
+  const tableBody = document.getElementById('analysisResultsTableBody');
+  if (!tableBody) return;
   
-  let html = '';
-  datasets.forEach(ds => {
-    if (!ds.data?.rows?.length) return;
-    const firstCols = ds.data.columns.slice(0, 3);
-    const sampleRow = ds.data.rows[0];
+  const ds = datasets[0];
+  if (!ds?.data?.rows?.length) {
+    tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#6b6b65;padding:24px;">Sin datos</td></tr>';
+    return;
+  }
+  
+  const edaData = { headers: ds.data.columns, data: ds.data.rows };
+  
+  if (typeof EDAManager !== 'undefined') {
+    const edaResult = EDAManager.ejecutarEDA(edaData);
+    if (edaResult.error) {
+      renderSimpleTable(ds);
+    } else {
+      renderEDAResults(edaResult, ds.name);
+    }
+  } else {
+    renderSimpleTable(ds);
+  }
+}
+
+function runEDAanalysis() {
+  if (typeof EDAManager === 'undefined') {
+    showToast('EDAManager no disponible', 'error');
+    return;
+  }
+  
+  const ds = STATE.edaDataset || STATE.analysisData?.[0]?.data || STATE.workDataset;
+  if (!ds?.rows?.length) {
+    showToast('Selecciona un dataset primero', 'warn');
+    return;
+  }
+  
+  const edaData = { headers: ds.columns, data: ds.rows };
+  const edaResult = EDAManager.ejecutarEDA(edaData);
+  
+  if (edaResult.error) {
+    showToast(edaResult.error, 'error');
+    return;
+  }
+  
+  openEDAModal(edaResult, ds.name || 'Dataset');
+  showToast('EDA ejecutado sobre ' + (ds.name || 'dataset activo'), 'ok');
+}
+
+function selectEDAdataset(ds) {
+  STATE.edaDataset = { name: ds.name, columns: ds.columns, rows: ds.rows };
+  saveUIState();
+  renderEDASelectedBadge();
+  showToast('Dataset selec. para EDA: ' + ds.name, 'ok');
+}
+
+function clearEDAdataset() {
+  STATE.edaDataset = null;
+  STATE.analysisData = null;
+  saveUIState();
+  renderEDASelectedBadge();
+  renderClearAnalysisView();
+  showToast('Dataset EDA limpiado', 'ok');
+}
+
+function renderClearAnalysisView() {
+  const tableBody = document.getElementById('analysisResultsTableBody');
+  if (tableBody) {
+    tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#6b6b65;padding:24px;">Sin datos. Selecciona un dataset desde Trabajo.</td></tr>';
+  }
+}
+
+// ─── EJECUTAR ANÁLISIS ESTADÍSTICO ──────────────────────────────────────────────
+function ejecutarAnalisisEnDashboard() {
+  if (typeof EstadisticaDescriptiva === 'undefined') {
+    showToast('EstadisticaDescriptiva no disponible', 'error');
+    return;
+  }
+
+  const ds = STATE.workDataset;
+  if (!ds?.rows?.length) {
+    showToast('Carga un dataset primero en Trabajo', 'warn');
+    return;
+  }
+
+  const allSelected = Object.values(STATE.selectedStats).flat();
+  if (allSelected.length === 0) {
+    showToast('Selecciona estadísticos del menú lateral', 'warn');
+    return;
+  }
+
+  const dataFormat = {
+    headers: ds.columns,
+    data: ds.rows.map(row => [...row]) 
+  };
+
+  console.log('[Analisis] columns:', ds.columns?.slice(0,3));
+  console.log('[Analisis] first row:', ds.rows[0]?.slice(0,3));
+  console.log('[Analisis] selected stats:', allSelected);
+
+  if (typeof StateManager === 'undefined') {
+    window.StateManager = {
+      getImportedData: () => dataFormat,
+      getActiveStats: () => allSelected,
+      getHypothesisConfig: () => ({})
+    };
+  }
+  
+  if (typeof getDataForModal === 'undefined') {
+    window.getDataForModal = () => dataFormat;
+  }
+
+  try {
+    const resultados = EstadisticaDescriptiva.ejecutarAnalisis(dataFormat, allSelected, {});
+    const html = EstadisticaDescriptiva.generarHTML(resultados);
     
-    firstCols.forEach((col, ci) => {
-      const isNum = !isNaN(parseFloat(sampleRow[ci]));
-      html += `<tr>
-        <td style="color:#c4c4be;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">${ds.name}</td>
-        <td style="color:#9e9e98;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">${col}</td>
-        <td style="color:#6cb4f5;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">${isNum ? 'numérico' : 'texto'}</td>
-        <td style="color:#6b6b65;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">-</td>
-        <td style="color:#5fd97a;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">${ds.data.rows.length} filas</td>
-      </tr>`;
-    });
+    const tableContainer = document.getElementById('analysisResultsContent');
+    if (tableContainer) {
+      tableContainer.outerHTML = html;
+      const newTable = document.getElementById('analysisResultsContent');
+      if (newTable) applyAnalysisStyles();
+    }
+
+    showToast(`Análisis completado: ${allSelected.length} estadístico(s)`, 'ok');
+  } catch (error) {
+    console.error('Error en análisis:', error);
+    showToast('Error: ' + error.message, 'error');
+  }
+}
+
+function applyAnalysisStyles() {
+  const container = document.getElementById('analysisResultsContent');
+  if (!container) return;
+  
+  container.style.padding = '16px';
+  container.style.background = '#1a1a18';
+  container.style.borderRadius = '8px';
+  
+  container.querySelectorAll('.kpi-card').forEach(card => {
+    card.style.background = 'rgba(74,144,217,0.12)';
+    card.style.border = '0.5px solid rgba(74,144,217,0.2)';
+    card.style.borderRadius = '8px';
+    card.style.padding = '12px';
+    card.style.margin = '8px';
   });
   
-  tableBody.innerHTML = html || '<tr><td colspan="5" style="text-align:center;color:#6b6b65;padding:24px;">Sin datos</td></tr>';
+  container.querySelectorAll('.kpi-value').forEach(val => {
+    val.style.color = '#6cb4f5';
+    val.style.fontSize = '24px';
+  });
+  
+  container.querySelectorAll('table').forEach(tbl => {
+    tbl.style.width = '100%';
+    tbl.style.borderCollapse = 'collapse';
+    tbl.style.fontSize = '12px';
+  });
+  
+  container.querySelectorAll('th').forEach(th => {
+    th.style.background = 'rgba(255,255,255,0.05)';
+    th.style.padding = '10px 8px';
+    th.style.textAlign = 'left';
+    th.style.color = '#888';
+    th.style.borderBottom = '0.5px solid rgba(255,255,255,0.1)';
+  });
+  
+  container.querySelectorAll('td').forEach(td => {
+    td.style.padding = '8px';
+    td.style.color = '#c4c4be';
+    td.style.borderBottom = '0.5px solid rgba(255,255,255,0.05)';
+  });
+}
+
+
+function renderEDASelectedBadge() {
+  const badge = document.getElementById('edaSelectedBadge');
+  if (!badge) return;
+  
+  if (STATE.edaDataset) {
+    badge.style.display = 'flex';
+    const nameEl = document.getElementById('edaDatasetName');
+    const infoEl = document.getElementById('edaDatasetInfo');
+    if (nameEl) nameEl.textContent = STATE.edaDataset.name;
+    if (infoEl) infoEl.textContent = `(${STATE.edaDataset.rows.length} filas × ${STATE.edaDataset.columns.length} cols)`;
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+function selectCurrentAnalysisDataset() {
+  const ds = STATE.analysisData?.[0]?.data || STATE.workDataset;
+  if (!ds?.rows?.length) {
+    showToast('No hay dataset activo', 'warn');
+    return;
+  }
+  STATE.edaDataset = { name: ds.name, columns: ds.columns, rows: ds.rows };
+  saveUIState();
+  renderEDASelectedBadge();
+  showToast('Dataset seleccionado para EDA: ' + ds.name, 'ok');
+}
+
+function openEDAModal(edaResult, datasetName) {
+  const existing = document.getElementById('edaModal');
+  if (existing) existing.remove();
+  
+  const modal = document.createElement('div');
+  modal.id = 'edaModal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;z-index:2000;';
+  
+  const r = edaResult.resumen;
+  
+  // KPIs
+  const kpisHtml = `
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px;">
+      <div style="padding:14px 10px;border-radius:8px;background:rgba(74,144,217,0.15);text-align:center;">
+        <div style="font-size:24px;font-weight:700;color:#6cb4f5;">${r.columnasNumericas}</div>
+        <div style="font-size:10px;color:#888;text-transform:uppercase;">Numéricas</div>
+      </div>
+      <div style="padding:14px 10px;border-radius:8px;background:rgba(155,89,182,0.15);text-align:center;">
+        <div style="font-size:24px;font-weight:700;color:#be8ccf;">${r.columnasCategoricas}</div>
+        <div style="font-size:10px;color:#888;text-transform:uppercase;">Categóricas</div>
+      </div>
+      <div style="padding:14px 10px;border-radius:8px;background:${r.valoresFaltantes > 0 ? 'rgba(231,76,60,0.15)' : 'rgba(46,204,113,0.15)'};text-align:center;">
+        <div style="font-size:24px;font-weight:700;color:${r.valoresFaltantes > 0 ? '#e74c3c' : '#5fd97a'};">${r.valoresFaltantes}</div>
+        <div style="font-size:10px;color:#888;text-transform:uppercase;">Faltantes</div>
+      </div>
+      <div style="padding:14px 10px;border-radius:8px;background:${r.totalOutliers > 0 ? 'rgba(231,76,60,0.15)' : 'rgba(46,204,113,0.15)'};text-align:center;">
+        <div style="font-size:24px;font-weight:700;color:${r.totalOutliers > 0 ? '#e74c3c' : '#5fd97a'};">${r.totalOutliers}</div>
+        <div style="font-size:10px;color:#888;text-transform:uppercase;">Outliers</div>
+      </div>
+      <div style="padding:14px 10px;border-radius:8px;background:${r.correlacionesFuertes > 0 ? 'rgba(74,144,217,0.15)' : 'rgba(46,204,113,0.15)'};text-align:center;">
+        <div style="font-size:24px;font-weight:700;color:${r.correlacionesFuertes > 0 ? '#6cb4f5' : '#5fd97a'};">${r.correlacionesFuertes}</div>
+        <div style="font-size:10px;color:#888;text-transform:uppercase;">Corr. Fuertes</div>
+      </div>
+    </div>`;
+  
+  // Descriptivas
+  let descHtml = '';
+  const desc = edaResult.descriptivas;
+  if (desc && Object.keys(desc).length > 0) {
+    descHtml = `<div style="margin-bottom:24px;">
+      <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+        <span>📊</span> Estadísticas Descriptivas (${Object.keys(desc).length} columnas)
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-size:11px;">
+        <thead><tr>
+          <th style="color:#888;text-align:left;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:10px;">Columna</th>
+          <th style="color:#888;text-align:right;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:10px;">N</th>
+          <th style="color:#888;text-align:right;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:10px;">Media</th>
+          <th style="color:#888;text-align:right;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:10px;">Mediana</th>
+          <th style="color:#888;text-align:right;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:10px;">DE</th>
+          <th style="color:#888;text-align:right;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:10px;">Mín</th>
+          <th style="color:#888;text-align:right;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:10px;">Máx</th>
+          <th style="color:#888;text-align:right;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:10px;">Q1</th>
+          <th style="color:#888;text-align:right;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:10px;">Q3</th>
+          <th style="color:#888;text-align:right;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:10px;">IQR</th>
+          <th style="color:#888;text-align:right;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:10px;">Asim.</th>
+          <th style="color:#888;text-align:right;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:10px;">Curt.</th>
+        </tr></thead>
+        <tbody>`;
+    
+    Object.entries(desc).forEach(([col, d]) => {
+      descHtml += `<tr>
+        <td style="color:#c4c4be;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);font-weight:500;">${col}</td>
+        <td style="color:#9e9e98;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">${d.n}</td>
+        <td style="color:#6cb4f5;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">${d.media}</td>
+        <td style="color:#6cb4f5;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">${d.mediana}</td>
+        <td style="color:#f5b041;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">${d.de}</td>
+        <td style="color:#5fd97a;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">${d.min}</td>
+        <td style="color:#e74c3c;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">${d.max}</td>
+        <td style="color:#888;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">${d.q1}</td>
+        <td style="color:#888;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">${d.q3}</td>
+        <td style="color:#888;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">${d.iqr}</td>
+        <td style="color:#888;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">${d.asimetria}</td>
+        <td style="color:#888;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">${d.curtosis}</td>
+      </tr>`;
+    });
+    descHtml += '</tbody></table></div>';
+  }
+  
+  // Normalidad
+  let normHtml = '';
+  const norm = edaResult.normalidad;
+  if (norm && Object.keys(norm).length > 0) {
+    normHtml = `<div style="margin-bottom:24px;">
+      <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+        <span>🔔</span> Tests de Normalidad (p-valor)
+      </div>
+      <p style="font-size:10px;color:#666;margin:0 0 10px;">H₀: distribución normal. Verde = Normal (p>0.05), Rojo = No Normal (p≤0.05)</p>
+      <table style="width:100%;border-collapse:collapse;font-size:11px;">
+        <thead><tr>
+          <th style="color:#888;text-align:left;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:10px;">Columna</th>
+          <th style="color:#888;text-align:right;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:10px;">Jarque-Bera</th>
+          <th style="color:#888;text-align:right;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:10px;">Shapiro-Wilk</th>
+          <th style="color:#888;text-align:right;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:10px;">K-S</th>
+          <th style="color:#888;text-align:right;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:10px;">Consenso</th>
+        </tr></thead>
+        <tbody>`;
+    
+    Object.entries(norm).forEach(([col, n]) => {
+      const isNormal = n.esNormal;
+      const color = isNormal ? '#5fd97a' : '#e74c3c';
+      const mark = isNormal ? '✓' : '✗';
+      const jbP = n.p?.toFixed(4) || '-';
+      const swP = edaResult.normalidadShapiro?.[col]?.p?.toFixed(4) || '-';
+      const ksP = edaResult.normalidadKS?.[col]?.p?.toFixed(4) || '-';
+      
+      normHtml += `<tr>
+        <td style="color:#c4c4be;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);font-weight:500;">${col}</td>
+        <td style="color:${color};padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">${jbP} ${mark}</td>
+        <td style="color:${color};padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">${swP}</td>
+        <td style="color:${color};padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">${ksP}</td>
+        <td style="color:${color};padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;font-weight:500;">${mark} ${isNormal ? 'Normal' : 'No Normal'}</td>
+      </tr>`;
+    });
+    normHtml += '</tbody></table></div>';
+  }
+  
+  // Outliers
+  let outliersHtml = '';
+  const outliers = edaResult.outliers;
+  if (outliers && Object.keys(outliers).length > 0) {
+    const totalOut = Object.values(outliers).reduce((s, arr) => s + arr.length, 0);
+    if (totalOut > 0) {
+      outliersHtml = `<div style="margin-bottom:24px;">
+        <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+          <span>🔴</span> Outliers Detectados (${totalOut})
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;max-height:150px;overflow-y:auto;">`;
+      
+      Object.entries(outliers).forEach(([col, arr]) => {
+        if (arr.length > 0) {
+          arr.forEach(o => {
+            outliersHtml += `<div style="padding:6px 10px;background:rgba(231,76,60,0.1);border-radius:4px;font-size:11px;">
+              <span style="color:#e74c3c;">⚠️</span> <b style="color:#c4c4be;">${col}</b>: valor ${o.value} (fila ${o.index + 1}, método: ${o.method})
+            </div>`;
+          });
+        }
+      });
+      outliersHtml += '</div></div>';
+    } else {
+      outliersHtml = `<div style="margin-bottom:24px;padding:12px;background:rgba(46,204,113,0.1);border-radius:6px;">
+        <span style="color:#5fd97a;">✅</span> <span style="color:#5fd97a;font-weight:500;">No se detectaron outliers</span>
+      </div>`;
+    }
+  }
+  
+  // Correlaciones
+  let corrHtml = '';
+  const corr = edaResult.correlaciones;
+  if (corr && corr.columnas && corr.columnas.length > 1) {
+    const cols = corr.columnas;
+    const matrix = corr.matrix;
+    
+    corrHtml = `<div style="margin-bottom:24px;">
+      <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+        <span>🔗</span> Matriz de Correlación
+      </div>
+      <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:10px;">
+        <thead><tr>
+          <th style="color:#888;padding:6px 4px;border-bottom:1px solid rgba(255,255,255,0.1);"></th>`;
+    
+    cols.forEach(c => {
+      corrHtml += `<th style="color:#888;padding:6px 4px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:9px;">${c.substring(0,8)}</th>`;
+    });
+    corrHtml += '</tr></thead><tbody>';
+    
+    cols.forEach((c, i) => {
+      corrHtml += `<tr><td style="color:#c4c4be;padding:6px 4px;border-bottom:1px solid rgba(255,255,255,0.05);font-size:9px;">${c.substring(0,8)}</td>`;
+      cols.forEach((_, j) => {
+        const val = matrix[i]?.[j];
+        const absVal = Math.abs(val);
+        const bg = absVal >= 0.7 ? 'rgba(231,76,60,0.3)' : (absVal >= 0.4 ? 'rgba(243,156,18,0.2)' : 'transparent');
+        const color = absVal >= 0.7 ? '#e74c3c' : (absVal >= 0.4 ? '#f39c12' : '#888');
+        corrHtml += `<td style="color:${color};padding:6px 4px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;background:${bg};">${val?.toFixed(2) || '-'}</td>`;
+      });
+      corrHtml += '</tr>';
+    });
+    corrHtml += '</tbody></table></div></div>';
+  }
+  
+  // Resumen info
+  const infoHtml = `<div style="font-size:11px;color:#666;margin-bottom:16px;">
+    ${r.totalFilas} filas × ${r.totalColumnas} columnas | 
+    Numéricas: ${r.columnasNumericas} | 
+    Categóricas: ${r.columnasCategoricas} | 
+    Faltantes: ${r.valoresFaltantes} (${r.porcentajeFaltantes}%)
+  </div>`;
+  
+  modal.innerHTML = `
+    <div id="edaModalContent" style="background:#1a1a18;border:0.5px solid rgba(255,255,255,0.1);border-radius:12px;width:90%;max-width:1100px;min-width:700px;min-height:500px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;position:relative;resize:both;">
+      <div style="position:absolute;bottom:0;right:0;width:15px;height:15px;cursor:se-resize;background:rgba(255,255,255,0.1);border-radius:4px 0 0 0;display:flex;align-items:center;justify-content:center;">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#666"><path d="M1 9L9 1M1 5L9 1M5 9L9 5"/></svg>
+      </div>
+      <div style="padding:16px 20px;border-bottom:0.5px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:18px;">📊</span>
+          <div>
+            <h2 style="font-size:16px;font-weight:600;color:#e8e8e6;margin:0;">Análisis Exploratorio (EDA)</h2>
+            <div style="font-size:11px;color:#888;">${datasetName}</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button onclick="resizeEDAModal(-100)" style="background:none;border:none;color:#888;font-size:18px;cursor:pointer;padding:4px 8px;" title="Achicar">−</button>
+          <button onclick="resizeEDAModal(100)" style="background:none;border:none;color:#888;font-size:18px;cursor:pointer;padding:4px 8px;" title="Agrandar">+</button>
+          <button onclick="document.getElementById('edaModal').remove()" style="background:none;border:none;color:#6b6b65;font-size:20px;cursor:pointer;">✕</button>
+        </div>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding:20px;">
+        ${infoHtml}
+        ${kpisHtml}
+        ${descHtml}
+        ${normHtml}
+        ${outliersHtml}
+        ${corrHtml}
+      </div>
+      <div style="padding:14px 20px;border-top:0.5px solid rgba(255,255,255,0.08);display:flex;gap:10px;justify-content:flex-end;flex-shrink:0;">
+        <button onclick="document.getElementById('edaModal').remove()" style="padding:10px 18px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;background:transparent;color:#888;border:0.5px solid rgba(255,255,255,0.1);">Cerrar</button>
+        <button onclick="exportEDAResults()" style="padding:10px 18px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;background:#4a90d9;color:#fff;border:none;">Exportar</button>
+      </div>
+    </div>`;
+  
+  document.body.appendChild(modal);
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+}
+
+function resizeEDAModal(delta) {
+  const content = document.getElementById('edaModalContent');
+  if (!content) return;
+  const currentWidth = content.offsetWidth;
+  const currentHeight = content.offsetHeight;
+  content.style.width = (currentWidth + delta) + 'px';
+  content.style.height = (currentHeight + delta) + 'px';
+}
+
+function exportEDAResults() {
+  showToast('Exportar EDA - por implementar', 'info');
+}
+
+function renderSimpleTable(ds) {
+  const tableBody = document.getElementById('analysisResultsTableBody');
+  let html = '';
+  const firstCols = ds.data.columns.slice(0, 5);
+  const sampleRow = ds.data.rows[0];
+  firstCols.forEach((col, ci) => {
+    const val = sampleRow[ci];
+    const isNum = !isNaN(parseFloat(val));
+    html += `<tr>
+      <td style="color:#c4c4be;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">${ds.name}</td>
+      <td style="color:#9e9e98;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">${col}</td>
+      <td style="color:#6cb4f5;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">${isNum ? 'num' : 'cat'}</td>
+      <td style="color:#6b6b65;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">${isNum ? parseFloat(val).toFixed(2) : '-'}</td>
+      <td style="color:#5fd97a;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">${ds.data.rows.length}</td>
+    </tr>`;
+  });
+  tableBody.innerHTML = html;
+}
+
+function renderEDAResults(edaResult, datasetName) {
+  const tableBody = document.getElementById('analysisResultsTableBody');
+  let html = '';
+  const summary = edaResult.resumen;
+  if (summary) {
+    html += `<tr style="background:rgba(74,144,217,0.1);"><td colspan="5" style="color:#6cb4f5;padding:8px 10px;font-weight:600;">
+      📊 ${datasetName} — ${summary.filas}×${summary.columnas} | Num:${summary.numericas} | Cat:${summary.categoricas} | Missing:${summary.missing}</td></tr>`;
+  }
+  const desc = edaResult.descriptivas;
+  if (desc) {
+    Object.entries(desc).forEach(([col, stats]) => {
+      html += `<tr>
+        <td style="color:#c4c4be;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);font-weight:500;">${col}</td>
+        <td style="color:#9e9e98;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">n=${stats.n}</td>
+        <td style="color:#6cb4f5;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">μ=${stats.media}</td>
+        <td style="color:#6b6b65;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">σ=${stats.de}</td>
+        <td style="color:#5fd97a;padding:6px 10px;border-bottom:0.5px solid rgba(255,255,255,0.05);">${stats.min}–${stats.max}</td>
+      </tr>`;
+    });
+  }
+  tableBody.innerHTML = html || '<tr><td colspan="5" style="text-align:center;color:#6b6b65;padding:24px;">Sin resultados</td></tr>';
 }

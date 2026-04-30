@@ -343,14 +343,40 @@
         <div class="page-header">
           <div><div class="page-title">Análisis</div><div class="page-subtitle">Resultados estadísticos</div></div>
           <div style="display:flex;gap:8px;align-items:center;">
-            <button class="btn-crystal-blue" onclick="exportAnalysisResults()" title="Exportar como JSON">
+            <button class="btn-crystal" onclick="selectCurrentAnalysisDataset()" title="Seleccionar dataset actual para EDA">
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="12" height="12">
-                <path d="M8 2v8M5 7l3 3 3-3M3 13h10"/>
+                <path d="M3 8l3 3 7-7"/>
               </svg>
-              Exportar JSON
+              Usar Este
             </button>
-            <div class="badge">15 resultados</div>
+            <button class="btn-crystal-blue" onclick="ejecutarAnalisisEnDashboard()" title="Ejecutar análisis estadístico">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="12" height="12">
+                <path d="M2 14l3-3 3 3 6-6M8 2v8"/>
+              </svg>
+              Ejecutar
+            </button>
+            <button class="btn-crystal" onclick="runEDAanalysis()" title="Ejecutar análisis exploratorio">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="12" height="12">
+                <path d="M2 14l3-3 3 3 6-6M8 2v8"/>
+              </svg>
+              EDA
+            </button>
+            <button class="btn-crystal" onclick="navigateTo('page-visualizacion')" title="Ir a Visualización">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="12" height="12">
+                <path d="M2 14l3-3 3 3 6-6M8 2v8"/>
+              </svg>
+              Gráficos
+            </button>
+            <button class="btn-crystal-red" onclick="clearEDAdataset()" title="Limpiar dataset seleccionado">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="12" height="12">
+                <path d="M3 6h10M6 6V4a2 2 0 012-2h0a2 2 0 012 2v2M5 6v6a1 1 0 001 1h4a1 1 0 001-1V6"/>
+              </svg>
+              Limpiar
+            </button>
           </div>
+        </div>
+        <div class="page-header" id="edaSelectedBadge" style="display:none;padding:8px 12px;background:rgba(46,204,113,0.1);border-radius:6px;margin:-8px 0 12px;">
+          <span style="color:#5fd97a;">📊</span> Dataset para EDA: <b id="edaDatasetName">-</b> <span style="color:#666;" id="edaDatasetInfo">-</span>
         </div>
         <div class="cards-3">
           <div class="card">
@@ -371,13 +397,14 @@
 </div>
         <div class="bottom-grid wide">
           <div class="panel" style="flex:4;">
-            <div class="panel-label">Resultados recientes</div>
-            <div style="overflow:auto;flex:1;">
-              <table class="data-table">
-                <thead><tr><th>Prueba</th><th>Variables</th><th>Estadístico</th><th>p-valor</th><th>Resultado</th></tr></thead>
-                <tbody id="analysisResultsTable">
-                  <tr><td colspan="5" style="text-align:center;color:#6b6b65;padding:24px;">Sin resultados aún</td></tr>
-                </tbody>
+            <div class="panel-label">Resultados de Análisis</div>
+            <div style="overflow:auto;flex:1;" id="analisisResultsWrap">
+              <table class="data-table" id="analysisResultsContent">
+                <thead><tr><th colspan="5" style="text-align:center;color:#6b6b65;padding:48px 16px;font-size:13px;">
+                  Sin resultados aún<br>
+                  <span style="font-size:11px;opacity:0.6;">Selecciona análisis del menú lateral y presiona "Ejecutar"</span>
+                </th></tr></thead>
+                <tbody id="analysisResultsTableBody"></tbody>
               </table>
             </div>
           </div>
@@ -586,6 +613,7 @@
 <script src="utils.js"></script>
 <script src="dist/StatsUtils.js"></script>
 <script src="EstadisticaDescriptiva.js"></script>
+<script src="EDAManager.js"></script>
 <script src="dashboard.js"></script>
 
 </body>
