@@ -4266,1314 +4266,769 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
     /**
      * Genera resultados en formato HTML para mostrar en la interfaz
      */
-    function generarHTML(analisisResultado) {
+/**
+ * Genera el HTML completo de los resultados estadísticos en formato acordeón.
+ * @param {Object} analisisResultado - Resultado devuelto por ejecutarAnalisis()
+ * @returns {string} HTML listo para inyectar en el DOM
+ */
+/**
+ * Genera el HTML completo de los resultados estadísticos en formato acordeón.
+ * @param {Object} analisisResultado - Resultado devuelto por ejecutarAnalisis()
+ * @returns {string} HTML listo para inyectar en el DOM
+ */
+function generarHTML(analisisResultado) {
+    const STAT_META = getStatMeta();
+    const statKeys = Object.keys(analisisResultado.resultados);
+    const cols = analisisResultado.columnasAnalizadas;
+    const hasParams = typeof ParametrosManager !== 'undefined';
 
-        const STAT_META = getStatMeta();
-        
-        // DEBUG: verificar STAT_META
-        console.log('[generarHTML] STAT_META keys:', Object.keys(STAT_META).length);
-        console.log('[generarHTML] Sample statMeta:', STAT_META['Test de Shapiro-Wilk']);
+    // ============================================================
+    // FUNCIONES INTERNAS AUXILIARES (kpiCards, hypothesisKpiCards, etc.)
+    // ============================================================
+    
+    function escapeHtml(str) {
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
 
-        const statKeys = Object.keys(analisisResultado.resultados);
-        const cols     = analisisResultado.columnasAnalizadas;
-        const hasParams = typeof ParametrosManager !== 'undefined';
+    function formatReferencia(ref) {
+        if (!ref) return '';
+        if (typeof ref === 'string') return ref;
+        if (Array.isArray(ref) && ref.length > 0) {
+            const r = ref[0];
+            let citation = r.autores || '';
+            if (r.anio) citation += ` (${r.anio})`;
+            if (r.titulo) citation += `. ${r.titulo}`;
+            if (r.revista) citation += `. ${r.revista}`;
+            if (r.volumen) citation += `, ${r.volumen}`;
+            if (r.paginas) citation += `, ${r.paginas}`;
+            return citation;
+        }
+        return '';
+    }
 
-         // Pruebas de hipótesis que tienen estructura diferente
+    // ── KPI cards para estadísticos simples ─────────────────────
+    function kpiCards(statKey) {
+        const data = analisisResultado.resultados[statKey];
+        if (!data) return '';
 
-        // ── KPI cards para un estadístico ─────────────────────
-        function kpiCards(statKey) {
-            const data = analisisResultado.resultados[statKey];
-            if (!data) return '';
+        // Si es prueba de hipótesis, usar vista especial
+        if (HYPOTHESIS_SET.has(statKey)) {
+            return hypothesisKpiCards(statKey, data);
+        }
 
-            // Si es prueba de hipótesis, generar vista especial
-            if (HYPOTHESIS_SET.has(statKey)) {
-                return hypothesisKpiCards(statKey, data);
-}
-
-            // Si es PCA (estadístico multivariado), generar vista especial
-            if (statKey === 'PCA (Componentes Principales)' || statKey === 'PCA') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                
-                const cols = data.columnas || [];
-                const nComp = data.nComponentes || 0;
-                const varExp = data.varianceExplained || [];
-                const cumVar = data.cumulativeVariance || [];
-                const eigenvalues = data.eigenvalues || [];
-                
-                return `
-                    <div class="ar-kpi-card" style="margin-bottom:16px;max-width:100%;overflow:hidden;">
-                        <div class="ar-kpi-col-label" style="font-size:0.95rem;margin-bottom:10px;">📊 PCA - Análisis de Componentes Principales</div>
-                        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:0.8rem;">
-                            <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
-                                <div style="color:#666;font-size:0.7rem;">Observaciones</div>
-                                <div style="font-weight:bold;font-size:0.95rem;">${data.nObservaciones || '—'}</div>
-                            </div>
-                            <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
-                                <div style="color:#666;font-size:0.7rem;">Variables</div>
-                                <div style="font-weight:bold;font-size:0.95rem;">${data.nVariables || '—'}</div>
-                            </div>
-                            <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
-                                <div style="color:#666;font-size:0.7rem;">Componentes</div>
-                                <div style="font-weight:bold;font-size:0.95rem;">${nComp}</div>
-                            </div>
-                            <div style="background:#e8f5e9;padding:8px;border-radius:4px;text-align:center;">
-                                <div style="color:#2e7d32;font-size:0.7rem;">Varianza Total</div>
-                                <div style="font-weight:bold;font-size:0.95rem;color:#2e7d32;">${cumVar[cumVar.length - 1]?.toFixed(1) || '—'}%</div>
-                            </div>
+        // Si es PCA (estadístico multivariado)
+        if (statKey === 'PCA (Componentes Principales)' || statKey === 'PCA') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            const cols = data.columnas || [];
+            const nComp = data.nComponentes || 0;
+            const varExp = data.varianceExplained || [];
+            const cumVar = data.cumulativeVariance || [];
+            const eigenvalues = data.eigenvalues || [];
+            return `
+                <div class="ar-kpi-card" style="margin-bottom:16px;max-width:100%;overflow:hidden;">
+                    <div class="ar-kpi-col-label" style="font-size:0.95rem;margin-bottom:10px;">📊 PCA - Análisis de Componentes Principales</div>
+                    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:0.8rem;">
+                        <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
+                            <div style="color:#666;font-size:0.7rem;">Observaciones</div>
+                            <div style="font-weight:bold;font-size:0.95rem;">${data.nObservaciones || '—'}</div>
+                        </div>
+                        <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
+                            <div style="color:#666;font-size:0.7rem;">Variables</div>
+                            <div style="font-weight:bold;font-size:0.95rem;">${data.nVariables || '—'}</div>
+                        </div>
+                        <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
+                            <div style="color:#666;font-size:0.7rem;">Componentes</div>
+                            <div style="font-weight:bold;font-size:0.95rem;">${nComp}</div>
+                        </div>
+                        <div style="background:#e8f5e9;padding:8px;border-radius:4px;text-align:center;">
+                            <div style="color:#2e7d32;font-size:0.7rem;">Varianza Total</div>
+                            <div style="font-weight:bold;font-size:0.95rem;color:#2e7d32;">${cumVar[cumVar.length - 1]?.toFixed(1) || '—'}%</div>
                         </div>
                     </div>
-                    <div class="ar-kpi-card" style="margin-bottom:16px;overflow-x:auto;">
-                        <div class="ar-kpi-col-label" style="font-size:0.85rem;margin-bottom:8px;">📈 Varianza Explicada por Componente</div>
-                        <table style="width:100%;min-width:280px;border-collapse:collapse;font-size:0.7rem;table-layout:fixed;">
-                            <thead>
-                                <tr style="background:#e3f2fd;">
-                                    <th style="padding:5px;text-align:center;width:50px;">PC</th>
-                                    <th style="padding:5px;text-align:right;">Autovalor</th>
-                                    <th style="padding:5px;text-align:right;">% Var</th>
-                                    <th style="padding:5px;text-align:right;">% Acum</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${eigenvalues.slice(0, Math.min(10, nComp)).map((ev, i) => `
-                                    <tr style="border-bottom:1px solid #eee;">
-                                        <td style="padding:4px;text-align:center;font-weight:bold;">PC${i + 1}</td>
-                                        <td style="padding:4px;text-align:right;">${ev?.toFixed(3) || '—'}</td>
-                                        <td style="padding:4px;text-align:right;">${varExp[i]?.toFixed(1) || '—'}%</td>
-                                        <td style="padding:4px;text-align:right;font-weight:bold;">${cumVar[i]?.toFixed(1) || '—'}%</td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="ar-kpi-card" style="margin-bottom:16px;overflow-x:auto;">
-                        <div class="ar-kpi-col-label" style="font-size:0.85rem;margin-bottom:8px;">📋 Cargas Factoriales (Loadings)</div>
-                        <table style="width:100%;min-width:250px;border-collapse:collapse;font-size:0.7rem;table-layout:fixed;">
-                            <thead>
-                                <tr style="background:#e8f5e9;">
-                                    <th style="padding:5px;text-align:left;width:60px;">Variable</th>
-                                    ${Array.from({length: Math.min(3, nComp)}, (_, i) => `<th style="padding:5px;text-align:right;">PC${i + 1}</th>`).join('')}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${cols.slice(0, 10).map((col, i) => {
-                                    // loadings[componente][variable], invertimos el acceso
-                                    const loadings = data.loadings || [];
-                                    const cargasFactor = loadings.map(f => f[i]);
-                                    return `<tr style="border-bottom:1px solid #eee;">
-                                        <td style="padding:4px;font-weight:500;font-size:0.7rem;">${col}</td>
+                </div>
+                <div class="ar-kpi-card" style="margin-bottom:16px;overflow-x:auto;">
+                    <div class="ar-kpi-col-label" style="font-size:0.85rem;margin-bottom:8px;">📈 Varianza Explicada por Componente</div>
+                    <table style="width:100%;min-width:280px;border-collapse:collapse;font-size:0.7rem;table-layout:fixed;">
+                        <thead><tr style="background:#e3f2fd;"><th style="padding:5px;text-align:center;width:50px;">PC</th><th style="padding:5px;text-align:right;">Autovalor</th><th style="padding:5px;text-align:right;">% Var</th><th style="padding:5px;text-align:right;">% Acum</th></tr></thead>
+                        <tbody>
+                            ${eigenvalues.slice(0, Math.min(10, nComp)).map((ev, i) => `
+                                <tr style="border-bottom:1px solid #eee;"><td style="padding:4px;text-align:center;font-weight:bold;">PC${i + 1}</td>
+                                <td style="padding:4px;text-align:right;">${ev?.toFixed(3) || '—'}</td>
+                                <td style="padding:4px;text-align:right;">${varExp[i]?.toFixed(1) || '—'}%</td>
+                                <td style="padding:4px;text-align:right;font-weight:bold;">${cumVar[i]?.toFixed(1) || '—'}%</td></tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="ar-kpi-card" style="margin-bottom:16px;overflow-x:auto;">
+                    <div class="ar-kpi-col-label" style="font-size:0.85rem;margin-bottom:8px;">📋 Cargas Factoriales (Loadings)</div>
+                    <table style="width:100%;min-width:250px;border-collapse:collapse;font-size:0.7rem;table-layout:fixed;">
+                        <thead><tr style="background:#e8f5e9;"><th style="padding:5px;text-align:left;width:60px;">Variable</th>${Array.from({length: Math.min(3, nComp)}, (_, i) => `<th style="padding:5px;text-align:right;">PC${i + 1}</th>`).join('')}</tr></thead>
+                        <tbody>
+                            ${cols.slice(0, 10).map((col, i) => {
+                                const loadings = data.loadings || [];
+                                const cargasFactor = loadings.map(f => f[i]);
+                                return `<tr style="border-bottom:1px solid #eee;"><td style="padding:4px;font-weight:500;font-size:0.7rem;">${escapeHtml(col)}</td>
                                         ${Array.from({length: Math.min(3, nComp)}, (_, j) => `<td style="padding:4px;text-align:right;">${cargasFactor[j]?.toFixed(3) || '—'}</td>`).join('')}
                                     </tr>`;
-                                }).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                    ${data.interpretacion ? `
-                    <div class="ar-formula" style="margin-top:12px;padding:10px;background:#fff3e0;border-radius:6px;border-left:4px solid #ff9800;">
-                        <span class="ar-formula-icon">💬</span>
-                        <div><div class="ar-formula-desc" style="font-size:0.8rem;line-height:1.4;">${data.interpretacion}</div></div>
-                    </div>` : ''}`;
-            }
-
-            // Si es Análisis Factorial (estadístico multivariado), generar vista especial
-            if (statKey === 'Análisis Factorial') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-
-                const cols = data.columnas || [];
-                const nFact = data.nFactores || 0;
-                const loadings = data.loadings || [];
-                const communality = data.communality || [];
-                const kmo = data.kmo || 0;
-                const bartlett = data.Bartlett || {};
-
-                return `
-                    <div class="ar-kpi-card" style="margin-bottom:16px;max-width:100%;overflow:hidden;">
-                        <div class="ar-kpi-col-label" style="font-size:0.95rem;margin-bottom:10px;">📊 Análisis Factorial - Resumen</div>
-                        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:0.8rem;">
-                            <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
-                                <div style="color:#666;font-size:0.7rem;">Observaciones</div>
-                                <div style="font-weight:bold;font-size:0.95rem;">${data.nObservaciones || '—'}</div>
-                            </div>
-                            <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
-                                <div style="color:#666;font-size:0.7rem;">Variables</div>
-                                <div style="font-weight:bold;font-size:0.95rem;">${data.nVariables || '—'}</div>
-                            </div>
-                            <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
-                                <div style="color:#666;font-size:0.7rem;">Factores</div>
-                                <div style="font-weight:bold;font-size:0.95rem;">${nFact}</div>
-                            </div>
-                            <div style="background:#e8f5e9;padding:8px;border-radius:4px;text-align:center;">
-                                <div style="color:#2e7d32;font-size:0.7rem;">KMO</div>
-                                <div style="font-weight:bold;font-size:0.95rem;">${kmo > 0 ? kmo.toFixed(3) : '—'}</div>
-                            </div>
-                        </div>
-                    </div>
-                    ${bartlett && bartlett.chi2 ? `
-                    <div class="ar-kpi-card" style="margin-top:8px;">
-                        <div class="ar-kpi-col-label" style="font-size:0.9rem;">📐 Test de Bartlett</div>
-                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:0.8rem;">
-                            <div style="background:#f5f5f5;padding:6px;border-radius:4px;text-align:center;">
-                                <div style="color:#666;font-size:0.7rem;">χ²</div>
-                                <div style="font-weight:bold;">${bartlett.chi2?.toFixed(2) || '—'}</div>
-                            </div>
-                            <div style="background:#f5f5f5;padding:6px;border-radius:4px;text-align:center;">
-                                <div style="color:#666;font-size:0.7rem;">gl</div>
-                                <div style="font-weight:bold;">${bartlett.df || '—'}</div>
-                            </div>
-                            <div style="background:#e8f5e9;padding:6px;border-radius:4px;text-align:center;">
-                                <div style="color:#2e7d32;font-size:0.7rem;">Valor p</div>
-                                <div style="font-weight:bold;">${bartlett.pValue?.toFixed(4) || '—'}</div>
-                            </div>
-                        </div>
-                    </div>` : ''}
-                    <div class="ar-kpi-card" style="margin-top:8px;overflow-x:auto;">
-                        <div class="ar-kpi-col-label" style="font-size:0.9rem;">📈 Matriz de Cargas Factoriales</div>
-                        <table style="width:100%;border-collapse:collapse;font-size:0.75rem;min-width:300px;">
-                            <tr style="background:#e0e0e0;">
-                                <th style="padding:4px;text-align:left;">Variable</th>
-                                ${Array.from({length: Math.min(3, nFact)}, (_, i) => `<th style="padding:4px;text-align:right;">F${i+1}</th>`).join('')}
-                                <th style="padding:4px;text-align:right;">h²</th>
-                            </tr>
-                            ${cols.slice(0, 12).map((col, i) => {
-                                // loadings[factor][variable], invertimos el acceso
-                                const loadings = data.loadings || [];
-                                const comun = data.communality || [];
-                                const cargasFactor = loadings.map(f => f[i]);
-                                return `<tr style="${i%2===0?'background:#f9f9f9':''}">
-                                    <td style="padding:3px;font-size:0.7rem;">${col.substring(0,12)}</td>
-                                    ${Array.from({length: Math.min(3, nFact)}, (_, j) => `<td style="padding:3px;text-align:right;">${cargasFactor[j]?.toFixed(3) || '—'}</td>`).join('')}
-                                    <td style="padding:3px;text-align:right;font-weight:bold;">${comun[i]?.toFixed(3) || '—'}</td>
-                                </tr>`;
                             }).join('')}
-                        </table>
+                        </tbody>
+                    </table>
+                </div>
+                ${data.interpretacion ? `<div class="ar-formula" style="margin-top:12px;padding:10px;background:#fff3e0;border-radius:6px;border-left:4px solid #ff9800;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc" style="font-size:0.8rem;line-height:1.4;">${data.interpretacion}</div></div></div>` : ''}
+            `;
+        }
+
+        // Si es Análisis Factorial
+        if (statKey === 'Análisis Factorial') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            const cols = data.columnas || [];
+            const nFact = data.nFactores || 0;
+            const loadings = data.loadings || [];
+            const communality = data.communality || [];
+            const kmo = data.kmo || 0;
+            const bartlett = data.Bartlett || {};
+            return `
+                <div class="ar-kpi-card" style="margin-bottom:16px;max-width:100%;overflow:hidden;">
+                    <div class="ar-kpi-col-label" style="font-size:0.95rem;margin-bottom:10px;">📊 Análisis Factorial - Resumen</div>
+                    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:0.8rem;">
+                        <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;"><div style="color:#666;font-size:0.7rem;">Observaciones</div><div style="font-weight:bold;font-size:0.95rem;">${data.nObservaciones || '—'}</div></div>
+                        <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;"><div style="color:#666;font-size:0.7rem;">Variables</div><div style="font-weight:bold;font-size:0.95rem;">${data.nVariables || '—'}</div></div>
+                        <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;"><div style="color:#666;font-size:0.7rem;">Factores</div><div style="font-weight:bold;font-size:0.95rem;">${nFact}</div></div>
+                        <div style="background:#e8f5e9;padding:8px;border-radius:4px;text-align:center;"><div style="color:#2e7d32;font-size:0.7rem;">KMO</div><div style="font-weight:bold;font-size:0.95rem;">${kmo > 0 ? kmo.toFixed(3) : '—'}</div></div>
                     </div>
-                    ${data.interpretacion ? `
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">💬</span>
-                        <div><div class="ar-formula-desc">${data.interpretacion}</div></div>
-                    </div>` : ''}`;
-            }
+                </div>
+                ${bartlett && bartlett.chi2 ? `<div class="ar-kpi-card" style="margin-top:8px;"><div class="ar-kpi-col-label" style="font-size:0.9rem;">📐 Test de Bartlett</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:0.8rem;"><div style="background:#f5f5f5;padding:6px;border-radius:4px;text-align:center;"><div style="color:#666;font-size:0.7rem;">χ²</div><div style="font-weight:bold;">${bartlett.chi2?.toFixed(2) || '—'}</div></div><div style="background:#f5f5f5;padding:6px;border-radius:4px;text-align:center;"><div style="color:#666;font-size:0.7rem;">gl</div><div style="font-weight:bold;">${bartlett.df || '—'}</div></div><div style="background:#e8f5e9;padding:6px;border-radius:4px;text-align:center;"><div style="color:#2e7d32;font-size:0.7rem;">Valor p</div><div style="font-weight:bold;">${bartlett.pValue?.toFixed(4) || '—'}</div></div></div></div>` : ''}
+                <div class="ar-kpi-card" style="margin-top:8px;overflow-x:auto;">
+                    <div class="ar-kpi-col-label" style="font-size:0.9rem;">📈 Matriz de Cargas Factoriales</div>
+                    <table style="width:100%;border-collapse:collapse;font-size:0.75rem;min-width:300px;">
+                        <tr style="background:#e0e0e0;"><th style="padding:4px;text-align:left;">Variable</th>${Array.from({length: Math.min(3, nFact)}, (_, i) => `<th style="padding:4px;text-align:right;">F${i+1}</th>`).join('')}<th style="padding:4px;text-align:right;">h²</th></tr>
+                        ${cols.slice(0, 12).map((col, i) => {
+                            const loadings = data.loadings || [];
+                            const comun = data.communality || [];
+                            const cargasFactor = loadings.map(f => f[i]);
+                            return `<tr style="${i%2===0?'background:#f9f9f9':''}"><td style="padding:3px;font-size:0.7rem;">${escapeHtml(col.substring(0,12))}</td>
+                                    ${Array.from({length: Math.min(3, nFact)}, (_, j) => `<td style="padding:3px;text-align:right;">${cargasFactor[j]?.toFixed(3) || '—'}</td>`).join('')}
+                                    <td style="padding:3px;text-align:right;font-weight:bold;">${comun[i]?.toFixed(3) || '—'}</td></tr>`;
+                        }).join('')}
+                    </table>
+                </div>
+                ${data.interpretacion ? `<div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion}</div></div></div>` : ''}
+            `;
+        }
 
-            return cols.map(col => {
-                const val = data[col];
-                if (val === undefined) return '';
+        // Caso genérico: iterar sobre columnas
+        return cols.map(col => {
+            const val = data[col];
+            if (val === undefined) return '';
 
-                // ============================================================
-                // TEMPORAL: Validación de parámetros comentada para todos los estadísticos
-                // (Líneas 3637-3644 removidas temporalmente)
-                // La lógica original aplicaba min/max de la columna a valores de estadísticos,
-                // lo cual es incorrecto para estadísticos derivados (DE, Varianza, etc.)
-                // ============================================================
-                // let compliance = null;
-                // if (hasParams) {
-                //     const p      = ParametrosManager.getParametros(col);
-                //     const numVal = typeof val === 'number' ? val : null;
-                //     if (numVal !== null && (p.min !== null || p.max !== null)) {
-                //         const out = (p.min !== null && numVal < p.min) ||
-                //                     (p.max !== null && numVal > p.max);
-                //         compliance = !out;
-                //     }
-                // }
-                const compliance = null;
-
-                // ============================================================
-                // SEMÁFORO DE DISPERSIÓN - Solo para estadísticos de dispersión
-                // Implementado para: DE, Varianza, CV, IC
-                // ============================================================
-                let dispersionEval = null;
-                const dispersionStats = {
-                    'Desviación Estándar': 'Desviación Estándar',
-                    'Varianza': 'Varianza',
-                    'Coeficiente de Variación': 'Coeficiente de Variación',
-                    'Intervalos de Confianza': 'Intervalos de Confianza'
-                };
-                if (hasParams && dispersionStats[statKey]) {
-                    const numVal = typeof val === 'number' ? val : null;
-                    if (numVal !== null) {
-                        dispersionEval = ParametrosManager.evaluarDispersion(dispersionStats[statKey], numVal, col);
-                    }
+            const compliance = null; // (código original omitido)
+            let dispersionEval = null;
+            const dispersionStats = {
+                'Desviación Estándar': 'Desviación Estándar',
+                'Varianza': 'Varianza',
+                'Coeficiente de Variación': 'Coeficiente de Variación',
+                'Intervalos de Confianza': 'Intervalos de Confianza'
+            };
+            if (hasParams && dispersionStats[statKey]) {
+                const numVal = typeof val === 'number' ? val : null;
+                if (numVal !== null) {
+                    dispersionEval = ParametrosManager.evaluarDispersion(dispersionStats[statKey], numVal, col);
                 }
+            }
+            const dispersionBadgeHTML = dispersionEval && dispersionEval.status
+                ? `<div class="ar-kpi-badge ar-badge-dispersion ar-badge-${dispersionEval.status}">
+                    ${dispersionEval.status === 'ok' ? '🟢' : dispersionEval.status === 'warn' ? '🟡' : '🔴'} ${dispersionEval.label}
+                   </div>` : '';
+            const dispersionLimitsHTML = dispersionEval && dispersionEval.umbral
+                ? `<div class="ar-kpi-badge ar-badge-dispersion" style="opacity:0.85;font-size:0.65rem;">
+                    📐 Límites: &lt;${dispersionEval.umbral.alerta} (ok) | ${dispersionEval.umbral.alerta}-${dispersionEval.umbral.critico} (⚠️) | ≥${dispersionEval.umbral.critico} (🔴)
+                   </div>` : '';
 
-                const statusClass  = ''; 
-                const badgeHTML    = '';
-                
-                // Badge principal de estado (semáforo)
-                const dispersionBadgeHTML = dispersionEval && dispersionEval.status
-                    ? `<div class="ar-kpi-badge ar-badge-dispersion ar-badge-${dispersionEval.status}">
-                        ${dispersionEval.status === 'ok' ? '🟢' : dispersionEval.status === 'warn' ? '🟡' : '🔴'} ${dispersionEval.label}
-                    </div>` : '';
-                
-                // Badge secundario con los límites (umbrales) usados
-                const dispersionLimitsHTML = dispersionEval && dispersionEval.umbral
-                    ? `<div class="ar-kpi-badge ar-badge-dispersion" style="opacity:0.85;font-size:0.65rem;">
-                        📐 Límites: &lt;${dispersionEval.umbral.alerta} (ok) | ${dispersionEval.umbral.alerta}-${dispersionEval.umbral.critico} (⚠️) | ≥${dispersionEval.umbral.critico} (🔴)
-                    </div>` : '';
-
-                // Objeto (percentiles, rango)
-                if (typeof val === 'object' && !Array.isArray(val)) {
-                    // Caso especial: Detección de Outliers (contiene IQR y ZScore con objetos anidados)
-                    if (val.IQR && val.ZScore) {
-                        const renderOutlierMethod = (methodObj) => {
-                            if (!methodObj || typeof methodObj !== 'object') return '<div>—</div>';
-                            const cantidad = methodObj.cantidad ?? methodObj.cantidadOutliers ?? 0;
-                            const pct = methodObj.porcentaje ?? methodObj.porcentajeOutliers ?? 0;
-                            
-                            // Verificar si existen límites (no son null/undefined)
-                            const hasLimits = methodObj.limiteInferior !== undefined && methodObj.limiteSuperior !== undefined && 
-                                             methodObj.limiteInferior !== null && methodObj.limiteSuperior !== null;
-                            const hasUmbral = methodObj.umbralZScore !== undefined && methodObj.umbralZScore !== null;
-                            
-                            let limitsDisplay = '—';
-                            if (hasLimits) {
-                                limitsDisplay = `[${methodObj.limiteInferior.toFixed(4)}, ${methodObj.limiteSuperior.toFixed(4)}]`;
-                            } else if (hasUmbral) {
-                                limitsDisplay = `±${methodObj.umbralZScore.toFixed(4)}`;
-                            }
-                            
-                            return `
-                                <div class="ar-kpi-sub">
-                                    <span class="ar-kpi-sub-k">Cantidad</span>
-                                    <span class="ar-kpi-sub-v">${cantidad}</span>
-                                </div>
-                                <div class="ar-kpi-sub">
-                                    <span class="ar-kpi-sub-k">%</span>
-                                    <span class="ar-kpi-sub-v">${typeof pct === 'number' ? pct.toFixed(2) : pct}%</span>
-                                </div>
-                                <div class="ar-kpi-sub">
-                                    <span class="ar-kpi-sub-k">Límites</span>
-                                    <span class="ar-kpi-sub-v">${limitsDisplay}</span>
-                                </div>
-                            `;
-                        };
-                        return `
-                            <div class="ar-kpi-card ar-kpi-multi ${statusClass}">
-                                <div class="ar-kpi-col-label">${col}</div>
-                                <div class="ar-kpi-sub-grid" style="margin-bottom:8px;">
-                                    <div style="font-weight:600;color:#e74c3c;grid-column:1/-1;">IQR</div>
-                                    ${renderOutlierMethod(val.IQR)}
-                                </div>
-                                <div class="ar-kpi-sub-grid">
-                                    <div style="font-weight:600;color:#3498db;grid-column:1/-1;">Z-Score</div>
-                                    ${renderOutlierMethod(val.ZScore)}
-                                </div>
-                                ${badgeHTML}
-                                ${dispersionBadgeHTML}
-                                ${dispersionLimitsHTML}
+            // Objeto (percentiles, rango)
+            if (typeof val === 'object' && !Array.isArray(val)) {
+                // Caso especial: Detección de Outliers
+                if (val.IQR && val.ZScore) {
+                    const renderOutlierMethod = (methodObj) => {
+                        if (!methodObj || typeof methodObj !== 'object') return '<div>—</div>';
+                        const cantidad = methodObj.cantidad ?? methodObj.cantidadOutliers ?? 0;
+                        const pct = methodObj.porcentaje ?? methodObj.porcentajeOutliers ?? 0;
+                        const hasLimits = methodObj.limiteInferior !== undefined && methodObj.limiteSuperior !== undefined && 
+                                         methodObj.limiteInferior !== null && methodObj.limiteSuperior !== null;
+                        const hasUmbral = methodObj.umbralZScore !== undefined && methodObj.umbralZScore !== null;
+                        let limitsDisplay = '—';
+                        if (hasLimits) limitsDisplay = `[${methodObj.limiteInferior.toFixed(4)}, ${methodObj.limiteSuperior.toFixed(4)}]`;
+                        else if (hasUmbral) limitsDisplay = `±${methodObj.umbralZScore.toFixed(4)}`;
+                        return `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Cantidad</span><span class="ar-kpi-sub-v">${cantidad}</span></div>
+                                <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">%</span><span class="ar-kpi-sub-v">${typeof pct === 'number' ? pct.toFixed(2) : pct}%</span></div>
+                                <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Límites</span><span class="ar-kpi-sub-v">${limitsDisplay}</span></div>`;
+                    };
+                    return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${escapeHtml(col)}</div>
+                            <div class="ar-kpi-sub-grid" style="margin-bottom:8px;"><div style="font-weight:600;color:#e74c3c;grid-column:1/-1;">IQR</div>${renderOutlierMethod(val.IQR)}</div>
+                            <div class="ar-kpi-sub-grid"><div style="font-weight:600;color:#3498db;grid-column:1/-1;">Z-Score</div>${renderOutlierMethod(val.ZScore)}</div>
+                            ${dispersionBadgeHTML}${dispersionLimitsHTML}
                             </div>`;
+                }
+                const rows = Object.entries(val).map(([k, v]) => {
+                    if (Array.isArray(v)) return `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${k}</span><span class="ar-kpi-sub-v">${v.length} valores</span></div>`;
+                    if (v && typeof v === 'object' && !Array.isArray(v)) {
+                        const lower = v.inferior?.toFixed(4) ?? v.limiteInferior?.toFixed(4) ?? '—';
+                        const upper = v.superior?.toFixed(4) ?? v.limiteSuperior?.toFixed(4) ?? '—';
+                        const margen = v.margen?.toFixed(4) ?? '';
+                        const display = margen ? `[${lower}, ${upper}] ±${margen}` : `[${lower}, ${upper}]`;
+                        return `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${k}</span><span class="ar-kpi-sub-v">${display}</span></div>`;
                     }
-                    
-                    const rows = Object.entries(val).map(([k, v]) => {
-                        // Si es array, mostrar longitud
-                        if (Array.isArray(v)) {
-                            return `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${k}</span><span class="ar-kpi-sub-v">${v.length} valores</span></div>`;
-                        }
-                        // Si es objeto anidado (como IC: {inferior, superior, margen})
-                        if (v && typeof v === 'object' && !Array.isArray(v)) {
-                            const lower = v.inferior?.toFixed(4) ?? v.limiteInferior?.toFixed(4) ?? '—';
-                            const upper = v.superior?.toFixed(4) ?? v.limiteSuperior?.toFixed(4) ?? '—';
-                            const margen = v.margen?.toFixed(4) ?? '';
-                            const display = margen ? `[${lower}, ${upper}] ±${margen}` : `[${lower}, ${upper}]`;
-                            return `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${k}</span><span class="ar-kpi-sub-v">${display}</span></div>`;
-                        }
-                        return `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${k}</span><span class="ar-kpi-sub-v">${typeof v === 'number' ? v.toFixed(4) : v}</span></div>`;
-                    }).join('');
-                    return `
-<div class="ar-kpi-card ar-kpi-multi ${statusClass}">
-                            <div class="ar-kpi-col-label">${col}</div>
-                            <div class="ar-kpi-sub-grid">${rows}</div>
-                            ${badgeHTML}
-                            ${dispersionBadgeHTML}
-                            ${dispersionLimitsHTML}
-                        </div>`;
+                    return `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${k}</span><span class="ar-kpi-sub-v">${typeof v === 'number' ? v.toFixed(4) : v}</span></div>`;
+                }).join('');
+                return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${escapeHtml(col)}</div><div class="ar-kpi-sub-grid">${rows}</div>${dispersionBadgeHTML}${dispersionLimitsHTML}</div>`;
             }
 
             // Array (moda)
             if (Array.isArray(val)) {
                 const display = val.length > 0 ? val.map(v => v.toFixed(4)).join(', ') : '—';
-                return `
-                        <div class="ar-kpi-card ${statusClass}">
-                            <div class="ar-kpi-col-label">${col}</div>
-                            <div class="ar-kpi-val ar-kpi-val-sm">${display}</div>
-                            ${badgeHTML}
-                            ${dispersionBadgeHTML}
-                            ${dispersionLimitsHTML}
-                        </div>`;
+                return `<div class="ar-kpi-card"><div class="ar-kpi-col-label">${escapeHtml(col)}</div><div class="ar-kpi-val ar-kpi-val-sm">${display}</div>${dispersionBadgeHTML}${dispersionLimitsHTML}</div>`;
             }
 
             // Escalar simple
             const display = typeof val === 'number' ? val.toFixed(4) : String(val);
-            return `
-                        <div class="ar-kpi-card ${statusClass}">
-                            <div class="ar-kpi-col-label">COLUMNA ${col}</div>
-                            <div class="ar-kpi-val">${display}</div>
-                            ${badgeHTML}
-                            ${dispersionBadgeHTML}
-                            ${dispersionLimitsHTML}
-                        </div>`;
-
-            }).join('');
-        }
-
-        // ── KPI cards para pruebas de hipótesis ─────────────────
-        function hypothesisKpiCards(statKey, data) {
-            // Manejar T-Test (dos muestras) que tiene estructura { 'grupo1 vs grupo2': {...} }
-            if (statKey === 'T-Test (dos muestras)') {
-                const keys = Object.keys(data).filter(k => k !== 'columnaAgrupacion' && k !== 'columnaValores' && k !== 'grupo1' && k !== 'grupo2');
-                const groupKey = keys[0];
-                if (!groupKey || !data[groupKey]) return '<p>No hay resultados</p>';
-                const result = data[groupKey];
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">${groupKey}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estadístico t</span><span class="ar-kpi-sub-v">${result.estadisticoT?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grados de libertad</span><span class="ar-kpi-sub-v">${result.gradosLibertad?.toFixed(2) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Diferencia medias</span><span class="ar-kpi-sub-v">${result.diferenciaMedias?.toFixed(4) ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${result.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
-                            ${result.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
-                        </div>
-                    </div>`;
-            }
-
-            // Manejar ANOVA One-Way
-            if (statKey === 'ANOVA One-Way') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">${data.grupos?.join(', ') || 'Grupos'}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estadístico F</span><span class="ar-kpi-sub-v">${data.estadisticoF?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grupos</span><span class="ar-kpi-sub-v">${data.grupos ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Total obs.</span><span class="ar-kpi-sub-v">${data.totalObservaciones ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df entre</span><span class="ar-kpi-sub-v">${data.dfEntre ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df dentro</span><span class="ar-kpi-sub-v">${data.dfDentro ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
-                            ${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">💬</span>
-                        <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
-                    </div>`;
-            }
-
-            // Manejar Chi-Cuadrado
-            if (statKey === 'Chi-Cuadrado') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">${data.columna1 || ''} vs ${data.columna2 || ''}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estadístico χ²</span><span class="ar-kpi-sub-v">${data.estadisticoChi2?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grados de libertad</span><span class="ar-kpi-sub-v">${data.gradosLibertad ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">N</span><span class="ar-kpi-sub-v">${data.N ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
-                            ${data.significativo ? '✗ Asociación significativa (p < 0.05)' : '✓ Independientes (p ≥ 0.05)'}
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">💬</span>
-                        <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
-                    </div>`;
-            }
-
-            // Manejar ANOVA Two-Way
-            if (statKey === 'ANOVA Two-Way') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                const f1Val = typeof data.factor1 === 'object' ? data.factor1.F : '—';
-                const p1Val = typeof data.factor1 === 'object' ? data.factor1.p : '—';
-                const f2Val = typeof data.factor2 === 'object' ? data.factor2.F : '—';
-                const p2Val = typeof data.factor2 === 'object' ? data.factor2.p : '—';
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">${data.factor1 || 'Factor 1'} + ${data.factor2 || 'Factor 2'}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">F Factor 1</span><span class="ar-kpi-sub-v">${typeof f1Val === 'number' ? f1Val.toFixed(4) : f1Val}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p Factor 1</span><span class="ar-kpi-sub-v">${typeof p1Val === 'number' ? p1Val.toFixed(4) : p1Val}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">F Factor 2</span><span class="ar-kpi-sub-v">${typeof f2Val === 'number' ? f2Val.toFixed(4) : f2Val}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p Factor 2</span><span class="ar-kpi-sub-v">${typeof p2Val === 'number' ? p2Val.toFixed(4) : p2Val}</span></div>
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">💬</span>
-                        <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
-                    </div>`;
-            }
-
-            // Manejar Test de Normalidad
-            if (statKey === 'Test de Normalidad') {
-                return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">${col}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">JB</span><span class="ar-kpi-sub-v">${result.estadisticoJB?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Asimetría</span><span class="ar-kpi-sub-v">${result.asimetria?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Curtosis</span><span class="ar-kpi-sub-v">${result.curtosis?.toFixed(4) ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">
-                            ${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            // T-Test una muestra
-            if (statKey === 'T-Test (una muestra)') {
-                return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">${col}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">t</span><span class="ar-kpi-sub-v">${result.estadisticoT?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Media</span><span class="ar-kpi-sub-v">${result.media?.toFixed(4) ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${result.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
-                            ${result.significativo ? '✗ Significativo' : '✓ No significativo'}
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            // Manejar Límites de Cuantificación
-            if (statKey === 'Límites de Cuantificación') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-
-                const cpkClass = data.cpk === 'N/A' ? 'ar-badge-info' : (data.cpk >= 1.33 ? 'ar-badge-ok' : (data.cpk >= 1.0 ? 'ar-badge-warn' : 'ar-badge-danger'));
-                const cpkText = data.cpk === 'N/A' ? 'N/A' : (data.cpk >= 1.33 ? '✓ Capable (Cpk ≥ 1.33)' : (data.cpk >= 1.0 ? '⚠️ Marginal (1.0 ≤ Cpk < 1.33)' : '✗ Not Capable (Cpk < 1.0)'));
-
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">📐 ${data.columna} — ${data.norma}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">LSL</span><span class="ar-kpi-sub-v">${data.lsl}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">USL</span><span class="ar-kpi-sub-v">${data.usl}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">N total</span><span class="ar-kpi-sub-v">${data.n}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Media</span><span class="ar-kpi-sub-v">${data.media}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">DE</span><span class="ar-kpi-sub-v">${data.std}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Mínimo</span><span class="ar-kpi-sub-v">${data.min}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Máximo</span><span class="ar-kpi-sub-v">${data.max}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Dentro límites</span><span class="ar-kpi-sub-v">${data.dentro} (${data.porcentajeDentro}%)</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">OOS</span><span class="ar-kpi-sub-v">${data.fuera} (${data.porcentajeFuera}%)</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Cp</span><span class="ar-kpi-sub-v">${data.cp}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Cpk</span><span class="ar-kpi-sub-v">${data.cpk}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${cpkClass}">
-                            ${cpkText}
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">💬</span>
-                        <div>
-                            <div class="ar-formula-desc">
-                                Cp = (USL - LSL) / (6 × σ) &nbsp;&nbsp;|&nbsp;&nbsp;
-                                Cpk = min((USL - μ) / (3 × σ), (μ - LSL) / (3 × σ))
-                            </div>
-                            <div class="ar-formula-desc" style="margin-top:8px;">
-                                Fuera superior: ${data.fueraSuperior} | Fuera inferior: ${data.fueraInferior}
-                            </div>
-                        </div>
-                    </div>`;
-            }
-
-            // Manejar Correlación de Pearson
-            if (statKey === 'Correlación Pearson') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">📊 ${data.columnaX || 'X'} vs ${data.columnaY || 'Y'}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Coeficiente r</span><span class="ar-kpi-sub-v">${data.r ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.pValue?.toFixed(6) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 95%</span><span class="ar-kpi-sub-v">[${data.ic95Lower ?? '—'}, ${data.ic95Upper ?? '—'}]</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">
-                            ${data.significante ? '★ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">📐</span>
-                        <div>
-                            <div class="ar-formula-eq">${data.formula || 'r = cov(X,Y) / (σx × σy)'}</div>
-                            <div class="ar-formula-desc">${data.interpretacion || ''}</div>
-                        </div>
-                    </div>`;
-            }
-
-            // Manejar Correlación de Spearman
-            if (statKey === 'Correlación Spearman') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">📊 ${data.columnaX || 'X'} vs ${data.columnaY || 'Y'}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Coeficiente ρ</span><span class="ar-kpi-sub-v">${data.rho ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">ρ²</span><span class="ar-kpi-sub-v">${data.rho2 ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.pValue?.toFixed(6) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">
-                            ${data.significante ? '★ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">📐</span>
-                        <div>
-                            <div class="ar-formula-eq">${data.formula || 'ρ = correlación de Pearson sobre rangos'}</div>
-                            <div class="ar-formula-desc">${data.interpretacion || ''}</div>
-                        </div>
-                    </div>`;
-            }
-
-            // Manejar Regresión Lineal Simple
-            if (statKey === 'Regresión Lineal Simple') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">📈 Y = f(${data.columnaX || 'X'})</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Intercepto (a)</span><span class="ar-kpi-sub-v">${data.a ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Pendiente (b)</span><span class="ar-kpi-sub-v">${data.b ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R² Ajustado</span><span class="ar-kpi-sub-v">${data.r2Adj ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Error Estándar</span><span class="ar-kpi-sub-v">${data.errorEstandar ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p-valor (b)</span><span class="ar-kpi-sub-v">${data.pPendiente?.toFixed(6) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 95% pendiente</span><span class="ar-kpi-sub-v">[${data.icPendienteLower ?? '—'}, ${data.icPendienteUpper ?? '—'}]</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">
-                            ${data.significante ? '★ Modelo significativo (p < 0.05)' : '✓ Modelo no significativo (p ≥ 0.05)'}
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">📐</span>
-                        <div>
-                            <div class="ar-formula-eq">${data.formula || `Y = ${data.a} + ${data.b}X`}</div>
-                            <div class="ar-formula-desc">${data.interpretacion || ''}</div>
-                        </div>
-                    </div>`;
-            }
-
-            // Manejar Regresión Lineal Múltiple
-            if (statKey === 'Regresión Lineal Múltiple') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                const coefRows = data.coeficientes ? data.coeficientes.map(c => 
-                    `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${c.valor !== undefined ? 'β' + data.coeficientes.indexOf(c) : ''}</span><span class="ar-kpi-sub-v">${c.valor?.toFixed(4) ?? '—'}</span></div>`
-                ).join('') : '';
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">📊 Y = f(${data.columnasX?.join(', ') || 'X₁,...,Xₖ'})</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R² Ajustado</span><span class="ar-kpi-sub-v">${data.r2Adj ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Error Estándar</span><span class="ar-kpi-sub-v">${data.errorEstandar ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Predictores (k)</span><span class="ar-kpi-sub-v">${data.k ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">
-                            ${data.significante ? '★Modelo significativo' : '✓Modelo no significativo'}
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">📐</span>
-                        <div>
-                            <div class="ar-formula-eq">${data.formula || data.modelo || ''}</div>
-                            <div class="ar-formula-desc">${data.interpretacion || ''}</div>
-                        </div>
-                    </div>`;
-            }
-
-            // Manejar Regresión Polinomial
-            if (statKey === 'Regresión Polinomial') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">📈 Y = f(${data.columnaX || 'X'}) - Grado ${data.grado || 2}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R² Ajustado</span><span class="ar-kpi-sub-v">${data.r2Adj ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Error Estándar</span><span class="ar-kpi-sub-v">${data.errorEstandar ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grado</span><span class="ar-kpi-sub-v">${data.grado ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">
-                            ${data.significante ? '★Modelo significativo' : '✓Modelo no significativo'}
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">📐</span>
-                        <div>
-                            <div class="ar-formula-eq">${data.formula || data.modelo || ''}</div>
-                            <div class="ar-formula-desc">${data.interpretacion || ''}</div>
-                        </div>
-                    </div>`;
-            }
-
-            // Manejar Regresión Logística
-            if (statKey === 'Regresión Logística') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">🔐 Clasificación: Y = f(${data.columnasX?.join(', ') || 'X₁,...,Xₖ'})</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Exactitud</span><span class="ar-kpi-sub-v">${((data.exactitud || 0) * 100).toFixed(1)}%</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Precisión</span><span class="ar-kpi-sub-v">${((data.precision || 0) * 100).toFixed(1)}%</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Recall</span><span class="ar-kpi-sub-v">${((data.recall || 0) * 100).toFixed(1)}%</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">F1-Score</span><span class="ar-kpi-sub-v">${((data.f1 || 0) * 100).toFixed(1)}%</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">VP/FP/VN/FN</span><span class="ar-kpi-sub-v">${data.vp}/${data.fp}/${data.vn}/${data.fn}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${data.exactitud >= 0.7 ? 'ar-badge-ok' : 'ar-badge-warn'}">
-                            ${data.exactitud >= 0.8 ? '✓Excelente' : data.exactitud >= 0.6 ? '⚠Aceptable' : '✗Bajo'}
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">📐</span>
-                        <div>
-                            <div class="ar-formula-eq">${data.formula || data.modelo || ''}</div>
-                            <div class="ar-formula-desc">${data.interpretacion || ''}</div>
-                        </div>
-                    </div>`;
-            }
-
-            // Test de Shapiro-Wilk
-            if (statKey === 'Test de Shapiro-Wilk') {
-                return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">${col}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">W</span><span class="ar-kpi-sub-v">${result.estadisticoW?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${result.n ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">
-                            ${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            // Test de Kolmogorov-Smirnov
-            if (statKey === 'Test de Kolmogorov-Smirnov') {
-                return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">${col}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">D</span><span class="ar-kpi-sub-v">${result.estadisticoD?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${result.n ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">
-                            ${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            // Test de Anderson-Darling
-            if (statKey === 'Test de Anderson-Darling') {
-                return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">${col}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">A²</span><span class="ar-kpi-sub-v">${result.estadisticoA2?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">A² corr.</span><span class="ar-kpi-sub-v">${result.estadisticoA2_corregido?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${result.n ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">
-                            ${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            // Test de D'Agostino-Pearson
-            if (statKey === "Test de D'Agostino-Pearson") {
-                return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">${col}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">K²</span><span class="ar-kpi-sub-v">${result.estadisticoK2?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Z skew</span><span class="ar-kpi-sub-v">${result.Z_asimetria?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Z kurt</span><span class="ar-kpi-sub-v">${result.Z_curtosis?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">
-                            ${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            // Covarianza
-            if (statKey === 'Covarianza') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                const covVal = data.covarianza;
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">📐 ${data.columnaX || 'X'} vs ${data.columnaY || 'Y'}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Covarianza</span><span class="ar-kpi-sub-v">${typeof covVal === 'number' ? covVal.toFixed(4) : '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">📐</span>
-                        <div>
-                            <div class="ar-formula-eq">Cov(X,Y) = Σ(xi−x̄)(yi−ȳ) / (n−1)</div>
-                            <div class="ar-formula-desc">${covVal > 0 ? 'Covarianza positiva: X e Y tienden a moverse juntas' : covVal < 0 ? 'Covarianza negativa: X e Y tienden a moverse en direcciones opuestas' : 'Covarianza cero: sin relación lineal'}</div>
-                        </div>
-                    </div>`;
-            }
-
-            // Correlación Kendall Tau
-            if (statKey === 'Correlación Kendall Tau') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">📊 ${data.columnaX || 'X'} vs ${data.columnaY || 'Y'}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Tau (τ)</span><span class="ar-kpi-sub-v">${data.tau ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Concordantes</span><span class="ar-kpi-sub-v">${data.concordantes ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Discordantes</span><span class="ar-kpi-sub-v">${data.discordantes ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.pValue?.toFixed(6) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">
-                            ${data.significante ? '★ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">📐</span>
-                        <div>
-                            <div class="ar-formula-eq">${data.formula || 'τ = (C − D) / √[(n₀−n₁)(n₀−n₂)]'}</div>
-                            <div class="ar-formula-desc">${data.interpretacion || ''}</div>
-                        </div>
-                    </div>`;
-            }
-
-            // RMSE
-            if (statKey === 'RMSE') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">📏 ${data.columnaObservada || 'Obs'} vs ${data.columnaPredicha || 'Pred'}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">RMSE</span><span class="ar-kpi-sub-v">${data.rmse?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">📐</span>
-                        <div>
-                            <div class="ar-formula-eq">RMSE = √[Σ(obs−pred)²/n]</div>
-                            <div class="ar-formula-desc">Menor RMSE = mejor ajuste. RMSE=0 indica ajuste perfecto.</div>
-                        </div>
-                    </div>`;
-            }
-
-            // MAE
-            if (statKey === 'MAE') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">📏 ${data.columnaObservada || 'Obs'} vs ${data.columnaPredicha || 'Pred'}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">MAE</span><span class="ar-kpi-sub-v">${data.mae?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">📐</span>
-                        <div>
-                            <div class="ar-formula-eq">MAE = Σ|obs−pred|/n</div>
-                            <div class="ar-formula-desc">Menor MAE = mejor ajuste. Más robusto a outliers que RMSE.</div>
-                        </div>
-                    </div>`;
-            }
-
-            // R²
-            if (statKey === 'R² (Coef. Determinación)') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                const r2 = data.r2;
-                const r2Class = r2 >= 0.9 ? 'ar-badge-ok' : r2 >= 0.7 ? 'ar-badge-warn' : 'ar-badge-danger';
-                const r2Text = r2 >= 0.9 ? '✓ Excelente ajuste' : r2 >= 0.7 ? '⚠ Ajuste moderado' : '✗ Ajuste pobre';
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">📊 ${data.columnaObservada || 'Obs'} vs ${data.columnaPredicha || 'Pred'}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${r2?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${r2Class}">
-                            ${r2Text}
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">📐</span>
-                        <div>
-                            <div class="ar-formula-eq">R² = 1 − SSres/SStot</div>
-                            <div class="ar-formula-desc">Proporción de la varianza explicada por el modelo.</div>
-                        </div>
-                    </div>`;
-            }
-
-            // Mann-Whitney U
-            if (statKey === 'Mann-Whitney U') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">⚖️ ${data.columnaAgrupacion || ''} → ${data.columnaValores || ''}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">U</span><span class="ar-kpi-sub-v">${data.U ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">z</span><span class="ar-kpi-sub-v">${data.z ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Efecto (r)</span><span class="ar-kpi-sub-v">${data.tamanoEfecto ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grupos</span><span class="ar-kpi-sub-v">${(data.grupos || []).join(' vs ')}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
-                            ${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">💬</span>
-                        <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
-                    </div>`;
-            }
-
-            // Kruskal-Wallis
-            if (statKey === 'Kruskal-Wallis') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">📊 ${data.columnaAgrupacion || ''} → ${data.columnaValores || ''}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">H</span><span class="ar-kpi-sub-v">${data.H ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df</span><span class="ar-kpi-sub-v">${data.df ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grupos</span><span class="ar-kpi-sub-v">${data.grupos?.length ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Total obs.</span><span class="ar-kpi-sub-v">${data.totalObservaciones ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
-                            ${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">💬</span>
-                        <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
-                    </div>`;
-            }
-
-            // Wilcoxon (signed-rank test)
-            if (statKey === 'Wilcoxon') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">⚖️ ${data.columna1 || ''} vs ${data.columna2 || ''} (muestras pareadas)</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">W</span><span class="ar-kpi-sub-v">${data.W ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">W⁺</span><span class="ar-kpi-sub-v">${data.Wpositivo ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">W⁻</span><span class="ar-kpi-sub-v">${data.Wnegativo ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">z</span><span class="ar-kpi-sub-v">${data.z?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
-                            ${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">💬</span>
-                        <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
-                    </div>`;
-            }
-
-            // Friedman
-            if (statKey === 'Friedman') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                const tratamientosInfo = (data.sumasRangos || []).map(t => `T${t.tratamiento}: ${t.suma.toFixed(2)}`).join(', ');
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">📊 Friedman: ${data.tratamientos} tratamientos, ${data.bloques} bloques</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">χ²_r</span><span class="ar-kpi-sub-v">${data.ChiSq ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df</span><span class="ar-kpi-sub-v">${data.df ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Tratamientos</span><span class="ar-kpi-sub-v">${data.tratamientos ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Bloques</span><span class="ar-kpi-sub-v">${data.bloques ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
-                            ${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
-                        </div>
-                        <div style="margin-top:8px;font-size:0.75rem;color:#666;">
-                            Rangos: ${tratamientosInfo}
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">💬</span>
-                        <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
-                    </div>`;
-            }
-
-            // Test de Signos
-            if (statKey === 'Test de Signos') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">✚ ${data.columna1 || ''} vs ${data.columna2 || ''} (muestras pareadas)</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">(+)</span><span class="ar-kpi-sub-v">${data.positivos ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">(−)</span><span class="ar-kpi-sub-v">${data.negativos ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">(0)</span><span class="ar-kpi-sub-v">${data.ceros ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">k</span><span class="ar-kpi-sub-v">${data.k ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">z</span><span class="ar-kpi-sub-v">${data.z?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">
-                            ${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">💬</span>
-                        <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
-                    </div>`;
-            }
-
-            // Bootstrap
-            if (statKey === 'Bootstrap') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">🔄 ${data.columna || ''}</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estimador</span><span class="ar-kpi-sub-v">${data.estimador ?? 'media'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estimación</span><span class="ar-kpi-sub-v">${data.estimacion?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">SE Bootstrap</span><span class="ar-kpi-sub-v">${data.se_bootstrap?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Sesgo</span><span class="ar-kpi-sub-v">${data.sesgo?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">B (remuestreos)</span><span class="ar-kpi-sub-v">${data.B ?? '—'}</span></div>
-                        </div>
-                    </div>
-                    <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px;">
-                        <div class="ar-kpi-col-label">📊 Intervalo de Confianza ${((data.ic?.nivel ?? 0.95) * 100)}%</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Inferior</span><span class="ar-kpi-sub-v">${data.ic?.inferior?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Superior</span><span class="ar-kpi-sub-v">${data.ic?.superior?.toFixed(4) ?? '—'}</span></div>
-                        </div>
-                    </div>
-                    <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px;">
-                        <div class="ar-kpi-col-label">📦 Distribución Bootstrap</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Mín</span><span class="ar-kpi-sub-v">${data.distribucion?.min?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">P25</span><span class="ar-kpi-sub-v">${data.distribucion?.p25?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Mediana</span><span class="ar-kpi-sub-v">${data.distribucion?.mediana?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">P75</span><span class="ar-kpi-sub-v">${data.distribucion?.p75?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Máx</span><span class="ar-kpi-sub-v">${data.distribucion?.max?.toFixed(4) ?? '—'}</span></div>
-                        </div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">💬</span>
-                        <div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div>
-                    </div>`;
-            }
-
-            // PCA - Análisis de Componentes Principales
-            if (statKey === 'PCA (Componentes Principales)' || statKey === 'PCA') {
-                
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-                
-                const cols = data.columnas || [];
-                const nComp = data.nComponentes || 0;
-                const varExp = data.varianceExplained || [];
-                const cumVar = data.cumulativeVariance || [];
-                const eigenvalues = data.eigenvalues || [];
-                
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">📊 PCA - Resumen</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Observaciones</span><span class="ar-kpi-sub-v">${data.nObservaciones || '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Variables</span><span class="ar-kpi-sub-v">${data.nVariables || '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Componentes</span><span class="ar-kpi-sub-v">${nComp}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Varianza Total</span><span class="ar-kpi-sub-v">${cumVar[cumVar.length - 1]?.toFixed(1) || '—'}%</span></div>
-                        </div>
-                    </div>
-                    <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px;">
-                        <div class="ar-kpi-col-label">📈 Varianza Explicada por Componente</div>
-                        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
-                            <tr style="background:#f0f0f0;"><th style="padding:4px;text-align:left;">PC</th><th style="padding:4px;text-align:right;">Autovalor</th><th style="padding:4px;text-align:right;">% Var</th><th style="padding:4px;text-align:right;">% Acum</th></tr>
-                            ${eigenvalues.slice(0, Math.min(10, nComp)).map((ev, i) => `
-                                <tr><td style="padding:3px;">PC${i + 1}</td><td style="padding:3px;text-align:right;">${ev?.toFixed(3) || '—'}</td><td style="padding:3px;text-align:right;">${varExp[i]?.toFixed(1) || '—'}%</td><td style="padding:3px;text-align:right;">${cumVar[i]?.toFixed(1) || '—'}%</td></tr>
-                            `).join('')}
-                        </table>
-                    </div>
-                    <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px;">
-                        <div class="ar-kpi-col-label">📋 Cargas Factoriales (Loadings)</div>
-                        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
-                            <tr style="background:#f0f0f0;">
-                                <th style="padding:3px;">Variable</th>
-                                ${Array.from({length: Math.min(3, nComp)}, (_, i) => `<th style="padding:3px;">PC${i + 1}</th>`).join('')}
-                            </tr>
-                            ${cols.slice(0, 10).map((col, i) => {
-                                const loadings = data.loadings?.[i] || [];
-                                return `<tr>
-                                    <td style="padding:2px;">${col}</td>
-                                    ${Array.from({length: Math.min(3, nComp)}, (_, j) => `<td style="padding:2px;text-align:right;">${loadings[j]?.toFixed(3) || '—'}</td>`).join('')}
-                                </tr>`;
-                            }).join('')}
-                        </table>
-                    </div>
-                    ${data.interpretacion ? `
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">💬</span>
-                        <div><div class="ar-formula-desc">${data.interpretacion}</div></div>
-                    </div>` : ''}`;
-            }
-
-            // Análisis Factorial
-            if (statKey === 'Análisis Factorial') {
-                if (data.error) return `<p class="ar-error">${data.error}</p>`;
-
-                const cols = data.columnas || [];
-                const nFact = data.nFactores || 0;
-                const loadings = data.loadings || [];
-                const communality = data.communality || [];
-                const uniquenesses = data.uniquenesses || [];
-                const kmo = data.kmo || 0;
-                const bartlett = data.Bartlett || {};
-
-                return `
-                    <div class="ar-kpi-card ar-kpi-multi">
-                        <div class="ar-kpi-col-label">📊 Análisis Factorial - Resumen</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Observaciones</span><span class="ar-kpi-sub-v">${data.nObservaciones || '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Variables</span><span class="ar-kpi-sub-v">${data.nVariables || '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Factores</span><span class="ar-kpi-sub-v">${nFact}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">KMO</span><span class="ar-kpi-sub-v">${kmo > 0 ? kmo.toFixed(3) : '—'}</span></div>
-                        </div>
-                    </div>
-                    ${bartlett && bartlett.chi2 ? `
-                    <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px;">
-                        <div class="ar-kpi-col-label">📐 Test de Bartlett</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">χ²</span><span class="ar-kpi-sub-v">${bartlett.chi2?.toFixed(2) || '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">gl</span><span class="ar-kpi-sub-v">${bartlett.df || '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${bartlett.pValue?.toFixed(4) || '—'}</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${bartlett.pValue < 0.05 ? 'ar-badge-ok' : 'ar-badge-warn'}">
-                            ${bartlett.pValue < 0.05 ? '✓ Factorización adecuada' : '⚠ Verificar supuestos'}
-                        </div>
-                    </div>` : ''}
-                    <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px;">
-                        <div class="ar-kpi-col-label">📈 Matriz de Cargas Factoriales</div>
-                        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
-                            <tr style="background:#f0f0f0;">
-                                <th style="padding:3px;text-align:left;">Variable</th>
-                                ${Array.from({length: Math.min(3, nFact)}, (_, i) => `<th style="padding:3px;text-align:right;">Factor ${i + 1}</th>`).join('')}
-                                <th style="padding:3px;text-align:right;">Comunalidad</th>
-                            </tr>
-                            ${cols.slice(0, 10).map((col, i) => `
-                                <tr>
-                                    <td style="padding:2px;font-size:0.75rem;">${col}</td>
-                                    ${Array.from({length: Math.min(3, nFact)}, (_, j) => `<td style="padding:2px;text-align:right;">${loadings[i]?.[j]?.toFixed(3) || '—'}</td>`).join('')}
-                                    <td style="padding:2px;text-align:right;">${communality[i]?.toFixed(3) || '—'}</td>
-                                </tr>
-                            `).join('')}
-                        </table>
-                    </div>
-                    ${data.interpretacion ? `
-                    <div class="ar-formula" style="margin-top:12px;">
-                        <span class="ar-formula-icon">💬</span>
-                        <div><div class="ar-formula-desc">${data.interpretacion}</div></div>
-                    </div>` : ''}`;
-            }
-
-            return '<p>Tipo de prueba no reconocido</p>';
-        }
-
-        // ── Nav items ──────────────────────────────────────────
-        const navItems = statKeys.map((key, i) => {
-            const meta = STAT_META[key] || { icono: '📊' };
-            return `
-                <div class="ar-nav-item ${i === 0 ? 'active' : ''}" data-stat="${key}">
-                    <span class="ar-nav-icon">${meta.icono}</span>
-                    <span>${key}</span>
-                </div>`;
+            return `<div class="ar-kpi-card"><div class="ar-kpi-col-label">COLUMNA ${escapeHtml(col)}</div><div class="ar-kpi-val">${display}</div>${dispersionBadgeHTML}${dispersionLimitsHTML}</div>`;
         }).join('');
+    }
 
-        // ── Paneles de contenido ───────────────────────────────
-        const panels = statKeys.map((key, i) => {
-            const meta = STAT_META[key] || { formula: '', desc: '' };
-            return `
-                <div class="ar-panel ${i === 0 ? 'active' : ''}" data-panel="${key}">
-                    <div class="ar-panel-title">
-                        ${key}
-                        <span class="ar-panel-n">— ${analisisResultado.totalFilas} observaciones</span>
+    // ── KPI cards para pruebas de hipótesis ─────────────────
+    function hypothesisKpiCards(statKey, data) {
+        // T-Test (dos muestras)
+        if (statKey === 'T-Test (dos muestras)') {
+            const keys = Object.keys(data).filter(k => k !== 'columnaAgrupacion' && k !== 'columnaValores' && k !== 'grupo1' && k !== 'grupo2');
+            const groupKey = keys[0];
+            if (!groupKey || !data[groupKey]) return '<p>No hay resultados</p>';
+            const result = data[groupKey];
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${groupKey}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estadístico t</span><span class="ar-kpi-sub-v">${result.estadisticoT?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grados de libertad</span><span class="ar-kpi-sub-v">${result.gradosLibertad?.toFixed(2) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Diferencia medias</span><span class="ar-kpi-sub-v">${result.diferenciaMedias?.toFixed(4) ?? '—'}</span></div>
                     </div>
-                    <div class="ar-kpis-grid">
-                        ${kpiCards(key)}
-                    </div>
-                    <div class="ar-formula">
-                        <span class="ar-formula-icon">∑</span>
-                        <div>
-                            <div class="ar-formula-eq">${meta.formula}</div>
-                            <div class="ar-formula-desc">${meta.desc}</div>
-                        </div>
-                    </div>
-                </div>`;
-        }).join('');
-
-        // ── Tags de columnas ───────────────────────────────────
-        const colTags = cols.map(c =>
-            `<span class="ar-col-tag">${c}</span>`
-        ).join('');
-
-        // ── Sección de parámetros de control ──────────────────
-        let paramSection = '';
-        if (hasParams) {
-            const verifs = cols
-                .map(col => ParametrosManager.verificarColumna(
-                    typeof getDataForModal === 'function' ? getDataForModal() : StateManager.getImportedData(), col
-                ))
-                .filter(v => v !== null);
-
-            if (verifs.length > 0) {
-                const rows = verifs.map(v => {
-                    const pct   = parseFloat(v.porcentajeCumplimiento);
-                    const cls   = pct >= 95 ? 'ar-param-ok' : pct >= 80 ? 'ar-param-warn' : 'ar-param-danger';
-                    const badge = pct >= 95 ? 'ar-badge-ok' : pct >= 80 ? 'ar-badge-warn' : 'ar-badge-danger';
-                    const label = pct >= 95 ? '✓ OK' : pct >= 80 ? '⚠ Revisar' : '✗ Fuera';
-                    return `
-                        <div class="ar-param-row ${cls}">
-                            <span class="ar-param-col">${v.col}</span>
-                            <span class="ar-param-val">${v.parametros.min ?? '—'}</span>
-                            <span class="ar-param-val">${v.parametros.max ?? '—'}</span>
-                            <span class="ar-param-val">${v.parametros.esp ?? '—'}</span>
-                            <span class="ar-param-val">${v.fueraDeRango} / ${v.total}</span>
-                            <span class="ar-kpi-badge ${badge}">${label} ${v.porcentajeCumplimiento}%</span>
-                        </div>`;
-                }).join('');
-
-                paramSection = `
-                    <div class="ar-params-block">
-                        <div class="ar-params-title">🎯 Control de Parámetros</div>
-                        <div class="ar-params-header">
-                            <span>Variable</span>
-                            <span>Mín</span>
-                            <span>Máx</span>
-                            <span>Esperanza</span>
-                            <span>Fuera rango</span>
-                            <span>Cumplimiento</span>
-                        </div>
-                        ${rows}
+                    <div class="ar-kpi-badge ${result.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${result.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
                     </div>`;
-            }
         }
-
-        return `
-        <div class="ar-layout">
-
-            <!-- Header -->
-            <div class="ar-header">
-                <div>
-                    <h2 class="ar-title">📊 Resultados del Análisis Estadístico</h2>
-                    <div class="ar-header-meta">
-                        <span class="ar-meta-chip">📋 ${analisisResultado.totalFilas} filas</span>
-                        <span class="ar-meta-chip">📊 ${analisisResultado.totalColumnas} columnas numéricas</span>
-                        <span class="ar-meta-chip">🔬 ${analisisResultado.estadisticos.length} estadísticos</span>
+        // ANOVA One-Way
+        if (statKey === 'ANOVA One-Way') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${data.grupos?.join(', ') || 'Grupos'}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estadístico F</span><span class="ar-kpi-sub-v">${data.estadisticoF?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grupos</span><span class="ar-kpi-sub-v">${data.grupos ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Total obs.</span><span class="ar-kpi-sub-v">${data.totalObservaciones ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df entre</span><span class="ar-kpi-sub-v">${data.dfEntre ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df dentro</span><span class="ar-kpi-sub-v">${data.dfDentro ?? '—'}</span></div>
                     </div>
+                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+        }
+        // Chi-Cuadrado
+        if (statKey === 'Chi-Cuadrado') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${data.columna1 || ''} vs ${data.columna2 || ''}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estadístico χ²</span><span class="ar-kpi-sub-v">${data.estadisticoChi2?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grados de libertad</span><span class="ar-kpi-sub-v">${data.gradosLibertad ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">N</span><span class="ar-kpi-sub-v">${data.N ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Asociación significativa (p < 0.05)' : '✓ Independientes (p ≥ 0.05)'}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+        }
+        // ANOVA Two-Way
+        if (statKey === 'ANOVA Two-Way') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            const f1Val = typeof data.factor1 === 'object' ? data.factor1.F : '—';
+            const p1Val = typeof data.factor1 === 'object' ? data.factor1.p : '—';
+            const f2Val = typeof data.factor2 === 'object' ? data.factor2.F : '—';
+            const p2Val = typeof data.factor2 === 'object' ? data.factor2.p : '—';
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${data.factor1 || 'Factor 1'} + ${data.factor2 || 'Factor 2'}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">F Factor 1</span><span class="ar-kpi-sub-v">${typeof f1Val === 'number' ? f1Val.toFixed(4) : f1Val}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p Factor 1</span><span class="ar-kpi-sub-v">${typeof p1Val === 'number' ? p1Val.toFixed(4) : p1Val}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">F Factor 2</span><span class="ar-kpi-sub-v">${typeof f2Val === 'number' ? f2Val.toFixed(4) : f2Val}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p Factor 2</span><span class="ar-kpi-sub-v">${typeof p2Val === 'number' ? p2Val.toFixed(4) : p2Val}</span></div>
+                    </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+        }
+        // Test de Normalidad (Jarque-Bera)
+        if (statKey === 'Test de Normalidad') {
+            return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${escapeHtml(col)}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">JB</span><span class="ar-kpi-sub-v">${result.estadisticoJB?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Asimetría</span><span class="ar-kpi-sub-v">${result.asimetria?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Curtosis</span><span class="ar-kpi-sub-v">${result.curtosis?.toFixed(4) ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}</div>
+                    </div>`).join('');
+        }
+        // T-Test una muestra
+        if (statKey === 'T-Test (una muestra)') {
+            return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${escapeHtml(col)}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">t</span><span class="ar-kpi-sub-v">${result.estadisticoT?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Media</span><span class="ar-kpi-sub-v">${result.media?.toFixed(4) ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${result.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${result.significativo ? '✗ Significativo' : '✓ No significativo'}</div>
+                    </div>`).join('');
+        }
+        // Límites de Cuantificación
+        if (statKey === 'Límites de Cuantificación') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            const cpkClass = data.cpk === 'N/A' ? 'ar-badge-info' : (data.cpk >= 1.33 ? 'ar-badge-ok' : (data.cpk >= 1.0 ? 'ar-badge-warn' : 'ar-badge-danger'));
+            const cpkText = data.cpk === 'N/A' ? 'N/A' : (data.cpk >= 1.33 ? '✓ Capable (Cpk ≥ 1.33)' : (data.cpk >= 1.0 ? '⚠️ Marginal (1.0 ≤ Cpk < 1.33)' : '✗ Not Capable (Cpk < 1.0)'));
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📐 ${data.columna} — ${data.norma}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">LSL</span><span class="ar-kpi-sub-v">${data.lsl}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">USL</span><span class="ar-kpi-sub-v">${data.usl}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">N total</span><span class="ar-kpi-sub-v">${data.n}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Media</span><span class="ar-kpi-sub-v">${data.media}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">DE</span><span class="ar-kpi-sub-v">${data.std}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Mínimo</span><span class="ar-kpi-sub-v">${data.min}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Máximo</span><span class="ar-kpi-sub-v">${data.max}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Dentro límites</span><span class="ar-kpi-sub-v">${data.dentro} (${data.porcentajeDentro}%)</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">OOS</span><span class="ar-kpi-sub-v">${data.fuera} (${data.porcentajeFuera}%)</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Cp</span><span class="ar-kpi-sub-v">${data.cp}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Cpk</span><span class="ar-kpi-sub-v">${data.cpk}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${cpkClass}">${cpkText}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">Cp = (USL - LSL) / (6 × σ) &nbsp;&nbsp;|&nbsp;&nbsp; Cpk = min((USL - μ) / (3 × σ), (μ - LSL) / (3 × σ))</div><div class="ar-formula-desc" style="margin-top:8px;">Fuera superior: ${data.fueraSuperior} | Fuera inferior: ${data.fueraInferior}</div></div></div>`;
+        }
+        // Correlación Pearson
+        if (statKey === 'Correlación Pearson') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 ${data.columnaX || 'X'} vs ${data.columnaY || 'Y'}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Coeficiente r</span><span class="ar-kpi-sub-v">${data.r ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.pValue?.toFixed(6) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 95%</span><span class="ar-kpi-sub-v">[${data.ic95Lower ?? '—'}, ${data.ic95Upper ?? '—'}]</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || 'r = cov(X,Y) / (σx × σy)'}</div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+        }
+        // Correlación Spearman
+        if (statKey === 'Correlación Spearman') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 ${data.columnaX || 'X'} vs ${data.columnaY || 'Y'}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Coeficiente ρ</span><span class="ar-kpi-sub-v">${data.rho ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">ρ²</span><span class="ar-kpi-sub-v">${data.rho2 ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.pValue?.toFixed(6) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || 'ρ = correlación de Pearson sobre rangos'}</div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+        }
+        // Regresión Lineal Simple
+        if (statKey === 'Regresión Lineal Simple') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📈 Y = f(${data.columnaX || 'X'})</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Intercepto (a)</span><span class="ar-kpi-sub-v">${data.a ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Pendiente (b)</span><span class="ar-kpi-sub-v">${data.b ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R² Ajustado</span><span class="ar-kpi-sub-v">${data.r2Adj ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Error Estándar</span><span class="ar-kpi-sub-v">${data.errorEstandar ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p-valor (b)</span><span class="ar-kpi-sub-v">${data.pPendiente?.toFixed(6) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 95% pendiente</span><span class="ar-kpi-sub-v">[${data.icPendienteLower ?? '—'}, ${data.icPendienteUpper ?? '—'}]</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Modelo significativo (p < 0.05)' : '✓ Modelo no significativo (p ≥ 0.05)'}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || `Y = ${data.a} + ${data.b}X`}</div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+        }
+        // Regresión Lineal Múltiple
+        if (statKey === 'Regresión Lineal Múltiple') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 Y = f(${data.columnasX?.join(', ') || 'X₁,...,Xₖ'})</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R² Ajustado</span><span class="ar-kpi-sub-v">${data.r2Adj ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Error Estándar</span><span class="ar-kpi-sub-v">${data.errorEstandar ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Predictores (k)</span><span class="ar-kpi-sub-v">${data.k ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★Modelo significativo' : '✓Modelo no significativo'}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || data.modelo || ''}</div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+        }
+        // Regresión Polinomial
+        if (statKey === 'Regresión Polinomial') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📈 Y = f(${data.columnaX || 'X'}) - Grado ${data.grado || 2}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R² Ajustado</span><span class="ar-kpi-sub-v">${data.r2Adj ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Error Estándar</span><span class="ar-kpi-sub-v">${data.errorEstandar ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grado</span><span class="ar-kpi-sub-v">${data.grado ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★Modelo significativo' : '✓Modelo no significativo'}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || data.modelo || ''}</div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+        }
+        // Regresión Logística
+        if (statKey === 'Regresión Logística') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">🔐 Clasificación: Y = f(${data.columnasX?.join(', ') || 'X₁,...,Xₖ'})</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Exactitud</span><span class="ar-kpi-sub-v">${((data.exactitud || 0) * 100).toFixed(1)}%</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Precisión</span><span class="ar-kpi-sub-v">${((data.precision || 0) * 100).toFixed(1)}%</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Recall</span><span class="ar-kpi-sub-v">${((data.recall || 0) * 100).toFixed(1)}%</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">F1-Score</span><span class="ar-kpi-sub-v">${((data.f1 || 0) * 100).toFixed(1)}%</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">VP/FP/VN/FN</span><span class="ar-kpi-sub-v">${data.vp}/${data.fp}/${data.vn}/${data.fn}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.exactitud >= 0.7 ? 'ar-badge-ok' : 'ar-badge-warn'}">${data.exactitud >= 0.8 ? '✓Excelente' : data.exactitud >= 0.6 ? '⚠Aceptable' : '✗Bajo'}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || data.modelo || ''}</div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+        }
+        // Test de Shapiro-Wilk
+        if (statKey === 'Test de Shapiro-Wilk') {
+            return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${escapeHtml(col)}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">W</span><span class="ar-kpi-sub-v">${result.estadisticoW?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${result.n ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}</div>
+                    </div>`).join('');
+        }
+        // Test de Kolmogorov-Smirnov
+        if (statKey === 'Test de Kolmogorov-Smirnov') {
+            return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${escapeHtml(col)}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">D</span><span class="ar-kpi-sub-v">${result.estadisticoD?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${result.n ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}</div>
+                    </div>`).join('');
+        }
+        // Test de Anderson-Darling
+        if (statKey === 'Test de Anderson-Darling') {
+            return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${escapeHtml(col)}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">A²</span><span class="ar-kpi-sub-v">${result.estadisticoA2?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">A² corr.</span><span class="ar-kpi-sub-v">${result.estadisticoA2_corregido?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${result.n ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}</div>
+                    </div>`).join('');
+        }
+        // Test de D'Agostino-Pearson
+        if (statKey === "Test de D'Agostino-Pearson") {
+            return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${escapeHtml(col)}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">K²</span><span class="ar-kpi-sub-v">${result.estadisticoK2?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Z skew</span><span class="ar-kpi-sub-v">${result.Z_asimetria?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Z kurt</span><span class="ar-kpi-sub-v">${result.Z_curtosis?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}</div>
+                    </div>`).join('');
+        }
+        // Covarianza
+        if (statKey === 'Covarianza') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            const covVal = data.covarianza;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📐 ${data.columnaX || 'X'} vs ${data.columnaY || 'Y'}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Covarianza</span><span class="ar-kpi-sub-v">${typeof covVal === 'number' ? covVal.toFixed(4) : '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                    </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">Cov(X,Y) = Σ(xi−x̄)(yi−ȳ) / (n−1)</div><div class="ar-formula-desc">${covVal > 0 ? 'Covarianza positiva: X e Y tienden a moverse juntas' : covVal < 0 ? 'Covarianza negativa: X e Y tienden a moverse en direcciones opuestas' : 'Covarianza cero: sin relación lineal'}</div></div></div>`;
+        }
+        // Correlación Kendall Tau
+        if (statKey === 'Correlación Kendall Tau') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 ${data.columnaX || 'X'} vs ${data.columnaY || 'Y'}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Tau (τ)</span><span class="ar-kpi-sub-v">${data.tau ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Concordantes</span><span class="ar-kpi-sub-v">${data.concordantes ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Discordantes</span><span class="ar-kpi-sub-v">${data.discordantes ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.pValue?.toFixed(6) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || 'τ = (C − D) / √[(n₀−n₁)(n₀−n₂)]'}</div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+        }
+        // RMSE
+        if (statKey === 'RMSE') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📏 ${data.columnaObservada || 'Obs'} vs ${data.columnaPredicha || 'Pred'}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">RMSE</span><span class="ar-kpi-sub-v">${data.rmse?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                    </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">RMSE = √[Σ(obs−pred)²/n]</div><div class="ar-formula-desc">Menor RMSE = mejor ajuste. RMSE=0 indica ajuste perfecto.</div></div></div>`;
+        }
+        // MAE
+        if (statKey === 'MAE') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📏 ${data.columnaObservada || 'Obs'} vs ${data.columnaPredicha || 'Pred'}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">MAE</span><span class="ar-kpi-sub-v">${data.mae?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                    </div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">MAE = Σ|obs−pred|/n</div><div class="ar-formula-desc">Menor MAE = mejor ajuste. Más robusto a outliers que RMSE.</div></div></div>`;
+        }
+        // R²
+        if (statKey === 'R² (Coef. Determinación)') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            const r2 = data.r2;
+            const r2Class = r2 >= 0.9 ? 'ar-badge-ok' : r2 >= 0.7 ? 'ar-badge-warn' : 'ar-badge-danger';
+            const r2Text = r2 >= 0.9 ? '✓ Excelente ajuste' : r2 >= 0.7 ? '⚠ Ajuste moderado' : '✗ Ajuste pobre';
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 ${data.columnaObservada || 'Obs'} vs ${data.columnaPredicha || 'Pred'}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${r2?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${r2Class}">${r2Text}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">R² = 1 − SSres/SStot</div><div class="ar-formula-desc">Proporción de la varianza explicada por el modelo.</div></div></div>`;
+        }
+        // Mann-Whitney U
+        if (statKey === 'Mann-Whitney U') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">⚖️ ${data.columnaAgrupacion || ''} → ${data.columnaValores || ''}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">U</span><span class="ar-kpi-sub-v">${data.U ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">z</span><span class="ar-kpi-sub-v">${data.z ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Efecto (r)</span><span class="ar-kpi-sub-v">${data.tamanoEfecto ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grupos</span><span class="ar-kpi-sub-v">${(data.grupos || []).join(' vs ')}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+        }
+        // Kruskal-Wallis
+        if (statKey === 'Kruskal-Wallis') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 ${data.columnaAgrupacion || ''} → ${data.columnaValores || ''}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">H</span><span class="ar-kpi-sub-v">${data.H ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df</span><span class="ar-kpi-sub-v">${data.df ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grupos</span><span class="ar-kpi-sub-v">${data.grupos?.length ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Total obs.</span><span class="ar-kpi-sub-v">${data.totalObservaciones ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+        }
+        // Wilcoxon
+        if (statKey === 'Wilcoxon') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">⚖️ ${data.columna1 || ''} vs ${data.columna2 || ''} (muestras pareadas)</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">W</span><span class="ar-kpi-sub-v">${data.W ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">W⁺</span><span class="ar-kpi-sub-v">${data.Wpositivo ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">W⁻</span><span class="ar-kpi-sub-v">${data.Wnegativo ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">z</span><span class="ar-kpi-sub-v">${data.z?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+        }
+        // Friedman
+        if (statKey === 'Friedman') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            const tratamientosInfo = (data.sumasRangos || []).map(t => `T${t.tratamiento}: ${t.suma.toFixed(2)}`).join(', ');
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 Friedman: ${data.tratamientos} tratamientos, ${data.bloques} bloques</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">χ²_r</span><span class="ar-kpi-sub-v">${data.ChiSq ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df</span><span class="ar-kpi-sub-v">${data.df ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Tratamientos</span><span class="ar-kpi-sub-v">${data.tratamientos ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Bloques</span><span class="ar-kpi-sub-v">${data.bloques ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    <div style="margin-top:8px;font-size:0.75rem;color:#666;">Rangos: ${tratamientosInfo}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+        }
+        // Test de Signos
+        if (statKey === 'Test de Signos') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">✚ ${data.columna1 || ''} vs ${data.columna2 || ''} (muestras pareadas)</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">(+)</span><span class="ar-kpi-sub-v">${data.positivos ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">(−)</span><span class="ar-kpi-sub-v">${data.negativos ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">(0)</span><span class="ar-kpi-sub-v">${data.ceros ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">k</span><span class="ar-kpi-sub-v">${data.k ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">z</span><span class="ar-kpi-sub-v">${data.z?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+        }
+        // Bootstrap
+        if (statKey === 'Bootstrap') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">🔄 ${data.columna || ''}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estimador</span><span class="ar-kpi-sub-v">${data.estimador ?? 'media'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estimación</span><span class="ar-kpi-sub-v">${data.estimacion?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">SE Bootstrap</span><span class="ar-kpi-sub-v">${data.se_bootstrap?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Sesgo</span><span class="ar-kpi-sub-v">${data.sesgo?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">B (remuestreos)</span><span class="ar-kpi-sub-v">${data.B ?? '—'}</span></div>
+                    </div>
+                    </div>
+                    <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px;"><div class="ar-kpi-col-label">📊 Intervalo de Confianza ${((data.ic?.nivel ?? 0.95) * 100)}%</div>
+                    <div class="ar-kpi-sub-grid"><div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Inferior</span><span class="ar-kpi-sub-v">${data.ic?.inferior?.toFixed(4) ?? '—'}</span></div><div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Superior</span><span class="ar-kpi-sub-v">${data.ic?.superior?.toFixed(4) ?? '—'}</span></div></div>
+                    </div>
+                    <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px;"><div class="ar-kpi-col-label">📦 Distribución Bootstrap</div>
+                    <div class="ar-kpi-sub-grid"><div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Mín</span><span class="ar-kpi-sub-v">${data.distribucion?.min?.toFixed(4) ?? '—'}</span></div><div class="ar-kpi-sub"><span class="ar-kpi-sub-k">P25</span><span class="ar-kpi-sub-v">${data.distribucion?.p25?.toFixed(4) ?? '—'}</span></div><div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Mediana</span><span class="ar-kpi-sub-v">${data.distribucion?.mediana?.toFixed(4) ?? '—'}</span></div><div class="ar-kpi-sub"><span class="ar-kpi-sub-k">P75</span><span class="ar-kpi-sub-v">${data.distribucion?.p75?.toFixed(4) ?? '—'}</span></div><div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Máx</span><span class="ar-kpi-sub-v">${data.distribucion?.max?.toFixed(4) ?? '—'}</span></div></div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+        }
+        return '<p>Tipo de prueba no reconocido</p>';
+    }
+
+    // ============================================================
+    // FIN DE FUNCIONES INTERNAS
+    // ============================================================
+
+    // ────────────────────────────────────────────────────────────────────────────
+    // 1. KPIs GLOBALES (resumen rápido)
+    // ────────────────────────────────────────────────────────────────────────────
+    let html = `
+    <div class="resultados-globales" style="background:#2d2d2a; border-radius:10px; padding:12px; margin-bottom:20px;">
+        <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:center;">
+            <div><span style="color:#6b6b65;">📊 Columnas numéricas</span><br><strong style="font-size:18px;">${cols.length}</strong></div>
+            <div><span style="color:#6b6b65;">📈 Estadísticos ejecutados</span><br><strong style="font-size:18px;">${statKeys.length}</strong></div>
+            <div><span style="color:#6b6b65;">🔬 Filas analizadas</span><br><strong style="font-size:18px;">${analisisResultado.totalFilas}</strong></div>
+        </div>
+    </div>`;
+    
+    // ────────────────────────────────────────────────────────────────────────────
+    // 2. ACORDEÓN: un bloque por cada estadístico seleccionado
+    // ────────────────────────────────────────────────────────────────────────────
+    html += `<div class="analisis-acordeon">`;
+    
+    for (const key of statKeys) {
+        const meta = STAT_META[key] || { 
+            icono: '📊', 
+            formula: '', 
+            desc: '', 
+            hipotesis: null, 
+            supuestos: [], 
+            efectoTamano: null,
+            referencia: null
+        };
+        
+        let badgeText = '';
+        const data = analisisResultado.resultados[key];
+        if (typeof data === 'object' && !Array.isArray(data)) {
+            const numItems = Object.keys(data).length;
+            badgeText = `${numItems} columna${numItems !== 1 ? 's' : ''}`;
+        } else {
+            badgeText = 'detalle';
+        }
+        
+        html += `
+        <div class="acordeon-item">
+            <button class="acordeon-header" onclick="toggleAcordeon(this)">
+                <span class="icono">${meta.icono}</span>
+                <span class="titulo">${escapeHtml(key)}</span>
+                <span class="badge">${badgeText}</span>
+                <span class="flecha">▼</span>
+            </button>
+            <div class="acordeon-contenido">
+                <!-- Tarjetas KPI del estadístico -->
+                <div class="ar-kpis-grid">
+                    ${kpiCards(key)}
                 </div>
-            </div>
-
-            <!-- Columnas -->
-            <div class="ar-cols-row">
-                <span class="ar-cols-label">Columnas analizadas:</span>
-                ${colTags}
-            </div>
-
-            <!-- Parámetros de control (si existen) -->
-            ${paramSection}
-
-            <!-- Body: nav + contenido -->
-            <div class="ar-body">
-                <div class="ar-nav">
-                    <div class="ar-nav-title">ESTADÍSTICOS</div>
-                    ${navItems}
+                <!-- Nota metodológica específica de este estadístico -->
+                <div class="acordeon-nota-metodologica">
+                    ${meta.formula ? `<div class="ar-formula-eq">🧮 ${meta.formula}</div>` : ''}
+                    ${meta.desc ? `<div class="ar-formula-desc">${meta.desc}</div>` : ''}
+                    ${meta.hipotesis ? `
+                        <div class="ar-nota-hipotesis">
+                            <strong>📌 Hipótesis:</strong>
+                            <div>H₀: ${meta.hipotesis.h0}</div>
+                            <div>H₁: ${meta.hipotesis.h1}</div>
+                        </div>
+                    ` : ''}
+                    ${meta.supuestos && meta.supuestos.length ? `
+                        <div class="ar-nota-supuestos">
+                            <strong>📋 Supuestos:</strong>
+                            <ul>${meta.supuestos.map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ul>
+                        </div>
+                    ` : ''}
+                    ${meta.efectoTamano ? `
+                        <div class="ar-nota-efecto">
+                            <strong>📏 Tamaño de efecto:</strong> ${meta.efectoTamano.metrica} 
+                            <span class="ar-formula-eq">${meta.efectoTamano.formula}</span>
+                        </div>
+                    ` : ''}
+                    ${meta.referencia ? `
+                        <div class="ar-nota-referencia">
+                            <strong>📚 Referencia:</strong> ${formatReferencia(meta.referencia)}
+                        </div>
+                    ` : ''}
                 </div>
-                <div class="ar-content">
-                    ${panels}
-                </div>
-            </div>
-
-            <!-- Notas Metodológicas -->
-            <div class="ar-notes-section">
-                <div class="ar-notes-title">📚 Notas Metodológicas</div>
-                <div class="ar-notes-grid">
-                    ${statKeys.map(key => {
-                        const meta = STAT_META[key] || { formula: '', desc: '', icono: '📊' };
-                        if (!meta.desc) return '';
-                        
-                        let extraContent = '';
-                        
-                        if (meta.hipotesis) {
-                            extraContent += '<div class="ar-note-hipotesis">' +
-                                '<strong>Hipótesis:</strong>' +
-                                '<div>H₀: ' + meta.hipotesis.h0 + '</div>' +
-                                '<div>H₁: ' + meta.hipotesis.h1 + '</div>' +
-                            '</div>';
-                        }
-                        
-                        if (meta.supuestos && meta.supuestos.length > 0) {
-                            extraContent += '<div class="ar-note-supuestos">' +
-                                '<strong>📋 Supuestos:</strong>' +
-                                '<ul>' + meta.supuestos.map(s => '<li>' + s + '</li>').join('') + '</ul>' +
-                            '</div>';
-                        }
-                        
-                        if (meta.efectoTamano) {
-                            const et = meta.efectoTamano;
-                            extraContent += '<div class="ar-note-efecto">' +
-                                '<strong>📏 Tamaño de efecto:</strong> ' + et.metrica +
-                                '<span class="ar-note-formula">' + et.formula + '</span>' +
-                            '</div>';
-                        }
-                        
-                        if (meta.referencia) {
-                            extraContent += '<div class="ar-note-referencia">' +
-                                '<strong>📚 Referencia:</strong> ' + formatReferencia(meta.referencia) +
-                            '</div>';
-                        }
-                        
-                        return '<div class="ar-note-card">' +
-                            '<div class="ar-note-header">' +
-                                '<span class="ar-note-icon">' + meta.icono + '</span>' +
-                                '<span class="ar-note-stat">' + key + '</span>' +
-                            '</div>' +
-                            '<div class="ar-note-formula">' + meta.formula + '</div>' +
-                            '<div class="ar-note-desc">' + meta.desc + '</div>' +
-                            extraContent +
-                        '</div>';
-                    }).join('')}
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <div class="ar-footer">
-                <button class="ar-btn-secondary">🔄 Nuevo análisis</button>
-                <button class="ar-btn-primary">📥 Exportar reporte →</button>
             </div>
         </div>`;
-
     }
+    
+    html += `</div>`; // cierre .analisis-acordeon
+    
+    // ────────────────────────────────────────────────────────────────────────────
+    // 3. SECCIÓN GENERAL FINAL (notas metodológicas globales, glosario)
+    // ────────────────────────────────────────────────────────────────────────────
+    html += `
+    <div class="ar-notes-section" style="margin-top:24px; padding-top:16px; border-top:0.5px solid rgba(255,255,255,0.1);">
+        <div class="ar-notes-title">📚 Notas metodológicas generales</div>
+        <div class="ar-notes-grid">
+            <div class="ar-note-card">
+                <div class="ar-note-header"><span class="ar-note-icon">🔍</span> <span>Interpretación de p‑valor</span></div>
+                <div class="ar-note-desc">Un p‑valor < 0.05 indica evidencia estadística significativa en contra de la hipótesis nula (H₀). En los resultados se marca con <span class="ar-badge-danger" style="display:inline-block; padding:0 4px;">✗ Significativo</span>.</div>
+            </div>
+            <div class="ar-note-card">
+                <div class="ar-note-header"><span class="ar-note-icon">⚙️</span> <span>Tests de normalidad</span></div>
+                <div class="ar-note-desc">Se aplican Jarque‑Bera (n≥3), Shapiro‑Wilk (3≤n≤5000), Kolmogorov‑Smirnov (n≥5), Anderson‑Darling (n≥8) y D'Agostino‑Pearson (n≥8). El consenso se determina por mayoría.</div>
+            </div>
+            <div class="ar-note-card">
+                <div class="ar-note-header"><span class="ar-note-icon">📐</span> <span>Estadísticos de dispersión</span></div>
+                <div class="ar-note-desc">Si configuraste umbrales en <strong>Parámetros → Dispersión</strong>, se mostrarán semáforos 🟢/🟡/🔴 junto a los valores.</div>
+            </div>
+        </div>
+        <div style="margin-top:12px; font-size:10px; color:#6b6b65; text-align:center;">
+            Reporte generado automáticamente por StatLab · ${new Date().toLocaleString('es-ES')}
+        </div>
+    </div>`;
+    
+    return html;
+}
     
     // =======================================
     // API PÚBLICA

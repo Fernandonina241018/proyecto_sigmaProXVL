@@ -2919,13 +2919,12 @@ function ejecutarAnalisisEnDashboard() {
     const resultados = EstadisticaDescriptiva.ejecutarAnalisis(dataFormat, allSelected, {});
     const html = EstadisticaDescriptiva.generarHTML(resultados);
     
-    const tableContainer = document.getElementById('analysisResultsContent');
-    if (tableContainer) {
-      tableContainer.outerHTML = html;
-      const newTable = document.getElementById('analysisResultsContent');
-      if (newTable) applyAnalysisStyles();
+    const tableBody = document.getElementById('analysisResultsTableBody');
+    if (tableBody) {
+      tableBody.innerHTML = html;
+      //applyAnalysisStyles();
     }
-
+    
     showToast(`Análisis completado: ${allSelected.length} estadístico(s)`, 'ok');
   } catch (error) {
     console.error('Error en análisis:', error);
@@ -2937,9 +2936,11 @@ function applyAnalysisStyles() {
   const container = document.getElementById('analysisResultsContent');
   if (!container) return;
   
-  container.style.padding = '16px';
-  container.style.background = '#1a1a18';
-  container.style.borderRadius = '8px';
+  // Estilos para la tabla contenedora
+  container.style.width = '100%';
+  container.style.borderCollapse = 'collapse';
+  container.style.fontSize = '12px';
+  container.style.color = '#c4c4be';
   
   container.querySelectorAll('.kpi-card').forEach(card => {
     card.style.background = 'rgba(74,144,217,0.12)';
@@ -3282,4 +3283,18 @@ function renderEDAResults(edaResult, datasetName) {
     });
   }
   tableBody.innerHTML = html || '<tr><td colspan="5" style="text-align:center;color:#6b6b65;padding:24px;">Sin resultados</td></tr>';
+}
+
+function toggleAcordeon(btn) {
+  const item = btn.closest('.acordeon-item');
+  item.classList.toggle('abierto');
+}
+
+function expandirTodoAcordeon() {
+  const items = document.querySelectorAll('.acordeon-item');
+  const allExpanded = Array.from(items).every(item => item.classList.contains('abierto'));
+  items.forEach(item => {
+    if (allExpanded) item.classList.remove('abierto');
+    else item.classList.add('abierto');
+  });
 }

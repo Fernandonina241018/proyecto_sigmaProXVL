@@ -685,3 +685,464 @@ html, body {
   .cards, .cards-3 { grid-template-columns: 1fr 1fr; }
   .bottom-grid, .bottom-grid.thirds, .bottom-grid.wide { grid-template-columns: 1fr; }
 }
+
+/* ========== ESTILOS PARA RESULTADOS DE ANÁLISIS (.ar-*) ========== */
+.ar-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: #c4c4be;
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+.ar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 8px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.1);
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ar-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #f0f0ed;
+}
+
+.ar-header-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.ar-meta-chip {
+  background: rgba(158,158,152,0.12);
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  color: #9e9e98;
+  border: 0.5px solid rgba(255,255,255,0.08);
+}
+
+.ar-cols-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 0.5px solid rgba(255,255,255,0.06);
+  margin-bottom: 8px;
+}
+
+.ar-cols-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #6b6b65;
+}
+
+.ar-col-tag {
+  background: #2d2d2a;
+  border-radius: 16px;
+  padding: 3px 10px;
+  font-size: 11px;
+  color: #9e9e98;
+  border: 0.5px solid rgba(255,255,255,0.08);
+}
+
+.ar-body {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 16px;
+  min-height: 300px;
+}
+
+.ar-nav {
+  background: #2d2d2a;
+  border-radius: 10px;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  padding: 8px;
+  overflow-y: auto;
+}
+
+.ar-nav-title {
+  font-size: 10px;
+  font-weight: 600;
+  color: #6b6b65;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 8px 8px 4px;
+}
+
+.ar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  color: #6b6b65;
+  font-size: 12px;
+  transition: all 0.2s;
+  margin-bottom: 2px;
+}
+
+.ar-nav-item:hover {
+  background: rgba(255,255,255,0.06);
+  color: #d4d4d0;
+}
+
+.ar-nav-item.active {
+  background: rgba(166,10,237,0.15);
+  color: #c060f0;
+}
+
+.ar-nav-icon {
+  font-size: 14px;
+}
+
+.ar-content {
+  background: #2d2d2a;
+  border-radius: 10px;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.ar-panel {
+  display: none;
+}
+
+.ar-panel.active {
+  display: block;
+}
+
+.ar-panel-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #f0f0ed;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ar-panel-n {
+  font-size: 11px;
+  color: #6b6b65;
+  font-weight: normal;
+}
+
+.ar-kpis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.ar-kpi-card {
+  background: #3a3a38;
+  border-radius: 9px;
+  border: 0.5px solid rgba(255,255,255,0.07);
+  padding: 10px 12px;
+  transition: background 0.2s;
+}
+
+.ar-kpi-card:hover {
+  background: #444440;
+}
+
+.ar-kpi-col-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b6b65;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  word-break: break-word;
+}
+
+.ar-kpi-val {
+  font-size: 28px;
+  font-weight: 500;
+  color: #f0f0ed;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.ar-kpi-val-sm {
+  font-size: 20px;
+}
+
+.ar-kpi-sub-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 12px;
+  margin-top: 8px;
+}
+
+.ar-kpi-sub {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 11px;
+}
+
+.ar-kpi-sub-k {
+  color: #6b6b65;
+}
+
+.ar-kpi-sub-v {
+  color: #9e9e98;
+  font-family: monospace;
+}
+
+.ar-kpi-badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 500;
+  background: rgba(255,255,255,0.06);
+  color: #9e9e98;
+}
+
+.ar-badge-ok {
+  background: rgba(46,204,113,0.12);
+  color: #5fd97a;
+  border: 0.5px solid rgba(46,204,113,0.2);
+}
+
+.ar-badge-warn {
+  background: rgba(243,156,18,0.12);
+  color: #f5b041;
+  border: 0.5px solid rgba(243,156,18,0.2);
+}
+
+.ar-badge-danger {
+  background: rgba(231,76,60,0.12);
+  color: #f56960;
+  border: 0.5px solid rgba(231,76,60,0.2);
+}
+
+.ar-badge-info {
+  background: rgba(74,144,217,0.12);
+  color: #6cb4f5;
+}
+
+.ar-formula {
+  background: rgba(255,255,255,0.03);
+  border-radius: 8px;
+  padding: 12px;
+  border-left: 3px solid #a60aed;
+  font-size: 11px;
+  line-height: 1.5;
+  margin-top: 12px;
+}
+
+.ar-formula-icon {
+  font-size: 16px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.ar-formula-eq {
+  font-family: monospace;
+  color: #f0f0ed;
+  margin-bottom: 4px;
+}
+
+.ar-formula-desc {
+  color: #9e9e98;
+}
+
+.ar-notes-section {
+  margin-top: 20px;
+  border-top: 0.5px solid rgba(255,255,255,0.1);
+  padding-top: 16px;
+}
+
+.ar-notes-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b6b65;
+  margin-bottom: 12px;
+}
+
+.ar-notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.ar-note-card {
+  background: #2d2d2a;
+  border-radius: 8px;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  padding: 10px;
+}
+
+.ar-note-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #c060f0;
+}
+
+.ar-note-stat {
+  font-size: 12px;
+}
+
+.ar-note-formula {
+  font-family: monospace;
+  font-size: 10px;
+  background: #1a1a18;
+  padding: 4px 6px;
+  border-radius: 4px;
+  margin: 6px 0;
+  color: #9e9e98;
+}
+
+.ar-note-desc {
+  font-size: 10px;
+  color: #9e9e98;
+  margin: 6px 0;
+}
+
+.ar-note-hipotesis, .ar-note-supuestos, .ar-note-efecto, .ar-note-referencia {
+  font-size: 9px;
+  margin-top: 6px;
+  color: #6b6b65;
+}
+
+.ar-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 0.5px solid rgba(255,255,255,0.08);
+}
+
+.ar-btn-primary, .ar-btn-secondary {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.ar-btn-primary {
+  background: #4a90d9;
+  border: none;
+  color: #fff;
+}
+
+.ar-btn-primary:hover {
+  background: #6cb4f5;
+}
+
+.ar-btn-secondary {
+  background: transparent;
+  border: 0.5px solid rgba(255,255,255,0.2);
+  color: #9e9e98;
+}
+
+.ar-btn-secondary:hover {
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+}
+
+/* ========== ACORDEÓN PARA RESULTADOS DE ANÁLISIS ========== */
+.analisis-acordeon {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.acordeon-item {
+  background: #2d2d2a;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.acordeon-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #3a3a38;
+  border: none;
+  color: #f0f0ed;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-align: left;
+  font-family: inherit;
+}
+
+.acordeon-header:hover {
+  background: #444440;
+}
+
+.acordeon-header .icono {
+  font-size: 18px;
+  margin-right: 8px;
+}
+
+.acordeon-header .titulo {
+  flex: 1;
+}
+
+.acordeon-header .badge {
+  background: rgba(166,10,237,0.2);
+  color: #c060f0;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: normal;
+  margin-right: 12px;
+}
+
+.acordeon-header .flecha {
+  font-size: 12px;
+  transition: transform 0.2s;
+}
+
+.acordeon-item.abierto .acordeon-header .flecha {
+  transform: rotate(180deg);
+}
+
+.acordeon-contenido {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  padding: 0 16px;
+}
+
+.acordeon-item.abierto .acordeon-contenido {
+  max-height: 2000px; /* suficiente para todo el contenido */
+  padding: 12px 16px;
+}
+
+/* Nota metodológica dentro del acordeón (opcional) */
+.acordeon-nota {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 0.5px solid rgba(255,255,255,0.08);
+  font-size: 11px;
+  color: #6b6b65;
+}
