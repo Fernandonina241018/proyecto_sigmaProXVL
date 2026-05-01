@@ -141,7 +141,7 @@ html, body {
   border: none; background: none;
   color: #6b6b65; font-size: 13px; font-weight: 500;
   cursor: pointer; white-space: nowrap;
-  transition: all .2s; width: 100%; text-align: left; position: relative;
+  transition: all .2s ease; width: 100%; text-align: left; position: relative;
 }
 .sb-tab svg { width: 15px; height: 15px; flex-shrink: 0; stroke: currentColor; fill: none; stroke-width: 1.5; }
 .sb-label   { transition: opacity .2s, width .3s; }
@@ -197,7 +197,7 @@ html, body {
   padding: 4px 10px; border-radius: 12px;
   border: none; background: rgba(255,255,255,0.05); color: #6b6b65;
   font-size: 10px; font-weight: 500; cursor: pointer; font-family: inherit;
-  transition: all .2s;
+  transition: all .2s ease;
 }
 .filter-btn:hover  { background: rgba(255,255,255,0.1); color: #9e9e98; }
 .filter-btn.active { background: #a60aed; color: #fff; }
@@ -217,7 +217,7 @@ html, body {
   padding: 3px 6px; border-radius: 4px;
   border: none; background: rgba(255,255,255,0.05); color: #6b6b65;
   font-size: 9px; font-weight: 600; cursor: pointer; font-family: inherit;
-  transition: all .2s;
+  transition: all .2s ease;
 }
 .sort-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
 
@@ -319,7 +319,7 @@ html, body {
   padding: 3px 8px; border-radius: 5px;
   border: 0.5px solid rgba(255,255,255,0.1);
   background: rgba(255,255,255,0.05); color: #6b6b65; font-family: inherit;
-  cursor: pointer; transition: all .15s; white-space: nowrap;
+  cursor: pointer; transition: all .15s ease; white-space: nowrap;
 }
 .fm-select-all:hover { background: rgba(255,255,255,0.1); color: #d4d4d0; border-color: rgba(255,255,255,0.2); }
 .fm-select-all.all-selected {
@@ -510,7 +510,7 @@ html, body {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 6px 14px; border-radius: 6px; border: 0.5px solid transparent;
   font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit;
-  backdrop-filter: blur(8px); transition: all .2s;
+  backdrop-filter: blur(8px); transition: all .2s ease;
 }
 .btn-crystal, .btn-crystal-blue {
   background: rgba(74,144,217,0.12); border-color: rgba(74,144,217,0.2); color: #6cb4f5;
@@ -549,7 +549,7 @@ html, body {
   padding: 5px 10px; border-radius: 15px;
   border: none; background: transparent; color: #9e9e98;
   font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit;
-  transition: all .3s;
+  transition: all .3s ease;
 }
 .tool-btn svg  { width: 14px; height: 14px; }
 .tool-btn:hover  { background: rgba(255,255,255,0.08); color: #fff; }
@@ -568,7 +568,7 @@ html, body {
   font-weight: 500;
   cursor: pointer;
   font-family: inherit;
-  transition: all .3s;
+  transition: all .3s ease;
   right: 10px;
 
   /* 🔑 efecto cristal */
@@ -786,7 +786,7 @@ html, body {
   cursor: pointer;
   color: #6b6b65;
   font-size: 12px;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
   margin-bottom: 2px;
 }
 
@@ -1039,7 +1039,7 @@ html, body {
   font-weight: 500;
   cursor: pointer;
   font-family: inherit;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
 }
 
 .ar-btn-primary {
@@ -1119,7 +1119,7 @@ html, body {
 
 .acordeon-header .flecha {
   font-size: 12px;
-  transition: transform 0.2s;
+  transition: transform 0.2s ease;
 }
 
 .acordeon-item.abierto .acordeon-header .flecha {
@@ -1145,4 +1145,13 @@ html, body {
   border-top: 0.5px solid rgba(255,255,255,0.08);
   font-size: 11px;
   color: #6b6b65;
+}
+
+/* Estilo para el botón de navegación activo */
+.nav-tabs .btn-crystal.active {
+  background: rgba(166, 10, 237, 0.2);
+  border-color: rgba(166, 10, 237, 0.5);
+  color: #c060f0;
+  box-shadow: 0 2px 8px rgba(166, 10, 237, 0.2);
+  transition: all 0.2s ease;
 }

@@ -1,4 +1,4 @@
-// ─── ESTADO GLOBAL ENCAPSULADO (FIX #10) ──────────────────────────────────────
+loadUIState// ─── ESTADO GLOBAL ENCAPSULADO (FIX #10) ──────────────────────────────────────
 const STATE = {
   datasets:     {},        // { name: { columns, rows } }
   selectedStats:{},        // { category: [statName, ...] }
@@ -351,17 +351,41 @@ function updateSidebarContext(pageId) {
 function navigateTo(targetId) {
   const target = document.getElementById(targetId);
   if (!target) return;
+
+  // Cambiar página activa
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   target.classList.add('active');
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.toggle('active', t.dataset.target === targetId));
+
+  // Actualizar botón activo en la barra de navegación
+  document.querySelectorAll('.nav-tabs .btn-crystal').forEach(btn => {
+    const btnTarget = btn.getAttribute('data-target');
+    if (btnTarget === targetId) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  // Actualizar el estado del sidebar (Trabajo/Análisis habilitan el menú lateral)
   updateSidebarContext(targetId);
   saveUIState();
 }
+
+
 function setNav(el) { navigateTo(el.dataset.target); }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   loadUIState();
+  // Marcar el botón activo según la página actual
+  const activePage = document.querySelector('.page.active')?.id;
+  if (activePage) {
+    document.querySelectorAll('.nav-tabs .btn-crystal').forEach(btn => {
+      if (btn.getAttribute('data-target') === activePage) {
+        btn.classList.add('active');
+      }
+    });
+  }
   updateAllCounters();
   initDataPreview();
   initDatasetClick();
