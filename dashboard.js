@@ -1,4 +1,4 @@
-loadUIState// ─── ESTADO GLOBAL ENCAPSULADO (FIX #10) ──────────────────────────────────────
+// ─── ESTADO GLOBAL ENCAPSULADO (FIX #10) ──────────────────────────────────────
 const STATE = {
   datasets:     {},        // { name: { columns, rows } }
   selectedStats:{},        // { category: [statName, ...] }
@@ -9,6 +9,7 @@ const STATE = {
   testData: null,         // datos de prueba
   analysisData: null,     // datos seleccionados para análisis
   edaDataset: null,      // dataset seleccionado para EDA (persistente)
+  analysisResults: null, // resultados HTML de análisis ejecutados
 };
 
 // ─── PERSISTENCIA UI ──────────────────────────────────────────────────────────
@@ -24,6 +25,9 @@ function saveUIState() {
       checkedItems:     JSON.parse(JSON.stringify(checked)),
       workDataset:      STATE.workDataset || null,
       edaDataset:     STATE.edaDataset || null,
+      analysisData:   STATE.analysisData || null,
+      analysisResults: STATE.analysisResults || null,
+      selectedStats:   JSON.parse(JSON.stringify(STATE.selectedStats)),
     }));
   } catch(e) { console.warn('saveUIState:', e); }
 }
@@ -44,6 +48,11 @@ function loadUIState() {
     }
     if (s.activePage) navigateTo(s.activePage);
     if (s.checkedItems) Object.assign(checked, s.checkedItems);
+    if (s.selectedStats) {
+      STATE.selectedStats = s.selectedStats;
+      updateAllCounters();
+      renderAnalisisQueuePanel();
+    }
     if (s.activeFloatingMenu && MENUS[s.activeFloatingMenu]) {
       const tab = document.querySelector(`.sb-tab[data-key="${s.activeFloatingMenu}"]`);
       if (tab) setSb(tab);
@@ -61,6 +70,15 @@ function loadUIState() {
     if (s.edaDataset) {
       STATE.edaDataset = s.edaDataset;
       renderEDASelectedBadge();
+    }
+    if (s.analysisData) {
+      STATE.analysisData = s.analysisData;
+      renderAnalysisDataset(s.analysisData);
+    }
+    if (s.analysisResults) {
+      STATE.analysisResults = s.analysisResults;
+      const tableBody = document.getElementById('analysisResultsTableBody');
+      if (tableBody) tableBody.innerHTML = s.analysisResults;
     }
   } catch(e) { 
     console.warn('loadUIState:', e);
@@ -405,8 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
     addDatasetToTable(name, null, STATE.datasets[name]);
   });
   // Estado inicial del sidebar
-  const activePage = document.querySelector('.page.active')?.id || 'page-datos';
-  updateSidebarContext(activePage);
+  updateSidebarContext('page-datos');
 });
 
 // ─── BÚSQUEDA Y FILTRO SINCRONIZADOS (FIX #5) ────────────────────────────────
@@ -2946,7 +2963,8 @@ function ejecutarAnalisisEnDashboard() {
     const tableBody = document.getElementById('analysisResultsTableBody');
     if (tableBody) {
       tableBody.innerHTML = html;
-      //applyAnalysisStyles();
+      STATE.analysisResults = html;
+      saveUIState();
     }
     
     showToast(`Análisis completado: ${allSelected.length} estadístico(s)`, 'ok');

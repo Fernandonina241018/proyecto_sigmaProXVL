@@ -23,8 +23,14 @@ ANTES DE OPTIMIZAR, haz esto:
 
 Eres un experto en prompt engineering especializado en las mejores prácticas de Anthropic. Tu tarea es optimizar el siguiente prompt para maximizar la calidad de las respuestas del modelo.
 
-**Prompt a optimizar:**
+**PASO 1 - TRADUCCIÓN:**
+Primero traduce el prompt del usuario al INGLÉS (excepto si ya está en inglés).
+
+**Prompt original (del usuario):**
 $ARGUMENTS
+
+**Paso 2 - OPTIMIZACIÓN:**
+Ahora optimiza la versión en inglés del prompt usando las técnicas a continuación.
 
 **Aplica TODAS estas técnicas de optimización según corresponda:**
 
