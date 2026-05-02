@@ -409,22 +409,22 @@ html, body {
 
 /* ─── CARDS ───────────────────────────────────────────────────────────────── */
 .cards   { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; min-height: 0; }
-.cards-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; min-height: 0; }
+.cards-3 { display: grid; grid-template-columns: repeat(6,1fr); gap: 6px; min-height: 0; }
 
 .card {
-  background: #3a3a38; border-radius: 9px;
+  background: #3a3a38; border-radius: 7px;
   border: 0.5px solid rgba(255,255,255,0.07);
-  padding: 12px; cursor: pointer;
-  display: flex; flex-direction: column; gap: 6px;
+  padding: 8px; cursor: pointer;
+  display: flex; flex-direction: column; gap: 4px;
   transition: background .2s, border-color .2s, transform .15s;
 }
 .card:hover { background: #444440; border-color: rgba(255,255,255,0.15); transform: translateY(-1px); }
 
-.card-icon  { width: 30px; height: 30px; border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.card-icon svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.5; }
-.card-label { font-size: 11px; color: #6b6b65; }
-.card-value { font-size: clamp(16px, 2vw, 22px); font-weight: 500; color: #f0f0ed; }
-.card-delta { font-size: 11px; color: #6b6b65; }
+.card-icon  { width: 24px; height: 24px; border-radius: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.card-icon svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.card-label { font-size: 10px; color: #6b6b65; }
+.card-value { font-size: clamp(12px, 1.5vw, 16px); font-weight: 500; color: #f0f0ed; }
+.card-delta { font-size: 9px; color: #6b6b65; }
 .card-delta span     { color: #2ecc71; }
 .card-delta span.neg { color: #e8682a; }
 

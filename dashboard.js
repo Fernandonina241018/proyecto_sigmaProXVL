@@ -10,6 +10,9 @@ const STATE = {
   analysisData: null,     // datos seleccionados para análisis
   edaDataset: null,      // dataset seleccionado para EDA (persistente)
   analysisResults: null, // resultados HTML de análisis ejecutados
+  analysisCount: 0,    // número de análisis ejecutados
+  lastAnalysis: null,  // último análisis realizado (nombre + fecha)
+  datasetsUsed: [],   // datasets utilizados en análisis
 };
 
 // ─── PERSISTENCIA UI ──────────────────────────────────────────────────────────
@@ -28,6 +31,9 @@ function saveUIState() {
       analysisData:   STATE.analysisData || null,
       analysisResults: STATE.analysisResults || null,
       selectedStats:   JSON.parse(JSON.stringify(STATE.selectedStats)),
+      analysisCount:   STATE.analysisCount || 0,
+      lastAnalysis:    STATE.lastAnalysis || null,
+      datasetsUsed:    STATE.datasetsUsed || [],
     }));
   } catch(e) { console.warn('saveUIState:', e); }
 }
@@ -78,8 +84,14 @@ function loadUIState() {
     if (s.analysisResults) {
       STATE.analysisResults = s.analysisResults;
       const tableBody = document.getElementById('analysisResultsTableBody');
+      const header = document.getElementById('analysisResultsHeader');
       if (tableBody) tableBody.innerHTML = s.analysisResults;
+      if (header) header.style.display = s.analysisResults ? 'none' : '';
     }
+    if (s.analysisCount) STATE.analysisCount = s.analysisCount;
+    if (s.lastAnalysis) STATE.lastAnalysis = s.lastAnalysis;
+    if (s.datasetsUsed) STATE.datasetsUsed = s.datasetsUsed;
+    updateAnalysisCards();
   } catch(e) { 
     console.warn('loadUIState:', e);
     renderEmptyGrid();
@@ -395,6 +407,7 @@ function setNav(el) { navigateTo(el.dataset.target); }
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   loadUIState();
+  updateAnalysisCards();
   // Marcar el botón activo según la página actual
   const activePage = document.querySelector('.page.active')?.id;
   if (activePage) {
@@ -2869,6 +2882,36 @@ function renderAnalysisDataset(datasets) {
   }
 }
 
+function updateAnalysisCards() {
+  const countVal = document.getElementById('cardAnalisisCountValue');
+  const countDelta = document.getElementById('cardAnalisisCountDelta');
+  const dsVal = document.getElementById('cardDatasetsUsedValue');
+  const dsDelta = document.getElementById('cardDatasetsUsedDelta');
+  const lastVal = document.getElementById('cardLastAnalysisValue');
+  const lastDelta = document.getElementById('cardLastAnalysisDelta');
+  const timeVal = document.getElementById('cardAvgTimeValue');
+  const timeDelta = document.getElementById('cardAvgTimeDelta');
+  
+  if (countVal) countVal.textContent = STATE.analysisCount || 0;
+  if (countDelta) countDelta.textContent = STATE.analysisCount > 0 ? 'persistente' : 'sin datos';
+  
+  if (dsVal) dsVal.textContent = (STATE.datasetsUsed || []).length;
+  if (dsDelta) dsDelta.textContent = (STATE.datasetsUsed || []).length > 0 
+    ? STATE.datasetsUsed.join(', ') 
+    : 'sin datos';
+  
+  if (lastVal && STATE.lastAnalysis) {
+    lastVal.textContent = STATE.lastAnalysis.dataset || '-';
+    lastDelta.textContent = STATE.lastAnalysis.date || '-';
+  } else if (lastVal) {
+    lastVal.textContent = '-';
+    lastDelta.textContent = 'sin ejecutar';
+  }
+  
+  if (timeVal) timeVal.textContent = STATE.analysisCount > 0 ? '<1s' : '-';
+  if (timeDelta) timeDelta.textContent = STATE.analysisCount > 0 ? 'estimado' : 'sin datos';
+}
+
 function runEDAanalysis() {
   if (typeof EDAManager === 'undefined') {
     showToast('EDAManager no disponible', 'error');
@@ -2961,11 +3004,24 @@ function ejecutarAnalisisEnDashboard() {
     const html = EstadisticaDescriptiva.generarHTML(resultados);
     
     const tableBody = document.getElementById('analysisResultsTableBody');
+    const header = document.getElementById('analysisResultsHeader');
     if (tableBody) {
       tableBody.innerHTML = html;
       STATE.analysisResults = html;
-      saveUIState();
+      if (header) header.style.display = html ? 'none' : '';
     }
+    
+    STATE.analysisCount = (STATE.analysisCount || 0) + 1;
+    STATE.lastAnalysis = {
+      name: allSelected.join(', '),
+      dataset: ds.name,
+      date: new Date().toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })
+    };
+    if (!STATE.datasetsUsed.includes(ds.name)) {
+      STATE.datasetsUsed.push(ds.name);
+    }
+    updateAnalysisCards();
+    saveUIState();
     
     showToast(`Análisis completado: ${allSelected.length} estadístico(s)`, 'ok');
   } catch (error) {

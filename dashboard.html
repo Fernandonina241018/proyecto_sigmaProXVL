@@ -385,20 +385,35 @@
           <span style="color:#5fd97a;">📊</span> Dataset para EDA: <b id="edaDatasetName">-</b> <span style="color:#666;" id="edaDatasetInfo">-</span>
         </div>
         <div class="cards-3">
-          <div class="card">
+          <div class="card" id="cardAnalisisCount">
             <div class="card-icon ic-p"><svg viewBox="0 0 16 16"><path d="M2 13L14 3M3 10l2-2M9 6l2-2"/></svg></div>
-            <div class="card-label">Análisis ejecutados</div><div class="card-value">15</div>
-            <div class="card-delta"><span>+3</span> esta sesión</div>
+            <div class="card-label">Análisis ejecutados</div><div class="card-value" id="cardAnalisisCountValue">0</div>
+            <div class="card-delta" id="cardAnalisisCountDelta">sin datos</div>
           </div>
-          <div class="card">
+          <div class="card" id="cardSignificativos">
             <div class="card-icon ic-g"><svg viewBox="0 0 16 16"><path d="M3 8l3 3 7-7"/></svg></div>
-            <div class="card-label">Significativos p&lt;0.05</div><div class="card-value">9</div>
-            <div class="card-delta"><span>60%</span> del total</div>
+            <div class="card-label">Significativos p&lt;0.05</div><div class="card-value" id="cardSignificativosValue">-</div>
+            <div class="card-delta" id="cardSignificativosDelta">0% del total</div>
           </div>
-          <div class="card">
+          <div class="card" id="cardNoSignificativos">
             <div class="card-icon ic-o"><svg viewBox="0 0 16 16"><path d="M8 5v4M8 11v1"/></svg></div>
-            <div class="card-label">No significativos</div><div class="card-value">6</div>
-            <div class="card-delta"><span>revisar</span> hipótesis</div>
+            <div class="card-label">No significativos</div><div class="card-value" id="cardNoSignificativosValue">-</div>
+            <div class="card-delta" id="cardNoSignificativosDelta">sin datos</div>
+          </div>
+          <div class="card" id="cardDatasetsUsed">
+            <div class="card-icon ic-b"><svg viewBox="0 0 16 16"><path d="M3 3h10v10H3zM3 6h10M6 3v10"/></svg></div>
+            <div class="card-label">Datasets utilizados</div><div class="card-value" id="cardDatasetsUsedValue">0</div>
+            <div class="card-delta" id="cardDatasetsUsedDelta">sin datos</div>
+          </div>
+          <div class="card" id="cardLastAnalysis">
+            <div class="card-icon ic-p"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5"/><path d="M8 5v3l2 2"/></svg></div>
+            <div class="card-label">Último análisis</div><div class="card-value" id="cardLastAnalysisValue">-</div>
+            <div class="card-delta" id="cardLastAnalysisDelta">sin ejecutar</div>
+          </div>
+          <div class="card" id="cardAvgTime">
+            <div class="card-icon ic-g"><svg viewBox="0 0 16 16"><path d="M8 2v6l4 2"/></svg></div>
+            <div class="card-label">Tiempo promedio</div><div class="card-value" id="cardAvgTimeValue">-</div>
+            <div class="card-delta" id="cardAvgTimeDelta">sin datos</div>
           </div>
 </div>
         <div class="bottom-grid wide">
@@ -406,7 +421,7 @@
             <div class="panel-label">Resultados de Análisis</div>
             <div style="overflow:auto;flex:1;" id="analisisResultsWrap">
               <table class="data-table" id="analysisResultsContent">
-                <thead><tr><th colspan="5" style="text-align:center;color:#6b6b65;padding:48px 16px;font-size:13px;">
+                <thead id="analysisResultsHeader"><tr><th colspan="5" style="text-align:center;color:#6b6b65;padding:48px 16px;font-size:13px;">
                   Sin resultados aún<br>
                   <span style="font-size:11px;opacity:0.6;">Selecciona análisis del menú lateral y presiona "Ejecutar"</span>
                 </th></tr></thead>
