@@ -4329,15 +4329,15 @@ function generarHTML(analisisResultado) {
                     <div class="ar-kpi-col-label" style="font-size:0.95rem;margin-bottom:10px;">📊 PCA - Análisis de Componentes Principales</div>
                     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:0.8rem;">
                         <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
-                            <div style="color:#666;font-size:0.7rem;">Observaciones</div>
+                            <div style="color:#aaa;font-size:0.7rem;">Observaciones</div>
                             <div style="font-weight:bold;font-size:0.95rem;">${data.nObservaciones || '—'}</div>
                         </div>
                         <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
-                            <div style="color:#666;font-size:0.7rem;">Variables</div>
+                            <div style="color:#aaa;font-size:0.7rem;">Variables</div>
                             <div style="font-weight:bold;font-size:0.95rem;">${data.nVariables || '—'}</div>
                         </div>
                         <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
-                            <div style="color:#666;font-size:0.7rem;">Componentes</div>
+                            <div style="color:#aaa;font-size:0.7rem;">Componentes</div>
                             <div style="font-weight:bold;font-size:0.95rem;">${nComp}</div>
                         </div>
                         <div style="background:#e8f5e9;padding:8px;border-radius:4px;text-align:center;">
@@ -4392,13 +4392,13 @@ function generarHTML(analisisResultado) {
                 <div class="ar-kpi-card" style="margin-bottom:16px;max-width:100%;overflow:hidden;">
                     <div class="ar-kpi-col-label" style="font-size:0.95rem;margin-bottom:10px;">📊 Análisis Factorial - Resumen</div>
                     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:0.8rem;">
-                        <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;"><div style="color:#666;font-size:0.7rem;">Observaciones</div><div style="font-weight:bold;font-size:0.95rem;">${data.nObservaciones || '—'}</div></div>
-                        <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;"><div style="color:#666;font-size:0.7rem;">Variables</div><div style="font-weight:bold;font-size:0.95rem;">${data.nVariables || '—'}</div></div>
-                        <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;"><div style="color:#666;font-size:0.7rem;">Factores</div><div style="font-weight:bold;font-size:0.95rem;">${nFact}</div></div>
+                        <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;"><div style="color:#aaa;font-size:0.7rem;">Observaciones</div><div style="font-weight:bold;font-size:0.95rem;">${data.nObservaciones || '—'}</div></div>
+                        <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;"><div style="color:#aaa;font-size:0.7rem;">Variables</div><div style="font-weight:bold;font-size:0.95rem;">${data.nVariables || '—'}</div></div>
+                        <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;"><div style="color:#aaa;font-size:0.7rem;">Factores</div><div style="font-weight:bold;font-size:0.95rem;">${nFact}</div></div>
                         <div style="background:#e8f5e9;padding:8px;border-radius:4px;text-align:center;"><div style="color:#2e7d32;font-size:0.7rem;">KMO</div><div style="font-weight:bold;font-size:0.95rem;">${kmo > 0 ? kmo.toFixed(3) : '—'}</div></div>
                     </div>
                 </div>
-                ${bartlett && bartlett.chi2 ? `<div class="ar-kpi-card" style="margin-top:8px;"><div class="ar-kpi-col-label" style="font-size:0.9rem;">📐 Test de Bartlett</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:0.8rem;"><div style="background:#f5f5f5;padding:6px;border-radius:4px;text-align:center;"><div style="color:#666;font-size:0.7rem;">χ²</div><div style="font-weight:bold;">${bartlett.chi2?.toFixed(2) || '—'}</div></div><div style="background:#f5f5f5;padding:6px;border-radius:4px;text-align:center;"><div style="color:#666;font-size:0.7rem;">gl</div><div style="font-weight:bold;">${bartlett.df || '—'}</div></div><div style="background:#e8f5e9;padding:6px;border-radius:4px;text-align:center;"><div style="color:#2e7d32;font-size:0.7rem;">Valor p</div><div style="font-weight:bold;">${bartlett.pValue?.toFixed(4) || '—'}</div></div></div></div>` : ''}
+                ${bartlett && bartlett.chi2 ? `<div class="ar-kpi-card" style="margin-top:8px;"><div class="ar-kpi-col-label" style="font-size:0.9rem;">📐 Test de Bartlett</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:0.8rem;"><div style="background:#f5f5f5;padding:6px;border-radius:4px;text-align:center;"><div style="color:#aaa;font-size:0.7rem;">χ²</div><div style="font-weight:bold;">${bartlett.chi2?.toFixed(2) || '—'}</div></div><div style="background:#f5f5f5;padding:6px;border-radius:4px;text-align:center;"><div style="color:#aaa;font-size:0.7rem;">gl</div><div style="font-weight:bold;">${bartlett.df || '—'}</div></div><div style="background:#e8f5e9;padding:6px;border-radius:4px;text-align:center;"><div style="color:#2e7d32;font-size:0.7rem;">Valor p</div><div style="font-weight:bold;">${bartlett.pValue?.toFixed(4) || '—'}</div></div></div></div>` : ''}
                 <div class="ar-kpi-card" style="margin-top:8px;overflow-x:auto;">
                     <div class="ar-kpi-col-label" style="font-size:0.9rem;">📈 Matriz de Cargas Factoriales</div>
                     <table style="width:100%;border-collapse:collapse;font-size:0.75rem;min-width:300px;">
@@ -4868,7 +4868,7 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Bloques</span><span class="ar-kpi-sub-v">${data.bloques ?? '—'}</span></div>
                     </div>
                     <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
-                    <div style="margin-top:8px;font-size:0.75rem;color:#666;">Rangos: ${tratamientosInfo}</div>
+                    <div style="margin-top:8px;font-size:0.75rem;color:#aaa;">Rangos: ${tratamientosInfo}</div>
                     </div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
         }
@@ -4921,14 +4921,14 @@ function generarHTML(analisisResultado) {
     // 1. KPIs GLOBALES (resumen rápido)
     // ────────────────────────────────────────────────────────────────────────────
     let html = `
-    <div class="resultados-globales" style="background:#2d2d2a; border-radius:10px; padding:12px; margin-bottom:20px;">
+    <div class="resultados-globales" style="background:transparent; border-radius:10px; padding:12px; margin-bottom:20px;">
         <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:center;">
-            <div><span style="color:#6b6b65;">📊 Columnas numéricas</span><br><strong style="font-size:18px;">${cols.length}</strong></div>
-            <div><span style="color:#6b6b65;">📈 Estadísticos ejecutados</span><br><strong style="font-size:18px;">${statKeys.length}</strong></div>
-            <div><span style="color:#6b6b65;">🔬 Filas analizadas</span><br><strong style="font-size:18px;">${analisisResultado.totalFilas}</strong></div>
+            <div><span style="color:#c4c4be;">📊 Columnas numéricas</span><br><strong style="font-size:20px;color:#f0f0ed;">${cols.length}</strong></div>
+            <div><span style="color:#c4c4be;">📈 Estadísticos ejecutados</span><br><strong style="font-size:20px;color:#f0f0ed;">${statKeys.length}</strong></div>
+            <div><span style="color:#c4c4be;">🔬 Filas analizadas</span><br><strong style="font-size:20px;color:#f0f0ed;">${analisisResultado.totalFilas}</strong></div>
         </div>
     </div>`;
-    
+
     // ────────────────────────────────────────────────────────────────────────────
     // 2. ACORDEÓN: un bloque por cada estadístico seleccionado
     // ────────────────────────────────────────────────────────────────────────────
@@ -5022,7 +5022,7 @@ function generarHTML(analisisResultado) {
                 <div class="ar-note-desc">Si configuraste umbrales en <strong>Parámetros → Dispersión</strong>, se mostrarán semáforos 🟢/🟡/🔴 junto a los valores.</div>
             </div>
         </div>
-        <div style="margin-top:12px; font-size:10px; color:#6b6b65; text-align:center;">
+        <div style="margin-top:12px; font-size:10px; color:#888; text-align:center;">
             Reporte generado automáticamente por StatLab · ${new Date().toLocaleString('es-ES')}
         </div>
     </div>`;

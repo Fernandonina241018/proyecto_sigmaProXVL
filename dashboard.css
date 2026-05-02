@@ -1155,3 +1155,45 @@ html, body {
   box-shadow: 0 2px 8px rgba(166, 10, 237, 0.2);
   transition: all 0.2s ease;
 }
+
+/* Override para referencias bibliográficas en tema oscuro */
+.ar-note-referencia,
+.ar-nota-referencia {
+  background: transparent !important;
+  color: #c4c4be !important;
+  border-left-color: #6c5ce7 !important;
+}
+.ar-note-referencia strong,
+.ar-nota-referencia strong {
+  color: #f0f0ed !important;
+}
+
+/* Override general para contenido del acordeón y KPIs en tema oscuro */
+#analysisResultsTableBody .ar-kpi-card,
+#analysisResultsTableBody .ar-note-referencia,
+#analysisResultsTableBody .ar-nota-referencia,
+#analysisResultsTableBody .ar-kpi-col-label,
+#analysisResultsTableBody .ar-kpi-val {
+  background: transparent !important;
+  color: #c4c4be !important;
+}
+#analysisResultsTableBody .ar-kpi-col-label,
+#analysisResultsTableBody .ar-kpi-val {
+  color: #f0f0ed !important;
+}
+
+/* KPIs globales - fila arriba del acordeón */
+#analysisResultsTableBody .resultados-globales {
+  background: transparent !important;
+}
+#analysisResultsTableBody .resultados-globales span,
+#analysisResultsTableBody .resultados-globales strong {
+  color: #f0f0ed !important;
+}
+
+/* Todos los elementos de metadata en resultados */
+#analysisResultsTableBody .ar-panel-n,
+#analysisResultsTableBody .ar-meta-chip {
+  color: #c4c4be !important;
+  background: transparent !important;
+}
