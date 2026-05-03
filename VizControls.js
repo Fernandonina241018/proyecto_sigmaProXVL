@@ -618,7 +618,7 @@ const VizControls = (() => {
     buildUI('viz-controls-container');
   }
 
-  return { buildUI, toggleAccordion, loadSampleData, viewChart };
+  return { buildUI, toggleAccordion, loadSampleData, viewChart, openModal };
 })();
 
 console.log('✅ VizControls cargado');
