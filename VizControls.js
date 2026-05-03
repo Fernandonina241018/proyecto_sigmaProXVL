@@ -62,6 +62,25 @@ const VizControls = (() => {
   }
 
   function getData() {
+    const prefs = loadPrefs();
+    const dataSource = prefs.dataSource || 'current';
+
+    if (dataSource === 'current' || dataSource === 'imported') {
+      if (typeof STATE !== 'undefined' && STATE.workDataset && STATE.workDataset.rows?.length > 0) {
+        return { headers: STATE.workDataset.columns, data: STATE.workDataset.rows, name: STATE.workDataset.name };
+      }
+      if (typeof StateManager !== 'undefined' && StateManager.getActiveSheet) {
+        const sheet = StateManager.getActiveSheet();
+        if (sheet && sheet.headers && sheet.data) return sheet;
+      }
+    }
+
+    if (dataSource === 'analysis') {
+      if (typeof ultimosResultados !== 'undefined' && ultimosResultados && ultimosResultados.resultados) {
+        return buildDataFromResultados(ultimosResultados);
+      }
+    }
+
     if (typeof STATE !== 'undefined' && STATE.workDataset && STATE.workDataset.rows?.length > 0) {
       return { headers: STATE.workDataset.columns, data: STATE.workDataset.rows, name: STATE.workDataset.name };
     }
@@ -76,10 +95,17 @@ const VizControls = (() => {
   }
 
   function getNumericColumns(data) {
-    if (!data || !data.headers) return [];
+    if (!data || !data.headers || !data.data || data.data.length === 0) return [];
     return data.headers.filter(h => {
-      const val = parseFloat(data.data[0]?.[h]);
-      return !isNaN(val);
+      const sampleSize = Math.min(10, data.data.length);
+      for (let i = 0; i < sampleSize; i++) {
+        const val = data.data[i]?.[h];
+        if (val !== null && val !== undefined && val !== '') {
+          const parsed = parseFloat(val);
+          if (!isNaN(parsed) && isFinite(parsed)) return true;
+        }
+      }
+      return false;
     });
   }
 
