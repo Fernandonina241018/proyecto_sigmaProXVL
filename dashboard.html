@@ -6,6 +6,7 @@
   <title>StatLab</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
 
@@ -415,7 +416,7 @@
             <div class="card-label">Tiempo promedio</div><div class="card-value" id="cardAvgTimeValue">-</div>
             <div class="card-delta" id="cardAvgTimeDelta">sin datos</div>
           </div>
-</div>
+        </div>
         <div class="bottom-grid wide">
           <div class="panel" style="flex:4;">
             <div class="panel-label">Resultados de Análisis</div>
@@ -463,25 +464,48 @@
             <div class="card-label">En reporte</div><div class="card-value">5</div>
             <div class="card-delta"><span>incluidos</span></div>
           </div>
-        </div>
-        <div class="bottom-grid">
-          <div class="panel">
-            <div class="panel-label">Actividad — frecuencia de variables</div>
-            <div class="chart-area" id="chartViz"></div>
+          <div class="card">
+            <div class="card-icon ic-p"><svg viewBox="0 0 16 16"><path d="M2 12l4-4 3 3 5-6"/></svg></div>
+            <div class="card-label">Generados</div><div class="card-value">8</div>
+            <div class="card-delta"><span>+2</span> esta sesión</div>
           </div>
-          <div class="panel">
-            <div class="panel-label">Galería de gráficos</div>
-            <div style="overflow:auto;flex:1;">
-              <table class="data-table">
-                <thead><tr><th>Gráfico</th><th>Tipo</th><th>Variables</th></tr></thead>
-                <tbody>
-                  <tr><td>Dispersión ingreso/edad</td><td><span class="tag">Scatter</span></td><td>ingreso, edad</td></tr>
-                  <tr><td>Histograma residuos</td><td><span class="tag">Hist</span></td><td>e_i</td></tr>
-                  <tr><td>Boxplot por región</td><td><span class="tag">Box</span></td><td>salario, región</td></tr>
-                  <tr><td>Mapa de correlación</td><td><span class="tag">Heatmap</span></td><td>12 vars</td></tr>
-                  <tr><td>Q-Q normalidad</td><td><span class="tag">QQ</span></td><td>residuos</td></tr>
-                </tbody>
-              </table>
+          <div class="card">
+            <div class="card-icon ic-b"><svg viewBox="0 0 16 16"><rect x="2" y="8" width="3" height="5"/><rect x="6.5" y="5" width="3" height="8"/><rect x="11" y="2" width="3" height="11"/></svg></div>
+            <div class="card-label">Exportados</div><div class="card-value">3</div>
+            <div class="card-delta"><span>PNG · SVG</span></div>
+          </div>
+          <div class="card">
+            <div class="card-icon ic-g"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5"/><path d="M8 3v5l3 3"/></svg></div>
+            <div class="card-label">En reporte</div><div class="card-value">5</div>
+            <div class="card-delta"><span>incluidos</span></div>
+          </div>
+        </div>
+        <div class="viz-wrapper">
+          <div class="viz-sidebar">
+            <div class="panel">
+              <div class="panel-label">Controles</div>
+              <div style="overflow:auto;flex:1;">
+                <p style="color:#6b6b65;font-size:12px;">Selecciona tipo de gráfico y columnas</p>
+              </div>
+            </div>
+          </div>
+          <div class="viz-main">
+            <div class="panel">
+              <div class="panel-label">Vista del gráfico</div>
+              <div class="chart-area" id="chartViz"></div>
+            </div>
+          </div>
+          <div class="viz-sidebar-right">
+            <div class="panel">
+              <div class="panel-label">Galería</div>
+              <div style="overflow:auto;flex:1;">
+                <table class="data-table">
+                  <thead><tr><th>Gráfico</th><th>Tipo</th></tr></thead>
+                  <tbody>
+                    <tr><td>Sin gráficos</td><td><span class="tag">-</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -635,6 +659,7 @@
 <script src="dist/StatsUtils.js"></script>
 <script src="EstadisticaDescriptiva.js"></script>
 <script src="EDAManager.js"></script>
+<script src="VizControls.js"></script>
 <script src="dashboard.js"></script>
 
 </body>
