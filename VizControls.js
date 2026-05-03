@@ -407,11 +407,11 @@ const VizControls = (() => {
             <h3 style="color:#e0e0e0;margin:0;">${typeLabels[type] || type}</h3>
             <button onclick="document.getElementById('viz-modal-overlay').remove()" style="background:none;border:none;color:#9e9e98;font-size:24px;cursor:pointer;">&times;</button>
           </div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;">
+          <div style="display:flex;flex-direction:column;gap:8px;">
             ${charts.map((c, i) => `
-              <div style="background:#3a3a38;padding:12px;border-radius:8px;cursor:pointer;" onclick="VizControls.viewChart(${c.id});document.getElementById('viz-modal-overlay').remove();">
-                <canvas id="modal-chart-${c.id}" style="width:100%;height:150px;"></canvas>
-                <div style="color:#9e9e98;font-size:12px;text-align:center;margin-top:8px;">${c.title}</div>
+              <div style="background:#3a3a38;padding:12px;border-radius:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;" onclick="VizControls.viewChart(${c.id});document.getElementById('viz-modal-overlay').remove();">
+                <span style="color:#e0e0e0;">${c.title}</span>
+                <span class="tag" style="background:#5c6bc0;color:#fff;">Ver</span>
               </div>
             `).join('')}
           </div>
@@ -420,16 +420,6 @@ const VizControls = (() => {
     `;
 
     document.body.insertAdjacentHTML('beforeend', modalHtml);
-
-    setTimeout(() => {
-      charts.forEach(c => {
-        const canvas = document.getElementById(`modal-chart-${c.id}`);
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        const tempChart = createMiniChart(ctx, c.type, c.colX, c.colY, prefs.bins || 10, prefs);
-        setTimeout(() => tempChart?.destroy(), 100);
-      });
-    }, 100);
   }
 
   function createMiniChart(ctx, type, colX, colY, bins, prefs) {
