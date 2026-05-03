@@ -114,7 +114,9 @@ const VizControls = (() => {
     if (!container) return;
 
     currentData = getData();
+    console.log('📊 VizControls - getData():', currentData ? `${currentData.name} (${currentData.headers?.length} cols, ${currentData.data?.length} rows)` : 'NULL');
     const numericCols = currentData ? getNumericColumns(currentData) : [];
+    console.log('📊 VizControls - numericCols:', numericCols);
     const prefs = loadPrefs();
 
     container.innerHTML = `
