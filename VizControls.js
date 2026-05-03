@@ -466,11 +466,13 @@ const VizControls = (() => {
   function renderChart(type, colX, colY, bins, prefs) {
     let canvas = document.getElementById('viz-canvas');
     if (!canvas) {
-      const main = document.querySelector('.viz-main .panel > div');
-      if (main) {
-        main.style.padding = '0';
-        main.style.display = 'block';
-        main.innerHTML = `<canvas id="viz-canvas" style="width:100%;height:100%;display:block;"></canvas>`;
+      const chartArea = document.getElementById('chartViz');
+      if (chartArea) {
+        chartArea.innerHTML = '';
+        chartArea.style.width = '100%';
+        chartArea.style.height = '100%';
+        chartArea.style.padding = '0';
+        chartArea.innerHTML = `<canvas id="viz-canvas" style="width:100%;height:100%;"></canvas>`;
         canvas = document.getElementById('viz-canvas');
       }
     }
