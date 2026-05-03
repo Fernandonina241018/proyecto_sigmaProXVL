@@ -97,10 +97,10 @@ const VizControls = (() => {
   function getNumericColumns(data) {
     if (!data || !data.headers || !data.data || data.data.length === 0) return [];
     console.log('🔍 data.data sample:', data.data.slice(0, 3));
-    const result = data.headers.filter(h => {
+    const result = data.headers.filter((h, idx) => {
       const sampleSize = Math.min(10, data.data.length);
       for (let i = 0; i < sampleSize; i++) {
-        const val = data.data[i]?.[h];
+        const val = data.data[i]?.[idx];
         if (val !== null && val !== undefined && val !== '') {
           const parsed = parseFloat(val);
           if (!isNaN(parsed) && isFinite(parsed)) return true;
@@ -333,8 +333,10 @@ const VizControls = (() => {
 
     if (chartInstance) chartInstance.destroy();
 
-    const xValues = currentData.data.map(r => parseFloat(r[colX])).filter(v => !isNaN(v));
-    const labels = currentData.data.map(r => r[colX]);
+    const colXIdx = currentData.headers.indexOf(colX);
+    const colYIdx = colY ? currentData.headers.indexOf(colY) : -1;
+    const xValues = currentData.data.map(r => parseFloat(r[colXIdx])).filter(v => !isNaN(v));
+    const labels = currentData.data.map(r => r[colXIdx]);
 
     let chartConfig = {
       type: 'bar',
@@ -365,7 +367,7 @@ const VizControls = (() => {
         break;
       case 'dispersion':
         chartConfig.type = 'scatter';
-        const scatterData = currentData.data.slice(0, 100).map(r => ({ x: parseFloat(r[colX]), y: parseFloat(r[colY]) })).filter(p => !isNaN(p.x) && !isNaN(p.y));
+        const scatterData = currentData.data.slice(0, 100).map(r => ({ x: parseFloat(r[colXIdx]), y: parseFloat(r[colYIdx]) })).filter(p => !isNaN(p.x) && !isNaN(p.y));
         chartConfig.data = { datasets: [{ label: `${colX} vs ${colY}`, data: scatterData, backgroundColor: COLORS.primary + '99', borderColor: COLORS.primary }] };
         break;
       case 'lineas':
