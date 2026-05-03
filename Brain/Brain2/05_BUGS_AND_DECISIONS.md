@@ -182,3 +182,15 @@
 4. Agregar plantilla en `generarHTML()`
 5. Agregar caso en `ReporteManager.js`
 6. Probar y documentar
+
+---
+
+### 2026-05-02 — `VizControls.js` — 🟡 MEDIO
+
+#### BUG — No se cargaban datos del último análisis
+**Severidad:** 🟡 Medio  
+**Causa raíz:** La función `getData()` de VizControls solo buscaba datos en `STATE.workDataset` y `StateManager.getActiveSheet()`, pero no consultaba la variable global `ultimosResultados` donde se almacenan los resultados del análisis estadístico.  
+**Fix:** Se agregó fallback para `ultimosResultados` con la función `buildDataFromResultados()` que convierte los resultados a formato de datos compatible.  
+**Impacto:** Los gráficos en la página de visualización no mostraban datos cuando solo existía el resultado del análisis.  
+**Archivos:** `VizControls.js` → funciones `buildDataFromResultados()`, `getData()`  
+**Fecha:** 2 Mayo 2026
