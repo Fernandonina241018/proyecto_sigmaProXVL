@@ -468,7 +468,7 @@ const VizControls = (() => {
     if (!canvas) {
       const main = document.querySelector('.viz-main .panel > div');
       if (main) {
-        main.innerHTML = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"><canvas id="viz-canvas"></canvas></div>`;
+        main.innerHTML = `<div style="width:100%;height:100%;position:relative;"><canvas id="viz-canvas" style="width:100%;height:100%;"></canvas></div>`;
         canvas = document.getElementById('viz-canvas');
       }
     }
