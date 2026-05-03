@@ -330,17 +330,6 @@ function showToast(msg, type = 'ok') {
   setTimeout(() => { t.style.transform = 'translateX(110%)'; setTimeout(() => t.remove(), 350); }, 3000);
 }
 
-// ─── CHART ────────────────────────────────────────────────────────────────────
-const bvals = [45,70,30,85,55,60,40,75,20,90];
-const ca = document.getElementById('chartViz');
-if (ca) bvals.forEach((h,i) => {
-  const b = document.createElement('div');
-  b.className = 'bar' + (i===9?' hi':'');
-  b.style.height = h+'%';
-  b.onclick = () => { document.querySelectorAll('#chartViz .bar').forEach(x=>x.classList.remove('hi')); b.classList.add('hi'); };
-  ca.appendChild(b);
-});
-
 // ─── NOTCH ────────────────────────────────────────────────────────────────────
 const nb     = document.getElementById('nb');
 const notch  = document.getElementById('notch');
@@ -423,6 +412,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initDragDrop();
   initMenusFromConfig();
   initGridPasteListener();
+  initVizControls();
   // Guardar antes de cualquier cierre/reload
   window.addEventListener('beforeunload', () => saveUIState());
   // Guardar periódicamente cada 2 segundos
@@ -3395,4 +3385,47 @@ function expandirTodoAcordeon() {
     if (allExpanded) item.classList.remove('abierto');
     else item.classList.add('abierto');
   });
+}
+
+// ─── CHART GALLERY (FRONTEND ONLY) ───────────────────────────────────────────
+function selectAllCharts() {
+  const items = document.querySelectorAll('.gallery-item');
+  items.forEach(item => item.querySelector('input').checked = true);
+}
+
+function deselectAllCharts() {
+  const items = document.querySelectorAll('.gallery-item');
+  items.forEach(item => item.querySelector('input').checked = false);
+}
+
+function applySelectedCharts() {
+  const checked = document.querySelectorAll('.gallery-item input:checked');
+  const selected = Array.from(checked).map(c => c.value);
+  console.log('Gráficos seleccionados:', selected);
+  alert('Gráficos seleccionados: ' + selected.length);
+}
+
+function populateChartGallery(charts) {
+  const container = document.getElementById('chartGalleryList');
+  if (!container) return;
+  if (!charts || charts.length === 0) {
+    container.innerHTML = '<div class="gallery-empty">Sin gráficos generados</div>';
+    return;
+  }
+  container.innerHTML = charts.map(c => `
+    <div class="gallery-item">
+      <input type="checkbox" value="${c.name}" id="chart-${c.id}">
+      <span class="gallery-item-name">${c.name}</span>
+      <span class="gallery-item-type">${c.type}</span>
+    </div>
+  `).join('');
+}
+
+function initVizControls() {
+  if (typeof VizControls === 'undefined') return;
+  const sidebar = document.querySelector('.viz-sidebar .panel > div');
+  if (sidebar) {
+    sidebar.id = 'viz-controls-container';
+    VizControls.buildUI('viz-controls-container');
+  }
 }
