@@ -5,6 +5,7 @@
 const VizControls = (() => {
   let chartInstance = null;
   let currentData = null;
+  let generatedCharts = [];
   const STORAGE_KEY = 'vizControlsPrefs';
 
   const COLORS = {
@@ -321,6 +322,8 @@ const VizControls = (() => {
     const generated = [];
 
     clearChart();
+    generatedCharts = [];
+    renderGallery();
 
     let delay = 0;
     typesToGenerate.forEach(type => {
@@ -330,11 +333,13 @@ const VizControls = (() => {
             numericCols.forEach(colY => {
               if (colY !== colX) {
                 renderChart(type, colX, colY, bins, prefs);
+                addToGallery(type, colX, colY);
                 generated.push({ type, colX, colY });
               }
             });
           } else {
             renderChart(type, colX, null, bins, prefs);
+            addToGallery(type, colX, null);
             generated.push({ type, colX });
           }
         }, delay * 500);
@@ -354,6 +359,36 @@ const VizControls = (() => {
       chartInstance = null;
     }
     document.querySelector('.viz-main canvas')?.remove();
+  }
+
+  function addToGallery(type, colX, colY) {
+    const id = Date.now();
+    const title = colY ? `${colX} vs ${colY}` : colX;
+    const label = type.charAt(0).toUpperCase() + type.slice(1);
+    generatedCharts.push({ id, type, colX, colY, title });
+    renderGallery();
+  }
+
+  function renderGallery() {
+    const tbody = document.getElementById('viz-gallery-body');
+    if (!tbody) return;
+    if (generatedCharts.length === 0) {
+      tbody.innerHTML = '<tr><td>Sin gráficos</td><td><span class="tag">-</span></td></tr>';
+      return;
+    }
+    tbody.innerHTML = generatedCharts.map(g => `
+      <tr onclick="VizControls.viewChart(${g.id})" style="cursor:pointer;">
+        <td>${g.title}</td>
+        <td><span class="tag">${g.type}</span></td>
+      </tr>
+    `).join('');
+  }
+
+  function viewChart(id) {
+    const chart = generatedCharts.find(c => c.id === id);
+    if (!chart) return;
+    const prefs = loadPrefs();
+    renderChart(chart.type, chart.colX, chart.colY, prefs.bins || 10, prefs);
   }
 
   function renderChart(type, colX, colY, bins, prefs) {
@@ -501,7 +536,7 @@ const VizControls = (() => {
     buildUI('viz-controls-container');
   }
 
-  return { buildUI, toggleAccordion, loadSampleData };
+  return { buildUI, toggleAccordion, loadSampleData, viewChart };
 })();
 
 console.log('✅ VizControls cargado');
