@@ -96,7 +96,8 @@ const VizControls = (() => {
 
   function getNumericColumns(data) {
     if (!data || !data.headers || !data.data || data.data.length === 0) return [];
-    return data.headers.filter(h => {
+    console.log('🔍 data.data sample:', data.data.slice(0, 3));
+    const result = data.headers.filter(h => {
       const sampleSize = Math.min(10, data.data.length);
       for (let i = 0; i < sampleSize; i++) {
         const val = data.data[i]?.[h];
@@ -107,6 +108,8 @@ const VizControls = (() => {
       }
       return false;
     });
+    console.log('🔍 numericCols result:', result);
+    return result;
   }
 
   function buildUI(containerId) {
