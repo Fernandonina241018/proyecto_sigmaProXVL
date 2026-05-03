@@ -230,6 +230,9 @@ const VizControls = (() => {
         <div class="viz-actions">
           <button class="btn-crystal" id="viz-export">Exportar PNG</button>
         </div>
+        <div class="viz-actions">
+          <button class="btn-crystal" id="viz-generate-all" ${!currentData || numericCols.length === 0 ? 'disabled' : ''}>Generar Todos</button>
+        </div>
       </div>
     `;
 
@@ -247,6 +250,7 @@ const VizControls = (() => {
     document.getElementById('viz-generate')?.addEventListener('click', generateChart);
     document.getElementById('viz-clear')?.addEventListener('click', clearChart);
     document.getElementById('viz-export')?.addEventListener('click', exportChart);
+    document.getElementById('viz-generate-all')?.addEventListener('click', generateAllCharts);
     document.getElementById('viz-zoom')?.addEventListener('input', (e) => {
       document.getElementById('viz-zoom-val').textContent = e.target.value + '%';
       savePrefs({ zoom: parseInt(e.target.value) });
@@ -304,6 +308,44 @@ const VizControls = (() => {
     }
 
     renderChart(type, colX, colY, bins, prefs);
+  }
+
+  function generateAllCharts() {
+    if (!currentData) { alert('No hay datos cargados'); return; }
+    const numericCols = getNumericColumns(currentData);
+    if (numericCols.length === 0) { alert('No hay columnas numéricas'); return; }
+
+    const prefs = loadPrefs();
+    const bins = prefs.bins || 10;
+    const typesToGenerate = ['barras', 'histograma', 'lineas'];
+    const generated = [];
+
+    clearChart();
+
+    let delay = 0;
+    typesToGenerate.forEach(type => {
+      numericCols.forEach(colX => {
+        setTimeout(() => {
+          if (type === 'dispersion' && numericCols.length > 1) {
+            numericCols.forEach(colY => {
+              if (colY !== colX) {
+                renderChart(type, colX, colY, bins, prefs);
+                generated.push({ type, colX, colY });
+              }
+            });
+          } else {
+            renderChart(type, colX, null, bins, prefs);
+            generated.push({ type, colX });
+          }
+        }, delay * 500);
+        delay++;
+      });
+    });
+
+    setTimeout(() => {
+      alert(`✅ Generados ${generated.length} gráficos. Revisa la consola para ver la lista.`);
+      console.log('📊 Gráficos generados:', generated);
+    }, delay * 500 + 500);
   }
 
   function clearChart() {
