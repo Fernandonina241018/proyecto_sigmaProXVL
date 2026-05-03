@@ -376,12 +376,94 @@ const VizControls = (() => {
       tbody.innerHTML = '<tr><td>Sin gráficos</td><td><span class="tag">-</span></td></tr>';
       return;
     }
-    tbody.innerHTML = generatedCharts.map(g => `
-      <tr onclick="VizControls.viewChart(${g.id})" style="cursor:pointer;">
-        <td>${g.title}</td>
-        <td><span class="tag">${g.type}</span></td>
+
+    const grouped = {};
+    generatedCharts.forEach(g => {
+      if (!grouped[g.type]) grouped[g.type] = [];
+      grouped[g.type].push(g);
+    });
+
+    const typeLabels = { barras: 'Barras', histograma: 'Histograma', lineas: 'Líneas', dispersion: 'Dispersión' };
+
+    tbody.innerHTML = Object.entries(grouped).map(([type, charts]) => `
+      <tr onclick="VizControls.openModal('${type}')" style="cursor:pointer;background:rgba(92,107,192,0.1);">
+        <td><b>${typeLabels[type] || type}</b> (${charts.length})</td>
+        <td><span class="tag" style="background:#5c6bc0;color:#fff;">Ver</span></td>
       </tr>
     `).join('');
+  }
+
+  function openModal(type) {
+    const charts = generatedCharts.filter(c => c.type === type);
+    if (charts.length === 0) return;
+
+    const typeLabels = { barras: 'Gráficos de Barras', histograma: 'Histogramas', lineas: 'Gráficos de Líneas', dispersion: 'Diagramas de Dispersión' };
+    const prefs = loadPrefs();
+
+    const modalHtml = `
+      <div id="viz-modal-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:9999;display:flex;align-items:center;justify-content:center;" onclick="if(event.target===this)this.remove()">
+        <div style="background:#2a2a2a;padding:20px;border-radius:12px;max-width:90vw;max-height:90vh;overflow:auto;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+            <h3 style="color:#e0e0e0;margin:0;">${typeLabels[type] || type}</h3>
+            <button onclick="document.getElementById('viz-modal-overlay').remove()" style="background:none;border:none;color:#9e9e98;font-size:24px;cursor:pointer;">&times;</button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;">
+            ${charts.map((c, i) => `
+              <div style="background:#3a3a38;padding:12px;border-radius:8px;cursor:pointer;" onclick="VizControls.viewChart(${c.id});document.getElementById('viz-modal-overlay').remove();">
+                <canvas id="modal-chart-${c.id}" style="width:100%;height:150px;"></canvas>
+                <div style="color:#9e9e98;font-size:12px;text-align:center;margin-top:8px;">${c.title}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+    setTimeout(() => {
+      charts.forEach(c => {
+        const canvas = document.getElementById(`modal-chart-${c.id}`);
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const tempChart = createMiniChart(ctx, c.type, c.colX, c.colY, prefs.bins || 10, prefs);
+        setTimeout(() => tempChart?.destroy(), 100);
+      });
+    }, 100);
+  }
+
+  function createMiniChart(ctx, type, colX, colY, bins, prefs) {
+    if (!currentData || !ctx) return null;
+    const colXIdx = currentData.headers.indexOf(colX);
+    const colYIdx = colY ? currentData.headers.indexOf(colY) : -1;
+    const data = currentData.data.slice(0, 20);
+    const labels = data.map(r => r[colXIdx]);
+    const values = data.map(r => parseFloat(r[colXIdx])).filter(v => !isNaN(v));
+
+    const isLight = prefs.theme === 'light';
+    const textColor = isLight ? '#333' : COLORS.text;
+
+    const chartType = type === 'dispersion' ? 'scatter' : (type === 'lineas' ? 'line' : 'bar');
+
+    return new Chart(ctx, {
+      type: chartType,
+      data: {
+        labels: type === 'dispersion' ? undefined : labels,
+        datasets: [{
+          label: colX,
+          data: type === 'dispersion' ? data.map(r => ({ x: parseFloat(r[colXIdx]), y: parseFloat(r[colYIdx]) })).filter(p => !isNaN(p.x) && !isNaN(p.y)) : values,
+          backgroundColor: COLORS.primary + '99',
+          borderColor: COLORS.primary,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: false,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { x: { display: false }, y: { display: false } }
+      }
+    });
   }
 
   function viewChart(id) {
