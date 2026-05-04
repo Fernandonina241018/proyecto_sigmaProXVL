@@ -237,41 +237,134 @@ const ReportesManager = (() => {
     if (!reporte) return;
 
     const cfr21 = reporte.cfr21Compliance;
-    const infoCFR = cfr21 ? `
-═══════════════════════════════════════
-📋 CFR 21 PART 11 COMPLIANCE
-═══════════════════════════════════════
-✅ Estándar: ${cfr21.standard}
-✅ Alcance: ${cfr21.scope}
-🔐 Hash Integridad: ${cfr21.integrityHash || 'N/A'}
-📅 Generado: ${cfr21.auditTrail?.generationDateFormatted || 'N/A'}
-👤 Usuario: ${cfr21.auditTrail?.generatedBy || 'N/A'}
-🏢 Software: ${cfr21.auditTrail?.software} v${cfr21.auditTrail?.version}
-📊 Dataset: ${cfr21.datasetTraceability?.datasetName || 'N/A'}
-📈 Columnas: ${cfr21.datasetTraceability?.columnsAnalyzed?.length || 0}
-📉 Estadísticos: ${cfr21.datasetTraceability?.totalStatistics || 0}
-═══════════════════════════════════════
-✍️ FIRMAS ELECTRÓNICAS
-═══════════════════════════════════════
-Preparado: ${cfr21.electronicSignatures?.prepared?.name || 'N/A'}
-  Cargo: ${cfr21.electronicSignatures?.prepared?.title || 'N/A'}
-  Fecha: ${cfr21.electronicSignatures?.prepared?.date || 'N/A'}
-  Acción: ${cfr21.electronicSignatures?.prepared?.action || 'N/A'}
-═══════════════════════════════════════` : '';
+    const pharma = cfr21?.pharmaceuticalFields || {};
 
-    const detalles = `
-📄 ${reporte.nombre}
+    const viewHtml = `
+      <div id="reporte-view-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;overflow-y:auto;padding:20px;" onclick="if(event.target===this)this.remove()">
+        <div style="background:#252525;padding:28px;border-radius:16px;max-width:800px;width:100%;max-height:95vh;overflow-y:auto;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:1px solid #404040;padding-bottom:16px;">
+            <div>
+              <h2 style="color:#e0e0e0;margin:0;">📄 ${escapeHtml(reporte.nombre)}</h2>
+              <span style="color:#5fd97a;font-size:12px;">✓ CFR 21 Part 11</span>
+            </div>
+            <button onclick="document.getElementById('reporte-view-overlay').remove()" style="background:none;border:none;color:#888;font-size:24px;cursor:pointer;">✕</button>
+          </div>
 
-📋 Estado: ${reporte.estado}
-👤 Autor: ${reporte.autor}
-📝 Descripción: ${reporte.descripcion || 'Sin descripción'}
-📊 Dataset: ${reporte.dataset}
-🔢 Pruebas: ${reporte.pruebasCount}
-📈 Gráficos: ${reporte.graficosCount}
-📅 Creado: ${formatDate(reporte.creado)}
-${infoCFR}`;
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <!-- Hash y Estado -->
+            <div style="background:#1a1a18;padding:16px;border-radius:12px;grid-column:1/-1;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="color:#9e9e98;font-size:11px;">Hash de Integridad</div>
+                  <code style="color:#5fd97a;font-size:12px;">${cfr21?.integrityHash || 'N/A'}</code>
+                </div>
+                <div style="text-align:right;">
+                  <div style="color:#9e9e98;font-size:11px;">Estado</div>
+                  <span class="tag ${reporte.estado === 'completado' ? 'tag-run' : 'tag-warn'}">${reporte.estado === 'completado' ? 'Completado' : 'Borrador'}</span>
+                </div>
+              </div>
+            </div>
 
-    alert(detalles);
+            <!-- Info Básica -->
+            <div style="background:#1a1a18;padding:16px;border-radius:12px;">
+              <h4 style="color:#667eea;margin:0 0 12px;font-size:13px;">📝 INFORMACIÓN</h4>
+              <div style="font-size:12px;color:#9e9e98;">
+                <div><span>Autor:</span> <span style="color:#e0e0e0;">${reporte.autor || 'N/A'}</span></div>
+                <div><span>Versión:</span> <span style="color:#e0e0e0;">${reporte.version || '1.0'}</span></div>
+                <div><span>Dataset:</span> <span style="color:#e0e0e0;">${reporte.dataset || 'N/A'}</span></div>
+                <div><span>Pruebas:</span> <span style="color:#e0e0e0;">${reporte.pruebasCount || 0}</span></div>
+                <div><span>Gráficos:</span> <span style="color:#e0e0e0;">${reporte.graficosCount || 0}</span></div>
+              </div>
+            </div>
+
+            <!-- Cualificación -->
+            <div style="background:#1a1a18;padding:16px;border-radius:12px;">
+              <h4 style="color:#667eea;margin:0 0 12px;font-size:13px;">💊 CUALIFICACIÓN</h4>
+              <div style="font-size:12px;color:#9e9e98;">
+                <div><span>Tipo:</span> <span style="color:#e0e0e0;">${getFaseLabel(reporte.fase)}</span></div>
+                <div><span>Lote:</span> <span style="color:#e0e0e0;">${reporte.lote || 'N/A'}</span></div>
+                <div><span>Protocolo:</span> <span style="color:#e0e0e0;">${reporte.protocolo || 'N/A'}</span></div>
+                <div><span>Código:</span> <span style="color:#e0e0e0;">${reporte.codigo || 'N/A'}</span></div>
+              </div>
+            </div>
+
+            <!-- Equipo -->
+            <div style="background:#1a1a18;padding:16px;border-radius:12px;">
+              <h4 style="color:#667eea;margin:0 0 12px;font-size:13px;">🔧 EQUIPO/MÉTODO</h4>
+              <div style="font-size:12px;color:#9e9e98;">
+                <div><span>Nombre:</span> <span style="color:#e0e0e0;">${reporte.equipo || 'N/A'}</span></div>
+                <div><span>Serie:</span> <span style="color:#e0e0e0;">${reporte.serie || 'N/A'}</span></div>
+                <div><span>Modelo:</span> <span style="color:#e0e0e0;">${reporte.modelo || 'N/A'}</span></div>
+              </div>
+            </div>
+
+            <!-- Parámetros -->
+            <div style="background:#1a1a18;padding:16px;border-radius:12px;">
+              <h4 style="color:#667eea;margin:0 0 12px;font-size:13px;">🌡️ PARÁMETROS</h4>
+              <div style="font-size:12px;color:#9e9e98;">
+                <div><span>Temperatura:</span> <span style="color:#e0e0e0;">${reporte.temperatura || 'N/A'}</span></div>
+                <div><span>Humedad:</span> <span style="color:#e0e0e0;">${reporte.humedad || 'N/A'}</span></div>
+                <div><span>Fabricación:</span> <span style="color:#e0e0e0;">${reporte.fechaFabricacion || 'N/A'}</span></div>
+                <div><span>Expiración:</span> <span style="color:#e0e0e0;">${reporte.fechaExpiracion || 'N/A'}</span></div>
+              </div>
+            </div>
+
+            <!-- Firmas -->
+            <div style="background:#1a1a18;padding:16px;border-radius:12px;grid-column:1/-1;">
+              <h4 style="color:#667eea;margin:0 0 12px;font-size:13px;">✍️ FIRMAS ELECTRÓNICAS</h4>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+                <div style="padding:10px;background:#2a2a28;border-radius:6px;">
+                  <div style="color:#5fd97a;font-size:11px;font-weight:bold;margin-bottom:8px;">👤 Preparado</div>
+                  <div style="font-size:11px;color:#9e9e98;">${reporte.firmaPreparado?.nombre || 'N/A'}</div>
+                  <div style="font-size:10px;color:#666;">${reporte.firmaPreparado?.cargo || ''}</div>
+                  <div style="font-size:10px;color:#666;">${reporte.firmaPreparado?.fecha || ''}</div>
+                </div>
+                <div style="padding:10px;background:#2a2a28;border-radius:6px;">
+                  <div style="color:#f0ad4e;font-size:11px;font-weight:bold;margin-bottom:8px;">👁️ Revisado</div>
+                  <div style="font-size:11px;color:#9e9e98;">${reporte.firmaRevisado?.nombre || 'Pendiente'}</div>
+                  <div style="font-size:10px;color:#666;">${reporte.firmaRevisado?.cargo || ''}</div>
+                  <div style="font-size:10px;color:#666;">${reporte.firmaRevisado?.fecha || ''}</div>
+                </div>
+                <div style="padding:10px;background:#2a2a28;border-radius:6px;">
+                  <div style="color:#667eea;font-size:11px;font-weight:bold;margin-bottom:8px;">✅ Aprobado</div>
+                  <div style="font-size:11px;color:#9e9e98;">${reporte.firmaAprobado?.nombre || 'Pendiente'}</div>
+                  <div style="font-size:10px;color:#666;">${reporte.firmaAprobado?.cargo || ''}</div>
+                  <div style="font-size:10px;color:#666;">${reporte.firmaAprobado?.fecha || ''}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Descripción -->
+            ${reporte.descripcion ? `
+            <div style="background:#1a1a18;padding:16px;border-radius:12px;grid-column:1/-1;">
+              <h4 style="color:#667eea;margin:0 0 12px;font-size:13px;">📝 DESCRIPCIÓN</h4>
+              <p style="font-size:12px;color:#9e9e98;margin:0;">${escapeHtml(reporte.descripcion)}</p>
+            </div>
+            ` : ''}
+          </div>
+
+          <div style="display:flex;gap:12px;justify-content:flex-end;padding-top:16px;border-top:1px solid #404040;margin-top:16px;">
+            <button onclick="ReportesManager.exportarReporte(${index}, 'html')" style="padding:10px 20px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;cursor:pointer;">📥 Exportar HTML</button>
+            <button onclick="ReportesManager.exportarReporte(${index}, 'json')" style="padding:10px 20px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;cursor:pointer;">📦 Exportar JSON</button>
+            <button onclick="document.getElementById('reporte-view-overlay').remove()" style="padding:10px 20px;background:#667eea;border:none;border-radius:6px;color:#fff;cursor:pointer;">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', viewHtml);
+  }
+
+  function getFaseLabel(fase) {
+    const fases = {
+      'DQ': 'DQ - Design Qualification',
+      'IQ': 'IQ - Installation Qualification',
+      'OQ': 'OQ - Operational Qualification',
+      'PQ': 'PQ - Performance Qualification',
+      'PQ-Metodo': 'PQ - Validación de Método',
+      'PPQ': 'PPQ - Process Performance Qualification'
+    };
+    return fases[fase] || fase || 'No especificado';
   }
 
   function duplicarReporte(index) {
@@ -394,6 +487,42 @@ ${infoCFR}`;
     </div>
   </div>
 
+  ${(reporte.fase || reporte.equipo || reporte.protocolo) ? `
+  <div class="section">
+    <div class="section-title">💊 Cualificación Farmacéutica</div>
+    <div class="info-grid">
+      <div class="info-item"><span class="info-label">Tipo de Cualificación</span><div class="info-value">${getFaseLabel(reporte.fase)}</div></div>
+      <div class="info-item"><span class="info-label">Número de Lote</span><div class="info-value">${reporte.lote || 'N/A'}</div></div>
+      <div class="info-item"><span class="info-label">Número de Protocolo</span><div class="info-value">${reporte.protocolo || 'N/A'}</div></div>
+      <div class="info-item"><span class="info-label">Código de Proyecto</span><div class="info-value">${reporte.codigo || 'N/A'}</div></div>
+      <div class="info-item"><span class="info-label">Confidencialidad</span><div class="info-value">${reporte.confidencial || 'N/A'}</div></div>
+      <div class="info-item"><span class="info-label">Versión</span><div class="info-value">${reporte.version || '1.0'}</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🔧 Equipo / Método</div>
+    <div class="info-grid">
+      <div class="info-item"><span class="info-label">Nombre</span><div class="info-value">${reporte.equipo || 'N/A'}</div></div>
+      <div class="info-item"><span class="info-label">Número de Serie</span><div class="info-value">${reporte.serie || 'N/A'}</div></div>
+      <div class="info-item"><span class="info-label">Modelo</span><div class="info-value">${reporte.modelo || 'N/A'}</div></div>
+      <div class="info-item"><span class="info-label">Organización</span><div class="info-value">${reporte.organizacion || 'N/A'}</div></div>
+      <div class="info-item"><span class="info-label">Departamento</span><div class="info-value">${reporte.departamento || 'N/A'}</div></div>
+      <div class="info-item"><span class="info-label">Ubicación</span><div class="info-value">${reporte.ubicacion || 'N/A'}</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🌡️ Parámetros de Operación</div>
+    <div class="info-grid">
+      <div class="info-item"><span class="info-label">Temperatura</span><div class="info-value">${reporte.temperatura || 'N/A'}</div></div>
+      <div class="info-item"><span class="info-label">Humedad</span><div class="info-value">${reporte.humedad || 'N/A'}</div></div>
+      <div class="info-item"><span class="info-label">Fecha de Fabricación</span><div class="info-value">${reporte.fechaFabricacion || 'N/A'}</div></div>
+      <div class="info-item"><span class="info-label">Fecha de Expiración</span><div class="info-value">${reporte.fechaExpiracion || 'N/A'}</div></div>
+    </div>
+  </div>
+  ` : ''}
+
   <div class="section">
     <div class="section-title">✍️ Firmas Electrónicas - 21 CFR Part 11 Subparte C</div>
     <div class="signature-block">
@@ -451,12 +580,8 @@ ${infoCFR}`;
   }
 
   function crearReporteConDatos() {
-    console.log('🔍 Debug - localStorage keys:', Object.keys(localStorage).filter(k => k.includes('sigma')));
     const analisis = JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]');
     const graficos = JSON.parse(localStorage.getItem('sigmaPro_graficos') || '[]');
-
-    console.log('🔍 Análisis guardados:', analisis.length);
-    console.log('🔍 Gráficos guardados:', graficos.length);
 
     if (analisis.length === 0) {
       showToast('No hay análisis guardados. Ejecuta un análisis primero.', 'warn');
@@ -464,36 +589,201 @@ ${infoCFR}`;
     }
 
     const lastAnalisis = analisis[0];
+    const userName = document.getElementById('userName')?.textContent || 'Usuario';
 
     const modalHtml = `
-      <div id="reporte-modal-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:9999;display:flex;align-items:center;justify-content:center;" onclick="if(event.target===this)this.remove()">
-        <div style="background:#2a2a2a;padding:24px;border-radius:12px;max-width:500px;width:90%;">
-          <h3 style="color:#e0e0e0;margin:0 0 16px;">Crear Reporte</h3>
-          <div style="display:flex;flex-direction:column;gap:12px;">
-            <div>
-              <label style="color:#9e9e98;font-size:12px;display:block;margin-bottom:4px;">Título del reporte</label>
-              <input type="text" id="reporte-titulo" value="Reporte Análisis ${new Date().toLocaleDateString('es-ES')}" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
-            </div>
-            <div>
-              <label style="color:#9e9e98;font-size:12px;display:block;margin-bottom:4px;">Autor</label>
-              <input type="text" id="reporte-autor" value="Usuario" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
-            </div>
-            <div>
-              <label style="color:#9e9e98;font-size:12px;display:block;margin-bottom:4px;">Descripción</label>
-              <textarea id="reporte-descripcion" rows="3" placeholder="Descripción del análisis..." style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:6px;color:#e0e0e0;resize:vertical;"></textarea>
-            </div>
-            <div style="background:#3a3a38;padding:12px;border-radius:8px;">
-              <div style="color:#9e9e98;font-size:11px;margin-bottom:8px;">Datos a incluir:</div>
-              <div style="display:flex;gap:16px;flex-wrap:wrap;">
-                <span style="color:#5fd97a;font-size:12px;">✓ Análisis: ${lastAnalisis.pruebas?.length || 0} pruebas</span>
-                <span style="color:#5fd97a;font-size:12px;">✓ Dataset: ${lastAnalisis.dataset || 'N/A'}</span>
-                <span style="color:#5fd97a;font-size:12px;">✓ Gráficos: ${graficos.length}</span>
+      <div id="reporte-modal-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;overflow-y:auto;padding:20px;" onclick="if(event.target===this)this.remove()">
+        <div style="background:#252525;padding:28px;border-radius:16px;max-width:800px;width:100%;max-height:95vh;overflow-y:auto;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:1px solid #404040;padding-bottom:16px;">
+            <h2 style="color:#e0e0e0;margin:0;">📋 Nuevo Reporte CFR 21 Part 11</h2>
+            <button onclick="document.getElementById('reporte-modal-overlay').remove()" style="background:none;border:none;color:#888;font-size:24px;cursor:pointer;">✕</button>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+            <!-- Estado del análisis -->
+            <div style="background:#1a1a18;padding:16px;border-radius:12px;grid-column:1/-1;">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <span style="font-size:32px;">✓</span>
+                <div>
+                  <div style="color:#5fd97a;font-weight:bold;">Análisis Listo</div>
+                  <div style="color:#9e9e98;font-size:12px;">${lastAnalisis.pruebas?.length || 0} pruebas · ${lastAnalisis.dataset || 'N/A'} · ${graficos.length} gráficos</div>
+                </div>
               </div>
             </div>
-            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px;">
-              <button onclick="document.getElementById('reporte-modal-overlay').remove()" style="padding:8px 16px;background:transparent;border:1px solid #404040;border-radius:6px;color:#9e9e98;cursor:pointer;">Cancelar</button>
-              <button onclick="ReportesManager.generarReporteCompleto()" style="padding:8px 16px;background:#5c6bc0;border:none;border-radius:6px;color:#fff;cursor:pointer;">Generar Reporte</button>
+
+            <!-- Información Básica -->
+            <div style="background:#1a1a18;padding:16px;border-radius:12px;">
+              <h4 style="color:#667eea;margin:0 0 12px;font-size:13px;">📝 INFORMACIÓN BÁSICA</h4>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div>
+                  <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Título del Reporte *</label>
+                  <input type="text" id="reporte-titulo" value="Reporte Análisis ${new Date().toLocaleDateString('es-ES')}" style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                </div>
+                <div>
+                  <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Autor *</label>
+                  <input type="text" id="reporte-autor" value="${userName}" style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                </div>
+                <div>
+                  <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Versión</label>
+                  <input type="text" id="reporte-version" value="1.0" style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                </div>
+              </div>
             </div>
+
+            <!-- Información Institucional -->
+            <div style="background:#1a1a18;padding:16px;border-radius:12px;">
+              <h4 style="color:#667eea;margin:0 0 12px;font-size:13px;">🏛️ INSTITUCIÓN</h4>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div>
+                  <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Organización</label>
+                  <input type="text" id="reporte-organizacion" placeholder="Laboratorio Farmacéutico" style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                </div>
+                <div>
+                  <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Departamento</label>
+                  <select id="reporte-departamento" style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                    <option value="">-- Seleccionar --</option>
+                    <option>Control de Calidad</option>
+                    <option>Validaciones</option>
+                    <option>Producción</option>
+                    <option>I+D</option>
+                    <option>Garantía de Calidad</option>
+                  </select>
+                </div>
+                <div>
+                  <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Ubicación</label>
+                  <input type="text" id="reporte-ubicacion" placeholder="Santo Domingo, RD" style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                </div>
+              </div>
+            </div>
+
+            <!-- Cualificación Farmacéutica -->
+            <div style="background:#1a1a18;padding:16px;border-radius:12px;">
+              <h4 style="color:#667eea;margin:0 0 12px;font-size:13px;">💊 CUALIFICACIÓN (IQ/OQ/PQ)</h4>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div>
+                  <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Tipo de Cualificación</label>
+                  <select id="reporte-fase" style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                    <option value="">-- Seleccionar --</option>
+                    <option value="DQ">DQ - Design Qualification</option>
+                    <option value="IQ">IQ - Installation Qualification</option>
+                    <option value="OQ">OQ - Operational Qualification</option>
+                    <option value="PQ">PQ - Performance Qualification</option>
+                    <option value="PQ-Metodo">PQ - Validación de Método</option>
+                    <option value="PPQ">PPQ - Process Performance Qualification</option>
+                  </select>
+                </div>
+                <div>
+                  <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Número de Lote</label>
+                  <input type="text" id="reporte-lote" placeholder="LOT-2026-001" style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                </div>
+              </div>
+            </div>
+
+            <!-- Equipo/Método -->
+            <div style="background:#1a1a18;padding:16px;border-radius:12px;">
+              <h4 style="color:#667eea;margin:0 0 12px;font-size:13px;">🔧 EQUIPO / MÉTODO</h4>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div>
+                  <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Nombre Equipo/Método</label>
+                  <input type="text" id="reporte-equipo" placeholder="HPLC, Espectrómetro, Método Karl Fischer..." style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                </div>
+                <div>
+                  <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Número de Serie</label>
+                  <input type="text" id="reporte-serie" placeholder="SN-123456789" style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                </div>
+                <div>
+                  <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Modelo</label>
+                  <input type="text" id="reporte-modelo" placeholder="VANQUISH, ISO 9001..." style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                </div>
+              </div>
+            </div>
+
+            <!-- Parámetros de Operación -->
+            <div style="background:#1a1a18;padding:16px;border-radius:12px;">
+              <h4 style="color:#667eea;margin:0 0 12px;font-size:13px;">🌡️ PARÁMETROS DE OPERACIÓN</h4>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <div>
+                  <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Temperatura (°C)</label>
+                  <input type="text" id="reporte-temperatura" placeholder="20-25°C" style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                </div>
+                <div>
+                  <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Humedad (%)</label>
+                  <input type="text" id="reporte-humedad" placeholder="40-60%" style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                </div>
+                <div>
+                  <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Fecha Fabricación</label>
+                  <input type="date" id="reporte-fabrica" style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                </div>
+                <div>
+                  <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Fecha Expiración</label>
+                  <input type="date" id="reporte-expiracion" style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                </div>
+              </div>
+            </div>
+
+            <!-- Protocolo y Confidencialidad -->
+            <div style="background:#1a1a18;padding:16px;border-radius:12px;">
+              <h4 style="color:#667eea;margin:0 0 12px;font-size:13px;">📋 PROTOCOLO</h4>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div>
+                  <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Número de Protocolo</label>
+                  <input type="text" id="reporte-protocolo" placeholder="PROTO-IQ-2026-001" style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                </div>
+                <div>
+                  <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Código de Proyecto</label>
+                  <input type="text" id="reporte-codigo" placeholder="PRJ-2026-XXX" style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                </div>
+                <div>
+                  <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Nivel de Confidencialidad</label>
+                  <select id="reporte-confidencial" style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                    <option value="CONFIDENTIAL — FOR INTERNAL USE ONLY">Confidencial — Uso Interno</option>
+                    <option value="STRICTLY CONFIDENTIAL">Estrictamente Confidencial</option>
+                    <option value="PROPRIETARY">Propietario</option>
+                    <option value="FOR REGULATORY SUBMISSION">Para Submission Regulatorio</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Descripción -->
+            <div style="background:#1a1a18;padding:16px;border-radius:12px;grid-column:1/-1;">
+              <h4 style="color:#667eea;margin:0 0 12px;font-size:13px;">📝 DESCRIPCIÓN</h4>
+              <div>
+                <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Descripción del Análisis / Cualificación</label>
+                <textarea id="reporte-descripcion" rows="3" placeholder="Descripción del análisis estadístico o motivo de la cualificación..." style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;resize:vertical;"></textarea>
+              </div>
+            </div>
+
+            <!-- Firmas Electrónicas -->
+            <div style="background:#1a1a18;padding:16px;border-radius:12px;grid-column:1/-1;">
+              <h4 style="color:#667eea;margin:0 0 12px;font-size:13px;">✍️ FIRMAS ELECTRÓNICAS (21 CFR Part 11)</h4>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+                <div style="padding:12px;background:#2a2a28;border-radius:8px;">
+                  <div style="color:#5fd97a;font-weight:bold;font-size:12px;margin-bottom:8px;">👤 Preparado por</div>
+                  <input type="text" id="reporte-firma-preparado" value="${userName}" placeholder="Nombre" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;margin-bottom:6px;">
+                  <input type="text" id="reporte-firma-preparado-cargo" placeholder="Cargo" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;margin-bottom:6px;">
+                  <input type="date" id="reporte-firma-preparado-fecha" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;">
+                </div>
+                <div style="padding:12px;background:#2a2a28;border-radius:8px;">
+                  <div style="color:#f0ad4e;font-weight:bold;font-size:12px;margin-bottom:8px;">👁️ Revisado por</div>
+                  <input type="text" id="reporte-firma-revisado" placeholder="Nombre" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;margin-bottom:6px;">
+                  <input type="text" id="reporte-firma-revisado-cargo" placeholder="Cargo" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;margin-bottom:6px;">
+                  <input type="date" id="reporte-firma-revisado-fecha" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;">
+                </div>
+                <div style="padding:12px;background:#2a2a28;border-radius:8px;">
+                  <div style="color:#667eea;font-weight:bold;font-size:12px;margin-bottom:8px;">✅ Aprobado por</div>
+                  <input type="text" id="reporte-firma-aprobado" placeholder="Nombre" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;margin-bottom:6px;">
+                  <input type="text" id="reporte-firma-aprobado-cargo" placeholder="Cargo" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;margin-bottom:6px;">
+                  <input type="date" id="reporte-firma-aprobado-fecha" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botones de acción -->
+          <div style="display:flex;gap:12px;justify-content:flex-end;padding-top:16px;border-top:1px solid #404040;">
+            <button onclick="document.getElementById('reporte-modal-overlay').remove()" style="padding:12px 24px;background:transparent;border:1px solid #404040;border-radius:8px;color:#9e9e98;cursor:pointer;font-size:14px;">Cancelar</button>
+            <button onclick="ReportesManager.generarReporteCompleto()" style="padding:12px 24px;background:linear-gradient(135deg, #667eea, #764ba2);border:none;border-radius:8px;color:#fff;cursor:pointer;font-size:14px;font-weight:bold;">💾 Generar Reporte CFR 21</button>
           </div>
         </div>
       </div>
@@ -520,7 +810,50 @@ ${infoCFR}`;
       graficosCount: graficos.length,
       estado: 'completado',
       contenido: analisis?.html || '',
-      creado: new Date().toISOString()
+      creado: new Date().toISOString(),
+
+      // Campos adicionales CFR 21 / Farmacéuticos
+      version: document.getElementById('reporte-version')?.value || '1.0',
+      organizacion: document.getElementById('reporte-organizacion')?.value || '',
+      departamento: document.getElementById('reporte-departamento')?.value || '',
+      ubicacion: document.getElementById('reporte-ubicacion')?.value || '',
+
+      // Cualificación
+      fase: document.getElementById('reporte-fase')?.value || '',
+      lote: document.getElementById('reporte-lote')?.value || '',
+
+      // Equipo/Método
+      equipo: document.getElementById('reporte-equipo')?.value || '',
+      serie: document.getElementById('reporte-serie')?.value || '',
+      modelo: document.getElementById('reporte-modelo')?.value || '',
+
+      // Parámetros
+      temperatura: document.getElementById('reporte-temperatura')?.value || '',
+      humedad: document.getElementById('reporte-humedad')?.value || '',
+      fechaFabricacion: document.getElementById('reporte-fabrica')?.value || '',
+      fechaExpiracion: document.getElementById('reporte-expiracion')?.value || '',
+
+      // Protocolo
+      protocolo: document.getElementById('reporte-protocolo')?.value || '',
+      codigo: document.getElementById('reporte-codigo')?.value || '',
+      confidencial: document.getElementById('reporte-confidencial')?.value || 'CONFIDENTIAL — FOR INTERNAL USE ONLY',
+
+      // Firmas
+      firmaPreparado: {
+        nombre: document.getElementById('reporte-firma-preparado')?.value || autor,
+        cargo: document.getElementById('reporte-firma-preparado-cargo')?.value || '',
+        fecha: document.getElementById('reporte-firma-preparado-fecha')?.value || new Date().toISOString().slice(0,10)
+      },
+      firmaRevisado: {
+        nombre: document.getElementById('reporte-firma-revisado')?.value || '',
+        cargo: document.getElementById('reporte-firma-revisado-cargo')?.value || '',
+        fecha: document.getElementById('reporte-firma-revisado-fecha')?.value || ''
+      },
+      firmaAprobado: {
+        nombre: document.getElementById('reporte-firma-aprobado')?.value || '',
+        cargo: document.getElementById('reporte-firma-aprobado-cargo')?.value || '',
+        fecha: document.getElementById('reporte-firma-aprobado-fecha')?.value || ''
+      }
     };
 
     const integrityHash = await generateIntegrityHash(reporteData);
@@ -538,8 +871,26 @@ ${infoCFR}`;
         integrityHash: integrityHash,
         auditTrail: auditMetadata,
         datasetTraceability: traceability,
-        electronicSignatures: signatures,
-        methodology: methodology
+        electronicSignatures: {
+          prepared: reporteData.firmaPreparado,
+          reviewed: reporteData.firmaRevisado,
+          approved: reporteData.firmaAprobado
+        },
+        methodology: methodology,
+        pharmaceuticalFields: {
+          qualificationType: reporteData.fase,
+          batchNumber: reporteData.lote,
+          equipmentName: reporteData.equipo,
+          serialNumber: reporteData.serie,
+          model: reporteData.modelo,
+          operatingTemp: reporteData.temperatura,
+          humidity: reporteData.humedad,
+          manufacturingDate: reporteData.fechaFabricacion,
+          expirationDate: reporteData.fechaExpiracion,
+          protocolNumber: reporteData.protocolo,
+          projectCode: reporteData.codigo,
+          confidentiality: reporteData.confidencial
+        }
       }
     };
 
