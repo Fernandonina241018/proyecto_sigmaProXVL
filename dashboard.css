@@ -598,10 +598,10 @@ html, body {
 
 /* ─── WORK TOOLBAR ────────────────────────────────────────────────────────── */
 .work-toolbar {
-  display: flex; gap: 4px; font-size: 15px;
+  display: flex; gap: 4px; font-size: 15px; flex-wrap: nowrap;
 }
 .work-toolbar-right {
-  display: flex; gap: 8px; align-items: center;
+  display: flex; gap: 8px; align-items: center; flex-wrap: nowrap;
 }
 .tool-btn {
   display: flex; align-items: center; gap: 5px;
