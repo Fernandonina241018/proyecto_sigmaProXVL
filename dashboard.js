@@ -3442,6 +3442,7 @@ function initVizControls() {
 }
 
 function guardarResultadoAnalisis(data) {
+  console.log('🔍 guardarResultadoAnalisis called with:', data ? 'data present' : 'NO DATA');
   try {
     const ultimos = JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]');
     ultimos.unshift({
@@ -3449,7 +3450,7 @@ function guardarResultadoAnalisis(data) {
       timestamp: Date.now()
     });
     localStorage.setItem('sigmaPro_analisis', JSON.stringify(ultimos.slice(0, 10)));
-    console.log('💾 Análisis guardado en localStorage');
+    console.log('💾 Análisis guardado en localStorage. Total:', ultimos.length);
   } catch (e) {
     console.error('Error guardando análisis:', e);
   }
