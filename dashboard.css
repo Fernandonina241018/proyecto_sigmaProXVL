@@ -51,7 +51,7 @@ html, body {
 
 /* ─── NAVBAR ──────────────────────────────────────────────────────────────── */
 .navbar {
-  flex: 1; display: flex; align-items: center;
+  flex: 1; display: flex; align-items: center; flex-wrap: nowrap;
   background: #2d2d2a; border-radius: 10px;
   border: 0.5px solid rgba(255,255,255,0.08);
   padding: 4px; gap: 2px;
