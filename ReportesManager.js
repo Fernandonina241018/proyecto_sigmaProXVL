@@ -719,14 +719,18 @@ const ReportesManager = (() => {
                 <div>
                   <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Fecha Fabricación</label>
                   <div style="display:flex;gap:8px;align-items:center;">
-                    <input type="date" id="reporte-fabrica" style="flex:1;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;" onchange="updateDateDisplay('reporte-fabrica', 'reporte-fabrica-display')">
+                    <input type="text" id="reporte-fabrica-text" placeholder="dd/mmm/aaaa" style="flex:1;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;" onchange="handleManualDateInput('reporte-fabrica-text', 'reporte-fabrica-display')">
+                    <input type="date" id="reporte-fabrica-hidden" style="display:none;" onchange="syncDateFromPicker('reporte-fabrica-hidden', 'reporte-fabrica-text', 'reporte-fabrica-display')">
+                    <button type="button" onclick="document.getElementById('reporte-fabrica-hidden').showPicker()" style="padding:8px;background:#2a2a28;border:1px solid #404040;border-radius:4px;cursor:pointer;">📅</button>
                     <span id="reporte-fabrica-display" style="color:#5fd97a;font-size:11px;min-width:80px;">—</span>
                   </div>
                 </div>
                 <div>
                   <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Fecha Expiración</label>
                   <div style="display:flex;gap:8px;align-items:center;">
-                    <input type="date" id="reporte-expiracion" style="flex:1;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;" onchange="updateDateDisplay('reporte-expiracion', 'reporte-expiracion-display')">
+                    <input type="text" id="reporte-expiracion-text" placeholder="dd/mmm/aaaa" style="flex:1;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;" onchange="handleManualDateInput('reporte-expiracion-text', 'reporte-expiracion-display')">
+                    <input type="date" id="reporte-expiracion-hidden" style="display:none;" onchange="syncDateFromPicker('reporte-expiracion-hidden', 'reporte-expiracion-text', 'reporte-expiracion-display')">
+                    <button type="button" onclick="document.getElementById('reporte-expiracion-hidden').showPicker()" style="padding:8px;background:#2a2a28;border:1px solid #404040;border-radius:4px;cursor:pointer;">📅</button>
                     <span id="reporte-expiracion-display" style="color:#5fd97a;font-size:11px;min-width:80px;">—</span>
                   </div>
                 </div>
@@ -775,7 +779,9 @@ const ReportesManager = (() => {
                   <input type="text" id="reporte-firma-preparado" value="${userName}" placeholder="Nombre" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;margin-bottom:6px;">
                   <input type="text" id="reporte-firma-preparado-cargo" placeholder="Cargo" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;margin-bottom:6px;">
                   <div style="display:flex;gap:4px;align-items:center;">
-                    <input type="date" id="reporte-firma-preparado-fecha" style="flex:1;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;" onchange="updateDateDisplay('reporte-firma-preparado-fecha', 'reporte-firma-preparado-fecha-display')">
+                    <input type="text" id="reporte-firma-preparado-fecha-text" placeholder="dd/mmm/aaaa" value="${new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'short' }).replace('.', '')}/${new Date().getFullYear()}" style="flex:1;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;" onchange="handleManualDateInput('reporte-firma-preparado-fecha-text', 'reporte-firma-preparado-fecha-display')">
+                    <input type="date" id="reporte-firma-preparado-fecha-hidden" style="display:none;" onchange="syncDateFromPicker('reporte-firma-preparado-fecha-hidden', 'reporte-firma-preparado-fecha-text', 'reporte-firma-preparado-fecha-display')">
+                    <button type="button" onclick="document.getElementById('reporte-firma-preparado-fecha-hidden').showPicker()" style="padding:6px;background:#1a1a18;border:1px solid #404040;border-radius:4px;cursor:pointer;font-size:12px;">📅</button>
                     <span id="reporte-firma-preparado-fecha-display" style="color:#5fd97a;font-size:10px;">—</span>
                   </div>
                 </div>
@@ -784,7 +790,9 @@ const ReportesManager = (() => {
                   <input type="text" id="reporte-firma-revisado" placeholder="Nombre" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;margin-bottom:6px;">
                   <input type="text" id="reporte-firma-revisado-cargo" placeholder="Cargo" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;margin-bottom:6px;">
                   <div style="display:flex;gap:4px;align-items:center;">
-                    <input type="date" id="reporte-firma-revisado-fecha" style="flex:1;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;" onchange="updateDateDisplay('reporte-firma-revisado-fecha', 'reporte-firma-revisado-fecha-display')">
+                    <input type="text" id="reporte-firma-revisado-fecha-text" placeholder="dd/mmm/aaaa" style="flex:1;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;" onchange="handleManualDateInput('reporte-firma-revisado-fecha-text', 'reporte-firma-revisado-fecha-display')">
+                    <input type="date" id="reporte-firma-revisado-fecha-hidden" style="display:none;" onchange="syncDateFromPicker('reporte-firma-revisado-fecha-hidden', 'reporte-firma-revisado-fecha-text', 'reporte-firma-revisado-fecha-display')">
+                    <button type="button" onclick="document.getElementById('reporte-firma-revisado-fecha-hidden').showPicker()" style="padding:6px;background:#1a1a18;border:1px solid #404040;border-radius:4px;cursor:pointer;font-size:12px;">📅</button>
                     <span id="reporte-firma-revisado-fecha-display" style="color:#f0ad4e;font-size:10px;">—</span>
                   </div>
                 </div>
@@ -793,7 +801,9 @@ const ReportesManager = (() => {
                   <input type="text" id="reporte-firma-aprobado" placeholder="Nombre" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;margin-bottom:6px;">
                   <input type="text" id="reporte-firma-aprobado-cargo" placeholder="Cargo" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;margin-bottom:6px;">
                   <div style="display:flex;gap:4px;align-items:center;">
-                    <input type="date" id="reporte-firma-aprobado-fecha" style="flex:1;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;" onchange="updateDateDisplay('reporte-firma-aprobado-fecha', 'reporte-firma-aprobado-fecha-display')">
+                    <input type="text" id="reporte-firma-aprobado-fecha-text" placeholder="dd/mmm/aaaa" style="flex:1;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;" onchange="handleManualDateInput('reporte-firma-aprobado-fecha-text', 'reporte-firma-aprobado-fecha-display')">
+                    <input type="date" id="reporte-firma-aprobado-fecha-hidden" style="display:none;" onchange="syncDateFromPicker('reporte-firma-aprobado-fecha-hidden', 'reporte-firma-aprobado-fecha-text', 'reporte-firma-aprobado-fecha-display')">
+                    <button type="button" onclick="document.getElementById('reporte-firma-aprobado-fecha-hidden').showPicker()" style="padding:6px;background:#1a1a18;border:1px solid #404040;border-radius:4px;cursor:pointer;font-size:12px;">📅</button>
                     <span id="reporte-firma-aprobado-fecha-display" style="color:#667eea;font-size:10px;">—</span>
                   </div>
                 </div>
@@ -851,8 +861,8 @@ const ReportesManager = (() => {
       // Parámetros
       temperatura: document.getElementById('reporte-temperatura')?.value || '',
       humedad: document.getElementById('reporte-humedad')?.value || '',
-      fechaFabricacion: document.getElementById('reporte-fabrica')?.value || '',
-      fechaExpiracion: document.getElementById('reporte-expiracion')?.value || '',
+      fechaFabricacion: document.getElementById('reporte-fabrica-text')?.value || '',
+      fechaExpiracion: document.getElementById('reporte-expiracion-text')?.value || '',
 
       // Protocolo
       protocolo: document.getElementById('reporte-protocolo')?.value || '',
@@ -863,17 +873,17 @@ const ReportesManager = (() => {
       firmaPreparado: {
         nombre: document.getElementById('reporte-firma-preparado')?.value || autor,
         cargo: document.getElementById('reporte-firma-preparado-cargo')?.value || '',
-        fecha: document.getElementById('reporte-firma-preparado-fecha')?.value || new Date().toISOString().slice(0,10)
+        fecha: document.getElementById('reporte-firma-preparado-fecha-text')?.value || new Date().toISOString().slice(0,10)
       },
       firmaRevisado: {
         nombre: document.getElementById('reporte-firma-revisado')?.value || '',
         cargo: document.getElementById('reporte-firma-revisado-cargo')?.value || '',
-        fecha: document.getElementById('reporte-firma-revisado-fecha')?.value || ''
+        fecha: document.getElementById('reporte-firma-revisado-fecha-text')?.value || ''
       },
       firmaAprobado: {
         nombre: document.getElementById('reporte-firma-aprobado')?.value || '',
         cargo: document.getElementById('reporte-firma-aprobado-cargo')?.value || '',
-        fecha: document.getElementById('reporte-firma-aprobado-fecha')?.value || ''
+        fecha: document.getElementById('reporte-firma-aprobado-fecha-text')?.value || ''
       }
     };
 
@@ -975,6 +985,59 @@ function updateDateDisplay(inputId, displayId) {
   } else if (display) {
     display.textContent = '—';
   }
+}
+
+function handleManualDateInput(textInputId, displayId) {
+  const textInput = document.getElementById(textInputId);
+  const display = document.getElementById(displayId);
+  const hiddenInputId = textInputId.replace('-text', '-hidden');
+  const hiddenInput = document.getElementById(hiddenInputId);
+
+  if (!textInput || !textInput.value) return;
+
+  const monthsMap = {
+    'ene': '01', 'feb': '02', 'mar': '03', 'abr': '04', 'may': '05', 'jun': '06',
+    'jul': '07', 'ago': '08', 'sep': '09', 'oct': '10', 'nov': '11', 'dic': '12'
+  };
+
+  const parts = textInput.value.trim().split(/[\/\-\.]/);
+  if (parts.length === 3) {
+    let day = parts[0], month = parts[1], year = parts[2];
+
+    if (isNaN(parseInt(month)) && monthsMap[month.toLowerCase()]) {
+      month = monthsMap[month.toLowerCase()];
+    }
+
+    if (year.length === 2) year = '20' + year;
+    if (day.length === 1) day = '0' + day;
+    if (month.length === 1) month = '0' + month;
+
+    const isoDate = `${year}-${month}-${day}`;
+    if (hiddenInput) hiddenInput.value = isoDate;
+    if (display) {
+      const date = new Date(isoDate + 'T00:00:00');
+      const dayStr = String(date.getDate()).padStart(2, '0');
+      const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+      display.textContent = `${dayStr}/${months[date.getMonth()]}/${date.getFullYear()}`;
+    }
+  }
+}
+
+function syncDateFromPicker(hiddenInputId, textInputId, displayId) {
+  const hiddenInput = document.getElementById(hiddenInputId);
+  const textInput = document.getElementById(textInputId);
+  const display = document.getElementById(displayId);
+
+  if (!hiddenInput || !hiddenInput.value) return;
+
+  const date = new Date(hiddenInput.value + 'T00:00:00');
+  const day = String(date.getDate()).padStart(2, '0');
+  const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+
+  if (textInput) textInput.value = `${day}/${month}/${year}`;
+  if (display) display.textContent = `${day}/${month}/${year}`;
 }
 
 if (document.readyState === 'loading') {
