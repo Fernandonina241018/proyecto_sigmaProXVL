@@ -361,8 +361,20 @@ const VizControls = (() => {
     const id = Date.now();
     const title = colY ? `${colX} vs ${colY}` : colX;
     const label = type.charAt(0).toUpperCase() + type.slice(1);
-    generatedCharts.push({ id, type, colX, colY, title });
+    generatedCharts.push({ id, type, colX, colY, title, timestamp: Date.now() });
     renderGallery();
+    guardarGraficosEnLocal();
+  }
+
+  function guardarGraficosEnLocal() {
+    try {
+      const otros = JSON.parse(localStorage.getItem('sigmaPro_graficos') || '[]');
+      otros.unshift(...generatedCharts);
+      localStorage.setItem('sigmaPro_graficos', JSON.stringify(otros.slice(0, 50)));
+      console.log('💾 Gráficos guardados en localStorage');
+    } catch (e) {
+      console.error('Error guardando gráficos:', e);
+    }
   }
 
   function renderGallery() {
