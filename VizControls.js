@@ -229,7 +229,6 @@ const VizControls = (() => {
           <button class="btn-crystal-gray" id="viz-clear">Limpiar</button>
           <button class="btn-crystal" id="viz-export">Exportar PNG</button>
           <button class="btn-crystal" id="viz-generate-all" ${!currentData || numericCols.length === 0 ? 'disabled' : ''}>Generar Todos</button>
-          <button class="btn-crystal" onclick="navigateTo('page-reportes')">Ir a Reportes 📄</button>
         </div>
       </div>
     `;
