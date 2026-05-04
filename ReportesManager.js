@@ -187,6 +187,86 @@ const ReportesManager = (() => {
     showToast(`${reportes.length} reportes exportados`, 'ok');
   }
 
+  function crearReporteConDatos() {
+    const analisis = JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]');
+    const graficos = JSON.parse(localStorage.getItem('sigmaPro_graficos') || '[]');
+
+    if (analisis.length === 0) {
+      showToast('No hay análisis guardados. Ejecuta un análisis primero.', 'warn');
+      return;
+    }
+
+    const lastAnalisis = analisis[0];
+
+    const modalHtml = `
+      <div id="reporte-modal-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:9999;display:flex;align-items:center;justify-content:center;" onclick="if(event.target===this)this.remove()">
+        <div style="background:#2a2a2a;padding:24px;border-radius:12px;max-width:500px;width:90%;">
+          <h3 style="color:#e0e0e0;margin:0 0 16px;">Crear Reporte</h3>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div>
+              <label style="color:#9e9e98;font-size:12px;display:block;margin-bottom:4px;">Título del reporte</label>
+              <input type="text" id="reporte-titulo" value="Reporte Análisis ${new Date().toLocaleDateString('es-ES')}" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+            </div>
+            <div>
+              <label style="color:#9e9e98;font-size:12px;display:block;margin-bottom:4px;">Autor</label>
+              <input type="text" id="reporte-autor" value="Usuario" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+            </div>
+            <div>
+              <label style="color:#9e9e98;font-size:12px;display:block;margin-bottom:4px;">Descripción</label>
+              <textarea id="reporte-descripcion" rows="3" placeholder="Descripción del análisis..." style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:6px;color:#e0e0e0;resize:vertical;"></textarea>
+            </div>
+            <div style="background:#3a3a38;padding:12px;border-radius:8px;">
+              <div style="color:#9e9e98;font-size:11px;margin-bottom:8px;">Datos a incluir:</div>
+              <div style="display:flex;gap:16px;flex-wrap:wrap;">
+                <span style="color:#5fd97a;font-size:12px;">✓ Análisis: ${lastAnalisis.pruebas?.length || 0} pruebas</span>
+                <span style="color:#5fd97a;font-size:12px;">✓ Dataset: ${lastAnalisis.dataset || 'N/A'}</span>
+                <span style="color:#5fd97a;font-size:12px;">✓ Gráficos: ${graficos.length}</span>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px;">
+              <button onclick="document.getElementById('reporte-modal-overlay').remove()" style="padding:8px 16px;background:transparent;border:1px solid #404040;border-radius:6px;color:#9e9e98;cursor:pointer;">Cancelar</button>
+              <button onclick="ReportesManager.generarReporteCompleto()" style="padding:8px 16px;background:#5c6bc0;border:none;border-radius:6px;color:#fff;cursor:pointer;">Generar Reporte</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+  }
+
+  function generarReporteCompleto() {
+    const titulo = document.getElementById('reporte-titulo').value;
+    const autor = document.getElementById('reporte-autor').value;
+    const descripcion = document.getElementById('reporte-descripcion').value;
+
+    const analisis = JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]')[0];
+    const graficos = JSON.parse(localStorage.getItem('sigmaPro_graficos') || '[]');
+
+    const reporteCompleto = {
+      nombre: titulo,
+      autor: autor,
+      descripcion: descripcion,
+      dataset: analisis?.dataset || 'N/A',
+      pruebas: analisis?.pruebas || [],
+      pruebasCount: analisis?.pruebas?.length || 0,
+      graficosCount: graficos.length,
+      estado: 'completado',
+      contenido: analisis?.html || '',
+      creado: new Date().toISOString()
+    };
+
+    const reportes = loadReportes();
+    reportes.unshift(reporteCompleto);
+    saveReportes(reportes);
+
+    document.getElementById('reporte-modal-overlay')?.remove();
+    renderReportesList();
+
+    showToast('Reporte generado correctamente', 'ok');
+    console.log('📊 Reporte completo:', reporteCompleto);
+  }
+
   function eliminarReporte(index) {
     if (!confirm('¿Eliminar este reporte?')) return;
 
@@ -223,7 +303,7 @@ const ReportesManager = (() => {
     }
   }
 
-  return { init, crearReporte, verReporte, duplicarReporte, exportarReporte, exportarTodo, eliminarReporte };
+  return { init, crearReporte, verReporte, duplicarReporte, exportarReporte, exportarTodo, eliminarReporte, crearReporteConDatos, generarReporteCompleto };
 })();
 
 if (document.readyState === 'loading') {
