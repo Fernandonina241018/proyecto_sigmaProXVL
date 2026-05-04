@@ -268,7 +268,8 @@ html, body {
   background: #1a1a18; border: 0.5px solid rgba(255,255,255,0.12);
   border-radius: 8px; padding: 10px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-  display: none; min-width: 300px; max-width: 420px;
+  display: none; min-width: 300px; max-width: 90vw; max-height: 70vh;
+  overflow-y: auto; overflow-x: hidden;
   pointer-events: none;
 }
 .data-preview-tooltip.visible { display: block; }
