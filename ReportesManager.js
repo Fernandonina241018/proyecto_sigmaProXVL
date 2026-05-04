@@ -247,7 +247,7 @@ const ReportesManager = (() => {
 
     const viewHtml = `
       <div id="reporte-view-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;overflow-y:auto;padding:20px;" onclick="if(event.target===this)this.remove()">
-        <div style="background:#252525;padding:28px;border-radius:16px;max-width:800px;width:100%;max-height:95vh;overflow-y:auto;">
+        <div style="background:#252525;padding:28px;border-radius:16px;max-width:1000px;width:100%;max-height:95vh;overflow-y:auto;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:1px solid #404040;padding-bottom:16px;">
             <div>
               <h2 style="color:#e0e0e0;margin:0;">📄 ${escapeHtml(reporte.nombre)}</h2>
@@ -599,13 +599,13 @@ const ReportesManager = (() => {
 
     const modalHtml = `
       <div id="reporte-modal-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;overflow-y:auto;padding:20px;" onclick="if(event.target===this)this.remove()">
-        <div style="background:#252525;padding:28px;border-radius:16px;max-width:800px;width:100%;max-height:95vh;overflow-y:auto;">
+        <div style="background:#252525;padding:28px;border-radius:16px;max-width:1000px;width:100%;max-height:95vh;overflow-y:auto;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:1px solid #404040;padding-bottom:16px;">
             <h2 style="color:#e0e0e0;margin:0;">📋 Nuevo Reporte CFR 21 Part 11</h2>
             <button onclick="document.getElementById('reporte-modal-overlay').remove()" style="background:none;border:none;color:#888;font-size:24px;cursor:pointer;">✕</button>
           </div>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+          <div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:16px;margin-bottom:20px;width:100%;box-sizing:border-box;">
             <!-- Estado del análisis -->
             <div style="background:#1a1a18;padding:16px;border-radius:12px;grid-column:1/-1;">
               <div style="display:flex;align-items:center;gap:12px;">
