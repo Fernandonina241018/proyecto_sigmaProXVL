@@ -17,6 +17,18 @@
 
 ---
 
+### 2026-05-03 — `ReportesManager.js` (dashboard) — 🟡 MAYOR
+
+#### BUG — Reportes no mostraban análisis guardados
+**Severidad:** 🟡 Mayor  
+**Causa raíz:** La función `crearReporteConDatos()` buscaba la clave `sigmaPro_analisis` en localStorage, pero el análisis se estaba guardando con una clave diferente o no se estaba guardando correctamente.  
+**Fix:** Se agregó debug logging y se verificó que `guardarResultadoAnalisis()` en dashboard.js guardara correctamente en `sigmaPro_analisis`.  
+**Impacto:** Los reportes generados desde análisis no contenían datos.  
+**Archivos:** `ReportesManager.js`, `dashboard.js`  
+**Fecha:** 3 Mayo 2026
+
+---
+
 ### 2026-04-24 — `EstadisticaDescriptiva.js` — 🔴 CRÍTICO
 
 #### BUG 1 — Eigenvalores extremadamente grandes en PCA y Análisis Factorial

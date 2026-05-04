@@ -77,6 +77,25 @@ getDataForModal().headers              // Columnas
 
 ---
 
+## 🔐 CFR 21 Part 11 (Reportes)
+
+- Hash SHA-256 de integridad
+- Audit trail (usuario, fecha, software)
+- Electronic signatures (prepared, reviewed, approved)
+- Dataset traceability
+- Metodología de cálculos
+
+---
+
+## 📋 Validaciones (Sistema/Método/Equipo)
+
+- Input de calificaciones (0-100) para sistemas, métodos, equipos
+- Importación CSV o copiar/pegar
+- Correlación con resultados de análisis (Pearson)
+- Gráfico de dispersión |
+
+---
+
 ## ✨ Features de UX
 
 | Feature | Atajo |
@@ -102,4 +121,4 @@ getDataForModal().headers              // Columnas
 
 ---
 
-*Actualizado: 23 Abril 2026*
+*Actualizado: 3 Mayo 2026*

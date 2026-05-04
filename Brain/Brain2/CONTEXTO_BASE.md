@@ -23,6 +23,7 @@
 ├── estadisticosConfig.js      (~2500 líneas) - Config centralizada
 ├── StateManager.js            (~900 líneas)  - Estado
 ├── StatsUtils.js             (~520 líneas)  - Utilidades
+├── ValidacionesManager.js     (~680 líneas)  - Validaciones y correlaciones
 ├── Brain/Brain2/                         - Documentación del agente
 ```
 
