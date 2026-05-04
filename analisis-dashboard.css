@@ -995,3 +995,116 @@
         flex-wrap: wrap;
     }
 }
+
+/* ========================================
+   VALIDACIONES MANAGER STYLES
+   ======================================== */
+
+.validaciones-container {
+    padding: 16px;
+}
+
+.validaciones-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.validaciones-header h3 {
+    color: #e0e0e0;
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.validaciones-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.validaciones-table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 12px;
+}
+
+.validaciones-summary {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: #9e9e98;
+    padding: 12px;
+    background: #1a1a18;
+    border-radius: 8px;
+}
+
+.calificacion-bar {
+    position: relative;
+    width: 100px;
+    height: 20px;
+    background: #333;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.calificacion-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(90deg, #5fd97a, #4caf50);
+    transition: width 0.3s ease;
+}
+
+.calificacion-fill[data-level="warn"] {
+    background: linear-gradient(90deg, #f0ad4e, #f57c00);
+}
+
+.calificacion-fill[data-level="error"] {
+    background: linear-gradient(90deg, #f57c7c, #f44336);
+}
+
+.calificacion-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.btn-crystal {
+    padding: 8px 14px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-size: 13px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-crystal:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.tag-info {
+    background: #3498db;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+}
+
+.tag-error {
+    background: #e74c3c;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+}
