@@ -721,7 +721,7 @@ const ReportesManager = (() => {
                   <div style="display:flex;gap:8px;align-items:center;">
                     <input type="text" id="reporte-fabrica-text" placeholder="dd/mmm/aaaa" style="flex:1;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;" onchange="handleManualDateInput('reporte-fabrica-text', null)">
                     <input type="date" id="reporte-fabrica-hidden" style="display:none;" onchange="syncDateFromPicker('reporte-fabrica-hidden', 'reporte-fabrica-text', null)">
-                    <button type="button" onclick="document.getElementById('reporte-fabrica-hidden').showPicker()" style="padding:8px;background:#2a2a28;border:1px solid #404040;border-radius:4px;cursor:pointer;">📅</button>
+                    <button type="button" onclick="document.getElementById('reporte-fabrica-hidden').showPicker()" style="display:inline-flex;align-items:center;gap:4px;padding:8px 10px;border-radius:4px;border:0.5px solid rgba(74,144,217,0.2);font-size:12px;cursor:pointer;backdrop-filter:blur(8px);background:rgba(74,144,217,0.08);color:#6cb4f5;">📅</button>
                   </div>
                 </div>
                 <div>
@@ -729,7 +729,7 @@ const ReportesManager = (() => {
                   <div style="display:flex;gap:8px;align-items:center;">
                     <input type="text" id="reporte-expiracion-text" placeholder="dd/mmm/aaaa" style="flex:1;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;" onchange="handleManualDateInput('reporte-expiracion-text', null)">
                     <input type="date" id="reporte-expiracion-hidden" style="display:none;" onchange="syncDateFromPicker('reporte-expiracion-hidden', 'reporte-expiracion-text', null)">
-                    <button type="button" onclick="document.getElementById('reporte-expiracion-hidden').showPicker()" style="padding:8px;background:#2a2a28;border:1px solid #404040;border-radius:4px;cursor:pointer;">📅</button>
+                    <button type="button" onclick="document.getElementById('reporte-expiracion-hidden').showPicker()" style="display:inline-flex;align-items:center;gap:4px;padding:8px 10px;border-radius:4px;border:0.5px solid rgba(74,144,217,0.2);font-size:12px;cursor:pointer;backdrop-filter:blur(8px);background:rgba(74,144,217,0.08);color:#6cb4f5;">📅</button>
                   </div>
                 </div>
               </div>
@@ -779,7 +779,7 @@ const ReportesManager = (() => {
                   <div style="display:flex;gap:4px;align-items:center;">
                     <input type="text" id="reporte-firma-preparado-fecha-text" placeholder="dd/mmm/aaaa" value="${new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'short' }).replace('.', '')}/${new Date().getFullYear()}" style="flex:1;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;" onchange="handleManualDateInput('reporte-firma-preparado-fecha-text', null)">
                     <input type="date" id="reporte-firma-preparado-fecha-hidden" style="display:none;" onchange="syncDateFromPicker('reporte-firma-preparado-fecha-hidden', 'reporte-firma-preparado-fecha-text', null)">
-                    <button type="button" onclick="document.getElementById('reporte-firma-preparado-fecha-hidden').showPicker()" style="padding:6px;background:#1a1a18;border:1px solid #404040;border-radius:4px;cursor:pointer;font-size:12px;">📅</button>
+                    <button type="button" onclick="document.getElementById('reporte-firma-preparado-fecha-hidden').showPicker()" style="display:inline-flex;align-items:center;gap:4px;padding:6px 8px;border-radius:4px;border:0.5px solid rgba(74,144,217,0.2);font-size:12px;cursor:pointer;backdrop-filter:blur(8px);background:rgba(74,144,217,0.08);color:#6cb4f5;">📅</button>
                   </div>
                 </div>
                 <div style="padding:12px;background:#2a2a28;border-radius:8px;">
@@ -789,7 +789,7 @@ const ReportesManager = (() => {
                   <div style="display:flex;gap:4px;align-items:center;">
                     <input type="text" id="reporte-firma-revisado-fecha-text" placeholder="dd/mmm/aaaa" style="flex:1;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;" onchange="handleManualDateInput('reporte-firma-revisado-fecha-text', null)">
                     <input type="date" id="reporte-firma-revisado-fecha-hidden" style="display:none;" onchange="syncDateFromPicker('reporte-firma-revisado-fecha-hidden', 'reporte-firma-revisado-fecha-text', null)">
-                    <button type="button" onclick="document.getElementById('reporte-firma-revisado-fecha-hidden').showPicker()" style="padding:6px;background:#1a1a18;border:1px solid #404040;border-radius:4px;cursor:pointer;font-size:12px;">📅</button>
+                    <button type="button" onclick="document.getElementById('reporte-firma-revisado-fecha-hidden').showPicker()" style="display:inline-flex;align-items:center;gap:4px;padding:6px 8px;border-radius:4px;border:0.5px solid rgba(74,144,217,0.2);font-size:12px;cursor:pointer;backdrop-filter:blur(8px);background:rgba(74,144,217,0.08);color:#6cb4f5;">📅</button>
                   </div>
                 </div>
                 <div style="padding:12px;background:#2a2a28;border-radius:8px;">
@@ -799,7 +799,7 @@ const ReportesManager = (() => {
                   <div style="display:flex;gap:4px;align-items:center;">
                     <input type="text" id="reporte-firma-aprobado-fecha-text" placeholder="dd/mmm/aaaa" style="flex:1;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;" onchange="handleManualDateInput('reporte-firma-aprobado-fecha-text', null)">
                     <input type="date" id="reporte-firma-aprobado-fecha-hidden" style="display:none;" onchange="syncDateFromPicker('reporte-firma-aprobado-fecha-hidden', 'reporte-firma-aprobado-fecha-text', null)">
-                    <button type="button" onclick="document.getElementById('reporte-firma-aprobado-fecha-hidden').showPicker()" style="padding:6px;background:#1a1a18;border:1px solid #404040;border-radius:4px;cursor:pointer;font-size:12px;">📅</button>
+                    <button type="button" onclick="document.getElementById('reporte-firma-aprobado-fecha-hidden').showPicker()" style="display:inline-flex;align-items:center;gap:4px;padding:6px 8px;border-radius:4px;border:0.5px solid rgba(74,144,217,0.2);font-size:12px;cursor:pointer;backdrop-filter:blur(8px);background:rgba(74,144,217,0.08);color:#6cb4f5;">📅</button>
                   </div>
                 </div>
               </div>
@@ -808,8 +808,8 @@ const ReportesManager = (() => {
 
           <!-- Botones de acción -->
           <div style="display:flex;gap:12px;justify-content:flex-end;padding-top:16px;border-top:1px solid #404040;">
-            <button onclick="document.getElementById('reporte-modal-overlay').remove()" style="padding:12px 24px;background:transparent;border:1px solid #404040;border-radius:8px;color:#9e9e98;cursor:pointer;font-size:14px;">Cancelar</button>
-            <button onclick="ReportesManager.generarReporteCompleto()" style="padding:12px 24px;background:linear-gradient(135deg, #667eea, #764ba2);border:none;border-radius:8px;color:#fff;cursor:pointer;font-size:14px;font-weight:bold;">💾 Generar Reporte CFR 21</button>
+            <button onclick="document.getElementById('reporte-modal-overlay').remove()" style="display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:6px;border:0.5px solid rgba(180,180,175,0.2);font-size:14px;cursor:pointer;font-family:inherit;backdrop-filter:blur(8px);transition:all .2s ease;background:rgba(180,180,175,0.12);border-color:rgba(180,180,175,0.2);color:#b4b4af;">Cancelar</button>
+            <button onclick="ReportesManager.generarReporteCompleto()" style="display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:6px;border:0.5px solid transparent;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;backdrop-filter:blur(8px);transition:all .2s ease;background:rgba(74,144,217,0.12);border-color:rgba(74,144,217,0.2);color:#6cb4f5;box-shadow:0 2px 8px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.1);">💾 Generar Reporte CFR 21</button>
           </div>
         </div>
       </div>
