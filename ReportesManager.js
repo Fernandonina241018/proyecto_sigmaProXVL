@@ -188,8 +188,12 @@ const ReportesManager = (() => {
   }
 
   function crearReporteConDatos() {
+    console.log('🔍 Debug - localStorage keys:', Object.keys(localStorage).filter(k => k.includes('sigma')));
     const analisis = JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]');
     const graficos = JSON.parse(localStorage.getItem('sigmaPro_graficos') || '[]');
+
+    console.log('🔍 Análisis guardados:', analisis.length);
+    console.log('🔍 Gráficos guardados:', graficos.length);
 
     if (analisis.length === 0) {
       showToast('No hay análisis guardados. Ejecuta un análisis primero.', 'warn');
