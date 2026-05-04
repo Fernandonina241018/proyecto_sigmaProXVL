@@ -97,7 +97,6 @@ const VizControls = (() => {
 
   function getNumericColumns(data) {
     if (!data || !data.headers || !data.data || data.data.length === 0) return [];
-    console.log('🔍 data.data sample:', data.data.slice(0, 3));
     const result = data.headers.filter((h, idx) => {
       const sampleSize = Math.min(10, data.data.length);
       for (let i = 0; i < sampleSize; i++) {
@@ -109,7 +108,6 @@ const VizControls = (() => {
       }
       return false;
     });
-    console.log('🔍 numericCols result:', result);
     return result;
   }
 
@@ -118,9 +116,7 @@ const VizControls = (() => {
     if (!container) return;
 
     currentData = getData();
-    console.log('📊 VizControls - getData():', currentData ? `${currentData.name} (${currentData.headers?.length} cols, ${currentData.data?.length} rows)` : 'NULL');
     const numericCols = currentData ? getNumericColumns(currentData) : [];
-    console.log('📊 VizControls - numericCols:', numericCols);
     const prefs = loadPrefs();
 
     container.innerHTML = `
@@ -345,7 +341,6 @@ const VizControls = (() => {
 
     setTimeout(() => {
       alert(`✅ Generados ${generated.length} gráficos. Revisa la consola para ver la lista.`);
-      console.log('📊 Gráficos generados:', generated);
     }, delay * 500 + 500);
   }
 
@@ -371,7 +366,6 @@ const VizControls = (() => {
       const otros = JSON.parse(localStorage.getItem('sigmaPro_graficos') || '[]');
       otros.unshift(...generatedCharts);
       localStorage.setItem('sigmaPro_graficos', JSON.stringify(otros.slice(0, 50)));
-      console.log('💾 Gráficos guardados en localStorage');
     } catch (e) {
       console.error('Error guardando gráficos:', e);
     }

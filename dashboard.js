@@ -2973,10 +2973,6 @@ function ejecutarAnalisisEnDashboard() {
     data: ds.rows.map(row => [...row]) 
   };
 
-  console.log('[Analisis] columns:', ds.columns?.slice(0,3));
-  console.log('[Analisis] first row:', ds.rows[0]?.slice(0,3));
-  console.log('[Analisis] selected stats:', allSelected);
-
   if (typeof StateManager === 'undefined') {
     window.StateManager = {
       getImportedData: () => dataFormat,
@@ -3412,7 +3408,6 @@ function deselectAllCharts() {
 function applySelectedCharts() {
   const checked = document.querySelectorAll('.gallery-item input:checked');
   const selected = Array.from(checked).map(c => c.value);
-  console.log('Gráficos seleccionados:', selected);
   alert('Gráficos seleccionados: ' + selected.length);
 }
 
@@ -3442,7 +3437,6 @@ function initVizControls() {
 }
 
 function guardarResultadoAnalisis(data) {
-  console.log('🔍 guardarResultadoAnalisis called with:', data ? 'data present' : 'NO DATA');
   try {
     const ultimos = JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]');
     ultimos.unshift({
@@ -3450,7 +3444,6 @@ function guardarResultadoAnalisis(data) {
       timestamp: Date.now()
     });
     localStorage.setItem('sigmaPro_analisis', JSON.stringify(ultimos.slice(0, 10)));
-    console.log('💾 Análisis guardado en localStorage. Total:', ultimos.length);
   } catch (e) {
     console.error('Error guardando análisis:', e);
   }

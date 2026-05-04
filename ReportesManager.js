@@ -928,7 +928,6 @@ const ReportesManager = (() => {
     renderReportesList();
 
     showToast(`Reporte CFR 21 Part 11 generado - Hash: ${integrityHash}`, 'ok');
-    console.log('📊 Reporte CFR 21 Part 11 completo:', reporteCompleto);
   }
 
   function eliminarReporte(index) {
