@@ -227,11 +227,7 @@ const VizControls = (() => {
         <div class="viz-actions">
           <button class="btn-crystal-blue" id="viz-generate" ${!currentData ? 'disabled' : ''}>Generar</button>
           <button class="btn-crystal-gray" id="viz-clear">Limpiar</button>
-        </div>
-        <div class="viz-actions">
           <button class="btn-crystal" id="viz-export">Exportar PNG</button>
-        </div>
-        <div class="viz-actions">
           <button class="btn-crystal" id="viz-generate-all" ${!currentData || numericCols.length === 0 ? 'disabled' : ''}>Generar Todos</button>
         </div>
       </div>
