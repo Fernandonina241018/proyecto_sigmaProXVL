@@ -718,11 +718,17 @@ const ReportesManager = (() => {
                 </div>
                 <div>
                   <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Fecha Fabricación</label>
-                  <input type="date" id="reporte-fabrica" style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                  <div style="display:flex;gap:8px;align-items:center;">
+                    <input type="date" id="reporte-fabrica" style="flex:1;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;" onchange="updateDateDisplay('reporte-fabrica', 'reporte-fabrica-display')">
+                    <span id="reporte-fabrica-display" style="color:#5fd97a;font-size:11px;min-width:80px;">—</span>
+                  </div>
                 </div>
                 <div>
                   <label style="color:#9e9e98;font-size:11px;display:block;margin-bottom:4px;">Fecha Expiración</label>
-                  <input type="date" id="reporte-expiracion" style="width:100%;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;">
+                  <div style="display:flex;gap:8px;align-items:center;">
+                    <input type="date" id="reporte-expiracion" style="flex:1;padding:10px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;" onchange="updateDateDisplay('reporte-expiracion', 'reporte-expiracion-display')">
+                    <span id="reporte-expiracion-display" style="color:#5fd97a;font-size:11px;min-width:80px;">—</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -768,19 +774,28 @@ const ReportesManager = (() => {
                   <div style="color:#5fd97a;font-weight:bold;font-size:12px;margin-bottom:8px;">👤 Preparado por</div>
                   <input type="text" id="reporte-firma-preparado" value="${userName}" placeholder="Nombre" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;margin-bottom:6px;">
                   <input type="text" id="reporte-firma-preparado-cargo" placeholder="Cargo" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;margin-bottom:6px;">
-                  <input type="date" id="reporte-firma-preparado-fecha" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;">
+                  <div style="display:flex;gap:4px;align-items:center;">
+                    <input type="date" id="reporte-firma-preparado-fecha" style="flex:1;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;" onchange="updateDateDisplay('reporte-firma-preparado-fecha', 'reporte-firma-preparado-fecha-display')">
+                    <span id="reporte-firma-preparado-fecha-display" style="color:#5fd97a;font-size:10px;">—</span>
+                  </div>
                 </div>
                 <div style="padding:12px;background:#2a2a28;border-radius:8px;">
                   <div style="color:#f0ad4e;font-weight:bold;font-size:12px;margin-bottom:8px;">👁️ Revisado por</div>
                   <input type="text" id="reporte-firma-revisado" placeholder="Nombre" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;margin-bottom:6px;">
                   <input type="text" id="reporte-firma-revisado-cargo" placeholder="Cargo" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;margin-bottom:6px;">
-                  <input type="date" id="reporte-firma-revisado-fecha" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;">
+                  <div style="display:flex;gap:4px;align-items:center;">
+                    <input type="date" id="reporte-firma-revisado-fecha" style="flex:1;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;" onchange="updateDateDisplay('reporte-firma-revisado-fecha', 'reporte-firma-revisado-fecha-display')">
+                    <span id="reporte-firma-revisado-fecha-display" style="color:#f0ad4e;font-size:10px;">—</span>
+                  </div>
                 </div>
                 <div style="padding:12px;background:#2a2a28;border-radius:8px;">
                   <div style="color:#667eea;font-weight:bold;font-size:12px;margin-bottom:8px;">✅ Aprobado por</div>
                   <input type="text" id="reporte-firma-aprobado" placeholder="Nombre" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;margin-bottom:6px;">
                   <input type="text" id="reporte-firma-aprobado-cargo" placeholder="Cargo" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;margin-bottom:6px;">
-                  <input type="date" id="reporte-firma-aprobado-fecha" style="width:100%;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;">
+                  <div style="display:flex;gap:4px;align-items:center;">
+                    <input type="date" id="reporte-firma-aprobado-fecha" style="flex:1;padding:8px;background:#1a1a18;border:1px solid #404040;border-radius:4px;color:#e0e0e0;font-size:12px;" onchange="updateDateDisplay('reporte-firma-aprobado-fecha', 'reporte-firma-aprobado-fecha-display')">
+                    <span id="reporte-firma-aprobado-fecha-display" style="color:#667eea;font-size:10px;">—</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -946,6 +961,21 @@ const ReportesManager = (() => {
 
   return { init, crearReporte, verReporte, duplicarReporte, exportarReporte, exportarTodo, eliminarReporte, crearReporteConDatos, generarReporteCompleto };
 })();
+
+function updateDateDisplay(inputId, displayId) {
+  const input = document.getElementById(inputId);
+  const display = document.getElementById(displayId);
+  if (input && display && input.value) {
+    const date = new Date(input.value + 'T00:00:00');
+    const day = String(date.getDate()).padStart(2, '0');
+    const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    display.textContent = `${day}/${month}/${year}`;
+  } else if (display) {
+    display.textContent = '—';
+  }
+}
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', ReportesManager.init);
