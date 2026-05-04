@@ -3007,6 +3007,17 @@ function ejecutarAnalisisEnDashboard() {
       dataset: ds.name,
       date: new Date().toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })
     };
+
+    guardarResultadoAnalisis({
+      nombre: `Análisis ${STATE.analysisCount}`,
+      dataset: ds.name,
+      columnas: ds.columns,
+      pruebas: allSelected,
+      resultados: resultados,
+      html: html,
+      fecha: new Date().toISOString()
+    });
+
     if (!STATE.datasetsUsed.includes(ds.name)) {
       STATE.datasetsUsed.push(ds.name);
     }
@@ -3427,5 +3438,19 @@ function initVizControls() {
   if (sidebar) {
     sidebar.id = 'viz-controls-container';
     VizControls.buildUI('viz-controls-container');
+  }
+}
+
+function guardarResultadoAnalisis(data) {
+  try {
+    const ultimos = JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]');
+    ultimos.unshift({
+      ...data,
+      timestamp: Date.now()
+    });
+    localStorage.setItem('sigmaPro_analisis', JSON.stringify(ultimos.slice(0, 10)));
+    console.log('💾 Análisis guardado en localStorage');
+  } catch (e) {
+    console.error('Error guardando análisis:', e);
   }
 }
