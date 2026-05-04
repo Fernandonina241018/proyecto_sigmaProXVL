@@ -174,10 +174,10 @@ html, body {
 }
 .btn-action {
   display: flex; align-items: center; gap: 4px;
-  padding: 6px 10px; border-radius: 6px;
+  padding: 8px 12px; border-radius: 6px;
   border: 0.5px solid rgba(255,255,255,0.1);
   background: #2d2d2a; color: #9e9e98;
-  font-size: 11px; cursor: pointer; font-family: inherit;
+  font-size: 12px; cursor: pointer; font-family: inherit;
   transition: background .2s, color .2s, border-color .2s;
 }
 .btn-action:hover { background: #3a3a38; color: #fff; }
@@ -597,6 +597,17 @@ html, body {
 .btn-crystal-green:active, .btn-crystal-red:active, .btn-crystal-gray:active {
   transform: scale(0.98);
 }
+
+.btn-icon {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: background .2s;
+}
+.btn-icon:hover { background: rgba(255,255,255,0.1); }
 
 /* ─── WORK TOOLBAR ────────────────────────────────────────────────────────── */
 .work-toolbar {

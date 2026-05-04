@@ -518,36 +518,47 @@
       <div class="page" id="page-reportes">
         <div class="page-header">
           <div><div class="page-title">Reportes</div><div class="page-subtitle">Documentos generados</div></div>
-          <div class="badge-blue">4 reportes</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <button class="btn-crystal" onclick="ReportesManager.crearReporte()">+ Nuevo Reporte</button>
+            <button class="btn-crystal" onclick="ReportesManager.exportarTodo()">Exportar Todo</button>
+            <div class="badge-blue" id="reportes-count-badge">0 reportes</div>
+          </div>
         </div>
         <div class="cards-3">
           <div class="card">
             <div class="card-icon ic-b"><svg viewBox="0 0 16 16"><path d="M4 2h6l4 4v8H4V2zM10 2v4h4"/></svg></div>
-            <div class="card-label">Reportes totales</div><div class="card-value">4</div>
-            <div class="card-delta"><span>+1</span> esta semana</div>
+            <div class="card-label">Reportes totales</div><div class="card-value" id="reportes-total">0</div>
+            <div class="card-delta" id="reportes-semana"><span>sin actividad</span></div>
           </div>
           <div class="card">
             <div class="card-icon ic-g"><svg viewBox="0 0 16 16"><path d="M3 8l3 3 7-7"/></svg></div>
-            <div class="card-label">Completados</div><div class="card-value">3</div>
+            <div class="card-label">Completados</div><div class="card-value" id="reportes-completados">0</div>
             <div class="card-delta"><span>listos para exportar</span></div>
           </div>
           <div class="card">
             <div class="card-icon ic-o"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5"/><path d="M8 5v3l2 2"/></svg></div>
-            <div class="card-label">En borrador</div><div class="card-value">1</div>
+            <div class="card-label">En borrador</div><div class="card-value" id="reportes-borrador">0</div>
             <div class="card-delta"><span>en progreso</span></div>
+          </div>
+          <div class="card">
+            <div class="card-icon ic-p"><svg viewBox="0 0 16 16"><path d="M2 12l4-4 3 3 5-6"/></svg></div>
+            <div class="card-label">Gráficos generados</div><div class="card-value" id="reportes-graficos">0</div>
+            <div class="card-delta"><span>en reportes</span></div>
           </div>
         </div>
         <div class="bottom-grid full">
           <div class="panel">
-            <div class="panel-label">Listado de reportes</div>
+            <div class="panel-header">
+              <div class="panel-label">Listado de reportes</div>
+              <div style="display:flex;gap:8px;align-items:center;">
+                <input type="text" id="reportes-search" placeholder="Buscar..." class="viz-input" style="padding:4px 8px;font-size:12px;">
+              </div>
+            </div>
             <div style="overflow:auto;flex:1;">
               <table class="data-table">
-                <thead><tr><th>Nombre</th><th>Contenido</th><th>Estado</th><th>Creado</th></tr></thead>
-                <tbody>
-                  <tr><td>Informe regresión Q1-2024</td><td>5 pruebas · 3 gráficos</td><td><span class="tag tag-run">Listo</span></td><td>hace 1d</td></tr>
-                  <tr><td>Análisis panel hogares</td><td>8 pruebas · 5 gráficos</td><td><span class="tag tag-run">Listo</span></td><td>hace 3d</td></tr>
-                  <tr><td>Descriptivo vars. económicas</td><td>3 pruebas · 2 gráficos</td><td><span class="tag tag-run">Listo</span></td><td>hace 5d</td></tr>
-                  <tr><td>Estudio series de precios</td><td>2 pruebas · 1 gráfico</td><td><span class="tag tag-warn">Borrador</span></td><td>hoy</td></tr>
+                <thead><tr><th>Nombre</th><th>Contenido</th><th>Estado</th><th>Creado</th><th>Acciones</th></tr></thead>
+                <tbody id="reportes-table-body">
+                  <tr><td colspan="5" style="text-align:center;color:#6b6b65;">Cargando reportes...</td></tr>
                 </tbody>
               </table>
             </div>
@@ -663,6 +674,7 @@
 <script src="EstadisticaDescriptiva.js"></script>
 <script src="EDAManager.js"></script>
 <script src="VizControls.js"></script>
+<script src="ReportesManager.js"></script>
 <script src="dashboard.js"></script>
 
 </body>
