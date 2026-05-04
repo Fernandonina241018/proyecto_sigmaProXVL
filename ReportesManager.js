@@ -42,7 +42,7 @@ const ReportesManager = (() => {
     return {
       generatedBy: userName,
       generationDate: new Date().toISOString(),
-      generationDateFormatted: formatFullDate(new Date()),
+      generationDateFormatted: formatFullDateTime(new Date()),
       software: CFR21_CONFIG.software,
       version: CFR21_CONFIG.version,
       regulatoryFramework: CFR21_CONFIG.standard
@@ -53,10 +53,16 @@ const ReportesManager = (() => {
     const day = String(date.getDate()).padStart(2, '0');
     const month = MONTHS_ES[date.getMonth()];
     const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
+  function formatFullDateTime(date) {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = MONTHS_ES[date.getMonth()];
+    const year = date.getFullYear();
     const hh = String(date.getHours()).padStart(2, '0');
     const mm = String(date.getMinutes()).padStart(2, '0');
-    const ss = String(date.getSeconds()).padStart(2, '0');
-    return `${day}/${month}/${year} ${hh}:${mm}:${ss}`;
+    return `${day}/${month}/${year} ${hh}:${mm}`;
   }
 
   function getDatasetTraceability(analisis) {
@@ -76,7 +82,7 @@ const ReportesManager = (() => {
       prepared: {
         name: autor || 'Usuario',
         title: 'Analista de Datos',
-        date: formatFullDate(now),
+        date: formatFullDateTime(now),
         action: 'Generado',
         meaning: 'Preparación del reporte'
       },
@@ -460,7 +466,7 @@ const ReportesManager = (() => {
       <div class="info-item"><span class="info-label">Estándar</span><div class="info-value">${cfr21.standard || 'FDA 21 CFR Part 11'}</div></div>
       <div class="info-item"><span class="info-label">Alcance</span><div class="info-value">${cfr21.scope || 'Electronic Records; Electronic Signatures'}</div></div>
       <div class="info-item"><span class="info-label">Hash de Integridad</span><div class="info-value hash">${cfr21.integrityHash || 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Fecha de Generación</span><div class="info-value">${cfr21.auditTrail?.generationDateFormatted || formatFullDate(now)}</div></div>
+      <div class="info-item"><span class="info-label">Fecha de Generación</span><div class="info-value">${cfr21.auditTrail?.generationDateFormatted || formatFullDateTime(now)}</div></div>
     </div>
   </div>
 
@@ -528,7 +534,7 @@ const ReportesManager = (() => {
     <div class="signature-block">
       <div class="signature-line"><span><strong>Preparado por:</strong></span><span>${cfr21.electronicSignatures?.prepared?.name || reporte.autor || 'N/A'}</span></div>
       <div class="signature-line"><span>Cargo:</span><span>${cfr21.electronicSignatures?.prepared?.title || 'Analista de Datos'}</span></div>
-      <div class="signature-line"><span>Fecha:</span><span>${cfr21.electronicSignatures?.prepared?.date || formatFullDate(now)}</span></div>
+      <div class="signature-line"><span>Fecha:</span><span>${cfr21.electronicSignatures?.prepared?.date || formatFullDateTime(now)}</span></div>
       <div class="signature-line"><span>Acción:</span><span>${cfr21.electronicSignatures?.prepared?.action || 'Generado'}</span></div>
       <div class="signature-line"><span>Significado:</span><span>${cfr21.electronicSignatures?.prepared?.meaning || 'Preparación del reporte'}</span></div>
     </div>
@@ -554,7 +560,7 @@ const ReportesManager = (() => {
 
   <div class="footer">
     <p>Este documento fue generado por <strong>StatAnalyzer Pro</strong> en cumplimiento con FDA 21 CFR Part 11.</p>
-    <p>Document ID: ${cfr21.integrityHash || 'N/A'} | Fecha: ${formatFullDate(now)} | Usuario: ${cfr21.auditTrail?.generatedBy || 'Usuario'}</p>
+    <p>Document ID: ${cfr21.integrityHash || 'N/A'} | Fecha: ${formatFullDateTime(now)} | Usuario: ${cfr21.auditTrail?.generatedBy || 'Usuario'}</p>
     <p style="margin-top: 10px; font-size: 10px;">Este documento es una copia controlada. Cualquier modificación no autorizada invalidará la integridad del registro electrónico.</p>
   </div>
 </body>
@@ -922,15 +928,12 @@ const ReportesManager = (() => {
   }
 
   function formatDate(dateStr) {
+    if (!dateStr) return '—';
     const date = new Date(dateStr);
-    const now = new Date();
-    const diff = now - date;
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-    if (days === 0) return 'hoy';
-    if (days === 1) return 'hace 1d';
-    if (days < 7) return `hace ${days}d`;
-    return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = MONTHS_ES[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
   }
 
   function showToast(msg, type = 'info') {
