@@ -349,10 +349,13 @@ const ReportesManager = (() => {
             ` : ''}
           </div>
 
-          <div style="display:flex;gap:12px;justify-content:flex-end;padding-top:16px;border-top:1px solid #404040;margin-top:16px;">
-            <button onclick="ReportesManager.exportarReporte(${index}, 'html')" style="padding:10px 20px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;cursor:pointer;">📥 Exportar HTML</button>
-            <button onclick="ReportesManager.exportarReporte(${index}, 'json')" style="padding:10px 20px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;cursor:pointer;">📦 Exportar JSON</button>
-            <button onclick="document.getElementById('reporte-view-overlay').remove()" style="padding:10px 20px;background:#667eea;border:none;border-radius:6px;color:#fff;cursor:pointer;">Cerrar</button>
+          <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:16px;border-top:1px solid #404040;margin-top:16px;flex-wrap:wrap;">
+            <button onclick="ReportesManager.exportarReporte(${index}, 'pdf')" style="padding:8px 14px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;cursor:pointer;font-size:12px;">📄 PDF</button>
+            <button onclick="ReportesManager.exportarReporte(${index}, 'html')" style="padding:8px 14px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;cursor:pointer;font-size:12px;">🌐 HTML</button>
+            <button onclick="ReportesManager.exportarReporte(${index}, 'csv')" style="padding:8px 14px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;cursor:pointer;font-size:12px;">📊 CSV</button>
+            <button onclick="ReportesManager.exportarReporte(${index}, 'txt')" style="padding:8px 14px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;cursor:pointer;font-size:12px;">📝 TXT</button>
+            <button onclick="ReportesManager.exportarReporte(${index}, 'json')" style="padding:8px 14px;background:#2a2a28;border:1px solid #404040;border-radius:6px;color:#e0e0e0;cursor:pointer;font-size:12px;">📦 JSON</button>
+            <button onclick="document.getElementById('reporte-view-overlay').remove()" style="padding:8px 14px;background:#667eea;border:none;border-radius:6px;color:#fff;cursor:pointer;font-size:12px;">Cerrar</button>
           </div>
         </div>
       </div>
@@ -405,6 +408,42 @@ const ReportesManager = (() => {
       a.click();
       URL.revokeObjectURL(url);
       showToast('HTML CFR 21 Part 11 exportado', 'ok');
+      return;
+    }
+
+    if (format === 'csv') {
+      const csv = generarCSV(reporte);
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${reporte.nombre.replace(/\s+/g, '_')}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('CSV exportado', 'ok');
+      return;
+    }
+
+    if (format === 'txt') {
+      const txt = generarTXT(reporte);
+      const blob = new Blob([txt], { type: 'text/plain;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${reporte.nombre.replace(/\s+/g, '_')}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('TXT exportado', 'ok');
+      return;
+    }
+
+    if (format === 'pdf') {
+      const html = generarHTMLCFR21(reporte);
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(html);
+      printWindow.document.close();
+      printWindow.print();
+      showToast('Imprime y guarda como PDF desde el navegador', 'ok');
       return;
     }
 
@@ -565,6 +604,88 @@ const ReportesManager = (() => {
   </div>
 </body>
 </html>`;
+  }
+
+  function generarCSV(reporte) {
+    const cfr21 = reporte.cfr21Compliance || {};
+    let csv = '# Reporte CFR 21 Part 11 - StatAnalyzer Pro\n';
+    csv += '# ======================================\n\n';
+    csv += `Titulo,${reporte.nombre}\n`;
+    csv += `Autor,${reporte.autor}\n`;
+    csv += `Version,${reporte.version || '1.0'}\n`;
+    csv += `Estado,${reporte.estado}\n`;
+    csv += `Dataset,${reporte.dataset}\n`;
+    csv += `Pruebas,${reporte.pruebasCount}\n`;
+    csv += `Graficos,${reporte.graficosCount}\n`;
+    csv += `Hash,${cfr21.integrityHash || 'N/A'}\n`;
+    csv += `Fecha,${formatDate(reporte.creado)}\n\n`;
+
+    if (reporte.fase || reporte.equipo) {
+      csv += '# Cualificacion Farmaceutica\n';
+      csv += `Tipo Cualificacion,${reporte.fase || 'N/A'}\n`;
+      csv += `Lote,${reporte.lote || 'N/A'}\n`;
+      csv += `Equipo,${reporte.equipo || 'N/A'}\n`;
+      csv += `Serie,${reporte.serie || 'N/A'}\n`;
+      csv += `Modelo,${reporte.modelo || 'N/A'}\n`;
+      csv += `Protocolo,${reporte.protocolo || 'N/A'}\n`;
+      csv += `Confidencialidad,${reporte.confidencial || 'N/A'}\n\n`;
+    }
+
+    csv += '# Firmas Electronicas\n';
+    csv += `PreparadoNombre,${reporte.firmaPreparado?.nombre || ''}\n`;
+    csv += `PreparadoCargo,${reporte.firmaPreparado?.cargo || ''}\n`;
+    csv += `PreparadoFecha,${reporte.firmaPreparado?.fecha || ''}\n`;
+    csv += `RevisadoNombre,${reporte.firmaRevisado?.nombre || ''}\n`;
+    csv += `RevisadoCargo,${reporte.firmaRevisado?.cargo || ''}\n`;
+    csv += `RevisadoFecha,${reporte.firmaRevisado?.fecha || ''}\n`;
+    csv += `AprobadoNombre,${reporte.firmaAprobado?.nombre || ''}\n`;
+    csv += `AprobadoCargo,${reporte.firmaAprobado?.cargo || ''}\n`;
+    csv += `AprobadoFecha,${reporte.firmaAprobado?.fecha || ''}\n`;
+
+    return csv;
+  }
+
+  function generarTXT(reporte) {
+    const cfr21 = reporte.cfr21Compliance || {};
+    const W = 60;
+    const line = (s) => s.repeat(W);
+
+    let txt = '';
+    txt += line('=') + '\n';
+    txt += `  REPORTE CFR 21 PART 11 - StatAnalyzer Pro\n`;
+    txt += line('=') + '\n\n';
+    txt += `Titulo: ${reporte.nombre}\n`;
+    txt += `Autor: ${reporte.autor}\n`;
+    txt += `Version: ${reporte.version || '1.0'}\n`;
+    txt += `Estado: ${reporte.estado}\n`;
+    txt += `Dataset: ${reporte.dataset}\n`;
+    txt += `Pruebas: ${reporte.pruebasCount}\n`;
+    txt += `Hash: ${cfr21.integrityHash || 'N/A'}\n`;
+    txt += `Fecha: ${formatDate(reporte.creado)}\n\n`;
+
+    if (reporte.fase || reporte.equipo) {
+      txt += line('-') + '\n';
+      txt += 'CUALIFICACION FARMACEUTICA\n';
+      txt += line('-') + '\n';
+      txt += `Tipo: ${reporte.fase || 'N/A'}\n`;
+      txt += `Lote: ${reporte.lote || 'N/A'}\n`;
+      txt += `Equipo: ${reporte.equipo || 'N/A'}\n`;
+      txt += `Serie: ${reporte.serie || 'N/A'}\n`;
+      txt += `Modelo: ${reporte.modelo || 'N/A'}\n`;
+      txt += `Protocolo: ${reporte.protocolo || 'N/A'}\n\n`;
+    }
+
+    txt += line('-') + '\n';
+    txt += 'FIRMAS ELECTRONICAS\n';
+    txt += line('-') + '\n';
+    txt += `Preparado: ${reporte.firmaPreparado?.nombre || ''} | ${reporte.firmaPreparado?.cargo || ''} | ${reporte.firmaPreparado?.fecha || ''}\n`;
+    txt += `Revisado: ${reporte.firmaRevisado?.nombre || ''} | ${reporte.firmaRevisado?.cargo || ''} | ${reporte.firmaRevisado?.fecha || ''}\n`;
+    txt += `Aprobado: ${reporte.firmaAprobado?.nombre || ''} | ${reporte.firmaAprobado?.cargo || ''} | ${reporte.firmaAprobado?.fecha || ''}\n\n`;
+    txt += line('=') + '\n';
+    txt += 'FIN DEL REPORTE\n';
+    txt += line('=') + '\n';
+
+    return txt;
   }
 
   function exportarTodo() {
