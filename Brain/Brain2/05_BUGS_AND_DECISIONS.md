@@ -17,6 +17,18 @@
 
 ---
 
+### 2026-05-05 — `index.html` — 🟢 MENOR
+
+#### FIX — Limpieza de código muerto y valores inválidos
+**Severidad:** 🟢 Minor  
+**Causa raíz:** Valores `data:,` vacíos en og:image y favicon causando 404/warnings; código comentado sin usar; comentario duplicado de script ya cargado desde dist/.  
+**Fix:** Se eliminaron los valores `data:,` de og:image y favicon (se removió la línea og:image y se usó un SVG inline para favicon); se eliminó el bloque de búsqueda comentado (líneas 66-71); se eliminó el comentario duplicado de Logger.js.  
+**Impacto:** Ninguno - solo limpieza de código muerto.  
+**Archivos:** `index.html`  
+**Fecha:** 5 Mayo 2026
+
+---
+
 ### 2026-05-03 — `ReportesManager.js` (dashboard) — 🟡 MAYOR
 
 #### BUG — Reportes no mostraban análisis guardados

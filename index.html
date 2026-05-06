@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="StatAnalyzer Pro - Herramienta profesional de análisis estadístico">
+    
+    <!-- Preconnect a CDN externos para mejor performance -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="StatAnalyzer Pro - Análisis Estadístico Profesional">
+    <meta property="og:description" content="Herramienta profesional de análisis estadístico con CFR 21 Part 11">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="StatAnalyzer Pro">
+    <meta name="twitter:description" content="Análisis estadístico con cumplimiento farmacéutico">
+    
     <title>Análisis Estadístico - StatAnalyzer Pro</title>
     
     <!-- ANTI-FOUC: Aplicar tema antes de cargar CSS -->
@@ -15,7 +30,13 @@
         })();
     </script>
     
-    <link rel="icon" href="data:,">
+    <!-- Loading Overlay Global -->
+    <div id="global-loading" class="global-loading" role="status" aria-live="polite" style="display:none;">
+        <div class="global-loading-spinner"></div>
+        <div class="global-loading-text">Procesando...</div>
+    </div>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
     <link rel="stylesheet" href="visualizacion.css">
     <link rel="stylesheet" href="auth.css">
     <link rel="stylesheet" href="styles.css">
@@ -40,13 +61,7 @@
                 <span>StatAnalyzer Pro</span>
             </div>
             
-            <div class="nav-center">
-                <!-- BUSCAR TEMPORALMENTE COMENTADO HASTA IMPLEMENTAR
-                <div class="search-box">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" placeholder="Buscar..." id="globalSearch" onkeyup="handleGlobalSearch(event)">
-                </div>
--->
+<div class="nav-center">
             </div>
             
             <div class="nav-right">
@@ -55,13 +70,13 @@
                     <span class="icon-moon">🌙</span>
                 </button>
                 
-                <button class="notification-btn" onclick="showNotifications()" title="Notificaciones">
-                    🔔
-                    <span class="notification-badge" id="notifBadge" style="display:none">0</span>
+                <button class="notification-btn" onclick="showNotifications()" aria-label="Notificaciones" title="Notificaciones">
+                    <span aria-hidden="true">🔔</span>
+                    <span class="notification-badge" id="notifBadge" style="display:none" aria-live="polite">0</span>
                 </button>
                 
-                <button class="theme-toggle assistant-btn" onclick="mostrarAsistenteAnalisis()" title="Asistente de Análisis">
-                    🤖
+                <button class="theme-toggle assistant-btn" onclick="mostrarAsistenteAnalisis()" aria-label="Abrir asistente de análisis" title="Asistente de Análisis">
+                    <span aria-hidden="true">🤖</span>
                 </button>
                 
                 <div class="user-menu">
@@ -101,14 +116,14 @@
                 </div>
             </div>
             
-            <div class="nav-menu">
-                <div class="nav-item active" data-view="trabajo" onclick="switchView('trabajo')"><span class="nav-icon">📋</span>Trabajo</div>
-                <div class="nav-item" data-view="datos" onclick="switchView('datos')"><span class="nav-icon">📊</span>Datos</div>
-                <div class="nav-item" data-view="analisis" onclick="switchView('analisis')"><span class="nav-icon">🔬</span>Análisis</div>
-                <div class="nav-item" data-view="visualizacion" onclick="switchView('visualizacion')"><span class="nav-icon">📈</span>Visualización</div>
-                <div class="nav-item" data-view="reportes" onclick="switchView('reportes')"><span class="nav-icon">📄</span>Reportes</div>
-                <div class="nav-item" data-view="auditoria" id="nav-auditoria" onclick="switchView('auditoria')" style="display:none"><span class="nav-icon">📋</span>Auditoría</div>
-                <div class="nav-item" data-view="usuarios" id="nav-usuarios" onclick="switchView('usuarios')" style="display:none"><span class="nav-icon">👥</span>Usuarios</div>
+            <div class="nav-menu" role="navigation" aria-label="Menú principal">
+                <button class="nav-item active" data-view="trabajo" onclick="switchView('trabajo')" aria-current="page"><span class="nav-icon">📋</span>Trabajo</button>
+                <button class="nav-item" data-view="datos" onclick="switchView('datos')"><span class="nav-icon">📊</span>Datos</button>
+                <button class="nav-item" data-view="analisis" onclick="switchView('analisis')"><span class="nav-icon">🔬</span>Análisis</button>
+                <button class="nav-item" data-view="visualizacion" onclick="switchView('visualizacion')"><span class="nav-icon">📈</span>Visualización</button>
+                <button class="nav-item" data-view="reportes" onclick="switchView('reportes')"><span class="nav-icon">📄</span>Reportes</button>
+                <button class="nav-item" data-view="auditoria" id="nav-auditoria" onclick="switchView('auditoria')" style="display:none" aria-label="Auditoría"><span class="nav-icon">📋</span>Auditoría</button>
+                <button class="nav-item" data-view="usuarios" id="nav-usuarios" onclick="switchView('usuarios')" style="display:none" aria-label="Gestión de usuarios"><span class="nav-icon">👥</span>Usuarios</button>
             </div>
         </nav>
 
@@ -493,7 +508,6 @@
     <script src="Visualizacion.js"></script>
     <script src="ReporteManager.js"></script>
     <script src="ValidacionesManager.js"></script>
-    <!-- <script src="Logger.js"></script> -->
     <script src="dist/Logger.js"></script>
     <script src="AuditoriaManager.js"></script>
     <script src="UsuariosManager.js"></script>
