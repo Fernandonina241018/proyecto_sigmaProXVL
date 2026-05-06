@@ -2227,19 +2227,41 @@ body {
     }
 }
 
-/* ── Estado colapsado ── */
+/* ── Estado colapsado - Liquid Glass ── */
 .stats-menu.sidebar-collapsed {
     width: 70px !important;
     min-width: 70px !important;
     padding: 10px 5px !important;
     position: relative;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.25) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .stats-menu.sidebar-collapsed {
+    background: rgba(30, 30, 40, 0.35) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .active-sidebar.sidebar-collapsed {
     width: 50px !important;
     min-width: 50px !important;
-    padding: 0 !important;
+    padding: 12px 8px !important;
     position: relative;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.25) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .active-sidebar.sidebar-collapsed {
+    background: rgba(30, 30, 40, 0.35) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 /* Ocultar contenido interno al colapsar - Liquid fade */
@@ -2351,14 +2373,21 @@ body {
                 padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Estado colapsado: solo iconos */
+/* Estado colapsado: solo iconos - Liquid Glass */
 .stats-menu.sidebar-collapsed {
     width: 70px !important;
     min-width: 70px !important;
     padding: 15px 8px !important;
     align-items: center;
-    background: #f8f9fa;
-    border-right: 1px solid #e0e0e0;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.25) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .stats-menu.sidebar-collapsed {
+    background: rgba(30, 30, 40, 0.35) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* Ocultar contenido expandido cuando colapsado */
@@ -2480,8 +2509,19 @@ body {
 .active-sidebar.sidebar-collapsed {
     width: 50px !important;
     min-width: 50px !important;
-    padding: 0 !important;
+    padding: 12px 8px !important;
     position: relative;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.25) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .active-sidebar.sidebar-collapsed {
+    background: rgba(30, 30, 40, 0.35) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 /* Ocultar contenido interno al colapsar */

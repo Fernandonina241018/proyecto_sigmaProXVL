@@ -38,17 +38,20 @@
 
 ### 2026-05-05 — `script.js` + `styles.css` — 🟡 MAYOR
 
-#### BUG — Botones de toggle no visibles cuando sidebar colapsado
+#### BUG — Sidebar colapsado sin efecto liquid glass
 **Severidad:** 🟡 Mayor  
-**Causa raíz:** El selector CSS `:not()` que oculta contenido al colapsar no incluía `.sidebar-toggle-btn-left-pos`, por lo que el botón integrado quedaba oculto.  
-**Fix:** Agregado `.sidebar-toggle-btn-left-pos` a las excepciones del selector `:not()` en CSS (líneas 2246 y 2256 de styles.css).  
-**Impacto:** Botones de toggle invisibles cuando sidebars colapsados.  
+**Causa raíz:** Las clases `.sidebar-collapsed` no incluían los estilos glass (backdrop-filter, background translúcido), solo tenían backgrounds sólidos.  
+**Fix:** Agregado glass effect a las 3 definiciones de `.sidebar-collapsed`:
+- Líneas 2231-2261 (stats-menu y active-sidebar principal)
+- Líneas 2377-2385 (stats-menu sidebar-icons)
+- Líneas 2509-2526 (active-sidebar duplicate)  
+**Impacto:** Sidebars colapsados sin efecto visual glassmorphism.  
 **Archivos:** `styles.css`  
 **Fecha:** 5 Mayo 2026
 
 ---
 
-### 2026-05-05 — `script.js` + `styles.css` — 🟢 MENOR
+### 2026-05-05 — `script.js` + `styles.css` — 🟡 MAYOR
 
 #### FEATURE — Toggle buttons integrados en sidebars
 **Severidad:** 🟢 Minor  
