@@ -36,6 +36,18 @@
 
 ---
 
+### 2026-05-05 — `script.js` + `styles.css` — 🟡 MAYOR
+
+#### BUG — Botones de toggle no visibles cuando sidebar colapsado
+**Severidad:** 🟡 Mayor  
+**Causa raíz:** El selector CSS `:not()` que oculta contenido al colapsar no incluía `.sidebar-toggle-btn-left-pos`, por lo que el botón integrado quedaba oculto.  
+**Fix:** Agregado `.sidebar-toggle-btn-left-pos` a las excepciones del selector `:not()` en CSS (líneas 2246 y 2256 de styles.css).  
+**Impacto:** Botones de toggle invisibles cuando sidebars colapsados.  
+**Archivos:** `styles.css`  
+**Fecha:** 5 Mayo 2026
+
+---
+
 ### 2026-05-05 — `script.js` + `styles.css` — 🟢 MENOR
 
 #### FEATURE — Toggle buttons integrados en sidebars

@@ -2243,7 +2243,7 @@ body {
 }
 
 /* Ocultar contenido interno al colapsar - Liquid fade */
-.stats-menu.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left):not(.sidebar-strip-label):not(.sidebar-icons-container):not(.sidebar-icons-compact):not(.sidebar-icons-container-top),
+.stats-menu.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left-pos):not(.sidebar-toggle-btn-left):not(.sidebar-strip-label):not(.sidebar-icons-container):not(.sidebar-icons-compact):not(.sidebar-icons-container-top),
 .active-sidebar.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label):not(.sidebar-icons-container) {
     opacity: 0;
     pointer-events: none;
@@ -2253,7 +2253,7 @@ body {
 }
 
 /* Mostrar contenido al expandir - Liquid reveal */
-.stats-menu:not(.sidebar-collapsed) > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label),
+.stats-menu:not(.sidebar-collapsed) > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left-pos):not(.sidebar-strip-label),
 .active-sidebar:not(.sidebar-collapsed) > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label) {
     opacity: 1;
     pointer-events: auto;
