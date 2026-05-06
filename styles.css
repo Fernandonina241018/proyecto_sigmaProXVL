@@ -2266,7 +2266,7 @@ body {
 
 /* Ocultar contenido interno al colapsar - Liquid fade */
 .stats-menu.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left-pos):not(.sidebar-toggle-btn-left):not(.sidebar-strip-label):not(.sidebar-icons-container):not(.sidebar-icons-compact):not(.sidebar-icons-container-top),
-.active-sidebar.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label):not(.sidebar-icons-container) {
+.active-sidebar.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left-pos):not(.sidebar-toggle-btn-left):not(.sidebar-strip-label):not(.sidebar-icons-container) {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -2525,8 +2525,8 @@ body {
 }
 
 /* Ocultar contenido interno al colapsar */
-.stats-menu.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left):not(.sidebar-strip-label):not(.sidebar-icons-container):not(.sidebar-icons-compact):not(.sidebar-icons-container-top),
-.active-sidebar.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label):not(.sidebar-icons-container) {
+.stats-menu.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left-pos):not(.sidebar-toggle-btn-left):not(.sidebar-strip-label):not(.sidebar-icons-container):not(.sidebar-icons-compact):not(.sidebar-icons-container-top),
+.active-sidebar.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left-pos):not(.sidebar-strip-label):not(.sidebar-icons-container) {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease;
@@ -4393,5 +4393,150 @@ body {
 /* Dark theme support */
 [data-theme="dark"] .global-loading {
     background: rgba(0, 0, 0, 0.85);
+}
+
+/* ========================================
+   SHELL LAYOUT (desde dashboard.css)
+   ======================================== */
+.shell {
+    background: #1a1a18;
+    border-radius: 14px;
+    padding: 12px;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 10px;
+}
+
+.app-container.shell {
+    background: #1a1a18;
+    border-radius: 14px;
+    padding: 12px;
+    min-height: calc(100vh - 24px);
+}
+
+.top-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 48px;
+    overflow: hidden;
+    transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    background: #2d2d2a;
+    color: #9e9e98;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s;
+}
+
+.icon-btn:hover {
+    background: #3a3a38;
+    color: #fff;
+}
+
+.icon-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Shell dark background option */
+body.shell-theme {
+    background: #111110;
+}
+
+body.shell-theme .app-container {
+    background: #1a1a18;
+    border-radius: 14px;
+    padding: 12px;
+}
+
+/* ========================================
+   BOTONES CRYSTAL (desde dashboard.css)
+   ======================================== */
+.btn-crystal,
+.btn-crystal-blue,
+.btn-crystal-green,
+.btn-crystal-red,
+.btn-crystal-gray {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 0.5px solid transparent;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.2s ease;
+}
+
+.btn-crystal,
+.btn-crystal-blue {
+    background: rgba(74, 144, 217, 0.12);
+    border-color: rgba(74, 144, 217, 0.2);
+    color: #6cb4f5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.btn-crystal:hover,
+.btn-crystal-blue:hover {
+    background: rgba(74, 144, 217, 0.22);
+    border-color: rgba(74, 144, 217, 0.35);
+    box-shadow: 0 4px 12px rgba(74, 144, 217, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.btn-crystal-green {
+    background: rgba(46, 204, 113, 0.12);
+    border-color: rgba(46, 204, 113, 0.2);
+    color: #5fd97a;
+}
+
+.btn-crystal-green:hover {
+    background: rgba(46, 204, 113, 0.22);
+    border-color: rgba(46, 204, 113, 0.35);
+}
+
+.btn-crystal-red {
+    background: rgba(231, 76, 60, 0.12);
+    border-color: rgba(231, 76, 60, 0.2);
+    color: #f56960;
+}
+
+.btn-crystal-red:hover {
+    background: rgba(231, 76, 60, 0.22);
+    border-color: rgba(231, 76, 60, 0.35);
+}
+
+.btn-crystal-gray {
+    background: rgba(180, 180, 175, 0.12);
+    border-color: rgba(180, 180, 175, 0.2);
+    color: #b4b4af;
+}
+
+.btn-crystal-gray:hover {
+    background: rgba(180, 180, 175, 0.22);
+    border-color: rgba(180, 180, 175, 0.35);
+}
+
+.btn-crystal:active,
+.btn-crystal-blue:active,
+.btn-crystal-green:active,
+.btn-crystal-red:active,
+.btn-crystal-gray:active {
+    transform: scale(0.98);
 }
 }
