@@ -17,6 +17,25 @@
 
 ---
 
+### 2026-05-05 — `styles.css` — 🟢 MENOR
+
+#### FEATURE — Liquid Glass Sidebar Design
+**Severidad:** 🟢 Minor  
+**Descripción:** Nuevo diseño glassmorphism para sidebars colapsables.  
+**Cambios:**
+- Añadido `backdrop-filter: blur(12px)` con vendor prefix
+- Fondo semi-transparente (`rgba(255,255,255,0.25)` light / `rgba(30,30,40,0.35)` dark)
+- Borde sutil `rgba(255,255,255,0.15)`
+- Box-shadow con profundidad
+- Transiciones `cubic-bezier(0.4, 0, 0.2, 1)` (400ms)
+- Hover glow effect con blur expandido
+- Botones toggle con glass effect y scale en hover
+- Contenido con blur+translate al colapsar/expandir
+**Archivos:** `styles.css`  
+**Fecha:** 5 Mayo 2026
+
+---
+
 ### 2026-05-05 — `index.html` — 🟢 MENOR
 
 #### FIX — Limpieza de código muerto y valores inválidos

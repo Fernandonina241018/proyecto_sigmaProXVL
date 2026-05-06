@@ -2079,25 +2079,61 @@ body {
 }
 
 /* ========================================
-   SIDEBAR COLLAPSIBLE TOGGLE
+   SIDEBAR COLLAPSIBLE TOGGLE - LIQUID GLASS
    ======================================== */
 
 .stats-menu,
 .active-sidebar {
-    transition: width 0.3s ease, min-width 0.3s ease, padding 0.3s ease;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                min-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.4s ease,
+                backdrop-filter 0.4s ease,
+                box-shadow 0.4s ease;
     position: relative;
-    overflow: visible; /* necesario para que el botón sobresalga */
+    overflow: visible;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-/* ── Botón de toggle ── */
+[data-theme="light"] .stats-menu,
+[data-theme="light"] .active-sidebar {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+[data-theme="dark"] .stats-menu,
+[data-theme="dark"] .active-sidebar {
+    background: rgba(30, 30, 40, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Hover glow effect */
+.stats-menu:hover,
+.active-sidebar:hover {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 12px 40px rgba(108, 99, 255, 0.15);
+}
+
+[data-theme="dark"] .stats-menu:hover,
+[data-theme="dark"] .active-sidebar:hover {
+    box-shadow: 0 12px 40px rgba(108, 99, 255, 0.25);
+}
+
+/* ── Botón de toggle - Glass Effect ── */
 .sidebar-toggle-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     width: 18px;
     height: 52px;
-    background: #6c63ff;
-    border: none;
+    background: rgba(108, 99, 255, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -2105,16 +2141,19 @@ body {
     color: #fff;
     font-size: 11px;
     z-index: 100;
-    transition: background 0.2s, opacity 0.2s;
+    transition: background 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
     padding: 0;
     line-height: 1;
+    box-shadow: 0 4px 16px rgba(108, 99, 255, 0.3);
 }
 
 .sidebar-toggle-btn:hover {
-    background: #5a52d5;
+    background: rgba(90, 82, 213, 0.95);
+    transform: translateY(-50%) scale(1.05);
+    box-shadow: 0 6px 24px rgba(108, 99, 255, 0.45);
 }
 
-/* Botón del sidebar izquierdo: posicionado en el main-area, en el borde entre sidebar y área de trabajo */
+/* Botón del sidebar izquierdo: posicionado en el main-area - Glass Effect */
 .sidebar-toggle-btn-left-pos {
     position: absolute;
     top: 50%;
@@ -2122,8 +2161,10 @@ body {
     left: 280px; /* padding(20px) + ancho sidebar(260px) */
     width: 18px;
     height: 52px;
-    background: #6c63ff;
-    border: none;
+    background: rgba(108, 99, 255, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -2131,14 +2172,20 @@ body {
     color: #fff;
     font-size: 11px;
     z-index: 100;
-    transition: left 0.3s ease, background 0.2s;
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                background 0.3s ease, 
+                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s ease;
     padding: 0;
     line-height: 1;
     border-radius: 0 6px 6px 0;
+    box-shadow: 0 4px 16px rgba(108, 99, 255, 0.3);
 }
 
 .sidebar-toggle-btn-left-pos:hover {
-    background: #5a52d5;
+    background: rgba(90, 82, 213, 0.95);
+    transform: translateY(-50%) scale(1.05);
+    box-shadow: 0 6px 24px rgba(108, 99, 255, 0.45);
 }
 
 /* Cuando el sidebar izquierdo está colapsado, el botón se mueve al borde del sidebar colapsado */
@@ -2200,20 +2247,26 @@ body {
     position: relative;
 }
 
-/* Ocultar contenido interno al colapsar */
+/* Ocultar contenido interno al colapsar - Liquid fade */
 .stats-menu.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left):not(.sidebar-strip-label):not(.sidebar-icons-container):not(.sidebar-icons-compact):not(.sidebar-icons-container-top),
 .active-sidebar.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label):not(.sidebar-icons-container) {
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(-10px);
+    filter: blur(4px);
 }
 
-/* Mostrar contenido al expandir */
+/* Mostrar contenido al expandir - Liquid reveal */
 .stats-menu:not(.sidebar-collapsed) > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label),
 .active-sidebar:not(.sidebar-collapsed) > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label) {
     opacity: 1;
     pointer-events: auto;
-    transition: opacity 0.25s ease 0.05s;
+    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1) 0.08s, 
+                transform 0.35s cubic-bezier(0.4, 0, 0.2, 1) 0.08s,
+                filter 0.35s cubic-bezier(0.4, 0, 0.2, 1) 0.08s;
+    transform: translateX(0);
+    filter: blur(0);
 }
 
 /* ── Etiqueta vertical en franja colapsada ── */
@@ -4262,4 +4315,48 @@ body {
 .pm-btn-skip:hover {
     background: #e2e8f0;
     color: #475569;
+}
+
+/* ========================================
+   GLOBAL LOADING OVERLAY
+   ======================================== */
+.global-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    backdrop-filter: blur(4px);
+}
+
+.global-loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.global-loading-text {
+    color: #fff;
+    margin-top: 16px;
+    font-size: 16px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Dark theme support */
+[data-theme="dark"] .global-loading {
+    background: rgba(0, 0, 0, 0.85);
+}
 }
