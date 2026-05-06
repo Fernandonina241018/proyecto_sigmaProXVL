@@ -36,6 +36,21 @@
 
 ---
 
+### 2026-05-05 — `script.js` + `styles.css` — 🟢 MENOR
+
+#### FEATURE — Toggle buttons integrados en sidebars
+**Severidad:** 🟢 Minor  
+**Descripción:** Botones de toggle movidos dentro de los sidebars para максимиzar espacio de trabajo.  
+**Cambios:**
+- Botón izquierdo ahora integrado dentro de `.stats-menu` (top-right corner)
+- Botón derecho ya estaba integrado en `.active-sidebar`
+- Nuevo estilo: botón circular de 28x28px con iconos ◀/▶
+- Title tooltips en hover
+**Archivos:** `script.js`, `styles.css`  
+**Fecha:** 5 Mayo 2026
+
+---
+
 ### 2026-05-05 — `index.html` — 🟢 MENOR
 
 #### FIX — Limpieza de código muerto y valores inválidos

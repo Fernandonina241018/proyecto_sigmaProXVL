@@ -2153,44 +2153,39 @@ body {
     box-shadow: 0 6px 24px rgba(108, 99, 255, 0.45);
 }
 
-/* Botón del sidebar izquierdo: posicionado en el main-area - Glass Effect */
+/* Botón del sidebar izquierdo: INTEGRADO dentro del sidebar */
 .sidebar-toggle-btn-left-pos {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 280px; /* padding(20px) + ancho sidebar(260px) */
-    width: 18px;
-    height: 52px;
+    top: 12px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
     background: rgba(108, 99, 255, 0.85);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
-    font-size: 11px;
+    font-size: 12px;
     z-index: 100;
-    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                background 0.3s ease, 
-                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.3s ease;
-    padding: 0;
-    line-height: 1;
-    border-radius: 0 6px 6px 0;
-    box-shadow: 0 4px 16px rgba(108, 99, 255, 0.3);
+    transition: background 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(108, 99, 255, 0.3);
 }
 
 .sidebar-toggle-btn-left-pos:hover {
     background: rgba(90, 82, 213, 0.95);
-    transform: translateY(-50%) scale(1.05);
-    box-shadow: 0 6px 24px rgba(108, 99, 255, 0.45);
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px rgba(108, 99, 255, 0.45);
 }
 
-/* Cuando el sidebar izquierdo está colapsado, el botón se mueve al borde del sidebar colapsado */
+/* Cuando el sidebar izquierdo está colapsado, mantener botón visible en esquina */
 .sidebar-toggle-btn-left-pos.sidebar-collapsed {
-    left: 90px !important; /* padding(20px) + ancho colapsado(70px) */
+    right: 8px;
+    top: 12px;
 }
 
 /* ── RESPONSIVE: Sidebar toggle para móviles/tablet ── */

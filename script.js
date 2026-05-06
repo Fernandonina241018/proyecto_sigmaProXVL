@@ -1628,14 +1628,14 @@ function setupSidebarToggles() {
     // Crear contenido del sidebar izquierdo
     createSidebarIconContainers(leftSidebar, rightSidebar);
 
-    // Botón para sidebar izquierdo (solo crear si no existe)
-    const mainArea = document.querySelector('.main-area');
-    let btnLeft = mainArea.querySelector('.sidebar-toggle-btn-left-pos');
+    // Botón para sidebar izquierdo - integrado dentro del sidebar
+    let btnLeft = leftSidebar.querySelector('.sidebar-toggle-btn-left-pos');
     if (!btnLeft) {
         btnLeft = document.createElement('button');
         btnLeft.className = 'sidebar-toggle-btn-left-pos';
         btnLeft.textContent = '◀';
-        mainArea.insertBefore(btnLeft, mainArea.firstChild);
+        btnLeft.title = 'Colapsar/Expandir sidebar';
+        leftSidebar.insertBefore(btnLeft, leftSidebar.firstChild);
     }
 
     // Aplicar estado guardado del sidebar izquierdo
@@ -1648,13 +1648,14 @@ function setupSidebarToggles() {
 
     // Click handler para sidebar izquierdo (clone para limpiar listeners previos)
     btnLeft.replaceWith(btnLeft.cloneNode(true));
-    const newBtnLeft = mainArea.querySelector('.sidebar-toggle-btn-left-pos');
+    const newBtnLeft = leftSidebar.querySelector('.sidebar-toggle-btn-left-pos');
     newBtnLeft.addEventListener('click', (e) => {
         e.stopPropagation();
         const collapsed = !leftSidebar.classList.contains('sidebar-collapsed');
         leftSidebar.classList.toggle('sidebar-collapsed');
         newBtnLeft.classList.toggle('sidebar-collapsed', collapsed);
         newBtnLeft.textContent = collapsed ? '▶' : '◀';
+        newBtnLeft.title = collapsed ? 'Expandir sidebar' : 'Colapsar sidebar';
         sessionStorage.setItem(STORAGE_KEY_LEFT, collapsed);
     });
 
