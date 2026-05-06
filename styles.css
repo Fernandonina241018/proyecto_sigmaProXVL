@@ -4539,4 +4539,376 @@ body.shell-theme .app-container {
 .btn-crystal-gray:active {
     transform: scale(0.98);
 }
+
+/* ========================================
+   AVATAR & TIMER (desde dashboard.css)
+   ======================================== */
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #e8682a, #6c5ce7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+    cursor: pointer;
+    border: 0.5px solid rgba(255, 255, 255, 0.15);
+    transition: transform 0.2s;
+}
+
+.avatar:hover {
+    transform: scale(1.06);
+}
+
+.timer {
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #be17c7, #801ee2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+    cursor: pointer;
+    border: 0.5px solid rgba(255, 255, 255, 0.15);
+    transition: transform 0.2s;
+}
+
+.timer:hover {
+    transform: scale(1.06);
+}
+
+/* ========================================
+   SIDEBAR TABS (desde dashboard.css)
+   ======================================== */
+.sb-tab {
+    padding: 8px 9px;
+    border-radius: 7px;
+    border: none;
+    background: none;
+    color: #6b6b65;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    width: 100%;
+    text-align: left;
+    position: relative;
+}
+
+.sb-tab svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+}
+
+.sb-label {
+    transition: opacity 0.2s, width 0.3s;
+}
+
+.sb-tab:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: #d4d4d0;
+}
+
+.sb-tab.active {
+    background: rgba(166, 10, 237, 0.15);
+    color: #c060f0;
+}
+
+.sb-count {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.sidebar.collapsed .sb-count {
+    right: -4px;
+    top: 6px;
+    transform: none;
+}
+
+.sb-divider {
+    height: 0.5px;
+    background: rgba(255, 255, 255, 0.06);
+    margin: 4px 0;
+}
+
+/* ========================================
+   DATOS GRID (desde dashboard.css)
+   ======================================== */
+.datos-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    min-height: 0;
+}
+
+.datos-grid .panel {
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* ========================================
+   FILTER & SEARCH (desde dashboard.css)
+   ======================================== */
+.filter-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    background: rgba(255, 255, 255, 0.05);
+    color: #6b6b65;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #9e9e98;
+}
+
+.filter-btn.active {
+    background: #a60aed;
+    color: #fff;
+}
+
+.search-input {
+    width: 260px;
+    height: 35px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    background: #1a1a18;
+    color: #9e9e98;
+    font-size: 12px;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.search-input:focus {
+    border-color: #a60aed;
+    color: #fff;
+}
+
+.search-input::placeholder {
+    color: #4a4a48;
+}
+
+.sort-buttons {
+    display: flex;
+    gap: 4px;
+}
+
+.sort-btn {
+    padding: 9px 16px;
+    border-radius: 4px;
+    border: none;
+    background: rgba(255, 255, 255, 0.05);
+    color: #6b6b65;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.sort-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+/* ========================================
+   BULK ACTIONS (desde dashboard.css)
+   ======================================== */
+.bulk-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 4px;
+}
+
+.selected-count {
+    font-size: 11px;
+    color: #6b6b65;
+}
+
+/* ========================================
+   UPLOAD AREA (desde dashboard.css)
+   ======================================== */
+.upload-area {
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.upload-area:hover,
+.upload-area.dragover {
+    border-color: #a60aed;
+    background: rgba(166, 10, 237, 0.05);
+}
+
+/* ========================================
+   CARDS (desde dashboard.css)
+   ======================================== */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    min-height: 0;
+}
+
+.cards-3 {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+    min-height: 0;
+}
+
+.card {
+    background: #3a3a38;
+    border-radius: 7px;
+    border: 0.5px solid rgba(255, 255, 255, 0.07);
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.card:hover {
+    background: #444440;
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+}
+
+.card-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.card-icon svg {
+    width: 12px;
+    height: 12px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+}
+
+.card-label {
+    font-size: 10px;
+    color: #6b6b65;
+}
+
+.card-value {
+    font-size: clamp(12px, 1.5vw, 16px);
+    font-weight: 500;
+    color: #f0f0ed;
+}
+
+.card-delta {
+    font-size: 9px;
+    color: #6b6b65;
+}
+
+.card-delta span {
+    color: #2ecc71;
+}
+
+.card-delta span.neg {
+    color: #e8682a;
+}
+
+.ic-o {
+    background: rgba(232, 104, 42, 0.15);
+    color: #e8682a;
+}
+
+.ic-p {
+    background: rgba(108, 92, 231, 0.15);
+    color: #6c5ce7;
+}
+
+.ic-b {
+    background: rgba(74, 144, 217, 0.15);
+    color: #4a90d9;
+}
+
+.ic-g {
+    background: rgba(46, 204, 113, 0.15);
+    color: #2ecc71;
+}
+
+.ic-r {
+    background: rgba(231, 76, 60, 0.15);
+    color: #e74c3c;
+}
+
+/* ========================================
+   LAYOUT GRIDS (desde dashboard.css)
+   ======================================== */
+.bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.bottom-grid.full {
+    grid-template-columns: 1fr;
+}
+
+.bottom-grid.thirds {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.bottom-grid.wide {
+    grid-template-columns: 4fr 1fr;
+}
+
+.bottom-grid > .panel {
+    min-width: 0;
+}
+
+.bottom-grid-second {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 0;
+}
 }
