@@ -490,21 +490,8 @@ body {
 
 /* ========================================
    PANEL DE ESTADÍSTICOS ACTIVOS (DERECHA)
+   (definición completa más abajo con .active-sidebar-toolbar)
    ======================================== */
-.active-sidebar {
-    width: 230px;
-    background: white;
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-    overflow-y: auto;
-}
-
-.active-sidebar h3 {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-    color: #333;
-}
 
 .stat-chip {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -561,31 +548,137 @@ body {
 
 /* ========================================
    SIDEBAR - ESTADÍSTICOS ACTIVOS (DERECHA)
+   Alineado al panel izquierdo (ancho glass, mismo toggle integrado).
    ======================================== */
 .active-sidebar {
-    width: 230px;
-    background: white;
+    width: 260px;
+    min-width: 260px;
+    gap: 12px;
     border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-    overflow-y: auto;
+    padding: 20px 15px;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    overflow-x: visible;
+    position: relative;
 }
 
-.active-sidebar h3 {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-    color: #333;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #f0f0f0;
+[data-theme="light"] .active-sidebar {
+    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="dark"] .active-sidebar .active-sidebar-toolbar {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.active-sidebar-toolbar.sidebar-header {
+    margin-bottom: 0;
+    padding: 12px 12px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(108, 99, 255, 0.14) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border: 1px solid rgba(108, 99, 255, 0.22);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.active-sidebar-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    min-width: 0;
+    flex: 1;
+}
+
+.active-sidebar-heading-icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    font-size: 1.15rem;
+    background: linear-gradient(145deg, rgba(108, 99, 255, 0.95), rgba(90, 82, 200, 0.88));
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(108, 99, 255, 0.35);
 }
 
-.active-sidebar h3::before {
-    content: '📋';
+.active-sidebar-heading-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.active-sidebar-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary, #0f172a);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.active-sidebar-subtitle {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(100, 116, 139, 0.95);
+}
+
+[data-theme="dark"] .active-sidebar-title {
+    color: #f1f5f9;
+}
+
+[data-theme="dark"] .active-sidebar-subtitle {
+    color: rgba(148, 163, 184, 0.95);
+}
+
+.btn-clear-stats-soft {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #64748b;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    line-height: 1;
+}
+
+.btn-clear-stats-soft:hover {
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.45);
+    color: #b91c1c;
+    transform: scale(1.05);
+}
+
+[data-theme="dark"] .btn-clear-stats-soft {
+    background: rgba(30, 41, 59, 0.6);
+    border-color: rgba(148, 163, 184, 0.25);
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .btn-clear-stats-soft:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fecaca;
+}
+
+.empty-state-hint {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.78rem;
+    color: rgba(100, 116, 139, 0.9);
+    line-height: 1.4;
+    font-weight: 500;
 }
 
 #activeStatsContainer {
@@ -2188,42 +2281,36 @@ body {
     top: 12px;
 }
 
-/* ── RESPONSIVE: Sidebar toggle para móviles/tablet ── */
-@media (max-width: 768px) {
-    .sidebar-toggle-btn-left-pos {
-        left: auto !important;
-        right: 0;
-        width: 14px;
-        height: 40px;
-        font-size: 10px;
-    }
-    
-    .sidebar-toggle-btn-left-pos.sidebar-collapsed {
-        left: auto !important;
-        right: 0;
-    }
+/* Panel derecho: mismo botón integrado que el izquierdo, espejo (borde interior derecho) */
+.stats-menu > .sidebar-toggle-btn-left-pos:not(.sidebar-toggle-btn-right-pos),
+.active-sidebar > .sidebar-toggle-btn-right-pos {
+    top: 14px;
+    right: 10px;
+    left: auto;
 }
 
-/* Botón del sidebar derecho: sobresale por la izquierda */
-.active-sidebar .sidebar-toggle-btn {
-    left: -18px;
-    border-radius: 6px 0 0 6px;
+.active-sidebar > .sidebar-toggle-btn-right-pos.sidebar-collapsed {
+    right: 10px;
+    top: 14px;
+    left: auto;
 }
 
 /* ── RESPONSIVE: Sidebar toggle para móviles/tablet ── */
 @media (max-width: 768px) {
-    /* Posicionar en el borde DERECHO del sidebar, sobresaliendo hacia la derecha (como el homolog derecho) */
-    .sidebar-toggle-btn-left-pos {
+    .stats-menu > .sidebar-toggle-btn-left-pos:not(.sidebar-toggle-btn-right-pos) {
+        right: 4px !important;
         left: auto !important;
-        right: -14px !important;
-        width: 14px;
-        height: 40px;
-        font-size: 10px;
-        border-radius: 6px 0 0 6px;
+        width: 26px;
+        height: 30px;
+        font-size: 11px;
     }
-    
-    .sidebar-toggle-btn-left-pos.sidebar-collapsed {
-        right: -14px !important;
+
+    .active-sidebar > .sidebar-toggle-btn-right-pos {
+        right: 6px !important;
+        left: auto !important;
+        width: 26px;
+        height: 30px;
+        font-size: 11px;
     }
 }
 
@@ -2247,9 +2334,10 @@ body {
 }
 
 .active-sidebar.sidebar-collapsed {
-    width: 50px !important;
-    min-width: 50px !important;
-    padding: 12px 8px !important;
+    width: 70px !important;
+    min-width: 70px !important;
+    padding: 15px 8px !important;
+    align-items: center;
     position: relative;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -2265,8 +2353,8 @@ body {
 }
 
 /* Ocultar contenido interno al colapsar - Liquid fade */
-.stats-menu.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left-pos):not(.sidebar-toggle-btn-left):not(.sidebar-strip-label):not(.sidebar-icons-container):not(.sidebar-icons-compact):not(.sidebar-icons-container-top),
-.active-sidebar.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left-pos):not(.sidebar-toggle-btn-left):not(.sidebar-strip-label):not(.sidebar-icons-container) {
+.stats-menu.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left-pos):not(.sidebar-toggle-btn-right-pos):not(.sidebar-toggle-btn-left):not(.sidebar-strip-label):not(.sidebar-icons-container):not(.sidebar-icons-compact):not(.sidebar-icons-container-top),
+.active-sidebar.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left-pos):not(.sidebar-toggle-btn-right-pos):not(.sidebar-toggle-btn-left):not(.sidebar-strip-label):not(.sidebar-icons-container) {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -2275,8 +2363,8 @@ body {
 }
 
 /* Mostrar contenido al expandir - Liquid reveal */
-.stats-menu:not(.sidebar-collapsed) > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left-pos):not(.sidebar-strip-label),
-.active-sidebar:not(.sidebar-collapsed) > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label) {
+.stats-menu:not(.sidebar-collapsed) > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left-pos):not(.sidebar-toggle-btn-right-pos):not(.sidebar-strip-label),
+.active-sidebar:not(.sidebar-collapsed) > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left-pos):not(.sidebar-toggle-btn-right-pos):not(.sidebar-strip-label) {
     opacity: 1;
     pointer-events: auto;
     transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1) 0.08s, 
@@ -2506,40 +2594,6 @@ body {
     border-right-color: #1e293b;
 }
 
-.active-sidebar.sidebar-collapsed {
-    width: 50px !important;
-    min-width: 50px !important;
-    padding: 12px 8px !important;
-    position: relative;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: rgba(255, 255, 255, 0.25) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-}
-
-[data-theme="dark"] .active-sidebar.sidebar-collapsed {
-    background: rgba(30, 30, 40, 0.35) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-/* Ocultar contenido interno al colapsar */
-.stats-menu.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left-pos):not(.sidebar-toggle-btn-left):not(.sidebar-strip-label):not(.sidebar-icons-container):not(.sidebar-icons-compact):not(.sidebar-icons-container-top),
-.active-sidebar.sidebar-collapsed > *:not(.sidebar-toggle-btn):not(.sidebar-toggle-btn-left-pos):not(.sidebar-strip-label):not(.sidebar-icons-container) {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
-}
-
-/* Mostrar contenido al expandir */
-.stats-menu:not(.sidebar-collapsed) > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label),
-.active-sidebar:not(.sidebar-collapsed) > *:not(.sidebar-toggle-btn):not(.sidebar-strip-label) {
-    opacity: 1;
-    pointer-events: auto;
-    transition: opacity 0.25s ease 0.05s; /* leve delay para que espere al ancho */
-}
-
 /* ── Etiqueta vertical en franja colapsada ── */
 .sidebar-strip-label {
     display: none;
@@ -2656,6 +2710,41 @@ body {
 
 .proceso-icon .sidebar-icon-badge.has-items {
     background: #4caf50;
+}
+
+.active-sidebar.sidebar-collapsed .active-sidebar-collapsed-strip.sidebar-icons-container {
+    margin-top: 0;
+    padding: 48px 0 14px;
+    min-height: 0;
+    justify-content: flex-start;
+}
+
+.active-sidebar-collapsed-strip .sidebar-icon-item.proceso-icon {
+    padding: 10px 8px 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(108, 99, 255, 0.28);
+    box-shadow: 0 8px 22px rgba(108, 99, 255, 0.14);
+}
+
+[data-theme="dark"] .active-sidebar-collapsed-strip .sidebar-icon-item.proceso-icon {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(129, 140, 248, 0.35);
+}
+
+.active-sidebar .empty-state {
+    background: rgba(248, 250, 252, 0.85);
+    border: 1px dashed rgba(108, 99, 255, 0.28);
+}
+
+[data-theme="dark"] .active-sidebar .empty-state {
+    background: rgba(30, 41, 59, 0.45);
+    border-color: rgba(129, 140, 248, 0.25);
+}
+
+.active-sidebar .stats-count {
+    border-radius: 12px;
+    border: 1px solid rgba(108, 99, 255, 0.15);
 }
 
 /* ========================================
@@ -4910,5 +4999,411 @@ body.shell-theme .app-container {
     flex-direction: column;
     gap: 8px;
     min-height: 0;
+}
+
+/* ========================================
+   PANELS (desde dashboard.css)
+   ======================================== */
+.viz-badge {
+    background: #3a3a38;
+    color: #5c6bc0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+}
+
+.panel {
+    background: #3a3a38;
+    border-radius: 9px;
+    border: 0.5px solid rgba(255, 255, 255, 0.07);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: hidden;
+}
+
+.panel-label {
+    font-size: 11px;
+    color: #6b6b65;
+    flex-shrink: 0;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+/* ========================================
+   CHART (desde dashboard.css)
+   ======================================== */
+.chart-area {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    flex: 1;
+    min-height: 0;
+}
+
+.bar {
+    flex: 1;
+    border-radius: 10px 10px 0 0;
+    background: rgba(255, 255, 255, 0.08);
+    transition: background 0.2s;
+    cursor: pointer;
+    min-height: 6px;
+}
+
+.bar:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.bar.hi {
+    background: #09c923;
+}
+
+/* ========================================
+   ACTIVITY (desde dashboard.css)
+   ======================================== */
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    overflow: hidden;
+}
+
+.act-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.act-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.act-text {
+    font-size: 12px;
+    color: #9e9e98;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.act-time {
+    font-size: 11px;
+    color: #6b6b65;
+    flex-shrink: 0;
+}
+
+/* ========================================
+   TABLES (desde dashboard.css)
+   ======================================== */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.data-table th {
+    color: #6b6b65;
+    font-weight: 500;
+    text-align: left;
+    padding: 6px 8px;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+    white-space: nowrap;
+}
+
+.data-table td {
+    color: #9e9e98;
+    padding: 7px 8px;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.04);
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tr:hover td {
+    color: #d4d4d0;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.data-table tr.active td {
+    background: rgba(166, 10, 237, 0.15);
+    color: #60f06c;
+}
+
+.status-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+
+/* ========================================
+   TAGS (desde dashboard.css)
+   ======================================== */
+.tag {
+    display: inline-flex;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #9e9e98;
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+}
+
+.tag-type {
+    background: rgba(74, 144, 217, 0.1);
+    color: #4a90d9;
+    border-color: rgba(74, 144, 217, 0.2);
+}
+
+.tag-run {
+    background: rgba(46, 204, 113, 0.1);
+    color: #2ecc71;
+    border-color: rgba(46, 204, 113, 0.2);
+}
+
+/* ========================================
+   DATA PREVIEW TOOLTIP (desde dashboard.css)
+   ======================================== */
+.data-preview-tooltip {
+    position: fixed;
+    z-index: 100;
+    background: #242422;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    display: none;
+    min-width: 300px;
+    max-width: 90vw;
+    max-height: 70vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    pointer-events: none;
+}
+
+.data-preview-tooltip.visible {
+    display: block;
+}
+
+.data-preview-tooltip-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #9e9e98;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+}
+
+.data-preview-tooltip table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+}
+
+.data-preview-tooltip th {
+    color: #6b6b65;
+    font-weight: 500;
+    text-align: left;
+    padding: 4px 6px;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+}
+
+.data-preview-tooltip td {
+    color: #9e9e98;
+    padding: 4px 6px;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.04);
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.data-preview-tooltip tr:hover td {
+    color: #d4d4d0;
+}
+
+/* ========================================
+   FLOATING MENU (desde dashboard.css)
+   ======================================== */
+.floating-menu {
+    position: fixed;
+    z-index: 200;
+    background: #242422;
+    border: 0.5px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    width: 220px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-6px) scale(0.97);
+    transform-origin: left center;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.floating-menu.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0) scale(1);
+}
+
+.fm-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px 8px;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+}
+
+.fm-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6b6b65;
+}
+
+.fm-close {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    border: none;
+    background: transparent;
+    color: #6b6b65;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    transition: background 0.15s, color 0.15s;
+}
+
+.fm-close:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+}
+
+/* ========================================
+   PAGE (desde dashboard.css)
+   ======================================== */
+.page {
+    position: absolute;
+    inset: 0;
+    padding: 16px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    gap: 12px;
+    overflow: hidden;
+}
+
+.page.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.page.active#page-trabajo {
+    display: flex;
+    flex-direction: column;
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.page-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #f0f0ed;
+}
+
+.page-subtitle {
+    font-size: 11px;
+    color: #6b6b65;
+    margin-top: 1px;
+}
+
+/* ========================================
+   BADGES (desde dashboard.css)
+   ======================================== */
+.badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 10px;
+    background: rgba(46, 204, 113, 0.12);
+    color: #2ecc71;
+    border: 0.5px solid rgba(46, 204, 113, 0.2);
+}
+
+.badge-blue {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 10px;
+    background: rgba(74, 144, 217, 0.12);
+    color: #4a90d9;
+    border: 0.5px solid rgba(74, 144, 217, 0.2);
+}
+
+.badge-orange {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 10px;
+    background: rgba(232, 104, 42, 0.12);
+    color: #e8682a;
+    border: 0.5px solid rgba(232, 104, 42, 0.2);
+}
+
+.badge-purple {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 10px;
+    background: rgba(108, 92, 231, 0.12);
+    color: #6c5ce7;
+    border: 0.5px solid rgba(108, 92, 231, 0.2);
+}
+
+.badge-red {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 10px;
+    background: rgba(231, 76, 60, 0.12);
+    color: #e74c3c;
+    border: 0.5px solid rgba(231, 76, 60, 0.2);
+}
+
+.badge-gray {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 10px;
+    background: rgba(158, 158, 152, 0.12);
+    color: #9e9e98;
+    border: 0.5px solid rgba(158, 158, 152, 0.2);
 }
 }

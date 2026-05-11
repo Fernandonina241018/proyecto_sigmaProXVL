@@ -40,6 +40,25 @@ function showToast(msg, isError = false) {
 }
 
 // ========================================
+// GLOBAL LOADING OVERLAY
+// ========================================
+
+function showLoading(message = 'Procesando...') {
+    const loader = document.getElementById('global-loading');
+    if (loader) {
+        loader.querySelector('.global-loading-text').textContent = message;
+        loader.style.display = 'flex';
+    }
+}
+
+function hideLoading() {
+    const loader = document.getElementById('global-loading');
+    if (loader) {
+        loader.style.display = 'none';
+    }
+}
+
+// ========================================
 // FORMATO DE FECHA
 // ========================================
 

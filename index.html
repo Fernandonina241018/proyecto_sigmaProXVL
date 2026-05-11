@@ -192,8 +192,8 @@
                     <div class="trabajo-toolbar">
                         <div class="toolbar-row">
                             <div class="toolbar-buttons">
-                                <button class="btn-crystal" title="Limpiar todo">🗑️ Limpiar</button>
-                                <button class="btn-crystal" title="Guardar datos">💾 Guardar</button>
+                                <button type="button" class="btn-crystal btn-clear-table" title="Limpiar todo">🗑️ Limpiar</button>
+                                <button type="button" class="btn-crystal btn-save-work" title="Guardar datos">💾 Guardar</button>
                             </div>
                             <div class="toolbar-controls">
                                 <div class="control-group">
@@ -204,7 +204,7 @@
                                     <label>Cols:</label>
                                     <input type="number" id="initial-cols" value="10" min="1" max="20">
                                 </div>
-                                <button class="btn-crystal-blue">🔄 Generar</button>
+                                <button type="button" class="btn-crystal-blue btn-generate-table" title="Crear tabla con filas y columnas indicadas">🔄 Generar</button>
                                 <button class="btn-crystal" onclick="TM.abrirModalDatosNormales()" title="Generar datos con distribución normal">🎲 Datos Normales</button>
                                 <button class="btn-crystal" onclick="TM.abrirModalAmpliarDatos()" title="Ampliar datos existentes">📈 Ampliar Datos</button>
                             </div>
@@ -268,14 +268,21 @@
 
             <!-- Active Stats Sidebar -->
             <div class="active-sidebar">
-                <div class="sidebar-header">
-                    <h3>En Proceso</h3>
-                    <button class="btn-crystal-red" id="btnClearStats" title="Limpiar todos" onclick="clearAllStats()">✕</button>
+                <div class="sidebar-header active-sidebar-toolbar">
+                    <div class="active-sidebar-heading">
+                        <span class="active-sidebar-heading-icon" aria-hidden="true">⚡</span>
+                        <div class="active-sidebar-heading-text">
+                            <span class="active-sidebar-title">En proceso</span>
+                            <span class="active-sidebar-subtitle" id="activeSidebarSubtitle">Cola de análisis</span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-clear-stats-soft" id="btnClearStats" title="Limpiar todos los estadísticos activos" onclick="clearAllStats()" aria-label="Limpiar todos">✕</button>
                 </div>
                 <div id="activeStatsContainer"></div>
                 <div class="stats-count" id="statsCount">0 estadísticos activos</div>
                 <div class="empty-state" id="emptyState">
                     <p>No hay estadísticos seleccionados</p>
+                    <small class="empty-state-hint">Elige estadísticos en el panel izquierdo</small>
                 </div>
             </div>
         </div>

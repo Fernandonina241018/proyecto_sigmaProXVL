@@ -1451,35 +1451,58 @@ function setupSidebarToggles() {
         newBtnLeft.textContent = collapsed ? '▶' : '◀';
         sessionStorage.setItem(STORAGE_KEY_LEFT, collapsed);
     });
-    // NO limpiar rightSidebar — contiene #activeStatsContainer, #statsCount, #emptyState
-    // Solo agregar botones de toggle si no existen
-    let btnRight = rightSidebar.querySelector('.sidebar-toggle-btn');
-    let labelRight = rightSidebar.querySelector('.sidebar-strip-label');
+    rightSidebar.querySelectorAll('.sidebar-toggle-btn').forEach((el) => el.remove());
+    rightSidebar.querySelectorAll('.sidebar-strip-label').forEach((el) => {
+        if (!el.textContent || el.textContent.trim() === '') el.remove();
+    });
+    let iconsStrip = rightSidebar.querySelector('.active-sidebar-collapsed-strip');
+    if (!iconsStrip) {
+        iconsStrip = document.createElement('div');
+        iconsStrip.className = 'sidebar-icons-container active-sidebar-collapsed-strip';
+        iconsStrip.innerHTML = `
+            <div class="sidebar-icon-item proceso-icon" title="Estadísticos en proceso (vista rápida)">
+                <span class="sidebar-icon" aria-hidden="true">⚡</span>
+                <span class="sidebar-icon-badge" data-section="proceso">0</span>
+            </div>`;
+        iconsStrip.querySelector('.proceso-icon').addEventListener('click', () => {
+            if (rightSidebar.classList.contains('sidebar-collapsed')) {
+                rightSidebar.classList.remove('sidebar-collapsed');
+                sessionStorage.setItem(STORAGE_KEY_RIGHT, 'false');
+                const rb = rightSidebar.querySelector('.sidebar-toggle-btn-right-pos');
+                if (rb) {
+                    rb.classList.remove('sidebar-collapsed');
+                    rb.textContent = '◀';
+                    rb.title = 'Colapsar sidebar';
+                }
+            }
+        });
+        rightSidebar.appendChild(iconsStrip);
+    }
+    let btnRight = rightSidebar.querySelector('.sidebar-toggle-btn-right-pos');
     if (!btnRight) {
         btnRight = document.createElement('button');
-        btnRight.className = 'sidebar-toggle-btn';
-        btnRight.textContent = '▶';
-        rightSidebar.appendChild(btnRight);
-        labelRight = document.createElement('div');
-        labelRight.className = 'sidebar-strip-label';
-        labelRight.textContent = '';
-        rightSidebar.appendChild(labelRight);
+        btnRight.className = 'sidebar-toggle-btn-left-pos sidebar-toggle-btn-right-pos';
+        btnRight.type = 'button';
+        btnRight.textContent = '◀';
+        btnRight.title = 'Colapsar/expandir sidebar';
+        rightSidebar.insertBefore(btnRight, rightSidebar.firstChild);
     }
-    // Aplicar estado guardado del sidebar derecho
     const rightCollapsed = sessionStorage.getItem(STORAGE_KEY_RIGHT) === 'true';
     if (rightCollapsed) {
         rightSidebar.classList.add('sidebar-collapsed');
-        btnRight.textContent = '◀';
+        btnRight.classList.add('sidebar-collapsed');
+        btnRight.textContent = '▶';
+        btnRight.title = 'Expandir sidebar';
     }
-    // Click handler para sidebar derecho (event delegation, solo se agrega una vez)
     btnRight.replaceWith(btnRight.cloneNode(true));
-    const newBtnRight = rightSidebar.querySelector('.sidebar-toggle-btn');
+    const newBtnRight = rightSidebar.querySelector('.sidebar-toggle-btn-right-pos');
     newBtnRight.addEventListener('click', (e) => {
         e.stopPropagation();
         const collapsed = !rightSidebar.classList.contains('sidebar-collapsed');
         rightSidebar.classList.toggle('sidebar-collapsed');
-        newBtnRight.textContent = collapsed ? '◀' : '▶';
-        labelRight.style.display = collapsed ? 'block' : 'none';
+        newBtnRight.classList.toggle('sidebar-collapsed', collapsed);
+        newBtnRight.textContent = collapsed ? '▶' : '◀';
+        newBtnRight.title = collapsed ? 'Expandir sidebar' : 'Colapsar sidebar';
         sessionStorage.setItem(STORAGE_KEY_RIGHT, collapsed);
     });
 }
@@ -1504,6 +1527,12 @@ function updateSidebarIconBadges() {
     if (rightBadge) {
         rightBadge.textContent = activeStats.length;
         rightBadge.classList.toggle('has-items', activeStats.length > 0);
+    }
+    const sub = document.getElementById('activeSidebarSubtitle');
+    if (sub) {
+        sub.textContent = activeStats.length
+            ? `${activeStats.length} activo${activeStats.length !== 1 ? 's' : ''} · listo para análisis`
+            : 'Cola de análisis';
     }
     // Actualizar contador en header
     const totalBadge = document.getElementById('sidebarTotalBadge');

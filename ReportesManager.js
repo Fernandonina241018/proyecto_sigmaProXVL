@@ -34,7 +34,7 @@ const ReportesManager = (() => {
     const dataBytes = encoder.encode(payload);
     const hashBuffer = await crypto.subtle.digest('SHA-256', dataBytes);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.slice(0, 8).map(b => b.toFixed(16).padStart(2, '0')).join('').toUpperCase();
+    return hashArray.slice(0, 8).map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
   }
 
   function getAuditMetadata() {
@@ -143,7 +143,7 @@ const ReportesManager = (() => {
         </td>
         <td>${r.pruebas || 0} pruebas · ${r.graficos || 0} gráficos</td>
         <td><span class="tag ${r.estado === 'completado' ? 'tag-run' : 'tag-warn'}">${r.estado === 'completado' ? 'Listo' : 'Borrador'}</span></td>
-        <td>${r.cfr21Compliance?.integrityHash ? `<code style="font-size:10px;color:#888;">${r.cfr21Compliance.integrityHash}</code>` : formatDate(r.creado)}</td>
+        <td>${r.cfr21Compliance?.integrityHash ? `<code style="font-size:10px;color:#888;">RPT-${r.cfr21Compliance.integrityHash}</code>` : formatDate(r.creado)}</td>
         <td>
           <button class="btn-icon" onclick="ReportesManager.verReporte(${i})" title="Ver">👁️</button>
           <button class="btn-icon" onclick="ReportesManager.duplicarReporte(${i})" title="Duplicar">📋</button>
@@ -208,7 +208,7 @@ const ReportesManager = (() => {
         </td>
         <td>${r.pruebas || 0} pruebas · ${r.graficos || 0} gráficos</td>
         <td><span class="tag ${r.estado === 'completado' ? 'tag-run' : 'tag-warn'}">${r.estado === 'completado' ? 'Listo' : 'Borrador'}</span></td>
-        <td>${r.cfr21Compliance?.integrityHash ? `<code style="font-size:10px;color:#888;">${r.cfr21Compliance.integrityHash}</code>` : formatDate(r.creado)}</td>
+        <td>${r.cfr21Compliance?.integrityHash ? `<code style="font-size:10px;color:#888;">RPT-${r.cfr21Compliance.integrityHash}</code>` : formatDate(r.creado)}</td>
         <td>
           <button class="btn-icon" onclick="ReportesManager.verReporte(${i})">👁️</button>
           <button class="btn-icon" onclick="ReportesManager.duplicarReporte(${i})">📋</button>
@@ -262,7 +262,7 @@ const ReportesManager = (() => {
               <div style="display:flex;justify-content:space-between;align-items:center;">
                 <div>
                   <div style="color:#9e9e98;font-size:11px;">Hash de Integridad</div>
-                  <code style="color:#5fd97a;font-size:12px;">${cfr21?.integrityHash || 'N/A'}</code>
+                  <code style="color:#5fd97a;font-size:12px;">RPT-${cfr21?.integrityHash || 'N/A'}</code>
                 </div>
                 <div style="text-align:right;">
                   <div style="color:#9e9e98;font-size:11px;">Estado</div>
@@ -461,149 +461,269 @@ const ReportesManager = (() => {
   function generarHTMLCFR21(reporte) {
     const cfr21 = reporte.cfr21Compliance || {};
     const now = new Date();
+    const docId = 'RPT-' + (cfr21.integrityHash || 'N/A');
+    const dataset = reporte.dataset || 'N/A';
+    const columnas = cfr21.datasetTraceability?.columnsAnalyzed || [];
+    const totalRegistros = cfr21.datasetTraceability?.totalStatistics || reporte.pruebasCount || 0;
+    
+    const statsData = reporte.resultados || {};
+    const numericCols = Object.keys(statsData);
+    
+    const getStatsForVar = (varName) => {
+      const varStats = statsData[varName] || {};
+      return {
+        mean: varStats.media ?? '—',
+        median: varStats.mediana ?? '—',
+        mode: varStats.moda ?? '—',
+        std: varStats.desviacionEstandar ?? varStats.desviacion ?? '—',
+        variance: varStats.varianza ?? '—',
+        cv: varStats.coeficienteVariacion ?? '—',
+        skew: varStats.asimetria ?? '—',
+        kurt: varStats.curtosis ?? '—',
+        min: varStats.min ?? '—',
+        max: varStats.max ?? '—',
+        range: varStats.rango ?? '—',
+        p10: varStats.p10 ?? '—',
+        p25: varStats.p25 ?? '—',
+        p50: varStats.p50 ?? '—',
+        p75: varStats.p75 ?? '—',
+        p90: varStats.p90 ?? '—',
+        n: varStats.n ?? 0,
+        alerts: []
+      };
+    };
+    
+    const buildAlerts = (varName) => {
+      const stats = getStatsForVar(varName);
+      const alerts = [];
+      if (stats.n > 0 && stats.n < 30) alerts.push('[FLAG-SMALL-N] n=' + stats.n + ' < 30');
+      if (stats.cv !== '—' && parseFloat(stats.cv) > 30) alerts.push('[FLAG-CV-HIGH] CV=' + stats.cv + '% > 30%');
+      if (stats.skew !== '—') {
+        const skewVal = parseFloat(stats.skew);
+        if (skewVal > 0.5) alerts.push('[FLAG-SKEW] Asimetría≈' + stats.skew.toFixed(2) + ' (cola derecha)');
+        else if (skewVal < -0.5) alerts.push('[FLAG-SKEW] Asimetría≈' + stats.skew.toFixed(2) + ' (cola izquierda)');
+      }
+      if (stats.min !== '—' && stats.max !== '—') {
+        if (parseFloat(stats.min) < 0) alerts.push('[FLAG-OUTLIER-LOW] Mín bajo límite inferior');
+        if (parseFloat(stats.max) > 200) alerts.push('[FLAG-OUTLIER-HIGH] Máx sobre límite superior');
+      }
+      return alerts;
+    };
+    
+    const formatNum = (val) => {
+      if (val === '—' || val === undefined) return val;
+      const num = parseFloat(val);
+      return isNaN(num) ? val : num.toFixed(4);
+    };
+
+    let varsHTML = '';
+    numericCols.forEach(col => {
+      const stats = getStatsForVar(col);
+      const alerts = buildAlerts(col);
+      varsHTML += `
+      <div class="var-block" style="page-break-before:always">
+        <div class="var-hdr">
+          <span style="font-family:monospace;font-size:11pt;font-weight:500">${col}</span>
+          <span style="font-family:monospace;font-size:8pt;color:rgba(255,255,255,.6)">n = ${stats.n}</span>
+        </div>
+        <table><thead><tr>
+          <th>Estadístico</th>
+          <th style="text-align:right">Valor</th>
+          <th style="text-align:right">Fórmula</th>
+        </tr></thead><tbody>
+          <tr><td>Media Aritmética</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${formatNum(stats.mean)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">x̄ = Σxᵢ / n</td></tr>
+          <tr><td>Mediana</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${formatNum(stats.median)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">P₅₀ = valor central</td></tr>
+          <tr><td>Moda</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${stats.mode === '—' ? '<em>—</em>' : stats.mode}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">valor más frecuente</td></tr>
+          <tr><td>Desviación Estándar</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${formatNum(stats.std)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">s = √[Σ(xᵢ − x̄)² / (n−1)]</td></tr>
+          <tr><td>Varianza</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${formatNum(stats.variance)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">s² = Σ(xᵢ − x̄)² / (n−1)</td></tr>
+          <tr style="background:#f7f8fa"><td colspan="3" style="padding:5px 14px;font-size:8.5pt;color:#666"><em>Percentiles</em></td></tr>
+          <tr><td style="padding-left:26px;color:#555">· P10</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${formatNum(stats.p10)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">Pk = valor en posición k/100×(n+1)</td></tr>
+          <tr><td style="padding-left:26px;color:#555">· P25</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${formatNum(stats.p25)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">k∈{10,25,50,75,90}</td></tr>
+          <tr><td style="padding-left:26px;color:#555">· P50</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${formatNum(stats.p50)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right"></td></tr>
+          <tr><td style="padding-left:26px;color:#555">· P75</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${formatNum(stats.p75)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right"></td></tr>
+          <tr><td style="padding-left:26px;color:#555">· P90</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${formatNum(stats.p90)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right"></td></tr>
+          <tr style="background:#f7f8fa"><td colspan="3" style="padding:5px 14px;font-size:8.5pt;color:#666"><em>Distribución</em></td></tr>
+          <tr><td style="padding-left:26px;color:#555">Rango</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${formatNum(stats.range)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">Máx − Mín</td></tr>
+          <tr><td style="padding-left:26px;color:#555">Coef. Variación</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${stats.cv === '—' ? '—' : stats.cv + '%'}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">(s / x̄) × 100</td></tr>
+          <tr><td style="padding-left:26px;color:#555">Asimetría</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${formatNum(stats.skew)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">g₁ = Σ(xᵢ−x̄)³/(n·s³)</td></tr>
+          <tr><td style="padding-left:26px;color:#555">Curtosis</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${formatNum(stats.kurt)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">g₂ = Σ(xᵢ−x̄)⁴/(n·s⁴)−3</td></tr>
+        </tbody></table>
+        <div style="padding:12px 16px;background:#fffcf0;border-top:1px solid #fce8a0">
+          <div style="font-family:monospace;font-size:7.5pt;color:#b7791f;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">⚠ Alertas</div>
+          ${alerts.length > 0 ? alerts.map(a => {
+            const bg = a.includes('OUTLIER') ? '#fed7d7' : a.includes('CV-HIGH') || a.includes('SKEW') ? '#fefcbf' : '#bee3f8';
+            const color = a.includes('OUTLIER') ? '#c53030' : a.includes('CV-HIGH') || a.includes('SKEW') ? '#b7791f' : '#2b6cb0';
+            return `<span style="background:${bg};color:${color};font-family:monospace;font-size:7.5pt;padding:3px 8px;border-radius:3px;display:inline-block;margin:2px 2px 2px 0">${a}</span>`;
+          }).join('') : '<span style="color:#718096;font-size:8pt;font-style:italic">Sin alertas</span>'}
+        </div>
+      </div>`;
+    });
 
     return `<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${reporte.nombre} - CFR 21 Part 11</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #333; line-height: 1.6; }
-    .header { text-align: center; border-bottom: 3px solid #1a365d; padding-bottom: 20px; margin-bottom: 30px; }
-    .logo { font-size: 24px; font-weight: bold; color: #1a365d; }
-    .title { font-size: 28px; margin: 10px 0; color: #2c5282; }
-    .subtitle { color: #4a5568; font-size: 14px; }
-    .section { margin: 25px 0; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; }
-    .section-title { font-size: 16px; font-weight: bold; color: #1a365d; border-bottom: 2px solid #cbd5e0; padding-bottom: 8px; margin-bottom: 15px; }
-    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .info-item { padding: 8px; }
-    .info-label { font-weight: bold; color: #4a5568; font-size: 12px; }
-    .info-value { color: #2d3748; }
-    .compliance-badge { display: inline-block; background: #c6f6d5; color: #22543d; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: bold; }
-    .hash { font-family: monospace; background: #edf2f7; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
-    .signature-block { border: 1px solid #cbd5e0; padding: 15px; margin: 10px 0; border-radius: 4px; }
-    .signature-line { display: flex; justify-content: space-between; margin: 8px 0; }
-    .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #cbd5e0; text-align: center; font-size: 12px; color: #718096; }
-    table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-    th, td { border: 1px solid #cbd5e0; padding: 10px; text-align: left; }
-    th { background: #f7fafc; font-weight: bold; }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <div class="logo">📊 StatAnalyzer Pro</div>
-    <h1 class="title">${reporte.nombre}</h1>
-    <p class="subtitle">Reporte de Análisis Estadístico</p>
+<html lang="es"><head><meta charset="UTF-8">
+<title>Reporte de Análisis Estadístico — ${docId}</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Source Serif 4',Georgia,serif;font-size:11pt;color:#1a202c;background:white;line-height:1.6}
+
+.cover{background:#1a3a6b;color:white;padding:32px 50px 28px;border-bottom:6px solid #c8a951}
+.doc{max-width:880px;margin:0 auto;padding:28px 50px}
+.sec{margin-bottom:20px}
+.sec-title{font-family:'JetBrains Mono',monospace;font-size:7.5pt;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:#1a3a6b;border-bottom:2px solid #1a3a6b;padding-bottom:6px;margin-bottom:16px;display:flex;align-items:baseline;gap:10px}
+.sec-num{background:#1a3a6b;color:white;font-size:7pt;padding:2px 7px;border-radius:2px}
+.meta-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 32px}
+.ml{font-family:'JetBrains Mono',monospace;font-size:7pt;color:#718096;text-transform:uppercase;letter-spacing:.8px;display:block;margin-bottom:2px}
+.mv{font-size:10.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;min-height:20px;display:block}
+
+.var-block{margin-bottom:14px;border:1px solid #e2e8f0;border-radius:6px;overflow:hidden}
+.var-hdr{background:#1a3a6b;color:white;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
+table{width:100%;border-collapse:collapse;font-size:9.5pt}
+th{background:#f0f4f8;color:#1a3a6b;font-family:'JetBrains Mono',monospace;font-size:7pt;letter-spacing:1px;text-transform:uppercase;padding:8px 14px;text-align:left;border-bottom:1px solid #e2e8f0}
+td{padding:4px 12px;border-bottom:1px solid #edf2f7;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f7faff}
+.method-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 28px}
+.mi{border-left:3px solid #e2e8f0;padding:8px 14px}
+.mi h4{font-size:9pt;font-weight:600;color:#1a3a6b;margin-bottom:3px}
+.mi p{font-size:8.5pt;color:#4a5568;line-height:1.5}
+.mi code{font-family:'JetBrains Mono',monospace;background:#f7f8fa;padding:1px 4px;border-radius:2px;display:block;margin-top:3px;color:#2c5282;font-size:8pt}
+.mi-why{font-size:8pt;color:#718096;line-height:1.55;margin-top:6px;padding-top:6px;border-top:1px dashed #e2e8f0;font-style:italic}
+
+.sig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.audit-box{background:#f7f8fa;border:1px solid #e2e8f0;border-radius:6px;padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:8pt;color:#718096;line-height:1.8}
+.doc-footer{margin-top:44px;padding-top:18px;border-top:2px solid #1a3a6b;display:flex;justify-content:space-between;align-items:flex-end;font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}
+
+@media print{
+    body{font-size:9pt}
+    .cover{padding:24px 40px;page-break-after:always}
+    .cover .title{font-size:22pt !important}
+    .cover .subtitle{font-size:9pt !important}
+    .cover .logo{font-size:8pt !important;margin-bottom:28px}
+    .doc{padding:20px 40px}
+    .sec{page-break-before:always;page-break-inside:auto}
+    .sec:first-of-type{page-break-before:avoid}
+    .var-block{page-break-inside:avoid}
+    .param-detail-section{page-break-before:always}
+    .param-control-section{page-break-before:always}
+    .method-grid{page-break-inside:avoid}
+    .mi{page-break-inside:avoid}
+    .sig-grid{page-break-inside:avoid}
+    .audit-box{page-break-inside:avoid}
+    .doc-footer{page-break-inside:avoid;page-break-before:avoid}
+    @page{margin:1.2cm;size:A4}
+}
+</style></head><body>
+
+<div class="cover">
+  <div style="position:relative">
+    <div class="logo" style="font-family:'JetBrains Mono',monospace;font-size:9pt;letter-spacing:3px;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:34px">StatAnalyzer Pro · Reporte Estadístico</div>
+    <div class="title" style="font-size:26pt;font-weight:300;margin-bottom:6px">Reporte de Análisis Estadístico</div>
+    <div class="subtitle" style="font-size:11pt;color:#c8a951;font-weight:300;letter-spacing:1px;margin-bottom:44px">FDA 21 CFR Part 11 — CUMPLIMIENTO</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 40px;font-family:'JetBrains Mono',monospace;font-size:8pt;color:rgba(255,255,255,.7);border-top:1px solid rgba(255,255,255,.2);padding-top:22px">
+      <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">ID del Documento</strong>${docId}</div>
+      <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">Organización</strong>${reporte.organizacion || '—'}</div>
+      <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">Ensayo / Prueba</strong>${reporte.ensayo || reporte.descripcion || '—'}</div>
+      <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">Fase</strong>${reporte.fase || '—'}</div>
+      <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">Generado</strong>${cfr21.auditTrail?.generationDateFormatted || formatFullDateTime(now)} UTC</div>
+      <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">Total de Registros</strong>${totalRegistros}</div>
+    </div>
+  </div>
+</div>
+
+<div class="doc">
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">01</span>Descripción General</div>
+    <div class="meta-grid">
+      <div><span class="ml">Versión del Reporte</span><span class="mv">${reporte.version || '1.0'}</span></div>
+      <div style="grid-column:1/-1"></div>
+      <div style="grid-column:1/-1"><div><span class="ml">Confidencialidad</span><span class="mv">${reporte.confidencial || 'CONFIDENTIAL — FOR INTERNAL USE ONLY'}</span></div></div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">02</span>Trazabilidad del Dataset</div>
+    <div class="meta-grid">
+      <div><span class="ml">Nombre del Dataset</span><span class="mv">${dataset}</span></div>
+      <div><span class="ml">Archivo Fuente</span><span class="mv">${reporte.archivo || dataset + '.csv'}</span></div>
+      <div><span class="ml">Fecha de Recolección</span><span class="mv">${reporte.fechaFabricacion || '—'}</span></div>
+      <div><span class="ml">Fecha de Análisis</span><span class="mv">${cfr21.datasetTraceability?.analysisDate ? formatFullDate(new Date(cfr21.datasetTraceability.analysisDate)) : formatFullDate(now)}</span></div>
+      <div><span class="ml">Total de Registros</span><span class="mv">${totalRegistros}</span></div>
+      <div><span class="ml">Columnas Numéricas</span><span class="mv">${numericCols.length}</span></div>
+      <div style="grid-column:1/-1"><div><span class="ml">Analizadas</span><span class="mv">${numericCols.map(c => c).join(' · ')}</span></div></div>
+      <div style="grid-column:1/-1"><div><span class="ml">Estadísticos</span><span class="mv">Media Aritmética · Mediana · Moda · Desviación Estándar · Varianza · Percentiles · Rango y Amplitud · Coeficiente de Variación · Asimetría (Skewness) · Curtosis (Kurtosis) · Error Estándar · Intervalos de Confianza</span></div></div>
+      <div style="grid-column:1/-1"><span class="ml">Hash de Integridad</span><span class="mv" style="font-family:monospace;font-size:9pt">${docId}</span></div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">03</span>Resumen Ejecutivo</div>
+    <div style="background:#f7f8fa;border-left:4px solid #1a3a6b;border-radius:0 6px 6px 0;padding:16px 20px;font-size:10.5pt;line-height:1.7">
+      Dataset <strong>"${dataset}"</strong> · <strong>${totalRegistros}</strong> observaciones · <strong>${numericCols.length}</strong> variable(s) numérica(s) · FDA 21 CFR Part 11.<br>
+      Estadísticos: Media Aritmética · Mediana · Moda · Desviación Estándar · Varianza · Percentiles · Rango y Amplitud · Coeficiente de Variación · Asimetría (Skewness) · Curtosis (Kurtosis) · Error Estándar · Intervalos de Confianza.
+    </div>
+    ${numericCols.some(c => buildAlerts(c).length > 0) ? `
+    <div style="margin-top:14px;padding:12px 16px;border-radius:6px;background:#fffbeb;border:1px solid #f6e05e">
+      <strong>⚠ alerta(s) automática(s) detectada(s):</strong><br><br>
+      ${numericCols.map(col => {
+        const alerts = buildAlerts(col);
+        return alerts.length > 0 ? alerts.map(a => `<strong>${col}:</strong> ${a}`).join('<br>') : '';
+      }).filter(x => x).join('<br>')}
+    </div>` : ''}
+  </div>
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">04</span>Resultados Estadísticos por Variable</div>
+    ${varsHTML}
+  </div>
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">05</span>Notas Metodológicas</div>
+    <div class="method-grid">
+      <div class="mi"><h4>Media Aritmética</h4><p>Tendencia central de la distribución. Suma de todos los valores dividida entre el número de observaciones.</p><code>x̄ = Σxᵢ / n</code><div style="margin-top:4px;padding:4px 8px;background:#f8f9fa;border-radius:3px;font-size:7pt;font-style:italic;color:#6c757d"><strong>Ref:</strong> Freedman, D., Pisani, R. & Purves, R. (2007). Statistics. W.W. Norton</div></div>
+      <div class="mi"><h4>Desviación Estándar</h4><p>Dispersión típica respecto a la media con corrección de Bessel (n−1). Principal indicador de variabilidad del proceso.</p><code>s = √[Σ(xᵢ − x̄)² / (n−1)]</code><div style="margin-top:4px;padding:4px 8px;background:#f8f9fa;border-radius:3px;font-size:7pt;font-style:italic;color:#6c757d"><strong>Ref:</strong> Bessel, F. (1838). Correction to the estimation of variance. Astronomische Nachrichten</div></div>
+      <div class="mi"><h4>Percentiles</h4><p>Valores que dividen la distribución en porcentajes iguales. P50 es la mediana.</p><code>Pk = valor en posición k/100×(n+1)</code><div style="margin-top:4px;padding:4px 8px;background:#f8f9fa;border-radius:3px;font-size:7pt;font-style:italic;color:#6c757d"><strong>Ref:</strong> Hyndman, R.J. & Fan, Y. (1996). Sample Quantiles in Statistical Packages. The American Statistician</div></div>
+      <div class="mi"><h4>Coeficiente de Variación</h4><p>Medida relativa de dispersión. Permite comparar variabilidad entre variables con diferentes escalas.</p><code>CV = (s / x̄) × 100%</code><div style="margin-top:4px;padding:4px 8px;background:#f8f9fa;border-radius:3px;font-size:7pt;font-style:italic;color:#6c757d"><strong>Ref:</strong> ASTM E177 Standard Practice for Use of the Terms Precision and Bias in ASTM Test Methods</div></div>
+      <div class="mi"><h4>Asimetría (Skewness)</h4><p>Mide la asimetría de la distribución. Valores positivos indican cola a la derecha.</p><code>g₁ = Σ(xᵢ−x̄)³/(n·s³)</code><div style="margin-top:4px;padding:4px 8px;background:#f8f9fa;border-radius:3px;font-size:7pt;font-style:italic;color:#6c757d"><strong>Ref:</strong> Joanes, D.N. & Gill, C.A. (1998). Comparing measures of sample skewness and kurtosis. The Statistician</div></div>
+      <div class="mi"><h4>Curtosis (Kurtosis)</h4><p>Mide la "cola pesada" de la distribución. Curtosis=0 indica distribución normal.</p><code>g₂ = Σ(xᵢ−x̄)⁴/(n·s⁴)−3</code><div style="margin-top:4px;padding:4px 8px;background:#f8f9fa;border-radius:3px;font-size:7pt;font-style:italic;color:#6c757d"><strong>Ref:</strong> Joanes, D.N. & Gill, C.A. (1998). Comparing measures of sample skewness and kurtosis. The Statistician</div></div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">06</span>Auditoría y Firma Electrónica <span style="font-size:7pt;font-weight:400;color:#a0aec0;margin-left:8px">21 CFR Part 11 — Subparte C</span></div>
+    <div class="sig-grid">
+      <div style="border:1px solid #e2e8f0;border-radius:6px;padding:14px">
+        <div style="font-family:monospace;font-size:7pt;text-transform:uppercase;letter-spacing:1.5px;color:#1a3a6b;margin-bottom:10px;border-bottom:1px solid #e2e8f0;padding-bottom:5px">Preparado por</div>
+        <div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">Nombre</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:#2d3748">${cfr21.electronicSignatures?.prepared?.name || reporte.autor || '—'}</span></div>
+        <div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">Cargo / Posición</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:#2d3748">${cfr21.electronicSignatures?.prepared?.title || 'Analista de Datos'}</span></div>
+        <div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">Fecha</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:#2d3748">${cfr21.electronicSignatures?.prepared?.date || formatFullDate(now)}</span></div>
+        <div style="border-top:1px solid #1a202c;margin-top:14px;padding-top:5px;font-size:7pt;color:#718096;font-family:monospace">Registro electrónico · FDA 21 CFR Part 11</div>
+      </div>
+      <div style="border:1px solid #e2e8f0;border-radius:6px;padding:14px">
+        <div style="font-family:monospace;font-size:7pt;text-transform:uppercase;letter-spacing:1.5px;color:#1a3a6b;margin-bottom:10px;border-bottom:1px solid #e2e8f0;padding-bottom:5px">Revisado por</div>
+        <div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">Nombre</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:#cbd5e0;font-style:italic">${cfr21.electronicSignatures?.reviewed?.name || '—'}</span></div>
+        <div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">Cargo / Posición</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:#cbd5e0;font-style:italic">${cfr21.electronicSignatures?.reviewed?.title || '—'}</span></div>
+        <div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">Fecha</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:#cbd5e0;font-style:italic">${cfr21.electronicSignatures?.reviewed?.date || '—'}</span></div>
+        <div style="border-top:1px solid #1a202c;margin-top:14px;padding-top:5px;font-size:7pt;color:#718096;font-family:monospace">Registro electrónico · FDA 21 CFR Part 11</div>
+      </div>
+      <div style="border:1px solid #e2e8f0;border-radius:6px;padding:14px">
+        <div style="font-family:monospace;font-size:7pt;text-transform:uppercase;letter-spacing:1.5px;color:#1a3a6b;margin-bottom:10px;border-bottom:1px solid #e2e8f0;padding-bottom:5px">Aprobado por</div>
+        <div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">Nombre</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:#cbd5e0;font-style:italic">${cfr21.electronicSignatures?.approved?.name || '—'}</span></div>
+        <div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">Cargo / Posición</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:#cbd5e0;font-style:italic">${cfr21.electronicSignatures?.approved?.title || '—'}</span></div>
+        <div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">Fecha</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:#cbd5e0;font-style:italic">${cfr21.electronicSignatures?.approved?.date || '—'}</span></div>
+        <div style="border-top:1px solid #1a202c;margin-top:14px;padding-top:5px;font-size:7pt;color:#718096;font-family:monospace">Registro electrónico · FDA 21 CFR Part 11</div>
+      </div>
+    </div>
+    <br>
+    <div class="audit-box">
+      <strong style="color:#1a3a6b">METADATOS DE AUDITORÍA</strong><br>
+      ID del Documento: ${docId} &nbsp;|&nbsp; Software: ${cfr21.auditTrail?.software || 'StatAnalyzer Pro'} v${cfr21.auditTrail?.version || '2.5'} &nbsp;|&nbsp; Generado: ${cfr21.auditTrail?.generationDateFormatted || formatFullDateTime(now)} UTC<br>
+      Standard: ${cfr21.standard || 'FDA 21 CFR Part 11'} &nbsp;|&nbsp; Guideline: ICH E9 Statistical Principles for Clinical Trials
+    </div>
   </div>
 
-  <div class="section">
-    <div class="section-title">📋 Información de Cumplimiento</div>
-    <div class="compliance-badge">✓ CFR 21 Part 11 Compliant</div>
-    <div class="info-grid" style="margin-top: 15px;">
-      <div class="info-item"><span class="info-label">Estándar</span><div class="info-value">${cfr21.standard || 'FDA 21 CFR Part 11'}</div></div>
-      <div class="info-item"><span class="info-label">Alcance</span><div class="info-value">${cfr21.scope || 'Electronic Records; Electronic Signatures'}</div></div>
-      <div class="info-item"><span class="info-label">Hash de Integridad</span><div class="info-value hash">${cfr21.integrityHash || 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Fecha de Generación</span><div class="info-value">${cfr21.auditTrail?.generationDateFormatted || formatFullDateTime(now)}</div></div>
-    </div>
+  <div class="doc-footer">
+    <div><strong style="color:#1a3a6b">${docId}</strong><br>StatAnalyzer Pro v${cfr21.auditTrail?.version || '2.5'}</div>
+    <div style="text-align:center">${reporte.confidencial || 'CONFIDENTIAL — FOR INTERNAL USE ONLY'}</div>
+    <div style="text-align:right">FDA 21 CFR Part 11<br>${formatFullDate(now)}</div>
   </div>
-
-  <div class="section">
-    <div class="section-title">🏢 Información del Reporte</div>
-    <div class="info-grid">
-      <div class="info-item"><span class="info-label">Autor</span><div class="info-value">${reporte.autor || 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Dataset</span><div class="info-value">${reporte.dataset || 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Estado</span><div class="info-value">${reporte.estado || 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Pruebas Realizadas</span><div class="info-value">${reporte.pruebasCount || 0}</div></div>
-      <div class="info-item"><span class="info-label">Gráficos</span><div class="info-value">${reporte.graficosCount || 0}</div></div>
-      <div class="info-item"><span class="info-label">Software</span><div class="info-value">${cfr21.auditTrail?.software || 'StatAnalyzer Pro'} v${cfr21.auditTrail?.version || '2.5'}</div></div>
-    </div>
-    ${reporte.descripcion ? `<div style="margin-top: 10px;"><span class="info-label">Descripción</span><div class="info-value">${reporte.descripcion}</div></div>` : ''}
-  </div>
-
-  <div class="section">
-    <div class="section-title">🔗 Trazabilidad del Dataset</div>
-    <div class="info-grid">
-      <div class="info-item"><span class="info-label">Nombre del Dataset</span><div class="info-value">${cfr21.datasetTraceability?.datasetName || 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Fecha de Análisis</span><div class="info-value">${cfr21.datasetTraceability?.analysisDate ? formatFullDate(new Date(cfr21.datasetTraceability.analysisDate)) : 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Columnas Analizadas</span><div class="info-value">${cfr21.datasetTraceability?.columnsAnalyzed?.length || 0}</div></div>
-      <div class="info-item"><span class="info-label">Total Estadísticos</span><div class="info-value">${cfr21.datasetTraceability?.totalStatistics || 0}</div></div>
-    </div>
-  </div>
-
-  ${(reporte.fase || reporte.equipo || reporte.protocolo) ? `
-  <div class="section">
-    <div class="section-title">💊 Cualificación Farmacéutica</div>
-    <div class="info-grid">
-      <div class="info-item"><span class="info-label">Tipo de Cualificación</span><div class="info-value">${getFaseLabel(reporte.fase)}</div></div>
-      <div class="info-item"><span class="info-label">Número de Lote</span><div class="info-value">${reporte.lote || 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Número de Protocolo</span><div class="info-value">${reporte.protocolo || 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Código de Proyecto</span><div class="info-value">${reporte.codigo || 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Confidencialidad</span><div class="info-value">${reporte.confidencial || 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Versión</span><div class="info-value">${reporte.version || '1.0'}</div></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">🔧 Equipo / Método</div>
-    <div class="info-grid">
-      <div class="info-item"><span class="info-label">Nombre</span><div class="info-value">${reporte.equipo || 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Número de Serie</span><div class="info-value">${reporte.serie || 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Modelo</span><div class="info-value">${reporte.modelo || 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Organización</span><div class="info-value">${reporte.organizacion || 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Departamento</span><div class="info-value">${reporte.departamento || 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Ubicación</span><div class="info-value">${reporte.ubicacion || 'N/A'}</div></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">🌡️ Parámetros de Operación</div>
-    <div class="info-grid">
-      <div class="info-item"><span class="info-label">Temperatura</span><div class="info-value">${reporte.temperatura || 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Humedad</span><div class="info-value">${reporte.humedad || 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Fecha de Fabricación</span><div class="info-value">${reporte.fechaFabricacion || 'N/A'}</div></div>
-      <div class="info-item"><span class="info-label">Fecha de Expiración</span><div class="info-value">${reporte.fechaExpiracion || 'N/A'}</div></div>
-    </div>
-  </div>
-  ` : ''}
-
-  <div class="section">
-    <div class="section-title">✍️ Firmas Electrónicas - 21 CFR Part 11 Subparte C</div>
-    <div class="signature-block">
-      <div class="signature-line"><span><strong>Preparado por:</strong></span><span>${cfr21.electronicSignatures?.prepared?.name || reporte.autor || 'N/A'}</span></div>
-      <div class="signature-line"><span>Cargo:</span><span>${cfr21.electronicSignatures?.prepared?.title || 'Analista de Datos'}</span></div>
-      <div class="signature-line"><span>Fecha:</span><span>${cfr21.electronicSignatures?.prepared?.date || formatFullDateTime(now)}</span></div>
-      <div class="signature-line"><span>Acción:</span><span>${cfr21.electronicSignatures?.prepared?.action || 'Generado'}</span></div>
-      <div class="signature-line"><span>Significado:</span><span>${cfr21.electronicSignatures?.prepared?.meaning || 'Preparación del reporte'}</span></div>
-    </div>
-    <div class="signature-block" style="background: #f7fafc;">
-      <div class="signature-line"><span><strong>Revisado por:</strong></span><span>${cfr21.electronicSignatures?.reviewed?.name || 'Pendiente'}</span></div>
-      <div class="signature-line"><span>Cargo:</span><span>${cfr21.electronicSignatures?.reviewed?.title || '—'}</span></div>
-      <div class="signature-line"><span>Fecha:</span><span>${cfr21.electronicSignatures?.reviewed?.date || '—'}</span></div>
-    </div>
-    <div class="signature-block" style="background: #f7fafc;">
-      <div class="signature-line"><span><strong>Aprobado por:</strong></span><span>${cfr21.electronicSignatures?.approved?.name || 'Pendiente'}</span></div>
-      <div class="signature-line"><span>Cargo:</span><span>${cfr21.electronicSignatures?.approved?.title || '—'}</span></div>
-      <div class="signature-line"><span>Fecha:</span><span>${cfr21.electronicSignatures?.approved?.date || '—'}</span></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">📝 Notas Metodológicas</div>
-    <div class="info-grid">
-      <div class="info-item"><span class="info-label">Métodos Descriptivos</span><div class="info-value" style="font-size: 11px;">${cfr21.methodology?.statisticalMethods?.descriptive || 'Estadísticos descriptivos estándar'}</div></div>
-      <div class="info-item"><span class="info-label">Intervalos de Confianza</span><div class="info-value">${cfr21.methodology?.statisticalMethods?.confidence || '95% (α = 0.05)'}</div></div>
-    </div>
-  </div>
-
-  <div class="footer">
-    <p>Este documento fue generado por <strong>StatAnalyzer Pro</strong> en cumplimiento con FDA 21 CFR Part 11.</p>
-    <p>Document ID: ${cfr21.integrityHash || 'N/A'} | Fecha: ${formatFullDateTime(now)} | Usuario: ${cfr21.auditTrail?.generatedBy || 'Usuario'}</p>
-    <p style="margin-top: 10px; font-size: 10px;">Este documento es una copia controlada. Cualquier modificación no autorizada invalidará la integridad del registro electrónico.</p>
-  </div>
-</body>
-</html>`;
+</div>
+</body></html>`;
   }
 
   function generarCSV(reporte) {
@@ -617,7 +737,7 @@ const ReportesManager = (() => {
     csv += `Dataset,${reporte.dataset}\n`;
     csv += `Pruebas,${reporte.pruebasCount}\n`;
     csv += `Graficos,${reporte.graficosCount}\n`;
-    csv += `Hash,${cfr21.integrityHash || 'N/A'}\n`;
+    csv += `Hash,RPT-${cfr21.integrityHash || 'N/A'}\n`;
     csv += `Fecha,${formatDate(reporte.creado)}\n\n`;
 
     if (reporte.fase || reporte.equipo) {
@@ -660,7 +780,7 @@ const ReportesManager = (() => {
     txt += `Estado: ${reporte.estado}\n`;
     txt += `Dataset: ${reporte.dataset}\n`;
     txt += `Pruebas: ${reporte.pruebasCount}\n`;
-    txt += `Hash: ${cfr21.integrityHash || 'N/A'}\n`;
+    txt += `Hash: RPT-${cfr21.integrityHash || 'N/A'}\n`;
     txt += `Fecha: ${formatDate(reporte.creado)}\n\n`;
 
     if (reporte.fase || reporte.equipo) {
@@ -957,6 +1077,7 @@ const ReportesManager = (() => {
       graficosCount: graficos.length,
       estado: 'completado',
       contenido: analisis?.html || '',
+      resultados: analisis?.resultados || {},
       creado: new Date().toISOString(),
 
       // Campos adicionales CFR 21 / Farmacéuticos
@@ -1048,7 +1169,7 @@ const ReportesManager = (() => {
     document.getElementById('reporte-modal-overlay')?.remove();
     renderReportesList();
 
-    showToast(`Reporte CFR 21 Part 11 generado - Hash: ${integrityHash}`, 'ok');
+    showToast(`Reporte CFR 21 Part 11 generado - Hash: RPT-${integrityHash}`, 'ok');
   }
 
   function eliminarReporte(index) {

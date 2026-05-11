@@ -1,0 +1,1958 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Obsidian Vault</title>
+<!-- Reemplaza tu script src actual con esto -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg-primary: #1e1e1e;
+    --bg-secondary: #252525;
+    --bg-panel: #2a2a2a;
+    --bg-sidebar: #1a1a1a;
+    --bg-ribbon: #161616;
+    --border: #3a3a3a;
+    --text-primary: #dcddde;
+    --text-muted: #888;
+    --text-faint: #555;
+    --accent: #7c6af7;
+    --accent-hover: #9585ff;
+    --tab-active: #2a2a2a;
+    --tab-inactive: #1e1e1e;
+    --card-bg: #2d2d2d;
+    --card-hover: #333;
+    --item-bg: #3a3a3a;
+    --item-hover: #444;
+  }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    user-select: none;
+  }
+
+  /* ── Title bar ── */
+  .titlebar {
+    height: 26px;
+    background: #1a1a1a;
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid #111;
+    flex-shrink: 0;
+  }
+  .titlebar-lights { display:flex; align-items:center; gap:6px; padding:0 12px; flex-shrink:0; }
+  .titlebar-btn { width:12px; height:12px; border-radius:50%; border:none; cursor:pointer; }
+  .titlebar-btn.close { background:#ff5f56; }
+  .titlebar-btn.min   { background:#febc2e; }
+  .titlebar-btn.max   { background:#28c840; }
+  .titlebar-appname { display:flex; align-items:center; padding:0 6px 0 2px; font-size:13px; font-weight:700; color:var(--text-primary); flex-shrink:0; }
+  .menubar { display:flex; align-items:stretch; flex:1; }
+  .menu-item {
+    position:relative; display:flex; align-items:center;
+    padding:0 10px; font-size:13px; color:var(--text-primary);
+    cursor:default; white-space:nowrap; transition:background .1s;
+    border-radius:4px; margin:3px 1px;
+  }
+  .menu-item:hover, .menu-item.open { background:rgba(255,255,255,.12); }
+  .dropdown {
+    display:none; position:absolute; top:calc(100% + 4px); left:0;
+    background:#2c2c2e; border:1px solid #444; border-radius:6px;
+    min-width:220px; padding:4px; box-shadow:0 8px 32px rgba(0,0,0,.6);
+    z-index:999;
+  }
+  .menu-item.open .dropdown { display:block; }
+  .dd-item {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:5px 10px; border-radius:4px; font-size:13px; color:var(--text-primary);
+    cursor:default; gap:24px;
+  }
+  .dd-item:hover { background:var(--accent); color:#fff; }
+  .dd-item.disabled { color:var(--text-faint); pointer-events:none; }
+  .dd-separator { height:1px; background:#444; margin:4px 6px; }
+  .dd-shortcut { color:var(--text-faint); font-size:12px; flex-shrink:0; }
+  .dd-item:hover .dd-shortcut { color:rgba(255,255,255,.7); }
+
+  /* ── App layout ── */
+  .app {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  /* ── Ribbon ── */
+  .ribbon {
+    width: 36px;
+    background: var(--bg-ribbon);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 0;
+    gap: 4px;
+    border-right: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .ribbon-icon {
+    width:28px; height:28px; display:flex; align-items:center; justify-content:center;
+    border-radius:4px; color:var(--text-faint); cursor:pointer;
+    transition:color .15s, background .15s; font-size:15px;
+  }
+  .ribbon-icon:hover { color:var(--text-muted); background:rgba(255,255,255,.06); }
+  .ribbon-icon.active { color:var(--text-primary); }
+  .ribbon-toggle {
+    margin-top:auto; margin-bottom:8px;
+    width:28px; height:28px; display:flex; align-items:center; justify-content:center;
+    border-radius:4px; color:var(--text-faint); cursor:pointer;
+    transition:color .15s, background .15s, transform .22s ease; font-size:15px;
+  }
+  .ribbon-toggle:hover { color:var(--text-muted); background:rgba(255,255,255,.06); }
+  .ribbon-toggle.rotated { transform:rotate(180deg); }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 230px;
+    background: var(--bg-sidebar);
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border);
+    flex-shrink: 0;
+    overflow: hidden;
+    transition: width .22s cubic-bezier(.4,0,.2,1), opacity .18s ease;
+  }
+  .sidebar.collapsed { width:0; opacity:0; pointer-events:none; border-right:none; }
+  .sidebar-header { display:flex; align-items:center; padding:8px 10px; gap:6px; flex-shrink:0; }
+  .search-box {
+    flex:1; display:flex; align-items:center;
+    background:rgba(255,255,255,.06); border-radius:5px; padding:4px 8px; gap:6px;
+  }
+  .search-box input { background:transparent; border:none; outline:none; color:var(--text-muted); font-size:13px; width:100%; }
+  .search-box input::placeholder { color:var(--text-faint); }
+  .search-icon { color:var(--text-faint); font-size:13px; }
+  .sidebar-action-icon { color:var(--text-faint); cursor:pointer; font-size:13px; padding:3px; border-radius:3px; }
+  .sidebar-action-icon:hover { color:var(--text-muted); background:rgba(255,255,255,.05); }
+  .sidebar-nav { padding:8px 6px; overflow-y:auto; flex:1; }
+  .nav-section-title { font-size:10px; font-weight:600; color:var(--text-faint); padding:8px 8px 4px; text-transform:uppercase; letter-spacing:0.5px; }
+  .nav-item {
+    display:flex; align-items:center; gap:8px; padding:6px 8px;
+    border-radius:6px; cursor:pointer; color:var(--text-muted);
+    transition:background .1s, color .1s;
+  }
+  .nav-item:hover { background:rgba(255,255,255,.06); color:var(--text-primary); }
+  .nav-item.active { background:var(--accent); color:#fff; }
+  .nav-icon { font-size:14px; }
+  .nav-label { font-size:13px; }
+  .sidebar-footer {
+    margin-top:auto; padding:10px 12px; display:flex; align-items:center;
+    justify-content:space-between; border-top:1px solid var(--border); flex-shrink:0;
+  }
+  .vault-name { display:flex; align-items:center; gap:6px; font-size:13px; color:var(--text-muted); cursor:pointer; }
+  .vault-name:hover { color:var(--text-primary); }
+  .sidebar-footer-icons { display:flex; gap:8px; }
+  .footer-icon { color:var(--text-faint); cursor:pointer; font-size:13px; padding:2px; border-radius:3px; }
+  .footer-icon:hover { color:var(--text-muted); }
+
+  /* ── Content area ── */
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  /* ── Tab bar ── */
+  .tabbar {
+    display:flex; align-items:stretch;
+    background:var(--bg-primary); border-bottom:1px solid var(--border);
+    flex-shrink:0; height:36px; overflow:hidden;
+  }
+  .tab {
+    display:flex; align-items:center; gap:6px; padding:0 12px;
+    font-size:13px; color:var(--text-muted); cursor:pointer;
+    border-right:1px solid var(--border); min-width:100px; max-width:180px;
+    position:relative; transition:background .1s; flex-shrink:0;
+  }
+  .tab:hover { background:rgba(255,255,255,.04); }
+  .tab.active { background:var(--tab-active); color:var(--text-primary); }
+  .tab.active::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:var(--accent); }
+  .tab-icon { font-size:12px; opacity:.8; }
+  .tab-close { margin-left:auto; font-size:14px; color:var(--text-faint); border-radius:3px; padding:1px 3px; }
+  .tab-close:hover { background:rgba(255,255,255,.1); color:var(--text-muted); }
+  .tab-new { display:flex; align-items:center; justify-content:center; width:28px; color:var(--text-faint); cursor:pointer; font-size:18px; flex-shrink:0; }
+  .tab-new:hover { color:var(--text-muted); }
+  .tabbar-spacer { flex:1; }
+  .tabbar-end { display:flex; align-items:center; padding:0 10px; gap:6px; color:var(--text-faint); flex-shrink:0; }
+  .tabbar-end-icon { cursor:pointer; font-size:15px; }
+  .tabbar-end-icon:hover { color:var(--text-muted); }
+
+  /* ── Split panes ── */
+  .panes {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .pane {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  #paneLeft  { flex: 0 0 auto; width: 240px; border-right: none; }
+  #paneRight { flex: 1 1 0; min-width: 0; }
+
+  /* ── Resizer ── */
+  .pane-resizer {
+    width:5px; background:transparent; cursor:col-resize; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    position:relative; transition:background .15s; z-index:10;
+  }
+  .pane-resizer:hover, .pane-resizer.dragging { background:rgba(124,106,247,.35); }
+  .pane-resizer-handle {
+    width:1px; height:100%; background:var(--border); transition:background .15s, width .15s;
+  }
+  .pane-resizer:hover .pane-resizer-handle,
+  .pane-resizer.dragging .pane-resizer-handle { width:2px; background:var(--accent); }
+
+  /* ── Pane header ── */
+  .pane-header {
+    display:flex; align-items:center; padding:0 10px; gap:6px;
+    border-bottom:1px solid var(--border); flex-shrink:0; height:36px;
+  }
+  .pane-nav { display:flex; gap:2px; }
+  .pane-nav-btn { color:var(--text-faint); cursor:pointer; font-size:15px; padding:2px 4px; border-radius:3px; }
+  .pane-nav-btn:hover { color:var(--text-muted); background:rgba(255,255,255,.05); }
+  .pane-title { flex:1; text-align:center; font-size:12px; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .pane-menu { color:var(--text-faint); cursor:pointer; font-size:16px; padding:2px; }
+  .pane-menu:hover { color:var(--text-muted); }
+
+  /* ── Pane scrollable body ── */
+  .pane-body {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0;
+  }
+
+  /* ── Left panel: context info ── */
+  .left-panel {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 100%;
+  }
+
+  .info-section {
+    background: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .info-section-header {
+    padding: 8px 12px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-faint);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .info-list { padding: 6px; display:flex; flex-direction:column; gap:3px; }
+  .info-item {
+    padding: 6px 8px; border-radius: 5px; font-size: 12px; color: var(--text-primary);
+    cursor: pointer; transition: background .1s;
+  }
+  .info-item:hover { background: var(--item-hover); }
+  .info-item.active { background: var(--accent); color: #fff; }
+  .info-item-label { color: var(--text-muted); font-size: 11px; margin-bottom: 1px; }
+  .info-item-value { font-size: 12px; }
+
+  /* ── Right panel: page body ── */
+  .page-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* ── Page shared components ── */
+  .page-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .page-card-header {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .page-card-icon { font-size: 16px; }
+
+  .page-card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    flex: 1;
+  }
+
+  .page-card-badge {
+    font-size: 10px;
+    background: var(--accent);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  .page-card-body { padding: 16px; }
+
+  /* ── Toolbar ── */
+  .page-toolbar {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: inherit;
+    transition: background .15s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-secondary { background: var(--item-bg); color: var(--text-muted); }
+  .btn-secondary:hover { background: var(--item-hover); color: var(--text-primary); }
+
+  /* ── Data table ── */
+  .data-table { width:100%; border-collapse:collapse; }
+  .data-table th {
+    padding: 8px 12px; text-align:left; font-size:11px; font-weight:500;
+    color:var(--text-muted); border-bottom:1px solid var(--border);
+    position:sticky; top:0; background:var(--card-bg);
+  }
+  .data-table td { padding:8px 12px; font-size:12px; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.04); }
+  .data-table tr:last-child td { border-bottom:none; }
+  .data-table tr:hover td { background:rgba(255,255,255,.03); }
+  .data-table .mono { font-family: monospace; color: #9de0e0; }
+
+  /* ── Status badges ── */
+  .badge {
+    display:inline-block; padding:2px 8px; border-radius:4px;
+    font-size:10px; font-weight:500;
+  }
+  .badge-ok    { background:#1e3d2a; color:#4ade80; }
+  .badge-warn  { background:#3d2a1e; color:#fb923c; }
+  .badge-info  { background:#1e2a3d; color:#60a5fa; }
+
+  /* ── Grid layouts ── */
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .grid-auto { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:12px; }
+
+  /* ── Metric card ── */
+  .metric-card {
+    background: var(--item-bg); border-radius: 8px; padding: 14px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .metric-label { font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.5px; }
+  .metric-value { font-size: 22px; font-weight: 600; color: var(--text-primary); }
+  .metric-sub { font-size: 11px; color: var(--text-muted); }
+
+  /* ── Upload zone ── */
+  .upload-zone {
+    border: 2px dashed var(--border); border-radius: 10px;
+    padding: 28px; text-align: center; cursor: pointer;
+    transition: border-color .2s, background .2s;
+  }
+  .upload-zone.compact {
+    padding: 12px 10px;
+    border-radius: 8px;
+    border-width: 1px;
+  }
+  .upload-zone:hover { border-color: var(--accent); background: rgba(124,106,247,.07); }
+  .upload-zone-icon { font-size: 32px; margin-bottom: 8px; }
+  .upload-zone-text { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; }
+  .upload-zone-sub { font-size: 11px; color: var(--text-faint); }
+
+  /* ── File item ── */
+  .file-item {
+    display: flex; align-items: center; gap: 10px; padding: 10px;
+    background: var(--item-bg); border-radius: 7px; cursor: pointer;
+    transition: background .15s;
+  }
+  .file-item:hover { background: var(--item-hover); }
+  .file-item-icon { font-size: 20px; flex-shrink: 0; }
+  .file-item-name { font-size: 12px; color: var(--text-primary); }
+  .file-item-meta { font-size: 11px; color: var(--text-faint); }
+
+  /* ── Test cards ── */
+  .test-card {
+    background: var(--item-bg); border-radius: 9px; padding: 16px;
+    cursor: pointer; transition: transform .15s, background .15s;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .test-card:hover { transform:translateY(-2px); background: var(--item-hover); }
+  .test-card-icon { font-size: 22px; }
+  .test-card-name { font-size: 13px; color: var(--text-primary); font-weight: 500; }
+  .test-card-desc { font-size: 11px; color: var(--text-faint); }
+
+  /* ── Chart type cards ── */
+  .chart-card {
+    background: var(--item-bg); border-radius: 9px; padding: 16px 12px;
+    text-align: center; cursor: pointer; transition: transform .15s, background .15s;
+  }
+  .chart-card:hover { transform:translateY(-2px); background: var(--item-hover); }
+  .chart-card-icon { font-size: 28px; margin-bottom: 6px; }
+  .chart-card-name { font-size: 12px; color: var(--text-muted); }
+
+  /* ── Report / audit / user list items ── */
+  .list-item {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--item-bg); border-radius: 8px; padding: 12px 14px;
+    cursor: pointer; transition: background .15s;
+  }
+  .list-item:hover { background: var(--item-hover); }
+  .list-item-icon { font-size: 22px; flex-shrink: 0; }
+  .list-item-title { font-size: 13px; color: var(--text-primary); font-weight: 500; }
+  .list-item-meta { font-size: 11px; color: var(--text-faint); margin-top: 2px; }
+  .list-item-end { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+  /* ── Audit grid ── */
+  .audit-item {
+    display: grid; grid-template-columns: 36px 1fr auto auto;
+    align-items: center; gap: 10px;
+    background: var(--item-bg); border-radius: 8px; padding: 10px 14px;
+  }
+  .audit-icon-wrap { width:32px; height:32px; border-radius:6px; background:var(--bg-panel); display:flex; align-items:center; justify-content:center; font-size:15px; }
+  .audit-action { font-size:12px; color:var(--text-primary); }
+  .audit-user { font-size:11px; color:var(--accent); }
+  .audit-time { font-size:11px; color:var(--text-faint); text-align:right; }
+
+  /* ── User card ── */
+  .user-avatar {
+    width:38px; height:38px; border-radius:50%; display:flex; align-items:center;
+    justify-content:center; color:#fff; font-size:16px; font-weight:600; flex-shrink:0;
+  }
+  .user-name { font-size:13px; color:var(--text-primary); font-weight:500; }
+  .user-role { font-size:11px; margin-top:2px; }
+  .user-email { font-size:11px; color:var(--text-faint); margin-top:1px; }
+
+  /* ── Graph view (default) ── */
+  .graph-view {
+    flex:1; position:relative; display:flex; align-items:center; justify-content:center;
+    background:var(--bg-panel);
+  }
+  .graph-controls {
+    position:absolute; top:10px; right:10px; display:flex; flex-direction:column; gap:4px;
+  }
+  .graph-ctrl-btn {
+    width:28px; height:28px; background:rgba(255,255,255,.06); border-radius:5px;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    color:var(--text-faint); font-size:13px; transition:background .15s;
+  }
+  .graph-ctrl-btn:hover { background:rgba(255,255,255,.12); color:var(--text-muted); }
+  .graph-node-wrap { display:flex; flex-direction:column; align-items:center; gap:6px; cursor:pointer; }
+  .graph-node { width:10px; height:10px; border-radius:50%; background:#aaa; box-shadow:0 0 8px rgba(255,255,255,.3); }
+  .graph-label { font-size:12px; color:var(--text-muted); }
+
+  /* ── New tab ── */
+  .newtab-body {
+    flex:1; display:flex; flex-direction:column; align-items:flex-end;
+    justify-content:center; padding-right:80px; gap:8px;
+  }
+  .newtab-link { color:var(--accent); font-size:13px; cursor:pointer; text-align:right; }
+  .newtab-link:hover { color:var(--accent-hover); text-decoration:underline; }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width:5px; height:5px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:#444; border-radius:3px; }
+
+  /* ── Pane body flush (sin padding, para contenido que maneja su propio scroll) ── */
+  .pane-body.flush {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* ── Responsive preview table en Datos ── */
+  .preview-wrap { overflow-x:auto; border-radius:8px; background:#1a1a1a; flex:1; }
+</style>
+</head>
+<body>
+
+<!-- macOS menubar -->
+<div class="titlebar">
+  <div class="titlebar-lights">
+    <button class="titlebar-btn close"></button>
+    <button class="titlebar-btn min"></button>
+    <button class="titlebar-btn max"></button>
+  </div>
+  <span class="titlebar-appname">Obsidian</span>
+  <nav class="menubar">
+    <div class="menu-item" data-menu>File
+      <div class="dropdown">
+        <div class="dd-item">New Note <span class="dd-shortcut">⌘ N</span></div>
+        <div class="dd-item">New Canvas <span class="dd-shortcut">⌘ ⇧ N</span></div>
+        <div class="dd-separator"></div>
+        <div class="dd-item">Open Vault… <span class="dd-shortcut">⌘ ⇧ O</span></div>
+        <div class="dd-item">Open Quick Switcher <span class="dd-shortcut">⌘ O</span></div>
+        <div class="dd-separator"></div>
+        <div class="dd-item">Save <span class="dd-shortcut">⌘ S</span></div>
+        <div class="dd-item disabled">Rename <span class="dd-shortcut">⌘ ⌥ R</span></div>
+        <div class="dd-separator"></div>
+        <div class="dd-item">Close Tab <span class="dd-shortcut">⌘ W</span></div>
+        <div class="dd-item">Quit Obsidian <span class="dd-shortcut">⌘ Q</span></div>
+      </div>
+    </div>
+    <div class="menu-item" data-menu>Edit
+      <div class="dropdown">
+        <div class="dd-item disabled">Undo <span class="dd-shortcut">⌘ Z</span></div>
+        <div class="dd-item disabled">Redo <span class="dd-shortcut">⌘ ⇧ Z</span></div>
+        <div class="dd-separator"></div>
+        <div class="dd-item disabled">Cut <span class="dd-shortcut">⌘ X</span></div>
+        <div class="dd-item disabled">Copy <span class="dd-shortcut">⌘ C</span></div>
+        <div class="dd-item disabled">Paste <span class="dd-shortcut">⌘ V</span></div>
+        <div class="dd-separator"></div>
+        <div class="dd-item">Find in Current File <span class="dd-shortcut">⌘ F</span></div>
+      </div>
+    </div>
+    <div class="menu-item" data-menu>View
+      <div class="dropdown">
+        <div class="dd-item">Toggle Left Sidebar <span class="dd-shortcut">⌘ ⌥ ←</span></div>
+        <div class="dd-item">Toggle Right Sidebar <span class="dd-shortcut">⌘ ⌥ →</span></div>
+        <div class="dd-separator"></div>
+        <div class="dd-item">Graph View <span class="dd-shortcut">⌘ ⇧ G</span></div>
+        <div class="dd-item">Reading View <span class="dd-shortcut">⌘ E</span></div>
+        <div class="dd-separator"></div>
+        <div class="dd-item">Zoom In <span class="dd-shortcut">⌘ +</span></div>
+        <div class="dd-item">Zoom Out <span class="dd-shortcut">⌘ −</span></div>
+      </div>
+    </div>
+    <div class="menu-item" data-menu>Navigate
+      <div class="dropdown">
+        <div class="dd-item">Back <span class="dd-shortcut">⌘ [</span></div>
+        <div class="dd-item">Forward <span class="dd-shortcut">⌘ ]</span></div>
+        <div class="dd-separator"></div>
+        <div class="dd-item">Next Tab <span class="dd-shortcut">⌘ ⇧ ]</span></div>
+        <div class="dd-item">Previous Tab <span class="dd-shortcut">⌘ ⇧ [</span></div>
+      </div>
+    </div>
+    <div class="menu-item" data-menu>Help
+      <div class="dropdown">
+        <div class="dd-item">Documentation</div>
+        <div class="dd-item">Sandbox Vault</div>
+        <div class="dd-separator"></div>
+        <div class="dd-item">About Obsidian</div>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="app">
+
+  <!-- Ribbon -->
+  <div class="ribbon">
+    <div class="ribbon-icon active" title="Files">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h8l2 3h8v15H3z"/></svg>
+    </div>
+    <div class="ribbon-icon" title="Search">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </div>
+    <div class="ribbon-icon" title="Graph view">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="12" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="19" cy="19" r="2"/><path d="m7 12 10-6m-10 6 10 6"/></svg>
+    </div>
+    <div class="ribbon-icon" title="Bookmarks">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+    </div>
+    <div class="ribbon-icon" title="Tags">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+    </div>
+    <div class="ribbon-toggle" id="sidebarToggle" title="Toggle sidebar">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <line x1="9" y1="3" x2="9" y2="21"/>
+        <polyline points="5 9 3 12 5 15"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Left sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="search-box">
+        <span class="search-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </span>
+        <input type="text" placeholder="Buscar..." />
+      </div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="nav-section-title">Módulos</div>
+      <div class="nav-item" data-page="datos"><span class="nav-icon">📊</span><span class="nav-label">Datos</span></div>
+      <div class="nav-item" data-page="trabajo"><span class="nav-icon">📋</span><span class="nav-label">Trabajo</span></div>
+      <div class="nav-item" data-page="analisis"><span class="nav-icon">🔬</span><span class="nav-label">Análisis</span></div>
+      <div class="nav-item" data-page="visualizacion"><span class="nav-icon">📈</span><span class="nav-label">Visualización</span></div>
+      <div class="nav-item" data-page="reportes"><span class="nav-icon">📄</span><span class="nav-label">Reportes</span></div>
+      <div class="nav-section-title" style="margin-top:12px">Administración</div>
+      <div class="nav-item" data-page="auditoria"><span class="nav-icon">📋</span><span class="nav-label">Auditoría</span></div>
+      <div class="nav-item" data-page="usuarios"><span class="nav-icon">👥</span><span class="nav-label">Usuarios</span></div>
+    </div>
+    <div class="sidebar-footer">
+      <div class="vault-name">◎ Obsidian Vault</div>
+      <div class="sidebar-footer-icons">
+        <span class="footer-icon">?</span>
+        <span class="footer-icon">⚙</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <div class="tabbar" id="tabbar">
+      <div class="tab active" id="tabGraph">
+        <span class="tab-icon">⬡</span> Graph view
+        <span class="tab-close">×</span>
+      </div>
+      <div class="tab-new" id="tabNew">+</div>
+      <div class="tabbar-spacer"></div>
+      <div class="tabbar-end">
+        <span class="tabbar-end-icon">⌄</span>
+        <span class="tabbar-end-icon">⋯</span>
+      </div>
+    </div>
+
+    <div class="panes" id="panesContainer">
+
+      <!-- Left pane: context panel -->
+      <div class="pane" id="paneLeft">
+        <div class="pane-header">
+          <div class="pane-nav"><span class="pane-nav-btn">‹</span><span class="pane-nav-btn">›</span></div>
+          <span class="pane-title" id="leftPaneTitle">Graph view</span>
+          <span class="pane-menu">⋯</span>
+        </div>
+        <div class="pane-body" id="leftPaneBody">
+          <div class="graph-view">
+            <div class="graph-controls">
+              <div class="graph-ctrl-btn" title="Settings">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              </div>
+            </div>
+            <div class="graph-node-wrap">
+              <div class="graph-node"></div>
+              <span class="graph-label">Untitled.canvas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resizer -->
+      <div class="pane-resizer" id="paneResizer">
+        <div class="pane-resizer-handle"></div>
+      </div>
+
+      <!-- Right pane: main content -->
+      <div class="pane" id="paneRight">
+        <div class="pane-header">
+          <div class="pane-nav"><span class="pane-nav-btn">‹</span><span class="pane-nav-btn">›</span></div>
+          <span class="pane-title" id="rightPaneTitle">New tab</span>
+          <span class="pane-menu">⋯</span>
+        </div>
+        <div class="pane-body" id="rightPaneBody">
+          <div class="newtab-body">
+            <span class="newtab-link">Create new note (Ctrl + N)</span>
+            <span class="newtab-link">Go to file (Ctrl + O)</span>
+            <span class="newtab-link">Close</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Global State - Trabajo sheets ──
+let trabajoSheets = [];
+let trabajoActiveSheetIndex = 0;
+let trabajoImportedData = null;
+
+// ── Pane resizer ──
+const resizer   = document.getElementById('paneResizer');
+const paneLeft  = document.getElementById('paneLeft');
+const panesCont = document.getElementById('panesContainer');
+
+resizer.addEventListener('mousedown', e => {
+  e.preventDefault();
+  resizer.classList.add('dragging');
+  document.body.style.cursor = 'col-resize';
+  document.body.style.userSelect = 'none';
+  const onMove = ev => {
+    const rect = panesCont.getBoundingClientRect();
+    let newW = ev.clientX - rect.left;
+    newW = Math.max(160, Math.min(panesCont.offsetWidth - 160 - resizer.offsetWidth, newW));
+    paneLeft.style.width = newW + 'px';
+  };
+  const onUp = () => {
+    resizer.classList.remove('dragging');
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup', onUp);
+  };
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onUp);
+});
+
+// ── Menubar ──
+const menuItems = document.querySelectorAll('.menu-item[data-menu]');
+let anyOpen = false;
+menuItems.forEach(item => {
+  item.addEventListener('mousedown', e => {
+    e.preventDefault();
+    const wasOpen = item.classList.contains('open');
+    menuItems.forEach(i => i.classList.remove('open'));
+    if (!wasOpen) { item.classList.add('open'); anyOpen = true; }
+    else anyOpen = false;
+  });
+  item.addEventListener('mouseenter', () => {
+    if (anyOpen) { menuItems.forEach(i => i.classList.remove('open')); item.classList.add('open'); }
+  });
+});
+document.addEventListener('mousedown', e => {
+  if (!e.target.closest('.menu-item')) { menuItems.forEach(i => i.classList.remove('open')); anyOpen = false; }
+});
+
+// ── Sidebar toggle ──
+document.getElementById('sidebarToggle').addEventListener('click', function() {
+  document.getElementById('sidebar').classList.toggle('collapsed');
+  this.classList.toggle('rotated');
+});
+
+// ── Tab management ──
+const tabbar = document.getElementById('tabbar');
+function makeTabActive(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+}
+document.getElementById('tabNew').addEventListener('click', () => {
+  const t = document.createElement('div');
+  t.className = 'tab';
+  t.innerHTML = `<span class="tab-icon">📄</span> Untitled <span class="tab-close">×</span>`;
+  tabbar.insertBefore(t, document.querySelector('.tabbar-spacer'));
+  makeTabActive(t);
+  t.querySelector('.tab-close').addEventListener('click', e => { e.stopPropagation(); t.remove(); });
+  t.addEventListener('click', e => { if (!e.target.classList.contains('tab-close')) makeTabActive(t); });
+});
+document.getElementById('tabGraph').querySelector('.tab-close').addEventListener('click', e => {
+  e.stopPropagation(); document.getElementById('tabGraph').remove();
+});
+document.getElementById('tabGraph').addEventListener('click', e => {
+  if (!e.target.classList.contains('tab-close')) makeTabActive(document.getElementById('tabGraph'));
+});
+
+// ── Ribbon icons ──
+document.querySelectorAll('.ribbon-icon').forEach(icon => {
+  icon.addEventListener('click', () => {
+    document.querySelectorAll('.ribbon-icon').forEach(i => i.classList.remove('active'));
+    icon.classList.add('active');
+  });
+});
+
+// ── Clear History (Datos page) ──
+document.getElementById('clearHistoryBtn')?.addEventListener('click', function() {
+  const recentList = document.getElementById('recentFilesList');
+  if (recentList && recentList.children.length > 0) {
+    if (confirm('¿Eliminar todo el historial de archivos recientes?')) {
+      recentList.innerHTML = '<div style="padding:8px;color:var(--text-faint);font-size:11px;text-align:center">Sin archivos recientes</div>';
+      localStorage.removeItem('recentFiles');
+    }
+  }
+});
+
+// ────────────────────────────────────────────────────────────────
+// PAGE SYSTEM
+// ────────────────────────────────────────────────────────────────
+const leftPaneTitle  = document.getElementById('leftPaneTitle');
+const rightPaneTitle = document.getElementById('rightPaneTitle');
+const leftPaneBody   = document.getElementById('leftPaneBody');
+const rightPaneBody  = document.getElementById('rightPaneBody');
+
+// Left panel content per page
+const leftPanels = {
+  trabajo: `
+    <div class="left-panel" style="gap:10px">
+      <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="alert('Generar')">🔄 Generar datos</button>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px" onclick="alert('Guardar')">💾 Guardar</button>
+          <button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px" onclick="clearCurrentSheet()">🗑️ Limpiar</button>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px" onclick="addRow()">+ Fila</button>
+          <button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px" onclick="addColumn()">+ Columna</button>
+        </div>
+        <button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:11px" onclick="alert('Importar CSV')">↑ Importar CSV</button>
+      </div>
+      <div class="info-section">
+        <div class="info-section-header">Hoja activa</div>
+        <div class="info-list" id="trabajoSheetsList">
+          ${getTrabajoSheetsListHTML()}
+        </div>
+      </div>
+      <div class="info-section">
+        <div class="info-section-header">Resumen</div>
+        <div class="info-list" id="trabajoResumen">
+          ${getTrabajoResumenHTML()}
+        </div>
+      </div>
+      <div class="info-section">
+        <div class="info-section-header">Celda activa</div>
+        <div class="info-list">
+          <div class="info-item"><div class="info-item-label">Referencia</div><div class="info-item-value" style="font-family:monospace">B2</div></div>
+          <div class="info-item"><div class="info-item-label">Valor</div><div class="info-item-value" style="font-family:monospace">53.4</div></div>
+        </div>
+      </div>
+    </div>`,
+  datos: `
+    <div class="left-panel" style="gap:12px" id="datosLeftPanel">
+      <div class="upload-zone compact" id="dropZone" style="padding:10px 8px;flex-shrink:0;transition:border-color .2s,background .2s">
+        <div class="upload-zone-icon" style="font-size:18px">📂</div>
+        <div class="upload-zone-text" style="font-size:11px">Arrastra o haz clic</div>
+      </div>
+      <input type="file" id="fileInput" style="display:none" accept=".csv,.xlsx,.json">
+      <div style="display:flex;gap:6px;flex-shrink:0">
+        <button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px 4px" id="btnCsv">📄 CSV</button>
+        <button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px 4px" id="btnExcel">📗 Excel</button>
+        <button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px 4px" id="btnPaste">📋 Pegar</button>
+      </div>
+      <div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column" id="recentFilesSection">
+        <div class="info-section-header" style="display:flex;justify-content:space-between;align-items:center">
+          <span>Recientes</span>
+          <span class="clear-history-btn" id="clearHistoryBtn" title="Limpiar historial" style="cursor:pointer;font-size:11px;padding:2px 6px;border-radius:4px;color:var(--text-faint);transition:background .1s,color .1s" onmouseover="this.style.background='rgba(255,255,255,.08)';this.style.color='var(--text-muted)'" onmouseout="this.style.background='transparent';this.style.color='var(--text-faint)'">🗑️</span>
+        </div>
+        <div style="overflow-y:auto;flex:1;padding:6px;display:flex;flex-direction:column;gap:4px" id="recentFilesList">
+        </div>
+      </div>
+      <div class="info-section" style="flex-shrink:0" id="datosStatusSection">
+        <div class="info-section-header">Estado</div>
+        <div class="info-list">
+          <div class="info-item"><div class="info-item-label">Dataset</div><div class="info-item-value" id="datosDatasetName">Sin cargar</div></div>
+          <div class="info-item"><div class="info-item-label">Filas</div><div class="info-item-value" id="datosRowCount">—</div></div>
+          <div class="info-item"><div class="info-item-label">Columnas</div><div class="info-item-value" id="datosColCount">—</div></div>
+        </div>
+      </div>
+    </div>`,
+  analisis: `
+    <div class="left-panel" style="gap:10px">
+      <div style="flex-shrink:0">
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="alert('Ejecutar todos')">🚀 Ejecutar Todos</button>
+      </div>
+      <div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column">
+        <div class="info-section-header">Tests</div>
+        <div style="overflow-y:auto;flex:1;padding:6px;display:flex;flex-direction:column;gap:3px">
+          <div class="info-item active" onclick="alert('Descriptiva')">📊 Descriptiva</div>
+          <div class="info-item" onclick="alert('Regresión')">📈 Regresión Lineal</div>
+          <div class="info-item" onclick="alert('t-Test')">⚖️ t-Test</div>
+          <div class="info-item" onclick="alert('ANOVA')">📦 ANOVA</div>
+          <div class="info-item" onclick="alert('Correlación')">🔗 Correlación</div>
+          <div class="info-item" onclick="alert('Chi2')">📐 Chi-cuadrado</div>
+          <div class="info-item" onclick="alert('Mann-Whitney')">📉 Mann-Whitney</div>
+          <div class="info-item" onclick="alert('Shapiro')">🔔 Shapiro-Wilk</div>
+        </div>
+      </div>
+      <div class="info-section" style="flex-shrink:0">
+        <div class="info-section-header">Parámetros</div>
+        <div class="info-list">
+          <div class="info-item"><div class="info-item-label">Variable dep.</div><div class="info-item-value">Var1</div></div>
+          <div class="info-item"><div class="info-item-label">Variable ind.</div><div class="info-item-value">Var2</div></div>
+          <div class="info-item"><div class="info-item-label">α (alfa)</div><div class="info-item-value" style="font-family:monospace">0.05</div></div>
+        </div>
+      </div>
+      <div class="info-section" style="flex-shrink:0">
+        <div class="info-section-header">Último resultado</div>
+        <div class="info-list">
+          <div class="info-item"><div class="info-item-label">Test</div><div class="info-item-value">—</div></div>
+          <div class="info-item"><div class="info-item-label">p-valor</div><div class="info-item-value">—</div></div>
+          <div class="info-item"><div class="info-item-label">Decisión</div><div class="info-item-value">—</div></div>
+        </div>
+      </div>
+    </div>`,
+  visualizacion: `
+    <div class="left-panel" style="gap:10px">
+      <div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px">
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="alert('Crear gráfico')">+ Nuevo gráfico</button>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px" onclick="alert('SVG')">↓ SVG</button>
+          <button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px" onclick="alert('PNG')">↓ PNG</button>
+          <button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px" onclick="alert('PDF')">↓ PDF</button>
+        </div>
+      </div>
+      <div class="info-section">
+        <div class="info-section-header">Tipo de gráfico</div>
+        <div class="info-list">
+          <div class="info-item active">📊 Barras</div>
+          <div class="info-item">📈 Líneas</div>
+          <div class="info-item">⬡ Dispersión</div>
+          <div class="info-item">◉ Circular</div>
+          <div class="info-item">📦 Caja y bigotes</div>
+          <div class="info-item">▦ Histograma</div>
+          <div class="info-item">🕸️ Radar</div>
+        </div>
+      </div>
+      <div class="info-section" style="flex-shrink:0">
+        <div class="info-section-header">Ejes</div>
+        <div class="info-list">
+          <div class="info-item"><div class="info-item-label">Eje X</div><div class="info-item-value">Var1</div></div>
+          <div class="info-item"><div class="info-item-label">Eje Y</div><div class="info-item-value">Var2</div></div>
+          <div class="info-item"><div class="info-item-label">Color por</div><div class="info-item-value">Estado</div></div>
+        </div>
+      </div>
+      <div class="info-section" style="flex-shrink:0">
+        <div class="info-section-header">Estilo</div>
+        <div class="info-list">
+          <div class="info-item"><div class="info-item-label">Tema</div><div class="info-item-value">Oscuro</div></div>
+          <div class="info-item"><div class="info-item-label">Resolución</div><div class="info-item-value">1x</div></div>
+          <div class="info-item"><div class="info-item-label">Leyenda</div><div class="info-item-value">Visible</div></div>
+        </div>
+      </div>
+    </div>`,
+  reportes: `
+    <div class="left-panel" style="gap:10px">
+      <div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px">
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="alert('Nuevo reporte')">+ Nuevo reporte</button>
+        <button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:11px" onclick="alert('Importar')">📥 Importar</button>
+      </div>
+      <div class="info-section">
+        <div class="info-section-header">Plantillas</div>
+        <div class="info-list">
+          <div class="info-item active">📐 Reporte estándar</div>
+          <div class="info-item">📋 Reporte ejecutivo</div>
+          <div class="info-item">📊 Resumen estadístico</div>
+          <div class="info-item">📈 Análisis completo</div>
+        </div>
+      </div>
+      <div class="info-section">
+        <div class="info-section-header">Formato de salida</div>
+        <div class="info-list">
+          <div class="info-item active">📄 PDF</div>
+          <div class="info-item">📝 DOCX</div>
+          <div class="info-item">📊 HTML</div>
+        </div>
+      </div>
+      <div class="info-section" style="flex-shrink:0">
+        <div class="info-section-header">Contenido</div>
+        <div class="info-list">
+          <div class="info-item"><div class="info-item-label">Tablas</div><div class="info-item-value">Incluir</div></div>
+          <div class="info-item"><div class="info-item-label">Gráficos</div><div class="info-item-value">Incluir</div></div>
+          <div class="info-item"><div class="info-item-label">Código</div><div class="info-item-value">Omitir</div></div>
+        </div>
+      </div>
+    </div>`,
+  auditoria: `
+    <div class="left-panel" style="gap:10px">
+      <div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px">
+        <button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:11px" onclick="alert('Exportar log')">📥 Exportar log completo</button>
+      </div>
+      <div class="info-section">
+        <div class="info-section-header">Tipo de evento</div>
+        <div class="info-list">
+          <div class="info-item active">📋 Todos</div>
+          <div class="info-item">🔑 Logins</div>
+          <div class="info-item">📤 Exportaciones</div>
+          <div class="info-item">✏️ Ediciones</div>
+          <div class="info-item">🗑️ Eliminaciones</div>
+          <div class="info-item">🚨 Errores</div>
+        </div>
+      </div>
+      <div class="info-section" style="flex-shrink:0">
+        <div class="info-section-header">Período</div>
+        <div class="info-list">
+          <div class="info-item active">Hoy</div>
+          <div class="info-item">Últimos 7 días</div>
+          <div class="info-item">Últimos 30 días</div>
+          <div class="info-item">Personalizado…</div>
+        </div>
+      </div>
+      <div class="info-section" style="flex-shrink:0">
+        <div class="info-section-header">Usuario</div>
+        <div class="info-list">
+          <div class="info-item active">Todos</div>
+          <div class="info-item">admin</div>
+          <div class="info-item">analista</div>
+        </div>
+      </div>
+    </div>`,
+  usuarios: `
+    <div class="left-panel" style="gap:10px">
+      <div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px">
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="alert('Nuevo usuario')">+ Nuevo usuario</button>
+        <button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:11px" onclick="alert('Invitar')">✉️ Invitar por email</button>
+      </div>
+      <div class="info-section">
+        <div class="info-section-header">Filtrar por rol</div>
+        <div class="info-list">
+          <div class="info-item active">👥 Todos (9)</div>
+          <div class="info-item">🔴 Administrador (1)</div>
+          <div class="info-item">🟡 Analista (3)</div>
+          <div class="info-item">🔵 Viewer (5)</div>
+        </div>
+      </div>
+      <div class="info-section" style="flex-shrink:0">
+        <div class="info-section-header">Estado</div>
+        <div class="info-list">
+          <div class="info-item active">Todos</div>
+          <div class="info-item">✅ Activos (7)</div>
+          <div class="info-item">🔒 Suspendidos (2)</div>
+        </div>
+      </div>
+      <div class="info-section" style="flex-shrink:0">
+        <div class="info-section-header">Acciones en masa</div>
+        <div class="info-list">
+          <div class="info-item" onclick="alert('Suspender')">🔒 Suspender selección</div>
+          <div class="info-item" onclick="alert('Exportar')">↓ Exportar lista</div>
+        </div>
+      </div>
+    </div>`
+};
+
+// Right panel content per page
+const rightPanels = {
+  trabajo() {
+    // Excel-style spreadsheet: column headers A-Z style, row numbers, editable feel
+    // Check for active sheet first, then imported data
+    let cols, rows, dataSource = '';
+    const activeSheet = trabajoSheets && trabajoSheets.length > 0 ? trabajoSheets[trabajoActiveSheetIndex] : null;
+    if (activeSheet && activeSheet.headers && activeSheet.rows) {
+      cols = activeSheet.headers;
+      rows = activeSheet.rows;
+      dataSource = activeSheet.name || '';
+    } else if (trabajoImportedData && trabajoImportedData.headers && trabajoImportedData.rows) {
+      cols = trabajoImportedData.headers;
+      rows = trabajoImportedData.rows;
+      dataSource = trabajoImportedData.sourceFile || '';
+    } else {
+      cols = ['Columna1','Columna2','Columna3','Columna4'];
+      rows = Array(20).fill(null).map(() => ['','','','']);
+    }
+    const colHeaders = cols.map((c,i)=>`<th style="min-width:90px;text-align:center;font-size:11px;color:var(--text-faint);font-weight:500;padding:5px 8px;border-right:1px solid var(--border);background:var(--bg-primary)">${c}</th>`).join('');
+    const lastColIdx = cols.length - 1;
+    const bodyRows = rows.map((r,ri)=>{
+      const lastVal = r[lastColIdx];
+      const badge = lastVal === 'OK' ? `<span class="badge badge-ok">✓ OK</span>` : lastVal === 'Revisión' ? `<span class="badge badge-warn">⚠ Rev.</span>` : '';
+      const cells = r.map((v,ci)=>{
+        if(ci === lastColIdx) return `<td style="padding:0;border-right:1px solid rgba(255,255,255,0.04);text-align:center">${badge}</td>`;
+        return `<td contenteditable="true" style="padding:0;border-right:1px solid rgba(255,255,255,0.04)" class="excel-cell"><div class="excel-cell-inner">${v}</div></td>`;
+      }).join('');
+      return `<tr><td class="excel-row-num">${ri+1}</td>${cells}</tr>`;
+    }).join('');
+    return `<div style="display:flex;flex-direction:column;height:100%;overflow:hidden;background:var(--bg-primary)">
+      <div style="display:flex;align-items:center;gap:0;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--card-bg)">
+        <div style="padding:6px 10px;font-size:11px;color:var(--text-faint);border-right:1px solid var(--border);min-width:80px;font-family:monospace">B2</div>
+        <div style="padding:6px 12px;font-size:12px;color:var(--text-muted);font-family:monospace;flex:1;border-right:1px solid var(--border)">53.4</div>
+        <div style="display:flex;gap:6px;padding:4px 10px">
+          <button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="addRow()">+ Fila</button>
+          <button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="addColumn()">+ Columna</button>
+          <button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="alert('Ordenar')">↕ Ordenar</button>
+          <button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="alert('Filtrar')">⊟ Filtrar</button>
+        </div>
+      </div>
+      <div style="flex:1;overflow:auto;position:relative">
+        <table style="border-collapse:collapse;width:100%;table-layout:fixed;min-width:500px">
+          <thead style="position:sticky;top:0;z-index:2">
+            <tr>
+              <th style="width:40px;background:var(--bg-primary);border-right:1px solid var(--border);border-bottom:1px solid var(--border)"></th>
+              ${colHeaders}
+            </tr>
+          </thead>
+          <tbody style="font-family:monospace">${bodyRows}</tbody>
+        </table>
+      </div>
+      <div style="display:flex;gap:0;border-top:1px solid var(--border);flex-shrink:0;background:var(--card-bg)">
+        <div style="padding:4px 12px;font-size:11px;border-right:1px solid var(--border);cursor:pointer;color:var(--text-muted)" class="sheet-tab active-sheet">Hoja1</div>
+        <div style="padding:4px 12px;font-size:11px;border-right:1px solid var(--border);cursor:pointer;color:var(--text-faint)">Hoja2</div>
+        <div style="padding:4px 12px;font-size:11px;color:var(--accent);cursor:pointer">+</div>
+        <div style="margin-left:auto;padding:4px 12px;font-size:11px;color:var(--text-faint)">3 filas · 5 columnas</div>
+      </div>
+      <style>
+        .excel-cell { cursor:cell; }
+        .excel-cell:focus-within { outline:2px solid var(--accent); outline-offset:-1px; }
+        .excel-cell-inner { padding:5px 8px; min-height:28px; font-size:12px; color:var(--text-primary); }
+        .excel-row-num { width:40px; text-align:center; font-size:11px; color:var(--text-faint); background:var(--bg-primary); border-right:1px solid var(--border); border-bottom:1px solid rgba(255,255,255,0.04); padding:5px 4px; position:sticky; left:0; }
+        tbody tr:hover .excel-row-num { background:rgba(124,106,247,0.1); }
+        tbody tr { border-bottom:1px solid rgba(255,255,255,0.04); }
+        tbody tr:hover td { background:rgba(255,255,255,0.02); }
+        .active-sheet { color:var(--text-primary) !important; border-top:2px solid var(--accent); }
+      </style>
+    </div>`;
+  },
+  datos() {
+    return `<div style="display:flex;flex-direction:column;height:100%;overflow:hidden" id="datosRightPanel">
+      <div class="page-card-header" style="padding:10px 16px;border-bottom:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;gap:10px;background:var(--card-bg)">
+        <span class="page-card-icon">👁️</span>
+        <span class="page-card-title">Vista Previa del Dataset</span>
+        <span class="page-card-badge" id="datosRecordBadge">Sin datos</span>
+        <div style="margin-left:auto;display:flex;gap:6px">
+          <button class="btn btn-secondary" style="font-size:11px;padding:4px 10px" id="btnFilterCols">Columnas</button>
+          <button class="btn btn-secondary" style="font-size:11px;padding:4px 10px" id="btnFilterRows">Filtrar</button>
+          <button class="btn btn-primary" style="font-size:11px;padding:4px 10px" id="btnSendToTrabajo" title="Enviar datos a Hoja de Trabajo">📋 Trabajo</button>
+          <button class="btn btn-primary" style="font-size:11px;padding:4px 10px" id="btnExport">↓ Exportar</button>
+        </div>
+      </div>
+      <div class="preview-wrap" style="flex:1;border-radius:0" id="datosPreviewWrap">
+        <div id="datosTableContainer">
+          <table class="data-table" style="min-width:600px" id="datosTable">
+            <thead id="datosTableHead"><tr><th style="width:44px">#</th></tr></thead>
+            <tbody id="datosTableBody"></tbody>
+          </table>
+        </div>
+        <div id="datosEmptyState" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:40px;color:var(--text-faint)">
+          <div style="font-size:36px">📭</div>
+          <div style="font-size:13px;color:var(--text-muted)">Sin datos cargados</div>
+          <div style="font-size:11px">Usa el panel izquierdo para cargar un archivo</div>
+        </div>
+      </div>
+    </div>`;
+  },
+  analisis() {
+    return `<div class="page-body">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <span style="font-size:12px;color:var(--text-muted)">Selecciona un test para ejecutarlo</span>
+        <button class="btn btn-primary" onclick="alert('Ejecutar todos')">🚀 Ejecutar Todos</button>
+      </div>
+      <div class="grid-2">
+        <div class="test-card" onclick="alert('Estadística Descriptiva')">
+          <div class="test-card-icon">📊</div>
+          <div class="test-card-name">Estadística Descriptiva</div>
+          <div class="test-card-desc">Media, mediana, moda, varianza, desv. estándar</div>
+        </div>
+        <div class="test-card" onclick="alert('Regresión Lineal')">
+          <div class="test-card-icon">📈</div>
+          <div class="test-card-name">Regresión Lineal</div>
+          <div class="test-card-desc">Ajuste de mínimos cuadrados, R², residuales</div>
+        </div>
+        <div class="test-card" onclick="alert('t-Test')">
+          <div class="test-card-icon">⚖️</div>
+          <div class="test-card-name">t-Test</div>
+          <div class="test-card-desc">Comparación de medias independientes o pareadas</div>
+        </div>
+        <div class="test-card" onclick="alert('ANOVA')">
+          <div class="test-card-icon">📦</div>
+          <div class="test-card-name">ANOVA</div>
+          <div class="test-card-desc">Análisis de varianza de uno o múltiples factores</div>
+        </div>
+        <div class="test-card" onclick="alert('Correlación')">
+          <div class="test-card-icon">🔗</div>
+          <div class="test-card-name">Correlación</div>
+          <div class="test-card-desc">Pearson, Spearman, matriz de correlación</div>
+        </div>
+        <div class="test-card" onclick="alert('Chi-cuadrado')">
+          <div class="test-card-icon">📐</div>
+          <div class="test-card-name">Chi-cuadrado</div>
+          <div class="test-card-desc">Bondad de ajuste e independencia</div>
+        </div>
+      </div>
+      <div class="page-card">
+        <div class="page-card-header">
+          <span class="page-card-icon">📋</span>
+          <span class="page-card-title">Resultados</span>
+          <span class="page-card-badge" style="background:var(--item-bg);color:var(--text-faint)">Sin ejecutar</span>
+        </div>
+        <div class="page-card-body" style="color:var(--text-faint);font-size:12px;text-align:center;padding:24px">
+          Los resultados aparecerán aquí al ejecutar un test
+        </div>
+      </div>
+    </div>`;
+  },
+  visualizacion() {
+    return `<div class="page-body">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <span style="font-size:12px;color:var(--text-muted)">Elige un tipo de gráfico</span>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary" onclick="alert('Exportar PNG')">↓ PNG</button>
+          <button class="btn btn-primary" onclick="alert('Exportar SVG')">↓ SVG</button>
+        </div>
+      </div>
+      <div class="grid-auto">
+        <div class="chart-card" onclick="alert('Barras')"><div class="chart-card-icon">📊</div><div class="chart-card-name">Barras</div></div>
+        <div class="chart-card" onclick="alert('Líneas')"><div class="chart-card-icon">📈</div><div class="chart-card-name">Líneas</div></div>
+        <div class="chart-card" onclick="alert('Dispersión')"><div class="chart-card-icon">⬡</div><div class="chart-card-name">Dispersión</div></div>
+        <div class="chart-card" onclick="alert('Circular')"><div class="chart-card-icon">◉</div><div class="chart-card-name">Circular</div></div>
+        <div class="chart-card" onclick="alert('Caja')"><div class="chart-card-icon">📦</div><div class="chart-card-name">Caja</div></div>
+        <div class="chart-card" onclick="alert('Histograma')"><div class="chart-card-icon">▦</div><div class="chart-card-name">Histograma</div></div>
+        <div class="chart-card" onclick="alert('Área')"><div class="chart-card-icon">📉</div><div class="chart-card-name">Área</div></div>
+        <div class="chart-card" onclick="alert('Radar')"><div class="chart-card-icon">🕸️</div><div class="chart-card-name">Radar</div></div>
+      </div>
+      <div class="page-card">
+        <div class="page-card-header">
+          <span class="page-card-icon">🖼️</span>
+          <span class="page-card-title">Canvas</span>
+          <span class="page-card-badge" style="background:var(--item-bg);color:var(--text-faint)">Vacío</span>
+        </div>
+        <div class="page-card-body" style="color:var(--text-faint);font-size:12px;text-align:center;padding:32px">
+          Selecciona un tipo de gráfico para comenzar
+        </div>
+      </div>
+    </div>`;
+  },
+  reportes() {
+    return `<div class="page-body">
+      <div style="display:flex;gap:8px;margin-bottom:4px">
+        <button class="btn btn-primary" onclick="alert('Nuevo reporte')">➕ Nuevo</button>
+        <button class="btn btn-secondary" onclick="alert('Importar')">📥 Importar</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="list-item">
+          <div class="list-item-icon">📊</div>
+          <div><div class="list-item-title">Análisis Descriptivo Completo</div><div class="list-item-meta">Generado · 15/ene/2026</div></div>
+          <div class="list-item-end"><span class="badge badge-ok">PDF</span><button class="btn btn-secondary" style="padding:4px 10px">↓</button></div>
+        </div>
+        <div class="list-item">
+          <div class="list-item-icon">📈</div>
+          <div><div class="list-item-title">Regresión Lineal 2026</div><div class="list-item-meta">Borrador · 10/ene/2026</div></div>
+          <div class="list-item-end"><span class="badge badge-warn">DOCX</span><button class="btn btn-secondary" style="padding:4px 10px">↓</button></div>
+        </div>
+        <div class="list-item">
+          <div class="list-item-icon">⚖️</div>
+          <div><div class="list-item-title">Comparación de Grupos</div><div class="list-item-meta">Exportado · 05/ene/2026</div></div>
+          <div class="list-item-end"><span class="badge badge-ok">PDF</span><button class="btn btn-secondary" style="padding:4px 10px">↓</button></div>
+        </div>
+        <div class="list-item">
+          <div class="list-item-icon">📐</div>
+          <div><div class="list-item-title">Resumen Ejecutivo Q1</div><div class="list-item-meta">Borrador · 02/ene/2026</div></div>
+          <div class="list-item-end"><span class="badge badge-info">DOCX</span><button class="btn btn-secondary" style="padding:4px 10px">↓</button></div>
+        </div>
+      </div>
+    </div>`;
+  },
+  auditoria() {
+    return `<div class="page-body">
+      <div style="display:flex;gap:8px;margin-bottom:4px">
+        <button class="btn btn-primary" onclick="alert('Filtrar')">🔍 Filtrar</button>
+        <button class="btn btn-secondary" onclick="alert('Exportar')">📥 Exportar log</button>
+      </div>
+      <div class="grid-4">
+        <div class="metric-card"><div class="metric-label">Total eventos</div><div class="metric-value">247</div><div class="metric-sub">últimos 30 días</div></div>
+        <div class="metric-card"><div class="metric-label">Logins</div><div class="metric-value">83</div><div class="metric-sub">exitosos</div></div>
+        <div class="metric-card"><div class="metric-label">Exportaciones</div><div class="metric-value">34</div><div class="metric-sub">archivos</div></div>
+        <div class="metric-card"><div class="metric-label">Errores</div><div class="metric-value" style="color:#f87171">3</div><div class="metric-sub">requieren revisión</div></div>
+      </div>
+      <div class="page-card">
+        <div class="page-card-header">
+          <span class="page-card-icon">📋</span>
+          <span class="page-card-title">Log de eventos</span>
+        </div>
+        <div class="page-card-body" style="padding:0">
+          <table class="data-table">
+            <thead><tr><th>Evento</th><th>Usuario</th><th>Fecha</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr><td>Login</td><td style="color:var(--accent)">admin</td><td>Hoy 09:15</td><td><span class="badge badge-ok">OK</span></td></tr>
+              <tr><td>Exportar datos.csv</td><td style="color:var(--accent)">analista</td><td>Ayer 16:30</td><td><span class="badge badge-ok">OK</span></td></tr>
+              <tr><td>Editar usuario 3</td><td style="color:var(--accent)">admin</td><td>Ayer 14:22</td><td><span class="badge badge-info">Info</span></td></tr>
+              <tr><td>Ejecutar análisis</td><td style="color:var(--accent)">analista</td><td>Ayer 11:05</td><td><span class="badge badge-ok">OK</span></td></tr>
+              <tr><td>Login fallido</td><td style="color:#f87171">desconocido</td><td>Ayer 09:48</td><td><span class="badge badge-warn">Error</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>`;
+  },
+  usuarios() {
+    return `<div class="page-body">
+      <div style="display:flex;gap:8px;margin-bottom:4px">
+        <button class="btn btn-primary" onclick="alert('Nuevo usuario')">➕ Nuevo usuario</button>
+        <button class="btn btn-secondary">🔍 Buscar</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="list-item">
+          <div class="user-avatar" style="background:#ff5f56">A</div>
+          <div><div class="user-name">admin</div><div class="user-role" style="color:#ff8070">Administrador</div><div class="user-email">admin@sistema.com</div></div>
+          <div class="list-item-end"><span class="badge badge-ok">Activo</span><button class="btn btn-secondary" style="padding:4px 10px">✏️</button></div>
+        </div>
+        <div class="list-item">
+          <div class="user-avatar" style="background:#febc2e">J</div>
+          <div><div class="user-name">Juan Pérez</div><div class="user-role" style="color:#febc2e">Analista</div><div class="user-email">juan@sistema.com</div></div>
+          <div class="list-item-end"><span class="badge badge-ok">Activo</span><button class="btn btn-secondary" style="padding:4px 10px">✏️</button></div>
+        </div>
+        <div class="list-item">
+          <div class="user-avatar" style="background:#28c840">M</div>
+          <div><div class="user-name">María García</div><div class="user-role" style="color:#28c840">Analista</div><div class="user-email">maria@sistema.com</div></div>
+          <div class="list-item-end"><span class="badge badge-ok">Activo</span><button class="btn btn-secondary" style="padding:4px 10px">✏️</button></div>
+        </div>
+        <div class="list-item">
+          <div class="user-avatar" style="background:#007aff">R</div>
+          <div><div class="user-name">Roberto Sanz</div><div class="user-role" style="color:var(--text-muted)">Viewer</div><div class="user-email">roberto@sistema.com</div></div>
+          <div class="list-item-end"><span class="badge badge-warn">Suspendido</span><button class="btn btn-secondary" style="padding:4px 10px">✏️</button></div>
+        </div>
+        <div class="list-item">
+          <div class="user-avatar" style="background:#6b7280">L</div>
+          <div><div class="user-name">Laura Vega</div><div class="user-role" style="color:var(--text-muted)">Viewer</div><div class="user-email">laura@sistema.com</div></div>
+          <div class="list-item-end"><span class="badge badge-ok">Activo</span><button class="btn btn-secondary" style="padding:4px 10px">✏️</button></div>
+        </div>
+      </div>
+    </div>`;
+  }
+};
+
+const pageIcons = { trabajo:'📋', datos:'📊', analisis:'🔬', visualizacion:'📈', reportes:'📄', auditoria:'📋', usuarios:'👥' };
+const pageTitles = { trabajo:'Hoja de Trabajo', datos:'Gestión de Datos', analisis:'Análisis Estadístico', visualizacion:'Visualización', reportes:'Reportes', auditoria:'Auditoría', usuarios:'Usuarios' };
+
+function loadPage(name) {
+  // Sidebar nav
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const navEl = document.querySelector(`[data-page="${name}"]`);
+  if (navEl) navEl.classList.add('active');
+
+  // Tab
+  let pageTab = tabbar.querySelector(`[data-page-tab="${name}"]`);
+  if (!pageTab) {
+    pageTab = document.createElement('div');
+    pageTab.className = 'tab';
+    pageTab.dataset.pageTab = name;
+    pageTab.innerHTML = `<span class="tab-icon">${pageIcons[name]}</span> ${pageTitles[name]} <span class="tab-close">×</span>`;
+    tabbar.insertBefore(pageTab, tabbar.querySelector('.tabbar-spacer'));
+    pageTab.querySelector('.tab-close').addEventListener('click', e => { e.stopPropagation(); pageTab.remove(); });
+    pageTab.addEventListener('click', e => { if (!e.target.classList.contains('tab-close')) { makeTabActive(pageTab); loadPage(name); } });
+  }
+  makeTabActive(pageTab);
+
+  // Pane titles
+  leftPaneTitle.textContent = pageTitles[name];
+  rightPaneTitle.textContent = pageTitles[name];
+
+  // Left pane
+  leftPaneBody.innerHTML = leftPanels[name] || '';
+
+  // Right pane
+  const content = rightPanels[name] ? rightPanels[name]() : `<div class="page-body"><div style="color:var(--text-faint)">Página no encontrada</div></div>`;
+  rightPaneBody.innerHTML = content;
+  // Pages that manage their own scroll get flush pane body
+  if (name === 'datos') {
+    rightPaneBody.classList.add('flush');
+  } else {
+    rightPaneBody.classList.remove('flush');
+  }
+}
+
+document.querySelectorAll('.nav-item[data-page]').forEach(item => {
+  item.addEventListener('click', () => loadPage(item.dataset.page));
+});
+
+loadPage('datos');
+setTimeout(initDatosPage, 150); // ← agrega esta línea
+// ========================================
+// DATOS PAGE - Funcionalidad 100%
+// ========================================
+
+let datosCurrentData = null;
+let datosCurrentFileName = '';
+let datosRecentFiles = [];
+loadRecentFromLocalStorage();
+
+function initDatosPage() {
+  setTimeout(() => {
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const btnCsv = document.getElementById('btnCsv');
+    const btnExcel = document.getElementById('btnExcel');
+    const btnPaste = document.getElementById('btnPaste');
+    const btnExport = document.getElementById('btnExport');
+    
+    if (dropZone) {
+      dropZone.addEventListener('click', () => fileInput && fileInput.click());
+      dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = 'var(--accent)';
+        dropZone.style.background = 'rgba(124,106,247,0.15)';
+      });
+      dropZone.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = '';
+        dropZone.style.background = '';
+      });
+      dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = '';
+        dropZone.style.background = '';
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          handleFile(files[0]);
+        }
+      });
+    }
+    
+    if (fileInput) {
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          handleFile(e.target.files[0]);
+        }
+      });
+    }
+    
+    if (btnCsv) {
+      btnCsv.addEventListener('click', () => {
+        fileInput.accept = '.csv';
+        fileInput.click();
+      });
+    }
+    
+    if (btnExcel) {
+      btnExcel.addEventListener('click', () => {
+        fileInput.accept = '.xlsx,.xls';
+        fileInput.click();
+      });
+    }
+    
+    if (btnPaste) {
+      btnPaste.addEventListener('click', showPasteModal);
+    }
+    
+    if (btnExport) {
+      btnExport.addEventListener('click', exportData);
+    }
+    
+    if (btnSendToTrabajo) {
+      btnSendToTrabajo.addEventListener('click', sendToTrabajo);
+    }
+    
+    renderRecentFiles();
+  }, 100);
+}
+
+function handleFile(file) {
+  const extension = file.name.split('.').pop().toLowerCase();
+  
+  if (extension === 'csv') {
+    parseCSV(file);
+  } else if (extension === 'json') {
+    parseJSON(file);
+  } else if (['xlsx', 'xls'].includes(extension)) {
+    alert('Excel: Formato no soportado en esta versión. Usa CSV o JSON.');
+  } else {
+    alert('Formato no soportado. Usa CSV, JSON o Excel.');
+  }
+}
+
+function parseCSV(file) {
+  Papa.parse(file, {
+    complete: function(results) {
+      if (results.errors.length > 0) {
+        console.error('CSV Parse errors:', results.errors);
+      }
+      
+      const data = results.data;
+      if (!data || data.length === 0) {
+        alert('El archivo está vacío');
+        return;
+      }
+      
+      const headers = data[0];
+      const rows = data.slice(1).filter(row => row.some(cell => cell && cell.trim()));
+      
+      datosCurrentData = { headers, rows };
+      datosCurrentFileName = file.name;
+      
+      addToRecentFiles({
+        name: file.name,
+        type: 'CSV',
+        size: file.size,
+        rows: rows.length,
+        date: new Date().toISOString()
+      }, datosCurrentData);
+      
+      updateDatosUI();
+      console.log('CSV cargado:', datosCurrentData.rows.length, 'filas');
+    },
+    error: function(error) {
+      console.error('Error parsing CSV:', error);
+      alert('Error al parsing CSV: ' + error.message);
+    },
+    skipEmptyLines: true
+  });
+}
+
+function parseJSON(file) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const json = JSON.parse(e.target.result);
+      let headers = [];
+      let rows = [];
+      
+      if (Array.isArray(json) && json.length > 0) {
+        headers = Object.keys(json[0]);
+        rows = json.map(item => headers.map(h => item[h] ?? ''));
+      } else if (typeof json === 'object' && !Array.isArray(json)) {
+        headers = Object.keys(json);
+        rows = [Object.values(json).map(v => String(v))];
+      }
+      
+      if (headers.length === 0) {
+        alert('JSON inválido o vacío');
+        return;
+      }
+      
+      datosCurrentData = { headers, rows };
+      datosCurrentFileName = file.name;
+      
+      addToRecentFiles({
+        name: file.name,
+        type: 'JSON',
+        size: file.size,
+        rows: rows.length,
+        date: new Date().toISOString()
+      }, datosCurrentData);
+      
+      updateDatosUI();
+      console.log('JSON cargado:', rows.length, 'filas');
+    } catch (err) {
+      console.error('Error parsing JSON:', err);
+      alert('Error al parsear JSON: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+function showPasteModal() {
+  const modal = document.createElement('div');
+  modal.id = 'pasteModal';
+  modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:1000;';
+  modal.innerHTML = `
+    <div style="background:var(--bg-panel);border-radius:12px;padding:20px;max-width:600px;width:90%;max-height:80vh;display:flex;flex-direction:gap:12px">
+      <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+        <div style="font-size:14px;font-weight:600;color:var(--text-primary)">Pegar datos</div>
+        <div style="font-size:11px;color:var(--text-faint)">Pega datos desde Excel, Google Sheets, etc.</div>
+        <textarea id="pasteTextarea" style="flex:1;min-height:200px;background:var(--bg-primary);border:1px solid var(--border);border-radius:6px;padding:10px;color:var(--text-primary);font-family:monospace;font-size:12px;resize:none" placeholder="Pega aquí tus datos..."></textarea>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn btn-secondary" id="pasteCancel" style="padding:6px 14px">Cancelar</button>
+          <button class="btn btn-primary" id="pasteConfirm" style="padding:6px 14px">Cargar</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  
+  document.getElementById('pasteCancel').addEventListener('click', () => modal.remove());
+  document.getElementById('pasteConfirm').addEventListener('click', () => {
+    const text = document.getElementById('pasteTextarea').value;
+    if (!text.trim()) {
+      alert('No hay datos para cargar');
+      return;
+    }
+    parsePastedData(text);
+    modal.remove();
+  });
+}
+
+function parsePastedData(text) {
+  const lines = text.trim().split('\n');
+  if (lines.length === 0) {
+    alert('No hay datos para cargar');
+    return;
+  }
+  
+  const rows = lines.map(line => {
+    if (line.includes('\t')) {
+      return line.split('\t').map(cell => cell.trim());
+    } else if (line.includes(',')) {
+      return line.split(',').map(cell => cell.trim().replace(/^"|"$/g, ''));
+    } else {
+      return [line.trim()];
+    }
+  });
+  
+  const headers = rows[0];
+  const dataRows = rows.slice(1).filter(row => row.some(cell => cell && cell.trim()));
+  
+  datosCurrentData = { headers, rows: dataRows };
+  datosCurrentFileName = 'datos_pegados.txt';
+  
+  addToRecentFiles({
+    name: 'Datos pegados',
+    type: 'TXT',
+    size: text.length,
+    rows: dataRows.length,
+    date: new Date().toISOString()
+  }, datosCurrentData);
+  
+  updateDatosUI();
+  console.log('Datos pegados:', dataRows.length, 'filas');
+}
+
+function updateDatosUI() {
+  const datasetNameEl = document.getElementById('datosDatasetName');
+  const rowCountEl = document.getElementById('datosRowCount');
+  const colCountEl = document.getElementById('datosColCount');
+  const recordBadge = document.getElementById('datosRecordBadge');
+  const emptyState = document.getElementById('datosEmptyState');
+  const tableContainer = document.getElementById('datosTableContainer');
+  const tableHead = document.getElementById('datosTableHead');
+  const tableBody = document.getElementById('datosTableBody');
+  
+  if (datosCurrentData) {
+    if (datasetNameEl) datasetNameEl.textContent = datosCurrentFileName;
+    if (rowCountEl) rowCountEl.textContent = datosCurrentData.rows.length;
+    if (colCountEl) colCountEl.textContent = datosCurrentData.headers.length;
+    if (recordBadge) {
+      recordBadge.textContent = `${datosCurrentData.rows.length} filas`;
+      recordBadge.style.background = 'var(--accent)';
+    }
+    
+    if (emptyState) emptyState.style.display = 'none';
+    if (tableContainer) tableContainer.style.display = 'block';
+    
+    renderDatosTable();
+  } else {
+    if (datasetNameEl) datasetNameEl.textContent = 'Sin cargar';
+    if (rowCountEl) rowCountEl.textContent = '—';
+    if (colCountEl) colCountEl.textContent = '—';
+    if (recordBadge) {
+      recordBadge.textContent = 'Sin datos';
+      recordBadge.style.background = 'var(--item-bg)';
+    }
+    
+    if (emptyState) emptyState.style.display = 'flex';
+    if (tableContainer) tableContainer.style.display = 'none';
+  }
+}
+
+function renderDatosTable() {
+  const tableHead = document.getElementById('datosTableHead');
+  const tableBody = document.getElementById('datosTableBody');
+  
+  if (!datosCurrentData || !tableHead || !tableBody) return;
+  
+  let headerHTML = '<tr><th style="width:44px">#</th>';
+  datosCurrentData.headers.forEach((h, i) => {
+    headerHTML += `<th>${escapeHtml(h)}</th>`;
+  });
+  headerHTML += '</tr>';
+  tableHead.innerHTML = headerHTML;
+  
+  const maxRows = Math.min(datosCurrentData.rows.length, 100);
+  let bodyHTML = '';
+  for (let i = 0; i < maxRows; i++) {
+    const row = datosCurrentData.rows[i];
+    bodyHTML += '<tr>';
+    bodyHTML += `<td class="mono">${i + 1}</td>`;
+    for (let j = 0; j < datosCurrentData.headers.length; j++) {
+      const cellValue = row[j] ?? '';
+      bodyHTML += `<td>${escapeHtml(String(cellValue))}</td>`;
+    }
+    bodyHTML += '</tr>';
+  }
+  
+  if (datosCurrentData.rows.length > maxRows) {
+    bodyHTML += `<tr><td colspan="${datosCurrentData.headers.length + 1}" style="text-align:center;color:var(--text-faint);padding:12px">... ${datosCurrentData.rows.length - maxRows} filas más</td></tr>`;
+  }
+  
+  tableBody.innerHTML = bodyHTML;
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function addToRecentFiles(fileInfo, data = null) {
+  const existingIndex = datosRecentFiles.findIndex(f => f.name === fileInfo.name);
+  if (existingIndex !== -1) {
+    datosRecentFiles.splice(existingIndex, 1);
+  }
+  const entry = { ...fileInfo };
+  if (data && data.rows) {
+    entry.headers = data.headers;
+    entry.rows = data.rows.slice(0, 500);
+    entry.totalRows = data.rows.length;
+  }
+  datosRecentFiles.unshift(entry);
+  if (datosRecentFiles.length > 3) {
+    datosRecentFiles = datosRecentFiles.slice(0, 3);
+  }
+  saveRecentToLocalStorage();
+  renderRecentFiles();
+}
+
+function saveRecentToLocalStorage() {
+  try {
+    localStorage.setItem('datosRecentFiles', JSON.stringify(datosRecentFiles));
+  } catch (e) { console.warn('localStorage not available'); }
+}
+
+function loadRecentFromLocalStorage() {
+  try {
+    const stored = localStorage.getItem('datosRecentFiles');
+    if (stored) {
+      datosRecentFiles = JSON.parse(stored);
+    }
+  } catch (e) { console.warn('localStorage not available'); }
+}
+
+function renderRecentFiles() {
+  const container = document.getElementById('recentFilesList');
+  if (!container) return;
+  
+  if (datosRecentFiles.length === 0) {
+    container.innerHTML = '<div style="color:var(--text-faint);font-size:11px;padding:8px;text-align:center">Sin archivos recientes</div>';
+    return;
+  }
+  
+  let html = '';
+  datosRecentFiles.forEach((file, index) => {
+    const icon = file.type === 'CSV' ? '📄' : file.type === 'JSON' ? '📋' : '📗';
+    const badgeClass = file.type === 'CSV' ? 'badge-ok' : file.type === 'JSON' ? 'badge-warn' : 'badge-info';
+    const sizeKB = Math.round(file.size / 1024);
+    html += `
+      <div class="file-item" style="flex-direction:column;align-items:flex-start;gap:3px;cursor:pointer" onclick="loadRecentFile(${index})">
+        <div style="display:flex;align-items:center;gap:8px;width:100%">
+          <span class="file-item-icon" style="font-size:16px">${icon}</span>
+          <div style="flex:1;min-width:0">
+            <div class="file-item-name" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escapeHtml(file.name)}</div>
+            <div class="file-item-meta">${sizeKB} KB · ${file.rows} filas</div>
+          </div>
+          <span class="badge ${badgeClass}">${file.type}</span>
+        </div>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+}
+
+function loadRecentFile(index) {
+  const file = datosRecentFiles[index];
+  if (!file) return;
+  
+  if (file.headers && file.rows) {
+    datosCurrentData = {
+      headers: file.headers,
+      rows: file.rows
+    };
+    datosCurrentFileName = file.name;
+    updateDatosUI();
+    alert(`Cargado: ${file.name}\n(${file.rows.length} filas)`);
+  } else {
+    alert('Los datos de este archivo no están disponibles. Vuelve a importar el archivo.');
+  }
+}
+
+function exportData() {
+  if (!datosCurrentData) {
+    alert('No hay datos para exportar');
+    return;
+  }
+  
+  let csvContent = datosCurrentData.headers.join(',') + '\n';
+  datosCurrentData.rows.forEach(row => {
+    csvContent += row.map(cell => {
+      const str = String(cell ?? '');
+      if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+        return '"' + str.replace(/"/g, '""') + '"';
+      }
+      return str;
+    }).join(',') + '\n';
+  });
+  
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = datosCurrentFileName.replace(/\.[^.]+$/, '_export.csv');
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+function createNewSheet() {
+  const sheetName = prompt('Nombre de la nueva hoja:', 'Hoja' + (trabajoSheets.length + 1));
+  if (!sheetName) return;
+  
+  if (!trabajoSheets) trabajoSheets = [];
+  
+  const existingIndex = trabajoSheets.findIndex(s => s.name === sheetName);
+  if (existingIndex !== -1) {
+    alert('Ya existe una hoja con ese nombre');
+    return;
+  }
+  
+  const newSheet = {
+    name: sheetName,
+    headers: ['Columna1','Columna2','Columna3','Columna4'],
+    rows: Array(20).fill(null).map(() => ['','','',''])
+  };
+  
+  trabajoSheets.push(newSheet);
+  trabajoActiveSheetIndex = trabajoSheets.length - 1;
+  trabajoImportedData = null;
+  
+  loadPage('trabajo');
+  alert(`Hoja "${sheetName}" creada`);
+}
+
+function addRow() {
+  const activeSheet = trabajoSheets && trabajoSheets.length > 0 ? trabajoSheets[trabajoActiveSheetIndex] : null;
+  if (activeSheet) {
+    const cols = activeSheet.headers.length;
+    activeSheet.rows.push(Array(cols).fill(''));
+    loadPage('trabajo');
+  } else if (trabajoImportedData) {
+    const cols = trabajoImportedData.headers.length;
+    trabajoImportedData.rows.push(Array(cols).fill(''));
+    loadPage('trabajo');
+  } else {
+    alert('Primero crea o importa datos');
+  }
+}
+
+function addColumn() {
+  const activeSheet = trabajoSheets && trabajoSheets.length > 0 ? trabajoSheets[trabajoActiveSheetIndex] : null;
+  if (activeSheet) {
+    const newCol = 'Columna' + (activeSheet.headers.length + 1);
+    activeSheet.headers.push(newCol);
+    activeSheet.rows.forEach(row => row.push(''));
+    loadPage('trabajo');
+  } else if (trabajoImportedData) {
+    const newCol = 'Columna' + (trabajoImportedData.headers.length + 1);
+    trabajoImportedData.headers.push(newCol);
+    trabajoImportedData.rows.forEach(row => row.push(''));
+    loadPage('trabajo');
+  } else {
+    alert('Primero crea o importa datos');
+  }
+}
+
+function getTrabajoSheetsListHTML() {
+  const sheets = trabajoSheets || [];
+  if (sheets.length === 0) {
+    return `<div class="info-item" style="color:var(--accent);font-size:11px;cursor:pointer" onclick="createNewSheet()">+ Nueva hoja</div>`;
+  }
+  let html = '';
+  sheets.forEach((sheet, index) => {
+    const isActive = index === trabajoActiveSheetIndex;
+    html += `<div class="info-item ${isActive ? 'active' : ''}" style="cursor:pointer" onclick="switchToSheet(${index})">📋 ${escapeHtml(sheet.name)}</div>`;
+  });
+  html += `<div class="info-item" style="color:var(--accent);font-size:11px;cursor:pointer" onclick="createNewSheet()">+ Nueva hoja</div>`;
+  return html;
+}
+
+function switchToSheet(index) {
+  if (trabajoSheets && trabajoSheets[index]) {
+    trabajoActiveSheetIndex = index;
+    trabajoImportedData = null;
+    loadPage('trabajo');
+  }
+}
+
+function getTrabajoResumenHTML() {
+  let rows = 0, cols = 0, emptyCount = 0;
+  const activeSheet = trabajoSheets && trabajoSheets.length > 0 ? trabajoSheets[trabajoActiveSheetIndex] : null;
+  if (activeSheet) {
+    rows = activeSheet.rows.length;
+    cols = activeSheet.headers.length;
+    emptyCount = activeSheet.rows.flat().filter(cell => !cell || cell.trim() === '').length;
+  } else if (trabajoImportedData) {
+    rows = trabajoImportedData.rows.length;
+    cols = trabajoImportedData.headers.length;
+    emptyCount = trabajoImportedData.rows.flat().filter(cell => !cell || cell.trim() === '').length;
+  }
+  return `<div class="info-item"><div class="info-item-label">Filas</div><div class="info-item-value">${rows}</div></div>
+    <div class="info-item"><div class="info-item-label">Columnas</div><div class="info-item-value">${cols}</div></div>
+    <div class="info-item"><div class="info-item-label">Vacíos</div><div class="info-item-value">${emptyCount}</div></div>`;
+}
+
+function clearCurrentSheet() {
+  const activeSheet = trabajoSheets && trabajoSheets.length > 0 ? trabajoSheets[trabajoActiveSheetIndex] : null;
+  if (activeSheet) {
+    if (confirm('¿Limpiar todos los datos de la hoja actual?')) {
+      const cols = activeSheet.headers.length;
+      activeSheet.rows = Array(activeSheet.rows.length).fill(null).map(() => Array(cols).fill(''));
+      loadPage('trabajo');
+    }
+  } else if (trabajoImportedData) {
+    if (confirm('¿Limpiar todos los datos de la hoja actual?')) {
+      const cols = trabajoImportedData.headers.length;
+      trabajoImportedData.rows = Array(trabajoImportedData.rows.length).fill(null).map(() => Array(cols).fill(''));
+      loadPage('trabajo');
+    }
+  } else {
+    alert('No hay datos para limpiar');
+  }
+}
+
+function sendToTrabajo() {
+  if (!datosCurrentData) {
+    alert('No hay datos para enviar. Primero importa un archivo en Gestión de Datos.');
+    return;
+  }
+  
+  const fileName = datosCurrentFileName.replace(/\.[^.]+$/, '');
+  
+  if (!trabajoSheets) trabajoSheets = [];
+  const existingSheetIndex = trabajoSheets.findIndex(s => s.name === fileName);
+  
+  if (existingSheetIndex !== -1) {
+    trabajoActiveSheetIndex = existingSheetIndex;
+    loadPage('trabajo');
+    setTimeout(() => {
+      alert(`Sheet "${fileName}" ya existe. Navegando a esa hoja.`);
+    }, 200);
+    return;
+  }
+  
+  if (!trabajoSheets) trabajoSheets = [];
+  const newSheet = {
+    name: fileName,
+    headers: [...datosCurrentData.headers],
+    rows: datosCurrentData.rows.map(row => [...row])
+  };
+  trabajoSheets.push(newSheet);
+  trabajoActiveSheetIndex = trabajoSheets.length - 1;
+  
+  trabajoImportedData = {
+    headers: [...datosCurrentData.headers],
+    rows: datosCurrentData.rows.map(row => [...row]),
+    sourceFile: datosCurrentFileName
+  };
+  
+  loadPage('trabajo');
+  setTimeout(() => {
+    alert(`Nueva hoja "${fileName}" creada y datos cargados`);
+  }, 200);
+}
+
+const originalLoadPage = loadPage;
+loadPage = function(name) {
+  originalLoadPage(name);
+  if (name === 'datos') {
+    setTimeout(initDatosPage, 150);
+  }
+};
+</script>
+</body>
+</html>
