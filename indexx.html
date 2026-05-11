@@ -1066,7 +1066,10 @@ const rightPanels = {
       const lastVal = r[lastColIdx];
       const badge = lastVal === 'OK' ? `<span class="badge badge-ok">✓ OK</span>` : lastVal === 'Revisión' ? `<span class="badge badge-warn">⚠ Rev.</span>` : '';
       const cells = r.map((v,ci)=>{
-        if(ci === lastColIdx) return `<td style="padding:0;border-right:1px solid rgba(255,255,255,0.04);text-align:center">${badge}</td>`;
+        if(ci === lastColIdx) {
+          const displayVal = (v !== undefined && v !== null && v !== '') ? escapeHtml(String(v)) : '';
+          return `<td contenteditable="true" style="padding:0;border-right:1px solid rgba(255,255,255,0.04)" class="excel-cell"><div class="excel-cell-inner">${badge || displayVal}</div></td>`;
+        }
         return `<td contenteditable="true" style="padding:0;border-right:1px solid rgba(255,255,255,0.04)" class="excel-cell"><div class="excel-cell-inner">${v}</div></td>`;
       }).join('');
       return `<tr><td class="excel-row-num">${ri+1}</td>${cells}</tr>`;
