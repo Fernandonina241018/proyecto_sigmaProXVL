@@ -497,6 +497,63 @@
   ::-webkit-scrollbar-track { background:transparent; }
   ::-webkit-scrollbar-thumb { background:#444; border-radius:3px; }
 
+  /* ── Dataset Preview Tooltip ── */
+  .dataset-preview-tooltip {
+    position: fixed;
+    z-index: 9999;
+    background: var(--bg-panel, #2a2a2a);
+    border: 1px solid var(--border, #3a3a3a);
+    border-radius: 8px;
+    padding: 8px;
+    max-width: 350px;
+    max-height: 250px;
+    overflow: auto;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    font-size: 11px;
+    display: none;
+  }
+  .dataset-preview-tooltip.visible { display: block; }
+  .preview-tooltip-title {
+    font-weight: 600;
+    color: var(--text-primary, #dcddde);
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border, #3a3a3a);
+  }
+  .preview-tooltip-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: monospace;
+  }
+  .preview-tooltip-table th {
+    text-align: left;
+    padding: 3px 6px;
+    background: var(--bg-primary, #1e1e1e);
+    color: var(--text-muted, #888);
+    font-size: 10px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .preview-tooltip-table td {
+    padding: 2px 6px;
+    color: var(--text-primary, #dcddde);
+    white-space: nowrap;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .preview-tooltip-table tr:hover td {
+    background: rgba(124,106,247,0.15);
+  }
+  .preview-tooltip-footer {
+    margin-top: 6px;
+    padding-top: 4px;
+    border-top: 1px solid var(--border, #3a3a3a);
+    color: var(--text-faint, #555);
+    font-size: 10px;
+    text-align: right;
+  }
+
   /* ── Pane body flush (sin padding, para contenido que maneja su propio scroll) ── */
   .pane-body.flush {
     padding: 0;
@@ -1731,13 +1788,14 @@ function renderRecentFiles() {
     const icon = file.type === 'CSV' ? '📄' : file.type === 'JSON' ? '📋' : '📗';
     const badgeClass = file.type === 'CSV' ? 'badge-ok' : file.type === 'JSON' ? 'badge-warn' : 'badge-info';
     const sizeKB = Math.round(file.size / 1024);
+    const dataPreview = file.headers && file.rows ? `onmouseenter="showDatasetPreview(event, ${index})" onmouseleave="hideDatasetPreview()"` : '';
     html += `
-      <div class="file-item" style="flex-direction:column;align-items:flex-start;gap:3px;cursor:pointer" onclick="loadRecentFile(${index})">
+      <div class="file-item" style="flex-direction:column;align-items:flex-start;gap:3px;cursor:pointer" onclick="loadRecentFile(${index})" ${dataPreview}>
         <div style="display:flex;align-items:center;gap:8px;width:100%">
           <span class="file-item-icon" style="font-size:16px">${icon}</span>
           <div style="flex:1;min-width:0">
             <div class="file-item-name" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escapeHtml(file.name)}</div>
-            <div class="file-item-meta">${sizeKB} KB · ${file.rows} filas</div>
+            <div class="file-item-meta">${sizeKB} KB · ${file.rows || file.totalRows || 0} filas</div>
           </div>
           <span class="badge ${badgeClass}">${file.type}</span>
         </div>
@@ -1745,6 +1803,70 @@ function renderRecentFiles() {
     `;
   });
   container.innerHTML = html;
+}
+
+let datasetTooltip = null;
+
+function showDatasetPreview(event, index) {
+  const file = datosRecentFiles[index];
+  if (!file || !file.headers || !file.rows || file.rows.length === 0) return;
+  
+  if (!datasetTooltip) {
+    datasetTooltip = document.createElement('div');
+    datasetTooltip.className = 'dataset-preview-tooltip';
+    document.body.appendChild(datasetTooltip);
+  }
+  
+  const headers = file.headers;
+  const rows = file.rows.slice(0, 10);
+  const totalRows = file.totalRows || file.rows.length;
+  
+  let tableHTML = '<table class="preview-tooltip-table"><thead><tr>';
+  headers.forEach(h => {
+    const safeHeader = escapeHtml(String(h));
+    tableHTML += `<th>${safeHeader}</th>`;
+  });
+  tableHTML += '</tr></thead><tbody>';
+  
+  rows.forEach(row => {
+    tableHTML += '<tr>';
+    row.forEach(cell => {
+      const safeCell = escapeHtml(String(cell ?? ''));
+      tableHTML += `<td title="${safeCell}">${safeCell}</td>`;
+    });
+    tableHTML += '</tr>';
+  });
+  tableHTML += '</tbody></table>';
+  
+  const footerText = totalRows > 10 ? `(Mostrando 10 de ${totalRows} filas)` : `(${totalRows} filas)`;
+  
+  datasetTooltip.innerHTML = `
+    <div class="preview-tooltip-title">${escapeHtml(file.name)}</div>
+    ${tableHTML}
+    <div class="preview-tooltip-footer">${footerText}</div>
+  `;
+  
+  const rect = event.target.getBoundingClientRect();
+  let left = rect.right + 10;
+  let top = rect.top;
+  
+  if (left + 350 > window.innerWidth) {
+    left = rect.left - 360;
+  }
+  if (top + 250 > window.innerHeight) {
+    top = window.innerHeight - 260;
+  }
+  if (top < 10) top = 10;
+  
+  datasetTooltip.style.left = left + 'px';
+  datasetTooltip.style.top = top + 'px';
+  datasetTooltip.classList.add('visible');
+}
+
+function hideDatasetPreview() {
+  if (datasetTooltip) {
+    datasetTooltip.classList.remove('visible');
+  }
 }
 
 function loadRecentFile(index) {
