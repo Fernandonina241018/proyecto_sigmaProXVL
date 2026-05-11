@@ -760,6 +760,7 @@
 // ── Global State - Trabajo sheets ──
 let trabajoSheets = [];
 let trabajoActiveSheetIndex = 0;
+let trabajoActiveCell = { row: 0, col: 0, ref: 'A1' };
 let trabajoImportedData = null;
 
 // ── Pane resizer ──
@@ -893,7 +894,9 @@ const leftPanels = {
       </div>
       <div class="info-section">
         <div class="info-section-header">Celda activa</div>
-
+        <div class="info-list" id="trabajoCeldaActiva">
+          ${getTrabajoCeldaActivaHTML()}
+        </div>
       </div>
     </div>`,
   datos: `
@@ -1123,18 +1126,31 @@ const rightPanels = {
       const lastVal = r[lastColIdx];
       const badge = lastVal === 'OK' ? `<span class="badge badge-ok">✓ OK</span>` : lastVal === 'Revisión' ? `<span class="badge badge-warn">⚠ Rev.</span>` : '';
       const cells = r.map((v,ci)=>{
+        const cellRef = String.fromCharCode(65 + ci) + (ri + 1);
+        const isActiveCell = trabajoActiveCell.row === ri && trabajoActiveCell.col === ci;
+        const activeStyle = isActiveCell ? 'background:rgba(124,106,247,0.2);outline:2px solid var(--accent);outline-offset:-2px' : '';
         if(ci === lastColIdx) {
           const displayVal = (v !== undefined && v !== null && v !== '') ? escapeHtml(String(v)) : '';
-          return `<td contenteditable="true" style="padding:0;border-right:1px solid rgba(255,255,255,0.04)" class="excel-cell"><div class="excel-cell-inner">${badge || displayVal}</div></td>`;
+          return `<td contenteditable="true" style="padding:0;border-right:1px solid rgba(255,255,255,0.04);${activeStyle}" class="excel-cell" onclick="setActiveCell(${ri},${ci})"><div class="excel-cell-inner">${badge || displayVal}</div></td>`;
         }
-        return `<td contenteditable="true" style="padding:0;border-right:1px solid rgba(255,255,255,0.04)" class="excel-cell"><div class="excel-cell-inner">${v}</div></td>`;
+        return `<td contenteditable="true" style="padding:0;border-right:1px solid rgba(255,255,255,0.04);${activeStyle}" class="excel-cell" onclick="setActiveCell(${ri},${ci})"><div class="excel-cell-inner">${v}</div></td>`;
       }).join('');
-      return `<tr><td class="excel-row-num">${ri+1}</td>${cells}</tr>`;
+      return `<tr><td class="excel-row-num" onclick="setActiveCell(${ri},0)">${ri+1}</td>${cells}</tr>`;
     }).join('');
+    const activeColLetter = String.fromCharCode(65 + trabajoActiveCell.col);
+    const activeRowNum = trabajoActiveCell.row + 1;
+    const activeCellRef = activeColLetter + activeRowNum;
+    const activeCellValue = (() => {
+      const sheet = trabajoSheets?.[trabajoActiveSheetIndex] || trabajoImportedData;
+      if (sheet?.rows?.[trabajoActiveCell.row]?.[trabajoActiveCell.col]) {
+        return sheet.rows[trabajoActiveCell.row][trabajoActiveCell.col];
+      }
+      return '';
+    })();
     return `<div style="display:flex;flex-direction:column;height:100%;overflow:hidden;background:var(--bg-primary)">
       <div style="display:flex;align-items:center;gap:0;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--card-bg)">
-        <div style="padding:6px 10px;font-size:11px;color:var(--text-faint);border-right:1px solid var(--border);min-width:80px;font-family:monospace" "</div>
-        <div style="padding:6px 12px;font-size:12px;color:var(--text-muted);font-family:monospace;flex:1;border-right:1px solid var(--border)" "</div>
+        <div style="padding:6px 10px;font-size:11px;color:var(--text-faint);border-right:1px solid var(--border);min-width:80px;font-family:monospace">${activeCellRef}</div>
+        <div style="padding:6px 12px;font-size:12px;color:var(--text-muted);font-family:monospace;flex:1;border-right:1px solid var(--border)">${escapeHtml(String(activeCellValue || ''))}</div>
         <div style="display:flex;gap:6px;padding:4px 10px">
           <button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="addRow()">+ Fila</button>
           <button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="addColumn()">+ Columna</button>
@@ -1154,10 +1170,9 @@ const rightPanels = {
         </table>
       </div>
       <div style="display:flex;gap:0;border-top:1px solid var(--border);flex-shrink:0;background:var(--card-bg)">
-        <div style="padding:4px 12px;font-size:11px;border-right:1px solid var(--border);cursor:pointer;color:var(--text-muted)" class="sheet-tab active-sheet">Hoja1</div>
-        <div style="padding:4px 12px;font-size:11px;border-right:1px solid var(--border);cursor:pointer;color:var(--text-faint)">Hoja2</div>
-        <div style="padding:4px 12px;font-size:11px;color:var(--accent);cursor:pointer">+</div>
-        <div style="margin-left:auto;padding:4px 12px;font-size:11px;color:var(--text-faint)">3 filas · 5 columnas</div>
+        ${getTrabajoTabsHTML()}
+        <div style="padding:4px 12px;font-size:11px;color:var(--accent);cursor:pointer" onclick="createNewSheet()" title="Nueva hoja">+</div>
+        <div style="margin-left:auto;padding:4px 12px;font-size:11px;color:var(--text-faint)">${rows.length} filas · ${cols.length} columnas</div>
       </div>
       <style>
         .excel-cell { cursor:cell; }
@@ -1983,6 +1998,21 @@ function getTrabajoSheetsListHTML() {
   return html;
 }
 
+function getTrabajoTabsHTML() {
+  const sheets = trabajoSheets || [];
+  if (sheets.length === 0) {
+    return '';
+  }
+  let html = '';
+  sheets.forEach((sheet, index) => {
+    const isActive = index === trabajoActiveSheetIndex;
+    const activeClass = isActive ? 'active-sheet' : '';
+    const textColor = isActive ? 'var(--text-muted)' : 'var(--text-faint)';
+    html += `<div class="sheet-tab ${activeClass}" style="padding:4px 12px;font-size:11px;border-right:1px solid var(--border);cursor:pointer;color:${textColor}" onclick="switchToSheet(${index})">📋 ${escapeHtml(sheet.name)}</div>`;
+  });
+  return html;
+}
+
 function switchToSheet(index) {
   if (trabajoSheets && trabajoSheets[index]) {
     trabajoActiveSheetIndex = index;
@@ -2006,6 +2036,20 @@ function getTrabajoResumenHTML() {
   return `<div class="info-item"><div class="info-item-label">Filas</div><div class="info-item-value">${rows}</div></div>
     <div class="info-item"><div class="info-item-label">Columnas</div><div class="info-item-value">${cols}</div></div>
     <div class="info-item"><div class="info-item-label">Vacíos</div><div class="info-item-value">${emptyCount}</div></div>`;
+}
+
+function getTrabajoCeldaActivaHTML() {
+  const colLetter = String.fromCharCode(65 + trabajoActiveCell.col);
+  const rowNum = trabajoActiveCell.row + 1;
+  return `<div class="info-item"><div class="info-item-label">Referencia</div><div class="info-item-value" style="font-family:monospace">${colLetter}${rowNum}</div></div>
+    <div class="info-item"><div class="info-item-label">Fila</div><div class="info-item-value">${rowNum}</div></div>
+    <div class="info-item"><div class="info-item-label">Columna</div><div class="info-item-value">${colLetter}</div></div>`;
+}
+
+function setActiveCell(row, col) {
+  const colLetter = String.fromCharCode(65 + col);
+  trabajoActiveCell = { row, col, ref: colLetter + (row + 1) };
+  loadPage('trabajo');
 }
 
 function clearCurrentSheet() {
