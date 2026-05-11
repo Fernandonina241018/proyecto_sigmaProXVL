@@ -1126,14 +1126,14 @@ const rightPanels = {
       const lastVal = r[lastColIdx];
       const badge = lastVal === 'OK' ? `<span class="badge badge-ok">✓ OK</span>` : lastVal === 'Revisión' ? `<span class="badge badge-warn">⚠ Rev.</span>` : '';
       const cells = r.map((v,ci)=>{
-        const cellRef = String.fromCharCode(65 + ci) + (ri + 1);
         const isActiveCell = trabajoActiveCell.row === ri && trabajoActiveCell.col === ci;
         const activeStyle = isActiveCell ? 'background:rgba(124,106,247,0.2);outline:2px solid var(--accent);outline-offset:-2px' : '';
+        const safeVal = escapeHtml(String(v ?? ''));
         if(ci === lastColIdx) {
-          const displayVal = (v !== undefined && v !== null && v !== '') ? escapeHtml(String(v)) : '';
-          return `<td contenteditable="true" style="padding:0;border-right:1px solid rgba(255,255,255,0.04);${activeStyle}" class="excel-cell" onclick="setActiveCell(${ri},${ci})"><div class="excel-cell-inner">${badge || displayVal}</div></td>`;
+          const displayVal = (v !== undefined && v !== null && v !== '') ? safeVal : '';
+          return `<td contenteditable="true" style="padding:0;border-right:1px solid rgba(255,255,255,0.04);${activeStyle}" class="excel-cell" onclick="setActiveCell(${ri},${ci})" onblur="saveCellData(${ri},${ci},this.textContent)" oninput="updateCellPreview(${ri},${ci},this.textContent)" onpaste="handleCellPaste(event,${ri},${ci})"><div class="excel-cell-inner">${badge || displayVal}</div></td>`;
         }
-        return `<td contenteditable="true" style="padding:0;border-right:1px solid rgba(255,255,255,0.04);${activeStyle}" class="excel-cell" onclick="setActiveCell(${ri},${ci})"><div class="excel-cell-inner">${v}</div></td>`;
+        return `<td contenteditable="true" style="padding:0;border-right:1px solid rgba(255,255,255,0.04);${activeStyle}" class="excel-cell" onclick="setActiveCell(${ri},${ci})" onblur="saveCellData(${ri},${ci},this.textContent)" oninput="updateCellPreview(${ri},${ci},this.textContent)" onpaste="handleCellPaste(event,${ri},${ci})"><div class="excel-cell-inner">${safeVal}</div></td>`;
       }).join('');
       return `<tr><td class="excel-row-num" onclick="setActiveCell(${ri},0)">${ri+1}</td>${cells}</tr>`;
     }).join('');
@@ -2049,6 +2049,71 @@ function getTrabajoCeldaActivaHTML() {
 function setActiveCell(row, col) {
   const colLetter = String.fromCharCode(65 + col);
   trabajoActiveCell = { row, col, ref: colLetter + (row + 1) };
+  loadPage('trabajo');
+}
+
+function saveCellData(row, col, value) {
+  const activeSheet = trabajoSheets?.[trabajoActiveSheetIndex];
+  if (activeSheet && activeSheet.rows[row]) {
+    activeSheet.rows[row][col] = value;
+  } else if (trabajoImportedData && trabajoImportedData.rows[row]) {
+    trabajoImportedData.rows[row][col] = value;
+  }
+}
+
+function updateCellPreview(row, col, value) {
+  const activeSheet = trabajoSheets?.[trabajoActiveSheetIndex];
+  if (activeSheet && activeSheet.rows[row]) {
+    activeSheet.rows[row][col] = value;
+  } else if (trabajoImportedData && trabajoImportedData.rows[row]) {
+    trabajoImportedData.rows[row][col] = value;
+  }
+}
+
+function handleCellPaste(event, row, col) {
+  event.preventDefault();
+  const clipboardData = event.clipboardData || window.clipboardData;
+  const pastedText = clipboardData.getData('text');
+  
+  const activeSheet = trabajoSheets?.[trabajoActiveSheetIndex];
+  if (!activeSheet && !trabajoImportedData) {
+    return;
+  }
+  
+  const sheet = activeSheet || trabajoImportedData;
+  const rows = pastedText.trim().split('\n');
+  const hasHeader = rows.length > 0 && rows[0].split(/[\t,]/).some(h => /^[A-Za-z]/.test(h.trim()));
+  
+  if (hasHeader && row === 0) {
+    const headers = rows[0].split(/[\t,]/).map(h => h.trim());
+    sheet.headers = headers;
+    const dataRows = rows.slice(1).map(rowText => {
+      return rowText.split(/[\t,]/).map(cell => cell.trim());
+    });
+    while (sheet.rows.length < dataRows.length) {
+      sheet.rows.push(Array(sheet.headers.length).fill(''));
+    }
+    dataRows.forEach((r, i) => {
+      if (i < sheet.rows.length) {
+        r.forEach((cell, j) => {
+          if (j < sheet.headers.length) {
+            sheet.rows[i][j] = cell;
+          }
+        });
+      }
+    });
+    alert(`Headers detectados y reemplazados: ${headers.join(', ')}`);
+  } else {
+    rows.forEach((rowText, rIdx) => {
+      const cells = rowText.split(/[\t,]/);
+      cells.forEach((cell, cIdx) => {
+        if (sheet.rows[row + rIdx] && sheet.headers[col + cIdx]) {
+          sheet.rows[row + rIdx][col + cIdx] = cell.trim();
+        }
+      });
+    });
+  }
+  
   loadPage('trabajo');
 }
 
