@@ -1049,20 +1049,52 @@ function renameColumn(colIdx, newName) {
 
 function handleCellPaste(event, rowIdx, colIdx) {
   event.preventDefault();
+  event.stopPropagation();
   pushUndo();
   var clipData = event.clipboardData || window.clipboardData;
   var text = clipData.getData('text');
   var sheet = getCurrentSheet();
-  if (!sheet) return;
+  if (!sheet || !text.trim()) return;
   var lines = text.trim().split('\n');
-  lines.forEach(function(line, ri) {
-    var cells = line.split(/\t|,/);
-    cells.forEach(function(cell, ci) {
-      var r = rowIdx + ri, c = colIdx + ci;
-      if (!sheet.rows[r]) sheet.rows[r] = Array(sheet.headers.length).fill('');
-      if (c < sheet.headers.length) sheet.rows[r][c] = cell.trim().replace(/^"|"$/g,'');
+  var parsedData = lines.map(function(line) {
+    return line.split(/\t|,/).map(function(cell) {
+      return cell.trim().replace(/^"|"$/g, '');
     });
   });
+  if (parsedData.length === 0) return;
+  var firstRow = parsedData[0];
+  var hasTextHeaders = false;
+  for (var i = 0; i < firstRow.length; i++) {
+    var val = firstRow[i];
+    if (val !== '' && isNaN(parseFloat(val))) {
+      hasTextHeaders = true;
+      break;
+    }
+  }
+  var dataToInsert = parsedData;
+  if (hasTextHeaders && rowIdx === 0) {
+    var numCols = firstRow.length;
+    while (sheet.headers.length < numCols) sheet.headers.push('Col' + (sheet.headers.length + 1));
+    while (sheet.headers.length > numCols) sheet.headers.pop();
+    for (var k = 0; k < numCols; k++) {
+      sheet.headers[k] = firstRow[k];
+    }
+    dataToInsert = parsedData.slice(1);
+  }
+  var startRow = rowIdx;
+  dataToInsert.forEach(function(cells, ri) {
+    var targetRow = startRow + ri;
+    while (sheet.rows.length <= targetRow) sheet.rows.push(Array(sheet.headers.length).fill(''));
+    cells.forEach(function(cell, ci) {
+      var targetCol = colIdx + ci;
+      if (targetCol < sheet.headers.length) {
+        sheet.rows[targetRow][targetCol] = cell;
+      }
+    });
+  });
+  var displayRows = Math.max(sheet.rows.length, 30);
+  while (sheet.rows.length < displayRows) sheet.rows.push(Array(sheet.headers.length).fill(''));
+  trabajoActiveCell = {row: startRow, col: colIdx};
   loadPage('trabajo');
 }
 
