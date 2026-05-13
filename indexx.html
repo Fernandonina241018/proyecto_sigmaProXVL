@@ -2,6 +2,7 @@ cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <script src="estadisticosConfig.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Obsidian Vault</title>
@@ -330,67 +331,8 @@ cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
       </div>
     </div>
     <div class="menu-item" data-menu="Navigate" data-submenu="Statistical Analysis">Statistical Analysis
-      <div class="dropdown" style="min-width:280px">
-        <div class="submenu-wrapper">
-          <div class="dd-item has-submenu" >📊 Descriptiva <span class="dd-arrow">▶</span></div>
-          <div class="submenu">
-            <div class="dd-item" onclick="runStatisticalTest('media')">📐 Media Aritmética</div>
-            <div class="dd-item" onclick="runStatisticalTest('mediana')">📊 Mediana</div>
-            <div class="dd-item" onclick="runStatisticalTest('moda')">🎯 Moda</div>
-            <div class="dd-item" onclick="runStatisticalTest('varianza')">📈 Varianza</div>
-            <div class="dd-item" onclick="runStatisticalTest('desv')">📉 Desv. Estándar</div>
-            <div class="dd-item" onclick="runStatisticalTest('cv')">📊 Coef. Variación</div>
-            <div class="dd-item" onclick="runStatisticalTest('asimetria')">📐 Asimetría</div>
-            <div class="dd-item" onclick="runStatisticalTest('kurtosis')">🔔 Curtosis</div>
-          </div>
-        </div>
-        <div class="dd-separator"></div>
-        <div class="submenu-wrapper">
-          <div class="dd-item has-submenu" >⚖️ Hipótesis <span class="dd-arrow">▶</span></div>
-          <div class="submenu">
-            <div class="dd-item" onclick="runStatisticalTest('ttest')">⚖️ t-Test</div>
-            <div class="dd-item" onclick="runStatisticalTest('ztest')">📐 z-Test</div>
-            <div class="dd-item" onclick="runStatisticalTest('ftest')">📊 F-Test</div>
-            <div class="dd-item" onclick="runStatisticalTest('chisquare')">📐 Chi-cuadrado</div>
-            <div class="dd-item" onclick="runStatisticalTest('shapiro')">🔔 Shapiro-Wilk</div>
-          </div>
-        </div>
-        <div class="dd-separator"></div>
-        <div class="submenu-wrapper">
-          <div class="dd-item has-submenu" >🔗 Correlación <span class="dd-arrow">▶</span></div>
-          <div class="submenu">
-            <div class="dd-item" onclick="runStatisticalTest('pearson')">🔗 Pearson</div>
-            <div class="dd-item" onclick="runStatisticalTest('spearman')">📈 Spearman</div>
-            <div class="dd-item" onclick="runStatisticalTest('kendall')">📊 Kendall</div>
-          </div>
-        </div>
-        <div class="dd-separator"></div>
-        <div class="submenu-wrapper">
-          <div class="dd-item has-submenu" >📈 Regresión <span class="dd-arrow">▶</span></div>
-          <div class="submenu">
-            <div class="dd-item" onclick="runStatisticalTest('lineal')">📈 Lineal Simple</div>
-            <div class="dd-item" onclick="runStatisticalTest('multiple')">📊 Regresión Múltiple</div>
-            <div class="dd-item" onclick="runStatisticalTest('logistica')">📦 Regresión Logística</div>
-          </div>
-        </div>
-        <div class="dd-separator"></div>
-        <div class="submenu-wrapper">
-          <div class="dd-item has-submenu" >📉 No Paramétricos <span class="dd-arrow">▶</span></div>
-          <div class="submenu">
-            <div class="dd-item" onclick="runStatisticalTest('mann')">📉 Mann-Whitney</div>
-            <div class="dd-item" onclick="runStatisticalTest('wilcoxon')">📊 Wilcoxon</div>
-            <div class="dd-item" onclick="runStatisticalTest('kruskal')">📦 Kruskal-Wallis</div>
-          </div>
-        </div>
-        <div class="dd-separator"></div>
-        <div class="submenu-wrapper">
-          <div class="dd-item has-submenu" >📦 Multivariado <span class="dd-arrow">▶</span></div>
-          <div class="submenu">
-            <div class="dd-item" onclick="runStatisticalTest('pca')">📊 PCA</div>
-            <div class="dd-item" onclick="runStatisticalTest('cluster')">📈 Cluster K-Means</div>
-            <div class="dd-item" onclick="runStatisticalTest('lda')">📐 LDA</div>
-          </div>
-        </div>
+      <div class="dropdown" id="statAnalysisDropdown" style="min-width:280px">
+
       </div>
     </div>
     <div class="menu-item" data-menu="Tools">Tools
@@ -1815,69 +1757,54 @@ function sendToTrabajo() {
 }
 
 
-function runStatisticalTest(testName) {
-  var testNames = {
-    'media': 'Media Aritmética',
-    'mediana': 'Mediana',
-    'moda': 'Moda',
-    'varianza': 'Varianza',
-    'desv': 'Desv. Estándar',
-    'cv': 'Coef. Variación',
-    'asimetria': 'Asimetría',
-    'kurtosis': 'Curtosis',
-    'ttest': 't-Test',
-    'ztest': 'z-Test',
-    'ftest': 'F-Test',
-    'chisquare': 'Chi-cuadrado',
-    'shapiro': 'Shapiro-Wilk',
-    'pearson': 'Pearson',
-    'spearman': 'Spearman',
-    'kendall': 'Kendall',
-    'lineal': 'Regresión Lineal',
-    'multiple': 'Regresión Múltiple',
-    'logistica': 'Regresión Logística',
-    'mann': 'Mann-Whitney',
-    'wilcoxon': 'Wilcoxon',
-    'kruskal': 'Kruskal-Wallis',
-    'pca': 'PCA',
-    'cluster': 'Cluster K-Means',
-    'lda': 'LDA'
-  };
-  var displayName = testNames[testName] || testName;
-  
+function runStatisticalTest(nombreEstadistico) {
+  var cfg = getEstadisticoConfig(nombreEstadistico);
+  if (!cfg) { showToast('⚠️ Estadístico no encontrado: ' + nombreEstadistico); return; }
+
   var sheet = getCurrentSheet();
   if (!sheet || !sheet.rows || sheet.rows.length === 0) {
-    showToast('⚠️ No hay datos en la hoja de trabajo');
-    return;
+    showToast('⚠️ No hay datos en la hoja de trabajo'); return;
   }
-  
-  var headers = sheet.headers;
-  var rows = sheet.rows;
-  
-  var numericCols = [];
-  var colIndices = [];
-  for (var j = 0; j < headers.length; j++) {
-    var isNumeric = true;
-    var sampleCount = 0;
-    for (var i = 0; i < Math.min(rows.length, 20); i++) {
-      var val = rows[i][j];
-      if (val !== '' && val !== null && val !== undefined) {
-        if (isNaN(parseFloat(val))) { isNumeric = false; break; }
-        sampleCount++;
+
+  // Detectar columnas numéricas
+  var numericCols = [], colIndices = [];
+  for (var j = 0; j < sheet.headers.length; j++) {
+    var numCount = 0, total = 0;
+    for (var i = 0; i < Math.min(sheet.rows.length, 20); i++) {
+      var val = sheet.rows[i][j];
+      if (val !== '' && val != null) {
+        total++;
+        if (!isNaN(parseFloat(val))) numCount++;
       }
     }
-    if (isNumeric && sampleCount > 0) {
-      numericCols.push(headers[j]);
+    if (total > 0 && numCount / total >= 0.8) {
+      numericCols.push(sheet.headers[j]);
       colIndices.push(j);
     }
   }
-  
-  if (numericCols.length === 0) {
-    showToast('⚠️ No se detectaron columnas numéricas');
+
+  // Validar mínimo de muestra desde config
+  var values = [];
+  if (colIndices.length > 0) {
+    for (var i = 0; i < sheet.rows.length; i++) {
+      var v = parseFloat(sheet.rows[i][colIndices[0]]);
+      if (!isNaN(v) && isFinite(v)) values.push(v);
+    }
+  }
+
+  if (values.length < cfg.minMuestra) {
+    showToast('⚠️ ' + nombreEstadistico + ' requiere al menos '
+      + cfg.minMuestra + ' observaciones (tienes ' + values.length + ')');
     return;
   }
-  
-  runStatisticalTestImpl(testName, displayName, sheet, numericCols, colIndices);
+
+  if (cfg.requiereDosColumnas && colIndices.length < 2) {
+    showToast('⚠️ ' + nombreEstadistico + ' requiere al menos 2 columnas numéricas');
+    return;
+  }
+
+  // Llamar a la función real del EstadisticaDescriptiva.js
+  runStatisticalTestImpl(nombreEstadistico, cfg, sheet, values, numericCols, colIndices);
 }
 
 function runStatisticalTestImpl(testName, displayName, sheet, numericCols, colIndices) {
@@ -2099,11 +2026,17 @@ function buildStatAnalysisMenu() {
 
   dropdown.innerHTML = html;
 }
+// Construir menú estadístico desde config
+document.addEventListener('DOMContentLoaded', function() {
+  buildStatAnalysisMenu();
+});
+
+// Si el DOM ya cargó (script al final del body):
+buildStatAnalysisMenu();
 
 // ── Initial load ──
 loadPage('datos');
 </script>
-<script src="estadisticosConfig.js"></script>
 <script src="StatsUtils.js"></script>
 <script src="EstadisticaDescriptiva.js"></script>
 <script src="ToolsManager.js"></script>
