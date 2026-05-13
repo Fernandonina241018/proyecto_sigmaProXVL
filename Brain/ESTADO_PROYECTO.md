@@ -48,6 +48,8 @@
 | 7 | 11 May 2026 | Preview tooltip en recientes | ✅ |
 | 8 | 11 May 2026 | Recent files persistidos (3 max) | ✅ |
 | 9 | 10 May 2026 | Fix papaparse CDN (ERR_BLOCKED) | ✅ |
+| 10 | 11 May 2026 | Tools menu solo funcional en Hoja de Trabajo | ✅ |
+| 11 | 11 May 2026 | Removida pestaña Visualización | ✅ |
 
 ### 📝 CAMBIOS RECIENTES
 

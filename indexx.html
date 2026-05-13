@@ -30,7 +30,9 @@ cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
   .menu-item.open .dropdown { display:block; }
   .dd-item { display:flex; align-items:center; justify-content:space-between; padding:5px 10px; border-radius:4px; font-size:13px; color:var(--text-primary); cursor:default; gap:24px; }
   .dd-item:hover { background:var(--accent); color:#fff; }
-  .dd-item.disabled { color:var(--text-faint); pointer-events:none; }
+  .dd-item.disabled { color:var(--text-faint); pointer-events:none; opacity:0.5; cursor:not-allowed; }
+  .dd-item.disabled:hover { background:transparent; color:var(--text-faint); }
+  .dd-item.disabled .dd-shortcut { color:var(--text-faint); opacity:0.5; }
   .dd-separator { height:1px; background:#444; margin:4px 6px; }
   .dd-shortcut { color:var(--text-faint); font-size:12px; flex-shrink:0; }
   .dd-item:hover .dd-shortcut { color:rgba(255,255,255,.7); }
@@ -279,9 +281,9 @@ cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
     <button class="titlebar-btn min"></button>
     <button class="titlebar-btn max"></button>
   </div>
-  <span class="titlebar-appname">Obsidian</span>
+  <span class="titlebar-appname">SAP2.0</span>
   <nav class="menubar">
-    <div class="menu-item" data-menu>File
+    <div class="menu-item" data-menu="File">File
       <div class="dropdown">
         <div class="dd-item">New Note <span class="dd-shortcut">⌘ N</span></div>
         <div class="dd-item">New Canvas <span class="dd-shortcut">⌘ ⇧ N</span></div>
@@ -295,7 +297,7 @@ cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
         <div class="dd-item">Quit Obsidian <span class="dd-shortcut">⌘ Q</span></div>
       </div>
     </div>
-    <div class="menu-item" data-menu>Edit
+    <div class="menu-item" data-menu="Edit">Edit
       <div class="dropdown">
         <div class="dd-item" onclick="undoAction()">Undo <span class="dd-shortcut">⌘ Z</span></div>
         <div class="dd-item" onclick="redoAction()">Redo <span class="dd-shortcut">⌘ ⇧ Z</span></div>
@@ -307,19 +309,19 @@ cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
         <div class="dd-item">Find in Current File <span class="dd-shortcut">⌘ F</span></div>
       </div>
     </div>
-    <div class="menu-item" data-menu>View
+    <div class="menu-item" data-menu="View">View
       <div class="dropdown">
         <div class="dd-item">Toggle Left Sidebar <span class="dd-shortcut">⌘ ⌥ ←</span></div>
         <div class="dd-item">Toggle Right Sidebar <span class="dd-shortcut">⌘ ⌥ →</span></div>
         <div class="dd-separator"></div>
-        /<div class="dd-item">Graph View <span class="dd-shortcut">⌘ ⇧ G</span></div>
+        <div class="dd-item">Graph View <span class="dd-shortcut">⌘ ⇧ G</span></div>
         <div class="dd-item">Reading View <span class="dd-shortcut">⌘ E</span></div>
         <div class="dd-separator"></div>
         <div class="dd-item">Zoom In <span class="dd-shortcut">⌘ +</span></div>
         <div class="dd-item">Zoom Out <span class="dd-shortcut">⌘ −</span></div>
       </div>
     </div>
-    <div class="menu-item" data-menu>Navigate
+    <div class="menu-item" data-menu="Navigate">Navigate
       <div class="dropdown">
         <div class="dd-item">Back <span class="dd-shortcut">⌘ [</span></div>
         <div class="dd-item">Forward <span class="dd-shortcut">⌘ ]</span></div>
@@ -328,7 +330,61 @@ cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
         <div class="dd-item">Previous Tab <span class="dd-shortcut">⌘ ⇧ [</span></div>
       </div>
     </div>
-    <div class="menu-item" data-menu>Help
+    <div class="menu-item" data-menu="Tools">Tools
+      <div class="dropdown" role="menu" aria-hidden="true">
+        <div class="dd-item" role="menuitem" data-action="load-dataset">
+          Cargar dataset <span class="dd-shortcut">Ctrl+O</span>
+        </div>
+        <div class="dd-item" role="menuitem" data-action="preview-data">
+          Previsualizar datos <span class="dd-shortcut">Ctrl+P</span>
+        </div>
+        <div class="dd-separator"></div>
+        <div class="dd-item" role="menuitem" data-action="remove-duplicates">
+          Eliminar duplicados <span class="dd-shortcut">Ctrl+D</span>
+        </div>
+        <div class="dd-item" role="menuitem" data-action="filter-rows">
+          Filtrar filas <span class="dd-shortcut">Ctrl+F</span>
+        </div>
+        <div class="dd-item" role="menuitem" data-action="handle-missing">
+          Imputar valores faltantes <span class="dd-shortcut">Ctrl+I</span>
+        </div>
+        <div class="dd-item" role="menuitem" data-action="outlier-detection">
+          Detectar outliers <span class="dd-shortcut">Ctrl+A</span>
+        </div>
+        <div class="dd-separator"></div>
+        <div class="dd-item" role="menuitem" data-action="encode-categorical">
+          Codificar variables categóricas <span class="dd-shortcut">Ctrl+E</span>
+        </div>
+        <div class="dd-item" role="menuitem" data-action="scale-normalize">
+          Escalar / Normalizar <span class="dd-shortcut">Ctrl+N</span>
+        </div>
+        <div class="dd-item" role="menuitem" data-action="feature-engineering">
+          Ingeniería de características <span class="dd-shortcut">Ctrl+G</span>
+        </div>
+        <div class="dd-separator"></div>
+        <div class="dd-item" role="menuitem" data-action="visualize">
+          Visualizar variables <span class="dd-shortcut">Ctrl+V</span>
+        </div>
+        <div class="dd-item" role="menuitem" data-action="correlation-matrix">
+          Matriz de correlación <span class="dd-shortcut">Ctrl+M</span>
+        </div>
+        <div class="dd-separator"></div>
+        <div class="dd-item" role="menuitem" data-action="train-test-split">
+          Particionar train/test <span class="dd-shortcut">Ctrl+T</span>
+        </div>
+        <div class="dd-item" role="menuitem" data-action="feature-selection">
+          Selección de variables <span class="dd-shortcut">Ctrl+S</span>
+        </div>
+        <div class="dd-separator"></div>
+        <div class="dd-item" role="menuitem" data-action="export-csv">
+          Exportar CSV <span class="dd-shortcut">Ctrl+Shift+E</span>
+        </div>
+        <div class="dd-item" role="menuitem" data-action="save-session">
+          Guardar sesión / pipeline <span class="dd-shortcut">Ctrl+Shift+S</span>
+        </div>
+      </div>
+    </div>
+    <div class="menu-item" data-menu="Help">Help
       <div class="dropdown">
         <div class="dd-item">Documentation</div>
         <div class="dd-item">Sandbox Vault</div>
@@ -488,6 +544,7 @@ var datosCurrentData = null;
 var datosCurrentFileName = '';
 var datosRecentFiles = [];
 var datasetTooltip = null;
+var currentPage = 'trabajo';
 // Datos table state
 var datosPage = 0;
 var datosPageSize = 50;
@@ -743,6 +800,7 @@ var pageIcons  = { trabajo:'📋', datos:'📊', analisis:'🔬', visualizacion:
 var pageTitles = { trabajo:'Hoja de Trabajo', datos:'Gestión de Datos', analisis:'Análisis Estadístico', visualizacion:'Visualización', reportes:'Reportes', auditoria:'Auditoría', usuarios:'Usuarios' };
 
 function loadPage(name) {
+  currentPage = name;
   document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
   var navEl = document.querySelector('[data-page="' + name + '"]');
   if (navEl) navEl.classList.add('active');
@@ -766,6 +824,21 @@ function loadPage(name) {
 
   if (name === 'datos') { setTimeout(initDatosPage, 60); }
   if (name === 'trabajo') { initTrabajoKeyboard(); }
+  updateToolsMenuState();
+}
+
+function updateToolsMenuState() {
+  setTimeout(function() {
+    var isTrabajo = currentPage === 'trabajo';
+    var items = document.querySelectorAll('.menu-item[data-menu="Tools"] .dd-item[data-action]');
+    items.forEach(function(item) {
+      if (isTrabajo) {
+        item.classList.remove('disabled');
+      } else {
+        item.classList.add('disabled');
+      }
+    });
+  }, 10);
 }
 
 document.querySelectorAll('.nav-item[data-page]').forEach(function(item){
