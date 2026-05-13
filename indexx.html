@@ -322,13 +322,19 @@ cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
         <div class="dd-item">Zoom Out <span class="dd-shortcut">⌘ −</span></div>
       </div>
     </div>
-    <div class="menu-item" data-menu="Navigate">Navigate
+    <div class="menu-item" data-menu="Navigate">Statistical Analysis
       <div class="dropdown">
-        <div class="dd-item">Back <span class="dd-shortcut">⌘ [</span></div>
-        <div class="dd-item">Forward <span class="dd-shortcut">⌘ ]</span></div>
+        <div class="dd-item">Descriptiva <span class="dd-shortcut">⌘ [</span></div>
+        <div class="dd-item">Hipótesis <span class="dd-shortcut">⌘ ]</span></div>
         <div class="dd-separator"></div>
-        <div class="dd-item">Next Tab <span class="dd-shortcut">⌘ ⇧ ]</span></div>
-        <div class="dd-item">Previous Tab <span class="dd-shortcut">⌘ ⇧ [</span></div>
+        <div class="dd-item">Correlación <span class="dd-shortcut">⌘ ⇧ ]</span></div>
+        <div class="dd-item">Regresión <span class="dd-shortcut">⌘ ⇧ [</span></div>
+        <div class="dd-separator"></div>
+        <div class="dd-item">No Paramétricos <span class="dd-shortcut">⌘ ⇧ ]</span></div>
+        <div class="dd-item">Multivariado <span class="dd-shortcut">⌘ ⇧ [</span></div>
+        <div class="dd-separator"></div>
+        <div class="dd-item">Calidad <span class="dd-shortcut">⌘ ⇧ ]</span></div>
+        <div class="dd-item">Extra <span class="dd-shortcut">⌘ ⇧ [</span></div>
       </div>
     </div>
     <div class="menu-item" data-menu="Tools">Tools
@@ -743,6 +749,7 @@ var rightPanels = {
           '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="redoAction()">↪</button>' +
           '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="sortColumn()">↕</button>' +
           '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="exportTrabajo()">💾</button>' +
+          '<button class="btn btn-primary" style="font-size:11px;padding:3px 8px" onclick="loadPage(\'analisis\')">📊 Análisis</button>' +
         '</div>' +
       '</div>' +
       '<div style="flex:1;overflow:auto;position:relative" id="trabajoScrollWrap">' +
