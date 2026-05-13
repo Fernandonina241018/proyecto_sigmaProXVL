@@ -669,25 +669,48 @@ function handleToolsAction(action, opciones) {
       var colIdx = opciones && opciones.column !== undefined ? opciones.column : 0;
       var colData = data.rows.map(function(r) { return parseFloat(r[colIdx]); }).filter(function(v) { return !isNaN(v); });
       resultado = detectarOutliers(colData, opciones);
-      mensaje = 'Outliers detectados: ' + (resultado.outliers ? resultado.outliers.length : 0);
+      mensaje = 'Outliers detectados: ' + (resultado.outliers ? resultado.outliers.length : 0) + ' en columna ' + (data.headers[colIdx] || colIdx);
       break;
     case 'handle-missing':
       var colIdx2 = opciones && opciones.column !== undefined ? opciones.column : 0;
       var colData2 = data.rows.map(function(r) { return r[colIdx2]; });
-      resultado = imputarValoresFaltantes(colData2, opciones);
-      mensaje = 'Valores imputador: ' + (resultado.imputaciones || 0);
+      var imputedResult = imputarValoresFaltantes(colData2, opciones);
+      if (imputedResult.datos) {
+        data.rows.forEach(function(row, i) { row[colIdx2] = imputedResult.datos[i]; });
+        resultado = { rows: data.rows, imputaciones: imputedResult.imputaciones };
+      } else {
+        resultado = imputedResult;
+      }
+      mensaje = 'Valores imputador: ' + (imputedResult.imputaciones || 0);
       break;
     case 'encode-categorical':
       var colIdx3 = opciones && opciones.column !== undefined ? opciones.column : 0;
       var colData3 = data.rows.map(function(r) { return String(r[colIdx3] || ''); });
-      resultado = codificarCategoricas(colData3, opciones);
-      mensaje = 'Categorías encontradas: ' + (resultado.categories ? resultado.categories.length : 0);
+      var encodedResult = codificarCategoricas(colData3, opciones);
+      if (encodedResult.encoded) {
+        data.rows.forEach(function(row, i) { row[colIdx3] = encodedResult.encoded[i]; });
+        resultado = { rows: data.rows, categories: encodedResult.categories };
+      } else {
+        resultado = encodedResult;
+      }
+      mensaje = 'Categorías codificadas: ' + (encodedResult.categories ? encodedResult.categories.length : 0) + ' valores';
       break;
     case 'scale-normalize':
       var colIdx4 = opciones && opciones.column !== undefined ? opciones.column : 0;
       var colData4 = data.rows.map(function(r) { return parseFloat(r[colIdx4]); }).filter(function(v) { return !isNaN(v); });
-      resultado = escalarNormalizar(colData4, opciones);
-      mensaje = 'Datos normalizados: ' + resultado.datos.length + ' valores';
+      var scaledResult = escalarNormalizar(colData4, opciones);
+      if (scaledResult.datos && colData4.length > 0) {
+        var nonNullIndices = data.rows.map(function(r, i) { return !isNaN(parseFloat(r[colIdx4])) ? i : -1; }).filter(function(i) { return i >= 0; });
+        nonNullIndices.forEach(function(rowIdx, i) {
+          if (i < scaledResult.datos.length) {
+            data.rows[rowIdx][colIdx4] = scaledResult.datos[i].toFixed(4);
+          }
+        });
+        resultado = { rows: data.rows, count: scaledResult.datos.length };
+      } else {
+        resultado = scaledResult;
+      }
+      mensaje = 'Datos normalizados: ' + scaledResult.datos.length + ' valores en columna ' + (data.headers[colIdx4] || colIdx4);
       break;
     case 'correlation-matrix':
       resultado = calcularMatrizCorrelacion(data.rows, opciones);
