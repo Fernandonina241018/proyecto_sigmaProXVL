@@ -2063,9 +2063,47 @@ function escapeHtml(text) {
   var d = document.createElement('div'); d.textContent = String(text == null ? '' : text); return d.innerHTML;
 }
 
+function buildStatAnalysisMenu() {
+  var dropdown = document.getElementById('statAnalysisDropdown');
+  if (!dropdown) return;
+
+  // getSeccionesSidebar() viene de estadisticosConfig.js
+  var secciones = getSeccionesSidebar();
+  var html = '';
+  var isFirst = true;
+
+  Object.entries(secciones).forEach(function([seccionKey, seccion]) {
+    if (!isFirst) html += '<div class="dd-separator"></div>';
+    isFirst = false;
+
+    // Título de sección con wrapper para hover
+    html += '<div class="submenu-wrapper">';
+    html += '<div class="dd-item has-submenu">'
+          + seccion.icon + ' ' + seccion.label
+          + ' <span class="dd-arrow">▶</span></div>';
+
+    // Subitems desde config
+    html += '<div class="submenu">';
+    seccion.options.forEach(function(nombreEstadistico) {
+      var cfg = getEstadisticoConfig(nombreEstadistico);
+      var icono = cfg && cfg.icono ? cfg.icono : '📊';
+      // Escapar las comillas del nombre para el onclick
+      var nombreEscapado = nombreEstadistico.replace(/'/g, "\\'");
+      html += '<div class="dd-item" onclick="runStatisticalTest(\''
+            + nombreEscapado + '\')">'
+            + icono + ' ' + nombreEstadistico + '</div>';
+    });
+    html += '</div>'; // .submenu
+    html += '</div>'; // .submenu-wrapper
+  });
+
+  dropdown.innerHTML = html;
+}
+
 // ── Initial load ──
 loadPage('datos');
 </script>
+<script src="estadisticosConfig.js"></script>
 <script src="StatsUtils.js"></script>
 <script src="EstadisticaDescriptiva.js"></script>
 <script src="ToolsManager.js"></script>
