@@ -53,9 +53,24 @@
 
 ### 📝 CAMBIOS RECIENTES
 
-_(Espacio para documentar cambios futuros)_
+| # | Fecha | Cambio | Estado |
+|---|-------|--------|--------|
+| 1 | 13 May 2026 | Statistical Analysis menu conectado a funciones reales | ✅ |
+| 2 | 13 May 2026 | runStatisticalTest() ahora ejecuta cálculos reales | ✅ |
+| 3 | 13 May 2026 | Agregado script tags para StatsUtils.js y EstadisticaDescriptiva.js | ✅ |
+| 4 | 13 May 2026 | Expuesto window.StatsUtils y window.EstadisticaDescriptiva | ✅ |
+| 5 | 13 May 2026 | Modal de resultados estadísticos implementado | ✅ |
 
-- 
+**Tests implementados:**
+- Media, Mediana, Moda, Varianza, Desv. Estándar, Coef. Variación
+- Asimetría, Curtosis
+- t-Test, Shapiro-Wilk
+- Correlación Pearson, Regresión Lineal
+
+**Archivos modificados:**
+- `indexx.html`: líneas ~1814-1980 (runStatisticalTest actualizado)
+- `StatsUtils.js`: línea ~522 (window.StatsUtils)
+- `EstadisticaDescriptiva.js`: líneas ~5115-5120 (window.EstadisticaDescriptiva) 
 
 ---
 

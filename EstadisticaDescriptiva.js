@@ -5112,4 +5112,9 @@ function generarHTML(analisisResultado) {
 // Exportar si se usan módulos
 // export default EstadisticaDescriptiva;
 
+// Exponer al ámbito global para uso en indexx.html
+if (typeof window !== 'undefined') {
+    window.EstadisticaDescriptiva = EstadisticaDescriptiva;
+}
+
 console.log('✅ Módulo de Estadística Descriptiva cargado');

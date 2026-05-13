@@ -518,3 +518,7 @@ const StatsUtils = (function () {
         resumenEstadistico
     };
 })();
+
+if (typeof window !== 'undefined') {
+    window.StatsUtils = StatsUtils;
+}

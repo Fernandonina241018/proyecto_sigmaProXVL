@@ -37,6 +37,12 @@ cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
   .dd-separator { height:1px; background:#444; margin:4px 6px; }
   .dd-shortcut { color:var(--text-faint); font-size:12px; flex-shrink:0; }
   .dd-item:hover .dd-shortcut { color:rgba(255,255,255,.7); }
+  .dd-item.has-submenu { font-weight:500; }
+  .dd-arrow { font-size:10px; color:var(--text-faint); transition:transform .2s; }
+  .dd-item.has-submenu.open .dd-arrow { transform: rotate(90deg); }
+  .submenu { display:none; padding-left:12px; background:rgba(0,0,0,0.2); margin:2px 0; border-radius:4px; }
+  .submenu.open { display:block; }
+  .submenu .dd-item { font-size:12px; padding:4px 8px; }
   .app { display: flex; flex: 1; overflow: hidden; min-height: 0; }
   .ribbon { width: 36px; background: var(--bg-ribbon); display: flex; flex-direction: column; align-items: center; padding: 8px 0; gap: 4px; border-right: 1px solid var(--border); flex-shrink: 0; }
   .ribbon-icon { width:28px; height:28px; display:flex; align-items:center; justify-content:center; border-radius:4px; color:var(--text-faint); cursor:pointer; transition:color .15s, background .15s; font-size:15px; }
@@ -322,19 +328,56 @@ cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
         <div class="dd-item">Zoom Out <span class="dd-shortcut">⌘ −</span></div>
       </div>
     </div>
-    <div class="menu-item" data-menu="Navigate">Statistical Analysis
-      <div class="dropdown">
-        <div class="dd-item">Descriptiva <span class="dd-shortcut">⌘ [</span></div>
-        <div class="dd-item">Hipótesis <span class="dd-shortcut">⌘ ]</span></div>
+    <div class="menu-item" data-menu="Navigate" data-submenu="Statistical Analysis">Statistical Analysis
+      <div class="dropdown" style="min-width:280px">
+        <div class="dd-item has-submenu" onclick="toggleSubmenu(this)">📊 Descriptiva <span class="dd-arrow">▶</span></div>
+        <div class="submenu">
+          <div class="dd-item" onclick="runStatisticalTest('media')">📐 Media Aritmética</div>
+          <div class="dd-item" onclick="runStatisticalTest('mediana')">📊 Mediana</div>
+          <div class="dd-item" onclick="runStatisticalTest('moda')">🎯 Moda</div>
+          <div class="dd-item" onclick="runStatisticalTest('varianza')">📈 Varianza</div>
+          <div class="dd-item" onclick="runStatisticalTest('desv')">📉 Desv. Estándar</div>
+          <div class="dd-item" onclick="runStatisticalTest('cv')">📊 Coef. Variación</div>
+          <div class="dd-item" onclick="runStatisticalTest('asimetria')">📐 Asimetría</div>
+          <div class="dd-item" onclick="runStatisticalTest('kurtosis')">🔔 Curtosis</div>
+        </div>
         <div class="dd-separator"></div>
-        <div class="dd-item">Correlación <span class="dd-shortcut">⌘ ⇧ ]</span></div>
-        <div class="dd-item">Regresión <span class="dd-shortcut">⌘ ⇧ [</span></div>
+        <div class="dd-item has-submenu" onclick="toggleSubmenu(this)">⚖️ Hipótesis <span class="dd-arrow">▶</span></div>
+        <div class="submenu">
+          <div class="dd-item" onclick="runStatisticalTest('ttest')">⚖️ t-Test</div>
+          <div class="dd-item" onclick="runStatisticalTest('ztest')">📐 z-Test</div>
+          <div class="dd-item" onclick="runStatisticalTest('ftest')">📊 F-Test</div>
+          <div class="dd-item" onclick="runStatisticalTest('chisquare')">📐 Chi-cuadrado</div>
+          <div class="dd-item" onclick="runStatisticalTest('shapiro')">🔔 Shapiro-Wilk</div>
+        </div>
         <div class="dd-separator"></div>
-        <div class="dd-item">No Paramétricos <span class="dd-shortcut">⌘ ⇧ ]</span></div>
-        <div class="dd-item">Multivariado <span class="dd-shortcut">⌘ ⇧ [</span></div>
+        <div class="dd-item has-submenu" onclick="toggleSubmenu(this)">🔗 Correlación <span class="dd-arrow">▶</span></div>
+        <div class="submenu">
+          <div class="dd-item" onclick="runStatisticalTest('pearson')">🔗 Pearson</div>
+          <div class="dd-item" onclick="runStatisticalTest('spearman')">📈 Spearman</div>
+          <div class="dd-item" onclick="runStatisticalTest('kendall')">📊 Kendall</div>
+        </div>
         <div class="dd-separator"></div>
-        <div class="dd-item">Calidad <span class="dd-shortcut">⌘ ⇧ ]</span></div>
-        <div class="dd-item">Extra <span class="dd-shortcut">⌘ ⇧ [</span></div>
+        <div class="dd-item has-submenu" onclick="toggleSubmenu(this)">📈 Regresión <span class="dd-arrow">▶</span></div>
+        <div class="submenu">
+          <div class="dd-item" onclick="runStatisticalTest('lineal')">📈 Lineal Simple</div>
+          <div class="dd-item" onclick="runStatisticalTest('multiple')">📊 Regresión Múltiple</div>
+          <div class="dd-item" onclick="runStatisticalTest('logistica')">📦 Regresión Logística</div>
+        </div>
+        <div class="dd-separator"></div>
+        <div class="dd-item has-submenu" onclick="toggleSubmenu(this)">📉 No Paramétricos <span class="dd-arrow">▶</span></div>
+        <div class="submenu">
+          <div class="dd-item" onclick="runStatisticalTest('mann')">📉 Mann-Whitney</div>
+          <div class="dd-item" onclick="runStatisticalTest('wilcoxon')">📊 Wilcoxon</div>
+          <div class="dd-item" onclick="runStatisticalTest('kruskal')">📦 Kruskal-Wallis</div>
+        </div>
+        <div class="dd-separator"></div>
+        <div class="dd-item has-submenu" onclick="toggleSubmenu(this)">📦 Multivariado <span class="dd-arrow">▶</span></div>
+        <div class="submenu">
+          <div class="dd-item" onclick="runStatisticalTest('pca')">📊 PCA</div>
+          <div class="dd-item" onclick="runStatisticalTest('cluster')">📈 Cluster K-Means</div>
+          <div class="dd-item" onclick="runStatisticalTest('lda')">📐 LDA</div>
+        </div>
       </div>
     </div>
     <div class="menu-item" data-menu="Tools">Tools
@@ -1758,6 +1801,259 @@ function sendToTrabajo() {
   loadPage('trabajo');
 }
 
+// ── Statistical Analysis Menu ──
+function toggleSubmenu(item) {
+  item.classList.toggle('open');
+  var nextSibling = item.nextElementSibling;
+  if (nextSibling && nextSibling.classList.contains('submenu')) {
+    nextSibling.classList.toggle('open');
+  }
+  event.stopPropagation();
+}
+
+function runStatisticalTest(testName) {
+  var testNames = {
+    'media': 'Media Aritmética',
+    'mediana': 'Mediana',
+    'moda': 'Moda',
+    'varianza': 'Varianza',
+    'desv': 'Desv. Estándar',
+    'cv': 'Coef. Variación',
+    'asimetria': 'Asimetría',
+    'kurtosis': 'Curtosis',
+    'ttest': 't-Test',
+    'ztest': 'z-Test',
+    'ftest': 'F-Test',
+    'chisquare': 'Chi-cuadrado',
+    'shapiro': 'Shapiro-Wilk',
+    'pearson': 'Pearson',
+    'spearman': 'Spearman',
+    'kendall': 'Kendall',
+    'lineal': 'Regresión Lineal',
+    'multiple': 'Regresión Múltiple',
+    'logistica': 'Regresión Logística',
+    'mann': 'Mann-Whitney',
+    'wilcoxon': 'Wilcoxon',
+    'kruskal': 'Kruskal-Wallis',
+    'pca': 'PCA',
+    'cluster': 'Cluster K-Means',
+    'lda': 'LDA'
+  };
+  var displayName = testNames[testName] || testName;
+  
+  var sheet = getCurrentSheet();
+  if (!sheet || !sheet.rows || sheet.rows.length === 0) {
+    showToast('⚠️ No hay datos en la hoja de trabajo');
+    return;
+  }
+  
+  var headers = sheet.headers;
+  var rows = sheet.rows;
+  
+  var numericCols = [];
+  var colIndices = [];
+  for (var j = 0; j < headers.length; j++) {
+    var isNumeric = true;
+    var sampleCount = 0;
+    for (var i = 0; i < Math.min(rows.length, 20); i++) {
+      var val = rows[i][j];
+      if (val !== '' && val !== null && val !== undefined) {
+        if (isNaN(parseFloat(val))) { isNumeric = false; break; }
+        sampleCount++;
+      }
+    }
+    if (isNumeric && sampleCount > 0) {
+      numericCols.push(headers[j]);
+      colIndices.push(j);
+    }
+  }
+  
+  if (numericCols.length === 0) {
+    showToast('⚠️ No se detectaron columnas numéricas');
+    return;
+  }
+  
+  runStatisticalTestImpl(testName, displayName, sheet, numericCols, colIndices);
+}
+
+function runStatisticalTestImpl(testName, displayName, sheet, numericCols, colIndices) {
+  var headers = sheet.headers;
+  var rows = sheet.rows;
+  var colIdx = colIndices[0];
+  
+  var values = [];
+  for (var i = 0; i < rows.length; i++) {
+    var v = parseFloat(rows[i][colIdx]);
+    if (!isNaN(v) && isFinite(v)) values.push(v);
+  }
+  
+  if (values.length < 2) {
+    showToast('⚠️ Datos insuficientes para análisis');
+    return;
+  }
+  
+  var result = null;
+  var resultHtml = '';
+  
+  switch(testName) {
+    case 'media':
+      result = EstadisticaDescriptiva.calcularMedia(values);
+      resultHtml = '<h3>Media Aritmética</h3><p class="stat-value">μ = ' + result.toFixed(4) + '</p><p class="stat-desc">Promedio de los valores</p>';
+      break;
+    case 'mediana':
+      result = EstadisticaDescriptiva.calcularMediana(values);
+      resultHtml = '<h3>Mediana</h3><p class="stat-value">Me = ' + result.toFixed(4) + '</p><p class="stat-desc">Valor central de los datos</p>';
+      break;
+    case 'moda':
+      result = EstadisticaDescriptiva.calcularModa(values);
+      resultHtml = '<h3>Moda</h3><p class="stat-value">Mo = ' + (Array.isArray(result) ? result.join(', ') : result) + '</p><p class="stat-desc">Valor más frecuente</p>';
+      break;
+    case 'varianza':
+      result = EstadisticaDescriptiva.calcularVarianza(values, true);
+      resultHtml = '<h3>Varianza Muestral</h3><p class="stat-value">s² = ' + result.toFixed(4) + '</p>';
+      break;
+    case 'desv':
+      result = EstadisticaDescriptiva.calcularDesviacionEstandar(values, true);
+      resultHtml = '<h3>Desviación Estándar</h3><p class="stat-value">s = ' + result.toFixed(4) + '</p>';
+      break;
+    case 'cv':
+      result = EstadisticaDescriptiva.calcularCoeficienteVariacion(values);
+      resultHtml = '<h3>Coeficiente de Variación</h3><p class="stat-value">CV = ' + result.toFixed(2) + '%</p>';
+      break;
+    case 'asimetria':
+      result = EstadisticaDescriptiva.calcularAsimetria(values, true);
+      resultHtml = '<h3>Asimetría</h3><p class="stat-value">g1 = ' + result.toFixed(4) + '</p><p class="stat-desc">' + (result > 0 ? 'Asimétrica positiva' : result < 0 ? 'Asimétrica negativa' : 'Simétrica') + '</p>';
+      break;
+    case 'kurtosis':
+      result = EstadisticaDescriptiva.calcularCurtosis(values, true);
+      resultHtml = '<h3>Curtosis</h3><p class="stat-value">g2 = ' + result.toFixed(4) + '</p><p class="stat-desc">' + (result > 0 ? 'Leptocúrtica' : result < 0 ? 'Platicúrtica' : 'Mesocúrtica') + '</p>';
+      break;
+    case 'ttest':
+      result = EstadisticaDescriptiva.calcularTTestUnaMuestra(values, 0);
+      resultHtml = '<h3>T-Test (una muestra)</h3>' +
+        '<p><strong>t:</strong> ' + result.estadisticoT.toFixed(4) + '</p>' +
+        '<p><strong>gl:</strong> ' + result.gradosLibertad + '</p>' +
+        '<p><strong>p-value:</strong> ' + result.valorP.toFixed(4) + '</p>' +
+        '<p class="stat-result">' + result.interpretacion + '</p>';
+      break;
+    case 'shapiro':
+      result = EstadisticaDescriptiva.calcularShapiroWilk(values);
+      resultHtml = '<h3>Test de Shapiro-Wilk</h3>' +
+        '<p><strong>W:</strong> ' + result.estadisticoW + '</p>' +
+        '<p><strong>p-value:</strong> ' + result.valorP + '</p>' +
+        '<p class="stat-result">' + result.interpretacion + '</p>';
+      break;
+    case 'pearson':
+      if (colIndices.length < 2) {
+        showToast('⚠️ Se necesitan al menos 2 columnas numéricas');
+        return;
+      }
+      var colIdx2 = colIndices[1];
+      var values2 = [];
+      for (var i = 0; i < rows.length; i++) {
+        var v1 = parseFloat(rows[i][colIdx]);
+        var v2 = parseFloat(rows[i][colIdx2]);
+        if (!isNaN(v1) && !isNaN(v2)) values2.push([v1, v2]);
+      }
+      result = StatsUtils.calcularCorrelacionPearson(values2.map(function(p){ return p[0]; }), values2.map(function(p){ return p[1]; }));
+      resultHtml = '<h3>Correlación de Pearson</h3>' +
+        '<p class="stat-value">r = ' + result.r.toFixed(4) + '</p>' +
+        '<p class="stat-desc">Columna: ' + numericCols[0] + ' vs ' + numericCols[1] + '</p>' +
+        '<p>' + (Math.abs(result.r) > 0.7 ? 'Correlación fuerte' : Math.abs(result.r) > 0.3 ? 'Correlación moderada' : 'Correlación débil') + '</p>';
+      break;
+    case 'chisquare':
+      resultHtml = '<h3>Chi-Cuadrado</h3><p class="stat-desc">Requiere tabla de contingencia. Use la herramienta de contingencia en el menú.</p>';
+      break;
+    case 'mann':
+    case 'wilcoxon':
+    case 'kruskal':
+      resultHtml = '<h3>' + displayName + '</h3><p class="stat-desc">Requiere especificar grupos. Use las herramientas de comparación de grupos.</p>';
+      break;
+    case 'lineal':
+      if (colIndices.length < 2) {
+        showToast('⚠️ Se necesitan al menos 2 columnas numéricas');
+        return;
+      }
+      var colIdx2 = colIndices[1];
+      var xyData = [];
+      for (var i = 0; i < rows.length; i++) {
+        var vx = parseFloat(rows[i][colIdx]);
+        var vy = parseFloat(rows[i][colIdx2]);
+        if (!isNaN(vx) && !isNaN(vy)) xyData.push({x: vx, y: vy});
+      }
+      var xVals = xyData.map(function(p){ return p.x; });
+      var yVals = xyData.map(function(p){ return p.y; });
+      var n = xVals.length;
+      var sumX = xVals.reduce(function(a,b){ return a+b; }, 0);
+      var sumY = yVals.reduce(function(a,b){ return a+b; }, 0);
+      var sumXY = 0, sumX2 = 0, sumY2 = 0;
+      for (var i = 0; i < n; i++) {
+        sumXY += xVals[i] * yVals[i];
+        sumX2 += xVals[i] * xVals[i];
+        sumY2 += yVals[i] * yVals[i];
+      }
+      var slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+      var intercept = (sumY - slope * sumX) / n;
+      var yMean = sumY / n;
+      var ssTot = yVals.reduce(function(acc, y){ return acc + Math.pow(y - yMean, 2); }, 0);
+      var ssRes = 0;
+      for (var i = 0; i < n; i++) {
+        var pred = intercept + slope * xVals[i];
+        ssRes += Math.pow(yVals[i] - pred, 2);
+      }
+      var r2 = 1 - (ssRes / ssTot);
+      var rmse = Math.sqrt(ssRes / n);
+      resultHtml = '<h3>Regresión Lineal Simple</h3>' +
+        '<p><strong>Y = ' + intercept.toFixed(4) + ' + ' + slope.toFixed(4) + 'X</strong></p>' +
+        '<p>Intercepto: ' + intercept.toFixed(4) + '</p>' +
+        '<p>Pendiente: ' + slope.toFixed(4) + '</p>' +
+        '<p><strong>R²:</strong> ' + r2.toFixed(4) + '</p>' +
+        '<p>RMSE: ' + rmse.toFixed(4) + '</p>';
+      break;
+    default:
+      resultHtml = '<p>Test no implementado: ' + displayName + '</p>';
+  }
+  
+  showStatResultModal(displayName, resultHtml);
+}
+
+function showStatResultModal(title, content) {
+  var existing = document.getElementById('statResultModal');
+  if (existing) existing.remove();
+  
+  var modal = document.createElement('div');
+  modal.id = 'statResultModal';
+  modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:2000';
+  
+  var box = document.createElement('div');
+  box.style.cssText = 'background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:24px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.3)';
+  
+  var header = document.createElement('div');
+  header.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:12px';
+  header.innerHTML = '<h2 style="margin:0;font-size:18px;color:var(--text)">' + title + '</h2>';
+  
+  var closeBtn = document.createElement('button');
+  closeBtn.textContent = '×';
+  closeBtn.style.cssText = 'background:none;border:none;font-size:24px;cursor:pointer;color:var(--text-faint)';
+  closeBtn.onclick = function() { modal.remove(); };
+  header.appendChild(closeBtn);
+  
+  var body = document.createElement('div');
+  body.innerHTML = content;
+  body.style.cssText = 'font-size:14px;line-height:1.6';
+  
+  var style = document.createElement('style');
+  style.textContent = '.stat-value{font-size:24px;font-weight:bold;color:var(--accent);margin:8px 0}.stat-desc{color:var(--text-faint);font-size:12px}.stat-result{margin-top:12px;padding:8px;background:var(--bg-inset);border-radius:4px;font-size:13px}';
+  body.appendChild(style);
+  
+  box.appendChild(header);
+  box.appendChild(body);
+  modal.appendChild(box);
+  document.body.appendChild(modal);
+  
+  modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
+}
+
 // ── Utility ──
 function escapeHtml(text) {
   var d = document.createElement('div'); d.textContent = String(text == null ? '' : text); return d.innerHTML;
@@ -1766,6 +2062,8 @@ function escapeHtml(text) {
 // ── Initial load ──
 loadPage('datos');
 </script>
+<script src="StatsUtils.js"></script>
+<script src="EstadisticaDescriptiva.js"></script>
 <script src="ToolsManager.js"></script>
 </body>
 </html>
