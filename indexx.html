@@ -41,7 +41,8 @@ cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
   .dd-arrow { font-size:10px; color:var(--text-faint); transition:transform .2s; }
   .dd-item.has-submenu.open .dd-arrow { transform: rotate(90deg); }
   .submenu { display:none; padding-left:12px; background:rgba(0,0,0,0.2); margin:2px 0; border-radius:4px; }
-  .submenu.open { display:block; }
+  .submenu-wrapper { position: relative; }
+  .submenu-wrapper:hover .submenu { display: block; }
   .submenu .dd-item { font-size:12px; padding:4px 8px; }
   .app { display: flex; flex: 1; overflow: hidden; min-height: 0; }
   .ribbon { width: 36px; background: var(--bg-ribbon); display: flex; flex-direction: column; align-items: center; padding: 8px 0; gap: 4px; border-right: 1px solid var(--border); flex-shrink: 0; }
@@ -330,53 +331,65 @@ cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
     </div>
     <div class="menu-item" data-menu="Navigate" data-submenu="Statistical Analysis">Statistical Analysis
       <div class="dropdown" style="min-width:280px">
-        <div class="dd-item has-submenu" onclick="toggleSubmenu(this)">📊 Descriptiva <span class="dd-arrow">▶</span></div>
-        <div class="submenu">
-          <div class="dd-item" onclick="runStatisticalTest('media')">📐 Media Aritmética</div>
-          <div class="dd-item" onclick="runStatisticalTest('mediana')">📊 Mediana</div>
-          <div class="dd-item" onclick="runStatisticalTest('moda')">🎯 Moda</div>
-          <div class="dd-item" onclick="runStatisticalTest('varianza')">📈 Varianza</div>
-          <div class="dd-item" onclick="runStatisticalTest('desv')">📉 Desv. Estándar</div>
-          <div class="dd-item" onclick="runStatisticalTest('cv')">📊 Coef. Variación</div>
-          <div class="dd-item" onclick="runStatisticalTest('asimetria')">📐 Asimetría</div>
-          <div class="dd-item" onclick="runStatisticalTest('kurtosis')">🔔 Curtosis</div>
+        <div class="submenu-wrapper">
+          <div class="dd-item has-submenu" >📊 Descriptiva <span class="dd-arrow">▶</span></div>
+          <div class="submenu">
+            <div class="dd-item" onclick="runStatisticalTest('media')">📐 Media Aritmética</div>
+            <div class="dd-item" onclick="runStatisticalTest('mediana')">📊 Mediana</div>
+            <div class="dd-item" onclick="runStatisticalTest('moda')">🎯 Moda</div>
+            <div class="dd-item" onclick="runStatisticalTest('varianza')">📈 Varianza</div>
+            <div class="dd-item" onclick="runStatisticalTest('desv')">📉 Desv. Estándar</div>
+            <div class="dd-item" onclick="runStatisticalTest('cv')">📊 Coef. Variación</div>
+            <div class="dd-item" onclick="runStatisticalTest('asimetria')">📐 Asimetría</div>
+            <div class="dd-item" onclick="runStatisticalTest('kurtosis')">🔔 Curtosis</div>
+          </div>
         </div>
         <div class="dd-separator"></div>
-        <div class="dd-item has-submenu" onclick="toggleSubmenu(this)">⚖️ Hipótesis <span class="dd-arrow">▶</span></div>
-        <div class="submenu">
-          <div class="dd-item" onclick="runStatisticalTest('ttest')">⚖️ t-Test</div>
-          <div class="dd-item" onclick="runStatisticalTest('ztest')">📐 z-Test</div>
-          <div class="dd-item" onclick="runStatisticalTest('ftest')">📊 F-Test</div>
-          <div class="dd-item" onclick="runStatisticalTest('chisquare')">📐 Chi-cuadrado</div>
-          <div class="dd-item" onclick="runStatisticalTest('shapiro')">🔔 Shapiro-Wilk</div>
+        <div class="submenu-wrapper">
+          <div class="dd-item has-submenu" >⚖️ Hipótesis <span class="dd-arrow">▶</span></div>
+          <div class="submenu">
+            <div class="dd-item" onclick="runStatisticalTest('ttest')">⚖️ t-Test</div>
+            <div class="dd-item" onclick="runStatisticalTest('ztest')">📐 z-Test</div>
+            <div class="dd-item" onclick="runStatisticalTest('ftest')">📊 F-Test</div>
+            <div class="dd-item" onclick="runStatisticalTest('chisquare')">📐 Chi-cuadrado</div>
+            <div class="dd-item" onclick="runStatisticalTest('shapiro')">🔔 Shapiro-Wilk</div>
+          </div>
         </div>
         <div class="dd-separator"></div>
-        <div class="dd-item has-submenu" onclick="toggleSubmenu(this)">🔗 Correlación <span class="dd-arrow">▶</span></div>
-        <div class="submenu">
-          <div class="dd-item" onclick="runStatisticalTest('pearson')">🔗 Pearson</div>
-          <div class="dd-item" onclick="runStatisticalTest('spearman')">📈 Spearman</div>
-          <div class="dd-item" onclick="runStatisticalTest('kendall')">📊 Kendall</div>
+        <div class="submenu-wrapper">
+          <div class="dd-item has-submenu" >🔗 Correlación <span class="dd-arrow">▶</span></div>
+          <div class="submenu">
+            <div class="dd-item" onclick="runStatisticalTest('pearson')">🔗 Pearson</div>
+            <div class="dd-item" onclick="runStatisticalTest('spearman')">📈 Spearman</div>
+            <div class="dd-item" onclick="runStatisticalTest('kendall')">📊 Kendall</div>
+          </div>
         </div>
         <div class="dd-separator"></div>
-        <div class="dd-item has-submenu" onclick="toggleSubmenu(this)">📈 Regresión <span class="dd-arrow">▶</span></div>
-        <div class="submenu">
-          <div class="dd-item" onclick="runStatisticalTest('lineal')">📈 Lineal Simple</div>
-          <div class="dd-item" onclick="runStatisticalTest('multiple')">📊 Regresión Múltiple</div>
-          <div class="dd-item" onclick="runStatisticalTest('logistica')">📦 Regresión Logística</div>
+        <div class="submenu-wrapper">
+          <div class="dd-item has-submenu" >📈 Regresión <span class="dd-arrow">▶</span></div>
+          <div class="submenu">
+            <div class="dd-item" onclick="runStatisticalTest('lineal')">📈 Lineal Simple</div>
+            <div class="dd-item" onclick="runStatisticalTest('multiple')">📊 Regresión Múltiple</div>
+            <div class="dd-item" onclick="runStatisticalTest('logistica')">📦 Regresión Logística</div>
+          </div>
         </div>
         <div class="dd-separator"></div>
-        <div class="dd-item has-submenu" onclick="toggleSubmenu(this)">📉 No Paramétricos <span class="dd-arrow">▶</span></div>
-        <div class="submenu">
-          <div class="dd-item" onclick="runStatisticalTest('mann')">📉 Mann-Whitney</div>
-          <div class="dd-item" onclick="runStatisticalTest('wilcoxon')">📊 Wilcoxon</div>
-          <div class="dd-item" onclick="runStatisticalTest('kruskal')">📦 Kruskal-Wallis</div>
+        <div class="submenu-wrapper">
+          <div class="dd-item has-submenu" >📉 No Paramétricos <span class="dd-arrow">▶</span></div>
+          <div class="submenu">
+            <div class="dd-item" onclick="runStatisticalTest('mann')">📉 Mann-Whitney</div>
+            <div class="dd-item" onclick="runStatisticalTest('wilcoxon')">📊 Wilcoxon</div>
+            <div class="dd-item" onclick="runStatisticalTest('kruskal')">📦 Kruskal-Wallis</div>
+          </div>
         </div>
         <div class="dd-separator"></div>
-        <div class="dd-item has-submenu" onclick="toggleSubmenu(this)">📦 Multivariado <span class="dd-arrow">▶</span></div>
-        <div class="submenu">
-          <div class="dd-item" onclick="runStatisticalTest('pca')">📊 PCA</div>
-          <div class="dd-item" onclick="runStatisticalTest('cluster')">📈 Cluster K-Means</div>
-          <div class="dd-item" onclick="runStatisticalTest('lda')">📐 LDA</div>
+        <div class="submenu-wrapper">
+          <div class="dd-item has-submenu" >📦 Multivariado <span class="dd-arrow">▶</span></div>
+          <div class="submenu">
+            <div class="dd-item" onclick="runStatisticalTest('pca')">📊 PCA</div>
+            <div class="dd-item" onclick="runStatisticalTest('cluster')">📈 Cluster K-Means</div>
+            <div class="dd-item" onclick="runStatisticalTest('lda')">📐 LDA</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1801,15 +1814,6 @@ function sendToTrabajo() {
   loadPage('trabajo');
 }
 
-// ── Statistical Analysis Menu ──
-function toggleSubmenu(item) {
-  item.classList.toggle('open');
-  var nextSibling = item.nextElementSibling;
-  if (nextSibling && nextSibling.classList.contains('submenu')) {
-    nextSibling.classList.toggle('open');
-  }
-  event.stopPropagation();
-}
 
 function runStatisticalTest(testName) {
   var testNames = {
