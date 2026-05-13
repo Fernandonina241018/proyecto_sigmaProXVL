@@ -28,7 +28,8 @@ cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
   .menu-item:hover, .menu-item.open { background:rgba(255,255,255,.12); }
   .dropdown { display:none; position:absolute; top:calc(100% + 4px); left:0; background:#2c2c2e; border:1px solid #444; border-radius:6px; min-width:220px; padding:4px; box-shadow:0 8px 32px rgba(0,0,0,.6); z-index:999; }
   .menu-item.open .dropdown { display:block; }
-  .dd-item { display:flex; align-items:center; justify-content:space-between; padding:5px 10px; border-radius:4px; font-size:13px; color:var(--text-primary); cursor:default; gap:24px; }
+  .dd-item { display:flex; align-items:center; justify-content:space-between; padding:5px 10px; border-radius:4px; font-size:13px; color:var(--text-primary); cursor:pointer; gap:24px; }
+  .dd-item[data-action] { cursor:pointer; }
   .dd-item:hover { background:var(--accent); color:#fff; }
   .dd-item.disabled { color:var(--text-faint); pointer-events:none; opacity:0.5; cursor:not-allowed; }
   .dd-item.disabled:hover { background:transparent; color:var(--text-faint); }
@@ -332,54 +333,54 @@ cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
     </div>
     <div class="menu-item" data-menu="Tools">Tools
       <div class="dropdown" role="menu" aria-hidden="true">
-        <div class="dd-item" role="menuitem" data-action="load-dataset">
+        <div class="dd-item" role="menuitem" onmousedown="document.getElementById('fileInput').click()">
           Cargar dataset <span class="dd-shortcut">Ctrl+O</span>
         </div>
-        <div class="dd-item" role="menuitem" data-action="preview-data">
+        <div class="dd-item" role="menuitem" onmousedown="loadPage('datos')">
           Previsualizar datos <span class="dd-shortcut">Ctrl+P</span>
         </div>
         <div class="dd-separator"></div>
-        <div class="dd-item" role="menuitem" data-action="remove-duplicates">
+        <div class="dd-item" role="menuitem" onmousedown="handleToolsAction('remove-duplicates')">
           Eliminar duplicados <span class="dd-shortcut">Ctrl+D</span>
         </div>
-        <div class="dd-item" role="menuitem" data-action="filter-rows">
+        <div class="dd-item" role="menuitem" onmousedown="handleToolsAction('filter-rows')">
           Filtrar filas <span class="dd-shortcut">Ctrl+F</span>
         </div>
-        <div class="dd-item" role="menuitem" data-action="handle-missing">
+        <div class="dd-item" role="menuitem" onmousedown="handleToolsAction('handle-missing')">
           Imputar valores faltantes <span class="dd-shortcut">Ctrl+I</span>
         </div>
-        <div class="dd-item" role="menuitem" data-action="outlier-detection">
+        <div class="dd-item" role="menuitem" onmousedown="handleToolsAction('outlier-detection')">
           Detectar outliers <span class="dd-shortcut">Ctrl+A</span>
         </div>
         <div class="dd-separator"></div>
-        <div class="dd-item" role="menuitem" data-action="encode-categorical">
+        <div class="dd-item" role="menuitem" onmousedown="handleToolsAction('encode-categorical')">
           Codificar variables categóricas <span class="dd-shortcut">Ctrl+E</span>
         </div>
-        <div class="dd-item" role="menuitem" data-action="scale-normalize">
+        <div class="dd-item" role="menuitem" onmousedown="handleToolsAction('scale-normalize')">
           Escalar / Normalizar <span class="dd-shortcut">Ctrl+N</span>
         </div>
-        <div class="dd-item" role="menuitem" data-action="feature-engineering">
+        <div class="dd-item" role="menuitem" onmousedown="alert('Función en desarrollo')">
           Ingeniería de características <span class="dd-shortcut">Ctrl+G</span>
         </div>
         <div class="dd-separator"></div>
-        <div class="dd-item" role="menuitem" data-action="visualize">
+        <div class="dd-item" role="menuitem" onmousedown="alert('Función en desarrollo')">
           Visualizar variables <span class="dd-shortcut">Ctrl+V</span>
         </div>
-        <div class="dd-item" role="menuitem" data-action="correlation-matrix">
+        <div class="dd-item" role="menuitem" onmousedown="handleToolsAction('correlation-matrix')">
           Matriz de correlación <span class="dd-shortcut">Ctrl+M</span>
         </div>
         <div class="dd-separator"></div>
-        <div class="dd-item" role="menuitem" data-action="train-test-split">
+        <div class="dd-item" role="menuitem" onmousedown="handleToolsAction('train-test-split')">
           Particionar train/test <span class="dd-shortcut">Ctrl+T</span>
         </div>
-        <div class="dd-item" role="menuitem" data-action="feature-selection">
+        <div class="dd-item" role="menuitem" onmousedown="handleToolsAction('feature-selection')">
           Selección de variables <span class="dd-shortcut">Ctrl+S</span>
         </div>
         <div class="dd-separator"></div>
-        <div class="dd-item" role="menuitem" data-action="export-csv">
+        <div class="dd-item" role="menuitem" onmousedown="handleToolsAction('export-csv')">
           Exportar CSV <span class="dd-shortcut">Ctrl+Shift+E</span>
         </div>
-        <div class="dd-item" role="menuitem" data-action="save-session">
+        <div class="dd-item" role="menuitem" onmousedown="alert('Función en desarrollo')">
           Guardar sesión / pipeline <span class="dd-shortcut">Ctrl+Shift+S</span>
         </div>
       </div>
@@ -521,12 +522,8 @@ cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
 // ════════════════════════════════════════════════════════════════
 var trabajoSheets = [{
   name: 'Hoja1',
-  headers: ['Var1','Var2','Var3','Var4','Estado'],
-  rows: [
-    ['45.2','23.1','67.8','89.1','OK'],
-    ['53.4','71.6','42.9','38.7','OK'],
-    ['62.1','55.3','48.2','76.4','Revisión']
-  ].concat(Array.from({length:17}, function(){ return ['','','','','']; }))
+  headers: ['Columna1','Columna2','Columna3','Columna4'],
+  rows: Array.from({length:20}, function(){ return ['','','','']; })
 }];
 var trabajoActiveSheetIndex = 0;
 var trabajoActiveCell = { row: 0, col: 0 };
@@ -585,7 +582,22 @@ menuItems.forEach(function(item) {
   });
   item.addEventListener('mouseenter', function() { if (anyOpen) { menuItems.forEach(function(i){ i.classList.remove('open'); }); item.classList.add('open'); } });
 });
-document.addEventListener('mousedown', function(e) { if (!e.target.closest('.menu-item')) { menuItems.forEach(function(i){ i.classList.remove('open'); }); anyOpen = false; } });
+document.addEventListener('mousedown', function(e) { 
+  var target = e.target;
+  var isMenuItem = target.closest('.menu-item');
+  var isDdItem = target.closest('.dd-item');
+  if (!isMenuItem) { 
+    menuItems.forEach(function(i){ i.classList.remove('open'); }); 
+    anyOpen = false; 
+  }
+});
+document.addEventListener('click', function(e) {
+  var ddItem = e.target.closest('.dd-item');
+  if (ddItem && ddItem.hasAttribute('onclick')) {
+    console.log('Ejecutando onclick de dd-item');
+    // El onclick se ejecutará automáticamente
+  }
+});
 
 // ── Sidebar toggle ──
 document.getElementById('sidebarToggle').addEventListener('click', function() {
@@ -1747,6 +1759,7 @@ function escapeHtml(text) {
 // ── Initial load ──
 loadPage('datos');
 </script>
+<script src="ToolsManager.js"></script>
 </body>
 </html>
 HTMLEOF
