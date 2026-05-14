@@ -646,15 +646,19 @@ menuItems.forEach(function(item) {
   });
   item.addEventListener('mouseenter', function() { if (anyOpen) { menuItems.forEach(function(i){ i.classList.remove('open'); }); item.classList.add('open'); } });
 });
-document.addEventListener('mousedown', function(e) { 
-  var target = e.target;
-  var isMenuItem = target.closest('.menu-item');
-  var isDdItem = target.closest('.dd-item');
-  if (!isMenuItem) { 
-    menuItems.forEach(function(i){ i.classList.remove('open'); }); 
-    anyOpen = false; 
-  }
+
+document.addEventListener('mousedown', function(e) {
+  // No cerrar si el click fue dentro de un menu-item o su dropdown
+  if (e.target.closest('.menu-item')) return;
+  
+  // No cerrar si el click fue en un checkbox stat o badge
+  if (e.target.classList.contains('stat-check')) return;
+  if (e.target.classList.contains('stat-selected-badge')) return;
+  
+  menuItems.forEach(function(i){ i.classList.remove('open'); });
+  anyOpen = false;
 });
+
 document.addEventListener('click', function(e) {
   var ddItem = e.target.closest('.dd-item');
   if (ddItem && ddItem.hasAttribute('onclick')) {
@@ -2051,10 +2055,10 @@ function escapeHtml(text) {
 }
 
 function buildStatAnalysisMenu() {
+  if (typeof getSeccionesSidebar === 'undefined') return;
   var dropdown = document.getElementById('statAnalysisDropdown');
   if (!dropdown) return;
 
-  // getSeccionesSidebar() viene de estadisticosConfig.js
   var secciones = getSeccionesSidebar();
   var html = '';
   var isFirst = true;
@@ -2063,28 +2067,134 @@ function buildStatAnalysisMenu() {
     if (!isFirst) html += '<div class="dd-separator"></div>';
     isFirst = false;
 
-    // Título de sección con wrapper para hover
-    html += '<div class="submenu-wrapper">';
-    html += '<div class="dd-item has-submenu">'
-          + seccion.icon + ' ' + seccion.label
-          + ' <span class="dd-arrow">▶</span></div>';
+    html += '<div class="submenu-wrapper" data-seccion="' + seccionKey + '" '
+      + 'onmousedown="event.stopPropagation()">';
 
-    // Subitems desde config
+    // ── Item padre con checkbox ──
+    html += '<div class="dd-item has-submenu" '
+          + 'style="display:flex;align-items:center;gap:6px" '
+          + 'onmousedown="event.stopPropagation()">'
+          + '<span style="flex:1;display:flex;align-items:center;gap:6px">'
+          + seccion.icon + ' ' + seccion.label
+          + '<span class="stat-selected-badge" id="badge-' + seccionKey + '">0</span>'
+          + '</span>'
+          + '<input type="checkbox" class="stat-check parent-check" '
+          + 'id="chk-parent-' + seccionKey + '" '
+          + 'data-seccion="' + seccionKey + '" '
+          + 'onclick="onParentCheck(event,\'' + seccionKey + '\')">'
+          + '<span class="dd-arrow">▶</span>'
+          + '</div>';
+
+    // ── Subitems con checkbox ──
     html += '<div class="submenu">';
-    seccion.options.forEach(function(nombreEstadistico) {
-      var cfg = getEstadisticoConfig(nombreEstadistico);
+    seccion.options.forEach(function(nombre) {
+      var cfg = getEstadisticoConfig(nombre);
       var icono = cfg && cfg.icono ? cfg.icono : '📊';
-      // Escapar las comillas del nombre para el onclick
-      var nombreEscapado = nombreEstadistico.replace(/'/g, "\\'");
-      html += '<div class="dd-item" onclick="runStatisticalTest(\''
-            + nombreEscapado + '\')">'
-            + icono + ' ' + nombreEstadistico + '</div>';
+      var id = 'chk-' + seccionKey + '-' + nombre.replace(/[^a-zA-Z0-9]/g, '_');
+      var nombreEsc = nombre.replace(/'/g, "\\'");
+
+      html += '<div class="dd-item" style="display:flex;align-items:center;gap:6px" '
+            + 'onmousedown="event.stopPropagation()" '
+            + 'onclick="onSubitemClick(event,\'' + nombreEsc + '\',\'' + seccionKey + '\')">'
+            + '<span style="flex:1">' + icono + ' ' + nombre + '</span>'
+            + '<input type="checkbox" class="stat-check child-check" '
+            + 'id="' + id + '" '
+            + 'data-nombre="' + nombre.replace(/"/g, '&quot;') + '" '
+            + 'data-seccion="' + seccionKey + '" '
+            + 'onclick="onChildCheck(event,\'' + seccionKey + '\')">'
+            + '</div>';
     });
     html += '</div>'; // .submenu
     html += '</div>'; // .submenu-wrapper
   });
 
   dropdown.innerHTML = html;
+}
+
+// ── Click en checkbox hijo ──
+function onChildCheck(event, seccionKey) {
+  event.stopPropagation();
+  updateParentCheck(seccionKey);
+  updateBadge(seccionKey);
+}
+
+// ── Click en checkbox padre — selecciona/deselecciona todos los hijos ──
+function onParentCheck(event, seccionKey) {
+  event.stopPropagation();
+  var parentChk = document.getElementById('chk-parent-' + seccionKey);
+  var checked = parentChk.checked;
+  var children = document.querySelectorAll(
+    '.child-check[data-seccion="' + seccionKey + '"]'
+  );
+  children.forEach(function(chk) { chk.checked = checked; });
+  parentChk.classList.remove('partial');
+  updateBadge(seccionKey);
+}
+
+// ── Actualizar estado del padre según hijos ──
+function updateParentCheck(seccionKey) {
+  var parentChk = document.getElementById('chk-parent-' + seccionKey);
+  if (!parentChk) return;
+  var children = document.querySelectorAll(
+    '.child-check[data-seccion="' + seccionKey + '"]'
+  );
+  var total    = children.length;
+  var checked  = Array.from(children).filter(function(c){ return c.checked; }).length;
+
+  parentChk.classList.remove('partial');
+  if (checked === 0) {
+    parentChk.checked = false;
+  } else if (checked === total) {
+    parentChk.checked = true;
+  } else {
+    parentChk.checked = false;
+    parentChk.classList.add('partial'); // estado intermedio
+  }
+}
+
+// ── Badge con contador de seleccionados ──
+function updateBadge(seccionKey) {
+  var badge = document.getElementById('badge-' + seccionKey);
+  if (!badge) return;
+  var checked = document.querySelectorAll(
+    '.child-check[data-seccion="' + seccionKey + '"]:checked'
+  ).length;
+  badge.textContent = checked;
+  badge.classList.toggle('visible', checked > 0);
+}
+
+// ── Click en el texto del subitem — ejecuta Y marca el checkbox ──
+function onSubitemClick(event, nombre, seccionKey) {
+  // Si el click fue directo sobre el checkbox, no hacer nada extra
+  if (event.target.classList.contains('stat-check')) return;
+
+  // Marcar el checkbox del item clickeado
+  var id = 'chk-' + seccionKey + '-' + nombre.replace(/[^a-zA-Z0-9]/g, '_');
+  var chk = document.getElementById(id);
+  if (chk) {
+    chk.checked = !chk.checked;
+    updateParentCheck(seccionKey);
+    updateBadge(seccionKey);
+  }
+
+  // Ejecutar el test
+  runStatisticalTest(nombre);
+}
+
+// ── Obtener todos los estadísticos seleccionados ──
+function getSelectedEstadisticos() {
+  var selected = [];
+  document.querySelectorAll('.child-check:checked').forEach(function(chk) {
+    selected.push(chk.dataset.nombre);
+  });
+  return selected;
+}
+
+// ── Ejecutar todos los seleccionados (útil para un botón "Ejecutar seleccionados") ──
+function runSelectedEstadisticos() {
+  var selected = getSelectedEstadisticos();
+  if (!selected.length) { showToast('⚠️ No hay estadísticos seleccionados'); return; }
+  selected.forEach(function(nombre) { runStatisticalTest(nombre); });
 }
 // Construir menú estadístico desde config
 document.addEventListener('DOMContentLoaded', function() {
