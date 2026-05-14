@@ -281,6 +281,65 @@ cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
   .col-toggle { display:flex; align-items:center; gap:4px; background:var(--item-bg); border-radius:4px; padding:4px 8px; font-size:11px; color:var(--text-muted); cursor:pointer; user-select:none; }
   .col-toggle input { accent-color:var(--accent); }
   .modal-actions { display:flex; gap:8px; justify-content:flex-end; }
+
+    /* ── Stat menu checkboxes ── */
+  .dd-item.has-submenu { justify-content: space-between; }
+
+  .stat-check {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid var(--text-faint);
+    border-radius: 3px;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-left: auto;
+    margin-right: 4px;
+    position: relative;
+    transition: background .15s, border-color .15s;
+    pointer-events: all;
+  }
+  .stat-check:checked {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .stat-check:checked::after {
+    content: '';
+    position: absolute;
+    left: 3px; top: 0px;
+    width: 5px; height: 9px;
+    border: 2px solid #fff;
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg);
+  }
+  .stat-check.partial {
+    background: rgba(124,106,247,.35);
+    border-color: var(--accent);
+  }
+  .stat-check.partial::after {
+    content: '';
+    position: absolute;
+    left: 2px; top: 5px;
+    width: 8px; height: 2px;
+    background: var(--accent);
+  }
+  .dd-item:hover .stat-check { border-color: rgba(255,255,255,.6); }
+  .dd-item:hover .stat-check:checked { background: var(--accent-hover); }
+
+  /* Contador de seleccionados en el padre del menú */
+  .stat-selected-badge {
+    font-size: 10px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 10px;
+    padding: 1px 6px;
+    margin-left: 6px;
+    display: none;
+    flex-shrink: 0;
+  }
+  .stat-selected-badge.visible { display: inline-block; }
 </style>
 </head>
 <body>
