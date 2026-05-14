@@ -60,6 +60,10 @@
 | 3 | 13 May 2026 | Agregado script tags para StatsUtils.js y EstadisticaDescriptiva.js | ✅ |
 | 4 | 13 May 2026 | Expuesto window.StatsUtils y window.EstadisticaDescriptiva | ✅ |
 | 5 | 13 May 2026 | Modal de resultados estadísticos implementado | ✅ |
+| 6 | 13 May 2026 | TESTS section en página Análisis ahora dinámico | ✅ |
+| 7 | 13 May 2026 | Dropdown de categoría en Análisis (Descriptiva/Hipótesis/etc) | ✅ |
+| 8 | 13 May 2026 | Selection from Statistical menu navega a Análisis | ✅ |
+| 9 | 13 May 2026 | Último resultado se muestra en panel izquierdo | ✅ |
 
 **Tests implementados:**
 - Media, Mediana, Moda, Varianza, Desv. Estándar, Coef. Variación

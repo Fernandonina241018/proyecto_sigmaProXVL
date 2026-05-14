@@ -606,6 +606,10 @@ var datosCurrentFileName = '';
 var datosRecentFiles = [];
 var datasetTooltip = null;
 var currentPage = 'trabajo';
+// Analysis page state - dynamic tests
+var analisisSelectedCategory = 'descriptiva';
+var analisisSelectedTest = null;
+var analisisLastResult = null;
 // Datos table state
 var datosPage = 0;
 var datosPageSize = 50;
@@ -756,7 +760,44 @@ var leftPanels = {
       '</div></div>' +
     '</div>';
   },
-  analisis: function() { return '<div class="left-panel" style="gap:10px"><div style="flex-shrink:0"><button class="btn btn-primary" style="width:100%;justify-content:center">🚀 Ejecutar Todos</button></div><div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column"><div class="info-section-header">Tests</div><div style="overflow-y:auto;flex:1;padding:6px;display:flex;flex-direction:column;gap:3px"><div class="info-item active">📊 Descriptiva</div><div class="info-item">📈 Regresión Lineal</div><div class="info-item">⚖️ t-Test</div><div class="info-item">📦 ANOVA</div><div class="info-item">🔗 Correlación</div><div class="info-item">📐 Chi-cuadrado</div><div class="info-item">📉 Mann-Whitney</div><div class="info-item">🔔 Shapiro-Wilk</div></div></div><div class="info-section" style="flex-shrink:0"><div class="info-section-header">Último resultado</div><div class="info-list"><div class="info-item"><div class="info-item-label">Test</div><div class="info-item-value">—</div></div><div class="info-item"><div class="info-item-label">p-valor</div><div class="info-item-value">—</div></div><div class="info-item"><div class="info-item-label">Decisión</div><div class="info-item-value">—</div></div></div></div></div>'; },
+  analisis: function() { 
+    var categoryNames = {
+      descriptiva: '📊 Descriptiva',
+      hipotesis: '⚖️ Hipótesis',
+      correlacion: '🔗 Correlación',
+      regresion: '📈 Regresión',
+      noParametricos: '📉 No Paramétricos',
+      multivariado: '📦 Multivariado'
+    };
+    var categorySelect = '<select onchange="analisisSelectedCategory=this.value;loadPage(\'analisis\')" style="width:100%;padding:6px;margin-bottom:8px;background:var(--bg-inset);border:1px solid var(--border);color:var(--text);border-radius:4px;font-size:12px">' +
+      '<option value="descriptiva"' + (analisisSelectedCategory==='descriptiva'?' selected':'') + '>📊 Descriptiva</option>' +
+      '<option value="hipotesis"' + (analisisSelectedCategory==='hipotesis'?' selected':'') + '>⚖️ Hipótesis</option>' +
+      '<option value="correlacion"' + (analisisSelectedCategory==='correlacion'?' selected':'') + '>🔗 Correlación</option>' +
+      '<option value="regresion"' + (analisisSelectedCategory==='regresion'?' selected':'') + '>📈 Regresión</option>' +
+      '<option value="noParametricos"' + (analisisSelectedCategory==='noParametricos'?' selected':'') + '>📉 No Paramétricos</option>' +
+      '<option value="multivariado"' + (analisisSelectedCategory==='multivariado'?' selected':'') + '>📦 Multivariado</option>' +
+      '</select>';
+    var testsHtml = getAnalisisTestsHTML();
+    var lastTest = analisisLastResult ? analisisLastResult.testName : '—';
+    var lastPVal = analisisLastResult && analisisLastResult.pValue !== undefined ? analisisLastResult.pValue.toFixed(4) : '—';
+    var lastDec = analisisLastResult ? (analisisLastResult.significativo ? 'Rechazar H₀' : 'No rechazar H₀') : '—';
+    var decColor = analisisLastResult && analisisLastResult.significativo ? 'var(--accent)' : 'var(--text-faint)';
+    return '<div class="left-panel" style="gap:10px">' +
+      '<div style="flex-shrink:0">' + categorySelect + '</div>' +
+      '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column">' +
+        '<div class="info-section-header">Tests</div>' +
+        '<div style="overflow-y:auto;flex:1;padding:6px;display:flex;flex-direction:column;gap:3px">' + testsHtml + '</div>' +
+      '</div>' +
+      '<div class="info-section" style="flex-shrink:0">' +
+        '<div class="info-section-header">Último resultado</div>' +
+        '<div class="info-list">' +
+          '<div class="info-item"><div class="info-item-label">Test</div><div class="info-item-value" id="analisisLastTest">' + lastTest + '</div></div>' +
+          '<div class="info-item"><div class="info-item-label">p-valor</div><div class="info-item-value" id="analisisLastPVal">' + lastPVal + '</div></div>' +
+          '<div class="info-item"><div class="info-item-label">Decisión</div><div class="info-item-value" id="analisisLastDecision" style="color:' + decColor + '">' + lastDec + '</div></div>' +
+        '</div>' +
+      '</div>' +
+    '</div>'; 
+  },
   visualizacion: function() { return '<div class="left-panel" style="gap:10px"><div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px"><button class="btn btn-primary" style="width:100%;justify-content:center">+ Nuevo gráfico</button><div style="display:flex;gap:6px"><button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px">↓ SVG</button><button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px">↓ PNG</button></div></div><div class="info-section"><div class="info-section-header">Tipo de gráfico</div><div class="info-list"><div class="info-item active">📊 Barras</div><div class="info-item">📈 Líneas</div><div class="info-item">⬡ Dispersión</div><div class="info-item">◉ Circular</div><div class="info-item">📦 Caja y bigotes</div><div class="info-item">▦ Histograma</div></div></div></div>'; },
   reportes: function() { return '<div class="left-panel" style="gap:10px"><div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px"><button class="btn btn-primary" style="width:100%;justify-content:center">+ Nuevo reporte</button></div><div class="info-section"><div class="info-section-header">Plantillas</div><div class="info-list"><div class="info-item active">📐 Reporte estándar</div><div class="info-item">📋 Reporte ejecutivo</div><div class="info-item">📊 Resumen estadístico</div></div></div><div class="info-section"><div class="info-section-header">Formato de salida</div><div class="info-list"><div class="info-item active">📄 PDF</div><div class="info-item">📝 DOCX</div><div class="info-item">📊 HTML</div></div></div></div>'; },
   auditoria: function() { return '<div class="left-panel" style="gap:10px"><button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:11px;flex-shrink:0">📥 Exportar log completo</button><div class="info-section"><div class="info-section-header">Tipo de evento</div><div class="info-list"><div class="info-item active">📋 Todos</div><div class="info-item">🔑 Logins</div><div class="info-item">📤 Exportaciones</div><div class="info-item">✏️ Ediciones</div><div class="info-item">🗑️ Eliminaciones</div><div class="info-item">🚨 Errores</div></div></div><div class="info-section" style="flex-shrink:0"><div class="info-section-header">Período</div><div class="info-list"><div class="info-item active">Hoy</div><div class="info-item">Últimos 7 días</div><div class="info-item">Últimos 30 días</div></div></div></div>'; },
@@ -1820,6 +1861,79 @@ function sendToTrabajo() {
   loadPage('trabajo');
 }
 
+// ════════════════════════════════════════════════════════════════
+// ANALYSIS PAGE - DYNAMIC TESTS
+// ════════════════════════════════════════════════════════════════
+
+function getAnalisisTestsHTML() {
+  var testCategories = {
+    descriptiva: [
+      {id: 'media', name: '📐 Media Aritmética'},
+      {id: 'mediana', name: '📊 Mediana'},
+      {id: 'moda', name: '🎯 Moda'},
+      {id: 'varianza', name: '📈 Varianza'},
+      {id: 'desv', name: '📉 Desv. Estándar'},
+      {id: 'cv', name: '📊 Coef. Variación'},
+      {id: 'asimetria', name: '📐 Asimetría'},
+      {id: 'kurtosis', name: '🔔 Curtosis'}
+    ],
+    hipotesis: [
+      {id: 'ttest', name: '⚖️ t-Test'},
+      {id: 'ztest', name: '📐 z-Test'},
+      {id: 'ftest', name: '📊 F-Test'},
+      {id: 'chisquare', name: '📐 Chi-cuadrado'},
+      {id: 'shapiro', name: '🔔 Shapiro-Wilk'}
+    ],
+    correlacion: [
+      {id: 'pearson', name: '🔗 Pearson'},
+      {id: 'spearman', name: '📈 Spearman'},
+      {id: 'kendall', name: '📊 Kendall'}
+    ],
+    regresion: [
+      {id: 'lineal', name: '📈 Lineal Simple'},
+      {id: 'multiple', name: '📊 Regresión Múltiple'},
+      {id: 'logistica', name: '📦 Regresión Logística'}
+    ],
+    noParametricos: [
+      {id: 'mann', name: '📉 Mann-Whitney'},
+      {id: 'wilcoxon', name: '📊 Wilcoxon'},
+      {id: 'kruskal', name: '📦 Kruskal-Wallis'}
+    ],
+    multivariado: [
+      {id: 'pca', name: '📊 PCA'},
+      {id: 'cluster', name: '📈 Cluster K-Means'},
+      {id: 'lda', name: '📐 LDA'}
+    ]
+  };
+  
+  var tests = testCategories[analisisSelectedCategory] || testCategories.descriptiva;
+  var html = '';
+  tests.forEach(function(t) {
+    var isActive = analisisSelectedTest === t.id ? ' active' : '';
+    html += '<div class="info-item' + isActive + '" onclick="selectAnalisisTest(\'' + t.id + '\')">' + t.name + '</div>';
+  });
+  return html;
+}
+
+function selectAnalisisTest(testId) {
+  analisisSelectedTest = testId;
+  loadPage('analisis');
+  runStatisticalTest(testId);
+}
+
+function updateAnalisisLastResult(result) {
+  analisisLastResult = result;
+  var testEl = document.getElementById('analisisLastTest');
+  var pValEl = document.getElementById('analisisLastPVal');
+  var decEl = document.getElementById('analisisLastDecision');
+  if (testEl) testEl.textContent = result.testName || '—';
+  if (pValEl) pValEl.textContent = result.pValue !== undefined ? result.pValue.toFixed(4) : '—';
+  if (decEl) {
+    var decision = result.significativo ? 'Rechazar H₀' : 'No rechazar H₀';
+    decEl.textContent = decision;
+    decEl.style.color = result.significativo ? 'var(--accent)' : 'var(--text-faint)';
+  }
+}
 
 function runStatisticalTest(nombreEstadistico) {
   var cfg = getEstadisticoConfig(nombreEstadistico);
@@ -1868,7 +1982,7 @@ function runStatisticalTest(nombreEstadistico) {
   }
 
   // Llamar a la función real del EstadisticaDescriptiva.js
-  runStatisticalTestImpl(nombreEstadistico, cfg, sheet, values, numericCols, colIndices);
+  runStatisticalTestImpl(nombreEstadistico, cfg.label || nombreEstadistico, sheet, numericCols, colIndices);
 }
 
 function runStatisticalTestImpl(testName, displayName, sheet, numericCols, colIndices) {
@@ -2010,6 +2124,14 @@ function runStatisticalTestImpl(testName, displayName, sheet, numericCols, colIn
   }
   
   showStatResultModal(displayName, resultHtml);
+  
+  var resultInfo = { testName: displayName, pValue: null, significativo: false };
+  if (result && typeof result === 'object') {
+    if (result.valorP !== undefined) resultInfo.pValue = result.valorP;
+    else if (result.p !== undefined) resultInfo.pValue = result.p;
+    resultInfo.significativo = result.significativo || (resultInfo.pValue !== null && resultInfo.pValue < 0.05);
+  }
+  updateAnalisisLastResult(resultInfo);
 }
 
 function showStatResultModal(title, content) {
@@ -2177,8 +2299,21 @@ function onSubitemClick(event, nombre, seccionKey) {
     updateBadge(seccionKey);
   }
 
-  // Ejecutar el test
-  runStatisticalTest(nombre);
+  // Actualizar la categoría en la página de Análisis
+  var categoryMap = {
+    'Descriptiva': 'descriptiva',
+    'Hipótesis': 'hipotesis',
+    'Correlación': 'correlacion',
+    'Regresión': 'regresion',
+    'No Paramétricos': 'noParametricos',
+    'Multivariado': 'multivariado'
+  };
+  analisisSelectedCategory = categoryMap[seccionKey] || 'descriptiva';
+  analisisSelectedTest = nombre;
+  
+  // Navegar a la página de Análisis y ejecutar el test
+  loadPage('analisis');
+  setTimeout(function() { runStatisticalTest(nombre); }, 50);
 }
 
 // ── Obtener todos los estadísticos seleccionados ──
