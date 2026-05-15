@@ -2310,6 +2310,21 @@ function onParentCheck(event, seccionKey) {
   children.forEach(function(chk) { chk.checked = checked; });
   parentChk.classList.remove('partial');
   updateBadge(seccionKey);
+  
+  // Actualizar categoría y recargar página de Análisis
+  var categoryMap = {
+    'Descriptiva': 'descriptiva',
+    'Hipótesis': 'hipotesis',
+    'Correlación': 'correlacion',
+    'Regresión': 'regresion',
+    'No Paramétricos': 'noParametricos',
+    'Multivariado': 'multivariado'
+  };
+  analisisSelectedCategory = categoryMap[seccionKey] || 'descriptiva';
+  
+  if (currentPage === 'analisis') {
+    leftPaneBody.innerHTML = leftPanels.analisis();
+  }
 }
 
 // ── Actualizar estado del padre según hijos ──
