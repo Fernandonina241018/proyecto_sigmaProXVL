@@ -819,13 +819,7 @@ var leftPanels = {
         selectedTestsHtml = '<div class="info-item" style="color:var(--text-faint);font-size:11px">Ningún test seleccionado</div>';
       }
       
-      return '<div class="left-panel" style="gap:10px">' +
-        // ── Indicador de categoría activa (desde menú superior) ──
-        '<div style="flex-shrink:0;padding:12px;background:var(--card-bg);border-radius:6px;border:1px solid var(--border);text-align:center">' +
-          '<div style="font-size:28px;margin-bottom:8px">' + catIcon + '</div>' +
-          '<div style="font-size:14px;font-weight:600;color:var(--text-primary)">' + catText + '</div>' +
-          '<div style="font-size:10px;color:var(--text-faint);margin-top:4px">' + selectedTests.length + ' test(s) seleccionado(s)</div>' +
-        '</div>' +
+      return '<div class="left-panel" style="gap:10px">' +  
         // ── Tests seleccionados desde el menú ──
         '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column">' +
           '<div class="info-section-header">Tests seleccionados</div>' +
@@ -974,13 +968,44 @@ var rightPanels = {
       '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">' +
         '<span style="font-size:12px;color:var(--text-muted)">Selecciona un test desde el menú Statistical Analysis</span>' +
       '</div>' +
-      '<div id="analisis-content-wrapper" style="flex:1;display:flex;align-items:center;justify-content:center;padding:20px">' +
-        '<div style="text-align:center;color:var(--text-faint);padding:40px;border:2px dashed var(--border);border-radius:8px;width:100%;max-width:600px">' +
-          '<div style="font-size:48px;margin-bottom:16px">📊</div>' +
-          '<div style="font-size:16px;font-weight:500;color:var(--text-muted);margin-bottom:8px">Área de Análisis</div>' +
-          '<div style="font-size:12px;color:var(--text-faint)">El contenido se cargará aquí</div>' +
+      // Wrapper con tres secciones que se solapan
+      '<div id="analisis-content-wrapper" class="analisis-wrapper" style="flex:1;position:relative;overflow:hidden">' +
+        // MAIN 1: Estado inicial (sin analíticos seleccionados)
+        '<div class="analisis-main analisis-main-initial" style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;padding:20px' + (analisisSelectedTest ? ';display:none' : '') + '">' +
+          '<div style="text-align:center;color:var(--text-faint);padding:40px;border:2px dashed var(--border);border-radius:8px;width:100%;max-width:600px">' +
+            '<div style="font-size:48px;margin-bottom:16px">📊</div>' +
+            '<div style="font-size:16px;font-weight:500;color:var(--text-muted);margin-bottom:8px">Área de Análisis</div>' +
+            '<div style="font-size:12px;color:var(--text-faint)">Selecciona tests desde el menú Statistical Analysis</div>' +
+            '<div style="margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">' +
+              '<span class="badge" style="background:var(--card-bg)">1. Seleccionar</span>' +
+              '<span class="badge" style="background:var(--card-bg)">2. Ejecutar</span>' +
+              '<span class="badge" style="background:var(--card-bg)">3. Ver resultados</span>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        // MAIN 2: Estado de carga/ejecución (cuando hay test seleccionado pero sin resultado)
+        '<div class="analisis-main analisis-main-loading" style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;padding:20px' + (analisisSelectedTest && !analisisResultContent ? '' : ';display:none') + '">' +
+          '<div style="text-align:center;padding:40px;width:100%;max-width:500px">' +
+            '<div style="font-size:32px;margin-bottom:16px">⏳</div>' +
+            '<div style="font-size:16px;font-weight:500;color:var(--text-muted);margin-bottom:8px">Cargando estadísticos...</div>' +
+            '<div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin:16px 0">' +
+              '<div style="height:100%;width:30%;background:var(--accent);animation:analisis-loading 1.5s infinite"></div>' +
+            '</div>' +
+            '<div style="font-size:12px;color:var(--text-faint)">Ejecutando: ' + (analisisSelectedTest || '...') + '</div>' +
+          '</div>' +
+        '</div>' +
+        // MAIN 3: Estado de resultados (cuando hay resultado disponible)
+        '<div class="analisis-main analisis-main-results" style="position:absolute;top:0;left:0;right:0;bottom:0;padding:20px;overflow-y:auto' + (analisisResultContent ? '' : ';display:none') + '">' +
+          '<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:20px">' +
+            '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">' +
+              '<span style="font-size:14px;font-weight:600;color:var(--text-primary)">' + (analisisLastResult ? analisisLastResult.testName : 'Resultado') + '</span>' +
+              '<button class="btn btn-secondary" style="font-size:11px;padding:4px 8px" onclick="analisisResultContent=null;analisisSelectedTest=null;loadPage(&#39;analisis&#39;)">✕ Cerrar</button>' +
+            '</div>' +
+            '<div>' + (analisisResultContent || '<div style="color:var(--text-faint)">Sin resultados</div>') + '</div>' +
+          '</div>' +
         '</div>' +
       '</div>' +
+      '<style>@keyframes analisis-loading{0%{transform:translateX(-100%)}50%{transform:translateX(100%)}100%{transform:translateX(-100%)}}</style>' +
     '</div>';
   },
   visualizacion: function() { return '<div class="page-body"><div class="grid-auto"><div class="chart-card"><div class="chart-card-icon">📊</div><div class="chart-card-name">Barras</div></div><div class="chart-card"><div class="chart-card-icon">📈</div><div class="chart-card-name">Líneas</div></div><div class="chart-card"><div class="chart-card-icon">⬡</div><div class="chart-card-name">Dispersión</div></div><div class="chart-card"><div class="chart-card-icon">◉</div><div class="chart-card-name">Circular</div></div><div class="chart-card"><div class="chart-card-icon">📦</div><div class="chart-card-name">Caja</div></div><div class="chart-card"><div class="chart-card-icon">▦</div><div class="chart-card-name">Histograma</div></div><div class="chart-card"><div class="chart-card-icon">📉</div><div class="chart-card-name">Área</div></div><div class="chart-card"><div class="chart-card-icon">🕸️</div><div class="chart-card-name">Radar</div></div></div><div class="page-card"><div class="page-card-header"><span class="page-card-icon">🖼️</span><span class="page-card-title">Canvas</span></div><div class="page-card-body" style="color:var(--text-faint);font-size:12px;text-align:center;padding:32px">Selecciona un tipo de gráfico para comenzar</div></div></div>'; },
