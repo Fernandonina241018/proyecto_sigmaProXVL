@@ -2446,9 +2446,19 @@ function onSubitemClick(event, nombre, seccionKey) {
   document.querySelectorAll('.menu-item').forEach(function(i){ i.classList.remove('open'); });
   anyOpen = false;
   
-  // 5. Navegar a Análisis y ejecutar (el sidebar se recargará automáticamente)
+  // 5. Recargar página de Análisis para actualizar UI inmediatamente
   loadPage('analisis');
-  setTimeout(function() { runStatisticalTest(nombre); }, 50);
+  
+  // 6. Debug test execution
+  console.log('[TEST] Ejecutando:', nombre, 'desde sección:', seccionKey);
+  
+  // 7. Ejecutar test con manejo de errores
+  try {
+    runStatisticalTest(nombre);
+  } catch(e) {
+    console.error('Error executing test:', e);
+    showToast('⚠️ Error al ejecutar: ' + e.message);
+  }
 }
 
 // ── Obtener todos los estadísticos seleccionados ──
