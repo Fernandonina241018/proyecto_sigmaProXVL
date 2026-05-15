@@ -1,4 +1,3 @@
-cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -282,7 +281,12 @@ cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
   .col-toggle input { accent-color:var(--accent); }
   .modal-actions { display:flex; gap:8px; justify-content:flex-end; }
 
-    /* ── Stat menu checkboxes ── */
+    /* ── Stat results ── */
+  .stat-value { font-size:24px; font-weight:bold; color:var(--accent); margin:8px 0; }
+  .stat-desc { color:var(--text-faint); font-size:12px; }
+  .stat-result { margin-top:12px; padding:8px; background:var(--item-bg); border-radius:4px; font-size:13px; }
+
+  /* ── Stat menu checkboxes ── */
   .dd-item.has-submenu { justify-content: space-between; }
 
   .stat-check {
@@ -341,6 +345,7 @@ cat > /mnt/user-data/outputs/obsidian_vault_v2.html << 'HTMLEOF'
   }
   .stat-selected-badge.visible { display: inline-block; }
 </style>
+<base target="_blank">
 </head>
 <body>
 
@@ -610,6 +615,7 @@ var currentPage = 'trabajo';
 var analisisSelectedCategory = 'descriptiva';
 var analisisSelectedTest = null;
 var analisisLastResult = null;
+var analisisResultContent = null;
 // Datos table state
 var datosPage = 0;
 var datosPageSize = 50;
@@ -761,44 +767,41 @@ var leftPanels = {
     '</div>';
   },
   analisis: function() { 
-    var categoryNames = {
-      descriptiva: '📊 Descriptiva',
-      hipotesis: '⚖️ Hipótesis',
-      correlacion: '🔗 Correlación',
-      regresion: '📈 Regresión',
-      noParametricos: '📉 No Paramétricos',
-      multivariado: '📦 Multivariado'
-    };
-    var categorySelect = '<select onchange="analisisSelectedCategory=this.value;loadPage(\'analisis\')" style="width:100%;padding:6px;margin-bottom:8px;background:var(--bg-inset);border:1px solid var(--border);color:var(--text);border-radius:4px;font-size:12px">' +
-      '<option value="descriptiva"' + (analisisSelectedCategory==='descriptiva'?' selected':'') + '>📊 Descriptiva</option>' +
-      '<option value="hipotesis"' + (analisisSelectedCategory==='hipotesis'?' selected':'') + '>⚖️ Hipótesis</option>' +
-      '<option value="correlacion"' + (analisisSelectedCategory==='correlacion'?' selected':'') + '>🔗 Correlación</option>' +
-      '<option value="regresion"' + (analisisSelectedCategory==='regresion'?' selected':'') + '>📈 Regresión</option>' +
-      '<option value="noParametricos"' + (analisisSelectedCategory==='noParametricos'?' selected':'') + '>📉 No Paramétricos</option>' +
-      '<option value="multivariado"' + (analisisSelectedCategory==='multivariado'?' selected':'') + '>📦 Multivariado</option>' +
-      '</select>';
-    var testsHtml = getAnalisisTestsHTML();
-    var lastTest = analisisLastResult ? analisisLastResult.testName : '—';
-    var lastPVal = analisisLastResult && analisisLastResult.pValue !== undefined ? analisisLastResult.pValue.toFixed(4) : '—';
-    var lastDec = analisisLastResult ? (analisisLastResult.significativo ? 'Rechazar H₀' : 'No rechazar H₀') : '—';
-    var decColor = analisisLastResult && analisisLastResult.significativo ? 'var(--accent)' : 'var(--text-faint)';
-    return '<div class="left-panel" style="gap:10px">' +
-      '<div style="flex-shrink:0">' + categorySelect + '</div>' +
-      '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column">' +
-        '<div class="info-section-header">Tests</div>' +
-        '<div style="overflow-y:auto;flex:1;padding:6px;display:flex;flex-direction:column;gap:3px">' + testsHtml + '</div>' +
-      '</div>' +
-      '<div class="info-section" style="flex-shrink:0">' +
-        '<div class="info-section-header">Último resultado</div>' +
-        '<div class="info-list">' +
-          '<div class="info-item"><div class="info-item-label">Test</div><div class="info-item-value" id="analisisLastTest">' + lastTest + '</div></div>' +
-          '<div class="info-item"><div class="info-item-label">p-valor</div><div class="info-item-value" id="analisisLastPVal">' + lastPVal + '</div></div>' +
-          '<div class="info-item"><div class="info-item-label">Decisión</div><div class="info-item-value" id="analisisLastDecision" style="color:' + decColor + '">' + lastDec + '</div></div>' +
+      var categoryNames = {
+        descriptiva: '📊 Descriptiva',
+        hipotesis: '⚖️ Hipótesis',
+        correlacion: '🔗 Correlación',
+        regresion: '📈 Regresión',
+        noParametricos: '📉 No Paramétricos',
+        multivariado: '📦 Multivariado'
+      };
+      var catLabel = categoryNames[analisisSelectedCategory] || '📊 Descriptiva';
+      var catIcon = catLabel.split(' ')[0];
+      var catText = catLabel.substring(2);
+      var lastTest = analisisLastResult ? analisisLastResult.testName : '—';
+      var lastPVal = analisisLastResult && analisisLastResult.pValue !== undefined ? analisisLastResult.pValue.toFixed(4) : '—';
+      var lastDec = analisisLastResult ? (analisisLastResult.significativo ? 'Rechazar H₀' : 'No rechazar H₀') : '—';
+      var decColor = analisisLastResult && analisisLastResult.significativo ? 'var(--accent)' : 'var(--text-faint)';
+      return '<div class="left-panel" style="gap:10px">' +
+        // ── Indicador de categoría activa (desde menú superior) ──
+        '<div style="flex-shrink:0;padding:12px;background:var(--card-bg);border-radius:6px;border:1px solid var(--border);text-align:center">' +
+          '<div style="font-size:28px;margin-bottom:8px">' + catIcon + '</div>' +
+          '<div style="font-size:14px;font-weight:600;color:var(--text-primary)">' + catText + '</div>' +
+          '<div style="font-size:10px;color:var(--text-faint);margin-top:4px">Selecciona un test del menú</div>' +
         '</div>' +
-      '</div>' +
-    '</div>'; 
-  },
-  visualizacion: function() { return '<div class="left-panel" style="gap:10px"><div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px"><button class="btn btn-primary" style="width:100%;justify-content:center">+ Nuevo gráfico</button><div style="display:flex;gap:6px"><button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px">↓ SVG</button><button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px">↓ PNG</button></div></div><div class="info-section"><div class="info-section-header">Tipo de gráfico</div><div class="info-list"><div class="info-item active">📊 Barras</div><div class="info-item">📈 Líneas</div><div class="info-item">⬡ Dispersión</div><div class="info-item">◉ Circular</div><div class="info-item">📦 Caja y bigotes</div><div class="info-item">▦ Histograma</div></div></div></div>'; },
+        // ── Resumen del último resultado ejecutado ──
+        '<div class="info-section" style="flex-shrink:0">' +
+          '<div class="info-section-header">Último resultado</div>' +
+          '<div class="info-list">' +
+            '<div class="info-item"><div class="info-item-label">Test</div><div class="info-item-value" id="analisisLastTest">' + lastTest + '</div></div>' +
+            '<div class="info-item"><div class="info-item-label">p-valor</div><div class="info-item-value" id="analisisLastPVal">' + lastPVal + '</div></div>' +
+            '<div class="info-item"><div class="info-item-label">Decisión</div><div class="info-item-value" id="analisisLastDecision" style="color:' + decColor + '">' + lastDec + '</div></div>' +
+          '</div>' +
+        '</div>' +
+      '</div>'; 
+    },
+
+  visualizacion: function()  { return '<div class="left-panel" style="gap:10px"><div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px"><button class="btn btn-primary" style="width:100%;justify-content:center">+ Nuevo gráfico</button><div style="display:flex;gap:6px"><button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px">↓ SVG</button><button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px">↓ PNG</button></div></div><div class="info-section"><div class="info-section-header">Tipo de gráfico</div><div class="info-list"><div class="info-item active">📊 Barras</div><div class="info-item">📈 Líneas</div><div class="info-item">⬡ Dispersión</div><div class="info-item">◉ Circular</div><div class="info-item">📦 Caja y bigotes</div><div class="info-item">▦ Histograma</div></div></div></div>'; },
   reportes: function() { return '<div class="left-panel" style="gap:10px"><div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px"><button class="btn btn-primary" style="width:100%;justify-content:center">+ Nuevo reporte</button></div><div class="info-section"><div class="info-section-header">Plantillas</div><div class="info-list"><div class="info-item active">📐 Reporte estándar</div><div class="info-item">📋 Reporte ejecutivo</div><div class="info-item">📊 Resumen estadístico</div></div></div><div class="info-section"><div class="info-section-header">Formato de salida</div><div class="info-list"><div class="info-item active">📄 PDF</div><div class="info-item">📝 DOCX</div><div class="info-item">📊 HTML</div></div></div></div>'; },
   auditoria: function() { return '<div class="left-panel" style="gap:10px"><button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:11px;flex-shrink:0">📥 Exportar log completo</button><div class="info-section"><div class="info-section-header">Tipo de evento</div><div class="info-list"><div class="info-item active">📋 Todos</div><div class="info-item">🔑 Logins</div><div class="info-item">📤 Exportaciones</div><div class="info-item">✏️ Ediciones</div><div class="info-item">🗑️ Eliminaciones</div><div class="info-item">🚨 Errores</div></div></div><div class="info-section" style="flex-shrink:0"><div class="info-section-header">Período</div><div class="info-list"><div class="info-item active">Hoy</div><div class="info-item">Últimos 7 días</div><div class="info-item">Últimos 30 días</div></div></div></div>'; },
   usuarios: function() { return '<div class="left-panel" style="gap:10px"><div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px"><button class="btn btn-primary" style="width:100%;justify-content:center">+ Nuevo usuario</button><button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:11px">✉️ Invitar por email</button></div><div class="info-section"><div class="info-section-header">Filtrar por rol</div><div class="info-list"><div class="info-item active">👥 Todos (9)</div><div class="info-item">🔴 Administrador (1)</div><div class="info-item">🟡 Analista (3)</div><div class="info-item">🔵 Viewer (5)</div></div></div></div>'; }
@@ -911,7 +914,21 @@ var rightPanels = {
     '</div>';
   },
 
-  analisis: function() { return '<div class="page-body"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:var(--text-muted)">Selecciona un test para ejecutarlo</span><button class="btn btn-primary">🚀 Ejecutar Todos</button></div><div class="grid-2"><div class="test-card"><div class="test-card-icon">📊</div><div class="test-card-name">Estadística Descriptiva</div><div class="test-card-desc">Media, mediana, moda, varianza, desv. estándar</div></div><div class="test-card"><div class="test-card-icon">📈</div><div class="test-card-name">Regresión Lineal</div><div class="test-card-desc">Mínimos cuadrados, R², residuales</div></div><div class="test-card"><div class="test-card-icon">⚖️</div><div class="test-card-name">t-Test</div><div class="test-card-desc">Comparación de medias independientes o pareadas</div></div><div class="test-card"><div class="test-card-icon">📦</div><div class="test-card-name">ANOVA</div><div class="test-card-desc">Análisis de varianza de uno o múltiples factores</div></div><div class="test-card"><div class="test-card-icon">🔗</div><div class="test-card-name">Correlación</div><div class="test-card-desc">Pearson, Spearman, matriz de correlación</div></div><div class="test-card"><div class="test-card-icon">📐</div><div class="test-card-name">Chi-cuadrado</div><div class="test-card-desc">Bondad de ajuste e independencia</div></div></div><div class="page-card"><div class="page-card-header"><span class="page-card-icon">📋</span><span class="page-card-title">Resultados</span><span class="page-card-badge" style="background:var(--item-bg);color:var(--text-faint)">Sin ejecutar</span></div><div class="page-card-body" style="color:var(--text-faint);font-size:12px;text-align:center;padding:24px">Los resultados aparecerán aquí al ejecutar un test</div></div></div>'; },
+  analisis: function() { 
+    if (analisisSelectedTest && analisisResultContent) {
+      var testLabel = analisisLastResult && analisisLastResult.testName ? analisisLastResult.testName : analisisSelectedTest;
+      return '<div class="page-body">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">' +
+          '<span style="font-size:14px;font-weight:600;color:var(--text-primary)">' + escapeHtml(testLabel) + '</span>' +
+          '<button class="btn btn-secondary" style="font-size:11px" onclick="analisisResultContent=null;analisisSelectedTest=null;loadPage(&#39;analisis&#39;)">✕ Cerrar resultado</button>' +
+        '</div>' +
+        '<div class="page-card">' +
+          '<div class="page-card-body" style="padding:20px">' + analisisResultContent + '</div>' +
+        '</div>' +
+      '</div>';
+    }
+    return '<div class="page-body"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:var(--text-muted)">Selecciona un test desde el menú superior Statistical Analysis</span><button class="btn btn-primary" onclick="runSelectedEstadisticos()">🚀 Ejecutar Seleccionados</button></div><div class="grid-2"><div class="test-card" onclick="selectAnalisisTestDirect(&#39;media&#39;,&#39;descriptiva&#39;)"><div class="test-card-icon">📊</div><div class="test-card-name">Estadística Descriptiva</div><div class="test-card-desc">Media, mediana, moda, varianza, desv. estándar</div></div><div class="test-card" onclick="selectAnalisisTestDirect(&#39;lineal&#39;,&#39;regresion&#39;)"><div class="test-card-icon">📈</div><div class="test-card-name">Regresión Lineal</div><div class="test-card-desc">Mínimos cuadrados, R², residuales</div></div><div class="test-card" onclick="selectAnalisisTestDirect(&#39;ttest&#39;,&#39;hipotesis&#39;)"><div class="test-card-icon">⚖️</div><div class="test-card-name">t-Test</div><div class="test-card-desc">Comparación de medias independientes o pareadas</div></div><div class="test-card" onclick="alert(&#39;Seleccione ANOVA desde el menú Statistical Analysis&#39;)"><div class="test-card-icon">📦</div><div class="test-card-name">ANOVA</div><div class="test-card-desc">Análisis de varianza de uno o múltiples factores</div></div><div class="test-card" onclick="selectAnalisisTestDirect(&#39;pearson&#39;,&#39;correlacion&#39;)"><div class="test-card-icon">🔗</div><div class="test-card-name">Correlación</div><div class="test-card-desc">Pearson, Spearman, matriz de correlación</div></div><div class="test-card" onclick="alert(&#39;Seleccione Chi-cuadrado desde el menú Statistical Analysis&#39;)"><div class="test-card-icon">📐</div><div class="test-card-name">Chi-cuadrado</div><div class="test-card-desc">Bondad de ajuste e independencia</div></div></div><div class="page-card"><div class="page-card-header"><span class="page-card-icon">📋</span><span class="page-card-title">Resultados</span><span class="page-card-badge" style="background:var(--item-bg);color:var(--text-faint)">Sin ejecutar</span></div><div class="page-card-body" style="color:var(--text-faint);font-size:12px;text-align:center;padding:24px">Los resultados aparecerán aquí al ejecutar un test desde el menú superior</div></div></div>'; 
+  },
   visualizacion: function() { return '<div class="page-body"><div class="grid-auto"><div class="chart-card"><div class="chart-card-icon">📊</div><div class="chart-card-name">Barras</div></div><div class="chart-card"><div class="chart-card-icon">📈</div><div class="chart-card-name">Líneas</div></div><div class="chart-card"><div class="chart-card-icon">⬡</div><div class="chart-card-name">Dispersión</div></div><div class="chart-card"><div class="chart-card-icon">◉</div><div class="chart-card-name">Circular</div></div><div class="chart-card"><div class="chart-card-icon">📦</div><div class="chart-card-name">Caja</div></div><div class="chart-card"><div class="chart-card-icon">▦</div><div class="chart-card-name">Histograma</div></div><div class="chart-card"><div class="chart-card-icon">📉</div><div class="chart-card-name">Área</div></div><div class="chart-card"><div class="chart-card-icon">🕸️</div><div class="chart-card-name">Radar</div></div></div><div class="page-card"><div class="page-card-header"><span class="page-card-icon">🖼️</span><span class="page-card-title">Canvas</span></div><div class="page-card-body" style="color:var(--text-faint);font-size:12px;text-align:center;padding:32px">Selecciona un tipo de gráfico para comenzar</div></div></div>'; },
   reportes: function() { return '<div class="page-body"><div style="display:flex;gap:8px;margin-bottom:4px"><button class="btn btn-primary">➕ Nuevo</button><button class="btn btn-secondary">📥 Importar</button></div><div style="display:flex;flex-direction:column;gap:8px"><div class="list-item"><div class="list-item-icon">📊</div><div><div class="list-item-title">Análisis Descriptivo Completo</div><div class="list-item-meta">Generado · 15/ene/2026</div></div><div class="list-item-end"><span class="badge badge-ok">PDF</span><button class="btn btn-secondary" style="padding:4px 10px">↓</button></div></div><div class="list-item"><div class="list-item-icon">📈</div><div><div class="list-item-title">Regresión Lineal 2026</div><div class="list-item-meta">Borrador · 10/ene/2026</div></div><div class="list-item-end"><span class="badge badge-warn">DOCX</span><button class="btn btn-secondary" style="padding:4px 10px">↓</button></div></div></div></div>'; },
   auditoria: function() { return '<div class="page-body"><div style="display:flex;gap:8px;margin-bottom:4px"><button class="btn btn-primary">🔍 Filtrar</button><button class="btn btn-secondary">📥 Exportar log</button></div><div class="grid-4"><div class="metric-card"><div class="metric-label">Total eventos</div><div class="metric-value">247</div><div class="metric-sub">últimos 30 días</div></div><div class="metric-card"><div class="metric-label">Logins</div><div class="metric-value">83</div><div class="metric-sub">exitosos</div></div><div class="metric-card"><div class="metric-label">Exportaciones</div><div class="metric-value">34</div><div class="metric-sub">archivos</div></div><div class="metric-card"><div class="metric-label">Errores</div><div class="metric-value" style="color:#f87171">3</div><div class="metric-sub">requieren revisión</div></div></div><div class="page-card"><div class="page-card-header"><span class="page-card-icon">📋</span><span class="page-card-title">Log de eventos</span></div><div class="page-card-body" style="padding:0"><table class="data-table"><thead><tr><th>Evento</th><th>Usuario</th><th>Fecha</th><th>Estado</th></tr></thead><tbody><tr><td>Login</td><td style="color:var(--accent)">admin</td><td>Hoy 09:15</td><td><span class="badge badge-ok">OK</span></td></tr><tr><td>Exportar datos.csv</td><td style="color:var(--accent)">analista</td><td>Ayer 16:30</td><td><span class="badge badge-ok">OK</span></td></tr><tr><td>Login fallido</td><td style="color:#f87171">desconocido</td><td>Ayer 09:48</td><td><span class="badge badge-warn">Error</span></td></tr></tbody></table></div></div></div>'; },
@@ -1910,7 +1927,8 @@ function getAnalisisTestsHTML() {
   var html = '';
   tests.forEach(function(t) {
     var isActive = analisisSelectedTest === t.id ? ' active' : '';
-    html += '<div class="info-item' + isActive + '" onclick="selectAnalisisTest(\'' + t.id + '\')">' + t.name + '</div>';
+    // SIN onclick — solo refleja la selección del menú superior
+    html += '<div class="info-item' + isActive + '" style="cursor:default;opacity:' + (isActive ? '1' : '0.7') + '">' + t.name + '</div>';
   });
   return html;
 }
@@ -2121,10 +2139,10 @@ function runStatisticalTestImpl(testName, displayName, sheet, numericCols, colIn
       break;
     default:
       resultHtml = '<p>Test no implementado: ' + displayName + '</p>';
-  }
-  
-  showStatResultModal(displayName, resultHtml);
-  
+    }
+
+  analisisResultContent = resultHtml;
+
   var resultInfo = { testName: displayName, pValue: null, significativo: false };
   if (result && typeof result === 'object') {
     if (result.valorP !== undefined) resultInfo.pValue = result.valorP;
@@ -2132,6 +2150,10 @@ function runStatisticalTestImpl(testName, displayName, sheet, numericCols, colIn
     resultInfo.significativo = result.significativo || (resultInfo.pValue !== null && resultInfo.pValue < 0.05);
   }
   updateAnalisisLastResult(resultInfo);
+  if (currentPage === 'analisis') {
+    rightPaneBody.innerHTML = rightPanels.analisis();
+  }
+  showStatResultModal(displayName, resultHtml);
 }
 
 function showStatResultModal(title, content) {
@@ -2286,11 +2308,18 @@ function updateBadge(seccionKey) {
 }
 
 // ── Click en el texto del subitem — ejecuta Y marca el checkbox ──
+function selectAnalisisTestDirect(testId, category) {
+  analisisSelectedCategory = category;
+  analisisSelectedTest = testId;
+  loadPage('analisis');
+  setTimeout(function() { runStatisticalTest(testId); }, 50);
+}
+
 function onSubitemClick(event, nombre, seccionKey) {
-  // Si el click fue directo sobre el checkbox, no hacer nada extra
+  // Ignorar si el click fue directo sobre el checkbox (ese tiene su propio handler)
   if (event.target.classList.contains('stat-check')) return;
 
-  // Marcar el checkbox del item clickeado
+  // 1. Marcar el checkbox del item clickeado
   var id = 'chk-' + seccionKey + '-' + nombre.replace(/[^a-zA-Z0-9]/g, '_');
   var chk = document.getElementById(id);
   if (chk) {
@@ -2299,7 +2328,7 @@ function onSubitemClick(event, nombre, seccionKey) {
     updateBadge(seccionKey);
   }
 
-  // Actualizar la categoría en la página de Análisis
+  // 2. Mapear la sección del menú a la categoría interna
   var categoryMap = {
     'Descriptiva': 'descriptiva',
     'Hipótesis': 'hipotesis',
@@ -2308,10 +2337,16 @@ function onSubitemClick(event, nombre, seccionKey) {
     'No Paramétricos': 'noParametricos',
     'Multivariado': 'multivariado'
   };
+  
+  // 3. Actualizar estado global
   analisisSelectedCategory = categoryMap[seccionKey] || 'descriptiva';
   analisisSelectedTest = nombre;
   
-  // Navegar a la página de Análisis y ejecutar el test
+  // 4. Cerrar el dropdown del menú superior
+  document.querySelectorAll('.menu-item').forEach(function(i){ i.classList.remove('open'); });
+  anyOpen = false;
+  
+  // 5. Navegar a Análisis y ejecutar (el sidebar se recargará automáticamente)
   loadPage('analisis');
   setTimeout(function() { runStatisticalTest(nombre); }, 50);
 }
@@ -2347,5 +2382,3 @@ loadPage('datos');
 <script src="ToolsManager.js"></script>
 </body>
 </html>
-HTMLEOF
-echo "Done: $(wc -c < /mnt/user-data/outputs/obsidian_vault_v2.html) bytes"
