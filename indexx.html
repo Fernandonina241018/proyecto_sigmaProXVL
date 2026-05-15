@@ -489,6 +489,13 @@
         <polyline points="5 9 3 12 5 15"/>
       </svg>
     </div>
+    <div class="ribbon-togglee" id="sidebarUser" title="User menu">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <line x1="9" y1="3" x2="9" y2="21"/>
+        <polyline points="5 9 3 12 5 15"/>
+      </svg>
+    </div>
   </div>
 
   <div class="sidebar" id="sidebar">
@@ -951,6 +958,7 @@ var rightPanels = {
   },
 
   analisis: function() { 
+    // Si hay resultado, mostrarlo
     if (analisisSelectedTest && analisisResultContent) {
       var testLabel = analisisLastResult && analisisLastResult.testName ? analisisLastResult.testName : analisisSelectedTest;
       return '<div class="page-body">' +
@@ -963,7 +971,16 @@ var rightPanels = {
         '</div>' +
       '</div>';
     }
-    return '<div class="page-body"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:var(--text-muted)">Selecciona un test desde el menú superior Statistical Analysis</span><button class="btn btn-primary" onclick="runSelectedEstadisticos()">🚀 Ejecutar Seleccionados</button></div><div class="grid-2"><div class="test-card" onclick="selectAnalisisTestDirect(&#39;media&#39;,&#39;descriptiva&#39;)"><div class="test-card-icon">📊</div><div class="test-card-name">Estadística Descriptiva</div><div class="test-card-desc">Media, mediana, moda, varianza, desv. estándar</div></div><div class="test-card" onclick="selectAnalisisTestDirect(&#39;lineal&#39;,&#39;regresion&#39;)"><div class="test-card-icon">📈</div><div class="test-card-name">Regresión Lineal</div><div class="test-card-desc">Mínimos cuadrados, R², residuales</div></div><div class="test-card" onclick="selectAnalisisTestDirect(&#39;ttest&#39;,&#39;hipotesis&#39;)"><div class="test-card-icon">⚖️</div><div class="test-card-name">t-Test</div><div class="test-card-desc">Comparación de medias independientes o pareadas</div></div><div class="test-card" onclick="alert(&#39;Seleccione ANOVA desde el menú Statistical Analysis&#39;)"><div class="test-card-icon">📦</div><div class="test-card-name">ANOVA</div><div class="test-card-desc">Análisis de varianza de uno o múltiples factores</div></div><div class="test-card" onclick="selectAnalisisTestDirect(&#39;pearson&#39;,&#39;correlacion&#39;)"><div class="test-card-icon">🔗</div><div class="test-card-name">Correlación</div><div class="test-card-desc">Pearson, Spearman, matriz de correlación</div></div><div class="test-card" onclick="alert(&#39;Seleccione Chi-cuadrado desde el menú Statistical Analysis&#39;)"><div class="test-card-icon">📐</div><div class="test-card-name">Chi-cuadrado</div><div class="test-card-desc">Bondad de ajuste e independencia</div></div></div><div class="page-card"><div class="page-card-header"><span class="page-card-icon">📋</span><span class="page-card-title">Resultados</span><span class="page-card-badge" style="background:var(--item-bg);color:var(--text-faint)">Sin ejecutar</span></div><div class="page-card-body" style="color:var(--text-faint);font-size:12px;text-align:center;padding:24px">Los resultados aparecerán aquí al ejecutar un test desde el menú superior</div></div></div>'; 
+    return '<div class="page-body"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:var(--text-muted)">Selecciona un test desde el menú Statistical Analysis</span></div>
+      <!-- Wrapper central para diseño futuro -->
+      <div id="analisis-content-wrapper" style="flex:1;display:flex;align-items:center;justify-content:center;padding:20px">
+        <div style="text-align:center;color:var(--text-faint);padding:40px;border:2px dashed var(--border);border-radius:8px;width:100%;max-width:600px">
+          <div style="font-size:48px;margin-bottom:16px">📊</div>
+          <div style="font-size:16px;font-weight:500;color:var(--text-muted);margin-bottom:8px">Área de Análisis</div>
+          <div style="font-size:12px;color:var(--text-faint)">El contenido se cargará aquí</div>
+        </div>
+      </div>
+</div>';
   },
   visualizacion: function() { return '<div class="page-body"><div class="grid-auto"><div class="chart-card"><div class="chart-card-icon">📊</div><div class="chart-card-name">Barras</div></div><div class="chart-card"><div class="chart-card-icon">📈</div><div class="chart-card-name">Líneas</div></div><div class="chart-card"><div class="chart-card-icon">⬡</div><div class="chart-card-name">Dispersión</div></div><div class="chart-card"><div class="chart-card-icon">◉</div><div class="chart-card-name">Circular</div></div><div class="chart-card"><div class="chart-card-icon">📦</div><div class="chart-card-name">Caja</div></div><div class="chart-card"><div class="chart-card-icon">▦</div><div class="chart-card-name">Histograma</div></div><div class="chart-card"><div class="chart-card-icon">📉</div><div class="chart-card-name">Área</div></div><div class="chart-card"><div class="chart-card-icon">🕸️</div><div class="chart-card-name">Radar</div></div></div><div class="page-card"><div class="page-card-header"><span class="page-card-icon">🖼️</span><span class="page-card-title">Canvas</span></div><div class="page-card-body" style="color:var(--text-faint);font-size:12px;text-align:center;padding:32px">Selecciona un tipo de gráfico para comenzar</div></div></div>'; },
   reportes: function() { return '<div class="page-body"><div style="display:flex;gap:8px;margin-bottom:4px"><button class="btn btn-primary">➕ Nuevo</button><button class="btn btn-secondary">📥 Importar</button></div><div style="display:flex;flex-direction:column;gap:8px"><div class="list-item"><div class="list-item-icon">📊</div><div><div class="list-item-title">Análisis Descriptivo Completo</div><div class="list-item-meta">Generado · 15/ene/2026</div></div><div class="list-item-end"><span class="badge badge-ok">PDF</span><button class="btn btn-secondary" style="padding:4px 10px">↓</button></div></div><div class="list-item"><div class="list-item-icon">📈</div><div><div class="list-item-title">Regresión Lineal 2026</div><div class="list-item-meta">Borrador · 10/ene/2026</div></div><div class="list-item-end"><span class="badge badge-warn">DOCX</span><button class="btn btn-secondary" style="padding:4px 10px">↓</button></div></div></div></div>'; },
