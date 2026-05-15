@@ -2150,9 +2150,10 @@ function runStatisticalTestImpl(testName, displayName, sheet, numericCols, colIn
     resultInfo.significativo = result.significativo || (resultInfo.pValue !== null && resultInfo.pValue < 0.05);
   }
   updateAnalisisLastResult(resultInfo);
-  if (currentPage === 'analisis') {
-    rightPaneBody.innerHTML = rightPanels.analisis();
-  }
+  
+  // Immediately update the right panel to show the result
+  rightPaneBody.innerHTML = rightPanels.analisis();
+  
   showStatResultModal(displayName, resultHtml);
 }
 
