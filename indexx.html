@@ -384,6 +384,33 @@
     user-select: none;
   }
   .sc-close:hover { background: rgba(255,255,255,.1); color: #f87171; }
+  .sc-run {
+    font-size: 11px;
+    cursor: pointer;
+    color: var(--accent);
+    padding: 3px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--accent);
+    background: transparent;
+    transition: background .15s, color .15s;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .sc-run:hover { background: var(--accent); color: #fff; }
+  .sc-run-all {
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 6px;
+    border: none;
+    background: var(--accent);
+    transition: background .15s;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .sc-run-all:hover { background: var(--accent-hover); }
   .sc-formula {
     background: var(--bg-primary);
     border-radius: 4px;
@@ -2165,6 +2192,7 @@ function buildStatCardsHTML(testNames) {
           '<div class="sc-title">' + escapeHtml(nombre) + '</div>' +
           '<div class="sc-section">' + escapeHtml(sectionName) + '</div>' +
         '</div>' +
+        '<span class="sc-run" onclick="runSingleStat(\'' + nombre.replace(/'/g, "\\'") + '\')" title="Ejecutar ' + escapeHtml(nombre) + '">▶</span>' +
         '<span class="sc-close" onclick="deselectStatCard(\'' + nombre.replace(/'/g, "\\'") + '\')" title="Deseleccionar ' + escapeHtml(nombre) + '">✕</span>' +
       '</div>' +
       '<div class="sc-formula">' + escapeHtml(formula) + '</div>' +
@@ -2182,7 +2210,10 @@ function buildStatCardsHTML(testNames) {
   return '<div class="page-body">' +
     '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">' +
       '<span style="font-size:14px;font-weight:600;color:var(--text-primary)">📋 Tests seleccionados</span>' +
-      '<span style="font-size:11px;color:var(--text-faint)">' + testNames.length + ' tests</span>' +
+      '<div style="display:flex;align-items:center;gap:8px">' +
+        '<span style="font-size:11px;color:var(--text-faint)">' + testNames.length + ' tests</span>' +
+        '<button class="sc-run-all" onclick="runBatchAnalysis()">▶ Ejecutar seleccionados</button>' +
+      '</div>' +
     '</div>' +
     '<div class="stat-cards-grid">' + cardsHtml + '</div>' +
   '</div>';
@@ -2369,6 +2400,7 @@ function buildStatAnalysisMenu() {
 // ── Click en checkbox hijo ──
 function onChildCheck(event, seccionKey) {
   event.stopPropagation();
+  analisisResultContent = null;
   updateParentCheck(seccionKey);
   updateBadge(seccionKey);
   if (currentPage === 'analisis') {
@@ -2385,8 +2417,8 @@ function onParentCheck(event, seccionKey) {
   parentChk.classList.remove('partial');
   updateBadge(seccionKey);
 
-  // ✅ mismo fix — seccionKey directo
   analisisSelectedCategory = seccionKey;
+  analisisResultContent = null;
 
   if (currentPage === 'analisis') {
     leftPaneBody.innerHTML = leftPanels.analisis();
@@ -2447,9 +2479,10 @@ function onSubitemClick(event, nombre, seccionKey) {
     updateBadge(seccionKey);
   }
 
-  // 2. Actualizar estado global
+  // 2. Actualizar estado global y limpiar resultado previo
   analisisSelectedCategory = seccionKey;
   analisisSelectedTest = nombre;
+  analisisResultContent = null;
 
   // 3. Cerrar el dropdown
   document.querySelectorAll('.menu-item').forEach(function(i){ i.classList.remove('open'); });
@@ -2465,16 +2498,8 @@ function onSubitemClick(event, nombre, seccionKey) {
     console.log('[DBG] Sidebar updated, leftPaneBody.innerHTML length:', leftPaneBody.innerHTML.length, leftPaneBody.innerHTML.substring(0, 120));
   }
 
-  // 5. Actualizar panel derecho para mostrar cards (antes de ejecutar test)
+  // 5. Mostrar cards en panel derecho
   rightPaneBody.innerHTML = rightPanels.analisis();
-
-  // 6. Ejecutar el test — él actualiza rightPaneBody al terminar
-  try {
-    runSingleStat(nombre);
-  } catch(e) {
-    console.error('Error executing test:', e);
-    showToast('⚠️ Error al ejecutar: ' + e.message);
-  }
 }
 
 // Construir menú estadístico desde config
