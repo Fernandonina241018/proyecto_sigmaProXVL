@@ -73,6 +73,7 @@
 | 2 | Corregido `pValue !== undefined` → `pValue != null` en leftPanels.analisis() y updateAnalisisLastResult (prevenía crash `null.toFixed`) | `indexx.html` | 889, 2135 | ✅ |
 | 3 | Corregido `selectAnalisisTest` y `selectAnalisisTestDirect`: `runStatisticalTest` → `runSingleStat + analisisResultContent = null` | `indexx.html` | 2123-2127, 2463-2468 | ✅ |
 | 4 | Revertido formato visual de resultados (CSS .ar-*, .acordeon-*, toggleAcordeon()) — el usuario lo solicitó | `indexx.html` | eliminado | ✅ |
+| 5 | Re-agregado `toggleAcordeon()` (necesario por `generarHTML()` en EstadisticaDescriptiva.js — evita crash al hacer click en resultados) | `indexx.html` | 2223-2226 | ✅ |
 
 **Qué cambió:** El usuario revirtió manualmente el formateo de resultados (commit b71ec90) pero accidentalmente eliminó `<script src="utils.js">` y reintrodujo el bug `null.toFixed()`. Se corrigieron ambos problemas más dead refs adicionales.
 

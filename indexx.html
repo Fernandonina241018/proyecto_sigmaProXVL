@@ -2220,6 +2220,11 @@ function buildStatCardsHTML(testNames) {
   '</div>';
 }
 
+function toggleAcordeon(btn) {
+  var item = btn.closest('.acordeon-item');
+  if (item) item.classList.toggle('abierto');
+}
+
 function deselectStatCard(nombre) {
   var chk = document.querySelector('.child-check[data-nombre="' + nombre.replace(/"/g, '&quot;') + '"]');
   if (!chk) return;
