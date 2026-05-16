@@ -2122,8 +2122,9 @@ function getAnalisisTestsHTML() {
 
 function selectAnalisisTest(testId) {
   analisisSelectedTest = testId;
+  analisisResultContent = null;
   loadPage('analisis');
-  runStatisticalTest(testId);
+  runSingleStat(testId);
 }
 
 function updateAnalisisLastResult(result) {
@@ -2132,7 +2133,7 @@ function updateAnalisisLastResult(result) {
   var pValEl = document.getElementById('analisisLastPVal');
   var decEl = document.getElementById('analisisLastDecision');
   if (testEl) testEl.textContent = result.testName || '—';
-  if (pValEl) pValEl.textContent = result.pValue !== undefined ? result.pValue.toFixed(4) : '—';
+  if (pValEl) pValEl.textContent = result.pValue != null ? result.pValue.toFixed(4) : '—';
   if (decEl) {
     var decision = result.significativo ? 'Rechazar H₀' : 'No rechazar H₀';
     decEl.textContent = decision;
