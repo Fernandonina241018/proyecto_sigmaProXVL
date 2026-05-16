@@ -1110,7 +1110,10 @@ var rightPanels = {
       return '<div class="page-body">' +
         '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">' +
           '<span style="font-size:14px;font-weight:600;color:var(--text-primary)">' + escapeHtml(testLabel) + '</span>' +
-          '<button class="btn btn-secondary" style="font-size:11px" onclick="analisisResultContent=null;analisisSelectedTest=null;loadPage(&#39;analisis&#39;)">✕ Cerrar resultado</button>' +
+          '<div style="display:flex;gap:6px">' +
+            '<button class="btn btn-secondary" style="font-size:11px" onclick="loadPage(&#39;visualizacion&#39;)">📊 Ver gráficos</button>' +
+            '<button class="btn btn-secondary" style="font-size:11px" onclick="analisisResultContent=null;analisisSelectedTest=null;loadPage(&#39;analisis&#39;)">✕ Cerrar resultado</button>' +
+          '</div>' +
         '</div>' +
         '<div class="page-card">' +
           '<div class="page-card-body" style="padding:20px">' + analisisResultContent + '</div>' +
@@ -1159,7 +1162,10 @@ var rightPanels = {
           '<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:20px">' +
             '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">' +
               '<span style="font-size:14px;font-weight:600;color:var(--text-primary)">' + (analisisLastResult ? analisisLastResult.testName : 'Resultado') + '</span>' +
-              '<button class="btn btn-secondary" style="font-size:11px;padding:4px 8px" onclick="analisisResultContent=null;analisisSelectedTest=null;loadPage(&#39;analisis&#39;)">✕ Cerrar</button>' +
+              '<div style="display:flex;gap:6px">' +
+                '<button class="btn btn-secondary" style="font-size:11px;padding:4px 8px" onclick="loadPage(&#39;visualizacion&#39;)">📊 Ver gráficos</button>' +
+                '<button class="btn btn-secondary" style="font-size:11px;padding:4px 8px" onclick="analisisResultContent=null;analisisSelectedTest=null;loadPage(&#39;analisis&#39;)">✕ Cerrar</button>' +
+              '</div>' +
             '</div>' +
             '<div>' + (analisisResultContent || '<div style="color:var(--text-faint)">Sin resultados</div>') + '</div>' +
           '</div>' +
