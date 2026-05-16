@@ -1,10 +1,10 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
-**Fecha de Análisis:** 11 de Mayo 2026  
-**Última Actualización:** 11 de Mayo 2026 (indexx.html nuevo prototipo UI)  
-**Versión del Proyecto:** 2.5  
+**Fecha de Análisis:** 15 de Mayo 2026  
+**Última Actualización:** 15 de Mayo 2026 (Migración batch a ejecutarAnalisis)  
+**Versión del Proyecto:** 2.6  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
-**Estado General:** MVP Funcional (~92% Completo)
+**Estado General:** MVP Funcional (~95% Completo)
 
 ---
 
@@ -65,11 +65,32 @@
 | 8 | 13 May 2026 | Selection from Statistical menu navega a Análisis | ✅ |
 | 9 | 13 May 2026 | Último resultado se muestra en panel izquierdo | ✅ |
 
-**Tests implementados:**
-- Media, Mediana, Moda, Varianza, Desv. Estándar, Coef. Variación
-- Asimetría, Curtosis
-- t-Test, Shapiro-Wilk
-- Correlación Pearson, Regresión Lineal
+### ✨ MAJOR: Migración batch a ejecutarAnalisis + 40+ tests (15 May 2026)
+
+| # | Cambio | Archivo | Líneas | Estado |
+|---|--------|---------|--------|--------|
+| 1 | Nueva `getDataForEjecutarAnalisis()` — adapta sheet → formato {headers, data: Object[], rowCount} | `indexx.html` | ~12 | ✅ |
+| 2 | Nueva `runSingleStat(nombre)` — reemplaza runStatisticalTest + runStatisticalTestImpl | `indexx.html` | ~50 | ✅ |
+| 3 | Nueva `runBatchAnalysis()` — ejecuta múltiples tests seleccionados vía ejecutarAnalisis | `indexx.html` | ~25 | ✅ |
+| 4 | Eliminado `DISPLAY_NAME_TO_ID` (27 líneas legacy rotas) | `indexx.html` | -27 | ✅ |
+| 5 | Eliminado `runStatisticalTest` + `runStatisticalTestImpl` (160 líneas switch roto) | `indexx.html` | -160 | ✅ |
+| 6 | Eliminado `showStatResultModal` (modal manual innecesario) | `indexx.html` | -38 | ✅ |
+| 7 | Eliminado `getSelectedEstadisticos` + `runSelectedEstadisticos` | `indexx.html` | -15 | ✅ |
+| 8 | `onSubitemClick` ahora llama a `runSingleStat` en vez de `runStatisticalTest` | `indexx.html` | 1 | ✅ |
+| 9 | Removidos debug labels (🔴TEST, 🟡TEST, 🟢TEST) de rightPanels.analisis() | `indexx.html` | -8 | ✅ |
+
+**Qué cambió:** El switch manual de 16 tests (`runStatisticalTestImpl`) que estaba ROTO (DISPLAY_NAME_TO_ID no coincidía con nombres del config) fue reemplazado por `EstadisticaDescriptiva.ejecutarAnalisis()` + `generarHTML()`. Ahora los 40+ tests del config funcionan automáticamente.
+
+**Tests ahora funcionales (se suman a los 16 anteriores):**
+- Percentiles, Rango, Error Estándar, Intervalos de Confianza, Detección de Outliers
+- Jarque-Bera, K-S, Anderson-Darling, D'Agostino-Pearson
+- T-Test (dos muestras), ANOVA One-Way, ANOVA Two-Way, TOST
+- Spearman, Kendall, Covarianza
+- Regresión Múltiple, Polinomial, Logística
+- RMSE, MAE, R²
+- Mann-Whitney, Kruskal-Wallis, Wilcoxon, Friedman, Test de Signos
+- PCA, Análisis Factorial
+- Bootstrap, Límites de Cuantificación, Diagrama de Pareto
 
 ### 🐛 DEBUG: onSubitemClick logging agregado (14 May 2026)
 
@@ -100,6 +121,53 @@
 
 **Archivos modificados:**
 - `indexx.html`: líneas ~2040-2117 (DISPLAY_NAME_TO_ID + runStatisticalTest fix)
+
+### ✨ FEATURE: StatCards — metadata cards en main de Análisis (14 May 2026)
+
+| # | Cambio | Archivo | Líneas | Estado |
+|---|--------|---------|--------|--------|
+| 1 | `getSidebarSelectedTests()` — obtiene tests checkeados del DOM | `indexx.html` | 2112-2118 | ✅ |
+| 2 | `getSectionDisplayName(key)` — mapea sección interna a nombre visible | `indexx.html` | 2120-2128 | ✅ |
+| 3 | `buildStatCardsHTML(testNames)` — genera grid de cards con metadata | `indexx.html` | 2130-2178 | ✅ |
+| 4 | `rightPanels.analisis()` modificado para mostrar cards en lugar de inicial | `indexx.html` | 1031-1035 | ✅ |
+| 5 | `onParentCheck()` ahora actualiza también el panel derecho | `indexx.html` | 2476 | ✅ |
+| 6 | `onSubitemClick()` actualiza panel derecho antes de ejecutar test | `indexx.html` | 2614-2615 | ✅ |
+| 7 | CSS para .stat-card, .stat-cards-grid, .sc-* clases | `indexx.html` | 349-400 | ✅ |
+
+**Qué hace:** Cuando hay tests seleccionados en el sidebar (checkboxes checkeados), el área principal de la página Análisis muestra un grid de **cards con metadata** de cada test: icono, nombre, sección, fórmula (monospace + color accent), descripción, inputs, grupos, mínimo de muestra, supuestos y referencia bibliográfica.
+
+**Flujo:**
+1. Usuario selecciona tests (parent checkbox o subitem click)
+2. Sidebar se actualiza (tests listados)
+3. Panel derecho muestra cards de metadata
+4. Usuario hace click individual → test se ejecuta → cards reemplazadas por resultado
+5. Usuario cierra resultado → cards reaparecen (si hay tests seleccionados) o estado inicial
+
+**Datos mostrados por card:**
+- 📊 Icono + nombre + sección
+- Fórmula matemática (estilo monospace)
+- Descripción del test
+- Inputs, grupos requeridos, mínimo de muestra
+- Supuestos (si existen en config)
+- Referencia bibliográfica (autor, año)
+
+**Archivos modificados:**
+- `indexx.html`: líneas ~2112-2178 (helpers + buildStatCardsHTML), 1031-1035 (rightPanels), 2476 (onParentCheck), 2614-2615 (onSubitemClick), 349-400 (CSS)
+
+### ✨ FEATURE: Botón ✕ en cards para deseleccionar test (14 May 2026)
+
+| # | Cambio | Archivo | Líneas | Estado |
+|---|--------|---------|--------|--------|
+| 1 | `deselectStatCard(nombre)` — deselecciona test, actualiza checkbox, sidebar y main | `indexx.html` | 2197-2209 | ✅ |
+| 2 | ✕ agregado al header de cada card en `buildStatCardsHTML` | `indexx.html` | 2174 | ✅ |
+| 3 | CSS para `.sc-close` con hover en rojo | `indexx.html` | 376-385 | ✅ |
+
+**Qué hace:** Cada card de metadata tiene un ✕ en la esquina superior derecha. Al hacer clic:
+1. Desmarca el checkbox del test en el menú Statistical Analysis
+2. Actualiza badge y estado del padre en el menú
+3. Remueve el test del sidebar izquierdo
+4. Actualiza el panel principal (cards desaparecen, o se muestran inicial si no hay más tests)
+5. Si el test era el `analisisSelectedTest` activo, lo resetea a null
 
 **Archivos modificados:**
 - `indexx.html`: líneas ~2407-2445 (onSubitemClick con logs) 

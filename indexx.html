@@ -344,6 +344,80 @@
     flex-shrink: 0;
   }
   .stat-selected-badge.visible { display: inline-block; }
+  
+  /* ── Stat Cards ── */
+  .stat-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+  }
+  .stat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: box-shadow .15s;
+  }
+  .stat-card:hover {
+    box-shadow: 0 2px 12px rgba(0,0,0,.3);
+  }
+  .sc-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sc-icon { font-size: 22px; }
+  .sc-title-group { flex: 1; }
+  .sc-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+  .sc-section { font-size: 10px; color: var(--text-faint); }
+  .sc-close {
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--text-faint);
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: background .15s, color .15s;
+    line-height: 1;
+    user-select: none;
+  }
+  .sc-close:hover { background: rgba(255,255,255,.1); color: #f87171; }
+  .sc-formula {
+    background: var(--bg-primary);
+    border-radius: 4px;
+    padding: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    text-align: center;
+    overflow-x: auto;
+  }
+  .sc-desc { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+  .sc-meta {
+    display: flex;
+    gap: 10px;
+    font-size: 10px;
+    color: var(--text-faint);
+    flex-wrap: wrap;
+  }
+  .sc-meta strong { color: var(--text-muted); }
+  .sc-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .sc-item { font-size: 11px; color: var(--text-muted); padding: 1px 0; }
+  .sc-ref {
+    font-size: 10px;
+    color: var(--text-faint);
+    border-top: 1px solid var(--border);
+    padding-top: 6px;
+    margin-top: auto;
+  }
 </style>
 <base target="_blank">
 </head>
@@ -951,7 +1025,7 @@ var rightPanels = {
   },
 
   analisis: function() { 
-    // Si hay resultado, mostrarlo
+    // 1. Mostrar resultado si existe
     if (analisisSelectedTest && analisisResultContent) {
       var testLabel = analisisLastResult && analisisLastResult.testName ? analisisLastResult.testName : analisisSelectedTest;
       return '<div class="page-body">' +
@@ -964,6 +1038,14 @@ var rightPanels = {
         '</div>' +
       '</div>';
     }
+    
+    // 2. Mostrar cards si hay tests seleccionados en el sidebar
+    var sideTests = getSidebarSelectedTests();
+    if (sideTests.length > 0) {
+      return buildStatCardsHTML(sideTests);
+    }
+    
+    // 3. Estado inicial / carga (wrapper con tres secciones solapadas)
     return '<div class="page-body">' +
       '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">' +
         '<span style="font-size:12px;color:var(--text-muted)">Selecciona un test desde el menú Statistical Analysis</span>' +
@@ -973,8 +1055,6 @@ var rightPanels = {
         // MAIN 1: Estado inicial (sin analíticos seleccionados)
         '<div class="analisis-main analisis-main-initial" style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;padding:20px' + (analisisSelectedTest ? ';display:none' : '') + '">' +
           '<div style="text-align:center;color:var(--text-faint);padding:40px;border:2px dashed var(--border);border-radius:8px;width:100%;max-width:600px">' +
-            // Label debug modo test
-            '<div style="margin-bottom:16px;padding:8px 12px;background:#2d2d2d;border-radius:4px;display:inline-block"><span style="color:#ff5f56">🔴 TEST:</span> <span style="color:var(--text-muted);font-size:11px">analisisSelectedTest=' + (analisisSelectedTest || 'null') + ' | analisisResultContent=' + (analisisResultContent ? 'exists' : 'null') + '</span></div>' +
             '<div style="font-size:48px;margin-bottom:16px">📊</div>' +
             '<div style="font-size:16px;font-weight:500;color:var(--text-muted);margin-bottom:8px">Área de Análisis</div>' +
             '<div style="font-size:12px;color:var(--text-faint)">Selecciona tests desde el menú Statistical Analysis</div>' +
@@ -988,8 +1068,6 @@ var rightPanels = {
         // MAIN 2: Estado de carga/ejecución (cuando hay test seleccionado pero sin resultado)
         '<div class="analisis-main analisis-main-loading" style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;padding:20px' + (analisisSelectedTest && !analisisResultContent ? '' : ';display:none') + '">' +
           '<div style="text-align:center;padding:40px;width:100%;max-width:500px">' +
-            // Label debug modo test
-            '<div style="margin-bottom:16px;padding:8px 12px;background:#2d2d2d;border-radius:4px;display:inline-block"><span style="color:#febc2e">🟡 TEST:</span> <span style="color:var(--text-muted);font-size:11px">analisisSelectedTest=' + (analisisSelectedTest || 'null') + ' | analisisResultContent=' + (analisisResultContent ? 'exists' : 'null') + '</span></div>' +
             '<div style="font-size:32px;margin-bottom:16px">⏳</div>' +
             '<div style="font-size:16px;font-weight:500;color:var(--text-muted);margin-bottom:8px">Ejecutando: ' + (analisisSelectedTest || '...') + '</div>' +
             '<div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin:16px 0">' +
@@ -999,8 +1077,6 @@ var rightPanels = {
         '</div>' +
         // MAIN 3: Estado de resultados (cuando hay resultado disponible)
         '<div class="analisis-main analisis-main-results" style="position:absolute;top:0;left:0;right:0;bottom:0;padding:20px;overflow-y:auto' + (analisisResultContent ? '' : ';display:none') + '">' +
-          // Label debug modo test
-          '<div style="margin-bottom:12px;padding:8px 12px;background:#2d2d2d;border-radius:4px;display:inline-block"><span style="color:#28c840">🟢 TEST:</span> <span style="color:var(--text-muted);font-size:11px">analisisSelectedTest=' + (analisisSelectedTest || 'null') + ' | analisisResultContent=' + (analisisResultContent ? 'exists' : 'null') + '</span></div>' +
           '<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:20px">' +
             '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">' +
               '<span style="font-size:14px;font-weight:600;color:var(--text-primary)">' + (analisisLastResult ? analisisLastResult.testName : 'Resultado') + '</span>' +
@@ -2037,275 +2113,195 @@ function updateAnalisisLastResult(result) {
   }
 }
 
-var DISPLAY_NAME_TO_ID = {
-  'Media Aritmética': 'media',
-  'Mediana': 'mediana',
-  'Moda': 'moda',
-  'Varianza': 'varianza',
-  'Desv. Estándar': 'desv',
-  'Coef. Variación': 'cv',
-  'Asimetría': 'asimetria',
-  'Curtosis': 'kurtosis',
-  't-Test': 'ttest',
-  'z-Test': 'ztest',
-  'F-Test': 'ftest',
-  'Chi-cuadrado': 'chisquare',
-  'Shapiro-Wilk': 'shapiro',
-  'Pearson': 'pearson',
-  'Spearman': 'spearman',
-  'Kendall': 'kendall',
-  'Lineal Simple': 'lineal',
-  'Regresión Múltiple': 'multiple',
-  'Regresión Logística': 'logistica',
-  'Mann-Whitney': 'mann',
-  'Wilcoxon': 'wilcoxon',
-  'Kruskal-Wallis': 'kruskal',
-  'PCA': 'pca',
-  'Cluster K-Means': 'cluster',
-  'LDA': 'lda'
-};
-function runStatisticalTest(nombreEstadistico) {
-  var cfg = getEstadisticoConfig(nombreEstadistico);
-  if (!cfg) { showToast('⚠️ Estadístico no encontrado: ' + nombreEstadistico); return; }
+// ── Helpers para cards de estadísticos ──
+function getSidebarSelectedTests() {
+  var tests = [];
+  document.querySelectorAll('.child-check:checked').forEach(function(chk) {
+    if (chk.dataset.nombre) tests.push(chk.dataset.nombre);
+  });
+  return tests;
+}
 
-  var sheet = getCurrentSheet();
-  if (!sheet || !sheet.rows || sheet.rows.length === 0) {
-    showToast('⚠️ No hay datos en la hoja de trabajo'); return;
+function getSectionDisplayName(key) {
+  var names = {
+    descriptiva: '📊 Descriptiva', hipotesis: '⚖️ Hipótesis',
+    correlacion: '🔗 Correlación', regresion: '📈 Regresión',
+    noParametricos: '📉 No Paramétricos', multivariado: '📦 Multivariado',
+    extras: '✨ Extras', especificacion: '📐 Especificación', calidad: '⚙️ Calidad'
+  };
+  return names[key] || key;
+}
+
+function buildStatCardsHTML(testNames) {
+  var cardsHtml = testNames.map(function(nombre) {
+    var cfg = getEstadisticoConfig(nombre);
+    if (!cfg) return '';
+    var icono = cfg.icono || '📊';
+    var meta = typeof getStatMetaConfig === 'function' ? (getStatMetaConfig()[nombre] || {}) : {};
+    var formula = meta.formula || cfg.formula || '—';
+    var desc = cfg.desc || '—';
+    var sectionName = getSectionDisplayName(cfg.seccion || '');
+    var inputs = cfg.inputs || {};
+    var supuestos = meta.supuestos || cfg.supuestos || [];
+    var ref = meta.referencia || cfg.referencia || null;
+
+    var refStr = '—';
+    if (ref) {
+      var r = Array.isArray(ref) ? ref[0] : ref;
+      var autor = r.autores || '';
+      if (autor.length > 40) autor = autor.split(',')[0] + ' et al.';
+      refStr = autor + (r.anio ? ' (' + r.anio + ')' : '');
+    }
+
+    var supHtml = supuestos.length > 0
+      ? '<div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--border)"><div class="sc-label">Supuestos</div>' +
+        supuestos.map(function(s) { return '<div class="sc-item">· ' + escapeHtml(s) + '</div>'; }).join('') + '</div>'
+      : '';
+
+    return '<div class="stat-card">' +
+      '<div class="sc-header">' +
+        '<span class="sc-icon">' + icono + '</span>' +
+        '<div class="sc-title-group">' +
+          '<div class="sc-title">' + escapeHtml(nombre) + '</div>' +
+          '<div class="sc-section">' + escapeHtml(sectionName) + '</div>' +
+        '</div>' +
+        '<span class="sc-close" onclick="deselectStatCard(\'' + nombre.replace(/'/g, "\\'") + '\')" title="Deseleccionar ' + escapeHtml(nombre) + '">✕</span>' +
+      '</div>' +
+      '<div class="sc-formula">' + escapeHtml(formula) + '</div>' +
+      '<div class="sc-desc">' + escapeHtml(desc) + '</div>' +
+      '<div class="sc-meta">' +
+        '<span>🎯 <strong>Inputs:</strong> ' + escapeHtml(inputs.tipo || '—') + '</span>' +
+        '<span>👥 <strong>Grupos:</strong> ' + (inputs.grupos || '—') + '</span>' +
+        '<span>📏 <strong>Mín:</strong> ' + cfg.minMuestra + '</span>' +
+      '</div>' +
+      supHtml +
+      '<div class="sc-ref">📖 ' + escapeHtml(refStr) + '</div>' +
+    '</div>';
+  }).join('');
+
+  return '<div class="page-body">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">' +
+      '<span style="font-size:14px;font-weight:600;color:var(--text-primary)">📋 Tests seleccionados</span>' +
+      '<span style="font-size:11px;color:var(--text-faint)">' + testNames.length + ' tests</span>' +
+    '</div>' +
+    '<div class="stat-cards-grid">' + cardsHtml + '</div>' +
+  '</div>';
+}
+
+function deselectStatCard(nombre) {
+  var chk = document.querySelector('.child-check[data-nombre="' + nombre.replace(/"/g, '&quot;') + '"]');
+  if (!chk) return;
+  var seccionKey = chk.dataset.seccion;
+  chk.checked = false;
+  updateParentCheck(seccionKey);
+  updateBadge(seccionKey);
+  if (analisisSelectedTest === nombre) analisisSelectedTest = null;
+  if (currentPage === 'analisis') {
+    leftPaneBody.innerHTML = leftPanels.analisis();
+    rightPaneBody.innerHTML = rightPanels.analisis();
   }
+}
 
-  // Detectar columnas numéricas
-  var numericCols = [], colIndices = [];
-  for (var j = 0; j < sheet.headers.length; j++) {
+function getDataForEjecutarAnalisis() {
+  var sheet = getCurrentSheet();
+  if (!sheet || !sheet.rows || sheet.rows.length === 0) return null;
+  var mapped = sheet.rows.map(function(row) {
+    var obj = {};
+    sheet.headers.forEach(function(h, i) { obj[h] = row[i]; });
+    return obj;
+  });
+  return { headers: sheet.headers, data: mapped, rowCount: mapped.length };
+}
+
+function runSingleStat(nombre) {
+  var data = getDataForEjecutarAnalisis();
+  if (!data) { showToast('⚠️ No hay datos en la hoja de trabajo'); return; }
+
+  var cfg = getEstadisticoConfig(nombre);
+  if (!cfg) { showToast('⚠️ Estadístico no encontrado: ' + nombre); return; }
+
+  var numericCols = [];
+  for (var j = 0; j < data.headers.length; j++) {
     var numCount = 0, total = 0;
-    for (var i = 0; i < Math.min(sheet.rows.length, 20); i++) {
-      var val = sheet.rows[i][j];
+    for (var i = 0; i < Math.min(data.data.length, 20); i++) {
+      var val = data.data[i][data.headers[j]];
       if (val !== '' && val != null) {
         total++;
         if (!isNaN(parseFloat(val))) numCount++;
       }
     }
     if (total > 0 && numCount / total >= 0.8) {
-      numericCols.push(sheet.headers[j]);
-      colIndices.push(j);
+      numericCols.push(data.headers[j]);
     }
   }
 
-  // Validar mínimo de muestra desde config
   var values = [];
-  if (colIndices.length > 0) {
-    for (var i = 0; i < sheet.rows.length; i++) {
-      var v = parseFloat(sheet.rows[i][colIndices[0]]);
+  if (numericCols.length > 0) {
+    data.data.forEach(function(row) {
+      var v = parseFloat(row[numericCols[0]]);
       if (!isNaN(v) && isFinite(v)) values.push(v);
-    }
+    });
   }
-
   if (values.length < cfg.minMuestra) {
-    showToast('⚠️ ' + nombreEstadistico + ' requiere al menos '
-      + cfg.minMuestra + ' observaciones (tienes ' + values.length + ')');
+    showToast('⚠️ ' + nombre + ' requiere al menos ' + cfg.minMuestra + ' observaciones');
+    return;
+  }
+  if (cfg.requiereDosColumnas && numericCols.length < 2) {
+    showToast('⚠️ ' + nombre + ' requiere al menos 2 columnas numéricas');
     return;
   }
 
-  if (cfg.requiereDosColumnas && colIndices.length < 2) {
-    showToast('⚠️ ' + nombreEstadistico + ' requiere al menos 2 columnas numéricas');
-    return;
-  }
-
-  // Convertir nombre visible → ID interno para el switch en runStatisticalTestImpl
-  var testInternalId = (DISPLAY_NAME_TO_ID[nombreEstadistico] || nombreEstadistico);
-
-  // Llamar a la función real del EstadisticaDescriptiva.js
-  runStatisticalTestImpl(testInternalId, cfg.label || nombreEstadistico, sheet, numericCols, colIndices);
-}
-
-function runStatisticalTestImpl(testName, displayName, sheet, numericCols, colIndices) {
-  var headers = sheet.headers;
-  var rows = sheet.rows;
-  var colIdx = colIndices[0];
-  
-  var values = [];
-  for (var i = 0; i < rows.length; i++) {
-    var v = parseFloat(rows[i][colIdx]);
-    if (!isNaN(v) && isFinite(v)) values.push(v);
-  }
-  
-  if (values.length < 2) {
-    showToast('⚠️ Datos insuficientes para análisis');
-    return;
-  }
-  
-  var result = null;
-  var resultHtml = '';
-  
-  switch(testName) {
-    case 'media':
-      result = EstadisticaDescriptiva.calcularMedia(values);
-      resultHtml = '<h3>Media Aritmética</h3><p class="stat-value">μ = ' + result.toFixed(4) + '</p><p class="stat-desc">Promedio de los valores</p>';
-      break;
-    case 'mediana':
-      result = EstadisticaDescriptiva.calcularMediana(values);
-      resultHtml = '<h3>Mediana</h3><p class="stat-value">Me = ' + result.toFixed(4) + '</p><p class="stat-desc">Valor central de los datos</p>';
-      break;
-    case 'moda':
-      result = EstadisticaDescriptiva.calcularModa(values);
-      resultHtml = '<h3>Moda</h3><p class="stat-value">Mo = ' + (Array.isArray(result) ? result.join(', ') : result) + '</p><p class="stat-desc">Valor más frecuente</p>';
-      break;
-    case 'varianza':
-      result = EstadisticaDescriptiva.calcularVarianza(values, true);
-      resultHtml = '<h3>Varianza Muestral</h3><p class="stat-value">s² = ' + result.toFixed(4) + '</p>';
-      break;
-    case 'desv':
-      result = EstadisticaDescriptiva.calcularDesviacionEstandar(values, true);
-      resultHtml = '<h3>Desviación Estándar</h3><p class="stat-value">s = ' + result.toFixed(4) + '</p>';
-      break;
-    case 'cv':
-      result = EstadisticaDescriptiva.calcularCoeficienteVariacion(values);
-      resultHtml = '<h3>Coeficiente de Variación</h3><p class="stat-value">CV = ' + result.toFixed(2) + '%</p>';
-      break;
-    case 'asimetria':
-      result = EstadisticaDescriptiva.calcularAsimetria(values, true);
-      resultHtml = '<h3>Asimetría</h3><p class="stat-value">g1 = ' + result.toFixed(4) + '</p><p class="stat-desc">' + (result > 0 ? 'Asimétrica positiva' : result < 0 ? 'Asimétrica negativa' : 'Simétrica') + '</p>';
-      break;
-    case 'kurtosis':
-      result = EstadisticaDescriptiva.calcularCurtosis(values, true);
-      resultHtml = '<h3>Curtosis</h3><p class="stat-value">g2 = ' + result.toFixed(4) + '</p><p class="stat-desc">' + (result > 0 ? 'Leptocúrtica' : result < 0 ? 'Platicúrtica' : 'Mesocúrtica') + '</p>';
-      break;
-    case 'ttest':
-      result = EstadisticaDescriptiva.calcularTTestUnaMuestra(values, 0);
-      resultHtml = '<h3>T-Test (una muestra)</h3>' +
-        '<p><strong>t:</strong> ' + result.estadisticoT.toFixed(4) + '</p>' +
-        '<p><strong>gl:</strong> ' + result.gradosLibertad + '</p>' +
-        '<p><strong>p-value:</strong> ' + result.valorP.toFixed(4) + '</p>' +
-        '<p class="stat-result">' + result.interpretacion + '</p>';
-      break;
-    case 'shapiro':
-      result = EstadisticaDescriptiva.calcularShapiroWilk(values);
-      resultHtml = '<h3>Test de Shapiro-Wilk</h3>' +
-        '<p><strong>W:</strong> ' + result.estadisticoW + '</p>' +
-        '<p><strong>p-value:</strong> ' + result.valorP + '</p>' +
-        '<p class="stat-result">' + result.interpretacion + '</p>';
-      break;
-    case 'pearson':
-      if (colIndices.length < 2) {
-        showToast('⚠️ Se necesitan al menos 2 columnas numéricas');
-        return;
-      }
-      var colIdx2 = colIndices[1];
-      var values2 = [];
-      for (var i = 0; i < rows.length; i++) {
-        var v1 = parseFloat(rows[i][colIdx]);
-        var v2 = parseFloat(rows[i][colIdx2]);
-        if (!isNaN(v1) && !isNaN(v2)) values2.push([v1, v2]);
-      }
-      result = StatsUtils.calcularCorrelacionPearson(values2.map(function(p){ return p[0]; }), values2.map(function(p){ return p[1]; }));
-      resultHtml = '<h3>Correlación de Pearson</h3>' +
-        '<p class="stat-value">r = ' + result.r.toFixed(4) + '</p>' +
-        '<p class="stat-desc">Columna: ' + numericCols[0] + ' vs ' + numericCols[1] + '</p>' +
-        '<p>' + (Math.abs(result.r) > 0.7 ? 'Correlación fuerte' : Math.abs(result.r) > 0.3 ? 'Correlación moderada' : 'Correlación débil') + '</p>';
-      break;
-    case 'chisquare':
-      resultHtml = '<h3>Chi-Cuadrado</h3><p class="stat-desc">Requiere tabla de contingencia. Use la herramienta de contingencia en el menú.</p>';
-      break;
-    case 'mann':
-    case 'wilcoxon':
-    case 'kruskal':
-      resultHtml = '<h3>' + displayName + '</h3><p class="stat-desc">Requiere especificar grupos. Use las herramientas de comparación de grupos.</p>';
-      break;
-    case 'lineal':
-      if (colIndices.length < 2) {
-        showToast('⚠️ Se necesitan al menos 2 columnas numéricas');
-        return;
-      }
-      var colIdx2 = colIndices[1];
-      var xyData = [];
-      for (var i = 0; i < rows.length; i++) {
-        var vx = parseFloat(rows[i][colIdx]);
-        var vy = parseFloat(rows[i][colIdx2]);
-        if (!isNaN(vx) && !isNaN(vy)) xyData.push({x: vx, y: vy});
-      }
-      var xVals = xyData.map(function(p){ return p.x; });
-      var yVals = xyData.map(function(p){ return p.y; });
-      var n = xVals.length;
-      var sumX = xVals.reduce(function(a,b){ return a+b; }, 0);
-      var sumY = yVals.reduce(function(a,b){ return a+b; }, 0);
-      var sumXY = 0, sumX2 = 0, sumY2 = 0;
-      for (var i = 0; i < n; i++) {
-        sumXY += xVals[i] * yVals[i];
-        sumX2 += xVals[i] * xVals[i];
-        sumY2 += yVals[i] * yVals[i];
-      }
-      var slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
-      var intercept = (sumY - slope * sumX) / n;
-      var yMean = sumY / n;
-      var ssTot = yVals.reduce(function(acc, y){ return acc + Math.pow(y - yMean, 2); }, 0);
-      var ssRes = 0;
-      for (var i = 0; i < n; i++) {
-        var pred = intercept + slope * xVals[i];
-        ssRes += Math.pow(yVals[i] - pred, 2);
-      }
-      var r2 = 1 - (ssRes / ssTot);
-      var rmse = Math.sqrt(ssRes / n);
-      resultHtml = '<h3>Regresión Lineal Simple</h3>' +
-        '<p><strong>Y = ' + intercept.toFixed(4) + ' + ' + slope.toFixed(4) + 'X</strong></p>' +
-        '<p>Intercepto: ' + intercept.toFixed(4) + '</p>' +
-        '<p>Pendiente: ' + slope.toFixed(4) + '</p>' +
-        '<p><strong>R²:</strong> ' + r2.toFixed(4) + '</p>' +
-        '<p>RMSE: ' + rmse.toFixed(4) + '</p>';
-      break;
-    default:
-      resultHtml = '<p>Test no implementado: ' + displayName + '</p>';
-    }
-
-  analisisResultContent = resultHtml;
-
-  var resultInfo = { testName: displayName, pValue: null, significativo: false };
-  if (result && typeof result === 'object') {
-    if (result.valorP !== undefined) resultInfo.pValue = result.valorP;
-    else if (result.p !== undefined) resultInfo.pValue = result.p;
-    resultInfo.significativo = result.significativo || (resultInfo.pValue !== null && resultInfo.pValue < 0.05);
-  }
-  updateAnalisisLastResult(resultInfo);
-  
-  // Immediately update the right panel to show the result
+  analisisSelectedTest = nombre;
+  analisisResultContent = null;
   rightPaneBody.innerHTML = rightPanels.analisis();
-  
-  showStatResultModal(displayName, resultHtml);
+
+  try {
+    var resultados = EstadisticaDescriptiva.ejecutarAnalisis(data, [nombre], {});
+    var html = EstadisticaDescriptiva.generarHTML(resultados);
+    analisisResultContent = html;
+
+    var resultInfo = { testName: nombre, pValue: null, significativo: false };
+    var resObj = resultados.resultados[nombre];
+    if (resObj && typeof resObj === 'object') {
+      var firstKey = Object.keys(resObj)[0];
+      if (resObj[firstKey] && typeof resObj[firstKey] === 'object') {
+        var r = resObj[firstKey];
+        if (r.valorP !== undefined) resultInfo.pValue = r.valorP;
+        else if (r.p !== undefined) resultInfo.pValue = r.p;
+        resultInfo.significativo = r.significativo || (resultInfo.pValue !== null && resultInfo.pValue < 0.05);
+      }
+    }
+    updateAnalisisLastResult(resultInfo);
+  } catch(e) {
+    console.error('Error executing ' + nombre + ':', e);
+    analisisResultContent = '<div class="page-card"><div class="page-card-body" style="padding:20px;color:#f87171"><strong>Error:</strong> ' + escapeHtml(e.message) + '</div></div>';
+  }
+
+  rightPaneBody.innerHTML = rightPanels.analisis();
 }
 
-function showStatResultModal(title, content) {
-  var existing = document.getElementById('statResultModal');
-  if (existing) existing.remove();
-  
-  var modal = document.createElement('div');
-  modal.id = 'statResultModal';
-  modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:2000';
-  
-  var box = document.createElement('div');
-  box.style.cssText = 'background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:24px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.3)';
-  
-  var header = document.createElement('div');
-  header.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:12px';
-  header.innerHTML = '<h2 style="margin:0;font-size:18px;color:var(--text)">' + title + '</h2>';
-  
-  var closeBtn = document.createElement('button');
-  closeBtn.textContent = '×';
-  closeBtn.style.cssText = 'background:none;border:none;font-size:24px;cursor:pointer;color:var(--text-faint)';
-  closeBtn.onclick = function() { modal.remove(); };
-  header.appendChild(closeBtn);
-  
-  var body = document.createElement('div');
-  body.innerHTML = content;
-  body.style.cssText = 'font-size:14px;line-height:1.6';
-  
-  var style = document.createElement('style');
-  style.textContent = '.stat-value{font-size:24px;font-weight:bold;color:var(--accent);margin:8px 0}.stat-desc{color:var(--text-faint);font-size:12px}.stat-result{margin-top:12px;padding:8px;background:var(--bg-inset);border-radius:4px;font-size:13px}';
-  body.appendChild(style);
-  
-  box.appendChild(header);
-  box.appendChild(body);
-  modal.appendChild(box);
-  document.body.appendChild(modal);
-  
-  modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
+function runBatchAnalysis() {
+  var data = getDataForEjecutarAnalisis();
+  if (!data) { showToast('⚠️ No hay datos en la hoja de trabajo'); return; }
+
+  var selected = getSidebarSelectedTests();
+  if (selected.length === 0) { showToast('⚠️ Selecciona al menos un test'); return; }
+
+  analisisResultContent = null;
+  rightPaneBody.innerHTML = rightPanels.analisis();
+
+  try {
+    var resultados = EstadisticaDescriptiva.ejecutarAnalisis(data, selected, {});
+    var html = EstadisticaDescriptiva.generarHTML(resultados);
+    analisisResultContent = html;
+    analisisSelectedTest = selected.join(', ');
+    updateAnalisisLastResult({ testName: selected.length + ' tests', pValue: null, significativo: false });
+  } catch(e) {
+    console.error('Error in batch analysis:', e);
+    analisisResultContent = '<div class="page-card"><div class="page-card-body" style="padding:20px;color:#f87171"><strong>Error:</strong> ' + escapeHtml(e.message) + '</div></div>';
+  }
+
+  rightPaneBody.innerHTML = rightPanels.analisis();
 }
 
 // ── Utility ──
@@ -2375,6 +2371,9 @@ function onChildCheck(event, seccionKey) {
   event.stopPropagation();
   updateParentCheck(seccionKey);
   updateBadge(seccionKey);
+  if (currentPage === 'analisis') {
+    rightPaneBody.innerHTML = rightPanels.analisis();
+  }
 }
 
 function onParentCheck(event, seccionKey) {
@@ -2391,6 +2390,7 @@ function onParentCheck(event, seccionKey) {
 
   if (currentPage === 'analisis') {
     leftPaneBody.innerHTML = leftPanels.analisis();
+    rightPaneBody.innerHTML = rightPanels.analisis();
   }
 }
 
@@ -2465,30 +2465,18 @@ function onSubitemClick(event, nombre, seccionKey) {
     console.log('[DBG] Sidebar updated, leftPaneBody.innerHTML length:', leftPaneBody.innerHTML.length, leftPaneBody.innerHTML.substring(0, 120));
   }
 
-  // 5. Ejecutar el test — él actualiza rightPaneBody al terminar
+  // 5. Actualizar panel derecho para mostrar cards (antes de ejecutar test)
+  rightPaneBody.innerHTML = rightPanels.analisis();
+
+  // 6. Ejecutar el test — él actualiza rightPaneBody al terminar
   try {
-    runStatisticalTest(nombre);
+    runSingleStat(nombre);
   } catch(e) {
     console.error('Error executing test:', e);
     showToast('⚠️ Error al ejecutar: ' + e.message);
   }
 }
 
-// ── Obtener todos los estadísticos seleccionados ──
-function getSelectedEstadisticos() {
-  var selected = [];
-  document.querySelectorAll('.child-check:checked').forEach(function(chk) {
-    selected.push(chk.dataset.nombre);
-  });
-  return selected;
-}
-
-// ── Ejecutar todos los seleccionados (útil para un botón "Ejecutar seleccionados") ──
-function runSelectedEstadisticos() {
-  var selected = getSelectedEstadisticos();
-  if (!selected.length) { showToast('⚠️ No hay estadísticos seleccionados'); return; }
-  selected.forEach(function(nombre) { runStatisticalTest(nombre); });
-}
 // Construir menú estadístico desde config
 document.addEventListener('DOMContentLoaded', function() {
   buildStatAnalysisMenu();
