@@ -71,10 +71,38 @@
 - t-Test, Shapiro-Wilk
 - Correlación Pearson, Regresión Lineal
 
+### 🐛 DEBUG: onSubitemClick logging agregado (14 May 2026)
+
+| # | Cambio | Archivo | Líneas | Estado |
+|---|--------|---------|--------|--------|
+| 1 | 3 console.log estratégicos en onSubitemClick para diagnosticar bug de selección individual | `indexx.html` | 2408, 2409, 2429, 2435 | ✅ |
+
+**Bug en diagnóstico:** Selección grupal (parent checkbox) carga hijos en sidebar OK, pero selección individual (click en texto subitem) NO carga. Sin errores visibles en consola ni UI.
+
+**Logs agregados:**
+- `[DBG] onSubitemClick called` — muestra nombre, seccionKey, targetClass, currentPage
+- `[DBG] → early return (stat-check)` — si el click fue directo en el checkbox
+- `[DBG] currentPage=... | analisisSelectedCategory=... | analisisSelectedTest=...` — antes de la condición
+- `[DBG] Sidebar updated, leftPaneBody.innerHTML length:...` — después de actualizar sidebar
+
+**Uso:** Abrir DevTools (F12), hacer click individual en menú, revisar console output.
+
+### 🐛 FIX: DISPLAY_NAME_TO_ID mapping para selección individual (14 May 2026)
+
+| # | Cambio | Archivo | Líneas | Estado |
+|---|--------|---------|--------|--------|
+| 1 | Agregado objeto DISPLAY_NAME_TO_ID que mapea nombres visibles → IDs internos | `indexx.html` | 2040-2066 | ✅ |
+| 2 | runStatisticalTest ahora convierte nombreEstadistico a testInternalId antes de llamar a runStatisticalTestImpl | `indexx.html` | 2113-2117 | ✅ |
+
+**Bug encontrado:** `onSubitemClick` pasaba el nombre visible ('Media Aritmética') a `runStatisticalTest`, que a su vez lo pasaba al switch en `runStatisticalTestImpl`. El switch usa IDs internos ('media', 'mediana', etc.), por lo que NUNCA matcheaba ningún case — siempre caía en `default` mostrando "Test no implementado".
+
+**Solución:** Objeto global `DISPLAY_NAME_TO_ID` que mapea 25 nombres visibles a sus IDs internos. `runStatisticalTest` lo usa para convertir antes de llamar a `runStatisticalTestImpl`.
+
 **Archivos modificados:**
-- `indexx.html`: líneas ~1814-1980 (runStatisticalTest actualizado)
-- `StatsUtils.js`: línea ~522 (window.StatsUtils)
-- `EstadisticaDescriptiva.js`: líneas ~5115-5120 (window.EstadisticaDescriptiva) 
+- `indexx.html`: líneas ~2040-2117 (DISPLAY_NAME_TO_ID + runStatisticalTest fix)
+
+**Archivos modificados:**
+- `indexx.html`: líneas ~2407-2445 (onSubitemClick con logs) 
 
 ---
 

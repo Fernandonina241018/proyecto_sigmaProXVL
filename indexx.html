@@ -2037,6 +2037,33 @@ function updateAnalisisLastResult(result) {
   }
 }
 
+var DISPLAY_NAME_TO_ID = {
+  'Media Aritmética': 'media',
+  'Mediana': 'mediana',
+  'Moda': 'moda',
+  'Varianza': 'varianza',
+  'Desv. Estándar': 'desv',
+  'Coef. Variación': 'cv',
+  'Asimetría': 'asimetria',
+  'Curtosis': 'kurtosis',
+  't-Test': 'ttest',
+  'z-Test': 'ztest',
+  'F-Test': 'ftest',
+  'Chi-cuadrado': 'chisquare',
+  'Shapiro-Wilk': 'shapiro',
+  'Pearson': 'pearson',
+  'Spearman': 'spearman',
+  'Kendall': 'kendall',
+  'Lineal Simple': 'lineal',
+  'Regresión Múltiple': 'multiple',
+  'Regresión Logística': 'logistica',
+  'Mann-Whitney': 'mann',
+  'Wilcoxon': 'wilcoxon',
+  'Kruskal-Wallis': 'kruskal',
+  'PCA': 'pca',
+  'Cluster K-Means': 'cluster',
+  'LDA': 'lda'
+};
 function runStatisticalTest(nombreEstadistico) {
   var cfg = getEstadisticoConfig(nombreEstadistico);
   if (!cfg) { showToast('⚠️ Estadístico no encontrado: ' + nombreEstadistico); return; }
@@ -2083,8 +2110,11 @@ function runStatisticalTest(nombreEstadistico) {
     return;
   }
 
+  // Convertir nombre visible → ID interno para el switch en runStatisticalTestImpl
+  var testInternalId = (DISPLAY_NAME_TO_ID[nombreEstadistico] || nombreEstadistico);
+
   // Llamar a la función real del EstadisticaDescriptiva.js
-  runStatisticalTestImpl(nombreEstadistico, cfg.label || nombreEstadistico, sheet, numericCols, colIndices);
+  runStatisticalTestImpl(testInternalId, cfg.label || nombreEstadistico, sheet, numericCols, colIndices);
 }
 
 function runStatisticalTestImpl(testName, displayName, sheet, numericCols, colIndices) {
@@ -2347,29 +2377,18 @@ function onChildCheck(event, seccionKey) {
   updateBadge(seccionKey);
 }
 
-// ── Click en checkbox padre — selecciona/deselecciona todos los hijos ──
 function onParentCheck(event, seccionKey) {
   event.stopPropagation();
   var parentChk = document.getElementById('chk-parent-' + seccionKey);
   var checked = parentChk.checked;
-  var children = document.querySelectorAll(
-    '.child-check[data-seccion="' + seccionKey + '"]'
-  );
-  children.forEach(function(chk) { chk.checked = checked; });
+  document.querySelectorAll('.child-check[data-seccion="' + seccionKey + '"]')
+    .forEach(function(chk) { chk.checked = checked; });
   parentChk.classList.remove('partial');
   updateBadge(seccionKey);
-  
-  // Actualizar categoría y recargar página de Análisis
-  var categoryMap = {
-    'Descriptiva': 'descriptiva',
-    'Hipótesis': 'hipotesis',
-    'Correlación': 'correlacion',
-    'Regresión': 'regresion',
-    'No Paramétricos': 'noParametricos',
-    'Multivariado': 'multivariado'
-  };
-  analisisSelectedCategory = categoryMap[seccionKey] || 'descriptiva';
-  
+
+  // ✅ mismo fix — seccionKey directo
+  analisisSelectedCategory = seccionKey;
+
   if (currentPage === 'analisis') {
     leftPaneBody.innerHTML = leftPanels.analisis();
   }
@@ -2416,10 +2435,10 @@ function selectAnalisisTestDirect(testId, category) {
 }
 
 function onSubitemClick(event, nombre, seccionKey) {
-  // Ignorar si el click fue directo sobre el checkbox (ese tiene su propio handler)
-  if (event.target.classList.contains('stat-check')) return;
+  console.log('[DBG] onSubitemClick called', { nombre, seccionKey, targetClass: event.target.classList.toString(), currentPage });
+  if (event.target.classList.contains('stat-check')) { console.log('[DBG] → early return (stat-check)'); return; }
 
-  // 1. Marcar el checkbox del item clickeado
+  // 1. Marcar checkbox
   var id = 'chk-' + seccionKey + '-' + nombre.replace(/[^a-zA-Z0-9]/g, '_');
   var chk = document.getElementById(id);
   if (chk) {
@@ -2428,36 +2447,25 @@ function onSubitemClick(event, nombre, seccionKey) {
     updateBadge(seccionKey);
   }
 
-  // 2. Mapear la sección del menú a la categoría interna
-  var categoryMap = {
-    'Descriptiva': 'descriptiva',
-    'Hipótesis': 'hipotesis',
-    'Correlación': 'correlacion',
-    'Regresión': 'regresion',
-    'No Paramétricos': 'noParametricos',
-    'Multivariado': 'multivariado'
-  };
-  
-  // 3. Actualizar estado global
-  analisisSelectedCategory = categoryMap[seccionKey] || 'descriptiva';
+  // 2. Actualizar estado global
+  analisisSelectedCategory = seccionKey;
   analisisSelectedTest = nombre;
-  
-  // 4. Cerrar el dropdown del menú superior
+
+  // 3. Cerrar el dropdown
   document.querySelectorAll('.menu-item').forEach(function(i){ i.classList.remove('open'); });
   anyOpen = false;
-  
-  // 5. Recargar página de Análisis para actualizar UI inmediatamente
-  loadPage('analisis');
-  
-  // 6. Forzar actualización del sidebar para mostrar test seleccionado
-  if (currentPage === 'analisis') {
+
+  // 4. Si NO estamos en análisis, navegar primero
+  console.log('[DBG] currentPage=' + currentPage + ' | analisisSelectedCategory=' + analisisSelectedCategory + ' | analisisSelectedTest=' + analisisSelectedTest);
+  if (currentPage !== 'analisis') {
+    loadPage('analisis');
+  } else {
+    // Solo actualizar el sidebar izquierdo sin tocar el panel derecho
     leftPaneBody.innerHTML = leftPanels.analisis();
+    console.log('[DBG] Sidebar updated, leftPaneBody.innerHTML length:', leftPaneBody.innerHTML.length, leftPaneBody.innerHTML.substring(0, 120));
   }
-  
-  // 7. Debug test execution
-  console.log('[TEST] Ejecutando:', nombre, 'desde sección:', seccionKey);
-  
-  // 7. Ejecutar test con manejo de errores
+
+  // 5. Ejecutar el test — él actualiza rightPaneBody al terminar
   try {
     runStatisticalTest(nombre);
   } catch(e) {
