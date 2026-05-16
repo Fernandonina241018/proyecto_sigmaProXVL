@@ -65,6 +65,17 @@
 | 8 | 13 May 2026 | Selection from Statistical menu navega a Análisis | ✅ |
 | 9 | 13 May 2026 | Último resultado se muestra en panel izquierdo | ✅ |
 
+### 🔧 FIX: utils.js faltante + null.toFixed + dead refs runStatisticalTest (15 May 2026)
+
+| # | Cambio | Archivo | Líneas | Estado |
+|---|--------|---------|--------|--------|
+| 1 | Agregado `<script src="utils.js">` para resolver `ReferenceError: HYPOTHESIS_SET is not defined` | `indexx.html` | 2516 | ✅ |
+| 2 | Corregido `pValue !== undefined` → `pValue != null` en leftPanels.analisis() y updateAnalisisLastResult (prevenía crash `null.toFixed`) | `indexx.html` | 889, 2135 | ✅ |
+| 3 | Corregido `selectAnalisisTest` y `selectAnalisisTestDirect`: `runStatisticalTest` → `runSingleStat + analisisResultContent = null` | `indexx.html` | 2123-2127, 2463-2468 | ✅ |
+| 4 | Revertido formato visual de resultados (CSS .ar-*, .acordeon-*, toggleAcordeon()) — el usuario lo solicitó | `indexx.html` | eliminado | ✅ |
+
+**Qué cambió:** El usuario revirtió manualmente el formateo de resultados (commit b71ec90) pero accidentalmente eliminó `<script src="utils.js">` y reintrodujo el bug `null.toFixed()`. Se corrigieron ambos problemas más dead refs adicionales.
+
 ### ✨ MAJOR: Migración batch a ejecutarAnalisis + 40+ tests (15 May 2026)
 
 | # | Cambio | Archivo | Líneas | Estado |
