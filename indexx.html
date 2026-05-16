@@ -2382,6 +2382,25 @@ function runBatchAnalysis() {
   var selected = getSidebarSelectedTests();
   if (selected.length === 0) { showToast('⚠️ Selecciona al menos un test'); return; }
 
+  var numericCols = [];
+  for (var j = 0; j < data.headers.length; j++) {
+    var numCount = 0, total = 0;
+    for (var i = 0; i < Math.min(data.data.length, 20); i++) {
+      var val = data.data[i][data.headers[j]];
+      if (val !== '' && val != null) {
+        total++;
+        if (!isNaN(parseFloat(val))) numCount++;
+      }
+    }
+    if (total > 0 && numCount / total >= 0.8) {
+      numericCols.push(data.headers[j]);
+    }
+  }
+  if (numericCols.length === 0) {
+    showToast('⚠️ No se encontraron columnas numéricas en la hoja de trabajo');
+    return;
+  }
+
   analisisResultContent = null;
   rightPaneBody.innerHTML = rightPanels.analisis();
 
