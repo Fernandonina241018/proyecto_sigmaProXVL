@@ -74,6 +74,7 @@
 | 17 | 17 May 2026 | Fix: Curva normal plana en primer histograma — dimensiones explícitas en canvas | ✅ |
 | 18 | 17 May 2026 | Fix: hypothesisConfig {} → real config desde StateManager en runSingleStat/runBatch | ✅ |
 | 19 | 17 May 2026 | Feat: Modal de selección de columnas en runSingleStat para tests con dependencias | ✅ |
+| 20 | 17 May 2026 | Fix: data.grupos?.join TypeError — Array.isArray guard en hypothesisKpiCards | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 

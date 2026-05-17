@@ -4516,7 +4516,8 @@ function generarHTML(analisisResultado) {
         // ANOVA One-Way
         if (statKey === 'ANOVA One-Way') {
             if (data.error) return `<p class="ar-error">${data.error}</p>`;
-            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${data.grupos?.join(', ') || 'Grupos'}</div>
+            const gruposLabel = Array.isArray(data.grupos) ? data.grupos.join(', ') : (data.grupos != null ? data.grupos : 'Grupos');
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${gruposLabel}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estadístico F</span><span class="ar-kpi-sub-v">${data.estadisticoF?.toFixed(4) ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
