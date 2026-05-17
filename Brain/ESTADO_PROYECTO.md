@@ -73,6 +73,7 @@
 | 16 | 17 May 2026 | Eliminado tab decorativo [Tabs Menu] del tabbar | ✅ |
 | 17 | 17 May 2026 | Fix: Curva normal plana en primer histograma — dimensiones explícitas en canvas | ✅ |
 | 18 | 17 May 2026 | Fix: hypothesisConfig {} → real config desde StateManager en runSingleStat/runBatch | ✅ |
+| 19 | 17 May 2026 | Feat: Modal de selección de columnas en runSingleStat para tests con dependencias | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 

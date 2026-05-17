@@ -3020,6 +3020,58 @@ function getDataForEjecutarAnalisis() {
   return { headers: sheet.headers, data: mapped, rowCount: mapped.length };
 }
 
+function _detectColTypes(headers, data) {
+  var catCols = [], numCols = [];
+  headers.forEach(function(h) {
+    var n = 0, t = 0;
+    for (var i = 0; i < Math.min(data.length, 50); i++) {
+      var v = data[i][h];
+      if (v !== '' && v != null) { t++; if (!isNaN(parseFloat(v))) n++; }
+    }
+    if (t > 0 && n / t >= 0.8) numCols.push(h);
+    else catCols.push(h);
+  });
+  return { catCols: catCols, numCols: numCols };
+}
+
+function _mostrarModalConfigTest(nombre, callback) {
+  var cfg = getEstadisticoConfig(nombre);
+  if (!cfg || !HYPOTHESIS_SET.has(nombre)) { callback(); return; }
+  var data = getDataForEjecutarAnalisis();
+  if (!data) { callback(); return; }
+  var tipos = _detectColTypes(data.headers, data.data);
+  if (tipos.numCols.length === 0) { showToast('⚠️ No hay columnas numéricas disponibles'); callback(); return; }
+  var t = cfg.inputs && cfg.inputs.tipo;
+  var necesitaCat = t === 'tabla-contingencia' || t === 'dos-columnas';
+  if (necesitaCat && tipos.catCols.length === 0) { showToast('⚠️ No hay columnas categóricas disponibles'); callback(); return; }
+  var optsN = tipos.numCols.map(function(c) { return '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; }).join('');
+  var optsC = tipos.catCols.length ? tipos.catCols.map(function(c) { return '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; }).join('') : '';
+  var modal = document.createElement('div'); modal.className = 'modal-overlay';
+  modal.innerHTML =
+    '<div class="modal-box" style="max-width:480px">' +
+      '<div class="modal-title">⚙️ Configurar: ' + escapeHtml(nombre) + '</div>' +
+      '<div style="font-size:11px;color:var(--text-faint)">Selecciona las columnas para este análisis</div>' +
+      (necesitaCat
+        ? '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de agrupación (categórica)</label><select id="cfgColCat" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>'
+        : '') +
+      '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de valores (numérica)</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+      '<div class="modal-actions">' +
+        '<button class="btn btn-secondary" id="cfgCancel">Cancelar</button>' +
+        '<button class="btn btn-primary" id="cfgConfirm">Confirmar</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(modal);
+  document.getElementById('cfgCancel').addEventListener('click', function() { modal.remove(); });
+  document.getElementById('cfgConfirm').addEventListener('click', function() {
+    var config = {};
+    if (necesitaCat) config.columnaAgrupacion = document.getElementById('cfgColCat').value;
+    config.columnaValores = document.getElementById('cfgColNum').value;
+    StateManager.setHypothesisConfig(nombre, config);
+    modal.remove();
+    callback();
+  });
+}
+
 function runSingleStat(nombre) {
   var data = getDataForEjecutarAnalisis();
   if (!data) { showToast('⚠️ No hay datos en la hoja de trabajo'); return; }
@@ -3055,6 +3107,11 @@ function runSingleStat(nombre) {
   }
   if (cfg.requiereDosColumnas && numericCols.length < 2) {
     showToast('⚠️ ' + nombre + ' requiere al menos 2 columnas numéricas');
+    return;
+  }
+
+  if (HYPOTHESIS_SET.has(nombre) && !StateManager.getHypothesisConfig(nombre)) {
+    _mostrarModalConfigTest(nombre, function() { runSingleStat(nombre); });
     return;
   }
 
