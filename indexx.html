@@ -1207,6 +1207,7 @@ var rightPanels = {
           '<div id="vizExtraYList"></div>' +
         '</div>' +
         '<button class="btn btn-primary" id="vizRenderBtn" style="font-size:12px">🎨 Renderizar</button>' +
+        '<button class="btn btn-secondary" onclick="loadPage(\'reportes\')" style="font-size:12px;margin-left:auto">📄 Reportes</button>' +
       '</div>' +
     '</div>' +
     '<div id="vizCardsContainer" style="display:flex;flex-direction:column;gap:10px"></div>' +
@@ -1358,6 +1359,7 @@ function initVizPage() {
   var firstBtn = document.querySelector('.viz-type');
   if (firstBtn) { firstBtn.classList.remove('btn-secondary'); firstBtn.classList.add('btn-primary'); _vizSelectedType = 'bar'; }
   vizUpdateControlsForType();
+  vizRestoreCards();
 }
 
 function vizGetColumns() {
@@ -1507,6 +1509,7 @@ function vizRemoveCard(id) {
   if (_vizChartInstances[id]) { _vizChartInstances[id].destroy(); delete _vizChartInstances[id]; }
   var el = document.getElementById(id);
   if (el) el.remove();
+  vizSaveCards();
 }
 
 function vizRenderChart() {
@@ -1522,36 +1525,37 @@ function vizRenderChart() {
   if (type === 'histogram') {
     if (!colX) { showToast('Selecciona una columna numérica'); return; }
     renderHistogramCard(sheet, colX, container);
-    return;
+    vizSaveCards(); return;
   }
   if (type === 'pie' || type === 'doughnut' || type === 'polarArea') {
     if (!colX || !colY) { showToast('Selecciona ambas columnas (X=etiquetas, Y=valores)'); return; }
     renderPieCard(sheet, type, colX, colY, container);
-    return;
+    vizSaveCards(); return;
   }
   if (type === 'radar') {
     if (!colX || !colY) { showToast('Selecciona ambas columnas (X=etiquetas, Y=valores)'); return; }
     renderRadarCard(sheet, colX, colY, container);
-    return;
+    vizSaveCards(); return;
   }
   if (type === 'scatter') {
     if (!colX || !colY) { showToast('Selecciona ambas columnas'); return; }
     renderScatterCard(sheet, colX, colY, container);
-    return;
+    vizSaveCards(); return;
   }
   if (type === 'bubble') {
     if (!colX || !colY || !colSize) { showToast('Selecciona X, Y y Tamaño'); return; }
     renderBubbleCard(sheet, colX, colY, colSize, container);
-    return;
+    vizSaveCards(); return;
   }
   if (type === 'stackedBar' || type === 'groupedBar' || type === 'multiLine' || type === 'area') {
     var yCols = vizGetAllYColumns();
     if (!colY || yCols.length < 1) { showToast('Selecciona al menos una columna Y'); return; }
     renderMultiSeriesCard(sheet, type, colX, yCols, container);
-    return;
+    vizSaveCards(); return;
   }
   if (!colY) { showToast('Selecciona la columna Y'); return; }
   renderBarLineCard(sheet, type, colX, colY, container);
+  vizSaveCards();
 }
 
 function vizDefaultColors(count) {
@@ -1560,12 +1564,13 @@ function vizDefaultColors(count) {
   return c;
 }
 
-function createChartCard(id, title, container, height) {
+function createChartCard(id, title, container, height, params) {
   height = height || 300;
   var card = document.createElement('div');
   card.className = 'page-card';
   card.id = id;
   card.style.cssText = 'flex-shrink:0';
+  if (params) card.dataset.vizParams = JSON.stringify(params);
   card.innerHTML =
     '<div class="page-card-header">' +
       '<span class="page-card-icon">📈</span>' +
@@ -1590,7 +1595,7 @@ function renderBarLineCard(sheet, type, colX, colY, container) {
   var d = vizGetValidPairs(sheet, colX, colY);
   if (!d.data.length) { showToast('No hay datos numéricos válidos'); return; }
   var id = 'viz-' + (++_vizCardCounter);
-  var canvas = createChartCard(id, vizTypeName(type) + ' · ' + colX + ' vs ' + colY, container);
+  var canvas = createChartCard(id, vizTypeName(type) + ' · ' + colX + ' vs ' + colY, container, 300, {type:type, colX:colX, colY:colY});
   var opts = chartOptsDark(true);
   opts.plugins.legend.display = true;
   _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
@@ -1615,7 +1620,7 @@ function renderMultiSeriesCard(sheet, type, colX, yCols, container) {
     if (type === 'stackedBar' || type === 'groupedBar') ds.backgroundColor = colors[i];
     return ds;
   });
-  var canvas = createChartCard(id, vizTypeName(type) + ' · ' + colX + ' [' + yCols.join(', ') + ']', container);
+  var canvas = createChartCard(id, vizTypeName(type) + ' · ' + colX + ' [' + yCols.join(', ') + ']', container, 300, {type:type, colX:colX, colY:yCols[0]||'', allY:yCols, extraY:yCols.slice(1)});
   var opts = chartOptsDark(true);
   if (type === 'stackedBar') { opts.scales.x.stacked = true; opts.scales.y.stacked = true; }
   if (type === 'groupedBar') { /* default grouped */ }
@@ -1630,7 +1635,7 @@ function renderScatterCard(sheet, colX, colY, container) {
   var pts = vizGetValidScatterPairs(sheet, colX, colY);
   if (!pts.length) { showToast('No hay pares numéricos válidos'); return; }
   var id = 'viz-' + (++_vizCardCounter);
-  var canvas = createChartCard(id, 'Dispersión · ' + colX + ' vs ' + colY, container);
+  var canvas = createChartCard(id, 'Dispersión · ' + colX + ' vs ' + colY, container, 300, {type:'scatter', colX:colX, colY:colY});
   _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
     type: 'scatter',
     data: { datasets: [{ label: colX + ' vs ' + colY, data: pts, backgroundColor: 'rgba(54,162,235,0.6)' }] },
@@ -1649,7 +1654,7 @@ function renderBubbleCard(sheet, colX, colY, colSize, container) {
   var pts = vizGetValidBubbleData(sheet, colX, colY, colSize);
   if (!pts.length) { showToast('No hay datos numéricos válidos para burbuja'); return; }
   var id = 'viz-' + (++_vizCardCounter);
-  var canvas = createChartCard(id, 'Burbuja · ' + colX + ' × ' + colY + ' (' + colSize + ')', container);
+  var canvas = createChartCard(id, 'Burbuja · ' + colX + ' × ' + colY + ' (' + colSize + ')', container, 300, {type:'bubble', colX:colX, colY:colY, colSize:colSize});
   _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
     type: 'bubble',
     data: { datasets: [{ label: colX + ' vs ' + colY, data: pts, backgroundColor: 'rgba(54,162,235,0.5)' }] },
@@ -1668,7 +1673,7 @@ function renderPieCard(sheet, type, colX, colY, container) {
   var d = vizGetValidPairs(sheet, colX, colY);
   if (!d.data.length) { showToast('No hay datos válidos'); return; }
   var id = 'viz-' + (++_vizCardCounter);
-  var canvas = createChartCard(id, vizTypeName(type) + ' · ' + colY + ' por ' + colX, container);
+  var canvas = createChartCard(id, vizTypeName(type) + ' · ' + colY + ' por ' + colX, container, 300, {type:type, colX:colX, colY:colY});
   var colors = vizDefaultColors(d.labels.length);
   _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
     type: type,
@@ -1681,7 +1686,7 @@ function renderRadarCard(sheet, colX, colY, container) {
   var d = vizGetValidPairs(sheet, colX, colY);
   if (!d.data.length) { showToast('No hay datos válidos'); return; }
   var id = 'viz-' + (++_vizCardCounter);
-  var canvas = createChartCard(id, 'Radar · ' + colY + ' por ' + colX, container);
+  var canvas = createChartCard(id, 'Radar · ' + colY + ' por ' + colX, container, 300, {type:'radar', colX:colX, colY:colY});
   _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
     type: 'radar',
     data: { labels: d.labels, datasets: [{ label: colY, data: d.data, backgroundColor: 'rgba(54,162,235,0.2)', borderColor: 'rgba(54,162,235,1)', pointBackgroundColor: 'rgba(54,162,235,1)' }] },
@@ -1712,7 +1717,7 @@ function renderHistogramCard(sheet, colX, container) {
     curveData.push(pdf * N * binWidth);
   }
   var id = 'viz-' + (++_vizCardCounter);
-  var canvas = createChartCard(id, 'Histograma + Curva Normal · ' + colX, container, 320);
+  var canvas = createChartCard(id, 'Histograma + Curva Normal · ' + colX, container, 320, {type:'histogram', colX:colX});
   _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
     type: 'bar',
     data: {
@@ -1730,6 +1735,58 @@ function renderHistogramCard(sheet, colX, container) {
         y: { title: { display: true, text: 'Frecuencia', color: '#ccc' }, ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true }
       }
     }
+  });
+}
+
+// ════════════════════════════════════════════════════════════════
+// VISUALIZACIÓN — Persistencia de gráficos (localStorage)
+// ════════════════════════════════════════════════════════════════
+function vizSaveCards() {
+  var container = document.getElementById('vizCardsContainer');
+  if (!container) return;
+  var cards = container.querySelectorAll('.page-card[id^="viz-"]');
+  var params = [];
+  cards.forEach(function(c) {
+    if (c.dataset.vizParams) {
+      try { params.push(JSON.parse(c.dataset.vizParams)); } catch(e) {}
+    }
+  });
+  try { localStorage.setItem('sigmaPro_vizCards', JSON.stringify(params)); } catch(e) {
+    if (e.name === 'QuotaExceededError') showToast('Almacenamiento lleno. Cierra algunos gráficos.');
+  }
+}
+
+function vizRestoreCards() {
+  var saved;
+  try { saved = localStorage.getItem('sigmaPro_vizCards'); } catch(e) { return; }
+  if (!saved) return;
+  var params;
+  try { params = JSON.parse(saved); } catch(e) { return; }
+  if (!params || !params.length) return;
+  var sheet = getCurrentSheet();
+  if (!sheet) return;
+  var container = document.getElementById('vizCardsContainer');
+  if (!container) return;
+  params.forEach(function(p) {
+    if (!p.colX || !sheet.headers.includes(p.colX)) return;
+    if (p.type === 'histogram') { if (p.colX) renderHistogramCard(sheet, p.colX, container); return; }
+    if (p.type === 'pie' || p.type === 'doughnut' || p.type === 'polarArea') {
+      if (p.colY && sheet.headers.includes(p.colY)) renderPieCard(sheet, p.type, p.colX, p.colY, container);
+      return;
+    }
+    if (p.type === 'radar') { if (p.colY && sheet.headers.includes(p.colY)) renderRadarCard(sheet, p.colX, p.colY, container); return; }
+    if (p.type === 'scatter') { if (p.colY && sheet.headers.includes(p.colY)) renderScatterCard(sheet, p.colX, p.colY, container); return; }
+    if (p.type === 'bubble') {
+      if (p.colY && p.colSize && sheet.headers.includes(p.colY) && sheet.headers.includes(p.colSize)) renderBubbleCard(sheet, p.colX, p.colY, p.colSize, container);
+      return;
+    }
+    if (p.type === 'stackedBar' || p.type === 'groupedBar' || p.type === 'multiLine' || p.type === 'area') {
+      var yCols = (p.allY && p.allY.length) ? p.allY : [p.colY];
+      yCols = yCols.filter(function(y){ return y && sheet.headers.includes(y); });
+      if (yCols.length) renderMultiSeriesCard(sheet, p.type, p.colX, yCols, container);
+      return;
+    }
+    if (p.colY && sheet.headers.includes(p.colY)) renderBarLineCard(sheet, p.type || 'bar', p.colX, p.colY, container);
   });
 }
 
