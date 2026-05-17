@@ -55,15 +55,41 @@
 
 | # | Fecha | Cambio | Estado |
 |---|-------|--------|--------|
-| 1 | 13 May 2026 | Statistical Analysis menu conectado a funciones reales | ✅ |
-| 2 | 13 May 2026 | runStatisticalTest() ahora ejecuta cálculos reales | ✅ |
-| 3 | 13 May 2026 | Agregado script tags para StatsUtils.js y EstadisticaDescriptiva.js | ✅ |
-| 4 | 13 May 2026 | Expuesto window.StatsUtils y window.EstadisticaDescriptiva | ✅ |
-| 5 | 13 May 2026 | Modal de resultados estadísticos implementado | ✅ |
-| 6 | 13 May 2026 | TESTS section en página Análisis ahora dinámico | ✅ |
-| 7 | 13 May 2026 | Dropdown de categoría en Análisis (Descriptiva/Hipótesis/etc) | ✅ |
-| 8 | 13 May 2026 | Selection from Statistical menu navega a Análisis | ✅ |
-| 9 | 13 May 2026 | Último resultado se muestra en panel izquierdo | ✅ |
+| 1 | 16 May 2026 | Página Visualización con Chart.js (13 tipos, tarjetas múltiples) | ✅ |
+| 2 | 13 May 2026 | Statistical Analysis menu conectado a funciones reales | ✅ |
+| 3 | 13 May 2026 | runStatisticalTest() ahora ejecuta cálculos reales | ✅ |
+| 4 | 13 May 2026 | Agregado script tags para StatsUtils.js y EstadisticaDescriptiva.js | ✅ |
+| 5 | 13 May 2026 | Expuesto window.StatsUtils y window.EstadisticaDescriptiva | ✅ |
+| 6 | 13 May 2026 | Modal de resultados estadísticos implementado | ✅ |
+| 7 | 13 May 2026 | TESTS section en página Análisis ahora dinámico | ✅ |
+| 8 | 13 May 2026 | Dropdown de categoría en Análisis (Descriptiva/Hipótesis/etc) | ✅ |
+| 9 | 13 May 2026 | Selection from Statistical menu navega a Análisis | ✅ |
+| 10 | 13 May 2026 | Último resultado se muestra en panel izquierdo | ✅ |
+
+### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
+
+| # | Cambio | Archivo | Líneas | Estado |
+|---|--------|---------|--------|--------|
+| 1 | CDN Chart.js v4.4.7 agregado | `indexx.html` | 10 | ✅ |
+| 2 | `rightPanels.visualizacion()` — UI con selectores X/Y, tipo, render | `indexx.html` | ~50 | ✅ |
+| 3 | `initVizPage()` — hook en `loadPage`, pobla dropdowns, conecta eventos | `indexx.html` | ~25 | ✅ |
+| 4 | 13 tipos de gráfico (Barras, Líneas, Área, Multi-líneas, Apiladas, Agrupadas, Dispersión, Burbuja, Circular, Dona, Polar, Radar, Histograma) | `indexx.html` | ~400 | ✅ |
+| 5 | Tarjetas múltiples apilables (cada render crea nueva card con header + canvas + ✕) | `indexx.html` | ~80 | ✅ |
+| 6 | Multi-serie: botón "+" agrega columnas Y adicionales | `indexx.html` | ~40 | ✅ |
+| 7 | Burbuja: selector "Tamaño" aparece al seleccionar tipo burbuja | `indexx.html` | ~15 | ✅ |
+| 8 | Histograma con binning automático (sqrt rule, 5-30 bins) | `indexx.html` | ~30 | ✅ |
+| 9 | Tema oscuro consistente con el resto de la UI | `indexx.html` | inline | ✅ |
+
+**Qué cambió:** La página Visualización (estática/placeholder) fue reemplazada por una implementación completa con Chart.js. Cada renderizado crea una tarjeta independiente (mismo patrón que StatCards), permitiendo acumular múltiples gráficos. Soporta 13 tipos incluyendo multi-serie (varias columnas Y), burbuja (X+Y+tamaño), y polar. Los controles se adaptan dinámicamente al tipo seleccionado.
+
+**Detalles técnicos:**
+- `_vizChartInstances` — diccionario de instancias Chart.js por ID de tarjeta
+- `vizGetAllYColumns()` — recolecta columna Y principal + adicionales
+- `vizGetMultiSeriesData()` — extrae datos para múltiples series
+- `vizGetValidBubbleData()` — extrae tripletas {x,y,r}
+- `vizUpdateControlsForType()` — muestra/oculta controles según tipo
+- `chartOptsDark()` — opciones consistentes con tema oscuro
+- `createChartCard()` — crea DOM de tarjeta con canvas único
 
 ### 🔧 FIX: utils.js faltante + null.toFixed + dead refs runStatisticalTest (15 May 2026)
 

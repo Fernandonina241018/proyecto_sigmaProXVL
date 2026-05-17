@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Obsidian Vault</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
@@ -1174,7 +1175,42 @@ var rightPanels = {
       '<style>@keyframes analisis-loading{0%{transform:translateX(-100%)}50%{transform:translateX(100%)}100%{transform:translateX(-100%)}}</style>' +
     '</div>';
   },
-  visualizacion: function() { return '<div class="page-body"><div class="grid-auto"><div class="chart-card"><div class="chart-card-icon">📊</div><div class="chart-card-name">Barras</div></div><div class="chart-card"><div class="chart-card-icon">📈</div><div class="chart-card-name">Líneas</div></div><div class="chart-card"><div class="chart-card-icon">⬡</div><div class="chart-card-name">Dispersión</div></div><div class="chart-card"><div class="chart-card-icon">◉</div><div class="chart-card-name">Circular</div></div><div class="chart-card"><div class="chart-card-icon">📦</div><div class="chart-card-name">Caja</div></div><div class="chart-card"><div class="chart-card-icon">▦</div><div class="chart-card-name">Histograma</div></div><div class="chart-card"><div class="chart-card-icon">📉</div><div class="chart-card-name">Área</div></div><div class="chart-card"><div class="chart-card-icon">🕸️</div><div class="chart-card-name">Radar</div></div></div><div class="page-card"><div class="page-card-header"><span class="page-card-icon">🖼️</span><span class="page-card-title">Canvas</span></div><div class="page-card-body" style="color:var(--text-faint);font-size:12px;text-align:center;padding:32px">Selecciona un tipo de gráfico para comenzar</div></div></div>'; },
+  visualizacion: function() { return '<div class="page-body" style="display:flex;flex-direction:column;gap:12px">' +
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0">' +
+      '<button class="btn btn-secondary viz-type" data-type="bar" style="font-size:12px">📊 Barras</button>' +
+      '<button class="btn btn-secondary viz-type" data-type="line" style="font-size:12px">📈 Líneas</button>' +
+      '<button class="btn btn-secondary viz-type" data-type="area" style="font-size:12px">📉 Área</button>' +
+      '<button class="btn btn-secondary viz-type" data-type="multiLine" style="font-size:12px">📈📈 Multi-líneas</button>' +
+      '<button class="btn btn-secondary viz-type" data-type="stackedBar" style="font-size:12px">🏗️ Apiladas</button>' +
+      '<button class="btn btn-secondary viz-type" data-type="groupedBar" style="font-size:12px">📊📊 Agrupadas</button>' +
+      '<button class="btn btn-secondary viz-type" data-type="scatter" style="font-size:12px">⬡ Dispersión</button>' +
+      '<button class="btn btn-secondary viz-type" data-type="bubble" style="font-size:12px">🔵 Burbuja</button>' +
+      '<button class="btn btn-secondary viz-type" data-type="pie" style="font-size:12px">◉ Circular</button>' +
+      '<button class="btn btn-secondary viz-type" data-type="doughnut" style="font-size:12px">◉ Dona</button>' +
+      '<button class="btn btn-secondary viz-type" data-type="polarArea" style="font-size:12px">🔄 Polar</button>' +
+      '<button class="btn btn-secondary viz-type" data-type="radar" style="font-size:12px">🕸️ Radar</button>' +
+      '<button class="btn btn-secondary viz-type" data-type="histogram" style="font-size:12px">▦ Histograma</button>' +
+    '</div>' +
+    '<div class="page-card" style="flex:0 0 auto">' +
+      '<div class="page-card-body" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">' +
+        '<span style="font-size:12px;color:var(--text-muted)">Eje X:</span>' +
+        '<select id="vizColX" class="modal-select" style="min-width:120px"><option value="">— Seleccionar —</option></select>' +
+        '<span style="font-size:12px;color:var(--text-muted)">Eje Y:</span>' +
+        '<select id="vizColY" class="modal-select" style="min-width:120px"><option value="">— Seleccionar —</option></select>' +
+        '<span id="vizSizeLabel" style="font-size:12px;color:var(--text-muted);display:none">Tamaño:</span>' +
+        '<select id="vizColSize" class="modal-select" style="min-width:120px;display:none"><option value="">— Seleccionar —</option></select>' +
+        '<div id="vizExtraYContainer" style="display:none;flex-direction:column;gap:4px;width:100%">' +
+          '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">' +
+            '<span style="font-size:11px;color:var(--text-faint)">Series Y adicionales:</span>' +
+            '<button class="btn btn-secondary" id="vizAddYBtn" style="font-size:10px;padding:2px 8px">+</button>' +
+          '</div>' +
+          '<div id="vizExtraYList"></div>' +
+        '</div>' +
+        '<button class="btn btn-primary" id="vizRenderBtn" style="font-size:12px">🎨 Renderizar</button>' +
+      '</div>' +
+    '</div>' +
+    '<div id="vizCardsContainer" style="display:flex;flex-direction:column;gap:10px"></div>' +
+  '</div>'; },
   reportes: function() { return '<div class="page-body"><div style="display:flex;gap:8px;margin-bottom:4px"><button class="btn btn-primary">➕ Nuevo</button><button class="btn btn-secondary">📥 Importar</button></div><div style="display:flex;flex-direction:column;gap:8px"><div class="list-item"><div class="list-item-icon">📊</div><div><div class="list-item-title">Análisis Descriptivo Completo</div><div class="list-item-meta">Generado · 15/ene/2026</div></div><div class="list-item-end"><span class="badge badge-ok">PDF</span><button class="btn btn-secondary" style="padding:4px 10px">↓</button></div></div><div class="list-item"><div class="list-item-icon">📈</div><div><div class="list-item-title">Regresión Lineal 2026</div><div class="list-item-meta">Borrador · 10/ene/2026</div></div><div class="list-item-end"><span class="badge badge-warn">DOCX</span><button class="btn btn-secondary" style="padding:4px 10px">↓</button></div></div></div></div>'; },
   auditoria: function() { return '<div class="page-body"><div style="display:flex;gap:8px;margin-bottom:4px"><button class="btn btn-primary">🔍 Filtrar</button><button class="btn btn-secondary">📥 Exportar log</button></div><div class="grid-4"><div class="metric-card"><div class="metric-label">Total eventos</div><div class="metric-value">247</div><div class="metric-sub">últimos 30 días</div></div><div class="metric-card"><div class="metric-label">Logins</div><div class="metric-value">83</div><div class="metric-sub">exitosos</div></div><div class="metric-card"><div class="metric-label">Exportaciones</div><div class="metric-value">34</div><div class="metric-sub">archivos</div></div><div class="metric-card"><div class="metric-label">Errores</div><div class="metric-value" style="color:#f87171">3</div><div class="metric-sub">requieren revisión</div></div></div><div class="page-card"><div class="page-card-header"><span class="page-card-icon">📋</span><span class="page-card-title">Log de eventos</span></div><div class="page-card-body" style="padding:0"><table class="data-table"><thead><tr><th>Evento</th><th>Usuario</th><th>Fecha</th><th>Estado</th></tr></thead><tbody><tr><td>Login</td><td style="color:var(--accent)">admin</td><td>Hoy 09:15</td><td><span class="badge badge-ok">OK</span></td></tr><tr><td>Exportar datos.csv</td><td style="color:var(--accent)">analista</td><td>Ayer 16:30</td><td><span class="badge badge-ok">OK</span></td></tr><tr><td>Login fallido</td><td style="color:#f87171">desconocido</td><td>Ayer 09:48</td><td><span class="badge badge-warn">Error</span></td></tr></tbody></table></div></div></div>'; },
   usuarios: function() { return '<div class="page-body"><div style="display:flex;gap:8px;margin-bottom:4px"><button class="btn btn-primary">➕ Nuevo usuario</button><button class="btn btn-secondary">🔍 Buscar</button></div><div style="display:flex;flex-direction:column;gap:8px"><div class="list-item"><div class="user-avatar" style="background:#ff5f56">A</div><div><div class="user-name">admin</div><div class="user-role" style="color:#ff8070">Administrador</div><div class="user-email">admin@sistema.com</div></div><div class="list-item-end"><span class="badge badge-ok">Activo</span><button class="btn btn-secondary" style="padding:4px 10px">✏️</button></div></div><div class="list-item"><div class="user-avatar" style="background:#febc2e">J</div><div><div class="user-name">Juan Pérez</div><div class="user-role" style="color:#febc2e">Analista</div><div class="user-email">juan@sistema.com</div></div><div class="list-item-end"><span class="badge badge-ok">Activo</span><button class="btn btn-secondary" style="padding:4px 10px">✏️</button></div></div><div class="list-item"><div class="user-avatar" style="background:#28c840">M</div><div><div class="user-name">María García</div><div class="user-role" style="color:#28c840">Analista</div><div class="user-email">maria@sistema.com</div></div><div class="list-item-end"><span class="badge badge-ok">Activo</span><button class="btn btn-secondary" style="padding:4px 10px">✏️</button></div></div></div></div>'; }
@@ -1208,6 +1244,7 @@ function loadPage(name) {
 
   if (name === 'datos') { setTimeout(initDatosPage, 60); }
   if (name === 'trabajo') { initTrabajoKeyboard(); }
+  if (name === 'visualizacion') { setTimeout(initVizPage, 60); }
   updateToolsMenuState();
 }
 
@@ -1277,7 +1314,401 @@ function showToast(msg) {
 }
 
 // ════════════════════════════════════════════════════════════════
-// TRABAJO — CONDITIONAL FORMAT & FREEZE
+// VISUALIZACIÓN — Chart.js (13 tipos, tarjetas múltiples)
+// ════════════════════════════════════════════════════════════════
+var _vizChartInstances = {};
+var _vizCardCounter = 0;
+var _vizSelectedType = 'bar';
+var _vizExtraYCount = 0;
+
+function initVizPage() {
+  _vizChartInstances = {};
+  _vizExtraYCount = 0;
+  var cols = vizGetColumns();
+  var selX = document.getElementById('vizColX');
+  var selY = document.getElementById('vizColY');
+  var selSize = document.getElementById('vizColSize');
+  if (!selX) return;
+  var optsHtml = '<option value="">— Seleccionar —</option>';
+  cols.forEach(function(c){ optsHtml += '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; });
+  selX.innerHTML = optsHtml;
+  selY.innerHTML = optsHtml;
+  vizResetExtraY(cols);
+
+  if (selSize) {
+    selSize.innerHTML = '<option value="">— Seleccionar —</option>';
+    cols.forEach(function(c){ selSize.innerHTML += '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; });
+  }
+
+  document.querySelectorAll('.viz-type').forEach(function(btn){
+    btn.onclick = function(){
+      document.querySelectorAll('.viz-type').forEach(function(b){ b.classList.remove('btn-primary'); b.classList.add('btn-secondary'); });
+      btn.classList.remove('btn-secondary');
+      btn.classList.add('btn-primary');
+      _vizSelectedType = btn.dataset.type;
+      vizUpdateControlsForType();
+    };
+  });
+
+  document.getElementById('vizRenderBtn').onclick = function(){ vizRenderChart(); };
+
+  var addBtn = document.getElementById('vizAddYBtn');
+  if (addBtn) addBtn.onclick = function(){ vizAddExtraY(); };
+
+  var firstBtn = document.querySelector('.viz-type');
+  if (firstBtn) { firstBtn.classList.remove('btn-secondary'); firstBtn.classList.add('btn-primary'); _vizSelectedType = 'bar'; }
+  vizUpdateControlsForType();
+}
+
+function vizGetColumns() {
+  var sheet = getCurrentSheet();
+  if (!sheet || !sheet.headers) return [];
+  return sheet.headers.slice();
+}
+
+function vizUpdateControlsForType() {
+  var type = _vizSelectedType;
+  var isMultiSeries = type === 'stackedBar' || type === 'groupedBar' || type === 'multiLine' || type === 'area';
+  var isBubble = type === 'bubble';
+  var extraC = document.getElementById('vizExtraYContainer');
+  var sizeLabel = document.getElementById('vizSizeLabel');
+  var sizeSelect = document.getElementById('vizColSize');
+  if (extraC) extraC.style.display = isMultiSeries ? 'flex' : 'none';
+  if (sizeLabel) sizeLabel.style.display = isBubble ? 'inline' : 'none';
+  if (sizeSelect) sizeSelect.style.display = isBubble ? 'inline-block' : 'none';
+}
+
+function vizResetExtraY(cols) {
+  var list = document.getElementById('vizExtraYList');
+  if (!list) return;
+  list.innerHTML = '';
+  _vizExtraYCount = 0;
+  if (!cols) cols = vizGetColumns();
+}
+
+function vizAddExtraY() {
+  var list = document.getElementById('vizExtraYList');
+  if (!list) return;
+  _vizExtraYCount++;
+  var idx = _vizExtraYCount;
+  var cols = vizGetColumns();
+  var opts = '<option value="">— Seleccionar —</option>';
+  cols.forEach(function(c){ opts += '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; });
+  var div = document.createElement('div');
+  div.id = 'vizExtraYRow-' + idx;
+  div.style.cssText = 'display:flex;gap:6px;align-items:center';
+  div.innerHTML =
+    '<select id="vizExtraY-' + idx + '" class="modal-select" style="min-width:120px;font-size:11px">' + opts + '</select>' +
+    '<span class="sc-close" onclick="vizRemoveExtraY(' + idx + ')" style="font-size:14px;cursor:pointer" title="Quitar">✕</span>';
+  list.appendChild(div);
+}
+
+function vizRemoveExtraY(idx) {
+  var el = document.getElementById('vizExtraYRow-' + idx);
+  if (el) el.remove();
+}
+
+function vizGetAllYColumns() {
+  var main = document.getElementById('vizColY');
+  var cols = [];
+  if (main && main.value) cols.push(main.value);
+  for (var i = 1; i <= _vizExtraYCount; i++) {
+    var el = document.getElementById('vizExtraY-' + i);
+    if (el && el.value) cols.push(el.value);
+  }
+  return cols;
+}
+
+function vizGetMultiSeriesData(sheet, colX, yCols) {
+  var xi = sheet.headers.indexOf(colX);
+  if (xi < 0) return { labels: [], datasets: [] };
+  var labels = [];
+  var series = {};
+  yCols.forEach(function(yc){ series[yc] = []; });
+  sheet.rows.forEach(function(r){
+    if (xi >= r.length) return;
+    var l = String(r[xi]);
+    labels.push(l);
+    yCols.forEach(function(yc){
+      var yi = sheet.headers.indexOf(yc);
+      var v = (yi >= 0 && yi < r.length) ? parseFloat(r[yi]) : null;
+      series[yc].push(isNaN(v) ? null : v);
+    });
+  });
+  return { labels: labels, series: series };
+}
+
+function vizGetValues(sheet, colY) {
+  var idx = sheet.headers.indexOf(colY);
+  if (idx < 0) return [];
+  return sheet.rows.map(function(r){
+    if (idx >= r.length || r[idx] == null || r[idx] === '') return null;
+    var v = parseFloat(r[idx]);
+    return isNaN(v) ? null : v;
+  });
+}
+
+function vizGetValidPairs(sheet, colX, colY) {
+  var xi = sheet.headers.indexOf(colX);
+  var yi = sheet.headers.indexOf(colY);
+  if (xi < 0 || yi < 0) return { labels: [], data: [] };
+  var labels = [], data = [];
+  sheet.rows.forEach(function(r){
+    if (xi >= r.length || yi >= r.length) return;
+    var l = String(r[xi]);
+    var v = parseFloat(r[yi]);
+    if (isNaN(v)) return;
+    labels.push(l);
+    data.push(v);
+  });
+  return { labels: labels, data: data };
+}
+
+function vizGetValidScatterPairs(sheet, colX, colY) {
+  var xi = sheet.headers.indexOf(colX);
+  var yi = sheet.headers.indexOf(colY);
+  if (xi < 0 || yi < 0) return [];
+  var pts = [];
+  sheet.rows.forEach(function(r){
+    if (xi >= r.length || yi >= r.length) return;
+    var x = parseFloat(r[xi]), y = parseFloat(r[yi]);
+    if (isNaN(x) || isNaN(y)) return;
+    pts.push({ x: x, y: y });
+  });
+  return pts;
+}
+
+function vizGetValidBubbleData(sheet, colX, colY, colSize) {
+  var xi = sheet.headers.indexOf(colX);
+  var yi = sheet.headers.indexOf(colY);
+  var si = sheet.headers.indexOf(colSize);
+  if (xi < 0 || yi < 0 || si < 0) return [];
+  var pts = [];
+  sheet.rows.forEach(function(r){
+    if (xi >= r.length || yi >= r.length || si >= r.length) return;
+    var x = parseFloat(r[xi]), y = parseFloat(r[yi]), s = parseFloat(r[si]);
+    if (isNaN(x) || isNaN(y) || isNaN(s)) return;
+    pts.push({ x: x, y: y, r: Math.abs(s) / 2 + 1 });
+  });
+  return pts;
+}
+
+function vizTypeName(t) {
+  var n = { bar:'Barras', line:'Líneas', area:'Área', multiLine:'Multi-líneas', stackedBar:'Apiladas', groupedBar:'Agrupadas', scatter:'Dispersión', bubble:'Burbuja', pie:'Circular', doughnut:'Dona', polarArea:'Polar', radar:'Radar', histogram:'Histograma' };
+  return n[t] || t;
+}
+
+function vizTypeIcon(t) {
+  var m = { bar:'📊', line:'📈', area:'📉', multiLine:'📈📈', stackedBar:'🏗️', groupedBar:'📊📊', scatter:'⬡', bubble:'🔵', pie:'◉', doughnut:'◉', polarArea:'🔄', radar:'🕸️', histogram:'▦' };
+  return m[t] || '📈';
+}
+
+function vizRemoveCard(id) {
+  if (_vizChartInstances[id]) { _vizChartInstances[id].destroy(); delete _vizChartInstances[id]; }
+  var el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+function vizRenderChart() {
+  var type = _vizSelectedType || 'bar';
+  var colX = document.getElementById('vizColX').value;
+  var colY = document.getElementById('vizColY').value;
+  var colSize = document.getElementById('vizColSize') ? document.getElementById('vizColSize').value : '';
+  var container = document.getElementById('vizCardsContainer');
+  var sheet = getCurrentSheet();
+  if (!sheet) { showToast('No hay datos cargados'); return; }
+  if (!colX) { showToast('Selecciona una columna para el eje X'); return; }
+
+  if (type === 'histogram') {
+    if (!colX) { showToast('Selecciona una columna numérica'); return; }
+    renderHistogramCard(sheet, colX, container);
+    return;
+  }
+  if (type === 'pie' || type === 'doughnut' || type === 'polarArea') {
+    if (!colX || !colY) { showToast('Selecciona ambas columnas (X=etiquetas, Y=valores)'); return; }
+    renderPieCard(sheet, type, colX, colY, container);
+    return;
+  }
+  if (type === 'radar') {
+    if (!colX || !colY) { showToast('Selecciona ambas columnas (X=etiquetas, Y=valores)'); return; }
+    renderRadarCard(sheet, colX, colY, container);
+    return;
+  }
+  if (type === 'scatter') {
+    if (!colX || !colY) { showToast('Selecciona ambas columnas'); return; }
+    renderScatterCard(sheet, colX, colY, container);
+    return;
+  }
+  if (type === 'bubble') {
+    if (!colX || !colY || !colSize) { showToast('Selecciona X, Y y Tamaño'); return; }
+    renderBubbleCard(sheet, colX, colY, colSize, container);
+    return;
+  }
+  if (type === 'stackedBar' || type === 'groupedBar' || type === 'multiLine' || type === 'area') {
+    var yCols = vizGetAllYColumns();
+    if (!colY || yCols.length < 1) { showToast('Selecciona al menos una columna Y'); return; }
+    renderMultiSeriesCard(sheet, type, colX, yCols, container);
+    return;
+  }
+  if (!colY) { showToast('Selecciona la columna Y'); return; }
+  renderBarLineCard(sheet, type, colX, colY, container);
+}
+
+function vizDefaultColors(count) {
+  var c = [];
+  for (var i = 0; i < count; i++) c.push('hsl(' + ((i * 360 / count) % 360) + ',70%,55%)');
+  return c;
+}
+
+function createChartCard(id, title, container, height) {
+  height = height || 300;
+  var card = document.createElement('div');
+  card.className = 'page-card';
+  card.id = id;
+  card.style.cssText = 'flex-shrink:0';
+  card.innerHTML =
+    '<div class="page-card-header">' +
+      '<span class="page-card-icon">📈</span>' +
+      '<span class="page-card-title">' + escapeHtml(title) + '</span>' +
+      '<span class="sc-close" onclick="vizRemoveCard(\'' + id + '\')" title="Cerrar">✕</span>' +
+    '</div>' +
+    '<div class="page-card-body" style="padding:10px;height:' + height + 'px;display:flex;align-items:center;justify-content:center;overflow:hidden">' +
+      '<canvas id="' + id + '-canvas" style="max-width:100%;max-height:100%"></canvas>' +
+    '</div>';
+  container.appendChild(card);
+  container.scrollTop = container.scrollHeight;
+  return document.getElementById(id + '-canvas');
+}
+
+function chartOptsDark(scales) {
+  var o = { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#ccc', boxWidth: 12 } } } };
+  if (scales !== false) o.scales = { x: { ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.05)' } }, y: { ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.05)' } } };
+  return o;
+}
+
+function renderBarLineCard(sheet, type, colX, colY, container) {
+  var d = vizGetValidPairs(sheet, colX, colY);
+  if (!d.data.length) { showToast('No hay datos numéricos válidos'); return; }
+  var id = 'viz-' + (++_vizCardCounter);
+  var canvas = createChartCard(id, vizTypeName(type) + ' · ' + colX + ' vs ' + colY, container);
+  var opts = chartOptsDark(true);
+  opts.plugins.legend.display = true;
+  _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
+    type: type,
+    data: {
+      labels: d.labels,
+      datasets: [{ label: colY, data: d.data, backgroundColor: 'rgba(54,162,235,0.6)', borderColor: 'rgba(54,162,235,1)', borderWidth: 1 }]
+    },
+    options: opts
+  });
+}
+
+function renderMultiSeriesCard(sheet, type, colX, yCols, container) {
+  var d = vizGetMultiSeriesData(sheet, colX, yCols);
+  if (!d.labels.length) { showToast('No hay datos'); return; }
+  var id = 'viz-' + (++_vizCardCounter);
+  var colors = vizDefaultColors(yCols.length);
+  var datasets = yCols.map(function(yc, i){
+    var ds = { label: yc, data: d.series[yc], backgroundColor: colors[i], borderColor: colors[i], borderWidth: 1 };
+    if (type === 'area') { ds.fill = true; ds.backgroundColor = colors[i].replace(')', ',0.2)').replace('hsl', 'hsla'); }
+    if (type === 'multiLine') ds.fill = false;
+    if (type === 'stackedBar' || type === 'groupedBar') ds.backgroundColor = colors[i];
+    return ds;
+  });
+  var canvas = createChartCard(id, vizTypeName(type) + ' · ' + colX + ' [' + yCols.join(', ') + ']', container);
+  var opts = chartOptsDark(true);
+  if (type === 'stackedBar') { opts.scales.x.stacked = true; opts.scales.y.stacked = true; }
+  if (type === 'groupedBar') { /* default grouped */ }
+  _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
+    type: type === 'stackedBar' || type === 'groupedBar' ? 'bar' : type === 'area' ? 'line' : 'line',
+    data: { labels: d.labels, datasets: datasets },
+    options: opts
+  });
+}
+
+function renderScatterCard(sheet, colX, colY, container) {
+  var pts = vizGetValidScatterPairs(sheet, colX, colY);
+  if (!pts.length) { showToast('No hay pares numéricos válidos'); return; }
+  var id = 'viz-' + (++_vizCardCounter);
+  var canvas = createChartCard(id, 'Dispersión · ' + colX + ' vs ' + colY, container);
+  _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
+    type: 'scatter',
+    data: { datasets: [{ label: colX + ' vs ' + colY, data: pts, backgroundColor: 'rgba(54,162,235,0.6)' }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: true, labels: { color: '#ccc' } } },
+      scales: {
+        x: { title: { display: true, text: colX, color: '#ccc' }, ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+        y: { title: { display: true, text: colY, color: '#ccc' }, ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+      }
+    }
+  });
+}
+
+function renderBubbleCard(sheet, colX, colY, colSize, container) {
+  var pts = vizGetValidBubbleData(sheet, colX, colY, colSize);
+  if (!pts.length) { showToast('No hay datos numéricos válidos para burbuja'); return; }
+  var id = 'viz-' + (++_vizCardCounter);
+  var canvas = createChartCard(id, 'Burbuja · ' + colX + ' × ' + colY + ' (' + colSize + ')', container);
+  _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
+    type: 'bubble',
+    data: { datasets: [{ label: colX + ' vs ' + colY, data: pts, backgroundColor: 'rgba(54,162,235,0.5)' }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: true, labels: { color: '#ccc' } } },
+      scales: {
+        x: { title: { display: true, text: colX, color: '#ccc' }, ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+        y: { title: { display: true, text: colY, color: '#ccc' }, ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+      }
+    }
+  });
+}
+
+function renderPieCard(sheet, type, colX, colY, container) {
+  var d = vizGetValidPairs(sheet, colX, colY);
+  if (!d.data.length) { showToast('No hay datos válidos'); return; }
+  var id = 'viz-' + (++_vizCardCounter);
+  var canvas = createChartCard(id, vizTypeName(type) + ' · ' + colY + ' por ' + colX, container);
+  var colors = vizDefaultColors(d.labels.length);
+  _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
+    type: type,
+    data: { labels: d.labels, datasets: [{ data: d.data, backgroundColor: colors, borderColor: '#1e1e1e', borderWidth: 2 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { color: '#ccc', boxWidth: 12 } } } }
+  });
+}
+
+function renderRadarCard(sheet, colX, colY, container) {
+  var d = vizGetValidPairs(sheet, colX, colY);
+  if (!d.data.length) { showToast('No hay datos válidos'); return; }
+  var id = 'viz-' + (++_vizCardCounter);
+  var canvas = createChartCard(id, 'Radar · ' + colY + ' por ' + colX, container);
+  _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
+    type: 'radar',
+    data: { labels: d.labels, datasets: [{ label: colY, data: d.data, backgroundColor: 'rgba(54,162,235,0.2)', borderColor: 'rgba(54,162,235,1)', pointBackgroundColor: 'rgba(54,162,235,1)' }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#ccc' } } }, scales: { r: { angleLines: { color: 'rgba(255,255,255,0.1)' }, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { display: false }, pointLabels: { color: '#ccc' } } } }
+  });
+}
+
+function renderHistogramCard(sheet, colX, container) {
+  var vals = vizGetValues(sheet, colX).filter(function(v){ return v !== null; });
+  if (!vals.length) { showToast('No hay datos numéricos en ' + colX); return; }
+  var bins = Math.min(Math.max(Math.round(Math.sqrt(vals.length)), 5), 30);
+  var min = Math.min.apply(null, vals), max = Math.max.apply(null, vals);
+  if (min === max) { showToast('Todos los valores son iguales'); return; }
+  var binWidth = (max - min) / bins;
+  var counts = new Array(bins).fill(0);
+  vals.forEach(function(v){ counts[Math.min(Math.floor((v - min) / binWidth), bins - 1)]++; });
+  var labels = [];
+  for (var i = 0; i < bins; i++) labels.push((min + i * binWidth).toFixed(2) + '-' + (min + (i+1) * binWidth).toFixed(2));
+  var id = 'viz-' + (++_vizCardCounter);
+  var canvas = createChartCard(id, 'Histograma · ' + colX, container, 320);
+  _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
+    type: 'bar',
+    data: { labels: labels, datasets: [{ label: colX + ' (frecuencia)', data: counts, backgroundColor: 'rgba(54,162,235,0.6)', borderColor: 'rgba(54,162,235,1)', borderWidth: 1 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: true, labels: { color: '#ccc' } } }, scales: { x: { title: { display: true, text: colX, color: '#ccc' }, ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.05)' } }, y: { title: { display: true, text: 'Frecuencia', color: '#ccc' }, ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true } } }
+  });
+}
+
 // ════════════════════════════════════════════════════════════════
 function toggleFreezeCol() {
   trabajoFreezeFirstCol = !trabajoFreezeFirstCol;
