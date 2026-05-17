@@ -2928,6 +2928,7 @@ function runSingleStat(nombre) {
     var resultados = EstadisticaDescriptiva.ejecutarAnalisis(data, [nombre], {});
     var html = EstadisticaDescriptiva.generarHTML(resultados);
     analisisResultContent = html;
+    window.ultimosResultados = resultados;
 
     var resultInfo = { testName: nombre, pValue: null, significativo: false };
     var resObj = resultados.resultados[nombre];
@@ -2983,6 +2984,7 @@ function runBatchAnalysis() {
     var html = EstadisticaDescriptiva.generarHTML(resultados);
     analisisResultContent = html;
     analisisSelectedTest = selected.join(', ');
+    window.ultimosResultados = resultados;
     updateAnalisisLastResult({ testName: selected.length + ' tests', pValue: null, significativo: false });
   } catch(e) {
     console.error('Error in batch analysis:', e);
