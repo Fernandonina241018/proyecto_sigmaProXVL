@@ -67,6 +67,7 @@
 | 10 | 13 May 2026 | Último resultado se muestra en panel izquierdo | ✅ |
 | 11 | 16 May 2026 | Visualizacion.getGraficosParaReporte() — Charts incrustados en Reportes (Section 07) | ✅ |
 | 12 | 16 May 2026 | Fix: Chart images en reportes — captura al crear (no al generar reporte) | ✅ |
+| 13 | 16 May 2026 | Fix: Chart aspect ratio plano — altura 300→400px + render forzado pre-captura | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
@@ -104,6 +105,21 @@
   1. Nuevo `_vizChartImages{}` + `vizCaptureCardImage(id)` + refactor `getGraficosParaReporte()`
   2. Llamada a `vizCaptureCardImage(id)` agregada en cada una de las 7 funciones render (BarLine, MultiSeries, Scatter, Bubble, Pie, Radar, Histogram)
   3. `_vizChartImages` limpiado en `initVizPage()` y `vizRemoveCard()`
+
+### 🔧 FIX: Chart images planas en reportes — altura 300→400px + render forzado (16 May 2026)
+
+**Problema:** Aunque los charts ya aparecían en el reporte, tenían aspecto "plano" (relación de aspecto ~3:1) porque el contenedor del gráfico era solo 300px de alto frente a ~900px de ancho del panel derecho. Además, `requestAnimationFrame` con 1 frame no era suficiente para que Chart.js completara su render inicial (animaciones activas por defecto), capturando imágenes a medio renderizar o con dimensiones incorrectas.
+
+**Solución:**
+1. Altura de tarjeta aumentada de 300→400px (`createChartCard` + histograma 320→400px) para mejor relación de aspecto (~2:1)
+2. `vizCaptureCardImage()` ahora hace:
+   - `chart.options.animation = false; chart.update()` antes de capturar (render completo sin animación)
+   - Captura síncrona inmediata + captura asíncrona tras 2 `requestAnimationFrame` para mejor calidad
+   - Refactor: `_vizSetImage(id, chart)` extraído como helper reutilizable
+3. `getGraficosParaReporte()` con fallback: si `_vizChartImages` está vacío pero hay instancias Chart.js vivas, captura sincrónicamente en el momento
+
+**Archivos modificados:**
+- `indexx.html`: `createChartCard` height default 300→400, histogram 320→400, `vizCaptureCardImage` refactor + sincrónico, `_vizSetImage` helper, fallback en `getGraficosParaReporte()`
 
 ### 🔧 FIX: utils.js faltante + null.toFixed + dead refs runStatisticalTest (15 May 2026)
 

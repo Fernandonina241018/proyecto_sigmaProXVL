@@ -1385,31 +1385,50 @@ var _vizCardCounter = 0;
 var _vizSelectedType = 'bar';
 var _vizExtraYCount = 0;
 
-// Capturar canvas de un gráfico inmediatamente (el canvas está visible en DOM)
+// Capturar canvas de un gráfico (con + sin async para fallback)
 function vizCaptureCardImage(id) {
   var chart = _vizChartInstances[id];
   if (!chart || !chart.canvas) return;
-  // Esperar un frame para que Chart.js termine su render inicial
+  // Forzar render final sin animación
+  if (chart.options.animation !== false) {
+    chart.options.animation = false;
+    chart.update();
+  }
+  // Captura síncrona inmediata (fallback para reportes)
+  _vizSetImage(id, chart);
+  // Captura asíncrona tras 2 frames (mejor calidad, Chart.js resize completo)
   requestAnimationFrame(function() {
-    try {
-      var card = document.getElementById(id);
-      var titleEl = card ? card.querySelector('.page-card-title') : null;
-      var titulo = titleEl ? titleEl.textContent.trim() : id;
-      var tipo = chart.config && chart.config.type ? chart.config.type : 'desconocido';
-      _vizChartImages[id] = {
-        imagen: chart.canvas.toDataURL('image/png'),
-        titulo: titulo,
-        tipo: tipo
-      };
-    } catch(e) {
-      console.warn('[Viz] Error capturando imagen ' + id + ':', e);
-    }
+  requestAnimationFrame(function() {
+    _vizSetImage(id, chart);
   });
+  });
+}
+function _vizSetImage(id, chart) {
+  try {
+    var card = document.getElementById(id);
+    var titleEl = card ? card.querySelector('.page-card-title') : null;
+    var titulo = titleEl ? titleEl.textContent.trim() : id;
+    var tipo = chart.config && chart.config.type ? chart.config.type : 'desconocido';
+    _vizChartImages[id] = {
+      imagen: chart.canvas.toDataURL('image/png'),
+      titulo: titulo,
+      tipo: tipo
+    };
+  } catch(e) {
+    console.warn('[Viz] Error capturando imagen ' + id + ':', e);
+  }
 }
 
 // API para ReporteManager — usa imágenes pre-capturadas (no canvases vivos)
 window.Visualizacion = {
   getGraficosParaReporte: function() {
+    // Fallback: si no hay imágenes pre-capturadas pero hay instancias vivas, capturar ahora
+    if (Object.keys(_vizChartImages).length === 0 && Object.keys(_vizChartInstances).length > 0) {
+      Object.keys(_vizChartInstances).forEach(function(id) {
+        var chart = _vizChartInstances[id];
+        if (chart && chart.canvas) _vizSetImage(id, chart);
+      });
+    }
     var graficos = [];
     Object.keys(_vizChartImages).forEach(function(id) {
       var img = _vizChartImages[id];
@@ -1664,7 +1683,7 @@ function vizDefaultColors(count) {
 }
 
 function createChartCard(id, title, container, height, params) {
-  height = height || 300;
+  height = height || 400;
   var card = document.createElement('div');
   card.className = 'page-card';
   card.id = id;
@@ -1822,7 +1841,7 @@ function renderHistogramCard(sheet, colX, container) {
     curveData.push(pdf * N * binWidth);
   }
   var id = 'viz-' + (++_vizCardCounter);
-  var canvas = createChartCard(id, 'Histograma + Curva Normal · ' + colX, container, 320, {type:'histogram', colX:colX});
+  var canvas = createChartCard(id, 'Histograma + Curva Normal · ' + colX, container, 400, {type:'histogram', colX:colX});
   _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
     type: 'bar',
     data: {
