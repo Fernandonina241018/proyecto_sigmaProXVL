@@ -3064,8 +3064,8 @@ function _mostrarModalConfigTest(nombre, callback) {
   document.getElementById('cfgCancel').addEventListener('click', function() { modal.remove(); });
   document.getElementById('cfgConfirm').addEventListener('click', function() {
     var config = {};
-    if (necesitaCat) config.columnaAgrupacion = document.getElementById('cfgColCat').value;
-    config.columnaValores = document.getElementById('cfgColNum').value;
+    if (necesitaCat) config.categoricalCols = [document.getElementById('cfgColCat').value];
+    config.numericCol = document.getElementById('cfgColNum').value;
     StateManager.setHypothesisConfig(nombre, config);
     modal.remove();
     callback();
