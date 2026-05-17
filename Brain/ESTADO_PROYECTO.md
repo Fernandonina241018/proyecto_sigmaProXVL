@@ -75,6 +75,7 @@
 | 18 | 17 May 2026 | Fix: hypothesisConfig {} → real config desde StateManager en runSingleStat/runBatch | ✅ |
 | 19 | 17 May 2026 | Feat: Modal de selección de columnas en runSingleStat para tests con dependencias | ✅ |
 | 20 | 17 May 2026 | Fix: data.grupos?.join TypeError — Array.isArray guard en hypothesisKpiCards | ✅ |
+| 21 | 17 May 2026 | Feat: Modal de configuración en selección desde menú superior — onSubitemClick/onChildCheck/onParentCheck muestran _mostrarModalConfigTest para tests de HYPOTHESIS_SET | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 

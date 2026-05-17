@@ -3258,11 +3258,17 @@ function buildStatAnalysisMenu() {
 // ── Click en checkbox hijo ──
 function onChildCheck(event, seccionKey) {
   event.stopPropagation();
+  var chk = event.target;
+  var justChecked = chk.checked;
+  var nombre = chk.dataset.nombre;
   analisisResultContent = null;
   updateParentCheck(seccionKey);
   updateBadge(seccionKey);
   if (currentPage === 'analisis') {
     rightPaneBody.innerHTML = rightPanels.analisis();
+  }
+  if (justChecked && HYPOTHESIS_SET.has(nombre) && !StateManager.getHypothesisConfig(nombre)) {
+    _mostrarModalConfigTest(nombre, function() {});
   }
 }
 
@@ -3282,6 +3288,26 @@ function onParentCheck(event, seccionKey) {
     leftPaneBody.innerHTML = leftPanels.analisis();
     rightPaneBody.innerHTML = rightPanels.analisis();
   }
+
+  if (checked) {
+    var needConfig = [];
+    document.querySelectorAll('.child-check[data-seccion="' + seccionKey + '"]').forEach(function(chk) {
+      var n = chk.dataset.nombre;
+      if (HYPOTHESIS_SET.has(n) && !StateManager.getHypothesisConfig(n)) {
+        needConfig.push(n);
+      }
+    });
+    if (needConfig.length > 0) {
+      _showModalSequence(needConfig, 0);
+    }
+  }
+}
+
+function _showModalSequence(tests, index) {
+  if (index >= tests.length) return;
+  _mostrarModalConfigTest(tests[index], function() {
+    _showModalSequence(tests, index + 1);
+  });
 }
 
 // ── Actualizar estado del padre según hijos ──
@@ -3332,13 +3358,20 @@ function onSubitemClick(event, nombre, seccionKey) {
   // 1. Marcar checkbox
   var id = 'chk-' + seccionKey + '-' + nombre.replace(/[^a-zA-Z0-9]/g, '_');
   var chk = document.getElementById(id);
+  var justChecked = false;
   if (chk) {
     chk.checked = !chk.checked;
+    justChecked = chk.checked;
     updateParentCheck(seccionKey);
     updateBadge(seccionKey);
   }
 
-  // 2. Actualizar estado global y limpiar resultado previo
+  // 2. Modal de configuración si aplica
+  if (justChecked && HYPOTHESIS_SET.has(nombre) && !StateManager.getHypothesisConfig(nombre)) {
+    _mostrarModalConfigTest(nombre, function() {});
+  }
+
+  // 3. Actualizar estado global y limpiar resultado previo
   analisisSelectedCategory = seccionKey;
   analisisSelectedTest = nombre;
   analisisResultContent = null;
