@@ -498,6 +498,67 @@
   .ar-note-desc { font-size:10px; color:var(--text-muted); line-height:1.5; }
   .ar-error { color:#f87171; font-size:12px; padding:6px 10px; background:rgba(248,113,113,0.08); border-radius:4px; }
   .resultados-globales strong { color:var(--text-primary); font-size:18px; }
+
+  /* ── REPORTES (dark theme) ── */
+  .rep-layout { display:grid; grid-template-columns:1fr 340px; gap:20px; align-items:start; padding:4px 0 20px; }
+  .rep-card { background:var(--bg-secondary); border:1px solid var(--border); border-radius:14px; padding:20px; margin-bottom:16px; }
+  .rep-card-title { font-size:0.88rem; font-weight:700; color:var(--text-primary); margin-bottom:16px; padding-bottom:10px; border-bottom:1px solid var(--border); }
+  .rep-status { display:flex; align-items:center; gap:14px; padding:14px 18px; border-radius:12px; margin-bottom:16px; border:1px solid transparent; }
+  .rep-status-ok { background:rgba(39,103,73,0.15); border-color:rgba(39,103,73,0.3); }
+  .rep-status-warn { background:rgba(183,121,31,0.15); border-color:rgba(183,121,31,0.3); }
+  .rep-status-icon { width:34px; height:34px; border-radius:50%; background:#276749; color:#fff; display:flex; align-items:center; justify-content:center; font-size:1rem; font-weight:700; flex-shrink:0; }
+  .rep-status-warn .rep-status-icon { background:#b7791f; }
+  .rep-status-title { font-weight:700; font-size:0.9rem; color:var(--text-primary); margin-bottom:2px; }
+  .rep-status-sub { font-size:0.8rem; color:var(--text-muted); line-height:1.4; }
+  .rep-summary-rows { display:flex; flex-direction:column; gap:8px; }
+  .rep-summary-row { display:flex; justify-content:space-between; align-items:baseline; gap:12px; font-size:0.85rem; padding:6px 0; border-bottom:1px solid var(--border); }
+  .rep-summary-row:last-child { border-bottom:none; }
+  .rep-summary-row span { color:var(--text-muted); }
+  .rep-summary-row strong { color:var(--text-primary); text-align:right; font-size:0.82rem; }
+  .rep-form-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px 16px; }
+  .rep-field { display:flex; flex-direction:column; gap:5px; }
+  .rep-field label { font-size:0.7rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.6px; }
+  .rep-field input, .rep-field select { padding:8px 10px; border:1.5px solid var(--border); border-radius:8px; font-size:0.84rem; font-family:inherit; color:var(--text-primary); background:var(--bg-panel); transition:border-color .2s; }
+  .rep-field input:focus, .rep-field select:focus { outline:none; border-color:var(--accent); }
+  .rep-sig-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .rep-sig-block { background:var(--bg-panel); border:1px solid var(--border); border-radius:10px; padding:12px; }
+  .rep-sig-role { font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; color:var(--accent); margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+  .rep-format-card { position:sticky; top:20px; }
+  .rep-format-hint { font-size:0.8rem; color:var(--text-faint); margin-bottom:16px; line-height:1.5; }
+  .rep-format-list { display:flex; flex-direction:column; gap:10px; margin-bottom:16px; }
+  .rep-format-item { cursor:pointer; display:block; }
+  .rep-format-item input[type="checkbox"] { display:none; }
+  .rep-format-body { display:flex; align-items:center; gap:12px; padding:14px; border:1px solid var(--border); border-radius:10px; background:var(--bg-panel); transition:all .2s ease; }
+  .rep-format-item:hover .rep-format-body { border-color:var(--accent); background:rgba(102,126,234,0.06); }
+  .rep-format-active .rep-format-body { border-color:var(--accent); background:rgba(102,126,234,0.1); }
+  .rep-format-icon { font-size:1.6rem; flex-shrink:0; }
+  .rep-format-info { flex:1; }
+  .rep-format-name { font-weight:700; font-size:0.9rem; color:var(--text-primary); margin-bottom:3px; display:flex; align-items:center; gap:6px; }
+  .rep-format-desc { font-size:0.75rem; color:var(--text-faint); line-height:1.4; }
+  .rep-format-checkmark { width:22px; height:22px; border:2px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.7rem; color:transparent; flex-shrink:0; transition:all .2s ease; }
+  .rep-format-active .rep-format-checkmark { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .rep-fmt-badge-recommended { font-size:0.62rem; background:rgba(43,108,176,0.2); color:#6cb4f5; padding:1px 6px; border-radius:10px; font-weight:600; letter-spacing:0.3px; }
+  .rep-fmt-badge-pdf { font-size:0.62rem; background:rgba(39,103,73,0.2); color:#68d391; padding:1px 6px; border-radius:10px; font-weight:600; letter-spacing:0.3px; }
+  .rep-fmt-count-row { text-align:center; margin-bottom:12px; }
+  .rep-fmt-count { font-size:0.78rem; color:var(--accent); font-weight:600; background:rgba(102,126,234,0.08); padding:4px 12px; border-radius:20px; }
+  .rep-btn-download { width:100%; padding:13px; background:linear-gradient(135deg,#000,#211ed1); color:#fff; border:none; border-radius:10px; font-size:0.9rem; font-weight:600; cursor:pointer; transition:all .3s ease; margin-bottom:12px; }
+  .rep-btn-download:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 6px 20px rgba(102,126,234,0.4); }
+  .rep-btn-download:disabled { background:#444; cursor:not-allowed; transform:none; box-shadow:none; }
+  .rep-no-data-msg { text-align:center; font-size:0.78rem; color:var(--text-faint); margin-bottom:14px; font-style:italic; }
+  .rep-reg-box { background:var(--bg-panel); border:1px solid var(--border); border-radius:10px; padding:14px; margin-top:6px; }
+  .rep-reg-title { font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--accent); margin-bottom:10px; }
+  .rep-reg-row { font-size:0.75rem; color:var(--text-muted); padding:4px 0; border-bottom:1px solid var(--border); line-height:1.4; }
+  .rep-reg-row:last-child { border-bottom:none; }
+  .rep-lang-toggle { display:flex; align-items:center; justify-content:space-between; padding:12px 0 14px; margin-bottom:16px; border-bottom:1px solid var(--border); }
+  .rep-lang-label { font-size:0.72rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.6px; }
+  .rep-lang-btns { display:flex; gap:6px; }
+  .rep-lang-btn { padding:5px 12px; border:1.5px solid var(--border); border-radius:20px; background:var(--bg-panel); color:var(--text-muted); font-size:0.78rem; font-weight:500; cursor:pointer; transition:all .2s ease; white-space:nowrap; }
+  .rep-lang-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .rep-lang-btn.active { background:linear-gradient(135deg,#1a3a6b,#2c5282); border-color:transparent; color:#fff; font-weight:600; }
+  .rep-field-full { grid-column:1 / -1; }
+  .rep-field textarea:focus { outline:none; border-color:var(--accent) !important; }
+  .rep-date-display { padding:8px 10px; border:1px solid var(--border); border-radius:8px; background:var(--bg-secondary); font-family:'JetBrains Mono','Courier New',monospace; font-size:0.82rem; color:var(--accent); font-weight:600; text-align:center; letter-spacing:0.5px; min-height:36px; display:flex; align-items:center; justify-content:center; }
+  @media (max-width:1100px) { .rep-layout{grid-template-columns:1fr} .rep-format-card{position:static} .rep-sig-grid{grid-template-columns:1fr} .rep-form-grid{grid-template-columns:1fr} }
 </style>
 <base target="_blank">
 </head>
@@ -1212,7 +1273,7 @@ var rightPanels = {
     '</div>' +
     '<div id="vizCardsContainer" style="display:flex;flex-direction:column;gap:10px"></div>' +
   '</div>'; },
-  reportes: function() { return '<div class="page-body"><div style="display:flex;gap:8px;margin-bottom:4px"><button class="btn btn-primary">➕ Nuevo</button><button class="btn btn-secondary">📥 Importar</button></div><div style="display:flex;flex-direction:column;gap:8px"><div class="list-item"><div class="list-item-icon">📊</div><div><div class="list-item-title">Análisis Descriptivo Completo</div><div class="list-item-meta">Generado · 15/ene/2026</div></div><div class="list-item-end"><span class="badge badge-ok">PDF</span><button class="btn btn-secondary" style="padding:4px 10px">↓</button></div></div><div class="list-item"><div class="list-item-icon">📈</div><div><div class="list-item-title">Regresión Lineal 2026</div><div class="list-item-meta">Borrador · 10/ene/2026</div></div><div class="list-item-end"><span class="badge badge-warn">DOCX</span><button class="btn btn-secondary" style="padding:4px 10px">↓</button></div></div></div></div>'; },
+  reportes: function() { return '<div class="page-body"><div id="reportes-editor-container"></div></div>'; },
   auditoria: function() { return '<div class="page-body"><div style="display:flex;gap:8px;margin-bottom:4px"><button class="btn btn-primary">🔍 Filtrar</button><button class="btn btn-secondary">📥 Exportar log</button></div><div class="grid-4"><div class="metric-card"><div class="metric-label">Total eventos</div><div class="metric-value">247</div><div class="metric-sub">últimos 30 días</div></div><div class="metric-card"><div class="metric-label">Logins</div><div class="metric-value">83</div><div class="metric-sub">exitosos</div></div><div class="metric-card"><div class="metric-label">Exportaciones</div><div class="metric-value">34</div><div class="metric-sub">archivos</div></div><div class="metric-card"><div class="metric-label">Errores</div><div class="metric-value" style="color:#f87171">3</div><div class="metric-sub">requieren revisión</div></div></div><div class="page-card"><div class="page-card-header"><span class="page-card-icon">📋</span><span class="page-card-title">Log de eventos</span></div><div class="page-card-body" style="padding:0"><table class="data-table"><thead><tr><th>Evento</th><th>Usuario</th><th>Fecha</th><th>Estado</th></tr></thead><tbody><tr><td>Login</td><td style="color:var(--accent)">admin</td><td>Hoy 09:15</td><td><span class="badge badge-ok">OK</span></td></tr><tr><td>Exportar datos.csv</td><td style="color:var(--accent)">analista</td><td>Ayer 16:30</td><td><span class="badge badge-ok">OK</span></td></tr><tr><td>Login fallido</td><td style="color:#f87171">desconocido</td><td>Ayer 09:48</td><td><span class="badge badge-warn">Error</span></td></tr></tbody></table></div></div></div>'; },
   usuarios: function() { return '<div class="page-body"><div style="display:flex;gap:8px;margin-bottom:4px"><button class="btn btn-primary">➕ Nuevo usuario</button><button class="btn btn-secondary">🔍 Buscar</button></div><div style="display:flex;flex-direction:column;gap:8px"><div class="list-item"><div class="user-avatar" style="background:#ff5f56">A</div><div><div class="user-name">admin</div><div class="user-role" style="color:#ff8070">Administrador</div><div class="user-email">admin@sistema.com</div></div><div class="list-item-end"><span class="badge badge-ok">Activo</span><button class="btn btn-secondary" style="padding:4px 10px">✏️</button></div></div><div class="list-item"><div class="user-avatar" style="background:#febc2e">J</div><div><div class="user-name">Juan Pérez</div><div class="user-role" style="color:#febc2e">Analista</div><div class="user-email">juan@sistema.com</div></div><div class="list-item-end"><span class="badge badge-ok">Activo</span><button class="btn btn-secondary" style="padding:4px 10px">✏️</button></div></div><div class="list-item"><div class="user-avatar" style="background:#28c840">M</div><div><div class="user-name">María García</div><div class="user-role" style="color:#28c840">Analista</div><div class="user-email">maria@sistema.com</div></div><div class="list-item-end"><span class="badge badge-ok">Activo</span><button class="btn btn-secondary" style="padding:4px 10px">✏️</button></div></div></div></div>'; }
 };
@@ -1246,6 +1307,7 @@ function loadPage(name) {
   if (name === 'datos') { setTimeout(initDatosPage, 60); }
   if (name === 'trabajo') { initTrabajoKeyboard(); }
   if (name === 'visualizacion') { setTimeout(initVizPage, 60); }
+  if (name === 'reportes') { setTimeout(function(){ if (typeof ReporteManager !== 'undefined') ReporteManager.buildReportesView(); }, 60); }
   updateToolsMenuState();
 }
 
@@ -3113,5 +3175,7 @@ loadPage('datos');
 <script src="StatsUtils.js"></script>
 <script src="EstadisticaDescriptiva.js"></script>
 <script src="ToolsManager.js"></script>
+<script src="StateManager.js"></script>
+<script src="ReporteManager.js"></script>
 </body>
 </html>
