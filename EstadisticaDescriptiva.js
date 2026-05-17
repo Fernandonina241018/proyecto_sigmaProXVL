@@ -3106,7 +3106,7 @@ interpretacion: interpretacion,
 
                 case 'T-Test (dos muestras)':
                     // Usar configuración de hipótesis si está disponible
-                    if (hypothesisConfig['T-Test (dos muestras)']) {
+                    if (hypothesisConfig['T-Test (dos muestras)'] && hypothesisConfig['T-Test (dos muestras)'].categoricalCols?.length >= 1) {
                         const cfg = hypothesisConfig['T-Test (dos muestras)'];
                         const catCol = cfg.categoricalCols[0];
                         const numCol = cfg.numericCol;
@@ -3150,7 +3150,7 @@ interpretacion: interpretacion,
 
                 case 'ANOVA One-Way':
                     // Usar configuración de hipótesis si está disponible
-                    if (hypothesisConfig['ANOVA One-Way']) {
+                    if (hypothesisConfig['ANOVA One-Way'] && hypothesisConfig['ANOVA One-Way'].categoricalCols?.length >= 1) {
                         const cfg = hypothesisConfig['ANOVA One-Way'];
                         const catCol = cfg.categoricalCols[0];
                         const numCol = cfg.numericCol;
@@ -3180,7 +3180,7 @@ interpretacion: interpretacion,
 
                 case 'Chi-Cuadrado':
                     // Usar configuración de hipótesis si está disponible
-                    if (hypothesisConfig['Chi-Cuadrado']) {
+                    if (hypothesisConfig['Chi-Cuadrado'] && hypothesisConfig['Chi-Cuadrado'].categoricalCols?.length >= 2) {
                         const cfg = hypothesisConfig['Chi-Cuadrado'];
                         const catCol1 = cfg.categoricalCols[0];
                         const catCol2 = cfg.categoricalCols[1];
@@ -3229,7 +3229,7 @@ interpretacion: interpretacion,
 
                 case 'ANOVA Two-Way':
                     // Usar configuración de hipótesis si está disponible
-                    if (hypothesisConfig['ANOVA Two-Way']) {
+                    if (hypothesisConfig['ANOVA Two-Way'] && hypothesisConfig['ANOVA Two-Way'].categoricalCols && hypothesisConfig['ANOVA Two-Way'].categoricalCols.length >= 2) {
                         const cfg = hypothesisConfig['ANOVA Two-Way'];
                         const catCol1 = cfg.categoricalCols[0];
                         const catCol2 = cfg.categoricalCols[1];
@@ -3725,7 +3725,7 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                      break;
 
                  case 'Mann-Whitney U':
-                     if (hypothesisConfig['Mann-Whitney U']) {
+                     if (hypothesisConfig['Mann-Whitney U'] && hypothesisConfig['Mann-Whitney U'].categoricalCols?.length >= 1) {
                          const cfg = hypothesisConfig['Mann-Whitney U'];
                          const catCol = cfg.categoricalCols[0];
                          const numCol = cfg.numericCol;
@@ -3757,7 +3757,7 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                      break;
 
                  case 'Kruskal-Wallis':
-                     if (hypothesisConfig['Kruskal-Wallis']) {
+                     if (hypothesisConfig['Kruskal-Wallis'] && hypothesisConfig['Kruskal-Wallis'].categoricalCols?.length >= 1) {
                          const cfg = hypothesisConfig['Kruskal-Wallis'];
                          const catCol = cfg.categoricalCols[0];
                          const numCol = cfg.numericCol;

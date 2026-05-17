@@ -3111,7 +3111,13 @@ function runSingleStat(nombre) {
   }
 
   if (HYPOTHESIS_SET.has(nombre) && !StateManager.getHypothesisConfig(nombre)) {
-    _mostrarModalConfigTest(nombre, function() { runSingleStat(nombre); });
+    _mostrarModalConfigTest(nombre, function() {
+      if (!StateManager.getHypothesisConfig(nombre)) {
+        showToast('⚠️ Error al guardar configuración para ' + nombre);
+        return;
+      }
+      runSingleStat(nombre);
+    });
     return;
   }
 
