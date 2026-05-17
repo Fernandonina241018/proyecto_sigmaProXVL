@@ -76,6 +76,7 @@
 | 19 | 17 May 2026 | Feat: Modal de selección de columnas en runSingleStat para tests con dependencias | ✅ |
 | 20 | 17 May 2026 | Fix: data.grupos?.join TypeError — Array.isArray guard en hypothesisKpiCards | ✅ |
 | 21 | 17 May 2026 | Feat: Modal de configuración en selección desde menú superior — onSubitemClick/onChildCheck/onParentCheck muestran _mostrarModalConfigTest para tests de HYPOTHESIS_SET | ✅ |
+| 22 | 17 May 2026 | Fix: JSON.parse(undefined) en _pushToHistory al guardar hypothesisConfig por primera vez — oldValue undefined causa JSON.stringify(undefined) → undefined (no string), JSON.parse(undefined) → SyntaxError | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 

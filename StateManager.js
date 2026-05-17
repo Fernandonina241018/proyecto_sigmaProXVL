@@ -601,7 +601,7 @@ const StateManager = (() => {
     }
 
     function _pushToHistory(type, key, oldValue) {
-        const entry = { type, key, oldValue: JSON.parse(JSON.stringify(oldValue)), timestamp: Date.now() };
+        const entry = { type, key, oldValue: oldValue !== undefined ? JSON.parse(JSON.stringify(oldValue)) : undefined, timestamp: Date.now() };
         state.history = state.history.slice(0, state.historyIndex + 1);
         state.history.push(entry);
         if (state.history.length > state.maxHistorySize) {
@@ -634,7 +634,7 @@ const StateManager = (() => {
         state.historyIndex++;
         const entry = state.history[state.historyIndex];
         if (entry.type === 'hypothesisConfig') {
-            state.hypothesisConfig[entry.key] = JSON.parse(JSON.stringify(entry.oldValue));
+            state.hypothesisConfig[entry.key] = entry.oldValue !== undefined ? JSON.parse(JSON.stringify(entry.oldValue)) : undefined;
             console.log(`↪️ Rehacer: ${entry.key}`);
         }
         scheduleAutoSave();
