@@ -3063,7 +3063,10 @@ function runSingleStat(nombre) {
   rightPaneBody.innerHTML = rightPanels.analisis();
 
   try {
-    var resultados = EstadisticaDescriptiva.ejecutarAnalisis(data, [nombre], {});
+    var hc = {};
+    var saved = StateManager.getHypothesisConfig(nombre);
+    if (saved) hc[nombre] = saved;
+    var resultados = EstadisticaDescriptiva.ejecutarAnalisis(data, [nombre], hc);
     var html = EstadisticaDescriptiva.generarHTML(resultados);
     analisisResultContent = html;
     window.ultimosResultados = resultados;
@@ -3118,7 +3121,8 @@ function runBatchAnalysis() {
   rightPaneBody.innerHTML = rightPanels.analisis();
 
   try {
-    var resultados = EstadisticaDescriptiva.ejecutarAnalisis(data, selected, {});
+    var hc = StateManager.getAllHypothesisConfig();
+    var resultados = EstadisticaDescriptiva.ejecutarAnalisis(data, selected, hc);
     var html = EstadisticaDescriptiva.generarHTML(resultados);
     analisisResultContent = html;
     analisisSelectedTest = selected.join(', ');
