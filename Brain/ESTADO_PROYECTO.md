@@ -68,6 +68,7 @@
 | 11 | 16 May 2026 | Visualizacion.getGraficosParaReporte() — Charts incrustados en Reportes (Section 07) | ✅ |
 | 12 | 16 May 2026 | Fix: Chart images en reportes — captura al crear (no al generar reporte) | ✅ |
 | 13 | 16 May 2026 | Fix: Chart aspect ratio plano — altura 300→400px + render forzado pre-captura | ✅ |
+| 14 | 16 May 2026 | Fix: Chart aspect ratio — altura 400→500px + padding 1.6:1 en post-procesado | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 

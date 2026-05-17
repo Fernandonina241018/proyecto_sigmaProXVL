@@ -1409,11 +1409,31 @@ function _vizSetImage(id, chart) {
     var titleEl = card ? card.querySelector('.page-card-title') : null;
     var titulo = titleEl ? titleEl.textContent.trim() : id;
     var tipo = chart.config && chart.config.type ? chart.config.type : 'desconocido';
-    _vizChartImages[id] = {
-      imagen: chart.canvas.toDataURL('image/png'),
-      titulo: titulo,
-      tipo: tipo
-    };
+    var canvas = chart.canvas;
+    var w = canvas.width;
+    var h = canvas.height;
+    var maxRatio = 1.6;
+    var minH = Math.floor(w / maxRatio);
+    if (h < minH) {
+      var oc = document.createElement('canvas');
+      oc.width = w;
+      oc.height = minH;
+      var ctx = oc.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, oc.width, oc.height);
+      ctx.drawImage(canvas, 0, Math.floor((minH - h) / 2), w, h);
+      _vizChartImages[id] = {
+        imagen: oc.toDataURL('image/png'),
+        titulo: titulo,
+        tipo: tipo
+      };
+    } else {
+      _vizChartImages[id] = {
+        imagen: canvas.toDataURL('image/png'),
+        titulo: titulo,
+        tipo: tipo
+      };
+    }
   } catch(e) {
     console.warn('[Viz] Error capturando imagen ' + id + ':', e);
   }
@@ -1683,7 +1703,7 @@ function vizDefaultColors(count) {
 }
 
 function createChartCard(id, title, container, height, params) {
-  height = height || 400;
+  height = height || 500;
   var card = document.createElement('div');
   card.className = 'page-card';
   card.id = id;
@@ -1713,7 +1733,7 @@ function renderBarLineCard(sheet, type, colX, colY, container) {
   var d = vizGetValidPairs(sheet, colX, colY);
   if (!d.data.length) { showToast('No hay datos numéricos válidos'); return; }
   var id = 'viz-' + (++_vizCardCounter);
-  var canvas = createChartCard(id, vizTypeName(type) + ' · ' + colX + ' vs ' + colY, container, 300, {type:type, colX:colX, colY:colY});
+  var canvas = createChartCard(id, vizTypeName(type) + ' · ' + colX + ' vs ' + colY, container, 500, {type:type, colX:colX, colY:colY});
   var opts = chartOptsDark(true);
   opts.plugins.legend.display = true;
   _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
@@ -1739,7 +1759,7 @@ function renderMultiSeriesCard(sheet, type, colX, yCols, container) {
     if (type === 'stackedBar' || type === 'groupedBar') ds.backgroundColor = colors[i];
     return ds;
   });
-  var canvas = createChartCard(id, vizTypeName(type) + ' · ' + colX + ' [' + yCols.join(', ') + ']', container, 300, {type:type, colX:colX, colY:yCols[0]||'', allY:yCols, extraY:yCols.slice(1)});
+  var canvas = createChartCard(id, vizTypeName(type) + ' · ' + colX + ' [' + yCols.join(', ') + ']', container, 500, {type:type, colX:colX, colY:yCols[0]||'', allY:yCols, extraY:yCols.slice(1)});
   var opts = chartOptsDark(true);
   if (type === 'stackedBar') { opts.scales.x.stacked = true; opts.scales.y.stacked = true; }
   if (type === 'groupedBar') { /* default grouped */ }
@@ -1755,7 +1775,7 @@ function renderScatterCard(sheet, colX, colY, container) {
   var pts = vizGetValidScatterPairs(sheet, colX, colY);
   if (!pts.length) { showToast('No hay pares numéricos válidos'); return; }
   var id = 'viz-' + (++_vizCardCounter);
-  var canvas = createChartCard(id, 'Dispersión · ' + colX + ' vs ' + colY, container, 300, {type:'scatter', colX:colX, colY:colY});
+  var canvas = createChartCard(id, 'Dispersión · ' + colX + ' vs ' + colY, container, 500, {type:'scatter', colX:colX, colY:colY});
   _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
     type: 'scatter',
     data: { datasets: [{ label: colX + ' vs ' + colY, data: pts, backgroundColor: 'rgba(54,162,235,0.6)' }] },
@@ -1775,7 +1795,7 @@ function renderBubbleCard(sheet, colX, colY, colSize, container) {
   var pts = vizGetValidBubbleData(sheet, colX, colY, colSize);
   if (!pts.length) { showToast('No hay datos numéricos válidos para burbuja'); return; }
   var id = 'viz-' + (++_vizCardCounter);
-  var canvas = createChartCard(id, 'Burbuja · ' + colX + ' × ' + colY + ' (' + colSize + ')', container, 300, {type:'bubble', colX:colX, colY:colY, colSize:colSize});
+  var canvas = createChartCard(id, 'Burbuja · ' + colX + ' × ' + colY + ' (' + colSize + ')', container, 500, {type:'bubble', colX:colX, colY:colY, colSize:colSize});
   _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
     type: 'bubble',
     data: { datasets: [{ label: colX + ' vs ' + colY, data: pts, backgroundColor: 'rgba(54,162,235,0.5)' }] },
@@ -1795,7 +1815,7 @@ function renderPieCard(sheet, type, colX, colY, container) {
   var d = vizGetValidPairs(sheet, colX, colY);
   if (!d.data.length) { showToast('No hay datos válidos'); return; }
   var id = 'viz-' + (++_vizCardCounter);
-  var canvas = createChartCard(id, vizTypeName(type) + ' · ' + colY + ' por ' + colX, container, 300, {type:type, colX:colX, colY:colY});
+  var canvas = createChartCard(id, vizTypeName(type) + ' · ' + colY + ' por ' + colX, container, 500, {type:type, colX:colX, colY:colY});
   var colors = vizDefaultColors(d.labels.length);
   _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
     type: type,
@@ -1809,7 +1829,7 @@ function renderRadarCard(sheet, colX, colY, container) {
   var d = vizGetValidPairs(sheet, colX, colY);
   if (!d.data.length) { showToast('No hay datos válidos'); return; }
   var id = 'viz-' + (++_vizCardCounter);
-  var canvas = createChartCard(id, 'Radar · ' + colY + ' por ' + colX, container, 300, {type:'radar', colX:colX, colY:colY});
+  var canvas = createChartCard(id, 'Radar · ' + colY + ' por ' + colX, container, 500, {type:'radar', colX:colX, colY:colY});
   _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
     type: 'radar',
     data: { labels: d.labels, datasets: [{ label: colY, data: d.data, backgroundColor: 'rgba(54,162,235,0.2)', borderColor: 'rgba(54,162,235,1)', pointBackgroundColor: 'rgba(54,162,235,1)' }] },
@@ -1841,7 +1861,7 @@ function renderHistogramCard(sheet, colX, container) {
     curveData.push(pdf * N * binWidth);
   }
   var id = 'viz-' + (++_vizCardCounter);
-  var canvas = createChartCard(id, 'Histograma + Curva Normal · ' + colX, container, 400, {type:'histogram', colX:colX});
+  var canvas = createChartCard(id, 'Histograma + Curva Normal · ' + colX, container, 500, {type:'histogram', colX:colX});
   _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
     type: 'bar',
     data: {
