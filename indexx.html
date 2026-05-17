@@ -1695,17 +1695,41 @@ function renderHistogramCard(sheet, colX, container) {
   var bins = Math.min(Math.max(Math.round(Math.sqrt(vals.length)), 5), 30);
   var min = Math.min.apply(null, vals), max = Math.max.apply(null, vals);
   if (min === max) { showToast('Todos los valores son iguales'); return; }
+  var N = vals.length;
+  var mean = vals.reduce(function(a,b){return a+b;}, 0) / N;
+  var variance = vals.reduce(function(a,b){return a+(b-mean)*(b-mean);}, 0) / (N-1);
+  var std = Math.sqrt(variance);
   var binWidth = (max - min) / bins;
   var counts = new Array(bins).fill(0);
   vals.forEach(function(v){ counts[Math.min(Math.floor((v - min) / binWidth), bins - 1)]++; });
-  var labels = [];
-  for (var i = 0; i < bins; i++) labels.push((min + i * binWidth).toFixed(2) + '-' + (min + (i+1) * binWidth).toFixed(2));
+  var labels = [], curveData = [];
+  for (var i = 0; i < bins; i++) {
+    var lo = (min + i * binWidth), hi = (min + (i+1) * binWidth);
+    labels.push(lo.toFixed(2) + '-' + hi.toFixed(2));
+    var mid = (lo + hi) / 2;
+    var z = (mid - mean) / std;
+    var pdf = Math.exp(-0.5 * z * z) / (std * Math.sqrt(2 * Math.PI));
+    curveData.push(pdf * N * binWidth);
+  }
   var id = 'viz-' + (++_vizCardCounter);
-  var canvas = createChartCard(id, 'Histograma · ' + colX, container, 320);
+  var canvas = createChartCard(id, 'Histograma + Curva Normal · ' + colX, container, 320);
   _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
     type: 'bar',
-    data: { labels: labels, datasets: [{ label: colX + ' (frecuencia)', data: counts, backgroundColor: 'rgba(54,162,235,0.6)', borderColor: 'rgba(54,162,235,1)', borderWidth: 1 }] },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: true, labels: { color: '#ccc' } } }, scales: { x: { title: { display: true, text: colX, color: '#ccc' }, ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.05)' } }, y: { title: { display: true, text: 'Frecuencia', color: '#ccc' }, ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true } } }
+    data: {
+      labels: labels,
+      datasets: [
+        { label: colX + ' (frecuencia)', data: counts, backgroundColor: 'rgba(54,162,235,0.6)', borderColor: 'rgba(54,162,235,1)', borderWidth: 1, order: 2 },
+        { label: 'Curva normal', data: curveData, type: 'line', fill: false, borderColor: '#ff6b6b', borderWidth: 2, tension: 0.4, pointRadius: 0, order: 1 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: true, labels: { color: '#ccc' } } },
+      scales: {
+        x: { title: { display: true, text: colX, color: '#ccc' }, ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+        y: { title: { display: true, text: 'Frecuencia', color: '#ccc' }, ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true }
+      }
+    }
   });
 }
 
