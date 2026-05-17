@@ -1751,7 +1751,13 @@ function createChartCard(id, title, container, height, params) {
     '</div>';
   container.appendChild(card);
   container.scrollTop = container.scrollHeight;
-  return document.getElementById(id + '-canvas');
+  var canvas = document.getElementById(id + '-canvas');
+  // Forzar layout y asignar dimensiones explícitas antes de Chart.js
+  var bodyEl = canvas.parentElement;
+  void bodyEl.offsetHeight;
+  canvas.width = bodyEl.clientWidth - 20;
+  canvas.height = bodyEl.clientHeight - 20;
+  return canvas;
 }
 
 function chartOptsDark(scales) {

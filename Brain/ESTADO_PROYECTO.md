@@ -71,6 +71,7 @@
 | 14 | 16 May 2026 | Fix: Chart aspect ratio — altura 400→500px + padding 1.6:1 en post-procesado | ✅ |
 | 15 | 17 May 2026 | Persistencia de datasets — trabajoSheets/datosCurrentData guardados en localStorage | ✅ |
 | 16 | 17 May 2026 | Eliminado tab decorativo [Tabs Menu] del tabbar | ✅ |
+| 17 | 17 May 2026 | Fix: Curva normal plana en primer histograma — dimensiones explícitas en canvas | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
@@ -138,6 +139,17 @@
 
 **Archivos modificados:**
 - `indexx.html`: `_persistAllData()` + `_restoreAllData()` (~35 líneas), 16 puntos de guardado, 1 punto de restauración
+
+### 🔧 FIX: Curva normal plana en primer histograma (17 May 2026)
+
+**Problema:** Al generar el primer histograma, la curva normal aparecía visualmente plana (línea horizontal). Al crear más gráficos, el primer histograma se corregía solo.
+
+**Causa raíz:** El `<canvas>` se creaba sin atributos `width`/`height` explícitos, usando el tamaño intrínseco de 300×150. Chart.js con `responsive: true` inicializaba a 300×150 y `vizCaptureCardImage()` forzaba `chart.update()` antes de que ResizeObserver disparara el redimensionamiento real (~900×500). La línea de la curva normal se comprimía a ~1-2 píxeles verticales (imperceptible). Al crear un segundo gráfico, Chart.js procesaba ResizeObserver para todos los charts observados, redimensionando el primero correctamente.
+
+**Solución:** En `createChartCard()`, forzar layout (`offsetHeight`) y asignar `canvas.width`/`canvas.height` explícitos según el contenedor padre antes de devolver el canvas a Chart.js.
+
+**Archivos modificados:**
+- `indexx.html`: 3 líneas agregadas en `createChartCard()` (`offsetHeight` + dimensiones explícitas)
 
 ### 🔧 FIX: utils.js faltante + null.toFixed + dead refs runStatisticalTest (15 May 2026)
 
