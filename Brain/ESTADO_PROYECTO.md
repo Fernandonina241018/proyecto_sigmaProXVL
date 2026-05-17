@@ -70,6 +70,7 @@
 | 13 | 16 May 2026 | Fix: Chart aspect ratio plano — altura 300→400px + render forzado pre-captura | ✅ |
 | 14 | 16 May 2026 | Fix: Chart aspect ratio — altura 400→500px + padding 1.6:1 en post-procesado | ✅ |
 | 15 | 17 May 2026 | Persistencia de datasets — trabajoSheets/datosCurrentData guardados en localStorage | ✅ |
+| 16 | 17 May 2026 | Eliminado tab decorativo [Tabs Menu] del tabbar | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
