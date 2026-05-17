@@ -832,6 +832,43 @@ var datosCurrentFileName = '';
 var datosRecentFiles = [];
 var datasetTooltip = null;
 var currentPage = 'trabajo';
+
+function _persistAllData() {
+  try {
+    localStorage.setItem('sigmaPro_trabajoSheets', JSON.stringify(trabajoSheets));
+    if (datosCurrentData) {
+      localStorage.setItem('sigmaPro_datosCurrentData', JSON.stringify({
+        data: datosCurrentData,
+        fileName: datosCurrentFileName,
+        timestamp: Date.now()
+      }));
+    }
+  } catch(e) {
+    console.warn('[Persist] Error saving data:', e);
+  }
+}
+
+function _restoreAllData() {
+  try {
+    var ts = localStorage.getItem('sigmaPro_trabajoSheets');
+    if (ts) {
+      var parsed = JSON.parse(ts);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        trabajoSheets = parsed;
+      }
+    }
+    var dcd = localStorage.getItem('sigmaPro_datosCurrentData');
+    if (dcd) {
+      var parsed2 = JSON.parse(dcd);
+      if (parsed2 && parsed2.data && parsed2.data.headers && Array.isArray(parsed2.data.rows)) {
+        datosCurrentData = parsed2.data;
+        datosCurrentFileName = parsed2.fileName || '';
+      }
+    }
+  } catch(e) {
+    console.warn('[Persist] Error restoring data:', e);
+  }
+}
 // Analysis page state - dynamic tests
 var analisisSelectedCategory = 'descriptiva';
 var analisisSelectedTest = null;
@@ -2107,6 +2144,7 @@ function saveCellData(rowIdx, colIdx, value) {
     }
     var resumenEl = document.getElementById('trabajoResumen');
     if (resumenEl) resumenEl.innerHTML = getTrabajoResumenHTML();
+    _persistAllData();
   }
   hideAutocomplete();
 }
@@ -2159,6 +2197,7 @@ function renameColumn(colIdx, newName) {
     pushUndo();
     sheet.headers[colIdx] = newName;
   }
+  _persistAllData();
 }
 
 function handleCellPaste(event, rowIdx, colIdx) {
@@ -2209,6 +2248,7 @@ function handleCellPaste(event, rowIdx, colIdx) {
   var displayRows = Math.max(sheet.rows.length, 30);
   while (sheet.rows.length < displayRows) sheet.rows.push(Array(sheet.headers.length).fill(''));
   trabajoActiveCell = {row: startRow, col: colIdx};
+  _persistAllData();
   loadPage('trabajo');
 }
 
@@ -2217,6 +2257,7 @@ function addRow() {
   var sheet = getCurrentSheet(); if (!sheet) return;
   pushUndo();
   sheet.rows.push(Array.from({length: sheet.headers.length}, function(){ return ''; }));
+  _persistAllData();
   loadPage('trabajo');
 }
 function deleteActiveRow() {
@@ -2225,6 +2266,7 @@ function deleteActiveRow() {
   pushUndo();
   sheet.rows.splice(trabajoActiveCell.row, 1);
   if (trabajoActiveCell.row >= sheet.rows.length) trabajoActiveCell.row = Math.max(0, sheet.rows.length - 1);
+  _persistAllData();
   loadPage('trabajo');
 }
 function addColumn() {
@@ -2233,6 +2275,7 @@ function addColumn() {
   var newName = 'Col' + (sheet.headers.length + 1);
   sheet.headers.push(newName);
   sheet.rows.forEach(function(r){ r.push(''); });
+  _persistAllData();
   loadPage('trabajo');
 }
 function deleteActiveColumn() {
@@ -2242,16 +2285,21 @@ function deleteActiveColumn() {
   sheet.headers.splice(trabajoActiveCell.col, 1);
   sheet.rows.forEach(function(r){ r.splice(trabajoActiveCell.col, 1); });
   if (trabajoActiveCell.col >= sheet.headers.length) trabajoActiveCell.col = Math.max(0, sheet.headers.length - 1);
+  _persistAllData();
   loadPage('trabajo');
 }
 function selectRow(rowIdx) { trabajoActiveCell.row = rowIdx; loadPage('trabajo'); }
-function selectAll() { trabajoActiveCell = {row:0,col:0}; loadPage('trabajo'); }
+function selectAll() {   trabajoActiveCell = {row:0,col:0};
+  loadPage('trabajo');
+  _persistAllData();
+}
 
 function sortColumn() {
   var sheet = getCurrentSheet(); if (!sheet) return;
   pushUndo();
   var col = trabajoActiveCell.col; var asc = true;
   sheet.rows.sort(function(a,b){ var va=a[col]||'',vb=b[col]||''; var na=parseFloat(va),nb=parseFloat(vb); if(!isNaN(na)&&!isNaN(nb)) return asc?na-nb:nb-na; return asc?String(va).localeCompare(String(vb)):String(vb).localeCompare(String(va)); });
+  _persistAllData();
   loadPage('trabajo');
 }
 
@@ -2263,11 +2311,13 @@ function createNewSheet() {
   trabajoSheets.push({ name:name, headers:['Columna1','Columna2','Columna3','Columna4'], rows:Array.from({length:20}, function(){ return ['','','','']; }) });
   trabajoActiveSheetIndex = trabajoSheets.length - 1;
   trabajoActiveCell = {row:0,col:0};
+  _persistAllData();
   loadPage('trabajo');
 }
 function switchToSheet(index) {
   if (index < 0 || index >= trabajoSheets.length) return;
   trabajoActiveSheetIndex = index; trabajoActiveCell = {row:0,col:0};
+  _persistAllData();
   loadPage('trabajo');
 }
 function deleteSheet(index, evt) {
@@ -2276,6 +2326,7 @@ function deleteSheet(index, evt) {
   if (!confirm('¿Eliminar la hoja "' + trabajoSheets[index].name + '"?')) return;
   trabajoSheets.splice(index, 1);
   if (trabajoActiveSheetIndex >= trabajoSheets.length) trabajoActiveSheetIndex = trabajoSheets.length - 1;
+  _persistAllData();
   loadPage('trabajo');
 }
 function clearCurrentSheet() {
@@ -2283,6 +2334,7 @@ function clearCurrentSheet() {
   if (!confirm('¿Limpiar todos los datos de "' + sheet.name + '"?')) return;
   pushUndo();
   sheet.rows = sheet.rows.map(function(){ return Array.from({length: sheet.headers.length}, function(){ return ''; }); });
+  _persistAllData();
   loadPage('trabajo');
 }
 function generateSampleData() {
@@ -2294,6 +2346,7 @@ function generateSampleData() {
       return (Math.random() * 100).toFixed(1);
     });
   });
+  _persistAllData();
   loadPage('trabajo');
 }
 function exportTrabajo() {
@@ -2457,6 +2510,7 @@ function finishLoad(headers, rows, filename, size) {
   datosCurrentFileName = filename;
   addToRecentFiles({ name: filename, type: filename.split('.').pop().toUpperCase(), size: size || 0, rows: rows.length, date: new Date().toISOString() }, datosCurrentData);
   updateDatosUI();
+  _persistAllData();
 }
 
 // ── Column type detection ──
@@ -2777,6 +2831,7 @@ function sendToTrabajo() {
   trabajoSheets.push({ name:name, headers:datosCurrentData.headers.slice(), rows:rowsToSend.map(function(r){ return r.map(function(v){ return String(v==null?'':v); }); }) });
   trabajoActiveSheetIndex = trabajoSheets.length - 1;
   trabajoActiveCell = {row:0,col:0};
+  _persistAllData();
   loadPage('trabajo');
 }
 
@@ -3254,6 +3309,7 @@ document.addEventListener('DOMContentLoaded', function() {
 buildStatAnalysisMenu();
 
 // ── Initial load ──
+_restoreAllData();
 loadPage('datos');
 </script>
 <script src="utils.js"></script>

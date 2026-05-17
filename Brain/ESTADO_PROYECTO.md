@@ -69,6 +69,7 @@
 | 12 | 16 May 2026 | Fix: Chart images en reportes — captura al crear (no al generar reporte) | ✅ |
 | 13 | 16 May 2026 | Fix: Chart aspect ratio plano — altura 300→400px + render forzado pre-captura | ✅ |
 | 14 | 16 May 2026 | Fix: Chart aspect ratio — altura 400→500px + padding 1.6:1 en post-procesado | ✅ |
+| 15 | 17 May 2026 | Persistencia de datasets — trabajoSheets/datosCurrentData guardados en localStorage | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
@@ -121,6 +122,21 @@
 
 **Archivos modificados:**
 - `indexx.html`: `createChartCard` height default 300→400, histogram 320→400, `vizCaptureCardImage` refactor + sincrónico, `_vizSetImage` helper, fallback en `getGraficosParaReporte()`
+
+### ✨ FEATURE: Persistencia de datasets entre recargas del navegador (17 May 2026)
+
+**Problema:** Los datasets cargados en Gestión de Datos o enviados a la página Trabajo se perdían al recargar la página o reiniciar el navegador. Los gráficos (charts) sí persistían porque sus parámetros se guardaban en `localStorage`, pero los datos fuente (`trabajoSheets`, `datosCurrentData`) eran variables globales en memoria que nunca se serializaban.
+
+**Causa raíz:** Dos sistemas paralelos de almacenamiento — las variables globales usadas por la UI (`trabajoSheets`, `datosCurrentData`) nunca se guardaban en localStorage, mientras que `StateManager` que sí persiste no era consumido por la UI legada.
+
+**Solución:**
+1. Nuevas funciones `_persistAllData()` y `_restoreAllData()` que serializan/deserializan `trabajoSheets` y `datosCurrentData` a `localStorage` bajo las claves `sigmaPro_trabajoSheets` y `sigmaPro_datosCurrentData`
+2. `_restoreAllData()` se ejecuta antes del `loadPage('datos')` inicial, restaurando datos antes de que la UI intente leerlos
+3. `_persistAllData()` se llama en todos los puntos de modificación de datos: importación (`finishLoad`), envío a Trabajo (`sendToTrabajo`), edición de celdas (`saveCellData`), pegado (`handleCellPaste`), añadir/eliminar filas/columnas, renombrar columnas, ordenar, crear/eliminar/cambiar hojas, limpiar y generar datos de ejemplo
+4. Esto también corrige la restauración de gráficos: `vizRestoreCards()` puede validar columnas contra los datos restaurados
+
+**Archivos modificados:**
+- `indexx.html`: `_persistAllData()` + `_restoreAllData()` (~35 líneas), 16 puntos de guardado, 1 punto de restauración
 
 ### 🔧 FIX: utils.js faltante + null.toFixed + dead refs runStatisticalTest (15 May 2026)
 
