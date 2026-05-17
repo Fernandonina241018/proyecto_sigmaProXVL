@@ -65,6 +65,7 @@
 | 8 | 13 May 2026 | Dropdown de categoría en Análisis (Descriptiva/Hipótesis/etc) | ✅ |
 | 9 | 13 May 2026 | Selection from Statistical menu navega a Análisis | ✅ |
 | 10 | 13 May 2026 | Último resultado se muestra en panel izquierdo | ✅ |
+| 11 | 16 May 2026 | Visualizacion.getGraficosParaReporte() — Charts incrustados en Reportes (Section 07) | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 

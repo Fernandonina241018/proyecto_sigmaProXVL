@@ -1384,6 +1384,29 @@ var _vizCardCounter = 0;
 var _vizSelectedType = 'bar';
 var _vizExtraYCount = 0;
 
+// API para ReporteManager — captura gráficos actuales como base64
+window.Visualizacion = {
+  getGraficosParaReporte: function() {
+    var graficos = [];
+    if (!window._vizChartInstances) return graficos;
+    Object.keys(window._vizChartInstances).forEach(function(id) {
+      try {
+        var chart = window._vizChartInstances[id];
+        if (!chart || !chart.canvas) return;
+        var card = document.getElementById(id);
+        var titleEl = card ? card.querySelector('.page-card-title') : null;
+        var titulo = titleEl ? titleEl.textContent.trim() : id;
+        var imagen = chart.canvas.toDataURL('image/png');
+        var tipo = chart.config && chart.config.type ? chart.config.type : 'desconocido';
+        graficos.push({ imagen: imagen, titulo: titulo, tipo: tipo });
+      } catch(e) {
+        console.warn('[Viz] Error capturando gráfico ' + id + ':', e);
+      }
+    });
+    return graficos;
+  }
+};
+
 function initVizPage() {
   _vizChartInstances = {};
   _vizExtraYCount = 0;
