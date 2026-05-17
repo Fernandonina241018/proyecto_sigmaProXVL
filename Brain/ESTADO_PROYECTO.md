@@ -66,6 +66,7 @@
 | 9 | 13 May 2026 | Selection from Statistical menu navega a Análisis | ✅ |
 | 10 | 13 May 2026 | Último resultado se muestra en panel izquierdo | ✅ |
 | 11 | 16 May 2026 | Visualizacion.getGraficosParaReporte() — Charts incrustados en Reportes (Section 07) | ✅ |
+| 12 | 16 May 2026 | Fix: Chart images en reportes — captura al crear (no al generar reporte) | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
@@ -91,6 +92,18 @@
 - `vizUpdateControlsForType()` — muestra/oculta controles según tipo
 - `chartOptsDark()` — opciones consistentes con tema oscuro
 - `createChartCard()` — crea DOM de tarjeta con canvas único
+
+### 🔧 FIX: Charts en reportes mostraban imagen rota (16 May 2026)
+
+**Problema:** `getGraficosParaReporte()` capturaba canvases vivos con `chart.canvas.toDataURL()` al momento de generar el reporte. Si el usuario navegaba desde la página Visualización a Reportes, los canvases quedaban desvinculados del DOM y `toDataURL()` producía imágenes vacías que se renderizaban como iconos rotos en la sección 07 del reporte.
+
+**Solución:** Las imágenes se capturan **al crear el gráfico** (cuando el canvas está visible en DOM con dimensiones correctas), se almacenan en `_vizChartImages{}`, y `getGraficosParaReporte()` lee de allí sin tocar canvases vivos. Se usa `requestAnimationFrame` para asegurar que Chart.js termine su render inicial antes de capturar.
+
+**Archivos modificados:**
+- `indexx.html`: 3 cambios
+  1. Nuevo `_vizChartImages{}` + `vizCaptureCardImage(id)` + refactor `getGraficosParaReporte()`
+  2. Llamada a `vizCaptureCardImage(id)` agregada en cada una de las 7 funciones render (BarLine, MultiSeries, Scatter, Bubble, Pie, Radar, Histogram)
+  3. `_vizChartImages` limpiado en `initVizPage()` y `vizRemoveCard()`
 
 ### 🔧 FIX: utils.js faltante + null.toFixed + dead refs runStatisticalTest (15 May 2026)
 

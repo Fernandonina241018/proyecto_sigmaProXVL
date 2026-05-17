@@ -1380,28 +1380,40 @@ function showToast(msg) {
 // VISUALIZACIÓN — Chart.js (13 tipos, tarjetas múltiples)
 // ════════════════════════════════════════════════════════════════
 var _vizChartInstances = {};
+var _vizChartImages = {};  // imágenes base64 persistentes para reportes
 var _vizCardCounter = 0;
 var _vizSelectedType = 'bar';
 var _vizExtraYCount = 0;
 
-// API para ReporteManager — captura gráficos actuales como base64
+// Capturar canvas de un gráfico inmediatamente (el canvas está visible en DOM)
+function vizCaptureCardImage(id) {
+  var chart = _vizChartInstances[id];
+  if (!chart || !chart.canvas) return;
+  // Esperar un frame para que Chart.js termine su render inicial
+  requestAnimationFrame(function() {
+    try {
+      var card = document.getElementById(id);
+      var titleEl = card ? card.querySelector('.page-card-title') : null;
+      var titulo = titleEl ? titleEl.textContent.trim() : id;
+      var tipo = chart.config && chart.config.type ? chart.config.type : 'desconocido';
+      _vizChartImages[id] = {
+        imagen: chart.canvas.toDataURL('image/png'),
+        titulo: titulo,
+        tipo: tipo
+      };
+    } catch(e) {
+      console.warn('[Viz] Error capturando imagen ' + id + ':', e);
+    }
+  });
+}
+
+// API para ReporteManager — usa imágenes pre-capturadas (no canvases vivos)
 window.Visualizacion = {
   getGraficosParaReporte: function() {
     var graficos = [];
-    if (!window._vizChartInstances) return graficos;
-    Object.keys(window._vizChartInstances).forEach(function(id) {
-      try {
-        var chart = window._vizChartInstances[id];
-        if (!chart || !chart.canvas) return;
-        var card = document.getElementById(id);
-        var titleEl = card ? card.querySelector('.page-card-title') : null;
-        var titulo = titleEl ? titleEl.textContent.trim() : id;
-        var imagen = chart.canvas.toDataURL('image/png');
-        var tipo = chart.config && chart.config.type ? chart.config.type : 'desconocido';
-        graficos.push({ imagen: imagen, titulo: titulo, tipo: tipo });
-      } catch(e) {
-        console.warn('[Viz] Error capturando gráfico ' + id + ':', e);
-      }
+    Object.keys(_vizChartImages).forEach(function(id) {
+      var img = _vizChartImages[id];
+      if (img && img.imagen) graficos.push(img);
     });
     return graficos;
   }
@@ -1409,6 +1421,7 @@ window.Visualizacion = {
 
 function initVizPage() {
   _vizChartInstances = {};
+  _vizChartImages = {};
   _vizExtraYCount = 0;
   var cols = vizGetColumns();
   var selX = document.getElementById('vizColX');
@@ -1592,6 +1605,7 @@ function vizTypeIcon(t) {
 
 function vizRemoveCard(id) {
   if (_vizChartInstances[id]) { _vizChartInstances[id].destroy(); delete _vizChartInstances[id]; }
+  delete _vizChartImages[id];
   var el = document.getElementById(id);
   if (el) el.remove();
   vizSaveCards();
@@ -1691,6 +1705,7 @@ function renderBarLineCard(sheet, type, colX, colY, container) {
     },
     options: opts
   });
+  vizCaptureCardImage(id);
 }
 
 function renderMultiSeriesCard(sheet, type, colX, yCols, container) {
@@ -1714,6 +1729,7 @@ function renderMultiSeriesCard(sheet, type, colX, yCols, container) {
     data: { labels: d.labels, datasets: datasets },
     options: opts
   });
+  vizCaptureCardImage(id);
 }
 
 function renderScatterCard(sheet, colX, colY, container) {
@@ -1733,6 +1749,7 @@ function renderScatterCard(sheet, colX, colY, container) {
       }
     }
   });
+  vizCaptureCardImage(id);
 }
 
 function renderBubbleCard(sheet, colX, colY, colSize, container) {
@@ -1752,6 +1769,7 @@ function renderBubbleCard(sheet, colX, colY, colSize, container) {
       }
     }
   });
+  vizCaptureCardImage(id);
 }
 
 function renderPieCard(sheet, type, colX, colY, container) {
@@ -1765,6 +1783,7 @@ function renderPieCard(sheet, type, colX, colY, container) {
     data: { labels: d.labels, datasets: [{ data: d.data, backgroundColor: colors, borderColor: '#1e1e1e', borderWidth: 2 }] },
     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { color: '#ccc', boxWidth: 12 } } } }
   });
+  vizCaptureCardImage(id);
 }
 
 function renderRadarCard(sheet, colX, colY, container) {
@@ -1777,6 +1796,7 @@ function renderRadarCard(sheet, colX, colY, container) {
     data: { labels: d.labels, datasets: [{ label: colY, data: d.data, backgroundColor: 'rgba(54,162,235,0.2)', borderColor: 'rgba(54,162,235,1)', pointBackgroundColor: 'rgba(54,162,235,1)' }] },
     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#ccc' } } }, scales: { r: { angleLines: { color: 'rgba(255,255,255,0.1)' }, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { display: false }, pointLabels: { color: '#ccc' } } } }
   });
+  vizCaptureCardImage(id);
 }
 
 function renderHistogramCard(sheet, colX, container) {
@@ -1821,6 +1841,7 @@ function renderHistogramCard(sheet, colX, container) {
       }
     }
   });
+  vizCaptureCardImage(id);
 }
 
 // ════════════════════════════════════════════════════════════════
