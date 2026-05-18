@@ -638,6 +638,14 @@ function showToast(msg) {
   _toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2000);
 }
 
+function nuevoProyecto() {
+  if (!confirm('¿Crear un nuevo proyecto? Se perderán los datos actuales.')) return;
+  if (typeof StateManager !== 'undefined') StateManager.resetState();
+  localStorage.removeItem('statAnalyzerState');
+  localStorage.removeItem('_recentFiles');
+  location.reload();
+}
+
 // ════════════════════════════════════════════════════════════════
 // VISUALIZACIÓN — Chart.js (13 tipos, tarjetas múltiples)
 // ════════════════════════════════════════════════════════════════

@@ -24,18 +24,20 @@
   </div>
   <span class="titlebar-appname">SAP2.0</span>
   <nav class="menubar">
-    <div class="menu-item" data-menu="File">File
+    <div class="menu-item" data-menu="Proyecto">Proyecto
       <div class="dropdown">
-        <div class="dd-item">New Note <span class="dd-shortcut">⌘ N</span></div>
-        <div class="dd-item">New Canvas <span class="dd-shortcut">⌘ ⇧ N</span></div>
+        <div class="dd-item" onclick="nuevoProyecto()">Nuevo proyecto <span class="dd-shortcut">⌘ N</span></div>
         <div class="dd-separator"></div>
-        <div class="dd-item">Open Vault… <span class="dd-shortcut">⌘ ⇧ O</span></div>
+        <div class="dd-item" onclick="document.getElementById('fileInput').click()">Cargar dataset <span class="dd-shortcut">⌘ O</span></div>
+        <div class="dd-item" onclick="showPasteModal()">Pegar datos <span class="dd-shortcut">⌘ V</span></div>
         <div class="dd-separator"></div>
-        <div class="dd-item">Save <span class="dd-shortcut">⌘ S</span></div>
-        <div class="dd-item disabled">Rename <span class="dd-shortcut">⌘ ⌥ R</span></div>
+        <div class="dd-item" onclick="if(typeof StateManager!=='undefined'){StateManager.saveToLocalStorage();showToast('Sesión guardada')}">Guardar sesión <span class="dd-shortcut">⌘ S</span></div>
+        <div class="dd-item" onclick="if(confirm('Restaurar última sesión?')){if(typeof StateManager!=='undefined')StateManager.loadFromLocalStorage();location.reload()}">Cargar sesión <span class="dd-shortcut">⌘ ⇧ O</span></div>
         <div class="dd-separator"></div>
-        <div class="dd-item">Close Tab <span class="dd-shortcut">⌘ W</span></div>
-        <div class="dd-item">Quit Obsidian <span class="dd-shortcut">⌘ Q</span></div>
+        <div class="dd-item" onclick="handleToolsAction('export-csv')">Exportar CSV <span class="dd-shortcut">⌘ ⇧ E</span></div>
+        <div class="dd-item" onclick="loadPage('reportes')">Exportar reporte <span class="dd-shortcut">⌘ ⇧ R</span></div>
+        <div class="dd-separator"></div>
+        <div class="dd-item" onclick="if(typeof Auth!=='undefined')Auth.logout()">Cerrar sesión</div>
       </div>
     </div>
     <div class="menu-item" data-menu="Edit">Edit
