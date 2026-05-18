@@ -59,7 +59,7 @@
   .ribbon-toggle.rotated { transform:rotate(180deg); }
   .ribbon-togglee { margin-bottom:auto; width:28px; height:28px; display:flex; align-items:center; justify-content:center; border-radius:4px; color:var(--text-faint); cursor:pointer; transition:color .15s, background .15s; font-size:15px; }
   .ribbon-togglee:hover { color:var(--text-muted); background:rgba(255,255,255,.06); }
-  .sidebar-user-dropdown { position:fixed; left:42px; bottom:12px; min-width:200px; background:var(--card-bg); border:1px solid var(--border); border-radius:6px; box-shadow:0 4px 16px rgba(0,0,0,.4); z-index:1000; display:none; overflow:hidden; }
+  .sidebar-user-dropdown { position:fixed; left:42px; bottom:12px; min-width:200px; background:var(--bg-card); border:1px solid var(--border); border-radius:6px; box-shadow:0 4px 16px rgba(0,0,0,.4); z-index:1000; display:none; overflow:hidden; }
   .sidebar-user-dropdown.open { display:block; }
   .sidebar-user-dropdown .sud-header { padding:10px 14px; border-bottom:1px solid var(--border); }
   .sidebar-user-dropdown .sud-header-name { font-size:13px; font-weight:600; color:var(--text-primary); }
@@ -880,20 +880,6 @@ function _persistAllData() {
     console.warn('[Persist] Error saving data:', e);
   }
 }
-function _restoreAllData() {
-  try {
-    var sheets = localStorage.getItem('sigmaPro_trabajoSheets');
-    if (sheets) trabajoSheets = JSON.parse(sheets);
-    var saved = localStorage.getItem('sigmaPro_datosCurrentData');
-    if (saved) {
-      var parsed = JSON.parse(saved);
-      datosCurrentData = parsed.data;
-      datosCurrentFileName = parsed.fileName || '';
-    }
-  } catch(e) {
-    console.warn('[Restore] Error loading data:', e);
-  }
-}
 
 // ── Sidebar user dropdown ──
 function _updateSidebarUserChip() {
@@ -933,62 +919,6 @@ document.addEventListener('click', function(e) {
   }
 });
 
-// ── Navigation ──
-function loadPage(pageName) {
-  currentPage = pageName;
-  document.querySelectorAll('.sidebar-nav .nav-item').forEach(function(n) {
-    n.classList.toggle('active', n.getAttribute('data-page') === pageName);
-  });
-  var leftTitle = document.getElementById('leftPaneTitle');
-  var leftBody = document.getElementById('leftPaneBody');
-  var rightTitle = document.getElementById('rightPaneTitle');
-  var rightBody = document.getElementById('rightPaneBody');
-  var titles = { datos:'Datos', trabajo:'Trabajo', analisis:'Análisis', visualizacion:'Visualización', reportes:'Reportes', auditoria:'Auditoría', usuarios:'Usuarios' };
-  if (rightTitle) rightTitle.textContent = titles[pageName] || pageName;
-  if (leftTitle) leftTitle.textContent = titles[pageName] || pageName;
-  if (pageName === 'auditoria') {
-    if (leftBody) leftBody.innerHTML = '<div style="padding:12px;color:var(--text-muted);font-size:12px">Panel de auditoría</div>';
-    if (rightBody) rightBody.innerHTML = '<div id="auditoria-container"></div>';
-    if (typeof AuditoriaManager !== 'undefined') { AuditoriaManager.buildView(); _auditoriaInited = true; }
-    return;
-  }
-  if (pageName === 'usuarios') {
-    if (leftBody) leftBody.innerHTML = '<div style="padding:12px;color:var(--text-muted);font-size:12px">Gestión de usuarios</div>';
-    if (rightBody) rightBody.innerHTML = '<div id="usuarios-container"></div>';
-    if (typeof UsuariosManager !== 'undefined') { UsuariosManager.buildView(); _usuariosInited = true; }
-    return;
-  }
-  if (pageName === 'datos') {
-    if (leftBody) leftBody.innerHTML = '<div style="padding:12px;color:var(--text-muted);font-size:12px">Archivos de datos</div>';
-    if (rightBody) rightBody.innerHTML = '<div style="padding:16px"><h2 style="margin-bottom:12px;font-size:15px;font-weight:600">Importar datos</h2><div id="datos-import-area"><input type="file" accept=".csv" id="csvFileInput" style="display:none"><button onclick="document.getElementById(\'csvFileInput\').click()" style="background:var(--accent);color:#fff;border:none;padding:8px 16px;border-radius:4px;cursor:pointer">Seleccionar CSV</button><span style="margin-left:8px;color:var(--text-faint);font-size:12px" id="datos-file-name">Ningún archivo cargado</span></div><div id="datos-table-container" style="margin-top:12px"></div></div>';
-    return;
-  }
-  if (pageName === 'trabajo') {
-    if (rightBody) rightBody.innerHTML = '<div style="padding:16px"><h2 style="margin-bottom:12px;font-size:15px;font-weight:600">Hojas de trabajo</h2><p style="color:var(--text-muted);font-size:12px">Editor de hojas de cálculo</p></div>';
-    return;
-  }
-  if (pageName === 'analisis') {
-    if (leftBody) leftBody.innerHTML = '<div style="padding:12px;color:var(--text-muted);font-size:12px">Menú de análisis</div>';
-    if (rightBody) rightBody.innerHTML = '<div style="padding:16px"><h2 style="margin-bottom:12px;font-size:15px;font-weight:600">Análisis estadístico</h2><p style="color:var(--text-muted);font-size:12px">Selecciona un análisis del menú.</p></div>';
-    return;
-  }
-  if (pageName === 'visualizacion') {
-    if (rightBody) rightBody.innerHTML = '<div style="padding:16px"><h2 style="margin-bottom:12px;font-size:15px;font-weight:600">Visualización</h2><p style="color:var(--text-muted);font-size:12px">Gráficos y visualizaciones</p></div>';
-    return;
-  }
-  if (pageName === 'reportes') {
-    if (rightBody) rightBody.innerHTML = '<div style="padding:16px"><h2 style="margin-bottom:12px;font-size:15px;font-weight:600">Reportes</h2><p style="color:var(--text-muted);font-size:12px">Generación de reportes</p></div>';
-    return;
-  }
-  if (rightBody) rightBody.innerHTML = '<div style="padding:16px;color:var(--text-muted)">Página no encontrada</div>';
-}
-document.querySelectorAll('.sidebar-nav .nav-item').forEach(function(el) {
-  el.addEventListener('click', function() {
-    var page = el.getAttribute('data-page');
-    if (page) loadPage(page);
-  });
-});
-
 // ── Auth + Initial load ──
 function _initIndexxApp() {
   if (typeof Auth === 'undefined') { setTimeout(_initIndexxApp, 50); return; }
@@ -1004,7 +934,7 @@ function _initIndexxApp() {
     }
   });
 }
-if (typeof buildStatAnalysisMenu === 'function') buildStatAnalysisMenu();
+buildStatAnalysisMenu();
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', _initIndexxApp);
 } else {
