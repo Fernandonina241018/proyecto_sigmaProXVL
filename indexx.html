@@ -45,23 +45,21 @@
         <div class="dd-item" onclick="undoAction()">Undo <span class="dd-shortcut">⌘ Z</span></div>
         <div class="dd-item" onclick="redoAction()">Redo <span class="dd-shortcut">⌘ ⇧ Z</span></div>
         <div class="dd-separator"></div>
-        <div class="dd-item disabled">Cut <span class="dd-shortcut">⌘ X</span></div>
-        <div class="dd-item disabled">Copy <span class="dd-shortcut">⌘ C</span></div>
-        <div class="dd-item disabled">Paste <span class="dd-shortcut">⌘ V</span></div>
+        <div class="dd-item" onclick="var s=getSelection().toString();if(s)navigator.clipboard.writeText(s);showToast('Copiado')">Copy <span class="dd-shortcut">⌘ C</span></div>
+        <div class="dd-item" onclick="showPasteModal()">Paste <span class="dd-shortcut">⌘ V</span></div>
         <div class="dd-separator"></div>
-        <div class="dd-item">Find in Current File <span class="dd-shortcut">⌘ F</span></div>
+        <div class="dd-item" onclick="showHelpModal()">Find <span class="dd-shortcut">⌘ F</span></div>
       </div>
     </div>
     <div class="menu-item" data-menu="View">View
       <div class="dropdown">
-        <div class="dd-item">Toggle Left Sidebar <span class="dd-shortcut">⌘ ⌥ ←</span></div>
-        <div class="dd-item">Toggle Right Sidebar <span class="dd-shortcut">⌘ ⌥ →</span></div>
+        <div class="dd-item" onclick="var s=document.getElementById('sidebarToggle');if(s)s.click()">Toggle Sidebar <span class="dd-shortcut">⌘ ⌥ ←</span></div>
+        <div class="dd-item" onclick="loadPage('visualizacion')">Gráficos <span class="dd-shortcut">⌘ ⇧ G</span></div>
         <div class="dd-separator"></div>
-        <div class="dd-item">Graph View <span class="dd-shortcut">⌘ ⇧ G</span></div>
-        <div class="dd-item">Reading View <span class="dd-shortcut">⌘ E</span></div>
+        <div class="dd-item" onclick="loadPage('trabajo')">Vista datos <span class="dd-shortcut">⌘ E</span></div>
         <div class="dd-separator"></div>
-        <div class="dd-item">Zoom In <span class="dd-shortcut">⌘ +</span></div>
-        <div class="dd-item">Zoom Out <span class="dd-shortcut">⌘ −</span></div>
+        <div class="dd-item" onclick="document.body.style.fontSize=(parseFloat(getComputedStyle(document.body).fontSize)+1)+'px'">Zoom In <span class="dd-shortcut">⌘ +</span></div>
+        <div class="dd-item" onclick="document.body.style.fontSize=(parseFloat(getComputedStyle(document.body).fontSize)-1)+'px'">Zoom Out <span class="dd-shortcut">⌘ −</span></div>
       </div>
     </div>
     <div class="menu-item" data-menu="Navigate" data-submenu="Statistical Analysis">Statistical Analysis
