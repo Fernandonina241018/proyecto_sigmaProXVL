@@ -83,6 +83,7 @@
 | 26 | 17 May 2026 | Fix: Login sin estilos en indexx.html — faltaba `<link rel="stylesheet" href="auth.css">` en el `<head>`, login se renderizaba como HTML plano sin formato | ✅ |
 | 27 | 17 May 2026 | Feat: Botón de usuario en ribbon (#sidebarUser) con dropdown funcional — CSS, HTML del dropdown (Perfil, Config, Contraseña, Logout), event listeners toggle/close, _updateSidebarUserChip(), integración con Auth.getSession() y abrirModalPerfil() | ✅ |
 | 28 | 17 May 2026 | Fix: sidebarUser dropdown no funcionaba — buildStatAnalysisMenu() indefinido en línea 937 causaba ReferenceError, evitando que _initIndexxApp() y Auth.init() se ejecutaran; CSS --bg-card → --card-bg (variable inexistente) | ✅ |
+| 29 | 17 May 2026 | Fix: ReferenceError _restoreAllData is not defined en onLogin — función nunca fue definida en indexx.html, solo existía _persistAllData() pero no su contraparte de restauración | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 

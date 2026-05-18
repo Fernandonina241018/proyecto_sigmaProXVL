@@ -880,6 +880,20 @@ function _persistAllData() {
     console.warn('[Persist] Error saving data:', e);
   }
 }
+function _restoreAllData() {
+  try {
+    var sheets = localStorage.getItem('sigmaPro_trabajoSheets');
+    if (sheets) trabajoSheets = JSON.parse(sheets);
+    var saved = localStorage.getItem('sigmaPro_datosCurrentData');
+    if (saved) {
+      var parsed = JSON.parse(saved);
+      datosCurrentData = parsed.data;
+      datosCurrentFileName = parsed.fileName || '';
+    }
+  } catch(e) {
+    console.warn('[Restore] Error loading data:', e);
+  }
+}
 
 // ── Sidebar user dropdown ──
 function _updateSidebarUserChip() {
