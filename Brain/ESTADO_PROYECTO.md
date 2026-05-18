@@ -79,6 +79,7 @@
 | 22 | 17 May 2026 | Fix: JSON.parse(undefined) en _pushToHistory al guardar hypothesisConfig por primera vez — oldValue undefined causa JSON.stringify(undefined) → undefined (no string), JSON.parse(undefined) → SyntaxError | ✅ |
 | 23 | 17 May 2026 | Fix: key name mismatch en _mostrarModalConfigTest — guardaba columnaAgrupacion/columnaValores pero ejecutarAnalisis espera categoricalCols (array)/numericCol (string), causando TypeError en ANOVA/T-Test batch | ✅ |
 | 24 | 17 May 2026 | Fix: infinite recursion en runSingleStat — guard callback verifica que config se haya guardado antes de re-llamar; guards en condiciones de acceso categoricalCols para T-Test, ANOVA One-Way/Two-Way, Chi-Cuadrado, Mann-Whitney, Kruskal-Wallis | ✅ |
+| 25 | 17 May 2026 | Feat: Integración páginas Auditoría y Usuarios en indexx.html — CSS imports, script tags (auth.js, AuditoriaManager.js, UsuariosManager.js), lazy init hooks en loadPage(), contenedores reales en rightPanels, admin visibility control, botones leftPanel conectados | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
