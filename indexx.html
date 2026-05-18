@@ -125,10 +125,10 @@
     </div>
     <div class="menu-item" data-menu="Help">Help
       <div class="dropdown">
-        <div class="dd-item">Documentation</div>
-        <div class="dd-item">Sandbox Vault</div>
+        <div class="dd-item" onclick="showHelpModal()">Documentación</div>
+        <div class="dd-item" onclick="generateSampleData();showToast('Datos de ejemplo cargados');loadPage('trabajo')">Datos de ejemplo</div>
         <div class="dd-separator"></div>
-        <div class="dd-item">About Obsidian</div>
+        <div class="dd-item" onclick="showAboutModal()">Acerca de</div>
       </div>
     </div>
   </nav>

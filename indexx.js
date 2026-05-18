@@ -646,6 +646,55 @@ function nuevoProyecto() {
   location.reload();
 }
 
+function showHelpModal() {
+  var existing = document.getElementById('helpModal');
+  if (existing) existing.remove();
+  var modal = document.createElement('div');
+  modal.id = 'helpModal';
+  modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center';
+  modal.onclick = function(){ modal.remove(); };
+  modal.innerHTML = '<div style="background:var(--bg-panel);border-radius:14px;padding:24px;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.5);color:var(--text-primary)" onclick="event.stopPropagation()">' +
+    '<h2 style="margin:0 0 16px;font-size:1.1rem;display:flex;align-items:center;gap:8px">⌨️ Atajos de teclado</h2>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 20px;font-size:0.85rem">' +
+    '<span style="color:var(--text-muted)">Ctrl+Shift+D</span><span>Cambiar tema</span>' +
+    '<span style="color:var(--text-muted)">Ctrl+Shift+A</span><span>Asistente IA</span>' +
+    '<span style="color:var(--text-muted)">Ctrl+Z / Ctrl+Shift+Z</span><span>Deshacer / Rehacer</span>' +
+    '<span style="color:var(--text-muted)">Ctrl+O</span><span>Cargar dataset</span>' +
+    '<span style="color:var(--text-muted)">Ctrl+S</span><span>Guardar sesión</span>' +
+    '</div>' +
+    '<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">' +
+    '<p style="margin:0 0 6px;font-size:0.85rem;font-weight:600">📖 Uso básico</p>' +
+    '<ol style="margin:0;padding-left:18px;font-size:0.8rem;color:var(--text-muted);line-height:1.7">' +
+    '<li>Carga un dataset (CSV, JSON, Excel, o pégalo)</li>' +
+    '<li>Trabaja los datos en la hoja de cálculo</li>' +
+    '<li>Ejecuta análisis estadísticos desde Statistical Analysis</li>' +
+    '<li>Visualiza resultados con gráficos Chart.js</li>' +
+    '<li>Genera reportes en PDF/DOCX/HTML</li>' +
+    '</ol></div>' +
+    '<button class="btn btn-primary" style="margin-top:16px;width:100%;justify-content:center" onclick="this.closest(\'#helpModal\').remove()">Cerrar</button></div>';
+  document.body.appendChild(modal);
+}
+
+function showAboutModal() {
+  var existing = document.getElementById('aboutModal');
+  if (existing) existing.remove();
+  var modal = document.createElement('div');
+  modal.id = 'aboutModal';
+  modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center';
+  modal.onclick = function(){ modal.remove(); };
+  modal.innerHTML = '<div style="background:var(--bg-panel);border-radius:14px;padding:24px;max-width:380px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5);color:var(--text-primary)" onclick="event.stopPropagation()">' +
+    '<div style="font-size:2.5rem;margin-bottom:8px">📊</div>' +
+    '<h2 style="margin:0 0 4px;font-size:1.2rem">StatAnalyzer Pro</h2>' +
+    '<p style="margin:0 0 2px;font-size:0.85rem;color:var(--text-muted)">Versión 2.6</p>' +
+    '<p style="margin:0 0 14px;font-size:0.8rem;color:var(--text-faint)">Análisis estadístico vanilla JS</p>' +
+    '<div style="font-size:0.8rem;color:var(--text-muted);line-height:1.6;padding:12px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:14px">' +
+    'Plataforma de análisis de datos con:' +
+    '<br>• 20+ pruebas estadísticas<br>• Gráficos Chart.js<br>• Reportes PDF/DOCX/HTML<br>• Gestión de usuarios y roles' +
+    '</div>' +
+    '<button class="btn btn-primary" style="width:100%;justify-content:center" onclick="this.closest(\'#aboutModal\').remove()">Cerrar</button></div>';
+  document.body.appendChild(modal);
+}
+
 // ════════════════════════════════════════════════════════════════
 // VISUALIZACIÓN — Chart.js (13 tipos, tarjetas múltiples)
 // ════════════════════════════════════════════════════════════════
