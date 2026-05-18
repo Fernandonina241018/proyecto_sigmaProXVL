@@ -3412,26 +3412,27 @@ function onSubitemClick(event, nombre, seccionKey) {
   rightPaneBody.innerHTML = rightPanels.analisis();
 }
 
-// Construir menú estadístico desde config
-document.addEventListener('DOMContentLoaded', function() {
-  buildStatAnalysisMenu();
-});
-
-// Si el DOM ya cargó (script al final del body):
+// ── Auth + Initial load ──
+function _initIndexxApp() {
+  if (typeof Auth === 'undefined') { setTimeout(_initIndexxApp, 50); return; }
+  Auth.init({
+    onLogin: function(session) {
+      _restoreAllData();
+      loadPage('datos');
+      var isAdmin = session?.role === 'admin';
+      var audNav = document.querySelector('[data-page="auditoria"]');
+      var usrNav = document.querySelector('[data-page="usuarios"]');
+      if (audNav) audNav.style.display = isAdmin ? '' : 'none';
+      if (usrNav) usrNav.style.display = isAdmin ? '' : 'none';
+    }
+  });
+}
 buildStatAnalysisMenu();
-
-// ── Initial load ──
-_restoreAllData();
-loadPage('datos');
-
-// ── Admin visibility control ──
-setTimeout(function() {
-  var isAdmin = typeof Auth !== 'undefined' && Auth.getSession && Auth.getSession()?.role === 'admin';
-  var audNav = document.querySelector('[data-page="auditoria"]');
-  var usrNav = document.querySelector('[data-page="usuarios"]');
-  if (audNav) audNav.style.display = isAdmin ? '' : 'none';
-  if (usrNav) usrNav.style.display = isAdmin ? '' : 'none';
-}, 100);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', _initIndexxApp);
+} else {
+  _initIndexxApp();
+}
 </script>
 <script src="utils.js"></script>
 <script src="StatsUtils.js"></script>
