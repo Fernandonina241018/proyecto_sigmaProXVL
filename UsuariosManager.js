@@ -177,13 +177,6 @@ const UsuariosManager = (() => {
         container.innerHTML = `
         <div class="usr-layout">
 
-            <!-- Barra de búsqueda + contador -->
-            <div class="usr-toolbar">
-                <input class="usr-search" id="usr-search" type="text" placeholder="🔍 Buscar usuario...">
-                <div class="usr-count" id="usr-count">—</div>
-                <button class="usr-btn-refresh" id="usr-btn-refresh" title="Recargar">🔄</button>
-            </div>
-
             <!-- Tabla de usuarios -->
             <div class="usr-table-wrap" id="usr-table-wrap">
                 <div class="usr-loading">
