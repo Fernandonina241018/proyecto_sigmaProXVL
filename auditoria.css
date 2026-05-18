@@ -19,8 +19,8 @@
 }
 
 .aud-kpi {
-    background: #f8f9fa;
-    border: 2px solid #e9ecef;
+    background: var(--card-bg);
+    border: 2px solid var(--border);
     border-radius: 12px;
     padding: 18px 20px;
     text-align: center;
@@ -31,7 +31,7 @@
 
 .aud-kpi-loading {
     grid-column: 1 / -1;
-    color: #aaa;
+    color: var(--text-faint);
     font-style: italic;
     padding: 20px;
 }
@@ -39,7 +39,7 @@
 .aud-kpi-value {
     font-size: 2rem;
     font-weight: 700;
-    color: #1a3a6b;
+    color: var(--accent);
     line-height: 1;
     margin-bottom: 6px;
 }
@@ -47,24 +47,24 @@
 .aud-kpi-label {
     font-size: 0.75rem;
     font-weight: 600;
-    color: #666;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.aud-kpi-ok   { border-color: #9ae6b4; background: #f0fff4; }
-.aud-kpi-ok   .aud-kpi-value { color: #276749; }
+.aud-kpi-ok   { border-color: rgba(74,222,128,0.4); background: rgba(74,222,128,0.08); }
+.aud-kpi-ok   .aud-kpi-value { color: #4ade80; }
 
-.aud-kpi-fail { border-color: #feb2b2; background: #fff5f5; }
-.aud-kpi-fail .aud-kpi-value { color: #c53030; }
+.aud-kpi-fail { border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.08); }
+.aud-kpi-fail .aud-kpi-value { color: #fc8181; }
 
-.aud-kpi-rate { border-color: #90cdf4; background: #ebf8ff; }
-.aud-kpi-rate .aud-kpi-value { color: #2b6cb0; }
+.aud-kpi-rate { border-color: rgba(96,165,250,0.4); background: rgba(96,165,250,0.08); }
+.aud-kpi-rate .aud-kpi-value { color: #60a5fa; }
 
 /* ── Barra de filtros ── */
 .aud-filters-bar {
-    background: #f8f9fa;
-    border: 2px solid #e9ecef;
+    background: var(--card-bg);
+    border: 2px solid var(--border);
     border-radius: 12px;
     padding: 16px 18px;
     display: flex;
@@ -82,26 +82,26 @@
 .aud-filter-label {
     font-size: 0.7rem;
     font-weight: 700;
-    color: #555;
+    color: var(--text-faint);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .aud-filter-input {
     padding: 8px 10px;
-    border: 1.5px solid #e0e0e0;
+    border: 1.5px solid var(--border);
     border-radius: 8px;
     font-size: 0.84rem;
     font-family: 'Segoe UI', sans-serif;
-    color: #333;
-    background: white;
+    color: var(--text-primary);
+    background: var(--bg-panel);
     transition: border-color 0.2s;
     min-width: 140px;
 }
 
 .aud-filter-input:focus {
     outline: none;
-    border-color: #1a3a6b;
+    border-color: var(--accent);
 }
 
 .aud-filter-check {
@@ -115,7 +115,7 @@
     gap: 7px;
     cursor: pointer;
     font-size: 0.84rem;
-    color: #444;
+    color: var(--text-muted);
     user-select: none;
 }
 
@@ -124,9 +124,9 @@
 .aud-checkbox-custom {
     width: 16px;
     height: 16px;
-    border: 2px solid #cbd5e1;
+    border: 2px solid var(--border);
     border-radius: 4px;
-    background: white;
+    background: var(--bg-panel);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -135,8 +135,8 @@
 }
 
 .aud-checkbox-row input:checked + .aud-checkbox-custom {
-    background: #1a3a6b;
-    border-color: #1a3a6b;
+    background: var(--accent);
+    border-color: var(--accent);
 }
 
 .aud-checkbox-row input:checked + .aud-checkbox-custom::after {
@@ -162,62 +162,62 @@
 }
 
 .aud-btn-filter {
-    background: linear-gradient(135deg, #000, #211ed1);
+    background: linear-gradient(135deg, var(--accent), #6b5ce7);
     color: white;
 }
 
 .aud-btn-filter:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(33,30,209,0.3);
+    box-shadow: 0 4px 12px rgba(124,106,247,0.3);
 }
 
 .aud-btn-reset {
-    background: white;
-    color: #666;
-    border: 1.5px solid #e0e0e0;
+    background: var(--item-bg);
+    color: var(--text-muted);
+    border: 1.5px solid var(--border);
 }
 
 .aud-btn-reset:hover {
-    background: #f0f0f0;
-    border-color: #ccc;
+    background: var(--item-hover);
+    border-color: var(--border);
 }
 
 .aud-btn-export {
-    background: #f0fff4;
-    color: #276749;
-    border: 1.5px solid #9ae6b4;
+    background: rgba(74,222,128,0.1);
+    color: #4ade80;
+    border: 1.5px solid rgba(74,222,128,0.3);
 }
 
 .aud-btn-export:hover {
-    background: #c6f6d5;
+    background: rgba(74,222,128,0.2);
     transform: translateY(-1px);
 }
 
 .aud-btn-refresh {
-    background: white;
-    color: #1a3a6b;
-    border: 1.5px solid #e0e0e0;
+    background: var(--item-bg);
+    color: var(--accent);
+    border: 1.5px solid var(--border);
     padding: 9px 12px;
     font-size: 1rem;
 }
 
 .aud-btn-refresh:hover {
-    background: #ebf8ff;
-    border-color: #90cdf4;
+    background: rgba(124,106,247,0.1);
+    border-color: var(--accent);
 }
 
 /* ── Info de resultados ── */
 .aud-results-info {
     font-size: 0.8rem;
-    color: #888;
+    color: var(--text-faint);
     font-style: italic;
     padding-left: 2px;
 }
 
-/* ── Tabla principal test── */
+/* ── Tabla principal ── */
 .aud-table-wrap {
-    background: white;
-    border: 2px solid #e9ecef;
+    background: var(--card-bg);
+    border: 2px solid var(--border);
     border-radius: 12px;
     overflow: hidden;
     overflow-x: auto;
@@ -230,7 +230,7 @@
 }
 
 .aud-table thead th {
-    background: linear-gradient(135deg, #1a3a6b 0%, #2c5282 100%);
+    background: linear-gradient(135deg, var(--accent) 0%, #6b5ce7 100%);
     color: white;
     padding: 12px 14px;
     text-align: left;
@@ -242,46 +242,46 @@
 }
 
 .aud-table tbody tr {
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--border);
     transition: background 0.15s;
 }
 
 .aud-table tbody tr:last-child { border-bottom: none; }
-.aud-table tbody tr:hover { background: #f7faff; }
+.aud-table tbody tr:hover { background: rgba(124,106,247,0.06); }
 
 .aud-table td {
     padding: 10px 14px;
-    color: #333;
+    color: var(--text-primary);
     vertical-align: middle;
 }
 
 .aud-td-mono {
     font-family: 'Courier New', monospace;
     font-size: 0.8rem;
-    color: #666;
+    color: var(--text-muted);
 }
 
 .aud-td-ip {
-    color: #888;
+    color: var(--text-faint);
     font-size: 0.78rem;
 }
 
 .aud-td-date {
     font-family: 'Courier New', monospace;
     font-size: 0.78rem;
-    color: #555;
+    color: var(--text-muted);
     white-space: nowrap;
 }
 
 .aud-td-action {
     font-size: 0.8rem;
-    color: #1a3a6b;
+    color: var(--accent);
     font-weight: 500;
 }
 
 .aud-td-details {
     font-size: 0.75rem;
-    color: #333;
+    color: var(--text-primary);
     max-width: 300px;
     min-width: 180px;
     padding: 6px 8px;
@@ -294,23 +294,23 @@
 }
 
 .aud-td-details .detail-label {
-    color: #888;
+    color: var(--text-faint);
     font-weight: 600;
     flex-shrink: 0;
 }
 
 .aud-td-details .detail-value {
-    color: #1a3a6b;
+    color: var(--accent);
     font-weight: 500;
     word-break: break-all;
 }
 
 .aud-td-details .detail-old {
-    color: #c53030;
+    color: #fc8181;
 }
 
 .aud-td-details .detail-new {
-    color: #276749;
+    color: #4ade80;
 }
 
 /* ── Badges ── */
@@ -324,17 +324,17 @@
     white-space: nowrap;
 }
 
-.aud-badge-ok   { background: #c6f6d5; color: #276749; }
-.aud-badge-fail { background: #fed7d7; color: #c53030; }
-.aud-badge-module { background: #e0e7ff; color: #3730a3; font-size: 0.7rem; }
-.aud-risk-high  { background: #fed7d7; color: #c53030; }
-.aud-risk-med   { background: #fefcbf; color: #b7791f; }
-.aud-risk-low   { background: #c6f6d5; color: #276749; }
+.aud-badge-ok   { background: #1e3d2a; color: #4ade80; }
+.aud-badge-fail { background: #3d1e1e; color: #fc8181; }
+.aud-badge-module { background: #1e2a3d; color: #60a5fa; font-size: 0.7rem; }
+.aud-risk-high  { background: #3d1e1e; color: #fc8181; }
+.aud-risk-med   { background: #3d2e0e; color: #f6e05e; }
+.aud-risk-low   { background: #1e3d2a; color: #4ade80; }
 
 /* ── Sección de intentos fallidos ── */
 .aud-fails-section {
-    background: #fffbeb;
-    border: 2px solid #f6e05e;
+    background: #2a2520;
+    border: 2px solid #5c4a1e;
     border-radius: 12px;
     padding: 18px 20px;
 }
@@ -342,10 +342,10 @@
 .aud-fails-title {
     font-size: 0.88rem;
     font-weight: 700;
-    color: #b7791f;
+    color: #f6e05e;
     margin-bottom: 14px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #f6e05e;
+    border-bottom: 1px solid #5c4a1e;
 }
 
 .aud-table-compact td,
@@ -357,14 +357,14 @@
 .aud-loading {
     text-align: center;
     padding: 50px 20px;
-    color: #aaa;
+    color: var(--text-faint);
 }
 
 .aud-spinner {
     width: 36px;
     height: 36px;
-    border: 4px solid #f0f0f0;
-    border-top: 4px solid #1a3a6b;
+    border: 4px solid var(--border);
+    border-top: 4px solid var(--accent);
     border-radius: 50%;
     animation: aud-spin 0.8s linear infinite;
     margin: 0 auto 16px;
@@ -377,22 +377,22 @@
 .aud-empty {
     text-align: center;
     padding: 40px;
-    color: #aaa;
+    color: var(--text-faint);
     font-style: italic;
 }
 
 .aud-error {
     text-align: center;
     padding: 30px;
-    color: #c53030;
-    background: #fff5f5;
+    color: #fc8181;
+    background: rgba(248,113,113,0.1);
 }
 
 /* ── Sin acceso ── */
 .aud-no-access {
     text-align: center;
     padding: 60px 20px;
-    color: #666;
+    color: var(--text-muted);
 }
 
 .aud-no-access-icon {
@@ -403,7 +403,7 @@
 
 .aud-no-access h3 {
     font-size: 1.2rem;
-    color: #333;
+    color: var(--text-primary);
     margin-bottom: 8px;
 }
 
@@ -428,8 +428,8 @@
 
 /* ── Gráfico de actividad ── */
 .aud-chart-section {
-    background: #fff;
-    border: 2px solid #e9ecef;
+    background: var(--card-bg);
+    border: 2px solid var(--border);
     border-radius: 12px;
     padding: 16px;
 }
@@ -453,7 +453,7 @@
 
 .aud-bar {
     width: 100%;
-    background: linear-gradient(180deg, #1a3a6b, #2c5282);
+    background: linear-gradient(180deg, var(--accent), #6b5ce7);
     border-radius: 4px 4px 0 0;
     min-height: 4px;
     transition: height 0.3s ease;
@@ -461,7 +461,7 @@
 
 .aud-bar-label {
     font-size: 0.65rem;
-    color: #666;
+    color: var(--text-muted);
     margin-top: 4px;
 }
 
@@ -480,13 +480,13 @@
 }
 
 .aud-alert-alto {
-    background: #fee2e2;
-    border: 2px solid #ef4444;
-    color: #b91c1c;
+    background: rgba(239,68,68,0.12);
+    border: 2px solid rgba(239,68,68,0.4);
+    color: #f87171;
 }
 
 .aud-alert-medio {
-    background: #fef3c7;
-    border: 2px solid #f59e0b;
-    color: #b45309;
+    background: rgba(245,158,11,0.12);
+    border: 2px solid rgba(245,158,11,0.4);
+    color: #fbbf24;
 }

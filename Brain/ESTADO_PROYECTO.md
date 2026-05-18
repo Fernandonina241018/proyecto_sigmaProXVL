@@ -1,7 +1,7 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
 **Fecha de Análisis:** 17 de Mayo 2026  
-**Última Actualización:** 17 de Mayo 2026 (Refactor: indexx.html modularizado)  
+**Última Actualización:** 17 de Mayo 2026 (Fix: usuarios.css y auditoria.css armonizados al diseño dark/púrpura)  
 **Versión del Proyecto:** 2.6  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
 **Estado General:** MVP Funcional (~95% Completo)
@@ -83,6 +83,7 @@
 | 26 | 17 May 2026 | Fix: Login sin estilos en indexx.html — faltaba `<link rel="stylesheet" href="auth.css">` en el `<head>`, login se renderizaba como HTML plano sin formato | ✅ |
 | 27 | 17 May 2026 | Feat: Sidebar user dropdown seguro (#sidebarUser) — CSS + HTML + JS añadidos SIN modificar código existente; toggle dropdown con nombre/email, logout via Auth.logout(), login modal si no hay sesión | ✅ |
 | 28 | 17 May 2026 | Refactor: Modularización de indexx.html — extraído CSS inline (560 líneas → indexx.css) y JS inline (2654 líneas → indexx.js); indexx.html quedó como esqueleto de 279 líneas solo con referencias externas; verificación de sintaxis OK | ✅ |
+| 29 | 17 May 2026 | Fix: Armonización visual de usuarios.css y auditoria.css — todos los colores hardcodeados reemplazados por var(--...) del sistema de diseño; acento azul (#1a3a6b) migrado a púrpura (var(--accent)); badges adaptados a modo oscuro; fondos claros migrados a dark theme | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
