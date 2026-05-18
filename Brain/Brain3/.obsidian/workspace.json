@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "behavior.md",
+                "file": "cognition_and_decision.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "behavior"
+              "title": "cognition_and_decision"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "behavior.md",
+                "file": "cognition_and_decision.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for behavior"
+              "title": "Backlinks for cognition_and_decision"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "behavior.md",
+                "file": "cognition_and_decision.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from behavior"
+              "title": "Outgoing links from cognition_and_decision"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "behavior.md",
+                "file": "cognition_and_decision.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of behavior"
+              "title": "Outline of cognition_and_decision"
             }
           }
         ]
@@ -184,10 +184,10 @@
   },
   "active": "a2da1df59d02dfc3",
   "lastOpenFiles": [
+    "behavior.md",
     "README.md",
     "reactions_and_tone.md",
     "policies_and_prompt_guidelines.md",
-    "cognition_and_decision.md",
-    "behavior.md"
+    "cognition_and_decision.md"
   ]
 }

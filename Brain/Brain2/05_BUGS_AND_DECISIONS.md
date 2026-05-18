@@ -1,269 +1,65 @@
-# 05 — Bugs Resueltos y Decisiones Técnicas
+# 05 — Bugs y decisiones
 
-## Formato de entrada
+## Formato log
 
 ```
-### [FECHA] — [ARCHIVO] — [SEVERIDAD]
-**Bug/Decisión:** descripción
-**Causa raíz:** por qué ocurrió
-**Fix/Decisión:** qué se hizo
-**Impacto:** qué funcionalidad afectaba
-**Regresiones posibles:** qué hay que vigilar
+### FECHA — archivo — severidad
+Bug/Decisión · Causa · Fix · Impacto · Regresiones a vigilar
 ```
 
----
-
-## Log de Bugs Resueltos
-
----
-
-### 2026-05-05 — `styles.css` — 🟢 MENOR
-
-#### FEATURE — Liquid Glass Sidebar Design
-**Severidad:** 🟢 Minor  
-**Descripción:** Nuevo diseño glassmorphism para sidebars colapsables.  
-**Cambios:**
-- Añadido `backdrop-filter: blur(12px)` con vendor prefix
-- Fondo semi-transparente (`rgba(255,255,255,0.25)` light / `rgba(30,30,40,0.35)` dark)
-- Borde sutil `rgba(255,255,255,0.15)`
-- Box-shadow con profundidad
-- Transiciones `cubic-bezier(0.4, 0, 0.2, 1)` (400ms)
-- Hover glow effect con blur expandido
-- Botones toggle con glass effect y scale en hover
-- Contenido con blur+translate al colapsar/expandir
-**Archivos:** `styles.css`  
-**Fecha:** 5 Mayo 2026
-
----
-
-### 2026-05-05 — `script.js` + `styles.css` — 🟡 MAYOR
-
-#### BUG — Sidebar colapsado sin efecto liquid glass
-**Severidad:** 🟡 Mayor  
-**Causa raíz:** Las clases `.sidebar-collapsed` no incluían los estilos glass (backdrop-filter, background translúcido), solo tenían backgrounds sólidos.  
-**Fix:** Agregado glass effect a las 3 definiciones de `.sidebar-collapsed`:
-- Líneas 2231-2261 (stats-menu y active-sidebar principal)
-- Líneas 2377-2385 (stats-menu sidebar-icons)
-- Líneas 2509-2526 (active-sidebar duplicate)  
-**Impacto:** Sidebars colapsados sin efecto visual glassmorphism.  
-**Archivos:** `styles.css`  
-**Fecha:** 5 Mayo 2026
-
----
-
-### 2026-05-05 — `script.js` + `styles.css` — 🟡 MAYOR
-
-#### FEATURE — Toggle buttons integrados en sidebars
-**Severidad:** 🟢 Minor  
-**Descripción:** Botones de toggle movidos dentro de los sidebars para максимиzar espacio de trabajo.  
-**Cambios:**
-- Botón izquierdo ahora integrado dentro de `.stats-menu` (top-right corner)
-- Botón derecho ya estaba integrado en `.active-sidebar`
-- Nuevo estilo: botón circular de 28x28px con iconos ◀/▶
-- Title tooltips en hover
-**Archivos:** `script.js`, `styles.css`  
-**Fecha:** 5 Mayo 2026
-
----
-
-### 2026-05-05 — `index.html` — 🟢 MENOR
-
-#### FIX — Limpieza de código muerto y valores inválidos
-**Severidad:** 🟢 Minor  
-**Causa raíz:** Valores `data:,` vacíos en og:image y favicon causando 404/warnings; código comentado sin usar; comentario duplicado de script ya cargado desde dist/.  
-**Fix:** Se eliminaron los valores `data:,` de og:image y favicon (se removió la línea og:image y se usó un SVG inline para favicon); se eliminó el bloque de búsqueda comentado (líneas 66-71); se eliminó el comentario duplicado de Logger.js.  
-**Impacto:** Ninguno - solo limpieza de código muerto.  
-**Archivos:** `index.html`  
-**Fecha:** 5 Mayo 2026
-
----
-
-### 2026-05-03 — `ReportesManager.js` (dashboard) — 🟡 MAYOR
-
-#### BUG — Reportes no mostraban análisis guardados
-**Severidad:** 🟡 Mayor  
-**Causa raíz:** La función `crearReporteConDatos()` buscaba la clave `sigmaPro_analisis` en localStorage, pero el análisis se estaba guardando con una clave diferente o no se estaba guardando correctamente.  
-**Fix:** Se agregó debug logging y se verificó que `guardarResultadoAnalisis()` en dashboard.js guardara correctamente en `sigmaPro_analisis`.  
-**Impacto:** Los reportes generados desde análisis no contenían datos.  
-**Archivos:** `ReportesManager.js`, `dashboard.js`  
-**Fecha:** 3 Mayo 2026
-
----
-
-### 2026-04-24 — `EstadisticaDescriptiva.js` — 🔴 CRÍTICO
-
-#### BUG 1 — Eigenvalores extremadamente grandes en PCA y Análisis Factorial
-**Severidad:** 🔴 Crítico  
-**Causa raíz:** El algoritmo QR para eigenvalores era numéricamente inestable, generando valores como `e+72`.  
-**Fix:** Se implementó el **método de Jacobi** para cálculo de eigenvalores, que es más estable numéricamente.  
-**Impacto:** PCA y Análisis Factorial no funcionaban correctamente.  
-**Archivos:** `EstadisticaDescriptiva.js` → funciones `jacobiEigenvalues()`, `qrDecomposition()`  
-**Fecha:** 24 Abril 2026
-
----
-
-### 2026-04-24 — `EstadisticaDescriptiva.js` — 🟡 MAYOR
-
-#### BUG 2 — Plantilla de Análisis Factorial no se renderizaba
-**Severidad:** 🟡 Mayor  
-**Causa raíz:** 'Análisis Factorial' y 'PCA' estaban en `HYPOTHESIS_SET`, lo que hacía que usaran la plantilla genérica de hipótesis en lugar de la plantilla especial.  
-**Fix:** Se creó un set separado `multivariadoTests` en ReporteManager.js para incluir estos tests en los reportes.  
-**Impacto:** La tabla de loadings y communalities no se mostraba.  
-**Archivos:** `utils.js`, `dist/utils.js`, `ReporteManager.js`  
-**Fecha:** 24 Abril 2026
-
----
-
-### 2026-04-24 — `EstadisticaDescriptiva.js` — 🟡 MAYOR
-
-#### BUG 3 — Communalities no se mostraban en la UI
-**Severidad:** 🟡 Mayor  
-**Causa raíz:** El resultado tenía la clave `communality` (singular) pero el código buscaba `communities` (plural) en algunos lugares y `communalityS` en otros.  
-**Fix:** Se estandarizó a `communality` (singular) en el return de la función y en el HTML.  
-**Impacto:** La columna h² aparecía vacía en la tabla de loadings.  
-**Archivos:** `EstadisticaDescriptiva.js` líneas ~2771, 4384, 4439, 5351  
-**Fecha:** 24 Abril 2026
-
----
-
-### 2026-04-24 — `EstadisticaDescriptiva.js` — 🟡 MAYOR
-
-#### BUG 4 — KMO no se mostraba en la UI
-**Severidad:** 🟡 Mayor  
-**Causa raíz:** El resultado tenía la clave `kmo` (minúscula) pero el código buscaba `data.KMO` (mayúscula).  
-**Fix:** Se cambió a `data.kmo` en todas las referencias.  
-**Impacto:** El valor de KMO aparecía como "—".  
-**Archivos:** `EstadisticaDescriptiva.js` líneas ~4385, 5353  
-**Fecha:** 24 Abril 2026
-
----
-
-### 2026-04-24 — `Reportes` — 🟡 MAYOR
-
-#### BUG 5 — Solo una columna en reportes cuando hay datos incompletos
-**Severidad:** 🟡 Mayor  
-**Causa raíz:** El umbral de detección de columnas numéricas era 80%, pero cuando hay datos incompletos (filas con valores vacíos), las columnas caen por debajo del umbral.  
-**Fix:** Se bajó el umbral de 80% a 50% en `StatsUtils.js` y `EstadisticaDescriptiva.js`.  
-**Impacto:** Solo una columna aparecía en la sección "Resultados por Variable" del reporte.  
-**Archivos:** `StatsUtils.js` línea 54, `EstadisticaDescriptiva.js` línea 100  
-**Fecha:** 24 Abril 2026
-
----
-
-### 2026-04-24 — `script.js` — 🟡 MAYOR
-
-#### BUG 6 — Selección múltiple de estadísticos no funcionaba para PCA y AF
-**Severidad:** 🟡 Mayor  
-**Causa raíz:** La función `_abrirModalesHipotesisSecuencia` solo interceptaba los botones `hypo-modal-confirm` y `correlacion-modal-confirm`, pero PCA usa `pca-save` y AF usa `af-save`.  
-**Fix:** Se agregó mapeo de IDs de botones según el tipo de estadístico.  
-**Impacto:** Al seleccionar múltiples estadísticos (PCA + AF), solo se configuraba el primero.  
-**Archivos:** `script.js` líneas ~2052-2070  
-**Fecha:** 24 Abril 2026
-
----
-
-### 2025 — `estadisticosConfig.js` — 🔴 CRÍTICO (x2) + 🟡 MAYOR (x5)
-
-(Son los bugs documentados previamente en el archivo original)
-
----
-
-## Decisiones Técnicas
-
----
-
-### DEC-001 — Compartir `calcularMedianaModa` entre Mediana y Moda
-**Fecha:** —  
-**Decisión:** Una sola función sirve a ambos tests.  
-**Razón:** La mediana y la moda se calculan en el mismo paso.  
-
----
-
-### DEC-002 — Método de Jacobi para eigenvalores
-**Fecha:** 24 Abril 2026  
-**Decisión:** Usar el método de Jacobi en lugar del método QR para calcular eigenvalores.  
-**Razón:** El método QR era numéricamente inestable para matrices de correlación.  
-**Referencia:** Jacobi, C.G.J. (1846). Über ein leichtes Verfahren.
-
----
-
-### DEC-003 — Umbral de columnas numéricas al 50%
-**Fecha:** 24 Abril 2026  
-**Decisión:** Bajar el umbral de detección de 80% a 50%.  
-**Razón:** Datos con valores faltantes (empty strings) no alcanzaban el 80% pero son válidos para análisis.  
-
----
-
-### DEC-004 — Selección múltiple secuencial para multivariado
-**Fecha:** 24 Abril 2026  
-**Decisión:** Modales de PCA y AF se abren en secuencia cuando se seleccionan múltiples.  
-**Razón:** Cada uno requiere configuración independiente de columnas.  
-
----
-
-### DEC-005 — Keyboard shortcuts
-**Fecha:** 23 Abril 2026  
-**Decisión:** Agregar atajos de teclado globally.  
-**Implementación:** Ctrl+Shift+D (tema), Ctrl+Shift+A (asistente), Ctrl+Z/Y (undo/redo), ? (ayuda)
-
----
-
-### DEC-006 — Tutorial in-app
-**Fecha:** 23 Abril 2026  
-**Decisión:** Mostrar tutorial de 6 pasos al primer inicio.  
-**Implementación:** Modal step-by-step con localStorage para no repetir.
-
----
-
-### DEC-007 — Dark mode mejorado
-**Fecha:** 23 Abril 2026  
-**Decisión:** Expandir variables dark y prevenir FOUC.  
-**Implementación:** 
-- Script inline en `<head>` antes de CSS
-- ~40 variables CSS dark (antes ~8)
-- Scrollbars custom, inputs, tooltips, modals adaptados  
-
----
-
-## Deuda Técnica Conocida
-
-| ID | Descripción | Severidad | Archivo |
-|---|---|---|---|
-| DT-001 | No hay validación formal de que `config.salidas[]` coincida con lo que retorna `calcular*()` | 🟡 | Todos |
-| DT-002 | EDAManager.js pendiente de revisión completa | 🟡 | `EDAManager.js` |
-| DT-003 | `styles.css` tiene problemas estructurales | 🟢 | `styles.css` |
-| DT-004 | Sin test suite — validación solo manual | 🟡 | Global |
-| DT-005 | 6 tests con estado ❌ en `02_ESTADISTICOS.md` | 🔴 | `EstadisticaDescriptiva.js` |
-
----
-
-## Para el Agente
-
-**Al resolver un bug:**
-
-1. Analizar causa raíz primero
-2. Verificar con logs en consola
-3. Probar en navegador
-4. Verificar que no hay regresiones
-5. Documentar en este archivo
-
-**Al implementar nuevo estadístico:**
-
-1. Agregar config en `estadisticosConfig.js`
-2. Implementar función en `EstadisticaDescriptiva.js`
-3. Agregar caso en `ejecutarAnalisis()`
-4. Agregar plantilla en `generarHTML()`
-5. Agregar caso en `ReporteManager.js`
-6. Probar y documentar
-
----
-
-### 2026-05-02 — `VizControls.js` — 🟡 MEDIO
-
-#### BUG — No se cargaban datos del último análisis
-**Severidad:** 🟡 Medio  
-**Causa raíz:** La función `getData()` de VizControls solo buscaba datos en `STATE.workDataset` y `StateManager.getActiveSheet()`, pero no consultaba la variable global `ultimosResultados` donde se almacenan los resultados del análisis estadístico.  
-**Fix:** Se agregó fallback para `ultimosResultados` con la función `buildDataFromResultados()` que convierte los resultados a formato de datos compatible.  
-**Impacto:** Los gráficos en la página de visualización no mostraban datos cuando solo existía el resultado del análisis.  
-**Archivos:** `VizControls.js` → funciones `buildDataFromResultados()`, `getData()`  
-**Fecha:** 2 Mayo 2026
+## Bugs resueltos (índice)
+
+| Fecha | Archivo | Sev | Resumen |
+|-------|---------|-----|---------|
+| 2026-05-05 | styles.css | 🟢 | Glass sidebar: backdrop-filter, blur, transiciones |
+| 2026-05-05 | styles.css | 🟡 | Collapsed sidebar sin glass — fix en 3 bloques `.sidebar-collapsed` |
+| 2026-05-05 | script.js, styles.css | 🟢 | Toggle integrado en sidebars (28px, ◀/▶) |
+| 2026-05-05 | index.html | 🟢 | Limpieza `data:,` og/favicon, código comentado |
+| 2026-05-03 | ReportesManager, dashboard | 🟡 | Reportes vacíos — clave `sigmaPro_analisis` en localStorage |
+| 2026-05-02 | VizControls.js | 🟡 | Sin datos en gráficos — fallback `ultimosResultados` |
+| 2026-04-24 | EstadisticaDescriptiva | 🔴 | PCA/AF eigenvalores e+72 — **Jacobi** vs QR inestable |
+| 2026-04-24 | ReporteManager, utils | 🟡 | AF/PCA usaban plantilla hipótesis — set `multivariadoTests` |
+| 2026-04-24 | EstadisticaDescriptiva | 🟡 | h² vacío — estandarizar `communality` |
+| 2026-04-24 | EstadisticaDescriptiva | 🟡 | KMO "—" — `data.kmo` no `data.KMO` |
+| 2026-04-24 | StatsUtils, EstadisticaDescriptiva | 🟡 | 1 columna reporte — umbral numérico **50%** (era 80%) |
+| 2026-04-24 | script.js | 🟡 | Multi-select PCA+AF — mapear `pca-save`, `af-save` |
+| 2025 | estadisticosConfig | 🔴🟡 | Ver historial previo en repo (config/validación) |
+
+### Detalle crítico — PCA eigenvalores (2026-04-24)
+
+**Causa:** QR inestable → valores ~e+72. **Fix:** `jacobiEigenvalues()`. **Vigilar:** otras rutas matriciales.
+
+### Detalle — selección múltiple multivariado (2026-04-24)
+
+**Causa:** `_abrirModalesHipotesisSecuencia` solo escuchaba `hypo-modal-confirm` / `correlacion-modal-confirm`. **Fix:** mapeo IDs por tipo de test (~L2052 script.js).
+
+## Decisiones técnicas
+
+| ID | Decisión | Razón |
+|----|----------|-------|
+| DEC-001 | `calcularMedianaModa` compartida | Mismo paso algorítmico |
+| DEC-002 | Jacobi para eigenvalores | Estabilidad numérica |
+| DEC-003 | Umbral columnas 50% | Datos con vacíos válidos |
+| DEC-004 | Modales PCA/AF secuenciales | Config columnas independiente |
+| DEC-005 | Atajos globales | UX power users |
+| DEC-006 | Tutorial 6 pasos + localStorage | Onboarding |
+| DEC-007 | Dark mode + anti-FOUC | ~40 vars CSS, script en head |
+
+## Deuda técnica
+
+| ID | Item | Sev |
+|----|------|-----|
+| DT-001 | Sin validación automática `salidas[]` vs retorno | 🟡 |
+| DT-002 | EDAManager revisión pendiente | 🟡 |
+| DT-003 | `styles.css` estructura | 🟢 |
+| DT-004 | Sin test suite | 🟡 |
+| DT-005 | 7 tests sin implementar | 🔴 |
+| DT-006 | XSS en ReporteManager — ver `PLAN_SEGURIDAD.md` | 🔴 |
+
+## Al cerrar bug
+
+1. Causa raíz · 2. Fix · 3. Probar navegador · 4. Sin regresión · 5. Entrada en tabla arriba
+
+## Al implementar test
+
+Checklist `02_ESTADISTICOS.md` + documentar si cambia contrato o arquitectura.

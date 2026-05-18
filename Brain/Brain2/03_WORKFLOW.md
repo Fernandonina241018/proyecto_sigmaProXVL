@@ -1,220 +1,98 @@
-# 03 — Flujo de Trabajo con el Agente
+# 03 — Workflow con el agente
 
-## Protocolo estándar de sesión
+## Protocolo (4 pasos)
 
-### Paso 1 — Contexto inicial
-Pegar siempre al inicio:
-- `01_PROJECT.md` (arquitectura)
-- `03_WORKFLOW.md` (este archivo)
-- + archivo relevante según tipo de sesión (ver README)
+| # | Acción | Detalle |
+|---|--------|---------|
+| 1 | Contexto | `CONTEXTO_BASE.md` + docs según tabla README |
+| 2 | Análisis | Pedir revisión por severidad — **sin código** |
+| 3 | Implementación | Archivo **completo** tras validar alcance |
+| 4 | Verificación | Checklist fixes + prueba navegador |
 
-### Paso 2 — Solicitar análisis profundo PRIMERO
-**Nunca pedir el archivo corregido directamente.**
-Primero pedir:
-```
-"Analiza [archivo/módulo] en profundidad. 
-Prioriza hallazgos por severidad. 
-No generes código aún."
-```
-Evaluar el análisis, hacer preguntas, confirmar el alcance.
-
-### Paso 3 — Solicitar archivo completo corregido
-Solo después de validar el análisis:
-```
-"Genera el archivo completo con todos los fixes aplicados."
-```
-Siempre pedir el **archivo completo** — nunca parches sueltos.
-
-### Paso 4 — Verificación
-- Claude debe incluir un script de verificación o checklist de los fixes.
-- Confirmar que no se introdujeron regresiones.
-- Probar en el navegador si es necesario.
-
----
-
-## Tipos de sesión
-
-### Sesión de debugging
-```
-Contexto: 01_PROJECT.md + 05_BUGS_AND_DECISIONS.md + 03_WORKFLOW.md
-Prompt patrón: "Tengo este bug: [descripción + código]. 
-               Analiza causa raíz antes de proponer solución."
-```
-
-### Sesión de implementación
-```
-Contexto: 01_PROJECT.md + 02_ESTADISTICOS.md + 04_CODE_GUIDELINES.md + 03_WORKFLOW.md
-Prompt patrón: "Voy a implementar [nombre del test]. 
-               El contrato de retorno debe ser: [salidas del config].
-               Sigue las convenciones de 04_CODE_GUIDELINES.md."
-```
-
-### Sesión de revisión de código
-```
-Contexto: 04_CODE_GUIDELINES.md + 06_POLICIES.md
-Prompt patrón: "Revisa este código contra las guidelines. 
-               Prioriza: seguridad > corrección estadística > performance > estilo."
-```
-
-### Sesión de análisis estático (Python)
-```
-Contexto: 01_PROJECT.md + 02_ESTADISTICOS.md
-Prompt patrón: "Escribe un script Python que analice [archivo JS] 
-               y detecte [patrón específico]."
-```
-
----
-
-## Reglas de interacción
-
-### El Agente DEBE
-- Hacer análisis profundo antes de generar código.
-- Identificar bugs por severidad: 🔴 crítico → 🟡 mayor → 🟢 menor.
-- Señalar implicaciones de seguridad explícitamente (XSS, injection, etc.).
-- Verificar corrección estadística (fórmulas, supuestos, rangos válidos).
-- Generar archivos completos, nunca fragmentos cuando se pide el archivo final.
-- Incluir comentarios inline en los fixes indicando qué bug resuelve (`// FIX BUG N:`).
-
-### El Agente NO DEBE
-- Proponer soluciones parciales si se pidió el archivo completo.
-- Asumir que un algoritmo está implementado correctamente sin verlo.
-- Ignorar advertencias de seguridad por "estar en contexto de desarrollo".
-- Cambiar la estructura del config sin confirmación explícita.
-
----
-
-## Prioridad de revisión de código
+### Prompts patrón
 
 ```
-1. Seguridad (XSS, eval(), innerHTML sin sanitizar)
-2. Corrección estadística (fórmulas, supuestos, límites de muestra)
-3. Corrección funcional (bugs de lógica, edge cases)
-4. Contratos de módulo (retornos, validaciones)
-5. Performance (solo si es bloqueante)
-6. Estilo y nomenclatura
+Análisis:  "Analiza [archivo]. Prioriza por severidad. No generes código."
+Código:    "Genera el archivo completo con todos los fixes. Marca // FIX BUG N:"
+Debug:     "Bug: [desc]. Causa raíz antes de solución."
+Impl test: "Implementar [test]. Contrato: config.salidas = [...]. Sigue 04_CODE_GUIDELINES."
+Review:    "Revisa vs 04 + 06. Prioridad: seguridad > estadística > lógica > perf > estilo."
 ```
 
----
+## Contexto por tipo de sesión
 
-## Convenciones de comunicación
+| Tipo | Archivos |
+|------|----------|
+| Inicio | `01` + `03` |
+| Debug | + `05` |
+| Implementación | + `02` + `04` |
+| Review | `04` + `06` |
+| Análisis estático Python | `01` + `02` |
 
-- **Severidad de bugs:** usar emojis 🔴/🟡/🟢 en análisis.
-- **Referencias al config:** mencionar siempre el campo exacto (`config.minMuestra`, `config.salidas`, etc.).
-- **Cambios de contrato:**advertir explícitamente si un fix cambia la firma de una función.
-- **Decisiones técnicas:** documentar en `05_BUGS_AND_DECISIONS.md` después de la sesión.
+## El agente DEBE
 
----
+- Análisis profundo antes de código
+- Severidad: 🔴 crítico → 🟡 mayor → 🟢 menor
+- Señalar XSS explícitamente
+- Verificar fórmulas y supuestos
+- Archivo completo cuando se pida
+- `// FIX BUG N:` en correcciones
 
-## Utilities Disponibles
+## El agente NO DEBE
 
-### Keyboard Shortcuts (script.js)
-| Atajo | Función |
-|-------|---------|
-| `Ctrl+Shift+D` | `toggleTheme()` |
-| `Ctrl+Shift+A` | `mostrarAsistenteAnalisis()` |
-| `Ctrl+Shift+T/R/S` | `switchView('trabajo'/'reportes'/'estadisticos')` |
-| `Ctrl+Z` | `StateManager.undo()` |
-| `Ctrl+Y` | `StateManager.redo()` |
-| `Escape` | `_closeAllModals()` |
-| `?` | `mostrarAyudaKeyboard()` |
+- Parches si pidieron archivo completo
+- Asumir algoritmos correctos sin leer código
+- Relajar seguridad por "es dev"
+- Cambiar config sin confirmación
 
-### StateManager Undo/Redo
+## Prioridad revisión
+
+```
+1. Seguridad (XSS, eval, innerHTML)
+2. Estadística (fórmulas, supuestos, n)
+3. Lógica / edge cases
+4. Contratos (retornos, config.salidas)
+5. Performance (si bloquea)
+6. Estilo
+```
+
+## Implementar estadístico
+
+Ver checklist en `02_ESTADISTICOS.md` y `GUIA_ESTADISTICO.md`.
+
+## Actualizar Brain (fin de sesión)
+
+```
+Actualiza 05_BUGS_AND_DECISIONS.md:
+- Bug / decisión, causa, fix, archivo, fecha
+```
+
+## Anti-patrones
+
+| Mal | Efecto |
+|-----|--------|
+| "Arregla el bug" sin contexto | Regresiones |
+| Solo fragmento de archivo | Inconsistencia |
+| Código sin validar análisis | Fixes incompletos |
+| Omitir `04` en implementación | Rompe convenciones |
+| No actualizar Brain | Contexto obsoleto |
+
+## Debug consola
+
 ```js
-StateManager.undo()   // deshacer última acción
-StateManager.redo()   // rehacer
-StateManager.canUndo() // boolean
-StateManager.canRedo() // boolean
-```
-
-### Tutorial Inicial
-```js
-mostrarTutorial()  // fuerza mostrar modal de tutorial
-// Se muestra automáticamente al primer login, luego localStorage
-```
-
----
-
-## Anti-patrones a evitar
-
-| Anti-patrón | Consecuencia |
-|---|---|
-| Pedir "arregla el bug" sin contexto | Soluciones genéricas, puede introducir regresiones |
-| Pedir solo el fragmento modificado | Riesgo de inconsistencias con el resto del archivo |
-| No validar el análisis antes del código | Fixes incompletos o mal priorizados |
-| Omitir el archivo de guidelines en impl. | Código que no sigue las convenciones del proyecto |
-| No actualizar el Brain tras la sesión | El contexto se desincroniza con el estado real |
-
----
-
-## Workflow para implementar nuevo estadístico
-
-```
-1. Leer config existente en estadisticosConfig.js
-2. Agregar entrada en ESTADISTICOS_CONFIG:
-   - seccion, calcular, formula, desc, minMuestra, supuestos, inputs, salidas
-3. Implementar función en EstadisticaDescriptiva.js
-4. Agregar caso en ejecutarAnalisis() switch
-5. Agregar plantilla en generarHTML() para UI
-6. Agregar caso en ReporteManager.js para reportes
-7. Probar en navegador
-8. Actualizar 02_ESTADISTICOS.md
-```
-
----
-
-## Actualización del Brain
-
-Al final de cada sesión relevante:
-```
-"Actualiza 05_BUGS_AND_DECISIONS.md con:
-- Bug: [descripción]
-- Causa raíz: [causa]
-- Fix aplicado: [solución]
-- Archivo afectado: [archivo]
-- Fecha: [fecha]"
-```
-
----
-
-## Comandos útiles para debugging
-
-```javascript
-// Ver datos cargados
 StateManager.getActiveSheet()
-
-// Ver config de un test
 StateManager.getHypothesisConfig('Nombre del Test')
-
-// Ver últimos resultados
 ultimosResultados
-
-// Ver columnas numéricas
 getDataForModal().headers
-
-// Forzar regeneration de HTML
 EstadisticaDescriptiva.generarHTML(ultimosResultados)
+StateManager.undo() / redo() / canUndo() / canRedo()
+mostrarTutorial()  // forzar tutorial
 ```
 
----
+## StateManager / atajos
 
-## Rutas importantes del proyecto
+Atajos: ver `01_PROJECT.md`. Undo: 50 entradas en `StateManager`.
 
-```
-/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/
-├── script.js                    (~4200 líneas) - Lógica principal
-├── EstadisticaDescriptiva.js    (~5660 líneas) - Funciones estadísticas
-├── ReporteManager.js           (~2100 líneas) - Reportes HTML/TXT
-├── estadisticosConfig.js        (~2500 líneas) - Config centralizada
-├── StateManager.js             (~900 líneas)  - Estado
-├── StatsUtils.js               (~520 líneas)  - Utilidades
-├── Visualizacion.js            (~2200 líneas) - Gráficos
-├── utils.js                    (~150 líneas)  - Utilidades globales
-├── Brain/
-│   └── Brain2/
-│       ├── 01_PROJECT.md
-│       ├── 02_ESTADISTICOS.md
-│       ├── 03_WORKFLOW.md
-│       ├── 04_CODE_GUIDELINES.md
-│       ├── 05_BUGS_AND_DECISIONS.md
-│       └── 06_POLICIES.md
-```
+## Refactor / renombres
+
+Antes de renombrar funciones: `PROTOCOLO_SEGURIDAD.md` (buscar dependencias, checklist pre-commit).

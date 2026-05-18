@@ -1,124 +1,18 @@
-# 📋 Contexto para Sesiones de StatAnalyzer Pro
+# Sesión — contexto mínimo
 
-> **AL INICIAR CUALQUIER SESIÓN, PEGAR ESTE CONTEXTO**
+> **Usar `CONTEXTO_BASE.md`** (mismo contenido, formato paste). Este archivo existe por compatibilidad con flujos que referencian `SESION_BASE.md`.
 
----
+## Paste rápido
 
-## 🧠 Estado del Proyecto
+- Proyecto: StatAnalyzer Pro v2.5 · `G:\My Drive\SigmaProWeb\proyecto_sigmaProXVL\`
+- 44/51 tests · Stack: JS vanilla, DOM nativo
+- Reglas: `textContent` · `minMuestra` · no mutar `datos` · retorno = `config.salidas[]`
+- Flujo: analizar → confirmar → archivo completo → probar → actualizar Brain
+- Sesión estándar: pegar **`CONTEXTO_BASE.md`** + archivo según tarea (ver `README.md`)
 
-- **Nombre:** StatAnalyzer Pro
-- **Versión:** 2.5
-- **Implementados:** 44 de 51 estadísticos (88%)
-- **Pendientes:** 6 (K-Medias, LDA, MANOVA, Series Temporales, Supervivencia, Bayesiano)
+## Extra en esta sesión (opcional)
 
----
+| Módulo | CFR 21 Part 11 en reportes: hash SHA-256, audit trail, firmas electrónicas |
+| Validaciones | Calificaciones 0–100 sistema/método/equipo · correlación Pearson |
 
-## ⚠️ REGLAS DE ORO
-
-1. **XSS:** Siempre `textContent`, nunca `innerHTML` con valores de usuario
-2. **Validación:** Siempre `minMuestra` antes de calcular
-3. **Inmutabilidad:** Nunca `datos.sort()`, usar `[...datos]`
-4. **Contrato:** Claves de retorno = `config.salidas[]`
-
----
-
-## 📁 Archivos Principales
-
-```
-/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/
-├── script.js              (~4200 líneas)
-├── EstadisticaDescriptiva.js  (~5660 líneas)
-├── ReporteManager.js      (~2100 líneas)
-├── estadisticosConfig.js  (~2500 líneas)
-├── StateManager.js        (~900 líneas)
-├── Brain/Brain2/         (documentación)
-```
-
----
-
-## 🔧 Workflow para Nuevos Estadísticos
-
-```
-1. Agregar config en estadisticosConfig.js
-2. Implementar función en EstadisticaDescriptiva.js
-3. Agregar caso en ejecutarAnalisis()
-4. Agregar plantilla en generarHTML()
-5. Agregar al reporte en ReporteManager.js
-6. Probar en navegador
-7. Actualizar Brain
-```
-
----
-
-## 🐛 Debugging
-
-```javascript
-StateManager.getActiveSheet()           // Datos cargados
-StateManager.getHypothesisConfig('X')   // Config de test
-ultimosResultados                      // Resultados
-getDataForModal().headers              // Columnas
-```
-
----
-
-## 📊 Estadísticos
-
-| Sección | Implementados |
-|---------|---------------|
-| Descriptiva | 13 ✅ |
-| Hipótesis | 11 ✅ |
-| Correlación | 4 ✅ |
-| Regresión | 7 ✅ |
-| No Paramétricos | 5 ✅ |
-| Multivariado | 2/5 |
-| Especificación | 1 ✅ |
-| Extras | 1/5 |
-| Calidad | 1 ✅ |
-
----
-
-## 🔐 CFR 21 Part 11 (Reportes)
-
-- Hash SHA-256 de integridad
-- Audit trail (usuario, fecha, software)
-- Electronic signatures (prepared, reviewed, approved)
-- Dataset traceability
-- Metodología de cálculos
-
----
-
-## 📋 Validaciones (Sistema/Método/Equipo)
-
-- Input de calificaciones (0-100) para sistemas, métodos, equipos
-- Importación CSV o copiar/pegar
-- Correlación con resultados de análisis (Pearson)
-- Gráfico de dispersión |
-
----
-
-## ✨ Features de UX
-
-| Feature | Atajo |
-|---------|-------|
-| Tema claro/oscuro | `Ctrl+Shift+D` |
-| Asistente análisis | `Ctrl+Shift+A` |
-| Undo/Redo | `Ctrl+Z` / `Ctrl+Y` |
-| Ayuda atajos | `?` |
-| Ir a Trabajo/Reportes/Estad | `Ctrl+Shift+T/R/S` |
-
----
-
-## 📖 Documentación (Brain2)
-
-| Archivo | Para qué |
-|--------|----------|
-| 01_PROJECT.md | Arquitectura |
-| 02_ESTADISTICOS.md | Inventario tests |
-| 03_WORKFLOW.md | Protocolo trabajo |
-| 04_CODE_GUIDELINES.md | Convenciones código |
-| 05_BUGS_AND_DECISIONS.md | Bugs resueltos |
-| 06_POLICIES.md | Políticas |
-
----
-
-*Actualizado: 3 Mayo 2026*
+Ver `CONTEXTO_BASE.md` para reglas, debug y bugs recientes.

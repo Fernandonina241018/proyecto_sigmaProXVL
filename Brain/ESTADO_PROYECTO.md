@@ -1,7 +1,7 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
-**Fecha de Análisis:** 15 de Mayo 2026  
-**Última Actualización:** 15 de Mayo 2026 (Migración batch a ejecutarAnalisis)  
+**Fecha de Análisis:** 17 de Mayo 2026  
+**Última Actualización:** 17 de Mayo 2026 (Fix: auth.css no cargado en indexx.html)  
 **Versión del Proyecto:** 2.6  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
 **Estado General:** MVP Funcional (~95% Completo)
@@ -80,6 +80,7 @@
 | 23 | 17 May 2026 | Fix: key name mismatch en _mostrarModalConfigTest — guardaba columnaAgrupacion/columnaValores pero ejecutarAnalisis espera categoricalCols (array)/numericCol (string), causando TypeError en ANOVA/T-Test batch | ✅ |
 | 24 | 17 May 2026 | Fix: infinite recursion en runSingleStat — guard callback verifica que config se haya guardado antes de re-llamar; guards en condiciones de acceso categoricalCols para T-Test, ANOVA One-Way/Two-Way, Chi-Cuadrado, Mann-Whitney, Kruskal-Wallis | ✅ |
 | 25 | 17 May 2026 | Feat: Integración páginas Auditoría y Usuarios en indexx.html — CSS imports, script tags (auth.js, AuditoriaManager.js, UsuariosManager.js), lazy init hooks en loadPage(), contenedores reales en rightPanels, admin visibility control, botones leftPanel conectados | ✅ |
+| 26 | 17 May 2026 | Fix: Login sin estilos en indexx.html — faltaba `<link rel="stylesheet" href="auth.css">` en el `<head>`, login se renderizaba como HTML plano sin formato | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
