@@ -16,7 +16,8 @@ const API_URL = 'https://proyecto-sigmaproxvl.onrender.com';
 // ========================================
 
 function escapeHtml(unsafe) {
-    return unsafe
+    if (unsafe == null) return '';
+    return String(unsafe)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
