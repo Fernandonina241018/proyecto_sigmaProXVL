@@ -121,38 +121,38 @@ const UsuariosManager = (() => {
         if (!document.getElementById('usr-card-styles')) {
             const styles = `
                 .usr-cards-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; padding: 4px; }
-                .usr-card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: all 0.2s; border: 2px solid transparent; }
-                .usr-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.15); transform: translateY(-2px); }
+                .usr-card { background: var(--card-bg); border-radius: 16px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); transition: all 0.2s; border: 2px solid var(--border); }
+                .usr-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.4); transform: translateY(-2px); }
                 .usr-card-inactive { opacity: 0.65; }
                 .usr-card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
                 .usr-card-avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1.1rem; flex-shrink: 0; }
                 .usr-card-info { flex: 1; min-width: 0; }
-                .usr-card-nombre { font-size: 1.05rem; font-weight: 600; color: #1e293b; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-                .usr-card-email { font-size: 0.85rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-                .usr-card-phone { font-size: 0.8rem; color: #64748b; margin-top: 4px; }
-                .usr-card-me { background: #3046ac; color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
+                .usr-card-nombre { font-size: 1.05rem; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+                .usr-card-email { font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+                .usr-card-phone { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+                .usr-card-me { background: rgba(124,106,247,0.8); color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
                 .usr-card-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
                 .usr-card-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
-                .usr-card-rol-admin { background: #fef2f2; color: #dc2626; }
-                .usr-card-rol-gerente { background: #faf5ff; color: #9333ea; }
-                .usr-card-rol-analista { background: #eff6ff; color: #2563eb; }
-                .usr-card-rol-supervisor { background: #fefce8; color: #ca8a04; }
-                .usr-card-rol-coordinador { background: #fff7ed; color: #ea580c; }
-                .usr-card-rol-usuario { background: #f0fdf4; color: #16a34a; }
-                .usr-card-rol-readonly { background: #f8fafc; color: #64748b; }
-                .usr-card-estado-activo { background: #f0fdf4; color: #16a34a; }
-                .usr-card-estado-inactivo { background: #fef2f2; color: #dc2626; }
-                .usr-card-meta { display: flex; gap: 16px; font-size: 0.8rem; color: #64748b; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #e2e8f0; }
+                .usr-card-rol-admin { background: #3d1e1e; color: #fc8181; }
+                .usr-card-rol-gerente { background: #2a1e3d; color: #b794f4; }
+                .usr-card-rol-analista { background: #1e2a3d; color: #63b3ed; }
+                .usr-card-rol-supervisor { background: #3d2e0e; color: #f6e05e; }
+                .usr-card-rol-coordinador { background: #3d2a1e; color: #f6ad55; }
+                .usr-card-rol-usuario { background: #1e3d2a; color: #4ade80; }
+                .usr-card-rol-readonly { background: #2a2a2a; color: #a0aec0; }
+                .usr-card-estado-activo { background: #1e3d2a; color: #4ade80; }
+                .usr-card-estado-inactivo { background: #3d1e1e; color: #fc8181; }
+                .usr-card-meta { display: flex; gap: 16px; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
                 .usr-card-meta-item { display: flex; align-items: center; gap: 4px; }
                 .usr-card-actions { display: flex; gap: 8px; }
-                .usr-card-actions select { flex: 1; padding: 8px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 0.8rem; background: #f8fafc; }
+                .usr-card-actions select { flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.8rem; background: var(--bg-panel); }
                 .usr-card-actions button { padding: 8px 12px; border: none; border-radius: 8px; cursor: pointer; font-size: 0.9rem; }
-                .usr-btn-pass { background: #f1f5f9; color: #475569; }
-                .usr-btn-pass:hover { background: #e2e8f0; }
-                .usr-btn-deactivate { background: #fef2f2; color: #dc2626; }
-                .usr-btn-deactivate:hover { background: #dc2626; color: white; }
-                .usr-btn-activate { background: #f0fdf4; color: #16a34a; }
-                .usr-btn-activate:hover { background: #16a34a; color: white; }
+                .usr-btn-pass { background: var(--item-bg); color: var(--text-muted); }
+                .usr-btn-pass:hover { background: var(--item-hover); }
+                .usr-btn-deactivate { background: rgba(248,113,113,0.15); color: #fc8181; }
+                .usr-btn-deactivate:hover { background: rgba(248,113,113,0.3); color: white; }
+                .usr-btn-activate { background: rgba(74,222,128,0.15); color: #4ade80; }
+                .usr-btn-activate:hover { background: rgba(74,222,128,0.3); color: white; }
             `;
             const styleEl = document.createElement('style');
             styleEl.id = 'usr-card-styles';

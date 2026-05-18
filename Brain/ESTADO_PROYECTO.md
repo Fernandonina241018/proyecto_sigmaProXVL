@@ -85,6 +85,7 @@
 | 28 | 17 May 2026 | Refactor: Modularización de indexx.html — extraído CSS inline (560 líneas → indexx.css) y JS inline (2654 líneas → indexx.js); indexx.html quedó como esqueleto de 279 líneas solo con referencias externas; verificación de sintaxis OK | ✅ |
 | 29 | 17 May 2026 | Fix: Armonización visual de usuarios.css y auditoria.css — todos los colores hardcodeados reemplazados por var(--...) del sistema de diseño; acento azul (#1a3a6b) migrado a púrpura (var(--accent)); badges adaptados a modo oscuro; fondos claros migrados a dark theme | ✅ |
 | 30 | 17 May 2026 | Fix: Eliminar botón duplicado "Crear nuevo usuario" del inline form en UsuariosManager.js — removido el usr-create-card completo (HTML + event listeners); todos los controles de creación centralizados en el sidebar (indexx.js:312) | ✅ |
+| 31 | 17 May 2026 | Fix: Mover barra de búsqueda, contador y botón refresh al sidebar de usuarios (indexx.js:312); UsuariosManager.js ahora solo renderiza la tabla en el main — todos los controles centralizados en el sidebar | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
