@@ -3423,14 +3423,24 @@ buildStatAnalysisMenu();
 // ── Initial load ──
 _restoreAllData();
 loadPage('datos');
+
+// ── Admin visibility control ──
+setTimeout(function() {
+  var isAdmin = typeof Auth !== 'undefined' && Auth.getSession && Auth.getSession()?.role === 'admin';
+  var audNav = document.querySelector('[data-page="auditoria"]');
+  var usrNav = document.querySelector('[data-page="usuarios"]');
+  if (audNav) audNav.style.display = isAdmin ? '' : 'none';
+  if (usrNav) usrNav.style.display = isAdmin ? '' : 'none';
+}, 100);
 </script>
 <script src="utils.js"></script>
 <script src="StatsUtils.js"></script>
 <script src="EstadisticaDescriptiva.js"></script>
 <script src="ToolsManager.js"></script>
 <script src="StateManager.js"></script>
-<script src="ReporteManager.js"></script>
+<script src="auth.js"></script>
 <script src="AuditoriaManager.js"></script>
 <script src="UsuariosManager.js"></script>
+<script src="ReporteManager.js"></script>
 </body>
 </html>
