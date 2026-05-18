@@ -830,6 +830,8 @@ var datosCurrentFileName = '';
 var datosRecentFiles = [];
 var datasetTooltip = null;
 var currentPage = 'trabajo';
+var _auditoriaInited = false;
+var _usuariosInited = false;
 
 function _persistAllData() {
   try {
@@ -1341,6 +1343,14 @@ function loadPage(name) {
   if (name === 'trabajo') { initTrabajoKeyboard(); }
   if (name === 'visualizacion') { setTimeout(initVizPage, 60); }
   if (name === 'reportes') { setTimeout(function(){ if (typeof ReporteManager !== 'undefined') ReporteManager.buildReportesView(); }, 60); }
+  if (name === 'auditoria') { setTimeout(function() {
+    if (!_auditoriaInited && typeof AuditoriaManager !== 'undefined') { AuditoriaManager.init(API_URL); _auditoriaInited = true; }
+    if (typeof AuditoriaManager !== 'undefined') AuditoriaManager.buildView();
+  }, 60); }
+  if (name === 'usuarios') { setTimeout(function() {
+    if (!_usuariosInited && typeof UsuariosManager !== 'undefined') { UsuariosManager.init(API_URL); _usuariosInited = true; }
+    if (typeof UsuariosManager !== 'undefined') UsuariosManager.buildView();
+  }, 60); }
   updateToolsMenuState();
 }
 
