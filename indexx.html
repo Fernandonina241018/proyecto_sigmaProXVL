@@ -57,6 +57,17 @@
   .ribbon-toggle { margin-top:auto; margin-bottom:8px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; border-radius:4px; color:var(--text-faint); cursor:pointer; transition:color .15s, background .15s, transform .22s ease; font-size:15px; }
   .ribbon-toggle:hover { color:var(--text-muted); background:rgba(255,255,255,.06); }
   .ribbon-toggle.rotated { transform:rotate(180deg); }
+  .ribbon-togglee:hover { color:var(--text-muted); background:rgba(255,255,255,.06); }
+  .sidebar-user-dropdown { position:fixed; left:42px; bottom:50px; min-width:190px; background:var(--card-bg); border:1px solid var(--border); border-radius:6px; box-shadow:0 4px 16px rgba(0,0,0,.4); z-index:1000; display:none; overflow:hidden; }
+  .sidebar-user-dropdown.open { display:block; }
+  .sidebar-user-dropdown .sud-header { padding:8px 12px; border-bottom:1px solid var(--border); }
+  .sidebar-user-dropdown .sud-header-name { font-size:12px; font-weight:600; color:var(--text-primary); }
+  .sidebar-user-dropdown .sud-header-email { font-size:10px; color:var(--text-faint); }
+  .sidebar-user-dropdown .sud-item { display:flex; align-items:center; gap:6px; padding:6px 12px; font-size:11px; color:var(--text-muted); cursor:pointer; transition:background .15s; }
+  .sidebar-user-dropdown .sud-item:hover { background:rgba(255,255,255,.06); color:var(--text-primary); }
+  .sidebar-user-dropdown .sud-item.logout { color:#e06c75; }
+  .sidebar-user-dropdown .sud-item.logout:hover { background:rgba(224,108,117,.1); }
+  .sidebar-user-dropdown .sud-divider { height:1px; background:var(--border); margin:4px 0; }
   .sidebar { width: 230px; background: var(--bg-sidebar); display: flex; flex-direction: column; border-right: 1px solid var(--border); flex-shrink: 0; overflow: hidden; transition: width .22s cubic-bezier(.4,0,.2,1), opacity .18s ease; }
   .sidebar.collapsed { width:0; opacity:0; pointer-events:none; border-right:none; }
   .sidebar-header { display:flex; align-items:center; padding:8px 10px; gap:6px; flex-shrink:0; }
@@ -713,6 +724,16 @@
             <circle cx="12" cy="7" r="4"/>
         </svg>
     </div>
+    <div class="sidebar-user-dropdown" id="sidebarUserDropdown">
+        <div class="sud-header">
+            <div class="sud-header-name" id="sudName"></div>
+            <div class="sud-header-email" id="sudEmail"></div>
+        </div>
+        <div class="sud-divider"></div>
+        <div class="sud-item" data-action="perfil">👤 Mi Perfil</div>
+        <div class="sud-divider"></div>
+        <div class="sud-item logout" data-action="logout">🚪 Cerrar Sesión</div>
+    </div>
   </div>
 
   <div class="sidebar" id="sidebar">
@@ -939,6 +960,32 @@ document.addEventListener('click', function(e) {
 // ── Sidebar toggle ──
 document.getElementById('sidebarToggle').addEventListener('click', function() {
   document.getElementById('sidebar').classList.toggle('collapsed'); this.classList.toggle('rotated');
+});
+
+// ── Sidebar user dropdown ──
+document.getElementById('sidebarUser').addEventListener('click', function(e) {
+  e.stopPropagation();
+  if (typeof Auth === 'undefined') return;
+  var session = Auth.getSession();
+  if (!session) { Auth.showLogin(); return; }
+  var dd = document.getElementById('sidebarUserDropdown');
+  if (!dd) return;
+  document.getElementById('sudName').textContent = session.username || 'Usuario';
+  document.getElementById('sudEmail').textContent = session.email || (session.username + '@sigmapro.com');
+  dd.classList.toggle('open');
+});
+document.getElementById('sidebarUserDropdown').addEventListener('click', function(e) {
+  var item = e.target.closest('.sud-item');
+  if (!item) return;
+  var dd = document.getElementById('sidebarUserDropdown');
+  dd.classList.remove('open');
+  if (item.getAttribute('data-action') === 'logout' && typeof Auth !== 'undefined') Auth.logout();
+});
+document.addEventListener('click', function(e) {
+  var dd = document.getElementById('sidebarUserDropdown');
+  if (dd && !e.target.closest('#sidebarUser') && !e.target.closest('#sidebarUserDropdown')) {
+    dd.classList.remove('open');
+  }
 });
 
 // ── Tab management ──
