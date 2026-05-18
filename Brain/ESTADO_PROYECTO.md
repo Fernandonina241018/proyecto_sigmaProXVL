@@ -81,6 +81,7 @@
 | 24 | 17 May 2026 | Fix: infinite recursion en runSingleStat — guard callback verifica que config se haya guardado antes de re-llamar; guards en condiciones de acceso categoricalCols para T-Test, ANOVA One-Way/Two-Way, Chi-Cuadrado, Mann-Whitney, Kruskal-Wallis | ✅ |
 | 25 | 17 May 2026 | Feat: Integración páginas Auditoría y Usuarios en indexx.html — CSS imports, script tags (auth.js, AuditoriaManager.js, UsuariosManager.js), lazy init hooks en loadPage(), contenedores reales en rightPanels, admin visibility control, botones leftPanel conectados | ✅ |
 | 26 | 17 May 2026 | Fix: Login sin estilos en indexx.html — faltaba `<link rel="stylesheet" href="auth.css">` en el `<head>`, login se renderizaba como HTML plano sin formato | ✅ |
+| 27 | 17 May 2026 | Feat: Botón de usuario en ribbon (#sidebarUser) con dropdown funcional — CSS, HTML del dropdown (Perfil, Config, Contraseña, Logout), event listeners toggle/close, _updateSidebarUserChip(), integración con Auth.getSession() y abrirModalPerfil() | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
