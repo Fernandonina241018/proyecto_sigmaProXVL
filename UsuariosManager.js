@@ -177,21 +177,6 @@ const UsuariosManager = (() => {
         container.innerHTML = `
         <div class="usr-layout">
 
-            <!-- Formulario crear usuario -->
-            <div class="usr-create-card">
-                <div class="usr-create-header">
-                    <span class="usr-create-title">➕ Crear nuevo usuario</span>
-                    <button class="usr-toggle-form" id="usr-toggle-form">▲ Ocultar</button>
-                </div>
-                <div class="usr-create-form" id="usr-create-form">
-                    <!-- BOTÓN PARA ABRIR MODAL DE CREAR USUARIO -->
-                    <button class="usr-btn-create" id="usr-btn-create" onclick="abrirModalCrearUsuario()" style="background:#10b981;color:white;padding:12px 24px;border:none;border-radius:10px;cursor:pointer;font-weight:600;font-size:1rem;width:100%;">
-                        ➕ Créar Nuevo Usuario
-                    </button>
-                    <div class="usr-form-msg" id="usr-form-msg" style="display:none"></div>
-                </div>
-            </div>
-
             <!-- Barra de búsqueda + contador -->
             <div class="usr-toolbar">
                 <input class="usr-search" id="usr-search" type="text" placeholder="🔍 Buscar usuario...">
@@ -556,61 +541,6 @@ const UsuariosManager = (() => {
     }
 
     function _attachListeners() {
-        // Toggle formulario
-        document.getElementById('usr-toggle-form')?.addEventListener('click', () => {
-            const form = document.getElementById('usr-create-form');
-            const btn  = document.getElementById('usr-toggle-form');
-            const open = form.style.display !== 'none';
-            form.style.display = open ? 'none' : 'block';
-            btn.textContent    = open ? '▼ Mostrar' : '▲ Ocultar';
-        });
-
-        // Toggle ojo contraseña
-        document.getElementById('usr-eye')?.addEventListener('click', () => {
-            const inp = document.getElementById('usr-new-password');
-            inp.type = inp.type === 'password' ? 'text' : 'password';
-        });
-
-        // Crear usuario
-        document.getElementById('usr-btn-create')?.addEventListener('click', async () => {
-            const username = document.getElementById('usr-new-username')?.value.trim();
-            const password = document.getElementById('usr-new-password')?.value;
-            const role     = document.getElementById('usr-new-role')?.value;
-            const msgEl    = document.getElementById('usr-form-msg');
-
-            if (!username || !password) {
-                msgEl.textContent   = '⚠️ Completa usuario y contraseña.';
-                msgEl.style.cssText = 'display:block;color:#c53030;background:#fff5f5;padding:10px;border-radius:8px;font-size:0.85rem;';
-                return;
-            }
-            if (password.length < 8) {
-                msgEl.textContent   = '⚠️ La contraseña debe tener al menos 8 caracteres.';
-                msgEl.style.cssText = 'display:block;color:#c53030;background:#fff5f5;padding:10px;border-radius:8px;font-size:0.85rem;';
-                return;
-            }
-
-            const btn = document.getElementById('usr-btn-create');
-            btn.textContent = 'Creando...';
-            btn.disabled    = true;
-
-            const result = await crearUsuario(username, password, role);
-
-            btn.textContent = '✓ Crear usuario';
-            btn.disabled    = false;
-
-            if (result.ok) {
-                msgEl.textContent   = `✅ Usuario "${username}" creado correctamente.`;
-                msgEl.style.cssText = 'display:block;color:#276749;background:#f0fff4;padding:10px;border-radius:8px;font-size:0.85rem;';
-                document.getElementById('usr-new-username').value = '';
-                document.getElementById('usr-new-password').value = '';
-                document.getElementById('usr-new-role').value     = 'user';
-                await _loadAndRender();
-            } else {
-                msgEl.textContent   = `❌ ${result.error}`;
-                msgEl.style.cssText = 'display:block;color:#c53030;background:#fff5f5;padding:10px;border-radius:8px;font-size:0.85rem;';
-            }
-        });
-
         // Buscar usuario
         document.getElementById('usr-search')?.addEventListener('input', (e) => {
             const q       = e.target.value.toLowerCase();

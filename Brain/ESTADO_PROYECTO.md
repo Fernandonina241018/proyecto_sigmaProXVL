@@ -84,6 +84,7 @@
 | 27 | 17 May 2026 | Feat: Sidebar user dropdown seguro (#sidebarUser) — CSS + HTML + JS añadidos SIN modificar código existente; toggle dropdown con nombre/email, logout via Auth.logout(), login modal si no hay sesión | ✅ |
 | 28 | 17 May 2026 | Refactor: Modularización de indexx.html — extraído CSS inline (560 líneas → indexx.css) y JS inline (2654 líneas → indexx.js); indexx.html quedó como esqueleto de 279 líneas solo con referencias externas; verificación de sintaxis OK | ✅ |
 | 29 | 17 May 2026 | Fix: Armonización visual de usuarios.css y auditoria.css — todos los colores hardcodeados reemplazados por var(--...) del sistema de diseño; acento azul (#1a3a6b) migrado a púrpura (var(--accent)); badges adaptados a modo oscuro; fondos claros migrados a dark theme | ✅ |
+| 30 | 17 May 2026 | Fix: Eliminar botón duplicado "Crear nuevo usuario" del inline form en UsuariosManager.js — removido el usr-create-card completo (HTML + event listeners); todos los controles de creación centralizados en el sidebar (indexx.js:312) | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
