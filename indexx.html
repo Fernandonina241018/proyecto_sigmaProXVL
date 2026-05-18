@@ -97,11 +97,11 @@
         <div class="dd-item" role="menuitem" onmousedown="handleToolsAction('scale-normalize')">
           Escalar / Normalizar <span class="dd-shortcut">Ctrl+N</span>
         </div>
-        <div class="dd-item" role="menuitem" onmousedown="alert('Función en desarrollo')">
+        <div class="dd-item" role="menuitem" onmousedown="loadPage('trabajo')">
           Ingeniería de características <span class="dd-shortcut">Ctrl+G</span>
         </div>
         <div class="dd-separator"></div>
-        <div class="dd-item" role="menuitem" onmousedown="alert('Función en desarrollo')">
+        <div class="dd-item" role="menuitem" onmousedown="loadPage('visualizacion')">
           Visualizar variables <span class="dd-shortcut">Ctrl+V</span>
         </div>
         <div class="dd-item" role="menuitem" onmousedown="handleToolsAction('correlation-matrix')">
@@ -118,7 +118,7 @@
         <div class="dd-item" role="menuitem" onmousedown="handleToolsAction('export-csv')">
           Exportar CSV <span class="dd-shortcut">Ctrl+Shift+E</span>
         </div>
-        <div class="dd-item" role="menuitem" onmousedown="alert('Función en desarrollo')">
+        <div class="dd-item" role="menuitem" onmousedown="if(typeof StateManager!=='undefined'){StateManager.saveToLocalStorage();showToast('Sesión guardada ✓')}">
           Guardar sesión / pipeline <span class="dd-shortcut">Ctrl+Shift+S</span>
         </div>
       </div>
