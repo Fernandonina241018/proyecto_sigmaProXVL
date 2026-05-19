@@ -222,9 +222,13 @@ var leftPanels = {
           '</div>' +
         '</div>' +
       '</div>' +
-      '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column">' +
-        '<div class="info-section-header">Hojas</div>' +
-        '<div style="overflow-y:auto;flex:1;padding:6px;display:flex;flex-direction:column;gap:3px" id="trabajoSheetsList">' + getTrabajoSheetsListHTML() + '</div>' +
+      '<div class="info-section" style="flex-shrink:0">' +
+        '<div class="info-section-header" style="display:flex;justify-content:space-between;align-items:center;padding:4px 10px"><span>Hojas</span></div>' +
+        '<div style="padding:3px 6px 5px;display:flex;gap:4px;align-items:center">' +
+          '<select id="sheetsSelect" class="sheets-select" onchange="switchToSheet(parseInt(this.value))" style="flex:1;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px">' + getSheetsOptionsHTML() + '</select>' +
+          (trabajoSheets.length > 1 ? '<button class="sheets-del-btn" onclick="deleteSheet(' + trabajoActiveSheetIndex + ',event)" title="Eliminar hoja" style="background:none;border:none;cursor:pointer;color:var(--text-faint);font-size:13px;line-height:1;padding:0 2px">×</button>' : '') +
+          '<button class="sheets-add-btn" onclick="createNewSheet()" title="Nueva hoja" style="background:none;border:none;cursor:pointer;color:var(--accent);font-size:15px;line-height:1;padding:0 2px">＋</button>' +
+        '</div>' +
       '</div>' +
       '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">Resumen</div><div class="info-list" id="trabajoResumen">' + getTrabajoResumenHTML() + '</div></div>' +
       '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">Celda activa</div><div class="info-list" id="trabajoCeldaActiva">' + getTrabajoCeldaActivaHTML() + '</div></div>' +
@@ -1383,6 +1387,11 @@ function getTrabajoSheetsListHTML() {
   });
   html += '<div class="info-item" style="color:var(--accent);font-size:11px" onclick="createNewSheet()">+ Nueva hoja</div>';
   return html;
+}
+function getSheetsOptionsHTML() {
+  return trabajoSheets.map(function(sheet, i) {
+    return '<option value="' + i + '"' + (i === trabajoActiveSheetIndex ? ' selected' : '') + '>' + escapeHtml(sheet.name) + '</option>';
+  }).join('');
 }
 function getTrabajoTabsHTML() {
   return trabajoSheets.map(function(sheet, i) {
