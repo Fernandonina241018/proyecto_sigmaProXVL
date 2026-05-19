@@ -227,6 +227,10 @@ var leftPanels = {
         '<button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px 4px" id="btnXlsx">📊 Excel</button>' +
         '<button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px 4px" id="btnPaste">📋 Pegar</button>' +
       '</div>' +
+      '<div style="display:flex;gap:6px;flex-shrink:0">' +
+        '<button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px 4px" onclick="generarDatosNormales()">🔢 Normal</button>' +
+        '<button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px 4px" onclick="ampliarDatos()">📈 Ampliar</button>' +
+      '</div>' +
       '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column">' +
         '<div class="info-section-header" style="display:flex;justify-content:space-between;align-items:center">' +
           '<span>Recientes</span>' +
@@ -1636,6 +1640,130 @@ function generateSampleData() {
   });
   _persistAllData();
   loadPage('trabajo');
+}
+
+// ── Generar datos con distribución normal ──
+function generarDatosNormales() {
+  var existing = document.getElementById('gaussModal');
+  if (existing) existing.remove();
+  var modal = document.createElement('div');
+  modal.id = 'gaussModal';
+  modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center';
+  modal.onclick = function(){ modal.remove(); };
+  modal.innerHTML = '<div style="background:var(--bg-panel);border-radius:14px;padding:24px;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.5);color:var(--text-primary)" onclick="event.stopPropagation()">' +
+    '<h2 style="margin:0 0 16px;font-size:1.1rem">🔢 Generar datos normales</h2>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;font-size:0.85rem">' +
+    '<label style="color:var(--text-muted)">Media (μ)</label><input id="gaussMean" type="number" value="50" step="any" style="padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem">' +
+    '<label style="color:var(--text-muted)">Desviación (σ)</label><input id="gaussStd" type="number" value="10" step="any" min="0.1" style="padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem">' +
+    '<label style="color:var(--text-muted)">Muestra (n)</label><input id="gaussN" type="number" value="100" min="10" max="10000" style="padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem">' +
+    '<label style="color:var(--text-muted)">Columnas</label><input id="gaussCols" type="number" value="2" min="1" max="20" style="padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem">' +
+    '</div>' +
+    '<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end">' +
+    '<button class="btn btn-secondary" onclick="this.closest(\'#gaussModal\').remove()">Cancelar</button>' +
+    '<button class="btn btn-primary" id="gaussBtn">Generar</button></div></div>';
+  document.body.appendChild(modal);
+  document.getElementById('gaussBtn').addEventListener('click', function() {
+    var mean = parseFloat(document.getElementById('gaussMean').value) || 50;
+    var std = Math.max(0.1, parseFloat(document.getElementById('gaussStd').value) || 10);
+    var n = Math.min(10000, Math.max(10, parseInt(document.getElementById('gaussN').value) || 100));
+    var k = Math.min(20, Math.max(1, parseInt(document.getElementById('gaussCols').value) || 2));
+    var headers = [];
+    for (var i = 0; i < k; i++) headers.push('Variable' + (i + 1));
+    var rows = [];
+    for (var r = 0; r < n; r++) {
+      var row = [];
+      for (var c = 0; c < k; c++) {
+        // Box-Muller transform for Gaussian distribution
+        var u1 = Math.random();
+        var u2 = Math.random();
+        var z = Math.sqrt(-2 * Math.log(u1 || 0.0001)) * Math.cos(2 * Math.PI * u2);
+        row.push((mean + std * z).toFixed(2));
+      }
+      rows.push(row);
+    }
+    pushUndo();
+    trabajoSheets.push({ name: 'Normal_' + n + 'x' + k, headers: headers, rows: rows });
+    trabajoActiveSheetIndex = trabajoSheets.length - 1;
+    trabajoActiveCell = {row:0,col:0};
+    _persistAllData();
+    modal.remove();
+    loadPage('trabajo');
+    showToast('✅ Datos normales generados: ' + n + ' filas x ' + k + ' columnas');
+  });
+}
+
+// ── Ampliar datos (data augmentation con ruido) ──
+function ampliarDatos() {
+  var sheet = getCurrentSheet();
+  if (!sheet || !sheet.rows || sheet.rows.length < 5) {
+    showToast('⚠️ Carga o genera datos primero (mín. 5 filas)');
+    return;
+  }
+  var existing = document.getElementById('ampliarModal');
+  if (existing) existing.remove();
+  var modal = document.createElement('div');
+  modal.id = 'ampliarModal';
+  modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center';
+  modal.onclick = function(){ modal.remove(); };
+  modal.innerHTML = '<div style="background:var(--bg-panel);border-radius:14px;padding:24px;max-width:380px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.5);color:var(--text-primary)" onclick="event.stopPropagation()">' +
+    '<h2 style="margin:0 0 16px;font-size:1.1rem">📈 Ampliar datos</h2>' +
+    '<p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:12px">Genera nuevas filas añadiendo ruido aleatorio a los datos existentes.</p>' +
+    '<div style="margin-bottom:12px;font-size:0.82rem">Filas actuales: <strong>' + sheet.rows.length + '</strong></div>' +
+    '<label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:6px">Factor de ampliación</label>' +
+    '<select id="ampliarFactor" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem">' +
+    '<option value="2">2x (' + (sheet.rows.length * 2) + ' filas)</option>' +
+    '<option value="3">3x (' + (sheet.rows.length * 3) + ' filas)</option>' +
+    '<option value="5">5x (' + (sheet.rows.length * 5) + ' filas)</option>' +
+    '<option value="10">10x (' + (sheet.rows.length * 10) + ' filas)</option>' +
+    '</select>' +
+    '<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end">' +
+    '<button class="btn btn-secondary" onclick="this.closest(\'#ampliarModal\').remove()">Cancelar</button>' +
+    '<button class="btn btn-primary" id="ampliarBtn">Ampliar</button></div></div>';
+  document.body.appendChild(modal);
+  document.getElementById('ampliarBtn').addEventListener('click', function() {
+    var factor = parseInt(document.getElementById('ampliarFactor').value) || 2;
+    var origRows = sheet.rows;
+    var headers = sheet.headers;
+    var n = origRows.length;
+    // Determine which columns are numeric
+    var isNum = headers.map(function(_, j) {
+      var nums = 0;
+      for (var r = 0; r < Math.min(n, 20); r++) {
+        if (!isNaN(parseFloat(origRows[r][j])) && isFinite(origRows[r][j])) nums++;
+      }
+      return nums > 10;
+    });
+    // Compute range for each numeric column to scale noise
+    var ranges = headers.map(function(_, j) {
+      if (!isNum[j]) return 0;
+      var vals = [];
+      for (var r = 0; r < n; r++) { var v = parseFloat(origRows[r][j]); if (!isNaN(v)) vals.push(v); }
+      if (vals.length < 2) return 1;
+      var max = Math.max.apply(null, vals);
+      var min = Math.min.apply(null, vals);
+      return (max - min) || 1;
+    });
+    pushUndo();
+    var newRows = [];
+    for (var f = 0; f < factor - 1; f++) {
+      for (var r = 0; r < n; r++) {
+        var row = origRows[r].slice();
+        for (var c = 0; c < headers.length; c++) {
+          if (isNum[c]) {
+            var noise = (Math.random() - 0.5) * 0.04 * ranges[c];
+            var val = parseFloat(row[c]);
+            if (!isNaN(val)) row[c] = (val + noise).toFixed(2);
+          }
+        }
+        newRows.push(row);
+      }
+    }
+    sheet.rows = origRows.concat(newRows);
+    _persistAllData();
+    modal.remove();
+    loadPage('trabajo');
+    showToast('✅ Datos ampliados: ' + n + ' → ' + sheet.rows.length + ' filas');
+  });
 }
 function exportTrabajo() {
   var sheet = getCurrentSheet(); if (!sheet) { alert('No hay datos.'); return; }

@@ -1,8 +1,8 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
 **Fecha de Análisis:** 17 de Mayo 2026  
-**Última Actualización:** 17 de Mayo 2026 (Fix: usuarios.css y auditoria.css armonizados al diseño dark/púrpura)  
-**Versión del Proyecto:** 2.6  
+**Última Actualización:** 18 de Mayo 2026 (Feat: Generar datos normales + Ampliar datos)  
+**Versión del Proyecto:** 2.7  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
 **Estado General:** MVP Funcional (~95% Completo)
 
@@ -88,6 +88,7 @@
 | 31 | 17 May 2026 | Fix: Mover barra de búsqueda, contador y botón refresh al sidebar de usuarios (indexx.js:312); UsuariosManager.js ahora solo renderiza la tabla en el main — todos los controles centralizados en el sidebar | ✅ |
 | 32 | 17 May 2026 | Fix: Armonizar cards de usuario al diseño dark — reemplazar background white por var(--card-bg), convertir badges y botones a colores oscuros (UsuariosManager.js inline CSS) | ✅ |
 | 33 | 17 May 2026 | Feat: Reemplazar menú decorativo "File" por "Proyecto" con 9 acciones reales — Nuevo proyecto, Cargar dataset, Pegar datos, Guardar/Cargar sesión, Exportar CSV/Reporte, Cerrar sesión. Agregada nuevoProyecto() en indexx.js | ✅ |
+| 34 | 18 May 2026 | Feat: Generar datos normales (distribución gaussiana con Box-Muller, parámetros μ/σ/n/columnas configurables) + Ampliar datos (data augmentation con ruido gaussiano escalado al rango de cada columna). Botones en sidebar de datos página Normal 🔢 y Ampliar 📈. indexx.js: ~100 líneas nuevas (generarDatosNormales, ampliarDatos) | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
