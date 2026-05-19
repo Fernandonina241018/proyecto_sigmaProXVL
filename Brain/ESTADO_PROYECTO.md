@@ -93,6 +93,7 @@
 | 36 | 18 May 2026 | Feat: Mapear iconos decorativos en sidebar (indexx.html:188-195) — 7 nav-items con '??' sincronizados vía JS desde pageIcons (📊📋🔬📈📄🗂️👥). Additivo, sin modificar HTML. indexx.js: sync code post line 597 | ✅ |
 | 37 | 18 May 2026 | Feat: Panel de Límites 📏 en sidebar de trabajo — modo global (LS/LI/LC únicos) o independiente (por columna numérica). Persistencia vía _persistAllData(). API getLimits(colName) para tests. indexx.js: ~150 líneas (trabajoLimits, renderLimitsPanel, toggleLimitsMode, saveLimitsFromInputs, getLimits) | ✅ |
 | 38 | 18 May 2026 | Fix: Compactar sección Resumen en sidebar de trabajo — CSS con :has(#trabajoResumen) para reducir padding (header 8→4px, items 6→2px), layout horizontal (flex row), font-size reducida (12→10px). indexx.css: ~6 líneas nuevas post line 115 | ✅ |
+| 39 | 18 May 2026 | Fix: Compactar sección Celda activa en sidebar de trabajo — mismo patrón que Resumen: :has(#trabajoCeldaActiva), header 4px 10px, items horizontal con 2px padding, font-size 9/11px. indexx.css: ~5 líneas nuevas | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
