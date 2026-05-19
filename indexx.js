@@ -222,7 +222,6 @@ var leftPanels = {
           '</div>' +
         '</div>' +
       '</div>' +
-      '</div>' +
       '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column">' +
         '<div class="info-section-header">Hojas</div>' +
         '<div style="overflow-y:auto;flex:1;padding:6px;display:flex;flex-direction:column;gap:3px" id="trabajoSheetsList">' + getTrabajoSheetsListHTML() + '</div>' +
