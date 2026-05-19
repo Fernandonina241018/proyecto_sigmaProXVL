@@ -553,11 +553,6 @@ var rightPanels = {
         '</div>' +
         '<button class="btn btn-primary" id="vizRenderBtn" style="font-size:12px">🎨 Renderizar</button>' +
         '<button class="btn btn-secondary" onclick="loadPage(\'reportes\')" style="font-size:12px;margin-left:auto">📄 Reportes</button>' +
-        '<div style="display:flex;gap:8px;align-items:center;width:100%;flex-wrap:wrap;padding-top:4px;border-top:1px solid var(--border)">' +
-          '<label style="font-size:12px;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;gap:4px">' +
-            '<input type="checkbox" id="vizBatchToggle" onchange="vizToggleBatch()"> 🔁 Generar múltiples</label>' +
-          '<div id="vizBatchCols" style="display:none;gap:4px;flex-wrap:wrap;width:100%"></div>' +
-        '</div>' +
       '</div>' +
     '</div>' +
     '<div id="vizCardsContainer" style="display:flex;flex-direction:column;gap:10px"></div>' +
@@ -936,67 +931,85 @@ function vizGetAllYColumns() {
 // ════════════════════════════════════════════════════════════════
 // VISUALIZACIÓN — BATCH (multi-gráfico)
 // ════════════════════════════════════════════════════════════════
-function vizToggleBatch() {
-  var toggle = document.getElementById('vizBatchToggle');
-  var container = document.getElementById('vizBatchCols');
-  if (!toggle || !container) return;
-  if (toggle.checked) {
-    var sheet = getCurrentSheet();
-    if (!sheet || !sheet.headers) return;
-    container.style.display = 'flex';
-    var html = '';
-    sheet.headers.forEach(function(col){
-      var safeId = 'vizBatchChk-' + col.replace(/[^a-zA-Z0-9_-]/g, '_');
-      html += '<label style="font-size:11px;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;gap:2px">' +
-        '<input type="checkbox" class="viz-batch-chk" data-col="' + col.replace(/"/g,'&quot;') + '" id="' + safeId + '" checked> ' + escapeHtml(col) +
-      '</label>';
-    });
-    container.innerHTML = html;
-  } else {
-    container.style.display = 'none';
-  }
+function showBatchGraphModal() {
+  var sheet = getCurrentSheet();
+  if (!sheet || !sheet.headers || !sheet.headers.length) { showToast('No hay datos cargados'); return; }
+  var modal = document.createElement('div'); modal.className = 'modal-overlay';
+  var colOpts = '<option value="">— Seleccionar —</option>';
+  sheet.headers.forEach(function(c){ colOpts += '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; });
+  var colChkHtml = sheet.headers.map(function(col){
+    var safeId = 'vizModalChk-' + col.replace(/[^a-zA-Z0-9_-]/g, '_');
+    return '<label style="font-size:11px;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;gap:2px;padding:2px 0">' +
+      '<input type="checkbox" class="viz-modal-batch-chk" data-col="' + col.replace(/"/g,'&quot;') + '" id="' + safeId + '" checked> ' + escapeHtml(col) +
+    '</label>';
+  }).join('');
+  modal.innerHTML = '<div class="modal-box" style="min-width:420px">' +
+    '<div class="modal-title">🔁 Generar múltiples gráficos</div>' +
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0">' +
+      '<div class="modal-row"><span class="modal-label">Tipo</span>' +
+        '<select id="vizModalType" class="modal-select" style="min-width:120px">' +
+          '<option value="histogram">▦ Histograma</option>' +
+          '<option value="bar">📊 Barras</option>' +
+          '<option value="line">📈 Líneas</option>' +
+          '<option value="area">📉 Área</option>' +
+          '<option value="scatter">⬡ Dispersión</option>' +
+        '</select></div>' +
+      '<div class="modal-row" id="vizModalXRow"><span class="modal-label">Eje X</span>' +
+        '<select id="vizModalColX" class="modal-select" style="min-width:120px">' + colOpts + '</select></div>' +
+    '</div>' +
+    '<div style="font-size:11px;color:var(--text-faint);margin:4px 0 2px">Columnas a graficar (como Y para no-histograma):</div>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:4px 12px;max-height:200px;overflow-y:auto;padding:4px 0">' + colChkHtml + '</div>' +
+    '<div class="modal-actions" style="margin-top:10px">' +
+      '<button class="btn btn-secondary" id="vizModalCancel">Cancelar</button>' +
+      '<button class="btn btn-primary" id="vizModalGenerate">🎨 Generar</button>' +
+    '</div></div>';
+  document.body.appendChild(modal);
+  document.getElementById('vizModalCancel').onclick = function(){ modal.remove(); };
+  document.getElementById('vizModalGenerate').onclick = function(){
+    var type = document.getElementById('vizModalType').value;
+    var colX = document.getElementById('vizModalColX').value;
+    var checkboxes = document.querySelectorAll('.viz-modal-batch-chk:checked');
+    var selected = [].filter.call(checkboxes, function(cb){ return cb.checked; }).map(function(cb){ return cb.dataset.col; });
+    if (!selected.length) { showToast('Selecciona al menos una columna'); return; }
+    if (type !== 'histogram' && !colX) { showToast('Selecciona Eje X'); return; }
+    modal.remove();
+    loadPage('visualizacion');
+    setTimeout(function(){
+      vizBatchRenderFromModal(type, colX, selected);
+    }, 100);
+  };
+  modal.onclick = function(e){ if (e.target === modal) modal.remove(); };
+  // Mostrar/ocultar Eje X según tipo
+  document.getElementById('vizModalType').onchange = function(){
+    document.getElementById('vizModalXRow').style.display = this.value === 'histogram' ? 'none' : 'flex';
+  };
+  document.getElementById('vizModalType').dispatchEvent(new Event('change'));
 }
 
-function vizBatchRender() {
+function vizBatchRenderFromModal(type, colX, selectedCols) {
   var sheet = getCurrentSheet();
   if (!sheet) { showToast('No hay datos cargados'); return; }
-  var type = _vizSelectedType || 'bar';
-  var checkboxes = document.querySelectorAll('.viz-batch-chk:checked');
-  if (!checkboxes.length) { showToast('Selecciona al menos una columna'); return; }
   var container = document.getElementById('vizCardsContainer');
   if (!container) return;
+  if (document.getElementById('vizCardsContainer')) {
+    _vizSelectedType = type;
+  }
   var count = 0;
-  var skipMsg = '';
-
-  if (type === 'histogram') {
-    checkboxes.forEach(function(cb){
-      var col = cb.dataset.col;
-      if (!col || !sheet.headers.includes(col)) return;
+  selectedCols.forEach(function(col){
+    if (!col || !sheet.headers.includes(col)) return;
+    if (type === 'histogram') {
       renderHistogramCard(sheet, col, container);
       count++;
-    });
-  } else if (type === 'pie' || type === 'doughnut' || type === 'polarArea' || type === 'radar' || type === 'bubble') {
-    showToast('Batch no soportado para ' + vizTypeName(type) + '. Usa histograma, barras, líneas o dispersión.');
-    return;
-  } else {
-    var colX = document.getElementById('vizColX').value;
-    if (!colX) { showToast('Selecciona Eje X para batch con ' + vizTypeName(type)); return; }
-    if (type === 'scatter') {
-      checkboxes.forEach(function(cb){
-        var col = cb.dataset.col;
-        if (!col || !sheet.headers.includes(col) || col === colX) return;
-        renderScatterCard(sheet, colX, col, container);
-        count++;
-      });
+    } else if (type === 'scatter') {
+      if (col === colX) return;
+      renderScatterCard(sheet, colX, col, container);
+      count++;
     } else {
-      checkboxes.forEach(function(cb){
-        var col = cb.dataset.col;
-        if (!col || !sheet.headers.includes(col) || col === colX) return;
-        renderBarLineCard(sheet, type, colX, col, container);
-        count++;
-      });
+      if (col === colX) return;
+      renderBarLineCard(sheet, type, colX, col, container);
+      count++;
     }
-  }
+  });
   if (count > 0) {
     showToast('✅ ' + count + ' gráfico(s) generado(s)');
     vizSaveCards();
@@ -1098,8 +1111,6 @@ function vizRemoveCard(id) {
 }
 
 function vizRenderChart() {
-  var toggle = document.getElementById('vizBatchToggle');
-  if (toggle && toggle.checked) { vizBatchRender(); return; }
   var type = _vizSelectedType || 'bar';
   var colX = document.getElementById('vizColX').value;
   var colY = document.getElementById('vizColY').value;

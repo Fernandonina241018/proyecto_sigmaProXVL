@@ -1,7 +1,7 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
 **Fecha de Análisis:** 17 de Mayo 2026  
-**Última Actualización:** 19 de Mayo 2026 (Feat: Multi-gráfico batch en Visualización)  
+**Última Actualización:** 19 de Mayo 2026 (Refactor: Batch gráficos en menú superior Gráficos + modal)  
 **Versión del Proyecto:** 3.1  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
 **Estado General:** MVP Funcional (~95% Completo)
@@ -100,6 +100,7 @@
 | 43 | 18 May 2026 | Feat: Convertir sección Hojas a dropdown select — reemplaza lista vertical de sheets por `<select>` nativo + botones ＋/×. Ahorro vertical: ~100% del espacio dinámico (ya no usa flex:1). indexx.js: getSheetsOptionsHTML() + template. indexx.css: ~5 líneas | ✅ |
 | 44 | 18 May 2026 | Feat: Límites de especificación del sidebar ahora se cargan en reportes HTML y TXT — getLimits(col) consultado desde ReporteManager.js, muestra LS/LI/LC + conteo dentro/fuera por columna. ReporteManager.js: ~80 líneas nuevas en generarTXT y statsRows | ✅ |
 | 45 | 19 May 2026 | Feat: Multi-gráfico batch en Visualización — toggle "🔁 Generar múltiples" muestra checkboxes de columnas; Renderizar genera N gráficos (uno por columna seleccionada). Compatible con histograma, barras, líneas, dispersión, área. indexx.js: ~80 líneas (vizToggleBatch, vizBatchRender) | ✅ |
+| 46 | 19 May 2026 | Refactor: Multi-gráfico movido a menú superior "Gráficos > Generar múltiples gráficos 🔁" — modal con tipo, X opcional, checkboxes de columnas. Eliminado toggle inline de la página Visualización. indexx.html: Gráficos Settings → menú real Gráficos. indexx.js: showBatchGraphModal() + vizBatchRenderFromModal() | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
