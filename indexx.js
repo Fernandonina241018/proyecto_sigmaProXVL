@@ -225,9 +225,9 @@ var leftPanels = {
       '<div class="info-section" style="flex-shrink:0">' +
         '<div class="info-section-header" style="display:flex;justify-content:space-between;align-items:center;padding:4px 10px"><span>Hojas</span></div>' +
         '<div style="padding:3px 6px 5px;display:flex;gap:4px;align-items:center">' +
-          '<select id="sheetsSelect" class="sheets-select" onchange="switchToSheet(parseInt(this.value))" style="flex:1;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px">' + getSheetsOptionsHTML() + '</select>' +
-          (trabajoSheets.length > 1 ? '<button class="sheets-del-btn" onclick="deleteSheet(' + trabajoActiveSheetIndex + ',event)" title="Eliminar hoja" style="background:none;border:none;cursor:pointer;color:var(--text-faint);font-size:13px;line-height:1;padding:0 2px">×</button>' : '') +
-          '<button class="sheets-add-btn" onclick="createNewSheet()" title="Nueva hoja" style="background:none;border:none;cursor:pointer;color:var(--accent);font-size:15px;line-height:1;padding:0 2px">＋</button>' +
+          '<select id="sheetsSelect" class="sheets-select" onchange="switchToSheet(parseInt(this.value))" style="flex:1;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px">' + getSheetsOptionsHTML() + '</select>' +
+          (trabajoSheets.length > 1 ? '<button class="sheets-del-btn" onclick="deleteSheet(' + trabajoActiveSheetIndex + ',event)" title="Eliminar hoja" style="background:none;border:none;cursor:pointer;color:var(--text-faint);font-size:20px;line-height:1;padding:0 2px">×</button>' : '') +
+          '<button class="sheets-add-btn" onclick="createNewSheet()" title="Nueva hoja" style="background:none;border:none;cursor:pointer;color:var(--accent);font-size:20px;line-height:1;padding:0 2px">＋</button>' +
         '</div>' +
       '</div>' +
       '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">Resumen</div><div class="info-list" id="trabajoResumen">' + getTrabajoResumenHTML() + '</div></div>' +
@@ -553,6 +553,11 @@ var rightPanels = {
         '</div>' +
         '<button class="btn btn-primary" id="vizRenderBtn" style="font-size:12px">🎨 Renderizar</button>' +
         '<button class="btn btn-secondary" onclick="loadPage(\'reportes\')" style="font-size:12px;margin-left:auto">📄 Reportes</button>' +
+        '<div style="display:flex;gap:8px;align-items:center;width:100%;flex-wrap:wrap;padding-top:4px;border-top:1px solid var(--border)">' +
+          '<label style="font-size:12px;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;gap:4px">' +
+            '<input type="checkbox" id="vizBatchToggle" onchange="vizToggleBatch()"> 🔁 Generar múltiples</label>' +
+          '<div id="vizBatchCols" style="display:none;gap:4px;flex-wrap:wrap;width:100%"></div>' +
+        '</div>' +
       '</div>' +
     '</div>' +
     '<div id="vizCardsContainer" style="display:flex;flex-direction:column;gap:10px"></div>' +
@@ -928,6 +933,78 @@ function vizGetAllYColumns() {
   return cols;
 }
 
+// ════════════════════════════════════════════════════════════════
+// VISUALIZACIÓN — BATCH (multi-gráfico)
+// ════════════════════════════════════════════════════════════════
+function vizToggleBatch() {
+  var toggle = document.getElementById('vizBatchToggle');
+  var container = document.getElementById('vizBatchCols');
+  if (!toggle || !container) return;
+  if (toggle.checked) {
+    var sheet = getCurrentSheet();
+    if (!sheet || !sheet.headers) return;
+    container.style.display = 'flex';
+    var html = '';
+    sheet.headers.forEach(function(col){
+      var safeId = 'vizBatchChk-' + col.replace(/[^a-zA-Z0-9_-]/g, '_');
+      html += '<label style="font-size:11px;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;gap:2px">' +
+        '<input type="checkbox" class="viz-batch-chk" data-col="' + col.replace(/"/g,'&quot;') + '" id="' + safeId + '" checked> ' + escapeHtml(col) +
+      '</label>';
+    });
+    container.innerHTML = html;
+  } else {
+    container.style.display = 'none';
+  }
+}
+
+function vizBatchRender() {
+  var sheet = getCurrentSheet();
+  if (!sheet) { showToast('No hay datos cargados'); return; }
+  var type = _vizSelectedType || 'bar';
+  var checkboxes = document.querySelectorAll('.viz-batch-chk:checked');
+  if (!checkboxes.length) { showToast('Selecciona al menos una columna'); return; }
+  var container = document.getElementById('vizCardsContainer');
+  if (!container) return;
+  var count = 0;
+  var skipMsg = '';
+
+  if (type === 'histogram') {
+    checkboxes.forEach(function(cb){
+      var col = cb.dataset.col;
+      if (!col || !sheet.headers.includes(col)) return;
+      renderHistogramCard(sheet, col, container);
+      count++;
+    });
+  } else if (type === 'pie' || type === 'doughnut' || type === 'polarArea' || type === 'radar' || type === 'bubble') {
+    showToast('Batch no soportado para ' + vizTypeName(type) + '. Usa histograma, barras, líneas o dispersión.');
+    return;
+  } else {
+    var colX = document.getElementById('vizColX').value;
+    if (!colX) { showToast('Selecciona Eje X para batch con ' + vizTypeName(type)); return; }
+    if (type === 'scatter') {
+      checkboxes.forEach(function(cb){
+        var col = cb.dataset.col;
+        if (!col || !sheet.headers.includes(col) || col === colX) return;
+        renderScatterCard(sheet, colX, col, container);
+        count++;
+      });
+    } else {
+      checkboxes.forEach(function(cb){
+        var col = cb.dataset.col;
+        if (!col || !sheet.headers.includes(col) || col === colX) return;
+        renderBarLineCard(sheet, type, colX, col, container);
+        count++;
+      });
+    }
+  }
+  if (count > 0) {
+    showToast('✅ ' + count + ' gráfico(s) generado(s)');
+    vizSaveCards();
+  } else {
+    showToast('No se generaron gráficos. Revisa las columnas seleccionadas.');
+  }
+}
+
 function vizGetMultiSeriesData(sheet, colX, yCols) {
   var xi = sheet.headers.indexOf(colX);
   if (xi < 0) return { labels: [], datasets: [] };
@@ -1021,6 +1098,8 @@ function vizRemoveCard(id) {
 }
 
 function vizRenderChart() {
+  var toggle = document.getElementById('vizBatchToggle');
+  if (toggle && toggle.checked) { vizBatchRender(); return; }
   var type = _vizSelectedType || 'bar';
   var colX = document.getElementById('vizColX').value;
   var colY = document.getElementById('vizColY').value;

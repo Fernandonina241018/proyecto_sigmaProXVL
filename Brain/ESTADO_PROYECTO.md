@@ -1,7 +1,7 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
 **Fecha de Análisis:** 17 de Mayo 2026  
-**Última Actualización:** 18 de Mayo 2026 (Feat: Panel de Límites en sidebar de trabajo + iconos mapeados + Normal/Ampliar/Limpiar datos)  
+**Última Actualización:** 19 de Mayo 2026 (Feat: Multi-gráfico batch en Visualización)  
 **Versión del Proyecto:** 3.1  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
 **Estado General:** MVP Funcional (~95% Completo)
@@ -99,6 +99,7 @@
 | 42 | 18 May 2026 | Fix: Compactar sección Hojas en sidebar de trabajo — CSS con :has(#trabajoSheetsList), header 8→4px, items 6→3px padding, font-size 12→10px, gap 3→1px. indexx.css: ~3 líneas nuevas | ✅ |
 | 43 | 18 May 2026 | Feat: Convertir sección Hojas a dropdown select — reemplaza lista vertical de sheets por `<select>` nativo + botones ＋/×. Ahorro vertical: ~100% del espacio dinámico (ya no usa flex:1). indexx.js: getSheetsOptionsHTML() + template. indexx.css: ~5 líneas | ✅ |
 | 44 | 18 May 2026 | Feat: Límites de especificación del sidebar ahora se cargan en reportes HTML y TXT — getLimits(col) consultado desde ReporteManager.js, muestra LS/LI/LC + conteo dentro/fuera por columna. ReporteManager.js: ~80 líneas nuevas en generarTXT y statsRows | ✅ |
+| 45 | 19 May 2026 | Feat: Multi-gráfico batch en Visualización — toggle "🔁 Generar múltiples" muestra checkboxes de columnas; Renderizar genera N gráficos (uno por columna seleccionada). Compatible con histograma, barras, líneas, dispersión, área. indexx.js: ~80 líneas (vizToggleBatch, vizBatchRender) | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
