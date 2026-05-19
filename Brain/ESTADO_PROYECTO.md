@@ -98,6 +98,7 @@
 | 41 | 18 May 2026 | Fix: Layout roto en sidebar de trabajo — `</div>` prematuro en línea 225 cerraba `.left-panel` antes de HOJAS/Resumen/Celda/Límites, dejando esas secciones fuera del contenedor flex. Eliminado `</div>` extra. Severidad 🔴 | ✅ |
 | 42 | 18 May 2026 | Fix: Compactar sección Hojas en sidebar de trabajo — CSS con :has(#trabajoSheetsList), header 8→4px, items 6→3px padding, font-size 12→10px, gap 3→1px. indexx.css: ~3 líneas nuevas | ✅ |
 | 43 | 18 May 2026 | Feat: Convertir sección Hojas a dropdown select — reemplaza lista vertical de sheets por `<select>` nativo + botones ＋/×. Ahorro vertical: ~100% del espacio dinámico (ya no usa flex:1). indexx.js: getSheetsOptionsHTML() + template. indexx.css: ~5 líneas | ✅ |
+| 44 | 18 May 2026 | Feat: Límites de especificación del sidebar ahora se cargan en reportes HTML y TXT — getLimits(col) consultado desde ReporteManager.js, muestra LS/LI/LC + conteo dentro/fuera por columna. ReporteManager.js: ~80 líneas nuevas en generarTXT y statsRows | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 

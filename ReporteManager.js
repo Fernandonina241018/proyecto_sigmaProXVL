@@ -788,6 +788,38 @@ const ReporteManager = (() => {
             }
 
              if(ext[col].flags.length){p('');p(`  ⚠  ${t('flagsLabel')}:`);ext[col].flags.forEach(f=>p(`     ${f}`));}
+
+             // ── Límites de especificación definidos por usuario ──
+             if (typeof getLimits === 'function') {
+                 var limits = getLimits(col);
+                 if (limits && (limits.ls !== null || limits.li !== null)) {
+                     var sheet = typeof getCurrentSheet === 'function' ? getCurrentSheet() : null;
+                     var colIdx = sheet ? sheet.headers.indexOf(col) : -1;
+                     var vals = [];
+                     if (colIdx >= 0) {
+                         sheet.rows.forEach(function(r){
+                             var v = parseFloat(r[colIdx]);
+                             if (!isNaN(v)) vals.push(v);
+                         });
+                     }
+                     var within = 0, outside = 0;
+                     vals.forEach(function(v){
+                         var ok = true;
+                         if (limits.ls !== null && v > limits.ls) ok = false;
+                         if (limits.li !== null && v < limits.li) ok = false;
+                         if (ok) within++; else outside++;
+                     });
+                     var total = within + outside;
+                     p('');
+                     p(`  ─── Especificaciones del usuario ───`);
+                     p(`    LS=${limits.ls !== null ? limits.ls.toFixed(4) : '—'}  |  LI=${limits.li !== null ? limits.li.toFixed(4) : '—'}${limits.lc !== null ? '  |  LC='+limits.lc.toFixed(4) : ''}`);
+                     if (total > 0) {
+                         var pctW = (within/total*100).toFixed(1);
+                         var pctO = (outside/total*100).toFixed(1);
+                         p(`    Dentro: ${within}/${total} (${pctW}%)  |  Fuera: ${outside}/${total} (${pctO}%)`);
+                     }
+                 }
+             }
              p('');
 
 
@@ -1214,6 +1246,43 @@ const ReporteManager = (() => {
                 if (p_.esp !== null) h += `<tr><td style="padding-left:26px;color:#555">· Esperanza</td><td style="font-family:monospace;text-align:right;color:#3730a3;font-weight:500">${p_.esp}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">Definido por usuario</td></tr>`;
                 h += `<tr><td style="padding-left:26px;color:#555">· Fuera de rango</td><td style="font-family:monospace;text-align:right;font-weight:600;color:${pv.fueraDeRango > 0 ? '#c53030' : '#276749'}">${pv.fueraDeRango} / ${pv.total}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">valores</td></tr>`;
                 h += `<tr style="background:${cumplBg}"><td style="padding-left:26px;color:#555;font-weight:600">· Cumplimiento</td><td style="font-family:monospace;text-align:right;font-weight:700;color:${cumplColor}">${pv.porcentajeCumplimiento}%</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">Media real: ${pv.mediaReal !== null ? Number(pv.mediaReal).toFixed(4) : '—'}</td></tr>`;
+            }
+            // ── Límites de especificación del usuario (desde sidebar) ──
+            if (typeof getLimits === 'function') {
+                var limits = getLimits(col);
+                if (limits && (limits.ls !== null || limits.li !== null)) {
+                    var sheet = typeof getCurrentSheet === 'function' ? getCurrentSheet() : null;
+                    var colIdx = sheet ? sheet.headers.indexOf(col) : -1;
+                    var vals = [];
+                    if (colIdx >= 0) {
+                        sheet.rows.forEach(function(r){
+                            var v = parseFloat(r[colIdx]);
+                            if (!isNaN(v)) vals.push(v);
+                        });
+                    }
+                    var within = 0, outside = 0;
+                    vals.forEach(function(v){
+                        var ok = true;
+                        if (limits.ls !== null && v > limits.ls) ok = false;
+                        if (limits.li !== null && v < limits.li) ok = false;
+                        if (ok) within++; else outside++;
+                    });
+                    var total = within + outside;
+                    var lsTxt = limits.ls !== null ? limits.ls.toFixed(4) : '—';
+                    var liTxt = limits.li !== null ? limits.li.toFixed(4) : '—';
+                    var lcTxt = limits.lc !== null ? limits.lc.toFixed(4) : null;
+                    var withinPct = total > 0 ? (within/total*100).toFixed(1) : '—';
+                    var outsidePct = total > 0 ? (outside/total*100).toFixed(1) : '—';
+                    h += '<tr style="background:#f0f4ff"><td colspan="3" style="padding:5px 14px;font-size:8pt;color:#4338ca;font-weight:600;letter-spacing:.5px">📏 ESPECIFICACIONES DEL USUARIO</td></tr>';
+                    h += '<tr><td style="padding-left:26px;color:#555">· LS (Límite Superior)</td><td style="font-family:monospace;text-align:right;color:#4338ca;font-weight:500">' + lsTxt + '</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">Configurado en sidebar</td></tr>';
+                    h += '<tr><td style="padding-left:26px;color:#555">· LI (Límite Inferior)</td><td style="font-family:monospace;text-align:right;color:#4338ca;font-weight:500">' + liTxt + '</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">Configurado en sidebar</td></tr>';
+                    if (lcTxt !== null) h += '<tr><td style="padding-left:26px;color:#555">· LC (Línea Central)</td><td style="font-family:monospace;text-align:right;color:#4338ca;font-weight:500">' + lcTxt + '</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">Target</td></tr>';
+                    if (total > 0) {
+                        var cumplColor2 = parseFloat(outsidePct) <= 5 ? '#276749' : parseFloat(outsidePct) <= 20 ? '#b7791f' : '#c53030';
+                        h += '<tr><td style="padding-left:26px;color:#555">· Dentro de límites</td><td style="font-family:monospace;text-align:right;font-weight:600;color:#276749">' + within + '/' + total + ' (' + withinPct + '%)</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">—</td></tr>';
+                        h += '<tr><td style="padding-left:26px;color:#555">· Fuera de límites</td><td style="font-family:monospace;text-align:right;font-weight:600;color:' + cumplColor2 + '">' + outside + '/' + total + ' (' + outsidePct + '%)</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">—</td></tr>';
+                    }
+                }
             }
             return h;
         }
