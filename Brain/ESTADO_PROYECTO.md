@@ -96,6 +96,7 @@
 | 39 | 18 May 2026 | Fix: Compactar sección Celda activa en sidebar de trabajo — mismo patrón que Resumen: :has(#trabajoCeldaActiva), header 4px 10px, items horizontal con 2px padding, font-size 9/11px. indexx.css: ~5 líneas nuevas | ✅ |
 | 40 | 18 May 2026 | Feat: Convertir botiones de toolbar en sidebar de trabajo a menús dropdown (3 grupos: 📋 Acciones, ✏️ Editar, 👁️ Vista) — reemplaza 12 botones en 6 filas por 3 dropdowns. indexx.js: ~80 líneas (template + toggleDropdown + click-outside listener). indexx.css: ~10 líneas (.tb-dropdown, .dd-menu, .dd-item) | ✅ |
 | 41 | 18 May 2026 | Fix: Layout roto en sidebar de trabajo — `</div>` prematuro en línea 225 cerraba `.left-panel` antes de HOJAS/Resumen/Celda/Límites, dejando esas secciones fuera del contenedor flex. Eliminado `</div>` extra. Severidad 🔴 | ✅ |
+| 42 | 18 May 2026 | Fix: Compactar sección Hojas en sidebar de trabajo — CSS con :has(#trabajoSheetsList), header 8→4px, items 6→3px padding, font-size 12→10px, gap 3→1px. indexx.css: ~3 líneas nuevas | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 

@@ -125,9 +125,13 @@
   .info-section:has(#trabajoCeldaActiva) .info-item { padding: 2px 6px; font-size: 10px; flex:1; }
   .info-section:has(#trabajoCeldaActiva) .info-item-label { font-size: 9px; }
   .info-section:has(#trabajoCeldaActiva) .info-item-value { font-size: 11px; }
+  /* Compactar sección Hojas: mismo patrón */
+  .info-section:has(#trabajoSheetsList) .info-section-header { padding: 4px 10px; font-size: 9px; }
+  .info-section:has(#trabajoSheetsList) #trabajoSheetsList { padding: 2px 4px; gap: 1px; }
+  .info-section:has(#trabajoSheetsList) .sheet-list-item { padding: 3px 6px; font-size: 10px; }
   /* Dropdown toolbar en sidebar de trabajo */
   .tb-dropdown { position:relative; width:100%; }
-  .tb-dropdown .btn-dd { width:100%; justify-content:center; font-size:11px; padding:5px 8px; }
+  .tb-dropdown .btn-dd { width:100%; justify-content:center; font-size:13px; padding:5px 8px; }
   .tb-dropdown .dd-menu { display:none; position:absolute; left:0; right:0; top:100%; z-index:100; background:var(--bg-panel); border:1px solid var(--border); border-radius:8px; padding:4px; box-shadow:0 8px 24px rgba(0,0,0,.4); margin-top:2px; }
   .tb-dropdown .dd-menu.open { display:block; }
   .tb-dropdown .dd-item { padding:5px 8px; border-radius:5px; font-size:11px; cursor:pointer; color:var(--text-primary); transition:background .1s; }
