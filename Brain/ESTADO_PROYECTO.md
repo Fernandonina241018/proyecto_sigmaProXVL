@@ -90,6 +90,7 @@
 | 33 | 17 May 2026 | Feat: Reemplazar menú decorativo "File" por "Proyecto" con 9 acciones reales — Nuevo proyecto, Cargar dataset, Pegar datos, Guardar/Cargar sesión, Exportar CSV/Reporte, Cerrar sesión. Agregada nuevoProyecto() en indexx.js | ✅ |
 | 34 | 18 May 2026 | Feat: Generar datos normales (distribución gaussiana con Box-Muller, parámetros μ/σ/n/columnas configurables) + Ampliar datos (data augmentation con ruido gaussiano escalado al rango de cada columna). Botones en sidebar de datos página Normal 🔢 y Ampliar 📈. indexx.js: ~100 líneas nuevas (generarDatosNormales, ampliarDatos) | ✅ |
 | 35 | 18 May 2026 | Feat: Botón Limpiar dataset 🧹 en sidebar de datos — resetea datosCurrentData a null, restaura hoja de trabajo a 20 filas vacías, actualiza UI sin recargar página. indexx.js: limpiarDataset() | ✅ |
+| 36 | 18 May 2026 | Feat: Mapear iconos decorativos en sidebar (indexx.html:188-195) — 7 nav-items con '??' sincronizados vía JS desde pageIcons (📊📋🔬📈📄🗂️👥). Additivo, sin modificar HTML. indexx.js: sync code post line 597 | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 

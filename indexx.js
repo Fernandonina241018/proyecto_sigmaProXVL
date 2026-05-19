@@ -596,6 +596,12 @@ document.querySelectorAll('.nav-item[data-page]').forEach(function(item){
   item.addEventListener('click', function(){ loadPage(item.dataset.page); });
 });
 
+// Sync sidebar nav icons from pageIcons map
+document.querySelectorAll('.nav-item[data-page] .nav-icon').forEach(function(el){
+  var page = el.closest('.nav-item').dataset.page;
+  if (page && pageIcons[page]) el.textContent = pageIcons[page];
+});
+
 // ════════════════════════════════════════════════════════════════
 // TRABAJO — UNDO/REDO
 // ════════════════════════════════════════════════════════════════
