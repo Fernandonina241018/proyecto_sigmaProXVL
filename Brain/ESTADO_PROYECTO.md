@@ -2,7 +2,7 @@
 
 **Fecha de Análisis:** 17 de Mayo 2026  
 **Última Actualización:** 18 de Mayo 2026 (Feat: Panel de Límites en sidebar de trabajo + iconos mapeados + Normal/Ampliar/Limpiar datos)  
-**Versión del Proyecto:** 3.0  
+**Versión del Proyecto:** 3.1  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
 **Estado General:** MVP Funcional (~95% Completo)
 
@@ -94,6 +94,7 @@
 | 37 | 18 May 2026 | Feat: Panel de Límites 📏 en sidebar de trabajo — modo global (LS/LI/LC únicos) o independiente (por columna numérica). Persistencia vía _persistAllData(). API getLimits(colName) para tests. indexx.js: ~150 líneas (trabajoLimits, renderLimitsPanel, toggleLimitsMode, saveLimitsFromInputs, getLimits) | ✅ |
 | 38 | 18 May 2026 | Fix: Compactar sección Resumen en sidebar de trabajo — CSS con :has(#trabajoResumen) para reducir padding (header 8→4px, items 6→2px), layout horizontal (flex row), font-size reducida (12→10px). indexx.css: ~6 líneas nuevas post line 115 | ✅ |
 | 39 | 18 May 2026 | Fix: Compactar sección Celda activa en sidebar de trabajo — mismo patrón que Resumen: :has(#trabajoCeldaActiva), header 4px 10px, items horizontal con 2px padding, font-size 9/11px. indexx.css: ~5 líneas nuevas | ✅ |
+| 40 | 18 May 2026 | Feat: Convertir botiones de toolbar en sidebar de trabajo a menús dropdown (3 grupos: 📋 Acciones, ✏️ Editar, 👁️ Vista) — reemplaza 12 botones en 6 filas por 3 dropdowns. indexx.js: ~80 líneas (template + toggleDropdown + click-outside listener). indexx.css: ~10 líneas (.tb-dropdown, .dd-menu, .dd-item) | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 

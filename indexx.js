@@ -193,28 +193,35 @@ var rightPaneBody  = document.getElementById('rightPaneBody');
 var leftPanels = {
   trabajo: function() {
     return '<div class="left-panel" style="gap:10px">' +
-      '<div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">' +
-        '<button class="btn btn-primary" style="width:100%;justify-content:center" onclick="generateSampleData()">🔄 Generar datos</button>' +
-        '<div style="display:flex;gap:6px">' +
-          '<button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px" onclick="exportTrabajo()">💾 Exportar CSV</button>' +
-          '<button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px" onclick="clearCurrentSheet()">🗑️ Limpiar</button>' +
+      '<div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0">' +
+        '<div class="tb-dropdown">' +
+          '<button class="btn btn-primary btn-dd" onclick="toggleDropdown(this)">📋 Acciones ▾</button>' +
+          '<div class="dd-menu">' +
+            '<div class="dd-item" onclick="generateSampleData()">🔄 Generar datos</div>' +
+            '<div class="dd-item" onclick="exportTrabajo()">💾 Exportar CSV</div>' +
+            '<div class="dd-item" onclick="clearCurrentSheet()">🗑️ Limpiar hoja</div>' +
+          '</div>' +
         '</div>' +
-        '<div style="display:flex;gap:6px">' +
-          '<button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px" onclick="addRow()">+ Fila</button>' +
-          '<button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px" onclick="addColumn()">+ Columna</button>' +
+        '<div class="tb-dropdown">' +
+          '<button class="btn btn-secondary btn-dd" onclick="toggleDropdown(this)">✏️ Editar ▾</button>' +
+          '<div class="dd-menu">' +
+            '<div class="dd-item" onclick="addRow()">➕ Fila</div>' +
+            '<div class="dd-item" onclick="addColumn()">➕ Columna</div>' +
+            '<div class="dd-item" onclick="deleteActiveRow()">➖ Fila</div>' +
+            '<div class="dd-item" onclick="deleteActiveColumn()">➖ Columna</div>' +
+            '<div class="dd-divider"></div>' +
+            '<div class="dd-item" onclick="undoAction()">↩ Deshacer</div>' +
+            '<div class="dd-item" onclick="redoAction()">↪ Rehacer</div>' +
+          '</div>' +
         '</div>' +
-        '<div style="display:flex;gap:6px">' +
-          '<button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px" onclick="deleteActiveRow()">– Fila</button>' +
-          '<button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px" onclick="deleteActiveColumn()">– Columna</button>' +
+        '<div class="tb-dropdown">' +
+          '<button class="btn btn-secondary btn-dd" onclick="toggleDropdown(this)">👁️ Vista ▾</button>' +
+          '<div class="dd-menu">' +
+            '<div class="dd-item" onclick="toggleFreezeCol()" id="ddFreezeCol">' + (trabajoFreezeFirstCol ? '🔒 Col fija ON' : '🔓 Fijar col 1') + '</div>' +
+            '<div class="dd-item" onclick="toggleConditionalFormat()" id="ddCondFormat">' + (trabajoConditionalFormat ? '🎨 CF ON' : '🎨 Formato cond.') + '</div>' +
+          '</div>' +
         '</div>' +
-        '<div style="display:flex;gap:6px">' +
-          '<button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px" onclick="undoAction()">↩ Deshacer</button>' +
-          '<button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px" onclick="redoAction()">↪ Rehacer</button>' +
-        '</div>' +
-        '<div style="display:flex;gap:6px">' +
-          '<button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px" onclick="toggleFreezeCol()">' + (trabajoFreezeFirstCol ? '🔒 Col fija ON' : '🔓 Fijar col 1') + '</button>' +
-          '<button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px" onclick="toggleConditionalFormat()">' + (trabajoConditionalFormat ? '🎨 CF ON' : '🎨 Formato cond.') + '</button>' +
-        '</div>' +
+      '</div>' +
       '</div>' +
       '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column">' +
         '<div class="info-section-header">Hojas</div>' +
@@ -615,6 +622,21 @@ document.querySelectorAll('.nav-item[data-page]').forEach(function(item){
 document.querySelectorAll('.nav-item[data-page] .nav-icon').forEach(function(el){
   var page = el.closest('.nav-item').dataset.page;
   if (page && pageIcons[page]) el.textContent = pageIcons[page];
+});
+
+// ── Dropdown toggle for sidebar toolbar ──
+function toggleDropdown(btn) {
+  var menu = btn.nextElementSibling;
+  if (!menu || !menu.classList.contains('dd-menu')) return;
+  var isOpen = menu.classList.contains('open');
+  // Close all other dropdowns
+  document.querySelectorAll('.tb-dropdown .dd-menu.open').forEach(function(m){ m.classList.remove('open'); });
+  if (!isOpen) menu.classList.add('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.tb-dropdown')) {
+    document.querySelectorAll('.tb-dropdown .dd-menu.open').forEach(function(m){ m.classList.remove('open'); });
+  }
 });
 
 // ════════════════════════════════════════════════════════════════
@@ -1414,10 +1436,10 @@ function renderLimitsPanel() {
   var html = '';
   if (trabajoLimitsMode === 'global') {
     var g = trabajoLimits.global || { ls: '', li: '', lc: '' };
-    html += '<div class="info-item" style="font-size:10px;color:var(--text-muted)">Aplica a todas las columnas</div>' +
-      '<div class="info-item"><div class="info-item-label">LS</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLS" value="' + g.ls + '" style="width:70px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px"></div></div>' +
-      '<div class="info-item"><div class="info-item-label">LI</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLI" value="' + g.li + '" style="width:70px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px"></div></div>' +
-      '<div class="info-item"><div class="info-item-label">LC</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLC" value="' + g.lc + '" style="width:70px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px"></div></div>';
+    html += '<div class="info-item" style="font-size:10px;color:var(--text-muted)"></div>' +
+      '<div class="info-item"><div class="info-item-label">LS</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLS" value="' + g.ls + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px"></div></div>' +
+      '<div class="info-item"><div class="info-item-label">LI</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLI" value="' + g.li + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px"></div></div>' +
+      '<div class="info-item"><div class="info-item-label">LC</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLC" value="' + g.lc + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px"></div></div>';
   } else {
     sheet.headers.forEach(function(h, i){
       var col = trabajoLimits.cols[h] || { ls: '', li: '', lc: '' };
@@ -1430,7 +1452,7 @@ function renderLimitsPanel() {
         '</div></div>';
     });
   }
-  html += '<div style="padding:4px 0"><button class="btn btn-secondary" style="width:100%;font-size:10px;padding:4px;justify-content:center" onclick="saveLimitsFromInputs();showToast(\'✅ Límites guardados\')">💾 Guardar límites</button></div>';
+  html += '<div style="padding:4px 0"><button class="btn btn-secondary" style="width:100%;font-size:12px;padding:4px;justify-content:center" onclick="saveLimitsFromInputs();showToast(\'✅ Límites guardados\')">💾 Guardar límites</button></div>';
   body.innerHTML = html;
 }
 
