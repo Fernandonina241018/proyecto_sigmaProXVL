@@ -230,6 +230,7 @@ var leftPanels = {
       '<div style="display:flex;gap:6px;flex-shrink:0">' +
         '<button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px 4px" onclick="generarDatosNormales()">🔢 Normal</button>' +
         '<button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px 4px" onclick="ampliarDatos()">📈 Ampliar</button>' +
+        '<button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px 4px" onclick="limpiarDataset()">🧹 Limpiar</button>' +
       '</div>' +
       '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column">' +
         '<div class="info-section-header" style="display:flex;justify-content:space-between;align-items:center">' +
@@ -1765,6 +1766,25 @@ function ampliarDatos() {
     showToast('✅ Datos ampliados: ' + n + ' → ' + sheet.rows.length + ' filas');
   });
 }
+
+// ── Limpiar dataset ──
+function limpiarDataset() {
+  if (!datosCurrentData && (!trabajoSheets || trabajoSheets.length === 0 || !trabajoSheets[0].rows.some(function(r){ return r.some(function(c){ return c && c.toString().trim(); }); }))) {
+    showToast('⚠️ No hay datos cargados para limpiar');
+    return;
+  }
+  if (!confirm('¿Limpiar el dataset actual? Se perderán los datos en la hoja de trabajo.')) return;
+  datosCurrentData = null;
+  trabajoSheets = [{ name:'Hoja1', headers:['Columna1','Columna2','Columna3','Columna4'], rows:Array.from({length:20}, function(){ return ['','','','']; }) }];
+  trabajoActiveSheetIndex = 0;
+  trabajoActiveCell = {row:0,col:0};
+  datosFilters = [];
+  updateDatosUI();
+  _persistAllData();
+  loadPage('trabajo');
+  showToast('🧹 Dataset limpiado');
+}
+
 function exportTrabajo() {
   var sheet = getCurrentSheet(); if (!sheet) { alert('No hay datos.'); return; }
   var csv = sheet.headers.join(',') + '\n';
