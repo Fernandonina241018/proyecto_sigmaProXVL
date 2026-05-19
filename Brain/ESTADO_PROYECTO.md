@@ -1,8 +1,8 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
 **Fecha de Análisis:** 17 de Mayo 2026  
-**Última Actualización:** 18 de Mayo 2026 (Feat: Generar datos normales + Ampliar datos + Limpiar dataset)  
-**Versión del Proyecto:** 2.8  
+**Última Actualización:** 18 de Mayo 2026 (Feat: Panel de Límites en sidebar de trabajo + iconos mapeados + Normal/Ampliar/Limpiar datos)  
+**Versión del Proyecto:** 3.0  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
 **Estado General:** MVP Funcional (~95% Completo)
 
@@ -91,6 +91,7 @@
 | 34 | 18 May 2026 | Feat: Generar datos normales (distribución gaussiana con Box-Muller, parámetros μ/σ/n/columnas configurables) + Ampliar datos (data augmentation con ruido gaussiano escalado al rango de cada columna). Botones en sidebar de datos página Normal 🔢 y Ampliar 📈. indexx.js: ~100 líneas nuevas (generarDatosNormales, ampliarDatos) | ✅ |
 | 35 | 18 May 2026 | Feat: Botón Limpiar dataset 🧹 en sidebar de datos — resetea datosCurrentData a null, restaura hoja de trabajo a 20 filas vacías, actualiza UI sin recargar página. indexx.js: limpiarDataset() | ✅ |
 | 36 | 18 May 2026 | Feat: Mapear iconos decorativos en sidebar (indexx.html:188-195) — 7 nav-items con '??' sincronizados vía JS desde pageIcons (📊📋🔬📈📄🗂️👥). Additivo, sin modificar HTML. indexx.js: sync code post line 597 | ✅ |
+| 37 | 18 May 2026 | Feat: Panel de Límites 📏 en sidebar de trabajo — modo global (LS/LI/LC únicos) o independiente (por columna numérica). Persistencia vía _persistAllData(). API getLimits(colName) para tests. indexx.js: ~150 líneas (trabajoLimits, renderLimitsPanel, toggleLimitsMode, saveLimitsFromInputs, getLimits) | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 

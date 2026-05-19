@@ -29,6 +29,7 @@ var _usuariosInited = false;
 function _persistAllData() {
   try {
     localStorage.setItem('sigmaPro_trabajoSheets', JSON.stringify(trabajoSheets));
+    localStorage.setItem('sigmaPro_trabajoLimits', JSON.stringify({ limits: trabajoLimits, mode: trabajoLimitsMode }));
     if (datosCurrentData) {
       localStorage.setItem('sigmaPro_datosCurrentData', JSON.stringify({
         data: datosCurrentData,
@@ -49,6 +50,12 @@ function _restoreAllData() {
       if (Array.isArray(parsed) && parsed.length > 0) {
         trabajoSheets = parsed;
       }
+    }
+    var tl = localStorage.getItem('sigmaPro_trabajoLimits');
+    if (tl) {
+      var parsedTL = JSON.parse(tl);
+      trabajoLimits = parsedTL.limits || null;
+      trabajoLimitsMode = parsedTL.mode || 'global';
     }
     var dcd = localStorage.getItem('sigmaPro_datosCurrentData');
     if (dcd) {
@@ -75,7 +82,9 @@ var datosSortAsc = true;
 var datosFilters = []; // [{col, op, val}]
 var datosFilteredRows = [];
 
-// Autocomplete state
+// Límites (especificaciones) para tests de capacidad
+var trabajoLimits = null;
+var trabajoLimitsMode = 'global';
 var acCurrentCell = null;
 var acItems = [];
 var acIndex = -1;
@@ -213,6 +222,12 @@ var leftPanels = {
       '</div>' +
       '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">Resumen</div><div class="info-list" id="trabajoResumen">' + getTrabajoResumenHTML() + '</div></div>' +
       '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">Celda activa</div><div class="info-list" id="trabajoCeldaActiva">' + getTrabajoCeldaActivaHTML() + '</div></div>' +
+      '<div class="info-section" style="flex-shrink:0" id="trabajoLimitsSection"><div class="info-section-header" style="display:flex;justify-content:space-between;align-items:center">' +
+        '<span>📏 Límites</span>' +
+        '<label style="font-size:10px;color:var(--text-muted);display:flex;align-items:center;gap:4px;cursor:pointer">' +
+          '<input type="checkbox" id="limitsGlobalToggle" ' + (trabajoLimitsMode === 'global' ? 'checked' : '') + ' style="accent-color:var(--accent)" onchange="toggleLimitsMode()"> Global' +
+        '</label>' +
+      '</div><div class="info-list" id="trabajoLimitsBody"></div></div>' +
     '</div>';
   },
   datos: function() {
@@ -564,7 +579,7 @@ function loadPage(name) {
   else rightPaneBody.classList.remove('flush');
 
   if (name === 'datos') { setTimeout(initDatosPage, 60); }
-  if (name === 'trabajo') { initTrabajoKeyboard(); }
+  if (name === 'trabajo') { initTrabajoKeyboard(); setTimeout(renderLimitsPanel, 30); }
   if (name === 'visualizacion') { setTimeout(initVizPage, 60); }
   if (name === 'reportes') { setTimeout(function(){ if (typeof ReporteManager !== 'undefined') ReporteManager.buildReportesView(); }, 60); }
   if (name === 'auditoria') { setTimeout(function() {
@@ -1374,6 +1389,88 @@ function getTrabajoCeldaActivaHTML() {
     '<div class="info-item"><div class="info-item-label">Valor</div><div class="info-item-value" style="font-family:monospace;word-break:break-all">' + escapeHtml(String(val)) + '</div></div>';
 }
 
+// ── Límites (especificaciones) ──
+function toggleLimitsMode() {
+  saveLimitsFromInputs();
+  trabajoLimitsMode = document.getElementById('limitsGlobalToggle').checked ? 'global' : 'independent';
+  renderLimitsPanel();
+  _persistAllData();
+}
+
+function renderLimitsPanel() {
+  var body = document.getElementById('trabajoLimitsBody');
+  if (!body) return;
+  var sheet = getCurrentSheet();
+  if (!sheet || !sheet.headers || sheet.headers.length === 0) {
+    body.innerHTML = '<div class="info-item" style="color:var(--text-faint);font-size:10px">Carga datos para definir límites</div>';
+    return;
+  }
+  if (!trabajoLimits) {
+    trabajoLimits = { global: { ls: '', li: '', lc: '' }, cols: {} };
+    sheet.headers.forEach(function(h){ trabajoLimits.cols[h] = { ls: '', li: '', lc: '' }; });
+  }
+  // Ensure all current columns exist in limits
+  sheet.headers.forEach(function(h){ if (!trabajoLimits.cols[h]) trabajoLimits.cols[h] = { ls: '', li: '', lc: '' }; });
+  var html = '';
+  if (trabajoLimitsMode === 'global') {
+    var g = trabajoLimits.global || { ls: '', li: '', lc: '' };
+    html += '<div class="info-item" style="font-size:10px;color:var(--text-muted)">Aplica a todas las columnas</div>' +
+      '<div class="info-item"><div class="info-item-label">LS</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLS" value="' + g.ls + '" style="width:70px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px"></div></div>' +
+      '<div class="info-item"><div class="info-item-label">LI</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLI" value="' + g.li + '" style="width:70px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px"></div></div>' +
+      '<div class="info-item"><div class="info-item-label">LC</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLC" value="' + g.lc + '" style="width:70px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px"></div></div>';
+  } else {
+    sheet.headers.forEach(function(h, i){
+      var col = trabajoLimits.cols[h] || { ls: '', li: '', lc: '' };
+      html += '<div class="info-item" style="flex-direction:column;align-items:stretch;gap:3px;padding:4px 0;border-bottom:1px solid var(--border)">' +
+        '<div class="info-item-label" style="font-size:10px;margin-bottom:2px">' + escapeHtml(h) + '</div>' +
+        '<div style="display:flex;gap:4px">' +
+          '<input type="number" step="any" placeholder="LS" id="limitLS_' + i + '" value="' + col.ls + '" style="flex:1;min-width:0;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px">' +
+          '<input type="number" step="any" placeholder="LI" id="limitLI_' + i + '" value="' + col.li + '" style="flex:1;min-width:0;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px">' +
+          '<input type="number" step="any" placeholder="LC" id="limitLC_' + i + '" value="' + col.lc + '" style="flex:1;min-width:0;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px">' +
+        '</div></div>';
+    });
+  }
+  html += '<div style="padding:4px 0"><button class="btn btn-secondary" style="width:100%;font-size:10px;padding:4px;justify-content:center" onclick="saveLimitsFromInputs();showToast(\'✅ Límites guardados\')">💾 Guardar límites</button></div>';
+  body.innerHTML = html;
+}
+
+function saveLimitsFromInputs() {
+  if (!trabajoLimits) return;
+  if (trabajoLimitsMode === 'global') {
+    var lsEl = document.getElementById('limitGlobalLS');
+    var liEl = document.getElementById('limitGlobalLI');
+    var lcEl = document.getElementById('limitGlobalLC');
+    if (lsEl) trabajoLimits.global.ls = lsEl.value;
+    if (liEl) trabajoLimits.global.li = liEl.value;
+    if (lcEl) trabajoLimits.global.lc = lcEl.value;
+  } else {
+    var sheet = getCurrentSheet();
+    if (!sheet) return;
+    sheet.headers.forEach(function(h, i){
+      var lsEl = document.getElementById('limitLS_' + i);
+      var liEl = document.getElementById('limitLI_' + i);
+      var lcEl = document.getElementById('limitLC_' + i);
+      if (!trabajoLimits.cols[h]) trabajoLimits.cols[h] = { ls: '', li: '', lc: '' };
+      if (lsEl) trabajoLimits.cols[h].ls = lsEl.value;
+      if (liEl) trabajoLimits.cols[h].li = liEl.value;
+      if (lcEl) trabajoLimits.cols[h].lc = lcEl.value;
+    });
+  }
+  _persistAllData();
+}
+
+function getLimits(colName) {
+  if (!trabajoLimits) return null;
+  if (trabajoLimitsMode === 'global') {
+    var g = trabajoLimits.global;
+    if (g.ls === '' && g.li === '' && g.lc === '') return null;
+    return { ls: g.ls === '' ? null : parseFloat(g.ls), li: g.li === '' ? null : parseFloat(g.li), lc: g.lc === '' ? null : parseFloat(g.lc) };
+  }
+  var col = trabajoLimits.cols[colName];
+  if (!col || (col.ls === '' && col.li === '' && col.lc === '')) return null;
+  return { ls: col.ls === '' ? null : parseFloat(col.ls), li: col.li === '' ? null : parseFloat(col.li), lc: col.lc === '' ? null : parseFloat(col.lc) };
+}
+
 // ════════════════════════════════════════════════════════════════
 // TRABAJO — CELL INTERACTION
 // ════════════════════════════════════════════════════════════════
@@ -1785,6 +1882,8 @@ function limpiarDataset() {
   trabajoActiveSheetIndex = 0;
   trabajoActiveCell = {row:0,col:0};
   datosFilters = [];
+  trabajoLimits = null;
+  trabajoLimitsMode = 'global';
   updateDatosUI();
   _persistAllData();
   loadPage('trabajo');
