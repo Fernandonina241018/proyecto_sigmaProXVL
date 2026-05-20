@@ -1297,10 +1297,10 @@ const ReporteManager = (() => {
         const roleKeys=['prepared','reviewed','approved'];
         const sigBlocks=roleKeys.map((k,i)=>{
             const name=escapeHtml(meta[k+'By']||''), title=escapeHtml(meta[k+'Title']||'—'), date=escapeHtml(formatDate(meta[k+'Date']||''));
-            return `<div style="border:1px solid #e2e8f0;border-radius:6px;padding:14px">
+            return `<div style="border:1px solid #e2e8f0;border-radius:6px;padding:14px" data-signature-role="${k}">
               <div style="font-family:monospace;font-size:7pt;text-transform:uppercase;letter-spacing:1.5px;color:#1a3a6b;margin-bottom:10px;border-bottom:1px solid #e2e8f0;padding-bottom:5px">${roleLabels[i]}</div>
-              ${[[t('name'),name],[t('title'),title||'—'],[t('date'),date]].map(([l,v])=>
-                `<div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">${l}</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:${!v||v==='—'?'#cbd5e0':'#1a202c'};${!v||v==='—'?'font-style:italic':''}">${v||''}</span></div>`).join('')}
+              ${[['name',t('name'),name],['title',t('title'),title||'—'],['date',t('date'),date]].map(([field,label,v])=>
+                `<div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">${label}</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:${!v||v==='—'?'#cbd5e0':'#1a202c'};${!v||v==='—'?'font-style:italic':''}" data-signature-field="${field}" data-signature-role="${k}">${v||''}</span></div>`).join('')}
               <div style="border-top:1px solid #1a202c;margin-top:14px;padding-top:5px;font-size:7pt;color:#718096;font-family:monospace">${t('elecRecord')} · ${REGULATORY.standard}</div>
             </div>`;
         }).join('');
@@ -1880,6 +1880,8 @@ tr:hover td{background:#f7faff}
                     <option value="">— ${currentLang==='es'?'Seleccionar':'Select'} —</option>
                     <option>Laboratorio SUED S.R.L.</option>
                     <option>Laboratorio X</option>
+                    <option>Laboratorio Y</option>
+                    <option>Laboratorio Z</option>
                   </select>
                 </div>
 
@@ -1892,6 +1894,7 @@ tr:hover td{background:#f7faff}
                     <option>Control de Calidad</option>
                     <option>Investigación y Desarrollo</option>
                     <option>Logística</option>
+                    <option>Servicios Generales</option>
                   </select>
                 </div>
 
@@ -1924,9 +1927,17 @@ tr:hover td{background:#f7faff}
                   <label>${t('ui_phase')}</label>
                   <select id="rep-fase">
                     <option value="">— ${currentLang==='es'?'Seleccionar':'Select'} —</option>
-                    <option>DQ</option><option>IQ</option><option>OQ</option><option>PQ</option>
-                    <option>Phase I</option><option>Phase II</option><option>Phase III</option><option>Phase IV</option>
-                    <option>Pre-clinical</option><option>Post-market</option><option>Internal QC</option>
+                    <option>DQ</option>
+                    <option>IQ</option>
+                    <option>OQ</option>
+                    <option>PQ</option>
+                    <option>Phase I</option>
+                    <option>Phase II</option>
+                    <option>Phase III</option>
+                    <option>Phase IV</option>
+                    <option>Pre-clinical</option>
+                    <option>Post-market</option>
+                    <option>Internal QC</option>
                   </select>
                 </div>
 

@@ -339,7 +339,24 @@ var leftPanels = {
   visualizacion: function()  { return '<div class="left-panel" style="gap:10px"><div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px"><button class="btn btn-primary" style="width:100%;justify-content:center">+ Nuevo gráfico</button><div style="display:flex;gap:6px"><button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px">↓ SVG</button><button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px">↓ PNG</button></div></div><div class="info-section"><div class="info-section-header">Tipo de gráfico</div><div class="info-list"><div class="info-item active">📊 Barras</div><div class="info-item">📈 Líneas</div><div class="info-item">⬡ Dispersión</div><div class="info-item">◉ Circular</div><div class="info-item">📦 Caja y bigotes</div><div class="info-item">▦ Histograma</div></div></div></div>'; },
   reportes: function() { return '<div class="left-panel" style="gap:10px"><div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px"><button class="btn btn-primary" style="width:100%;justify-content:center">+ Nuevo reporte</button></div><div class="info-section"><div class="info-section-header">Plantillas</div><div class="info-list"><div class="info-item active">📐 Reporte estándar</div><div class="info-item">📋 Reporte ejecutivo</div><div class="info-item">📊 Resumen estadístico</div></div></div><div class="info-section"><div class="info-section-header">Formato de salida</div><div class="info-list"><div class="info-item active">📄 PDF</div><div class="info-item">📝 DOCX</div><div class="info-item">📊 HTML</div></div></div></div>'; },
   auditoria: function() { return '<div class="left-panel" style="gap:10px"><button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:11px;flex-shrink:0" onclick="if(typeof AuditoriaManager!==\'undefined\')AuditoriaManager.exportarCSV()">📥 Exportar log completo</button><div class="info-section"><div class="info-section-header">Filtros</div><div style="font-size:11px;color:var(--text-faint);padding:8px">Usa los filtros incluidos en el panel de resultados</div></div></div>'; },
-  usuarios: function() { return '<div class="left-panel" style="gap:10px"><div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px"><button class="btn btn-primary" style="width:100%;justify-content:center" onclick="if(typeof UsuariosManager!==\'undefined\')UsuariosManager.abrirModalCrearUsuario()">+ Nuevo usuario</button></div><div class="info-section"><div class="info-section-header">Usuarios</div><div class="usr-toolbar" style="display:flex;flex-direction:column;gap:8px;padding:8px"><input class="usr-search" id="usr-search" type="text" placeholder="🔍 Buscar usuario..." style="padding:8px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:0.82rem;font-family:inherit;color:var(--text-primary);background:var(--bg-panel);outline:none;transition:border-color 0.2s"><div style="display:flex;align-items:center;justify-content:space-between"><div class="usr-count" id="usr-count" style="font-size:0.8rem;color:var(--text-faint)">—</div><button class="usr-btn-refresh" id="usr-btn-refresh" title="Recargar" style="padding:6px 10px;background:var(--item-bg);border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:0.9rem;transition:all 0.2s">🔄</button></div></div></div></div>'; }
+  usuarios: function() { return '<div class="left-panel" style="gap:10px"><div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px"><button class="btn btn-primary" style="width:100%;justify-content:center" onclick="if(typeof UsuariosManager!==\'undefined\')UsuariosManager.abrirModalCrearUsuario()">+ Nuevo usuario</button></div><div class="info-section"><div class="info-section-header">Usuarios</div><div class="usr-toolbar" style="display:flex;flex-direction:column;gap:8px;padding:8px"><input class="usr-search" id="usr-search" type="text" placeholder="🔍 Buscar usuario..." style="padding:8px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:0.82rem;font-family:inherit;color:var(--text-primary);background:var(--bg-panel);outline:none;transition:border-color 0.2s"><div style="display:flex;align-items:center;justify-content:space-between"><div class="usr-count" id="usr-count" style="font-size:0.8rem;color:var(--text-faint)">—</div><button class="usr-btn-refresh" id="usr-btn-refresh" title="Recargar" style="padding:6px 10px;background:var(--item-bg);border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:0.9rem;transition:all 0.2s">🔄</button></div></div></div></div>'; },
+  firmarReporte: function() {
+    return '<div class="left-panel" style="gap:10px">' +
+      '<div class="info-section"><div class="info-section-header">✍️ Firmar Reporte</div>' +
+        '<div class="info-section-body" style="font-size:11px;color:var(--text-faint);padding:8px 12px">Carga un reporte .html generado por StatAnalyzer Pro para revisar y firmar electrónicamente.</div></div>' +
+      '<div class="info-section"><div class="info-section-header">📂 Cargar reporte</div>' +
+        '<div class="info-section-body" style="padding:8px 12px">' +
+          '<div class="upload-zone" id="firmaDropZone" style="border:2px dashed var(--border);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:all .2s">' +
+            '<div style="font-size:28px;margin-bottom:6px">📄</div>' +
+            '<div style="font-size:11px;color:var(--text-muted)">Arrastra un .html aquí<br>o haz clic para seleccionar</div></div>' +
+          '<input type="file" id="firmaFileInput" accept=".html" style="display:none"></div></div>' +
+      '<div id="firmaStatus" style="display:none"></div>' +
+      '<div id="firmaActions" style="display:none;flex-direction:column;gap:8px">' +
+        '<div class="info-section"><div class="info-section-header">📝 Firmas detectadas</div>' +
+          '<div class="info-section-body" id="firmaSignatureEditor" style="padding:8px 12px;display:flex;flex-direction:column;gap:10px"></div></div>' +
+        '<button class="btn btn-primary" id="firmaDownloadBtn" style="width:100%;justify-content:center;font-size:12px">⬇ Descargar reporte firmado</button></div>' +
+    '</div>';
+  }
 };
 
 var rightPanels = {
@@ -559,11 +576,16 @@ var rightPanels = {
   '</div>'; },
   reportes: function() { return '<div class="page-body"><div id="reportes-editor-container"></div></div>'; },
   auditoria: function() { return '<div class="page-body"><div id="auditoria-container" style="width:100%"></div></div>'; },
-  usuarios: function() { return '<div class="page-body"><div id="usuarios-container" style="width:100%"></div></div>'; }
+  usuarios: function() { return '<div class="page-body"><div id="usuarios-container" style="width:100%"></div></div>'; },
+  firmarReporte: function() { return '<div class="page-body" style="display:flex;flex-direction:column;gap:12px;height:100%">' +
+    '<div class="page-card" style="flex:1;display:flex;flex-direction:column;min-height:0">' +
+      '<div class="page-card-header"><span class="page-card-icon">📄</span><span class="page-card-title">Vista previa del reporte</span></div>' +
+      '<div class="page-card-body" id="firmaPreview" style="flex:1;padding:0;overflow:auto;display:flex;align-items:center;justify-content:center;min-height:300px">' +
+        '<div style="color:var(--text-faint);font-size:13px">Carga un reporte .html para previsualizarlo aquí</div></div></div></div>'; }
 };
 
-var pageIcons  = { trabajo:'📋', datos:'📊', analisis:'🔬', visualizacion:'📈', reportes:'📄', auditoria:'📋', usuarios:'👥' };
-var pageTitles = { trabajo:'Hoja de Trabajo', datos:'Gestión de Datos', analisis:'Análisis Estadístico', visualizacion:'Visualización', reportes:'Reportes', auditoria:'Auditoría', usuarios:'Usuarios' };
+var pageIcons  = { trabajo:'📋', datos:'📊', analisis:'🔬', visualizacion:'📈', reportes:'📄', firmarReporte:'✍️', auditoria:'📋', usuarios:'👥' };
+var pageTitles = { trabajo:'Hoja de Trabajo', datos:'Gestión de Datos', analisis:'Análisis Estadístico', visualizacion:'Visualización', reportes:'Reportes', firmarReporte:'Firmar Reporte', auditoria:'Auditoría', usuarios:'Usuarios' };
 
 function loadPage(name) {
   currentPage = name;
@@ -600,6 +622,7 @@ function loadPage(name) {
     if (!_usuariosInited && typeof UsuariosManager !== 'undefined') { UsuariosManager.init(API_URL); _usuariosInited = true; }
     if (typeof UsuariosManager !== 'undefined') UsuariosManager.buildView();
   }, 60); }
+  if (name === 'firmarReporte') { setTimeout(initFirmarReportePage, 60); }
   updateToolsMenuState();
 }
 
@@ -3076,6 +3099,183 @@ function _initIndexxApp() {
     }
   });
 }
+// ════════════════════════════════════════════════════════════════
+// FIRMAR REPORTE — Cargar .html, editar firmas, descargar
+// ════════════════════════════════════════════════════════════════
+var _firmaCurrentDoc = null;
+var _firmaCurrentHtml = '';
+var _firmaSignatureData = null;
+
+function initFirmarReportePage() {
+  _firmaCurrentDoc = null;
+  _firmaCurrentHtml = '';
+  _firmaSignatureData = null;
+
+  var dropZone = document.getElementById('firmaDropZone');
+  var fileInput = document.getElementById('firmaFileInput');
+  var preview = document.getElementById('firmaPreview');
+  var status = document.getElementById('firmaStatus');
+  var actions = document.getElementById('firmaActions');
+
+  if (!dropZone || !fileInput || !preview) return;
+
+  // Reset UI
+  if (preview) preview.innerHTML = '<div style="color:var(--text-faint);font-size:13px">Carga un reporte .html para previsualizarlo aquí</div>';
+  if (status) { status.style.display = 'none'; status.innerHTML = ''; }
+  if (actions) { actions.style.display = 'none'; }
+
+  dropZone.onclick = function(){ fileInput.click(); };
+
+  dropZone.ondragover = function(e){ e.preventDefault(); dropZone.style.borderColor = 'var(--accent)'; dropZone.style.background = 'rgba(92,107,192,0.1)'; };
+  dropZone.ondragleave = function(){ dropZone.style.borderColor = 'var(--border)'; dropZone.style.background = 'transparent'; };
+  dropZone.ondrop = function(e){ e.preventDefault(); dropZone.style.borderColor = 'var(--border)'; dropZone.style.background = 'transparent'; if (e.dataTransfer.files.length) firmaHandleFile(e.dataTransfer.files[0]); };
+
+  fileInput.onchange = function(){ if (fileInput.files.length) firmaHandleFile(fileInput.files[0]); fileInput.value = ''; };
+
+  var downloadBtn = document.getElementById('firmaDownloadBtn');
+  if (downloadBtn) downloadBtn.onclick = firmaDownload;
+}
+
+function firmaHandleFile(file) {
+  if (!file || !file.name.toLowerCase().endsWith('.html')) {
+    showToast('Selecciona un archivo .html válido');
+    return;
+  }
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var html = e.target.result;
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(html, 'text/html');
+    var sigBlocks = doc.querySelectorAll('[data-signature-role]');
+
+    if (!sigBlocks.length) {
+      showToast('Este reporte no contiene firmas detectables. Usa la versión más reciente de StatAnalyzer Pro.');
+      return;
+    }
+
+    _firmaCurrentDoc = doc;
+    _firmaCurrentHtml = html;
+
+    // Render preview in iframe
+    var preview = document.getElementById('firmaPreview');
+    if (preview) {
+      preview.innerHTML = '<iframe srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
+    }
+
+    // Extract signature data
+    _firmaSignatureData = [];
+    sigBlocks.forEach(function(block){
+      var role = block.getAttribute('data-signature-role');
+      var roleLabel = block.querySelector('div:first-child')?.textContent || role;
+      var fields = {};
+      block.querySelectorAll('[data-signature-field]').forEach(function(el){
+        var field = el.getAttribute('data-signature-field');
+        fields[field] = el.textContent;
+      });
+      _firmaSignatureData.push({ role: role, label: roleLabel, fields: fields });
+    });
+
+    firmaRenderEditor();
+
+    var status = document.getElementById('firmaStatus');
+    if (status) {
+      status.style.display = 'block';
+      status.innerHTML = '<div style="font-size:11px;color:var(--accent);padding:8px 12px">✅ Reporte cargado: ' + escapeHtml(file.name) + ' (' + _firmaSignatureData.length + ' firma(s) detectada(s))</div>';
+    }
+
+    var actions = document.getElementById('firmaActions');
+    if (actions) actions.style.display = 'flex';
+
+    showToast('Reporte cargado: ' + _firmaSignatureData.length + ' firmas detectadas');
+  };
+  reader.readAsText(file);
+}
+
+function firmaRenderEditor() {
+  var editor = document.getElementById('firmaSignatureEditor');
+  if (!editor || !_firmaSignatureData) return;
+  editor.innerHTML = '';
+
+  _firmaSignatureData.forEach(function(sd){
+    var card = document.createElement('div');
+    card.style.cssText = 'border:1px solid var(--border);border-radius:6px;overflow:hidden';
+
+    var header = document.createElement('div');
+    header.style.cssText = 'padding:6px 10px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border)';
+    header.textContent = sd.label;
+    card.appendChild(header);
+
+    var body = document.createElement('div');
+    body.style.cssText = 'padding:8px 10px;display:flex;flex-direction:column;gap:6px';
+
+    var fieldKeys = ['name', 'title', 'date'];
+    var fieldLabels = { name: 'Nombre', title: 'Cargo', date: 'Fecha' };
+
+    fieldKeys.forEach(function(fk){
+      var row = document.createElement('div');
+      row.style.cssText = 'display:flex;flex-direction:column;gap:2px';
+
+      var label = document.createElement('span');
+      label.style.cssText = 'font-size:9px;color:var(--text-faint);text-transform:uppercase';
+      label.textContent = fieldLabels[fk];
+      row.appendChild(label);
+
+      var input = document.createElement('input');
+      input.type = fk === 'date' ? 'date' : 'text';
+      input.value = sd.fields[fk] || '';
+      input.placeholder = fk === 'date' ? 'yyyy-mm-dd' : '—';
+      input.style.cssText = 'background:var(--bg-primary);border:1px solid var(--border);border-radius:4px;padding:4px 6px;font-size:11px;color:var(--text-primary);outline:none;width:100%';
+      input.dataset.sigRole = sd.role;
+      input.dataset.sigField = fk;
+
+      input.oninput = function(){ firmaUpdatePreview(this.dataset.sigRole, this.dataset.sigField, this.value); };
+
+      row.appendChild(input);
+      body.appendChild(row);
+    });
+
+    card.appendChild(body);
+    editor.appendChild(card);
+  });
+}
+
+function firmaUpdatePreview(role, field, value) {
+  if (!_firmaCurrentDoc) return;
+  var el = _firmaCurrentDoc.querySelector('[data-signature-role="' + role + '"] [data-signature-field="' + field + '"]');
+  if (el) {
+    el.textContent = value || '';
+    // Update iframe
+    var preview = document.getElementById('firmaPreview');
+    if (preview) {
+      var iframe = preview.querySelector('iframe');
+      if (iframe) {
+        var newHtml = '<!DOCTYPE html>\n' + _firmaCurrentDoc.documentElement.outerHTML;
+        iframe.srcdoc = newHtml;
+      }
+    }
+  }
+}
+
+function firmaDownload() {
+  if (!_firmaCurrentDoc) { showToast('No hay reporte cargado'); return; }
+  try {
+    var html = '<!DOCTYPE html>\n' + _firmaCurrentDoc.documentElement.outerHTML;
+    var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'reporte_firmado.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('✅ Reporte firmado descargado');
+  } catch(e) {
+    showToast('Error al descargar: ' + e.message);
+  }
+}
+// ════════════════════════════════════════════════════════════════
+
 buildStatAnalysisMenu();
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', _initIndexxApp);
