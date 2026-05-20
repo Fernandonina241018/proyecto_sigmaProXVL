@@ -2759,8 +2759,9 @@ function _mostrarModalConfigTest(nombre, callback) {
   var tipos = _detectColTypes(data.headers, data.data);
   if (tipos.numCols.length === 0) { showToast('⚠️ No hay columnas numéricas disponibles'); callback(); return; }
   var t = cfg.inputs && cfg.inputs.tipo;
-  var necesitaCat = t === 'tabla-contingencia' || t === 'dos-columnas';
+  var necesitaCat = t === 'tabla-contingencia' || t === 'dos-columnas' || t === 'dos-grupos' || t === 'una-columna-grupo' || t === 'bloques-k-condiciones' || t === 'una-columna-dos-factores';
   var necesitaDosNumericas = false;
+  var necesitaDosCat = t === 'tabla-contingencia' || t === 'una-columna-dos-factores';
   var modalTipo = 'single-num';
   if (t === 'dos-columnas' && cfg.seccion === 'correlacion') {
     necesitaCat = false;
@@ -2782,8 +2783,13 @@ function _mostrarModalConfigTest(nombre, callback) {
     necesitaCat = false;
     necesitaDosNumericas = false;
     modalTipo = 'y-multi-x';
+  } else if (t === 'dos-columnas-pareadas') {
+    necesitaCat = false;
+    necesitaDosNumericas = true;
+    modalTipo = 'dos-cols-pareadas';
   }
   if (necesitaCat && tipos.catCols.length === 0) { showToast('⚠️ No hay columnas categóricas disponibles'); callback(); return; }
+  if (necesitaDosCat && tipos.catCols.length < 2) { showToast('⚠️ Se necesitan al menos 2 columnas categóricas'); callback(); return; }
   if (necesitaDosNumericas && tipos.numCols.length < 2) { showToast('⚠️ Se necesitan al menos 2 columnas numéricas'); callback(); return; }
   if (modalTipo === 'y-multi-x' && tipos.numCols.length < 2) { showToast('⚠️ Se necesitan al menos 2 columnas numéricas'); callback(); return; }
   var optsN = tipos.numCols.map(function(c) { return '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; }).join('');
@@ -2816,10 +2822,27 @@ function _mostrarModalConfigTest(nombre, callback) {
           tipos.numCols.map(function(c) { return '<label style="display:flex;align-items:center;gap:6px;padding:3px 4px;font-size:11px;color:var(--text-muted);cursor:pointer"><input type="checkbox" class="cfgColXChk" value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</label>'; }).join('') +
         '</div></div>' +
       '</div>';
-  } else if (necesitaCat) {
+  } else if (modalTipo === 'dos-cols-pareadas') {
     modalContent =
-      '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de agrupación (categórica)</label><select id="cfgColCat" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
-      '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de valores (numérica)</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>';
+      '<div style="display:flex;flex-direction:column;gap:6px">' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna 1</label><select id="cfgCol1" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna 2</label><select id="cfgCol2" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+      '</div>';
+  } else if (necesitaCat) {
+    if (t === 'tabla-contingencia') {
+      modalContent =
+        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna categórica 1</label><select id="cfgColCat1" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
+        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna categórica 2</label><select id="cfgColCat2" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>';
+    } else if (t === 'una-columna-dos-factores') {
+      modalContent =
+        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Factor 1 (categórica)</label><select id="cfgColCat1" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
+        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Factor 2 (categórica)</label><select id="cfgColCat2" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
+        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de valores (numérica)</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>';
+    } else {
+      modalContent =
+        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de agrupación (categórica)</label><select id="cfgColCat" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
+        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de valores (numérica)</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>';
+    }
   } else {
     modalContent =
       '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de valores (numérica)</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>';
@@ -2853,9 +2876,19 @@ function _mostrarModalConfigTest(nombre, callback) {
       var chkX = document.querySelectorAll('.cfgColXChk:checked');
       config.columnasX = Array.from(chkX).map(function(c) { return c.value; });
       if (config.columnasX.length === 0) { showToast('⚠️ Selecciona al menos una variable X'); return; }
+      config.columnas = config.columnasX;
+    } else if (modalTipo === 'dos-cols-pareadas') {
+      config.numericCols = [document.getElementById('cfgCol1').value, document.getElementById('cfgCol2').value];
     } else if (necesitaCat) {
-      config.categoricalCols = [document.getElementById('cfgColCat').value];
-      config.numericCol = document.getElementById('cfgColNum').value;
+      if (t === 'tabla-contingencia') {
+        config.categoricalCols = [document.getElementById('cfgColCat1').value, document.getElementById('cfgColCat2').value];
+      } else if (t === 'una-columna-dos-factores') {
+        config.categoricalCols = [document.getElementById('cfgColCat1').value, document.getElementById('cfgColCat2').value];
+        config.numericCol = document.getElementById('cfgColNum').value;
+      } else {
+        config.categoricalCols = [document.getElementById('cfgColCat').value];
+        config.numericCol = document.getElementById('cfgColNum').value;
+      }
     } else {
       config.numericCol = document.getElementById('cfgColNum').value;
     }
