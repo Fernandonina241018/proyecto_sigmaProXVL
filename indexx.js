@@ -2727,7 +2727,13 @@ function _mostrarModalConfigTest(nombre, callback) {
   if (tipos.numCols.length === 0) { showToast('⚠️ No hay columnas numéricas disponibles'); callback(); return; }
   var t = cfg.inputs && cfg.inputs.tipo;
   var necesitaCat = t === 'tabla-contingencia' || t === 'dos-columnas';
+  var necesitaDosNumericas = false;
+  if (t === 'dos-columnas' && (cfg.seccion === 'correlacion' || cfg.seccion === 'regresion')) {
+    necesitaCat = false;
+    necesitaDosNumericas = true;
+  }
   if (necesitaCat && tipos.catCols.length === 0) { showToast('⚠️ No hay columnas categóricas disponibles'); callback(); return; }
+  if (necesitaDosNumericas && tipos.numCols.length < 2) { showToast('⚠️ Se necesitan al menos 2 columnas numéricas'); callback(); return; }
   var optsN = tipos.numCols.map(function(c) { return '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; }).join('');
   var optsC = tipos.catCols.length ? tipos.catCols.map(function(c) { return '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; }).join('') : '';
   var modal = document.createElement('div'); modal.className = 'modal-overlay';
@@ -2735,10 +2741,17 @@ function _mostrarModalConfigTest(nombre, callback) {
     '<div class="modal-box" style="max-width:480px">' +
       '<div class="modal-title">⚙️ Configurar: ' + escapeHtml(nombre) + '</div>' +
       '<div style="font-size:11px;color:var(--text-faint)">Selecciona las columnas para este análisis</div>' +
-      (necesitaCat
-        ? '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de agrupación (categórica)</label><select id="cfgColCat" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>'
+      (necesitaDosNumericas
+        ? '<div style="display:flex;flex-direction:column;gap:6px">' +
+            '<div><label style="font-size:11px;color:var(--text-primary)">Columna X (predictor/variable 1)</label><select id="cfgColX" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+            '<div><label style="font-size:11px;color:var(--text-primary)">Columna Y (respuesta/variable 2)</label><select id="cfgColY" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+          '</div>'
+        : necesitaCat
+          ? '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de agrupación (categórica)</label><select id="cfgColCat" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>'
+          : '') +
+      (!necesitaDosNumericas
+        ? '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de valores (numérica)</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>'
         : '') +
-      '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de valores (numérica)</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
       '<div class="modal-actions">' +
         '<button class="btn btn-secondary" id="cfgCancel">Cancelar</button>' +
         '<button class="btn btn-primary" id="cfgConfirm">Confirmar</button>' +
@@ -2748,8 +2761,15 @@ function _mostrarModalConfigTest(nombre, callback) {
   document.getElementById('cfgCancel').addEventListener('click', function() { modal.remove(); });
   document.getElementById('cfgConfirm').addEventListener('click', function() {
     var config = {};
-    if (necesitaCat) config.categoricalCols = [document.getElementById('cfgColCat').value];
-    config.numericCol = document.getElementById('cfgColNum').value;
+    if (necesitaDosNumericas) {
+      config.columnaX = document.getElementById('cfgColX').value;
+      config.columnaY = document.getElementById('cfgColY').value;
+    } else if (necesitaCat) {
+      config.categoricalCols = [document.getElementById('cfgColCat').value];
+      config.numericCol = document.getElementById('cfgColNum').value;
+    } else {
+      config.numericCol = document.getElementById('cfgColNum').value;
+    }
     StateManager.setHypothesisConfig(nombre, config);
     modal.remove();
     callback();

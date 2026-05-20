@@ -1,7 +1,7 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
 **Fecha de Análisis:** 17 de Mayo 2026  
-**Última Actualización:** 19 de Mayo 2026 (Feat: Página Firmar Reporte ✍️)  
+**Última Actualización:** 20 de Mayo 2026 (Fix: Regresión Lineal Simple columnas X/Y 🔴)  
 **Versión del Proyecto:** 3.1  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
 **Estado General:** MVP Funcional (~95% Completo)
@@ -102,6 +102,7 @@
 | 45 | 19 May 2026 | Feat: Multi-gráfico batch en Visualización — toggle "🔁 Generar múltiples" muestra checkboxes de columnas; Renderizar genera N gráficos (uno por columna seleccionada). Compatible con histograma, barras, líneas, dispersión, área. indexx.js: ~80 líneas (vizToggleBatch, vizBatchRender) | ✅ |
 | 46 | 19 May 2026 | Refactor: Multi-gráfico movido a menú superior "Gráficos > Generar múltiples gráficos 🔁" — modal con tipo, X opcional, checkboxes de columnas. Eliminado toggle inline de la página Visualización. indexx.html: Gráficos Settings → menú real Gráficos. indexx.js: showBatchGraphModal() + vizBatchRenderFromModal() | ✅ |
 | 47 | 19 May 2026 | Feat: Página "Firmar Reporte" ✍️ — carga .html, edita firmas, descarga firmado. ReporteManager.js: data-signature-role + data-signature-field markers. indexx.html: nav-item + menú Firmar. indexx.js: left/right panels + initFirmarReportePage + helpers (firmaHandleFile, firmaRenderEditor, firmaDownload) | ✅ |
+| 48 | 20 May 2026 | Fix: Regresión Lineal Simple no reconocía columnas X/Y 🔴 — `_mostrarModalConfigTest` (indexx.js:2729) trataba a TODOS los tests con `tipo: 'dos-columnas'` como necesitando cat+num, pero correlación/regresión necesitan 2 columnas numéricas (X/Y). Modal guardaba `{categoricalCols, numericCol}` pero `EstadisticaDescriptiva.js` esperaba `{columnaX, columnaY}`. Fix: detección por `cfg.seccion === 'correlacion' || cfg.seccion === 'regresion'` para mostrar 2 selects numéricos y guardar con las keys correctas. Afecta: Correlación Pearson/Spearman/Kendall Tau, Covarianza, Regresión Lineal Simple. | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
