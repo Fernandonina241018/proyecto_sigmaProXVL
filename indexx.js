@@ -257,6 +257,9 @@ var leftPanels = {
         '<button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px 4px" onclick="ampliarDatos()">📈 Ampliar</button>' +
         '<button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px 4px" onclick="limpiarDataset()">🧹 Limpiar</button>' +
       '</div>' +
+      '<div style="display:flex;gap:6px;flex-shrink:0">' +
+        '<button class="btn btn-accent" style="flex:1;font-size:11px;padding:6px 4px" onclick="generarEjemploEstadistico()">📚 Ejemplo stats</button>' +
+      '</div>' +
       '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column">' +
         '<div class="info-section-header" style="display:flex;justify-content:space-between;align-items:center">' +
           '<span>Recientes</span>' +
@@ -2033,6 +2036,36 @@ function limpiarDataset() {
   showToast('🧹 Dataset limpiado');
 }
 
+// ── Generar dataset de ejemplo para estadística ──
+function generarEjemploEstadistico() {
+  var n = 60;
+  var headers = ['ID', 'Edad', 'Horas_Estudio', 'Puntaje_Examen', 'Metodo', 'Satisfaccion', 'Ingreso_Mensual'];
+  var metodos = ['Tradicional', 'Nuevo', 'Mixto'];
+  var rows = [];
+  for (var i = 0; i < n; i++) {
+    var metodo = metodos[i % 3];
+    var edad = 18 + Math.round(Math.random() * 44);
+    var u1 = Math.random(), u2 = Math.random();
+    var zHoras = Math.sqrt(-2 * Math.log(u1 || 0.0001)) * Math.cos(2 * Math.PI * u2);
+    var horasBase = metodo === 'Tradicional' ? 10 : metodo === 'Nuevo' ? 24 : 17;
+    var horas = Math.max(2, Math.min(40, Math.round(horasBase + zHoras * 6)));
+    var u3 = Math.random(), u4 = Math.random();
+    var zScore = Math.sqrt(-2 * Math.log(u3 || 0.0001)) * Math.cos(2 * Math.PI * u4);
+    var metodoBonus = metodo === 'Nuevo' ? 6 : metodo === 'Mixto' ? 2 : -4;
+    var score = Math.round(Math.max(0, Math.min(100, 32 + 1.4 * horas + metodoBonus + zScore * 7)));
+    var sat = Math.round(Math.max(1, Math.min(10, 2 + score * 0.08 + (Math.random() - 0.5) * 2.5)));
+    var ingreso = Math.round((12 + edad * 0.45 + (Math.random() - 0.5) * 9) * 10) / 10;
+    rows.push([(i + 1).toString(), edad.toString(), horas.toString(), score.toString(), metodo, sat.toString(), ingreso.toString()]);
+  }
+  pushUndo();
+  trabajoSheets.push({ name: 'Ejemplo_Estadistico', headers: headers, rows: rows });
+  trabajoActiveSheetIndex = trabajoSheets.length - 1;
+  trabajoActiveCell = { row: 0, col: 0 };
+  _persistAllData();
+  loadPage('trabajo');
+  showToast('✅ Dataset de ejemplo generado: ' + n + ' filas x ' + headers.length + ' columnas');
+}
+
 function exportTrabajo() {
   var sheet = getCurrentSheet(); if (!sheet) { alert('No hay datos.'); return; }
   var csv = sheet.headers.join(',') + '\n';
@@ -3107,6 +3140,23 @@ function onSubitemClick(event, nombre, seccionKey) {
 // ── Auth + Initial load ──
 function _initIndexxApp() {
   if (typeof Auth === 'undefined') { setTimeout(_initIndexxApp, 50); return; }
+  // Migrar hypothesisConfig antiguos (pre-fix columnas X/Y)
+  try {
+    var oldCfg = StateManager && StateManager.getHypothesisConfig && StateManager.getAllHypothesisConfig();
+    if (oldCfg) {
+      for (var key in oldCfg) {
+        if (oldCfg.hasOwnProperty(key)) {
+          var c = oldCfg[key];
+          if (c && !c.columnaX && !c.columnaY && c.categoricalCols && c.numericCol) {
+            var estadCfg = getEstadisticoConfig(key);
+            if (estadCfg && (estadCfg.seccion === 'correlacion' || estadCfg.seccion === 'regresion')) {
+              StateManager.clearHypothesisConfig(key);
+            }
+          }
+        }
+      }
+    }
+  } catch(e) { console.warn('Migración hypothesisConfig:', e); }
   Auth.init({
     onLogin: function(session) {
       _restoreAllData();

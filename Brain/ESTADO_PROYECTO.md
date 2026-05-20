@@ -1,7 +1,7 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
 **Fecha de Análisis:** 17 de Mayo 2026  
-**Última Actualización:** 20 de Mayo 2026 (Fix: Regresión Lineal Simple columnas X/Y 🔴)  
+**Última Actualización:** 20 de Mayo 2026 (Feat: Dataset ejemplo estadístico + Migración configs antiguos)  
 **Versión del Proyecto:** 3.1  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
 **Estado General:** MVP Funcional (~95% Completo)
@@ -103,6 +103,8 @@
 | 46 | 19 May 2026 | Refactor: Multi-gráfico movido a menú superior "Gráficos > Generar múltiples gráficos 🔁" — modal con tipo, X opcional, checkboxes de columnas. Eliminado toggle inline de la página Visualización. indexx.html: Gráficos Settings → menú real Gráficos. indexx.js: showBatchGraphModal() + vizBatchRenderFromModal() | ✅ |
 | 47 | 19 May 2026 | Feat: Página "Firmar Reporte" ✍️ — carga .html, edita firmas, descarga firmado. ReporteManager.js: data-signature-role + data-signature-field markers. indexx.html: nav-item + menú Firmar. indexx.js: left/right panels + initFirmarReportePage + helpers (firmaHandleFile, firmaRenderEditor, firmaDownload) | ✅ |
 | 48 | 20 May 2026 | Fix: Regresión Lineal Simple no reconocía columnas X/Y 🔴 — `_mostrarModalConfigTest` (indexx.js:2729) trataba a TODOS los tests con `tipo: 'dos-columnas'` como necesitando cat+num, pero correlación/regresión necesitan 2 columnas numéricas (X/Y). Modal guardaba `{categoricalCols, numericCol}` pero `EstadisticaDescriptiva.js` esperaba `{columnaX, columnaY}`. Fix: detección por `cfg.seccion === 'correlacion' || cfg.seccion === 'regresion'` para mostrar 2 selects numéricos y guardar con las keys correctas. Afecta: Correlación Pearson/Spearman/Kendall Tau, Covarianza, Regresión Lineal Simple. | ✅ |
+| 49 | 20 May 2026 | Feat: Dataset de ejemplo estadístico 📚 — `generarEjemploEstadistico()` genera 60 filas x 7 columnas (ID, Edad, Horas_Estudio, Puntaje_Examen, Metodo, Satisfaccion, Ingreso_Mensual) con relaciones lineales incorporadas (Horas_Estudio→Puntaje_Examen R²~0.8, Edad→Ingreso_Mensual r~0.4) y grupos categóricos (Tradicional/Nuevo/Mixto). Botón en sidebar Datos. | ✅ |
+| 50 | 20 May 2026 | Fix: Migración de hypothesisConfig antiguos — stale configs con formato `{categoricalCols, numericCol}` guardados por versiones previas ahora se limpian automáticamente al iniciar para tests de correlación/regresión, forzando reconfiguración con el nuevo modal X/Y. | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
