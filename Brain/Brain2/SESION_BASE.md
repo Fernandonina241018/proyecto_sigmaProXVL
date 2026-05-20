@@ -14,5 +14,6 @@
 
 | Módulo | CFR 21 Part 11 en reportes: hash SHA-256, audit trail, firmas electrónicas |
 | Validaciones | Calificaciones 0–100 sistema/método/equipo · correlación Pearson |
+| Multi-gráfico | Feature propuesta: generar N histogramas/boxplots en lote (May 2026) |
 
 Ver `CONTEXTO_BASE.md` para reglas, debug y bugs recientes.

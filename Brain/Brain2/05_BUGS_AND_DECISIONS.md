@@ -43,7 +43,8 @@ Bug/Decisión · Causa · Fix · Impacto · Regresiones a vigilar
 | DEC-004 | Modales PCA/AF secuenciales | Config columnas independiente |
 | DEC-005 | Atajos globales | UX power users |
 | DEC-006 | Tutorial 6 pasos + localStorage | Onboarding |
-| DEC-007 | Dark mode + anti-FOUC | ~40 vars CSS, script en head |
+| DEC-007 | Dark mode + anti-FOUC | ~40 CSS vars, script en head |
+| DEC-008 | Multi-gráfico batch propuesto | UX: generar N gráficos en lote evita 16 clics individuales |
 
 ## Deuda técnica
 
@@ -63,3 +64,20 @@ Bug/Decisión · Causa · Fix · Impacto · Regresiones a vigilar
 ## Al implementar test
 
 Checklist `02_ESTADISTICOS.md` + documentar si cambia contrato o arquitectura.
+
+---
+
+## 🧠 Errores y decisiones — Prompt Engineering
+
+| Fecha | Error / Decisión | Causa | Fix | Impacto |
+|-------|------------------|-------|-----|---------|
+| 2026-05-19 | Agregar auto-aprendizaje al comando prompt | Prompt no evolucionaba entre sesiones | Leer Brain2 antes + documentar aprendizajes después | Mejor calidad progresiva |
+| 2026-05-19 | Estructura XML inconsistente | Etiquetas sin jerarquía clara | Usar <role>, <context>, <instructions> | Prompts más legibles |
+| 2026-05-19 | Falta de ejemplos few-shot | Prompts demasiado abstractos | Incluir 2-3 ejemplos relevantes | Mayor precisión |
+
+### Protocolo de auto-mejora ( comando `/prompt` )
+
+1. **Antes** → Leer Brain2 para aplicar aprendizajes previos
+2. **Durante** → Optimizar usando técnicas de Anthropic
+3. **Después** → Auto-evaluar y documentar en Brain2
+4. **Siguiente** → Los nuevos aprendizajes influirán en la próxima optimización

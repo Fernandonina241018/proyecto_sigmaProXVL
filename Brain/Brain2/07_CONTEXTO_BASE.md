@@ -82,4 +82,25 @@ getDataForModal().headers
 
 `01` arquitectura · `02` inventario · `03` workflow · `04` código · `05` bugs · `06` políticas
 
+## Feature propuesta — Multi-gráfico batch
+
+| Aspecto | Detalle |
+|---------|---------|
+| Qué | Seleccionar N columnas → generar mismo tipo de gráfico para todas |
+| UX | Checkbox/selector múltiple en modal de gráficos, layout grilla |
+| Límite | Advertencia si >20 gráficos, umbral numérico 50% por columna |
+| Archivos | `script.js` (UI modal), `ReporteManager.js` / nuevo `MultiGraphManager.js` |
+| Prioridad | 🟡 Media — discutida May 2026 |
+
+---
+
+## 📝 Aprendizajes Prompt Engineering
+
+*Sección para documentar insights del comando `/prompt`*
+
+| Fecha | Qué salió bien | Qué mejorar | Aplicar en |
+|-------|----------------|-------------|------------|
+| 2026-05-19 | Estructura XML clara con etiquetas semánticas | Añadir más ejemplos few-shot | Próximas optimizaciones |
+| 2026-05-19 | Contexto y motivación explícitos | Evitar instrucciones ambiguas | Todos los prompts |
+
 *Mayo 2026*

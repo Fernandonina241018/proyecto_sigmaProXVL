@@ -102,6 +102,7 @@ CSV/Excel → script detecta columnas
 | Undo/redo | StateManager, 50 entradas |
 | Tutorial | 6 pasos, localStorage |
 | Asistente análisis | Wizard selección test |
+| Multi-gráfico batch | Generar N gráficos en lote (propuesto May 2026) |
 | Import | Drag-drop File API |
 | Sidebars | Glass collapse (May 2026) |
 

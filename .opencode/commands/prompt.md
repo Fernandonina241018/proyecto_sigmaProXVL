@@ -5,19 +5,60 @@ agent: general
 
 # 📋 Contexto del Proyecto StatAnalyzer Pro
 
-ANTES DE OPTIMIZAR, haz esto:
+## PASO 1 - LEER BRAIN2 (antes de optimizar)
 
-1. Lee los archivos de contexto:
-   - **Sesión base:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/SESION_BASE.md` (más conciso)
-   - **Workflow:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/03_WORKFLOW.md`
-   - **Contexto base:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/CONTEXTO_BASE.md`
+**Lee los archivos de contexto en este orden:**
+1. **Sesión base:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/SESION_BASE.md`
+2. **Contexto base:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/07_CONTEXTO_BASE.md`
+3. **Workflow:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/03_WORKFLOW.md`
+4. **Bugs y decisiones:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/05_BUGS_AND_DECISIONS.md`
+5. **Protocolo de Seguridad:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/10_PROTOCOLO_SEGURIDAD.md`
 
-2. **AL FINALIZAR, actualiza el Brain2** con cualquier cambio relevante:
-   - Si implements nuevos features → actualizar `CONTEXTO_BASE.md` y `SESION_BASE.md`
-   - Si resuelves bugs → agregar a `05_BUGS_AND_DECISIONS.md`
-   - Si cambias código → actualizar `04_CODE_GUIDELINES.md` si corresponde
-   -Si agregas nuevas features → actualizar `01_PROJECT.md` section de features
-   - Actualizar fechas de "Actualizado" en todos los archivos modificados
+**Identifica aprendizajes previos** de sesiones anteriores que puedas aplicar a la optimización actual.
+
+---
+
+## PASO 2 - AUTO-EVALUACIÓN Y APRENDIZAJE (después de optimizar)
+
+**Después de entregar la respuesta optimizada, evalúa tu propio trabajo:**
+
+### 2.1 Auto-evalúa tu optimización:
+- ¿El prompt optimizado es claro y específico?
+- ¿Se aplicaron todas las técnicas de Anthropic relevantes?
+- ¿El formato de salida es el apropiado para el caso de uso?
+- ¿Hay ambigüedades que podrían mejorarse?
+
+### 2.2 Identifica mejoras potenciales:
+- ¿Qué técnica funcionó bien que podrías reuse?
+- ¿Qué error cometiste que debes evitar en el futuro?
+- ¿Hay algún insight sobre prompt engineering que valga documentar?
+
+### 2.3 Documenta aprendizajes en Brain2:
+**SI IDENTIFICAS UNA MEJORA**, escribe en el archivo apropiado:
+- **Errores/Mejoras técnicas** → `05_BUGS_AND_DECISIONS.md` (nueva entrada en tabla)
+- **Insights de optimización** → Crear entrada en `07_CONTEXTO_BASE.md` sección "Aprendizajes Prompt"
+- **Nuevas mejores prácticas** → `04_CODE_GUIDELINES.md`
+
+**Formato para documentar aprendizaje:**
+```markdown
+### [FECHA] — Aprendizaje Prompt Engineering
+
+**Prompt optimizado:** [resumen breve]
+**Qué salió bien:** [técnica aplicada con éxito]
+**Qué mejorar:** [error o área de oportunidad]
+**Aplicar en futuros prompts:** [acción concreta]
+```
+
+---
+
+## 🧠 MECANISMO DE AUTO-APRENDIZAJE
+
+El sistema mantiene crecimiento constante mediante:
+
+1. **Lectura previa** → Aplicar aprendizajes de sesiones anteriores
+2. **Auto-evaluación** → Criticar tu propia respuesta
+3. **Documentación** → Escribir insights en Brain2
+4. **Reuso** → En siguientes ejecuciones, estos aprendizajes influirán en las optimizaciones
 
 ---
 
