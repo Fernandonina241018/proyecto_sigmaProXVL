@@ -2818,107 +2818,150 @@ function _mostrarModalConfigTest(nombre, callback) {
   if ((modalTipo === 'y-multi-x' || modalTipo === 'y-multi-x-grupo') && tipos.numCols.length < 2) { showToast('⚠️ Se necesitan al menos 2 columnas numéricas'); callback(); return; }
   var optsN = tipos.numCols.map(function(c) { return '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; }).join('');
   var optsC = tipos.catCols.length ? tipos.catCols.map(function(c) { return '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; }).join('') : '';
+  // FEAT: modal-informativo — helper texts for each field type
+  var hlp = {
+    colObs: 'Valores reales observados en tus datos',
+    colPred: 'Valores estimados o predichos por el modelo',
+    colX: 'Variable independiente o predictora',
+    colY: 'Variable dependiente o de respuesta',
+    grado: 'Grado del polinomio (2=cuadrático, 3=cúbico, etc.)',
+    col1: 'Primera columna del par (ej: pre-tratamiento)',
+    col2: 'Segunda columna del par (ej: post-tratamiento)',
+    delta: 'Diferencia máxima considerada irrelevante (límite de equivalencia)',
+    colCat: 'Columna que define los grupos a comparar',
+    defCat: 'Columna categórica de agrupación',
+    colNum: 'Variable numérica a analizar',
+    multiNum: 'Selecciona una o más variables numéricas predictoras',
+    periodo: 'Longitud del ciclo estacional (4=trimestral, 12=mensual)',
+    colTiempo: 'Tiempo hasta la ocurrencia del evento',
+    colEvento: 'Indicador booleano: 1/0, Sí/No, True/False',
+    colGrupoOp: 'Factor de agrupación opcional (comparar curvas de supervivencia)',
+    colCat1: 'Primera variable categórica (filas de la tabla de contingencia)',
+    colCat2: 'Segunda variable categórica (columnas de la tabla de contingencia)',
+    factor1: 'Primer factor categórico del modelo',
+    factor2: 'Segundo factor categórico del modelo',
+    priorMedia: 'Media de la distribución a priori (conocimiento previo)',
+    priorVar: 'Varianza a priori (dejar vacío = usar varianza muestral)',
+    xyGrupo: 'Columna que define los grupos (e.g., tratamiento vs control)'
+  };
+  var headerInfo = '';
+  if (cfg.desc) headerInfo += '<div style="font-size:12px;color:var(--text-primary);margin-bottom:6px;line-height:1.4">' + escapeHtml(cfg.desc) + '</div>';
+  var reqParts = [];
+  if (cfg.minMuestra) reqParts.push('mín. ' + cfg.minMuestra + ' obs.');
+  if (cfg.maxMuestra) reqParts.push('máx. ' + cfg.maxMuestra + ' obs.');
+  if (cfg.inputs && cfg.inputs.descripcion) reqParts.push(cfg.inputs.descripcion);
+  if (reqParts.length) headerInfo += '<div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;padding:6px 8px;background:var(--bg-card);border-radius:6px">📋 Requisitos: ' + reqParts.join(' | ') + '</div>';
+  var accordionContent = '';
+  if (cfg.hipotesis || (cfg.supuestos && cfg.supuestos.length) || cfg.formula) {
+    accordionContent += '<details style="margin-top:8px;font-size:11px"><summary style="cursor:pointer;color:var(--accent);font-weight:500">📖 Ver más — detalles del test</summary><div style="margin-top:6px;padding:8px;background:var(--bg-card);border-radius:6px;line-height:1.5">';
+    if (cfg.formula) accordionContent += '<div style="margin-bottom:4px"><strong>Fórmula:</strong> ' + escapeHtml(cfg.formula) + '</div>';
+    if (cfg.hipotesis && cfg.hipotesis.h0) accordionContent += '<div><strong>H₀:</strong> ' + escapeHtml(cfg.hipotesis.h0) + '</div>';
+    if (cfg.hipotesis && cfg.hipotesis.h1) accordionContent += '<div><strong>H₁:</strong> ' + escapeHtml(cfg.hipotesis.h1) + '</div>';
+    if (cfg.supuestos && cfg.supuestos.length) accordionContent += '<div style="margin-top:4px"><strong>Supuestos:</strong><ul style="margin:2px 0 0 16px;padding:0">' + cfg.supuestos.map(function(s) { return '<li>' + escapeHtml(s) + '</li>'; }).join('') + '</ul></div>';
+    accordionContent += '</div></details>';
+  }
   var modalContent = '';
   if (modalTipo === 'obspred') {
     modalContent =
       '<div style="display:flex;flex-direction:column;gap:6px">' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Columna observada</label><select id="cfgColObs" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Columna predicha</label><select id="cfgColPred" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna observada</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colObs + '</p><select id="cfgColObs" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna predicha</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colPred + '</p><select id="cfgColPred" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
       '</div>';
   } else if (modalTipo === 'xy') {
     modalContent =
       '<div style="display:flex;flex-direction:column;gap:6px">' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Columna X (predictor/variable 1)</label><select id="cfgColX" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Columna Y (respuesta/variable 2)</label><select id="cfgColY" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna X (predictor/variable 1)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colX + '</p><select id="cfgColX" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna Y (respuesta/variable 2)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colY + '</p><select id="cfgColY" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
       '</div>';
   } else if (modalTipo === 'xy-grado') {
     modalContent =
       '<div style="display:flex;flex-direction:column;gap:6px">' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Columna X (predictor)</label><select id="cfgColX" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Columna Y (respuesta)</label><select id="cfgColY" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Grado del polinomio</label><input id="cfgGrado" type="number" value="2" min="2" max="10" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna X (predictor)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colX + '</p><select id="cfgColX" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna Y (respuesta)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colY + '</p><select id="cfgColY" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Grado del polinomio</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.grado + '</p><input id="cfgGrado" type="number" value="2" min="2" max="10" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>' +
       '</div>';
   } else if (modalTipo === 'y-multi-x') {
     modalContent =
       '<div style="display:flex;flex-direction:column;gap:6px">' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Variable Y (respuesta)</label><select id="cfgColY" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Variables X (predictoras)</label><div style="max-height:160px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;padding:6px;background:var(--bg-primary)">' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Variable Y (respuesta)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colY + '</p><select id="cfgColY" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Variables X (predictoras)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.multiNum + '</p><div style="max-height:160px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;padding:6px;background:var(--bg-primary)">' +
           tipos.numCols.map(function(c) { return '<label style="display:flex;align-items:center;gap:6px;padding:3px 4px;font-size:11px;color:var(--text-muted);cursor:pointer"><input type="checkbox" class="cfgColXChk" value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</label>'; }).join('') +
         '</div></div>' +
       '</div>';
   } else if (modalTipo === 'dos-cols-pareadas') {
     modalContent =
       '<div style="display:flex;flex-direction:column;gap:6px">' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Columna 1</label><select id="cfgCol1" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Columna 2</label><select id="cfgCol2" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna 1</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.col1 + '</p><select id="cfgCol1" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna 2</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.col2 + '</p><select id="cfgCol2" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
       '</div>';
   } else if (modalTipo === 'xy-umbral') {
     modalContent =
       '<div style="display:flex;flex-direction:column;gap:6px">' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Columna 1</label><select id="cfgCol1" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Columna 2</label><select id="cfgCol2" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Delta (límite de equivalencia)</label><input id="cfgDelta" type="number" value="0.5" min="0.01" step="0.1" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna 1</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.col1 + '</p><select id="cfgCol1" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna 2</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.col2 + '</p><select id="cfgCol2" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Delta (límite de equivalencia)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.delta + '</p><input id="cfgDelta" type="number" value="0.5" min="0.01" step="0.1" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>' +
       '</div>';
   } else if (modalTipo === 'y-multi-x-grupo') {
     modalContent =
       '<div style="display:flex;flex-direction:column;gap:6px">' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de grupo (categórica)</label><select id="cfgColCat" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Variables numéricas</label><div style="max-height:160px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;padding:6px;background:var(--bg-primary)">' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de grupo (categórica)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.xyGrupo + '</p><select id="cfgColCat" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Variables numéricas</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.multiNum + '</p><div style="max-height:160px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;padding:6px;background:var(--bg-primary)">' +
           tipos.numCols.map(function(c) { return '<label style="display:flex;align-items:center;gap:6px;padding:3px 4px;font-size:11px;color:var(--text-muted);cursor:pointer"><input type="checkbox" class="cfgColXChk" value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</label>'; }).join('') +
         '</div></div>' +
       '</div>';
   } else if (modalTipo === 'single-num-periodo') {
     modalContent =
       '<div style="display:flex;flex-direction:column;gap:6px">' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de valores</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Periodo (estacionalidad)</label><input id="cfgPeriodo" type="number" value="4" min="2" max="52" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de valores</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">Serie temporal a analizar (debe tener orden cronológico)</p><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Periodo (estacionalidad)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.periodo + '</p><input id="cfgPeriodo" type="number" value="4" min="2" max="52" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>' +
       '</div>';
   } else if (modalTipo === 'supervivencia') {
     modalContent =
       '<div style="display:flex;flex-direction:column;gap:6px">' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de tiempo (numérica)</label><select id="cfgColTiempo" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
-        (tipos.catCols.length ? '<div><label style="font-size:11px;color:var(--text-primary)">Columna de evento (0/1 o Sí/No)</label><select id="cfgColEvento" class="btn" style="width:100%;text-align:left">' + [...tipos.numCols, ...tipos.catCols].map(function(c) { return '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; }).join('') + '</select></div>' : '<div><label style="font-size:11px;color:var(--text-primary)">Columna de evento</label><select id="cfgColEvento" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>') +
-        (tipos.catCols.length ? '<div><label style="font-size:11px;color:var(--text-primary)">Columna de grupo (opcional)</label><select id="cfgColGrupo" class="btn" style="width:100%;text-align:left"><option value="">— Sin grupo —</option>' + optsC + '</select></div>' : '') +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de tiempo (numérica)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colTiempo + '</p><select id="cfgColTiempo" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        (tipos.catCols.length ? '<div><label style="font-size:11px;color:var(--text-primary)">Columna de evento (0/1 o Sí/No)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colEvento + '</p><select id="cfgColEvento" class="btn" style="width:100%;text-align:left">' + [...tipos.numCols, ...tipos.catCols].map(function(c) { return '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; }).join('') + '</select></div>' : '<div><label style="font-size:11px;color:var(--text-primary)">Columna de evento</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colEvento + '</p><select id="cfgColEvento" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>') +
+        (tipos.catCols.length ? '<div><label style="font-size:11px;color:var(--text-primary)">Columna de grupo (opcional)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colGrupoOp + '</p><select id="cfgColGrupo" class="btn" style="width:100%;text-align:left"><option value="">— Sin grupo —</option>' + optsC + '</select></div>' : '') +
       '</div>';
   } else if (modalTipo === 'y-grupo') {
     if (tipos.catCols.length === 0) { showToast('⚠️ No hay columnas categóricas disponibles'); callback(); return; }
     modalContent =
       '<div style="display:flex;flex-direction:column;gap:6px">' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Variable Y (numérica)</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de grupo (categórica)</label><select id="cfgColCat" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Variable Y (numérica)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colY + '</p><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de grupo (categórica)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colCat + '</p><select id="cfgColCat" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
       '</div>';
   } else if (modalTipo === 'bayesiano') {
     modalContent =
       '<div style="display:flex;flex-direction:column;gap:6px">' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de valores</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Prior: media</label><input id="cfgPriorMedia" type="number" value="0" step="0.1" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>' +
-        '<div><label style="font-size:11px;color:var(--text-primary)">Prior: varianza (opcional)</label><input id="cfgPriorVar" type="number" value="" step="0.1" placeholder="Usar varianza muestral" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de valores (datos observados)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colNum + '</p><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Prior: media</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.priorMedia + '</p><input id="cfgPriorMedia" type="number" value="0" step="0.1" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Prior: varianza (opcional)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.priorVar + '</p><input id="cfgPriorVar" type="number" value="" step="0.1" placeholder="Usar varianza muestral" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>' +
       '</div>';
   } else if (necesitaCat) {
     if (t === 'tabla-contingencia') {
       modalContent =
-        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna categórica 1</label><select id="cfgColCat1" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
-        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna categórica 2</label><select id="cfgColCat2" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>';
+        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna categórica 1</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colCat1 + '</p><select id="cfgColCat1" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
+        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna categórica 2</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colCat2 + '</p><select id="cfgColCat2" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>';
     } else if (t === 'una-columna-dos-factores') {
       modalContent =
-        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Factor 1 (categórica)</label><select id="cfgColCat1" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
-        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Factor 2 (categórica)</label><select id="cfgColCat2" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
-        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de valores (numérica)</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>';
+        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Factor 1 (categórica)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.factor1 + '</p><select id="cfgColCat1" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
+        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Factor 2 (categórica)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.factor2 + '</p><select id="cfgColCat2" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
+        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de valores (numérica)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colNum + '</p><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>';
     } else {
       modalContent =
-        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de agrupación (categórica)</label><select id="cfgColCat" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
-        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de valores (numérica)</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>';
+        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de agrupación (categórica)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.defCat + '</p><select id="cfgColCat" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
+        '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de valores (numérica)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colNum + '</p><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>';
     }
   } else {
     modalContent =
-      '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de valores (numérica)</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>';
+      '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de valores (numérica)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colNum + '</p><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>';
   }
   var modal = document.createElement('div'); modal.className = 'modal-overlay';
   modal.innerHTML =
     '<div class="modal-box" style="max-width:480px">' +
       '<div class="modal-title">\u2699\uFE0F Configurar: ' + escapeHtml(nombre) + '</div>' +
-      '<div style="font-size:11px;color:var(--text-faint)">Selecciona las columnas para este an\u00E1lisis</div>' +
+      headerInfo +
       modalContent +
+      accordionContent +
       '<div class="modal-actions">' +
         '<button class="btn btn-secondary" id="cfgCancel">Cancelar</button>' +
         '<button class="btn btn-primary" id="cfgConfirm">Confirmar</button>' +
