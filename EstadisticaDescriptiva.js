@@ -2952,6 +2952,551 @@ interpretacion: interpretacion,
     }
     
     /**
+     * TOST (Two One-Sided Tests) para equivalencia
+     */
+    function calcularTOST(values1, values2, delta) {
+        const n1 = values1.length, n2 = values2.length;
+        if (n1 < 2 || n2 < 2) return { error: 'Cada grupo necesita al menos 2 observaciones' };
+        const mean1 = calcularMedia(values1), mean2 = calcularMedia(values2);
+        const var1 = calcularVarianza(values1, true), var2 = calcularVarianza(values2, true);
+        const se = Math.sqrt(var1 / n1 + var2 / n2);
+        const df = Math.pow(var1 / n1 + var2 / n2, 2) / (Math.pow(var1 / n1, 2) / (n1 - 1) + Math.pow(var2 / n2, 2) / (n2 - 1));
+        const tLower = (mean1 - mean2 + delta) / se;
+        const tUpper = (mean1 - mean2 - delta) / se;
+        const pLower = 1 - calcularCDF_T(tLower, df);
+        const pUpper = calcularCDF_T(tUpper, df);
+        const pTOST = Math.max(pLower, pUpper);
+        const tCrit = calcularValorP_TInverso(0.95, df);
+        return {
+            tInferior: tLower, tSuperior: tUpper,
+            pInferior: pLower, pSuperior: pUpper,
+            pTOST: pTOST,
+            ic90: { inferior: (mean1 - mean2) - tCrit * se, superior: (mean1 - mean2) + tCrit * se },
+            esEquivalente: pTOST < 0.05,
+            delta: delta, diferencia: mean1 - mean2,
+            n1: n1, n2: n2,
+            interpretacion: pTOST < 0.05
+                ? `Las medias son equivalentes (TOST p=${pTOST.toFixed(4)} < 0.05, Δ=${delta})`
+                : `No se concluye equivalencia (TOST p=${pTOST.toFixed(4)} ≥ 0.05, Δ=${delta})`
+        };
+    }
+
+    /**
+     * K-Medias (Clustering)
+     */
+    function calcularCluster(dataMatrix, k) {
+        if (!dataMatrix || dataMatrix.length < k) return { error: `Se necesitan al menos ${k} observaciones para ${k} clusters` };
+        const n = dataMatrix.length, p = dataMatrix[0].length;
+        k = Math.max(2, Math.min(k || 3, n - 1));
+        // Inicializar centroides (k-means++)
+        let centroids = [];
+        centroids.push(dataMatrix[Math.floor(Math.random() * n)]);
+        for (let c = 1; c < k; c++) {
+            const dist = dataMatrix.map(pt => Math.min(...centroids.map(cent => {
+                let d = 0; for (let j = 0; j < p; j++) d += (pt[j] - cent[j]) ** 2; return d;
+            })));
+            const totalDist = dist.reduce((a, b) => a + b, 0);
+            let r = Math.random() * totalDist;
+            for (let i = 0; i < n; i++) { r -= dist[i]; if (r <= 0) { centroids.push(dataMatrix[i]); break; } }
+        }
+        // Iterar hasta convergencia
+        let labels = new Array(n).fill(0), iterations = 0;
+        while (iterations++ < 100) {
+            let changed = false;
+            for (let i = 0; i < n; i++) {
+                let minDist = Infinity, best = 0;
+                for (let c = 0; c < k; c++) {
+                    let d = 0; for (let j = 0; j < p; j++) d += (dataMatrix[i][j] - centroids[c][j]) ** 2;
+                    if (d < minDist) { minDist = d; best = c; }
+                }
+                if (labels[i] !== best) { labels[i] = best; changed = true; }
+            }
+            if (!changed) break;
+            // Recalcular centroides
+            for (let c = 0; c < k; c++) {
+                const pts = dataMatrix.filter((_, i) => labels[i] === c);
+                if (pts.length === 0) continue;
+                for (let j = 0; j < p; j++) centroids[c][j] = pts.reduce((s, pt) => s + pt[j], 0) / pts.length;
+            }
+        }
+        // Calcular inercia total
+        let inertia = 0;
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < p; j++) inertia += (dataMatrix[i][j] - centroids[labels[i]][j]) ** 2;
+        }
+        // Silhouette score simplificado
+        let silhouette = 0;
+        for (let i = 0; i < Math.min(n, 200); i++) {
+            const a = labels[i] === -1 ? 0 : (() => {
+                const same = dataMatrix.filter((_, idx) => labels[idx] === labels[i] && idx !== i);
+                if (same.length === 0) return 0;
+                return same.reduce((s, pt) => { let d = 0; for (let j = 0; j < p; j++) d += (dataMatrix[i][j] - pt[j]) ** 2; return s + Math.sqrt(d); }, 0) / same.length;
+            })();
+            const b = (() => {
+                let minB = Infinity;
+                for (let c = 0; c < k; c++) {
+                    if (c === labels[i]) continue;
+                    const other = dataMatrix.filter((_, idx) => labels[idx] === c);
+                    if (other.length === 0) continue;
+                    const avg = other.reduce((s, pt) => { let d = 0; for (let j = 0; j < p; j++) d += (dataMatrix[i][j] - pt[j]) ** 2; return s + Math.sqrt(d); }, 0) / other.length;
+                    if (avg < minB) minB = avg;
+                }
+                return minB === Infinity ? 0 : minB;
+            })();
+            silhouette += (b - a) / Math.max(a, b, 0.001);
+        }
+        silhouette /= Math.min(n, 200);
+        const clusterSizes = Array.from({ length: k }, (_, c) => labels.filter(l => l === c).length);
+        return {
+            k: k, labels: labels, clusterSizes: clusterSizes,
+            centroids: centroids.map(c => c.map(v => parseFloat(v.toFixed(4)))),
+            inertia: parseFloat(inertia.toFixed(4)),
+            silhouette: parseFloat(silhouette.toFixed(4)),
+            interpretacion: silhouette > 0.5 ? `${k} clusters con buena separación (silhouette=${silhouette.toFixed(3)})`
+                : silhouette > 0.25 ? `${k} clusters con separación moderada (silhouette=${silhouette.toFixed(3)})`
+                : `${k} clusters con baja separación (silhouette=${silhouette.toFixed(3)})`
+        };
+    }
+
+    /**
+     * Análisis Discriminante (LDA simplificado)
+     */
+    function calcularDiscriminante(dataMatrix, labels) {
+        const classes = [...new Set(labels)].filter(c => c !== null && c !== undefined);
+        const classData = classes.map(cls => dataMatrix.filter((_, i) => labels[i] === cls));
+        const nClasses = classes.length;
+        if (nClasses < 2) return { error: 'Se necesitan al menos 2 clases' };
+        const n = dataMatrix.length, p = dataMatrix[0].length;
+        // Medias por clase y media global
+        const classMeans = classData.map(cls => {
+            const m = []; for (let j = 0; j < p; j++) m.push(cls.reduce((s, r) => s + r[j], 0) / cls.length); return m;
+        });
+        const globalMean = []; for (let j = 0; j < p; j++) globalMean.push(dataMatrix.reduce((s, r) => s + r[j], 0) / n);
+        // Matrices within-class (Sw) y between-class (Sb)
+        const Sw = Array.from({ length: p }, () => Array(p).fill(0));
+        const Sb = Array.from({ length: p }, () => Array(p).fill(0));
+        for (let c = 0; c < nClasses; c++) {
+            for (const row of classData[c]) {
+                for (let i = 0; i < p; i++) for (let j = 0; j < p; j++) Sw[i][j] += (row[i] - classMeans[c][i]) * (row[j] - classMeans[c][j]);
+            }
+            for (let i = 0; i < p; i++) for (let j = 0; j < p; j++) Sb[i][j] += classData[c].length * (classMeans[c][i] - globalMean[i]) * (classMeans[c][j] - globalMean[j]);
+        }
+        // Calcular autovalores de Sw⁻¹Sb usando QR iterativo simplificado
+        const SwInv = numericInverse(Sw);
+        const A = numericMultiply(SwInv, Sb);
+        const eigen = powerIterationEigen(A, 100);
+        const eigenvals = (eigen.values || []).filter(v => v > 1e-6).sort((a, b) => b - a);
+        const nFunciones = Math.min(eigenvals.length, nClasses - 1, p);
+        const lambda = eigenvals[0] || 0;
+        // Wilks' Lambda aproximado
+        const wilks = eigenvals.reduce((prod, ev) => prod * (1 / (1 + ev)), 1);
+        // Chi-cuadrado para significancia
+        const chi2 = -(n - 1 - (p + nClasses) / 2) * Math.log(wilks);
+        const gl = p * (nClasses - 1);
+        const pValue = 1 - calcularValorP_ChiCuadrado(chi2, gl);
+        // Clasificación simple (distancia de Mahalanobis)
+        const classified = dataMatrix.map((row, idx) => {
+            let minDist = Infinity, best = 0;
+            for (let c = 0; c < nClasses; c++) {
+                let d = 0; for (let j = 0; j < p; j++) d += (row[j] - classMeans[c][j]) ** 2 / (Sw[c]?.[c] || 1);
+                if (d < minDist) { minDist = d; best = c; }
+            }
+            return best;
+        });
+        const correctos = classified.filter((c, i) => c === labels.indexOf(classes[labels[i]])).length;
+        const accuracy = n > 0 ? correctos / n : 0;
+        // Matriz de confusión
+        const confusion = Array.from({ length: nClasses }, () => Array(nClasses).fill(0));
+        for (let i = 0; i < n; i++) confusion[labels.indexOf(classes[labels[i]])][classified[i]]++;
+        return {
+            funcionesDiscriminantes: nFunciones,
+            cargas: eigenvals.slice(0, nFunciones).map(v => parseFloat(v.toFixed(4))),
+            lambda: parseFloat(wilks.toFixed(4)),
+            chi2: parseFloat(chi2.toFixed(4)),
+            gl: gl,
+            p: parseFloat((1 - pValue).toFixed(4)),
+            clasificacion: classified.map(c => classes[c]),
+            accuracy: parseFloat(accuracy.toFixed(4)),
+            matrizConfusion: confusion,
+            interpretacion: pValue < 0.05
+                ? `Función discriminante significativa (χ²=${chi2.toFixed(2)}, p=${(1-pValue).toFixed(4)}, Λ=${wilks.toFixed(4)}), accuracy=${(accuracy*100).toFixed(1)}%`
+                : `Función discriminante no significativa (p=${(1-pValue).toFixed(4)} ≥ 0.05)`
+        };
+    }
+
+    /**
+     * MANOVA simplificado (Pillai's trace)
+     */
+    function calcularMANOVA(dataMatrix, labels) {
+        const classes = [...new Set(labels)].filter(c => c !== null && c !== undefined);
+        const classData = classes.map(cls => dataMatrix.filter((_, i) => labels[i] === cls));
+        const nClasses = classes.length;
+        if (nClasses < 2) return { error: 'Se necesitan al menos 2 grupos' };
+        const n = dataMatrix.length, p = dataMatrix[0].length;
+        if (n < p + nClasses) return { error: 'Se necesitan más observaciones que variables + grupos' };
+        const classMeans = classData.map(cls => {
+            const m = []; for (let j = 0; j < p; j++) m.push(cls.reduce((s, r) => s + r[j], 0) / cls.length); return m;
+        });
+        const globalMean = []; for (let j = 0; j < p; j++) globalMean.push(dataMatrix.reduce((s, r) => s + r[j], 0) / n);
+        // SSCP matrices
+        const H = Array.from({ length: p }, () => Array(p).fill(0));
+        const E = Array.from({ length: p }, () => Array(p).fill(0));
+        for (let c = 0; c < nClasses; c++) {
+            for (let i = 0; i < p; i++) for (let j = 0; j < p; j++) H[i][j] += classData[c].length * (classMeans[c][i] - globalMean[i]) * (classMeans[c][j] - globalMean[j]);
+            for (const row of classData[c]) {
+                for (let i = 0; i < p; i++) for (let j = 0; j < p; j++) E[i][j] += (row[i] - classMeans[c][i]) * (row[j] - classMeans[c][j]);
+            }
+        }
+        // Pillai's trace = tr((E+H)⁻¹H)
+        const EH = numericAdd(E, H);
+        const EHinv = numericInverse(EH);
+        const pillaiMat = numericMultiply(EHinv, H);
+        let pillai = 0; for (let i = 0; i < p; i++) pillai += pillaiMat[i][i];
+        // Wilks' Lambda = det(E) / det(E+H)
+        const detE = numericDeterminant(E);
+        const detEH = numericDeterminant(EH);
+        const wilksLambda = detEH !== 0 ? detE / detEH : 1;
+        // F aproximado (Rao's F approximation)
+        const s = Math.min(p, nClasses - 1);
+        const m = (Math.abs(p - (nClasses - 1)) - 1) / 2;
+        const N = (n - p - 1) / 2;
+        const df1 = p * (nClasses - 1);
+        const df2 = (n - 1 - (p + nClasses) / 2) * s - (p * (nClasses - 1) - 2) / 2;
+        // F aproximado desde Pillai
+        const F = (nClasses - 1) !== 0 ? ((n - p) / (nClasses - 1)) * (pillai / (s - pillai)) : 0;
+        const grados = df2 || n - p - 1;
+        const pValue = calcularValorP_F(Math.abs(F), df1, Math.max(1, Math.round(grados)));
+        const etaCuadrado = pillai / s;
+        return {
+            lambda: parseFloat(wilksLambda.toFixed(4)),
+            F: parseFloat(F.toFixed(4)),
+            gl1: df1,
+            gl2: Math.round(grados),
+            p: parseFloat(pValue.toFixed(4)),
+            pillai: parseFloat(pillai.toFixed(4)),
+            etaCuadradoP: parseFloat(etaCuadrado.toFixed(4)),
+            significativo: pValue < 0.05,
+            interpretacion: pValue < 0.05
+                ? `MANOVA significativo (F(${df1},${Math.round(grados)}) = ${F.toFixed(2)}, p = ${pValue.toFixed(4)}, η²p = ${etaCuadrado.toFixed(3)})`
+                : `MANOVA no significativo (p = ${pValue.toFixed(4)} ≥ 0.05)`
+        };
+    }
+
+    /**
+     * Análisis de Supervivencia (Kaplan-Meier + Log-Rank)
+     */
+    function calcularSupervivencia(tiempos, eventos, grupos) {
+        if (!tiempos || tiempos.length < 5) return { error: 'Se necesitan al menos 5 observaciones' };
+        const hasGroups = grupos && [...new Set(grupos)].length > 1;
+        const uniqueGroups = hasGroups ? [...new Set(grupos)] : ['Global'];
+        // Kaplan-Meier por grupo
+        const curvas = uniqueGroups.map(g => {
+            const times = hasGroups ? tiempos.filter((_, i) => grupos[i] === g) : [...tiempos];
+            const evts = hasGroups ? eventos.filter((_, i) => grupos[i] === g) : [...eventos];
+            const sorted = times.map((t, i) => ({ t, e: evts[i] })).filter(x => x.t > 0).sort((a, b) => a.t - b.t);
+            const n = sorted.length;
+            let atRisk = n, surv = 1;
+            const km = [{ t: 0, surv: 1, atRisk: n }];
+            for (let i = 0; i < n; i++) {
+                const t = sorted[i].t;
+                const events = sorted.filter((x, j) => x.t === t && x.e == 1).length;
+                const censored = sorted.filter((x, j) => x.t === t && x.e == 0).length;
+                if (events > 0 && atRisk > 0) surv *= (1 - events / atRisk);
+                km.push({ t, surv: parseFloat(surv.toFixed(4)), atRisk, events, censored });
+                atRisk -= (events + censored);
+            }
+            const medianT = km.find(p => p.surv <= 0.5)?.t || null;
+            return { grupo: g, km, mediana: medianT, n };
+        });
+        // Log-Rank test entre grupos
+        let logRank = null;
+        if (hasGroups && uniqueGroups.length === 2) {
+            const g1 = curvas[0], g2 = curvas[1];
+            const allTimes = [...new Set([...g1.km.map(p => p.t), ...g2.km.map(p => p.t)])].sort((a, b) => a - b);
+            let O1 = 0, E1 = 0, O2 = 0, E2 = 0;
+            for (const t of allTimes) {
+                if (t === 0) continue;
+                const n1 = g1.km.find(p => p.t === t)?.atRisk || 0;
+                const n2 = g2.km.find(p => p.t === t)?.atRisk || 0;
+                const N = n1 + n2;
+                const e1 = g1.km.find(p => p.t === t)?.events || 0;
+                const e2 = g2.km.find(p => p.t === t)?.events || 0;
+                const E = e1 + e2;
+                if (N > 0 && E > 0) { O1 += e1; E1 += n1 * E / N; O2 += e2; E2 += n2 * E / N; }
+            }
+            const chi2 = (O1 - E1) ** 2 / Math.max(E1, 0.001) + (O2 - E2) ** 2 / Math.max(E2, 0.001);
+            const pLogRank = 1 - calcularValorP_ChiCuadrado(chi2, 1);
+            logRank = { chi2: parseFloat(chi2.toFixed(4)), p: parseFloat((1 - pLogRank).toFixed(4)), significativo: (1 - pLogRank) < 0.05 };
+        }
+        return {
+            curvas: curvas,
+            logRank: logRank,
+            interpretacion: logRank
+                ? logRank.significativo
+                    ? `Diferencias significativas entre curvas de supervivencia (log-rank χ²=${logRank.chi2.toFixed(2)}, p=${logRank.p.toFixed(4)})`
+                    : `No hay diferencias significativas entre curvas (log-rank p=${logRank.p.toFixed(4)} ≥ 0.05)`
+                : `Curva de supervivencia Kaplan-Meier (${curvas[0].n} observaciones${curvas[0].mediana ? `, mediana=${curvas[0].mediana}` : ''})`
+        };
+    }
+
+    /**
+     * Series Temporales (descomposición clásica + ACF + pronóstico)
+     */
+    function calcularSeriesTemporales(values, period) {
+        if (!values || values.length < 10) return { error: 'Se necesitan al menos 10 observaciones' };
+        const n = values.length;
+        period = period || Math.max(2, Math.min(Math.floor(Math.sqrt(n)), n / 2));
+        // Tendencia (media móvil centrada)
+        const trend = [];
+        for (let i = 0; i < n; i++) {
+            const half = Math.floor(period / 2);
+            const start = Math.max(0, i - half), end = Math.min(n, i + half + 1);
+            trend.push(values.slice(start, end).reduce((s, v) => s + v, 0) / (end - start));
+        }
+        // Estacionalidad (promedio por posición)
+        const seasonal = Array(n).fill(0);
+        const detrended = values.map((v, i) => v - trend[i]);
+        if (period > 1 && period < n) {
+            const seasonalPattern = Array(period).fill(0);
+            const seasonalCount = Array(period).fill(0);
+            for (let i = 0; i < n; i++) { seasonalPattern[i % period] += detrended[i]; seasonalCount[i % period]++; }
+            for (let p = 0; p < period; p++) seasonalPattern[p] = seasonalCount[p] > 0 ? seasonalPattern[p] / seasonalCount[p] : 0;
+            const meanSP = seasonalPattern.reduce((s, v) => s + v, 0) / period;
+            for (let p = 0; p < period; p++) seasonalPattern[p] -= meanSP;
+            for (let i = 0; i < n; i++) seasonal[i] = seasonalPattern[i % period];
+        }
+        // Residuos
+        const residuals = values.map((v, i) => v - (trend[i] + seasonal[i]));
+        // ACF hasta lag 20
+        const mean = values.reduce((s, v) => s + v, 0) / n;
+        const variance = values.reduce((s, v) => s + (v - mean) ** 2, 0) / n;
+        const maxLag = Math.min(20, n - 2);
+        const acf = [];
+        for (let lag = 0; lag <= maxLag; lag++) {
+            let num = 0, den = 0;
+            for (let i = 0; i < n - lag; i++) { num += (values[i] - mean) * (values[i + lag] - mean); }
+            acf.push({ lag, value: parseFloat((num / (n * variance)).toFixed(4)) });
+        }
+        // PACF (Yule-Walker aproximado)
+        const pacf = [{ lag: 0, value: 1 }];
+        for (let lag = 1; lag <= maxLag; lag++) {
+            const r = acf.slice(1, lag + 1).map(a => a.value);
+            if (r.length < 2) { pacf.push({ lag, value: r[0] || 0 }); continue; }
+            const m = r.length;
+            const phi = Array(m).fill(0);
+            phi[m - 1] = r[m - 1];
+            for (let k = m - 1; k >= 1; k--) {
+                let sum = 0; for (let j = 1; j <= k - 1; j++) sum += phi[j - 1] * r[k - j - 1];
+                phi[k - 1] = r[k - 1] - sum;
+                phi[k - 1] /= (1 - r.reduce((s, v) => s + v, 0) / m);
+            }
+            pacf.push({ lag, value: parseFloat(phi[m - 1].toFixed(4)) });
+        }
+        // Pronóstico simple (tendencia lineal)
+        const xMean = (n - 1) / 2;
+        const x2Sum = Array.from({ length: n }, (_, i) => (i - xMean) ** 2).reduce((s, v) => s + v, 0);
+        const slope = values.reduce((s, v, i) => s + (i - xMean) * v, 0) / x2Sum;
+        const intercept = mean - slope * xMean;
+        const forecast = Array.from({ length: Math.min(period, 12) }, (_, i) => ({
+            paso: i + 1,
+            valor: parseFloat((intercept + slope * (n + i)).toFixed(4))
+        }));
+        // Estadística de Ljung-Box
+        const lbQ = acf.slice(1, Math.min(11, acf.length)).reduce((s, a) => s + a.value ** 2 / (n - a.lag), 0) * n * (n + 2);
+        const lbP = 1 - calcularValorP_ChiCuadrado(lbQ, Math.min(10, acf.length - 1));
+        return {
+            tendencia: trend.map(v => parseFloat(v.toFixed(4))),
+            estacionalidad: seasonal.map(v => parseFloat(v.toFixed(4))),
+            residuos: residuals.map(v => parseFloat(v.toFixed(4))),
+            acf: acf,
+            pacf: pacf,
+            pronostico: forecast,
+            lbQ: parseFloat(lbQ.toFixed(4)),
+            lbP: parseFloat((1 - lbP).toFixed(4)),
+            period: period,
+            n: n,
+            interpretacion: (1 - lbP) < 0.05
+                ? `Serie con autocorrelación significativa (Ljung-Box p=${(1 - lbP).toFixed(4)})`
+                : `Serie sin autocorrelación residual (Ljung-Box p=${(1 - lbP).toFixed(4)} ≥ 0.05)`
+        };
+    }
+
+    /**
+     * Modelos Mixtos lineales simplificados (efectos fijos + aleatorios)
+     */
+    function calcularModelosMixtos(Y, X, grupos) {
+        if (!Y || Y.length < 10) return { error: 'Se necesitan al menos 10 observaciones' };
+        const n = Y.length;
+        const uniqueGroups = [...new Set(grupos)].filter(g => g != null);
+        const nGroups = uniqueGroups.length;
+        if (nGroups < 2) return { error: 'Se necesitan al menos 2 grupos' };
+        // Efectos fijos (modelo lineal simple)
+        const meanY = Y.reduce((s, v) => s + v, 0) / n;
+        const ssTotal = Y.reduce((s, v) => s + (v - meanY) ** 2, 0);
+        // Efectos aleatorios (medias por grupo)
+        const groupMeans = uniqueGroups.map(g => {
+            const vals = Y.filter((_, i) => grupos[i] === g);
+            return { grupo: g, media: vals.reduce((s, v) => s + v, 0) / vals.length, n: vals.length };
+        });
+        // Varianza entre grupos (random effects)
+        const gm = groupMeans.reduce((s, g) => s + g.media, 0) / nGroups;
+        const varEntre = groupMeans.reduce((s, g) => s + (g.media - gm) ** 2, 0) / (nGroups - 1);
+        // Varianza dentro de grupos (residual)
+        let varDentro = 0;
+        for (const gm of groupMeans) {
+            const vals = Y.filter((_, i) => grupos[i] === gm.grupo);
+            const mg = gm.media;
+            varDentro += vals.reduce((s, v) => s + (v - mg) ** 2, 0);
+        }
+        varDentro /= (n - nGroups);
+        // ICC
+        const totalVar = varEntre + varDentro;
+        const icc = totalVar > 0 ? varEntre / totalVar : 0;
+        // Log-verosimilitud (aproximación normal)
+        const rss = Y.reduce((s, v, i) => {
+            const gMean = groupMeans.find(g => g.grupo === grupos[i])?.media || meanY;
+            return s + (v - gMean) ** 2;
+        }, 0);
+        const logLik = -n / 2 * Math.log(2 * Math.PI * rss / n) - rss / (2 * rss / n);
+        const k = 2 + nGroups; // parámetros: intercept + var + nGroup random effects
+        const aic = 2 * k - 2 * logLik;
+        const bic = k * Math.log(n) - 2 * logLik;
+        // Efectos fijos
+        const fixedEffects = { intercept: parseFloat(meanY.toFixed(4)) };
+        const Betas = groupMeans.map(g => parseFloat((g.media - meanY).toFixed(4)));
+        return {
+            betasFijos: fixedEffects,
+            varianzasAleatorias: { entre: parseFloat(varEntre.toFixed(4)), dentro: parseFloat(varDentro.toFixed(4)) },
+            aic: parseFloat(aic.toFixed(2)),
+            bic: parseFloat(bic.toFixed(2)),
+            logLik: parseFloat(logLik.toFixed(4)),
+            icc: parseFloat(icc.toFixed(4)),
+            n: n, nGrupos: nGroups,
+            groupEffects: groupMeans.map(g => ({ grupo: g.grupo, efecto: parseFloat((g.media - meanY).toFixed(4)), n: g.n })),
+            interpretacion: icc > 0.1
+                ? `Efecto de grupo significativo (ICC = ${icc.toFixed(3)} > 0.1, AIC = ${aic.toFixed(1)})`
+                : `Efecto de grupo bajo (ICC = ${icc.toFixed(3)} ≤ 0.1, AIC = ${aic.toFixed(1)})`
+        };
+    }
+
+    /**
+     * Inferencia Bayesiana (conjugada normal-normal)
+     */
+    function calcularBayesiano(values, prior) {
+        if (!values || values.length < 5) return { error: 'Se necesitan al menos 5 observaciones' };
+        const n = values.length;
+        const mediaMuestral = calcularMedia(values);
+        const varMuestral = calcularVarianza(values, true);
+        // Prior conjugado Normal (media_0, var_0)
+        const mu0 = prior?.media !== undefined ? prior.media : 0;
+        const sigma20 = prior?.varianza !== undefined ? prior.varianza : varMuestral;
+        const sigma2 = varMuestral;
+        // Posterior Normal
+        const precision0 = 1 / sigma20;
+        const precision = n / sigma2;
+        const mediaPost = (precision0 * mu0 + precision * mediaMuestral) / (precision0 + precision);
+        const varPost = 1 / (precision0 + precision);
+        const sdPost = Math.sqrt(varPost);
+        // IC Credible 95%
+        const z = 1.96;
+        const ic95 = { inferior: mediaPost - z * sdPost, superior: mediaPost + z * sdPost };
+        // Factor de Bayes (aproximación BIC)
+        // BF10 = evidencia a favor de H1 vs H0 (mu=mu0)
+        const t = (mediaMuestral - mu0) / Math.sqrt(sigma2 / n);
+        const bf10 = Math.exp(-0.5 * Math.log(1 + n * sigma20 / sigma2) + (n * t * t) / (2 * (1 + sigma2 / (n * sigma20))));
+        // MCMC simulado (Gibbs sampling normal-normal)
+        const mcmcSamples = [];
+        let currentMu = mediaMuestral;
+        for (let iter = 0; iter < 2000; iter++) {
+            const muPrecision = 1 / sigma20 + n / sigma2;
+            const muMean = (mu0 / sigma20 + n * mediaMuestral / sigma2) / muPrecision;
+            currentMu = muMean + randomNormal() * Math.sqrt(1 / muPrecision);
+            if (iter >= 1000) mcmcSamples.push(currentMu); // burn-in 1000
+        }
+        const postMean = mcmcSamples.reduce((s, v) => s + v, 0) / mcmcSamples.length;
+        const postSd = Math.sqrt(mcmcSamples.reduce((s, v) => s + (v - postMean) ** 2, 0) / mcmcSamples.length);
+        // Convergencia (R-hat aproximado)
+        const rHat = postSd > 0 && sdPost > 0 ? postSd / sdPost : 1;
+        return {
+            posterior: { media: parseFloat(mediaPost.toFixed(4)), sd: parseFloat(sdPost.toFixed(4)) },
+            media_posterior: parseFloat(mediaPost.toFixed(4)),
+            ic95_credible: { inferior: parseFloat(ic95.inferior.toFixed(4)), superior: parseFloat(ic95.superior.toFixed(4)) },
+            factorBayes: parseFloat(bf10.toFixed(2)),
+            mediaMuestral: parseFloat(mediaMuestral.toFixed(4)),
+            n: n,
+            mcmc: { nSamples: mcmcSamples.length, media: parseFloat(postMean.toFixed(4)), sd: parseFloat(postSd.toFixed(4)), rHat: parseFloat(rHat.toFixed(4)) },
+            interpretacion: bf10 > 10 ? `Evidencia muy fuerte para H₁ (BF₁₀ = ${bf10.toFixed(1)})`
+                : bf10 > 3 ? `Evidencia sustancial para H₁ (BF₁₀ = ${bf10.toFixed(1)})`
+                : bf10 > 1 ? `Evidencia anecdótica para H₁ (BF₁₀ = ${bf10.toFixed(1)})`
+                : bf10 < 0.1 ? `Evidencia muy fuerte para H₀ (BF₁₀ = ${bf10.toFixed(2)})`
+                : bf10 < 0.33 ? `Evidencia sustancial para H₀ (BF₁₀ = ${bf10.toFixed(2)})`
+                : `Evidencia anecdótica para H₀ (BF₁₀ = ${bf10.toFixed(2)})`
+        };
+    }
+
+    function randomNormal() {
+        let u = 0, v = 0;
+        while (u === 0) u = Math.random();
+        while (v === 0) v = Math.random();
+        return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+    }
+
+    // ── Helpers de matrices ──
+
+    function numericInverse(m) {
+        const n = m.length;
+        const aug = m.map((row, i) => [...row.map(x => x || 0), ...Array.from({ length: n }, (_, j) => i === j ? 1 : 0)]);
+        for (let col = 0; col < n; col++) {
+            let pivot = col;
+            while (pivot < n && Math.abs(aug[pivot][col]) < 1e-10) pivot++;
+            if (pivot === n) { aug[col][col] = 1; continue; }
+            [aug[col], aug[pivot]] = [aug[pivot], aug[col]];
+            const div = aug[col][col];
+            for (let j = 0; j < 2 * n; j++) aug[col][j] /= div;
+            for (let row = 0; row < n; row++) {
+                if (row !== col) {
+                    const factor = aug[row][col];
+                    for (let j = 0; j < 2 * n; j++) aug[row][j] -= factor * aug[col][j];
+                }
+            }
+        }
+        return aug.map(row => row.slice(n));
+    }
+
+    function numericMultiply(a, b) {
+        const n = a.length, m = b[0].length, p = b.length;
+        const result = Array.from({ length: n }, () => Array(m).fill(0));
+        for (let i = 0; i < n; i++) for (let j = 0; j < m; j++) for (let k = 0; k < p; k++) result[i][j] += a[i][k] * b[k][j];
+        return result;
+    }
+
+    function numericAdd(a, b) {
+        return a.map((row, i) => row.map((v, j) => v + b[i][j]));
+    }
+
+    function numericDeterminant(m) {
+        const n = m.length;
+        if (n === 1) return m[0][0];
+        if (n === 2) return m[0][0] * m[1][1] - m[0][1] * m[1][0];
+        let det = 0;
+        const mat = m.map(row => [...row]);
+        for (let i = 0; i < n; i++) {
+            let pivot = i;
+            while (pivot < n && Math.abs(mat[pivot][i]) < 1e-10) pivot++;
+            if (pivot === n) return 0;
+            if (pivot !== i) { [mat[i], mat[pivot]] = [mat[pivot], mat[i]]; det *= -1; }
+            det *= mat[i][i];
+            const div = mat[i][i];
+            for (let j = i; j < n; j++) mat[i][j] /= div;
+            for (let row = i + 1; row < n; row++) {
+                const factor = mat[row][i];
+                for (let j = i; j < n; j++) mat[row][j] -= factor * mat[i][j];
+            }
+        }
+        return det;
+    }
+
+    /**
      * Ejecuta análisis según estadísticos seleccionados
      * @param {Object} data - Datos importados
      * @param {Array} estadisticos - Lista de estadísticos a calcular
@@ -4002,6 +4547,225 @@ resultados['Test de Signos'].columna1 = col1;
                             }
                         }
                         break;
+                    
+                    // ============================================================
+                    // HIPÓTESIS - TOST (Equivalencia)
+                    // ============================================================
+                    case 'Test TOST (Equivalencia)':
+                        if (hypothesisConfig['Test TOST (Equivalencia)'] && hypothesisConfig['Test TOST (Equivalencia)'].columnaX && hypothesisConfig['Test TOST (Equivalencia)'].columnaY) {
+                            const cfg = hypothesisConfig['Test TOST (Equivalencia)'];
+                            const values1 = getNumericValues(data, cfg.columnaX);
+                            const values2 = getNumericValues(data, cfg.columnaY);
+                            const delta = parseFloat(cfg.delta) || 0.5;
+                            if (values1.length < 2 || values2.length < 2) {
+                                resultados['Test TOST (Equivalencia)'] = { error: 'Ambas columnas necesitan al menos 2 valores numéricos' };
+                            } else {
+                                const res = calcularTOST(values1, values2, delta);
+                                res.columnaX = cfg.columnaX;
+                                res.columnaY = cfg.columnaY;
+                                resultados['Test TOST (Equivalencia)'] = res;
+                            }
+                        } else {
+                            resultados['Test TOST (Equivalencia)'] = { error: 'Configure los parámetros de TOST en el menú' };
+                        }
+                        break;
+
+                    // ============================================================
+                    // MULTIVARIADO - CLUSTER (K-Medias)
+                    // ============================================================
+                    case 'Análisis de Cluster':
+                        {
+                            let clusterColumns = numericCols;
+                            if (hypothesisConfig['Análisis de Cluster'] && hypothesisConfig['Análisis de Cluster'].columnas) {
+                                clusterColumns = hypothesisConfig['Análisis de Cluster'].columnas;
+                            }
+                            const k = hypothesisConfig['Análisis de Cluster']?.k || 3;
+                            if (clusterColumns.length < 2) {
+                                resultados['Análisis de Cluster'] = { error: 'Seleccione al menos 2 columnas numéricas' };
+                            } else {
+                                const dataMatrix = [];
+                                const minLen = Math.min(...clusterColumns.map(col => getNumericValues(data, col).length));
+                                for (let i = 0; i < minLen; i++) {
+                                    const row = clusterColumns.map(col => parseFloat(data.data[i]?.[col] ?? NaN));
+                                    if (row.some(v => isNaN(v))) continue;
+                                    dataMatrix.push(row);
+                                }
+                                if (dataMatrix.length < 5) {
+                                    resultados['Análisis de Cluster'] = { error: 'Se necesitan al menos 5 observaciones completas' };
+                                } else {
+                                    const res = calcularCluster(dataMatrix, k);
+                                    res.columnas = clusterColumns;
+                                    resultados['Análisis de Cluster'] = res;
+                                }
+                            }
+                        }
+                        break;
+
+                    // ============================================================
+                    // MULTIVARIADO - ANÁLISIS DISCRIMINANTE (LDA)
+                    // ============================================================
+                    case 'Análisis Discriminante':
+                        {
+                            const cfg = hypothesisConfig['Análisis Discriminante'];
+                            const catCol = cfg?.categoricalCols?.[0];
+                            const numCols = cfg?.columnas || numericCols;
+                            if (!catCol) {
+                                resultados['Análisis Discriminante'] = { error: 'Seleccione una columna de grupo y columnas numéricas' };
+                            } else if (numCols.length < 2) {
+                                resultados['Análisis Discriminante'] = { error: 'Seleccione al menos 2 columnas numéricas' };
+                            } else {
+                                const dataMatrix = [];
+                                const labels = [];
+                                for (let i = 0; i < data.data.length; i++) {
+                                    const row = numCols.map(col => parseFloat(data.data[i]?.[col] ?? NaN));
+                                    if (row.some(v => isNaN(v))) continue;
+                                    dataMatrix.push(row);
+                                    labels.push(data.data[i][catCol]);
+                                }
+                                if (dataMatrix.length < 10) {
+                                    resultados['Análisis Discriminante'] = { error: 'Se necesitan al menos 10 observaciones completas' };
+                                } else {
+                                    const res = calcularDiscriminante(dataMatrix, labels);
+                                    res.categoricalCol = catCol;
+                                    res.columnas = numCols;
+                                    resultados['Análisis Discriminante'] = res;
+                                }
+                            }
+                        }
+                        break;
+
+                    // ============================================================
+                    // MULTIVARIADO - MANOVA
+                    // ============================================================
+                    case 'M-ANOVA':
+                        {
+                            const cfg = hypothesisConfig['M-ANOVA'];
+                            const catCol = cfg?.categoricalCols?.[0];
+                            const numCols = cfg?.columnas || numericCols;
+                            if (!catCol) {
+                                resultados['M-ANOVA'] = { error: 'Seleccione una columna de grupo y columnas dependientes' };
+                            } else if (numCols.length < 2) {
+                                resultados['M-ANOVA'] = { error: 'Seleccione al menos 2 variables dependientes' };
+                            } else {
+                                const dataMatrix = [];
+                                const labels = [];
+                                for (let i = 0; i < data.data.length; i++) {
+                                    const row = numCols.map(col => parseFloat(data.data[i]?.[col] ?? NaN));
+                                    if (row.some(v => isNaN(v))) continue;
+                                    dataMatrix.push(row);
+                                    labels.push(data.data[i][catCol]);
+                                }
+                                if (dataMatrix.length < 10) {
+                                    resultados['M-ANOVA'] = { error: 'Se necesitan al menos 10 observaciones completas' };
+                                } else {
+                                    const res = calcularMANOVA(dataMatrix, labels);
+                                    res.categoricalCol = catCol;
+                                    res.columnas = numCols;
+                                    resultados['M-ANOVA'] = res;
+                                }
+                            }
+                        }
+                        break;
+
+                    // ============================================================
+                    // EXTRAS - SERIES TEMPORALES
+                    // ============================================================
+                    case 'Series Temporales':
+                        {
+                            const cfg = hypothesisConfig['Series Temporales'];
+                            const col = cfg?.numericCol || numericCols[0];
+                            const period = cfg?.periodo || Math.max(2, Math.floor(Math.sqrt(data.data.length)));
+                            const values = getNumericValues(data, col);
+                            if (values.length < 10) {
+                                resultados['Series Temporales'] = { error: 'Se necesitan al menos 10 observaciones' };
+                            } else {
+                                const res = calcularSeriesTemporales(values, period);
+                                res.columna = col;
+                                resultados['Series Temporales'] = res;
+                            }
+                        }
+                        break;
+
+                    // ============================================================
+                    // EXTRAS - ANÁLISIS DE SUPERVIVENCIA
+                    // ============================================================
+                    case 'Análisis de Supervivencia':
+                        {
+                            const cfg = hypothesisConfig['Análisis de Supervivencia'];
+                            const tiempoCol = cfg?.columnaTiempo;
+                            const eventoCol = cfg?.columnaEvento;
+                            const grupoCol = cfg?.columnaGrupo;
+                            if (!tiempoCol || !eventoCol) {
+                                resultados['Análisis de Supervivencia'] = { error: 'Seleccione columna de tiempo y evento' };
+                            } else {
+                                const tiempos = getNumericValues(data, tiempoCol);
+                                const eventos = data.data.map(row => {
+                                    const v = row[eventoCol];
+                                    if (typeof v === 'number') return v;
+                                    if (typeof v === 'string') return ['1', 'si', 'yes', 'true'].includes(v.toLowerCase()) ? 1 : 0;
+                                    return 0;
+                                });
+                                const grupos = grupoCol ? data.data.map(row => row[grupoCol]) : null;
+                                if (tiempos.length < 5) {
+                                    resultados['Análisis de Supervivencia'] = { error: 'Se necesitan al menos 5 observaciones' };
+                                } else {
+                                    const res = calcularSupervivencia(tiempos, eventos, grupos);
+                                    res.columnaTiempo = tiempoCol;
+                                    res.columnaEvento = eventoCol;
+                                    if (grupoCol) res.columnaGrupo = grupoCol;
+                                    resultados['Análisis de Supervivencia'] = res;
+                                }
+                            }
+                        }
+                        break;
+
+                    // ============================================================
+                    // EXTRAS - MODELOS MIXTOS
+                    // ============================================================
+                    case 'Modelos Mixtos':
+                        {
+                            const cfg = hypothesisConfig['Modelos Mixtos'];
+                            const numCol = cfg?.numericCol;
+                            const catCol = cfg?.categoricalCols?.[0];
+                            if (!numCol || !catCol) {
+                                resultados['Modelos Mixtos'] = { error: 'Seleccione columna numérica (Y) y columna de grupo' };
+                            } else {
+                                const Y = getNumericValues(data, numCol);
+                                const grupos = data.data.map(row => row[catCol]);
+                                if (Y.length < 10) {
+                                    resultados['Modelos Mixtos'] = { error: 'Se necesitan al menos 10 observaciones' };
+                                } else {
+                                    const res = calcularModelosMixtos(Y, null, grupos);
+                                    res.columnaY = numCol;
+                                    res.columnaGrupo = catCol;
+                                    resultados['Modelos Mixtos'] = res;
+                                }
+                            }
+                        }
+                        break;
+
+                    // ============================================================
+                    // EXTRAS - ANÁLISIS BAYESIANO
+                    // ============================================================
+                    case 'Análisis Bayesiano':
+                        {
+                            const cfg = hypothesisConfig['Análisis Bayesiano'];
+                            const col = cfg?.numericCol || numericCols[0];
+                            const prior = {
+                                media: parseFloat(cfg?.priorMedia) || 0,
+                                varianza: parseFloat(cfg?.priorVarianza) || null
+                            };
+                            const values = getNumericValues(data, col);
+                            if (values.length < 5) {
+                                resultados['Análisis Bayesiano'] = { error: 'Se necesitan al menos 5 observaciones' };
+                            } else {
+                                if (!prior.varianza) prior.varianza = calcularVarianza(values, true);
+                                const res = calcularBayesiano(values, prior);
+                                res.columna = col;
+                                resultados['Análisis Bayesiano'] = res;
+                            }
+                        }
+                        break;
                 }
         });
         
@@ -4910,6 +5674,116 @@ function generarHTML(analisisResultado) {
                     <div class="ar-kpi-sub-grid"><div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Mín</span><span class="ar-kpi-sub-v">${data.distribucion?.min?.toFixed(4) ?? '—'}</span></div><div class="ar-kpi-sub"><span class="ar-kpi-sub-k">P25</span><span class="ar-kpi-sub-v">${data.distribucion?.p25?.toFixed(4) ?? '—'}</span></div><div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Mediana</span><span class="ar-kpi-sub-v">${data.distribucion?.mediana?.toFixed(4) ?? '—'}</span></div><div class="ar-kpi-sub"><span class="ar-kpi-sub-k">P75</span><span class="ar-kpi-sub-v">${data.distribucion?.p75?.toFixed(4) ?? '—'}</span></div><div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Máx</span><span class="ar-kpi-sub-v">${data.distribucion?.max?.toFixed(4) ?? '—'}</span></div></div>
                     </div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+        }
+        // TOST (Equivalencia)
+        if (statKey === 'Test TOST (Equivalencia)') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">🔄 ${data.columnaX || 'X'} vs ${data.columnaY || 'Y'} (Δ=${data.delta})</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">t inferior</span><span class="ar-kpi-sub-v">${data.tInferior?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">t superior</span><span class="ar-kpi-sub-v">${data.tSuperior?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p TOST</span><span class="ar-kpi-sub-v">${data.pTOST?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 90%</span><span class="ar-kpi-sub-v">[${data.ic90?.inferior?.toFixed(4) ?? '—'}, ${data.ic90?.superior?.toFixed(4) ?? '—'}]</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Diferencia</span><span class="ar-kpi-sub-v">${data.diferencia?.toFixed(4) ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.esEquivalente ? 'ar-badge-ok' : 'ar-badge-danger'}">${data.esEquivalente ? '✓ Equivalente' : '✗ No equivalente'}</div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div></div>`;
+        }
+        // Cluster K-Medias
+        if (statKey === 'Análisis de Cluster') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">🧩 K-Medias (k=${data.k})</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Clusters</span><span class="ar-kpi-sub-v">${data.k}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Inercia</span><span class="ar-kpi-sub-v">${data.inertia}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Silhouette</span><span class="ar-kpi-sub-v">${data.silhouette}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Tamaños</span><span class="ar-kpi-sub-v">${data.clusterSizes?.join(', ') || '—'}</span></div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div></div>`;
+        }
+        // Análisis Discriminante (LDA)
+        if (statKey === 'Análisis Discriminante') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">🎯 Análisis Discriminante</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Funciones</span><span class="ar-kpi-sub-v">${data.funcionesDiscriminantes}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Λ de Wilks</span><span class="ar-kpi-sub-v">${data.lambda}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">χ²</span><span class="ar-kpi-sub-v">${data.chi2}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p</span><span class="ar-kpi-sub-v">${data.p}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Accuracy</span><span class="ar-kpi-sub-v">${((data.accuracy||0)*100).toFixed(1)}%</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.p < 0.05 ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.p < 0.05 ? '✗ Significativo' : '✓ No significativo'}</div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div></div>`;
+        }
+        // MANOVA
+        if (statKey === 'M-ANOVA') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 MANOVA</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Λ de Wilks</span><span class="ar-kpi-sub-v">${data.lambda}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">F aproximado</span><span class="ar-kpi-sub-v">${data.F}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">gl</span><span class="ar-kpi-sub-v">${data.gl1}, ${data.gl2}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p</span><span class="ar-kpi-sub-v">${data.p}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">η²p</span><span class="ar-kpi-sub-v">${data.etaCuadradoP}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Pillai</span><span class="ar-kpi-sub-v">${data.pillai}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo' : '✓ No significativo'}</div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div></div>`;
+        }
+        // Series Temporales
+        if (statKey === 'Series Temporales') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📈 ${data.columna || ''} (periodo=${data.period})</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Periodo</span><span class="ar-kpi-sub-v">${data.period}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Ljung-Box Q</span><span class="ar-kpi-sub-v">${data.lbQ}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p (LB)</span><span class="ar-kpi-sub-v">${data.lbP}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Pronóstico</span><span class="ar-kpi-sub-v">${data.pronostico?.slice(0,3).map(p => `${p.paso}:${p.valor}`).join(', ') || '—'}</span></div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div></div>`;
+        }
+        // Análisis de Supervivencia
+        if (statKey === 'Análisis de Supervivencia') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            const curvasInfo = data.curvas?.map(c => `${c.grupo}: n=${c.n}, mediana=${c.mediana || '—'}`).join(' | ');
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">⏱️ Supervivencia</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Curvas</span><span class="ar-kpi-sub-v">${curvasInfo || '—'}</span></div>
+                        ${data.logRank ? `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Log-rank χ²</span><span class="ar-kpi-sub-v">${data.logRank.chi2}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p (log-rank)</span><span class="ar-kpi-sub-v">${data.logRank.p}</span></div>` : ''}
+                    </div>
+                    ${data.logRank ? `<div class="ar-kpi-badge ${data.logRank.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.logRank.significativo ? '✗ Diferencias significativas' : '✓ Sin diferencias'}</div>` : ''}
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div></div>`;
+        }
+        // Modelos Mixtos
+        if (statKey === 'Modelos Mixtos') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">🔀 Modelos Mixtos</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">ICC</span><span class="ar-kpi-sub-v">${data.icc}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">AIC</span><span class="ar-kpi-sub-v">${data.aic}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">BIC</span><span class="ar-kpi-sub-v">${data.bic}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">LogLik</span><span class="ar-kpi-sub-v">${data.logLik}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n grupos</span><span class="ar-kpi-sub-v">${data.nGrupos}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n total</span><span class="ar-kpi-sub-v">${data.n}</span></div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div></div>`;
+        }
+        // Análisis Bayesiano
+        if (statKey === 'Análisis Bayesiano') {
+            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">🎲 ${data.columna || ''}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Media posterior</span><span class="ar-kpi-sub-v">${data.media_posterior}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 95% credible</span><span class="ar-kpi-sub-v">[${data.ic95_credible?.inferior}, ${data.ic95_credible?.superior}]</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">BF₁₀</span><span class="ar-kpi-sub-v">${data.factorBayes}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Media muestral</span><span class="ar-kpi-sub-v">${data.mediaMuestral}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R̂ (MCMC)</span><span class="ar-kpi-sub-v">${data.mcmc?.rHat}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.factorBayes > 3 ? 'ar-badge-ok' : 'ar-badge-info'}">${data.factorBayes > 3 ? '★ Evidencia sustancial' : '○ Evidencia débil'}</div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div></div>`;
         }
         return '<p>Tipo de prueba no reconocido</p>';
     }

@@ -2787,11 +2787,35 @@ function _mostrarModalConfigTest(nombre, callback) {
     necesitaCat = false;
     necesitaDosNumericas = true;
     modalTipo = 'dos-cols-pareadas';
+  } else if (t === 'dos-columnas-mas-umbral') {
+    necesitaCat = false;
+    necesitaDosNumericas = true;
+    modalTipo = 'xy-umbral';
+  } else if (t === 'multiples-columnas-mas-grupo') {
+    necesitaCat = true;
+    necesitaDosNumericas = false;
+    modalTipo = 'y-multi-x-grupo';
+  } else if (t === 'una-columna-temporal') {
+    necesitaCat = false;
+    necesitaDosNumericas = false;
+    modalTipo = 'single-num-periodo';
+  } else if (t === 'tiempo-evento-grupo') {
+    necesitaCat = false;
+    necesitaDosNumericas = false;
+    modalTipo = 'supervivencia';
+  } else if (t === 'multiples-columnas-mas-grupo-anidado') {
+    necesitaCat = true;
+    necesitaDosNumericas = false;
+    modalTipo = 'y-grupo';
+  } else if (t === 'una-o-multiples-columnas-mas-prior') {
+    necesitaCat = false;
+    necesitaDosNumericas = false;
+    modalTipo = 'bayesiano';
   }
   if (necesitaCat && tipos.catCols.length === 0) { showToast('⚠️ No hay columnas categóricas disponibles'); callback(); return; }
   if (necesitaDosCat && tipos.catCols.length < 2) { showToast('⚠️ Se necesitan al menos 2 columnas categóricas'); callback(); return; }
   if (necesitaDosNumericas && tipos.numCols.length < 2) { showToast('⚠️ Se necesitan al menos 2 columnas numéricas'); callback(); return; }
-  if (modalTipo === 'y-multi-x' && tipos.numCols.length < 2) { showToast('⚠️ Se necesitan al menos 2 columnas numéricas'); callback(); return; }
+  if ((modalTipo === 'y-multi-x' || modalTipo === 'y-multi-x-grupo') && tipos.numCols.length < 2) { showToast('⚠️ Se necesitan al menos 2 columnas numéricas'); callback(); return; }
   var optsN = tipos.numCols.map(function(c) { return '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; }).join('');
   var optsC = tipos.catCols.length ? tipos.catCols.map(function(c) { return '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; }).join('') : '';
   var modalContent = '';
@@ -2827,6 +2851,48 @@ function _mostrarModalConfigTest(nombre, callback) {
       '<div style="display:flex;flex-direction:column;gap:6px">' +
         '<div><label style="font-size:11px;color:var(--text-primary)">Columna 1</label><select id="cfgCol1" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
         '<div><label style="font-size:11px;color:var(--text-primary)">Columna 2</label><select id="cfgCol2" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+      '</div>';
+  } else if (modalTipo === 'xy-umbral') {
+    modalContent =
+      '<div style="display:flex;flex-direction:column;gap:6px">' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna 1</label><select id="cfgCol1" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna 2</label><select id="cfgCol2" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Delta (límite de equivalencia)</label><input id="cfgDelta" type="number" value="0.5" min="0.01" step="0.1" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>' +
+      '</div>';
+  } else if (modalTipo === 'y-multi-x-grupo') {
+    modalContent =
+      '<div style="display:flex;flex-direction:column;gap:6px">' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de grupo (categórica)</label><select id="cfgColCat" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Variables numéricas</label><div style="max-height:160px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;padding:6px;background:var(--bg-primary)">' +
+          tipos.numCols.map(function(c) { return '<label style="display:flex;align-items:center;gap:6px;padding:3px 4px;font-size:11px;color:var(--text-muted);cursor:pointer"><input type="checkbox" class="cfgColXChk" value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</label>'; }).join('') +
+        '</div></div>' +
+      '</div>';
+  } else if (modalTipo === 'single-num-periodo') {
+    modalContent =
+      '<div style="display:flex;flex-direction:column;gap:6px">' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de valores</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Periodo (estacionalidad)</label><input id="cfgPeriodo" type="number" value="4" min="2" max="52" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>' +
+      '</div>';
+  } else if (modalTipo === 'supervivencia') {
+    modalContent =
+      '<div style="display:flex;flex-direction:column;gap:6px">' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de tiempo (numérica)</label><select id="cfgColTiempo" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        (tipos.catCols.length ? '<div><label style="font-size:11px;color:var(--text-primary)">Columna de evento (0/1 o Sí/No)</label><select id="cfgColEvento" class="btn" style="width:100%;text-align:left">' + [...tipos.numCols, ...tipos.catCols].map(function(c) { return '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; }).join('') + '</select></div>' : '<div><label style="font-size:11px;color:var(--text-primary)">Columna de evento</label><select id="cfgColEvento" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>') +
+        (tipos.catCols.length ? '<div><label style="font-size:11px;color:var(--text-primary)">Columna de grupo (opcional)</label><select id="cfgColGrupo" class="btn" style="width:100%;text-align:left"><option value="">— Sin grupo —</option>' + optsC + '</select></div>' : '') +
+      '</div>';
+  } else if (modalTipo === 'y-grupo') {
+    if (tipos.catCols.length === 0) { showToast('⚠️ No hay columnas categóricas disponibles'); callback(); return; }
+    modalContent =
+      '<div style="display:flex;flex-direction:column;gap:6px">' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Variable Y (numérica)</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de grupo (categórica)</label><select id="cfgColCat" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
+      '</div>';
+  } else if (modalTipo === 'bayesiano') {
+    modalContent =
+      '<div style="display:flex;flex-direction:column;gap:6px">' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de valores</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Prior: media</label><input id="cfgPriorMedia" type="number" value="0" step="0.1" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Prior: varianza (opcional)</label><input id="cfgPriorVar" type="number" value="" step="0.1" placeholder="Usar varianza muestral" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>' +
       '</div>';
   } else if (necesitaCat) {
     if (t === 'tabla-contingencia') {
@@ -2879,6 +2945,31 @@ function _mostrarModalConfigTest(nombre, callback) {
       config.columnas = config.columnasX;
     } else if (modalTipo === 'dos-cols-pareadas') {
       config.numericCols = [document.getElementById('cfgCol1').value, document.getElementById('cfgCol2').value];
+    } else if (modalTipo === 'xy-umbral') {
+      config.columnaX = document.getElementById('cfgCol1').value;
+      config.columnaY = document.getElementById('cfgCol2').value;
+      config.delta = parseFloat(document.getElementById('cfgDelta').value) || 0.5;
+    } else if (modalTipo === 'y-multi-x-grupo') {
+      config.categoricalCols = [document.getElementById('cfgColCat').value];
+      var chkX = document.querySelectorAll('.cfgColXChk:checked');
+      config.columnas = Array.from(chkX).map(function(c) { return c.value; });
+      if (config.columnas.length === 0) { showToast('⚠️ Selecciona al menos una variable numérica'); return; }
+    } else if (modalTipo === 'single-num-periodo') {
+      config.numericCol = document.getElementById('cfgColNum').value;
+      config.periodo = parseInt(document.getElementById('cfgPeriodo').value) || 4;
+    } else if (modalTipo === 'supervivencia') {
+      config.columnaTiempo = document.getElementById('cfgColTiempo').value;
+      config.columnaEvento = document.getElementById('cfgColEvento').value;
+      var grupoEl = document.getElementById('cfgColGrupo');
+      if (grupoEl && grupoEl.value) config.columnaGrupo = grupoEl.value;
+    } else if (modalTipo === 'y-grupo') {
+      config.numericCol = document.getElementById('cfgColNum').value;
+      config.categoricalCols = [document.getElementById('cfgColCat').value];
+    } else if (modalTipo === 'bayesiano') {
+      config.numericCol = document.getElementById('cfgColNum').value;
+      config.priorMedia = parseFloat(document.getElementById('cfgPriorMedia').value) || 0;
+      var priorVar = document.getElementById('cfgPriorVar').value;
+      if (priorVar) config.priorVarianza = parseFloat(priorVar);
     } else if (necesitaCat) {
       if (t === 'tabla-contingencia') {
         config.categoricalCols = [document.getElementById('cfgColCat1').value, document.getElementById('cfgColCat2').value];

@@ -1,10 +1,10 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
 **Fecha de Análisis:** 17 de Mayo 2026  
-**Última Actualización:** 20 de Mayo 2026 (Fix: Todos los tests de regresión funcionales)  
+**Última Actualización:** 20 de Mayo 2026 (Feat: 8 tests pendientes implementados — 52/52 completos)  
 **Versión del Proyecto:** 3.1  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
-**Estado General:** MVP Funcional (~95% Completo)
+**Estado General:** ✅ MVP Completo (52/52 tests)
 
 ---
 
@@ -107,6 +107,7 @@
 | 50 | 20 May 2026 | Fix: Migración de hypothesisConfig antiguos — stale configs con formato `{categoricalCols, numericCol}` guardados por versiones previas ahora se limpian automáticamente al iniciar para tests de correlación/regresión, forzando reconfiguración con el nuevo modal X/Y. | ✅ |
 | 51 | 20 May 2026 | Fix: Modal de configuración para TODOS los tests de regresión 🔴 — `_mostrarModalConfigTest` ahora soporta 5 tipos de modal: **xy** (correlación/Reg.Lineal Simple), **obspred** (RMSE/MAE/R² con labels observada/predicha), **xy-grado** (Reg.Polinomial con input de grado), **y-multi-x** (Reg.Múltiple/Logística con checkboxes X), y **cat-num** (T-Test). Cada modal guarda las keys exactas que `EstadisticaDescriptiva.js` espera. | ✅ |
 | 52 | 20 May 2026 | Fix: Auditoría completa de hypothesisConfig — corregidos 9 bugs de desajuste modal↔test: (1) `dos-columnas-pareadas` (Wilcoxon/Signos) ahora guarda `{numericCols[]}` en vez de `{numericCol}`, (2) `dos-grupos` (Mann-Whitney), `una-columna-grupo` (Kruskal-Wallis/ANOVA-OneWay), `bloques-k-condiciones` (Friedman) ahora muestran modal cat+num en vez de solo num, (3) `tabla-contingencia` (Chi-Cuadrado) ahora pide 2 cat columns, (4) `una-columna-dos-factores` (ANOVA Two-Way) ahora pide 2 factores + num, (5) `y-multi-x` (PCA/Factorial) ahora también guarda `{columnas}` junto a `{columnasX}`. | ✅ |
+| 53 | 20 May 2026 | Feat: Implementación completa de 8 tests pendientes — (1) TOST Equivalencia, (2) K-Medias Clustering, (3) LDA Discriminante, (4) MANOVA, (5) Kaplan-Meier Supervivencia, (6) Series Temporales (descomposición+ACF+PACF+pronóstico), (7) Modelos Mixtos (ICC/AIC/BIC), (8) Inferencia Bayesiana (conjugada normal-normal+MCMC). ~850 líneas de funciones calcularXxx en EstadisticaDescriptiva.js + helpers matriciales (inversa, determinante, multiplicación). Los 8 tests tienen: case en ejecutarAnalisis, KPI cards HTML, modales de configuración (xy-umbral, y-multi-x-grupo, supervivencia, bayesiano, etc.), entradas en menú (HYPOTHESIS_SET/testCategories), reportes TXT y HTML en ReporteManager.js. | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
@@ -367,19 +368,18 @@
 | 42 | Multivariado | PCA (Componentes Principales) | ✅ |
 | 43 | Multivariado | Análisis Factorial | ✅ |
 | 44 | Extras | Bootstrap | ✅ |
+| 45 | Hipótesis | Test TOST (Equivalencia) | ✅ |
+| 46 | Multivariado | Análisis de Cluster | ✅ |
+| 47 | Multivariado | Análisis Discriminante (LDA) | ✅ |
+| 48 | Multivariado | MANOVA | ✅ |
+| 49 | Extras | Series Temporales | ✅ |
+| 50 | Extras | Análisis de Supervivencia | ✅ |
+| 51 | Extras | Modelos Mixtos | ✅ |
+| 52 | Extras | Análisis Bayesiano | ✅ |
 
 ---
 
-### ❌ ESTADÍSTICOS PENDIENTES (6 de 50)
-
-| # | Categoría | Estadístico |
-|---|-----------|-------------|
-| 45 | Multivariado | K-Medias (Clustering) |
-| 46 | Multivariado | LDA (Análisis Discriminante) |
-| 47 | Multivariado | MANOVA |
-| 48 | Extras | Series Temporales |
-| 49 | Extras | Análisis de Supervivencia |
-| 50 | Extras | Inferencia Bayesiana |
+### ❌ ESTADÍSTICOS PENDIENTES (0 de 52)
 
 ### ✅ ESTADÍSTICOS RECIENTEMENTE IMPLEMENTADOS
 
@@ -388,6 +388,14 @@
 | 1 | Extras | Bootstrap | 13 Abr 2026 |
 | 2 | Multivariado | ACP (PCA) | 24 Abr 2026 |
 | 3 | Multivariado | Análisis Factorial | 24 Abr 2026 |
+| 4 | Hipótesis | Test TOST (Equivalencia) | 20 May 2026 |
+| 5 | Multivariado | K-Medias (Clustering) | 20 May 2026 |
+| 6 | Multivariado | LDA (Discriminante) | 20 May 2026 |
+| 7 | Multivariado | MANOVA | 20 May 2026 |
+| 8 | Extras | Series Temporales | 20 May 2026 |
+| 9 | Extras | Supervivencia (Kaplan-Meier) | 20 May 2026 |
+| 10 | Extras | Modelos Mixtos | 20 May 2026 |
+| 11 | Extras | Inferencia Bayesiana | 20 May 2026 |
 
 ---
 

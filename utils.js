@@ -134,7 +134,15 @@ const HYPOTHESIS_TESTS = [
     'Mann-Whitney U', 'Kruskal-Wallis',
     'Wilcoxon', 'Friedman', 'Test de Signos',
     'Bootstrap',
-    'Análisis Factorial', 'PCA (Componentes Principales)'
+    'Análisis Factorial', 'PCA (Componentes Principales)',
+    'Test TOST (Equivalencia)',
+    'Análisis de Cluster',
+    'Análisis Discriminante',
+    'M-ANOVA',
+    'Series Temporales',
+    'Análisis de Supervivencia',
+    'Modelos Mixtos',
+    'Análisis Bayesiano'
 ];
 
 // Set para búsquedas O(1) — usado internamente por includes()

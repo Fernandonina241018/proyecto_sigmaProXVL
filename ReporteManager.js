@@ -946,6 +946,30 @@ const ReporteManager = (() => {
                         p(`    Variables = ${data.k} | Observaciones = ${data.n}`);
                         p(`    Interpretación: ${data.interpretacion}`);
                     }
+                } else if (stat === 'Test TOST (Equivalencia)') {
+                    if (data.error) { p(`  ${stat}: ERROR - ${data.error}`); }
+                    else { p(`  ${stat} (${data.columnaX} vs ${data.columnaY}, Δ=${data.delta})`); p(`    t_inf=${fmtNum(data.tInferior)} t_sup=${fmtNum(data.tSuperior)} p_TOST=${fmtNum(data.pTOST)}`); p(`    IC 90%: [${fmtNum(data.ic90?.inferior)}, ${fmtNum(data.ic90?.superior)}]`); p(`    ${data.esEquivalente ? '✓ Equivalente' : '✗ No equivalente'} | ${data.interpretacion}`); }
+                } else if (stat === 'Análisis de Cluster') {
+                    if (data.error) { p(`  ${stat}: ERROR - ${data.error}`); }
+                    else { p(`  ${stat} (k=${data.k})`); p(`    Inercia=${data.inertia} Silhouette=${data.silhouette} Tamaños=[${data.clusterSizes?.join(',')}]`); p(`    ${data.interpretacion}`); }
+                } else if (stat === 'Análisis Discriminante') {
+                    if (data.error) { p(`  ${stat}: ERROR - ${data.error}`); }
+                    else { p(`  ${stat} (funciones=${data.funcionesDiscriminantes})`); p(`    Λ=${data.lambda} χ²=${data.chi2} p=${data.p} accuracy=${fmtNum((data.accuracy||0)*100)}%`); p(`    ${data.interpretacion}`); }
+                } else if (stat === 'M-ANOVA') {
+                    if (data.error) { p(`  ${stat}: ERROR - ${data.error}`); }
+                    else { p(`  ${stat}`); p(`    Λ=${data.lambda} F=${data.F} gl=${data.gl1},${data.gl2} p=${data.p}`); p(`    Pillai=${data.pillai} η²p=${data.etaCuadradoP}`); p(`    ${data.interpretacion}`); }
+                } else if (stat === 'Series Temporales') {
+                    if (data.error) { p(`  ${stat}: ERROR - ${data.error}`); }
+                    else { p(`  ${stat} (${data.columna})`); p(`    n=${data.n} periodo=${data.period} LB_Q=${fmtNum(data.lbQ)} LB_p=${fmtNum(data.lbP)}`); p(`    Pronóstico: ${data.pronostico?.slice(0,3).map(p=>`paso ${p.paso}=${fmtNum(p.valor)}`).join(', ')}`); p(`    ${data.interpretacion}`); }
+                } else if (stat === 'Análisis de Supervivencia') {
+                    if (data.error) { p(`  ${stat}: ERROR - ${data.error}`); }
+                    else { const ci = data.curvas?.map(c=>`${c.grupo}: n=${c.n} mediana=${c.mediana||'—'}`).join(' | '); p(`  ${stat} — ${ci}`); if(data.logRank){p(`    Log-rank χ²=${fmtNum(data.logRank.chi2)} p=${fmtNum(data.logRank.p)} ${data.logRank.significativo?'✗ Significativo':'✓ No significativo'}`);} p(`    ${data.interpretacion}`); }
+                } else if (stat === 'Modelos Mixtos') {
+                    if (data.error) { p(`  ${stat}: ERROR - ${data.error}`); }
+                    else { p(`  ${stat} (Y=${data.columnaY}, grupo=${data.columnaGrupo})`); p(`    ICC=${data.icc} AIC=${fmtNum(data.aic)} BIC=${fmtNum(data.bic)} LogLik=${fmtNum(data.logLik)}`); p(`    n=${data.n} grupos=${data.nGrupos}`); p(`    ${data.interpretacion}`); }
+                } else if (stat === 'Análisis Bayesiano') {
+                    if (data.error) { p(`  ${stat}: ERROR - ${data.error}`); }
+                    else { p(`  ${stat} (${data.columna})`); p(`    Media posterior=${fmtNum(data.media_posterior)} IC95=[${fmtNum(data.ic95_credible?.inferior)},${fmtNum(data.ic95_credible?.superior)}]`); p(`    BF₁₀=${data.factorBayes} Media muestral=${fmtNum(data.mediaMuestral)}`); p(`    ${data.interpretacion}`); }
                 }
                 p('');
             });
@@ -1082,6 +1106,46 @@ const ReporteManager = (() => {
             name: 'Kruskal-Wallis',
             desc: lang === 'es' ? 'Alternativa no-paramétrica al ANOVA' : 'Non-parametric alternative to ANOVA',
             formula: 'H = [12/(N(N+1))]Σ(Rᵢ²/nᵢ) − 3(N+1)'
+          },
+          'Test TOST (Equivalencia)': {
+            name: lang === 'es' ? 'TOST de Equivalencia' : 'TOST Equivalence',
+            desc: lang === 'es' ? 'Equivalencia de medias con dos one-sided tests' : 'Two one-sided test for equivalence',
+            formula: 'TOST: |δ| < Δ'
+          },
+          'Análisis de Cluster': {
+            name: lang === 'es' ? 'K-Medias' : 'K-Means',
+            desc: lang === 'es' ? 'Agrupamiento en clusters homogéneos' : 'Homogeneous cluster grouping',
+            formula: 'argmin Σₖ Σᵢ ||xᵢ − μₖ||²'
+          },
+          'Análisis Discriminante': {
+            name: 'LDA',
+            desc: lang === 'es' ? 'Análisis discriminante lineal para clasificación' : 'Linear discriminant analysis for classification',
+            formula: 'D = wX + b'
+          },
+          'M-ANOVA': {
+            name: 'MANOVA',
+            desc: lang === 'es' ? 'ANOVA multivariado con Pillai/Wilks' : 'Multivariate ANOVA with Pillai/Wilks',
+            formula: 'Λ = |E|/|H+E|'
+          },
+          'Series Temporales': {
+            name: lang === 'es' ? 'Series Temporales' : 'Time Series',
+            desc: lang === 'es' ? 'Descomposición clásica + ACF/PACF + pronóstico' : 'Classical decomposition + ACF/PACF + forecast',
+            formula: 'Yₜ = Tendₜ + Estₜ + εₜ'
+          },
+          'Análisis de Supervivencia': {
+            name: lang === 'es' ? 'Supervivencia' : 'Survival',
+            desc: lang === 'es' ? 'Kaplan-Meier + Log-Rank' : 'Kaplan-Meier + Log-Rank',
+            formula: 'Ŝ(t) = Πᵢ…(1 − dᵢ/nᵢ)'
+          },
+          'Modelos Mixtos': {
+            name: lang === 'es' ? 'Modelos Mixtos' : 'Mixed Models',
+            desc: lang === 'es' ? 'Efectos fijos + aleatorios (ICC, AIC/BIC)' : 'Fixed + random effects (ICC, AIC/BIC)',
+            formula: 'Y = Xβ + Zu + ε'
+          },
+          'Análisis Bayesiano': {
+            name: lang === 'es' ? 'Bayesiano' : 'Bayesian',
+            desc: lang === 'es' ? 'Inferencia bayesiana conjugada normal-normal' : 'Conjugate normal-normal Bayesian inference',
+            formula: 'P(θ|D) ∝ P(D|θ)P(θ)'
           }
         };
         const usedTxtStats = resultados.estadisticos || [];
@@ -1552,7 +1616,7 @@ tr:hover td{background:#f7faff}
   </div>
   ${(() => {
       const hypothesisTests = HYPOTHESIS_SET;
-      const multivariadoTests = new Set(['Análisis Factorial', 'PCA (Componentes Principales)', 'PCA']);
+      const multivariadoTests = new Set(['Análisis Factorial', 'PCA (Componentes Principales)', 'PCA', 'Análisis de Cluster', 'Análisis Discriminante', 'M-ANOVA']);
       const hypResults = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.has(stat) || multivariadoTests.has(stat));
       if (hypResults.length === 0) return '';
 
@@ -1733,6 +1797,30 @@ tr:hover td{background:#f7faff}
               } else {
                   content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columnaAgrupacion)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">H=${fmtNum(data.H)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`;
               }
+          } else if (stat === 'Test TOST (Equivalencia)') {
+              if (data.error) { content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`; }
+              else { content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columnaX)} vs ${escapeHtml(data.columnaY)}, Δ=${data.delta})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p_TOST=${fmtNum(data.pTOST)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">IC90 [${fmtNum(data.ic90?.inferior)},${fmtNum(data.ic90?.superior)}]</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.esEquivalente?'background:#c6f6d5;color:#276749':'background:#fed7d7;color:#c53030'}">${data.esEquivalente?'✓ Equivalente':'✗ No equivalente'}</span></td></tr>`; }
+          } else if (stat === 'Análisis de Cluster') {
+              if (data.error) { content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`; }
+              else { content = `<tr><td>${escapeHtml(stat)} (k=${data.k})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">Silhouette=${data.silhouette}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">Inercia=${data.inertia}</td><td style="text-align:center;font-size:8pt;color:#718096">[${data.clusterSizes?.join(',')}]</td></tr>`; }
+          } else if (stat === 'Análisis Discriminante') {
+              if (data.error) { content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`; }
+              else { content = `<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">Λ=${data.lambda}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${data.p}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.p<0.05?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.p<0.05?'✗ Significativo':'✓ No significativo'}</span></td></tr>`; }
+          } else if (stat === 'M-ANOVA') {
+              if (data.error) { content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`; }
+              else { content = `<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">F=${fmtNum(data.F)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.p)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`; }
+          } else if (stat === 'Series Temporales') {
+              if (data.error) { content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`; }
+              else { content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columna)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">LB Q=${fmtNum(data.lbQ)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.lbP)}</td><td style="text-align:center;font-size:8pt;color:#718096">periodo=${data.period}</td></tr>`; }
+          } else if (stat === 'Análisis de Supervivencia') {
+              if (data.error) { content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`; }
+              else { const lr = data.logRank; content = `<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">${lr?`χ²=${fmtNum(lr.chi2)}`:'—'}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">${lr?`p=${fmtNum(lr.p)}`:'—'}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${lr?.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${lr?.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`; }
+          } else if (stat === 'Modelos Mixtos') {
+              if (data.error) { content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`; }
+              else { content = `<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">ICC=${data.icc}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">AIC=${fmtNum(data.aic)}</td><td style="text-align:center;font-size:8pt;color:#718096">BIC=${fmtNum(data.bic)}</td></tr>`; }
+          } else if (stat === 'Análisis Bayesiano') {
+              if (data.error) { content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`; }
+              else { content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columna)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">BF₁₀=${data.factorBayes}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">μ_post=${fmtNum(data.media_posterior)}</td><td style="text-align:center;font-size:8pt;color:#718096">IC95 [${fmtNum(data.ic95_credible?.inferior)},${fmtNum(data.ic95_credible?.superior)}]</td></tr>`; }
           }
           return content;
       }).join('');
