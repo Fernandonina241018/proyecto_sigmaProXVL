@@ -3146,7 +3146,7 @@ function firmaHandleFile(file) {
     var html = e.target.result;
     var parser = new DOMParser();
     var doc = parser.parseFromString(html, 'text/html');
-    var sigBlocks = doc.querySelectorAll('[data-signature-role]');
+    var sigBlocks = doc.querySelectorAll('[data-signature-role]:not([data-signature-field])');
 
     if (!sigBlocks.length) {
       showToast('Este reporte no contiene firmas detectables. Usa la versión más reciente de StatAnalyzer Pro.');
