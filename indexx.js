@@ -2761,30 +2761,75 @@ function _mostrarModalConfigTest(nombre, callback) {
   var t = cfg.inputs && cfg.inputs.tipo;
   var necesitaCat = t === 'tabla-contingencia' || t === 'dos-columnas';
   var necesitaDosNumericas = false;
-  if (t === 'dos-columnas' && (cfg.seccion === 'correlacion' || cfg.seccion === 'regresion')) {
+  var modalTipo = 'single-num';
+  if (t === 'dos-columnas' && cfg.seccion === 'correlacion') {
     necesitaCat = false;
     necesitaDosNumericas = true;
+    modalTipo = 'xy';
+  } else if (t === 'dos-columnas' && cfg.seccion === 'regresion') {
+    necesitaCat = false;
+    necesitaDosNumericas = true;
+    if (nombre === 'RMSE' || nombre === 'MAE' || nombre === 'R\u00B2 (Coef. Determinaci\u00F3n)') {
+      modalTipo = 'obspred';
+    } else {
+      modalTipo = 'xy';
+    }
+  } else if (t === 'dos-columnas-mas-grado') {
+    necesitaCat = false;
+    necesitaDosNumericas = true;
+    modalTipo = 'xy-grado';
+  } else if (t === 'multiples-columnas') {
+    necesitaCat = false;
+    necesitaDosNumericas = false;
+    modalTipo = 'y-multi-x';
   }
   if (necesitaCat && tipos.catCols.length === 0) { showToast('⚠️ No hay columnas categóricas disponibles'); callback(); return; }
   if (necesitaDosNumericas && tipos.numCols.length < 2) { showToast('⚠️ Se necesitan al menos 2 columnas numéricas'); callback(); return; }
+  if (modalTipo === 'y-multi-x' && tipos.numCols.length < 2) { showToast('⚠️ Se necesitan al menos 2 columnas numéricas'); callback(); return; }
   var optsN = tipos.numCols.map(function(c) { return '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; }).join('');
   var optsC = tipos.catCols.length ? tipos.catCols.map(function(c) { return '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; }).join('') : '';
+  var modalContent = '';
+  if (modalTipo === 'obspred') {
+    modalContent =
+      '<div style="display:flex;flex-direction:column;gap:6px">' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna observada</label><select id="cfgColObs" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna predicha</label><select id="cfgColPred" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+      '</div>';
+  } else if (modalTipo === 'xy') {
+    modalContent =
+      '<div style="display:flex;flex-direction:column;gap:6px">' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna X (predictor/variable 1)</label><select id="cfgColX" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna Y (respuesta/variable 2)</label><select id="cfgColY" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+      '</div>';
+  } else if (modalTipo === 'xy-grado') {
+    modalContent =
+      '<div style="display:flex;flex-direction:column;gap:6px">' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna X (predictor)</label><select id="cfgColX" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna Y (respuesta)</label><select id="cfgColY" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Grado del polinomio</label><input id="cfgGrado" type="number" value="2" min="2" max="10" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>' +
+      '</div>';
+  } else if (modalTipo === 'y-multi-x') {
+    modalContent =
+      '<div style="display:flex;flex-direction:column;gap:6px">' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Variable Y (respuesta)</label><select id="cfgColY" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Variables X (predictoras)</label><div style="max-height:160px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;padding:6px;background:var(--bg-primary)">' +
+          tipos.numCols.map(function(c) { return '<label style="display:flex;align-items:center;gap:6px;padding:3px 4px;font-size:11px;color:var(--text-muted);cursor:pointer"><input type="checkbox" class="cfgColXChk" value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</label>'; }).join('') +
+        '</div></div>' +
+      '</div>';
+  } else if (necesitaCat) {
+    modalContent =
+      '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de agrupación (categórica)</label><select id="cfgColCat" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
+      '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de valores (numérica)</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>';
+  } else {
+    modalContent =
+      '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de valores (numérica)</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>';
+  }
   var modal = document.createElement('div'); modal.className = 'modal-overlay';
   modal.innerHTML =
     '<div class="modal-box" style="max-width:480px">' +
-      '<div class="modal-title">⚙️ Configurar: ' + escapeHtml(nombre) + '</div>' +
-      '<div style="font-size:11px;color:var(--text-faint)">Selecciona las columnas para este análisis</div>' +
-      (necesitaDosNumericas
-        ? '<div style="display:flex;flex-direction:column;gap:6px">' +
-            '<div><label style="font-size:11px;color:var(--text-primary)">Columna X (predictor/variable 1)</label><select id="cfgColX" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
-            '<div><label style="font-size:11px;color:var(--text-primary)">Columna Y (respuesta/variable 2)</label><select id="cfgColY" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
-          '</div>'
-        : necesitaCat
-          ? '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de agrupación (categórica)</label><select id="cfgColCat" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>'
-          : '') +
-      (!necesitaDosNumericas
-        ? '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de valores (numérica)</label><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>'
-        : '') +
+      '<div class="modal-title">\u2699\uFE0F Configurar: ' + escapeHtml(nombre) + '</div>' +
+      '<div style="font-size:11px;color:var(--text-faint)">Selecciona las columnas para este an\u00E1lisis</div>' +
+      modalContent +
       '<div class="modal-actions">' +
         '<button class="btn btn-secondary" id="cfgCancel">Cancelar</button>' +
         '<button class="btn btn-primary" id="cfgConfirm">Confirmar</button>' +
@@ -2794,9 +2839,20 @@ function _mostrarModalConfigTest(nombre, callback) {
   document.getElementById('cfgCancel').addEventListener('click', function() { modal.remove(); });
   document.getElementById('cfgConfirm').addEventListener('click', function() {
     var config = {};
-    if (necesitaDosNumericas) {
+    if (modalTipo === 'obspred') {
+      config.columnaObservada = document.getElementById('cfgColObs').value;
+      config.columnaPredicha = document.getElementById('cfgColPred').value;
+    } else if (modalTipo === 'xy' || modalTipo === 'xy-grado') {
       config.columnaX = document.getElementById('cfgColX').value;
       config.columnaY = document.getElementById('cfgColY').value;
+      if (modalTipo === 'xy-grado') {
+        config.grado = parseInt(document.getElementById('cfgGrado').value) || 2;
+      }
+    } else if (modalTipo === 'y-multi-x') {
+      config.columnaY = document.getElementById('cfgColY').value;
+      var chkX = document.querySelectorAll('.cfgColXChk:checked');
+      config.columnasX = Array.from(chkX).map(function(c) { return c.value; });
+      if (config.columnasX.length === 0) { showToast('⚠️ Selecciona al menos una variable X'); return; }
     } else if (necesitaCat) {
       config.categoricalCols = [document.getElementById('cfgColCat').value];
       config.numericCol = document.getElementById('cfgColNum').value;
