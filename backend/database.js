@@ -144,13 +144,13 @@ async function getUserBySignatureCode(signatureCode) {
     );
 }
 
-async function createUser({ username, password, role = 'user', nombre, apellido, email, telefono, createdBy }) {
+async function createUser({ username, password, role = 'user', nombre, apellido, email, telefono, signatureCode, cargo, createdBy }) {
     const hash = bcrypt.hashSync(password, 12);
     try {
         const result = await run(
-            `INSERT INTO users (username, password, role, nombre, apellido, email, telefono, created_by)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`,
-            [username, hash, role, nombre || null, apellido || null, email || username, telefono || null, createdBy]
+            `INSERT INTO users (username, password, role, nombre, apellido, email, telefono, signature_code, cargo, created_by)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id`,
+            [username, hash, role, nombre || null, apellido || null, email || username, telefono || null, signatureCode || null, cargo || null, createdBy]
         );
         return { ok: true, id: result.lastID };
     } catch (err) {

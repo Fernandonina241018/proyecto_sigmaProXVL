@@ -68,7 +68,9 @@ const UsuariosManager = (() => {
                 nombre: perfil.nombre,
                 apellido: perfil.apellido,
                 email: perfil.email,
-                telefono: perfil.telefono
+                telefono: perfil.telefono,
+                signatureCode: perfil.signatureCode,
+                cargo: perfil.cargo
             });
             if (!data.ok) return { ok: false, error: data.error };
             return { ok: true };
@@ -261,7 +263,9 @@ const UsuariosManager = (() => {
                     <div class="usr-card-info">
                         <div class="usr-card-nombre">${escapeHtml(nombreCompleto)}${isMe ? ' <span class="usr-card-me">Tú</span>' : ''}</div>
                         <div class="usr-card-email">${u.email || '-'}</div>
+                        ${u.cargo ? '<div class="usr-card-phone">💼 ' + escapeHtml(u.cargo) + '</div>' : ''}
                         <div class="usr-card-phone">📱 ${u.telefono || 'No registrado'}</div>
+                        ${u.signature_code ? '<div class="usr-card-phone" style="color:#a855f7">*' + escapeHtml(u.signature_code) + '</div>' : ''}
                     </div>
                 </div>
                 <div class="usr-card-badges">
@@ -273,7 +277,7 @@ const UsuariosManager = (() => {
                     <span class="usr-card-meta-item">🔑 ${u.login_count || 0} logins</span>
                 </div>
                 <div class="usr-card-actions">
-                    <button class="usr-btn-edit" data-id="${u.id}" data-username="${escapeHtml(u.username)}" data-nombre="${escapeHtml(u.nombre || '')}" data-apellido="${escapeHtml(u.apellido || '')}" data-email="${escapeHtml(u.email || '')}" data-telefono="${escapeHtml(u.telefono || '')}" data-rol="${u.role}" title="Editar usuario">✏️ Editar</button>
+                    <button class="usr-btn-edit" data-id="${u.id}" data-username="${escapeHtml(u.username)}" data-nombre="${escapeHtml(u.nombre || '')}" data-apellido="${escapeHtml(u.apellido || '')}" data-email="${escapeHtml(u.email || '')}" data-telefono="${escapeHtml(u.telefono || '')}" data-cargo="${escapeHtml(u.cargo || '')}" data-signaturecode="${escapeHtml(u.signature_code || '')}" data-rol="${u.role}" title="Editar usuario">✏️ Editar</button>
                     <select class="usr-role-select" data-id="${u.id}" data-current="${u.role}" ${isMe ? 'disabled' : ''} title="Cambiar rol">
                         <option value="user"        ${u.role==='user'        ?'selected':''}>👤 Usuario</option>
                         <option value="admin"       ${u.role==='admin'       ?'selected':''}>🔴 Admin</option>
@@ -603,6 +607,16 @@ const UsuariosManager = (() => {
                             <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">📱 TELÉFONO</label>
                             <input type="tel" id="usr-modal-telefono" placeholder="+1234567890" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
                         </div>
+                        <hr style="border:none;border-top:1px solid #e2e8f0;margin:8px 0;">
+                        <div>
+                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">💼 CARGO</label>
+                            <input type="text" id="usr-modal-cargo" placeholder="Director de Laboratorio" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
+                        </div>
+                        <div>
+                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">🔑 CÓDIGO DE FIRMA *</label>
+                            <input type="text" id="usr-modal-signaturecode" placeholder="Ej: ABC-123" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
+                            <div style="font-size:0.7rem;color:#94a3b8;margin-top:4px;">Código único para firmar reportes electrónicos</div>
+                        </div>
                     </div>
                     <div style="display:flex;gap:12px;margin-top:24px;">
                         <button type="button" onclick="cerrarModalCrearUsuarioTest()" style="flex:1;padding:14px;border:2px solid #e2e8f0;border-radius:10px;background:#f1f5f9;color:#64748b;font-weight:600;cursor:pointer;">Cancelar</button>
@@ -630,6 +644,8 @@ const UsuariosManager = (() => {
         const apellido = document.getElementById('usr-modal-apellido').value.trim();
         const email = document.getElementById('usr-modal-email').value.trim();
         const telefono = document.getElementById('usr-modal-telefono').value.trim();
+        const cargo = document.getElementById('usr-modal-cargo').value.trim();
+        const signatureCode = document.getElementById('usr-modal-signaturecode').value.trim();
         
         if (!username || !password) {
             const msg = document.getElementById('usr-modal-msg');
@@ -640,7 +656,7 @@ const UsuariosManager = (() => {
         }
         
         try {
-            const result = await crearUsuario(username, password, role, { nombre, apellido, email, telefono });
+            const result = await crearUsuario(username, password, role, { nombre, apellido, email, telefono, cargo, signatureCode });
             
             const msg = document.getElementById('usr-modal-msg');
             if (result.ok) {

@@ -2774,6 +2774,16 @@ Este es un **proyecto MVP bien construido** con potencial de convertirse en una 
   - Estado independiente por cada una de las 3 firmas (prepared/reviewed/approved)
   - Nueva variable `_firmaSignatureState` para tracking de firmas completadas
 
+**Cambio 3:** Campos cargo y signature_code en creación de usuario y cards
+- **Archivos:** `UsuariosManager.js`, `backend/database.js`, `backend/server.js`
+- **Estado:** ✅ COMPLETADO
+- **Detalles:**
+  - Agregados campos `cargo` (💼) y `signature_code` (\*código) al modal de crear usuario
+  - Actualizada función `crearUsuario()` para enviar los nuevos campos al backend
+  - Actualizado endpoint `POST /api/users` y `createUser()` en BD para persistir `signature_code` y `cargo`
+  - Cards de usuario ahora muestran cargo y código de firma con prefijo `*`
+  - Botón "Editar" incluye data-attributos `data-cargo` y `data-signaturecode`
+
 ---
 
 **Documento generado:** 2 de Abril de 2026  
