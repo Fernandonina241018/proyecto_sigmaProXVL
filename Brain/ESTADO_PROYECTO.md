@@ -2801,7 +2801,14 @@ Este es un **proyecto MVP bien construido** con potencial de convertirse en una 
   - `prepared` → `_fp`, `reviewed` → `_fr`, `approved` → `_fa`
   - Combinaciones: preparado+revisado → `_fp_fr`, los tres → `_fp_fr_fa`
   - Sin firmas: nombre original sin cambios
-  - Preserva nombre base del archivo original cargado
+
+**Cambio 6:** Auto-carga de firmas existentes al abrir reporte guardado
+- **Archivos:** `indexx.js`
+- **Estado:** ✅ COMPLETADO
+- **Detalles:**
+  - Al cargar un reporte `.html` con firmas previas, `firmaHandleFile()` detecta los campos name/title/date rellenos
+  - Los transfiere a `_firmaSignatureState` automáticamente → sidebar muestra badge ✅ en lugar de input de código
+  - Ignora placeholders `—` para no marcar bloques vacíos como firmados
 
 ---
 
