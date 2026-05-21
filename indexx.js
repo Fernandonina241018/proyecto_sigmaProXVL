@@ -3568,6 +3568,8 @@ function firmaUpdatePreview(role, field, value) {
   var el = _firmaCurrentDoc.querySelector('[data-signature-role="' + role + '"] [data-signature-field="' + field + '"]');
   if (el) {
     el.textContent = value || '';
+    el.style.color = '#1a202c';
+    el.style.fontStyle = 'normal';
     // Update iframe
     var preview = document.getElementById('firmaPreview');
     if (preview) {
