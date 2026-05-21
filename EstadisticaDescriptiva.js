@@ -38,6 +38,7 @@ const EstadisticaDescriptiva = (() => {
      * Retorna IC al 95%, 90% y 99%
      */
     function calcularIntervalosConfianza(values) {
+        values = values.filter(v => !isNaN(v) && isFinite(v));
         const n = values.length;
         if (n < 2) return { ic90: null, ic95: null, ic99: null };
         
@@ -330,11 +331,13 @@ const EstadisticaDescriptiva = (() => {
      * Compara la media muestral con un valor hipotético
      */
     function calcularTTestUnaMuestra(values, mediaHipotesis = 0) {
+        values = values.filter(v => !isNaN(v) && isFinite(v));
         const n = values.length;
-        if (n < 2) return { error: 'Se necesitan al menos 2 observaciones' };
+        if (n < 2) return { error: 'Se necesitan al menos 2 observaciones válidas' };
 
         const media = calcularMedia(values);
         const sd = calcularDesviacionEstandar(values, true);
+        if (sd === 0) return { error: 'La desviación estándar es cero (todos los valores iguales)' };
         const se = sd / Math.sqrt(n);
         const t = (media - mediaHipotesis) / se;
         const df = n - 1;
@@ -378,6 +381,7 @@ const EstadisticaDescriptiva = (() => {
 
         // Welch's t-test (no asume varianzas iguales)
         const se = Math.sqrt(var1 / n1 + var2 / n2);
+        if (se === 0) return { error: 'Ambos grupos tienen varianza cero (datos constantes)' };
         const t = (media1 - media2) / se;
 
         // Grados de libertad de Welch-Satterthwaite
@@ -807,9 +811,10 @@ negativos: negativos,
      * Bootstrap - Remuestreo para estimar distribuciones muestrales
      */
     function calcularBootstrap(values, statName = 'media', B = 1000, nivelConfianza = 0.95) {
+        values = values.filter(v => !isNaN(v) && isFinite(v));
         const n = values.length;
         if (n < 10) {
-            return { error: 'Se necesitan al menos 10 observaciones para bootstrap' };
+            return { error: 'Se necesitan al menos 10 observaciones válidas para bootstrap' };
         }
 
         // Función para calcular el estadístico
@@ -992,6 +997,9 @@ negativos: negativos,
         const dfF1 = filas - 1, dfF2 = cols - 1;
         const dfError = (filas - 1) * (cols - 1);
 
+        if (dfF1 === 0 || dfF2 === 0) return { error: 'Cada factor necesita al menos 2 niveles' };
+        if (dfError === 0) return { error: 'No hay réplicas para estimar el error (necesita más de 1 observación por celda)' };
+
         const msF1 = ssF1 / dfF1, msF2 = ssF2 / dfF2, msError = ssError / dfError;
         const f1 = msF1 / msError, f2 = msF2 / msError;
 
@@ -1059,8 +1067,9 @@ negativos: negativos,
      * Verifica si los datos siguen distribución normal
      */
     function calcularTestNormalidad(values) {
+        values = values.filter(v => !isNaN(v) && isFinite(v));
         const n = values.length;
-        if (n < 8) return { error: 'Se necesitan al menos 8 observaciones' };
+        if (n < 8) return { error: 'Se necesitan al menos 8 observaciones válidas' };
 
         const asimetria = calcularAsimetria(values, true);
         const curtosis = calcularCurtosis(values, true);
@@ -1090,8 +1099,9 @@ negativos: negativos,
       * H₀: Los datos siguen una distribución normal
       */
      function calcularShapiroWilk(values) {
+         values = values.filter(v => !isNaN(v) && isFinite(v));
          const n = values.length;
-         if (n < 3) return { error: 'Se necesitan al menos 3 observaciones' };
+         if (n < 3) return { error: 'Se necesitan al menos 3 observaciones válidas' };
          if (n > 5000) return { error: 'El test de Shapiro-Wilk está limitado a 5000 observaciones' };
 
          const sorted = sortNumbers(values);
@@ -1963,19 +1973,23 @@ negativos: negativos,
        const SCResidual = residuos.reduce((sum, res) => sum + res * res, 0);
        const SCTotal = sumY2 - nVal * mediaY * mediaY;
        
-       // R² y R² ajustado
-       const r2 = SCRegresion / SCTotal;
+        // R² y R² ajustado
+        if (SCTotal === 0) return { error: 'La variable Y tiene varianza cero (todos los valores iguales)' };
+        const r2 = SCRegresion / SCTotal;
        const r2Adj = 1 - (SCResidual / (nVal - 2)) / (SCTotal / (nVal - 1));
        
        // Error estándar de la estimación
        const errorEstandar = Math.sqrt(SCResidual / (nVal - 2));
        
-       // Error estándar de los coeficientes
-       const eePendiente = errorEstandar / Math.sqrt(denominador);
-       const eeIntercept = errorEstandar * Math.sqrt(1 / nVal + (mediaX * mediaX) / denominador);
-       
-       // Valor p para pendiente (H0: b = 0)
-       const tPendiente = b / eePendiente;
+        // Error estándar de los coeficientes
+        const eePendiente = errorEstandar / Math.sqrt(denominador);
+        const eeIntercept = errorEstandar * Math.sqrt(1 / nVal + (mediaX * mediaX) / denominador);
+        
+        // Valor p para pendiente (H0: b = 0)
+        if (eePendiente === 0) {
+            return { error: 'Ajuste perfecto (error estándar cero) — no es posible calcular el valor p de la pendiente' };
+        }
+        const tPendiente = b / eePendiente;
        const pPendiente = 2 * (1 - calcularCDF_T(Math.abs(tPendiente), nVal - 2));
        
        // Intervalo de confianza para pendiente (95%)
@@ -2363,6 +2377,8 @@ interpretacion: interpretacion,
             return { error: 'Se necesitan al menos 10 observaciones para PCA' };
           }
 
+          const warnings = [];
+
           // 1. Estandarizar los datos (media=0, DE=1)
           const means = [];
           const stds = [];
@@ -2414,6 +2430,10 @@ interpretacion: interpretacion,
 
           if (eigenvalues.length === 0) {
             return { error: 'Error al calcular autovalores' };
+          }
+
+          if (eigenResult.converged === false) {
+            warnings.push('El algoritmo de autovalores no convergió en 100 iteraciones. Los resultados pueden ser inexactos.');
           }
 
           // 4. Ordenar por autovalor (mayor a menor)
@@ -2481,7 +2501,8 @@ interpretacion: interpretacion,
             means: means.map(v => parseFloat(v.toFixed(4))),
             stds: stds.map(v => parseFloat(v.toFixed(4))),
             interpretacion: interpretacion,
-            warning: varianceExplained[0] < 10 ? 'La varianza está muy dispersa entre componentes.' : null
+            warning: varianceExplained[0] < 10 ? 'La varianza está muy dispersa entre componentes.' : null,
+            warnings: warnings.length > 0 ? warnings : undefined
           };
         } catch (err) {
           return { error: 'Error en PCA: ' + (err.message || 'Error desconocido') };
@@ -2491,31 +2512,22 @@ interpretacion: interpretacion,
       /**
        * Método de potencia para calcular autovalores y autovectores
        */
-      function powerIterationEigen(matrix, numIterations = 1000) {
-        try {
-          if (!matrix || !Array.isArray(matrix) || matrix.length < 2) {
-            return { values: [1], vectors: [[1]] };
-          }
-          
-          const n = matrix.length;
-          
-          // Verificar que la matriz sea válida
-          const isValid = matrix.every(row => row && Array.isArray(row) && row.length === n);
-          if (!isValid) {
-            return { values: Array(n).fill(1), vectors: Array(n).fill(0).map((_, i) => Array(n).fill(0).map((_, j) => i === j ? 1 : 0)) };
-          }
-          
-          // Usar método QR para calcular todos los autovalores
-          const result = qrEigenvalues(matrix, n);
-          return result;
-        } catch (err) {
-          // En caso de error, retornar identidad
-          const n = matrix.length;
-          return { 
-            values: Array(n).fill(1), 
-            vectors: Array(n).fill(0).map((_, i) => Array(n).fill(0).map((_, j) => i === j ? 1 : 0)) 
-          };
+      function powerIterationEigen(matrix) {
+        if (!matrix || !Array.isArray(matrix) || matrix.length < 2) {
+          return { values: [1], vectors: [[1]], converged: true };
         }
+        
+        const n = matrix.length;
+        
+        // Verificar que la matriz sea válida
+        const isValid = matrix.every(row => row && Array.isArray(row) && row.length === n);
+        if (!isValid) {
+          return { values: Array(n).fill(1), vectors: Array(n).fill(0).map((_, i) => Array(n).fill(0).map((_, j) => i === j ? 1 : 0)), converged: true };
+        }
+        
+        // Usar método QR (Jacobi) para calcular todos los autovalores
+        const result = qrEigenvalues(matrix, n);
+        return result;
       }
 
       // Método de Jacobi para calcular autovalores y autovectores (más estable numéricamente)
@@ -2527,6 +2539,8 @@ interpretacion: interpretacion,
         // Inicializar autovectores como identidad
         let V = Array(n).fill(0).map(() => Array(n).fill(0));
         for (let i = 0; i < n; i++) V[i][i] = 1;
+        
+        let converged = false;
         
         for (let iter = 0; iter < maxIter; iter++) {
           // Encontrar el elemento fuera de diagonal más grande
@@ -2542,7 +2556,7 @@ interpretacion: interpretacion,
             }
           }
           
-          if (maxOff < tolerance) break;
+          if (maxOff < tolerance) { converged = true; break; }
           
           // Calcular el ángulo de rotación
           const theta = (a[q][q] - a[p][p]) / (2 * a[p][q]);
@@ -2580,7 +2594,7 @@ interpretacion: interpretacion,
         
         // Extraer autovalores de la diagonal
         const eigenvalues = a.map((row, i) => row[i]);
-        return { values: eigenvalues, vectors: V };
+        return { values: eigenvalues, vectors: V, converged };
       }
       
       // Alias para compatibilidad
@@ -3082,10 +3096,12 @@ interpretacion: interpretacion,
             for (let i = 0; i < p; i++) for (let j = 0; j < p; j++) Sb[i][j] += classData[c].length * (classMeans[c][i] - globalMean[i]) * (classMeans[c][j] - globalMean[j]);
         }
         // Calcular autovalores de Sw⁻¹Sb usando QR iterativo simplificado
-        const SwInv = numericInverse(Sw);
-        const A = numericMultiply(SwInv, Sb);
-        const eigen = powerIterationEigen(A, 100);
+        const SwInv = inverseMatrix(Sw);
+        if (!SwInv) return { error: 'Matriz de dispersión intra-clase no invertible (singular)' };
+        const A = multiplyMatrices(SwInv, Sb);
+        const eigen = powerIterationEigen(A);
         const eigenvals = (eigen.values || []).filter(v => v > 1e-6).sort((a, b) => b - a);
+        const warningsDisc = eigen.converged === false ? ['El algoritmo de autovalores no convergió en 100 iteraciones. Los resultados pueden ser inexactos.'] : [];
         const nFunciones = Math.min(eigenvals.length, nClasses - 1, p);
         const lambda = eigenvals[0] || 0;
         // Wilks' Lambda aproximado
@@ -3118,6 +3134,7 @@ interpretacion: interpretacion,
             clasificacion: classified.map(c => classes[c]),
             accuracy: parseFloat(accuracy.toFixed(4)),
             matrizConfusion: confusion,
+            warnings: warningsDisc.length > 0 ? warningsDisc : undefined,
             interpretacion: pValue < 0.05
                 ? `Función discriminante significativa (χ²=${chi2.toFixed(2)}, p=${(1-pValue).toFixed(4)}, Λ=${wilks.toFixed(4)}), accuracy=${(accuracy*100).toFixed(1)}%`
                 : `Función discriminante no significativa (p=${(1-pValue).toFixed(4)} ≥ 0.05)`
@@ -3149,8 +3166,9 @@ interpretacion: interpretacion,
         }
         // Pillai's trace = tr((E+H)⁻¹H)
         const EH = numericAdd(E, H);
-        const EHinv = numericInverse(EH);
-        const pillaiMat = numericMultiply(EHinv, H);
+        const EHinv = inverseMatrix(EH);
+        if (!EHinv) return { error: 'Matriz de dispersión total (E+H) no invertible (singular)' };
+        const pillaiMat = multiplyMatrices(EHinv, H);
         let pillai = 0; for (let i = 0; i < p; i++) pillai += pillaiMat[i][i];
         // Wilks' Lambda = det(E) / det(E+H)
         const detE = numericDeterminant(E);
@@ -3442,33 +3460,6 @@ interpretacion: interpretacion,
     }
 
     // ── Helpers de matrices ──
-
-    function numericInverse(m) {
-        const n = m.length;
-        const aug = m.map((row, i) => [...row.map(x => x || 0), ...Array.from({ length: n }, (_, j) => i === j ? 1 : 0)]);
-        for (let col = 0; col < n; col++) {
-            let pivot = col;
-            while (pivot < n && Math.abs(aug[pivot][col]) < 1e-10) pivot++;
-            if (pivot === n) { aug[col][col] = 1; continue; }
-            [aug[col], aug[pivot]] = [aug[pivot], aug[col]];
-            const div = aug[col][col];
-            for (let j = 0; j < 2 * n; j++) aug[col][j] /= div;
-            for (let row = 0; row < n; row++) {
-                if (row !== col) {
-                    const factor = aug[row][col];
-                    for (let j = 0; j < 2 * n; j++) aug[row][j] -= factor * aug[col][j];
-                }
-            }
-        }
-        return aug.map(row => row.slice(n));
-    }
-
-    function numericMultiply(a, b) {
-        const n = a.length, m = b[0].length, p = b.length;
-        const result = Array.from({ length: n }, () => Array(m).fill(0));
-        for (let i = 0; i < n; i++) for (let j = 0; j < m; j++) for (let k = 0; k < p; k++) result[i][j] += a[i][k] * b[k][j];
-        return result;
-    }
 
     function numericAdd(a, b) {
         return a.map((row, i) => row.map((v, j) => v + b[i][j]));
@@ -5082,7 +5073,7 @@ function generarHTML(analisisResultado) {
 
         // Si es PCA (estadístico multivariado)
         if (statKey === 'PCA (Componentes Principales)' || statKey === 'PCA') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             const cols = data.columnas || [];
             const nComp = data.nComponentes || 0;
             const varExp = data.varianceExplained || [];
@@ -5139,13 +5130,13 @@ function generarHTML(analisisResultado) {
                         </tbody>
                     </table>
                 </div>
-                ${data.interpretacion ? `<div class="ar-formula" style="margin-top:12px;padding:10px;background:#fff3e0;border-radius:6px;border-left:4px solid #ff9800;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc" style="font-size:0.8rem;line-height:1.4;">${data.interpretacion}</div></div></div>` : ''}
+                ${data.interpretacion ? `<div class="ar-formula" style="margin-top:12px;padding:10px;background:#fff3e0;border-radius:6px;border-left:4px solid #ff9800;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc" style="font-size:0.8rem;line-height:1.4;">${escapeHtml(data.interpretacion)}</div></div></div>` : ''}
             `;
         }
 
         // Si es Análisis Factorial
         if (statKey === 'Análisis Factorial') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             const cols = data.columnas || [];
             const nFact = data.nFactores || 0;
             const loadings = data.loadings || [];
@@ -5177,7 +5168,7 @@ function generarHTML(analisisResultado) {
                         }).join('')}
                     </table>
                 </div>
-                ${data.interpretacion ? `<div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion}</div></div></div>` : ''}
+                ${data.interpretacion ? `<div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion)}</div></div></div>` : ''}
             `;
         }
 
@@ -5279,7 +5270,7 @@ function generarHTML(analisisResultado) {
         }
         // ANOVA One-Way
         if (statKey === 'ANOVA One-Way') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             const gruposLabel = Array.isArray(data.grupos) ? data.grupos.join(', ') : (data.grupos != null ? data.grupos : 'Grupos');
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${gruposLabel}</div>
                     <div class="ar-kpi-sub-grid">
@@ -5292,11 +5283,11 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // Chi-Cuadrado
         if (statKey === 'Chi-Cuadrado') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${data.columna1 || ''} vs ${data.columna2 || ''}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estadístico χ²</span><span class="ar-kpi-sub-v">${data.estadisticoChi2?.toFixed(4) ?? '—'}</span></div>
@@ -5306,11 +5297,11 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Asociación significativa (p < 0.05)' : '✓ Independientes (p ≥ 0.05)'}</div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // ANOVA Two-Way
         if (statKey === 'ANOVA Two-Way') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             const f1Val = typeof data.factor1 === 'object' ? data.factor1.F : '—';
             const p1Val = typeof data.factor1 === 'object' ? data.factor1.p : '—';
             const f2Val = typeof data.factor2 === 'object' ? data.factor2.F : '—';
@@ -5323,7 +5314,7 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p Factor 2</span><span class="ar-kpi-sub-v">${typeof p2Val === 'number' ? p2Val.toFixed(4) : p2Val}</span></div>
                     </div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // Test de Normalidad (Jarque-Bera)
         if (statKey === 'Test de Normalidad') {
@@ -5350,7 +5341,7 @@ function generarHTML(analisisResultado) {
         }
         // Límites de Cuantificación
         if (statKey === 'Límites de Cuantificación') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             const cpkClass = data.cpk === 'N/A' ? 'ar-badge-info' : (data.cpk >= 1.33 ? 'ar-badge-ok' : (data.cpk >= 1.0 ? 'ar-badge-warn' : 'ar-badge-danger'));
             const cpkText = data.cpk === 'N/A' ? 'N/A' : (data.cpk >= 1.33 ? '✓ Capable (Cpk ≥ 1.33)' : (data.cpk >= 1.0 ? '⚠️ Marginal (1.0 ≤ Cpk < 1.33)' : '✗ Not Capable (Cpk < 1.0)'));
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📐 ${data.columna} — ${data.norma}</div>
@@ -5373,7 +5364,7 @@ function generarHTML(analisisResultado) {
         }
         // Correlación Pearson
         if (statKey === 'Correlación Pearson') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 ${data.columnaX || 'X'} vs ${data.columnaY || 'Y'}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Coeficiente r</span><span class="ar-kpi-sub-v">${data.r ?? '—'}</span></div>
@@ -5384,11 +5375,11 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || 'r = cov(X,Y) / (σx × σy)'}</div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || 'r = cov(X,Y) / (σx × σy)'}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // Correlación Spearman
         if (statKey === 'Correlación Spearman') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 ${data.columnaX || 'X'} vs ${data.columnaY || 'Y'}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Coeficiente ρ</span><span class="ar-kpi-sub-v">${data.rho ?? '—'}</span></div>
@@ -5398,11 +5389,11 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || 'ρ = correlación de Pearson sobre rangos'}</div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || 'ρ = correlación de Pearson sobre rangos'}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // Regresión Lineal Simple
         if (statKey === 'Regresión Lineal Simple') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📈 Y = f(${data.columnaX || 'X'})</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Intercepto (a)</span><span class="ar-kpi-sub-v">${data.a ?? '—'}</span></div>
@@ -5416,11 +5407,11 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Modelo significativo (p < 0.05)' : '✓ Modelo no significativo (p ≥ 0.05)'}</div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || `Y = ${data.a} + ${data.b}X`}</div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || `Y = ${data.a} + ${data.b}X`}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // Regresión Lineal Múltiple
         if (statKey === 'Regresión Lineal Múltiple') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 Y = f(${data.columnasX?.join(', ') || 'X₁,...,Xₖ'})</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
@@ -5431,11 +5422,11 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★Modelo significativo' : '✓Modelo no significativo'}</div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || data.modelo || ''}</div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || data.modelo || ''}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // Regresión Polinomial
         if (statKey === 'Regresión Polinomial') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📈 Y = f(${data.columnaX || 'X'}) - Grado ${data.grado || 2}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
@@ -5446,11 +5437,11 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★Modelo significativo' : '✓Modelo no significativo'}</div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || data.modelo || ''}</div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || data.modelo || ''}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // Regresión Logística
         if (statKey === 'Regresión Logística') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">🔐 Clasificación: Y = f(${data.columnasX?.join(', ') || 'X₁,...,Xₖ'})</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Exactitud</span><span class="ar-kpi-sub-v">${((data.exactitud || 0) * 100).toFixed(1)}%</span></div>
@@ -5462,7 +5453,7 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${data.exactitud >= 0.7 ? 'ar-badge-ok' : 'ar-badge-warn'}">${data.exactitud >= 0.8 ? '✓Excelente' : data.exactitud >= 0.6 ? '⚠Aceptable' : '✗Bajo'}</div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || data.modelo || ''}</div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || data.modelo || ''}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // Test de Shapiro-Wilk
         if (statKey === 'Test de Shapiro-Wilk') {
@@ -5512,7 +5503,7 @@ function generarHTML(analisisResultado) {
         }
         // Covarianza
         if (statKey === 'Covarianza') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             const covVal = data.covarianza;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📐 ${data.columnaX || 'X'} vs ${data.columnaY || 'Y'}</div>
                     <div class="ar-kpi-sub-grid">
@@ -5524,7 +5515,7 @@ function generarHTML(analisisResultado) {
         }
         // Correlación Kendall Tau
         if (statKey === 'Correlación Kendall Tau') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 ${data.columnaX || 'X'} vs ${data.columnaY || 'Y'}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Tau (τ)</span><span class="ar-kpi-sub-v">${data.tau ?? '—'}</span></div>
@@ -5535,11 +5526,11 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || 'τ = (C − D) / √[(n₀−n₁)(n₀−n₂)]'}</div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || 'τ = (C − D) / √[(n₀−n₁)(n₀−n₂)]'}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // RMSE
         if (statKey === 'RMSE') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📏 ${data.columnaObservada || 'Obs'} vs ${data.columnaPredicha || 'Pred'}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">RMSE</span><span class="ar-kpi-sub-v">${data.rmse?.toFixed(4) ?? '—'}</span></div>
@@ -5550,7 +5541,7 @@ function generarHTML(analisisResultado) {
         }
         // MAE
         if (statKey === 'MAE') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📏 ${data.columnaObservada || 'Obs'} vs ${data.columnaPredicha || 'Pred'}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">MAE</span><span class="ar-kpi-sub-v">${data.mae?.toFixed(4) ?? '—'}</span></div>
@@ -5561,7 +5552,7 @@ function generarHTML(analisisResultado) {
         }
         // R²
         if (statKey === 'R² (Coef. Determinación)') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             const r2 = data.r2;
             const r2Class = r2 >= 0.9 ? 'ar-badge-ok' : r2 >= 0.7 ? 'ar-badge-warn' : 'ar-badge-danger';
             const r2Text = r2 >= 0.9 ? '✓ Excelente ajuste' : r2 >= 0.7 ? '⚠ Ajuste moderado' : '✗ Ajuste pobre';
@@ -5576,7 +5567,7 @@ function generarHTML(analisisResultado) {
         }
         // Mann-Whitney U
         if (statKey === 'Mann-Whitney U') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">⚖️ ${data.columnaAgrupacion || ''} → ${data.columnaValores || ''}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">U</span><span class="ar-kpi-sub-v">${data.U ?? '—'}</span></div>
@@ -5587,11 +5578,11 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // Kruskal-Wallis
         if (statKey === 'Kruskal-Wallis') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 ${data.columnaAgrupacion || ''} → ${data.columnaValores || ''}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">H</span><span class="ar-kpi-sub-v">${data.H ?? '—'}</span></div>
@@ -5602,11 +5593,11 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // Wilcoxon
         if (statKey === 'Wilcoxon') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">⚖️ ${data.columna1 || ''} vs ${data.columna2 || ''} (muestras pareadas)</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">W</span><span class="ar-kpi-sub-v">${data.W ?? '—'}</span></div>
@@ -5618,11 +5609,11 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // Friedman
         if (statKey === 'Friedman') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             const tratamientosInfo = (data.sumasRangos || []).map(t => `T${t.tratamiento}: ${t.suma.toFixed(2)}`).join(', ');
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 Friedman: ${data.tratamientos} tratamientos, ${data.bloques} bloques</div>
                     <div class="ar-kpi-sub-grid">
@@ -5635,11 +5626,11 @@ function generarHTML(analisisResultado) {
                     <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
                     <div style="margin-top:8px;font-size:0.75rem;color:#aaa;">Rangos: ${tratamientosInfo}</div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // Test de Signos
         if (statKey === 'Test de Signos') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">✚ ${data.columna1 || ''} vs ${data.columna2 || ''} (muestras pareadas)</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
@@ -5652,11 +5643,11 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // Bootstrap
         if (statKey === 'Bootstrap') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">🔄 ${data.columna || ''}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estimador</span><span class="ar-kpi-sub-v">${data.estimador ?? 'media'}</span></div>
@@ -5673,11 +5664,11 @@ function generarHTML(analisisResultado) {
                     <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px;"><div class="ar-kpi-col-label">📦 Distribución Bootstrap</div>
                     <div class="ar-kpi-sub-grid"><div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Mín</span><span class="ar-kpi-sub-v">${data.distribucion?.min?.toFixed(4) ?? '—'}</span></div><div class="ar-kpi-sub"><span class="ar-kpi-sub-k">P25</span><span class="ar-kpi-sub-v">${data.distribucion?.p25?.toFixed(4) ?? '—'}</span></div><div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Mediana</span><span class="ar-kpi-sub-v">${data.distribucion?.mediana?.toFixed(4) ?? '—'}</span></div><div class="ar-kpi-sub"><span class="ar-kpi-sub-k">P75</span><span class="ar-kpi-sub-v">${data.distribucion?.p75?.toFixed(4) ?? '—'}</span></div><div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Máx</span><span class="ar-kpi-sub-v">${data.distribucion?.max?.toFixed(4) ?? '—'}</span></div></div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // TOST (Equivalencia)
         if (statKey === 'Test TOST (Equivalencia)') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">🔄 ${data.columnaX || 'X'} vs ${data.columnaY || 'Y'} (Δ=${data.delta})</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">t inferior</span><span class="ar-kpi-sub-v">${data.tInferior?.toFixed(4) ?? '—'}</span></div>
@@ -5687,11 +5678,11 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Diferencia</span><span class="ar-kpi-sub-v">${data.diferencia?.toFixed(4) ?? '—'}</span></div>
                     </div>
                     <div class="ar-kpi-badge ${data.esEquivalente ? 'ar-badge-ok' : 'ar-badge-danger'}">${data.esEquivalente ? '✓ Equivalente' : '✗ No equivalente'}</div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div></div>`;
         }
         // Cluster K-Medias
         if (statKey === 'Análisis de Cluster') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">🧩 K-Medias (k=${data.k})</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Clusters</span><span class="ar-kpi-sub-v">${data.k}</span></div>
@@ -5699,11 +5690,11 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Silhouette</span><span class="ar-kpi-sub-v">${data.silhouette}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Tamaños</span><span class="ar-kpi-sub-v">${data.clusterSizes?.join(', ') || '—'}</span></div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div></div>`;
         }
         // Análisis Discriminante (LDA)
         if (statKey === 'Análisis Discriminante') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">🎯 Análisis Discriminante</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Funciones</span><span class="ar-kpi-sub-v">${data.funcionesDiscriminantes}</span></div>
@@ -5713,11 +5704,11 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Accuracy</span><span class="ar-kpi-sub-v">${((data.accuracy||0)*100).toFixed(1)}%</span></div>
                     </div>
                     <div class="ar-kpi-badge ${data.p < 0.05 ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.p < 0.05 ? '✗ Significativo' : '✓ No significativo'}</div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div></div>`;
         }
         // MANOVA
         if (statKey === 'M-ANOVA') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 MANOVA</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Λ de Wilks</span><span class="ar-kpi-sub-v">${data.lambda}</span></div>
@@ -5728,11 +5719,11 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Pillai</span><span class="ar-kpi-sub-v">${data.pillai}</span></div>
                     </div>
                     <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo' : '✓ No significativo'}</div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div></div>`;
         }
         // Series Temporales
         if (statKey === 'Series Temporales') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📈 ${data.columna || ''} (periodo=${data.period})</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n}</span></div>
@@ -5741,11 +5732,11 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p (LB)</span><span class="ar-kpi-sub-v">${data.lbP}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Pronóstico</span><span class="ar-kpi-sub-v">${data.pronostico?.slice(0,3).map(p => `${p.paso}:${p.valor}`).join(', ') || '—'}</span></div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div></div>`;
         }
         // Análisis de Supervivencia
         if (statKey === 'Análisis de Supervivencia') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             const curvasInfo = data.curvas?.map(c => `${c.grupo}: n=${c.n}, mediana=${c.mediana || '—'}`).join(' | ');
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">⏱️ Supervivencia</div>
                     <div class="ar-kpi-sub-grid">
@@ -5754,11 +5745,11 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p (log-rank)</span><span class="ar-kpi-sub-v">${data.logRank.p}</span></div>` : ''}
                     </div>
                     ${data.logRank ? `<div class="ar-kpi-badge ${data.logRank.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.logRank.significativo ? '✗ Diferencias significativas' : '✓ Sin diferencias'}</div>` : ''}
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div></div>`;
         }
         // Modelos Mixtos
         if (statKey === 'Modelos Mixtos') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">🔀 Modelos Mixtos</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">ICC</span><span class="ar-kpi-sub-v">${data.icc}</span></div>
@@ -5768,11 +5759,11 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n grupos</span><span class="ar-kpi-sub-v">${data.nGrupos}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n total</span><span class="ar-kpi-sub-v">${data.n}</span></div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div></div>`;
         }
         // Análisis Bayesiano
         if (statKey === 'Análisis Bayesiano') {
-            if (data.error) return `<p class="ar-error">${data.error}</p>`;
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">🎲 ${data.columna || ''}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Media posterior</span><span class="ar-kpi-sub-v">${data.media_posterior}</span></div>
@@ -5783,7 +5774,7 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R̂ (MCMC)</span><span class="ar-kpi-sub-v">${data.mcmc?.rHat}</span></div>
                     </div>
                     <div class="ar-kpi-badge ${data.factorBayes > 3 ? 'ar-badge-ok' : 'ar-badge-info'}">${data.factorBayes > 3 ? '★ Evidencia sustancial' : '○ Evidencia débil'}</div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${data.interpretacion || ''}</div></div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div></div>`;
         }
         return '<p>Tipo de prueba no reconocido</p>';
     }

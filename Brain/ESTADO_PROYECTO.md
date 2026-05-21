@@ -1,7 +1,7 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
 **Fecha de Análisis:** 17 de Mayo 2026  
-**Última Actualización:** 21 de Mayo 2026 (Feat: Rediseño dropdown Statistical Analysis)  
+**Última Actualización:** 21 de Mayo 2026 (Feat: Gap Analysis CFR 21 Part 11 — stats robustness)  
 **Versión del Proyecto:** 3.3  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
 **Estado General:** ✅ MVP Completo (52/52 tests)
@@ -110,6 +110,7 @@
 | 53 | 20 May 2026 | Feat: Implementación completa de 8 tests pendientes — (1) TOST Equivalencia, (2) K-Medias Clustering, (3) LDA Discriminante, (4) MANOVA, (5) Kaplan-Meier Supervivencia, (6) Series Temporales (descomposición+ACF+PACF+pronóstico), (7) Modelos Mixtos (ICC/AIC/BIC), (8) Inferencia Bayesiana (conjugada normal-normal+MCMC). ~850 líneas de funciones calcularXxx en EstadisticaDescriptiva.js + helpers matriciales (inversa, determinante, multiplicación). Los 8 tests tienen: case en ejecutarAnalisis, KPI cards HTML, modales de configuración (xy-umbral, y-multi-x-grupo, supervivencia, bayesiano, etc.), entradas en menú (HYPOTHESIS_SET/testCategories), reportes TXT y HTML en ReporteManager.js. | ✅ |
 | 54 | 21 May 2026 | Fix: Eliminado dataset ejemplo stats y validación de hypothesisConfig obsoleta 🔴 — `generarEjemploEstadistico()` + botón removidos de indexx.js. Agregada `_configColumnsExist()` en `runSingleStat()` que valida que las columnas guardadas en hypothesisConfig existan en el dataset actual; si no (ej: dataset con columnas diferentes), fuerza reconfiguración vía modal. Previene errores de "columna no encontrada" al cambiar de dataset con config persistente. | ✅ |
 | 55 | 21 May 2026 | Feat: Rediseño dropdown Statistical Analysis — click-to-expand (reemplaza hover frágil), scroll fijo (max-height:400px + overflow-y), dropdown ya no se cierra al seleccionar tests (selección múltiple sin reabrir). Cambios: `indexx.css:19,35` y `indexx.js:3165-3206,3208-3212,3335-3337`. | ✅ |
+| 56 | 21 May 2026 | Feat: Gap Analysis CFR 21 Part 11 — auditoría completa de 44+ tests estadísticos. P0: `numericInverse` reemplazado por `inverseMatrix` (elimina inversa silenciosa en singulares) en discriminante/MANOVA. P1: `salidas[]` en `estadisticosConfig.js` sincronizado con llaves reales de 16 funciones. P2: Guardas división por cero añadidas en t-test(1/2 muestras), regresión lineal, ANOVA2. P3: `jacobiEigenvalues` ahora reporta `converged: bool`; PCA/discriminante propagan warning si no converge. P4: Filtro NaN/Infinity en calcularTestNormalidad, Shapiro-Wilk, IntervalosConfianza, TTestUnaMuestra, Bootstrap. P5: `escapeHtml()` aplicado a todos los `${data.error}` y `${data.interpretacion}` en generador HTML. | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 

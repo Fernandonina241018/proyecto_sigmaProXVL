@@ -473,7 +473,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico continuo',
         },
-        salidas: ['JB', 'p', 'esNormal', 'skew', 'kurt', 'n'],
+        salidas: ['prueba', 'asimetria', 'curtosis', 'estadisticoJB', 'gradosLibertad', 'valorP', 'esNormal', 'interpretacion'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral'],
@@ -726,7 +726,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico y un valor de referencia μ₀',
         },
-        salidas: ['t', 'gl', 'p', 'media', 'se', 'ic95', 'significativo', 'd'],
+        salidas: ['prueba', 'mediaMuestral', 'mediaHipotesis', 'desviacionEstandar', 'errorEstandar', 'estadisticoT', 'gradosLibertad', 'valorP', 'significativo', 'interpretacion'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral', 'unilateral-mayor', 'unilateral-menor'],
@@ -738,8 +738,8 @@ const ESTADISTICOS_CONFIG = {
             umbrales: { pequeno: 0.2, mediano: 0.5, grande: 0.8 },
         },
         interpretacion: {
-            significativo:   'La media ({media}) difiere significativamente de μ₀={mu0} (t={t}, gl={gl}, p={p}, d={d}).',
-            noSignificativo: 'No hay diferencia significativa respecto a μ₀={mu0} (t={t}, gl={gl}, p={p}).',
+            significativo:   'La media ({mediaMuestral}) difiere significativamente de μ₀={mu0} (estadisticoT={estadisticoT}, gl={gradosLibertad}, valorP={valorP}, d={d}).',
+            noSignificativo: 'No hay diferencia significativa respecto a μ₀={mu0} (estadisticoT={estadisticoT}, gl={gradosLibertad}, valorP={valorP}).',
         },
         alternativaNoParametrica: 'Wilcoxon (una muestra)',
         advertencias: [
@@ -781,7 +781,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      2,
             descripcion: 'Dos vectores numéricos independientes',
         },
-        salidas: ['t', 'gl', 'p', 'media1', 'media2', 'diferencia', 'ic95', 'significativo', 'd'],
+        salidas: ['prueba', 'grupo1', 'grupo2', 'diferenciaMedias', 'estadisticoT', 'gradosLibertad', 'valorP', 'significativo', 'interpretacion'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral', 'unilateral-mayor', 'unilateral-menor'],
@@ -815,7 +815,7 @@ const ESTADISTICOS_CONFIG = {
 
     'ANOVA One-Way': {
         seccion:   'hipotesis',
-        calcular:  'calcularANOVAOneWay',
+        calcular:  'calcularANOVA',
         formula:   'F = MSB / MSW',
         desc:      'Compara medias de 3+ grupos. Si F es significativo, al menos una media difiere de las demás.',
         icono:     '📊',
@@ -836,7 +836,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      'k≥3',
             descripcion: 'Variable numérica + variable de grupo categórica (k ≥ 3 niveles)',
         },
-        salidas: ['F', 'glEntre', 'glDentro', 'p', 'MSB', 'MSW', 'SSB', 'SSW', 'significativo', 'etaCuadrado'],
+        salidas: ['prueba', 'grupos', 'totalObservaciones', 'SSB', 'SSW', 'MSB', 'MSW', 'estadisticoF', 'dfEntre', 'dfDentro', 'valorP', 'significativo', 'interpretacion'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral'],
@@ -868,7 +868,7 @@ const ESTADISTICOS_CONFIG = {
 
     'ANOVA Two-Way': {
         seccion:   'hipotesis',
-        calcular:  'calcularANOVATwoWay',
+        calcular:  'calcularANOVA2Factores',
         formula:   'F₁ = MSF₁/MSE, F₂ = MSF₂/MSE',
         desc:      'Análisis de varianza con dos factores simultáneos. Evalúa efectos principales de cada factor.',
         icono:     '📐',
@@ -891,7 +891,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      'k×j',
             descripcion: 'Variable numérica + dos variables categóricas de factor',
         },
-        salidas: ['FA', 'FB', 'FAB', 'pA', 'pB', 'pAB', 'etaCuadradoA', 'etaCuadradoB', 'etaCuadradoAB', 'significativoA', 'significativoB', 'significativoAB'],
+        salidas: ['prueba', 'factor1', 'factor2', 'error', 'total', 'interpretacion'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral'],
@@ -943,7 +943,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      2,
             descripcion: 'Tabla de contingencia o dos vectores categóricos',
         },
-        salidas: ['chi2', 'gl', 'p', 'V', 'frecEsperadas', 'significativo'],
+        salidas: ['prueba', 'tablaObservada', 'totalFilas', 'totalColumnas', 'N', 'estadisticoChi2', 'gradosLibertad', 'valorP', 'significativo', 'interpretacion'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral'],
@@ -1255,7 +1255,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      2,
             descripcion: 'Vector X (predictor) y vector Y (respuesta) del mismo largo',
         },
-        salidas: ['a', 'b', 'r2', 'r2ajustado', 'F', 'p', 'se_b', 't_b', 'residuos', 'predicciones'],
+        salidas: ['prueba', 'modelo', 'formula', 'a', 'b', 'r2', 'r2Adj', 'errorEstandar', 'eePendiente', 'eeIntercept', 'tPendiente', 'pPendiente', 'icPendienteLower', 'icPendienteUpper', 'significante', 'interpretacion', 'n', 'predicciones', 'residuos', 'variables'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral'],
@@ -1290,7 +1290,7 @@ const ESTADISTICOS_CONFIG = {
 
     'Regresión Lineal Múltiple': {
         seccion:   'regresion',
-        calcular:  'calcularRegresionLinealMultiple',
+        calcular:  'calcularRegresionMultiple',
         formula:   'Y = β₀ + β₁X₁ + ... + βₖXₖ',
         desc:      'Modelo con múltiples predictores. Estima Y usando múltiples variables independientes simultáneamente.',
         icono:     '📊',
@@ -1312,7 +1312,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      'k+1',
             descripcion: 'Variables predictoras X₁…Xₖ y variable respuesta Y',
         },
-        salidas: ['betas', 'r2', 'r2ajustado', 'F', 'p', 'vif', 'residuos', 'predicciones', 'aic', 'bic'],
+        salidas: ['prueba', 'modelo', 'formula', 'betas', 'coeficientes', 'r2', 'r2Adj', 'errorEstandar', 'significante', 'interpretacion', 'n', 'k', 'predicciones', 'residuos'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral'],
@@ -1367,7 +1367,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      2,
             descripcion: 'Vector X y vector Y; grado del polinomio configurable (defecto 2)',
         },
-        salidas: ['coeficientes', 'r2', 'r2ajustado', 'F', 'p', 'residuos', 'predicciones', 'grado'],
+        salidas: ['prueba', 'modelo', 'formula', 'grado', 'coeficientes', 'r2', 'r2Adj', 'errorEstandar', 'significante', 'interpretacion', 'n', 'predicciones', 'residuos'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral'],
@@ -1559,7 +1559,7 @@ const ESTADISTICOS_CONFIG = {
 
     'Mann-Whitney U': {
         seccion:   'noParametricos',
-        calcular:  'calcularMannWhitney',
+        calcular:  'calcularMannWhitneyU',
         formula:   'U = min(U₁, U₂)',
         desc:      'Alternativa no-paramétrica al t-test independiente. Compara distribuciones de dos grupos sin asumir normalidad.',
         icono:     '⚖️',
@@ -1581,7 +1581,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      2,
             descripcion: 'Dos vectores numéricos independientes',
         },
-        salidas: ['U', 'U1', 'U2', 'z', 'p', 'r', 'n1', 'n2', 'significativo'],
+        salidas: ['prueba', 'grupo1', 'grupo2', 'U1', 'U2', 'U', 'z', 'valorP', 'significativo', 'tamanoEfecto', 'interpretacionEfecto', 'interpretacion'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral', 'unilateral-mayor', 'unilateral-menor'],
@@ -1636,7 +1636,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      'k≥3',
             descripcion: 'Variable numérica + variable de grupo categórica (k ≥ 3)',
         },
-        salidas: ['H', 'gl', 'p', 'etaCuadrado', 'significativo', 'n'],
+        salidas: ['prueba', 'grupos', 'totalObservaciones', 'medianas', 'sumasRangos', 'H', 'df', 'valorP', 'significativo', 'interpretacion'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral'],
@@ -1692,7 +1692,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      2,
             descripcion: 'Dos vectores numéricos del mismo largo con observaciones emparejadas',
         },
-        salidas: ['W', 'z', 'p', 'r', 'n', 'significativo'],
+        salidas: ['prueba', 'n', 'W', 'Wpositivo', 'Wnegativo', 'z', 'valorP', 'significativo', 'interpretacion'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral', 'unilateral-mayor', 'unilateral-menor'],
@@ -1747,7 +1747,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      'k≥3',
             descripcion: 'Matriz n×k: n bloques (sujetos/unidades) × k condiciones (tratamientos)',
         },
-        salidas: ['chi2r', 'gl', 'p', 'W', 'significativo', 'n', 'k'],
+        salidas: ['prueba', 'tratamientos', 'bloques', 'sumasRangos', 'ChiSq', 'df', 'valorP', 'significativo', 'interpretacion'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral'],
@@ -1803,7 +1803,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      2,
             descripcion: 'Dos vectores numéricos del mismo largo con observaciones emparejadas',
         },
-        salidas: ['nPositivos', 'nNegativos', 'nEmpates', 'p', 'significativo', 'n'],
+        salidas: ['prueba', 'n', 'ceros', 'positivos', 'negativos', 'k', 'z', 'valorP', 'significativo', 'interpretacion'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral', 'unilateral-mayor', 'unilateral-menor'],
@@ -1858,7 +1858,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      'p≥2',
             descripcion: 'Matriz de datos n×p con variables numéricas (se estandarizan automáticamente)',
         },
-        salidas: ['componentes', 'cargas', 'varianzaExplicada', 'varianzaAcumulada', 'autovalores', 'scores'],
+        salidas: ['prueba', 'nObservaciones', 'nVariables', 'nComponentes', 'eigenvalues', 'loadings', 'varianceExplained', 'cumulativeVariance', 'scores', 'means', 'stds', 'interpretacion', 'warning', 'warnings'],
         efectoTamano: {
             metrica:  'Varianza explicada acumulada',
             formula:  'VE% = Σλᵢ / Σλ × 100',
@@ -1903,7 +1903,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      'p≥3',
             descripcion: 'Matriz de datos n×p con variables numéricas correlacionadas',
         },
-        salidas: ['cargas', 'comunalidades', 'varianzaExplicada', 'kmo', 'bartlett', 'nFactores', 'rotacion'],
+        salidas: ['prueba', 'nObservaciones', 'nVariables', 'nFactores', 'eigenvalues', 'loadings', 'communality', 'varianceExplained', 'cumulativeVariance', 'kmo', 'kmoInterpretation', 'nFactoresKaiser', 'interpretacion', 'warning'],
         interpretacion: {
             plantilla: '{nFactores} factores explican el {varAcum}% de varianza. KMO={kmo}. Rotación: {rotacion}.',
         },
