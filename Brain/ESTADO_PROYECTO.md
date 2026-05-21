@@ -1,8 +1,8 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
 **Fecha de Análisis:** 17 de Mayo 2026  
-**Última Actualización:** 20 de Mayo 2026 (Feat: 8 tests pendientes implementados — 52/52 completos)  
-**Versión del Proyecto:** 3.1  
+**Última Actualización:** 21 de Mayo 2026 (Fix: Eliminado dataset ejemplo + validación de hypothesisConfig)  
+**Versión del Proyecto:** 3.2  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
 **Estado General:** ✅ MVP Completo (52/52 tests)
 
@@ -108,6 +108,7 @@
 | 51 | 20 May 2026 | Fix: Modal de configuración para TODOS los tests de regresión 🔴 — `_mostrarModalConfigTest` ahora soporta 5 tipos de modal: **xy** (correlación/Reg.Lineal Simple), **obspred** (RMSE/MAE/R² con labels observada/predicha), **xy-grado** (Reg.Polinomial con input de grado), **y-multi-x** (Reg.Múltiple/Logística con checkboxes X), y **cat-num** (T-Test). Cada modal guarda las keys exactas que `EstadisticaDescriptiva.js` espera. | ✅ |
 | 52 | 20 May 2026 | Fix: Auditoría completa de hypothesisConfig — corregidos 9 bugs de desajuste modal↔test: (1) `dos-columnas-pareadas` (Wilcoxon/Signos) ahora guarda `{numericCols[]}` en vez de `{numericCol}`, (2) `dos-grupos` (Mann-Whitney), `una-columna-grupo` (Kruskal-Wallis/ANOVA-OneWay), `bloques-k-condiciones` (Friedman) ahora muestran modal cat+num en vez de solo num, (3) `tabla-contingencia` (Chi-Cuadrado) ahora pide 2 cat columns, (4) `una-columna-dos-factores` (ANOVA Two-Way) ahora pide 2 factores + num, (5) `y-multi-x` (PCA/Factorial) ahora también guarda `{columnas}` junto a `{columnasX}`. | ✅ |
 | 53 | 20 May 2026 | Feat: Implementación completa de 8 tests pendientes — (1) TOST Equivalencia, (2) K-Medias Clustering, (3) LDA Discriminante, (4) MANOVA, (5) Kaplan-Meier Supervivencia, (6) Series Temporales (descomposición+ACF+PACF+pronóstico), (7) Modelos Mixtos (ICC/AIC/BIC), (8) Inferencia Bayesiana (conjugada normal-normal+MCMC). ~850 líneas de funciones calcularXxx en EstadisticaDescriptiva.js + helpers matriciales (inversa, determinante, multiplicación). Los 8 tests tienen: case en ejecutarAnalisis, KPI cards HTML, modales de configuración (xy-umbral, y-multi-x-grupo, supervivencia, bayesiano, etc.), entradas en menú (HYPOTHESIS_SET/testCategories), reportes TXT y HTML en ReporteManager.js. | ✅ |
+| 54 | 21 May 2026 | Fix: Eliminado dataset ejemplo stats y validación de hypothesisConfig obsoleta 🔴 — `generarEjemploEstadistico()` + botón removidos de indexx.js. Agregada `_configColumnsExist()` en `runSingleStat()` que valida que las columnas guardadas en hypothesisConfig existan en el dataset actual; si no (ej: dataset con columnas diferentes), fuerza reconfiguración vía modal. Previene errores de "columna no encontrada" al cambiar de dataset con config persistente. | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
