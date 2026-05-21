@@ -74,6 +74,7 @@ Checklist `02_ESTADISTICOS.md` + documentar si cambia contrato o arquitectura.
 | 2026-05-19 | Agregar auto-aprendizaje al comando prompt | Prompt no evolucionaba entre sesiones | Leer Brain2 antes + documentar aprendizajes después | Mejor calidad progresiva |
 | 2026-05-19 | Estructura XML inconsistente | Etiquetas sin jerarquía clara | Usar <role>, <context>, <instructions> | Prompts más legibles |
 | 2026-05-19 | Falta de ejemplos few-shot | Prompts demasiado abstractos | Incluir 2-3 ejemplos relevantes | Mayor precisión |
+| 2026-05-20 | Prompt sin contexto del proyecto | Usuario dijo "cambiar aspecto del reporte" sin detalle | Optimización: rol + contexto Brain2 + ejemplos específicos de ReporteManager | Prompts más accionables |
 
 ### Protocolo de auto-mejora ( comando `/prompt` )
 

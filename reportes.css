@@ -296,7 +296,7 @@
 .rep-btn-download {
     width: 100%;
     padding: 13px;
-    background: linear-gradient(135deg, #000, #211ed1);
+    background: linear-gradient(135deg, #211ed1, #211ed1);
     color: white;
     border: none;
     border-radius: 10px;
