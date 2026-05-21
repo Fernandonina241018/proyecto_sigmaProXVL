@@ -3474,6 +3474,18 @@ function firmaHandleFile(file) {
       _firmaSignatureData.push({ role: role, label: roleLabel, fields: fields });
     });
 
+    // Auto-cargar firmas existentes del reporte HTML
+    _firmaSignatureData.forEach(function(sd) {
+      if (sd.fields.name && sd.fields.name !== '' && sd.fields.name !== '\u2014') {
+        _firmaSignatureState[sd.role] = {
+          signed: true,
+          nombre: sd.fields.name,
+          cargo: sd.fields.title || '',
+          fecha: sd.fields.date || ''
+        };
+      }
+    });
+
     firmaRenderEditor();
 
     var status = document.getElementById('firmaStatus');
