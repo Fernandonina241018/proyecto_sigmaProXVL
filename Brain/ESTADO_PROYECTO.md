@@ -2784,6 +2784,15 @@ Este es un **proyecto MVP bien construido** con potencial de convertirse en una 
   - Cards de usuario ahora muestran cargo y código de firma con prefijo `*`
   - Botón "Editar" incluye data-attributos `data-cargo` y `data-signaturecode`
 
+**Cambio 4:** Campos cargo y signature_code en modal de edición de usuario
+- **Archivos:** `UsuariosManager.js`, `backend/database.js`, `backend/server.js`
+- **Estado:** ✅ COMPLETADO
+- **Detalles:**
+  - Modal de edición (✏️) ahora incluye campos 💼 Cargo y 🔑 Código de firma
+  - Submit del modal envía cargo y signatureCode al backend
+  - Backend `updateUserProfile`/`updateUserProfileById` actualizan cargo y signature_code en BD
+  - Endpoints `PUT /api/users/profile` y `PUT /api/users/:id/profile` aceptan campos nuevos
+
 ---
 
 **Documento generado:** 2 de Abril de 2026  

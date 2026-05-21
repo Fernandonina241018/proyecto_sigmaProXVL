@@ -353,8 +353,10 @@ const UsuariosManager = (() => {
                 const apellido = btn.dataset.apellido;
                 const email    = btn.dataset.email;
                 const telefono = btn.dataset.telefono;
+                const cargo    = btn.dataset.cargo;
+                const sigCode  = btn.dataset.signaturecode;
                 const rol      = btn.dataset.rol;
-                _showEditModal({ id, username, nombre, apellido, email, telefono, role: rol });
+                _showEditModal({ id, username, nombre, apellido, email, telefono, cargo, signatureCode: sigCode, role: rol });
             });
         });
     }
@@ -456,6 +458,16 @@ const UsuariosManager = (() => {
                             <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">📱 TELÉFONO</label>
                             <input type="tel" id="usr-edit-telefono" value="${escapeHtml(usuario.telefono || '')}" placeholder="+1234567890" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
                         </div>
+                        <hr style="border:none;border-top:1px solid #e2e8f0;margin:8px 0;">
+                        <div>
+                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">💼 CARGO</label>
+                            <input type="text" id="usr-edit-cargo" value="${escapeHtml(usuario.cargo || '')}" placeholder="Director de Laboratorio" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
+                        </div>
+                        <div>
+                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">🔑 CÓDIGO DE FIRMA</label>
+                            <input type="text" id="usr-edit-signaturecode" value="${escapeHtml(usuario.signatureCode || '')}" placeholder="Ej: ABC-123" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
+                            <div style="font-size:0.7rem;color:#94a3b8;margin-top:4px;">Código único para firmar reportes electrónicos</div>
+                        </div>
                     </div>
                     <div style="display:flex;gap:12px;margin-top:24px;">
                         <button type="button" id="usr-edit-cancel" style="flex:1;padding:14px;border:2px solid #e2e8f0;border-radius:10px;background:#f1f5f9;color:#64748b;font-weight:600;cursor:pointer;">Cancelar</button>
@@ -481,7 +493,9 @@ const UsuariosManager = (() => {
 
             const perfil = {
                 email: document.getElementById('usr-edit-email').value.trim(),
-                telefono: document.getElementById('usr-edit-telefono').value.trim()
+                telefono: document.getElementById('usr-edit-telefono').value.trim(),
+                cargo: document.getElementById('usr-edit-cargo').value.trim(),
+                signatureCode: document.getElementById('usr-edit-signaturecode').value.trim()
             };
             const role = document.getElementById('usr-edit-role').value;
 

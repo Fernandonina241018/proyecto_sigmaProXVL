@@ -193,19 +193,19 @@ async function getUserPasswordTemp(username) {
     return user ? user.password_temp === 1 : false;
 }
 
-async function updateUserProfile(username, { nombre, apellido, email, telefono }) {
+async function updateUserProfile(username, { nombre, apellido, email, telefono, cargo, signatureCode }) {
     const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
     await run(
-        `UPDATE users SET nombre = $1, apellido = $2, email = $3, telefono = $4, updated_at = $5 WHERE username = $6`,
-        [nombre, apellido, email, telefono, now, username]
+        `UPDATE users SET nombre = $1, apellido = $2, email = $3, telefono = $4, cargo = $5, signature_code = $6, updated_at = $7 WHERE username = $8`,
+        [nombre, apellido, email, telefono, cargo || null, signatureCode || null, now, username]
     );
 }
 
-async function updateUserProfileById(id, { nombre, apellido, email, telefono }) {
+async function updateUserProfileById(id, { nombre, apellido, email, telefono, cargo, signatureCode }) {
     const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
     await run(
-        `UPDATE users SET nombre = $1, apellido = $2, email = $3, telefono = $4, updated_at = $5 WHERE id = $6`,
-        [nombre, apellido, email, telefono, now, id]
+        `UPDATE users SET nombre = $1, apellido = $2, email = $3, telefono = $4, cargo = $5, signature_code = $6, updated_at = $7 WHERE id = $8`,
+        [nombre, apellido, email, telefono, cargo || null, signatureCode || null, now, id]
     );
 }
 
