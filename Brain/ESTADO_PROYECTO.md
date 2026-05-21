@@ -2749,7 +2749,34 @@ Este es un **proyecto MVP bien construido** con potencial de convertirse en una 
 
 ---
 
+### 20 de Mayo 2026 — Sistema de Firma por Código + Contraseña
+
+**Cambio 1:** Backend — Migración de base de datos y API
+- **Archivos:** `backend/database.js`, `backend/server.js`
+- **Estado:** ✅ COMPLETADO
+- **Detalles:**
+  - Agregadas columnas `signature_code` (TEXT UNIQUE) y `cargo` (TEXT) a tabla `users`
+  - Creada función `getUserBySignatureCode()` en database.js
+  - Creado endpoint `POST /api/verify-signature` que recibe `{signatureCode, password}`
+  - Verifica bcrypt de contraseña contra el usuario dueño del código
+  - Retorna `{nombre, cargo, username}` si válido; 404/401 si no
+  - Registro en auditoría con acción `VERIFY_SIGNATURE`
+
+**Cambio 2:** Frontend — Editor de firmas con verificación
+- **Archivos:** `indexx.js`
+- **Estado:** ✅ COMPLETADO
+- **Detalles:**
+  - Reemplazados inputs de texto directos por: input de código + botón "Firmar"
+  - Modal de contraseña al presionar "Firmar"
+  - Llamada a `POST /api/verify-signature` con código + contraseña
+  - En éxito: auto-carga nombre completo, cargo y fecha/hora actual
+  - Estados visuales: pendiente (input) → verificando (loader) → completada (✅ badge verde)
+  - Estado independiente por cada una de las 3 firmas (prepared/reviewed/approved)
+  - Nueva variable `_firmaSignatureState` para tracking de firmas completadas
+
+---
+
 **Documento generado:** 2 de Abril de 2026  
-**Última actualización:** 15 de Abril de 2026  
+**Última actualización:** 20 de Mayo de 2026  
 **Analista:** OpenCode  
-**Versión del documento:** 2.4
+**Versión del documento:** 2.5

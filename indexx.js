@@ -3398,11 +3398,13 @@ function _initIndexxApp() {
 var _firmaCurrentDoc = null;
 var _firmaCurrentHtml = '';
 var _firmaSignatureData = null;
+var _firmaSignatureState = {};
 
 function initFirmarReportePage() {
   _firmaCurrentDoc = null;
   _firmaCurrentHtml = '';
   _firmaSignatureData = null;
+  _firmaSignatureState = {};
 
   var dropZone = document.getElementById('firmaDropZone');
   var fileInput = document.getElementById('firmaFileInput');
@@ -3448,6 +3450,7 @@ function firmaHandleFile(file) {
 
     _firmaCurrentDoc = doc;
     _firmaCurrentHtml = html;
+    _firmaSignatureState = {};
 
     // Render preview in iframe
     var preview = document.getElementById('firmaPreview');
@@ -3501,31 +3504,58 @@ function firmaRenderEditor() {
     var body = document.createElement('div');
     body.style.cssText = 'padding:8px 10px;display:flex;flex-direction:column;gap:6px';
 
-    var fieldKeys = ['name', 'title', 'date'];
-    var fieldLabels = { name: 'Nombre', title: 'Cargo', date: 'Fecha' };
+    var state = _firmaSignatureState && _firmaSignatureState[sd.role];
+    if (state && state.signed) {
+      // Show signed state
+      var signedRow = document.createElement('div');
+      signedRow.style.cssText = 'display:flex;align-items:center;gap:6px;color:#16a34a;font-size:11px;font-weight:600';
+      signedRow.innerHTML = '\u2705 Firmado por <span id="firmaSignedName-' + sd.role + '">' + escapeHtml(state.nombre) + '</span>';
+      body.appendChild(signedRow);
 
-    fieldKeys.forEach(function(fk){
-      var row = document.createElement('div');
-      row.style.cssText = 'display:flex;flex-direction:column;gap:2px';
+      var cargoRow = document.createElement('div');
+      cargoRow.style.cssText = 'font-size:10px;color:var(--text-primary)';
+      cargoRow.textContent = state.cargo || '\u2014';
+      cargoRow.id = 'firmaSignedCargo-' + sd.role;
+      body.appendChild(cargoRow);
 
-      var label = document.createElement('span');
-      label.style.cssText = 'font-size:9px;color:var(--text-faint);text-transform:uppercase';
-      label.textContent = fieldLabels[fk];
-      row.appendChild(label);
+      var dateRow = document.createElement('div');
+      dateRow.style.cssText = 'font-size:10px;color:var(--text-faint)';
+      dateRow.textContent = state.fecha;
+      dateRow.id = 'firmaSignedDate-' + sd.role;
+      body.appendChild(dateRow);
+    } else {
+      // Show code input + sign button
+      var codeRow = document.createElement('div');
+      codeRow.style.cssText = 'display:flex;gap:6px;align-items:end';
 
-      var input = document.createElement('input');
-      input.type = fk === 'date' ? 'date' : 'text';
-      input.value = sd.fields[fk] || '';
-      input.placeholder = fk === 'date' ? 'yyyy-mm-dd' : '—';
-      input.style.cssText = 'background:var(--bg-primary);border:1px solid var(--border);border-radius:4px;padding:4px 6px;font-size:11px;color:var(--text-primary);outline:none;width:100%';
-      input.dataset.sigRole = sd.role;
-      input.dataset.sigField = fk;
+      var codeGroup = document.createElement('div');
+      codeGroup.style.cssText = 'display:flex;flex-direction:column;gap:2px;flex:1';
 
-      input.oninput = function(){ firmaUpdatePreview(this.dataset.sigRole, this.dataset.sigField, this.value); };
+      var codeLabel = document.createElement('span');
+      codeLabel.style.cssText = 'font-size:9px;color:var(--text-faint);text-transform:uppercase';
+      codeLabel.textContent = 'C\u00F3digo de firma';
+      codeGroup.appendChild(codeLabel);
 
-      row.appendChild(input);
-      body.appendChild(row);
-    });
+      var codeInput = document.createElement('input');
+      codeInput.type = 'text';
+      codeInput.placeholder = 'Ej: ABC-123';
+      codeInput.style.cssText = 'background:var(--bg-primary);border:1px solid var(--border);border-radius:4px;padding:4px 6px;font-size:11px;color:var(--text-primary);outline:none;width:100%';
+      codeInput.id = 'firmaCodeInput-' + sd.role;
+      codeGroup.appendChild(codeInput);
+      codeRow.appendChild(codeGroup);
+
+      var signBtn = document.createElement('button');
+      signBtn.textContent = '\u270D\uFE0F Firmar';
+      signBtn.style.cssText = 'padding:4px 12px;font-size:11px;background:var(--accent);color:white;border:none;border-radius:4px;cursor:pointer;white-space:nowrap;height:fit-content';
+      signBtn.onclick = function(r) { return function(){ firmaRequestPassword(r); }; }(sd.role);
+      codeRow.appendChild(signBtn);
+      body.appendChild(codeRow);
+
+      var statusEl = document.createElement('div');
+      statusEl.id = 'firmaStatusMsg-' + sd.role;
+      statusEl.style.cssText = 'font-size:10px;color:var(--text-faint);min-height:16px';
+      body.appendChild(statusEl);
+    }
 
     card.appendChild(body);
     editor.appendChild(card);
@@ -3565,6 +3595,112 @@ function firmaDownload() {
     showToast('✅ Reporte firmado descargado');
   } catch(e) {
     showToast('Error al descargar: ' + e.message);
+  }
+}
+// ════════════════════════════════════════════════════════════════
+
+// FEAT: firma-verificacion — password modal y verificación API
+function firmaRequestPassword(role) {
+  var codeInput = document.getElementById('firmaCodeInput-' + role);
+  var statusEl = document.getElementById('firmaStatusMsg-' + role);
+  var code = codeInput ? codeInput.value.trim() : '';
+  if (!code) {
+    if (statusEl) statusEl.textContent = '\u26A0\uFE0F Ingresa un c\u00F3digo de firma';
+    return;
+  }
+
+  var overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  var box = document.createElement('div');
+  box.className = 'modal-box';
+  box.style.cssText = 'max-width:360px';
+
+  var title = document.createElement('div');
+  title.className = 'modal-title';
+  title.textContent = '\uD83D\uDD10 Verificar firma';
+  box.appendChild(title);
+
+  var content = document.createElement('div');
+  content.style.cssText = 'padding:12px 16px;display:flex;flex-direction:column;gap:10px';
+
+  var codeInfo = document.createElement('div');
+  codeInfo.style.cssText = 'font-size:11px;color:var(--text-faint)';
+  codeInfo.textContent = 'C\u00F3digo: ' + code;
+  content.appendChild(codeInfo);
+
+  var pwLabel = document.createElement('label');
+  pwLabel.style.cssText = 'font-size:11px;color:var(--text-primary)';
+  pwLabel.textContent = 'Contrase\u00F1a';
+  content.appendChild(pwLabel);
+
+  var pwInput = document.createElement('input');
+  pwInput.type = 'password';
+  pwInput.style.cssText = 'width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem;outline:none';
+  pwInput.placeholder = 'Ingresa tu contrase\u00F1a';
+  content.appendChild(pwInput);
+
+  var errorEl = document.createElement('div');
+  errorEl.style.cssText = 'font-size:10px;color:#ef4444;min-height:14px';
+  content.appendChild(errorEl);
+
+  var actions = document.createElement('div');
+  actions.style.cssText = 'display:flex;gap:8px;justify-content:end';
+  var cancelBtn = document.createElement('button');
+  cancelBtn.className = 'btn btn-secondary';
+  cancelBtn.textContent = 'Cancelar';
+  cancelBtn.onclick = function(){ overlay.remove(); };
+  actions.appendChild(cancelBtn);
+  var confirmBtn = document.createElement('button');
+  confirmBtn.className = 'btn btn-primary';
+  confirmBtn.textContent = 'Verificar';
+  confirmBtn.onclick = function(){
+    overlay.remove();
+    firmaVerify(role, code, pwInput.value, statusEl);
+  };
+  actions.appendChild(confirmBtn);
+  content.appendChild(actions);
+  box.appendChild(content);
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+  pwInput.focus();
+  pwInput.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') confirmBtn.click();
+  });
+}
+
+async function firmaVerify(role, code, password, statusEl) {
+  if (!password) {
+    if (statusEl) statusEl.textContent = '\u26A0\uFE0F Ingresa la contrase\u00F1a';
+    return;
+  }
+  if (statusEl) statusEl.textContent = '\u23F3 Verificando...';
+  try {
+    var res = await fetch(API_URL + '/api/verify-signature', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ signatureCode: code, password: password })
+    });
+    var data = await res.json();
+    if (!data.ok) {
+      if (statusEl) statusEl.innerHTML = '\u274C ' + escapeHtml(data.error || 'Error de verificaci\u00F3n');
+      return;
+    }
+    var now = new Date();
+    var fechaStr = now.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) + ' ' + now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    _firmaSignatureState[role] = {
+      signed: true,
+      nombre: data.nombre,
+      cargo: data.cargo,
+      fecha: fechaStr
+    };
+    firmaUpdatePreview(role, 'name', data.nombre);
+    firmaUpdatePreview(role, 'title', data.cargo);
+    firmaUpdatePreview(role, 'date', fechaStr);
+    firmaRenderEditor();
+    showToast('\u2705 Firma registrada: ' + data.nombre);
+  } catch (e) {
+    console.error('Error verifying signature:', e);
+    if (statusEl) statusEl.textContent = '\u274C Error de conexi\u00F3n con el servidor';
   }
 }
 // ════════════════════════════════════════════════════════════════

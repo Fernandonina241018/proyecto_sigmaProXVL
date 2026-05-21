@@ -73,6 +73,11 @@ async function initDatabase() {
     // Agregar columna password_temp si no existe (para migraciones)
     await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS password_temp INTEGER DEFAULT 0`);
 
+    // Migración: signature_code y cargo para firma electrónica
+    await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS signature_code TEXT`);
+    await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS cargo TEXT`);
+    await run(`CREATE INDEX IF NOT EXISTS idx_users_signature_code ON users (signature_code)`);
+
     // Migrar usernames existentes al nuevo campo email
     await run(`
         UPDATE users SET email = username WHERE email IS NULL OR email = ''
@@ -129,6 +134,13 @@ async function getUserByUsername(username) {
     return get(
         'SELECT * FROM users WHERE username = $1 AND active = 1',
         [username]
+    );
+}
+
+async function getUserBySignatureCode(signatureCode) {
+    return get(
+        'SELECT * FROM users WHERE signature_code = $1 AND active = 1',
+        [signatureCode]
     );
 }
 
@@ -231,6 +243,7 @@ module.exports = {
     initDatabase,
     createInitialAdmin,
     getUserByUsername,
+    getUserBySignatureCode,
     createUser,
     updateLastLogin,
     getAllUsers,

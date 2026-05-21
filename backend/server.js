@@ -386,6 +386,42 @@ app.get('/api/users', requireAuth, requireAdmin, async (req, res) => {
     res.json({ ok: true, users });
 });
 
+// POST /api/verify-signature — validar código de firma + contraseña
+// No requiere autenticación previa; el código de firma es la credencial
+app.post('/api/verify-signature', async (req, res) => {
+    const { signatureCode, password } = req.body;
+    if (!signatureCode?.trim() || !password?.trim()) {
+        return res.status(400).json({ error: 'Código de firma y contraseña son requeridos' });
+    }
+    try {
+        const user = await db.getUserBySignatureCode(signatureCode.trim());
+        if (!user) {
+            return res.status(404).json({ error: 'Código de firma no registrado' });
+        }
+        const passwordOk = bcrypt.compareSync(password, user.password);
+        if (!passwordOk) {
+            return res.status(401).json({ error: 'Contraseña incorrecta' });
+        }
+        await db.logAccess({
+            username:  user.username,
+            action:    'VERIFY_SIGNATURE',
+            success:   true,
+            ip:        getClientIP(req),
+            userAgent: req.headers['user-agent'],
+        });
+        const nombreCompleto = [user.nombre, user.apellido].filter(Boolean).join(' ') || user.username;
+        return res.json({
+            ok: true,
+            nombre: nombreCompleto,
+            cargo: user.cargo || '',
+            username: user.username,
+        });
+    } catch (err) {
+        console.error('Error en verify-signature:', err);
+        return res.status(500).json({ error: 'Error interno del servidor' });
+    }
+});
+
 // POST /api/users (solo admin)
 app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
     const { username, password, role = 'user', nombre, apellido, email, telefono } = req.body;
