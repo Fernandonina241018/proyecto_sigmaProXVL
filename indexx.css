@@ -544,6 +544,8 @@
   .rep-field label { font-size:0.7rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.6px; }
   .rep-field input, .rep-field select { padding:8px 10px; border:1.5px solid var(--border); border-radius:8px; font-size:0.84rem; font-family:inherit; color:var(--text-primary); background:var(--bg-panel); transition:border-color .2s; }
   .rep-field input:focus, .rep-field select:focus { outline:none; border-color:var(--accent); }
+  .rep-field input[type="date"] { color-scheme:dark; }
+  .rep-field input[type="date"]::-webkit-calendar-picker-indicator { filter:invert(1); cursor:pointer; }
   .rep-sig-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
   .rep-sig-block { background:var(--bg-panel); border:1px solid var(--border); border-radius:10px; padding:12px; }
   .rep-sig-role { font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; color:var(--accent); margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid var(--border); }
@@ -565,9 +567,9 @@
   .rep-fmt-badge-pdf { font-size:0.62rem; background:rgba(39,103,73,0.2); color:#68d391; padding:1px 6px; border-radius:10px; font-weight:600; letter-spacing:0.3px; }
   .rep-fmt-count-row { text-align:center; margin-bottom:12px; }
   .rep-fmt-count { font-size:0.78rem; color:var(--accent); font-weight:600; background:rgba(102,126,234,0.08); padding:4px 12px; border-radius:20px; }
-  .rep-btn-download { width:100%; padding:13px; background:linear-gradient(135deg,#000,#211ed1); color:#fff; border:none; border-radius:10px; font-size:0.9rem; font-weight:600; cursor:pointer; transition:all .3s ease; margin-bottom:12px; }
-  .rep-btn-download:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 6px 20px rgba(102,126,234,0.4); }
-  .rep-btn-download:disabled { background:#444; cursor:not-allowed; transform:none; box-shadow:none; }
+  .rep-btn-download { width:100%; padding:13px; background:linear-gradient(135deg,#1a3a6b,#2c5282); color:#fff; border:none; border-radius:10px; font-size:0.9rem; font-weight:600; cursor:pointer; transition:all .3s ease; margin-bottom:12px; box-shadow:0 2px 8px rgba(26,58,107,0.3); }
+  .rep-btn-download:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 6px 20px rgba(26,58,107,0.45); background:linear-gradient(135deg,#1e4478,#3363a0); }
+  .rep-btn-download:disabled { background:var(--bg-panel); color:var(--text-faint); cursor:not-allowed; transform:none; box-shadow:none; border:1px solid var(--border); }
   .rep-no-data-msg { text-align:center; font-size:0.78rem; color:var(--text-faint); margin-bottom:14px; font-style:italic; }
   .rep-reg-box { background:var(--bg-panel); border:1px solid var(--border); border-radius:10px; padding:14px; margin-top:6px; }
   .rep-reg-title { font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--accent); margin-bottom:10px; }

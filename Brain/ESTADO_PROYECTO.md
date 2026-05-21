@@ -2810,6 +2810,14 @@ Este es un **proyecto MVP bien construido** con potencial de convertirse en una 
   - Los transfiere a `_firmaSignatureState` automáticamente → sidebar muestra badge ✅ en lugar de input de código
   - Ignora placeholders `—` para no marcar bloques vacíos como firmados
 
+**Cambio 7:** Estilos de formulario de reporte — date picker blanco y botón descarga acorde al tema
+- **Archivos:** `indexx.css`
+- **Estado:** ✅ COMPLETADO
+- **Detalles:**
+  - Icono de calendario en inputs `type="date"` ahora en blanco (`color-scheme:dark` + `::-webkit-calendar-picker-indicator` invertido)
+  - Botón de descarga rediseñado con gradiente azul marino (`#1a3a6b → #2c5282`) y sombra acorde al tema
+  - Hover con elevación y brillo; disabled con estilo de panel en gris
+
 ---
 
 **Documento generado:** 2 de Abril de 2026  
