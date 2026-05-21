@@ -2793,6 +2793,16 @@ Este es un **proyecto MVP bien construido** con potencial de convertirse en una 
   - Backend `updateUserProfile`/`updateUserProfileById` actualizan cargo y signature_code en BD
   - Endpoints `PUT /api/users/profile` y `PUT /api/users/:id/profile` aceptan campos nuevos
 
+**Cambio 5:** Sufijo de firmas en nombre de archivo al descargar reporte firmado
+- **Archivos:** `indexx.js`
+- **Estado:** ✅ COMPLETADO
+- **Detalles:**
+  - Al descargar reporte firmado, el nombre incluye sufijos según firmas aplicadas
+  - `prepared` → `_fp`, `reviewed` → `_fr`, `approved` → `_fa`
+  - Combinaciones: preparado+revisado → `_fp_fr`, los tres → `_fp_fr_fa`
+  - Sin firmas: nombre original sin cambios
+  - Preserva nombre base del archivo original cargado
+
 ---
 
 **Documento generado:** 2 de Abril de 2026  

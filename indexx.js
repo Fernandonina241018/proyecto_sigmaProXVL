@@ -3399,12 +3399,14 @@ var _firmaCurrentDoc = null;
 var _firmaCurrentHtml = '';
 var _firmaSignatureData = null;
 var _firmaSignatureState = {};
+var _firmaOriginalName = '';
 
 function initFirmarReportePage() {
   _firmaCurrentDoc = null;
   _firmaCurrentHtml = '';
   _firmaSignatureData = null;
   _firmaSignatureState = {};
+  _firmaOriginalName = '';
 
   var dropZone = document.getElementById('firmaDropZone');
   var fileInput = document.getElementById('firmaFileInput');
@@ -3451,6 +3453,7 @@ function firmaHandleFile(file) {
     _firmaCurrentDoc = doc;
     _firmaCurrentHtml = html;
     _firmaSignatureState = {};
+    _firmaOriginalName = file.name;
 
     // Render preview in iframe
     var preview = document.getElementById('firmaPreview');
@@ -3587,7 +3590,17 @@ function firmaDownload() {
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url;
-    a.download = 'reporte_firmado.html';
+
+    // Build filename with signature suffixes
+    var baseName = _firmaOriginalName.replace(/\.html$/i, '') || 'reporte_firmado';
+    var sufMap = { prepared: 'fp', reviewed: 'fr', approved: 'fa' };
+    var suffix = '';
+    ['prepared', 'reviewed', 'approved'].forEach(function(role) {
+      if (_firmaSignatureState[role] && _firmaSignatureState[role].signed) {
+        suffix += '_' + sufMap[role];
+      }
+    });
+    a.download = baseName + suffix + '.html';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
