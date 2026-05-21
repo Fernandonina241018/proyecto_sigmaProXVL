@@ -3162,13 +3162,12 @@ function buildStatAnalysisMenu() {
     if (!isFirst) html += '<div class="dd-separator"></div>';
     isFirst = false;
 
-    html += '<div class="submenu-wrapper" data-seccion="' + seccionKey + '" '
-      + 'onmousedown="event.stopPropagation()">';
+    html += '<div class="submenu-wrapper" data-seccion="' + seccionKey + '">';
 
     // ── Item padre con checkbox ──
     html += '<div class="dd-item has-submenu" '
           + 'style="display:flex;align-items:center;gap:6px" '
-          + 'onmousedown="event.stopPropagation()">'
+          + 'onclick="toggleSubmenu(event,\'' + seccionKey + '\')">'
           + '<span style="flex:1;display:flex;align-items:center;gap:6px">'
           + seccion.icon + ' ' + seccion.label
           + '<span class="stat-selected-badge" id="badge-' + seccionKey + '">0</span>'
@@ -3189,7 +3188,6 @@ function buildStatAnalysisMenu() {
       var nombreEsc = nombre.replace(/'/g, "\\'");
 
       html += '<div class="dd-item" style="display:flex;align-items:center;gap:6px" '
-            + 'onmousedown="event.stopPropagation()" '
             + 'onclick="onSubitemClick(event,\'' + nombreEsc + '\',\'' + seccionKey + '\')">'
             + '<span style="flex:1">' + icono + ' ' + nombre + '</span>'
             + '<input type="checkbox" class="stat-check child-check" '
@@ -3204,6 +3202,13 @@ function buildStatAnalysisMenu() {
   });
 
   dropdown.innerHTML = html;
+  dropdown.addEventListener('mousedown', function(e) { e.stopPropagation(); });
+}
+
+function toggleSubmenu(event, seccionKey) {
+  event.stopPropagation();
+  var header = event.currentTarget;
+  header.classList.toggle('open');
 }
 
 // ── Click en checkbox hijo ──
@@ -3326,10 +3331,6 @@ function onSubitemClick(event, nombre, seccionKey) {
   analisisSelectedCategory = seccionKey;
   analisisSelectedTest = nombre;
   analisisResultContent = null;
-
-  // 3. Cerrar el dropdown
-  document.querySelectorAll('.menu-item').forEach(function(i){ i.classList.remove('open'); });
-  anyOpen = false;
 
   // 4. Si NO estamos en análisis, navegar primero
   console.log('[DBG] currentPage=' + currentPage + ' | analisisSelectedCategory=' + analisisSelectedCategory + ' | analisisSelectedTest=' + analisisSelectedTest);

@@ -103,5 +103,6 @@ getDataForModal().headers
 | 2026-05-19 | Estructura XML clara con etiquetas semánticas | Añadir más ejemplos few-shot | Próximas optimizaciones |
 | 2026-05-19 | Contexto y motivación explícitos | Evitar instrucciones ambiguas | Todos los prompts |
 | 2026-05-20 | Prompt vago optimizado con contexto del proyecto + ejemplos | Falta validar contra reporte real | Usar contexto Brain2 en todas las optimizaciones |
+| 2026-05-21 | Prompt ultra-corto "opcion 1, procede" → traducción semántica a protocolo proyecto + ejemplos few-shot del dominio + estructura severidades | Añadir auto-detección de qué módulo está activo si no se especifica | Usar mapeo semántico (términos crípticos del usuario → acciones protocolo) |
 
 *Mayo 2026*
