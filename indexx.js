@@ -336,7 +336,60 @@ var leftPanels = {
       '</div>'; 
     },
 
-  visualizacion: function()  { return '<div class="left-panel" style="gap:10px"><div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px"><button class="btn btn-primary" style="width:100%;justify-content:center">+ Nuevo gráfico</button><div style="display:flex;gap:6px"><button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px">↓ SVG</button><button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:11px">↓ PNG</button></div></div><div class="info-section"><div class="info-section-header">Tipo de gráfico</div><div class="info-list"><div class="info-item active">📊 Barras</div><div class="info-item">📈 Líneas</div><div class="info-item">⬡ Dispersión</div><div class="info-item">◉ Circular</div><div class="info-item">📦 Caja y bigotes</div><div class="info-item">▦ Histograma</div></div></div></div>'; },
+  visualizacion: function()  { return '<div class="left-panel" style="gap:10px">' +
+    '<div class="info-section">' +
+      '<div class="info-section-header" onclick="vizToggleSidebarList()" style="cursor:pointer;user-select:none;display:flex;align-items:center;gap:4px">' +
+        '<span>📊 Gráficos generados</span>' +
+        '<span id="vizSidebarCount" style="font-size:9px;color:var(--text-faint);background:var(--item-bg);padding:0 5px;border-radius:3px">0</span>' +
+        '<span id="vizSidebarArrow" style="margin-left:auto;font-size:8px">▼</span>' +
+      '</div>' +
+      '<div id="vizSidebarList" class="info-section-body" style="display:flex;flex-direction:column;gap:2px;padding:4px 8px;max-height:180px;overflow-y:auto">' +
+      '</div>' +
+    '</div>' +
+    '<div class="info-section"><div class="info-section-header">Tipo de gráfico</div>' +
+      '<div class="info-section-body" style="padding:6px 8px;display:grid;grid-template-columns:1fr 1fr;gap:4px">' +
+        '<button class="btn btn-secondary viz-type" data-type="bar" style="font-size:12px;padding:3px 4px">📊 Barras</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="line" style="font-size:12px;padding:3px 4px">📈 Líneas</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="area" style="font-size:12px;padding:3px 4px">📉 Área</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="multiLine" style="font-size:12px;padding:3px 4px">📈 Multi</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="stackedBar" style="font-size:12px;padding:3px 4px">🏗️ Apiladas</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="groupedBar" style="font-size:12px;padding:3px 4px">📊 Agrupadas</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="scatter" style="font-size:12px;padding:3px 4px">⬡ Dispersión</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="linealidad" style="font-size:12px;padding:3px 4px">∎ Linealidad</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="bubble" style="font-size:12px;padding:3px 4px">🔵 Burbuja</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="pie" style="font-size:12px;padding:3px 4px">◉ Circular</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="doughnut" style="font-size:12px;padding:3px 4px">◉ Dona</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="polarArea" style="font-size:12px;padding:3px 4px">🔄 Polar</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="radar" style="font-size:12px;padding:3px 4px">🕸️ Radar</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="histogram" style="font-size:12px;padding:3px 4px">▦ Histograma</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="info-section"><div class="info-section-header">Seleccionar columnas</div>' +
+      '<div class="info-section-body" style="padding:8px 12px;display:flex;flex-direction:column;gap:8px">' +
+        '<div style="display:flex;flex-direction:column;gap:3px">' +
+          '<label style="font-size:10px;color:var(--text-faint)">Eje X</label>' +
+          '<select id="vizColX" class="modal-select" style="width:100%"><option value="">— Seleccionar —</option></select>' +
+        '</div>' +
+        '<div style="display:flex;flex-direction:column;gap:3px">' +
+          '<label style="font-size:10px;color:var(--text-faint)">Eje Y</label>' +
+          '<select id="vizColY" class="modal-select" style="width:100%"><option value="">— Seleccionar —</option></select>' +
+        '</div>' +
+        '<div id="vizSizeLabel" style="display:none;flex-direction:column;gap:3px">' +
+          '<label style="font-size:10px;color:var(--text-faint)">Tamaño</label>' +
+          '<select id="vizColSize" class="modal-select" style="width:100%"><option value="">— Seleccionar —</option></select>' +
+        '</div>' +
+        '<div id="vizExtraYContainer" style="display:none;flex-direction:column;gap:4px">' +
+          '<div style="display:flex;gap:4px;align-items:center">' +
+            '<span style="font-size:10px;color:var(--text-faint)">Series Y adicionales:</span>' +
+            '<button class="btn btn-secondary" id="vizAddYBtn" style="font-size:9px;padding:2px 6px">+</button>' +
+          '</div>' +
+          '<div id="vizExtraYList"></div>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<button class="btn btn-primary" id="vizRenderBtn" style="width:100%;justify-content:center">🎨 Renderizar</button>' +
+    '<button class="btn btn-secondary" onclick="loadPage(\'reportes\')" style="width:100%;justify-content:center;font-size:11px">📄 Reportes</button>' +
+  '</div>'; },
   reportes: function() { return '<div class="left-panel" style="gap:10px"><div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px"><button class="btn btn-primary" style="width:100%;justify-content:center">+ Nuevo reporte</button></div><div class="info-section"><div class="info-section-header">Plantillas</div><div class="info-list"><div class="info-item active">📐 Reporte estándar</div><div class="info-item">📋 Reporte ejecutivo</div><div class="info-item">📊 Resumen estadístico</div></div></div><div class="info-section"><div class="info-section-header">Formato de salida</div><div class="info-list"><div class="info-item active">📄 PDF</div><div class="info-item">📝 DOCX</div><div class="info-item">📊 HTML</div></div></div></div>'; },
   auditoria: function() { return '<div class="left-panel" style="gap:10px"><button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:11px;flex-shrink:0" onclick="if(typeof AuditoriaManager!==\'undefined\')AuditoriaManager.exportarCSV()">📥 Exportar log completo</button><div class="info-section"><div class="info-section-header">Filtros</div><div style="font-size:11px;color:var(--text-faint);padding:8px">Usa los filtros incluidos en el panel de resultados</div></div></div>'; },
   usuarios: function() { return '<div class="left-panel" style="gap:10px"><div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px"><button class="btn btn-primary" style="width:100%;justify-content:center" onclick="if(typeof UsuariosManager!==\'undefined\')UsuariosManager.abrirModalCrearUsuario()">+ Nuevo usuario</button></div><div class="info-section"><div class="info-section-header">Usuarios</div><div class="usr-toolbar" style="display:flex;flex-direction:column;gap:8px;padding:8px"><input class="usr-search" id="usr-search" type="text" placeholder="🔍 Buscar usuario..." style="padding:8px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:0.82rem;font-family:inherit;color:var(--text-primary);background:var(--bg-panel);outline:none;transition:border-color 0.2s"><div style="display:flex;align-items:center;justify-content:space-between"><div class="usr-count" id="usr-count" style="font-size:0.8rem;color:var(--text-faint)">—</div><button class="usr-btn-refresh" id="usr-btn-refresh" title="Recargar" style="padding:6px 10px;background:var(--item-bg);border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:0.9rem;transition:all 0.2s">🔄</button></div></div></div></div>'; },
@@ -538,41 +591,6 @@ var rightPanels = {
     '</div>';
   },
   visualizacion: function() { return '<div class="page-body" style="display:flex;flex-direction:column;gap:12px">' +
-    '<div style="display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0">' +
-      '<button class="btn btn-secondary viz-type" data-type="bar" style="font-size:12px">📊 Barras</button>' +
-      '<button class="btn btn-secondary viz-type" data-type="line" style="font-size:12px">📈 Líneas</button>' +
-      '<button class="btn btn-secondary viz-type" data-type="area" style="font-size:12px">📉 Área</button>' +
-      '<button class="btn btn-secondary viz-type" data-type="multiLine" style="font-size:12px">📈📈 Multi-líneas</button>' +
-      '<button class="btn btn-secondary viz-type" data-type="stackedBar" style="font-size:12px">🏗️ Apiladas</button>' +
-      '<button class="btn btn-secondary viz-type" data-type="groupedBar" style="font-size:12px">📊📊 Agrupadas</button>' +
-      '<button class="btn btn-secondary viz-type" data-type="scatter" style="font-size:12px">⬡ Dispersión</button>' +
-      '<button class="btn btn-secondary viz-type" data-type="linealidad" style="font-size:12px">∎ Linealidad</button>' +
-      '<button class="btn btn-secondary viz-type" data-type="bubble" style="font-size:12px">🔵 Burbuja</button>' +
-      '<button class="btn btn-secondary viz-type" data-type="pie" style="font-size:12px">◉ Circular</button>' +
-      '<button class="btn btn-secondary viz-type" data-type="doughnut" style="font-size:12px">◉ Dona</button>' +
-      '<button class="btn btn-secondary viz-type" data-type="polarArea" style="font-size:12px">🔄 Polar</button>' +
-      '<button class="btn btn-secondary viz-type" data-type="radar" style="font-size:12px">🕸️ Radar</button>' +
-      '<button class="btn btn-secondary viz-type" data-type="histogram" style="font-size:12px">▦ Histograma</button>' +
-    '</div>' +
-    '<div class="page-card" style="flex:0 0 auto">' +
-      '<div class="page-card-body" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">' +
-        '<span style="font-size:12px;color:var(--text-muted)">Eje X:</span>' +
-        '<select id="vizColX" class="modal-select" style="min-width:120px"><option value="">— Seleccionar —</option></select>' +
-        '<span style="font-size:12px;color:var(--text-muted)">Eje Y:</span>' +
-        '<select id="vizColY" class="modal-select" style="min-width:120px"><option value="">— Seleccionar —</option></select>' +
-        '<span id="vizSizeLabel" style="font-size:12px;color:var(--text-muted);display:none">Tamaño:</span>' +
-        '<select id="vizColSize" class="modal-select" style="min-width:120px;display:none"><option value="">— Seleccionar —</option></select>' +
-        '<div id="vizExtraYContainer" style="display:none;flex-direction:column;gap:4px;width:100%">' +
-          '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">' +
-            '<span style="font-size:11px;color:var(--text-faint)">Series Y adicionales:</span>' +
-            '<button class="btn btn-secondary" id="vizAddYBtn" style="font-size:10px;padding:2px 8px">+</button>' +
-          '</div>' +
-          '<div id="vizExtraYList"></div>' +
-        '</div>' +
-        '<button class="btn btn-primary" id="vizRenderBtn" style="font-size:12px">🎨 Renderizar</button>' +
-        '<button class="btn btn-secondary" onclick="loadPage(\'reportes\')" style="font-size:12px;margin-left:auto">📄 Reportes</button>' +
-      '</div>' +
-    '</div>' +
     '<div id="vizCardsContainer" style="display:flex;flex-direction:column;gap:10px"></div>' +
   '</div>'; },
   reportes: function() { return '<div class="page-body"><div id="reportes-editor-container"></div></div>'; },
@@ -907,8 +925,62 @@ function vizUpdateControlsForType() {
   var sizeLabel = document.getElementById('vizSizeLabel');
   var sizeSelect = document.getElementById('vizColSize');
   if (extraC) extraC.style.display = isMultiSeries ? 'flex' : 'none';
-  if (sizeLabel) sizeLabel.style.display = isBubble ? 'inline' : 'none';
+  if (sizeLabel) sizeLabel.style.display = isBubble ? 'flex' : 'none';
   if (sizeSelect) sizeSelect.style.display = isBubble ? 'inline-block' : 'none';
+}
+
+function vizToggleSidebarList() {
+  var list = document.getElementById('vizSidebarList');
+  var arrow = document.getElementById('vizSidebarArrow');
+  if (!list) return;
+  var expanded = list.style.display !== 'none';
+  list.style.display = expanded ? 'none' : 'flex';
+  if (arrow) arrow.textContent = expanded ? '▶' : '▼';
+  try { localStorage.setItem('sigmaPro_vizSidebarExpanded', expanded ? '0' : '1'); } catch(e) {}
+}
+
+function vizScrollToCard(id) {
+  var card = document.getElementById(id);
+  if (card) {
+    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    card.style.outline = '2px solid var(--accent)';
+    setTimeout(function(){ if (card) card.style.outline = ''; }, 2000);
+  }
+}
+
+function vizSyncSidebarList() {
+  var list = document.getElementById('vizSidebarList');
+  var countEl = document.getElementById('vizSidebarCount');
+  if (!list) return;
+  var cards = document.querySelectorAll('#vizCardsContainer > .page-card[id^="viz-"]');
+  var count = cards.length;
+  if (countEl) countEl.textContent = count;
+  var iconMap = { bar:'📊', line:'📈', area:'📉', multiLine:'📈📈', stackedBar:'🏗️', groupedBar:'📊📊', scatter:'⬡', linealidad:'∎', bubble:'🔵', pie:'◉', doughnut:'◉', polarArea:'🔄', radar:'🕸️', histogram:'▦' };
+  var html = '';
+  cards.forEach(function(card){
+    var id = card.id;
+    var titleEl = card.querySelector('.page-card-title');
+    var title = titleEl ? titleEl.textContent : 'Gráfico';
+    var params;
+    try { params = JSON.parse(card.dataset.vizParams || '{}'); } catch(e) { params = {}; }
+    var icon = iconMap[params.type] || '📊';
+    html += '<div class="viz-sidebar-item" data-card-id="' + id + '" onclick="vizScrollToCard(\'' + id + '\')" style="display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:4px;cursor:pointer;font-size:11px;color:var(--text-muted);transition:background 0.15s" onmouseenter="this.style.background=\'var(--item-hover)\'" onmouseleave="this.style.background=\'transparent\'">' +
+      '<span style="flex-shrink:0">' + icon + '</span>' +
+      '<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + escapeHtml(title) + '</span>' +
+      '<span class="sc-close" onclick="event.stopPropagation();vizRemoveCard(\'' + id + '\')" style="font-size:9px;padding:2px;line-height:1;flex-shrink:0">✕</span>' +
+    '</div>';
+  });
+  list.innerHTML = html;
+  // Restore collapsed state from localStorage (default expanded)
+  var expanded;
+  try { expanded = localStorage.getItem('sigmaPro_vizSidebarExpanded'); } catch(e) {}
+  if (expanded === '0') {
+    list.style.display = 'none';
+    var arrow = document.getElementById('vizSidebarArrow');
+    if (arrow) arrow.textContent = '▶';
+  } else {
+    list.style.display = 'flex';
+  }
 }
 
 function vizResetExtraY(cols) {
@@ -1446,6 +1518,7 @@ function vizSaveCards() {
   try { localStorage.setItem('sigmaPro_vizCards', JSON.stringify(params)); } catch(e) {
     if (e.name === 'QuotaExceededError') showToast('Almacenamiento lleno. Cierra algunos gráficos.');
   }
+  vizSyncSidebarList();
 }
 
 function vizRestoreCards() {
@@ -1480,6 +1553,7 @@ function vizRestoreCards() {
     }
     if (p.colY && sheet.headers.includes(p.colY)) renderBarLineCard(sheet, p.type || 'bar', p.colX, p.colY, container);
   });
+  vizSyncSidebarList();
 }
 
 // ════════════════════════════════════════════════════════════════

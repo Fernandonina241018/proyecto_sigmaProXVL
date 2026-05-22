@@ -1,7 +1,7 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
 **Fecha de Análisis:** 17 de Mayo 2026  
-**Última Actualización:** 21 de Mayo 2026 (Fix: color gris en firmas — firmaUpdatePreview)    
+**Última Actualización:** 21 de Mayo 2026 (Phase 0-7: Rich UI format for 7 statistical tests + dead code removal + report format)    
 **Versión del Proyecto:** 3.3  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
 **Estado General:** ✅ MVP Completo (52/52 tests)
@@ -116,6 +116,12 @@
 | 59 | 21 May 2026 | Feat: Gráfico de Linealidad en Visualización — nuevo tipo "Linealidad" (∎) muestra scatter + recta de regresión con fórmula y R² en título. `Visualizacion.js`, `visualizacion.css`. | ✅ |
 | 60 | 21 May 2026 | Feat: Tablas ICH en reporte HTML/TXT — reporte HTML detallado ahora incluye sección completa de regresión (coeficientes, ICs, badges ICH/FDA, tablas expandibles de desviaciones y residuales); reporte TXT añade tabla de desviaciones por nivel. `ReporteManager.js`. | ✅ |
 | 61 | 21 May 2026 | Fix: Gráfico Linealidad no visible 🔴 — El botón y la función se agregaron en `Visualizacion.js` pero `indexx.html` usa su propio sistema de gráficos en `indexx.js` (no carga `Visualizacion.js`). Se movió la integración a `indexx.js`: botón "Linealidad" en visor de gráficos, `renderLinealidadCard()` con regresión + recta + fórmula en título, case en `vizRenderChart()`. `indexx.js:548,1166-1229`. | ✅ |
+| 62 | 21 May 2026 | Phase 0 — Resucitar RLS en hypothesisKpiCards(): ICH/FDA badges, tabla desviaciones por nivel, tabla residuales, KPIs completos (R², pendiente, intercepto, ICs, p-valor, error estándar, n). `EstadisticaDescriptiva.js:5283-5438` | ✅ |
+| 63 | 21 May 2026 | Phase 1-4 — Regresión Lineal Múltiple, Polinomial y Logística en hypothesisKpiCards(): Coeficientes con IC 95%, VIF (Múltiple), tablas colapsables de coeficientes y ANOVA (Polinomial), matriz de confusión completa (Logística). Dead code removed: RLS/Múltiple/Polinomial/Logística eliminados de kpiCards() (líneas 5734-5862). `EstadisticaDescriptiva.js:5440-5650` | ✅ |
+| 64 | 21 May 2026 | Phase 5 — ANOVA One-Way rich format: η² (Eta-cuadrado) + label, tabla SS completa (SSB/SSW/MSB/MSW/F/p) como collapsible `<details open>`. `EstadisticaDescriptiva.js:5690-5750` | ✅ |
+| 65 | 21 May 2026 | Phase 6 — T-Test dos muestras rich format: Cohen's d con label interpretativo, IC 95% para la diferencia de medias, tabla colapsable de estadísticas por grupo (n, media, varianza, DE). `EstadisticaDescriptiva.js:5752-5820` | ✅ |
+| 66 | 21 May 2026 | Phase 7 — Correlación Pearson rich format: t y gl (grados de libertad) agregados al grid de KPIs. `EstadisticaDescriptiva.js:5822-5850` | ✅ |
+| 67 | 21 May 2026 | ReporteManager HTML/TXT enhancement: RLS reporte detallado con ICH/FDA + tabla desviaciones/residuales; T-Test con grupo stats; ANOVA con SS table; Correlación con t/gl; Regresión Múltiple/Polinomial/Logística con tablas expandidas colspan=4. `ReporteManager.js:1637-1950` | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 

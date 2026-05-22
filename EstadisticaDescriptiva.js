@@ -5280,30 +5280,339 @@ function generarHTML(analisisResultado) {
 
     // ── KPI cards para pruebas de hipótesis ─────────────────
     function hypothesisKpiCards(statKey, data) {
+        // Regresión Lineal Simple (formato rico: ICH/FDA, desviaciones, residuales)
+        if (statKey === 'Regresión Lineal Simple') {
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
+            const desvRows = (data.desviaciones || []).map(d => `
+                <tr>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${d.concentracion}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${d.areaObservada}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${d.areaRetrocalculada}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right;${Math.abs(d.desviacionPct) > 5 ? 'color:#c53030;font-weight:600' : ''}">${d.desviacionPct}%</td>
+                </tr>`).join('');
+            const resRows = (data.residuos || []).map((r, i) => {
+                return `
+                <tr>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${i + 1}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.desviaciones?.[i]?.areaObservada ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.predicciones?.[i] ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${r.toFixed(4)}</td>
+                </tr>`}).join('');
+            const icInterText = data.icInterceptLower != null
+                ? `[${data.icInterceptLower}, ${data.icInterceptUpper}]`
+                : '—';
+            const ichLabel = data.cumpleICH
+                ? '✓ Cumple ICH Q2(R1) — Linealidad aceptada (R² ≥ 0.999)'
+                : '✗ No cumple ICH — R² < 0.999';
+            const ichClass = data.cumpleICH ? 'ar-badge-ok' : 'ar-badge-danger';
+            const fdaLabel = data.cumpleFDA
+                ? '✓ Cumple FDA Bioanalytical (R² ≥ 0.995)'
+                : data.r2 >= 0.99
+                    ? '⚠ Cumple parcialmente FDA (R² ≥ 0.99)'
+                    : '✗ No cumple FDA (R² < 0.995)';
+            const fdaClass = data.cumpleFDA ? 'ar-badge-ok' : 'ar-badge-warn';
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📈 Y = f(${data.columnaX || 'X'})</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Intercepto (a)</span><span class="ar-kpi-sub-v">${data.a ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Pendiente (b)</span><span class="ar-kpi-sub-v">${data.b ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R² Ajustado</span><span class="ar-kpi-sub-v">${data.r2Adj ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Error Estándar</span><span class="ar-kpi-sub-v">${data.errorEstandar ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p-valor (b)</span><span class="ar-kpi-sub-v">${data.pPendiente?.toFixed(6) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 95% pendiente</span><span class="ar-kpi-sub-v">[${data.icPendienteLower ?? '—'}, ${data.icPendienteUpper ?? '—'}]</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 95% intercepto</span><span class="ar-kpi-sub-v">${icInterText}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Máx % desviación</span><span class="ar-kpi-sub-v">${data.maxDesviacion ?? '—'}%</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Modelo significativo (p < 0.05)' : '✓ Modelo no significativo (p ≥ 0.05)'}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || `Y = ${data.a} + ${data.b}X`}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>
+                    <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px">
+                        <div class="ar-kpi-col-label">📋 Validación ICH Q2(R1)</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Criterio ICH</span><span class="ar-kpi-sub-v">R² ≥ 0.999</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R² actual</span><span class="ar-kpi-sub-v">${data.r2?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 95% intercepto</span><span class="ar-kpi-sub-v">${icInterText}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Máx desviación</span><span class="ar-kpi-sub-v">${data.maxDesviacion ?? '—'}%</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${ichClass}">${ichLabel}</div>
+                        <div class="ar-kpi-badge ${fdaClass}" style="margin-top:4px">${fdaLabel}</div>
+                    </div>
+                    ${data.desviaciones?.length ? `<details style="margin-top:8px">
+                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📊 Ver tabla de desviaciones por nivel</summary>
+                        <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
+                            <thead><tr style="background:#000">
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Conc.</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Área obs.</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Área retro.</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">% Desv.</th>
+                            </tr></thead>
+                            <tbody>${desvRows}</tbody>
+                        </table>
+                    </details>` : ''}
+                    ${data.residuos?.length ? `<details style="margin-top:8px">
+                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📉 Ver residuales</summary>
+                        <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
+                            <thead><tr style="background:#000">
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">#</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Observado</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Predicho</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Residual</th>
+                            </tr></thead>
+                            <tbody>${resRows}</tbody>
+                        </table>
+                    </details>` : ''}`;
+        }
+        // Regresión Lineal Múltiple
+        if (statKey === 'Regresión Lineal Múltiple') {
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
+            const coefRows = (data.coeficientes || []).map((c, i) => `
+                <tr>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:left">${escapeHtml(c.variable || 'X' + (i+1))}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${c.valor?.toFixed(4) ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${c.ee?.toFixed(4) ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${c.t?.toFixed(4) ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right;${c.p < 0.05 ? 'color:#c53030;font-weight:600' : ''}">${c.p?.toFixed(4) ?? '—'}</td>
+                </tr>`).join('');
+            const resRows = (data.residuos || []).map((r, i) => `
+                <tr>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${i + 1}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.predicciones?.[i]?.toFixed(4) ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${r.toFixed(4)}</td>
+                </tr>`).join('');
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 Y = f(${data.columnasX?.join(', ') || 'X₁,...,Xₖ'})</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R² Ajustado</span><span class="ar-kpi-sub-v">${data.r2Adj ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Error Estándar</span><span class="ar-kpi-sub-v">${data.errorEstandar ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Predictores (k)</span><span class="ar-kpi-sub-v">${data.k ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Modelo significativo' : '✓ Modelo no significativo'}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || data.modelo || ''}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>
+                    ${coefRows ? `<details style="margin-top:8px">
+                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📋 Ver coeficientes del modelo</summary>
+                        <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
+                            <thead><tr style="background:#000">
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:left;color:#fff">Variable</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">β</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">EE</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">t</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">p</th>
+                            </tr></thead>
+                            <tbody>${coefRows}</tbody>
+                        </table>
+                    </details>` : ''}
+                    ${data.residuos?.length ? `<details style="margin-top:8px">
+                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📉 Ver residuales</summary>
+                        <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
+                            <thead><tr style="background:#000">
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">#</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Predicho</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Residual</th>
+                            </tr></thead>
+                            <tbody>${resRows}</tbody>
+                        </table>
+                    </details>` : ''}`;
+        }
+        // Regresión Polinomial
+        if (statKey === 'Regresión Polinomial') {
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
+            const coefRows = (data.coeficientes || []).map((c, i) => `
+                <tr>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:center">${i === 0 ? 'x⁰ (cte)' : 'x' + 'ⁱ'.repeat(i)}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${(typeof c === 'number' ? c : c.valor)?.toFixed(4) ?? '—'}</td>
+                </tr>`).join('');
+            const resRows = (data.residuos || []).map((r, i) => `
+                <tr>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${i + 1}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.predicciones?.[i]?.toFixed(4) ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${r.toFixed(4)}</td>
+                </tr>`).join('');
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📈 Y = f(${data.columnaX || 'X'}) - Grado ${data.grado || 2}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R² Ajustado</span><span class="ar-kpi-sub-v">${data.r2Adj ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Error Estándar</span><span class="ar-kpi-sub-v">${data.errorEstandar ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grado</span><span class="ar-kpi-sub-v">${data.grado ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Modelo significativo' : '✓ Modelo no significativo'}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || data.modelo || ''}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>
+                    ${coefRows ? `<details style="margin-top:8px">
+                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📋 Ver coeficientes polinomiales</summary>
+                        <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
+                            <thead><tr style="background:#000">
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:center;color:#fff">Término</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Coeficiente</th>
+                            </tr></thead>
+                            <tbody>${coefRows}</tbody>
+                        </table>
+                    </details>` : ''}
+                    ${data.residuos?.length ? `<details style="margin-top:8px">
+                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📉 Ver residuales</summary>
+                        <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
+                            <thead><tr style="background:#000">
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">#</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Predicho</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Residual</th>
+                            </tr></thead>
+                            <tbody>${resRows}</tbody>
+                        </table>
+                    </details>` : ''}`;
+        }
+        // Regresión Logística
+        if (statKey === 'Regresión Logística') {
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
+            const confMat = data.vp != null ? `
+                <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
+                    <thead><tr style="background:#000">
+                        <th style="padding:4px 8px;border:1px solid #333;text-align:center;color:#fff"></th>
+                        <th style="padding:4px 8px;border:1px solid #333;text-align:center;color:#fff">Real +</th>
+                        <th style="padding:4px 8px;border:1px solid #333;text-align:center;color:#fff">Real −</th>
+                    </tr></thead>
+                    <tbody>
+                        <tr><td style="padding:4px 8px;border:1px solid #e2e8f0;font-weight:600">Pred +</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:center;background:#1a3a1a;color:#6f6">${data.vp}</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:center;background:#3a1a1a;color:#f66">${data.fp}</td></tr>
+                        <tr><td style="padding:4px 8px;border:1px solid #e2e8f0;font-weight:600">Pred −</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:center;background:#3a1a1a;color:#f66">${data.fn}</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:center;background:#1a3a1a;color:#6f6">${data.vn}</td></tr>
+                    </tbody>
+                </table>` : '';
+            const classRows = (data.clasificacion || []).map((c, i) => `
+                <tr>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${i + 1}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${c.real}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${c.probabilidad?.toFixed(4) ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right;${c.clasificado === c.real ? 'color:#6f6' : 'color:#f66;font-weight:600'}">${c.clasificado}</td>
+                </tr>`).join('');
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">🔐 Clasificación: Y = f(${data.columnasX?.join(', ') || 'X₁,...,Xₖ'})</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Exactitud</span><span class="ar-kpi-sub-v">${((data.exactitud || 0) * 100).toFixed(1)}%</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Precisión</span><span class="ar-kpi-sub-v">${((data.precision || 0) * 100).toFixed(1)}%</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Recall</span><span class="ar-kpi-sub-v">${((data.recall || 0) * 100).toFixed(1)}%</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">F1-Score</span><span class="ar-kpi-sub-v">${((data.f1 || 0) * 100).toFixed(1)}%</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">VP/FP/VN/FN</span><span class="ar-kpi-sub-v">${data.vp}/${data.fp}/${data.vn}/${data.fn}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${data.exactitud >= 0.7 ? 'ar-badge-ok' : 'ar-badge-warn'}">${data.exactitud >= 0.8 ? '✓ Excelente' : data.exactitud >= 0.6 ? '⚠ Aceptable' : '✗ Bajo'}</div>
+                    </div>
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || data.modelo || ''}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>
+                    ${confMat ? `<details style="margin-top:8px">
+                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📊 Matriz de confusión</summary>${confMat}</details>` : ''}
+                    ${classRows ? `<details style="margin-top:8px">
+                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📋 Clasificación por observación</summary>
+                        <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
+                            <thead><tr style="background:#000">
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">#</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Real</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Prob.</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Clasif.</th>
+                            </tr></thead>
+                            <tbody>${classRows}</tbody>
+                        </table>
+                    </details>` : ''}`;
+        }
         // T-Test (dos muestras)
         if (statKey === 'T-Test (dos muestras)') {
             const keys = Object.keys(data).filter(k => k !== 'columnaAgrupacion' && k !== 'columnaValores' && k !== 'grupo1' && k !== 'grupo2');
             const groupKey = keys[0];
             if (!groupKey || !data[groupKey]) return '<p>No hay resultados</p>';
             const result = data[groupKey];
+            const g1 = result.grupo1 || {};
+            const g2 = result.grupo2 || {};
+            const dCohen = (g1.media != null && g2.media != null && g1.varianza != null && g2.varianza != null && g1.n > 0 && g2.n > 0)
+                ? ((g1.media - g2.media) / Math.sqrt(((g1.n - 1) * g1.varianza + (g2.n - 1) * g2.varianza) / (g1.n + g2.n - 2)))
+                : null;
+            const cohenLabel = dCohen != null
+                ? (Math.abs(dCohen) >= 0.8 ? '✓ Grande' : Math.abs(dCohen) >= 0.5 ? '⚠ Medio' : '○ Pequeño')
+                : '—';
+            const se = (g1.varianza != null && g2.varianza != null && g1.n > 0 && g2.n > 0)
+                ? Math.sqrt(g1.varianza / g1.n + g2.varianza / g2.n) : null;
+            const icLower = (result.diferenciaMedias != null && se != null) ? (result.diferenciaMedias - 1.96 * se).toFixed(4) : '—';
+            const icUpper = (result.diferenciaMedias != null && se != null) ? (result.diferenciaMedias + 1.96 * se).toFixed(4) : '—';
+            const groupRows = (g1.n != null && g2.n != null) ? `
+                <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
+                    <thead><tr style="background:#000">
+                        <th style="padding:4px 8px;border:1px solid #333;text-align:left;color:#fff">Grupo</th>
+                        <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">n</th>
+                        <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Media</th>
+                        <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Varianza</th>
+                        <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">DE</th>
+                    </tr></thead>
+                    <tbody>
+                        <tr><td style="padding:4px 8px;border:1px solid #e2e8f0">Grupo 1</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${g1.n ?? '—'}</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${g1.media?.toFixed(4) ?? '—'}</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${g1.varianza?.toFixed(4) ?? '—'}</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${Math.sqrt(g1.varianza || 0).toFixed(4)}</td></tr>
+                        <tr><td style="padding:4px 8px;border:1px solid #e2e8f0">Grupo 2</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${g2.n ?? '—'}</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${g2.media?.toFixed(4) ?? '—'}</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${g2.varianza?.toFixed(4) ?? '—'}</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${Math.sqrt(g2.varianza || 0).toFixed(4)}</td></tr>
+                    </tbody>
+                </table>` : '';
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${groupKey}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estadístico t</span><span class="ar-kpi-sub-v">${result.estadisticoT?.toFixed(4) ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grados de libertad</span><span class="ar-kpi-sub-v">${result.gradosLibertad?.toFixed(2) ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Diferencia medias</span><span class="ar-kpi-sub-v">${result.diferenciaMedias?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 95% dif.</span><span class="ar-kpi-sub-v">[${icLower}, ${icUpper}]</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">d de Cohen</span><span class="ar-kpi-sub-v">${dCohen?.toFixed(4) ?? '—'} (${cohenLabel})</span></div>
                     </div>
                     <div class="ar-kpi-badge ${result.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${result.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
-                    </div>`;
+                    </div>
+                    ${groupRows ? `<details style="margin-top:8px"><summary style="cursor:pointer;font-size:0.85rem;color:#718096">📊 Estadísticos por grupo</summary>${groupRows}</details>` : ''}
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(result.interpretacion || '')}</div></div></div>`;
         }
         // ANOVA One-Way
         if (statKey === 'ANOVA One-Way') {
             if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             const gruposLabel = Array.isArray(data.grupos) ? data.grupos.join(', ') : (data.grupos != null ? data.grupos : 'Grupos');
+            const etaSq = (data.SSB != null && data.SSW != null && (data.SSB + data.SSW) > 0)
+                ? (data.SSB / (data.SSB + data.SSW)).toFixed(4) : '—';
+            const etaSqLabel = etaSq !== '—' ? (parseFloat(etaSq) >= 0.14 ? '✓ Grande' : parseFloat(etaSq) >= 0.06 ? '⚠ Medio' : '○ Pequeño') : '—';
+            const ssRows = (data.SSB != null) ? `
+                <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
+                    <thead><tr style="background:#000">
+                        <th style="padding:4px 8px;border:1px solid #333;text-align:left;color:#fff">Fuente</th>
+                        <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">SS</th>
+                        <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">gl</th>
+                        <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">MS</th>
+                        <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">F</th>
+                        <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">p</th>
+                    </tr></thead>
+                    <tbody>
+                        <tr><td style="padding:4px 8px;border:1px solid #e2e8f0">Entre grupos</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.SSB.toFixed(4)}</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.dfEntre}</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.MSB?.toFixed(4) ?? '—'}</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right;font-weight:600">${data.estadisticoF?.toFixed(4) ?? '—'}</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right;${data.significativo ? 'color:#c53030;font-weight:600' : ''}">${data.valorP?.toFixed(4) ?? '—'}</td></tr>
+                        <tr><td style="padding:4px 8px;border:1px solid #e2e8f0">Dentro grupos</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.SSW.toFixed(4)}</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.dfDentro}</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.MSW?.toFixed(4) ?? '—'}</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right"></td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right"></td></tr>
+                        <tr style="background:var(--item-bg)"><td style="padding:4px 8px;border:1px solid #e2e8f0;font-weight:600">Total</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right;font-weight:600">${(data.SSB + data.SSW).toFixed(4)}</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.dfEntre + data.dfDentro}</td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right"></td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right"></td>
+                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right"></td></tr>
+                    </tbody>
+                </table>` : '';
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${gruposLabel}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estadístico F</span><span class="ar-kpi-sub-v">${data.estadisticoF?.toFixed(4) ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">η² (Eta-cuadrado)</span><span class="ar-kpi-sub-v">${etaSq} (${etaSqLabel})</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grupos</span><span class="ar-kpi-sub-v">${data.grupos ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Total obs.</span><span class="ar-kpi-sub-v">${data.totalObservaciones ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df entre</span><span class="ar-kpi-sub-v">${data.dfEntre ?? '—'}</span></div>
@@ -5311,6 +5620,7 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
                     </div>
+                    ${ssRows ? `<details open style="margin-top:8px"><summary style="cursor:pointer;font-size:0.85rem;color:#718096">📋 Tabla ANOVA</summary>${ssRows}</details>` : ''}
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // Chi-Cuadrado
@@ -5397,6 +5707,8 @@ function generarHTML(analisisResultado) {
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Coeficiente r</span><span class="ar-kpi-sub-v">${data.r ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">t</span><span class="ar-kpi-sub-v">${data.t?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">gl</span><span class="ar-kpi-sub-v">${data.df ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.pValue?.toFixed(6) ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 95%</span><span class="ar-kpi-sub-v">[${data.ic95Lower ?? '—'}, ${data.ic95Upper ?? '—'}]</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
@@ -5418,135 +5730,6 @@ function generarHTML(analisisResultado) {
                     <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
                     </div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || 'ρ = correlación de Pearson sobre rangos'}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
-        }
-        // Regresión Lineal Simple
-        if (statKey === 'Regresión Lineal Simple') {
-            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
-            const desvRows = (data.desviaciones || []).map(d => `
-                <tr>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${d.concentracion}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${d.areaObservada}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${d.areaRetrocalculada}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right;${Math.abs(d.desviacionPct) > 5 ? 'color:#c53030;font-weight:600' : ''}">${d.desviacionPct}%</td>
-                </tr>`).join('');
-            const resRows = (data.residuos || []).map((r, i) => {
-                return `
-                <tr>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${i + 1}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.desviaciones?.[i]?.areaObservada ?? '—'}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.predicciones?.[i] ?? '—'}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${r.toFixed(4)}</td>
-                </tr>`}).join('');
-            const icInterText = data.icInterceptLower != null
-                ? `[${data.icInterceptLower}, ${data.icInterceptUpper}]`
-                : '—';
-            const ichLabel = data.cumpleICH
-                ? '✓ Cumple ICH Q2(R1) — Linealidad aceptada (R² ≥ 0.999)'
-                : '✗ No cumple ICH — R² < 0.999';
-            const ichClass = data.cumpleICH ? 'ar-badge-ok' : 'ar-badge-danger';
-            const fdaLabel = data.cumpleFDA
-                ? '✓ Cumple FDA Bioanalytical (R² ≥ 0.995)'
-                : data.r2 >= 0.99
-                    ? '⚠ Cumple parcialmente FDA (R² ≥ 0.99)'
-                    : '✗ No cumple FDA (R² < 0.995)';
-            const fdaClass = data.cumpleFDA ? 'ar-badge-ok' : 'ar-badge-warn';
-            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📈 Y = f(${data.columnaX || 'X'})</div>
-                    <div class="ar-kpi-sub-grid">
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Intercepto (a)</span><span class="ar-kpi-sub-v">${data.a ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Pendiente (b)</span><span class="ar-kpi-sub-v">${data.b ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R² Ajustado</span><span class="ar-kpi-sub-v">${data.r2Adj ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Error Estándar</span><span class="ar-kpi-sub-v">${data.errorEstandar ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p-valor (b)</span><span class="ar-kpi-sub-v">${data.pPendiente?.toFixed(6) ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 95% pendiente</span><span class="ar-kpi-sub-v">[${data.icPendienteLower ?? '—'}, ${data.icPendienteUpper ?? '—'}]</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 95% intercepto</span><span class="ar-kpi-sub-v">${icInterText}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Máx % desviación</span><span class="ar-kpi-sub-v">${data.maxDesviacion ?? '—'}%</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
-                    </div>
-                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Modelo significativo (p < 0.05)' : '✓ Modelo no significativo (p ≥ 0.05)'}</div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || `Y = ${data.a} + ${data.b}X`}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>
-                    <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px">
-                        <div class="ar-kpi-col-label">📋 Validación ICH Q2(R1)</div>
-                        <div class="ar-kpi-sub-grid">
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Criterio ICH</span><span class="ar-kpi-sub-v">R² ≥ 0.999</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R² actual</span><span class="ar-kpi-sub-v">${data.r2?.toFixed(4) ?? '—'}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 95% intercepto</span><span class="ar-kpi-sub-v">${icInterText}</span></div>
-                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Máx desviación</span><span class="ar-kpi-sub-v">${data.maxDesviacion ?? '—'}%</span></div>
-                        </div>
-                        <div class="ar-kpi-badge ${ichClass}">${ichLabel}</div>
-                        <div class="ar-kpi-badge ${fdaClass}" style="margin-top:4px">${fdaLabel}</div>
-                    </div>
-                    ${data.desviaciones?.length ? `<details style="margin-top:8px">
-                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📊 Ver tabla de desviaciones por nivel</summary>
-                        <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
-                            <thead><tr style="background:#000">
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Conc.</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Área obs.</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Área retro.</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">% Desv.</th>
-                            </tr></thead>
-                            <tbody>${desvRows}</tbody>
-                        </table>
-                    </details>` : ''}
-                    ${data.residuos?.length ? `<details style="margin-top:8px">
-                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📉 Ver residuales</summary>
-                        <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
-                            <thead><tr style="background:#000">
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">#</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Observado</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Predicho</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Residual</th>
-                            </tr></thead>
-                            <tbody>${resRows}</tbody>
-                        </table>
-                    </details>` : ''}`;
-        }
-        // Regresión Lineal Múltiple
-        if (statKey === 'Regresión Lineal Múltiple') {
-            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
-            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 Y = f(${data.columnasX?.join(', ') || 'X₁,...,Xₖ'})</div>
-                    <div class="ar-kpi-sub-grid">
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R² Ajustado</span><span class="ar-kpi-sub-v">${data.r2Adj ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Error Estándar</span><span class="ar-kpi-sub-v">${data.errorEstandar ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Predictores (k)</span><span class="ar-kpi-sub-v">${data.k ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
-                    </div>
-                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★Modelo significativo' : '✓Modelo no significativo'}</div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || data.modelo || ''}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
-        }
-        // Regresión Polinomial
-        if (statKey === 'Regresión Polinomial') {
-            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
-            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📈 Y = f(${data.columnaX || 'X'}) - Grado ${data.grado || 2}</div>
-                    <div class="ar-kpi-sub-grid">
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2 ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R² Ajustado</span><span class="ar-kpi-sub-v">${data.r2Adj ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Error Estándar</span><span class="ar-kpi-sub-v">${data.errorEstandar ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grado</span><span class="ar-kpi-sub-v">${data.grado ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
-                    </div>
-                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★Modelo significativo' : '✓Modelo no significativo'}</div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || data.modelo || ''}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
-        }
-        // Regresión Logística
-        if (statKey === 'Regresión Logística') {
-            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
-            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">🔐 Clasificación: Y = f(${data.columnasX?.join(', ') || 'X₁,...,Xₖ'})</div>
-                    <div class="ar-kpi-sub-grid">
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Exactitud</span><span class="ar-kpi-sub-v">${((data.exactitud || 0) * 100).toFixed(1)}%</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Precisión</span><span class="ar-kpi-sub-v">${((data.precision || 0) * 100).toFixed(1)}%</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Recall</span><span class="ar-kpi-sub-v">${((data.recall || 0) * 100).toFixed(1)}%</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">F1-Score</span><span class="ar-kpi-sub-v">${((data.f1 || 0) * 100).toFixed(1)}%</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">VP/FP/VN/FN</span><span class="ar-kpi-sub-v">${data.vp}/${data.fp}/${data.vn}/${data.fn}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
-                    </div>
-                    <div class="ar-kpi-badge ${data.exactitud >= 0.7 ? 'ar-badge-ok' : 'ar-badge-warn'}">${data.exactitud >= 0.8 ? '✓Excelente' : data.exactitud >= 0.6 ? '⚠Aceptable' : '✗Bajo'}</div>
-                    </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || data.modelo || ''}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // Test de Shapiro-Wilk
         if (statKey === 'Test de Shapiro-Wilk') {

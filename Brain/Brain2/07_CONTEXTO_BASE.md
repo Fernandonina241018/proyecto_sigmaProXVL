@@ -104,5 +104,6 @@ getDataForModal().headers
 | 2026-05-19 | Contexto y motivación explícitos | Evitar instrucciones ambiguas | Todos los prompts |
 | 2026-05-20 | Prompt vago optimizado con contexto del proyecto + ejemplos | Falta validar contra reporte real | Usar contexto Brain2 en todas las optimizaciones |
 | 2026-05-21 | Prompt ultra-corto "opcion 1, procede" → traducción semántica a protocolo proyecto + ejemplos few-shot del dominio + estructura severidades | Añadir auto-detección de qué módulo está activo si no se especifica | Usar mapeo semántico (términos crípticos del usuario → acciones protocolo) |
+| 2026-05-21 | Prompt vago "mover controles al sidebar" → investigación profunda de 3 archivos (dashboard.html, VizControls.js, dashboard.js) + tabla 3-columnas del layout + ejemplos before/after + restricciones explícitas | Mejorar detección de "sidebar" específico (hay 3 sidebars distintos en el proyecto) | Siempre investigar estructura real del DOM antes de optimizar |
 
 *Mayo 2026*

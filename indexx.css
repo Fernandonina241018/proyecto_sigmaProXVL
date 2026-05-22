@@ -299,8 +299,8 @@
   .modal-box { background:var(--bg-panel); border-radius:12px; padding:20px; width:90%; max-width:420px; display:flex; flex-direction:column; gap:12px; }
   .modal-title { font-size:14px; font-weight:600; color:var(--text-primary); }
   .modal-row { display:flex; align-items:center; gap:10px; }
-  .modal-label { font-size:12px; color:var(--text-muted); min-width:80px; }
-  .modal-select { flex:1; background:var(--bg-primary); border:1px solid var(--border); border-radius:5px; color:var(--text-primary); font-size:12px; padding:5px 8px; }
+  .modal-label { font-size:14px; color:var(--text-muted); min-width:80px; }
+  .modal-select { flex:1; background:var(--bg-primary); border:1px solid var(--border); border-radius:5px; color:var(--text-primary); font-size:14px; padding:5px 8px; }
   .modal-cols { display:flex; flex-wrap:wrap; gap:6px; max-height:140px; overflow-y:auto; }
   .col-toggle { display:flex; align-items:center; gap:4px; background:var(--item-bg); border-radius:4px; padding:4px 8px; font-size:11px; color:var(--text-muted); cursor:pointer; user-select:none; }
   .col-toggle input { accent-color:var(--accent); }
