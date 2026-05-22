@@ -122,6 +122,7 @@
 | 65 | 21 May 2026 | Phase 6 — T-Test dos muestras rich format: Cohen's d con label interpretativo, IC 95% para la diferencia de medias, tabla colapsable de estadísticas por grupo (n, media, varianza, DE). `EstadisticaDescriptiva.js:5752-5820` | ✅ |
 | 66 | 21 May 2026 | Phase 7 — Correlación Pearson rich format: t y gl (grados de libertad) agregados al grid de KPIs. `EstadisticaDescriptiva.js:5822-5850` | ✅ |
 | 67 | 21 May 2026 | ReporteManager HTML/TXT enhancement: RLS reporte detallado con ICH/FDA + tabla desviaciones/residuales; T-Test con grupo stats; ANOVA con SS table; Correlación con t/gl; Regresión Múltiple/Polinomial/Logística con tablas expandidas colspan=4. `ReporteManager.js:1637-1950` | ✅ |
+| 68 | 22 May 2026 | Fix: p-valores incorrectos en `calcularCDF_T` para df pequeños 🔴 — Aproximación exponencial burda reemplazada por función beta incompleta regularizada (Lanczos log-gamma + Lentz continued fraction). 19 valores críticos verificados con error < 0.00003. Afecta: Regresión Lineal Simple, T-Test(1 y 2 muestras), y cualquier test que use distribución t con n < 30. `EstadisticaDescriptiva.js:1825-1918` | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 

@@ -1816,32 +1816,92 @@ negativos: negativos,
           };
       }
       
-      /**
-       * Función de distribución acumulativa t de Student (aproximación)
-      * @param {number} t - Valor t
-      * @param {number} df - Grados de libertad
-      * @returns {number} CDF(t)
-      */
-     function calcularCDF_T(t, df) {
-       if (df === 1) {
-         return 0.5 + Math.atan(t) / Math.PI;
-       }
-       
-       // Aproximación usando función beta incompleta
-       // Para simplicidad, usamos una aproximación razonable
-       if (t === 0) return 0.5;
-       
-        const x = df / (df + t * t);
-        // Aproximación simple para demostración - en producción usar biblioteca especializada
-        if (df > 30) {
-          // Para df grande, aproximar con normal usando función erf local
-          return 0.5 * (1 + erf(t / Math.sqrt(2)));
+      // --- Helper: Log-Gamma (Stirling-Lanczos, precisión ~1e-11) ---
+      function logGamma(x) {
+        if (x <= 0) return NaN;
+        if (x < 0.5) {
+          return Math.log(Math.PI / Math.sin(Math.PI * x)) - logGamma(1 - x);
         }
-       
-       // Usamos una aproximación razonable para df pequeños
-       // Esto es una simplificación - en producción usar biblioteca estadística adecuada
-       return 0.5 + Math.sign(t) * 0.5 * (1 - Math.exp(-Math.abs(t) * Math.sqrt(df / (df + t * t))));
-     }
+        x -= 1;
+        const g = 7;
+        const c = [
+          0.99999999999980993, 676.5203681218851, -1259.1392167224028,
+          771.32342877765313, -176.61502916214059, 12.507343278686905,
+          -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7
+        ];
+        let sum = c[0];
+        for (let i = 1; i <= g + 1; i++) {
+          sum += c[i] / (x + i);
+        }
+        const t = x + g + 0.5;
+        return 0.5 * Math.log(2 * Math.PI) + (x + 0.5) * Math.log(t) - t + Math.log(sum);
+      }
+
+      // --- Helper: Fracción continua de I(x;a,b) — método de Lentz ---
+      function betaIncCF(x, a, b) {
+        const MAX_ITER = 300;
+        const EPS = 3e-12;
+        const qab = a + b;
+        const qap = a + 1;
+        const qam = a - 1;
+        let c = 1;
+        let d = 1 - qab * x / qap;
+        if (Math.abs(d) < 1e-30) d = 1e-30;
+        d = 1 / d;
+        let h = d;
+
+        for (let m = 1; m <= MAX_ITER; m++) {
+          const m2 = 2 * m;
+          let aa = m * (b - m) * x / ((qam + m2) * (a + m2));
+          d = 1 + aa * d;
+          if (Math.abs(d) < 1e-30) d = 1e-30;
+          c = 1 + aa / c;
+          if (Math.abs(c) < 1e-30) c = 1e-30;
+          d = 1 / d;
+          h *= d * c;
+
+          aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2));
+          d = 1 + aa * d;
+          if (Math.abs(d) < 1e-30) d = 1e-30;
+          c = 1 + aa / c;
+          if (Math.abs(c) < 1e-30) c = 1e-30;
+          d = 1 / d;
+          const del = d * c;
+          h *= del;
+          if (Math.abs(del - 1) < EPS) break;
+        }
+        return h;
+      }
+
+      // --- Helper: Función beta incompleta regularizada I(x; a, b) ---
+      function betaInc(x, a, b) {
+        if (x < 0 || x > 1) return NaN;
+        if (x === 0 || x === 1) return x;
+        if (x > (a + 1) / (a + b + 2)) return 1 - betaInc(1 - x, b, a);
+
+        const lbeta = logGamma(a) + logGamma(b) - logGamma(a + b);
+        const front = Math.exp(Math.log(x) * a + Math.log(1 - x) * b - lbeta - Math.log(a));
+        return front * betaIncCF(x, a, b);
+      }
+
+      /**
+       * Función de distribución acumulativa t de Student
+       * Usa la relación CDF-t → I(x; df/2, 0.5) con función beta incompleta.
+       * @param {number} t - Valor t
+       * @param {number} df - Grados de libertad (> 0)
+       * @returns {number} P(T ≤ t)
+       */
+      function calcularCDF_T(t, df) {
+        if (t === 0) return 0.5;
+        if (!isFinite(t)) return t > 0 ? 1 : 0;
+        if (!isFinite(df) || df <= 0) return NaN;
+        if (df > 120) return 0.5 * (1 + erf(t / Math.sqrt(2)));
+
+        const x = df / (df + t * t);
+        const a = df / 2;
+        const ib = betaInc(x, a, 0.5);
+        return t >= 0 ? 1 - 0.5 * ib : 0.5 * ib;
+      }
      
      /**
       * Función inversa de distribución t para valores críticos
