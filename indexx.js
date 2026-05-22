@@ -381,7 +381,7 @@ var leftPanels = {
         '<div id="vizExtraYContainer" style="display:none;flex-direction:column;gap:4px">' +
           '<div style="display:flex;gap:4px;align-items:center">' +
             '<span style="font-size:10px;color:var(--text-faint)">Series Y adicionales:</span>' +
-            '<button class="btn btn-secondary" id="vizAddYBtn" style="font-size:9px;padding:2px 6px">+</button>' +
+            '<button class="btn btn-secondary" id="vizAddYBtn" style="font-size:14px;padding:2px 6px">+</button>' +
           '</div>' +
           '<div id="vizExtraYList"></div>' +
         '</div>' +

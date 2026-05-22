@@ -1971,12 +1971,14 @@ negativos: negativos,
        // Calcular suma de cuadrados
        const SCRegresion = predicciones.reduce((sum, pred) => sum + Math.pow(pred - mediaY, 2), 0);
        const SCResidual = residuos.reduce((sum, res) => sum + res * res, 0);
-       const SCTotal = sumY2 - nVal * mediaY * mediaY;
+       //const SCTotal = sumY2 - nVal * mediaY * mediaY;
+       const SCTotal = yVals.reduce((sum, yi) => sum + Math.pow(yi - mediaY, 2), 0);
        
         // R² y R² ajustado
         if (SCTotal === 0) return { error: 'La variable Y tiene varianza cero (todos los valores iguales)' };
-        const r2 = SCRegresion / SCTotal;
-       const r2Adj = 1 - (SCResidual / (nVal - 2)) / (SCTotal / (nVal - 1));
+        //const r2 = SCRegresion / SCTotal;
+        const r2 = 1 - (SCResidual / SCTotal); // fórmula más robusta
+        const r2Adj = 1 - (SCResidual / (nVal - 2)) / (SCTotal / (nVal - 1));
        
        // Error estándar de la estimación
        const errorEstandar = Math.sqrt(SCResidual / (nVal - 2));
@@ -2011,10 +2013,10 @@ negativos: negativos,
             const areaReal = yVals[i];
             const desvPct = areaReal !== 0 ? ((areaReal - areaRetro) / areaRetro) * 100 : 0;
             return {
-                concentracion: parseFloat(xi.toFixed(4)),
-                areaObservada: parseFloat(areaReal.toFixed(4)),
-                areaRetrocalculada: parseFloat(areaRetro.toFixed(4)),
-                desviacionPct: parseFloat(desvPct.toFixed(2))
+                concentracion: parseFloat(xi.toFixed(10)),
+                areaObservada: parseFloat(areaReal.toFixed(10)),
+                areaRetrocalculada: parseFloat(areaRetro.toFixed(10)),
+                desviacionPct: parseFloat(desvPct.toFixed(10))
             };
         });
         const maxDesviacion = Math.max(...desviaciones.map(d => Math.abs(d.desviacionPct)));
@@ -2036,29 +2038,29 @@ negativos: negativos,
         return {
           prueba: 'Regresión Lineal Simple',
           modelo: 'Y = a + bX',
-          formula: `Y = ${a.toFixed(4)} + ${b.toFixed(4)}X`,
-          a: parseFloat(a.toFixed(4)),
-          b: parseFloat(b.toFixed(4)),
-          r2: parseFloat(r2.toFixed(4)),
-          r2Adj: parseFloat(r2Adj.toFixed(4)),
-          errorEstandar: parseFloat(errorEstandar.toFixed(4)),
-          eePendiente: parseFloat(eePendiente.toFixed(4)),
-          eeIntercept: parseFloat(eeIntercept.toFixed(4)),
-          tPendiente: parseFloat(tPendiente.toFixed(4)),
-          pPendiente: parseFloat(pPendiente.toFixed(6)),
-          icPendienteLower: parseFloat(icPendienteLower.toFixed(4)),
-          icPendienteUpper: parseFloat(icPendienteUpper.toFixed(4)),
-          icInterceptLower: parseFloat(icInterceptLower.toFixed(4)),
-          icInterceptUpper: parseFloat(icInterceptUpper.toFixed(4)),
+          formula: `Y = ${a.toFixed(10)} + ${b.toFixed(10)}X`,
+          a: parseFloat(a.toFixed(10)),
+          b: parseFloat(b.toFixed(10)),
+          r2: parseFloat(r2.toFixed(10)),
+          r2Adj: parseFloat(r2Adj.toFixed(10)),
+          errorEstandar: parseFloat(errorEstandar.toFixed(10)),
+          eePendiente: parseFloat(eePendiente.toFixed(10)),
+          eeIntercept: parseFloat(eeIntercept.toFixed(10)),
+          tPendiente: parseFloat(tPendiente.toFixed(10)),
+          pPendiente: parseFloat(pPendiente.toFixed(10)),
+          icPendienteLower: parseFloat(icPendienteLower.toFixed(10)),
+          icPendienteUpper: parseFloat(icPendienteUpper.toFixed(10)),
+          icInterceptLower: parseFloat(icInterceptLower.toFixed(10)),
+          icInterceptUpper: parseFloat(icInterceptUpper.toFixed(10)),
           cumpleICH: cumpleICH,
           cumpleFDA: cumpleFDA,
           desviaciones: desviaciones,
-          maxDesviacion: parseFloat(maxDesviacion.toFixed(2)),
+          maxDesviacion: parseFloat(maxDesviacion.toFixed(10)),
           significante: pPendiente < 0.05,
           interpretacion: interpretacion,
           n: nVal,
-           predicciones: predicciones.map(p => parseFloat(p.toFixed(4))),
-           residuos: residuos.map(r => parseFloat(r.toFixed(4))),
+           predicciones: predicciones.map(p => parseFloat(p.toFixed(10))),
+           residuos: residuos.map(r => parseFloat(r.toFixed(10))),
            variables: ['X', 'Y']
          };
        }
