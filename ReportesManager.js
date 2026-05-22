@@ -58,12 +58,15 @@ const ReportesManager = (() => {
 
   function formatFullDateTime(date) {
     const day = String(date.getDate()).padStart(2, '0');
-    const month = MONTHS_ES[date.getMonth()];
+    const month = MONTHS_ES[date.getMonth()]; // e.g. 'ene', 'feb', 'mar' o '01' según tu array
     const year = date.getFullYear();
-    const hh = String(date.getHours()).padStart(2, '0');
+    const hours24 = date.getHours();
+    const ampm = hours24 >= 12 ? 'PM' : 'AM';
+    const hours12 = String((hours24 % 12) || 12).padStart(2, '0'); // convierte 0->12
     const mm = String(date.getMinutes()).padStart(2, '0');
-    return `${day}/${month}/${year} ${hh}:${mm}`;
+    return `${day}/${month}/${year} ${hours12}:${mm} ${ampm}`;
   }
+
 
   function getDatasetTraceability(analisis) {
     return {
