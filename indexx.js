@@ -546,6 +546,7 @@ var rightPanels = {
       '<button class="btn btn-secondary viz-type" data-type="stackedBar" style="font-size:12px">🏗️ Apiladas</button>' +
       '<button class="btn btn-secondary viz-type" data-type="groupedBar" style="font-size:12px">📊📊 Agrupadas</button>' +
       '<button class="btn btn-secondary viz-type" data-type="scatter" style="font-size:12px">⬡ Dispersión</button>' +
+      '<button class="btn btn-secondary viz-type" data-type="linealidad" style="font-size:12px">∎ Linealidad</button>' +
       '<button class="btn btn-secondary viz-type" data-type="bubble" style="font-size:12px">🔵 Burbuja</button>' +
       '<button class="btn btn-secondary viz-type" data-type="pie" style="font-size:12px">◉ Circular</button>' +
       '<button class="btn btn-secondary viz-type" data-type="doughnut" style="font-size:12px">◉ Dona</button>' +
@@ -1163,6 +1164,11 @@ function vizRenderChart() {
     renderScatterCard(sheet, colX, colY, container);
     vizSaveCards(); return;
   }
+  if (type === 'linealidad') {
+    if (!colX || !colY) { showToast('Selecciona ambas columnas'); return; }
+    renderLinealidadCard(sheet, colX, colY, container);
+    vizSaveCards(); return;
+  }
   if (type === 'bubble') {
     if (!colX || !colY || !colSize) { showToast('Selecciona X, Y y Tamaño'); return; }
     renderBubbleCard(sheet, colX, colY, colSize, container);
@@ -1268,6 +1274,58 @@ function renderScatterCard(sheet, colX, colY, container) {
   _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
     type: 'scatter',
     data: { datasets: [{ label: colX + ' vs ' + colY, data: pts, backgroundColor: 'rgba(54,162,235,0.6)' }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: true, labels: { color: '#ccc' } } },
+      scales: {
+        x: { title: { display: true, text: colX, color: '#ccc' }, ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+        y: { title: { display: true, text: colY, color: '#ccc' }, ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+      }
+    }
+  });
+  vizCaptureCardImage(id);
+}
+
+function renderLinealidadCard(sheet, colX, colY, container) {
+  var pts = vizGetValidScatterPairs(sheet, colX, colY);
+  if (!pts.length) { showToast('No hay pares numéricos válidos'); return; }
+  var n = pts.length;
+  var sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+  for (var i = 0; i < n; i++) {
+    sumX += pts[i].x; sumY += pts[i].y;
+    sumXY += pts[i].x * pts[i].y; sumX2 += pts[i].x * pts[i].x;
+  }
+  var mediaX = sumX / n, mediaY = sumY / n;
+  var num = sumXY - n * mediaX * mediaY;
+  var den = sumX2 - n * mediaX * mediaX;
+  if (den === 0) { showToast('La variable X tiene varianza cero'); return; }
+  var b = num / den;
+  var a = mediaY - b * mediaX;
+  var ssTot = pts.reduce(function(s, p) { return s + Math.pow(p.y - mediaY, 2); }, 0);
+  var ssRes = pts.reduce(function(s, p) { return s + Math.pow(p.y - (a + b * p.x), 2); }, 0);
+  var r2 = ssTot > 0 ? 1 - ssRes / ssTot : 0;
+
+  var xMin = Math.min.apply(null, pts.map(function(p) { return p.x; }));
+  var xMax = Math.max.apply(null, pts.map(function(p) { return p.x; }));
+  var linea = [
+    { x: xMin, y: a + b * xMin },
+    { x: xMax, y: a + b * xMax }
+  ];
+
+  var signStr = a >= 0 ? '+' : '-';
+  var formula = 'y = ' + b.toFixed(4) + 'x ' + signStr + ' ' + Math.abs(a).toFixed(4);
+  var title = 'Linealidad · ' + colX + ' vs ' + colY + '  |  ' + formula + '  R²=' + r2.toFixed(4);
+
+  var id = 'viz-' + (++_vizCardCounter);
+  var canvas = createChartCard(id, title, container, 500, {type:'linealidad', colX:colX, colY:colY});
+  _vizChartInstances[id] = new Chart(canvas.getContext('2d'), {
+    type: 'scatter',
+    data: {
+      datasets: [
+        { label: colX + ' vs ' + colY, data: pts, backgroundColor: 'rgba(54,162,235,0.6)', pointRadius: 5, pointHoverRadius: 8, order: 2 },
+        { label: 'Recta: ' + formula + ' (R²=' + r2.toFixed(4) + ')', data: linea, type: 'line', borderColor: '#43a047', borderWidth: 2.5, pointRadius: 0, tension: 0, fill: false, order: 1 }
+      ]
+    },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: true, labels: { color: '#ccc' } } },
