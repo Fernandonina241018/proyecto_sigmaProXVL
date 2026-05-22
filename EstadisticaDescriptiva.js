@@ -5480,11 +5480,11 @@ function generarHTML(analisisResultado) {
                     ${data.desviaciones?.length ? `<details style="margin-top:8px">
                         <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📊 Ver tabla de desviaciones por nivel</summary>
                         <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
-                            <thead><tr style="background:#f7fafc">
-                                <th style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">Conc.</th>
-                                <th style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">Área obs.</th>
-                                <th style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">Área retro.</th>
-                                <th style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">% Desv.</th>
+                            <thead><tr style="background:#000">
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Conc.</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Área obs.</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Área retro.</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">% Desv.</th>
                             </tr></thead>
                             <tbody>${desvRows}</tbody>
                         </table>
@@ -5492,11 +5492,11 @@ function generarHTML(analisisResultado) {
                     ${data.residuos?.length ? `<details style="margin-top:8px">
                         <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📉 Ver residuales</summary>
                         <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
-                            <thead><tr style="background:#f7fafc">
-                                <th style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">#</th>
-                                <th style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">Observado</th>
-                                <th style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">Predicho</th>
-                                <th style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">Residual</th>
+                            <thead><tr style="background:#000">
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">#</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Observado</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Predicho</th>
+                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Residual</th>
                             </tr></thead>
                             <tbody>${resRows}</tbody>
                         </table>
