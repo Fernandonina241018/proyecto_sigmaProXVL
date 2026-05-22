@@ -1992,48 +1992,76 @@ negativos: negativos,
         const tPendiente = b / eePendiente;
        const pPendiente = 2 * (1 - calcularCDF_T(Math.abs(tPendiente), nVal - 2));
        
-       // Intervalo de confianza para pendiente (95%)
-       const tCritico = calcularValorP_TInverso(0.975, nVal - 2);
-       const icPendienteLower = b - tCritico * eePendiente;
-       const icPendienteUpper = b + tCritico * eePendiente;
-       
-       // Interpretación
-       let interpretacion = '';
-       if (pPendiente < 0.001) {
-         interpretacion = 'La relación lineal es altamente significativa (p < 0.001)';
-       } else if (pPendiente < 0.01) {
-         interpretacion = 'La relación lineal es muy significativa (p < 0.01)';
-       } else if (pPendiente < 0.05) {
-         interpretacion = 'La relación lineal es significativa (p < 0.05)';
-       } else if (pPendiente < 0.1) {
-         interpretacion = 'La relación lineal es marginalmente significativa (p < 0.1)';
-       } else {
-         interpretacion = 'La relación lineal NO es significativa (p >= 0.1)';
+        // Intervalo de confianza para pendiente (95%)
+        const tCritico = calcularValorP_TInverso(0.975, nVal - 2);
+        const icPendienteLower = b - tCritico * eePendiente;
+        const icPendienteUpper = b + tCritico * eePendiente;
+        
+        // Intervalo de confianza para intercepto (95%)
+        const icInterceptLower = a - tCritico * eeIntercept;
+        const icInterceptUpper = a + tCritico * eeIntercept;
+        
+        // Criterios ICH Q2(R1) y FDA Bioanalytical
+        const cumpleICH = r2 >= 0.999;
+        const cumpleFDA = r2 >= 0.995;
+        
+        // Tabla de desviaciones por nivel (área retrocalculada vs observada)
+        const desviaciones = xVals.map((xi, i) => {
+            const areaRetro = a + b * xi;
+            const areaReal = yVals[i];
+            const desvPct = areaReal !== 0 ? ((areaReal - areaRetro) / areaRetro) * 100 : 0;
+            return {
+                concentracion: parseFloat(xi.toFixed(4)),
+                areaObservada: parseFloat(areaReal.toFixed(4)),
+                areaRetrocalculada: parseFloat(areaRetro.toFixed(4)),
+                desviacionPct: parseFloat(desvPct.toFixed(2))
+            };
+        });
+        const maxDesviacion = Math.max(...desviaciones.map(d => Math.abs(d.desviacionPct)));
+        
+        // Interpretación
+        let interpretacion = '';
+        if (pPendiente < 0.001) {
+          interpretacion = 'La relación lineal es altamente significativa (p < 0.001)';
+        } else if (pPendiente < 0.01) {
+          interpretacion = 'La relación lineal es muy significativa (p < 0.01)';
+        } else if (pPendiente < 0.05) {
+          interpretacion = 'La relación lineal es significativa (p < 0.05)';
+        } else if (pPendiente < 0.1) {
+          interpretacion = 'La relación lineal es marginalmente significativa (p < 0.1)';
+        } else {
+          interpretacion = 'La relación lineal NO es significativa (p >= 0.1)';
+        }
+        
+        return {
+          prueba: 'Regresión Lineal Simple',
+          modelo: 'Y = a + bX',
+          formula: `Y = ${a.toFixed(4)} + ${b.toFixed(4)}X`,
+          a: parseFloat(a.toFixed(4)),
+          b: parseFloat(b.toFixed(4)),
+          r2: parseFloat(r2.toFixed(4)),
+          r2Adj: parseFloat(r2Adj.toFixed(4)),
+          errorEstandar: parseFloat(errorEstandar.toFixed(4)),
+          eePendiente: parseFloat(eePendiente.toFixed(4)),
+          eeIntercept: parseFloat(eeIntercept.toFixed(4)),
+          tPendiente: parseFloat(tPendiente.toFixed(4)),
+          pPendiente: parseFloat(pPendiente.toFixed(6)),
+          icPendienteLower: parseFloat(icPendienteLower.toFixed(4)),
+          icPendienteUpper: parseFloat(icPendienteUpper.toFixed(4)),
+          icInterceptLower: parseFloat(icInterceptLower.toFixed(4)),
+          icInterceptUpper: parseFloat(icInterceptUpper.toFixed(4)),
+          cumpleICH: cumpleICH,
+          cumpleFDA: cumpleFDA,
+          desviaciones: desviaciones,
+          maxDesviacion: parseFloat(maxDesviacion.toFixed(2)),
+          significante: pPendiente < 0.05,
+          interpretacion: interpretacion,
+          n: nVal,
+           predicciones: predicciones.map(p => parseFloat(p.toFixed(4))),
+           residuos: residuos.map(r => parseFloat(r.toFixed(4))),
+           variables: ['X', 'Y']
+         };
        }
-       
-       return {
-         prueba: 'Regresión Lineal Simple',
-         modelo: 'Y = a + bX',
-         formula: `Y = ${a.toFixed(4)} + ${b.toFixed(4)}X`,
-         a: parseFloat(a.toFixed(4)),
-         b: parseFloat(b.toFixed(4)),
-         r2: parseFloat(r2.toFixed(4)),
-         r2Adj: parseFloat(r2Adj.toFixed(4)),
-         errorEstandar: parseFloat(errorEstandar.toFixed(4)),
-         eePendiente: parseFloat(eePendiente.toFixed(4)),
-         eeIntercept: parseFloat(eeIntercept.toFixed(4)),
-         tPendiente: parseFloat(tPendiente.toFixed(4)),
-         pPendiente: parseFloat(pPendiente.toFixed(6)),
-         icPendienteLower: parseFloat(icPendienteLower.toFixed(4)),
-         icPendienteUpper: parseFloat(icPendienteUpper.toFixed(4)),
-         significante: pPendiente < 0.05,
-         interpretacion: interpretacion,
-         n: nVal,
-          predicciones: predicciones.map(p => parseFloat(p.toFixed(4))),
-          residuos: residuos.map(r => parseFloat(r.toFixed(4))),
-          variables: ['X', 'Y']
-        };
-      }
      
      /**
       * Calcula la regresión lineal múltiple (Y = β₀ + β₁X₁ + ... + βₖXₖ)
@@ -5394,6 +5422,34 @@ function generarHTML(analisisResultado) {
         // Regresión Lineal Simple
         if (statKey === 'Regresión Lineal Simple') {
             if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
+            const desvRows = (data.desviaciones || []).map(d => `
+                <tr>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${d.concentracion}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${d.areaObservada}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${d.areaRetrocalculada}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right;${Math.abs(d.desviacionPct) > 5 ? 'color:#c53030;font-weight:600' : ''}">${d.desviacionPct}%</td>
+                </tr>`).join('');
+            const resRows = (data.residuos || []).map((r, i) => {
+                return `
+                <tr>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${i + 1}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.desviaciones?.[i]?.areaObservada ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.predicciones?.[i] ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${r.toFixed(4)}</td>
+                </tr>`}).join('');
+            const icInterText = data.icInterceptLower != null
+                ? `[${data.icInterceptLower}, ${data.icInterceptUpper}]`
+                : '—';
+            const ichLabel = data.cumpleICH
+                ? '✓ Cumple ICH Q2(R1) — Linealidad aceptada (R² ≥ 0.999)'
+                : '✗ No cumple ICH — R² < 0.999';
+            const ichClass = data.cumpleICH ? 'ar-badge-ok' : 'ar-badge-danger';
+            const fdaLabel = data.cumpleFDA
+                ? '✓ Cumple FDA Bioanalytical (R² ≥ 0.995)'
+                : data.r2 >= 0.99
+                    ? '⚠ Cumple parcialmente FDA (R² ≥ 0.99)'
+                    : '✗ No cumple FDA (R² < 0.995)';
+            const fdaClass = data.cumpleFDA ? 'ar-badge-ok' : 'ar-badge-warn';
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📈 Y = f(${data.columnaX || 'X'})</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Intercepto (a)</span><span class="ar-kpi-sub-v">${data.a ?? '—'}</span></div>
@@ -5403,11 +5459,48 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Error Estándar</span><span class="ar-kpi-sub-v">${data.errorEstandar ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p-valor (b)</span><span class="ar-kpi-sub-v">${data.pPendiente?.toFixed(6) ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 95% pendiente</span><span class="ar-kpi-sub-v">[${data.icPendienteLower ?? '—'}, ${data.icPendienteUpper ?? '—'}]</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 95% intercepto</span><span class="ar-kpi-sub-v">${icInterText}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Máx % desviación</span><span class="ar-kpi-sub-v">${data.maxDesviacion ?? '—'}%</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
                     </div>
                     <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Modelo significativo (p < 0.05)' : '✓ Modelo no significativo (p ≥ 0.05)'}</div>
                     </div>
-                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || `Y = ${data.a} + ${data.b}X`}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
+                    <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || `Y = ${data.a} + ${data.b}X`}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>
+                    <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px">
+                        <div class="ar-kpi-col-label">📋 Validación ICH Q2(R1)</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Criterio ICH</span><span class="ar-kpi-sub-v">R² ≥ 0.999</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R² actual</span><span class="ar-kpi-sub-v">${data.r2?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 95% intercepto</span><span class="ar-kpi-sub-v">${icInterText}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Máx desviación</span><span class="ar-kpi-sub-v">${data.maxDesviacion ?? '—'}%</span></div>
+                        </div>
+                        <div class="ar-kpi-badge ${ichClass}">${ichLabel}</div>
+                        <div class="ar-kpi-badge ${fdaClass}" style="margin-top:4px">${fdaLabel}</div>
+                    </div>
+                    ${data.desviaciones?.length ? `<details style="margin-top:8px">
+                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📊 Ver tabla de desviaciones por nivel</summary>
+                        <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
+                            <thead><tr style="background:#f7fafc">
+                                <th style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">Conc.</th>
+                                <th style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">Área obs.</th>
+                                <th style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">Área retro.</th>
+                                <th style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">% Desv.</th>
+                            </tr></thead>
+                            <tbody>${desvRows}</tbody>
+                        </table>
+                    </details>` : ''}
+                    ${data.residuos?.length ? `<details style="margin-top:8px">
+                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📉 Ver residuales</summary>
+                        <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
+                            <thead><tr style="background:#f7fafc">
+                                <th style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">#</th>
+                                <th style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">Observado</th>
+                                <th style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">Predicho</th>
+                                <th style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">Residual</th>
+                            </tr></thead>
+                            <tbody>${resRows}</tbody>
+                        </table>
+                    </details>` : ''}`;
         }
         // Regresión Lineal Múltiple
         if (statKey === 'Regresión Lineal Múltiple') {

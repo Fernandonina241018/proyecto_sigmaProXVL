@@ -1255,7 +1255,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      2,
             descripcion: 'Vector X (predictor) y vector Y (respuesta) del mismo largo',
         },
-        salidas: ['prueba', 'modelo', 'formula', 'a', 'b', 'r2', 'r2Adj', 'errorEstandar', 'eePendiente', 'eeIntercept', 'tPendiente', 'pPendiente', 'icPendienteLower', 'icPendienteUpper', 'significante', 'interpretacion', 'n', 'predicciones', 'residuos', 'variables'],
+        salidas: ['prueba', 'modelo', 'formula', 'a', 'b', 'r2', 'r2Adj', 'errorEstandar', 'eePendiente', 'eeIntercept', 'tPendiente', 'pPendiente', 'icPendienteLower', 'icPendienteUpper', 'icInterceptLower', 'icInterceptUpper', 'cumpleICH', 'cumpleFDA', 'desviaciones', 'maxDesviacion', 'significante', 'interpretacion', 'n', 'predicciones', 'residuos', 'variables'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral'],

@@ -908,6 +908,10 @@ const ReporteManager = (() => {
                         p(`    Error estándar = ${fmtNum(data.errorEstandar)}`);
                         p(`    p-valor (pendiente) = ${fmtNum(data.pPendiente)}`);
                         p(`    IC 95% pendiente = [${fmtNum(data.icPendienteLower)}, ${fmtNum(data.icPendienteUpper)}]`);
+                        p(`    IC 95% intercepto = [${fmtNum(data.icInterceptLower)}, ${fmtNum(data.icInterceptUpper)}]`);
+                        p(`    ICH Q2(R1): ${data.cumpleICH ? '✓ Cumple (R² ≥ 0.999)' : '✗ No cumple (R² < 0.999)'}`);
+                        p(`    FDA Bioanalytical: ${data.cumpleFDA ? '✓ Cumple (R² ≥ 0.995)' : data.r2 >= 0.99 ? '⚠ Parcial (R² ≥ 0.99)' : '✗ No cumple'}`);
+                        p(`    Máx desviación por nivel: ${data.maxDesviacion ?? '—'}%`);
                         p(`    n = ${data.n} | ${data.significante ? '★ Modelo significativo' : '✓ Modelo no significativo'}`);
                         p(`    Interpretación: ${data.interpretacion}`);
                     }
@@ -1663,7 +1667,10 @@ tr:hover td{background:#f7faff}
               if (data.error) {
                   content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
-                  content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columnaX)} → ${escapeHtml(data.columnaY)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">R²=${fmtNum(data.r2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.pPendiente)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
+                  const ichBadge = data.cumpleICH
+                      ? '<span style="display:inline-block;padding:1px 6px;border-radius:3px;font-size:7pt;font-weight:600;background:#c6f6d5;color:#276749;margin-left:4px">ICH ✓</span>'
+                      : '<span style="display:inline-block;padding:1px 6px;border-radius:3px;font-size:7pt;font-weight:600;background:#fed7d7;color:#c53030;margin-left:4px">ICH ✗</span>';
+                  content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columnaX)} → ${escapeHtml(data.columnaY)})${ichBadge}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">R²=${fmtNum(data.r2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.pPendiente)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
               }
           } else if (stat === 'Regresión Lineal Múltiple') {
               if (data.error) {
