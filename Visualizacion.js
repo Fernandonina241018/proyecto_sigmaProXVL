@@ -13,6 +13,8 @@ const Visualizacion = (() => {
             chartInstance.destroy();
             chartInstance = null;
         }
+        const overlay = document.getElementById('viz-linealidad-overlay');
+        if (overlay) overlay.remove();
     }
 
     function _getSheetData() {
@@ -618,6 +620,109 @@ const Visualizacion = (() => {
     }
 
     // ========================================
+    // LINEALIDAD — dispersión + recta de regresión
+    // Muestra fórmula y R² en overlay superior derecho
+    // ========================================
+
+    function renderLinealidad(data, colX, colY) {
+        const xVals = getColumnValues(data, colX);
+        const yVals = getColumnValues(data, colY);
+        if (xVals.length === 0 || yVals.length === 0) throw new Error('Una o ambas columnas no tienen valores numéricos.');
+        const n = Math.min(xVals.length, yVals.length);
+        const xs = xVals.slice(0, n);
+        const ys = yVals.slice(0, n);
+
+        // Regresión lineal (mínimos cuadrados)
+        const sumX = xs.reduce((a, b) => a + b, 0);
+        const sumY = ys.reduce((a, b) => a + b, 0);
+        const sumXY = xs.reduce((a, x, i) => a + x * ys[i], 0);
+        const sumX2 = xs.reduce((a, x) => a + x * x, 0);
+
+        const pendiente = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+        const intercepto = (sumY - pendiente * sumX) / n;
+
+        const yHat = xs.map(x => pendiente * x + intercepto);
+        const mediaY = sumY / n;
+        const ssTot = ys.reduce((a, y) => a + Math.pow(y - mediaY, 2), 0);
+        const ssRes = ys.reduce((a, y, i) => a + Math.pow(y - yHat[i], 2), 0);
+        const r2 = isFinite(ssTot) && ssTot > 0 ? 1 - ssRes / ssTot : 0;
+
+        // Scatter points
+        const puntos = xs.map((x, i) => ({ x, y: ys[i] }));
+
+        // Regression line (two points: min/max X)
+        const xMin = Math.min(...xs);
+        const xMax = Math.max(...xs);
+        const linea = [
+            { x: xMin, y: pendiente * xMin + intercepto },
+            { x: xMax, y: pendiente * xMax + intercepto }
+        ];
+
+        const signStr = intercepto >= 0 ? '+' : '-';
+        const formula = `y = ${pendiente.toFixed(4)}x ${signStr} ${Math.abs(intercepto).toFixed(4)}`;
+
+        // Remove existing overlay
+        const oldOverlay = document.getElementById('viz-linealidad-overlay');
+        if (oldOverlay) oldOverlay.remove();
+
+        // Add overlay with formula + R² in top-right
+        const wrapper = document.getElementById('viz-canvas-wrapper');
+        if (wrapper) {
+            const overlay = document.createElement('div');
+            overlay.id = 'viz-linealidad-overlay';
+            overlay.style.cssText = 'position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.92);padding:10px 14px;border-radius:8px;border:1px solid #e2e8f0;font-size:13px;line-height:1.5;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,0.08);pointer-events:none;font-family:monospace';
+            overlay.innerHTML = `<strong style="color:#2d3748">${formula}</strong><br><span style="color:#2c5282;font-weight:600">R² = ${r2.toFixed(4)}</span>`;
+            wrapper.appendChild(overlay);
+        }
+
+        const cfg = {
+            type: 'scatter',
+            data: {
+                datasets: [
+                    {
+                        label: `${colX} vs ${colY}`,
+                        data: puntos,
+                        backgroundColor: 'rgba(102,126,234,0.7)',
+                        borderColor: 'rgba(102,126,234,1)',
+                        borderWidth: 1,
+                        pointRadius: 5,
+                        pointHoverRadius: 8,
+                        order: 2,
+                    },
+                    {
+                        label: `Recta: ${formula}  (R²=${r2.toFixed(4)})`,
+                        data: linea,
+                        type: 'line',
+                        borderColor: COLORS.border.accent,
+                        backgroundColor: 'transparent',
+                        borderWidth: 2.5,
+                        pointRadius: 0,
+                        tension: 0,
+                        fill: false,
+                        order: 1,
+                    }
+                ]
+            },
+            options: {
+                ...baseOptions(`Linealidad: ${colX} → ${colY}`),
+                scales: {
+                    x: {
+                        ...baseOptions().scales.x,
+                        title: { display: true, text: colX, color: '#555', font: { weight: '600' } }
+                    },
+                    y: {
+                        ...baseOptions().scales.y,
+                        title: { display: true, text: colY, color: '#555', font: { weight: '600' } }
+                    }
+                }
+            }
+        };
+
+        destroyChart();
+        chartInstance = new Chart(getCanvas(), cfg);
+    }
+
+    // ========================================
     // DISTRIBUCIÓN NORMAL
     // histograma observado + curva teórica superpuesta
     // ========================================
@@ -881,6 +986,10 @@ const Visualizacion = (() => {
                                 <button class="viz-type-btn" data-type="dispersion" title="Dispersión">
                                     <span class="viz-type-icon">⁖</span>
                                     <span>Scatter</span>
+                                </button>
+                                <button class="viz-type-btn" data-type="linealidad" title="Linealidad">
+                                    <span class="viz-type-icon">∎</span>
+                                    <span>Linealidad</span>
                                 </button>
                                 <button class="viz-type-btn" data-type="histograma" title="Histograma">
                                     <span class="viz-type-icon">▁▃▅▇</span>
@@ -1221,6 +1330,13 @@ const Visualizacion = (() => {
                     if (!colX || !colY) { alert('⚠️ Selecciona las columnas X e Y.'); return; }
                     renderDispersion(data, colX, colY);
                     mostrarInfo(`Dispersión: ${colX} vs ${colY} · ${data.rowCount} puntos`);
+                    break;
+                }
+
+                case 'linealidad': {
+                    if (!colX || !colY) { alert('⚠️ Selecciona las columnas X e Y.'); return; }
+                    renderLinealidad(data, colX, colY);
+                    mostrarInfo(`Linealidad: ${colX} vs ${colY} · ${data.rowCount} puntos`);
                     break;
                 }
 
@@ -2207,6 +2323,7 @@ return {
         renderHistograma,
         renderBoxPlot,
         renderControlChart,
+        renderLinealidad,
         renderDistribucionNormal,
         destroyChart,
         activarModoExportacion,

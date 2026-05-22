@@ -912,6 +912,14 @@ const ReporteManager = (() => {
                         p(`    ICH Q2(R1): ${data.cumpleICH ? '✓ Cumple (R² ≥ 0.999)' : '✗ No cumple (R² < 0.999)'}`);
                         p(`    FDA Bioanalytical: ${data.cumpleFDA ? '✓ Cumple (R² ≥ 0.995)' : data.r2 >= 0.99 ? '⚠ Parcial (R² ≥ 0.99)' : '✗ No cumple'}`);
                         p(`    Máx desviación por nivel: ${data.maxDesviacion ?? '—'}%`);
+                        if (data.desviaciones && data.desviaciones.length > 0) {
+                            p(`    ── Desviaciones por nivel ──`);
+                            p(`    ${'Conc.'.padEnd(10)} ${'Área obs.'.padEnd(14)} ${'Área retro.'.padEnd(14)} % Desv.`);
+                            data.desviaciones.forEach(d => {
+                                p(`    ${String(d.concentracion).padEnd(10)} ${String(d.areaObservada).padEnd(14)} ${String(d.areaRetrocalculada).padEnd(14)} ${d.desviacionPct}%`);
+                            });
+                            p(`    ───────────────────────────`);
+                        }
                         p(`    n = ${data.n} | ${data.significante ? '★ Modelo significativo' : '✓ Modelo no significativo'}`);
                         p(`    Interpretación: ${data.interpretacion}`);
                     }
@@ -1668,9 +1676,64 @@ tr:hover td{background:#f7faff}
                   content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
                   const ichBadge = data.cumpleICH
-                      ? '<span style="display:inline-block;padding:1px 6px;border-radius:3px;font-size:7pt;font-weight:600;background:#c6f6d5;color:#276749;margin-left:4px">ICH ✓</span>'
-                      : '<span style="display:inline-block;padding:1px 6px;border-radius:3px;font-size:7pt;font-weight:600;background:#fed7d7;color:#c53030;margin-left:4px">ICH ✗</span>';
-                  content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columnaX)} → ${escapeHtml(data.columnaY)})${ichBadge}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">R²=${fmtNum(data.r2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.pPendiente)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
+                      ? '<span style="display:inline-block;padding:2px 8px;border-radius:3px;font-size:7pt;font-weight:600;background:#c6f6d5;color:#276749">ICH ✓</span>'
+                      : '<span style="display:inline-block;padding:2px 8px;border-radius:3px;font-size:7pt;font-weight:600;background:#fed7d7;color:#c53030">ICH ✗</span>';
+                  const fdaBadge = data.cumpleFDA
+                      ? '<span style="display:inline-block;padding:2px 8px;border-radius:3px;font-size:7pt;font-weight:600;background:#c6f6d5;color:#276749;margin-left:4px">FDA ✓</span>'
+                      : '<span style="display:inline-block;padding:2px 8px;border-radius:3px;font-size:7pt;font-weight:600;background:#fed7d7;color:#c53030;margin-left:4px">FDA ✗</span>';
+                  const icInterText = data.icInterceptLower != null
+                      ? `[${data.icInterceptLower}, ${data.icInterceptUpper}]`
+                      : '—';
+                  const desvRows = (data.desviaciones || []).map(d =>
+                      `<tr><td style="padding:2px 8px;text-align:right">${d.concentracion}</td><td style="padding:2px 8px;text-align:right">${d.areaObservada}</td><td style="padding:2px 8px;text-align:right">${d.areaRetrocalculada}</td><td style="padding:2px 8px;text-align:right;${Math.abs(d.desviacionPct) > 5 ? 'color:#c53030;font-weight:600' : ''}">${d.desviacionPct}%</td></tr>`
+                  ).join('');
+                  const resRows = (data.residuos || []).map((r, i) =>
+                      `<tr><td style="padding:2px 8px;text-align:right">${i + 1}</td><td style="padding:2px 8px;text-align:right">${data.desviaciones?.[i]?.areaObservada ?? '—'}</td><td style="padding:2px 8px;text-align:right">${data.predicciones?.[i] ?? '—'}</td><td style="padding:2px 8px;text-align:right">${r.toFixed(4)}</td></tr>`
+                  ).join('');
+                  content = `<tr><td colspan="4" style="padding:10px 14px">
+                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                          <strong style="color:#1a3a6b;font-size:10pt">${escapeHtml(stat)}: ${escapeHtml(data.columnaX)} → ${escapeHtml(data.columnaY)}</strong>
+                          <div>${ichBadge}${fdaBadge}</div>
+                      </div>
+                      <div style="font-family:monospace;font-size:9pt;color:#2d3748;margin-bottom:8px">${data.formula}</div>
+                      <table style="width:100%;border-collapse:collapse;font-size:8.5pt;margin-bottom:8px">
+                          <tr><td style="padding:3px 10px;color:#555">R²</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${data.r2?.toFixed(4) ?? '—'}</td>
+                              <td style="padding:3px 10px;color:#555">R² Ajustado</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${data.r2Adj ?? '—'}</td></tr>
+                          <tr><td style="padding:3px 10px;color:#555">Pendiente (b)</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${data.b ?? '—'}</td>
+                              <td style="padding:3px 10px;color:#555">Intercepto (a)</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${data.a ?? '—'}</td></tr>
+                          <tr><td style="padding:3px 10px;color:#555">IC 95% pendiente</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">[${data.icPendienteLower ?? '—'}, ${data.icPendienteUpper ?? '—'}]</td>
+                              <td style="padding:3px 10px;color:#555">IC 95% intercepto</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${icInterText}</td></tr>
+                          <tr><td style="padding:3px 10px;color:#555">p-valor</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${data.pPendiente?.toFixed(6) ?? '—'}</td>
+                              <td style="padding:3px 10px;color:#555">Máx % desviación</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${data.maxDesviacion ?? '—'}%</td></tr>
+                          <tr><td style="padding:3px 10px;color:#555">Error estándar</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${data.errorEstandar ?? '—'}</td>
+                              <td style="padding:3px 10px;color:#555">n</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${data.n ?? '—'}</td></tr>
+                          <tr><td colspan="4" style="padding:4px 10px;font-style:italic;color:#718096;font-size:8pt">${data.significante ? '★ Modelo significativo (p < 0.05)' : '✓ Modelo no significativo (p ≥ 0.05)'} · ${data.interpretacion}</td></tr>
+                      </table>
+                      ${desvRows ? `<details style="margin-top:6px">
+                          <summary style="cursor:pointer;font-size:8pt;color:#718096;font-weight:500">📊 Tabla de desviaciones por nivel</summary>
+                          <table style="width:100%;border-collapse:collapse;font-size:8pt;margin-top:6px">
+                              <thead><tr style="background:#000">
+                                  <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Conc.</th>
+                                  <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Área obs.</th>
+                                  <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Área retro.</th>
+                                  <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">% Desv.</th>
+                              </tr></thead>
+                              <tbody>${desvRows}</tbody>
+                          </table>
+                      </details>` : ''}
+                      ${resRows ? `<details style="margin-top:6px">
+                          <summary style="cursor:pointer;font-size:8pt;color:#718096;font-weight:500">📉 Tabla de residuales</summary>
+                          <table style="width:100%;border-collapse:collapse;font-size:8pt;margin-top:6px">
+                              <thead><tr style="background:#000">
+                                  <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">#</th>
+                                  <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Observado</th>
+                                  <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Predicho</th>
+                                  <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Residual</th>
+                              </tr></thead>
+                              <tbody>${resRows}</tbody>
+                          </table>
+                      </details>` : ''}
+                  </td></tr>`;
               }
           } else if (stat === 'Regresión Lineal Múltiple') {
               if (data.error) {

@@ -241,6 +241,10 @@
     max-height: 440px;
 }
 
+#viz-linealidad-overlay {
+    user-select: none;
+}
+
 .viz-empty-state {
     text-align: center;
     color: #aaa;
