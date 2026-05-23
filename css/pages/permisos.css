@@ -1,0 +1,119 @@
+/* ========================================
+   permisos.css — StatAnalyzer Pro
+   Modal y vistas de acceso denegado
+   ======================================== */
+
+/* ── Modal overlay ── */
+#permisos-modal { display: none; }
+#permisos-modal.pm-visible { display: block; }
+
+.pm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(3px);
+    z-index: 3000;
+    animation: pm-fadein 0.2s ease;
+}
+
+.pm-card {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3001;
+    background: white;
+    border-radius: 16px;
+    padding: 32px 28px 24px;
+    width: min(380px, 92vw);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    text-align: center;
+    animation: pm-slidein 0.25s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+@keyframes pm-fadein  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pm-slidein { from { opacity: 0; transform: translate(-50%, -46%); } to { opacity: 1; transform: translate(-50%, -50%); } }
+
+.pm-icon {
+    font-size: 2.4rem;
+    margin-bottom: 14px;
+    display: block;
+}
+
+.pm-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 10px;
+}
+
+.pm-msg {
+    font-size: 0.88rem;
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 18px;
+}
+
+.pm-role-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.pm-role-label {
+    font-size: 0.78rem;
+    color: #94a3b8;
+}
+
+.pm-role-badge {
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: #e2e8f0;
+    color: #475569;
+}
+
+.pm-btn {
+    width: 100%;
+    padding: 10px;
+    background: #1a202c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.pm-btn:hover { background: #2d3748; }
+
+/* ── Vista denegada (dentro de contenedor) ── */
+.pm-vista-denegada {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.pm-vista-icon {
+    font-size: 2.8rem;
+    margin-bottom: 16px;
+    opacity: 0.5;
+    display: block;
+}
+
+.pm-vista-denegada h3 {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.pm-vista-denegada p {
+    font-size: 0.88rem;
+    color: #888;
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.6;
+}

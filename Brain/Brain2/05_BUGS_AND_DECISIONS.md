@@ -77,6 +77,7 @@ Checklist `02_ESTADISTICOS.md` + documentar si cambia contrato o arquitectura.
 | 2026-05-20 | Prompt sin contexto del proyecto | Usuario dijo "cambiar aspecto del reporte" sin detalle | Optimización: rol + contexto Brain2 + ejemplos específicos de ReporteManager | Prompts más accionables |
 | 2026-05-22 | Statement "R² diferente por otra vía" → prompt de verificación con mapeo completo de funciones + severidades | No incluir diff (before/after) explícito | Traducir statements post-cambio a prompts de "verificación de corrección" | Evita ambigüedad al especificar formato exacto de salida |
 | 2026-05-22 | Prompt "dataset en top sidebar" — olvidé incluir caso de múltiples datasets en el ejemplo | STATE.analysisData es array pero ejemplo solo muestra `[0]?.name` | Mencionar explícitamente en instrucciones que se usa el primer elemento del array | Bajo — el código ya usaba `[0]` pero convenía ser explícito sobre por qué |
+| 2026-05-22 | Prompt de verificación vago "verifica eso" para popup + botón colapsar | No especificar archivo HTML objetivo (index vs dashboard) ni traducir "justo arriba" a posición DOM exacta | Traducir lenguaje coloquial a términos DOM precisos ("hermano anterior inmediato") + forzar formato de salida tabular fijo + exigir archivo:línea en toda conclusión | Medio — prompts de posicionamiento sin lenguaje DOM exacto producen resultados ambiguos |
 
 ### Protocolo de auto-mejora ( comando `/prompt` )
 

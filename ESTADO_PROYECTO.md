@@ -2,6 +2,28 @@
 
 ## CAMBIOS RECIENTES
 
+### 2026-05-22: Fase 1 — Reorganización CSS (raíz → css/core/ + css/pages/)
+
+**Qué:** Los 13 archivos CSS que estaban en la raíz del proyecto se movieron a subdirectorios organizados por dominio: `css/core/` (estilos base compartidos por toda la app) y `css/pages/` (estilos específicos de página/módulo).
+
+**Por qué:** Reducir dispersión de archivos en raíz y agrupar por propósito (core vs página), facilitando escalabilidad futura.
+
+**Criterio de agrupación:**
+- `css/core/` — Estilos que aplican globalmente o son infraestructura visual: `indexx.css` (shell app), `styles.css` (globales), `auth.css` (login), `eda-dashboard.css` (EDA)
+- `css/pages/` — Estilos de página/módulo individual: `dashboard.css`, `analisis-dashboard.css`, `auditoria.css`, `usuarios.css`, `datos.css`, `parametros.css`, `permisos.css`, `reportes.css`, `visualizacion.css`
+
+**Archivos afectados:**
+- 13 archivos CSS movidos de raíz → `css/core/` o `css/pages/`
+- `indexx.html:11-15` — 5 `<link>` tags actualizados con nuevo path
+- `dashboard.html:8` — 1 `<link>` tag actualizado con nuevo path
+
+**Procedimiento:**
+- Copia primero (con verificación MD5), luego eliminación de originales
+- Sin cambios de contenido en los CSS (solo rutas)
+- Sin cambios en JS (ningún JS referencia CSS directamente)
+
+**Riesgo:** Bajo (solo rutas de `<link>` en HTML)
+
 ### 2026-05-22: Persistencia del estado colapsado del sidebar
 
 **Qué:** El estado colapsado/expandido del sidebar ahora se guarda en `localStorage` y se restaura al cargar la página, incluso tras cerrar y reabrir el navegador o hacer hard reset.
