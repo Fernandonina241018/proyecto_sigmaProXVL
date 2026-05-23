@@ -716,7 +716,33 @@ const StateManager = (() => {
     
     function clearLocalStorage() {
         localStorage.removeItem('statAnalyzerState');
+        localStorage.removeItem('sigmaPro_analisis');
+        localStorage.removeItem('sigmaPro_graficos');
         console.log('🗑️ LocalStorage limpiado');
+    }
+
+    // ========================================
+    // HISTORIAL DE ANÁLISIS Y GRÁFICOS
+    // ========================================
+
+    function getAnalisisHistory() {
+        try { return JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]'); }
+        catch (e) { return []; }
+    }
+
+    function setAnalisisHistory(arr) {
+        try { localStorage.setItem('sigmaPro_analisis', JSON.stringify(arr)); }
+        catch (e) { console.error('Error guardando historial de análisis:', e); }
+    }
+
+    function getGraficosHistory() {
+        try { return JSON.parse(localStorage.getItem('sigmaPro_graficos') || '[]'); }
+        catch (e) { return []; }
+    }
+
+    function setGraficosHistory(arr) {
+        try { localStorage.setItem('sigmaPro_graficos', JSON.stringify(arr)); }
+        catch (e) { console.error('Error guardando historial de gráficos:', e); }
     }
     
     // ========================================
@@ -935,6 +961,12 @@ const StateManager = (() => {
         saveToLocalStorage,
         loadFromLocalStorage,
         clearLocalStorage,
+
+        // Historial de análisis y gráficos
+        getAnalisisHistory,
+        setAnalisisHistory,
+        getGraficosHistory,
+        setGraficosHistory,
         
         // Auto-guardado
         startAutoSave,

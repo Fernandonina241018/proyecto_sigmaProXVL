@@ -830,8 +830,12 @@ tr:hover td{background:#f7faff}
   }
 
   function crearReporteConDatos() {
-    const analisis = JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]');
-    const graficos = JSON.parse(localStorage.getItem('sigmaPro_graficos') || '[]');
+    const analisis = typeof StateManager !== 'undefined'
+      ? StateManager.getAnalisisHistory()
+      : JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]');
+    const graficos = typeof StateManager !== 'undefined'
+      ? StateManager.getGraficosHistory()
+      : JSON.parse(localStorage.getItem('sigmaPro_graficos') || '[]');
 
     if (analisis.length === 0) {
       showToast('No hay análisis guardados. Ejecuta un análisis primero.', 'warn');
@@ -1067,8 +1071,12 @@ tr:hover td{background:#f7faff}
     const autor = document.getElementById('reporte-autor').value;
     const descripcion = document.getElementById('reporte-descripcion').value;
 
-    const analisis = JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]')[0];
-    const graficos = JSON.parse(localStorage.getItem('sigmaPro_graficos') || '[]');
+    const analisis = (typeof StateManager !== 'undefined'
+      ? StateManager.getAnalisisHistory()
+      : JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]'))[0];
+    const graficos = typeof StateManager !== 'undefined'
+      ? StateManager.getGraficosHistory()
+      : JSON.parse(localStorage.getItem('sigmaPro_graficos') || '[]');
 
     const reporteData = {
       nombre: titulo,

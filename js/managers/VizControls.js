@@ -363,9 +363,16 @@ const VizControls = (() => {
 
   function guardarGraficosEnLocal() {
     try {
-      const otros = JSON.parse(localStorage.getItem('sigmaPro_graficos') || '[]');
+      const otros = typeof StateManager !== 'undefined'
+        ? StateManager.getGraficosHistory()
+        : JSON.parse(localStorage.getItem('sigmaPro_graficos') || '[]');
       otros.unshift(...generatedCharts);
-      localStorage.setItem('sigmaPro_graficos', JSON.stringify(otros.slice(0, 50)));
+      const sliced = otros.slice(0, 50);
+      if (typeof StateManager !== 'undefined') {
+        StateManager.setGraficosHistory(sliced);
+      } else {
+        localStorage.setItem('sigmaPro_graficos', JSON.stringify(sliced));
+      }
     } catch (e) {
       console.error('Error guardando gráficos:', e);
     }

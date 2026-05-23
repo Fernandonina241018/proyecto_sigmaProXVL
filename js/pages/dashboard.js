@@ -3438,12 +3438,19 @@ function initVizControls() {
 
 function guardarResultadoAnalisis(data) {
   try {
-    const ultimos = JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]');
+    const ultimos = typeof StateManager !== 'undefined'
+      ? StateManager.getAnalisisHistory()
+      : JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]');
     ultimos.unshift({
       ...data,
       timestamp: Date.now()
     });
-    localStorage.setItem('sigmaPro_analisis', JSON.stringify(ultimos.slice(0, 10)));
+    const sliced = ultimos.slice(0, 10);
+    if (typeof StateManager !== 'undefined') {
+      StateManager.setAnalisisHistory(sliced);
+    } else {
+      localStorage.setItem('sigmaPro_analisis', JSON.stringify(sliced));
+    }
   } catch (e) {
     console.error('Error guardando análisis:', e);
   }

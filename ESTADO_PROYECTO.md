@@ -115,6 +115,32 @@
 
 **Riesgo:** Bajo (solo se añaden early returns para edge cases, `node -c` OK)
 
+### 2026-05-22: Unificar persistencia sigmaPro_analisis/graficos en StateManager
+
+**Qué:** Se centralizó el acceso a las keys `sigmaPro_analisis` y `sigmaPro_graficos` en StateManager, eliminando el acceso directo a localStorage desde 4 módulos distintos.
+
+**Por qué:** ReportesManager, ValidacionesManager, dashboard.js y VizControls.js leían/escribían las mismas keys de forma independiente, sin coordinación ni manejo de errores consistente. StateManager ahora sirve como única capa de persistencia para estos datos.
+
+**Cambios en StateManager.js:**
+- Nuevas funciones: `getAnalisisHistory()`, `setAnalisisHistory(arr)`, `getGraficosHistory()`, `setGraficosHistory(arr)`
+- `clearLocalStorage()` ahora también limpia `sigmaPro_analisis` y `sigmaPro_graficos`
+- Las 4 funciones expuestas en API pública con `try/catch` y fallback `[]`
+- Compatibilidad hacia atrás: si StateManager no está disponible, cada consumidor cae a `JSON.parse(localStorage.getItem(...))`
+
+**Consumidores refactorizados:**
+
+| Archivo | Líneas | Cambio |
+|---------|--------|--------|
+| `dashboard.js:3439-3446` | `guardarResultadoAnalisis()` | Usa `StateManager.get/setAnalisisHistory()`, slice(0,10) |
+| `VizControls.js:364-372` | `guardarGraficosEnLocal()` | Usa `StateManager.get/setGraficosHistory()`, slice(0,50) |
+| `ReportesManager.js:832-834` | `crearReporteConDatos()` | Usa `StateManager.getAnalisis/GraficosHistory()` |
+| `ReportesManager.js:1070-1071` | `generarReporteCompleto()` | Usa `StateManager.getAnalisis/GraficosHistory()` |
+| `ValidacionesManager.js:322` | `abrirModalCorrelacion()` | Usa `StateManager.getAnalisisHistory()` |
+| `ValidacionesManager.js:385` | `calcularCorrelacion()` | Usa `StateManager.getAnalisisHistory()` |
+| `ValidacionesManager.js:474` | `generarGraficoCorrelacion()` | Usa `StateManager.getAnalisisHistory()` |
+
+**Riesgo:** Bajo-medium (refactor mecánico, todos con fallback a localStorage directo, `node -c` OK en los 5 archivos)
+
 ### 2026-05-22: Label "Find" → "Help" + eliminar legacy `_recentFiles`
 
 **Qué:** 

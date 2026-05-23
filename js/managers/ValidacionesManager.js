@@ -319,7 +319,9 @@ Espectrómetro XRF,equipo,92,2026-03-10,Calibración OK" style="width:100%;paddi
 
   function abrirModalCorrelacion() {
     const validaciones = loadValidaciones();
-    const analisis = JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]');
+    const analisis = typeof StateManager !== 'undefined'
+      ? StateManager.getAnalisisHistory()
+      : JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]');
 
     if (validaciones.length === 0) {
       showToast('No hay validaciones cargadas. Primero importa o crea validaciones.', 'warn');
@@ -382,7 +384,9 @@ Espectrómetro XRF,equipo,92,2026-03-10,Calibración OK" style="width:100%;paddi
     const estadistico = document.getElementById('correlacion-estadistico').value;
 
     const validaciones = loadValidaciones();
-    const analisis = JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]')[0];
+    const analisis = (typeof StateManager !== 'undefined'
+      ? StateManager.getAnalisisHistory()
+      : JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]'))[0];
 
     if (!analisis?.resultados?.resultados?.[columna]?.[estadistico]) {
       showToast('No se encontró el estadístico seleccionado', 'error');
@@ -471,7 +475,9 @@ Espectrómetro XRF,equipo,92,2026-03-10,Calibración OK" style="width:100%;paddi
 
   function generarGraficoCorrelacion(columna, estadistico, correlation) {
     const validaciones = loadValidaciones();
-    const analisis = JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]')[0];
+    const analisis = (typeof StateManager !== 'undefined'
+      ? StateManager.getAnalisisHistory()
+      : JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]'))[0];
     const valorAnalisis = analisis?.resultados?.resultados?.[columna]?.[estadistico];
 
     const canvasId = 'correlacion-chart';
