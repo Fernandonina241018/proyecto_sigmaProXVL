@@ -137,6 +137,12 @@ Cuando exista incertidumbre, se construirá un árbol de decisión con probabili
 ## 5. Gestión de la Memoria y el Aprendizaje
 
 ### 5.1 Estructura de Memoria Evolutiva
+- MemoriaGlobal:
+- HeurísticasRefinadas: [ {contexto, regla, confianza, origen} ]
+- ErroresConocidos: [ {patrón, consecuencia, solución} ]
+- PerspectivasExitosas: [ {dominio, enfoque, resultado} ]
+- MicroTestsReutilizables: [ {escenario, test, validación} ]
+- LeccionesAprendidas: [ {prompt_id, debilidad_detectada, mejora_aplicada} ]
 
 
 ### 5.2 Actualización Continua
