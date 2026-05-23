@@ -2,6 +2,23 @@
 
 ## CAMBIOS RECIENTES
 
+### 2026-05-22: Botón dedicado para ribbon nav popup
+
+**Qué:** Se agregó un botón de navegación en el ribbon (antes del toggle) que abre/cierra el popup de páginas manualmente, independientemente del estado del sidebar.
+
+**Por qué:** El popup solo se activaba como efecto secundario del colapso del sidebar. El usuario necesita poder abrirlo sin colapsar el sidebar.
+
+**Archivos afectados:**
+- `indexx.html:167-172` — Nuevo `.ribbon-icon#ribbonPopupBtn` con SVG de 3 puntos (navegación) antes de `#sidebarToggle`
+- `indexx.js:150-153` — Handler `ribbonPopupBtn.click` con `e.stopPropagation()` + toggle del popup
+- `indexx.js:177` — Outside-click handler extendido para excluir `#ribbonPopupBtn`
+
+**Comportamiento:**
+- Hacer clic en el botón de navegación abre/cierra el popup sin afectar el sidebar
+- El popup también sigue funcionando con el toggle del sidebar
+- Clic fuera del popup, botón nuevo, o toggle del sidebar lo cierra
+- `node -c` sin errores
+
 ### 2026-05-22: Ribbon nav popup — navegación cuando sidebar colapsa
 
 **Qué:** Al colapsar el sidebar izquierdo, aparece un popup flotante con los nav-items (páginas) al lado de la ribbon.

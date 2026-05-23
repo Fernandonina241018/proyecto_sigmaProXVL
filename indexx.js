@@ -147,6 +147,11 @@ document.getElementById('sidebarToggle').addEventListener('click', function() {
   document.getElementById('ribbonNavPopup').classList.toggle('open', isNowCollapsed);
 });
 
+document.getElementById('ribbonPopupBtn').addEventListener('click', function(e) {
+  e.stopPropagation();
+  document.getElementById('ribbonNavPopup').classList.toggle('open');
+});
+
 // ── Sidebar user dropdown ──
 document.getElementById('sidebarUser').addEventListener('click', function(e) {
   e.stopPropagation();
@@ -172,7 +177,7 @@ document.addEventListener('click', function(e) {
     dd.classList.remove('open');
   }
   var popup = document.getElementById('ribbonNavPopup');
-  if (popup && !e.target.closest('#sidebarToggle') && !e.target.closest('#ribbonNavPopup')) {
+  if (popup && !e.target.closest('#sidebarToggle') && !e.target.closest('#ribbonPopupBtn') && !e.target.closest('#ribbonNavPopup')) {
     popup.classList.remove('open');
   }
 });
