@@ -3,6 +3,6 @@
     "papaparse": "^5.5.3"
   },
   "devDependencies": {
-    "typescript": "^6.0.3"
+    "typescript": "^5.3.3"
   }
 }

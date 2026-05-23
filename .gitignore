@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Compiled output
+dist/
+
+# Python virtual env
+.venv/
+__pycache__/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.opencode/
+
+# Logs
+*.log
+npm-debug.log*

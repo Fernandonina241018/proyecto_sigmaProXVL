@@ -49,6 +49,25 @@
 
 **Riesgo:** Medio (cambio masivo de rutas de `<script>`)
 
+### 2026-05-22: Fase 3 — Limpieza de dist/ y tsconfig.json
+
+**Qué:** Se limpiaron los 19 archivos duplicados obsoletos en `dist/` que eran versiones viejas de los JS ahora en `js/core/` y `js/managers/`. Se actualizó `tsconfig.json` para reflejar la nueva estructura y se agregó `.gitignore`.
+
+**Por qué:** `dist/` contenía 19 archivos JS que eran versiones antiguas de los archivos reorganizados en `js/`. Al migrar los JS de raíz a `js/`, `dist/` quedó huérfano y sus contenidos estaban desactualizados. Ningún HTML referencia `dist/` desde la Fase 2.
+
+**Detalles:**
+- 19 archivos en `dist/` eliminados
+- `tsconfig.json`: se removió `*.js` de `include` (ya no hay JS en raíz)
+- `.gitignore`: creado con entradas para `node_modules/`, `dist/`, `.venv/`, `__pycache__/`, `.opencode/`
+- `dist/` marcado en `.gitignore` para evitar que futuras compilaciones TS se trackeen accidentalmente
+
+**Nota:** La recompilación de los 3 `.ts` (Logger.ts, StateManager.ts, StatsUtils.ts) a `dist/` no pudo ejecutarse debido a errores de extracción tar en el Google Drive al instalar TypeScript. Esto no afecta la funcionalidad — ningún HTML carga desde `dist/`.
+
+**Archivos afectados:**
+- 19 archivos en `dist/` eliminados
+- `tsconfig.json:25` — `include` cambiado de `["*.ts", "*.d.ts", "*.js"]` a `["*.ts", "*.d.ts"]`
+- `.gitignore` — nuevo archivo con exclusiones estándar
+
 ### 2026-05-22: Persistencia del estado colapsado del sidebar
 
 **Qué:** El estado colapsado/expandido del sidebar ahora se guarda en `localStorage` y se restaura al cargar la página, incluso tras cerrar y reabrir el navegador o hacer hard reset.

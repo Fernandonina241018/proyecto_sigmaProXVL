@@ -23,8 +23,7 @@
   },
   "include": [
     "*.ts",
-    "*.d.ts",
-    "*.js"
+    "*.d.ts"
   ],
   "exclude": [
     "node_modules",
