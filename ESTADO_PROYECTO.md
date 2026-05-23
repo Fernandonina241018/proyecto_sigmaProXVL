@@ -2,6 +2,20 @@
 
 ## CAMBIOS RECIENTES
 
+### 2026-05-22: Role-based visibility en ribbon nav popup
+
+**Qué:** Se aplicó la misma política de módulos por rol al popup de navegación del ribbon. Usuarios no-admin ya no ven "Auditoría" ni "Usuarios".
+
+**Archivos afectados:**
+- `indexx.js:714` — `buildRibbonNavPopup()` ahora consulta `Auth.getSession()` y filtra `auditoria`/`usuarios` si el rol no es admin
+- `indexx.js:3612` — Se agrega llamada a `buildRibbonNavPopup()` dentro del callback `onLogin` para reconstruir el popup cuando se conoce el rol del usuario
+
+**Comportamiento:**
+- Mismo patrón que el nav del sidebar (líneas 3607-3611)
+- Si no hay sesión (usuario no logueado), el popup muestra todos los módulos (comportamiento conservador)
+- Al loguearse, se reconstruye automáticamente con los módulos permitidos según el rol
+- `node -c` sin errores
+
 ### 2026-05-22: Fix posición del popup button — justo arriba del toggle
 
 **Qué:** Se reposicionó el botón de navegación para que aparezca justo arriba del botón colapsar, y se agrupó en un wrapper con `margin-top: auto`.

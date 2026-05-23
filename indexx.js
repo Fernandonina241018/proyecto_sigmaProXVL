@@ -710,9 +710,12 @@ document.querySelectorAll('.nav-item[data-page] .nav-icon').forEach(function(el)
 function buildRibbonNavPopup() {
   var popup = document.getElementById('ribbonNavPopup');
   if (!popup) return;
+  var session = typeof Auth !== 'undefined' ? Auth.getSession() : null;
+  var isAdmin = session?.role === 'admin';
   popup.innerHTML = '';
   document.querySelectorAll('.nav-item[data-page]').forEach(function(item) {
     var page = item.dataset.page;
+    if (!isAdmin && (page === 'auditoria' || page === 'usuarios')) return;
     var icon = pageIcons[page] || '📄';
     var label = pageTitles[page] || page;
     var el = document.createElement('div');
@@ -3609,6 +3612,7 @@ function _initIndexxApp() {
       var usrNav = document.querySelector('[data-page="usuarios"]');
       if (audNav) audNav.style.display = isAdmin ? '' : 'none';
       if (usrNav) usrNav.style.display = isAdmin ? '' : 'none';
+      buildRibbonNavPopup();
     }
   });
 }
