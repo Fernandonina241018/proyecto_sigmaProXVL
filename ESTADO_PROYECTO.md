@@ -24,6 +24,31 @@
 
 **Riesgo:** Bajo (solo rutas de `<link>` en HTML)
 
+### 2026-05-22: Fase 2 — Reorganización JS (raíz → js/core/ + js/managers/ + js/pages/)
+
+**Qué:** Los 27 archivos JS que estaban en la raíz del proyecto se movieron a subdirectorios organizados por dominio, y los 5 archivos de `pages/` se unificaron en `js/pages/`.
+
+**Criterio de agrupación:**
+- `js/core/` (9) — Infraestructura que se carga siempre y es requisito del resto: `estadisticosConfig.js`, `indexx.js`, `utils.js`, `StatsUtils.js`, `EstadisticaDescriptiva.js`, `StateManager.js`, `auth.js`, `Logger.js`, `__bootstrap.js`
+- `js/managers/` (17) — Módulos de negocio y features: `ToolsManager.js`, `ReporteManager.js`, `EDAManager.js`, `AuditoriaManager.js`, `UsuariosManager.js`, `ParametrosManager.js`, `PermisosManager.js`, `ReportesManager.js`, `DatosManager.js`, `TrabajoManager.js`, `AsistenteAnalisis.js`, `ValidacionesManager.js`, `Visualizacion.js`, `VizControls.js`, `app.js`, `script.js`, `check.js`
+- `js/pages/` (6) — Páginas y entry points: `dashboard.js` (desde raíz), `analisis.js`, `datos.js`, `reportes.js`, `trabajo.js`, `visualizacion.js` (desde `pages/`)
+
+**Archivos afectados:**
+- 27 JS movidos de raíz → `js/core/` o `js/managers/` o `js/pages/`
+- 5 JS movidos de `pages/**/*.js` → `js/pages/*.js`
+- `indexx.html:5,291-302` — 12 `<script>` tags actualizados con nuevo path
+- `dashboard.html:670-678` — 9 `<script>` tags actualizados con nuevo path (incluye cambio de `dist/StatsUtils.js` a `js/core/StatsUtils.js`)
+- `pages/` quedó vacío (subdirectorios preservados intactos)
+
+**Verificaciones:**
+- `node -c` pasado en los 9 core, 17 managers y 6 pages JS después de copia
+- Copia primero con verificación MD5, luego eliminación de originales
+- Orden de carga en `<script>` tags se mantiene idéntico (solo cambian paths)
+- `dist/StatsUtils.js` ya no se referencia desde ningún HTML (se usará `js/core/StatsUtils.js`)
+- Backups (`.bak*`, `.ts`, `.backup`) preservados
+
+**Riesgo:** Medio (cambio masivo de rutas de `<script>`)
+
 ### 2026-05-22: Persistencia del estado colapsado del sidebar
 
 **Qué:** El estado colapsado/expandido del sidebar ahora se guarda en `localStorage` y se restaura al cargar la página, incluso tras cerrar y reabrir el navegador o hacer hard reset.
