@@ -140,7 +140,11 @@ document.addEventListener('click', function(e) {
 
 // ── Sidebar toggle ──
 document.getElementById('sidebarToggle').addEventListener('click', function() {
-  document.getElementById('sidebar').classList.toggle('collapsed'); this.classList.toggle('rotated');
+  var sidebar = document.getElementById('sidebar');
+  var isNowCollapsed = !sidebar.classList.contains('collapsed');
+  sidebar.classList.toggle('collapsed');
+  this.classList.toggle('rotated');
+  document.getElementById('ribbonNavPopup').classList.toggle('open', isNowCollapsed);
 });
 
 // ── Sidebar user dropdown ──
@@ -166,6 +170,10 @@ document.addEventListener('click', function(e) {
   var dd = document.getElementById('sidebarUserDropdown');
   if (dd && !e.target.closest('#sidebarUser') && !e.target.closest('#sidebarUserDropdown')) {
     dd.classList.remove('open');
+  }
+  var popup = document.getElementById('ribbonNavPopup');
+  if (popup && !e.target.closest('#sidebarToggle') && !e.target.closest('#ribbonNavPopup')) {
+    popup.classList.remove('open');
   }
 });
 
@@ -666,6 +674,7 @@ function loadPage(name) {
   }, 60); }
   if (name === 'firmarReporte') { setTimeout(initFirmarReportePage, 60); }
   updateToolsMenuState();
+  updateRibbonNavPopup();
 }
 
 function updateToolsMenuState() {
@@ -691,6 +700,35 @@ document.querySelectorAll('.nav-item[data-page] .nav-icon').forEach(function(el)
   var page = el.closest('.nav-item').dataset.page;
   if (page && pageIcons[page]) el.textContent = pageIcons[page];
 });
+
+// ── Ribbon nav popup (collapsed sidebar) ──
+function buildRibbonNavPopup() {
+  var popup = document.getElementById('ribbonNavPopup');
+  if (!popup) return;
+  popup.innerHTML = '';
+  document.querySelectorAll('.nav-item[data-page]').forEach(function(item) {
+    var page = item.dataset.page;
+    var icon = pageIcons[page] || '📄';
+    var label = pageTitles[page] || page;
+    var el = document.createElement('div');
+    el.className = 'ribbon-nav-item' + (currentPage === page ? ' active' : '');
+    el.innerHTML = '<span>' + icon + '</span> <span>' + label + '</span>';
+    el.addEventListener('click', function() {
+      loadPage(page);
+      document.getElementById('ribbonNavPopup').classList.remove('open');
+    });
+    popup.appendChild(el);
+  });
+}
+
+function updateRibbonNavPopup() {
+  document.querySelectorAll('.ribbon-nav-item').forEach(function(el, i) {
+    var pages = Object.keys(pageIcons);
+    el.classList.toggle('active', pages[i] === currentPage);
+  });
+}
+
+buildRibbonNavPopup();
 
 // ── Dropdown toggle for sidebar toolbar ──
 function toggleDropdown(btn) {

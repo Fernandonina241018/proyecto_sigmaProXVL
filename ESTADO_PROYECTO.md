@@ -2,6 +2,29 @@
 
 ## CAMBIOS RECIENTES
 
+### 2026-05-22: Ribbon nav popup — navegación cuando sidebar colapsa
+
+**Qué:** Al colapsar el sidebar izquierdo, aparece un popup flotante con los nav-items (páginas) al lado de la ribbon.
+
+**Por qué:** El usuario necesita cambiar de página sin tener que expandir el sidebar primero.
+
+**Archivos afectados:**
+- `indexx.css` — 9 líneas: `.ribbon-nav-popup` y `.ribbon-nav-item` con estilos consistentes con el proyecto (mismo patrón que `.sidebar-user-dropdown`)
+- `indexx.html` — 1 línea: `<div class="ribbon-nav-popup" id="ribbonNavPopup">` insertado después del user dropdown
+- `indexx.js` — 40 líneas:
+  - Toggle handler modificado: abre/cierra el popup cuando sidebar colapsa/expande
+  - `buildRibbonNavPopup()`: construye los items desde los `.nav-item[data-page]` existentes
+  - `updateRibbonNavPopup()`: sincroniza `.active` con `currentPage`
+  - Outside-click handler extendido: cierra popup al hacer clic fuera
+  - `updateRibbonNavPopup()` llamado en `loadPage()` para mantener sync
+
+**Detalles técnicos:**
+- Popup usa `position:fixed; left:42px; bottom:50px` — misma posición que el user dropdown
+- Se cierra automáticamente al hacer clic en un nav-item (después de `loadPage()`)
+- Se cierra al hacer clic fuera del popup o del toggle
+- Se cierra al expandir el sidebar nuevamente
+- Sincronización del `.active` igual que los nav-items del sidebar
+
 ### 2026-05-22: Theme EDA — colores adaptados al proyecto
 
 **Qué:** Se reemplazaron todos los colores hardcodeados en EDA por variables CSS del proyecto
