@@ -19,6 +19,141 @@ agent: general
 
 ---
 
+## PASO 1.1 — SKILL ACQUISITION & CAPABILITY MAPPING
+
+### 1.1.0 — PRE-SCAN OBLIGATORIO
+Antes de seleccionar cualquier skill, ejecuta este análisis sobre el prompt recibido:
+
+INTENT_CLASS    → { build | fix | optimize | explain | design | migrate | audit }
+DOMAIN          → { frontend | backend | fullstack | data | infra | ai/ml | docs }
+COMPLEXITY      → { atomic | composite | systemic }
+ARTIFACT_TYPE   → { code | config | architecture | content | pipeline }
+CONSTRAINTS     → { framework, language, runtime, environment, style_guide }
+
+Si COMPLEXITY = systemic → carga mínimo 3 skills antes de responder.
+Si CONSTRAINTS está parcialmente definido → infiere desde el contexto del repo/conversación.
+
+---
+
+### 1.1.1 — SKILL SELECTION MATRIX
+
+Selecciona skills usando la siguiente matriz de decisión.
+Regla: carga TODAS las que apliquen, no solo la más obvia.
+
+#### FRONTEND
+| Señal en el prompt | Skills requeridas |
+|--------------------|-------------------|
+| UI, componente, layout, pantalla | `[frontend-design]` `[accessibility-patterns]` |
+| React, Next.js, Vite | `[frontend-design]` `[vercel-react-best-practices]` |
+| Estado global, Zustand, Redux | `[frontend-design]` `[state-management-patterns]` |
+| Rendimiento, LCP, CLS, bundle | `[frontend-design]` `[web-performance]` |
+| Formularios, validación | `[frontend-design]` `[form-patterns]` |
+| Animaciones, transiciones | `[frontend-design]` `[motion-design]` |
+
+#### BACKEND
+| Señal en el prompt | Skills requeridas |
+|--------------------|-------------------|
+| API, endpoint, servidor | `[nodejs-backend-patterns]` `[api-design]` |
+| Autenticación, JWT, OAuth | `[nodejs-backend-patterns]` `[auth-security]` |
+| Base de datos, queries, ORM | `[nodejs-backend-patterns]` `[database-patterns]` |
+| Queue, workers, jobs | `[nodejs-backend-patterns]` `[async-patterns]` |
+| WebSockets, tiempo real | `[nodejs-backend-patterns]` `[realtime-patterns]` |
+
+#### AI / PROMPTS
+| Señal en el prompt | Skills requeridas |
+|--------------------|-------------------|
+| Prompt, instrucción, system prompt | `[prompt-optimization]` |
+| Agente, tool use, function calling | `[prompt-optimization]` `[agent-patterns]` |
+| RAG, embeddings, contexto | `[prompt-optimization]` `[rag-patterns]` |
+| Evaluación, evals, benchmarks | `[prompt-optimization]` `[eval-design]` |
+
+#### INFRAESTRUCTURA / DEPLOY
+| Señal en el prompt | Skills requeridas |
+|--------------------|-------------------|
+| Deploy, CI/CD, pipeline | `[vercel-react-best-practices]` `[devops-patterns]` |
+| Variables de entorno, secrets | `[vercel-react-best-practices]` `[secrets-management]` |
+| Docker, contenedores | `[devops-patterns]` `[containerization]` |
+| Monitoreo, logs, errores | `[observability-patterns]` |
+
+#### DATA / ANÁLISIS
+| Señal en el prompt | Skills requeridas |
+|--------------------|-------------------|
+| Dataset, CSV, análisis | `[data-processing]` `[statistical-patterns]` |
+| Visualización, gráficos | `[data-viz]` `[frontend-design]` |
+| ETL, transformación | `[data-processing]` `[pipeline-patterns]` |
+
+---
+
+### 1.1.2 — SKILL LOADING PROTOCOL
+FOR each skill IN selected_skills:
+
+VIEW /mnt/skills/[scope]/[skill]/SKILL.md
+EXTRACT → constraints, patterns, anti-patterns, examples
+INTERNALIZE → apply silently, never narrate the loading process
+VALIDATE → ¿el skill tiene conflicto con otro ya cargado?
+IF conflict → prioridad: user-skills > private-skills > public-skills
+
+**Reglas de prioridad de scope:**
+/mnt/skills/user/     ← MÁXIMA PRIORIDAD — instrucciones del usuario
+/mnt/skills/private/  ← Alta prioridad — reglas del proyecto
+/mnt/skills/public/   ← Base — skills genéricos
+/mnt/skills/examples/ ← Referencia — solo para inspiración, no reglas
+
+**Si un skill no existe:**
+IF skill NOT FOUND in /mnt/skills/:
+→ NO inventar el skill
+→ Inferir mejores prácticas desde conocimiento base
+→ Señalar explícitamente: "No encontré skill para X, aplicando criterio general"
+
+---
+
+### 1.1.3 — SKILL COMBINATION RULES
+
+Algunas combinaciones generan comportamiento especial:
+
+[frontend-design] + [vercel-react-best-practices]
+→ Aplicar Server Components por defecto en Next.js 13+
+→ No usar useState en componentes que pueden ser async
+[prompt-optimization] + [agent-patterns]
+→ Incluir sección de tool definitions en cualquier prompt generado
+→ Agregar manejo explícito de errores y fallbacks en el flujo del agente
+[nodejs-backend-patterns] + [auth-security]
+→ Nunca hardcodear secrets, siempre process.env
+→ Agregar rate limiting en cualquier endpoint de autenticación
+[data-processing] + [frontend-design]
+→ Aplicar virtualización para tablas con más de 500 filas
+→ Separar lógica de transformación de la capa de presentación
+
+---
+
+### 1.1.4 — SKILL AUDIT (OUTPUT OBLIGATORIO)
+
+Antes de generar cualquier respuesta técnica, reporta en bloque colapsado:
+
+SKILLS LOADED:
+✓ [frontend-design]       — /mnt/skills/public/frontend-design/SKILL.md
+✓ [vercel-react-best-practices] — /mnt/skills/user/vercel/SKILL.md
+✗ [motion-design]         — NOT FOUND, usando criterio general
+DOMAIN DETECTED:    frontend › React › Next.js 14
+INTENT:             build › componente › formulario con validación
+COMPLEXITY:         composite
+CONSTRAINTS:        TypeScript, Tailwind, App Router
+CONFLICTS:          ninguno
+
+Este audit es visible al usuario solo si DEBUG_MODE = true o si hay conflictos.
+
+---
+
+### 1.1.5 — ERRORES COMUNES A EVITAR
+
+✗ Cargar solo la skill más obvia e ignorar skills complementarias
+✗ Narrar el proceso de carga ("Ahora voy a leer el SKILL.md de...")
+✗ Asumir que una skill cargada anteriormente en la sesión sigue vigente
+→ Cada tarea nueva requiere re-evaluar el set de skills
+✗ Ignorar /mnt/skills/user/ cuando existe
+→ Las instrucciones del usuario tienen prioridad absoluta
+✗ Inventar contenido de un skill que no se pudo leer
+
 ## PASO 2 - AUTO-EVALUACIÓN Y APRENDIZAJE (después de optimizar)
 
 **Después de entregar la respuesta optimizada, evalúa tu propio trabajo:**

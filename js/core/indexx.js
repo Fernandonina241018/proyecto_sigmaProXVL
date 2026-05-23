@@ -1785,19 +1785,19 @@ function renderLimitsPanel() {
   var html = '';
   if (trabajoLimitsMode === 'global') {
     var g = trabajoLimits.global || { ls: '', li: '', lc: '' };
-    html += '<div class="info-item" style="font-size:10px;color:var(--text-muted)"></div>' +
-      '<div class="info-item"><div class="info-item-label">LS</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLS" value="' + g.ls + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px"></div></div>' +
-      '<div class="info-item"><div class="info-item-label">LI</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLI" value="' + g.li + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px"></div></div>' +
-      '<div class="info-item"><div class="info-item-label">LC</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLC" value="' + g.lc + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px"></div></div>';
+    html += '<div class="info-item" style="font-size:13px;color:var(--text-muted)"></div>' +
+      '<div class="info-item"><div class="info-item-label">Límite Superior</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLS" value="' + g.ls + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px"></div></div>' +
+      '<div class="info-item"><div class="info-item-label">Límite Inferior</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLI" value="' + g.li + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px"></div></div>' +
+      '<div class="info-item"><div class="info-item-label">Límite Central</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLC" value="' + g.lc + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px"></div></div>';
   } else {
     sheet.headers.forEach(function(h, i){
       var col = trabajoLimits.cols[h] || { ls: '', li: '', lc: '' };
       html += '<div class="info-item" style="flex-direction:column;align-items:stretch;gap:3px;padding:4px 0;border-bottom:1px solid var(--border)">' +
-        '<div class="info-item-label" style="font-size:10px;margin-bottom:2px">' + escapeHtml(h) + '</div>' +
+        '<div class="info-item-label" style="font-size:12px;margin-bottom:2px">' + escapeHtml(h) + '</div>' +
         '<div style="display:flex;gap:4px">' +
-          '<input type="number" step="any" placeholder="LS" id="limitLS_' + i + '" value="' + col.ls + '" style="flex:1;min-width:0;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px">' +
-          '<input type="number" step="any" placeholder="LI" id="limitLI_' + i + '" value="' + col.li + '" style="flex:1;min-width:0;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px">' +
-          '<input type="number" step="any" placeholder="LC" id="limitLC_' + i + '" value="' + col.lc + '" style="flex:1;min-width:0;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px">' +
+          '<input type="number" step="any" placeholder="LS" id="limitLS_' + i + '" value="' + col.ls + '" style="flex:1;min-width:0;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px">' +
+          '<input type="number" step="any" placeholder="LI" id="limitLI_' + i + '" value="' + col.li + '" style="flex:1;min-width:0;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px">' +
+          '<input type="number" step="any" placeholder="LC" id="limitLC_' + i + '" value="' + col.lc + '" style="flex:1;min-width:0;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px">' +
         '</div></div>';
     });
   }

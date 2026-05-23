@@ -836,13 +836,25 @@ const ReporteManager = (() => {
                     const keys = Object.keys(data).filter(k => !EXCLUDE_KEYS.has(k));
                     const gk = keys[0];
                     const r = data[gk] || {};
+                    const g1 = r.grupo1 || {}, g2 = r.grupo2 || {};
                     p(`  ${stat} (${gk})`);
                     p(`    t = ${fmtNum(r.estadisticoT)}, df = ${fmtNum(r.gradosLibertad)}, p = ${fmtNum(r.valorP)}`);
+                    p(`    Grupo 1: n=${g1.n||'—'}, media=${fmtNum(g1.media)}, varianza=${fmtNum(g1.varianza)}`);
+                    p(`    Grupo 2: n=${g2.n||'—'}, media=${fmtNum(g2.media)}, varianza=${fmtNum(g2.varianza)}`);
+                    p(`    Diferencia de medias = ${fmtNum(r.diferenciaMedias)}`);
                     p(`    Decisión: ${r.significativo ? '✗ Rechazar H₀ (significativo)' : '✓ No rechazar H₀'}`);
                 } else if (stat === 'ANOVA One-Way') {
                     p(`  ${stat}`);
                     p(`    F = ${fmtNum(data.estadisticoF)}, df = ${data.dfEntre}/${data.dfDentro}, p = ${fmtNum(data.valorP)}`);
+                    p(`    Grupos = ${data.grupos}, Observaciones = ${data.totalObservaciones}`);
+                    p(`    ── Tabla ANOVA ──`);
+                    p(`    ${'Fuente'.padEnd(16)} ${'SC'.padEnd(12)} ${'gl'.padEnd(6)} ${'CM'.padEnd(12)} ${'F'.padEnd(10)} p`);
+                    p(`    ${'Entre grupos'.padEnd(16)} ${fmtNum(data.SSB).padEnd(12)} ${String(data.dfEntre).padEnd(6)} ${fmtNum(data.MSB).padEnd(12)} ${fmtNum(data.estadisticoF).padEnd(10)} ${fmtNum(data.valorP)}`);
+                    p(`    ${'Dentro grupos'.padEnd(16)} ${fmtNum(data.SSW).padEnd(12)} ${String(data.dfDentro).padEnd(6)} ${fmtNum(data.MSW).padEnd(12)}`);
+                    p(`    ${'Total'.padEnd(16)} ${fmtNum(data.SSB + data.SSW).padEnd(12)} ${String(data.dfEntre + data.dfDentro).padEnd(6)}`);
                     p(`    Decisión: ${data.significativo ? '✗ Rechazar H₀ (significativo)' : '✓ No rechazar H₀'}`);
+                    const eta2 = data.SSB / (data.SSB + data.SSW);
+                    p(`    η² = ${eta2.toFixed(4)} (${(eta2 * 100).toFixed(1)}% de varianza explicada)`);
                 } else if (stat === 'Chi-Cuadrado') {
                     p(`  ${stat} (${data.columna1} vs ${data.columna2})`);
                     p(`    χ² = ${fmtNum(data.estadisticoChi2)}, df = ${data.gradosLibertad}, p = ${fmtNum(data.valorP)}`);
@@ -860,7 +872,9 @@ const ReporteManager = (() => {
                 } else if (stat === 'T-Test (una muestra)') {
                     Object.entries(data).filter(([k]) => k !== 'error').forEach(([col, r]) => {
                         p(`  ${stat} (${col})`);
-                        p(`    t = ${fmtNum(r.estadisticoT)}, p = ${fmtNum(r.valorP)}`);
+                        p(`    t = ${fmtNum(r.estadisticoT)}, df = ${fmtNum(r.gradosLibertad)}, p = ${fmtNum(r.valorP)}`);
+                        p(`    Media muestral = ${fmtNum(r.mediaMuestral)} vs H₀: μ = ${fmtNum(r.mediaHipotesis)}`);
+                        p(`    DE = ${fmtNum(r.desviacionEstandar)}, EE = ${fmtNum(r.errorEstandar)}`);
                         p(`    Decisión: ${r.significativo ? '✗ Rechazar H₀' : '✓ No rechazar H₀'}`);
                     });
                 } else if (stat === 'Límites de Cuantificación') {
@@ -928,10 +942,21 @@ const ReporteManager = (() => {
                         p(`  ${stat}: ERROR - ${data.error}`);
                     } else {
                         p(`  ${stat} (Y = ${data.columnaY}, X = [${data.columnasX?.join(', ')}])`);
+                        p(`    Modelo: ${data.formula || data.modelo}`);
                         p(`    R² = ${fmtNum(data.r2)} | R² ajustado = ${fmtNum(data.r2Adj)}`);
                         p(`    Error estándar = ${fmtNum(data.errorEstandar)}`);
                         p(`    Predictores = ${data.k} | Observaciones = ${data.n}`);
-                        p(`    Coeficientes: ${data.betas?.join(', ') || 'N/A'}`);
+                        p(`    ── Coeficientes ──`);
+                        p(`    ${'Predictor'.padEnd(18)} ${'β'.padEnd(12)} ${'EE'.padEnd(12)} ${'t'.padEnd(12)} ${'p'.padEnd(12)}`);
+                        if (data.coeficientes && data.coeficientes.length > 0) {
+                            const labels = ['Intercepto', ...(data.columnasX || data.coeficientes.slice(1).map((_, i) => 'X' + (i + 1)))];
+                            data.coeficientes.forEach((c, i) => {
+                                const sig = c.significativo ? '★' : ' ';
+                                p(`    ${sig} ${(labels[i] || 'X' + i).padEnd(16)} ${String(c.valor).padEnd(12)} ${String(c.ee || '—').padEnd(12)} ${String(c.t || '—').padEnd(12)} ${String(c.p || '—').padEnd(12)}`);
+                            });
+                        } else {
+                            p(`    ${data.betas?.map(b => fmtNum(b)).join(', ') || 'N/A'}`);
+                        }
                         p(`    ${data.significante ? '★ Al menos un predictor significativo' : '✓ Ningún predictor significativo'}`);
                         p(`    Interpretación: ${data.interpretacion}`);
                     }
@@ -944,6 +969,12 @@ const ReporteManager = (() => {
                         p(`    R² = ${fmtNum(data.r2)} | R² ajustado = ${fmtNum(data.r2Adj)}`);
                         p(`    Error estándar = ${fmtNum(data.errorEstandar)}`);
                         p(`    Observaciones = ${data.n} | Grado = ${data.grado}`);
+                        if (data.coeficientes && data.coeficientes.length > 0) {
+                            p(`    ── Coeficientes ──`);
+                            data.coeficientes.forEach(c => {
+                                p(`    ${(c.term || '—').padEnd(18)} = ${fmtNum(c.valor)}`);
+                            });
+                        }
                         p(`    ${data.significante ? '★ Modelo significativo' : '✓ Modelo no significativo'}`);
                         p(`    Interpretación: ${data.interpretacion}`);
                     }
@@ -952,10 +983,20 @@ const ReporteManager = (() => {
                         p(`  ${stat}: ERROR - ${data.error}`);
                     } else {
                         p(`  ${stat} (Y = ${data.columnaY}, X = [${data.columnasX?.join(', ')}])`);
+                        p(`    Modelo: ${data.formula}`);
                         p(`    Exactitud = ${fmtNum(data.exactitud * 100)}% | Precisión = ${fmtNum(data.precision * 100)}%`);
                         p(`    Recall = ${fmtNum(data.recall * 100)}% | F1 = ${fmtNum(data.f1 * 100)}%`);
-                        p(`    VP=${data.vp} FP=${data.fp} VN=${data.vn} FN=${data.fn}`);
+                        p(`    Matriz confusión: VP=${data.vp} FP=${data.fp} VN=${data.vn} FN=${data.fn}`);
                         p(`    Variables = ${data.k} | Observaciones = ${data.n}`);
+                        if (data.betas && data.betas.length > 0) {
+                            p(`    ── Coeficientes ──`);
+                            const labels = ['Intercepto', ...(data.columnasX || []).map((_, i) => 'X' + (i + 1))];
+                            data.betas.forEach((b, i) => {
+                                const or = data.oddsRatios && data.oddsRatios[i - 1];
+                                const label = labels[i] || ('X' + i);
+                                p(`    ${label.padEnd(12)} β = ${fmtNum(b)}${i > 0 ? `, OR = ${or !== undefined ? fmtNum(or) : '—'}` : ''}`);
+                            });
+                        }
                         p(`    Interpretación: ${data.interpretacion}`);
                     }
                 } else if (stat === 'Test TOST (Equivalencia)') {
