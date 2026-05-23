@@ -816,7 +816,6 @@ function nuevoProyecto() {
   if (!confirm('¿Crear un nuevo proyecto? Se perderán los datos actuales.')) return;
   if (typeof StateManager !== 'undefined') StateManager.resetState();
   localStorage.removeItem('statAnalyzerState');
-  localStorage.removeItem('_recentFiles');
   location.reload();
 }
 

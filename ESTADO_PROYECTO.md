@@ -115,6 +115,20 @@
 
 **Riesgo:** Bajo (solo se añaden early returns para edge cases, `node -c` OK)
 
+### 2026-05-22: Label "Find" → "Help" + eliminar legacy `_recentFiles`
+
+**Qué:** 
+1. Se renombró el ítem del menú Edit que decía "Find" (pero abría ayuda) a "Help" con shortcut ⌘H
+2. Se eliminó `localStorage.removeItem('_recentFiles')` en `nuevoProyecto()` — clave nunca leída/esccrita, solo eliminada
+
+**Por qué:** El label "Find" era engañoso (llamaba a `showHelpModal()`). `_recentFiles` era legacy sin propósito real.
+
+**Archivos afectados:**
+- `indexx.html:52` — "Find ⌘F" → "Help ⌘H"
+- `indexx.js:819` — línea `removeItem('_recentFiles')` eliminada
+
+**Riesgo:** Muy bajo
+
 ### 2026-05-22: Role-based visibility en ribbon nav popup
 
 **Qué:** Se aplicó la misma política de módulos por rol al popup de navegación del ribbon. Usuarios no-admin ya no ven "Auditoría" ni "Usuarios".
