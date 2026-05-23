@@ -335,6 +335,10 @@ var leftPanels = {
             '<div class="info-item"><div class="info-item-label">Columnas</div><div class="info-item-value" id="analisisDsCols">' + dsCols + '</div></div>' +
           '</div>' +
         '</div>' +
+        // ── EDA button ──
+        '<button class="btn btn-primary" style="width:100%;font-size:13px;padding:8px 10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:6px" onclick="runEDA()">' +
+          '<span>🔍</span> Análisis Exploratorio (EDA)' +
+        '</button>' +
         // ── Tests seleccionados desde el menú ──
         '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column">' +
           '<div class="info-section-header">Tests seleccionados</div>' +
@@ -3261,6 +3265,26 @@ function runSingleStat(nombre) {
   } catch(e) {
     console.error('Error executing ' + nombre + ':', e);
     analisisResultContent = '<div class="page-card"><div class="page-card-body" style="padding:20px;color:#f87171"><strong>Error:</strong> ' + escapeHtml(e.message) + '</div></div>';
+  }
+
+  rightPaneBody.innerHTML = rightPanels.analisis();
+}
+
+function runEDA() {
+  var data = getDataForEjecutarAnalisis();
+  if (!data) { showToast('\u26A0\uFE0F No hay datos en la hoja de trabajo'); return; }
+
+  analisisSelectedTest = 'An\u00E1lisis Exploratorio (EDA)';
+  analisisResultContent = null;
+  rightPaneBody.innerHTML = rightPanels.analisis();
+
+  try {
+    var html = EDAManager.renderDashboard(data);
+    analisisResultContent = html;
+    window.ultimosResultados = EDAManager.ejecutarEDA(data);
+  } catch(e) {
+    console.error('EDA Error:', e);
+    analisisResultContent = '<div class="page-card"><div class="page-card-body" style="padding:20px;color:#f87171"><strong>Error en EDA:</strong> ' + escapeHtml(e.message) + '</div></div>';
   }
 
   rightPaneBody.innerHTML = rightPanels.analisis();
