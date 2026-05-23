@@ -8,6 +8,7 @@
 <title>Obsidian Vault</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script>if(typeof Chart!=='undefined'){Chart.defaults.animation.duration=800;Chart.defaults.animation.easing='easeOutQuart';Chart.defaults.plugins.legend.labels.font.family="'Inter',-apple-system,sans-serif";Chart.defaults.plugins.legend.labels.font.size=11;Chart.defaults.plugins.legend.labels.color='#94a3b8';Chart.defaults.plugins.title.font.family="'Outfit',-apple-system,sans-serif";Chart.defaults.plugins.title.font.size=13;Chart.defaults.plugins.title.font.weight='600';Chart.defaults.plugins.title.color='#f1f5f9';Chart.defaults.color='#94a3b8';Chart.defaults.font.family="'Inter',-apple-system,sans-serif"}</script>
 <link rel="stylesheet" href="css/core/auth.css">
 <link rel="stylesheet" href="css/pages/auditoria.css">
 <link rel="stylesheet" href="css/pages/usuarios.css">
@@ -24,51 +25,51 @@
     <button class="titlebar-btn max"></button>
   </div>
   <span class="titlebar-appname">SAP2.0</span>
-  <nav class="menubar">
-    <div class="menu-item" data-menu="Proyecto">Proyecto
-      <div class="dropdown">
-        <div class="dd-item" onclick="nuevoProyecto()">Nuevo proyecto <span class="dd-shortcut">⌘ N</span></div>
+  <nav class="menubar" role="menubar">
+    <div class="menu-item" data-menu="Proyecto" role="menuitem" tabindex="0">Proyecto
+      <div class="dropdown" role="menu" aria-hidden="true">
+        <div class="dd-item" role="menuitem" onclick="nuevoProyecto()">Nuevo proyecto <span class="dd-shortcut">⌘ N</span></div>
         <div class="dd-separator"></div>
-        <div class="dd-item" onclick="document.getElementById('fileInput').click()">Cargar dataset <span class="dd-shortcut">⌘ O</span></div>
-        <div class="dd-item" onclick="showPasteModal()">Pegar datos <span class="dd-shortcut">⌘ V</span></div>
+        <div class="dd-item" role="menuitem" onclick="document.getElementById('fileInput').click()">Cargar dataset <span class="dd-shortcut">⌘ O</span></div>
+        <div class="dd-item" role="menuitem" onclick="showPasteModal()">Pegar datos <span class="dd-shortcut">⌘ V</span></div>
         <div class="dd-separator"></div>
-        <div class="dd-item" onclick="if(typeof StateManager!=='undefined'){StateManager.saveToLocalStorage();showToast('Sesión guardada')}">Guardar sesión <span class="dd-shortcut">⌘ S</span></div>
-        <div class="dd-item" onclick="if(confirm('Restaurar última sesión?')){if(typeof StateManager!=='undefined')StateManager.loadFromLocalStorage();location.reload()}">Cargar sesión <span class="dd-shortcut">⌘ ⇧ O</span></div>
+        <div class="dd-item" role="menuitem" onclick="if(typeof StateManager!=='undefined'){StateManager.saveToLocalStorage();showToast('Sesión guardada')}">Guardar sesión <span class="dd-shortcut">⌘ S</span></div>
+        <div class="dd-item" role="menuitem" onclick="if(confirm('Restaurar última sesión?')){if(typeof StateManager!=='undefined')StateManager.loadFromLocalStorage();location.reload()}">Cargar sesión <span class="dd-shortcut">⌘ ⇧ O</span></div>
         <div class="dd-separator"></div>
-        <div class="dd-item" onclick="handleToolsAction('export-csv')">Exportar CSV <span class="dd-shortcut">⌘ ⇧ E</span></div>
-        <div class="dd-item" onclick="loadPage('reportes')">Exportar reporte <span class="dd-shortcut">⌘ ⇧ R</span></div>
+        <div class="dd-item" role="menuitem" onclick="handleToolsAction('export-csv')">Exportar CSV <span class="dd-shortcut">⌘ ⇧ E</span></div>
+        <div class="dd-item" role="menuitem" onclick="loadPage('reportes')">Exportar reporte <span class="dd-shortcut">⌘ ⇧ R</span></div>
         <div class="dd-separator"></div>
-        <div class="dd-item" onclick="if(typeof Auth!=='undefined')Auth.logout()">Cerrar sesión</div>
+        <div class="dd-item" role="menuitem" onclick="if(typeof Auth!=='undefined')Auth.logout()">Cerrar sesión</div>
       </div>
     </div>
-    <div class="menu-item" data-menu="Edit">Edit
-      <div class="dropdown">
-        <div class="dd-item" onclick="undoAction()">Undo <span class="dd-shortcut">⌘ Z</span></div>
-        <div class="dd-item" onclick="redoAction()">Redo <span class="dd-shortcut">⌘ ⇧ Z</span></div>
+    <div class="menu-item" data-menu="Edit" role="menuitem" tabindex="0">Edit
+      <div class="dropdown" role="menu" aria-hidden="true">
+        <div class="dd-item" role="menuitem" onclick="undoAction()">Undo <span class="dd-shortcut">⌘ Z</span></div>
+        <div class="dd-item" role="menuitem" onclick="redoAction()">Redo <span class="dd-shortcut">⌘ ⇧ Z</span></div>
         <div class="dd-separator"></div>
-        <div class="dd-item" onclick="var s=getSelection().toString();if(s)navigator.clipboard.writeText(s);showToast('Copiado')">Copy <span class="dd-shortcut">⌘ C</span></div>
-        <div class="dd-item" onclick="showPasteModal()">Paste <span class="dd-shortcut">⌘ V</span></div>
+        <div class="dd-item" role="menuitem" onclick="var s=getSelection().toString();if(s)navigator.clipboard.writeText(s);showToast('Copiado')">Copy <span class="dd-shortcut">⌘ C</span></div>
+        <div class="dd-item" role="menuitem" onclick="showPasteModal()">Paste <span class="dd-shortcut">⌘ V</span></div>
         <div class="dd-separator"></div>
-        <div class="dd-item" onclick="showHelpModal()">Help <span class="dd-shortcut">⌘ H</span></div>
+        <div class="dd-item" role="menuitem" onclick="showHelpModal()">Help <span class="dd-shortcut">⌘ H</span></div>
       </div>
     </div>
-    <div class="menu-item" data-menu="View">View
-      <div class="dropdown">
-        <div class="dd-item" onclick="var s=document.getElementById('sidebarToggle');if(s)s.click()">Toggle Sidebar <span class="dd-shortcut">⌘ ⌥ ←</span></div>
-        <div class="dd-item" onclick="loadPage('visualizacion')">Gráficos <span class="dd-shortcut">⌘ ⇧ G</span></div>
+    <div class="menu-item" data-menu="View" role="menuitem" tabindex="0">View
+      <div class="dropdown" role="menu" aria-hidden="true">
+        <div class="dd-item" role="menuitem" onclick="var s=document.getElementById('sidebarToggle');if(s)s.click()">Toggle Sidebar <span class="dd-shortcut">⌘ ⌥ ←</span></div>
+        <div class="dd-item" role="menuitem" onclick="loadPage('visualizacion')">Gráficos <span class="dd-shortcut">⌘ ⇧ G</span></div>
         <div class="dd-separator"></div>
-        <div class="dd-item" onclick="loadPage('trabajo')">Vista datos <span class="dd-shortcut">⌘ E</span></div>
+        <div class="dd-item" role="menuitem" onclick="loadPage('trabajo')">Vista datos <span class="dd-shortcut">⌘ E</span></div>
         <div class="dd-separator"></div>
-        <div class="dd-item" onclick="document.body.style.fontSize=(parseFloat(getComputedStyle(document.body).fontSize)+1)+'px'">Zoom In <span class="dd-shortcut">⌘ +</span></div>
-        <div class="dd-item" onclick="document.body.style.fontSize=(parseFloat(getComputedStyle(document.body).fontSize)-1)+'px'">Zoom Out <span class="dd-shortcut">⌘ −</span></div>
+        <div class="dd-item" role="menuitem" onclick="document.body.style.fontSize=(parseFloat(getComputedStyle(document.body).fontSize)+1)+'px'">Zoom In <span class="dd-shortcut">⌘ +</span></div>
+        <div class="dd-item" role="menuitem" onclick="document.body.style.fontSize=(parseFloat(getComputedStyle(document.body).fontSize)-1)+'px'">Zoom Out <span class="dd-shortcut">⌘ −</span></div>
       </div>
     </div>
-    <div class="menu-item" data-menu="Navigate" data-submenu="Statistical Analysis">Statistical Analysis
-      <div class="dropdown" id="statAnalysisDropdown" style="min-width:280px">
+    <div class="menu-item" data-menu="Navigate" data-submenu="Statistical Analysis" role="menuitem" tabindex="0">Statistical Analysis
+      <div class="dropdown" role="menu" aria-hidden="true" id="statAnalysisDropdown" style="min-width:280px">
 
       </div>
     </div>
-    <div class="menu-item" data-menu="Tools">Tools
+    <div class="menu-item" data-menu="Tools" role="menuitem" tabindex="0">Tools
       <div class="dropdown" role="menu" aria-hidden="true">
         <div class="dd-item" role="menuitem" onmousedown="document.getElementById('fileInput').click()">
           Cargar dataset <span class="dd-shortcut">Ctrl+O</span>
@@ -122,26 +123,26 @@
         </div>
       </div>
     </div>
-    <div class="menu-item" data-menu="Gráficos">Gráficos
-      <div class="dropdown">
-        <div class="dd-item" onmousedown="showBatchGraphModal()">Generar múltiples gráficos 🔁</div>
+    <div class="menu-item" data-menu="Gráficos" role="menuitem" tabindex="0">Gráficos
+      <div class="dropdown" role="menu" aria-hidden="true">
+        <div class="dd-item" role="menuitem" onmousedown="showBatchGraphModal()">Generar múltiples gráficos 🔁</div>
         <div class="dd-separator"></div>
-        <div class="dd-item" onmousedown="loadPage('visualizacion')">Ir a Visualización</div>
+        <div class="dd-item" role="menuitem" onmousedown="loadPage('visualizacion')">Ir a Visualización</div>
       </div>
     </div>
-    <div class="menu-item" data-menu="Firmar">Firmar
-      <div class="dropdown">
-        <div class="dd-item" onmousedown="loadPage('firmarReporte')">✍️ Ir a Firmar Reporte</div>
+    <div class="menu-item" data-menu="Firmar" role="menuitem" tabindex="0">Firmar
+      <div class="dropdown" role="menu" aria-hidden="true">
+        <div class="dd-item" role="menuitem" onmousedown="loadPage('firmarReporte')">✍️ Ir a Firmar Reporte</div>
         <div class="dd-separator"></div>
-        <div class="dd-item" onmousedown="document.getElementById('firmaFileInput')?.click()">📂 Cargar reporte .html</div>
+        <div class="dd-item" role="menuitem" onmousedown="document.getElementById('firmaFileInput')?.click()">📂 Cargar reporte .html</div>
       </div>
     </div>
-    <div class="menu-item" data-menu="Help">Help
-      <div class="dropdown">
-        <div class="dd-item" onclick="showHelpModal()">Documentación</div>
-        <div class="dd-item" onclick="generateSampleData();showToast('Datos de ejemplo cargados');loadPage('trabajo')">Datos de ejemplo</div>
+    <div class="menu-item" data-menu="Help" role="menuitem" tabindex="0">Help
+      <div class="dropdown" role="menu" aria-hidden="true">
+        <div class="dd-item" role="menuitem" onclick="showHelpModal()">Documentación</div>
+        <div class="dd-item" role="menuitem" onclick="generateSampleData();showToast('Datos de ejemplo cargados');loadPage('trabajo')">Datos de ejemplo</div>
         <div class="dd-separator"></div>
-        <div class="dd-item" onclick="showAboutModal()">Acerca de</div>
+        <div class="dd-item" role="menuitem" onclick="showAboutModal()">Acerca de</div>
       </div>
     </div>
   </nav>
@@ -221,6 +222,7 @@
     <div class="sidebar-footer">
       <div class="vault-name">◎ Obsidian Vault</div>
       <div class="sidebar-footer-icons">
+        <span class="footer-icon" id="themeToggle" title="Cambiar tema">🌙</span>
         <span class="footer-icon">?</span>
         <span class="footer-icon">⚙</span>
       </div>
@@ -300,5 +302,18 @@
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 <script src="js/managers/ReporteManager.js"></script>
 <script src="js/managers/EDAManager.js"></script>
+<script>
+(function(){
+var t=document.getElementById('themeToggle'),d=document.documentElement,s=localStorage.getItem('theme');
+function applyTheme(isLight){
+if(isLight){d.setAttribute('data-theme','light');localStorage.setItem('theme','light');t.textContent='☀️'
+if(typeof Chart!=='undefined'){Chart.defaults.color='#64748b';Chart.defaults.plugins.legend.labels.color='#64748b';Chart.defaults.plugins.title.color='#0f172a'}}
+else{d.removeAttribute('data-theme');localStorage.setItem('theme','dark');t.textContent='🌙'
+if(typeof Chart!=='undefined'){Chart.defaults.color='#94a3b8';Chart.defaults.plugins.legend.labels.color='#94a3b8';Chart.defaults.plugins.title.color='#f1f5f9'}}
+}
+if(s==='light')applyTheme(true);
+t.addEventListener('click',function(){var isLight=d.getAttribute('data-theme')==='light';applyTheme(!isLight)})
+})()
+</script>
 </body>
 </html>
