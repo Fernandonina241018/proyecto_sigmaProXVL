@@ -13,6 +13,7 @@ agent: general
 3. **Workflow:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/03_WORKFLOW.md`
 4. **Bugs y decisiones:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/05_BUGS_AND_DECISIONS.md`
 5. **Protocolo de Seguridad:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/10_PROTOCOLO_SEGURIDAD.md`
+6. **Advance AI:** `/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/11_ADVANCE_AGENT.md`
 
 **Identifica aprendizajes previos** de sesiones anteriores que puedas aplicar a la optimización actual.
 
