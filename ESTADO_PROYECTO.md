@@ -84,6 +84,37 @@
 - Primera visita sin clave → expandido por defecto (`null === 'true'` → `false`)
 - `node -c` sin errores
 
+### 2026-05-22: Bug 1 — IC95 t-critical off-by-1-df corregido (tabla lookup)
+
+**Qué:** Se reemplazó la aproximación por buckets (valores t críticos hardcodeados con rangos `df <= 5 | <=10 | <=20`) por una función `tCritical()` con tabla de lookup exacta para df 1–29 en los 3 niveles de confianza (90%, 95%, 99%). Para df ≥ 30 se usan valores z.
+
+**Por qué:** Los buckets causaban errores severos:
+- df=1 (n=2): t₉₅ código=2.571 vs real=12.706 (**error 5×**)
+- df=6 (n=7): t₉₅ código=2.228 vs real=2.447 (**error −9%**)
+- df=29 (n=30): caía a valor z=1.96 en vez de t=2.045 (**error −4%**) porque `if (n < 30)` excluía df=29
+
+**Archivos afectados:**
+- `EstadisticaDescriptiva.js:48-62` — `calcularIntervalosConfianza()` reescrita con:
+  - `df = n - 1` movido fuera del condicional
+  - Función `tCritical(df, conf)` con arrays lookup de 29 valores cada uno (t90, t95, t99)
+  - Fallback a z-values (1.645, 1.96, 2.576) para df ≥ 30
+
+**Riesgo:** Bajo (valores tabulados estándar, `node -c` OK)
+
+### 2026-05-22: Bug 2 — Chi-Cuadrado crash corregido (validación + guard zero-variance)
+
+**Qué:** Se aplicaron 2 correcciones:
+1. **Validación robusta en `calcularChiCuadrado()`:** ahora verifica que todas las filas sean arrays, que tengan ≥ 2 columnas, que todas las filas tengan el mismo largo, y que la suma total (N) no sea 0
+2. **Guard en fallback de binning:** si `step1 === 0` o `step2 === 0` (columna con varianza cero), retorna error descriptivo en vez de crashear con TypeError
+
+**Por qué:** El fallback numérico de Chi-Cuadrado hacía `(v - min) / step = 0 / 0 = NaN` cuando todos los valores de una columna son iguales, causando `tabla[NaN][c] → TypeError: cannot read property of undefined`. La validación adicional protege contra malformaciones de tabla.
+
+**Archivos afectados:**
+- `EstadisticaDescriptiva.js:1026-1037` — Validación añadida en `calcularChiCuadrado()`: `!tabla.every(row => Array.isArray(row))`, `cols < 2`, `!tabla.every(row => row.length === cols)`, `N === 0`
+- `EstadisticaDescriptiva.js:3848-3859` — Guard `if (step1 === 0 || step2 === 0)` en fallback de binning
+
+**Riesgo:** Bajo (solo se añaden early returns para edge cases, `node -c` OK)
+
 ### 2026-05-22: Role-based visibility en ribbon nav popup
 
 **Qué:** Se aplicó la misma política de módulos por rol al popup de navegación del ribbon. Usuarios no-admin ya no ven "Auditoría" ni "Usuarios".

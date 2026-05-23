@@ -45,15 +45,21 @@ const EstadisticaDescriptiva = (() => {
         const media = Stats.calcularMedia(values);
         const se = Stats.calcularErrorEstandar(values);
         
-        // Valores t críticos aproximados
-        const t_values = { 90: 1.645, 95: 1.96, 99: 2.576 };
+        const df = n - 1;
         
-        if (n < 30) {
-            const df = n - 1;
-            t_values[90] = df <= 5 ? 1.943 : df <= 10 ? 1.812 : df <= 20 ? 1.729 : 1.645;
-            t_values[95] = df <= 5 ? 2.571 : df <= 10 ? 2.228 : df <= 20 ? 2.086 : 1.96;
-            t_values[99] = df <= 5 ? 4.032 : df <= 10 ? 3.169 : df <= 20 ? 2.845 : 2.576;
+        function tCritical(df, conf) {
+            if (df >= 1 && df <= 29) {
+                const t95 = [12.706,4.303,3.182,2.776,2.571,2.447,2.365,2.306,2.262,2.228,2.201,2.179,2.160,2.145,2.131,2.120,2.110,2.101,2.093,2.086,2.080,2.074,2.069,2.064,2.060,2.056,2.052,2.048,2.045];
+                const t90 = [3.078,1.886,1.638,1.533,1.476,1.440,1.415,1.397,1.383,1.372,1.363,1.356,1.350,1.345,1.341,1.337,1.333,1.330,1.328,1.325,1.323,1.321,1.319,1.318,1.316,1.315,1.314,1.313,1.311];
+                const t99 = [63.657,9.925,5.841,4.604,4.032,3.707,3.499,3.355,3.250,3.169,3.106,3.055,3.012,2.977,2.947,2.921,2.898,2.878,2.861,2.845,2.831,2.819,2.807,2.797,2.787,2.779,2.771,2.763,2.756];
+                if (conf === 90) return t90[df - 1];
+                if (conf === 95) return t95[df - 1];
+                if (conf === 99) return t99[df - 1];
+            }
+            return { 90: 1.645, 95: 1.96, 99: 2.576 }[conf] || 1.96;
         }
+        
+        const t_values = { 90: tCritical(df, 90), 95: tCritical(df, 95), 99: tCritical(df, 99) };
         
         return {
             media: media,
@@ -1017,13 +1023,18 @@ negativos: negativos,
      * Prueba Chi-Cuadrado de independencia
      */
     function calcularChiCuadrado(tabla) {
-        if (!Array.isArray(tabla) || tabla.length < 2) {
-            return { error: 'Se necesita una tabla de contingencia (mínimo 2x2)' };
+        if (!Array.isArray(tabla) || tabla.length < 2 || !tabla.every(row => Array.isArray(row))) {
+            return { error: 'Se necesita una tabla de contingencia válida (mínimo 2x2)' };
+        }
+        const cols = tabla[0].length;
+        if (cols < 2) return { error: 'La tabla de contingencia necesita al menos 2 columnas' };
+        if (!tabla.every(row => row.length === cols)) {
+            return { error: 'Todas las filas de la tabla deben tener el mismo número de columnas' };
         }
 
         const filas = tabla.length;
-        const cols = tabla[0].length;
         const N = tabla.flat().reduce((a, b) => a + b, 0);
+        if (N === 0) return { error: 'La tabla de contingencia está vacía (suma total = 0)' };
 
         // Totales marginales
         const totalFilas = tabla.map(row => row.reduce((a, b) => a + b, 0));
@@ -3835,13 +3846,17 @@ interpretacion: interpretacion,
                         const min1 = Math.min(...col1), max1 = Math.max(...col1);
                         const min2 = Math.min(...col2), max2 = Math.max(...col2);
                         const step1 = (max1 - min1) / bins, step2 = (max2 - min2) / bins;
-                        const tabla = Array(bins).fill(null).map(() => Array(bins).fill(0));
-                        col1.forEach((v, i) => {
-                            const r = Math.min(Math.floor((v - min1) / step1), bins - 1);
-                            const c = Math.min(Math.floor((col2[i] - min2) / step2), bins - 1);
-                            tabla[r][c]++;
-                        });
-                        resultados['Chi-Cuadrado'] = calcularChiCuadrado(tabla);
+                        if (step1 === 0 || step2 === 0) {
+                            resultados['Chi-Cuadrado'] = { error: 'No se puede calcular Chi-Cuadrado: una o más columnas tienen varianza cero (todos los valores iguales)' };
+                        } else {
+                            const tabla = Array(bins).fill(null).map(() => Array(bins).fill(0));
+                            col1.forEach((v, i) => {
+                                const r = Math.min(Math.floor((v - min1) / step1), bins - 1);
+                                const c = Math.min(Math.floor((col2[i] - min2) / step2), bins - 1);
+                                tabla[r][c]++;
+                            });
+                            resultados['Chi-Cuadrado'] = calcularChiCuadrado(tabla);
+                        }
                     }
                     break;
 
