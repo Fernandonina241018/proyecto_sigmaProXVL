@@ -2,6 +2,21 @@
 
 ## CAMBIOS RECIENTES
 
+### 2026-05-22: Fix posición del popup button — justo arriba del toggle
+
+**Qué:** Se reposicionó el botón de navegación para que aparezca justo arriba del botón colapsar, y se agrupó en un wrapper con `margin-top: auto`.
+
+**Por qué:** El botón aparecía en el flujo normal de la ribbon (junto a los iconos superiores), lejos del toggle. El usuario lo quiere justo arriba del botón colapsar.
+
+**Archivos afectados:**
+- `indexx.html` — Los 3 elementos inferiores (`#ribbonPopupBtn`, `#sidebarToggle`, `#sidebarUser`) envueltos en `<div class="ribbon-bottom">`
+- `indexx.css` — Nueva clase `.ribbon-bottom` con `margin-top:auto; display:flex; flex-direction:column; align-items:center; gap:4px; padding-bottom:8px`; `margin-top:auto` y `margin-bottom:8px` eliminados de `.ribbon-toggle` (ahora los maneja el wrapper)
+
+**Comportamiento final:**
+- El popup button aparece JUSTO arriba del botón colapsar
+- El popup se abre con el sidebar expandido O colapsado
+- Todo el grupo inferior (popup, toggle, user) se mantiene al fondo de la ribbon
+
 ### 2026-05-22: Botón dedicado para ribbon nav popup
 
 **Qué:** Se agregó un botón de navegación en el ribbon (antes del toggle) que abre/cierra el popup de páginas manualmente, independientemente del estado del sidebar.
