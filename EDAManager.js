@@ -387,7 +387,7 @@ const EDAManager = (function () {
 
         if (results.error) {
             return `<div class="eda-loading">
-                        <div class="eda-loading-text" style="color:#c53030;">⚠️ ${escHtml(results.error)}</div>
+                        <div class="eda-loading-text" style="color:#ef4444;">⚠️ ${escHtml(results.error)}</div>
                     </div>`;
         }
 
@@ -491,7 +491,7 @@ const EDAManager = (function () {
 
         let html = buildSectionHeader('🔔', 'Tests de Normalidad (Comparativa)', `${cols.length} columnas`);
         html += `<div class="eda-section-content">
-                 <p style="font-size:0.72rem;color:#888;margin:0 0 12px;">
+                 <p style="font-size:0.72rem;color:var(--text-muted);margin:0 0 12px;">
                      Se aplicaron 5 tests de normalidad. H₀: la distribución es normal. Rechazar si p ≤ 0.05.
                      <strong>Verde</strong> = Normal, <strong>Rojo</strong> = No Normal.
                  </p>
@@ -539,7 +539,7 @@ const EDAManager = (function () {
         });
 
         html += `</tbody></table></div>
-                 <p style="font-size:0.68rem;color:#999;margin-top:8px;">
+                 <p style="font-size:0.68rem;color:var(--text-muted);margin-top:8px;">
                      n/a = tamaño de muestra insuficiente para ese test.
                      Jarque-Bera: n≥3, Shapiro-Wilk: 3≤n≤5000, Kolmogorov-Smirnov: n≥5, Anderson-Darling/D'Agostino: n≥8.
                  </p>
@@ -620,7 +620,7 @@ const EDAManager = (function () {
         }
 
         html += `</tbody></table></div>
-                 <p style="font-size:0.72rem;color:#999;margin-top:8px;">* |r| ≥ 0.4 moderada &nbsp;|&nbsp; ** |r| ≥ 0.7 fuerte</p>
+                 <p style="font-size:0.72rem;color:var(--text-muted);margin-top:8px;">* |r| ≥ 0.4 moderada &nbsp;|&nbsp; ** |r| ≥ 0.7 fuerte</p>
                  </div></div>`;
 
         _scheduleHeatmap(canvasId, cols, matrix);
@@ -714,11 +714,11 @@ const EDAManager = (function () {
                 ctx.fillStyle = _corrColor(r);
                 ctx.fillRect(x, y, cellSize, cellSize);
 
-                ctx.strokeStyle = '#e9ecef';
+                ctx.strokeStyle = '#3a3a3a';
                 ctx.lineWidth   = 1;
                 ctx.strokeRect(x, y, cellSize, cellSize);
 
-                ctx.fillStyle  = Math.abs(r) > 0.5 ? 'white' : '#1a202c';
+                ctx.fillStyle  = Math.abs(r) > 0.5 ? '#fff' : '#dcddde';
                 ctx.font       = `bold 11px 'Segoe UI', monospace`;
                 ctx.textAlign  = 'center';
                 ctx.textBaseline = 'middle';
@@ -726,7 +726,7 @@ const EDAManager = (function () {
             }
         }
 
-        ctx.fillStyle    = '#1a202c';
+        ctx.fillStyle    = '#dcddde';
         ctx.font         = `bold 10px 'Segoe UI', sans-serif`;
         ctx.textAlign    = 'left';
         ctx.textBaseline = 'middle';
@@ -746,12 +746,20 @@ const EDAManager = (function () {
     }
 
     function _corrColor(r) {
+        // THEME-EDA: dark-adapted heatmap: neutral→accent for pos, neutral→red for neg
+        const neutral = 30;
         if (r > 0) {
             const t = r;
-            return `rgb(${Math.round(255 - t * 200)},${Math.round(255 - t * 100)},${Math.round(255 - t * 200)})`;
+            const R = Math.round(neutral + t * (124 - neutral));
+            const G = Math.round(neutral + t * (106 - neutral));
+            const B = Math.round(neutral + t * (247 - neutral));
+            return `rgb(${R},${G},${B})`;
         }
         const t = Math.abs(r);
-        return `rgb(255,${Math.round(255 - t * 150)},${Math.round(255 - t * 150)})`;
+        const R = Math.round(neutral + t * (239 - neutral));
+        const G = Math.round(neutral - t * neutral);
+        const B = Math.round(neutral - t * neutral);
+        return `rgb(${R},${G},${B})`;
     }
 
     function _truncate(str, max) {
