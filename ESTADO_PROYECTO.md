@@ -2,6 +2,22 @@
 
 ## CAMBIOS RECIENTES
 
+### 2026-05-22: Persistencia del estado colapsado del sidebar
+
+**Qué:** El estado colapsado/expandido del sidebar ahora se guarda en `localStorage` y se restaura al cargar la página, incluso tras cerrar y reabrir el navegador o hacer hard reset.
+
+**Archivos afectados:**
+- `indexx.js:148` — `localStorage.setItem('sidebar_collapsed', isNowCollapsed)` agregado en el toggle handler
+- `indexx.js:742-748` — Bloque de restauración: lee `localStorage.getItem('sidebar_collapsed')` y aplica las clases `.collapsed` + `.rotated` si corresponde
+
+**Comportamiento:**
+- Al hacer clic en el toggle → se persiste el estado en `localStorage`
+- Al recargar la página → se restaura el estado guardado
+- Hard reset (Ctrl+Shift+R) → preservado
+- Cerrar/reabrir navegador → preservado
+- Primera visita sin clave → expandido por defecto (`null === 'true'` → `false`)
+- `node -c` sin errores
+
 ### 2026-05-22: Role-based visibility en ribbon nav popup
 
 **Qué:** Se aplicó la misma política de módulos por rol al popup de navegación del ribbon. Usuarios no-admin ya no ven "Auditoría" ni "Usuarios".

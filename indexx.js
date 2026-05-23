@@ -145,6 +145,7 @@ document.getElementById('sidebarToggle').addEventListener('click', function() {
   sidebar.classList.toggle('collapsed');
   this.classList.toggle('rotated');
   document.getElementById('ribbonNavPopup').classList.toggle('open', isNowCollapsed);
+  try { localStorage.setItem('sidebar_collapsed', isNowCollapsed); } catch(e) {}
 });
 
 document.getElementById('ribbonPopupBtn').addEventListener('click', function(e) {
@@ -737,6 +738,17 @@ function updateRibbonNavPopup() {
 }
 
 buildRibbonNavPopup();
+
+// ── Restore sidebar collapsed state ──
+try {
+  var savedCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
+  var sidebar = document.getElementById('sidebar');
+  var toggle = document.getElementById('sidebarToggle');
+  if (savedCollapsed && sidebar && toggle) {
+    sidebar.classList.add('collapsed');
+    toggle.classList.add('rotated');
+  }
+} catch(e) {}
 
 // ── Dropdown toggle for sidebar toolbar ──
 function toggleDropdown(btn) {
