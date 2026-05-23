@@ -144,12 +144,13 @@ document.getElementById('sidebarToggle').addEventListener('click', function() {
   var isNowCollapsed = !sidebar.classList.contains('collapsed');
   sidebar.classList.toggle('collapsed');
   this.classList.toggle('rotated');
-  document.getElementById('ribbonNavPopup').classList.toggle('open', isNowCollapsed);
   try { localStorage.setItem('sidebar_collapsed', isNowCollapsed); } catch(e) {}
 });
 
 document.getElementById('ribbonPopupBtn').addEventListener('click', function(e) {
   e.stopPropagation();
+  var sidebar = document.getElementById('sidebar');
+  if (!sidebar.classList.contains('collapsed')) return;
   document.getElementById('ribbonNavPopup').classList.toggle('open');
 });
 
