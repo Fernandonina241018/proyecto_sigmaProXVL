@@ -37,6 +37,7 @@ function _persistAllData() {
         timestamp: Date.now()
       }));
     }
+    updateAnalisisDatasetBadge();
   } catch(e) {
     console.warn('[Persist] Error saving data:', e);
   }
@@ -318,7 +319,22 @@ var leftPanels = {
         selectedTestsHtml = '<div class="info-item" style="color:var(--text-faint);font-size:11px">Ningún test seleccionado</div>';
       }
       
-      return '<div class="left-panel" style="gap:10px">' +  
+      // Get current dataset info
+      var analisisSheet = getCurrentSheet();
+      var dsName = analisisSheet ? analisisSheet.name : 'Ninguno';
+      var dsRows = analisisSheet ? analisisSheet.rows.length : 0;
+      var dsCols = analisisSheet ? analisisSheet.headers.length : 0;
+
+      return '<div class="left-panel" style="gap:10px">' +
+        // ── Dataset activo ──
+        '<div class="info-section" style="flex-shrink:0">' +
+          '<div class="info-section-header">Dataset activo</div>' +
+          '<div class="info-list">' +
+            '<div class="info-item"><div class="info-item-label">Nombre</div><div class="info-item-value" id="analisisDsName" style="font-weight:600;color:var(--accent)">' + escapeHtml(dsName) + '</div></div>' +
+            '<div class="info-item"><div class="info-item-label">Filas</div><div class="info-item-value" id="analisisDsRows">' + dsRows + '</div></div>' +
+            '<div class="info-item"><div class="info-item-label">Columnas</div><div class="info-item-value" id="analisisDsCols">' + dsCols + '</div></div>' +
+          '</div>' +
+        '</div>' +
         // ── Tests seleccionados desde el menú ──
         '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column">' +
           '<div class="info-section-header">Tests seleccionados</div>' +
@@ -629,6 +645,9 @@ function loadPage(name) {
   if (name === 'datos' || name === 'trabajo') rightPaneBody.classList.add('flush');
   else rightPaneBody.classList.remove('flush');
 
+  if (name === 'analisis') { setTimeout(function() {
+    updateAnalisisDatasetBadge();
+  }, 30); }
   if (name === 'datos') { setTimeout(initDatosPage, 60); }
   if (name === 'trabajo') { initTrabajoKeyboard(); setTimeout(renderLimitsPanel, 30); }
   if (name === 'visualizacion') { setTimeout(initVizPage, 60); }
@@ -1620,6 +1639,22 @@ function hideColStats() {
 function getCurrentSheet() {
   if (trabajoSheets && trabajoSheets.length > 0) return trabajoSheets[trabajoActiveSheetIndex];
   return null;
+}
+function updateAnalisisDatasetBadge() {
+  var nameEl = document.getElementById('analisisDsName');
+  var rowsEl = document.getElementById('analisisDsRows');
+  var colsEl = document.getElementById('analisisDsCols');
+  if (!nameEl) return;
+  var sheet = getCurrentSheet();
+  if (sheet) {
+    nameEl.textContent = sheet.name;
+    rowsEl.textContent = sheet.rows.length;
+    colsEl.textContent = sheet.headers.length;
+  } else {
+    nameEl.textContent = 'Ninguno';
+    rowsEl.textContent = '0';
+    colsEl.textContent = '0';
+  }
 }
 function getTrabajoSheetsListHTML() {
   var html = '';

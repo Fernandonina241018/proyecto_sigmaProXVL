@@ -76,6 +76,7 @@ Checklist `02_ESTADISTICOS.md` + documentar si cambia contrato o arquitectura.
 | 2026-05-19 | Falta de ejemplos few-shot | Prompts demasiado abstractos | Incluir 2-3 ejemplos relevantes | Mayor precisión |
 | 2026-05-20 | Prompt sin contexto del proyecto | Usuario dijo "cambiar aspecto del reporte" sin detalle | Optimización: rol + contexto Brain2 + ejemplos específicos de ReporteManager | Prompts más accionables |
 | 2026-05-22 | Statement "R² diferente por otra vía" → prompt de verificación con mapeo completo de funciones + severidades | No incluir diff (before/after) explícito | Traducir statements post-cambio a prompts de "verificación de corrección" | Evita ambigüedad al especificar formato exacto de salida |
+| 2026-05-22 | Prompt "dataset en top sidebar" — olvidé incluir caso de múltiples datasets en el ejemplo | STATE.analysisData es array pero ejemplo solo muestra `[0]?.name` | Mencionar explícitamente en instrucciones que se usa el primer elemento del array | Bajo — el código ya usaba `[0]` pero convenía ser explícito sobre por qué |
 
 ### Protocolo de auto-mejora ( comando `/prompt` )
 

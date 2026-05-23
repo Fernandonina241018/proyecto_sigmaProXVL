@@ -124,6 +124,7 @@
 | 67 | 21 May 2026 | ReporteManager HTML/TXT enhancement: RLS reporte detallado con ICH/FDA + tabla desviaciones/residuales; T-Test con grupo stats; ANOVA con SS table; Correlación con t/gl; Regresión Múltiple/Polinomial/Logística con tablas expandidas colspan=4. `ReporteManager.js:1637-1950` | ✅ |
 | 68 | 22 May 2026 | Fix: p-valores incorrectos en `calcularCDF_T` para df pequeños 🔴 — Aproximación exponencial burda reemplazada por función beta incompleta regularizada (Lanczos log-gamma + Lentz continued fraction). 19 valores críticos verificados con error < 0.00003. Afecta: Regresión Lineal Simple, T-Test(1 y 2 muestras), y cualquier test que use distribución t con n < 30. `EstadisticaDescriptiva.js:1825-1918` | ✅ |
 | 69 | 22 May 2026 | Feat: Validación completa de 25+ funciones estadísticas contra scipy — 30 checks (23 exact match, 7 algoritmo diff). Reporte en VALIDATION_REPORT.md. Bugs encontrados: 🔴 Chi-Cuadrado crash con input plano, 🟡 IC95 t-critical off-by-1-df. `__report.js`, `__refs.py`, `VALIDATION_REPORT.md` | ✅ |
+| 70 | 22 May 2026 | Feat: Dataset badge en sidebar de Análisis — muestra nombre, filas y columnas del dataset activo en la parte superior del sidebar izquierdo. Se actualiza automáticamente al cambiar de dataset. `indexx.js:274-340,660,1642-1657,31` | ✅ |
 
 ### ✨ FEATURE: Página Visualización con Chart.js (16 May 2026)
 
