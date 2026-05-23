@@ -164,6 +164,7 @@ document.getElementById('sidebarUser').addEventListener('click', function(e) {
   if (!dd) return;
   document.getElementById('sudName').textContent = session.username || 'Usuario';
   document.getElementById('sudEmail').textContent = session.email || (session.username + '@sigmapro.com');
+  document.getElementById('sudAvatar').textContent = (session.username || 'U').charAt(0).toUpperCase();
   dd.classList.toggle('open');
 });
 document.getElementById('sidebarUserDropdown').addEventListener('click', function(e) {
@@ -171,6 +172,7 @@ document.getElementById('sidebarUserDropdown').addEventListener('click', functio
   if (!item) return;
   var dd = document.getElementById('sidebarUserDropdown');
   dd.classList.remove('open');
+  if (item.getAttribute('data-action') === 'perfil') { if (typeof showPerfilModal === 'function') showPerfilModal(); return; }
   if (item.getAttribute('data-action') === 'logout' && typeof Auth !== 'undefined') Auth.logout();
 });
 document.addEventListener('click', function(e) {
@@ -183,6 +185,80 @@ document.addEventListener('click', function(e) {
     popup.classList.remove('open');
   }
 });
+
+// ── Perfil modal ──
+function showPerfilModal() {
+  var session = typeof Auth !== 'undefined' ? Auth.getSession() : null;
+  if (!session) return;
+  var overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
+  overlay.innerHTML = '<div class="modal-box" style="max-width:440px;padding:0;overflow:hidden">'
+    + '<div class="perfil-loading" style="text-align:center;padding:40px 20px;color:var(--text-muted);font-size:14px">⏳ Cargando perfil...</div>'
+    + '</div>';
+  document.body.appendChild(overlay);
+  var box = overlay.querySelector('.modal-box');
+  var apiUrl = typeof API_URL !== 'undefined' ? API_URL : '';
+  fetch(apiUrl + '/api/users', { headers: { Authorization: 'Bearer ' + (Auth.getToken() || '') } })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data.ok) throw new Error(data.error || 'Error al cargar');
+      var user = (data.users || []).find(function(u) { return u.username === session.username; });
+      if (!user) throw new Error('Usuario no encontrado');
+      renderPerfil(box, user);
+    })
+    .catch(function() { renderPerfilSimple(box, session); });
+}
+
+function renderPerfil(box, u) {
+  var nombreCompleto = [u.nombre, u.apellido].filter(Boolean).join(' ') || u.username;
+  var inicial = nombreCompleto.charAt(0).toUpperCase();
+  var colores = ['#7c6af7','#6ee7b7','#fb923c','#f87171','#60a5fa','#a78bfa','#f472b6','#34d399'];
+  var color = colores[nombreCompleto.length % colores.length];
+  var rolLabel = { admin:'🔴 Admin', user:'👤 Usuario', supervisor:'🟡 Supervisor', analista:'🔵 Analista', gerente:'🟣 Gerente', coordinador:'🟠 Coordinador', readonly:'👁 Solo lectura' }[u.role] || u.role;
+  var activo = u.active === 1;
+  var lastLogin = u.last_login ? (typeof fmtDate === 'function' ? fmtDate(u.last_login) : u.last_login.slice(0,16).replace('T',' ')) : 'Nunca';
+
+  box.innerHTML =
+    '<div style="background:linear-gradient(135deg,' + color + ',rgba(0,0,0,0.3));padding:24px 24px 20px;text-align:center;position:relative">'
+    + '<div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px;font-weight:700;color:#fff;border:3px solid rgba(255,255,255,0.3);font-family:var(--font-display,Outfit)">' + inicial + '</div>'
+    + '<div style="font-size:18px;font-weight:700;color:#fff;font-family:var(--font-display,Outfit)">' + escapeHtml(nombreCompleto) + '</div>'
+    + '<div style="font-size:13px;color:rgba(255,255,255,0.75);margin-top:2px">' + escapeHtml(u.email || '—') + '</div>'
+    + '<div style="margin-top:10px;display:flex;gap:8px;justify-content:center">'
+    + '<span style="padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(255,255,255,0.15);color:#fff">' + rolLabel + '</span>'
+    + '<span style="padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600;background:' + (activo ? 'rgba(74,222,128,0.25)' : 'rgba(248,113,113,0.25)') + ';color:' + (activo ? '#4ade80' : '#f87171') + '">' + (activo ? '✓ Activo' : '✕ Inactivo') + '</span>'
+    + '</div></div>'
+    + '<div style="padding:20px 24px;display:flex;flex-direction:column;gap:12px">'
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">'
+    + campoPerfil('👤 Usuario', u.username)
+    + campoPerfil('💼 Cargo', u.cargo || '—')
+    + campoPerfil('📱 Teléfono', u.telefono || '—')
+    + campoPerfil('✍️ Firma', u.signature_code || '—')
+    + '</div>'
+    + '<div style="display:flex;gap:16px;padding-top:12px;border-top:1px solid var(--border);font-size:12px;color:var(--text-muted);justify-content:center">'
+    + '<span>🕐 ' + lastLogin + '</span>'
+    + '<span>🔑 ' + (u.login_count || 0) + ' logins</span>'
+    + '</div>'
+    + '<button class="btn btn-secondary" style="width:100%;justify-content:center" onclick="this.closest(\'.modal-overlay\').remove()">Cerrar</button>'
+    + '</div>';
+}
+
+function renderPerfilSimple(box, session) {
+  var inicial = (session.username || 'U').charAt(0).toUpperCase();
+  box.innerHTML =
+    '<div style="background:linear-gradient(135deg,var(--accent),rgba(0,0,0,0.3));padding:24px 24px 20px;text-align:center">'
+    + '<div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px;font-weight:700;color:#fff;border:3px solid rgba(255,255,255,0.3);font-family:var(--font-display,Outfit)">' + inicial + '</div>'
+    + '<div style="font-size:18px;font-weight:700;color:#fff;font-family:var(--font-display,Outfit)">' + escapeHtml(session.username) + '</div>'
+    + '<div style="margin-top:10px;display:flex;gap:8px;justify-content:center">'
+    + '<span style="padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(255,255,255,0.15);color:#fff">' + (session.role || '—') + '</span>'
+    + '</div></div>'
+    + '<div style="padding:20px 24px;text-align:center;color:var(--text-muted);font-size:12px">ℹ️ Conectado como ' + escapeHtml(session.username) + '</div>'
+    + '<div style="padding:0 24px 20px"><button class="btn btn-secondary" style="width:100%;justify-content:center" onclick="this.closest(\'.modal-overlay\').remove()">Cerrar</button></div>';
+}
+
+function campoPerfil(label, value) {
+  return '<div style="display:flex;flex-direction:column;gap:4px;background:var(--item-bg);padding:10px 12px;border-radius:8px"><span style="font-size:10px;font-weight:600;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.5px">' + label + '</span><span style="font-size:13px;font-weight:500;color:var(--text-primary)">' + escapeHtml(value || '—') + '</span></div>';
+}
 
 // ── Tab management ──
 var tabbar = document.getElementById('tabbar');
