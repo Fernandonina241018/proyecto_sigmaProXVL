@@ -407,8 +407,8 @@ const MLManager = (() => {
             if (_models[i].id === modelId) { model = _models[i]; break; }
         }
         var isExpertMode = false;
-        var rows = [{ col: '', val: '' }];
         var allFeatures = ((model && model.meta && model.meta.num_features) || []).concat((model && model.meta && model.meta.cat_features) || []);
+        var rows = allFeatures.length ? allFeatures.map(function(f) { return { col: f, val: '' }; }) : [{ col: '', val: '' }];
 
         function buildJsonFromForm() {
             var obj = {};
@@ -531,14 +531,18 @@ const MLManager = (() => {
             rows.forEach(function(r, idx) {
                 var rowDiv = document.createElement('div');
                 rowDiv.style.cssText = 'display:flex;align-items:center;gap:6px';
-                var colLabel = document.createElement('label');
-                colLabel.style.cssText = 'font-size:11px;font-weight:500;color:var(--text-primary);min-width:55px;flex-shrink:0';
-                colLabel.textContent = 'Columna ' + (idx + 1);
-                rowDiv.appendChild(colLabel);
-                var colInput = makeRowInput('ej: ' + (allFeatures[0] || 'columna'), function(v) { r.col = v; });
-                colInput.value = r.col;
-                colInput.setAttribute('list', listId);
-                rowDiv.appendChild(colInput);
+                if (r.col && allFeatures.indexOf(r.col) !== -1) {
+                    var colSpan = document.createElement('span');
+                    colSpan.style.cssText = 'font-size:11px;font-weight:600;color:var(--text-primary);min-width:100px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
+                    colSpan.textContent = r.col;
+                    rowDiv.appendChild(colSpan);
+                } else {
+                    var colInput = makeRowInput('columna', function(v) { r.col = v; });
+                    colInput.value = r.col;
+                    colInput.setAttribute('list', listId);
+                    colInput.style.cssText = 'flex:1;padding:5px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:11px;min-width:0';
+                    rowDiv.appendChild(colInput);
+                }
                 var valInput = makeValueInput(function(v) { r.val = v; });
                 valInput.value = r.val;
                 rowDiv.appendChild(valInput);

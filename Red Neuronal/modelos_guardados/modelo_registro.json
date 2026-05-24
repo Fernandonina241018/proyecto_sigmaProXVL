@@ -126,5 +126,31 @@
       0,
       1
     ]
+  },
+  "modelo_006": {
+    "id": "modelo_006",
+    "filename": "modelo_006_xgb_📋_entrenamiento_financiero_20260524_182418.pkl",
+    "model_key": "xgb",
+    "dataset_name": "📋 entrenamiento_financiero",
+    "problem_type": "regression",
+    "created_at": "2026-05-24T18:24:18.574347",
+    "file_size_mb": 0.33,
+    "target_col": "score_credito",
+    "num_features": 9,
+    "cat_features": 0,
+    "metrics": {
+      "r2_score": 0.9684353230509644,
+      "rmse": 10.87242912941439,
+      "mae": 6.32845458984375
+    },
+    "train_params": {
+      "source": "api",
+      "model_key": "xgb",
+      "problem_type": "regression",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 3
+    },
+    "target_classes": null
   }
 }
