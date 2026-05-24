@@ -25,6 +25,35 @@
 5. Entrenar modelo (Random Forest)
 6. Predecir: ej. 8.5 L/100km → esperado ~27.67 mpg
 
+### 2026-05-24: Fix predicciones ML — CSV carga completa + defaults trainer
+
+**Qué:** Se corrigieron 4 bugs que causaban predicciones incorrectas en el pipeline ML (página ML Analysis):
+
+**Bug 1 (CRÍTICO) — Solo 10 filas enviadas para entrenar:**
+- `ml_service/main.py:131-143` — `train_endpoint` ahora carga el CSV completo desde disco cuando `dataset_name` está presente, en vez de depender de los datos enviados por el frontend (que eran solo 10 filas del preview)
+- `js/pages/ml.js:279-287` — `train()` ya no envía `preview.preview` (10 filas), solo envía `{ dataset_name, target, model_key }` y el backend carga el CSV completo
+
+**Bug 2 — `load_api()` sin conversión numérica:**
+- `Red Neuronal/data_loader.py:82-89` — Se agregó `pd.to_numeric()` con fallback >50% para columnas object que contengan valores numéricos
+
+**Bug 3 — `class_weight={0:3, 1:1}` hardcodeado:**
+- `Red Neuronal/trainer.py:99-114` — Cambiado de `{0:3, 1:1}` (penalización para créditos) a `"balanced"` por defecto. El peso personalizado sigue disponible vía `kwargs`.
+
+**Bug 4 — `max_depth=10` limitaba capacidad del modelo:**
+- `Red Neuronal/trainer.py:108` — Cambiado de `max_depth=10` a `max_depth=15` para RandomForestClassifier (el regresor ya tenía `max_depth=None`)
+
+**Archivos afectados:**
+| Archivo | Líneas | Cambio |
+|---------|--------|--------|
+| `ml_service/main.py` | 131-143 | CSV loading en train_endpoint |
+| `js/pages/ml.js` | 279-287 | train() simplificado, sin preview |
+| `Red Neuronal/trainer.py` | 99-114 | class_weight + max_depth |
+| `Red Neuronal/data_loader.py` | 82-89 | type conversion en load_api |
+
+**Verificaciones:**
+- `node -c ml.js` — OK
+- Python `py_compile` en main.py, trainer.py, data_loader.py — OK
+
 ### 2026-05-22: Fase 1 — Reorganización CSS (raíz → css/core/ + css/pages/)
 
 **Qué:** Los 13 archivos CSS que estaban en la raíz del proyecto se movieron a subdirectorios organizados por dominio: `css/core/` (estilos base compartidos por toda la app) y `css/pages/` (estilos específicos de página/módulo).

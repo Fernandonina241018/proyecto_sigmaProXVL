@@ -97,19 +97,11 @@ def build_model(model_key: str, problem_type: str,
         return MLPClassifier(**p)
 
     if model_key == "rf":
-        # MEJORA: Penalizar False Positives (aprobaciones incorrectas en créditos)
-        # class_weight balanceado es insuficiente cuando desbalance es severo (86/14)
-        # Usar {0: 3, 1: 1} para penalizar 3x más los rechazos incorrectos
-        default_weight = "balanced"
-        if "class_weight" not in kwargs:
-            # Detectar si es problema de créditos por el contexto
-            # En créditos, penalizar FP (false positives) es crítico
-            default_weight = {0: 3, 1: 1}  # Penaliza 3x los falsos positivos
-        p = dict(n_estimators=200, max_depth=10,  # Reducir max_depth para menos overfit
+        p = dict(n_estimators=200, max_depth=15,
                  random_state=seed, n_jobs=-1,
-                 class_weight=default_weight,
-                 min_samples_split=3,  # Evitar ramas con muy pocos samples
-                 min_samples_leaf=2)   # Evitar hojas con 1 solo sample
+                 class_weight="balanced",
+                 min_samples_split=3,
+                 min_samples_leaf=2)
         p.update(kwargs)
         return RandomForestClassifier(**p)
 

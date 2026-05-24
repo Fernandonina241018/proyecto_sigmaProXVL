@@ -52,7 +52,7 @@ const MLManager = (() => {
             '<option value="">— Cargando datasets —</option></select>' +
             '<button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:10px;padding:3px 8px" onclick="MLManager.refreshDatasets()">🔄 Refrescar</button>' +
             '</div></div>' +
-            '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">🤖 Modelo</div>' +
+            '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">🤖 Modelo <span style="cursor:help;font-size:11px;margin-left:auto" onclick="MLManager.showAlgorithmInfo()" title="Ver detalles del algoritmo">ⓘ</span></div>' +
             '<div class="info-section-body" style="padding:6px 10px;display:flex;flex-direction:column;gap:4px">' +
             '<select id="ml-model-select" style="width:100%;padding:4px 6px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-panel);color:var(--text-primary);font-size:10px">' +
             '<option value="rf">🌳 Random Forest</option>' +
@@ -277,10 +277,8 @@ const MLManager = (() => {
                     dataset_name: '📋 ' + sheetName,
                 });
             } else {
-                var preview = await _fetch('POST', '/api/ml/dataset/preview', { filename: datasetName });
-                var sendData = bootstrap ? preview.preview : preview.preview;
                 return await _fetch('POST', '/api/ml/train', {
-                    data: sendData, columns: preview.columns,
+                    data: [], columns: [],
                     target: target, model_key: modelKey,
                     n_bootstraps: bootstrap ? 3 : 0,
                     dataset_name: datasetName,
@@ -511,6 +509,170 @@ const MLManager = (() => {
         return div.innerHTML;
     }
 
+    var _ALGO_INFO = {
+        rf: {
+            name: '🌳 Random Forest',
+            desc: 'Ensemble de árboles de decisión. Cada árbol vota y se toma la mayoría (clasificación) o el promedio (regresión).',
+            pros: [
+                'Muy robusto ante outliers y datos faltantes',
+                'No requiere escalado de features',
+                'Maneja bien features numéricas y categóricas',
+                'Difícil de overfittear (promedia múltiples árboles)',
+                'Da importancia de features como output nativo',
+            ],
+            cons: [
+                'Modelo grande en memoria (muchos árboles)',
+                'Lento en inferencia comparado con modelos simples',
+                'No extrapola bien en regresión (predicciones limitadas al rango de entrenamiento)',
+                'Poco interpretable (caja negra con cientos de árboles)',
+            ],
+            bestFor: 'Clasificación y regresión con datos tabulares, datasets medianos (100-100K filas), cuando importa la robustez',
+            considerations: 'Es el mejor punto de partida. No requiere preprocessing complejo. Ajustá n_estimators (100-500) y max_depth para controlar el balance velocidad/precisión.',
+        },
+        xgb: {
+            name: '⚡ XGBoost',
+            desc: 'Gradient boosting optimizado con árboles secuenciales. Cada árbol nuevo corrige errores del anterior.',
+            pros: [
+                'Estado del arte en datos tabulares (gana competencias Kaggle)',
+                'Muy rápido comparado con otros boosting (paralelización nativa)',
+                'Maneja valores nulos automáticamente',
+                'Regularización incorporada (L1/L2) para evitar overfitting',
+                'Soporta entrenamiento con GPU',
+            ],
+            cons: [
+                'Muy sensible a hiperparámetros (learning_rate, max_depth, subsample)',
+                'Requiere más tuning que Random Forest',
+                'Puede overfittear si hay poco datos y muchas features',
+                'Modelos grandes en disco si se guardan muchos árboles',
+            ],
+            bestFor: 'Datos tabulares con 1K-1M filas, competencias de ML, cuando la precisión máxima es prioridad',
+            considerations: 'Requiere más tuning que RF. Ajustá learning_rate (0.01-0.3), max_depth (3-10), n_estimators (100-2000). Usá early_stopping_rounds para evitar overfitting.',
+        },
+        mlp: {
+            name: '🧠 MLP Neural Net',
+            desc: 'Red neuronal feed-forward con capas ocultas. Cada capa aprende representaciones no lineales.',
+            pros: [
+                'Captura relaciones no lineales complejas',
+                'Escalable: funciona bien con muchos datos y muchas features',
+                'Transfer learning: podés reusar capas pre-entrenadas',
+                'Flexible en arquitectura (capas, dropout, activaciones)',
+            ],
+            cons: [
+                'Requiere escalado de features (StandardScaler)',
+                'Muchos hiperparámetros para tunear (capas, neuronas, learning rate, batch size)',
+                'Lento de entrenar sin GPU en datasets grandes',
+                'Poco interpretable (caja negra)',
+                'Puede overfittear si hay poco datos',
+            ],
+            bestFor: 'Datasets medianos-grandes (5K+ filas), relaciones no lineales, cuando hay GPU disponible',
+            considerations: 'SIEMPRE escalá los datos. Empezá con 1-2 capas ocultas de 64-128 neuronas. Usá ReLU, Adam optimizer, y early stopping. Con pocos datos (<1K filas), no es recomendable.',
+        },
+        logistic: {
+            name: '📈 Logistic Regression',
+            desc: 'Modelo lineal para clasificación binaria y multiclase. Calcula probabilidades usando la función sigmoide/softmax.',
+            pros: [
+                'Muy rápido de entrenar e inferir',
+                'Altamente interpretable (coeficientes = peso de cada feature)',
+                'Da probabilidades calibradas (no solo clases)',
+                'Funciona bien con pocos datos',
+                'No requiere mucho tuning',
+            ],
+            cons: [
+                'Solo captura relaciones lineales entre features y target',
+                'Requiere escalado de features',
+                'Sensible a outliers',
+                'Rinde mal con muchas features correlacionadas (multicolinealidad)',
+                'No maneja interacciones complejas entre features',
+            ],
+            bestFor: 'Clasificación binaria, datasets pequeños (<10K filas), cuando la interpretabilidad es crítica (medicina, finanzas)',
+            considerations: 'Escalá los datos. Verificá multicolinealidad. Empezá con C=1.0 y ajustá la regularización. Sirve como baseline para comparar con modelos más complejos.',
+        },
+        linear: {
+            name: '📐 Linear Regression',
+            desc: 'Modelo lineal para regresión. Predice valores continuos minimizando el error cuadrático medio.',
+            pros: [
+                'El más rápido de entrenar e inferir',
+                'Muy interpretable (coeficientes = impacto de cada feature)',
+                'No requiere tuning de hiperparámetros',
+                'Funciona bien con datasets chicos (incluso <100 filas)',
+                'Base teórica sólida, fácil de diagnosticar (R², residuos)',
+            ],
+            cons: [
+                'SOLO para regresión (no clasificación)',
+                'Asume relación lineal entre features y target',
+                'Muy sensible a outliers',
+                'Requiere escalado de features',
+                'Rinde mal si la relación es no lineal o hay interacciones complejas',
+            ],
+            bestFor: 'Regresión simple con relaciones lineales, datasets chicos, baseline obligatorio para comparar',
+            considerations: 'Verificá los supuestos: linealidad, independencia de errores, homocedasticidad, normalidad de residuos. Si los residuos muestran patrones, pasá a Random Forest o XGBoost.',
+        },
+    };
+
+    function showAlgorithmInfo() {
+        var sel = document.getElementById('ml-model-select');
+        var key = sel ? sel.value : 'rf';
+        var info = _ALGO_INFO[key];
+        if (!info) return;
+
+        var overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+        var box = document.createElement('div');
+        box.className = 'modal-box';
+        box.style.cssText = 'max-width:480px';
+
+        var title = document.createElement('div');
+        title.className = 'modal-title';
+        title.textContent = info.name;
+        box.appendChild(title);
+
+        var body = document.createElement('div');
+        body.style.cssText = 'padding:8px 16px 16px;display:flex;flex-direction:column;gap:10px;font-size:11px;color:var(--text-primary)';
+
+        var desc = document.createElement('div');
+        desc.style.cssText = 'padding:8px;background:var(--item-bg);border-radius:6px;font-size:10px;color:var(--text-muted)';
+        desc.textContent = info.desc;
+        body.appendChild(desc);
+
+        var prosHtml = '<div style="font-weight:600;font-size:10px;margin-bottom:4px">✅ Pros</div>';
+        prosHtml += '<div style="display:flex;flex-direction:column;gap:2px">';
+        info.pros.forEach(function(p) { prosHtml += '<div style="font-size:10px;padding:1px 0">• ' + p + '</div>'; });
+        prosHtml += '</div>';
+
+        var consHtml = '<div style="font-weight:600;font-size:10px;margin-bottom:4px;margin-top:6px">❌ Contras</div>';
+        consHtml += '<div style="display:flex;flex-direction:column;gap:2px">';
+        info.cons.forEach(function(c) { consHtml += '<div style="font-size:10px;padding:1px 0">• ' + c + '</div>'; });
+        consHtml += '</div>';
+
+        var detailsDiv = document.createElement('div');
+        detailsDiv.style.cssText = 'padding:6px 8px;background:var(--item-bg);border-radius:6px';
+        detailsDiv.innerHTML = prosHtml + consHtml;
+        body.appendChild(detailsDiv);
+
+        var best = document.createElement('div');
+        best.style.cssText = 'padding:6px 8px;background:var(--item-bg);border-radius:6px;font-size:10px';
+        best.innerHTML = '<span style="font-weight:600">🎯 Mejor para:</span> ' + info.bestFor;
+        body.appendChild(best);
+
+        var consider = document.createElement('div');
+        consider.style.cssText = 'padding:6px 8px;background:rgba(124,106,247,0.08);border:1px solid rgba(124,106,247,0.2);border-radius:6px;font-size:10px';
+        consider.innerHTML = '<span style="font-weight:600">💡 Consideraciones:</span> ' + info.considerations;
+        body.appendChild(consider);
+
+        var actions = document.createElement('div');
+        actions.style.cssText = 'display:flex;gap:6px;justify-content:end';
+        var closeBtn = document.createElement('button');
+        closeBtn.className = 'btn btn-secondary';
+        closeBtn.textContent = 'Cerrar';
+        closeBtn.onclick = function() { overlay.remove(); };
+        actions.appendChild(closeBtn);
+        body.appendChild(actions);
+
+        box.appendChild(body);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+    }
+
     return {
         init: init,
         buildLeftPanel: buildLeftPanel,
@@ -521,5 +683,9 @@ const MLManager = (() => {
         predictFromModel: predictFromModel,
         detectAnomalies: detectAnomalies,
         deleteModel: deleteModel,
+        onModelSelect: onModelSelect,
+        predictSelectedModel: predictSelectedModel,
+        deleteSelectedModel: deleteSelectedModel,
+        showAlgorithmInfo: showAlgorithmInfo,
     };
 })();

@@ -128,7 +128,20 @@ def health():
 @app.post("/api/ml/train")
 def train_endpoint(req: TrainRequest):
     try:
-        df = _df_from_payload(req.data, req.columns)
+        # If dataset_name provided, load full CSV directly (avoids preview 10-row limit)
+        if req.dataset_name and (not req.data or len(req.data) <= 20):
+            csv_path = DATOS_DIR / req.dataset_name
+            if not csv_path.exists():
+                found = list(DATOS_DIR.glob(f"**/{req.dataset_name}"))
+                if found:
+                    csv_path = found[0]
+            if csv_path.exists():
+                df = load_data("csv", path=str(csv_path))
+            else:
+                raise HTTPException(404, f"Dataset '{req.dataset_name}' not found in {DATOS_DIR}")
+        else:
+            df = _df_from_payload(req.data, req.columns)
+
         if req.target not in df.columns:
             raise HTTPException(400, f"Target '{req.target}' not found in data")
 

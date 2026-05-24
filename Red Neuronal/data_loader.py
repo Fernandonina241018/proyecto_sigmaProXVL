@@ -78,6 +78,16 @@ def load_api(url: str, params: dict = None, headers: dict = None,
     else:
         raise ValueError("La API devolvió un formato JSON no soportado.")
 
+    # Convertir columnas object que contengan valores numéricos
+    for col in df.columns:
+        if df[col].dtype == object:
+            try:
+                converted = pd.to_numeric(df[col], errors="coerce")
+                if converted.notna().mean() > 0.5:  # >50% convertibles
+                    df[col] = converted
+            except (ValueError, TypeError):
+                pass
+
     print(f"  ✔ API cargada: {url}  ({len(df):,} filas, {df.shape[1]} cols)")
     return df
 
