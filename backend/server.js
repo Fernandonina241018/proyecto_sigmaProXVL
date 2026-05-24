@@ -144,6 +144,51 @@ function checkAndAlertIP(ip, username) {
     }
 }
 
+
+// ── Proxy /api/ml/* → Python ML Service (FastAPI :8000) ──
+const http = require('http');
+
+const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://localhost:8000';
+
+app.use('/api/ml', async (req, res) => {
+    try {
+        const mlUrl = new URL(ML_SERVICE_URL + req.originalUrl);
+        const options = {
+            hostname: mlUrl.hostname,
+            port: mlUrl.port,
+            path: mlUrl.pathname + mlUrl.search,
+            method: req.method,
+            headers: { ...req.headers, host: mlUrl.host },
+            timeout: 120000,
+        };
+        // Remove body-restricted headers for GET/HEAD
+        if (['GET', 'HEAD'].includes(req.method)) {
+            delete options.headers['content-type'];
+            delete options.headers['content-length'];
+        }
+        const proxyReq = http.request(options, (proxyRes) => {
+            res.status(proxyRes.statusCode);
+            proxyRes.headers && Object.entries(proxyRes.headers).forEach(([k, v]) => res.setHeader(k, v));
+            proxyRes.pipe(res);
+        });
+        proxyReq.on('error', (err) => {
+            console.error('ML proxy error:', err.message);
+            res.status(503).json({ ok: false, error: 'ML Service no disponible: ' + err.message });
+        });
+        proxyReq.on('timeout', () => {
+            proxyReq.destroy();
+            res.status(504).json({ ok: false, error: 'ML Service timeout' });
+        });
+        if (req.body && Object.keys(req.body).length) {
+            proxyReq.write(JSON.stringify(req.body));
+        }
+        proxyReq.end();
+    } catch (err) {
+        console.error('ML proxy error:', err);
+        res.status(500).json({ ok: false, error: err.message });
+    }
+});
+
 // ── Inicializar BD al arrancar ────────
 const startTime = Date.now();
 let server;

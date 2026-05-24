@@ -193,11 +193,14 @@ function showPerfilModal() {
   var overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
   overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
-  overlay.innerHTML = '<div class="modal-box" style="max-width:440px;padding:0;overflow:hidden">'
-    + '<div class="perfil-loading" style="text-align:center;padding:40px 20px;color:var(--text-muted);font-size:14px">⏳ Cargando perfil...</div>'
-    + '</div>';
+  overlay.innerHTML = '<div style="max-width:440px;width:90%">'
+    + '<div id="perfilConnStatus" style="padding:6px 16px;font-size:11px;font-weight:600;text-align:center;background:var(--bg-secondary);color:var(--text-muted);border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:center;gap:6px">⏳ Conectando...</div>'
+    + '<div class="modal-box" style="max-width:100%;padding:0;overflow:hidden;border-radius:0 0 12px 12px">'
+    + '<div class="perfil-loading" style="text-align:center;padding:40px 20px;color:var(--text-muted);font-size:14px">Cargando perfil...</div>'
+    + '</div></div>';
   document.body.appendChild(overlay);
   var box = overlay.querySelector('.modal-box');
+  var statusEl = document.getElementById('perfilConnStatus');
   var apiUrl = typeof API_URL !== 'undefined' ? API_URL : '';
   fetch(apiUrl + '/api/users', { headers: { Authorization: 'Bearer ' + (Auth.getToken() || '') } })
     .then(function(r) { return r.json(); })
@@ -205,9 +208,13 @@ function showPerfilModal() {
       if (!data.ok) throw new Error(data.error || 'Error al cargar');
       var user = (data.users || []).find(function(u) { return u.username === session.username; });
       if (!user) throw new Error('Usuario no encontrado');
+      if (statusEl) { statusEl.innerHTML = '✓ Conectado al servidor'; statusEl.style.background = 'rgba(74,222,128,0.12)'; statusEl.style.color = '#4ade80'; }
       renderPerfil(box, user);
     })
-    .catch(function() { renderPerfilSimple(box, session); });
+    .catch(function() {
+      if (statusEl) { statusEl.innerHTML = '✕ Sin conexión al servidor'; statusEl.style.background = 'rgba(248,113,113,0.12)'; statusEl.style.color = '#f87171'; }
+      renderPerfilSimple(box, session);
+    });
 }
 
 function renderPerfil(box, u) {
@@ -504,6 +511,7 @@ var leftPanels = {
   reportes: function() { return '<div class="left-panel" style="gap:10px"><div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px"><button class="btn btn-primary" style="width:100%;justify-content:center">+ Nuevo reporte</button></div><div class="info-section"><div class="info-section-header">Plantillas</div><div class="info-list"><div class="info-item active">📐 Reporte estándar</div><div class="info-item">📋 Reporte ejecutivo</div><div class="info-item">📊 Resumen estadístico</div></div></div><div class="info-section"><div class="info-section-header">Formato de salida</div><div class="info-list"><div class="info-item active">📄 PDF</div><div class="info-item">📝 DOCX</div><div class="info-item">📊 HTML</div></div></div></div>'; },
   auditoria: function() { return '<div class="left-panel" style="gap:10px"><button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:11px;flex-shrink:0" onclick="if(typeof AuditoriaManager!==\'undefined\')AuditoriaManager.exportarCSV()">📥 Exportar log completo</button><div class="info-section"><div class="info-section-header">Filtros</div><div style="font-size:11px;color:var(--text-faint);padding:8px">Usa los filtros incluidos en el panel de resultados</div></div></div>'; },
   usuarios: function() { return '<div class="left-panel" style="gap:10px"><div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px"><button class="btn btn-primary" style="width:100%;justify-content:center" onclick="if(typeof UsuariosManager!==\'undefined\')UsuariosManager.abrirModalCrearUsuario()">+ Nuevo usuario</button></div><div class="info-section"><div class="info-section-header">Usuarios</div><div class="usr-toolbar" style="display:flex;flex-direction:column;gap:8px;padding:8px"><input class="usr-search" id="usr-search" type="text" placeholder="🔍 Buscar usuario..." style="padding:8px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:0.82rem;font-family:inherit;color:var(--text-primary);background:var(--bg-panel);outline:none;transition:border-color 0.2s"><div style="display:flex;align-items:center;justify-content:space-between"><div class="usr-count" id="usr-count" style="font-size:0.8rem;color:var(--text-faint)">—</div><button class="usr-btn-refresh" id="usr-btn-refresh" title="Recargar" style="padding:6px 10px;background:var(--item-bg);border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:0.9rem;transition:all 0.2s">🔄</button></div></div></div></div>'; },
+  ml: function() { return typeof MLManager !== 'undefined' ? MLManager.buildLeftPanel() : ''; },
   firmarReporte: function() {
     return '<div class="left-panel" style="gap:10px">' +
       '<div class="info-section"><div class="info-section-header">✍️ Firmar Reporte</div>' +
@@ -707,6 +715,7 @@ var rightPanels = {
   reportes: function() { return '<div class="page-body"><div id="reportes-editor-container"></div></div>'; },
   auditoria: function() { return '<div class="page-body"><div id="auditoria-container" style="width:100%"></div></div>'; },
   usuarios: function() { return '<div class="page-body"><div id="usuarios-container" style="width:100%"></div></div>'; },
+  ml: function() { return typeof MLManager !== 'undefined' ? MLManager.buildRightPanel() : ''; },
   firmarReporte: function() { return '<div class="page-body" style="display:flex;flex-direction:column;gap:12px;height:100%">' +
     '<div class="page-card" style="flex:1;display:flex;flex-direction:column;min-height:0">' +
       '<div class="page-card-header"><span class="page-card-icon">📄</span><span class="page-card-title">Vista previa del reporte</span></div>' +
@@ -714,8 +723,8 @@ var rightPanels = {
         '<div style="color:var(--text-faint);font-size:13px">Carga un reporte .html para previsualizarlo aquí</div></div></div></div>'; }
 };
 
-var pageIcons  = { trabajo:'📋', datos:'📊', analisis:'🔬', visualizacion:'📈', reportes:'📄', firmarReporte:'✍️', auditoria:'📋', usuarios:'👥' };
-var pageTitles = { trabajo:'Hoja de Trabajo', datos:'Gestión de Datos', analisis:'Análisis Estadístico', visualizacion:'Visualización', reportes:'Reportes', firmarReporte:'Firmar Reporte', auditoria:'Auditoría', usuarios:'Usuarios' };
+var pageIcons  = { trabajo:'📋', datos:'📊', analisis:'🔬', visualizacion:'📈', reportes:'📄', firmarReporte:'✍️', ml:'🧠', auditoria:'📋', usuarios:'👥' };
+var pageTitles = { trabajo:'Hoja de Trabajo', datos:'Gestión de Datos', analisis:'Análisis Estadístico', visualizacion:'Visualización', reportes:'Reportes', firmarReporte:'Firmar Reporte', ml:'ML Analysis', auditoria:'Auditoría', usuarios:'Usuarios' };
 
 function loadPage(name) {
   currentPage = name;
@@ -756,6 +765,7 @@ function loadPage(name) {
     if (typeof UsuariosManager !== 'undefined') UsuariosManager.buildView();
   }, 60); }
   if (name === 'firmarReporte') { setTimeout(initFirmarReportePage, 60); }
+  if (name === 'ml') { setTimeout(function() { if (typeof MLManager !== 'undefined') MLManager.init(); }, 60); }
   updateToolsMenuState();
   updateRibbonNavPopup();
 }

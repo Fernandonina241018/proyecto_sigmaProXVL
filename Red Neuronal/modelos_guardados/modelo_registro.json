@@ -373,5 +373,34 @@
       0,
       1
     ]
+  },
+  "modelo_016": {
+    "id": "modelo_016",
+    "filename": "modelo_016_rf_api_target_20260523_205630.pkl",
+    "model_key": "rf",
+    "dataset_name": "api_target",
+    "problem_type": "multiclass",
+    "created_at": "2026-05-23T20:56:31.354641",
+    "file_size_mb": 0.47,
+    "target_col": "target",
+    "num_features": 2,
+    "cat_features": 0,
+    "metrics": {
+      "accuracy": 0.3,
+      "f1_score": 0.24545454545454545
+    },
+    "train_params": {
+      "source": "api",
+      "model_key": "rf",
+      "problem_type": "multiclass",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 3
+    },
+    "target_classes": [
+      0,
+      1,
+      2
+    ]
   }
 }
