@@ -65,9 +65,14 @@ const MLManager = (() => {
             '<input type="text" id="ml-target-input" placeholder="columna target" style="flex:1;padding:3px 5px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:10px"> Target</label>' +
             '<button class="btn btn-primary" style="width:100%;justify-content:center;font-size:10px;padding:3px 8px" onclick="MLManager.train()">🎯 Entrenar</button>' +
             '</div></div>' +
-            '<div class="info-section" style="flex:1;display:flex;flex-direction:column;min-height:0"><div class="info-section-header">💾 Modelos guardados</div>' +
-            '<div class="info-section-body" style="flex:1;overflow-y:auto;padding:4px 6px;display:flex;flex-direction:column;gap:3px;min-height:0" id="ml-models-list">' +
-            '<div style="font-size:10px;color:var(--text-faint);padding:4px">Cargando...</div></div></div>' +
+            '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">💾 Modelos guardados</div>' +
+            '<div class="info-section-body" style="padding:6px 10px;display:flex;flex-direction:column;gap:4px">' +
+            '<select id="ml-models-select" style="width:100%;padding:4px 6px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-panel);color:var(--text-primary);font-size:10px" onchange="MLManager.onModelSelect(this.value)">' +
+            '<option value="">— Sin modelos —</option></select>' +
+            '<div style="display:flex;gap:4px">' +
+            '<button class="btn btn-primary" style="flex:1;justify-content:center;font-size:10px;padding:3px 8px" onclick="MLManager.predictSelectedModel()">🔮 Predecir</button>' +
+            '<button class="btn btn-secondary" style="justify-content:center;font-size:10px;padding:3px 8px;color:#ef4444" onclick="MLManager.deleteSelectedModel()">🗑</button>' +
+            '</div></div></div>' +
             '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">⚠️ Anomalías</div>' +
             '<div class="info-section-body" style="padding:6px 10px">' +
             '<button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:10px;padding:3px 8px" onclick="MLManager.detectAnomalies()">🔍 Detectar anomalías</button></div></div>' +
@@ -163,31 +168,51 @@ const MLManager = (() => {
     }
 
     async function refreshModels() {
-        const container = document.getElementById('ml-models-list');
-        if (!container) return;
+        const sel = document.getElementById('ml-models-select');
+        if (!sel) return;
         try {
             const data = await _fetch('GET', '/api/ml/models');
             _models = data.models || [];
-            if (_models.length === 0) {
-                container.innerHTML = '<div style="font-size:10px;color:var(--text-faint);padding:4px">Sin modelos entrenados</div>';
-                return;
-            }
-            container.innerHTML = '';
+            sel.innerHTML = '<option value="">— ' + (_models.length === 0 ? 'Sin modelos entrenados' : 'Selecciona un modelo') + ' —</option>';
             _models.forEach(function(m) {
-                const div = document.createElement('div');
-                div.style.cssText = 'padding:6px 8px;border:1px solid var(--border);border-radius:4px;cursor:pointer;font-size:10px;transition:all .15s';
-                div.innerHTML = '<div style="font-weight:600;color:var(--accent)">' + escapeHtml(m.id) + '</div>' +
-                    '<div style="color:var(--text-primary)">' + escapeHtml(m.model_key) + ' · ' + escapeHtml(m.dataset_name || '?') + '</div>' +
-                    '<div style="color:var(--text-faint)">' + (m.saved_at ? m.saved_at.slice(0, 16) : '') + '</div>';
-                div.addEventListener('click', function() {
-                    _selectedModelId = m.id;
-                    loadModelDetail(m);
-                });
-                container.appendChild(div);
+                var opt = document.createElement('option');
+                opt.value = m.id;
+                var label = m.id;
+                if (m.model_key) label += ' · ' + m.model_key;
+                if (m.saved_at) label += ' · ' + m.saved_at.slice(0, 10);
+                opt.textContent = label;
+                sel.appendChild(opt);
             });
         } catch (e) {
-            container.innerHTML = '<div style="font-size:10px;color:#ef4444;padding:4px">Error: ' + e.message + '</div>';
+            sel.innerHTML = '<option value="">— Error: ' + e.message + ' —</option>';
             showToast('Error al cargar modelos: ' + e.message, 'error');
+        }
+    }
+
+    function onModelSelect(modelId) {
+        if (!modelId) return;
+        _selectedModelId = modelId;
+        for (var i = 0; i < _models.length; i++) {
+            if (_models[i].id === modelId) { loadModelDetail(_models[i]); return; }
+        }
+    }
+
+    function predictSelectedModel() {
+        if (!_selectedModelId) { showToast('Selecciona un modelo primero', 'error'); return; }
+        predictFromModel(_selectedModelId);
+    }
+
+    async function deleteSelectedModel() {
+        if (!_selectedModelId) { showToast('Selecciona un modelo primero', 'error'); return; }
+        if (!confirm('¿Eliminar modelo ' + _selectedModelId + '?')) return;
+        try {
+            await _fetch('DELETE', '/api/ml/models/' + _selectedModelId);
+            _selectedModelId = null;
+            refreshModels();
+            document.getElementById('ml-results').innerHTML = buildEmptyState();
+            showToast('🗑 Modelo eliminado', 'ok');
+        } catch (e) {
+            showToast('Error: ' + e.message, 'error');
         }
     }
 
