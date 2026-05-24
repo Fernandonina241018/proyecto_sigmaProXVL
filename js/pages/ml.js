@@ -406,24 +406,16 @@ const MLManager = (() => {
         for (var i = 0; i < _models.length; i++) {
             if (_models[i].id === modelId) { model = _models[i]; break; }
         }
-        var numFeatures = (model && model.meta && model.meta.num_features) || [];
-        var catFeatures = (model && model.meta && model.meta.cat_features) || [];
-        var allFeatures = numFeatures.concat(catFeatures);
-
         var isExpertMode = false;
-        var formData = {};
-        allFeatures.forEach(function(f) { formData[f] = ''; });
+        var colName = '';
+        var colValue = '';
+        var allFeatures = ((model && model.meta && model.meta.num_features) || []).concat((model && model.meta && model.meta.cat_features) || []);
 
         function buildJsonFromForm() {
+            if (!colName.trim()) return '[{}]';
             var obj = {};
-            allFeatures.forEach(function(f) {
-                var val = formData[f];
-                if (numFeatures.indexOf(f) !== -1) {
-                    obj[f] = val === '' ? 0 : Number(val);
-                } else {
-                    obj[f] = val;
-                }
-            });
+            var val = colValue === '' ? 0 : Number(colValue);
+            obj[colName.trim()] = isNaN(val) ? colValue : val;
             return JSON.stringify([obj], null, 2);
         }
 
@@ -446,54 +438,97 @@ const MLManager = (() => {
         var content = document.createElement('div');
         content.style.cssText = 'padding:12px 16px;display:flex;flex-direction:column;gap:10px;max-height:70vh;overflow-y:auto';
 
+        var meta = (model && model.meta) || {};
+        var metrics = (model && model.metrics) || {};
+        var infoGrid = document.createElement('div');
+        infoGrid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:6px';
+
+        function infoCard(title, lines) {
+            var card = document.createElement('div');
+            card.style.cssText = 'padding:8px 10px;background:var(--item-bg);border-radius:6px;font-size:10px';
+            var t = document.createElement('div');
+            t.style.cssText = 'font-weight:600;margin-bottom:4px;font-size:10px;color:var(--text-faint)';
+            t.textContent = title;
+            card.appendChild(t);
+            lines.forEach(function(l) {
+                var d = document.createElement('div');
+                d.style.cssText = 'display:flex;justify-content:space-between;padding:1px 0';
+                d.innerHTML = '<span>' + l[0] + '</span><span style="font-weight:500;color:var(--accent)">' + l[1] + '</span>';
+                card.appendChild(d);
+            });
+            return card;
+        }
+
+        var metricKeys = Object.keys(metrics).filter(function(k) { return !['y_pred', 'y_proba'].includes(k); });
+        var metricLines = metricKeys.slice(0, 4).map(function(k) {
+            var v = metrics[k];
+            if (typeof v === 'number') v = v.toFixed ? v.toFixed(4) : v;
+            return [k, String(v)];
+        });
+        if (!metricLines.length) metricLines = [['—', 'Sin métricas']];
+
+        infoGrid.appendChild(infoCard('🤖 Identidad', [
+            ['Algoritmo', model.model_key || '—'],
+            ['Dataset', model.dataset_name || '—'],
+            ['Guardado', model.saved_at ? model.saved_at.slice(0, 16) : '—'],
+        ]));
+        infoGrid.appendChild(infoCard('📊 Métricas', metricLines));
+        infoGrid.appendChild(infoCard('📐 Features', [
+            ['Numéricas', String((meta.num_features || []).length)],
+            ['Categóricas', String((meta.cat_features || []).length)],
+            ['Target', meta.target_col || '—'],
+        ]));
+        infoGrid.appendChild(infoCard('📋 Datos', [
+            ['Tipo', meta.problem_type || '—'],
+            ['Train', String(meta.n_train || '—') + ' filas'],
+            ['Test', String(meta.n_test || '—') + ' filas'],
+        ]));
+        content.appendChild(infoGrid);
+
+        var sep = document.createElement('div');
+        sep.style.cssText = 'height:1px;background:var(--border);margin:2px 0';
+        content.appendChild(sep);
+
         var formContainer = document.createElement('div');
         formContainer.id = 'ml-predict-form';
         formContainer.style.cssText = 'display:flex;flex-direction:column;gap:6px';
 
-        allFeatures.forEach(function(f) {
-            var isNum = numFeatures.indexOf(f) !== -1;
+        function makeRow(labelText, inputType, placeholder, onChange) {
             var row = document.createElement('div');
             row.style.cssText = 'display:flex;align-items:center;gap:8px';
             var label = document.createElement('label');
             label.style.cssText = 'font-size:11px;font-weight:500;color:var(--text-primary);min-width:100px;flex-shrink:0';
-            label.textContent = f;
+            label.textContent = labelText;
             row.appendChild(label);
-            if (isNum) {
-                var input = document.createElement('input');
-                input.type = 'number';
-                input.step = 'any';
-                input.placeholder = '0';
-                input.style.cssText = 'flex:1;padding:5px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:11px';
-                input.value = formData[f];
-                input.oninput = function() {
-                    formData[f] = input.value;
-                    updatePreview();
-                };
-                row.appendChild(input);
-            } else {
-                var input = document.createElement('input');
-                input.type = 'text';
-                input.placeholder = 'valor';
-                input.style.cssText = 'flex:1;padding:5px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:11px';
-                input.value = formData[f];
-                input.oninput = function() {
-                    formData[f] = input.value;
-                    updatePreview();
-                };
-                row.appendChild(input);
-            }
-            formContainer.appendChild(row);
-        });
+            var input = document.createElement('input');
+            input.type = inputType;
+            if (inputType === 'number') input.step = 'any';
+            input.placeholder = placeholder;
+            input.style.cssText = 'flex:1;padding:5px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:11px';
+            input.oninput = function() { onChange(input.value); updatePreview(); };
+            row.appendChild(input);
+            return row;
+        }
 
+        formContainer.appendChild(makeRow('Columna', 'text', 'ej: l_per_100km', function(v) { colName = v; }));
+        var colInput = formContainer.querySelector('input[type="text"]');
+        if (colInput) colInput.setAttribute('list', 'ml-feature-list');
+        var datalist = document.createElement('datalist');
+        datalist.id = 'ml-feature-list';
+        allFeatures.forEach(function(f) {
+            var opt = document.createElement('option');
+            opt.value = f;
+            datalist.appendChild(opt);
+        });
+        formContainer.appendChild(datalist);
+        formContainer.appendChild(makeRow('Valor', 'number', '0', function(v) { colValue = v; }));
         content.appendChild(formContainer);
 
         var textarea = document.createElement('textarea');
         textarea.id = 'ml-predict-input';
         textarea.placeholder = 'Array de objetos con las columnas del modelo';
         textarea.style.cssText = 'width:100%;min-height:120px;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:11px;font-family:monospace;resize:vertical;display:none';
-        var sample = {};
-        allFeatures.forEach(function(f) { sample[f] = numFeatures.indexOf(f) !== -1 ? 0 : ''; });
-        textarea.value = JSON.stringify([sample], null, 2);
+        textarea.value = JSON.stringify([{ "columna": 0 }], null, 2);
         content.appendChild(textarea);
 
         var previewLabel = document.createElement('div');
@@ -585,11 +620,7 @@ const MLManager = (() => {
             }
         });
 
-        if (allFeatures.length === 0) {
-            formContainer.innerHTML = '<div style="font-size:11px;color:var(--text-faint);padding:8px">No hay información de features para este modelo. Usá el modo experto para ingresar JSON manualmente.</div>';
-            previewEl.textContent = '[]';
         }
-    }
 
     async function detectAnomalies() {
         const results = document.getElementById('ml-results');

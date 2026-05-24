@@ -24,5 +24,57 @@
       "n_bootstraps": 3
     },
     "target_classes": null
+  },
+  "modelo_002": {
+    "id": "modelo_002",
+    "filename": "modelo_002_rf_📋_entre_temo_c_f_20260524_172627.pkl",
+    "model_key": "rf",
+    "dataset_name": "📋 entre_temo_c_f",
+    "problem_type": "regression",
+    "created_at": "2026-05-24T17:26:27.934719",
+    "file_size_mb": 1.88,
+    "target_col": "temp_f",
+    "num_features": 1,
+    "cat_features": 0,
+    "metrics": {
+      "r2_score": 0.99973664082652,
+      "rmse": 0.38448383411923576,
+      "mae": 0.2997931436475126
+    },
+    "train_params": {
+      "source": "api",
+      "model_key": "rf",
+      "problem_type": "regression",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 3
+    },
+    "target_classes": null
+  },
+  "modelo_003": {
+    "id": "modelo_003",
+    "filename": "modelo_003_xgb_📋_entre_temo_c_f_20260524_172709.pkl",
+    "model_key": "xgb",
+    "dataset_name": "📋 entre_temo_c_f",
+    "problem_type": "regression",
+    "created_at": "2026-05-24T17:27:08.802032",
+    "file_size_mb": 0.47,
+    "target_col": "temp_f",
+    "num_features": 1,
+    "cat_features": 0,
+    "metrics": {
+      "r2_score": 0.9990298616689488,
+      "rmse": 0.7379393871025693,
+      "mae": 0.6224933396357422
+    },
+    "train_params": {
+      "source": "api",
+      "model_key": "xgb",
+      "problem_type": "regression",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 3
+    },
+    "target_classes": null
   }
 }
