@@ -76,5 +76,55 @@
       "n_bootstraps": 3
     },
     "target_classes": null
+  },
+  "modelo_004": {
+    "id": "modelo_004",
+    "filename": "modelo_004_xgb_📋_entrenamiento_financiero_20260524_180525.pkl",
+    "model_key": "xgb",
+    "dataset_name": "📋 entrenamiento_financiero",
+    "problem_type": "binary",
+    "created_at": "2026-05-24T18:05:25.911430",
+    "file_size_mb": 0.05,
+    "target_col": "aprobado",
+    "num_features": 9,
+    "cat_features": 0,
+    "metrics": {},
+    "train_params": {
+      "source": "api",
+      "model_key": "xgb",
+      "problem_type": "binary",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 3
+    },
+    "target_classes": [
+      0,
+      1
+    ]
+  },
+  "modelo_005": {
+    "id": "modelo_005",
+    "filename": "modelo_005_rf_📋_entrenamiento_financiero_20260524_180852.pkl",
+    "model_key": "rf",
+    "dataset_name": "📋 entrenamiento_financiero",
+    "problem_type": "binary",
+    "created_at": "2026-05-24T18:08:52.619883",
+    "file_size_mb": 0.05,
+    "target_col": "aprobado",
+    "num_features": 9,
+    "cat_features": 0,
+    "metrics": {},
+    "train_params": {
+      "source": "api",
+      "model_key": "rf",
+      "problem_type": "binary",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 3
+    },
+    "target_classes": [
+      0,
+      1
+    ]
   }
 }

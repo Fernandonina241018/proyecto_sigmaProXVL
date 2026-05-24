@@ -407,15 +407,17 @@ const MLManager = (() => {
             if (_models[i].id === modelId) { model = _models[i]; break; }
         }
         var isExpertMode = false;
-        var colName = '';
-        var colValue = '';
+        var rows = [{ col: '', val: '' }];
         var allFeatures = ((model && model.meta && model.meta.num_features) || []).concat((model && model.meta && model.meta.cat_features) || []);
 
         function buildJsonFromForm() {
-            if (!colName.trim()) return '[{}]';
             var obj = {};
-            var val = colValue === '' ? 0 : Number(colValue);
-            obj[colName.trim()] = isNaN(val) ? colValue : val;
+            rows.forEach(function(r) {
+                if (!r.col.trim()) return;
+                var v = r.val === '' ? 0 : Number(r.val);
+                obj[r.col.trim()] = isNaN(v) ? r.val : v;
+            });
+            if (!Object.keys(obj).length) return '[{}]';
             return JSON.stringify([obj], null, 2);
         }
 
@@ -493,35 +495,69 @@ const MLManager = (() => {
         formContainer.id = 'ml-predict-form';
         formContainer.style.cssText = 'display:flex;flex-direction:column;gap:6px';
 
-        function makeRow(labelText, inputType, placeholder, onChange) {
-            var row = document.createElement('div');
-            row.style.cssText = 'display:flex;align-items:center;gap:8px';
-            var label = document.createElement('label');
-            label.style.cssText = 'font-size:11px;font-weight:500;color:var(--text-primary);min-width:100px;flex-shrink:0';
-            label.textContent = labelText;
-            row.appendChild(label);
+        function makeRowInput(placeholder, onChange) {
             var input = document.createElement('input');
-            input.type = inputType;
-            if (inputType === 'number') input.step = 'any';
+            input.type = 'text';
             input.placeholder = placeholder;
-            input.style.cssText = 'flex:1;padding:5px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:11px';
+            input.style.cssText = 'flex:1;padding:5px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:11px;min-width:0';
             input.oninput = function() { onChange(input.value); updatePreview(); };
-            row.appendChild(input);
-            return row;
+            return input;
         }
 
-        formContainer.appendChild(makeRow('Columna', 'text', 'ej: l_per_100km', function(v) { colName = v; }));
-        var colInput = formContainer.querySelector('input[type="text"]');
-        if (colInput) colInput.setAttribute('list', 'ml-feature-list');
-        var datalist = document.createElement('datalist');
-        datalist.id = 'ml-feature-list';
-        allFeatures.forEach(function(f) {
-            var opt = document.createElement('option');
-            opt.value = f;
-            datalist.appendChild(opt);
-        });
-        formContainer.appendChild(datalist);
-        formContainer.appendChild(makeRow('Valor', 'number', '0', function(v) { colValue = v; }));
+        function makeValueInput(onChange) {
+            var input = document.createElement('input');
+            input.type = 'number';
+            input.step = 'any';
+            input.placeholder = '0';
+            input.style.cssText = 'width:90px;padding:5px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:11px';
+            input.oninput = function() { onChange(input.value); updatePreview(); };
+            return input;
+        }
+
+        function renderRows() {
+            formContainer.innerHTML = '';
+            var listId = 'ml-feature-list';
+            var existingDl = document.getElementById(listId);
+            if (!existingDl) {
+                var dl = document.createElement('datalist');
+                dl.id = listId;
+                allFeatures.forEach(function(f) {
+                    var opt = document.createElement('option');
+                    opt.value = f;
+                    dl.appendChild(opt);
+                });
+                document.body.appendChild(dl);
+            }
+            rows.forEach(function(r, idx) {
+                var rowDiv = document.createElement('div');
+                rowDiv.style.cssText = 'display:flex;align-items:center;gap:6px';
+                var colLabel = document.createElement('label');
+                colLabel.style.cssText = 'font-size:11px;font-weight:500;color:var(--text-primary);min-width:55px;flex-shrink:0';
+                colLabel.textContent = 'Columna ' + (idx + 1);
+                rowDiv.appendChild(colLabel);
+                var colInput = makeRowInput('ej: ' + (allFeatures[0] || 'columna'), function(v) { r.col = v; });
+                colInput.value = r.col;
+                colInput.setAttribute('list', listId);
+                rowDiv.appendChild(colInput);
+                var valInput = makeValueInput(function(v) { r.val = v; });
+                valInput.value = r.val;
+                rowDiv.appendChild(valInput);
+                if (rows.length > 1) {
+                    var delBtn = document.createElement('button');
+                    delBtn.textContent = '✕';
+                    delBtn.style.cssText = 'border:none;background:none;cursor:pointer;font-size:12px;color:var(--text-faint);padding:2px 4px;flex-shrink:0';
+                    delBtn.onclick = function() { rows.splice(idx, 1); renderRows(); updatePreview(); };
+                    rowDiv.appendChild(delBtn);
+                }
+                formContainer.appendChild(rowDiv);
+            });
+            var addBtn = document.createElement('button');
+            addBtn.textContent = '➕ Agregar columna';
+            addBtn.style.cssText = 'border:1px dashed var(--border);background:none;cursor:pointer;font-size:10px;color:var(--text-faint);padding:5px;border-radius:6px;width:100%';
+            addBtn.onclick = function() { rows.push({ col: '', val: '' }); renderRows(); updatePreview(); };
+            formContainer.appendChild(addBtn);
+        }
+        renderRows();
         content.appendChild(formContainer);
 
         var textarea = document.createElement('textarea');
@@ -562,7 +598,7 @@ const MLManager = (() => {
         var cancelBtn = document.createElement('button');
         cancelBtn.className = 'btn btn-secondary';
         cancelBtn.textContent = 'Cancelar';
-        cancelBtn.onclick = function() { overlay.remove(); };
+        cancelBtn.onclick = function() { overlay.remove(); cleanupPredictModal(); };
         actions.appendChild(cancelBtn);
         var predictBtn = document.createElement('button');
         predictBtn.className = 'btn btn-primary';
@@ -611,14 +647,20 @@ const MLManager = (() => {
         };
 
         overlay.addEventListener('click', function(e) {
-            if (e.target === overlay) overlay.remove();
+            if (e.target === overlay) { overlay.remove(); cleanupPredictModal(); }
         });
         document.addEventListener('keydown', function _onKey(e) {
             if (e.key === 'Escape' && overlay.parentNode) {
                 overlay.remove();
                 document.removeEventListener('keydown', _onKey);
+                cleanupPredictModal();
             }
         });
+
+        function cleanupPredictModal() {
+            var dl = document.getElementById('ml-feature-list');
+            if (dl) dl.remove();
+        }
 
         }
 
