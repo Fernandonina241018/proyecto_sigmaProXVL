@@ -402,5 +402,31 @@
       1,
       2
     ]
+  },
+  "modelo_017": {
+    "id": "modelo_017",
+    "filename": "modelo_017_rf_📋_wine_data_20260524_120229.pkl",
+    "model_key": "rf",
+    "dataset_name": "📋 wine_data",
+    "problem_type": "regression",
+    "created_at": "2026-05-24T12:02:29.902735",
+    "file_size_mb": 1.64,
+    "target_col": "class_2",
+    "num_features": 0,
+    "cat_features": 11,
+    "metrics": {
+      "r2_score": 0.16043372685841495,
+      "rmse": 0.707990906446621,
+      "mae": 0.5998305555555536
+    },
+    "train_params": {
+      "source": "api",
+      "model_key": "rf",
+      "problem_type": "regression",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 3
+    },
+    "target_classes": null
   }
 }

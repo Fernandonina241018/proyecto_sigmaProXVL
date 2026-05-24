@@ -42,48 +42,78 @@ const MLManager = (() => {
     }
 
     function buildLeftPanel() {
-        return '<div class="left-panel" style="gap:10px">' +
-            '<div class="info-section"><div class="info-section-header">🧠 ML Analysis</div>' +
-            '<div class="info-section-body" style="padding:8px 12px;font-size:11px;color:var(--text-faint)">' +
-            'Entrena modelos de ML con tus datos, haz predicciones y detecta anomalías.</div></div>' +
-            '<div class="info-section"><div class="info-section-header">📊 Dataset</div>' +
-            '<div class="info-section-body" style="padding:8px 12px;display:flex;flex-direction:column;gap:6px">' +
-            '<select id="ml-dataset-select" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-panel);color:var(--text-primary);font-size:11px">' +
+        return '<div class="left-panel" style="gap:8px;height:100%;display:flex;flex-direction:column;min-height:0">' +
+            '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">🧠 ML Analysis</div>' +
+            '<div class="info-section-body" style="padding:6px 10px;font-size:10px;color:var(--text-faint)">' +
+            'Entrena modelos, haz predicciones y detecta anomalías.</div></div>' +
+            '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">📊 Dataset</div>' +
+            '<div class="info-section-body" style="padding:6px 10px;display:flex;flex-direction:column;gap:4px">' +
+            '<select id="ml-dataset-select" style="width:100%;padding:4px 6px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-panel);color:var(--text-primary);font-size:10px">' +
             '<option value="">— Cargando datasets —</option></select>' +
-            '<button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:11px" onclick="MLManager.refreshDatasets()">🔄 Refrescar</button>' +
+            '<button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:10px;padding:3px 8px" onclick="MLManager.refreshDatasets()">🔄 Refrescar</button>' +
             '</div></div>' +
-            '<div class="info-section"><div class="info-section-header">🤖 Modelo</div>' +
-            '<div class="info-section-body" style="padding:8px 12px;display:flex;flex-direction:column;gap:6px">' +
-            '<select id="ml-model-select" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-panel);color:var(--text-primary);font-size:11px">' +
+            '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">🤖 Modelo</div>' +
+            '<div class="info-section-body" style="padding:6px 10px;display:flex;flex-direction:column;gap:4px">' +
+            '<select id="ml-model-select" style="width:100%;padding:4px 6px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-panel);color:var(--text-primary);font-size:10px">' +
             '<option value="rf">🌳 Random Forest</option>' +
             '<option value="xgb">⚡ XGBoost</option>' +
             '<option value="mlp">🧠 MLP Neural Net</option>' +
             '<option value="logistic">📈 Logistic Regression</option>' +
             '<option value="linear">📐 Linear Regression</option>' +
             '</select>' +
-            '<label style="font-size:10px;color:var(--text-faint);display:flex;align-items:center;gap:4px">' +
-            '<input type="text" id="ml-target-input" placeholder="columna target" style="flex:1;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px"> Target</label>' +
-            '<button class="btn btn-primary" style="width:100%;justify-content:center;font-size:11px" onclick="MLManager.train()">🎯 Entrenar modelo</button>' +
+            '<label style="font-size:9px;color:var(--text-faint);display:flex;align-items:center;gap:4px">' +
+            '<input type="text" id="ml-target-input" placeholder="columna target" style="flex:1;padding:3px 5px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:10px"> Target</label>' +
+            '<button class="btn btn-primary" style="width:100%;justify-content:center;font-size:10px;padding:3px 8px" onclick="MLManager.train()">🎯 Entrenar</button>' +
             '</div></div>' +
-            '<div class="info-section"><div class="info-section-header">💾 Modelos guardados</div>' +
-            '<div class="info-section-body" style="padding:6px 8px;display:flex;flex-direction:column;gap:4px" id="ml-models-list">' +
+            '<div class="info-section" style="flex:1;display:flex;flex-direction:column;min-height:0"><div class="info-section-header">💾 Modelos guardados</div>' +
+            '<div class="info-section-body" style="flex:1;overflow-y:auto;padding:4px 6px;display:flex;flex-direction:column;gap:3px;min-height:0" id="ml-models-list">' +
             '<div style="font-size:10px;color:var(--text-faint);padding:4px">Cargando...</div></div></div>' +
-            '<div class="info-section"><div class="info-section-header">⚠️ Anomalías</div>' +
-            '<div class="info-section-body" style="padding:8px 12px">' +
-            '<button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:11px" onclick="MLManager.detectAnomalies()">🔍 Detectar anomalías</button></div></div>' +
+            '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">⚠️ Anomalías</div>' +
+            '<div class="info-section-body" style="padding:6px 10px">' +
+            '<button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:10px;padding:3px 8px" onclick="MLManager.detectAnomalies()">🔍 Detectar anomalías</button></div></div>' +
             '</div>';
     }
 
     function buildRightPanel() {
-        return '<div class="page-body" style="display:flex;flex-direction:column;gap:12px;height:100%">' +
+        return '<div class="page-body" style="display:flex;flex-direction:column;gap:12px;height:100%;min-height:0">' +
             '<div class="page-card" style="flex:1;display:flex;flex-direction:column;min-height:0">' +
-            '<div class="page-card-header"><span class="page-card-icon">📊</span><span class="page-card-title">ML Results</span></div>' +
-            '<div class="page-card-body" id="ml-results" style="flex:1;overflow:auto;padding:12px;font-size:12px;color:var(--text-primary)">' +
+            '<div class="page-card-header" style="padding:10px 16px"><span class="page-card-icon">📊</span><span class="page-card-title">ML Results</span></div>' +
+            '<div class="page-card-body" id="ml-results" style="flex:1;overflow:auto;padding:12px;font-size:12px;color:var(--text-primary);min-height:0">' +
             '<div style="text-align:center;padding:40px 20px;color:var(--text-faint)">' +
             '<div style="font-size:48px;margin-bottom:12px">🧠</div>' +
             '<div style="font-size:14px;font-weight:600;margin-bottom:6px">Machine Learning</div>' +
             '<div style="font-size:11px">Carga un dataset, selecciona el target y entrena un modelo.<br>' +
             'Usa modelos guardados para predecir nuevos datos.</div></div></div></div></div>';
+    }
+
+    function _getWorksheetData(sheetName) {
+        if (typeof window.trabajoSheets === 'undefined' || !window.trabajoSheets.length) return null;
+        var sheet = null;
+        for (var i = 0; i < window.trabajoSheets.length; i++) {
+            if (window.trabajoSheets[i].name === sheetName) { sheet = window.trabajoSheets[i]; break; }
+        }
+        if (!sheet) return null;
+        var headers = sheet.headers || [];
+        var rows = sheet.rows || [];
+        var filtered = [];
+        for (var r = 0; r < rows.length; r++) {
+            var row = rows[r];
+            var hasData = false;
+            for (var c = 0; c < row.length; c++) {
+                if (row[c] != null && String(row[c]).trim() !== '') { hasData = true; break; }
+            }
+            if (hasData) filtered.push(row);
+        }
+        if (filtered.length === 0) return { columns: headers, data: [], nrows: 0 };
+        var data = [];
+        for (var r = 0; r < filtered.length; r++) {
+            var obj = {};
+            for (var c = 0; c < headers.length; c++) {
+                obj[headers[c]] = filtered[r][c] != null ? filtered[r][c] : '';
+            }
+            data.push(obj);
+        }
+        return { columns: headers, data: data, nrows: filtered.length };
     }
 
     function init() {
@@ -96,16 +126,34 @@ const MLManager = (() => {
         if (!sel) return;
         sel.innerHTML = '<option value="">Cargando...</option>';
         try {
-            const data = await _fetch('GET', '/api/ml/datasets');
+            var data = await _fetch('GET', '/api/ml/datasets');
             _datasets = data.datasets || [];
             sel.innerHTML = '<option value="">— Selecciona dataset —</option>';
             _datasets.forEach(function(ds) {
-                const opt = document.createElement('option');
+                var opt = document.createElement('option');
                 opt.value = ds.name;
                 opt.textContent = ds.name + ' (' + ds.nrows + 'r x ' + ds.ncols + 'c)';
                 sel.appendChild(opt);
             });
-            if (_datasets.length === 0) {
+            if (typeof window.trabajoSheets !== 'undefined') {
+                for (var i = 0; i < window.trabajoSheets.length; i++) {
+                    var ws = window.trabajoSheets[i];
+                    var wsHeaders = ws.headers || [];
+                    var wsRows = (ws.rows || []).filter(function(r) {
+                        for (var c = 0; c < r.length; c++) {
+                            if (r[c] != null && String(r[c]).trim() !== '') return true;
+                        }
+                        return false;
+                    });
+                    if (wsRows.length > 0) {
+                        var opt = document.createElement('option');
+                        opt.value = '__ws__:' + ws.name;
+                        opt.textContent = '📋 ' + ws.name + ' (' + wsRows.length + 'r x ' + wsHeaders.length + 'c)';
+                        sel.appendChild(opt);
+                    }
+                }
+            }
+            if (_datasets.length === 0 && (!sel.options || sel.options.length <= 1)) {
                 sel.innerHTML = '<option value="">— No hay datasets —</option>';
             }
         } catch (e) {
@@ -148,29 +196,30 @@ const MLManager = (() => {
         if (!results) return;
         var metrics = model.metrics || {};
         var meta = model.meta || {};
-        var html = '<div class="page-card" style="margin-bottom:12px">' +
-            '<div class="page-card-header"><span class="page-card-icon">💾</span><span class="page-card-title">' + escapeHtml(model.id) + '</span></div>' +
-            '<div class="page-card-body" style="padding:12px;font-size:11px">' +
-            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">' +
+        var html = '<div class="page-card" style="margin-bottom:10px">' +
+            '<div class="page-card-header" style="padding:8px 14px"><span class="page-card-icon">💾</span><span class="page-card-title" style="font-size:13px">' + escapeHtml(model.id) + '</span></div>' +
+            '<div class="page-card-body" style="padding:10px 14px;font-size:11px">' +
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">' +
             '<div><strong>Algoritmo:</strong> ' + escapeHtml(model.model_key) + '</div>' +
             '<div><strong>Dataset:</strong> ' + escapeHtml(model.dataset_name || '—') + '</div>' +
             '<div><strong>Tipo:</strong> ' + escapeHtml(meta.problem_type || '—') + '</div>' +
             '<div><strong>Guardado:</strong> ' + (model.saved_at ? model.saved_at.slice(0, 16) : '—') + '</div>' +
             '</div>';
         if (Object.keys(metrics).length > 0) {
-            html += '<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">' +
-                '<div style="font-weight:600;margin-bottom:6px">📊 Métricas</div>';
-            for (var k in metrics) {
-                if (['y_pred', 'y_proba'].includes(k)) continue;
+            html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">' +
+                '<div style="font-weight:600;margin-bottom:4px;font-size:10px">📊 Métricas</div>';
+            var keys = Object.keys(metrics).filter(function(k) { return !['y_pred', 'y_proba'].includes(k); });
+            html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 12px">';
+            keys.forEach(function(k) {
                 var v = metrics[k];
                 if (typeof v === 'number') v = v.toFixed ? v.toFixed(4) : v;
-                html += '<div style="display:flex;justify-content:space-between;padding:2px 0"><span>' + k + '</span><span style="font-weight:500;color:var(--accent)">' + v + '</span></div>';
-            }
-            html += '</div>';
+                html += '<div style="display:flex;justify-content:space-between;padding:1px 0;font-size:10px"><span>' + k + '</span><span style="font-weight:500;color:var(--accent)">' + v + '</span></div>';
+            });
+            html += '</div></div>';
         }
-        html += '<div style="margin-top:12px;display:flex;gap:6px">' +
-            '<button class="btn btn-primary" style="flex:1;justify-content:center;font-size:10px" onclick="MLManager.predictFromModel(\'' + model.id + '\')">🔮 Predecir</button>' +
-            '<button class="btn btn-secondary" style="justify-content:center;font-size:10px;color:#ef4444" onclick="MLManager.deleteModel(\'' + model.id + '\')">🗑</button>' +
+        html += '<div style="margin-top:8px;display:flex;gap:6px">' +
+            '<button class="btn btn-primary" style="flex:1;justify-content:center;font-size:10px;padding:4px 8px" onclick="MLManager.predictFromModel(\'' + model.id + '\')">🔮 Predecir</button>' +
+            '<button class="btn btn-secondary" style="justify-content:center;font-size:10px;padding:4px 8px;color:#ef4444" onclick="MLManager.deleteModel(\'' + model.id + '\')">🗑 Eliminar</button>' +
             '</div></div></div>';
         results.innerHTML = html;
     }
@@ -187,26 +236,46 @@ const MLManager = (() => {
         const target = targetInput ? targetInput.value.trim() : '';
         if (!datasetName) { showToast('Selecciona un dataset', 'error'); results.innerHTML = buildEmptyState(); return; }
         if (!target) { showToast('Ingresa el nombre de la columna target', 'error'); results.innerHTML = buildEmptyState(); return; }
+
+        var isWorksheet = datasetName.indexOf('__ws__:') === 0;
+        var sheetName = isWorksheet ? datasetName.slice(7) : null;
+
+        async function doTrain(bootstrap) {
+            if (isWorksheet) {
+                var wsData = _getWorksheetData(sheetName);
+                if (!wsData || wsData.nrows === 0) throw new Error('La hoja de trabajo "' + sheetName + '" no tiene datos');
+                if (wsData.columns.indexOf(target) === -1) throw new Error('Columna target "' + target + '" no encontrada en la hoja');
+                return await _fetch('POST', '/api/ml/train', {
+                    data: wsData.data, columns: wsData.columns,
+                    target: target, model_key: modelKey,
+                    n_bootstraps: bootstrap ? 3 : 0,
+                    dataset_name: '📋 ' + sheetName,
+                });
+            } else {
+                var preview = await _fetch('POST', '/api/ml/dataset/preview', { filename: datasetName });
+                var sendData = bootstrap ? preview.preview : preview.preview;
+                return await _fetch('POST', '/api/ml/train', {
+                    data: sendData, columns: preview.columns,
+                    target: target, model_key: modelKey,
+                    n_bootstraps: bootstrap ? 3 : 0,
+                    dataset_name: datasetName,
+                });
+            }
+        }
+
         try {
-            const preview = await _fetch('POST', '/api/ml/dataset/preview', { filename: datasetName });
-            const data = await _fetch('POST', '/api/ml/train', {
-                data: preview.preview, columns: preview.columns,
-                target: target, model_key: modelKey, n_bootstraps: 3, dataset_name: datasetName,
-            });
+            var data = await doTrain(true);
             _trainingHistory.push(data);
             renderTrainingResult(data);
             refreshModels();
             showToast('✅ Modelo ' + data.model_id + ' entrenado', 'ok');
         } catch (e) {
             try {
-                const fullData = await _fetch('POST', '/api/ml/dataset/preview', { filename: datasetName });
-                const data = await _fetch('POST', '/api/ml/train', {
-                    data: fullData.preview, columns: fullData.columns,
-                    target: target, model_key: modelKey, n_bootstraps: 0, dataset_name: datasetName,
-                });
+                var data = await doTrain(false);
+                _trainingHistory.push(data);
                 renderTrainingResult(data);
                 refreshModels();
-                showToast('✅ Modelo ' + data.model_id + ' entrenado', 'ok');
+                showToast('✅ Modelo ' + data.model_id + ' entrenado (sin bootstrap)', 'ok');
             } catch (e2) {
                 results.innerHTML = '<div class="page-card"><div class="page-card-header" style="color:#ef4444">❌ Error</div>' +
                     '<div class="page-card-body" style="padding:12px;font-size:12px">' + escapeHtml(e2.message) + '</div></div>';
@@ -220,10 +289,10 @@ const MLManager = (() => {
         if (!results) return;
         var meta = data.meta || {};
         var metrics = data.metrics || {};
-        var html = '<div class="page-card" style="margin-bottom:12px">' +
-            '<div class="page-card-header"><span class="page-card-icon">🎯</span><span class="page-card-title">Modelo: ' + escapeHtml(data.model_id) + '</span></div>' +
-            '<div class="page-card-body" style="padding:12px;font-size:11px">' +
-            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px">' +
+        var html = '<div class="page-card" style="margin-bottom:10px">' +
+            '<div class="page-card-header" style="padding:8px 14px"><span class="page-card-icon">🎯</span><span class="page-card-title" style="font-size:13px">Modelo: ' + escapeHtml(data.model_id) + '</span></div>' +
+            '<div class="page-card-body" style="padding:10px 14px;font-size:11px">' +
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:8px">' +
             '<div><strong>Tipo:</strong> ' + escapeHtml(meta.problem_type || '—') + '</div>' +
             '<div><strong>Target:</strong> ' + escapeHtml(meta.target_col || '—') + '</div>' +
             '<div><strong>Features num:</strong> ' + (meta.num_features || []).join(', ') + '</div>' +
@@ -231,23 +300,24 @@ const MLManager = (() => {
             '<div><strong>Train:</strong> ' + (meta.n_train || '—') + ' filas</div>' +
             '<div><strong>Test:</strong> ' + (meta.n_test || '—') + ' filas</div>' +
             '</div>';
-        html += '<div style="border-top:1px solid var(--border);padding-top:10px">' +
-            '<div style="font-weight:600;margin-bottom:6px">📊 Métricas</div>';
+        html += '<div style="border-top:1px solid var(--border);padding-top:8px">' +
+            '<div style="font-weight:600;margin-bottom:4px;font-size:10px">📊 Métricas</div>' +
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 12px">';
         for (var k in metrics) {
             if (['y_pred', 'y_proba'].includes(k)) continue;
             var v = metrics[k];
             if (typeof v === 'number') v = v.toFixed ? v.toFixed(4) : v;
-            html += '<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.04)">' +
+            html += '<div style="display:flex;justify-content:space-between;padding:1px 0;font-size:10px">' +
                 '<span>' + k + '</span><span style="font-weight:500;color:var(--accent)">' + v + '</span></div>';
         }
-        html += '</div>';
+        html += '</div></div>';
         if (meta.target_classes && meta.target_classes.length) {
-            html += '<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">' +
-                '<div style="font-weight:600;margin-bottom:4px">🎯 Clases target</div>' +
+            html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">' +
+                '<div style="font-weight:600;margin-bottom:2px;font-size:10px">🎯 Clases target</div>' +
                 '<div style="font-size:10px;color:var(--text-primary)">' + meta.target_classes.join(', ') + '</div></div>';
         }
-        html += '<div style="margin-top:12px;display:flex;gap:6px">' +
-            '<button class="btn btn-primary" style="flex:1;justify-content:center;font-size:10px" onclick="MLManager.predictFromModel(\'' + data.model_id + '\')">🔮 Predecir con este modelo</button>' +
+        html += '<div style="margin-top:8px;display:flex;gap:6px">' +
+            '<button class="btn btn-primary" style="flex:1;justify-content:center;font-size:10px;padding:4px 8px" onclick="MLManager.predictFromModel(\'' + data.model_id + '\')">🔮 Predecir</button>' +
             '</div></div></div>';
         results.innerHTML = html;
     }
@@ -260,22 +330,45 @@ const MLManager = (() => {
     }
 
     function predictFromModel(modelId) {
+        var model = null;
+        for (var i = 0; i < _models.length; i++) {
+            if (_models[i].id === modelId) { model = _models[i]; break; }
+        }
+        var numFeatures = (model && model.meta && model.meta.num_features) || [];
+        var catFeatures = (model && model.meta && model.meta.cat_features) || [];
+        var allFeatures = numFeatures.concat(catFeatures);
+        var sample = {};
+        for (var fi = 0; fi < allFeatures.length; fi++) {
+            sample[allFeatures[fi]] = 0;
+        }
+        var sampleJson = JSON.stringify([sample], null, 2);
+
         var overlay = document.createElement('div');
         overlay.className = 'modal-overlay';
         var box = document.createElement('div');
         box.className = 'modal-box';
-        box.style.cssText = 'max-width:500px';
+        box.style.cssText = 'max-width:540px';
         var title = document.createElement('div');
         title.className = 'modal-title';
         title.textContent = '🔮 Predecir con ' + modelId;
         box.appendChild(title);
         var content = document.createElement('div');
         content.style.cssText = 'padding:12px 16px;display:flex;flex-direction:column;gap:10px';
+
+        if (allFeatures.length) {
+            var hint = document.createElement('div');
+            hint.style.cssText = 'font-size:10px;color:var(--text-faint);padding:6px 8px;background:var(--item-bg);border-radius:4px';
+            hint.innerHTML = 'Columnas esperadas: <strong>' + allFeatures.join(', ') + '</strong>';
+            content.appendChild(hint);
+        }
+
         var textarea = document.createElement('textarea');
         textarea.id = 'ml-predict-input';
-        textarea.placeholder = 'Ingresa datos JSON para predecir...\nEj: [{"feat1": 5.1, "feat2": 3.5}]';
-        textarea.style.cssText = 'width:100%;min-height:150px;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:11px;font-family:monospace;resize:vertical';
+        textarea.placeholder = 'Array de objetos con las columnas del modelo';
+        textarea.style.cssText = 'width:100%;min-height:140px;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:11px;font-family:monospace;resize:vertical';
+        textarea.value = sampleJson;
         content.appendChild(textarea);
+
         var errorEl = document.createElement('div');
         errorEl.style.cssText = 'font-size:10px;color:#ef4444;min-height:14px';
         content.appendChild(errorEl);
@@ -328,9 +421,20 @@ const MLManager = (() => {
         if (!datasetName) { showToast('Selecciona un dataset primero', 'error'); return; }
         results.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-faint)">⏳ Detectando anomalías...</div>';
         try {
-            const preview = await _fetch('POST', '/api/ml/dataset/preview', { filename: datasetName });
-            const data = await _fetch('POST', '/api/ml/anomaly', {
-                data: preview.preview, columns: preview.columns,
+            var isWorksheet = datasetName.indexOf('__ws__:') === 0;
+            var anomalyData, anomalyCols;
+            if (isWorksheet) {
+                var wsData = _getWorksheetData(datasetName.slice(7));
+                if (!wsData || wsData.nrows === 0) throw new Error('La hoja de trabajo no tiene datos');
+                anomalyData = wsData.data;
+                anomalyCols = wsData.columns;
+            } else {
+                var preview = await _fetch('POST', '/api/ml/dataset/preview', { filename: datasetName });
+                anomalyData = preview.preview;
+                anomalyCols = preview.columns;
+            }
+            var data = await _fetch('POST', '/api/ml/anomaly', {
+                data: anomalyData, columns: anomalyCols,
             });
             renderAnomalyResult(data);
         } catch (e) {
@@ -345,20 +449,20 @@ const MLManager = (() => {
         var o = data.outliers || {};
         var q = data.quality || {};
         var im = data.imbalance || {};
-        results.innerHTML = '<div class="page-card" style="margin-bottom:12px">' +
-            '<div class="page-card-header"><span class="page-card-icon">⚠️</span><span class="page-card-title">Anomalías detectadas</span></div>' +
-            '<div class="page-card-body" style="padding:12px;font-size:11px">' +
-            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">' +
-            '<div style="padding:10px;background:var(--item-bg);border-radius:6px"><div style="font-weight:600;margin-bottom:4px">🔍 Outliers</div>' +
-            '<div>Método: ' + escapeHtml(o.method || '—') + '</div>' +
-            '<div>Detectados: <strong>' + (o.n_outliers || 0) + '</strong></div></div>' +
-            '<div style="padding:10px;background:var(--item-bg);border-radius:6px"><div style="font-weight:600;margin-bottom:4px">📋 Calidad de datos</div>' +
-            '<div>Filas: ' + (q.n_rows || 0) + '</div>' +
-            '<div>Columnas: ' + (q.n_cols || 0) + '</div>' +
-            '<div>Faltantes: ' + (q.missing_cells || 0) + ' (' + (typeof q.missing_pct === 'number' ? q.missing_pct.toFixed(1) : '—') + '%)</div></div>' +
+        results.innerHTML = '<div class="page-card" style="margin-bottom:10px">' +
+            '<div class="page-card-header" style="padding:8px 14px"><span class="page-card-icon">⚠️</span><span class="page-card-title" style="font-size:13px">Anomalías detectadas</span></div>' +
+            '<div class="page-card-body" style="padding:10px 14px;font-size:11px">' +
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">' +
+            '<div style="padding:8px;background:var(--item-bg);border-radius:6px"><div style="font-weight:600;margin-bottom:3px;font-size:10px">🔍 Outliers</div>' +
+            '<div style="font-size:10px">Método: ' + escapeHtml(o.method || '—') + '</div>' +
+            '<div style="font-size:10px">Detectados: <strong>' + (o.n_outliers || 0) + '</strong></div></div>' +
+            '<div style="padding:8px;background:var(--item-bg);border-radius:6px"><div style="font-weight:600;margin-bottom:3px;font-size:10px">📋 Calidad</div>' +
+            '<div style="font-size:10px">Filas: ' + (q.n_rows || 0) + '</div>' +
+            '<div style="font-size:10px">Columnas: ' + (q.n_cols || 0) + '</div>' +
+            '<div style="font-size:10px">Nulos: ' + (q.missing_cells || 0) + ' (' + (typeof q.missing_pct === 'number' ? q.missing_pct.toFixed(1) : '—') + '%)</div></div>' +
             '</div>' +
-            (im.recommendation ? '<div style="margin-top:10px;padding:10px;background:var(--item-bg);border-radius:6px">' +
-                '<div style="font-weight:600;margin-bottom:4px">⚖️ Imbalance</div>' +
+            (im.recommendation ? '<div style="margin-top:8px;padding:8px;background:var(--item-bg);border-radius:6px;font-size:10px">' +
+                '<div style="font-weight:600;margin-bottom:3px">⚖️ Imbalance</div>' +
                 '<div>' + escapeHtml(im.recommendation) + '</div></div>' : '') +
             '</div></div>';
     }
