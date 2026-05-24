@@ -141,6 +141,25 @@
 
 **Riesgo:** Bajo-medium (refactor mecánico, todos con fallback a localStorage directo, `node -c` OK en los 5 archivos)
 
+### 2026-05-22: Reportes detail format — TXT y HTML extendidos (5 tests)
+
+**Qué:** Se extendió el formato detallado en `generarTXT()` y `generarHTML()` para 5 pruebas de hipótesis que tenían salidas pobres en el reporte: Regresión Lineal Múltiple, Regresión Polinomial, Regresión Logística, ANOVA One-Way, T-Test (una y dos muestras).
+
+**Por qué:** Los reportes TXT/HTML generados por ReporteManager mostraban solo los estadísticos básicos (t, F, R², p) sin los detalles adicionales que ya estaban disponibles en los objetos resultado de EstadisticaDescriptiva.js.
+
+**Extensiones por test:**
+
+| Test | TXT añadido | HTML añadido |
+|------|------------|-------------|
+| **T-Test una muestra** | Media muestral, H₀, DE, EE | Misma info en tabla expandida |
+| **T-Test dos muestras** | Grupo 1/2 (n, media, varianza), diferencia medias | Misma info + tabla expandida |
+| **ANOVA One-Way** | Tabla ANOVA (SSB, SSW, MSB, MSW, gl, F, p), η² | Misma info + η² |
+| **Regresión Lineal Múltiple** | Tabla coeficientes (β, EE, t, p), fórmula | Tabla coef expandida con details, badges |
+| **Regresión Polinomial** | Tabla coeficientes por término | Tabla expandida con details |
+| **Regresión Logística** | Coeficientes (β), Odds Ratios, fórmula | Tabla coef + OR expandida con details |
+
+**Riesgo:** Bajo (solo se añaden líneas de formato, no se modifica lógica de negocio, `node -c` OK)
+
 ### 2026-05-22: Label "Find" → "Help" + eliminar legacy `_recentFiles`
 
 **Qué:** 

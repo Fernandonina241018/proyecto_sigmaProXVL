@@ -1679,9 +1679,36 @@ tr:hover td{background:#f7faff}
               const keys = Object.keys(data).filter(k => !EXCLUDE_KEYS.has(k));
               const gk = keys[0];
               const r = data[gk] || {};
-              content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(gk)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">t=${fmtNum(r.estadisticoT)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${r.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${r.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`;
+              const g1 = r.grupo1 || {}, g2 = r.grupo2 || {};
+              content = `<tr><td colspan="4" style="padding:10px 14px">
+                  <strong style="color:#1a3a6b;font-size:10pt">${escapeHtml(stat)}: ${escapeHtml(gk)}</strong>
+                  <table style="width:100%;border-collapse:collapse;font-size:8.5pt;margin-top:6px">
+                      <tr><td style="padding:3px 10px;color:#555">t</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(r.estadisticoT)}</td>
+                          <td style="padding:3px 10px;color:#555">df</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(r.gradosLibertad)}</td></tr>
+                      <tr><td style="padding:3px 10px;color:#555">p-valor</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(r.valorP)}</td>
+                          <td style="padding:3px 10px;color:#555">Diferencia medias</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(r.diferenciaMedias)}</td></tr>
+                      <tr><td style="padding:3px 10px;color:#555">Grupo 1 (n=${g1.n||'—'})</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">x̄=${fmtNum(g1.media)}</td>
+                          <td style="padding:3px 10px;color:#555">Grupo 2 (n=${g2.n||'—'})</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">x̄=${fmtNum(g2.media)}</td></tr>
+                      <tr><td colspan="4" style="padding:4px 10px;font-style:italic;color:#718096;font-size:8pt">${r.significativo ? '✗ Rechazar H₀ (significativo)' : '✓ No rechazar H₀'}</td></tr>
+                  </table>
+              </td></tr>`;
           } else if (stat === 'ANOVA One-Way') {
-              content = `<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">F=${fmtNum(data.estadisticoF)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`;
+              const eta2 = data.SSB / (data.SSB + data.SSW);
+              content = `<tr><td colspan="4" style="padding:10px 14px">
+                  <strong style="color:#1a3a6b;font-size:10pt">${escapeHtml(stat)}</strong>
+                  <table style="width:100%;border-collapse:collapse;font-size:8.5pt;margin-top:6px">
+                      <tr><td style="padding:3px 10px;color:#555">F</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(data.estadisticoF)}</td>
+                          <td style="padding:3px 10px;color:#555">p-valor</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(data.valorP)}</td></tr>
+                      <tr><td style="padding:3px 10px;color:#555">Grupos</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${data.grupos}</td>
+                          <td style="padding:3px 10px;color:#555">Observaciones</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${data.totalObservaciones}</td></tr>
+                      <tr><td style="padding:3px 10px;color:#555">SSB</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(data.SSB)}</td>
+                          <td style="padding:3px 10px;color:#555">SSW</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(data.SSW)}</td></tr>
+                      <tr><td style="padding:3px 10px;color:#555">MSB</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(data.MSB)}</td>
+                          <td style="padding:3px 10px;color:#555">MSW</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(data.MSW)}</td></tr>
+                      <tr><td style="padding:3px 10px;color:#555">η²</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${eta2.toFixed(4)} (${(eta2*100).toFixed(1)}%)</td>
+                          <td colspan="2" style="padding:3px 10px;font-style:italic;color:#718096;font-size:8pt">${data.significativo ? '✗ Rechazar H₀ (significativo)' : '✓ No rechazar H₀'}</td></tr>
+                  </table>
+              </td></tr>`;
           } else if (stat === 'Chi-Cuadrado') {
               content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columna1)} vs ${escapeHtml(data.columna2)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">χ²=${fmtNum(data.estadisticoChi2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(data.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significativo?'✗ Asociación significativa':'✓ Independientes'}</span></td></tr>`;
           } else if (stat === 'ANOVA Two-Way') {
@@ -1691,7 +1718,18 @@ tr:hover td{background:#f7faff}
           } else if (stat === 'Test de Shapiro-Wilk') {
               content = Object.entries(data).filter(([k]) => k !== 'error').map(([col, r]) => `<tr><td>${escapeHtml(stat)} (${escapeHtml(col)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">W=${fmtNum(r.estadisticoW)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${!r.esNormal?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${!r.esNormal?'✗ No normal':'✓ Normal'}</span></td></tr>`).join('');
           } else if (stat === 'T-Test (una muestra)') {
-              content = Object.entries(data).filter(([k]) => k !== 'error').map(([col, r]) => `<tr><td>${escapeHtml(stat)} (${escapeHtml(col)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">t=${fmtNum(r.estadisticoT)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">p=${fmtNum(r.valorP)}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${r.significativo?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${r.significativo?'✗ Significativo':'✓ No significativo'}</span></td></tr>`).join('');
+              content = Object.entries(data).filter(([k]) => k !== 'error').map(([col, r]) => `<tr><td colspan="4" style="padding:10px 14px">
+                  <strong style="color:#1a3a6b;font-size:10pt">${escapeHtml(stat)}: ${escapeHtml(col)}</strong>
+                  <table style="width:100%;border-collapse:collapse;font-size:8.5pt;margin-top:6px">
+                      <tr><td style="padding:3px 10px;color:#555">t</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(r.estadisticoT)}</td>
+                          <td style="padding:3px 10px;color:#555">df</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(r.gradosLibertad)}</td></tr>
+                      <tr><td style="padding:3px 10px;color:#555">Media muestral</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(r.mediaMuestral)}</td>
+                          <td style="padding:3px 10px;color:#555">H₀: μ =</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(r.mediaHipotesis)}</td></tr>
+                      <tr><td style="padding:3px 10px;color:#555">DE</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(r.desviacionEstandar)}</td>
+                          <td style="padding:3px 10px;color:#555">EE</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(r.errorEstandar)}</td></tr>
+                      <tr><td colspan="4" style="padding:4px 10px;font-style:italic;color:#718096;font-size:8pt">p=${fmtNum(r.valorP)} · ${r.significativo ? '✗ Rechazar H₀' : '✓ No rechazar H₀'}</td></tr>
+                  </table>
+              </td></tr>`).join('');
           } else if (stat === 'Límites de Cuantificación') {
               if (data.error) {
                   content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
@@ -1780,19 +1818,99 @@ tr:hover td{background:#f7faff}
               if (data.error) {
                   content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
-                  content = `<tr><td>${escapeHtml(stat)} (${data.columnasX?.map(escapeHtml).join(', ')})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">R²=${fmtNum(data.r2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">k=${data.k}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
+                  const coefRows = (data.coeficientes || []).map((c, i) => {
+                      const labels = ['Intercepto', ...(data.columnasX || []).map((_, j) => escapeHtml(data.columnasX[j] || 'X' + (j + 1)))];
+                      const sig = c.significativo ? '★ ' : '';
+                      return `<tr><td style="padding:2px 8px;text-align:left">${sig}${labels[i] || ('X' + i)}</td><td style="padding:2px 8px;text-align:right;font-family:monospace">${c.valor}</td><td style="padding:2px 8px;text-align:right;font-family:monospace">${c.ee != null ? c.ee : '—'}</td><td style="padding:2px 8px;text-align:right;font-family:monospace">${c.t != null ? c.t : '—'}</td><td style="padding:2px 8px;text-align:right;font-family:monospace;${c.significativo ? 'font-weight:600;color:#c53030' : ''}">${c.p != null ? c.p.toFixed(6) : '—'}</td></tr>`;
+                  }).join('');
+                  content = `<tr><td colspan="4" style="padding:10px 14px">
+                      <strong style="color:#1a3a6b;font-size:10pt">${escapeHtml(stat)}: ${(data.columnasX || []).map(escapeHtml).join(', ')}</strong>
+                      <div style="font-family:monospace;font-size:9pt;color:#2d3748;margin-bottom:4px">${data.formula || data.modelo || ''}</div>
+                      <table style="width:100%;border-collapse:collapse;font-size:8.5pt;margin-bottom:6px">
+                          <tr><td style="padding:3px 10px;color:#555">R²</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(data.r2)}</td>
+                              <td style="padding:3px 10px;color:#555">R² Ajustado</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(data.r2Adj)}</td></tr>
+                          <tr><td style="padding:3px 10px;color:#555">Error estándar</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(data.errorEstandar)}</td>
+                              <td style="padding:3px 10px;color:#555">n</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${data.n}</td></tr>
+                          <tr><td style="padding:3px 10px;color:#555">Predictores (k)</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${data.k}</td>
+                              <td style="padding:3px 10px;font-style:italic;color:#718096;font-size:8pt">${data.significante ? '★ Al menos un predictor significativo' : '✓ Ningún predictor significativo'}</td></tr>
+                      </table>
+                      ${coefRows ? `<details style="margin-top:4px">
+                          <summary style="cursor:pointer;font-size:8pt;color:#718096;font-weight:500">📊 Coeficientes (β, EE, t, p)</summary>
+                          <table style="width:100%;border-collapse:collapse;font-size:8pt;margin-top:4px">
+                              <thead><tr style="background:#000">
+                                  <th style="padding:4px 8px;border:1px solid #333;text-align:left;color:#fff">Predictor</th>
+                                  <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">β</th>
+                                  <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">EE</th>
+                                  <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">t</th>
+                                  <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">p</th>
+                              </tr></thead>
+                              <tbody>${coefRows}</tbody>
+                          </table>
+                      </details>` : ''}
+                  </td></tr>`;
               }
           } else if (stat === 'Regresión Polinomial') {
               if (data.error) {
                   content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
-                  content = `<tr><td>${escapeHtml(stat)} (grado ${data.grado})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">R²=${fmtNum(data.r2)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">g=${data.grado}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.significante?'background:#fed7d7;color:#c53030':'background:#c6f6d5;color:#276749'}">${data.significante?'★ Significativo':'✓ No significativo'}</span></td></tr>`;
+                  const coefRows = (data.coeficientes || []).map(c =>
+                      `<tr><td style="padding:2px 8px;text-align:left">${c.term || '—'}</td><td style="padding:2px 8px;text-align:right;font-family:monospace;font-weight:600">${c.valor}</td></tr>`
+                  ).join('');
+                  content = `<tr><td colspan="4" style="padding:10px 14px">
+                      <strong style="color:#1a3a6b;font-size:10pt">${escapeHtml(stat)} (grado ${data.grado})</strong>
+                      <div style="font-family:monospace;font-size:9pt;color:#2d3748;margin-bottom:4px">${data.formula}</div>
+                      <table style="width:100%;border-collapse:collapse;font-size:8.5pt;margin-bottom:6px">
+                          <tr><td style="padding:3px 10px;color:#555">R²</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(data.r2)}</td>
+                              <td style="padding:3px 10px;color:#555">R² Ajustado</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(data.r2Adj)}</td></tr>
+                          <tr><td style="padding:3px 10px;color:#555">Error estándar</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${fmtNum(data.errorEstandar)}</td>
+                              <td style="padding:3px 10px;color:#555">n</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${data.n}</td></tr>
+                          <tr><td colspan="4" style="padding:3px 10px;font-style:italic;color:#718096;font-size:8pt">${data.significante ? '★ Modelo significativo' : '✓ Modelo no significativo'} · ${data.interpretacion}</td></tr>
+                      </table>
+                      ${coefRows ? `<details style="margin-top:4px">
+                          <summary style="cursor:pointer;font-size:8pt;color:#718096;font-weight:500">📊 Coeficientes del polinomio</summary>
+                          <table style="width:100%;border-collapse:collapse;font-size:8pt;margin-top:4px">
+                              <thead><tr style="background:#000">
+                                  <th style="padding:4px 8px;border:1px solid #333;text-align:left;color:#fff">Término</th>
+                                  <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Valor</th>
+                              </tr></thead>
+                              <tbody>${coefRows}</tbody>
+                          </table>
+                      </details>` : ''}
+                  </td></tr>`;
               }
           } else if (stat === 'Regresión Logística') {
               if (data.error) {
                   content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
               } else {
-                  content = `<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">ACC=${fmtNum(data.exactitud*100)}%</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">F1=${fmtNum(data.f1*100)}%</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;${data.exactitud >= 0.7 ? 'background:#c6f6d5;color:#276749' : 'background:#fefcbf;color:#b7791f'}">${data.exactitud >= 0.8 ? '✓Excelente' : data.exactitud >= 0.6 ? '⚠Aceptable' : '✗Bajo'}</span></td></tr>`;
+                  const coefRows = (data.betas || []).map((b, i) => {
+                      const labels = ['Intercepto', ...(data.columnasX || []).map((_, j) => escapeHtml(data.columnasX[j] || 'X' + (j + 1)))];
+                      const or = data.oddsRatios && data.oddsRatios[i - 1];
+                      return `<tr><td style="padding:2px 8px;text-align:left">${labels[i] || ('X' + i)}</td><td style="padding:2px 8px;text-align:right;font-family:monospace;font-weight:600">${b}</td>${i > 0 ? `<td style="padding:2px 8px;text-align:right;font-family:monospace">${or !== undefined ? or.toFixed(4) : '—'}</td>` : '<td></td>'}</tr>`;
+                  }).join('');
+                  content = `<tr><td colspan="4" style="padding:10px 14px">
+                      <strong style="color:#1a3a6b;font-size:10pt">${escapeHtml(stat)}: ${(data.columnasX || []).map(escapeHtml).join(', ')}</strong>
+                      <div style="font-family:monospace;font-size:9pt;color:#2d3748;margin-bottom:4px">${data.formula || data.modelo || ''}</div>
+                      <table style="width:100%;border-collapse:collapse;font-size:8.5pt;margin-bottom:6px">
+                          <tr><td style="padding:3px 10px;color:#555">Exactitud</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${(data.exactitud * 100).toFixed(1)}%</td>
+                              <td style="padding:3px 10px;color:#555">Precisión</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${(data.precision * 100).toFixed(1)}%</td></tr>
+                          <tr><td style="padding:3px 10px;color:#555">Recall</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${(data.recall * 100).toFixed(1)}%</td>
+                              <td style="padding:3px 10px;color:#555">F1-Score</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${(data.f1 * 100).toFixed(1)}%</td></tr>
+                          <tr><td style="padding:3px 10px;color:#555">n</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${data.n}</td>
+                              <td style="padding:3px 10px;color:#555">Variables (k)</td><td style="padding:3px 10px;font-family:monospace;text-align:right;font-weight:600;color:#2c5282">${data.k}</td></tr>
+                          <tr><td style="padding:3px 10px;color:#555">Matriz confusión</td><td colspan="3" style="padding:3px 10px;font-family:monospace;text-align:left;font-weight:600;color:#2c5282">VP=${data.vp} FP=${data.fp} VN=${data.vn} FN=${data.fn}</td></tr>
+                      </table>
+                      ${coefRows ? `<details style="margin-top:4px">
+                          <summary style="cursor:pointer;font-size:8pt;color:#718096;font-weight:500">📊 Coeficientes y Odds Ratios</summary>
+                          <table style="width:100%;border-collapse:collapse;font-size:8pt;margin-top:4px">
+                              <thead><tr style="background:#000">
+                                  <th style="padding:4px 8px;border:1px solid #333;text-align:left;color:#fff">Variable</th>
+                                  <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">β</th>
+                                  <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">OR</th>
+                              </tr></thead>
+                              <tbody>${coefRows}</tbody>
+                          </table>
+                      </details>` : ''}
+                  </td></tr>`;
               }
           } else if (stat === 'R² (Coef. Determinación)') {
               if (data.error) {
