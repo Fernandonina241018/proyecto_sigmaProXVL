@@ -10,6 +10,7 @@ const MLManager = (() => {
     let _trainingHistory = [];
 
     function _getMlApiUrl() {
+        if (typeof ML_API_URL !== 'undefined') return ML_API_URL;
         return 'http://localhost:8000';
     }
 
@@ -114,7 +115,13 @@ const MLManager = (() => {
         for (var r = 0; r < filtered.length; r++) {
             var obj = {};
             for (var c = 0; c < headers.length; c++) {
-                obj[headers[c]] = filtered[r][c] != null ? filtered[r][c] : '';
+                var val = filtered[r][c];
+                if (val != null && String(val).trim() !== '') {
+                    var num = Number(val);
+                    obj[headers[c]] = isFinite(num) ? num : val;
+                } else {
+                    obj[headers[c]] = null;
+                }
             }
             data.push(obj);
         }
@@ -352,6 +359,48 @@ const MLManager = (() => {
             '<div style="font-size:11px">Carga un dataset, selecciona el target y entrena un modelo.</div></div>';
     }
 
+    function _renderPredictionsTable(predictions) {
+        if (!predictions || !predictions.length) return '<div style="font-size:11px;color:var(--text-faint)">Sin resultados</div>';
+        var rows = '';
+        for (var i = 0; i < predictions.length; i++) {
+            var p = predictions[i];
+            var cells = '';
+            for (var key in p) {
+                if (key === 'index') continue;
+                if (key === 'explicacion_factores' || key === 'factores_a_favor' || key === 'factores_en_contra') continue;
+                var val = p[key];
+                if (typeof val === 'number') val = val.toFixed ? val.toFixed(4) : val;
+                if (val === null || val === undefined) val = '—';
+                var label = key
+                    .replace('prediccion', 'Predicción')
+                    .replace('ic_lower_95', 'IC inferior (95%)')
+                    .replace('ic_upper_95', 'IC superior (95%)')
+                    .replace('clase_predicha', 'Clase')
+                    .replace('prediccion_legible', 'Predicción')
+                    .replace('probabilidad_predicha', 'Probabilidad')
+                    .replace('nivel_confianza', 'Confianza')
+                    .replace('clase_alternativa', 'Clase alt.')
+                    .replace('clase_alternativa_legible', 'Alternativa')
+                    .replace('probabilidad_alternativa', 'Prob. alt.')
+                    .replace('margen_decision', 'Margen')
+                    .replace('segunda_clase', '2da clase')
+                    .replace('segunda_clase_legible', '2da opción')
+                    .replace('probabilidad_segunda_clase', 'Prob. 2da')
+                    .replace(/^explicacion$/, 'Explicación')
+                    .replace(/_/g, ' ');
+                cells += '<div style="display:flex;gap:6px;padding:2px 0"><span style="font-weight:500;min-width:100px;font-size:10px;color:var(--text-faint)">' + label + ':</span><span style="font-size:10px">' + escapeHtml(String(val)) + '</span></div>';
+            }
+            var expl = p['explicacion'] || p['explicacion_factores'] || '';
+            if (expl) {
+                cells += '<div style="margin-top:4px;padding:4px 6px;background:var(--item-bg);border-radius:4px;font-size:9px;color:var(--text-muted);line-height:1.4">' + escapeHtml(expl) + '</div>';
+            }
+            rows += '<div style="padding:8px;background:var(--item-bg);border-radius:6px;border:1px solid var(--border)">' +
+                '<div style="font-weight:600;font-size:10px;margin-bottom:4px;color:var(--accent)">📊 Predicción ' + (i + 1) + '</div>' +
+                cells + '</div>';
+        }
+        return '<div style="display:flex;flex-direction:column;gap:6px;max-height:300px;overflow-y:auto">' + rows + '</div>';
+    }
+
     function predictFromModel(modelId) {
         var model = null;
         for (var i = 0; i < _models.length; i++) {
@@ -360,46 +409,119 @@ const MLManager = (() => {
         var numFeatures = (model && model.meta && model.meta.num_features) || [];
         var catFeatures = (model && model.meta && model.meta.cat_features) || [];
         var allFeatures = numFeatures.concat(catFeatures);
-        var sample = {};
-        for (var fi = 0; fi < allFeatures.length; fi++) {
-            sample[allFeatures[fi]] = 0;
+
+        var isExpertMode = false;
+        var formData = {};
+        allFeatures.forEach(function(f) { formData[f] = ''; });
+
+        function buildJsonFromForm() {
+            var obj = {};
+            allFeatures.forEach(function(f) {
+                var val = formData[f];
+                if (numFeatures.indexOf(f) !== -1) {
+                    obj[f] = val === '' ? 0 : Number(val);
+                } else {
+                    obj[f] = val;
+                }
+            });
+            return JSON.stringify([obj], null, 2);
         }
-        var sampleJson = JSON.stringify([sample], null, 2);
 
         var overlay = document.createElement('div');
         overlay.className = 'modal-overlay';
+        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999';
         var box = document.createElement('div');
         box.className = 'modal-box';
-        box.style.cssText = 'max-width:540px';
+        box.style.cssText = 'max-width:560px;background:var(--bg-panel);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.3);overflow:hidden';
         var title = document.createElement('div');
         title.className = 'modal-title';
-        title.textContent = '🔮 Predecir con ' + modelId;
+        title.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:12px 16px;font-size:14px;font-weight:600;border-bottom:1px solid var(--border)';
+        title.innerHTML = '<span>🔮 Predecir con ' + modelId + '</span>';
+        var toggleLabel = document.createElement('label');
+        toggleLabel.style.cssText = 'font-size:10px;display:flex;align-items:center;gap:4px;cursor:pointer;color:var(--text-faint);user-select:none';
+        toggleLabel.innerHTML = '<input type="checkbox" id="ml-expert-toggle"> Modo experto';
+        title.appendChild(toggleLabel);
         box.appendChild(title);
-        var content = document.createElement('div');
-        content.style.cssText = 'padding:12px 16px;display:flex;flex-direction:column;gap:10px';
 
-        if (allFeatures.length) {
-            var hint = document.createElement('div');
-            hint.style.cssText = 'font-size:10px;color:var(--text-faint);padding:6px 8px;background:var(--item-bg);border-radius:4px';
-            hint.innerHTML = 'Columnas esperadas: <strong>' + allFeatures.join(', ') + '</strong>';
-            content.appendChild(hint);
-        }
+        var content = document.createElement('div');
+        content.style.cssText = 'padding:12px 16px;display:flex;flex-direction:column;gap:10px;max-height:70vh;overflow-y:auto';
+
+        var formContainer = document.createElement('div');
+        formContainer.id = 'ml-predict-form';
+        formContainer.style.cssText = 'display:flex;flex-direction:column;gap:6px';
+
+        allFeatures.forEach(function(f) {
+            var isNum = numFeatures.indexOf(f) !== -1;
+            var row = document.createElement('div');
+            row.style.cssText = 'display:flex;align-items:center;gap:8px';
+            var label = document.createElement('label');
+            label.style.cssText = 'font-size:11px;font-weight:500;color:var(--text-primary);min-width:100px;flex-shrink:0';
+            label.textContent = f;
+            row.appendChild(label);
+            if (isNum) {
+                var input = document.createElement('input');
+                input.type = 'number';
+                input.step = 'any';
+                input.placeholder = '0';
+                input.style.cssText = 'flex:1;padding:5px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:11px';
+                input.value = formData[f];
+                input.oninput = function() {
+                    formData[f] = input.value;
+                    updatePreview();
+                };
+                row.appendChild(input);
+            } else {
+                var input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = 'valor';
+                input.style.cssText = 'flex:1;padding:5px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:11px';
+                input.value = formData[f];
+                input.oninput = function() {
+                    formData[f] = input.value;
+                    updatePreview();
+                };
+                row.appendChild(input);
+            }
+            formContainer.appendChild(row);
+        });
+
+        content.appendChild(formContainer);
 
         var textarea = document.createElement('textarea');
         textarea.id = 'ml-predict-input';
         textarea.placeholder = 'Array de objetos con las columnas del modelo';
-        textarea.style.cssText = 'width:100%;min-height:140px;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:11px;font-family:monospace;resize:vertical';
-        textarea.value = sampleJson;
+        textarea.style.cssText = 'width:100%;min-height:120px;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:11px;font-family:monospace;resize:vertical;display:none';
+        var sample = {};
+        allFeatures.forEach(function(f) { sample[f] = numFeatures.indexOf(f) !== -1 ? 0 : ''; });
+        textarea.value = JSON.stringify([sample], null, 2);
         content.appendChild(textarea);
+
+        var previewLabel = document.createElement('div');
+        previewLabel.style.cssText = 'font-size:10px;font-weight:600;color:var(--text-faint);margin-top:4px';
+        previewLabel.textContent = '📄 JSON generado:';
+        content.appendChild(previewLabel);
+
+        var previewEl = document.createElement('div');
+        previewEl.id = 'ml-preview-json';
+        previewEl.style.cssText = 'font-size:10px;padding:6px 8px;background:var(--item-bg);border-radius:4px;white-space:pre-wrap;font-family:monospace;color:var(--text-primary);max-height:100px;overflow:auto';
+        previewEl.textContent = buildJsonFromForm();
+        content.appendChild(previewEl);
+
+        function updatePreview() {
+            if (isExpertMode) return;
+            previewEl.textContent = buildJsonFromForm();
+        }
 
         var errorEl = document.createElement('div');
         errorEl.style.cssText = 'font-size:10px;color:#ef4444;min-height:14px';
         content.appendChild(errorEl);
+
         var resultEl = document.createElement('div');
         resultEl.id = 'ml-predict-result';
         resultEl.style.cssText = 'font-size:11px;padding:8px;background:var(--item-bg);border-radius:4px;min-height:30px;white-space:pre-wrap;font-family:monospace';
         resultEl.textContent = 'Los resultados aparecerán aquí';
         content.appendChild(resultEl);
+
         var actions = document.createElement('div');
         actions.style.cssText = 'display:flex;gap:8px;justify-content:end';
         var cancelBtn = document.createElement('button');
@@ -414,7 +536,13 @@ const MLManager = (() => {
             errorEl.textContent = '';
             resultEl.textContent = '⏳ Prediciendo...';
             try {
-                var raw = document.getElementById('ml-predict-input').value.trim();
+                var raw;
+                if (isExpertMode) {
+                    raw = document.getElementById('ml-predict-input').value.trim();
+                } else {
+                    raw = buildJsonFromForm();
+                }
+                if (!raw) { throw new Error('No hay datos para predecir'); }
                 var parsed = JSON.parse(raw);
                 var inputData = Array.isArray(parsed) ? parsed : [parsed];
                 var columns = Object.keys(inputData[0]);
@@ -422,7 +550,7 @@ const MLManager = (() => {
                 var result = await _fetch('POST', '/api/ml/predict', {
                     model_id: modelId, data: data, columns: columns,
                 });
-                resultEl.textContent = JSON.stringify(result.predictions, null, 2);
+                resultEl.innerHTML = _renderPredictionsTable(result.predictions);
             } catch (e) {
                 errorEl.textContent = '❌ ' + e.message;
                 resultEl.textContent = '';
@@ -433,7 +561,34 @@ const MLManager = (() => {
         box.appendChild(content);
         overlay.appendChild(box);
         document.body.appendChild(overlay);
-        textarea.focus();
+
+        document.getElementById('ml-expert-toggle').onchange = function() {
+            isExpertMode = this.checked;
+            formContainer.style.display = isExpertMode ? 'none' : '';
+            textarea.style.display = isExpertMode ? '' : 'none';
+            previewLabel.style.display = isExpertMode ? 'none' : '';
+            previewEl.style.display = isExpertMode ? 'none' : '';
+            if (isExpertMode) {
+                textarea.value = buildJsonFromForm();
+            } else {
+                updatePreview();
+            }
+        };
+
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) overlay.remove();
+        });
+        document.addEventListener('keydown', function _onKey(e) {
+            if (e.key === 'Escape' && overlay.parentNode) {
+                overlay.remove();
+                document.removeEventListener('keydown', _onKey);
+            }
+        });
+
+        if (allFeatures.length === 0) {
+            formContainer.innerHTML = '<div style="font-size:11px;color:var(--text-faint);padding:8px">No hay información de features para este modelo. Usá el modo experto para ingresar JSON manualmente.</div>';
+            previewEl.textContent = '[]';
+        }
     }
 
     async function detectAnomalies() {

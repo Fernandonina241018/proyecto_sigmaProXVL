@@ -304,6 +304,8 @@
 <script src="js/managers/AuditoriaManager.js"></script>
 <script src="js/managers/UsuariosManager.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<!-- ML Service URL: cambiar cuando deployes en Render -->
+<script>var ML_API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:8000' : 'https://sigmapro-ml.onrender.com';</script>
 <script src="js/pages/ml.js"></script>
 <script src="js/managers/ReporteManager.js"></script>
 <script src="js/managers/EDAManager.js"></script>

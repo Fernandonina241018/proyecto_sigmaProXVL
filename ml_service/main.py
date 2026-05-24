@@ -15,6 +15,7 @@ matplotlib.use('Agg')
 import pandas as pd
 import numpy as np
 import joblib
+from pandas.api.types import is_string_dtype, is_object_dtype
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -95,11 +96,11 @@ def _df_from_payload(data: list, columns: list[str]) -> pd.DataFrame:
     df = pd.DataFrame(data, columns=columns)
     df = df.infer_objects()
     for col in df.columns:
-        if df[col].dtype == object:
-            try:
-                df[col] = pd.to_numeric(df[col], errors="ignore")
-            except (ValueError, TypeError):
-                pass
+        if is_string_dtype(df[col]) or is_object_dtype(df[col]):
+            replaced = df[col].replace(["", "null", "None", "nan"], pd.NA)
+            converted = pd.to_numeric(replaced, errors="coerce")
+            if converted.notna().mean() > 0.5:
+                df[col] = converted
     return df
 
 
@@ -360,5 +361,6 @@ def explain_endpoint(req: ExplainRequest):
 
 
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    import os, uvicorn
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)

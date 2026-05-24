@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: sigmapro-ml
+    env: python
+    buildCommand: pip install -r ml_service/requirements.txt
+    startCommand: python ml_service/main.py
+    envVars:
+      - key: MPLBACKEND
+        value: Agg
+    healthCheckPath: /api/ml/health
