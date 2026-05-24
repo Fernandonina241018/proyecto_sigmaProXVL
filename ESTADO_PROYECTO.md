@@ -2,6 +2,29 @@
 
 ## CAMBIOS RECIENTES
 
+### 2026-05-24: Dataset entrenamiento_mpg.csv para probar ML con relación no-lineal
+
+**Qué:** Se creó `Red Neuronal/datos/entrenamiento_mpg.csv` con 200 puntos para conversión de eficiencia de combustible (L/100km → mpg). Relación inversa (`mpg = 235.214 / L_per_100km`), altamente no lineal.
+
+**Por qué:** El usuario solicitó un dataset de conversión de unidades no-lineal para probar el pipeline ML (página ML Analysis, modelo Random Forest).
+
+**Detalles del dataset:**
+- 200 filas, 2 columnas: `l_per_100km` (input), `mpg` (target)
+- Rango: 3.00 – 30.00 L/100km → 78.40 – 7.84 mpg
+- Relación inversa → regresión lineal fallaría, Random Forest debería capturar la curva
+- Verificado en Python: `data_loader.load_data()` carga correctamente (200 rows, 2 cols)
+
+**Archivos afectados:**
+- `Red Neuronal/datos/entrenamiento_mpg.csv` — nuevo (3.9 KB, 201 líneas)
+
+**Cómo probar:**
+1. Iniciar ML Service: `python -m uvicorn ml_service.main:app --port 8000`
+2. Ir a página ML Analysis (🧠)
+3. Seleccionar dataset `entrenamiento_mpg.csv`
+4. Target: `mpg`
+5. Entrenar modelo (Random Forest)
+6. Predecir: ej. 8.5 L/100km → esperado ~27.67 mpg
+
 ### 2026-05-22: Fase 1 — Reorganización CSS (raíz → css/core/ + css/pages/)
 
 **Qué:** Los 13 archivos CSS que estaban en la raíz del proyecto se movieron a subdirectorios organizados por dominio: `css/core/` (estilos base compartidos por toda la app) y `css/pages/` (estilos específicos de página/módulo).
