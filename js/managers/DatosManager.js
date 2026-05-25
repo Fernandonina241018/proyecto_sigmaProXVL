@@ -66,7 +66,6 @@ const DatosManager = (() => {
 
         switch (format) {
             case 'csv':
-                console.log('DEBUG CSV - headers:', headers, 'rows:', rows);
                 const csvLines = rows.map(row => 
                     row.map(val => {
                         const str = String(val ?? '');
@@ -78,7 +77,6 @@ const DatosManager = (() => {
                 content = [headers.join(','), ...csvLines].join('\n');
                 filename = `${baseName}.csv`;
                 type = 'text/csv;charset=utf-8';
-                console.log('DEBUG CSV - content generated');
                 break;
             case 'json':
                 const jsonData = data.map(row => {
@@ -105,15 +103,15 @@ const DatosManager = (() => {
         }
 
         const blob = new Blob([content], { type });
-        console.log('DEBUG - blob created, size:', blob.size);
+        const blob = new Blob([content], { type });
+        const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
+        link.href = url;
         link.download = filename;
         document.body.appendChild(link);
-        console.log('DEBUG - clicking link');
         link.click();
         document.body.removeChild(link);
-        console.log('DEBUG - link clicked, done');
+        URL.revokeObjectURL(url);
         URL.revokeObjectURL(link.href);
 
         _showToast(`✅ Datos exportados en formato ${format.toUpperCase()}`);
@@ -1007,5 +1005,3 @@ const DatosManager = (() => {
     return { buildView, _doExport, _showExportModal };
 
 })();
-
-console.log('✅ DatosManager cargado');

@@ -63,7 +63,6 @@ function switchView(viewName) {
         if (PermisosManager.protegerVista('usuarios-container', 'gestionar_usuarios')) inicializarUsuarios();
     }
 
-    console.log(`Vista cambiada a: ${viewName}`);
 }
 
 // ========================================
@@ -655,22 +654,18 @@ function getEDAData() {
     // 1. Prioridad: datos importados via btn-import
     const imported = StateManager.getImportedData();
     if (imported && imported.data && imported.data.length > 0) {
-        console.log('EDA - Usando datos importados:', imported.headers?.slice(0, 3), 'filas:', imported.data.length);
         return _normalizeToEDAFormat(imported, 'object');
     }
 
     // 2. Fallback: hoja activa del módulo Trabajo
     const sheet = StateManager.getActiveSheet();
-    console.log('EDA - getActiveSheet:', sheet?.name, 'rows:', sheet?.data?.length, 'headers:', sheet?.headers?.slice(0, 3));
 
     if (!sheet || !sheet.headers || !sheet.headers.length) {
-        console.log('EDA - No hay sheet activa con cabeceras');
         return null;
     }
 
     const rawData = sheet.data || [];
     if (rawData.length === 0) {
-        console.log('EDA - Sheet activa sin filas');
         return null;
     }
 
@@ -904,7 +899,6 @@ function ejecutarAnalisis() {
         PermisosManager.mostrarDenegado('ejecutar_analisis');
         return;
     }
-    console.log('Botón Ejecutar Análisis presionado');
 
     const importedData = getDataForModal();
     const activeStats  = StateManager.getActiveStats();
@@ -954,7 +948,6 @@ function ejecutarAnalisis() {
             mostrarResultados(html);
 
             switchView('analisis');
-            console.log('Análisis completado con éxito');
 
             // Registrar en auditoría
             if (typeof Logger !== 'undefined') {
@@ -1027,7 +1020,6 @@ function nuevoAnalisis() {
     // 3. Hacer scroll hacia arriba para que el usuario vea el inicio
     window.scrollTo({ top: 0, behavior: 'smooth' });
     
-    console.log("Interfaz reiniciada para nuevo análisis.");
     
     // 4. Navegar al módulo Trabajo después de limpiar
     switchView('trabajo');
@@ -1112,7 +1104,6 @@ function setupTransformButtons() {
     buttons[2].addEventListener('click', createCalculatedColumn);
     buttons[3].addEventListener('click', removeNulls);
 
-    console.log('Botones de transformaciones configurados');
 }
 
 function cleanData() {
@@ -1327,7 +1318,6 @@ function inicializarUsuarios() {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('🚀 StatAnalyzer Pro inicializado');
 
     // Auth va primero — bloquea la app hasta login exitoso
     Auth.init({
@@ -1343,7 +1333,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         },
         onLogout: (reason) => {
-            console.log('🔒 Sesión cerrada:', reason);
             cerrarModalPerfil();
         }
     });
@@ -1364,8 +1353,6 @@ function _initApp() {
         TM.render();
     }
 
-    console.log('✅ Formatos soportados: CSV, JSON, TXT');
-    console.log('✅ Estado centralizado activo');
     
     // Mostrar tutorial en primer inicio
     setTimeout(() => mostrarTutorial(), 1000);
@@ -2131,7 +2118,6 @@ document.addEventListener('click', (e) => {
 // MODAL DE CONFIGURACIÓN DE PRUEBAS DE HIPÓTESIS
 // ========================================
 function mostrarModalConfiguracionHypothesis(statName) {
-    console.log('[mostrarModalConfiguracionHypothesis] statName:', statName);
     document.getElementById('hypo-config-modal')?.remove();
     
     const imported = getDataForModal();
@@ -2193,9 +2179,7 @@ function mostrarModalConfiguracionHypothesis(statName) {
     }
     
     // Para funciones con modal personalizado (Correlación, Regresión, etc.)
-    console.log('[crearModalConfiguracionHipotesis] statName:', statName, 'config:', config);
     if (config.customFunc && typeof window[config.customFunc] === 'function') {
-        console.log('[crearModalConfiguracionHipotesis] ejecutando customFunc:', config.customFunc);
         if (config.customFunc === 'abrirModalConfigObsPred') {
             return window[config.customFunc](imported, statName);
         }
@@ -2208,14 +2192,10 @@ function mostrarModalConfiguracionHypothesis(statName) {
         if (config.customFunc === 'abrirModalConfigMetricasError') {
             return window[config.customFunc](imported, statName);
         }
-        console.log('[crearModalConfiguracionHipotesis] customFunc:', config.customFunc);
         if (config.customFunc === 'abrirModalConfigPCA') {
-            console.log('[crearModalConfiguracionHipotesis] LLAMANDO a abrirModalConfigPCA');
             return window[config.customFunc](imported);
         }
         if (config.customFunc === 'abrirModalConfigAnalisisFactorial') {
-            console.log('[crearModalConfiguracionHipotesis] LLAMANDO a abrirModalConfigAnalisisFactorial');
-            console.log('[crearModalConfiguracionHipotesis] imported type:', typeof imported, '| imported:', imported ? 'exists' : 'null');
             return window[config.customFunc](imported);
         }
         return window[config.customFunc](imported);
@@ -3400,7 +3380,6 @@ function sincronizarMenuLateral() {
         }
     });
 
-    console.log(`🔄 Menú lateral sincronizado: ${activeStats.length} estadístico(s) activo(s)`);
 }
 
 // ========================================
@@ -3684,20 +3663,15 @@ function abrirModalConfigBootstrap(imported) {
 // MODAL DE CONFIGURACIÓN PCA
 // ========================================
 window.abrirModalConfigPCA = function(importedParam) {
-    console.log('[PCA] === INICIO ===');
-    console.log('[PCA] importedParam recibido:', importedParam);
     
     // Usar datos del parámetro o buscar del estado
     let imported = importedParam;
     
     if (!imported || !imported.headers || imported.headers.length === 0) {
-        console.log('[PCA] Datos del parámetro vacíos. Buscando en getDataForModal()...');
         imported = getDataForModal();
-        console.log('[PCA] getDataForModal() retornó:', imported ? 'OK' : 'NULL');
     }
     
     if (!imported || !imported.headers || imported.headers.length === 0) {
-        console.log('[PCA] Intentando con StateManager...');
         const sheet = StateManager.getActiveSheet();
         if (sheet && sheet.data && sheet.data.length > 0) {
             imported = {
@@ -3705,17 +3679,14 @@ window.abrirModalConfigPCA = function(importedParam) {
                 data: sheet.data || [],
                 rowCount: sheet.data.length
             };
-            console.log('[PCA] StateManager OK:', imported.headers);
         }
     }
     
     if (!imported || !imported.headers || imported.headers.length === 0) {
         _showToast('⚠️ Primero importa datos para realizar PCA', true);
-        console.log('[PCA] ERROR: No hay datos');
         return false;
     }
     
-    console.log('[PCA] Datos disponibles:', imported.headers);
     document.getElementById('bootstrap-config-modal')?.remove();
     document.getElementById('correlacion-config-modal')?.remove();
     document.getElementById('regresion-config-modal')?.remove();
@@ -3847,7 +3818,6 @@ window.abrirModalConfigPCA = function(importedParam) {
 // MODAL DE CONFIGURACIÓN ANÁLISIS FACTORIAL
 // ========================================
 window.abrirModalConfigAnalisisFactorial = function(importedParam) {
-    console.log('[AF] === INICIO ===');
     
     let imported = importedParam;
     
@@ -3868,16 +3838,13 @@ window.abrirModalConfigAnalisisFactorial = function(importedParam) {
     }
     
     const allCols = imported.headers;
-    console.log('[AF] data rows:', imported.data.length, '| headers:', allCols.length);
     const numericCols = allCols.filter(col => {
         const values = imported.data.map(row => row[col]).filter(v => v !== null && v !== '' && v !== undefined);
         if (values.length === 0) return false;
         const numericCount = values.filter(v => !isNaN(parseFloat(v))).length;
         const pct = (numericCount / values.length * 100).toFixed(1);
-        console.log('[AF] col:', col, '| total:', values.length, '| numeric:', numericCount, '| pct:', pct, '%');
         return numericCount / values.length > 0.5;
     });
-    console.log('[AF] numericCols final:', numericCols.length, '| sample:', numericCols.slice(0, 5));
 
     if (numericCols.length < 3) {
         _showToast('⚠️ Se necesitan al menos 3 columnas numéricas para Análisis Factorial', true);
@@ -3989,7 +3956,6 @@ window.abrirModalConfigAnalisisFactorial = function(importedParam) {
 // Ejecutar al cargar
 document.addEventListener('DOMContentLoaded', initTheme);
 
-console.log('✅ Tema inicializado');
 
 // ========================================
 // KEYBOARD SHORTCUTS
@@ -4118,7 +4084,6 @@ function initKeyboardShortcuts() {
             } else if (typeof window[shortcut.action] === 'function') {
                 window[shortcut.action]();
             }
-            console.log(`⌨️ Atajo: ${combo} → ${shortcut.desc}`);
         } else if (combo === 'Shift+?' || e.key === '?' && e.shiftKey) {
             e.preventDefault();
             mostrarAyudaKeyboard();
@@ -4234,7 +4199,6 @@ function mostrarModalCambioPasswordForzoso() {
     });
 }
 
-console.log('✅ script.js cargado - Nuevo navbar integrado');
 
 function mostrarAsistenteAnalisis() {
     resetAsistente();

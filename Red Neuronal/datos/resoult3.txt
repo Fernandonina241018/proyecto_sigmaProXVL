@@ -1,1 +1,0 @@
-como siempre el JSON tendria el mismo formato [{"nombre_de_la_columna": numero}], quiero tener en el modal dos input uno para el nombre de la columna y otro para el dato que se se pretende la prediccion 

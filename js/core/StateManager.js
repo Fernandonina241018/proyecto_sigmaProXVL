@@ -65,14 +65,9 @@ const StateManager = (() => {
     // ========================================
     
     function init() {
-        console.log('🚀 StateManager: Inicializando...');
-        
-        // Intentar cargar estado guardado
         if (loadFromLocalStorage()) {
-            console.log('✅ Estado restaurado desde localStorage');
             notifyListeners('stateLoad');
         } else {
-            console.log('📝 Creando nuevo estado inicial');
             createDefaultSheet();
         }
         
@@ -81,12 +76,9 @@ const StateManager = (() => {
             startAutoSave();
         }
         
-        // Listener para cerrar ventana (guardar antes de salir)
         window.addEventListener('beforeunload', () => {
             saveToLocalStorage();
         });
-        
-        console.log('✅ StateManager inicializado correctamente');
     }
     
     // ========================================
@@ -134,8 +126,6 @@ const StateManager = (() => {
         
         notifyListeners('sheetChange');
         scheduleAutoSave();
-        
-        console.log(`✅ Hoja "${sheetName}" creada (ID: ${newSheet.id})`);
         return newSheet;
     }
     
@@ -158,8 +148,6 @@ const StateManager = (() => {
         
         notifyListeners('sheetChange');
         scheduleAutoSave();
-        
-        console.log(`🗑️ Hoja "${deletedSheet.name}" eliminada`);
         return deletedSheet;
     }
     
@@ -184,8 +172,6 @@ const StateManager = (() => {
         
         notifyListeners('sheetChange');
         scheduleAutoSave();
-        
-        console.log(`✏️ Hoja renombrada: "${oldName}" → "${sheet.name}"`);
         return sheet;
     }
     
@@ -197,8 +183,6 @@ const StateManager = (() => {
         
         state.activeSheetId = sheetId;
         notifyListeners('sheetChange');
-        
-        console.log(`📄 Hoja activa: "${sheet.name}"`);
         return sheet;
     }
     
@@ -478,8 +462,6 @@ const StateManager = (() => {
         
         notifyListeners('dataChange');
         scheduleAutoSave();
-        
-        console.log(`🗑️ Datos de hoja "${sheet.name}" limpiados`);
     }
     
     function setSheetData(data, headers = null) {
@@ -525,8 +507,6 @@ const StateManager = (() => {
 
         notifyListeners('dataChange');
         scheduleAutoSave();
-
-        console.log(`📥 Datos importados: ${filename}`);
     }
     
     function getImportedData() {
@@ -540,8 +520,6 @@ const StateManager = (() => {
 
         notifyListeners('dataChange');
         scheduleAutoSave();
-        
-        console.log('🗑️ Datos importados eliminados');
     }
     
     // ========================================
@@ -557,8 +535,6 @@ const StateManager = (() => {
         state.activeStats.push(statName);
         notifyListeners('statsChange');
         scheduleAutoSave();
-        
-        console.log(`📊 Estadístico añadido: "${statName}"`);
         return true;
     }
     
@@ -572,8 +548,6 @@ const StateManager = (() => {
         state.activeStats.splice(index, 1);
         notifyListeners('statsChange');
         scheduleAutoSave();
-        
-        console.log(`🗑️ Estadístico eliminado: "${statName}"`);
         return true;
     }
     
@@ -585,8 +559,6 @@ const StateManager = (() => {
         state.activeStats = [];
         notifyListeners('statsChange');
         scheduleAutoSave();
-        
-        console.log('🗑️ Todos los estadísticos eliminados');
     }
     
     // ========================================
@@ -597,7 +569,6 @@ const StateManager = (() => {
         _pushToHistory('hypothesisConfig', statName, state.hypothesisConfig[statName]);
         state.hypothesisConfig[statName] = config;
         scheduleAutoSave();
-        console.log(`⚙️ Configuración guardada para ${statName}`);
     }
 
     function _pushToHistory(type, key, oldValue) {
@@ -613,13 +584,11 @@ const StateManager = (() => {
 
     function undo() {
         if (state.historyIndex < 0) {
-            console.log('ℹ️ No hay más acciones para deshacer');
             return false;
         }
         const entry = state.history[state.historyIndex];
         if (entry.type === 'hypothesisConfig') {
             state.hypothesisConfig[entry.key] = entry.oldValue;
-            console.log(`↩️ Deshacer: ${entry.key}`);
         }
         state.historyIndex--;
         scheduleAutoSave();
@@ -628,14 +597,12 @@ const StateManager = (() => {
 
     function redo() {
         if (state.historyIndex >= state.history.length - 1) {
-            console.log('ℹ️ No hay más acciones para rehacer');
             return false;
         }
         state.historyIndex++;
         const entry = state.history[state.historyIndex];
         if (entry.type === 'hypothesisConfig') {
             state.hypothesisConfig[entry.key] = entry.oldValue !== undefined ? JSON.parse(JSON.stringify(entry.oldValue)) : undefined;
-            console.log(`↪️ Rehacer: ${entry.key}`);
         }
         scheduleAutoSave();
         return true;
@@ -680,7 +647,6 @@ const StateManager = (() => {
             });
             
             localStorage.setItem('statAnalyzerState', serialized);
-            console.log('💾 Estado guardado en localStorage');
             return true;
         } catch (error) {
             console.error('❌ Error al guardar estado:', error);
@@ -706,7 +672,6 @@ const StateManager = (() => {
             state.activeStats = loaded.activeStats || [];
             state.hypothesisConfig = loaded.hypothesisConfig || {};
             
-            console.log(`📂 Estado cargado (guardado: ${loaded.savedAt})`);
             return true;
         } catch (error) {
             console.error('❌ Error al cargar estado:', error);
@@ -718,7 +683,6 @@ const StateManager = (() => {
         localStorage.removeItem('statAnalyzerState');
         localStorage.removeItem('sigmaPro_analisis');
         localStorage.removeItem('sigmaPro_graficos');
-        console.log('🗑️ LocalStorage limpiado');
     }
 
     // ========================================
@@ -757,15 +721,12 @@ const StateManager = (() => {
         autoSaveTimer = setInterval(() => {
             saveToLocalStorage();
         }, state.config.autoSaveInterval);
-        
-        console.log(`⏰ Auto-guardado activado (cada ${state.config.autoSaveInterval / 1000}s)`);
     }
     
     function stopAutoSave() {
         if (autoSaveTimer) {
             clearInterval(autoSaveTimer);
             autoSaveTimer = null;
-            console.log('⏸️ Auto-guardado desactivado');
         }
     }
     
@@ -842,7 +803,6 @@ const StateManager = (() => {
             state = { ...state, ...imported };
             notifyListeners('stateLoad');
             scheduleAutoSave();
-            console.log('✅ Estado importado correctamente');
             return true;
         } catch (error) {
             console.error('❌ Error al importar estado:', error);
@@ -862,7 +822,6 @@ const StateManager = (() => {
         clearLocalStorage();
         
         notifyListeners('stateLoad');
-        console.log('🔄 Estado reiniciado');
     }
     
     // ========================================
@@ -1001,5 +960,3 @@ const StateManager = (() => {
 
 // Si usas CommonJS:
 // module.exports = StateManager;
-
-console.log('✅ StateManager cargado correctamente');
