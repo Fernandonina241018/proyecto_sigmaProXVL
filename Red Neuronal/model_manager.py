@@ -120,11 +120,12 @@ class ModelManager:
             "created_at": datetime.now().isoformat(),
             "file_size_mb": round(size_mb, 2),
             "target_col": payload['meta'].get('target_col', 'unknown'),
-            "num_features": len(payload['meta'].get('num_features', [])),
-            "cat_features": len(payload['meta'].get('cat_features', [])),
+            "num_features": payload['meta'].get('num_features', []),
+            "cat_features": payload['meta'].get('cat_features', []),
             "metrics": metrics,
             "train_params": payload.get('train_params', {}),
             "target_classes": payload['meta'].get('target_classes'),
+            "meta": payload.get('meta', {}),
         }
         
         self._save_registry(registry)

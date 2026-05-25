@@ -360,14 +360,17 @@ const MLManager = (() => {
     }
 
     function _renderPredictionsTable(predictions) {
-        if (!predictions || !predictions.length) return '<div style="font-size:11px;color:var(--text-faint)">Sin resultados</div>';
+        if (!predictions || !predictions.length) return '<div style="font-size:13px;color:var(--text-faint);padding:20px;text-align:center">Sin resultados</div>';
         var rows = '';
         for (var i = 0; i < predictions.length; i++) {
             var p = predictions[i];
+            var mainVal = p['prediccion_legible'] || p['clase_predicha'] || p['prediccion'] || '';
+            var prob = p['probabilidad_predicha'] ?? p['nivel_confianza'] ?? '';
             var cells = '';
             for (var key in p) {
                 if (key === 'index') continue;
                 if (key === 'explicacion_factores' || key === 'factores_a_favor' || key === 'factores_en_contra') continue;
+                if (key === 'prediccion_legible' || key === 'clase_predicha') continue;
                 var val = p[key];
                 if (typeof val === 'number') val = val.toFixed ? val.toFixed(4) : val;
                 if (val === null || val === undefined) val = '—';
@@ -388,17 +391,21 @@ const MLManager = (() => {
                     .replace('probabilidad_segunda_clase', 'Prob. 2da')
                     .replace(/^explicacion$/, 'Explicación')
                     .replace(/_/g, ' ');
-                cells += '<div style="display:flex;gap:6px;padding:2px 0"><span style="font-weight:500;min-width:100px;font-size:10px;color:var(--text-faint)">' + label + ':</span><span style="font-size:10px">' + escapeHtml(String(val)) + '</span></div>';
+                cells += '<div style="display:flex;gap:8px;padding:3px 0"><span style="font-weight:500;min-width:120px;font-size:12px;color:var(--text-faint)">' + label + ':</span><span style="font-size:12px;font-weight:500">' + escapeHtml(String(val)) + '</span></div>';
             }
             var expl = p['explicacion'] || p['explicacion_factores'] || '';
             if (expl) {
-                cells += '<div style="margin-top:4px;padding:4px 6px;background:var(--item-bg);border-radius:4px;font-size:9px;color:var(--text-muted);line-height:1.4">' + escapeHtml(expl) + '</div>';
+                cells += '<div style="margin-top:6px;padding:8px 10px;background:var(--item-bg);border-radius:6px;font-size:11px;color:var(--text-muted);line-height:1.5">' + escapeHtml(expl) + '</div>';
             }
-            rows += '<div style="padding:8px;background:var(--item-bg);border-radius:6px;border:1px solid var(--border)">' +
-                '<div style="font-weight:600;font-size:10px;margin-bottom:4px;color:var(--accent)">📊 Predicción ' + (i + 1) + '</div>' +
+            var headerHtml = '<div style="font-weight:700;font-size:13px;margin-bottom:6px;color:var(--accent)">📊 Predicción ' + (i + 1) + '</div>';
+            if (mainVal) {
+                headerHtml += '<div style="font-size:22px;font-weight:700;margin-bottom:8px;color:var(--text-primary)">' + escapeHtml(String(mainVal)) + (prob ? ' <span style="font-size:14px;font-weight:500;color:var(--text-faint)">(' + (typeof prob === 'number' ? (prob * 100).toFixed(1) + '%' : prob) + ')</span>' : '') + '</div>';
+            }
+            rows += '<div style="padding:14px 16px;background:var(--item-bg);border-radius:8px;border:1px solid var(--border)">' +
+                headerHtml +
                 cells + '</div>';
         }
-        return '<div style="display:flex;flex-direction:column;gap:6px;max-height:300px;overflow-y:auto">' + rows + '</div>';
+        return '<div style="display:flex;flex-direction:column;gap:8px;max-height:360px;overflow-y:auto">' + rows + '</div>';
     }
 
     function predictFromModel(modelId) {
@@ -412,12 +419,12 @@ const MLManager = (() => {
 
         function buildJsonFromForm() {
             var obj = {};
-            rows.forEach(function(r) {
-                if (!r.col.trim()) return;
-                var v = r.val === '' ? 0 : Number(r.val);
-                obj[r.col.trim()] = isNaN(v) ? r.val : v;
+            allFeatures.forEach(function(f) {
+                var row = rows.filter(function(r) { return r.col === f; })[0];
+                var v = row ? row.val : '';
+                obj[f] = v === '' ? 0 : Number(v);
+                if (isNaN(obj[f])) obj[f] = v;
             });
-            if (!Object.keys(obj).length) return '[{}]';
             return JSON.stringify([obj], null, 2);
         }
 
@@ -426,10 +433,10 @@ const MLManager = (() => {
         overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999';
         var box = document.createElement('div');
         box.className = 'modal-box';
-        box.style.cssText = 'max-width:560px;background:var(--bg-panel);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.3);overflow:hidden';
+        box.style.cssText = 'width:92vw;max-width:1320px;background:var(--bg-panel);border-radius:14px;box-shadow:0 12px 48px rgba(0,0,0,0.35);overflow:hidden';
         var title = document.createElement('div');
         title.className = 'modal-title';
-        title.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:12px 16px;font-size:14px;font-weight:600;border-bottom:1px solid var(--border)';
+        title.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:16px 24px;font-size:15px;font-weight:700;border-bottom:1px solid var(--border);background:var(--item-bg)';
         title.innerHTML = '<span>🔮 Predecir con ' + modelId + '</span>';
         var toggleLabel = document.createElement('label');
         toggleLabel.style.cssText = 'font-size:10px;display:flex;align-items:center;gap:4px;cursor:pointer;color:var(--text-faint);user-select:none';
@@ -438,24 +445,24 @@ const MLManager = (() => {
         box.appendChild(title);
 
         var content = document.createElement('div');
-        content.style.cssText = 'padding:12px 16px;display:flex;flex-direction:column;gap:10px;max-height:70vh;overflow-y:auto';
+        content.style.cssText = 'padding:20px 24px;display:flex;flex-direction:column;gap:16px;max-height:80vh;overflow-y:auto';
 
         var meta = (model && model.meta) || {};
         var metrics = (model && model.metrics) || {};
         var infoGrid = document.createElement('div');
-        infoGrid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:6px';
+        infoGrid.style.cssText = 'display:grid;grid-template-columns:repeat(4,1fr);gap:10px';
 
         function infoCard(title, lines) {
             var card = document.createElement('div');
-            card.style.cssText = 'padding:8px 10px;background:var(--item-bg);border-radius:6px;font-size:10px';
+            card.style.cssText = 'padding:12px 14px;background:var(--item-bg);border-radius:8px;font-size:11px;border:1px solid var(--border)';
             var t = document.createElement('div');
-            t.style.cssText = 'font-weight:600;margin-bottom:4px;font-size:10px;color:var(--text-faint)';
+            t.style.cssText = 'font-weight:700;margin-bottom:6px;font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.5px';
             t.textContent = title;
             card.appendChild(t);
             lines.forEach(function(l) {
                 var d = document.createElement('div');
-                d.style.cssText = 'display:flex;justify-content:space-between;padding:1px 0';
-                d.innerHTML = '<span>' + l[0] + '</span><span style="font-weight:500;color:var(--accent)">' + l[1] + '</span>';
+                d.style.cssText = 'display:flex;justify-content:space-between;padding:2px 0';
+                d.innerHTML = '<span style="color:var(--text-faint)">' + l[0] + '</span><span style="font-weight:600;color:var(--accent)">' + l[1] + '</span>';
                 card.appendChild(d);
             });
             return card;
@@ -493,7 +500,7 @@ const MLManager = (() => {
 
         var formContainer = document.createElement('div');
         formContainer.id = 'ml-predict-form';
-        formContainer.style.cssText = 'display:flex;flex-direction:column;gap:6px';
+        formContainer.style.cssText = 'display:flex;flex-direction:column;gap:10px;background:var(--item-bg);border-radius:8px;padding:16px;border:1px solid var(--border)';
 
         function makeRowInput(placeholder, onChange) {
             var input = document.createElement('input');
@@ -509,7 +516,7 @@ const MLManager = (() => {
             input.type = 'number';
             input.step = 'any';
             input.placeholder = '0';
-            input.style.cssText = 'width:90px;padding:5px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:11px';
+            input.style.cssText = 'width:140px;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:13px;font-weight:500';
             input.oninput = function() { onChange(input.value); updatePreview(); };
             return input;
         }
@@ -528,19 +535,21 @@ const MLManager = (() => {
                 });
                 document.body.appendChild(dl);
             }
+            var grid = document.createElement('div');
+            grid.style.cssText = 'display:grid;grid-template-columns:' + (allFeatures.length > 4 ? '1fr 1fr' : '1fr') + ';gap:8px';
             rows.forEach(function(r, idx) {
                 var rowDiv = document.createElement('div');
-                rowDiv.style.cssText = 'display:flex;align-items:center;gap:6px';
+                rowDiv.style.cssText = 'display:flex;align-items:center;gap:8px';
                 if (r.col && allFeatures.indexOf(r.col) !== -1) {
                     var colSpan = document.createElement('span');
-                    colSpan.style.cssText = 'font-size:11px;font-weight:600;color:var(--text-primary);min-width:100px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
+                    colSpan.style.cssText = 'font-size:13px;font-weight:600;color:var(--text-primary);min-width:140px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
                     colSpan.textContent = r.col;
                     rowDiv.appendChild(colSpan);
                 } else {
                     var colInput = makeRowInput('columna', function(v) { r.col = v; });
                     colInput.value = r.col;
                     colInput.setAttribute('list', listId);
-                    colInput.style.cssText = 'flex:1;padding:5px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:11px;min-width:0';
+                    colInput.style.cssText = 'flex:1;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:13px;min-width:0';
                     rowDiv.appendChild(colInput);
                 }
                 var valInput = makeValueInput(function(v) { r.val = v; });
@@ -549,15 +558,16 @@ const MLManager = (() => {
                 if (rows.length > 1) {
                     var delBtn = document.createElement('button');
                     delBtn.textContent = '✕';
-                    delBtn.style.cssText = 'border:none;background:none;cursor:pointer;font-size:12px;color:var(--text-faint);padding:2px 4px;flex-shrink:0';
+                    delBtn.style.cssText = 'border:none;background:var(--item-bg);cursor:pointer;font-size:12px;color:var(--danger,#e74c3c);padding:4px 8px;border-radius:4px;flex-shrink:0';
                     delBtn.onclick = function() { rows.splice(idx, 1); renderRows(); updatePreview(); };
                     rowDiv.appendChild(delBtn);
                 }
-                formContainer.appendChild(rowDiv);
+                grid.appendChild(rowDiv);
             });
+            formContainer.appendChild(grid);
             var addBtn = document.createElement('button');
             addBtn.textContent = '➕ Agregar columna';
-            addBtn.style.cssText = 'border:1px dashed var(--border);background:none;cursor:pointer;font-size:10px;color:var(--text-faint);padding:5px;border-radius:6px;width:100%';
+            addBtn.style.cssText = 'border:1px dashed var(--border);background:none;cursor:pointer;font-size:12px;color:var(--text-faint);padding:8px;border-radius:6px;width:100%';
             addBtn.onclick = function() { rows.push({ col: '', val: '' }); renderRows(); updatePreview(); };
             formContainer.appendChild(addBtn);
         }
@@ -567,18 +577,18 @@ const MLManager = (() => {
         var textarea = document.createElement('textarea');
         textarea.id = 'ml-predict-input';
         textarea.placeholder = 'Array de objetos con las columnas del modelo';
-        textarea.style.cssText = 'width:100%;min-height:120px;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:11px;font-family:monospace;resize:vertical;display:none';
+        textarea.style.cssText = 'width:100%;min-height:140px;padding:10px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg-primary);color:var(--text-primary);font-size:12px;font-family:monospace;resize:vertical;display:none';
         textarea.value = JSON.stringify([{ "columna": 0 }], null, 2);
         content.appendChild(textarea);
 
         var previewLabel = document.createElement('div');
-        previewLabel.style.cssText = 'font-size:10px;font-weight:600;color:var(--text-faint);margin-top:4px';
+        previewLabel.style.cssText = 'font-size:11px;font-weight:600;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.5px';
         previewLabel.textContent = '📄 JSON generado:';
         content.appendChild(previewLabel);
 
         var previewEl = document.createElement('div');
         previewEl.id = 'ml-preview-json';
-        previewEl.style.cssText = 'font-size:10px;padding:6px 8px;background:var(--item-bg);border-radius:4px;white-space:pre-wrap;font-family:monospace;color:var(--text-primary);max-height:100px;overflow:auto';
+        previewEl.style.cssText = 'font-size:11px;padding:10px 12px;background:var(--bg-primary);border-radius:6px;white-space:pre-wrap;font-family:monospace;color:var(--text-primary);max-height:120px;overflow:auto;border:1px solid var(--border)';
         previewEl.textContent = buildJsonFromForm();
         content.appendChild(previewEl);
 
@@ -587,29 +597,48 @@ const MLManager = (() => {
             previewEl.textContent = buildJsonFromForm();
         }
 
-        var errorEl = document.createElement('div');
-        errorEl.style.cssText = 'font-size:10px;color:#ef4444;min-height:14px';
-        content.appendChild(errorEl);
-
-        var resultEl = document.createElement('div');
-        resultEl.id = 'ml-predict-result';
-        resultEl.style.cssText = 'font-size:11px;padding:8px;background:var(--item-bg);border-radius:4px;min-height:30px;white-space:pre-wrap;font-family:monospace';
-        resultEl.textContent = 'Los resultados aparecerán aquí';
-        content.appendChild(resultEl);
-
         var actions = document.createElement('div');
-        actions.style.cssText = 'display:flex;gap:8px;justify-content:end';
+        actions.style.cssText = 'display:flex;gap:12px;justify-content:end;padding-top:4px';
         var cancelBtn = document.createElement('button');
         cancelBtn.className = 'btn btn-secondary';
         cancelBtn.textContent = 'Cancelar';
+        cancelBtn.style.cssText = 'padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;border:1.5px solid var(--border);background:var(--item-bg);color:var(--text-primary);cursor:pointer';
         cancelBtn.onclick = function() { overlay.remove(); cleanupPredictModal(); };
         actions.appendChild(cancelBtn);
         var predictBtn = document.createElement('button');
         predictBtn.className = 'btn btn-primary';
         predictBtn.textContent = '🔮 Predecir';
+        predictBtn.style.cssText = 'padding:8px 24px;border-radius:8px;font-size:13px;font-weight:700;border:none;background:var(--accent,#6366f1);color:#fff;cursor:pointer';
         predictBtn.onclick = async function() {
-            errorEl.textContent = '';
-            resultEl.textContent = '⏳ Prediciendo...';
+            var resOverlay = document.createElement('div');
+            resOverlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;z-index:10000';
+            var resBox = document.createElement('div');
+            resBox.style.cssText = 'width:84vw;max-width:1100px;max-height:85vh;background:var(--bg-panel);border-radius:14px;box-shadow:0 12px 48px rgba(0,0,0,0.4);overflow:hidden;display:flex;flex-direction:column';
+            var resTitle = document.createElement('div');
+            resTitle.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:16px 24px;font-size:15px;font-weight:700;border-bottom:1px solid var(--border);background:var(--item-bg)';
+            resTitle.innerHTML = '<span>🔮 Resultado de predicción</span>';
+            var closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '✕';
+            closeBtn.style.cssText = 'border:none;background:none;cursor:pointer;font-size:18px;color:var(--text-faint);padding:4px 8px;border-radius:6px';
+            closeBtn.onclick = function() { resOverlay.remove(); };
+            resTitle.appendChild(closeBtn);
+            resBox.appendChild(resTitle);
+            var resBody = document.createElement('div');
+            resBody.style.cssText = 'padding:20px 24px;overflow-y:auto;flex:1';
+            resBody.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-faint)">⏳ Prediciendo...</div>';
+            resBox.appendChild(resBody);
+            var resActions = document.createElement('div');
+            resActions.style.cssText = 'display:flex;gap:12px;justify-content:end;padding:12px 24px;border-top:1px solid var(--border)';
+            var resCloseBtn = document.createElement('button');
+            resCloseBtn.textContent = 'Cerrar';
+            resCloseBtn.style.cssText = 'padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;border:1.5px solid var(--border);background:var(--item-bg);color:var(--text-primary);cursor:pointer';
+            resCloseBtn.onclick = function() { resOverlay.remove(); };
+            resActions.appendChild(resCloseBtn);
+            resBox.appendChild(resActions);
+            resOverlay.appendChild(resBox);
+            document.body.appendChild(resOverlay);
+            resOverlay.addEventListener('click', function(e) { if (e.target === resOverlay) resOverlay.remove(); });
+            document.addEventListener('keydown', function _resKey(e) { if (e.key === 'Escape' && resOverlay.parentNode) { resOverlay.remove(); document.removeEventListener('keydown', _resKey); } });
             try {
                 var raw;
                 if (isExpertMode) {
@@ -625,10 +654,9 @@ const MLManager = (() => {
                 var result = await _fetch('POST', '/api/ml/predict', {
                     model_id: modelId, data: data, columns: columns,
                 });
-                resultEl.innerHTML = _renderPredictionsTable(result.predictions);
+                resBody.innerHTML = _renderPredictionsTable(result.predictions);
             } catch (e) {
-                errorEl.textContent = '❌ ' + e.message;
-                resultEl.textContent = '';
+                resBody.innerHTML = '<div style="text-align:center;padding:40px;color:#ef4444;font-size:14px;font-weight:500">❌ ' + escapeHtml(e.message) + '</div>';
             }
         };
         actions.appendChild(predictBtn);

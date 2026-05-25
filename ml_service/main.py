@@ -234,6 +234,20 @@ def list_models():
         registry = manager._load_registry()
         models = []
         for mid, entry in registry.items():
+            meta = entry.get("meta", {})
+            if not meta or not isinstance(meta.get("num_features"), list):
+                try:
+                    p = MODELS_DIR / entry.get("filename", "")
+                    if p.exists():
+                        payload = joblib.load(str(p))
+                        meta = payload.get("meta", {})
+                except Exception:
+                    meta = {
+                        "num_features": [],
+                        "cat_features": [],
+                        "target_col": entry.get("target_col", "?"),
+                        "target_classes": entry.get("target_classes"),
+                    }
             models.append({
                 "id": mid,
                 "filename": entry.get("filename", ""),
@@ -241,7 +255,7 @@ def list_models():
                 "dataset_name": entry.get("dataset_name", ""),
                 "saved_at": entry.get("saved_at", ""),
                 "metrics": entry.get("eval_results", {}),
-                "meta": entry.get("meta", {}),
+                "meta": meta,
             })
         models.sort(key=lambda m: m.get("saved_at", ""), reverse=True)
         return {"ok": True, "models": models}

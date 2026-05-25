@@ -121,6 +121,8 @@ def _build_xgb(problem_type, n_classes, seed, extra):
     except ImportError:
         raise ImportError("Instala xgboost: pip install xgboost")
 
+    self_weight = extra.pop("scale_pos_weight", None)
+
     base = dict(n_estimators=300, learning_rate=0.05,
                 max_depth=6, subsample=0.8,
                 use_label_encoder=False, eval_metric="logloss",
@@ -137,11 +139,8 @@ def _build_xgb(problem_type, n_classes, seed, extra):
         base["num_class"]  = n_classes
         base["eval_metric"]= "mlogloss"
     else:
-        # MEJORA: Para problemas binarios con desbalance, usar scale_pos_weight
-        # scale_pos_weight = num_neg / num_pos
-        # En créditos con 43 aprobados / 7 rechazados = 6.14
-        # Usar valor más agresivo (8.0) para ser más conservador en aprobaciones
-        base["scale_pos_weight"] = 6.0  # Ajustar según necesidad: 2.0 a 10.0
+        if self_weight is not None:
+            base["scale_pos_weight"] = self_weight
 
     return XGBClassifier(**base)
 
@@ -217,6 +216,15 @@ def train(X, y, preprocessor, model_key: str,
                   y_train=y_train, y_test=y_test)
 
     # ── Construir pipeline ────────────────────────────────────────
+    # Para XGBoost binario con desbalance, calcular scale_pos_weight
+    if model_key == "xgb" and problem_type == "binary":
+        from collections import Counter
+        counts = Counter(y_train)
+        if len(counts) == 2:
+            neg_count = min(counts.values())
+            pos_count = max(counts.values())
+            # scale_pos_weight = neg_count / pos_count  (< 1 da menos peso a clase mayoritaria)
+            model_kwargs.setdefault("scale_pos_weight", neg_count / pos_count)
     estimator = build_model(model_key, problem_type,
                             n_classes=n_classes,
                             random_state=random_state,
