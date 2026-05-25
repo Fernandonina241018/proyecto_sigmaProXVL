@@ -246,5 +246,47 @@
         "score_credito": 712.5
       }
     }
+  },
+  "modelo_009": {
+    "id": "modelo_009",
+    "filename": "modelo_009_rf_📋_entren_temo_c_f_20260524_221044.pkl",
+    "model_key": "rf",
+    "dataset_name": "📋 entren_temo_c_f",
+    "problem_type": "regression",
+    "created_at": "2026-05-24T22:10:45.254610",
+    "file_size_mb": 2.88,
+    "target_col": "temp_f",
+    "num_features": [
+      "temp_c"
+    ],
+    "cat_features": [],
+    "metrics": {
+      "r2_score": 0.9999367423787631,
+      "rmse": 0.38019364107207226,
+      "mae": 0.3040046324542316
+    },
+    "train_params": {
+      "source": "api",
+      "model_key": "rf",
+      "problem_type": "regression",
+      "test_size": 0.2,
+      "cv_folds": 5,
+      "n_bootstraps": 3
+    },
+    "target_classes": null,
+    "meta": {
+      "problem_type": "regression",
+      "num_features": [
+        "temp_c"
+      ],
+      "cat_features": [],
+      "label_encoder": null,
+      "target_classes": null,
+      "target_col": "temp_f",
+      "n_features_in": 1,
+      "feature_baselines": {
+        "temp_c": 27.549596
+      }
+    }
   }
 }
