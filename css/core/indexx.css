@@ -752,3 +752,6 @@
    [data-theme="light"] .sidebar-user-dropdown .sud-item.logout { border-top-color: #e2e8f0; }
    [data-theme="light"] .sidebar-user-dropdown .sud-item.logout:hover { background: rgba(239,68,68,0.08); }
    [data-theme="light"] .rep-date-display { font-family: var(--font-mono); }
+   [data-theme="light"] .preview-wrap { background: var(--bg-secondary); }
+   [data-theme="light"] .data-table td { border-bottom: 1px solid var(--border); }
+   [data-theme="light"] .data-table tr:hover td { background: rgba(0,0,0,0.03); }

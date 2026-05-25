@@ -955,6 +955,52 @@ function showAboutModal() {
   document.body.appendChild(modal);
 }
 
+function showSettingsModal() {
+  var existing = document.getElementById('settingsModal');
+  if (existing) existing.remove();
+  var modal = document.createElement('div');
+  modal.id = 'settingsModal';
+  modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center';
+  modal.onclick = function(){ modal.remove(); };
+  var fontSize = parseFloat(getComputedStyle(document.body).fontSize);
+  var fontSizeLabel = fontSize <= 13 ? 'Pequeño' : fontSize >= 16 ? 'Grande' : 'Medio';
+  modal.innerHTML = '<div style="background:var(--bg-panel);border-radius:14px;padding:24px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.5);color:var(--text-primary)" onclick="event.stopPropagation()">' +
+    '<h2 style="margin:0 0 16px;font-size:1.1rem;display:flex;align-items:center;gap:8px">⚙️ Configuración</h2>' +
+    '<div style="display:flex;flex-direction:column;gap:14px;font-size:0.9rem">' +
+    '<div class="settings-row" style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg-base);border-radius:8px">' +
+      '<span>🌙 Tema oscuro</span>' +
+      '<label style="position:relative;display:inline-block;width:40px;height:22px;cursor:pointer">' +
+        '<input type="checkbox" id="settingsThemeToggle" ' + (document.documentElement.getAttribute('data-theme') !== 'light' ? 'checked' : '') +
+        ' style="opacity:0;width:0;height:0" onchange="document.getElementById(\'themeToggle\').click();document.getElementById(\'settingsThemeToggle\').checked=document.documentElement.getAttribute(\'data-theme\')!==\'light\'">' +
+        '<span style="position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:var(--text-faint);border-radius:11px;transition:.3s"></span>' +
+        '<span style="position:absolute;content:\'\';height:18px;width:18px;left:2px;bottom:2px;background:var(--bg-panel);border-radius:50%;transition:.3s;' + (document.documentElement.getAttribute('data-theme') !== 'light' ? 'transform:translateX(18px)' : '') + '"></span>' +
+      '</label>' +
+    '</div>' +
+    '<div class="settings-row" style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg-base);border-radius:8px">' +
+      '<span>🔤 Tamaño de fuente</span>' +
+      '<div style="display:flex;gap:6px;align-items:center">' +
+        '<span id="settingsFontSizeLabel" style="font-size:0.8rem;color:var(--text-muted);min-width:60px;text-align:center">' + fontSizeLabel + '</span>' +
+        '<button class="btn btn-sm" style="padding:2px 10px;font-size:0.8rem" onclick="var fs=parseFloat(getComputedStyle(document.body).fontSize);if(fs>11){document.body.style.fontSize=(fs-1)+\'px\';updateSettingsFontLabel()}">−</button>' +
+        '<button class="btn btn-sm" style="padding:2px 10px;font-size:0.8rem" onclick="var fs=parseFloat(getComputedStyle(document.body).fontSize);if(fs<20){document.body.style.fontSize=(fs+1)+\'px\';updateSettingsFontLabel()}">+</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="settings-row" style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg-base);border-radius:8px">' +
+      '<span>🗑️ Datos guardados</span>' +
+      '<button class="btn btn-sm" style="padding:2px 10px;font-size:0.8rem;color:var(--danger)" onclick="if(confirm(\'¿Limpiar todos los datos guardados?\\nEsto cerrará la sesión actual.\')){localStorage.clear();sessionStorage.clear();location.reload()}">Limpiar</button>' +
+    '</div>' +
+    '</div>' +
+    '<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);font-size:0.75rem;color:var(--text-faint)">' +
+    'Obsidian Vault · StatAnalyzer Pro 2.6</div>' +
+    '<button class="btn btn-primary" style="margin-top:12px;width:100%;justify-content:center" onclick="this.closest(\'#settingsModal\').remove()">Cerrar</button></div>';
+  document.body.appendChild(modal);
+}
+function updateSettingsFontLabel() {
+  var label = document.getElementById('settingsFontSizeLabel');
+  if (!label) return;
+  var fs = parseFloat(getComputedStyle(document.body).fontSize);
+  label.textContent = fs <= 13 ? 'Pequeño' : fs >= 16 ? 'Grande' : 'Medio';
+}
+
 // ════════════════════════════════════════════════════════════════
 // VISUALIZACIÓN — Chart.js (13 tipos, tarjetas múltiples)
 // ════════════════════════════════════════════════════════════════
