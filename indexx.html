@@ -153,7 +153,7 @@
     <div class="ribbon-icon active" title="Files">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h8l2 3h8v15H3z"/></svg>
     </div>
-    <div class="ribbon-icon" title="Search">
+    <div class="ribbon-icon" onclick="openCommandPalette()" title="Comandos (Ctrl+K)">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
     </div>
     <div class="ribbon-icon" title="Graph view">
@@ -207,7 +207,7 @@
         <span class="search-icon">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         </span>
-        <input type="text" placeholder="Buscar..." />
+        <input type="text" id="sidebarSearch" placeholder="Comandos..." />
       </div>
     </div>
     <div class="sidebar-nav">
