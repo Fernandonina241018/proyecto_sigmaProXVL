@@ -13,8 +13,6 @@
  *  8. imputarValoresFaltantes → sin side-effects en .map()
  * ─────────────────────────────────────────────────────────────
  */
-console.log('=== ToolsManager.js cargado ===');
-
 // ════════════════════════════════════════════════════════════════
 // UTILIDADES COMPARTIDAS
 // ════════════════════════════════════════════════════════════════
@@ -878,7 +876,6 @@ function handleToolsAction(action) {
           showResultToast('Seleccionadas: ' + result.selected.length + ' / ' + allCols.length + ' cols · Activa "Eliminar" para aplicar');
         }
 
-        console.log(lines.join('\n'));
       }
     });
     return;

@@ -3,8 +3,15 @@
   "command": {
     "prompt": {
       "template": "Eres un experto en ingeniería de prompts. Aplica las mejores prácticas de Anthropic (instrucciones claras y jerarquizadas, contexto suficiente, criterios de éxito, formato de salida cuando aplique, y tono adecuado).\n\nOptimiza y reescribe el siguiente prompt del usuario conservando su intención. Si falta información crítica, indícalo al final en una breve lista.\n\nPrompt a optimizar:\n$ARGUMENTS",
-      "description": "Optimizar un prompt usando mejores prácticas de Anthropic",
-      "agent": "general"
+      "description": "Optimizar un prompt usando mejores prácticas de Anthropic y skills disponibles",
+      "agent": "general",
+      "context": [
+        "PROYECTO: SigmaProXVL / StatAnalyzer Pro en /mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/ (ruta absoluta. NO usar /home/fernandonina/proyecto_sigmaProXVL/)",
+        "Brain2: contexto del proyecto StatAnalyzer Pro (estadísticas) en Brain/Brain2/",
+        "Brain3: identidad y comportamiento del Agente X en Brain/Brain3/",
+        "Skills disponibles en ~/.agents/skills/: azure-ai, find-skills, frontend-design, nodejs-backend-patterns, prompt-optimization, skill-creator, supabase-postgres-best-practices, vercel-react-best-practices, web-design-guidelines"
+      ],
+      "instructions": "La ruta base del proyecto es /mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/. Todos los comandos y rutas de archivos deben usar esta ruta, NO /home/fernandonina/proyecto_sigmaProXVL/. Usa los brains en Brain/Brain2/ y Brain/Brain3/. Aplica la metodología de la skill prompt-optimization (~/.agents/skills/prompt-optimization/SKILL.md) que implementa 8 técnicas de optimización de Anthropic. Considera las demás skills disponibles para enriquecer el contexto según el dominio del prompt a optimizar. Estructura la respuesta con XML tags, incluye explicación de técnicas aplicadas y lista de mejores prácticas usadas."
     }
   }
 }

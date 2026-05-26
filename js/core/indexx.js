@@ -133,7 +133,6 @@ document.addEventListener('mousedown', function(e) {
 document.addEventListener('click', function(e) {
   var ddItem = e.target.closest('.dd-item');
   if (ddItem && ddItem.hasAttribute('onclick')) {
-    console.log('Ejecutando onclick de dd-item');
     // El onclick se ejecutará automáticamente
   }
 });
@@ -3689,8 +3688,7 @@ function selectAnalisisTestDirect(testId, category) {
 }
 
 function onSubitemClick(event, nombre, seccionKey) {
-  console.log('[DBG] onSubitemClick called', { nombre, seccionKey, targetClass: event.target.classList.toString(), currentPage });
-  if (event.target.classList.contains('stat-check')) { console.log('[DBG] → early return (stat-check)'); return; }
+  if (event.target.classList.contains('stat-check')) { return; }
 
   // 1. Marcar checkbox
   var id = 'chk-' + seccionKey + '-' + nombre.replace(/[^a-zA-Z0-9]/g, '_');
@@ -3714,13 +3712,11 @@ function onSubitemClick(event, nombre, seccionKey) {
   analisisResultContent = null;
 
   // 4. Si NO estamos en análisis, navegar primero
-  console.log('[DBG] currentPage=' + currentPage + ' | analisisSelectedCategory=' + analisisSelectedCategory + ' | analisisSelectedTest=' + analisisSelectedTest);
   if (currentPage !== 'analisis') {
     loadPage('analisis');
   } else {
     // Solo actualizar el sidebar izquierdo sin tocar el panel derecho
     leftPaneBody.innerHTML = leftPanels.analisis();
-    console.log('[DBG] Sidebar updated, leftPaneBody.innerHTML length:', leftPaneBody.innerHTML.length, leftPaneBody.innerHTML.substring(0, 120));
   }
 
   // 5. Mostrar cards en panel derecho
