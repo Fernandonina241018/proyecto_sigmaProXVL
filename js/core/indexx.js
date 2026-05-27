@@ -4352,7 +4352,7 @@ function openCommandPalette() {
 }
 
 document.addEventListener('keydown', function(e) {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+  if ((e.ctrlKey || e.metaKey) && e.key === '.') {
     e.preventDefault();
     openCommandPalette();
   }
