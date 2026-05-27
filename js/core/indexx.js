@@ -341,34 +341,34 @@ var leftPanels = {
     '</div>';
   },
   datos: function() {
-    return '<div class="left-panel" style="gap:12px" id="datosLeftPanel">' +
-      '<div class="upload-zone compact" id="dropZone" style="padding:10px 8px;flex-shrink:0">' +
-        '<div class="upload-zone-icon" style="font-size:18px">📂</div>' +
-        '<div class="upload-zone-text" style="font-size:11px">Arrastra o haz clic</div>' +
+    return '<div class="left-panel" style="gap:6px;padding:8px" id="datosLeftPanel">' +
+      '<div class="upload-zone compact" id="dropZone" style="padding:6px 8px;flex-shrink:0">' +
+        '<div class="upload-zone-icon" style="font-size:14px">📂</div>' +
+        '<div class="upload-zone-text" style="font-size:10px">Arrastra o haz clic</div>' +
       '</div>' +
       '<input type="file" id="fileInput" style="display:none" accept=".csv,.json,.xlsx,.xls">' +
-      '<div style="display:flex;gap:6px;flex-shrink:0">' +
-        '<button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px 4px" id="btnCsv">📄 CSV</button>' +
-        '<button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px 4px" id="btnXlsx">📊 Excel</button>' +
-        '<button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px 4px" id="btnPaste">📋 Pegar</button>' +
+      '<div style="display:flex;gap:4px;flex-shrink:0">' +
+        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" id="btnCsv">📄 CSV</button>' +
+        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" id="btnXlsx">📊 Excel</button>' +
+        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" id="btnPaste">📋 Pegar</button>' +
       '</div>' +
-      '<div style="display:flex;gap:6px;flex-shrink:0">' +
-        '<button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px 4px" onclick="generarDatosNormales()">🔢 Normal</button>' +
-        '<button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px 4px" onclick="ampliarDatos()">📈 Ampliar</button>' +
-        '<button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px 4px" onclick="limpiarDataset()">🧹 Limpiar</button>' +
-      '</div>' +
-      '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column">' +
-        '<div class="info-section-header" style="display:flex;justify-content:space-between;align-items:center">' +
-          '<span>Recientes</span>' +
-          '<span id="clearHistoryBtn" title="Limpiar historial" style="cursor:pointer;font-size:11px;padding:2px 6px;border-radius:4px;color:var(--text-faint)" onmouseenter="this.style.background=\'rgba(255,255,255,.08)\';this.style.color=\'var(--text-muted)\'" onmouseleave="this.style.background=\'transparent\';this.style.color=\'var(--text-faint)\'">🗑️</span>' +
-        '</div>' +
-        '<div style="overflow-y:auto;flex:1;padding:6px;display:flex;flex-direction:column;gap:4px" id="recentFilesList"></div>' +
+      '<div style="display:flex;gap:4px;flex-shrink:0">' +
+        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" onclick="generarDatosNormales()">🔢 Normal</button>' +
+        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" onclick="ampliarDatos()">📈 Ampliar</button>' +
+        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" onclick="limpiarDataset()">🧹 Limpiar</button>' +
       '</div>' +
       '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">Estado</div><div class="info-list">' +
         '<div class="info-item"><div class="info-item-label">Dataset</div><div class="info-item-value" id="datosDatasetName">Sin cargar</div></div>' +
         '<div class="info-item"><div class="info-item-label">Filas</div><div class="info-item-value" id="datosRowCount">—</div></div>' +
         '<div class="info-item"><div class="info-item-label">Columnas</div><div class="info-item-value" id="datosColCount">—</div></div>' +
       '</div></div>' +
+      '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0">' +
+        '<div class="info-section-header" style="display:flex;justify-content:space-between;align-items:center">' +
+          '<span>Recientes</span>' +
+          '<span id="clearHistoryBtn" title="Limpiar historial" style="cursor:pointer;font-size:11px;padding:2px 6px;border-radius:4px;color:var(--text-faint)" onmouseenter="this.style.background=\'rgba(255,255,255,.08)\';this.style.color=\'var(--text-muted)\'" onmouseleave="this.style.background=\'transparent\';this.style.color=\'var(--text-faint)\'">🗑️</span>' +
+        '</div>' +
+        '<div style="overflow-y:auto;flex:1;padding:6px;display:flex;flex-direction:column;gap:4px" id="recentFilesList"></div>' +
+      '</div>' +
     '</div>';
   },
   analisis: function() { 
@@ -745,6 +745,7 @@ function loadPage(name) {
   rightPaneTitle.textContent = pageTitles[name];
   var leftFn = leftPanels[name];
   leftPaneBody.innerHTML = leftFn ? leftFn() : '';
+  leftPaneBody.style.overflow = (name === 'datos') ? 'hidden' : '';
   var rightFn = rightPanels[name];
   rightPaneBody.innerHTML = rightFn ? rightFn() : '<div class="page-body"><div style="color:var(--text-faint)">Página no encontrada</div></div>';
   if (name === 'datos' || name === 'trabajo') rightPaneBody.classList.add('flush');
