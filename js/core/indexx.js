@@ -140,12 +140,20 @@ document.addEventListener('click', function(e) {
 });
 
 // ── Sidebar toggle ──
-document.getElementById('sidebarToggle').addEventListener('click', function() {
+function toggleSidebar() {
   var sidebar = document.getElementById('sidebar');
+  var toggle = document.getElementById('sidebarToggle');
   var isNowCollapsed = !sidebar.classList.contains('collapsed');
   sidebar.classList.toggle('collapsed');
-  this.classList.toggle('rotated');
+  if (toggle) toggle.classList.toggle('rotated');
   try { localStorage.setItem('sidebar_collapsed', isNowCollapsed); } catch(e) {}
+}
+document.getElementById('sidebarToggle').addEventListener('click', toggleSidebar);
+document.addEventListener('keydown', function(e) {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
+    e.preventDefault();
+    toggleSidebar();
+  }
 });
 
 document.getElementById('ribbonPopupBtn').addEventListener('click', function(e) {
@@ -936,6 +944,7 @@ function showHelpModal() {
     '<span style="color:var(--text-muted)">Ctrl+Z / Ctrl+Shift+Z</span><span>Deshacer / Rehacer</span>' +
     '<span style="color:var(--text-muted)">Ctrl+O</span><span>Cargar dataset</span>' +
     '<span style="color:var(--text-muted)">Ctrl+S</span><span>Guardar sesión</span>' +
+    '<span style="color:var(--text-muted)">Ctrl+B</span><span>Toggle Sidebar</span>' +
     '</div>' +
     '<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">' +
     '<p style="margin:0 0 6px;font-size:0.85rem;font-weight:600">📖 Uso básico</p>' +
@@ -4124,6 +4133,7 @@ var COMMANDS = [
   { id:'page-ml',          label:'ML Analysis',       icon:'🧠', cat:'Páginas',     action:function(){ loadPage('ml'); } },
   { id:'page-auditoria',   label:'Auditoría',         icon:'📋', cat:'Páginas',     action:function(){ loadPage('auditoria'); } },
   { id:'page-usuarios',    label:'Usuarios',          icon:'👥', cat:'Páginas',     action:function(){ loadPage('usuarios'); } },
+  { id:'toggle-sidebar',   label:'Toggle Sidebar',    icon:'📌', cat:'Páginas',     action:function(){ toggleSidebar(); } },
   // Data
   { id:'import-csv',       label:'Cargar dataset',    icon:'📁', cat:'Datos',       action:function(){ document.getElementById('fileInput').click(); } },
   { id:'paste-data',       label:'Pegar datos',       icon:'📋', cat:'Datos',       action:function(){ showPasteModal(); } },
