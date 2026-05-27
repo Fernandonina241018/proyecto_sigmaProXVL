@@ -908,7 +908,8 @@ function redoAction() {
 var _toastTimer = null;
 function showToast(msg) {
   var t = document.getElementById('undoToast');
-  t.textContent = msg; t.classList.add('show');
+  var inner = document.getElementById('undoToastInner');
+  inner.textContent = msg; t.classList.add('show');
   clearTimeout(_toastTimer);
   _toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2000);
 }

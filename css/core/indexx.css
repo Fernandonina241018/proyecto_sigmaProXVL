@@ -361,8 +361,9 @@
   .autocomplete-item:hover, .autocomplete-item.ac-active { background:var(--accent); color:#fff; }
 
   /* ── Undo/redo toast ── */
-  .undo-toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(60px); background:#333; border:1px solid var(--border); border-radius:8px; padding:7px 16px; font-size:12px; color:var(--text-muted); transition:transform .25s ease, opacity .25s ease; opacity:0; z-index:9999; }
-  .undo-toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+  .undo-toast { position:fixed; bottom:20px; left:0; right:0; text-align:center; pointer-events:none; transform:translateY(60px); transition:transform .25s ease, opacity .25s ease; opacity:0; z-index:9999; }
+  .undo-toast.show { transform:translateY(0); opacity:1; }
+  .undo-toast-inner { display:inline-block; background:#333; border:1px solid var(--border); border-radius:8px; padding:7px 16px; font-size:12px; color:var(--text-muted); white-space:nowrap; }
 
   /* ── Dataset tooltip ── */
   .dataset-preview-tooltip { position:fixed; z-index:9999; background:var(--bg-panel); border:1px solid var(--border); border-radius:8px; padding:8px; max-width:350px; max-height:250px; overflow:auto; box-shadow:0 8px 32px rgba(0,0,0,.5); font-size:11px; display:none; }
