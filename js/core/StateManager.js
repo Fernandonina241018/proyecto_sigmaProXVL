@@ -34,12 +34,15 @@ const StateManager = (() => {
         // Configuración de pruebas de hipótesis
         hypothesisConfig: {},
         
+        // Metadatos
+        savedAt: null,
+        
         // Configuración
         config: {
             autoSave: true,
             autoSaveInterval: 5000, // 5 segundos
             maxSheets: 20,
-            maxRows: 10000,
+            maxRows: 100000,
             maxCols: 100
         },
         
@@ -630,11 +633,12 @@ const StateManager = (() => {
     }
     
     // ========================================
-    // PERSISTENCIA (LocalStorage)
+    // PERSISTENCIA (StorageAdapter → IndexedDB con fallback localStorage)
     // ========================================
     
-    function saveToLocalStorage() {
+    async function saveToLocalStorage() {
         try {
+            state.savedAt = new Date().toISOString();
             const serialized = JSON.stringify({
                 sheets: state.sheets,
                 activeSheetId: state.activeSheetId,
@@ -643,10 +647,10 @@ const StateManager = (() => {
                 fileName: state.fileName,
                 activeStats: state.activeStats,
                 hypothesisConfig: state.hypothesisConfig,
-                savedAt: new Date().toISOString()
+                savedAt: state.savedAt
             });
             
-            localStorage.setItem('statAnalyzerState', serialized);
+            await StorageAdapter.setItem('statAnalyzerState', serialized);
             return true;
         } catch (error) {
             console.error('❌ Error al guardar estado:', error);
@@ -654,9 +658,9 @@ const StateManager = (() => {
         }
     }
     
-    function loadFromLocalStorage() {
+    async function loadFromLocalStorage() {
         try {
-            const serialized = localStorage.getItem('statAnalyzerState');
+            const serialized = await StorageAdapter.getItem('statAnalyzerState');
             if (!serialized) {
                 return false;
             }
@@ -679,33 +683,37 @@ const StateManager = (() => {
         }
     }
     
-    function clearLocalStorage() {
-        localStorage.removeItem('statAnalyzerState');
-        localStorage.removeItem('sigmaPro_analisis');
-        localStorage.removeItem('sigmaPro_graficos');
+    async function clearLocalStorage() {
+        await StorageAdapter.removeItem('statAnalyzerState');
+        await StorageAdapter.removeItem('sigmaPro_analisis');
+        await StorageAdapter.removeItem('sigmaPro_graficos');
     }
 
     // ========================================
     // HISTORIAL DE ANÁLISIS Y GRÁFICOS
     // ========================================
 
-    function getAnalisisHistory() {
-        try { return JSON.parse(localStorage.getItem('sigmaPro_analisis') || '[]'); }
-        catch (e) { return []; }
+    async function getAnalisisHistory() {
+        try {
+            const data = await StorageAdapter.getItem('sigmaPro_analisis');
+            return data ? JSON.parse(data) : [];
+        } catch (e) { return []; }
     }
 
-    function setAnalisisHistory(arr) {
-        try { localStorage.setItem('sigmaPro_analisis', JSON.stringify(arr)); }
+    async function setAnalisisHistory(arr) {
+        try { await StorageAdapter.setItem('sigmaPro_analisis', JSON.stringify(arr)); }
         catch (e) { console.error('Error guardando historial de análisis:', e); }
     }
 
-    function getGraficosHistory() {
-        try { return JSON.parse(localStorage.getItem('sigmaPro_graficos') || '[]'); }
-        catch (e) { return []; }
+    async function getGraficosHistory() {
+        try {
+            const data = await StorageAdapter.getItem('sigmaPro_graficos');
+            return data ? JSON.parse(data) : [];
+        } catch (e) { return []; }
     }
 
-    function setGraficosHistory(arr) {
-        try { localStorage.setItem('sigmaPro_graficos', JSON.stringify(arr)); }
+    async function setGraficosHistory(arr) {
+        try { await StorageAdapter.setItem('sigmaPro_graficos', JSON.stringify(arr)); }
         catch (e) { console.error('Error guardando historial de gráficos:', e); }
     }
     
@@ -731,9 +739,6 @@ const StateManager = (() => {
     }
     
     function scheduleAutoSave() {
-        // Debounce: espera 400ms antes de guardar.
-        // Agrupa múltiples cambios rápidos (como escribir en celdas)
-        // en una sola serialización a localStorage.
         if (state.config.autoSave) {
             clearTimeout(debounceSaveTimer);
             debounceSaveTimer = setTimeout(() => {
@@ -788,8 +793,7 @@ const StateManager = (() => {
             totalCells: state.sheets.reduce((sum, s) => sum + (s.rows * s.cols), 0),
             hasImportedData: !!state.importedData,
             activeStatsCount: state.activeStats.length,
-            lastSaved: localStorage.getItem('statAnalyzerState') ? 
-                JSON.parse(localStorage.getItem('statAnalyzerState')).savedAt : 'Nunca'
+            lastSaved: state.savedAt || 'Nunca'
         };
     }
     
@@ -949,6 +953,11 @@ const StateManager = (() => {
         // Acceso directo al estado (solo lectura)
         getState: () => ({ ...state })
     };
+    
+    // Migrar datos existentes de localStorage → IndexedDB al cargar
+    if (typeof StorageAdapter !== 'undefined' && localStorage.getItem('statAnalyzerState')) {
+        StorageAdapter.migrateFromLocalStorage();
+    }
 })();
 
 // ========================================
