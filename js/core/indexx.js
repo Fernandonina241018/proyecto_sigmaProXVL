@@ -111,7 +111,9 @@ var menuItems = document.querySelectorAll('.menu-item[data-menu]');
 var anyOpen = false;
 menuItems.forEach(function(item) {
   item.addEventListener('mousedown', function(e) {
-    e.preventDefault(); var wasOpen = item.classList.contains('open');
+    e.preventDefault();
+    if (e.target.closest('.dd-item')) return;
+    var wasOpen = item.classList.contains('open');
     menuItems.forEach(function(i){ i.classList.remove('open'); });
     if (!wasOpen) { item.classList.add('open'); anyOpen = true; } else anyOpen = false;
   });
@@ -835,6 +837,18 @@ try {
     toggle.classList.add('rotated');
   }
 } catch(e) {}
+
+// ── Zoom ──
+var _zoomLevel = (function(){ try { return parseInt(localStorage.getItem('zoomLevel')) || 100; } catch(e){ return 100; } })();
+function applyZoom() {
+  document.body.style.zoom = _zoomLevel + '%';
+  var el = document.getElementById('zoomValue');
+  if (el) el.textContent = _zoomLevel;
+  try { localStorage.setItem('zoomLevel', _zoomLevel); } catch(e) {}
+}
+function zoomIn() { if (_zoomLevel < 200) { _zoomLevel = Math.min(200, _zoomLevel + 10); applyZoom(); } }
+function zoomOut() { if (_zoomLevel > 50) { _zoomLevel = Math.max(50, _zoomLevel - 10); applyZoom(); } }
+applyZoom();
 
 // ── Dropdown toggle for sidebar toolbar ──
 function toggleDropdown(btn) {

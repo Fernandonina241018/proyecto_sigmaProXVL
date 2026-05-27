@@ -61,8 +61,10 @@
         <div class="dd-separator"></div>
         <div class="dd-item" role="menuitem" onclick="loadPage('trabajo')">Vista datos <span class="dd-shortcut">⌘ E</span></div>
         <div class="dd-separator"></div>
-        <div class="dd-item" role="menuitem" onclick="document.body.style.fontSize=(parseFloat(getComputedStyle(document.body).fontSize)+1)+'px'">Zoom In <span class="dd-shortcut">⌘ +</span></div>
-        <div class="dd-item" role="menuitem" onclick="document.body.style.fontSize=(parseFloat(getComputedStyle(document.body).fontSize)-1)+'px'">Zoom Out <span class="dd-shortcut">⌘ −</span></div>
+        <div class="dd-item" role="menuitem" onclick="zoomIn()">Zoom In <span class="dd-shortcut">⌘ +</span></div>
+        <div class="dd-item" role="menuitem" onclick="zoomOut()">Zoom Out <span class="dd-shortcut">⌘ −</span></div>
+        <div class="dd-separator"></div>
+        <div class="dd-item" style="font-size:11px;color:var(--text-faint);cursor:default;justify-content:center;pointer-events:none" id="zoomLabel">Zoom: <span id="zoomValue">100</span>%</div>
       </div>
     </div>
     <div class="menu-item" data-menu="Navigate" data-submenu="Statistical Analysis" role="menuitem" tabindex="0">Statistical Analysis
