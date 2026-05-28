@@ -125,7 +125,6 @@ const HYPOTHESIS_TESTS = [
     'ANOVA One-Way', 'ANOVA Two-Way', 'Chi-Cuadrado',
     'T-Test (dos muestras)', 'T-Test (una muestra)',
     'Test de Normalidad', 'Test de Shapiro-Wilk',
-    'Límites de Cuantificación',
     'Correlación Pearson', 'Correlación Spearman', 'Correlación Kendall Tau',
     'Covarianza',
     'Regresión Lineal Simple', 'Regresión Lineal Múltiple',

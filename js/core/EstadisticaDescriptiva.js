@@ -3499,6 +3499,39 @@ interpretacion: interpretacion,
     }
 
     /**
+     * Límites de Cuantificación según ICH Q2(R1) y FDA
+     * Calcula LOD (límite de detección), LOQ (límite de cuantificación),
+     * LQC (límite de control de calidad) y MDL (método de detección)
+     * a partir de réplicas de blanco o desviación estándar de la columna.
+     */
+    function calcularLimitesCuantificacion(values) {
+        if (!values || values.length < 3) return { error: 'Se necesitan al menos 3 valores' };
+        var nums = values.filter(function(v){ return v != null && v !== '' && !isNaN(parseFloat(v)); }).map(function(v){ return parseFloat(v); });
+        if (nums.length < 3) return { error: 'Se necesitan al menos 3 valores numéricos' };
+        var n = nums.length;
+        var media = calcularMedia(nums);
+        var sigma = calcularDesviacionEstandar(nums, true);
+        var lod = 3 * sigma;
+        var loq = 10 * sigma;
+        var lqc = 10 * sigma;
+        var mdl = 3.3 * sigma;
+        // Advertencias
+        var advertencias = [];
+        if (n < 10) advertencias.push({ condicion: 'n_menor_10', mensaje: 'ICH Q2(R1) recomienda al menos 10 réplicas de blanco para LOD/LOQ fiables.' });
+        return {
+            LOD: parseFloat(lod.toFixed(4)),
+            LOQ: parseFloat(loq.toFixed(4)),
+            LQC: parseFloat(lqc.toFixed(4)),
+            MDL: parseFloat(mdl.toFixed(4)),
+            mediaBlancos: parseFloat(media.toFixed(4)),
+            deBlancos: parseFloat(sigma.toFixed(4)),
+            n: n,
+            interpretacion: 'LOD = ' + lod.toFixed(4) + ' (3σ), LOQ = ' + loq.toFixed(4) + ' (10σ). Valores por debajo de LOQ no deben reportarse cuantitativamente.',
+            advertencias: advertencias
+        };
+    }
+
+    /**
      * Inferencia Bayesiana (conjugada normal-normal)
      */
     function calcularBayesiano(values, prior) {
@@ -3902,6 +3935,40 @@ interpretacion: interpretacion,
                         resultados['ANOVA Two-Way'] = calcularANOVA2Factores(grupos, numericCols.slice(0, 2), numericCols.slice(2));
                     }
                     break;
+
+                 case 'LOD (Límite de Detección)':
+                 case 'LOQ (Límite de Cuantificación)':
+                 case 'LQC (Límite de Control de Calidad)':
+                 case 'MDL (Mínimo Detectable)':
+                     const limiteKey = stat;
+                     if (!resultados[limiteKey]) resultados[limiteKey] = {};
+                     numericCols.forEach(col => {
+                         const values = getNumericValues(data, col);
+                         if (values.length < 3) {
+                             resultados[limiteKey][col] = { error: 'Se necesitan al menos 3 valores numéricos' };
+                             return;
+                         }
+                         const calc = calcularLimitesCuantificacion(values);
+                         if (calc.error) {
+                             resultados[limiteKey][col] = calc;
+                             return;
+                         }
+                         const keyMap = {
+                             'LOD (Límite de Detección)': 'LOD',
+                             'LOQ (Límite de Cuantificación)': 'LOQ',
+                             'LQC (Límite de Control de Calidad)': 'LQC',
+                             'MDL (Mínimo Detectable)': 'MDL'
+                         };
+                         const outKey = keyMap[limiteKey];
+                         resultados[limiteKey][col] = {
+                             valor: calc[outKey],
+                             sigma: calc.deBlancos,
+                             mediaBlancos: calc.mediaBlancos,
+                             n: calc.n,
+                             interpretacion: outKey + ' = ' + calc[outKey] + ' (' + (outKey === 'MDL' ? '3.3' : outKey === 'LOD' ? '3' : '10') + 'σ)'
+                         };
+                     });
+                     break;
 
                  case 'Límites de Cuantificación':
                      if (hypothesisConfig['Límites de Cuantificación']) {
@@ -5754,6 +5821,29 @@ function generarHTML(analisisResultado) {
                     <div class="ar-kpi-badge ${result.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${result.significativo ? '✗ Significativo' : '✓ No significativo'}</div>
                     </div>`).join('');
         }
+        // LOD / LOQ / LQC / MDL individuales
+        if (statKey === 'LOD (Límite de Detección)' || statKey === 'LOQ (Límite de Cuantificación)' ||
+            statKey === 'LQC (Límite de Control de Calidad)' || statKey === 'MDL (Mínimo Detectable)') {
+            const labels = {
+                'LOD (Límite de Detección)': 'LOD',
+                'LOQ (Límite de Cuantificación)': 'LOQ',
+                'LQC (Límite de Control de Calidad)': 'LQC',
+                'MDL (Mínimo Detectable)': 'MDL'
+            };
+            const label = labels[statKey];
+            return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => {
+                if (result.error) return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${escapeHtml(col)}</div><p class="ar-error">${escapeHtml(result.error)}</p></div>`;
+                return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📐 ${escapeHtml(col)}</div>
+                        <div class="ar-kpi-sub-grid">
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${label}</span><span class="ar-kpi-sub-v">${result.valor?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">σ</span><span class="ar-kpi-sub-v">${result.sigma?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Media blancos</span><span class="ar-kpi-sub-v">${result.mediaBlancos?.toFixed(4) ?? '—'}</span></div>
+                            <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${result.n ?? '—'}</span></div>
+                        </div>
+                        <div class="ar-formula" style="margin-top:8px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(result.interpretacion || '')}</div></div></div>
+                        </div>`;
+            }).join('');
+        }
         // Límites de Cuantificación
         if (statKey === 'Límites de Cuantificación') {
             if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
@@ -6285,9 +6375,10 @@ function generarHTML(analisisResultado) {
 // Funciones individuales - Outliers
         detectarOutliersIQR,
         detectarOutliersZScore,
-        
         // Funciones de calidad
         calcularPareto,
+        calcularLimitesCuantificacion,
+        
         
         // Funciones individuales - Pruebas de Hipótesis
         calcularTTestUnaMuestra,

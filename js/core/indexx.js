@@ -340,12 +340,7 @@ var leftPanels = {
       '</div>' +
       '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">Resumen</div><div class="info-list" id="trabajoResumen">' + getTrabajoResumenHTML() + '</div></div>' +
       '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">Celda activa</div><div class="info-list" id="trabajoCeldaActiva">' + getTrabajoCeldaActivaHTML() + '</div></div>' +
-      '<div class="info-section" style="flex-shrink:0" id="trabajoLimitsSection"><div class="info-section-header" style="display:flex;justify-content:space-between;align-items:center">' +
-        '<span>📏 Límites</span>' +
-        '<label style="font-size:10px;color:var(--text-muted);display:flex;align-items:center;gap:4px;cursor:pointer">' +
-          '<input type="checkbox" id="limitsGlobalToggle" ' + (trabajoLimitsMode === 'global' ? 'checked' : '') + ' style="accent-color:var(--accent)" onchange="toggleLimitsMode()"> Global' +
-        '</label>' +
-      '</div><div class="info-list" id="trabajoLimitsBody"></div></div>' +
+
     '</div>';
   },
   datos: function() {
@@ -442,23 +437,19 @@ var leftPanels = {
             '<div class="info-item"><div class="info-item-label">Columnas</div><div class="info-item-value" id="analisisDsCols">' + dsCols + '</div></div>' +
           '</div>' +
         '</div>' +
-        // ── EDA button ──
-        '<button class="btn btn-primary" style="width:100%;font-size:13px;padding:8px 10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:6px" onclick="runEDA()">' +
-          '<span>🔍</span> Análisis Exploratorio (EDA)' +
-        '</button>' +
-        // ── Tests seleccionados desde el menú ──
-        '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column">' +
-          '<div class="info-section-header">Tests seleccionados</div>' +
-          '<div style="overflow-y:auto;flex:1;padding:6px;display:flex;flex-direction:column;gap:3px">' + selectedTestsHtml + '</div>' +
-        '</div>' +
-        // ── Resumen del último resultado ejecutado ──
+        // ── Último resultado ──
         '<div class="info-section" style="flex-shrink:0">' +
           '<div class="info-section-header">Último resultado</div>' +
-          '<div class="info-list">' +
+          '<div class="info-list" id="analisisLastResultList">' +
             '<div class="info-item"><div class="info-item-label">Test</div><div class="info-item-value" id="analisisLastTest">' + lastTest + '</div></div>' +
             '<div class="info-item"><div class="info-item-label">p-valor</div><div class="info-item-value" id="analisisLastPVal">' + lastPVal + '</div></div>' +
             '<div class="info-item"><div class="info-item-label">Decisión</div><div class="info-item-value" id="analisisLastDecision" style="color:' + decColor + '">' + lastDec + '</div></div>' +
           '</div>' +
+        '</div>' +
+        // ── Tests seleccionados (solo este scroll) ──
+        '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0">' +
+          '<div class="info-section-header">Test seleccionado</div>' +
+          '<div id="analisisSelectedTestsScroll" style="overflow-y:auto;flex:1;padding:6px;display:flex;flex-direction:column;gap:3px">' + selectedTestsHtml + '</div>' +
         '</div>' +
       '</div>'; 
     },
@@ -1940,22 +1931,47 @@ function renderLimitsPanel() {
   // Ensure all current columns exist in limits
   sheet.headers.forEach(function(h){ if (!trabajoLimits.cols[h]) trabajoLimits.cols[h] = { ls: '', li: '', lc: '' }; });
   var html = '';
+  // Compute LOD/LOQ from sheet data
+  var ld = null;
+  if (typeof EstadisticaDescriptiva !== 'undefined') {
+    var allNum = [];
+    sheet.headers.forEach(function(h, i){
+      var vals = sheet.rows.map(function(r){ return parseFloat(r[i]); }).filter(function(v){ return !isNaN(v) && isFinite(v); });
+      allNum = allNum.concat(vals);
+    });
+    if (allNum.length >= 3) ld = EstadisticaDescriptiva.calcularLimitesCuantificacion(allNum);
+  }
   if (trabajoLimitsMode === 'global') {
     var g = trabajoLimits.global || { ls: '', li: '', lc: '' };
+    var lodHtml = '';
+    if (ld) {
+      lodHtml = '<div class="info-item" style="border-top:1px solid var(--border);padding-top:6px;margin-top:4px"><div class="info-item-label" style="font-size:10px;font-weight:600;color:var(--accent)">📐 LOD (calc)</div><div class="info-item-value" style="font-family:monospace;font-size:11px">' + ld.LOD.toFixed(4) + '</div></div>' +
+        '<div class="info-item"><div class="info-item-label" style="font-size:10px;font-weight:600;color:var(--accent)">📐 LOQ (calc)</div><div class="info-item-value" style="font-family:monospace;font-size:11px">' + ld.LOQ.toFixed(4) + '</div></div>' +
+        '<div class="info-item"><div class="info-item-label" style="font-size:10px;font-weight:600;color:var(--accent)">📐 MDL (calc)</div><div class="info-item-value" style="font-family:monospace;font-size:11px">' + ld.MDL.toFixed(4) + '</div></div>';
+    }
     html += '<div class="info-item" style="font-size:13px;color:var(--text-muted)"></div>' +
       '<div class="info-item"><div class="info-item-label">Límite Superior</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLS" value="' + g.ls + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px"></div></div>' +
       '<div class="info-item"><div class="info-item-label">Límite Inferior</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLI" value="' + g.li + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px"></div></div>' +
-      '<div class="info-item"><div class="info-item-label">Límite Central</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLC" value="' + g.lc + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px"></div></div>';
+      '<div class="info-item"><div class="info-item-label">Límite Central</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLC" value="' + g.lc + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px"></div></div>' +
+      lodHtml;
   } else {
     sheet.headers.forEach(function(h, i){
       var col = trabajoLimits.cols[h] || { ls: '', li: '', lc: '' };
+      // Compute per-column LOD/LOQ
+      var cd = null;
+      if (typeof EstadisticaDescriptiva !== 'undefined') {
+        var vals = sheet.rows.map(function(r){ return parseFloat(r[i]); }).filter(function(v){ return !isNaN(v) && isFinite(v); });
+        if (vals.length >= 3) cd = EstadisticaDescriptiva.calcularLimitesCuantificacion(vals);
+      }
       html += '<div class="info-item" style="flex-direction:column;align-items:stretch;gap:3px;padding:4px 0;border-bottom:1px solid var(--border)">' +
         '<div class="info-item-label" style="font-size:12px;margin-bottom:2px">' + escapeHtml(h) + '</div>' +
         '<div style="display:flex;gap:4px">' +
           '<input type="number" step="any" placeholder="LS" id="limitLS_' + i + '" value="' + col.ls + '" style="flex:1;min-width:0;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px">' +
           '<input type="number" step="any" placeholder="LI" id="limitLI_' + i + '" value="' + col.li + '" style="flex:1;min-width:0;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px">' +
           '<input type="number" step="any" placeholder="LC" id="limitLC_' + i + '" value="' + col.lc + '" style="flex:1;min-width:0;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px">' +
-        '</div></div>';
+        '</div>' +
+        (cd ? '<div style="display:flex;gap:8px;font-size:10px;color:var(--text-faint);padding:1px 2px"><span>LOD: <b style="color:var(--accent)">' + cd.LOD.toFixed(4) + '</b></span><span>LOQ: <b style="color:var(--accent)">' + cd.LOQ.toFixed(4) + '</b></span><span>MDL: <b style="color:var(--accent)">' + cd.MDL.toFixed(4) + '</b></span></div>' : '') +
+      '</div>';
     });
   }
   html += '<div style="padding:4px 0"><button class="btn btn-secondary" style="width:100%;font-size:12px;padding:4px;justify-content:center" onclick="saveLimitsFromInputs();showToast(\'✅ Límites guardados\')">💾 Guardar límites</button></div>';
@@ -3485,6 +3501,8 @@ function runSingleStat(nombre) {
 }
 
 function runEDA() {
+  if (currentPage !== 'analisis') { loadPage('analisis'); }
+
   var data = getDataForEjecutarAnalisis();
   if (!data) { showToast('\u26A0\uFE0F No hay datos en la hoja de trabajo'); return; }
 
@@ -3560,7 +3578,7 @@ function buildStatAnalysisMenu() {
   if (!dropdown) return;
 
   var secciones = getSeccionesSidebar();
-  var html = '';
+  var html = '<div class="dd-item" role="menuitem" onclick="runEDA()" style="font-weight:600">🔍 Análisis Exploratorio (EDA)</div><div class="dd-separator"></div>';
   var isFirst = true;
 
   Object.entries(secciones).forEach(function([seccionKey, seccion]) {

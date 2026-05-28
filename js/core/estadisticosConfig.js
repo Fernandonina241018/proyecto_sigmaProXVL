@@ -2297,11 +2297,11 @@ const ESTADISTICOS_CONFIG = {
     // SECCIÓN: ESPECIFICACIÓN
     // ════════════════════════════════════════
 
-    'Límites de Cuantificación': {
+    'LOD (Límite de Detección)': {
         seccion:   'especificacion',
         calcular:  'calcularLimitesCuantificacion',
-        formula:   'LQC = 10×σ_blanco',
-        desc:      'Límites de cuantificación según lineamientos ICH Q2(R1) y FDA. Incluye LOQ, LQC y MDL.',
+        formula:   'LOD = 3 × σ_blanco',
+        desc:      'Límite de Detección (LOD) — menor cantidad de analito detectable pero no necesariamente cuantificable. Basado en ICH Q2(R1).',
         icono:     '📐',
         minMuestra: 10,
 
@@ -2311,19 +2311,118 @@ const ESTADISTICOS_CONFIG = {
             'Curva de calibración lineal en el rango de interés',
         ],
         inputs: {
-            tipo:        'una-columna-blancos',
+            tipo:        'una-columna',
             grupos:      1,
             descripcion: 'Vector de mediciones de blanco (background) con al menos 10 réplicas',
         },
-        salidas: ['LOD', 'LOQ', 'LQC', 'MDL', 'mediaBlancos', 'deBlancos', 'n'],
+        salidas: ['LOD', 'mediaBlancos', 'deBlancos', 'n'],
         interpretacion: {
-            // FIX BUG 2: corregido 'planta' → 'plantilla'
-            plantilla: 'LOD = {LOD} (3σ), LOQ = {LOQ} (10σ). Valores por debajo de LOQ no deben reportarse cuantitativamente.',
+            plantilla: 'LOD = {LOD} (3σ). Valores por debajo de LOD no son detectables.',
         },
         advertencias: [
-            { condicion: 'n_menor_10',         mensaje: 'ICH Q2(R1) recomienda al menos 10 réplicas de blanco para LOD/LOQ fiables.' },
-            { condicion: 'blancos_no_normales', mensaje: 'Los blancos no tienen distribución normal. Los límites basados en 3σ y 10σ pueden ser conservadores.' },
-            { condicion: 'drift_instrumental',  mensaje: 'Se detectó deriva en la señal del blanco a lo largo del tiempo. Verifique estabilidad del instrumento.' },
+            { condicion: 'n_menor_10', mensaje: 'ICH Q2(R1) recomienda al menos 10 réplicas de blanco para LOD fiable.' },
+        ],
+        referencia: [
+            {
+                autores:  'ICH Q2(R1)',
+                anio:     2005,
+                titulo:   'Validation of Analytical Procedures: Text and Methodology',
+                editorial: 'International Council for Harmonisation',
+            }
+        ],
+    },
+    'LOQ (Límite de Cuantificación)': {
+        seccion:   'especificacion',
+        calcular:  'calcularLimitesCuantificacion',
+        formula:   'LOQ = 10 × σ_blanco',
+        desc:      'Límite de Cuantificación (LOQ) — menor cantidad que puede cuantificarse con precisión y exactitud aceptables. Basado en ICH Q2(R1).',
+        icono:     '📐',
+        minMuestra: 10,
+
+        supuestos: [
+            'Datos de blancos (señal de fondo) con al menos 10 réplicas',
+            'Relación señal/ruido estable en el rango de cuantificación',
+            'Curva de calibración lineal en el rango de interés',
+        ],
+        inputs: {
+            tipo:        'una-columna',
+            grupos:      1,
+            descripcion: 'Vector de mediciones de blanco (background) con al menos 10 réplicas',
+        },
+        salidas: ['LOQ', 'mediaBlancos', 'deBlancos', 'n'],
+        interpretacion: {
+            plantilla: 'LOQ = {LOQ} (10σ). Valores por debajo de LOQ no deben reportarse cuantitativamente.',
+        },
+        advertencias: [
+            { condicion: 'n_menor_10', mensaje: 'ICH Q2(R1) recomienda al menos 10 réplicas de blanco para LOQ fiable.' },
+        ],
+        referencia: [
+            {
+                autores:  'ICH Q2(R1)',
+                anio:     2005,
+                titulo:   'Validation of Analytical Procedures: Text and Methodology',
+                editorial: 'International Council for Harmonisation',
+            }
+        ],
+    },
+    'LQC (Límite de Control de Calidad)': {
+        seccion:   'especificacion',
+        calcular:  'calcularLimitesCuantificacion',
+        formula:   'LQC = 10 × σ_blanco',
+        desc:      'Límite de Control de Calidad (LQC) — nivel de concentración utilizado para verificar el desempeño del método analítico durante el uso rutinario.',
+        icono:     '📐',
+        minMuestra: 10,
+
+        supuestos: [
+            'Datos de blancos (señal de fondo) con al menos 10 réplicas',
+            'Relación señal/ruido estable en el rango de cuantificación',
+            'Curva de calibración lineal en el rango de interés',
+        ],
+        inputs: {
+            tipo:        'una-columna',
+            grupos:      1,
+            descripcion: 'Vector de mediciones de blanco (background) con al menos 10 réplicas',
+        },
+        salidas: ['LQC', 'mediaBlancos', 'deBlancos', 'n'],
+        interpretacion: {
+            plantilla: 'LQC = {LQC} (10σ). Control de calidad verificado contra el límite de cuantificación.',
+        },
+        advertencias: [
+            { condicion: 'n_menor_10', mensaje: 'ICH Q2(R1) recomienda al menos 10 réplicas de blanco para LQC fiable.' },
+        ],
+        referencia: [
+            {
+                autores:  'ICH Q2(R1)',
+                anio:     2005,
+                titulo:   'Validation of Analytical Procedures: Text and Methodology',
+                editorial: 'International Council for Harmonisation',
+            }
+        ],
+    },
+    'MDL (Mínimo Detectable)': {
+        seccion:   'especificacion',
+        calcular:  'calcularLimitesCuantificacion',
+        formula:   'MDL = 3.3 × σ_blanco',
+        desc:      'Mínimo Detectable (MDL) — mínima cantidad de analito que puede ser detectada con un nivel de confianza especificado. Basado en EPA y ICH.',
+        icono:     '📐',
+        minMuestra: 10,
+
+        supuestos: [
+            'Datos de blancos (señal de fondo) con al menos 10 réplicas',
+            'Relación señal/ruido estable en el rango de cuantificación',
+            'Curva de calibración lineal en el rango de interés',
+        ],
+        inputs: {
+            tipo:        'una-columna',
+            grupos:      1,
+            descripcion: 'Vector de mediciones de blanco (background) con al menos 10 réplicas',
+        },
+        salidas: ['MDL', 'mediaBlancos', 'deBlancos', 'n'],
+        interpretacion: {
+            plantilla: 'MDL = {MDL} (3.3σ). Mínima cantidad detectable con confianza especificada.',
+        },
+        advertencias: [
+            { condicion: 'n_menor_10', mensaje: 'ICH Q2(R1) recomienda al menos 10 réplicas de blanco para MDL fiable.' },
         ],
         referencia: [
             {
