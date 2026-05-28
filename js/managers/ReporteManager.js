@@ -229,6 +229,10 @@ const ReporteManager = (() => {
                 'LOQ (Límite de Cuantificación)': 'ICH Q2(R1) (2005). Validation of Analytical Procedures: Text and Methodology. International Council for Harmonisation.',
                 'LQC (Límite de Control de Calidad)': 'ICH Q2(R1) (2005). Validation of Analytical Procedures: Text and Methodology. International Council for Harmonisation.',
                 'MDL (Mínimo Detectable)': 'ICH Q2(R1) (2005). Validation of Analytical Procedures: Text and Methodology. International Council for Harmonisation.',
+                'LOD (Curva de Calibración)': 'ICH Q2(R1) (2005). Validation of Analytical Procedures: Text and Methodology. International Council for Harmonisation.',
+                'LOQ (Curva de Calibración)': 'ICH Q2(R1) (2005). Validation of Analytical Procedures: Text and Methodology. International Council for Harmonisation.',
+                'LQC (Curva de Calibración)': 'ICH Q2(R1) (2005). Validation of Analytical Procedures: Text and Methodology. International Council for Harmonisation.',
+                'MDL (Curva de Calibración)': 'ICH Q2(R1) (2005). Validation of Analytical Procedures: Text and Methodology. International Council for Harmonisation.',
             },
             statFormulas: {
                 'Media Aritmética':   'x̄ = Σxᵢ / n',
@@ -285,6 +289,10 @@ const ReporteManager = (() => {
                 'LOQ (Límite de Cuantificación)': 'LOQ = 10 × σ_blank',
                 'LQC (Límite de Control de Calidad)': 'LQC = 10 × σ_blank',
                 'MDL (Mínimo Detectable)': 'MDL = 3.3 × σ_blank',
+                'LOD (Curva de Calibración)': 'LOD = 3.3 × S_res / m',
+                'LOQ (Curva de Calibración)': 'LOQ = 10 × S_res / m',
+                'LQC (Curva de Calibración)': 'LQC = 3 × S_res / m',
+                'MDL (Curva de Calibración)': 'MDL = 2.5 × S_res / m',
             }
         }
     };

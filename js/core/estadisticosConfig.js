@@ -2434,6 +2434,153 @@ const ESTADISTICOS_CONFIG = {
         ],
     },
 
+    'LOD (Curva de Calibración)': {
+        seccion:   'especificacion',
+        calcular:  'calcularLimitesCalibracion',
+        formula:   'LOD = 3.3 × S_res / m',
+        desc:      'LOD calculado por curva de calibración según ICH Q2(R1). LOD = 3.3 × (error estándar residual / pendiente). Requiere curva con mínimo 6 puntos.',
+        icono:     '📈',
+        minMuestra: 6,
+        requiereDosColumnas: true,
+
+        supuestos: [
+            'Relación lineal entre concentración (X) y respuesta (Y)',
+            'Homocedasticidad en todo el rango de calibración',
+            'Residuales distribuidos normalmente',
+            'Mínimo 6 concentraciones diferentes para calibración',
+        ],
+        inputs: {
+            tipo:        'dos-columnas',
+            grupos:      1,
+            descripcion: 'X = concentración conocida, Y = señal o respuesta medida',
+        },
+        salidas: ['LOD', 'pendiente', 'intercepto', 'sigmaResidual', 'r2', 'n'],
+        interpretacion: {
+            plantilla: 'LOD = {LOD} (3.3 × S_res / m). Detectable por debajo del límite especificado.',
+        },
+        advertencias: [
+            { condicion: 'r2_menor_099', mensaje: 'R² < 0.99 — la linealidad puede ser insuficiente para LOD fiable.' },
+            { condicion: 'n_menor_6', mensaje: 'ICH Q2(R1) recomienda mínimo 6 niveles de concentración.' },
+        ],
+        referencia: [
+            {
+                autores:  'ICH Q2(R1)',
+                anio:     2005,
+                titulo:   'Validation of Analytical Procedures: Text and Methodology',
+                editorial: 'International Council for Harmonisation',
+            }
+        ],
+    },
+    'LOQ (Curva de Calibración)': {
+        seccion:   'especificacion',
+        calcular:  'calcularLimitesCalibracion',
+        formula:   'LOQ = 10 × S_res / m',
+        desc:      'LOQ calculado por curva de calibración según ICH Q2(R1). LOQ = 10 × (error estándar residual / pendiente). Requiere curva con mínimo 6 puntos.',
+        icono:     '📈',
+        minMuestra: 6,
+        requiereDosColumnas: true,
+
+        supuestos: [
+            'Relación lineal entre concentración (X) y respuesta (Y)',
+            'Homocedasticidad en todo el rango de calibración',
+            'Residuales distribuidos normalmente',
+            'Mínimo 6 concentraciones diferentes para calibración',
+        ],
+        inputs: {
+            tipo:        'dos-columnas',
+            grupos:      1,
+            descripcion: 'X = concentración conocida, Y = señal o respuesta medida',
+        },
+        salidas: ['LOQ', 'pendiente', 'intercepto', 'sigmaResidual', 'r2', 'n'],
+        interpretacion: {
+            plantilla: 'LOQ = {LOQ} (10 × S_res / m). Cuantificable por encima del límite especificado.',
+        },
+        advertencias: [
+            { condicion: 'r2_menor_099', mensaje: 'R² < 0.99 — la linealidad puede ser insuficiente para LOQ fiable.' },
+            { condicion: 'n_menor_6', mensaje: 'ICH Q2(R1) recomienda mínimo 6 niveles de concentración.' },
+        ],
+        referencia: [
+            {
+                autores:  'ICH Q2(R1)',
+                anio:     2005,
+                titulo:   'Validation of Analytical Procedures: Text and Methodology',
+                editorial: 'International Council for Harmonisation',
+            }
+        ],
+    },
+    'LQC (Curva de Calibración)': {
+        seccion:   'especificacion',
+        calcular:  'calcularLimitesCalibracion',
+        formula:   'LQC = 3 × S_res / m (como criterio QC)',
+        desc:      'LQC calculado por curva de calibración. Límite de control de calidad derivado de la pendiente y el error estándar residual de la regresión.',
+        icono:     '📈',
+        minMuestra: 6,
+        requiereDosColumnas: true,
+
+        supuestos: [
+            'Relación lineal entre concentración (X) y respuesta (Y)',
+            'Homocedasticidad en todo el rango de calibración',
+            'Residuales distribuidos normalmente',
+            'Mínimo 6 concentraciones diferentes para calibración',
+        ],
+        inputs: {
+            tipo:        'dos-columnas',
+            grupos:      1,
+            descripcion: 'X = concentración conocida, Y = señal o respuesta medida',
+        },
+        salidas: ['LQC', 'pendiente', 'intercepto', 'sigmaResidual', 'r2', 'n'],
+        interpretacion: {
+            plantilla: 'LQC = {LQC}. Control de calidad basado en la curva de calibración.',
+        },
+        advertencias: [
+            { condicion: 'r2_menor_099', mensaje: 'R² < 0.99 — la linealidad puede ser insuficiente para LQC fiable.' },
+        ],
+        referencia: [
+            {
+                autores:  'ICH Q2(R1)',
+                anio:     2005,
+                titulo:   'Validation of Analytical Procedures: Text and Methodology',
+                editorial: 'International Council for Harmonisation',
+            }
+        ],
+    },
+    'MDL (Curva de Calibración)': {
+        seccion:   'especificacion',
+        calcular:  'calcularLimitesCalibracion',
+        formula:   'MDL = 2.5 × S_res / m',
+        desc:      'MDL calculado por curva de calibración. Mínima cantidad detectable con confianza especificada basada en la pendiente y error residual.',
+        icono:     '📈',
+        minMuestra: 6,
+        requiereDosColumnas: true,
+
+        supuestos: [
+            'Relación lineal entre concentración (X) y respuesta (Y)',
+            'Homocedasticidad en todo el rango de calibración',
+            'Residuales distribuidos normalmente',
+            'Mínimo 6 concentraciones diferentes para calibración',
+        ],
+        inputs: {
+            tipo:        'dos-columnas',
+            grupos:      1,
+            descripcion: 'X = concentración conocida, Y = señal o respuesta medida',
+        },
+        salidas: ['MDL', 'pendiente', 'intercepto', 'sigmaResidual', 'r2', 'n'],
+        interpretacion: {
+            plantilla: 'MDL = {MDL} (2.5 × S_res / m). Mínima detectable según la curva de calibración.',
+        },
+        advertencias: [
+            { condicion: 'r2_menor_099', mensaje: 'R² < 0.99 — la linealidad puede ser insuficiente para MDL fiable.' },
+        ],
+        referencia: [
+            {
+                autores:  'ICH Q2(R1)',
+                anio:     2005,
+                titulo:   'Validation of Analytical Procedures: Text and Methodology',
+                editorial: 'International Council for Harmonisation',
+            }
+        ],
+    },
+
     // ════════════════════════════════════════
     // SECCIÓN: CALIDAD (Six Sigma)
     // ════════════════════════════════════════

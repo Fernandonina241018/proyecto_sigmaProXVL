@@ -3532,6 +3532,71 @@ interpretacion: interpretacion,
     }
 
     /**
+     * Límites de Cuantificación por Curva de Calibración (ICH Q2(R1))
+     * Calcula LOD, LOQ, LQC y MDL usando regresión lineal de la curva de calibración:
+     *   LOD = 3.3 × σ_res / pendiente
+     *   LOQ = 10 × σ_res / pendiente
+     *   LQC = 3 × σ_res / pendiente
+     *   MDL = 2.5 × σ_res / pendiente
+     */
+    function calcularLimitesCalibracion(xValues, yValues) {
+        if (!xValues || !yValues || xValues.length < 3 || yValues.length < 3) {
+            return { error: 'Se necesitan al menos 3 pares (X, Y) para la regresión' };
+        }
+        var pairs = [];
+        for (var i = 0; i < Math.min(xValues.length, yValues.length); i++) {
+            var x = parseFloat(xValues[i]);
+            var y = parseFloat(yValues[i]);
+            if (!isNaN(x) && isFinite(x) && !isNaN(y) && isFinite(y)) {
+                pairs.push({ x: x, y: y });
+            }
+        }
+        if (pairs.length < 3) return { error: 'Se necesitan al menos 3 pares numéricos (X, Y)' };
+        var n = pairs.length;
+        var sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, sumY2 = 0;
+        for (var p = 0; p < n; p++) {
+            sumX += pairs[p].x;
+            sumY += pairs[p].y;
+            sumXY += pairs[p].x * pairs[p].y;
+            sumX2 += pairs[p].x * pairs[p].x;
+            sumY2 += pairs[p].y * pairs[p].y;
+        }
+        var pendiente = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+        var intercepto = (sumY - pendiente * sumX) / n;
+        var ssRes = 0, ssTot = 0;
+        var meanY = sumY / n;
+        for (var r = 0; r < n; r++) {
+            var yPred = intercepto + pendiente * pairs[r].x;
+            var res = pairs[r].y - yPred;
+            ssRes += res * res;
+            ssTot += (pairs[r].y - meanY) * (pairs[r].y - meanY);
+        }
+        var sigmaRes = Math.sqrt(ssRes / (n - 2));
+        var r2 = ssTot > 0 ? 1 - ssRes / ssTot : 0;
+        var lod = 3.3 * sigmaRes / pendiente;
+        var loq = 10 * sigmaRes / pendiente;
+        var lqc = 3 * sigmaRes / pendiente;
+        var mdl = 2.5 * sigmaRes / pendiente;
+        var advertencias = [];
+        if (r2 < 0.99) advertencias.push({ condicion: 'r2_menor_099', mensaje: 'R² < 0.99 — la linealidad puede ser insuficiente para límites fiables.' });
+        if (n < 6) advertencias.push({ condicion: 'n_menor_6', mensaje: 'ICH Q2(R1) recomienda mínimo 6 niveles de concentración.' });
+        if (pendiente <= 0) advertencias.push({ condicion: 'pendiente_no_positiva', mensaje: 'La pendiente debe ser positiva para una curva de calibración válida.' });
+        return {
+            LOD: parseFloat(lod.toFixed(6)),
+            LOQ: parseFloat(loq.toFixed(6)),
+            LQC: parseFloat(lqc.toFixed(6)),
+            MDL: parseFloat(mdl.toFixed(6)),
+            pendiente: parseFloat(pendiente.toFixed(6)),
+            intercepto: parseFloat(intercepto.toFixed(6)),
+            sigmaResidual: parseFloat(sigmaRes.toFixed(6)),
+            r2: parseFloat(r2.toFixed(6)),
+            n: n,
+            interpretacion: 'LOD = ' + lod.toFixed(6) + ' (3.3×S_res/m), LOQ = ' + loq.toFixed(6) + ' (10×S_res/m), R² = ' + r2.toFixed(4),
+            advertencias: advertencias
+        };
+    }
+
+    /**
      * Inferencia Bayesiana (conjugada normal-normal)
      */
     function calcularBayesiano(values, prior) {
@@ -3900,6 +3965,47 @@ interpretacion: interpretacion,
                         resultados['Test de Normalidad'][col] = calcularTestNormalidad(values);
                     });
                     break;
+
+                 case 'LOD (Curva de Calibración)':
+                 case 'LOQ (Curva de Calibración)':
+                 case 'LQC (Curva de Calibración)':
+                 case 'MDL (Curva de Calibración)':
+                     const calibKey = stat;
+                     const calibCfg = hypothesisConfig[calibKey];
+                     if (!calibCfg || !calibCfg.columnaX || !calibCfg.columnaY) {
+                         resultados[calibKey] = { error: 'Configuración de curva de calibración incompleta. Seleccione columnaX (concentración) y columnaY (señal).' };
+                         break;
+                     }
+                     const xVals = getNumericValues(data, calibCfg.columnaX);
+                     const yVals = getNumericValues(data, calibCfg.columnaY);
+                     if (xVals.length < 3 || yVals.length < 3) {
+                         resultados[calibKey] = { error: 'Se necesitan al menos 3 pares de valores numéricos (X, Y).' };
+                         break;
+                     }
+                     const calib = calcularLimitesCalibracion(xVals, yVals);
+                     if (calib.error) {
+                         resultados[calibKey] = calib;
+                         break;
+                     }
+                     const calibKeyMap = {
+                         'LOD (Curva de Calibración)': 'LOD',
+                         'LOQ (Curva de Calibración)': 'LOQ',
+                         'LQC (Curva de Calibración)': 'LQC',
+                         'MDL (Curva de Calibración)': 'MDL'
+                     };
+                     const calibOutKey = calibKeyMap[calibKey];
+                     resultados[calibKey] = {
+                         valor: calib[calibOutKey],
+                         pendiente: calib.pendiente,
+                         intercepto: calib.intercepto,
+                         sigmaResidual: calib.sigmaResidual,
+                         r2: calib.r2,
+                         n: calib.n,
+                         columnaX: calibCfg.columnaX,
+                         columnaY: calibCfg.columnaY,
+                         interpretacion: calibOutKey + ' = ' + calib[calibOutKey] + ' (S_res=' + calib.sigmaResidual + ', pendiente=' + calib.pendiente + ', R²=' + calib.r2 + ')'
+                     };
+                     break;
 
                 case 'ANOVA Two-Way':
                     // Usar configuración de hipótesis si está disponible
@@ -5844,6 +5950,32 @@ function generarHTML(analisisResultado) {
                         </div>`;
             }).join('');
         }
+        // LOD / LOQ / LQC / MDL por Curva de Calibración
+        if (statKey === 'LOD (Curva de Calibración)' || statKey === 'LOQ (Curva de Calibración)' ||
+            statKey === 'LQC (Curva de Calibración)' || statKey === 'MDL (Curva de Calibración)') {
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
+            const calibLabels = {
+                'LOD (Curva de Calibración)': 'LOD',
+                'LOQ (Curva de Calibración)': 'LOQ',
+                'LQC (Curva de Calibración)': 'LQC',
+                'MDL (Curva de Calibración)': 'MDL'
+            };
+            const calibLabel = calibLabels[statKey];
+            const r2Class = data.r2 >= 0.999 ? 'ar-badge-ok' : data.r2 >= 0.99 ? 'ar-badge-warn' : 'ar-badge-danger';
+            const r2Text = data.r2 >= 0.999 ? '✓ Excelente (R² ≥ 0.999)' : data.r2 >= 0.99 ? '⚠ Aceptable (R² ≥ 0.99)' : '✗ Bajo (R² < 0.99)';
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📈 Curva: ${escapeHtml(data.columnaX || 'X')} → ${escapeHtml(data.columnaY || 'Y')}</div>
+                    <div class="ar-kpi-sub-grid">
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${calibLabel}</span><span class="ar-kpi-sub-v">${data.valor?.toFixed(6) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Pendiente (m)</span><span class="ar-kpi-sub-v">${data.pendiente?.toFixed(6) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Intercepto (b)</span><span class="ar-kpi-sub-v">${data.intercepto?.toFixed(6) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">S_res (σ residual)</span><span class="ar-kpi-sub-v">${data.sigmaResidual?.toFixed(6) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">${data.r2?.toFixed(6) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n (pares)</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
+                    </div>
+                    <div class="ar-kpi-badge ${r2Class}">${r2Text}</div>
+                    <div class="ar-formula" style="margin-top:8px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>
+                    </div>`;
+        }
         // Límites de Cuantificación
         if (statKey === 'Límites de Cuantificación') {
             if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
@@ -6378,6 +6510,7 @@ function generarHTML(analisisResultado) {
         // Funciones de calidad
         calcularPareto,
         calcularLimitesCuantificacion,
+        calcularLimitesCalibracion,
         
         
         // Funciones individuales - Pruebas de Hipótesis

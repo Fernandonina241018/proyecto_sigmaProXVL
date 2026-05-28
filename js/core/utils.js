@@ -141,7 +141,11 @@ const HYPOTHESIS_TESTS = [
     'Series Temporales',
     'Análisis de Supervivencia',
     'Modelos Mixtos',
-    'Análisis Bayesiano'
+    'Análisis Bayesiano',
+    'LOD (Curva de Calibración)',
+    'LOQ (Curva de Calibración)',
+    'LQC (Curva de Calibración)',
+    'MDL (Curva de Calibración)'
 ];
 
 // Set para búsquedas O(1) — usado internamente por includes()

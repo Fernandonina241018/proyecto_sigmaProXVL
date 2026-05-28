@@ -3143,6 +3143,10 @@ function _mostrarModalConfigTest(nombre, callback) {
     } else {
       modalTipo = 'xy';
     }
+  } else if (t === 'dos-columnas' && cfg.seccion === 'especificacion') {
+    necesitaCat = false;
+    necesitaDosNumericas = true;
+    modalTipo = 'xy';
   } else if (t === 'dos-columnas-mas-grado') {
     necesitaCat = false;
     necesitaDosNumericas = true;
