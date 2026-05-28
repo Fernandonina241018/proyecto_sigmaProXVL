@@ -3565,9 +3565,13 @@ interpretacion: interpretacion,
         var intercepto = (sumY - pendiente * sumX) / n;
         var ssRes = 0, ssTot = 0;
         var meanY = sumY / n;
+        var resValues = [];
+        var predicciones = [];
         for (var r = 0; r < n; r++) {
             var yPred = intercepto + pendiente * pairs[r].x;
             var res = pairs[r].y - yPred;
+            predicciones.push(parseFloat(yPred.toFixed(6)));
+            resValues.push(parseFloat(res.toFixed(6)));
             ssRes += res * res;
             ssTot += (pairs[r].y - meanY) * (pairs[r].y - meanY);
         }
@@ -3577,6 +3581,17 @@ interpretacion: interpretacion,
         var loq = 10 * sigmaRes / pendiente;
         var lqc = 3 * sigmaRes / pendiente;
         var mdl = 2.5 * sigmaRes / pendiente;
+        var sorted = resValues.slice().sort(function(a,b){ return a - b; });
+        var q1 = sorted[Math.floor(n * 0.25)];
+        var q3 = sorted[Math.floor(n * 0.75)];
+        var resumenResiduos = {
+            min: parseFloat(sorted[0].toFixed(6)),
+            q1: parseFloat(q1.toFixed(6)),
+            mediana: parseFloat(sorted[Math.floor(n / 2)].toFixed(6)),
+            q3: parseFloat(q3.toFixed(6)),
+            max: parseFloat(sorted[n - 1].toFixed(6)),
+            sse: parseFloat(ssRes.toFixed(6))
+        };
         var advertencias = [];
         if (r2 < 0.99) advertencias.push({ condicion: 'r2_menor_099', mensaje: 'R² < 0.99 — la linealidad puede ser insuficiente para límites fiables.' });
         if (n < 6) advertencias.push({ condicion: 'n_menor_6', mensaje: 'ICH Q2(R1) recomienda mínimo 6 niveles de concentración.' });
@@ -3591,6 +3606,9 @@ interpretacion: interpretacion,
             sigmaResidual: parseFloat(sigmaRes.toFixed(6)),
             r2: parseFloat(r2.toFixed(6)),
             n: n,
+            residuos: resValues,
+            predicciones: predicciones,
+            resumenResiduos: resumenResiduos,
             interpretacion: 'LOD = ' + lod.toFixed(6) + ' (3.3×S_res/m), LOQ = ' + loq.toFixed(6) + ' (10×S_res/m), R² = ' + r2.toFixed(4),
             advertencias: advertencias
         };
@@ -3987,25 +4005,28 @@ interpretacion: interpretacion,
                          resultados[calibKey] = calib;
                          break;
                      }
-                     const calibKeyMap = {
-                         'LOD (Curva de Calibración)': 'LOD',
-                         'LOQ (Curva de Calibración)': 'LOQ',
-                         'LQC (Curva de Calibración)': 'LQC',
-                         'MDL (Curva de Calibración)': 'MDL'
-                     };
-                     const calibOutKey = calibKeyMap[calibKey];
-                     resultados[calibKey] = {
-                         valor: calib[calibOutKey],
-                         pendiente: calib.pendiente,
-                         intercepto: calib.intercepto,
-                         sigmaResidual: calib.sigmaResidual,
-                         r2: calib.r2,
-                         n: calib.n,
-                         columnaX: calibCfg.columnaX,
-                         columnaY: calibCfg.columnaY,
-                         interpretacion: calibOutKey + ' = ' + calib[calibOutKey] + ' (S_res=' + calib.sigmaResidual + ', pendiente=' + calib.pendiente + ', R²=' + calib.r2 + ')'
-                     };
-                     break;
+                      const calibKeyMap = {
+                          'LOD (Curva de Calibración)': 'LOD',
+                          'LOQ (Curva de Calibración)': 'LOQ',
+                          'LQC (Curva de Calibración)': 'LQC',
+                          'MDL (Curva de Calibración)': 'MDL'
+                      };
+                      const calibOutKey = calibKeyMap[calibKey];
+                      resultados[calibKey] = {
+                          valor: calib[calibOutKey],
+                          pendiente: calib.pendiente,
+                          intercepto: calib.intercepto,
+                          sigmaResidual: calib.sigmaResidual,
+                          r2: calib.r2,
+                          n: calib.n,
+                          columnaX: calibCfg.columnaX,
+                          columnaY: calibCfg.columnaY,
+                          residuos: calib.residuos || [],
+                          predicciones: calib.predicciones || [],
+                          resumenResiduos: calib.resumenResiduos || null,
+                          interpretacion: calibOutKey + ' = ' + calib[calibOutKey] + ' (S_res=' + calib.sigmaResidual + ', pendiente=' + calib.pendiente + ', R²=' + calib.r2 + ')'
+                      };
+                      break;
 
                 case 'ANOVA Two-Way':
                     // Usar configuración de hipótesis si está disponible
@@ -5963,6 +5984,12 @@ function generarHTML(analisisResultado) {
             const calibLabel = calibLabels[statKey];
             const r2Class = data.r2 >= 0.999 ? 'ar-badge-ok' : data.r2 >= 0.99 ? 'ar-badge-warn' : 'ar-badge-danger';
             const r2Text = data.r2 >= 0.999 ? '✓ Excelente (R² ≥ 0.999)' : data.r2 >= 0.99 ? '⚠ Aceptable (R² ≥ 0.99)' : '✗ Bajo (R² < 0.99)';
+            const rr = data.resumenResiduos;
+            const resRows = (data.residuos || []).map(function(r, i) {
+                return '<tr><td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">' + (i + 1) + '</td>' +
+                    '<td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">' + (data.predicciones?.[i]?.toFixed(6) ?? '—') + '</td>' +
+                    '<td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">' + r.toFixed(6) + '</td></tr>';
+            }).join('');
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📈 Curva: ${escapeHtml(data.columnaX || 'X')} → ${escapeHtml(data.columnaY || 'Y')}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${calibLabel}</span><span class="ar-kpi-sub-v">${data.valor?.toFixed(6) ?? '—'}</span></div>
@@ -5974,6 +6001,8 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${r2Class}">${r2Text}</div>
                     <div class="ar-formula" style="margin-top:8px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>
+                    ${rr ? '<details style="margin-top:8px"><summary style="cursor:pointer;font-size:0.85rem;color:#718096">📉 Resumen de residuos</summary><table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem"><thead><tr style="background:#000"><th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Mín</th><th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Q1</th><th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Mediana</th><th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Q3</th><th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Máx</th><th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">SSE</th></tr></thead><tbody><tr><td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">' + rr.min + '</td><td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">' + rr.q1 + '</td><td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">' + rr.mediana + '</td><td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">' + rr.q3 + '</td><td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">' + rr.max + '</td><td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right;font-weight:bold">' + rr.sse + '</td></tr></tbody></table><div style="font-size:0.75rem;color:#718096;margin-top:4px;text-align:right">Residuo total (SSE) = ' + rr.sse + '</div></details>' : ''}
+                    ${data.residuos?.length ? '<details style="margin-top:8px"><summary style="cursor:pointer;font-size:0.85rem;color:#718096">📋 Ver residuales por observación</summary><table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem"><thead><tr style="background:#000"><th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">#</th><th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Predicho</th><th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Residual</th></tr></thead><tbody>' + resRows + '</tbody></table></details>' : ''}
                     </div>`;
         }
         // Límites de Cuantificación
