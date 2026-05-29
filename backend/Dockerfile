@@ -2,11 +2,10 @@ FROM node:18-slim
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install --omit=dev
-
 COPY . .
+
+RUN cd backend && npm install --omit=dev
 
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+CMD ["node", "backend/server.js"]
