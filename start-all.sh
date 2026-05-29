@@ -29,7 +29,7 @@ echo ""
 echo ""
 echo "🚀 ML Service  → http://localhost:8000/api/ml/health"
 export MPLBACKEND=Agg
-export PYTHONPATH="${PYTHONPATH}:${ROOT_DIR}/Red Neuronal"
+export PYTHONPATH="${PYTHONPATH}:${ROOT_DIR}/Red_Neuronal"
 python3 -u "$ROOT_DIR/ml_service/main.py" &
 PID_ML=$!
 

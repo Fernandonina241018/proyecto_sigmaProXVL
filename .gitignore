@@ -6,6 +6,7 @@ dist/
 
 # Python virtual env
 .venv/
+venv/
 __pycache__/
 
 # OS
@@ -14,6 +15,9 @@ Thumbs.db
 
 # IDE
 .opencode/
+
+# Fly.io
+.fly/
 
 # Logs
 *.log

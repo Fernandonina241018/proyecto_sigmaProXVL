@@ -28,7 +28,7 @@
   "exclude": [
     "node_modules",
     "backups",
-    "Red Neuronal",
+    "Red_Neuronal",
     "03-control",
     "02-operadores",
     "01-tipos"

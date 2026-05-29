@@ -20,7 +20,7 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-_RN_DIR = Path(__file__).resolve().parent.parent / "Red Neuronal"
+_RN_DIR = Path(__file__).resolve().parent.parent / "Red_Neuronal"
 sys.path.insert(0, str(_RN_DIR))
 
 from evaluator import evaluate, predict

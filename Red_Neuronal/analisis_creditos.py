@@ -38,7 +38,7 @@ def load_and_explore():
     print("="*80)
     
     # Cargar datos
-    path = "/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Red Neuronal/datos/entrenamiento_financiero.csv"
+    path = "/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Red_Neuronal/datos/entrenamiento_financiero.csv"
     df = pd.read_csv(path)
     
     print("\n📊 INFORMACIÓN DEL DATASET:")
@@ -331,7 +331,7 @@ def create_visualizations(rf, X_test, y_test, feature_importance_df, results):
     axes[1, 1].grid(alpha=0.3)
     
     plt.tight_layout()
-    plt.savefig('/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Red Neuronal/analisis_creditos_charts.png', dpi=150)
+    plt.savefig('/mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Red_Neuronal/analisis_creditos_charts.png', dpi=150)
     print("   ✓ Gráficos guardados en: analisis_creditos_charts.png")
     plt.show()
 
