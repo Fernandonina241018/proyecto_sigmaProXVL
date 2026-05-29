@@ -2,6 +2,60 @@
 
 ## CAMBIOS RECIENTES
 
+### 2026-05-29: Migración Backend Node.js de Render → Fly.io + Supabase
+
+**Qué:** Se migró el backend Express (autenticación, auditoría) de Render (`proyecto-sigmaproxvl.onrender.com`) a Fly.io (`sigmaproxvl-backend.fly.dev`). Se configuró para usar Supabase PostgreSQL como base de datos.
+
+**Por qué:** Unificar todo el backend en Fly.io junto al ML Service. El backend ahora usa `DATABASE_URL` de Supabase en vez del JSON store local.
+
+**Archivos creados:**
+| Archivo | Propósito |
+|---------|-----------|
+| `backend/Dockerfile` | Node 18-slim, `npm install --omit=dev`, expone 3000 |
+| `backend/.dockerignore` | Excluye `node_modules/`, `.git/`, `.env` |
+
+**Archivos modificados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/utils.js:12` | `API_URL` condicional: localhost o `sigmaproxvl-backend.fly.dev` |
+
+**Pendiente:** Ejecutar `fly launch`, `fly secrets set DATABASE_URL=... JWT_SECRET=...`, `fly deploy` desde WSL.
+
+### 2026-05-29: Migración ML Service de Render → Fly.io + rename Red Neuronal → Red_Neuronal
+
+**Qué:** Se migró el ML Service (FastAPI + scikit-learn + xgboost) de Render (`sigmapro-ml.onrender.com`, free tier excedido) a Fly.io (`sigmapro-ml.fly.dev`). Se renombró `Red Neuronal/` → `Red_Neuronal/` para eliminar espacios en la ruta.
+
+**Por qué:** Render free tier (750h/mes) se agotó. Fly.io cuesta ~$1.94/mes (1GB RAM, 1 CPU compartido). El espacio en `Red Neuronal/` causaba error en el builder de Fly (`Syntax error - can't find = in "Neuronal"`).
+
+**Archivos creados:**
+| Archivo | Propósito |
+|---------|-----------|
+| `ml_service/Dockerfile` | Imagen Python 3.11-slim, copia `ml_service/` + `Red_Neuronal/`, PYTHONPATH, puerto 8080 |
+
+**Archivos modificados:**
+| Archivo | Cambio |
+|---------|--------|
+| `ml_service/main.py:23` | `"Red Neuronal"` → `"Red_Neuronal"` |
+| `ml_service/Dockerfile` | `COPY Red_Neuronal/` sin JSON arrays, `PYTHONPATH` sin backslash |
+| `ml_service/run.sh` | PYTHONPATH actualizado |
+| `start-all.sh:32` | PYTHONPATH actualizado |
+| `tsconfig.json:31` | exclude path actualizado |
+| `Red_Neuronal/analisis_creditos.py` | rutas hardcodeadas actualizadas |
+| `indexx.html:312` | `ML_API_URL` → `https://sigmapro-ml.fly.dev` |
+| `.gitignore` | Agregados `.fly/` y `venv/` |
+
+**Archivos renombrados:**
+| Antes | Después |
+|-------|---------|
+| `Red Neuronal/` | `Red_Neuronal/` |
+
+**Archivos eliminados:**
+| Archivo | Razón |
+|---------|-------|
+| `ml_service/fly.toml` | Duplicado (el real está en la raíz, generado por `fly launch`) |
+
+**Pendiente:** Ejecutar `fly deploy` desde el directorio del proyecto para completar el despliegue.
+
 ### 2026-05-24: Dataset entrenamiento_mpg.csv para probar ML con relación no-lineal
 
 **Qué:** Se creó `Red Neuronal/datos/entrenamiento_mpg.csv` con 200 puntos para conversión de eficiencia de combustible (L/100km → mpg). Relación inversa (`mpg = 235.214 / L_per_100km`), altamente no lineal.
