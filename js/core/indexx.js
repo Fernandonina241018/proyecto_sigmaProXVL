@@ -279,11 +279,35 @@ function campoPerfil(label, value) {
 // ── Tab management ──
 var tabbar = document.getElementById('tabbar');
 function makeTabActive(tab) { document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); }); tab.classList.add('active'); }
+function closeTab(tabEl, e) {
+  if (e) e.stopPropagation();
+  var allTabs = document.querySelectorAll('.tab');
+  if (allTabs.length <= 1) return;
+  var pageName = tabEl.dataset.pageTab;
+  tabEl.remove();
+  var remaining = document.querySelectorAll('.tab');
+  if (remaining.length === 0) {
+    leftPaneBody.innerHTML = '';
+    rightPaneBody.innerHTML = '<div class="page-body"><div style="color:var(--text-faint);padding:40px;text-align:center">Abre una página desde el menú lateral</div></div>';
+    currentPage = '';
+    return;
+  }
+  var nextTab = tabEl.nextElementSibling;
+  while (nextTab && !nextTab.classList.contains('tab')) nextTab = nextTab.nextElementSibling;
+  if (!nextTab) {
+    nextTab = tabEl.previousElementSibling;
+    while (nextTab && !nextTab.classList.contains('tab')) nextTab = nextTab.previousElementSibling;
+  }
+  if (!nextTab) nextTab = remaining[0];
+  makeTabActive(nextTab);
+  var nextPage = nextTab.dataset.pageTab;
+  if (nextPage) loadPage(nextPage);
+}
 document.getElementById('tabNew').addEventListener('click', function() {
   var t = document.createElement('div'); t.className = 'tab';
   t.innerHTML = '<span class="tab-icon">📄</span> Untitled <span class="tab-close">×</span>';
   tabbar.insertBefore(t, document.querySelector('.tabbar-spacer')); makeTabActive(t);
-  t.querySelector('.tab-close').addEventListener('click', function(e){ e.stopPropagation(); t.remove(); });
+  t.querySelector('.tab-close').addEventListener('click', function(e){ closeTab(t, e); });
   t.addEventListener('click', function(e){ if (!e.target.classList.contains('tab-close')) makeTabActive(t); });
 });
 document.querySelectorAll('.ribbon-icon').forEach(function(icon) {
@@ -737,7 +761,7 @@ function loadPage(name) {
     pageTab = document.createElement('div'); pageTab.className = 'tab'; pageTab.dataset.pageTab = name;
     pageTab.innerHTML = '<span class="tab-icon">' + pageIcons[name] + '</span> ' + pageTitles[name] + ' <span class="tab-close">×</span>';
     tabbar.insertBefore(pageTab, tabbar.querySelector('.tabbar-spacer'));
-    pageTab.querySelector('.tab-close').addEventListener('click', function(e){ e.stopPropagation(); pageTab.remove(); });
+    pageTab.querySelector('.tab-close').addEventListener('click', function(e){ closeTab(pageTab, e); });
     pageTab.addEventListener('click', function(e){ if (!e.target.classList.contains('tab-close')) { makeTabActive(pageTab); loadPage(name); } });
   }
   makeTabActive(pageTab);

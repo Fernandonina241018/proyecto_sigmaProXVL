@@ -92,6 +92,17 @@ ReporteManager → [✍️ Enviar a firma] → firmarReporte (sin campos de firm
 | `js/core/indexx.js:4140-4143` | `firmaUpdateResetBtn()` usa `_firmaIsNewSession` |
 | `js/core/indexx.js:4192` | Timestamp en filename de `firmaDownload()` |
 
+### 2026-05-30: Cerrar tab redirige foco + bloqueo última pestaña
+
+**Qué:** Al presionar "X" en una pestaña, ahora el foco se mueve automáticamente a la pestaña adyacente (derecha → izquierda). Si solo hay una pestaña abierta, no se puede cerrar. Si no quedan pestañas, se muestra un mensaje en los paneles.
+
+**Archivos modificados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx.js:282-304` | Nueva función `closeTab(tabEl, e)`: re-foco + bloqueo última tab |
+| `js/core/indexx.js:310` | Handler Untitled usa `closeTab(t, e)` |
+| `js/core/indexx.js:764` | Handler pageTab usa `closeTab(pageTab, e)` |
+
 ### 2026-05-30: ReporteManager envía directo a firma (sin descarga intermedia)
 
 **Qué:** Se eliminó el botón de descarga de ReporteManager. Ahora hay un botón "✍️ Enviar a firma" que genera el HTML y lo pasa directamente a la página de firma mediante `sessionStorage`, sin crear archivos intermedios en disco.
