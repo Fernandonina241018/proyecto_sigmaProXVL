@@ -2079,7 +2079,7 @@ tr:hover td{background:#f7faff}
 
         // ── Render sidebar en el panel izquierdo de la app ──
         const sidebarEl = document.getElementById('reportes-sidebar-container');
-        if (sidebarEl) sidebarEl.innerHTML = buildReportesSidebar();
+        if (sidebarEl) sidebarEl.innerHTML = buildReportesSidebar(tieneRes);
 
         // ── Checkboxes ──
         ['html','pdf','txt','csv'].forEach(fmt=>{
@@ -2167,7 +2167,7 @@ tr:hover td{background:#f7faff}
         };
     }
 
-    function buildReportesSidebar(){
+    function buildReportesSidebar(tieneRes){
         const ls = currentLang==='es'?'active':'';
         const le = currentLang==='en'?'active':'';
         const nd = !tieneRes ? '<p class="rep-no-data-msg">'+t('ui_noData')+'</p>' : '';
