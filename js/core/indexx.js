@@ -745,6 +745,7 @@ function loadPage(name) {
   var leftFn = leftPanels[name];
   leftPaneBody.innerHTML = leftFn ? leftFn() : '';
   leftPaneBody.style.overflow = (name === 'datos') ? 'hidden' : '';
+  document.getElementById('paneLeft')?.classList.toggle('pane-reportes', name === 'reportes');
   var rightFn = rightPanels[name];
   rightPaneBody.innerHTML = rightFn ? rightFn() : '<div class="page-body"><div style="color:var(--text-faint)">Página no encontrada</div></div>';
   if (name === 'datos' || name === 'trabajo') rightPaneBody.classList.add('flush');
