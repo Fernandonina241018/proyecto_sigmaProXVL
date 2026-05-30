@@ -56,6 +56,25 @@ ReporteManager → [✍️ Enviar a firma] → firmarReporte (sin campos de firm
 
 **Bug fix:** `firmaUpdatePreview()` ahora actualiza `_firmaCurrentHtml = '<!DOCTYPE html>\n' + _firmaCurrentDoc.documentElement.outerHTML`, asegurando que `firmaPersistState()` guarde el HTML con firmas para restaurar correctamente tras hard reset.
 
+### 2026-05-30: Botón "Reiniciar firmas" en sidebar de firmarReporte
+
+**Qué:** Nuevo botón "🔄 Reiniciar firmas" en el sidebar de la página de firma. Permite reiniciar las 3 firmas al estado sin firmar, solo cuando el reporte es nuevo (nunca guardado en disco). Si el reporte fue cargado desde disco con firmas preexistentes, el botón se oculta automáticamente.
+
+**Archivos modificados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx.js:529` | Botón `#firmaResetBtn` agregado al template de `leftPanels.firmarReporte` |
+| `js/core/indexx.js:3898` | Event listener `onclick = firmaResetSignatures` en `initFirmarReportePage()` |
+| `js/core/indexx.js:4130-4141` | Nueva función `firmaUpdateResetBtn()`: oculta botón si alguna firma está firmada |
+| `js/core/indexx.js:4144-4156` | Nueva función `firmaResetSignatures()`: reinicia estado, preview y persiste |
+| `js/core/indexx.js:4127` | `firmaUpdateResetBtn()` llamado desde `firmaRenderEditor()` |
+
+**Regla de negocio:** El botón se muestra solo cuando `_firmaSignatureState` no contiene ninguna firma con `signed: true`. Esto cubre:
+- Reporte nuevo desde ReporteManager → visible (todas falsas)
+- Reporte cargado de disco con firmas → oculto (alguna verdadera)
+- Después de firmar en sesión → oculto (todas verdaderas)
+- Después de reiniciar → visible (todas falsas de nuevo)
+
 ### 2026-05-30: ReporteManager envía directo a firma (sin descarga intermedia)
 
 **Qué:** Se eliminó el botón de descarga de ReporteManager. Ahora hay un botón "✍️ Enviar a firma" que genera el HTML y lo pasa directamente a la página de firma mediante `sessionStorage`, sin crear archivos intermedios en disco.

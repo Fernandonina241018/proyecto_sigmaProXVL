@@ -526,7 +526,8 @@ var leftPanels = {
       '<div id="firmaActions" style="display:none;flex-direction:column;gap:8px">' +
         '<div class="info-section"><div class="info-section-header">📝 Firmas detectadas</div>' +
           '<div class="info-section-body" id="firmaSignatureEditor" style="padding:8px 12px;display:flex;flex-direction:column;gap:10px"></div></div>' +
-        '<button class="btn btn-primary" id="firmaDownloadBtn" style="width:100%;justify-content:center;font-size:12px">⬇ Descargar reporte firmado</button></div>' +
+        '<button class="btn btn-primary" id="firmaDownloadBtn" style="width:100%;justify-content:center;font-size:12px">⬇ Descargar reporte firmado</button>' +
+        '<button class="btn btn-secondary" id="firmaResetBtn" style="width:100%;justify-content:center;font-size:12px;display:none">🔄 Reiniciar firmas</button></div>' +
     '</div>';
   }
 };
@@ -3896,6 +3897,10 @@ function initFirmarReportePage() {
 
   if (!dropZone || !fileInput || !preview) return;
 
+  // Single event listener for reset button (exists in the left panel template)
+  var resetBtn = document.getElementById('firmaResetBtn');
+  if (resetBtn) resetBtn.onclick = firmaResetSignatures;
+
   // Check for pending report from ReporteManager (sessionStorage)
   var pendingHtml = null;
   var pendingName = null;
@@ -4119,6 +4124,36 @@ function firmaRenderEditor() {
     card.appendChild(body);
     editor.appendChild(card);
   });
+  firmaUpdateResetBtn();
+}
+
+function firmaUpdateResetBtn() {
+  var btn = document.getElementById('firmaResetBtn');
+  if (!btn) return;
+  if (!_firmaSignatureData || !_firmaSignatureData.length) { btn.style.display = 'none'; return; }
+  var anySigned = false;
+  for (var role in _firmaSignatureState) {
+    if (_firmaSignatureState[role] && _firmaSignatureState[role].signed) {
+      anySigned = true;
+      break;
+    }
+  }
+  btn.style.display = anySigned ? 'none' : 'flex';
+}
+
+function firmaResetSignatures() {
+  if (!confirm('¿Estás seguro de reiniciar todas las firmas? Esta acción no se puede deshacer.')) return;
+  for (var role in _firmaSignatureState) {
+    _firmaSignatureState[role] = { signed: false };
+  }
+  _firmaSignatureData.forEach(function(sd){
+    firmaUpdatePreview(sd.role, 'name', '—');
+    firmaUpdatePreview(sd.role, 'title', '—');
+    firmaUpdatePreview(sd.role, 'date', '—');
+  });
+  firmaRenderEditor();
+  firmaPersistState();
+  showToast('Firmas reiniciadas');
 }
 
 function firmaUpdatePreview(role, field, value) {
