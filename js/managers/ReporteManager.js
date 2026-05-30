@@ -1187,7 +1187,7 @@ const ReporteManager = (() => {
               ${[['name',t('name'),name],['title',t('title'),title||'—'],['date',t('date'),date]].map(([field,label,v])=>
                 `<div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">${label}</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:${!v||v==='—'?'#cbd5e0':'#1a202c'};${!v||v==='—'?'font-style:italic':''}" data-signature-field="${field}" data-signature-role="${k}">${v||''}</span></div>`).join('')}
               <div style="border-top:1px solid #1a202c;margin-top:14px;padding-top:5px;font-size:7pt;color:#718096;font-family:monospace">${t('elecRecord')} · ${REGULATORY.standard}</div>
-            </div>`;
+        </div>`;
         }).join('');
 
         const mRow=(label,val)=>val?`<div><span class="ml">${escapeHtml(label)}</span><span class="mv">${escapeHtml(val)}</span></div>`:'';
@@ -2075,89 +2075,11 @@ tr:hover td{background:#f7faff}
                 </div>
               </div>
             </div>
-
-          <!-- DERECHA -->
-          <div class="rep-right">
-            <div class="rep-card rep-format-card">
-
-              <!-- Toggle idioma -->
-              <div class="rep-lang-toggle">
-                <span class="rep-lang-label">🌐 Idioma / Language</span>
-                <div class="rep-lang-btns">
-                  <button class="rep-lang-btn ${currentLang==='es'?'active':''}" id="rep-lang-es">🇪🇸 Español</button>
-                  <button class="rep-lang-btn ${currentLang==='en'?'active':''}" id="rep-lang-en">🇺🇸 English</button>
-                </div>
-              </div>
-
-              <div class="rep-card-title">${t('ui_formatTitle')}</div>
-              <p class="rep-format-hint">${t('ui_formatHint')}</p>
-
-              <div class="rep-format-list">
-                <label class="rep-format-item" id="fmt-html-wrap">
-                  <input type="checkbox" id="fmt-html" value="html" checked>
-                  <div class="rep-format-body">
-                    <div class="rep-format-icon">🌐</div>
-                    <div class="rep-format-info">
-                      <div class="rep-format-name">.HTML <span class="rep-fmt-badge-recommended">${t('ui_recommended')}</span> <span class="rep-fmt-badge-pdf">${t('ui_pdfReady')}</span></div>
-                      <div class="rep-format-desc">${t('ui_htmlDesc')}</div>
-                    </div>
-                    <div class="rep-format-checkmark">✓</div>
-                  </div>
-                </label>
-                <label class="rep-format-item" id="fmt-pdf-wrap">
-                  <input type="checkbox" id="fmt-pdf" value="pdf">
-                  <div class="rep-format-body">
-                    <div class="rep-format-icon">📄</div>
-                    <div class="rep-format-info">
-                      <div class="rep-format-name">.PDF</div>
-                      <div class="rep-format-desc">${t('ui_pdfDesc') || 'Reporte en formato PDF listo para imprimir.'}</div>
-                    </div>
-                    <div class="rep-format-checkmark">✓</div>
-                  </div>
-                </label>
-                <label class="rep-format-item" id="fmt-txt-wrap">
-                  <input type="checkbox" id="fmt-txt" value="txt">
-                  <div class="rep-format-body">
-                    <div class="rep-format-icon">📄</div>
-                    <div class="rep-format-info">
-                      <div class="rep-format-name">.TXT</div>
-                      <div class="rep-format-desc">${t('ui_txtDesc')}</div>
-                    </div>
-                    <div class="rep-format-checkmark">✓</div>
-                  </div>
-                </label>
-                <label class="rep-format-item" id="fmt-csv-wrap">
-                  <input type="checkbox" id="fmt-csv" value="csv">
-                  <div class="rep-format-body">
-                    <div class="rep-format-icon">🗃️</div>
-                    <div class="rep-format-info">
-                      <div class="rep-format-name">.CSV</div>
-                      <div class="rep-format-desc">${t('ui_csvDesc')}</div>
-                    </div>
-                    <div class="rep-format-checkmark">✓</div>
-                  </div>
-                </label>
-              </div>
-
-              <div class="rep-fmt-count-row">
-                <span class="rep-fmt-count" id="rep-fmt-count">${t('ui_formatCount',1)}</span>
-              </div>
-
-              <button class="rep-btn-download" id="rep-btn-sign" ${!tieneRes?'disabled':''}>
-                ✍️ Enviar a firma
-              </button>
-
-              ${!tieneRes?`<p class="rep-no-data-msg">${t('ui_noData')}</p>`:''}
-
-              <div class="rep-reg-box">
-                <div class="rep-reg-title">${t('ui_regTitle')}</div>
-                <div class="rep-reg-row">📋 ${REGULATORY.standard}</div>
-                <div class="rep-reg-row">📐 ${REGULATORY.guideline}</div>
-                <div class="rep-reg-row">⚗️ ${REGULATORY.software}</div>
-              </div>
-            </div>
-          </div>
         </div>`;
+
+        // ── Render sidebar en el panel izquierdo de la app ──
+        const sidebarEl = document.getElementById('reportes-sidebar-container');
+        if (sidebarEl) sidebarEl.innerHTML = buildReportesSidebar();
 
         // ── Checkboxes ──
         ['html','pdf','txt','csv'].forEach(fmt=>{
@@ -2245,8 +2167,91 @@ tr:hover td{background:#f7faff}
         };
     }
 
+    function buildReportesSidebar(){
+        const ls = currentLang==='es'?'active':'';
+        const le = currentLang==='en'?'active':'';
+        const nd = !tieneRes ? '<p class="rep-no-data-msg">'+t('ui_noData')+'</p>' : '';
+        return `<div class="rep-sidebar-inner">
+  <div class="rep-lang-toggle">
+    <span class="rep-lang-label">🌐 Idioma / Language</span>
+    <div class="rep-lang-btns">
+      <button class="rep-lang-btn ${ls}" id="rep-lang-es">🇪🇸 Español</button>
+      <button class="rep-lang-btn ${le}" id="rep-lang-en">🇺🇸 English</button>
+    </div>
+  </div>
+
+  <div class="rep-card-title">${t('ui_formatTitle')}</div>
+  <p class="rep-format-hint">${t('ui_formatHint')}</p>
+
+  <div class="rep-format-list">
+    <label class="rep-format-item" id="fmt-html-wrap">
+      <input type="checkbox" id="fmt-html" value="html" checked>
+      <div class="rep-format-body">
+        <div class="rep-format-icon">🌐</div>
+        <div class="rep-format-info">
+          <div class="rep-format-name">.HTML <span class="rep-fmt-badge-recommended">${t('ui_recommended')}</span> <span class="rep-fmt-badge-pdf">${t('ui_pdfReady')}</span></div>
+          <div class="rep-format-desc">${t('ui_htmlDesc')}</div>
+        </div>
+        <div class="rep-format-checkmark">✓</div>
+      </div>
+    </label>
+    <label class="rep-format-item" id="fmt-pdf-wrap">
+      <input type="checkbox" id="fmt-pdf" value="pdf">
+      <div class="rep-format-body">
+        <div class="rep-format-icon">📄</div>
+        <div class="rep-format-info">
+          <div class="rep-format-name">.PDF</div>
+          <div class="rep-format-desc">${t('ui_pdfDesc') || 'Reporte en formato PDF listo para imprimir.'}</div>
+        </div>
+        <div class="rep-format-checkmark">✓</div>
+      </div>
+    </label>
+    <label class="rep-format-item" id="fmt-txt-wrap">
+      <input type="checkbox" id="fmt-txt" value="txt">
+      <div class="rep-format-body">
+        <div class="rep-format-icon">📄</div>
+        <div class="rep-format-info">
+          <div class="rep-format-name">.TXT</div>
+          <div class="rep-format-desc">${t('ui_txtDesc')}</div>
+        </div>
+        <div class="rep-format-checkmark">✓</div>
+      </div>
+    </label>
+    <label class="rep-format-item" id="fmt-csv-wrap">
+      <input type="checkbox" id="fmt-csv" value="csv">
+      <div class="rep-format-body">
+        <div class="rep-format-icon">🗃️</div>
+        <div class="rep-format-info">
+          <div class="rep-format-name">.CSV</div>
+          <div class="rep-format-desc">${t('ui_csvDesc')}</div>
+        </div>
+        <div class="rep-format-checkmark">✓</div>
+      </div>
+    </label>
+  </div>
+
+  <div class="rep-fmt-count-row">
+    <span class="rep-fmt-count" id="rep-fmt-count">${t('ui_formatCount',1)}</span>
+  </div>
+
+  <button class="rep-btn-download" id="rep-btn-sign" ${!tieneRes?'disabled':''}>
+    ✍️ Enviar a firma
+  </button>
+
+  ${nd}
+
+  <div class="rep-reg-box">
+    <div class="rep-reg-title">${t('ui_regTitle')}</div>
+    <div class="rep-reg-row">📋 ${REGULATORY.standard}</div>
+    <div class="rep-reg-row">📐 ${REGULATORY.guideline}</div>
+    <div class="rep-reg-row">⚗️ ${REGULATORY.software}</div>
+  </div>
+</div>`;
+    }
+
     return {
         buildReportesView,
+        buildReportesSidebar,
         generarTXT,
         generarCSV,
         generarHTML,

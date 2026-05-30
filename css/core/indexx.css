@@ -631,7 +631,7 @@
   .resultados-globales strong { color:var(--text-primary); font-size:18px; }
 
   /* ── REPORTES (dark theme) ── */
-  .rep-layout { display:grid; grid-template-columns:1fr 340px; gap:20px; align-items:start; padding:4px 0 20px; }
+  .rep-layout { display:grid; grid-template-columns:1fr; gap:20px; align-items:start; padding:4px 0 20px; }
   .rep-card { background:var(--bg-secondary); border:1px solid var(--border); border-radius:14px; padding:20px; margin-bottom:16px; }
   .rep-card-title { font-size:0.88rem; font-weight:700; color:var(--text-primary); margin-bottom:16px; padding-bottom:10px; border-bottom:1px solid var(--border); }
   .rep-status { display:flex; align-items:center; gap:14px; padding:14px 18px; border-radius:12px; margin-bottom:16px; border:1px solid transparent; }
@@ -656,7 +656,6 @@
   .rep-sig-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
   .rep-sig-block { background:var(--bg-panel); border:1px solid var(--border); border-radius:10px; padding:12px; }
   .rep-sig-role { font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; color:var(--accent); margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid var(--border); }
-  .rep-format-card { position:sticky; top:20px; }
   .rep-format-hint { font-size:0.8rem; color:var(--text-faint); margin-bottom:16px; line-height:1.5; }
   .rep-format-list { display:flex; flex-direction:column; gap:10px; margin-bottom:16px; }
   .rep-format-item { cursor:pointer; display:block; }
@@ -691,7 +690,7 @@
   .rep-field-full { grid-column:1 / -1; }
   .rep-field textarea:focus { outline:none; border-color:var(--accent) !important; }
   .rep-date-display { padding:8px 10px; border:1px solid var(--border); border-radius:8px; background:var(--bg-secondary); font-family:'JetBrains Mono','Courier New',monospace; font-size:0.82rem; color:var(--accent); font-weight:600; text-align:center; letter-spacing:0.5px; min-height:36px; display:flex; align-items:center; justify-content:center; }
-   @media (max-width:1100px) { .rep-layout{grid-template-columns:1fr} .rep-format-card{position:static} .rep-sig-grid{grid-template-columns:1fr} .rep-form-grid{grid-template-columns:1fr} }
+   @media (max-width:1100px) { .rep-sig-grid{grid-template-columns:1fr} .rep-form-grid{grid-template-columns:1fr} }
 
    /* ── LIGHT MODE ── */
    [data-theme="light"] {
