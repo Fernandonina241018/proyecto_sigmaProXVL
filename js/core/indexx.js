@@ -518,9 +518,9 @@ var leftPanels = {
         '<div class="info-section-body" style="font-size:11px;color:var(--text-faint);padding:8px 12px">Carga un reporte .html generado por StatAnalyzer Pro para revisar y firmar electrónicamente.</div></div>' +
       '<div class="info-section"><div class="info-section-header">📂 Cargar reporte</div>' +
         '<div class="info-section-body" style="padding:8px 12px">' +
-          '<div class="upload-zone" id="firmaDropZone" style="border:2px dashed var(--border);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:all .2s">' +
-            '<div style="font-size:28px;margin-bottom:6px">📄</div>' +
-            '<div style="font-size:11px;color:var(--text-muted)">Arrastra un .html aquí<br>o haz clic para seleccionar</div></div>' +
+          '<div class="upload-zone" id="firmaDropZone" style="border:2px dashed var(--border);border-radius:8px;padding:10px;text-align:center;cursor:pointer;transition:all .2s">' +
+            '<div style="font-size:18px;margin-bottom:3px">📄</div>' +
+            '<div style="font-size:10px;color:var(--text-muted);line-height:1.3">Arrastra un .html aquí<br>o haz clic para seleccionar</div></div>' +
           '<input type="file" id="firmaFileInput" accept=".html" style="display:none"></div></div>' +
       '<div id="firmaStatus" style="display:none"></div>' +
       '<div id="firmaActions" style="display:none;flex-direction:column;gap:8px">' +
