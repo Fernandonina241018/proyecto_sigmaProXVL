@@ -2076,25 +2076,6 @@ tr:hover td{background:#f7faff}
               </div>
             </div>
 
-            <!-- Firmas -->
-            <div class="rep-card">
-              <div class="rep-card-title">${t('ui_signatures')}</div>
-              <div class="rep-sig-grid">
-                ${['prep','rev','app'].map((pfx,i)=>{
-                    const roles=[t('ui_prep'),t('ui_rev'),t('ui_app')];
-                    return `
-                    <div class="rep-sig-block">
-                      <div class="rep-sig-role">${roles[i]}</div>
-                      <div class="rep-field"><label>${t('ui_sigName')}</label><input id="rep-${pfx}-name" placeholder="Dr. Nombre Apellido"></div>
-                      <div class="rep-field"><label>${t('ui_sigTitle')}</label><input id="rep-${pfx}-title" placeholder="${currentLang==='es'?'Cargo / Posición':'Title / Position'}"></div>
-                      <div class="rep-field"><label>${t('ui_sigDate')}</label><input id="rep-${pfx}-date" type="date"></div>
-                      <div class="rep-date-display" id="rep-${pfx}-date-preview">—</div>
-                    </div>`;
-                }).join('')}
-              </div>
-            </div>
-          </div>
-
           <!-- DERECHA -->
           <div class="rep-right">
             <div class="rep-card rep-format-card">
@@ -2189,10 +2170,7 @@ tr:hover td{background:#f7faff}
         updateFmtCount();
 
         // ── Preview de fechas ──
-        [['rep-collect','rep-collect-preview'],
-         ['rep-prep-date','rep-prep-date-preview'],
-         ['rep-rev-date', 'rep-rev-date-preview'],
-         ['rep-app-date', 'rep-app-date-preview']].forEach(([inputId,previewId])=>{
+        [['rep-collect','rep-collect-preview']].forEach(([inputId,previewId])=>{
             const input=document.getElementById(inputId);
             const prev =document.getElementById(previewId);
             if(!input||!prev)return;

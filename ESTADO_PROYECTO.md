@@ -23,6 +23,25 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-05-30: Eliminados campos de firma del formulario de ReporteManager
+
+**Qué:** Se eliminó la sección "✍️ Electronic Signatures — 21 CFR Part 11" del formulario de generación de reportes. Ahora las firmas solo pueden realizarse desde la página "firmarReporte" con verificación de contraseña.
+
+**Archivos modificados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/managers/ReporteManager.js:2079-2095` | Eliminado bloque completo de firmas (inputs de nombre/cargo/fecha para prep/rev/app) |
+| `js/managers/ReporteManager.js:2197` | Eliminadas referencias a previews de fecha de firma (`rep-prep-date-preview`, etc.) |
+
+**Flujo final:**
+```
+ReporteManager → [✍️ Enviar a firma] → firmarReporte (sin campos de firma en el form)
+                                           ↓
+                                     Solo aquí se firma (con contraseña)
+                                           ↓
+                                     Descarga: solo el reporte firmado
+```
+
 ### 2026-05-30: ReporteManager envía directo a firma (sin descarga intermedia)
 
 **Qué:** Se eliminó el botón de descarga de ReporteManager. Ahora hay un botón "✍️ Enviar a firma" que genera el HTML y lo pasa directamente a la página de firma mediante `sessionStorage`, sin crear archivos intermedios en disco.
