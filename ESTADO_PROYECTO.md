@@ -23,6 +23,18 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-05-29: Fix duplicación de reportes + alert molesto reemplazado por toast
+
+**Qué:** 
+1. Al descargar un reporte firmado, ahora se usa el nombre original del archivo (sin sufijos `_fp_fr_fa`) para evitar duplicados en disco
+2. El `alert()` nativo que aparecía tras generar un reporte en ReporteManager se reemplazó por `showToast()` no bloqueante
+
+**Archivos modificados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx.js:4113-4117` | `firmaDownload()` usa `_firmaOriginalName` en vez de nombre con sufijos |
+| `js/managers/ReporteManager.js:2220` | `alert(...)` → `showToast(...)` en handler de descarga |
+
 ### 2026-05-29: Persistencia de sesión de firma (cambio de página + hard reset)
 
 **Qué:** Se implementó persistencia del estado de firma de reportes en `localStorage`. Ahora al cargar un reporte HTML para firmar, si el usuario cambia de página o hace hard reset (F5), la sesión de firma no se pierde. Al volver a la página "Firmar Reporte", la sesión se restaura automáticamente.

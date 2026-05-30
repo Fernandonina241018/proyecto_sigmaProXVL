@@ -2217,7 +2217,7 @@ tr:hover td{background:#f7faff}
             if(!formatos.length){alert(t('ui_alertNoFmt'));return;}
             const meta=collectMeta();
             const result=await descargar(formatos,resultados,meta);
-            setTimeout(()=>alert(t('ui_alertDownload',
+            setTimeout(()=>showToast(t('ui_alertDownload',
                 result.formatos.map(f=>`.${f.toUpperCase()}`).join(' · '),
                 result.base,
                 formatos.includes('html')

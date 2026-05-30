@@ -4110,16 +4110,8 @@ function firmaDownload() {
     var a = document.createElement('a');
     a.href = url;
 
-    // Build filename with signature suffixes
-    var baseName = _firmaOriginalName.replace(/\.html$/i, '') || 'reporte_firmado';
-    var sufMap = { prepared: 'fp', reviewed: 'fr', approved: 'fa' };
-    var suffix = '';
-    ['prepared', 'reviewed', 'approved'].forEach(function(role) {
-      if (_firmaSignatureState[role] && _firmaSignatureState[role].signed) {
-        suffix += '_' + sufMap[role];
-      }
-    });
-    a.download = baseName + suffix + '.html';
+    // Use original filename (no suffixes) to avoid duplicate files
+    a.download = _firmaOriginalName || 'reporte_firmado.html';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
