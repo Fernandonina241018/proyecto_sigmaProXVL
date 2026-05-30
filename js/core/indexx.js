@@ -4110,8 +4110,9 @@ function firmaDownload() {
     var a = document.createElement('a');
     a.href = url;
 
-    // Use original filename (no suffixes) to avoid duplicate files
-    a.download = _firmaOriginalName || 'reporte_firmado.html';
+    // Append _firmado suffix to avoid browser collision (1) and clearly mark as signed
+    var baseName = (_firmaOriginalName || 'reporte_firmado').replace(/\.html$/i, '');
+    a.download = baseName + '_firmado.html';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

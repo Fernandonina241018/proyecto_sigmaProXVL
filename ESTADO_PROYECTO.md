@@ -23,17 +23,19 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
-### 2026-05-29: Fix duplicación de reportes + alert molesto reemplazado por toast
+### 2026-05-29: Fix duplicación de reportes al firmar + alert por toast
 
 **Qué:** 
-1. Al descargar un reporte firmado, ahora se usa el nombre original del archivo (sin sufijos `_fp_fr_fa`) para evitar duplicados en disco
-2. El `alert()` nativo que aparecía tras generar un reporte en ReporteManager se reemplazó por `showToast()` no bloqueante
+1. Al descargar reporte firmado se usa sufijo `_firmado` en vez del nombre original (evita que el navegador agregue `(1)` por colisión con el archivo original)
+2. `alert()` nativo en ReporteManager reemplazado por `showToast()` no bloqueante
 
 **Archivos modificados:**
 | Archivo | Cambio |
 |---------|--------|
-| `js/core/indexx.js:4113-4117` | `firmaDownload()` usa `_firmaOriginalName` en vez de nombre con sufijos |
+| `js/core/indexx.js:4113-4115` | `firmaDownload()` usa `nombre_firmado.html` en vez de nombre original o sufijos `_fp_fr_fa` |
 | `js/managers/ReporteManager.js:2220` | `alert(...)` → `showToast(...)` en handler de descarga |
+
+**Comportamiento final:** `RPT-abc.html` → firmar → descarga como `RPT-abc_firmado.html` (sin `(1)`, sin `_fp_fr_fa`)
 
 ### 2026-05-29: Persistencia de sesión de firma (cambio de página + hard reset)
 
