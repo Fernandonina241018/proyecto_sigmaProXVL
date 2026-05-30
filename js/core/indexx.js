@@ -4128,13 +4128,12 @@ function firmaUpdatePreview(role, field, value) {
     el.textContent = value || '';
     el.style.color = '#1a202c';
     el.style.fontStyle = 'normal';
-    // Update iframe
+    _firmaCurrentHtml = '<!DOCTYPE html>\n' + _firmaCurrentDoc.documentElement.outerHTML;
     var preview = document.getElementById('firmaPreview');
     if (preview) {
       var iframe = preview.querySelector('iframe');
       if (iframe) {
-        var newHtml = '<!DOCTYPE html>\n' + _firmaCurrentDoc.documentElement.outerHTML;
-        iframe.srcdoc = newHtml;
+        iframe.srcdoc = _firmaCurrentHtml;
       }
     }
   }
