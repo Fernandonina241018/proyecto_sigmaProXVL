@@ -75,6 +75,21 @@ ReporteManager → [✍️ Enviar a firma] → firmarReporte (sin campos de firm
 - Después de firmar en sesión → oculto (todas verdaderas)
 - Después de reiniciar → visible (todas falsas de nuevo)
 
+### 2026-05-30: Fix bugs z_error.md (lógica invertida, estado huérfano, duplicados)
+
+**Qué:** Corrección de 4 bugs reportados en `z_error.md`:
+1. **Lógica invertida:** `firmaUpdateResetBtn()` ocultaba el botón cuando había firmas y lo mostraba cuando no. Ahora es al revés.
+2. **Estado huérfano tras hard reset:** `firmaLoadHtml()` no limpiaba `_firmaSignatureState` antes de auto-detectar, arrastrando estados viejos.
+3. **Duplicados _firmado (1).html:** Se agregó timestamp `_firmado_2026-05-30-12-00-00.html` para que cada descarga sea única.
+4. **Botón sin lógica clara:** Ahora visible siempre que haya firmas firmadas; confirmación antes de resetear.
+
+**Archivos modificados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx.js:4141` | Invertida condición: `anySigned ? 'flex' : 'none'` |
+| `js/core/indexx.js:4014` | `_firmaSignatureState = {}` antes de auto-detectar firmas |
+| `js/core/indexx.js:4188` | Filename con timestamp en `firmaDownload()` |
+
 ### 2026-05-30: ReporteManager envía directo a firma (sin descarga intermedia)
 
 **Qué:** Se eliminó el botón de descarga de ReporteManager. Ahora hay un botón "✍️ Enviar a firma" que genera el HTML y lo pasa directamente a la página de firma mediante `sessionStorage`, sin crear archivos intermedios en disco.

@@ -4011,6 +4011,7 @@ function firmaLoadHtml(html, originalName) {
   });
 
   // Auto-cargar firmas existentes del reporte HTML
+  _firmaSignatureState = {};
   _firmaSignatureData.forEach(function(sd) {
     if (sd.fields.name && sd.fields.name !== '' && sd.fields.name !== '\u2014') {
       _firmaSignatureState[sd.role] = {
@@ -4138,7 +4139,7 @@ function firmaUpdateResetBtn() {
       break;
     }
   }
-  btn.style.display = anySigned ? 'none' : 'flex';
+  btn.style.display = anySigned ? 'flex' : 'none';
 }
 
 function firmaResetSignatures() {
@@ -4184,8 +4185,9 @@ function firmaDownload() {
     a.href = url;
 
     // Append _firmado suffix to avoid browser collision (1) and clearly mark as signed
+    var ts = new Date().toISOString().slice(0,19).replace(/[T:]/g,'-');
     var baseName = (_firmaOriginalName || 'reporte_firmado').replace(/\.html$/i, '');
-    a.download = baseName + '_firmado.html';
+    a.download = baseName + '_firmado_' + ts + '.html';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
