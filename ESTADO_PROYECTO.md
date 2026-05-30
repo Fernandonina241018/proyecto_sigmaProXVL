@@ -69,26 +69,28 @@ ReporteManager → [✍️ Enviar a firma] → firmarReporte (sin campos de firm
 | `js/core/indexx.js:4144-4156` | Nueva función `firmaResetSignatures()`: reinicia estado, preview y persiste |
 | `js/core/indexx.js:4127` | `firmaUpdateResetBtn()` llamado desde `firmaRenderEditor()` |
 
-**Regla de negocio:** El botón se muestra solo cuando `_firmaSignatureState` no contiene ninguna firma con `signed: true`. Esto cubre:
-- Reporte nuevo desde ReporteManager → visible (todas falsas)
-- Reporte cargado de disco con firmas → oculto (alguna verdadera)
-- Después de firmar en sesión → oculto (todas verdaderas)
-- Después de reiniciar → visible (todas falsas de nuevo)
+**Regla de negocio:** El botón se muestra solo cuando `_firmaIsNewSession === true` (reporte nuevo desde ReporteManager no guardado en disco).
 
-### 2026-05-30: Fix bugs z_error.md (lógica invertida, estado huérfano, duplicados)
+### 2026-05-30: Fix bugs z_error.md + flag _firmaIsNewSession
 
-**Qué:** Corrección de 4 bugs reportados en `z_error.md`:
-1. **Lógica invertida:** `firmaUpdateResetBtn()` ocultaba el botón cuando había firmas y lo mostraba cuando no. Ahora es al revés.
-2. **Estado huérfano tras hard reset:** `firmaLoadHtml()` no limpiaba `_firmaSignatureState` antes de auto-detectar, arrastrando estados viejos.
-3. **Duplicados _firmado (1).html:** Se agregó timestamp `_firmado_2026-05-30-12-00-00.html` para que cada descarga sea única.
-4. **Botón sin lógica clara:** Ahora visible siempre que haya firmas firmadas; confirmación antes de resetear.
+**Qué:** 
+1. **Reportes cargados de disco ya no muestran botón reset.** Se agregó flag `_firmaIsNewSession` para distinguir reportes nuevos (desde ReporteManager) de archivos cargados del disco. El botón "Reiniciar firmas" solo aparece en reportes nuevos.
+2. **Estado huérfano:** `_firmaLoadHtml()` ahora limpia `_firmaSignatureState = {}` antes de auto-detectar.
+3. **Duplicados:** Filename con timestamp `_firmado_2026-05-30-12-00-00.html`.
+4. **Flag persistido** en localStorage (`__firma_is_new_session`) para restaurar correctamente tras hard reset.
 
 **Archivos modificados:**
 | Archivo | Cambio |
 |---------|--------|
-| `js/core/indexx.js:4141` | Invertida condición: `anySigned ? 'flex' : 'none'` |
-| `js/core/indexx.js:4014` | `_firmaSignatureState = {}` antes de auto-detectar firmas |
-| `js/core/indexx.js:4188` | Filename con timestamp en `firmaDownload()` |
+| `js/core/indexx.js:3815` | Nueva variable `_firmaIsNewSession = false` |
+| `js/core/indexx.js:3825` | Persistir flag en `firmaPersistState()` |
+| `js/core/indexx.js:3838` | Limpiar flag en `firmaClearState()` |
+| `js/core/indexx.js:3872` | Restaurar flag en `firmaRestoreState()` |
+| `js/core/indexx.js:3927` | `_firmaIsNewSession = true` en carga desde sessionStorage (ReporteManager) |
+| `js/core/indexx.js:4050` | `_firmaIsNewSession = false` en `firmaHandleFile()` |
+| `js/core/indexx.js:3966` | `_firmaIsNewSession = false` en init normal |
+| `js/core/indexx.js:4140-4143` | `firmaUpdateResetBtn()` usa `_firmaIsNewSession` |
+| `js/core/indexx.js:4192` | Timestamp en filename de `firmaDownload()` |
 
 ### 2026-05-30: ReporteManager envía directo a firma (sin descarga intermedia)
 
