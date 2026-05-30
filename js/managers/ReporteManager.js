@@ -2162,8 +2162,8 @@ tr:hover td{background:#f7faff}
                 <span class="rep-fmt-count" id="rep-fmt-count">${t('ui_formatCount',1)}</span>
               </div>
 
-              <button class="rep-btn-download" id="rep-btn-download" ${!tieneRes?'disabled':''}>
-                ${t('ui_download')}
+              <button class="rep-btn-download" id="rep-btn-sign" ${!tieneRes?'disabled':''}>
+                ✍️ Enviar a firma
               </button>
 
               ${!tieneRes?`<p class="rep-no-data-msg">${t('ui_noData')}</p>`:''}
@@ -2210,18 +2210,22 @@ tr:hover td{background:#f7faff}
             });
         });
 
-        // ── Botón descargar ──
-        document.getElementById('rep-btn-download')?.addEventListener('click', async () => {
+        // ── Botón enviar a firma ──
+        document.getElementById('rep-btn-sign')?.addEventListener('click', async () => {
             if(!tieneRes) return;
-            const formatos=['html','pdf','txt','csv'].filter(f=>document.getElementById(`fmt-${f}`)?.checked);
-            if(!formatos.length){alert(t('ui_alertNoFmt'));return;}
             const meta=collectMeta();
-            const result=await descargar(formatos,resultados,meta);
-            setTimeout(()=>showToast(t('ui_alertDownload',
-                result.formatos.map(f=>`.${f.toUpperCase()}`).join(' · '),
-                result.base,
-                formatos.includes('html')
-            )),formatos.length*350+100);
+            const hash = await generateHash(meta, resultados);
+            const base = `RPT-${hash}_${new Date().toISOString().slice(0,10)}`;
+            const html = generarHTML(resultados, meta, hash);
+            try {
+                sessionStorage.setItem('__firma_pending_html', html);
+                sessionStorage.setItem('__firma_pending_name', base + '.html');
+            } catch(e) {
+                showToast('Error al preparar reporte para firma: ' + e.message);
+                return;
+            }
+            showToast('Reporte enviado a firma');
+            if (typeof loadPage === 'function') loadPage('firmarReporte');
         });
     }
 

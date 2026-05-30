@@ -23,19 +23,26 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
-### 2026-05-29: Fix duplicación de reportes al firmar + alert por toast
+### 2026-05-30: ReporteManager envía directo a firma (sin descarga intermedia)
 
-**Qué:** 
-1. Al descargar reporte firmado se usa sufijo `_firmado` en vez del nombre original (evita que el navegador agregue `(1)` por colisión con el archivo original)
-2. `alert()` nativo en ReporteManager reemplazado por `showToast()` no bloqueante
+**Qué:** Se eliminó el botón de descarga de ReporteManager. Ahora hay un botón "✍️ Enviar a firma" que genera el HTML y lo pasa directamente a la página de firma mediante `sessionStorage`, sin crear archivos intermedios en disco.
 
 **Archivos modificados:**
 | Archivo | Cambio |
 |---------|--------|
-| `js/core/indexx.js:4113-4115` | `firmaDownload()` usa `nombre_firmado.html` en vez de nombre original o sufijos `_fp_fr_fa` |
-| `js/managers/ReporteManager.js:2220` | `alert(...)` → `showToast(...)` en handler de descarga |
+| `js/managers/ReporteManager.js:2165-2167` | Botón `📥 Download Report` → `✍️ Enviar a firma` |
+| `js/managers/ReporteManager.js:2213-2227` | Handler: guarda HTML en `sessionStorage` y navega a `firmarReporte` |
+| `js/core/indexx.js:3939-4008` | Nueva función `firmaLoadHtml(html, name)` extraída de `firmaHandleFile` |
+| `js/core/indexx.js:3889-3937` | `initFirmarReportePage()`: verifica `sessionStorage.__firma_pending_html` al inicio |
 
-**Comportamiento final:** `RPT-abc.html` → firmar → descarga como `RPT-abc_firmado.html` (sin `(1)`, sin `_fp_fr_fa`)
+**Flujo nuevo:**
+```
+ReporteManager → [✍️ Enviar a firma] → sessionStorage → firmarReporte (auto-carga)
+                                                          ↓
+                                                          Firmar → descarga solo el firmado
+```
+
+**Ya no se genera archivo duplicado** porque no hay descarga desde ReporteManager. El único archivo que se descarga es el firmado desde firmarReporte.
 
 ### 2026-05-29: Persistencia de sesión de firma (cambio de página + hard reset)
 

@@ -3895,6 +3895,40 @@ function initFirmarReportePage() {
 
   if (!dropZone || !fileInput || !preview) return;
 
+  // Check for pending report from ReporteManager (sessionStorage)
+  var pendingHtml = null;
+  var pendingName = null;
+  try {
+    pendingHtml = sessionStorage.getItem('__firma_pending_html');
+    pendingName = sessionStorage.getItem('__firma_pending_name');
+    if (pendingHtml) {
+      sessionStorage.removeItem('__firma_pending_html');
+      sessionStorage.removeItem('__firma_pending_name');
+    }
+  } catch(e) { /* ignore */ }
+
+  if (pendingHtml && pendingName) {
+    // Clear any old persisted state first
+    firmaClearState();
+    _firmaCurrentDoc = null;
+    _firmaCurrentHtml = '';
+    _firmaSignatureData = null;
+    _firmaSignatureState = {};
+    _firmaOriginalName = '';
+
+    // Attach events then load
+    dropZone.onclick = function(){ fileInput.click(); };
+    dropZone.ondragover = function(e){ e.preventDefault(); dropZone.style.borderColor = 'var(--accent)'; dropZone.style.background = 'rgba(92,107,192,0.1)'; };
+    dropZone.ondragleave = function(){ dropZone.style.borderColor = 'var(--border)'; dropZone.style.background = 'transparent'; };
+    dropZone.ondrop = function(e){ e.preventDefault(); dropZone.style.borderColor = 'var(--border)'; dropZone.style.background = 'transparent'; if (e.dataTransfer.files.length) firmaHandleFile(e.dataTransfer.files[0]); };
+    fileInput.onchange = function(){ if (fileInput.files.length) firmaHandleFile(fileInput.files[0]); fileInput.value = ''; };
+    var downloadBtn = document.getElementById('firmaDownloadBtn');
+    if (downloadBtn) downloadBtn.onclick = firmaDownload;
+
+    firmaLoadHtml(pendingHtml, pendingName);
+    return;
+  }
+
   // If there's a persisted session, restore it instead of resetting
   if (firmaHasPersistedState()) {
     if (firmaRestoreState()) {
@@ -3936,6 +3970,69 @@ function initFirmarReportePage() {
   if (downloadBtn) downloadBtn.onclick = firmaDownload;
 }
 
+function firmaLoadHtml(html, originalName) {
+  var parser = new DOMParser();
+  var doc = parser.parseFromString(html, 'text/html');
+  var sigBlocks = doc.querySelectorAll('[data-signature-role]:not([data-signature-field])');
+
+  if (!sigBlocks.length) {
+    showToast('Este reporte no contiene firmas detectables. Usa la versión más reciente de StatAnalyzer Pro.');
+    return false;
+  }
+
+  _firmaCurrentDoc = doc;
+  _firmaCurrentHtml = html;
+  _firmaSignatureState = {};
+  _firmaOriginalName = originalName;
+
+  // Render preview in iframe
+  var preview = document.getElementById('firmaPreview');
+  if (preview) {
+    preview.innerHTML = '<iframe srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
+  }
+
+  // Extract signature data
+  _firmaSignatureData = [];
+  sigBlocks.forEach(function(block){
+    var role = block.getAttribute('data-signature-role');
+    var roleLabel = block.querySelector('div:first-child')?.textContent || role;
+    var fields = {};
+    block.querySelectorAll('[data-signature-field]').forEach(function(el){
+      var field = el.getAttribute('data-signature-field');
+      fields[field] = el.textContent;
+    });
+    _firmaSignatureData.push({ role: role, label: roleLabel, fields: fields });
+  });
+
+  // Auto-cargar firmas existentes del reporte HTML
+  _firmaSignatureData.forEach(function(sd) {
+    if (sd.fields.name && sd.fields.name !== '' && sd.fields.name !== '\u2014') {
+      _firmaSignatureState[sd.role] = {
+        signed: true,
+        nombre: sd.fields.name,
+        cargo: sd.fields.title || '',
+        fecha: sd.fields.date || ''
+      };
+    }
+  });
+
+  firmaRenderEditor();
+
+  var status = document.getElementById('firmaStatus');
+  if (status) {
+    status.style.display = 'block';
+    status.innerHTML = '<div style="font-size:11px;color:var(--accent);padding:8px 12px">✅ Reporte cargado: ' + escapeHtml(originalName) + ' (' + _firmaSignatureData.length + ' firma(s) detectada(s))</div>';
+  }
+
+  var actions = document.getElementById('firmaActions');
+  if (actions) actions.style.display = 'flex';
+
+  showToast('Reporte cargado: ' + _firmaSignatureData.length + ' firmas detectadas');
+
+  firmaPersistState();
+  return true;
+}
+
 function firmaHandleFile(file) {
   if (!file || !file.name.toLowerCase().endsWith('.html')) {
     showToast('Selecciona un archivo .html válido');
@@ -3943,66 +4040,7 @@ function firmaHandleFile(file) {
   }
   var reader = new FileReader();
   reader.onload = function(e){
-    var html = e.target.result;
-    var parser = new DOMParser();
-    var doc = parser.parseFromString(html, 'text/html');
-    var sigBlocks = doc.querySelectorAll('[data-signature-role]:not([data-signature-field])');
-
-    if (!sigBlocks.length) {
-      showToast('Este reporte no contiene firmas detectables. Usa la versión más reciente de StatAnalyzer Pro.');
-      return;
-    }
-
-    _firmaCurrentDoc = doc;
-    _firmaCurrentHtml = html;
-    _firmaSignatureState = {};
-    _firmaOriginalName = file.name;
-
-    // Render preview in iframe
-    var preview = document.getElementById('firmaPreview');
-    if (preview) {
-      preview.innerHTML = '<iframe srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
-    }
-
-    // Extract signature data
-    _firmaSignatureData = [];
-    sigBlocks.forEach(function(block){
-      var role = block.getAttribute('data-signature-role');
-      var roleLabel = block.querySelector('div:first-child')?.textContent || role;
-      var fields = {};
-      block.querySelectorAll('[data-signature-field]').forEach(function(el){
-        var field = el.getAttribute('data-signature-field');
-        fields[field] = el.textContent;
-      });
-      _firmaSignatureData.push({ role: role, label: roleLabel, fields: fields });
-    });
-
-    // Auto-cargar firmas existentes del reporte HTML
-    _firmaSignatureData.forEach(function(sd) {
-      if (sd.fields.name && sd.fields.name !== '' && sd.fields.name !== '\u2014') {
-        _firmaSignatureState[sd.role] = {
-          signed: true,
-          nombre: sd.fields.name,
-          cargo: sd.fields.title || '',
-          fecha: sd.fields.date || ''
-        };
-      }
-    });
-
-    firmaRenderEditor();
-
-    var status = document.getElementById('firmaStatus');
-    if (status) {
-      status.style.display = 'block';
-      status.innerHTML = '<div style="font-size:11px;color:var(--accent);padding:8px 12px">✅ Reporte cargado: ' + escapeHtml(file.name) + ' (' + _firmaSignatureData.length + ' firma(s) detectada(s))</div>';
-    }
-
-    var actions = document.getElementById('firmaActions');
-    if (actions) actions.style.display = 'flex';
-
-    showToast('Reporte cargado: ' + _firmaSignatureData.length + ' firmas detectadas');
-
-    firmaPersistState();
+    firmaLoadHtml(e.target.result, file.name);
   };
   reader.readAsText(file);
 }
