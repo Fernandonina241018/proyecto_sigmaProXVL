@@ -23,6 +23,31 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-05-29: Persistencia de sesión de firma (cambio de página + hard reset)
+
+**Qué:** Se implementó persistencia del estado de firma de reportes en `localStorage`. Ahora al cargar un reporte HTML para firmar, si el usuario cambia de página o hace hard reset (F5), la sesión de firma no se pierde. Al volver a la página "Firmar Reporte", la sesión se restaura automáticamente.
+
+**Archivos modificados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx.js:3816-3861` | Nuevas funciones: `firmaPersistState()`, `firmaClearState()`, `firmaHasPersistedState()`, `firmaRestoreState()` |
+| `js/core/indexx.js:3863` | `initFirmarReportePage()` modificada: verifica estado persistido antes de resetear |
+| `js/core/indexx.js:4007` | `firmaHandleFile()` persiste estado al cargar reporte |
+| `js/core/indexx.js:4132` | `firmaVerify()` persiste estado después de cada firma exitosa |
+| `js/core/indexx.js:4115` | `firmaDownload()` limpia estado al descargar |
+
+**Keys de localStorage:** `__firma_current_html`, `__firma_signature_data`, `__firma_signature_state`, `__firma_original_name`
+
+**Comportamiento:**
+- Cargar reporte → se persiste a localStorage
+- Firmar una sección → se actualiza persistencia
+- Cambiar de página → session preservada, se restaura al volver
+- Hard reset (F5) → session preservada, se restaura al cargar
+- Descargar reporte firmado → se limpia localStorage
+- Estado corrupto → fallback a init normal con limpieza automática
+
+**Riesgo:** Bajo (solo se añaden reads/writes a localStorage con try/catch y validación de datos)
+
 ### 2026-05-29: Migración Backend Node.js Render → Fly.io + Supabase PostgreSQL
 
 **Qué:** Backend Express migró de Render (`proyecto-sigmaproxvl.onrender.com`) a Fly.io (`sigmaproxvl-backend.fly.dev`). Se configuró `DATABASE_URL` apuntando a Supabase PostgreSQL (session pooler, puerto 5432).
