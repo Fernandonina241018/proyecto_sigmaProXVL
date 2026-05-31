@@ -58,6 +58,10 @@ def detect_problem_type(series: pd.Series) -> str:
         return "binary"
     
     if n_unique <= 20 or dtype == object:
+        # If numeric with continuous float values → regression, not multiclass
+        if is_numeric_dtype(series) and n_unique > 2:
+            if not np.all(series.dropna() % 1 == 0):
+                return "regression"
         return "multiclass"
     return "regression"
 

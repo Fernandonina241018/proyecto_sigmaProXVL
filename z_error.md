@@ -1,1 +1,2 @@
-<div class="page-card-body" style="padding:12px;font-size:12px">Dataset 'entren_temo_c_f' not found in /app/Red_Neuronal/datos</div>
+Unknown label type: (array([ 2.396,  2.425,  2.866,  1.638, -1.44 ,  2.372,  1.992,  2.834,
+        2.442,  2.41 ,  4.7  ,  8.786]),)

@@ -92,6 +92,17 @@ ReporteManager → [✍️ Enviar a firma] → firmarReporte (sin campos de firm
 | `js/core/indexx.js:4140-4143` | `firmaUpdateResetBtn()` usa `_firmaIsNewSession` |
 | `js/core/indexx.js:4192` | Timestamp en filename de `firmaDownload()` |
 
+### 2026-05-30: Fix detect_problem_type — targets continuos con ≤20 filas clasificados como multiclass
+
+**Qué:** Al entrenar con datasets pequeños (≤20 filas), `detect_problem_type()` retornaba "multiclass" por la regla `n_unique <= 20`, incluso cuando los valores target eran continuos (floats con decimales). Scikit-learn lanzaba `Unknown label type`.
+
+**Fix:** En `preprocessor.py:60`, antes de clasificar como multiclass, se verifica si los valores numéricos son continuos (`values % 1 != 0`). Si lo son → regression.
+
+**Archivos modificados:**
+| Archivo | Cambio |
+|---------|--------|
+| `Red_Neuronal/preprocessor.py:60-64` | Nueva condición: si dtype numérico con valores no enteros → regression |
+
 ### 2026-05-30: Fix train ML — worksheets ≤20 filas tratadas como preview de dataset servidor
 
 **Qué:** Al cargar un CSV desde disco (page Dato → page Trabajo) y usarlo en ML Analysis con ≤20 filas, el entrenamiento fallaba con "Dataset '📋 nombre' not found". El backend interpretaba que `data` con ≤20 filas era un preview de servidor y buscaba el archivo en disco.
