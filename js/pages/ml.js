@@ -8,6 +8,7 @@ const MLManager = (() => {
     let _datasets = [];
     let _selectedModelId = null;
     let _trainingHistory = [];
+    let _keepAliveId = null;
 
     function _getMlApiUrl() {
         if (typeof ML_API_URL !== 'undefined') return ML_API_URL;
@@ -45,6 +46,26 @@ const MLManager = (() => {
             }
             throw e;
         }
+    }
+
+    async function _warmUp() {
+        const apiUrl = _getMlApiUrl();
+        for (let i = 0; i < 5; i++) {
+            try {
+                const res = await fetch(apiUrl + '/api/ml/health');
+                if (res.ok) return true;
+            } catch (e) {}
+            await new Promise(r => setTimeout(r, 2000));
+        }
+        return false;
+    }
+
+    function _startKeepAlive() {
+        if (_keepAliveId) clearInterval(_keepAliveId);
+        const apiUrl = _getMlApiUrl();
+        _keepAliveId = setInterval(() => {
+            fetch(apiUrl + '/api/ml/health').catch(() => {});
+        }, 240000);
     }
 
     function buildLeftPanel() {
@@ -133,9 +154,11 @@ const MLManager = (() => {
         return { columns: headers, data: data, nrows: filtered.length };
     }
 
-    function init() {
+    async function init() {
+        await _warmUp();
         refreshDatasets();
         refreshModels();
+        _startKeepAlive();
     }
 
     async function refreshDatasets() {

@@ -92,6 +92,33 @@ ReporteManager → [✍️ Enviar a firma] → firmarReporte (sin campos de firm
 | `js/core/indexx.js:4140-4143` | `firmaUpdateResetBtn()` usa `_firmaIsNewSession` |
 | `js/core/indexx.js:4192` | Timestamp en filename de `firmaDownload()` |
 
+### 2026-05-30: Solución definitiva 503 — Warm-up híbrido (health ping + keep-alive)
+
+**Qué:** Se eliminó la causa raíz del 503 (cold start Fly.io) con un enfoque híbrido:
+1. **`_warmUp()`**: Antes de cargar datasets/models, se hace ping a `/api/ml/health` con hasta 5 intentos (2s entre cada uno) para "despertar" la máquina.
+2. **`_startKeepAlive()`**: `setInterval` cada 4 minutos (240s) que pinge `/api/ml/health`, manteniendo la máquina activa mientras el usuario usa ML (el timeout de Fly.io es 5 min).
+3. **`init()`** pasa a `async`, llama a `_warmUp()` primero, luego `refreshDatasets()`, `refreshModels()`, y arranca el keep-alive.
+4. Se mantiene el retry en 503/404 como safety net.
+
+**Archivos modificados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/pages/ml.js:10` | Nueva variable `_keepAliveId = null` |
+| `js/pages/ml.js:51-67` | Nueva función `_warmUp()` con 5 intentos de health ping |
+| `js/pages/ml.js:69-76` | Nueva función `_startKeepAlive()` con `setInterval` 240s |
+| `js/pages/ml.js:157-161` | `init()` ahora es `async`, llama `await _warmUp()` y `_startKeepAlive()` |
+
+**Flujo:**
+```
+init() → _warmUp() → refreshDatasets() + refreshModels() + _startKeepAlive()
+           │                │                        │
+           │                └── Retry 404/503 ────────┤
+           │                                          │
+           └── Hasta 5 intentos, 2s c/u ──────────────┘
+                                                      ↓
+                                           setInterval(/health, 240s)
+```
+
 ### 2026-05-30: Fix retry ML Service — también reintentar en 503 (no solo 404)
 
 **Qué:** El error `503 (Service Unavailable)` en `ml.js:28` no era capturado por el retry, que solo manejaba `404`. Fly.io responde con 503 durante el cold start de la máquina. Se agregó `|| res.status === 503` a la condición de reintento.
