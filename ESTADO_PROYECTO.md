@@ -114,7 +114,15 @@ ReporteManager → [✍️ Enviar a firma] → firmarReporte (sin campos de firm
 | Archivo | Cambio |
 |---------|--------|
 | `js/pages/ml.js:17-50` | Retry 3x con delay 1.5s en `_fetch()` para status 404 |
-| `ml_service/fly.toml` | Nuevo archivo con `min_machines_running = 1`, `internal_port = 8080`, `memory = 2gb` |
+
+### 2026-05-30: Fix CORS ML Service — middleware manual para preflight OPTIONS
+
+**Qué:** Error CORS al llamar ML Service desde GitHub Pages: preflight OPTIONS no retornaba `Access-Control-Allow-Origin`. Se agregó middleware HTTP personalizado en FastAPI que intercepta OPTIONS y agrega headers CORS a toda respuesta.
+
+**Archivos modificados:**
+| Archivo | Cambio |
+|---------|--------|
+| `ml_service/main.py:47-64` | Nuevo `@app.middleware("http")` cors_middleware que maneja OPTIONS y agrega headers CORS a toda respuesta |
 
 ### 2026-05-30: ReporteManager envía directo a firma (sin descarga intermedia)
 

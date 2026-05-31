@@ -16,8 +16,9 @@ import pandas as pd
 import numpy as np
 import joblib
 from pandas.api.types import is_string_dtype, is_object_dtype
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 _RN_DIR = Path(__file__).resolve().parent.parent / "Red_Neuronal"
@@ -46,6 +47,19 @@ except ImportError:
     HAS_INTERPRET = False
 
 app = FastAPI(title="SigmaPro ML Service", version="1.0.0")
+
+# ── CORS personalizado (antes del CORSMiddleware) para manejar preflight OPTIONS ──
+@app.middleware("http")
+async def cors_middleware(request: Request, call_next):
+    if request.method == "OPTIONS":
+        response = JSONResponse(content="ok")
+    else:
+        response = await call_next(request)
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "*"
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    return response
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
