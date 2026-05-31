@@ -92,6 +92,27 @@ ReporteManager → [✍️ Enviar a firma] → firmarReporte (sin campos de firm
 | `js/core/indexx.js:4140-4143` | `firmaUpdateResetBtn()` usa `_firmaIsNewSession` |
 | `js/core/indexx.js:4192` | Timestamp en filename de `firmaDownload()` |
 
+### 2026-05-30: Fix train ML — worksheets ≤20 filas tratadas como preview de dataset servidor
+
+**Qué:** Al cargar un CSV desde disco (page Dato → page Trabajo) y usarlo en ML Analysis con ≤20 filas, el entrenamiento fallaba con "Dataset '📋 nombre' not found". El backend interpretaba que `data` con ≤20 filas era un preview de servidor y buscaba el archivo en disco.
+
+**Causa raíz:** La condición `len(req.data) <= 20` en `ml_service/main.py:147` no distinguía entre "preview de 10 filas de un dataset del servidor" vs "dataset completo cargado desde hoja de trabajo con pocas filas".
+
+**Fix:** Cambiado a `len(req.data) == 0` — solo hace file lookup cuando el frontend no envió datos inline (caso de datasets del servidor que mandan `data: []`).
+
+**Archivos modificados:**
+| Archivo | Cambio |
+|---------|--------|
+| `ml_service/main.py:147` | `len(req.data) <= 20` → `len(req.data) == 0` |
+
+**Comportamiento:**
+```
+Antes:  data=[] (servidor) → file lookup ✓
+        data≤20 filas (worksheet) → file lookup ✗ (bug)
+Después: data=[] (servidor) → file lookup ✓
+         data>0 filas (worksheet) → usa datos inline ✓
+```
+
 ### 2026-05-30: Fix 404 en train ML — dataset_name sin extensión .csv
 
 **Qué:** Todo intento de entrenar un modelo nuevo fallaba con `Dataset 'X' not found in /app/Red_Neuronal/datos` porque el backend construía `csv_path = DATOS_DIR / req.dataset_name` sin extensión `.csv`. Los datasets se registran con `csv_file.stem` (nombre sin extensión) en `get_available_datasets()`, pero al buscar el archivo físico faltaba el `.csv`.

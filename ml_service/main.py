@@ -143,8 +143,8 @@ def health():
 @app.post("/api/ml/train")
 def train_endpoint(req: TrainRequest):
     try:
-        # If dataset_name provided, load full CSV directly (avoids preview 10-row limit)
-        if req.dataset_name and (not req.data or len(req.data) <= 20):
+        # If dataset_name provided with no inline data, load full CSV from disk (avoids preview 10-row limit)
+        if req.dataset_name and (not req.data or len(req.data) == 0):
             csv_path = DATOS_DIR / f"{req.dataset_name}.csv"
             if not csv_path.exists():
                 csv_path = DATOS_DIR / req.dataset_name
