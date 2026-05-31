@@ -7,8 +7,13 @@ require('dotenv').config();
 
 // ── Validación de variables de entorno críticas ──
 if (!process.env.JWT_SECRET) {
-    console.error('ERROR: JWT_SECRET no está definido en el archivo .env');
-    console.error('Por favor, agrega JWT_SECRET=tu-clave-secreta-aqui al archivo .env');
+    console.warn('⚠️  JWT_SECRET no definido. Generando clave temporal...');
+    console.warn('⚠️  Configúralo con: flyctl secrets set JWT_SECRET=<clave>');
+    const crypto = require('crypto');
+    process.env.JWT_SECRET = crypto.randomBytes(48).toString('hex');
+} else if (process.env.JWT_SECRET.length < 26) {
+    console.error('ERROR: JWT_SECRET debe tener al menos 26 caracteres');
+    console.error(`Actual: ${process.env.JWT_SECRET.length} caracteres`);
     console.error('Genera una clave: node -e "console.log(require(\'crypto\').randomBytes(32).toString(\'hex\'))"');
     process.exit(1);
 }

@@ -103,26 +103,17 @@ ReporteManager → [✍️ Enviar a firma] → firmarReporte (sin campos de firm
 | `js/core/indexx.js:310` | Handler Untitled usa `closeTab(t, e)` |
 | `js/core/indexx.js:764` | Handler pageTab usa `closeTab(pageTab, e)` |
 
-### 2026-05-30: Fix ML training 404 por cold-start de Fly.io
+### 2026-05-30: Fix JWT_SECRET crash en Fly.io + CORS ML Service
 
-**Qué:** `POST /api/ml/train` devolvía 404 cuando Fly.io detenía la máquina ML por inactividad (cold-start). Solución dual:
-
-1. **Frontend (`ml.js:_fetch`)**: Reintento automático hasta 3 veces con 1.5s de espera si recibe 404, permitiendo que Fly.io termine de arrancar la máquina.
-2. **ML Service (`ml_service/fly.toml`)**: `min_machines_running = 1` para mantener al menos 1 máquina siempre activa.
-
-**Archivos modificados:**
-| Archivo | Cambio |
-|---------|--------|
-| `js/pages/ml.js:17-50` | Retry 3x con delay 1.5s en `_fetch()` para status 404 |
-
-### 2026-05-30: Fix CORS ML Service — middleware manual para preflight OPTIONS
-
-**Qué:** Error CORS al llamar ML Service desde GitHub Pages: preflight OPTIONS no retornaba `Access-Control-Allow-Origin`. Se agregó middleware HTTP personalizado en FastAPI que intercepta OPTIONS y agrega headers CORS a toda respuesta.
+**Qué:** 
+1. **Backend** crasheaba con `process.exit(1)` si `JWT_SECRET` no estaba configurado en Fly.io. Ahora genera una clave temporal automáticamente si no existe (con warning), permitiendo que la app arranque en el primer deploy.
+2. **ML Service**: middleware CORS manual para OPTIONS preflight.
 
 **Archivos modificados:**
 | Archivo | Cambio |
 |---------|--------|
-| `ml_service/main.py:47-64` | Nuevo `@app.middleware("http")` cors_middleware que maneja OPTIONS y agrega headers CORS a toda respuesta |
+| `backend/server.js:8-16` | `JWT_SECRET` ausente → genera clave random en vez de `process.exit(1)` |
+| `ml_service/main.py:47-64` | Nuevo middleware HTTP que maneja OPTIONS y agrega CORS headers |
 
 ### 2026-05-30: ReporteManager envía directo a firma (sin descarga intermedia)
 
