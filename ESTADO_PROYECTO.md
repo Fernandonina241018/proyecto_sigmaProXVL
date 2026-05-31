@@ -92,6 +92,15 @@ ReporteManager → [✍️ Enviar a firma] → firmarReporte (sin campos de firm
 | `js/core/indexx.js:4140-4143` | `firmaUpdateResetBtn()` usa `_firmaIsNewSession` |
 | `js/core/indexx.js:4192` | Timestamp en filename de `firmaDownload()` |
 
+### 2026-05-30: Fix retry ML Service — también reintentar en 503 (no solo 404)
+
+**Qué:** El error `503 (Service Unavailable)` en `ml.js:28` no era capturado por el retry, que solo manejaba `404`. Fly.io responde con 503 durante el cold start de la máquina. Se agregó `|| res.status === 503` a la condición de reintento.
+
+**Archivos modificados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/pages/ml.js:29` | `if (res.status === 404 && _retries > 0)` → `if ((res.status === 404 \|\| res.status === 503) && _retries > 0)` |
+
 ### 2026-05-30: Cerrar tab redirige foco + bloqueo última pestaña
 
 **Qué:** Al presionar "X" en una pestaña, ahora el foco se mueve automáticamente a la pestaña adyacente (derecha → izquierda). Si solo hay una pestaña abierta, no se puede cerrar. Si no quedan pestañas, se muestra un mensaje en los paneles.

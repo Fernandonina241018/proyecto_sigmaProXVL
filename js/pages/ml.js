@@ -26,7 +26,7 @@ const MLManager = (() => {
         if (body) opts.body = JSON.stringify(body);
         try {
             const res = await fetch(apiUrl + path, opts);
-            if (res.status === 404 && _retries > 0) {
+            if ((res.status === 404 || res.status === 503) && _retries > 0) {
                 await new Promise(r => setTimeout(r, 1500));
                 return _fetch(method, path, body, _retries - 1);
             }
