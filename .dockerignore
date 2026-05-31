@@ -1,3 +1,7 @@
 *
 !backend/
 !backend/**/*
+!ml_service/
+!ml_service/**/*
+!Red_Neuronal/
+!Red_Neuronal/**/*

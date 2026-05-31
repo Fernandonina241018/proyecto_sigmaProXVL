@@ -92,6 +92,15 @@ ReporteManager → [✍️ Enviar a firma] → firmarReporte (sin campos de firm
 | `js/core/indexx.js:4140-4143` | `firmaUpdateResetBtn()` usa `_firmaIsNewSession` |
 | `js/core/indexx.js:4192` | Timestamp en filename de `firmaDownload()` |
 
+### 2026-05-30: Fix deploy ML Service — .dockerignore bloqueaba ml_service/ y Red_Neuronal/
+
+**Qué:** El build del ML Service fallaba con `"/Red_Neuronal": not found` porque el `.dockerignore` raíz excluía todo excepto `backend/`. Los directorios `ml_service/` y `Red_Neuronal/` no estaban en el build context (solo 2 bytes transferidos).
+
+**Archivos modificados:**
+| Archivo | Cambio |
+|---------|--------|
+| `.dockerignore` | Agregadas excepciones `!ml_service/`, `!ml_service/**/*`, `!Red_Neuronal/`, `!Red_Neuronal/**/*` |
+
 ### 2026-05-30: Fix deploy ML Service — dockerfile path duplicado en fly.toml
 
 **Qué:** El error `dockerfile 'ml_service/ml_service/Dockerfile' not found` ocurría porque `ml_service/fly.toml` tenía `dockerfile = 'ml_service/Dockerfile'`, pero la ruta es relativa a la ubicación del `fly.toml`. Como el fly.toml ya está dentro de `ml_service/`, la ruta resolvía a `ml_service/ml_service/Dockerfile`.
