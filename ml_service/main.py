@@ -145,9 +145,11 @@ def train_endpoint(req: TrainRequest):
     try:
         # If dataset_name provided, load full CSV directly (avoids preview 10-row limit)
         if req.dataset_name and (not req.data or len(req.data) <= 20):
-            csv_path = DATOS_DIR / req.dataset_name
+            csv_path = DATOS_DIR / f"{req.dataset_name}.csv"
             if not csv_path.exists():
-                found = list(DATOS_DIR.glob(f"**/{req.dataset_name}"))
+                csv_path = DATOS_DIR / req.dataset_name
+            if not csv_path.exists():
+                found = list(DATOS_DIR.glob(f"**/{req.dataset_name}.*"))
                 if found:
                     csv_path = found[0]
             if csv_path.exists():
@@ -301,9 +303,11 @@ def list_datasets():
 @app.post("/api/ml/dataset/preview")
 def preview_dataset(req: CSVLoadRequest):
     try:
-        path = DATOS_DIR / req.filename
+        path = DATOS_DIR / f"{req.filename}.csv"
         if not path.exists():
-            for p in DATOS_DIR.glob(f"**/{req.filename}"):
+            path = DATOS_DIR / req.filename
+        if not path.exists():
+            for p in DATOS_DIR.glob(f"**/{req.filename}.*"):
                 path = p
                 break
             if not path.exists():

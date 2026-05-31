@@ -92,6 +92,24 @@ ReporteManager → [✍️ Enviar a firma] → firmarReporte (sin campos de firm
 | `js/core/indexx.js:4140-4143` | `firmaUpdateResetBtn()` usa `_firmaIsNewSession` |
 | `js/core/indexx.js:4192` | Timestamp en filename de `firmaDownload()` |
 
+### 2026-05-30: Fix 404 en train ML — dataset_name sin extensión .csv
+
+**Qué:** Todo intento de entrenar un modelo nuevo fallaba con `Dataset 'X' not found in /app/Red_Neuronal/datos` porque el backend construía `csv_path = DATOS_DIR / req.dataset_name` sin extensión `.csv`. Los datasets se registran con `csv_file.stem` (nombre sin extensión) en `get_available_datasets()`, pero al buscar el archivo físico faltaba el `.csv`.
+
+**Archivos modificados:**
+| Archivo | Cambio |
+|---------|--------|
+| `ml_service/main.py:148-152` | `csv_path` ahora intenta con `.csv` primero, luego sin extensión, luego glob con `.*` |
+| `ml_service/main.py:304-307` | Mismo fix en endpoint `/api/ml/dataset/preview` |
+
+**Flujo corregido:**
+```
+Antes:  csv_path = DATOS_DIR / "entren_temo_c_f"       → no existe ✗
+Después: csv_path = DATOS_DIR / "entren_temo_c_f.csv"   → existe ✓
+         fallback: DATOS_DIR / "entren_temo_c_f"         → sin extensión
+         fallback: glob("**/entren_temo_c_f.*")          → cualquier extensión
+```
+
 ### 2026-05-30: Fix deploy ML Service — .dockerignore bloqueaba ml_service/ y Red_Neuronal/
 
 **Qué:** El build del ML Service fallaba con `"/Red_Neuronal": not found` porque el `.dockerignore` raíz excluía todo excepto `backend/`. Los directorios `ml_service/` y `Red_Neuronal/` no estaban en el build context (solo 2 bytes transferidos).
