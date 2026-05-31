@@ -14,7 +14,8 @@ const MLManager = (() => {
         return 'http://localhost:8000';
     }
 
-    async function _fetch(method, path, body) {
+    async function _fetch(method, path, body, _retries) {
+        if (_retries === undefined) _retries = 3;
         const token = typeof Auth !== 'undefined' ? Auth.getToken() : null;
         const apiUrl = _getMlApiUrl();
         const opts = {
@@ -25,6 +26,10 @@ const MLManager = (() => {
         if (body) opts.body = JSON.stringify(body);
         try {
             const res = await fetch(apiUrl + path, opts);
+            if (res.status === 404 && _retries > 0) {
+                await new Promise(r => setTimeout(r, 1500));
+                return _fetch(method, path, body, _retries - 1);
+            }
             if (!res.ok) {
                 const text = await res.text();
                 let msg;

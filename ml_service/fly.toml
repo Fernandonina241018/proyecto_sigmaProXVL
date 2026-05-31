@@ -1,0 +1,19 @@
+# fly.toml for sigmapro-ml (ML Service)
+app = 'sigmapro-ml'
+primary_region = 'dfw'
+
+[build]
+  dockerfile = 'ml_service/Dockerfile'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ['app']
+
+[[vm]]
+  memory = '2gb'
+  cpus = 1
+  memory_mb = 2048
