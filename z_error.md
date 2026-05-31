@@ -1,1 +1,1 @@
-Error: ML Service no disponible: connect ECONNREFUSED 127.0.0.1:8000
+Error: failed to fetch an image or build from source: dockerfile 'G:\My Drive\SigmaProWeb\proyecto_sigmaProXVL\ml_service\ml_service\Dockerfile' not found
