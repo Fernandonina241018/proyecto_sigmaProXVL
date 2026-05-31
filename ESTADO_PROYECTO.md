@@ -92,6 +92,23 @@ ReporteManager → [✍️ Enviar a firma] → firmarReporte (sin campos de firm
 | `js/core/indexx.js:4140-4143` | `firmaUpdateResetBtn()` usa `_firmaIsNewSession` |
 | `js/core/indexx.js:4192` | Timestamp en filename de `firmaDownload()` |
 
+### 2026-05-30: Fix deploy ML Service — dockerfile path duplicado en fly.toml
+
+**Qué:** El error `dockerfile 'ml_service/ml_service/Dockerfile' not found` ocurría porque `ml_service/fly.toml` tenía `dockerfile = 'ml_service/Dockerfile'`, pero la ruta es relativa a la ubicación del `fly.toml`. Como el fly.toml ya está dentro de `ml_service/`, la ruta resolvía a `ml_service/ml_service/Dockerfile`.
+
+**Esto también explica el error 503 persistente:** la app `sigmapro-ml` en Fly.io tenía desplegado el backend Express (por deploy con config incorrecta) en vez del ML Service FastAPI. Al intentar proxy a `localhost:8000`, fallaba con `ECONNREFUSED`.
+
+**Archivos modificados:**
+| Archivo | Cambio |
+|---------|--------|
+| `ml_service/fly.toml:6` | `dockerfile = 'ml_service/Dockerfile'` → `dockerfile = 'Dockerfile'` |
+
+**Comando correcto para redeploy:**
+```bash
+# Desde la raíz del proyecto:
+flyctl deploy --app sigmapro-ml --config ml_service/fly.toml
+```
+
 ### 2026-05-30: Solución definitiva 503 — Warm-up híbrido (health ping + keep-alive)
 
 **Qué:** Se eliminó la causa raíz del 503 (cold start Fly.io) con un enfoque híbrido:

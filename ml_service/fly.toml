@@ -3,7 +3,7 @@ app = 'sigmapro-ml'
 primary_region = 'dfw'
 
 [build]
-  dockerfile = 'ml_service/Dockerfile'
+  dockerfile = 'Dockerfile'
 
 [http_service]
   internal_port = 8080
