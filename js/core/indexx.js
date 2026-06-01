@@ -1056,10 +1056,9 @@ function vizCaptureCardImage(id) {
   var chart = _vizChartInstances[id];
   if (!chart || !chart.canvas) return;
   // Forzar render final sin animación
-  if (chart.options.animation !== false) {
-    chart.options.animation = false;
-    chart.update();
-  }
+  chart.options.animation = false;
+  chart.update();
+  chart.resize();
   // Captura síncrona inmediata (fallback para reportes)
   _vizSetImage(id, chart);
   // Captura asíncrona tras 2 frames (mejor calidad, Chart.js resize completo)
@@ -1078,7 +1077,7 @@ function _vizSetImage(id, chart) {
     var canvas = chart.canvas;
     var w = canvas.width;
     var h = canvas.height;
-    var maxRatio = 1.6;
+    var maxRatio = 4.0;
     var minH = Math.floor(w / maxRatio);
     if (h < minH) {
       var oc = document.createElement('canvas');
@@ -1541,6 +1540,8 @@ function createChartCard(id, title, container, height, params) {
   void bodyEl.offsetHeight;
   canvas.width = bodyEl.clientWidth - 20;
   canvas.height = bodyEl.clientHeight - 20;
+  canvas.style.width = canvas.width + 'px';
+  canvas.style.height = canvas.height + 'px';
   return canvas;
 }
 
