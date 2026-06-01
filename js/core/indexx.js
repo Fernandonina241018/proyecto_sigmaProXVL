@@ -4209,7 +4209,7 @@ function firmaDownload() {
     a.href = url;
 
     // Append _firmado suffix to avoid browser collision (1) and clearly mark as signed
-    var ts = new Date().toISOString().slice(0,19).replace(/[T:]/g,'-');
+    var ts = new Date().toISOString().slice(0,10);
     var baseName = (_firmaOriginalName || 'reporte_firmado').replace(/\.html$/i, '');
     a.download = baseName + '_firmado_' + ts + '.html';
     document.body.appendChild(a);
