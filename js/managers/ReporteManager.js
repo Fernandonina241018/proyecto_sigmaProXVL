@@ -1907,7 +1907,7 @@ tr:hover td{background:#f7faff}
         const base = `RPT-${hash}_${new Date().toISOString().slice(0,10)}`;
         let delay = 0;
         if(formatos.includes('html')){setTimeout(()=>downloadBlob(generarHTML(resultados,meta,hash),`${base}.html`,'text/html;charset=utf-8'),delay);delay+=350;}
-        if(formatos.includes('pdf')){setTimeout(()=>{const html=generarHTML(resultados,meta,hash);const w=window.open('','_blank');w.document.write(html);w.document.close();w.print();},delay);delay+=350;}
+        if(formatos.includes('pdf')){setTimeout(()=>{const html=generarHTML(resultados,meta,hash);const blob=new Blob([html],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const w=window.open(url,'_blank');if(w){w.onload=function(){w.print();URL.revokeObjectURL(url);};}},delay);delay+=350;}
         if(formatos.includes('txt')){setTimeout(()=>downloadBlob(generarTXT(resultados,meta,hash),`${base}.txt`,'text/plain;charset=utf-8'),delay);delay+=350;}
         if(formatos.includes('csv')){setTimeout(()=>downloadBlob(generarCSV(resultados,meta,hash),`${base}.csv`,'text/csv;charset=utf-8'),delay);}
         

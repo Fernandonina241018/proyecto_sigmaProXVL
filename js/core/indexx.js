@@ -2581,6 +2581,10 @@ function initDatosPage() {
 }
 
 function handleFile(file) {
+  if (file.size > 10 * 1024 * 1024) {
+    showToast('⚠️ El archivo excede el límite de 10 MB');
+    return;
+  }
   var ext = file.name.split('.').pop().toLowerCase();
   if (ext === 'csv') parseCSV(file);
   else if (ext === 'json') parseJSON(file);
