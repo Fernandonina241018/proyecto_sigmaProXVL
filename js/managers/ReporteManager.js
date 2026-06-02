@@ -1927,7 +1927,7 @@ tr:hover td{background:#f7faff}
         const state     =StateManager.getState();
         const resultados=(typeof ultimosResultados!=='undefined')?ultimosResultados:null;
         const tieneRes  =!!(resultados?.columnasAnalizadas?.length);
-        const fileName  =state.fileName||'';
+        const fileName  =state.fileName||(typeof datosCurrentFileName!=='undefined'?datosCurrentFileName:'')||'';
         const sel       =(lbl)=>`— ${currentLang==='es'?'Seleccionar':'Select'}: ${lbl} —`;
 
         container.innerHTML=`
