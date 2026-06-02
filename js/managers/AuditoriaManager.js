@@ -129,7 +129,7 @@ const AuditoriaManager = (() => {
     // ── Exportar CSV ───────────────────────
     function exportarCSV() {
         if (!_filteredLogs.length) {
-            alert('⚠️ No hay registros para exportar.');
+            showToast('⚠️ No hay registros para exportar.');
             return;
         }
 

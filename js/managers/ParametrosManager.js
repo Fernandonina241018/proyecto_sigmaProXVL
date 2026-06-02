@@ -262,7 +262,7 @@ const ParametrosManager = (() => {
             if (typeof _showToast === 'function') {
                 _showToast('✅ Umbrales de dispersión guardados');
             } else {
-                alert('✅ Umbrales de dispersión guardados');
+                showToast('✅ Umbrales de dispersión guardados');
             }
         };
     }

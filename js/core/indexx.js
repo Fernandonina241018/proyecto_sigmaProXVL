@@ -2312,7 +2312,7 @@ function createNewSheet() {
   var name = prompt('Nombre de la nueva hoja:', 'Hoja' + (trabajoSheets.length + 1));
   if (!name || !name.trim()) return;
   name = name.trim();
-  if (trabajoSheets.find(function(s){ return s.name === name; })) { alert('Ya existe una hoja con ese nombre.'); return; }
+  if (trabajoSheets.find(function(s){ return s.name === name; })) { showToast('⚠️ Ya existe una hoja con ese nombre.'); return; }
   trabajoSheets.push({ name:name, headers:['Columna1','Columna2','Columna3','Columna4'], rows:Array.from({length:20}, function(){ return ['','','','']; }) });
   trabajoActiveSheetIndex = trabajoSheets.length - 1;
   trabajoActiveCell = {row:0,col:0};
@@ -2327,7 +2327,7 @@ function switchToSheet(index) {
 }
 function deleteSheet(index, evt) {
   evt && evt.stopPropagation();
-  if (trabajoSheets.length <= 1) { alert('No se puede eliminar la única hoja.'); return; }
+  if (trabajoSheets.length <= 1) { showToast('⚠️ No se puede eliminar la única hoja.'); return; }
   if (!confirm('¿Eliminar la hoja "' + trabajoSheets[index].name + '"?')) return;
   trabajoSheets.splice(index, 1);
   if (trabajoActiveSheetIndex >= trabajoSheets.length) trabajoActiveSheetIndex = trabajoSheets.length - 1;
@@ -2500,7 +2500,7 @@ function limpiarDataset() {
 }
 
 function exportTrabajo() {
-  var sheet = getCurrentSheet(); if (!sheet) { alert('No hay datos.'); return; }
+  var sheet = getCurrentSheet(); if (!sheet) { showToast('⚠️ No hay datos.'); return; }
   var csv = sheet.headers.join(',') + '\n';
   sheet.rows.forEach(function(r){ csv += r.map(function(c){ var s=String(c||''); return (s.includes(',')||s.includes('"')||s.includes('\n'))?'"'+s.replace(/"/g,'""')+'"':s; }).join(',') + '\n'; });
   var blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
@@ -2597,19 +2597,19 @@ function handleFile(file) {
   if (ext === 'csv') parseCSV(file);
   else if (ext === 'json') parseJSON(file);
   else if (ext === 'xlsx' || ext === 'xls') parseXLSX(file);
-  else alert('Formato no soportado. Usa CSV, JSON o Excel (.xlsx).');
+  else showToast('⚠️ Formato no soportado. Usa CSV, JSON o Excel (.xlsx).');
 }
 
 function parseCSV(file) {
   Papa.parse(file, {
     complete: function(results) {
       var data = results.data;
-      if (!data || data.length === 0) { alert('El archivo está vacío'); return; }
+      if (!data || data.length === 0) { showToast('⚠️ El archivo está vacío'); return; }
       var headers = data[0];
       var rows = data.slice(1).filter(function(r){ return r.some(function(c){ return c && c.trim(); }); });
       finishLoad(headers, rows, file.name, file.size);
     },
-    error: function(err){ alert('Error CSV: ' + err.message); },
+    error: function(err){ showToast('⚠️ Error CSV: ' + err.message, true); },
     skipEmptyLines: true
   });
 }
@@ -2627,9 +2627,9 @@ function parseJSON(file) {
         headers = Object.keys(json);
         rows = [Object.values(json).map(function(v){ return String(v); })];
       }
-      if (!headers.length) { alert('JSON inválido o vacío'); return; }
+      if (!headers.length) { showToast('⚠️ JSON inválido o vacío'); return; }
       finishLoad(headers, rows, file.name, file.size);
-    } catch(err) { alert('Error JSON: ' + err.message); }
+    } catch(err) { showToast('⚠️ Error JSON: ' + err.message, true); }
   };
   reader.readAsText(file);
 }
@@ -2645,15 +2645,15 @@ function parseXLSX(file) {
         var wb = XLSX.read(data, {type:'array'});
         var ws = wb.Sheets[wb.SheetNames[0]];
         var jsonData = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
-        if (!jsonData.length) { alert('El archivo está vacío'); return; }
+        if (!jsonData.length) { showToast('⚠️ El archivo está vacío'); return; }
         var headers = jsonData[0].map(function(h){ return String(h || ''); });
         var rows = jsonData.slice(1).filter(function(r){ return r.some(function(c){ return c !== ''; }); })
           .map(function(r){ return headers.map(function(_,i){ return r[i] == null ? '' : String(r[i]); }); });
         finishLoad(headers, rows, file.name, file.size);
       } else {
-        alert('Para archivos Excel, instala la librería SheetJS. Por ahora usa CSV.');
+        showToast('⚠️ Para archivos Excel, instala la librería SheetJS.', true);
       }
-    } catch(err) { alert('Error Excel: ' + err.message); }
+    } catch(err) { showToast('⚠️ Error Excel: ' + err.message, true); }
   };
   reader.readAsArrayBuffer(file);
 }
@@ -2687,7 +2687,7 @@ function showPasteModal() {
   document.getElementById('pasteCancel').addEventListener('click', function(){ modal.remove(); });
   document.getElementById('pasteConfirm').addEventListener('click', function(){
     var text = document.getElementById('pasteTA').value;
-    if (!text.trim()) { alert('No hay datos'); return; }
+    if (!text.trim()) { showToast('⚠️ No hay datos'); return; }
     parsePastedData(text); modal.remove();
   });
   modal.addEventListener('click', function(e){ if (e.target === modal) modal.remove(); });
@@ -2711,7 +2711,7 @@ function datosSetSort(colIdx) {
 
 // ── Filters ──
 function showFilterModal() {
-  if (!datosCurrentData) { alert('Carga un dataset primero.'); return; }
+  if (!datosCurrentData) { showToast('⚠️ Carga un dataset primero.'); return; }
   var modal = document.createElement('div'); modal.className = 'modal-overlay';
   var colOpts = datosCurrentData.headers.map(function(h,i){ return '<option value="' + i + '">' + escapeHtml(h) + '</option>'; }).join('');
   modal.innerHTML = '<div class="modal-box"><div class="modal-title">🔍 Agregar filtro</div>' +
@@ -2870,7 +2870,7 @@ function renderDatosTable() {
 
 // ── Export modal ──
 function showExportModal() {
-  if (!datosCurrentData) { alert('No hay datos para exportar.'); return; }
+  if (!datosCurrentData) { showToast('⚠️ No hay datos para exportar.'); return; }
   var modal = document.createElement('div'); modal.className = 'modal-overlay';
   var colChecks = datosCurrentData.headers.map(function(h,i){
     return '<label class="col-toggle"><input type="checkbox" checked data-ci="' + i + '"> ' + escapeHtml(h) + '</label>';
@@ -2884,7 +2884,7 @@ function showExportModal() {
   document.getElementById('expGo').addEventListener('click', function(){
     var fmt = document.getElementById('expFmt').value;
     var selCols = Array.from(document.querySelectorAll('#expCols input:checked')).map(function(el){ return parseInt(el.dataset.ci); });
-    if (!selCols.length) { alert('Selecciona al menos una columna.'); return; }
+    if (!selCols.length) { showToast('⚠️ Selecciona al menos una columna.'); return; }
     doExport(fmt, selCols); modal.remove();
   });
   modal.addEventListener('click', function(e){ if (e.target === modal) modal.remove(); });
@@ -2972,12 +2972,12 @@ function loadRecentFile(index) {
     datosCurrentFileName = file.name;
     updateDatosUI();
   } else {
-    alert('Datos no disponibles en memoria. Vuelve a importar el archivo.');
+    showToast('⚠️ Datos no disponibles en memoria. Vuelve a importar el archivo.');
   }
 }
 
 function sendToTrabajo() {
-  if (!datosCurrentData) { alert('No hay datos para enviar. Importa un archivo primero.'); return; }
+  if (!datosCurrentData) { showToast('⚠️ No hay datos para enviar. Importa un archivo primero.'); return; }
   var name = datosCurrentFileName.replace(/\.[^.]+$/, '');
   var existIdx = trabajoSheets.findIndex(function(s){ return s.name === name; });
   if (existIdx !== -1) { trabajoActiveSheetIndex = existIdx; loadPage('trabajo'); return; }
