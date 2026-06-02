@@ -86,6 +86,69 @@ const StatsUtils = (function () {
         return count;
     }
 
+    /**
+     * Analiza todas las columnas del dataset y reporta densidad, tipo, etc.
+     *
+     * @param {Object} data - { headers: string[], data: Array[]|Object[] }
+     * @returns {Object[]} Array con { header, total, validos, numericRatio, density, type, viable }
+     */
+    function analyzeColumns(data) {
+        if (!data || !data.headers || !data.data) return [];
+        return data.headers.map(function(header) {
+            const excludeCols = ['#', 'A', 'Row', 'row', 'INDEX', 'index', 'row_index'];
+            if (excludeCols.includes(header)) return null;
+            const idx = data.headers.indexOf(header);
+            const values = data.data.map(function(row) {
+                return Array.isArray(row) ? row[idx] : row[header];
+            });
+            const total = values.length;
+            const validos = values.filter(function(v) {
+                return v !== null && v !== '' && v !== undefined;
+            }).length;
+            const numericos = values.filter(function(v) {
+                return !isNaN(parseFloat(v)) && isFinite(parseFloat(v));
+            }).length;
+            const density = validos / total;
+            const numericRatio = total > 0 ? numericos / total : 0;
+            let type = 'no-numerica';
+            if (numericRatio >= 0.5) type = 'numerica';
+            else if (numericRatio > 0) type = 'mixta';
+            return {
+                header: header,
+                total: total,
+                validos: validos,
+                numericos: numericos,
+                density: density,
+                numericRatio: numericRatio,
+                type: type,
+                viable: numericRatio >= 0.5
+            };
+        }).filter(Boolean);
+    }
+
+    /**
+     * Imputa valores no numéricos usando la media de la columna
+     */
+    function imputeColumn(data, colName, method) {
+        method = method || 'media';
+        const idx = data.headers.indexOf(colName);
+        if (idx === -1) return;
+        const vals = data.data.map(function(row) {
+            const v = Array.isArray(row) ? row[idx] : row[colName];
+            const n = parseFloat(v);
+            return !isNaN(n) && isFinite(n) ? n : NaN;
+        }).filter(function(v) { return !isNaN(v); });
+        if (vals.length === 0) return;
+        const mean = vals.reduce(function(a, b) { return a + b; }, 0) / vals.length;
+        data.data.forEach(function(row) {
+            const v = Array.isArray(row) ? row[idx] : row[colName];
+            if (v === null || v === '' || v === undefined || isNaN(parseFloat(v))) {
+                if (Array.isArray(row)) row[idx] = mean;
+                else row[colName] = mean;
+            }
+        });
+    }
+
     // ========================================
     // MEDIDAS DE TENDENCIA CENTRAL
     // ========================================
@@ -515,6 +578,8 @@ const StatsUtils = (function () {
         calcularErrorEstandar,
 
         // Utilidades
+        analyzeColumns,
+        imputeColumn,
         resumenEstadistico
     };
 })();

@@ -100,11 +100,20 @@ const EstadisticaDescriptiva = (() => {
     }
     
     /**
-     * Identifica columnas numéricas (umbral 80%, específico de este módulo)
+     * Identifica columnas numéricas (umbral configurable desde el panel)
      */
     function getNumericColumns(data) {
+        var th = (typeof columnAnalysisConfig !== 'undefined' && columnAnalysisConfig)
+            ? columnAnalysisConfig.threshold
+            : 0.5;
+        if (typeof columnAnalysisConfig !== 'undefined' && columnAnalysisConfig.forceInclude) {
+            var info = Stats.analyzeColumns(data);
+            return info
+                .filter(function(c) { return c.numericRatio > 0; })
+                .map(function(c) { return c.header; });
+        }
         return Stats.getNumericColumns(data, {
-            threshold: 0.5,
+            threshold: th,
             excludeColumns: ['#', 'Row', 'row', 'INDEX', 'index', 'row_index', 'No.', 'N°']
         });
     }
@@ -3711,6 +3720,13 @@ interpretacion: interpretacion,
      * @param {Object} hypothesisConfig - Configuración de pruebas de hipótesis (opcional)
      */
     function ejecutarAnalisis(data, estadisticos, hypothesisConfig = {}) {
+        // Imputación si está configurada
+        if (typeof columnAnalysisConfig !== 'undefined' && columnAnalysisConfig && columnAnalysisConfig.imputeMissing) {
+            data.headers.forEach(function(h) {
+                Stats.imputeColumn(data, h, columnAnalysisConfig.imputeMethod || 'media');
+            });
+        }
+        
         const numericCols = getNumericColumns(data);
         
         if (numericCols.length === 0) {
