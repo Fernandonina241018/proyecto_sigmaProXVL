@@ -372,7 +372,15 @@ var leftPanels = {
       '</div>' +
       '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">Resumen</div><div class="info-list" id="trabajoResumen">' + getTrabajoResumenHTML() + '</div></div>' +
       '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">Celda activa</div><div class="info-list" id="trabajoCeldaActiva">' + getTrabajoCeldaActivaHTML() + '</div></div>' +
-
+      '<div class="info-section" style="flex-shrink:0">' +
+        '<div class="info-section-header" style="display:flex;align-items:center;justify-content:space-between">' +
+          '<span>📐 Límites</span>' +
+          '<label style="font-size:10px;color:var(--text-faint);display:flex;align-items:center;gap:3px;cursor:pointer">' +
+            '<input type="checkbox" id="limitsGlobalToggle" ' + (trabajoLimitsMode === 'global' ? 'checked' : '') + ' onchange="toggleLimitsMode()"> Global' +
+          '</label>' +
+        '</div>' +
+        '<div class="info-list" id="trabajoLimitsBody"></div>' +
+      '</div>' +
     '</div>';
   },
   datos: function() {
