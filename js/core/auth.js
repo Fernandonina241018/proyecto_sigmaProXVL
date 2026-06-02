@@ -20,6 +20,7 @@ const Auth = (() => {
 
     let _sessionTimer=null, _warnTimer=null, _countdownTimer=null;
     let _attempts=0, _locked=false, _onLogin=null, _onLogout=null;
+    let _token=null;
 
     // ── Verificación contra backend ───────
     async function _verifyCredentials(user, password) {
@@ -31,14 +32,14 @@ const Auth = (() => {
             });
             const data = await res.json();
             if (!res.ok) return { ok: false, error: data.error || 'Credenciales incorrectas' };
-            sessionStorage.setItem(CFG.TOKEN_STORAGE_KEY, data.token);
+            _token = data.token;
             return { ok: true, username: data.username, role: data.role, token: data.token, mustChangePassword: data.mustChangePassword || false };
         } catch {
             return { ok: false, error: 'No se pudo conectar con el servidor.' };
         }
     }
 
-    function getToken() { return sessionStorage.getItem(CFG.TOKEN_STORAGE_KEY); }
+    function getToken() { return _token; }
 
     // ── Sesión ────────────────────────────
     function _startSession(userData) {
@@ -52,7 +53,7 @@ const Auth = (() => {
     }
     function _clearSession() {
         sessionStorage.removeItem(CFG.SESSION_STORAGE_KEY);
-        sessionStorage.removeItem(CFG.TOKEN_STORAGE_KEY);
+        _token = null;
         clearTimeout(_sessionTimer); clearTimeout(_warnTimer); clearInterval(_countdownTimer);
         _sessionTimer=null; _warnTimer=null; _countdownTimer=null;
     }
