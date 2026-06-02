@@ -90,9 +90,9 @@ const AuditoriaManager = (() => {
         // FallsPorUsuario altos
         Object.entries(s.failsByUser).forEach(([user, count]) => {
             if (count >= 5) {
-                alertas.push({ tipo: 'ALTO', msg: `${count} intentos fallidos del usuario "${user}"` });
+                alertas.push({ tipo: 'ALTO', msg: `${count} intentos fallidos del usuario "${escapeHtml(user)}"` });
             } else if (count >= 3) {
-                alertas.push({ tipo: 'MEDIO', msg: `${count} intentos fallidos del usuario "${user}"` });
+                alertas.push({ tipo: 'MEDIO', msg: `${count} intentos fallidos del usuario "${escapeHtml(user)}"` });
             }
         });
         
@@ -320,7 +320,7 @@ const AuditoriaManager = (() => {
         }
         
         container.innerHTML = alertas.map(a => 
-            `<div class="aud-alert aud-alert-${a.tipo.toLowerCase()}">⚠️ ${a.msg}</div>`
+            `<div class="aud-alert aud-alert-${a.tipo.toLowerCase()}">⚠️ ${escapeHtml(a.msg)}</div>`
         ).join('');
     }
 

@@ -197,7 +197,7 @@ const MLManager = (() => {
                 sel.innerHTML = '<option value="">— No hay datasets —</option>';
             }
         } catch (e) {
-            sel.innerHTML = '<option value="">— Error: ' + e.message + ' —</option>';
+            sel.innerHTML = '<option value="">— Error: ' + escapeHtml(e.message) + ' —</option>';
             showToast('Error al cargar datasets: ' + e.message, 'error');
         }
     }
@@ -219,7 +219,7 @@ const MLManager = (() => {
                 sel.appendChild(opt);
             });
         } catch (e) {
-            sel.innerHTML = '<option value="">— Error: ' + e.message + ' —</option>';
+            sel.innerHTML = '<option value="">— Error: ' + escapeHtml(e.message) + ' —</option>';
             showToast('Error al cargar modelos: ' + e.message, 'error');
         }
     }
@@ -465,7 +465,7 @@ const MLManager = (() => {
         var title = document.createElement('div');
         title.className = 'modal-title';
         title.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:16px 24px;font-size:15px;font-weight:700;border-bottom:1px solid var(--border);background:var(--item-bg)';
-        title.innerHTML = '<span>🔮 Predecir con ' + modelId + '</span>';
+        title.innerHTML = '<span>🔮 Predecir con ' + escapeHtml(modelId) + '</span>';
         var toggleLabel = document.createElement('label');
         toggleLabel.style.cssText = 'font-size:10px;display:flex;align-items:center;gap:4px;cursor:pointer;color:var(--text-faint);user-select:none';
         toggleLabel.innerHTML = '<input type="checkbox" id="ml-expert-toggle"> Modo experto';
