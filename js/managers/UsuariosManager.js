@@ -262,9 +262,9 @@ const UsuariosManager = (() => {
                     <div class="usr-card-avatar" style="background: ${avatarColor}">${iniciales}</div>
                     <div class="usr-card-info">
                         <div class="usr-card-nombre">${escapeHtml(nombreCompleto)}${isMe ? ' <span class="usr-card-me">Tú</span>' : ''}</div>
-                        <div class="usr-card-email">${u.email || '-'}</div>
+                        <div class="usr-card-email">${escapeHtml(u.email || '-')}</div>
                         ${u.cargo ? '<div class="usr-card-phone">💼 ' + escapeHtml(u.cargo) + '</div>' : ''}
-                        <div class="usr-card-phone">📱 ${u.telefono || 'No registrado'}</div>
+                        <div class="usr-card-phone">📱 ${escapeHtml(u.telefono || 'No registrado')}</div>
                         ${u.signature_code ? '<div class="usr-card-phone" style="color:#a855f7">*' + escapeHtml(u.signature_code) + '</div>' : ''}
                     </div>
                 </div>
@@ -273,12 +273,12 @@ const UsuariosManager = (() => {
                     <span class="usr-card-badge ${estadoClass}">${estadoLabel}</span>
                 </div>
                 <div class="usr-card-meta">
-                    <span class="usr-card-meta-item">🕐 ${lastLogin}</span>
+                    <span class="usr-card-meta-item">🕐 ${escapeHtml(lastLogin)}</span>
                     <span class="usr-card-meta-item">🔑 ${u.login_count || 0} logins</span>
                 </div>
                 <div class="usr-card-actions">
-                    <button class="usr-btn-edit" data-id="${u.id}" data-username="${escapeHtml(u.username)}" data-nombre="${escapeHtml(u.nombre || '')}" data-apellido="${escapeHtml(u.apellido || '')}" data-email="${escapeHtml(u.email || '')}" data-telefono="${escapeHtml(u.telefono || '')}" data-cargo="${escapeHtml(u.cargo || '')}" data-signaturecode="${escapeHtml(u.signature_code || '')}" data-rol="${u.role}" title="Editar usuario">✏️ Editar</button>
-                    <select class="usr-role-select" data-id="${u.id}" data-current="${u.role}" ${isMe ? 'disabled' : ''} title="Cambiar rol">
+                    <button class="usr-btn-edit" data-id="${u.id}" data-username="${escapeHtml(u.username)}" data-nombre="${escapeHtml(u.nombre || '')}" data-apellido="${escapeHtml(u.apellido || '')}" data-email="${escapeHtml(u.email || '')}" data-telefono="${escapeHtml(u.telefono || '')}" data-cargo="${escapeHtml(u.cargo || '')}" data-signaturecode="${escapeHtml(u.signature_code || '')}" data-rol="${escapeHtml(u.role)}" title="Editar usuario">✏️ Editar</button>
+                    <select class="usr-role-select" data-id="${u.id}" data-current="${escapeHtml(u.role)}" ${isMe ? 'disabled' : ''} title="Cambiar rol">
                         <option value="user"        ${u.role==='user'        ?'selected':''}>👤 Usuario</option>
                         <option value="admin"       ${u.role==='admin'       ?'selected':''}>🔴 Admin</option>
                         <option value="supervisor"  ${u.role==='supervisor'  ?'selected':''}>🟡 Supervisor</option>

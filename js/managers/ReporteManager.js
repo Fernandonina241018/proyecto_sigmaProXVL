@@ -1947,10 +1947,10 @@ tr:hover td{background:#f7faff}
             <div class="rep-card">
               <div class="rep-card-title">${t('ui_analysisLoaded')}</div>
               <div class="rep-summary-rows">
-                <div class="rep-summary-row"><span>${t('ui_variables')}</span><strong>${resultados.columnasAnalizadas.join(', ')}</strong></div>
-                <div class="rep-summary-row"><span>${t('ui_statsUsed')}</span><strong>${resultados.estadisticos.join(', ')}</strong></div>
+                <div class="rep-summary-row"><span>${t('ui_variables')}</span><strong>${escapeHtml(resultados.columnasAnalizadas.join(', '))}</strong></div>
+                <div class="rep-summary-row"><span>${t('ui_statsUsed')}</span><strong>${escapeHtml(resultados.estadisticos.join(', '))}</strong></div>
                 <div class="rep-summary-row"><span>${t('ui_records')}</span><strong>${resultados.totalFilas}</strong></div>
-                <div class="rep-summary-row"><span>${t('ui_source')}</span><strong>${fileName||'dataset'}</strong></div>
+                <div class="rep-summary-row"><span>${t('ui_source')}</span><strong>${escapeHtml(fileName||'dataset')}</strong></div>
               </div>
             </div>`:''}
 

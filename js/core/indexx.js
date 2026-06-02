@@ -231,7 +231,7 @@ function renderPerfil(box, u) {
   var inicial = nombreCompleto.charAt(0).toUpperCase();
   var colores = ['#7c6af7','#6ee7b7','#fb923c','#f87171','#60a5fa','#a78bfa','#f472b6','#34d399'];
   var color = colores[nombreCompleto.length % colores.length];
-  var rolLabel = { admin:'🔴 Admin', user:'👤 Usuario', supervisor:'🟡 Supervisor', analista:'🔵 Analista', gerente:'🟣 Gerente', coordinador:'🟠 Coordinador', readonly:'👁 Solo lectura' }[u.role] || u.role;
+  var rolLabel = { admin:'🔴 Admin', user:'👤 Usuario', supervisor:'🟡 Supervisor', analista:'🔵 Analista', gerente:'🟣 Gerente', coordinador:'🟠 Coordinador', readonly:'👁 Solo lectura' }[u.role] || escapeHtml(u.role);
   var activo = u.active === 1;
   var lastLogin = u.last_login ? (typeof fmtDate === 'function' ? fmtDate(u.last_login) : u.last_login.slice(0,16).replace('T',' ')) : 'Nunca';
 
@@ -252,7 +252,7 @@ function renderPerfil(box, u) {
     + campoPerfil('✍️ Firma', u.signature_code || '—')
     + '</div>'
     + '<div style="display:flex;gap:16px;padding-top:12px;border-top:1px solid var(--border);font-size:12px;color:var(--text-muted);justify-content:center">'
-    + '<span>🕐 ' + lastLogin + '</span>'
+    + '<span>🕐 ' + escapeHtml(lastLogin) + '</span>'
     + '<span>🔑 ' + (u.login_count || 0) + ' logins</span>'
     + '</div>'
     + '<button class="btn btn-secondary" style="width:100%;justify-content:center" onclick="this.closest(\'.modal-overlay\').remove()">Cerrar</button>'
@@ -266,7 +266,7 @@ function renderPerfilSimple(box, session) {
     + '<div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px;font-weight:700;color:#fff;border:3px solid rgba(255,255,255,0.3);font-family:var(--font-display,Outfit)">' + inicial + '</div>'
     + '<div style="font-size:18px;font-weight:700;color:#fff;font-family:var(--font-display,Outfit)">' + escapeHtml(session.username) + '</div>'
     + '<div style="margin-top:10px;display:flex;gap:8px;justify-content:center">'
-    + '<span style="padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(255,255,255,0.15);color:#fff">' + (session.role || '—') + '</span>'
+    + '<span style="padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(255,255,255,0.15);color:#fff">' + escapeHtml(session.role || '—') + '</span>'
     + '</div></div>'
     + '<div style="padding:20px 24px;text-align:center;color:var(--text-muted);font-size:12px">ℹ️ Conectado como ' + escapeHtml(session.username) + '</div>'
     + '<div style="padding:0 24px 20px"><button class="btn btn-secondary" style="width:100%;justify-content:center" onclick="this.closest(\'.modal-overlay\').remove()">Cerrar</button></div>';
@@ -1124,6 +1124,7 @@ window.Visualizacion = {
 };
 
 function initVizPage() {
+  Object.values(_vizChartInstances).forEach(function(c){ try{ c.destroy(); }catch(e){} });
   _vizChartInstances = {};
   _vizChartImages = {};
   _vizExtraYCount = 0;
@@ -1977,9 +1978,9 @@ function renderLimitsPanel() {
         '<div class="info-item"><div class="info-item-label" style="font-size:10px;font-weight:600;color:var(--accent)">📐 MDL (calc)</div><div class="info-item-value" style="font-family:monospace;font-size:11px">' + ld.MDL.toFixed(4) + '</div></div>';
     }
     html += '<div class="info-item" style="font-size:13px;color:var(--text-muted)"></div>' +
-      '<div class="info-item"><div class="info-item-label">Límite Superior</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLS" value="' + g.ls + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px"></div></div>' +
-      '<div class="info-item"><div class="info-item-label">Límite Inferior</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLI" value="' + g.li + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px"></div></div>' +
-      '<div class="info-item"><div class="info-item-label">Límite Central</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLC" value="' + g.lc + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px"></div></div>' +
+      '<div class="info-item"><div class="info-item-label">Límite Superior</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLS" value="' + escapeHtml(g.ls) + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px"></div></div>' +
+      '<div class="info-item"><div class="info-item-label">Límite Inferior</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLI" value="' + escapeHtml(g.li) + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px"></div></div>' +
+      '<div class="info-item"><div class="info-item-label">Límite Central</div><div class="info-item-value"><input type="number" step="any" id="limitGlobalLC" value="' + escapeHtml(g.lc) + '" style="width:170px;padding:7px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px"></div></div>' +
       lodHtml;
   } else {
     sheet.headers.forEach(function(h, i){
@@ -1993,9 +1994,9 @@ function renderLimitsPanel() {
       html += '<div class="info-item" style="flex-direction:column;align-items:stretch;gap:3px;padding:4px 0;border-bottom:1px solid var(--border)">' +
         '<div class="info-item-label" style="font-size:12px;margin-bottom:2px">' + escapeHtml(h) + '</div>' +
         '<div style="display:flex;gap:4px">' +
-          '<input type="number" step="any" placeholder="LS" id="limitLS_' + i + '" value="' + col.ls + '" style="flex:1;min-width:0;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px">' +
-          '<input type="number" step="any" placeholder="LI" id="limitLI_' + i + '" value="' + col.li + '" style="flex:1;min-width:0;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px">' +
-          '<input type="number" step="any" placeholder="LC" id="limitLC_' + i + '" value="' + col.lc + '" style="flex:1;min-width:0;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px">' +
+          '<input type="number" step="any" placeholder="LS" id="limitLS_' + i + '" value="' + escapeHtml(col.ls) + '" style="flex:1;min-width:0;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px">' +
+          '<input type="number" step="any" placeholder="LI" id="limitLI_' + i + '" value="' + escapeHtml(col.li) + '" style="flex:1;min-width:0;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px">' +
+          '<input type="number" step="any" placeholder="LC" id="limitLC_' + i + '" value="' + escapeHtml(col.lc) + '" style="flex:1;min-width:0;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px">' +
         '</div>' +
         (cd ? '<div style="display:flex;gap:8px;font-size:10px;color:var(--text-faint);padding:1px 2px"><span>LOD: <b style="color:var(--accent)">' + cd.LOD.toFixed(4) + '</b></span><span>LOQ: <b style="color:var(--accent)">' + cd.LOQ.toFixed(4) + '</b></span><span>MDL: <b style="color:var(--accent)">' + cd.MDL.toFixed(4) + '</b></span></div>' : '') +
       '</div>';

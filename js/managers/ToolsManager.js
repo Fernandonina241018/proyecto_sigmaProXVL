@@ -498,7 +498,7 @@ function renderCorrelationMatrix(result) {
       var display = i === j ? '1.000' : v.toFixed(3);
       var bg = i === j ? 'rgba(124,106,247,.15)' : cellColor(v);
       var tc = i === j ? '#7c6af7' : cellTextColor(v);
-      return '<td style="padding:6px 8px;text-align:center;font-size:11px;font-family:monospace;border:1px solid #3a3a3a;background:' + bg + ';color:' + tc + ';font-weight:' + (i === j ? '700' : '400') + '" title="' + result.cols[i] + ' × ' + result.cols[j] + '">' + display + '</td>';
+      return '<td style="padding:6px 8px;text-align:center;font-size:11px;font-family:monospace;border:1px solid #3a3a3a;background:' + bg + ';color:' + tc + ';font-weight:' + (i === j ? '700' : '400') + '" title="' + tmEscape(result.cols[i]) + ' × ' + tmEscape(result.cols[j]) + '">' + display + '</td>';
     }).join('');
     return '<tr>' + cells + '</tr>';
   }).join('');
