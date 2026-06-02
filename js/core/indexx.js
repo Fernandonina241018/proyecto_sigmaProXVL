@@ -211,7 +211,7 @@ function showPerfilModal() {
   var box = overlay.querySelector('.modal-box');
   var statusEl = document.getElementById('perfilConnStatus');
   var apiUrl = typeof API_URL !== 'undefined' ? API_URL : '';
-  fetch(apiUrl + '/api/users', { headers: { Authorization: 'Bearer ' + (Auth.getToken() || '') } })
+  fetch(apiUrl + '/api/users', { credentials: 'include', headers: { Authorization: 'Bearer ' + (Auth.getToken() || '') } })
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (!data.ok) throw new Error(data.error || 'Error al cargar');

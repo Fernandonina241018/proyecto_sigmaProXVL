@@ -396,11 +396,11 @@ app.post('/api/login', loginLimiter, async (req, res) => {
             { expiresIn: process.env.JWT_EXPIRES_IN || '8h' }
         );
 
-        // Enviar token como cookie httpOnly
+        // Enviar token como cookie httpOnly (cross-origen: GitHub Pages → Fly.io)
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
+            secure: true,
+            sameSite: 'none',
             maxAge: 8 * 60 * 60 * 1000 // 8 horas
         });
 
@@ -421,13 +421,18 @@ app.post('/api/logout', requireAuth, async (req, res) => {
         ip:        getClientIP(req),
         userAgent: req.headers['user-agent'],
     });
-    res.clearCookie('token');
+    res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'none' });
     res.json({ ok: true });
 });
 
-// GET /api/me
+// GET /api/me — restaura sesión desde cookie httpOnly
 app.get('/api/me', requireAuth, (req, res) => {
-    res.json({ ok: true, username: req.user.username, role: req.user.role });
+    const token = jwt.sign(
+        { id: req.user.id, username: req.user.username, role: req.user.role },
+        process.env.JWT_SECRET,
+        { expiresIn: process.env.JWT_EXPIRES_IN || '8h' }
+    );
+    res.json({ ok: true, username: req.user.username, role: req.user.role, token });
 });
 
 // GET /api/users (solo admin)

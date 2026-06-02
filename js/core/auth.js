@@ -28,6 +28,7 @@ const Auth = (() => {
             const res  = await fetch(`${CFG.API_URL}/api/login`, {
                 method:  'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body:    JSON.stringify({ username: user, password }),
             });
             const data = await res.json();
@@ -592,15 +593,20 @@ const Auth = (() => {
         _renderLoginModal(reason);
     }
 
-    function init({onLogin,onLogout}={}){
+    async function init({onLogin,onLogout}={}){
         _onLogin=onLogin||null; _onLogout=onLogout||null;
-        if(_isSessionValid()){ _scheduleTimers(); _registerActivityListeners(); if(_onLogin) _onLogin(_getSession()); return; }
-        showLogin();
+        if(!_isSessionValid()){ showLogin(); return; }
+        if(!_token){
+            try{
+                const res=await fetch(`${CFG.API_URL}/api/me`,{credentials:'include'});
+                if(res.ok){ const data=await res.json(); if(data.token) _token=data.token; }
+            }catch(e){ /* cookie no disponible, se re-logueará en el primer 401 */ }
+        }
+        _scheduleTimers(); _registerActivityListeners(); if(_onLogin) _onLogin(_getSession());
     }
 
     function logout(){
-        const token=getToken();
-        if(token){ fetch(`${CFG.API_URL}/api/logout`,{method:'POST',headers:{Authorization:`Bearer ${token}`}}).catch(()=>{}); }
+        fetch(`${CFG.API_URL}/api/logout`,{method:'POST',credentials:'include'}).catch(()=>{});
         _clearSession(); _unregisterActivityListeners(); showLogin('logout'); if(_onLogout) _onLogout('logout');
     }
 
