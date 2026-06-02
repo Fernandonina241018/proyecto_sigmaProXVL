@@ -11,11 +11,6 @@ if (!process.env.JWT_SECRET) {
     console.warn('⚠️  Configúralo con: flyctl secrets set JWT_SECRET=<clave>');
     const crypto = require('crypto');
     process.env.JWT_SECRET = crypto.randomBytes(48).toString('hex');
-} else if (process.env.JWT_SECRET.length < 26) {
-    console.error('ERROR: JWT_SECRET debe tener al menos 26 caracteres');
-    console.error(`Actual: ${process.env.JWT_SECRET.length} caracteres`);
-    console.error('Genera una clave: node -e "console.log(require(\'crypto\').randomBytes(32).toString(\'hex\'))"');
-    process.exit(1);
 }
 
 if (process.env.JWT_SECRET.length < 26) {
@@ -233,33 +228,46 @@ let server;
     process.on('unhandledRejection', (reason) => {
         console.error('⚠️ Promesa rechazada:', String(reason));
     });
+
+    // Limpiar blacklist expirada cada hora
+    setInterval(() => db.cleanExpiredBlacklist().catch(() => {}), 3600000);
 })();
+
+// ── Extraer token crudo ───────────────
+function extractRawToken(req) {
+    const header = req.headers.authorization;
+    if (header?.startsWith('Bearer ')) return header.split(' ')[1];
+    if (req.cookies?.token) return req.cookies.token;
+    return null;
+}
 
 // ── Middleware JWT ────────────────────
 function requireAuth(req, res, next) {
-    let token = null;
-    
-    // 1. Intentar leer del header Authorization
-    const header = req.headers.authorization;
-    if (header?.startsWith('Bearer ')) {
-        token = header.split(' ')[1];
-    }
-    
-    // 2. Fallback: leer de cookie httpOnly
-    if (!token && req.cookies?.token) {
-        token = req.cookies.token;
-    }
-    
+    const token = extractRawToken(req);
     if (!token) {
         return res.status(401).json({ error: 'Token requerido' });
+    }
+
+    // CSRF: no-GET debe usar Authorization header (no cookie)
+    if (req.method !== 'GET' && req.method !== 'HEAD' && req.method !== 'OPTIONS') {
+        const header = req.headers.authorization;
+        if (!header?.startsWith('Bearer ')) {
+            return res.status(401).json({ error: 'Se requiere autenticación por header para esta operación' });
+        }
     }
     
     try {
         req.user = jwt.verify(token, process.env.JWT_SECRET);
-        next();
     } catch {
         return res.status(401).json({ error: 'Token inválido o expirado' });
     }
+
+    // Verificar si el token fue revocado
+    db.isTokenBlacklisted(token).then(revoked => {
+        if (revoked) return res.status(401).json({ error: 'Token revocado — inicie sesión nuevamente' });
+        req.rawToken = token;
+        next();
+    }).catch(() => next()); // Si falla la verificación, permitir (graceful degradation)
 }
 
 function requireAdmin(req, res, next) {
@@ -421,6 +429,10 @@ app.post('/api/logout', requireAuth, async (req, res) => {
         ip:        getClientIP(req),
         userAgent: req.headers['user-agent'],
     });
+    // Revocar el token actual
+    if (req.rawToken) {
+        await db.blacklistToken(req.rawToken);
+    }
     res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'none' });
     res.json({ ok: true });
 });

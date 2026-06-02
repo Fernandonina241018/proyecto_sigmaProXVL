@@ -4,8 +4,13 @@
 // ========================================
 
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
+
+function hashToken(token) {
+    return crypto.createHash('sha256').update(token).digest('hex');
+}
 
 const USE_PG = !!process.env.DATABASE_URL;
 
@@ -66,6 +71,11 @@ function buildPostgres() {
         await run(`CREATE INDEX IF NOT EXISTS idx_audit_log_timestamp ON audit_log (timestamp DESC)`);
         await run(`CREATE INDEX IF NOT EXISTS idx_audit_log_username ON audit_log (username)`);
         await run(`CREATE INDEX IF NOT EXISTS idx_audit_log_module ON audit_log (module)`);
+        await run(`CREATE TABLE IF NOT EXISTS token_blacklist (
+            id SERIAL PRIMARY KEY, token_hash TEXT UNIQUE NOT NULL,
+            created_at TEXT DEFAULT to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS')
+        )`);
+        await run(`CREATE INDEX IF NOT EXISTS idx_token_blacklist_hash ON token_blacklist (token_hash)`);
         console.log('✅ Tablas verificadas en PostgreSQL');
     }
 
@@ -143,7 +153,24 @@ function buildPostgres() {
 
     async function getAuditLog(limit = 100) { return all('SELECT * FROM audit_log ORDER BY id DESC LIMIT $1', [limit]); }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, getUserPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog };
+    async function blacklistToken(token) {
+        if (!token) return;
+        const h = hashToken(token);
+        try { await run('INSERT INTO token_blacklist (token_hash) VALUES ($1) ON CONFLICT DO NOTHING', [h]); } catch {}
+    }
+
+    async function isTokenBlacklisted(token) {
+        if (!token) return false;
+        const h = hashToken(token);
+        const row = await get('SELECT id FROM token_blacklist WHERE token_hash = $1', [h]);
+        return !!row;
+    }
+
+    async function cleanExpiredBlacklist() {
+        await run(`DELETE FROM token_blacklist WHERE created_at < to_char(now() - interval '24 hours','YYYY-MM-DD"T"HH24:MI:SS')`);
+    }
+
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, getUserPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist };
 }
 
 // ───── Local JSON store ─────
@@ -249,7 +276,30 @@ function buildLocalStore() {
 
     async function getAuditLog(limit = 100) { return state.audit_log.slice(-limit).reverse(); }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, getUserPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog };
+    async function blacklistToken(token) {
+        if (!token) return;
+        const h = hashToken(token);
+        if (!state.token_blacklist) state.token_blacklist = [];
+        if (!state.token_blacklist.find(e => e.token_hash === h)) {
+            state.token_blacklist.push({ token_hash: h, created_at: new Date().toISOString() });
+            save();
+        }
+    }
+
+    async function isTokenBlacklisted(token) {
+        if (!token) return false;
+        const h = hashToken(token);
+        return (state.token_blacklist || []).some(e => e.token_hash === h);
+    }
+
+    async function cleanExpiredBlacklist() {
+        if (!state.token_blacklist) return;
+        const cutoff = Date.now() - 24 * 60 * 60 * 1000;
+        state.token_blacklist = state.token_blacklist.filter(e => new Date(e.created_at).getTime() > cutoff);
+        save();
+    }
+
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, getUserPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist };
 }
 
 const impl = build();
@@ -271,6 +321,9 @@ module.exports = {
     logAccess:           (...a) => impl.logAccess(...a),
     logAuditEvent:       (...a) => impl.logAuditEvent(...a),
     getAuditLog:         (...a) => impl.getAuditLog(...a),
+    blacklistToken:      (...a) => impl.blacklistToken(...a),
+    isTokenBlacklisted:  (...a) => impl.isTokenBlacklisted(...a),
+    cleanExpiredBlacklist: (...a) => impl.cleanExpiredBlacklist(...a),
     run:                 (...a) => impl.run(...a),
     all:                 (...a) => impl.all(...a),
     get:                 (...a) => impl.get(...a),
