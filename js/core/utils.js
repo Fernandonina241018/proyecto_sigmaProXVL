@@ -177,4 +177,14 @@ function debounce(fn, delay) {
     };
 }
 
+// ========================================
+// DEBUG MODE (activar con ?debug en URL)
+// ========================================
+
+const DEBUG = /[?&]debug\b/.test(location.search);
+
+function debugLog(...args) {
+    if (DEBUG) console.log(...args);
+}
+
 console.log('✅ Utils cargado correctamente');

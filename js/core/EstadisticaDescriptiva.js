@@ -4752,7 +4752,7 @@ resultados['Test de Signos'].columna1 = col1;
                             pcaColumns = hypothesisConfig['PCA (Componentes Principales)'].columnas;
                         }
                         
-                        console.log('[PCA] pcaColumns:', pcaColumns);
+                        debugLog('[PCA] pcaColumns:', pcaColumns);
                         
                         if (pcaColumns.length < 2) {
                             resultados['PCA (Componentes Principales)'] = { error: 'Seleccione al menos 2 columnas para PCA en la configuración' };
@@ -4761,7 +4761,7 @@ resultados['Test de Signos'].columna1 = col1;
                             const lengths = pcaColumns.map(col => getNumericValues(data, col).length);
                             const validLengths = lengths.filter(l => l > 0);
                             
-                            console.log('[PCA] validLengths:', validLengths);
+                            debugLog('[PCA] validLengths:', validLengths);
                             
                             if (validLengths.length < 2) {
                                 resultados['PCA (Componentes Principales)'] = { error: 'No hay suficientes datos válidos en las columnas seleccionadas' };
@@ -4779,13 +4779,13 @@ resultados['Test de Signos'].columna1 = col1;
                                     dataMatrix.push(row);
                                 }
                                 
-                                console.log('[PCA] dataMatrix.length:', dataMatrix.length, 'dataMatrix[0]:', dataMatrix[0]);
+                                debugLog('[PCA] dataMatrix.length:', dataMatrix.length, 'dataMatrix[0]:', dataMatrix[0]);
                                 
                                 if (dataMatrix.length < 10) {
                                     resultados['PCA (Componentes Principales)'] = { error: 'Se necesitan al menos 10 observaciones para PCA' };
                                 } else {
                                     const pcaResult = calcularPCA(dataMatrix, pcaColumns.length);
-                                    console.log('[PCA] resultado:', pcaResult);
+                                    debugLog('[PCA] resultado:', pcaResult);
                                     resultados['PCA (Componentes Principales)'] = pcaResult;
                                     resultados['PCA (Componentes Principales)'].columnas = pcaColumns;
                                 }

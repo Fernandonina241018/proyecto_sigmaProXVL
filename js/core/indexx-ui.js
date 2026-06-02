@@ -753,8 +753,9 @@ function updateToolsMenuState() {
   }, 10);
 }
 
-document.querySelectorAll('.nav-item[data-page]').forEach(function(item){
-  item.addEventListener('click', function(){ loadPage(item.dataset.page); });
+document.querySelector('.sidebar-nav')?.addEventListener('click', function(e) {
+  var item = e.target.closest('.nav-item[data-page]');
+  if (item) loadPage(item.dataset.page);
 });
 
 // Sync sidebar nav icons from pageIcons map
