@@ -72,7 +72,7 @@ function buildPostgres() {
     async function createInitialAdmin() {
         const existing = await get('SELECT id FROM users WHERE username = $1', [process.env.ADMIN_USERNAME]);
         if (existing) return;
-        const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD, 12);
+        const hash = await bcrypt.hash(process.env.ADMIN_PASSWORD, 12);
         await run(`INSERT INTO users (username, password, role, created_by) VALUES ($1,$2,'admin','system')`, [process.env.ADMIN_USERNAME, hash]);
         console.log(`✅ Admin inicial creado: ${process.env.ADMIN_USERNAME}`);
     }
@@ -81,7 +81,7 @@ function buildPostgres() {
     async function getUserBySignatureCode(code) { return get('SELECT * FROM users WHERE signature_code = $1 AND active = 1', [code]); }
 
     async function createUser({ username, password, role = 'user', nombre, apellido, email, telefono, signatureCode, cargo, createdBy }) {
-        const hash = bcrypt.hashSync(password, 12);
+        const hash = await bcrypt.hash(password, 12);
         try {
             const result = await run(
                 `INSERT INTO users (username,password,role,nombre,apellido,email,telefono,signature_code,cargo,created_by) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING id`,
@@ -105,7 +105,7 @@ function buildPostgres() {
     async function toggleUserActive(id, active) { await run('UPDATE users SET active=$1 WHERE id=$2', [active, id]); }
 
     async function changePassword(username, newPassword) {
-        const hash = bcrypt.hashSync(newPassword, 12);
+        const hash = await bcrypt.hash(newPassword, 12);
         await run('UPDATE users SET password=$1, password_temp=0 WHERE username=$2', [hash, username]);
     }
 
@@ -167,7 +167,7 @@ function buildLocalStore() {
     async function createInitialAdmin() {
         const username = process.env.ADMIN_USERNAME || 'admin';
         if (state.users.find(u => u.username === username)) return;
-        const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD || 'admin123', 12);
+        const hash = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'admin123', 12);
         state.users.push({
             id: state.nextUserId++, username, password: hash, role: 'admin', active: 1,
             created_by: 'system', created_at: new Date().toISOString(),
@@ -187,7 +187,7 @@ function buildLocalStore() {
 
     async function createUser({ username, password, role = 'user', nombre, apellido, email, telefono, signatureCode, cargo, createdBy }) {
         if (state.users.find(u => u.username === username)) return { ok: false, error: 'El usuario ya existe' };
-        const hash = bcrypt.hashSync(password, 12);
+        const hash = await bcrypt.hash(password, 12);
         const user = {
             id: state.nextUserId++, username, password: hash, role, active: 1,
             created_by: createdBy || 'system', created_at: new Date().toISOString(),
@@ -213,7 +213,7 @@ function buildLocalStore() {
     async function changePassword(username, newPassword) {
         const u = findUser(username);
         if (!u) return;
-        u.password = bcrypt.hashSync(newPassword, 12);
+        u.password = await bcrypt.hash(newPassword, 12);
         u.password_temp = 0;
         save();
     }

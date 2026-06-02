@@ -310,10 +310,10 @@ const UsuariosManager = (() => {
 
                 const result = await cambiarRol(id, newRole);
                 if (result.ok) {
-                    _showToast('✅ Rol actualizado correctamente');
+                    showToast('✅ Rol actualizado correctamente');
                     await _loadAndRender();
                 } else {
-                    _showToast(`❌ ${result.error}`, true);
+                    showToast(`❌ ${result.error}`, true);
                     sel.value = old;
                 }
             });
@@ -336,10 +336,10 @@ const UsuariosManager = (() => {
 
                 const result = await toggleUsuario(id, active);
                 if (result.ok) {
-                    _showToast(`✅ Usuario ${action === 'activar' ? 'activado' : 'desactivado'} correctamente`);
+                    showToast(`✅ Usuario ${action === 'activar' ? 'activado' : 'desactivado'} correctamente`);
                     await _loadAndRender();
                 } else {
-                    _showToast(`❌ ${result.error}`, true);
+                    showToast(`❌ ${result.error}`, true);
                 }
             });
         });
@@ -402,7 +402,7 @@ const UsuariosManager = (() => {
             const result = await resetPassword(username, 'user0000');
             if (result.ok) {
                 close();
-                _showToast(`✅ Contraseña de "${username}" reseteada a "user0000"`);
+                showToast(`✅ Contraseña de "${username}" reseteada a "user0000"`);
             } else {
                 const msgEl = document.getElementById('usr-reset-msg');
                 msgEl.textContent = `❌ ${result.error}`;
@@ -545,10 +545,6 @@ const UsuariosManager = (() => {
         } catch {
             return { ok: false, error: 'Error de conexión' };
         }
-    }
-
-    function _showToast(msg, isError = false) {
-        showToast(msg, isError);
     }
 
     function _attachListeners() {

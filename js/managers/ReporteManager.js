@@ -167,7 +167,7 @@ const ReporteManager = (() => {
             html_method_sig:  'Significance',
             html_method_sig_why:'The α = 0.05 level defines the accepted Type I error threshold. It establishes the certainty with which a null hypothesis can be rejected — the international standard in clinical trials (ICH E9) and analytical method validations.',
 
-        html_execSummary:(ds,rows,cols,std) => `Dataset <strong>"${ds}"</strong> · <strong>${rows}</strong> observations · <strong>${cols}</strong> numeric variable(s) · ${std}.`,
+        html_execSummary:(ds,rows,cols,std) => `Dataset <strong>"${escapeHtml(ds)}"</strong> · <strong>${rows}</strong> observations · <strong>${cols}</strong> numeric variable(s) · ${std}.`,
             statRefs: {
                 'Media Aritmética':   'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
                 'Mediana':            'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
@@ -1925,7 +1925,7 @@ tr:hover td{background:#f7faff}
         if(!container)return;
 
         const state     =StateManager.getState();
-        const resultados=(typeof ultimosResultados!=='undefined')?ultimosResultados:null;
+        const resultados=typeof StateManager!=='undefined'?StateManager.getUltimosResultados():null;
         const tieneRes  =!!(resultados?.columnasAnalizadas?.length);
         const fileName  =state.fileName||(typeof datosCurrentFileName!=='undefined'?datosCurrentFileName:'')||'';
         const sel       =(lbl)=>`— ${currentLang==='es'?'Seleccionar':'Select'}: ${lbl} —`;

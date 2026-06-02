@@ -193,30 +193,6 @@ const EstadisticaDescriptiva = (() => {
     // ========================================
 
     /**
-     * Aproximación del valor p para distribución t (bilateral)
-     * Usa aproximación de Abramowitz & Stegun
-     */
-    function tDistributionCDF(t, df) {
-        if (df <= 0) return 1;
-        const x = df / (df + t * t);
-        const a = df / 2;
-        const b = 0.5;
-        // Aproximación de la función Beta incompleta
-        let sum = 0;
-        let term = 1;
-        for (let i = 0; i < 100; i++) {
-            sum += term;
-            term *= (a + i) * x / ((b + i) * (i + 1));
-            if (Math.abs(term) < 1e-12) break;
-        }
-        const betaApprox = Math.exp(
-            a * Math.log(x) + Math.log(sum) - Math.log(a) -
-            lgamma(a) - lgamma(b) + lgamma(a + b)
-        );
-        return 1 - 0.5 * betaApprox;
-    }
-
-    /**
      * Log-gamma function (aproximación de Lanczos)
      */
     function lgamma(x) {
@@ -1032,17 +1008,26 @@ negativos: negativos,
      * Prueba Chi-Cuadrado de independencia
      */
     function calcularChiCuadrado(tabla) {
-        if (!Array.isArray(tabla) || tabla.length < 2 || !tabla.every(row => Array.isArray(row))) {
+        if (!Array.isArray(tabla) || tabla.length < 2 || !tabla.every(function(row) { return Array.isArray(row); })) {
             return { error: 'Se necesita una tabla de contingencia válida (mínimo 2x2)' };
         }
         const cols = tabla[0].length;
         if (cols < 2) return { error: 'La tabla de contingencia necesita al menos 2 columnas' };
-        if (!tabla.every(row => row.length === cols)) {
+        if (!tabla.every(function(row) { return row.length === cols; })) {
             return { error: 'Todas las filas de la tabla deben tener el mismo número de columnas' };
         }
 
         const filas = tabla.length;
-        const N = tabla.flat().reduce((a, b) => a + b, 0);
+        var flatValues = [];
+        for (var fi = 0; fi < tabla.length; fi++) {
+            for (var fj = 0; fj < tabla[fi].length; fj++) {
+                var v = tabla[fi][fj];
+                if (v === null || v === undefined) return { error: 'La tabla contiene valores nulos' };
+                if (typeof v !== 'number' || isNaN(v)) return { error: 'La tabla contiene valores no numéricos' };
+                flatValues.push(v);
+            }
+        }
+        const N = flatValues.reduce(function(a, b) { return a + b; }, 0);
         if (N === 0) return { error: 'La tabla de contingencia está vacía (suma total = 0)' };
 
         // Totales marginales
