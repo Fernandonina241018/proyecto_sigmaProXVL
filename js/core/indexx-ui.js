@@ -1,0 +1,835 @@
+// ── Pane resizer ──
+// ════════════════════════════════════════════════════════════════
+// indexx-ui.js — Pane resizer, menubar, sidebar, tabs, page system,
+//                leftPanels, rightPanels, loadPage, nav, zoom
+// ════════════════════════════════════════════════════════════════
+
+var resizer = document.getElementById('paneResizer');
+var paneLeft = document.getElementById('paneLeft');
+var panesCont = document.getElementById('panesContainer');
+resizer.addEventListener('mousedown', function(e) {
+  e.preventDefault(); resizer.classList.add('dragging');
+  document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none';
+  function onMove(ev) {
+    var rect = panesCont.getBoundingClientRect();
+    var newW = Math.max(160, Math.min(panesCont.offsetWidth - 160 - resizer.offsetWidth, ev.clientX - rect.left));
+    paneLeft.style.width = newW + 'px';
+  }
+  function onUp() { resizer.classList.remove('dragging'); document.body.style.cursor = ''; document.body.style.userSelect = ''; document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); }
+  document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onUp);
+});
+
+// ── Menubar ──
+var menuItems = document.querySelectorAll('.menu-item[data-menu]');
+var anyOpen = false;
+menuItems.forEach(function(item) {
+  item.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    if (e.target.closest('.dd-item')) return;
+    var wasOpen = item.classList.contains('open');
+    menuItems.forEach(function(i){ i.classList.remove('open'); });
+    if (!wasOpen) { item.classList.add('open'); anyOpen = true; } else anyOpen = false;
+  });
+  item.addEventListener('mouseenter', function() { if (anyOpen) { menuItems.forEach(function(i){ i.classList.remove('open'); }); item.classList.add('open'); } });
+});
+
+document.addEventListener('mousedown', function(e) {
+  // No cerrar si el click fue dentro de un menu-item o su dropdown
+  if (e.target.closest('.menu-item')) return;
+  
+  // No cerrar si el click fue en un checkbox stat o badge
+  if (e.target.classList.contains('stat-check')) return;
+  if (e.target.classList.contains('stat-selected-badge')) return;
+  
+  menuItems.forEach(function(i){ i.classList.remove('open'); });
+  anyOpen = false;
+});
+
+document.addEventListener('click', function(e) {
+  var ddItem = e.target.closest('.dd-item');
+  if (ddItem && ddItem.hasAttribute('onclick')) {
+    // El onclick se ejecutará automáticamente
+  }
+});
+
+// ── Sidebar toggle ──
+function toggleSidebar() {
+  var sidebar = document.getElementById('sidebar');
+  var toggle = document.getElementById('sidebarToggle');
+  var isNowCollapsed = !sidebar.classList.contains('collapsed');
+  sidebar.classList.toggle('collapsed');
+  if (toggle) toggle.classList.toggle('rotated');
+  try { localStorage.setItem('sidebar_collapsed', isNowCollapsed); } catch(e) {}
+}
+document.getElementById('sidebarToggle').addEventListener('click', toggleSidebar);
+document.addEventListener('keydown', function(e) {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
+    e.preventDefault();
+    toggleSidebar();
+  }
+});
+
+document.getElementById('ribbonPopupBtn').addEventListener('click', function(e) {
+  e.stopPropagation();
+  var sidebar = document.getElementById('sidebar');
+  if (!sidebar.classList.contains('collapsed')) return;
+  document.getElementById('ribbonNavPopup').classList.toggle('open');
+});
+
+// ── Sidebar user dropdown ──
+document.getElementById('sidebarUser').addEventListener('click', function(e) {
+  e.stopPropagation();
+  if (typeof Auth === 'undefined') return;
+  var session = Auth.getSession();
+  if (!session) { Auth.showLogin(); return; }
+  var dd = document.getElementById('sidebarUserDropdown');
+  if (!dd) return;
+  document.getElementById('sudName').textContent = session.username || 'Usuario';
+  document.getElementById('sudEmail').textContent = session.email || (session.username + '@sigmapro.com');
+  document.getElementById('sudAvatar').textContent = (session.username || 'U').charAt(0).toUpperCase();
+  dd.classList.toggle('open');
+});
+document.getElementById('sidebarUserDropdown').addEventListener('click', function(e) {
+  var item = e.target.closest('.sud-item');
+  if (!item) return;
+  var dd = document.getElementById('sidebarUserDropdown');
+  dd.classList.remove('open');
+  if (item.getAttribute('data-action') === 'perfil') { if (typeof showPerfilModal === 'function') showPerfilModal(); return; }
+  if (item.getAttribute('data-action') === 'logout' && typeof Auth !== 'undefined') Auth.logout();
+});
+document.addEventListener('click', function(e) {
+  var dd = document.getElementById('sidebarUserDropdown');
+  if (dd && !e.target.closest('#sidebarUser') && !e.target.closest('#sidebarUserDropdown')) {
+    dd.classList.remove('open');
+  }
+  var popup = document.getElementById('ribbonNavPopup');
+  if (popup && !e.target.closest('#sidebarToggle') && !e.target.closest('#ribbonPopupBtn') && !e.target.closest('#ribbonNavPopup')) {
+    popup.classList.remove('open');
+  }
+});
+
+// ── Perfil modal ──
+function showPerfilModal() {
+  var session = typeof Auth !== 'undefined' ? Auth.getSession() : null;
+  if (!session) return;
+  var overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
+  overlay.innerHTML = '<div style="max-width:440px;width:90%">'
+    + '<div id="perfilConnStatus" style="padding:6px 16px;font-size:11px;font-weight:600;text-align:center;background:var(--bg-secondary);color:var(--text-muted);border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:center;gap:6px">⏳ Conectando...</div>'
+    + '<div class="modal-box" style="max-width:100%;padding:0;overflow:hidden;border-radius:0 0 12px 12px">'
+    + '<div class="perfil-loading" style="text-align:center;padding:40px 20px;color:var(--text-muted);font-size:14px">Cargando perfil...</div>'
+    + '</div></div>';
+  document.body.appendChild(overlay);
+  var box = overlay.querySelector('.modal-box');
+  var statusEl = document.getElementById('perfilConnStatus');
+  var apiUrl = typeof API_URL !== 'undefined' ? API_URL : '';
+  fetch(apiUrl + '/api/users', { credentials: 'include', headers: { Authorization: 'Bearer ' + (Auth.getToken() || '') } })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data.ok) throw new Error(data.error || 'Error al cargar');
+      var user = (data.users || []).find(function(u) { return u.username === session.username; });
+      if (!user) throw new Error('Usuario no encontrado');
+      if (statusEl) { statusEl.innerHTML = '✓ Conectado al servidor'; statusEl.style.background = 'rgba(74,222,128,0.12)'; statusEl.style.color = '#4ade80'; }
+      renderPerfil(box, user);
+    })
+    .catch(function() {
+      if (statusEl) { statusEl.innerHTML = '✕ Sin conexión al servidor'; statusEl.style.background = 'rgba(248,113,113,0.12)'; statusEl.style.color = '#f87171'; }
+      renderPerfilSimple(box, session);
+    });
+}
+
+function renderPerfil(box, u) {
+  var nombreCompleto = [u.nombre, u.apellido].filter(Boolean).join(' ') || u.username;
+  var inicial = nombreCompleto.charAt(0).toUpperCase();
+  var colores = ['#7c6af7','#6ee7b7','#fb923c','#f87171','#60a5fa','#a78bfa','#f472b6','#34d399'];
+  var color = colores[nombreCompleto.length % colores.length];
+  var rolLabel = { admin:'🔴 Admin', user:'👤 Usuario', supervisor:'🟡 Supervisor', analista:'🔵 Analista', gerente:'🟣 Gerente', coordinador:'🟠 Coordinador', readonly:'👁 Solo lectura' }[u.role] || escapeHtml(u.role);
+  var activo = u.active === 1;
+  var lastLogin = u.last_login ? (typeof fmtDate === 'function' ? fmtDate(u.last_login) : u.last_login.slice(0,16).replace('T',' ')) : 'Nunca';
+
+  box.innerHTML =
+    '<div style="background:linear-gradient(135deg,' + color + ',rgba(0,0,0,0.3));padding:24px 24px 20px;text-align:center;position:relative">'
+    + '<div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px;font-weight:700;color:#fff;border:3px solid rgba(255,255,255,0.3);font-family:var(--font-display,Outfit)">' + inicial + '</div>'
+    + '<div style="font-size:18px;font-weight:700;color:#fff;font-family:var(--font-display,Outfit)">' + escapeHtml(nombreCompleto) + '</div>'
+    + '<div style="font-size:13px;color:rgba(255,255,255,0.75);margin-top:2px">' + escapeHtml(u.email || '—') + '</div>'
+    + '<div style="margin-top:10px;display:flex;gap:8px;justify-content:center">'
+    + '<span style="padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(255,255,255,0.15);color:#fff">' + rolLabel + '</span>'
+    + '<span style="padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600;background:' + (activo ? 'rgba(74,222,128,0.25)' : 'rgba(248,113,113,0.25)') + ';color:' + (activo ? '#4ade80' : '#f87171') + '">' + (activo ? '✓ Activo' : '✕ Inactivo') + '</span>'
+    + '</div></div>'
+    + '<div style="padding:20px 24px;display:flex;flex-direction:column;gap:12px">'
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">'
+    + campoPerfil('👤 Usuario', u.username)
+    + campoPerfil('💼 Cargo', u.cargo || '—')
+    + campoPerfil('📱 Teléfono', u.telefono || '—')
+    + campoPerfil('✍️ Firma', u.signature_code || '—')
+    + '</div>'
+    + '<div style="display:flex;gap:16px;padding-top:12px;border-top:1px solid var(--border);font-size:12px;color:var(--text-muted);justify-content:center">'
+    + '<span>🕐 ' + escapeHtml(lastLogin) + '</span>'
+    + '<span>🔑 ' + (u.login_count || 0) + ' logins</span>'
+    + '</div>'
+    + '<button class="btn btn-secondary" style="width:100%;justify-content:center" onclick="this.closest(\'.modal-overlay\').remove()">Cerrar</button>'
+    + '</div>';
+}
+
+function renderPerfilSimple(box, session) {
+  var inicial = (session.username || 'U').charAt(0).toUpperCase();
+  box.innerHTML =
+    '<div style="background:linear-gradient(135deg,var(--accent),rgba(0,0,0,0.3));padding:24px 24px 20px;text-align:center">'
+    + '<div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px;font-weight:700;color:#fff;border:3px solid rgba(255,255,255,0.3);font-family:var(--font-display,Outfit)">' + inicial + '</div>'
+    + '<div style="font-size:18px;font-weight:700;color:#fff;font-family:var(--font-display,Outfit)">' + escapeHtml(session.username) + '</div>'
+    + '<div style="margin-top:10px;display:flex;gap:8px;justify-content:center">'
+    + '<span style="padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(255,255,255,0.15);color:#fff">' + escapeHtml(session.role || '—') + '</span>'
+    + '</div></div>'
+    + '<div style="padding:20px 24px;text-align:center;color:var(--text-muted);font-size:12px">ℹ️ Conectado como ' + escapeHtml(session.username) + '</div>'
+    + '<div style="padding:0 24px 20px"><button class="btn btn-secondary" style="width:100%;justify-content:center" onclick="this.closest(\'.modal-overlay\').remove()">Cerrar</button></div>';
+}
+
+function campoPerfil(label, value) {
+  return '<div style="display:flex;flex-direction:column;gap:4px;background:var(--item-bg);padding:10px 12px;border-radius:8px"><span style="font-size:10px;font-weight:600;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.5px">' + label + '</span><span style="font-size:13px;font-weight:500;color:var(--text-primary)">' + escapeHtml(value || '—') + '</span></div>';
+}
+
+// ── Tab management ──
+var tabbar = document.getElementById('tabbar');
+function makeTabActive(tab) { document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); }); tab.classList.add('active'); }
+function closeTab(tabEl, e) {
+  if (e) e.stopPropagation();
+  var allTabs = document.querySelectorAll('.tab');
+  if (allTabs.length <= 1) return;
+  var pageName = tabEl.dataset.pageTab;
+  tabEl.remove();
+  var remaining = document.querySelectorAll('.tab');
+  if (remaining.length === 0) {
+    leftPaneBody.innerHTML = '';
+    rightPaneBody.innerHTML = '<div class="page-body"><div style="color:var(--text-faint);padding:40px;text-align:center">Abre una página desde el menú lateral</div></div>';
+    currentPage = '';
+    return;
+  }
+  var nextTab = tabEl.nextElementSibling;
+  while (nextTab && !nextTab.classList.contains('tab')) nextTab = nextTab.nextElementSibling;
+  if (!nextTab) {
+    nextTab = tabEl.previousElementSibling;
+    while (nextTab && !nextTab.classList.contains('tab')) nextTab = nextTab.previousElementSibling;
+  }
+  if (!nextTab) nextTab = remaining[0];
+  makeTabActive(nextTab);
+  var nextPage = nextTab.dataset.pageTab;
+  if (nextPage) loadPage(nextPage);
+}
+document.getElementById('tabNew').addEventListener('click', function() {
+  var t = document.createElement('div'); t.className = 'tab';
+  t.innerHTML = '<span class="tab-icon">📄</span> Untitled <span class="tab-close">×</span>';
+  tabbar.insertBefore(t, document.querySelector('.tabbar-spacer')); makeTabActive(t);
+  t.querySelector('.tab-close').addEventListener('click', function(e){ closeTab(t, e); });
+  t.addEventListener('click', function(e){ if (!e.target.classList.contains('tab-close')) makeTabActive(t); });
+});
+document.querySelectorAll('.ribbon-icon').forEach(function(icon) {
+  icon.addEventListener('click', function() { document.querySelectorAll('.ribbon-icon').forEach(function(i){ i.classList.remove('active'); }); icon.classList.add('active'); });
+});
+
+// ════════════════════════════════════════════════════════════════
+// PAGE SYSTEM
+// ════════════════════════════════════════════════════════════════
+var leftPaneTitle  = document.getElementById('leftPaneTitle');
+var rightPaneTitle = document.getElementById('rightPaneTitle');
+var leftPaneBody   = document.getElementById('leftPaneBody');
+var rightPaneBody  = document.getElementById('rightPaneBody');
+
+var leftPanels = {
+  trabajo: function() {
+    return '<div class="left-panel" style="gap:10px">' +
+      '<div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0">' +
+        '<div class="tb-dropdown">' +
+          '<button class="btn btn-primary btn-dd" onclick="toggleDropdown(this)">📋 Acciones ▾</button>' +
+          '<div class="dd-menu">' +
+            '<div class="dd-item" onclick="generateSampleData()">🔄 Generar datos</div>' +
+            '<div class="dd-item" onclick="exportTrabajo()">💾 Exportar CSV</div>' +
+            '<div class="dd-item" onclick="clearCurrentSheet()">🗑️ Limpiar hoja</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="tb-dropdown">' +
+          '<button class="btn btn-secondary btn-dd" onclick="toggleDropdown(this)">✏️ Editar ▾</button>' +
+          '<div class="dd-menu">' +
+            '<div class="dd-item" onclick="addRow()">➕ Fila</div>' +
+            '<div class="dd-item" onclick="addColumn()">➕ Columna</div>' +
+            '<div class="dd-item" onclick="deleteActiveRow()">➖ Fila</div>' +
+            '<div class="dd-item" onclick="deleteActiveColumn()">➖ Columna</div>' +
+            '<div class="dd-divider"></div>' +
+            '<div class="dd-item" onclick="undoAction()">↩ Deshacer</div>' +
+            '<div class="dd-item" onclick="redoAction()">↪ Rehacer</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="tb-dropdown">' +
+          '<button class="btn btn-secondary btn-dd" onclick="toggleDropdown(this)">👁️ Vista ▾</button>' +
+          '<div class="dd-menu">' +
+            '<div class="dd-item" onclick="toggleFreezeCol()" id="ddFreezeCol">' + (trabajoFreezeFirstCol ? '🔒 Col fija ON' : '🔓 Fijar col 1') + '</div>' +
+            '<div class="dd-item" onclick="toggleConditionalFormat()" id="ddCondFormat">' + (trabajoConditionalFormat ? '🎨 CF ON' : '🎨 Formato cond.') + '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="info-section" style="flex-shrink:0">' +
+        '<div class="info-section-header" style="display:flex;justify-content:space-between;align-items:center;padding:4px 10px"><span>Hojas</span></div>' +
+        '<div style="padding:3px 6px 5px;display:flex;gap:4px;align-items:center">' +
+          '<select id="sheetsSelect" class="sheets-select" onchange="switchToSheet(parseInt(this.value))" style="flex:1;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px">' + getSheetsOptionsHTML() + '</select>' +
+          (trabajoSheets.length > 1 ? '<button class="sheets-del-btn" onclick="deleteSheet(' + trabajoActiveSheetIndex + ',event)" title="Eliminar hoja" style="background:none;border:none;cursor:pointer;color:var(--text-faint);font-size:20px;line-height:1;padding:0 2px">×</button>' : '') +
+          '<button class="sheets-add-btn" onclick="createNewSheet()" title="Nueva hoja" style="background:none;border:none;cursor:pointer;color:var(--accent);font-size:20px;line-height:1;padding:0 2px">＋</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">Resumen</div><div class="info-list" id="trabajoResumen">' + getTrabajoResumenHTML() + '</div></div>' +
+      '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">Celda activa</div><div class="info-list" id="trabajoCeldaActiva">' + getTrabajoCeldaActivaHTML() + '</div></div>' +
+      '<div class="info-section" style="flex-shrink:0">' +
+        '<div class="info-section-header" style="display:flex;align-items:center;justify-content:space-between">' +
+          '<span>📐 Límites</span>' +
+          '<label style="font-size:10px;color:var(--text-faint);display:flex;align-items:center;gap:3px;cursor:pointer">' +
+            '<input type="checkbox" id="limitsGlobalToggle" ' + (trabajoLimitsMode === 'global' ? 'checked' : '') + ' onchange="toggleLimitsMode()"> Global' +
+          '</label>' +
+        '</div>' +
+        '<div class="info-list" id="trabajoLimitsBody"></div>' +
+      '</div>' +
+    '</div>';
+  },
+  datos: function() {
+    return '<div class="left-panel" style="gap:6px;padding:8px" id="datosLeftPanel">' +
+      '<div class="upload-zone compact" id="dropZone" style="padding:6px 8px;flex-shrink:0">' +
+        '<div class="upload-zone-icon" style="font-size:14px">📂</div>' +
+        '<div class="upload-zone-text" style="font-size:10px">Arrastra o haz clic</div>' +
+      '</div>' +
+      '<input type="file" id="fileInput" style="display:none" accept=".csv,.json,.xlsx,.xls">' +
+      '<div style="display:flex;gap:4px;flex-shrink:0">' +
+        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" id="btnCsv">📄 CSV</button>' +
+        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" id="btnXlsx">📊 Excel</button>' +
+        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" id="btnPaste">📋 Pegar</button>' +
+      '</div>' +
+      '<div style="display:flex;gap:4px;flex-shrink:0">' +
+        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" onclick="generarDatosNormales()">🔢 Normal</button>' +
+        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" onclick="ampliarDatos()">📈 Ampliar</button>' +
+        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" onclick="limpiarDataset()">🧹 Limpiar</button>' +
+      '</div>' +
+      '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">Estado</div><div class="info-list">' +
+        '<div class="info-item"><div class="info-item-label">Dataset</div><div class="info-item-value" id="datosDatasetName">Sin cargar</div></div>' +
+        '<div class="info-item"><div class="info-item-label">Filas</div><div class="info-item-value" id="datosRowCount">—</div></div>' +
+        '<div class="info-item"><div class="info-item-label">Columnas</div><div class="info-item-value" id="datosColCount">—</div></div>' +
+      '</div></div>' +
+      '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0">' +
+        '<div class="info-section-header" style="display:flex;justify-content:space-between;align-items:center">' +
+          '<span>Recientes</span>' +
+          '<span id="clearHistoryBtn" title="Limpiar historial" style="cursor:pointer;font-size:11px;padding:2px 6px;border-radius:4px;color:var(--text-faint)" onmouseenter="this.style.background=\'rgba(255,255,255,.08)\';this.style.color=\'var(--text-muted)\'" onmouseleave="this.style.background=\'transparent\';this.style.color=\'var(--text-faint)\'">🗑️</span>' +
+        '</div>' +
+        '<div style="overflow-y:auto;flex:1;padding:6px;display:flex;flex-direction:column;gap:4px" id="recentFilesList"></div>' +
+      '</div>' +
+    '</div>';
+  },
+  analisis: function() { 
+      var categoryNames = {
+        descriptiva: '📊 Descriptiva',
+        hipotesis: '⚖️ Hipótesis',
+        correlacion: '🔗 Correlación',
+        regresion: '📈 Regresión',
+        noParametricos: '📉 No Paramétricos',
+        multivariado: '📦 Multivariado'
+      };
+      var catLabel = categoryNames[analisisSelectedCategory] || '📊 Descriptiva';
+      var catIcon = catLabel.split(' ')[0];
+      var catText = catLabel.substring(2);
+      var lastTest = analisisLastResult ? analisisLastResult.testName : '—';
+      var lastPVal = analisisLastResult && analisisLastResult.pValue != null ? analisisLastResult.pValue.toFixed(4) : '—';
+      var lastDec = analisisLastResult ? (analisisLastResult.significativo ? 'Rechazar H₀' : 'No rechazar H₀') : '—';
+      var decColor = analisisLastResult && analisisLastResult.significativo ? 'var(--accent)' : 'var(--text-faint)';
+      
+      // Get selected tests from menu checkboxes
+      var selectedTests = [];
+      document.querySelectorAll('.child-check:checked').forEach(function(chk) {
+        selectedTests.push(chk.dataset.nombre);
+      });
+      
+      // Build selected tests list with icons
+      var selectedTestsHtml = '';
+      if (selectedTests.length > 0) {
+        var testIcons = {
+          'Media Aritmética': '📐', 'Mediana': '📊', 'Moda': '🎯', 'Varianza': '📈',
+          'Desv. Estándar': '📉', 'Coef. Variación': '📊', 'Asimetría': '📐', 'Curtosis': '🔔',
+          't-Test': '⚖️', 'z-Test': '📐', 'F-Test': '📊', 'Chi-cuadrado': '📐', 'Shapiro-Wilk': '🔔',
+          'Pearson': '🔗', 'Spearman': '📈', 'Kendall': '📊',
+          'Lineal Simple': '📈', 'Regresión Múltiple': '📊', 'Regresión Logística': '📦',
+          'Mann-Whitney': '📉', 'Wilcoxon': '📊', 'Kruskal-Wallis': '📦',
+          'PCA': '📊', 'Cluster K-Means': '📈', 'LDA': '📐'
+        };
+        selectedTests.forEach(function(t) {
+          var icon = testIcons[t] || '📊';
+          var isCurrent = analisisSelectedTest === t ? 'active' : '';
+          selectedTestsHtml += '<div class="info-item ' + isCurrent + '" style="display:flex;align-items:center;gap:4px">' +
+            '<span style="color:var(--accent)">✓</span>' +
+            '<span>' + icon + ' ' + t + '</span>' +
+          '</div>';
+        });
+      } else {
+        selectedTestsHtml = '<div class="info-item" style="color:var(--text-faint);font-size:11px">Ningún test seleccionado</div>';
+      }
+      
+      // Get current dataset info
+      var analisisSheet = getCurrentSheet();
+      var dsName = analisisSheet ? analisisSheet.name : 'Ninguno';
+      var dsRows = analisisSheet ? analisisSheet.rows.length : 0;
+      var dsCols = analisisSheet ? analisisSheet.headers.length : 0;
+
+      return '<div class="left-panel" style="gap:10px">' +
+        // ── Dataset activo ──
+        '<div class="info-section" style="flex-shrink:0">' +
+          '<div class="info-section-header">Dataset activo</div>' +
+          '<div class="info-list">' +
+            '<div class="info-item"><div class="info-item-label">Nombre</div><div class="info-item-value" id="analisisDsName" style="font-weight:600;color:var(--accent)">' + escapeHtml(dsName) + '</div></div>' +
+            '<div class="info-item"><div class="info-item-label">Filas</div><div class="info-item-value" id="analisisDsRows">' + dsRows + '</div></div>' +
+            '<div class="info-item"><div class="info-item-label">Columnas</div><div class="info-item-value" id="analisisDsCols">' + dsCols + '</div></div>' +
+          '</div>' +
+        '</div>' +
+        // ── Columnas activas ──
+        '<div class="info-section" style="flex-shrink:0">' +
+          '<div class="info-section-header">Columnas</div>' +
+          '<div class="info-list" style="gap:4px">' +
+            '<div class="info-item" style="display:flex;align-items:center;gap:6px">' +
+              '<span id="analisisStatNumeric" style="font-size:11px;font-weight:600;color:var(--accent)">?</span>' +
+              '<span style="font-size:10px;color:var(--text-faint)">numéricas</span>' +
+            '</div>' +
+            '<div style="display:flex;align-items:center;gap:6px;padding:2px 0">' +
+              '<span style="font-size:10px;color:var(--text-faint);min-width:60px">Umbral:</span>' +
+              '<input type="range" id="colThresholdSlider" min="0" max="100" value="50" style="flex:1;height:4px" oninput="columnAnalysisConfig.threshold=this.value/100;document.getElementById(\'colThresholdVal\').textContent=this.value+\'%\'">' +
+              '<span id="colThresholdVal" style="font-size:10px;color:var(--text-primary);min-width:28px;text-align:right">50%</span>' +
+            '</div>' +
+            '<div style="display:flex;gap:4px">' +
+              '<label style="display:flex;align-items:center;gap:3px;font-size:10px;color:var(--text-faint);cursor:pointer"><input type="checkbox" id="colForceInclude" onchange="columnAnalysisConfig.forceInclude=this.checked"> Forzar</label>' +
+              '<label style="display:flex;align-items:center;gap:3px;font-size:10px;color:var(--text-faint);cursor:pointer"><input type="checkbox" id="colImputeMissing" onchange="columnAnalysisConfig.imputeMissing=this.checked"> Imputar</label>' +
+              '<button class="btn btn-secondary" style="font-size:10px;padding:1px 6px;margin-left:auto" onclick="showColumnAnalysisModal()">🔍</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        // ── Último resultado ──
+        '<div class="info-section" style="flex-shrink:0">' +
+          '<div class="info-section-header">Último resultado</div>' +
+          '<div class="info-list" id="analisisLastResultList">' +
+            '<div class="info-item"><div class="info-item-label">Test</div><div class="info-item-value" id="analisisLastTest">' + lastTest + '</div></div>' +
+            '<div class="info-item"><div class="info-item-label">p-valor</div><div class="info-item-value" id="analisisLastPVal">' + lastPVal + '</div></div>' +
+            '<div class="info-item"><div class="info-item-label">Decisión</div><div class="info-item-value" id="analisisLastDecision" style="color:' + decColor + '">' + lastDec + '</div></div>' +
+          '</div>' +
+        '</div>' +
+        // ── Tests seleccionados (solo este scroll) ──
+        '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0">' +
+          '<div class="info-section-header">Test seleccionado</div>' +
+          '<div id="analisisSelectedTestsScroll" style="overflow-y:auto;flex:1;padding:6px;display:flex;flex-direction:column;gap:3px">' + selectedTestsHtml + '</div>' +
+        '</div>' +
+      '</div>'; 
+    },
+
+  visualizacion: function()  { return '<div class="left-panel" style="gap:10px">' +
+    '<div class="info-section">' +
+      '<div class="info-section-header" onclick="vizToggleSidebarList()" style="cursor:pointer;user-select:none;display:flex;align-items:center;gap:4px">' +
+        '<span>📊 Gráficos generados</span>' +
+        '<span id="vizSidebarCount" style="font-size:9px;color:var(--text-faint);background:var(--item-bg);padding:0 5px;border-radius:3px">0</span>' +
+        '<span id="vizSidebarArrow" style="margin-left:auto;font-size:8px">▼</span>' +
+      '</div>' +
+      '<div id="vizSidebarList" class="info-section-body" style="display:flex;flex-direction:column;gap:2px;padding:4px 8px;max-height:180px;overflow-y:auto">' +
+      '</div>' +
+    '</div>' +
+    '<div class="info-section"><div class="info-section-header">Tipo de gráfico</div>' +
+      '<div class="info-section-body" style="padding:6px 8px;display:grid;grid-template-columns:1fr 1fr;gap:4px">' +
+        '<button class="btn btn-secondary viz-type" data-type="bar" style="font-size:12px;padding:3px 4px">📊 Barras</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="line" style="font-size:12px;padding:3px 4px">📈 Líneas</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="area" style="font-size:12px;padding:3px 4px">📉 Área</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="multiLine" style="font-size:12px;padding:3px 4px">📈 Multi</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="stackedBar" style="font-size:12px;padding:3px 4px">🏗️ Apiladas</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="groupedBar" style="font-size:12px;padding:3px 4px">📊 Agrupadas</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="scatter" style="font-size:12px;padding:3px 4px">⬡ Dispersión</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="linealidad" style="font-size:12px;padding:3px 4px">∎ Linealidad</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="bubble" style="font-size:12px;padding:3px 4px">🔵 Burbuja</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="pie" style="font-size:12px;padding:3px 4px">◉ Circular</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="doughnut" style="font-size:12px;padding:3px 4px">◉ Dona</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="polarArea" style="font-size:12px;padding:3px 4px">🔄 Polar</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="radar" style="font-size:12px;padding:3px 4px">🕸️ Radar</button>' +
+        '<button class="btn btn-secondary viz-type" data-type="histogram" style="font-size:12px;padding:3px 4px">▦ Histograma</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="info-section"><div class="info-section-header">Seleccionar columnas</div>' +
+      '<div class="info-section-body" style="padding:8px 12px;display:flex;flex-direction:column;gap:8px">' +
+        '<div style="display:flex;flex-direction:column;gap:3px">' +
+          '<label style="font-size:10px;color:var(--text-faint)">Eje X</label>' +
+          '<select id="vizColX" class="modal-select" style="width:100%"><option value="">— Seleccionar —</option></select>' +
+        '</div>' +
+        '<div style="display:flex;flex-direction:column;gap:3px">' +
+          '<label style="font-size:10px;color:var(--text-faint)">Eje Y</label>' +
+          '<select id="vizColY" class="modal-select" style="width:100%"><option value="">— Seleccionar —</option></select>' +
+        '</div>' +
+        '<div id="vizSizeLabel" style="display:none;flex-direction:column;gap:3px">' +
+          '<label style="font-size:10px;color:var(--text-faint)">Tamaño</label>' +
+          '<select id="vizColSize" class="modal-select" style="width:100%"><option value="">— Seleccionar —</option></select>' +
+        '</div>' +
+        '<div id="vizExtraYContainer" style="display:none;flex-direction:column;gap:4px">' +
+          '<div style="display:flex;gap:4px;align-items:center">' +
+            '<span style="font-size:10px;color:var(--text-faint)">Series Y adicionales:</span>' +
+            '<button class="btn btn-secondary" id="vizAddYBtn" style="font-size:14px;padding:2px 6px">+</button>' +
+          '</div>' +
+          '<div id="vizExtraYList"></div>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<button class="btn btn-primary" id="vizRenderBtn" style="width:100%;justify-content:center">🎨 Renderizar</button>' +
+    '<button class="btn btn-secondary" onclick="loadPage(\'reportes\')" style="width:100%;justify-content:center;font-size:11px">📄 Reportes</button>' +
+  '</div>'; },
+  reportes: function() { return '<div class="left-panel" style="gap:10px"><div id="reportes-sidebar-container"></div></div>'; },
+  auditoria: function() { return '<div class="left-panel" style="gap:10px"><button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:11px;flex-shrink:0" onclick="if(typeof AuditoriaManager!==\'undefined\')AuditoriaManager.exportarCSV()">📥 Exportar log completo</button><div class="info-section"><div class="info-section-header">Filtros</div><div style="font-size:11px;color:var(--text-faint);padding:8px">Usa los filtros incluidos en el panel de resultados</div></div></div>'; },
+  usuarios: function() { return '<div class="left-panel" style="gap:10px"><div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px"><button class="btn btn-primary" style="width:100%;justify-content:center" onclick="if(typeof UsuariosManager!==\'undefined\')UsuariosManager.abrirModalCrearUsuario()">+ Nuevo usuario</button></div><div class="info-section"><div class="info-section-header">Usuarios</div><div class="usr-toolbar" style="display:flex;flex-direction:column;gap:8px;padding:8px"><input class="usr-search" id="usr-search" type="text" placeholder="🔍 Buscar usuario..." style="padding:8px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:0.82rem;font-family:inherit;color:var(--text-primary);background:var(--bg-panel);outline:none;transition:border-color 0.2s"><div style="display:flex;align-items:center;justify-content:space-between"><div class="usr-count" id="usr-count" style="font-size:0.8rem;color:var(--text-faint)">—</div><button class="usr-btn-refresh" id="usr-btn-refresh" title="Recargar" style="padding:6px 10px;background:var(--item-bg);border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:0.9rem;transition:all 0.2s">🔄</button></div></div></div></div>'; },
+  ml: function() { return typeof MLManager !== 'undefined' ? MLManager.buildLeftPanel() : ''; },
+  firmarReporte: function() {
+    return '<div class="left-panel" style="gap:10px">' +
+      '<div class="info-section"><div class="info-section-header">✍️ Firmar Reporte</div>' +
+        '<div class="info-section-body" style="font-size:11px;color:var(--text-faint);padding:8px 12px">Carga un reporte .html generado por StatAnalyzer Pro para revisar y firmar electrónicamente.</div></div>' +
+      '<div class="info-section"><div class="info-section-header">📂 Cargar reporte</div>' +
+        '<div class="info-section-body" style="padding:8px 12px">' +
+          '<div class="upload-zone" id="firmaDropZone" style="border:2px dashed var(--border);border-radius:8px;padding:10px;text-align:center;cursor:pointer;transition:all .2s">' +
+            '<div style="font-size:18px;margin-bottom:3px">📄</div>' +
+            '<div style="font-size:10px;color:var(--text-muted);line-height:1.3">Arrastra un .html aquí<br>o haz clic para seleccionar</div></div>' +
+          '<input type="file" id="firmaFileInput" accept=".html" style="display:none"></div></div>' +
+      '<div id="firmaStatus" style="display:none"></div>' +
+      '<div id="firmaActions" style="display:none;flex-direction:column;gap:8px">' +
+        '<div class="info-section"><div class="info-section-header">📝 Firmas detectadas</div>' +
+          '<div class="info-section-body" id="firmaSignatureEditor" style="padding:8px 12px;display:flex;flex-direction:column;gap:10px"></div></div>' +
+        '<button class="btn btn-primary" id="firmaDownloadBtn" style="width:100%;justify-content:center;font-size:12px">⬇ Descargar reporte firmado</button>' +
+        '<button class="btn btn-secondary" id="firmaResetBtn" style="width:100%;justify-content:center;font-size:12px;display:none">🔄 Reiniciar firmas</button></div>' +
+    '</div>';
+  }
+};
+
+var rightPanels = {
+  trabajo: function() {
+    var sheet = getCurrentSheet();
+    var cols = sheet ? sheet.headers : ['Columna1'];
+    var rows = sheet ? sheet.rows : [];
+    var colHeaders = cols.map(function(c, ci){
+      var frozenClass = (trabajoFreezeFirstCol && ci === 0) ? ' frozen-col' : '';
+      return '<th style="min-width:100px;text-align:left;font-size:11px;font-weight:500;padding:0;border-right:1px solid var(--border);background:var(--bg-primary);position:sticky;top:0;z-index:' + (trabajoFreezeFirstCol && ci===0 ? 3 : 2) + ';' + (trabajoFreezeFirstCol && ci===0 ? 'left:40px;border-right:2px solid rgba(124,106,247,.4)' : '') + '" class="' + frozenClass + '">' +
+        '<div class="col-header-editable" contenteditable="true" data-colidx="' + ci + '" onblur="renameColumn(' + ci + ',this.textContent)" onmouseenter="showColStats(event,' + ci + ')" onmouseleave="hideColStats()" title="Hover: estadísticas · Doble clic: renombrar">' + escapeHtml(c) + '</div></th>';
+    }).join('');
+
+    var bodyRows = rows.map(function(r, ri){
+      var cells = r.map(function(v, ci){
+        var isActive = trabajoActiveCell.row === ri && trabajoActiveCell.col === ci;
+        var inRange = isInRange(ri, ci);
+        var selClass = isActive ? ' cell-selected' : (inRange ? ' cell-in-range' : '');
+        var cfClass = getCFClass(v, ci);
+        var frozenClass = (trabajoFreezeFirstCol && ci === 0) ? ' frozen-col' : '';
+        var safeV = escapeHtml(String(v == null ? '' : v));
+        return '<td class="excel-cell' + selClass + frozenClass + '" style="padding:0;border-right:1px solid rgba(255,255,255,0.04)' + (trabajoFreezeFirstCol && ci===0 ? ';border-right:2px solid rgba(124,106,247,.4)' : '') + '" onclick="cellClick(event,' + ri + ',' + ci + ')">' +
+          '<div class="excel-cell-inner' + (cfClass ? ' ' + cfClass : '') + '" contenteditable="true" data-row="' + ri + '" data-col="' + ci + '"' +
+          ' onblur="saveCellData(' + ri + ',' + ci + ',this.textContent)"' +
+          ' oninput="onCellInput(event,' + ri + ',' + ci + ',this.textContent)"' +
+          ' onpaste="handleCellPaste(event,' + ri + ',' + ci + ')"' +
+          ' onfocus="onCellFocus(' + ri + ',' + ci + ')">' +
+          safeV + '</div></td>';
+      }).join('');
+      var rowActive = trabajoActiveCell.row === ri;
+      return '<tr><td class="excel-row-num' + (rowActive ? ' row-active' : '') + '" onclick="selectRow(' + ri + ')">' + (ri+1) + '</td>' + cells + '</tr>';
+    }).join('');
+
+    var colLetter = String.fromCharCode(65 + trabajoActiveCell.col);
+    var cellRef = colLetter + (trabajoActiveCell.row + 1);
+    var cellVal = (sheet && sheet.rows[trabajoActiveCell.row]) ? (sheet.rows[trabajoActiveCell.row][trabajoActiveCell.col] || '') : '';
+
+    return '<div style="display:flex;flex-direction:column;height:100%;overflow:hidden;background:var(--bg-primary)">' +
+      '<div style="display:flex;align-items:center;gap:0;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--card-bg)">' +
+        '<div id="trabajoCellRef" style="padding:6px 10px;font-size:11px;color:var(--text-faint);border-right:1px solid var(--border);min-width:60px;font-family:monospace;flex-shrink:0">' + escapeHtml(cellRef) + '</div>' +
+        '<div style="padding:0 8px;font-size:11px;color:var(--text-faint);border-right:1px solid var(--border);flex-shrink:0">fx</div>' +
+        '<div id="trabajoCellVal" style="padding:6px 12px;font-size:12px;color:var(--text-muted);font-family:monospace;flex:1;border-right:1px solid var(--border)">' + escapeHtml(String(cellVal)) + '</div>' +
+        '<div style="display:flex;gap:4px;padding:4px 8px;flex-shrink:0">' +
+          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="addRow()">+ Fila</button>' +
+          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="addColumn()">+ Col</button>' +
+          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="deleteActiveRow()">– Fila</button>' +
+          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="undoAction()">↩</button>' +
+          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="redoAction()">↪</button>' +
+          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="sortColumn()">↕</button>' +
+          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="exportTrabajo()">💾</button>' +
+          '<button class="btn btn-primary" style="font-size:11px;padding:3px 8px" onclick="loadPage(\'analisis\')">📊 Análisis</button>' +
+        '</div>' +
+      '</div>' +
+      '<div style="flex:1;overflow:auto;position:relative" id="trabajoScrollWrap">' +
+        '<table id="trabajoTable" style="border-collapse:collapse;width:100%;table-layout:fixed;min-width:400px">' +
+          '<thead style="position:sticky;top:0;z-index:2"><tr>' +
+            '<th style="width:40px;background:var(--bg-primary);border-right:1px solid var(--border);border-bottom:1px solid var(--border);cursor:pointer;position:sticky;top:0;z-index:3;left:0" onclick="selectAll()" title="Seleccionar todo"></th>' +
+            colHeaders +
+          '</tr></thead>' +
+          '<tbody id="trabajoTableBody" style="font-family:monospace">' + bodyRows + '</tbody>' +
+        '</table>' +
+      '</div>' +
+      '<div style="display:flex;gap:0;border-top:1px solid var(--border);flex-shrink:0;background:var(--card-bg);align-items:stretch">' +
+        getTrabajoTabsHTML() +
+        '<div style="padding:4px 12px;font-size:11px;color:var(--accent);cursor:pointer;display:flex;align-items:center" onclick="createNewSheet()" title="Nueva hoja">+</div>' +
+        '<div style="margin-left:auto;padding:4px 12px;font-size:11px;color:var(--text-faint);display:flex;align-items:center">' + rows.length + ' filas · ' + cols.length + ' cols · Pila deshacer: ' + undoStack.length + '</div>' +
+      '</div>' +
+    '</div>';
+  },
+
+  datos: function() {
+    return '<div style="display:flex;flex-direction:column;height:100%;overflow:hidden" id="datosRightPanel">' +
+      '<div style="padding:10px 16px;border-bottom:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;gap:10px;background:var(--card-bg)">' +
+        '<span style="font-size:16px">👁️</span>' +
+        '<span style="font-size:14px;font-weight:600;color:var(--text-primary);flex:1">Vista Previa del Dataset</span>' +
+        '<span class="page-card-badge" id="datosRecordBadge" style="background:var(--item-bg);color:var(--text-faint)">Sin datos</span>' +
+        '<div style="display:flex;gap:6px">' +
+          '<button class="btn btn-secondary" style="font-size:11px;padding:4px 10px" id="btnFilterRows">🔍 Filtrar</button>' +
+          '<button class="btn btn-primary" style="font-size:11px;padding:4px 10px" id="btnSendToTrabajo" title="Enviar a Hoja de Trabajo">📋 Trabajo</button>' +
+          '<button class="btn btn-primary" style="font-size:11px;padding:4px 10px" id="btnExport">↓ Exportar</button>' +
+        '</div>' +
+      '</div>' +
+      '<div id="datosFilterBar" style="display:none"></div>' +
+      '<div class="preview-wrap" style="flex:1;border-radius:0;overflow-y:auto;overflow-x:auto">' +
+        '<div id="datosTableContainer" style="display:none">' +
+          '<table class="data-table" style="min-width:600px">' +
+            '<thead id="datosTableHead"><tr><th style="width:44px">#</th></tr></thead>' +
+            '<tbody id="datosTableBody"></tbody>' +
+          '</table>' +
+        '</div>' +
+        '<div id="datosEmptyState" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:40px;color:var(--text-faint)">' +
+          '<div style="font-size:36px">📭</div>' +
+          '<div style="font-size:13px;color:var(--text-muted)">Sin datos cargados</div>' +
+          '<div style="font-size:11px">Usa el panel izquierdo para cargar un archivo CSV, JSON o Excel</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="pagination-bar" id="datosPaginationBar" style="display:none">' +
+        '<button class="pg-btn" id="pgFirst" onclick="goPage(0)">«</button>' +
+        '<button class="pg-btn" id="pgPrev" onclick="goPage(datosPage-1)">‹</button>' +
+        '<span class="pg-info" id="pgInfo"></span>' +
+        '<button class="pg-btn" id="pgNext" onclick="goPage(datosPage+1)">›</button>' +
+        '<button class="pg-btn" id="pgLast" onclick="goPage(999999)">»</button>' +
+        '<select class="pg-size-sel" id="pgSizeSel" onchange="changePageSize(this.value)">' +
+          '<option value="25">25/pág</option><option value="50" selected>50/pág</option><option value="100">100/pág</option><option value="250">250/pág</option>' +
+        '</select>' +
+      '</div>' +
+    '</div>';
+  },
+
+  analisis: function() { 
+    // 1. Mostrar resultado si existe
+    if (analisisSelectedTest && analisisResultContent) {
+      var testLabel = analisisLastResult && analisisLastResult.testName ? analisisLastResult.testName : analisisSelectedTest;
+      return '<div class="page-body">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">' +
+          '<span style="font-size:14px;font-weight:600;color:var(--text-primary)">' + escapeHtml(testLabel) + '</span>' +
+          '<div style="display:flex;gap:6px">' +
+            '<button class="btn btn-secondary" style="font-size:11px" onclick="loadPage(&#39;visualizacion&#39;)">📊 Ver gráficos</button>' +
+            '<button class="btn btn-secondary" style="font-size:11px" onclick="analisisResultContent=null;analisisSelectedTest=null;loadPage(&#39;analisis&#39;)">✕ Cerrar resultado</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="page-card">' +
+          '<div class="page-card-body" style="padding:20px">' + analisisResultContent + '</div>' +
+        '</div>' +
+      '</div>';
+    }
+    
+    // 2. Mostrar cards si hay tests seleccionados en el sidebar
+    var sideTests = getSidebarSelectedTests();
+    if (sideTests.length > 0) {
+      return buildStatCardsHTML(sideTests);
+    }
+    
+    // 3. Estado inicial / carga (wrapper con tres secciones solapadas)
+    return '<div class="page-body">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">' +
+        '<span style="font-size:12px;color:var(--text-muted)">Selecciona un test desde el menú Statistical Analysis</span>' +
+      '</div>' +
+      // Wrapper con tres secciones que se solapan
+      '<div id="analisis-content-wrapper" class="analisis-wrapper" style="flex:1;position:relative;overflow:hidden">' +
+        // MAIN 1: Estado inicial (sin analíticos seleccionados)
+        '<div class="analisis-main analisis-main-initial" style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;padding:20px' + (analisisSelectedTest ? ';display:none' : '') + '">' +
+          '<div style="text-align:center;color:var(--text-faint);padding:40px;border:2px dashed var(--border);border-radius:8px;width:100%;max-width:600px">' +
+            '<div style="font-size:48px;margin-bottom:16px">📊</div>' +
+            '<div style="font-size:16px;font-weight:500;color:var(--text-muted);margin-bottom:8px">Área de Análisis</div>' +
+            '<div style="font-size:12px;color:var(--text-faint)">Selecciona tests desde el menú Statistical Analysis</div>' +
+            '<div style="margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">' +
+              '<span class="badge" style="background:var(--card-bg)">1. Seleccionar</span>' +
+              '<span class="badge" style="background:var(--card-bg)">2. Ejecutar</span>' +
+              '<span class="badge" style="background:var(--card-bg)">3. Ver resultados</span>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        // MAIN 2: Estado de carga/ejecución (cuando hay test seleccionado pero sin resultado)
+        '<div class="analisis-main analisis-main-loading" style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;padding:20px' + (analisisSelectedTest && !analisisResultContent ? '' : ';display:none') + '">' +
+          '<div style="text-align:center;padding:40px;width:100%;max-width:500px">' +
+            '<div style="font-size:32px;margin-bottom:16px">⏳</div>' +
+            '<div style="font-size:16px;font-weight:500;color:var(--text-muted);margin-bottom:8px">Ejecutando: ' + (analisisSelectedTest || '...') + '</div>' +
+            '<div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin:16px 0">' +
+              '<div style="height:100%;width:30%;background:var(--accent);animation:analisis-loading 1.5s infinite"></div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        // MAIN 3: Estado de resultados (cuando hay resultado disponible)
+        '<div class="analisis-main analisis-main-results" style="position:absolute;top:0;left:0;right:0;bottom:0;padding:20px;overflow-y:auto' + (analisisResultContent ? '' : ';display:none') + '">' +
+          '<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:20px">' +
+            '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">' +
+              '<span style="font-size:14px;font-weight:600;color:var(--text-primary)">' + (analisisLastResult ? analisisLastResult.testName : 'Resultado') + '</span>' +
+              '<div style="display:flex;gap:6px">' +
+                '<button class="btn btn-secondary" style="font-size:11px;padding:4px 8px" onclick="loadPage(&#39;visualizacion&#39;)">📊 Ver gráficos</button>' +
+                '<button class="btn btn-secondary" style="font-size:11px;padding:4px 8px" onclick="analisisResultContent=null;analisisSelectedTest=null;loadPage(&#39;analisis&#39;)">✕ Cerrar</button>' +
+              '</div>' +
+            '</div>' +
+            '<div>' + (analisisResultContent || '<div style="color:var(--text-faint)">Sin resultados</div>') + '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<style>@keyframes analisis-loading{0%{transform:translateX(-100%)}50%{transform:translateX(100%)}100%{transform:translateX(-100%)}}</style>' +
+    '</div>';
+  },
+  visualizacion: function() { return '<div class="page-body" style="display:flex;flex-direction:column;gap:12px">' +
+    '<div id="vizCardsContainer" style="display:flex;flex-direction:column;gap:10px"></div>' +
+  '</div>'; },
+  reportes: function() { return '<div class="page-body"><div id="reportes-editor-container"></div></div>'; },
+  auditoria: function() { return '<div class="page-body"><div id="auditoria-container" style="width:100%"></div></div>'; },
+  usuarios: function() { return '<div class="page-body"><div id="usuarios-container" style="width:100%"></div></div>'; },
+  ml: function() { return typeof MLManager !== 'undefined' ? MLManager.buildRightPanel() : ''; },
+  firmarReporte: function() { return '<div class="page-body" style="display:flex;flex-direction:column;gap:12px;height:100%">' +
+    '<div class="page-card" style="flex:1;display:flex;flex-direction:column;min-height:0">' +
+      '<div class="page-card-header"><span class="page-card-icon">📄</span><span class="page-card-title">Vista previa del reporte</span></div>' +
+      '<div class="page-card-body" id="firmaPreview" style="flex:1;padding:0;overflow:auto;display:flex;align-items:center;justify-content:center;min-height:300px">' +
+        '<div style="color:var(--text-faint);font-size:13px">Carga un reporte .html para previsualizarlo aquí</div></div></div></div>'; }
+};
+
+var pageIcons  = { trabajo:'📋', datos:'📊', analisis:'🔬', visualizacion:'📈', reportes:'📄', firmarReporte:'✍️', ml:'🧠', auditoria:'📋', usuarios:'👥' };
+var pageTitles = { trabajo:'Hoja de Trabajo', datos:'Gestión de Datos', analisis:'Análisis Estadístico', visualizacion:'Visualización', reportes:'Reportes', firmarReporte:'Firmar Reporte', ml:'ML Analysis', auditoria:'Auditoría', usuarios:'Usuarios' };
+
+function loadPage(name) {
+  currentPage = name;
+  document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
+  var navEl = document.querySelector('[data-page="' + name + '"]');
+  if (navEl) navEl.classList.add('active');
+  var pageTab = tabbar.querySelector('[data-page-tab="' + name + '"]');
+  if (!pageTab) {
+    pageTab = document.createElement('div'); pageTab.className = 'tab'; pageTab.dataset.pageTab = name;
+    pageTab.innerHTML = '<span class="tab-icon">' + pageIcons[name] + '</span> ' + pageTitles[name] + ' <span class="tab-close">×</span>';
+    tabbar.insertBefore(pageTab, tabbar.querySelector('.tabbar-spacer'));
+    pageTab.querySelector('.tab-close').addEventListener('click', function(e){ closeTab(pageTab, e); });
+    pageTab.addEventListener('click', function(e){ if (!e.target.classList.contains('tab-close')) { makeTabActive(pageTab); loadPage(name); } });
+  }
+  makeTabActive(pageTab);
+  leftPaneTitle.textContent = pageTitles[name];
+  rightPaneTitle.textContent = pageTitles[name];
+  var leftFn = leftPanels[name];
+  leftPaneBody.innerHTML = leftFn ? leftFn() : '';
+  leftPaneBody.style.overflow = (name === 'datos') ? 'hidden' : '';
+  document.getElementById('paneLeft')?.classList.toggle('pane-reportes', name === 'reportes');
+  var rightFn = rightPanels[name];
+  rightPaneBody.innerHTML = rightFn ? rightFn() : '<div class="page-body"><div style="color:var(--text-faint)">Página no encontrada</div></div>';
+  if (name === 'datos' || name === 'trabajo') rightPaneBody.classList.add('flush');
+  else rightPaneBody.classList.remove('flush');
+
+  if (name === 'analisis') { setTimeout(function() {
+    updateAnalisisDatasetBadge();
+    updateColumnAnalysisSummary();
+  }, 30); }
+  if (name === 'datos') { setTimeout(initDatosPage, 60); }
+  if (name === 'trabajo') { initTrabajoKeyboard(); setTimeout(renderLimitsPanel, 30); }
+  if (name === 'visualizacion') { setTimeout(initVizPage, 60); }
+  if (name === 'reportes') { setTimeout(function(){ if (typeof ReporteManager !== 'undefined') ReporteManager.buildReportesView(); }, 60); }
+  if (name === 'auditoria') { setTimeout(function() {
+    if (!_auditoriaInited && typeof AuditoriaManager !== 'undefined') { AuditoriaManager.init(API_URL); _auditoriaInited = true; }
+    if (typeof AuditoriaManager !== 'undefined') AuditoriaManager.buildView();
+  }, 60); }
+  if (name === 'usuarios') { setTimeout(function() {
+    if (!_usuariosInited && typeof UsuariosManager !== 'undefined') { UsuariosManager.init(API_URL); _usuariosInited = true; }
+    if (typeof UsuariosManager !== 'undefined') UsuariosManager.buildView();
+  }, 60); }
+  if (name === 'firmarReporte') { setTimeout(initFirmarReportePage, 60); }
+  if (name === 'ml') { setTimeout(function() { if (typeof MLManager !== 'undefined') MLManager.init(); }, 60); }
+  updateToolsMenuState();
+  updateRibbonNavPopup();
+}
+
+function updateToolsMenuState() {
+  setTimeout(function() {
+    var isTrabajo = currentPage === 'trabajo';
+    var items = document.querySelectorAll('.menu-item[data-menu="Tools"] .dd-item[data-action]');
+    items.forEach(function(item) {
+      if (isTrabajo) {
+        item.classList.remove('disabled');
+      } else {
+        item.classList.add('disabled');
+      }
+    });
+  }, 10);
+}
+
+document.querySelectorAll('.nav-item[data-page]').forEach(function(item){
+  item.addEventListener('click', function(){ loadPage(item.dataset.page); });
+});
+
+// Sync sidebar nav icons from pageIcons map
+document.querySelectorAll('.nav-item[data-page] .nav-icon').forEach(function(el){
+  var page = el.closest('.nav-item').dataset.page;
+  if (page && pageIcons[page]) el.textContent = pageIcons[page];
+});
+
+// ── Ribbon nav popup (collapsed sidebar) ──
+function buildRibbonNavPopup() {
+  var popup = document.getElementById('ribbonNavPopup');
+  if (!popup) return;
+  var session = typeof Auth !== 'undefined' ? Auth.getSession() : null;
+  var isAdmin = session?.role === 'admin';
+  popup.innerHTML = '';
+  document.querySelectorAll('.nav-item[data-page]').forEach(function(item) {
+    var page = item.dataset.page;
+    if (!isAdmin && (page === 'auditoria' || page === 'usuarios')) return;
+    var icon = pageIcons[page] || '📄';
+    var label = pageTitles[page] || page;
+    var el = document.createElement('div');
+    el.className = 'ribbon-nav-item' + (currentPage === page ? ' active' : '');
+    el.innerHTML = '<span>' + icon + '</span> <span>' + label + '</span>';
+    el.addEventListener('click', function() {
+      loadPage(page);
+      document.getElementById('ribbonNavPopup').classList.remove('open');
+    });
+    popup.appendChild(el);
+  });
+}
+
+function updateRibbonNavPopup() {
+  document.querySelectorAll('.ribbon-nav-item').forEach(function(el, i) {
+    var pages = Object.keys(pageIcons);
+    el.classList.toggle('active', pages[i] === currentPage);
+  });
+}
+
+buildRibbonNavPopup();
+
+// ── Restore sidebar collapsed state ──
+try {
+  var savedCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
+  var sidebar = document.getElementById('sidebar');
+  var toggle = document.getElementById('sidebarToggle');
+  if (savedCollapsed && sidebar && toggle) {
+    sidebar.classList.add('collapsed');
+    toggle.classList.add('rotated');
+  }
+} catch(e) {}
+
+// ── Zoom ──
+var _zoomLevel = (function(){ try { return parseInt(localStorage.getItem('zoomLevel')) || 100; } catch(e){ return 100; } })();
+function applyZoom() {
+  document.body.style.zoom = _zoomLevel + '%';
+  var el = document.getElementById('zoomValue');
+  if (el) el.textContent = _zoomLevel;
+  try { localStorage.setItem('zoomLevel', _zoomLevel); } catch(e) {}
+}
+function zoomIn() { if (_zoomLevel < 200) { _zoomLevel = Math.min(200, _zoomLevel + 10); applyZoom(); } }
+function zoomOut() { if (_zoomLevel > 50) { _zoomLevel = Math.max(50, _zoomLevel - 10); applyZoom(); } }
+applyZoom();
+
+// ── Dropdown toggle for sidebar toolbar ──
+function toggleDropdown(btn) {
+  var menu = btn.nextElementSibling;
+  if (!menu || !menu.classList.contains('dd-menu')) return;
+  var isOpen = menu.classList.contains('open');
+  // Close all other dropdowns
+  document.querySelectorAll('.tb-dropdown .dd-menu.open').forEach(function(m){ m.classList.remove('open'); });
+  if (!isOpen) menu.classList.add('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.tb-dropdown')) {
+    document.querySelectorAll('.tb-dropdown .dd-menu.open').forEach(function(m){ m.classList.remove('open'); });
+  }
+});
+
