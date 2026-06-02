@@ -56,6 +56,7 @@ const EDAManager = (function () {
      * El umbral por defecto de StatsUtils es 80%, por eso se pasa options.
      */
     function getNumericColumns(data) {
+        if (!data || !data.headers) return [];
         return Stats.getNumericColumns(data, {
             threshold: 0.3,
             excludeColumns: ['#', 'Row', 'row', 'INDEX', 'index', 'row_index', 'No.', 'N°']
@@ -68,6 +69,7 @@ const EDAManager = (function () {
      */
     function buildValuesCache(data, numCols) {
         const cache = {};
+        if (!data || !numCols) return cache;
         numCols.forEach(col => {
             cache[col] = Stats.getNumericValues(data, col);
         });
@@ -84,8 +86,10 @@ const EDAManager = (function () {
      * Usa StatsUtils.calcularCorrelacionPearson para el cálculo.
      */
     function getAlignedPairs(data, col1, col2) {
+        if (!data || !data.headers || !data.data) return { x: [], y: [] };
         const idx1 = data.headers.indexOf(col1);
         const idx2 = data.headers.indexOf(col2);
+        if (idx1 === -1 || idx2 === -1) return { x: [], y: [] };
         const x = [], y = [];
         data.data.forEach(row => {
             const v1 = parseFloat(Array.isArray(row) ? row[idx1] : row[col1]);
@@ -687,7 +691,8 @@ const EDAManager = (function () {
             }
         });
 
-        const root = document.getElementById('eda-container') || document.body;
+        const root = document.getElementById('eda-container') || document.body || document.documentElement;
+        if (!root) return;
         observer.observe(root, { childList: true, subtree: true });
         setTimeout(() => observer.disconnect(), 5000);
     }
@@ -771,6 +776,7 @@ const EDAManager = (function () {
     // ========================================
 
     function escHtml(str) {
+        if (typeof escapeHtml === 'function') return escapeHtml(str);
         const d = document.createElement('div');
         d.textContent = String(str);
         return d.innerHTML;
