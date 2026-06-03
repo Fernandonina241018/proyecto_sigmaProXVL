@@ -23,6 +23,31 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-02: Dataset de estrés ML v2 (entrenamiento_estres_ml.csv)
+
+**Qué:** Dataset sintético de 800 filas × 12 columnas para probar las nuevas capacidades.
+
+| Propiedad | Valor |
+|-----------|-------|
+| Filas | 800 |
+| Columnas | 12 (9 features + 2 ruido + 1 target) |
+| Target | Binario (15.2% positivos vs 84.8% negativos) |
+| Features numéricas | edad, antiguedad, ingresos, gastos_fijos, deudas, ruido_1, ruido_2 |
+| Features categóricas | ciudad (6), sector (6), nivel_estudios (4) |
+| Ruido | ruido_1, ruido_2 son uniformes aleatorios (sin correlación con target) |
+| Relaciones no lineales | Target depende de interacciones edad×antiguedad, ingresos con rendimientos decrecientes |
+| Desbalance | ~85/15 → prueba SMOTE/ADASYN |
+| Ruido | 2 columnas irrelevantes → prueba SelectKBest/RFE |
+
+**Cómo probar desde la UI:**
+1. Refrescar datasets, seleccionar `entrenamiento_estres_ml.csv`
+2. Target: `target`, modelo: Random Forest
+3. Abrir ⚙️ Hiperparámetros, ajustar `n_estimators: 500`, `max_depth: 25`
+4. Activar Tuning automático → Grid Search
+5. Cambiar balanceo a SMOTE
+6. Click 🎯 Entrenar — verás best_params en resultados
+7. Click 🏆 Todos — compara 4 modelos lado a lado
+
 ### 2026-06-02: Fase 2 — UX de entrenamiento (Hiperparámetros + Comparación multi-modelo)
 
 **Qué:** Panel interactivo de hiperparámetros en frontend, tuning automático, balanceo,
