@@ -23,6 +23,173 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-02: Remediación 23 errores de flujo (4 CRITICAL + 6 HIGH + 6 MEDIUM + 5 LOW)
+
+**Qué:** Implementados 19 fixes del análisis estático de flujo + 2 descartados
+(eran pseudo-bugs) + 11 tests de regresión nuevos.
+
+**1. CRITICAL — StateManager (`js/core/StateManager.js`)**
+
+- **C1 — insertColumn generaba headers duplicados.** Al insertar en
+  `colIndex=1` con headers `[A,B,C,D]`, el resultado era `[A,A,B,C,D]`.
+  Causa: el loop renombraba con `indexToExcelColumn(i + 1)` (mismo índice,
+  no desplazamiento) y la nueva columna recibía `indexToExcelColumn(colIndex)` =
+  "A" colisionando con la posición 0.
+  Fix: renumerar existentes con `indexToExcelColumn(i + 2)` (desplazamiento
+  +1) y la nueva columna recibe `indexToExcelColumn(colIndex + 1)`.
+  También: si se pasa `header` personalizado, NO renumerar existentes
+  (decisión del usuario).
+
+- **C2 — `_pushToHistory` desincronizaba `historyIndex` al alcanzar
+  `maxHistorySize` en mid-undo.** Cuando el historial estaba al máximo
+  (50) y `historyIndex` apuntaba al medio (e.g. 30), un `shift()` eliminaba
+  la entrada más antigua pero el índice seguía apuntando a la misma
+  posición numérica, que ahora contenía una entrada diferente.
+  Fix: restar 1 al `historyIndex` cuando ocurre el shift (mantener
+  coherencia del puntero).
+
+**2. CRITICAL — ML Manager (`js/pages/ml.js`)**
+
+- **C3 — `predictFromModel` crasheaba con input vacío.**
+  `Object.keys(inputData[0])` lanzaba TypeError cuando el array estaba
+  vacío o el primer elemento no era un objeto.
+  Fix: validar `inputData.length > 0` y `inputData[0]` sea objeto antes
+  de acceder a sus keys. Además: `cleanupPredictModal()` se llama también
+  al finalizar la predicción (no solo al cancelar), resolviendo M6.
+
+- **C4 — DOM ID duplicado en modales múltiples de predicción.**
+  IDs hardcodeados (`ml-expert-toggle`, `ml-predict-input`, `ml-feature-list`,
+  `ml-predict-form`, `ml-preview-json`) colisionaban al abrir 2 modales
+  consecutivamente; `getElementById` siempre devolvía el primero.
+  Fix: usar `className` para elementos internos, `createElement` para
+  el toggle, y `Date.now() + random` para el datalist ID. Capturar
+  referencias en closures en vez de lookup por ID.
+
+**3. HIGH — StateManager**
+
+- **H1 — Cache de `getNumericCols` retornaba datos obsoletos.** El cache
+  key era solo `headers + length`; ediciones a celdas no invalidaban.
+  Fix: incluir en el hash la primera y última fila (truncadas a 200 chars)
+  como fingerprint del contenido.
+
+- **H2 — `beforeunload` no esperaba `saveToLocalStorage()` async.**
+  El callback era sync; el guardado a IndexedDB podía no completarse antes
+  del cierre. Fix: escribir a `localStorage` (sync) como fallback final
+  en `beforeunload`.
+
+- **H5 — `setHypothesisConfig` no notificaba listeners.** Fix:
+  añadir `notifyListeners('dataChange')` tras el cambio.
+
+- **H6 — `undo()` / `redo()` no notificaban listeners.** Mismo fix.
+
+**4. HIGH — ML Manager**
+
+- **H3 — Retry de 404 amplificaba errores legítimos.** El cliente reintentaba
+  3× cualquier 404, incluyendo 404 legítimos de recursos inexistentes
+  (e.g. usuario pide dataset eliminado). Fix: reintentar 503 siempre, y 404
+  solo para paths exactos `/api/ml/health|datasets|models` (las "listas"
+  afectadas por cold start).
+
+- **H4 — Keep-alive interval nunca se limpiaba.** Memory leak + pings
+  innecesarios a Fly.io. Fix: nueva función `_stopKeepAlive()` + listener
+  `beforeunload` y `pagehide`.
+
+**5. MEDIUM — Backend (`backend/server.js` + `database.js`)**
+
+- **M2 — Memory leak en `_userFailures` y `_ipFailures` Maps.** Nunca se
+  purgaban; con el tiempo consumían RAM. Fix: `setInterval` cada 30 min
+  que limpia entries con `lastFailure > 1h` y resetea counters expirados.
+
+- **M3 — `blacklistToken` silenciaba errores con `catch {}`** (solo PG).
+  Si la DB caía, el token seguía válido. Fix: loguear el error con
+  contexto (sigue siendo graceful degradation, pero ahora visible).
+
+**6. MEDIUM — ML preprocessing (`Red_Neuronal/`)**
+
+- **M4 — `detect_problem_type` tenía `return "binary"` dos veces
+  consecutivas.** Limpieza de código muerto, sin cambio funcional.
+
+- **M5 — `_generate_filename` podía exceder 255 bytes (MAX_PATH).**
+  Fix: truncar dataset name a 50 chars y sanitizar caracteres
+  inseguros (`/\:*?"<>|`).
+
+**7. LOW**
+
+- **L1 — JWT sin claims estándar `iss`/`aud`.** Fix: añadir
+  `issuer: 'sigmaproxvl'`, `audience: 'sigmaproxvl-api'` en
+  `jwt.sign` y validar en `jwt.verify`. Tokens antiguos (sin claims)
+  serán rechazados; usuarios deberán re-loguear tras el deploy.
+
+- **L2 — `setImportedData` no validaba payload.** Fix: rechazar
+  si no tiene `headers` o `data` como arrays.
+
+- **L3 — `init()` mostraba página vacía durante 10s de warmup.** Fix:
+  mostrar mensaje "Despertando ML Service..." en `#ml-results`.
+
+- **L4 — `escapeHtml` duplicado en ml.js.** Ya existe en `js/core/utils.js`.
+  Fix: eliminar la definición local.
+
+**8. Descartados del análisis original**
+
+- **M1 (deleteRow reindexa solo col 0):** No es bug, la app no soporta
+  fórmulas. Documentado.
+- **M6 (cleanupPredictModal on success):** Resuelto como parte de C3.
+- **M7 (loadFromLocalStorage no restaura history):** NO es bug; el
+  análisis original estaba errado. `saveToLocalStorage` NUNCA guardó
+  history (es by design — undo es session-only).
+- **L5 (`_ALGO_INFO` en scope global):** NO es bug; la variable está
+  dentro del IIFE de `MLManager`.
+
+**Archivos modificados:**
+
+| Archivo | Cambios |
+|---------|---------|
+| `js/core/StateManager.js` | C1, C2, H1, H2, H5, H6, L2 (7 fixes) |
+| `js/pages/ml.js` | C3, C4, H3, H4, L3, L4 (6 fixes) |
+| `backend/server.js` | L1, M2 (2 fixes) |
+| `backend/database.js` | M3 (1 fix) |
+| `Red_Neuronal/preprocessor.py` | M4 (1 fix) |
+| `Red_Neuronal/model_manager.py` | M5 (1 fix) |
+| `tests/StateManager.test.js` | +11 tests de regresión |
+
+**Tests de regresión nuevos (11):**
+
+```
+✓ insertColumn (regression C1)
+  - secuencia A,B,C,D,E sin duplicados
+  - insertColumn al final
+  - header personalizado no renumera
+✓ undo/redo history (regression C2)
+  - historyIndex coherente al exceder maxHistorySize
+✓ hypothesis listeners (regression H5+H6)
+  - setHypothesisConfig notifica
+  - undo notifica
+  - redo notifica
+✓ setImportedData (regression L2)
+  - rechaza string
+  - rechaza payload sin headers
+  - acepta payload válido
+  - null limpia
+```
+
+**Verificaciones finales:**
+
+```
+node -c backend/server.js                  → OK
+node -c js/core/StateManager.js            → OK
+node -c js/pages/ml.js                     → OK
+python3 -m py_compile Red_Neuronal/*.py    → OK
+npm test (vitest)                          → 107/107 PASSED (96 + 11 nuevos)
+```
+
+**Estadísticas:**
+
+```
+Test Files  5 passed (5)
+     Tests  107 passed (107)
+  Duration  ~810ms
+```
+
 ### 2026-06-02: Remediación 6 hallazgos HIGH de auditoría de seguridad
 
 **Qué:** Implementados los 6 fixes de severidad HIGH identificados en el mapeo de seguridad:

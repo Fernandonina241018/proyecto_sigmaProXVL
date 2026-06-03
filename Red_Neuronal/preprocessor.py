@@ -49,12 +49,8 @@ def detect_problem_type(series: pd.Series) -> str:
     # Binary: 2 valores típicos de clasificación binaria
     binary_patterns = {"si", "no", "0", "1", "true", "false", "m", "f", "yes", "no", "approve", "reject", "aprobado", "rechazado"}
     
-    # Si hay exactamente 2 valores únicos, verificar si son binarios
+    # Si hay exactamente 2 valores únicos, es clasificación binaria
     if n_unique == 2:
-        # Si son strings típicos de binary, forzar binary
-        if valores <= binary_patterns or len(valores & binary_patterns) >= 1:
-            # Verificar que no sea algo como "alto" "bajo" que no es binary estándar
-            return "binary"
         return "binary"
     
     if n_unique <= 20 or dtype == object:

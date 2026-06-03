@@ -244,6 +244,24 @@ let server;
 
     // Limpiar blacklist expirada cada hora
     setInterval(() => db.cleanExpiredBlacklist().catch(() => {}), 3600000);
+
+    // Limpiar Maps de tracking de fallos cada 30 minutos para evitar memory leak
+    setInterval(() => {
+        const now = Date.now();
+        const ONE_HOUR = 60 * 60 * 1000;
+        for (const [u, d] of _userFailures) {
+            if (now - (d.lockedUntil || 0) > ONE_HOUR && (d.count || 0) === 0) {
+                _userFailures.delete(u);
+            } else if (d.lockedUntil && d.lockedUntil < now && (d.count || 0) > 0) {
+                _userFailures.set(u, { count: 0, lockedUntil: 0 });
+            }
+        }
+        for (const [ip, d] of _ipFailures) {
+            if (now - (d.lastFailure || 0) > ONE_HOUR) {
+                _ipFailures.delete(ip);
+            }
+        }
+    }, 30 * 60 * 1000);
 })();
 
 // ── Extraer token crudo ───────────────
@@ -270,7 +288,7 @@ function requireAuth(req, res, next) {
     }
     
     try {
-        req.user = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = jwt.verify(token, process.env.JWT_SECRET, { issuer: 'sigmaproxvl', audience: 'sigmaproxvl-api' });
     } catch {
         return res.status(401).json({ error: 'Token inválido o expirado' });
     }
@@ -417,7 +435,7 @@ app.post('/api/login', loginLimiter, async (req, res) => {
         const token = jwt.sign(
             { id: user.id, username: user.username, role: user.role },
             process.env.JWT_SECRET,
-            { expiresIn: process.env.JWT_EXPIRES_IN || '8h' }
+            { expiresIn: process.env.JWT_EXPIRES_IN || '8h', issuer: 'sigmaproxvl', audience: 'sigmaproxvl-api' }
         );
 
         // Enviar token como cookie httpOnly (cross-origen: GitHub Pages → Fly.io)
@@ -458,7 +476,7 @@ app.get('/api/me', requireAuth, (req, res) => {
     const token = jwt.sign(
         { id: req.user.id, username: req.user.username, role: req.user.role },
         process.env.JWT_SECRET,
-        { expiresIn: process.env.JWT_EXPIRES_IN || '8h' }
+        { expiresIn: process.env.JWT_EXPIRES_IN || '8h', issuer: 'sigmaproxvl', audience: 'sigmaproxvl-api' }
     );
     res.json({ ok: true, username: req.user.username, role: req.user.role, token });
 });

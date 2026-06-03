@@ -156,7 +156,11 @@ function buildPostgres() {
     async function blacklistToken(token) {
         if (!token) return;
         const h = hashToken(token);
-        try { await run('INSERT INTO token_blacklist (token_hash) VALUES ($1) ON CONFLICT DO NOTHING', [h]); } catch {}
+        try {
+            await run('INSERT INTO token_blacklist (token_hash) VALUES ($1) ON CONFLICT DO NOTHING', [h]);
+        } catch (err) {
+            console.error('❌ Error al añadir token a blacklist (token seguirá válido hasta expirar):', err.message);
+        }
     }
 
     async function isTokenBlacklisted(token) {

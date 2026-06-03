@@ -15,6 +15,13 @@ const MLManager = (() => {
         return 'http://localhost:8000';
     }
 
+    // Endpoints donde un 404 puede ser síntoma de cold start (ruta no registrada
+    // todavía porque la máquina de Fly.io está arrancando). En endpoints de
+    // recursos específicos (predict, train, etc.) el 404 es legítimo y debe
+    // fallar rápido. Se compara path EXACTO, no prefijo, para no aplicar retry
+    // a `/api/ml/models/modelo_001` cuando el recurso realmente no existe.
+    const COLD_START_PATHS = new Set(['/api/ml/health', '/api/ml/datasets', '/api/ml/models']);
+
     async function _fetch(method, path, body, _retries) {
         if (_retries === undefined) _retries = 3;
         const token = typeof Auth !== 'undefined' ? Auth.getToken() : null;
@@ -27,7 +34,10 @@ const MLManager = (() => {
         if (body) opts.body = JSON.stringify(body);
         try {
             const res = await fetch(apiUrl + path, opts);
-            if ((res.status === 404 || res.status === 503) && _retries > 0) {
+            const isColdStart = COLD_START_PATHS.has(path.split('?')[0]);
+            const shouldRetry = (res.status === 503) ||
+                                (res.status === 404 && isColdStart);
+            if (shouldRetry && _retries > 0) {
                 await new Promise(r => setTimeout(r, 1500));
                 return _fetch(method, path, body, _retries - 1);
             }
@@ -67,6 +77,17 @@ const MLManager = (() => {
             fetch(apiUrl + '/api/ml/health').catch(() => {});
         }, 240000);
     }
+
+    function _stopKeepAlive() {
+        if (_keepAliveId) {
+            clearInterval(_keepAliveId);
+            _keepAliveId = null;
+        }
+    }
+
+    // Liberar el interval al cerrar la pestaña o recargar
+    window.addEventListener('beforeunload', _stopKeepAlive);
+    window.addEventListener('pagehide', _stopKeepAlive);
 
     function buildLeftPanel() {
         return '<div class="left-panel" style="gap:8px;height:100%;display:flex;flex-direction:column;min-height:0">' +
@@ -155,7 +176,14 @@ const MLManager = (() => {
     }
 
     async function init() {
+        const results = document.getElementById('ml-results');
+        if (results) {
+            results.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text-faint)"><div style="font-size:36px;margin-bottom:10px">⏳</div><div style="font-size:13px;font-weight:600">Despertando ML Service...</div><div style="font-size:11px;margin-top:4px">Puede tardar hasta 10 segundos en el primer arranque.</div></div>';
+        }
         await _warmUp();
+        if (results && !results.querySelector('.ml-loaded')) {
+            results.innerHTML = buildEmptyState();
+        }
         refreshDatasets();
         refreshModels();
         _startKeepAlive();
@@ -468,7 +496,11 @@ const MLManager = (() => {
         title.innerHTML = '<span>🔮 Predecir con ' + escapeHtml(modelId) + '</span>';
         var toggleLabel = document.createElement('label');
         toggleLabel.style.cssText = 'font-size:10px;display:flex;align-items:center;gap:4px;cursor:pointer;color:var(--text-faint);user-select:none';
-        toggleLabel.innerHTML = '<input type="checkbox" id="ml-expert-toggle"> Modo experto';
+        var expertToggle = document.createElement('input');
+        expertToggle.type = 'checkbox';
+        expertToggle.className = 'ml-expert-toggle';
+        toggleLabel.appendChild(expertToggle);
+        toggleLabel.appendChild(document.createTextNode(' Modo experto'));
         title.appendChild(toggleLabel);
         box.appendChild(title);
 
@@ -527,7 +559,7 @@ const MLManager = (() => {
         content.appendChild(sep);
 
         var formContainer = document.createElement('div');
-        formContainer.id = 'ml-predict-form';
+        formContainer.className = 'ml-predict-form';
         formContainer.style.cssText = 'display:flex;flex-direction:column;gap:10px;background:var(--item-bg);border-radius:8px;padding:16px;border:1px solid var(--border)';
 
         function makeRowInput(placeholder, onChange) {
@@ -551,18 +583,16 @@ const MLManager = (() => {
 
         function renderRows() {
             formContainer.innerHTML = '';
-            var listId = 'ml-feature-list';
-            var existingDl = document.getElementById(listId);
-            if (!existingDl) {
-                var dl = document.createElement('datalist');
-                dl.id = listId;
-                allFeatures.forEach(function(f) {
-                    var opt = document.createElement('option');
-                    opt.value = f;
-                    dl.appendChild(opt);
-                });
-                document.body.appendChild(dl);
-            }
+            var listId = 'ml-feature-list-' + Date.now() + '-' + Math.floor(Math.random() * 1e6);
+            var dl = document.createElement('datalist');
+            dl.id = listId;
+            allFeatures.forEach(function(f) {
+                var opt = document.createElement('option');
+                opt.value = f;
+                dl.appendChild(opt);
+            });
+            document.body.appendChild(dl);
+            formContainer._datalistId = listId;
             var grid = document.createElement('div');
             grid.style.cssText = 'display:grid;grid-template-columns:' + (allFeatures.length > 4 ? '1fr 1fr' : '1fr') + ';gap:8px';
             rows.forEach(function(r, idx) {
@@ -603,7 +633,7 @@ const MLManager = (() => {
         content.appendChild(formContainer);
 
         var textarea = document.createElement('textarea');
-        textarea.id = 'ml-predict-input';
+        textarea.className = 'ml-predict-input';
         textarea.placeholder = 'Array de objetos con las columnas del modelo';
         textarea.style.cssText = 'width:100%;min-height:140px;padding:10px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg-primary);color:var(--text-primary);font-size:12px;font-family:monospace;resize:vertical;display:none';
         textarea.value = JSON.stringify([{ "columna": 0 }], null, 2);
@@ -615,7 +645,7 @@ const MLManager = (() => {
         content.appendChild(previewLabel);
 
         var previewEl = document.createElement('div');
-        previewEl.id = 'ml-preview-json';
+        previewEl.className = 'ml-preview-json';
         previewEl.style.cssText = 'font-size:11px;padding:10px 12px;background:var(--bg-primary);border-radius:6px;white-space:pre-wrap;font-family:monospace;color:var(--text-primary);max-height:120px;overflow:auto;border:1px solid var(--border)';
         previewEl.textContent = buildJsonFromForm();
         content.appendChild(previewEl);
@@ -670,19 +700,23 @@ const MLManager = (() => {
             try {
                 var raw;
                 if (isExpertMode) {
-                    raw = document.getElementById('ml-predict-input').value.trim();
+                    raw = textarea.value.trim();
                 } else {
                     raw = buildJsonFromForm();
                 }
                 if (!raw) { throw new Error('No hay datos para predecir'); }
                 var parsed = JSON.parse(raw);
                 var inputData = Array.isArray(parsed) ? parsed : [parsed];
+                if (!inputData.length) { throw new Error('El array de datos está vacío. Agrega al menos una fila.'); }
+                if (inputData[0] == null || typeof inputData[0] !== 'object') { throw new Error('Cada fila debe ser un objeto con las columnas del modelo.'); }
                 var columns = Object.keys(inputData[0]);
-                var data = inputData.map(function(row) { return columns.map(function(c) { return row[c]; }); });
+                if (!columns.length) { throw new Error('El objeto no tiene columnas. Define al menos una feature.'); }
+                var rows = inputData.map(function(row) { return columns.map(function(c) { return row[c]; }); });
                 var result = await _fetch('POST', '/api/ml/predict', {
-                    model_id: modelId, data: data, columns: columns,
+                    model_id: modelId, data: rows, columns: columns,
                 });
                 resBody.innerHTML = _renderPredictionsTable(result.predictions);
+                cleanupPredictModal();
             } catch (e) {
                 resBody.innerHTML = '<div style="text-align:center;padding:40px;color:#ef4444;font-size:14px;font-weight:500">❌ ' + escapeHtml(e.message) + '</div>';
             }
@@ -693,7 +727,7 @@ const MLManager = (() => {
         overlay.appendChild(box);
         document.body.appendChild(overlay);
 
-        document.getElementById('ml-expert-toggle').onchange = function() {
+        expertToggle.onchange = function() {
             isExpertMode = this.checked;
             formContainer.style.display = isExpertMode ? 'none' : '';
             textarea.style.display = isExpertMode ? '' : 'none';
@@ -718,8 +752,11 @@ const MLManager = (() => {
         });
 
         function cleanupPredictModal() {
-            var dl = document.getElementById('ml-feature-list');
-            if (dl) dl.remove();
+            if (formContainer._datalistId) {
+                var dl = document.getElementById(formContainer._datalistId);
+                if (dl) dl.remove();
+                formContainer._datalistId = null;
+            }
         }
 
         }
@@ -788,13 +825,6 @@ const MLManager = (() => {
         } catch (e) {
             showToast('Error: ' + e.message, 'error');
         }
-    }
-
-    function escapeHtml(str) {
-        if (str == null) return '';
-        var div = document.createElement('div');
-        div.appendChild(document.createTextNode(String(str)));
-        return div.innerHTML;
     }
 
     var _ALGO_INFO = {

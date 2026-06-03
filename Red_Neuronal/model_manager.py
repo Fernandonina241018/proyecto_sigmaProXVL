@@ -72,15 +72,23 @@ class ModelManager:
         
         return f"modelo_{str(max_id + 1).zfill(3)}"
     
-    def _generate_filename(self, model_id: str, model_key: str, 
+    def _generate_filename(self, model_id: str, model_key: str,
                           dataset_name: str) -> str:
         """Genera el nombre del archivo del modelo.
-        
+
         Formato: modelo_NNN_algoritmo_dataset_fecha.pkl
+        Trunca el nombre del dataset a 50 chars para respetar límites del
+        filesystem (255 bytes en ext4, 260 en NTFS).
         """
         fecha = datetime.now().strftime("%Y%m%d_%H%M%S")
-        # Limpiar nombre del dataset
-        dataset_clean = dataset_name.replace(".csv", "").replace(" ", "_")
+        safe_name = str(dataset_name) if dataset_name else "unknown"
+        # Limpiar caracteres no seguros para filesystem
+        dataset_clean = safe_name.replace(".csv", "").replace(" ", "_")
+        # Quitar caracteres potencialmente problemáticos
+        for ch in r'/\:*?"<>|':
+            dataset_clean = dataset_clean.replace(ch, "_")
+        # Truncar a 50 chars para evitar exceder MAX_PATH
+        dataset_clean = dataset_clean[:50]
         filename = f"{model_id}_{model_key}_{dataset_clean}_{fecha}.pkl"
         return filename
     

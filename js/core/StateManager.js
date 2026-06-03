@@ -73,14 +73,30 @@ const StateManager = (() => {
         } else {
             createDefaultSheet();
         }
-        
+
         // Configurar auto-guardado
         if (state.config.autoSave) {
             startAutoSave();
         }
-        
+
+        // Fallback síncrono: antes de cerrar la pestaña, escribir a localStorage
+        // directamente (IndexedDB es async y no se completa en beforeunload).
         window.addEventListener('beforeunload', () => {
-            saveToLocalStorage();
+            try {
+                const payload = JSON.stringify({
+                    sheets: state.sheets,
+                    activeSheetId: state.activeSheetId,
+                    sheetCounter: state.sheetCounter,
+                    importedData: state.importedData,
+                    fileName: state.fileName,
+                    activeStats: state.activeStats,
+                    hypothesisConfig: state.hypothesisConfig,
+                    savedAt: new Date().toISOString(),
+                });
+                localStorage.setItem('statAnalyzerState', payload);
+            } catch (e) {
+                // Cuota excedida u otro error — ignorar (mejor perder datos que crashear)
+            }
         });
     }
     
@@ -431,12 +447,18 @@ const StateManager = (() => {
             throw new Error('Índice de columna inválido');
         }
         
-        // La nueva columna toma el nombre correspondiente a su posición
-        const newHeader = header || indexToExcelColumn(colIndex);
-        
-        // Renombrar columnas existentes desde colIndex para mantener secuencia
-        for (let i = colIndex; i < sheet.headers.length; i++) {
-            sheet.headers[i] = indexToExcelColumn(i + 1);
+        let newHeader;
+        if (header) {
+            // Header personalizado: no renumerar existentes
+            newHeader = header;
+        } else {
+            // Auto: renumerar existentes desde colIndex para mantener A,B,C... secuencia.
+            // Cada columna en colIndex+ se mueve a la posición siguiente
+            // (la nueva columna ocupará la posición libre colIndex).
+            for (let i = colIndex; i < sheet.headers.length; i++) {
+                sheet.headers[i] = indexToExcelColumn(i + 2);
+            }
+            newHeader = indexToExcelColumn(colIndex + 1);
         }
         
         sheet.headers.splice(colIndex, 0, newHeader);
@@ -504,6 +526,10 @@ const StateManager = (() => {
     // ========================================
     
     function setImportedData(data, filename = 'datos.csv') {
+        if (data != null && (typeof data !== 'object' || !Array.isArray(data.headers) || !Array.isArray(data.data))) {
+            console.warn('setImportedData: payload inválido (se esperaba {headers, data}). Se ignora.');
+            return;
+        }
         state.importedData = data;
         state.fileName = filename;
         invalidateNumericColsCache();
@@ -571,6 +597,7 @@ const StateManager = (() => {
     function setHypothesisConfig(statName, config) {
         _pushToHistory('hypothesisConfig', statName, state.hypothesisConfig[statName], config);
         state.hypothesisConfig[statName] = config;
+        notifyListeners('dataChange');
         scheduleAutoSave();
     }
 
@@ -579,7 +606,12 @@ const StateManager = (() => {
         state.history = state.history.slice(0, state.historyIndex + 1);
         state.history.push(entry);
         if (state.history.length > state.maxHistorySize) {
+            // Se elimina la entrada más antigua (índice 0). Si el puntero apuntaba
+            // a esa entrada o posterior, hay que restar 1 para mantener la coherencia.
             state.history.shift();
+            if (state.historyIndex >= 0) {
+                state.historyIndex = Math.max(-1, state.historyIndex - 1);
+            }
         } else {
             state.historyIndex++;
         }
@@ -594,6 +626,7 @@ const StateManager = (() => {
             state.hypothesisConfig[entry.key] = entry.oldValue;
         }
         state.historyIndex--;
+        notifyListeners('dataChange');
         scheduleAutoSave();
         return true;
     }
@@ -607,6 +640,7 @@ const StateManager = (() => {
         if (entry.type === 'hypothesisConfig') {
             state.hypothesisConfig[entry.key] = entry.newValue !== undefined ? JSON.parse(JSON.stringify(entry.newValue)) : undefined;
         }
+        notifyListeners('dataChange');
         scheduleAutoSave();
         return true;
     }
@@ -769,7 +803,14 @@ const StateManager = (() => {
 
     function getNumericCols(imported) {
         if (!imported || !imported.headers) return [];
-        const dataHash = imported.headers.join('|') + '|' + (imported.data?.length || 0);
+        // Hash incluye length + primera fila (muestra representativa) + última fila.
+        // Así cualquier cambio en datos típicos invalida el cache.
+        const firstRow = imported.data?.[0];
+        const lastRow = imported.data?.[imported.data.length - 1];
+        const dataHash = imported.headers.join('|') + '|' +
+            (imported.data?.length || 0) + '|' +
+            (firstRow ? JSON.stringify(firstRow).slice(0, 200) : '') + '|' +
+            (lastRow ? JSON.stringify(lastRow).slice(0, 200) : '');
         if (_numericColsCache && _numericColsCache.hash === dataHash) {
             return _numericColsCache.result;
         }

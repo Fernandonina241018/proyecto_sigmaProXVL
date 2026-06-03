@@ -240,3 +240,99 @@ describe('StateManager — getStats', () => {
     expect(stats).toHaveProperty('totalCells');
   });
 });
+
+// ── Regression: C1 insertColumn no produce headers duplicados ──
+describe('StateManager — insertColumn (regression C1)', () => {
+  test('insertColumn sin header mantiene secuencia A,B,C,... sin duplicados', () => {
+    const active = StateManager.getActiveSheet();
+    active.headers = ['A', 'B', 'C', 'D'];
+    active.cols = 4;
+    StateManager.insertColumn(1);
+    const headers = StateManager.getActiveSheet().headers;
+    expect(headers.length).toBe(5);
+    expect(new Set(headers).size).toBe(headers.length);
+    expect(headers).toEqual(['A', 'B', 'C', 'D', 'E']);
+  });
+
+  test('insertColumn al final agrega siguiente letra', () => {
+    const active = StateManager.getActiveSheet();
+    active.headers = ['A', 'B', 'C'];
+    active.cols = 3;
+    StateManager.insertColumn(3);
+    expect(StateManager.getActiveSheet().headers).toEqual(['A', 'B', 'C', 'D']);
+  });
+
+  test('insertColumn con header personalizado NO renumera existentes', () => {
+    const active = StateManager.getActiveSheet();
+    active.headers = ['A', 'B', 'C'];
+    active.cols = 3;
+    StateManager.insertColumn(1, 'CustomCol');
+    expect(StateManager.getActiveSheet().headers).toEqual(['A', 'CustomCol', 'B', 'C']);
+  });
+});
+
+// ── Regression: C2 _pushToHistory mantiene historyIndex coherente ──
+describe('StateManager — undo/redo history (regression C2)', () => {
+  test('historyIndex se mantiene coherente al exceder maxHistorySize en mid-undo', () => {
+    for (let i = 0; i < 55; i++) {
+      StateManager.setHypothesisConfig(`test${i}`, { value: i });
+    }
+    expect(StateManager.canUndo()).toBe(true);
+    expect(StateManager.undo()).toBe(true);
+    expect(StateManager.canRedo()).toBe(true);
+    expect(StateManager.redo()).toBe(true);
+  });
+});
+
+// ── Regression: H5+H6 listeners se notifican en hypothesis/undo/redo ──
+describe('StateManager — hypothesis listeners (regression H5+H6)', () => {
+  test('setHypothesisConfig notifica dataChange', () => {
+    const cb = vi.fn();
+    StateManager.addEventListener('dataChange', cb);
+    StateManager.setHypothesisConfig('anova', { alpha: 0.05 });
+    expect(cb).toHaveBeenCalled();
+  });
+
+  test('undo notifica dataChange', () => {
+    StateManager.setHypothesisConfig('t_test', { alpha: 0.05 });
+    const cb = vi.fn();
+    StateManager.addEventListener('dataChange', cb);
+    cb.mockClear();
+    StateManager.undo();
+    expect(cb).toHaveBeenCalled();
+  });
+
+  test('redo notifica dataChange', () => {
+    StateManager.setHypothesisConfig('pearson', { alpha: 0.01 });
+    StateManager.undo();
+    const cb = vi.fn();
+    StateManager.addEventListener('dataChange', cb);
+    cb.mockClear();
+    StateManager.redo();
+    expect(cb).toHaveBeenCalled();
+  });
+});
+
+// ── Regression: L2 setImportedData valida payload ──
+describe('StateManager — setImportedData (regression L2)', () => {
+  test('rechaza payload inválido (string)', () => {
+    StateManager.setImportedData('not an object');
+    expect(StateManager.getImportedData()).toBeNull();
+  });
+
+  test('rechaza payload sin headers array', () => {
+    StateManager.setImportedData({ data: [] });
+    expect(StateManager.getImportedData()).toBeNull();
+  });
+
+  test('acepta payload válido', () => {
+    StateManager.setImportedData({ headers: ['x', 'y'], data: [[1, 2]] });
+    expect(StateManager.getImportedData()).toEqual({ headers: ['x', 'y'], data: [[1, 2]] });
+  });
+
+  test('null es válido (limpia)', () => {
+    StateManager.setImportedData({ headers: ['x'], data: [[1]] });
+    StateManager.setImportedData(null);
+    expect(StateManager.getImportedData()).toBeNull();
+  });
+});
