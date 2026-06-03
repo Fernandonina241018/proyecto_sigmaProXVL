@@ -2,9 +2,9 @@
 
   :root {
     /* ── Tipografía moderna ── */
-    --font-display: 'Outfit', -apple-system, sans-serif;
-    --font-body: 'Inter', -apple-system, sans-serif;
-    --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    --font-display: -apple-system, 'Inter', 'Outfit', system-ui, sans-serif;
+    --font-body: -apple-system, 'Inter', system-ui, sans-serif;
+    --font-mono: -apple-system, 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Courier New', monospace;
     
     /* ── Oscuros con carácter (tinte azul sutil) ── */
     --bg-primary: #0f0f12;
