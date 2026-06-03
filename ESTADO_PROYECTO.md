@@ -23,6 +23,60 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-03: Fase 3 — Async training + polling progress + dataset upload
+
+**Qué:** Sistema de entrenamiento asíncrono con background threads, polling de progreso,
+y carga de datasets vía upload desde el navegador.
+
+**Backend — Async task system (`ml_service/main.py`):**
+- `_execute_training(req, progress_callback)` — core de entrenamiento extraído como función
+  reutilizable, reporta progreso 0-100% en etapas (carga, preprocesamiento, entrenamiento,
+  evaluación, guardado)
+- `_run_training_thread(task_id, req)` — target para background thread, maneja errores
+- `POST /api/ml/train/async` — lanza entrenamiento en daemon thread, devuelve `task_id` al instante
+- `GET /api/ml/tasks` — lista todas las tareas con estado, progreso, texto de estado
+- `GET /api/ml/tasks/{task_id}` — polling endpoint con resultado cuando `status === 'done'`
+- `DELETE /api/ml/tasks/{task_id}` — limpia tareas completadas
+- Límite de 50 tareas en memoria (FIFO); thread-safe con `_tasks_lock`
+- `POST /api/ml/dataset/upload` — acepta multipart CSV, valida path traversal, guarda en `datos/`
+  con previsualización de columnas y filas
+
+**Frontend — UI Async (`js/pages/ml.js`):**
+- `train()` ahora usa `/api/ml/train/async` con polling cada 2s + barra de progreso animada
+  + texto de estado (ej: "Entrenando modelo... (45%)")
+- Fallback automático a endpoint sync si async no está disponible
+- `trainAll()` entrena cada modelo con async endpoint + barra de progreso por modelo
+  + status individual (cada modelo tiene su propia barra y polling)
+- `uploadDataset()` — input file oculto + submit a `/api/ml/dataset/upload`
+- `handleUploadFile(event)` — via `fetch` directo con `FormData`, muestra resultado
+  (columnas, filas, preview) y refresca selector de datasets
+
+**Endpoints nuevos:**
+| Método | Path | Propósito |
+|--------|------|-----------|
+| POST | `/api/ml/train/async` | Inicia entrenamiento async, devuelve task_id |
+| GET | `/api/ml/tasks` | Lista todas las tareas |
+| GET | `/api/ml/tasks/{task_id}` | Polling de progreso y resultado |
+| DELETE | `/api/ml/tasks/{task_id}` | Elimina tarea |
+| POST | `/api/ml/dataset/upload` | Subir CSV |
+
+**Arquitectura:**
+```
+Frontend                          Backend (FastAPI)
+   │                                   │
+   ├── POST /train/async ──────────────┤→ _execute_training() en thread
+   │ ← { task_id }                     │   │
+   │                                   │   └── update _tasks[task_id]
+   ├── GET /tasks/{id} (c/2s) ─────────┤
+   │ ← { status, progress, status_text }│
+   │                                   │
+   │ [cuando status === 'done']        │
+   │ ← { task.result }                 │
+   └── renderTrainingResult() ─────────┘
+```
+
+**Verificación:** ✅ `node -c ml.js` | ✅ `python3 -c main.py` | ✅ 107/107 tests
+
 ### 2026-06-02: Fix panel hiperparámetros + sidebar ML más ancho + campos más grandes
 
 **Qué:** Reparación del panel de hiperparámetros que no se abría, sidebar ML al 200% (480px),
@@ -792,9 +846,11 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 | `js/pages/ml.js` | Frontend ML Analysis |
 
 ## Próximos pasos
-1. **Fase 2 — UX de entrenamiento:** controles de hiperparámetros en frontend + comparación multi-modelo + progress streaming
-2. **Fase 3 — Async tasks + dataset loading:** entrenamiento asíncrono con background tasks, carga completa CSV por nombre
-3. **Fase 4 — Model Registry + Versioning:** versionado de experimentos, nunca sobreescribe, dataset fingerprinting
-4. **Fase 5 — Drift monitoring:** endpoint POST /api/ml/drift/<id>, monitor programado en Fly.io Worker
-5. Limpiar archivos temporales: `fly.txt`, `supabase.png`
-6. Resetear contraseñas de usuarios restantes (d.jimenez, a.ozuna, a.h, a.nina, c.nina, m.aguero)
+1. ~~Fase 1 — Pipeline ML v2~~ ✅
+2. ~~Fase 2 — UX de entrenamiento~~ ✅
+3. ~~Fase 3 — Async tasks + dataset loading~~ ✅
+4. **Fase 4 — Model Registry + Versioning:** versionado de experimentos, nunca sobreescribe, dataset fingerprinting
+5. **Fase 5 — Drift monitoring:** endpoint POST /api/ml/drift/<id>, monitor programado en Fly.io Worker
+6. Limpiar archivos temporales: `fly.txt`, `supabase.png`
+7. Resetear contraseñas de usuarios restantes (d.jimenez, a.ozuna, a.h, a.nina, c.nina, m.aguero)
+8. Redeploy ML Service en Fly.io para activar Fase 3 endpoints

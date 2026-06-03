@@ -7,6 +7,9 @@ import io
 import json
 import re
 import sys
+import threading
+import time
+import uuid
 from pathlib import Path
 from typing import Optional
 import base64
@@ -17,7 +20,7 @@ import pandas as pd
 import numpy as np
 import joblib
 from pandas.api.types import is_string_dtype, is_object_dtype
-from fastapi import FastAPI, HTTPException, Query, Request
+from fastapi import FastAPI, HTTPException, Query, Request, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -81,6 +84,11 @@ app.add_middleware(
 MODELS_DIR = _RN_DIR / "modelos_guardados"
 DATOS_DIR = _RN_DIR / "datos"
 manager = ModelManager(base_dir=str(MODELS_DIR))
+
+# ── Async task management ──
+_tasks = {}
+_tasks_lock = threading.Lock()
+_MAX_TASKS = 50
 
 DATASET_NAME_RE = re.compile(r"^[A-Za-z0-9_\-\.]+$")
 MODEL_ID_RE = re.compile(r"^[A-Za-z0-9_\-]+$")
@@ -182,85 +190,196 @@ def health():
             "anomaly": HAS_ANOMALY, "interpret": HAS_INTERPRET}
 
 
+def _execute_training(req: TrainRequest, progress_callback=None):
+    """Core training logic — used by both sync and async paths.
+    progress_callback(pct, text) is called periodically if provided."""
+    def prog(pct, text):
+        if progress_callback:
+            progress_callback(pct, text)
+    prog(5, "Cargando datos...")
+    if req.dataset_name and (not req.data or len(req.data) == 0):
+        safe_name = _safe_dataset_name(req.dataset_name)
+        csv_path = _safe_resolve(DATOS_DIR, f"{safe_name}.csv", allowed_ext=(".csv",))
+        if not csv_path.exists():
+            csv_path = _safe_resolve(DATOS_DIR, safe_name, allowed_ext=(".csv",))
+        if not csv_path.exists():
+            raise HTTPException(404, f"Dataset '{req.dataset_name}' not found in {DATOS_DIR}")
+        df = load_data("csv", path=str(csv_path))
+    else:
+        df = _df_from_payload(req.data, req.columns)
+    if req.target not in df.columns:
+        raise HTTPException(400, f"Target '{req.target}' not found in data")
+    prog(15, "Preprocesando datos...")
+    X_raw, y, preprocessor, meta = prepare_data(
+        df, target=req.target, problem_type=req.problem_type,
+        exclude_cols=req.exclude_cols, verbose=False,
+        feature_engineering=req.feature_engineering,
+    )
+    prog(25, "Entrenando modelo...")
+    pipeline, splits, cv_results, best_params = train(
+        X_raw, y, preprocessor=preprocessor, model_key=req.model_key,
+        problem_type=meta["problem_type"], meta=meta,
+        test_size=req.test_size, cv_folds=req.cv_folds, random_state=42,
+        search_type=req.search_type, search_params=req.search_params,
+        imbalance_strategy=req.imbalance_strategy,
+    )
+    prog(65, "Evaluando modelo...")
+    boot_models = []
+    if req.n_bootstraps > 0:
+        boot_models = run_bootstrap(
+            splits["X_train"], splits["y_train"],
+            preprocessor=preprocessor, model_key=req.model_key,
+            problem_type=meta["problem_type"], meta=meta,
+            n_bootstraps=req.n_bootstraps, random_state=42,
+        )
+    eval_results = evaluate(pipeline, splits, meta, bootstrap_models=boot_models)
+    prog(85, "Guardando modelo...")
+    ds_name = req.dataset_name or f"api_{req.target}"
+    payload = {
+        "pipeline": pipeline, "meta": meta,
+        "bootstrap_models": boot_models,
+        "train_params": {"source": "api", "model_key": req.model_key,
+                         "problem_type": meta["problem_type"],
+                         "test_size": req.test_size, "cv_folds": req.cv_folds,
+                         "n_bootstraps": req.n_bootstraps,
+                         "search_type": req.search_type,
+                         "imbalance_strategy": req.imbalance_strategy,
+                         "feature_engineering": req.feature_engineering},
+        "best_params": best_params,
+        "saved_at": None, "version": "1.0",
+    }
+    model_id = manager.save_training(
+        payload=payload, dataset_name=ds_name,
+        model_key=req.model_key, eval_results=eval_results,
+    )
+    tc = meta.get("target_classes", [])
+    if hasattr(tc, "tolist"):
+        tc = tc.tolist()
+    prog(100, "Completado")
+    return {
+        "ok": True, "model_id": model_id,
+        "metrics": _metrics_serializable(eval_results),
+        "best_params": best_params,
+        "meta": {
+            "problem_type": meta["problem_type"],
+            "target_col": meta.get("target_col", req.target),
+            "num_features": meta.get("num_features", []),
+            "cat_features": meta.get("cat_features", []),
+            "target_classes": tc,
+            "n_train": int(splits["X_train"].shape[0]),
+            "n_test": int(splits["X_test"].shape[0]),
+        },
+    }
+
+
+def _run_training_thread(task_id, req):
+    """Target for background thread: runs training and stores result in _tasks."""
+    def set_progress(pct, text):
+        with _tasks_lock:
+            if task_id in _tasks:
+                _tasks[task_id]["progress"] = pct
+                _tasks[task_id]["status_text"] = text
+    try:
+        with _tasks_lock:
+            if task_id in _tasks:
+                _tasks[task_id]["status"] = "running"
+        result = _execute_training(req, progress_callback=set_progress)
+        with _tasks_lock:
+            if task_id in _tasks:
+                _tasks[task_id]["status"] = "done"
+                _tasks[task_id]["result"] = result
+                _tasks[task_id]["progress"] = 100
+                _tasks[task_id]["status_text"] = "Completado"
+    except HTTPException as e:
+        with _tasks_lock:
+            if task_id in _tasks:
+                _tasks[task_id]["status"] = "failed"
+                _tasks[task_id]["error"] = e.detail
+    except Exception as e:
+        with _tasks_lock:
+            if task_id in _tasks:
+                _tasks[task_id]["status"] = "failed"
+                _tasks[task_id]["error"] = str(e)
+
+
 @app.post("/api/ml/train")
 def train_endpoint(req: TrainRequest):
     try:
-        # If dataset_name provided with no inline data, load full CSV from disk (avoids preview 10-row limit)
-        if req.dataset_name and (not req.data or len(req.data) == 0):
-            safe_name = _safe_dataset_name(req.dataset_name)
-            csv_path = _safe_resolve(DATOS_DIR, f"{safe_name}.csv", allowed_ext=(".csv",))
-            if not csv_path.exists():
-                csv_path = _safe_resolve(DATOS_DIR, safe_name, allowed_ext=(".csv",))
-            if not csv_path.exists():
-                raise HTTPException(404, f"Dataset '{req.dataset_name}' not found in {DATOS_DIR}")
-            df = load_data("csv", path=str(csv_path))
-        else:
-            df = _df_from_payload(req.data, req.columns)
-
-        if req.target not in df.columns:
-            raise HTTPException(400, f"Target '{req.target}' not found in data")
-
-        X_raw, y, preprocessor, meta = prepare_data(
-            df, target=req.target, problem_type=req.problem_type,
-            exclude_cols=req.exclude_cols, verbose=False,
-            feature_engineering=req.feature_engineering,
-        )
-        pipeline, splits, cv_results, best_params = train(
-            X_raw, y, preprocessor=preprocessor, model_key=req.model_key,
-            problem_type=meta["problem_type"], meta=meta,
-            test_size=req.test_size, cv_folds=req.cv_folds, random_state=42,
-            search_type=req.search_type, search_params=req.search_params,
-            imbalance_strategy=req.imbalance_strategy,
-        )
-        boot_models = []
-        if req.n_bootstraps > 0:
-            boot_models = run_bootstrap(
-                splits["X_train"], splits["y_train"],
-                preprocessor=preprocessor, model_key=req.model_key,
-                problem_type=meta["problem_type"], meta=meta,
-                n_bootstraps=req.n_bootstraps, random_state=42,
-            )
-        eval_results = evaluate(pipeline, splits, meta, bootstrap_models=boot_models)
-
-        ds_name = req.dataset_name or f"api_{req.target}"
-        payload = {
-            "pipeline": pipeline, "meta": meta,
-            "bootstrap_models": boot_models,
-            "train_params": {"source": "api", "model_key": req.model_key,
-                             "problem_type": meta["problem_type"],
-                             "test_size": req.test_size, "cv_folds": req.cv_folds,
-                             "n_bootstraps": req.n_bootstraps,
-                             "search_type": req.search_type,
-                             "imbalance_strategy": req.imbalance_strategy,
-                             "feature_engineering": req.feature_engineering},
-            "best_params": best_params,
-            "saved_at": None, "version": "1.0",
-        }
-        model_id = manager.save_training(
-            payload=payload, dataset_name=ds_name,
-            model_key=req.model_key, eval_results=eval_results,
-        )
-        tc = meta.get("target_classes", [])
-        if hasattr(tc, "tolist"):
-            tc = tc.tolist()
-        return {
-            "ok": True, "model_id": model_id,
-            "metrics": _metrics_serializable(eval_results),
-            "best_params": best_params,
-            "meta": {
-                "problem_type": meta["problem_type"],
-                "target_col": meta.get("target_col", req.target),
-                "num_features": meta.get("num_features", []),
-                "cat_features": meta.get("cat_features", []),
-                "target_classes": tc,
-                "n_train": int(splits["X_train"].shape[0]),
-                "n_test": int(splits["X_test"].shape[0]),
-            },
-        }
+        return _execute_training(req)
     except HTTPException:
         raise
     except Exception as e:
         raise HTTPException(500, str(e))
+
+
+@app.post("/api/ml/train/async")
+async def train_async(req: TrainRequest):
+    task_id = uuid.uuid4().hex[:8]
+    with _tasks_lock:
+        _tasks[task_id] = {
+            "status": "queued", "progress": 0, "status_text": "En cola...",
+            "result": None, "error": None, "created_at": time.time(),
+        }
+        if len(_tasks) > _MAX_TASKS:
+            oldest = sorted(_tasks, key=lambda k: _tasks[k]["created_at"])[0]
+            del _tasks[oldest]
+    thread = threading.Thread(target=_run_training_thread, args=(task_id, req), daemon=True)
+    thread.start()
+    return {"ok": True, "task_id": task_id}
+
+
+@app.get("/api/ml/tasks")
+def list_tasks():
+    with _tasks_lock:
+        items = [{"id": k, "status": v["status"], "progress": v["progress"],
+                   "status_text": v["status_text"], "created_at": v["created_at"],
+                   "error": v.get("error")}
+                 for k, v in sorted(_tasks.items(), key=lambda x: x[1]["created_at"], reverse=True)]
+    return {"ok": True, "tasks": items}
+
+
+@app.get("/api/ml/tasks/{task_id}")
+def get_task(task_id: str):
+    with _tasks_lock:
+        task = _tasks.get(task_id)
+    if not task:
+        raise HTTPException(404, "Task not found")
+    resp = {"ok": True, "task": {"id": task_id, "status": task["status"],
+            "progress": task["progress"], "status_text": task["status_text"],
+            "created_at": task["created_at"]}}
+    if task["status"] == "done" and task.get("result"):
+        resp["task"]["result"] = task["result"]
+    if task["status"] == "failed" and task.get("error"):
+        resp["task"]["error"] = task["error"]
+    return resp
+
+
+@app.delete("/api/ml/tasks/{task_id}")
+def delete_task(task_id: str):
+    with _tasks_lock:
+        _tasks.pop(task_id, None)
+    return {"ok": True}
+
+
+@app.post("/api/ml/dataset/upload")
+async def upload_dataset(file: UploadFile = File(...)):
+    if not file.filename or not file.filename.lower().endswith('.csv'):
+        raise HTTPException(400, "Only .csv files allowed")
+    name = file.filename.replace('.csv', '', re.IGNORECASE)
+    safe_name = _safe_dataset_name(name)
+    dest = DATOS_DIR / f"{safe_name}.csv"
+    content = await file.read()
+    dest.write_bytes(content)
+    try:
+        df = load_data("csv", path=str(dest))
+        return {
+            "ok": True, "filename": f"{safe_name}.csv",
+            "nrows": len(df), "ncols": len(df.columns),
+            "columns": list(df.columns),
+        }
+    except Exception as e:
+        dest.unlink(missing_ok=True)
+        raise HTTPException(400, f"Invalid CSV file: {e}")
 
 
 @app.post("/api/ml/predict")

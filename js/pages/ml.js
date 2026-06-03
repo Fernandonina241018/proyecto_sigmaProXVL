@@ -98,7 +98,10 @@ const MLManager = (() => {
             '<div class="info-section-body" style="padding:8px 12px;display:flex;flex-direction:column;gap:6px">' +
             '<select id="ml-dataset-select" style="width:100%;padding:9px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-panel);color:var(--text-primary);font-size:14px">' +
             '<option value="">— Cargando datasets —</option></select>' +
-            '<button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:13px;padding:8px 10px" onclick="MLManager.refreshDatasets()">🔄 Refrescar</button>' +
+            '<div style="display:flex;gap:4px">' +
+            '<button class="btn btn-secondary" style="flex:1;justify-content:center;font-size:13px;padding:8px 10px" onclick="MLManager.refreshDatasets()">🔄 Refrescar</button>' +
+            '<button class="btn btn-secondary" style="justify-content:center;font-size:13px;padding:8px 10px" onclick="MLManager.uploadDataset()">📤 Subir</button></div>' +
+            '<input type="file" id="ml-dataset-upload-input" accept=".csv" style="display:none" onchange="MLManager.handleUploadFile(event)">' +
             '</div></div>' +
             '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">🤖 Modelo <span style="cursor:help;font-size:14px;margin-left:auto" onclick="MLManager.showAlgorithmInfo()" title="Ver detalles del algoritmo">ⓘ</span></div>' +
             '<div class="info-section-body" style="padding:8px 12px;display:flex;flex-direction:column;gap:6px">' +
@@ -223,6 +226,58 @@ const MLManager = (() => {
         refreshDatasets();
         refreshModels();
         _startKeepAlive();
+    }
+
+    async function uploadDataset() {
+        var input = document.getElementById('ml-dataset-upload-input');
+        if (input) input.click();
+    }
+
+    async function handleUploadFile(event) {
+        var file = event.target && event.target.files && event.target.files[0];
+        if (!file) return;
+        if (!file.name.toLowerCase().endsWith('.csv')) {
+            showToast('Solo archivos .csv', 'error');
+            event.target.value = '';
+            return;
+        }
+        var results = document.getElementById('ml-results');
+        if (results) {
+            results.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-faint)">📤 Subiendo <strong>' + escapeHtml(file.name) + '</strong>...</div>';
+        }
+        try {
+            var formData = new FormData();
+            formData.append('file', file);
+            var apiUrl = window._ML_API_URL || 'https://sigmapro-ml.fly.dev';
+            var token = (typeof Auth !== 'undefined' && Auth.getToken) ? Auth.getToken() : null;
+            var headers = {};
+            if (token) headers['Authorization'] = 'Bearer ' + token;
+            var resp = await fetch(apiUrl + '/api/ml/dataset/upload', {
+                method: 'POST', headers: headers, body: formData,
+            });
+            if (!resp.ok) {
+                var errBody = await resp.text();
+                throw new Error(errBody || 'Error al subir dataset');
+            }
+            var data = await resp.json();
+            showToast('✅ Dataset "' + data.filename + '" subido (' + data.nrows + ' filas)', 'ok');
+            await refreshDatasets();
+            if (results) {
+                results.innerHTML = '<div class="page-card"><div class="page-card-header">📤 Dataset subido</div>' +
+                    '<div class="page-card-body" style="padding:12px;font-size:12px">' +
+                    '<div><strong>Archivo:</strong> ' + escapeHtml(data.filename) + '</div>' +
+                    '<div><strong>Filas:</strong> ' + data.nrows + '</div>' +
+                    '<div><strong>Columnas:</strong> ' + data.ncols + '</div>' +
+                    '<div><strong>Nombres:</strong> ' + escapeHtml((data.columns || []).join(', ')) + '</div></div></div>';
+            }
+        } catch (e) {
+            if (results) {
+                results.innerHTML = '<div class="page-card"><div class="page-card-header" style="color:#ef4444">❌ Error al subir</div>' +
+                    '<div class="page-card-body" style="padding:12px;font-size:12px">' + escapeHtml(e.message) + '</div></div>';
+            }
+            showToast('Error: ' + e.message, 'error');
+        }
+        event.target.value = '';
     }
 
     async function refreshDatasets() {
@@ -351,7 +406,6 @@ const MLManager = (() => {
     async function train() {
         const results = document.getElementById('ml-results');
         if (!results) return;
-        results.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-faint)">⏳ Entrenando modelo...</div>';
         const datasetSelect = document.getElementById('ml-dataset-select');
         const modelSelect = document.getElementById('ml-model-select');
         const targetInput = document.getElementById('ml-target-input');
@@ -364,7 +418,6 @@ const MLManager = (() => {
         var isWorksheet = datasetName.indexOf('__ws__:') === 0;
         var sheetName = isWorksheet ? datasetName.slice(7) : null;
 
-        // Collect hyperparams, tuning, imbalance from UI
         var hpParams = _hpCollect();
         var tuningEnabled = document.getElementById('ml-tuning-enable') && document.getElementById('ml-tuning-enable').checked;
         var searchType = tuningEnabled ? (document.getElementById('ml-tuning-strategy') ? document.getElementById('ml-tuning-strategy').value : 'grid') : 'none';
@@ -398,16 +451,58 @@ const MLManager = (() => {
             return body;
         }
 
-        async function doTrain() {
-            return await _fetch('POST', '/api/ml/train', await _makeBody());
-        }
+        var modelLabels = { rf: '🌳 Random Forest', xgb: '⚡ XGBoost', mlp: '🧠 MLP Neural Net', logistic: '📈 Logistic Regression', linear: '📉 Linear Regression' };
+        var modelLabel = modelLabels[modelKey] || modelKey;
+        results.innerHTML =
+            '<div class="page-card">' +
+            '<div class="page-card-header"><span class="page-card-icon">⏳</span><span class="page-card-title">Entrenando ' + modelLabel + '</span></div>' +
+            '<div class="page-card-body" style="padding:16px 14px">' +
+            '<div id="ml-progress-bar-container" style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:8px">' +
+            '<div id="ml-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent),#10b981);border-radius:3px;transition:width 0.4s ease"></div></div>' +
+            '<div id="ml-progress-text" style="font-size:11px;color:var(--text-faint);text-align:center">Iniciando...</div>' +
+            '</div></div>';
 
         try {
-            var data = await doTrain();
-            _trainingHistory.push(data);
-            renderTrainingResult(data);
-            refreshModels();
-            showToast('✅ Modelo ' + data.model_id + ' entrenado', 'ok');
+            var body = await _makeBody();
+            var taskResp;
+            try {
+                taskResp = await _fetch('POST', '/api/ml/train/async', body);
+            } catch (e) {
+                var data = await _fetch('POST', '/api/ml/train', body);
+                _trainingHistory.push(data);
+                renderTrainingResult(data);
+                refreshModels();
+                showToast('✅ Modelo ' + data.model_id + ' entrenado', 'ok');
+                return;
+            }
+            var taskId = taskResp.task_id;
+            var pollInterval = setInterval(async function() {
+                try {
+                    var taskData = await _fetch('GET', '/api/ml/tasks/' + taskId);
+                    var task = taskData.task;
+                    var pct = task.progress || 0;
+                    var statusText = task.status_text || '';
+                    var bar = document.getElementById('ml-progress-bar');
+                    var txt = document.getElementById('ml-progress-text');
+                    if (bar) bar.style.width = Math.min(pct, 100) + '%';
+                    if (txt) txt.textContent = statusText + ' (' + Math.round(pct) + '%)';
+                    if (task.status === 'done') {
+                        clearInterval(pollInterval);
+                        _trainingHistory.push(task.result);
+                        renderTrainingResult(task.result);
+                        refreshModels();
+                        showToast('✅ Modelo ' + task.result.model_id + ' entrenado', 'ok');
+                    } else if (task.status === 'failed') {
+                        clearInterval(pollInterval);
+                        throw new Error(task.error || 'Error desconocido en entrenamiento');
+                    }
+                } catch (e) {
+                    clearInterval(pollInterval);
+                    results.innerHTML = '<div class="page-card"><div class="page-card-header" style="color:#ef4444">❌ Error</div>' +
+                        '<div class="page-card-body" style="padding:12px;font-size:12px">' + escapeHtml(e.message) + '</div></div>';
+                    showToast('Error: ' + e.message, 'error');
+                }
+            }, 2000);
         } catch (e2) {
             results.innerHTML = '<div class="page-card"><div class="page-card-header" style="color:#ef4444">❌ Error</div>' +
                 '<div class="page-card-body" style="padding:12px;font-size:12px">' + escapeHtml(e2.message) + '</div></div>';
@@ -1343,18 +1438,23 @@ const MLManager = (() => {
             '<div id="ml-train-all-progress" style="display:flex;flex-direction:column;gap:6px;padding:10px 0"></div>';
 
         var progressDiv = document.getElementById('ml-train-all-progress');
+        var modelBarIds = {};
 
         for (var i = 0; i < models.length; i++) {
             var mk = models[i];
+            modelBarIds[mk] = 'ml-ta-progress-' + mk;
             var row = document.createElement('div');
             row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:4px 8px;font-size:10px';
-            row.innerHTML = '<span style="min-width:120px">' + labels[mk] + '</span><span style="color:var(--text-faint)" id="ml-ts-' + mk + '">⏳ entrenando...</span>';
+            row.innerHTML = '<span style="min-width:120px">' + labels[mk] + '</span>' +
+                '<div style="flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden">' +
+                '<div id="' + modelBarIds[mk] + '" style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent),#10b981);border-radius:2px;transition:width 0.3s ease"></div></div>' +
+                '<span style="color:var(--text-faint);min-width:80px;text-align:right" id="ml-ts-' + mk + '">⏳ esperando...</span>';
             progressDiv.appendChild(row);
         }
 
-        for (var i = 0; i < models.length; i++) {
-            var mk = models[i];
+        async function _trainOneModel(mk) {
             var statusEl = document.getElementById('ml-ts-' + mk);
+            var barEl = document.getElementById(modelBarIds[mk]);
             try {
                 var body = {
                     data: [], columns: [],
@@ -1371,17 +1471,51 @@ const MLManager = (() => {
                         body.columns = wsData.columns;
                     }
                 }
-                var data;
-                try {
-                    data = await _fetch('POST', '/api/ml/train', body);
-                } catch (e) {
-                    body.search_type = 'none';
-                    data = await _fetch('POST', '/api/ml/train', body);
-                }
-                if (statusEl) statusEl.innerHTML = '✅ <strong>' + (data.metrics ? _hpBestMetric(data.metrics, data.meta) : 'OK') + '</strong>';
-                allResults.push({ model_key: mk, label: labels[mk], data: data });
+                var taskResp = await _fetch('POST', '/api/ml/train/async', body);
+                var taskId = taskResp.task_id;
+                return await new Promise(function(resolve, reject) {
+                    var pi = setInterval(async function() {
+                        try {
+                            var td = await _fetch('GET', '/api/ml/tasks/' + taskId);
+                            var t = td.task;
+                            if (barEl) barEl.style.width = Math.min(t.progress || 0, 100) + '%';
+                            if (statusEl) statusEl.textContent = (t.progress || 0) + '%';
+                            if (t.status === 'done') {
+                                clearInterval(pi);
+                                if (barEl) barEl.style.width = '100%';
+                                if (statusEl) statusEl.innerHTML = '✅ <strong>' + (t.result.metrics ? _hpBestMetric(t.result.metrics, t.result.meta) : 'OK') + '</strong>';
+                                resolve({ model_key: mk, label: labels[mk], data: t.result });
+                            } else if (t.status === 'failed') {
+                                clearInterval(pi);
+                                if (statusEl) statusEl.innerHTML = '❌ error';
+                                reject(new Error(t.error || 'Error'));
+                            }
+                        } catch (e) {
+                            clearInterval(pi);
+                            if (statusEl) statusEl.innerHTML = '❌ ' + escapeHtml(e.message);
+                            reject(e);
+                        }
+                    }, 2000);
+                });
             } catch (e) {
-                if (statusEl) statusEl.innerHTML = '❌ ' + escapeHtml(e.message);
+                try {
+                    var data = await _fetch('POST', '/api/ml/train', body);
+                    if (statusEl) statusEl.innerHTML = '✅ <strong>' + (data.metrics ? _hpBestMetric(data.metrics, data.meta) : 'OK') + '</strong>';
+                    if (barEl) barEl.style.width = '100%';
+                    return { model_key: mk, label: labels[mk], data: data };
+                } catch (e2) {
+                    if (statusEl) statusEl.innerHTML = '❌ ' + escapeHtml(e2.message);
+                    throw e2;
+                }
+            }
+        }
+
+        for (var i = 0; i < models.length; i++) {
+            try {
+                var result = await _trainOneModel(models[i]);
+                allResults.push(result);
+            } catch (e) {
+                // error already shown in per-model status
             }
         }
 
@@ -1526,5 +1660,7 @@ const MLManager = (() => {
         predictSelectedModel: predictSelectedModel,
         deleteSelectedModel: deleteSelectedModel,
         showAlgorithmInfo: showAlgorithmInfo,
+        uploadDataset: uploadDataset,
+        handleUploadFile: handleUploadFile,
     };
 })();
