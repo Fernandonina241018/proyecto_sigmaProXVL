@@ -7,16 +7,18 @@ require('dotenv').config();
 
 // ── Validación de variables de entorno críticas ──
 if (!process.env.JWT_SECRET) {
-    console.warn('⚠️  JWT_SECRET no definido. Generando clave temporal...');
-    console.warn('⚠️  Configúralo con: flyctl secrets set JWT_SECRET=<clave>');
-    const crypto = require('crypto');
-    process.env.JWT_SECRET = crypto.randomBytes(48).toString('hex');
+    console.error('❌ ERROR: JWT_SECRET no está definido.');
+    console.error('   Configúralo antes de arrancar el servidor:');
+    console.error('     flyctl secrets set JWT_SECRET=<clave-de-al-menos-32-bytes>');
+    console.error('   O localmente:  export JWT_SECRET=$(node -e "console.log(require(\'crypto\').randomBytes(48).toString(\'hex\'))")');
+    process.exit(1);
 }
 
-if (process.env.JWT_SECRET.length < 26) {
-    console.error('ERROR: JWT_SECRET debe tener al menos 26 caracteres');
-    console.error(`Actual: ${process.env.JWT_SECRET.length} caracteres`);
-    console.error('Genera una clave: node -e "console.log(require(\'crypto\').randomBytes(32).toString(\'hex\'))"');
+if (process.env.JWT_SECRET.length < 32) {
+    console.error('❌ ERROR: JWT_SECRET debe tener al menos 32 caracteres.');
+    console.error(`   Actual: ${process.env.JWT_SECRET.length} caracteres.`);
+    console.error('   Genera una clave segura:');
+    console.error('     node -e "console.log(require(\'crypto\').randomBytes(48).toString(\'hex\'))"');
     process.exit(1);
 }
 
@@ -25,6 +27,7 @@ const bcrypt  = require('bcryptjs');
 const jwt     = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
+const helmet  = require('helmet');
 const db      = require('./database');
 
 const app  = express();
@@ -63,6 +66,16 @@ app.use((req, res, next) => {
     }
     next();
 });
+
+// ── Security headers (HSTS, X-Frame-Options, CSP, etc.) ──
+// Desactivamos CSP por defecto para no romper la SPA vanilla que sirve
+// su propio CSP en <meta>. HSTS queda activo (1 año, includeSubDomains).
+app.use(helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+    hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
+    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+}));
 
 app.use(express.json());
 app.use(cookieParser());
@@ -267,7 +280,10 @@ function requireAuth(req, res, next) {
         if (revoked) return res.status(401).json({ error: 'Token revocado — inicie sesión nuevamente' });
         req.rawToken = token;
         next();
-    }).catch(() => next()); // Si falla la verificación, permitir (graceful degradation)
+    }).catch((err) => {
+        console.error('❌ Error al verificar blacklist — denegando acceso (fail-closed):', err.message);
+        return res.status(503).json({ error: 'Servicio temporalmente no disponible. Intente nuevamente.' });
+    });
 }
 
 function requireAdmin(req, res, next) {

@@ -5,6 +5,7 @@ Endpoints: train, predict, models, anomaly, explain, datasets
 
 import io
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Optional
@@ -48,28 +49,65 @@ except ImportError:
 
 app = FastAPI(title="SigmaPro ML Service", version="1.0.0")
 
+ALLOWED_ORIGINS = [
+    "https://fernandonina241018.github.io",
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+    "http://localhost:3000",
+]
+
 # ── CORS personalizado (antes del CORSMiddleware) para manejar preflight OPTIONS ──
 @app.middleware("http")
 async def cors_middleware(request: Request, call_next):
+    origin = request.headers.get("origin")
     if request.method == "OPTIONS":
         response = JSONResponse(content="ok")
     else:
         response = await call_next(request)
-    response.headers["Access-Control-Allow-Origin"] = "*"
-    response.headers["Access-Control-Allow-Methods"] = "*"
-    response.headers["Access-Control-Allow-Headers"] = "*"
+    if origin in ALLOWED_ORIGINS:
+        response.headers["Access-Control-Allow-Origin"] = origin
+        response.headers["Vary"] = "Origin"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, DELETE, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
     return response
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=ALLOWED_ORIGINS,
+    allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"],
 )
 
 MODELS_DIR = _RN_DIR / "modelos_guardados"
 DATOS_DIR = _RN_DIR / "datos"
 manager = ModelManager(base_dir=str(MODELS_DIR))
+
+DATASET_NAME_RE = re.compile(r"^[A-Za-z0-9_\-\.]+$")
+MODEL_ID_RE = re.compile(r"^[A-Za-z0-9_\-]+$")
+
+
+def _safe_resolve(base_dir: Path, name: str, allowed_ext: tuple) -> Path:
+    """Resuelve un nombre de archivo dentro de base_dir, garantizando
+    que el path absoluto final esté contenido (anti path-traversal)."""
+    candidate = (base_dir / name).resolve()
+    base_resolved = base_dir.resolve()
+    if not str(candidate).startswith(str(base_resolved)):
+        raise HTTPException(400, f"Nombre inválido: '{name}'")
+    if not candidate.suffix or candidate.suffix not in allowed_ext:
+        raise HTTPException(400, f"Extensión no permitida: '{name}'")
+    return candidate
+
+
+def _safe_dataset_name(name: str) -> str:
+    if not name or not DATASET_NAME_RE.match(name) or ".." in name or name.startswith("."):
+        raise HTTPException(400, f"Nombre de dataset inválido: '{name}'")
+    return name
+
+
+def _safe_model_id(model_id: str) -> str:
+    if not model_id or not MODEL_ID_RE.match(model_id) or ".." in model_id or model_id.startswith("."):
+        raise HTTPException(400, f"Model ID inválido: '{model_id}'")
+    return model_id
 
 
 class TrainRequest(BaseModel):
@@ -145,17 +183,13 @@ def train_endpoint(req: TrainRequest):
     try:
         # If dataset_name provided with no inline data, load full CSV from disk (avoids preview 10-row limit)
         if req.dataset_name and (not req.data or len(req.data) == 0):
-            csv_path = DATOS_DIR / f"{req.dataset_name}.csv"
+            safe_name = _safe_dataset_name(req.dataset_name)
+            csv_path = _safe_resolve(DATOS_DIR, f"{safe_name}.csv", allowed_ext=(".csv",))
             if not csv_path.exists():
-                csv_path = DATOS_DIR / req.dataset_name
+                csv_path = _safe_resolve(DATOS_DIR, safe_name, allowed_ext=(".csv",))
             if not csv_path.exists():
-                found = list(DATOS_DIR.glob(f"**/{req.dataset_name}.*"))
-                if found:
-                    csv_path = found[0]
-            if csv_path.exists():
-                df = load_data("csv", path=str(csv_path))
-            else:
                 raise HTTPException(404, f"Dataset '{req.dataset_name}' not found in {DATOS_DIR}")
+            df = load_data("csv", path=str(csv_path))
         else:
             df = _df_from_payload(req.data, req.columns)
 
@@ -221,10 +255,11 @@ def train_endpoint(req: TrainRequest):
 def predict_endpoint(req: PredictRequest):
     try:
         registry = manager._load_registry()
+        _safe_model_id(req.model_id)
         if req.model_id not in registry:
             raise HTTPException(404, f"Model '{req.model_id}' not found")
         entry = registry[req.model_id]
-        p = MODELS_DIR / entry.get("filename", "")
+        p = _safe_resolve(MODELS_DIR, entry.get("filename", ""), allowed_ext=(".joblib", ".pkl"))
         if not p.exists():
             raise HTTPException(404, f"Model file not found")
         payload = joblib.load(str(p))
@@ -253,7 +288,7 @@ def list_models():
             meta = entry.get("meta", {})
             if not meta or not isinstance(meta.get("num_features"), list):
                 try:
-                    p = MODELS_DIR / entry.get("filename", "")
+                    p = _safe_resolve(MODELS_DIR, entry.get("filename", ""), allowed_ext=(".joblib", ".pkl"))
                     if p.exists():
                         payload = joblib.load(str(p))
                         meta = payload.get("meta", {})
@@ -303,15 +338,10 @@ def list_datasets():
 @app.post("/api/ml/dataset/preview")
 def preview_dataset(req: CSVLoadRequest):
     try:
-        path = DATOS_DIR / f"{req.filename}.csv"
+        safe_name = _safe_dataset_name(req.filename)
+        path = _safe_resolve(DATOS_DIR, f"{safe_name}.csv", allowed_ext=(".csv",))
         if not path.exists():
-            path = DATOS_DIR / req.filename
-        if not path.exists():
-            for p in DATOS_DIR.glob(f"**/{req.filename}.*"):
-                path = p
-                break
-            if not path.exists():
-                raise HTTPException(404, f"Dataset '{req.filename}' not found")
+            raise HTTPException(404, f"Dataset '{req.filename}' not found")
         df = load_data("csv", path=str(path))
         return {
             "ok": True,
@@ -368,10 +398,11 @@ def explain_endpoint(req: ExplainRequest):
         raise HTTPException(501, "Interpretability module not available")
     try:
         registry = manager._load_registry()
+        _safe_model_id(req.model_id)
         if req.model_id not in registry:
             raise HTTPException(404, f"Model '{req.model_id}' not found")
         entry = registry[req.model_id]
-        p = MODELS_DIR / entry.get("filename", "")
+        p = _safe_resolve(MODELS_DIR, entry.get("filename", ""), allowed_ext=(".joblib", ".pkl"))
         payload = joblib.load(str(p))
         pipeline = payload["pipeline"]
         meta = payload["meta"]

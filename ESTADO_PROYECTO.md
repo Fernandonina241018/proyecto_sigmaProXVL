@@ -23,6 +23,75 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-02: Remediación 6 hallazgos HIGH de auditoría de seguridad
+
+**Qué:** Implementados los 6 fixes de severidad HIGH identificados en el mapeo de seguridad:
+H1 (CORS wildcard ML), H2 (path traversal), H3 (joblib sandbox), H4 (JWT_SECRET fail-fast),
+H5 (blacklist fail-closed), H6 (helmet security headers).
+
+**1. H6 — helmet en backend (security headers)**
+- `helmet@^8.1.0` añadido a `backend/package.json` (ya estaba en package-lock).
+- Insertado en `server.js` entre CORS y `express.json()`.
+- CSP desactivada (la SPA vanilla sirve su propia CSP en `<meta>`); HSTS activo
+  con `maxAge=1 año, includeSubDomains, preload`.
+- Headers que ahora se envían: `Strict-Transport-Security`, `X-Content-Type-Options: nosniff`,
+  `X-Frame-Options: SAMEORIGIN`, `Referrer-Policy: strict-origin-when-cross-origin`,
+  `X-DNS-Prefetch-Control`, `X-Download-Options`, `X-Permitted-Cross-Domain-Policies`.
+
+**2. H1 — CORS whitelist en ML Service (no más wildcard)**
+- `ml_service/main.py`: nueva constante `ALLOWED_ORIGINS` con la misma whitelist del backend
+  (`fernandonina241018.github.io` + localhost dev).
+- Middleware CORS manual ya no devuelve `*`; valida `Origin` contra la lista.
+- `CORSMiddleware` cambiado de `allow_origins=["*"]` a la whitelist explícita.
+- Métodos permitidos limitados a `GET, POST, DELETE, OPTIONS`.
+
+**3. H2 — Validación de `dataset_name` con regex (anti path traversal)**
+- `ml_service/main.py`: nuevo `DATASET_NAME_RE = ^[A-Za-z0-9_\-\.]+$`.
+- Helper `_safe_dataset_name(name)` rechaza nombres con `..`, que empiecen con `.`,
+  o con caracteres fuera del whitelist.
+- Aplicado en `train_endpoint` y `preview_dataset`.
+
+**4. H3 — Sandboxing de `joblib.load()`**
+- Nuevo helper `_safe_resolve(base_dir, name, allowed_ext)` que:
+  - Resuelve el path absoluto y verifica que esté dentro de `base_dir` (anti traversal).
+  - Verifica que la extensión esté en la whitelist (`.csv`, `.joblib`, `.pkl`).
+- Aplicado en 4 puntos: `predict_endpoint`, `list_models` (joblib lazy load),
+  `explain_endpoint`, y los 2 lugares de `dataset_name`.
+- También `MODEL_ID_RE = ^[A-Za-z0-9_\-]+$` para `model_id`.
+
+**5. H4 — Fail-fast si `JWT_SECRET` no está definido**
+- `backend/server.js:8-21`: si `JWT_SECRET` falta → `process.exit(1)` con instrucciones claras.
+- Cambiado mínimo de 26 → **32 caracteres**.
+- Eliminado fallback que generaba clave random al boot (causaba DoS de sesiones
+  en cada reinicio e inconsistencias en multi-instance).
+
+**6. H5 — Blacklist estricto (fail-closed)**
+- `backend/server.js` (requireAuth): si `db.isTokenBlacklisted()` falla por error de DB,
+  ahora responde **503** en vez de permitir el acceso (antes: `catch(() => next())`).
+- Log explícito del error en consola.
+
+**Archivos modificados:**
+
+| Archivo | Cambio |
+|---------|--------|
+| `backend/server.js` | helmet middleware; JWT_SECRET fail-fast; blacklist fail-closed |
+| `backend/package.json` | Añadido `helmet ^8.1.0` |
+| `ml_service/main.py` | ALLOWED_ORIGINS; _safe_resolve / _safe_dataset_name / _safe_model_id; 5 endpoints protegidos |
+
+**Verificaciones:**
+
+```
+node -c backend/server.js                          → SYNTAX OK
+python3 -m py_compile ml_service/main.py           → SYNTAX OK
+npm test (vitest, 96 tests)                        → 96/96 PASSED
+npm install helmet                                 → 5 moderate CVEs en deps transitivas (audit fix disponible)
+```
+
+**Pendiente de rotación manual de secrets (de CRITICAL, fuera de scope de este commit):**
+- Rotar `DATABASE_URL` de Supabase (está en ESTADO_PROYECTO.md histórico)
+- Resetear `admin/admin123` y `f.nina/1234` (estaban documentadas)
+- Purga del historial git con `git filter-repo`
+
 ### 2026-06-02: Token revocation + CSRF + StateManager fix + 60 tests (commit `fdb127b`)
 
 **Qué:** 8 items completados del backlog de seguridad y tests.
