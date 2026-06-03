@@ -485,53 +485,200 @@ const MLManager = (() => {
             '<div style="font-size:11px">Carga un dataset, selecciona el target y entrena un modelo.</div></div>';
     }
 
-    function _renderPredictionsTable(predictions) {
+    function _renderPredictionsTable(predictions, model) {
         if (!predictions || !predictions.length) return '<div style="font-size:13px;color:var(--text-faint);padding:20px;text-align:center">Sin resultados</div>';
-        var rows = '';
+        var modelMeta = (model && model.meta) || {};
+        var modelMetrics = (model && model.metrics) || {};
+        var isBinary = modelMeta.problem_type === 'binary';
+
+        var html = '<div style="display:flex;flex-direction:column;gap:16px;max-height:75vh;overflow-y:auto;padding-right:4px">';
         for (var i = 0; i < predictions.length; i++) {
-            var p = predictions[i];
-            var mainVal = p['prediccion_legible'] || p['clase_predicha'] || p['prediccion'] || '';
-            var prob = p['probabilidad_predicha'] ?? p['nivel_confianza'] ?? '';
-            var cells = '';
-            for (var key in p) {
-                if (key === 'index') continue;
-                if (key === 'explicacion_factores' || key === 'factores_a_favor' || key === 'factores_en_contra') continue;
-                if (key === 'prediccion_legible' || key === 'clase_predicha') continue;
-                var val = p[key];
-                if (typeof val === 'number') val = val.toFixed ? val.toFixed(4) : val;
-                if (val === null || val === undefined) val = '—';
-                var label = key
-                    .replace('prediccion', 'Predicción')
-                    .replace('ic_lower_95', 'IC inferior (95%)')
-                    .replace('ic_upper_95', 'IC superior (95%)')
-                    .replace('clase_predicha', 'Clase')
-                    .replace('prediccion_legible', 'Predicción')
-                    .replace('probabilidad_predicha', 'Probabilidad')
-                    .replace('nivel_confianza', 'Confianza')
-                    .replace('clase_alternativa', 'Clase alt.')
-                    .replace('clase_alternativa_legible', 'Alternativa')
-                    .replace('probabilidad_alternativa', 'Prob. alt.')
-                    .replace('margen_decision', 'Margen')
-                    .replace('segunda_clase', '2da clase')
-                    .replace('segunda_clase_legible', '2da opción')
-                    .replace('probabilidad_segunda_clase', 'Prob. 2da')
-                    .replace(/^explicacion$/, 'Explicación')
-                    .replace(/_/g, ' ');
-                cells += '<div style="display:flex;gap:8px;padding:3px 0"><span style="font-weight:500;min-width:120px;font-size:12px;color:var(--text-faint)">' + label + ':</span><span style="font-size:12px;font-weight:500">' + escapeHtml(String(val)) + '</span></div>';
-            }
-            var expl = p['explicacion'] || p['explicacion_factores'] || '';
-            if (expl) {
-                cells += '<div style="margin-top:6px;padding:8px 10px;background:var(--item-bg);border-radius:6px;font-size:11px;color:var(--text-muted);line-height:1.5">' + escapeHtml(expl) + '</div>';
-            }
-            var headerHtml = '<div style="font-weight:700;font-size:13px;margin-bottom:6px;color:var(--accent)">📊 Predicción ' + (i + 1) + '</div>';
-            if (mainVal) {
-                headerHtml += '<div style="font-size:22px;font-weight:700;margin-bottom:8px;color:var(--text-primary)">' + escapeHtml(String(mainVal)) + (prob ? ' <span style="font-size:14px;font-weight:500;color:var(--text-faint)">(' + (typeof prob === 'number' ? (prob * 100).toFixed(1) + '%' : prob) + ')</span>' : '') + '</div>';
-            }
-            rows += '<div style="padding:14px 16px;background:var(--item-bg);border-radius:8px;border:1px solid var(--border)">' +
-                headerHtml +
-                cells + '</div>';
+            html += _predCard(predictions[i], i, isBinary);
         }
-        return '<div style="display:flex;flex-direction:column;gap:8px;max-height:360px;overflow-y:auto">' + rows + '</div>';
+        html += '</div>';
+        return html;
+    }
+
+    function _predConfColor(prob) {
+        if (prob == null) return 'var(--text-faint)';
+        var p = typeof prob === 'number' ? prob : parseFloat(prob);
+        if (isNaN(p)) return 'var(--text-faint)';
+        if (p >= 0.8) return '#10b981';
+        if (p >= 0.6) return '#f59e0b';
+        return '#ef4444';
+    }
+
+    function _predConfLabel(prob) {
+        if (prob == null) return 'desconocida';
+        var p = typeof prob === 'number' ? prob : parseFloat(prob);
+        if (isNaN(p)) return 'desconocida';
+        if (p >= 0.9) return 'muy alta';
+        if (p >= 0.75) return 'alta';
+        if (p >= 0.6) return 'media';
+        if (p >= 0.4) return 'baja';
+        return 'muy baja';
+    }
+
+    function _predMeterBar(pct, color, label) {
+        if (pct == null) return '';
+        var p = typeof pct === 'number' ? pct : parseFloat(pct);
+        if (isNaN(p)) return '';
+        var w = Math.round(p * 100);
+        var bg = color || _predConfColor(p);
+        return '<div style="display:flex;align-items:center;gap:10px">' +
+            '<div style="flex:1;height:10px;background:var(--item-bg);border-radius:5px;overflow:hidden;border:1px solid var(--border)">' +
+            '<div style="height:100%;width:' + w + '%;background:' + bg + ';border-radius:5px;transition:width 0.4s ease"></div></div>' +
+            '<span style="font-size:14px;font-weight:700;color:' + bg + ';min-width:50px;text-align:right">' + w + '%</span></div>';
+    }
+
+    function _predBadge(label, color) {
+        return '<span style="display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;background:' + color + '22;color:' + color + ';border:1px solid ' + color + '44">' + escapeHtml(label) + '</span>';
+    }
+
+    function _predFactorsHtml(p) {
+        var favorRaw = p['factores_a_favor'];
+        var contraRaw = p['factores_en_contra'];
+        var favor = favorRaw ? (typeof favorRaw === 'string' ? favorRaw.split('; ') : [favorRaw]) : [];
+        var contra = contraRaw ? (typeof contraRaw === 'string' ? contraRaw.split('; ') : [contraRaw]) : [];
+        if (!favor.length && !contra.length) return '';
+
+        function factorCard(items, icon, color) {
+            if (!items.length || (items.length === 1 && items[0].indexOf('Sin factores') !== -1)) return '';
+            var card = '<div style="flex:1;padding:10px 12px;background:var(--item-bg);border-radius:8px;border:1px solid var(--border)">' +
+                '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:' + color + ';margin-bottom:6px">' + icon + ' ' + (icon === '✅' ? 'A favor' : 'En contra') + '</div>';
+            items.forEach(function(item) {
+                if (item.indexOf('Sin factores') !== -1) return;
+                var clean = item.replace(/^[^:]+:\s*/, '');
+                var parts = item.split(':');
+                var featName = parts.length > 1 ? parts[0].trim() : '';
+                var featVal = parts.length > 1 ? parts.slice(1).join(':').trim() : item.trim();
+                var deltaMatch = featVal.match(/([+-]\d+\.?\d*)/);
+                var delta = deltaMatch ? deltaMatch[1] : '';
+                var deltaColor = delta.startsWith('+') ? '#10b981' : delta.startsWith('-') ? '#ef4444' : color;
+                card += '<div style="display:flex;align-items:center;justify-content:space-between;padding:3px 0;font-size:11px;border-bottom:1px solid var(--border);margin-bottom:2px">' +
+                    '<span style="font-weight:600;color:var(--text-primary)">' + escapeHtml(featName || clean) + '</span>' +
+                    (delta ? '<span style="font-weight:700;color:' + deltaColor + ';font-size:12px">' + delta + '</span>' : '') +
+                    '</div>';
+            });
+            card += '</div>';
+            return card;
+        }
+
+        var favorCard = factorCard(favor, '✅', '#10b981');
+        var contraCard = factorCard(contra, '❌', '#ef4444');
+        if (!favorCard && !contraCard) return '';
+
+        return '<div style="display:flex;gap:10px">' +
+            (favorCard || '<div style="flex:1;padding:10px 12px;background:var(--item-bg);border-radius:8px;border:1px solid var(--border);font-size:11px;color:var(--text-faint)">✅ Sin factores destacados a favor</div>') +
+            (contraCard || '<div style="flex:1;padding:10px 12px;background:var(--item-bg);border-radius:8px;border:1px solid var(--border);font-size:11px;color:var(--text-faint)">❌ Sin factores destacados en contra</div>') +
+            '</div>';
+    }
+
+    function _predMetricsStrip(metrics) {
+        var keys = Object.keys(metrics).filter(function(k) { return !['y_pred', 'y_proba'].includes(k); });
+        if (!keys.length) return '';
+        var html = '<div style="display:flex;gap:6px;flex-wrap:wrap">';
+        keys.slice(0, 6).forEach(function(k) {
+            var v = metrics[k];
+            if (typeof v === 'number') v = v.toFixed(4);
+            html += '<div style="padding:4px 8px;background:var(--item-bg);border-radius:4px;border:1px solid var(--border);font-size:10px;display:flex;flex-direction:column;align-items:center;gap:1px">' +
+                '<span style="color:var(--text-faint);text-transform:uppercase;letter-spacing:0.3px">' + k + '</span>' +
+                '<span style="font-weight:700;color:var(--accent);font-size:12px">' + v + '</span></div>';
+        });
+        html += '</div>';
+        return html;
+    }
+
+    function _predCard(p, index, isBinary) {
+        var predLabel = p['prediccion_legible'] || p['clase_predicha'] || p['prediccion'] || '';
+        var prob = p['probabilidad_predicha'];
+        var confLabel = p['nivel_confianza'] || _predConfLabel(prob);
+        var confColor = _predConfColor(prob);
+        var altLabel = p['clase_alternativa_legible'] || p['segunda_clase_legible'] || '';
+        var altProb = p['probabilidad_alternativa'] ?? p['probabilidad_segunda_clase'];
+        var margin = p['margen_decision'] ?? p['margen_top_2'];
+        var explText = p['explicacion'] || p['explicacion_factores'] || '';
+        var icLow = p['ic_lower_95'];
+        var icHigh = p['ic_upper_95'];
+
+        var cardStyle = 'padding:0;background:transparent;border:1px solid var(--border);border-radius:12px;overflow:hidden';
+
+        var headerBg = prob != null ? (prob >= 0.6 ? 'linear-gradient(135deg, #065f4622, #10b98111)' : prob >= 0.4 ? 'linear-gradient(135deg, #92400e22, #f59e0b11)' : 'linear-gradient(135deg, #991b1b22, #ef444411)') : 'var(--item-bg)';
+        var isPositive = prob != null && prob >= 0.5;
+
+        var predDisplay = predLabel;
+        var emoji = isPositive ? '✅' : '❌';
+        if (predLabel.toLowerCase() === '1' || predLabel.toLowerCase() === 'si' || predLabel === 'true') {
+            predDisplay = 'Positivo';
+            emoji = '✅';
+        } else if (predLabel.toLowerCase() === '0' || predLabel.toLowerCase() === 'no' || predLabel === 'false') {
+            predDisplay = 'Negativo';
+            emoji = '❌';
+        }
+
+        var html = '<div style="' + cardStyle + '">';
+
+        html += '<div style="background:' + headerBg + ';padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px">';
+        html += '<div style="flex:1;display:flex;flex-direction:column;gap:2px">' +
+            '<div style="font-size:24px;font-weight:800;color:' + confColor + '">' + emoji + ' ' + escapeHtml(predDisplay) + '</div>' +
+            '<div style="font-size:12px;color:var(--text-muted)">Confianza: <strong style="color:' + confColor + '">' + (prob != null ? (prob * 100).toFixed(1) + '%' : '—') + '</strong> · ' +
+            '<span style="color:var(--text-faint)">' + confLabel.toUpperCase() + '</span></div></div>';
+        html += '<div style="text-align:right;font-size:10px;color:var(--text-faint);flex-shrink:0">' +
+            '<div style="font-weight:600">#' + (index + 1) + '</div>' +
+            '<div>' + (altLabel ? 'Alt: ' + escapeHtml(altLabel) : '') + '</div></div></div>';
+
+        html += '<div style="padding:12px 18px;background:var(--bg-panel)">';
+
+        if (prob != null) {
+            html += '<div style="margin-bottom:10px">' + _predMeterBar(prob, confColor) + '</div>';
+        }
+
+        if (altLabel && altProb != null) {
+            html += '<div style="display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--text-muted);padding:4px 0">' +
+                '<span>Alternativa: <strong style="color:var(--text-primary)">' + escapeHtml(altLabel) + '</strong> (' + (altProb * 100).toFixed(1) + '%)</span>' +
+                (margin != null ? '<span style="font-weight:600;color:' + confColor + '">Margen: +' + (margin * 100).toFixed(1) + ' pts</span>' : '') +
+                '</div>';
+        }
+
+        if (icLow != null && icHigh != null) {
+            html += '<div style="font-size:10px;color:var(--text-faint);padding:2px 0">Intervalo de confianza 95%: [' +
+                (icLow * 100).toFixed(1) + '% – ' + (icHigh * 100).toFixed(1) + '%]</div>';
+        }
+
+        html += '</div>';
+
+        var factorsHtml = _predFactorsHtml(p);
+        if (factorsHtml) {
+            html += '<div style="padding:10px 18px;border-top:1px solid var(--border);background:var(--bg-panel)">' +
+                '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-faint);margin-bottom:6px">📊 Factores determinantes</div>' +
+                factorsHtml + '</div>';
+        }
+
+        if (explText) {
+            explText = typeof explText === 'string' ? explText : (explText[index] || explText[0] || '');
+            html += '<div style="padding:12px 18px;border-top:1px solid var(--border);background:var(--bg-panel)">' +
+                '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-faint);margin-bottom:4px">💬 Explicación</div>' +
+                '<div style="font-size:12px;color:var(--text-primary);line-height:1.6;padding:8px 10px;background:var(--item-bg);border-radius:6px;border-left:3px solid ' + confColor + '">' +
+                escapeHtml(explText) + '</div></div>';
+        }
+
+        html += '<div style="padding:10px 18px;border-top:1px solid var(--border);background:var(--bg-panel);display:flex;gap:8px;flex-wrap:wrap;font-size:11px">';
+        var valKeys = Object.keys(p).filter(function(k) {
+            return !['index', 'prediccion', 'prediccion_legible', 'clase_predicha', 'probabilidad_predicha',
+                     'nivel_confianza', 'clase_alternativa', 'clase_alternativa_legible',
+                     'probabilidad_alternativa', 'margen_decision', 'explicacion', 'explicacion_factores',
+                     'factores_a_favor', 'factores_en_contra', 'segunda_clase', 'segunda_clase_legible',
+                     'probabilidad_segunda_clase', 'margen_top_2', 'ic_lower_95', 'ic_upper_95'].includes(k);
+        });
+        valKeys.forEach(function(k) {
+            var v = p[k];
+            if (v === null || v === undefined) return;
+            if (typeof v === 'number') v = v.toFixed(4);
+            html += '<div style="padding:3px 8px;background:var(--item-bg);border-radius:4px;font-size:10px"><span style="color:var(--text-faint)">' + k + ':</span> <strong>' + escapeHtml(String(v)) + '</strong></div>';
+        });
+        html += '</div></div>';
+
+        return html;
     }
 
     function predictFromModel(modelId) {
@@ -739,27 +886,38 @@ const MLManager = (() => {
         predictBtn.style.cssText = 'padding:8px 24px;border-radius:8px;font-size:13px;font-weight:700;border:none;background:var(--accent,#6366f1);color:#fff;cursor:pointer';
         predictBtn.onclick = async function() {
             var resOverlay = document.createElement('div');
-            resOverlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;z-index:10000';
+            resOverlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:10000';
             var resBox = document.createElement('div');
-            resBox.style.cssText = 'width:84vw;max-width:1100px;max-height:85vh;background:var(--bg-panel);border-radius:14px;box-shadow:0 12px 48px rgba(0,0,0,0.4);overflow:hidden;display:flex;flex-direction:column';
+            resBox.style.cssText = 'width:92vw;max-width:1300px;max-height:90vh;background:var(--bg-panel);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.5);overflow:hidden;display:flex;flex-direction:column';
             var resTitle = document.createElement('div');
-            resTitle.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:16px 24px;font-size:15px;font-weight:700;border-bottom:1px solid var(--border);background:var(--item-bg)';
-            resTitle.innerHTML = '<span>🔮 Resultado de predicción</span>';
+            resTitle.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:14px 20px;font-size:14px;font-weight:700;border-bottom:1px solid var(--border);background:var(--item-bg);flex-shrink:0';
+            resTitle.innerHTML = '<span>🔮 Resultado de predicción con <span style="color:var(--accent)">' + escapeHtml(modelId) + '</span></span>';
             var closeBtn = document.createElement('button');
             closeBtn.innerHTML = '✕';
-            closeBtn.style.cssText = 'border:none;background:none;cursor:pointer;font-size:18px;color:var(--text-faint);padding:4px 8px;border-radius:6px';
+            closeBtn.style.cssText = 'border:none;background:rgba(255,255,255,0.05);cursor:pointer;font-size:16px;color:var(--text-faint);padding:6px 12px;border-radius:8px;transition:all 0.15s';
+            closeBtn.onmouseover = function() { this.style.background = 'rgba(255,255,255,0.1)'; this.style.color = '#fff'; };
+            closeBtn.onmouseout = function() { this.style.background = 'rgba(255,255,255,0.05)'; this.style.color = 'var(--text-faint)'; };
             closeBtn.onclick = function() { resOverlay.remove(); };
             resTitle.appendChild(closeBtn);
             resBox.appendChild(resTitle);
             var resBody = document.createElement('div');
-            resBody.style.cssText = 'padding:20px 24px;overflow-y:auto;flex:1';
-            resBody.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-faint)">⏳ Prediciendo...</div>';
+            resBody.style.cssText = 'padding:20px 22px;overflow-y:auto;flex:1';
+            resBody.innerHTML = '<div style="text-align:center;padding:60px 40px;color:var(--text-faint)"><div style="font-size:36px;margin-bottom:12px">⏳</div><div style="font-size:14px;font-weight:600">Procesando predicción...</div><div style="font-size:11px;margin-top:4px">Consultando al modelo</div></div>';
             resBox.appendChild(resBody);
             var resActions = document.createElement('div');
-            resActions.style.cssText = 'display:flex;gap:12px;justify-content:end;padding:12px 24px;border-top:1px solid var(--border)';
+            resActions.style.cssText = 'display:flex;gap:10px;justify-content:end;padding:10px 20px;border-top:1px solid var(--border);flex-shrink:0';
+            var resNewBtn = document.createElement('button');
+            resNewBtn.innerHTML = '🔮 Nueva predicción';
+            resNewBtn.style.cssText = 'padding:7px 16px;border-radius:8px;font-size:12px;font-weight:600;border:1.5px solid var(--border);background:var(--item-bg);color:var(--text-primary);cursor:pointer;transition:all 0.15s';
+            resNewBtn.onmouseover = function() { this.style.background = 'var(--accent)'; this.style.color = '#fff'; this.style.borderColor = 'var(--accent)'; };
+            resNewBtn.onmouseout = function() { this.style.background = 'var(--item-bg)'; this.style.color = 'var(--text-primary)'; this.style.borderColor = 'var(--border)'; };
+            resNewBtn.onclick = function() { resOverlay.remove(); };
+            resActions.appendChild(resNewBtn);
             var resCloseBtn = document.createElement('button');
-            resCloseBtn.textContent = 'Cerrar';
-            resCloseBtn.style.cssText = 'padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;border:1.5px solid var(--border);background:var(--item-bg);color:var(--text-primary);cursor:pointer';
+            resCloseBtn.textContent = '✕ Cerrar';
+            resCloseBtn.style.cssText = 'padding:7px 16px;border-radius:8px;font-size:12px;font-weight:600;border:1.5px solid var(--border);background:var(--bg-panel);color:var(--text-faint);cursor:pointer;transition:all 0.15s';
+            resCloseBtn.onmouseover = function() { this.style.color = 'var(--text-primary)'; };
+            resCloseBtn.onmouseout = function() { this.style.color = 'var(--text-faint)'; };
             resCloseBtn.onclick = function() { resOverlay.remove(); };
             resActions.appendChild(resCloseBtn);
             resBox.appendChild(resActions);
@@ -785,7 +943,14 @@ const MLManager = (() => {
                 var result = await _fetch('POST', '/api/ml/predict', {
                     model_id: modelId, data: rows, columns: columns,
                 });
-                resBody.innerHTML = _renderPredictionsTable(result.predictions);
+                var resultHtml = _renderPredictionsTable(result.predictions, model);
+                var metricsHtml = _predMetricsStrip(modelMetrics);
+                if (metricsHtml) {
+                    resultHtml = '<div style="margin-bottom:12px;padding:10px 14px;background:var(--bg-panel);border:1px solid var(--border);border-radius:8px">' +
+                        '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-faint);margin-bottom:6px">📈 Precisión del modelo</div>' +
+                        metricsHtml + '</div>' + resultHtml;
+                }
+                resBody.innerHTML = resultHtml;
                 cleanupPredictModal();
             } catch (e) {
                 resBody.innerHTML = '<div style="text-align:center;padding:40px;color:#ef4444;font-size:14px;font-weight:500">❌ ' + escapeHtml(e.message) + '</div>';
