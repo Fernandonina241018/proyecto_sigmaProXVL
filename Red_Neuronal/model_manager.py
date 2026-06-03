@@ -132,6 +132,7 @@ class ModelManager:
             "cat_features": payload['meta'].get('cat_features', []),
             "metrics": metrics,
             "train_params": payload.get('train_params', {}),
+            "best_params": payload.get('best_params', {}),
             "target_classes": payload['meta'].get('target_classes'),
             "meta": payload.get('meta', {}),
         }

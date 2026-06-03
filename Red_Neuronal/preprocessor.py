@@ -26,8 +26,11 @@ from sklearn.preprocessing import (
     StandardScaler,
     OneHotEncoder,
     LabelEncoder,
+    PolynomialFeatures,
 )
 from sklearn.impute import SimpleImputer
+from sklearn.feature_selection import SelectKBest, f_classif, f_regression, RFE
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 
 
 # ══════════════════════════════════════════════════════════════════
@@ -141,11 +144,13 @@ def data_report(df: pd.DataFrame, target: str, problem_type: str,
 #  PIPELINE DE PREPROCESAMIENTO
 # ══════════════════════════════════════════════════════════════════
 
-def build_preprocessor(num_features: list, cat_features: list) -> ColumnTransformer:
-    """Construye un ColumnTransformer que:
+def build_preprocessor(num_features: list, cat_features: list,
+                       feature_engineering: dict = None,
+                       problem_type: str = "binary"):
+    """Construye un Pipeline de preprocesamiento con feature engineering opcional.
 
-        Numéricas  → imputación mediana + StandardScaler
-        Categóricas→ imputación moda   + OneHotEncoder (handle_unknown='ignore')
+        Base:       ColumnTransformer (num → mediana + scaler, cat → moda + OHE)
+        Opcional:   PolynomialFeatures + SelectKBest/RFE
     """
     transformers = []
 
@@ -168,7 +173,52 @@ def build_preprocessor(num_features: list, cat_features: list) -> ColumnTransfor
     if not transformers:
         raise ValueError("No se encontraron features numéricas ni categóricas.")
 
-    return ColumnTransformer(transformers=transformers, remainder="drop")
+    ct = ColumnTransformer(transformers=transformers, remainder="drop")
+
+    steps = [("preprocessor", ct)]
+    fe = feature_engineering or {}
+    _add_poly_features(steps, fe)
+    _add_feature_selection(steps, fe, problem_type, num_features, cat_features)
+
+    if len(steps) > 1:
+        return Pipeline(steps)
+    return ct
+
+
+def _add_poly_features(steps: list, fe: dict):
+    """Agrega PolynomialFeatures al pipeline si está configurado."""
+    degree = fe.get("polynomial_degree", 0)
+    if degree and degree >= 2:
+        steps.append(("poly", PolynomialFeatures(
+            degree=degree,
+            interaction_only=fe.get("interaction_only", False),
+            include_bias=False,
+        )))
+        print(f"  🧮 PolynomialFeatures (grado {degree}) añadido")
+
+
+def _add_feature_selection(steps: list, fe: dict,
+                           problem_type: str,
+                           num_features: list,
+                           cat_features: list):
+    """Agrega SelectKBest / RFE al pipeline si está configurado."""
+    fs = fe.get("feature_selection")
+    if not fs or not fs.get("method"):
+        return
+    method = fs["method"]
+    k = fs.get("k", max(1, (len(num_features) + len(cat_features)) // 2))
+
+    if method == "kbest":
+        score_func = f_regression if problem_type == "regression" else f_classif
+        steps.append(("select", SelectKBest(score_func=score_func, k=k)))
+        print(f"  🔬 SelectKBest (k={k}) añadido")
+
+    elif method == "rfe":
+        base = (RandomForestRegressor(n_estimators=50, random_state=42)
+                if problem_type == "regression"
+                else RandomForestClassifier(n_estimators=50, random_state=42))
+        steps.append(("select", RFE(estimator=base, n_features_to_select=k)))
+        print(f"  🔬 RFE (k={k}) añadido")
 
 
 def _normalize_numeric_frame(X):
@@ -231,20 +281,23 @@ def prepare_data(df: pd.DataFrame,
                  target: str,
                  problem_type: str = "auto",
                  exclude_cols: list = None,
-                 verbose: bool = True):
+                 verbose: bool = True,
+                 feature_engineering: dict = None):
     """Pipeline completo de preparación de datos.
 
     Argumentos:
-        df           : DataFrame de entrada
-        target       : nombre de la columna objetivo
-        problem_type : 'auto' | 'binary' | 'multiclass' | 'regression'
-        exclude_cols : columnas a ignorar (IDs, fechas, etc.)
-        verbose      : imprimir reporte
+        df                 : DataFrame de entrada
+        target             : nombre de la columna objetivo
+        problem_type       : 'auto' | 'binary' | 'multiclass' | 'regression'
+        exclude_cols       : columnas a ignorar (IDs, fechas, etc.)
+        verbose            : imprimir reporte
+        feature_engineering: dict con opciones de ingeniería de características
+                             {polynomial_degree, interaction_only, feature_selection}
 
     Retorna:
         X_raw        : DataFrame con features (sin escalar)
         y            : array del target (codificado si aplica)
-        preprocessor : ColumnTransformer ajustado
+        preprocessor : Pipeline ajustado (ColumnTransformer + FE opcional)
         meta         : dict con metadatos {problem_type, num_features,
                        cat_features, label_encoder, target_classes}
     """
@@ -280,8 +333,10 @@ def prepare_data(df: pd.DataFrame,
     # Features
     X_raw = df.drop(columns=[target])
 
-    # Construir preprocessor
-    preprocessor = build_preprocessor(num_features, cat_features)
+    # Construir preprocessor (con feature engineering opcional)
+    preprocessor = build_preprocessor(num_features, cat_features,
+                                      feature_engineering=feature_engineering,
+                                      problem_type=problem_type)
 
     meta = {
         "problem_type":  problem_type,
@@ -299,6 +354,7 @@ def prepare_data(df: pd.DataFrame,
         "feature_baselines": build_feature_baselines(
             X_raw, num_features, cat_features
         ),
+        "feature_engineering": feature_engineering or {},
     }
 
     return X_raw, y, preprocessor, meta

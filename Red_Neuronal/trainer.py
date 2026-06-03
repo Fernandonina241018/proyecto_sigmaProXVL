@@ -18,8 +18,8 @@ import numpy as np
 from sklearn.base import clone
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import (
-    train_test_split, cross_val_score,
-    StratifiedKFold, KFold
+    train_test_split, cross_val_score, GridSearchCV,
+    RandomizedSearchCV, StratifiedKFold, KFold
 )
 from sklearn.linear_model import LogisticRegression, LinearRegression
 from sklearn.neural_network import MLPClassifier, MLPRegressor
@@ -146,6 +146,50 @@ def _build_xgb(problem_type, n_classes, seed, extra):
 
 
 # ══════════════════════════════════════════════════════════════════
+#  GRIDS DE HIPERPARÁMETROS POR MODELO
+# ══════════════════════════════════════════════════════════════════
+
+_MODEL_GRIDS = {
+    "logistic": {
+        "model__C": [0.01, 0.1, 1.0, 10.0],
+        "model__max_iter": [1000, 2000],
+        "model__solver": ["lbfgs", "liblinear"],
+    },
+    "softmax": {
+        "model__C": [0.01, 0.1, 1.0, 10.0],
+        "model__max_iter": [1000, 2000],
+    },
+    "mlp": {
+        "model__hidden_layer_sizes": [(32, 16), (64, 32, 16), (128, 64, 32)],
+        "model__alpha": [0.0001, 0.001, 0.01],
+        "model__learning_rate_init": [0.001, 0.01],
+    },
+    "rf": {
+        "model__n_estimators": [100, 200, 300],
+        "model__max_depth": [10, 15, 20, None],
+        "model__min_samples_split": [2, 3, 5],
+        "model__min_samples_leaf": [1, 2],
+    },
+    "xgb": {
+        "model__n_estimators": [100, 200, 300],
+        "model__learning_rate": [0.01, 0.05, 0.1],
+        "model__max_depth": [4, 6, 8],
+        "model__subsample": [0.7, 0.8, 0.9],
+        "model__colsample_bytree": [0.7, 0.8, 1.0],
+    },
+    "linear": {},
+}
+
+
+def _get_default_scoring(problem_type: str) -> str:
+    if problem_type == "binary":
+        return "roc_auc"
+    elif problem_type == "multiclass":
+        return "f1_weighted"
+    return "r2"
+
+
+# ══════════════════════════════════════════════════════════════════
 #  PIPELINE COMPLETO  (preprocessor + modelo)
 # ══════════════════════════════════════════════════════════════════
 
@@ -158,6 +202,73 @@ def build_pipeline(preprocessor, estimator) -> Pipeline:
 
 
 # ══════════════════════════════════════════════════════════════════
+#  HYPERPARAMETER TUNING
+# ══════════════════════════════════════════════════════════════════
+
+def tune_model(pipeline, X_train, y_train,
+               model_key: str, problem_type: str,
+               search_type: str = "grid",
+               search_params: dict = None,
+               cv_folds: int = 5,
+               random_state: int = 42,
+               n_iter: int = 20):
+    """Aplica GridSearchCV o RandomizedSearchCV sobre el pipeline.
+
+    Retorna:
+        (best_pipeline, best_params)
+    """
+    param_grid = search_params or _MODEL_GRIDS.get(model_key, {})
+    if not param_grid:
+        print(f"  ℹ️ No hay hiperparámetros definidos para '{model_key}'")
+        return pipeline, {}
+    scoring = _get_default_scoring(problem_type)
+    if search_type == "grid":
+        searcher = GridSearchCV(
+            pipeline, param_grid, cv=min(cv_folds, 5),
+            scoring=scoring, n_jobs=-1, verbose=0,
+            error_score="raise",
+        )
+    else:
+        searcher = RandomizedSearchCV(
+            pipeline, param_grid, n_iter=n_iter,
+            cv=min(cv_folds, 5), scoring=scoring,
+            n_jobs=-1, verbose=0, random_state=random_state,
+            error_score="raise",
+        )
+    print(f"  🔍 Tuning {search_type.upper()} con {scoring}...", end=" ", flush=True)
+    searcher.fit(X_train, y_train)
+    print(f"✔ Mejores params: {searcher.best_params_}")
+    return searcher.best_estimator_, searcher.best_params_
+
+
+def _apply_smote(X_train, y_train, strategy: str,
+                 random_state: int = 42):
+    """Aplica SMOTE o ADASYN para balancear clases en entrenamiento.
+
+    Retorna:
+        (X_resampled, y_resampled) — copia aumentada sintéticamente.
+    """
+    try:
+        if strategy == "smote":
+            from imblearn.over_sampling import SMOTE
+            sampler = SMOTE(random_state=random_state)
+        else:
+            from imblearn.over_sampling import ADASYN
+            sampler = ADASYN(random_state=random_state)
+    except ImportError:
+        print("  ⚠️  imbalanced-learn no instalado. SMOTE no disponible.")
+        return X_train, y_train
+
+    from collections import Counter
+    before = Counter(y_train)
+    print(f"  ⚖️  Aplicando {strategy.upper()} para balancear clases...")
+    X_res, y_res = sampler.fit_resample(X_train, y_train)
+    after = Counter(y_res)
+    print(f"    Antes: {dict(before)}  →  Después: {dict(after)}")
+    return X_res, y_res
+
+
+# ══════════════════════════════════════════════════════════════════
 #  ENTRENAMIENTO CON VALIDACIÓN CRUZADA
 # ══════════════════════════════════════════════════════════════════
 
@@ -166,13 +277,22 @@ def train(X, y, preprocessor, model_key: str,
           test_size: float = 0.2,
           cv_folds: int = 5,
           random_state: int = 42,
-          model_kwargs: dict = None):
+          model_kwargs: dict = None,
+          search_type: str = "none",
+          search_params: dict = None,
+          imbalance_strategy: str = "none"):
     """Entrena el pipeline completo y evalúa con CV.
+
+    Argumentos nuevos (v2):
+        search_type        : 'none' | 'grid' | 'random'
+        search_params      : dict con param_grid custom (pasa defaults si None)
+        imbalance_strategy : 'none' | 'smote' | 'adasyn'
 
     Retorna:
         pipeline   : Pipeline ajustado (preprocessor + modelo)
         splits     : dict con X_train, X_test, y_train, y_test
         cv_results : dict con métricas de validación cruzada
+        best_params: dict con mejores hiperparámetros (vacío si no hay tuning)
     """
     model_kwargs = model_kwargs or {}
     n_classes    = len(meta.get("target_classes") or [])
@@ -223,7 +343,6 @@ def train(X, y, preprocessor, model_key: str,
         if len(counts) == 2:
             neg_count = min(counts.values())
             pos_count = max(counts.values())
-            # scale_pos_weight = neg_count / pos_count  (< 1 da menos peso a clase mayoritaria)
             model_kwargs.setdefault("scale_pos_weight", neg_count / pos_count)
     estimator = build_model(model_key, problem_type,
                             n_classes=n_classes,
@@ -231,10 +350,33 @@ def train(X, y, preprocessor, model_key: str,
                             **model_kwargs)
     pipeline = build_pipeline(preprocessor, estimator)
 
-    # ── Ajuste ───────────────────────────────────────────────────
-    pipeline.fit(X_train, y_train)
+    # ── Hyperparameter tuning ─────────────────────────────────────
+    best_params = {}
+    if search_type in ("grid", "random"):
+        pipeline, best_params = tune_model(
+            pipeline, X_train, y_train,
+            model_key=model_key, problem_type=problem_type,
+            search_type=search_type, search_params=search_params,
+            cv_folds=cv_folds, random_state=random_state,
+        )
 
-    # ── Validación cruzada ─────────────────────────────────────
+    # ── Imbalance handling ────────────────────────────────────────
+    X_train_fit, y_train_fit = X_train, y_train
+    if imbalance_strategy in ("smote", "adasyn"):
+        X_train_fit, y_train_fit = _apply_smote(
+            X_train, y_train, imbalance_strategy, random_state,
+        )
+
+    # ── Ajuste final ──────────────────────────────────────────────
+    # Si hubo tuning, el pipeline ya está ajustado; si además hay
+    # SMOTE, clonamos y reajustamos sobre datos balanceados.
+    if search_type in ("grid", "random") and imbalance_strategy in ("smote", "adasyn"):
+        pipeline = clone(pipeline)
+        pipeline.fit(X_train_fit, y_train_fit)
+    elif search_type not in ("grid", "random"):
+        pipeline.fit(X_train_fit, y_train_fit)
+
+    # ── Validación cruzada (siempre sobre datos originales) ─────
     cv_results = _cross_validate(
         pipeline, X, y, problem_type, cv_folds, random_state
     )
@@ -242,7 +384,7 @@ def train(X, y, preprocessor, model_key: str,
     # ── Log ─────────────────────────────────────────────────────
     _print_train_summary(model_key, problem_type, splits, cv_results, pipeline)
 
-    return pipeline, splits, cv_results
+    return pipeline, splits, cv_results, best_params
 
 
 def _cross_validate(pipeline, X, y, problem_type, cv_folds, random_state):

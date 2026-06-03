@@ -121,6 +121,10 @@ class TrainRequest(BaseModel):
     n_bootstraps: int = 0
     dataset_name: Optional[str] = None
     exclude_cols: Optional[list[str]] = None
+    search_type: str = "none"
+    search_params: Optional[dict] = None
+    imbalance_strategy: str = "none"
+    feature_engineering: Optional[dict] = None
 
 
 class PredictRequest(BaseModel):
@@ -199,11 +203,14 @@ def train_endpoint(req: TrainRequest):
         X_raw, y, preprocessor, meta = prepare_data(
             df, target=req.target, problem_type=req.problem_type,
             exclude_cols=req.exclude_cols, verbose=False,
+            feature_engineering=req.feature_engineering,
         )
-        pipeline, splits, cv_results = train(
+        pipeline, splits, cv_results, best_params = train(
             X_raw, y, preprocessor=preprocessor, model_key=req.model_key,
             problem_type=meta["problem_type"], meta=meta,
             test_size=req.test_size, cv_folds=req.cv_folds, random_state=42,
+            search_type=req.search_type, search_params=req.search_params,
+            imbalance_strategy=req.imbalance_strategy,
         )
         boot_models = []
         if req.n_bootstraps > 0:
@@ -222,7 +229,11 @@ def train_endpoint(req: TrainRequest):
             "train_params": {"source": "api", "model_key": req.model_key,
                              "problem_type": meta["problem_type"],
                              "test_size": req.test_size, "cv_folds": req.cv_folds,
-                             "n_bootstraps": req.n_bootstraps},
+                             "n_bootstraps": req.n_bootstraps,
+                             "search_type": req.search_type,
+                             "imbalance_strategy": req.imbalance_strategy,
+                             "feature_engineering": req.feature_engineering},
+            "best_params": best_params,
             "saved_at": None, "version": "1.0",
         }
         model_id = manager.save_training(
@@ -235,6 +246,7 @@ def train_endpoint(req: TrainRequest):
         return {
             "ok": True, "model_id": model_id,
             "metrics": _metrics_serializable(eval_results),
+            "best_params": best_params,
             "meta": {
                 "problem_type": meta["problem_type"],
                 "target_col": meta.get("target_col", req.target),

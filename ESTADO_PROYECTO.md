@@ -23,6 +23,47 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-02: Fase 1 — Pipeline ML v2 (Hyperparameter tuning + Feature Engineering + SMOTE)
+
+**Qué:** Mejoras al pipeline de ML para futuros entrenamientos. 4 archivos modificados + 3 callers actualizados.
+
+**F1a — Hyperparameter tuning (`Red_Neuronal/trainer.py`)**
+- Nuevas funciones `tune_model()` y `_apply_smote()`
+- GridSearchCV / RandomizedSearchCV con grids por defecto por modelo (RF, XGB, MLP, Logistic, Softmax, Linear)
+- Scoring automático según problema: `roc_auc` (binary), `f1_weighted` (multiclass), `r2` (regression)
+- `train()` acepta `search_type: "none"|"grid"|"random"`, `search_params: dict`, `imbalance_strategy: "none"|"smote"|"adasyn"`
+- Retorna `best_params: dict` como 4º valor
+
+**F1b — Feature engineering (`Red_Neuronal/preprocessor.py`)**
+- `build_preprocessor()` acepta `feature_engineering: dict` con:
+  - `polynomial_degree` (2+ activa PolynomialFeatures)
+  - `interaction_only` (solo interacciones, sin cuadráticos)
+  - `feature_selection.method`: `"kbest"` o `"rfe"` con `k` columnas a seleccionar
+- SelectKBest usa `f_classif` (clasificación) o `f_regression` según `problem_type`
+- RFE usa RandomForest (Classifier/Regressor) según problema
+- Feature engineering steps se inyectan entre ColumnTransformer y el modelo
+
+**F1c — SMOTE/ADASYN (`Red_Neuronal/trainer.py`)**
+- `_apply_smote()` balancea clases vía imbalanced-learn (try/except opcional)
+- Reporta conteo antes/después de clases
+- Combinación tuning + SMOTE: clona y reajusta pipeline sobre datos balanceados
+- CV siempre sobre datos originales (métricas realistas)
+
+**F1d — API (`ml_service/main.py`, `Red_Neuronal/model_manager.py`)**
+- `TrainRequest` nuevos campos: `search_type`, `search_params`, `imbalance_strategy`, `feature_engineering`
+- `train_endpoint()` pasa parámetros a `train()` y `prepare_data()`
+- `best_params` incluido en response y en payload guardado
+- `model_manager.py` registry guarda `best_params`
+
+**Archivos afectados:**
+- `Red_Neuronal/trainer.py` (+120 líneas)
+- `Red_Neuronal/preprocessor.py` (+75 líneas)
+- `ml_service/main.py` (~20 líneas modificadas)
+- `Red_Neuronal/model_manager.py` (+1 línea)
+- `Red_Neuronal/main.py`, `TEST_MODULOS.py`, `DEMO_interpretability.py` (3→4 return unpack)
+
+**Verificación:** ✅ 7/7 Python files compilan | ✅ 107/107 tests JS pasan
+
 ### 2026-06-02: Remediación 23 errores de flujo (4 CRITICAL + 6 HIGH + 6 MEDIUM + 5 LOW)
 
 **Qué:** Implementados 19 fixes del análisis estático de flujo + 2 descartados
@@ -661,7 +702,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 | `js/pages/ml.js` | Frontend ML Analysis |
 
 ## Próximos pasos
-1. Verificar end-to-end: frontend → login → ML Analysis, Statistical Analysis, EDA
-2. Limpiar archivos temporales: `fly.txt`, `supabase.png`
-3. Commit y push
-4. Resetear contraseñas de usuarios restantes (d.jimenez, a.ozuna, a.h, a.nina, c.nina, m.aguero)
+1. **Fase 2 — UX de entrenamiento:** controles de hiperparámetros en frontend + comparación multi-modelo + progress streaming
+2. **Fase 3 — Async tasks + dataset loading:** entrenamiento asíncrono con background tasks, carga completa CSV por nombre
+3. **Fase 4 — Model Registry + Versioning:** versionado de experimentos, nunca sobreescribe, dataset fingerprinting
+4. **Fase 5 — Drift monitoring:** endpoint POST /api/ml/drift/<id>, monitor programado en Fly.io Worker
+5. Limpiar archivos temporales: `fly.txt`, `supabase.png`
+6. Resetear contraseñas de usuarios restantes (d.jimenez, a.ozuna, a.h, a.nina, c.nina, m.aguero)

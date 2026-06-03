@@ -197,7 +197,7 @@ def run_pipeline(
     )
 
     _step(3, f"Entrenando modelo [{model_key.upper()}]")
-    pipeline, splits, cv_results = train(
+    pipeline, splits, cv_results, _ = train(
         X_raw,
         y,
         preprocessor=preprocessor,

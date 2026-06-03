@@ -132,7 +132,7 @@ def demo_interpretability():
     print("\n[3/5] Entrenando modelo...")
     
     try:
-        pipeline, splits, cv_results = train(
+        pipeline, splits, cv_results, _ = train(
             X_raw, y_processed,
             preprocessor=preprocessor,
             model_key='rf',

@@ -112,7 +112,7 @@ try:
     print(f"  ✓ Preprocesamiento OK (problema: {meta['problem_type']})")
     
     # Entrenar
-    pipeline, splits, cv_results = train(
+    pipeline, splits, cv_results, _ = train(
         X_raw, y_train,
         preprocessor=preprocessor,
         model_key='rf',
