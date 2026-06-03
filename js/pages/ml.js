@@ -92,17 +92,17 @@ const MLManager = (() => {
     function buildLeftPanel() {
         return '<div class="left-panel" style="gap:8px;height:100%;display:flex;flex-direction:column;min-height:0">' +
             '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">🧠 ML Analysis</div>' +
-            '<div class="info-section-body" style="padding:6px 10px;font-size:10px;color:var(--text-faint)">' +
+            '<div class="info-section-body" style="padding:8px 12px;font-size:12px;color:var(--text-faint)">' +
             'Entrena modelos, haz predicciones y detecta anomalías.</div></div>' +
             '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">📊 Dataset</div>' +
-            '<div class="info-section-body" style="padding:6px 10px;display:flex;flex-direction:column;gap:4px">' +
-            '<select id="ml-dataset-select" style="width:100%;padding:4px 6px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-panel);color:var(--text-primary);font-size:10px">' +
+            '<div class="info-section-body" style="padding:8px 12px;display:flex;flex-direction:column;gap:6px">' +
+            '<select id="ml-dataset-select" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-panel);color:var(--text-primary);font-size:13px">' +
             '<option value="">— Cargando datasets —</option></select>' +
-            '<button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:10px;padding:3px 8px" onclick="MLManager.refreshDatasets()">🔄 Refrescar</button>' +
+            '<button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:12px;padding:5px 10px" onclick="MLManager.refreshDatasets()">🔄 Refrescar</button>' +
             '</div></div>' +
-            '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">🤖 Modelo <span style="cursor:help;font-size:11px;margin-left:auto" onclick="MLManager.showAlgorithmInfo()" title="Ver detalles del algoritmo">ⓘ</span></div>' +
-            '<div class="info-section-body" style="padding:6px 10px;display:flex;flex-direction:column;gap:4px">' +
-            '<select id="ml-model-select" style="width:100%;padding:4px 6px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-panel);color:var(--text-primary);font-size:10px" onchange="MLManager.onModelChange()">' +
+            '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">🤖 Modelo <span style="cursor:help;font-size:13px;margin-left:auto" onclick="MLManager.showAlgorithmInfo()" title="Ver detalles del algoritmo">ⓘ</span></div>' +
+            '<div class="info-section-body" style="padding:8px 12px;display:flex;flex-direction:column;gap:6px">' +
+            '<select id="ml-model-select" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-panel);color:var(--text-primary);font-size:13px" onchange="MLManager.onModelChange()">' +
             '<option value="rf">🌳 Random Forest</option>' +
             '<option value="xgb">⚡ XGBoost</option>' +
             '<option value="mlp">🧠 MLP Neural Net</option>' +
@@ -110,36 +110,36 @@ const MLManager = (() => {
             '<option value="linear">📐 Linear Regression</option>' +
             '</select>' +
             '<div style="margin-top:2px">' +
-            '<div onclick="MLManager.toggleHP()" style="cursor:pointer;display:flex;align-items:center;gap:4px;font-size:9px;color:var(--text-faint);padding:2px 0;user-select:none">' +
+            '<div onclick="MLManager.toggleHP()" style="cursor:pointer;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-faint);padding:4px 0;user-select:none">' +
             '<span id="ml-hp-toggle">▶</span> ⚙️ Hiperparámetros</div>' +
-            '<div id="ml-hp-panel" style="display:none;padding:4px 0 4px 8px;font-size:10px;border-left:1.5px solid var(--border)">' +
+            '<div id="ml-hp-panel" style="display:none;padding:6px 0 6px 10px;font-size:13px;border-left:2px solid var(--border)">' +
             '</div></div>' +
-            '<label style="font-size:9px;color:var(--text-faint);display:flex;align-items:center;gap:4px;margin-top:2px">' +
-            '<input type="checkbox" id="ml-tuning-enable" onchange="MLManager.onTuningToggle()"> Tuning automático' +
-            '<select id="ml-tuning-strategy" style="display:none;flex:1;padding:2px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:9px">' +
+            '<label style="font-size:12px;color:var(--text-faint);display:flex;align-items:center;gap:6px;margin-top:2px">' +
+            '<input type="checkbox" id="ml-tuning-enable" onchange="MLManager.onTuningToggle()" style="width:16px;height:16px"> Tuning automático' +
+            '<select id="ml-tuning-strategy" style="display:none;flex:1;padding:4px 6px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px">' +
             '<option value="grid">Grid Search</option>' +
             '<option value="random">Random Search</option></select></label>' +
-            '<select id="ml-imbalance-select" style="width:100%;padding:2px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:9px;margin:2px 0">' +
+            '<select id="ml-imbalance-select" style="width:100%;padding:5px 8px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px;margin:2px 0">' +
             '<option value="none">⚖️ Sin balanceo</option>' +
             '<option value="smote">SMOTE (oversampling)</option>' +
             '<option value="adasyn">ADASYN (adaptive)</option></select>' +
-            '<label style="font-size:9px;color:var(--text-faint);display:flex;align-items:center;gap:4px">' +
-            '<input type="text" id="ml-target-input" placeholder="columna target" style="flex:1;padding:3px 5px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:10px"> Target</label>' +
-            '<div style="display:flex;gap:4px;margin-top:2px">' +
-            '<button class="btn btn-primary" style="flex:1;justify-content:center;font-size:9px;padding:3px 6px" onclick="MLManager.train()">🎯 Entrenar</button>' +
-            '<button class="btn btn-secondary" style="justify-content:center;font-size:9px;padding:3px 6px" onclick="MLManager.trainAll()" title="Entrena RF+XGB+MLP+Logistic">🏆 Todos</button></div>' +
+            '<label style="font-size:12px;color:var(--text-faint);display:flex;align-items:center;gap:6px">' +
+            '<input type="text" id="ml-target-input" placeholder="columna target" style="flex:1;padding:5px 8px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:13px"> Target</label>' +
+            '<div style="display:flex;gap:6px;margin-top:2px">' +
+            '<button class="btn btn-primary" style="flex:1;justify-content:center;font-size:12px;padding:5px 10px" onclick="MLManager.train()">🎯 Entrenar</button>' +
+            '<button class="btn btn-secondary" style="justify-content:center;font-size:12px;padding:5px 10px" onclick="MLManager.trainAll()" title="Entrena RF+XGB+MLP+Logistic">🏆 Todos</button></div>' +
             '</div></div>' +
             '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">💾 Modelos guardados</div>' +
-            '<div class="info-section-body" style="padding:6px 10px;display:flex;flex-direction:column;gap:4px">' +
-            '<select id="ml-models-select" style="width:100%;padding:4px 6px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-panel);color:var(--text-primary);font-size:10px" onchange="MLManager.onModelSelect(this.value)">' +
+            '<div class="info-section-body" style="padding:8px 12px;display:flex;flex-direction:column;gap:6px">' +
+            '<select id="ml-models-select" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-panel);color:var(--text-primary);font-size:13px" onchange="MLManager.onModelSelect(this.value)">' +
             '<option value="">— Sin modelos —</option></select>' +
-            '<div style="display:flex;gap:4px">' +
-            '<button class="btn btn-primary" style="flex:1;justify-content:center;font-size:10px;padding:3px 8px" onclick="MLManager.predictSelectedModel()">🔮 Predecir</button>' +
-            '<button class="btn btn-secondary" style="justify-content:center;font-size:10px;padding:3px 8px;color:#ef4444" onclick="MLManager.deleteSelectedModel()">🗑</button>' +
+            '<div style="display:flex;gap:6px">' +
+            '<button class="btn btn-primary" style="flex:1;justify-content:center;font-size:12px;padding:5px 10px" onclick="MLManager.predictSelectedModel()">🔮 Predecir</button>' +
+            '<button class="btn btn-secondary" style="justify-content:center;font-size:12px;padding:5px 10px;color:#ef4444" onclick="MLManager.deleteSelectedModel()">🗑</button>' +
             '</div></div></div>' +
             '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">⚠️ Anomalías</div>' +
-            '<div class="info-section-body" style="padding:6px 10px">' +
-            '<button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:10px;padding:3px 8px" onclick="MLManager.detectAnomalies()">🔍 Detectar anomalías</button></div></div>' +
+            '<div class="info-section-body" style="padding:8px 12px">' +
+            '<button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:12px;padding:5px 10px" onclick="MLManager.detectAnomalies()">🔍 Detectar anomalías</button></div></div>' +
             '</div>';
     }
 
@@ -1087,21 +1087,21 @@ const MLManager = (() => {
     function _hpFieldsHtml(modelKey) {
         var defaults = _HP_DEFAULTS[modelKey] || {};
         var keys = Object.keys(defaults);
-        if (keys.length === 0) return '<div style="font-size:9px;color:var(--text-faint);padding:2px 0">No requiere hiperparámetros.</div>';
+        if (keys.length === 0) return '<div style="font-size:12px;color:var(--text-faint);padding:4px 0">No requiere hiperparámetros.</div>';
         var html = '';
         keys.forEach(function(k) {
             var v = defaults[k];
             var label = k.replace(/_/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
             var input;
             if (k === 'hidden_layer_sizes') {
-                input = '<input type="text" id="ml-hp-' + k + '" value="' + v + '" style="width:80px;padding:2px 4px;border:1px solid var(--border);border-radius:3px;background:var(--bg-primary);color:var(--text-primary);font-size:9px;text-align:right">';
+                input = '<input type="text" id="ml-hp-' + k + '" value="' + v + '" style="width:100px;padding:4px 6px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px;text-align:right">';
             } else if (typeof v === 'number' && v < 1) {
-                input = '<input type="number" id="ml-hp-' + k + '" value="' + v + '" min="0.0001" max="1" step="0.001" style="width:60px;padding:2px 4px;border:1px solid var(--border);border-radius:3px;background:var(--bg-primary);color:var(--text-primary);font-size:9px;text-align:right">';
+                input = '<input type="number" id="ml-hp-' + k + '" value="' + v + '" min="0.0001" max="1" step="0.001" style="width:80px;padding:4px 6px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px;text-align:right">';
             } else {
                 var max = k === 'n_estimators' ? 1000 : k === 'max_depth' ? 50 : 100;
-                input = '<input type="number" id="ml-hp-' + k + '" value="' + v + '" min="1" max="' + max + '" step="1" style="width:60px;padding:2px 4px;border:1px solid var(--border);border-radius:3px;background:var(--bg-primary);color:var(--text-primary);font-size:9px;text-align:right">';
+                input = '<input type="number" id="ml-hp-' + k + '" value="' + v + '" min="1" max="' + max + '" step="1" style="width:80px;padding:4px 6px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px;text-align:right">';
             }
-            html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:1px 0"><span style="font-size:9px;color:var(--text-faint)">' + label + '</span>' + input + '</div>';
+            html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:3px 0"><span style="font-size:12px;color:var(--text-faint)">' + label + '</span>' + input + '</div>';
         });
         return html;
     }
@@ -1348,6 +1348,9 @@ const MLManager = (() => {
         refreshModels: refreshModels,
         train: train,
         trainAll: trainAll,
+        toggleHP: toggleHP,
+        onModelChange: onModelChange,
+        onTuningToggle: onTuningToggle,
         predictFromModel: predictFromModel,
         detectAnomalies: detectAnomalies,
         deleteModel: deleteModel,

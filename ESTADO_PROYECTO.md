@@ -23,6 +23,37 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-02: Fix panel hiperparámetros + sidebar ML más ancho + campos más grandes
+
+**Qué:** Reparación del panel de hiperparámetros que no se abría, sidebar ML al 200% (480px),
+y todos los campos escalados para mejor legibilidad.
+
+**Archivos afectados:**
+- `js/pages/ml.js` — fix: toggleHP, onModelChange, onTuningToggle no estaban en return público
+  + todos los selects, inputs, botones aumentados a font-size:12-13px + padding mayor
+- `css/core/indexx.css` — nuevo `#paneLeft.pane-ml { width: 480px; }`
+- `js/core/indexx-ui.js` — toggle clase `pane-ml` al cargar página ML
+
+**Fix (bug crítico):** Las funciones `toggleHP()`, `onModelChange()`, `onTuningToggle()` estaban
+definidas pero no expuestas en el return del IIFE (`MLManager`). Al hacer click en "⚙️ Hiperparámetros"
+se llamaba `MLManager.toggleHP()` que era `undefined`. Solución: agregar las 3 funciones al return.
+
+**Sidebar:** Aumentado de 240px → 480px (200%) específicamente para la página ML. Usa la misma
+técnica que `pane-reportes` (clase condicional en `#paneLeft`).
+
+**Campos más grandes (toda la sidebar ML):**
+| Elemento | Antes | Después |
+|----------|-------|---------|
+| selects | font-size:10px, padding:4px | font-size:13px, padding:6px |
+| inputs | font-size:10px, padding:3px | font-size:13px, padding:5px |
+| botones | font-size:9-10px, padding:3px | font-size:12px, padding:5px |
+| labels | font-size:9px | font-size:12px |
+| info-section-body | padding:6px 10px | padding:8px 12px |
+| HP inputs | font-size:9px, width:60px | font-size:12px, width:80-100px |
+| Checkbox tuning | tamaño estándar | 16x16px |
+
+**Verificación:** ✅ node -c sin errores ✅ 107/107 tests pasan
+
 ### 2026-06-02: Dataset de estrés ML v2 (entrenamiento_estres_ml.csv)
 
 **Qué:** Dataset sintético de 800 filas × 12 columnas para probar las nuevas capacidades.
