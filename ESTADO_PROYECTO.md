@@ -23,6 +23,61 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-02: Token revocation + CSRF + StateManager fix + 60 tests (commit `fdb127b`)
+
+**Qué:** 8 items completados del backlog de seguridad y tests.
+
+**1. Logging safe mode**
+- Eliminado bloque duplicado de validación JWT_SECRET (server.js:14-19 eliminados, ahorro ~6 líneas).
+
+**2. Token revocation blacklist**
+- Nueva tabla `token_blacklist` en PostgreSQL (y soporte en JSON store local).
+- `hashToken()`, `blacklistToken()`, `isTokenBlacklisted()`, `cleanExpiredBlacklist()` en database.js.
+- `requireAuth` verifica blacklist antes de procesar la request.
+- `POST /api/logout` revoca el token actual.
+- `setInterval` cada 1h limpia entradas expiradas (>24h).
+
+**3. CSRF protection**
+- `requireAuth` exige header `Authorization` (Bearer) para POST/PUT/DELETE, sin permitir fallback a cookie.
+
+**4. StateManager fix — redo**
+- `redo()` restauraba `oldValue` en vez de `newValue`. Corregido añadiendo `newValue` a la entry de historial.
+
+**Archivos modificados:**
+
+| Archivo | Cambio |
+|---------|--------|
+| `backend/server.js` | Eliminado duplicado JWT; `extractRawToken()` helper; blacklist check en requireAuth; CSRF enforcement; logout revoca token; cleanup interval |
+| `backend/database.js` | `hashToken()`, `blacklistToken()`, `isTokenBlacklisted()`, `cleanExpiredBlacklist()` para PG y local store |
+| `js/core/StateManager.js` | `_pushToHistory()` ahora guarda `newValue`; `redo()` restaura `newValue` |
+
+**5. StateManager.test.js — 30 tests nuevos**
+- Mocks: `StorageAdapter` (setItem/getItem/removeItem), `Logger` (logDataChange)
+- Tests: sheets (init, create, rename, delete, max limit), data (updateCell, addRow/Col, deleteRow/Col, clear), importedData, activeStats, hypothesisConfig (undo/redo), persistence (save/load/clear), ultimosResultados, event system (addEventListener/removeEventListener), getStats
+
+**6. EstadisticaDescriptiva.test.js — 30 tests migrados**
+- Migración completa del antiguo `tests/test-estadistica.js` (405 líneas, browser) a vitest
+- Tests: media, mediana, moda, varianza, DE, rango, CV, percentil, cuartiles, IQR, asimetría, curtosis, error estándar, Pearson, Spearman, Kendall, covarianza, RMSE, MAE, R², t-test, Jarque-Bera, Shapiro-Wilk, ANOVA, Mann-Whitney, Kruskal-Wallis, χ², IC95, outliers IQR
+
+**Archivos creados:**
+
+| Archivo | Líneas |
+|---------|--------|
+| `tests/StateManager.test.js` | 224 |
+| `tests/EstadisticaDescriptiva.test.js` | 196 |
+
+**Estadísticas de tests:**
+
+```
+Test Files  5 passed (5)
+     Tests  96 passed (96)
+```
+
+**Items ya existentes (verificados):**
+- `GET /api/me` ya existía en server.js y frontend auth.js lo llamaba en `init()`
+- CORS whitelist ya implementado con middleware manual en server.js
+- EDAManager JB p-value (`Math.exp(-jb/2)`) es exacto para χ²(2) — no requiere cambio
+
 ### 2026-05-30: Eliminados campos de firma del formulario de ReporteManager
 
 **Qué:** Se eliminó la sección "✍️ Electronic Signatures — 21 CFR Part 11" del formulario de generación de reportes. Ahora las firmas solo pueden realizarse desde la página "firmarReporte" con verificación de contraseña.
