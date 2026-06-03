@@ -23,6 +23,40 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-02: Fase 2 — UX de entrenamiento (Hiperparámetros + Comparación multi-modelo)
+
+**Qué:** Panel interactivo de hiperparámetros en frontend, tuning automático, balanceo,
+y entrenamiento multi-modelo con tabla comparativa.
+
+**Archivo afectado:** `js/pages/ml.js` (+378/-28 líneas)
+
+**F2a — Panel colapsable de hiperparámetros**
+- Nuevo panel "⚙️ Hiperparámetros" debajo del selector de modelo
+- Campos específicos por algoritmo: RF (n_estimators, max_depth, min_samples_split, min_samples_leaf),
+  XGB (n_estimators, learning_rate, max_depth, subsample),
+  MLP (hidden_layer_sizes, alpha, learning_rate_init)
+- Logistic/Linear: muestra mensaje "No requiere hiperparámetros"
+- Panel se oculta/muestra con toggle ▶/▼, se actualiza al cambiar de modelo
+
+**F2b — Tuning y balanceo**
+- Checkbox "Tuning automático" + selector Grid Search / Random Search
+- Selector de estrategia de balanceo: Sin balanceo / SMOTE / ADASYN
+- Al activar tuning, el panel de hiperparámetros se abre automáticamente
+
+**F2c — Entrenamiento multi-modelo con tabla comparativa**
+- Botón "🏆 Todos" al lado de "🎯 Entrenar"
+- Entrena secuencialmente RF → XGB → MLP → Logistic con indicador de progreso
+- Tabla comparativa con métricas lado a lado, mejor modelo resaltado ⭐
+- Muestra `best_params` del mejor modelo si hubo tuning
+- Botones para re-entrenar todos o entrenar uno individual desde la tabla
+
+**F2d — Mejora visual de resultados**
+- `renderTrainingResult()` muestra `best_params` (⭐ Mejores hiperparámetros)
+- Muestra configuración de `feature_engineering` si está activa
+- `loadModelDetail()` y `predictFromModel()` también muestran `best_params`
+
+**Verificación:** ✅ `node -c` sin errores | ✅ 107/107 tests pasan
+
 ### 2026-06-02: Fase 1 — Pipeline ML v2 (Hyperparameter tuning + Feature Engineering + SMOTE)
 
 **Qué:** Mejoras al pipeline de ML para futuros entrenamientos. 4 archivos modificados + 3 callers actualizados.

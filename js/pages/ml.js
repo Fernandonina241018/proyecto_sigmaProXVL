@@ -102,16 +102,32 @@ const MLManager = (() => {
             '</div></div>' +
             '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">🤖 Modelo <span style="cursor:help;font-size:11px;margin-left:auto" onclick="MLManager.showAlgorithmInfo()" title="Ver detalles del algoritmo">ⓘ</span></div>' +
             '<div class="info-section-body" style="padding:6px 10px;display:flex;flex-direction:column;gap:4px">' +
-            '<select id="ml-model-select" style="width:100%;padding:4px 6px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-panel);color:var(--text-primary);font-size:10px">' +
+            '<select id="ml-model-select" style="width:100%;padding:4px 6px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-panel);color:var(--text-primary);font-size:10px" onchange="MLManager.onModelChange()">' +
             '<option value="rf">🌳 Random Forest</option>' +
             '<option value="xgb">⚡ XGBoost</option>' +
             '<option value="mlp">🧠 MLP Neural Net</option>' +
             '<option value="logistic">📈 Logistic Regression</option>' +
             '<option value="linear">📐 Linear Regression</option>' +
             '</select>' +
+            '<div style="margin-top:2px">' +
+            '<div onclick="MLManager.toggleHP()" style="cursor:pointer;display:flex;align-items:center;gap:4px;font-size:9px;color:var(--text-faint);padding:2px 0;user-select:none">' +
+            '<span id="ml-hp-toggle">▶</span> ⚙️ Hiperparámetros</div>' +
+            '<div id="ml-hp-panel" style="display:none;padding:4px 0 4px 8px;font-size:10px;border-left:1.5px solid var(--border)">' +
+            '</div></div>' +
+            '<label style="font-size:9px;color:var(--text-faint);display:flex;align-items:center;gap:4px;margin-top:2px">' +
+            '<input type="checkbox" id="ml-tuning-enable" onchange="MLManager.onTuningToggle()"> Tuning automático' +
+            '<select id="ml-tuning-strategy" style="display:none;flex:1;padding:2px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:9px">' +
+            '<option value="grid">Grid Search</option>' +
+            '<option value="random">Random Search</option></select></label>' +
+            '<select id="ml-imbalance-select" style="width:100%;padding:2px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:9px;margin:2px 0">' +
+            '<option value="none">⚖️ Sin balanceo</option>' +
+            '<option value="smote">SMOTE (oversampling)</option>' +
+            '<option value="adasyn">ADASYN (adaptive)</option></select>' +
             '<label style="font-size:9px;color:var(--text-faint);display:flex;align-items:center;gap:4px">' +
             '<input type="text" id="ml-target-input" placeholder="columna target" style="flex:1;padding:3px 5px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:10px"> Target</label>' +
-            '<button class="btn btn-primary" style="width:100%;justify-content:center;font-size:10px;padding:3px 8px" onclick="MLManager.train()">🎯 Entrenar</button>' +
+            '<div style="display:flex;gap:4px;margin-top:2px">' +
+            '<button class="btn btn-primary" style="flex:1;justify-content:center;font-size:9px;padding:3px 6px" onclick="MLManager.train()">🎯 Entrenar</button>' +
+            '<button class="btn btn-secondary" style="justify-content:center;font-size:9px;padding:3px 6px" onclick="MLManager.trainAll()" title="Entrena RF+XGB+MLP+Logistic">🏆 Todos</button></div>' +
             '</div></div>' +
             '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">💾 Modelos guardados</div>' +
             '<div class="info-section-body" style="padding:6px 10px;display:flex;flex-direction:column;gap:4px">' +
@@ -125,6 +141,26 @@ const MLManager = (() => {
             '<div class="info-section-body" style="padding:6px 10px">' +
             '<button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:10px;padding:3px 8px" onclick="MLManager.detectAnomalies()">🔍 Detectar anomalías</button></div></div>' +
             '</div>';
+    }
+
+    function onModelChange() {
+        _hpUpdatePanel();
+    }
+
+    function toggleHP() {
+        _hpToggle();
+    }
+
+    function onTuningToggle() {
+        var cb = document.getElementById('ml-tuning-enable');
+        var strat = document.getElementById('ml-tuning-strategy');
+        if (cb && strat) strat.style.display = cb.checked ? 'inline-block' : 'none';
+        var panel = document.getElementById('ml-hp-panel');
+        var toggle = document.getElementById('ml-hp-toggle');
+        if (cb && cb.checked && panel && toggle) {
+            panel.style.display = 'block';
+            toggle.textContent = '▼';
+        }
     }
 
     function buildRightPanel() {
@@ -328,45 +364,54 @@ const MLManager = (() => {
         var isWorksheet = datasetName.indexOf('__ws__:') === 0;
         var sheetName = isWorksheet ? datasetName.slice(7) : null;
 
-        async function doTrain(bootstrap) {
+        // Collect hyperparams, tuning, imbalance from UI
+        var hpParams = _hpCollect();
+        var tuningEnabled = document.getElementById('ml-tuning-enable') && document.getElementById('ml-tuning-enable').checked;
+        var searchType = tuningEnabled ? (document.getElementById('ml-tuning-strategy') ? document.getElementById('ml-tuning-strategy').value : 'grid') : 'none';
+        var imbalanceSelect = document.getElementById('ml-imbalance-select');
+        var imbalanceStrategy = imbalanceSelect ? imbalanceSelect.value : 'none';
+        var hasCustomHP = Object.keys(hpParams).length > 0;
+
+        var extraParams = {
+            search_type: searchType,
+            search_params: hasCustomHP ? hpParams : null,
+            imbalance_strategy: imbalanceStrategy,
+        };
+
+        async function _makeBody() {
+            var body = {
+                target: target, model_key: modelKey,
+                n_bootstraps: 0,
+                dataset_name: datasetName,
+            };
+            Object.keys(extraParams).forEach(function(k) { body[k] = extraParams[k]; });
             if (isWorksheet) {
                 var wsData = _getWorksheetData(sheetName);
                 if (!wsData || wsData.nrows === 0) throw new Error('La hoja de trabajo "' + sheetName + '" no tiene datos');
                 if (wsData.columns.indexOf(target) === -1) throw new Error('Columna target "' + target + '" no encontrada en la hoja');
-                return await _fetch('POST', '/api/ml/train', {
-                    data: wsData.data, columns: wsData.columns,
-                    target: target, model_key: modelKey,
-                    n_bootstraps: bootstrap ? 3 : 0,
-                    dataset_name: '📋 ' + sheetName,
-                });
+                body.data = wsData.data;
+                body.columns = wsData.columns;
             } else {
-                return await _fetch('POST', '/api/ml/train', {
-                    data: [], columns: [],
-                    target: target, model_key: modelKey,
-                    n_bootstraps: bootstrap ? 3 : 0,
-                    dataset_name: datasetName,
-                });
+                body.data = [];
+                body.columns = [];
             }
+            return body;
+        }
+
+        async function doTrain() {
+            return await _fetch('POST', '/api/ml/train', await _makeBody());
         }
 
         try {
-            var data = await doTrain(true);
+            var data = await doTrain();
             _trainingHistory.push(data);
             renderTrainingResult(data);
             refreshModels();
             showToast('✅ Modelo ' + data.model_id + ' entrenado', 'ok');
-        } catch (e) {
-            try {
-                var data = await doTrain(false);
-                _trainingHistory.push(data);
-                renderTrainingResult(data);
-                refreshModels();
-                showToast('✅ Modelo ' + data.model_id + ' entrenado (sin bootstrap)', 'ok');
-            } catch (e2) {
-                results.innerHTML = '<div class="page-card"><div class="page-card-header" style="color:#ef4444">❌ Error</div>' +
-                    '<div class="page-card-body" style="padding:12px;font-size:12px">' + escapeHtml(e2.message) + '</div></div>';
-                showToast('Error: ' + e2.message, 'error');
-            }
+        } catch (e2) {
+            results.innerHTML = '<div class="page-card"><div class="page-card-header" style="color:#ef4444">❌ Error</div>' +
+                '<div class="page-card-body" style="padding:12px;font-size:12px">' + escapeHtml(e2.message) + '</div></div>';
+            showToast('Error: ' + e2.message, 'error');
         }
     }
 
@@ -402,6 +447,31 @@ const MLManager = (() => {
                 '<div style="font-weight:600;margin-bottom:2px;font-size:10px">🎯 Clases target</div>' +
                 '<div style="font-size:10px;color:var(--text-primary)">' + meta.target_classes.join(', ') + '</div></div>';
         }
+
+        var bestParams = data.best_params;
+        if (bestParams && Object.keys(bestParams).length > 0) {
+            html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">' +
+                '<div style="font-weight:600;margin-bottom:4px;font-size:10px">⭐ Mejores hiperparámetros</div>' +
+                '<div style="display:flex;flex-wrap:wrap;gap:4px 12px;font-size:10px">';
+            Object.keys(bestParams).forEach(function(k) {
+                html += '<div><span style="color:var(--text-faint)">' + k.replace('model__', '') + ':</span> <strong>' + bestParams[k] + '</strong></div>';
+            });
+            html += '</div></div>';
+        }
+
+        var trainParams = data.train_params || {};
+        var fe = trainParams.feature_engineering;
+        if (fe && (fe.polynomial_degree || (fe.feature_selection && fe.feature_selection.method))) {
+            html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">' +
+                '<div style="font-weight:600;margin-bottom:4px;font-size:10px">🧮 Ingeniería de características</div>' +
+                '<div style="font-size:10px;color:var(--text-primary)">';
+            if (fe.polynomial_degree) html += 'PolynomialFeatures (grado ' + fe.polynomial_degree + ')<br>';
+            if (fe.feature_selection && fe.feature_selection.method) {
+                html += 'Selección: ' + fe.feature_selection.method.toUpperCase() + ' (k=' + (fe.feature_selection.k || '?') + ')';
+            }
+            html += '</div></div>';
+        }
+
         html += '<div style="margin-top:8px;display:flex;gap:6px">' +
             '<button class="btn btn-primary" style="flex:1;justify-content:center;font-size:10px;padding:4px 8px" onclick="MLManager.predictFromModel(\'' + data.model_id + '\')">🔮 Predecir</button>' +
             '</div></div></div>';
@@ -991,6 +1061,285 @@ const MLManager = (() => {
         document.body.appendChild(overlay);
     }
 
+    // ════════════════════════════════════════════════════════════════
+    //  FASE 2 — HIPERPARÁMETROS Y COMPARACIÓN MULTI-MODELO
+    // ════════════════════════════════════════════════════════════════
+
+    var _HP_DEFAULTS = {
+        rf: {
+            n_estimators: 200, max_depth: 15, min_samples_split: 3, min_samples_leaf: 2,
+        },
+        xgb: {
+            n_estimators: 200, learning_rate: 0.05, max_depth: 6, subsample: 0.8,
+        },
+        mlp: {
+            hidden_layer_sizes: '64,32,16', alpha: 0.001, learning_rate_init: 0.001,
+        },
+        logistic: {},
+        linear: {},
+    };
+
+    function _hpGetModelKey() {
+        var sel = document.getElementById('ml-model-select');
+        return sel ? sel.value : 'rf';
+    }
+
+    function _hpFieldsHtml(modelKey) {
+        var defaults = _HP_DEFAULTS[modelKey] || {};
+        var keys = Object.keys(defaults);
+        if (keys.length === 0) return '<div style="font-size:9px;color:var(--text-faint);padding:2px 0">No requiere hiperparámetros.</div>';
+        var html = '';
+        keys.forEach(function(k) {
+            var v = defaults[k];
+            var label = k.replace(/_/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+            var input;
+            if (k === 'hidden_layer_sizes') {
+                input = '<input type="text" id="ml-hp-' + k + '" value="' + v + '" style="width:80px;padding:2px 4px;border:1px solid var(--border);border-radius:3px;background:var(--bg-primary);color:var(--text-primary);font-size:9px;text-align:right">';
+            } else if (typeof v === 'number' && v < 1) {
+                input = '<input type="number" id="ml-hp-' + k + '" value="' + v + '" min="0.0001" max="1" step="0.001" style="width:60px;padding:2px 4px;border:1px solid var(--border);border-radius:3px;background:var(--bg-primary);color:var(--text-primary);font-size:9px;text-align:right">';
+            } else {
+                var max = k === 'n_estimators' ? 1000 : k === 'max_depth' ? 50 : 100;
+                input = '<input type="number" id="ml-hp-' + k + '" value="' + v + '" min="1" max="' + max + '" step="1" style="width:60px;padding:2px 4px;border:1px solid var(--border);border-radius:3px;background:var(--bg-primary);color:var(--text-primary);font-size:9px;text-align:right">';
+            }
+            html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:1px 0"><span style="font-size:9px;color:var(--text-faint)">' + label + '</span>' + input + '</div>';
+        });
+        return html;
+    }
+
+    function _hpCollect() {
+        var modelKey = _hpGetModelKey();
+        var defaults = _HP_DEFAULTS[modelKey] || {};
+        var params = {};
+        Object.keys(defaults).forEach(function(k) {
+            var el = document.getElementById('ml-hp-' + k);
+            if (!el) return;
+            var raw = el.value.trim();
+            if (k === 'hidden_layer_sizes') {
+                var nums = raw.split(',').map(function(s) { return parseInt(s.trim(), 10); }).filter(function(n) { return !isNaN(n) && n > 0; });
+                if (nums.length) params[k] = nums;
+            } else {
+                var n = parseFloat(raw);
+                if (!isNaN(n)) params[k] = n;
+            }
+        });
+        return params;
+    }
+
+    function _hpToggle() {
+        var panel = document.getElementById('ml-hp-panel');
+        var toggle = document.getElementById('ml-hp-toggle');
+        if (!panel || !toggle) return;
+        var isOpen = panel.style.display !== 'none';
+        panel.style.display = isOpen ? 'none' : 'block';
+        toggle.textContent = isOpen ? '▶' : '▼';
+    }
+
+    function _hpUpdatePanel() {
+        var panel = document.getElementById('ml-hp-panel');
+        if (!panel) return;
+        var mk = _hpGetModelKey();
+        panel.innerHTML = _hpFieldsHtml(mk);
+    }
+
+    function _hpReset() {
+        var panel = document.getElementById('ml-hp-panel');
+        if (!panel) return;
+        var mk = _hpGetModelKey();
+        panel.style.display = 'none';
+        var toggle = document.getElementById('ml-hp-toggle');
+        if (toggle) toggle.textContent = '▶';
+        panel.innerHTML = _hpFieldsHtml(mk);
+        var cb = document.getElementById('ml-tuning-enable');
+        if (cb) cb.checked = false;
+        var strat = document.getElementById('ml-tuning-strategy');
+        if (strat) strat.style.display = 'none';
+    }
+
+    async function trainAll() {
+        var results = document.getElementById('ml-results');
+        if (!results) return;
+        var datasetSelect = document.getElementById('ml-dataset-select');
+        var targetInput = document.getElementById('ml-target-input');
+        var datasetName = datasetSelect ? datasetSelect.value : '';
+        var target = targetInput ? targetInput.value.trim() : '';
+        if (!datasetName) { showToast('Selecciona un dataset', 'error'); return; }
+        if (!target) { showToast('Ingresa el nombre de la columna target', 'error'); return; }
+
+        var models = ['rf', 'xgb', 'mlp', 'logistic'];
+        var labels = { rf: '🌳 Random Forest', xgb: '⚡ XGBoost', mlp: '🧠 MLP Neural Net', logistic: '📈 Logistic Regression' };
+        var allResults = [];
+        var isWorksheet = datasetName.indexOf('__ws__:') === 0;
+        var sheetName = isWorksheet ? datasetName.slice(7) : null;
+
+        results.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-faint)">🏆 Entrenando todos los modelos...</div>' +
+            '<div id="ml-train-all-progress" style="display:flex;flex-direction:column;gap:6px;padding:10px 0"></div>';
+
+        var progressDiv = document.getElementById('ml-train-all-progress');
+
+        for (var i = 0; i < models.length; i++) {
+            var mk = models[i];
+            var row = document.createElement('div');
+            row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:4px 8px;font-size:10px';
+            row.innerHTML = '<span style="min-width:120px">' + labels[mk] + '</span><span style="color:var(--text-faint)" id="ml-ts-' + mk + '">⏳ entrenando...</span>';
+            progressDiv.appendChild(row);
+        }
+
+        for (var i = 0; i < models.length; i++) {
+            var mk = models[i];
+            var statusEl = document.getElementById('ml-ts-' + mk);
+            try {
+                var body = {
+                    data: [], columns: [],
+                    target: target, model_key: mk,
+                    n_bootstraps: 0,
+                    dataset_name: datasetName,
+                    search_type: 'none',
+                    imbalance_strategy: 'none',
+                };
+                if (isWorksheet) {
+                    var wsData = _getWorksheetData(sheetName);
+                    if (wsData && wsData.nrows > 0) {
+                        body.data = wsData.data;
+                        body.columns = wsData.columns;
+                    }
+                }
+                var data;
+                try {
+                    data = await _fetch('POST', '/api/ml/train', body);
+                } catch (e) {
+                    body.search_type = 'none';
+                    data = await _fetch('POST', '/api/ml/train', body);
+                }
+                if (statusEl) statusEl.innerHTML = '✅ <strong>' + (data.metrics ? _hpBestMetric(data.metrics, data.meta) : 'OK') + '</strong>';
+                allResults.push({ model_key: mk, label: labels[mk], data: data });
+            } catch (e) {
+                if (statusEl) statusEl.innerHTML = '❌ ' + escapeHtml(e.message);
+            }
+        }
+
+        refreshModels();
+        _hpRenderComparisonTable(allResults);
+    }
+
+    function _hpBestMetric(metrics, meta) {
+        if (!metrics) return '—';
+        var keys = Object.keys(metrics).filter(function(k) { return !['y_pred', 'y_proba'].includes(k); });
+        if (keys.length === 0) return '—';
+        var preferred = meta && meta.problem_type === 'binary' ? ['auc_roc', 'accuracy', 'f1_score'] :
+                        meta && meta.problem_type === 'regression' ? ['r2_score', 'rmse', 'mae'] :
+                        ['accuracy', 'f1_weighted'];
+        for (var p = 0; p < preferred.length; p++) {
+            if (metrics[preferred[p]] !== undefined && metrics[preferred[p]] !== null) {
+                var v = metrics[preferred[p]];
+                return typeof v === 'number' ? v.toFixed(4) : String(v);
+            }
+        }
+        var v = metrics[keys[0]];
+        return typeof v === 'number' ? v.toFixed(4) : String(v);
+    }
+
+    function _hpPrimaryMetric(meta) {
+        if (!meta) return 'accuracy';
+        if (meta.problem_type === 'binary') return 'auc_roc';
+        if (meta.problem_type === 'regression') return 'r2_score';
+        return 'accuracy';
+    }
+
+    function _hpMetricValue(metrics, key) {
+        if (!metrics || !key) return null;
+        var v = metrics[key];
+        return (v !== undefined && v !== null) ? v : null;
+    }
+
+    function _hpRenderComparisonTable(allResults) {
+        var results = document.getElementById('ml-results');
+        if (!results) return;
+        if (allResults.length === 0) {
+            results.innerHTML = '<div class="page-card"><div class="page-card-header" style="color:#ef4444">❌ Error</div><div class="page-card-body" style="padding:12px;font-size:12px">No se pudo entrenar ningún modelo.</div></div>';
+            return;
+        }
+        var meta = allResults[0].data && allResults[0].data.meta || {};
+        var primaryKey = _hpPrimaryMetric(meta);
+        var higherIsBetter = primaryKey !== 'rmse';
+
+        var bestModel = null;
+        var bestVal = higherIsBetter ? -Infinity : Infinity;
+        allResults.forEach(function(r) {
+            var metrics = r.data && r.data.metrics || {};
+            var v = _hpMetricValue(metrics, primaryKey);
+            if (v !== null) {
+                if (higherIsBetter ? v > bestVal : v < bestVal) {
+                    bestVal = v;
+                    bestModel = r;
+                }
+            }
+        });
+
+        var allMetricKeys = new Set();
+        allResults.forEach(function(r) {
+            if (r.data && r.data.metrics) {
+                Object.keys(r.data.metrics).forEach(function(k) {
+                    if (k !== 'y_pred' && k !== 'y_proba') allMetricKeys.add(k);
+                });
+            }
+        });
+        var metricOrder = meta.problem_type === 'binary' ?
+            ['accuracy', 'precision', 'recall', 'f1_score', 'auc_roc'] :
+            meta.problem_type === 'regression' ?
+            ['r2_score', 'rmse', 'mae'] :
+            ['accuracy', 'f1_weighted'];
+        var sortedKeys = metricOrder.filter(function(k) { return allMetricKeys.has(k); });
+        allMetricKeys.forEach(function(k) {
+            if (sortedKeys.indexOf(k) === -1) sortedKeys.push(k);
+        });
+
+        var html = '<div class="page-card"><div class="page-card-header" style="padding:8px 14px"><span class="page-card-icon">🏆</span><span class="page-card-title" style="font-size:13px">Comparación Multi-Modelo</span></div>' +
+            '<div class="page-card-body" style="padding:10px 14px;font-size:10px;overflow-x:auto">' +
+            '<div style="font-size:9px;color:var(--text-faint);margin-bottom:8px">Dataset: <strong>' + escapeHtml(meta.target_col || '—') + '</strong> · Tipo: <strong>' + (meta.problem_type || '—') + '</strong></div>' +
+            '<table style="width:100%;border-collapse:collapse;font-size:10px"><thead><tr>' +
+            '<th style="text-align:left;padding:4px 6px;border-bottom:1px solid var(--border);color:var(--text-faint);font-weight:600">Modelo</th>';
+
+        sortedKeys.forEach(function(k) {
+            var isPrimary = k === primaryKey;
+            html += '<th style="text-align:right;padding:4px 6px;border-bottom:1px solid var(--border);color:var(--text-faint);font-weight:600;' + (isPrimary ? 'text-decoration:underline' : '') + '">' + k + '</th>';
+        });
+
+        html += '</tr></thead><tbody>';
+
+        allResults.forEach(function(r) {
+            var isBest = r === bestModel;
+            var metrics = r.data && r.data.metrics || {};
+            html += '<tr style="' + (isBest ? 'background:rgba(34,197,94,0.08)' : '') + '">' +
+                '<td style="padding:5px 6px;border-bottom:1px solid var(--border);font-weight:' + (isBest ? '700' : '400') + '">' +
+                (isBest ? '⭐ ' : '') + r.label + '</td>';
+            sortedKeys.forEach(function(k) {
+                var v = _hpMetricValue(metrics, k);
+                var display = v !== null ? (typeof v === 'number' ? v.toFixed(4) : String(v)) : '—';
+                html += '<td style="text-align:right;padding:5px 6px;border-bottom:1px solid var(--border);' +
+                    (isBest ? 'color:var(--accent);font-weight:700' : '') + '">' + display + '</td>';
+            });
+            html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+
+        if (bestModel && bestModel.data && bestModel.data.best_params && Object.keys(bestModel.data.best_params).length > 0) {
+            html += '<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">' +
+                '<div style="font-weight:600;font-size:10px;margin-bottom:4px">⭐ Mejores parámetros (' + bestModel.label + ')</div>' +
+                '<div style="display:flex;flex-wrap:wrap;gap:4px 12px;font-size:10px">';
+            Object.keys(bestModel.data.best_params).forEach(function(k) {
+                html += '<div><span style="color:var(--text-faint)">' + k.replace('model__', '') + ':</span> <strong>' + bestModel.data.best_params[k] + '</strong></div>';
+            });
+            html += '</div></div>';
+        }
+
+        html += '<div style="margin-top:10px;display:flex;gap:6px;justify-content:center">' +
+            '<button class="btn btn-primary" style="font-size:10px;padding:4px 12px" onclick="MLManager.train()">🎯 Entrenar uno</button>' +
+            '<button class="btn btn-secondary" style="font-size:10px;padding:4px 12px" onclick="MLManager.trainAll()">🔄 Re-entrenar todos</button>' +
+            '</div></div></div>';
+        results.innerHTML = html;
+    }
+
     return {
         init: init,
         buildLeftPanel: buildLeftPanel,
@@ -998,6 +1347,7 @@ const MLManager = (() => {
         refreshDatasets: refreshDatasets,
         refreshModels: refreshModels,
         train: train,
+        trainAll: trainAll,
         predictFromModel: predictFromModel,
         detectAnomalies: detectAnomalies,
         deleteModel: deleteModel,
