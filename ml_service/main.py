@@ -365,7 +365,7 @@ def delete_task(task_id: str):
 async def upload_dataset(file: UploadFile = File(...)):
     if not file.filename or not file.filename.lower().endswith('.csv'):
         raise HTTPException(400, "Only .csv files allowed")
-    name = file.filename.replace('.csv', '', re.IGNORECASE)
+    name = re.sub(r'\.csv$', '', file.filename, flags=re.IGNORECASE)
     safe_name = _safe_dataset_name(name)
     dest = DATOS_DIR / f"{safe_name}.csv"
     content = await file.read()
