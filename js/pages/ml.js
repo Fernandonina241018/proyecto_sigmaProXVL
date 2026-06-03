@@ -485,10 +485,10 @@ const MLManager = (() => {
             '<div style="font-size:11px">Carga un dataset, selecciona el target y entrena un modelo.</div></div>';
     }
 
-    function _renderPredictionsTable(predictions, model) {
+    function _renderPredictionsTable(predictions, model, modelMetrics) {
         if (!predictions || !predictions.length) return '<div style="font-size:13px;color:var(--text-faint);padding:20px;text-align:center">Sin resultados</div>';
         var modelMeta = (model && model.meta) || {};
-        var modelMetrics = (model && model.metrics) || {};
+        modelMetrics = modelMetrics || (model && model.metrics) || {};
         var isBinary = modelMeta.problem_type === 'binary';
 
         var html = '<div style="display:flex;flex-direction:column;gap:16px;max-height:75vh;overflow-y:auto;padding-right:4px">';
@@ -608,10 +608,11 @@ const MLManager = (() => {
 
         var predDisplay = predLabel;
         var emoji = isPositive ? '✅' : '❌';
-        if (predLabel.toLowerCase() === '1' || predLabel.toLowerCase() === 'si' || predLabel === 'true') {
+        var predStr = String(predLabel).toLowerCase();
+        if (predStr === '1' || predStr === 'si' || predStr === 'true') {
             predDisplay = 'Positivo';
             emoji = '✅';
-        } else if (predLabel.toLowerCase() === '0' || predLabel.toLowerCase() === 'no' || predLabel === 'false') {
+        } else if (predStr === '0' || predStr === 'no' || predStr === 'false') {
             predDisplay = 'Negativo';
             emoji = '❌';
         }
@@ -943,8 +944,9 @@ const MLManager = (() => {
                 var result = await _fetch('POST', '/api/ml/predict', {
                     model_id: modelId, data: rows, columns: columns,
                 });
-                var resultHtml = _renderPredictionsTable(result.predictions, model);
-                var metricsHtml = _predMetricsStrip(modelMetrics);
+                var modelMetrics_ = (model && model.metrics) || {};
+                var resultHtml = _renderPredictionsTable(result.predictions, model, modelMetrics_);
+                var metricsHtml = _predMetricsStrip(modelMetrics_);
                 if (metricsHtml) {
                     resultHtml = '<div style="margin-bottom:12px;padding:10px 14px;background:var(--bg-panel);border:1px solid var(--border);border-radius:8px">' +
                         '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-faint);margin-bottom:6px">📈 Precisión del modelo</div>' +
