@@ -858,8 +858,12 @@ const MLManager = (() => {
             if (_models[i].id === modelId) { model = _models[i]; break; }
         }
         var isExpertMode = false;
-        var allFeatures = ((model && model.meta && model.meta.num_features) || []).concat((model && model.meta && model.meta.cat_features) || []);
-        var rows = allFeatures.length ? allFeatures.map(function(f) { return { col: f, val: '' }; }) : [{ col: '', val: '' }];
+        var meta = (model && model.meta) || {};
+        var catFeatures = meta.cat_features || [];
+        var catValues = meta.cat_values || {};
+        var baselines = meta.feature_baselines || {};
+        var allFeatures = (meta.num_features || []).concat(catFeatures);
+        var rows = allFeatures.length ? allFeatures.map(function(f) { return { col: f, val: baselines[f] !== undefined && baselines[f] !== null ? String(baselines[f]) : '' }; }) : [{ col: '', val: '' }];
 
         function buildJsonFromForm() {
             var obj = {};
@@ -899,9 +903,6 @@ const MLManager = (() => {
         var content = document.createElement('div');
         content.style.cssText = 'padding:20px 24px;display:flex;flex-direction:column;gap:16px;max-height:80vh;overflow-y:auto';
 
-        var meta = (model && model.meta) || {};
-        var catFeatures = meta.cat_features || [];
-        var catValues = meta.cat_values || {};
         var metrics = (model && model.metrics) || {};
         var infoGrid = document.createElement('div');
         infoGrid.style.cssText = 'display:grid;grid-template-columns:repeat(4,1fr);gap:10px';
