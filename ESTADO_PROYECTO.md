@@ -30,7 +30,7 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 **Cambio en `opencode.json`:**
 | Campo | Antes | Después |
 |-------|-------|---------|
-| `model` | `ollama/qwen2.5-coder:0.5b` | `groq/llama3-70b-8192` |
+| `model` | `ollama/qwen2.5-coder:0.5b` | `groq/llama-3.3-70b-versatile` |
 | `small_model` | `ollama/qwen2.5-coder:0.5b` | `groq/llama-3.1-8b-instant` |
 | Provider | Ollama only | Groq (primary) + Ollama (fallback) |
 
@@ -41,7 +41,7 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 **Verificación:** ✅ Groq API responde en ~18ms (vs ~1.8s del mejor local)
 
-**Nota:** La API key se configuró como variable de entorno `GROQ_API_KEY` en `~/.config/fish/config.fish` y `~/.bashrc`. `opencode.json` referencia `${env:GROQ_API_KEY}`.
+**Fix:** La key fallaba porque `{env:GROQ_API_KEY}` no resolvía en el contexto de opencode. Se cambió a `{file:~/.config/opencode/groq-key}`. También se corrigió el nombre del modelo 70B de `llama3-70b-8192` (obsoleto) a `llama-3.3-70b-versatile`.
 
 ---
 

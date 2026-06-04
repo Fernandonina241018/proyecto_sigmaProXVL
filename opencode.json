@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "groq/llama3-70b-8192",
+  "model": "groq/llama-3.3-70b-versatile",
   "small_model": "groq/llama-3.1-8b-instant",
   "provider": {
     "ollama": {
@@ -20,19 +20,19 @@
       "name": "Groq (cloud - rápido)",
       "options": {
         "baseURL": "https://api.groq.com/openai/v1",
-        "apiKey": "{env:GROQ_API_KEY}",
+        "apiKey": "{file:~/.config/opencode/groq-key}",
         "timeout": 60000,
         "chunkTimeout": 30000
       },
       "models": {
-        "llama3-70b-8192": {
-          "name": "Llama 3 70B (rápido, inteligente)"
+        "llama-3.3-70b-versatile": {
+          "name": "Llama 3.3 70B (inteligente, 8K contexto)"
         },
         "llama-3.1-8b-instant": {
           "name": "Llama 3.1 8B (muy rápido)"
         },
-        "mixtral-8x7b-32768": {
-          "name": "Mixtral 8x7B (contexto largo)"
+        "meta-llama/llama-4-scout-17b-16e-instruct": {
+          "name": "Llama 4 Scout 17B (contexto largo)"
         }
       }
     }
@@ -43,12 +43,12 @@
       "description": "Optimizar un prompt usando mejores prácticas de Anthropic y skills disponibles",
       "agent": "general",
       "context": [
-        "PROYECTO: SigmaProXVL / StatAnalyzer Pro en /mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/ (ruta absoluta. NO usar /home/fernandonina/proyecto_sigmaProXVL/)",
-        "Brain2: contexto del proyecto StatAnalyzer Pro (estadísticas) en Brain/Brain2/",
-        "Brain3: identidad y comportamiento del Agente X en Brain/Brain3/",
-        "Skills disponibles globalmente en ~/.agents/skills/ y ~/.config/opencode/skills/: architecture-patterns, codebase-audit-pre-push, codebase-cleanup-refactor-clean, code-review-excellence, api-security-best-practices, data-quality-frameworks, data-engineering-data-pipeline, performance-optimizer, javascript-testing-patterns, api-design-principles, backend-architect, database-architect, auth-implementation-patterns, error-diagnostics-error-analysis, cc-skill-security-review, appdeploy"
+        "PROYECTO: SigmaProXVL (estadísticas, ML, spreadsheets)",
+        "Ruta base: /mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/",
+        "Brains: Brain/Brain2/ (estadísticas), Brain/Brain3/ (Agente X)",
+        "Skills en .opencode/skills/ y global ~/.config/opencode/skills/"
       ],
-      "instructions": "La ruta base del proyecto es /mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/. Todos los comandos y rutas de archivos deben usar esta ruta, NO /home/fernandonina/proyecto_sigmaProXVL/. Usa los brains en Brain/Brain2/ y Brain/Brain3/. Skills globales disponibles en ~/.agents/skills/*/SKILL.md y ~/.config/opencode/skills/*/SKILL.md. Skills de proyecto en .opencode/skills/*/SKILL.md. Considera las skills disponibles para enriquecer el contexto según el dominio del prompt a optimizar. Estructura la respuesta con XML tags, incluye explicación de técnicas aplicadas y lista de mejores prácticas usadas."
+      "instructions": "Optimiza el prompt del usuario. Usa skills disponibles para enriquecer contexto. Responde con XML tags, explicación de técnicas y lista de mejores prácticas."
     }
   }
 }
