@@ -23,6 +23,20 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-04: Modal prediccion con 3 columnas + inputs flexibles
+
+**Qué:** El formulario de predicción ahora muestra las features en 3 columnas en vez de 2, con inputs que se adaptan al ancho disponible. Esto evita que el botón "🔮 Predecir" quede fuera de vista cuando hay muchas columnas.
+
+**Cambios:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/pages/ml.js:1418` | `1fr 1fr` → `1fr 1fr 1fr` |
+| `js/pages/ml.js:1438,1456` | `width:160px/140px` → `flex:1;min-width:0` |
+| `js/pages/ml.js:1424` | `min-width:140px;flex-shrink:0` → `flex:1;min-width:0` |
+| `js/pages/ml.js:1465-1467` | Botón eliminar más compacto |
+
+**Verificación:** ✅ `node -c ml.js` | ✅ 107/107 tests | ✅ Push a GitHub
+
 ### 2026-06-04: Fix color verdicto basado en etiqueta (si=verde, no=rojo)
 
 **Qué:** El color del texto de clasificación en el dashboard ahora refleja correctamente si es aprobado (verde) o no (rojo), basado en la etiqueta de predicción y no en la probabilidad.
