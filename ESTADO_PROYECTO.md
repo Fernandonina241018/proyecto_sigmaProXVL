@@ -23,6 +23,21 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-04: Fix confianza 0.0% en dashboard de predicción
+
+**Qué:** Se corrigió bug donde el indicador de confianza en el dashboard siempre mostraba 0.0% sin importar la probabilidad real.
+
+**Problema:** `mainProb` (y `gaugePct`) se usaban en strings HTML antes de su declaración `var`. JavaScript hoistea la declaración pero el valor es `undefined` hasta la línea de asignación, causando `data-target="undefined"` → `parseFloat("undefined")` → 0.
+
+**Solución:** Mover `var mainProb` y `var gaugePct` antes de su primer uso (junto a `confLabel`, después de calcular `prob`).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/pages/ml.js:984-985` | Declaraciones movidas antes del HTML de verdict card |
+
+**Verificación:** ✅ `node -c ml.js` | ✅ 107/107 tests | ✅ Push a GitHub
+
 ### 2026-06-04: Fix delete endpoint + volumen persistente Fly.io + naming display
 
 **Qué:** Se agregó endpoint DELETE faltante, volumen persistente para no perder modelos en redeploys, y display del nombre personalizado en toda la UI.

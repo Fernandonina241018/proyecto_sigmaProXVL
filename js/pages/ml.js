@@ -1015,9 +1015,9 @@ const MLManager = (() => {
             '</div></div>';
 
         /* ═══ Verdict ═══ */
-        var isPosHigh = prob != null && prob >= 0.5;
-        var verColor = isPosHigh ? 'var(--accent-green)' : 'var(--accent-red)';
-        var verBorder = isPosHigh ? 'var(--accent-green)' : 'var(--accent-red)';
+        var isApproved = predDisplay === 'si' || predDisplay === '1' || predDisplay === 'true' || predDisplay === 'aprobado';
+        var verColor = isApproved ? 'var(--accent-green)' : 'var(--accent-red)';
+        var verBorder = isApproved ? 'var(--accent-green)' : 'var(--accent-red)';
         html += '<div class="dp-verdict dp-anim dp-anim-2" style="border-left-color:' + verBorder + '">' +
             '<div class="dp-verdict-icon">' + emoji + '</div>' +
             '<div><div class="dp-verdict-label">Clasificación</div>' +
@@ -1031,7 +1031,7 @@ const MLManager = (() => {
 
         /* ═══ Confidence Bar ═══ */
         html += '<div class="dp-bar-row dp-anim dp-anim-2">' +
-            '<div class="dp-bar-labels"><span style="color:var(--accent-green)">' + escapeHtml(predLabel) + '</span>' +
+            '<div class="dp-bar-labels"><span style="color:' + verColor + '">' + escapeHtml(predLabel) + '</span>' +
             '<span style="color:var(--text-sec)">Distribución de probabilidad</span>' +
             (altLabel ? '<span style="color:var(--text-sec)">' + escapeHtml(altLabel) + '</span>' : '') + '</div>' +
             '<div class="dp-bar-track"><div class="dp-bar-fill dp-bar-anim" data-pct="' + mainProb + '"></div></div>' +
