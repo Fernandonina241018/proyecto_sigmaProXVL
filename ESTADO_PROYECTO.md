@@ -23,6 +23,28 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-04: Migrated from Ollama local to Groq cloud (free tier)
+
+**Qué:** Se reemplazó Ollama local por Groq cloud (API gratuita). La CPU no daba para modelos locales — incluso el 0.5B era demasiado lento. Groq corre modelos open-source en sus GPUs LPU con latencias de ~18ms.
+
+**Cambio en `opencode.json`:**
+| Campo | Antes | Después |
+|-------|-------|---------|
+| `model` | `ollama/qwen2.5-coder:0.5b` | `groq/llama3-70b-8192` |
+| `small_model` | `ollama/qwen2.5-coder:0.5b` | `groq/llama-3.1-8b-instant` |
+| Provider | Ollama only | Groq (primary) + Ollama (fallback) |
+
+**Modelos Groq configurados:**
+- `llama3-70b-8192`: Modelo principal, inteligente, 8K contexto
+- `llama-3.1-8b-instant`: Small model, rapidísimo (~18ms)
+- `mixtral-8x7b-32768`: Alternativa con 32K contexto
+
+**Verificación:** ✅ Groq API responde en ~18ms (vs ~1.8s del mejor local)
+
+**Nota:** La API key se configuró como variable de entorno `GROQ_API_KEY` en `~/.config/fish/config.fish` y `~/.bashrc`. `opencode.json` referencia `${env:GROQ_API_KEY}`.
+
+---
+
 ### 2026-06-04: Switched to Ollama qwen2.5-coder:0.5b (CPU-friendly)
 
 **Qué:** Se reemplazó el modelo local de qwen2.5-coder:1.5b por qwen2.5-coder:0.5b porque el modelo 1.5B era demasiado lento en CPU (~7 tok/s, ~22s por prompt) y causaba timeouts en opencode.
