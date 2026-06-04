@@ -948,6 +948,297 @@ const MLManager = (() => {
         return html;
     }
 
+    function _renderDashboard(predictions, model, modelMetrics) {
+        if (!predictions || !predictions.length) return '<div style="padding:20px;text-align:center;color:var(--text-faint)">Sin resultados</div>';
+        var modelMeta = (model && model.meta) || {};
+        var p = predictions[0];
+
+        var predLabel = p['prediccion_legible'] || p['clase_predicha'] || p['prediccion'] || '';
+        var prob = p['probabilidad_predicha'];
+        var altLabel = p['clase_alternativa_legible'] || p['segunda_clase_legible'] || '';
+        var altProb = p['probabilidad_alternativa'] ?? p['probabilidad_segunda_clase'];
+        var margin = p['margen_decision'] ?? p['margen_top_2'];
+        var isPositive = prob != null && prob >= 0.5;
+        var predDisplay = String(predLabel).toLowerCase();
+        var emoji = '❌';
+        if (predDisplay === '1' || predDisplay === 'si' || predDisplay === 'true' || (prob != null && prob >= 0.5 && !['0','no','false'].includes(predDisplay))) {
+            emoji = '✅';
+        }
+
+        var riesgo = p['nivel_riesgo'] || '—';
+        var riesgoClass = 'dp-risk-green';
+        if (riesgo === 'Moderado') riesgoClass = 'dp-risk-amber';
+        else if (riesgo === 'Alto' || riesgo === 'Muy Alto') riesgoClass = 'dp-risk-red';
+
+        var recText = p['recomendacion'] || '';
+        var accionesRaw = p['acciones_sugeridas'];
+        var acts = typeof accionesRaw === 'string' ? JSON.parse(accionesRaw) : (Array.isArray(accionesRaw) ? accionesRaw : []);
+
+        var contribs = p['feature_contributions'] || [];
+        var anomalies = p['feature_anomalies'] || [];
+
+        var probPct = prob != null ? (prob * 100).toFixed(1) : '—';
+        var altProbPct = altProb != null ? (altProb * 100).toFixed(1) + '%' : '—';
+        var marginPts = margin != null ? (margin * 100).toFixed(1) : '—';
+        var confLabel = p['nivel_confianza'] || '—';
+
+        var acc = modelMetrics && modelMetrics.accuracy != null ? (modelMetrics.accuracy * 100).toFixed(1) + '%' : '—';
+        var f1 = modelMetrics && modelMetrics.f1_score != null ? modelMetrics.f1_score.toFixed(3) : '—';
+        var auc = modelMetrics && modelMetrics.auc_roc != null ? modelMetrics.auc_roc.toFixed(3) : '—';
+        var numFeat = (modelMeta.num_features || []).length + (modelMeta.cat_features || []).length;
+        var nTrain = modelMeta.n_train || '—';
+        var nTest = modelMeta.n_test || '—';
+        var nFeatures = modelMeta.n_features_in || numFeat || '—';
+
+        var classLabels = [];
+        var classProbs = [];
+        for (var k in p) {
+            if (k.indexOf('prob_') === 0 && k !== 'probabilidad_predicha') {
+                classLabels.push(k.replace('prob_', ''));
+                classProbs.push({ label: k.replace('prob_', ''), prob: p[k] });
+            }
+        }
+
+        var html = '<div class="ml-predict-dashboard" style="display:flex;flex-direction:column;gap:14px;padding:4px">';
+
+        /* ═══ Header ═══ */
+        html += '<div class="dp-header dp-anim dp-anim-1">' +
+            '<div class="dp-header-left">' +
+            '<span class="dp-model-badge">' + escapeHtml(model && (model.custom_name || model.id)) + '</span>' +
+            '<span class="dp-header-title">Resultado de Predicción</span></div>' +
+            '<div class="dp-header-meta">' +
+            '<span><span class="dp-live-dot"></span> LIVE</span>' +
+            '<span>ID: #' + (p.index != null ? p.index + 1 : '1') + '</span>' +
+            (model && model.saved_at ? '<span>' + model.saved_at.slice(0, 10) + '</span>' : '') +
+            '</div></div>';
+
+        /* ═══ Verdict ═══ */
+        var isPosHigh = prob != null && prob >= 0.5;
+        var verColor = isPosHigh ? 'var(--accent-green)' : 'var(--accent-red)';
+        var verBorder = isPosHigh ? 'var(--accent-green)' : 'var(--accent-red)';
+        html += '<div class="dp-verdict dp-anim dp-anim-2" style="border-left-color:' + verBorder + '">' +
+            '<div class="dp-verdict-icon">' + emoji + '</div>' +
+            '<div><div class="dp-verdict-label">Clasificación</div>' +
+            '<div class="dp-verdict-value" style="color:' + verColor + '">' + escapeHtml(predLabel) + '</div>' +
+            (altLabel ? '<div class="dp-alt-pill"><span style="color:var(--text-dim)">Alt:</span> ' + escapeHtml(altLabel) + ' · ' + altProbPct + '</div>' : '') +
+            '</div>' +
+            '<div class="dp-conf-block"><div class="dp-conf-num dp-conf-anim" style="color:' + verColor + '">0.0%</div><div class="dp-conf-label">CONFIANZA</div></div>' +
+            '<div class="dp-margin-block"><div class="dp-margin-num" style="color:' + verColor + '">+' + marginPts + ' pts</div>' +
+            '<div class="dp-margin-label">MARGEN VS ALT.</div>' +
+            '<div style="margin-top:6px"><span class="dp-risk-pill ' + riesgoClass + '">' + escapeHtml(riesgo) + '</span></div></div></div>';
+
+        /* ═══ Confidence Bar ═══ */
+        var mainProb = prob != null ? (prob * 100).toFixed(0) : '0';
+        html += '<div class="dp-bar-row dp-anim dp-anim-2">' +
+            '<div class="dp-bar-labels"><span style="color:var(--accent-green)">' + escapeHtml(predLabel) + '</span>' +
+            '<span style="color:var(--text-sec)">Distribución de probabilidad</span>' +
+            (altLabel ? '<span style="color:var(--text-sec)">' + escapeHtml(altLabel) + '</span>' : '') + '</div>' +
+            '<div class="dp-bar-track"><div class="dp-bar-fill dp-bar-anim" data-pct="' + mainProb + '"></div></div>' +
+            '<div class="dp-bar-ticks"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div></div>';
+
+        /* ═══ Stats Row ═══ */
+        html += '<div class="dp-stats dp-anim dp-anim-3">' +
+            '<div class="dp-stat"><div class="dp-stat-label">Precisión Modelo</div><div class="dp-stat-value">' + acc + '</div><div class="dp-stat-sub">Test set · n=' + nTest + '</div></div>' +
+            '<div class="dp-stat"><div class="dp-stat-label">F1 Score</div><div class="dp-stat-value">' + f1 + '</div><div class="dp-stat-sub">weighted avg</div></div>' +
+            '<div class="dp-stat"><div class="dp-stat-label">AUC-ROC</div><div class="dp-stat-value">' + auc + '</div><div class="dp-stat-sub">binary class</div></div>' +
+            '<div class="dp-stat"><div class="dp-stat-label">Features</div><div class="dp-stat-value">' + nFeatures + '</div><div class="dp-stat-sub">de ' + nFeatures + ' disponibles</div></div>' +
+            '<div class="dp-stat"><div class="dp-stat-label">Entrenamiento</div><div class="dp-stat-value">' + nTrain + '</div><div class="dp-stat-sub">filas · ' + (model && model.model_key || '—') + '</div></div></div>';
+
+        /* ═══ Grid: main col + sidebar ═══ */
+        html += '<div class="dp-grid dp-anim dp-anim-4"><div class="dp-main-col">';
+
+        /* ═══ Feature Contributions ═══ */
+        html += '<div class="dp-panel"><div class="dp-panel-header"><div class="dp-panel-title">Contribución de Features</div>' +
+            (contribs.length ? '<span class="dp-panel-badge dp-badge-amber">' + contribs.length + ' features</span>' : '') + '</div><div class="dp-panel-body">';
+        if (contribs.length) {
+            var sorted = contribs.slice().sort(function(a, b) { return b.abs_delta - a.abs_delta; });
+            var maxDelta = Math.max(sorted[0].abs_delta, 0.0001);
+            html += '<div class="dp-feat-header"><span>Feature</span><span>Impacto relativo</span><span>Valor</span><span></span></div><div class="dp-feat-list">';
+            sorted.forEach(function(c) {
+                var pct = (c.abs_delta / maxDelta) * 100;
+                var fillClass = c.direction === 'a_favor' ? 'dp-fill-pos' : (c.direction === 'en_contra' ? 'dp-fill-neg' : 'dp-fill-neu');
+                var valClass = c.direction === 'a_favor' ? 'dp-val-pos' : (c.direction === 'en_contra' ? 'dp-val-neg' : 'dp-val-neu');
+                var dotClass = c.direction === 'a_favor' ? 'dp-dot-pos' : (c.direction === 'en_contra' ? 'dp-dot-neg' : 'dp-dot-neu');
+                var sign = c.delta >= 0 ? '+' : '';
+                html += '<div class="dp-feat-row"><span class="dp-feat-name" title="' + escapeHtml(c.feature) + '">' + escapeHtml(c.feature) + '</span>' +
+                    '<div class="dp-feat-track"><div class="dp-feat-fill ' + fillClass + '" data-pct="' + pct.toFixed(0) + '"></div></div>' +
+                    '<span class="dp-feat-val ' + valClass + '">' + sign + c.delta.toFixed(4) + '</span>' +
+                    '<span class="dp-feat-dot ' + dotClass + '"></span></div>';
+            });
+            html += '</div>';
+        } else {
+            html += '<div style="font-size:11px;color:var(--text-sec)">No hay datos de contribución disponibles para este modelo.</div>';
+        }
+        html += '</div></div>';
+
+        /* ═══ Factors ═══ */
+        var favorRaw = p['factores_a_favor'];
+        var contraRaw = p['factores_en_contra'];
+        var favor = favorRaw ? (typeof favorRaw === 'string' ? favorRaw.split('; ') : [favorRaw]) : [];
+        var contra = contraRaw ? (typeof contraRaw === 'string' ? contraRaw.split('; ') : [contraRaw]) : [];
+        var hasFactors = favor.length > 0 || contra.length > 0;
+        if (hasFactors) {
+            function parseFactorItem(items) {
+                return items.filter(function(i) { return i.indexOf('Sin factores') === -1; }).map(function(i) {
+                    var parts = i.split(':');
+                    var name = parts.length > 1 ? parts[0].trim() : '';
+                    var detail = parts.length > 1 ? parts.slice(1).join(':').trim() : i;
+                    return { name: name, detail: detail };
+                });
+            }
+            var favItems = parseFactorItem(favor);
+            var conItems = parseFactorItem(contra);
+            if (favItems.length || conItems.length) {
+                html += '<div class="dp-panel"><div class="dp-panel-header"><div class="dp-panel-title">Factores Determinantes</div></div><div class="dp-panel-body"><div class="dp-factors">';
+                html += '<div class="dp-factor-group"><div class="dp-factor-title" style="color:var(--accent-green)">✅ A FAVOR</div>';
+                if (favItems.length) {
+                    favItems.forEach(function(f) {
+                        html += '<div class="dp-factor-item"><div><div class="dp-factor-name">' + escapeHtml(f.name) + '</div><div class="dp-factor-detail">' + escapeHtml(f.detail) + '</div></div></div>';
+                    });
+                } else {
+                    html += '<div style="font-size:10px;color:var(--text-dim)">Sin factores destacados</div>';
+                }
+                html += '</div>';
+                html += '<div class="dp-factor-group"><div class="dp-factor-title" style="color:var(--accent-red)">❌ EN CONTRA</div>';
+                if (conItems.length) {
+                    conItems.forEach(function(f) {
+                        html += '<div class="dp-factor-item"><div><div class="dp-factor-name">' + escapeHtml(f.name) + '</div><div class="dp-factor-detail">' + escapeHtml(f.detail) + '</div></div></div>';
+                    });
+                } else {
+                    html += '<div style="font-size:10px;color:var(--text-dim)">Sin factores destacados</div>';
+                }
+                html += '</div></div></div></div>';
+            }
+        }
+
+        /* ═══ Comparison Table ═══ */
+        if (contribs.length) {
+            html += '<div class="dp-panel"><div class="dp-panel-header"><div class="dp-panel-title">Valores Actuales vs Baseline</div>' +
+                '<span class="dp-panel-badge" style="font-family:var(--font-mono);font-size:9px;color:var(--text-sec)">ref: mediana/moda histórica</span></div>' +
+                '<div class="dp-panel-body" style="overflow-x:auto"><table class="dp-comp-table"><thead><tr>' +
+                '<th>Feature</th><th>Valor Actual</th><th>Baseline</th><th>Δ Absoluto</th><th>Δ %</th></tr></thead><tbody>';
+            var sorted2 = contribs.slice().sort(function(a, b) { return b.abs_delta - a.abs_delta; });
+            sorted2.forEach(function(c) {
+                var actualNum = parseFloat(c.actual);
+                var baseNum = parseFloat(c.baseline);
+                var isNum = !isNaN(actualNum) && !isNaN(baseNum) && baseNum !== 0;
+                var deltaAbs = isNum ? (actualNum - baseNum >= 0 ? '+' : '') + (actualNum - baseNum).toFixed(2) : '—';
+                var deltaPct = isNum ? (((actualNum - baseNum) / baseNum) * 100 >= 0 ? '+' : '') + (((actualNum - baseNum) / baseNum) * 100).toFixed(1) + '%' : '—';
+                var deltaClass = isNum ? (actualNum - baseNum >= 0 ? 'dp-delta-pos' : 'dp-delta-neg') : '';
+                html += '<tr><td class="dp-feat-label">' + escapeHtml(c.feature) + '</td>' +
+                    '<td class="dp-val-actual">' + escapeHtml(c.actual) + '</td>' +
+                    '<td class="dp-val-base">' + escapeHtml(c.baseline) + '</td>' +
+                    '<td class="' + deltaClass + '">' + deltaAbs + '</td>' +
+                    '<td class="' + deltaClass + '">' + deltaPct + '</td></tr>';
+            });
+            html += '</tbody></table></div></div>';
+        }
+
+        html += '</div>'; /* /dp-main-col */
+
+        /* ═══ Sidebar ═══ */
+        html += '<div class="dp-sidebar">';
+
+        /* ─── Gauge ─── */
+        var gaugePct = prob != null ? (prob * 100).toFixed(1) : '0';
+        html += '<div class="dp-panel"><div class="dp-panel-header"><div class="dp-panel-title">Score de Confianza</div></div>' +
+            '<div class="dp-gauge-wrap">' +
+            '<svg class="dp-gauge-svg" viewBox="0 0 160 90">' +
+            '<path d="M 20 80 A 60 60 0 0 1 140 80" fill="none" stroke="#1e2d3d" stroke-width="10" stroke-linecap="round"/>' +
+            '<path id="dp-gauge-arc" d="M 20 80 A 60 60 0 0 1 140 80" fill="none" stroke="url(#dpGaugeGrad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="189" stroke-dashoffset="189"/>' +
+            '<defs><linearGradient id="dpGaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ffa502"/><stop offset="60%" stop-color="#00c8e0"/><stop offset="100%" stop-color="#00e5a0"/></linearGradient></defs>' +
+            '<line id="dp-gauge-needle" x1="80" y1="80" x2="80" y2="28" stroke="#00e5a0" stroke-width="2" stroke-linecap="round" style="transform-origin:80px 80px;transform:rotate(-90deg)"/>' +
+            '<circle cx="80" cy="80" r="4" fill="#00e5a0"/>' +
+            '<text x="18" y="92" fill="#3d5a73" font-size="7" font-family="monospace">0</text>' +
+            '<text x="72" y="18" fill="#3d5a73" font-size="7" font-family="monospace">50</text>' +
+            '<text x="137" y="92" fill="#3d5a73" font-size="7" font-family="monospace">100</text></svg>' +
+            '<div class="dp-gauge-val"><div class="dp-gauge-num dp-gauge-anim">0</div><div class="dp-gauge-sub">' + confLabel.toUpperCase() + '</div></div></div></div>';
+
+        /* ─── Probability Distribution ─── */
+        if (classProbs.length) {
+            html += '<div class="dp-panel"><div class="dp-panel-header"><div class="dp-panel-title">Distribución de Probabilidad</div></div><div class="dp-panel-body"><div class="dp-dist-list">';
+            classProbs.forEach(function(cp) {
+                var cpPct = cp.prob != null ? (cp.prob * 100).toFixed(1) : '0';
+                var cpColor = cp.prob >= 0.5 ? 'var(--accent-green)' : 'var(--accent-red)';
+                html += '<div class="dp-dist-row"><div class="dp-dist-label"><span class="dp-dist-name">target = ' + escapeHtml(cp.label) + '</span>' +
+                    '<span class="dp-dist-pct" style="color:' + cpColor + '">' + cpPct + '%</span></div>' +
+                    '<div class="dp-dist-track"><div class="dp-dist-fill dp-dist-anim" style="background:' + cpColor + '" data-pct="' + cpPct + '"></div></div></div>';
+            });
+            html += '</div></div></div>';
+        }
+
+        /* ─── Model Info ─── */
+        var savedDate = model && model.saved_at ? model.saved_at.slice(0, 10) : '—';
+        html += '<div class="dp-panel"><div class="dp-panel-header"><div class="dp-panel-title">Info del Modelo</div></div>' +
+            '<div class="dp-panel-body" style="padding:10px 16px"><div class="dp-info-list">' +
+            '<div class="dp-info-row"><span class="dp-info-key">Algoritmo</span><span class="dp-info-val">' + escapeHtml(model && model.model_key || '—') + '</span></div>' +
+            '<div class="dp-info-row"><span class="dp-info-key">Dataset</span><span class="dp-info-val">' + escapeHtml(model && model.dataset_name || '—') + '</span></div>' +
+            '<div class="dp-info-row"><span class="dp-info-key">Guardado</span><span class="dp-info-val">' + escapeHtml(savedDate) + '</span></div>' +
+            '<div class="dp-info-row"><span class="dp-info-key">Train size</span><span class="dp-info-val">' + nTrain + ' obs.</span></div>' +
+            '<div class="dp-info-row"><span class="dp-info-key">Features</span><span class="dp-info-val">' + nFeatures + ' vars</span></div>' +
+            '<div class="dp-info-row"><span class="dp-info-key">Target</span><span class="dp-info-val">' + escapeHtml(modelMeta.target_col || '—') + '</span></div>' +
+            '</div></div></div>';
+
+        /* ─── Risk + Actions ─── */
+        html += '<div class="dp-panel"><div class="dp-panel-header"><div class="dp-panel-title">Nivel de Riesgo</div>' +
+            '<span class="dp-panel-badge ' + riesgoClass.replace('dp-risk', 'dp-badge') + '">' + escapeHtml(riesgo) + '</span></div>' +
+            '<div class="dp-panel-body">';
+        if (recText) {
+            html += '<div class="dp-risk-alert">' + escapeHtml(recText) + '</div>';
+        }
+        if (acts.length) {
+            html += '<div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-sec);margin-bottom:8px">Acciones sugeridas</div>' +
+                '<div class="dp-actions">';
+            acts.forEach(function(a, i) {
+                var num = (i + 1).toString().padStart(2, '0');
+                html += '<div class="dp-action"><span class="dp-action-num">' + num + '</span>' + escapeHtml(a) + '</div>';
+            });
+            html += '</div>';
+        }
+        if (anomalies.length) {
+            html += '<div style="margin-top:12px"><div class="dp-anomaly"><span style="font-size:12px">⚠️</span><span style="font-weight:600;color:var(--accent-red)">Valores fuera de rango de entrenamiento</span></div>';
+            anomalies.forEach(function(a) {
+                html += '<div class="dp-anomaly-item"><span style="color:var(--accent-red)">▸</span> <strong>' + escapeHtml(a.feature) + '</strong>: ' + escapeHtml(a.reason) + '</div>';
+            });
+        }
+
+        html += '</div></div></div>'; /* /dp-sidebar + /dp-panel */
+        html += '</div>'; /* /dp-grid */
+
+        /* Additional predictions */
+        if (predictions.length > 1) {
+            html += '<details class="dp-more-pred"><summary>Ver ' + (predictions.length - 1) + ' predicción(es) adicional(es)</summary><div style="margin-top:10px">';
+            for (var i = 1; i < predictions.length; i++) {
+                var subP = predictions[i];
+                var subLabel = String(subP['prediccion_legible'] || subP['clase_predicha'] || subP['prediccion'] || '—');
+                var subProb = subP['probabilidad_predicha'];
+                var subPct = subProb != null ? (subProb * 100).toFixed(1) + '%' : '—';
+                var subEmoji = subProb != null && subProb >= 0.5 ? '✅' : '❌';
+                html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg-card);border:1px solid var(--border);border-radius:4px;margin-bottom:6px;font-size:11px">' +
+                    '<span>' + subEmoji + ' ' + escapeHtml(subLabel) + '</span>' +
+                    '<span style="font-family:var(--font-mono);font-weight:600;color:var(--accent-cyan)">' + subPct + '</span></div>';
+            }
+            html += '</div></details>';
+        }
+
+        html += '</div>'; /* /ml-predict-dashboard */
+
+        /* Animations script */
+        html += '<script>' +
+        'requestAnimationFrame(function(){setTimeout(function(){' +
+        'var confEl=document.querySelector(".dp-conf-anim");if(confEl){var v=0;var t=setInterval(function(){v=Math.min(v+2.5,' + mainProb + ');confEl.textContent=v.toFixed(1)+"%";if(v>=' + mainProb + ')clearInterval(t)},20)}' +
+        'var mainBar=document.querySelector(".dp-bar-anim");if(mainBar){mainBar.style.width=mainBar.dataset.pct+"%"}' +
+        'document.querySelectorAll(".dp-feat-fill[data-pct]").forEach(function(el,i){setTimeout(function(){el.style.width=el.dataset.pct+"%"},i*60)});' +
+        'setTimeout(function(){document.querySelectorAll(".dp-dist-anim").forEach(function(el){el.style.width=el.dataset.pct+"%"})},300);' +
+        'var arc=document.getElementById("dp-gauge-arc");if(arc){var offset=189-(189*' + gaugePct + '/100);arc.style.strokeDashoffset=offset}' +
+        'var needle=document.getElementById("dp-gauge-needle");if(needle){var angle=-90+(180*' + gaugePct + '/100);needle.style.transform="rotate("+angle+"deg)"}' +
+        'var gaugeNum=document.querySelector(".dp-gauge-anim");if(gaugeNum){var gv=0;var gt=setInterval(function(){gv=Math.min(gv+2.5,' + gaugePct + ');gaugeNum.textContent=gv.toFixed(1);if(gv>=' + gaugePct + ')clearInterval(gt)},20)}' +
+        '},200)});' +
+        '<\/script>';
+
+        return html;
+    }
+
     function predictFromModel(modelId) {
         var model = null;
         for (var i = 0; i < _models.length; i++) {
@@ -1243,13 +1534,7 @@ const MLManager = (() => {
                     model_id: modelId, data: rows, columns: columns,
                 });
                 var modelMetrics_ = (model && model.metrics) || {};
-                var resultHtml = _renderPredictionsTable(result.predictions, model, modelMetrics_);
-                var metricsHtml = _predMetricsStrip(modelMetrics_);
-                if (metricsHtml) {
-                    resultHtml = '<div style="margin-bottom:12px;padding:10px 14px;background:var(--bg-panel);border:1px solid var(--border);border-radius:8px">' +
-                        '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-faint);margin-bottom:6px">📈 Precisión del modelo</div>' +
-                        metricsHtml + '</div>' + resultHtml;
-                }
+                var resultHtml = _renderDashboard(result.predictions, model, modelMetrics_);
                 resBody.innerHTML = resultHtml;
                 cleanupPredictModal();
             } catch (e) {
