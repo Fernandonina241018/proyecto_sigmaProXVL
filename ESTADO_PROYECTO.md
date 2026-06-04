@@ -23,6 +23,32 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-04: Integración NLP en predicciones (análisis semántico en dashboard)
+
+**Qué:** Se integró el análisis de texto NLP en el flujo de predicción. El usuario puede agregar un motivo/comentario opcional en el modal de predicción, y el dashboard muestra análisis semántico con riesgo detectado, sentimiento y palabras clave.
+
+**Nuevo endpoint backend:**
+| Endpoint | Descripción |
+|----------|-------------|
+| `POST /api/ml/analyze-text` | Analiza texto: embedding, keywords, nivel de riesgo, sentimiento |
+
+**Frontend:**
+- Textarea "🧠 Análisis semántico (opcional)" en el modal de predicción
+- Antes de predecir, si hay texto, se llama a `/api/ml/analyze-text`
+- Dashboard nuevo panel "🧠 Análisis semántico" con:
+  - Nivel de riesgo (🟢 Bajo / 🟡 Moderado / 🔴 Alto) con porcentaje
+  - Sentimiento (✅ Positivo / ❌ Negativo / ➖ Neutral)
+  - Palabras clave extraídas como pills
+- NLP analysis es **no-fatal**: si falla o no hay texto, la predicción funciona igual
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `ml_service/main.py` | +`TextAnalysisRequest`, +endpoint analyze-text, +diccionarios riesgo/sentimiento |
+| `js/pages/ml.js` | +textarea en modal, +llamada analyze-text pre-predicción, +panel NLP en dashboard |
+
+**Verificación:** ✅ `node -c ml.js` | ✅ `ast.parse(main.py)` | ✅ 107/107 tests | ✅ Push a GitHub
+
 ### 2026-06-04: NLP embeddings con fastembed (all-MiniLM-L6-v2, ONNX Runtime)
 
 **Qué:** Se integró un modelo de embeddings semánticos ultra-ligero (all-MiniLM-L6-v2) usando `fastembed` con ONNX Runtime — sin PyTorch, ~22MB de modelo, ~45MB RAM en inferencia.
