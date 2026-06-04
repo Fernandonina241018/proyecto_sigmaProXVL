@@ -369,37 +369,136 @@ def predict(pipeline, X_new: pd.DataFrame, meta: dict,
 
 def _apply_nlp_calibration(result_df: pd.DataFrame, texts: list,
                            meta: dict, cal_payload: dict):
-    """Aplica el calibrador NLP a cada predicción."""
+    """Aplica ajuste NLP usando la probabilidad de la clase positiva.
+    
+    probabilidad_predicha = prob de la clase predecida.
+    NLP opera sobre prob de clase positiva (aprobado=si):
+      - riesgo alto → -20%, moderado → -10%
+      - positivo → +3%, negativo → -3%
+    """
     try:
         from ml_service.nlp_models import EmbeddingModel
         from Red_Neuronal.nlp_calibrator import adjust_prediction
 
         embed_model = EmbeddingModel.get_instance()
 
-        nlp_probs = []
+        nlp_pos_probs = []
         nlp_ajustes = []
         nlp_status = []
 
         for i in range(len(result_df)):
             base_prob = result_df.iloc[i].get("probabilidad_predicha")
+            pred_label = str(result_df.iloc[i].get("prediccion_legible", "")).lower()
+
             if base_prob is None:
-                nlp_probs.append(None)
+                nlp_pos_probs.append(None)
                 nlp_ajustes.append(0.0)
                 nlp_status.append(False)
                 continue
-            txt = texts[i] if texts and i < len(texts) else ""
-            adj = adjust_prediction(base_prob, txt, meta, embed_model, cal_payload)
-            nlp_probs.append(adj["probabilidad"])
-            nlp_ajustes.append(adj["ajuste"])
-            nlp_status.append(adj["nlp_active"])
 
-        result_df["probabilidad_nlp"] = nlp_probs
+            is_si = pred_label.endswith("=si") or pred_label in ("1", "si", "true", "aprobado")
+            pos_prob = base_prob if is_si else (1.0 - base_prob)
+
+            txt = texts[i] if texts and i < len(texts) else ""
+            ajuste_total = 0.0
+            activo = False
+
+            if txt and txt.strip():
+                text_lower = txt.lower().strip()
+                risk_level, risk_score, sentiment = _inline_text_analysis(text_lower)
+
+                if risk_level == "alto":
+                    ajuste_total -= 0.35
+                elif risk_level == "moderado":
+                    ajuste_total -= 0.20
+
+                if risk_level == "bajo":
+                    ajuste_total += 0.05
+
+                if sentiment == "positivo":
+                    ajuste_total += 0.03
+                elif sentiment == "negativo":
+                    ajuste_total -= 0.05
+
+                activo = True
+
+            if cal_payload and cal_payload.get("status") == "trained" and txt and txt.strip():
+                try:
+                    adj = adjust_prediction(pos_prob, txt, meta, embed_model, cal_payload)
+                    ajuste_total += adj["ajuste"]
+                    if adj["nlp_active"]:
+                        activo = True
+                except Exception:
+                    pass
+
+            pos_final = max(0.0, min(1.0, pos_prob + ajuste_total))
+
+            nlp_pos_probs.append(float(pos_final))
+            nlp_ajustes.append(round(ajuste_total, 4))
+            nlp_status.append(activo)
+
+        result_df["probabilidad_nlp"] = nlp_pos_probs
         result_df["ajuste_nlp"] = nlp_ajustes
         result_df["nlp_active"] = nlp_status
     except Exception:
         result_df["probabilidad_nlp"] = result_df["probabilidad_predicha"]
         result_df["ajuste_nlp"] = 0.0
         result_df["nlp_active"] = False
+
+
+_RISK_KEYWORDS = {
+    "alto": ["perdi mi empleo", "despedido", "quiebra", "bancarrota", "deuda impaga",
+             "atraso", "mora", "embargo", "demanda", "enfermedad grave",
+             "hospitalizacion", "incapacidad", "fallecimiento", "divorcio",
+             "problemas financieros", "dificultades economicas", "mal historial",
+             "impago", "moroso", "sobreendeudado", "cobranza", "juicio",
+             "no puedo pagar", "perdida de ingresos", "deudas grandes",
+             "mal credito", "buro de credito", "manchado", "vencido"],
+    "moderado": ["construccion", "renovacion", "negocio propio", "inversion",
+                 "reparacion", "capital de trabajo", "expansion", "ampliacion",
+                 "refinanciamiento", "reestructuracion", "cambio de empleo",
+                 "independiente", "emprendimiento", "variable", "incierto",
+                 "dependientes", "gastos altos", "temporal"],
+    "bajo": ["consolidar", "mejorar", "crecimiento", "oportunidad",
+             "educacion", "capacitacion", "ahorro", "inversion segura",
+             "estable", "solvente", "responsable", "pago puntual",
+             "buen historial", "ingresos estables", "trabajo fijo",
+             "ahorros", "patrimonio", "respaldo", "garantia"],
+}
+
+_POSITIVE_WORDS = ["bueno", "excelente", "mejor", "crecimiento", "oportunidad",
+                   "estable", "seguro", "solvente", "responsable", "pago puntual",
+                   "confiable", "solido", "garantizado", "fijo", "aumento",
+                   "positivo", "favorable", "optimo", "regular", "cumplo"]
+
+_NEGATIVE_WORDS = ["malo", "deuda", "atraso", "perdida", "problema", "riesgo",
+                   "dificil", "grave", "urgencia", "emergencia", "impago",
+                   "moroso", "quiebra", "demanda", "embargo", "incapaz",
+                   "enfermo", "despid", "negativo", "perjudic", "adverso"]
+
+
+def _inline_text_analysis(text_lower: str) -> tuple:
+    """Analiza riesgo y sentimiento de un texto (sin dependencias externas)."""
+    risk_level = "bajo"
+    risk_score = 0.0
+    for level, patterns in _RISK_KEYWORDS.items():
+        for p in patterns:
+            if p in text_lower:
+                if level == "alto":
+                    risk_score = max(risk_score, 0.85)
+                    risk_level = "alto"
+                elif level == "moderado" and risk_score < 0.6:
+                    risk_score = max(risk_score, 0.5)
+                    if risk_level != "alto":
+                        risk_level = "moderado"
+                elif level == "bajo" and risk_score < 0.3:
+                    risk_score = max(risk_score, 0.2)
+
+    pos = sum(1 for w in _POSITIVE_WORDS if w in text_lower)
+    neg = sum(1 for w in _NEGATIVE_WORDS if w in text_lower)
+    sentiment = "positivo" if pos > neg else ("negativo" if neg > pos else "neutral")
+
+    return risk_level, risk_score, sentiment
 
 
 def _normalize_binary_target(y_test):

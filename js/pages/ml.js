@@ -962,6 +962,15 @@ const MLManager = (() => {
         var altProb = p['probabilidad_alternativa'] ?? p['probabilidad_segunda_clase'];
         var predDisplay = String(predLabel).toLowerCase();
         var isPositive = predDisplay.endsWith('=si') || predDisplay === '1' || predDisplay === 'si' || predDisplay === 'true' || predDisplay === 'aprobado';
+        var probPos = isPositive ? prob : (prob != null ? 1 - prob : null);
+        var nlpProbPos = p['probabilidad_nlp'];
+        var nlpActive = p['nlp_active'];
+        var nlpAjuste = p['ajuste_nlp'];
+        var useNlp = nlpActive && nlpProbPos != null && !isNaN(nlpProbPos);
+        var displayProb = useNlp ? nlpProbPos : probPos;
+        if (useNlp) {
+            isPositive = displayProb >= 0.5;
+        }
         var emoji = isPositive ? '✅' : '❌';
 
         var riesgo = p['nivel_riesgo'] || '—';
@@ -981,11 +990,6 @@ const MLManager = (() => {
         var altProbPct = altProb != null ? (altProb * 100).toFixed(1) + '%' : '—';
         var marginPts = margin != null ? (margin * 100).toFixed(1) : '—';
         var confLabel = p['nivel_confianza'] || '—';
-        var nlpProb = p['probabilidad_nlp'];
-        var nlpActive = p['nlp_active'];
-        var nlpAjuste = p['ajuste_nlp'];
-        var useNlp = nlpActive && nlpProb != null && !isNaN(nlpProb);
-        var displayProb = useNlp ? nlpProb : prob;
         var mainProb = displayProb != null ? (displayProb * 100).toFixed(0) : '0';
         var gaugePct = displayProb != null ? (displayProb * 100).toFixed(1) : '0';
 
@@ -1020,7 +1024,7 @@ const MLManager = (() => {
             '</div></div>';
 
         /* ═══ Verdict ═══ */
-        var isApproved = predDisplay.endsWith('=si') || predDisplay === 'si' || predDisplay === '1' || predDisplay === 'true' || predDisplay === 'aprobado';
+        var isApproved = useNlp ? isPositive : (predDisplay.endsWith('=si') || predDisplay === 'si' || predDisplay === '1' || predDisplay === 'true' || predDisplay === 'aprobado');
         var verColor = isApproved ? 'var(--accent-green)' : 'var(--accent-red)';
         var verBorder = isApproved ? 'var(--accent-green)' : 'var(--accent-red)';
         html += '<div class="dp-verdict dp-anim dp-anim-2" style="border-left-color:' + verBorder + '">' +
@@ -1034,7 +1038,9 @@ const MLManager = (() => {
             '</div>' +
             '<div class="dp-margin-block"><div class="dp-margin-num" style="color:' + verColor + '">+' + marginPts + ' pts</div>' +
             '<div class="dp-margin-label">MARGEN VS ALT.</div>' +
-            '<div style="margin-top:6px"><span class="dp-risk-pill ' + riesgoClass + '">' + escapeHtml(riesgo) + '</span></div></div></div>';
+            '<div style="margin-top:6px">' +
+            (useNlp ? '<div style="font-size:10px;font-weight:600;margin-bottom:4px;padding:2px 8px;border-radius:4px;background:' + (isApproved ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)') + ';color:' + verColor + '">' + (isApproved ? '🟢' : '🔴') + ' ' + (isApproved ? 'APROBADO' : 'RECHAZADO') + ' por NLP</div>' : '') +
+            '<span class="dp-risk-pill ' + riesgoClass + '">' + escapeHtml(riesgo) + '</span></div></div></div>';
 
         /* ═══ Confidence Bar ═══ */
         html += '<div class="dp-bar-row dp-anim dp-anim-2">' +
