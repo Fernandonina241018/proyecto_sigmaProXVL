@@ -50,6 +50,12 @@ try:
 except ImportError:
     HAS_INTERPRET = False
 
+try:
+    from nlp_models import EmbeddingModel
+    HAS_NLP = True
+except ImportError:
+    HAS_NLP = False
+
 app = FastAPI(title="SigmaPro ML Service", version="1.0.0")
 
 ALLOWED_ORIGINS = [
@@ -157,6 +163,15 @@ class CSVLoadRequest(BaseModel):
     filename: str
 
 
+class EmbeddingRequest(BaseModel):
+    texts: list[str]
+
+
+class SimilarityRequest(BaseModel):
+    text_a: str
+    text_b: str
+
+
 def _df_from_payload(data: list, columns: list[str]) -> pd.DataFrame:
     df = pd.DataFrame(data, columns=columns)
     df = df.infer_objects()
@@ -188,7 +203,7 @@ def _metrics_serializable(metrics: dict) -> dict:
 @app.get("/api/ml/health")
 def health():
     return {"ok": True, "service": "SigmaPro ML Service",
-            "anomaly": HAS_ANOMALY, "interpret": HAS_INTERPRET}
+            "anomaly": HAS_ANOMALY, "interpret": HAS_INTERPRET, "nlp": HAS_NLP}
 
 
 def _execute_training(req: TrainRequest, progress_callback=None):
@@ -585,6 +600,53 @@ def explain_endpoint(req: ExplainRequest):
         raise
     except Exception as e:
         raise HTTPException(500, str(e))
+
+
+# ── NLP Endpoints (embeddings, similarity) ──
+
+
+@app.post("/api/ml/embeddings")
+def generate_embeddings(req: EmbeddingRequest):
+    if not HAS_NLP:
+        raise HTTPException(501, "NLP module not available")
+    try:
+        model = EmbeddingModel.get_instance()
+        embeddings = model.encode(req.texts)
+        return {
+            "ok": True,
+            "embeddings": embeddings,
+            "dimension": len(embeddings[0]) if embeddings else 0,
+            "count": len(embeddings),
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(500, str(e))
+
+
+@app.post("/api/ml/similarity")
+def compute_similarity(req: SimilarityRequest):
+    if not HAS_NLP:
+        raise HTTPException(501, "NLP module not available")
+    try:
+        model = EmbeddingModel.get_instance()
+        sim = model.similarity(req.text_a, req.text_b)
+        return {"ok": True, "similarity": sim}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(500, str(e))
+
+
+@app.get("/api/ml/nlp/status")
+def nlp_status():
+    try:
+        if not HAS_NLP:
+            return {"ok": True, "loaded": False, "available": False}
+        model = EmbeddingModel.get_instance()
+        return {"ok": True, "loaded": model.is_loaded, "available": True}
+    except Exception:
+        return {"ok": False, "loaded": False, "available": False}
 
 
 if __name__ == "__main__":
