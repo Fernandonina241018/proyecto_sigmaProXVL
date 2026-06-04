@@ -1022,7 +1022,7 @@ const MLManager = (() => {
             '<div class="dp-verdict-value" style="color:' + verColor + '">' + escapeHtml(predLabel) + '</div>' +
             (altLabel ? '<div class="dp-alt-pill"><span style="color:var(--text-dim)">Alt:</span> ' + escapeHtml(altLabel) + ' · ' + altProbPct + '</div>' : '') +
             '</div>' +
-            '<div class="dp-conf-block"><div class="dp-conf-num dp-conf-anim" style="color:' + verColor + '">0.0%</div><div class="dp-conf-label">CONFIANZA</div></div>' +
+            '<div class="dp-conf-block"><div class="dp-conf-num dp-conf-anim" data-target="' + mainProb + '" style="color:' + verColor + '">0.0%</div><div class="dp-conf-label">CONFIANZA</div></div>' +
             '<div class="dp-margin-block"><div class="dp-margin-num" style="color:' + verColor + '">+' + marginPts + ' pts</div>' +
             '<div class="dp-margin-label">MARGEN VS ALT.</div>' +
             '<div style="margin-top:6px"><span class="dp-risk-pill ' + riesgoClass + '">' + escapeHtml(riesgo) + '</span></div></div></div>';
@@ -1145,14 +1145,14 @@ const MLManager = (() => {
             '<div class="dp-gauge-wrap">' +
             '<svg class="dp-gauge-svg" viewBox="0 0 160 90">' +
             '<path d="M 20 80 A 60 60 0 0 1 140 80" fill="none" stroke="#1e2d3d" stroke-width="10" stroke-linecap="round"/>' +
-            '<path id="dp-gauge-arc" d="M 20 80 A 60 60 0 0 1 140 80" fill="none" stroke="url(#dpGaugeGrad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="189" stroke-dashoffset="189"/>' +
+            '<path id="dp-gauge-arc" data-pct="' + gaugePct + '" d="M 20 80 A 60 60 0 0 1 140 80" fill="none" stroke="url(#dpGaugeGrad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="189" stroke-dashoffset="189"/>' +
             '<defs><linearGradient id="dpGaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ffa502"/><stop offset="60%" stop-color="#00c8e0"/><stop offset="100%" stop-color="#00e5a0"/></linearGradient></defs>' +
-            '<line id="dp-gauge-needle" x1="80" y1="80" x2="80" y2="28" stroke="#00e5a0" stroke-width="2" stroke-linecap="round" style="transform-origin:80px 80px;transform:rotate(-90deg)"/>' +
+            '<line id="dp-gauge-needle" data-pct="' + gaugePct + '" x1="80" y1="80" x2="80" y2="28" stroke="#00e5a0" stroke-width="2" stroke-linecap="round" style="transform-origin:80px 80px;transform:rotate(-90deg)"/>' +
             '<circle cx="80" cy="80" r="4" fill="#00e5a0"/>' +
             '<text x="18" y="92" fill="#3d5a73" font-size="7" font-family="monospace">0</text>' +
             '<text x="72" y="18" fill="#3d5a73" font-size="7" font-family="monospace">50</text>' +
             '<text x="137" y="92" fill="#3d5a73" font-size="7" font-family="monospace">100</text></svg>' +
-            '<div class="dp-gauge-val"><div class="dp-gauge-num dp-gauge-anim">0</div><div class="dp-gauge-sub">' + confLabel.toUpperCase() + '</div></div></div></div>';
+            '<div class="dp-gauge-val"><div class="dp-gauge-num dp-gauge-anim" data-target="' + gaugePct + '">0</div><div class="dp-gauge-sub">' + confLabel.toUpperCase() + '</div></div></div></div>';
 
         /* ─── Probability Distribution ─── */
         if (classProbs.length) {
@@ -1223,20 +1223,59 @@ const MLManager = (() => {
 
         html += '</div>'; /* /ml-predict-dashboard */
 
-        /* Animations script */
-        html += '<script>' +
-        'requestAnimationFrame(function(){setTimeout(function(){' +
-        'var confEl=document.querySelector(".dp-conf-anim");if(confEl){var v=0;var t=setInterval(function(){v=Math.min(v+2.5,' + mainProb + ');confEl.textContent=v.toFixed(1)+"%";if(v>=' + mainProb + ')clearInterval(t)},20)}' +
-        'var mainBar=document.querySelector(".dp-bar-anim");if(mainBar){mainBar.style.width=mainBar.dataset.pct+"%"}' +
-        'document.querySelectorAll(".dp-feat-fill[data-pct]").forEach(function(el,i){setTimeout(function(){el.style.width=el.dataset.pct+"%"},i*60)});' +
-        'setTimeout(function(){document.querySelectorAll(".dp-dist-anim").forEach(function(el){el.style.width=el.dataset.pct+"%"})},300);' +
-        'var arc=document.getElementById("dp-gauge-arc");if(arc){var offset=189-(189*' + gaugePct + '/100);arc.style.strokeDashoffset=offset}' +
-        'var needle=document.getElementById("dp-gauge-needle");if(needle){var angle=-90+(180*' + gaugePct + '/100);needle.style.transform="rotate("+angle+"deg)"}' +
-        'var gaugeNum=document.querySelector(".dp-gauge-anim");if(gaugeNum){var gv=0;var gt=setInterval(function(){gv=Math.min(gv+2.5,' + gaugePct + ');gaugeNum.textContent=gv.toFixed(1);if(gv>=' + gaugePct + ')clearInterval(gt)},20)}' +
-        '},200)});' +
-        '<\/script>';
-
         return html;
+    }
+
+    function _animateDashboard() {
+        requestAnimationFrame(function() {
+            setTimeout(function() {
+                var confEl = document.querySelector('.dp-conf-anim');
+                if (confEl) {
+                    var target = parseFloat(confEl.dataset.target) || 0;
+                    var v = 0;
+                    var t = setInterval(function() {
+                        v = Math.min(v + 2.5, target);
+                        confEl.textContent = v.toFixed(1) + '%';
+                        if (v >= target) clearInterval(t);
+                    }, 20);
+                }
+                var mainBar = document.querySelector('.dp-bar-anim');
+                if (mainBar) mainBar.style.width = mainBar.dataset.pct + '%';
+
+                document.querySelectorAll('.dp-feat-fill[data-pct]').forEach(function(el, i) {
+                    setTimeout(function() { el.style.width = el.dataset.pct + '%'; }, i * 60);
+                });
+
+                setTimeout(function() {
+                    document.querySelectorAll('.dp-dist-anim').forEach(function(el) {
+                        el.style.width = el.dataset.pct + '%';
+                    });
+                }, 300);
+
+                var arc = document.getElementById('dp-gauge-arc');
+                if (arc) {
+                    var gpct = parseFloat(arc.dataset.pct) || 0;
+                    var offset = 189 - (189 * gpct / 100);
+                    arc.style.strokeDashoffset = offset;
+                }
+                var needle = document.getElementById('dp-gauge-needle');
+                if (needle) {
+                    var npct = parseFloat(needle.dataset.pct) || 0;
+                    var angle = -90 + (180 * npct / 100);
+                    needle.style.transform = 'rotate(' + angle + 'deg)';
+                }
+                var gaugeNum = document.querySelector('.dp-gauge-anim');
+                if (gaugeNum) {
+                    var gtgt = parseFloat(gaugeNum.dataset.target) || 0;
+                    var gv = 0;
+                    var gt = setInterval(function() {
+                        gv = Math.min(gv + 2.5, gtgt);
+                        gaugeNum.textContent = gv.toFixed(1);
+                        if (gv >= gtgt) clearInterval(gt);
+                    }, 20);
+                }
+            }, 200);
+        });
     }
 
     function predictFromModel(modelId) {
@@ -1536,6 +1575,7 @@ const MLManager = (() => {
                 var modelMetrics_ = (model && model.metrics) || {};
                 var resultHtml = _renderDashboard(result.predictions, model, modelMetrics_);
                 resBody.innerHTML = resultHtml;
+                setTimeout(_animateDashboard, 50);
                 cleanupPredictModal();
             } catch (e) {
                 resBody.innerHTML = '<div style="text-align:center;padding:40px;color:#ef4444;font-size:14px;font-weight:500">❌ ' + escapeHtml(e.message) + '</div>';
