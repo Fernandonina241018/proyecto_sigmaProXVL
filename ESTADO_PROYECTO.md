@@ -23,6 +23,22 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-04: Fix color verdicto basado en etiqueta (si=verde, no=rojo)
+
+**Qué:** El color del texto de clasificación en el dashboard ahora refleja correctamente si es aprobado (verde) o no (rojo), basado en la etiqueta de predicción y no en la probabilidad.
+
+**Problema:** `verColor` se determinaba con `prob >= 0.5`. Una predicción "no" con 99% de confianza se mostraba en verde, contradiciendo el resultado real.
+
+**Solución:** `verColor` ahora evalua `predDisplay` ("si"/"1"/"true" → verde, cualquier otro → rojo). También se actualizó el color del label en la barra de probabilidad para que herede el mismo color.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/pages/ml.js:1018` | `isPosHigh` → `isApproved` basado en `predDisplay` |
+| `js/pages/ml.js:1034` | `var(--accent-green)` hardcodeado → `verColor` dinámico |
+
+**Verificación:** ✅ `node -c ml.js` | ✅ 107/107 tests | ✅ Push a GitHub
+
 ### 2026-06-04: Fix confianza 0.0% en dashboard de predicción
 
 **Qué:** Se corrigió bug donde el indicador de confianza en el dashboard siempre mostraba 0.0% sin importar la probabilidad real.
