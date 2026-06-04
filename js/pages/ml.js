@@ -128,6 +128,8 @@ const MLManager = (() => {
             '<option value="adasyn">ADASYN (adaptive)</option></select>' +
             '<label style="font-size:13px;color:var(--text-faint);display:flex;align-items:center;gap:6px">' +
             '<input type="text" id="ml-target-input" placeholder="columna target" style="flex:1;padding:8px 8px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:14px"> Target</label>' +
+            '<label style="font-size:13px;color:var(--text-faint);display:flex;align-items:center;gap:6px">' +
+            '<input type="text" id="ml-name-input" placeholder="ej: credit_scoring" style="flex:1;padding:8px 8px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:14px;font-family:var(--font-mono)"> 🏷️ Nombre</label>' +
             '<div style="display:flex;gap:6px;margin-top:2px">' +
             '<button class="btn btn-primary" style="flex:1;justify-content:center;font-size:13px;padding:8px 10px" onclick="MLManager.train()">🎯 Entrenar</button>' +
             '<button class="btn btn-secondary" style="justify-content:center;font-size:13px;padding:8px 10px" onclick="MLManager.trainAll()" title="Entrena RF+XGB+MLP+Logistic">🏆 Todos</button></div>' +
@@ -216,7 +218,7 @@ const MLManager = (() => {
     }
 
     function _bindGuideEvents() {
-        var ids = ['ml-dataset-select', 'ml-model-select', 'ml-target-input', 'ml-tuning-enable', 'ml-imbalance-select'];
+        var ids = ['ml-name-input', 'ml-dataset-select', 'ml-model-select', 'ml-target-input', 'ml-tuning-enable', 'ml-imbalance-select'];
         ids.forEach(function(id) {
             var el = document.getElementById(id);
             if (!el) return;
@@ -343,8 +345,8 @@ const MLManager = (() => {
             _models.forEach(function(m) {
                 var opt = document.createElement('option');
                 opt.value = m.id;
-                var label = m.id;
-                if (m.model_key) label += ' · ' + m.model_key;
+                var label = m.custom_name || m.id;
+                if (m.model_key && !m.custom_name) label += ' · ' + m.model_key;
                 if (m.saved_at) label += ' · ' + m.saved_at.slice(0, 10);
                 opt.textContent = label;
                 sel.appendChild(opt);
@@ -388,9 +390,10 @@ const MLManager = (() => {
         var metrics = model.metrics || {};
         var meta = model.meta || {};
         var html = '<div class="page-card" style="margin-bottom:10px">' +
-            '<div class="page-card-header" style="padding:8px 14px"><span class="page-card-icon">💾</span><span class="page-card-title" style="font-size:13px">' + escapeHtml(model.id) + '</span></div>' +
+            '<div class="page-card-header" style="padding:8px 14px"><span class="page-card-icon">💾</span><span class="page-card-title" style="font-size:13px">' + escapeHtml(model.custom_name || model.id) + '</span></div>' +
             '<div class="page-card-body" style="padding:10px 14px;font-size:11px">' +
             '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">' +
+            (model.custom_name ? '<div style="grid-column:1/-1"><strong>ID interno:</strong> <code style="font-size:10px;color:var(--text-faint)">' + escapeHtml(model.id) + '</code></div>' : '') +
             '<div><strong>Algoritmo:</strong> ' + escapeHtml(model.model_key) + '</div>' +
             '<div><strong>Dataset:</strong> ' + escapeHtml(model.dataset_name || '—') + '</div>' +
             '<div><strong>Tipo:</strong> ' + escapeHtml(meta.problem_type || '—') + '</div>' +
@@ -460,6 +463,9 @@ const MLManager = (() => {
                 n_bootstraps: 0,
                 dataset_name: datasetName,
             };
+            var nameEl = document.getElementById('ml-name-input');
+            var customName = nameEl ? nameEl.value.trim() : '';
+            if (customName) body.custom_name = customName + '_' + modelKey;
             Object.keys(extraParams).forEach(function(k) { body[k] = extraParams[k]; });
             if (isWorksheet) {
                 var wsData = _getWorksheetData(sheetName);
@@ -539,9 +545,10 @@ const MLManager = (() => {
         var meta = data.meta || {};
         var metrics = data.metrics || {};
         var html = '<div class="page-card" style="margin-bottom:10px">' +
-            '<div class="page-card-header" style="padding:8px 14px"><span class="page-card-icon">🎯</span><span class="page-card-title" style="font-size:13px">Modelo: ' + escapeHtml(data.model_id) + '</span></div>' +
+            '<div class="page-card-header" style="padding:8px 14px"><span class="page-card-icon">🎯</span><span class="page-card-title" style="font-size:13px">' + escapeHtml(data.custom_name || data.model_id) + '</span></div>' +
             '<div class="page-card-body" style="padding:10px 14px;font-size:11px">' +
             '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:8px">' +
+            (data.custom_name ? '<div style="grid-column:1/-1"><strong>ID:</strong> <code style="font-size:10px;color:var(--text-faint)">' + escapeHtml(data.model_id) + '</code></div>' : '') +
             '<div><strong>Tipo:</strong> ' + escapeHtml(meta.problem_type || '—') + '</div>' +
             '<div><strong>Target:</strong> ' + escapeHtml(meta.target_col || '—') + '</div>' +
             '<div><strong>Features num:</strong> ' + (meta.num_features || []).join(', ') + '</div>' +

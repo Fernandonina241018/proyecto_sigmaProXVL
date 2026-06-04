@@ -133,6 +133,7 @@ class TrainRequest(BaseModel):
     search_params: Optional[dict] = None
     imbalance_strategy: str = "none"
     feature_engineering: Optional[dict] = None
+    custom_name: Optional[str] = None
 
 
 class PredictRequest(BaseModel):
@@ -251,13 +252,14 @@ def _execute_training(req: TrainRequest, progress_callback=None):
     payload = {
         "pipeline": pipeline, "meta": meta,
         "bootstrap_models": boot_models,
-        "train_params": {"source": "api", "model_key": req.model_key,
-                         "problem_type": meta["problem_type"],
-                         "test_size": req.test_size, "cv_folds": req.cv_folds,
-                         "n_bootstraps": req.n_bootstraps,
-                         "search_type": req.search_type,
-                         "imbalance_strategy": req.imbalance_strategy,
-                         "feature_engineering": req.feature_engineering},
+            "train_params": {"source": "api", "model_key": req.model_key,
+                             "problem_type": meta["problem_type"],
+                             "test_size": req.test_size, "cv_folds": req.cv_folds,
+                             "n_bootstraps": req.n_bootstraps,
+                             "search_type": req.search_type,
+                             "imbalance_strategy": req.imbalance_strategy,
+                             "feature_engineering": req.feature_engineering,
+                             "custom_name": req.custom_name},
         "best_params": best_params,
         "saved_at": None, "version": "1.0",
     }
@@ -273,6 +275,7 @@ def _execute_training(req: TrainRequest, progress_callback=None):
         "ok": True, "model_id": model_id,
         "metrics": _metrics_serializable(eval_results),
         "best_params": best_params,
+        "custom_name": req.custom_name,
         "meta": {
             "problem_type": meta["problem_type"],
             "target_col": meta.get("target_col", req.target),
@@ -451,7 +454,9 @@ def list_models():
                 "dataset_name": entry.get("dataset_name", ""),
                 "saved_at": entry.get("saved_at", ""),
                 "metrics": entry.get("eval_results", {}),
+                "custom_name": entry.get("train_params", {}).get("custom_name"),
                 "meta": meta,
+
             })
         models.sort(key=lambda m: m.get("saved_at", ""), reverse=True)
         return {"ok": True, "models": models}
