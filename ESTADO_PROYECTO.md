@@ -23,6 +23,27 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-04: Fix delete endpoint + volumen persistente Fly.io + naming display
+
+**Qué:** Se agregó endpoint DELETE faltante, volumen persistente para no perder modelos en redeploys, y display del nombre personalizado en toda la UI.
+
+**Problemas corregidos:**
+1. **Delete "not found"**: No existía el endpoint `DELETE /api/ml/models/{model_id}` en `ml_service/main.py`. Se agregó usando `ModelManager.delete_model()`.
+2. **Modelos perdidos en redeploy**: Fly.io usa disco efímero — cada deploy borra archivos. Se creó volumen persistente `ml_models` (1GB, `dfw`) montado en `/app/Red_Neuronal/modelos_guardados`. Ahora modelos `.pkl` y `modelo_registro.json` sobreviven redeploys.
+3. **saved_at vacío**: El endpoint `GET /api/ml/models` leía `entry.saved_at` y `entry.eval_results`, pero `ModelManager` guarda `created_at` y `metrics`. Corregido el mapeo.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `ml_service/main.py:467` | Nuevo `DELETE /api/ml/models/{model_id}` |
+| `ml_service/main.py:455` | Fix mapeo: `saved_at` → `created_at`, `metrics` → `eval_results` |
+| `ml_service/fly.toml` | Nuevo `[[mounts]]` con volumen `ml_models` |
+| `js/pages/ml.js:346` | Model selector muestra `custom_name` prioritario |
+| `js/pages/ml.js:393-395` | Tarjeta detalle + resultado muestra nombre personalizado + ID interno |
+| `js/pages/ml.js:221` | `ml-name-input` incluido en `_bindGuideEvents()` |
+
+**Verificación:** ✅ `node -c ml.js` | ✅ `python3 -c main.py` | ✅ 107/107 tests | ✅ `curl DELETE /models/modelo_999 → 404`
+
 ### 2026-06-03: Fase 3 — Async training + polling progress + dataset upload
 
 **Qué:** Sistema de entrenamiento asíncrono con background threads, polling de progreso,
