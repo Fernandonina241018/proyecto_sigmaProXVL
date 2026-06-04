@@ -23,6 +23,32 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-04: NLP embeddings con fastembed (all-MiniLM-L6-v2, ONNX Runtime)
+
+**Qué:** Se integró un modelo de embeddings semánticos ultra-ligero (all-MiniLM-L6-v2) usando `fastembed` con ONNX Runtime — sin PyTorch, ~22MB de modelo, ~45MB RAM en inferencia.
+
+**Nuevos endpoints:**
+| Endpoint | Método | Descripción |
+|----------|--------|-------------|
+| `/api/ml/embeddings` | POST | Genera embeddings normalizados (384-d) para uno o más textos |
+| `/api/ml/similarity` | POST | Calcula similitud coseno entre dos textos |
+| `/api/ml/nlp/status` | GET | Estado del modelo NLP (cargado/disponible) |
+
+**Arquitectura:**
+- `nlp_models.py`: Módulo separado con `EmbeddingModel` singleton lazy-loaded
+- No se carga al startup — solo cuando se llama por primera vez a un endpoint NLP
+- Modelo se cachea en `Red_Neuronal/modelos_guardados/nlp/` (volumen persistente)
+- `HAS_NLP` flag con graceful fallback si faltan dependencias
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `ml_service/nlp_models.py` | Nuevo — clase EmbeddingModel con fastembed |
+| `ml_service/main.py` | +3 endpoints, +2 Pydantic models, +HAS_NLP flag, health actualizado |
+| `ml_service/requirements.txt` | +`fastembed>=0.5.0` |
+
+**Verificación:** ✅ `python3 -c "from nlp_models import EmbeddingModel"` | ✅ `node -c ml.js` | ✅ 107/107 tests | ✅ Push a GitHub
+
 ### 2026-06-04: Limpieza modelos locales — solo Fly.io
 
 **Qué:** Se eliminaron todos los archivos `.pkl` y `modelo_registro.json` del directorio local `Red_Neuronal/modelos_guardados/` para evitar confusión. Los modelos activos viven únicamente en el volumen persistente `ml_models` de Fly.io.
