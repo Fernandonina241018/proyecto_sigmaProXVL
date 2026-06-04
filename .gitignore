@@ -22,6 +22,9 @@ Thumbs.db
 # Secrets
 z_error.md
 
+# Modelos locales (solo Fly.io)
+Red_Neuronal/modelos_guardados/
+
 # Logs
 *.log
 npm-debug.log*
