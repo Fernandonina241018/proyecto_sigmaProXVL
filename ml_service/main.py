@@ -685,17 +685,31 @@ def nlp_status():
 _RISK_KEYWORDS = {
     "alto": ["perdi mi empleo", "despedido", "quiebra", "bancarrota", "deuda impaga",
              "atraso", "mora", "embargo", "demanda", "enfermedad grave",
-             "hospitalizacion", "incapacidad", "fallecimiento", "divorcio"],
+             "hospitalizacion", "incapacidad", "fallecimiento", "divorcio",
+             "problemas financieros", "dificultades economicas", "mal historial",
+             "impago", "moroso", "sobreendeudado", "cobranza", "juicio",
+             "no puedo pagar", "perdida de ingresos", "deudas grandes",
+             "mal credito", "buro de credito", "manchado", "vencido"],
     "moderado": ["construccion", "renovacion", "negocio propio", "inversion",
-                 "reparacion", "capital de trabajo", "expansión"],
+                 "reparacion", "capital de trabajo", "expansion", "ampliacion",
+                 "refinanciamiento", "reestructuracion", "cambio de empleo",
+                 "independiente", "emprendimiento", "variable", "incierto",
+                 "dependientes", "gastos altos", "temporal"],
     "bajo": ["consolidar", "mejorar", "crecimiento", "oportunidad",
-             "educacion", "capacitacion", "ahorro", "inversion segura"],
+             "educacion", "capacitacion", "ahorro", "inversion segura",
+             "estable", "solvente", "responsable", "pago puntual",
+             "buen historial", "ingresos estables", "trabajo fijo",
+             "ahorros", "patrimonio", "respaldo", "garantia"],
 }
 
 _POSITIVE_WORDS = ["bueno", "excelente", "mejor", "crecimiento", "oportunidad",
-                   "estable", "seguro", "solvente", "responsable", "pago puntual"]
+                   "estable", "seguro", "solvente", "responsable", "pago puntual",
+                   "confiable", "solido", "garantizado", "fijo", "aumento",
+                   "positivo", "favorable", "optimo", "regular", "cumplo"]
 _NEGATIVE_WORDS = ["malo", "deuda", "atraso", "perdida", "problema", "riesgo",
-                   "dificil", "grave", "urgencia", "emergencia", "impago"]
+                   "dificil", "grave", "urgencia", "emergencia", "impago",
+                   "moroso", "quiebra", "demanda", "embargo", "incapaz",
+                   "enfermo", "despid", "negativo", "perjudic", "adverso"]
 
 
 @app.post("/api/ml/analyze-text")
@@ -736,7 +750,7 @@ def analyze_text(req: TextAnalysisRequest):
                     elif level == "bajo" and risk_score < 0.3:
                         risk_score = max(risk_score, 0.2)
 
-        # Sentiment
+        # Sentiment (substring match para capturar variantes: problema~problemas, malo~mal~mala)
         pos_count = sum(1 for w in _POSITIVE_WORDS if w in text_lower)
         neg_count = sum(1 for w in _NEGATIVE_WORDS if w in text_lower)
         if pos_count > neg_count:
