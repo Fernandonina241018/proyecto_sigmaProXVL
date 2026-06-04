@@ -172,6 +172,10 @@ class SimilarityRequest(BaseModel):
     text_b: str
 
 
+class TextAnalysisRequest(BaseModel):
+    text: str
+
+
 def _df_from_payload(data: list, columns: list[str]) -> pd.DataFrame:
     df = pd.DataFrame(data, columns=columns)
     df = df.infer_objects()
@@ -647,6 +651,85 @@ def nlp_status():
         return {"ok": True, "loaded": model.is_loaded, "available": True}
     except Exception:
         return {"ok": False, "loaded": False, "available": False}
+
+
+_RISK_KEYWORDS = {
+    "alto": ["perdi mi empleo", "despedido", "quiebra", "bancarrota", "deuda impaga",
+             "atraso", "mora", "embargo", "demanda", "enfermedad grave",
+             "hospitalizacion", "incapacidad", "fallecimiento", "divorcio"],
+    "moderado": ["construccion", "renovacion", "negocio propio", "inversion",
+                 "reparacion", "capital de trabajo", "expansión"],
+    "bajo": ["consolidar", "mejorar", "crecimiento", "oportunidad",
+             "educacion", "capacitacion", "ahorro", "inversion segura"],
+}
+
+_POSITIVE_WORDS = ["bueno", "excelente", "mejor", "crecimiento", "oportunidad",
+                   "estable", "seguro", "solvente", "responsable", "pago puntual"]
+_NEGATIVE_WORDS = ["malo", "deuda", "atraso", "perdida", "problema", "riesgo",
+                   "dificil", "grave", "urgencia", "emergencia", "impago"]
+
+
+@app.post("/api/ml/analyze-text")
+def analyze_text(req: TextAnalysisRequest):
+    if not HAS_NLP:
+        raise HTTPException(501, "NLP module not available")
+    try:
+        model = EmbeddingModel.get_instance()
+        embedding = model.encode([req.text])[0]
+
+        text_lower = req.text.lower()
+
+        # Simple keyword extraction
+        raw_words = [w.strip(".,!?;:()[]{}'\"") for w in text_lower.split()]
+        stopwords = {"de", "la", "que", "el", "en", "y", "a", "los", "del",
+                     "se", "las", "por", "un", "una", "para", "con", "no",
+                     "al", "su", "es", "lo", "como", "mas", "pero", "sus",
+                     "le", "ya", "este", "entre", "porque", "era", "muy",
+                     "sin", "sobre", "este", "esta", "hay", "cada", "tan",
+                     "que", "cual", "quien", "donde", "cuando", "tambien",
+                     "solo", "segun", "tras", "otros", "otro", "toda", "todo"}
+        keywords = [w for w in raw_words if w not in stopwords and len(w) > 2]
+        keywords = list(dict.fromkeys(keywords))[:10]
+
+        # Risk detection
+        risk_level = "bajo"
+        risk_score = 0.0
+        for level, patterns in _RISK_KEYWORDS.items():
+            for p in patterns:
+                if p in text_lower:
+                    if level == "alto":
+                        risk_score = max(risk_score, 0.85)
+                        risk_level = "alto"
+                    elif level == "moderado" and risk_score < 0.6:
+                        risk_score = max(risk_score, 0.5)
+                        if risk_level != "alto":
+                            risk_level = "moderado"
+                    elif level == "bajo" and risk_score < 0.3:
+                        risk_score = max(risk_score, 0.2)
+
+        # Sentiment
+        pos_count = sum(1 for w in _POSITIVE_WORDS if w in text_lower)
+        neg_count = sum(1 for w in _NEGATIVE_WORDS if w in text_lower)
+        if pos_count > neg_count:
+            sentiment = "positivo"
+        elif neg_count > pos_count:
+            sentiment = "negativo"
+        else:
+            sentiment = "neutral"
+
+        return {
+            "ok": True,
+            "embedding": embedding,
+            "keywords": keywords,
+            "risk_level": risk_level,
+            "risk_score": risk_score,
+            "sentiment": sentiment,
+            "word_count": len(raw_words),
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(500, str(e))
 
 
 if __name__ == "__main__":

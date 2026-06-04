@@ -1202,6 +1202,37 @@ const MLManager = (() => {
             });
         }
 
+        /* ═══ NLP Analysis ═══ */
+        var nlpA = p.nlpAnalysis;
+        if (nlpA && nlpA.ok) {
+            var nlpRiskColor = 'var(--accent-green)';
+            if (nlpA.risk_level === 'moderado') nlpRiskColor = '#f59e0b';
+            else if (nlpA.risk_level === 'alto') nlpRiskColor = 'var(--accent-red)';
+            html += '<div class="dp-panel" style="margin-top:12px">' +
+                '<div class="dp-panel-header"><div class="dp-panel-title">🧠 Análisis semántico</div></div>' +
+                '<div class="dp-panel-body" style="padding:12px 14px">';
+            html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">' +
+                '<div style="background:var(--item-bg);padding:10px;border-radius:6px;border:1px solid var(--border)">' +
+                '<div style="font-size:9px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Riesgo detectado</div>' +
+                '<div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:' + nlpRiskColor + '"></span>' +
+                '<span style="font-weight:700;font-size:13px;color:' + nlpRiskColor + '">' + nlpA.risk_level.toUpperCase() + '</span>' +
+                '<span style="font-size:10px;color:var(--text-dim)">(' + (nlpA.risk_score * 100).toFixed(0) + '%)</span></div></div>' +
+                '<div style="background:var(--item-bg);padding:10px;border-radius:6px;border:1px solid var(--border)">' +
+                '<div style="font-size:9px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Sentimiento</div>' +
+                '<div style="font-weight:700;font-size:13px">' +
+                (nlpA.sentiment === 'positivo' ? '✅ Positivo' : nlpA.sentiment === 'negativo' ? '❌ Negativo' : '➖ Neutral') +
+                '</div></div></div>';
+            if (nlpA.keywords && nlpA.keywords.length) {
+                html += '<div style="margin-bottom:6px"><span style="font-size:9px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.5px">Palabras clave</span>' +
+                    '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">';
+                nlpA.keywords.forEach(function(kw) {
+                    html += '<span style="background:var(--bg-card);padding:2px 8px;border-radius:10px;font-size:10px;color:var(--accent-cyan);border:1px solid var(--border)">' + escapeHtml(kw) + '</span>';
+                });
+                html += '</div></div>';
+            }
+            html += '</div></div>';
+        }
+
         html += '</div></div></div>'; /* /dp-sidebar + /dp-panel */
         html += '</div>'; /* /dp-grid */
 
@@ -1478,6 +1509,24 @@ const MLManager = (() => {
         renderRows();
         content.appendChild(formContainer);
 
+        /* ─── NLP text input ─── */
+        var nlpSep = document.createElement('div');
+        nlpSep.style.cssText = 'height:1px;background:var(--border);margin:2px 0';
+        content.appendChild(nlpSep);
+        var nlpLabel = document.createElement('div');
+        nlpLabel.style.cssText = 'font-size:11px;font-weight:700;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.5px;margin-top:4px';
+        nlpLabel.textContent = '🧠 Análisis semántico (opcional)';
+        content.appendChild(nlpLabel);
+        var nlpDesc = document.createElement('div');
+        nlpDesc.style.cssText = 'font-size:10px;color:var(--text-dim);margin-bottom:6px';
+        nlpDesc.textContent = 'Describe el motivo o comentario para enriquecer la predicción con análisis de texto';
+        content.appendChild(nlpDesc);
+        var nlpInput = document.createElement('textarea');
+        nlpInput.className = 'ml-nlp-text';
+        nlpInput.placeholder = 'Ej: Solicito un préstamo para consolidar mis deudas y mejorar mi historial crediticio...';
+        nlpInput.style.cssText = 'width:100%;min-height:60px;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg-primary);color:var(--text-primary);font-size:12px;resize:vertical;font-family:inherit';
+        content.appendChild(nlpInput);
+
         var textarea = document.createElement('textarea');
         textarea.className = 'ml-predict-input';
         textarea.placeholder = 'Array de objetos con las columnas del modelo';
@@ -1569,10 +1618,30 @@ const MLManager = (() => {
                 var columns = Object.keys(inputData[0]);
                 if (!columns.length) { throw new Error('El objeto no tiene columnas. Define al menos una feature.'); }
                 var rows = inputData.map(function(row) { return columns.map(function(c) { return row[c]; }); });
+                var nlpText = nlpInput.value.trim();
+                var nlpAnalysis = null;
+                if (nlpText) {
+                    try {
+                        var apiUrl = window._ML_API_URL || 'https://sigmapro-ml.fly.dev';
+                        var nlpRes = await fetch(apiUrl + '/api/ml/analyze-text', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({text: nlpText}),
+                        });
+                        if (nlpRes.ok) {
+                            nlpAnalysis = await nlpRes.json();
+                        }
+                    } catch (_nlpErr) {
+                        /* NLP error is non-fatal — continue with prediction */
+                    }
+                }
                 var result = await _fetch('POST', '/api/ml/predict', {
                     model_id: modelId, data: rows, columns: columns,
                 });
                 var modelMetrics_ = (model && model.metrics) || {};
+                if (nlpAnalysis && result.predictions && result.predictions.length) {
+                    result.predictions.forEach(function(p) { p.nlpAnalysis = nlpAnalysis; });
+                }
                 var resultHtml = _renderDashboard(result.predictions, model, modelMetrics_);
                 resBody.innerHTML = resultHtml;
                 setTimeout(_animateDashboard, 50);
