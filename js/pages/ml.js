@@ -427,9 +427,20 @@ const MLManager = (() => {
 
         var extraParams = {
             search_type: searchType,
-            search_params: hasCustomHP ? hpParams : null,
+            search_params: null,
             imbalance_strategy: imbalanceStrategy,
         };
+        if (hasCustomHP) {
+            if (tuningEnabled) {
+                var wrapped = {};
+                Object.keys(hpParams).forEach(function(k) {
+                    wrapped[k] = [hpParams[k]];
+                });
+                extraParams.search_params = wrapped;
+            } else {
+                extraParams.search_params = hpParams;
+            }
+        }
 
         async function _makeBody() {
             var body = {
