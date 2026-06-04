@@ -23,6 +23,21 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-04: Switched to Ollama qwen2.5-coder:0.5b (CPU-friendly)
+
+**Qué:** Se reemplazó el modelo local de qwen2.5-coder:1.5b por qwen2.5-coder:0.5b porque el modelo 1.5B era demasiado lento en CPU (~7 tok/s, ~22s por prompt) y causaba timeouts en opencode.
+
+**Cambio:**
+| Archivo | Cambio |
+|---------|--------|
+| `opencode.json` | `model` y `small_model` cambiaron de `ollama/qwen2.5-coder:1.5b-fast` a `ollama/qwen2.5-coder:0.5b` |
+
+**Rendimiento:** ~1.8s para respuestas simples (vs ~22s del 1.5B). Se eliminó el alias `-fast` porque 0.5B corre bien con configuración por defecto.
+
+**Verificación:** ✅ curl a Ollama API responde en ~1.8s
+
+---
+
 ### 2026-06-04: Acciones dinámicas + NLP Calibrator
 
 **Qué:** Dos cambios profundos: (1) Las acciones sugeridas ya no son texto hardcodeado, sino dinámicas generadas desde las contribuciones reales de cada feature. (2) Nuevo NLP Calibrator: modelo LogisticRegression entrenado sobre [prob_base + embedding_384d] que ajusta la probabilidad base según el texto del usuario.
