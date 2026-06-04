@@ -34,11 +34,24 @@ class EmbeddingModel:
         os.makedirs(str(NLP_CACHE_DIR), exist_ok=True)
         from fastembed import TextEmbedding
         os.environ["HF_HOME"] = str(NLP_CACHE_DIR)
-        self._model = TextEmbedding(
-            model_name="all-MiniLM-L6-v2",
-            cache_dir=str(NLP_CACHE_DIR),
-            threads=2,
-        )
+        candidates = [
+            "sentence-transformers/all-MiniLM-L6-v2",
+            "BAAI/bge-small-en-v1.5",
+            "all-MiniLM-L6-v2",
+        ]
+        last_err = None
+        for name in candidates:
+            try:
+                self._model = TextEmbedding(
+                    model_name=name,
+                    cache_dir=str(NLP_CACHE_DIR),
+                    threads=2,
+                )
+                return
+            except Exception as e:
+                last_err = e
+                continue
+        raise RuntimeError(f"No supported embedding model found: {last_err}")
 
     def encode(self, texts: List[str]) -> List[List[float]]:
         self.load()
