@@ -860,6 +860,58 @@ const MLManager = (() => {
             html += '</div>';
         }
 
+        var contribs = p['feature_contributions'];
+        if (contribs && Array.isArray(contribs) && contribs.length) {
+            html += '<div style="padding:12px 18px;border-top:1px solid var(--border);background:var(--bg-panel)">';
+            html += '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-faint);margin-bottom:8px">📊 Contribución de features</div>';
+
+            var sorted = contribs.slice().sort(function(a, b) { return b.abs_delta - a.abs_delta; });
+            var maxDelta = sorted.length ? sorted[0].abs_delta : 1;
+            if (maxDelta === 0) maxDelta = 1;
+
+            sorted.forEach(function(c) {
+                var pct = (c.abs_delta / maxDelta) * 100;
+                var isFavor = c.direction === 'a_favor';
+                var barColor = isFavor ? '#10b981' : '#ef4444';
+                var icon = isFavor ? '🟢' : '🔴';
+                html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">' +
+                    '<span style="font-size:11px;font-weight:600;min-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-primary)" title="' + escapeHtml(c.feature) + '">' + escapeHtml(c.feature) + '</span>' +
+                    '<div style="flex:1;height:14px;background:var(--item-bg);border-radius:7px;overflow:hidden;border:1px solid var(--border);position:relative">' +
+                    '<div style="height:100%;width:' + pct.toFixed(0) + '%;background:' + barColor + ';border-radius:7px;transition:width 0.3s ease;opacity:0.8"></div></div>' +
+                    '<span style="font-size:11px;font-weight:700;color:' + barColor + ';min-width:60px;text-align:right">' + (c.delta > 0 ? '+' : '') + c.delta.toFixed(4) + '</span>' +
+                    icon + '</div>';
+            });
+
+            var expandId = 'feat-table-' + index + '-' + Date.now();
+            html += '<div style="margin-top:6px"><button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:10px;padding:4px 8px;background:none;border:1px dashed var(--border);color:var(--text-faint);cursor:pointer" onclick="var e=document.getElementById(\'' + expandId + '\');e.style.display=e.style.display===\'none\'?\'\':\'none\'">📋 Ver tabla comparativa (valor actual vs baseline)</button></div>';
+            html += '<div id="' + expandId + '" style="display:none;margin-top:6px;border:1px solid var(--border);border-radius:6px;overflow:hidden;font-size:10px">';
+            html += '<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;background:var(--item-bg);padding:4px 8px;font-weight:700;color:var(--text-faint);border-bottom:1px solid var(--border)">' +
+                '<div>Feature</div><div>Actual</div><div>Baseline</div><div>Δ</div></div>';
+            sorted.forEach(function(c) {
+                var deltaStr = (c.delta > 0 ? '+' : '') + c.delta.toFixed(4);
+                var deltaColor = c.delta > 0 ? '#10b981' : c.delta < 0 ? '#ef4444' : 'var(--text-faint)';
+                html += '<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:3px 8px;border-bottom:1px solid var(--border);background:var(--bg-panel)">' +
+                    '<div style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + escapeHtml(c.feature) + '</div>' +
+                    '<div style="color:var(--text-primary)">' + escapeHtml(c.actual) + '</div>' +
+                    '<div style="color:var(--text-faint)">' + escapeHtml(c.baseline) + '</div>' +
+                    '<div style="color:' + deltaColor + ';font-weight:700">' + deltaStr + '</div></div>';
+            });
+            html += '</div></div>';
+        }
+
+        var anomalies = p['feature_anomalies'];
+        if (anomalies && Array.isArray(anomalies) && anomalies.length) {
+            html += '<div style="padding:10px 18px;border-top:1px solid var(--border);background:var(--bg-panel)">' +
+                '<div style="display:flex;align-items:center;gap:6px;padding:6px 10px;background:#ef444411;border:1px solid #ef444433;border-radius:6px;font-size:11px">' +
+                '<span style="font-size:14px">⚠️</span><span style="font-weight:600;color:#ef4444">Valores fuera de rango de entrenamiento</span></div>';
+            anomalies.forEach(function(a) {
+                html += '<div style="display:flex;align-items:start;gap:6px;padding:4px 0 0 24px;font-size:11px;color:var(--text-muted)">' +
+                    '<span style="color:#ef4444;flex-shrink:0">▸</span>' +
+                    '<span><strong>' + escapeHtml(a.feature) + '</strong>: ' + escapeHtml(a.reason) + '</span></div>';
+            });
+            html += '</div>';
+        }
+
         var factorsHtml = _predFactorsHtml(p);
         if (factorsHtml) {
             html += '<div style="padding:10px 18px;border-top:1px solid var(--border);background:var(--bg-panel)">' +
@@ -882,7 +934,8 @@ const MLManager = (() => {
                      'probabilidad_alternativa', 'margen_decision', 'explicacion', 'explicacion_factores',
                      'factores_a_favor', 'factores_en_contra', 'segunda_clase', 'segunda_clase_legible',
                      'probabilidad_segunda_clase', 'margen_top_2', 'ic_lower_95', 'ic_upper_95',
-                     'nivel_riesgo', 'recomendacion', 'acciones_sugeridas'].includes(k);
+                     'nivel_riesgo', 'recomendacion', 'acciones_sugeridas',
+                     'feature_contributions', 'feature_anomalies'].includes(k);
         });
         valKeys.forEach(function(k) {
             var v = p[k];

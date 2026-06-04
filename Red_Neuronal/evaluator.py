@@ -458,6 +458,10 @@ def _add_local_feature_reasoning(pipeline, X_new: pd.DataFrame,
     factores_a_favor = []
     factores_en_contra = []
     explicaciones = []
+    contribuciones = []
+    anomalias = []
+
+    feature_stats = meta.get("feature_stats", {})
 
     for pos in range(len(X_local)):
         row_df = X_local.iloc[[pos]].copy()
@@ -465,6 +469,39 @@ def _add_local_feature_reasoning(pipeline, X_new: pd.DataFrame,
         effects = _estimate_feature_effects(pipeline, row_df, row_pred, meta, baselines)
         top_positive = [effect for effect in effects if effect["delta"] > 0][:top_k]
         top_negative = [effect for effect in effects if effect["delta"] < 0][:top_k]
+
+        contribuciones.append([
+            {
+                "feature": e["feature"],
+                "actual": _format_val(e["actual"]),
+                "baseline": _format_val(e["baseline"]),
+                "delta": round(e["delta"], 4),
+                "direction": "a_favor" if e["delta"] > 0 else "en_contra",
+                "abs_delta": round(abs(e["delta"]), 4),
+            }
+            for e in effects
+        ])
+
+        row_anomalias = []
+        for f in row_df.columns:
+            actual_val = row_df.iloc[0][f]
+            fstats = feature_stats.get(f)
+            if fstats and "min" in fstats and fstats["min"] is not None:
+                try:
+                    v = float(actual_val)
+                    if v < fstats["min"]:
+                        row_anomalias.append({"feature": f, "reason": f"Valor ({v}) menor al mínimo de entrenamiento ({fstats['min']})"})
+                    elif v > fstats["max"]:
+                        row_anomalias.append({"feature": f, "reason": f"Valor ({v}) mayor al máximo de entrenamiento ({fstats['max']})"})
+                except (ValueError, TypeError):
+                    pass
+            elif fstats and "values" in fstats:
+                try:
+                    if actual_val not in fstats["values"]:
+                        row_anomalias.append({"feature": f, "reason": f"Valor '{actual_val}' no visto en entrenamiento"})
+                except Exception:
+                    pass
+        anomalias.append(row_anomalias)
 
         if not top_positive and not top_negative:
             factores_a_favor.append("Sin factores claros a favor frente al caso de referencia.")
@@ -493,7 +530,17 @@ def _add_local_feature_reasoning(pipeline, X_new: pd.DataFrame,
     pred_local["factores_a_favor"] = factores_a_favor
     pred_local["factores_en_contra"] = factores_en_contra
     pred_local["explicacion_factores"] = explicaciones
+    pred_local["feature_contributions"] = contribuciones
+    pred_local["feature_anomalies"] = anomalias
     return pred_local.set_index("index")
+
+
+def _format_val(val) -> str:
+    if val is None or (isinstance(val, float) and np.isnan(val)):
+        return "N/A"
+    if isinstance(val, float):
+        return f"{val:.4f}"
+    return str(val)
 
 
 def _estimate_feature_effects(pipeline, row_df: pd.DataFrame, row_pred: pd.Series,

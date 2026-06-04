@@ -277,6 +277,29 @@ def build_feature_baselines(X: pd.DataFrame,
     return baselines
 
 
+def build_feature_stats(X: pd.DataFrame,
+                        num_features: list,
+                        cat_features: list) -> dict:
+    """Calcula estadísticas de distribución por feature para contexto en predicciones."""
+    stats = {}
+    for col in num_features:
+        vals = pd.to_numeric(X[col], errors="coerce")
+        stats[col] = {
+            "min": float(vals.min()) if not vals.isna().all() else None,
+            "max": float(vals.max()) if not vals.isna().all() else None,
+            "mean": float(vals.mean()) if not vals.isna().all() else None,
+            "std": float(vals.std()) if not vals.isna().all() else None,
+        }
+    for col in cat_features:
+        non_null = X[col].dropna()
+        vc = non_null.value_counts()
+        stats[col] = {
+            "values": vc.index.tolist() if not non_null.empty else [],
+            "frequencies": vc.values.tolist() if not non_null.empty else [],
+        }
+    return stats
+
+
 def prepare_data(df: pd.DataFrame,
                  target: str,
                  problem_type: str = "auto",
@@ -352,6 +375,9 @@ def prepare_data(df: pd.DataFrame,
         "target_col": target,
         "n_features_in": len(num_features) + len(cat_features),
         "feature_baselines": build_feature_baselines(
+            X_raw, num_features, cat_features
+        ),
+        "feature_stats": build_feature_stats(
             X_raw, num_features, cat_features
         ),
         "feature_engineering": feature_engineering or {},
