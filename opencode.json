@@ -11,8 +11,11 @@
         "chunkTimeout": 60000
       },
       "models": {
+        "qwen2.5-coder:0.5b": {
+          "name": "Qwen 2.5 Coder 0.5B (local - rápido)"
+        },
         "qwen2.5-coder:1.5b": {
-          "name": "Qwen 2.5 Coder 1.5B (local)"
+          "name": "Qwen 2.5 Coder 1.5B (local - lento)"
         }
       }
     }
