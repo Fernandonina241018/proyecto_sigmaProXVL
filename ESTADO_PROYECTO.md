@@ -23,6 +23,20 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-04: Limpieza modelos locales — solo Fly.io
+
+**Qué:** Se eliminaron todos los archivos `.pkl` y `modelo_registro.json` del directorio local `Red_Neuronal/modelos_guardados/` para evitar confusión. Los modelos activos viven únicamente en el volumen persistente `ml_models` de Fly.io.
+
+**Modelos removidos:** 9 entradas de registro, 4 archivos `.pkl` (modelo_001, 003, 008, 009). Los otros 5 no tenían archivo en disco.
+
+**Modelos vigentes en Fly.io:**
+| Modelo | Algoritmo | Dataset |
+|--------|-----------|---------|
+| modelo_002 | MLP | prestamos_crediticios |
+| modelo_001 | XGBoost | entrenamiento_estres_ml |
+
+**Verificación:** ✅ `rm -v *.pkl modelo_registro.json` | ✅ Directorio vacío | ✅ Push a GitHub
+
 ### 2026-06-04: Modal prediccion con 3 columnas + inputs flexibles
 
 **Qué:** El formulario de predicción ahora muestra las features en 3 columnas en vez de 2, con inputs que se adaptan al ancho disponible. Esto evita que el botón "🔮 Predecir" quede fuera de vista cuando hay muchas columnas.
