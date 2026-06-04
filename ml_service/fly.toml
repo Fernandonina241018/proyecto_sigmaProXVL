@@ -21,7 +21,3 @@ primary_region = 'dfw'
 [[mounts]]
   source = "ml_models"
   destination = "/app/Red_Neuronal/modelos_guardados"
-
-[[mounts]]
-  source = "ml_datasets"
-  destination = "/app/Red_Neuronal/datos"

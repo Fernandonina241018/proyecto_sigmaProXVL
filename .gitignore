@@ -19,6 +19,9 @@ Thumbs.db
 # Fly.io
 .fly/
 
+# Secrets
+z_error.md
+
 # Logs
 *.log
 npm-debug.log*
