@@ -234,6 +234,19 @@ def _execute_training(req: TrainRequest, progress_callback=None):
         )
     eval_results = evaluate(pipeline, splits, meta, bootstrap_models=boot_models)
     prog(85, "Guardando modelo...")
+    # Extract categorical values from OneHotEncoder for prediction form dropdowns
+    try:
+        ct = pipeline.named_steps['preprocessor']
+        if hasattr(ct, 'transformers_'):
+            for name, transformer, cols in ct.transformers_:
+                if name == 'cat' and hasattr(transformer, 'named_steps'):
+                    enc = transformer.named_steps.get('encoder')
+                    if enc and hasattr(enc, 'categories_'):
+                        meta['cat_values'] = meta.get('cat_values', {})
+                        for col, cats in zip(cols, enc.categories_):
+                            meta['cat_values'][col] = [str(c) for c in cats]
+    except Exception:
+        pass
     ds_name = req.dataset_name or f"api_{req.target}"
     payload = {
         "pipeline": pipeline, "meta": meta,
@@ -265,6 +278,7 @@ def _execute_training(req: TrainRequest, progress_callback=None):
             "target_col": meta.get("target_col", req.target),
             "num_features": meta.get("num_features", []),
             "cat_features": meta.get("cat_features", []),
+            "cat_values": meta.get("cat_values", {}),
             "target_classes": tc,
             "n_train": int(splits["X_train"].shape[0]),
             "n_test": int(splits["X_test"].shape[0]),

@@ -866,8 +866,12 @@ const MLManager = (() => {
             allFeatures.forEach(function(f) {
                 var row = rows.filter(function(r) { return r.col === f; })[0];
                 var v = row ? row.val : '';
-                obj[f] = v === '' ? 0 : Number(v);
-                if (isNaN(obj[f])) obj[f] = v;
+                if (catFeatures.indexOf(f) !== -1) {
+                    obj[f] = v === '' ? null : v;
+                } else {
+                    obj[f] = v === '' ? 0 : Number(v);
+                    if (isNaN(obj[f])) obj[f] = v;
+                }
             });
             return JSON.stringify([obj], null, 2);
         }
@@ -896,6 +900,8 @@ const MLManager = (() => {
         content.style.cssText = 'padding:20px 24px;display:flex;flex-direction:column;gap:16px;max-height:80vh;overflow-y:auto';
 
         var meta = (model && model.meta) || {};
+        var catFeatures = meta.cat_features || [];
+        var catValues = meta.cat_values || {};
         var metrics = (model && model.metrics) || {};
         var infoGrid = document.createElement('div');
         infoGrid.style.cssText = 'display:grid;grid-template-columns:repeat(4,1fr);gap:10px';
@@ -998,8 +1004,33 @@ const MLManager = (() => {
                     colInput.style.cssText = 'flex:1;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:13px;min-width:0';
                     rowDiv.appendChild(colInput);
                 }
-                var valInput = makeValueInput(function(v) { r.val = v; });
-                valInput.value = r.val;
+                var isCat = catFeatures.indexOf(r.col) !== -1 && catValues[r.col] && catValues[r.col].length > 0;
+                var valInput;
+                if (isCat) {
+                    valInput = document.createElement('select');
+                    valInput.style.cssText = 'width:160px;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:13px';
+                    var emptyOpt = document.createElement('option');
+                    emptyOpt.value = '';
+                    emptyOpt.textContent = '— Selecciona —';
+                    valInput.appendChild(emptyOpt);
+                    catValues[r.col].forEach(function(optVal) {
+                        var opt = document.createElement('option');
+                        opt.value = optVal;
+                        opt.textContent = optVal;
+                        if (optVal === r.val) opt.selected = true;
+                        valInput.appendChild(opt);
+                    });
+                    valInput.onchange = function() { r.val = valInput.value; updatePreview(); };
+                } else {
+                    valInput = document.createElement('input');
+                    valInput.type = 'number';
+                    valInput.step = 'any';
+                    valInput.placeholder = '0';
+                    valInput.style.cssText = 'width:140px;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:13px;font-weight:500';
+                    valInput.oninput = function() { r.val = valInput.value; updatePreview(); };
+                }
+                if (valInput.value === undefined && r.val) valInput.value = r.val;
+                if (!isCat) valInput.value = r.val;
                 rowDiv.appendChild(valInput);
                 if (rows.length > 1) {
                     var delBtn = document.createElement('button');
