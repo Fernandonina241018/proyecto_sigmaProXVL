@@ -215,6 +215,16 @@ const MLManager = (() => {
         return { columns: headers, data: data, nrows: filtered.length };
     }
 
+    function _bindGuideEvents() {
+        var ids = ['ml-dataset-select', 'ml-model-select', 'ml-target-input', 'ml-tuning-enable', 'ml-imbalance-select'];
+        ids.forEach(function(id) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            var evt = el.tagName === 'INPUT' ? 'input' : 'change';
+            el.addEventListener(evt, _updateGuide);
+        });
+    }
+
     async function init() {
         const results = document.getElementById('ml-results');
         if (results) {
@@ -222,8 +232,9 @@ const MLManager = (() => {
         }
         await _warmUp();
         if (results && !results.querySelector('.ml-loaded')) {
-            results.innerHTML = buildEmptyState();
+            results.innerHTML = _renderGuide();
         }
+        _bindGuideEvents();
         refreshDatasets();
         refreshModels();
         _startKeepAlive();
@@ -590,6 +601,58 @@ const MLManager = (() => {
             '<div style="font-size:48px;margin-bottom:12px">🧠</div>' +
             '<div style="font-size:14px;font-weight:600;margin-bottom:6px">Machine Learning</div>' +
             '<div style="font-size:11px">Carga un dataset, selecciona el target y entrena un modelo.</div></div>';
+    }
+
+    function _renderGuide() {
+        var ds = document.getElementById('ml-dataset-select');
+        var model = document.getElementById('ml-model-select');
+        var target = document.getElementById('ml-target-input');
+        var tuning = document.getElementById('ml-tuning-enable');
+        var dsVal = ds ? ds.value : '';
+        var modelVal = model ? model.value : '';
+        var targetVal = target ? target.value.trim() : '';
+        var tuningOn = tuning && tuning.checked;
+        var modelLabels = { rf: '🌳 Random Forest', xgb: '⚡ XGBoost', mlp: '🧠 MLP', logistic: '📈 Logistic', linear: '📐 Linear' };
+        var modelLabel = modelLabels[modelVal] || modelVal;
+
+        var steps = [
+            { label: 'Dataset', done: dsVal !== '', detail: dsVal || 'Selecciona un dataset', hint: !dsVal ? 'Usa 📤 Subir si no tienes' : '' },
+            { label: 'Modelo', done: dsVal !== '' && modelVal !== '', detail: dsVal ? modelLabel : '—', hint: dsVal && !modelVal ? 'Recomendado: 🌳 Random Forest' : '' },
+            { label: 'Target', done: targetVal !== '', detail: targetVal || 'Escribe la columna objetivo', hint: dsVal && !targetVal ? 'Debe existir en el dataset' : '' },
+            { label: 'Balanceo', done: dsVal && modelVal && targetVal, detail: '⚖️ Opcional', hint: dsVal && targetVal ? 'SMOTE si hay desbalance' : '' },
+            { label: '¡Entrenar!', done: dsVal && modelVal && targetVal, detail: (dsVal && modelVal && targetVal) ? '✅ Todo listo' : 'Completa los pasos', hint: '' },
+        ];
+        var current = 0;
+        for (var i = 0; i < steps.length; i++) { if (!steps[i].done) break; current = i + 1; }
+        if (current >= steps.length) current = steps.length - 1;
+
+        var html = '<div id="ml-guide" class="page-card" style="border-left:3px solid var(--accent)">' +
+            '<div class="page-card-header" style="padding:8px 14px"><span class="page-card-icon">🧭</span><span class="page-card-title" style="font-size:13px">Asistente de entrenamiento</span></div>' +
+            '<div class="page-card-body" style="padding:10px 14px;font-size:11px">';
+        steps.forEach(function(s, i) {
+            var isCurrent = i === current && !s.done;
+            var icon = s.done ? '✅' : (isCurrent ? '👉' : '⬜');
+            var color = s.done ? '#10b981' : (isCurrent ? 'var(--text-primary)' : 'var(--text-faint)');
+            html += '<div style="display:flex;align-items:center;gap:6px;padding:3px 0;color:' + color + ';font-weight:' + (isCurrent ? '600' : '400') + '">' +
+                '<span style="min-width:18px;font-size:11px">' + icon + '</span>' +
+                '<span style="min-width:60px;font-weight:600;font-size:11px">' + s.label + '</span>' +
+                '<span style="flex:1;font-size:11px">' + (s.detail || '—') + '</span>' +
+                (s.hint ? '<span style="font-size:10px;color:var(--text-faint)">' + s.hint + '</span>' : '') +
+                '</div>';
+        });
+        html += '</div></div>';
+        return html;
+    }
+
+    function _updateGuide() {
+        var results = document.getElementById('ml-results');
+        var guide = document.getElementById('ml-guide');
+        if (results && guide) {
+            var ds = document.getElementById('ml-dataset-select');
+            var model = document.getElementById('ml-model-select');
+            var target = document.getElementById('ml-target-input');
+            if (ds && model && target) results.innerHTML = _renderGuide();
+        }
     }
 
     function _renderPredictionsTable(predictions, model, modelMetrics) {
