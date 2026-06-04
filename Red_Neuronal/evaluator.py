@@ -345,9 +345,17 @@ def predict(pipeline, X_new: pd.DataFrame, meta: dict,
             for i in range(len(predicted_display))
         ]
 
-    return _add_local_feature_reasoning(
+    result_df = _add_local_feature_reasoning(
         pipeline, X_new, meta, pd.DataFrame(results).set_index("index")
     )
+
+    rec_data = _build_recommendations_batch(result_df, meta)
+    if rec_data:
+        result_df["nivel_riesgo"] = rec_data["riesgo"]
+        result_df["recomendacion"] = rec_data["recomendacion"]
+        result_df["acciones_sugeridas"] = rec_data["acciones"]
+
+    return result_df
 
 
 def _normalize_binary_target(y_test):
@@ -626,3 +634,147 @@ def _plot_feature_importance(pipeline, meta, ax):
         )
         ax.set_title("Importancia de Features")
         ax.axis("off")
+
+
+def _build_recommendations_batch(pred_df: pd.DataFrame, meta: dict) -> dict:
+    """Genera recomendaciones contextuales para todas las predicciones."""
+    if pred_df.empty:
+        return {}
+    problem_type = meta.get("problem_type", "binary")
+    target_col = meta.get("target_col", "")
+
+    niveles = []
+    recs = []
+    acciones = []
+
+    for _, row in pred_df.iterrows():
+        prob = row.get("probabilidad_predicha")
+        clase = row.get("prediccion_legible") or row.get("clase_predicha", "")
+
+        if problem_type == "regression":
+            pred_val = row.get("prediccion", 0)
+            riesgo, rec, acts = _build_regression_rec(pred_val, meta)
+        else:
+            riesgo, rec, acts = _build_classification_rec(
+                clase, prob, target_col
+            )
+
+        niveles.append(riesgo)
+        recs.append(rec)
+        acciones.append(acts)
+
+    return {
+        "riesgo": niveles,
+        "recomendacion": recs,
+        "acciones": acciones,
+    }
+
+
+def _build_classification_rec(clase: str, prob, target_col: str) -> tuple:
+    """Recomendación para clasificación binaria/multiclase."""
+    if prob is None:
+        return ("No disponible",
+                "No se pudo calcular la confianza de esta predicción.",
+                ["Verificar que los datos de entrada sean correctos.",
+                 "Reintentar con valores completos y válidos."])
+
+    es_positivo = prob >= 0.5
+
+    if prob >= 0.85:
+        riesgo = "Bajo"
+        if es_positivo:
+            rec = (f"Predicción con alta confianza ({prob:.1%}). "
+                   "Los indicadores son favorables, se puede proceder con confianza.")
+        else:
+            rec = (f"Predicción con alta confianza ({prob:.1%}). "
+                   "Los indicadores son desfavorables, se recomienda no proceder.")
+    elif prob >= 0.65:
+        riesgo = "Moderado"
+        if es_positivo:
+            rec = (f"Predicción con confianza moderada ({prob:.1%}). "
+                   "Hay señales positivas pero se recomienda revisión adicional.")
+        else:
+            rec = (f"Predicción con confianza moderada ({prob:.1%}). "
+                   "Hay señales negativas pero se recomienda verificar con más datos.")
+    else:
+        riesgo = "Alto"
+        rec = (f"Predicción con baja confianza ({prob:.1%}). "
+               "No se recomienda tomar decisiones basadas únicamente en este resultado.")
+
+    acts = _get_acciones_by_target(target_col, clase, prob)
+    return riesgo, rec, acts
+
+
+def _build_regression_rec(pred_val: float, meta: dict) -> tuple:
+    """Recomendación para regresión."""
+    target_col = meta.get("target_col", "valor")
+    return ("Moderado",
+            f"El modelo estima un {target_col} de {pred_val:.2f}. "
+            "Evalúa si este valor está dentro del rango esperado para tu caso.",
+            ["Comparar con valores históricos o benchmarks del sector.",
+             "Si el valor está fuera de lo esperado, investigar las causas.",
+             "Considerar el intervalo de confianza para la toma de decisiones."])
+
+
+def _get_acciones_by_target(target_col: str, clase: str, prob: float) -> list:
+    """Acciones sugeridas según el dominio del target."""
+    tc = target_col.lower() if target_col else ""
+    es_favorable = prob >= 0.5 if prob is not None else True
+
+    if any(kw in tc for kw in ["credito", "creditic", "default", "morosidad",
+                                "impago", "prestamo", "score", "riesgo"]):
+        if es_favorable:
+            return ["Proceder con la aprobación del crédito.",
+                    "Verificar que los documentos estén en regla.",
+                    "Establecer condiciones de pago según el perfil."]
+        return ["Rechazar la solicitud o solicitar garantías adicionales.",
+                "Sugerir al cliente mejorar su historial crediticio.",
+                "Evaluar alternativas como plazos más cortos o montos menores."]
+
+    if any(kw in tc for kw in ["churn", "baja", "abandono", "fuga",
+                                "cancelacion", "desercion"]):
+        if es_favorable:
+            return ["El cliente no muestra intención de abandono.",
+                    "Mantener las condiciones actuales de servicio.",
+                    "Programar seguimiento periódico para detectar cambios."]
+        return ["Contactar al cliente para entender su insatisfacción.",
+                "Ofrecer incentivos o promociones personalizadas.",
+                "Revisar el historial de interacciones recientes."]
+
+    if any(kw in tc for kw in ["fraude", "fraud", "estafa", "sospechoso"]):
+        if es_favorable:
+            return ["La transacción no presenta indicios de fraude.",
+                    "Procesar la operación con normalidad.",
+                    "Continuar monitoreando la cuenta para detección temprana."]
+        return ["Bloquear la transacción temporalmente.",
+                "Activar protocolo de verificación adicional.",
+                "Notificar al equipo de seguridad para investigación."]
+
+    if any(kw in tc for kw in ["venta", "conversion", "compra", "adquisicion",
+                                "lead", "cliente_potencial"]):
+        if es_favorable:
+            return ["Alta probabilidad de conversión. Priorizar contacto.",
+                    "Asignar al equipo de ventas con mayor urgencia.",
+                    "Preparar oferta personalizada para el lead."]
+        return ["Baja probabilidad de conversión. Reducir prioridad.",
+                "Incluir en campaña de nurturing automatizada.",
+                "Reevaluar en 30-60 días con nuevos datos."]
+
+    if any(kw in tc for kw in ["aprob", "admit", "acept", "ingres",
+                                "calificacion"]):
+        if es_favorable:
+            return ["Candidato apto. Proceder con la admisión.",
+                    "Notificar al solicitante el resultado positivo.",
+                    "Completar los trámites administrativos finales."]
+        return ["Solicitante no cumple los criterios mínimos.",
+                "Informar con retroalimentación constructiva.",
+                "Revisar si aplica a programas alternativos."]
+
+    # Fallback genérico
+    if es_favorable:
+        return ["El resultado es favorable. Proceder según lo planificado.",
+                "Monitorear la evolución para confirmar la tendencia.",
+                "Documentar el caso como referencia futura."]
+    return ["El resultado es desfavorable. Revisar alternativas.",
+            "Analizar las causas que llevaron a este resultado.",
+            "Consultar con el equipo antes de tomar una decisión final."]

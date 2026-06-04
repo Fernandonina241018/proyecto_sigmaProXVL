@@ -825,6 +825,41 @@ const MLManager = (() => {
 
         html += '</div>';
 
+        var riesgo = p['nivel_riesgo'];
+        var recText = p['recomendacion'];
+        var accionesRaw = p['acciones_sugeridas'];
+        if (riesgo || recText || accionesRaw) {
+            var riesgoColor = '#10b981';
+            var riesgoIcon = '🟢';
+            if (riesgo === 'Moderado') { riesgoColor = '#f59e0b'; riesgoIcon = '🟡'; }
+            else if (riesgo === 'Alto' || riesgo === 'Muy Alto') { riesgoColor = '#ef4444'; riesgoIcon = '🔴'; }
+
+            html += '<div style="padding:12px 18px;border-top:1px solid var(--border);background:var(--bg-panel)">';
+            html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">' +
+                '<span style="font-size:16px">' + riesgoIcon + '</span>' +
+                '<span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-faint)">Nivel de riesgo</span>' +
+                (riesgo ? '<span style="margin-left:auto;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;background:' + riesgoColor + '22;color:' + riesgoColor + ';border:1px solid ' + riesgoColor + '44">' + escapeHtml(riesgo) + '</span>' : '') +
+                '</div>';
+            if (recText) {
+                html += '<div style="font-size:12px;color:var(--text-primary);line-height:1.5;padding:8px 10px;background:var(--item-bg);border-radius:6px;border-left:3px solid ' + riesgoColor + ';margin-bottom:8px">' +
+                    escapeHtml(recText) + '</div>';
+            }
+            if (accionesRaw) {
+                var acts = typeof accionesRaw === 'string' ? JSON.parse(accionesRaw) : (Array.isArray(accionesRaw) ? accionesRaw : []);
+                if (acts.length) {
+                    html += '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-faint);margin-bottom:4px">📋 Acciones sugeridas</div>';
+                    html += '<div style="display:flex;flex-direction:column;gap:3px">';
+                    acts.forEach(function(a) {
+                        html += '<div style="display:flex;align-items:start;gap:6px;font-size:11px;color:var(--text-primary);padding:3px 0">' +
+                            '<span style="color:var(--accent);flex-shrink:0">▸</span>' +
+                            '<span>' + escapeHtml(a) + '</span></div>';
+                    });
+                    html += '</div>';
+                }
+            }
+            html += '</div>';
+        }
+
         var factorsHtml = _predFactorsHtml(p);
         if (factorsHtml) {
             html += '<div style="padding:10px 18px;border-top:1px solid var(--border);background:var(--bg-panel)">' +
@@ -846,7 +881,8 @@ const MLManager = (() => {
                      'nivel_confianza', 'clase_alternativa', 'clase_alternativa_legible',
                      'probabilidad_alternativa', 'margen_decision', 'explicacion', 'explicacion_factores',
                      'factores_a_favor', 'factores_en_contra', 'segunda_clase', 'segunda_clase_legible',
-                     'probabilidad_segunda_clase', 'margen_top_2', 'ic_lower_95', 'ic_upper_95'].includes(k);
+                     'probabilidad_segunda_clase', 'margen_top_2', 'ic_lower_95', 'ic_upper_95',
+                     'nivel_riesgo', 'recomendacion', 'acciones_sugeridas'].includes(k);
         });
         valKeys.forEach(function(k) {
             var v = p[k];
