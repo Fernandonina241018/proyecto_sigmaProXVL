@@ -280,19 +280,22 @@ def train(X, y, preprocessor, model_key: str,
           model_kwargs: dict = None,
           search_type: str = "none",
           search_params: dict = None,
-          imbalance_strategy: str = "none"):
+          imbalance_strategy: str = "none",
+          calibrate_nlp: bool = False):
     """Entrena el pipeline completo y evalúa con CV.
 
     Argumentos nuevos (v2):
         search_type        : 'none' | 'grid' | 'random'
         search_params      : dict con param_grid custom (pasa defaults si None)
         imbalance_strategy : 'none' | 'smote' | 'adasyn'
+        calibrate_nlp     : Entrena calibrador NLP si True
 
     Retorna:
-        pipeline   : Pipeline ajustado (preprocessor + modelo)
-        splits     : dict con X_train, X_test, y_train, y_test
-        cv_results : dict con métricas de validación cruzada
-        best_params: dict con mejores hiperparámetros (vacío si no hay tuning)
+        pipeline     : Pipeline ajustado (preprocessor + modelo)
+        splits       : dict con X_train, X_test, y_train, y_test
+        cv_results   : dict con métricas de validación cruzada
+        best_params  : dict con mejores hiperparámetros
+        cal_payload  : dict con calibrador NLP entrenado (None si no se entrenó)
     """
     model_kwargs = model_kwargs or {}
     n_classes    = len(meta.get("target_classes") or [])
@@ -384,7 +387,30 @@ def train(X, y, preprocessor, model_key: str,
     # ── Log ─────────────────────────────────────────────────────
     _print_train_summary(model_key, problem_type, splits, cv_results, pipeline)
 
-    return pipeline, splits, cv_results, best_params
+    # ── NLP Calibrator ─────────────────────────────────────────
+    import sys as _sys
+    cal_payload = None
+    if calibrate_nlp:
+        try:
+            from ml_service.nlp_models import EmbeddingModel
+            from Red_Neuronal.nlp_calibrator import train_calibrator
+
+            _sys.stdout.write("  🔄 Entrenando calibrador NLP...\n")
+            embed_model = EmbeddingModel.get_instance()
+            cal_payload = train_calibrator(
+                pipeline, X, y, meta, embed_model,
+                n_val=min(100, len(X) // 3),
+                random_state=random_state
+            )
+            if cal_payload.get("status") == "trained":
+                _sys.stdout.write(f"  ✅ Calibrador NLP entrenado (score={cal_payload['score']:.3f})\n")
+            else:
+                _sys.stdout.write(f"  ⏭️  {cal_payload.get('reason', 'Calibrador no entrenado')}\n")
+        except Exception as e:
+            _sys.stdout.write(f"  ⚠️  Calibrador NLP omitido: {e}\n")
+            cal_payload = None
+
+    return pipeline, splits, cv_results, best_params, cal_payload
 
 
 def _cross_validate(pipeline, X, y, problem_type, cv_folds, random_state):

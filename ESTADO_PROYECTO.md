@@ -23,6 +23,42 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-04: Acciones dinámicas + NLP Calibrator
+
+**Qué:** Dos cambios profundos: (1) Las acciones sugeridas ya no son texto hardcodeado, sino dinámicas generadas desde las contribuciones reales de cada feature. (2) Nuevo NLP Calibrator: modelo LogisticRegression entrenado sobre [prob_base + embedding_384d] que ajusta la probabilidad base según el texto del usuario.
+
+**Acciones dinámicas:**
+- `_get_acciones_by_target` reemplazada por `_build_personalized_actions` que genera 3 acciones basadas en feature_contributions reales
+- Cada acción menciona el feature específico, valor actual y delta vs baseline (ej: "ingresos_mensuales=5000 está más de 67% por encima del promedio (2995), favoreciendo la aprobación")
+- Fallback a acciones estáticas si no hay feature_contributions
+- Nuevo helper `_format_delta`, `_detect_domain`, `_get_static_actions`
+
+**NLP Calibrator (nuevo módulo `Red_Neuronal/nlp_calibrator.py`):**
+- `train_calibrator()`: Genera descripciones textuales de cada muestra de entrenamiento → fastembed → PCA a 8 dims → LogisticRegression sobre [prob_base, 8_pca_dims] → target
+- `adjust_prediction()`: Aplica el calibrador durante predicción, retorna probabilidad ajustada + delta
+- `generate_text_from_features()`: Convierte filas de features en texto plano para embedding
+- Se guarda como `{modelo}_calibrator.pkl` al lado del modelo
+
+**Integración NLP en training:**
+- `trainer.py` ahora acepta `calibrate_nlp: bool`, entrena calibrador post-entrenamiento
+- `main.py` PredictRequest acepta `texts: Optional[list[str]]`, carga calibrador si existe
+- Si no hay texto, genera descripción desde features para el embedding
+- Frontend: nuevo toggle "🧠 NLP Calibrator" en sidebar de entrenamiento
+
+**Frontend:**
+- Dashboard muestra ajuste NLP en el confidence card: "🤖 ajustado por NLP +2.3 pts"
+- Predicciones multi-fila también envían texts array
+- 107/107 tests pasando
+
+**Archivos afectados:**
+- `Red_Neuronal/evaluator.py`: +_apply_nlp_calibration, _build_personalized_actions, _format_delta, _parse_num, _detect_domain, _get_static_actions; predict() acepta texts+cal_payload
+- `Red_Neuronal/nlp_calibrator.py`: **NUEVO** — train_calibrator, adjust_prediction, generate_text_from_features
+- `Red_Neuronal/trainer.py`: train() acepta calibrate_nlp, entrena calibrador post-entreno
+- `ml_service/main.py`: PredictRequest.texts, predict carga calibrador, train pasa calibrate_nlp
+- `js/pages/ml.js`: nlp-toggle en sidebar, texts en predict request, NLP badge en dashboard
+
+---
+
 ### 2026-06-04: Integración NLP en predicciones (análisis semántico en dashboard)
 
 **Qué:** Se integró el análisis de texto NLP en el flujo de predicción. El usuario puede agregar un motivo/comentario opcional en el modal de predicción, y el dashboard muestra análisis semántico con riesgo detectado, sentimiento y palabras clave.

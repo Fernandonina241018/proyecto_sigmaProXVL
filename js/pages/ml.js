@@ -126,6 +126,8 @@ const MLManager = (() => {
             '<option value="none">⚖️ Sin balanceo</option>' +
             '<option value="smote">SMOTE (oversampling)</option>' +
             '<option value="adasyn">ADASYN (adaptive)</option></select>' +
+            '<label style="font-size:13px;color:var(--text-faint);display:flex;align-items:center;gap:6px;margin-top:1px">' +
+            '<input type="checkbox" id="ml-nlp-toggle" style="width:18px;height:18px"> 🧠 NLP Calibrator</label>' +
             '<label style="font-size:13px;color:var(--text-faint);display:flex;align-items:center;gap:6px">' +
             '<input type="text" id="ml-target-input" placeholder="columna target" style="flex:1;padding:8px 8px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:14px"> Target</label>' +
             '<label style="font-size:13px;color:var(--text-faint);display:flex;align-items:center;gap:6px">' +
@@ -218,7 +220,7 @@ const MLManager = (() => {
     }
 
     function _bindGuideEvents() {
-        var ids = ['ml-name-input', 'ml-dataset-select', 'ml-model-select', 'ml-target-input', 'ml-tuning-enable', 'ml-imbalance-select'];
+        var ids = ['ml-name-input', 'ml-dataset-select', 'ml-model-select', 'ml-target-input', 'ml-tuning-enable', 'ml-imbalance-select', 'ml-nlp-toggle'];
         ids.forEach(function(id) {
             var el = document.getElementById(id);
             if (!el) return;
@@ -444,6 +446,7 @@ const MLManager = (() => {
             search_type: searchType,
             search_params: null,
             imbalance_strategy: imbalanceStrategy,
+            calibrate_nlp: document.getElementById('ml-nlp-toggle') && document.getElementById('ml-nlp-toggle').checked,
         };
         if (hasCustomHP) {
             if (tuningEnabled) {
@@ -957,13 +960,9 @@ const MLManager = (() => {
         var prob = p['probabilidad_predicha'];
         var altLabel = p['clase_alternativa_legible'] || p['segunda_clase_legible'] || '';
         var altProb = p['probabilidad_alternativa'] ?? p['probabilidad_segunda_clase'];
-        var margin = p['margen_decision'] ?? p['margen_top_2'];
-        var isPositive = prob != null && prob >= 0.5;
         var predDisplay = String(predLabel).toLowerCase();
-        var emoji = '❌';
-        if (predDisplay === '1' || predDisplay === 'si' || predDisplay === 'true' || (prob != null && prob >= 0.5 && !['0','no','false'].includes(predDisplay))) {
-            emoji = '✅';
-        }
+        var isPositive = predDisplay.endsWith('=si') || predDisplay === '1' || predDisplay === 'si' || predDisplay === 'true' || predDisplay === 'aprobado';
+        var emoji = isPositive ? '✅' : '❌';
 
         var riesgo = p['nivel_riesgo'] || '—';
         var riesgoClass = 'dp-risk-green';
@@ -976,13 +975,19 @@ const MLManager = (() => {
 
         var contribs = p['feature_contributions'] || [];
         var anomalies = p['feature_anomalies'] || [];
+        var margin = p['margen_decision'] ?? p['margen_top_2'];
 
         var probPct = prob != null ? (prob * 100).toFixed(1) : '—';
         var altProbPct = altProb != null ? (altProb * 100).toFixed(1) + '%' : '—';
         var marginPts = margin != null ? (margin * 100).toFixed(1) : '—';
         var confLabel = p['nivel_confianza'] || '—';
-        var mainProb = prob != null ? (prob * 100).toFixed(0) : '0';
-        var gaugePct = prob != null ? (prob * 100).toFixed(1) : '0';
+        var nlpProb = p['probabilidad_nlp'];
+        var nlpActive = p['nlp_active'];
+        var nlpAjuste = p['ajuste_nlp'];
+        var useNlp = nlpActive && nlpProb != null && !isNaN(nlpProb);
+        var displayProb = useNlp ? nlpProb : prob;
+        var mainProb = displayProb != null ? (displayProb * 100).toFixed(0) : '0';
+        var gaugePct = displayProb != null ? (displayProb * 100).toFixed(1) : '0';
 
         var acc = modelMetrics && modelMetrics.accuracy != null ? (modelMetrics.accuracy * 100).toFixed(1) + '%' : '—';
         var f1 = modelMetrics && modelMetrics.f1_score != null ? modelMetrics.f1_score.toFixed(3) : '—';
@@ -1015,7 +1020,7 @@ const MLManager = (() => {
             '</div></div>';
 
         /* ═══ Verdict ═══ */
-        var isApproved = predDisplay === 'si' || predDisplay === '1' || predDisplay === 'true' || predDisplay === 'aprobado';
+        var isApproved = predDisplay.endsWith('=si') || predDisplay === 'si' || predDisplay === '1' || predDisplay === 'true' || predDisplay === 'aprobado';
         var verColor = isApproved ? 'var(--accent-green)' : 'var(--accent-red)';
         var verBorder = isApproved ? 'var(--accent-green)' : 'var(--accent-red)';
         html += '<div class="dp-verdict dp-anim dp-anim-2" style="border-left-color:' + verBorder + '">' +
@@ -1024,7 +1029,9 @@ const MLManager = (() => {
             '<div class="dp-verdict-value" style="color:' + verColor + '">' + escapeHtml(predLabel) + '</div>' +
             (altLabel ? '<div class="dp-alt-pill"><span style="color:var(--text-dim)">Alt:</span> ' + escapeHtml(altLabel) + ' · ' + altProbPct + '</div>' : '') +
             '</div>' +
-            '<div class="dp-conf-block"><div class="dp-conf-num dp-conf-anim" data-target="' + mainProb + '" style="color:' + verColor + '">0.0%</div><div class="dp-conf-label">CONFIANZA</div></div>' +
+            '<div class="dp-conf-block"><div class="dp-conf-num dp-conf-anim" data-target="' + mainProb + '" style="color:' + verColor + '">0.0%</div><div class="dp-conf-label">CONFIANZA</div>' +
+            (useNlp ? '<div style="font-size:9px;color:var(--accent-cyan);margin-top:2px">🤖 ajustado por NLP <span style="color:' + (nlpAjuste >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + '">' + (nlpAjuste >= 0 ? '+' : '') + (nlpAjuste * 100).toFixed(1) + ' pts</span></div>' : '') +
+            '</div>' +
             '<div class="dp-margin-block"><div class="dp-margin-num" style="color:' + verColor + '">+' + marginPts + ' pts</div>' +
             '<div class="dp-margin-label">MARGEN VS ALT.</div>' +
             '<div style="margin-top:6px"><span class="dp-risk-pill ' + riesgoClass + '">' + escapeHtml(riesgo) + '</span></div></div></div>';
@@ -1619,6 +1626,7 @@ const MLManager = (() => {
                 if (!columns.length) { throw new Error('El objeto no tiene columnas. Define al menos una feature.'); }
                 var rows = inputData.map(function(row) { return columns.map(function(c) { return row[c]; }); });
                 var nlpText = nlpInput.value.trim();
+                var textsArr = nlpText ? rows.map(function() { return nlpText; }) : null;
                 var nlpAnalysis = null;
                 if (nlpText) {
                     try {
@@ -1637,6 +1645,7 @@ const MLManager = (() => {
                 }
                 var result = await _fetch('POST', '/api/ml/predict', {
                     model_id: modelId, data: rows, columns: columns,
+                    texts: textsArr,
                 });
                 var modelMetrics_ = (model && model.metrics) || {};
                 if (nlpAnalysis && result.predictions && result.predictions.length) {

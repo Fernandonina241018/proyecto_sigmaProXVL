@@ -140,12 +140,14 @@ class TrainRequest(BaseModel):
     imbalance_strategy: str = "none"
     feature_engineering: Optional[dict] = None
     custom_name: Optional[str] = None
+    calibrate_nlp: bool = False
 
 
 class PredictRequest(BaseModel):
     model_id: str
     data: list
     columns: list[str]
+    texts: Optional[list[str]] = None
 
 
 class AnomalyRequest(BaseModel):
@@ -236,12 +238,13 @@ def _execute_training(req: TrainRequest, progress_callback=None):
         feature_engineering=req.feature_engineering,
     )
     prog(25, "Entrenando modelo...")
-    pipeline, splits, cv_results, best_params = train(
+    pipeline, splits, cv_results, best_params, cal_payload = train(
         X_raw, y, preprocessor=preprocessor, model_key=req.model_key,
         problem_type=meta["problem_type"], meta=meta,
         test_size=req.test_size, cv_folds=req.cv_folds, random_state=42,
         search_type=req.search_type, search_params=req.search_params,
         imbalance_strategy=req.imbalance_strategy,
+        calibrate_nlp=req.calibrate_nlp,
     )
     prog(65, "Evaluando modelo...")
     boot_models = []
@@ -286,6 +289,17 @@ def _execute_training(req: TrainRequest, progress_callback=None):
         payload=payload, dataset_name=ds_name,
         model_key=req.model_key, eval_results=eval_results,
     )
+
+    if cal_payload and cal_payload.get("status") == "trained":
+        try:
+            registry = manager._load_registry()
+            entry = registry.get(model_id, {})
+            cal_name = entry.get("filename", "").replace(".pkl", "_calibrator.pkl")
+            if cal_name:
+                cal_path = manager.base_dir / cal_name
+                joblib.dump(cal_payload, cal_path)
+        except Exception:
+            pass
     tc = meta.get("target_classes", [])
     if hasattr(tc, "tolist"):
         tc = tc.tolist()
@@ -434,10 +448,25 @@ def predict_endpoint(req: PredictRequest):
         meta = payload["meta"]
         boot_models = payload.get("bootstrap_models", [])
         X_new = _df_from_payload(req.data, req.columns)
-        result_df = predict(pipeline, X_new, meta, boot_models)
+
+        cal_payload = None
+        if req.texts:
+            cal_path = p.with_stem(p.stem + "_calibrator").with_suffix(".pkl")
+            if cal_path.exists():
+                cal_payload = joblib.load(str(cal_path))
+
+        result_df = predict(pipeline, X_new, meta, boot_models,
+                           texts=req.texts, cal_payload=cal_payload)
+
+        results = result_df.to_dict(orient="records")
+        for r in results:
+            for k in ("probabilidad_nlp", "ajuste_nlp"):
+                if k in r and (r[k] is None or (isinstance(r[k], float) and (np.isnan(r[k]) or np.isinf(r[k])))):
+                    r[k] = None
+
         return {
             "ok": True,
-            "predictions": result_df.to_dict(orient="records"),
+            "predictions": results,
             "columns": list(result_df.columns),
         }
     except HTTPException:

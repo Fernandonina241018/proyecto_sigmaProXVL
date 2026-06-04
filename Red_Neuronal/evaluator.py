@@ -242,8 +242,14 @@ def _eval_regression(pipeline, X_test, y_test, meta) -> dict:
 
 def predict(pipeline, X_new: pd.DataFrame, meta: dict,
             bootstrap_models: list = None,
-            alpha: float = 0.05) -> pd.DataFrame:
-    """Genera predicciones mas explicativas para nuevas observaciones."""
+            alpha: float = 0.05, texts: list = None,
+            cal_payload: dict = None) -> pd.DataFrame:
+    """Genera predicciones mas explicativas para nuevas observaciones.
+    
+    Args:
+        texts: Lista de textos (uno por predicción) para ajuste NLP.
+        cal_payload: Payload del calibrador NLP (model + PCA + params).
+    """
     problem_type = meta["problem_type"]
     results = {"index": list(range(len(X_new)))}
     confidence_pct = int((1 - alpha) * 100)
@@ -355,7 +361,45 @@ def predict(pipeline, X_new: pd.DataFrame, meta: dict,
         result_df["recomendacion"] = rec_data["recomendacion"]
         result_df["acciones_sugeridas"] = rec_data["acciones"]
 
+    if texts is not None and cal_payload is not None and cal_payload.get("status") == "trained":
+        _apply_nlp_calibration(result_df, texts, meta, cal_payload)
+
     return result_df
+
+
+def _apply_nlp_calibration(result_df: pd.DataFrame, texts: list,
+                           meta: dict, cal_payload: dict):
+    """Aplica el calibrador NLP a cada predicción."""
+    try:
+        from ml_service.nlp_models import EmbeddingModel
+        from Red_Neuronal.nlp_calibrator import adjust_prediction
+
+        embed_model = EmbeddingModel.get_instance()
+
+        nlp_probs = []
+        nlp_ajustes = []
+        nlp_status = []
+
+        for i in range(len(result_df)):
+            base_prob = result_df.iloc[i].get("probabilidad_predicha")
+            if base_prob is None:
+                nlp_probs.append(None)
+                nlp_ajustes.append(0.0)
+                nlp_status.append(False)
+                continue
+            txt = texts[i] if texts and i < len(texts) else ""
+            adj = adjust_prediction(base_prob, txt, meta, embed_model, cal_payload)
+            nlp_probs.append(adj["probabilidad"])
+            nlp_ajustes.append(adj["ajuste"])
+            nlp_status.append(adj["nlp_active"])
+
+        result_df["probabilidad_nlp"] = nlp_probs
+        result_df["ajuste_nlp"] = nlp_ajustes
+        result_df["nlp_active"] = nlp_status
+    except Exception:
+        result_df["probabilidad_nlp"] = result_df["probabilidad_predicha"]
+        result_df["ajuste_nlp"] = 0.0
+        result_df["nlp_active"] = False
 
 
 def _normalize_binary_target(y_test):
@@ -697,13 +741,14 @@ def _build_recommendations_batch(pred_df: pd.DataFrame, meta: dict) -> dict:
     for _, row in pred_df.iterrows():
         prob = row.get("probabilidad_predicha")
         clase = row.get("prediccion_legible") or row.get("clase_predicha", "")
+        contribs = row.get("feature_contributions")
 
         if problem_type == "regression":
             pred_val = row.get("prediccion", 0)
             riesgo, rec, acts = _build_regression_rec(pred_val, meta)
         else:
             riesgo, rec, acts = _build_classification_rec(
-                clase, prob, target_col
+                clase, prob, target_col, contribs
             )
 
         niveles.append(riesgo)
@@ -717,7 +762,8 @@ def _build_recommendations_batch(pred_df: pd.DataFrame, meta: dict) -> dict:
     }
 
 
-def _build_classification_rec(clase: str, prob, target_col: str) -> tuple:
+def _build_classification_rec(clase: str, prob, target_col: str,
+                              feature_contributions: list = None) -> tuple:
     """Recomendación para clasificación binaria/multiclase."""
     if prob is None:
         return ("No disponible",
@@ -725,7 +771,11 @@ def _build_classification_rec(clase: str, prob, target_col: str) -> tuple:
                 ["Verificar que los datos de entrada sean correctos.",
                  "Reintentar con valores completos y válidos."])
 
-    es_positivo = prob >= 0.5
+    clase_lower = clase.lower() if clase else ""
+    es_positivo = (
+        clase_lower.endswith("=si") or
+        clase_lower in ("1", "si", "true", "aprobado")
+    )
 
     if prob >= 0.85:
         riesgo = "Bajo"
@@ -748,7 +798,7 @@ def _build_classification_rec(clase: str, prob, target_col: str) -> tuple:
         rec = (f"Predicción con baja confianza ({prob:.1%}). "
                "No se recomienda tomar decisiones basadas únicamente en este resultado.")
 
-    acts = _get_acciones_by_target(target_col, clase, prob)
+    acts = _get_acciones_by_target(target_col, clase, es_positivo, feature_contributions)
     return riesgo, rec, acts
 
 
@@ -763,61 +813,145 @@ def _build_regression_rec(pred_val: float, meta: dict) -> tuple:
              "Considerar el intervalo de confianza para la toma de decisiones."])
 
 
-def _get_acciones_by_target(target_col: str, clase: str, prob: float) -> list:
-    """Acciones sugeridas según el dominio del target."""
+def _get_acciones_by_target(target_col: str, clase: str, es_favorable: bool,
+                            feature_contributions: list = None) -> list:
+    """Acciones sugeridas según el dominio y las contribuciones reales de cada feature."""
     tc = target_col.lower() if target_col else ""
-    es_favorable = prob >= 0.5 if prob is not None else True
+    domain = _detect_domain(tc)
 
-    if any(kw in tc for kw in ["credito", "creditic", "default", "morosidad",
-                                "impago", "prestamo", "score", "riesgo"]):
-        if es_favorable:
-            return ["Proceder con la aprobación del crédito.",
-                    "Verificar que los documentos estén en regla.",
-                    "Establecer condiciones de pago según el perfil."]
-        return ["Rechazar la solicitud o solicitar garantías adicionales.",
-                "Sugerir al cliente mejorar su historial crediticio.",
-                "Evaluar alternativas como plazos más cortos o montos menores."]
+    if feature_contributions and len(feature_contributions) > 0:
+        return _build_personalized_actions(feature_contributions, es_favorable, domain)
 
-    if any(kw in tc for kw in ["churn", "baja", "abandono", "fuga",
-                                "cancelacion", "desercion"]):
-        if es_favorable:
-            return ["El cliente no muestra intención de abandono.",
-                    "Mantener las condiciones actuales de servicio.",
-                    "Programar seguimiento periódico para detectar cambios."]
-        return ["Contactar al cliente para entender su insatisfacción.",
-                "Ofrecer incentivos o promociones personalizadas.",
-                "Revisar el historial de interacciones recientes."]
+    return _get_static_actions(domain, es_favorable)
 
-    if any(kw in tc for kw in ["fraude", "fraud", "estafa", "sospechoso"]):
-        if es_favorable:
-            return ["La transacción no presenta indicios de fraude.",
-                    "Procesar la operación con normalidad.",
-                    "Continuar monitoreando la cuenta para detección temprana."]
-        return ["Bloquear la transacción temporalmente.",
-                "Activar protocolo de verificación adicional.",
-                "Notificar al equipo de seguridad para investigación."]
 
-    if any(kw in tc for kw in ["venta", "conversion", "compra", "adquisicion",
-                                "lead", "cliente_potencial"]):
-        if es_favorable:
-            return ["Alta probabilidad de conversión. Priorizar contacto.",
-                    "Asignar al equipo de ventas con mayor urgencia.",
-                    "Preparar oferta personalizada para el lead."]
-        return ["Baja probabilidad de conversión. Reducir prioridad.",
-                "Incluir en campaña de nurturing automatizada.",
-                "Reevaluar en 30-60 días con nuevos datos."]
+def _detect_domain(target_col: str) -> str:
+    """Detecta el dominio del target basado en palabras clave."""
+    if any(kw in target_col for kw in ["credito", "creditic", "default", "morosidad",
+                                        "impago", "prestamo", "score", "riesgo"]):
+        return "credito"
+    if any(kw in target_col for kw in ["churn", "baja", "abandono", "fuga",
+                                        "cancelacion", "desercion"]):
+        return "churn"
+    if any(kw in target_col for kw in ["fraude", "fraud", "estafa", "sospechoso"]):
+        return "fraude"
+    if any(kw in target_col for kw in ["venta", "conversion", "compra", "adquisicion",
+                                        "lead", "cliente_potencial"]):
+        return "ventas"
+    if any(kw in target_col for kw in ["aprob", "admit", "acept", "ingres",
+                                        "calificacion"]):
+        return "admision"
+    return "generico"
 
-    if any(kw in tc for kw in ["aprob", "admit", "acept", "ingres",
-                                "calificacion"]):
-        if es_favorable:
-            return ["Candidato apto. Proceder con la admisión.",
-                    "Notificar al solicitante el resultado positivo.",
-                    "Completar los trámites administrativos finales."]
-        return ["Solicitante no cumple los criterios mínimos.",
-                "Informar con retroalimentación constructiva.",
-                "Revisar si aplica a programas alternativos."]
 
-    # Fallback genérico
+def _build_personalized_actions(contributions: list, es_favorable: bool,
+                                domain: str) -> list:
+    """Genera acciones personalizadas basadas en las contribuciones reales de features."""
+    sorted_c = sorted(contributions, key=lambda x: x["abs_delta"], reverse=True)
+
+    favor = [c for c in sorted_c if c["direction"] == "a_favor"]
+    contra = [c for c in sorted_c if c["direction"] == "en_contra"]
+
+    actions = []
+
+    if es_favorable:
+        for c in favor[:2]:
+            d = _format_delta(c)
+            actions.append(
+                f"{c['feature']}={c['actual']} está {d} del "
+                f"promedio ({c['baseline']}), favoreciendo la aprobación."
+            )
+        if not actions:
+            actions.append(
+                f"Sin factores en contra destacables. "
+                f"El perfil cumple con los criterios esperados."
+            )
+        top = sorted_c[0]
+        actions.append(
+            f"Mantener {top['feature']} en niveles actuales ({top['actual']}) "
+            f"para sostener el resultado positivo."
+        )
+    else:
+        for c in contra[:2]:
+            d = _format_delta(c)
+            actions.append(
+                f"{c['feature']}={c['actual']} está {d} del "
+                f"promedio ({c['baseline']}), perjudicando la aprobación."
+            )
+        if not actions:
+            actions.append(
+                f"Sin factores a favor destacables. "
+                f"Revisar el perfil completo para identificar áreas de mejora."
+            )
+        top = sorted_c[0]
+        target_val = _parse_num(top["baseline"])
+        if target_val is not None:
+            actions.append(
+                f"Trabajar en {top['feature']} para acercarse al "
+                f"promedio de referencia ({top['baseline']})."
+            )
+        else:
+            actions.append(
+                f"Evaluar alternativas para mejorar "
+                f"{top['feature']} (actual: {top['actual']})."
+            )
+
+    pad = _get_static_actions(domain, es_favorable)
+    while len(actions) < 3:
+        actions.append(pad[len(actions)])
+
+    return actions[:3]
+
+
+def _get_static_actions(domain: str, es_favorable: bool) -> list:
+    """Acciones estáticas de respaldo cuando no hay feature_contributions."""
+    domain_actions = {
+        "credito": (
+            ["Proceder con la aprobación del crédito.",
+             "Verificar que los documentos estén en regla.",
+             "Establecer condiciones de pago según el perfil."],
+            ["Rechazar la solicitud o solicitar garantías adicionales.",
+             "Sugerir al cliente mejorar su historial crediticio.",
+             "Evaluar alternativas como plazos más cortos o montos menores."]
+        ),
+        "churn": (
+            ["El cliente no muestra intención de abandono.",
+             "Mantener las condiciones actuales de servicio.",
+             "Programar seguimiento periódico para detectar cambios."],
+            ["Contactar al cliente para entender su insatisfacción.",
+             "Ofrecer incentivos o promociones personalizadas.",
+             "Revisar el historial de interacciones recientes."]
+        ),
+        "fraude": (
+            ["La transacción no presenta indicios de fraude.",
+             "Procesar la operación con normalidad.",
+             "Continuar monitoreando la cuenta para detección temprana."],
+            ["Bloquear la transacción temporalmente.",
+             "Activar protocolo de verificación adicional.",
+             "Notificar al equipo de seguridad para investigación."]
+        ),
+        "ventas": (
+            ["Alta probabilidad de conversión. Priorizar el contacto.",
+             "Asignar al equipo de ventas con mayor urgencia.",
+             "Preparar oferta personalizada para el lead."],
+            ["Baja probabilidad de conversión. Reducir prioridad.",
+             "Incluir en campaña de nurturing automatizada.",
+             "Reevaluar en 30-60 días con nuevos datos."]
+        ),
+        "admision": (
+            ["Candidato apto. Proceder con la admisión.",
+             "Notificar al solicitante el resultado positivo.",
+             "Completar los trámites administrativos finales."],
+            ["Solicitante no cumple los criterios mínimos.",
+             "Informar con retroalimentación constructiva.",
+             "Revisar si aplica a programas alternativos."]
+        ),
+    }
+
+    if domain in domain_actions:
+        fav, nofav = domain_actions[domain]
+        return fav if es_favorable else nofav
+
     if es_favorable:
         return ["El resultado es favorable. Proceder según lo planificado.",
                 "Monitorear la evolución para confirmar la tendencia.",
@@ -825,3 +959,24 @@ def _get_acciones_by_target(target_col: str, clase: str, prob: float) -> list:
     return ["El resultado es desfavorable. Revisar alternativas.",
             "Analizar las causas que llevaron a este resultado.",
             "Consultar con el equipo antes de tomar una decisión final."]
+
+
+def _format_delta(c: dict) -> str:
+    """Formatea la diferencia delta en texto legible."""
+    diff = _parse_num(c["actual"])
+    base = _parse_num(c["baseline"])
+    if diff is not None and base is not None and base != 0:
+        pct = abs((diff - base) / base) * 100
+        if pct >= 10:
+            return f"más de {pct:.0f}% por {'encima' if c['delta'] > 0 else 'debajo'}"
+        return f"un {pct:.1f}% por {'encima' if c['delta'] > 0 else 'debajo'}"
+    direction = "por encima" if c["delta"] > 0 else "por debajo"
+    return f"un {abs(c['delta'])*100:.1f} pts {direction}"
+
+
+def _parse_num(val) -> float | None:
+    """Intenta parsear un valor a float."""
+    try:
+        return float(val)
+    except (ValueError, TypeError):
+        return None
