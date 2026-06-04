@@ -1415,13 +1415,13 @@ const MLManager = (() => {
             document.body.appendChild(dl);
             formContainer._datalistId = listId;
             var grid = document.createElement('div');
-            grid.style.cssText = 'display:grid;grid-template-columns:' + (allFeatures.length > 4 ? '1fr 1fr' : '1fr') + ';gap:8px';
+            grid.style.cssText = 'display:grid;grid-template-columns:' + (allFeatures.length > 4 ? '1fr 1fr 1fr' : '1fr') + ';gap:8px';
             rows.forEach(function(r, idx) {
                 var rowDiv = document.createElement('div');
-                rowDiv.style.cssText = 'display:flex;align-items:center;gap:8px';
+                rowDiv.style.cssText = 'display:flex;align-items:center;gap:6px';
                 if (r.col && allFeatures.indexOf(r.col) !== -1) {
                     var colSpan = document.createElement('span');
-                    colSpan.style.cssText = 'font-size:13px;font-weight:600;color:var(--text-primary);min-width:140px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
+                    colSpan.style.cssText = 'font-size:12px;font-weight:600;color:var(--text-primary);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
                     colSpan.textContent = r.col;
                     rowDiv.appendChild(colSpan);
                 } else {
@@ -1435,7 +1435,7 @@ const MLManager = (() => {
                 var valInput;
                 if (isCat) {
                     valInput = document.createElement('select');
-                    valInput.style.cssText = 'width:160px;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:13px';
+                    valInput.style.cssText = 'flex:1;min-width:0;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:13px';
                     var emptyOpt = document.createElement('option');
                     emptyOpt.value = '';
                     emptyOpt.textContent = '— Selecciona —';
@@ -1453,7 +1453,7 @@ const MLManager = (() => {
                     valInput.type = 'number';
                     valInput.step = 'any';
                     valInput.placeholder = '0';
-                    valInput.style.cssText = 'width:140px;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:13px;font-weight:500';
+                    valInput.style.cssText = 'flex:1;min-width:0;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:13px;font-weight:500';
                     valInput.oninput = function() { r.val = valInput.value; updatePreview(); };
                 }
                 if (valInput.value === undefined && r.val) valInput.value = r.val;
@@ -1462,8 +1462,8 @@ const MLManager = (() => {
                 if (rows.length > 1) {
                     var delBtn = document.createElement('button');
                     delBtn.textContent = '✕';
-                    delBtn.style.cssText = 'border:none;background:var(--item-bg);cursor:pointer;font-size:12px;color:var(--danger,#e74c3c);padding:4px 8px;border-radius:4px;flex-shrink:0';
                     delBtn.onclick = function() { rows.splice(idx, 1); renderRows(); updatePreview(); };
+                    delBtn.style.cssText = 'border:none;background:transparent;cursor:pointer;font-size:11px;color:#ef4444;padding:2px 5px;border-radius:3px;flex-shrink:0';
                     rowDiv.appendChild(delBtn);
                 }
                 grid.appendChild(rowDiv);
