@@ -452,14 +452,28 @@ def list_models():
                 "filename": entry.get("filename", ""),
                 "model_key": entry.get("model_key", ""),
                 "dataset_name": entry.get("dataset_name", ""),
-                "saved_at": entry.get("saved_at", ""),
-                "metrics": entry.get("eval_results", {}),
+                "saved_at": entry.get("created_at", ""),
+                "metrics": entry.get("metrics", {}),
                 "custom_name": entry.get("train_params", {}).get("custom_name"),
                 "meta": meta,
 
             })
         models.sort(key=lambda m: m.get("saved_at", ""), reverse=True)
         return {"ok": True, "models": models}
+    except Exception as e:
+        raise HTTPException(500, str(e))
+
+
+@app.delete("/api/ml/models/{model_id}")
+def delete_model_endpoint(model_id: str):
+    try:
+        _safe_model_id(model_id)
+        ok = manager.delete_model(model_id)
+        if not ok:
+            raise HTTPException(404, f"Model '{model_id}' not found")
+        return {"ok": True}
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(500, str(e))
 

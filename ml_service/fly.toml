@@ -17,3 +17,11 @@ primary_region = 'dfw'
   memory = '2gb'
   cpus = 1
   memory_mb = 2048
+
+[[mounts]]
+  source = "ml_models"
+  destination = "/app/Red_Neuronal/modelos_guardados"
+
+[[mounts]]
+  source = "ml_datasets"
+  destination = "/app/Red_Neuronal/datos"
