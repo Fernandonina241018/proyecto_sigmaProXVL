@@ -1,7 +1,7 @@
 # 📊 StatAnalyzer Pro - Estado Actual del Proyecto
 
 **Fecha de Análisis:** 17 de Mayo 2026  
-**Última Actualización:** 21 de Mayo 2026 (Phase 0-7: Rich UI format for 7 statistical tests + dead code removal + report format)    
+**Última Actualización:** 04 de Junio 2026 (Configuración Ollama + Qwen2.5-Coder 1.5B local)    
 **Versión del Proyecto:** 3.3  
 **Nombre del Proyecto:** proyecto_sigmaProXVL / StatAnalyzer Pro  
 **Estado General:** ✅ MVP Completo (52/52 tests)
@@ -13,6 +13,17 @@
 **Fecha:** 11 de Mayo 2026  
 **Estado:** 🟡 En desarrollo (prototipo visual)  
 **Descripción:** Nuevo diseño estilo Obsidian/macOS para futura migración del frontend
+
+---
+
+## CAMBIOS RECIENTES
+
+### 04-Jun-2026 — Configuración Ollama + Qwen2.5-Coder 1.5B local
+- **Archivos afectados:**
+  - `opencode.json` — agregado provider Ollama con modelo `qwen2.5-coder:1.5b` como modelo default y small_model
+  - `Brain/ESTADO_PROYECTO.md` — actualizada fecha y cambios recientes
+- **Qué cambió:** Se instaló Ollama v0.30.5 como servicio systemd, se descargó el modelo Qwen2.5-Coder 1.5B (~1 GB), y se configuró opencode.json para usar el modelo local por defecto
+- **Por qué:** Permitir usar un agente IA local con opencode sin depender de APIs externas
 
 ### ✅ Funcionalidades Implementadas en indexx.html
 

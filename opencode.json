@@ -1,5 +1,20 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "model": "ollama/qwen2.5-coder:1.5b",
+  "small_model": "ollama/qwen2.5-coder:1.5b",
+  "provider": {
+    "ollama": {
+      "name": "Ollama (local)",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "qwen2.5-coder:1.5b": {
+          "name": "Qwen 2.5 Coder 1.5B (local)"
+        }
+      }
+    }
+  },
   "command": {
     "prompt": {
       "template": "Eres un experto en ingeniería de prompts. Aplica las mejores prácticas de Anthropic (instrucciones claras y jerarquizadas, contexto suficiente, criterios de éxito, formato de salida cuando aplique, y tono adecuado).\n\nOptimiza y reescribe el siguiente prompt del usuario conservando su intención. Si falta información crítica, indícalo al final en una breve lista.\n\nPrompt a optimizar:\n$ARGUMENTS",
