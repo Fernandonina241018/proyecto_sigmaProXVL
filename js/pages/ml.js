@@ -981,6 +981,8 @@ const MLManager = (() => {
         var altProbPct = altProb != null ? (altProb * 100).toFixed(1) + '%' : '—';
         var marginPts = margin != null ? (margin * 100).toFixed(1) : '—';
         var confLabel = p['nivel_confianza'] || '—';
+        var mainProb = prob != null ? (prob * 100).toFixed(0) : '0';
+        var gaugePct = prob != null ? (prob * 100).toFixed(1) : '0';
 
         var acc = modelMetrics && modelMetrics.accuracy != null ? (modelMetrics.accuracy * 100).toFixed(1) + '%' : '—';
         var f1 = modelMetrics && modelMetrics.f1_score != null ? modelMetrics.f1_score.toFixed(3) : '—';
@@ -1028,7 +1030,6 @@ const MLManager = (() => {
             '<div style="margin-top:6px"><span class="dp-risk-pill ' + riesgoClass + '">' + escapeHtml(riesgo) + '</span></div></div></div>';
 
         /* ═══ Confidence Bar ═══ */
-        var mainProb = prob != null ? (prob * 100).toFixed(0) : '0';
         html += '<div class="dp-bar-row dp-anim dp-anim-2">' +
             '<div class="dp-bar-labels"><span style="color:var(--accent-green)">' + escapeHtml(predLabel) + '</span>' +
             '<span style="color:var(--text-sec)">Distribución de probabilidad</span>' +
@@ -1140,7 +1141,6 @@ const MLManager = (() => {
         html += '<div class="dp-sidebar">';
 
         /* ─── Gauge ─── */
-        var gaugePct = prob != null ? (prob * 100).toFixed(1) : '0';
         html += '<div class="dp-panel"><div class="dp-panel-header"><div class="dp-panel-title">Score de Confianza</div></div>' +
             '<div class="dp-gauge-wrap">' +
             '<svg class="dp-gauge-svg" viewBox="0 0 160 90">' +
