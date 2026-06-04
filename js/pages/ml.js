@@ -164,6 +164,7 @@ const MLManager = (() => {
             panel.style.display = 'block';
             toggle.textContent = '▼';
         }
+        _hpUpdatePanel();
     }
 
     function buildRightPanel() {
@@ -1361,6 +1362,9 @@ const MLManager = (() => {
         var defaults = _HP_DEFAULTS[modelKey] || {};
         var keys = Object.keys(defaults);
         if (keys.length === 0) return '<div style="font-size:13px;color:var(--text-faint);padding:4px 0">No requiere hiperparámetros.</div>';
+        var tuningEl = document.getElementById('ml-tuning-enable');
+        var tuningOn = tuningEl && tuningEl.checked;
+        var hint = tuningOn ? ' (<span style="color:var(--accent)">separados por coma</span>)' : '';
         var html = '';
         keys.forEach(function(k) {
             var v = defaults[k];
@@ -1369,12 +1373,12 @@ const MLManager = (() => {
             if (k === 'hidden_layer_sizes') {
                 input = '<input type="text" id="ml-hp-' + k + '" value="' + v + '" style="width:100px;padding:7px 6px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:14px;text-align:right">';
             } else if (typeof v === 'number' && v < 1) {
-                input = '<input type="number" id="ml-hp-' + k + '" value="' + v + '" min="0.0001" max="1" step="0.001" style="width:80px;padding:7px 6px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:14px;text-align:right">';
+                input = '<input type="text" id="ml-hp-' + k + '" value="' + v + '" style="width:90px;padding:7px 6px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:14px;text-align:right">';
             } else {
                 var max = k === 'n_estimators' ? 1000 : k === 'max_depth' ? 50 : 100;
-                input = '<input type="number" id="ml-hp-' + k + '" value="' + v + '" min="1" max="' + max + '" step="1" style="width:80px;padding:7px 6px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:14px;text-align:right">';
+                input = '<input type="text" id="ml-hp-' + k + '" value="' + v + '" style="width:90px;padding:7px 6px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:14px;text-align:right">';
             }
-            html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0"><span style="font-size:13px;color:var(--text-faint)">' + label + '</span>' + input + '</div>';
+            html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0"><span style="font-size:13px;color:var(--text-faint)">' + label + hint + '</span>' + input + '</div>';
         });
         return html;
     }
@@ -1382,6 +1386,8 @@ const MLManager = (() => {
     function _hpCollect() {
         var modelKey = _hpGetModelKey();
         var defaults = _HP_DEFAULTS[modelKey] || {};
+        var tuningEl = document.getElementById('ml-tuning-enable');
+        var tuningOn = tuningEl && tuningEl.checked;
         var params = {};
         Object.keys(defaults).forEach(function(k) {
             var el = document.getElementById('ml-hp-' + k);
@@ -1391,8 +1397,15 @@ const MLManager = (() => {
                 var nums = raw.split(',').map(function(s) { return parseInt(s.trim(), 10); }).filter(function(n) { return !isNaN(n) && n > 0; });
                 if (nums.length) params[k] = nums;
             } else {
-                var n = parseFloat(raw);
-                if (!isNaN(n)) params[k] = n;
+                var parts = raw.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s !== ''; });
+                if (parts.length > 1 || tuningOn) {
+                    var nums = parts.map(function(s) { return parseFloat(s); }).filter(function(n) { return !isNaN(n); });
+                    if (nums.length === 1) params[k] = nums[0];
+                    else if (nums.length > 1) params[k] = nums;
+                } else {
+                    var n = parseFloat(raw);
+                    if (!isNaN(n)) params[k] = n;
+                }
             }
         });
         return params;
