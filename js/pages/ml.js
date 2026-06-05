@@ -1327,288 +1327,215 @@ const MLManager = (() => {
         for (var i = 0; i < _models.length; i++) {
             if (_models[i].id === modelId) { model = _models[i]; break; }
         }
-        var isExpertMode = false;
         var meta = (model && model.meta) || {};
         var catFeatures = meta.cat_features || [];
         var catValues = meta.cat_values || {};
+        var numFeatures = meta.num_features || [];
         var baselines = meta.feature_baselines || {};
-        var allFeatures = (meta.num_features || []).concat(catFeatures);
-        var rows = allFeatures.length ? allFeatures.map(function(f) { return { col: f, val: baselines[f] !== undefined && baselines[f] !== null ? String(baselines[f]) : '' }; }) : [{ col: '', val: '' }];
+        var metrics = (model && model.metrics) || {};
+        var expertMode = false;
 
-        function buildJsonFromForm() {
+        function buildJsonFromForm(container) {
             var obj = {};
-            allFeatures.forEach(function(f) {
-                var row = rows.filter(function(r) { return r.col === f; })[0];
-                var v = row ? row.val : '';
-                if (catFeatures.indexOf(f) !== -1) {
-                    obj[f] = v === '' ? null : v;
-                } else {
-                    obj[f] = v === '' ? 0 : Number(v);
-                    if (isNaN(obj[f])) obj[f] = v;
-                }
+            container.querySelectorAll('.pd-field-row').forEach(function(row) {
+                var label = row.querySelector('.pd-label')?.title || '';
+                var isNum = row.classList.contains('pd-numeric');
+                var input = row.querySelector(isNum ? '.pd-input' : '.pd-select');
+                if (!label) return;
+                var v = input ? input.value : '';
+                obj[label] = isNum ? (v === '' ? 0 : Number(v)) : (v || null);
+                if (isNum && isNaN(obj[label])) obj[label] = v;
             });
+            var sem = container.querySelector('.pd-semantic')?.value;
+            if (sem && sem.trim()) obj._texto_semantico = sem.trim();
             return JSON.stringify([obj], null, 2);
         }
 
         var overlay = document.createElement('div');
-        overlay.className = 'modal-overlay';
-        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999';
-        var box = document.createElement('div');
-        box.className = 'modal-box';
-        box.style.cssText = 'width:92vw;max-width:1320px;background:var(--bg-panel);border-radius:14px;box-shadow:0 12px 48px rgba(0,0,0,0.35);overflow:hidden';
-        var title = document.createElement('div');
-        title.className = 'modal-title';
-        title.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:16px 24px;font-size:15px;font-weight:700;border-bottom:1px solid var(--border);background:var(--item-bg)';
-        title.innerHTML = '<span>🔮 Predecir con ' + escapeHtml(modelId) + '</span>';
-        var toggleLabel = document.createElement('label');
-        toggleLabel.style.cssText = 'font-size:10px;display:flex;align-items:center;gap:4px;cursor:pointer;color:var(--text-faint);user-select:none';
-        var expertToggle = document.createElement('input');
-        expertToggle.type = 'checkbox';
-        expertToggle.className = 'ml-expert-toggle';
-        toggleLabel.appendChild(expertToggle);
-        toggleLabel.appendChild(document.createTextNode(' Modo experto'));
-        title.appendChild(toggleLabel);
-        box.appendChild(title);
+        overlay.className = 'pd-overlay';
+        overlay.innerHTML = '<style>' + getPredictModalCSS() + '</style><div class="pd-root">' + buildPredictModalHTML(modelId, model, meta, catFeatures, catValues, numFeatures, baselines, metrics) + '</div>';
+        document.body.appendChild(overlay);
 
-        var content = document.createElement('div');
-        content.style.cssText = 'padding:20px 24px;display:flex;flex-direction:column;gap:16px;max-height:80vh;overflow-y:auto';
+        var root = overlay.querySelector('.pd-root');
+        var numericWrap = root.querySelector('#pd-fields-numeric');
+        var categWrap = root.querySelector('#pd-fields-categ');
+        var semanticEl = root.querySelector('.pd-semantic');
+        var jsonPre = root.querySelector('.pd-json');
+        var countN = root.querySelector('#pd-count-n');
+        var countC = root.querySelector('#pd-count-c');
+        var countTotal = root.querySelector('#pd-count-total');
+        var chipsRow = root.querySelector('.pd-chips');
 
-        var metrics = (model && model.metrics) || {};
-        var infoGrid = document.createElement('div');
-        infoGrid.style.cssText = 'display:grid;grid-template-columns:repeat(4,1fr);gap:10px';
-
-        function infoCard(title, lines) {
-            var card = document.createElement('div');
-            card.style.cssText = 'padding:12px 14px;background:var(--item-bg);border-radius:8px;font-size:11px;border:1px solid var(--border)';
-            var t = document.createElement('div');
-            t.style.cssText = 'font-weight:700;margin-bottom:6px;font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.5px';
-            t.textContent = title;
-            card.appendChild(t);
-            lines.forEach(function(l) {
-                var d = document.createElement('div');
-                d.style.cssText = 'display:flex;justify-content:space-between;padding:2px 0';
-                d.innerHTML = '<span style="color:var(--text-faint)">' + l[0] + '</span><span style="font-weight:600;color:var(--accent)">' + l[1] + '</span>';
-                card.appendChild(d);
-            });
-            return card;
+        function updateCounts() {
+            var n = numericWrap.querySelectorAll('.pd-field-row').length;
+            var c = categWrap.querySelectorAll('.pd-field-row').length;
+            if (countN) countN.textContent = n;
+            if (countC) countC.textContent = c;
+            if (countTotal) countTotal.textContent = (n + c) + ' features';
         }
 
-        var metricKeys = Object.keys(metrics).filter(function(k) { return !['y_pred', 'y_proba'].includes(k); });
-        var metricLines = metricKeys.slice(0, 4).map(function(k) {
-            var v = metrics[k];
-            if (typeof v === 'number') v = v.toFixed ? v.toFixed(4) : v;
-            return [k, String(v)];
+        function generateJson() {
+            if (!jsonPre) return;
+            jsonPre.textContent = buildJsonFromForm(root);
+        }
+
+        function updateChips() {
+            var chips = [];
+            var n = numericWrap.querySelectorAll('.pd-field-row').length + categWrap.querySelectorAll('.pd-field-row').length;
+            chips.push({ text: '\u2713 ' + n + ' campos completados', cls: 'pd-chip-ok' });
+            var hasNull = false;
+            numericWrap.querySelectorAll('.pd-input').forEach(function(inp) { if (inp.value === '') hasNull = true; });
+            chips.push({ text: hasNull ? '\u26a0 Valores vac\u00edos' : '\u2713 Sin valores nulos', cls: hasNull ? 'pd-chip-warn' : 'pd-chip-ok' });
+            if (chipsRow) {
+                chipsRow.innerHTML = chips.map(function(c) { return '<span class="pd-chip ' + c.cls + '">' + c.text + '</span>'; }).join('');
+            }
+        }
+
+        function refreshAll() { updateCounts(); generateJson(); updateChips(); }
+
+        function addField(type) {
+            var wrap = type === 'numeric' ? numericWrap : categWrap;
+            var row = document.createElement('div');
+            row.className = 'pd-field-row' + (type === 'numeric' ? ' pd-numeric' : '');
+            var idx = wrap.querySelectorAll('.pd-field-row').length + 1;
+            var name = 'nueva_feature_' + Date.now() + '_' + idx;
+            if (type === 'numeric') {
+                row.innerHTML = '<span class="pd-label" title="' + name + '">' + name + '</span><input class="pd-input" type="number" step="any" placeholder="0"/><div class="pd-del" title="Eliminar">\u2715</div>';
+            } else {
+                row.innerHTML = '<span class="pd-label" title="' + name + '">' + name + '</span><select class="pd-select"><option value="">\u2014 seleccionar \u2014</option></select><div class="pd-del" title="Eliminar">\u2715</div>';
+            }
+            row.style.opacity = '0';
+            wrap.appendChild(row);
+            requestAnimationFrame(function() { row.style.transition = 'opacity .2s'; row.style.opacity = '1'; });
+            row.querySelector('.pd-del').addEventListener('click', function() { removeField(row); });
+            var inp = row.querySelector('.pd-input, .pd-select');
+            if (inp) inp.addEventListener('input', refreshAll);
+            if (inp) inp.addEventListener('change', refreshAll);
+            refreshAll();
+        }
+
+        function removeField(row) {
+            row.style.opacity = '0';
+            row.style.transform = 'scale(.97)';
+            row.style.transition = 'opacity .15s, transform .15s';
+            setTimeout(function() { row.remove(); refreshAll(); }, 150);
+        }
+
+        // Populate numeric fields
+        numFeatures.forEach(function(f) {
+            var row = document.createElement('div');
+            row.className = 'pd-field-row pd-numeric';
+            var val = baselines[f] !== undefined && baselines[f] !== null ? baselines[f] : '';
+            var step = typeof val === 'number' && val % 1 !== 0 ? '0.0001' : '1';
+            row.innerHTML = '<span class="pd-label" title="' + escapeHtml(f) + '">' + escapeHtml(f) + '</span><input class="pd-input" type="number" step="' + step + '" value="' + val + '"/><div class="pd-del" title="Eliminar">\u2715</div>';
+            numericWrap.appendChild(row);
+            row.querySelector('.pd-del').addEventListener('click', function() { removeField(row); });
+            row.querySelector('.pd-input').addEventListener('input', refreshAll);
+            row.querySelector('.pd-input').addEventListener('change', refreshAll);
         });
-        if (!metricLines.length) metricLines = [['—', 'Sin métricas']];
 
-        infoGrid.appendChild(infoCard('🤖 Identidad', [
-            ['Algoritmo', model.model_key || '—'],
-            ['Dataset', model.dataset_name || '—'],
-            ['Guardado', model.saved_at ? model.saved_at.slice(0, 16) : '—'],
-        ]));
-        infoGrid.appendChild(infoCard('📊 Métricas', metricLines));
-        infoGrid.appendChild(infoCard('📐 Features', [
-            ['Numéricas', String((meta.num_features || []).length)],
-            ['Categóricas', String((meta.cat_features || []).length)],
-            ['Target', meta.target_col || '—'],
-        ]));
-        infoGrid.appendChild(infoCard('📋 Datos', [
-            ['Tipo', meta.problem_type || '—'],
-            ['Train', String(meta.n_train || '—') + ' filas'],
-            ['Test', String(meta.n_test || '—') + ' filas'],
-        ]));
-        content.appendChild(infoGrid);
+        // Populate categorical fields
+        catFeatures.forEach(function(f) {
+            var row = document.createElement('div');
+            row.className = 'pd-field-row';
+            var opts = catValues[f] || [];
+            var currentVal = baselines[f] !== undefined && baselines[f] !== null ? String(baselines[f]) : '';
+            var html = '<span class="pd-label" title="' + escapeHtml(f) + '">' + escapeHtml(f) + '</span><select class="pd-select">';
+            html += '<option value="">\u2014 seleccionar \u2014</option>';
+            opts.forEach(function(o) { html += '<option value="' + escapeHtml(o) + '"' + (o === currentVal ? ' selected' : '') + '>' + escapeHtml(o) + '</option>'; });
+            html += '</select><div class="pd-del" title="Eliminar">\u2715</div>';
+            row.innerHTML = html;
+            categWrap.appendChild(row);
+            row.querySelector('.pd-del').addEventListener('click', function() { removeField(row); });
+            row.querySelector('.pd-select').addEventListener('change', refreshAll);
+        });
 
-        var sep = document.createElement('div');
-        sep.style.cssText = 'height:1px;background:var(--border);margin:2px 0';
-        content.appendChild(sep);
-
-        var formContainer = document.createElement('div');
-        formContainer.className = 'ml-predict-form';
-        formContainer.style.cssText = 'display:flex;flex-direction:column;gap:10px;background:var(--item-bg);border-radius:8px;padding:16px;border:1px solid var(--border)';
-
-        function makeRowInput(placeholder, onChange) {
-            var input = document.createElement('input');
-            input.type = 'text';
-            input.placeholder = placeholder;
-            input.style.cssText = 'flex:1;padding:5px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:11px;min-width:0';
-            input.oninput = function() { onChange(input.value); updatePreview(); };
-            return input;
-        }
-
-        function makeValueInput(onChange) {
-            var input = document.createElement('input');
-            input.type = 'number';
-            input.step = 'any';
-            input.placeholder = '0';
-            input.style.cssText = 'width:140px;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:13px;font-weight:500';
-            input.oninput = function() { onChange(input.value); updatePreview(); };
-            return input;
-        }
-
-        function renderRows() {
-            formContainer.innerHTML = '';
-            var listId = 'ml-feature-list-' + Date.now() + '-' + Math.floor(Math.random() * 1e6);
-            var dl = document.createElement('datalist');
-            dl.id = listId;
-            allFeatures.forEach(function(f) {
-                var opt = document.createElement('option');
-                opt.value = f;
-                dl.appendChild(opt);
-            });
-            document.body.appendChild(dl);
-            formContainer._datalistId = listId;
-            var grid = document.createElement('div');
-            grid.style.cssText = 'display:grid;grid-template-columns:' + (allFeatures.length > 4 ? '1fr 1fr 1fr' : '1fr') + ';gap:8px';
-            rows.forEach(function(r, idx) {
-                var rowDiv = document.createElement('div');
-                rowDiv.style.cssText = 'display:flex;align-items:center;gap:6px';
-                if (r.col && allFeatures.indexOf(r.col) !== -1) {
-                    var colSpan = document.createElement('span');
-                    colSpan.style.cssText = 'font-size:12px;font-weight:600;color:var(--text-primary);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
-                    colSpan.textContent = r.col;
-                    rowDiv.appendChild(colSpan);
+        // Section toggles
+        root.querySelectorAll('.pd-section-header').forEach(function(hdr) {
+            hdr.addEventListener('click', function(e) {
+                if (e.target.closest('.pd-add-btn')) return;
+                var body = hdr.nextElementSibling;
+                var chev = hdr.querySelector('.pd-chevron');
+                var isOpen = body.style.maxHeight !== '0px' && body.style.maxHeight !== '';
+                if (isOpen) {
+                    body.style.maxHeight = body.scrollHeight + 'px';
+                    requestAnimationFrame(function() { body.style.maxHeight = '0px'; });
+                    chev.classList.remove('pd-open');
+                    hdr.classList.add('pd-collapsed');
                 } else {
-                    var colInput = makeRowInput('columna', function(v) { r.col = v; });
-                    colInput.value = r.col;
-                    colInput.setAttribute('list', listId);
-                    colInput.style.cssText = 'flex:1;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:13px;min-width:0';
-                    rowDiv.appendChild(colInput);
+                    body.style.maxHeight = (body.scrollHeight + 200) + 'px';
+                    chev.classList.add('pd-open');
+                    hdr.classList.remove('pd-collapsed');
+                    setTimeout(function() { body.style.maxHeight = 'none'; }, 260);
                 }
-                var isCat = catFeatures.indexOf(r.col) !== -1 && catValues[r.col] && catValues[r.col].length > 0;
-                var valInput;
-                if (isCat) {
-                    valInput = document.createElement('select');
-                    valInput.style.cssText = 'flex:1;min-width:0;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:13px';
-                    var emptyOpt = document.createElement('option');
-                    emptyOpt.value = '';
-                    emptyOpt.textContent = '— Selecciona —';
-                    valInput.appendChild(emptyOpt);
-                    catValues[r.col].forEach(function(optVal) {
-                        var opt = document.createElement('option');
-                        opt.value = optVal;
-                        opt.textContent = optVal;
-                        if (optVal === r.val) opt.selected = true;
-                        valInput.appendChild(opt);
-                    });
-                    valInput.onchange = function() { r.val = valInput.value; updatePreview(); };
-                } else {
-                    valInput = document.createElement('input');
-                    valInput.type = 'number';
-                    valInput.step = 'any';
-                    valInput.placeholder = '0';
-                    valInput.style.cssText = 'flex:1;min-width:0;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:13px;font-weight:500';
-                    valInput.oninput = function() { r.val = valInput.value; updatePreview(); };
-                }
-                if (valInput.value === undefined && r.val) valInput.value = r.val;
-                if (!isCat) valInput.value = r.val;
-                rowDiv.appendChild(valInput);
-                if (rows.length > 1) {
-                    var delBtn = document.createElement('button');
-                    delBtn.textContent = '✕';
-                    delBtn.onclick = function() { rows.splice(idx, 1); renderRows(); updatePreview(); };
-                    delBtn.style.cssText = 'border:none;background:transparent;cursor:pointer;font-size:11px;color:#ef4444;padding:2px 5px;border-radius:3px;flex-shrink:0';
-                    rowDiv.appendChild(delBtn);
-                }
-                grid.appendChild(rowDiv);
             });
-            formContainer.appendChild(grid);
-            var addBtn = document.createElement('button');
-            addBtn.textContent = '➕ Agregar columna';
-            addBtn.style.cssText = 'border:1px dashed var(--border);background:none;cursor:pointer;font-size:12px;color:var(--text-faint);padding:8px;border-radius:6px;width:100%';
-            addBtn.onclick = function() { rows.push({ col: '', val: '' }); renderRows(); updatePreview(); };
-            formContainer.appendChild(addBtn);
-        }
-        renderRows();
-        content.appendChild(formContainer);
+        });
 
-        /* ─── NLP text input ─── */
-        var nlpSep = document.createElement('div');
-        nlpSep.style.cssText = 'height:1px;background:var(--border);margin:2px 0';
-        content.appendChild(nlpSep);
-        var nlpLabel = document.createElement('div');
-        nlpLabel.style.cssText = 'font-size:11px;font-weight:700;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.5px;margin-top:4px';
-        nlpLabel.textContent = '🧠 Análisis semántico (opcional)';
-        content.appendChild(nlpLabel);
-        var nlpDesc = document.createElement('div');
-        nlpDesc.style.cssText = 'font-size:10px;color:var(--text-dim);margin-bottom:6px';
-        nlpDesc.textContent = 'Describe el motivo o comentario para enriquecer la predicción con análisis de texto';
-        content.appendChild(nlpDesc);
-        var nlpInput = document.createElement('textarea');
-        nlpInput.className = 'ml-nlp-text';
-        nlpInput.placeholder = 'Ej: Solicito un préstamo para consolidar mis deudas y mejorar mi historial crediticio...';
-        nlpInput.style.cssText = 'width:100%;min-height:60px;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg-primary);color:var(--text-primary);font-size:12px;resize:vertical;font-family:inherit';
-        content.appendChild(nlpInput);
+        // Add buttons
+        root.querySelectorAll('.pd-add-btn').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var type = btn.dataset.type || 'numeric';
+                addField(type);
+            });
+        });
 
-        var textarea = document.createElement('textarea');
-        textarea.className = 'ml-predict-input';
-        textarea.placeholder = 'Array de objetos con las columnas del modelo';
-        textarea.style.cssText = 'width:100%;min-height:140px;padding:10px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg-primary);color:var(--text-primary);font-size:12px;font-family:monospace;resize:vertical;display:none';
-        textarea.value = JSON.stringify([{ "columna": 0 }], null, 2);
-        content.appendChild(textarea);
+        // Semantic textarea
+        if (semanticEl) semanticEl.addEventListener('input', generateJson);
 
-        var previewLabel = document.createElement('div');
-        previewLabel.style.cssText = 'font-size:11px;font-weight:600;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.5px';
-        previewLabel.textContent = '📄 JSON generado:';
-        content.appendChild(previewLabel);
-
-        var previewEl = document.createElement('div');
-        previewEl.className = 'ml-preview-json';
-        previewEl.style.cssText = 'font-size:11px;padding:10px 12px;background:var(--bg-primary);border-radius:6px;white-space:pre-wrap;font-family:monospace;color:var(--text-primary);max-height:120px;overflow:auto;border:1px solid var(--border)';
-        previewEl.textContent = buildJsonFromForm();
-        content.appendChild(previewEl);
-
-        function updatePreview() {
-            if (isExpertMode) return;
-            previewEl.textContent = buildJsonFromForm();
+        // Expert toggle
+        var expertToggle = root.querySelector('.pd-toggle-track');
+        var metaStrip = root.querySelector('.pd-meta-strip');
+        var jsonSection = root.querySelector('#pd-sec-json');
+        if (expertToggle) {
+            expertToggle.addEventListener('click', function() {
+                expertMode = !expertMode;
+                var thumb = expertToggle.querySelector('.pd-toggle-thumb');
+                expertToggle.style.background = expertMode ? 'var(--pd-accent)' : 'var(--pd-border-hi)';
+                thumb.style.right = expertMode ? '3px' : 'calc(100% - 15px)';
+                if (jsonSection) jsonSection.style.display = expertMode ? 'none' : '';
+                if (metaStrip) metaStrip.style.display = expertMode ? 'none' : '';
+            });
         }
 
-        var actions = document.createElement('div');
-        actions.style.cssText = 'display:flex;gap:12px;justify-content:end;padding-top:4px';
-        var cancelBtn = document.createElement('button');
-        cancelBtn.className = 'btn btn-secondary';
-        cancelBtn.textContent = 'Cancelar';
-        cancelBtn.style.cssText = 'padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;border:1.5px solid var(--border);background:var(--item-bg);color:var(--text-primary);cursor:pointer';
-        cancelBtn.onclick = function() { overlay.remove(); cleanupPredictModal(); };
-        actions.appendChild(cancelBtn);
-        var predictBtn = document.createElement('button');
-        predictBtn.className = 'btn btn-primary';
-        predictBtn.textContent = '🔮 Predecir';
-        predictBtn.style.cssText = 'padding:8px 24px;border-radius:8px;font-size:13px;font-weight:700;border:none;background:var(--accent,#6366f1);color:#fff;cursor:pointer';
-        predictBtn.onclick = async function() {
+        // Cancel
+        root.querySelector('.pd-cancel').addEventListener('click', function() {
+            overlay.remove();
+        });
+
+        // Predict
+        root.querySelector('.pd-predict').addEventListener('click', async function() {
+            var btn = root.querySelector('.pd-predict');
+            btn.disabled = true;
+            btn.innerHTML = '<span style="animation:pd-spin .7s linear infinite;display:inline-block">\u27f3</span> Procesando...';
+
             var resOverlay = document.createElement('div');
-            resOverlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:10000';
+            resOverlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:10001';
             var resBox = document.createElement('div');
-            resBox.style.cssText = 'width:92vw;max-width:1300px;max-height:90vh;background:var(--bg-panel);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.5);overflow:hidden;display:flex;flex-direction:column';
+            resBox.style.cssText = 'width:92vw;max-width:1300px;max-height:90vh;background:var(--bg-panel);border-radius:16px;box-shadow:0 12px 48px rgba(0,0,0,0.5);overflow:hidden;display:flex;flex-direction:column';
             var resTitle = document.createElement('div');
             resTitle.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:14px 20px;font-size:14px;font-weight:700;border-bottom:1px solid var(--border);background:var(--item-bg);flex-shrink:0';
-            resTitle.innerHTML = '<span>🔮 Resultado de predicción con <span style="color:var(--accent)">' + escapeHtml(modelId) + '</span></span>';
+            resTitle.innerHTML = '<span>\ud83d\udd2e Resultado de predicci\u00f3n con <span style="color:var(--accent)">' + escapeHtml(modelId) + '</span></span>';
             var closeBtn = document.createElement('button');
-            closeBtn.innerHTML = '✕';
-            closeBtn.style.cssText = 'border:none;background:rgba(255,255,255,0.05);cursor:pointer;font-size:16px;color:var(--text-faint);padding:6px 12px;border-radius:8px;transition:all 0.15s';
-            closeBtn.onmouseover = function() { this.style.background = 'rgba(255,255,255,0.1)'; this.style.color = '#fff'; };
-            closeBtn.onmouseout = function() { this.style.background = 'rgba(255,255,255,0.05)'; this.style.color = 'var(--text-faint)'; };
+            closeBtn.innerHTML = '\u2715';
+            closeBtn.style.cssText = 'border:none;background:rgba(255,255,255,0.05);cursor:pointer;font-size:16px;color:var(--text-faint);padding:6px 12px;border-radius:8px';
             closeBtn.onclick = function() { resOverlay.remove(); };
             resTitle.appendChild(closeBtn);
             resBox.appendChild(resTitle);
             var resBody = document.createElement('div');
             resBody.style.cssText = 'padding:20px 22px;overflow-y:auto;flex:1';
-            resBody.innerHTML = '<div style="text-align:center;padding:60px 40px;color:var(--text-faint)"><div style="font-size:36px;margin-bottom:12px">⏳</div><div style="font-size:14px;font-weight:600">Procesando predicción...</div><div style="font-size:11px;margin-top:4px">Consultando al modelo</div></div>';
+            resBody.innerHTML = '<div style="text-align:center;padding:60px 40px;color:var(--text-faint)"><div style="font-size:36px;margin-bottom:12px">\u23f3</div><div style="font-size:14px;font-weight:600">Procesando predicci\u00f3n...</div><div style="font-size:11px;margin-top:4px">Consultando al modelo</div></div>';
             resBox.appendChild(resBody);
             var resActions = document.createElement('div');
             resActions.style.cssText = 'display:flex;gap:10px;justify-content:end;padding:10px 20px;border-top:1px solid var(--border);flex-shrink:0';
             var resNewBtn = document.createElement('button');
-            resNewBtn.innerHTML = '🔮 Nueva predicción';
-            resNewBtn.style.cssText = 'padding:7px 16px;border-radius:8px;font-size:12px;font-weight:600;border:1.5px solid var(--border);background:var(--item-bg);color:var(--text-primary);cursor:pointer;transition:all 0.15s';
-            resNewBtn.onmouseover = function() { this.style.background = 'var(--accent)'; this.style.color = '#fff'; this.style.borderColor = 'var(--accent)'; };
-            resNewBtn.onmouseout = function() { this.style.background = 'var(--item-bg)'; this.style.color = 'var(--text-primary)'; this.style.borderColor = 'var(--border)'; };
+            resNewBtn.innerHTML = '\ud83d\udd2e Nueva predicci\u00f3n';
+            resNewBtn.style.cssText = 'padding:7px 16px;border-radius:8px;font-size:12px;font-weight:600;border:1.5px solid var(--border);background:var(--item-bg);color:var(--text-primary);cursor:pointer';
             resNewBtn.onclick = function() { resOverlay.remove(); };
             resActions.appendChild(resNewBtn);
             var resCloseBtn = document.createElement('button');
-            resCloseBtn.textContent = '✕ Cerrar';
-            resCloseBtn.style.cssText = 'padding:7px 16px;border-radius:8px;font-size:12px;font-weight:600;border:1.5px solid var(--border);background:var(--bg-panel);color:var(--text-faint);cursor:pointer;transition:all 0.15s';
-            resCloseBtn.onmouseover = function() { this.style.color = 'var(--text-primary)'; };
-            resCloseBtn.onmouseout = function() { this.style.color = 'var(--text-faint)'; };
+            resCloseBtn.textContent = '\u2715 Cerrar';
+            resCloseBtn.style.cssText = 'padding:7px 16px;border-radius:8px;font-size:12px;font-weight:600;border:1.5px solid var(--border);background:var(--bg-panel);color:var(--text-faint);cursor:pointer';
             resCloseBtn.onclick = function() { resOverlay.remove(); };
             resActions.appendChild(resCloseBtn);
             resBox.appendChild(resActions);
@@ -1616,43 +1543,28 @@ const MLManager = (() => {
             document.body.appendChild(resOverlay);
             resOverlay.addEventListener('click', function(e) { if (e.target === resOverlay) resOverlay.remove(); });
             document.addEventListener('keydown', function _resKey(e) { if (e.key === 'Escape' && resOverlay.parentNode) { resOverlay.remove(); document.removeEventListener('keydown', _resKey); } });
+
             try {
-                var raw;
-                if (isExpertMode) {
-                    raw = textarea.value.trim();
-                } else {
-                    raw = buildJsonFromForm();
-                }
-                if (!raw) { throw new Error('No hay datos para predecir'); }
+                var raw = buildJsonFromForm(root);
+                if (!raw) throw new Error('No hay datos para predecir');
                 var parsed = JSON.parse(raw);
                 var inputData = Array.isArray(parsed) ? parsed : [parsed];
-                if (!inputData.length) { throw new Error('El array de datos está vacío. Agrega al menos una fila.'); }
-                if (inputData[0] == null || typeof inputData[0] !== 'object') { throw new Error('Cada fila debe ser un objeto con las columnas del modelo.'); }
+                if (!inputData.length) throw new Error('El array de datos est\u00e1 vac\u00edo');
+                if (inputData[0] == null || typeof inputData[0] !== 'object') throw new Error('Cada fila debe ser un objeto');
                 var columns = Object.keys(inputData[0]);
-                if (!columns.length) { throw new Error('El objeto no tiene columnas. Define al menos una feature.'); }
-                var rows = inputData.map(function(row) { return columns.map(function(c) { return row[c]; }); });
-                var nlpText = nlpInput.value.trim();
-                var textsArr = nlpText ? rows.map(function() { return nlpText; }) : null;
+                if (!columns.length) throw new Error('Define al menos una feature');
+                var dataRows = inputData.map(function(row) { return columns.map(function(c) { return row[c]; }); });
+                var nlpText = semanticEl ? semanticEl.value.trim() : '';
+                var textsArr = nlpText ? dataRows.map(function() { return nlpText; }) : null;
                 var nlpAnalysis = null;
                 if (nlpText) {
                     try {
                         var apiUrl = window._ML_API_URL || 'https://sigmapro-ml.fly.dev';
-                        var nlpRes = await fetch(apiUrl + '/api/ml/analyze-text', {
-                            method: 'POST',
-                            headers: {'Content-Type': 'application/json'},
-                            body: JSON.stringify({text: nlpText}),
-                        });
-                        if (nlpRes.ok) {
-                            nlpAnalysis = await nlpRes.json();
-                        }
-                    } catch (_nlpErr) {
-                        /* NLP error is non-fatal — continue with prediction */
-                    }
+                        var nlpRes = await fetch(apiUrl + '/api/ml/analyze-text', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({text: nlpText}) });
+                        if (nlpRes.ok) nlpAnalysis = await nlpRes.json();
+                    } catch (_e) {}
                 }
-                var result = await _fetch('POST', '/api/ml/predict', {
-                    model_id: modelId, data: rows, columns: columns,
-                    texts: textsArr,
-                });
+                var result = await _fetch('POST', '/api/ml/predict', { model_id: modelId, data: dataRows, columns: columns, texts: textsArr });
                 var modelMetrics_ = (model && model.metrics) || {};
                 if (nlpAnalysis && result.predictions && result.predictions.length) {
                     result.predictions.forEach(function(p) { p.nlpAnalysis = nlpAnalysis; });
@@ -1660,50 +1572,149 @@ const MLManager = (() => {
                 var resultHtml = _renderDashboard(result.predictions, model, modelMetrics_);
                 resBody.innerHTML = resultHtml;
                 setTimeout(_animateDashboard, 50);
-                cleanupPredictModal();
-            } catch (e) {
-                resBody.innerHTML = '<div style="text-align:center;padding:40px;color:#ef4444;font-size:14px;font-weight:500">❌ ' + escapeHtml(e.message) + '</div>';
-            }
-        };
-        actions.appendChild(predictBtn);
-        content.appendChild(actions);
-        box.appendChild(content);
-        overlay.appendChild(box);
-        document.body.appendChild(overlay);
-
-        expertToggle.onchange = function() {
-            isExpertMode = this.checked;
-            formContainer.style.display = isExpertMode ? 'none' : '';
-            textarea.style.display = isExpertMode ? '' : 'none';
-            previewLabel.style.display = isExpertMode ? 'none' : '';
-            previewEl.style.display = isExpertMode ? 'none' : '';
-            if (isExpertMode) {
-                textarea.value = buildJsonFromForm();
-            } else {
-                updatePreview();
-            }
-        };
-
-        overlay.addEventListener('click', function(e) {
-            if (e.target === overlay) { overlay.remove(); cleanupPredictModal(); }
-        });
-        document.addEventListener('keydown', function _onKey(e) {
-            if (e.key === 'Escape' && overlay.parentNode) {
                 overlay.remove();
-                document.removeEventListener('keydown', _onKey);
-                cleanupPredictModal();
+            } catch (e) {
+                resBody.innerHTML = '<div style="text-align:center;padding:40px;color:#ef4444;font-size:14px;font-weight:500">\u274c ' + escapeHtml(e.message) + '</div>';
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span class="pd-predict-icon">\ud83d\udd2e</span> Predecir';
             }
         });
 
-        function cleanupPredictModal() {
-            if (formContainer._datalistId) {
-                var dl = document.getElementById(formContainer._datalistId);
-                if (dl) dl.remove();
-                formContainer._datalistId = null;
-            }
-        }
+        // Close on overlay click
+        overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+        document.addEventListener('keydown', function _onKey(e) { if (e.key === 'Escape' && overlay.parentNode) { overlay.remove(); document.removeEventListener('keydown', _onKey); } });
 
-        }
+        // Init
+        refreshAll();
+        root.querySelector('#pd-sec-numeric .pd-collapsible').style.maxHeight = 'none';
+        root.querySelector('#pd-sec-categ .pd-collapsible').style.maxHeight = 'none';
+    }
+
+    function getPredictModalCSS() {
+        return `/* ── Predict Modal Styles ── */
+.pd-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:9999;font-family:'IBM Plex Sans',sans-serif}
+.pd-overlay *{box-sizing:border-box;margin:0;padding:0}
+.pd-root{width:96vw;max-width:1360px;max-height:94vh;background:#0e141b;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;border:1px solid #1c2a38;color:#dde8f0;font-size:13px}
+.pd-topbar{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;background:#0e141b;border-bottom:1px solid #1c2a38;flex-shrink:0}
+.pd-topbar-left{display:flex;align-items:center;gap:10px}
+.pd-topbar-title{font-size:14px;font-weight:500}
+.pd-topbar-model{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8b84ff;background:#6c63ff18;border:1px solid #6c63ff35;padding:2px 8px;border-radius:3px}
+.pd-toggle-wrap{display:flex;align-items:center;gap:7px;font-size:12px;color:#6a8ba8;cursor:pointer}
+.pd-toggle-track{width:32px;height:18px;border-radius:9px;background:var(--pd-accent,#6c63ff);position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+.pd-toggle-thumb{width:12px;height:12px;border-radius:50%;background:#fff;position:absolute;top:3px;right:3px;transition:right .2s}
+.pd-meta-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:#1c2a38;border-bottom:1px solid #1c2a38;flex-shrink:0}
+.pd-mcell{background:#0e141b;padding:10px 18px;display:flex;flex-direction:column;gap:3px}
+.pd-mlabel{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#324d63}
+.pd-mval{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;color:#dde8f0}
+.pd-macc{color:#8b84ff}
+.pd-mcya{color:#00b8d4}
+.pd-mgrn{color:#00c896}
+.pd-mamb{color:#ffaa00}
+.pd-body{flex:1;overflow-y:auto;padding:16px 24px 0}
+.pd-section{margin-bottom:12px}
+.pd-section-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#131c26;border:1px solid #1c2a38;border-radius:6px 6px 0 0;cursor:pointer;user-select:none}
+.pd-section-header.pd-collapsed{border-radius:6px}
+.pd-sleft{display:flex;align-items:center;gap:10px}
+.pd-sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.pd-scyan{background:#00b8d4;box-shadow:0 0 6px #00b8d4}
+.pd-samb{background:#ffaa00;box-shadow:0 0 6px #ffaa00}
+.pd-spur{background:#8b84ff;box-shadow:0 0 6px #8b84ff}
+.pd-sname{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#6a8ba8}
+.pd-scount{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#324d63;background:#090d12;border:1px solid #1c2a38;padding:1px 7px;border-radius:10px}
+.pd-sright{display:flex;align-items:center;gap:10px}
+.pd-add-btn{display:flex;align-items:center;gap:5px;font-size:11px;color:#8b84ff;background:#6c63ff15;border:1px solid #6c63ff30;padding:4px 10px;border-radius:3px;cursor:pointer;transition:background .15s}
+.pd-add-btn:hover{background:#6c63ff25;border-color:#6c63ff55}
+.pd-chevron{font-size:14px;color:#324d63;transition:transform .2s}
+.pd-chevron.pd-open{transform:rotate(180deg)}
+.pd-collapsible{overflow:hidden;transition:max-height .25s ease}
+.pd-fields{background:#0e141b;border:1px solid #1c2a38;border-top:none;border-radius:0 0 6px 6px;padding:4px 8px 8px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.pd-fields.pd-cols2{grid-template-columns:repeat(2,1fr)}
+.pd-field-row{display:flex;align-items:center;gap:0;border:1px solid #1c2a38;border-radius:4px;background:#131c26;overflow:hidden;transition:border-color .15s}
+.pd-field-row:hover{border-color:#2a3f56}
+.pd-field-row:focus-within{border-color:#6c63ff}
+.pd-label{flex:0 0 auto;min-width:120px;max-width:150px;padding:0 10px;font-size:11px;color:#6a8ba8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-right:1px solid #1c2a38;height:34px;display:flex;align-items:center;background:#131c26;cursor:default}
+.pd-input{flex:1;min-width:0;background:#090d12;border:none;outline:none;color:#dde8f0;font-family:'IBM Plex Mono',monospace;font-size:12px;padding:0 10px;height:34px}
+.pd-input::placeholder{color:#324d63}
+.pd-select{flex:1;min-width:0;background:#090d12;border:none;outline:none;color:#dde8f0;font-family:'IBM Plex Sans',sans-serif;font-size:12px;padding:0 8px;height:34px;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23324d63'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+.pd-select option{background:#131c26}
+.pd-del{flex:0 0 24px;height:34px;display:flex;align-items:center;justify-content:center;border-left:1px solid #1c2a38;background:#131c26;cursor:pointer;opacity:0;transition:opacity .15s;font-size:11px;color:#324d63}
+.pd-field-row:hover .pd-del{opacity:1}
+.pd-del:hover{background:#ff4d6a18;color:#ff4d6a}
+.pd-semantic-body{background:#0e141b;border:1px solid #1c2a38;border-top:none;border-radius:0 0 6px 6px;padding:12px 16px}
+.pd-semantic-hint{font-size:11px;color:#324d63;margin-bottom:10px}
+.pd-semantic{width:100%;min-height:80px;background:#090d12;border:1px solid #1c2a38;border-radius:4px;color:#dde8f0;font-family:'IBM Plex Sans',sans-serif;font-size:12px;padding:10px 12px;outline:none;resize:vertical;line-height:1.6;transition:border-color .15s}
+.pd-semantic:focus{border-color:#6c63ff}
+.pd-semantic::placeholder{color:#324d63}
+.pd-json-body{background:#0e141b;border:1px solid #1c2a38;border-top:none;border-radius:0 0 6px 6px;padding:0;overflow:hidden}
+.pd-json{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#00b8d4;background:#00b8d408;padding:14px 16px;margin:0;max-height:160px;overflow-y:auto;white-space:pre;line-height:1.7}
+.pd-json-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:8px 14px;border-top:1px solid #1c2a38;background:#131c26}
+.pd-icon-btn{display:flex;align-items:center;gap:5px;font-size:11px;color:#6a8ba8;background:none;border:1px solid #1c2a38;padding:4px 10px;border-radius:3px;cursor:pointer;transition:background .15s}
+.pd-icon-btn:hover{background:#131c26;color:#dde8f0}
+.pd-chips{display:flex;gap:8px;flex-wrap:wrap;padding:0 24px 10px;flex-shrink:0}
+.pd-chip{font-size:10px;font-family:'IBM Plex Mono',monospace;letter-spacing:.05em;padding:3px 9px;border-radius:10px;display:flex;align-items:center;gap:4px}
+.pd-chip-ok{background:#00c89618;color:#00c896;border:1px solid #00c89630}
+.pd-chip-warn{background:#ffaa0018;color:#ffaa00;border:1px solid #ffaa0030}
+.pd-action-bar{position:sticky;bottom:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:#0e141b;border-top:1px solid #1c2a38;flex-shrink:0}
+.pd-action-left{font-size:11px;color:#324d63;display:flex;align-items:center;gap:16px}
+.pd-status-dot{width:6px;height:6px;border-radius:50%;background:#00c896;display:inline-block;margin-right:5px;box-shadow:0 0 6px #00c896}
+.pd-action-right{display:flex;align-items:center;gap:10px}
+.pd-cancel{padding:9px 20px;border-radius:4px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:400;color:#6a8ba8;background:none;border:1px solid #1c2a38;transition:background .15s,color .15s}
+.pd-cancel:hover{background:#131c26;color:#dde8f0;border-color:#2a3f56}
+.pd-predict{display:flex;align-items:center;gap:8px;padding:9px 24px;border-radius:4px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:500;color:#fff;background:#6c63ff;border:1px solid #8b84ff;transition:background .15s,transform .1s}
+.pd-predict:hover{background:#8b84ff}
+.pd-predict:active{transform:scale(.98)}
+.pd-predict:disabled{opacity:.5;cursor:not-allowed}
+@keyframes pd-spin{to{transform:rotate(360deg)}}
+`;
+    }
+
+    function buildPredictModalHTML(modelId, model, meta, catFeatures, catValues, numFeatures, baselines, metrics) {
+        var algo = model ? (model.model_key || '—') : '—';
+        var ds = model ? (model.dataset_name || '—') : '—';
+        var saved = model && model.saved_at ? model.saved_at.slice(0, 16) : '—';
+        var target = meta.target_col || '—';
+        var probType = meta.problem_type || '—';
+        var nNum = numFeatures.length;
+        var nCat = catFeatures.length;
+        var metricKeys = Object.keys(metrics).filter(function(k) { return !['y_pred','y_proba'].includes(k); });
+
+        var html = '';
+        html += '<div class="pd-topbar"><div class="pd-topbar-left"><span style="font-size:18px">\ud83d\udd2e</span><span class="pd-topbar-title">Predecir con</span><span class="pd-topbar-model">' + escapeHtml(modelId) + '</span></div><div class="pd-toggle-wrap"><span>Modo experto</span><div class="pd-toggle-track"><div class="pd-toggle-thumb"></div></div></div></div>';
+
+        html += '<div class="pd-meta-strip">';
+        html += '<div class="pd-mcell"><span class="pd-mlabel">Algoritmo</span><span class="pd-mval pd-macc">' + escapeHtml(algo) + '</span></div>';
+        html += '<div class="pd-mcell"><span class="pd-mlabel">Dataset</span><span class="pd-mval pd-mcya">' + escapeHtml(ds) + '</span></div>';
+        html += '<div class="pd-mcell"><span class="pd-mlabel">Guardado</span><span class="pd-mval" style="color:#6a8ba8">' + escapeHtml(saved) + '</span></div>';
+        html += '<div class="pd-mcell"><span class="pd-mlabel">Num\u00e9ricas / Categ\u00f3ricas</span><span class="pd-mval">' + nNum + ' <span style="color:#324d63">/</span> ' + nCat + '</span></div>';
+        html += '<div class="pd-mcell"><span class="pd-mlabel">Target</span><span class="pd-mval pd-mgrn">' + escapeHtml(target) + '</span></div>';
+        html += '<div class="pd-mcell"><span class="pd-mlabel">Tipo</span><span class="pd-mval pd-mamb">' + escapeHtml(probType) + '</span></div>';
+        html += '</div>';
+
+        html += '<div class="pd-body">';
+
+        // Numeric section
+        html += '<div class="pd-section" id="pd-sec-numeric"><div class="pd-section-header"><div class="pd-sleft"><span class="pd-sdot pd-scyan"></span><span class="pd-sname">Features num\u00e9ricas</span><span class="pd-scount" id="pd-count-n">' + nNum + '</span></div><div class="pd-sright"><div class="pd-add-btn" data-type="numeric"><span>+</span> Agregar campo</div><span class="pd-chevron pd-open">\u25be</span></div></div><div class="pd-collapsible"><div class="pd-fields" id="pd-fields-numeric"></div></div></div>';
+
+        // Categorical section
+        html += '<div class="pd-section" id="pd-sec-categ"><div class="pd-section-header"><div class="pd-sleft"><span class="pd-sdot pd-samb"></span><span class="pd-sname">Features categ\u00f3ricas</span><span class="pd-scount" id="pd-count-c">' + nCat + '</span></div><div class="pd-sright"><div class="pd-add-btn" data-type="categ"><span>+</span> Agregar campo</div><span class="pd-chevron pd-open">\u25be</span></div></div><div class="pd-collapsible"><div class="pd-fields pd-cols2" id="pd-fields-categ"></div></div></div>';
+
+        // Semantic section
+        html += '<div class="pd-section" id="pd-sec-sem"><div class="pd-section-header"><div class="pd-sleft"><span class="pd-sdot pd-spur"></span><span class="pd-sname">An\u00e1lisis sem\u00e1ntico</span><span style="font-size:10px;color:#324d63;margin-left:4px">opcional</span></div><div class="pd-sright"><span class="pd-chevron">\u25be</span></div></div><div class="pd-collapsible" style="max-height:0"><div class="pd-semantic-body"><p class="pd-semantic-hint">Describe el motivo o comentario para enriquecer la predicci\u00f3n con an\u00e1lisis de texto.</p><textarea class="pd-semantic" placeholder="Ej: Solicito un pr\u00e9stamo para consolidar mis deudas y mejorar mi historial crediticio..."></textarea></div></div></div>';
+
+        // JSON preview section
+        html += '<div class="pd-section" id="pd-sec-json"><div class="pd-section-header"><div class="pd-sleft"><span class="pd-sdot" style="background:#324d63"></span><span class="pd-sname">JSON generado</span></div><div class="pd-sright"><span class="pd-chevron">\u25be</span></div></div><div class="pd-collapsible" style="max-height:0"><div class="pd-json-body"><pre class="pd-json" id="pd-json-preview">{\n  "placeholder": true\n}</pre><div class="pd-json-actions"><button class="pd-icon-btn" onclick="var t=this.closest(\'.pd-json-body\').querySelector(\'.pd-json\');navigator.clipboard?.writeText(t.textContent).catch(function(){})">\u2398 Copiar JSON</button></div></div></div></div>';
+
+        html += '<div style="height:8px"></div></div>';
+
+        // Chips
+        html += '<div class="pd-chips"><span class="pd-chip pd-chip-ok">\u2713 0 campos completados</span><span class="pd-chip pd-chip-ok">\u2713 Sin valores nulos</span></div>';
+
+        // Action bar
+        html += '<div class="pd-action-bar"><div class="pd-action-left"><span><span class="pd-status-dot"></span>' + escapeHtml(modelId) + ' \u00b7 listo</span><span class="pd-fcount" id="pd-count-total">' + (nNum + nCat) + ' features</span></div><div class="pd-action-right"><button class="pd-cancel">Cancelar</button><button class="pd-predict"><span class="pd-predict-icon">\ud83d\udd2e</span> Predecir</button></div></div>';
+
+        return html;
+    }
 
     async function detectAnomalies() {
         const results = document.getElementById('ml-results');

@@ -23,25 +23,9 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
-### 2026-06-04: Migrated from Ollama local to Groq cloud (free tier)
+### 2026-06-04: Switched to multi-provider AI config (Groq + DeepInfra + Ollama)
 
-**Qué:** Se reemplazó Ollama local por Groq cloud (API gratuita). La CPU no daba para modelos locales — incluso el 0.5B era demasiado lento. Groq corre modelos open-source en sus GPUs LPU con latencias de ~18ms.
-
-**Cambio en `opencode.json`:**
-| Campo | Antes | Después |
-|-------|-------|---------|
-| `model` | `ollama/qwen2.5-coder:0.5b` | `groq/llama-3.3-70b-versatile` |
-| `small_model` | `ollama/qwen2.5-coder:0.5b` | `groq/llama-3.1-8b-instant` |
-| Provider | Ollama only | Groq (primary) + Ollama (fallback) |
-
-**Modelos Groq configurados:**
-- `llama3-70b-8192`: Modelo principal, inteligente, 8K contexto
-- `llama-3.1-8b-instant`: Small model, rapidísimo (~18ms)
-- `mixtral-8x7b-32768`: Alternativa con 32K contexto
-
-**Verificación:** ✅ Groq API responde en ~18ms (vs ~1.8s del mejor local)
-
-**Fix:** La key fallaba porque `{env:GROQ_API_KEY}` no resolvía en el contexto de opencode. Se cambió a `{file:~/.config/opencode/groq-key}`. También se corrigió el nombre del modelo 70B de `llama3-70b-8192` (obsoleto) a `llama-3.3-70b-versatile`.
+**Qué:** Se reemplazó Ollama local por Groq cloud (API gratuita) como provider principal, con DeepInfra como secundario y Ollama como fallback. Config detallada abajo en "Switched to Groq cloud — file-based API keys, multiple providers".
 
 ---
 
@@ -928,6 +912,64 @@ ReporteManager → [✍️ Enviar a firma] → sessionStorage → firmarReporte 
 ```
 
 **Ya no se genera archivo duplicado** porque no hay descarga desde ReporteManager. El único archivo que se descarga es el firmado desde firmarReporte.
+
+### 2026-06-04: New prediction modal design (dark theme, collapsible sections, chips, JSON preview)
+
+**Qué:** Se reemplazó el modal de predicción antiguo (info grid + filas dinámicas con datalist) por un diseño oscuro moderno con secciones colapsables, barra de metadatos, chips de validación, preview JSON y animaciones.
+
+**Nuevo modal (`predictFromModel()` ~1325-1592):**
+- **Topbar** con modelo ID + toggle "Modo experto" que oculta la barra de metadatos y JSON preview
+- **Meta strip** en 6 columnas: Algoritmo, Dataset, Guardado, Numéricas/Categóricas, Target, Tipo
+- **Secciones colapsables** para features numéricas y categóricas con chevron animado, contadores de campos y botón "Agregar"
+- **Campos en grid 3 columnas** con label truncado, input numérico/select, y botón eliminar con hover reveal
+- **Área de análisis semántico** (textarea opcional)
+- **JSON preview** con syntax highlighting (cyan) y fondo tenue
+- **Chips de validación** dinámicos: conteo de campos, detección de valores vacíos
+- **Action bar sticky** con botón Cancelar + Predecir con spinner y animación
+- **Result overlay** con dashboard de predicción integrado (mismo estilo que el modal principal)
+
+**Nuevas funciones auxiliares:**
+- `getPredictModalCSS()` (~1594-1669): ~75 líneas de CSS scoped con clase `.pd-*`, diseño oscuro (#0e141b), tipografía IBM Plex Sans/Mono
+- `buildPredictModalHTML()` (~1672+): Renderiza el HTML completo del modal con metadatos del modelo
+
+**Mejoras UX:**
+- Animaciones de entrada (opacity fade-in en filas nuevas)
+- Animación de eliminación (scale + opacity)
+- Secciones expandidas por defecto para numéricas y categóricas
+- Cierre con click fuera del modal o tecla Escape
+- Botón "Nueva predicción" en el result overlay
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/pages/ml.js:1325-1592` | `predictFromModel()` reemplazado completamente (~268 líneas, -73 líneas netas) |
+| `js/pages/ml.js:1594-1669` | Nueva función `getPredictModalCSS()` |
+| `js/pages/ml.js:1672+` | Nueva función `buildPredictModalHTML()` |
+
+### 2026-06-04: Switched to Groq cloud — file-based API keys, multiple providers
+
+**Qué:** Se configuraron proveedores cloud (Groq, DeepInfra) con API keys desde archivos locales para evitar commits de secrets.
+
+**`opencode.json`:**
+- Provider principal: `groq` con `llama-3.3-70b-versatile` (modelo grande) y `llama-3.1-8b-instant` (small)
+- Provider secundario: `deepinfra` con `meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo`
+- Fallback: `ollama` con `qwen2.5-coder:0.5b`
+- API keys referenciadas como `{file:/home/fernando/.config/opencode/groq-key}` y `{file:.../deepinfra-key}` (absoluto)
+
+**Archivos de key:**
+| Archivo | Permisos |
+|---------|----------|
+| `~/.config/opencode/groq-key` | 56 bytes, `chmod 600` |
+| `~/.config/opencode/deepinfra-key` | 32 bytes, `chmod 600` |
+
+**Fix critical:** `{env:GROQ_API_KEY}` no resolvía en contexto de opencode. Cambiado a `{file:/...}` absoluto.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `opencode.json` | Providers, modelos, API keys, instrucciones |
+| `~/.config/opencode/groq-key` | Nuevo — Groq API key |
+| `~/.config/opencode/deepinfra-key` | Nuevo — DeepInfra API key |
 
 ### 2026-05-29: Persistencia de sesión de firma (cambio de página + hard reset)
 
