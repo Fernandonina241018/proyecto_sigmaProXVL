@@ -20,7 +20,7 @@
       "name": "Groq (cloud - rápido)",
       "options": {
         "baseURL": "https://api.groq.com/openai/v1",
-        "apiKey": "{file:~/.config/opencode/groq-key}",
+        "apiKey": "{file:/home/fernando/.config/opencode/groq-key}",
         "timeout": 120000,
         "chunkTimeout": 60000
       },
@@ -40,7 +40,7 @@
       "name": "DeepInfra (cloud)",
       "options": {
         "baseURL": "https://api.deepinfra.com/v1/openai",
-        "apiKey": "{file:~/.config/opencode/deepinfra-key}",
+        "apiKey": "{file:/home/fernando/.config/opencode/deepinfra-key}",
         "timeout": 120000,
         "chunkTimeout": 60000
       },
