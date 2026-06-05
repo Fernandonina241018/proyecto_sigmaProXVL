@@ -913,6 +913,37 @@ ReporteManager → [✍️ Enviar a firma] → sessionStorage → firmarReporte 
 
 **Ya no se genera archivo duplicado** porque no hay descarga desde ReporteManager. El único archivo que se descarga es el firmado desde firmarReporte.
 
+### 2026-06-04: Fix prediction modal theme — adapts to dark/light mode
+
+**Qué:** El modal de predicción usaba colores oscuros hardcodeados (`#0e141b`, `#1c2a38`, `#131c26`, etc.) que no cambiaban al activar el modo claro. Se reemplazaron todas las referencias por CSS variables del sistema de temas (`var(--bg-panel)`, `var(--border)`, `var(--text-primary)`, etc.).
+
+**Cambios en `getPredictModalCSS()` (~75 líneas de CSS):**
+- Todos los colores de fondo: `#0e141b` → `var(--bg-panel)`, `#131c26` → `var(--item-bg)`, `#090d12` → `var(--bg-primary)`
+- Todos los bordes: `#1c2a38` → `var(--border)`, `#2a3f56` → `var(--text-faint)`
+- Todos los textos: `#dde8f0` → `var(--text-primary)`, `#6a8ba8` → `var(--text-muted)`, `#324d63` → `var(--text-faint)`
+- Acentos: `#8b84ff/#6c63ff` → `var(--accent)`, `#00c896` → `var(--accent-alt)`, `#ffaa00` → `var(--accent-warn)`, `#ff4d6a` → `var(--accent-error)`
+- Tintes con alpha (ej: `#6c63ff18`): reemplazados con `color-mix(in srgb, var(--accent) 8%, var(--bg-panel))`
+- Tipografías: `'IBM Plex Sans'` → `var(--font-body)`, `'IBM Plex Mono'` → `var(--font-mono)`
+- Select chevron: SVG hardcodeado reemplazado por triángulo CSS via `::after` pseudo-elemento con `var(--text-faint)`
+- Fuente del overlay: eliminada (hereda del tema)
+
+**Cambios en `buildPredictModalHTML()` (inline styles):**
+- `color:#6a8ba8` → `color:var(--text-muted)`
+- `color:#324d63` → `color:var(--text-faint)` (3 ocurrencias)
+- `background:#324d63` → `background:var(--text-faint)`
+
+**Cambios en result overlay (close button):**
+- `background:rgba(255,255,255,0.05)` → `background:var(--item-bg)`
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/pages/ml.js:1594-1673` | `getPredictModalCSS()` reescrita con CSS variables + `color-mix()` |
+| `js/pages/ml.js:1688-1706` | 4 inline styles en `buildPredictModalHTML()` reemplazados |
+| `js/pages/ml.js:1521` | Close button bg: `rgba(...)` → `var(--item-bg)` |
+
+**Verificación:** ✅ `node -c ml.js` | ✅ Modal se adapta a `data-theme="light"` en tiempo real
+
 ### 2026-06-04: New prediction modal design (dark theme, collapsible sections, chips, JSON preview)
 
 **Qué:** Se reemplazó el modal de predicción antiguo (info grid + filas dinámicas con datalist) por un diseño oscuro moderno con secciones colapsables, barra de metadatos, chips de validación, preview JSON y animaciones.
