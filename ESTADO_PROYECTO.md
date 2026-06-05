@@ -23,6 +23,31 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-04: Fix result dashboard light mode — hardcoded dark CSS variables in ml-predict.css
+
+**Qué:** El dashboard de resultados de predicción no se adaptaba al modo claro porque `css/pages/ml-predict.css` definía variables CSS con colores oscuros hardcodeados (`--bg-panel: #0d1117`, `--border: #1e2d3d`, etc.) dentro de `.ml-predict-dashboard`, que sobrescribían las variables del tema incluso con `data-theme="light"`.
+
+**Causa raíz:** `.ml-predict-dashboard` redefinía `--bg-panel`, `--border`, `--text-primary` y `--font-mono` con valores oscuros, shadoweando las definiciones de `:root` / `[data-theme="light"]`. Todos los paneles internos (dp-panel, dp-verdict, dp-bar-row, dp-stat, etc.) heredaban estos valores oscuros sin importar el tema activo.
+
+**Solución:**
+1. Se eliminaron de `.ml-predict-dashboard` las variables que ya existen en el tema global (`--bg-panel`, `--border`, `--text-primary`, `--font-mono`, `--font-sans`) para que hereden correctamente
+2. Se agregó bloque `[data-theme="light"] .ml-predict-dashboard { ... }` con valores claros para las variables personalizadas del dashboard:
+   - `--accent-green`: `#00e5a0` → `#10b981`
+   - `--accent-cyan`: `#00c8e0` → `#06b6d4`
+   - `--accent-red`: `#ff4757` → `#ef4444`
+   - `--accent-amber`: `#ffa502` → `#f59e0b`
+   - `--text-sec`: `#7a9ab5` → `#64748b`
+   - `--text-dim`: `#3d5a73` → `#94a3b8`
+   - `--bg-base`, `--bg-card`, `--bg-card2` → tonos claros
+   - `--green-glow`, `--card-shadow` → adaptados a luz
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `css/pages/ml-predict.css:2-34` | Eliminadas vars que shadowean tema; agregado `[data-theme="light"]` override |
+
+**Verificación:** ✅ Dashboard se adapta completamente a ambos temas (oscuro y claro)
+
 ### 2026-06-04: Switched to multi-provider AI config (Groq + DeepInfra + Ollama)
 
 **Qué:** Se reemplazó Ollama local por Groq cloud (API gratuita) como provider principal, con DeepInfra como secundario y Ollama como fallback. Config detallada abajo en "Switched to Groq cloud — file-based API keys, multiple providers".

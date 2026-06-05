@@ -1,26 +1,36 @@
 /* ─── Prediction Dashboard (scoped under .ml-predict-dashboard) ─── */
 .ml-predict-dashboard {
   --bg-base:      #080c10;
-  --bg-panel:     #0d1117;
   --bg-card:      #111820;
   --bg-card2:     #141c26;
-  --border:       #1e2d3d;
   --accent-green: #00e5a0;
   --accent-cyan:  #00c8e0;
   --accent-red:   #ff4757;
   --accent-amber: #ffa502;
   --accent-blue:  #4dabf7;
-  --text-primary: #e8f4f8;
   --text-sec:     #7a9ab5;
   --text-dim:     #3d5a73;
-  --font-mono:    'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
-  --font-sans:    -apple-system, 'Inter', system-ui, sans-serif;
   --green-glow:   0 0 20px #00e5a030, 0 0 60px #00e5a010;
   --card-shadow:  0 4px 24px #00000060;
 
   color: var(--text-primary);
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   font-size: 13px;
+}
+
+[data-theme="light"] .ml-predict-dashboard {
+  --bg-base:      #eef2f6;
+  --bg-card:      #ffffff;
+  --bg-card2:     #f1f5f9;
+  --accent-green: #10b981;
+  --accent-cyan:  #06b6d4;
+  --accent-red:   #ef4444;
+  --accent-amber: #f59e0b;
+  --accent-blue:  #3b82f6;
+  --text-sec:     #64748b;
+  --text-dim:     #94a3b8;
+  --green-glow:   0 0 20px #10b98120, 0 0 60px #10b98110;
+  --card-shadow:  0 4px 24px rgba(0,0,0,0.08);
 }
 
 .ml-predict-dashboard .dp-header {

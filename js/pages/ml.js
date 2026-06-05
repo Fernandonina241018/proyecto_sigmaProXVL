@@ -1525,7 +1525,7 @@ const MLManager = (() => {
             expertToggle.addEventListener('click', function() {
                 expertMode = !expertMode;
                 var thumb = expertToggle.querySelector('.pd-toggle-thumb');
-                expertToggle.style.background = expertMode ? 'var(--pd-accent)' : 'var(--pd-border-hi)';
+                expertToggle.style.background = expertMode ? 'var(--accent)' : 'var(--text-faint)';
                 thumb.style.right = expertMode ? '3px' : 'calc(100% - 15px)';
                 if (jsonSection) jsonSection.style.display = expertMode ? 'none' : '';
                 if (metaStrip) metaStrip.style.display = expertMode ? 'none' : '';
