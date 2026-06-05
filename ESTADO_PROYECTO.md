@@ -913,6 +913,38 @@ ReporteManager → [✍️ Enviar a firma] → sessionStorage → firmarReporte 
 
 **Ya no se genera archivo duplicado** porque no hay descarga desde ReporteManager. El único archivo que se descarga es el firmado desde firmarReporte.
 
+### 2026-06-04: Fix _renderDashboard theme — undefined vars + hardcoded gauge colors
+
+**Qué:** El dashboard de resultados de predicción (result overlay) usaba nombres de variables CSS que no existen en el tema (`--accent-green`, `--accent-red`, `--accent-cyan`, `--text-sec`, `--text-dim`, `--bg-card`) y colores duros en el gauge SVG.
+
+**Variables rotas corregidas:**
+| Antes (undefined) | Después (existe) |
+|---|---|
+| `var(--accent-green)` | `var(--accent-alt)` |
+| `var(--accent-red)` | `var(--accent-error)` |
+| `var(--accent-cyan)` | `#00b8d4` |
+| `var(--text-sec)` | `var(--text-muted)` |
+| `var(--text-dim)` | `var(--text-faint)` |
+| `var(--bg-card)` | `var(--card-bg)` |
+
+**Colores duros en gauge SVG:**
+- Track: `#1e2d3d` → `var(--border)`
+- Gradient stops: `#ffa502` → `var(--accent-warn)`, `#00e5a0` → `var(--accent-alt)`
+- Needle/circle: `#00e5a0` → `var(--accent-alt)`
+- Labels 0/50/100: `#3d5a73` → `var(--text-faint)` + `font-family` → `var(--font-mono)`
+
+**Alpha backgrounds:**
+- `rgba(34,197,94,0.15)` → `color-mix(in srgb, var(--accent-alt) 15%, var(--item-bg))`
+- `rgba(239,68,68,0.15)` → `color-mix(in srgb, var(--accent-error) 15%, var(--item-bg))`
+- NLP risk color: `#f59e0b` → `var(--accent-warn)`
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/pages/ml.js:954-1271` | `_renderDashboard()` — corregidas ~15 referencias a variables inexistentes + colores duros |
+
+**Verificación:** ✅ `node -c ml.js` | ✅ Dashboard se adapta a ambos temas
+
 ### 2026-06-04: Fix prediction modal theme — adapts to dark/light mode
 
 **Qué:** El modal de predicción usaba colores oscuros hardcodeados (`#0e141b`, `#1c2a38`, `#131c26`, etc.) que no cambiaban al activar el modo claro. Se reemplazaron todas las referencias por CSS variables del sistema de temas (`var(--bg-panel)`, `var(--border)`, `var(--text-primary)`, etc.).

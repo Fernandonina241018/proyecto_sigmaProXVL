@@ -1025,28 +1025,28 @@ const MLManager = (() => {
 
         /* ═══ Verdict ═══ */
         var isApproved = useNlp ? isPositive : (predDisplay.endsWith('=si') || predDisplay === 'si' || predDisplay === '1' || predDisplay === 'true' || predDisplay === 'aprobado');
-        var verColor = isApproved ? 'var(--accent-green)' : 'var(--accent-red)';
-        var verBorder = isApproved ? 'var(--accent-green)' : 'var(--accent-red)';
+        var verColor = isApproved ? 'var(--accent-alt)' : 'var(--accent-error)';
+        var verBorder = isApproved ? 'var(--accent-alt)' : 'var(--accent-error)';
         html += '<div class="dp-verdict dp-anim dp-anim-2" style="border-left-color:' + verBorder + '">' +
             '<div class="dp-verdict-icon">' + emoji + '</div>' +
             '<div><div class="dp-verdict-label">Clasificación</div>' +
             '<div class="dp-verdict-value" style="color:' + verColor + '">' + escapeHtml(predLabel) + '</div>' +
-            (altLabel ? '<div class="dp-alt-pill"><span style="color:var(--text-dim)">Alt:</span> ' + escapeHtml(altLabel) + ' · ' + altProbPct + '</div>' : '') +
+            (altLabel ? '<div class="dp-alt-pill"><span style="color:var(--text-faint)">Alt:</span> ' + escapeHtml(altLabel) + ' · ' + altProbPct + '</div>' : '') +
             '</div>' +
             '<div class="dp-conf-block"><div class="dp-conf-num dp-conf-anim" data-target="' + mainProb + '" style="color:' + verColor + '">0.0%</div><div class="dp-conf-label">CONFIANZA</div>' +
-            (useNlp ? '<div style="font-size:9px;color:var(--accent-cyan);margin-top:2px">🤖 ajustado por NLP <span style="color:' + (nlpAjuste >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + '">' + (nlpAjuste >= 0 ? '+' : '') + (nlpAjuste * 100).toFixed(1) + ' pts</span></div>' : '') +
+            (useNlp ? '<div style="font-size:9px;color:#00b8d4;margin-top:2px">🤖 ajustado por NLP <span style="color:' + (nlpAjuste >= 0 ? 'var(--accent-alt)' : 'var(--accent-error)') + '">' + (nlpAjuste >= 0 ? '+' : '') + (nlpAjuste * 100).toFixed(1) + ' pts</span></div>' : '') +
             '</div>' +
             '<div class="dp-margin-block"><div class="dp-margin-num" style="color:' + verColor + '">+' + marginPts + ' pts</div>' +
             '<div class="dp-margin-label">MARGEN VS ALT.</div>' +
             '<div style="margin-top:6px">' +
-            (useNlp ? '<div style="font-size:10px;font-weight:600;margin-bottom:4px;padding:2px 8px;border-radius:4px;background:' + (isApproved ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)') + ';color:' + verColor + '">' + (isApproved ? '🟢' : '🔴') + ' ' + (isApproved ? 'APROBADO' : 'RECHAZADO') + ' por NLP</div>' : '') +
+            (useNlp ? '<div style="font-size:10px;font-weight:600;margin-bottom:4px;padding:2px 8px;border-radius:4px;background:color-mix(in srgb,' + (isApproved ? 'var(--accent-alt)' : 'var(--accent-error)') + ' 15%,var(--item-bg));color:' + verColor + '">' + (isApproved ? '🟢' : '🔴') + ' ' + (isApproved ? 'APROBADO' : 'RECHAZADO') + ' por NLP</div>' : '') +
             '<span class="dp-risk-pill ' + riesgoClass + '">' + escapeHtml(riesgo) + '</span></div></div></div>';
 
         /* ═══ Confidence Bar ═══ */
         html += '<div class="dp-bar-row dp-anim dp-anim-2">' +
             '<div class="dp-bar-labels"><span style="color:' + verColor + '">' + escapeHtml(predLabel) + '</span>' +
-            '<span style="color:var(--text-sec)">Distribución de probabilidad</span>' +
-            (altLabel ? '<span style="color:var(--text-sec)">' + escapeHtml(altLabel) + '</span>' : '') + '</div>' +
+            '<span style="color:var(--text-muted)">Distribución de probabilidad</span>' +
+            (altLabel ? '<span style="color:var(--text-muted)">' + escapeHtml(altLabel) + '</span>' : '') + '</div>' +
             '<div class="dp-bar-track"><div class="dp-bar-fill dp-bar-anim" data-pct="' + mainProb + '"></div></div>' +
             '<div class="dp-bar-ticks"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div></div>';
 
@@ -1081,7 +1081,7 @@ const MLManager = (() => {
             });
             html += '</div>';
         } else {
-            html += '<div style="font-size:11px;color:var(--text-sec)">No hay datos de contribución disponibles para este modelo.</div>';
+            html += '<div style="font-size:11px;color:var(--text-muted)">No hay datos de contribución disponibles para este modelo.</div>';
         }
         html += '</div></div>';
 
@@ -1104,22 +1104,22 @@ const MLManager = (() => {
             var conItems = parseFactorItem(contra);
             if (favItems.length || conItems.length) {
                 html += '<div class="dp-panel"><div class="dp-panel-header"><div class="dp-panel-title">Factores Determinantes</div></div><div class="dp-panel-body"><div class="dp-factors">';
-                html += '<div class="dp-factor-group"><div class="dp-factor-title" style="color:var(--accent-green)">✅ A FAVOR</div>';
+                html += '<div class="dp-factor-group"><div class="dp-factor-title" style="color:var(--accent-alt)">✅ A FAVOR</div>';
                 if (favItems.length) {
                     favItems.forEach(function(f) {
                         html += '<div class="dp-factor-item"><div><div class="dp-factor-name">' + escapeHtml(f.name) + '</div><div class="dp-factor-detail">' + escapeHtml(f.detail) + '</div></div></div>';
                     });
                 } else {
-                    html += '<div style="font-size:10px;color:var(--text-dim)">Sin factores destacados</div>';
+                    html += '<div style="font-size:10px;color:var(--text-faint)">Sin factores destacados</div>';
                 }
                 html += '</div>';
-                html += '<div class="dp-factor-group"><div class="dp-factor-title" style="color:var(--accent-red)">❌ EN CONTRA</div>';
+                html += '<div class="dp-factor-group"><div class="dp-factor-title" style="color:var(--accent-error)">❌ EN CONTRA</div>';
                 if (conItems.length) {
                     conItems.forEach(function(f) {
                         html += '<div class="dp-factor-item"><div><div class="dp-factor-name">' + escapeHtml(f.name) + '</div><div class="dp-factor-detail">' + escapeHtml(f.detail) + '</div></div></div>';
                     });
                 } else {
-                    html += '<div style="font-size:10px;color:var(--text-dim)">Sin factores destacados</div>';
+                    html += '<div style="font-size:10px;color:var(--text-faint)">Sin factores destacados</div>';
                 }
                 html += '</div></div></div></div>';
             }
@@ -1128,7 +1128,7 @@ const MLManager = (() => {
         /* ═══ Comparison Table ═══ */
         if (contribs.length) {
             html += '<div class="dp-panel"><div class="dp-panel-header"><div class="dp-panel-title">Valores Actuales vs Baseline</div>' +
-                '<span class="dp-panel-badge" style="font-family:var(--font-mono);font-size:9px;color:var(--text-sec)">ref: mediana/moda histórica</span></div>' +
+                '<span class="dp-panel-badge" style="font-family:var(--font-mono);font-size:9px;color:var(--text-muted)">ref: mediana/moda histórica</span></div>' +
                 '<div class="dp-panel-body" style="overflow-x:auto"><table class="dp-comp-table"><thead><tr>' +
                 '<th>Feature</th><th>Valor Actual</th><th>Baseline</th><th>Δ Absoluto</th><th>Δ %</th></tr></thead><tbody>';
             var sorted2 = contribs.slice().sort(function(a, b) { return b.abs_delta - a.abs_delta; });
@@ -1157,14 +1157,14 @@ const MLManager = (() => {
         html += '<div class="dp-panel"><div class="dp-panel-header"><div class="dp-panel-title">Score de Confianza</div></div>' +
             '<div class="dp-gauge-wrap">' +
             '<svg class="dp-gauge-svg" viewBox="0 0 160 90">' +
-            '<path d="M 20 80 A 60 60 0 0 1 140 80" fill="none" stroke="#1e2d3d" stroke-width="10" stroke-linecap="round"/>' +
+            '<path d="M 20 80 A 60 60 0 0 1 140 80" fill="none" stroke="var(--border)" stroke-width="10" stroke-linecap="round"/>' +
             '<path id="dp-gauge-arc" data-pct="' + gaugePct + '" d="M 20 80 A 60 60 0 0 1 140 80" fill="none" stroke="url(#dpGaugeGrad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="189" stroke-dashoffset="189"/>' +
-            '<defs><linearGradient id="dpGaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ffa502"/><stop offset="60%" stop-color="#00c8e0"/><stop offset="100%" stop-color="#00e5a0"/></linearGradient></defs>' +
-            '<line id="dp-gauge-needle" data-pct="' + gaugePct + '" x1="80" y1="80" x2="80" y2="28" stroke="#00e5a0" stroke-width="2" stroke-linecap="round" style="transform-origin:80px 80px;transform:rotate(-90deg)"/>' +
-            '<circle cx="80" cy="80" r="4" fill="#00e5a0"/>' +
-            '<text x="18" y="92" fill="#3d5a73" font-size="7" font-family="monospace">0</text>' +
-            '<text x="72" y="18" fill="#3d5a73" font-size="7" font-family="monospace">50</text>' +
-            '<text x="137" y="92" fill="#3d5a73" font-size="7" font-family="monospace">100</text></svg>' +
+            '<defs><linearGradient id="dpGaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="var(--accent-warn)"/><stop offset="60%" stop-color="#00c8e0"/><stop offset="100%" stop-color="var(--accent-alt)"/></linearGradient></defs>' +
+            '<line id="dp-gauge-needle" data-pct="' + gaugePct + '" x1="80" y1="80" x2="80" y2="28" stroke="var(--accent-alt)" stroke-width="2" stroke-linecap="round" style="transform-origin:80px 80px;transform:rotate(-90deg)"/>' +
+            '<circle cx="80" cy="80" r="4" fill="var(--accent-alt)"/>' +
+            '<text x="18" y="92" fill="var(--text-faint)" font-size="7" font-family="var(--font-mono)">0</text>' +
+            '<text x="72" y="18" fill="var(--text-faint)" font-size="7" font-family="var(--font-mono)">50</text>' +
+            '<text x="137" y="92" fill="var(--text-faint)" font-size="7" font-family="var(--font-mono)">100</text></svg>' +
             '<div class="dp-gauge-val"><div class="dp-gauge-num dp-gauge-anim" data-target="' + gaugePct + '">0</div><div class="dp-gauge-sub">' + confLabel.toUpperCase() + '</div></div></div></div>';
 
         /* ─── Probability Distribution ─── */
@@ -1172,7 +1172,7 @@ const MLManager = (() => {
             html += '<div class="dp-panel"><div class="dp-panel-header"><div class="dp-panel-title">Distribución de Probabilidad</div></div><div class="dp-panel-body"><div class="dp-dist-list">';
             classProbs.forEach(function(cp) {
                 var cpPct = cp.prob != null ? (cp.prob * 100).toFixed(1) : '0';
-                var cpColor = cp.prob >= 0.5 ? 'var(--accent-green)' : 'var(--accent-red)';
+                var cpColor = cp.prob >= 0.5 ? 'var(--accent-alt)' : 'var(--accent-error)';
                 html += '<div class="dp-dist-row"><div class="dp-dist-label"><span class="dp-dist-name">target = ' + escapeHtml(cp.label) + '</span>' +
                     '<span class="dp-dist-pct" style="color:' + cpColor + '">' + cpPct + '%</span></div>' +
                     '<div class="dp-dist-track"><div class="dp-dist-fill dp-dist-anim" style="background:' + cpColor + '" data-pct="' + cpPct + '"></div></div></div>';
@@ -1200,7 +1200,7 @@ const MLManager = (() => {
             html += '<div class="dp-risk-alert">' + escapeHtml(recText) + '</div>';
         }
         if (acts.length) {
-            html += '<div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-sec);margin-bottom:8px">Acciones sugeridas</div>' +
+            html += '<div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px">Acciones sugeridas</div>' +
                 '<div class="dp-actions">';
             acts.forEach(function(a, i) {
                 var num = (i + 1).toString().padStart(2, '0');
@@ -1209,18 +1209,18 @@ const MLManager = (() => {
             html += '</div>';
         }
         if (anomalies.length) {
-            html += '<div style="margin-top:12px"><div class="dp-anomaly"><span style="font-size:12px">⚠️</span><span style="font-weight:600;color:var(--accent-red)">Valores fuera de rango de entrenamiento</span></div>';
+            html += '<div style="margin-top:12px"><div class="dp-anomaly"><span style="font-size:12px">⚠️</span><span style="font-weight:600;color:var(--accent-error)">Valores fuera de rango de entrenamiento</span></div>';
             anomalies.forEach(function(a) {
-                html += '<div class="dp-anomaly-item"><span style="color:var(--accent-red)">▸</span> <strong>' + escapeHtml(a.feature) + '</strong>: ' + escapeHtml(a.reason) + '</div>';
+                html += '<div class="dp-anomaly-item"><span style="color:var(--accent-error)">▸</span> <strong>' + escapeHtml(a.feature) + '</strong>: ' + escapeHtml(a.reason) + '</div>';
             });
         }
 
         /* ═══ NLP Analysis ═══ */
         var nlpA = p.nlpAnalysis;
         if (nlpA && nlpA.ok) {
-            var nlpRiskColor = 'var(--accent-green)';
-            if (nlpA.risk_level === 'moderado') nlpRiskColor = '#f59e0b';
-            else if (nlpA.risk_level === 'alto') nlpRiskColor = 'var(--accent-red)';
+            var nlpRiskColor = 'var(--accent-alt)';
+            if (nlpA.risk_level === 'moderado') nlpRiskColor = 'var(--accent-warn)';
+            else if (nlpA.risk_level === 'alto') nlpRiskColor = 'var(--accent-error)';
             html += '<div class="dp-panel" style="margin-top:12px">' +
                 '<div class="dp-panel-header"><div class="dp-panel-title">🧠 Análisis semántico</div></div>' +
                 '<div class="dp-panel-body" style="padding:12px 14px">';
@@ -1229,7 +1229,7 @@ const MLManager = (() => {
                 '<div style="font-size:9px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Riesgo detectado</div>' +
                 '<div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:' + nlpRiskColor + '"></span>' +
                 '<span style="font-weight:700;font-size:13px;color:' + nlpRiskColor + '">' + nlpA.risk_level.toUpperCase() + '</span>' +
-                '<span style="font-size:10px;color:var(--text-dim)">(' + (nlpA.risk_score * 100).toFixed(0) + '%)</span></div></div>' +
+                '<span style="font-size:10px;color:var(--text-faint)">(' + (nlpA.risk_score * 100).toFixed(0) + '%)</span></div></div>' +
                 '<div style="background:var(--item-bg);padding:10px;border-radius:6px;border:1px solid var(--border)">' +
                 '<div style="font-size:9px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Sentimiento</div>' +
                 '<div style="font-weight:700;font-size:13px">' +
@@ -1239,7 +1239,7 @@ const MLManager = (() => {
                 html += '<div style="margin-bottom:6px"><span style="font-size:9px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.5px">Palabras clave</span>' +
                     '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">';
                 nlpA.keywords.forEach(function(kw) {
-                    html += '<span style="background:var(--bg-card);padding:2px 8px;border-radius:10px;font-size:10px;color:var(--accent-cyan);border:1px solid var(--border)">' + escapeHtml(kw) + '</span>';
+                    html += '<span style="background:var(--card-bg);padding:2px 8px;border-radius:10px;font-size:10px;color:#00b8d4;border:1px solid var(--border)">' + escapeHtml(kw) + '</span>';
                 });
                 html += '</div></div>';
             }
@@ -1258,9 +1258,9 @@ const MLManager = (() => {
                 var subProb = subP['probabilidad_predicha'];
                 var subPct = subProb != null ? (subProb * 100).toFixed(1) + '%' : '—';
                 var subEmoji = subProb != null && subProb >= 0.5 ? '✅' : '❌';
-                html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg-card);border:1px solid var(--border);border-radius:4px;margin-bottom:6px;font-size:11px">' +
+                html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--card-bg);border:1px solid var(--border);border-radius:4px;margin-bottom:6px;font-size:11px">' +
                     '<span>' + subEmoji + ' ' + escapeHtml(subLabel) + '</span>' +
-                    '<span style="font-family:var(--font-mono);font-weight:600;color:var(--accent-cyan)">' + subPct + '</span></div>';
+                    '<span style="font-family:var(--font-mono);font-weight:600;color:#00b8d4">' + subPct + '</span></div>';
             }
             html += '</div></details>';
         }
