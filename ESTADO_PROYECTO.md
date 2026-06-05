@@ -913,6 +913,28 @@ ReporteManager → [✍️ Enviar a firma] → sessionStorage → firmarReporte 
 
 **Ya no se genera archivo duplicado** porque no hay descarga desde ReporteManager. El único archivo que se descarga es el firmado desde firmarReporte.
 
+### 2026-06-04: Target column in ML sidebar changed from text input to select dropdown
+
+**Qué:** La columna target en el sidebar de ML ahora es un `<select>` que carga todas las columnas del dataset seleccionado, en vez de un `<input>` donde había que escribir el nombre manualmente.
+
+**Cambios:**
+- `ml-target-input`: `<input type="text">` → `<select>` con opciones cargadas automáticamente
+- Nueva función `_populateTargetColumns()`: obtiene columnas del dataset seleccionado (servidor o worksheet local) y puebla el select
+- Evento `change` en `ml-dataset-select` → dispara `_populateTargetColumns()`
+- `refreshDatasets()` llama a `_populateTargetColumns()` al terminar
+- Mensajes de validación actualizados: "Ingresa el nombre" → "Selecciona la columna target"
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/pages/ml.js:132` | HTML: input → select con option placeholder |
+| `js/pages/ml.js:299-314` | Nueva `_populateTargetColumns()` (antes de `refreshDatasets`) |
+| `js/pages/ml.js:369` | `refreshDatasets()` llama a `_populateTargetColumns()` al final |
+| `js/pages/ml.js:229-231` | `_bindGuideEvents()` agrega listener change en dataset select |
+| `js/pages/ml.js:465-467` | `train()`: target.value sin `.trim()`, toast actualizado |
+| `js/pages/ml.js:665` | `trainAll()`: igual |
+| `js/pages/ml.js:631` | Checklist: hint actualizado |
+
 ### 2026-06-04: Fix _renderDashboard theme — undefined vars + hardcoded gauge colors
 
 **Qué:** El dashboard de resultados de predicción (result overlay) usaba nombres de variables CSS que no existen en el tema (`--accent-green`, `--accent-red`, `--accent-cyan`, `--text-sec`, `--text-dim`, `--bg-card`) y colores duros en el gauge SVG.

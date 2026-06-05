@@ -129,7 +129,7 @@ const MLManager = (() => {
             '<label style="font-size:13px;color:var(--text-faint);display:flex;align-items:center;gap:6px;margin-top:1px">' +
             '<input type="checkbox" id="ml-nlp-toggle" style="width:18px;height:18px"> 🧠 NLP Calibrator</label>' +
             '<label style="font-size:13px;color:var(--text-faint);display:flex;align-items:center;gap:6px">' +
-            '<input type="text" id="ml-target-input" placeholder="columna target" style="flex:1;padding:8px 8px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:14px"> Target</label>' +
+            '<select id="ml-target-input" style="flex:1;padding:8px 8px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:14px"><option value="">— Selecciona dataset primero —</option></select> 🎯 Target</label>' +
             '<label style="font-size:13px;color:var(--text-faint);display:flex;align-items:center;gap:6px">' +
             '<input type="text" id="ml-name-input" placeholder="ej: credit_scoring" style="flex:1;padding:8px 8px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:14px;font-family:var(--font-mono)"> 🏷️ Nombre</label>' +
             '<div style="display:flex;gap:6px;margin-top:2px">' +
@@ -227,6 +227,8 @@ const MLManager = (() => {
             var evt = el.tagName === 'INPUT' ? 'input' : 'change';
             el.addEventListener(evt, _updateGuide);
         });
+        var dsSel = document.getElementById('ml-dataset-select');
+        if (dsSel) dsSel.addEventListener('change', _populateTargetColumns);
     }
 
     async function init() {
@@ -296,6 +298,37 @@ const MLManager = (() => {
         event.target.value = '';
     }
 
+    function _populateTargetColumns() {
+        var dsSelect = document.getElementById('ml-dataset-select');
+        var targetSelect = document.getElementById('ml-target-input');
+        if (!dsSelect || !targetSelect) return;
+        var dsName = dsSelect.value;
+        if (!dsName) {
+            targetSelect.innerHTML = '<option value="">— Selecciona dataset primero —</option>';
+            return;
+        }
+        var columns = [];
+        var isWorksheet = dsName.indexOf('__ws__:') === 0;
+        if (isWorksheet) {
+            var wsData = _getWorksheetData(dsName.slice(7));
+            columns = wsData ? wsData.columns : [];
+        } else {
+            for (var i = 0; i < _datasets.length; i++) {
+                if (_datasets[i].name === dsName) {
+                    columns = _datasets[i].columns || [];
+                    break;
+                }
+            }
+        }
+        targetSelect.innerHTML = '<option value="">— Selecciona target —</option>';
+        columns.forEach(function(col) {
+            var opt = document.createElement('option');
+            opt.value = col;
+            opt.textContent = col;
+            targetSelect.appendChild(opt);
+        });
+    }
+
     async function refreshDatasets() {
         const sel = document.getElementById('ml-dataset-select');
         if (!sel) return;
@@ -331,6 +364,7 @@ const MLManager = (() => {
             if (_datasets.length === 0 && (!sel.options || sel.options.length <= 1)) {
                 sel.innerHTML = '<option value="">— No hay datasets —</option>';
             }
+            _populateTargetColumns();
         } catch (e) {
             sel.innerHTML = '<option value="">— Error: ' + escapeHtml(e.message) + ' —</option>';
             showToast('Error al cargar datasets: ' + e.message, 'error');
@@ -428,9 +462,9 @@ const MLManager = (() => {
         const targetInput = document.getElementById('ml-target-input');
         const datasetName = datasetSelect ? datasetSelect.value : '';
         const modelKey = modelSelect ? modelSelect.value : 'rf';
-        const target = targetInput ? targetInput.value.trim() : '';
+        const target = targetInput ? targetInput.value : '';
         if (!datasetName) { showToast('Selecciona un dataset', 'error'); results.innerHTML = buildEmptyState(); return; }
-        if (!target) { showToast('Ingresa el nombre de la columna target', 'error'); results.innerHTML = buildEmptyState(); return; }
+        if (!target) { showToast('Selecciona la columna target', 'error'); results.innerHTML = buildEmptyState(); return; }
 
         var isWorksheet = datasetName.indexOf('__ws__:') === 0;
         var sheetName = isWorksheet ? datasetName.slice(7) : null;
@@ -628,7 +662,7 @@ const MLManager = (() => {
         var steps = [
             { label: 'Dataset', done: dsVal !== '', detail: dsVal || 'Selecciona un dataset', hint: !dsVal ? 'Usa 📤 Subir si no tienes' : '' },
             { label: 'Modelo', done: dsVal !== '' && modelVal !== '', detail: dsVal ? modelLabel : '—', hint: dsVal && !modelVal ? 'Recomendado: 🌳 Random Forest' : '' },
-            { label: 'Target', done: targetVal !== '', detail: targetVal || 'Escribe la columna objetivo', hint: dsVal && !targetVal ? 'Debe existir en el dataset' : '' },
+            { label: 'Target', done: targetVal !== '', detail: targetVal || 'Selecciona la columna objetivo', hint: dsVal && !targetVal ? 'Selecciona el target del dataset' : '' },
             { label: 'Balanceo', done: dsVal && modelVal && targetVal, detail: '⚖️ Opcional', hint: dsVal && targetVal ? 'SMOTE si hay desbalance' : '' },
             { label: '¡Entrenar!', done: dsVal && modelVal && targetVal, detail: (dsVal && modelVal && targetVal) ? '✅ Todo listo' : 'Completa los pasos', hint: '' },
         ];
@@ -2063,9 +2097,9 @@ const MLManager = (() => {
         var datasetSelect = document.getElementById('ml-dataset-select');
         var targetInput = document.getElementById('ml-target-input');
         var datasetName = datasetSelect ? datasetSelect.value : '';
-        var target = targetInput ? targetInput.value.trim() : '';
+        var target = targetInput ? targetInput.value : '';
         if (!datasetName) { showToast('Selecciona un dataset', 'error'); return; }
-        if (!target) { showToast('Ingresa el nombre de la columna target', 'error'); return; }
+        if (!target) { showToast('Selecciona la columna target', 'error'); return; }
 
         var models = ['rf', 'xgb', 'mlp', 'logistic'];
         var labels = { rf: '🌳 Random Forest', xgb: '⚡ XGBoost', mlp: '🧠 MLP Neural Net', logistic: '📈 Logistic Regression' };
