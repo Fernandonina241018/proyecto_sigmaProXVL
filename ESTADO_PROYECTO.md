@@ -23,6 +23,122 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-06: Brain2 Integration — 12 Project Guidelines Integrated into Auto-Prompt
+
+**Qué:** Se integró la base de conocimiento Brain2 (12 directrices del proyecto) directamente en el plugin auto-prompt, eliminando la necesidad de un plugin separado. Brain2 ahora enriquece automáticamente cada prompt con contexto relevante del proyecto.
+
+**Cómo funciona:**
+
+1. **Carga inteligente de Brain2**: Se carga al iniciar el primer mensaje; la caché TTL es de 1 hora
+2. **Detección de contexto**: Analiza el prompt del usuario y detecta qué archivos Brain2 son relevantes (máx. 4)
+3. **Inyección automática**: Agrega el contexto relevante entre learning context y user input
+
+**Archivos Brain2 (12 directrices):**
+
+| # | Archivo | Tema | Descripción |
+|---|---------|------|-------------|
+| 1 | 01_PROJECT.md | Proyecto | Identidad, stack, estructura general |
+| 2 | 02_ESTADISTICOS.md | Estadísticos | Config y guía de estadísticos |
+| 3 | 03_WORKFLOW.md | Workflow | Protocolo de 4 pasos con agente |
+| 4 | 04_CODE_GUIDELINES.md | Código | Estándares ES6+, vanilla JS |
+| 5 | 05_BUGS_AND_DECISIONS.md | Decisiones | Registro de bugs y decisiones |
+| 6 | 06_POLICIES.md | Políticas | Bloqueantes de seguridad |
+| 7 | 07_CONTEXTO_BASE.md | Contexto | Información general del proyecto |
+| 8 | 08_GUIA_ESTADISTICO.md | Guía | Checklist para nuevo estadístico |
+| 9 | 09_PLAN_SEGURIDAD.md | Seguridad | Plan de remediación (24 hallazgos) |
+| 10 | 10_PROTOCOLO_SEGURIDAD.md | Protocolo | Evitar regresiones en cambios |
+| 11 | 11_ADVANCE_AGENT.md | Agente AI | Constitución del agente autoevolutivo |
+| 12 | 12_TECNICA_ADVANCE.md | Técnica | Prompt de comportamiento avanzado |
+
+**Nuevas funciones en auto-prompt.ts:**
+
+1. **`loadBrain2Entry()` y `loadAllBrain2Entries()`** (línea ~220-252)
+   - Carga los 12 archivos Brain2 desde disco (`~/proyecto_sigmaProXVL/Brain/Brain2/`)
+   - Implementa caché con TTL (1 hora)
+   - Fallback graceful si archivos no existen
+
+2. **`detectRelevantBrain2Entries(text, entries)`** (línea ~281-310)
+   - Analiza el prompt del usuario y detecta keywords relevantes
+   - Incluye máx. 4 archivos Brain2 más relevantes
+   - Default (1, 4, 6, 11, 12) si no hay coincidencias específicas
+
+3. **`buildBrain2Context(entries)`** (línea ~312-339)
+   - Genera XML con los archivos Brain2 relevantes
+   - Incluye título, descripción y snippet de contenido (primeras 200 chars)
+   - Estructura clara para el LLM
+
+**Cambios en Plugin Entry Point (línea ~690):**
+
+```typescript
+// ANTES:
+const learningContext = buildLearningContext(mem)
+const skillsContext = buildSkillsContext(mem)
+output.parts = [{ type: "text", text: buildPromptWithFullContext(template, text, learningContext, skillsContext) }]
+
+// DESPUÉS:
+const learningContext = buildLearningContext(mem)
+const skillsContext = buildSkillsContext(mem)
+
+// Initialize Brain2 loading (fire-and-forget)
+if (!brain2LoadPromise) {
+  brain2LoadPromise = loadAllBrain2Entries(ctx.logger).catch(err => {
+    ctx.logger?.error("AutoPrompt: Brain2 initialization failed:", err)
+    return []
+  })
+}
+
+const brain2Entries = await brain2LoadPromise
+const relevantEntries = detectRelevantBrain2Entries(text, brain2Entries)
+const brain2Context = buildBrain2Context(relevantEntries)
+
+output.parts = [{ type: "text", text: buildPromptWithFullContext(template, text, learningContext, skillsContext, brain2Context) }]
+```
+
+**Archivos afectados:**
+
+| Archivo | Cambio | Líneas |
+|---------|--------|--------|
+| `.opencode/plugins/auto-prompt.ts` | +Tipos + constantes + 6 funciones Brain2 + integración en chat.message hook | +130 |
+| `~/.config/opencode/plugins/auto-prompt.ts` | **SINCRONIZADO** — mismos cambios | +130 |
+| `/opencode.json` | Actualizado contexto "context" para documentar los 12 archivos Brain2 | contexto actualizado |
+| `brain2-loader.ts` | ❌ **ELIMINADO** — funcionalidad integrada en auto-prompt | - |
+
+**Ejemplo de flujo con Brain2:**
+
+```
+Usuario: "implementa un nuevo estadístico"
+   ↓
+1. Detecta keywords: "estadístico" → Brain2 #2, #8 relevantes
+2. Incluye defaults: #1, #4, #6, #11, #12
+3. Selecciona top 4: #1, #2, #4, #8
+   ↓
+4. Inyecta en prompt:
+   - Template /prompt
+   - Learning context (105 interacciones)
+   - Skills context (top 3 skills)
+   - ✨ Brain2 context: #1, #2, #4, #8
+   - User input
+   ↓
+LLM recibe contexto completo → respuesta mucho más relevante
+```
+
+**Beneficios:**
+
+✅ 12 directrices del proyecto siempre disponibles en prompts  
+✅ Detección inteligente de contexto relevante (máx. 4 archivos)  
+✅ Sin plugin extra; integrado en auto-prompt existente  
+✅ Caché eficiente (TTL 1 hora)  
+✅ Fire-and-forget loading (no bloquea primer mensaje)  
+✅ Backward compatible con setup actual  
+
+**Verificación:**
+
+✅ `node -c auto-prompt.ts` — Sintaxis correcta  
+✅ Ambos ficheros sincronizados (proyecto + global)  
+✅ opencode.json actualizado con documentación Brain2
+
+---
+
 ### 2026-06-06: Enhanced Auto-Prompt Plugin — Full /prompt Integration + Skills Context
 
 **Qué:** Se mejoró el plugin `auto-prompt` para invocar automáticamente el comando `/prompt` con contexto completo en cada interacción. Ahora cada mensaje del usuario obtiene:

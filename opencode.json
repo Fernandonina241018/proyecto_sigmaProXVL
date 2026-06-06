@@ -74,8 +74,21 @@
       "context": [
         "PROYECTO: SigmaProXVL (estadísticas, ML, spreadsheets)",
         "Ruta base: /mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/",
-        "Brains: Brain/Brain2/ (estadísticas), Brain/Brain3/ (Agente X)",
-        "Skills en .opencode/skills/ y global ~/.config/opencode/skills/"
+        "Brain2 — 12 directrices integradas en auto-prompt (cargadas automáticamente):",
+        "  01 — Proyecto (identidad, stack, estructura)",
+        "  02 — Estadísticos (config y guía)",
+        "  03 — Workflow con agente (protocolo 4 pasos)",
+        "  04 — Lineamientos de código (ES6+ vanilla JS)",
+        "  05 — Bugs y decisiones (registro)",
+        "  06 — Políticas (bloqueantes de seguridad)",
+        "  07 — Contexto base (información general)",
+        "  08 — Guía nuevo estadístico (checklist operativo)",
+        "  09 — Plan remediación seguridad (24 hallazgos)",
+        "  10 — Protocolo cambios sin romper (evitar regresiones)",
+        "  11 — Constitución del Agente AI (automejora + testing)",
+        "  12 — Prompt de comportamiento (técnica avanzada)",
+        "Skills en .opencode/skills/ y global ~/.config/opencode/skills/",
+        "Plugin auto-prompt: /prompt command con contexto completo (learning + skills + Brain2)"
       ],
       "instructions": "Optimiza el prompt del usuario. Usa skills disponibles para enriquecer contexto. Responde con XML tags, explicación de técnicas y lista de mejores prácticas."
     }
