@@ -23,6 +23,30 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-06: Phase 3 Deploy — Backend + ML Service desplegados con auth
+
+**Qué:** Deploy de todos los cambios de seguridad a producción + health checks.
+
+**Deploys realizados:**
+| Servicio | URL | Cambios |
+|----------|-----|---------|
+| Backend | `https://sigmaproxvl-backend.fly.dev` | Rate limiting, body limit, input validation, SSL config (`DB_SSL_INSECURE=1`), `/api/ml-api-key` endpoint, health check cada 15s |
+| ML Service | `https://sigmapro-ml.fly.dev` | API key auth (opt-in via `API_KEY` env var), checksum SHA-256 en modelos, health check cada 15s |
+
+**API Key ML Service desplegada:**
+- `API_KEY=f61fdf70...cd7dd1` (64 chars hex) en ambos servicios
+- Sin key → `401 Unauthorized`
+- Con key → `200 OK`
+- Health check exento (`/api/ml/health`)
+
+**Verificaciones:**
+- Backend health: `{"database":"connected"}`
+- ML Service: 2 modelos cargados correctamente
+- Frontend: `HTTP 200` en GitHub Pages
+- Tests: 107/107 pasan
+
+**Pendiente (manual):** Rotar credenciales expuestas en historial git (Supabase, Fly.io, Groq, admin).
+
 ### 2026-06-06: Phase 2 Cleanup — Junk removal, DEMO purge, code quality
 
 **Qué:** Limpieza profunda del codebase: archivos basura, scripts demo/test, y mejoras de calidad de código.
