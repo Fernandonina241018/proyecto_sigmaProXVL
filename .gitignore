@@ -8,6 +8,7 @@ dist/
 .venv/
 venv/
 __pycache__/
+*.pyc
 
 # OS
 .DS_Store
@@ -15,15 +16,39 @@ Thumbs.db
 
 # IDE
 .opencode/
+Brain/
+**/.obsidian/
 
 # Fly.io
 .fly/
 
 # Secrets
 z_error.md
+fly.txt
+link.txt
+
+# Personal notes / AI prompts
+prompt_optimizado.md
+.prompt-optimized.md
+
+# Screenshots
+supabase.png
+
+# Dev / temp data
+datos_prueba_duplicados.csv
+Red_Neuronal/datos/training_temp.csv
+Red_Neuronal/datos/entrenamiento_temporal.csv
+Red_Neuronal/*.txt
+Red_Neuronal/modelo_demo.pkl
 
 # Modelos locales (solo Fly.io)
 Red_Neuronal/modelos_guardados/
+
+# TypeScript sources (no build step, out of sync)
+*.ts
+!vitest.config.ts
+tsconfig.json
+types.d.ts
 
 # Logs
 *.log
