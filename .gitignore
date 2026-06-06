@@ -44,13 +44,25 @@ Red_Neuronal/modelo_demo.pkl
 # Modelos locales (solo Fly.io)
 Red_Neuronal/modelos_guardados/
 
+# Red_Neuronal — Demo / test / diagnostic scripts (not used in production)
+Red_Neuronal/DEMO_*
+Red_Neuronal/DEMOSTRACION_*
+Red_Neuronal/DIAGNOSTICO_*
+Red_Neuronal/RESUMEN_*
+Red_Neuronal/INICIO_RAPIDO*
+Red_Neuronal/TEST_MODULOS*
+Red_Neuronal/test_*
+Red_Neuronal/analisis_creditos.py
+
 # TypeScript sources (no build step, out of sync)
 *.ts
 !vitest.config.ts
 tsconfig.json
 types.d.ts
 
+# Backup / stale
+*.bak
+
 # Logs
 *.log
 npm-debug.log*
-*.bak
