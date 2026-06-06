@@ -23,6 +23,28 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-06: Phase 4 — CI/CD pipelines + npm audit fixes
+
+**Qué:** Automatización de tests y deploys + parches de seguridad en dependencias.
+
+**CI/CD:**
+- `ci.yml`: Ejecuta `npm test` (107 tests) en cada push/PR a `main`
+- `deploy.yml`: Auto-deploy del backend y ML Service a Fly.io al hacer push a `main`
+  - Requiere `FLY_API_TOKEN` en GitHub Secrets
+  - Backend: `flyctl deploy --strategy immediate`
+  - ML Service: `flyctl deploy --config ml_service/fly.toml --strategy rolling`
+
+**Seguridad:**
+- `npm audit fix` en backend: 5 vulnerabilidades moderate corregidas
+  - `ip-address` XSS via `express-rate-limit`
+  - `qs` DoS via `body-parser` / `express`
+- Total: 0 vulnerabilidades
+
+**Cómo activar CD:**
+1. Ir a GitHub → Settings → Secrets → Actions
+2. Agregar `FLY_API_TOKEN` (generar con `flyctl tokens create deploy`)
+3. Los deploys automáticos empezarán en el próximo push a `main`
+
 ### 2026-06-06: Phase 3 Deploy — Backend + ML Service desplegados con auth
 
 **Qué:** Deploy de todos los cambios de seguridad a producción + health checks.
