@@ -23,6 +23,37 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-06: Plugin Consolidation — Single Source of Truth (Global Only)
+
+**Qué:** Se eliminaron todos los plugins duplicados de `.opencode/plugins/` del proyecto. Ahora toda la lógica `auto-prompt`, `Brain2`, `Agent Brain` vive exclusivamente en `~/.config/opencode/plugins/` (global).
+
+**Motivación:**
+- Los plugins globales aplican a TODOS los proyectos de OpenCode automáticamente
+- Elimina el riesgo de versiones divergentes (proyecto vs global)
+- Elimina la necesidad de sincronizar archivos manualmente
+- Las rutas absolutas (`~/proyecto_sigmaProXVL/Brain/Brain2/`) funcionan igual desde global
+
+**Archivos eliminados del proyecto:**
+- `.opencode/plugins/auto-prompt.ts`
+- `.opencode/plugins/brain2-types.ts`
+- `.opencode/plugins/gap-detector.ts`
+- `.opencode/plugins/brain2-generator.ts`
+- `.opencode/plugins/evolution-tracker.ts`
+- `.opencode/plugins/brain2-initializer.ts`
+- `.opencode/plugins/DIAGRAMA.md` (archivo no-plugin innecesario)
+
+**Ubicación única ahora:**
+- `~/.config/opencode/plugins/*.ts` — **Único origen de verdad**
+- El directorio `.opencode/plugins/` del proyecto queda **vacío** (opencode usa global automáticamente)
+
+**Verificación:**
+- ✅ Todos los plugins existen en `~/.config/opencode/plugins/`
+- ✅ `node -c *.ts` en global — sintaxis correcta
+- ✅ Archivos del proyecto eliminados
+- ✅ OpenCode carga plugins globales automáticamente
+
+---
+
 ### 2026-06-06: Agent Brain v2.0 — Sistema Auto-Evolucionable de Conocimiento
 
 **Qué:** Se creó un sistema completo de "cerebro" para el agente IA que integra los 12 archivos Brain2 con capacidades de auto-detección de lagunas, generación automática de nuevos archivos de conocimiento, versionado y seguimiento de evolución.
