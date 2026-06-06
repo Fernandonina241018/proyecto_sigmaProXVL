@@ -13,6 +13,15 @@ primary_region = 'dfw'
   min_machines_running = 1
   processes = ['app']
 
+  [[http_service.checks]]
+    port = 8080
+    type = "http"
+    path = "/api/ml/health"
+    interval = "15s"
+    timeout = "5s"
+    healthy_threshold = 2
+    unhealthy_threshold = 3
+
 [[vm]]
   memory = '2gb'
   cpus = 1
