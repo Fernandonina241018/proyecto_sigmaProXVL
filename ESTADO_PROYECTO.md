@@ -23,6 +23,152 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-06: Agent Brain v2.0 — Sistema Auto-Evolucionable de Conocimiento
+
+**Qué:** Se creó un sistema completo de "cerebro" para el agente IA que integra los 12 archivos Brain2 con capacidades de auto-detección de lagunas, generación automática de nuevos archivos de conocimiento, versionado y seguimiento de evolución.
+
+**Arquitectura del Sistema:**
+
+```
+Agent Brain v2.0
+├── auto-prompt.ts → Orquestador principal (template + learning + skills + Brain2)
+├── gap-detector.ts → Detecta lagunas de conocimiento en tiempo real
+├── brain2-generator.ts → Crea nuevos archivos .md automáticamente
+├── evolution-tracker.ts → Versiona y rastrea cada cambio
+└── brain2-initializer.ts → Inicializa el sistema al cargar
+```
+
+**Nuevos Componentes:**
+
+| Componente | Archivo | Función |
+|------------|---------|---------|
+| Gap Detector | `gap-detector.ts` | Analiza cada prompt del usuario y detecta qué información le falta al agente (9 patrones: bugs, seguridad, performance, etc.) |
+| Auto-Generator | `brain2-generator.ts` | Crea nuevos archivos Brain2 (.md) cuando detecta lagunas críticas, con 8 templates (Implementation, Bug, Security, etc.) |
+| Evolution Tracker | `evolution-tracker.ts` | Mantiene versionado de cada archivo, historial de cambios, checksums SHA-256, y métricas de crecimiento |
+| Manifest | `brain2-manifest.json` | Índice centralizado con 12 archivos core, keywords, categorías, módulos y relaciones semánticas |
+| Growth Log | `agent-brain-growth.md` | Bitácora de evolución del sistema (nuevos archivos, actualizaciones, métricas) |
+
+**Capacidades del Sistema:**
+
+1. **Detección Inteligente de Lagunas**
+   - 9 patrones de detección (bugs, seguridad, integraciones, etc.)
+   - Análisis por categorías (UI, datos, estadísticas, visualización, ML)
+   - Scorer de severidad (high/medium/low)
+   - Detección de frecuencia de gaps
+
+2. **Auto-Generación de Conocimiento**
+   - 8 templates de archivos (Implementation, Bug, Integration, Performance, Security, Process, Stats, Architecture)
+   - Control de límite diario (3 por día máximo)
+   - TTL de caché para no regenerar archivos duplicados
+   - Metadata completa para cada archivo generado
+
+3. **Versionado y Evolución**
+   - Cada archivo tiene historial de versiones
+   - Checksums SHA-256 para detectar cambios
+   - Registro de autor (system/agent/user)
+   - Métricas de crecimiento (success rate, average iterations, etc.)
+
+4. **Crecimiento Constante**
+   - `agent-brain-growth.md` registra cada evolución
+   - Métricas de mejora continua
+   - Patrones de aprendizaje descubiertos
+   - Sistema se perfecciona con cada interacción
+
+**Flujo completo de un prompt ahora:**
+
+```
+Usuario envía mensaje
+  ↓
+1. Template /prompt (mejores prácticas Anthropic)
+2. Learning context (105 interacciones, 10 lecciones)
+3. Skills context (top 3 skills, 3 lecciones cada uno)
+4. Brain2 context (top 4 archivos detectados semánticamente)
+  ↓
+5. GAP DETECTION (Background - no bloquea):
+   ├─ Analiza intent del usuario
+   ├─ Detecta lagunas de conocimiento
+   ├─ Si gaps críticos Y frecuentes → generar nuevo Brain2 file
+   ├─ Actualizar manifest + evolution log + growth log
+   └─ Sistema más inteligente para próxima vez
+  ↓
+Respuesta al usuario
+```
+
+**Ejemplo de Auto-Evolución:**
+
+```
+Usuario: "necesito integrar el ML Service con la API de predicción"
+  ↓
+Gap Detector detecta:
+  - Categoría: Integration (medium severity)
+  - Categoría: ML Integration (high severity)
+  - Frecuencia: 3ra vez que se menciona
+  ↓
+Auto-Generator crea:
+  → 13_ML_SERVICE_INTEGRATION.md
+  ↓
+Evolution Tracker:
+  - Crea versión 1.0.0
+  - Actualiza manifest con metadata
+  - Agrega entrada en agent-brain-growth.md
+  ↓
+Próximo prompt similar:
+  → Contexto Brain2 incluye #13 automáticamente
+```
+
+**Archivos creados/modificados:**
+
+| Archivo | Cambio | Líneas |
+|---------|--------|--------|
+| `.opencode/plugins/brain2-types.ts` | **NUEVO** — 200 líneas de tipos | +200 |
+| `.opencode/plugins/gap-detector.ts` | **NUEVO** — Detector de lagunas con 9 patrones | +250 |
+| `.opencode/plugins/brain2-generator.ts` | **NUEVO** — 8 templates de archivos | +350 |
+| `.opencode/plugins/evolution-tracker.ts` | **NUEVO** — Versionado, manifest, growth log | +300 |
+| `.opencode/plugins/brain2-initializer.ts` | **NUEVO** — Inicialización del sistema | +200 |
+| `.opencode/plugins/auto-prompt.ts` | **MODIFICADO** — +70 líneas (gap detection + generación) | +70 |
+| `~/.config/opencode/plugins/*.ts` | **SINCRONIZADOS** — todos los plugins | - |
+| `Brain/Brain2/agent-brain-growth.md` | **NUEVO** — Bitácora de evolución | +80 |
+| `~/.config/opencode/brain2-manifest.json` | **NUEVO** — Índice centralizado | +150 |
+| `~/.config/opencode/brain2-evolution.json` | **NUEVO** — Historial de versiones | +2 |
+| `~/.config/opencode/brain2-growth-metrics.json` | **NUEVO** — Métricas de crecimiento | +1 |
+
+**Estructura de archivos del sistema:**
+
+```
+.opencode/plugins/
+├── auto-prompt.ts           ← Orquestador (template + learning + skills + Brain2 + gaps)
+├── brain2-types.ts          ← Tipos centralizados (NEW)
+├── gap-detector.ts          ← Detector de lagunas (NEW)
+├── brain2-generator.ts      ← Generador de archivos (NEW)
+├── evolution-tracker.ts     ← Versionado y tracking (NEW)
+└── brain2-initializer.ts    ← Inicialización (NEW)
+
+~/.config/opencode/
+├── brain2-manifest.json     ← Índice semántico (NEW)
+├── brain2-evolution.json    ← Historial de versiones (NEW)
+└── brain2-growth-metrics.json  ← Métricas (NEW)
+
+Brain/Brain2/
+├── 01-12_*.md               ← 12 archivos core
+└── agent-brain-growth.md    ← Bitácora de evolución (NEW)
+```
+
+**Verificación:**
+
+✅ `node -c *.ts` — Sintaxis correcta en todos los archivos  
+✅ Todos los plugins sincronizados proyecto/global  
+✅ Manifest inicial creado con 12 archivos core  
+✅ agent-brain-growth.md inicializado  
+✅ Sistema self-contained (no depende de servicios externos)  
+
+**Próximos pasos evolutivos:**
+- [ ] Revisar y perfeccionar templates de auto-generación
+- [ ] Agregar más patrones de detección de gaps
+- [ ] Integrar con feedback loop del usuario
+- [ ] Mejorar scoring de relevancia semántica
+
+---
+
 ### 2026-06-06: Brain2 Integration — 12 Project Guidelines Integrated into Auto-Prompt
 
 **Qué:** Se integró la base de conocimiento Brain2 (12 directrices del proyecto) directamente en el plugin auto-prompt, eliminando la necesidad de un plugin separado. Brain2 ahora enriquece automáticamente cada prompt con contexto relevante del proyecto.
