@@ -1100,7 +1100,6 @@ const ReporteManager = (() => {
         }
 
         function statsRows(col){
-            const refs=t('statRefs');
             const formulas=t('statFormulas');
             let h='';
             const hypothesisTests = HYPOTHESIS_SET;

@@ -10,6 +10,10 @@ const MLManager = (() => {
     let _trainingHistory = [];
     let _keepAliveId = null;
 
+    function _filterMetricsKeys(metrics) {
+        return Object.keys(metrics).filter(function(k) { return k !== 'y_pred' && k !== 'y_proba'; });
+    }
+
     function _getMlApiUrl() {
         if (typeof ML_API_URL !== 'undefined') return ML_API_URL;
         return 'http://localhost:8000';
@@ -442,7 +446,7 @@ const MLManager = (() => {
         if (Object.keys(metrics).length > 0) {
             html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">' +
                 '<div style="font-weight:600;margin-bottom:4px;font-size:10px">📊 Métricas</div>';
-            var keys = Object.keys(metrics).filter(function(k) { return !['y_pred', 'y_proba'].includes(k); });
+            var keys = _filterMetricsKeys(metrics);
             html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 12px">';
             keys.forEach(function(k) {
                 var v = metrics[k];
@@ -600,13 +604,13 @@ const MLManager = (() => {
         html += '<div style="border-top:1px solid var(--border);padding-top:8px">' +
             '<div style="font-weight:600;margin-bottom:4px;font-size:10px">📊 Métricas</div>' +
             '<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 12px">';
-        for (var k in metrics) {
-            if (['y_pred', 'y_proba'].includes(k)) continue;
+        var keys = _filterMetricsKeys(metrics);
+        keys.forEach(function(k) {
             var v = metrics[k];
             if (typeof v === 'number') v = v.toFixed ? v.toFixed(4) : v;
             html += '<div style="display:flex;justify-content:space-between;padding:1px 0;font-size:10px">' +
                 '<span>' + k + '</span><span style="font-weight:500;color:var(--accent)">' + v + '</span></div>';
-        }
+        });
         html += '</div></div>';
         if (meta.target_classes && meta.target_classes.length) {
             html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">' +
@@ -793,7 +797,7 @@ const MLManager = (() => {
     }
 
     function _predMetricsStrip(metrics) {
-        var keys = Object.keys(metrics).filter(function(k) { return !['y_pred', 'y_proba'].includes(k); });
+        var keys = _filterMetricsKeys(metrics);
         if (!keys.length) return '';
         var html = '<div style="display:flex;gap:6px;flex-wrap:wrap">';
         keys.slice(0, 6).forEach(function(k) {
@@ -1024,7 +1028,6 @@ const MLManager = (() => {
         var anomalies = p['feature_anomalies'] || [];
         var margin = p['margen_decision'] ?? p['margen_top_2'];
 
-        var probPct = prob != null ? (prob * 100).toFixed(1) : '—';
         var altProbPct = altProb != null ? (altProb * 100).toFixed(1) + '%' : '—';
         var marginPts = margin != null ? (margin * 100).toFixed(1) : '—';
         var confLabel = p['nivel_confianza'] || '—';
@@ -1721,7 +1724,6 @@ const MLManager = (() => {
         var probType = meta.problem_type || '—';
         var nNum = numFeatures.length;
         var nCat = catFeatures.length;
-        var metricKeys = Object.keys(metrics).filter(function(k) { return !['y_pred','y_proba'].includes(k); });
 
         var html = '';
         html += '<div class="pd-topbar"><div class="pd-topbar-left"><span style="font-size:18px">\ud83d\udd2e</span><span class="pd-topbar-title">Predecir con</span><span class="pd-topbar-model">' + escapeHtml(modelId) + '</span></div><div class="pd-toggle-wrap"><span>Modo experto</span><div class="pd-toggle-track"><div class="pd-toggle-thumb"></div></div></div></div>';
@@ -2204,7 +2206,7 @@ const MLManager = (() => {
 
     function _hpBestMetric(metrics, meta) {
         if (!metrics) return '—';
-        var keys = Object.keys(metrics).filter(function(k) { return !['y_pred', 'y_proba'].includes(k); });
+        var keys = _filterMetricsKeys(metrics);
         if (keys.length === 0) return '—';
         var preferred = meta && meta.problem_type === 'binary' ? ['auc_roc', 'accuracy', 'f1_score'] :
                         meta && meta.problem_type === 'regression' ? ['r2_score', 'rmse', 'mae'] :
@@ -2259,8 +2261,8 @@ const MLManager = (() => {
         var allMetricKeys = new Set();
         allResults.forEach(function(r) {
             if (r.data && r.data.metrics) {
-                Object.keys(r.data.metrics).forEach(function(k) {
-                    if (k !== 'y_pred' && k !== 'y_proba') allMetricKeys.add(k);
+                _filterMetricsKeys(r.data.metrics).forEach(function(k) {
+                    allMetricKeys.add(k);
                 });
             }
         });
