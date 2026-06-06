@@ -3,8 +3,10 @@ ml_service/main.py — FastAPI service wrapping Red Neuronal ML modules
 Endpoints: train, predict, models, anomaly, explain, datasets
 """
 
+import hashlib
 import io
 import json
+import os
 import re
 import sys
 import threading
@@ -20,9 +22,10 @@ import pandas as pd
 import numpy as np
 import joblib
 from pandas.api.types import is_string_dtype, is_object_dtype
-from fastapi import FastAPI, HTTPException, Query, Request, UploadFile, File
+from fastapi import FastAPI, HTTPException, Query, Request, UploadFile, File, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.security import APIKeyHeader
 from pydantic import BaseModel
 
 _RN_DIR = Path(__file__).resolve().parent.parent / "Red_Neuronal"
@@ -84,8 +87,45 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
     allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
-    allow_headers=["Content-Type", "Authorization"],
+    allow_headers=["Content-Type", "Authorization", "X-API-Key"],
 )
+
+# ── API Key Authentication (opt-in via env var API_KEY) ──
+_API_KEY = os.environ.get("API_KEY")
+_API_EXEMPT_PATHS = {"/api/ml/health", "/docs", "/redoc", "/openapi.json"}
+
+@app.middleware("http")
+async def api_key_middleware(request: Request, call_next):
+    if _API_KEY is not None and request.url.path not in _API_EXEMPT_PATHS:
+        key = request.headers.get("X-API-Key")
+        if not key or key != _API_KEY:
+            return JSONResponse(status_code=401, content={"error": "Unauthorized — invalid or missing X-API-Key header"})
+    return await call_next(request)
+
+def _compute_file_checksum(path: str) -> str:
+    """SHA-256 checksum of a file."""
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _safe_load_model(model_id: str, entry: dict) -> dict:
+    """Load a model file verifying checksum from registry entry.
+    
+    Returns the joblib-loaded payload dict.
+    Raises HTTPException if checksum fails or file is missing.
+    """
+    p = _safe_resolve(MODELS_DIR, entry.get("filename", ""), allowed_ext=(".joblib", ".pkl"))
+    if not p.exists():
+        raise HTTPException(404, f"Model file not found")
+    stored_checksum = entry.get("checksum")
+    if stored_checksum:
+        actual = _compute_file_checksum(str(p))
+        if actual != stored_checksum:
+            raise HTTPException(500, f"Model file integrity check failed (checksum mismatch). The model may have been tampered with or corrupted.")
+    return joblib.load(str(p))
 
 MODELS_DIR = _RN_DIR / "modelos_guardados"
 DATOS_DIR = _RN_DIR / "datos"
@@ -440,10 +480,7 @@ def predict_endpoint(req: PredictRequest):
         if req.model_id not in registry:
             raise HTTPException(404, f"Model '{req.model_id}' not found")
         entry = registry[req.model_id]
-        p = _safe_resolve(MODELS_DIR, entry.get("filename", ""), allowed_ext=(".joblib", ".pkl"))
-        if not p.exists():
-            raise HTTPException(404, f"Model file not found")
-        payload = joblib.load(str(p))
+        payload = _safe_load_model(req.model_id, entry)
         pipeline = payload["pipeline"]
         meta = payload["meta"]
         boot_models = payload.get("bootstrap_models", [])
@@ -451,7 +488,8 @@ def predict_endpoint(req: PredictRequest):
 
         cal_payload = None
         if req.texts:
-            cal_path = p.with_stem(p.stem + "_calibrator").with_suffix(".pkl")
+            cal_name = entry.get("filename", "").replace(".pkl", "_calibrator.pkl")
+            cal_path = MODELS_DIR / cal_name
             if cal_path.exists():
                 cal_payload = joblib.load(str(cal_path))
 
@@ -484,10 +522,8 @@ def list_models():
             meta = entry.get("meta", {})
             if not meta or not isinstance(meta.get("num_features"), list):
                 try:
-                    p = _safe_resolve(MODELS_DIR, entry.get("filename", ""), allowed_ext=(".joblib", ".pkl"))
-                    if p.exists():
-                        payload = joblib.load(str(p))
-                        meta = payload.get("meta", {})
+                    payload = _safe_load_model(mid, entry)
+                    meta = payload.get("meta", {})
                 except Exception:
                     meta = {
                         "num_features": [],
@@ -614,8 +650,7 @@ def explain_endpoint(req: ExplainRequest):
         if req.model_id not in registry:
             raise HTTPException(404, f"Model '{req.model_id}' not found")
         entry = registry[req.model_id]
-        p = _safe_resolve(MODELS_DIR, entry.get("filename", ""), allowed_ext=(".joblib", ".pkl"))
-        payload = joblib.load(str(p))
+        payload = _safe_load_model(req.model_id, entry)
         pipeline = payload["pipeline"]
         meta = payload["meta"]
         X_new = _df_from_payload(req.data, req.columns)

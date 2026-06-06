@@ -39,6 +39,7 @@ const Auth = (() => {
     let _sessionTimer=null, _warnTimer=null, _countdownTimer=null;
     let _attempts=0, _locked=false, _onLogin=null, _onLogout=null;
     let _token=null;
+    let _mlApiKey=null;
 
     // ── Verificación contra backend ───────
     async function _verifyCredentials(user, password) {
@@ -599,11 +600,14 @@ const Auth = (() => {
         }
     }
 
-    function _onLoginSuccess(userData){
+    async function _onLoginSuccess(userData){
         // Guardar fechas para el modal de perfil
         localStorage.setItem('ultimoLogin', new Date().toISOString());
         localStorage.setItem('sessionStart', Date.now().toString());
-
+        // Fetch ML API key before proceeding
+        if (_token) {
+            await _fetchMlApiKey();
+        }
         const card=document.querySelector('.auth-card');
         card?.classList.add('auth-success-exit');
         setTimeout(()=>{
@@ -612,6 +616,18 @@ const Auth = (() => {
             _registerActivityListeners();
             if(_onLogin) _onLogin(userData);
         },600);
+    }
+
+    async function _fetchMlApiKey() {
+        try {
+            const res = await fetch(CFG.API_URL + '/api/ml-api-key', {
+                headers: { 'Authorization': 'Bearer ' + _token }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                _mlApiKey = data.key || null;
+            }
+        } catch (_e) {}
     }
 
     // ── Actividad ─────────────────────────
@@ -651,7 +667,9 @@ const Auth = (() => {
     function getSession(){ return _isSessionValid()?_getSession():null; }
     function isAuthenticated(){ return _isSessionValid(); }
 
-    return { init, showLogin, logout, keepAlive, getSession, isAuthenticated, getToken };
+    function getMlApiKey(){ return _mlApiKey; }
+
+    return { init, showLogin, logout, keepAlive, getSession, isAuthenticated, getToken, getMlApiKey };
 
 })();
 

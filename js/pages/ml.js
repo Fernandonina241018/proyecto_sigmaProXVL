@@ -31,6 +31,8 @@ const MLManager = (() => {
             headers: { 'Content-Type': 'application/json' },
         };
         if (token) opts.headers['Authorization'] = 'Bearer ' + token;
+        var mlApiKey = (typeof Auth !== 'undefined' && Auth.getMlApiKey) ? Auth.getMlApiKey() : null;
+        if (mlApiKey) opts.headers['X-API-Key'] = mlApiKey;
         if (body) opts.body = JSON.stringify(body);
         try {
             const res = await fetch(apiUrl + path, opts);
@@ -268,8 +270,10 @@ const MLManager = (() => {
             formData.append('file', file);
             var apiUrl = window._ML_API_URL || 'https://sigmapro-ml.fly.dev';
             var token = (typeof Auth !== 'undefined' && Auth.getToken) ? Auth.getToken() : null;
+            var mlApiKey = (typeof Auth !== 'undefined' && Auth.getMlApiKey) ? Auth.getMlApiKey() : null;
             var headers = {};
             if (token) headers['Authorization'] = 'Bearer ' + token;
+            if (mlApiKey) headers['X-API-Key'] = mlApiKey;
             var resp = await fetch(apiUrl + '/api/ml/dataset/upload', {
                 method: 'POST', headers: headers, body: formData,
             });
@@ -1594,7 +1598,10 @@ const MLManager = (() => {
                 if (nlpText) {
                     try {
                         var apiUrl = window._ML_API_URL || 'https://sigmapro-ml.fly.dev';
-                        var nlpRes = await fetch(apiUrl + '/api/ml/analyze-text', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({text: nlpText}) });
+                        var mlKey = (typeof Auth !== 'undefined' && Auth.getMlApiKey) ? Auth.getMlApiKey() : null;
+                        var nlpHeaders = {'Content-Type': 'application/json'};
+                        if (mlKey) nlpHeaders['X-API-Key'] = mlKey;
+                        var nlpRes = await fetch(apiUrl + '/api/ml/analyze-text', { method: 'POST', headers: nlpHeaders, body: JSON.stringify({text: nlpText}) });
                         if (nlpRes.ok) nlpAnalysis = await nlpRes.json();
                     } catch (_e) {}
                 }

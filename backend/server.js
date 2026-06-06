@@ -492,6 +492,12 @@ app.get('/api/me', requireAuth, (req, res) => {
     res.json({ ok: true, username: req.user.username, role: req.user.role, token });
 });
 
+// GET /api/ml-api-key — devuelve la ML API Key para que el frontend la pase al ML Service
+app.get('/api/ml-api-key', requireAuth, (req, res) => {
+    const key = process.env.ML_API_KEY || '';
+    res.json({ ok: true, key });
+});
+
 // GET /api/users (solo admin)
 app.get('/api/users', requireAuth, requireAdmin, async (req, res) => {
     const users = await db.getAllUsers();

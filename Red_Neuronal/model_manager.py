@@ -9,6 +9,7 @@ Capacidades:
   • Generar nombres descriptivos automáticos
 """
 
+import hashlib
 import os
 import json
 import shutil
@@ -16,6 +17,15 @@ from pathlib import Path
 from datetime import datetime
 from typing import List, Dict, Optional
 import joblib
+
+
+def _compute_checksum(path: str) -> str:
+    """SHA-256 checksum of a file."""
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
 
 class ModelManager:
@@ -113,6 +123,9 @@ class ModelManager:
         joblib.dump(payload, filepath, compress=3)
         size_mb = os.path.getsize(filepath) / 1_048_576
         
+        # Compute SHA-256 checksum for integrity verification
+        checksum = _compute_checksum(str(filepath))
+        
         # Registrar en el JSON
         registry = self._load_registry()
         
@@ -127,6 +140,7 @@ class ModelManager:
             "problem_type": payload['meta']['problem_type'],
             "created_at": datetime.now().isoformat(),
             "file_size_mb": round(size_mb, 2),
+            "checksum": checksum,
             "target_col": payload['meta'].get('target_col', 'unknown'),
             "num_features": payload['meta'].get('num_features', []),
             "cat_features": payload['meta'].get('cat_features', []),
@@ -208,6 +222,16 @@ class ModelManager:
         
         if not filepath.exists():
             raise FileNotFoundError(f"Archivo del modelo no encontrado: {filepath}")
+        
+        # Verify checksum if available (backwards compatible)
+        stored_checksum = info.get("checksum")
+        if stored_checksum:
+            actual_checksum = _compute_checksum(str(filepath))
+            if actual_checksum != stored_checksum:
+                raise ValueError(
+                    f"Checksum mismatch for model '{model_id}'. "
+                    f"File may have been tampered with or corrupted."
+                )
         
         payload = joblib.load(filepath)
         
