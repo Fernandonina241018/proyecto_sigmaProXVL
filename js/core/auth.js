@@ -146,6 +146,11 @@ const Auth = (() => {
                         <span class="auth-checkbox-custom"></span>
                         <span class="auth-checkbox-text">Mostrar contraseña</span>
                     </label>
+                    <label class="auth-checkbox-row" style="margin-top:4px">
+                        <input type="checkbox" id="auth-remember">
+                        <span class="auth-checkbox-custom"></span>
+                        <span class="auth-checkbox-text">Recordarme</span>
+                    </label>
                 </div>
                 <div class="auth-error"    id="auth-error"         style="display:none"></div>
                 <div class="auth-attempts" id="auth-attempts-info" style="display:none"></div>
@@ -169,6 +174,14 @@ const Auth = (() => {
         document.body.appendChild(overlay);
         _attachLoginListeners();
         _renderParticles();
+        try {
+            var saved = JSON.parse(localStorage.getItem('__auth_remembered'));
+            if (saved && saved.username) {
+                document.getElementById('auth-user').value = saved.username;
+                document.getElementById('auth-pass').value = saved.password || '';
+                document.getElementById('auth-remember').checked = true;
+            }
+        } catch(_e) {}
     }
 
 // ========================================
@@ -542,6 +555,12 @@ const Auth = (() => {
 
         if(result.ok){
             _attempts=0;
+            var rememberCb = document.getElementById('auth-remember');
+            if (rememberCb && rememberCb.checked) {
+                try { localStorage.setItem('__auth_remembered', JSON.stringify({username: user, password: pass})); } catch(_e) {}
+            } else {
+                try { localStorage.removeItem('__auth_remembered'); } catch(_e) {}
+            }
             _onLoginSuccess({username:result.username,role:result.role,mustChangePassword:result.mustChangePassword});
         } else {
             const blocked=_registerFailedAttempt();

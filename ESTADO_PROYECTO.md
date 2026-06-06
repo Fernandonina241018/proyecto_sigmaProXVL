@@ -434,6 +434,22 @@ Template /prompt
 
 **Verificación:** ✅ `node -c ml.js` | ✅ Modal de predicción permanece tras cerrar resultado
 
+### 2026-06-04: Add "Recordarme" checkbox to login (persist credentials in localStorage)
+
+**Qué:** Nuevo checkbox "Recordarme" en el formulario de login que guarda usuario y contraseña en localStorage. Al volver a la página de login, los campos se rellenan automáticamente.
+
+**Cambios:**
+- `auth.js:148-152` — Nuevo checkbox "Recordarme" en el modal de login
+- `auth.js:172-178` — Al renderizar modal, carga credenciales guardadas de `localStorage.__auth_remembered`
+- `auth.js:549-554` — Al iniciar sesión exitosamente, guarda o limpia según estado del checkbox
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/auth.js:148-152,172-178,549-554` | +checkbox, +pre-fill, +save/clear logic |
+
+**Verificación:** ✅ `node -c auth.js`
+
 ### 2026-06-04: Switched to multi-provider AI config (Groq + DeepInfra + Ollama)
 
 **Qué:** Se reemplazó Ollama local por Groq cloud (API gratuita) como provider principal, con DeepInfra como secundario y Ollama como fallback. Config detallada abajo en "Switched to Groq cloud — file-based API keys, multiple providers".
