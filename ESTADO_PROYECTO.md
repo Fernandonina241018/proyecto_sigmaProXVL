@@ -419,6 +419,21 @@ Template /prompt
 
 **Verificación:** ✅ Dashboard se adapta completamente a ambos temas (oscuro y claro)
 
+### 2026-06-04: Fix — "Nueva predicción" now keeps prediction modal open
+
+**Qué:** Al hacer clic en "Nueva predicción" después de un resultado, el modal de predicción se cerraba junto con el overlay de resultados. Ahora el modal de predicción permanece abierto para permitir modificar parámetros y predecir nuevamente.
+
+**Causa raíz:** Tras una predicción exitosa, `overlay.remove()` destruía el modal de predicción completo (`.pd-root`). Cuando el usuario presionaba "Nueva predicción", solo se cerraba el overlay de resultados, pero el modal de predicción ya no existía.
+
+**Solución:** Eliminar `overlay.remove()` después de renderizar el resultado. El modal de predicción permanece debajo del overlay de resultados y se revela al cerrar el overlay.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/pages/ml.js:1609` | Eliminada línea `overlay.remove()` |
+
+**Verificación:** ✅ `node -c ml.js` | ✅ Modal de predicción permanece tras cerrar resultado
+
 ### 2026-06-04: Switched to multi-provider AI config (Groq + DeepInfra + Ollama)
 
 **Qué:** Se reemplazó Ollama local por Groq cloud (API gratuita) como provider principal, con DeepInfra como secundario y Ollama como fallback. Config detallada abajo en "Switched to Groq cloud — file-based API keys, multiple providers".

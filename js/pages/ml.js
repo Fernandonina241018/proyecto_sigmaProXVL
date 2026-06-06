@@ -1606,7 +1606,6 @@ const MLManager = (() => {
                 var resultHtml = _renderDashboard(result.predictions, model, modelMetrics_);
                 resBody.innerHTML = resultHtml;
                 setTimeout(_animateDashboard, 50);
-                overlay.remove();
             } catch (e) {
                 resBody.innerHTML = '<div style="text-align:center;padding:40px;color:#ef4444;font-size:14px;font-weight:500">\u274c ' + escapeHtml(e.message) + '</div>';
             } finally {
