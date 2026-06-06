@@ -77,7 +77,7 @@ app.use(helmet({
     referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
 }));
 
-app.use(express.json());
+app.use(express.json({ limit: '100kb' }));
 app.use(cookieParser());
 
 // ── Request Logging (sin dependencias nuevas) ──
@@ -100,6 +100,17 @@ const loginLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,  // 15 minutos
     max: 20,                     // máximo 20 intentos por IP
     message: { error: 'Demasiados intentos de login. Intente de nuevo en 15 minutos.' },
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => {
+        return req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
+    }
+});
+
+const verifyLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+    message: { error: 'Demasiados intentos de verificación. Intente de nuevo en 15 minutos.' },
     standardHeaders: true,
     legacyHeaders: false,
     keyGenerator: (req) => {
@@ -163,7 +174,7 @@ const http = require('http');
 
 const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://localhost:8000';
 
-app.use('/api/ml', async (req, res) => {
+app.use('/api/ml', requireAuth, async (req, res) => {
     try {
         const mlUrl = new URL(ML_SERVICE_URL + req.originalUrl);
         const options = {
@@ -489,7 +500,7 @@ app.get('/api/users', requireAuth, requireAdmin, async (req, res) => {
 
 // POST /api/verify-signature — validar código de firma + contraseña
 // No requiere autenticación previa; el código de firma es la credencial
-app.post('/api/verify-signature', async (req, res) => {
+app.post('/api/verify-signature', verifyLimiter, async (req, res) => {
     const { signatureCode, password } = req.body;
     if (!signatureCode?.trim() || !password?.trim()) {
         return res.status(400).json({ error: 'Código de firma y contraseña son requeridos' });
@@ -530,11 +541,26 @@ app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
     if (!username?.trim() || !password?.trim()) {
         return res.status(400).json({ error: 'Usuario y contraseña son requeridos' });
     }
+    if (username.trim().length > 50) {
+        return res.status(400).json({ error: 'El usuario no puede exceder 50 caracteres' });
+    }
     if (!['admin', 'user', 'readonly', 'supervisor', 'analista', 'gerente', 'coordinador'].includes(role)) {
         return res.status(400).json({ error: 'Rol inválido' });
     }
     if (password.length < 8) {
         return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres' });
+    }
+    if (password.length > 128) {
+        return res.status(400).json({ error: 'La contraseña no puede exceder 128 caracteres' });
+    }
+    if (nombre && nombre.length > 100) {
+        return res.status(400).json({ error: 'El nombre no puede exceder 100 caracteres' });
+    }
+    if (apellido && apellido.length > 100) {
+        return res.status(400).json({ error: 'El apellido no puede exceder 100 caracteres' });
+    }
+    if (email && email.length > 200) {
+        return res.status(400).json({ error: 'El email no puede exceder 200 caracteres' });
     }
 
     const result = await db.createUser({
@@ -590,6 +616,11 @@ app.put('/api/users/password', requireAuth, async (req, res) => {
 // PUT /api/users/profile (usuario actual)
 app.put('/api/users/profile', requireAuth, async (req, res) => {
     const { nombre, apellido, email, telefono, cargo, signatureCode } = req.body;
+    if (nombre && nombre.length > 100) return res.status(400).json({ error: 'El nombre no puede exceder 100 caracteres' });
+    if (apellido && apellido.length > 100) return res.status(400).json({ error: 'El apellido no puede exceder 100 caracteres' });
+    if (email && email.length > 200) return res.status(400).json({ error: 'El email no puede exceder 200 caracteres' });
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: 'Email inválido' });
+    if (signatureCode && signatureCode.length > 50) return res.status(400).json({ error: 'El código de firma no puede exceder 50 caracteres' });
     await db.updateUserProfile(req.user.username, { nombre, apellido, email, telefono, cargo, signatureCode });
     res.json({ ok: true });
 });

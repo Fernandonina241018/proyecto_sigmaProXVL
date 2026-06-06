@@ -5,6 +5,24 @@
 
 const Auth = (() => {
 
+    function _xorObfuscate(str, key) {
+        var result = '';
+        for (var i = 0; i < str.length; i++) {
+            result += String.fromCharCode(str.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+        }
+        return btoa(result);
+    }
+    function _xorDeobfuscate(str, key) {
+        try {
+            var decoded = atob(str);
+            var result = '';
+            for (var i = 0; i < decoded.length; i++) {
+                result += String.fromCharCode(decoded.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+            }
+            return result;
+        } catch(_e) { return ''; }
+    }
+
     const CFG = {
         SESSION_TIMEOUT_MS: 5 * 60 * 1000,
         MAX_ATTEMPTS:       10,
@@ -178,7 +196,7 @@ const Auth = (() => {
             var saved = JSON.parse(localStorage.getItem('__auth_remembered'));
             if (saved && saved.username) {
                 document.getElementById('auth-user').value = saved.username;
-                document.getElementById('auth-pass').value = saved.password || '';
+                document.getElementById('auth-pass').value = saved.password ? _xorDeobfuscate(saved.password, saved.username) : '';
                 document.getElementById('auth-remember').checked = true;
             }
         } catch(_e) {}
@@ -557,7 +575,7 @@ const Auth = (() => {
             _attempts=0;
             var rememberCb = document.getElementById('auth-remember');
             if (rememberCb && rememberCb.checked) {
-                try { localStorage.setItem('__auth_remembered', JSON.stringify({username: user, password: pass})); } catch(_e) {}
+                try { localStorage.setItem('__auth_remembered', JSON.stringify({username: user, password: _xorObfuscate(pass, user)})); } catch(_e) {}
             } else {
                 try { localStorage.removeItem('__auth_remembered'); } catch(_e) {}
             }

@@ -26,7 +26,7 @@ function buildPostgres() {
 
     const pool = new Pool({
         connectionString: process.env.DATABASE_URL,
-        ssl: { rejectUnauthorized: false },
+        ssl: { rejectUnauthorized: process.env.DB_SSL_INSECURE === '1' ? false : true },
         idleTimeoutMillis: 10000,
         connectionTimeoutMillis: 5000,
     });
