@@ -23,6 +23,29 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-06: Phase 2 Cleanup — Junk removal, DEMO purge, code quality
+
+**Qué:** Limpieza profunda del codebase: archivos basura, scripts demo/test, y mejoras de calidad de código.
+
+**Archivos eliminados (11 vía git rm --cached, 14 vía rm del disco):**
+
+| Tipo | Archivos | Tamaño |
+|------|----------|--------|
+| DEMO Python | `DEMO_anomaly_detector.py`, `DEMO_AUTO_CSV_LOADER.py`, `DEMO_interpretability.py`, `DEMOSTRACION_MEJORAS.py` | ~37 KB |
+| Diagnóstico | `DIAGNOSTICO_VALUEERROR_COLUMNS.py`, `DIAGNOSTICO_CREDITOS.md` | ~23 KB |
+| Resúmenes TXT | `RESUMEN_IMPLEMENTACION.py`, `RESUMEN_COMPLETO_SESION.txt`, `RESUMEN_MEJORAS.txt`, `RESUMEN_SESION_18_ABRIL.txt` | ~58 KB |
+| Test/Inicio | `INICIO_RAPIDO.py`, `TEST_MODULOS.py`, `test_model_persistence.py` | ~20 KB |
+| Orphan | `analisis_creditos.py` | ~19 KB |
+| TS sources | `StateManager.ts`, `StatsUtils.ts`, `Logger.ts`, `types.d.ts`, `tsconfig.json` | ~43 KB |
+| Backup | `js/core/indexx.js.bak` | 262 KB |
+| Varios | `supabase.png`, `fly.txt`, `link.txt`, `datos_prueba_duplicados.csv`, `prompt_optimizado.md`, `.prompt-optimized.md` | ~63 KB |
+
+**Code quality:**
+- `ml.js`: removed unused `probPct` y `metricKeys` variables
+- `ml.js`: added `_filterMetricsKeys()` helper → eliminó 5 duplicaciones del patrón `y_pred`/`y_proba`
+- `ReporteManager.js`: removed unused `refs` variable
+- `.gitignore`: añadidos patrones para `DEMO_*`, `DIAGNOSTICO_*`, `RESUMEN_*`, `INICIO_RAPIDO*`, `TEST_MODULOS*`, `test_*`, `analisis_creditos.py`
+
 ### 2026-06-06: Phase 1 Seguridad — ML Service Auth, Pickle RCE, Input Validation
 
 **Qué:** Implementación completa de seguridad en ML Service y backend.
