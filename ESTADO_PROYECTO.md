@@ -23,6 +23,84 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-06: Enhanced Auto-Prompt Plugin — Full /prompt Integration + Skills Context
+
+**Qué:** Se mejoró el plugin `auto-prompt` para invocar automáticamente el comando `/prompt` con contexto completo en cada interacción. Ahora cada mensaje del usuario obtiene:
+1. Template del `/prompt` (mejores prácticas de Anthropic)
+2. Contexto de aprendizaje continuo (105 interacciones, 10 lecciones profesionales)
+3. Contexto de skills (15 skills descargados con lecciones especializadas)
+4. Entrada del usuario
+
+**Mejoras principales:**
+
+| Aspecto | Antes | Después |
+|--------|-------|---------|
+| **Context injection** | Solo 3 fases + learning | Template /prompt + learning + skills + usuario |
+| **Skills disponibles** | Cargados pero no inyectados | Automáticamente incluidos en cada prompt |
+| **Memory** | 105 interacciones, 10 lecciones | Mantenidas; ahora contextualizadas mejor |
+| **Scope** | Proyecto solamente | **Proyecto + Global sincronizados** |
+
+**Nuevas funciones:**
+
+1. **`buildSkillsContext(mem: LearningMemory): string`** (línea ~234)
+   - Extrae los 3 skills más relevantes (máx. 3 lecciones c/u)
+   - Retorna XML con etiqueta `<available_skills>` que documenta cada skill disponible
+   - Retorna string vacío si no hay skills (fallback graceful)
+
+2. **`buildPromptWithFullContext()`** (línea ~250)
+   - Combina: template /prompt + learning context + skills context + user input
+   - Estructura XML clara con comentarios de secciones
+   - Mantiene backward compatibility (buildAutoPrompt sigue existiendo pero no se usa)
+
+**Cambios en Plugin Entry Point (línea ~545):**
+```typescript
+// ANTES:
+const learningContext = buildLearningContext(mem)
+output.parts = [{ type: "text", text: buildAutoPrompt(template, text, learningContext) }]
+
+// DESPUÉS:
+const learningContext = buildLearningContext(mem)
+const skillsContext = buildSkillsContext(mem)
+output.parts = [{ type: "text", text: buildPromptWithFullContext(template, text, learningContext, skillsContext) }]
+```
+
+**Archivos afectados:**
+
+| Archivo | Cambio |
+|---------|--------|
+| `.opencode/plugins/auto-prompt.ts` | +45 líneas (buildSkillsContext + buildPromptWithFullContext) |
+| `~/.config/opencode/plugins/auto-prompt.ts` | **SINCRONIZADO** — mismos cambios |
+
+**Estructura de prompt mejorada:**
+
+```
+Template /prompt
+│
+├── CONTINUOUS LEARNING & SKILLS CONTEXT (Auto-Injected)
+│   ├── Interaction count: 105
+│   ├── Professional level: Expert
+│   ├── Professional standards: 10 lecciones desbloqueadas
+│   ├── User patterns: Code + Explanations
+│   └── Available skills:
+│       ├── architecture-patterns (3 lecciones)
+│       ├── codebase-audit-pre-push (3 lecciones)
+│       └── api-security-best-practices (3 lecciones)
+│
+└── USER INPUT
+
+```
+
+**Beneficios:**
+
+✅ Cada prompt obtiene máximo contexto automáticamente  
+✅ 15 skills descargados ahora se aprovechan en cada respuesta  
+✅ Memory de 105 interacciones enriquece el análisis  
+✅ Compatible con configuración existente de `/prompt`  
+✅ Mejora progresiva: más interacciones = mejor contexto  
+✅ **Sincronizado en ambos ficheros** (proyecto + global)
+
+**Verificación:** ✅ `node -c auto-prompt.ts` (proyecto y global) | ✅ Sintaxis TypeScript válida | ✅ Sin cambios en comportamiento de exclusión (`/` y `__AUTO_PROMPT__`)
+
 ### 2026-06-04: Fix result dashboard light mode — hardcoded dark CSS variables in ml-predict.css
 
 **Qué:** El dashboard de resultados de predicción no se adaptaba al modo claro porque `css/pages/ml-predict.css` definía variables CSS con colores oscuros hardcodeados (`--bg-panel: #0d1117`, `--border: #1e2d3d`, etc.) dentro de `.ml-predict-dashboard`, que sobrescribían las variables del tema incluso con `data-theme="light"`.
