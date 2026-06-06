@@ -23,6 +23,28 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-06: Phase 1 Seguridad — ML Service Auth, Pickle RCE, Input Validation
+
+**Qué:** Implementación completa de seguridad en ML Service y backend.
+
+**Items completados:**
+
+| # | Item | Archivos | Detalle |
+|---|------|----------|---------|
+| 1 | Password en localStorage | `auth.js` | XOR-obfuscado con username como key |
+| 2 | Body size limit | `server.js` | `express.json({ limit: '100kb' })` |
+| 3 | Rate limit /verify-signature | `server.js` | 10 req / 15 min |
+| 4 | Proxy ML con auth | `server.js` | `requireAuth` en `/api/ml/*` |
+| 5 | SSL rejectUnauthorized | `database.js` | `true` por defecto (override `DB_SSL_INSECURE=1`) |
+| 6 | Input validation | `server.js` | Longitud + email regex en create user y profile |
+| 7 | ML Service API key | `main.py`, `server.js`, `auth.js`, `ml.js` | Middleware opcional (env `API_KEY`), backend sirve key a sesiones autenticadas, frontend la pasa en todas las requests |
+| 8 | Pickle RCE mitigation | `main.py`, `model_manager.py` | Checksum SHA-256 al guardar, verificación antes de cada `joblib.load()`. Path traversal ya prevenido con `_safe_resolve()`. |
+
+**Riesgo de rotura:** BAJO.
+- API key en ML Service es opt-in (no rompe si no se configura)
+- Checksum es backwards compatible (modelos sin checksum se cargan igual)
+- Frontend añade header solo si la key existe (no rompe si no hay key)
+
 ### 2026-06-06: Plugin Consolidation — Single Source of Truth (Global Only)
 
 **Qué:** Se eliminaron todos los plugins duplicados de `.opencode/plugins/` del proyecto. Ahora toda la lógica `auto-prompt`, `Brain2`, `Agent Brain` vive exclusivamente en `~/.config/opencode/plugins/` (global).
