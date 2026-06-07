@@ -652,6 +652,10 @@ def _add_local_feature_reasoning(pipeline, X_new: pd.DataFrame,
             for e in effects
         ])
 
+        dir_map = {}
+        for c in contribuciones[-1]:
+            dir_map[c["feature"]] = c["direction"]
+
         row_anomalias = []
         for f in row_df.columns:
             actual_val = row_df.iloc[0][f]
@@ -659,16 +663,23 @@ def _add_local_feature_reasoning(pipeline, X_new: pd.DataFrame,
             if fstats and "min" in fstats and fstats["min"] is not None:
                 try:
                     v = float(actual_val)
+                    feat_dir = dir_map.get(f)
                     if v < fstats["min"]:
-                        row_anomalias.append({"feature": f, "reason": f"Valor ({v}) menor al mínimo de entrenamiento ({fstats['min']})"})
+                        if feat_dir == "a_favor":
+                            row_anomalias.append({"feature": f, "reason": f"Valor ({v}) inferior al mínimo de entrenamiento ({fstats['min']}), pero en dirección favorable", "type": "info"})
+                        else:
+                            row_anomalias.append({"feature": f, "reason": f"Valor ({v}) menor al mínimo de entrenamiento ({fstats['min']})", "type": "risk"})
                     elif v > fstats["max"]:
-                        row_anomalias.append({"feature": f, "reason": f"Valor ({v}) mayor al máximo de entrenamiento ({fstats['max']})"})
+                        if feat_dir == "a_favor":
+                            row_anomalias.append({"feature": f, "reason": f"Valor ({v}) superior al máximo de entrenamiento ({fstats['max']}), pero en dirección favorable", "type": "info"})
+                        else:
+                            row_anomalias.append({"feature": f, "reason": f"Valor ({v}) mayor al máximo de entrenamiento ({fstats['max']})", "type": "risk"})
                 except (ValueError, TypeError):
                     pass
             elif fstats and "values" in fstats:
                 try:
                     if actual_val not in fstats["values"]:
-                        row_anomalias.append({"feature": f, "reason": f"Valor '{actual_val}' no visto en entrenamiento"})
+                        row_anomalias.append({"feature": f, "reason": f"Valor '{actual_val}' no visto en entrenamiento", "type": "risk"})
                 except Exception:
                     pass
         anomalias.append(row_anomalias)
@@ -1017,9 +1028,9 @@ def _build_personalized_actions(contributions: list, es_favorable: bool,
                 f"Sin factores en contra destacables. "
                 f"El perfil cumple con los criterios esperados."
             )
-        top = sorted_c[0]
+        top_favor = favor[0] if favor else sorted_c[0]
         actions.append(
-            f"Mantener {top['feature']} en niveles actuales ({top['actual']}) "
+            f"Mantener {top_favor['feature']} en niveles actuales ({top_favor['actual']}) "
             f"para sostener el resultado positivo."
         )
     else:
@@ -1034,17 +1045,17 @@ def _build_personalized_actions(contributions: list, es_favorable: bool,
                 f"Sin factores a favor destacables. "
                 f"Revisar el perfil completo para identificar áreas de mejora."
             )
-        top = sorted_c[0]
-        target_val = _parse_num(top["baseline"])
+        top_contra = contra[0] if contra else sorted_c[0]
+        target_val = _parse_num(top_contra["baseline"])
         if target_val is not None:
             actions.append(
-                f"Trabajar en {top['feature']} para acercarse al "
-                f"promedio de referencia ({top['baseline']})."
+                f"Trabajar en {top_contra['feature']} para acercarse al "
+                f"promedio de referencia ({top_contra['baseline']})."
             )
         else:
             actions.append(
                 f"Evaluar alternativas para mejorar "
-                f"{top['feature']} (actual: {top['actual']})."
+                f"{top_contra['feature']} (actual: {top_contra['actual']})."
             )
 
     pad = _get_static_actions(domain, es_favorable)

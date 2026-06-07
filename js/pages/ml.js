@@ -951,15 +951,30 @@ const MLManager = (() => {
 
         var anomalies = p['feature_anomalies'];
         if (anomalies && Array.isArray(anomalies) && anomalies.length) {
-            html += '<div style="padding:10px 18px;border-top:1px solid var(--border);background:var(--bg-panel)">' +
-                '<div style="display:flex;align-items:center;gap:6px;padding:6px 10px;background:#ef444411;border:1px solid #ef444433;border-radius:6px;font-size:11px">' +
-                '<span style="font-size:14px">⚠️</span><span style="font-weight:600;color:#ef4444">Valores fuera de rango de entrenamiento</span></div>';
-            anomalies.forEach(function(a) {
-                html += '<div style="display:flex;align-items:start;gap:6px;padding:4px 0 0 24px;font-size:11px;color:var(--text-muted)">' +
-                    '<span style="color:#ef4444;flex-shrink:0">▸</span>' +
-                    '<span><strong>' + escapeHtml(a.feature) + '</strong>: ' + escapeHtml(a.reason) + '</span></div>';
-            });
-            html += '</div>';
+            var riskAnomalies = anomalies.filter(function(a) { return a.type !== 'info'; });
+            var infoAnomalies = anomalies.filter(function(a) { return a.type === 'info'; });
+            if (riskAnomalies.length) {
+                html += '<div style="padding:10px 18px;border-top:1px solid var(--border);background:var(--bg-panel)">' +
+                    '<div style="display:flex;align-items:center;gap:6px;padding:6px 10px;background:#ef444411;border:1px solid #ef444433;border-radius:6px;font-size:11px">' +
+                    '<span style="font-size:14px">⚠️</span><span style="font-weight:600;color:#ef4444">Valores fuera de rango de entrenamiento</span></div>';
+                riskAnomalies.forEach(function(a) {
+                    html += '<div style="display:flex;align-items:start;gap:6px;padding:4px 0 0 24px;font-size:11px;color:var(--text-muted)">' +
+                        '<span style="color:#ef4444;flex-shrink:0">▸</span>' +
+                        '<span><strong>' + escapeHtml(a.feature) + '</strong>: ' + escapeHtml(a.reason) + '</span></div>';
+                });
+                html += '</div>';
+            }
+            if (infoAnomalies.length) {
+                html += '<div style="padding:10px 18px;border-top:1px solid var(--border);background:var(--bg-panel)">' +
+                    '<div style="display:flex;align-items:center;gap:6px;padding:6px 10px;background:#10b98111;border:1px solid #10b98133;border-radius:6px;font-size:11px">' +
+                    '<span style="font-size:14px">💡</span><span style="font-weight:600;color:#10b981">Valores fuera de rango pero favorables</span></div>';
+                infoAnomalies.forEach(function(a) {
+                    html += '<div style="display:flex;align-items:start;gap:6px;padding:4px 0 0 24px;font-size:11px;color:var(--text-muted)">' +
+                        '<span style="color:#10b981;flex-shrink:0">▸</span>' +
+                        '<span><strong>' + escapeHtml(a.feature) + '</strong>: ' + escapeHtml(a.reason) + '</span></div>';
+                });
+                html += '</div>';
+            }
         }
 
         var factorsHtml = _predFactorsHtml(p);
@@ -1255,10 +1270,20 @@ const MLManager = (() => {
             html += '</div>';
         }
         if (anomalies.length) {
-            html += '<div style="margin-top:12px"><div class="dp-anomaly"><span style="font-size:12px">⚠️</span><span style="font-weight:600;color:var(--accent-error)">Valores fuera de rango de entrenamiento</span></div>';
-            anomalies.forEach(function(a) {
-                html += '<div class="dp-anomaly-item"><span style="color:var(--accent-error)">▸</span> <strong>' + escapeHtml(a.feature) + '</strong>: ' + escapeHtml(a.reason) + '</div>';
-            });
+            var riskAnomalies = anomalies.filter(function(a) { return a.type !== 'info'; });
+            var infoAnomalies = anomalies.filter(function(a) { return a.type === 'info'; });
+            if (riskAnomalies.length) {
+                html += '<div style="margin-top:12px"><div class="dp-anomaly"><span style="font-size:12px">⚠️</span><span style="font-weight:600;color:var(--accent-error)">Valores fuera de rango de entrenamiento</span></div>';
+                riskAnomalies.forEach(function(a) {
+                    html += '<div class="dp-anomaly-item"><span style="color:var(--accent-error)">▸</span> <strong>' + escapeHtml(a.feature) + '</strong>: ' + escapeHtml(a.reason) + '</div>';
+                });
+            }
+            if (infoAnomalies.length) {
+                html += '<div style="margin-top:12px"><div class="dp-anomaly" style="border-left:3px solid #10b981"><span style="font-size:12px">💡</span><span style="font-weight:600;color:#10b981">Valores fuera de rango pero favorables</span></div>';
+                infoAnomalies.forEach(function(a) {
+                    html += '<div class="dp-anomaly-item"><span style="color:#10b981">▸</span> <strong>' + escapeHtml(a.feature) + '</strong>: ' + escapeHtml(a.reason) + '</div>';
+                });
+            }
         }
 
         /* ═══ NLP Analysis ═══ */

@@ -23,6 +23,25 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-07: Anomalías contextuales y recomendaciones inteligentes
+
+**Qué:** Las anomalías y recomendaciones ahora usan la dirección real de feature_contributions para determinar si un valor fuera de rango es realmente problemático o beneficioso.
+
+**Problema:** El sistema marcaba como ⚠️ anomalía cualquier valor fuera del rango de entrenamiento, sin importar si era beneficioso (ej: monto_prestamo más bajo que el mínimo = menos deuda = mejor para aprobación). Las recomendaciones usaban sorted_c[0] (feature con mayor delta absoluto) sin considerar si era a favor o en contra.
+
+**Arquitectura:**
+
+| Capa | Archivo | Cambio |
+|------|---------|--------|
+| Python | Red_Neuronal/evaluator.py | Anomalías: construye dir_map desde contribuciones[pos]; solo marca anomalía si direction != a_favor. Valores favorables type: info, desfavorables type: risk. Recomendaciones: top_favor = favor[0] para Mantener, top_contra = contra[0] para Trabajar en... |
+| Frontend | js/pages/ml.js | _predCard() y _renderDashboard(): separan anomalías por type; info se muestra en verde sin alerta roja; risk mantiene estilo rojo original |
+
+**Lógica:**
+- Si monto_prestamo=30000 está por debajo del mínimo de entrenamiento pero contribución dice a_favor (menos deuda = más probabilidad de aprobación) -> se muestra como informativo, no como alerta
+- Si ratio_deuda_ingreso=0.8 está por encima del máximo y contribución dice en_contra -> se muestra como riesgo (correcto)
+- Recomendación Mantener usa el top feature a_favor en lugar de sorted_c[0]
+- Recomendación Trabajar en... usa el top feature en_contra en lugar de sorted_c[0]
+
 ### 2026-06-07: Phase 5 — SHAP toggle en entrenamiento
 
 **Qué:** Checkbox "🔬 SHAP Attribution" en el sidebar de ML que, al activarse, usa SHAP values (Shapley) en vez del método de perturbación contra la mediana para calcular las contribuciones de cada feature ("a favor"/"en contra").
