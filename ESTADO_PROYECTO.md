@@ -23,6 +23,44 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-07: Phase 5 — SHAP toggle en entrenamiento
+
+**Qué:** Checkbox "🔬 SHAP Attribution" en el sidebar de ML que, al activarse, usa SHAP values (Shapley) en vez del método de perturbación contra la mediana para calcular las contribuciones de cada feature ("a favor"/"en contra").
+
+**Arquitectura:**
+
+| Capa | Archivo | Cambio |
+|------|---------|--------|
+| **NUEVO** | `Red_Neuronal/shap_explainer.py` | Módulo con `compute_feature_contributions()`, `select_background()` (k-means), `_compute_tree_shap()` (TreeExplainer), `_compute_kernel_shap()` (KernelExplainer), mapeo de features preprocesadas a originales |
+| Python | `ml_service/main.py` | +`compute_shap: bool` en TrainRequest; almacena `X_background` (50 muestras k-means) en payload para modelos no-tree; guarda `meta["shap_enabled"]` |
+| Python | `Red_Neuronal/evaluator.py` | `predict()` acepta `X_background`; `_add_local_feature_reasoning()` usa SHAP si `shap_enabled` y hay background |
+| Python | `ml_service/requirements.txt` | +`shap>=0.45.0` |
+| Frontend | `js/pages/ml.js` | +checkbox `ml-shap-toggle` en sidebar (~línea 138); envía `compute_shap` en train() y trainAll() |
+
+**Cómo funciona por modelo:**
+
+| Modelo | Explainer | Background data |
+|--------|-----------|----------------|
+| Random Forest | `TreeExplainer` (rápido) | No necesita |
+| XGBoost | `TreeExplainer` (rápido) | No necesita |
+| MLP | `KernelExplainer` (lento) | 50 muestras k-means almacenadas en pickle |
+| Logistic/Linear | `KernelExplainer` | 50 muestras k-means |
+
+**Formato de salida:** idéntico al actual — `feature_contributions` con `{feature, actual, baseline, delta, direction, abs_delta}`. Las barras verdes/rojas no requieren cambios.
+
+**Fallback:** Si SHAP no está instalado o falla, se usa silenciosamente el método de perturbación.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `Red_Neuronal/shap_explainer.py` | **NUEVO** — 198 líneas |
+| `ml_service/main.py` | +10 líneas (TrainRequest, training logic, predict) |
+| `Red_Neuronal/evaluator.py` | +40 líneas (predict arg, _add_local_feature_reasoning shap branch, _compute_shap_effects) |
+| `ml_service/requirements.txt` | +1 línea (`shap>=0.45.0`) |
+| `js/pages/ml.js` | +3 líneas (checkbox sidebar, extraParams, trainAll body) |
+
+**Verificación:** ✅ 107/107 tests | ✅ `node -c ml.js` | ✅ Python syntax all files | ✅ SHAP import OK
+
 ### 2026-06-06: Phase 4a — Fix CI fail + error msg engañoso + deploy condicional
 
 **Qué:** Correcciones post-deploy: CI fallaba por falta de `FLY_API_TOKEN`, mensaje "puerto 8000" confundía al usuario, deploy se ejecutaba sin token.

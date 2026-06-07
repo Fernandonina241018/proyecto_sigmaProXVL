@@ -13,6 +13,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+
+def _shap_available():
+    try:
+        from shap_explainer import compute_feature_contributions
+        return True
+    except ImportError:
+        return False
 from sklearn.metrics import (
     ConfusionMatrixDisplay,
     average_precision_score,
@@ -243,12 +250,14 @@ def _eval_regression(pipeline, X_test, y_test, meta) -> dict:
 def predict(pipeline, X_new: pd.DataFrame, meta: dict,
             bootstrap_models: list = None,
             alpha: float = 0.05, texts: list = None,
-            cal_payload: dict = None) -> pd.DataFrame:
+            cal_payload: dict = None,
+            X_background: pd.DataFrame = None) -> pd.DataFrame:
     """Genera predicciones mas explicativas para nuevas observaciones.
     
     Args:
         texts: Lista de textos (uno por predicción) para ajuste NLP.
         cal_payload: Payload del calibrador NLP (model + PCA + params).
+        X_background: Datos de entrenamiento para SHAP (solo no-tree).
     """
     problem_type = meta["problem_type"]
     results = {"index": list(range(len(X_new)))}
@@ -277,7 +286,8 @@ def predict(pipeline, X_new: pd.DataFrame, meta: dict,
             for i in range(len(preds))
         ]
         return _add_local_feature_reasoning(
-            pipeline, X_new, meta, pd.DataFrame(results).set_index("index")
+            pipeline, X_new, meta, pd.DataFrame(results).set_index("index"),
+            X_background=X_background,
         )
 
     probas = pipeline.predict_proba(X_new)
@@ -352,7 +362,8 @@ def predict(pipeline, X_new: pd.DataFrame, meta: dict,
         ]
 
     result_df = _add_local_feature_reasoning(
-        pipeline, X_new, meta, pd.DataFrame(results).set_index("index")
+        pipeline, X_new, meta, pd.DataFrame(results).set_index("index"),
+        X_background=X_background,
     )
 
     rec_data = _build_recommendations_batch(result_df, meta)
@@ -589,11 +600,22 @@ def _build_multiclass_explanation(predicted_label, predicted_prob,
 
 def _add_local_feature_reasoning(pipeline, X_new: pd.DataFrame,
                                  meta: dict, pred_df: pd.DataFrame,
-                                 top_k: int = 3) -> pd.DataFrame:
-    """Agrega una explicacion local aproximada por feature."""
+                                 top_k: int = 3,
+                                 X_background: pd.DataFrame = None) -> pd.DataFrame:
+    """Agrega una explicacion local aproximada por feature.
+    
+    Si meta tiene shap_enabled=True y hay X_background disponible,
+    usa SHAP en vez del metodo de perturbacion contra la mediana.
+    """
     baselines = meta.get("feature_baselines") or {}
     if pred_df.empty or not baselines:
         return pred_df
+
+    use_shap = (
+        X_background is not None
+        and meta.get("shap_enabled")
+        and _shap_available()
+    )
 
     X_local = X_new.reset_index(drop=True).copy()
     pred_local = pred_df.reset_index(drop=False).copy()
@@ -609,7 +631,12 @@ def _add_local_feature_reasoning(pipeline, X_new: pd.DataFrame,
     for pos in range(len(X_local)):
         row_df = X_local.iloc[[pos]].copy()
         row_pred = pred_local.iloc[pos]
-        effects = _estimate_feature_effects(pipeline, row_df, row_pred, meta, baselines)
+
+        if use_shap:
+            effects = _compute_shap_effects(pipeline, row_df, row_pred, meta, X_background)
+        else:
+            effects = _estimate_feature_effects(pipeline, row_df, row_pred, meta, baselines)
+
         top_positive = [effect for effect in effects if effect["delta"] > 0][:top_k]
         top_negative = [effect for effect in effects if effect["delta"] < 0][:top_k]
 
@@ -676,6 +703,31 @@ def _add_local_feature_reasoning(pipeline, X_new: pd.DataFrame,
     pred_local["feature_contributions"] = contribuciones
     pred_local["feature_anomalies"] = anomalias
     return pred_local.set_index("index")
+
+
+def _compute_shap_effects(pipeline, row_df, row_pred, meta, X_background):
+    """Compute feature effects using SHAP instead of perturbation."""
+    try:
+        from shap_explainer import compute_feature_contributions
+        contribs = compute_feature_contributions(pipeline, row_df, meta, X_background)
+    except Exception:
+        contribs = None
+
+    if not contribs:
+        baselines = meta.get("feature_baselines") or {}
+        return _estimate_feature_effects(pipeline, row_df, row_pred, meta, baselines)
+
+    effects = []
+    for c in contribs:
+        actual_val = row_df.iloc[0][c["feature"]] if c["feature"] in row_df.columns else c["actual"]
+        effects.append({
+            "feature": c["feature"],
+            "actual": actual_val,
+            "baseline": c["baseline"],
+            "delta": c["delta"],
+        })
+    effects.sort(key=lambda e: abs(e["delta"]), reverse=True)
+    return effects
 
 
 def _format_val(val) -> str:

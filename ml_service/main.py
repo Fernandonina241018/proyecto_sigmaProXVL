@@ -181,6 +181,7 @@ class TrainRequest(BaseModel):
     feature_engineering: Optional[dict] = None
     custom_name: Optional[str] = None
     calibrate_nlp: bool = False
+    compute_shap: bool = False
 
 
 class PredictRequest(BaseModel):
@@ -310,6 +311,18 @@ def _execute_training(req: TrainRequest, progress_callback=None):
                             meta['cat_values'][col] = [str(c) for c in cats]
     except Exception:
         pass
+    # SHAP: store background data for non-tree models, enable SHAP in metadata
+    X_background = None
+    if req.compute_shap and req.model_key not in ("rf", "xgb"):
+        try:
+            from Red_Neuronal.shap_explainer import select_background
+            X_background = select_background(X_raw)
+            meta["shap_enabled"] = True
+        except Exception:
+            pass
+    elif req.compute_shap:
+        meta["shap_enabled"] = True
+
     ds_name = req.dataset_name or f"api_{req.target}"
     payload = {
         "pipeline": pipeline, "meta": meta,
@@ -325,6 +338,8 @@ def _execute_training(req: TrainRequest, progress_callback=None):
         "best_params": best_params,
         "saved_at": None, "version": "1.0",
     }
+    if X_background is not None:
+        payload["X_background"] = X_background
     model_id = manager.save_training(
         payload=payload, dataset_name=ds_name,
         model_key=req.model_key, eval_results=eval_results,
@@ -493,8 +508,11 @@ def predict_endpoint(req: PredictRequest):
             if cal_path.exists():
                 cal_payload = joblib.load(str(cal_path))
 
+        X_background = payload.get("X_background")
+
         result_df = predict(pipeline, X_new, meta, boot_models,
-                           texts=req.texts, cal_payload=cal_payload)
+                           texts=req.texts, cal_payload=cal_payload,
+                           X_background=X_background)
 
         results = result_df.to_dict(orient="records")
         for r in results:

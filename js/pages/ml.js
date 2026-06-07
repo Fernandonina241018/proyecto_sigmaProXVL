@@ -135,6 +135,8 @@ const MLManager = (() => {
             '<option value="adasyn">ADASYN (adaptive)</option></select>' +
             '<label style="font-size:13px;color:var(--text-faint);display:flex;align-items:center;gap:6px;margin-top:1px">' +
             '<input type="checkbox" id="ml-nlp-toggle" style="width:18px;height:18px"> 🧠 NLP Calibrator</label>' +
+            '<label style="font-size:13px;color:var(--text-faint);display:flex;align-items:center;gap:6px;margin-top:1px">' +
+            '<input type="checkbox" id="ml-shap-toggle" style="width:18px;height:18px"> 🔬 SHAP Attribution</label>' +
             '<label style="font-size:13px;color:var(--text-faint);display:flex;align-items:center;gap:6px">' +
             '<select id="ml-target-input" style="flex:1;padding:8px 8px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:14px"><option value="">— Selecciona dataset primero —</option></select> 🎯 Target</label>' +
             '<label style="font-size:13px;color:var(--text-faint);display:flex;align-items:center;gap:6px">' +
@@ -485,11 +487,13 @@ const MLManager = (() => {
         var imbalanceStrategy = imbalanceSelect ? imbalanceSelect.value : 'none';
         var hasCustomHP = Object.keys(hpParams).length > 0;
 
+        var shapToggle = document.getElementById('ml-shap-toggle');
         var extraParams = {
             search_type: searchType,
             search_params: null,
             imbalance_strategy: imbalanceStrategy,
             calibrate_nlp: document.getElementById('ml-nlp-toggle') && document.getElementById('ml-nlp-toggle').checked,
+            compute_shap: shapToggle ? shapToggle.checked : false,
         };
         if (hasCustomHP) {
             if (tuningEnabled) {
@@ -2138,6 +2142,7 @@ const MLManager = (() => {
             var statusEl = document.getElementById('ml-ts-' + mk);
             var barEl = document.getElementById(modelBarIds[mk]);
             try {
+                var shapCb = document.getElementById('ml-shap-toggle');
                 var body = {
                     data: [], columns: [],
                     target: target, model_key: mk,
@@ -2145,6 +2150,7 @@ const MLManager = (() => {
                     dataset_name: datasetName,
                     search_type: 'none',
                     imbalance_strategy: 'none',
+                    compute_shap: shapCb ? shapCb.checked : false,
                 };
                 if (isWorksheet) {
                     var wsData = _getWorksheetData(sheetName);
