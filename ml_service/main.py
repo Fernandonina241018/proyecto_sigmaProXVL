@@ -80,7 +80,7 @@ async def cors_middleware(request: Request, call_next):
         response.headers["Access-Control-Allow-Origin"] = origin
         response.headers["Vary"] = "Origin"
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, DELETE, OPTIONS"
-    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-API-Key"
     return response
 
 app.add_middleware(
@@ -96,7 +96,7 @@ _API_EXEMPT_PATHS = {"/api/ml/health", "/docs", "/redoc", "/openapi.json"}
 
 @app.middleware("http")
 async def api_key_middleware(request: Request, call_next):
-    if _API_KEY is not None and request.url.path not in _API_EXEMPT_PATHS:
+    if _API_KEY is not None and request.method != "OPTIONS" and request.url.path not in _API_EXEMPT_PATHS:
         key = request.headers.get("X-API-Key")
         if not key or key != _API_KEY:
             return JSONResponse(status_code=401, content={"error": "Unauthorized — invalid or missing X-API-Key header"})
