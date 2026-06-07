@@ -23,6 +23,17 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-06: Phase 4a — Fix CI fail + error msg engañoso + deploy condicional
+
+**Qué:** Correcciones post-deploy: CI fallaba por falta de `FLY_API_TOKEN`, mensaje "puerto 8000" confundía al usuario, deploy se ejecutaba sin token.
+
+**Fixes:**
+- **`js/pages/ml.js:61`** — Error message ya no hardcodea "puerto 8000"; extrae el puerto real de `apiUrl` dinámicamente (443/80/localhost:8000 según corresponda)
+- **`.github/workflows/deploy.yml`** — Ambos jobs ahora tienen `if: ${{ secrets.FLY_API_TOKEN != '' }}` para evitar fallos si el secret no está configurado
+- **Verificado CORS:** Preflight 200 ✅, headers correctos (`access-control-allow-origin: https://fernandonina241018.github.io`), ML Service responde OK desde curl
+
+**Nota para el usuario:** Si sigues viendo el error en el navegador, haz **Ctrl+F5** (caché del Service Worker). El CORS ya funciona correctamente.
+
 ### 2026-06-06: Phase 4 — CI/CD pipelines + npm audit fixes
 
 **Qué:** Automatización de tests y deploys + parches de seguridad en dependencias.

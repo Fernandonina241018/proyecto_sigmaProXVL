@@ -7,11 +7,10 @@ on:
 jobs:
   deploy-backend:
     runs-on: ubuntu-latest
+    if: ${{ secrets.FLY_API_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v4
-
       - uses: superfly/flyctl-actions/setup-flyctl@master
-
       - name: Deploy backend
         run: flyctl deploy --app sigmaproxvl-backend --strategy immediate --yes
         env:
@@ -19,11 +18,10 @@ jobs:
 
   deploy-ml:
     runs-on: ubuntu-latest
+    if: ${{ secrets.FLY_API_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v4
-
       - uses: superfly/flyctl-actions/setup-flyctl@master
-
       - name: Deploy ML Service
         run: flyctl deploy --app sigmapro-ml --config ml_service/fly.toml --strategy rolling --yes
         env:

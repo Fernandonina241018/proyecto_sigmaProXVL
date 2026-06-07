@@ -58,7 +58,8 @@ const MLManager = (() => {
             return data;
         } catch (e) {
             if (e.message.includes('Failed to fetch') || e.message.includes('NetworkError') || e.message.includes('ERR_CONNECTION_REFUSED')) {
-                throw new Error('ML Service no disponible (' + apiUrl + '). Asegúrate de que el servicio Python esté corriendo en puerto 8000.');
+                const port = new URL(apiUrl).port || (apiUrl.startsWith('https') ? '443' : '80');
+                throw new Error('ML Service no disponible (' + apiUrl + '). Asegúrate de que el servicio esté corriendo y sea accesible desde ' + apiUrl);
             }
             throw e;
         }
