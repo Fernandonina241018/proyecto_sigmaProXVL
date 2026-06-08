@@ -102,7 +102,16 @@ const Auth = (() => {
         clearInterval(_countdownTimer);
         _countdownTimer=setInterval(()=>{ secs--; if(c) c.textContent=secs; if(secs<=0) clearInterval(_countdownTimer); },1000);
     }
-    function _expireSession() { _clearSession(); showLogin('timeout'); if(_onLogout) _onLogout('timeout'); }
+    function _closeAllModals() {
+        document.querySelectorAll('.pd-overlay, .modal-overlay').forEach(function(el) { el.remove(); });
+        document.querySelectorAll('div[style*="z-index:10001"]').forEach(function(el) { if (el.parentNode === document.body) el.remove(); });
+        ['usr-reset-modal', 'usr-edit-modal', 'force-pwd-modal'].forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) el.remove();
+        });
+    }
+
+    function _expireSession() { _closeAllModals(); _clearSession(); showLogin('timeout'); if(_onLogout) _onLogout('timeout'); }
 
     // ── Intentos ──────────────────────────
     function _registerFailedAttempt() {
@@ -760,6 +769,7 @@ const Auth = (() => {
     }
 
     function logout(){
+        _closeAllModals();
         fetch(`${CFG.API_URL}/api/logout`,{method:'POST',credentials:'include'}).catch(()=>{});
         _clearSession(); _unregisterActivityListeners(); showLogin('logout'); if(_onLogout) _onLogout('logout');
     }
