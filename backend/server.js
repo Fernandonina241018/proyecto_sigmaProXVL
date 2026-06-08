@@ -80,6 +80,29 @@ app.use(helmet({
 app.use(express.json({ limit: '100kb' }));
 app.use(cookieParser());
 
+// ── Password Strength Validation (21 CFR 11.300) ──
+function validatePasswordStrength(password) {
+    if (!password || password.length < 8) {
+        return 'La contraseña debe tener al menos 8 caracteres';
+    }
+    if (password.length > 128) {
+        return 'La contraseña no puede exceder 128 caracteres';
+    }
+    if (!/[A-Z]/.test(password)) {
+        return 'La contraseña debe contener al menos una letra mayúscula';
+    }
+    if (!/[a-z]/.test(password)) {
+        return 'La contraseña debe contener al menos una letra minúscula';
+    }
+    if (!/[0-9]/.test(password)) {
+        return 'La contraseña debe contener al menos un número';
+    }
+    if (!/[^A-Za-z0-9]/.test(password)) {
+        return 'La contraseña debe contener al menos un carácter especial (!@#$%^&* etc.)';
+    }
+    return null; // null = válida
+}
+
 // ── Request Logging (sin dependencias nuevas) ──
 app.use((req, res, next) => {
     const start = Date.now();
@@ -553,11 +576,9 @@ app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
     if (!['admin', 'user', 'readonly', 'supervisor', 'analista', 'gerente', 'coordinador'].includes(role)) {
         return res.status(400).json({ error: 'Rol inválido' });
     }
-    if (password.length < 8) {
-        return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres' });
-    }
-    if (password.length > 128) {
-        return res.status(400).json({ error: 'La contraseña no puede exceder 128 caracteres' });
+    var pwErr = validatePasswordStrength(password);
+    if (pwErr) {
+        return res.status(400).json({ error: pwErr });
     }
     if (nombre && nombre.length > 100) {
         return res.status(400).json({ error: 'El nombre no puede exceder 100 caracteres' });
@@ -599,8 +620,9 @@ app.put('/api/users/:id/toggle', requireAuth, requireAdmin, async (req, res) => 
 // PUT /api/users/password
 app.put('/api/users/password', requireAuth, async (req, res) => {
     const { currentPassword, newPassword } = req.body;
-    if (!newPassword || newPassword.length < 8) {
-        return res.status(400).json({ error: 'La nueva contraseña debe tener al menos 8 caracteres' });
+    var pwErr = validatePasswordStrength(newPassword);
+    if (pwErr) {
+        return res.status(400).json({ error: pwErr });
     }
     const user = await db.getUserByUsername(req.user.username);
     
@@ -657,18 +679,17 @@ app.put('/api/users/reset-password', requireAuth, requireAdmin, async (req, res)
     if (!username?.trim()) {
         return res.status(400).json({ error: 'Usuario requerido' });
     }
-    if (!newPassword || newPassword.length < 8) {
-        return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres' });
+    var pwErr = validatePasswordStrength(newPassword);
+    if (pwErr) {
+        return res.status(400).json({ error: pwErr });
     }
     const user = await db.getUserByUsername(username);
     if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
 
     await db.changePassword(username, newPassword);
 
-    // Si la contraseña es "user0000", marcar como temporal
-    if (newPassword === 'user0000') {
-        await db.setPasswordTemp(username, true);
-    }
+    // Siempre marcar como temporal cuando admin resetea
+    await db.setPasswordTemp(username, true);
 
     await db.logAccess({
         username:  req.user.username,

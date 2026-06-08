@@ -198,7 +198,12 @@ function buildLocalStore() {
     async function createInitialAdmin() {
         const username = process.env.ADMIN_USERNAME || 'admin';
         if (state.users.find(u => u.username === username)) return;
-        const hash = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'admin123', 12);
+        const adminPass = process.env.ADMIN_PASSWORD;
+        if (!adminPass) {
+            console.error('❌ ADMIN_PASSWORD environment variable is required for initial admin creation');
+            process.exit(1);
+        }
+        const hash = await bcrypt.hash(adminPass, 12);
         state.users.push({
             id: state.nextUserId++, username, password: hash, role: 'admin', active: 1,
             created_by: 'system', created_at: new Date().toISOString(),

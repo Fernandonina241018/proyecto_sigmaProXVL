@@ -23,6 +23,19 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+
+### 2026-06-07: CFR 21 Part 11 — Críticos Fase 1
+
+**Qué:** Correcciones críticas de seguridad para cumplimiento 21 CFR 11.300 (controles de códigos/passwords).
+
+**Cambios:**
+
+| # | Archivo | Cambio |
+|---|---------|--------|
+| 1 | `js/managers/UsuariosManager.js` | Reset password ya no usa "user0000" hardcodeado. Nueva función `_generateSecurePassword()` que genera contraseña aleatoria de 14 caracteres con mayúsculas, minúsculas, dígitos y especiales usando `crypto.getRandomValues()` |
+| 2 | `backend/database.js` | Eliminado fallback `|| 'admin123'`. Ahora exige `ADMIN_PASSWORD` en env var, sale con error si no está definida |
+| 3 | `backend/server.js` | Nueva función `validatePasswordStrength()` que valida: >=8 chars, max 128, al menos 1 mayúscula, 1 minúscula, 1 dígito, 1 especial. Aplicada en creación, cambio y reset de contraseña. Reset admin siempre marca como temporal |
+
 ### 2026-06-07: Anomalías contextuales y recomendaciones inteligentes
 
 **Qué:** Las anomalías y recomendaciones ahora usan la dirección real de feature_contributions para determinar si un valor fuera de rango es realmente problemático o beneficioso.

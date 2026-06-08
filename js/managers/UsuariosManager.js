@@ -5,6 +5,35 @@
 
 const UsuariosManager = (() => {
 
+
+function _generateSecurePassword(length) {
+    length = length || 14;
+    var upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var lower = "abcdefghijklmnopqrstuvwxyz";
+    var digits = "0123456789";
+    var special = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+    var all = upper + lower + digits + special;
+    var randArr = new Uint32Array(1);
+    var pwd = "";
+    // Ensure at least one of each type
+    crypto.getRandomValues(randArr); pwd += upper[randArr[0] % upper.length];
+    crypto.getRandomValues(randArr); pwd += lower[randArr[0] % lower.length];
+    crypto.getRandomValues(randArr); pwd += digits[randArr[0] % digits.length];
+    crypto.getRandomValues(randArr); pwd += special[randArr[0] % special.length];
+    // Fill remaining
+    for (var i = pwd.length; i < length; i++) {
+        crypto.getRandomValues(randArr); pwd += all[randArr[0] % all.length];
+    }
+    // Fisher-Yates shuffle
+    var arr = pwd.split("");
+    for (var i = arr.length - 1; i > 0; i--) {
+        crypto.getRandomValues(randArr);
+        var j = randArr[0] % (i + 1);
+        var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    }
+    return arr.join("");
+}
+
     let _apiUrl  = '';
     let _usuarios = [];
 
@@ -377,7 +406,7 @@ const UsuariosManager = (() => {
                 <p style="margin:0 0 20px 0;color:#64748b;font-size:0.9rem;">Usuario: <strong>${escapeHtml(username)}</strong></p>
                 
                 <button type="button" id="usr-reset-quick" style="margin-bottom:16px;padding:16px 20px;background:linear-gradient(135deg,#f59e0b,#d97706);color:white;border:none;border-radius:12px;cursor:pointer;font-weight:600;width:100%;font-size:1rem;">
-                    ⚡ Resetear a "user0000"
+                    ⚡ Generar nueva contraseña segura
                 </button>
                 
                 <p style="margin:0;color:#64748b;font-size:0.8rem;">El usuario podrá iniciar sesión con esta contraseña y deberá cambiarla al primer acceso.</p>
@@ -397,12 +426,12 @@ const UsuariosManager = (() => {
 
         // Reset rápido a "user0000"
         document.getElementById('usr-reset-quick').addEventListener('click', async () => {
-            if (!confirm('¿Resetear contraseña a "user0000"? El usuario podrá iniciar sesión con esa contraseña y deberá cambiarla al primer acceso.')) return;
+            var newPwd = _generateSecurePassword(); if (!confirm('Se generó la contraseña: ' + newPwd + '. El usuario deberá cambiarla al primer acceso. ¿Enviar?')) return;
             
-            const result = await resetPassword(username, 'user0000');
+            const result = await resetPassword(username, newPwd);
             if (result.ok) {
                 close();
-                showToast(`✅ Contraseña de "${username}" reseteada a "user0000"`);
+                showToast(`✅ Contraseña de "${username}" reseteada a "${newPwd}"`);
             } else {
                 const msgEl = document.getElementById('usr-reset-msg');
                 msgEl.textContent = `❌ ${result.error}`;
