@@ -424,19 +424,47 @@ function _generateSecurePassword(length) {
         document.getElementById('usr-reset-cancel').addEventListener('click', close);
         document.getElementById('usr-reset-overlay').addEventListener('click', close);
 
-        // Reset rápido a "user0000"
         document.getElementById('usr-reset-quick').addEventListener('click', async () => {
-            var newPwd = _generateSecurePassword(); if (!confirm('Se generó la contraseña: ' + newPwd + '. El usuario deberá cambiarla al primer acceso. ¿Enviar?')) return;
-            
-            const result = await resetPassword(username, newPwd);
-            if (result.ok) {
-                close();
-                showToast(`✅ Contraseña de "${username}" reseteada a "${newPwd}"`);
-            } else {
-                const msgEl = document.getElementById('usr-reset-msg');
-                msgEl.textContent = `❌ ${result.error}`;
-                msgEl.style.cssText = 'display:block;color:#dc2626;background:#fef2f2;padding:12px;border-radius:10px;margin-top:12px;font-size:0.85rem;';
-            }
+            var newPwd = _generateSecurePassword();
+            const msgEl = document.getElementById('usr-reset-msg');
+            const genBtn = document.getElementById('usr-reset-quick');
+            const infoP = genBtn.nextElementSibling;
+
+            genBtn.style.display = 'none';
+            if (infoP && infoP.tagName === 'P') infoP.style.display = 'none';
+
+            msgEl.style.cssText = 'display:block;margin-top:12px;';
+            msgEl.innerHTML = `
+                <div style="background:var(--bg-input,#f8fafc);border:2px solid var(--border-color,#e2e8f0);border-radius:10px;padding:12px;margin-bottom:12px;">
+                    <div style="font-size:0.75rem;font-weight:600;color:var(--text-secondary,#64748b);margin-bottom:4px;">CONTRASEÑA GENERADA</div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <input type="text" readonly value="${escapeHtml(newPwd)}" id="usr-reset-pwd-display" style="flex:1;padding:10px;border:1px solid #d1d5db;border-radius:8px;font-family:monospace;font-size:0.9rem;background:var(--bg-card,#fff);color:var(--text-primary,#1e293b);">
+                        <button id="usr-reset-copy-btn" style="padding:10px 14px;background:var(--bg-input,#e2e8f0);border:none;border-radius:8px;cursor:pointer;font-size:1.1rem;" title="Copiar">📋</button>
+                    </div>
+                </div>
+                <button id="usr-reset-send" style="padding:14px 20px;background:linear-gradient(135deg,#f59e0b,#d97706);color:white;border:none;border-radius:12px;cursor:pointer;font-weight:600;width:100%;font-size:1rem;">📤 Enviar contraseña</button>
+            `;
+
+            document.getElementById('usr-reset-copy-btn').addEventListener('click', () => {
+                const input = document.getElementById('usr-reset-pwd-display');
+                input.select();
+                navigator.clipboard.writeText(input.value).then(() => {
+                    showToast('✅ Contraseña copiada');
+                }).catch(() => {
+                    document.execCommand('copy');
+                    showToast('✅ Contraseña copiada');
+                });
+            });
+
+            document.getElementById('usr-reset-send').addEventListener('click', async () => {
+                const result = await resetPassword(username, newPwd);
+                if (result.ok) {
+                    close();
+                    showToast('✅ Contraseña de "' + username + '" reseteada');
+                } else {
+                    msgEl.innerHTML = '<div style="color:#dc2626;background:#fef2f2;padding:12px;border-radius:10px;font-size:0.85rem;margin-bottom:12px;">❌ ' + escapeHtml(result.error) + '</div>' + msgEl.innerHTML;
+                }
+            });
         });
     }
 

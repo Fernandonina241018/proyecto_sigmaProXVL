@@ -24,6 +24,18 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 ## CAMBIOS RECIENTES
 
 
+
+### 2026-06-07: CFR 21 Part 11 — Forzar cambio contraseña + UX reset
+
+**Qué:** Al login con contraseña temporal, se fuerza al usuario a cambiarla antes de acceder. El reset admin muestra la contraseña en modal con copia fácil.
+
+**Cambios:**
+
+| # | Archivo | Cambio |
+|---|---------|--------|
+| 1 | `js/core/auth.js` | `_onLoginSuccess` detecta `mustChangePassword:true` e invoca `_showForceChangePasswordModal()` en lugar de cargar la app. `init()` hace lo mismo si la sesión persistida tiene el flag. Nueva función `_changePassword()` que llama a `PUT /api/users/password` sin contraseña actual (backed permite para temp). Validación cliente: 8+ chars, mayúscula, minúscula, dígito, especial. Modal no se puede cerrar hasta cambiar. |
+| 2 | `js/managers/UsuariosManager.js` | Botón "Generar nueva contraseña segura" ya no usa `confirm()`. Muestra inline un campo readonly con la contraseña + botón 📋 que copia al portapapeles + botón "Enviar contraseña" que ejecuta el reset. |
+
 ### 2026-06-07: CFR 21 Part 11 — Críticos Fase 1
 
 **Qué:** Correcciones críticas de seguridad para cumplimiento 21 CFR 11.300 (controles de códigos/passwords).

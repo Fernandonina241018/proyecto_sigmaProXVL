@@ -601,21 +601,114 @@ const Auth = (() => {
     }
 
     async function _onLoginSuccess(userData){
-        // Guardar fechas para el modal de perfil
         localStorage.setItem('ultimoLogin', new Date().toISOString());
         localStorage.setItem('sessionStart', Date.now().toString());
-        // Fetch ML API key before proceeding
         if (_token) {
             await _fetchMlApiKey();
         }
+        _startSession(userData);
         const card=document.querySelector('.auth-card');
         card?.classList.add('auth-success-exit');
         setTimeout(()=>{
-            _startSession(userData);
             document.getElementById('auth-overlay')?.remove();
+            if (userData.mustChangePassword) {
+                _showForceChangePasswordModal(userData);
+                return;
+            }
             _registerActivityListeners();
             if(_onLogin) _onLogin(userData);
         },600);
+    }
+
+    function _showForceChangePasswordModal(userData) {
+        document.getElementById('force-pwd-modal')?.remove();
+        const modal = document.createElement('div');
+        modal.id = 'force-pwd-modal';
+        modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;display:flex;align-items:center;justify-content:center;';
+        modal.innerHTML = `
+            <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);"></div>
+            <div style="position:relative;background:var(--bg-card,#fff);border-radius:16px;padding:24px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.4);text-align:center;">
+                <div style="font-size:3rem;margin-bottom:12px;">🔐</div>
+                <h2 style="margin:0 0 8px 0;color:var(--text-primary,#1e293b);">Cambio de contraseña requerido</h2>
+                <p style="margin:0 0 20px 0;color:var(--text-secondary,#64748b);font-size:0.9rem;">Debes cambiar tu contraseña antes de continuar. Usa al menos 8 caracteres, mayúsculas, minúsculas, dígitos y caracteres especiales.</p>
+
+                <div style="margin-bottom:16px;text-align:left;">
+                    <label style="display:block;font-size:0.75rem;font-weight:600;color:var(--text-secondary,#64748b);margin-bottom:4px;">NUEVA CONTRASEÑA</label>
+                    <input type="password" id="force-pwd-new" style="width:100%;padding:12px;border:2px solid var(--border-color,#e2e8f0);border-radius:10px;font-size:0.9rem;box-sizing:border-box;background:var(--bg-input,#fff);color:var(--text-primary,#1e293b);">
+                    <div id="force-pwd-new-error" style="font-size:0.75rem;color:#dc2626;margin-top:4px;display:none;"></div>
+                </div>
+                <div style="margin-bottom:20px;text-align:left;">
+                    <label style="display:block;font-size:0.75rem;font-weight:600;color:var(--text-secondary,#64748b);margin-bottom:4px;">CONFIRMAR CONTRASEÑA</label>
+                    <input type="password" id="force-pwd-confirm" style="width:100%;padding:12px;border:2px solid var(--border-color,#e2e8f0);border-radius:10px;font-size:0.9rem;box-sizing:border-box;background:var(--bg-input,#fff);color:var(--text-primary,#1e293b);">
+                    <div id="force-pwd-confirm-error" style="font-size:0.75rem;color:#dc2626;margin-top:4px;display:none;"></div>
+                </div>
+
+                <div id="force-pwd-msg" style="display:none;"></div>
+
+                <button id="force-pwd-submit" style="padding:14px 20px;background:linear-gradient(135deg,#3b82f6,#2563eb);color:white;border:none;border-radius:12px;cursor:pointer;font-weight:600;width:100%;font-size:1rem;">Cambiar contraseña</button>
+            </div>`;
+
+        document.body.appendChild(modal);
+
+        const newInput = document.getElementById('force-pwd-new');
+        const confirmInput = document.getElementById('force-pwd-confirm');
+        newInput.focus();
+        newInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') confirmInput.focus(); });
+        confirmInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('force-pwd-submit').click(); });
+
+        document.getElementById('force-pwd-submit').addEventListener('click', async () => {
+            const newPwd = newInput.value;
+            const confirmPwd = confirmInput.value;
+            const newError = document.getElementById('force-pwd-new-error');
+            const confirmError = document.getElementById('force-pwd-confirm-error');
+            const msgEl = document.getElementById('force-pwd-msg');
+            const submitBtn = document.getElementById('force-pwd-submit');
+
+            newError.style.display = 'none';
+            confirmError.style.display = 'none';
+            msgEl.style.display = 'none';
+
+            if (!newPwd || newPwd.length < 8) { newError.textContent = 'Mínimo 8 caracteres'; newError.style.display = 'block'; return; }
+            if (!/[A-Z]/.test(newPwd)) { newError.textContent = 'Debe contener mayúscula'; newError.style.display = 'block'; return; }
+            if (!/[a-z]/.test(newPwd)) { newError.textContent = 'Debe contener minúscula'; newError.style.display = 'block'; return; }
+            if (!/[0-9]/.test(newPwd)) { newError.textContent = 'Debe contener dígito'; newError.style.display = 'block'; return; }
+            if (!/[^A-Za-z0-9]/.test(newPwd)) { newError.textContent = 'Debe contener carácter especial'; newError.style.display = 'block'; return; }
+            if (newPwd !== confirmPwd) { confirmError.textContent = 'Las contraseñas no coinciden'; confirmError.style.display = 'block'; return; }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Cambiando...';
+
+            const result = await _changePassword(newPwd);
+            if (result.ok) {
+                showToast('✅ Contraseña cambiada correctamente');
+                modal.remove();
+                const session = _getSession();
+                if (session) {
+                    session.mustChangePassword = false;
+                    sessionStorage.setItem(CFG.SESSION_STORAGE_KEY, JSON.stringify(session));
+                }
+                _registerActivityListeners();
+                if (_onLogin) _onLogin(session || userData);
+            } else {
+                msgEl.textContent = '❌ ' + (result.error || 'Error al cambiar contraseña');
+                msgEl.style.cssText = 'display:block;color:#dc2626;background:#fef2f2;padding:12px;border-radius:10px;margin-top:12px;font-size:0.85rem;';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Cambiar contraseña';
+            }
+        });
+    }
+
+    async function _changePassword(newPassword) {
+        try {
+            const res = await fetch(`${CFG.API_URL}/api/users/password`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${_token}` },
+                body: JSON.stringify({ newPassword })
+            });
+            return await res.json();
+        } catch {
+            return { error: 'Error de conexión' };
+        }
     }
 
     async function _fetchMlApiKey() {
@@ -655,7 +748,15 @@ const Auth = (() => {
                 if(res.ok){ const data=await res.json(); if(data.token) _token=data.token; }
             }catch(e){ /* cookie no disponible, se re-logueará en el primer 401 */ }
         }
-        _scheduleTimers(); _registerActivityListeners(); if(_onLogin) _onLogin(_getSession());
+        const session = _getSession();
+        _scheduleTimers();
+        _registerActivityListeners();
+        if (session && session.mustChangePassword) {
+            document.getElementById('auth-overlay')?.remove();
+            _showForceChangePasswordModal(session);
+            return;
+        }
+        if(_onLogin) _onLogin(session);
     }
 
     function logout(){
