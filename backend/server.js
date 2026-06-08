@@ -708,6 +708,17 @@ app.get('/api/audit', requireAuth, requireAdmin, async (req, res) => {
     res.json({ ok: true, logs });
 });
 
+// GET /api/audit/verify - verifica la cadena de hash blockchain (solo admin)
+app.get('/api/audit/verify', requireAuth, requireAdmin, async (req, res) => {
+    try {
+        const result = await db.verifyAuditChain();
+        res.json({ ok: true, ...result });
+    } catch (err) {
+        console.error('Error verifying audit chain:', err);
+        res.status(500).json({ error: 'Error al verificar cadena de auditoría' });
+    }
+});
+
 // POST /api/audit/event - registra eventos del frontend (usuario autenticado)
 app.post('/api/audit/event', requireAuth, async (req, res) => {
     const { action, module, details, durationMs } = req.body;

@@ -67,6 +67,8 @@ function buildPostgres() {
             module TEXT, details TEXT, duration_ms INTEGER,
             timestamp TEXT DEFAULT to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS')
         )`);
+        await run(`ALTER TABLE audit_log ADD COLUMN IF NOT EXISTS prev_hash TEXT`);
+        await run(`ALTER TABLE audit_log ADD COLUMN IF NOT EXISTS row_hash TEXT`);
         await run(`CREATE INDEX IF NOT EXISTS idx_users_username ON users (username)`);
         await run(`CREATE INDEX IF NOT EXISTS idx_audit_log_timestamp ON audit_log (timestamp DESC)`);
         await run(`CREATE INDEX IF NOT EXISTS idx_audit_log_username ON audit_log (username)`);
@@ -77,6 +79,7 @@ function buildPostgres() {
         )`);
         await run(`CREATE INDEX IF NOT EXISTS idx_token_blacklist_hash ON token_blacklist (token_hash)`);
         console.log('✅ Tablas verificadas en PostgreSQL');
+        await _migrateAuditHashes();
     }
 
     async function createInitialAdmin() {
@@ -140,18 +143,99 @@ function buildPostgres() {
 
     async function changeRole(id, role) { await run('UPDATE users SET role=$1 WHERE id=$2', [role, id]); }
 
+    function _computeRowHash(prevHash, data) {
+        const h = crypto.createHash('sha256');
+        h.update(prevHash || '');
+        h.update(data.username || '');
+        h.update(data.action || '');
+        h.update(String(data.success ?? 1));
+        h.update(data.ip || '');
+        h.update(data.userAgent || '');
+        h.update(data.module || '');
+        h.update(data.details || '');
+        h.update(String(data.durationMs ?? ''));
+        h.update(data.timestamp || '');
+        return h.digest('hex');
+    }
+
+    async function _getLastRowHash() {
+        const row = await get('SELECT row_hash FROM audit_log ORDER BY id DESC LIMIT 1');
+        return row ? row.row_hash : null;
+    }
+
     async function logAccess({ username, action, success, ip, userAgent }) {
-        await run(`INSERT INTO audit_log (username,action,success,ip,user_agent) VALUES ($1,$2,$3,$4,$5)`,
-            [username, action, success ? 1 : 0, ip, userAgent]);
+        const prevHash = await _getLastRowHash();
+        const timestamp = new Date().toISOString();
+        const data = { username, action, success, ip, userAgent, module: '', details: '', durationMs: '', timestamp };
+        const rowHash = _computeRowHash(prevHash, data);
+        await run(`INSERT INTO audit_log (username,action,success,ip,user_agent,timestamp,prev_hash,row_hash) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
+            [username, action, success ? 1 : 0, ip, userAgent, timestamp, prevHash, rowHash]);
     }
 
     async function logAuditEvent({ username, action, success, ip, userAgent, module, details, durationMs }) {
+        const prevHash = await _getLastRowHash();
+        const timestamp = new Date().toISOString();
         const detailsJson = details ? JSON.stringify(details) : null;
-        await run(`INSERT INTO audit_log (username,action,success,ip,user_agent,module,details,duration_ms) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
-            [username, action, success !== false ? 1 : 0, ip, userAgent, module||null, detailsJson, durationMs||null]);
+        const data = { username, action, success, ip, userAgent, module: module||'', details: detailsJson||'', durationMs: durationMs||'', timestamp };
+        const rowHash = _computeRowHash(prevHash, data);
+        await run(`INSERT INTO audit_log (username,action,success,ip,user_agent,module,details,duration_ms,timestamp,prev_hash,row_hash) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
+            [username, action, success !== false ? 1 : 0, ip, userAgent, module||null, detailsJson, durationMs||null, timestamp, prevHash, rowHash]);
     }
 
     async function getAuditLog(limit = 100) { return all('SELECT * FROM audit_log ORDER BY id DESC LIMIT $1', [limit]); }
+
+    async function verifyAuditChain() {
+        const rows = await all('SELECT * FROM audit_log ORDER BY id ASC');
+        let expectedHash = null;
+        let checked = 0;
+        for (const row of rows) {
+            const data = {
+                username: row.username,
+                action: row.action,
+                success: row.success,
+                ip: row.ip,
+                userAgent: row.user_agent,
+                module: row.module,
+                details: row.details,
+                durationMs: row.duration_ms,
+                timestamp: row.timestamp,
+            };
+            const computedHash = _computeRowHash(expectedHash, data);
+            if (computedHash !== row.row_hash) {
+                return { valid: false, checked, brokenAt: row.id, reason: 'row_hash mismatch' };
+            }
+            if (row.prev_hash !== expectedHash) {
+                return { valid: false, checked, brokenAt: row.id, reason: 'prev_hash mismatch' };
+            }
+            expectedHash = computedHash;
+            checked++;
+        }
+        return { valid: true, checked, lastHash: expectedHash };
+    }
+
+    async function _migrateAuditHashes() {
+        const rows = await all('SELECT * FROM audit_log WHERE row_hash IS NULL ORDER BY id ASC');
+        if (!rows.length) return;
+        console.log(`🔗 Migrando ${rows.length} registros de auditoría sin hash...`);
+        let expectedHash = null;
+        for (const row of rows) {
+            const data = {
+                username: row.username,
+                action: row.action,
+                success: row.success,
+                ip: row.ip,
+                userAgent: row.user_agent,
+                module: row.module,
+                details: row.details,
+                durationMs: row.duration_ms,
+                timestamp: row.timestamp,
+            };
+            const computedHash = _computeRowHash(expectedHash, data);
+            await run('UPDATE audit_log SET prev_hash=$1, row_hash=$2 WHERE id=$3', [expectedHash, computedHash, row.id]);
+            expectedHash = computedHash;
+        }
+        console.log(`✅ ${rows.length} registros migrados. Último hash: ${expectedHash}`);
+    }
 
     async function blacklistToken(token) {
         if (!token) return;
@@ -174,7 +258,7 @@ function buildPostgres() {
         await run(`DELETE FROM token_blacklist WHERE created_at < to_char(now() - interval '24 hours','YYYY-MM-DD"T"HH24:MI:SS')`);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, getUserPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist };
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, getUserPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist };
 }
 
 // ───── Local JSON store ─────
@@ -193,7 +277,36 @@ function buildLocalStore() {
     const get = async () => { throw new Error('raw SQL no soportado en modo local'); };
     const all = async () => { throw new Error('raw SQL no soportado en modo local'); };
 
-    async function initDatabase() { if (!state.users.length) console.log('✅ Store local listo'); }
+    async function initDatabase() {
+        if (!state.users.length) console.log('✅ Store local listo');
+        await _migrateAuditHashes();
+    }
+
+    function _migrateAuditHashes() {
+        const rows = state.audit_log.filter(r => !r.row_hash).sort((a, b) => a.id - b.id);
+        if (!rows.length) return;
+        console.log(`🔗 Migrando ${rows.length} registros de auditoría sin hash (local)...`);
+        let expectedHash = null;
+        for (const row of rows) {
+            const data = {
+                username: row.username,
+                action: row.action,
+                success: row.success,
+                ip: row.ip,
+                userAgent: row.user_agent,
+                module: row.module,
+                details: row.details,
+                durationMs: row.duration_ms,
+                timestamp: row.timestamp,
+            };
+            const computedHash = _computeRowHash(expectedHash, data);
+            row.prev_hash = expectedHash;
+            row.row_hash = computedHash;
+            expectedHash = computedHash;
+        }
+        save();
+        console.log(`✅ ${rows.length} registros migrados (local). Último hash: ${expectedHash}`);
+    }
 
     async function createInitialAdmin() {
         const username = process.env.ADMIN_USERNAME || 'admin';
@@ -273,17 +386,75 @@ function buildLocalStore() {
 
     async function changeRole(id, role) { const u = findById(id); if (u) { u.role = role; save(); } }
 
+    function _computeRowHash(prevHash, data) {
+        const h = crypto.createHash('sha256');
+        h.update(prevHash || '');
+        h.update(data.username || '');
+        h.update(data.action || '');
+        h.update(String(data.success ?? 1));
+        h.update(data.ip || '');
+        h.update(data.userAgent || '');
+        h.update(data.module || '');
+        h.update(data.details || '');
+        h.update(String(data.durationMs ?? ''));
+        h.update(data.timestamp || '');
+        return h.digest('hex');
+    }
+
+    function _getLastRowHash() {
+        const last = state.audit_log[state.audit_log.length - 1];
+        return last ? last.row_hash : null;
+    }
+
     async function logAccess({ username, action, success, ip, userAgent }) {
-        state.audit_log.push({ id: state.nextAuditId++, username, action, success: success?1:0, ip, user_agent: userAgent, module: null, details: null, duration_ms: null, timestamp: new Date().toISOString() });
+        const prevHash = _getLastRowHash();
+        const timestamp = new Date().toISOString();
+        const data = { username, action, success, ip, userAgent, module: '', details: '', durationMs: '', timestamp };
+        const rowHash = _computeRowHash(prevHash, data);
+        state.audit_log.push({ id: state.nextAuditId++, username, action, success: success?1:0, ip, user_agent: userAgent, module: null, details: null, duration_ms: null, timestamp, prev_hash: prevHash, row_hash: rowHash });
         save();
     }
 
     async function logAuditEvent({ username, action, success, ip, userAgent, module, details, durationMs }) {
-        state.audit_log.push({ id: state.nextAuditId++, username, action, success: success!==false?1:0, ip, user_agent: userAgent, module: module||null, details: details?JSON.stringify(details):null, duration_ms: durationMs||null, timestamp: new Date().toISOString() });
+        const prevHash = _getLastRowHash();
+        const timestamp = new Date().toISOString();
+        const detailsJson = details ? JSON.stringify(details) : null;
+        const data = { username, action, success, ip, userAgent, module: module||'', details: detailsJson||'', durationMs: durationMs||'', timestamp };
+        const rowHash = _computeRowHash(prevHash, data);
+        state.audit_log.push({ id: state.nextAuditId++, username, action, success: success!==false?1:0, ip, user_agent: userAgent, module: module||null, details: detailsJson, duration_ms: durationMs||null, timestamp, prev_hash: prevHash, row_hash: rowHash });
         save();
     }
 
     async function getAuditLog(limit = 100) { return state.audit_log.slice(-limit).reverse(); }
+
+    async function verifyAuditChain() {
+        const rows = [...state.audit_log].sort((a, b) => a.id - b.id);
+        let expectedHash = null;
+        let checked = 0;
+        for (const row of rows) {
+            const data = {
+                username: row.username,
+                action: row.action,
+                success: row.success,
+                ip: row.ip,
+                userAgent: row.user_agent,
+                module: row.module,
+                details: row.details,
+                durationMs: row.duration_ms,
+                timestamp: row.timestamp,
+            };
+            const computedHash = _computeRowHash(expectedHash, data);
+            if (computedHash !== row.row_hash) {
+                return { valid: false, checked, brokenAt: row.id, reason: 'row_hash mismatch' };
+            }
+            if (row.prev_hash !== expectedHash) {
+                return { valid: false, checked, brokenAt: row.id, reason: 'prev_hash mismatch' };
+            }
+            expectedHash = computedHash;
+            checked++;
+        }
+        return { valid: true, checked, lastHash: expectedHash };
+    }
 
     async function blacklistToken(token) {
         if (!token) return;
@@ -308,7 +479,7 @@ function buildLocalStore() {
         save();
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, getUserPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist };
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, getUserPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist };
 }
 
 const impl = build();
@@ -330,6 +501,7 @@ module.exports = {
     logAccess:           (...a) => impl.logAccess(...a),
     logAuditEvent:       (...a) => impl.logAuditEvent(...a),
     getAuditLog:         (...a) => impl.getAuditLog(...a),
+    verifyAuditChain:    (...a) => impl.verifyAuditChain(...a),
     blacklistToken:      (...a) => impl.blacklistToken(...a),
     isTokenBlacklisted:  (...a) => impl.isTokenBlacklisted(...a),
     cleanExpiredBlacklist: (...a) => impl.cleanExpiredBlacklist(...a),

@@ -25,6 +25,19 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 
 
+
+### 2026-06-07: CFR 21 Part 11 — Cadena de hash blockchain en audit trail
+
+**Qué:** Implementación de cadena SHA-256 en audit_log para integrity checking (21 CFR 11.10(e)).
+
+**Cambios:**
+
+| # | Archivo | Cambio |
+|---|---------|--------|
+| 1 | `backend/database.js` | Nuevas columnas `prev_hash`, `row_hash` en `audit_log`. `_computeRowHash()` calcula SHA256(prev_hash + username + action + success + ip + user_agent + module + details + duration_ms + timestamp). `logAccess()` y `logAuditEvent()` ahora encadenan hashes. `verifyAuditChain()` recorre toda la tabla verificando coherencia. `_migrateAuditHashes()` backfillea registros existentes. |
+| 2 | `backend/server.js` | Nuevo endpoint `GET /api/audit/verify` (solo admin) que ejecuta `verifyAuditChain()`. |
+| 3 | `js/managers/AuditoriaManager.js` | Nuevo KPI "Integridad" que muestra estado de la cadena (✓ Íntegra / ✕ Rota). Botón "🔗 Verificar" en la barra de filtros. Auto-verificación al cargar la página. |
+
 ### 2026-06-07: CFR 21 Part 11 — Forzar cambio contraseña + UX reset
 
 **Qué:** Al login con contraseña temporal, se fuerza al usuario a cambiarla antes de acceder. El reset admin muestra la contraseña en modal con copia fácil.

@@ -153,6 +153,33 @@ const AuditoriaManager = (() => {
         URL.revokeObjectURL(link.href);
     }
 
+    async function _verifyIntegrity() {
+        const kpi = document.getElementById('aud-kpi-integrity');
+        if (!kpi) return;
+        const token = Auth.getToken();
+        if (!token) { kpi.querySelector('.aud-kpi-value').textContent = '🔗 No auth'; return; }
+        try {
+            const res = await fetch(`${_apiUrl}/api/audit/verify`, {
+                headers: { Authorization: `Bearer ${token}` },
+                credentials: 'include'
+            });
+            const data = await res.json();
+            if (data.ok && data.valid) {
+                kpi.innerHTML = `
+                    <div class="aud-kpi-value" style="font-size:0.7rem;color:#16a34a;">🔗 ✓ Íntegra (${data.checked} reg.)</div>
+                    <div class="aud-kpi-label">Cadena</div>`;
+            } else if (data.ok) {
+                kpi.innerHTML = `
+                    <div class="aud-kpi-value" style="font-size:0.7rem;color:#dc2626;">🔗 ✕ Rota en #${data.brokenAt}</div>
+                    <div class="aud-kpi-label">Cadena</div>`;
+            } else {
+                kpi.querySelector('.aud-kpi-value').textContent = '🔗 ' + (data.error || 'Error');
+            }
+        } catch {
+            kpi.querySelector('.aud-kpi-value').textContent = '🔗 Error de conexión';
+        }
+    }
+
     // ── Construir la UI ────────────────────
     function buildView() {
         const container = document.getElementById('auditoria-container');
@@ -219,6 +246,7 @@ const AuditoriaManager = (() => {
                 <button class="aud-btn-filter" id="aud-btn-filter">🔍 Filtrar</button>
                 <button class="aud-btn-reset"  id="aud-btn-reset">✕ Limpiar</button>
                 <button class="aud-btn-export" id="aud-btn-export">📥 Exportar CSV</button>
+                <button class="aud-btn-verify" id="aud-btn-verify" title="Verificar cadena de hash blockchain">🔗 Verificar</button>
                 <button class="aud-btn-refresh" id="aud-btn-refresh" title="Recargar">🔄</button>
             </div>
 
@@ -254,6 +282,7 @@ const AuditoriaManager = (() => {
         _renderKPIs();
         _renderTable(_logs);
         _renderFailsByUser();
+        _verifyIntegrity();
     }
 
     function _renderKPIs() {
@@ -277,6 +306,10 @@ const AuditoriaManager = (() => {
             <div class="aud-kpi aud-kpi-rate">
                 <div class="aud-kpi-value">${s.total ? Math.round((s.exitosos/s.total)*100) : 0}%</div>
                 <div class="aud-kpi-label">Tasa de éxito</div>
+            </div>
+            <div class="aud-kpi" id="aud-kpi-integrity">
+                <div class="aud-kpi-value" style="font-size:0.75rem;word-break:break-all;">🔗 Verificando...</div>
+                <div class="aud-kpi-label">Integridad</div>
             </div>
         `;
         
@@ -481,6 +514,13 @@ const AuditoriaManager = (() => {
             if (btn) btn.textContent = '⏳';
             await _loadAndRender();
             if (btn) btn.textContent = '🔄';
+        });
+
+        document.getElementById('aud-btn-verify')?.addEventListener('click', async () => {
+            const btn = document.getElementById('aud-btn-verify');
+            if (btn) btn.textContent = '⏳';
+            await _verifyIntegrity();
+            if (btn) btn.textContent = '🔗 Verificar';
         });
 
         // Filtrar con Enter en el campo de usuario
