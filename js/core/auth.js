@@ -757,6 +757,9 @@ const Auth = (() => {
                 if(res.ok){ const data=await res.json(); if(data.token) _token=data.token; }
             }catch(e){ /* cookie no disponible, se re-logueará en el primer 401 */ }
         }
+        if (_token) {
+            await _fetchMlApiKey();
+        }
         const session = _getSession();
         _scheduleTimers();
         _registerActivityListeners();
