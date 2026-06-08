@@ -1756,7 +1756,8 @@ const MLManager = (() => {
         var nCat = catFeatures.length;
 
         var html = '';
-        html += '<div class="pd-topbar"><div class="pd-topbar-left"><span style="font-size:18px">\ud83d\udd2e</span><span class="pd-topbar-title">Predecir con</span><span class="pd-topbar-model">' + escapeHtml(modelId) + '</span></div><div class="pd-toggle-wrap"><span>Modo experto</span><div class="pd-toggle-track"><div class="pd-toggle-thumb"></div></div></div></div>';
+        var displayName = model ? (model.custom_name || model.id) : modelId;
+        html += '<div class="pd-topbar"><div class="pd-topbar-left"><span style="font-size:18px">\ud83d\udd2e</span><span class="pd-topbar-title">Predecir con</span><span class="pd-topbar-model">' + escapeHtml(displayName) + '</span></div><div class="pd-toggle-wrap"><span>Modo experto</span><div class="pd-toggle-track"><div class="pd-toggle-thumb"></div></div></div></div>';
 
         html += '<div class="pd-meta-strip">';
         html += '<div class="pd-mcell"><span class="pd-mlabel">Algoritmo</span><span class="pd-mval pd-macc">' + escapeHtml(algo) + '</span></div>';
@@ -1787,7 +1788,7 @@ const MLManager = (() => {
         html += '<div class="pd-chips"><span class="pd-chip pd-chip-ok">\u2713 0 campos completados</span><span class="pd-chip pd-chip-ok">\u2713 Sin valores nulos</span></div>';
 
         // Action bar
-        html += '<div class="pd-action-bar"><div class="pd-action-left"><span><span class="pd-status-dot"></span>' + escapeHtml(modelId) + ' \u00b7 listo</span><span class="pd-fcount" id="pd-count-total">' + (nNum + nCat) + ' features</span></div><div class="pd-action-right"><button class="pd-cancel">Cancelar</button><button class="pd-predict"><span class="pd-predict-icon">\ud83d\udd2e</span> Predecir</button></div></div>';
+        html += '<div class="pd-action-bar"><div class="pd-action-left"><span><span class="pd-status-dot"></span>' + escapeHtml(displayName) + ' \u00b7 listo</span><span class="pd-fcount" id="pd-count-total">' + (nNum + nCat) + ' features</span></div><div class="pd-action-right"><button class="pd-cancel">Cancelar</button><button class="pd-predict"><span class="pd-predict-icon">\ud83d\udd2e</span> Predecir</button></div></div>';
 
         return html;
     }
