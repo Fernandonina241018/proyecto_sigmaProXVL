@@ -132,6 +132,13 @@ const MLManager = (() => {
             '.mlv-wrap .mlv-actions .btn-primary:hover{background:rgba(139,92,246,.3)}',
             '.mlv-wrap .mlv-actions .btn-danger{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.25);color:#fca5a5}',
             '.mlv-wrap .mlv-actions .btn-danger:hover{background:rgba(239,68,68,.22)}',
+            '.mlv-wrap .fi-type{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline;margin-bottom:12px}',
+            '.mlv-wrap .fi-type-lbl{font-size:10px;font-weight:700;color:var(--mlv-faint);letter-spacing:.08em;text-transform:uppercase;min-width:90px}',
+            '.mlv-wrap .fi-tags{display:flex;flex-wrap:wrap;gap:5px}',
+            '.mlv-wrap .fi-tag{font-size:11px;padding:2px 8px;border-radius:4px;border:1px solid;font-weight:500;white-space:nowrap}',
+            '.mlv-wrap .fi-tag-num{background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.3);color:#93c5fd}',
+            '.mlv-wrap .fi-tag-cat{background:rgba(251,146,60,.10);border-color:rgba(251,146,60,.25);color:#fdba74;cursor:help}',
+            '.mlv-wrap .fi-tag-val{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.2);color:#86efac}',
         ].join('');
         document.head.appendChild(s);
     }
@@ -260,6 +267,11 @@ const MLManager = (() => {
             }
         }
 
+        var trainParams = null;
+        if (model.train_params && typeof model.train_params === 'object' && Object.keys(model.train_params).length > 0) {
+            trainParams = model.train_params;
+        }
+
         return {
             name: name,
             id: id,
@@ -276,7 +288,12 @@ const MLManager = (() => {
             featureImportance: featureImportance,
             classNames: classNames,
             hyperparams: hyperparams,
-            diagnostics: diagnostics
+            diagnostics: diagnostics,
+            trainParams: trainParams,
+            fileSizeMb: model.file_size_mb,
+            numFeatures: meta.num_features || [],
+            catFeatures: meta.cat_features || [],
+            catValues: meta.cat_values || {}
         };
     }
 
@@ -439,37 +456,110 @@ const MLManager = (() => {
 
         // ── PANEL: Features ──
         html += '<div class="mlv-panel" id="mlv-p-features"><div class="mlv-stack">';
-        if (d.featureImportance && Object.keys(d.featureImportance).length > 0) {
-            var fi = d.featureImportance;
-            var fiKeys = Object.keys(fi);
-            var maxFi = 0;
-            for (var fiIdx = 0; fiIdx < fiKeys.length; fiIdx++) {
-                if (fi[fiKeys[fiIdx]] > maxFi) maxFi = fi[fiKeys[fiIdx]];
+
+        // Feature lists (always shown)
+        var hasNum = d.numFeatures && d.numFeatures.length > 0;
+        var hasCat = d.catFeatures && d.catFeatures.length > 0;
+        if (hasNum || hasCat) {
+            html += '<div class="mlv-card"><div class="mlv-clabel">Features del dataset</div>' +
+                '<div style="font-size:11px;color:var(--mlv-faint);margin-bottom:10px">' +
+                'Lista completa de features usadas para entrenar el modelo, separadas por tipo.</div>';
+            if (hasNum) {
+                html += '<div class="fi-type"><span class="fi-type-lbl">Numéricas</span><div class="fi-tags">';
+                for (var fiIdx = 0; fiIdx < d.numFeatures.length; fiIdx++) {
+                    html += '<span class="fi-tag fi-tag-num">' + escapeHtml(d.numFeatures[fiIdx]) + '</span>';
+                }
+                html += '</div></div>';
             }
-            html += '<div class="mlv-card"><div class="mlv-clabel">Importancia de features</div>' +
-                '<div style="font-size:11px;color:var(--mlv-faint);margin-bottom:14px">' +
-                'Peso relativo de cada feature en las decisiones del modelo</div>';
-            for (var fiIdx2 = 0; fiIdx2 < fiKeys.length; fiIdx2++) {
-                var fk = fiKeys[fiIdx2];
-                var fv = fi[fk];
-                var pct = (fv * 100).toFixed(1);
-                var w = maxFi > 0 ? (fv / maxFi * 100).toFixed(1) : 0;
-                html += '<div class="f-row"><div class="f-name" title="' + escapeHtml(fk) + '">' + escapeHtml(fk) + '</div>' +
-                    '<div class="f-bars"><div class="f-bar-row"><div class="f-track">' +
-                    '<div class="f-fill" style="width:' + w + '%;background:#8b5cf6"></div></div>' +
-                    '<div class="f-pct">' + pct + '%</div></div></div></div>';
+            if (hasCat) {
+                html += '<div class="fi-type"><span class="fi-type-lbl">Categóricas</span><div class="fi-tags">';
+                for (var fiIdx2 = 0; fiIdx2 < d.catFeatures.length; fiIdx2++) {
+                    var cf = d.catFeatures[fiIdx2];
+                    var cv = d.catValues && d.catValues[cf];
+                    var vals = Array.isArray(cv) ? cv.join(', ') : '';
+                    html += '<span class="fi-tag fi-tag-cat" title="Valores: ' + escapeHtml(vals) + '">' +
+                        escapeHtml(cf) + '</span>';
+                }
+                html += '</div></div>';
             }
             html += '</div>';
-        } else {
-            html += '<div style="text-align:center;padding:30px;color:var(--mlv-faint)">' +
-                'Importancia de features no disponible. Activa SHAP Attribution al entrenar o usa el endpoint /api/ml/explain para obtener este análisis.</div>';
         }
+
+        // Category values detail
+        if (hasCat && d.catValues) {
+            var cvKeys = Object.keys(d.catValues);
+            if (cvKeys.length > 0) {
+                html += '<div class="mlv-card"><div class="mlv-clabel">Valores de categorías</div>';
+                for (var cvi = 0; cvi < cvKeys.length; cvi++) {
+                    var ck = cvKeys[cvi];
+                    var vals = d.catValues[ck];
+                    if (Array.isArray(vals) && vals.length > 0) {
+                        html += '<div class="fi-type"><span class="fi-type-lbl">' + escapeHtml(ck) + '</span>' +
+                            '<div class="fi-tags">';
+                        for (var vi = 0; vi < vals.length; vi++) {
+                            html += '<span class="fi-tag fi-tag-val">' + escapeHtml(String(vals[vi])) + '</span>';
+                        }
+                        html += '</div></div>';
+                    }
+                }
+                html += '</div>';
+            }
+        }
+
+        // Feature importance container (loaded async)
+        html += '<div id="mlv-fi-container">' +
+            '<div style="text-align:center;padding:24px;color:var(--mlv-faint);font-size:13px">' +
+            '⌛ Cargando importancia de features…</div></div>';
+
         html += '</div></div>';
 
         // ── PANEL: Config ──
         html += '<div class="mlv-panel" id="mlv-p-config"><div class="mlv-stack">';
+
+        // Training params
+        if (d.trainParams) {
+            var tp = d.trainParams;
+            var tpItems = [];
+            if (tp.test_size != null) tpItems.push({ k: 'test_size', v: String(tp.test_size) });
+            if (tp.cv_folds != null) tpItems.push({ k: 'cv_folds', v: String(tp.cv_folds) });
+            if (tp.search_type) tpItems.push({ k: 'búsqueda', v: tp.search_type === 'none' ? 'Sin búsqueda' : tp.search_type === 'grid' ? 'Grid Search' : 'Random Search' });
+            if (tp.imbalance_strategy && tp.imbalance_strategy !== 'none') tpItems.push({ k: 'balanceo', v: tp.imbalance_strategy });
+            if (tp.n_bootstraps != null && tp.n_bootstraps > 0) tpItems.push({ k: 'bootstraps', v: String(tp.n_bootstraps) + ' iteraciones' });
+            if (tp.problem_type) tpItems.push({ k: 'tipo problema', v: tp.problem_type });
+            if (tp.feature_engineering && typeof tp.feature_engineering === 'object') {
+                var feKeys = Object.keys(tp.feature_engineering);
+                var feActive = feKeys.filter(function(fk) { return tp.feature_engineering[fk]; });
+                if (feActive.length > 0) tpItems.push({ k: 'ingeniería', v: feActive.join(', ') });
+            }
+            if (tpItems.length > 0) {
+                html += '<div class="mlv-card"><div class="mlv-clabel">Parámetros de entrenamiento</div>';
+                for (var tpi = 0; tpi < tpItems.length; tpi++) {
+                    html += '<div class="pr"><span class="pr-k">' + escapeHtml(tpItems[tpi].k) + '</span>' +
+                        '<span class="pr-v">' + escapeHtml(tpItems[tpi].v) + '</span></div>';
+                }
+                html += '</div>';
+            }
+        }
+
+        // Model info
+        var miItems = [];
+        miItems.push({ k: 'algoritmo', v: d.algoFull });
+        miItems.push({ k: 'tipo', v: d.problemType });
+        miItems.push({ k: 'model ID', v: d.id });
+        if (d.fileSizeMb != null) miItems.push({ k: 'tamaño archivo', v: d.fileSizeMb < 1 ? (d.fileSizeMb * 1024).toFixed(0) + ' KB' : d.fileSizeMb.toFixed(2) + ' MB' });
+        if (d.dataset && d.dataset !== '—') miItems.push({ k: 'dataset', v: d.dataset });
+        if (miItems.length > 0) {
+            html += '<div class="mlv-card"><div class="mlv-clabel">Info del modelo</div>';
+            for (var mii = 0; mii < miItems.length; mii++) {
+                html += '<div class="pr"><span class="pr-k">' + escapeHtml(miItems[mii].k) + '</span>' +
+                    '<span class="pr-v">' + escapeHtml(miItems[mii].v) + '</span></div>';
+            }
+            html += '</div>';
+        }
+
+        // Hyperparams (best_params from GridSearch / RandomSearch)
         if (d.hyperparams && d.hyperparams.length > 0) {
-            html += '<div class="mlv-card"><div class="mlv-clabel">Hiperparámetros</div>';
+            html += '<div class="mlv-card"><div class="mlv-clabel">Hiperparámetros (best params)</div>';
             for (var hi = 0; hi < d.hyperparams.length; hi++) {
                 var hp = d.hyperparams[hi];
                 html += '<div class="pr"><span class="pr-k">' + escapeHtml(hp.k) + '</span>' +
@@ -478,6 +568,8 @@ const MLManager = (() => {
             }
             html += '</div>';
         }
+
+        // Diagnostics
         if (d.diagnostics && d.diagnostics.length > 0) {
             html += '<div class="mlv-notice mlv-ng"><div class="mlv-n-title" style="color:rgba(134,239,172,.7)">✓ Diagnóstico del modelo</div>';
             for (var di = 0; di < d.diagnostics.length; di++) {
@@ -488,7 +580,8 @@ const MLManager = (() => {
             }
             html += '</div>';
         }
-        if (!d.hyperparams && (!d.diagnostics || d.diagnostics.length === 0)) {
+
+        if (!d.trainParams && !d.hyperparams && (!d.diagnostics || d.diagnostics.length === 0)) {
             html += '<div style="text-align:center;padding:30px;color:var(--mlv-faint)">' +
                 'Información de configuración no disponible.</div>';
         }
@@ -496,6 +589,49 @@ const MLManager = (() => {
 
         html += '</div>'; // close mlv-wrap
         return html;
+    }
+
+    function _mvRenderImportanceBars(data) {
+        var keys = Object.keys(data);
+        var maxV = 0;
+        for (var i = 0; i < keys.length; i++) {
+            if (data[keys[i]] > maxV) maxV = data[keys[i]];
+        }
+        var html = '<div class="mlv-card"><div class="mlv-clabel">Importancia de features</div>' +
+            '<div style="font-size:11px;color:var(--mlv-faint);margin-bottom:14px">' +
+            'Peso relativo de cada feature transformada en las decisiones del modelo. Features con one-hot encoding aparecen expandidas.</div>';
+        for (var i2 = 0; i2 < keys.length; i2++) {
+            var fk2 = keys[i2], fv2 = data[fk2];
+            var pct2 = (fv2 * 100).toFixed(1);
+            var w2 = maxV > 0 ? (fv2 / maxV * 100).toFixed(1) : 0;
+            html += '<div class="f-row"><div class="f-name" title="' + escapeHtml(fk2) + '">' + escapeHtml(fk2) + '</div>' +
+                '<div class="f-bars"><div class="f-bar-row"><div class="f-track">' +
+                '<div class="f-fill" style="width:' + w2 + '%;background:#8b5cf6"></div></div>' +
+                '<div class="f-pct">' + pct2 + '%</div></div></div></div>';
+        }
+        html += '</div>';
+        return html;
+    }
+
+    function _mvLoadFeatureImportance(modelId) {
+        if (!modelId) return;
+        var container = document.getElementById('mlv-fi-container');
+        if (!container) return;
+        var apiUrl = _getMlApiUrl();
+        fetch(apiUrl + '/api/ml/models/' + encodeURIComponent(modelId) + '/importance')
+            .then(function(r) { return r.json(); })
+            .then(function(resp) {
+                if (resp.ok && resp.feature_importance && Object.keys(resp.feature_importance).length > 0) {
+                    container.innerHTML = _mvRenderImportanceBars(resp.feature_importance);
+                } else {
+                    container.innerHTML = '<div style="text-align:center;padding:24px;color:var(--mlv-faint);font-size:13px">' +
+                        'Importancia de features no disponible para este tipo de modelo (redes neuronales no tienen feature_importances_ ni coef_).</div>';
+                }
+            })
+            .catch(function() {
+                container.innerHTML = '<div style="text-align:center;padding:24px;color:var(--mlv-faint);font-size:13px">' +
+                    'Error al cargar importancia de features. Verifica que el ML Service esté disponible.</div>';
+            });
     }
 
     function _renderModelView(model) {
@@ -519,6 +655,9 @@ const MLManager = (() => {
                 });
             })(tabs[ti]);
         }
+
+        // Load feature importance asynchronously
+        _mvLoadFeatureImportance(d.id);
     }
 
     function _filterMetricsKeys(metrics) {

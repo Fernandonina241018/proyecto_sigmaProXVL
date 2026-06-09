@@ -345,11 +345,14 @@ def _execute_training(req: TrainRequest, progress_callback=None):
         model_key=req.model_key, eval_results=eval_results,
     )
 
+    try:
+        registry = manager._load_registry()
+        meta_entry = registry.get(model_id, {})
+    except Exception:
+        meta_entry = {}
     if cal_payload and cal_payload.get("status") == "trained":
         try:
-            registry = manager._load_registry()
-            entry = registry.get(model_id, {})
-            cal_name = entry.get("filename", "").replace(".pkl", "_calibrator.pkl")
+            cal_name = meta_entry.get("filename", "").replace(".pkl", "_calibrator.pkl")
             if cal_name:
                 cal_path = manager.base_dir / cal_name
                 joblib.dump(cal_payload, cal_path)
@@ -364,6 +367,8 @@ def _execute_training(req: TrainRequest, progress_callback=None):
         "metrics": _metrics_serializable(eval_results),
         "best_params": best_params,
         "custom_name": req.custom_name,
+        "train_params": payload.get("train_params", {}),
+        "file_size_mb": meta_entry.get("file_size_mb"),
         "meta": {
             "problem_type": meta["problem_type"],
             "target_col": meta.get("target_col", req.target),
@@ -558,6 +563,8 @@ def list_models():
                 "metrics": entry.get("metrics", {}),
                 "custom_name": entry.get("train_params", {}).get("custom_name"),
                 "best_params": entry.get("best_params", {}),
+                "train_params": entry.get("train_params", {}),
+                "file_size_mb": entry.get("file_size_mb"),
                 "meta": meta,
             })
         models.sort(key=lambda m: m.get("saved_at", ""), reverse=True)
@@ -574,6 +581,64 @@ def delete_model_endpoint(model_id: str):
         if not ok:
             raise HTTPException(404, f"Model '{model_id}' not found")
         return {"ok": True}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(500, str(e))
+
+
+@app.get("/api/ml/models/{model_id}/importance")
+def get_feature_importance(model_id: str):
+    try:
+        _safe_model_id(model_id)
+        registry = manager._load_registry()
+        entry = registry.get(model_id)
+        if not entry:
+            raise HTTPException(404, f"Model '{model_id}' not found")
+        payload = _safe_load_model(model_id, entry)
+        pipeline = payload.get("pipeline")
+        if not pipeline or not hasattr(pipeline, "named_steps"):
+            return {"ok": True, "feature_importance": {}}
+        estimator = None
+        for step_name in ["classifier", "estimator", "model"]:
+            if step_name in pipeline.named_steps:
+                estimator = pipeline.named_steps[step_name]
+                break
+        if estimator is None:
+            steps = list(pipeline.named_steps.values())
+            estimator = steps[-1] if steps else None
+        if estimator is None:
+            return {"ok": True, "feature_importance": {}}
+        importance = None
+        if hasattr(estimator, "feature_importances_"):
+            importance = estimator.feature_importances_
+        elif hasattr(estimator, "coef_"):
+            coef = estimator.coef_
+            if coef.ndim > 1:
+                coef = np.abs(coef).mean(axis=0)
+            importance = coef
+        if importance is None:
+            return {"ok": True, "feature_importance": {}}
+        importance = importance.tolist()
+        feature_names = None
+        preprocessor = pipeline.named_steps.get("preprocessor")
+        if preprocessor and hasattr(preprocessor, "get_feature_names_out"):
+            try:
+                feature_names = preprocessor.get_feature_names_out()
+            except Exception:
+                pass
+        if feature_names is None:
+            meta = entry.get("meta", {})
+            nums = meta.get("num_features", [])
+            cats = meta.get("cat_features", [])
+            feature_names = nums + cats
+        if len(importance) != len(feature_names):
+            if len(importance) < len(feature_names):
+                feature_names = feature_names[:len(importance)]
+            else:
+                feature_names = list(feature_names) + [f"f_{i}" for i in range(len(feature_names), len(importance))]
+        result = dict(zip(feature_names, importance))
+        return {"ok": True, "feature_importance": result}
     except HTTPException:
         raise
     except Exception as e:
