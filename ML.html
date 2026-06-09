@@ -1,0 +1,512 @@
+cat > /mnt/user-data/outputs/ml_model_view.html << 'HTMLEOF'
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ML Model View</title>
+<style>
+:root {
+  --bg:      #0e0e1c;
+  --surface: rgba(255,255,255,0.038);
+  --bd:      rgba(255,255,255,0.08);
+  --purple:  #8b5cf6;
+  --p-dim:   rgba(139,92,246,0.18);
+  --p-bd:    rgba(139,92,246,0.35);
+  --green:   #4ade80;
+  --yellow:  #facc15;
+  --red:     #f87171;
+  --cyan:    #22d3ee;
+  --text:    rgba(255,255,255,0.82);
+  --dim:     rgba(255,255,255,0.42);
+  --faint:   rgba(255,255,255,0.22);
+  --mono:    'Courier New', Courier, monospace;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+.wrap { max-width: 820px; margin: 0 auto; padding: 24px 20px; }
+
+/* HEADER */
+.header { margin-bottom: 22px; }
+.hdr-top { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:10px; }
+.model-name { display:flex; align-items:center; gap:8px; font-size:17px; font-weight:800; letter-spacing:-0.02em; }
+.badges { display:flex; flex-wrap:wrap; gap:6px; }
+.badge { padding:3px 10px; border-radius:99px; font-size:11px; font-weight:600; letter-spacing:.02em; border:1px solid; }
+.bp { background:rgba(139,92,246,.18); border-color:rgba(139,92,246,.4); color:#c4b5fd; }
+.bg { background:rgba(34,197,94,.12);  border-color:rgba(34,197,94,.3);  color:#86efac; }
+.bd { background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:var(--dim); }
+.meta { text-align:right; font-size:11px; color:var(--faint); line-height:1.8; flex-shrink:0; }
+.meta span { font-family:var(--mono); color:var(--dim); }
+
+/* TABS */
+.tabs { display:flex; gap:2px; border-bottom:1px solid var(--bd); margin-bottom:22px; }
+.tab {
+  padding:8px 16px; font-size:13px; font-weight:600; cursor:pointer;
+  border:none; background:none; color:var(--dim);
+  border-bottom:2px solid transparent; margin-bottom:-1px;
+  border-radius:6px 6px 0 0; transition:all .15s; letter-spacing:.01em;
+}
+.tab:hover { color:rgba(255,255,255,.65); }
+.tab.on { color:#c4b5fd; border-bottom-color:var(--purple); background:rgba(139,92,246,.1); }
+
+/* PANELS */
+.panel { display:none; }
+.panel.on { display:block; }
+
+/* CARDS */
+.card { background:var(--surface); border:1px solid var(--bd); border-radius:12px; padding:16px; }
+.clabel {
+  font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--faint); margin-bottom:12px;
+}
+
+/* GRID */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.g4 { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.stack { display:flex; flex-direction:column; gap:16px; }
+
+/* METRIC CARDS */
+.mc {
+  background:var(--surface); border:1px solid var(--bd); border-radius:10px;
+  padding:12px; cursor:help; position:relative; transition:transform .12s;
+}
+.mc:hover { transform:scale(1.03); }
+.mc:hover .tip { display:block; }
+.mc-lbl { font-size:10px; color:var(--faint); letter-spacing:.06em; margin-bottom:6px; }
+.mc-val { font-size:24px; font-weight:900; font-family:var(--mono); margin-bottom:8px; line-height:1; }
+.bar-track { height:3px; border-radius:99px; background:rgba(255,255,255,.08); }
+.bar-fill  { height:100%; border-radius:99px; }
+
+/* TOOLTIP */
+.tip {
+  display:none; position:absolute; bottom:calc(100% + 8px); left:50%;
+  transform:translateX(-50%); background:#1a1a3a;
+  border:1px solid rgba(139,92,246,.35); border-radius:8px;
+  padding:8px 12px; font-size:11px; color:var(--dim); width:200px;
+  text-align:center; z-index:100; line-height:1.5;
+  box-shadow:0 8px 24px rgba(0,0,0,.5); pointer-events:none;
+}
+
+/* CONFUSION MATRIX */
+.cm-col-hdr { display:flex; margin-bottom:6px; }
+.cm-corner  { width:80px; flex-shrink:0; }
+.cm-clbl    { flex:1; text-align:center; font-size:11px; color:var(--dim); }
+.cm-row     { display:flex; gap:6px; align-items:center; margin-bottom:6px; }
+.cm-rlbl    { width:74px; text-align:right; font-size:11px; color:var(--dim); flex-shrink:0; }
+.cm-cell {
+  flex:1; aspect-ratio:1; border-radius:8px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  cursor:default; border:1.5px solid transparent; transition:border-color .12s;
+}
+.cm-cell:hover { border-color:rgba(255,255,255,.4); }
+.cm-v { font-size:18px; font-weight:800; color:#fff; line-height:1; }
+.cm-p { font-size:10px; color:rgba(255,255,255,.5); margin-top:2px; }
+.cm-legend { display:flex; gap:14px; margin-top:8px; }
+.cm-li { display:flex; align-items:center; gap:5px; font-size:10px; color:var(--faint); }
+.cm-dot { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
+
+/* ERROR CARDS */
+.ec { background:var(--surface); border:1px solid var(--bd); border-radius:8px; padding:10px 12px; cursor:help; position:relative; }
+.ec:hover .tip { display:block; }
+.ec-lbl { font-size:9px; color:var(--faint); letter-spacing:.04em; margin-bottom:4px; }
+.ec-val { font-size:24px; font-weight:900; font-family:var(--mono); line-height:1; }
+.ec-pct { font-size:10px; color:var(--faint); margin-top:4px; }
+
+/* FEATURE BARS */
+.f-row { display:flex; align-items:center; gap:8px; padding:4px 0; border-bottom:1px solid rgba(255,255,255,.04); }
+.f-name { font-size:11.5px; color:var(--dim); width:140px; flex-shrink:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.f-bars { flex:1; display:flex; flex-direction:column; gap:2px; }
+.f-bar-row { display:flex; align-items:center; gap:4px; }
+.f-track { flex:1; height:6px; background:rgba(255,255,255,.07); border-radius:99px; overflow:hidden; }
+.f-fill  { height:100%; border-radius:99px; }
+.f-pct   { font-size:10px; color:var(--faint); font-family:var(--mono); width:28px; text-align:right; }
+.legend  { display:flex; gap:14px; margin-top:10px; }
+.li      { display:flex; align-items:center; gap:5px; font-size:10.5px; color:var(--faint); }
+.li-dot  { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
+
+/* DIRECTION TABLE */
+.dr { display:flex; align-items:center; gap:10px; padding:6px 0; border-bottom:1px solid rgba(255,255,255,.04); cursor:help; position:relative; }
+.dr:last-child { border-bottom:none; }
+.dr:hover .tip { display:block; }
+.d-badge { width:22px; height:22px; border-radius:4px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:13px; flex-shrink:0; }
+.d-plus  { background:rgba(74,222,128,.18); color:#4ade80; border:1px solid rgba(74,222,128,.3); }
+.d-minus { background:rgba(248,113,113,.18); color:#f87171; border:1px solid rgba(248,113,113,.3); }
+.d-name  { flex:1; font-size:12.5px; color:rgba(255,255,255,.68); }
+.d-pct   { font-size:11px; color:var(--faint); font-family:var(--mono); }
+.d-btrack { width:80px; height:5px; background:rgba(255,255,255,.08); border-radius:99px; overflow:hidden; }
+.d-bfill  { height:100%; border-radius:99px; }
+
+/* HYPERPARAMS */
+.pr { display:flex; align-items:center; gap:12px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.05); }
+.pr:last-child { border-bottom:none; }
+.pr-k { width:150px; font-size:12px; color:var(--dim); flex-shrink:0; }
+.pr-v { width:100px; font-size:12px; font-family:var(--mono); font-weight:700; color:#c4b5fd; flex-shrink:0; }
+.pr-n { font-size:11px; color:var(--faint); font-style:italic; }
+
+/* KV */
+.kv { display:flex; justify-content:space-between; padding:6px 0; font-size:12px; border-bottom:1px solid rgba(255,255,255,.04); }
+.kv:last-child { border-bottom:none; }
+.kv-k { color:var(--dim); }
+.kv-v { font-family:var(--mono); font-weight:700; }
+
+/* CLASS TABLE */
+.crt { width:100%; border-collapse:collapse; font-size:11.5px; }
+.crt th { color:var(--faint); font-weight:600; padding-bottom:8px; text-align:center; }
+.crt th:first-child { text-align:left; }
+.crt td { padding:6px 0; text-align:center; border-top:1px solid rgba(255,255,255,.05); }
+.crt td:first-child { text-align:left; color:rgba(255,255,255,.65); }
+.crt .avg td { color:var(--faint) !important; font-style:italic; }
+
+/* NOTICE BOXES */
+.notice { border-radius:10px; padding:14px 16px; font-size:12.5px; line-height:1.7; }
+.np { background:rgba(139,92,246,.07); border:1px solid rgba(139,92,246,.25); }
+.ng { background:rgba(34,197,94,.06);  border:1px solid rgba(34,197,94,.2); }
+.n-title { font-size:10px; letter-spacing:.1em; text-transform:uppercase; font-weight:700; margin-bottom:8px; }
+.np .n-title { color:rgba(196,181,253,.7); }
+.ng .n-title { color:rgba(134,239,172,.7); }
+.n-body { color:rgba(255,255,255,.55); }
+.n-body strong { color:#c4b5fd; font-weight:700; }
+.n-body code   { font-family:var(--mono); color:#a5f3fc; }
+.diag-row { display:flex; gap:8px; margin-bottom:6px; font-size:12px; }
+.diag-row:last-child { margin-bottom:0; }
+.dg-dot   { color:#4ade80; flex-shrink:0; }
+.dg-t     { color:rgba(255,255,255,.7); font-weight:600; }
+.dg-d     { color:var(--faint); }
+
+/* ROC note */
+.roc-note { font-size:10px; color:var(--faint); margin-top:6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="hdr-top">
+      <div>
+        <div class="model-name">🤖 <span id="mName"></span></div>
+      </div>
+      <div class="meta" id="mMeta"></div>
+    </div>
+    <div class="badges" id="mBadges"></div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab on"  data-t="overview">◈ Resumen</button>
+    <button class="tab"     data-t="performance">◎ Rendimiento</button>
+    <button class="tab"     data-t="features">◧ Features</button>
+    <button class="tab"     data-t="config">◉ Config</button>
+  </div>
+
+  <!-- RESUMEN -->
+  <div class="panel on" id="panel-overview">
+    <div class="stack">
+      <div>
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:10px;">
+          Métricas clave · pasa el cursor para descripción
+        </div>
+        <div class="g3" id="metrics-grid"></div>
+      </div>
+      <div class="g2">
+        <div class="card"><div class="clabel">Entrenamiento</div><div id="train-info"></div></div>
+        <div class="card">
+          <div class="clabel">Reporte por clase</div>
+          <table class="crt">
+            <thead><tr><th>Clase</th><th>P</th><th>R</th><th>F1</th><th>N</th></tr></thead>
+            <tbody id="class-report"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RENDIMIENTO -->
+  <div class="panel" id="panel-performance">
+    <div class="stack">
+      <div class="g2">
+        <div class="card"><div class="clabel">Matriz de Confusión</div><div id="cm-wrap"></div></div>
+        <div class="card">
+          <div class="clabel">Curva ROC · AUC = 0.971</div>
+          <div id="roc-wrap"></div>
+          <div class="roc-note">Línea punteada = clasificador aleatorio (AUC 0.5)</div>
+        </div>
+      </div>
+      <div class="card"><div class="clabel">Desglose de errores</div><div class="g4" id="error-bd"></div></div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="panel" id="panel-features">
+    <div class="stack">
+      <div class="card">
+        <div class="clabel">Importancia · Modelo vs SHAP Attribution</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.28);margin-bottom:14px;">
+          Los valores SHAP miden el impacto promedio de cada feature en la predicción final
+        </div>
+        <div id="feat-chart"></div>
+        <div class="legend">
+          <div class="li"><div class="li-dot" style="background:#8b5cf6"></div>Importancia modelo</div>
+          <div class="li"><div class="li-dot" style="background:#22d3ee"></div>SHAP Attribution</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="clabel">Dirección de impacto por feature</div>
+        <div id="dir-table"></div>
+        <div style="margin-top:12px;font-size:10.5px;color:rgba(255,255,255,.25);line-height:1.6;">
+          <span style="color:rgba(74,222,128,.7)">+</span> valor alto → mayor probabilidad de aprobación ·
+          <span style="color:rgba(248,113,113,.7)">−</span> valor alto → mayor probabilidad de rechazo
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIG -->
+  <div class="panel" id="panel-config">
+    <div class="stack">
+      <div class="card"><div class="clabel">Hiperparámetros</div><div id="hyperparams"></div></div>
+      <div class="notice np">
+        <div class="n-title">◈ Interpretación de la arquitectura</div>
+        <div class="n-body">
+          Red con <strong>3 capas ocultas decrecientes</strong> (128 → 64 → 32 neuronas).
+          La reducción progresiva fuerza al modelo a comprimir representaciones, actuando como regularización implícita.
+          Activación <code>ReLU</code> evita el problema de vanishing gradient.
+          El optimizer <code>Adam</code> con lr=0.001 ofrece convergencia estable sin ajuste manual de momentum.
+        </div>
+      </div>
+      <div class="notice ng">
+        <div class="n-title">✓ Diagnóstico del modelo</div>
+        <div id="diagnostics"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+'use strict';
+
+// ═══════════════════════════════════════
+// DATOS DEL MODELO
+// ═══════════════════════════════════════
+const M = {
+  name:"Prestamo_modeloSHAP_mlp", id:"modelo_005",
+  algo:"MLP", algoFull:"Multi-Layer Perceptron",
+  type:"binary", dataset:"prestamos_crediticios", saved:"2026-06-07T23:13",
+  metrics:[
+    {key:"accuracy",  label:"Accuracy",  val:0.942, info:"Proporción de predicciones correctas sobre el total de muestras."},
+    {key:"auc",       label:"AUC-ROC",   val:0.971, info:"Área bajo la curva ROC. 1.0 = perfecto, 0.5 = aleatorio."},
+    {key:"f1",        label:"F1 Score",  val:0.923, info:"Media armónica de Precisión y Recall. Útil con clases desbalanceadas."},
+    {key:"precision", label:"Precisión", val:0.941, info:"De los predichos como positivos, qué fracción realmente lo es."},
+    {key:"recall",    label:"Recall",    val:0.906, info:"De todos los positivos reales, qué fracción detectamos correctamente."},
+    {key:"logloss",   label:"Log Loss",  val:0.187, lower:true, info:"Penaliza predicciones incorrectas con alta confianza. Menor = mejor."},
+  ],
+  cm:[[412,28],[38,322]],
+  classNames:["Aprobado","Rechazado"],
+  roc:(()=>{
+    const p=[{fpr:0,tpr:0}];
+    for(let i=1;i<=30;i++){const t=i/30;p.push({fpr:+t.toFixed(3),tpr:+Math.min(1,1-Math.exp(-9*t)+t*0.04).toFixed(3)});}
+    p.push({fpr:1,tpr:1}); return p;
+  })(),
+  features:[
+    {name:"ingreso_mensual",   imp:0.289,shap:0.31,dir:"+",desc:"Mayor ingreso mensual → mayor probabilidad de aprobación"},
+    {name:"deuda_total",       imp:0.221,shap:0.24,dir:"-",desc:"Mayor deuda total → mayor probabilidad de rechazo"},
+    {name:"historial_credito", imp:0.187,shap:0.19,dir:"+",desc:"Mejor historial de crédito → mayor aprobación"},
+    {name:"ratio_deuda",       imp:0.142,shap:0.15,dir:"-",desc:"Mayor ratio deuda/ingreso → mayor rechazo"},
+    {name:"anos_empleo",       imp:0.089,shap:0.09,dir:"+",desc:"Más años de empleo continuo → mayor aprobación"},
+    {name:"num_creditos",      imp:0.072,shap:0.07,dir:"-",desc:"Más créditos abiertos → leve tendencia al rechazo"},
+    {name:"monto_solicitado",  imp:0.058,shap:0.06,dir:"-",desc:"Mayor monto solicitado → mayor rechazo"},
+    {name:"edad",              imp:0.042,shap:0.04,dir:"+",desc:"Mayor edad → leve impacto positivo en aprobación"},
+  ],
+  hyperparams:[
+    {k:"Capas ocultas",    v:"(128, 64, 32)", n:"Arquitectura decreciente"},
+    {k:"Activación",       v:"relu",          n:"Resuelve vanishing gradient"},
+    {k:"Solver",           v:"adam",          n:"Adaptive momentum"},
+    {k:"Learning rate",    v:"0.001",         n:"Conservador, estable"},
+    {k:"Iteraciones máx.", v:"500",           n:"Convergió en ~280"},
+    {k:"Alpha (L2)",       v:"0.0001",        n:"Regularización leve"},
+    {k:"Batch size",       v:"auto",          n:"min(200, n_samples)"},
+  ],
+  trainInfo:[
+    {k:"Muestras train",    v:"640"},
+    {k:"Muestras test",     v:"160"},
+    {k:"Features",          v:"15"},
+    {k:"Clases",            v:"2 · balance 55/45"},
+    {k:"Tiempo entreno",    v:"4.2 s"},
+    {k:"CV Score (5-fold)", v:"0.937 ± 0.012"},
+  ],
+  classReport:[
+    {cls:"Aprobado (0)", p:0.916,r:0.936,f1:0.926,sup:440},
+    {cls:"Rechazado (1)",p:0.920,r:0.894,f1:0.907,sup:360},
+    {cls:"Macro avg",    p:0.918,r:0.915,f1:0.917,sup:800,avg:true},
+  ],
+  diagnostics:[
+    {t:"CV Score estable",         d:"0.937 ± 0.012 — baja varianza entre folds, generaliza bien"},
+    {t:"Sin sobreajuste aparente", d:"Accuracy test 94.2% vs CV 93.7% — diferencia dentro del margen"},
+    {t:"Balance de clases ok",     d:"Ratio 55/45 no requiere técnicas de balanceo para MLP"},
+  ],
+};
+
+// HELPERS
+const sc = (v,low=false) => low
+  ? (v<=.25?"#4ade80":v<=.45?"#facc15":"#f87171")
+  : (v>=.92?"#4ade80":v>=.75?"#facc15":"#f87171");
+const pct = v => (v*100).toFixed(1)+"%";
+const $   = id => document.getElementById(id);
+
+// ── HEADER ──────────────────────────────
+$('mName').textContent = M.name;
+$('mMeta').innerHTML = `ID: <span>${M.id}</span><br>Guardado: ${M.saved}`;
+$('mBadges').innerHTML = `
+  <span class="badge bp">${M.algo} · ${M.algoFull}</span>
+  <span class="badge bg">${M.type}</span>
+  <span class="badge bd">📊 ${M.dataset}</span>`;
+
+// ── METRICS ─────────────────────────────
+$('metrics-grid').innerHTML = M.metrics.map(m=>{
+  const c=sc(m.val,m.lower), fw=m.lower?Math.max(0,(1-m.val)*100):m.val*100;
+  return `<div class="mc">
+    <div class="tip">${m.info}</div>
+    <div class="mc-lbl">${m.label}</div>
+    <div class="mc-val" style="color:${c}">${m.lower?m.val.toFixed(3):pct(m.val)}</div>
+    <div class="bar-track"><div class="bar-fill" style="width:${fw}%;background:${c};box-shadow:0 0 6px ${c}55"></div></div>
+  </div>`;
+}).join('');
+
+// ── TRAIN INFO ──────────────────────────
+$('train-info').innerHTML = M.trainInfo.map(({k,v})=>
+  `<div class="kv"><span class="kv-k">${k}</span><span class="kv-v">${v}</span></div>`
+).join('');
+
+// ── CLASS REPORT ────────────────────────
+$('class-report').innerHTML = M.classReport.map(r=>`
+  <tr class="${r.avg?'avg':''}">
+    <td>${r.cls}</td>
+    ${[r.p,r.r,r.f1].map(v=>`<td style="font-weight:700;font-family:monospace;color:${r.avg?'rgba(255,255,255,.3)':sc(v)}">${(v*100).toFixed(0)}</td>`).join('')}
+    <td style="color:rgba(255,255,255,.3)">${r.sup}</td>
+  </tr>`).join('');
+
+// ── CONFUSION MATRIX ────────────────────
+(()=>{
+  const cm=M.cm, names=M.classNames;
+  const total=cm.flat().reduce((a,b)=>a+b,0), maxV=Math.max(...cm.flat());
+  let h=`<div class="cm-col-hdr"><div class="cm-corner"></div>${names.map(n=>`<div class="cm-clbl">${n}</div>`).join('')}</div>`;
+  cm.forEach((row,ri)=>{
+    h+=`<div class="cm-row"><div class="cm-rlbl">${names[ri]}</div>`;
+    row.forEach((val,ci)=>{
+      const ok=ri===ci, int=val/maxV;
+      const bg=ok?`rgba(139,92,246,${(.18+int*.72).toFixed(2)})`:`rgba(239,68,68,${(.1+int*.5).toFixed(2)})`;
+      h+=`<div class="cm-cell" style="background:${bg}"><div class="cm-v">${val}</div><div class="cm-p">${(val/total*100).toFixed(1)}%</div></div>`;
+    });
+    h+='</div>';
+  });
+  h+=`<div class="cm-legend">
+    <div class="cm-li"><div class="cm-dot" style="background:rgba(139,92,246,.7)"></div>Correcto</div>
+    <div class="cm-li"><div class="cm-dot" style="background:rgba(239,68,68,.5)"></div>Error</div>
+  </div>`;
+  $('cm-wrap').innerHTML=h;
+})();
+
+// ── ROC CURVE (SVG) ─────────────────────
+(()=>{
+  const W=300,H=195,P={t:8,r:8,b:28,l:28};
+  const pw=W-P.l-P.r, ph=H-P.t-P.b;
+  const pts=M.roc.map(p=>({x:P.l+p.fpr*pw, y:P.t+(1-p.tpr)*ph}));
+  const line='M'+pts.map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' L');
+  const area=line+` L${(P.l+pw).toFixed(1)},${(P.t+ph).toFixed(1)} L${P.l},${(P.t+ph).toFixed(1)} Z`;
+  let grid='';
+  [0,.25,.5,.75,1].forEach(v=>{
+    const x=P.l+v*pw, y=P.t+(1-v)*ph;
+    grid+=`<line x1="${P.l}" y1="${y.toFixed(1)}" x2="${P.l+pw}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,.05)" stroke-width=".5"/>`;
+    grid+=`<line x1="${x.toFixed(1)}" y1="${P.t}" x2="${x.toFixed(1)}" y2="${P.t+ph}" stroke="rgba(255,255,255,.05)" stroke-width=".5"/>`;
+    if(v>0&&v<1){
+      grid+=`<text x="${(P.l-3).toFixed(1)}" y="${(y+3).toFixed(1)}" font-size="7" fill="rgba(255,255,255,.28)" text-anchor="end">${v}</text>`;
+      grid+=`<text x="${x.toFixed(1)}" y="${(P.t+ph+10).toFixed(1)}" font-size="7" fill="rgba(255,255,255,.28)" text-anchor="middle">${v}</text>`;
+    }
+  });
+  $('roc-wrap').innerHTML=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+    ${grid}
+    <text x="${(P.l+pw/2).toFixed(1)}" y="${H-2}" font-size="8" fill="rgba(255,255,255,.3)" text-anchor="middle">FPR</text>
+    <text x="7" y="${(P.t+ph/2).toFixed(1)}" font-size="8" fill="rgba(255,255,255,.3)" text-anchor="middle" transform="rotate(-90,7,${(P.t+ph/2).toFixed(1)})">TPR</text>
+    <line x1="${P.l}" y1="${P.t+ph}" x2="${P.l+pw}" y2="${P.t}" stroke="rgba(255,255,255,.14)" stroke-dasharray="4,3" stroke-width="1"/>
+    <path d="${area}" fill="rgba(139,92,246,.14)"/>
+    <path d="${line}" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  </svg>`;
+})();
+
+// ── ERROR BREAKDOWN ─────────────────────
+(()=>{
+  const cm=M.cm, t=cm.flat().reduce((a,b)=>a+b,0);
+  const items=[
+    {label:"Verdadero Positivo",val:cm[0][0],color:"#4ade80",desc:"Aprobados predichos correctamente"},
+    {label:"Verdadero Negativo",val:cm[1][1],color:"#818cf8",desc:"Rechazados predichos correctamente"},
+    {label:"Falso Positivo",    val:cm[0][1],color:"#fb923c",desc:"Rechazados predichos como aprobados"},
+    {label:"Falso Negativo",    val:cm[1][0],color:"#f87171",desc:"Aprobados predichos como rechazados"},
+  ];
+  $('error-bd').innerHTML=items.map(i=>`
+    <div class="ec">
+      <div class="tip" style="width:170px">${i.desc}</div>
+      <div class="ec-lbl">${i.label}</div>
+      <div class="ec-val" style="color:${i.color}">${i.val}</div>
+      <div class="ec-pct">${(i.val/t*100).toFixed(1)}% del total</div>
+    </div>`).join('');
+})();
+
+// ── FEATURES ────────────────────────────
+(()=>{
+  const mx=Math.max(...M.features.map(f=>f.imp));
+  $('feat-chart').innerHTML=M.features.map(f=>`
+    <div class="f-row">
+      <div class="f-name">${f.name}</div>
+      <div class="f-bars">
+        <div class="f-bar-row">
+          <div class="f-track"><div class="f-fill" style="width:${(f.imp/mx*100).toFixed(1)}%;background:#8b5cf6"></div></div>
+          <div class="f-pct">${(f.imp*100).toFixed(0)}%</div>
+        </div>
+        <div class="f-bar-row">
+          <div class="f-track"><div class="f-fill" style="width:${(f.shap/mx*100).toFixed(1)}%;background:#22d3ee"></div></div>
+          <div class="f-pct">${(f.shap*100).toFixed(0)}%</div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  $('dir-table').innerHTML=M.features.map(f=>`
+    <div class="dr">
+      <div class="tip" style="width:200px">${f.desc}</div>
+      <div class="d-badge ${f.dir==='+'?'d-plus':'d-minus'}">${f.dir}</div>
+      <div class="d-name">${f.name}</div>
+      <div class="d-pct">${(f.imp*100).toFixed(1)}%</div>
+      <div class="d-btrack">
+        <div class="d-bfill" style="width:${(f.imp/mx*100).toFixed(1)}%;background:${f.dir==='+'?'#4ade80':'#f87171'};box-shadow:0 0 5px ${f.dir==='+'?'#4ade8055':'#f8717155'}"></div>
+      </div>
+    </div>`).join('');
+})();
+
+// ── CONFIG ──────────────────────────────
+$('hyperparams').innerHTML=M.hyperparams.map(({k,v,n})=>
+  `<div class="pr"><span class="pr-k">${k}</span><span class="pr-v">${v}</span><span class="pr-n">${n}</span></div>`
+).join('');
+
+$('diagnostics').innerHTML=M.diagnostics.map(({t,d})=>
+  `<div class="diag-row"><span class="dg-dot">◉</span><div><span class="dg-t">${t}: </span><span class="dg-d">${d}</span></div></div>`
+).join('');
+
+// ── TABS ────────────────────────────────
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');
+    $('panel-'+btn.dataset.t).classList.add('on');
+  });
+});
+</script>
+</body>
+</html>

@@ -10,6 +10,424 @@ const MLManager = (() => {
     let _trainingHistory = [];
     let _keepAliveId = null;
 
+    // ═══════════════════════════════════════
+    // ML Model Detail View (from ML.html)
+    // ═══════════════════════════════════════
+
+    let _mvCSSinjected = false;
+
+    function _injectModelViewCSS() {
+        if (_mvCSSinjected) return;
+        _mvCSSinjected = true;
+        var s = document.createElement('style');
+        s.id = 'ml-model-view-style';
+        s.textContent = [
+            '.mlv-wrap{--mlv-bg:#0e0e1c;--mlv-surface:rgba(255,255,255,.038);--mlv-bd:rgba(255,255,255,.08);',
+            '--mlv-purple:#8b5cf6;--mlv-pdim:rgba(139,92,246,.18);--mlv-pbd:rgba(139,92,246,.35);',
+            '--mlv-green:#4ade80;--mlv-yellow:#facc15;--mlv-red:#f87171;--mlv-cyan:#22d3ee;',
+            '--mlv-text:rgba(255,255,255,.82);--mlv-dim:rgba(255,255,255,.42);',
+            '--mlv-faint:rgba(255,255,255,.22);--mlv-mono:"Courier New",Courier,monospace;',
+            'color:var(--mlv-text);font-size:13px;line-height:1.5}',
+            '.mlv-wrap .mlv-hdr{margin-bottom:22px}',
+            '.mlv-wrap .mlv-hdr-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}',
+            '.mlv-wrap .mlv-mname{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800;letter-spacing:-.02em}',
+            '.mlv-wrap .mlv-bdgs{display:flex;flex-wrap:wrap;gap:6px}',
+            '.mlv-wrap .mlv-bdg{padding:3px 10px;border-radius:99px;font-size:11px;font-weight:600;letter-spacing:.02em;border:1px solid}',
+            '.mlv-wrap .mlv-bp{background:rgba(139,92,246,.18);border-color:rgba(139,92,246,.4);color:#c4b5fd}',
+            '.mlv-wrap .mlv-bg{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.3);color:#86efac}',
+            '.mlv-wrap .mlv-bd{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:var(--mlv-dim)}',
+            '.mlv-wrap .mlv-meta{text-align:right;font-size:11px;color:var(--mlv-faint);line-height:1.8;flex-shrink:0}',
+            '.mlv-wrap .mlv-meta span{font-family:var(--mlv-mono);color:var(--mlv-dim)}',
+            '.mlv-wrap .mlv-tabs{display:flex;gap:2px;border-bottom:1px solid var(--mlv-bd);margin-bottom:22px}',
+            '.mlv-wrap .mlv-tab{padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:none;',
+            'color:var(--mlv-dim);border-bottom:2px solid transparent;margin-bottom:-1px;border-radius:6px 6px 0 0;',
+            'transition:all .15s;letter-spacing:.01em}',
+            '.mlv-wrap .mlv-tab:hover{color:rgba(255,255,255,.65)}',
+            '.mlv-wrap .mlv-tab.on{color:#c4b5fd;border-bottom-color:var(--mlv-purple);background:rgba(139,92,246,.1)}',
+            '.mlv-wrap .mlv-panel{display:none}',
+            '.mlv-wrap .mlv-panel.on{display:block}',
+            '.mlv-wrap .mlv-card{background:var(--mlv-surface);border:1px solid var(--mlv-bd);border-radius:12px;padding:16px}',
+            '.mlv-wrap .mlv-clabel{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mlv-faint);margin-bottom:12px}',
+            '.mlv-wrap .mlv-g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}',
+            '.mlv-wrap .mlv-g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}',
+            '.mlv-wrap .mlv-g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}',
+            '.mlv-wrap .mlv-stack{display:flex;flex-direction:column;gap:16px}',
+            '.mlv-wrap .mc{background:var(--mlv-surface);border:1px solid var(--mlv-bd);border-radius:10px;padding:12px;',
+            'cursor:help;position:relative;transition:transform .12s}',
+            '.mlv-wrap .mc:hover{transform:scale(1.03)}',
+            '.mlv-wrap .mc:hover .tip{display:block}',
+            '.mlv-wrap .mc-lbl{font-size:10px;color:var(--mlv-faint);letter-spacing:.06em;margin-bottom:6px}',
+            '.mlv-wrap .mc-val{font-size:24px;font-weight:900;font-family:var(--mlv-mono);margin-bottom:8px;line-height:1}',
+            '.mlv-wrap .bar-track{height:3px;border-radius:99px;background:rgba(255,255,255,.08)}',
+            '.mlv-wrap .bar-fill{height:100%;border-radius:99px}',
+            '.mlv-wrap .tip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);',
+            'background:#1a1a3a;border:1px solid rgba(139,92,246,.35);border-radius:8px;padding:8px 12px;font-size:11px;',
+            'color:var(--mlv-dim);width:200px;text-align:center;z-index:100;line-height:1.5;box-shadow:0 8px 24px rgba(0,0,0,.5);pointer-events:none}',
+            '.mlv-wrap .cm-col-hdr{display:flex;margin-bottom:6px}',
+            '.mlv-wrap .cm-corner{width:80px;flex-shrink:0}',
+            '.mlv-wrap .cm-clbl{flex:1;text-align:center;font-size:11px;color:var(--mlv-dim)}',
+            '.mlv-wrap .cm-row{display:flex;gap:6px;align-items:center;margin-bottom:6px}',
+            '.mlv-wrap .cm-rlbl{width:74px;text-align:right;font-size:11px;color:var(--mlv-dim);flex-shrink:0}',
+            '.mlv-wrap .cm-cell{flex:1;aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;',
+            'align-items:center;justify-content:center;cursor:default;border:1.5px solid transparent;transition:border-color .12s}',
+            '.mlv-wrap .cm-cell:hover{border-color:rgba(255,255,255,.4)}',
+            '.mlv-wrap .cm-v{font-size:18px;font-weight:800;color:#fff;line-height:1}',
+            '.mlv-wrap .cm-p{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px}',
+            '.mlv-wrap .cm-legend{display:flex;gap:14px;margin-top:8px}',
+            '.mlv-wrap .cm-li{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--mlv-faint)}',
+            '.mlv-wrap .cm-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}',
+            '.mlv-wrap .ec{background:var(--mlv-surface);border:1px solid var(--mlv-bd);border-radius:8px;padding:10px 12px;cursor:help;position:relative}',
+            '.mlv-wrap .ec:hover .tip{display:block}',
+            '.mlv-wrap .ec-lbl{font-size:9px;color:var(--mlv-faint);letter-spacing:.04em;margin-bottom:4px}',
+            '.mlv-wrap .ec-val{font-size:24px;font-weight:900;font-family:var(--mlv-mono);line-height:1}',
+            '.mlv-wrap .ec-pct{font-size:10px;color:var(--mlv-faint);margin-top:4px}',
+            '.mlv-wrap .f-row{display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04)}',
+            '.mlv-wrap .f-name{font-size:11.5px;color:var(--mlv-dim);width:140px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
+            '.mlv-wrap .f-bars{flex:1;display:flex;flex-direction:column;gap:2px}',
+            '.mlv-wrap .f-bar-row{display:flex;align-items:center;gap:4px}',
+            '.mlv-wrap .f-track{flex:1;height:6px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden}',
+            '.mlv-wrap .f-fill{height:100%;border-radius:99px}',
+            '.mlv-wrap .f-pct{font-size:10px;color:var(--mlv-faint);font-family:var(--mlv-mono);width:28px;text-align:right}',
+            '.mlv-wrap .mlv-legend{display:flex;gap:14px;margin-top:10px}',
+            '.mlv-wrap .mlv-li{display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--mlv-faint)}',
+            '.mlv-wrap .mlv-li-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}',
+            '.mlv-wrap .dr{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);cursor:help;position:relative}',
+            '.mlv-wrap .dr:last-child{border-bottom:none}',
+            '.mlv-wrap .dr:hover .tip{display:block}',
+            '.mlv-wrap .d-badge{width:22px;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;flex-shrink:0}',
+            '.mlv-wrap .d-plus{background:rgba(74,222,128,.18);color:#4ade80;border:1px solid rgba(74,222,128,.3)}',
+            '.mlv-wrap .d-minus{background:rgba(248,113,113,.18);color:#f87171;border:1px solid rgba(248,113,113,.3)}',
+            '.mlv-wrap .d-name{flex:1;font-size:12.5px;color:rgba(255,255,255,.68)}',
+            '.mlv-wrap .d-pct{font-size:11px;color:var(--mlv-faint);font-family:var(--mlv-mono)}',
+            '.mlv-wrap .d-btrack{width:80px;height:5px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}',
+            '.mlv-wrap .d-bfill{height:100%;border-radius:99px}',
+            '.mlv-wrap .pr{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05)}',
+            '.mlv-wrap .pr:last-child{border-bottom:none}',
+            '.mlv-wrap .pr-k{width:150px;font-size:12px;color:var(--mlv-dim);flex-shrink:0}',
+            '.mlv-wrap .pr-v{width:100px;font-size:12px;font-family:var(--mlv-mono);font-weight:700;color:#c4b5fd;flex-shrink:0}',
+            '.mlv-wrap .pr-n{font-size:11px;color:var(--mlv-faint);font-style:italic}',
+            '.mlv-wrap .kv{display:flex;justify-content:space-between;padding:6px 0;font-size:12px;border-bottom:1px solid rgba(255,255,255,.04)}',
+            '.mlv-wrap .kv:last-child{border-bottom:none}',
+            '.mlv-wrap .kv-k{color:var(--mlv-dim)}',
+            '.mlv-wrap .kv-v{font-family:var(--mlv-mono);font-weight:700}',
+            '.mlv-wrap .crt{width:100%;border-collapse:collapse;font-size:11.5px}',
+            '.mlv-wrap .crt th{color:var(--mlv-faint);font-weight:600;padding-bottom:8px;text-align:center}',
+            '.mlv-wrap .crt th:first-child{text-align:left}',
+            '.mlv-wrap .crt td{padding:6px 0;text-align:center;border-top:1px solid rgba(255,255,255,.05)}',
+            '.mlv-wrap .crt td:first-child{text-align:left;color:rgba(255,255,255,.65)}',
+            '.mlv-wrap .crt .avg td{color:var(--mlv-faint)!important;font-style:italic}',
+            '.mlv-wrap .mlv-notice{border-radius:10px;padding:14px 16px;font-size:12.5px;line-height:1.7}',
+            '.mlv-wrap .mlv-np{background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.25)}',
+            '.mlv-wrap .mlv-ng{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2)}',
+            '.mlv-wrap .mlv-n-title{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:8px;color:rgba(134,239,172,.7)}',
+            '.mlv-wrap .mlv-n-body{color:rgba(255,255,255,.55)}',
+            '.mlv-wrap .diag-row{display:flex;gap:8px;margin-bottom:6px;font-size:12px}',
+            '.mlv-wrap .diag-row:last-child{margin-bottom:0}',
+            '.mlv-wrap .dg-dot{color:#4ade80;flex-shrink:0}',
+            '.mlv-wrap .dg-t{color:rgba(255,255,255,.7);font-weight:600}',
+            '.mlv-wrap .dg-d{color:var(--mlv-faint)}',
+        ].join('');
+        document.head.appendChild(s);
+    }
+
+    var _ALGO_NAMES = {
+        rf: { s: 'RF', f: 'Random Forest' },
+        xgb: { s: 'XGB', f: 'XGBoost' },
+        mlp: { s: 'MLP', f: 'Multi-Layer Perceptron' },
+        logistic: { s: 'Logistic', f: 'Logistic Regression' },
+        linear: { s: 'Linear', f: 'Linear Regression' }
+    };
+
+    function _mvColor(v, low) {
+        if (v == null) return 'var(--mlv-faint)';
+        if (low) return v <= 0.25 ? '#4ade80' : v <= 0.45 ? '#facc15' : '#f87171';
+        return v >= 0.92 ? '#4ade80' : v >= 0.75 ? '#facc15' : '#f87171';
+    }
+
+    function _mvPct(v) { return (v * 100).toFixed(1) + '%'; }
+
+    function _mapModelViewData(model) {
+        var meta = model.meta || {};
+        var metrics = model.metrics || {};
+        var algoKey = model.model_key || '?';
+        var algo = _ALGO_NAMES[algoKey] || { s: algoKey.toUpperCase(), f: algoKey };
+
+        var name = model.custom_name || model.model_key || model.id || model.model_id || '?';
+        var id = model.id || model.model_id || '?';
+        var saved = model.saved_at ? model.saved_at.slice(0, 16).replace('T', ' ') : '—';
+        var problemType = meta.problem_type || '?';
+        var dataset = model.dataset_name || '—';
+
+        var METRICS_DEF = [
+            { key: 'accuracy', label: 'Accuracy', lower: false, info: 'Proporción de predicciones correctas sobre el total de muestras.' },
+            { key: 'f1_score', label: 'F1 Score', lower: false, info: 'Media armónica de Precisión y Recall. Útil con clases desbalanceadas.' },
+            { key: 'auc_roc', label: 'AUC-ROC', lower: false, info: 'Área bajo la curva ROC. 1.0 = perfecto, 0.5 = aleatorio.' },
+            { key: 'precision', label: 'Precisión', lower: false, info: 'De los predichos como positivos, qué fracción realmente lo es.' },
+            { key: 'recall', label: 'Recall', lower: false, info: 'De todos los positivos reales, qué fracción detectamos correctamente.' },
+            { key: 'log_loss', label: 'Log Loss', lower: true, info: 'Penaliza predicciones incorrectas con alta confianza. Menor = mejor.' },
+        ];
+
+        var mappedMetrics = [];
+        for (var mi = 0; mi < METRICS_DEF.length; mi++) {
+            var def = METRICS_DEF[mi];
+            if (metrics[def.key] != null && typeof metrics[def.key] === 'number') {
+                mappedMetrics.push({
+                    key: def.key, label: def.label, val: metrics[def.key],
+                    lower: def.lower, info: def.info
+                });
+            }
+        }
+
+        var cm = null;
+        if (metrics.confusion_matrix && Array.isArray(metrics.confusion_matrix) && metrics.confusion_matrix.length === 2) {
+            cm = metrics.confusion_matrix;
+        }
+
+        var classNames = meta.target_classes && Array.isArray(meta.target_classes) ? meta.target_classes : [];
+
+        var trainInfo = [];
+        if (meta.n_train != null) trainInfo.push({ k: 'Muestras train', v: String(meta.n_train) });
+        if (meta.n_test != null) trainInfo.push({ k: 'Muestras test', v: String(meta.n_test) });
+        if (meta.num_features && Array.isArray(meta.num_features)) {
+            trainInfo.push({ k: 'Features numéricas', v: String(meta.num_features.length) });
+        }
+        if (meta.cat_features && Array.isArray(meta.cat_features)) {
+            trainInfo.push({ k: 'Features categóricas', v: String(meta.cat_features.length) });
+        }
+        if (meta.n_features_in != null) {
+            trainInfo.push({ k: 'Features totales', v: String(meta.n_features_in) });
+        }
+        if (model.saved_at && model.created_at) {
+            var t0 = new Date(model.created_at).getTime();
+            var t1 = new Date(model.saved_at).getTime();
+            if (!isNaN(t0) && !isNaN(t1) && t1 > t0) {
+                var dt = (t1 - t0) / 1000;
+                trainInfo.push({ k: 'Tiempo entreno', v: dt < 60 ? dt.toFixed(1) + ' s' : (dt / 60).toFixed(1) + ' min' });
+            }
+        }
+
+        var hyperparams = null;
+        if (model.best_params && typeof model.best_params === 'object') {
+            var hpKeys = Object.keys(model.best_params);
+            if (hpKeys.length > 0) {
+                hyperparams = [];
+                for (var hi = 0; hi < hpKeys.length; hi++) {
+                    var hk = hpKeys[hi];
+                    if (hk.indexOf('model__verbose') >= 0 || hk.indexOf('model__random_state') >= 0 ||
+                        hk.indexOf('model__n_jobs') >= 0 || hk.indexOf('model__early_stopping') >= 0) continue;
+                    hyperparams.push({
+                        k: hk.replace('model__', '').replace(/_/g, ' '),
+                        v: String(model.best_params[hk]),
+                        n: ''
+                    });
+                }
+            }
+        }
+
+        var diagnostics = [];
+        if (mappedMetrics.length > 0) {
+            var acc = metrics.accuracy;
+            var f1 = metrics.f1_score;
+            var auc = metrics.auc_roc;
+            if (acc != null) {
+                if (acc >= 0.9) diagnostics.push({ t: 'Accuracy alta', d: (acc * 100).toFixed(1) + '% — el modelo clasifica correctamente la gran mayoría de casos.' });
+                else if (acc >= 0.75) diagnostics.push({ t: 'Accuracy moderada', d: (acc * 100).toFixed(1) + '% — rendimiento aceptable, revisar áreas de mejora.' });
+                else diagnostics.push({ t: 'Accuracy baja', d: (acc * 100).toFixed(1) + '% — el modelo necesita optimización adicional.' });
+            }
+            if (f1 != null && f1 >= 0.85) diagnostics.push({ t: 'F1 Score sólido', d: (f1 * 100).toFixed(1) + '% — buen balance entre precisión y recall.' });
+            if (auc != null && auc >= 0.9) diagnostics.push({ t: 'Alto poder discriminatorio', d: 'AUC-ROC de ' + (auc * 100).toFixed(1) + '% — el modelo distinguye bien entre clases.' });
+            if (metrics.log_loss != null && metrics.log_loss < 0.3) {
+                diagnostics.push({ t: 'Confianza calibrada', d: 'Log Loss de ' + metrics.log_loss.toFixed(3) + ' — predicciones bien calibradas.' });
+            }
+        }
+
+        return {
+            name: name,
+            id: id,
+            algorithm: algoKey,
+            algoShort: algo.s,
+            algoFull: algo.f,
+            problemType: problemType,
+            dataset: dataset,
+            saved: saved,
+            metrics: mappedMetrics,
+            trainInfo: trainInfo,
+            cm: cm,
+            classNames: classNames,
+            hyperparams: hyperparams,
+            diagnostics: diagnostics
+        };
+    }
+
+    function _mvMetricCard(m) {
+        var c = _mvColor(m.val, m.lower);
+        var fw = m.lower ? Math.max(0, (1 - m.val) * 100) : m.val * 100;
+        var valStr = m.lower ? m.val.toFixed(3) : _mvPct(m.val);
+        return '<div class="mc"><div class="tip">' + escapeHtml(m.info) + '</div>' +
+            '<div class="mc-lbl">' + escapeHtml(m.label) + '</div>' +
+            '<div class="mc-val" style="color:' + c + '">' + valStr + '</div>' +
+            '<div class="bar-track"><div class="bar-fill" style="width:' + fw.toFixed(1) + '%;background:' + c + ';box-shadow:0 0 6px ' + c + '55"></div></div></div>';
+    }
+
+    function _mvBuildViewHTML(d) {
+        var html = '<div class="mlv-wrap">';
+
+        // ── HEADER ──
+        html += '<div class="mlv-hdr"><div class="mlv-hdr-top"><div>' +
+            '<div class="mlv-mname">🤖 <span>' + escapeHtml(d.name) + '</span></div></div>' +
+            '<div class="mlv-meta">ID: <span>' + escapeHtml(d.id) + '</span><br>Guardado: ' + escapeHtml(d.saved) + '</div></div>' +
+            '<div class="mlv-bdgs">' +
+            '<span class="mlv-bdg mlv-bp">' + escapeHtml(d.algoShort) + ' · ' + escapeHtml(d.algoFull) + '</span>' +
+            '<span class="mlv-bdg mlv-bg">' + escapeHtml(d.problemType) + '</span>' +
+            '<span class="mlv-bdg mlv-bd">📊 ' + escapeHtml(d.dataset) + '</span></div></div>';
+
+        // ── TABS ──
+        html += '<div class="mlv-tabs">' +
+            '<button class="mlv-tab on" data-t="overview">◈ Resumen</button>' +
+            '<button class="mlv-tab" data-t="performance">◎ Rendimiento</button>' +
+            '<button class="mlv-tab" data-t="features">◧ Features</button>' +
+            '<button class="mlv-tab" data-t="config">◉ Config</button></div>';
+
+        // ── PANEL: Resumen ──
+        html += '<div class="mlv-panel on" id="mlv-p-overview"><div class="mlv-stack">';
+        if (d.metrics && d.metrics.length > 0) {
+            html += '<div><div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mlv-faint);margin-bottom:10px">' +
+                'Métricas clave · pasa el cursor para descripción</div><div class="mlv-g3">';
+            for (var mi = 0; mi < d.metrics.length; mi++) {
+                html += _mvMetricCard(d.metrics[mi]);
+            }
+            html += '</div></div>';
+        }
+        if (d.trainInfo && d.trainInfo.length > 0) {
+            html += '<div class="mlv-g2"><div class="mlv-card"><div class="mlv-clabel">Entrenamiento</div>';
+            for (var ti = 0; ti < d.trainInfo.length; ti++) {
+                html += '<div class="kv"><span class="kv-k">' + escapeHtml(d.trainInfo[ti].k) + '</span>' +
+                    '<span class="kv-v">' + escapeHtml(d.trainInfo[ti].v) + '</span></div>';
+            }
+            html += '</div>';
+            if (d.classNames && d.classNames.length > 0) {
+                html += '<div class="mlv-card"><div class="mlv-clabel">Clases target</div><div style="font-size:12px;color:var(--mlv-text)">' +
+                    escapeHtml(d.classNames.join(', ')) + '</div></div>';
+            }
+            html += '</div>';
+        }
+        if (!d.metrics && (!d.trainInfo || d.trainInfo.length === 0)) {
+            html += '<div style="text-align:center;padding:30px;color:var(--mlv-faint)">No hay datos de rendimiento disponibles.</div>';
+        }
+        html += '</div></div>';
+
+        // ── PANEL: Rendimiento ──
+        html += '<div class="mlv-panel" id="mlv-p-performance"><div class="mlv-stack">';
+        if (d.cm && d.cm.length === 2) {
+            var cm = d.cm;
+            var names = d.classNames.length === 2 ? d.classNames : ['Clase 0', 'Clase 1'];
+            var total = cm[0][0] + cm[0][1] + cm[1][0] + cm[1][1];
+            var maxV = Math.max(cm[0][0], cm[0][1], cm[1][0], cm[1][1]);
+
+            html += '<div class="mlv-g2"><div class="mlv-card"><div class="mlv-clabel">Matriz de Confusión</div>';
+            html += '<div class="cm-col-hdr"><div class="cm-corner"></div>' +
+                '<div class="cm-clbl">' + escapeHtml(names[0]) + ' (pred)</div>' +
+                '<div class="cm-clbl">' + escapeHtml(names[1]) + ' (pred)</div></div>';
+            for (var ri = 0; ri < 2; ri++) {
+                html += '<div class="cm-row"><div class="cm-rlbl">' + escapeHtml(names[ri]) + ' (real)</div>';
+                for (var ci = 0; ci < 2; ci++) {
+                    var v = cm[ri][ci];
+                    var ok = ri === ci;
+                    var int = v / maxV;
+                    var bg = ok ? 'rgba(139,92,246,' + (0.18 + int * 0.72).toFixed(2) + ')' :
+                        'rgba(239,68,68,' + (0.1 + int * 0.5).toFixed(2) + ')';
+                    html += '<div class="cm-cell" style="background:' + bg + '"><div class="cm-v">' + v + '</div>' +
+                        '<div class="cm-p">' + (v / total * 100).toFixed(1) + '%</div></div>';
+                }
+                html += '</div>';
+            }
+            html += '<div class="cm-legend"><div class="cm-li"><div class="cm-dot" style="background:rgba(139,92,246,.7)"></div>Correcto</div>' +
+                '<div class="cm-li"><div class="cm-dot" style="background:rgba(239,68,68,.5)"></div>Error</div></div>';
+            html += '</div>';
+
+            // ── Error breakdown ──
+            html += '<div class="mlv-card"><div class="mlv-clabel">Desglose de errores</div><div class="mlv-g4">';
+            var errItems = [
+                { label: 'Verdadero Positivo', val: cm[1][1], color: '#4ade80', desc: 'Positivos predichos correctamente' },
+                { label: 'Verdadero Negativo', val: cm[0][0], color: '#818cf8', desc: 'Negativos predichos correctamente' },
+                { label: 'Falso Positivo', val: cm[0][1], color: '#fb923c', desc: 'Negativos predichos como positivos' },
+                { label: 'Falso Negativo', val: cm[1][0], color: '#f87171', desc: 'Positivos predichos como negativos' },
+            ];
+            for (var ei = 0; ei < errItems.length; ei++) {
+                var e = errItems[ei];
+                html += '<div class="ec"><div class="tip" style="width:170px">' + escapeHtml(e.desc) + '</div>' +
+                    '<div class="ec-lbl">' + escapeHtml(e.label) + '</div>' +
+                    '<div class="ec-val" style="color:' + e.color + '">' + e.val + '</div>' +
+                    '<div class="ec-pct">' + (e.val / total * 100).toFixed(1) + '% del total</div></div>';
+            }
+            html += '</div></div></div>';
+        } else {
+            html += '<div style="text-align:center;padding:30px;color:var(--mlv-faint)">' +
+                'Datos de rendimiento avanzados no disponibles. La matriz de confusión requiere datos de predicción almacenados.</div>';
+        }
+        html += '</div></div>';
+
+        // ── PANEL: Features ──
+        html += '<div class="mlv-panel" id="mlv-p-features"><div class="mlv-stack">';
+        html += '<div style="text-align:center;padding:30px;color:var(--mlv-faint)">' +
+            'Importancia de features no disponible. Activa SHAP Attribution al entrenar para obtener este análisis.</div>';
+        html += '</div></div>';
+
+        // ── PANEL: Config ──
+        html += '<div class="mlv-panel" id="mlv-p-config"><div class="mlv-stack">';
+        if (d.hyperparams && d.hyperparams.length > 0) {
+            html += '<div class="mlv-card"><div class="mlv-clabel">Hiperparámetros</div>';
+            for (var hi = 0; hi < d.hyperparams.length; hi++) {
+                var hp = d.hyperparams[hi];
+                html += '<div class="pr"><span class="pr-k">' + escapeHtml(hp.k) + '</span>' +
+                    '<span class="pr-v">' + escapeHtml(hp.v) + '</span>' +
+                    (hp.n ? '<span class="pr-n">' + escapeHtml(hp.n) + '</span>' : '') + '</div>';
+            }
+            html += '</div>';
+        }
+        if (d.diagnostics && d.diagnostics.length > 0) {
+            html += '<div class="mlv-notice mlv-ng"><div class="mlv-n-title" style="color:rgba(134,239,172,.7)">✓ Diagnóstico del modelo</div>';
+            for (var di = 0; di < d.diagnostics.length; di++) {
+                var dg = d.diagnostics[di];
+                html += '<div class="diag-row"><span class="dg-dot">◉</span><div>' +
+                    '<span class="dg-t">' + escapeHtml(dg.t) + ': </span>' +
+                    '<span class="dg-d">' + escapeHtml(dg.d) + '</span></div></div>';
+            }
+            html += '</div>';
+        }
+        if (!d.hyperparams && (!d.diagnostics || d.diagnostics.length === 0)) {
+            html += '<div style="text-align:center;padding:30px;color:var(--mlv-faint)">' +
+                'Información de configuración no disponible.</div>';
+        }
+        html += '</div></div>';
+
+        html += '</div>'; // close mlv-wrap
+        return html;
+    }
+
+    function _renderModelView(model) {
+        _injectModelViewCSS();
+        var d = _mapModelViewData(model);
+        var results = document.getElementById('ml-results');
+        if (!results) return;
+        results.innerHTML = _mvBuildViewHTML(d);
+
+        // Bind tabs
+        var tabs = results.querySelectorAll('.mlv-tab');
+        var panels = results.querySelectorAll('.mlv-panel');
+        for (var ti = 0; ti < tabs.length; ti++) {
+            (function(t) {
+                t.addEventListener('click', function() {
+                    for (var j = 0; j < tabs.length; j++) tabs[j].classList.remove('on');
+                    for (var j = 0; j < panels.length; j++) panels[j].classList.remove('on');
+                    this.classList.add('on');
+                    var p = document.getElementById('mlv-p-' + this.dataset.t);
+                    if (p) p.classList.add('on');
+                });
+            })(tabs[ti]);
+        }
+    }
+
     function _filterMetricsKeys(metrics) {
         return Object.keys(metrics).filter(function(k) { return k !== 'y_pred' && k !== 'y_proba'; });
     }
@@ -432,37 +850,7 @@ const MLManager = (() => {
     }
 
     function loadModelDetail(model) {
-        const results = document.getElementById('ml-results');
-        if (!results) return;
-        var metrics = model.metrics || {};
-        var meta = model.meta || {};
-        var html = '<div class="page-card" style="margin-bottom:10px">' +
-            '<div class="page-card-header" style="padding:8px 14px"><span class="page-card-icon">💾</span><span class="page-card-title" style="font-size:13px">' + escapeHtml(model.custom_name || model.id) + '</span></div>' +
-            '<div class="page-card-body" style="padding:10px 14px;font-size:11px">' +
-            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">' +
-            (model.custom_name ? '<div style="grid-column:1/-1"><strong>ID interno:</strong> <code style="font-size:10px;color:var(--text-faint)">' + escapeHtml(model.id) + '</code></div>' : '') +
-            '<div><strong>Algoritmo:</strong> ' + escapeHtml(model.model_key) + '</div>' +
-            '<div><strong>Dataset:</strong> ' + escapeHtml(model.dataset_name || '—') + '</div>' +
-            '<div><strong>Tipo:</strong> ' + escapeHtml(meta.problem_type || '—') + '</div>' +
-            '<div><strong>Guardado:</strong> ' + (model.saved_at ? model.saved_at.slice(0, 16) : '—') + '</div>' +
-            '</div>';
-        if (Object.keys(metrics).length > 0) {
-            html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">' +
-                '<div style="font-weight:600;margin-bottom:4px;font-size:10px">📊 Métricas</div>';
-            var keys = _filterMetricsKeys(metrics);
-            html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 12px">';
-            keys.forEach(function(k) {
-                var v = metrics[k];
-                if (typeof v === 'number') v = v.toFixed ? v.toFixed(4) : v;
-                html += '<div style="display:flex;justify-content:space-between;padding:1px 0;font-size:10px"><span>' + k + '</span><span style="font-weight:500;color:var(--accent)">' + v + '</span></div>';
-            });
-            html += '</div></div>';
-        }
-        html += '<div style="margin-top:8px;display:flex;gap:6px">' +
-            '<button class="btn btn-primary" style="flex:1;justify-content:center;font-size:10px;padding:4px 8px" onclick="MLManager.predictFromModel(\'' + model.id + '\')">🔮 Predecir</button>' +
-            '<button class="btn btn-secondary" style="justify-content:center;font-size:10px;padding:4px 8px;color:#ef4444" onclick="MLManager.deleteModel(\'' + model.id + '\')">🗑 Eliminar</button>' +
-            '</div></div></div>';
-        results.innerHTML = html;
+        _renderModelView(model);
     }
 
     async function train() {
@@ -590,67 +978,7 @@ const MLManager = (() => {
     }
 
     function renderTrainingResult(data) {
-        const results = document.getElementById('ml-results');
-        if (!results) return;
-        var meta = data.meta || {};
-        var metrics = data.metrics || {};
-        var html = '<div class="page-card" style="margin-bottom:10px">' +
-            '<div class="page-card-header" style="padding:8px 14px"><span class="page-card-icon">🎯</span><span class="page-card-title" style="font-size:13px">' + escapeHtml(data.custom_name || data.model_id) + '</span></div>' +
-            '<div class="page-card-body" style="padding:10px 14px;font-size:11px">' +
-            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:8px">' +
-            (data.custom_name ? '<div style="grid-column:1/-1"><strong>ID:</strong> <code style="font-size:10px;color:var(--text-faint)">' + escapeHtml(data.model_id) + '</code></div>' : '') +
-            '<div><strong>Tipo:</strong> ' + escapeHtml(meta.problem_type || '—') + '</div>' +
-            '<div><strong>Target:</strong> ' + escapeHtml(meta.target_col || '—') + '</div>' +
-            '<div><strong>Features num:</strong> ' + (meta.num_features || []).join(', ') + '</div>' +
-            '<div><strong>Features cat:</strong> ' + (meta.cat_features || []).join(', ') + '</div>' +
-            '<div><strong>Train:</strong> ' + (meta.n_train || '—') + ' filas</div>' +
-            '<div><strong>Test:</strong> ' + (meta.n_test || '—') + ' filas</div>' +
-            '</div>';
-        html += '<div style="border-top:1px solid var(--border);padding-top:8px">' +
-            '<div style="font-weight:600;margin-bottom:4px;font-size:10px">📊 Métricas</div>' +
-            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 12px">';
-        var keys = _filterMetricsKeys(metrics);
-        keys.forEach(function(k) {
-            var v = metrics[k];
-            if (typeof v === 'number') v = v.toFixed ? v.toFixed(4) : v;
-            html += '<div style="display:flex;justify-content:space-between;padding:1px 0;font-size:10px">' +
-                '<span>' + k + '</span><span style="font-weight:500;color:var(--accent)">' + v + '</span></div>';
-        });
-        html += '</div></div>';
-        if (meta.target_classes && meta.target_classes.length) {
-            html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">' +
-                '<div style="font-weight:600;margin-bottom:2px;font-size:10px">🎯 Clases target</div>' +
-                '<div style="font-size:10px;color:var(--text-primary)">' + meta.target_classes.join(', ') + '</div></div>';
-        }
-
-        var bestParams = data.best_params;
-        if (bestParams && Object.keys(bestParams).length > 0) {
-            html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">' +
-                '<div style="font-weight:600;margin-bottom:4px;font-size:10px">⭐ Mejores hiperparámetros</div>' +
-                '<div style="display:flex;flex-wrap:wrap;gap:4px 12px;font-size:10px">';
-            Object.keys(bestParams).forEach(function(k) {
-                html += '<div><span style="color:var(--text-faint)">' + k.replace('model__', '') + ':</span> <strong>' + bestParams[k] + '</strong></div>';
-            });
-            html += '</div></div>';
-        }
-
-        var trainParams = data.train_params || {};
-        var fe = trainParams.feature_engineering;
-        if (fe && (fe.polynomial_degree || (fe.feature_selection && fe.feature_selection.method))) {
-            html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">' +
-                '<div style="font-weight:600;margin-bottom:4px;font-size:10px">🧮 Ingeniería de características</div>' +
-                '<div style="font-size:10px;color:var(--text-primary)">';
-            if (fe.polynomial_degree) html += 'PolynomialFeatures (grado ' + fe.polynomial_degree + ')<br>';
-            if (fe.feature_selection && fe.feature_selection.method) {
-                html += 'Selección: ' + fe.feature_selection.method.toUpperCase() + ' (k=' + (fe.feature_selection.k || '?') + ')';
-            }
-            html += '</div></div>';
-        }
-
-        html += '<div style="margin-top:8px;display:flex;gap:6px">' +
-            '<button class="btn btn-primary" style="flex:1;justify-content:center;font-size:10px;padding:4px 8px" onclick="MLManager.predictFromModel(\'' + data.model_id + '\')">🔮 Predecir</button>' +
-            '</div></div></div>';
-        results.innerHTML = html;
+        _renderModelView(data);
     }
 
     function buildEmptyState() {

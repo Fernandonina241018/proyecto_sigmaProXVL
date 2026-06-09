@@ -23,9 +23,30 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-08: ML Model Detail View — Nueva vista con tabs desde ML.html
 
+**Qué:** Se integró el template `ML.html` como la vista principal al seleccionar un modelo entrenado. Reemplaza la vista simple de tarjeta por una interfaz con 4 tabs (Resumen, Rendimiento, Features, Config) con métricas visuales, matriz de confusión, desglose de errores y diagnóstico automático.
 
+**Cambios:**
 
+| # | Archivo | Cambio |
+|---|---------|--------|
+| 1 | `js/pages/ml.js` | Nuevas funciones: `_injectModelViewCSS()`, `_mapModelViewData()`, `_mvMetricCard()`, `_mvBuildViewHTML()`, `_renderModelView()`. CSS inline scoped bajo `.mlv-wrap`. |
+| 2 | `js/pages/ml.js:852` | `loadModelDetail()` reemplazado — ahora llama a `_renderModelView()` |
+| 3 | `js/pages/ml.js:980` | `renderTrainingResult()` reemplazado — ahora llama a `_renderModelView()` |
+| 4 | `ML.html` | **NUEVO** — Template standalone de referencia |
+
+**Mapeo de datos API → vista:**
+- `accuracy`, `f1_score`, `auc_roc`, `precision`, `recall`, `log_loss` → tarjetas con colores dinámicos
+- `n_train`, `n_test`, `num_features`, `cat_features` → sección de entrenamiento
+- `best_params` → hiperparámetros (desde training result)
+- `confusion_matrix` → matriz + error breakdown
+- `problem_type`, `model_key`, `dataset_name` → badges
+- Diagnóstico automático generado desde métricas
+
+**Verificación:** ✅ `node -c js/pages/ml.js`
+
+---
 ### 2026-06-07: CFR 21 Part 11 — Cadena de hash blockchain en audit trail
 
 **Qué:** Implementación de cadena SHA-256 en audit_log para integrity checking (21 CFR 11.10(e)).
