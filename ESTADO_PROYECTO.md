@@ -23,7 +23,24 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
-### 2026-06-08: Backend + Frontend — Confusion Matrix, ROC Curve, Feature Importance
+### 2026-06-08: Error isolation — global handlers, loadPage try/catch, ML timeout
+
+**Qué:** Se implementó un sistema de aislamiento de errores en 6 medidas para garantizar que un error en cualquier página o fetch no rompa toda la aplicación.
+
+**Medidas implementadas:**
+
+| # | Medida | Archivo | Cambio |
+|---|--------|---------|--------|
+| 1 | `window.onerror` + `unhandledrejection` | `indexx.html` | Global handler que captura errores no atrapados, muestra barra de error dismissible al pie, previene que el error detenga otros scripts |
+| 2 | try/catch en `loadPage()` | `indexx-ui.js` | Cada panel render y cada init diferido (analisis, datos, trabajo, ML, etc.) envuelto en su propio try/catch con fallback inline |
+| 3 | Fix fetches silenciados | `auth.js` | `_fetchMlApiKey` y `/api/me` ahora loguean warnings en vez de tragar errores |
+| 4 | Error boundary ML | `ml.js` | `_renderModelView` envuelto en try/catch con mensaje de error y botón "Reintentar" |
+| 5 | Timeout 30s en ML fetch | `ml.js` | `_fetch()` usa AbortController con timeout; AbortError muestra mensaje claro al usuario |
+| 6 | Timeout Auth retry | `indexx-analysis.js` | `_initIndexxApp` tiene límite de 300 reintentos (~15s) en vez de bucle infinito |
+
+**Verificación:** ✅ `node -c` en los 5 archivos JS modificados
+
+---### 2026-06-08: Backend + Frontend — Confusion Matrix, ROC Curve, Feature Importance
 
 **Qué:** Se agregó soporte completo para matriz de confusión, curva ROC (SVG) e importancia de features. Backend retorna estos datos desde el entrenamiento y los persiste en el registro. Frontend los renderiza en los tabs de Rendimiento y Features.
 
