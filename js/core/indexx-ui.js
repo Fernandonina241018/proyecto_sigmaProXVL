@@ -693,6 +693,7 @@ var pageIcons  = { trabajo:'📋', datos:'📊', analisis:'🔬', visualizacion:
 var pageTitles = { trabajo:'Hoja de Trabajo', datos:'Gestión de Datos', analisis:'Análisis Estadístico', visualizacion:'Visualización', reportes:'Reportes', firmarReporte:'Firmar Reporte', ml:'ML Analysis', auditoria:'Auditoría', usuarios:'Usuarios' };
 
 function loadPage(name) {
+  try {
   currentPage = name;
   document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
   var navEl = document.querySelector('[data-page="' + name + '"]');
@@ -703,41 +704,42 @@ function loadPage(name) {
     pageTab.innerHTML = '<span class="tab-icon">' + pageIcons[name] + '</span> ' + pageTitles[name] + ' <span class="tab-close">×</span>';
     tabbar.insertBefore(pageTab, tabbar.querySelector('.tabbar-spacer'));
     pageTab.querySelector('.tab-close').addEventListener('click', function(e){ closeTab(pageTab, e); });
-    pageTab.addEventListener('click', function(e){ if (!e.target.classList.contains('tab-close')) { makeTabActive(pageTab); loadPage(name); } });
+    pageTab.addEventListener('click', function(e){ if (!e.target.classList.contains('tab-close')) { makeTabActive(pageTab); try{loadPage(name)}catch(ex){showToast('Error: '+ex.message,1)} } });
   }
   makeTabActive(pageTab);
   leftPaneTitle.textContent = pageTitles[name];
   rightPaneTitle.textContent = pageTitles[name];
   var leftFn = leftPanels[name];
-  leftPaneBody.innerHTML = leftFn ? leftFn() : '';
+  try { leftPaneBody.innerHTML = leftFn ? leftFn() : ''; } catch(e) { leftPaneBody.innerHTML = '<div style="padding:20px;color:#f87171;font-size:13px">Error en panel izquierdo: ' + escapeHtml(e.message) + '</div>'; }
   leftPaneBody.style.overflow = (name === 'datos') ? 'hidden' : '';
   document.getElementById('paneLeft')?.classList.toggle('pane-reportes', name === 'reportes');
   document.getElementById('paneLeft')?.classList.toggle('pane-ml', name === 'ml');
   var rightFn = rightPanels[name];
-  rightPaneBody.innerHTML = rightFn ? rightFn() : '<div class="page-body"><div style="color:var(--text-faint)">Página no encontrada</div></div>';
+  try { rightPaneBody.innerHTML = rightFn ? rightFn() : '<div class="page-body"><div style="color:var(--text-faint)">Página no encontrada</div></div>'; } catch(e) { rightPaneBody.innerHTML = '<div class="page-body"><div style="padding:20px;color:#f87171;font-size:13px">Error al cargar página: ' + escapeHtml(e.message) + '</div></div>'; }
   if (name === 'datos' || name === 'trabajo') rightPaneBody.classList.add('flush');
   else rightPaneBody.classList.remove('flush');
 
-  if (name === 'analisis') { setTimeout(function() {
+  if (name === 'analisis') { setTimeout(function() { try {
     updateAnalisisDatasetBadge();
     updateColumnAnalysisSummary();
-  }, 30); }
-  if (name === 'datos') { setTimeout(initDatosPage, 60); }
-  if (name === 'trabajo') { initTrabajoKeyboard(); setTimeout(renderLimitsPanel, 30); }
-  if (name === 'visualizacion') { setTimeout(initVizPage, 60); }
-  if (name === 'reportes') { setTimeout(function(){ if (typeof ReporteManager !== 'undefined') ReporteManager.buildReportesView(); }, 60); }
-  if (name === 'auditoria') { setTimeout(function() {
+  } catch(e) { showToast('Error en análisis: ' + e.message, 1); } }, 30); }
+  if (name === 'datos') { setTimeout(function() { try { initDatosPage(); } catch(e) { showToast('Error en datos: ' + e.message, 1); } }, 60); }
+  if (name === 'trabajo') { setTimeout(function() { try { initTrabajoKeyboard(); renderLimitsPanel(); } catch(e) { showToast('Error en trabajo: ' + e.message, 1); } }, 30); }
+  if (name === 'visualizacion') { setTimeout(function() { try { initVizPage(); } catch(e) { showToast('Error en visualización: ' + e.message, 1); } }, 60); }
+  if (name === 'reportes') { setTimeout(function() { try { if (typeof ReporteManager !== 'undefined') ReporteManager.buildReportesView(); } catch(e) { showToast('Error en reportes: ' + e.message, 1); } }, 60); }
+  if (name === 'auditoria') { setTimeout(function() { try {
     if (!_auditoriaInited && typeof AuditoriaManager !== 'undefined') { AuditoriaManager.init(API_URL); _auditoriaInited = true; }
     if (typeof AuditoriaManager !== 'undefined') AuditoriaManager.buildView();
-  }, 60); }
-  if (name === 'usuarios') { setTimeout(function() {
+  } catch(e) { showToast('Error en auditoría: ' + e.message, 1); } }, 60); }
+  if (name === 'usuarios') { setTimeout(function() { try {
     if (!_usuariosInited && typeof UsuariosManager !== 'undefined') { UsuariosManager.init(API_URL); _usuariosInited = true; }
     if (typeof UsuariosManager !== 'undefined') UsuariosManager.buildView();
-  }, 60); }
-  if (name === 'firmarReporte') { setTimeout(initFirmarReportePage, 60); }
-  if (name === 'ml') { setTimeout(function() { if (typeof MLManager !== 'undefined') MLManager.init(); }, 60); }
+  } catch(e) { showToast('Error en usuarios: ' + e.message, 1); } }, 60); }
+  if (name === 'firmarReporte') { setTimeout(function() { try { initFirmarReportePage(); } catch(e) { showToast('Error en firma: ' + e.message, 1); } }, 60); }
+  if (name === 'ml') { setTimeout(function() { try { if (typeof MLManager !== 'undefined') MLManager.init(); } catch(e) { showToast('Error en ML: ' + e.message, 1); } }, 60); }
   updateToolsMenuState();
   updateRibbonNavPopup();
+  } catch(e) { showToast('Error al cambiar de página: ' + e.message, 1); }
 }
 
 function updateToolsMenuState() {

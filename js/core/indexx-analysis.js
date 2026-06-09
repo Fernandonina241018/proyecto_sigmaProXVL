@@ -857,8 +857,15 @@ function onSubitemClick(event, nombre, seccionKey) {
 }
 
 // ── Auth + Initial load ──
+var _initRetries = 0;
 function _initIndexxApp() {
-  if (typeof Auth === 'undefined') { setTimeout(_initIndexxApp, 50); return; }
+  if (typeof Auth === 'undefined') {
+    if (++_initRetries > 300) {
+      console.error("Auth module failed to load after 300 retries. Check script loading order.");
+      return;
+    }
+    setTimeout(_initIndexxApp, 50); return;
+  }
   // Migrar hypothesisConfig antiguos (pre-fix columnas X/Y)
   try {
     var oldCfg = StateManager && StateManager.getHypothesisConfig && StateManager.getAllHypothesisConfig();

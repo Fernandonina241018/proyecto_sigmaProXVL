@@ -635,6 +635,7 @@ const MLManager = (() => {
     }
 
     function _renderModelView(model) {
+        try {
         _injectModelViewCSS();
         var d = _mapModelViewData(model);
         var results = document.getElementById('ml-results');
@@ -658,6 +659,13 @@ const MLManager = (() => {
 
         // Load feature importance asynchronously
         _mvLoadFeatureImportance(d.id);
+        } catch(e) {
+            var results = document.getElementById('ml-results');
+            if (results) results.innerHTML = '<div style="text-align:center;padding:40px">' +
+                '<div style="color:#f87171;font-size:18px;font-weight:700;margin-bottom:8px">⚠️ Error al cargar modelo</div>' +
+                '<div style="color:var(--text-faint);font-size:13px;margin-bottom:16px">' + escapeHtml(e.message) + '</div>' +
+                '<button onclick="MLManager.refreshModels()" style="padding:6px 18px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:13px">Reintentar</button></div>';
+        }
     }
 
     function _filterMetricsKeys(metrics) {
@@ -688,8 +696,12 @@ const MLManager = (() => {
         var mlApiKey = (typeof Auth !== 'undefined' && Auth.getMlApiKey) ? Auth.getMlApiKey() : null;
         if (mlApiKey) opts.headers['X-API-Key'] = mlApiKey;
         if (body) opts.body = JSON.stringify(body);
+        var controller = new AbortController();
+        opts.signal = controller.signal;
+        var timeoutId = setTimeout(function() { controller.abort(); }, 30000);
         try {
             const res = await fetch(apiUrl + path, opts);
+            clearTimeout(timeoutId);
             const isColdStart = COLD_START_PATHS.has(path.split('?')[0]);
             const shouldRetry = (res.status === 503) ||
                                 (res.status === 404 && isColdStart);
@@ -707,6 +719,11 @@ const MLManager = (() => {
             const data = await res.json();
             return data;
         } catch (e) {
+            clearTimeout(timeoutId);
+            if (e.name === 'AbortError') {
+                throw new Error('La solicitud al ML Service tardó demasiado (>30s). ' +
+                    'Si es la primera solicitud, el servicio puede estar arrancando (cold start).');
+            }
             if (e.message.includes('Failed to fetch') || e.message.includes('NetworkError') || e.message.includes('ERR_CONNECTION_REFUSED')) {
                 const port = new URL(apiUrl).port || (apiUrl.startsWith('https') ? '443' : '80');
                 throw new Error('ML Service no disponible (' + apiUrl + '). Asegúrate de que el servicio esté corriendo y sea accesible desde ' + apiUrl);
@@ -721,6 +738,7 @@ const MLManager = (() => {
             try {
                 const res = await fetch(apiUrl + '/api/ml/health');
                 if (res.ok) return true;
+                console.warn('ML warmup attempt ' + (i + 1) + ' failed: HTTP ' + res.status);
             } catch (e) {}
             await new Promise(r => setTimeout(r, 2000));
         }

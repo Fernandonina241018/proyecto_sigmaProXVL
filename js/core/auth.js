@@ -729,7 +729,7 @@ const Auth = (() => {
                 const data = await res.json();
                 _mlApiKey = data.key || null;
             }
-        } catch (_e) {}
+        } catch (_e) { console.warn('ML API key fetch failed (non-critical):', _e); }
     }
 
     // ── Actividad ─────────────────────────
@@ -755,7 +755,7 @@ const Auth = (() => {
             try{
                 const res=await fetch(`${CFG.API_URL}/api/me`,{credentials:'include'});
                 if(res.ok){ const data=await res.json(); if(data.token) _token=data.token; }
-            }catch(e){ /* cookie no disponible, se re-logueará en el primer 401 */ }
+            }catch(e){ console.warn('Cookie session not available, will re-login on first 401:', e.message); }
         }
         if (_token) {
             await _fetchMlApiKey();
