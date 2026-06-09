@@ -23,7 +23,30 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
-### 2026-06-08: ML Model Detail View — Nueva vista con tabs desde ML.html
+### 2026-06-08: Backend + Frontend — Confusion Matrix, ROC Curve, Feature Importance
+
+**Qué:** Se agregó soporte completo para matriz de confusión, curva ROC (SVG) e importancia de features. Backend retorna estos datos desde el entrenamiento y los persiste en el registro. Frontend los renderiza en los tabs de Rendimiento y Features.
+
+**Backend — Python:**
+
+| # | Archivo | Cambio |
+|---|---------|--------|
+| 1 | `Red_Neuronal/evaluator.py` | `_eval_binary()` ahora retorna `confusion_matrix` (list of lists) y `roc_data` (array de {fpr, tpr}) además de métricas escalares. `_eval_multiclass()` retorna `confusion_matrix`. |
+| 2 | `Red_Neuronal/model_manager.py` | `_extract_metrics()` ahora guarda `confusion_matrix` y `roc_data` en el registro del modelo. Bugfix: `auc` → `auc_roc` (key correcta). |
+| 3 | `ml_service/main.py` | `GET /api/ml/models` ahora incluye `best_params` de cada modelo. Endpoint `/api/ml/explain` reconstruido: extrae feature importance directamente del pipeline (tree: `feature_importances_`, linear: `coef_`) con nombres de features reales del preprocessor. |
+
+**Frontend — JS:**
+
+| # | Archivo | Cambio |
+|---|---------|--------|
+| 1 | `js/pages/ml.js:181-200` | `_mapModelViewData()` mapea `roc_data` y `feature_importance` desde los datos del modelo. |
+| 2 | `js/pages/ml.js:335-405` | `_mvBuildViewHTML()` — **Rendimiento tab**: renderiza curva ROC SVG interactiva con grid, área sombreada, línea AUC y etiqueta. Se muestra lado a lado con matriz de confusión en layout g2. |
+| 3 | `js/pages/ml.js:410-440` | `_mvBuildViewHTML()` — **Features tab**: renderiza barras horizontales de importancia con nombre de feature, barra proporcional y porcentaje. |
+| 4 | `js/pages/ml.js:314-324` | Botones 🔮 Predecir y 🗑 Eliminar agregados al header del modelo. |
+
+**Verificación:** ✅ `node -c ml.js` | ✅ `ast.parse` en los 3 Python files
+
+---
 
 **Qué:** Se integró el template `ML.html` como la vista principal al seleccionar un modelo entrenado. Reemplaza la vista simple de tarjeta por una interfaz con 4 tabs (Resumen, Rendimiento, Features, Config) con métricas visuales, matriz de confusión, desglose de errores y diagnóstico automático.
 

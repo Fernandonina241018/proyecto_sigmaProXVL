@@ -557,8 +557,8 @@ def list_models():
                 "saved_at": entry.get("created_at", ""),
                 "metrics": entry.get("metrics", {}),
                 "custom_name": entry.get("train_params", {}).get("custom_name"),
+                "best_params": entry.get("best_params", {}),
                 "meta": meta,
-
             })
         models.sort(key=lambda m: m.get("saved_at", ""), reverse=True)
         return {"ok": True, "models": models}
@@ -671,16 +671,41 @@ def explain_endpoint(req: ExplainRequest):
         payload = _safe_load_model(req.model_id, entry)
         pipeline = payload["pipeline"]
         meta = payload["meta"]
-        X_new = _df_from_payload(req.data, req.columns)
-        explanation = explain_predictions(pipeline, X_new, meta)
-        fi = explanation.get("feature_importance", {})
+
+        # Extract feature names from preprocessor
+        try:
+            preprocessor = pipeline.named_steps.get('preprocessor')
+            feature_names = preprocessor.get_feature_names_out().tolist() if hasattr(preprocessor, 'get_feature_names_out') else []
+        except Exception:
+            feature_names = meta.get('num_features', []) + meta.get('cat_features', [])
+
+        # Extract feature importance from the model
+        model = None
+        for step_name in ('classifier', 'regressor'):
+            if step_name in pipeline.named_steps:
+                model = pipeline.named_steps[step_name]
+                break
+
+        feature_importance = {}
+        if model is not None:
+            if hasattr(model, 'feature_importances_'):
+                importances = model.feature_importances_.tolist()
+                for i, name in enumerate(feature_names):
+                    if i < len(importances):
+                        feature_importance[name] = importances[i]
+            elif hasattr(model, 'coef_'):
+                coefs = model.coef_
+                if coefs.ndim > 1:
+                    coefs = coefs[0]
+                coefs = np.abs(coefs).tolist()
+                for i, name in enumerate(feature_names):
+                    if i < len(coefs):
+                        feature_importance[name] = coefs[i]
+
         return {
             "ok": True,
-            "feature_importance": {
-                str(k): float(v) if not isinstance(v, (list, dict)) else v
-                for k, v in fi.items()
-            },
-            "explanation": explanation.get("text", ""),
+            "feature_importance": feature_importance,
+            "explanation": "",
         }
     except HTTPException:
         raise

@@ -24,6 +24,7 @@ from sklearn.metrics import (
     ConfusionMatrixDisplay,
     average_precision_score,
     classification_report,
+    confusion_matrix as sklearn_cm,
     f1_score,
     mean_absolute_error,
     mean_squared_error,
@@ -157,7 +158,17 @@ def _eval_binary(pipeline, X_test, y_test, meta, threshold: float = 0.5) -> dict
     plt.tight_layout()
     plt.show()
 
-    return dict(auc_roc=auc, average_precision=ap, y_pred=y_pred, y_proba=y_proba)
+    cm = sklearn_cm(y_test_eval, y_pred).tolist()
+    roc_points = [{"fpr": float(f), "tpr": float(t)} for f, t in zip(fpr, tpr)]
+
+    return dict(
+        auc_roc=auc,
+        average_precision=ap,
+        y_pred=y_pred,
+        y_proba=y_proba,
+        confusion_matrix=cm,
+        roc_data=roc_points,
+    )
 
 
 def _eval_multiclass(pipeline, X_test, y_test, meta) -> dict:
@@ -204,7 +215,8 @@ def _eval_multiclass(pipeline, X_test, y_test, meta) -> dict:
     plt.tight_layout()
     plt.show()
 
-    return dict(accuracy=acc, f1_weighted=f1, y_pred=y_pred)
+    cm = sklearn_cm(y_test, y_pred).tolist()
+    return dict(accuracy=acc, f1_weighted=f1, y_pred=y_pred, confusion_matrix=cm)
 
 
 def _eval_regression(pipeline, X_test, y_test, meta) -> dict:

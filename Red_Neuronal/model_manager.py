@@ -169,16 +169,25 @@ class ModelManager:
             metrics = {
                 "accuracy": eval_results.get('accuracy'),
                 "f1_score": eval_results.get('f1_score'),
-                "auc_roc": eval_results.get('auc'),
+                "auc_roc": eval_results.get('auc_roc'),
                 "precision": eval_results.get('precision'),
                 "recall": eval_results.get('recall'),
             }
+            cm = eval_results.get('confusion_matrix')
+            if cm:
+                metrics['confusion_matrix'] = cm
+            roc = eval_results.get('roc_data')
+            if roc:
+                metrics['roc_data'] = roc
         elif problem_type == "multiclass":
             metrics = {
                 "accuracy": eval_results.get('accuracy'),
                 "f1_score": eval_results.get('f1_weighted'),
                 "n_classes": eval_results.get('n_classes'),
             }
+            cm = eval_results.get('confusion_matrix')
+            if cm:
+                metrics['confusion_matrix'] = cm
         elif problem_type == "regression":
             metrics = {
                 "r2_score": eval_results.get('r2'),

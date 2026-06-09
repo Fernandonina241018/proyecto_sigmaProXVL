@@ -126,6 +126,12 @@ const MLManager = (() => {
             '.mlv-wrap .dg-dot{color:#4ade80;flex-shrink:0}',
             '.mlv-wrap .dg-t{color:rgba(255,255,255,.7);font-weight:600}',
             '.mlv-wrap .dg-d{color:var(--mlv-faint)}',
+            '.mlv-wrap .mlv-actions{display:flex;gap:6px;margin-bottom:10px}',
+            '.mlv-wrap .mlv-actions .btn{flex:1;justify-content:center;font-size:12px;padding:6px 10px;border-radius:6px;cursor:pointer;border:1px solid var(--mlv-bd);font-weight:600;transition:all .12s}',
+            '.mlv-wrap .mlv-actions .btn-primary{background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.4);color:#c4b5fd}',
+            '.mlv-wrap .mlv-actions .btn-primary:hover{background:rgba(139,92,246,.3)}',
+            '.mlv-wrap .mlv-actions .btn-danger{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.25);color:#fca5a5}',
+            '.mlv-wrap .mlv-actions .btn-danger:hover{background:rgba(239,68,68,.22)}',
         ].join('');
         document.head.appendChild(s);
     }
@@ -181,6 +187,19 @@ const MLManager = (() => {
         var cm = null;
         if (metrics.confusion_matrix && Array.isArray(metrics.confusion_matrix) && metrics.confusion_matrix.length === 2) {
             cm = metrics.confusion_matrix;
+        }
+
+        var rocData = null;
+        if (metrics.roc_data && Array.isArray(metrics.roc_data) && metrics.roc_data.length > 2) {
+            rocData = metrics.roc_data;
+        }
+
+        var featureImportance = null;
+        if (metrics.feature_importance && typeof metrics.feature_importance === 'object') {
+            var fiKeys = Object.keys(metrics.feature_importance);
+            if (fiKeys.length > 0) {
+                featureImportance = metrics.feature_importance;
+            }
         }
 
         var classNames = meta.target_classes && Array.isArray(meta.target_classes) ? meta.target_classes : [];
@@ -253,6 +272,8 @@ const MLManager = (() => {
             metrics: mappedMetrics,
             trainInfo: trainInfo,
             cm: cm,
+            rocData: rocData,
+            featureImportance: featureImportance,
             classNames: classNames,
             hyperparams: hyperparams,
             diagnostics: diagnostics
@@ -279,7 +300,10 @@ const MLManager = (() => {
             '<div class="mlv-bdgs">' +
             '<span class="mlv-bdg mlv-bp">' + escapeHtml(d.algoShort) + ' · ' + escapeHtml(d.algoFull) + '</span>' +
             '<span class="mlv-bdg mlv-bg">' + escapeHtml(d.problemType) + '</span>' +
-            '<span class="mlv-bdg mlv-bd">📊 ' + escapeHtml(d.dataset) + '</span></div></div>';
+            '<span class="mlv-bdg mlv-bd">📊 ' + escapeHtml(d.dataset) + '</span></div>' +
+            '<div class="mlv-actions">' +
+            '<button class="btn btn-primary" onclick="MLManager.predictFromModel(\'' + escapeHtml(d.id) + '\')">🔮 Predecir</button>' +
+            '<button class="btn btn-danger" onclick="MLManager.deleteModel(\'' + escapeHtml(d.id) + '\')">🗑 Eliminar</button></div></div>';
 
         // ── TABS ──
         html += '<div class="mlv-tabs">' +
@@ -318,59 +342,128 @@ const MLManager = (() => {
 
         // ── PANEL: Rendimiento ──
         html += '<div class="mlv-panel" id="mlv-p-performance"><div class="mlv-stack">';
-        if (d.cm && d.cm.length === 2) {
-            var cm = d.cm;
-            var names = d.classNames.length === 2 ? d.classNames : ['Clase 0', 'Clase 1'];
-            var total = cm[0][0] + cm[0][1] + cm[1][0] + cm[1][1];
-            var maxV = Math.max(cm[0][0], cm[0][1], cm[1][0], cm[1][1]);
+        var hasCM = d.cm && d.cm.length === 2;
+        var hasROC = d.rocData && d.rocData.length > 2;
+        if (hasCM || hasROC) {
+            if (hasCM && hasROC) {
+                html += '<div class="mlv-g2">';
+            }
+            if (hasCM) {
+                var cm = d.cm, names = d.classNames.length === 2 ? d.classNames : ['Clase 0', 'Clase 1'];
+                var total = cm[0][0] + cm[0][1] + cm[1][0] + cm[1][1];
+                var maxV = Math.max(cm[0][0], cm[0][1], cm[1][0], cm[1][1]);
 
-            html += '<div class="mlv-g2"><div class="mlv-card"><div class="mlv-clabel">Matriz de Confusión</div>';
-            html += '<div class="cm-col-hdr"><div class="cm-corner"></div>' +
-                '<div class="cm-clbl">' + escapeHtml(names[0]) + ' (pred)</div>' +
-                '<div class="cm-clbl">' + escapeHtml(names[1]) + ' (pred)</div></div>';
-            for (var ri = 0; ri < 2; ri++) {
-                html += '<div class="cm-row"><div class="cm-rlbl">' + escapeHtml(names[ri]) + ' (real)</div>';
-                for (var ci = 0; ci < 2; ci++) {
-                    var v = cm[ri][ci];
-                    var ok = ri === ci;
-                    var int = v / maxV;
-                    var bg = ok ? 'rgba(139,92,246,' + (0.18 + int * 0.72).toFixed(2) + ')' :
-                        'rgba(239,68,68,' + (0.1 + int * 0.5).toFixed(2) + ')';
-                    html += '<div class="cm-cell" style="background:' + bg + '"><div class="cm-v">' + v + '</div>' +
-                        '<div class="cm-p">' + (v / total * 100).toFixed(1) + '%</div></div>';
+                html += '<div class="mlv-card"><div class="mlv-clabel">Matriz de Confusión</div>';
+                html += '<div class="cm-col-hdr"><div class="cm-corner"></div>' +
+                    '<div class="cm-clbl">' + escapeHtml(names[0]) + ' (pred)</div>' +
+                    '<div class="cm-clbl">' + escapeHtml(names[1]) + ' (pred)</div></div>';
+                for (var ri = 0; ri < 2; ri++) {
+                    html += '<div class="cm-row"><div class="cm-rlbl">' + escapeHtml(names[ri]) + ' (real)</div>';
+                    for (var ci = 0; ci < 2; ci++) {
+                        var v = cm[ri][ci], ok = ri === ci;
+                        var int = v / maxV;
+                        var bg = ok ? 'rgba(139,92,246,' + (0.18 + int * 0.72).toFixed(2) + ')' :
+                            'rgba(239,68,68,' + (0.1 + int * 0.5).toFixed(2) + ')';
+                        html += '<div class="cm-cell" style="background:' + bg + '"><div class="cm-v">' + v + '</div>' +
+                            '<div class="cm-p">' + (v / total * 100).toFixed(1) + '%</div></div>';
+                    }
+                    html += '</div>';
                 }
-                html += '</div>';
+                html += '<div class="cm-legend"><div class="cm-li"><div class="cm-dot" style="background:rgba(139,92,246,.7)"></div>Correcto</div>' +
+                    '<div class="cm-li"><div class="cm-dot" style="background:rgba(239,68,68,.5)"></div>Error</div></div></div>';
             }
-            html += '<div class="cm-legend"><div class="cm-li"><div class="cm-dot" style="background:rgba(139,92,246,.7)"></div>Correcto</div>' +
-                '<div class="cm-li"><div class="cm-dot" style="background:rgba(239,68,68,.5)"></div>Error</div></div>';
-            html += '</div>';
+            if (hasROC) {
+                var roc = d.rocData;
+                var W = 300, H = 195, PT = 8, PR = 8, PB = 28, PL = 28;
+                var pw = W - PL - PR, ph = H - PT - PB;
+                var rocPts = [], ri2;
+                for (ri2 = 0; ri2 < roc.length; ri2++) {
+                    rocPts.push({ x: PL + roc[ri2].fpr * pw, y: PT + (1 - roc[ri2].tpr) * ph });
+                }
+                var line = 'M' + rocPts.map(function(p) { return p.x.toFixed(1) + ',' + p.y.toFixed(1); }).join(' L');
+                var area = line + ' L' + (PL + pw).toFixed(1) + ',' + (PT + ph).toFixed(1) + ' L' + PL + ',' + (PT + ph).toFixed(1) + ' Z';
+                var grid = '';
+                [0, 0.25, 0.5, 0.75, 1].forEach(function(v) {
+                    var x = PL + v * pw, y = PT + (1 - v) * ph;
+                    grid += '<line x1="' + PL + '" y1="' + y.toFixed(1) + '" x2="' + (PL + pw) + '" y2="' + y.toFixed(1) + '" stroke="rgba(255,255,255,.05)" stroke-width=".5"/>';
+                    grid += '<line x1="' + x.toFixed(1) + '" y1="' + PT + '" x2="' + x.toFixed(1) + '" y2="' + (PT + ph) + '" stroke="rgba(255,255,255,.05)" stroke-width=".5"/>';
+                    if (v > 0 && v < 1) {
+                        grid += '<text x="' + (PL - 3).toFixed(1) + '" y="' + (y + 3).toFixed(1) + '" font-size="7" fill="rgba(255,255,255,.28)" text-anchor="end">' + v + '</text>';
+                        grid += '<text x="' + x.toFixed(1) + '" y="' + (PT + ph + 10).toFixed(1) + '" font-size="7" fill="rgba(255,255,255,.28)" text-anchor="middle">' + v + '</text>';
+                    }
+                });
+                var rocLabel = '';
+                if (d.metrics) {
+                    for (var mi2 = 0; mi2 < d.metrics.length; mi2++) {
+                        if (d.metrics[mi2].key === 'auc_roc') {
+                            rocLabel = ' · AUC = ' + (d.metrics[mi2].val * 100).toFixed(1) + '%';
+                            break;
+                        }
+                    }
+                }
+                html += '<div class="mlv-card"><div class="mlv-clabel">Curva ROC' + rocLabel + '</div>' +
+                    '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">' +
+                    grid +
+                    '<text x="' + (PL + pw / 2).toFixed(1) + '" y="' + (H - 2) + '" font-size="8" fill="rgba(255,255,255,.3)" text-anchor="middle">FPR</text>' +
+                    '<text x="7" y="' + (PT + ph / 2).toFixed(1) + '" font-size="8" fill="rgba(255,255,255,.3)" text-anchor="middle" transform="rotate(-90,7,' + (PT + ph / 2).toFixed(1) + ')">TPR</text>' +
+                    '<line x1="' + PL + '" y1="' + (PT + ph) + '" x2="' + (PL + pw) + '" y2="' + PT + '" stroke="rgba(255,255,255,.14)" stroke-dasharray="4,3" stroke-width="1"/>' +
+                    '<path d="' + area + '" fill="rgba(139,92,246,.14)"/>' +
+                    '<path d="' + line + '" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>' +
+                    '</svg>' +
+                    '<div style="font-size:10px;color:var(--mlv-faint);margin-top:6px">Línea punteada = clasificador aleatorio (AUC 0.5)</div></div>';
+            }
+            if (hasCM && hasROC) html += '</div>';
 
-            // ── Error breakdown ──
-            html += '<div class="mlv-card"><div class="mlv-clabel">Desglose de errores</div><div class="mlv-g4">';
-            var errItems = [
-                { label: 'Verdadero Positivo', val: cm[1][1], color: '#4ade80', desc: 'Positivos predichos correctamente' },
-                { label: 'Verdadero Negativo', val: cm[0][0], color: '#818cf8', desc: 'Negativos predichos correctamente' },
-                { label: 'Falso Positivo', val: cm[0][1], color: '#fb923c', desc: 'Negativos predichos como positivos' },
-                { label: 'Falso Negativo', val: cm[1][0], color: '#f87171', desc: 'Positivos predichos como negativos' },
-            ];
-            for (var ei = 0; ei < errItems.length; ei++) {
-                var e = errItems[ei];
-                html += '<div class="ec"><div class="tip" style="width:170px">' + escapeHtml(e.desc) + '</div>' +
-                    '<div class="ec-lbl">' + escapeHtml(e.label) + '</div>' +
-                    '<div class="ec-val" style="color:' + e.color + '">' + e.val + '</div>' +
-                    '<div class="ec-pct">' + (e.val / total * 100).toFixed(1) + '% del total</div></div>';
+            if (hasCM) {
+                html += '<div class="mlv-card"><div class="mlv-clabel">Desglose de errores</div><div class="mlv-g4">';
+                var errItems = [
+                    { label: 'Verdadero Positivo', val: cm[1][1], color: '#4ade80', desc: 'Positivos predichos correctamente' },
+                    { label: 'Verdadero Negativo', val: cm[0][0], color: '#818cf8', desc: 'Negativos predichos correctamente' },
+                    { label: 'Falso Positivo', val: cm[0][1], color: '#fb923c', desc: 'Negativos predichos como positivos' },
+                    { label: 'Falso Negativo', val: cm[1][0], color: '#f87171', desc: 'Positivos predichos como negativos' },
+                ];
+                for (var ei = 0; ei < errItems.length; ei++) {
+                    var e = errItems[ei];
+                    html += '<div class="ec"><div class="tip" style="width:170px">' + escapeHtml(e.desc) + '</div>' +
+                        '<div class="ec-lbl">' + escapeHtml(e.label) + '</div>' +
+                        '<div class="ec-val" style="color:' + e.color + '">' + e.val + '</div>' +
+                        '<div class="ec-pct">' + (e.val / total * 100).toFixed(1) + '% del total</div></div>';
+                }
+                html += '</div></div>';
             }
-            html += '</div></div></div>';
         } else {
             html += '<div style="text-align:center;padding:30px;color:var(--mlv-faint)">' +
-                'Datos de rendimiento avanzados no disponibles. La matriz de confusión requiere datos de predicción almacenados.</div>';
+                'Datos de rendimiento avanzados no disponibles. La matriz de confusión y curva ROC se generan al entrenar el modelo.</div>';
         }
         html += '</div></div>';
 
         // ── PANEL: Features ──
         html += '<div class="mlv-panel" id="mlv-p-features"><div class="mlv-stack">';
-        html += '<div style="text-align:center;padding:30px;color:var(--mlv-faint)">' +
-            'Importancia de features no disponible. Activa SHAP Attribution al entrenar para obtener este análisis.</div>';
+        if (d.featureImportance && Object.keys(d.featureImportance).length > 0) {
+            var fi = d.featureImportance;
+            var fiKeys = Object.keys(fi);
+            var maxFi = 0;
+            for (var fiIdx = 0; fiIdx < fiKeys.length; fiIdx++) {
+                if (fi[fiKeys[fiIdx]] > maxFi) maxFi = fi[fiKeys[fiIdx]];
+            }
+            html += '<div class="mlv-card"><div class="mlv-clabel">Importancia de features</div>' +
+                '<div style="font-size:11px;color:var(--mlv-faint);margin-bottom:14px">' +
+                'Peso relativo de cada feature en las decisiones del modelo</div>';
+            for (var fiIdx2 = 0; fiIdx2 < fiKeys.length; fiIdx2++) {
+                var fk = fiKeys[fiIdx2];
+                var fv = fi[fk];
+                var pct = (fv * 100).toFixed(1);
+                var w = maxFi > 0 ? (fv / maxFi * 100).toFixed(1) : 0;
+                html += '<div class="f-row"><div class="f-name" title="' + escapeHtml(fk) + '">' + escapeHtml(fk) + '</div>' +
+                    '<div class="f-bars"><div class="f-bar-row"><div class="f-track">' +
+                    '<div class="f-fill" style="width:' + w + '%;background:#8b5cf6"></div></div>' +
+                    '<div class="f-pct">' + pct + '%</div></div></div></div>';
+            }
+            html += '</div>';
+        } else {
+            html += '<div style="text-align:center;padding:30px;color:var(--mlv-faint)">' +
+                'Importancia de features no disponible. Activa SHAP Attribution al entrenar o usa el endpoint /api/ml/explain para obtener este análisis.</div>';
+        }
         html += '</div></div>';
 
         // ── PANEL: Config ──
