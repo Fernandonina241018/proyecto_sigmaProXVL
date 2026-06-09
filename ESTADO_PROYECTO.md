@@ -48,7 +48,34 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ---
 
-**Qué:** Se integró el template `ML.html` como la vista principal al seleccionar un modelo entrenado. Reemplaza la vista simple de tarjeta por una interfaz con 4 tabs (Resumen, Rendimiento, Features, Config) con métricas visuales, matriz de confusión, desglose de errores y diagnóstico automático.
+### 2026-06-08: Features + Config tabs enriquecidos con datos reales
+
+**Qué:** El tab Features ahora muestra SIEMPRE la lista de features (numéricas + categóricas) con valores de categorías, y carga asíncronamente la importancia desde un nuevo endpoint. El tab Config ahora muestra parámetros de entrenamiento, info del modelo, hiperparámetros y diagnóstico.
+
+**Backend — Python:**
+
+| # | Archivo | Cambio |
+|---|---------|--------|
+| 1 | `ml_service/main.py` | Nuevo endpoint `GET /api/ml/models/{id}/importance` — extrae `feature_importances_` o `coef_` del pipeline y retorna mapeado a nombres de features via `preprocessor.get_feature_names_out()` |
+| 2 | `ml_service/main.py` | `GET /api/ml/models` ahora incluye `train_params` (test_size, cv_folds, search_type, etc.) y `file_size_mb` en cada modelo |
+| 3 | `ml_service/main.py` | Response de `POST /api/ml/train` ahora incluye `train_params` y `file_size_mb` |
+| 4 | `ml_service/main.py` | Para MLP (red neuronal), el endpoint retorna `feature_importance: {}` porque no tiene `feature_importances_` ni `coef_` |
+
+**Frontend — JS:**
+
+| # | Archivo | Líneas | Cambio |
+|---|---------|--------|--------|
+| 1 | `js/pages/ml.js` | `_mapModelViewData()` | Extrae `trainParams`, `fileSizeMb`, `numFeatures`, `catFeatures`, `catValues` del modelo |
+| 2 | `js/pages/ml.js` | `_renderModelView()` + `_mvLoadFeatureImportance()` | Llama asíncronamente a `/api/ml/models/{id}/importance` después de renderizar la vista |
+| 3 | `js/pages/ml.js` | `_mvBuildViewHTML()` Features tab | Muestra features numéricas y categóricas como tags con tooltips de valores. Muestra detalle de valores por categoría en card separada. Contenedor `#mlv-fi-container` para carga asíncrona de importancia. |
+| 4 | `js/pages/ml.js` | `_mvBuildViewHTML()` Config tab | Sección "Parámetros de entrenamiento" (test_size, cv_folds, search_type, imbalance_strategy, ingeniería de features). Sección "Info del modelo" (algoritmo, tipo, model ID, tamaño archivo, dataset). Se mantienen Hiperparámetros y Diagnóstico. |
+| 5 | `js/pages/ml.js` | CSS | Nuevos estilos: `.fi-type`, `.fi-tag-num`, `.fi-tag-cat`, `.fi-tag-val` |
+
+**Verificación:** ✅ `node -c ml.js` | ✅ `ast.parse main.py`
+
+---
+
+---**Qué:** Se integró el template `ML.html` como la vista principal al seleccionar un modelo entrenado. Reemplaza la vista simple de tarjeta por una interfaz con 4 tabs (Resumen, Rendimiento, Features, Config) con métricas visuales, matriz de confusión, desglose de errores y diagnóstico automático.
 
 **Cambios:**
 
