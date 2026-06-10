@@ -3721,6 +3721,7 @@ interpretacion: interpretacion,
         const resultados = {};
         
         estadisticos.forEach(stat => {
+            try {
             switch (stat) {
                 case 'Media Aritmética':
                     resultados['Media Aritmética'] = {};
@@ -5058,6 +5059,9 @@ resultados['Test de Signos'].columna1 = col1;
                         }
                         break;
                 }
+            } catch (e) {
+                resultados[stat] = { error: e.message || 'Error desconocido al ejecutar ' + stat };
+            }
         });
         
         return {
