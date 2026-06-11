@@ -5064,6 +5064,15 @@ resultados['Test de Signos'].columna1 = col1;
             }
         });
         
+        // Auto-training: el modelo aprende de los tests seleccionados
+        try {
+            if (typeof MLStatsManager !== 'undefined' && data && data.headers) {
+                MLStatsManager.autoTrainFromAnalisis(estadisticos, data);
+            }
+        } catch (e) {
+            console.warn('[EstadisticaDescriptiva] Error en auto-training:', e.message);
+        }
+        
         return {
             columnasAnalizadas: numericCols,
             totalColumnas: numericCols.length,

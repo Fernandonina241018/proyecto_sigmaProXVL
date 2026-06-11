@@ -311,6 +311,17 @@ const EDAManager = (function () {
             console.warn('[EDAManager] Error en modelo estadistico:', e.message);
         }
 
+        // Auto-training EDA: aprende de los tests de normalidad ejecutados
+        try {
+            if (typeof MLStatsManager !== 'undefined' && typeof getEstadisticosEDA === 'function') {
+                var edaTestsMap = getEstadisticosEDA();
+                var edaTestNames = Object.values(edaTestsMap);
+                MLStatsManager.autoTrainFromAnalisis(edaTestNames, data);
+            }
+        } catch (e) {
+            console.warn('[EDAManager] Error en auto-training EDA:', e.message);
+        }
+
         return _edaResults;
     }
 

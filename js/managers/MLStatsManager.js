@@ -295,6 +295,58 @@ var MLStatsManager = (function () {
         clear();
     }
 
+    /* ── Mapeo de nombres de tests a decisiones del modelo ──── */
+    var TEST_TO_MODEL = {
+        'Media Aritmética':       { category: 'central_tendency', option: 'media' },
+        'Mediana':                { category: 'central_tendency', option: 'mediana' },
+        'Moda':                   { category: 'central_tendency', option: 'moda' },
+        'Mediana y Moda':         null, // se maneja aparte
+        'Desviación Estándar':    { category: 'variability', option: 'desviacion-estandar' },
+        'Rango y Amplitud':       { category: 'variability', option: 'rango-intercuartil' },
+        'Correlación Pearson':    { category: 'correlation', option: 'pearson' },
+        'Correlación Spearman':   { category: 'correlation', option: 'spearman' },
+        'Correlación Kendall Tau':{ category: 'correlation', option: 'kendall' },
+        'Test de Normalidad':     { category: 'normality', option: 'shapiro-wilk' },
+        'Test de Shapiro-Wilk':   { category: 'normality', option: 'shapiro-wilk' },
+        'Test de Kolmogorov-Smirnov': { category: 'normality', option: 'anderson-darling' },
+        'Test de D\'Agostino-Pearson':{ category: 'normality', option: 'd-agostino' },
+        'T-Test (una muestra)':   { category: 'comparison', option: 't-test' },
+        'T-Test (dos muestras)':  { category: 'comparison', option: 't-test' },
+        'Mann-Whitney U':          { category: 'comparison', option: 'mann-whitney' }
+    };
+
+    function testNameToDecision(testName) {
+        if (testName === 'Mediana y Moda') {
+            return [
+                { category: 'central_tendency', option: 'mediana' },
+                { category: 'central_tendency', option: 'moda' }
+            ];
+        }
+        var mapped = TEST_TO_MODEL[testName];
+        return mapped ? [mapped] : [];
+    }
+
+    function autoTrainFromAnalisis(testNames, data) {
+        if (!_model) init();
+        if (!_model || !testNames || testNames.length === 0) return;
+
+        var features = extractFeatures(data);
+        if (!features || Object.keys(features).length === 0) return;
+
+        var decisions = {};
+        testNames.forEach(function (name) {
+            var mapped = testNameToDecision(name);
+            mapped.forEach(function (m) {
+                if (m && m.category && !decisions[m.category]) {
+                    decisions[m.category] = m.option;
+                }
+            });
+        });
+
+        if (Object.keys(decisions).length === 0) return;
+        _model.train(features, decisions, true);
+    }
+
     return {
         init: init,
         extractFeatures: extractFeatures,
@@ -311,6 +363,8 @@ var MLStatsManager = (function () {
         exportModelAction: exportModelAction,
         importModelAction: importModelAction,
         clearModel: clearModel,
+        autoTrainFromAnalisis: autoTrainFromAnalisis,
+        testNameToDecision: testNameToDecision,
         getLastFeatures: function () { return _lastFeatures; },
         getLastPredictions: function () { return _lastPredictions; }
     };
