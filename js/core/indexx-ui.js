@@ -494,6 +494,22 @@ var leftPanels = {
         '<button class="btn btn-primary" id="firmaDownloadBtn" style="width:100%;justify-content:center;font-size:12px">⬇ Descargar reporte firmado</button>' +
         '<button class="btn btn-secondary" id="firmaResetBtn" style="width:100%;justify-content:center;font-size:12px;display:none">🔄 Reiniciar firmas</button></div>' +
     '</div>';
+  },
+  'modelo-estadistico': function() {
+    return '<div class="left-panel" style="gap:10px;padding:12px">' +
+      '<div style="font-size:11px;color:#888;line-height:1.5;">' +
+      '<strong style="color:#b0b0b0;">🧠 Modelo Estadístico</strong><br><br>' +
+      'Este modelo aprende de cada análisis que realizas. ' +
+      'Usa un ensemble de k-NN y Árbol de Decisión (CART) para recomendar ' +
+      'la mejor prueba estadística según las características de tus datos.<br><br>' +
+      '<strong>¿Cómo mejorar el modelo?</strong><br>' +
+      '1. Ejecuta análisis con datasets variados<br>' +
+      '2. Acepta 👍 o rechaza 👎 las recomendaciones<br>' +
+      '3. El modelo se refina con cada feedback<br><br>' +
+      '<strong>Datos persistentes:</strong> almacenados en localStorage.<br>' +
+      'Puedes exportar/importar el modelo como JSON.<br><br>' +
+      '<button class="btn btn-secondary" onclick="loadPage(\'analisis\')" style="width:100%;font-size:11px;">📊 Ir a Análisis</button>' +
+      '</div></div>';
   }
 };
 
@@ -686,11 +702,12 @@ var rightPanels = {
     '<div class="page-card" style="flex:1;display:flex;flex-direction:column;min-height:0">' +
       '<div class="page-card-header"><span class="page-card-icon">📄</span><span class="page-card-title">Vista previa del reporte</span></div>' +
       '<div class="page-card-body" id="firmaPreview" style="flex:1;padding:0;overflow:auto;display:flex;align-items:center;justify-content:center;min-height:300px">' +
-        '<div style="color:var(--text-faint);font-size:13px">Carga un reporte .html para previsualizarlo aquí</div></div></div></div>'; }
+        '<div style="color:var(--text-faint);font-size:13px">Carga un reporte .html para previsualizarlo aquí</div></div></div></div>'; },
+  'modelo-estadistico': function() { return typeof MLStatsManager !== 'undefined' ? MLStatsManager.renderModelPage() : '<div class="page-body"><div style="color:var(--text-faint)">Modelo no disponible</div></div>'; }
 };
 
-var pageIcons  = { trabajo:'📋', datos:'📊', analisis:'🔬', visualizacion:'📈', reportes:'📄', firmarReporte:'✍️', ml:'🧠', auditoria:'📋', usuarios:'👥' };
-var pageTitles = { trabajo:'Hoja de Trabajo', datos:'Gestión de Datos', analisis:'Análisis Estadístico', visualizacion:'Visualización', reportes:'Reportes', firmarReporte:'Firmar Reporte', ml:'ML Analysis', auditoria:'Auditoría', usuarios:'Usuarios' };
+var pageIcons  = { trabajo:'📋', datos:'📊', analisis:'🔬', visualizacion:'📈', reportes:'📄', firmarReporte:'✍️', ml:'🧠', auditoria:'📋', usuarios:'👥', 'modelo-estadistico':'🧠' };
+var pageTitles = { trabajo:'Hoja de Trabajo', datos:'Gestión de Datos', analisis:'Análisis Estadístico', visualizacion:'Visualización', reportes:'Reportes', firmarReporte:'Firmar Reporte', ml:'ML Analysis', auditoria:'Auditoría', usuarios:'Usuarios', 'modelo-estadistico':'Modelo Estadístico' };
 
 function loadPage(name) {
   try {
@@ -737,6 +754,7 @@ function loadPage(name) {
   } catch(e) { showToast('Error en usuarios: ' + e.message, 1); } }, 60); }
   if (name === 'firmarReporte') { setTimeout(function() { try { initFirmarReportePage(); } catch(e) { showToast('Error en firma: ' + e.message, 1); } }, 60); }
   if (name === 'ml') { setTimeout(function() { try { if (typeof MLManager !== 'undefined') MLManager.init(); } catch(e) { showToast('Error en ML: ' + e.message, 1); } }, 60); }
+  if (name === 'modelo-estadistico') { setTimeout(function() { try { if (typeof MLStatsManager !== 'undefined') MLStatsManager.init(); } catch(e) { showToast('Error en modelo: ' + e.message, 1); } }, 60); }
   updateToolsMenuState();
   updateRibbonNavPopup();
   } catch(e) { showToast('Error al cambiar de página: ' + e.message, 1); }

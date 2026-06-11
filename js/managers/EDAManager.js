@@ -299,6 +299,18 @@ const EDAManager = (function () {
             timestamp: new Date().toLocaleString('es-ES')
         };
 
+        // Hook: modelo estadistico (recomendaciones con ML)
+        try {
+            if (typeof MLStatsManager !== 'undefined') {
+                MLStatsManager.init();
+                var mlFeatures = MLStatsManager.extractFeatures(data);
+                _edaResults.mlPredictions = MLStatsManager.predict(mlFeatures);
+                _edaResults.mlFeatures = mlFeatures;
+            }
+        } catch (e) {
+            console.warn('[EDAManager] Error en modelo estadistico:', e.message);
+        }
+
         return _edaResults;
     }
 
@@ -453,7 +465,22 @@ const EDAManager = (function () {
         html += renderCorrelacion(results);
         html += renderRecomendaciones(results);
 
+        if (results.mlPredictions) {
+            html += MLStatsManager.renderRecommendations(results.mlPredictions);
+        }
+
         html += '</div>';
+
+        // Bind feedback buttons after DOM insertion
+        setTimeout(function () {
+            try {
+                if (typeof MLStatsManager !== 'undefined') {
+                    var container = document.querySelector('.mlrec-wrap');
+                    if (container) MLStatsManager.bindFeedbackButtons(container.parentNode);
+                }
+            } catch (e) { /* silent */ }
+        }, 50);
+
         return html;
     }
 
