@@ -4227,26 +4227,24 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                       }
                        break;
 
-                   case 'Factor de Letalidad (F0)':
-                       if (numericCols.length >= 1) {
-                           var f0Values = getNumericValues(data, numericCols[0]);
-                           if (f0Values.length < 2) {
-                               resultados['Factor de Letalidad (F0)'] = { error: 'Se necesitan al menos 2 lecturas de temperatura' };
-                           } else {
-                               var f0Opts = {};
-                               if (hypothesisConfig['Factor de Letalidad (F0)']) {
-                                   var cfg = hypothesisConfig['Factor de Letalidad (F0)'];
-                                   if (cfg.delta_t) f0Opts.delta_t = parseFloat(cfg.delta_t);
-                                   if (cfg.z) f0Opts.z = parseFloat(cfg.z);
-                                   if (cfg.T_ref) f0Opts.T_ref = parseFloat(cfg.T_ref);
-                               }
-                               resultados['Factor de Letalidad (F0)'] = calcularFactorLetalidad(f0Values, f0Opts);
-                               resultados['Factor de Letalidad (F0)'].columna = numericCols[0];
-                           }
-                       } else {
-                           resultados['Factor de Letalidad (F0)'] = { error: 'No hay columnas numéricas con datos de temperatura' };
-                       }
-                       break;
+                    case 'Factor de Letalidad (F0)':
+                        resultados['Factor de Letalidad (F0)'] = {};
+                        if (numericCols.length >= 1) {
+                            var f0Values = getNumericValues(data, numericCols[0]);
+                            if (f0Values.length < 2) {
+                                resultados['Factor de Letalidad (F0)'][numericCols[0]] = { error: 'Se necesitan al menos 2 lecturas de temperatura' };
+                            } else {
+                                var f0Opts = {};
+                                if (hypothesisConfig['Factor de Letalidad (F0)']) {
+                                    var cfg = hypothesisConfig['Factor de Letalidad (F0)'];
+                                    if (cfg.delta_t) f0Opts.delta_t = parseFloat(cfg.delta_t);
+                                    if (cfg.z) f0Opts.z = parseFloat(cfg.z);
+                                    if (cfg.T_ref) f0Opts.T_ref = parseFloat(cfg.T_ref);
+                                }
+                                resultados['Factor de Letalidad (F0)'][numericCols[0]] = calcularFactorLetalidad(f0Values, f0Opts);
+                            }
+                        }
+                        break;
 
                    case 'Correlación Pearson':
                      if (hypothesisConfig['Correlación Pearson']) {

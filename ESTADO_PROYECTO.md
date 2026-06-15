@@ -23,6 +23,23 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-14: Fix F0 result structure — kpiCards no rendía por falta de key por columna
+
+**Qué:** Al ejecutar "Factor de Letalidad (F0)" desde el sidebar, no se mostraba ningún resultado porque `kpiCards()` no encontraba la columna como key en el objeto de resultado.
+
+**Problema:** El resultado del F0 se almacenaba como objeto plano `{ F0: 12.34, T_max: ..., columna: 'temp' }`. Pero `kpiCards()` itera sobre `cols` (columnas analizadas) y busca `data['temp']` → `undefined`. Todos los demás estadísticos (Media, Moda, IC, etc.) usan `resultados[stat][col] = valor`, con la columna como key.
+
+**Solución:** Se reestructuró el caso F0 en `ejecutarAnalisis()` para usar `resultados['Factor de Letalidad (F0)'][numericCols[0]] = calcularFactorLetalidad(...)`, consistente con el resto de estadísticos.
+
+**Archivos afectados:**
+| Archivo | Líneas | Cambio |
+|---------|--------|--------|
+| `js/core/EstadisticaDescriptiva.js` | 4230-4249 | Resultado F0 ahora envuelto en `{ [col]: { ... } }` en lugar de objeto plano |
+
+**Verificación:** ✅ `node -c EstadisticaDescriptiva.js`
+
+---
+
 ### 2026-06-08: Error isolation — global handlers, loadPage try/catch, ML timeout
 
 **Qué:** Se implementó un sistema de aislamiento de errores en 6 medidas para garantizar que un error en cualquier página o fetch no rompa toda la aplicación.
