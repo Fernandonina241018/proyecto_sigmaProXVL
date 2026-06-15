@@ -23,6 +23,26 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-14: Stat dropdown — Brave-style flyout on hover en vez de accordion
+
+**Qué:** El menú de estadísticos (dropdown "Estadísticos" en la ribbon) cambió de accordion (click para expandir/colapsar) a flyout hover (estilo menú Brave).
+
+**Qué cambió:**
+- Las secciones ya no requieren click para expandirse
+- Al colocar el mouse sobre una sección, aparece un panel flotante a la derecha con los sub-items
+- El panel tiene `box-shadow`, scroll propio (max-height: 400px) y no se clippea por el dropdown principal
+- Un puente hover (`::after`) entre la sección y el flyout previene parpadeo al mover el mouse
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `css/core/indexx.css` | +23 líneas al final: `#statAnalysisDropdown` con overflow visible, flyout absolute, hover bridge, sin flecha |
+| `js/core/indexx-analysis.js` | `buildStatAnalysisMenu()`: removido `onclick="toggleSubmenu(...)"` de headers de sección. Eliminada función `toggleSubmenu()` |
+
+**Verificación:** ✅ `node -c indexx-analysis.js`
+
+---
+
 ### 2026-06-14: Modal paramétrico para F0 — selector de columna + Δt, z, T_ref
 
 **Qué:** Se agregó un modal de configuración paramétrica para "Factor de Letalidad (F0)" que permite al usuario seleccionar la columna de temperatura y ajustar los parámetros del cálculo antes de ejecutar.
