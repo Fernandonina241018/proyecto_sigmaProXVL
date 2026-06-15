@@ -3699,6 +3699,44 @@ interpretacion: interpretacion,
     }
 
     /**
+     * Calcula el Factor de Letalidad (F0) para esterilización
+     * @param {Array} temperaturas - Vector de temperaturas en °C
+     * @param {Object} options - { delta_t, z, T_ref }
+     */
+    function calcularFactorLetalidad(temperaturas, options) {
+        if (!temperaturas || temperaturas.length < 2) {
+            return { error: 'Se necesitan al menos 2 lecturas de temperatura' };
+        }
+        options = options || {};
+        var delta_t = options.delta_t || 1;
+        var z = options.z || 10;
+        var T_ref = options.T_ref || 121;
+
+        var F0 = 0, maxT = -Infinity, timeAbove = 0;
+        for (var i = 0; i < temperaturas.length; i++) {
+            var T = temperaturas[i];
+            if (T > maxT) maxT = T;
+            if (T >= T_ref) timeAbove += delta_t;
+            F0 += Math.pow(10, (T - T_ref) / z) * delta_t;
+        }
+
+        var interpretation = F0 >= 12 ? 'Ciclo de esterilización válido (F0 ≥ 12 min)' :
+            F0 >= 8 ? 'Ciclo aceptable (F0 ≥ 8 min, verificar bioburden)' :
+            'Ciclo insuficiente (F0 < 8 min, requiere reprocesamiento)';
+
+        return {
+            F0: parseFloat(F0.toFixed(2)),
+            T_max: parseFloat(maxT.toFixed(1)),
+            tiempo_sobre_umbral: parseFloat(timeAbove.toFixed(2)),
+            n: temperaturas.length,
+            delta_t: delta_t,
+            z: z,
+            T_ref: T_ref,
+            interpretacion: interpretation
+        };
+    }
+
+    /**
      * Ejecuta análisis según estadísticos seleccionados
      * @param {Object} data - Datos importados
      * @param {Array} estadisticos - Lista de estadísticos a calcular
@@ -4187,9 +4225,30 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                       } else {
                           resultados['Diagrama de Pareto'] = { error: 'Configure las columnas de categorías y conteo' };
                       }
-                      break;
-                  
-                  case 'Correlación Pearson':
+                       break;
+
+                   case 'Factor de Letalidad (F0)':
+                       if (numericCols.length >= 1) {
+                           var f0Values = getNumericValues(data, numericCols[0]);
+                           if (f0Values.length < 2) {
+                               resultados['Factor de Letalidad (F0)'] = { error: 'Se necesitan al menos 2 lecturas de temperatura' };
+                           } else {
+                               var f0Opts = {};
+                               if (hypothesisConfig['Factor de Letalidad (F0)']) {
+                                   var cfg = hypothesisConfig['Factor de Letalidad (F0)'];
+                                   if (cfg.delta_t) f0Opts.delta_t = parseFloat(cfg.delta_t);
+                                   if (cfg.z) f0Opts.z = parseFloat(cfg.z);
+                                   if (cfg.T_ref) f0Opts.T_ref = parseFloat(cfg.T_ref);
+                               }
+                               resultados['Factor de Letalidad (F0)'] = calcularFactorLetalidad(f0Values, f0Opts);
+                               resultados['Factor de Letalidad (F0)'].columna = numericCols[0];
+                           }
+                       } else {
+                           resultados['Factor de Letalidad (F0)'] = { error: 'No hay columnas numéricas con datos de temperatura' };
+                       }
+                       break;
+
+                   case 'Correlación Pearson':
                      if (hypothesisConfig['Correlación Pearson']) {
                          const cfg = hypothesisConfig['Correlación Pearson'];
                          const colX = cfg.columnaX;

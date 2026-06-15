@@ -2622,6 +2622,33 @@ const ESTADISTICOS_CONFIG = {
         ],
     },
 
+    'Factor de Letalidad (F0)': {
+        seccion:   'calidad',
+        calcular:  'calcularFactorLetalidad',
+        formula:   'F0 = Δt × Σ 10^((T−121)/z)',
+        desc:      'Factor de letalidad (F0): tiempo equivalente de esterilización a 121°C. Calcula la letalidad acumulada a partir de lecturas de temperatura durante un ciclo de esterilización.',
+        icono:     '🔥',
+        minMuestra: 2,
+
+        inputs: {
+            tipo:        'una-columna',
+            grupos:      1,
+            descripcion: 'Vector de temperaturas (°C) leídas a intervalos regulares durante el ciclo de esterilización (mín. 2 lecturas)',
+        },
+        salidas: ['F0', 'T_max', 'tiempo_sobre_umbral', 'n', 'delta_t', 'z', 'T_ref', 'interpretacion'],
+        interpretacion: {
+            plantilla: 'F0 = {F0} min (equivalente a {F0} min a {T_ref}°C con z={z}°C). Temperatura máxima: {T_max}°C. Tiempo sobre umbral: {tiempo_sobre_umbral} min. {interpretacion}',
+        },
+        referencia: [
+            {
+                autores:  'Pflug, I.J.',
+                anio:     2003,
+                titulo:   'Microbiology and Engineering of Sterilization Processes',
+                revista:  'Pharmaceutical Technology',
+            }
+        ],
+    },
+
 };
 
 // ════════════════════════════════════════

@@ -310,6 +310,7 @@ var MLStatsManager = (function () {
         'Test de Shapiro-Wilk':   { category: 'normality', option: 'shapiro-wilk' },
         'Test de Kolmogorov-Smirnov': { category: 'normality', option: 'anderson-darling' },
         'Test de D\'Agostino-Pearson':{ category: 'normality', option: 'd-agostino' },
+        'Factor de Letalidad (F0)':  null, // no aplica para recomendacion
         'T-Test (una muestra)':   { category: 'comparison', option: 't-test' },
         'T-Test (dos muestras)':  { category: 'comparison', option: 't-test' },
         'Mann-Whitney U':          { category: 'comparison', option: 'mann-whitney' }
