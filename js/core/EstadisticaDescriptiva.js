@@ -4231,27 +4231,23 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
 
                      case 'Factor de Letalidad (F0)':
                         resultados['Factor de Letalidad (F0)'] = {};
-                        var f0Col = numericCols.length >= 1 ? numericCols[0] : null;
-                        if (f0Col && hypothesisConfig['Factor de Letalidad (F0)'] && hypothesisConfig['Factor de Letalidad (F0)'].columna) {
-                            f0Col = hypothesisConfig['Factor de Letalidad (F0)'].columna;
-                        }
-                        if (f0Col) {
-                            var f0Values = getNumericValues(data, f0Col);
+                        var f0Cfg = hypothesisConfig['Factor de Letalidad (F0)'] || {};
+                        var f0Cols = f0Cfg.columnas && f0Cfg.columnas.length ? f0Cfg.columnas : numericCols;
+                        if (!f0Cols.length) break;
+                        var f0Opts = {};
+                        if (f0Cfg.delta_t) f0Opts.delta_t = parseFloat(f0Cfg.delta_t);
+                        if (f0Cfg.z) f0Opts.z = parseFloat(f0Cfg.z);
+                        if (f0Cfg.T_ref) f0Opts.T_ref = parseFloat(f0Cfg.T_ref);
+                        if (f0Cfg.umbral_F0) f0Opts.umbral_F0 = parseFloat(f0Cfg.umbral_F0);
+                        if (f0Cfg.umbral_F0_min) f0Opts.umbral_F0_min = parseFloat(f0Cfg.umbral_F0_min);
+                        f0Cols.forEach(function(col) {
+                            var f0Values = getNumericValues(data, col);
                             if (f0Values.length < 2) {
-                                resultados['Factor de Letalidad (F0)'][f0Col] = { error: 'Se necesitan al menos 2 lecturas de temperatura' };
+                                resultados['Factor de Letalidad (F0)'][col] = { error: 'Se necesitan al menos 2 lecturas de temperatura' };
                             } else {
-                                var f0Opts = {};
-                                if (hypothesisConfig['Factor de Letalidad (F0)']) {
-                                    var cfg = hypothesisConfig['Factor de Letalidad (F0)'];
-                                    if (cfg.delta_t) f0Opts.delta_t = parseFloat(cfg.delta_t);
-                                    if (cfg.z) f0Opts.z = parseFloat(cfg.z);
-                                    if (cfg.T_ref) f0Opts.T_ref = parseFloat(cfg.T_ref);
-                                    if (cfg.umbral_F0) f0Opts.umbral_F0 = parseFloat(cfg.umbral_F0);
-                                    if (cfg.umbral_F0_min) f0Opts.umbral_F0_min = parseFloat(cfg.umbral_F0_min);
-                                }
-                                resultados['Factor de Letalidad (F0)'][f0Col] = calcularFactorLetalidad(f0Values, f0Opts);
+                                resultados['Factor de Letalidad (F0)'][col] = calcularFactorLetalidad(f0Values, f0Opts);
                             }
-                        }
+                        });
                         break;
 
                    case 'Correlación Pearson':
@@ -5548,6 +5544,30 @@ function generarHTML(analisisResultado) {
                 </div>
                 ${data.interpretacion ? `<div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion)}</div></div></div>` : ''}
             `;
+        }
+
+        // F0 — Factor de Letalidad
+        if (statKey === 'Factor de Letalidad (F0)') {
+            var f0Cols = Object.keys(data).filter(function(c) { return data[c] && !data[c].error; });
+            if (!f0Cols.length) return '<p class="ar-error">Sin resultados</p>';
+            return f0Cols.map(function(col) {
+                var val = data[col];
+                var umbralObj = val.umbral_F0 || 12;
+                var umbralMin = val.umbral_F0_min || 8;
+                var badgeClass = val.F0 >= umbralObj ? 'ar-badge-ok' : val.F0 >= umbralMin ? 'ar-badge-warn' : 'ar-badge-danger';
+                var badgeText = val.interpretacion || '';
+                return '<div class="ar-kpi-card ar-kpi-multi">' +
+                    '<div class="ar-kpi-col-label">🔥 ' + escapeHtml(col) + '</div>' +
+                    '<div class="ar-kpi-sub-grid" style="grid-template-columns:1fr 1fr">' +
+                        '<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">F0</span><span class="ar-kpi-sub-v" style="font-size:1.2rem;font-weight:700">' + (val.F0 ?? '—') + '</span></div>' +
+                        '<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">T máx</span><span class="ar-kpi-sub-v">' + (val.T_max ?? '—') + '°C</span></div>' +
+                        '<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Tiempo sobre umbral</span><span class="ar-kpi-sub-v">' + (val.tiempo_sobre_umbral ?? '—') + ' min</span></div>' +
+                        '<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">' + (val.n ?? '—') + '</span></div>' +
+                    '</div>' +
+                    '<div class="ar-kpi-badge ' + badgeClass + '">' + escapeHtml(badgeText) + '</div>' +
+                    '<div class="ar-formula" style="margin-top:8px"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">F0 = ' + (val.F0 ?? '—') + ' min (Δt=' + (val.delta_t ?? '?') + ', z=' + (val.z ?? '?') + ', T_ref=' + (val.T_ref ?? '?') + '°C)</div></div></div>' +
+                '</div>';
+            }).join('');
         }
 
         // Caso genérico: iterar sobre columnas

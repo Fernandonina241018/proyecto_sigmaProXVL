@@ -521,15 +521,29 @@ function _mostrarModalParamConfig(nombre, callback) {
         'style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem">' +
       '</div>';
   }).join('');
+
+  var multi = cfg.multiCol;
+  var colHTML;
+  if (multi) {
+    colHTML = '<label style="display:block;font-size:11px;color:var(--text-primary);margin-bottom:4px">Columnas de temperatura (\u00B0C)</label>' +
+      '<div style="max-height:180px;overflow-y:auto;border:1.5px solid var(--border);border-radius:6px;padding:6px 8px;background:var(--bg-primary)">' +
+      tipos.numCols.map(function(c) {
+        return '<label style="display:flex;align-items:center;gap:6px;padding:3px 0;font-size:0.82rem;cursor:pointer">' +
+          '<input type="checkbox" class="cfg-col-chk" value="' + c.replace(/"/g,'&quot;') + '" checked>' +
+          escapeHtml(c) + '</label>';
+      }).join('') + '</div>';
+  } else {
+    colHTML = '<div style="margin-bottom:10px">' +
+      '<label style="display:block;font-size:11px;color:var(--text-primary);margin-bottom:2px">Columna de temperatura (\u00B0C)</label>' +
+      '<select id="cfg-columna" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>';
+  }
+
   var modal = document.createElement('div'); modal.className = 'modal-overlay';
   modal.innerHTML =
     '<div class="modal-box" style="max-width:480px">' +
       '<div class="modal-title">\u2699\uFE0F Configurar par\u00E1metros: ' + escapeHtml(nombre) + '</div>' +
       descHTML +
-      '<div style="margin-bottom:10px">' +
-        '<label style="display:block;font-size:11px;color:var(--text-primary);margin-bottom:2px">Columna de temperatura (\u00B0C)</label>' +
-        '<select id="cfg-columna" class="btn" style="width:100%;text-align:left">' + optsN + '</select>' +
-      '</div>' +
+      colHTML +
       paramsHTML +
       '<div class="modal-actions">' +
         '<button class="btn btn-secondary" id="pcgCancel">Cancelar</button>' +
@@ -539,7 +553,13 @@ function _mostrarModalParamConfig(nombre, callback) {
   document.body.appendChild(modal);
   document.getElementById('pcgCancel').addEventListener('click', function() { modal.remove(); });
   document.getElementById('pcgConfirm').addEventListener('click', function() {
-    var config = { columna: document.getElementById('cfg-columna').value };
+    var config = {};
+    if (multi) {
+      var chk = document.querySelectorAll('.cfg-col-chk:checked');
+      config.columnas = Array.from(chk).map(function(c) { return c.value; });
+    } else {
+      config.columna = document.getElementById('cfg-columna').value;
+    }
     cfg.paramConfig.forEach(function(p) {
       var el = document.getElementById('cfg-' + p.key);
       var val = p.type === 'number' ? parseFloat(el.value) : el.value;

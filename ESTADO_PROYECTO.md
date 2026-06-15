@@ -23,6 +23,27 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-14: F0 multi-columna — seleccionar varias columnas de temperatura en el modal
+
+**Qué:** F0 ahora permite seleccionar múltiples columnas de temperatura vía checkboxes en el modal paramétrico. Cada columna se procesa independientemente y se muestra con su propia card de resultado.
+
+**Qué cambió:**
+- `multiCol: true` agregado a la entry de F0 en `estadisticosConfig.js`
+- `_mostrarModalParamConfig()` en `indexx-analysis.js`: cuando `cfg.multiCol === true`, renderiza checkboxes en vez de un `<select>` único; guarda `config.columnas` (array) en vez de `config.columna` (string)
+- `ejecutarAnalisis()` caso F0: itera sobre `cfg.columnas` (o `numericCols` si no hay selección) y computa F0 para cada columna
+- `kpiCards()`: nuevo render dedicado para F0 con card por columna mostrando F0 (grande), T máx, tiempo sobre umbral, n, y badge coloreado según umbrales
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/estadisticosConfig.js` | +`multiCol: true`, +`tipo: 'multiples-columnas'` en inputs de F0 |
+| `js/core/indexx-analysis.js` | `_mostrarModalParamConfig()`: checkboxes multi-columna cuando cfg.multiCol, guarda array `columnas` |
+| `js/core/EstadisticaDescriptiva.js` | `ejecutarAnalisis()` F0: itera sobre `cfg.columnas`. `kpiCards()`: +render dedicado F0 con badge color-coded |
+
+**Verificación:** ✅ `node -c` en los 3 archivos JS modificados
+
+---
+
 ### 2026-06-14: Umbrales F0 configurables desde modal paramétrico
 
 **Qué:** Los umbrales de interpretación de F0 (objetivo=12, mínimo=8) ahora son configurables desde el modal de parámetros, en lugar de estar hardcodeados en `calcularFactorLetalidad()`.

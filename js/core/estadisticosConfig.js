@@ -2629,9 +2629,10 @@ const ESTADISTICOS_CONFIG = {
         desc:      'Factor de letalidad (F0): tiempo equivalente de esterilización a 121°C. Calcula la letalidad acumulada a partir de lecturas de temperatura durante un ciclo de esterilización.',
         icono:     '🔥',
         minMuestra: 2,
+        multiCol:  true,
 
         inputs: {
-            tipo:        'una-columna',
+            tipo:        'multiples-columnas',
             grupos:      1,
             descripcion: 'Vector de temperaturas (°C) leídas a intervalos regulares durante el ciclo de esterilización (mín. 2 lecturas)',
         },
