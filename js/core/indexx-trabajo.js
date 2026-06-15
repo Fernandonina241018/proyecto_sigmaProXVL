@@ -827,14 +827,24 @@ function initTrabajoKeyboard() {
     if (e.key === 'Tab') {
       e.preventDefault();
       if (document.getElementById('autocompleteList').style.display !== 'none') { hideAutocomplete(); return; }
-      focusCell(r, e.shiftKey ? Math.max(0,c-1) : (c < maxCol ? c+1 : (r < maxRow ? (trabajoActiveCell = {row:r+1,col:0}, 0) : c)));
+      if (e.shiftKey) {
+        focusCell(r, Math.max(0, c-1));
+      } else {
+        if (c < maxCol) {
+          focusCell(r, c+1);
+        } else if (r < maxRow) {
+          focusCell(r+1, 0);
+        } else {
+          focusCellOrAddRow(r+1, 0);
+        }
+      }
     } else if (e.key === 'Enter') {
       e.preventDefault();
       if (document.getElementById('autocompleteList').style.display !== 'none') { hideAutocomplete(); }
       if (e.shiftKey) focusCell(Math.max(0,r-1), c);
-      else focusCell(Math.min(maxRow,r+1), c);
+      else focusCellOrAddRow(r+1, c);
     } else if (e.key === 'Escape') { inner.blur(); hideAutocomplete(); }
-    else if (e.key === 'ArrowDown' && !e.shiftKey) { e.preventDefault(); focusCell(Math.min(maxRow,r+1), c); }
+    else if (e.key === 'ArrowDown' && !e.shiftKey) { e.preventDefault(); focusCellOrAddRow(r+1, c); }
     else if (e.key === 'ArrowUp' && !e.shiftKey) { e.preventDefault(); focusCell(Math.max(0,r-1), c); }
     else if (e.key === 'ArrowRight' && inner.textContent.length === 0) { e.preventDefault(); focusCell(r, Math.min(maxCol,c+1)); }
     else if (e.key === 'ArrowLeft' && inner.textContent.length === 0) { e.preventDefault(); focusCell(r, Math.max(0,c-1)); }
@@ -853,5 +863,14 @@ function focusCell(rowIdx, colIdx) {
   setActiveCell(rowIdx, colIdx);
   var inner = document.querySelector('[data-row="' + rowIdx + '"][data-col="' + colIdx + '"]');
   if (inner) { inner.focus(); try { var range = document.createRange(); var sel = window.getSelection(); range.selectNodeContents(inner); range.collapse(false); sel.removeAllRanges(); sel.addRange(range); } catch(e){} }
+}
+function focusCellOrAddRow(targetRow, colIdx) {
+  var sheet = getCurrentSheet();
+  if (sheet && targetRow >= sheet.rows.length) {
+    addRow();
+    sheet = getCurrentSheet();
+    if (!sheet) return;
+  }
+  focusCell(Math.min(targetRow, (sheet ? sheet.rows.length - 1 : targetRow)), colIdx);
 }
 document.addEventListener('click', function(e) { if (!e.target.closest('#autocompleteList') && !e.target.classList.contains('excel-cell-inner')) hideAutocomplete(); });
