@@ -151,6 +151,11 @@ const HYPOTHESIS_TESTS = [
 // Set para búsquedas O(1) — usado internamente por includes()
 const HYPOTHESIS_SET = new Set(HYPOTHESIS_TESTS);
 
+// Estadísticos que requieren parámetros configurables vía modal (F0, etc.)
+const PARAM_CONFIG_SET = new Set([
+    'Factor de Letalidad (F0)'
+]);
+
 // ========================================
 // BACKWARD COMPATIBILITY
 // ========================================

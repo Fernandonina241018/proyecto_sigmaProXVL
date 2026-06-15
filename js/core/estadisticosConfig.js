@@ -2636,6 +2636,11 @@ const ESTADISTICOS_CONFIG = {
             descripcion: 'Vector de temperaturas (°C) leídas a intervalos regulares durante el ciclo de esterilización (mín. 2 lecturas)',
         },
         salidas: ['F0', 'T_max', 'tiempo_sobre_umbral', 'n', 'delta_t', 'z', 'T_ref', 'interpretacion'],
+        paramConfig: [
+            { key: 'delta_t', label: 'Δt — Intervalo de muestreo (min)', type: 'number', default: 1, min: 0.1, step: 0.1 },
+            { key: 'z',       label: 'z — Constante térmica (°C)',        type: 'number', default: 10, min: 1, step: 1 },
+            { key: 'T_ref',   label: 'T_ref — Temperatura de referencia (°C)', type: 'number', default: 121, min: 50, step: 1 },
+        ],
         interpretacion: {
             plantilla: 'F0 = {F0} min (equivalente a {F0} min a {T_ref}°C con z={z}°C). Temperatura máxima: {T_max}°C. Tiempo sobre umbral: {tiempo_sobre_umbral} min. {interpretacion}',
         },

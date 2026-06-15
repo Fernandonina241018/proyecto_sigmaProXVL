@@ -4227,12 +4227,16 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                       }
                        break;
 
-                    case 'Factor de Letalidad (F0)':
+                     case 'Factor de Letalidad (F0)':
                         resultados['Factor de Letalidad (F0)'] = {};
-                        if (numericCols.length >= 1) {
-                            var f0Values = getNumericValues(data, numericCols[0]);
+                        var f0Col = numericCols.length >= 1 ? numericCols[0] : null;
+                        if (f0Col && hypothesisConfig['Factor de Letalidad (F0)'] && hypothesisConfig['Factor de Letalidad (F0)'].columna) {
+                            f0Col = hypothesisConfig['Factor de Letalidad (F0)'].columna;
+                        }
+                        if (f0Col) {
+                            var f0Values = getNumericValues(data, f0Col);
                             if (f0Values.length < 2) {
-                                resultados['Factor de Letalidad (F0)'][numericCols[0]] = { error: 'Se necesitan al menos 2 lecturas de temperatura' };
+                                resultados['Factor de Letalidad (F0)'][f0Col] = { error: 'Se necesitan al menos 2 lecturas de temperatura' };
                             } else {
                                 var f0Opts = {};
                                 if (hypothesisConfig['Factor de Letalidad (F0)']) {
@@ -4241,7 +4245,7 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                                     if (cfg.z) f0Opts.z = parseFloat(cfg.z);
                                     if (cfg.T_ref) f0Opts.T_ref = parseFloat(cfg.T_ref);
                                 }
-                                resultados['Factor de Letalidad (F0)'][numericCols[0]] = calcularFactorLetalidad(f0Values, f0Opts);
+                                resultados['Factor de Letalidad (F0)'][f0Col] = calcularFactorLetalidad(f0Values, f0Opts);
                             }
                         }
                         break;

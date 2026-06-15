@@ -33,6 +33,9 @@ const StateManager = (() => {
         
         // Configuración de pruebas de hipótesis
         hypothesisConfig: {},
+
+        // Configuración paramétrica de estadísticos (F0, etc.)
+        paramConfig: {},
         
         // Metadatos
         savedAt: null,
@@ -91,6 +94,7 @@ const StateManager = (() => {
                     fileName: state.fileName,
                     activeStats: state.activeStats,
                     hypothesisConfig: state.hypothesisConfig,
+                    paramConfig: state.paramConfig,
                     savedAt: new Date().toISOString(),
                 });
                 localStorage.setItem('statAnalyzerState', payload);
@@ -624,6 +628,8 @@ const StateManager = (() => {
         const entry = state.history[state.historyIndex];
         if (entry.type === 'hypothesisConfig') {
             state.hypothesisConfig[entry.key] = entry.oldValue;
+        } else if (entry.type === 'paramConfig') {
+            state.paramConfig[entry.key] = entry.oldValue;
         }
         state.historyIndex--;
         notifyListeners('dataChange');
@@ -639,6 +645,8 @@ const StateManager = (() => {
         const entry = state.history[state.historyIndex];
         if (entry.type === 'hypothesisConfig') {
             state.hypothesisConfig[entry.key] = entry.newValue !== undefined ? JSON.parse(JSON.stringify(entry.newValue)) : undefined;
+        } else if (entry.type === 'paramConfig') {
+            state.paramConfig[entry.key] = entry.newValue !== undefined ? JSON.parse(JSON.stringify(entry.newValue)) : undefined;
         }
         notifyListeners('dataChange');
         scheduleAutoSave();
@@ -665,6 +673,26 @@ const StateManager = (() => {
     function getAllHypothesisConfig() {
         return { ...state.hypothesisConfig };
     }
+
+    // ========================================
+    // CONFIGURACIÓN PARAMÉTRICA DE ESTADÍSTICOS
+    // ========================================
+
+    function setParamConfig(statName, config) {
+        _pushToHistory('paramConfig', statName, state.paramConfig[statName], config);
+        state.paramConfig[statName] = config;
+        notifyListeners('dataChange');
+        scheduleAutoSave();
+    }
+
+    function getParamConfig(statName) {
+        return state.paramConfig[statName] || null;
+    }
+
+    function clearParamConfig(statName) {
+        delete state.paramConfig[statName];
+        scheduleAutoSave();
+    }
     
     // ========================================
     // PERSISTENCIA (StorageAdapter → IndexedDB con fallback localStorage)
@@ -681,6 +709,7 @@ const StateManager = (() => {
                 fileName: state.fileName,
                 activeStats: state.activeStats,
                 hypothesisConfig: state.hypothesisConfig,
+                paramConfig: state.paramConfig,
                 savedAt: state.savedAt
             });
             
@@ -709,6 +738,7 @@ const StateManager = (() => {
             state.fileName = loaded.fileName || '';
             state.activeStats = loaded.activeStats || [];
             state.hypothesisConfig = loaded.hypothesisConfig || {};
+            state.paramConfig = loaded.paramConfig || {};
             
             return true;
         } catch (error) {
@@ -954,6 +984,11 @@ const StateManager = (() => {
         getHypothesisConfig,
         clearHypothesisConfig,
         getAllHypothesisConfig,
+
+        // Configuración paramétrica
+        setParamConfig,
+        getParamConfig,
+        clearParamConfig,
         
         // Undo/Redo
         undo,

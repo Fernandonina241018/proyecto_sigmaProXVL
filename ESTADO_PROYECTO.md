@@ -23,6 +23,38 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-14: Modal paramétrico para F0 — selector de columna + Δt, z, T_ref
+
+**Qué:** Se agregó un modal de configuración paramétrica para "Factor de Letalidad (F0)" que permite al usuario seleccionar la columna de temperatura y ajustar los parámetros del cálculo antes de ejecutar.
+
+**Problema:** F0 usaba defaults (Δt=1, z=10, T_ref=121) sin posibilidad de configuración. El usuario preguntó "cómo asume el tiempo de inicio y final" — no había forma de configurarlo.
+
+**Solución:** Sistema genérico de configuración paramétrica para estadísticos que lo necesiten:
+1. `paramConfig` en `estadisticosConfig.js` — define los campos editables
+2. `PARAM_CONFIG_SET` en `utils.js` — lista de stats con parámetros editables
+3. `_mostrarModalParamConfig()` en `indexx-analysis.js` — modal dinámico generado desde `cfg.paramConfig`
+4. `StateManager.setParamConfig/getParamConfig` — persistencia de la configuración
+5. Integración en `runSingleStat`, `runBatchAnalysis`, `onSubitemClick`, `onChildCheck`
+
+**Archivos afectados:**
+
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/estadisticosConfig.js` | +4 líneas `paramConfig` en F0 (delta_t, z, T_ref con defaults, min, step) |
+| `js/core/StateManager.js` | +Nuevo estado `paramConfig`, +métodos set/get/clear, +undo/redo, +serialización save/load |
+| `js/core/utils.js` | +2 líneas `PARAM_CONFIG_SET = new Set(['Factor de Letalidad (F0)'])` |
+| `js/core/indexx-analysis.js` | +Nueva función `_mostrarModalParamConfig()`, +check en `runSingleStat` y `runBatchAnalysis`, +check en sidebar clicks (`onSubitemClick`, `onChildCheck`) |
+| `js/core/EstadisticaDescriptiva.js` | Case F0 ahora lee `hypothesisConfig[F0].columna` como columna seleccionable |
+
+**Flujo usuario:**
+1. Selecciona F0 → se abre modal con selector de columna temp + campos Δt, z, T_ref
+2. Completa y da "Guardar y ejecutar"
+3. Se ejecuta con los parámetros elegidos
+
+**Verificación:** ✅ `node -c` en los 5 archivos JS modificados
+
+---
+
 ### 2026-06-14: Fix F0 result structure — kpiCards no rendía por falta de key por columna
 
 **Qué:** Al ejecutar "Factor de Letalidad (F0)" desde el sidebar, no se mostraba ningún resultado porque `kpiCards()` no encontraba la columna como key en el objeto de resultado.

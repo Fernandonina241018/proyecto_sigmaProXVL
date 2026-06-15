@@ -503,6 +503,55 @@ function _configColumnsExist(saved, headers) {
   return cols.every(function(col) { return headers.indexOf(col) !== -1; });
 }
 
+// ── Modal de configuración paramétrica (F0, etc.) ──
+function _mostrarModalParamConfig(nombre, callback) {
+  var cfg = getEstadisticoConfig(nombre);
+  if (!cfg || !cfg.paramConfig || !cfg.paramConfig.length) { callback(); return; }
+  var data = getDataForEjecutarAnalisis();
+  if (!data) { callback(); return; }
+  var tipos = _detectColTypes(data.headers, data.data);
+  if (tipos.numCols.length === 0) { showToast('\u26A0\uFE0F No hay columnas num\u00E9ricas disponibles'); callback(); return; }
+  var optsN = tipos.numCols.map(function(c) { return '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; }).join('');
+  var descHTML = cfg.desc ? '<div style="font-size:12px;color:var(--text-primary);margin-bottom:10px;line-height:1.4">' + escapeHtml(cfg.desc) + '</div>' : '';
+  var paramsHTML = cfg.paramConfig.map(function(p) {
+    return '<div style="margin-bottom:8px">' +
+      '<label style="display:block;font-size:11px;color:var(--text-primary);margin-bottom:2px">' + escapeHtml(p.label) + '</label>' +
+      '<input type="' + p.type + '" id="cfg-' + p.key + '" value="' + (p.default || '') + '" ' +
+        'min="' + (p.min || '') + '" step="' + (p.step || '') + '" ' +
+        'style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem">' +
+      '</div>';
+  }).join('');
+  var modal = document.createElement('div'); modal.className = 'modal-overlay';
+  modal.innerHTML =
+    '<div class="modal-box" style="max-width:480px">' +
+      '<div class="modal-title">\u2699\uFE0F Configurar par\u00E1metros: ' + escapeHtml(nombre) + '</div>' +
+      descHTML +
+      '<div style="margin-bottom:10px">' +
+        '<label style="display:block;font-size:11px;color:var(--text-primary);margin-bottom:2px">Columna de temperatura (\u00B0C)</label>' +
+        '<select id="cfg-columna" class="btn" style="width:100%;text-align:left">' + optsN + '</select>' +
+      '</div>' +
+      paramsHTML +
+      '<div class="modal-actions">' +
+        '<button class="btn btn-secondary" id="pcgCancel">Cancelar</button>' +
+        '<button class="btn btn-primary" id="pcgConfirm">Guardar y ejecutar</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(modal);
+  document.getElementById('pcgCancel').addEventListener('click', function() { modal.remove(); });
+  document.getElementById('pcgConfirm').addEventListener('click', function() {
+    var config = { columna: document.getElementById('cfg-columna').value };
+    cfg.paramConfig.forEach(function(p) {
+      var el = document.getElementById('cfg-' + p.key);
+      var val = p.type === 'number' ? parseFloat(el.value) : el.value;
+      if (val !== undefined && val !== null && !isNaN(val)) config[p.key] = val;
+    });
+    StateManager.setParamConfig(nombre, config);
+    modal.remove();
+    callback();
+  });
+}
+
+// ── Ejecutar un único estadístico ──
 function runSingleStat(nombre) {
   var data = getDataForEjecutarAnalisis();
   if (!data) { showToast('⚠️ No hay datos en la hoja de trabajo'); return; }
@@ -555,6 +604,21 @@ function runSingleStat(nombre) {
     }
   }
 
+  // Estadísticos con parámetros configurables (F0, etc.)
+  if (PARAM_CONFIG_SET.has(nombre)) {
+    var paramSaved = StateManager.getParamConfig(nombre);
+    if (!paramSaved) {
+      _mostrarModalParamConfig(nombre, function() {
+        if (!StateManager.getParamConfig(nombre)) {
+          showToast('⚠️ Error al guardar configuración para ' + nombre);
+          return;
+        }
+        runSingleStat(nombre);
+      });
+      return;
+    }
+  }
+
   analisisSelectedTest = nombre;
   analisisResultContent = null;
   rightPaneBody.innerHTML = rightPanels.analisis();
@@ -563,6 +627,8 @@ function runSingleStat(nombre) {
     var hc = {};
     var saved = StateManager.getHypothesisConfig(nombre);
     if (saved) hc[nombre] = saved;
+    var paramSaved = StateManager.getParamConfig(nombre);
+    if (paramSaved) hc[nombre] = paramSaved;
     var resultados = EstadisticaDescriptiva.ejecutarAnalisis(data, [nombre], hc);
     var html = EstadisticaDescriptiva.generarHTML(resultados);
     analisisResultContent = html;
@@ -641,6 +707,12 @@ function runBatchAnalysis() {
 
   try {
     var hc = StateManager.getAllHypothesisConfig();
+    selected.forEach(function(n) {
+      if (PARAM_CONFIG_SET.has(n)) {
+        var pc = StateManager.getParamConfig(n);
+        if (pc) hc[n] = pc;
+      }
+    });
     var resultados = EstadisticaDescriptiva.ejecutarAnalisis(data, selected, hc);
     var html = EstadisticaDescriptiva.generarHTML(resultados);
     analisisResultContent = html;
@@ -736,6 +808,9 @@ function onChildCheck(event, seccionKey) {
   }
   if (justChecked && HYPOTHESIS_SET.has(nombre) && !StateManager.getHypothesisConfig(nombre)) {
     _mostrarModalConfigTest(nombre, function() {});
+  }
+  if (justChecked && PARAM_CONFIG_SET.has(nombre) && !StateManager.getParamConfig(nombre)) {
+    _mostrarModalParamConfig(nombre, function() {});
   }
 }
 
@@ -836,6 +911,9 @@ function onSubitemClick(event, nombre, seccionKey) {
   // 2. Modal de configuración si aplica
   if (justChecked && HYPOTHESIS_SET.has(nombre) && !StateManager.getHypothesisConfig(nombre)) {
     _mostrarModalConfigTest(nombre, function() {});
+  }
+  if (justChecked && PARAM_CONFIG_SET.has(nombre) && !StateManager.getParamConfig(nombre)) {
+    _mostrarModalParamConfig(nombre, function() {});
   }
 
   // 3. Actualizar estado global y limpiar resultado previo
