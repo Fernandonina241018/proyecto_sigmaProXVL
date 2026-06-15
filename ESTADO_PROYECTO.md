@@ -23,6 +23,25 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-14: Umbrales F0 configurables desde modal paramétrico
+
+**Qué:** Los umbrales de interpretación de F0 (objetivo=12, mínimo=8) ahora son configurables desde el modal de parámetros, en lugar de estar hardcodeados en `calcularFactorLetalidad()`.
+
+**Qué cambió:**
+- `umbral_F0` y `umbral_F0_min` agregados al `paramConfig` de F0 en `estadisticosConfig.js`
+- `calcularFactorLetalidad()` ahora lee `options.umbral_F0` y `options.umbral_F0_min` en lugar de usar 12 y 8 fijos
+- `ejecutarAnalisis()` forwardea los nuevos parámetros desde `hypothesisConfig` a `f0Opts`
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/estadisticosConfig.js` | +2 items en `paramConfig` de F0: `umbral_F0` (default 12) y `umbral_F0_min` (default 8) |
+| `js/core/EstadisticaDescriptiva.js` | `calcularFactorLetalidad()`: reemplazados 12/8 hardcodeados por `options.umbral_F0`/`options.umbral_F0_min` (con fallback a 12/8). `ejecutarAnalisis()`: +forwarding `cfg.umbral_F0`/`cfg.umbral_F0_min` a `f0Opts` |
+
+**Verificación:** ✅ `node -c` en ambos archivos modificados
+
+---
+
 ### 2026-06-14: Stat dropdown — Brave-style flyout on hover en vez de accordion
 
 **Qué:** El menú de estadísticos (dropdown "Estadísticos" en la ribbon) cambió de accordion (click para expandir/colapsar) a flyout hover (estilo menú Brave).

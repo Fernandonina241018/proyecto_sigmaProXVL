@@ -3720,9 +3720,11 @@ interpretacion: interpretacion,
             F0 += Math.pow(10, (T - T_ref) / z) * delta_t;
         }
 
-        var interpretation = F0 >= 12 ? 'Ciclo de esterilización válido (F0 ≥ 12 min)' :
-            F0 >= 8 ? 'Ciclo aceptable (F0 ≥ 8 min, verificar bioburden)' :
-            'Ciclo insuficiente (F0 < 8 min, requiere reprocesamiento)';
+        var umbralObj = options.umbral_F0 || 12;
+        var umbralMin = options.umbral_F0_min || 8;
+        var interpretation = F0 >= umbralObj ? 'Ciclo de esterilización válido (F0 \u2265 ' + umbralObj + ' min)' :
+            F0 >= umbralMin ? 'Ciclo aceptable (F0 \u2265 ' + umbralMin + ' min, verificar bioburden)' :
+            'Ciclo insuficiente (F0 < ' + umbralMin + ' min, requiere reprocesamiento)';
 
         return {
             F0: parseFloat(F0.toFixed(2)),
@@ -4244,6 +4246,8 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                                     if (cfg.delta_t) f0Opts.delta_t = parseFloat(cfg.delta_t);
                                     if (cfg.z) f0Opts.z = parseFloat(cfg.z);
                                     if (cfg.T_ref) f0Opts.T_ref = parseFloat(cfg.T_ref);
+                                    if (cfg.umbral_F0) f0Opts.umbral_F0 = parseFloat(cfg.umbral_F0);
+                                    if (cfg.umbral_F0_min) f0Opts.umbral_F0_min = parseFloat(cfg.umbral_F0_min);
                                 }
                                 resultados['Factor de Letalidad (F0)'][f0Col] = calcularFactorLetalidad(f0Values, f0Opts);
                             }
