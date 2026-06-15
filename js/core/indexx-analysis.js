@@ -749,8 +749,7 @@ function buildStatAnalysisMenu() {
 
     // ── Item padre con checkbox ──
     html += '<div class="dd-item has-submenu" '
-          + 'style="display:flex;align-items:center;gap:6px" '
-          + 'onclick="toggleSubmenu(event,\'' + seccionKey + '\')">'
+          + 'style="display:flex;align-items:center;gap:6px">'
           + '<span style="flex:1;display:flex;align-items:center;gap:6px">'
           + seccion.icon + ' ' + seccion.label
           + '<span class="stat-selected-badge" id="badge-' + seccionKey + '">0</span>'
@@ -786,12 +785,6 @@ function buildStatAnalysisMenu() {
 
   dropdown.innerHTML = html;
   dropdown.addEventListener('mousedown', function(e) { e.stopPropagation(); });
-}
-
-function toggleSubmenu(event, seccionKey) {
-  event.stopPropagation();
-  var header = event.currentTarget;
-  header.classList.toggle('open');
 }
 
 // ── Click en checkbox hijo ──
