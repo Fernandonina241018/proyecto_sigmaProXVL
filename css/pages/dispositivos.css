@@ -1,0 +1,101 @@
+/* ================================================
+   dispositivos.css — § 11.10(h) Device Check UI
+   ================================================ */
+
+.dsp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 12px;
+}
+
+.dsp-card {
+    background: var(--bg-primary, #fff);
+    border: 1.5px solid var(--border, #e2e8f0);
+    border-radius: 10px;
+    padding: 14px;
+    transition: box-shadow 0.2s;
+}
+
+.dsp-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.dsp-card-current {
+    border-color: var(--accent, #667aea);
+    box-shadow: 0 0 0 1px var(--accent, #667aea);
+}
+
+.dsp-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.dsp-card-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary, #1a202c);
+}
+
+.dsp-card-badge {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 99px;
+    font-weight: 500;
+}
+
+.dsp-badge-trusted {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+.dsp-badge-untrusted {
+    background: #fed7d7;
+    color: #9b2c2c;
+}
+
+.dsp-card-body {
+    margin-bottom: 10px;
+}
+
+.dsp-info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 0;
+    font-size: 0.78rem;
+    border-bottom: 1px solid var(--border-faint, #f0f0f0);
+}
+
+.dsp-info-label {
+    color: var(--text-faint, #a0aec0);
+}
+
+.dsp-info-value {
+    color: var(--text-primary, #1a202c);
+    font-weight: 500;
+    text-align: right;
+}
+
+.dsp-fp {
+    font-family: monospace;
+    font-size: 0.65rem;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dsp-card-actions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.dsp-current-tag {
+    font-size: 0.7rem;
+    color: var(--accent, #667aea);
+    font-weight: 500;
+    margin-left: auto;
+}

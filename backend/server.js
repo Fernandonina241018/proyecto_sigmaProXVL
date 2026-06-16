@@ -736,6 +736,54 @@ app.post('/api/audit/event', requireAuth, async (req, res) => {
         details: details || null,
         durationMs: durationMs || null,
     });
-    
+
+    res.json({ ok: true });
+});
+
+// ── Device Checks (§ 11.10(h)) ─────────────
+// POST /api/devices/register - registrar/actualizar dispositivo actual
+app.post('/api/devices/register', requireAuth, async (req, res) => {
+    const { fingerprint, device_name, browser, os, screen_res, timezone } = req.body;
+    if (!fingerprint) return res.status(400).json({ error: 'fingerprint requerido' });
+
+    await db.registerDevice(req.user.username, fingerprint, {
+        device_name, browser, os, screen_res, timezone
+    });
+
+    const trusted = await db.isDeviceTrusted(req.user.username, fingerprint);
+    res.json({ ok: true, trusted });
+});
+
+// GET /api/devices - listar todos los dispositivos (admin) o del usuario
+app.get('/api/devices', requireAuth, async (req, res) => {
+    const isAdmin = req.user.role === 'admin';
+    try {
+        const devices = isAdmin ? await db.getAllDevices() : await db.getUserDevices(req.user.username);
+        res.json({ ok: true, devices });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// PUT /api/devices/:id/trust - toggle trust (admin only)
+app.put('/api/devices/:id/trust', requireAuth, requireAdmin, async (req, res) => {
+    const trusted = req.body.trusted === 1 || req.body.trusted === true ? 1 : 0;
+    await db.setDeviceTrust(req.params.id, trusted);
+    await db.logAuditEvent({
+        username: req.user.username, action: 'DEVICE_TRUST:' + (trusted ? 'ON' : 'OFF'),
+        success: 1, ip: getClientIP(req), userAgent: req.headers['user-agent'],
+        module: 'SYSTEM', details: { deviceId: req.params.id, trusted },
+    });
+    res.json({ ok: true });
+});
+
+// DELETE /api/devices/:id - eliminar dispositivo (admin only)
+app.delete('/api/devices/:id', requireAuth, requireAdmin, async (req, res) => {
+    await db.removeDevice(req.params.id);
+    await db.logAuditEvent({
+        username: req.user.username, action: 'DEVICE_DELETE',
+        success: 1, ip: getClientIP(req), userAgent: req.headers['user-agent'],
+        module: 'SYSTEM', details: { deviceId: req.params.id },
+    });
     res.json({ ok: true });
 });

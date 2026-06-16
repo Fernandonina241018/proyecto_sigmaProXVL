@@ -703,11 +703,12 @@ var rightPanels = {
       '<div class="page-card-header"><span class="page-card-icon">📄</span><span class="page-card-title">Vista previa del reporte</span></div>' +
       '<div class="page-card-body" id="firmaPreview" style="flex:1;padding:0;overflow:auto;display:flex;align-items:center;justify-content:center;min-height:300px">' +
         '<div style="color:var(--text-faint);font-size:13px">Carga un reporte .html para previsualizarlo aquí</div></div></div></div>'; },
-  'modelo-estadistico': function() { return typeof MLStatsManager !== 'undefined' ? MLStatsManager.renderModelPage() : '<div class="page-body"><div style="color:var(--text-faint)">Modelo no disponible</div></div>'; }
+  'modelo-estadistico': function() { return typeof MLStatsManager !== 'undefined' ? MLStatsManager.renderModelPage() : '<div class="page-body"><div style="color:var(--text-faint)">Modelo no disponible</div></div>'; },
+  dispositivos: function() { return '<div class="page-body"><div id="dsp-container"></div></div>'; }
 };
 
-var pageIcons  = { trabajo:'📋', datos:'📊', analisis:'🔬', visualizacion:'📈', reportes:'📄', firmarReporte:'✍️', ml:'🧠', auditoria:'📋', usuarios:'👥', 'modelo-estadistico':'🧠' };
-var pageTitles = { trabajo:'Hoja de Trabajo', datos:'Gestión de Datos', analisis:'Análisis Estadístico', visualizacion:'Visualización', reportes:'Reportes', firmarReporte:'Firmar Reporte', ml:'ML Analysis', auditoria:'Auditoría', usuarios:'Usuarios', 'modelo-estadistico':'Modelo Estadístico' };
+var pageIcons  = { trabajo:'📋', datos:'📊', analisis:'🔬', visualizacion:'📈', reportes:'📄', firmarReporte:'✍️', ml:'🧠', auditoria:'📋', usuarios:'👥', 'modelo-estadistico':'🧠', dispositivos:'🖥️' };
+var pageTitles = { trabajo:'Hoja de Trabajo', datos:'Gestión de Datos', analisis:'Análisis Estadístico', visualizacion:'Visualización', reportes:'Reportes', firmarReporte:'Firmar Reporte', ml:'ML Analysis', auditoria:'Auditoría', usuarios:'Usuarios', 'modelo-estadistico':'Modelo Estadístico', dispositivos:'Dispositivos' };
 
 function loadPage(name) {
   try {
@@ -755,6 +756,7 @@ function loadPage(name) {
   if (name === 'firmarReporte') { setTimeout(function() { try { initFirmarReportePage(); } catch(e) { showToast('Error en firma: ' + e.message, 1); } }, 60); }
   if (name === 'ml') { setTimeout(function() { try { if (typeof MLManager !== 'undefined') MLManager.init(); } catch(e) { showToast('Error en ML: ' + e.message, 1); } }, 60); }
   if (name === 'modelo-estadistico') { setTimeout(function() { try { if (typeof MLStatsManager !== 'undefined') MLStatsManager.init(); } catch(e) { showToast('Error en modelo: ' + e.message, 1); } }, 60); }
+  if (name === 'dispositivos') { setTimeout(function() { try { if (typeof DispositivosManager !== 'undefined') { DispositivosManager.init(API_URL); DispositivosManager.buildView(); } } catch(e) { showToast('Error en dispositivos: ' + e.message, 1); } }, 60); }
   updateToolsMenuState();
   updateRibbonNavPopup();
   } catch(e) { showToast('Error al cambiar de página: ' + e.message, 1); }
@@ -794,7 +796,7 @@ function buildRibbonNavPopup() {
   popup.innerHTML = '';
   document.querySelectorAll('.nav-item[data-page]').forEach(function(item) {
     var page = item.dataset.page;
-    if (!isAdmin && (page === 'auditoria' || page === 'usuarios')) return;
+    if (!isAdmin && (page === 'auditoria' || page === 'usuarios' || page === 'dispositivos')) return;
     var icon = pageIcons[page] || '📄';
     var label = pageTitles[page] || page;
     var el = document.createElement('div');

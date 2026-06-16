@@ -45,6 +45,13 @@ const Logger = (() => {
             return { ok: false, error: 'No autenticado' };
         }
 
+        var deviceFingerprint = null;
+        try {
+            if (typeof DeviceFingerprint !== 'undefined') {
+                deviceFingerprint = DeviceFingerprint.getFingerprint();
+            }
+        } catch (_e) {}
+
         try {
             const res = await fetch(`${_apiUrl}/api/audit/event`, {
                 method: 'POST',
@@ -56,7 +63,7 @@ const Logger = (() => {
                 body: JSON.stringify({
                     action,
                     module,
-                    details,
+                    details: details ? (deviceFingerprint ? Object.assign({}, details, { deviceFingerprint: deviceFingerprint }) : details) : (deviceFingerprint ? { deviceFingerprint: deviceFingerprint } : null),
                     durationMs,
                 }),
             });

@@ -23,6 +23,39 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-15: § 11.10(h) — Device Checks (verificación de dispositivos)
+
+**Qué:** Implementado CFR 21 Part 11 § 11.10(h) — verificación de validez del origen de entrada de datos. Cada dispositivo es identificado por fingerprint (canvas + navegador), registrado al login, y admin puede marcarlo como confiado o no confiado.
+
+**Componentes nuevos:**
+
+| Archivo | Propósito |
+|---------|-----------|
+| `js/core/DeviceFingerprint.js` | Genera fingerprint SHA-256 del dispositivo (canvas fingerprint + userAgent + screen + timezone + language + platform) |
+| `js/managers/DispositivosManager.js` | UI de administración de dispositivos (solo admin): cards con info, toggle trust, eliminar |
+| `css/pages/dispositivos.css` | Estilos para la UI de dispositivos |
+
+**Archivos modificados:**
+
+| Archivo | Cambio |
+|---------|--------|
+| `backend/database.js` | +tabla `trusted_devices` (Postgres + local store), +métodos `registerDevice`, `isDeviceTrusted`, `getUserDevices`, `getAllDevices`, `setDeviceTrust`, `removeDevice` |
+| `backend/server.js` | +4 endpoints: `POST /api/devices/register`, `GET /api/devices`, `PUT /api/devices/:id/trust`, `DELETE /api/devices/:id` |
+| `js/core/auth.js` | `_onLoginSuccess()` ahora llama `_registerDevice()` para registrar fingerprint al iniciar sesión |
+| `js/core/Logger.js` | Todos los eventos de auditoría incluyen `deviceFingerprint` en detalles |
+| `js/core/indexx-ui.js` | +nav item `dispositivos` en pageIcons/pageTitles, +init en loadPage, +restricción admin |
+| `indexx.html` | +nav link "Dispositivos" en sección Administración |
+
+**Flujo:**
+1. Usuario inicia sesión → `DeviceFingerprint.getFingerprint()` se ejecuta → `POST /api/devices/register` guarda/actualiza el dispositivo
+2. Admin va a "Dispositivos" → lista de dispositivos con info de navegador, OS, pantalla, última vez
+3. Admin puede confiar/desconfiar/eliminar dispositivos
+4. Todos los eventos de auditoría llevan el fingerprint → trazabilidad completa
+
+**Verificación:** ✅ `node -c` en los 9 archivos JS modificados/creados
+
+---
+
 ### 2026-06-14: F0 multi-columna — seleccionar varias columnas de temperatura en el modal
 
 **Qué:** F0 ahora permite seleccionar múltiples columnas de temperatura vía checkboxes en el modal paramétrico. Cada columna se procesa independientemente y se muestra con su propia card de resultado.

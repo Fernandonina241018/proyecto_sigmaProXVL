@@ -78,6 +78,14 @@ function buildPostgres() {
             created_at TEXT DEFAULT to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS')
         )`);
         await run(`CREATE INDEX IF NOT EXISTS idx_token_blacklist_hash ON token_blacklist (token_hash)`);
+        await run(`CREATE TABLE IF NOT EXISTS trusted_devices (
+            id SERIAL PRIMARY KEY, username TEXT NOT NULL, fingerprint_hash TEXT NOT NULL,
+            device_name TEXT, browser TEXT, os TEXT, screen_res TEXT, timezone TEXT,
+            trusted INTEGER NOT NULL DEFAULT 0,
+            last_seen TEXT, created_at TEXT DEFAULT to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS'),
+            UNIQUE(username, fingerprint_hash)
+        )`);
+        await run(`CREATE INDEX IF NOT EXISTS idx_trusted_devices_username ON trusted_devices (username)`);
         console.log('✅ Tablas verificadas en PostgreSQL');
         await _migrateAuditHashes();
     }
@@ -258,7 +266,40 @@ function buildPostgres() {
         await run(`DELETE FROM token_blacklist WHERE created_at < to_char(now() - interval '24 hours','YYYY-MM-DD"T"HH24:MI:SS')`);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, getUserPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist };
+    // ── Device Checks (§ 11.10(h)) ─────────
+    async function registerDevice(username, fingerprintHash, info) {
+        var now = new Date().toISOString();
+        await run(`INSERT INTO trusted_devices (username, fingerprint_hash, device_name, browser, os, screen_res, timezone, last_seen, created_at)
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+            ON CONFLICT (username, fingerprint_hash)
+            DO UPDATE SET last_seen=$8, device_name=COALESCE(trusted_devices.device_name, $3),
+                browser=COALESCE(trusted_devices.browser, $4), os=COALESCE(trusted_devices.os, $5)`,
+            [username, fingerprintHash, info.device_name || null, info.browser || null,
+             info.os || null, info.screen_res || null, info.timezone || null, now, now]);
+    }
+
+    async function isDeviceTrusted(username, fingerprintHash) {
+        var row = await get('SELECT trusted FROM trusted_devices WHERE username=$1 AND fingerprint_hash=$2', [username, fingerprintHash]);
+        return row ? row.trusted === 1 : false;
+    }
+
+    async function getUserDevices(username) {
+        return all('SELECT * FROM trusted_devices WHERE username=$1 ORDER BY trusted DESC, last_seen DESC', [username]);
+    }
+
+    async function getAllDevices() {
+        return all('SELECT * FROM trusted_devices ORDER BY trusted DESC, last_seen DESC');
+    }
+
+    async function setDeviceTrust(id, trusted) {
+        await run('UPDATE trusted_devices SET trusted=$1 WHERE id=$2', [trusted ? 1 : 0, id]);
+    }
+
+    async function removeDevice(id) {
+        await run('DELETE FROM trusted_devices WHERE id=$1', [id]);
+    }
+
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, getUserPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, setDeviceTrust, removeDevice };
 }
 
 // ───── Local JSON store ─────
@@ -479,7 +520,63 @@ function buildLocalStore() {
         save();
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, getUserPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist };
+    // ── Device Checks (§ 11.10(h)) ─────────
+    if (!state.trusted_devices) state.trusted_devices = [];
+
+    async function registerDevice(username, fingerprintHash, info) {
+        var now = new Date().toISOString();
+        var existing = state.trusted_devices.find(function(d) { return d.username === username && d.fingerprint_hash === fingerprintHash; });
+        if (existing) {
+            existing.last_seen = now;
+            if (!existing.device_name && info.device_name) existing.device_name = info.device_name;
+            if (!existing.browser && info.browser) existing.browser = info.browser;
+            if (!existing.os && info.os) existing.os = info.os;
+            if (!existing.screen_res && info.screen_res) existing.screen_res = info.screen_res;
+            if (!existing.timezone && info.timezone) existing.timezone = info.timezone;
+        } else {
+            state.trusted_devices.push({
+                id: state.trusted_devices.length + 1,
+                username: username,
+                fingerprint_hash: fingerprintHash,
+                device_name: info.device_name || null,
+                browser: info.browser || null,
+                os: info.os || null,
+                screen_res: info.screen_res || null,
+                timezone: info.timezone || null,
+                trusted: 0,
+                last_seen: now,
+                created_at: now,
+            });
+        }
+        save();
+    }
+
+    async function isDeviceTrusted(username, fingerprintHash) {
+        var d = state.trusted_devices.find(function(d) { return d.username === username && d.fingerprint_hash === fingerprintHash; });
+        return d ? d.trusted === 1 : false;
+    }
+
+    async function getUserDevices(username) {
+        return state.trusted_devices.filter(function(d) { return d.username === username; })
+            .sort(function(a, b) { return (b.trusted - a.trusted) || (new Date(b.last_seen) - new Date(a.last_seen)); });
+    }
+
+    async function getAllDevices() {
+        return state.trusted_devices.slice()
+            .sort(function(a, b) { return (b.trusted - a.trusted) || (new Date(b.last_seen) - new Date(a.last_seen)); });
+    }
+
+    async function setDeviceTrust(id, trusted) {
+        var d = state.trusted_devices.find(function(d) { return d.id === id; });
+        if (d) { d.trusted = trusted ? 1 : 0; save(); }
+    }
+
+    async function removeDevice(id) {
+        state.trusted_devices = state.trusted_devices.filter(function(d) { return d.id !== id; });
+        save();
+    }
+
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, getUserPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, setDeviceTrust, removeDevice };
 }
 
 const impl = build();
@@ -505,7 +602,13 @@ module.exports = {
     blacklistToken:      (...a) => impl.blacklistToken(...a),
     isTokenBlacklisted:  (...a) => impl.isTokenBlacklisted(...a),
     cleanExpiredBlacklist: (...a) => impl.cleanExpiredBlacklist(...a),
-    run:                 (...a) => impl.run(...a),
+    registerDevice:       (...a) => impl.registerDevice(...a),
+    isDeviceTrusted:      (...a) => impl.isDeviceTrusted(...a),
+    getUserDevices:       (...a) => impl.getUserDevices(...a),
+    getAllDevices:        (...a) => impl.getAllDevices(...a),
+    setDeviceTrust:       (...a) => impl.setDeviceTrust(...a),
+    removeDevice:         (...a) => impl.removeDevice(...a),
+    run:                  (...a) => impl.run(...a),
     all:                 (...a) => impl.all(...a),
     get:                 (...a) => impl.get(...a),
 };

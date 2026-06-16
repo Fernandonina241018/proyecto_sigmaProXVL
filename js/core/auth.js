@@ -614,6 +614,7 @@ const Auth = (() => {
         localStorage.setItem('sessionStart', Date.now().toString());
         if (_token) {
             await _fetchMlApiKey();
+            await _registerDevice();
         }
         _startSession(userData);
         const card=document.querySelector('.auth-card');
@@ -730,6 +731,26 @@ const Auth = (() => {
                 _mlApiKey = data.key || null;
             }
         } catch (_e) { console.warn('ML API key fetch failed (non-critical):', _e); }
+    }
+
+    async function _registerDevice() {
+        try {
+            if (typeof DeviceFingerprint === 'undefined') return;
+            var fp = DeviceFingerprint.getFingerprint();
+            var info = DeviceFingerprint.getDeviceInfo();
+            await fetch(CFG.API_URL + '/api/devices/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _token },
+                body: JSON.stringify({
+                    fingerprint: fp,
+                    device_name: DeviceFingerprint.getDeviceLabel(),
+                    browser: info.userAgent ? (info.userAgent.includes('Chrome') && !info.userAgent.includes('Edg') ? 'Chrome' : info.userAgent.includes('Firefox') ? 'Firefox' : info.userAgent.includes('Safari') && !info.userAgent.includes('Chrome') ? 'Safari' : info.userAgent.includes('Edg') ? 'Edge' : info.userAgent.includes('OPR') ? 'Opera' : 'Otro') : '—',
+                    os: info.platform || '—',
+                    screen_res: info.screen || '—',
+                    timezone: info.timezone || '—',
+                }),
+            });
+        } catch (_e) { console.warn('Device register failed (non-critical):', _e); }
     }
 
     // ── Actividad ─────────────────────────
