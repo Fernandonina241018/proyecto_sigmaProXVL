@@ -23,6 +23,14 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-15: Nav items de Administración ocultos para no-admin
+
+**Qué:** Los nav items Auditoría, Usuarios y Dispositivos (y el título "Administración") ahora se ocultan automáticamente si el usuario no tiene role `admin`.
+
+**Cambio:** `indexx-analysis.js:977-990` — refactorizado el hide/show en `onLogin` para usar un array `adminPages` en vez de 2 variables sueltas; incluye `dispositivos` y el título "Administración".
+
+---
+
 ### 2026-06-15: Fix logout 401 — faltaba Authorization header en POST /api/logout
 
 **Qué:** `logout()` en auth.js llamaba `POST /api/logout` sin `Authorization` header. `requireAuth` exige header para POST (protección CSRF) → 401 en consola.

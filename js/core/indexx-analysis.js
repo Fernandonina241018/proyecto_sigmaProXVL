@@ -979,10 +979,13 @@ function _initIndexxApp() {
       _restoreAllData();
       loadPage('datos');
       var isAdmin = session?.role === 'admin';
-      var audNav = document.querySelector('[data-page="auditoria"]');
-      var usrNav = document.querySelector('[data-page="usuarios"]');
-      if (audNav) audNav.style.display = isAdmin ? '' : 'none';
-      if (usrNav) usrNav.style.display = isAdmin ? '' : 'none';
+      var adminPages = ['auditoria','usuarios','dispositivos'];
+      adminPages.forEach(function(p){
+        var el = document.querySelector('[data-page="'+p+'"]');
+        if (el) el.style.display = isAdmin ? '' : 'none';
+      });
+      var adminTitle = document.querySelector('.nav-section-title');
+      if (adminTitle) adminTitle.style.display = isAdmin ? '' : 'none';
       buildRibbonNavPopup();
     }
   });
