@@ -124,12 +124,11 @@ function showPerfilModal() {
   var box = overlay.querySelector('.modal-box');
   var statusEl = document.getElementById('perfilConnStatus');
   var apiUrl = typeof API_URL !== 'undefined' ? API_URL : '';
-  fetch(apiUrl + '/api/users', { credentials: 'include', headers: { Authorization: 'Bearer ' + (Auth.getToken() || '') } })
+  fetch(apiUrl + '/api/me', { credentials: 'include', headers: { Authorization: 'Bearer ' + (Auth.getToken() || '') } })
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (!data.ok) throw new Error(data.error || 'Error al cargar');
-      var user = (data.users || []).find(function(u) { return u.username === session.username; });
-      if (!user) throw new Error('Usuario no encontrado');
+      var user = data.profile || { username: data.username, role: data.role };
       if (statusEl) { statusEl.innerHTML = '✓ Conectado al servidor'; statusEl.style.background = 'rgba(74,222,128,0.12)'; statusEl.style.color = '#4ade80'; }
       renderPerfil(box, user);
     })

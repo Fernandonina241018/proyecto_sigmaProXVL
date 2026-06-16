@@ -506,12 +506,19 @@ app.post('/api/logout', requireAuth, async (req, res) => {
 });
 
 // GET /api/me — restaura sesión desde cookie httpOnly
-app.get('/api/me', requireAuth, (req, res) => {
+app.get('/api/me', requireAuth, async (req, res) => {
     const token = jwt.sign(
         { id: req.user.id, username: req.user.username, role: req.user.role },
         process.env.JWT_SECRET,
         { expiresIn: process.env.JWT_EXPIRES_IN || '8h', issuer: 'sigmaproxvl', audience: 'sigmaproxvl-api' }
     );
+    try {
+        const user = await db.getUserByUsername(req.user.username);
+        if (user) {
+            const { password_hash, password_temp, ...profile } = user;
+            return res.json({ ok: true, username: req.user.username, role: req.user.role, token, profile });
+        }
+    } catch (_) { /* fallback: omitir perfil */ }
     res.json({ ok: true, username: req.user.username, role: req.user.role, token });
 });
 

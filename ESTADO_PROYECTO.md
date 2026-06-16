@@ -23,6 +23,18 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-15: Fix perfil 403 — /api/me ahora incluye profile, modal ya no llama /api/users
+
+**Qué:** El modal de perfil de usuario (click en avatar) llamaba a `GET /api/users` (admin-only) para buscar el usuario actual → 403 para no-admin.
+
+**Fixes:**
+- `backend/server.js:509` — `/api/me` ahora hace `db.getUserByUsername()` y retorna `profile` con nombre, email, cargo, teléfono, firma, etc.
+- `js/core/indexx-ui.js:127` — el modal de perfil ahora usa `/api/me` en vez de `/api/users`
+
+**Verificación:** ✅ `node -c` en ambos archivos
+
+---
+
 ### 2026-06-15: Nav items de Administración ocultos para no-admin
 
 **Qué:** Los nav items Auditoría, Usuarios y Dispositivos (y el título "Administración") ahora se ocultan automáticamente si el usuario no tiene role `admin`.
