@@ -23,6 +23,14 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-15: Fix logout 401 — faltaba Authorization header en POST /api/logout
+
+**Qué:** `logout()` en auth.js llamaba `POST /api/logout` sin `Authorization` header. `requireAuth` exige header para POST (protección CSRF) → 401 en consola.
+
+**Fix:** `auth.js:798` — agregado `headers:{Authorization:'Bearer '+(_token||'')}` al fetch.
+
+---
+
 ### 2026-06-15: Fix 401 en Dispositivos + _registerDevice con _token null
 
 **Qué:** La página Dispositivos quedaba en blanco sin mostrar errores. Causas:

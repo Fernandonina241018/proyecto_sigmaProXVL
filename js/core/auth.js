@@ -795,7 +795,7 @@ const Auth = (() => {
 
     function logout(){
         _closeAllModals();
-        fetch(`${CFG.API_URL}/api/logout`,{method:'POST',credentials:'include'}).catch(()=>{});
+        fetch(`${CFG.API_URL}/api/logout`,{method:'POST',credentials:'include',headers:{Authorization:'Bearer '+(_token||'')}}).catch(()=>{});
         _clearSession(); _unregisterActivityListeners(); showLogin('logout'); if(_onLogout) _onLogout('logout');
     }
 
