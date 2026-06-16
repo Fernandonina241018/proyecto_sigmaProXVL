@@ -15,55 +15,6 @@
           "name": "Qwen 2.5 Coder 0.5B (local)"
         }
       }
-    },
-    "groq": {
-      "name": "Groq (cloud - rápido)",
-      "options": {
-        "baseURL": "https://api.groq.com/openai/v1",
-        "apiKey": "{file:/home/fernando/.config/opencode/groq-key}",
-        "timeout": 120000,
-        "chunkTimeout": 60000
-      },
-      "models": {
-        "llama-3.3-70b-versatile": {
-          "name": "Llama 3.3 70B (inteligente)"
-        },
-        "llama-3.1-8b-instant": {
-          "name": "Llama 3.1 8B (rápido)"
-        },
-        "meta-llama/llama-4-scout-17b-16e-instruct": {
-          "name": "Llama 4 Scout 17B (contexto largo)"
-        }
-      }
-    },
-    "deepinfra": {
-      "name": "DeepInfra (cloud)",
-      "options": {
-        "baseURL": "https://api.deepinfra.com/v1/openai",
-        "apiKey": "{file:/home/fernando/.config/opencode/deepinfra-key}",
-        "timeout": 120000,
-        "chunkTimeout": 60000
-      },
-      "models": {
-        "deepseek-ai/DeepSeek-V3-0324": {
-          "name": "DeepSeek V3 (excelente para código)"
-        },
-        "deepseek-ai/DeepSeek-V3": {
-          "name": "DeepSeek V3 (potente)"
-        },
-        "deepseek-ai/DeepSeek-R1-Distill-Llama-70B": {
-          "name": "DeepSeek R1 Distill 70B"
-        },
-        "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo": {
-          "name": "Llama 3.1 8B Turbo (rápido)"
-        },
-        "meta-llama/Llama-3.3-70B-Instruct-Turbo": {
-          "name": "Llama 3.3 70B Turbo"
-        },
-        "deepseek-ai/DeepSeek-V4-Flash": {
-          "name": "DeepSeek V4 Flash (muy rápido)"
-        }
-      }
     }
   },
   "command": {

@@ -23,6 +23,25 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-15: Fix 401 en Dispositivos + _registerDevice con _token null
+
+**Qué:** La página Dispositivos quedaba en blanco sin mostrar errores. Causas:
+1. `_registerDevice()` se disparaba en cada recarga de página aunque `_token` fuera `null` → enviaba `Authorization: Bearer null` → 401 en consola
+2. `DispositivosManager.cargarDispositivos()` no tenía `try/catch` → si `res.json()` fallaba (respuesta vacía/ilegible), la Promise se rechazaba sin manejador → el spinner quedaba forever → página en blanco
+3. Las requests enviaban `Bearer null` literal cuando `Auth.getToken()` retornaba `null`
+
+**Fixes:**
+
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/auth.js:739` | +`if (!_token) return;` en `_registerDevice()` |
+| `js/managers/DispositivosManager.js:17-23` | `apiGet`/`apiPost`/`apiPut`/`apiDelete`: `getToken()` → `(getToken() \|\| '')` |
+| `js/managers/DispositivosManager.js:54-64` | `cargarDispositivos()` envuelto en `try/catch` — retorna `{ok:false, error}` igual que `UsuariosManager` |
+
+**Verificación:** ✅ `node -c` en ambos archivos
+
+---
+
 ### 2026-06-15: § 11.10(h) — Device Checks (verificación de dispositivos)
 
 **Qué:** Implementado CFR 21 Part 11 § 11.10(h) — verificación de validez del origen de entrada de datos. Cada dispositivo es identificado por fingerprint (canvas + navegador), registrado al login, y admin puede marcarlo como confiado o no confiado.

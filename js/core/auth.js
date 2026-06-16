@@ -736,6 +736,7 @@ const Auth = (() => {
     async function _registerDevice() {
         try {
             if (typeof DeviceFingerprint === 'undefined') return;
+            if (!_token) return;
             var fp = DeviceFingerprint.getFingerprint();
             var info = DeviceFingerprint.getDeviceInfo();
             await fetch(CFG.API_URL + '/api/devices/register', {

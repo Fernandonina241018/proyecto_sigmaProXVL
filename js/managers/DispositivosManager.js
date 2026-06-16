@@ -16,7 +16,7 @@ const DispositivosManager = (() => {
 
     async function apiGet(path) {
         var res = await fetch(_apiUrl + path, {
-            headers: { Authorization: 'Bearer ' + getToken() },
+            headers: { Authorization: 'Bearer ' + (getToken() || '') },
             credentials: 'include'
         });
         return res.json();
@@ -25,7 +25,7 @@ const DispositivosManager = (() => {
     async function apiPost(path, body) {
         var res = await fetch(_apiUrl + path, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() },
+            headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + (getToken() || '') },
             body: JSON.stringify(body),
             credentials: 'include'
         });
@@ -35,7 +35,7 @@ const DispositivosManager = (() => {
     async function apiPut(path, body) {
         var res = await fetch(_apiUrl + path, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() },
+            headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + (getToken() || '') },
             body: JSON.stringify(body),
             credentials: 'include'
         });
@@ -45,16 +45,20 @@ const DispositivosManager = (() => {
     async function apiDelete(path) {
         var res = await fetch(_apiUrl + path, {
             method: 'DELETE',
-            headers: { Authorization: 'Bearer ' + getToken() },
+            headers: { Authorization: 'Bearer ' + (getToken() || '') },
             credentials: 'include'
         });
         return res.json();
     }
 
     async function cargarDispositivos() {
-        var result = await apiGet('/api/devices');
-        if (result.ok) _dispositivos = result.devices || [];
-        return result;
+        try {
+            var result = await apiGet('/api/devices');
+            if (result.ok) _dispositivos = result.devices || [];
+            return result;
+        } catch (err) {
+            return { ok: false, error: err.message };
+        }
     }
 
     async function toggleTrust(id, trusted) {
