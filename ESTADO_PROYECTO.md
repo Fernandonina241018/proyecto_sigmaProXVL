@@ -23,6 +23,25 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-16: Dot Plot (Puntos) + Gráfico de Control — nuevos tipos en Visualización
+
+**Qué:** Se agregó el tipo **Puntos** (dot plot / dispersión 1D) que muestra cada valor como un punto con jitter horizontal y una línea verde del promedio. Los puntos sobre el promedio se colorean con el color primario de la paleta, los debajo con el color terciario. También se agregó el tipo **Control** (Shewhart) con líneas UCL/LCL desde Trabajo.
+
+**Cambios (Puntos):**
+
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-viz.js` | Nuevo tipo `dotplot` en categoría `stat` con SVG thumbnail, slot de variable única, case en `_V_buildConfig()` (scatter con jitter + línea de promedio). Agregado a `_V_TYPE_MAP`, modal batch y handler de generación |
+
+**Características (Puntos):**
+- Un solo slot: Variable a analizar (columna numérica)
+- Cada valor se grafica como un punto con jitter horizontal aleatorio para evitar solapamiento
+- Línea verde discontinua del promedio
+- Puntos ≥ promedio usan el color primario de la paleta; < promedio usan el terciario
+- Soporta batch múltiple desde modal 🔁
+
+---
+
 ### 2026-06-16: Gráfico de Control — nuevo tipo en Visualización
 
 **Qué:** Se agregó el tipo de gráfico **Control** (Gráfico de Control/Shewhart) en la categoría Estadístico, que toma los límites configurados en la página Trabajo (`getLimits()`) y los dibuja como líneas horizontales UCL/LCL (rojo punteado) y Central (verde punteado) sobre una línea de datos. Los puntos fuera de límites se marcan en rojo.

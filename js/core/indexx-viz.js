@@ -33,7 +33,7 @@ var _V_CATS = [
   { id: 'dist',  lbl: 'Distribución', types: ['histograma','dispersion','burbuja'] },
   { id: 'tend',  lbl: 'Tendencia',   types: ['lineas','area','multi'] },
   { id: 'comp2', lbl: 'Composición', types: ['circular','dona','polar'] },
-  { id: 'stat',  lbl: 'Estadístico', types: ['radar','linealidad','control'] },
+  { id: 'stat',  lbl: 'Estadístico', types: ['radar','linealidad','control','dotplot'] },
 ];
 
 var _V_TYPES = {
@@ -52,6 +52,7 @@ var _V_TYPES = {
   radar:      { lbl: 'Radar',       cat: 'stat',  svg: _V_svgRadar() },
   linealidad: { lbl: 'Linealidad',  cat: 'stat',  svg: _V_svgLinealidad() },
   control:    { lbl: 'Control',     cat: 'stat',  svg: _V_svgControl() },
+  dotplot:    { lbl: 'Puntos',      cat: 'stat',  svg: _V_svgDotplot() },
 };
 
 var _V_AXIS = {
@@ -70,6 +71,7 @@ var _V_AXIS = {
   radar:      [{ k: 'etq', lbl: 'Categorías' }, { k: 'y', lbl: 'Serie' }],
   linealidad: [{ k: 'x', lbl: 'Variable Independiente (X)' }, { k: 'y', lbl: 'Variable Dependiente (Y)' }],
   control:    [{ k: 'x', lbl: 'Eje X (Tiempo, opcional)' }, { k: 'y', lbl: 'Variable a controlar' }],
+  dotplot:    [{ k: 'variable', lbl: 'Variable a analizar' }],
 };
 
 // ══ CSS INJECTION ════════════════════════════════════════════════
@@ -181,6 +183,7 @@ function _V_svgControl() { return _V_svg('<polyline points="2,28 8,22 14,26 20,1
   '<line x1="2" y1="12" x2="46" y2="12" stroke="rgba(239,68,68,.7)" stroke-width="1.5" stroke-dasharray="4,3"/>' +
   '<line x1="2" y1="28" x2="46" y2="28" stroke="rgba(239,68,68,.7)" stroke-width="1.5" stroke-dasharray="4,3"/>' +
   '<line x1="2" y1="20" x2="46" y2="20" stroke="rgba(34,197,94,.7)" stroke-width="1.5" stroke-dasharray="4,3"/>'); }
+function _V_svgDotplot() { return _V_svg([[5,26],[8,20],[12,24],[15,14],[19,22],[22,10],[26,19],[30,8],[34,17],[39,6],[42,14],[46,11]].map(function(p){ return '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="2.2" fill="' + _V_ACC + '"/>'; }).join('') + '<line x1="2" y1="17" x2="47" y2="17" stroke="rgba(34,197,94,.8)" stroke-width="1.8" stroke-dasharray="4,3"/>'); }
 
 // ══ DATA HELPERS ═════════════════════════════════════════════════
 function _V_getSheet() {
@@ -581,6 +584,27 @@ function _V_buildConfig() {
         { label: 'Serie B', data: vals2, borderColor: c[1], backgroundColor: c[1] + '22', pointBackgroundColor: c[1], pointRadius: 3 },
       ]}, options: Object.assign(noScales, { scales: { r: { grid: { color: gc }, angleLines: { color: gc }, ticks: { color: tc2, font: { size: 10 }, backdropColor: 'transparent' }, pointLabels: { color: tc2, font: { size: 11 } } } } }) };
     }
+    case 'dotplot': {
+      var col = v.variable || _V_numCols()[0] || '';
+      var raw = _V_colData(col);
+      if (!raw.length) { showToast('No hay datos para Puntos'); return null; }
+      var n = raw.length;
+      var mean = raw.reduce(function(a, b) { return a + b; }, 0) / n;
+      var pts = raw.map(function(val) {
+        return { x: (Math.random() - 0.5) * 1.4, y: val };
+      });
+      var o = JSON.parse(JSON.stringify(opts));
+      o.scales.x = Object.assign(o.scales.x || {}, {
+        type: 'linear', min: -1.2, max: 1.2,
+        grid: { display: false },
+        ticks: { display: false },
+        title: { display: false },
+      });
+      return { type: 'scatter', data: { datasets: [
+        { label: col, data: pts, backgroundColor: raw.map(function(v) { return v >= mean ? c[0] + '99' : c[2] + '99'; }), pointRadius: 5, pointHoverRadius: 7, order: 2 },
+        { label: 'Promedio (' + mean.toFixed(2) + ')', data: [{ x: -1.2, y: mean }, { x: 1.2, y: mean }], type: 'line', borderColor: '#22c55e', borderWidth: 2, borderDash: [4, 3], pointRadius: 0, order: 1 },
+      ]}, options: o };
+    }
     case 'control': {
       var xCol = v.x;
       var yCol = v.y || _V_numCols()[0] || '';
@@ -852,7 +876,8 @@ function vizToggleFS() {
 var _V_TYPE_MAP = {
   bar: 'barras', line: 'lineas', area: 'area',
   histogram: 'histograma', scatter: 'dispersion',
-  control: 'control'
+  control: 'control',
+  dotplot: 'dotplot'
 };
 
 function showBatchGraphModal() {
@@ -878,6 +903,7 @@ function showBatchGraphModal() {
           '<option value="area">📉 Área</option>' +
           '<option value="scatter">⬡ Dispersión</option>' +
           '<option value="control">📈 Control</option>' +
+          '<option value="dotplot">● Puntos</option>' +
         '</select></div>' +
       '<div class="modal-row" id="vizModalXRow"><span class="modal-label">Eje X</span>' +
         '<select id="vizModalColX" class="modal-select" style="min-width:120px">' + colOpts + '</select></div>' +
@@ -897,14 +923,15 @@ function showBatchGraphModal() {
     var selected = [];
     checkboxes.forEach(function(cb) { if (cb.checked) selected.push(cb.dataset.col); });
     if (!selected.length) { showToast('Selecciona al menos una columna'); return; }
-    if (type !== 'histogram' && !colX) { showToast('Selecciona Eje X'); return; }
+    if (type !== 'histogram' && type !== 'dotplot' && !colX) { showToast('Selecciona Eje X'); return; }
     modal.remove();
     loadPage('visualizacion');
     setTimeout(function() { _V_batchGenerate(type, colX, selected); }, 150);
   };
   modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
   document.getElementById('vizModalType').onchange = function() {
-    document.getElementById('vizModalXRow').style.display = this.value === 'histogram' ? 'none' : 'flex';
+    var hide = this.value === 'histogram' || this.value === 'dotplot';
+    document.getElementById('vizModalXRow').style.display = hide ? 'none' : 'flex';
   };
   document.getElementById('vizModalType').dispatchEvent(new Event('change'));
 }
@@ -922,6 +949,9 @@ function _V_batchGenerate(type, colX, selectedCols) {
 
     if (type === 'histogram') {
       _V.type = 'histograma';
+      _V.vals = { variable: col };
+    } else if (type === 'dotplot') {
+      _V.type = 'dotplot';
       _V.vals = { variable: col };
     } else if (type === 'scatter') {
       if (col === colX) return;
