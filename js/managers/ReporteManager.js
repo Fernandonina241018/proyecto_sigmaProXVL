@@ -1994,7 +1994,7 @@ tr:hover td{background:#f7faff}
 
                 <div class="rep-field">
                   <label>${t('ui_proto')}</label>
-                  <input id="rep-proto" placeholder="PROTO-2024-001">
+                  <input id="rep-proto" readonly style="background:var(--bg-primary);cursor:default;opacity:.85" placeholder="${currentLang==='es'?'Auto: FASE-CÓDIGO':'Auto: PHASE-CODE'}">
                 </div>
 
                 <div class="rep-field">
@@ -2100,6 +2100,14 @@ tr:hover td{background:#f7faff}
             });
         });
 
+        // ── Auto-sync protocolo = fase + código ──
+        ['rep-fase','rep-code'].forEach(function(id){
+            var el=document.getElementById(id);
+            if(el) el.addEventListener('change',autoSyncProtocol);
+            if(el) el.addEventListener('input',autoSyncProtocol);
+        });
+        autoSyncProtocol();
+
         // ── Toggle idioma ──
         ['es','en'].forEach(lang=>{
             document.getElementById(`rep-lang-${lang}`)?.addEventListener('click',()=>{
@@ -2133,6 +2141,14 @@ tr:hover td{background:#f7faff}
         const n=['html','pdf','txt','csv'].filter(f=>document.getElementById(`fmt-${f}`)?.checked).length;
         const el=document.getElementById('rep-fmt-count');
         if(el)el.textContent=t('ui_formatCount',n);
+    }
+    function autoSyncProtocol(){
+        var fase=document.getElementById('rep-fase')?.value||'';
+        var code=document.getElementById('rep-code')?.value||'';
+        var proto=document.getElementById('rep-proto');
+        if(!proto)return;
+        if(fase&&code) proto.value=fase+'-'+code;
+        else proto.value='';
     }
     function collectMeta(){
         const g=id=>document.getElementById(id)?.value.trim()||'';
