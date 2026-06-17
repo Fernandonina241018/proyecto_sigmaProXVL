@@ -71,7 +71,7 @@ const ESTADISTICOS_CONFIG = {
 
     'Mediana': {
         seccion:   'descriptiva',
-        calcular:  'calcularMedianaModa',
+        calcular:  'calcularMediana',
         formula:   'Mediana: P₅₀ = valor central',
         desc:      'Mediana: divide la distribución en dos mitades iguales. Resistente a valores atípicos. Si mediana ≠ media, la distribución es asimétrica.',
         icono:     '📊',
@@ -103,7 +103,7 @@ const ESTADISTICOS_CONFIG = {
 
     'Moda': {
         seccion:   'descriptiva',
-        calcular:  'calcularMedianaModa',
+        calcular:  'calcularModa',
         formula:   'Moda: valor más frecuente',
         desc:      'Moda: valor con mayor frecuencia.',
         icono:     '📊',
@@ -194,7 +194,7 @@ const ESTADISTICOS_CONFIG = {
 
     'Percentiles': {
         seccion:   'descriptiva',
-        calcular:  'calcularPercentiles',
+        calcular:  'calcularPercentil',
         formula:   'i = k/100 × (n−1) [interpolación lineal NIST]',
         desc:      'Dividen la distribución en 100 partes iguales. P25, P50 y P75 definen los cuartiles y el rango intercuartílico.',
         icono:     '📶',
@@ -417,7 +417,7 @@ const ESTADISTICOS_CONFIG = {
 
     'Detección de Outliers': {
         seccion:   'descriptiva',
-        calcular:  'detectarOutliers',
+        calcular:  'detectarOutliersIQR',
         formula:   'IQR: [Q1−1.5×IQR, Q3+1.5×IQR]',
         desc:      'Identifica valores atípicos usando IQR (Tukey fence) y Z-score (|z|>3). Útil para detectar errores o datos extremos.',
         icono:     '🎯',
@@ -1144,7 +1144,7 @@ const ESTADISTICOS_CONFIG = {
 
     'Correlación Kendall Tau': {
         seccion:   'correlacion',
-        calcular:  'calcularCorrelacionKendall',
+        calcular:  'calcularKendallTau',
         formula:   'τ = (C − D) / √[(n₀−n₁)(n₀−n₂)]',
         desc:      'Mide la asociación ordinal entre dos variables. Más robusta que Spearman para datos con muchos empates.',
         icono:     '🔗',

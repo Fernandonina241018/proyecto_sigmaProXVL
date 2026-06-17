@@ -126,7 +126,6 @@ const HYPOTHESIS_TESTS = [
     'T-Test (dos muestras)', 'T-Test (una muestra)',
     'Test de Normalidad', 'Test de Shapiro-Wilk',
     'Correlación Pearson', 'Correlación Spearman', 'Correlación Kendall Tau',
-    'Covarianza',
     'Regresión Lineal Simple', 'Regresión Lineal Múltiple',
     'Regresión Polinomial', 'Regresión Logística',
     'RMSE', 'MAE', 'R² (Coef. Determinación)',
