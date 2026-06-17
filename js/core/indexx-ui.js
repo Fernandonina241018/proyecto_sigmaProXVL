@@ -418,59 +418,51 @@ var leftPanels = {
       '</div>'; 
     },
 
-  visualizacion: function()  { return '<div class="left-panel" style="gap:10px">' +
-    '<div class="info-section">' +
-      '<div class="info-section-header" onclick="vizToggleSidebarList()" style="cursor:pointer;user-select:none;display:flex;align-items:center;gap:4px">' +
-        '<span>📊 Gráficos generados</span>' +
-        '<span id="vizSidebarCount" style="font-size:9px;color:var(--text-faint);background:var(--item-bg);padding:0 5px;border-radius:3px">0</span>' +
-        '<span id="vizSidebarArrow" style="margin-left:auto;font-size:8px">▼</span>' +
+  visualizacion: function()  { return '<div class="left-panel viz-root" style="gap:0;padding:0;overflow:hidden;display:flex;flex-direction:column;overflow-y:auto">' +
+    '<div class="sec" style="flex-shrink:0">' +
+      '<div class="sec-hdr" onclick="vizToggleSec(this)">' +
+        '<span class="sec-hdr-label">Tipo de gráfico</span>' +
+        '<span class="chev">▼</span>' +
       '</div>' +
-      '<div id="vizSidebarList" class="info-section-body" style="display:flex;flex-direction:column;gap:2px;padding:4px 8px;max-height:180px;overflow-y:auto">' +
-      '</div>' +
-    '</div>' +
-    '<div class="info-section"><div class="info-section-header">Tipo de gráfico</div>' +
-      '<div class="info-section-body" style="padding:6px 8px;display:grid;grid-template-columns:1fr 1fr;gap:4px">' +
-        '<button class="btn btn-secondary viz-type" data-type="bar" style="font-size:12px;padding:3px 4px">📊 Barras</button>' +
-        '<button class="btn btn-secondary viz-type" data-type="line" style="font-size:12px;padding:3px 4px">📈 Líneas</button>' +
-        '<button class="btn btn-secondary viz-type" data-type="area" style="font-size:12px;padding:3px 4px">📉 Área</button>' +
-        '<button class="btn btn-secondary viz-type" data-type="multiLine" style="font-size:12px;padding:3px 4px">📈 Multi</button>' +
-        '<button class="btn btn-secondary viz-type" data-type="stackedBar" style="font-size:12px;padding:3px 4px">🏗️ Apiladas</button>' +
-        '<button class="btn btn-secondary viz-type" data-type="groupedBar" style="font-size:12px;padding:3px 4px">📊 Agrupadas</button>' +
-        '<button class="btn btn-secondary viz-type" data-type="scatter" style="font-size:12px;padding:3px 4px">⬡ Dispersión</button>' +
-        '<button class="btn btn-secondary viz-type" data-type="linealidad" style="font-size:12px;padding:3px 4px">∎ Linealidad</button>' +
-        '<button class="btn btn-secondary viz-type" data-type="bubble" style="font-size:12px;padding:3px 4px">🔵 Burbuja</button>' +
-        '<button class="btn btn-secondary viz-type" data-type="pie" style="font-size:12px;padding:3px 4px">◉ Circular</button>' +
-        '<button class="btn btn-secondary viz-type" data-type="doughnut" style="font-size:12px;padding:3px 4px">◉ Dona</button>' +
-        '<button class="btn btn-secondary viz-type" data-type="polarArea" style="font-size:12px;padding:3px 4px">🔄 Polar</button>' +
-        '<button class="btn btn-secondary viz-type" data-type="radar" style="font-size:12px;padding:3px 4px">🕸️ Radar</button>' +
-        '<button class="btn btn-secondary viz-type" data-type="histogram" style="font-size:12px;padding:3px 4px">▦ Histograma</button>' +
+      '<div class="sec-body" id="vizSecType">' +
+        '<div class="cat-tabs" id="vizCatTabs"></div>' +
+        '<div class="chart-grid" id="vizChartGrid"></div>' +
       '</div>' +
     '</div>' +
-    '<div class="info-section"><div class="info-section-header">Seleccionar columnas</div>' +
-      '<div class="info-section-body" style="padding:8px 12px;display:flex;flex-direction:column;gap:8px">' +
-        '<div style="display:flex;flex-direction:column;gap:3px">' +
-          '<label style="font-size:10px;color:var(--text-faint)">Eje X</label>' +
-          '<select id="vizColX" class="modal-select" style="width:100%"><option value="">— Seleccionar —</option></select>' +
-        '</div>' +
-        '<div style="display:flex;flex-direction:column;gap:3px">' +
-          '<label style="font-size:10px;color:var(--text-faint)">Eje Y</label>' +
-          '<select id="vizColY" class="modal-select" style="width:100%"><option value="">— Seleccionar —</option></select>' +
-        '</div>' +
-        '<div id="vizSizeLabel" style="display:none;flex-direction:column;gap:3px">' +
-          '<label style="font-size:10px;color:var(--text-faint)">Tamaño</label>' +
-          '<select id="vizColSize" class="modal-select" style="width:100%"><option value="">— Seleccionar —</option></select>' +
-        '</div>' +
-        '<div id="vizExtraYContainer" style="display:none;flex-direction:column;gap:4px">' +
-          '<div style="display:flex;gap:4px;align-items:center">' +
-            '<span style="font-size:10px;color:var(--text-faint)">Series Y adicionales:</span>' +
-            '<button class="btn btn-secondary" id="vizAddYBtn" style="font-size:14px;padding:2px 6px">+</button>' +
+    '<div class="sec">' +
+      '<div class="sec-hdr" onclick="vizToggleSec(this)">' +
+        '<span class="sec-hdr-label">Variables</span>' +
+        '<span class="chev">▼</span>' +
+      '</div>' +
+      '<div class="sec-body" id="vizSecAxis">' +
+        '<div class="axis-body" id="vizAxisBody"><div class="axis-hint">Selecciona un tipo de gráfico primero</div></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="sec">' +
+      '<div class="sec-hdr" onclick="vizToggleSec(this)">' +
+        '<span class="sec-hdr-label">Estilo y opciones</span>' +
+        '<span class="chev">▼</span>' +
+      '</div>' +
+      '<div class="sec-body" id="vizSecStyle">' +
+        '<div class="style-body">' +
+          '<div class="style-row"><label class="style-lbl">Título del gráfico</label><input id="vizChartTitle" class="style-inp" type="text" placeholder="Ej: Ventas por mes 2024"></div>' +
+          '<div class="style-row"><label class="style-lbl">Paleta de colores</label><div class="palettes" id="vizPalettes"></div></div>' +
+          '<div class="style-row"><label class="style-lbl">Opciones</label>' +
+            '<div class="toggles">' +
+              '<button class="tog on" id="vizTogLegend" onclick="vizFlipToggle(\'legend\',\'vizTogLegend\')">Leyenda</button>' +
+              '<button class="tog on" id="vizTogGrid"   onclick="vizFlipToggle(\'grid\',\'vizTogGrid\')">Grilla</button>' +
+              '<button class="tog on" id="vizTogAnim"   onclick="vizFlipToggle(\'anim\',\'vizTogAnim\')">Animación</button>' +
+              '<button class="tog on" id="vizTogSmooth" onclick="vizFlipToggle(\'smooth\',\'vizTogSmooth\')">Suavizado</button>' +
+            '</div>' +
           '</div>' +
-          '<div id="vizExtraYList"></div>' +
         '</div>' +
       '</div>' +
     '</div>' +
-    '<button class="btn btn-primary" id="vizRenderBtn" style="width:100%;justify-content:center">🎨 Renderizar</button>' +
-    '<button class="btn btn-secondary" onclick="loadPage(\'reportes\')" style="width:100%;justify-content:center;font-size:11px">📄 Reportes</button>' +
+    '<div class="action-bar">' +
+      '<button class="btn btn-viz btn-prim" onclick="vizRenderChart()">⚡ Renderizar</button>' +
+      '<button class="btn btn-viz btn-sec"  onclick="vizSaveToGallery()">💾</button>' +
+      '<button class="btn btn-viz btn-sec"  onclick="vizExportPNG()">↗ PNG</button>' +
+    '</div>' +
   '</div>'; },
   reportes: function() { return '<div class="left-panel" style="gap:10px"><div id="reportes-sidebar-container"></div></div>'; },
   auditoria: function() { return '<div class="left-panel" style="gap:10px"><button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:11px;flex-shrink:0" onclick="if(typeof AuditoriaManager!==\'undefined\')AuditoriaManager.exportarCSV()">📥 Exportar log completo</button><div class="info-section"><div class="info-section-header">Filtros</div><div style="font-size:11px;color:var(--text-faint);padding:8px">Usa los filtros incluidos en el panel de resultados</div></div></div>'; },
@@ -690,8 +682,39 @@ var rightPanels = {
       '<style>@keyframes analisis-loading{0%{transform:translateX(-100%)}50%{transform:translateX(100%)}100%{transform:translateX(-100%)}}</style>' +
     '</div>';
   },
-  visualizacion: function() { return '<div class="page-body" style="display:flex;flex-direction:column;gap:12px">' +
-    '<div id="vizCardsContainer" style="display:flex;flex-direction:column;gap:10px"></div>' +
+  visualizacion: function() { return '<div class="page-body viz-root" style="display:flex;flex-direction:column;height:100%;padding:0;overflow:hidden">' +
+    '<div class="hdr" style="display:flex;align-items:center;gap:10px;padding:11px 18px;border-bottom:1px solid var(--sep);background:var(--bg1);flex-shrink:0">' +
+      '<span style="font-size:18px">📊</span>' +
+      '<div class="hdr-title" style="font-size:14px;font-weight:700;letter-spacing:-.2px">Visualización</div>' +
+      '<div style="font-size:10px;padding:2px 9px;border-radius:99px;background:var(--accDim);color:var(--acc2);font-weight:700;letter-spacing:.6px">MÓDULO</div>' +
+      '<div style="margin-left:auto;display:flex;align-items:center;gap:8px">' +
+        '<div style="font-size:11px;color:var(--t3);display:flex;align-items:center;gap:4px">Gráficos guardados: <strong id="vizGalCount" style="color:var(--t2);font-weight:600">0</strong></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="gallery" id="vizGallery"><div class="gal-label">Guardados</div></div>' +
+    '<div class="chart-area">' +
+      '<div class="empty-state" id="vizEmptyState">' +
+        '<div class="empty-icon">📈</div>' +
+        '<h3>Sin gráfico activo</h3>' +
+        '<p>Configura las opciones en el panel izquierdo y pulsa Renderizar para generar tu visualización</p>' +
+        '<div class="empty-steps">' +
+          '<div class="estep"><div class="estep-num">1</div>Tipo</div>' +
+          '<div class="estep"><div class="estep-num">2</div>Variables</div>' +
+          '<div class="estep"><div class="estep-num">3</div>Estilo</div>' +
+          '<div class="estep"><div class="estep-num">4</div>Renderizar</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="chart-wrapper" id="vizChartWrapper">' +
+        '<div class="chart-type-tag" id="vizChartTypeTag"></div>' +
+        '<div class="chart-ttl" id="vizChartTtl"></div>' +
+        '<div class="canvas-wrap"><canvas id="vizMainChart"></canvas></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="toolbar">' +
+      '<div class="toolbar-info" id="vizToolbarInfo">Sin datos renderizados</div>' +
+      '<button class="tbtn" onclick="vizExportPNG()">PNG</button>' +
+      '<button class="tbtn tbtn-acc" onclick="vizToggleFS()">⛶ Pantalla completa</button>' +
+    '</div>' +
   '</div>'; },
   reportes: function() { return '<div class="page-body"><div id="reportes-editor-container"></div></div>'; },
   auditoria: function() { return '<div class="page-body"><div id="auditoria-container" style="width:100%"></div></div>'; },

@@ -23,6 +23,35 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-16: Rediseño completo de la página Visualización (diseño z_error.md)
+
+**Qué:** Migración completa de la página de Visualización al diseño de `z_error.md`. Se reemplazó la UI antigua (botones en grilla + selects) por un panel izquierdo con categorías de gráficos con SVG thumbnails, configuración de ejes, paletas de colores y panel de estilo; y un panel derecho con galería strip + área de chart principal + toolbar.
+
+**Cambios:**
+
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-viz.js` | **REESCRITO** (774→877 líneas). Nuevo motor con 14 tipos de gráficos categorizados, SVG thumbnails, 6 paletas de colores, toggles (leyenda/grilla/animación/suavizado), galería con persistencia localStorage, exportación PNG, pantalla completa, detección automática de columnas numéricas vs categóricas de datos reales |
+| `js/core/indexx-ui.js` | **MODIFICADO**: `leftPanels.visualizacion()` reemplazado con nuevo HTML (secciones colapsables: Tipo, Variables, Estilo, Action Bar). `rightPanels.visualizacion()` reemplazado con header + galería + chart area + toolbar |
+
+**Qué cambió en la UI:**
+- Panel izquierdo: categorías tipo Brave (Comparación, Distribución, Tendencia, Composición, Estadístico) con SVG thumbnails por cada tipo
+- Selección de variables dinámica según el tipo de gráfico seleccionado
+- Título personalizable, 6 paletas de colores (Violeta, Océano, Coral, Bosque, Rosa, Sunset)
+- Toggles: Leyenda, Grilla, Animación, Suavizado
+- Galería lateral con thumbnails de gráficos guardados (persistente entre sesiones)
+- Exportación a PNG y pantalla completa
+- Datos reales desde `getCurrentSheet()` con detección automática de tipos de columna
+
+**Mantenido:**
+- `showBatchGraphModal()` adaptado para guardar en galería
+- `window.Visualizacion.getGraficosParaReporte()` para integración con Reportes
+- `initVizPage()` como entry point (llamado desde `loadPage('visualizacion')`)
+
+**Verificación:** ✅ `node -c` en ambos archivos JS | ✅ Sin referencias obsoletas (0 matches de IDs antiguos)
+
+---
+
 ### 2026-06-15: Fix perfil 403 — /api/me ahora incluye profile, modal ya no llama /api/users
 
 **Qué:** El modal de perfil de usuario (click en avatar) llamaba a `GET /api/users` (admin-only) para buscar el usuario actual → 403 para no-admin.
