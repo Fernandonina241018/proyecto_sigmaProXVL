@@ -3738,6 +3738,55 @@ interpretacion: interpretacion,
         };
     }
 
+    function calcularMKT(temperaturas, options) {
+        if (!temperaturas || temperaturas.length < 2) {
+            return { error: 'Se necesitan al menos 2 lecturas de temperatura' };
+        }
+        options = options || {};
+        var delta_HR = options.delta_HR || 10000;
+        var limMax = options.limite_max;
+        var limMin = options.limite_min;
+
+        var n = temperaturas.length;
+        var sumExp = 0, tMax = -Infinity, tMin = Infinity;
+        for (var i = 0; i < n; i++) {
+            var tC = temperaturas[i];
+            var tK = tC + 273.15;
+            sumExp += Math.exp(-delta_HR / tK);
+            if (tC > tMax) tMax = tC;
+            if (tC < tMin) tMin = tC;
+        }
+        var mktK = -delta_HR / Math.log(sumExp / n);
+        var mktC = mktK - 273.15;
+
+        var warns = [];
+        if (limMax != null && tMax > limMax)
+            warns.push({ tipo: 'exceso_superior', msg: tMax.toFixed(1) + '°C excede el límite superior de ' + limMax + '°C' });
+        if (limMin != null && tMin < limMin)
+            warns.push({ tipo: 'deficit_inferior', msg: tMin.toFixed(1) + '°C está por debajo del límite inferior de ' + limMin + '°C' });
+        if (limMax != null && mktC > limMax)
+            warns.push({ tipo: 'mkt_exceso', msg: 'MKT (' + mktC.toFixed(1) + '°C) excede el límite de ' + limMax + '°C' });
+        if (limMin != null && mktC < limMin)
+            warns.push({ tipo: 'mkt_deficit', msg: 'MKT (' + mktC.toFixed(1) + '°C) está por debajo del límite de ' + limMin + '°C' });
+
+        var interp = warns.length
+            ? '⚠ ' + warns.map(function(w){ return w.msg; }).join(' | ')
+            : '✅ MKT dentro de límites. Temperatura de almacenamiento adecuada.';
+
+        return {
+            MKT_C: parseFloat(mktC.toFixed(2)),
+            MKT_K: parseFloat(mktK.toFixed(2)),
+            n: n,
+            T_max: parseFloat(tMax.toFixed(1)),
+            T_min: parseFloat(tMin.toFixed(1)),
+            delta_HR: delta_HR,
+            limite_max: limMax,
+            limite_min: limMin,
+            advertencias: warns,
+            interpretacion: interp,
+        };
+    }
+
     /**
      * Ejecuta análisis según estadísticos seleccionados
      * @param {Object} data - Datos importados
@@ -4246,6 +4295,25 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                                 resultados['Factor de Letalidad (F0)'][col] = { error: 'Se necesitan al menos 2 lecturas de temperatura' };
                             } else {
                                 resultados['Factor de Letalidad (F0)'][col] = calcularFactorLetalidad(f0Values, f0Opts);
+                            }
+                        });
+                        break;
+
+                     case 'MKT (Mean Kinetic Temperature)':
+                        resultados['MKT (Mean Kinetic Temperature)'] = {};
+                        var mktCfg = hypothesisConfig['MKT (Mean Kinetic Temperature)'] || {};
+                        var mktCols = mktCfg.columnas && mktCfg.columnas.length ? mktCfg.columnas : numericCols;
+                        if (!mktCols.length) break;
+                        var mktOpts = {};
+                        if (mktCfg.delta_HR) mktOpts.delta_HR = parseFloat(mktCfg.delta_HR);
+                        if (mktCfg.limite_max != null) mktOpts.limite_max = parseFloat(mktCfg.limite_max);
+                        if (mktCfg.limite_min != null) mktOpts.limite_min = parseFloat(mktCfg.limite_min);
+                        mktCols.forEach(function(col) {
+                            var mktValues = getNumericValues(data, col);
+                            if (mktValues.length < 2) {
+                                resultados['MKT (Mean Kinetic Temperature)'][col] = { error: 'Se necesitan al menos 2 lecturas de temperatura' };
+                            } else {
+                                resultados['MKT (Mean Kinetic Temperature)'][col] = calcularMKT(mktValues, mktOpts);
                             }
                         });
                         break;

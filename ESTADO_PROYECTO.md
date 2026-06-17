@@ -23,6 +23,29 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-16: MKT (Mean Kinetic Temperature) — nuevo estadístico USP <659>
+
+**Qué:** Se agregó el estadístico **MKT** (Mean Kinetic Temperature / Temperatura Cinética Media) según USP <659> para estudios de estabilidad. Calcula la temperatura única que representa el efecto acumulativo de temperaturas variables durante almacenamiento/transporte.
+
+**Cambios:**
+
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/estadisticosConfig.js` | **NUEVA ENTRADA**: `'MKT (Mean Kinetic Temperature)'` en sección `calidad` con `multiCol: true`, `paramConfig` (ΔH/R, límite superior, límite inferior), interpretación con plantilla y referencia USP <659> |
+| `js/core/EstadisticaDescriptiva.js` | **NUEVA FUNCIÓN**: `calcularMKT(temperaturas, options)` que aplica la fórmula USP y genera advertencias si las temperaturas exceden los límites configurados. **NUEVO CASE**: en `ejecutarAnalisis()` para ejecutar MKT por columna seleccionable |
+
+**Características:**
+- Fórmula: `MKT = -ΔH/R / ln(Σ e^(-ΔH/R/Tᵢ) / n)` con ΔH/R = 10000 K por defecto
+- Selección múltiple de columnas (varios lotes/sensores simultáneamente)
+- Parámetros configurables vía modal: ΔH/R, límite superior e inferior de temperatura (°C)
+- Advertencias automáticas: si temperatura > límite_max, si MKT > límite_max, etc.
+- Retorna: MKT en °C y K, T_max, T_min, advertencias, interpretación textual
+- Aparece en sidebar de Análisis → sección **Calidad** (junto a F0 y Pareto)
+
+**Verificación:** ✅ `node -c` en ambos archivos JS
+
+---
+
 ### 2026-06-16: Dot Plot (Puntos) + Gráfico de Control — nuevos tipos en Visualización
 
 **Qué:** Se agregó el tipo **Puntos** (dot plot / dispersión 1D) que muestra cada valor como un punto con jitter horizontal y una línea verde del promedio. Los puntos sobre el promedio se colorean con el color primario de la paleta, los debajo con el color terciario. También se agregó el tipo **Control** (Shewhart) con líneas UCL/LCL desde Trabajo.

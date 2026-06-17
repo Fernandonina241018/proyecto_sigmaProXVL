@@ -2657,6 +2657,39 @@ const ESTADISTICOS_CONFIG = {
         ],
     },
 
+    'MKT (Mean Kinetic Temperature)': {
+        seccion:   'calidad',
+        calcular:  'calcularMKT',
+        formula:   'MKT = -ΔH/R / ln(Σ e^(-ΔH/R/Tᵢ) / n)',
+        desc:      'Temperatura Cinética Media (USP <659>). Temperatura única que representa el efecto acumulativo de temperaturas variables durante almacenamiento/transporte. Ingrese los límites de temperatura para activar advertencias automáticas.',
+        icono:     '🌡️',
+        minMuestra: 2,
+        multiCol:  true,
+
+        inputs: {
+            tipo:        'multiples-columnas',
+            grupos:      1,
+            descripcion: 'Vector(s) de temperaturas (°C) para calcular MKT. Puede seleccionar múltiples columnas (una por lote/sensor).',
+        },
+        salidas: ['MKT_C', 'MKT_K', 'n', 'T_max', 'T_min', 'delta_HR', 'limite_max', 'limite_min', 'advertencias', 'interpretacion'],
+        paramConfig: [
+            { key: 'delta_HR',   label: 'ΔH/R — Constante de activación (K)', type: 'number', default: 10000, min: 1000, step: 100 },
+            { key: 'limite_max', label: 'Límite superior de temperatura (°C)',  type: 'number', default: 30,   min: -50,  step: 1 },
+            { key: 'limite_min', label: 'Límite inferior de temperatura (°C)',  type: 'number', default: 2,    min: -80,  step: 1 },
+        ],
+        interpretacion: {
+            plantilla: 'MKT = {MKT_C}°C ({MKT_K}K) basado en {n} lecturas con ΔH/R={delta_HR}K. Rango: {T_min}°C a {T_max}°C. Límites configurados: [{limite_min}°C, {limite_max}°C]. {interpretacion}',
+        },
+        referencia: [
+            {
+                autores:  'USP <659>',
+                anio:     2023,
+                titulo:   'Packaging and Storage Requirements — Mean Kinetic Temperature',
+                editorial: 'United States Pharmacopeia',
+            }
+        ],
+    },
+
 };
 
 // ════════════════════════════════════════
