@@ -33,7 +33,7 @@ var _V_CATS = [
   { id: 'dist',  lbl: 'Distribución', types: ['histograma','dispersion','burbuja'] },
   { id: 'tend',  lbl: 'Tendencia',   types: ['lineas','area','multi'] },
   { id: 'comp2', lbl: 'Composición', types: ['circular','dona','polar'] },
-  { id: 'stat',  lbl: 'Estadístico', types: ['radar','linealidad'] },
+  { id: 'stat',  lbl: 'Estadístico', types: ['radar','linealidad','control'] },
 ];
 
 var _V_TYPES = {
@@ -51,6 +51,7 @@ var _V_TYPES = {
   polar:      { lbl: 'Polar',       cat: 'comp2', svg: _V_svgPolar() },
   radar:      { lbl: 'Radar',       cat: 'stat',  svg: _V_svgRadar() },
   linealidad: { lbl: 'Linealidad',  cat: 'stat',  svg: _V_svgLinealidad() },
+  control:    { lbl: 'Control',     cat: 'stat',  svg: _V_svgControl() },
 };
 
 var _V_AXIS = {
@@ -68,6 +69,7 @@ var _V_AXIS = {
   polar:      [{ k: 'etq', lbl: 'Categorías' }, { k: 'val', lbl: 'Valores' }],
   radar:      [{ k: 'etq', lbl: 'Categorías' }, { k: 'y', lbl: 'Serie' }],
   linealidad: [{ k: 'x', lbl: 'Variable Independiente (X)' }, { k: 'y', lbl: 'Variable Dependiente (Y)' }],
+  control:    [{ k: 'x', lbl: 'Eje X (Tiempo, opcional)' }, { k: 'y', lbl: 'Variable a controlar' }],
 };
 
 // ══ CSS INJECTION ════════════════════════════════════════════════
@@ -175,6 +177,10 @@ function _V_svgCircular() { return _V_svg('<circle cx="24" cy="18" r="14" fill="
 function _V_svgDona() { return _V_svg('<circle cx="24" cy="18" r="13" fill="none" stroke="' + _V_ACC + '" stroke-width="8" stroke-dasharray="36 46" stroke-dashoffset="0"/><circle cx="24" cy="18" r="13" fill="none" stroke="' + _V_ACC2 + '" stroke-width="8" stroke-dasharray="24 58" stroke-dashoffset="-36"/><circle cx="24" cy="18" r="13" fill="none" stroke="rgba(123,111,224,.45)" stroke-width="8" stroke-dasharray="16 66" stroke-dashoffset="-60"/><circle cx="24" cy="18" r="7" fill="#1a1a30"/>'); }
 function _V_svgPolar() { return _V_svg('<circle cx="24" cy="18" r="14" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/><circle cx="24" cy="18" r="8" fill="none" stroke="rgba(255,255,255,.04)" stroke-width="1"/><circle cx="24" cy="18" r="14" fill="none" stroke="' + _V_ACC + '" stroke-width="14" stroke-dasharray="20 68" stroke-dashoffset="0" opacity=".6"/><circle cx="24" cy="18" r="14" fill="none" stroke="' + _V_ACC2 + '" stroke-width="11" stroke-dasharray="16 72" stroke-dashoffset="-25" opacity=".5"/><circle cx="24" cy="18" r="14" fill="none" stroke="' + _V_ACCL + '" stroke-width="8" stroke-dasharray="12 76" stroke-dashoffset="-48" opacity=".7"/>'); }
 function _V_svgRadar() { return _V_svg('<polygon points="24,4 38,14 33,30 15,30 10,14" fill="' + _V_ACCL + '" stroke="' + _V_ACC + '" stroke-width="1.5"/><polygon points="24,10 33,17 29,27 19,27 15,17" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/>' + [['24,4'],['38,14'],['33,30'],['15,30'],['10,14']].map(function(p){ var coords = p[0].split(','); return '<circle cx="' + coords[0] + '" cy="' + coords[1] + '" r="2.5" fill="' + _V_ACC2 + '"/>'; }).join('')); }
+function _V_svgControl() { return _V_svg('<polyline points="2,28 8,22 14,26 20,14 26,20 32,8 38,16 44,12" stroke="' + _V_ACC + '" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
+  '<line x1="2" y1="12" x2="46" y2="12" stroke="rgba(239,68,68,.7)" stroke-width="1.5" stroke-dasharray="4,3"/>' +
+  '<line x1="2" y1="28" x2="46" y2="28" stroke="rgba(239,68,68,.7)" stroke-width="1.5" stroke-dasharray="4,3"/>' +
+  '<line x1="2" y1="20" x2="46" y2="20" stroke="rgba(34,197,94,.7)" stroke-width="1.5" stroke-dasharray="4,3"/>'); }
 
 // ══ DATA HELPERS ═════════════════════════════════════════════════
 function _V_getSheet() {
@@ -575,6 +581,88 @@ function _V_buildConfig() {
         { label: 'Serie B', data: vals2, borderColor: c[1], backgroundColor: c[1] + '22', pointBackgroundColor: c[1], pointRadius: 3 },
       ]}, options: Object.assign(noScales, { scales: { r: { grid: { color: gc }, angleLines: { color: gc }, ticks: { color: tc2, font: { size: 10 }, backdropColor: 'transparent' }, pointLabels: { color: tc2, font: { size: 11 } } } } }) };
     }
+    case 'control': {
+      var xCol = v.x;
+      var yCol = v.y || _V_numCols()[0] || '';
+      var lbl, dat;
+
+      if (xCol) {
+        lbl = _V_colLabels(xCol);
+        dat = _V_colData(yCol, lbl.length);
+        var minLen = Math.min(lbl.length, dat.length);
+        lbl = lbl.slice(0, minLen);
+        dat = dat.slice(0, minLen);
+      } else {
+        dat = _V_colData(yCol);
+        lbl = dat.map(function(_, i) { return String(i + 1); });
+      }
+
+      if (!dat.length) { showToast('No hay datos para Gráfico de Control'); return null; }
+
+      var limits = null;
+      try { limits = typeof getLimits === 'function' ? getLimits(yCol) : null; } catch(e) {}
+
+      var ucl = limits && limits.ls != null ? limits.ls : null;
+      var lcl = limits && limits.li != null ? limits.li : null;
+      var cl = limits && limits.lc != null ? limits.lc : null;
+
+      if (cl == null) {
+        cl = dat.reduce(function(a, b) { return a + b; }, 0) / dat.length;
+      }
+
+      var halfRange = (ucl != null && lcl != null) ? Math.max(ucl - cl, cl - lcl) : 0;
+      if (ucl == null && halfRange > 0) ucl = cl + halfRange;
+      if (lcl == null && halfRange > 0) lcl = cl - halfRange;
+
+      var datasets = [{
+        label: yCol,
+        data: dat,
+        borderColor: c[0],
+        backgroundColor: 'transparent',
+        pointBackgroundColor: dat.map(function(v) {
+          if ((ucl != null && v > ucl) || (lcl != null && v < lcl)) return '#ef4444';
+          return c[1];
+        }),
+        pointBorderColor: dat.map(function(v) {
+          if ((ucl != null && v > ucl) || (lcl != null && v < lcl)) return '#ef4444';
+          return c[1];
+        }),
+        pointRadius: 4,
+        pointHoverRadius: 7,
+        tension: _V.opts.smooth ? 0.25 : 0.05,
+        fill: false,
+        order: 2,
+      }];
+
+      var limStyle = { borderWidth: 1.5, pointRadius: 0, fill: false, order: 1 };
+
+      if (ucl != null) {
+        datasets.push(Object.assign({
+          label: 'UCL (' + ucl.toFixed(2) + ')',
+          data: lbl.map(function() { return ucl; }),
+          borderColor: '#ef4444',
+          borderDash: [6, 3],
+        }, limStyle));
+      }
+
+      if (lcl != null) {
+        datasets.push(Object.assign({
+          label: 'LCL (' + lcl.toFixed(2) + ')',
+          data: lbl.map(function() { return lcl; }),
+          borderColor: '#ef4444',
+          borderDash: [6, 3],
+        }, limStyle));
+      }
+
+      datasets.push(Object.assign({
+        label: 'Central (' + cl.toFixed(2) + ')',
+        data: lbl.map(function() { return cl; }),
+        borderColor: '#22c55e',
+        borderDash: [4, 3],
+      }, limStyle));
+
+      return { type: 'line', data: { labels: lbl, datasets: datasets }, options: opts };
+    }
     default: return null;
   }
 }
@@ -763,7 +851,8 @@ function vizToggleFS() {
 // ══ BATCH GRAPH (mantener por compatibilidad) ═══════════════════
 var _V_TYPE_MAP = {
   bar: 'barras', line: 'lineas', area: 'area',
-  histogram: 'histograma', scatter: 'dispersion'
+  histogram: 'histograma', scatter: 'dispersion',
+  control: 'control'
 };
 
 function showBatchGraphModal() {
@@ -788,6 +877,7 @@ function showBatchGraphModal() {
           '<option value="line">📈 Líneas</option>' +
           '<option value="area">📉 Área</option>' +
           '<option value="scatter">⬡ Dispersión</option>' +
+          '<option value="control">📈 Control</option>' +
         '</select></div>' +
       '<div class="modal-row" id="vizModalXRow"><span class="modal-label">Eje X</span>' +
         '<select id="vizModalColX" class="modal-select" style="min-width:120px">' + colOpts + '</select></div>' +

@@ -23,6 +23,29 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-16: Gráfico de Control — nuevo tipo en Visualización
+
+**Qué:** Se agregó el tipo de gráfico **Control** (Gráfico de Control/Shewhart) en la categoría Estadístico, que toma los límites configurados en la página Trabajo (`getLimits()`) y los dibuja como líneas horizontales UCL/LCL (rojo punteado) y Central (verde punteado) sobre una línea de datos. Los puntos fuera de límites se marcan en rojo.
+
+**Cambios:**
+
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-viz.js` | **MODIFICADO** (877→967 líneas). Nuevo tipo `control` en categoría `stat` con SVG thumbnail, slot de ejes (X opcional, Y), y case en `_V_buildConfig()` que construye dataset con líneas de límites. Agregado a `_V_TYPE_MAP` y al modal batch (`showBatchGraphModal`) |
+| `js/core/indexx-ui.js` | **MODIFICADO**: Botón "📄 Reportes" agregado al action bar del left panel de Visualización |
+
+**Características:**
+- Usa `getLimits(columna)` para obtener UCL (LS), LCL (LI), Central (LC) desde Trabajo
+- Si no hay Central configurada, calcula la media automáticamente
+- Eje X opcional (columna tipo tiempo/muestra); por defecto usa índice (1,2,3...)
+- Puntos fuera de UCL/LCL se pintan en rojo (#ef4444)
+- Soporta renderizado batch múltiple desde el modal 🔁 (seleccionar varias columnas → un control chart por columna)
+- Paletas, toggles (leyenda/grilla/animación/suavizado) compatibles
+
+**Verificación:** ✅ `node -c` en `indexx-viz.js` | ✅ `getLimits()` disponible (cargado antes en `indexx-trabajo.js`)
+
+---
+
 ### 2026-06-16: Rediseño completo de la página Visualización (diseño z_error.md)
 
 **Qué:** Migración completa de la página de Visualización al diseño de `z_error.md`. Se reemplazó la UI antigua (botones en grilla + selects) por un panel izquierdo con categorías de gráficos con SVG thumbnails, configuración de ejes, paletas de colores y panel de estilo; y un panel derecho con galería strip + área de chart principal + toolbar.
