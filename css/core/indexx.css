@@ -367,6 +367,12 @@
   .undo-toast.show { transform:translateY(0); opacity:1; }
   .undo-toast-inner { display:inline-block; background:#333; border:1px solid var(--border); border-radius:8px; padding:7px 16px; font-size:12px; color:var(--text-muted); white-space:nowrap; }
 
+  /* ── Global toast (utils.js) ── */
+  .datos-toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); z-index:99999; padding:10px 20px; border-radius:10px; font-size:13px; font-weight:600; box-shadow:0 8px 32px rgba(0,0,0,.45); opacity:0; transition:all .25s ease; pointer-events:none; white-space:nowrap; max-width:90vw; }
+  .datos-toast.datos-toast-visible { opacity:1; transform:translateX(-50%) translateY(0); }
+  .datos-toast-ok    { background:#1a3a2a; color:#4ade80; border:1px solid rgba(74,222,128,.2); }
+  .datos-toast-error { background:#3a1a1a; color:#fc8181; border:1px solid rgba(252,129,129,.2); }
+
   /* ── Dataset tooltip ── */
   .dataset-preview-tooltip { position:fixed; z-index:9999; background:var(--bg-panel); border:1px solid var(--border); border-radius:8px; padding:8px; max-width:350px; max-height:250px; overflow:auto; box-shadow:0 8px 32px rgba(0,0,0,.5); font-size:11px; display:none; }
   .dataset-preview-tooltip.visible { display:block; }
