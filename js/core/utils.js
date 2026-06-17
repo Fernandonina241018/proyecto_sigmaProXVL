@@ -153,7 +153,8 @@ const HYPOTHESIS_SET = new Set(HYPOTHESIS_TESTS);
 
 // Estadísticos que requieren parámetros configurables vía modal (F0, etc.)
 const PARAM_CONFIG_SET = new Set([
-    'Factor de Letalidad (F0)'
+    'Factor de Letalidad (F0)',
+    'MKT (Mean Kinetic Temperature)'
 ]);
 
 // ========================================
