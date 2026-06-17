@@ -462,6 +462,7 @@ var leftPanels = {
       '<button class="btn btn-viz btn-prim" onclick="vizRenderChart()">⚡ Renderizar</button>' +
       '<button class="btn btn-viz btn-sec"  onclick="vizSaveToGallery()">💾</button>' +
       '<button class="btn btn-viz btn-sec"  onclick="vizExportPNG()">↗ PNG</button>' +
+      '<button class="btn btn-viz btn-sec"  onclick="loadPage(\'reportes\')">📄 Reportes</button>' +
     '</div>' +
   '</div>'; },
   reportes: function() { return '<div class="left-panel" style="gap:10px"><div id="reportes-sidebar-container"></div></div>'; },
