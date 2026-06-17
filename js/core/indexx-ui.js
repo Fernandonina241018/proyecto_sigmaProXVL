@@ -766,7 +766,11 @@ function loadPage(name) {
   } catch(e) { showToast('Error en análisis: ' + e.message, 1); } }, 30); }
   if (name === 'datos') { setTimeout(function() { try { initDatosPage(); } catch(e) { showToast('Error en datos: ' + e.message, 1); } }, 60); }
   if (name === 'trabajo') { setTimeout(function() { try { initTrabajoKeyboard(); renderLimitsPanel(); } catch(e) { showToast('Error en trabajo: ' + e.message, 1); } }, 30); }
-  if (name === 'visualizacion') { setTimeout(function() { try { initVizPage(); } catch(e) { showToast('Error en visualización: ' + e.message, 1); } }, 60); }
+  if (name === 'visualizacion') {
+    var pl = document.getElementById('paneLeft');
+    if (pl) pl.style.width = '480px';
+    setTimeout(function() { try { initVizPage(); } catch(e) { showToast('Error en visualización: ' + e.message, 1); } }, 60);
+  }
   if (name === 'reportes') { setTimeout(function() { try { if (typeof ReporteManager !== 'undefined') ReporteManager.buildReportesView(); } catch(e) { showToast('Error en reportes: ' + e.message, 1); } }, 60); }
   if (name === 'auditoria') { setTimeout(function() { try {
     if (!_auditoriaInited && typeof AuditoriaManager !== 'undefined') { AuditoriaManager.init(API_URL); _auditoriaInited = true; }
