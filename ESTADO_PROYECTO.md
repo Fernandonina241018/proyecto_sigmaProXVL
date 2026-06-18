@@ -23,6 +23,23 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-17: Trazabilidad auto-poblada en Reportes para datos manuales
+
+**Qué:** La sección de Trazabilidad del Dataset en Reportes ahora se auto-llena cuando los datos fueron ingresados manualmente desde la página Trabajo. Se agregó un flag `datosSourceType` para tracking de origen de datos.
+
+**Cambios:**
+- `js/core/indexx-globals.js` — Nuevo global `datosSourceType` (`'none'|'file'|'paste'|'manual'`), persistido en localStorage
+- `js/core/indexx-datos.js` — `finishLoad()` setea `datosSourceType = 'file'` o `'paste'` según origen
+- `js/core/indexx-trabajo.js` — `addRow()`/`addColumn()` detectan entrada manual; `limpiarDataset()` resetea a `'none'`
+- `js/managers/ReporteManager.js` — `buildReportesView()` usa `datosSourceType` para mostrar "Digitación manual" en campos de trazabilidad; `rep-collect` se auto-llena con la fecha de hoy; preview de fecha sincronizado
+
+**Comportamiento:**
+| Escenario | rep-dataset | rep-file | rep-collect |
+|-----------|------------|----------|-------------|
+| Archivo importado | nombre_sin_ext | archivo.csv | Hoy (auto) |
+| Datos pegados | datos_pegados | datos_pegados.csv | Hoy (auto) |
+| Digitación manual | Digitación manual | Digitación manual | Hoy (auto) |
+
 ### 2026-06-17: Soporte modo claro en Visualización + auto-re-render
 
 **Qué:** Se corrigió la página de Visualización para que se adapte automáticamente al modo claro/oscuro de la app, tanto en CSS como en Chart.js. Se agregó re-render automático al cambiar de tema.

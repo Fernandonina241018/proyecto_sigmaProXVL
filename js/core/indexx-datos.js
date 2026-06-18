@@ -114,6 +114,7 @@ function finishLoad(headers, rows, filename, size) {
   datosFilters = []; datosSortCol = -1; datosSortAsc = true; datosPage = 0;
   datosCurrentData = { headers: headers, rows: rows, colTypes: detectColTypes(headers, rows) };
   datosCurrentFileName = filename;
+  datosSourceType = filename === 'datos_pegados.csv' ? 'paste' : 'file';
   addToRecentFiles({ name: filename, type: filename.split('.').pop().toUpperCase(), size: size || 0, rows: rows.length, date: new Date().toISOString() }, datosCurrentData);
   updateDatosUI();
   _persistAllData();

@@ -1927,6 +1927,10 @@ tr:hover td{background:#f7faff}
         const resultados=typeof StateManager!=='undefined'?StateManager.getUltimosResultados():null;
         const tieneRes  =!!(resultados?.columnasAnalizadas?.length);
         const fileName  =state.fileName||(typeof datosCurrentFileName!=='undefined'?datosCurrentFileName:'')||'';
+        const sourceType=typeof datosSourceType!=='undefined'?datosSourceType:'none';
+        const isManual  =sourceType==='manual'||(!fileName&&!state.importedData);
+        const dsName    =isManual?'Digitación manual':fileName.replace(/\.[^.]+$/,'');
+        const fileLabel =isManual?'Digitación manual':fileName;
         const sel       =(lbl)=>`— ${currentLang==='es'?'Seleccionar':'Select'}: ${lbl} —`;
 
         container.innerHTML=`
@@ -1949,7 +1953,7 @@ tr:hover td{background:#f7faff}
                 <div class="rep-summary-row"><span>${t('ui_variables')}</span><strong>${escapeHtml(resultados.columnasAnalizadas.join(', '))}</strong></div>
                 <div class="rep-summary-row"><span>${t('ui_statsUsed')}</span><strong>${escapeHtml(resultados.estadisticos.join(', '))}</strong></div>
                 <div class="rep-summary-row"><span>${t('ui_records')}</span><strong>${resultados.totalFilas}</strong></div>
-                <div class="rep-summary-row"><span>${t('ui_source')}</span><strong>${escapeHtml(fileName||'dataset')}</strong></div>
+                <div class="rep-summary-row"><span>${t('ui_source')}</span><strong>${escapeHtml(fileLabel||'dataset')}</strong></div>
               </div>
             </div>`:''}
 
@@ -2062,15 +2066,15 @@ tr:hover td{background:#f7faff}
             <div class="rep-card">
               <div class="rep-card-title">${t('ui_traceability')}</div>
               <div class="rep-form-grid">
-                <div class="rep-field"><label>${t('ui_dataset')}</label><input id="rep-dataset" value="${fileName.replace(/\.[^.]+$/,'')}" placeholder="Nombre_Dataset"></div>
-                <div class="rep-field"><label>${t('ui_file')}</label><input id="rep-file" value="${fileName}" placeholder="datos.csv"></div>
+                <div class="rep-field"><label>${t('ui_dataset')}</label><input id="rep-dataset" value="${dsName}" placeholder="Nombre_Dataset"></div>
+                <div class="rep-field"><label>${t('ui_file')}</label><input id="rep-file" value="${fileLabel}" placeholder="datos.csv"></div>
                 <div class="rep-field">
                   <label>${t('ui_collect')}</label>
-                  <input id="rep-collect" type="date">
+                  <input id="rep-collect" type="date" value="${new Date().toISOString().slice(0,10)}">
                 </div>
                 <div class="rep-field">
                   <label style="opacity:0">—</label>
-                  <div class="rep-date-display" id="rep-collect-preview">—</div>
+                  <div class="rep-date-display" id="rep-collect-preview">${todayFormatted()}</div>
                 </div>
               </div>
             </div>

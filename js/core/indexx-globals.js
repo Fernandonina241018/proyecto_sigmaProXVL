@@ -24,6 +24,7 @@ var MAX_UNDO = 30;
 
 var datosCurrentData = null;
 var datosCurrentFileName = '';
+var datosSourceType = 'none'; // 'none' | 'file' | 'paste' | 'manual'
 var datosRecentFiles = [];
 var datasetTooltip = null;
 var currentPage = 'trabajo';
@@ -35,7 +36,8 @@ function _persistAllData() {
     localStorage.setItem('sigmaPro_trabajoSheets', JSON.stringify(trabajoSheets));
     localStorage.setItem('sigmaPro_trabajoLimits', JSON.stringify({ limits: trabajoLimits, mode: trabajoLimitsMode }));
     if (datosCurrentData) {
-      localStorage.setItem('sigmaPro_datosCurrentData', JSON.stringify({
+      localStorage.setItem('sigmaPro_datosSourceType', JSON.stringify(datosSourceType));
+    localStorage.setItem('sigmaPro_datosCurrentData', JSON.stringify({
         data: datosCurrentData,
         fileName: datosCurrentFileName,
         timestamp: Date.now()
@@ -62,6 +64,8 @@ function _restoreAllData() {
       trabajoLimits = parsedTL.limits || null;
       trabajoLimitsMode = parsedTL.mode || 'global';
     }
+    var dst = localStorage.getItem('sigmaPro_datosSourceType');
+    if(dst) datosSourceType = JSON.parse(dst);
     var dcd = localStorage.getItem('sigmaPro_datosCurrentData');
     if (dcd) {
       var parsed2 = JSON.parse(dcd);

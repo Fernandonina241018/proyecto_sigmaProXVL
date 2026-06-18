@@ -565,6 +565,7 @@ function handleCellPaste(event, rowIdx, colIdx) {
 // ── Add/Delete rows & columns ──
 function addRow() {
   var sheet = getCurrentSheet(); if (!sheet) return;
+  if (datosSourceType === 'none') datosSourceType = 'manual';
   pushUndo();
   sheet.rows.push(Array.from({length: sheet.headers.length}, function(){ return ''; }));
   _persistAllData();
@@ -581,6 +582,7 @@ function deleteActiveRow() {
 }
 function addColumn() {
   var sheet = getCurrentSheet(); if (!sheet) return;
+  if (datosSourceType === 'none') datosSourceType = 'manual';
   pushUndo();
   var newName = 'Col' + (sheet.headers.length + 1);
   sheet.headers.push(newName);
@@ -797,6 +799,7 @@ function limpiarDataset() {
   trabajoActiveCell = {row:0,col:0};
   datosFilters = [];
   trabajoLimits = null;
+  datosSourceType = 'none';
   trabajoLimitsMode = 'global';
   updateDatosUI();
   _persistAllData();
