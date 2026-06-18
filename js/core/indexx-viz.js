@@ -245,6 +245,17 @@ function _V_colLabels(col, maxLen) {
 function _V_numCols() { return _V_cols().num; }
 function _V_catCols() { return _V_cols().cat; }
 
+function _V_idxLabels() {
+  return _V_getSheet().rows.map(function(_, i) { return String(i + 1); });
+}
+function _V_idxData(maxLen) {
+  var sheet = _V_getSheet();
+  var limit = maxLen || sheet.rows.length;
+  var data = [];
+  for (var i = 0; i < sheet.rows.length && data.length < limit; i++) data.push(i + 1);
+  return data;
+}
+
 // ══ EXTERNAL API (Reportes) ═══════════════════════════════════
 window.Visualizacion = {
   getGraficosParaReporte: function() {
@@ -339,18 +350,43 @@ function vizBuildAxisConfig() {
   var slots = _V_AXIS[_V.type];
   if (!slots) { el.innerHTML = '<div class="axis-hint">Configuración no disponible</div>'; return; }
   var cols = _V_cols().all;
-  el.innerHTML = slots.map(function(slot) {
+  var hasX = slots.some(function(s) { return s.k === 'x'; });
+  var useIndex = _V.vals.x === '__index__';
+
+  var html = '';
+
+  if (hasX) {
+    html += '<label class="auto-idx-cb" style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--t2);cursor:pointer;padding:4px 0 8px;border-bottom:1px solid var(--sep);margin-bottom:6px">' +
+      '<input type="checkbox" id="vizAutoIdx"' + (useIndex ? ' checked' : '') + '> 🔢 Índice automático (1, 2, 3...)</label>';
+  }
+
+  html += slots.map(function(slot) {
+    var isX = slot.k === 'x';
+    var disabled = isX && useIndex;
     return '<div class="slot">' +
       '<label class="slot-lbl">' + slot.lbl +
         (slot.k.indexOf('3') >= 0 || slot.lbl.indexOf('opcional') >= 0 ? '<span class="slot-badge">opcional</span>' : '') +
       '</label>' +
-      '<select class="slot-sel" id="vizAx_' + slot.k + '" onchange="_V.vals[\'' + slot.k + '\']=this.value">' +
+      '<select class="slot-sel" id="vizAx_' + slot.k + '"' +
+        (disabled ? ' disabled style="opacity:.4;pointer-events:none"' : '') +
+        ' onchange="_V.vals[\'' + slot.k + '\']=this.value">' +
         '<option value="">— Seleccionar —</option>' +
         cols.map(function(c) {
-          return '<option value="' + c.replace(/"/g, '&quot;') + '"' + (_V.vals[slot.k] === c ? ' selected' : '') + '>' + escapeHtml(c) + '</option>';
+          var sel = (!useIndex && _V.vals[slot.k] === c) ? ' selected' : '';
+          return '<option value="' + c.replace(/"/g, '&quot;') + '"' + sel + '>' + escapeHtml(c) + '</option>';
         }).join('') +
       '</select></div>';
   }).join('');
+
+  el.innerHTML = html;
+
+  if (hasX) {
+    var cb = document.getElementById('vizAutoIdx');
+    if (cb) cb.onchange = function() {
+      _V.vals.x = this.checked ? '__index__' : '';
+      vizBuildAxisConfig();
+    };
+  }
 }
 
 // ══ INTERACTIONS ═══════════════════════════════════════════════
@@ -447,13 +483,13 @@ function _V_buildConfig() {
 
   switch (_V.type) {
     case 'barras': {
-      var lbl = _V_colLabels(v.x || _V_catCols()[0] || '');
+      var lbl = v.x === '__index__' ? _V_idxLabels() : _V_colLabels(v.x || _V_catCols()[0] || '');
       var dat = _V_colData(v.y || _V_numCols()[0] || '', lbl.length);
       if (!dat.length) { showToast('No hay datos para Barras'); return null; }
       return { type: 'bar', data: { labels: lbl, datasets: [{ label: v.y || 'Valor', data: dat, backgroundColor: c[0] + 'cc', borderColor: c[0], borderWidth: 1, borderRadius: 5, borderSkipped: false }] }, options: opts };
     }
     case 'agrupadas': {
-      var lbl = _V_colLabels(v.x || _V_catCols()[0] || '');
+      var lbl = v.x === '__index__' ? _V_idxLabels() : _V_colLabels(v.x || _V_catCols()[0] || '');
       var d1 = _V_colData(v.y || _V_numCols()[0] || '', lbl.length);
       var d2 = _V_colData(v.grupo || (_V_numCols()[1] || ''), lbl.length);
       if (!d1.length) { showToast('No hay datos para Agrupadas'); return null; }
@@ -463,7 +499,7 @@ function _V_buildConfig() {
       ]}, options: opts };
     }
     case 'apiladas': {
-      var lbl = _V_colLabels(v.x || _V_catCols()[0] || '');
+      var lbl = v.x === '__index__' ? _V_idxLabels() : _V_colLabels(v.x || _V_catCols()[0] || '');
       var d1 = _V_colData(v.y || _V_numCols()[0] || '', lbl.length);
       var d2 = _V_colData(v.pila || (_V_numCols()[1] || ''), lbl.length);
       var nc = _V_numCols();
@@ -478,19 +514,19 @@ function _V_buildConfig() {
       ]}, options: o2 };
     }
     case 'lineas': {
-      var lbl = _V_colLabels(v.x || _V_catCols()[0] || '');
+      var lbl = v.x === '__index__' ? _V_idxLabels() : _V_colLabels(v.x || _V_catCols()[0] || '');
       var dat = _V_colData(v.y || _V_numCols()[0] || '', lbl.length);
       if (!dat.length) { showToast('No hay datos para Líneas'); return null; }
       return { type: 'line', data: { labels: lbl, datasets: [{ label: v.y || 'Valor', data: dat, borderColor: c[0], backgroundColor: 'transparent', pointBackgroundColor: c[1], pointRadius: 4, pointHoverRadius: 6, tension: _V.opts.smooth ? 0.4 : 0.1 }]}, options: opts };
     }
     case 'area': {
-      var lbl = _V_colLabels(v.x || _V_catCols()[0] || '');
+      var lbl = v.x === '__index__' ? _V_idxLabels() : _V_colLabels(v.x || _V_catCols()[0] || '');
       var dat = _V_colData(v.y || _V_numCols()[0] || '', lbl.length);
       if (!dat.length) { showToast('No hay datos para Área'); return null; }
       return { type: 'line', data: { labels: lbl, datasets: [{ label: v.y || 'Valor', data: dat, borderColor: c[0], backgroundColor: c[0] + '33', fill: true, tension: _V.opts.smooth ? 0.4 : 0.1, pointBackgroundColor: c[1], pointRadius: 3, pointHoverRadius: 5 }]}, options: opts };
     }
     case 'multi': {
-      var lbl = _V_colLabels(v.x || _V_catCols()[0] || '');
+      var lbl = v.x === '__index__' ? _V_idxLabels() : _V_colLabels(v.x || _V_catCols()[0] || '');
       var nc = _V_numCols();
       var ds = [v.y1 || nc[0], v.y2 || nc[1], v.y3 || nc[2]].filter(function(x){ return x; }).map(function(col, i) {
         return { label: col, data: _V_colData(col, lbl.length), borderColor: c[i], backgroundColor: 'transparent', tension: _V.opts.smooth ? 0.35 : 0.1, pointRadius: 3, pointHoverRadius: 5 };
@@ -511,7 +547,7 @@ function _V_buildConfig() {
       return { type: 'bar', data: { labels: lbl, datasets: [{ label: 'Frecuencia', data: counts, backgroundColor: c[0] + 'cc', borderColor: c[0], borderWidth: 1, borderRadius: 2, barPercentage: 0.95, categoryPercentage: 1 }]}, options: opts };
     }
     case 'dispersion': {
-      var xd = _V_colData(v.x || _V_numCols()[0] || '');
+      var xd = v.x === '__index__' ? _V_idxData() : _V_colData(v.x || _V_numCols()[0] || '');
       var yd = _V_colData(v.y || (_V_numCols()[1] || _V_numCols()[0] || ''), xd.length);
       if (!xd.length || !yd.length) { showToast('No hay datos para Dispersión'); return null; }
       var pts = [];
@@ -521,7 +557,7 @@ function _V_buildConfig() {
       return { type: 'scatter', data: { datasets: [{ label: 'Datos', data: pts, backgroundColor: c[0] + '99', pointRadius: 6, pointHoverRadius: 8 }]}, options: no };
     }
     case 'linealidad': {
-      var xd = _V_colData(v.x || _V_numCols()[0] || '');
+      var xd = v.x === '__index__' ? _V_idxData() : _V_colData(v.x || _V_numCols()[0] || '');
       var yd = _V_colData(v.y || (_V_numCols()[1] || _V_numCols()[0] || ''), xd.length);
       if (!xd.length || !yd.length) { showToast('No hay datos para Linealidad'); return null; }
       var minLen = Math.min(xd.length, yd.length);
@@ -550,7 +586,7 @@ function _V_buildConfig() {
       ]}, options: no };
     }
     case 'burbuja': {
-      var xd = _V_colData(v.x || _V_numCols()[0] || '');
+      var xd = v.x === '__index__' ? _V_idxData() : _V_colData(v.x || _V_numCols()[0] || '');
       var yd = _V_colData(v.y || (_V_numCols()[1] || _V_numCols()[0] || ''), xd.length);
       var rd = _V_colData(v.r || (_V_numCols()[2] || _V_numCols()[0] || ''), xd.length);
       if (!xd.length || !yd.length) { showToast('No hay datos para Burbuja'); return null; }
@@ -630,7 +666,7 @@ function _V_buildConfig() {
       var yCol = v.y || _V_numCols()[0] || '';
       var lbl, dat;
 
-      if (xCol) {
+      if (xCol && xCol !== '__index__') {
         lbl = _V_colLabels(xCol);
         dat = _V_colData(yCol, lbl.length);
         var minLen = Math.min(lbl.length, dat.length);
@@ -938,6 +974,8 @@ function showBatchGraphModal() {
       '<div class="modal-row" id="vizModalXRow"><span class="modal-label">Eje X</span>' +
         '<select id="vizModalColX" class="modal-select" style="min-width:120px">' + colOpts + '</select></div>' +
     '</div>' +
+    '<label style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted);cursor:pointer;padding:2px 0 6px" id="vizModalAutoIdxRow">' +
+      '<input type="checkbox" id="vizModalAutoIdx"> 🔢 Índice automático (1, 2, 3...)</label>' +
     '<div style="font-size:11px;color:var(--text-faint);margin:4px 0 2px">Columnas a graficar:</div>' +
     '<div style="display:flex;flex-wrap:wrap;gap:4px 12px;max-height:200px;overflow-y:auto;padding:4px 0">' + colChkHtml + '</div>' +
     '<div class="modal-actions" style="margin-top:10px">' +
@@ -948,12 +986,13 @@ function showBatchGraphModal() {
   document.getElementById('vizModalCancel').onclick = function() { modal.remove(); };
   document.getElementById('vizModalGenerate').onclick = function() {
     var type = document.getElementById('vizModalType').value;
-    var colX = document.getElementById('vizModalColX').value;
+    var autoIdx = document.getElementById('vizModalAutoIdx').checked;
+    var colX = autoIdx ? '__index__' : document.getElementById('vizModalColX').value;
     var checkboxes = document.querySelectorAll('.viz-modal-batch-chk:checked');
     var selected = [];
     checkboxes.forEach(function(cb) { if (cb.checked) selected.push(cb.dataset.col); });
     if (!selected.length) { showToast('Selecciona al menos una columna'); return; }
-    if (type !== 'histogram' && type !== 'dotplot' && !colX) { showToast('Selecciona Eje X'); return; }
+    if (type !== 'histogram' && type !== 'dotplot' && !autoIdx && !colX) { showToast('Selecciona Eje X o activa índice automático'); return; }
     modal.remove();
     loadPage('visualizacion');
     setTimeout(function() { _V_batchGenerate(type, colX, selected); }, 150);
@@ -962,6 +1001,7 @@ function showBatchGraphModal() {
   document.getElementById('vizModalType').onchange = function() {
     var hide = this.value === 'histogram' || this.value === 'dotplot';
     document.getElementById('vizModalXRow').style.display = hide ? 'none' : 'flex';
+    document.getElementById('vizModalAutoIdxRow').style.display = hide ? 'none' : 'flex';
   };
   document.getElementById('vizModalType').dispatchEvent(new Event('change'));
 }
