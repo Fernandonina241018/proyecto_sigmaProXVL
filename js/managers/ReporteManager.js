@@ -813,187 +813,15 @@ const ReporteManager = (() => {
         }
         
         p(singleLine(W)); p(`  ${t('sec5')}`); p(singleLine(W));
-        const txtStatsInfo = {
-          'Media Aritmética': {
-            name: lang === 'es' ? 'Media Aritmética' : 'Arithmetic Mean',
-            desc: lang === 'es' ? 'Suma de valores / n observaciones' : 'Sum of values / n observations',
-            formula: 'x̄ = Σxᵢ / n'
-          },
-          'Mediana y Moda': {
-            name: lang === 'es' ? 'Mediana' : 'Median',
-            desc: lang === 'es' ? 'Valor central de datos ordenados' : 'Central value of sorted data',
-            formula: lang === 'es' ? 'Si n impar: x₍(n+1)/2₎ · Si n par: (x₍n/2₎ + x₍n/2+1₎) / 2' : 'If n odd: x₍(n+1)/2₎ · If n even: (x₍n/2₎ + x₍n/2+1₎) / 2'
-          },
-          'Desviación Estándar': {
-            name: lang === 'es' ? 'Desviación Estándar' : 'Standard Deviation',
-            desc: lang === 'es' ? 'Raíz cuadrada de la varianza' : 'Square root of variance',
-            formula: 's = √[Σ(xᵢ - x̄)² / (n-1)]'
-          },
-          'Varianza': {
-            name: lang === 'es' ? 'Varianza' : 'Variance',
-            desc: lang === 'es' ? 'Cuadrado de la desviación estándar' : 'Square of standard deviation',
-            formula: 's² = Σ(xᵢ - x̄)² / (n-1)'
-          },
-          'Percentiles': {
-            name: lang === 'es' ? 'Percentiles' : 'Percentiles',
-            desc: lang === 'es' ? 'Valores que dividen la distribución en 100 partes' : 'Values dividing distribution into 100 parts',
-            formula: lang === 'es' ? 'Posición = (p/100) × (n+1)' : 'Position = (p/100) × (n+1)'
-          },
-          'Rango y Amplitud': {
-            name: lang === 'es' ? 'Rango' : 'Range',
-            desc: lang === 'es' ? 'Diferencia entre máximo y mínimo' : 'Difference between max and min',
-            formula: 'R = xₘₐₓ - xₘᵢₙ'
-          },
-          'Coeficiente de Variación': {
-            name: lang === 'es' ? 'Coeficiente de Variación' : 'Coefficient of Variation',
-            desc: lang === 'es' ? 'Dispersión relativa respecto a la media (en porcentaje)' : 'Relative dispersion relative to mean (percentage)',
-            formula: 'CV = (s / x̄) × 100%'
-          },
-          'Asimetría (Skewness)': {
-            name: lang === 'es' ? 'Asimetría' : 'Skewness',
-            desc: lang === 'es' ? 'Falta de simetría de la distribución' : 'Distribution asymmetry',
-            formula: 'g₁ = [Σ(xᵢ - x̄)³ / n] / s³'
-          },
-          'Curtosis (Kurtosis)': {
-            name: lang === 'es' ? 'Curtosis' : 'Kurtosis',
-            desc: lang === 'es' ? 'Apuntamiento de la distribución' : 'Distribution peakedness',
-            formula: 'g₂ = [Σ(xᵢ - x̄)⁴ / n] / s⁴ - 3'
-          },
-          'Error Estándar': {
-            name: lang === 'es' ? 'Error Estándar' : 'Standard Error',
-            desc: lang === 'es' ? 'Variabilidad de la media muestral' : 'Sample mean variability',
-            formula: 'SE = s / √n'
-          },
-          'Intervalos de Confianza': {
-            name: lang === 'es' ? 'Intervalos de Confianza' : 'Confidence Intervals',
-            desc: lang === 'es' ? 'Rango del parámetro poblacional' : 'Population parameter range',
-            formula: 'IC = x̄ ± t(α/2, n-1) × SE'
-          },
-          'Detección de Outliers': {
-            name: lang === 'es' ? 'Detección de Outliers' : 'Outlier Detection',
-            desc: lang === 'es' ? 'Identifica valores atípicos (IQR)' : 'Identifies outliers (IQR)',
-            formula: lang === 'es' ? '[Q1-1.5×IQR, Q3+1.5×IQR]' : '[Q1-1.5×IQR, Q3+1.5×IQR]'
-          },
-          'Correlación Pearson': {
-            name: lang === 'es' ? 'Correlación de Pearson' : 'Pearson Correlation',
-            desc: lang === 'es' ? 'Mide relación lineal entre dos variables' : 'Measures linear relationship between two variables',
-            formula: 'r = cov(X,Y) / (σx × σy)'
-          },
-          'Correlación Spearman': {
-            name: lang === 'es' ? 'Correlación de Spearman' : 'Spearman Correlation',
-            desc: lang === 'es' ? 'Mide relación monotónica basada en rangos' : 'Measures monotonic relationship based on ranks',
-            formula: 'ρ = correlación de Pearson sobre rangos'
-          },
-          'Regresión Lineal Simple': {
-            name: lang === 'es' ? 'Regresión Lineal Simple' : 'Simple Linear Regression',
-            desc: lang === 'es' ? 'Modelo predictivo Y = a + bX' : 'Predictive model Y = a + bX',
-            formula: 'Y = a + bX'
-          },
-          'Regresión Lineal Múltiple': {
-            name: lang === 'es' ? 'Regresión Lineal Múltiple' : 'Multiple Linear Regression',
-            desc: lang === 'es' ? 'Modelo con múltiples predictores' : 'Model with multiple predictors',
-            formula: 'Y = β₀ + β₁X₁ + ... + βₖXₖ'
-          },
-          'Regresión Polinomial': {
-            name: lang === 'es' ? 'Regresión Polinomial' : 'Polynomial Regression',
-            desc: lang === 'es' ? 'Modelo de ajuste polinomial' : 'Polynomial curve fitting model',
-            formula: 'Y = a₀ + a₁X + a₂X² + ...'
-          },
-          'Regresión Logística': {
-            name: lang === 'es' ? 'Regresión Logística' : 'Logistic Regression',
-            desc: lang === 'es' ? 'Clasificación binaria' : 'Binary classification',
-            formula: 'P = 1/(1+e^(-z))'
-          },
-          'Test de Shapiro-Wilk': {
-            name: lang === 'es' ? 'Test de Shapiro-Wilk' : 'Shapiro-Wilk Test',
-            desc: lang === 'es' ? 'Verifica distribución normal (más potente para n<50)' : 'Verifies normal distribution (more powerful for n<50)',
-            formula: 'W = (Σaᵢx₍ᵢ₎)² / Σ(xᵢ − x̄)²'
-          },
-          'Correlación Kendall Tau': {
-            name: lang === 'es' ? 'Correlación de Kendall Tau' : 'Kendall Tau Correlation',
-            desc: lang === 'es' ? 'Asociación ordinal entre dos variables' : 'Ordinal association between two variables',
-            formula: 'τ = (C − D) / √[(n₀−n₁)(n₀−n₂)]'
-          },
-          'Covarianza': {
-            name: lang === 'es' ? 'Covarianza' : 'Covariance',
-            desc: lang === 'es' ? 'Relación lineal entre dos variables' : 'Linear relationship between two variables',
-            formula: 'Cov(X,Y) = Σ(xi−x̄)(yi−ȳ) / (n−1)'
-          },
-          'RMSE': {
-            name: 'RMSE',
-            desc: lang === 'es' ? 'Error cuadrático medio' : 'Root Mean Square Error',
-            formula: 'RMSE = √[Σ(obs−pred)²/n]'
-          },
-          'MAE': {
-            name: 'MAE',
-            desc: lang === 'es' ? 'Error absoluto medio' : 'Mean Absolute Error',
-            formula: 'MAE = Σ|obs−pred|/n'
-          },
-          'R² (Coef. Determinación)': {
-            name: lang === 'es' ? 'R² (Coef. de Determinación)' : 'R² (Coefficient of Determination)',
-            desc: lang === 'es' ? 'Varianza explicada por el modelo' : 'Variance explained by the model',
-            formula: 'R² = 1 − SSres/SStot'
-          },
-          'Mann-Whitney U': {
-            name: 'Mann-Whitney U',
-            desc: lang === 'es' ? 'Alternativa no-paramétrica al t-test' : 'Non-parametric alternative to t-test',
-            formula: 'U = min(U₁, U₂)'
-          },
-          'Kruskal-Wallis': {
-            name: 'Kruskal-Wallis',
-            desc: lang === 'es' ? 'Alternativa no-paramétrica al ANOVA' : 'Non-parametric alternative to ANOVA',
-            formula: 'H = [12/(N(N+1))]Σ(Rᵢ²/nᵢ) − 3(N+1)'
-          },
-          'Test TOST (Equivalencia)': {
-            name: lang === 'es' ? 'TOST de Equivalencia' : 'TOST Equivalence',
-            desc: lang === 'es' ? 'Equivalencia de medias con dos one-sided tests' : 'Two one-sided test for equivalence',
-            formula: 'TOST: |δ| < Δ'
-          },
-          'Análisis de Cluster': {
-            name: lang === 'es' ? 'K-Medias' : 'K-Means',
-            desc: lang === 'es' ? 'Agrupamiento en clusters homogéneos' : 'Homogeneous cluster grouping',
-            formula: 'argmin Σₖ Σᵢ ||xᵢ − μₖ||²'
-          },
-          'Análisis Discriminante': {
-            name: 'LDA',
-            desc: lang === 'es' ? 'Análisis discriminante lineal para clasificación' : 'Linear discriminant analysis for classification',
-            formula: 'D = wX + b'
-          },
-          'M-ANOVA': {
-            name: 'MANOVA',
-            desc: lang === 'es' ? 'ANOVA multivariado con Pillai/Wilks' : 'Multivariate ANOVA with Pillai/Wilks',
-            formula: 'Λ = |E|/|H+E|'
-          },
-          'Series Temporales': {
-            name: lang === 'es' ? 'Series Temporales' : 'Time Series',
-            desc: lang === 'es' ? 'Descomposición clásica + ACF/PACF + pronóstico' : 'Classical decomposition + ACF/PACF + forecast',
-            formula: 'Yₜ = Tendₜ + Estₜ + εₜ'
-          },
-          'Análisis de Supervivencia': {
-            name: lang === 'es' ? 'Supervivencia' : 'Survival',
-            desc: lang === 'es' ? 'Kaplan-Meier + Log-Rank' : 'Kaplan-Meier + Log-Rank',
-            formula: 'Ŝ(t) = Πᵢ…(1 − dᵢ/nᵢ)'
-          },
-          'Modelos Mixtos': {
-            name: lang === 'es' ? 'Modelos Mixtos' : 'Mixed Models',
-            desc: lang === 'es' ? 'Efectos fijos + aleatorios (ICC, AIC/BIC)' : 'Fixed + random effects (ICC, AIC/BIC)',
-            formula: 'Y = Xβ + Zu + ε'
-          },
-          'Análisis Bayesiano': {
-            name: lang === 'es' ? 'Bayesiano' : 'Bayesian',
-            desc: lang === 'es' ? 'Inferencia bayesiana conjugada normal-normal' : 'Conjugate normal-normal Bayesian inference',
-            formula: 'P(θ|D) ∝ P(D|θ)P(θ)'
-          }
-        };
         const usedTxtStats = resultados.estadisticos || [];
         usedTxtStats.forEach(stat => {
-          const info = txtStatsInfo[stat];
-          if (info) {
-            p('');
-            p(`  ${info.name}`);
-            p(`    ${info.desc}`);
-            p(`    Fórmula: ${info.formula}`);
-          }
+            const cfg = typeof estadisticosConfig !== 'undefined' ? estadisticosConfig[stat] : null;
+            if (cfg) {
+                p('');
+                p(`  ${stat}`);
+                if (cfg.desc) p(`    ${cfg.desc.replace(/\n/g,' ')}`);
+                if (cfg.formula) p(`    Fórmula: ${cfg.formula}`);
+            }
         });
         p('');
         p(singleLine(W)); p(`  ${t('sec6')} (21 CFR Part 11)`); p(singleLine(W));
@@ -1124,15 +952,19 @@ const ReporteManager = (() => {
             qrDataUrl = '';
         }
 
+        function _getFormula(stat){
+            return (typeof estadisticosConfig!=='undefined' && estadisticosConfig[stat]?.formula)
+                || t('statFormulas')[stat]
+                || '';
+        }
         function statsRows(col){
-            const formulas=t('statFormulas');
             let h='';
             const hypothesisTests = HYPOTHESIS_SET;
             Object.entries(resultados.resultados).forEach(([stat,data])=>{
                 if (hypothesisTests.has(stat)) return; // Skip hypothesis tests - shown separately
                 const val=data[col]; if(val===undefined)return;
+                const formula=_getFormula(stat);
                 if(typeof val==='object'&&!Array.isArray(val)){
-                    const formula = formulas[stat] || '';
                     h+=`<tr style="background:#f7f8fa"><td colspan="3" style="padding:5px 14px;font-size:8.5pt;color:#666"><em>${escapeHtml(stat)}</em></td></tr>`;
                     Object.entries(val).forEach(([k,v])=>{
                         if(k==='advertencias') return;
@@ -1147,7 +979,6 @@ const ReporteManager = (() => {
                     }
                 } else {
                     const vf=Array.isArray(val)?(val.length?val.map(v=>fmtNum(v)).join(', '):'<em>—</em>'):fmtNum(val);
-                    const formula = formulas[stat] || '';
                     h+=`<tr><td>${escapeHtml(stat)}</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${vf}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">${formula}</td></tr>`;
                 }
             });

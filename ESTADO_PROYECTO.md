@@ -23,6 +23,17 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-17: Columna de fórmulas en Reportes unificada contra estadisticosConfig
+
+**Qué:** La columna "Formula" del reporte HTML se quedaba vacía para varios estadísticos porque solo consultaba `I18N.en.statFormulas` (mapa fijo). Se unificó contra `estadisticosConfig.formula` que ya existe en TODAS las entradas. Además se eliminaron **170 líneas hardcodeadas** de `txtStatsInfo` en la Sección 5 del TXT.
+
+**Cambios en `js/managers/ReporteManager.js`:**
+- **HTML `statsRows()`:** Nueva función `_getFormula(stat)` que resuelve `estadisticosConfig[stat]?.formula` → `t('statFormulas')[stat]` → `''`. Así cada stat con `formula` definida en el config la muestra en la columna.
+- **TXT Sección 5 (`txtStatsInfo`):** Objeto hardcodeado de 170 líneas reemplazado por lookup dinámico: `estadisticosConfig[stat]` → `desc` + `formula`. Un mantenimiento: ya no hay que editar dos lugares al agregar un nuevo estadístico.
+
+**Antes:** columna vacía para stats que no estaban en `I18N.en.statFormulas`.
+**Después:** columna poblada para TODOS los stats con `formula` definida en `estadisticosConfig.js`.
+
 ### 2026-06-17: Advertencias de MKT visibles en Reportes (NaN corregido)
 
 **Qué:** Las advertencias de MKT (Mean Kinetic Temperature) aparecían como `NaN` en el reporte. Se corrigió la causa raíz en `fmtNum()` y se mejoró la presentación como badges destacados.
