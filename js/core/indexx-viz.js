@@ -291,6 +291,7 @@ function initVizPage() {
   vizRefreshGallery();
 
   _V_observeTheme();
+  _V_syncAutoIdxUI();
 }
 
 function _V_observeTheme() {
@@ -384,6 +385,7 @@ function vizBuildAxisConfig() {
     var cb = document.getElementById('vizAutoIdx');
     if (cb) cb.onchange = function() {
       _V.vals.x = this.checked ? '__index__' : '';
+      _V_syncAutoIdxUI();
       vizBuildAxisConfig();
     };
   }
@@ -975,7 +977,7 @@ function showBatchGraphModal() {
         '<select id="vizModalColX" class="modal-select" style="min-width:120px">' + colOpts + '</select></div>' +
     '</div>' +
     '<label style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted);cursor:pointer;padding:2px 0 6px" id="vizModalAutoIdxRow">' +
-      '<input type="checkbox" id="vizModalAutoIdx"> 🔢 Índice automático (1, 2, 3...)</label>' +
+      '<input type="checkbox" id="vizModalAutoIdx"' + (_V.vals.x === '__index__' ? ' checked' : '') + '> 🔢 Índice automático (1, 2, 3...)</label>' +
     '<div style="font-size:11px;color:var(--text-faint);margin:4px 0 2px">Columnas a graficar:</div>' +
     '<div style="display:flex;flex-wrap:wrap;gap:4px 12px;max-height:200px;overflow-y:auto;padding:4px 0">' + colChkHtml + '</div>' +
     '<div class="modal-actions" style="margin-top:10px">' +
@@ -983,6 +985,10 @@ function showBatchGraphModal() {
       '<button class="btn btn-primary" id="vizModalGenerate">🎨 Generar</button>' +
     '</div></div>';
   document.body.appendChild(modal);
+  document.getElementById('vizModalAutoIdx').onchange = function() {
+    _V.vals.x = this.checked ? '__index__' : '';
+    _V_syncAutoIdxUI();
+  };
   document.getElementById('vizModalCancel').onclick = function() { modal.remove(); };
   document.getElementById('vizModalGenerate').onclick = function() {
     var type = document.getElementById('vizModalType').value;
@@ -1074,4 +1080,12 @@ function _V_batchGenerate(type, colX, selectedCols) {
   else msg = 'No se generaron gráficos';
   if (errs > 0) msg += ' (' + errs + ' error(es))';
   showToast(msg);
+}
+
+function _V_syncAutoIdxUI() {
+  var active = _V.vals.x === '__index__';
+  var menuCb = document.getElementById('menuAutoIdx');
+  if (menuCb) menuCb.checked = active;
+  var modalCb = document.getElementById('vizModalAutoIdx');
+  if (modalCb) modalCb.checked = active;
 }
