@@ -26,6 +26,7 @@ var _V_PALETTES = [
   { id: 'forest', lbl: 'Bosque',  c: ['#22c55e','#4ade80','#86efac','#15803d','#bbf7d0'] },
   { id: 'rose',   lbl: 'Rosa',    c: ['#ec4899','#f472b6','#fbcfe8','#9d174d','#fce7f3'] },
   { id: 'sunset', lbl: 'Sunset',  c: ['#f97316','#eab308','#84cc16','#06b6d4','#8b5cf6'] },
+  { id: 'claro',  lbl: 'Claro',   c: ['#2563eb','#dc2626','#16a34a','#d97706','#9333ea'] },
 ];
 
 var _V_CATS = [
@@ -80,7 +81,7 @@ var _V_CSS_INJECTED = false;
 function _V_injectCSS() {
   if (_V_CSS_INJECTED) return;
   _V_CSS_INJECTED = true;
-  var css = '.viz-root{--bg0:#0d0d1b;--bg1:#121226;--bg2:#1a1a30;--bg3:#22223c;--bg4:#2a2a48;--acc:#7b6fe0;--acc2:#9d94f5;--accDim:rgba(123,111,224,.12);--accBorder:rgba(123,111,224,.35);--t1:#eaeaf8;--t2:#7878a0;--t3:#404060;--sep:rgba(255,255,255,.06);--sepH:rgba(255,255,255,.12);--sans:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,sans-serif;--r:8px;--rs:5px;font-family:var(--sans);font-size:13px;color:var(--t1)}'
+  var css = '.viz-root{--bg0:var(--bg-primary);--bg1:var(--bg-panel);--bg2:var(--bg-secondary);--bg3:var(--item-bg);--bg4:var(--item-hover);--acc:#7b6fe0;--acc2:#9d94f5;--accDim:rgba(123,111,224,.12);--accBorder:rgba(123,111,224,.35);--t1:var(--text-primary);--t2:var(--text-muted);--t3:var(--text-faint);--sep:var(--border);--sepH:var(--border);--sans:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,sans-serif;--r:8px;--rs:5px;font-family:var(--sans);font-size:13px;color:var(--t1)}'
     + '.viz-root .sec{border-bottom:1px solid var(--sep);flex-shrink:0}'
     + '.viz-root .sec-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;user-select:none}'
     + '.viz-root .sec-hdr-label{font-size:10px;font-weight:700;letter-spacing:.9px;color:var(--t2);text-transform:uppercase}'
@@ -277,6 +278,19 @@ function initVizPage() {
   vizBuildAxisConfig();
   _V_loadGallery();
   vizRefreshGallery();
+
+  _V_observeTheme();
+}
+
+function _V_observeTheme() {
+  var html = document.documentElement;
+  var observer = new MutationObserver(function() {
+    if (_V.chart && _V.chart.canvas) {
+      vizRenderChart();
+    }
+  });
+  observer.observe(html, { attributes: true, attributeFilter: ['data-theme'] });
+  _V._themeObserver = observer;
 }
 
 // ══ UI BUILDERS ════════════════════════════════════════════════
@@ -378,6 +392,10 @@ function vizToggleSec(hdr) {
 }
 
 // ══ CHART HELPERS ═══════════════════════════════════════════════
+function _V_isLight() {
+  return document.documentElement.getAttribute('data-theme') === 'light';
+}
+
 function _V_palette() {
   for (var i = 0; i < _V_PALETTES.length; i++) {
     if (_V_PALETTES[i].id === _V.palette) return _V_PALETTES[i].c;
@@ -386,8 +404,9 @@ function _V_palette() {
 }
 
 function _V_baseOpts() {
-  var gc = 'rgba(255,255,255,.06)';
-  var tc = 'rgba(200,200,220,.5)';
+  var isLight = _V_isLight();
+  var gc = isLight ? 'rgba(0,0,0,.08)' : 'rgba(255,255,255,.06)';
+  var tc = isLight ? 'rgba(100,116,139,.8)' : 'rgba(200,200,220,.5)';
   return {
     responsive: true,
     maintainAspectRatio: false,
@@ -398,10 +417,10 @@ function _V_baseOpts() {
         labels: { color: tc, font: { size: 11 }, boxWidth: 12, padding: 12 },
       },
       tooltip: {
-        backgroundColor: 'rgba(18,18,38,.95)',
-        titleColor: '#eaeaf8',
-        bodyColor: '#7878a0',
-        borderColor: 'rgba(123,111,224,.3)',
+        backgroundColor: isLight ? 'rgba(255,255,255,.96)' : 'rgba(18,18,38,.95)',
+        titleColor: isLight ? '#0f172a' : '#eaeaf8',
+        bodyColor: isLight ? '#64748b' : '#7878a0',
+        borderColor: isLight ? 'rgba(100,116,139,.25)' : 'rgba(123,111,224,.3)',
         borderWidth: 1,
         padding: 10,
       },
@@ -549,7 +568,7 @@ function _V_buildConfig() {
       var vals = lbl.map(function(_, i) { return dat[i] != null ? dat[i] : Math.round(10 + Math.random() * 80); });
       var noScales = JSON.parse(JSON.stringify(opts));
       delete noScales.scales;
-      return { type: 'pie', data: { labels: lbl, datasets: [{ data: vals, backgroundColor: c.slice(0, lbl.length), borderColor: 'rgba(255,255,255,.07)', borderWidth: 2, hoverOffset: 8 }]}, options: noScales };
+      return { type: 'pie', data: { labels: lbl, datasets: [{ data: vals, backgroundColor: c.slice(0, lbl.length), borderColor: 'rgba(0,0,0,.07)', borderWidth: 2, hoverOffset: 8 }]}, options: noScales };
     }
     case 'dona': {
       var lbl = _V_colLabels(v.etq || _V_catCols()[0] || '', 10);
@@ -558,7 +577,7 @@ function _V_buildConfig() {
       var vals = lbl.map(function(_, i) { return dat[i] != null ? dat[i] : Math.round(10 + Math.random() * 80); });
       var noScales = JSON.parse(JSON.stringify(opts));
       delete noScales.scales;
-      return { type: 'doughnut', data: { labels: lbl, datasets: [{ data: vals, backgroundColor: c.slice(0, lbl.length), borderColor: 'rgba(255,255,255,.05)', borderWidth: 2, hoverOffset: 6 }]}, options: Object.assign(noScales, { cutout: '62%' }) };
+      return { type: 'doughnut', data: { labels: lbl, datasets: [{ data: vals, backgroundColor: c.slice(0, lbl.length), borderColor: 'rgba(0,0,0,.05)', borderWidth: 2, hoverOffset: 6 }]}, options: Object.assign(noScales, { cutout: '62%' }) };
     }
     case 'polar': {
       var lbl = _V_colLabels(v.etq || _V_catCols()[0] || '', 8);
@@ -578,7 +597,8 @@ function _V_buildConfig() {
       var vals2 = d2.length ? d2 : lbl.map(function() { return Math.round(30 + Math.random() * 60); });
       var noScales = JSON.parse(JSON.stringify(opts));
       delete noScales.scales;
-      var gc = 'rgba(255,255,255,.07)', tc2 = 'rgba(200,200,220,.5)';
+      var gc = _V_isLight() ? 'rgba(0,0,0,.07)' : 'rgba(255,255,255,.07)';
+      var tc2 = _V_isLight() ? 'rgba(100,116,139,.7)' : 'rgba(200,200,220,.5)';
       return { type: 'radar', data: { labels: lbl, datasets: [
         { label: 'Serie A', data: vals, borderColor: c[0], backgroundColor: c[0] + '33', pointBackgroundColor: c[0], pointRadius: 3 },
         { label: 'Serie B', data: vals2, borderColor: c[1], backgroundColor: c[1] + '22', pointBackgroundColor: c[1], pointRadius: 3 },
@@ -720,7 +740,7 @@ function vizRenderChart() {
   if (!canvas) { showToast('Error: canvas no encontrado'); return; }
 
   try {
-    Chart.defaults.color = 'rgba(200,200,220,.5)';
+    Chart.defaults.color = _V_isLight() ? 'rgba(100,116,139,.7)' : 'rgba(200,200,220,.5)';
     _V.chart = new Chart(canvas.getContext('2d'), config);
   } catch(e) { showToast('Error al renderizar: ' + e.message); return; }
 

@@ -23,6 +23,20 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-17: Soporte modo claro en Visualización + auto-re-render
+
+**Qué:** Se corrigió la página de Visualización para que se adapte automáticamente al modo claro/oscuro de la app, tanto en CSS como en Chart.js. Se agregó re-render automático al cambiar de tema.
+
+**Cambios:**
+- `js/core/indexx-viz.js`:
+  - **Paleta "Claro" agregada** — 5 colores saturados de alto contraste (`#2563eb`, `#dc2626`, `#16a34a`, `#d97706`, `#9333ea`) para fondos claros
+  - **CSS variables** — Reemplazados valores fijos oscuros (`#0d0d1b`, `#121226`, etc.) por `var(--bg-primary)`, `var(--bg-panel)`, `var(--bg-secondary)`, `var(--text-primary)`, `var(--text-muted)`, `var(--border)`, etc. que respetan el tema de la app
+  - **Chart.js theme-aware** — `_V_baseOpts()` detecta `data-theme="light"` y usa colores apropiados: grid `rgba(0,0,0,.08)`, texto `rgba(100,116,139,.8)`, tooltip blanco con texto oscuro
+  - **Radar chart** — Grid/text colors ahora usan `_V_isLight()`
+  - **Chart.defaults.color** — Ahora es tema-aware
+  - **Circular/Dona borders** — Cambiados de `rgba(255,255,255,...)` a `rgba(0,0,0,...)` para visibilidad en ambos modos
+  - **MutationObserver** — `_V_observeTheme()` escucha cambios en `data-theme` del `<html>` y re-renderiza automáticamente el chart si hay uno activo
+
 ### 2026-06-16: MKT (Mean Kinetic Temperature) — nuevo estadístico USP <659>
 
 **Qué:** Se agregó el estadístico **MKT** (Mean Kinetic Temperature / Temperatura Cinética Media) según USP <659> para estudios de estabilidad. Calcula la temperatura única que representa el efecto acumulativo de temperaturas variables durante almacenamiento/transporte.
