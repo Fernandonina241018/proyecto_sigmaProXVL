@@ -832,6 +832,16 @@ function vizDelGallery(id) {
   _V_saveGallery();
 }
 
+function vizClearGallery() {
+  if (!_V.gallery.length) { showToast('No hay gráficos guardados'); return; }
+  if (!confirm('¿Borrar todos los ' + _V.gallery.length + ' gráficos guardados?')) return;
+  _V.gallery = [];
+  localStorage.removeItem('sigmaPro_vizGallery');
+  localStorage.removeItem('sigmaPro_vizGalleryMeta');
+  vizRefreshGallery();
+  showToast('🗑 Galería limpiada');
+}
+
 function _V_saveGallery() {
   try {
     localStorage.setItem('sigmaPro_vizGallery', JSON.stringify(_V.gallery.map(function(g) {
