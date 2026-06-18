@@ -969,8 +969,10 @@ function showBatchGraphModal() {
 function _V_batchGenerate(type, colX, selectedCols) {
   var mappedType = _V_TYPE_MAP[type] || 'barras';
   var count = 0;
+  var errs = 0;
   var oldAnim = _V.opts.anim;
   _V.opts.anim = false;
+  Chart.defaults.color = _V_isLight() ? 'rgba(100,116,139,.7)' : 'rgba(200,200,220,.5)';
 
   selectedCols.forEach(function(col) {
     if (!col) return;
@@ -996,6 +998,9 @@ function _V_batchGenerate(type, colX, selectedCols) {
     var config = _V_buildConfig();
     if (!config) return;
 
+    config.options.responsive = false;
+    config.options.animation = false;
+
     var tempCanvas = document.createElement('canvas');
     tempCanvas.width = 600;
     tempCanvas.height = 400;
@@ -1003,14 +1008,16 @@ function _V_batchGenerate(type, colX, selectedCols) {
 
     try {
       var tempChart = new Chart(tempCtx, config);
-      tempChart.update();
       var url = tempCanvas.toDataURL('image/png');
       var title = (_V_TYPES[_V.type] ? _V_TYPES[_V.type].lbl : 'Gráfico') + ' · ' + col;
       var id = Date.now() + count;
       _V.gallery.unshift({ id: id, title: title, url: url, type: _V.type || '' });
       tempChart.destroy();
       count++;
-    } catch(e) { /* skip */ }
+    } catch(e) {
+      errs++;
+      console.warn('[Viz Multi] Error con ' + col + ':', e);
+    }
   });
 
   _V.opts.anim = oldAnim;
@@ -1022,6 +1029,9 @@ function _V_batchGenerate(type, colX, selectedCols) {
   vizRefreshGallery();
   _V_saveGallery();
 
-  if (count > 0) showToast('✅ ' + count + ' gráfico(s) generado(s) y guardados en galería');
-  else showToast('No se generaron gráficos');
+  var msg = '';
+  if (count > 0) msg = '✅ ' + count + ' gráfico(s) generado(s) y guardados en galería';
+  else msg = 'No se generaron gráficos';
+  if (errs > 0) msg += ' (' + errs + ' error(es))';
+  showToast(msg);
 }
