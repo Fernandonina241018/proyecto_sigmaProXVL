@@ -133,7 +133,7 @@
       <div class="dropdown" role="menu" aria-hidden="true">
         <div class="dd-item" role="menuitem" onmousedown="showBatchGraphModal()">Generar múltiples gráficos 🔁</div>
         <div class="dd-item" style="display:flex;align-items:center;gap:6px;padding:4px 12px;cursor:pointer;font-size:12px;color:var(--text-muted)" id="menuAutoIdxRow">
-          <input type="checkbox" id="menuAutoIdx" onchange="_V.vals.x=this.checked?'__index__':''"> 🔢 Índice automático (1, 2, 3...)
+          <input type="checkbox" id="menuAutoIdx" checked onchange="_V.vals.x=this.checked?'__index__':'';if(typeof _V_syncAutoIdxUI==='function')_V_syncAutoIdxUI()"> 🔢 Índice automático (1, 2, 3...)
         </div>
         <div class="dd-separator"></div>
         <div class="dd-item" role="menuitem" onmousedown="loadPage('visualizacion')">Ir a Visualización</div>

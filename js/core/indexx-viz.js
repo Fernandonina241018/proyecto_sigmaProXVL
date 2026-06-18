@@ -281,6 +281,7 @@ function initVizPage() {
   _V.cat = 'comp';
   _V.type = null;
   _V.vals = {};
+  _V.vals.x = '__index__';
   _V.palette = 'violet';
 
   vizBuildCatTabs();
@@ -1047,9 +1048,10 @@ function _V_batchGenerate(type, colX, selectedCols) {
     config.options.responsive = false;
     config.options.animation = false;
 
+    var dpr = window.devicePixelRatio || 1;
     var tempCanvas = document.createElement('canvas');
-    tempCanvas.width = 600;
-    tempCanvas.height = 400;
+    tempCanvas.width = 800 * dpr;
+    tempCanvas.height = 500 * dpr;
     var tempCtx = tempCanvas.getContext('2d');
 
     try {
