@@ -23,6 +23,31 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-17: Advertencias de MKT visibles en Reportes (NaN corregido)
+
+**Qué:** Las advertencias de MKT (Mean Kinetic Temperature) aparecían como `NaN` en el reporte. Se corrigió la causa raíz en `fmtNum()` y se mejoró la presentación como badges destacados.
+
+**Cambios en `js/managers/ReporteManager.js`:**
+- **Fix A — `fmtNum()` line 376:** Nuevo guard para arrays de objetos. Si el primer elemento es un objeto, extrae `.msg`/`.mensaje` en vez de llamar `Number()` que produce `NaN`
+- **Fix B — TXT (line 537), HTML `statsRows()` (line 1140), CSV (line 1056):** Se salta la clave `advertencias` en el loop genérico de `Object.entries()` y se renderiza aparte:
+  - **TXT:** Ícono `⚠`/`→` con el texto de la advertencia
+  - **HTML:** Badge tipo chip con fondo rojo (exceso) o amarillo (aviso), texto y borde redondeado
+  - **CSV:** Fila extra con tipo `ADVERTENCIA`
+
+**Comportamiento antes:**
+```
+· advertencias: NaN
+```
+
+**Comportamiento después:**
+```
+[TXT]
+  ⚠ MKT (28.5°C) excede el límite de 25°C
+
+[HTML]
+  ⚠ MKT (28.5°C) excede el límite de 25°C   ← badge rojo
+```
+
 ### 2026-06-17: Trazabilidad auto-poblada en Reportes para datos manuales
 
 **Qué:** La sección de Trazabilidad del Dataset en Reportes ahora se auto-llena cuando los datos fueron ingresados manualmente desde la página Trabajo. Se agregó un flag `datosSourceType` para tracking de origen de datos.

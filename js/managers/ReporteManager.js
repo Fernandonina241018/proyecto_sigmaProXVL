@@ -373,7 +373,13 @@ const ReporteManager = (() => {
     
     function fmtNum(val, d=4) {
         if (val===null||val===undefined) return 'N/A';
-        if (Array.isArray(val)) return val.length ? val.map(v=>Number(v).toFixed(d)).join('; ') : '—';
+        if (Array.isArray(val)) {
+            if (!val.length) return '—';
+            if (typeof val[0]==='object' && val[0]!==null && !Array.isArray(val[0])) {
+                return val.map(v=>v.msg||v.mensaje||JSON.stringify(v)).join('; ');
+            }
+            return val.map(v=>Number(v).toFixed(d)).join('; ');
+        }
         if (typeof val==='number') return isFinite(val) ? val.toFixed(d) : 'N/A';
         
         // Manejar objetos (como Detección de Outliers o Intervalos de Confianza)
@@ -528,7 +534,17 @@ const ReporteManager = (() => {
                 const val=data[col]; if(val===undefined)return;
                 if(typeof val==='object'&&!Array.isArray(val)){
                     p(`  ${pad(stat+':',28)}`);
-                    Object.entries(val).forEach(([k,v])=>p(`    ${pad('  · '+k,28)}${pad(fmtNum(v),18)}`));
+                    Object.entries(val).forEach(([k,v])=>{
+                        if(k==='advertencias') return;
+                        p(`    ${pad('  · '+k,28)}${pad(fmtNum(v),18)}`);
+                    });
+                    if(val.advertencias?.length){
+                        val.advertencias.forEach(w=>{
+                            const msg=w.msg||w.mensaje||JSON.stringify(w);
+                            const ico=w.tipo?.includes('exceso')||w.tipo?.includes('deficit')?'⚠':'→';
+                            p(`    ${pad(`  ${ico} ${msg}`,50)}`);
+                        });
+                    }
                 } else {
                     // Buscar referencia en estadisticosConfig.js (primera opción) o statRefs (fallback)
                     const rawRef = (typeof estadisticosConfig !== 'undefined' && estadisticosConfig[stat]?.referencia) 
@@ -1034,9 +1050,18 @@ const ReporteManager = (() => {
             Object.entries(resultados.resultados).forEach(([stat,data])=>{
                 const val=data[col]; if(val===undefined)return;
                 if(typeof val==='object'&&!Array.isArray(val)){
-                    Object.entries(val).forEach(([k,v])=>rows.push(
-                        [col,stat,k,fmtNum(v,6),cv,paramMin,paramMax,paramEsp,paramFuera,paramCumpl,flagCount,flagsTxt].join('|')
-                    ));
+                    Object.entries(val).forEach(([k,v])=>{
+                        if(k==='advertencias') return;
+                        rows.push(
+                            [col,stat,k,fmtNum(v,6),cv,paramMin,paramMax,paramEsp,paramFuera,paramCumpl,flagCount,flagsTxt].join('|')
+                        );
+                    });
+                    if(val.advertencias?.length){
+                        val.advertencias.forEach(w=>{
+                            const msg=w.msg||w.mensaje||JSON.stringify(w);
+                            rows.push([col,stat,'ADVERTENCIA',msg,cv,paramMin,paramMax,paramEsp,paramFuera,paramCumpl,flagCount,flagsTxt].join('|'));
+                        });
+                    }
                 } else if(Array.isArray(val)){
                     rows.push([col,stat,'MODE',val.map(v=>fmtNum(v,6)).join(';'),cv,paramMin,paramMax,paramEsp,paramFuera,paramCumpl,flagCount,flagsTxt].join('|'));
                 } else {
@@ -1109,7 +1134,17 @@ const ReporteManager = (() => {
                 if(typeof val==='object'&&!Array.isArray(val)){
                     const formula = formulas[stat] || '';
                     h+=`<tr style="background:#f7f8fa"><td colspan="3" style="padding:5px 14px;font-size:8.5pt;color:#666"><em>${escapeHtml(stat)}</em></td></tr>`;
-                    Object.entries(val).forEach(([k,v])=>h+=`<tr><td style="padding-left:26px;color:#555">· ${escapeHtml(k)}</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${fmtNum(v)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">${formula}</td></tr>`);
+                    Object.entries(val).forEach(([k,v])=>{
+                        if(k==='advertencias') return;
+                        h+=`<tr><td style="padding-left:26px;color:#555">· ${escapeHtml(k)}</td><td style="font-family:monospace;text-align:right;color:#2c5282;font-weight:500">${fmtNum(v)}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">${formula}</td></tr>`;
+                    });
+                    if(val.advertencias?.length){
+                        val.advertencias.forEach(w=>{
+                            const msg=escapeHtml(w.msg||w.mensaje||JSON.stringify(w));
+                            const isBad=w.tipo?.includes('exceso')||w.tipo?.includes('deficit');
+                            h+=`<tr><td colspan="3" style="padding:2px 14px"><span style="display:inline-block;background:${isBad?'#fff5f5':'#fffbeb'};color:${isBad?'#c53030':'#b7791f'};padding:3px 8px;border-radius:3px;font-size:7.5pt;font-weight:600">⚠ ${msg}</span></td></tr>`;
+                        });
+                    }
                 } else {
                     const vf=Array.isArray(val)?(val.length?val.map(v=>fmtNum(v)).join(', '):'<em>—</em>'):fmtNum(val);
                     const formula = formulas[stat] || '';
