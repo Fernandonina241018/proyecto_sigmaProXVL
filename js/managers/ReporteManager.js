@@ -494,9 +494,9 @@ const ReporteManager = (() => {
         p(`  ${pad(t('location')+' :',24)}: ${meta.ubicacion        ||NA}`);
         p(`  ${pad(t('description')+' :',24)}: ${meta.descripcion     ||NA}`);
         p(`  ${pad(t('assay')+' :',24)}: ${meta.ensayo           ||NA}`);
-        p(`  ${pad(t('ui_modelo')+' :',24)}: ${meta.modelo          ||NA}`);
-        p(`  ${pad(t('ui_serial'),24)}: ${meta.serie || NA}`);
         p(`  ${pad(t('ui_marca')+' :',24)}: ${meta.marca           ||NA}`);
+        p(`  ${pad(t('ui_serial')+' :',24)}: ${meta.serie || NA}`);
+        p(`  ${pad(t('ui_modelo')+' :',24)}: ${meta.modelo          ||NA}`);
         p(`  ${pad(t('studyProtocol')+' :',24)}: ${meta.protocolo       ||NA}`);
         p(`  ${pad(t('phase')+' :',24)}: ${meta.fase             ||NA}`);
         p(`  ${pad(t('projectCode')+' :',24)}: ${meta.codigoProyecto  ||NA}`);
@@ -853,9 +853,9 @@ const ReporteManager = (() => {
             `## ${t('department')}|${meta.departamento||''}`,
             `## ${t('location')}|${meta.ubicacion||''}`,
             `## ${t('assay')}|${meta.ensayo||''}`,
-            `## ${t('ui_modelo')}|${meta.modelo||''}`,
-            `## ${t('ui_serial')}|${meta.serie||''}`,
             `## ${t('ui_marca')}|${meta.marca||''}`,
+            `## ${t('ui_serial')}|${meta.serie||''}`,
+            `## ${t('ui_modelo')}|${meta.modelo||''}`,
             `## Protocol|${meta.protocolo||''}`,
             `## ${t('datasetName')}|${meta.nombreDataset||''}`,
             `## ${t('preparedBy')}|${meta.preparedBy||''}`,
@@ -1152,8 +1152,8 @@ tr:hover td{background:#f7faff}
       ${mRow(t('reportVersion'), meta.version||'1.0')}
       <div style="grid-column:1/-1">${mRow(t('assay'),          meta.ensayo)}</div>
       <div style="grid-column:1/-1">${mRow(t('description'),    meta.descripcion)}</div>
-      ${mRow(t('ui_modelo'),       meta.modelo)}
       ${mRow(t('ui_marca'),        meta.marca)}
+      ${mRow(t('ui_modelo'),       meta.modelo)}
       ${mRow(t('ui_serial'),          meta.serie)}
       <div style="grid-column:1/-1">${mRow(t('confidentiality'),meta.confidencialidad||'CONFIDENTIAL')}</div>
     </div>
