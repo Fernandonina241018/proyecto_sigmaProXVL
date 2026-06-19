@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
   - **Circular/Dona borders** — Cambiados de `rgba(255,255,255,...)` a `rgba(0,0,0,...)` para visibilidad en ambos modos
   - **MutationObserver** — `_V_observeTheme()` escucha cambios en `data-theme` del `<html>` y re-renderiza automáticamente el chart si hay uno activo
 
+### 2026-06-18: Galería interactiva — Chart.js real con hover/tooltip/DPR en lugar de PNG estáticos
+
+**Qué:** Los gráficos generados en lote (batch) y guardados en galería ahora se muestran como instancias **Chart.js reales** con interactividad completa (hover, tooltip, animación), calidad retina (DPR automático) y adaptación al tema claro/oscuro. Se eliminó la captura de PNG full-res, reemplazada por thumbnails pequeños de 200×120 para la tira visual.
+
+**Cambios (solo `js/core/indexx-viz.js`):**
+
+| Función | Cambio |
+|---------|--------|
+| `initVizPage()` | Nuevo flag `_V._galleryMode = false` |
+| `vizSelType()` | Resetea `_V._galleryMode` al seleccionar un tipo |
+| `_V_observeTheme()` | MutationObserver re-aplica título de galería tras cambio de tema |
+| `getGraficosParaReporte()` | Soporta items nuevos: genera PNG estático vía `_V_generateStaticImage()` |
+| `_V_generateStaticImage()` | **NUEVA**: helper que renderiza chart en canvas off-DOM desde vars guardados y retorna PNG (para Reportes) |
+| `vizSaveToGallery()` | Guarda `{ type, vars, palette, thumb }` en lugar de `url` (PNG full-res). Captura thumbnail 200×120 del canvas |
+| `vizRefreshGallery()` | Muestra thumbnail de `g.thumb`, fallback a `g.url` (legacy), fallback a `.gal-noimg` |
+| `_V_showGalleryChart()` | Si `g.vars` existe → reconstruye Chart.js real con `vizRenderChart()`. Si `g.url` (legacy) → muestra estático |
+| `_V_saveGallery()` | Persiste estructura compacta: `{ id, title, type, vars, palette, thumb, url }`. En cuota excedida guarda sin thumb |
+| `_V_batchGenerate()` | Canvas temporal reducido a 200×120 solo para thumbnail. Guarda `{ type, vars, palette, thumb }`. Ya no captura PNG full-res |
+| `_V_injectCSS()` | Nueva regla `.gal-noimg` para thumbnails sin imagen |
+
+**Características del nuevo sistema:**
+- Gráficos en galería tienen **hover**, **tooltip**, **cambio de tema automático**
+- Calidad **retina/DPR** igual que los renders individuales
+- Thumbnails pequeños (~3-8 KB c/u vs ~100-300 KB del PNG full-res)
+- Sin riesgo de exceder cuota de localStorage
+- Backward compatible: items legacy con `url` se muestran como antes (estático)
+
 ### 2026-06-16: MKT (Mean Kinetic Temperature) — nuevo estadístico USP <659>
 
 **Qué:** Se agregó el estadístico **MKT** (Mean Kinetic Temperature / Temperatura Cinética Media) según USP <659> para estudios de estabilidad. Calcula la temperatura única que representa el efecto acumulativo de temperaturas variables durante almacenamiento/transporte.
