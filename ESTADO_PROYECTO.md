@@ -25,7 +25,7 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ### 2026-06-18: Auto-busting de caché — nunca más Ctrl+F5
 
-**Qué:** Se eliminó la necesidad de forzar refresco (Ctrl+F5) después de cada deploy. Ahora todos los JS locales se cargan dinámicamente con `?t={timestamp}`, forzando al navegador a buscar la versión nueva automáticamente.
+**Qué:** Se eliminó la necesidad de forzar refresco (Ctrl+F5) después de cada deploy. Ahora todos los JS locales se cargan dinámicamente con `?t={timestamp}` y los CSS se inyectan via `document.write` con `?t={timestamp}`, forzando al navegador a buscar la versión nueva automáticamente.
 
 **Cambios (solo `indexx.html`):**
 
@@ -33,12 +33,13 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 |-------|-------|
 | 26 `<script src="...">` estáticos (cacheados por el navegador) | 1 loader inline que carga todos los JS secuencialmente con `?t=Date.now()` |
 | `estadisticosConfig.js` en `<head>` (bloqueante) | Incluido en el loader dinámico |
-| Ctrl+F5 obligatorio tras cada push | Page load normal trae scripts frescos |
+| 7 `<link rel="stylesheet">` estáticos (cacheados) | 1 script inline con `document.write` + `?t=_CACHE_BUST` |
+| Ctrl+F5 obligatorio tras cada push | Page load normal trae todos los assets frescos |
 
 **Mecanismo:**
 - `window._CACHE_BUST = Date.now()` se define al inicio del `<head>`
-- Un loader al final del `<body>` crea `<script>` tags con `src="archivo.js?t=..."`
-- La carga es secuencial (cada script espera al anterior via `onload`), preservando dependencias
+- **CSS:** loader via `document.write` en `<head>` — sincrónico, bloquea render como `<link>` normal → cero FOUC
+- **JS:** loader al final del `<body>` crea `<script>` tags secuencialmente con `?t=...`
 - CDN scripts (Chart.js, QR code, Papaparse, XLSX) se mantienen como estáticos
 
 ### 2026-06-17: Columna de fórmulas en Reportes unificada contra estadisticosConfig
