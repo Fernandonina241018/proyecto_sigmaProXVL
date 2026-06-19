@@ -1823,7 +1823,7 @@ tr:hover td{background:#f7faff}
               </div>
             </div>`:''}
 
-            <!-- Información institucional -->
+            <!-- Información del reporte -->
             <div class="rep-card">
               <div class="rep-card-title">${t('ui_instHeader')}</div>
               <div class="rep-form-grid">
@@ -1857,14 +1857,14 @@ tr:hover td{background:#f7faff}
                   <input id="rep-ubicacion" placeholder="${currentLang==='es'?'Ej: Santo Domingo, DO':'E.g.: Santo Domingo, DO'}">
                 </div>
 
-                 <div class="rep-field">
-                   <label>${t('ui_serial')}</label>
-                   <input id="rep-serie" placeholder="123456789">
-                 </div>
+                <div class="rep-field">
+                  <label>${t('ui_description')}</label>
+                  <input id="rep-descripcion" placeholder="${currentLang==='es'?'Descripción breve del análisis o Equipo...':'Description of the analysis or Equipment...'}">
+                </div>
 
                 <div class="rep-field">
-                  <label>${t('ui_proto')}</label>
-                  <input id="rep-proto" readonly style="background:var(--bg-primary);cursor:default;opacity:.85" placeholder="${currentLang==='es'?'Auto: FASE-CÓDIGO':'Auto: PHASE-CODE'}">
+                  <label>${t('ui_marca')}</label>
+                  <input id="rep-marca" placeholder="THERMO FISHER">
                 </div>
 
                 <div class="rep-field">
@@ -1873,8 +1873,8 @@ tr:hover td{background:#f7faff}
                 </div>
 
                 <div class="rep-field">
-                  <label>${t('ui_marca')}</label>
-                  <input id="rep-marca" placeholder="THERMO FISHER">
+                  <label>${t('ui_serial')}</label>
+                  <input id="rep-serie" placeholder="123456789">
                 </div>
 
                 <div class="rep-field">
@@ -1900,14 +1900,9 @@ tr:hover td{background:#f7faff}
                   <input id="rep-code" placeholder="PRJ-2024-XXX">
                 </div>
 
-                <div class="rep-field rep-field-full">
+                <div class="rep-field">
                   <label>${t('ui_assay')}</label>
                   <input id="rep-ensayo" placeholder="${currentLang==='es'?'Ej: Determinación de pH, Ensayo de disolución':'E.g.: pH Determination, Dissolution Test'}">
-                </div>
-
-                <div class="rep-field rep-field-full">
-                  <label>${t('ui_description')}</label>
-                  <input id="rep-descripcion" placeholder="${currentLang==='es'?'Descripción breve del análisis o Equipo...':'Description of the analysis or Equipment...'}">
                 </div>
 
                 <div class="rep-field">
@@ -1925,12 +1920,17 @@ tr:hover td{background:#f7faff}
                   </select>
                 </div>
 
+                <div class="rep-field">
+                  <label>${t('ui_proto')}</label>
+                  <input id="rep-proto" readonly style="background:var(--bg-primary);cursor:default;opacity:.85" placeholder="${currentLang==='es'?'Auto: FASE-CÓDIGO':'Auto: PHASE-CODE'}">
+                </div>
+
               </div>
             </div>
 
-            <!-- Trazabilidad -->
+            <!-- Autocompletado -->
             <div class="rep-card">
-              <div class="rep-card-title">${t('ui_traceability')}</div>
+              <div class="rep-card-title">📋 Autocompletado</div>
               <div class="rep-form-grid">
                 <div class="rep-field"><label>${t('ui_dataset')}</label><input id="rep-dataset" value="${dsName}" placeholder="Nombre_Dataset"></div>
                 <div class="rep-field"><label>${t('ui_file')}</label><input id="rep-file" value="${fileLabel}" placeholder="datos.csv"></div>
