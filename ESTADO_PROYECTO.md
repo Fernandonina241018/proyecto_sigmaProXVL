@@ -23,6 +23,24 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-18: Auto-busting de caché — nunca más Ctrl+F5
+
+**Qué:** Se eliminó la necesidad de forzar refresco (Ctrl+F5) después de cada deploy. Ahora todos los JS locales se cargan dinámicamente con `?t={timestamp}`, forzando al navegador a buscar la versión nueva automáticamente.
+
+**Cambios (solo `indexx.html`):**
+
+| Antes | Ahora |
+|-------|-------|
+| 26 `<script src="...">` estáticos (cacheados por el navegador) | 1 loader inline que carga todos los JS secuencialmente con `?t=Date.now()` |
+| `estadisticosConfig.js` en `<head>` (bloqueante) | Incluido en el loader dinámico |
+| Ctrl+F5 obligatorio tras cada push | Page load normal trae scripts frescos |
+
+**Mecanismo:**
+- `window._CACHE_BUST = Date.now()` se define al inicio del `<head>`
+- Un loader al final del `<body>` crea `<script>` tags con `src="archivo.js?t=..."`
+- La carga es secuencial (cada script espera al anterior via `onload`), preservando dependencias
+- CDN scripts (Chart.js, QR code, Papaparse, XLSX) se mantienen como estáticos
+
 ### 2026-06-17: Columna de fórmulas en Reportes unificada contra estadisticosConfig
 
 **Qué:** La columna "Formula" del reporte HTML se quedaba vacía para varios estadísticos porque solo consultaba `I18N.en.statFormulas` (mapa fijo). Se unificó contra `estadisticosConfig.formula` que ya existe en TODAS las entradas. Además se eliminaron **170 líneas hardcodeadas** de `txtStatsInfo` en la Sección 5 del TXT.
