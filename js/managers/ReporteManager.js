@@ -1849,12 +1849,13 @@ tr:hover td{background:#f7faff}
                     <option>Investigación y Desarrollo</option>
                     <option>Logística</option>
                     <option>Servicios Generales</option>
+                    <option>Gestion de Calidad</option>
                   </select>
                 </div>
 
                 <div class="rep-field">
                   <label>${t('ui_location')}</label>
-                  <input id="rep-ubicacion" placeholder="${currentLang==='es'?'Ej: Santo Domingo, DO':'E.g.: Santo Domingo, DO'}">
+                  <input id="rep-ubicacion" placeholder="${currentLang==='es'?'Ej: Edificio, 01':'E.g.: Edificio, 01'}">
                 </div>
 
                 <div class="rep-field">
@@ -1889,15 +1890,12 @@ tr:hover td{background:#f7faff}
                     <option>Phase II</option>
                     <option>Phase III</option>
                     <option>Phase IV</option>
-                    <option>Pre-clinical</option>
-                    <option>Post-market</option>
-                    <option>Internal QC</option>
                   </select>
                 </div>
 
                 <div class="rep-field">
                   <label>${t('ui_code')}</label>
-                  <input id="rep-code" placeholder="PRJ-2024-XXX">
+                  <input id="rep-code" placeholder="DQ-1000AAA">
                 </div>
 
                 <div class="rep-field">
