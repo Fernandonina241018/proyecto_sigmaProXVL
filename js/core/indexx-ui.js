@@ -785,6 +785,7 @@ function loadPage(name) {
   if (name === 'ml') { setTimeout(function() { try { if (typeof MLManager !== 'undefined') MLManager.init(); } catch(e) { showToast('Error en ML: ' + e.message, 1); } }, 60); }
   if (name === 'modelo-estadistico') { setTimeout(function() { try { if (typeof MLStatsManager !== 'undefined') MLStatsManager.init(); } catch(e) { showToast('Error en modelo: ' + e.message, 1); } }, 60); }
   if (name === 'dispositivos') { setTimeout(function() { try { if (typeof DispositivosManager !== 'undefined') { DispositivosManager.init(API_URL); DispositivosManager.buildView(); } } catch(e) { showToast('Error en dispositivos: ' + e.message, 1); } }, 60); }
+  updateBottomNav(name);
   updateToolsMenuState();
   updateRibbonNavPopup();
   } catch(e) { showToast('Error al cambiar de página: ' + e.message, 1); }
@@ -882,6 +883,75 @@ function toggleDropdown(btn) {
 document.addEventListener('click', function(e) {
   if (!e.target.closest('.tb-dropdown')) {
     document.querySelectorAll('.tb-dropdown .dd-menu.open').forEach(function(m){ m.classList.remove('open'); });
+  }
+});
+
+// ═══════════════════════════════════════
+// BOTTOM NAVIGATION BAR
+// ═══════════════════════════════════════
+const WORKFLOW = [
+  { id: 'datos',          icon: '📊', name: 'Datos' },
+  { id: 'trabajo',        icon: '📋', name: 'Hoja de Trabajo' },
+  { id: 'analisis',       icon: '🔬', name: 'Análisis' },
+  { id: 'visualizacion',  icon: '📈', name: 'Visualización' },
+  { id: 'reportes',       icon: '📄', name: 'Reportes' },
+  { id: 'firmarReporte',  icon: '✍️', name: 'Firmar Reporte' },
+];
+
+const workflowIds = WORKFLOW.map(p => p.id);
+
+function updateBottomNav(name) {
+  var dotsEl   = document.getElementById('stepIndicator');
+  var navLabel = document.getElementById('navCurrentPage');
+  var btnPrev  = document.getElementById('btnPrev');
+  var btnNext  = document.getElementById('btnNext');
+  if (!dotsEl || !navLabel) return;
+
+  var icon = pageIcons[name] || '📄';
+  var title = pageTitles[name] || name;
+  navLabel.textContent = icon + ' ' + title;
+
+  var idx = workflowIds.indexOf(name);
+  var isWorkflowPage = idx !== -1;
+
+  dotsEl.innerHTML = '';
+  WORKFLOW.forEach(function(page, i) {
+    var dot = document.createElement('div');
+    dot.className = 'step-dot';
+    if (isWorkflowPage) {
+      if (i === idx) dot.classList.add('active');
+      else if (i < idx) dot.classList.add('done');
+    }
+    dot.title = page.name;
+    dot.addEventListener('click', function() { loadPage(page.id); });
+    dotsEl.appendChild(dot);
+  });
+
+  if (btnPrev) btnPrev.disabled = !isWorkflowPage || idx <= 0;
+  if (btnNext) btnNext.disabled = !isWorkflowPage || idx >= WORKFLOW.length - 1;
+}
+
+// ── Bottom nav button events ──
+document.getElementById('btnPrev')?.addEventListener('click', function() {
+  var idx = workflowIds.indexOf(currentPage);
+  if (idx > 0) loadPage(workflowIds[idx - 1]);
+});
+document.getElementById('btnNext')?.addEventListener('click', function() {
+  var idx = workflowIds.indexOf(currentPage);
+  if (idx < WORKFLOW.length - 1 && idx !== -1) loadPage(workflowIds[idx + 1]);
+});
+
+// ── Keyboard navigation ──
+document.addEventListener('keydown', function(e) {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+  if (e.altKey || e.ctrlKey || e.metaKey) return;
+  if (e.key === 'ArrowLeft') {
+    var idx = workflowIds.indexOf(currentPage);
+    if (idx > 0) { e.preventDefault(); loadPage(workflowIds[idx - 1]); }
+  }
+  if (e.key === 'ArrowRight') {
+    var idx = workflowIds.indexOf(currentPage);
+    if (idx >= 0 && idx < WORKFLOW.length - 1) { e.preventDefault(); loadPage(workflowIds[idx + 1]); }
   }
 });
 

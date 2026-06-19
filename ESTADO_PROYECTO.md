@@ -23,6 +23,28 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-19: Barra de navegación inferior integrada — bottom-nav con workflow steps
+
+**Qué:** Se integró una barra de navegación inferior (bottom-nav) en la app real, siguiendo el diseño prototipado en `nav-bar-design.html`. La barra muestra 6 pasos del workflow (Datos → Trabajo → Análisis → Visualización → Reportes → Firmar) con dots, botones Anterior/Siguiente, y el nombre de la página actual.
+
+**Cambios en 3 archivos:**
+
+| Archivo | Cambio |
+|---------|--------|
+| `indexx.html` | Nuevo bloque `.bottom-nav` dentro de `.content`, después del cierre de `.panes` (~60 líneas) |
+| `css/core/indexx.css` | ~70 líneas CSS con variables del tema existentes: `--bg-panel`, `--border`, `--accent`, `--item-bg`, `--card-hover`, `--text-muted`, `--text-faint`, responsive (640px) |
+| `js/core/indexx-ui.js` | Nueva `updateBottomNav(name)` llamada desde `loadPage()`, workflow de 6 pasos, eventos de botones, navegación por teclado (ArrowLeft/ArrowRight) |
+
+**Comportamiento:**
+- Páginas del workflow (datos, trabajo, analisis, visualizacion, reportes, firmarReporte) → dots active/done, prev/next habilitados
+- Páginas externas (auditoria, usuarios, ml, modelo-estadistico, dispositivos) → dots neutros (todos sin active), prev/next deshabilitados
+- Click en dot → navega a esa página
+- Teclado ArrowLeft/ArrowRight → navega (excepto en inputs)
+- La muesca del tab superior (`tab.active::after`) se conserva — propósito distinto (ventanas abiertas vs flujo de trabajo)
+- El sidebar indicator (`nav-item.active::before`) se conserva
+
+**CSS responsivo:** a <640px se ocultan labels, separador y nombre de página.
+
 ### 2026-06-19: Traducciones español + preservar estado del formulario al cambiar idioma
 
 **Qué:** Se agregó `I18N.es` completo con todas las claves traducidas al español (~80 strings + funciones). Ahora `t('ui_statusOk')` retorna "Análisis listo para exportar", `t('ui_formatHint')` retorna "Selecciona uno o más formatos...", etc.

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workflow Nav v2 — Diseño</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg-body:       #1a1a2e;
+    --bg-sidebar:    #16162a;
+    --bg-tabbar:     #12121e;
+    --bg-pane:       #16162a;
+    --bg-bar:        #12121e;
+    --bg-card:       #1e1e36;
+    --text-primary:  #e0e0e0;
+    --text-secondary:#888;
+    --text-muted:    #666;
+    --text-faint:    #555;
+    --border:        #2a2a4a;
+    --accent:        #ffffff;
+    --accent-dim:    rgba(255,255,255,.15);
+    --dot-bg:        #2a2a4a;
+    --dot-done:      #4a4a6a;
+    --hover-bg:      #2a2a4a;
+    --btn-border:    #2a2a4a;
+    --btn-text:      #aaa;
+    --shadow-accent: rgba(255,255,255,.3);
+  }
+
+  [data-theme="light"] {
+    --bg-body:       #f5f5f7;
+    --bg-sidebar:    #ffffff;
+    --bg-tabbar:     #f0f0f2;
+    --bg-pane:       #ffffff;
+    --bg-bar:        #ffffff;
+    --bg-card:       #ffffff;
+    --text-primary:  #1a1a2e;
+    --text-secondary:#666;
+    --text-muted:    #999;
+    --text-faint:    #bbb;
+    --border:        #e0e0e4;
+    --accent:        #000000;
+    --accent-dim:    rgba(0,0,0,.08);
+    --dot-bg:        #d0d0d4;
+    --dot-done:      #999;
+    --hover-bg:      #e8e8ec;
+    --btn-border:    #d0d0d4;
+    --btn-text:      #666;
+    --shadow-accent: rgba(0,0,0,.15);
+  }
+
+  body {
+    background: var(--bg-body);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    color: var(--text-primary);
+    transition: background .25s, color .25s;
+  }
+
+  /* ── Demo-only theme toggle ── */
+  .demo-toggle {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+  .demo-toggle-row {
+    display: flex;
+    gap: 4px;
+    background: var(--bg-bar);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 3px;
+  }
+  .demo-toggle-label {
+    font-size: 9px;
+    color: var(--text-faint);
+    font-weight: 600;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+  }
+  .theme-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all .15s;
+  }
+  .theme-btn.active { background: var(--accent); color: var(--bg-body); }
+  .theme-btn:hover:not(.active) { background: var(--hover-bg); }
+
+  /* ── App layout ── */
+  .app { display: flex; flex: 1; overflow: hidden; }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 50px;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 0;
+    gap: 6px;
+    transition: background .25s, border-color .25s;
+  }
+  .sidebar-icon {
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 6px; cursor: pointer;
+    font-size: 15px;
+    color: var(--text-faint);
+    transition: all .15s;
+    position: relative;
+  }
+  .sidebar-icon:hover { background: var(--hover-bg); color: var(--accent); }
+  .sidebar-icon.active { background: var(--accent-dim); color: var(--accent); }
+  .sidebar-sep {
+    width: 22px; height: 1px;
+    background: var(--border);
+    margin: 6px 0;
+  }
+  .sidebar-spacer { flex: 1; }
+
+  /* ── Content area ── */
+  .content { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+
+  /* ── Tabbar ── */
+  .tabbar {
+    height: 36px;
+    background: var(--bg-tabbar);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .tab {
+    padding: 0 14px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: var(--text-faint);
+    border-radius: 4px 4px 0 0;
+    border-bottom: 2px solid transparent;
+  }
+  .tab.active { color: var(--accent); background: var(--bg-body); border-bottom-color: var(--accent); }
+  .tabbar-spacer { flex: 1; }
+
+  /* ── Pane header ── */
+  .pane-header {
+    height: 36px;
+    background: var(--bg-pane);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    flex-shrink: 0;
+  }
+  .pane-nav { display: flex; gap: 4px; }
+  .pane-nav-btn {
+    width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 4px;
+    color: var(--text-faint);
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .pane-nav-btn:hover { background: var(--hover-bg); color: var(--accent); }
+  .pane-title { flex: 1; text-align: center; font-size: 12px; font-weight: 500; color: var(--text-muted); }
+
+  /* ── Page content ── */
+  .page-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 40px 40px 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .page-content-card { max-width: 600px; width: 100%; text-align: center; }
+  .page-content-card .page-icon { font-size: 60px; margin-bottom: 14px; }
+  .page-group-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .7px;
+    padding: 3px 10px;
+    border-radius: 99px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .page-group-badge.admin {
+    background: rgba(255, 159, 67, .15);
+    color: #ff9f43;
+  }
+  .page-content-card h2 { font-size: 23px; font-weight: 600; margin-bottom: 8px; }
+  .page-content-card p { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+  .page-admin-note {
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--text-faint);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ═══════════════════════════════════════
+     FLOATING SECONDARY NAV
+     ═══════════════════════════════════════ */
+  .float-nav {
+    position: absolute;
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%) translateY(0);
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 6px;
+    box-shadow: 0 10px 32px rgba(0,0,0,.4);
+    backdrop-filter: blur(10px);
+    transition: opacity .22s ease, transform .22s ease;
+    z-index: 50;
+  }
+  .float-nav.hidden {
+    opacity: 0;
+    transform: translateX(-50%) translateY(14px);
+    pointer-events: none;
+  }
+
+  .fn-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 12.5px;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+    transition: all .15s;
+  }
+  .fn-btn:hover:not(:disabled) { background: var(--hover-bg); }
+  .fn-btn:hover:not(:disabled) .dest { color: var(--accent); }
+  .fn-btn:disabled { opacity: .3; cursor: default; }
+  .fn-btn .arrow { font-size: 12px; opacity: .6; }
+  .fn-btn .dest { color: var(--text-primary); font-weight: 600; transition: color .15s; }
+  .fn-btn.next { flex-direction: row-reverse; }
+
+  .fn-dots { display: flex; align-items: center; gap: 5px; padding: 0 10px; }
+  .fn-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--dot-bg);
+    cursor: pointer;
+    transition: all .2s;
+    border: none;
+    padding: 0;
+  }
+  .fn-dot:hover { background: var(--dot-done); }
+  .fn-dot.current { background: var(--accent); width: 16px; border-radius: 4px; }
+
+  .fn-sep { width: 1px; height: 20px; background: var(--border); flex-shrink: 0; }
+
+  /* ── Responsive: collapse destination labels on narrow viewports ── */
+  @media (max-width: 640px) {
+    .fn-btn .dest { display: none; }
+    .fn-btn { padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- DEMO-ONLY theme toggle: el real ya existe en la status bar de Obsidian -->
+<div class="demo-toggle">
+  <div class="demo-toggle-label">🔧 Solo vista previa</div>
+  <div class="demo-toggle-row">
+    <button class="theme-btn active" data-theme="dark">🌙 Oscuro</button>
+    <button class="theme-btn" data-theme="light">☀️ Claro</button>
+  </div>
+</div>
+
+<div class="app">
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar"></div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <div class="tabbar">
+      <div class="tab active">📊 Datos</div>
+      <div class="tab">📋 Trabajo</div>
+      <div class="tabbar-spacer"></div>
+    </div>
+
+    <div class="pane-header">
+      <div class="pane-nav">
+        <div class="pane-nav-btn">‹</div>
+        <div class="pane-nav-btn">›</div>
+      </div>
+      <div class="pane-title" id="paneTitle">Datos</div>
+      <div class="pane-nav"><div class="pane-nav-btn">⋯</div></div>
+    </div>
+
+    <div class="page-body">
+      <div class="page-content-card">
+        <div class="page-group-badge" id="pageGroupBadge">MÓDULO</div>
+        <div class="page-icon" id="pageIcon">📊</div>
+        <h2 id="pageName">Gestión de Datos</h2>
+        <p id="pageDesc">Carga, previsualiza y prepara tus datasets antes del análisis.</p>
+        <div class="page-admin-note" id="adminNote" style="display:none">
+          ↳ Esta sección no forma parte del atajo de navegación secundaria.
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating secondary nav: solo visible dentro del grupo Módulos -->
+    <div class="float-nav" id="floatNav">
+      <button class="fn-btn prev" id="btnPrev">
+        <span class="arrow">‹</span>
+        <span class="dest" id="prevDest">—</span>
+      </button>
+      <div class="fn-sep"></div>
+      <div class="fn-dots" id="fnDots"></div>
+      <div class="fn-sep"></div>
+      <button class="fn-btn next" id="btnNext">
+        <span class="arrow">›</span>
+        <span class="dest" id="nextDest">—</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  /* ════════════════════════════════════════════════════════════
+     INTEGRACIÓN AL PROYECTO REAL — notas:
+     1. Reemplazar MODULES/ADMIN por la config real del sidebar.
+     2. selectPage() debe llamar al router/estado real de la app
+        en vez de solo actualizar el DOM de este mock.
+     3. currentPageId debe sincronizarse con lo que el sidebar
+        real reporte como activo (listener, no solo clicks aquí).
+     4. El theme toggle de arriba a la derecha es SOLO de esta
+        demo — no portar, ya existe el real en la status bar.
+     ════════════════════════════════════════════════════════════ */
+
+  // ── Theme toggle (demo) ──
+  document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.documentElement.setAttribute('data-theme', btn.dataset.theme);
+    });
+  });
+
+  // ── Page definitions, agrupadas igual que el sidebar real ──
+  const MODULES = [
+    { id:'datos',         icon:'📊', name:'Datos',           desc:'Carga, previsualiza y prepara tus datasets antes del análisis.' },
+    { id:'trabajo',       icon:'📋', name:'Trabajo',          desc:'Explora y edita tus datos en la hoja de cálculo.' },
+    { id:'analisis',      icon:'🔬', name:'Análisis',         desc:'Ejecuta pruebas estadísticas y modelos sobre tus variables.' },
+    { id:'visualizacion', icon:'📈', name:'Visualización',    desc:'Genera gráficos interactivos para explorar tus resultados.' },
+    { id:'reportes',      icon:'📄', name:'Reportes',         desc:'Genera reportes regulatorios en HTML, PDF, TXT o CSV.' },
+    { id:'firmar',        icon:'🖊️', name:'Firmar Reporte',   desc:'Firma electrónicamente tus reportes (21 CFR Part 11).' },
+    { id:'ml',            icon:'🤖', name:'ML Analysis',      desc:'Modelos de machine learning aplicados a tus datasets.' },
+    { id:'modelo',        icon:'🧮', name:'Modelo Stats',     desc:'Construye y valida modelos estadísticos avanzados.' },
+  ];
+  const ADMIN = [
+    { id:'auditoria',     icon:'🗂️', name:'Auditoría',        desc:'Historial de cambios y trazabilidad del sistema.' },
+    { id:'usuarios',      icon:'👥', name:'Usuarios',          desc:'Gestiona accesos, roles y permisos del equipo.' },
+    { id:'dispositivos',  icon:'🖥️', name:'Dispositivos',      desc:'Administra los equipos conectados al sistema.' },
+  ];
+  const ALL = [...MODULES.map(p=>({...p,group:'modulo'})), ...ADMIN.map(p=>({...p,group:'admin'}))];
+
+  let currentPageId = 'datos';
+
+  // ── Sidebar render ──
+  const sidebarEl = document.getElementById('sidebar');
+  function renderSidebar() {
+    sidebarEl.innerHTML = '';
+    MODULES.forEach(p => sidebarEl.appendChild(mkIcon(p)));
+    const sep = document.createElement('div');
+    sep.className = 'sidebar-sep';
+    sidebarEl.appendChild(sep);
+    ADMIN.forEach(p => sidebarEl.appendChild(mkIcon(p)));
+  }
+  function mkIcon(p) {
+    const el = document.createElement('div');
+    el.className = 'sidebar-icon' + (p.id === currentPageId ? ' active' : '');
+    el.textContent = p.icon;
+    el.title = p.name;
+    el.addEventListener('click', () => selectPage(p.id));
+    return el;
+  }
+
+  // ── DOM refs ──
+  const pageIcon   = document.getElementById('pageIcon');
+  const pageName   = document.getElementById('pageName');
+  const pageDesc   = document.getElementById('pageDesc');
+  const groupBadge = document.getElementById('pageGroupBadge');
+  const adminNote  = document.getElementById('adminNote');
+  const paneTitle  = document.getElementById('paneTitle');
+  const floatNav   = document.getElementById('floatNav');
+  const btnPrev    = document.getElementById('btnPrev');
+  const btnNext    = document.getElementById('btnNext');
+  const prevDest   = document.getElementById('prevDest');
+  const nextDest   = document.getElementById('nextDest');
+  const fnDots     = document.getElementById('fnDots');
+
+  function selectPage(id) {
+    currentPageId = id;
+    const page = ALL.find(p => p.id === id);
+
+    pageIcon.textContent  = page.icon;
+    pageName.textContent  = page.name;
+    pageDesc.textContent  = page.desc;
+    paneTitle.textContent = page.name;
+
+    groupBadge.textContent = page.group === 'modulo' ? 'MÓDULO' : 'ADMINISTRACIÓN';
+    groupBadge.classList.toggle('admin', page.group === 'admin');
+    adminNote.style.display = page.group === 'admin' ? 'inline-flex' : 'none';
+
+    renderSidebar();
+    updateFloatNav(page);
+  }
+
+  function updateFloatNav(page) {
+    if (page.group !== 'modulo') {
+      floatNav.classList.add('hidden');
+      return;
+    }
+    floatNav.classList.remove('hidden');
+
+    const idx = MODULES.findIndex(m => m.id === page.id);
+
+    btnPrev.disabled = idx === 0;
+    btnNext.disabled = idx === MODULES.length - 1;
+    prevDest.textContent = idx > 0 ? MODULES[idx - 1].name : '—';
+    nextDest.textContent = idx < MODULES.length - 1 ? MODULES[idx + 1].name : '—';
+
+    fnDots.innerHTML = '';
+    MODULES.forEach((m, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'fn-dot' + (i === idx ? ' current' : '');
+      dot.title = m.name;
+      dot.addEventListener('click', () => selectPage(m.id));
+      fnDots.appendChild(dot);
+    });
+  }
+
+  btnPrev.addEventListener('click', () => {
+    const idx = MODULES.findIndex(m => m.id === currentPageId);
+    if (idx > 0) selectPage(MODULES[idx - 1].id);
+  });
+  btnNext.addEventListener('click', () => {
+    const idx = MODULES.findIndex(m => m.id === currentPageId);
+    if (idx < MODULES.length - 1) selectPage(MODULES[idx + 1].id);
+  });
+
+  // ── Atajo de teclado: Alt+Flechas, nunca flechas solas ──
+  // (filtro doble: requiere Alt Y verifica que el foco no esté
+  //  en un campo de entrada, para no chocar con selects/inputs)
+  document.addEventListener('keydown', (e) => {
+    const tag = document.activeElement.tagName;
+    if (['INPUT', 'SELECT', 'TEXTAREA'].includes(tag)) return;
+    if (!e.altKey) return;
+    if (floatNav.classList.contains('hidden')) return;
+
+    if (e.key === 'ArrowLeft' && !btnPrev.disabled) { e.preventDefault(); btnPrev.click(); }
+    if (e.key === 'ArrowRight' && !btnNext.disabled) { e.preventDefault(); btnNext.click(); }
+  });
+
+  // ── Init ──
+  renderSidebar();
+  selectPage('datos');
+</script>
+
+</body>
+</html>
