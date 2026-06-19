@@ -2,9 +2,8 @@
 <html lang="es">
 <head>
   <link rel="icon" href="data:,">
-  <script>window.addEventListener('error',function(e){e.preventDefault();var msg=e.error?e.error.message:e.message;if(!document.body)return;var el=document.getElementById('app-error-global');if(!el){el=document.createElement('div');el.id='app-error-global';el.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(239,68,68,.15);backdrop-filter:blur(8px);border-top:1px solid rgba(239,68,68,.4);padding:8px 14px;font-size:12px;color:#fca5a5;display:flex;align-items:center;gap:10px;font-family:sans-serif';el.innerHTML='<span style="font-size:16px">⚠️</span><span style="flex:1">Error inesperado. La app continúa funcionando.</span><button onclick="this.parentElement.remove()" style="background:none;border:1px solid rgba(239,68,68,.3);color:#fca5a5;border-radius:4px;padding:2px 10px;cursor:pointer;font-size:11px">Descartar</button>';document.body.appendChild(el)};try{if(typeof Logger!=='undefined')Logger.logError('Uncaught: '+msg)}catch(_){};return true});window.addEventListener('unhandledrejection',function(e){e.preventDefault();var msg=e.reason&&e.reason.message?e.reason.message:'inesperado';if(!document.body)return;var el=document.getElementById('app-error-global');if(!el){el=document.createElement('div');el.id='app-error-global';el.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(239,68,68,.15);backdrop-filter:blur(8px);border-top:1px solid rgba(239,68,68,.4);padding:8px 14px;font-size:12px;color:#fca5a5;display:flex;align-items:center;gap:10px;font-family:sans-serif';el.innerHTML='<span style="font-size:16px">⚠️</span><span style="flex:1">Error en operación: '+msg+'</span><button onclick="this.parentElement.remove()" style="background:none;border:1px solid rgba(239,68,68,.3);color:#fca5a5;border-radius:4px;padding:2px 10px;cursor:pointer;font-size:11px">Descartar</button>';document.body.appendChild(el)};return true});</script>
-  <script src="js/core/estadisticosConfig.js"></script>
-<meta charset="UTF-8">
+  <script>window.addEventListener('error',function(e){e.preventDefault();var msg=e.error?e.error.message:e.message;if(!document.body)return;var el=document.getElementById('app-error-global');if(!el){el=document.createElement('div');el.id='app-error-global';el.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(239,68,68,.15);backdrop-filter:blur(8px);border-top:1px solid rgba(239,68,68,.4);padding:8px 14px;font-size:12px;color:#fca5a5;display:flex;align-items:center;gap:10px;font-family:sans-serif';el.innerHTML='<span style="font-size:16px">⚠️</span><span style="flex:1">Error inesperado. La app continúa funcionando.</span><button onclick="this.parentElement.remove()" style="background:none;border:1px solid rgba(239,68,68,.3);color:#fca5a5;border-radius:4px;padding:2px 10px;cursor:pointer;font-size:11px">Descartar</button>';document.body.appendChild(el)};try{if(typeof Logger!=='undefined')Logger.logError('Uncaught: '+msg)}catch(_){};return true});window.addEventListener('unhandledrejection',function(e){e.preventDefault();var msg=e.reason&&e.reason.message?e.reason.message:'inesperado';if(!document.body)return;var el=document.getElementById('app-error-global');if(!el){el=document.createElement('div');el.id='app-error-global';el.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(239,68,68,.15);backdrop-filter:blur(8px);border-top:1px solid rgba(239,68,68,.4);padding:8px 14px;font-size:12px;color:#fca5a5;display:flex;align-items:center;gap:10px;font-family:sans-serif';el.innerHTML='<span style="font-size:16px">⚠️</span><span style="flex:1">Error en operación: '+msg+'</span><button onclick="this.parentElement.remove()" style="background:none;border:1px solid rgba(239,68,68,.3);color:#fca5a5;border-radius:4px;padding:2px 10px;cursor:pointer;font-size:11px">Descartar</button>';document.body.appendChild(el)};return true});window._CACHE_BUST = Date.now();</script>
+  <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stats Analizer Pro (SAP2.0)</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
@@ -305,34 +304,49 @@
 <!-- Autocomplete -->
 <div class="autocomplete-list" id="autocompleteList" style="display:none"></div>
 
-<script src="js/core/indexx-globals.js"></script>
-<script src="js/core/indexx-ui.js"></script>
-<script src="js/core/indexx-trabajo.js"></script>
-<script src="js/core/indexx-viz.js"></script>
-<script src="js/core/indexx-datos.js"></script>
-<script src="js/core/indexx-analysis.js"></script>
-<script src="js/core/indexx-firma.js"></script>
-<script src="js/core/indexx-palette.js"></script>
-<script src="js/core/indexx-boot.js"></script>
-<script src="js/core/utils.js"></script>
-<script src="js/core/StatsUtils.js"></script>
-<script src="js/core/EstadisticaDescriptiva.js"></script>
-<script src="js/managers/ToolsManager.js"></script>
-<script src="js/core/StorageAdapter.js"></script>
-<script src="js/core/StateManager.js"></script>
-<script src="js/core/auth.js"></script>
-<script src="js/managers/AuditoriaManager.js"></script>
-<script src="js/managers/UsuariosManager.js"></script>
+<script>
+(function(){
+var t = window._CACHE_BUST || Date.now();
+var files = [
+  'js/core/estadisticosConfig.js',
+  'js/core/indexx-globals.js',
+  'js/core/indexx-ui.js',
+  'js/core/indexx-trabajo.js',
+  'js/core/indexx-viz.js',
+  'js/core/indexx-datos.js',
+  'js/core/indexx-analysis.js',
+  'js/core/indexx-firma.js',
+  'js/core/indexx-palette.js',
+  'js/core/indexx-boot.js',
+  'js/core/utils.js',
+  'js/core/StatsUtils.js',
+  'js/core/EstadisticaDescriptiva.js',
+  'js/managers/ToolsManager.js',
+  'js/core/StorageAdapter.js',
+  'js/core/StateManager.js',
+  'js/core/auth.js',
+  'js/managers/AuditoriaManager.js',
+  'js/managers/UsuariosManager.js',
+  'js/pages/ml.js',
+  'js/managers/ReporteManager.js',
+  'js/managers/EDAManager.js',
+  'js/core/ModeloEstadistico.js',
+  'js/managers/MLStatsManager.js',
+  'js/core/DeviceFingerprint.js',
+  'js/managers/DispositivosManager.js',
+];
+(function load(i) {
+  if (i >= files.length) return;
+  var el = document.createElement('script');
+  el.src = files[i] + '?t=' + t;
+  el.onload = el.onerror = function() { load(i + 1); };
+  document.body.appendChild(el);
+})(0);
+})();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 <!-- ML Service URL: cambiar cuando deployes en Render -->
 <script>var ML_API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:8000' : 'https://sigmapro-ml.fly.dev';</script>
-<script src="js/pages/ml.js"></script>
-<script src="js/managers/ReporteManager.js"></script>
-<script src="js/managers/EDAManager.js"></script>
-<script src="js/core/ModeloEstadistico.js"></script>
-<script src="js/managers/MLStatsManager.js"></script>
-<script src="js/core/DeviceFingerprint.js"></script>
-<script src="js/managers/DispositivosManager.js"></script>
 <script>
 (function(){
 var t=document.getElementById('themeToggle'),d=document.documentElement,s=localStorage.getItem('theme');
