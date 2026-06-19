@@ -135,6 +135,7 @@ function _V_injectCSS() {
     + '.viz-root .gal-thumb{flex-shrink:0;width:90px;height:62px;background:var(--bg2);border:1.5px solid var(--sep);border-radius:var(--rs);overflow:hidden;position:relative;cursor:pointer;transition:border-color .14s}'
     + '.viz-root .gal-thumb:hover{border-color:var(--acc)}'
     + '.viz-root .gal-thumb img{width:100%;height:100%;object-fit:cover;display:block}'
+    + '.viz-root .gal-noimg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--t3);background:var(--bg3)}'
     + '.viz-root .gal-del{position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.75);border:none;color:#fff;font-size:9px;cursor:pointer;display:none;align-items:center;justify-content:center}'
     + '.viz-root .gal-thumb:hover .gal-del{display:flex}'
     + '.viz-root .gal-name{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.65);font-size:9px;color:var(--t2);padding:2px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
@@ -263,6 +264,10 @@ window.Visualizacion = {
     try {
       _V.gallery.forEach(function(g) {
         if (g && g.url) graficos.push({ imagen: g.url, titulo: g.title, tipo: g.type || 'desconocido' });
+        else if (g && g.vars) {
+          var staticImg = _V_generateStaticImage(g);
+          if (staticImg) graficos.push({ imagen: staticImg, titulo: g.title, tipo: g.type || 'desconocido' });
+        }
       });
       if (graficos.length === 0 && _V.chart && _V.chart.canvas) {
         graficos.push({ imagen: _V.chart.canvas.toDataURL('image/png'), titulo: (document.getElementById('vizChartTtl') || {}).textContent || 'Gráfico', tipo: _V.type || 'desconocido' });
@@ -283,6 +288,7 @@ function initVizPage() {
   _V.vals = {};
   _V.vals.x = '__index__';
   _V.palette = 'violet';
+  _V._galleryMode = false;
 
   vizBuildCatTabs();
   vizBuildChartGrid();
@@ -300,6 +306,10 @@ function _V_observeTheme() {
   var observer = new MutationObserver(function() {
     if (_V.chart && _V.chart.canvas) {
       vizRenderChart();
+      if (_V._galleryMode) {
+        var ttlEl = document.getElementById('vizChartTtl');
+        if (ttlEl && _V._galleryTitle) ttlEl.textContent = _V._galleryTitle;
+      }
     }
   });
   observer.observe(html, { attributes: true, attributeFilter: ['data-theme'] });
@@ -402,6 +412,7 @@ function vizSelCat(id) {
 function vizSelType(type) {
   _V.type = type;
   _V.vals = {};
+  _V._galleryMode = false;
   vizBuildChartGrid();
   vizBuildAxisConfig();
   var axisEl = document.getElementById('vizAxisBody');
@@ -797,6 +808,37 @@ function vizRenderChart() {
   showToast('✓ Gráfico renderizado');
 }
 
+function _V_generateStaticImage(g) {
+  if (g.url) return g.url;
+  if (!g.vars) return null;
+  var savedType = _V.type;
+  var savedVals = JSON.parse(JSON.stringify(_V.vals));
+  var savedPalette = _V.palette;
+  _V.type = g.type;
+  _V.vals = JSON.parse(JSON.stringify(g.vars));
+  if (g.palette) _V.palette = g.palette;
+  var config = _V_buildConfig();
+  if (!config) {
+    _V.type = savedType; _V.vals = savedVals; _V.palette = savedPalette;
+    return null;
+  }
+  config.options.responsive = false;
+  config.options.animation = false;
+  var tc = document.createElement('canvas');
+  tc.width = 800; tc.height = 500;
+  var tctx = tc.getContext('2d');
+  try {
+    var tch = new Chart(tctx, config);
+    var url = tc.toDataURL('image/png');
+    tch.destroy();
+    _V.type = savedType; _V.vals = savedVals; _V.palette = savedPalette;
+    return url;
+  } catch(e) {
+    _V.type = savedType; _V.vals = savedVals; _V.palette = savedPalette;
+    return null;
+  }
+}
+
 // ══ GALLERY ════════════════════════════════════════════════════
 function vizSaveToGallery() {
   if (!_V.chart) { showToast('Renderiza un gráfico primero'); return; }
@@ -804,9 +846,15 @@ function vizSaveToGallery() {
   if (!canvas) return;
   var ttlEl = document.getElementById('vizChartTtl');
   var title = ttlEl ? (ttlEl.textContent || (_V_TYPES[_V.type] ? _V_TYPES[_V.type].lbl : 'Gráfico')) : 'Gráfico';
-  var url = canvas.toDataURL('image/png');
+
+  var thumbC = document.createElement('canvas');
+  thumbC.width = 200; thumbC.height = 120;
+  var thumbCtx = thumbC.getContext('2d');
+  thumbCtx.drawImage(canvas, 0, 0, 200, 120);
+  var thumb = thumbC.toDataURL('image/png');
+
   var id = Date.now();
-  _V.gallery.unshift({ id: id, title: title, url: url, type: _V.type || '' });
+  _V.gallery.unshift({ id: id, title: title, type: _V.type || '', vars: JSON.parse(JSON.stringify(_V.vals)), palette: _V.palette, thumb: thumb });
   if (_V.gallery.length > 30) _V.gallery = _V.gallery.slice(0, 30);
   vizRefreshGallery();
   _V_saveGallery();
@@ -828,7 +876,8 @@ function vizRefreshGallery() {
   _V.gallery.forEach(function(g) {
     var div = document.createElement('div');
     div.className = 'gal-thumb';
-    div.innerHTML = '<img src="' + g.url + '" alt="' + g.title.replace(/"/g, '&quot;') + '">' +
+    var thumbSrc = g.thumb || g.url || '';
+    div.innerHTML = (thumbSrc ? '<img src="' + thumbSrc + '" alt="' + g.title.replace(/"/g, '&quot;') + '">' : '<div class="gal-noimg">' + (g.type ? g.type[0].toUpperCase() : '?') + '</div>') +
       '<button class="gal-del" onclick="event.stopPropagation();vizDelGallery(' + g.id + ')">✕</button>' +
       '<div class="gal-name">' + escapeHtml(g.title) + '</div>';
     div.onclick = function() { _V_showGalleryChart(g); };
@@ -845,23 +894,47 @@ function _V_showGalleryChart(g) {
 
   if (emptyEl) emptyEl.style.display = 'none';
   if (wrapperEl) wrapperEl.classList.add('vis');
-  if (ttlEl) ttlEl.textContent = g.title;
-  if (tagEl) tagEl.textContent = g.type ? g.type.toUpperCase() : 'GRÁFICO';
-  if (infoEl) infoEl.innerHTML = '<strong>' + escapeHtml(g.title) + '</strong> · Desde galería';
 
-  if (_V.chart) { try { _V.chart.destroy(); } catch(e) {} _V.chart = null; }
+  if (g.vars) {
+    _V.type = g.type;
+    _V.vals = JSON.parse(JSON.stringify(g.vars));
+    if (g.palette) _V.palette = g.palette;
+    _V._galleryMode = true;
+    _V._galleryTitle = g.title;
 
-  var canvas = document.getElementById('vizMainChart');
-  if (canvas) {
-    var ctx = canvas.getContext('2d');
-    var img = new Image();
-    img.onload = function() {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    };
-    img.src = g.url;
+    vizBuildCatTabs();
+    vizBuildChartGrid();
+    vizBuildAxisConfig();
+    vizBuildPalettes();
+
+    vizRenderChart();
+
+    if (ttlEl) ttlEl.textContent = g.title;
+    if (tagEl) tagEl.textContent = g.type ? g.type.toUpperCase() : 'GRÁFICO';
+    if (infoEl) infoEl.innerHTML = '<strong>' + escapeHtml(g.title) + '</strong> · Desde galería';
+
+  } else {
+    if (ttlEl) ttlEl.textContent = g.title;
+    if (tagEl) tagEl.textContent = g.type ? g.type.toUpperCase() : 'GRÁFICO';
+    if (infoEl) infoEl.innerHTML = '<strong>' + escapeHtml(g.title) + '</strong> · Desde galería (estático)';
+
+    if (_V.chart) { try { _V.chart.destroy(); } catch(e) {} _V.chart = null; }
+    _V._galleryMode = false;
+
+    if (g.url) {
+      var canvas = document.getElementById('vizMainChart');
+      if (canvas) {
+        var ctx = canvas.getContext('2d');
+        var img = new Image();
+        img.onload = function() {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        };
+        img.src = g.url;
+      }
+    }
   }
 }
 
@@ -884,13 +957,22 @@ function vizClearGallery() {
 function _V_saveGallery() {
   try {
     localStorage.setItem('sigmaPro_vizGallery', JSON.stringify(_V.gallery.map(function(g) {
-      return { id: g.id, title: g.title, url: g.url, type: g.type };
+      var item = { id: g.id, title: g.title, type: g.type };
+      if (g.vars) item.vars = g.vars;
+      if (g.palette) item.palette = g.palette;
+      if (g.thumb) item.thumb = g.thumb;
+      if (g.url) item.url = g.url;
+      return item;
     })));
   } catch(e) {
     if (e.name === 'QuotaExceededError') {
       try {
-        localStorage.setItem('sigmaPro_vizGalleryMeta', JSON.stringify(_V.gallery.map(function(g) {
-          return { id: g.id, title: g.title, type: g.type };
+        localStorage.setItem('sigmaPro_vizGallery', JSON.stringify(_V.gallery.map(function(g) {
+          var item = { id: g.id, title: g.title, type: g.type };
+          if (g.vars) item.vars = g.vars;
+          if (g.palette) item.palette = g.palette;
+          if (g.url) item.url = g.url;
+          return item;
         })));
       } catch(e2) { /* ignore */ }
     }
@@ -1044,28 +1126,26 @@ function _V_batchGenerate(type, colX, selectedCols) {
 
     var config = _V_buildConfig();
     if (!config) return;
-
     config.options.responsive = false;
     config.options.animation = false;
 
-    var dpr = window.devicePixelRatio || 1;
-    var tempCanvas = document.createElement('canvas');
-    tempCanvas.width = 800 * dpr;
-    tempCanvas.height = 500 * dpr;
-    var tempCtx = tempCanvas.getContext('2d');
+    var savedVars = JSON.parse(JSON.stringify(_V.vals));
+    var savedType = _V.type;
 
+    var thumb = '';
     try {
-      var tempChart = new Chart(tempCtx, config);
-      var url = tempCanvas.toDataURL('image/png');
-      var title = (_V_TYPES[_V.type] ? _V_TYPES[_V.type].lbl : 'Gráfico') + ' · ' + col;
-      var id = Date.now() + count;
-      _V.gallery.unshift({ id: id, title: title, url: url, type: _V.type || '' });
-      tempChart.destroy();
-      count++;
-    } catch(e) {
-      errs++;
-      console.warn('[Viz Multi] Error con ' + col + ':', e);
-    }
+      var tc = document.createElement('canvas');
+      tc.width = 200; tc.height = 120;
+      var tctx = tc.getContext('2d');
+      var tch = new Chart(tctx, config);
+      thumb = tc.toDataURL('image/png');
+      tch.destroy();
+    } catch(e) { /* thumbnail optional */ }
+
+    var title = (_V_TYPES[savedType] ? _V_TYPES[savedType].lbl : 'Gráfico') + ' · ' + col;
+    var id = Date.now() + count;
+    _V.gallery.unshift({ id: id, title: title, type: savedType, vars: savedVars, palette: _V.palette, thumb: thumb });
+    count++;
   });
 
   _V.opts.anim = oldAnim;
