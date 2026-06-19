@@ -771,8 +771,7 @@ function vizRenderChart() {
   var titleInput = document.getElementById('vizChartTitle');
   var title = titleInput ? titleInput.value.trim() : '';
   if (!title) {
-    var typeDef = _V_TYPES[_V.type];
-    title = (typeDef ? typeDef.lbl : 'Gráfico') + ' — ' + new Date().toLocaleDateString('es-DO');
+    title = _V_autoTitle();
   }
 
   var ttlEl = document.getElementById('vizChartTtl');
@@ -837,6 +836,16 @@ function _V_generateStaticImage(g) {
     _V.type = savedType; _V.vals = savedVals; _V.palette = savedPalette;
     return null;
   }
+}
+
+function _V_formatDate(d) {
+  var ms = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  return ('0' + d.getDate()).slice(-2) + '/' + ms[d.getMonth()] + '/' + d.getFullYear();
+}
+function _V_autoTitle() {
+  var col = _V.vals.variable || _V.vals.y || _V.vals.y1 || '';
+  var typeDef = _V_TYPES[_V.type];
+  return (col ? col + ' · ' : '') + (typeDef ? typeDef.lbl : 'Gráfico') + ' · ' + _V_formatDate(new Date());
 }
 
 // ══ GALLERY ════════════════════════════════════════════════════
@@ -1142,7 +1151,7 @@ function _V_batchGenerate(type, colX, selectedCols) {
       tch.destroy();
     } catch(e) { /* thumbnail optional */ }
 
-    var title = (_V_TYPES[savedType] ? _V_TYPES[savedType].lbl : 'Gráfico') + ' · ' + col;
+    var title = _V_autoTitle();
     var id = Date.now() + count;
     _V.gallery.unshift({ id: id, title: title, type: savedType, vars: savedVars, palette: _V.palette, thumb: thumb });
     count++;
