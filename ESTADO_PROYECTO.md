@@ -23,6 +23,24 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-18: Reorganización de inputs en Reportes — auto-filled al fondo
+
+**Qué:** Se reorganizó el formulario de la página Reportes para separar campos manuales de auto-completados. Los inputs auto-filled (Dataset, Archivo, Fecha) pasan a una tarjeta "Autocompletado" al final. Descripción y Ensayo dejaron de ser full-width para integrarse en la grilla de 2 columnas. Protocolo se movió al final de su tarjeta.
+
+**Cambio:** `js/managers/ReporteManager.js` — función `buildReportesView()`
+
+**Nuevo orden de la Card 2 (Información del reporte):**
+1. Organización · Departamento
+2. Ubicación · Descripción
+3. Marca · Modelo
+4. Serie · Fase
+5. Código · Ensayo
+6. Versión · Confidencialidad
+7. Protocolo (readonly, auto)
+
+**Nueva Card 3 (Autocompletado):**
+- Dataset · Archivo · Fecha recolección
+
 ### 2026-06-18: Auto-busting de caché — nunca más Ctrl+F5
 
 **Qué:** Se eliminó la necesidad de forzar refresco (Ctrl+F5) después de cada deploy. Ahora todos los JS locales se cargan dinámicamente con `?t={timestamp}` y los CSS se inyectan via `document.write` con `?t={timestamp}`, forzando al navegador a buscar la versión nueva automáticamente.
