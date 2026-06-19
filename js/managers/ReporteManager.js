@@ -1895,7 +1895,7 @@ tr:hover td{background:#f7faff}
 
                 <div class="rep-field">
                   <label>${t('ui_code')}</label>
-                  <input id="rep-code" placeholder="DQ-1000AAA">
+                  <input id="rep-code" placeholder="1000AAA or 4000AAA">
                 </div>
 
                 <div class="rep-field">
