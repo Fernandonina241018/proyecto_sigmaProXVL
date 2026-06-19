@@ -23,6 +23,16 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-19: Traducciones español + preservar estado del formulario al cambiar idioma
+
+**Qué:** Se agregó `I18N.es` completo con todas las claves traducidas al español (~80 strings + funciones). Ahora `t('ui_statusOk')` retorna "Análisis listo para exportar", `t('ui_formatHint')` retorna "Selecciona uno o más formatos...", etc.
+
+**Además:** Se implementó guardado/restauración de estado del formulario al cambiar idioma. Ya no se pierden los valores de los inputs/selects/checkboxes al togglear entre español e inglés. `autoSyncProtocol` se ejecuta tras restaurar los valores.
+
+**Archivo:** `js/managers/ReporteManager.js` (+163 líneas)
+
+**Fix:** Al cambiar idioma ya no aparecían "segmentos de código" — ahora el idioma español tiene sus propias traducciones y el formulario preserva su estado completo.
+
 ### 2026-06-18: Reorganización de inputs en Reportes — auto-filled al fondo
 
 **Qué:** Se reorganizó el formulario de la página Reportes para separar campos manuales de auto-completados. Los inputs auto-filled (Dataset, Archivo, Fecha) pasan a una tarjeta "Autocompletado" al final. Descripción y Ensayo dejaron de ser full-width para integrarse en la grilla de 2 columnas. Protocolo se movió al final de su tarjeta.
