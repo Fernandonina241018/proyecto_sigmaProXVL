@@ -294,6 +294,150 @@ const ReporteManager = (() => {
                 'LQC (Curva de Calibración)': 'LQC = 3 × S_res / m',
                 'MDL (Curva de Calibración)': 'MDL = 2.5 × S_res / m',
             }
+        },
+        es: {
+            reportTitle:    'INFORME DE ANÁLISIS ESTADÍSTICO',
+            compliant:      'CUMPLE',
+            docId:          'ID del Documento',
+            generated:      'Generado',
+            software:       'Software',
+            regulatoryRef:  'Ref. Regulatoria',
+            sec1:           'SECCIÓN 1 — ENCABEZADO INSTITUCIONAL',
+            sec2:           'SECCIÓN 2 — TRAZABILIDAD DEL DATASET',
+            sec3:           'SECCIÓN 3 — RESUMEN EJECUTIVO',
+            sec4:           'SECCIÓN 4 — RESULTADOS ESTADÍSTICOS POR VARIABLE',
+            sec5:           'SECCIÓN 5 — NOTAS METODOLÓGICAS',
+            sec6:           'SECCIÓN 6 — TRAZABILIDAD DE AUDITORÍA Y FIRMA ELECTRÓNICA',
+            organization:   'Organización',
+            department:     'Departamento',
+            location:       'Ubicación',
+            description:    'Descripción',
+            assay:          'Ensayo / Prueba',
+            studyProtocol:  'Estudio/Protocolo',
+            phase:          'Fase',
+            projectCode:    'Código del Proyecto',
+            reportVersion:  'Versión del Reporte',
+            confidentiality:'Confidencialidad',
+            datasetName:    'Nombre del Dataset',
+            sourceFile:     'Archivo Fuente',
+            collectionDate: 'Fecha de Recolección',
+            analysisDate:   'Fecha de Análisis',
+            totalRecords:   'Registros Totales',
+            numericColumns: 'Columnas Numéricas',
+            analyzed:       'Analizadas',
+            statistics:     'Estadísticos',
+            integrityHash:  'Hash de Integridad',
+            noFlags:        '✓  Sin banderas automáticas detectadas.',
+            flagsDetected:  (n) => `⚠  ${n} bandera(s) detectada(s):`,
+            variable:       'Variable',
+            statistic:      'Estadístico',
+            value:          'Valor',
+            reference:      'Referencia',
+            cv:             'Coef. de Variación (CV%)',
+            cvRef:          'DE/Media × 100',
+            flagsLabel:     'BANDERAS',
+            preparedBy:     'Preparado por',
+            reviewedBy:     'Revisado por',
+            approvedBy:     'Aprobado por',
+            name:           'Nombre',
+            title:          'Título / Cargo',
+            date:           'Fecha',
+            elecRecord:     'Registro electrónico',
+            endOfReport:    'FIN DEL REPORTE',
+            variance:       'Varianza: s² = Σ(xᵢ - x̄)² / (n-1) [Corrección de Bessel]',
+            percentiles:    'Percentiles: interpolación lineal (NIST)',
+            outliers:       (f) => `Outliers: Cerca Tukey Q1-${f}×IQR / Q3+${f}×IQR`,
+            cvFlags:        (h, v) => `Banderas CV: >${h}% alto  >${v}% extremo`,
+            alpha:          (a, ci) => `α = ${a}  IC = ${ci}`,
+            auditMeta:      'METADATOS DE AUDITORÍA',
+            ui_langToggle:  'Idioma / Language',
+            ui_langBtn_es:  '🇪🇸 Español',
+            ui_langBtn_en:  '🇺🇸 English',
+            ui_instHeader:  '🏛️ Información del reporte',
+            ui_traceability:'🔗 Trazabilidad del Dataset',
+            ui_signatures:  '✍️ Firmas Electrónicas — 21 CFR Part 11',
+            ui_formatTitle: '📥 Formato de Descarga',
+            ui_formatHint:  'Selecciona uno o más formatos. El botón descarga todo lo seleccionado.',
+            ui_formatCount: (n) => `${n} formato${n!==1?'s':''} seleccionado${n!==1?'s':''}`,
+            ui_download:    '📥 Descargar Reporte',
+            ui_noData:      'Ejecuta un análisis estadístico primero para habilitar la descarga.',
+            ui_regTitle:    'Marco Regulatorio',
+            ui_statusOk:    'Análisis listo para exportar',
+            ui_statusWarn:  'No hay análisis disponible',
+            ui_statusSubWarn: 'Ejecuta un análisis estadístico en la vista de <strong>Análisis</strong> primero.',
+            ui_statusSubOk: (r,c,s) => `${r} registros · ${c} variables · ${s} estadísticos`,
+            ui_analysisLoaded:'📊 Análisis Cargado',
+            ui_variables:   'Variables',
+            ui_statsUsed:   'Estadísticos',
+            ui_records:     'Registros',
+            ui_source:      'Fuente',
+            ui_org:         'Organización',
+            ui_dept:        'Departamento',
+            ui_location:    'Ubicación',
+            ui_description: 'Descripción',
+            ui_serial:       'Número de serie',
+            ui_assay:       'Ensayo / Prueba',
+            ui_modelo:      'Modelo del Equipo',
+            ui_marca:       'Marca del Equipo',
+            ui_proto:       'Protocolo / Estudio',
+            ui_phase:       'Fase',
+            ui_code:        'Código del Proyecto',
+            ui_version:     'Versión',
+            ui_dataset:     'Nombre del Dataset',
+            ui_file:        'Archivo Fuente',
+            ui_collect:     'Fecha de Recolección',
+            ui_conf:        'Confidencialidad',
+            ui_conf_internal:'Confidencial — Interno',
+            ui_conf_strict: 'Estrictamente Confidencial',
+            ui_conf_prop:   'Propietario',
+            ui_conf_reg:    'Solo para Envío Regulatorio',
+            ui_prep:        'Preparado por',
+            ui_rev:         'Revisado por',
+            ui_app:         'Aprobado por',
+            ui_sigName:     'Nombre',
+            ui_sigTitle:    'Título / Cargo',
+            ui_sigDate:     'Fecha',
+            ui_recommended: 'Recomendado',
+            ui_pdfReady:    'PDF-listo',
+            ui_txtDesc:     'Reporte estructurado FDA 21 CFR Part 11. Secciones numeradas, bordes ASCII, hash de trazabilidad.',
+            ui_csvDesc:     'Delimitado por pipe (|). Compatible con SAS PROC IMPORT y R read.table. Metadatos en cabecera comentada.',
+            ui_htmlDesc:    'Reporte visual con portada, tablas y firmas. Ábrelo en el navegador → Ctrl+P → Guardar como PDF.',
+            ui_pdfDesc:     'Reporte en formato PDF listo para imprimir. Generado desde el reporte HTML.',
+            ui_alertDownload:(fmts,base,html) => `✅ Descarga iniciada\n\nFormatos: ${fmts}\nArchivo: ${base}${html?'\n\nEl archivo .html puede imprimirse como PDF desde el navegador.':''}`,
+            ui_alertNoFmt:  '⚠️ Selecciona al menos un formato de descarga.',
+            html_cover_logo:'StatAnalyzer Pro · Reporte Estadístico',
+            html_title:     'Informe de Análisis Estadístico',
+            html_sec1:      'Resumen General',
+            html_sec2:      'Trazabilidad del Dataset',
+            html_sec3:      'Resumen Ejecutivo',
+            html_sec4:      'Resultados Estadísticos por Variable',
+            html_sec5:      'Notas Metodológicas',
+            html_sec6:      'Traza de Auditoría y Firma Electrónica',
+            html_auditSubpart:'21 CFR Part 11 — Subparte C',
+            html_statCol:   'Estadístico',
+            html_valCol:    'Valor',
+            html_refCol:    'Fórmula',
+            html_flagsLabel:'Banderas',
+            html_noFlags:   '✓ Sin banderas para esta variable',
+            html_noFlagsGlobal:'✓ Sin banderas automáticas detectadas. Todas las variables dentro de rangos esperados.',
+            html_flagsGlobal:(n) => `⚠ ${n} bandera(s) automática(s) detectada(s):`,
+            html_auditMeta: 'METADATOS DE AUDITORÍA',
+            html_method_v:    'Varianza y DE',
+            html_method_v_d:  'Corrección de Bessel (n-1).',
+            html_method_v_why:'Cuantifica la dispersión de los datos alrededor de la media. Una DE alta indica baja reproducibilidad del proceso; es el indicador primario de variabilidad en validaciones analíticas y control de calidad.',
+            html_method_p:    'Interp. Percentiles',
+            html_method_p_d:  'Interpolación lineal (NIST).',
+            html_method_p_why:'Revela la distribución real de los datos sin asumir normalidad. P25, P50 y P75 exponen asimetrías y son esenciales para definir límites de aceptación en procesos regulados.',
+            html_method_o:    'Detección de Outliers',
+            html_method_o_why:'Los outliers pueden distorsionar todos los estadísticos de tendencia central y dispersión. Su identificación temprana es crítica para determinar si un dato es error de medición, contaminación o señal de proceso fuera de control.',
+            html_method_s:    'Asimetría',
+            html_method_s_d:  'Coeficiente 2do de Pearson.',
+            html_method_s_why:'Una distribución asimétrica indica que la media no representa adecuadamente el conjunto de datos. En datos de pureza, concentración o tiempo de disolución, la asimetría puede revelar problemas sistemáticos en el proceso de fabricación.',
+            html_method_cv:   'Umbrales CV',
+            html_method_cv_why:'El Coeficiente de Variación normaliza la dispersión respecto a la magnitud de la media, permitiendo comparaciones de variabilidad entre columnas con diferentes unidades o escalas. CV > 30% típicamente señala un proceso fuera de control.',
+            html_method_sig:  'Significancia',
+            html_method_sig_why:'El nivel α = 0.05 define el umbral de error Tipo I aceptado. Establece la certeza con la que se puede rechazar una hipótesis nula — el estándar internacional en ensayos clínicos (ICH E9) y validaciones de métodos analíticos.',
+            html_execSummary:(ds,rows,cols,std) => `Dataset <strong>"${escapeHtml(ds)}"</strong> · <strong>${rows}</strong> observaciones · <strong>${cols}</strong> variable(s) numérica(s) · ${std}.`,
         }
     };
 
@@ -1799,6 +1943,16 @@ tr:hover td{background:#f7faff}
         const fileLabel =isManual?'Digitación manual':fileName;
         const sel       =(lbl)=>`— ${currentLang==='es'?'Seleccionar':'Select'}: ${lbl} —`;
 
+        // ── Preservar estado del formulario antes de regenerar ──
+        const _saved={};
+        ['rep-org','rep-dept','rep-ubicacion','rep-descripcion','rep-marca',
+         'rep-modelo','rep-serie','rep-fase','rep-code','rep-ensayo',
+         'rep-version','rep-conf','rep-proto','rep-dataset','rep-file','rep-collect',
+         'fmt-html','fmt-pdf','fmt-txt','fmt-csv'].forEach(id=>{
+            const el=document.getElementById(id);
+            if(el) _saved[id]=el.type==='checkbox'?el.checked:el.value;
+        });
+
         container.innerHTML=`
         <div class="rep-layout">
           <div class="rep-left">
@@ -1948,11 +2102,20 @@ tr:hover td{background:#f7faff}
         const sidebarEl = document.getElementById('reportes-sidebar-container');
         if (sidebarEl) sidebarEl.innerHTML = buildReportesSidebar(tieneRes);
 
+        // ── Restaurar estado del formulario ──
+        ['rep-org','rep-dept','rep-ubicacion','rep-descripcion','rep-marca',
+         'rep-modelo','rep-serie','rep-fase','rep-code','rep-ensayo',
+         'rep-version','rep-conf','rep-proto','rep-dataset','rep-file','rep-collect'].forEach(id=>{
+            const el=document.getElementById(id);
+            if(el && _saved[id]!==undefined) el.value=_saved[id];
+        });
+
         // ── Checkboxes ──
         ['html','pdf','txt','csv'].forEach(fmt=>{
             const cb=document.getElementById(`fmt-${fmt}`);
             const wrap=document.getElementById(`fmt-${fmt}-wrap`);
             if(!cb||!wrap)return;
+            if(_saved[`fmt-${fmt}`]!==undefined) cb.checked=_saved[`fmt-${fmt}`];
             updateFormatWrap(wrap,cb.checked);
             cb.addEventListener('change',()=>{updateFormatWrap(wrap,cb.checked);updateFmtCount();});
         });
