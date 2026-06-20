@@ -517,7 +517,6 @@ function renderCorrelationMatrix(result) {
     '<div style="padding:10px 14px;border-bottom:1px solid #3a3a3a;flex-shrink:0;display:flex;align-items:center;gap:10px;background:#2d2d2d">' +
       '<span style="font-size:14px;font-weight:600;color:#dcddde;flex:1">🔗 Matriz de Correlación</span>' +
       '<span style="font-size:10px;background:#7c6af7;color:#fff;padding:2px 8px;border-radius:10px">' + n + 'x' + n + '</span>' +
-      '<button onclick="loadPage(\'trabajo\')" style="padding:4px 10px;border-radius:5px;border:none;cursor:pointer;font-size:11px;font-family:inherit;background:#3a3a3a;color:#888">← Volver</button>' +
     '</div>' +
     legend +
     '<div style="flex:1;overflow:auto;padding:12px">' +

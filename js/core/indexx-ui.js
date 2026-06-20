@@ -462,7 +462,6 @@ var leftPanels = {
       '<button class="btn btn-viz btn-prim" onclick="vizRenderChart()">⚡ Renderizar</button>' +
       '<button class="btn btn-viz btn-sec"  onclick="vizSaveToGallery()">💾</button>' +
       '<button class="btn btn-viz btn-sec"  onclick="vizExportPNG()">↗ PNG</button>' +
-      '<button class="btn btn-viz btn-sec"  onclick="loadPage(\'reportes\')">📄 Reportes</button>' +
     '</div>' +
   '</div>'; },
   reportes: function() { return '<div class="left-panel" style="gap:10px"><div id="reportes-sidebar-container"></div></div>'; },
@@ -500,7 +499,6 @@ var leftPanels = {
       '3. El modelo se refina con cada feedback<br><br>' +
       '<strong>Datos persistentes:</strong> almacenados en localStorage.<br>' +
       'Puedes exportar/importar el modelo como JSON.<br><br>' +
-      '<button class="btn btn-secondary" onclick="loadPage(\'analisis\')" style="width:100%;font-size:11px;">📊 Ir a Análisis</button>' +
       '</div></div>';
   }
 };
@@ -553,7 +551,6 @@ var rightPanels = {
           '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="redoAction()">↪</button>' +
           '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="sortColumn()">↕</button>' +
           '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="exportTrabajo()">💾</button>' +
-          '<button class="btn btn-primary" style="font-size:11px;padding:3px 8px" onclick="loadPage(\'analisis\')">📊 Análisis</button>' +
         '</div>' +
       '</div>' +
       '<div style="flex:1;overflow:auto;position:relative" id="trabajoScrollWrap">' +
@@ -620,7 +617,6 @@ var rightPanels = {
         '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">' +
           '<span style="font-size:14px;font-weight:600;color:var(--text-primary)">' + escapeHtml(testLabel) + '</span>' +
           '<div style="display:flex;gap:6px">' +
-            '<button class="btn btn-secondary" style="font-size:11px" onclick="loadPage(&#39;visualizacion&#39;)">📊 Ver gráficos</button>' +
             '<button class="btn btn-secondary" style="font-size:11px" onclick="analisisResultContent=null;analisisSelectedTest=null;loadPage(&#39;analisis&#39;)">✕ Cerrar resultado</button>' +
           '</div>' +
         '</div>' +
@@ -629,7 +625,7 @@ var rightPanels = {
         '</div>' +
       '</div>';
     }
-    
+
     // 2. Mostrar cards si hay tests seleccionados en el sidebar
     var sideTests = getSidebarSelectedTests();
     if (sideTests.length > 0) {
@@ -672,7 +668,6 @@ var rightPanels = {
             '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">' +
               '<span style="font-size:14px;font-weight:600;color:var(--text-primary)">' + (analisisLastResult ? analisisLastResult.testName : 'Resultado') + '</span>' +
               '<div style="display:flex;gap:6px">' +
-                '<button class="btn btn-secondary" style="font-size:11px;padding:4px 8px" onclick="loadPage(&#39;visualizacion&#39;)">📊 Ver gráficos</button>' +
                 '<button class="btn btn-secondary" style="font-size:11px;padding:4px 8px" onclick="analisisResultContent=null;analisisSelectedTest=null;loadPage(&#39;analisis&#39;)">✕ Cerrar</button>' +
               '</div>' +
             '</div>' +

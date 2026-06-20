@@ -45,6 +45,11 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 **CSS responsivo:** a <640px se ocultan labels, separador y nombre de página.
 
+**Post-integration cleanup:** Se eliminaron 5 botones de navegación dispersos en las páginas (ahora el bottom-nav es el único medio de navegación entre pasos del workflow):
+- `indexx-ui.js` — "📄 Reportes" en visualización, "📊 Ir a Análisis" en modelo-estadístico, "📊 Análisis" en trabajo, "📊 Ver gráficos" (×2) en análisis
+- `ToolsManager.js` — "← Volver" en matriz de correlación
+- Se conservaron botones "✕ Cerrar" que limpian estado local sin navegar a otra página
+
 ### 2026-06-19: Traducciones español + preservar estado del formulario al cambiar idioma
 
 **Qué:** Se agregó `I18N.es` completo con todas las claves traducidas al español (~80 strings + funciones). Ahora `t('ui_statusOk')` retorna "Análisis listo para exportar", `t('ui_formatHint')` retorna "Selecciona uno o más formatos...", etc.
