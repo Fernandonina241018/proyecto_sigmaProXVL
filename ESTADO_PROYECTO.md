@@ -45,6 +45,23 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 **CSS responsivo:** a <640px se ocultan labels, separador y nombre de página.
 
+### 2026-06-20: Fixes bloqueantes B2 + B3 — warm-up ML Service + limpieza z_error.md
+
+**Qué:** Se mejoró el warm-up del ML Service y se eliminó un archivo con keys expuestas.
+
+**B2 — Warm-up ML Service (`js/pages/ml.js`):**
+- Backoff exponencial (Fibonacci): 2s → 3s → 5s → 8s → 13s → 21s (6 intentos, ~52s)
+- `catch(e){}` reemplazado por `console.warn` con mensaje descriptivo
+- `showToast()` informativo si el warm-up falla completamente
+- AbortSignal.timeout(10000) en cada intento para no colgarse
+
+**B3 — Archivo `z_error.md` eliminado:**
+- Contenía API keys de Groq y DeepInfra expuestas localmente
+- No estaba trackeado en git (solo en disco)
+- Ya estaba en `.gitignore` — se agregó confirmación
+
+**Verificación:** ✅ `node -c ml.js` | ✅ archivo eliminado
+
 **Post-integration cleanup:** Se eliminaron 5 botones de navegación dispersos en las páginas (ahora el bottom-nav es el único medio de navegación entre pasos del workflow):
 - `indexx-ui.js` — "📄 Reportes" en visualización, "📊 Ir a Análisis" en modelo-estadístico, "📊 Análisis" en trabajo, "📊 Ver gráficos" (×2) en análisis
 - `ToolsManager.js` — "← Volver" en matriz de correlación

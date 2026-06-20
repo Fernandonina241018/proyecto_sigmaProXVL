@@ -734,14 +734,24 @@ const MLManager = (() => {
 
     async function _warmUp() {
         const apiUrl = _getMlApiUrl();
-        for (let i = 0; i < 5; i++) {
+        var delays = [2, 3, 5, 8, 13, 21];
+        for (var i = 0; i < delays.length; i++) {
             try {
-                const res = await fetch(apiUrl + '/api/ml/health');
-                if (res.ok) return true;
-                console.warn('ML warmup attempt ' + (i + 1) + ' failed: HTTP ' + res.status);
-            } catch (e) {}
-            await new Promise(r => setTimeout(r, 2000));
+                var res = await fetch(apiUrl + '/api/ml/health', { signal: AbortSignal.timeout(10000) });
+                if (res.ok) {
+                    console.log('[ML] Warmup OK en intento ' + (i + 1));
+                    return true;
+                }
+                console.warn('[ML] Warmup intento ' + (i + 1) + ' — HTTP ' + res.status);
+            } catch (e) {
+                console.warn('[ML] Warmup intento ' + (i + 1) + ' — ' + e.message);
+            }
+            if (i < delays.length - 1) {
+                await new Promise(function(r) { setTimeout(r, delays[i] * 1000); });
+            }
         }
+        console.warn('[ML] Warmup falló tras ' + delays.length + ' intentos');
+        showToast('⚠️ ML Service no respondió. Puede fallar al primer intento.', 1);
         return false;
     }
 
