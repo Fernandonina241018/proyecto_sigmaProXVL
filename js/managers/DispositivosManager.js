@@ -15,7 +15,7 @@ const DispositivosManager = (() => {
     function getToken() { return Auth.getToken(); }
 
     async function apiGet(path) {
-        var res = await fetch(_apiUrl + path, {
+        var res = await fetchWithTimeout(_apiUrl + path, {
             headers: { Authorization: 'Bearer ' + (getToken() || '') },
             credentials: 'include'
         });
@@ -23,7 +23,7 @@ const DispositivosManager = (() => {
     }
 
     async function apiPost(path, body) {
-        var res = await fetch(_apiUrl + path, {
+        var res = await fetchWithTimeout(_apiUrl + path, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + (getToken() || '') },
             body: JSON.stringify(body),
@@ -33,7 +33,7 @@ const DispositivosManager = (() => {
     }
 
     async function apiPut(path, body) {
-        var res = await fetch(_apiUrl + path, {
+        var res = await fetchWithTimeout(_apiUrl + path, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + (getToken() || '') },
             body: JSON.stringify(body),
@@ -43,7 +43,7 @@ const DispositivosManager = (() => {
     }
 
     async function apiDelete(path) {
-        var res = await fetch(_apiUrl + path, {
+        var res = await fetchWithTimeout(_apiUrl + path, {
             method: 'DELETE',
             headers: { Authorization: 'Bearer ' + (getToken() || '') },
             credentials: 'include'

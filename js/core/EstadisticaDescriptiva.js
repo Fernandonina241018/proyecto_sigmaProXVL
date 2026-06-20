@@ -4252,12 +4252,12 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                           const colCategorias = cfg.columnaCategoria;
                           const colConteo = cfg.columnaConteo;
                           
-                          if (!colCategorias || !data[0] || !data[0].hasOwnProperty(colCategorias)) {
+                          if (!colCategorias || !data.data || !data.data[0] || !data.data[0].hasOwnProperty(colCategorias)) {
                               resultados['Diagrama de Pareto'] = { error: 'Seleccione columna de categorías' };
                           } else {
                               // Preparar datos para Pareto
                               const conteos = {};
-                              data.forEach(row => {
+                              data.data.forEach(row => {
                                   const cat = String(row[colCategorias] || '').trim();
                                   if (cat) {
                                       const conteo = colConteo && row[colConteo] ? parseFloat(row[colConteo]) || 1 : 1;

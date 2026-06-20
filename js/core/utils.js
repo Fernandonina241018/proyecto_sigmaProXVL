@@ -183,6 +183,17 @@ function debounce(fn, delay) {
 }
 
 // ========================================
+// fetch con timeout (aborta si excede N ms)
+// ========================================
+
+function fetchWithTimeout(url, options, timeoutMs = 15000) {
+    var controller = new AbortController();
+    var timer = setTimeout(function() { controller.abort(); }, timeoutMs);
+    return fetch(url, Object.assign({}, options, { signal: controller.signal }))
+        .finally(function() { clearTimeout(timer); });
+}
+
+// ========================================
 // DEBUG MODE (activar con ?debug en URL)
 // ========================================
 

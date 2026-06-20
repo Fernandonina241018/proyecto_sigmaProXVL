@@ -474,7 +474,7 @@ async function firmaVerify(role, code, password, statusEl) {
   }
   if (statusEl) statusEl.textContent = '\u23F3 Verificando...';
   try {
-    var res = await fetch(API_URL + '/api/verify-signature', {
+    var res = await fetchWithTimeout(API_URL + '/api/verify-signature', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ signatureCode: code, password: password })

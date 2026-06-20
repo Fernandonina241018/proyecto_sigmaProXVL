@@ -124,7 +124,7 @@ function showPerfilModal() {
   var box = overlay.querySelector('.modal-box');
   var statusEl = document.getElementById('perfilConnStatus');
   var apiUrl = typeof API_URL !== 'undefined' ? API_URL : '';
-  fetch(apiUrl + '/api/me', { credentials: 'include', headers: { Authorization: 'Bearer ' + (Auth.getToken() || '') } })
+  fetchWithTimeout(apiUrl + '/api/me', { credentials: 'include', headers: { Authorization: 'Bearer ' + (Auth.getToken() || '') } })
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (!data.ok) throw new Error(data.error || 'Error al cargar');

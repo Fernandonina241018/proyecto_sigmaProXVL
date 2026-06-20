@@ -24,7 +24,7 @@ const AuditoriaManager = (() => {
         if (!token) return { ok: false, error: 'No autenticado' };
 
         try {
-            const res  = await fetch(`${_apiUrl}/api/audit?limit=${limit}`, {
+            const res  = await fetchWithTimeout(`${_apiUrl}/api/audit?limit=${limit}`, {
                 headers: { Authorization: `Bearer ${token}` },
                 credentials: 'include'
             });
@@ -159,7 +159,7 @@ const AuditoriaManager = (() => {
         const token = Auth.getToken();
         if (!token) { kpi.querySelector('.aud-kpi-value').textContent = '🔗 No auth'; return; }
         try {
-            const res = await fetch(`${_apiUrl}/api/audit/verify`, {
+            const res = await fetchWithTimeout(`${_apiUrl}/api/audit/verify`, {
                 headers: { Authorization: `Bearer ${token}` },
                 credentials: 'include'
             });

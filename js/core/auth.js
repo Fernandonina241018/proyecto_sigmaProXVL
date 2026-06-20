@@ -44,7 +44,7 @@ const Auth = (() => {
     // ── Verificación contra backend ───────
     async function _verifyCredentials(user, password) {
         try {
-            const res  = await fetch(`${CFG.API_URL}/api/login`, {
+            const res  = await fetchWithTimeout(`${CFG.API_URL}/api/login`, {
                 method:  'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -710,7 +710,7 @@ const Auth = (() => {
 
     async function _changePassword(newPassword) {
         try {
-            const res = await fetch(`${CFG.API_URL}/api/users/password`, {
+            const res = await fetchWithTimeout(`${CFG.API_URL}/api/users/password`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${_token}` },
                 body: JSON.stringify({ newPassword })
@@ -723,7 +723,7 @@ const Auth = (() => {
 
     async function _fetchMlApiKey() {
         try {
-            const res = await fetch(CFG.API_URL + '/api/ml-api-key', {
+            const res = await fetchWithTimeout(CFG.API_URL + '/api/ml-api-key', {
                 headers: { 'Authorization': 'Bearer ' + _token }
             });
             if (res.ok) {
@@ -739,7 +739,7 @@ const Auth = (() => {
             if (!_token) return;
             var fp = DeviceFingerprint.getFingerprint();
             var info = DeviceFingerprint.getDeviceInfo();
-            await fetch(CFG.API_URL + '/api/devices/register', {
+            await fetchWithTimeout(CFG.API_URL + '/api/devices/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _token },
                 body: JSON.stringify({
@@ -775,7 +775,7 @@ const Auth = (() => {
         if(!_isSessionValid()){ showLogin(); return; }
         if(!_token){
             try{
-                const res=await fetch(`${CFG.API_URL}/api/me`,{credentials:'include'});
+                const res=await fetchWithTimeout(`${CFG.API_URL}/api/me`,{credentials:'include'});
                 if(res.ok){ const data=await res.json(); if(data.token) _token=data.token; }
             }catch(e){ console.warn('Cookie session not available, will re-login on first 401:', e.message); }
         }
@@ -795,7 +795,7 @@ const Auth = (() => {
 
     function logout(){
         _closeAllModals();
-        fetch(`${CFG.API_URL}/api/logout`,{method:'POST',credentials:'include',headers:{Authorization:'Bearer '+(_token||'')}}).catch(()=>{});
+        fetchWithTimeout(`${CFG.API_URL}/api/logout`,{method:'POST',credentials:'include',headers:{Authorization:'Bearer '+(_token||'')}}).catch(()=>{});
         _clearSession(); _unregisterActivityListeners(); showLogin('logout'); if(_onLogout) _onLogout('logout');
     }
 

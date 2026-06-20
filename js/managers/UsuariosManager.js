@@ -48,7 +48,7 @@ function _generateSecurePassword(length) {
 
     // ── API calls ─────────────────────────
     async function apiGet(path) {
-        const res = await fetch(`${_apiUrl}${path}`, {
+        const res = await fetchWithTimeout(`${_apiUrl}${path}`, {
             headers: { Authorization: `Bearer ${getToken()}` },
             credentials: 'include'
         });
@@ -56,7 +56,7 @@ function _generateSecurePassword(length) {
     }
 
     async function apiPost(path, body) {
-        const res = await fetch(`${_apiUrl}${path}`, {
+        const res = await fetchWithTimeout(`${_apiUrl}${path}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getToken()}` },
             body: JSON.stringify(body),
@@ -66,7 +66,7 @@ function _generateSecurePassword(length) {
     }
 
     async function apiPut(path, body) {
-        const res = await fetch(`${_apiUrl}${path}`, {
+        const res = await fetchWithTimeout(`${_apiUrl}${path}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getToken()}` },
             body: JSON.stringify(body),

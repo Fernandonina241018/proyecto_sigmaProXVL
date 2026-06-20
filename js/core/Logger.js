@@ -53,7 +53,7 @@ const Logger = (() => {
         } catch (_e) {}
 
         try {
-            const res = await fetch(`${_apiUrl}/api/audit/event`, {
+            const res = await fetchWithTimeout(`${_apiUrl}/api/audit/event`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

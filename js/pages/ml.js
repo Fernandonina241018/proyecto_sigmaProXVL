@@ -1204,6 +1204,7 @@ const MLManager = (() => {
             }
             var taskId = taskResp.task_id;
             var pollInterval = setInterval(async function() {
+                if (!document.getElementById('ml-results')) { clearInterval(pollInterval); return; }
                 try {
                     var taskData = await _fetch('GET', '/api/ml/tasks/' + taskId);
                     var task = taskData.task;
@@ -2777,6 +2778,7 @@ const MLManager = (() => {
                 var taskId = taskResp.task_id;
                 return await new Promise(function(resolve, reject) {
                     var pi = setInterval(async function() {
+                        if (!document.getElementById('ml-results')) { clearInterval(pi); resolve(null); return; }
                         try {
                             var td = await _fetch('GET', '/api/ml/tasks/' + taskId);
                             var t = td.task;

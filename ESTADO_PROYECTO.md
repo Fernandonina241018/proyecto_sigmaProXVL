@@ -45,7 +45,28 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 **CSS responsivo:** a <640px se ocultan labels, separador y nombre de página.
 
-### 2026-06-20: Fixes bloqueantes B2 + B3 — warm-up ML Service + limpieza z_error.md
+### 2026-06-20: Fixes H1 + H3 + H4 (alta prioridad del beta audit)
+
+**Qué:** Se corrigieron 3 de los hallazgos de alta prioridad identificados en el beta readiness audit: Pareto bug, setInterval sin limpieza, y fetch sin timeout.
+
+**H3 — Pareto bug (`EstadisticaDescriptiva.js:4255,4260`):**
+- `data[0]` y `data.forEach` corregidos a `data.data[0]` y `data.data.forEach`
+- `getDataForEjecutarAnalisis()` retorna `{ headers, data, rowCount }` pero el código del Pareto accedía directamente al objeto en vez del array interno
+- **Riesgo:** ALTO — el Pareto no se ejecutaba nunca; mostraba error "Seleccione columna de categorías" aunque la columna existiera
+- **Sintaxis:** ✅ `node -c`
+
+**H1 — setInterval cleanup (`ml.js:1206,2780`):**
+- Los intervalos de polling `train()` y `trainAll()` ahora verifican que la página ML siga activa (`document.getElementById('ml-results')`) antes de continuar
+- Si el usuario navega a otra página durante entrenamiento, el intervalo se limpia inmediatamente
+- **Riesgo:** ALTO — intervalos huérfanos seguían haciendo fetch al ML Service incluso con la página oculta
+- **Sintaxis:** ✅ `node -c`
+
+**H4 — fetch con timeout (`utils.js`, `auth.js`, `Logger.js`, `indexx-ui.js`, `indexx-firma.js`, `UsuariosManager.js`, `AuditoriaManager.js`, `DispositivosManager.js`):**
+- Nueva función `fetchWithTimeout(url, options, timeoutMs=15000)` en `utils.js:189` que envuelve `fetch()` con `AbortController`
+- Aplicada a TODAS las llamadas backend: login, cambio password, ML API key, registro dispositivo, /api/me, logout, audit event, verify-signature, y todos los CRUD de usuarios/auditoría/dispositivos
+- ml.js ya tenía su propio AbortController (30s), no se modificó
+- **Riesgo:** MEDIO — evita que requests huérfanas cuelguen la UI para siempre
+- **Sintaxis:** ✅ `node -c` en los 9 archivos modificados
 
 **Qué:** Se mejoró el warm-up del ML Service y se eliminó un archivo con keys expuestas.
 
