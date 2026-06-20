@@ -76,7 +76,7 @@ const DispositivosManager = (() => {
     }
 
     function buildView() {
-        var container = document.getElementById('rightPaneBody');
+        var container = document.getElementById('dsp-container');
         if (!container) return;
 
         var session = Auth.getSession();
@@ -101,7 +101,8 @@ const DispositivosManager = (() => {
         var wrap = document.getElementById('dsp-table-wrap');
         if (!wrap) return;
         if (!result.ok) {
-            wrap.innerHTML = '<div class="usr-error">❌ ' + escapeHtml(result.error) + '</div>';
+            wrap.innerHTML = '<div class="usr-error">❌ ' + escapeHtml(result.error) + '</div>' +
+                '<div style="text-align:center;padding:8px"><button class="btn btn-sm btn-primary" onclick="DispositivosManager._onRefresh()">🔄 Reintentar</button></div>';
             return;
         }
         _renderTabla(_dispositivos);
@@ -112,7 +113,7 @@ const DispositivosManager = (() => {
         if (!wrap) return;
 
         if (!dispositivos.length) {
-            wrap.innerHTML = '<div class="usr-empty">No hay dispositivos registrados.</div>';
+            wrap.innerHTML = '<div class="usr-empty">📱 No hay dispositivos registrados. Los dispositivos se registran automáticamente al iniciar sesión.</div>';
             return;
         }
 

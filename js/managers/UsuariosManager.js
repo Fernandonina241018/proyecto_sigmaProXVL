@@ -225,7 +225,8 @@ function _generateSecurePassword(length) {
         const result = await cargarUsuarios();
         if (!result.ok) {
             document.getElementById('usr-table-wrap').innerHTML =
-                `<div class="usr-error">❌ ${escapeHtml(result.error)}</div>`;
+                `<div class="usr-error">❌ ${escapeHtml(result.error)}</div>` +
+                `<div style="text-align:center;padding:8px"><button class="btn btn-sm btn-primary" onclick="UsuariosManager._onRefresh()">🔄 Reintentar</button></div>`;
             return;
         }
         _renderTabla(_usuarios);
@@ -754,7 +755,11 @@ function _generateSecurePassword(length) {
         }
     };
 
-return { init, buildView, abrirModalCrearUsuario, guardarUsuarioModal, cerrarModalCrearUsuarioTest };
+    function _onRefresh() {
+        _loadAndRender();
+    }
+
+return { init, buildView, abrirModalCrearUsuario, guardarUsuarioModal, cerrarModalCrearUsuarioTest, _onRefresh };
 })();
 
 // ========================================

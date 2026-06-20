@@ -276,7 +276,10 @@ const AuditoriaManager = (() => {
         const result = await cargarLogs(500);
     if (!result.ok) {
         document.getElementById('aud-table-wrap').innerHTML =
-            `<div class="aud-error">❌ ${escapeHtml(result.error)}</div>`;
+            `<div class="aud-error">❌ ${escapeHtml(result.error)}</div>` +
+            `<div style="text-align:center;padding:8px"><button class="btn btn-sm btn-primary" onclick="AuditoriaManager._onRefresh()">🔄 Reintentar</button></div>`;
+            var kpi = document.getElementById('aud-kpis');
+            if (kpi) kpi.innerHTML = '<div class="aud-kpi"><div class="aud-kpi-value" style="color:#ef4444">—</div><div class="aud-kpi-label" style="color:#ef4444">Error de conexión</div></div>';
             return;
         }
         _renderKPIs();
@@ -367,7 +370,10 @@ const AuditoriaManager = (() => {
         }
 
         if (!logs.length) {
-            wrap.innerHTML = '<div class="aud-empty">No hay registros que coincidan con los filtros.</div>';
+            var filtered = document.getElementById('aud-filter-user')?.value ||
+                document.getElementById('aud-filter-module')?.value ||
+                (document.getElementById('aud-filter-from')?.value && document.getElementById('aud-filter-to')?.value);
+            wrap.innerHTML = '<div class="aud-empty">📋 ' + (filtered ? 'No hay registros que coincidan con los filtros.' : 'No hay registros de auditoría aún.') + '</div>';
             return;
         }
 
@@ -529,9 +535,13 @@ const AuditoriaManager = (() => {
         });
     }
 
+    function _onRefresh() {
+        _loadAndRender();
+    }
+
     // escapeHtml() ahora está en utils.js
 
-    return { init, buildView, cargarLogs, exportarCSV };
+    return { init, buildView, cargarLogs, exportarCSV, _onRefresh };
 
 })();
 

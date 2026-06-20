@@ -68,25 +68,32 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 - **Riesgo:** MEDIO — evita que requests huérfanas cuelguen la UI para siempre
 - **Sintaxis:** ✅ `node -c` en los 9 archivos modificados
 
-**Qué:** Se mejoró el warm-up del ML Service y se eliminó un archivo con keys expuestas.
+### 2026-06-20: H6 — Empty/error states en páginas de administración
 
-**B2 — Warm-up ML Service (`js/pages/ml.js`):**
-- Backoff exponencial (Fibonacci): 2s → 3s → 5s → 8s → 13s → 21s (6 intentos, ~52s)
-- `catch(e){}` reemplazado por `console.warn` con mensaje descriptivo
-- `showToast()` informativo si el warm-up falla completamente
-- AbortSignal.timeout(10000) en cada intento para no colgarse
+**Qué:** Se mejoraron los estados vacíos y de error en las 4 páginas de administración: Dispositivos, Auditoría, Usuarios y ML. Se corrigió una inconsistencia arquitectónica donde `DispositivosManager.buildView()` reemplazaba todo `rightPaneBody` (perdiendo clase `page-body`).
 
-**B3 — Archivo `z_error.md` eliminado:**
-- Contenía API keys de Groq y DeepInfra expuestas localmente
-- No estaba trackeado en git (solo en disco)
-- Ya estaba en `.gitignore` — se agregó confirmación
+**DispositivosManager — fix arquitectura + estados:**
+- `buildView()` ahora usa `#dsp-container` en vez de `rightPaneBody` — consistente con el resto de managers
+- Error state ahora incluye botón "🔄 Reintentar"
+- Empty state mejorado: explica que los dispositivos se registran automáticamente al iniciar sesión
+- **Riesgo:** BAJO (solo cambia target container, misma lógica)
+- **Sintaxis:** ✅ `node -c`
 
-**Verificación:** ✅ `node -c ml.js` | ✅ archivo eliminado
+**AuditoríaManager — KPIs stuck en "Cargando..." + estados:**
+- Error state ahora pisa KPIs con mensaje "Error de conexión" en rojo (ya no queda "Cargando..." para siempre)
+- Error state incluye botón "🔄 Reintentar" via `AuditoriaManager._onRefresh()` (nuevo, expuesto)
+- Empty state distingue: "No hay registros de auditoría aún" vs "No hay registros que coincidan con los filtros" (detecta si hay filtros activos)
+- **Sintaxis:** ✅ `node -c`
 
-**Post-integration cleanup:** Se eliminaron 5 botones de navegación dispersos en las páginas (ahora el bottom-nav es el único medio de navegación entre pasos del workflow):
-- `indexx-ui.js` — "📄 Reportes" en visualización, "📊 Ir a Análisis" en modelo-estadístico, "📊 Análisis" en trabajo, "📊 Ver gráficos" (×2) en análisis
-- `ToolsManager.js` — "← Volver" en matriz de correlación
-- Se conservaron botones "✕ Cerrar" que limpian estado local sin navegar a otra página
+**UsuariosManager — error state:**
+- Error state incluye botón "🔄 Reintentar" via `UsuariosManager._onRefresh()` (nuevo, expuesto)
+- **Sintaxis:** ✅ `node -c`
+
+**ML page — estados existentes OK:**
+- Empty state inicial: instrucciones paso a paso (guía)
+- Warm-up: "Despertando ML Service..."
+- Model error: mensaje rojo con botón "Reintentar"
+- Error en fetch de datasets/modelos: select muestra error + toast
 
 ### 2026-06-19: Traducciones español + preservar estado del formulario al cambiar idioma
 
