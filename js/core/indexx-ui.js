@@ -56,6 +56,13 @@ document.addEventListener('click', function(e) {
 function toggleSidebar() {
   var sidebar = document.getElementById('sidebar');
   var toggle = document.getElementById('sidebarToggle');
+  var isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    sidebar.classList.toggle('open');
+    var backdrop = document.getElementById('sidebarBackdrop');
+    if (backdrop) backdrop.classList.toggle('show');
+    return;
+  }
   var isNowCollapsed = !sidebar.classList.contains('collapsed');
   sidebar.classList.toggle('collapsed');
   if (toggle) toggle.classList.toggle('rotated');
@@ -508,30 +515,39 @@ var rightPanels = {
     var sheet = getCurrentSheet();
     var cols = sheet ? sheet.headers : ['Columna1'];
     var rows = sheet ? sheet.rows : [];
+    var totalRows = rows.length;
+    if (typeof trabajoPage === 'undefined') trabajoPage = 0;
+    if (typeof trabajoPageSize === 'undefined') trabajoPageSize = 200;
+    var totalPages = Math.max(1, Math.ceil(totalRows / trabajoPageSize));
+    if (trabajoPage >= totalPages) trabajoPage = totalPages - 1;
+    var start = trabajoPage * trabajoPageSize;
+    var end = Math.min(start + trabajoPageSize, totalRows);
+    var pageRows = rows.slice(start, end);
     var colHeaders = cols.map(function(c, ci){
       var frozenClass = (trabajoFreezeFirstCol && ci === 0) ? ' frozen-col' : '';
       return '<th style="min-width:100px;text-align:left;font-size:11px;font-weight:500;padding:0;border-right:1px solid var(--border);background:var(--bg-primary);position:sticky;top:0;z-index:' + (trabajoFreezeFirstCol && ci===0 ? 3 : 2) + ';' + (trabajoFreezeFirstCol && ci===0 ? 'left:40px;border-right:2px solid rgba(124,106,247,.4)' : '') + '" class="' + frozenClass + '">' +
         '<div class="col-header-editable" contenteditable="true" data-colidx="' + ci + '" onblur="renameColumn(' + ci + ',this.textContent)" onmouseenter="showColStats(event,' + ci + ')" onmouseleave="hideColStats()" title="Hover: estadísticas · Doble clic: renombrar">' + escapeHtml(c) + '</div></th>';
     }).join('');
 
-    var bodyRows = rows.map(function(r, ri){
+    var bodyRows = pageRows.map(function(r, ri){
+      var actualRow = start + ri;
       var cells = r.map(function(v, ci){
-        var isActive = trabajoActiveCell.row === ri && trabajoActiveCell.col === ci;
-        var inRange = isInRange(ri, ci);
+        var isActive = trabajoActiveCell.row === actualRow && trabajoActiveCell.col === ci;
+        var inRange = isInRange(actualRow, ci);
         var selClass = isActive ? ' cell-selected' : (inRange ? ' cell-in-range' : '');
         var cfClass = getCFClass(v, ci);
         var frozenClass = (trabajoFreezeFirstCol && ci === 0) ? ' frozen-col' : '';
         var safeV = escapeHtml(String(v == null ? '' : v));
-        return '<td class="excel-cell' + selClass + frozenClass + '" style="padding:0;border-right:1px solid rgba(255,255,255,0.04)' + (trabajoFreezeFirstCol && ci===0 ? ';border-right:2px solid rgba(124,106,247,.4)' : '') + '" onclick="cellClick(event,' + ri + ',' + ci + ')">' +
-          '<div class="excel-cell-inner' + (cfClass ? ' ' + cfClass : '') + '" contenteditable="true" data-row="' + ri + '" data-col="' + ci + '"' +
-          ' onblur="saveCellData(' + ri + ',' + ci + ',this.textContent)"' +
-          ' oninput="onCellInput(event,' + ri + ',' + ci + ',this.textContent)"' +
-          ' onpaste="handleCellPaste(event,' + ri + ',' + ci + ')"' +
-          ' onfocus="onCellFocus(' + ri + ',' + ci + ')">' +
+        return '<td class="excel-cell' + selClass + frozenClass + '" style="padding:0;border-right:1px solid rgba(255,255,255,0.04)' + (trabajoFreezeFirstCol && ci===0 ? ';border-right:2px solid rgba(124,106,247,.4)' : '') + '" onclick="cellClick(event,' + actualRow + ',' + ci + ')">' +
+          '<div class="excel-cell-inner' + (cfClass ? ' ' + cfClass : '') + '" contenteditable="true" data-row="' + actualRow + '" data-col="' + ci + '"' +
+          ' onblur="saveCellData(' + actualRow + ',' + ci + ',this.textContent)"' +
+          ' oninput="onCellInput(event,' + actualRow + ',' + ci + ',this.textContent)"' +
+          ' onpaste="handleCellPaste(event,' + actualRow + ',' + ci + ')"' +
+          ' onfocus="onCellFocus(' + actualRow + ',' + ci + ')">' +
           safeV + '</div></td>';
       }).join('');
-      var rowActive = trabajoActiveCell.row === ri;
-      return '<tr><td class="excel-row-num' + (rowActive ? ' row-active' : '') + '" onclick="selectRow(' + ri + ')">' + (ri+1) + '</td>' + cells + '</tr>';
+      var rowActive = trabajoActiveCell.row === actualRow;
+      return '<tr><td class="excel-row-num' + (rowActive ? ' row-active' : '') + '" onclick="selectRow(' + actualRow + ')">' + (actualRow + 1) + '</td>' + cells + '</tr>';
     }).join('');
 
     var colLetter = String.fromCharCode(65 + trabajoActiveCell.col);
@@ -565,7 +581,19 @@ var rightPanels = {
       '<div style="display:flex;gap:0;border-top:1px solid var(--border);flex-shrink:0;background:var(--card-bg);align-items:stretch">' +
         getTrabajoTabsHTML() +
         '<div style="padding:4px 12px;font-size:11px;color:var(--accent);cursor:pointer;display:flex;align-items:center" onclick="createNewSheet()" title="Nueva hoja">+</div>' +
-        '<div style="margin-left:auto;padding:4px 12px;font-size:11px;color:var(--text-faint);display:flex;align-items:center">' + rows.length + ' filas · ' + cols.length + ' cols · Pila deshacer: ' + undoStack.length + '</div>' +
+        '<div style="margin-left:auto;padding:4px 12px;font-size:11px;color:var(--text-faint);display:flex;align-items:center;gap:6px">' +
+          (totalRows > trabajoPageSize ? '<button class="btn btn-secondary" style="font-size:10px;padding:2px 6px" onclick="trabajoGoPage(0)" ' + (trabajoPage===0?'disabled':'') + '>⏮</button>' +
+          '<button class="btn btn-secondary" style="font-size:10px;padding:2px 6px" onclick="trabajoGoPage(' + (trabajoPage-1) + ')" ' + (trabajoPage===0?'disabled':'') + '>◀</button>' +
+          '<span>' + (trabajoPage+1) + '/' + totalPages + '</span>' +
+          '<button class="btn btn-secondary" style="font-size:10px;padding:2px 6px" onclick="trabajoGoPage(' + (trabajoPage+1) + ')" ' + (trabajoPage>=totalPages-1?'disabled':'') + '>▶</button>' +
+          '<button class="btn btn-secondary" style="font-size:10px;padding:2px 6px" onclick="trabajoGoPage(' + (totalPages-1) + ')" ' + (trabajoPage>=totalPages-1?'disabled':'') + '>⏭</button>' +
+          '<select style="font-size:10px;padding:1px 4px;background:var(--bg-primary);color:var(--text-muted);border:1px solid var(--border);border-radius:4px" onchange="trabajoChangePageSize(parseInt(this.value))">' +
+            '<option value="100"' + (trabajoPageSize===100?' selected':'') + '>100</option>' +
+            '<option value="200"' + (trabajoPageSize===200?' selected':'') + '>200</option>' +
+            '<option value="500"' + (trabajoPageSize===500?' selected':'') + '>500</option>' +
+            '<option value="1000"' + (trabajoPageSize===1000?' selected':'') + '>1000</option>' +
+          '</select>' : '') +
+          totalRows + ' filas · ' + cols.length + ' cols · Pila deshacer: ' + undoStack.length + '</div>' +
       '</div>' +
     '</div>';
   },
@@ -843,14 +871,22 @@ function updateRibbonNavPopup() {
 
 buildRibbonNavPopup();
 
-// ── Restore sidebar collapsed state ──
+// ── Mobile sidebar backdrop close ──
+document.getElementById('sidebarBackdrop')?.addEventListener('click', function() {
+  document.getElementById('sidebar')?.classList.remove('open');
+  this.classList.remove('show');
+});
+
+// ── Restore sidebar collapsed state (desktop only) ──
 try {
-  var savedCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
-  var sidebar = document.getElementById('sidebar');
-  var toggle = document.getElementById('sidebarToggle');
-  if (savedCollapsed && sidebar && toggle) {
-    sidebar.classList.add('collapsed');
-    toggle.classList.add('rotated');
+  if (window.innerWidth > 768) {
+    var savedCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
+    var sidebar = document.getElementById('sidebar');
+    var toggle = document.getElementById('sidebarToggle');
+    if (savedCollapsed && sidebar && toggle) {
+      sidebar.classList.add('collapsed');
+      toggle.classList.add('rotated');
+    }
   }
 } catch(e) {}
 

@@ -104,7 +104,7 @@ function _generateSecurePassword(length) {
             if (!data.ok) return { ok: false, error: data.error };
             return { ok: true };
         } catch {
-            return { ok: false, error: 'Error de conexión' };
+            return { ok: false, error: t('error_conn') };
         }
     }
 
@@ -115,7 +115,7 @@ function _generateSecurePassword(length) {
             if (!data.ok) return { ok: false, error: data.error };
             return { ok: true };
         } catch {
-            return { ok: false, error: 'Error de conexión' };
+            return { ok: false, error: t('error_conn') };
         }
     }
 
@@ -131,7 +131,7 @@ function _generateSecurePassword(length) {
             if (!data.ok) return { ok: false, error: data.error };
             return { ok: true };
         } catch {
-            return { ok: false, error: 'Error de conexión' };
+            return { ok: false, error: t('error_conn') };
         }
     }
 
@@ -142,7 +142,7 @@ function _generateSecurePassword(length) {
             if (!data.ok) return { ok: false, error: data.error };
             return { ok: true };
         } catch {
-            return { ok: false, error: 'Error de conexión' };
+            return { ok: false, error: t('error_conn') };
         }
     }
 
@@ -256,13 +256,13 @@ function _generateSecurePassword(length) {
             
             // Labels
             const rolLabel = {
-                admin:        '🔴 Admin',
-                user:         '👤 Usuario',
-                supervisor:   '🟡 Supervisor',
-                analista:     '🔵 Analista',
-                gerente:      '🟣 Gerente',
-                coordinador:  '🟠 Coordinador',
-                readonly:     '👁 Solo lectura'
+                admin:        t('users_role_admin'),
+                user:         t('users_role_user'),
+                supervisor:   t('users_role_supervisor'),
+                analista:     t('users_role_analyst'),
+                gerente:      t('users_role_manager'),
+                coordinador:  t('users_role_coordinator'),
+                readonly:     t('users_role_readonly')
             }[u.role] || u.role;
             
             const rolClass = {
@@ -277,10 +277,10 @@ function _generateSecurePassword(length) {
             
             // Estado
             const estadoClass = activo ? 'usr-card-estado-activo' : 'usr-card-estado-inactivo';
-            const estadoLabel = activo ? '✓ Activo' : '✕ Inactivo';
+            const estadoLabel = activo ? t('users_active') : t('users_inactive');
             
             // Fecha formateada
-            const lastLogin = u.last_login ? ((typeof fmtDate === 'function') ? fmtDate(u.last_login) : u.last_login.slice(0, 16).replace('T', ' ')) : 'Nunca';
+            const lastLogin = u.last_login ? ((typeof fmtDate === 'function') ? fmtDate(u.last_login) : u.last_login.slice(0, 16).replace('T', ' ')) : t('users_never');
             
             // Avatar color based on first letter
             const firstLetter = nombreCompleto[0].toUpperCase();
@@ -294,7 +294,7 @@ function _generateSecurePassword(length) {
                         <div class="usr-card-nombre">${escapeHtml(nombreCompleto)}${isMe ? ' <span class="usr-card-me">Tú</span>' : ''}</div>
                         <div class="usr-card-email">${escapeHtml(u.email || '-')}</div>
                         ${u.cargo ? '<div class="usr-card-phone">💼 ' + escapeHtml(u.cargo) + '</div>' : ''}
-                        <div class="usr-card-phone">📱 ${escapeHtml(u.telefono || 'No registrado')}</div>
+                        <div class="usr-card-phone">📱 ${escapeHtml(u.telefono || t('users_not_registered'))}</div>
                         ${u.signature_code ? '<div class="usr-card-phone" style="color:#a855f7">*' + escapeHtml(u.signature_code) + '</div>' : ''}
                     </div>
                 </div>
@@ -546,7 +546,7 @@ function _generateSecurePassword(length) {
         document.getElementById('usr-edit-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('usr-edit-save');
-            btn.textContent = 'Guardando...';
+            btn.textContent = t('loading');
             btn.disabled = true;
 
             const perfil = {
@@ -601,7 +601,7 @@ function _generateSecurePassword(length) {
             if (!data.ok) return { ok: false, error: data.error };
             return { ok: true };
         } catch {
-            return { ok: false, error: 'Error de conexión' };
+            return { ok: false, error: t('error_conn') };
         }
     }
 

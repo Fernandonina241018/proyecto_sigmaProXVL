@@ -95,6 +95,35 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 - Model error: mensaje rojo con botón "Reintentar"
 - Error en fetch de datasets/modelos: select muestra error + toast
 
+### 2026-06-20: Responsive — layout adaptable a móvil/tablet + rendimiento + i18n admin
+
+**Responsive (10% → ~50%):**
+- Breakpoint ≤1024px: paneles izquierdos más angostos
+- Breakpoint ≤768px (tablet/móvil horizontal): paneles apilados verticalmente, sidebar como overlay fijo con backdrop, ribbon compacto (32px), titlebar oculto
+- Breakpoint ≤480px (teléfono): ribbon oculto, botón hamburguesa flotante `#mobileMenuBtn`, sidebar overlay toggle
+- Sidebar usa overlay (`position:fixed;transform`) en lugar de collapse en móvil, con `#sidebarBackdrop` para cerrar al tocar fuera
+- `toggleSidebar()` modificada para detectar `window.innerWidth ≤ 768` y usar overlay en lugar de collapse
+- **Archivos:** `indexx.html` (+backdrop), `indexx.css` (+~80 líneas responsive), `indexx-ui.js` (+backdrop handler, toggle adaptativo)
+
+**Performance (60% → ~70%):**
+- Trabajo page: paginación añadida (default 200 rows/página), idéntica a Datos pero con índices offset para preservar edición
+- Controles de paginación en footer: ⏮ ◀ 1/5 ▶ ⏭ + selector 100/200/500/1000
+- `trabajoPage`, `trabajoPageSize` globales en `indexx-globals.js`
+- `trabajoGoPage(page)`, `trabajoChangePageSize(size)` en `indexx-trabajo.js`
+- Las columnas >200 ya no renderizan todo el DOM — solo la página visible
+- **Archivos:** `indexx-globals.js`, `indexx-ui.js`, `indexx-trabajo.js`
+
+**i18n (30% → ~50%):**
+- Nuevo `js/core/i18n-core.js` — sistema de traducciones compartido para toda la app (no solo Reportes)
+- `I18N.en` + `I18N.es` con ~75 keys cada uno: admin general, auditoría, usuarios, dispositivos
+- `t(key, ...args)` global que usa `window._LANG` (`'es'` por defecto, persistido en localStorage)
+- `setLang(lang)` para cambiar idioma desde cualquier página, recarga la página actual
+- Aplicado a DispositivosManager, AuditoriaManager, UsuariosManager — reemplazadas strings hardcodeadas con llamadas `t()`
+- Registrado en script loader de `indexx.html` (después de auth.js, antes de managers)
+- **Archivos:** `i18n-core.js` (NUEVO), `indexx.html`, `DispositivosManager.js`, `AuditoriaManager.js`, `UsuariosManager.js`
+
+**Sintaxis:** ✅ `node -c` en los 11 archivos modificados
+
 ### 2026-06-19: Traducciones español + preservar estado del formulario al cambiar idioma
 
 **Qué:** Se agregó `I18N.es` completo con todas las claves traducidas al español (~80 strings + funciones). Ahora `t('ui_statusOk')` retorna "Análisis listo para exportar", `t('ui_formatHint')` retorna "Selecciona uno o más formatos...", etc.

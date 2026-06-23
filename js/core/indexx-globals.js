@@ -19,6 +19,8 @@ var trabajoFreezeFirstCol = false;
 var trabajoConditionalFormat = false;
 // Undo/redo stacks — store deep snapshots of sheet rows+headers
 var undoStack = [];
+var trabajoPage = 0;
+var trabajoPageSize = 200;
 var redoStack = [];
 var MAX_UNDO = 30;
 

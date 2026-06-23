@@ -876,4 +876,19 @@ function focusCellOrAddRow(targetRow, colIdx) {
   }
   focusCell(Math.min(targetRow, (sheet ? sheet.rows.length - 1 : targetRow)), colIdx);
 }
+
+// ── Paginación ──
+function trabajoGoPage(page) {
+  var sheet = getCurrentSheet();
+  if (!sheet) return;
+  trabajoPage = Math.max(0, Math.min(page, Math.ceil(sheet.rows.length / trabajoPageSize) - 1));
+  loadPage('trabajo');
+}
+
+function trabajoChangePageSize(size) {
+  trabajoPageSize = size;
+  trabajoPage = 0;
+  loadPage('trabajo');
+}
+
 document.addEventListener('click', function(e) { if (!e.target.closest('#autocompleteList') && !e.target.classList.contains('excel-cell-inner')) hideAutocomplete(); });

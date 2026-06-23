@@ -83,14 +83,14 @@ const DispositivosManager = (() => {
         if (!session || session.role !== 'admin') {
             container.innerHTML = '<div class="usr-layout"><div class="usr-no-access">' +
                 '<div class="usr-no-access-icon">🔒</div>' +
-                '<h3>Acceso restringido</h3>' +
+                '<h3>'+t('admin_restricted')+'</h3>' +
                 '<p>Esta sección es exclusiva para administradores.</p></div></div>';
             return;
         }
 
         container.innerHTML = '<div class="usr-layout">' +
             '<div class="usr-table-wrap" id="dsp-table-wrap">' +
-            '<div class="usr-loading"><div class="usr-spinner"></div><p>Cargando dispositivos...</p></div>' +
+            '<div class="usr-loading"><div class="usr-spinner"></div><p>'+t('devices_loading')+'</p></div>' +
             '</div></div>';
 
         _loadAndRender();
@@ -133,7 +133,7 @@ const DispositivosManager = (() => {
                 '<div class="dsp-card-header">' +
                     '<div class="dsp-card-title">' + (isCurrent ? '🖥️ ' : '💻 ') + deviceName + '</div>' +
                     '<div class="dsp-card-badge ' + (isTrusted ? 'dsp-badge-trusted' : 'dsp-badge-untrusted') + '">' +
-                        (isTrusted ? '✓ Confiado' : '○ No confiado') +
+                        (isTrusted ? t('devices_trusted') : t('devices_untrusted')) +
                     '</div>' +
                 '</div>' +
                 '<div class="dsp-card-body">' +
@@ -147,7 +147,7 @@ const DispositivosManager = (() => {
                 '</div>' +
                 '<div class="dsp-card-actions">' +
                     '<button class="btn btn-sm ' + (isTrusted ? 'btn-secondary' : 'btn-primary') + '" onclick="DispositivosManager._onToggle(' + d.id + ', ' + (isTrusted ? '0' : '1') + ')">' +
-                        (isTrusted ? '🔓 Desconfiar' : '🔒 Confiar') +
+                        (isTrusted ? t('devices_untrust') : t('devices_trust')) +
                     '</button>' +
                     '<button class="btn btn-sm btn-secondary" style="color:#e74c3c" onclick="DispositivosManager._onDelete(' + d.id + ')">🗑 Eliminar</button>' +
                     (isCurrent ? '<span class="dsp-current-tag">← Este dispositivo</span>' : '') +
@@ -175,17 +175,17 @@ const DispositivosManager = (() => {
         if (result.ok) {
             _loadAndRender();
         } else {
-            showToast('⚠️ ' + (result.error || 'Error al cambiar estado'), 1);
+            showToast('⚠️ ' + (result.error || 'Error'), 1);
         }
     }
 
     async function _onDelete(id) {
-        if (!confirm('¿Eliminar este dispositivo de la lista de confiados?')) return;
+        if (!confirm(t('devices_confirm_delete'))) return;
         var result = await eliminarDispositivo(id);
         if (result.ok) {
             _loadAndRender();
         } else {
-            showToast('⚠️ ' + (result.error || 'Error al eliminar'), 1);
+            showToast('⚠️ ' + (result.error || 'Error'), 1);
         }
     }
 

@@ -21,7 +21,7 @@ const AuditoriaManager = (() => {
     // ── Cargar logs desde el backend ───────
     async function cargarLogs(limit = 200) {
         const token = Auth.getToken();
-        if (!token) return { ok: false, error: 'No autenticado' };
+        if (!token) return { ok: false, error: t('admin_restricted') };
 
         try {
             const res  = await fetchWithTimeout(`${_apiUrl}/api/audit?limit=${limit}`, {
@@ -34,7 +34,7 @@ const AuditoriaManager = (() => {
             _filteredLogs = [..._logs];
             return { ok: true, count: _logs.length };
         } catch {
-            return { ok: false, error: 'No se pudo conectar con el servidor.' };
+            return { ok: false, error: t('error_conn') };
         }
     }
 
@@ -129,7 +129,7 @@ const AuditoriaManager = (() => {
     // ── Exportar CSV ───────────────────────
     function exportarCSV() {
         if (!_filteredLogs.length) {
-            showToast('⚠️ No hay registros para exportar.');
+            showToast('⚠️ '+t('no_data'));
             return;
         }
 
@@ -373,7 +373,7 @@ const AuditoriaManager = (() => {
             var filtered = document.getElementById('aud-filter-user')?.value ||
                 document.getElementById('aud-filter-module')?.value ||
                 (document.getElementById('aud-filter-from')?.value && document.getElementById('aud-filter-to')?.value);
-            wrap.innerHTML = '<div class="aud-empty">📋 ' + (filtered ? 'No hay registros que coincidan con los filtros.' : 'No hay registros de auditoría aún.') + '</div>';
+            wrap.innerHTML = '<div class="aud-empty">📋 ' + (filtered ? 'No hay registros que coincidan con los filtros.' : t('empty_general')) + '</div>';
             return;
         }
 
@@ -479,7 +479,7 @@ const AuditoriaManager = (() => {
             </thead>
             <tbody>
                 ${entries.map(([user, count]) => {
-                    const risk    = count >= 5 ? 'Alto' : count >= 3 ? 'Medio' : 'Bajo';
+                    const risk    = count >= 5 ? t('audit_high') : count >= 3 ? t('audit_medium') : t('audit_low');
                     const riskCls = count >= 5 ? 'aud-risk-high' : count >= 3 ? 'aud-risk-med' : 'aud-risk-low';
                     return `<tr>
                         <td><strong>${escapeHtml(user)}</strong></td>
@@ -519,14 +519,14 @@ const AuditoriaManager = (() => {
             const btn = document.getElementById('aud-btn-refresh');
             if (btn) btn.textContent = '⏳';
             await _loadAndRender();
-            if (btn) btn.textContent = '🔄';
+            if (btn) btn.textContent = t('refresh');
         });
 
         document.getElementById('aud-btn-verify')?.addEventListener('click', async () => {
             const btn = document.getElementById('aud-btn-verify');
             if (btn) btn.textContent = '⏳';
             await _verifyIntegrity();
-            if (btn) btn.textContent = '🔗 Verificar';
+            if (btn) btn.textContent = t('audit_verify');
         });
 
         // Filtrar con Enter en el campo de usuario
