@@ -2423,3 +2423,59 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 6. Limpiar archivos temporales: `fly.txt`, `supabase.png`
 7. Resetear contraseñas de usuarios restantes (d.jimenez, a.ozuna, a.h, a.nina, c.nina, m.aguero)
 8. Redeploy ML Service en Fly.io para activar Fase 3 endpoints
+
+---
+
+### 2026-06-24: Gaming setup + boot optimizations + sysctl fix
+
+**Qué:** Se instalaron emuladores de juegos, se optimizó el boot para <10s, y se corrigieron permisos de DATOS 2.
+
+**Emuladores instalados:**
+| Paquete | Propósito |
+|---------|-----------|
+| `ryujinx` | Emulador Nintendo Switch (Smash Ultimate, etc.) |
+| `dolphin-emu` | Emulador GameCube/Wii (Smash Melee, Brawl) |
+
+**Gaming stack adicional instalado (sesión anterior):**
+| Paquete | Propósito |
+|---------|-----------|
+| `steam` + `steam-devices` | Tienda/lanzador |
+| `proton-cachyos-slr` | Proton optimizado CachyOS |
+| `wine` + `wine-cachyos-opt` | Wine doble (stock + optimizado) |
+| `winetricks` + `protontricks` | Gestión de prefijos |
+| `lutris` | Lanzador multi-plataforma |
+| `heroic-games-launcher-bin` | Launcher Epic/GOG |
+| `gamescope` | Micro-compositor gaming |
+| `mangohud` + `lib32-mangohud` | Overlay rendimiento |
+| `goverlay` | GUI para MangoHud |
+
+**Directorios de juegos creados:**
+- `/mnt/datos2/Games/Switch/` — ROMs de Switch
+- `/mnt/datos2/Games/GameCube/` — ROMs de GameCube
+- `/mnt/datos2/Games/Wii/` — ROMs de Wii
+- `/mnt/datos2/Games/ROMs/` — ROMs generales
+
+**Boot optimizations (para <10s):**
+| # | Cambio | Ahorro estimado |
+|---|--------|----------------|
+| 1 | GRUB timeout: 5s → **1s** | ~2.5s |
+| 2 | NM-wait-online: enabled → **masked** | ~3.3s |
+| 3 | `tpm_tis.interrupts=0` en kernel cmdline | ~3.2s |
+| 4 | `8250.nr_uarts=0` en kernel cmdline | ~3.1s |
+| 5 | `nowatchdog` ya estaba configurado | — |
+
+**Fixes:**
+- **systemd-sysctl fix**: `net.core.netdev_budget_usecs = 300` era inválido en kernel BMQ+LTO (mínimo 2000). Se eliminó la línea de `/etc/sysctl.d/99-network-latency.conf`. Ahora `sysctl --system` aplica sin errores.
+- **Permisos DATOS 2**: `/mnt/datos2` cambiado de `root:root` a `fernando:fernando` para permitir escritura.
+
+**Archivos afectados (sistema, no proyecto):**
+| Archivo | Cambio |
+|---------|--------|
+| `/etc/default/grub` | GRUB_TIMEOUT=1, +tpm_tis.interrupts=0 +8250.nr_uarts=0 |
+| `/boot/grub/grub.cfg` | Regenerado |
+| `/etc/sysctl.d/99-network-latency.conf` | Eliminada línea netdev_budget_usecs inválida |
+| `/mnt/datos2` | chown a fernando:fernando |
+| `/mnt/datos2/Games/` | Directorios creados |
+| (systemd) | `NetworkManager-wait-online.service` masked |
+
+**Verificación:** ✅ `sysctl --system` sin errores | ✅ GRUB regenerado con cmdline correcto | ✅ Sin servicios fallidos | ✅ Ryujinx 1.3.3 + Dolphin 2603 instalados | ✅ Todos los mounts OK | ✅ Red OK (ping 35ms)
