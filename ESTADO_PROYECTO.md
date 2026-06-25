@@ -23,6 +23,16 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-24: Naruto - Clash of Ninja 2 extraído para Dolphin
+
+**Qué:** Se descargó y extrajo Naruto - Clash of Ninja 2 (USA) para GameCube desde un .zip. Archivo RVZ de 525 MB organizado en su propia carpeta.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `/mnt/datos2/Games/GameCube/Naruto - Clash of Ninja 2/Naruto - Clash of Ninja 2.rvz` | **NUEVO** — ROM extraída del .zip y renombrada |
+| `Naruto - Clash of Ninja 2 (USA).zip` | **ELIMINADO** — .zip original borrado tras extracción |
+
 ### 2026-06-24: Ultimate Spider-Man extraído para Dolphin
 
 **Qué:** Se descargó y extrajo Ultimate Spider-Man (GUTS52, Rev.00) para GameCube desde un .rar. Archivo RVZ de 808 MB organizado en su propia carpeta.
