@@ -23,6 +23,16 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-24: Ultimate Spider-Man extraído para Dolphin
+
+**Qué:** Se descargó y extrajo Ultimate Spider-Man (GUTS52, Rev.00) para GameCube desde un .rar. Archivo RVZ de 808 MB organizado en su propia carpeta.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `/mnt/datos2/Games/GameCube/Ultimate Spider-Man/Ultimate Spider-Man.rvz` | **NUEVO** — ROM extraída del .rar original y renombrada |
+| VLTLMT3-SPLD34M4N.rar | **ELIMINADO** — .rar original borrado tras extracción |
+
 ### 2026-06-19: Barra de navegación inferior integrada — bottom-nav con workflow steps
 
 **Qué:** Se integró una barra de navegación inferior (bottom-nav) en la app real, siguiendo el diseño prototipado en `nav-bar-design.html`. La barra muestra 6 pasos del workflow (Datos → Trabajo → Análisis → Visualización → Reportes → Firmar) con dots, botones Anterior/Siguiente, y el nombre de la página actual.
