@@ -93,10 +93,12 @@ const Auth = (() => {
             mustChangePassword: userData.mustChangePassword || false
         };
         sessionStorage.setItem(CFG.SESSION_STORAGE_KEY, JSON.stringify(session));
+        if(_token) sessionStorage.setItem('auth_token', _token);
         _scheduleTimers();
     }
     function _clearSession() {
         sessionStorage.removeItem(CFG.SESSION_STORAGE_KEY);
+        sessionStorage.removeItem('auth_token');
         _token = null;
         clearTimeout(_sessionTimer); clearTimeout(_warnTimer); clearInterval(_countdownTimer);
         _sessionTimer=null; _warnTimer=null; _countdownTimer=null;
@@ -887,10 +889,14 @@ const Auth = (() => {
         _onLogin=onLogin||null; _onLogout=onLogout||null;
         if(!_isSessionValid()){ showLogin(); return; }
         if(!_token){
-            try{
-                const res=await fetchWithTimeout(`${CFG.API_URL}/api/me`,{credentials:'include'});
-                if(res.ok){ const data=await res.json(); if(data.token) _token=data.token; }
-            }catch(e){ console.warn('Cookie session not available, will re-login on first 401:', e.message); }
+            var stored=sessionStorage.getItem('auth_token');
+            if(stored){ _token=stored; }
+            else{
+                try{
+                    const res=await fetchWithTimeout(`${CFG.API_URL}/api/me`,{credentials:'include'});
+                    if(res.ok){ const data=await res.json(); if(data.token){ _token=data.token; sessionStorage.setItem('auth_token',data.token); } }
+                }catch(e){ console.warn('Cookie session not available, will re-login on first 401:', e.message); }
+            }
         }
         if (_token) {
             await _fetchMlApiKey();
