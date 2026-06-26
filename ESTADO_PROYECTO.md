@@ -112,6 +112,23 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 | `js/managers/ReporteManager.js:1868` | `generarHTML` | Lee checkbox y pasa a `getGraficosParaReporte()` |
 | `js/managers/ReporteManager.js:2283-2293` | UI | Nuevo checkbox con label + desc en formatos |
 
+### 2026-06-26: Fix QR code no visible en reporte HTML — async + error correction H
+
+**Qué:** El código QR en el reporte HTML aparecía vacío al escanear con celular. Dos causas:
+1. `QRCode.toCanvas()` es asíncrono pero no se esperaba con `await` → `canvas.toDataURL()` se ejecutaba antes de que el QR se renderizara → imagen vacía
+2. `errorCorrectionLevel: 'L'` (~7% recovery) insuficiente para el logo "SAP 2.0" superpuesto en el centro (~15% del área)
+
+**Fix:** 6 cambios en `ReporteManager.js`:
+
+| # | Línea | Cambio |
+|---|-------|--------|
+| 1 | 1052 | `function generarHTML` → `async function` |
+| 2 | 1072 | +`await` antes de `QRCode.toCanvas()` |
+| 3 | 1073 | `errorCorrectionLevel: 'L'` → `'H'` (30% recovery) |
+| 4 | 1922 | `setTimeout` callback → `async` + `await generarHTML` para HTML |
+| 5 | 1923 | Idem para PDF |
+| 6 | 2161 | +`await` en preview (ya dentro de `async`) |
+
 ### 2026-06-25: Fase 0 — 2FA (TOTP), WORM, Backup, Monitoring
 
 **Qué:** Implementación de la Fase 0 del roadmap hacia producción farmacéutica. Se agregó:

@@ -1049,7 +1049,7 @@ const ReporteManager = (() => {
     }
 
     // ── Generador HTML ────────────────────
-    function generarHTML(resultados, meta, hash) {
+    async function generarHTML(resultados, meta, hash) {
         const ext=computeExtendedStats(resultados);
         const totalFlags=Object.values(ext).reduce((a,d)=>a+d.flags.length,0);
         const lang=currentLang;
@@ -1069,8 +1069,8 @@ const ReporteManager = (() => {
         let qrDataUrl = '';
         try {
             const canvas = document.createElement('canvas');
-            QRCode.toCanvas(canvas, qrContent, {
-                errorCorrectionLevel: 'L',
+            await QRCode.toCanvas(canvas, qrContent, {
+                errorCorrectionLevel: 'H',
                 width: 150,
                 margin: 1,
                 color: { dark: '#000000', light: '#ffffff' }
@@ -1919,8 +1919,8 @@ tr:hover td{background:#f7faff}
         const hash = await generateHash(meta, resultados);
         const base = `RPT-${hash}_${new Date().toISOString().slice(0,10)}`;
         let delay = 0;
-        if(formatos.includes('html')){setTimeout(()=>downloadBlob(generarHTML(resultados,meta,hash),`${base}.html`,'text/html;charset=utf-8'),delay);delay+=350;}
-        if(formatos.includes('pdf')){setTimeout(()=>{const html=generarHTML(resultados,meta,hash);const blob=new Blob([html],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const w=window.open(url,'_blank');if(w){w.onload=function(){w.print();URL.revokeObjectURL(url);};}},delay);delay+=350;}
+        if(formatos.includes('html')){setTimeout(async ()=>{const h=await generarHTML(resultados,meta,hash);downloadBlob(h,`${base}.html`,'text/html;charset=utf-8');},delay);delay+=350;}
+        if(formatos.includes('pdf')){setTimeout(async ()=>{const h=await generarHTML(resultados,meta,hash);const blob=new Blob([h],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const w=window.open(url,'_blank');if(w){w.onload=function(){w.print();URL.revokeObjectURL(url);};}},delay);delay+=350;}
         if(formatos.includes('txt')){setTimeout(()=>downloadBlob(generarTXT(resultados,meta,hash),`${base}.txt`,'text/plain;charset=utf-8'),delay);delay+=350;}
         if(formatos.includes('csv')){setTimeout(()=>downloadBlob(generarCSV(resultados,meta,hash),`${base}.csv`,'text/csv;charset=utf-8'),delay);}
         
@@ -2158,7 +2158,7 @@ tr:hover td{background:#f7faff}
             const meta=collectMeta();
             const hash = await generateHash(meta, resultados);
             const base = `RPT-${hash}_${new Date().toISOString().slice(0,10)}`;
-            const html = generarHTML(resultados, meta, hash);
+            const html = await generarHTML(resultados, meta, hash);
             try {
                 sessionStorage.setItem('__firma_pending_html', html);
                 sessionStorage.setItem('__firma_pending_name', base + '.html');
