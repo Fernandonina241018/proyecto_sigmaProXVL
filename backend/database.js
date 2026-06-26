@@ -113,12 +113,13 @@ function buildPostgres() {
     async function getUserByUsername(username) { return get('SELECT * FROM users WHERE username = $1 AND active = 1', [username]); }
     async function getUserBySignatureCode(code) { return get('SELECT * FROM users WHERE signature_code = $1 AND active = 1', [code]); }
 
-    async function createUser({ username, password, role = 'user', nombre, apellido, email, telefono, signatureCode, cargo, createdBy }) {
+    async function createUser({ username, password, role = 'user', nombre, apellido, email, telefono, signatureCode, cargo, createdBy, passwordTemp }) {
         const hash = await bcrypt.hash(password, 12);
+        const ptemp = passwordTemp ? 1 : 0;
         try {
             const result = await run(
-                `INSERT INTO users (username,password,role,nombre,apellido,email,telefono,signature_code,cargo,created_by) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING id`,
-                [username, hash, role, nombre||null, apellido||null, email||username, telefono||null, signatureCode||null, cargo||null, createdBy]
+                `INSERT INTO users (username,password,role,nombre,apellido,email,telefono,signature_code,cargo,created_by,password_temp) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING id`,
+                [username, hash, role, nombre||null, apellido||null, email||username, telefono||null, signatureCode||null, cargo||null, createdBy, ptemp]
             );
             return { ok: true, id: result.lastID };
         } catch (err) {
@@ -132,7 +133,7 @@ function buildPostgres() {
     }
 
     async function getAllUsers() {
-        return all('SELECT id,username,role,active,created_at,last_login,login_count,nombre,apellido,email,telefono,avatar,updated_at,totp_enabled FROM users ORDER BY id ASC');
+        return all('SELECT id,username,role,active,created_at,last_login,login_count,nombre,apellido,email,telefono,avatar,updated_at,totp_enabled,password_temp FROM users ORDER BY id ASC');
     }
 
     async function toggleUserActive(id, active) { await run('UPDATE users SET active=$1 WHERE id=$2', [active, id]); }
@@ -440,7 +441,7 @@ function buildLocalStore() {
     async function getUserByUsername(username) { return findUser(username); }
     async function getUserBySignatureCode(code) { return state.users.find(u => u.signature_code === code && u.active === 1) || null; }
 
-    async function createUser({ username, password, role = 'user', nombre, apellido, email, telefono, signatureCode, cargo, createdBy }) {
+    async function createUser({ username, password, role = 'user', nombre, apellido, email, telefono, signatureCode, cargo, createdBy, passwordTemp }) {
         if (state.users.find(u => u.username === username)) return { ok: false, error: 'El usuario ya existe' };
         const hash = await bcrypt.hash(password, 12);
         const user = {
@@ -448,7 +449,7 @@ function buildLocalStore() {
             created_by: createdBy || 'system', created_at: new Date().toISOString(),
             last_login: null, login_count: 0, nombre: nombre||null, apellido: apellido||null,
             email: email||username, telefono: telefono||null, avatar: null, updated_at: null,
-            password_temp: 0, signature_code: signatureCode||null, cargo: cargo||null,
+            password_temp: passwordTemp ? 1 : 0, signature_code: signatureCode||null, cargo: cargo||null,
         };
         state.users.push(user); save();
         return { ok: true, id: user.id };

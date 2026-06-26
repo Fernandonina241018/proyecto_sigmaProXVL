@@ -88,11 +88,10 @@ function _generateSecurePassword(length) {
     }
 
     // ── Crear usuario ─────────────────────
-    async function crearUsuario(username, password, role, perfil = {}) {
+    async function crearUsuario(username, role, perfil = {}) {
         try {
             const data = await apiPost('/api/users', { 
                 username, 
-                password, 
                 role,
                 nombre: perfil.nombre,
                 apellido: perfil.apellido,
@@ -102,7 +101,7 @@ function _generateSecurePassword(length) {
                 cargo: perfil.cargo
             });
             if (!data.ok) return { ok: false, error: data.error };
-            return { ok: true };
+            return { ok: true, defaultPassword: data.defaultPassword };
         } catch {
             return { ok: false, error: t('error_conn') };
         }
@@ -355,6 +354,7 @@ function _generateSecurePassword(length) {
                             <span class="tag ${tagRoleClass}">${roleIcon} ${rolLabel}</span>
                             <span class="tag ${activo ? 'ts' : 'td'}">${activo ? '✅ Activo' : '🔴 Inactivo'}</span>
                             ${u.totp_enabled === 1 ? '<span class="tag tp">🔐 2FA</span>' : '<span class="tag">🔓 Sin 2FA</span>'}
+                            ${u.password_temp === 1 ? '<span class="tag tw">🔄 Pendiente cambio</span>' : ''}
                         </div>
                     </div>
                 </div>
@@ -713,14 +713,13 @@ function _generateSecurePassword(length) {
                 <h2 style="margin:0 0 20px 0;color:#1e293b;">➕ Crear Nuevo Usuario</h2>
                 
                 <form id="usr-form-modal" onsubmit="guardarUsuarioModal(event)">
+                    <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:12px;margin-bottom:16px;font-size:0.8rem;color:#166534;">
+                        🔐 Se asignará una <strong>contraseña temporal</strong>. El usuario deberá cambiarla en su primer inicio de sesión.
+                    </div>
                     <div style="display:grid;gap:16px;">
                         <div>
                             <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">👤 USUARIO *</label>
                             <input type="text" id="usr-modal-username" required placeholder="usuario123" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
-                        </div>
-                        <div>
-                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">🔐 CONTRASEÑA *</label>
-                            <input type="password" id="usr-modal-password" required placeholder="Mín. 8 caracteres" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
                         </div>
                         <div>
                             <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">🎭 ROL *</label>
@@ -757,9 +756,15 @@ function _generateSecurePassword(length) {
                             <input type="text" id="usr-modal-cargo" placeholder="Director de Laboratorio" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
                         </div>
                         <div>
-                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">🔑 CÓDIGO DE FIRMA *</label>
-                            <input type="text" id="usr-modal-signaturecode" placeholder="Ej: ABC-123" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
-                            <div style="font-size:0.7rem;color:#94a3b8;margin-top:4px;">Código único para firmar reportes electrónicos</div>
+                            <label style="display:flex;align-items:center;gap:8px;font-size:0.8rem;font-weight:500;color:#475569;cursor:pointer;">
+                                <input type="checkbox" id="usr-modal-auto-signature" checked onchange="document.getElementById('usr-modal-signaturecode-wrap').style.display=this.checked?'none':'block'">
+                                ☑ Autogenerar código de firma
+                            </label>
+                            <div id="usr-modal-signaturecode-wrap" style="display:none;margin-top:8px;">
+                                <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">🔑 CÓDIGO DE FIRMA</label>
+                                <input type="text" id="usr-modal-signaturecode" placeholder="Ej: ABC-123" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
+                                <div style="font-size:0.7rem;color:#94a3b8;margin-top:4px;">Código único para firmar reportes electrónicos</div>
+                            </div>
                         </div>
                     </div>
                     <div style="display:flex;gap:12px;margin-top:24px;">
@@ -782,29 +787,29 @@ function _generateSecurePassword(length) {
         e.preventDefault();
         
         const username = document.getElementById('usr-modal-username').value.trim();
-        const password = document.getElementById('usr-modal-password').value.trim();
         const role = document.getElementById('usr-modal-role').value;
         const nombre = document.getElementById('usr-modal-nombre').value.trim();
         const apellido = document.getElementById('usr-modal-apellido').value.trim();
         const email = document.getElementById('usr-modal-email').value.trim();
         const telefono = document.getElementById('usr-modal-telefono').value.trim();
         const cargo = document.getElementById('usr-modal-cargo').value.trim();
-        const signatureCode = document.getElementById('usr-modal-signaturecode').value.trim();
+        const autoSig = document.getElementById('usr-modal-auto-signature').checked;
+        const signatureCode = autoSig ? '' : document.getElementById('usr-modal-signaturecode')?.value.trim() || '';
         
-        if (!username || !password) {
+        if (!username) {
             const msg = document.getElementById('usr-modal-msg');
-            msg.textContent = '❌ Usuario y contraseña son requeridos';
+            msg.textContent = '❌ Usuario es requerido';
             msg.style.display = 'block';
             msg.style.color = '#c53030';
             return;
         }
         
         try {
-            const result = await crearUsuario(username, password, role, { nombre, apellido, email, telefono, cargo, signatureCode });
+            const result = await crearUsuario(username, role, { nombre, apellido, email, telefono, cargo, signatureCode });
             
             const msg = document.getElementById('usr-modal-msg');
             if (result.ok) {
-                msg.textContent = '✅ Usuario creado correctamente';
+                msg.textContent = '✅ Usuario creado. Se asignó contraseña temporal.';
                 msg.style.color = '#10b981';
                 msg.style.background = '#f0fdf4';
                 msg.style.padding = '12px';

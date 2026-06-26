@@ -146,6 +146,27 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 | `js/managers/ReporteManager.js:655` | +Render condicional en TXT Section 1 |
 | `js/managers/ReporteManager.js:1014` | +Render condicional en CSV metadata |
 
+### 2026-06-26: Contraseña predeterminada + creación de usuarios simplificada
+
+**Qué:** Nueva política de creación de usuarios con contraseña predeterminada (`sigma2026`) que evita que el admin tenga que generar/conocer contraseñas. Al crear usuario:
+- No se solicita contraseña en el formulario — se asigna automáticamente `sigma2026`
+- Se forza `password_temp=1` → el usuario debe cambiarla en primer login
+- Código de firma se autogenera (`3 primeras letras del username + 3 dígitos`) por defecto, con checkbox para ingreso manual
+- Badge 🔄 Pendiente cambio en tarjetas de usuarios
+
+**Archivos afectados:**
+
+| Archivo | Cambio |
+|---------|--------|
+| `backend/server.js:25` | +`DEFAULT_USER_PASSWORD` env var (fallback `sigma2026`) |
+| `backend/server.js:872-928` | `POST /api/users`: password opcional, usa default si no se envía, +`passwordTemp:1`, auto-genera `signatureCode` |
+| `backend/database.js:116-128` | `createUser()` Postgres: +`passwordTemp` param, +`password_temp` en INSERT |
+| `backend/database.js:135` | `getAllUsers()` Postgres: +`password_temp` en SELECT |
+| `backend/database.js:443-455` | `createUser()` local JSON: +`passwordTemp` param |
+| `js/managers/UsuariosManager.js:91-108` | `crearUsuario()`: sin password, envía solo username+role+perfil |
+| `js/managers/UsuariosManager.js:709-778` | Modal crear: -campo password, +banner contraseña temporal, +checkbox autogenerar firma |
+| `js/managers/UsuariosManager.js:357` | +badge `🔄 Pendiente cambio` si `password_temp===1` |
+
 ### 2026-06-25: Fase 0 — 2FA (TOTP), WORM, Backup, Monitoring
 
 **Qué:** Implementación de la Fase 0 del roadmap hacia producción farmacéutica. Se agregó:

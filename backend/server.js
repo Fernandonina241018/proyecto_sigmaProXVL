@@ -22,6 +22,8 @@ if (process.env.JWT_SECRET.length < 32) {
     process.exit(1);
 }
 
+const DEFAULT_USER_PASSWORD = process.env.DEFAULT_USER_PASSWORD || 'sigma2026';
+
 const express = require('express');
 const bcrypt  = require('bcryptjs');
 const jwt     = require('jsonwebtoken');
@@ -872,8 +874,8 @@ app.post('/api/verify-signature', verifyLimiter, async (req, res) => {
 app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
     const { username, password, role = 'user', nombre, apellido, email, telefono, signatureCode, cargo } = req.body;
 
-    if (!username?.trim() || !password?.trim()) {
-        return res.status(400).json({ error: 'Usuario y contraseña son requeridos' });
+    if (!username?.trim()) {
+        return res.status(400).json({ error: 'Usuario es requerido' });
     }
     if (username.trim().length > 50) {
         return res.status(400).json({ error: 'El usuario no puede exceder 50 caracteres' });
@@ -881,9 +883,11 @@ app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
     if (!['admin', 'user', 'readonly', 'supervisor', 'analista', 'gerente', 'coordinador'].includes(role)) {
         return res.status(400).json({ error: 'Rol inválido' });
     }
-    var pwErr = validatePasswordStrength(password);
-    if (pwErr) {
-        return res.status(400).json({ error: pwErr });
+    var useDefault = !password?.trim();
+    var pw = useDefault ? DEFAULT_USER_PASSWORD : password.trim();
+    if (!useDefault) {
+        var pwErr = validatePasswordStrength(pw);
+        if (pwErr) return res.status(400).json({ error: pwErr });
     }
     if (nombre && nombre.length > 100) {
         return res.status(400).json({ error: 'El nombre no puede exceder 100 caracteres' });
@@ -895,15 +899,22 @@ app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
         return res.status(400).json({ error: 'El email no puede exceder 200 caracteres' });
     }
 
+    var sigCode = signatureCode?.trim();
+    if (!sigCode) {
+        var prefix = username.trim().slice(0, 3).toLowerCase();
+        sigCode = prefix + Math.floor(100 + Math.random() * 900);
+    }
+
     const result = await db.createUser({
-        username: username.trim(), password, role,
+        username: username.trim(), password: pw, role,
         nombre: nombre?.trim(),
         apellido: apellido?.trim(),
         email: email?.trim() || username.trim(),
         telefono: telefono?.trim(),
-        signatureCode: signatureCode?.trim(),
+        signatureCode: sigCode,
         cargo: cargo?.trim(),
         createdBy: req.user.username,
+        passwordTemp: 1,
     });
 
     if (!result.ok) return res.status(400).json({ error: result.error });
@@ -913,7 +924,7 @@ app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
         success: true, ip: getClientIP(req), userAgent: req.headers['user-agent'],
     });
 
-    res.json({ ok: true, id: result.id });
+    res.json({ ok: true, id: result.id, defaultPassword: useDefault ? DEFAULT_USER_PASSWORD : undefined });
 });
 
 // PUT /api/users/:id/toggle (solo admin)
