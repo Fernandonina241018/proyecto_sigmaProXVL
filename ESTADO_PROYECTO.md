@@ -23,6 +23,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-25: Fase 0 — 2FA (TOTP), WORM, Backup, Monitoring
+
+**Qué:** Implementación de la Fase 0 del roadmap hacia producción farmacéutica. Se agregó:
+- **2FA (TOTP)**: Autenticación de dos factores con otplib + QR code. Nuevo flujo de login: paso 1 credenciales → paso 2 código TOTP. Endpoints: `/api/2fa/setup`, `/api/2fa/enable`, `/api/2fa/disable`, `/api/2fa/verify-login`, `/api/2fa/status`. El login devuelve `requires2FA: true` + `tempToken` cuando el usuario tiene 2FA habilitado.
+- **WORM (Write Once Read Many)**: Preservación de datos originales con tabla `data_snapshots`. Snapshot inmutable al importar datos con hash SHA-256. Sin DELETE. Endpoints: `POST /api/snapshots`, `GET /api/snapshots`, `GET /api/snapshots/:id`.
+- **Backup automation**: Scripts `scripts/backup.sh` (pg_dump + compresión + checksum + retención 90 días) y `scripts/backup-restore.sh` (restauración con verificación de integridad).
+- **Monitoring**: Correlation ID en cada request, alerta de requests lentos (>3s), endpoint `/api/me` ahora incluye `has2FA` status.
+
+**Archivos afectados:**
+
+| Archivo | Cambio |
+|---------|--------|
+| `backend/package.json` | + `otplib`, + `qrcode` |
+| `backend/database.js` | + columnas `totp_secret`, `totp_enabled` en users; + tabla `data_snapshots`; + funciones 2FA y snapshot (PostgreSQL + Local store) |
+| `backend/server.js` | + Correlation ID logging; + `/api/2fa/*` endpoints (5); + `/api/snapshots/*` endpoints (3); + modificación login para `requires2FA`; + mejora `/api/me` con `has2FA` |
+| `js/core/auth.js` | + flujo 2FA en login (paso 1 → TOTP input → paso 2); + `_verify2FA()`, `_show2FAInput()`, `_show2FASuccess()`; + API pública `get2FAStatus`, `setup2FA`, `enable2FA`, `disable2FA` |
+| `scripts/backup.sh` | **NUEVO** — Backup automático PostgreSQL con pg_dump, checksum, retención 90 días |
+| `scripts/backup-restore.sh` | **NUEVO** — Restauración con verificación de checksum y confirmación |
+
+**Seguridad:**
+- `POST /api/2fa/disable` requiere contraseña de admin + rol admin
+- `POST /api/2fa/verify-login` tiene rate limiting propio (5 intentos/15min)
+- Token temporal expira en 5 minutos
+- Login 2FA registra evento `LOGIN_2FA_REQUIRED` + `LOGIN` en audit trail
+
+**Pendiente:** Ejecutar `npm install` en backend/ para instalar `otplib` y `qrcode`.
+
 ### 2026-06-24: Naruto - Clash of Ninja 2 extraído para Dolphin
 
 **Qué:** Se descargó y extrajo Naruto - Clash of Ninja 2 (USA) para GameCube desde un .zip. Archivo RVZ de 525 MB organizado en su propia carpeta.

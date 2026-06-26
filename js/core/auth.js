@@ -41,6 +41,9 @@ const Auth = (() => {
     let _token=null;
     let _mlApiKey=null;
 
+    // ── 2FA state ─────────────────────────
+    let _tempToken = null;
+
     // ── Verificación contra backend ───────
     async function _verifyCredentials(user, password) {
         try {
@@ -52,10 +55,31 @@ const Auth = (() => {
             });
             const data = await res.json();
             if (!res.ok) return { ok: false, error: data.error || 'Credenciales incorrectas' };
+            if (data.requires2FA) {
+                _tempToken = data.tempToken;
+                return { ok: true, requires2FA: true, username: data.username, role: data.role, tempToken: data.tempToken };
+            }
             _token = data.token;
             return { ok: true, username: data.username, role: data.role, token: data.token, mustChangePassword: data.mustChangePassword || false };
         } catch {
             return { ok: false, error: 'No se pudo conectar con el servidor.' };
+        }
+    }
+
+    async function _verify2FA(totpCode) {
+        try {
+            const res = await fetchWithTimeout(`${CFG.API_URL}/api/2fa/verify-login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tempToken: _tempToken, token: totpCode }),
+            });
+            const data = await res.json();
+            if (!res.ok) return { ok: false, error: data.error || 'Código 2FA inválido' };
+            _token = data.token;
+            _tempToken = null;
+            return { ok: true, username: data.username, role: data.role, token: data.token };
+        } catch {
+            return { ok: false, error: 'Error de conexión al verificar 2FA' };
         }
     }
 
@@ -582,6 +606,12 @@ const Auth = (() => {
         if(spinnerEl) spinnerEl.classList.remove('active');
 
         if(result.ok){
+            if (result.requires2FA) {
+                _show2FAInput(user, pass);
+                if(btnText) btnText.textContent='Iniciar sesión';
+                btn.disabled=false;
+                return;
+            }
             _attempts=0;
             var rememberCb = document.getElementById('auth-remember');
             if (rememberCb && rememberCb.checked) {
@@ -607,6 +637,89 @@ const Auth = (() => {
             if(btnText) btnText.textContent='Iniciar sesión';
             btn.disabled=false;
         }
+    }
+
+    function _show2FAInput(username, password) {
+        const formArea = document.getElementById('auth-form-area');
+        if (!formArea) return;
+        formArea.innerHTML = `
+            <div style="text-align:center;padding:10px 0;">
+                <div style="font-size:2rem;margin-bottom:8px;">🔐</div>
+                <h3 style="margin:0 0 4px 0;color:var(--text-primary,#1e293b);font-size:1rem;">Autenticación de dos factores</h3>
+                <p style="margin:0 0 16px 0;color:var(--text-secondary,#64748b);font-size:0.85rem;">
+                    Ingresa el código de 6 dígitos de tu aplicación autenticadora.
+                </p>
+                <div class="auth-field">
+                    <div class="auth-input-wrap">
+                        <span class="auth-input-icon">🔑</span>
+                        <input class="auth-input" type="text" id="auth-totp" placeholder=" " autocomplete="one-time-code" inputmode="numeric" maxlength="6" style="font-size:1.5rem;letter-spacing:8px;text-align:center;font-weight:700;">
+                        <label class="auth-label" for="auth-totp">Código 2FA</label>
+                    </div>
+                </div>
+                <div class="auth-error" id="auth-2fa-error" style="display:none;margin-bottom:8px;"></div>
+                <button class="auth-btn-login" id="auth-btn-2fa" type="button">
+                    <span id="auth-btn-2fa-text">Verificar</span>
+                    <span class="auth-btn-arrow">→</span>
+                </button>
+                <div style="margin-top:12px;">
+                    <button id="auth-back-to-login" style="background:none;border:none;color:var(--accent,#3b82f6);cursor:pointer;font-size:0.8rem;text-decoration:underline;">
+                        ← Volver al inicio de sesión
+                    </button>
+                </div>
+            </div>`;
+
+        const totpInput = document.getElementById('auth-totp');
+        totpInput.focus();
+
+        document.getElementById('auth-btn-2fa').addEventListener('click', async function() {
+            const code = totpInput.value.trim();
+            const errorEl = document.getElementById('auth-2fa-error');
+            const btn2faText = document.getElementById('auth-btn-2fa-text');
+            const btn2fa = document.getElementById('auth-btn-2fa');
+
+            if (!code || code.length !== 6 || !/^\d{6}$/.test(code)) {
+                errorEl.textContent = '❌ Ingresa un código válido de 6 dígitos.';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            btn2fa.disabled = true;
+            btn2faText.textContent = 'Verificando...';
+
+            const result = await _verify2FA(code);
+            if (result.ok) {
+                _show2FASuccess(result);
+            } else {
+                errorEl.textContent = '❌ ' + (result.error || 'Código inválido. Intenta de nuevo.');
+                errorEl.style.display = 'block';
+                btn2fa.disabled = false;
+                btn2faText.textContent = 'Verificar';
+                totpInput.value = '';
+                totpInput.focus();
+            }
+        });
+
+        totpInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') document.getElementById('auth-btn-2fa').click();
+        });
+
+        document.getElementById('auth-back-to-login').addEventListener('click', function() {
+            _renderLoginModal();
+        });
+    }
+
+    function _show2FASuccess(result) {
+        const formArea = document.getElementById('auth-form-area');
+        if (!formArea) return;
+        formArea.innerHTML = `
+            <div style="text-align:center;padding:20px 0;">
+                <div style="font-size:3rem;margin-bottom:12px;">✅</div>
+                <h3 style="margin:0 0 4px 0;color:var(--text-primary,#1e293b);">Verificación exitosa</h3>
+                <p style="margin:0;color:var(--text-secondary,#64748b);font-size:0.85rem;">Redirigiendo...</p>
+            </div>`;
+        setTimeout(function() {
+            _onLoginSuccess({username: result.username, role: result.role || 'user', mustChangePassword: false});
+        }, 800);
     }
 
     async function _onLoginSuccess(userData){
@@ -805,7 +918,50 @@ const Auth = (() => {
 
     function getMlApiKey(){ return _mlApiKey; }
 
-    return { init, showLogin, logout, keepAlive, getSession, isAuthenticated, getToken, getMlApiKey };
+    // ── 2FA API pública ──────────────────────
+    async function get2FAStatus() {
+        try {
+            const res = await fetchWithTimeout(`${CFG.API_URL}/api/2fa/status`, {
+                headers: { 'Authorization': 'Bearer ' + (_token || '') }
+            });
+            const data = await res.json();
+            return data.ok ? data.enabled : false;
+        } catch { return false; }
+    }
+
+    async function setup2FA() {
+        try {
+            const res = await fetchWithTimeout(`${CFG.API_URL}/api/2fa/setup`, {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + (_token || '') }
+            });
+            return await res.json();
+        } catch { return { error: 'Error de conexión' }; }
+    }
+
+    async function enable2FA(totpCode) {
+        try {
+            const res = await fetchWithTimeout(`${CFG.API_URL}/api/2fa/enable`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (_token || '') },
+                body: JSON.stringify({ token: totpCode })
+            });
+            return await res.json();
+        } catch { return { error: 'Error de conexión' }; }
+    }
+
+    async function disable2FA(targetUsername, adminPassword) {
+        try {
+            const res = await fetchWithTimeout(`${CFG.API_URL}/api/2fa/disable`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (_token || '') },
+                body: JSON.stringify({ username: targetUsername, password: adminPassword })
+            });
+            return await res.json();
+        } catch { return { error: 'Error de conexión' }; }
+    }
+
+    return { init, showLogin, logout, keepAlive, getSession, isAuthenticated, getToken, getMlApiKey, get2FAStatus, setup2FA, enable2FA, disable2FA };
 
 })();
 

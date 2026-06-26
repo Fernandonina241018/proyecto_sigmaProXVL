@@ -28,6 +28,8 @@ const jwt     = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 const helmet  = require('helmet');
+const { authenticator } = require('otplib');
+const QRCode  = require('qrcode');
 const db      = require('./database');
 
 const app  = express();
@@ -103,16 +105,22 @@ function validatePasswordStrength(password) {
     return null; // null = válida
 }
 
-// ── Request Logging (sin dependencias nuevas) ──
+// ── Request Logging con Correlation ID ──
 app.use((req, res, next) => {
     const start = Date.now();
+    req.correlationId = crypto.randomBytes(8).toString('hex');
+    res.setHeader('X-Correlation-ID', req.correlationId);
     res.on('finish', () => {
         const duration = Date.now() - start;
-        const log = `${req.method} ${res.statusCode} ${req.path} - ${duration}ms`;
+        const log = `[${req.correlationId}] ${req.method} ${res.statusCode} ${req.path} - ${duration}ms`;
         if (res.statusCode >= 400) {
             console.warn(`⚠️ ${log}`);
         } else if (req.path.startsWith('/api/')) {
             console.log(`📋 ${log}`);
+        }
+        // Log lento si supera 3s
+        if (duration > 3000) {
+            console.warn(`🐢 [${req.correlationId}] SLOW: ${req.method} ${req.path} - ${duration}ms`);
         }
     });
     next();
@@ -134,6 +142,17 @@ const verifyLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 10,
     message: { error: 'Demasiados intentos de verificación. Intente de nuevo en 15 minutos.' },
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => {
+        return req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
+    }
+});
+
+const tfaLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 5,
+    message: { error: 'Demasiados intentos de verificación 2FA. Intente de nuevo en 15 minutos.' },
     standardHeaders: true,
     legacyHeaders: false,
     keyGenerator: (req) => {
@@ -194,6 +213,7 @@ function checkAndAlertIP(ip, username) {
 
 // ── Proxy /api/ml/* → Python ML Service (FastAPI :8000) ──
 const http = require('http');
+const crypto = require('crypto');
 
 const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://localhost:8000';
 
@@ -461,10 +481,24 @@ app.post('/api/login', loginLimiter, async (req, res) => {
         // Login exitoso: limpiar bloqueos
         clearUserFailure(username.trim());
         await db.updateLastLogin(username);
-        await db.logAccess({ username, action: 'LOGIN', success: true, ip, userAgent });
 
         // Verificar si debe cambiar contraseña temporal
         const mustChangePassword = user.password_temp === 1;
+
+        // Verificar 2FA
+        const tfaEnabled = await db.has2FAEnabled(user.username);
+        if (tfaEnabled) {
+            // Generar token temporal (5 min, solo para verificar 2FA)
+            const tempToken = jwt.sign(
+                { id: user.id, username: user.username, role: user.role, tfaPending: true },
+                process.env.JWT_SECRET,
+                { expiresIn: '5m', issuer: 'sigmaproxvl', audience: 'sigmaproxvl-api' }
+            );
+            await db.logAccess({ username, action: 'LOGIN_2FA_REQUIRED', success: true, ip, userAgent });
+            return res.json({ ok: true, requires2FA: true, tempToken, username: user.username, role: user.role });
+        }
+
+        await db.logAccess({ username, action: 'LOGIN', success: true, ip, userAgent });
 
         const token = jwt.sign(
             { id: user.id, username: user.username, role: user.role },
@@ -516,16 +550,196 @@ app.get('/api/me', requireAuth, async (req, res) => {
         const user = await db.getUserByUsername(req.user.username);
         if (user) {
             const { password_hash, password_temp, ...profile } = user;
-            return res.json({ ok: true, username: req.user.username, role: req.user.role, token, profile });
+            const has2FA = await db.has2FAEnabled(req.user.username);
+            return res.json({ ok: true, username: req.user.username, role: req.user.role, token, profile, has2FA });
         }
     } catch (_) { /* fallback: omitir perfil */ }
-    res.json({ ok: true, username: req.user.username, role: req.user.role, token });
+    const has2FA = await db.has2FAEnabled(req.user.username).catch(() => false);
+    res.json({ ok: true, username: req.user.username, role: req.user.role, token, has2FA });
 });
 
 // GET /api/ml-api-key — devuelve la ML API Key para que el frontend la pase al ML Service
 app.get('/api/ml-api-key', requireAuth, (req, res) => {
     const key = process.env.ML_API_KEY || '';
     res.json({ ok: true, key });
+});
+
+// ── 2FA (TOTP) Endpoints ──────────────────────────
+// POST /api/2fa/setup — genera secreto TOTP + QR (usuario autenticado)
+app.post('/api/2fa/setup', requireAuth, async (req, res) => {
+    try {
+        const username = req.user.username;
+        // Verificar que no esté ya habilitado
+        const already = await db.has2FAEnabled(username);
+        if (already) {
+            return res.status(400).json({ error: '2FA ya está habilitado. Desactívalo primero para regenerar.' });
+        }
+        const secret = authenticator.generateSecret();
+        await db.save2FASecret(username, secret);
+        const otpauth = authenticator.keyuri(username, 'StatAnalyzer Pro', secret);
+        const qrDataUrl = await QRCode.toDataURL(otpauth);
+        await db.logAuditEvent({
+            username, action: '2FA_SETUP', success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'AUTH', details: null
+        });
+        res.json({ ok: true, secret, qr: qrDataUrl });
+    } catch (err) {
+        console.error('Error 2FA setup:', err);
+        res.status(500).json({ error: 'Error al generar código 2FA' });
+    }
+});
+
+// POST /api/2fa/enable — activa 2FA tras verificar código
+app.post('/api/2fa/enable', requireAuth, async (req, res) => {
+    try {
+        const { token } = req.body;
+        if (!token) return res.status(400).json({ error: 'Código TOTP requerido' });
+        const username = req.user.username;
+        const secret = await db.get2FASecret(username);
+        if (!secret) return res.status(400).json({ error: 'No hay secreto 2FA pendiente. Ejecuta /api/2fa/setup primero.' });
+        const isValid = authenticator.verify({ token, secret });
+        if (!isValid) return res.status(401).json({ error: 'Código TOTP inválido' });
+        await db.enable2FA(username);
+        await db.logAuditEvent({
+            username, action: '2FA_ENABLED', success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'AUTH', details: null
+        });
+        res.json({ ok: true, message: '2FA activado correctamente' });
+    } catch (err) {
+        console.error('Error 2FA enable:', err);
+        res.status(500).json({ error: 'Error al activar 2FA' });
+    }
+});
+
+// POST /api/2fa/disable — desactiva 2FA (requiere contraseña actual + admin)
+app.post('/api/2fa/disable', requireAuth, requireAdmin, async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        if (!username?.trim() || !password?.trim()) {
+            return res.status(400).json({ error: 'Usuario y contraseña requeridos' });
+        }
+        // Verificar contraseña del admin que ejecuta
+        const adminUser = await db.getUserByUsername(req.user.username);
+        if (!adminUser || !bcrypt.compareSync(password, adminUser.password)) {
+            return res.status(401).json({ error: 'Contraseña de administrador incorrecta' });
+        }
+        await db.disable2FA(username.trim());
+        await db.logAuditEvent({
+            username: req.user.username, action: `2FA_DISABLED:${username.trim()}`, success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'AUTH', details: { targetUser: username.trim() }
+        });
+        res.json({ ok: true, message: '2FA desactivado para ' + username.trim() });
+    } catch (err) {
+        console.error('Error 2FA disable:', err);
+        res.status(500).json({ error: 'Error al desactivar 2FA' });
+    }
+});
+
+// POST /api/2fa/verify-login — segundo paso: verificar TOTP con tempToken
+app.post('/api/2fa/verify-login', tfaLimiter, async (req, res) => {
+    try {
+        const { tempToken, token } = req.body;
+        if (!tempToken || !token) {
+            return res.status(400).json({ error: 'tempToken y código TOTP requeridos' });
+        }
+        let payload;
+        try {
+            payload = jwt.verify(tempToken, process.env.JWT_SECRET, { issuer: 'sigmaproxvl', audience: 'sigmaproxvl-api' });
+        } catch {
+            return res.status(401).json({ error: 'Token temporal inválido o expirado. Inicie sesión nuevamente.' });
+        }
+        if (!payload.tfaPending) {
+            return res.status(401).json({ error: 'Token no es de verificación 2FA' });
+        }
+        const secret = await db.get2FASecret(payload.username);
+        if (!secret) return res.status(400).json({ error: '2FA no configurado para este usuario' });
+        const isValid = authenticator.verify({ token, secret });
+        if (!isValid) {
+            await db.logAuditEvent({
+                username: payload.username, action: '2FA_VERIFY_FAILED', success: 0,
+                ip: getClientIP(req), userAgent: req.headers['user-agent'],
+                module: 'AUTH', details: null
+            });
+            return res.status(401).json({ error: 'Código TOTP inválido' });
+        }
+        // Generar token real
+        const realToken = jwt.sign(
+            { id: payload.id, username: payload.username, role: payload.role },
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRES_IN || '8h', issuer: 'sigmaproxvl', audience: 'sigmaproxvl-api' }
+        );
+        res.cookie('token', realToken, {
+            httpOnly: true, secure: true, sameSite: 'none',
+            maxAge: 8 * 60 * 60 * 1000
+        });
+        await db.logAccess({ username: payload.username, action: 'LOGIN', success: true, ip: getClientIP(req), userAgent: req.headers['user-agent'] });
+        res.json({ ok: true, token: realToken, username: payload.username, role: payload.role });
+    } catch (err) {
+        console.error('Error 2FA verify-login:', err);
+        res.status(500).json({ error: 'Error al verificar 2FA' });
+    }
+});
+
+// GET /api/2fa/status — consulta si el usuario tiene 2FA habilitado
+app.get('/api/2fa/status', requireAuth, async (req, res) => {
+    try {
+        const enabled = await db.has2FAEnabled(req.user.username);
+        res.json({ ok: true, enabled });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// ── WORM - Data Snapshots ──────────────────────────
+// POST /api/snapshots — guarda un snapshot de datos (inmutable)
+app.post('/api/snapshots', requireAuth, async (req, res) => {
+    try {
+        const { sheetId, dataHash, snapshotJson, sourceFile, rowCount, colCount, checksum } = req.body;
+        if (!dataHash || !snapshotJson) {
+            return res.status(400).json({ error: 'dataHash y snapshotJson son requeridos' });
+        }
+        const result = await db.createSnapshot({
+            username: req.user.username, sheetId: sheetId || null,
+            dataHash, snapshotJson: JSON.stringify(snapshotJson),
+            sourceFile: sourceFile || null, rowCount: rowCount || null,
+            colCount: colCount || null, checksum: checksum || null,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+        });
+        res.json({ ok: true, id: result.id });
+    } catch (err) {
+        console.error('Error creating snapshot:', err);
+        res.status(500).json({ error: 'Error al guardar snapshot' });
+    }
+});
+
+// GET /api/snapshots — lista snapshots del usuario o todos (admin)
+app.get('/api/snapshots', requireAuth, async (req, res) => {
+    try {
+        const isAdmin = req.user.role === 'admin';
+        const username = isAdmin && req.query.username ? req.query.username : (isAdmin ? null : req.user.username);
+        const snapshots = await db.getSnapshots(username, parseInt(req.query.limit) || 20);
+        res.json({ ok: true, snapshots });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// GET /api/snapshots/:id — obtiene snapshot por ID
+app.get('/api/snapshots/:id', requireAuth, async (req, res) => {
+    try {
+        const snapshot = await db.getSnapshotById(parseInt(req.params.id));
+        if (!snapshot) return res.status(404).json({ error: 'Snapshot no encontrado' });
+        // Solo admin o propietario pueden leer
+        if (req.user.role !== 'admin' && snapshot.username !== req.user.username) {
+            return res.status(403).json({ error: 'No autorizado' });
+        }
+        res.json({ ok: true, snapshot });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
 // GET /api/users (solo admin)

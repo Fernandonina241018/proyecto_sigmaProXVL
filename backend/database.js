@@ -59,6 +59,8 @@ function buildPostgres() {
         await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS password_temp INTEGER DEFAULT 0`);
         await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS signature_code TEXT`);
         await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS cargo TEXT`);
+        await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS totp_secret TEXT`);
+        await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS totp_enabled INTEGER DEFAULT 0`);
         await run(`CREATE INDEX IF NOT EXISTS idx_users_signature_code ON users (signature_code)`);
         await run(`UPDATE users SET email = username WHERE email IS NULL OR email = ''`);
         await run(`CREATE TABLE IF NOT EXISTS audit_log (
@@ -86,6 +88,16 @@ function buildPostgres() {
             UNIQUE(username, fingerprint_hash)
         )`);
         await run(`CREATE INDEX IF NOT EXISTS idx_trusted_devices_username ON trusted_devices (username)`);
+        await run(`CREATE TABLE IF NOT EXISTS data_snapshots (
+            id SERIAL PRIMARY KEY, username TEXT NOT NULL, sheet_id TEXT,
+            data_hash TEXT NOT NULL, snapshot_json TEXT NOT NULL,
+            source_file TEXT, row_count INTEGER, col_count INTEGER,
+            checksum TEXT,
+            created_at TEXT DEFAULT to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS'),
+            ip TEXT, user_agent TEXT
+        )`);
+        await run(`CREATE INDEX IF NOT EXISTS idx_data_snapshots_username ON data_snapshots (username)`);
+        await run(`CREATE INDEX IF NOT EXISTS idx_data_snapshots_created ON data_snapshots (created_at DESC)`);
         console.log('✅ Tablas verificadas en PostgreSQL');
         await _migrateAuditHashes();
     }
@@ -299,7 +311,60 @@ function buildPostgres() {
         await run('DELETE FROM trusted_devices WHERE id=$1', [id]);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, getUserPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, setDeviceTrust, removeDevice };
+    // ── 2FA (TOTP) ────────────────────────────
+    async function getUserById(id) {
+        return get('SELECT * FROM users WHERE id = $1', [id]);
+    }
+
+    async function save2FASecret(username, secret) {
+        await run('UPDATE users SET totp_secret = $1 WHERE username = $2', [secret, username]);
+    }
+
+    async function get2FASecret(username) {
+        const u = await get('SELECT totp_secret FROM users WHERE username = $1', [username]);
+        return u ? u.totp_secret : null;
+    }
+
+    async function enable2FA(username) {
+        await run('UPDATE users SET totp_enabled = 1 WHERE username = $1', [username]);
+    }
+
+    async function disable2FA(username) {
+        await run('UPDATE users SET totp_secret = NULL, totp_enabled = 0 WHERE username = $1', [username]);
+    }
+
+    async function has2FAEnabled(username) {
+        const u = await get('SELECT totp_enabled FROM users WHERE username = $1', [username]);
+        return u ? u.totp_enabled === 1 : false;
+    }
+
+    // ── WORM - Data Snapshots ──────────────────
+    async function createSnapshot({ username, sheetId, dataHash, snapshotJson, sourceFile, rowCount, colCount, checksum, ip, userAgent }) {
+        const result = await run(
+            `INSERT INTO data_snapshots (username, sheet_id, data_hash, snapshot_json, source_file, row_count, col_count, checksum, ip, user_agent)
+             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING id`,
+            [username, sheetId||null, dataHash, snapshotJson, sourceFile||null, rowCount||null, colCount||null, checksum||null, ip||null, userAgent||null]
+        );
+        await logAuditEvent({
+            username, action: 'SNAPSHOT_CREATE', success: 1,
+            ip: ip||'', userAgent: userAgent||'',
+            module: 'DATA', details: JSON.stringify({ snapshotId: result.lastID, sheetId: sheetId||null, rowCount: rowCount||null })
+        });
+        return { ok: true, id: result.lastID };
+    }
+
+    async function getSnapshots(username, limit = 20) {
+        if (username) {
+            return all('SELECT id, username, sheet_id, data_hash, source_file, row_count, col_count, created_at FROM data_snapshots WHERE username = $1 ORDER BY id DESC LIMIT $2', [username, limit]);
+        }
+        return all('SELECT id, username, sheet_id, data_hash, source_file, row_count, col_count, created_at FROM data_snapshots ORDER BY id DESC LIMIT $1', [limit]);
+    }
+
+    async function getSnapshotById(id) {
+        return get('SELECT * FROM data_snapshots WHERE id = $1', [id]);
+    }
+
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, getUserPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById };
 }
 
 // ───── Local JSON store ─────
@@ -576,7 +641,67 @@ function buildLocalStore() {
         save();
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, getUserPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, setDeviceTrust, removeDevice };
+    // ── 2FA (TOTP) ────────────────────────────
+    async function getUserById(id) { return state.users.find(function(u) { return u.id === id; }) || null; }
+
+    async function save2FASecret(username, secret) {
+        var u = findUser(username);
+        if (u) { u.totp_secret = secret; save(); }
+    }
+
+    async function get2FASecret(username) {
+        var u = findUser(username);
+        return u ? u.totp_secret : null;
+    }
+
+    async function enable2FA(username) {
+        var u = findUser(username);
+        if (u) { u.totp_enabled = 1; save(); }
+    }
+
+    async function disable2FA(username) {
+        var u = findUser(username);
+        if (u) { u.totp_secret = null; u.totp_enabled = 0; save(); }
+    }
+
+    async function has2FAEnabled(username) {
+        var u = findUser(username);
+        return u ? u.totp_enabled === 1 : false;
+    }
+
+    // ── WORM - Data Snapshots ──────────────────
+    if (!state.data_snapshots) state.data_snapshots = [];
+    var _snapshotIdCounter = state.data_snapshots.length > 0 ? Math.max.apply(null, state.data_snapshots.map(function(s) { return s.id; })) + 1 : 1;
+
+    async function createSnapshot({ username, sheetId, dataHash, snapshotJson, sourceFile, rowCount, colCount, checksum, ip, userAgent }) {
+        var snapshot = {
+            id: _snapshotIdCounter++, username: username, sheet_id: sheetId||null,
+            data_hash: dataHash, snapshot_json: snapshotJson,
+            source_file: sourceFile||null, row_count: rowCount||null, col_count: colCount||null,
+            checksum: checksum||null, ip: ip||null, user_agent: userAgent||null,
+            created_at: new Date().toISOString(),
+        };
+        state.data_snapshots.push(snapshot);
+        save();
+        /* audit manually */
+        state.audit_log.push({ id: state.nextAuditId++, username: username, action: 'SNAPSHOT_CREATE', success: 1,
+            ip: ip||'', user_agent: userAgent||'', module: 'DATA', details: JSON.stringify({ snapshotId: snapshot.id, sheetId: sheetId||null }),
+            timestamp: new Date().toISOString(), prev_hash: null, row_hash: null, duration_ms: null });
+        save();
+        return { ok: true, id: snapshot.id };
+    }
+
+    async function getSnapshots(username, limit) {
+        limit = limit || 20;
+        var list = state.data_snapshots.filter(function(s) { return username ? s.username === username : true; });
+        return list.sort(function(a, b) { return b.id - a.id; }).slice(0, limit);
+    }
+
+    async function getSnapshotById(id) {
+        return state.data_snapshots.find(function(s) { return s.id === id; }) || null;
+    }
+
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, getUserPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById };
 }
 
 const impl = build();
@@ -608,6 +733,15 @@ module.exports = {
     getAllDevices:        (...a) => impl.getAllDevices(...a),
     setDeviceTrust:       (...a) => impl.setDeviceTrust(...a),
     removeDevice:         (...a) => impl.removeDevice(...a),
+    getUserById:          (...a) => impl.getUserById(...a),
+    save2FASecret:        (...a) => impl.save2FASecret(...a),
+    get2FASecret:         (...a) => impl.get2FASecret(...a),
+    enable2FA:            (...a) => impl.enable2FA(...a),
+    disable2FA:           (...a) => impl.disable2FA(...a),
+    has2FAEnabled:        (...a) => impl.has2FAEnabled(...a),
+    createSnapshot:       (...a) => impl.createSnapshot(...a),
+    getSnapshots:         (...a) => impl.getSnapshots(...a),
+    getSnapshotById:      (...a) => impl.getSnapshotById(...a),
     run:                  (...a) => impl.run(...a),
     all:                 (...a) => impl.all(...a),
     get:                 (...a) => impl.get(...a),
