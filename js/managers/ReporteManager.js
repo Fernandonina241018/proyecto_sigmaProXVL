@@ -82,6 +82,8 @@ const ReporteManager = (() => {
             ui_formatTitle: '📥 Download Format',
             ui_formatHint:  'Select one or more formats. The button downloads all selected.',
             ui_formatCount: (n) => `${n} format${n!==1?'s':''} selected`,
+            ui_chartsRecent: 'Only recent charts (30 min)',
+            ui_chartsAll: 'Include all saved charts',
             ui_download:    '📥 Download Report',
             ui_noData:      'Run a statistical analysis first to enable download.',
             ui_regTitle:    'Regulatory Framework',
@@ -359,6 +361,8 @@ const ReporteManager = (() => {
             ui_formatTitle: '📥 Formato de Descarga',
             ui_formatHint:  'Selecciona uno o más formatos. El botón descarga todo lo seleccionado.',
             ui_formatCount: (n) => `${n} formato${n!==1?'s':''} seleccionado${n!==1?'s':''}`,
+            ui_chartsRecent: 'Solo gráficos recientes (30 min)',
+            ui_chartsAll: 'Incluir todos los gráficos guardados',
             ui_download:    '📥 Descargar Reporte',
             ui_noData:      'Ejecuta un análisis estadístico primero para habilitar la descarga.',
             ui_regTitle:    'Marco Regulatorio',
@@ -1860,7 +1864,7 @@ tr:hover td{background:#f7faff}
   
   ${(() => {
       const graficos = (typeof Visualizacion !== 'undefined')
-          ? Visualizacion.getGraficosParaReporte()
+          ? Visualizacion.getGraficosParaReporte(document.getElementById('rep-include-all-charts')?.checked)
           : [];
       if (!graficos || graficos.length === 0) return '';
 
@@ -1948,7 +1952,7 @@ tr:hover td{background:#f7faff}
         ['rep-org','rep-dept','rep-ubicacion','rep-descripcion','rep-marca',
          'rep-modelo','rep-serie','rep-fase','rep-code','rep-ensayo',
          'rep-version','rep-conf','rep-proto','rep-dataset','rep-file','rep-collect',
-         'fmt-html','fmt-pdf','fmt-txt','fmt-csv'].forEach(id=>{
+         'fmt-html','fmt-pdf','fmt-txt','fmt-csv','rep-include-all-charts'].forEach(id=>{
             const el=document.getElementById(id);
             if(el) _saved[id]=el.type==='checkbox'?el.checked:el.value;
         });
@@ -2275,6 +2279,16 @@ tr:hover td{background:#f7faff}
       </div>
     </label>
   </div>
+
+  <label class="rep-format-item" style="margin-top:8px;cursor:pointer">
+    <input type="checkbox" id="rep-include-all-charts">
+    <div class="rep-format-body" style="padding:8px 10px">
+      <div class="rep-format-info">
+        <div class="rep-format-name" style="font-size:12px">📊 ${t('ui_chartsAll')}</div>
+        <div class="rep-format-desc">${t('ui_chartsRecent')}</div>
+      </div>
+    </div>
+  </label>
 
   <div class="rep-fmt-count-row">
     <span class="rep-fmt-count" id="rep-fmt-count">${t('ui_formatCount',1)}</span>

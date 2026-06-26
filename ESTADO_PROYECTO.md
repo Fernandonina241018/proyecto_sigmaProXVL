@@ -88,6 +88,30 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 | `js/core/indexx-viz.js:810-828` | Nueva función `_V_applyReportColors(config)` | Sobrescribe `Chart.defaults.color`, legend labels, axis ticks/titles/grid, plugin title a colores oscuros |
 | `js/core/indexx-viz.js:844` | `_V_generateStaticImage` | +`config = _V_applyReportColors(config)` antes de renderizar el chart offscreen |
 
+### 2026-06-26: Filtro de gráficos antiguos en reportes — checkbox incluir todos
+
+**Qué:** Los gráficos guardados en la galería se persistían indefinidamente en localStorage y se incluían **todos** en cada reporte nuevo, incluso los de sesiones anteriores, saturando el reporte con charts irrelevantes.
+
+**Solución:** Sistema de filtro temporal con opción manual:
+- Cada item de galería ahora guarda `createdAt` (timestamp)
+- `getGraficosParaReporte()` acepta parámetro `includeAll`; por defecto filtra items con más de 30 min de antigüedad
+- Nuevo checkbox "📊 Incluir todos los gráficos guardados" en la sección de formatos del reporte
+- Checkbox OFF (default) → solo gráficos recientes (30 min)
+- Checkbox ON → todos los gráficos guardados
+- Checkbox se preserva entre recargas (save/restore como el resto del formulario)
+- Traducciones EN/ES agregadas
+
+**Archivos afectados:**
+| Archivo | Línea | Cambio |
+|---------|-------|--------|
+| `js/core/indexx-viz.js:262` | `getGraficosParaReporte` | +param `includeAll`, +filtro `createdAt > cutoff` |
+| `js/core/indexx-viz.js:889` | `vizSaveToGallery` | +`createdAt: Date.now()` |
+| `js/core/indexx-viz.js:997,1008` | `_V_saveGallery` | Persiste `createdAt` en localStorage |
+| `js/managers/ReporteManager.js:85,364` | i18n | +`ui_chartsRecent`, +`ui_chartsAll` EN/ES |
+| `js/managers/ReporteManager.js:1955` | save/restore | +`rep-include-all-charts` al array |
+| `js/managers/ReporteManager.js:1868` | `generarHTML` | Lee checkbox y pasa a `getGraficosParaReporte()` |
+| `js/managers/ReporteManager.js:2283-2293` | UI | Nuevo checkbox con label + desc en formatos |
+
 ### 2026-06-25: Fase 0 — 2FA (TOTP), WORM, Backup, Monitoring
 
 **Qué:** Implementación de la Fase 0 del roadmap hacia producción farmacéutica. Se agregó:

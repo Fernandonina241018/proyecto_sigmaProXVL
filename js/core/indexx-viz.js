@@ -259,10 +259,12 @@ function _V_idxData(maxLen) {
 
 // ══ EXTERNAL API (Reportes) ═══════════════════════════════════
 window.Visualizacion = {
-  getGraficosParaReporte: function() {
+  getGraficosParaReporte: function(includeAll) {
     var graficos = [];
     try {
+      var cutoff = Date.now() - 30 * 60 * 1000;
       _V.gallery.forEach(function(g) {
+        if (!includeAll && g.createdAt && g.createdAt < cutoff) return;
         if (g && g.url) graficos.push({ imagen: g.url, titulo: g.title, tipo: g.type || 'desconocido' });
         else if (g && g.vars) {
           var staticImg = _V_generateStaticImage(g);
@@ -884,7 +886,7 @@ function vizSaveToGallery() {
   var thumb = thumbC.toDataURL('image/png');
 
   var id = Date.now();
-  _V.gallery.unshift({ id: id, title: title, type: _V.type || '', vars: JSON.parse(JSON.stringify(_V.vals)), palette: _V.palette, thumb: thumb });
+  _V.gallery.unshift({ id: id, title: title, type: _V.type || '', vars: JSON.parse(JSON.stringify(_V.vals)), palette: _V.palette, thumb: thumb, createdAt: Date.now() });
   if (_V.gallery.length > 30) _V.gallery = _V.gallery.slice(0, 30);
   vizRefreshGallery();
   _V_saveGallery();
@@ -992,6 +994,7 @@ function _V_saveGallery() {
       if (g.palette) item.palette = g.palette;
       if (g.thumb) item.thumb = g.thumb;
       if (g.url) item.url = g.url;
+      if (g.createdAt) item.createdAt = g.createdAt;
       return item;
     })));
   } catch(e) {
@@ -1002,6 +1005,7 @@ function _V_saveGallery() {
           if (g.vars) item.vars = g.vars;
           if (g.palette) item.palette = g.palette;
           if (g.url) item.url = g.url;
+          if (g.createdAt) item.createdAt = g.createdAt;
           return item;
         })));
       } catch(e2) { /* ignore */ }
