@@ -184,6 +184,15 @@ function _generateSecurePassword(length) {
                 .usr-btn-deactivate:hover { background: rgba(248,113,113,0.3); color: white; }
                 .usr-btn-activate { background: rgba(74,222,128,0.15); color: #4ade80; }
                 .usr-btn-activate:hover { background: rgba(74,222,128,0.3); color: white; }
+                .usr-card-2fa-enabled { background: #1e3d3d; color: #4dd4ac; }
+                .usr-card-2fa-disabled { background: #2a2a2a; color: #a0aec0; }
+                .usr-btn-2fa-enable { background: rgba(77,212,172,0.15); color: #4dd4ac; padding: 8px 10px; }
+                .usr-btn-2fa-enable:hover { background: rgba(77,212,172,0.3); color: white; }
+                .usr-btn-2fa-disable { background: rgba(248,113,113,0.15); color: #fc8181; padding: 8px 10px; }
+                .usr-btn-2fa-disable:hover { background: rgba(248,113,113,0.3); color: white; }
+                .usr-2fa-modal-qr { text-align: center; padding: 16px 0; }
+                .usr-2fa-modal-qr img { max-width: 200px; border-radius: 8px; }
+                .usr-2fa-modal-secret { font-family: monospace; font-size: 0.9rem; background: var(--bg-input,#f8fafc); padding: 8px; border-radius: 6px; text-align: center; letter-spacing: 2px; margin: 8px 0; }
             `;
             const styleEl = document.createElement('style');
             styleEl.id = 'usr-card-styles';
@@ -301,6 +310,9 @@ function _generateSecurePassword(length) {
                 <div class="usr-card-badges">
                     <span class="usr-card-badge ${rolClass}">${rolLabel}</span>
                     <span class="usr-card-badge ${estadoClass}">${estadoLabel}</span>
+                    ${u.totp_enabled === 1
+                        ? '<span class="usr-card-badge usr-card-2fa-enabled">🔐 2FA</span>'
+                        : '<span class="usr-card-badge usr-card-2fa-disabled">🔓 2FA</span>'}
                 </div>
                 <div class="usr-card-meta">
                     <span class="usr-card-meta-item">🕐 ${escapeHtml(lastLogin)}</span>
@@ -318,6 +330,11 @@ function _generateSecurePassword(length) {
                         <option value="readonly"    ${u.role==='readonly'    ?'selected':''}>👁 Solo lectura</option>
                     </select>
                     <button class="usr-btn-pass" data-username="${escapeHtml(u.username)}" title="Resetear contraseña" ${isMe ? 'disabled' : ''}>🔑</button>
+                    <button class="${u.totp_enabled === 1 ? 'usr-btn-2fa-disable' : 'usr-btn-2fa-enable'}"
+                            data-id="${u.id}" data-username="${escapeHtml(u.username)}" data-enabled="${u.totp_enabled === 1 ? 1 : 0}"
+                            title="${u.totp_enabled === 1 ? 'Desactivar 2FA' : 'Activar 2FA'}" ${isMe ? 'disabled' : ''}>
+                        ${u.totp_enabled === 1 ? '🔐' : '🔑2FA'}
+                    </button>
                     <button class="${activo ? 'usr-btn-deactivate' : 'usr-btn-activate'}"
                             data-id="${u.id}" data-active="${activo ? 0 : 1}"
                             title="${activo ? 'Desactivar' : 'Activar'} usuario"
@@ -371,6 +388,18 @@ function _generateSecurePassword(length) {
                 } else {
                     showToast(`❌ ${result.error}`, true);
                 }
+            });
+        });
+
+        // 2FA - listeners para botones de activar/desactivar
+        wrap.querySelectorAll('.usr-btn-2fa-enable').forEach(btn => {
+            btn.addEventListener('click', () => {
+                _show2faSetupModal(btn.dataset.id, btn.dataset.username);
+            });
+        });
+        wrap.querySelectorAll('.usr-btn-2fa-disable').forEach(btn => {
+            btn.addEventListener('click', () => {
+                _show2faDisableConfirm(btn.dataset.id, btn.dataset.username);
             });
         });
 
@@ -754,6 +783,161 @@ function _generateSecurePassword(length) {
             msg.style.display = 'block';
         }
     };
+
+    // ── Modal de activación 2FA ────────────────
+    function _show2faSetupModal(userId, username) {
+        document.getElementById('usr-2fa-modal')?.remove();
+
+        const modal = document.createElement('div');
+        modal.id = 'usr-2fa-modal';
+        modal.innerHTML = `
+            <div class="usr-modal-overlay" id="usr-2fa-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;"></div>
+            <div class="usr-modal-card" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;border-radius:16px;padding:24px;max-width:460px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.3);z-index:10000;max-height:90vh;overflow-y:auto;">
+                <button class="usr-modal-close" id="usr-2fa-close" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:20px;cursor:pointer;">✕</button>
+                <h2 style="margin:0 0 8px 0;color:#1e293b;">🔐 Activar 2FA</h2>
+                <p style="margin:0 0 16px 0;color:#64748b;font-size:0.9rem;">Usuario: <strong>${escapeHtml(username)}</strong></p>
+                <div id="usr-2fa-loading" style="text-align:center;padding:20px;color:#64748b;">Generando código QR...</div>
+                <div id="usr-2fa-content" style="display:none;">
+                    <div class="usr-2fa-modal-qr" id="usr-2fa-qr"></div>
+                    <p style="font-size:0.85rem;color:#64748b;text-align:center;margin:8px 0;">O ingresa este secreto manualmente en tu app autenticadora:</p>
+                    <div class="usr-2fa-modal-secret" id="usr-2fa-secret"></div>
+                    <div style="margin-top:16px;">
+                        <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">CÓDIGO DE VERIFICACIÓN</label>
+                        <input type="text" id="usr-2fa-totp" maxlength="6" placeholder="000000" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:1.2rem;text-align:center;letter-spacing:6px;font-weight:700;box-sizing:border-box;">
+                    </div>
+                    <div id="usr-2fa-msg" style="margin-top:8px;display:none;"></div>
+                    <div style="display:flex;gap:12px;margin-top:16px;">
+                        <button type="button" id="usr-2fa-cancel" style="flex:1;padding:14px;border:2px solid #e2e8f0;border-radius:10px;background:#f1f5f9;color:#64748b;font-weight:600;cursor:pointer;">Cancelar</button>
+                        <button type="button" id="usr-2fa-activate" style="flex:1;padding:14px;border:none;border-radius:10px;background:linear-gradient(135deg,#059669,#10b981);color:white;font-weight:600;cursor:pointer;">✓ Activar 2FA</button>
+                    </div>
+                </div>
+            </div>`;
+
+        document.body.appendChild(modal);
+
+        const close = () => document.getElementById('usr-2fa-modal')?.remove();
+        document.getElementById('usr-2fa-close').addEventListener('click', close);
+        document.getElementById('usr-2fa-cancel').addEventListener('click', close);
+        document.getElementById('usr-2fa-overlay').addEventListener('click', close);
+
+        // Cargar QR
+        (async () => {
+            try {
+                const data = await apiPost(`/api/users/${userId}/2fa/setup`, {});
+                if (!data.ok) throw new Error(data.error || 'Error al generar QR');
+                document.getElementById('usr-2fa-loading').style.display = 'none';
+                const content = document.getElementById('usr-2fa-content');
+                content.style.display = 'block';
+                document.getElementById('usr-2fa-qr').innerHTML = `<img src="${data.qr}" alt="QR 2FA">`;
+                document.getElementById('usr-2fa-secret').textContent = data.secret;
+            } catch (err) {
+                document.getElementById('usr-2fa-loading').innerHTML =
+                    `<div style="color:#dc2626;">❌ ${escapeHtml(err.message)}</div>`;
+            }
+        })();
+
+        document.getElementById('usr-2fa-activate').addEventListener('click', async () => {
+            const totp = document.getElementById('usr-2fa-totp').value.trim();
+            if (!totp || totp.length !== 6) {
+                const msg = document.getElementById('usr-2fa-msg');
+                msg.textContent = '❌ Ingresa el código de 6 dígitos';
+                msg.style.display = 'block';
+                msg.style.color = '#dc2626';
+                return;
+            }
+            const btn = document.getElementById('usr-2fa-activate');
+            btn.disabled = true;
+            btn.textContent = '⏳ Verificando...';
+            try {
+                const result = await apiPost(`/api/users/${userId}/2fa/enable`, { token: totp });
+                const msg = document.getElementById('usr-2fa-msg');
+                if (result.ok) {
+                    msg.textContent = '✅ 2FA activado correctamente';
+                    msg.style.color = '#10b981';
+                    msg.style.background = '#f0fdf4';
+                    msg.style.padding = '8px';
+                    msg.style.borderRadius = '6px';
+                    msg.style.display = 'block';
+                    setTimeout(() => { close(); _loadAndRender(); }, 1500);
+                } else {
+                    msg.textContent = '❌ ' + (result.error || 'Error');
+                    msg.style.color = '#dc2626';
+                    msg.style.display = 'block';
+                    btn.disabled = false;
+                    btn.textContent = '✓ Activar 2FA';
+                }
+            } catch (err) {
+                const msg = document.getElementById('usr-2fa-msg');
+                msg.textContent = '❌ Error de conexión';
+                msg.style.color = '#dc2626';
+                msg.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = '✓ Activar 2FA';
+            }
+        });
+    }
+
+    // ── Confirmación para desactivar 2FA ────────
+    function _show2faDisableConfirm(userId, username) {
+        document.getElementById('usr-2fa-modal')?.remove();
+
+        const modal = document.createElement('div');
+        modal.id = 'usr-2fa-modal';
+        modal.innerHTML = `
+            <div class="usr-modal-overlay" id="usr-2fa-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;"></div>
+            <div class="usr-modal-card" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;border-radius:16px;padding:24px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.3);z-index:10000;">
+                <button class="usr-modal-close" id="usr-2fa-close" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:20px;cursor:pointer;">✕</button>
+                <div style="text-align:center;font-size:3rem;margin-bottom:12px;">🔓</div>
+                <h2 style="margin:0 0 8px 0;color:#1e293b;text-align:center;">Desactivar 2FA</h2>
+                <p style="margin:0 0 20px 0;color:#64748b;font-size:0.9rem;text-align:center;">
+                    ¿Estás seguro de desactivar la autenticación de dos factores para <strong>${escapeHtml(username)}</strong>?
+                </p>
+                <div id="usr-2fa-msg" style="display:none;"></div>
+                <div style="display:flex;gap:12px;">
+                    <button type="button" id="usr-2fa-cancel" style="flex:1;padding:14px;border:2px solid #e2e8f0;border-radius:10px;background:#f1f5f9;color:#64748b;font-weight:600;cursor:pointer;">Cancelar</button>
+                    <button type="button" id="usr-2fa-disable-btn" style="flex:1;padding:14px;border:none;border-radius:10px;background:linear-gradient(135deg,#dc2626,#ef4444);color:white;font-weight:600;cursor:pointer;">✓ Desactivar</button>
+                </div>
+            </div>`;
+
+        document.body.appendChild(modal);
+
+        const close = () => document.getElementById('usr-2fa-modal')?.remove();
+        document.getElementById('usr-2fa-close').addEventListener('click', close);
+        document.getElementById('usr-2fa-cancel').addEventListener('click', close);
+        document.getElementById('usr-2fa-overlay').addEventListener('click', close);
+
+        document.getElementById('usr-2fa-disable-btn').addEventListener('click', async () => {
+            const btn = document.getElementById('usr-2fa-disable-btn');
+            btn.disabled = true;
+            btn.textContent = '⏳ Desactivando...';
+            try {
+                const result = await apiPost(`/api/users/${userId}/2fa/disable`, {});
+                const msg = document.getElementById('usr-2fa-msg');
+                if (result.ok) {
+                    msg.textContent = '✅ 2FA desactivado correctamente';
+                    msg.style.color = '#10b981';
+                    msg.style.background = '#f0fdf4';
+                    msg.style.padding = '8px';
+                    msg.style.borderRadius = '6px';
+                    msg.style.display = 'block';
+                    setTimeout(() => { close(); _loadAndRender(); }, 1500);
+                } else {
+                    msg.textContent = '❌ ' + (result.error || 'Error');
+                    msg.style.color = '#dc2626';
+                    msg.style.display = 'block';
+                    btn.disabled = false;
+                    btn.textContent = '✓ Desactivar';
+                }
+            } catch (err) {
+                const msg = document.getElementById('usr-2fa-msg');
+                msg.textContent = '❌ Error de conexión';
+                msg.style.color = '#dc2626';
+                msg.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = '✓ Desactivar';
+            }
+        });
+    }
 
     function _onRefresh() {
         _loadAndRender();

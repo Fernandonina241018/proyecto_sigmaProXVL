@@ -638,6 +638,90 @@ app.post('/api/2fa/disable', requireAuth, requireAdmin, async (req, res) => {
     }
 });
 
+// ── Admin 2FA management for any user ────────────
+// GET /api/users/:id/2fa — obtener estado 2FA de un usuario
+app.get('/api/users/:id/2fa', requireAuth, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await db.getUserById(id);
+        if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+        const enabled = await db.has2FAEnabled(user.username);
+        res.json({ ok: true, username: user.username, enabled });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// POST /api/users/:id/2fa/setup — admin genera secreto TOTP + QR para un usuario
+app.post('/api/users/:id/2fa/setup', requireAuth, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await db.getUserById(id);
+        if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+        const already = await db.has2FAEnabled(user.username);
+        if (already) {
+            return res.status(400).json({ error: '2FA ya está habilitado para este usuario' });
+        }
+        const secret = authenticator.generateSecret();
+        await db.save2FASecret(user.username, secret);
+        const otpauth = authenticator.keyuri(user.username, 'StatAnalyzer Pro', secret);
+        const qrDataUrl = await QRCode.toDataURL(otpauth);
+        await db.logAuditEvent({
+            username: req.user.username, action: `2FA_SETUP:${user.username}`, success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'AUTH', details: { targetUser: user.username }
+        });
+        res.json({ ok: true, username: user.username, secret, qr: qrDataUrl });
+    } catch (err) {
+        console.error('Error admin 2FA setup:', err);
+        res.status(500).json({ error: 'Error al generar código 2FA' });
+    }
+});
+
+// POST /api/users/:id/2fa/enable — admin activa 2FA para un usuario
+app.post('/api/users/:id/2fa/enable', requireAuth, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { token } = req.body;
+        if (!token) return res.status(400).json({ error: 'Código TOTP requerido' });
+        const user = await db.getUserById(id);
+        if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+        const secret = await db.get2FASecret(user.username);
+        if (!secret) return res.status(400).json({ error: 'No hay secreto 2FA pendiente. Ejecuta setup primero.' });
+        const isValid = authenticator.verify({ token, secret });
+        if (!isValid) return res.status(401).json({ error: 'Código TOTP inválido' });
+        await db.enable2FA(user.username);
+        await db.logAuditEvent({
+            username: req.user.username, action: `2FA_ENABLED:${user.username}`, success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'AUTH', details: { targetUser: user.username }
+        });
+        res.json({ ok: true, message: `2FA activado para ${user.username}` });
+    } catch (err) {
+        console.error('Error admin 2FA enable:', err);
+        res.status(500).json({ error: 'Error al activar 2FA' });
+    }
+});
+
+// POST /api/users/:id/2fa/disable — admin desactiva 2FA para un usuario
+app.post('/api/users/:id/2fa/disable', requireAuth, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await db.getUserById(id);
+        if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+        await db.disable2FA(user.username);
+        await db.logAuditEvent({
+            username: req.user.username, action: `2FA_DISABLED:${user.username}`, success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'AUTH', details: { targetUser: user.username }
+        });
+        res.json({ ok: true, message: `2FA desactivado para ${user.username}` });
+    } catch (err) {
+        console.error('Error admin 2FA disable:', err);
+        res.status(500).json({ error: 'Error al desactivar 2FA' });
+    }
+});
+
 // POST /api/2fa/verify-login — segundo paso: verificar TOTP con tempToken
 app.post('/api/2fa/verify-login', tfaLimiter, async (req, res) => {
     try {

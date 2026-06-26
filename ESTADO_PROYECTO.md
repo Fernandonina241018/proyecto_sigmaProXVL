@@ -14,6 +14,29 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 - CSS `body { zoom: N% }` rompe `position:fixed` con `transform:translateX(-50%)`
 - Supabase Edge Functions **no viables** para ML Service (Deno/JS, 2MB limit)
 
+### 2026-06-25: Admin 2FA Management desde página Usuarios
+
+**Qué:** Se agregó gestión de 2FA desde la página de Usuarios (solo admin):
+- **Backend:** 4 nuevos endpoints admin para gestionar 2FA de cualquier usuario:
+  - `GET /api/users/:id/2fa` — estado 2FA
+  - `POST /api/users/:id/2fa/setup` — genera secreto + QR
+  - `POST /api/users/:id/2fa/enable` — activa con TOTP
+  - `POST /api/users/:id/2fa/disable` — desactiva
+- **Frontend (`UsuariosManager.js`):** Badge 2FA (🔐/🔓) en cada tarjeta de usuario + botón para activar/desactivar
+- **Modal activación:** Muestra QR + secreto para escanear + campo TOTP + botón activar
+- **Modal desactivación:** Confirmación con botón desactivar
+- **DB:** `totp_enabled` incluido en `getAllUsers()`
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `backend/server.js:641-723` | +84 líneas: 4 endpoints admin 2FA |
+| `backend/database.js:135` | `totp_enabled` añadido a SELECT |
+| `js/managers/UsuariosManager.js:310-345` | Badge 2FA + botón toggle en tarjetas |
+| `js/managers/UsuariosManager.js:394-404` | Listeners 2FA |
+| `js/managers/UsuariosManager.js:489-622` | Funciones `_show2faSetupModal` + `_show2faDisableConfirm` |
+| `js/managers/UsuariosManager.js:187-192` | Estilos CSS para 2FA |
+
 ## URLs activas
 | Servicio | URL | Estado |
 |----------|-----|--------|

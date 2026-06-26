@@ -132,7 +132,7 @@ function buildPostgres() {
     }
 
     async function getAllUsers() {
-        return all('SELECT id,username,role,active,created_at,last_login,login_count,nombre,apellido,email,telefono,avatar,updated_at FROM users ORDER BY id ASC');
+        return all('SELECT id,username,role,active,created_at,last_login,login_count,nombre,apellido,email,telefono,avatar,updated_at,totp_enabled FROM users ORDER BY id ASC');
     }
 
     async function toggleUserActive(id, active) { await run('UPDATE users SET active=$1 WHERE id=$2', [active, id]); }
