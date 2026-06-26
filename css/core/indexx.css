@@ -536,6 +536,18 @@
     white-space: nowrap;
   }
   .sc-run:hover { background: var(--accent); color: #fff; }
+  .sc-config {
+    font-size: 13px;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: background .15s, color .15s;
+    line-height: 1;
+    user-select: none;
+  }
+  .sc-config-saved { color: var(--accent); }
+  .sc-config-pending { color: var(--text-faint); opacity: 0.5; }
+  .sc-config:hover { background: rgba(255,255,255,.1); color: var(--accent); opacity: 1; }
   .sc-run-all {
     font-size: 12px;
     font-weight: 600;

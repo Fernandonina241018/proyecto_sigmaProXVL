@@ -45,6 +45,26 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-26: Botón ⚙ Config en cards de estadísticos
+
+**Qué:** Se agregó botón ⚙ en las tarjetas de estadísticos (stat cards) para reabrir el modal de configuración sin necesidad de deseleccionar y volver a seleccionar el test. Aplica a tests en `HYPOTHESIS_SET` (config de columnas) y `PARAM_CONFIG_SET` (parámetros como F0, MKT).
+
+**Comportamiento:**
+- ⚙ se muestra solo para estadísticos que requieren configuración (hypothesis tests + param config)
+- ⚙ **coloreado** (color accent) si ya hay configuración guardada → permite modificarla
+- ⚙ **atenuado** (opacity 0.5) si no hay configuración guardada → permite configurar por primera vez
+- Click abre el mismo modal que aparece al ejecutar el test (columna de datos o parámetros)
+- Al confirmar cambios, se actualiza la configuración y se muestra toast de confirmación
+- El botón ▶ ejecutar permanece separado — ⚙ solo configura, ▶ solo ejecuta
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-analysis.js:127-133` | Variable `configBtnHtml` + condicional: si está en `HYPOTHESIS_SET` o `PARAM_CONFIG_SET`, genera `<span class="sc-config ...">` con clase `saved`/`pending` según config existente |
+| `js/core/indexx-analysis.js:143` | `+ configBtnHtml +` insertado entre botón ▶ y ✕ en el template HTML de cada card |
+| `js/core/indexx-analysis.js:584-594` | Nueva función `reopenStatConfig(nombre)`: abre `_mostrarModalConfigTest` o `_mostrarModalParamConfig` según el set del estadístico |
+| `css/core/indexx.css:539-550` | Nuevos estilos `.sc-config`, `.sc-config-saved` (accent), `.sc-config-pending` (faint + opacity 0.5), hover effect |
+
 ### 2026-06-25: Fase 0 — 2FA (TOTP), WORM, Backup, Monitoring
 
 **Qué:** Implementación de la Fase 0 del roadmap hacia producción farmacéutica. Se agregó:

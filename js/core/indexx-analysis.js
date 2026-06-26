@@ -124,6 +124,14 @@ function buildStatCardsHTML(testNames) {
         supuestos.map(function(s) { return '<div class="sc-item">· ' + escapeHtml(s) + '</div>'; }).join('') + '</div>'
       : '';
 
+    var configBtnHtml = '';
+    if (HYPOTHESIS_SET.has(nombre) || PARAM_CONFIG_SET.has(nombre)) {
+      var _hasCfg = (HYPOTHESIS_SET.has(nombre) && StateManager.getHypothesisConfig(nombre)) ||
+                    (PARAM_CONFIG_SET.has(nombre) && StateManager.getParamConfig(nombre));
+      var _cfgCls = _hasCfg ? 'sc-config-saved' : 'sc-config-pending';
+      configBtnHtml = '<span class="sc-config ' + _cfgCls + '" onclick="reopenStatConfig(\'' + nombre.replace(/'/g, "\\'") + '\')" title="Configurar ' + escapeHtml(nombre) + '">⚙</span>';
+    }
+
     return '<div class="stat-card">' +
       '<div class="sc-header">' +
         '<span class="sc-icon">' + icono + '</span>' +
@@ -132,6 +140,7 @@ function buildStatCardsHTML(testNames) {
           '<div class="sc-section">' + escapeHtml(sectionName) + '</div>' +
         '</div>' +
         '<span class="sc-run" onclick="runSingleStat(\'' + nombre.replace(/'/g, "\\'") + '\')" title="Ejecutar ' + escapeHtml(nombre) + '">▶</span>' +
+        configBtnHtml +
         '<span class="sc-close" onclick="deselectStatCard(\'' + nombre.replace(/'/g, "\\'") + '\')" title="Deseleccionar ' + escapeHtml(nombre) + '">✕</span>' +
       '</div>' +
       '<div class="sc-formula">' + escapeHtml(formula) + '</div>' +
@@ -569,6 +578,19 @@ function _mostrarModalParamConfig(nombre, callback) {
     modal.remove();
     callback();
   });
+}
+
+// ── Reabrir modal de configuración (botón ⚙) ──
+function reopenStatConfig(nombre) {
+  if (HYPOTHESIS_SET.has(nombre)) {
+    _mostrarModalConfigTest(nombre, function() {
+      showToast('✅ Configuración actualizada para ' + nombre);
+    });
+  } else if (PARAM_CONFIG_SET.has(nombre)) {
+    _mostrarModalParamConfig(nombre, function() {
+      showToast('✅ Parámetros actualizados para ' + nombre);
+    });
+  }
 }
 
 // ── Ejecutar un único estadístico ──
