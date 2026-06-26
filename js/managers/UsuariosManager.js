@@ -101,7 +101,7 @@ function _generateSecurePassword(length) {
                 cargo: perfil.cargo
             });
             if (!data.ok) return { ok: false, error: data.error };
-            return { ok: true, defaultPassword: data.defaultPassword };
+            return { ok: true, defaultPassword: data.defaultPassword, signatureCode: data.signatureCode };
         } catch {
             return { ok: false, error: t('error_conn') };
         }
@@ -809,7 +809,8 @@ function _generateSecurePassword(length) {
             
             const msg = document.getElementById('usr-modal-msg');
             if (result.ok) {
-                msg.textContent = '✅ Usuario creado. Se asignó contraseña temporal.';
+                var sigText = result.signatureCode ? ` | Código firma: <strong>${result.signatureCode}</strong>` : '';
+                msg.innerHTML = '✅ Usuario creado.<br><span style="font-size:0.75rem">🔐 Contraseña temporal: <strong>sigma2026</strong>' + sigText + '</span>';
                 msg.style.color = '#10b981';
                 msg.style.background = '#f0fdf4';
                 msg.style.padding = '12px';

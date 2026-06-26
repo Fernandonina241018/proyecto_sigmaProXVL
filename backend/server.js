@@ -924,7 +924,7 @@ app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
         success: true, ip: getClientIP(req), userAgent: req.headers['user-agent'],
     });
 
-    res.json({ ok: true, id: result.id, defaultPassword: useDefault ? DEFAULT_USER_PASSWORD : undefined });
+    res.json({ ok: true, id: result.id, defaultPassword: useDefault ? DEFAULT_USER_PASSWORD : undefined, signatureCode: sigCode });
 });
 
 // PUT /api/users/:id/toggle (solo admin)
