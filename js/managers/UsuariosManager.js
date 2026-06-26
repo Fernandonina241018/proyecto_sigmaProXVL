@@ -151,48 +151,64 @@ function _generateSecurePassword(length) {
         // Agregar estilos si no existen
         if (!document.getElementById('usr-card-styles')) {
             const styles = `
-                .usr-cards-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; padding: 4px; }
-                .usr-card { background: var(--card-bg); border-radius: 16px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); transition: all 0.2s; border: 2px solid var(--border); }
-                .usr-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.4); transform: translateY(-2px); }
-                .usr-card-inactive { opacity: 0.65; }
-                .usr-card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
-                .usr-card-avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1.1rem; flex-shrink: 0; }
-                .usr-card-info { flex: 1; min-width: 0; }
-                .usr-card-nombre { font-size: 1.05rem; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-                .usr-card-email { font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-                .usr-card-phone { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
-                .usr-card-me { background: rgba(124,106,247,0.8); color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
-                .usr-card-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-                .usr-card-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
-                .usr-card-rol-admin { background: #3d1e1e; color: #fc8181; }
-                .usr-card-rol-gerente { background: #2a1e3d; color: #b794f4; }
-                .usr-card-rol-analista { background: #1e2a3d; color: #63b3ed; }
-                .usr-card-rol-supervisor { background: #3d2e0e; color: #f6e05e; }
-                .usr-card-rol-coordinador { background: #3d2a1e; color: #f6ad55; }
-                .usr-card-rol-usuario { background: #1e3d2a; color: #4ade80; }
-                .usr-card-rol-readonly { background: #2a2a2a; color: #a0aec0; }
-                .usr-card-estado-activo { background: #1e3d2a; color: #4ade80; }
-                .usr-card-estado-inactivo { background: #3d1e1e; color: #fc8181; }
-                .usr-card-meta { display: flex; gap: 16px; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
-                .usr-card-meta-item { display: flex; align-items: center; gap: 4px; }
-                .usr-card-actions { display: flex; gap: 8px; }
-                .usr-card-actions select { flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.8rem; background: var(--bg-panel); }
-                .usr-card-actions button { padding: 8px 12px; border: none; border-radius: 8px; cursor: pointer; font-size: 0.9rem; }
-                .usr-btn-pass { background: var(--item-bg); color: var(--text-muted); }
-                .usr-btn-pass:hover { background: var(--item-hover); }
-                .usr-btn-deactivate { background: rgba(248,113,113,0.15); color: #fc8181; }
-                .usr-btn-deactivate:hover { background: rgba(248,113,113,0.3); color: white; }
-                .usr-btn-activate { background: rgba(74,222,128,0.15); color: #4ade80; }
-                .usr-btn-activate:hover { background: rgba(74,222,128,0.3); color: white; }
-                .usr-card-2fa-enabled { background: #1e3d3d; color: #4dd4ac; }
-                .usr-card-2fa-disabled { background: #2a2a2a; color: #a0aec0; }
-                .usr-btn-2fa-enable { background: rgba(77,212,172,0.15); color: #4dd4ac; padding: 8px 10px; }
-                .usr-btn-2fa-enable:hover { background: rgba(77,212,172,0.3); color: white; }
-                .usr-btn-2fa-disable { background: rgba(248,113,113,0.15); color: #fc8181; padding: 8px 10px; }
-                .usr-btn-2fa-disable:hover { background: rgba(248,113,113,0.3); color: white; }
-                .usr-2fa-modal-qr { text-align: center; padding: 16px 0; }
-                .usr-2fa-modal-qr img { max-width: 200px; border-radius: 8px; }
-                .usr-2fa-modal-secret { font-family: monospace; font-size: 0.9rem; background: var(--bg-input,#f8fafc); padding: 8px; border-radius: 6px; text-align: center; letter-spacing: 2px; margin: 8px 0; }
+                .usr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px}
+                .uc{background:var(--bg-panel);border-radius:12px;border:.5px solid var(--border);position:relative;overflow:hidden;transition:border-color .15s ease}
+                .uc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;z-index:1}
+                .uc.rd::before{background:#ef4444}.uc.rw::before{background:#f59e0b}.uc.ra::before{background:#6366f1}.uc.ts::before{background:#22c55e}
+                .uc.rd:hover{border-color:#ef444466}.uc.rw:hover{border-color:#f59e0b66}.uc.ra:hover{border-color:#6366f166}
+                .uc.me{border-color:#6366f1}
+                .uc-inactive{opacity:.65}
+                .ch{padding:1rem 1rem .875rem 1.375rem;display:flex;gap:11px}
+                .avw{position:relative;flex-shrink:0}
+                .av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:#fff}
+                .av.rd{background:#3d1e1e;color:#fc8181}.av.rw{background:#3d2e0e;color:#f6e05e}.av.ra{background:#1e2a3d;color:#63b3ed}
+                @keyframes pr{0%{transform:scale(1);opacity:.6}70%{opacity:0;transform:scale(1.65)}100%{opacity:0}}
+                .avw.on::after{content:'';position:absolute;inset:-4px;border-radius:50%;animation:pr 3s ease-out infinite;pointer-events:none}
+                .avw.on.rd::after{border:1.5px solid #ef4444}
+                .avw.on.rw::after{border:1.5px solid #f59e0b}
+                .avw.on.ra::after{border:1.5px solid #6366f1}
+                .sdot{position:absolute;bottom:1px;right:1px;width:10px;height:10px;border-radius:50%;background:#22c55e;border:2px solid var(--bg-panel)}
+                .um{flex:1;min-width:0}
+                .unr{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+                .un{font-size:14px;font-weight:500;color:var(--text-primary)}
+                .mebg{font-size:10px;padding:1px 5px;border-radius:4px;background:#1e2a3d;color:#63b3ed;border:.5px solid #6366f166;letter-spacing:.05em;text-transform:uppercase}
+                .ue{margin-top:2px;font-size:11px;color:var(--text-muted);font-family:var(--font-mono,monospace);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+                .uph{margin-top:2px;font-size:11px;display:flex;align-items:center;gap:4px;color:var(--text-muted)}
+                .tags{display:flex;gap:4px;margin-top:7px;flex-wrap:wrap}
+                .tag{font-size:11px;padding:2px 6px;border-radius:4px;display:flex;align-items:center;gap:3px;line-height:1.4}
+                .td{background:#3d1e1e;color:#fc8181;border:.5px solid #ef444466}
+                .tw{background:#3d2e0e;color:#f6e05e;border:.5px solid #f59e0b66}
+                .ta{background:#1e2a3d;color:#63b3ed;border:.5px solid #6366f166}
+                .ts{background:#1e3d2a;color:#4ade80;border:.5px solid #22c55e66}
+                .tp{background:#1e3d3d;color:#4dd4ac;border:.5px solid #4dd4ac66}
+                .cs{margin:0 1.375rem;padding:.725rem 0;border-top:.5px solid var(--border);display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+                .sl{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.065em;color:var(--text-muted)}
+                .sv{font-size:13px;font-weight:500;color:var(--text-primary);margin-top:2px;font-variant-numeric:tabular-nums}
+                .sv.ac{color:#6366f1}.sv.sc{color:#22c55e}.sv.wc{color:#f59e0b}.sv.dc{color:#ef4444}
+                .ssb{font-size:10px;color:var(--text-muted);margin-top:1px}
+                .ca{margin:0 1rem 0 1.375rem;padding:.6rem 0 .725rem;border-top:.5px solid var(--border);display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+                .ca button,.ca select{height:28px;font-size:12px;border-radius:6px;border:.5px solid var(--border);background:var(--bg-panel);color:var(--text-primary);cursor:pointer;display:flex;align-items:center;gap:4px}
+                .ca select{flex:1;min-width:0;padding:0 7px;border-radius:6px}
+                .ca .sep{width:.5px;height:16px;background:var(--border);margin:0 1px;flex-shrink:0}
+                .usr-btn-2fa-on{background:#1e3d3d;color:#4dd4ac;border-color:#4dd4ac66;padding:0 7px}
+                .usr-btn-2fa-off{color:#a0aec0;padding:0 7px}
+                .usr-btn-2fa-off:hover{background:#1e3d3d;color:#4dd4ac;border-color:#4dd4ac66}
+                .usr-btn-act{color:var(--text-muted);padding:0 9px}
+                .usr-btn-act:hover{background:var(--border)}
+                .usr-btn-deact{color:#fc8181;padding:0}
+                .usr-btn-deact:hover{background:#3d1e1e}
+                .usr-btn-react{color:#4ade80;padding:0}
+                .usr-btn-react:hover{background:#1e3d2a}
+                .usr-2fa-modal-qr{text-align:center;padding:16px 0}
+                .usr-2fa-modal-qr img{max-width:200px;border-radius:8px}
+                .usr-2fa-modal-secret{font-family:monospace;font-size:.9rem;background:var(--bg-panel);padding:8px;border-radius:6px;text-align:center;letter-spacing:2px;margin:8px 0}
+                .usr-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
+                .usr-sum-item{background:var(--bg-panel);border-radius:10px;padding:.7rem 1rem;border:.5px solid var(--border)}
+                .usr-sum-val{font-size:20px;font-weight:500;color:var(--text-primary);line-height:1.2}
+                .usr-sum-lbl{font-size:11px;color:var(--text-muted);margin-top:2px}
+                .usr-search-wrap{margin-bottom:10px;display:flex;gap:8px;align-items:center}
+                .usr-search-wrap input{flex:1;padding:8px 12px;border:.5px solid var(--border);border-radius:8px;font-size:12px;background:var(--bg-panel);color:var(--text-primary)}
+                .usr-search-wrap button{padding:8px 12px;border:.5px solid var(--border);border-radius:8px;background:var(--bg-panel);color:var(--text-muted);cursor:pointer;font-size:12px}
             `;
             const styleEl = document.createElement('style');
             styleEl.id = 'usr-card-styles';
@@ -241,6 +257,58 @@ function _generateSecurePassword(length) {
         _renderTabla(_usuarios);
     }
 
+    function _calcInactivityRisk(lastLogin) {
+        if (!lastLogin) return { label: 'Nunca', days: 999, cls: 'dc', risk: 'riesgo alto' };
+        const now = new Date();
+        const then = new Date(lastLogin);
+        const diffDays = Math.floor((now - then) / (1000 * 60 * 60 * 24));
+        if (diffDays === 0) return { label: 'Hoy', days: 0, cls: 'sc', risk: 'sin riesgo' };
+        if (diffDays === 1) return { label: '1 día', days: 1, cls: 'sc', risk: 'sin riesgo' };
+        if (diffDays <= 3) return { label: diffDays + ' días', days: diffDays, cls: 'sc', risk: 'sin riesgo' };
+        if (diffDays <= 7) return { label: diffDays + ' días', days: diffDays, cls: 'wc', risk: 'precaución' };
+        return { label: diffDays + ' días', days: diffDays, cls: 'dc', risk: 'riesgo alto' };
+    }
+
+    function _formatDate(d) {
+        if (!d) return '—';
+        try {
+            const dt = new Date(d);
+            const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+            return dt.getDate() + ' ' + months[dt.getMonth()];
+        } catch { return d.slice(0, 10); }
+    }
+
+    function _formatTime(d) {
+        if (!d) return '';
+        try {
+            const dt = new Date(d);
+            return ('0' + dt.getHours()).slice(-2) + ':' + ('0' + dt.getMinutes()).slice(-2) + ' ' + (dt.getHours() >= 12 ? 'PM' : 'AM');
+        } catch { return ''; }
+    }
+
+    function _isOnline(lastLogin) {
+        if (!lastLogin) return false;
+        try {
+            return (Date.now() - new Date(lastLogin).getTime()) < 5 * 60 * 1000;
+        } catch { return false; }
+    }
+
+    function _roleToUcClass(role) {
+        return { admin: 'rd', gerente: 'rw', supervisor: 'rw', analista: 'ra', coordinador: 'rw', user: 'ra', readonly: 'ts' }[role] || 'ra';
+    }
+
+    function _roleToTagClass(role) {
+        return { admin: 'td', gerente: 'tw', supervisor: 'tw', analista: 'ta', coordinador: 'tw', user: 'ts', readonly: 'ta' }[role] || 'ta';
+    }
+
+    function _roleIcon(role) {
+        return { admin: '🛡️', gerente: '⭐', supervisor: '👁️', analista: '👤', coordinador: '📋', user: '👤', readonly: '👁️' }[role] || '👤';
+    }
+
+    function _roleLabel(role) {
+        return { admin: 'Admin', user: 'Usuario', supervisor: 'Supervisor', analista: 'Analista', gerente: 'Gerente', coordinador: 'Coordinador', readonly: 'Solo lectura' }[role] || role;
+    }
+
     function _renderTabla(usuarios) {
         const wrap    = document.getElementById('usr-table-wrap');
         const countEl = document.getElementById('usr-count');
@@ -254,107 +322,93 @@ function _generateSecurePassword(length) {
         }
 
         const currentUser = Auth.getSession()?.username;
+        const nActive = usuarios.filter(u => u.active === 1).length;
+        const n2FA = usuarios.filter(u => u.totp_enabled === 1).length;
+        const nTotalSessions = usuarios.reduce((s, u) => s + (u.login_count || 0), 0);
 
         const cards = usuarios.map(u => {
             const isMe    = u.username === currentUser;
             const activo  = u.active === 1;
+            const online  = _isOnline(u.last_login);
             
-            // Nombre completo
             const nombreCompleto = [u.nombre, u.apellido].filter(Boolean).join(' ') || u.username;
             const iniciales = nombreCompleto.split(' ').map(p => p[0]).slice(0, 2).join('').toUpperCase();
             
-            // Labels
-            const rolLabel = {
-                admin:        t('users_role_admin'),
-                user:         t('users_role_user'),
-                supervisor:   t('users_role_supervisor'),
-                analista:     t('users_role_analyst'),
-                gerente:      t('users_role_manager'),
-                coordinador:  t('users_role_coordinator'),
-                readonly:     t('users_role_readonly')
-            }[u.role] || u.role;
+            const ucClass = _roleToUcClass(u.role);
+            const tagRoleClass = _roleToTagClass(u.role);
+            const rolLabel = _roleLabel(u.role);
+            const roleIcon = _roleIcon(u.role);
             
-            const rolClass = {
-                admin:        'usr-card-rol-admin',
-                user:         'usr-card-rol-usuario',
-                supervisor:   'usr-card-rol-supervisor',
-                analista:     'usr-card-rol-analista',
-                gerente:      'usr-card-rol-gerente',
-                coordinador:  'usr-card-rol-coordinador',
-                readonly:     'usr-card-rol-readonly'
-            }[u.role] || 'usr-card-rol-usuario';
-            
-            // Estado
-            const estadoClass = activo ? 'usr-card-estado-activo' : 'usr-card-estado-inactivo';
-            const estadoLabel = activo ? t('users_active') : t('users_inactive');
-            
-            // Fecha formateada
-            const lastLogin = u.last_login ? ((typeof fmtDate === 'function') ? fmtDate(u.last_login) : u.last_login.slice(0, 16).replace('T', ' ')) : t('users_never');
-            
-            // Avatar color based on first letter
-            const firstLetter = nombreCompleto[0].toUpperCase();
-            const avatarColor = _getAvatarColor(nombreCompleto);
+            const lastLoginFormatted = u.last_login ? _formatDate(u.last_login) : '—';
+            const lastTimeFormatted = u.last_login ? _formatTime(u.last_login) : '';
+            const inactivity = _calcInactivityRisk(u.last_login);
             
             return `
-            <div class="usr-card ${!activo ? 'usr-card-inactive' : ''}">
-                <div class="usr-card-header">
-                    <div class="usr-card-avatar" style="background: ${avatarColor}">${iniciales}</div>
-                    <div class="usr-card-info">
-                        <div class="usr-card-nombre">${escapeHtml(nombreCompleto)}${isMe ? ' <span class="usr-card-me">Tú</span>' : ''}</div>
-                        <div class="usr-card-email">${escapeHtml(u.email || '-')}</div>
-                        ${u.cargo ? '<div class="usr-card-phone">💼 ' + escapeHtml(u.cargo) + '</div>' : ''}
-                        <div class="usr-card-phone">📱 ${escapeHtml(u.telefono || t('users_not_registered'))}</div>
-                        ${u.signature_code ? '<div class="usr-card-phone" style="color:#a855f7">*' + escapeHtml(u.signature_code) + '</div>' : ''}
+            <div class="uc ${ucClass}${isMe ? ' me' : ''}${!activo ? ' uc-inactive' : ''}">
+                <div class="ch">
+                    <div class="avw${online ? ' on' : ''} ${ucClass}"><div class="av ${ucClass}">${iniciales}</div>${online ? '<div class="sdot"></div>' : ''}</div>
+                    <div class="um">
+                        <div class="unr"><span class="un">${escapeHtml(nombreCompleto)}</span>${isMe ? '<span class="mebg">tú</span>' : ''}</div>
+                        <div class="ue">${escapeHtml(u.email || u.username)}</div>
+                        <div class="uph">${u.telefono ? '📱 ' + escapeHtml(u.telefono) : '📵 ' + t('users_not_registered')}</div>
+                        <div class="tags">
+                            <span class="tag ${tagRoleClass}">${roleIcon} ${rolLabel}</span>
+                            <span class="tag ${activo ? 'ts' : 'td'}">${activo ? '✅ Activo' : '🔴 Inactivo'}</span>
+                            ${u.totp_enabled === 1 ? '<span class="tag tp">🔐 2FA</span>' : '<span class="tag">🔓 Sin 2FA</span>'}
+                        </div>
                     </div>
                 </div>
-                <div class="usr-card-badges">
-                    <span class="usr-card-badge ${rolClass}">${rolLabel}</span>
-                    <span class="usr-card-badge ${estadoClass}">${estadoLabel}</span>
-                    ${u.totp_enabled === 1
-                        ? '<span class="usr-card-badge usr-card-2fa-enabled">🔐 2FA</span>'
-                        : '<span class="usr-card-badge usr-card-2fa-disabled">🔓 2FA</span>'}
+                <div class="cs">
+                    <div><div class="sl">Último acceso</div><div class="sv">${escapeHtml(lastLoginFormatted)}</div><div class="ssb">${escapeHtml(lastTimeFormatted)}</div></div>
+                    <div><div class="sl">Sesiones</div><div class="sv ac">${u.login_count || 0}</div><div class="ssb">acumuladas</div></div>
+                    <div><div class="sl">Inactividad</div><div class="sv ${inactivity.cls}">${inactivity.label}</div><div class="ssb">${inactivity.risk}</div></div>
                 </div>
-                <div class="usr-card-meta">
-                    <span class="usr-card-meta-item">🕐 ${escapeHtml(lastLogin)}</span>
-                    <span class="usr-card-meta-item">🔑 ${u.login_count || 0} logins</span>
-                </div>
-                <div class="usr-card-actions">
-                    <button class="usr-btn-edit" data-id="${u.id}" data-username="${escapeHtml(u.username)}" data-nombre="${escapeHtml(u.nombre || '')}" data-apellido="${escapeHtml(u.apellido || '')}" data-email="${escapeHtml(u.email || '')}" data-telefono="${escapeHtml(u.telefono || '')}" data-cargo="${escapeHtml(u.cargo || '')}" data-signaturecode="${escapeHtml(u.signature_code || '')}" data-rol="${escapeHtml(u.role)}" title="Editar usuario">✏️ Editar</button>
+                <div class="ca">
+                    <button class="usr-btn-act usr-btn-edit" data-id="${u.id}" data-username="${escapeHtml(u.username)}" data-nombre="${escapeHtml(u.nombre || '')}" data-apellido="${escapeHtml(u.apellido || '')}" data-email="${escapeHtml(u.email || '')}" data-telefono="${escapeHtml(u.telefono || '')}" data-cargo="${escapeHtml(u.cargo || '')}" data-signaturecode="${escapeHtml(u.signature_code || '')}" data-rol="${escapeHtml(u.role)}" title="Editar usuario">✏️ Editar</button>
                     <select class="usr-role-select" data-id="${u.id}" data-current="${escapeHtml(u.role)}" ${isMe ? 'disabled' : ''} title="Cambiar rol">
                         <option value="user"        ${u.role==='user'        ?'selected':''}>👤 Usuario</option>
-                        <option value="admin"       ${u.role==='admin'       ?'selected':''}>🔴 Admin</option>
-                        <option value="supervisor"  ${u.role==='supervisor'  ?'selected':''}>🟡 Supervisor</option>
-                        <option value="analista"    ${u.role==='analista'    ?'selected':''}>🔵 Analista</option>
-                        <option value="gerente"     ${u.role==='gerente'     ?'selected':''}>🟣 Gerente</option>
-                        <option value="coordinador" ${u.role==='coordinador' ?'selected':''}>🟠 Coordinador</option>
-                        <option value="readonly"    ${u.role==='readonly'    ?'selected':''}>👁 Solo lectura</option>
+                        <option value="admin"       ${u.role==='admin'       ?'selected':''}>🛡️ Admin</option>
+                        <option value="supervisor"  ${u.role==='supervisor'  ?'selected':''}>👁️ Supervisor</option>
+                        <option value="analista"    ${u.role==='analista'    ?'selected':''}>👤 Analista</option>
+                        <option value="gerente"     ${u.role==='gerente'     ?'selected':''}>⭐ Gerente</option>
+                        <option value="coordinador" ${u.role==='coordinador' ?'selected':''}>📋 Coordinador</option>
+                        <option value="readonly"    ${u.role==='readonly'    ?'selected':''}>👁️ Solo lectura</option>
                     </select>
-                    <button class="usr-btn-pass" data-username="${escapeHtml(u.username)}" title="Resetear contraseña" ${isMe ? 'disabled' : ''}>🔑</button>
-                    <button class="${u.totp_enabled === 1 ? 'usr-btn-2fa-disable' : 'usr-btn-2fa-enable'}"
+                    <div class="sep"></div>
+                    <button class="usr-btn-act" data-username="${escapeHtml(u.username)}" title="Resetear contraseña" ${isMe ? 'disabled' : ''} style="width:28px;justify-content:center">🔑</button>
+                    <button class="${u.totp_enabled === 1 ? 'usr-btn-2fa-on' : 'usr-btn-2fa-off'}"
                             data-id="${u.id}" data-username="${escapeHtml(u.username)}" data-enabled="${u.totp_enabled === 1 ? 1 : 0}"
-                            title="${u.totp_enabled === 1 ? 'Desactivar 2FA' : 'Activar 2FA'}" ${isMe ? 'disabled' : ''}>
-                        ${u.totp_enabled === 1 ? '🔐' : '🔑2FA'}
+                            title="${u.totp_enabled === 1 ? 'Desactivar 2FA' : 'Activar 2FA'}" ${isMe ? 'disabled' : ''}
+                            style="height:28px;border-radius:6px;border:.5px solid;display:flex;align-items:center;gap:3px;cursor:pointer;font-size:11px">
+                        ${u.totp_enabled === 1 ? '🔐' : '🔑'}
                     </button>
-                    <button class="${activo ? 'usr-btn-deactivate' : 'usr-btn-activate'}"
+                    <button class="${activo ? 'usr-btn-deact' : 'usr-btn-react'}"
                             data-id="${u.id}" data-active="${activo ? 0 : 1}"
                             title="${activo ? 'Desactivar' : 'Activar'} usuario"
-                            ${isMe ? 'disabled' : ''}>
+                            ${isMe ? 'disabled' : ''}
+                            style="width:28px;height:28px;border-radius:6px;border:.5px solid;display:flex;align-items:center;justify-content:center;cursor:pointer">
                         ${activo ? '🔒' : '🔓'}
                     </button>
                 </div>
             </div>`;
         }).join('');
 
-        wrap.innerHTML = `<div class="usr-cards-container">${cards}</div>`;
+        wrap.innerHTML = `
+            <div class="usr-summary">
+                <div class="usr-sum-item"><div class="usr-sum-val">${usuarios.length}</div><div class="usr-sum-lbl">Usuarios totales</div></div>
+                <div class="usr-sum-item"><div class="usr-sum-val" style="color:#22c55e">${nActive}</div><div class="usr-sum-lbl">Cuentas activas</div></div>
+                <div class="usr-sum-item"><div class="usr-sum-val" style="color:#4dd4ac">${n2FA}</div><div class="usr-sum-lbl">Con 2FA activo</div></div>
+                <div class="usr-sum-item"><div class="usr-sum-val">${nTotalSessions}</div><div class="usr-sum-lbl">Sesiones totales</div></div>
+            </div>
+            <div class="usr-grid">${cards}</div>`;
 
-        // Listeners de acciones en la tabla
+        // Listeners de acciones
         wrap.querySelectorAll('.usr-role-select').forEach(sel => {
             sel.addEventListener('change', async () => {
                 const id      = sel.dataset.id;
                 const newRole = sel.value;
                 const old     = sel.dataset.current;
                 if (newRole === old) return;
-
                 const result = await cambiarRol(id, newRole);
                 if (result.ok) {
                     showToast('✅ Rol actualizado correctamente');
@@ -366,21 +420,22 @@ function _generateSecurePassword(length) {
             });
         });
 
-        wrap.querySelectorAll('.usr-btn-pass').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const username = btn.dataset.username;
-                _showResetPasswordModal(username);
-            });
+        wrap.querySelectorAll('[data-username]').forEach(btn => {
+            if (btn.classList.contains('usr-btn-2fa-on') || btn.classList.contains('usr-btn-2fa-off')) return;
+            if (btn.classList.contains('usr-btn-deact') || btn.classList.contains('usr-btn-react')) return;
+            if (btn.title === 'Resetear contraseña') {
+                btn.addEventListener('click', () => {
+                    _showResetPasswordModal(btn.dataset.username);
+                });
+            }
         });
 
-        wrap.querySelectorAll('.usr-btn-deactivate, .usr-btn-activate').forEach(btn => {
+        wrap.querySelectorAll('.usr-btn-deact, .usr-btn-react').forEach(btn => {
             btn.addEventListener('click', async () => {
                 const id     = btn.dataset.id;
                 const active = parseInt(btn.dataset.active);
                 const action = active === 1 ? 'activar' : 'desactivar';
-
                 if (!confirm(`¿Deseas ${action} este usuario?`)) return;
-
                 const result = await toggleUsuario(id, active);
                 if (result.ok) {
                     showToast(`✅ Usuario ${action === 'activar' ? 'activado' : 'desactivado'} correctamente`);
@@ -391,31 +446,23 @@ function _generateSecurePassword(length) {
             });
         });
 
-        // 2FA - listeners para botones de activar/desactivar
-        wrap.querySelectorAll('.usr-btn-2fa-enable').forEach(btn => {
+        wrap.querySelectorAll('[data-enabled]').forEach(btn => {
+            const enabled = parseInt(btn.dataset.enabled);
             btn.addEventListener('click', () => {
-                _show2faSetupModal(btn.dataset.id, btn.dataset.username);
-            });
-        });
-        wrap.querySelectorAll('.usr-btn-2fa-disable').forEach(btn => {
-            btn.addEventListener('click', () => {
-                _show2faDisableConfirm(btn.dataset.id, btn.dataset.username);
+                if (enabled === 1) _show2faDisableConfirm(btn.dataset.id, btn.dataset.username);
+                else _show2faSetupModal(btn.dataset.id, btn.dataset.username);
             });
         });
 
-        // Editar usuario - listeners para botones de editar
         wrap.querySelectorAll('.usr-btn-edit').forEach(btn => {
             btn.addEventListener('click', () => {
-                const id       = btn.dataset.id;
-                const username = btn.dataset.username;
-                const nombre   = btn.dataset.nombre;
-                const apellido = btn.dataset.apellido;
-                const email    = btn.dataset.email;
-                const telefono = btn.dataset.telefono;
-                const cargo    = btn.dataset.cargo;
-                const sigCode  = btn.dataset.signaturecode;
-                const rol      = btn.dataset.rol;
-                _showEditModal({ id, username, nombre, apellido, email, telefono, cargo, signatureCode: sigCode, role: rol });
+                _showEditModal({
+                    id: btn.dataset.id, username: btn.dataset.username,
+                    nombre: btn.dataset.nombre, apellido: btn.dataset.apellido,
+                    email: btn.dataset.email, telefono: btn.dataset.telefono,
+                    cargo: btn.dataset.cargo, signatureCode: btn.dataset.signaturecode,
+                    role: btn.dataset.rol
+                });
             });
         });
     }

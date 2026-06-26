@@ -1,0 +1,215 @@
+
+<h2 class="sr-only">Panel de gestión de usuarios — Laboratorios Sued, S.R.L.</h2>
+<style>
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.smrow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1.25rem}
+.sm{background:var(--surface-1);border-radius:var(--radius);padding:.8rem 1rem;border:.5px solid var(--border)}
+.smv{font-size:20px;font-weight:500;color:var(--text-primary);line-height:1.2}
+.sml{font-size:11px;color:var(--text-muted);margin-top:2px}
+.ugrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.uc{background:var(--surface-1);border-radius:12px;border:.5px solid var(--border);position:relative;overflow:hidden;transition:border-color .15s ease}
+.uc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;z-index:1}
+.uc.rd::before{background:var(--fill-danger)}
+.uc.rw::before{background:var(--fill-warning)}
+.uc.ra::before{background:var(--fill-accent)}
+.uc.rd:hover{border-color:var(--border-danger)}
+.uc.rw:hover{border-color:var(--border-warning)}
+.uc.ra:hover{border-color:var(--border-accent)}
+.uc.me{border-color:var(--border-accent)}
+.ch{padding:1rem 1rem .875rem 1.375rem;display:flex;gap:11px}
+.avw{position:relative;flex-shrink:0}
+.av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500}
+.av.rd{background:var(--bg-danger);color:var(--text-danger)}
+.av.rw{background:var(--bg-warning);color:var(--text-warning)}
+.av.ra{background:var(--bg-accent);color:var(--text-accent)}
+@keyframes pr{0%{transform:scale(1);opacity:.6}70%{opacity:0;transform:scale(1.65)}100%{opacity:0}}
+.avw.on::after{content:'';position:absolute;inset:-4px;border-radius:50%;animation:pr 3s ease-out infinite;pointer-events:none}
+.avw.on.rd::after{border:1.5px solid var(--fill-danger)}
+.avw.on.rw::after{border:1.5px solid var(--fill-warning)}
+.avw.on.ra::after{border:1.5px solid var(--fill-accent)}
+.sdot{position:absolute;bottom:1px;right:1px;width:10px;height:10px;border-radius:50%;background:var(--fill-success);border:2px solid var(--surface-1)}
+.um{flex:1;min-width:0}
+.unr{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.un{font-size:14px;font-weight:500;color:var(--text-primary)}
+.mebg{font-size:10px;padding:1px 5px;border-radius:4px;background:var(--bg-accent);color:var(--text-accent);border:.5px solid var(--border-accent);letter-spacing:.05em;text-transform:uppercase}
+.ue{margin-top:2px;font-size:11px;color:var(--text-secondary);font-family:var(--font-mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.uph{margin-top:2px;font-size:11px;display:flex;align-items:center;gap:4px}
+.uph.y{color:var(--text-secondary)}.uph.n{color:var(--text-muted)}
+.tags{display:flex;gap:4px;margin-top:7px;flex-wrap:wrap}
+.tag{font-size:11px;padding:2px 6px;border-radius:4px;display:flex;align-items:center;gap:3px;line-height:1.4}
+.td{background:var(--bg-danger);color:var(--text-danger);border:.5px solid var(--border-danger)}
+.tw{background:var(--bg-warning);color:var(--text-warning);border:.5px solid var(--border-warning)}
+.ta{background:var(--bg-accent);color:var(--text-accent);border:.5px solid var(--border-accent)}
+.ts{background:var(--bg-success);color:var(--text-success);border:.5px solid var(--border-success)}
+.tp{background:var(--bg-pro);color:var(--text-pro);border:.5px solid var(--border-pro)}
+.cs{margin:0 1.375rem;padding:.725rem 0;border-top:.5px solid var(--border);display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sl{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.065em;color:var(--text-muted)}
+.sv{font-size:13px;font-weight:500;color:var(--text-primary);margin-top:2px;font-variant-numeric:tabular-nums}
+.sv.mn{font-family:var(--font-mono);font-size:12px}
+.sv.ac{color:var(--text-accent)}.sv.sc{color:var(--text-success)}.sv.wc{color:var(--text-warning)}.sv.dc{color:var(--text-danger)}
+.ssb{font-size:10px;color:var(--text-muted);margin-top:1px}
+.abadge{display:inline-block;font-size:10px;padding:1px 5px;border-radius:4px;background:var(--bg-accent);color:var(--text-accent);border:.5px solid var(--border-accent);margin-top:2px}
+.ca{margin:0 1rem 0 1.375rem;padding:.6rem 0 .725rem;border-top:.5px solid var(--border);display:flex;gap:5px;align-items:center}
+.sep{width:.5px;height:16px;background:var(--border-stronger);margin:0 1px;flex-shrink:0}
+</style>
+
+<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:.5px solid var(--border)">
+  <div>
+    <h2 style="font-size:16px;font-weight:500;margin:0;color:var(--text-primary)">Gestión de usuarios</h2>
+    <p style="font-size:11px;color:var(--text-muted);margin:3px 0 0;font-family:var(--font-mono);letter-spacing:.04em">LABORATORIOS SUED · SISTEMA IAM</p>
+  </div>
+  <button style="display:flex;align-items:center;gap:5px;height:30px;padding:0 10px;font-size:12px">
+    <i class="ti ti-user-plus" aria-hidden="true"></i>Nuevo usuario
+  </button>
+</div>
+
+<div class="smrow">
+  <div class="sm"><div class="smv">5</div><div class="sml">Usuarios totales</div></div>
+  <div class="sm"><div class="smv" style="color:var(--text-success)">5</div><div class="sml">Cuentas activas</div></div>
+  <div class="sm"><div class="smv" style="color:var(--text-pro)">5</div><div class="sml">Con 2FA activo</div></div>
+  <div class="sm"><div class="smv">1,147</div><div class="sml">Sesiones totales</div></div>
+</div>
+
+<div class="ugrid">
+
+  <div class="uc ra">
+    <div class="ch">
+      <div class="avw on ra"><div class="av ra">DJ</div><div class="sdot"></div></div>
+      <div class="um">
+        <div class="unr"><span class="un">Droniguiel Jimenez</span></div>
+        <div class="ue">d.jimenez@ejemplo.com</div>
+        <div class="uph n"><i class="ti ti-phone-off" style="font-size:12px" aria-hidden="true"></i>Sin teléfono</div>
+        <div class="tags">
+          <span class="tag ta"><i class="ti ti-user" style="font-size:11px" aria-hidden="true"></i>Analista</span>
+          <span class="tag ts">Activo</span>
+          <span class="tag tp"><i class="ti ti-lock" style="font-size:11px" aria-hidden="true"></i>2FA</span>
+        </div>
+      </div>
+    </div>
+    <div class="cs">
+      <div><div class="sl">Último acceso</div><div class="sv mn">07 Jun</div><div class="ssb">08:17 PM</div></div>
+      <div><div class="sl">Sesiones</div><div class="sv ac">11</div><div class="ssb">acumuladas</div></div>
+      <div><div class="sl">Inactividad</div><div class="sv dc">18 días</div><div class="ssb">riesgo alto</div></div>
+    </div>
+    <div class="ca">
+      <button style="display:flex;align-items:center;gap:4px;height:28px;padding:0 9px;font-size:12px"><i class="ti ti-edit" style="font-size:14px" aria-hidden="true"></i>Editar</button>
+      <select style="flex:1;min-width:0;height:28px;font-size:12px;padding:0 7px"><option selected>Analista</option><option>Admin</option><option>Supervisor</option></select>
+      <div class="sep"></div>
+      <button style="width:28px;height:28px;padding:0;display:flex;align-items:center;justify-content:center" title="Resetear contraseña" aria-label="Resetear contraseña"><i class="ti ti-key" style="font-size:15px" aria-hidden="true"></i></button>
+      <button style="height:28px;padding:0 7px;font-size:11px;display:flex;align-items:center;gap:3px;background:var(--bg-pro);border:.5px solid var(--border-pro);color:var(--text-pro)" aria-label="2FA activo"><i class="ti ti-fingerprint" style="font-size:13px" aria-hidden="true"></i>2FA</button>
+    </div>
+  </div>
+
+  <div class="uc rd me">
+    <div class="ch">
+      <div class="avw on rd"><div class="av rd">FN</div><div class="sdot"></div></div>
+      <div class="um">
+        <div class="unr"><span class="un">Fernando Nina</span><span class="mebg">tú</span></div>
+        <div class="ue">f.nina</div>
+        <div class="uph y"><i class="ti ti-phone" style="font-size:12px" aria-hidden="true"></i>849-220-7936</div>
+        <div class="tags">
+          <span class="tag td"><i class="ti ti-shield" style="font-size:11px" aria-hidden="true"></i>Admin</span>
+          <span class="tag ts">Activo</span>
+          <span class="tag tp"><i class="ti ti-lock" style="font-size:11px" aria-hidden="true"></i>2FA</span>
+        </div>
+      </div>
+    </div>
+    <div class="cs">
+      <div><div class="sl">Último acceso</div><div class="sv mn">25 Jun</div><div class="ssb">10:45 AM</div></div>
+      <div><div class="sl">Sesiones</div><div class="sv ac">1,125</div><div class="abadge">↑ alta actividad</div></div>
+      <div><div class="sl">Inactividad</div><div class="sv sc">Hoy</div><div class="ssb">sin riesgo</div></div>
+    </div>
+    <div class="ca">
+      <button style="display:flex;align-items:center;gap:4px;height:28px;padding:0 9px;font-size:12px"><i class="ti ti-edit" style="font-size:14px" aria-hidden="true"></i>Editar</button>
+      <select style="flex:1;min-width:0;height:28px;font-size:12px;padding:0 7px"><option selected>Admin</option><option>Analista</option><option>Supervisor</option></select>
+      <div class="sep"></div>
+      <button style="width:28px;height:28px;padding:0;display:flex;align-items:center;justify-content:center" title="Resetear contraseña" aria-label="Resetear contraseña"><i class="ti ti-key" style="font-size:15px" aria-hidden="true"></i></button>
+      <button style="height:28px;padding:0 7px;font-size:11px;display:flex;align-items:center;gap:3px;background:var(--bg-pro);border:.5px solid var(--border-pro);color:var(--text-pro)" aria-label="2FA activo"><i class="ti ti-fingerprint" style="font-size:13px" aria-hidden="true"></i>2FA</button>
+    </div>
+  </div>
+
+  <div class="uc rw">
+    <div class="ch">
+      <div class="avw on rw"><div class="av rw">MA</div><div class="sdot"></div></div>
+      <div class="um">
+        <div class="unr"><span class="un">Martin Aguero</span></div>
+        <div class="ue">m.aguero@ejemplo.com</div>
+        <div class="uph n"><i class="ti ti-phone-off" style="font-size:12px" aria-hidden="true"></i>Sin teléfono</div>
+        <div class="tags">
+          <span class="tag tw"><i class="ti ti-eye" style="font-size:11px" aria-hidden="true"></i>Supervisor</span>
+          <span class="tag ts">Activo</span>
+          <span class="tag tp"><i class="ti ti-lock" style="font-size:11px" aria-hidden="true"></i>2FA</span>
+        </div>
+      </div>
+    </div>
+    <div class="cs">
+      <div><div class="sl">Último acceso</div><div class="sv mn">15 Jun</div><div class="ssb">09:27 AM</div></div>
+      <div><div class="sl">Sesiones</div><div class="sv ac">7</div><div class="ssb">acumuladas</div></div>
+      <div><div class="sl">Inactividad</div><div class="sv wc">10 días</div><div class="ssb">precaución</div></div>
+    </div>
+    <div class="ca">
+      <button style="display:flex;align-items:center;gap:4px;height:28px;padding:0 9px;font-size:12px"><i class="ti ti-edit" style="font-size:14px" aria-hidden="true"></i>Editar</button>
+      <select style="flex:1;min-width:0;height:28px;font-size:12px;padding:0 7px"><option selected>Supervisor</option><option>Analista</option><option>Admin</option></select>
+      <div class="sep"></div>
+      <button style="width:28px;height:28px;padding:0;display:flex;align-items:center;justify-content:center" title="Resetear contraseña" aria-label="Resetear contraseña"><i class="ti ti-key" style="font-size:15px" aria-hidden="true"></i></button>
+      <button style="height:28px;padding:0 7px;font-size:11px;display:flex;align-items:center;gap:3px;background:var(--bg-pro);border:.5px solid var(--border-pro);color:var(--text-pro)" aria-label="2FA activo"><i class="ti ti-fingerprint" style="font-size:13px" aria-hidden="true"></i>2FA</button>
+    </div>
+  </div>
+
+  <div class="uc rd">
+    <div class="ch">
+      <div class="avw on rd"><div class="av rd">A</div><div class="sdot"></div></div>
+      <div class="um">
+        <div class="unr"><span class="un">admin</span></div>
+        <div class="ue">admin</div>
+        <div class="uph n"><i class="ti ti-phone-off" style="font-size:12px" aria-hidden="true"></i>Sin teléfono</div>
+        <div class="tags">
+          <span class="tag td"><i class="ti ti-shield" style="font-size:11px" aria-hidden="true"></i>Admin</span>
+          <span class="tag ts">Activo</span>
+          <span class="tag tp"><i class="ti ti-lock" style="font-size:11px" aria-hidden="true"></i>2FA</span>
+        </div>
+      </div>
+    </div>
+    <div class="cs">
+      <div><div class="sl">Último acceso</div><div class="sv mn">06 Jun</div><div class="ssb">06:38 PM</div></div>
+      <div><div class="sl">Sesiones</div><div class="sv ac">2</div><div class="ssb">acumuladas</div></div>
+      <div><div class="sl">Inactividad</div><div class="sv dc">19 días</div><div class="ssb">riesgo alto</div></div>
+    </div>
+    <div class="ca">
+      <button style="display:flex;align-items:center;gap:4px;height:28px;padding:0 9px;font-size:12px"><i class="ti ti-edit" style="font-size:14px" aria-hidden="true"></i>Editar</button>
+      <select style="flex:1;min-width:0;height:28px;font-size:12px;padding:0 7px"><option selected>Admin</option><option>Analista</option><option>Supervisor</option></select>
+      <div class="sep"></div>
+      <button style="width:28px;height:28px;padding:0;display:flex;align-items:center;justify-content:center" title="Resetear contraseña" aria-label="Resetear contraseña"><i class="ti ti-key" style="font-size:15px" aria-hidden="true"></i></button>
+      <button style="height:28px;padding:0 7px;font-size:11px;display:flex;align-items:center;gap:3px;background:var(--bg-pro);border:.5px solid var(--border-pro);color:var(--text-pro)" aria-label="2FA activo"><i class="ti ti-fingerprint" style="font-size:13px" aria-hidden="true"></i>2FA</button>
+    </div>
+  </div>
+
+  <div class="uc ra">
+    <div class="ch">
+      <div class="avw on ra"><div class="av ra">IG</div><div class="sdot"></div></div>
+      <div class="um">
+        <div class="unr"><span class="un">Isaac Gonzalez</span></div>
+        <div class="ue">isaac.gonzalez@labsued.com</div>
+        <div class="uph n"><i class="ti ti-phone-off" style="font-size:12px" aria-hidden="true"></i>Sin teléfono</div>
+        <div class="tags">
+          <span class="tag ta"><i class="ti ti-user" style="font-size:11px" aria-hidden="true"></i>Analista</span>
+          <span class="tag ts">Activo</span>
+          <span class="tag tp"><i class="ti ti-lock" style="font-size:11px" aria-hidden="true"></i>2FA</span>
+        </div>
+      </div>
+    </div>
+    <div class="cs">
+      <div><div class="sl">Último acceso</div><div class="sv mn">19 Jun</div><div class="ssb">09:59 AM</div></div>
+      <div><div class="sl">Sesiones</div><div class="sv ac">2</div><div class="ssb">acumuladas</div></div>
+      <div><div class="sl">Inactividad</div><div class="sv sc">6 días</div><div class="ssb">sin riesgo</div></div>
+    </div>
+    <div class="ca">
+      <button style="display:flex;align-items:center;gap:4px;height:28px;padding:0 9px;font-size:12px"><i class="ti ti-edit" style="font-size:14px" aria-hidden="true"></i>Editar</button>
+      <select style="flex:1;min-width:0;height:28px;font-size:12px;padding:0 7px"><option selected>Analista</option><option>Admin</option><option>Supervisor</option></select>
+      <div class="sep"></div>
+      <button style="width:28px;height:28px;padding:0;display:flex;align-items:center;justify-content:center" title="Resetear contraseña" aria-label="Resetear contraseña"><i class="ti ti-key" style="font-size:15px" aria-hidden="true"></i></button>
+      <button style="height:28px;padding:0 7px;font-size:11px;display:flex;align-items:center;gap:3px;background:var(--bg-pro);border:.5px solid var(--border-pro);color:var(--text-pro)" aria-label="2FA activo"><i class="ti ti-fingerprint" style="font-size:13px" aria-hidden="true"></i>2FA</button>
+    </div>
+  </div>
+
+</div>

@@ -14,28 +14,27 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 - CSS `body { zoom: N% }` rompe `position:fixed` con `transform:translateX(-50%)`
 - Supabase Edge Functions **no viables** para ML Service (Deno/JS, 2MB limit)
 
-### 2026-06-25: Admin 2FA Management desde página Usuarios
+### 2026-06-25: Admin 2FA Management + Rediseño tarjetas Usuarios
 
-**Qué:** Se agregó gestión de 2FA desde la página de Usuarios (solo admin):
-- **Backend:** 4 nuevos endpoints admin para gestionar 2FA de cualquier usuario:
-  - `GET /api/users/:id/2fa` — estado 2FA
-  - `POST /api/users/:id/2fa/setup` — genera secreto + QR
-  - `POST /api/users/:id/2fa/enable` — activa con TOTP
-  - `POST /api/users/:id/2fa/disable` — desactiva
-- **Frontend (`UsuariosManager.js`):** Badge 2FA (🔐/🔓) en cada tarjeta de usuario + botón para activar/desactivar
-- **Modal activación:** Muestra QR + secreto para escanear + campo TOTP + botón activar
-- **Modal desactivación:** Confirmación con botón desactivar
-- **DB:** `totp_enabled` incluido en `getAllUsers()`
+**Qué:** Gestión de 2FA desde página Usuarios + refactor visual completo con diseño usercard.html:
+- **Backend:** 4 nuevos endpoints admin: `GET/POST /api/users/:id/2fa` (setup/enable/disable)
+- **Frontend:** Nuevo diseño de tarjetas con:
+  - Barra lateral coloreada según rol (rojo admin, amarillo supervisor, azul analista)
+  - Avatar con pulso animado + dot verde si está en línea
+  - Stats en grid 3 columnas: último acceso, sesiones, inactividad con nivel de riesgo
+  - Tags con colores semánticos (td/tw/ta/ts/tp)
+  - Botón 2FA compacto en barra de acciones
+  - Fila resumen arriba: total usuarios, activos, con 2FA, sesiones
 
 **Archivos afectados:**
 | Archivo | Cambio |
 |---------|--------|
 | `backend/server.js:641-723` | +84 líneas: 4 endpoints admin 2FA |
 | `backend/database.js:135` | `totp_enabled` añadido a SELECT |
-| `js/managers/UsuariosManager.js:310-345` | Badge 2FA + botón toggle en tarjetas |
-| `js/managers/UsuariosManager.js:394-404` | Listeners 2FA |
-| `js/managers/UsuariosManager.js:489-622` | Funciones `_show2faSetupModal` + `_show2faDisableConfirm` |
-| `js/managers/UsuariosManager.js:187-192` | Estilos CSS para 2FA |
+| `js/managers/UsuariosManager.js` | Refactor completo `_renderTabla`, CSS, helpers |
+| `js/managers/UsuariosManager.js:260-310` | Funciones helper: riesgo inactividad, formato, online, roles |
+| `js/managers/UsuariosManager.js:312-468` | Nueva `_renderTabla` con diseño usercard |
+| `js/managers/UsuariosManager.js:153-211` | Nuevo CSS para tarjetas, grid, summary |
 
 ## URLs activas
 | Servicio | URL | Estado |
