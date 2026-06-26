@@ -105,6 +105,7 @@ const ReporteManager = (() => {
             ui_modelo:      'Equipment Model',
             ui_marca:       'Equipment Brand',
             ui_proto:       'Protocol / Study',
+            ui_observaciones: 'Observations',
             ui_phase:       'Phase',
             ui_code:        'Project Code',
             ui_version:     'Version',
@@ -384,6 +385,7 @@ const ReporteManager = (() => {
             ui_modelo:      'Modelo del Equipo',
             ui_marca:       'Marca del Equipo',
             ui_proto:       'Protocolo / Estudio',
+            ui_observaciones: 'Observaciones',
             ui_phase:       'Fase',
             ui_code:        'Código del Proyecto',
             ui_version:     'Versión',
@@ -650,6 +652,7 @@ const ReporteManager = (() => {
         p(`  ${pad(t('projectCode')+' :',24)}: ${meta.codigoProyecto  ||NA}`);
         p(`  ${pad(t('reportVersion')+' :',24)}: ${meta.version         ||'1.0'}`);
         p(`  ${pad(t('confidentiality')+' :',24)}: ${meta.confidencialidad||'CONFIDENTIAL'}`);
+        if(meta.observaciones) p(`  ${pad(t('ui_observaciones')+' :',24)}: ${meta.observaciones}`);
         p('');
         p(singleLine(W)); p(`  ${t('sec2')}`); p(singleLine(W));
         p(`  ${pad(t('datasetName')+' :',24)}: ${meta.nombreDataset   ||NA}`);
@@ -1008,6 +1011,7 @@ const ReporteManager = (() => {
             `## ${t('datasetName')}|${meta.nombreDataset||''}`,
             `## ${t('preparedBy')}|${meta.preparedBy||''}`,
             `## ${t('totalRecords')}|${resultados.totalFilas}`,
+            ...(meta.observaciones ? [`## ${t('ui_observaciones')}|${meta.observaciones}`] : []),
             '##',
              `${t('variable')}|${t('statistic')}|SUB_KEY|${t('value')}|CV_PCT|PARAM_MIN|PARAM_MAX|PARAM_ESP|PARAM_FUERA|PARAM_CUMPLIMIENTO_PCT|FLAG_COUNT|FLAGS`
          ];
@@ -1304,6 +1308,7 @@ tr:hover td{background:#f7faff}
       ${mRow(t('ui_modelo'),       meta.modelo)}
       ${mRow(t('ui_serial'),          meta.serie)}
       <div style="grid-column:1/-1">${mRow(t('confidentiality'),meta.confidencialidad||'CONFIDENTIAL')}</div>
+      ${meta.observaciones ? `<div style="grid-column:1/-1;margin-top:4px">${mRow(t('ui_observaciones'), meta.observaciones)}</div>` : ''}
     </div>
   </div>
   <div class="sec">
@@ -1951,8 +1956,8 @@ tr:hover td{background:#f7faff}
         const _saved={};
         ['rep-org','rep-dept','rep-ubicacion','rep-descripcion','rep-marca',
          'rep-modelo','rep-serie','rep-fase','rep-code','rep-ensayo',
-         'rep-version','rep-conf','rep-proto','rep-dataset','rep-file','rep-collect',
-         'fmt-html','fmt-pdf','fmt-txt','fmt-csv','rep-include-all-charts'].forEach(id=>{
+          'rep-version','rep-conf','rep-proto','rep-dataset','rep-file','rep-collect','rep-observaciones',
+          'fmt-html','fmt-pdf','fmt-txt','fmt-csv','rep-include-all-charts'].forEach(id=>{
             const el=document.getElementById(id);
             if(el) _saved[id]=el.type==='checkbox'?el.checked:el.value;
         });
@@ -2100,6 +2105,14 @@ tr:hover td{background:#f7faff}
                 </div>
               </div>
             </div>
+            <div class="rep-card">
+              <div class="rep-card-title">📝 ${t('ui_observaciones')}</div>
+              <div class="rep-form-grid">
+                <div class="rep-field" style="grid-column:1/-1">
+                  <textarea id="rep-observaciones" rows="4" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem;resize:vertical;font-family:inherit" placeholder="${currentLang==='es'?'Comentarios adicionales sobre el análisis...':'Additional comments about the analysis...'}"></textarea>
+                </div>
+              </div>
+            </div>
         </div>`;
 
         // ── Render sidebar en el panel izquierdo de la app ──
@@ -2109,7 +2122,7 @@ tr:hover td{background:#f7faff}
         // ── Restaurar estado del formulario ──
         ['rep-org','rep-dept','rep-ubicacion','rep-descripcion','rep-marca',
          'rep-modelo','rep-serie','rep-fase','rep-code','rep-ensayo',
-         'rep-version','rep-conf','rep-proto','rep-dataset','rep-file','rep-collect'].forEach(id=>{
+         'rep-version','rep-conf','rep-proto','rep-dataset','rep-file','rep-collect','rep-observaciones'].forEach(id=>{
             const el=document.getElementById(id);
             if(el && _saved[id]!==undefined) el.value=_saved[id];
         });
@@ -2214,6 +2227,7 @@ tr:hover td{background:#f7faff}
             approvedBy:      g('rep-app-name'),
             approvedTitle:   g('rep-app-title'),
             approvedDate:    g('rep-app-date'),
+            observaciones:   document.getElementById('rep-observaciones')?.value.trim()||'',
         };
     }
 

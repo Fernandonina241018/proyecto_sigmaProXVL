@@ -129,6 +129,23 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 | 5 | 1923 | Idem para PDF |
 | 6 | 2161 | +`await` en preview (ya dentro de `async`) |
 
+### 2026-06-26: Campo Observaciones en formulario de reportes
+
+**Qué:** Nuevo campo de texto libre "Observaciones" en el formulario de reportes para que el usuario pueda agregar comentarios adicionales sobre el análisis. El texto se persiste en la metadata del reporte y se renderiza en los formatos HTML, TXT y CSV.
+
+**Archivos afectados:**
+
+| Archivo | Cambio |
+|---------|--------|
+| `js/managers/ReporteManager.js:108` | +i18n EN `'Observations'` |
+| `js/managers/ReporteManager.js:388` | +i18n ES `'Observaciones'` |
+| `js/managers/ReporteManager.js:2109-2115` | +Nuevo card con `<textarea>` en formulario |
+| `js/managers/ReporteManager.js:1959,2125` | +`rep-observaciones` en arrays save/restore |
+| `js/managers/ReporteManager.js:2230` | +`observaciones` en `collectMeta()` |
+| `js/managers/ReporteManager.js:1311` | +Render condicional en HTML Section 01 |
+| `js/managers/ReporteManager.js:655` | +Render condicional en TXT Section 1 |
+| `js/managers/ReporteManager.js:1014` | +Render condicional en CSV metadata |
+
 ### 2026-06-25: Fase 0 — 2FA (TOTP), WORM, Backup, Monitoring
 
 **Qué:** Implementación de la Fase 0 del roadmap hacia producción farmacéutica. Se agregó:
