@@ -807,6 +807,26 @@ function vizRenderChart() {
   showToast('✓ Gráfico renderizado');
 }
 
+function _V_applyReportColors(config) {
+  var dark = '#1e293b';
+  Chart.defaults.color = dark;
+  if (config.options && config.options.plugins) {
+    var p = config.options.plugins;
+    if (p.legend && p.legend.labels) p.legend.labels.color = dark;
+    if (p.title) p.title.color = dark;
+  }
+  if (config.options && config.options.scales) {
+    ['x', 'y'].forEach(function(axis) {
+      var s = config.options.scales[axis];
+      if (!s) return;
+      if (s.ticks) s.ticks.color = dark;
+      if (s.title) s.title.color = dark;
+      if (s.grid) s.grid.color = 'rgba(0,0,0,.12)';
+    });
+  }
+  return config;
+}
+
 function _V_generateStaticImage(g) {
   if (g.url) return g.url;
   if (!g.vars) return null;
@@ -821,6 +841,7 @@ function _V_generateStaticImage(g) {
     _V.type = savedType; _V.vals = savedVals; _V.palette = savedPalette;
     return null;
   }
+  config = _V_applyReportColors(config);
   config.options.responsive = false;
   config.options.animation = false;
   var tc = document.createElement('canvas');

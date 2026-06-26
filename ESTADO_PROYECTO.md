@@ -77,6 +77,17 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 | `js/core/indexx-analysis.js:577-588` | `_mostrarModalParamConfig` | +precarga columna + parámetros desde `existingConfig` |
 | `js/core/indexx-analysis.js:611-627` | `reopenStatConfig` | Lee config, lo pasa, callback re-ejecuta `runSingleStat(nombre)` |
 
+### 2026-06-26: Fix colores de gráficos en reporte HTML — texto negro legible
+
+**Qué:** Los gráficos incrustados en el reporte HTML usaban los mismos colores de texto que la UI (gris claro en modo oscuro `rgba(200,200,220,.5)`), resultando en etiquetas, leyendas, títulos y ejes ilegibles al exportar/ imprimir.
+
+**Fix:** Nueva función `_V_applyReportColors(config)` inyectada en el pipeline de generación de imágenes estáticas para reportes (`_V_generateStaticImage`). Sobrescribe todos los colores de texto a `#1e293b` (gris oscuro casi negro) y las líneas de grilla a `rgba(0,0,0,.12)` para contraste óptimo sobre fondo blanco, independientemente del tema claro/oscuro de la app.
+
+| Archivo | Línea | Cambio |
+|---------|-------|--------|
+| `js/core/indexx-viz.js:810-828` | Nueva función `_V_applyReportColors(config)` | Sobrescribe `Chart.defaults.color`, legend labels, axis ticks/titles/grid, plugin title a colores oscuros |
+| `js/core/indexx-viz.js:844` | `_V_generateStaticImage` | +`config = _V_applyReportColors(config)` antes de renderizar el chart offscreen |
+
 ### 2026-06-25: Fase 0 — 2FA (TOTP), WORM, Backup, Monitoring
 
 **Qué:** Implementación de la Fase 0 del roadmap hacia producción farmacéutica. Se agregó:
