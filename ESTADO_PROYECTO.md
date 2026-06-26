@@ -65,6 +65,18 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 | `js/core/indexx-analysis.js:584-594` | Nueva función `reopenStatConfig(nombre)`: abre `_mostrarModalConfigTest` o `_mostrarModalParamConfig` según el set del estadístico |
 | `css/core/indexx.css:539-550` | Nuevos estilos `.sc-config`, `.sc-config-saved` (accent), `.sc-config-pending` (faint + opacity 0.5), hover effect |
 
+**Fix 2026-06-26:** ⚙ modal no precargaba la configuración guardada ni re-ejecutaba el análisis tras guardar.
+- `_mostrarModalConfigTest` y `_mostrarModalParamConfig`: nuevo parámetro opcional `existingConfig` → precarga selects/inputs/checkboxes con valores guardados tras montar el modal
+- `reopenStatConfig`: lee `StateManager.getHypothesisConfig(nombre)` / `getParamConfig(nombre)` antes de abrir, lo pasa al modal, y en el callback llama `runSingleStat(nombre)` para actualizar resultados
+
+| Archivo | Líneas | Cambio |
+|---------|--------|--------|
+| `js/core/indexx-analysis.js:215` | `_mostrarModalConfigTest` | +param `existingConfig` |
+| `js/core/indexx-analysis.js:436-449` | `_mostrarModalConfigTest` | +precarga selects + checkboxes desde `existingConfig` |
+| `js/core/indexx-analysis.js:530` | `_mostrarModalParamConfig` | +param `existingConfig` |
+| `js/core/indexx-analysis.js:577-588` | `_mostrarModalParamConfig` | +precarga columna + parámetros desde `existingConfig` |
+| `js/core/indexx-analysis.js:611-627` | `reopenStatConfig` | Lee config, lo pasa, callback re-ejecuta `runSingleStat(nombre)` |
+
 ### 2026-06-25: Fase 0 — 2FA (TOTP), WORM, Backup, Monitoring
 
 **Qué:** Implementación de la Fase 0 del roadmap hacia producción farmacéutica. Se agregó:

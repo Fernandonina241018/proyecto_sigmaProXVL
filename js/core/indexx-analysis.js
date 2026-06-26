@@ -212,7 +212,7 @@ function _detectColTypes(headers, data) {
   return { catCols: catCols, numCols: numCols };
 }
 
-function _mostrarModalConfigTest(nombre, callback) {
+function _mostrarModalConfigTest(nombre, callback, existingConfig) {
   var cfg = getEstadisticoConfig(nombre);
   if (!cfg || !HYPOTHESIS_SET.has(nombre)) { callback(); return; }
   var data = getDataForEjecutarAnalisis();
@@ -433,6 +433,20 @@ function _mostrarModalConfigTest(nombre, callback) {
       '</div>' +
     '</div>';
   document.body.appendChild(modal);
+  if (existingConfig) {
+    var _sv = function(id, val) { if (val != null) { var e = document.getElementById(id); if (e) e.value = val; } };
+    var _idMap = {
+      columnaObservada: 'cfgColObs', columnaPredicha: 'cfgColPred',
+      columnaX: 'cfgColX', columnaY: 'cfgColY',
+      columnaTiempo: 'cfgColTiempo', columnaEvento: 'cfgColEvento', columnaGrupo: 'cfgColGrupo',
+      numericCol: 'cfgColNum', grado: 'cfgGrado', periodo: 'cfgPeriodo',
+      delta: 'cfgDelta', priorMedia: 'cfgPriorMedia', priorVarianza: 'cfgPriorVar'
+    };
+    Object.keys(existingConfig).forEach(function(k) { var id = _idMap[k]; if (id) _sv(id, existingConfig[k]); });
+    if (Array.isArray(existingConfig.numericCols)) { _sv('cfgCol1', existingConfig.numericCols[0]); _sv('cfgCol2', existingConfig.numericCols[1]); }
+    if (Array.isArray(existingConfig.categoricalCols)) { _sv('cfgColCat1', existingConfig.categoricalCols[0]); _sv('cfgColCat2', existingConfig.categoricalCols[1]); _sv('cfgColCat', existingConfig.categoricalCols[0]); }
+    (existingConfig.columnasX || existingConfig.columnas || []).forEach(function(c) { var chk = document.querySelector('.cfgColXChk[value="' + c.replace(/"/g,'&quot;') + '"]'); if (chk) chk.checked = true; });
+  }
   document.getElementById('cfgCancel').addEventListener('click', function() { modal.remove(); });
   document.getElementById('cfgConfirm').addEventListener('click', function() {
     var config = {};
@@ -513,7 +527,7 @@ function _configColumnsExist(saved, headers) {
 }
 
 // ── Modal de configuración paramétrica (F0, etc.) ──
-function _mostrarModalParamConfig(nombre, callback) {
+function _mostrarModalParamConfig(nombre, callback, existingConfig) {
   var cfg = getEstadisticoConfig(nombre);
   if (!cfg || !cfg.paramConfig || !cfg.paramConfig.length) { callback(); return; }
   var data = getDataForEjecutarAnalisis();
@@ -560,6 +574,18 @@ function _mostrarModalParamConfig(nombre, callback) {
       '</div>' +
     '</div>';
   document.body.appendChild(modal);
+  if (existingConfig) {
+    if (multi && Array.isArray(existingConfig.columnas)) {
+      existingConfig.columnas.forEach(function(c) { var chk = document.querySelector('.cfg-col-chk[value="' + c.replace(/"/g,'&quot;') + '"]'); if (chk) chk.checked = true; });
+    } else if (!multi) {
+      var colEl = document.getElementById('cfg-columna');
+      if (colEl && existingConfig.columna) colEl.value = existingConfig.columna;
+    }
+    cfg.paramConfig.forEach(function(p) {
+      var el = document.getElementById('cfg-' + p.key);
+      if (el && existingConfig[p.key] != null) el.value = existingConfig[p.key];
+    });
+  }
   document.getElementById('pcgCancel').addEventListener('click', function() { modal.remove(); });
   document.getElementById('pcgConfirm').addEventListener('click', function() {
     var config = {};
@@ -583,13 +609,21 @@ function _mostrarModalParamConfig(nombre, callback) {
 // ── Reabrir modal de configuración (botón ⚙) ──
 function reopenStatConfig(nombre) {
   if (HYPOTHESIS_SET.has(nombre)) {
+    var savedCfg = StateManager.getHypothesisConfig(nombre);
     _mostrarModalConfigTest(nombre, function() {
-      showToast('✅ Configuración actualizada para ' + nombre);
-    });
+      if (StateManager.getHypothesisConfig(nombre)) {
+        showToast('✅ Configuración actualizada para ' + nombre);
+        runSingleStat(nombre);
+      }
+    }, savedCfg);
   } else if (PARAM_CONFIG_SET.has(nombre)) {
+    var savedCfg = StateManager.getParamConfig(nombre);
     _mostrarModalParamConfig(nombre, function() {
-      showToast('✅ Parámetros actualizados para ' + nombre);
-    });
+      if (StateManager.getParamConfig(nombre)) {
+        showToast('✅ Parámetros actualizados para ' + nombre);
+        runSingleStat(nombre);
+      }
+    }, savedCfg);
   }
 }
 
