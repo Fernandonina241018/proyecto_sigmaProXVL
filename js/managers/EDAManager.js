@@ -296,7 +296,7 @@ const EDAManager = (function () {
                 fuertes:  corrFuertes
             },
             recomendaciones,
-            timestamp: new Date().toLocaleString('es-ES')
+            timestamp: new Date().toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })
         };
 
         // Hook: modelo estadistico (recomendaciones con ML)

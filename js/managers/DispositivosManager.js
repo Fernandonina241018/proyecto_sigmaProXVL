@@ -166,7 +166,7 @@ const DispositivosManager = (() => {
         if (!iso) return '—';
         try {
             var d = new Date(iso);
-            return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
         } catch (e) { return iso; }
     }
 

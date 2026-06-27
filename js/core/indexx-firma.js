@@ -485,7 +485,7 @@ async function firmaVerify(role, code, password, statusEl) {
       return;
     }
     var now = new Date();
-    var fechaStr = now.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) + ' ' + now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    var fechaStr = now.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) + ' ' + now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
     _firmaSignatureState[role] = {
       signed: true,
       nombre: data.nombre,

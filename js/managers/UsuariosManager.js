@@ -281,7 +281,8 @@ function _generateSecurePassword(length) {
         if (!d) return '';
         try {
             const dt = new Date(d);
-            return ('0' + dt.getHours()).slice(-2) + ':' + ('0' + dt.getMinutes()).slice(-2) + ' ' + (dt.getHours() >= 12 ? 'PM' : 'AM');
+            var h = dt.getHours();
+            return ('0' + (h % 12 || 12)).slice(-2) + ':' + ('0' + dt.getMinutes()).slice(-2) + ' ' + (h >= 12 ? 'PM' : 'AM');
         } catch { return ''; }
     }
 
