@@ -758,8 +758,11 @@ const Auth = (() => {
                 <p style="margin:0 0 16px 0;color:var(--text-secondary,#64748b);font-size:0.85rem;">Debes crear una nueva contraseña antes de continuar.</p>
 
                 <div style="margin-bottom:12px;text-align:left;">
-                    <label style="display:block;font-size:0.75rem;font-weight:600;color:var(--text-secondary,#64748b);margin-bottom:4px;">NUEVA CONTRASEÑA</label>
-                    <input type="password" id="force-pwd-new" style="width:100%;padding:12px;border:2px solid var(--border-color,#e2e8f0);border-radius:10px;font-size:0.9rem;box-sizing:border-box;background:var(--bg-input,#fff);color:var(--text-primary,#1e293b);">
+                    <label style="display:block;font-size:0.75rem;font-weight:600;color:var(--text-secondary,#64748b);margin-bottom:4px;">NUEVA CONTRASEÑA <span id="pwd-new-count" style="font-weight:400;color:#94a3b8;font-size:0.7rem;">(0)</span></label>
+                    <div style="position:relative;">
+                        <input type="password" id="force-pwd-new" autocomplete="new-password" style="width:100%;padding:12px 38px 12px 12px;border:2px solid var(--border-color,#e2e8f0);border-radius:10px;font-size:0.9rem;box-sizing:border-box;background:var(--bg-input,#fff);color:var(--text-primary,#1e293b);">
+                        <span id="pwd-new-toggle" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:1.1rem;line-height:1;color:#94a3b8;user-select:none;">👁</span>
+                    </div>
                     <div id="force-pwd-new-error" style="font-size:0.75rem;color:#dc2626;margin-top:4px;display:none;"></div>
                 </div>
 
@@ -773,8 +776,11 @@ const Auth = (() => {
                 </div>
 
                 <div style="margin-bottom:20px;text-align:left;">
-                    <label style="display:block;font-size:0.75rem;font-weight:600;color:var(--text-secondary,#64748b);margin-bottom:4px;">CONFIRMAR CONTRASEÑA</label>
-                    <input type="password" id="force-pwd-confirm" style="width:100%;padding:12px;border:2px solid var(--border-color,#e2e8f0);border-radius:10px;font-size:0.9rem;box-sizing:border-box;background:var(--bg-input,#fff);color:var(--text-primary,#1e293b);">
+                    <label style="display:block;font-size:0.75rem;font-weight:600;color:var(--text-secondary,#64748b);margin-bottom:4px;">CONFIRMAR CONTRASEÑA <span id="pwd-confirm-count" style="font-weight:400;color:#94a3b8;font-size:0.7rem;">(0)</span></label>
+                    <div style="position:relative;">
+                        <input type="password" id="force-pwd-confirm" autocomplete="new-password" style="width:100%;padding:12px 38px 12px 12px;border:2px solid var(--border-color,#e2e8f0);border-radius:10px;font-size:0.9rem;box-sizing:border-box;background:var(--bg-input,#fff);color:var(--text-primary,#1e293b);">
+                        <span id="pwd-confirm-toggle" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:1.1rem;line-height:1;color:#94a3b8;user-select:none;">👁</span>
+                    </div>
                     <div id="force-pwd-confirm-error" style="font-size:0.75rem;color:#dc2626;margin-top:4px;display:none;"></div>
                 </div>
 
@@ -789,9 +795,24 @@ const Auth = (() => {
         const confirmInput = document.getElementById('force-pwd-confirm');
         newInput.focus();
 
+        function _togglePwdVisibility(inputId, toggleId) {
+            var inp = document.getElementById(inputId);
+            var tog = document.getElementById(toggleId);
+            if (!inp || !tog) return;
+            var isPwd = inp.type === 'password';
+            inp.type = isPwd ? 'text' : 'password';
+            tog.textContent = isPwd ? '🙈' : '👁';
+        }
+        document.getElementById('pwd-new-toggle').addEventListener('click', function(){_togglePwdVisibility('force-pwd-new','pwd-new-toggle');});
+        document.getElementById('pwd-confirm-toggle').addEventListener('click', function(){_togglePwdVisibility('force-pwd-confirm','pwd-confirm-toggle');});
+
         function _updatePwdChecklist() {
             var v = newInput.value;
             var c = confirmInput.value;
+            var countEl = document.getElementById('pwd-new-count');
+            var countCe = document.getElementById('pwd-confirm-count');
+            if(countEl) countEl.textContent = '(' + v.length + ')';
+            if(countCe) countCe.textContent = '(' + c.length + ')';
             var checks = {
                 length:  v.length >= 8,
                 upper:   /[A-Z]/.test(v),
