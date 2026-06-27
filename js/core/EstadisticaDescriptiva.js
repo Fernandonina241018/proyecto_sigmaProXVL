@@ -5323,7 +5323,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         });
         
         reporte += `\n${'═'.repeat(63)}\n`;
-        reporte += `Generado: ${new Date().toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}\n`;
+        reporte += `Generado: ${(function(_d){var _m='Ene,Feb,Mar,Abr,May,Jun,Jul,Ago,Sep,Oct,Nov,Dic'.split(',');return ('0'+_d.getDate()).slice(-2)+'/'+_m[_d.getMonth()]+'/'+_d.getFullYear()+' '+_d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',hour12:true});})(new Date())}\n`;
         reporte += `${'═'.repeat(63)}\n`;
         
         return reporte;
@@ -5411,7 +5411,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         });
         
         reporte += `\n${'═'.repeat(63)}\n`;
-        reporte += `Generado: ${new Date().toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}\n`;
+        reporte += `Generado: ${(function(_d){var _m='Ene,Feb,Mar,Abr,May,Jun,Jul,Ago,Sep,Oct,Nov,Dic'.split(',');return ('0'+_d.getDate()).slice(-2)+'/'+_m[_d.getMonth()]+'/'+_d.getFullYear()+' '+_d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',hour12:true});})(new Date())}\n`;
         reporte += `${'═'.repeat(63)}\n`;
         
         return reporte;
@@ -6660,7 +6660,7 @@ function generarHTML(analisisResultado) {
             </div>
         </div>
         <div style="margin-top:12px; font-size:10px; color:#888; text-align:center;">
-            Reporte generado automáticamente por StatLab · ${new Date().toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
+            Reporte generado automáticamente por StatLab · ${(function(_d){var _m='Ene,Feb,Mar,Abr,May,Jun,Jul,Ago,Sep,Oct,Nov,Dic'.split(',');return ('0'+_d.getDate()).slice(-2)+'/'+_m[_d.getMonth()]+'/'+_d.getFullYear()+' '+_d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',hour12:true});})(new Date())}
         </div>
     </div>`;
     

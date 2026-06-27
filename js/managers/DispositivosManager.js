@@ -166,7 +166,8 @@ const DispositivosManager = (() => {
         if (!iso) return '—';
         try {
             var d = new Date(iso);
-            return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+            var _ms = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+            return ('0'+d.getDate()).slice(-2) + '/' + _ms[d.getMonth()] + '/' + d.getFullYear() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
         } catch (e) { return iso; }
     }
 
