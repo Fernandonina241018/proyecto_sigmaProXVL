@@ -755,13 +755,23 @@ const Auth = (() => {
             <div style="position:relative;background:var(--bg-card,#fff);border-radius:16px;padding:24px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.4);text-align:center;">
                 <div style="font-size:3rem;margin-bottom:12px;">🔐</div>
                 <h2 style="margin:0 0 8px 0;color:var(--text-primary,#1e293b);">Cambio de contraseña requerido</h2>
-                <p style="margin:0 0 20px 0;color:var(--text-secondary,#64748b);font-size:0.9rem;">Debes cambiar tu contraseña antes de continuar. Usa al menos 8 caracteres, mayúsculas, minúsculas, dígitos y caracteres especiales.</p>
+                <p style="margin:0 0 16px 0;color:var(--text-secondary,#64748b);font-size:0.85rem;">Debes crear una nueva contraseña antes de continuar.</p>
 
-                <div style="margin-bottom:16px;text-align:left;">
+                <div style="margin-bottom:12px;text-align:left;">
                     <label style="display:block;font-size:0.75rem;font-weight:600;color:var(--text-secondary,#64748b);margin-bottom:4px;">NUEVA CONTRASEÑA</label>
                     <input type="password" id="force-pwd-new" style="width:100%;padding:12px;border:2px solid var(--border-color,#e2e8f0);border-radius:10px;font-size:0.9rem;box-sizing:border-box;background:var(--bg-input,#fff);color:var(--text-primary,#1e293b);">
                     <div id="force-pwd-new-error" style="font-size:0.75rem;color:#dc2626;margin-top:4px;display:none;"></div>
                 </div>
+
+                <div id="pwd-checklist" style="margin:0 0 14px 0;text-align:left;font-size:0.78rem;display:flex;flex-direction:column;gap:5px;padding:10px 12px;background:var(--bg-panel,#f8fafc);border-radius:8px;border:1px solid var(--border-color,#e2e8f0);">
+                    <div class="pwd-req" data-req="length"><span class="pwd-dot" style="display:inline-block;width:16px;text-align:center;font-weight:700;color:#94a3b8;">○</span> 8+ caracteres</div>
+                    <div class="pwd-req" data-req="upper"><span class="pwd-dot" style="display:inline-block;width:16px;text-align:center;font-weight:700;color:#94a3b8;">○</span> 1 mayúscula (A-Z)</div>
+                    <div class="pwd-req" data-req="lower"><span class="pwd-dot" style="display:inline-block;width:16px;text-align:center;font-weight:700;color:#94a3b8;">○</span> 1 minúscula (a-z)</div>
+                    <div class="pwd-req" data-req="digit"><span class="pwd-dot" style="display:inline-block;width:16px;text-align:center;font-weight:700;color:#94a3b8;">○</span> 1 dígito (0-9)</div>
+                    <div class="pwd-req" data-req="special"><span class="pwd-dot" style="display:inline-block;width:16px;text-align:center;font-weight:700;color:#94a3b8;">○</span> 1 carácter especial (!@#$%^&*)</div>
+                    <div class="pwd-req" data-req="match" style="border-top:1px solid var(--border-color,#e2e8f0);padding-top:5px;margin-top:2px;"><span class="pwd-dot" style="display:inline-block;width:16px;text-align:center;font-weight:700;color:#94a3b8;">○</span> Contraseñas coinciden</div>
+                </div>
+
                 <div style="margin-bottom:20px;text-align:left;">
                     <label style="display:block;font-size:0.75rem;font-weight:600;color:var(--text-secondary,#64748b);margin-bottom:4px;">CONFIRMAR CONTRASEÑA</label>
                     <input type="password" id="force-pwd-confirm" style="width:100%;padding:12px;border:2px solid var(--border-color,#e2e8f0);border-radius:10px;font-size:0.9rem;box-sizing:border-box;background:var(--bg-input,#fff);color:var(--text-primary,#1e293b);">
@@ -778,6 +788,35 @@ const Auth = (() => {
         const newInput = document.getElementById('force-pwd-new');
         const confirmInput = document.getElementById('force-pwd-confirm');
         newInput.focus();
+
+        function _updatePwdChecklist() {
+            var v = newInput.value;
+            var c = confirmInput.value;
+            var checks = {
+                length:  v.length >= 8,
+                upper:   /[A-Z]/.test(v),
+                lower:   /[a-z]/.test(v),
+                digit:   /[0-9]/.test(v),
+                special: /[^A-Za-z0-9]/.test(v),
+                match:   v.length > 0 && c.length > 0 && v === c
+            };
+            document.querySelectorAll('#pwd-checklist .pwd-req').forEach(function(el) {
+                var req = el.getAttribute('data-req');
+                var dot = el.querySelector('.pwd-dot');
+                if (checks[req]) {
+                    dot.textContent = '✓';
+                    dot.style.color = '#16a34a';
+                    el.style.color = '#16a34a';
+                } else {
+                    dot.textContent = '○';
+                    dot.style.color = '#94a3b8';
+                    el.style.color = '#64748b';
+                }
+            });
+        }
+
+        newInput.addEventListener('input', _updatePwdChecklist);
+        confirmInput.addEventListener('input', _updatePwdChecklist);
         newInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') confirmInput.focus(); });
         confirmInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('force-pwd-submit').click(); });
 
