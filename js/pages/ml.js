@@ -139,6 +139,28 @@ const MLManager = (() => {
             '.mlv-wrap .fi-tag-num{background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.3);color:#93c5fd}',
             '.mlv-wrap .fi-tag-cat{background:rgba(251,146,60,.10);border-color:rgba(251,146,60,.25);color:#fdba74;cursor:help}',
             '.mlv-wrap .fi-tag-val{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.2);color:#86efac}',
+            '.mlv-wrap .drift-global{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;font-weight:600}',
+            '.mlv-wrap .drift-severity-none{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);color:#4ade80}',
+            '.mlv-wrap .drift-severity-low{background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.2);color:#facc15}',
+            '.mlv-wrap .drift-severity-medium{background:rgba(251,146,60,.10);border:1px solid rgba(251,146,60,.25);color:#fdba74}',
+            '.mlv-wrap .drift-severity-high{background:rgba(239,68,68,.10);border:1px solid rgba(239,68,68,.25);color:#fca5a5}',
+            '.mlv-wrap .df-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)}',
+            '.mlv-wrap .df-row:last-child{border-bottom:none}',
+            '.mlv-wrap .df-name{width:130px;font-size:11.5px;color:var(--mlv-dim);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
+            '.mlv-wrap .df-type{width:50px;font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--mlv-faint);flex-shrink:0;font-weight:600}',
+            '.mlv-wrap .df-badge{padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0}',
+            '.mlv-wrap .df-badge-none{background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.2)}',
+            '.mlv-wrap .df-badge-low{background:rgba(250,204,21,.12);color:#facc15;border:1px solid rgba(250,204,21,.2)}',
+            '.mlv-wrap .df-badge-medium{background:rgba(251,146,60,.12);color:#fdba74;border:1px solid rgba(251,146,60,.25)}',
+            '.mlv-wrap .df-badge-high{background:rgba(239,68,68,.12);color:#fca5a5;border:1px solid rgba(239,68,68,.25)}',
+            '.mlv-wrap .df-bars{flex:1;display:flex;align-items:center;gap:4px}',
+            '.mlv-wrap .df-track{flex:1;height:4px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}',
+            '.mlv-wrap .df-fill{height:100%;border-radius:99px;transition:width .3s}',
+            '.mlv-wrap .df-val{font-size:10px;font-family:var(--mlv-mono);color:var(--mlv-faint);width:32px;text-align:right}',
+            '.mlv-wrap .df-detail{display:flex;gap:6px;flex-wrap:wrap;font-size:10px;color:var(--mlv-faint)}',
+            '.mlv-wrap .df-detail span{background:rgba(255,255,255,.04);padding:1px 6px;border-radius:3px}',
+            '.mlv-wrap .df-hist-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:11px}',
+            '.mlv-wrap .df-hist-item:last-child{border-bottom:none}',
         ].join('');
         document.head.appendChild(s);
     }
@@ -328,6 +350,7 @@ const MLManager = (() => {
             '<button class="mlv-tab" data-t="performance">◎ Rendimiento</button>' +
             '<button class="mlv-tab" data-t="features">◧ Features</button>' +
             '<button class="mlv-tab" data-t="versions">◎ Versiones</button>' +
+            '<button class="mlv-tab" data-t="drift">◉ Drift</button>' +
             '<button class="mlv-tab" data-t="config">◉ Config</button></div>';
 
         // ── PANEL: Resumen ──
@@ -520,6 +543,22 @@ const MLManager = (() => {
             '<div id="mlv-versions-timeline" style="text-align:center;padding:20px;color:var(--mlv-faint)">⌛ Cargando versiones...</div></div>' +
             '<div class="mlv-card" id="mlv-versions-compare-card" style="display:none"><div class="mlv-clabel">Comparación de métricas</div>' +
             '<div id="mlv-versions-compare"></div></div></div></div>';
+
+        // ── PANEL: Drift ──
+        html += '<div class="mlv-panel" id="mlv-p-drift"><div class="mlv-stack">' +
+            '<div class="mlv-card"><div class="mlv-clabel">Monitoreo de deriva (Data Drift)</div>' +
+            '<div style="font-size:11px;color:var(--mlv-faint);margin-bottom:12px">' +
+            'Detecta cambios en la distribución de los datos respecto al entrenamiento original. ' +
+            'PSI (Population Stability Index) > 0.1 indica deriva moderada, > 0.25 severa.</div>' +
+            '<div style="display:flex;gap:8px;margin-bottom:14px">' +
+            '<button class="btn btn-primary" style="font-size:12px;padding:6px 14px;border-radius:6px;border:1px solid rgba(139,92,246,.4);background:rgba(139,92,246,.2);color:#c4b5fd;cursor:pointer;font-weight:600" ' +
+            'onclick="MLManager.checkDrift(\'' + escapeHtml(d.id) + '\')">🔍 Ejecutar chequeo</button>' +
+            '<button class="btn btn-secondary" style="font-size:12px;padding:6px 14px;border-radius:6px;border:1px solid var(--mlv-bd);background:var(--mlv-surface);color:var(--mlv-dim);cursor:pointer;font-weight:600" ' +
+            'onclick="MLManager.loadDriftHistory(\'' + escapeHtml(d.id) + '\')">📊 Historial</button></div>' +
+            '<div id="mlv-drift-results" style="text-align:center;padding:20px;color:var(--mlv-faint);font-size:13px">' +
+            'Presiona "Ejecutar chequeo" para analizar deriva de datos.</div></div>' +
+            '<div class="mlv-card" id="mlv-drift-history-card" style="display:none"><div class="mlv-clabel">Historial de drift</div>' +
+            '<div id="mlv-drift-history"></div></div></div></div>';
 
         // ── PANEL: Config ──
         html += '<div class="mlv-panel" id="mlv-p-config"><div class="mlv-stack">';
@@ -763,6 +802,108 @@ const MLManager = (() => {
             });
     }
 
+    function _renderDriftResults(data, modelId) {
+        var container = document.getElementById('mlv-drift-results');
+        if (!container) return;
+        var drift = data.drift || data || {};
+        var features = drift.features || [];
+        var severity = drift.global_severity || 'none';
+
+        var severityLabel = { none: 'Sin deriva', low: 'Deriva baja', medium: 'Deriva moderada', high: 'Deriva severa' };
+        var html = '<div class="drift-global drift-severity-' + severity + '">' +
+            '◉ Deriva global: ' + (severityLabel[severity] || severity) +
+            ' · PSI promedio: ' + (drift.global_avg_psi || 0).toFixed(4) +
+            ' · ' + (drift.n_features_checked || 0) + ' features analizadas' +
+            (drift.n_features_drifted_high > 0 ? ' · <span style="color:#fca5a5">' + drift.n_features_drifted_high + ' alta</span>' : '') +
+            (drift.n_features_drifted_medium > 0 ? ' · <span style="color:#fdba74">' + drift.n_features_drifted_medium + ' moderada</span>' : '') +
+            '</div>';
+
+        if (features.length === 0) {
+            html += '<div style="text-align:center;padding:20px;color:var(--mlv-faint)">No hay datos suficientes para analizar deriva. Asegúrate de que el modelo tenga datos de entrenamiento disponibles.</div>';
+            container.innerHTML = html;
+            return;
+        }
+
+        html += '<div style="max-height:400px;overflow-y:auto">';
+        for (var fi = 0; fi < features.length; fi++) {
+            var f = features[fi];
+            var sev = f.severity || 'none';
+            var psi = f.psi != null ? f.psi : (f.cramers_v || 0);
+            var maxBar = 0.5;
+            var barPct = Math.min((psi / maxBar) * 100, 100);
+
+            html += '<div class="df-row">' +
+                '<div class="df-name" title="' + escapeHtml(f.feature) + '">' + escapeHtml(f.feature) + '</div>' +
+                '<div class="df-type">' + (f.type === 'numerical' ? 'num' : 'cat') + '</div>' +
+                '<div class="df-badge df-badge-' + sev + '">' + sev + '</div>' +
+                '<div class="df-bars"><div class="df-track"><div class="df-fill" style="width:' + barPct.toFixed(1) + '%;background:' +
+                (sev === 'high' ? '#ef4444' : sev === 'medium' ? '#fb923c' : sev === 'low' ? '#facc15' : '#4ade80') + '"></div></div>' +
+                '<div class="df-val">' + psi.toFixed(4) + '</div></div>' +
+                '<div class="df-detail">';
+
+            if (f.type === 'numerical') {
+                html += '<span title="KS statistic">KS: ' + (f.ks_statistic || 0).toFixed(4) + '</span>' +
+                    '<span title="Media ref → new">μ: ' + (f.ref_mean || 0).toFixed(2) + ' → ' + (f.new_mean || 0).toFixed(2) + '</span>' +
+                    (f.mean_change_pct != null ? '<span title="Cambio %">Δ ' + (f.mean_change_pct >= 0 ? '+' : '') + f.mean_change_pct.toFixed(1) + '%</span>' : '');
+            } else {
+                html += '<span title="Cramér V">V: ' + (f.cramers_v || 0).toFixed(4) + '</span>' +
+                    '<span title="Categorías">' + (f.n_categories || 0) + ' cats</span>';
+            }
+            html += '</div></div>';
+        }
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    function _renderDriftHistory(history, modelId) {
+        var card = document.getElementById('mlv-drift-history-card');
+        var container = document.getElementById('mlv-drift-history');
+        if (!card || !container) return;
+        if (!history || history.length === 0) {
+            card.style.display = 'none';
+            return;
+        }
+        card.style.display = 'block';
+        var html = '';
+        for (var hi = history.length - 1; hi >= 0; hi--) {
+            var h = history[hi];
+            var dateStr = h.checked_at ? h.checked_at.slice(0, 10) + ' ' + h.checked_at.slice(11, 16) : '—';
+            var sev = h.global_severity || 'none';
+            html += '<div class="df-hist-item">' +
+                '<span class="df-badge df-badge-' + sev + '">' + sev + '</span>' +
+                '<span style="flex:1;color:var(--mlv-dim)">' + escapeHtml(dateStr) + '</span>' +
+                '<span style="font-size:10px;font-family:var(--mlv-mono);color:var(--mlv-faint)">PSI: ' + (h.global_avg_psi || 0).toFixed(4) + '</span>' +
+                '<span style="font-size:10px;color:var(--mlv-faint)">' + (h.n_features_checked || 0) + ' feat · ' +
+                (h.n_drifted_high || 0) + 'H ' + (h.n_drifted_medium || 0) + 'M</span></div>';
+        }
+        container.innerHTML = html;
+    }
+
+    function _mvCheckDrift(modelId) {
+        var container = document.getElementById('mlv-drift-results');
+        if (!container) return;
+        container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--mlv-faint)">⌛ Ejecutando chequeo de deriva...</div>';
+        var apiUrl = _getMlApiUrl();
+        fetch(apiUrl + '/api/ml/drift/' + encodeURIComponent(modelId) + '/history?limit=20')
+            .then(function(r) { return r.json(); })
+            .then(function(resp) {
+                if (resp.ok && resp.history) {
+                    _renderDriftHistory(resp.history, modelId);
+                } else {
+                    var hc = document.getElementById('mlv-drift-history-card');
+                    if (hc) hc.style.display = 'none';
+                }
+            })
+            .catch(function() {
+                var hc = document.getElementById('mlv-drift-history-card');
+                if (hc) hc.style.display = 'none';
+            });
+        container.innerHTML = '<div style="text-align:center;padding:30px;color:var(--mlv-faint);font-size:14px">' +
+            'Para ejecutar un chequeo de deriva, envía datos nuevos presionando el botón "🔍 Ejecutar chequeo".' +
+            '<div style="margin-top:8px;font-size:11px;color:var(--mlv-faint)">' +
+            'Necesitas datos de producción para comparar contra los de entrenamiento.</div></div>';
+    }
+
     function _renderModelView(model) {
         try {
         _injectModelViewCSS();
@@ -784,6 +925,9 @@ const MLManager = (() => {
                     if (p) p.classList.add('on');
                     if (this.dataset.t === 'versions') {
                         _mvLoadVersions(d.algorithm, d.id);
+                    }
+                    if (this.dataset.t === 'drift') {
+                        _mvCheckDrift(d.id);
                     }
                 });
             })(tabs[ti]);
@@ -3143,6 +3287,64 @@ const MLManager = (() => {
             .catch(function(e) {
                 showToast('Error en rollback: ' + e.message, 'error');
             });
+        },
+        checkDrift: function(modelId) {
+            if (!modelId) { showToast('Selecciona un modelo primero', 'error'); return; }
+            var container = document.getElementById('mlv-drift-results');
+            if (!container) {
+                showToast('Abre la vista del modelo primero', 'error');
+                return;
+            }
+            container.innerHTML = '<div style="text-align:center;padding:30px;color:var(--mlv-faint)">⌛ Analizando deriva de datos...</div>';
+            var apiUrl = _getMlApiUrl();
+            // Get current sheet data if available
+            var wsData = null;
+            if (typeof getCurrentSheet !== 'undefined') {
+                try { wsData = getCurrentSheet(); } catch(e) {}
+            }
+            if (wsData && wsData.data && wsData.data.length > 0 && wsData.columns && wsData.columns.length > 0) {
+                var body = { data: wsData.data, columns: wsData.columns };
+                fetch(apiUrl + '/api/ml/drift/' + encodeURIComponent(modelId), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                })
+                .then(function(r) { return r.json(); })
+                .then(function(resp) {
+                    if (resp.ok && resp.drift) {
+                        _renderDriftResults(resp.drift, modelId);
+                        _mvCheckDrift(modelId);
+                    } else {
+                        container.innerHTML = '<div style="text-align:center;padding:30px;color:#f87171">' +
+                            'Error: ' + escapeHtml(resp.error || resp.detail || 'desconocido') + '</div>';
+                    }
+                })
+                .catch(function(e) {
+                    container.innerHTML = '<div style="text-align:center;padding:30px;color:#f87171">' +
+                        'Error de conexión: ' + escapeHtml(e.message) + '</div>';
+                });
+            } else {
+                container.innerHTML = '<div style="text-align:center;padding:30px;color:var(--mlv-faint);font-size:14px">' +
+                    'No hay datos en la hoja de trabajo actual.' +
+                    '<div style="margin-top:8px;font-size:11px">Carga datos en la página "Trabajo" primero para comparar.</div></div>';
+            }
+        },
+        loadDriftHistory: function(modelId) {
+            if (!modelId) { showToast('Selecciona un modelo primero', 'error'); return; }
+            var apiUrl = _getMlApiUrl();
+            fetch(apiUrl + '/api/ml/drift/' + encodeURIComponent(modelId) + '/history?limit=20')
+                .then(function(r) { return r.json(); })
+                .then(function(resp) {
+                    if (resp.ok && resp.history) {
+                        _renderDriftHistory(resp.history, modelId);
+                        showToast('📊 Historial de drift cargado', 'ok');
+                    } else {
+                        showToast('No hay historial de drift para este modelo', 'info');
+                    }
+                })
+                .catch(function(e) {
+                    showToast('Error: ' + e.message, 'error');
+                });
         },
     };
 })();

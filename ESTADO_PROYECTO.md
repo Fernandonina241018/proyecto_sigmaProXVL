@@ -2744,3 +2744,55 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 | `js/pages/ml.js` | +200 líneas: 5to tab Versiones, timeline, promote/rollback buttons, tabla comparativa, load/promote/rollback functions |
 
 **Riesgo de rotura:** BAJO — IDs antiguos `modelo_NNN` coexisten sin modificación. Backend backward compatible. Frontend solo agrega nuevo tab, no modifica tabs existentes.
+
+### 2026-06-29: Fase 5 — Drift Monitoring (Data/Concept Drift Detection)
+
+**Qué:** Sistema completo de monitoreo de deriva de datos para modelos ML en producción. Detecta cambios en la distribución de features entre los datos de entrenamiento y los nuevos datos.
+
+**Capa 1 — `Red_Neuronal/drift_detector.py` (NUEVO):**
+| Función | Descripción |
+|---------|-------------|
+| `_psi(expected, actual, buckets=10)` | Population Stability Index: PSI < 0.1 = sin cambio, 0.1-0.25 = moderado, > 0.25 = severo |
+| `_ks_statistic(expected, actual)` | Kolmogorov-Smirnov test aproximado con D statistic y p-value |
+| `_chi2_cramers(observed, expected, categories)` | Chi-cuadrado + V de Cramér para variables categóricas |
+| `detect_drift(model_id, reference_df, new_df, meta)` | Orquestador: itera numéricas (KS+PSI) y categóricas (Chi²), genera severidad global |
+| `save_drift_check(base_dir, model_id, result)` | Persiste chequeo en `drift_history.json` |
+| `get_drift_history(base_dir, model_id, limit=20)` | Recupera historial (últimos 100 checks máx) |
+
+**Criterios de severidad por feature:**
+| Severidad | Numéricas | Categóricas |
+|-----------|-----------|-------------|
+| high | PSI > 0.25 o D > 0.3 | Cramér's V > 0.3 |
+| medium | PSI > 0.1 o D > 0.2 | Cramér's V > 0.15 |
+| low/none | PSI ≤ 0.1 | Cramér's V ≤ 0.15 |
+
+**Capa 2 — `ml_service/main.py` (2 nuevos endpoints):**
+| Endpoint | Método | Descripción |
+|----------|--------|-------------|
+| `/api/ml/drift/{model_id}` | POST | Ejecuta chequeo de drift contra datos nuevos. Usa datos del dataset original como referencia (vía `load_data`), o columnas del meta. Persiste resultado en historial. |
+| `/api/ml/drift/{model_id}/history` | GET | Historial de drift checks (limit param, default 20, max 100) |
+
+**Capa 3 — `ml_service/drift_worker.py` (NUEVO):**
+- Script programable para ejecución periódica (cron/6h)
+- Itera modelos promovidos y ejecuta drift check contra sus datos de entrenamiento
+- Reporta alertas por consola (capturadas en Fly.io logs)
+- Summary final con conteo de checks, alerts por severidad
+
+**Capa 4 — `js/pages/ml.js` (frontend drift UI):**
+- **Nuevo tab "◉ Drift"** en el Model View (6to tab)
+- **Indicador global**: badge con severidad (verde/amarillo/naranja/rojo) + PSI promedio + conteos
+- **Tabla por feature**: nombre, tipo (num/cat), badge severidad, barra PSI, valores detalle (KS, medias, Δ%, Cramér V)
+- **Historial**: timeline de chequeos previos con severidad, PSI, features chequeadas
+- **Botones**: 🔍 Ejecutar chequeo (usa datos de hoja de trabajo actual), 📊 Historial
+- Botones también replicados en la cabecera de acciones del modelo
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `Red_Neuronal/drift_detector.py` | **NUEVO** — 293 líneas: PSI, KS-test, Chi², detect_drift, persistencia, historial |
+| `ml_service/main.py` | +75 líneas: 2 endpoints drift, DriftRequest model, HAS_DRIFT flag |
+| `ml_service/drift_worker.py` | **NUEVO** — 127 líneas: worker programable para chequeo periódico |
+| `ml_service/requirements.txt` | +1 línea: `scipy>=1.10.0` |
+| `js/pages/ml.js` | +250 líneas: tab Drift, _renderDriftResults, _renderDriftHistory, _mvCheckDrift, checkDrift/loadDriftHistory públicos, CSS drift |
+
+**Riesgo de rotura:** BAJO — drift_detector.py tiene HAS_DRIFT flag con graceful fallback si no se puede importar. Nuevo tab no modifica tabs existentes. Worker es standalone.

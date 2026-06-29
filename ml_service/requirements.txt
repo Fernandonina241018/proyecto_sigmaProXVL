@@ -12,3 +12,4 @@ requests>=2.28.0
 python-multipart>=0.0.9
 fastembed>=0.5.0
 shap>=0.45.0
+scipy>=1.10.0

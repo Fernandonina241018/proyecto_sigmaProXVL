@@ -59,6 +59,13 @@ try:
 except ImportError:
     HAS_NLP = False
 
+try:
+    from drift_detector import detect_drift, save_drift_check, get_drift_history
+    HAS_DRIFT = True
+except ImportError as e:
+    HAS_DRIFT = False
+    print(f"[WARN] Drift detector not available: {e}")
+
 app = FastAPI(title="SigmaPro ML Service", version="1.0.0")
 
 ALLOWED_ORIGINS = [
@@ -231,6 +238,11 @@ class CompareRequest(BaseModel):
 class RollbackRequest(BaseModel):
     model_key: str
     target_version: Optional[str] = None
+
+
+class DriftRequest(BaseModel):
+    data: list
+    columns: list[str]
 
 
 def _df_from_payload(data: list, columns: list[str]) -> pd.DataFrame:
@@ -669,6 +681,62 @@ def compare_versions(req: CompareRequest):
         return {"ok": True, "comparison": result}
     except HTTPException:
         raise
+    except Exception as e:
+        raise HTTPException(500, str(e))
+
+
+@app.post("/api/ml/drift/{model_id}")
+def check_drift(model_id: str, req: DriftRequest):
+    if not HAS_DRIFT:
+        raise HTTPException(501, "Drift detector module not available")
+    try:
+        _safe_model_id(model_id)
+        registry = manager._load_registry()
+        entry = registry.get(model_id)
+        if not entry:
+            raise HTTPException(404, f"Model '{model_id}' not found")
+        payload = _safe_load_model(model_id, entry)
+        meta = payload.get("meta", {})
+        train_params = payload.get("train_params", {})
+        source = train_params.get("source", "api")
+
+        # Obtener datos de referencia (entrenamiento)
+        if source == "csv" and entry.get("dataset_name"):
+            safe_name = _safe_dataset_name(entry["dataset_name"])
+            csv_path = _safe_resolve(DATOS_DIR, f"{safe_name}.csv", allowed_ext=(".csv",))
+            if not csv_path.exists():
+                csv_path = _safe_resolve(DATOS_DIR, safe_name, allowed_ext=(".csv",))
+            if csv_path.exists():
+                from data_loader import load_data
+                reference_df = load_data("csv", path=str(csv_path))
+            else:
+                reference_df = None
+        else:
+            reference_df = None
+
+        if reference_df is None:
+            # Si no hay dataset original, usar columnas del meta como referencia
+            all_features = meta.get("num_features", []) + meta.get("cat_features", [])
+            reference_df = pd.DataFrame(columns=all_features)
+
+        new_df = _df_from_payload(req.data, req.columns)
+
+        result = detect_drift(model_id, reference_df, new_df, meta)
+        save_drift_check(manager.base_dir, model_id, result)
+
+        return {"ok": True, "drift": result}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(500, str(e))
+
+
+@app.get("/api/ml/drift/{model_id}/history")
+def drift_history(model_id: str, limit: int = Query(20, ge=1, le=100)):
+    try:
+        _safe_model_id(model_id)
+        history = get_drift_history(manager.base_dir, model_id, limit=limit)
+        return {"ok": True, "model_id": model_id, "history": history}
     except Exception as e:
         raise HTTPException(500, str(e))
 
