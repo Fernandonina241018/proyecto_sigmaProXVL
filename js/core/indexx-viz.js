@@ -134,12 +134,13 @@ function _V_injectCSS() {
     + '.viz-root .gal-label{flex-shrink:0;font-size:10px;font-weight:700;letter-spacing:.8px;color:var(--t3);text-transform:uppercase;padding-right:6px;border-right:1px solid var(--sep);margin-right:4px}'
     + '.viz-root .gal-thumb{flex-shrink:0;width:90px;height:62px;background:var(--bg2);border:1.5px solid var(--sep);border-radius:var(--rs);overflow:hidden;position:relative;cursor:pointer;transition:border-color .14s}'
     + '.viz-root .gal-thumb:hover{border-color:var(--acc)}'
+    + '.viz-root .gal-thumb.active{border-color:var(--acc);box-shadow:0 0 0 2px var(--accDim)}'
     + '.viz-root .gal-thumb img{width:100%;height:100%;object-fit:cover;display:block}'
     + '.viz-root .gal-noimg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--t3);background:var(--bg3)}'
     + '.viz-root .gal-del{position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.75);border:none;color:#fff;font-size:9px;cursor:pointer;display:none;align-items:center;justify-content:center}'
     + '.viz-root .gal-thumb:hover .gal-del{display:flex}'
     + '.viz-root .gal-name{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.65);font-size:9px;color:var(--t2);padding:2px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
-    + '.viz-root .chart-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;overflow:hidden;position:relative}'
+    + '.viz-root .chart-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;overflow:hidden;position:relative;background:var(--bg0)}'
     + '.viz-root .empty-state{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}'
     + '.viz-root .empty-icon{width:72px;height:72px;border-radius:50%;background:var(--accDim);border:1.5px solid var(--accBorder);display:flex;align-items:center;justify-content:center;font-size:30px}'
     + '.viz-root .empty-state h3{font-size:15px;font-weight:700;color:var(--t2)}'
@@ -907,7 +908,7 @@ function vizRefreshGallery() {
 
   _V.gallery.forEach(function(g) {
     var div = document.createElement('div');
-    div.className = 'gal-thumb';
+    div.className = 'gal-thumb' + (_V._activeGalleryId === g.id ? ' active' : '');
     var thumbSrc = g.thumb || g.url || '';
     div.innerHTML = (thumbSrc ? '<img src="' + thumbSrc + '" alt="' + g.title.replace(/"/g, '&quot;') + '">' : '<div class="gal-noimg">' + (g.type ? g.type[0].toUpperCase() : '?') + '</div>') +
       '<button class="gal-del" onclick="event.stopPropagation();vizDelGallery(' + g.id + ')">✕</button>' +
@@ -918,6 +919,7 @@ function vizRefreshGallery() {
 }
 
 function _V_showGalleryChart(g) {
+  _V._activeGalleryId = g.id;
   var emptyEl = document.getElementById('vizEmptyState');
   var wrapperEl = document.getElementById('vizChartWrapper');
   var ttlEl = document.getElementById('vizChartTtl');
