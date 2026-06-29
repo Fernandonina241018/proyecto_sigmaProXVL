@@ -194,6 +194,12 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 **Pendiente:** Ejecutar `npm install` en backend/ para instalar `otplib` y `qrcode`.
 
+### 2026-06-24: DEBUG_MODE activado en comando prompt
+
+**Qué:** Se activó `DEBUG_MODE: true` en el comando `/prompt` para mostrar el SKILL AUDIT (modo, errores, skills cargadas, Brain2 accesible) al usuario durante la ejecución.
+
+**Archivo:** `/home/fernando/.opencode/commands/prompt.md` — línea 26
+
 ### 2026-06-24: Naruto - Clash of Ninja 2 extraído para Dolphin
 
 **Qué:** Se descargó y extrajo Naruto - Clash of Ninja 2 (USA) para GameCube desde un .zip. Archivo RVZ de 525 MB organizado en su propia carpeta.
