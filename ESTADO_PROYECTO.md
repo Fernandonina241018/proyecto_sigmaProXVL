@@ -2693,3 +2693,54 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 | (systemd) | `NetworkManager-wait-online.service` masked |
 
 **Verificación:** ✅ `sysctl --system` sin errores | ✅ GRUB regenerado con cmdline correcto | ✅ Sin servicios fallidos | ✅ Ryujinx 1.3.3 + Dolphin 2603 instalados | ✅ Todos los mounts OK | ✅ Red OK (ping 35ms)
+
+### 2026-06-29: Fase 4 — Model Registry + Versioning (Model Manager, API, Frontend)
+
+**Qué:** Implementación completa de versionado formal de modelos ML con esquema de IDs versionados, lineage, promoción, rollback y comparación side-by-side.
+
+**Cambios en 3 capas:**
+
+**Capa 1 — `Red_Neuronal/model_manager.py` (refactor completo):**
+- **ID scheme**: `modelo_NNN` → `{model_key}/v{N}` (ej: `rf/v1`, `xgb/v2`, `mlp/v3`)
+- **`_generate_model_id(model_key)`**: Genera auto-incremento por tipo de modelo
+- **`_parse_model_id(model_id)`**: Parseo seguro de IDs versionados
+- **`version_parent`**: Cada nueva versión guarda referencia a la versión inmediatamente anterior del mismo model_key
+- **`promoted: bool`**: Primera versión se marca como promoted por defecto
+- **`list_versions(model_key)`**: Lista todas las versiones de un mismo tipo de modelo
+- **`get_promoted(model_key)`**: Obtiene la versión en producción
+- **`promote_version(model_id)`**: Quita promoted de todas las versiones del mismo model_key y marca la seleccionada
+- **`rollback_to(model_key, target_version)`**: Rollback a versión anterior o específica
+- **`compare_versions(model_ids)`**: Compara métricas de N versiones, retorna dict plano
+- **`print_models_table()`**: Incluye columnas `Versión` y `Prom.`
+- **`interactive_menu()`**: Acepta IDs con formato `{key}/v{N}`
+- **Backwards compatible**: IDs antiguos `modelo_NNN` aún existen en registro pero no reciben nuevas versiones
+
+**Capa 2 — `ml_service/main.py` (5 nuevos endpoints):**
+| Endpoint | Método | Descripción |
+|----------|--------|-------------|
+| `/api/ml/models/{key}/versions` | GET | Lista versiones de un model_key |
+| `/api/ml/models/{key}/promoted` | GET | Obtiene versión promovida |
+| `/api/ml/models/{key}/promote` | POST | Promueve una versión |
+| `/api/ml/models/{key}/rollback` | POST | Rollback a versión anterior |
+| `/api/ml/models/compare` | POST | Compara N versiones side-by-side |
+
+- Modelos Pydantic: `PromoteRequest`, `CompareRequest`, `RollbackRequest`
+- `MODEL_KEY_RE` agregado para validación de model_key
+
+**Capa 3 — `js/pages/ml.js` (frontend versiones):**
+- Nueva pestaña **"◎ Versiones"** en el Model View (5to tab)
+- **Timeline de versiones**: lista con versión, dataset, fecha, métricas, badges PROD/ACTUAL
+- **Botón ▲ Promover**: aparece en versiones no-promovidas
+- **Botón ↩ Rollback**: aparece en la versión promovida actual
+- **Tabla comparativa**: cuando hay ≥2 versiones, se muestra tabla con métricas side-by-side y resaltado del mejor valor en verde
+- Funciones públicas: `promoteVersion(modelId, modelKey)`, `rollbackVersion(modelKey)`
+- Carga asíncrona de versiones al hacer clic en el tab
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `Red_Neuronal/model_manager.py` | **Reescrito**: 377→420 líneas. Nuevo ID scheme, version_parent, promoted, list_versions, get_promoted, promote_version, rollback_to, compare_versions |
+| `ml_service/main.py` | +75 líneas: 5 nuevos endpoints, 3 modelos Pydantic, MODEL_KEY_RE |
+| `js/pages/ml.js` | +200 líneas: 5to tab Versiones, timeline, promote/rollback buttons, tabla comparativa, load/promote/rollback functions |
+
+**Riesgo de rotura:** BAJO — IDs antiguos `modelo_NNN` coexisten sin modificación. Backend backward compatible. Frontend solo agrega nuevo tab, no modifica tabs existentes.

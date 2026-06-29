@@ -137,7 +137,8 @@ _tasks_lock = threading.Lock()
 _MAX_TASKS = 50
 
 DATASET_NAME_RE = re.compile(r"^[A-Za-z0-9_\-\.]+$")
-MODEL_ID_RE = re.compile(r"^[A-Za-z0-9_\-]+$")
+MODEL_ID_RE = re.compile(r"^[A-Za-z0-9_\-/]+$")
+MODEL_KEY_RE = re.compile(r"^[a-z]+$")
 
 
 def _safe_resolve(base_dir: Path, name: str, allowed_ext: tuple) -> Path:
@@ -217,6 +218,19 @@ class SimilarityRequest(BaseModel):
 
 class TextAnalysisRequest(BaseModel):
     text: str
+
+
+class PromoteRequest(BaseModel):
+    model_id: str
+
+
+class CompareRequest(BaseModel):
+    model_ids: list[str]
+
+
+class RollbackRequest(BaseModel):
+    model_key: str
+    target_version: Optional[str] = None
 
 
 def _df_from_payload(data: list, columns: list[str]) -> pd.DataFrame:
@@ -581,6 +595,78 @@ def delete_model_endpoint(model_id: str):
         if not ok:
             raise HTTPException(404, f"Model '{model_id}' not found")
         return {"ok": True}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(500, str(e))
+
+
+@app.get("/api/ml/models/{model_key}/versions")
+def list_model_versions(model_key: str):
+    try:
+        if not MODEL_KEY_RE.match(model_key):
+            raise HTTPException(400, f"Model key inválida: '{model_key}'")
+        versions = manager.list_versions(model_key)
+        return {"ok": True, "model_key": model_key, "versions": versions}
+    except Exception as e:
+        raise HTTPException(500, str(e))
+
+
+@app.get("/api/ml/models/{model_key}/promoted")
+def get_promoted_version(model_key: str):
+    try:
+        if not MODEL_KEY_RE.match(model_key):
+            raise HTTPException(400, f"Model key inválida: '{model_key}'")
+        promoted = manager.get_promoted(model_key)
+        if not promoted:
+            return {"ok": True, "model_key": model_key, "promoted": None}
+        return {"ok": True, "model_key": model_key, "promoted": promoted}
+    except Exception as e:
+        raise HTTPException(500, str(e))
+
+
+@app.post("/api/ml/models/{model_key}/promote")
+def promote_version(model_key: str, req: PromoteRequest):
+    try:
+        if not MODEL_KEY_RE.match(model_key):
+            raise HTTPException(400, f"Model key inválida: '{model_key}'")
+        _safe_model_id(req.model_id)
+        ok = manager.promote_version(req.model_id)
+        if not ok:
+            raise HTTPException(404, f"Model '{req.model_id}' not found")
+        promoted = manager.get_promoted(model_key)
+        return {"ok": True, "model_key": model_key, "promoted": promoted}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(500, str(e))
+
+
+@app.post("/api/ml/models/{model_key}/rollback")
+def rollback_version(model_key: str, req: RollbackRequest):
+    try:
+        if not MODEL_KEY_RE.match(model_key):
+            raise HTTPException(400, f"Model key inválida: '{model_key}'")
+        result_id = manager.rollback_to(model_key, req.target_version)
+        if not result_id:
+            raise HTTPException(400, f"No se pudo hacer rollback para '{model_key}'")
+        promoted = manager.get_promoted(model_key)
+        return {"ok": True, "model_key": model_key, "rollback_to": result_id, "promoted": promoted}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(500, str(e))
+
+
+@app.post("/api/ml/models/compare")
+def compare_versions(req: CompareRequest):
+    try:
+        if not req.model_ids or len(req.model_ids) < 2:
+            raise HTTPException(400, "Se requieren al menos 2 model_ids para comparar")
+        for mid in req.model_ids:
+            _safe_model_id(mid)
+        result = manager.compare_versions(req.model_ids)
+        return {"ok": True, "comparison": result}
     except HTTPException:
         raise
     except Exception as e:

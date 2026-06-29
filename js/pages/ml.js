@@ -327,6 +327,7 @@ const MLManager = (() => {
             '<button class="mlv-tab on" data-t="overview">◈ Resumen</button>' +
             '<button class="mlv-tab" data-t="performance">◎ Rendimiento</button>' +
             '<button class="mlv-tab" data-t="features">◧ Features</button>' +
+            '<button class="mlv-tab" data-t="versions">◎ Versiones</button>' +
             '<button class="mlv-tab" data-t="config">◉ Config</button></div>';
 
         // ── PANEL: Resumen ──
@@ -513,6 +514,13 @@ const MLManager = (() => {
 
         html += '</div></div>';
 
+        // ── PANEL: Versiones ──
+        html += '<div class="mlv-panel" id="mlv-p-versions"><div class="mlv-stack">' +
+            '<div class="mlv-card"><div class="mlv-clabel">Timeline de versiones</div>' +
+            '<div id="mlv-versions-timeline" style="text-align:center;padding:20px;color:var(--mlv-faint)">⌛ Cargando versiones...</div></div>' +
+            '<div class="mlv-card" id="mlv-versions-compare-card" style="display:none"><div class="mlv-clabel">Comparación de métricas</div>' +
+            '<div id="mlv-versions-compare"></div></div></div></div>';
+
         // ── PANEL: Config ──
         html += '<div class="mlv-panel" id="mlv-p-config"><div class="mlv-stack">';
 
@@ -634,6 +642,127 @@ const MLManager = (() => {
             });
     }
 
+    function _mvLoadVersions(modelKey, currentId) {
+        var timeline = document.getElementById('mlv-versions-timeline');
+        var compareCard = document.getElementById('mlv-versions-compare-card');
+        var compareEl = document.getElementById('mlv-versions-compare');
+        if (!timeline) return;
+        var apiUrl = _getMlApiUrl();
+        fetch(apiUrl + '/api/ml/models/' + encodeURIComponent(modelKey) + '/versions')
+            .then(function(r) { return r.json(); })
+            .then(function(resp) {
+                if (!resp.ok || !resp.versions || resp.versions.length === 0) {
+                    timeline.innerHTML = '<div style="text-align:center;padding:20px;color:var(--mlv-faint)">No hay otras versiones de este modelo.</div>';
+                    return;
+                }
+                var versions = resp.versions;
+                // Build timeline
+                var html = '<div style="display:flex;flex-direction:column;gap:0;padding:4px 0">';
+                for (var vi = 0; vi < versions.length; vi++) {
+                    var v = versions[vi];
+                    var isCurrent = v.id === currentId;
+                    var metricStrs = [];
+                    var metrics = v.metrics || {};
+                    var problemType = v.problem_type || 'binary';
+                    if (problemType === 'binary') {
+                        if (metrics.accuracy != null) metricStrs.push('Acc: ' + (metrics.accuracy * 100).toFixed(1) + '%');
+                        if (metrics.f1_score != null) metricStrs.push('F1: ' + (metrics.f1_score * 100).toFixed(1) + '%');
+                        if (metrics.auc_roc != null) metricStrs.push('AUC: ' + (metrics.auc_roc * 100).toFixed(1) + '%');
+                    } else if (problemType === 'regression') {
+                        if (metrics.r2_score != null) metricStrs.push('R²: ' + metrics.r2_score.toFixed(3));
+                        if (metrics.rmse != null) metricStrs.push('RMSE: ' + metrics.rmse.toFixed(2));
+                    }
+                    var isPromoted = v.promoted;
+                    var dateStr = v.created_at ? v.created_at.slice(0, 10) + ' ' + v.created_at.slice(11, 16) : '—';
+                    html += '<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);' +
+                        (isCurrent ? 'background:rgba(139,92,246,.08);border-radius:6px;padding:10px 8px;' : '') + '">' +
+                        '<div style="min-width:80px;font-size:11px;font-family:var(--mlv-mono);color:var(--mlv-dim)">' + escapeHtml(v.version) + '</div>' +
+                        '<div style="flex:1;min-width:0">' +
+                        '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">' +
+                        '<span style="font-size:12px;font-weight:600;color:' + (isCurrent ? '#c4b5fd' : 'var(--mlv-text)') + '">' +
+                        escapeHtml(v.dataset_name || '—') + '</span>' +
+                        (isPromoted ? '<span style="font-size:9px;padding:1px 6px;border-radius:99px;background:rgba(74,222,128,.15);color:#4ade80;font-weight:700;border:1px solid rgba(74,222,128,.3)">PROD</span>' : '') +
+                        (isCurrent ? '<span style="font-size:9px;padding:1px 6px;border-radius:99px;background:rgba(139,92,246,.15);color:#c4b5fd;font-weight:700;border:1px solid rgba(139,92,246,.3)">ACTUAL</span>' : '') +
+                        '</div>' +
+                        '<div style="font-size:10px;color:var(--mlv-faint);margin-top:3px">' +
+                        escapeHtml(dateStr) + ' · ' + escapeHtml(metricStrs.join(' · ')) +
+                        '</div></div>' +
+                        '<div style="display:flex;gap:4px;flex-shrink:0">' +
+                        (!isPromoted ? '<button class="btn" style="font-size:10px;padding:3px 8px;border-radius:4px;border:1px solid rgba(74,222,128,.3);background:rgba(74,222,128,.1);color:#4ade80;cursor:pointer;font-weight:600" onclick="MLManager.promoteVersion(\'' + escapeHtml(v.id) + '\',\'' + escapeHtml(modelKey) + '\')">▲ Promover</button>' : '') +
+                        (isCurrent && isPromoted ? '<button class="btn" style="font-size:10px;padding:3px 8px;border-radius:4px;border:1px solid rgba(251,191,36,.3);background:rgba(251,191,36,.1);color:#fbbf24;cursor:pointer;font-weight:600" onclick="MLManager.rollbackVersion(\'' + escapeHtml(modelKey) + '\')">↩ Rollback</button>' : '') +
+                        '</div></div>';
+                }
+                html += '</div>';
+                timeline.innerHTML = html;
+
+                // Build comparison table if >= 2 versions
+                if (versions.length >= 2) {
+                    var allMetrics = {};
+                    var metricOrder = ['accuracy', 'f1_score', 'auc_roc', 'precision', 'recall', 'r2_score', 'rmse', 'mae'];
+                    for (var vi2 = 0; vi2 < versions.length; vi2++) {
+                        var v2 = versions[vi2];
+                        var m = v2.metrics || {};
+                        for (var mk in m) {
+                            if (typeof m[mk] === 'number') {
+                                if (!allMetrics[mk]) allMetrics[mk] = [];
+                                allMetrics[mk].push({ version: v2.version, val: m[mk], promoted: v2.promoted });
+                            }
+                        }
+                    }
+                    var metricKeys = Object.keys(allMetrics);
+                    if (metricKeys.length > 0) {
+                        compareCard.style.display = 'block';
+                        var cHtml = '<table style="width:100%;border-collapse:collapse;font-size:11px">' +
+                            '<thead><tr style="border-bottom:1px solid rgba(255,255,255,.08)">' +
+                            '<th style="text-align:left;padding:6px 8px;color:var(--mlv-faint);font-weight:600">Métrica</th>';
+                        for (var vi3 = 0; vi3 < versions.length; vi3++) {
+                            var v3 = versions[vi3];
+                            cHtml += '<th style="text-align:center;padding:6px 8px;color:' + (v3.promoted ? '#4ade80' : 'var(--mlv-faint)') + ';font-weight:600">' +
+                                escapeHtml(v3.version) + (v3.promoted ? ' ★' : '') + '</th>';
+                        }
+                        cHtml += '</tr></thead><tbody>';
+                        for (var mi = 0; mi < metricOrder.length; mi++) {
+                            var mk2 = metricOrder[mi];
+                            if (!allMetrics[mk2]) continue;
+                            var bestVal = -Infinity;
+                            var bestIdx = -1;
+                            var isLowerBetter = mk2 === 'log_loss' || mk2 === 'rmse' || mk2 === 'mae';
+                            for (var vi4 = 0; vi4 < allMetrics[mk2].length; vi4++) {
+                                var mv = allMetrics[mk2][vi4].val;
+                                if (isLowerBetter) {
+                                    if (bestIdx === -1 || mv < bestVal) { bestVal = mv; bestIdx = vi4; }
+                                } else {
+                                    if (bestIdx === -1 || mv > bestVal) { bestVal = mv; bestIdx = vi4; }
+                                }
+                            }
+                            cHtml += '<tr style="border-bottom:1px solid rgba(255,255,255,.04)">' +
+                                '<td style="padding:6px 8px;color:var(--mlv-dim);font-weight:500">' + escapeHtml(mk2) + '</td>';
+                            for (var vi5 = 0; vi5 < allMetrics[mk2].length; vi5++) {
+                                var entry = allMetrics[mk2][vi5];
+                                var isBest = vi5 === bestIdx;
+                                var valStr = mk2 === 'accuracy' || mk2 === 'f1_score' || mk2 === 'auc_roc' || mk2 === 'precision' || mk2 === 'recall' ?
+                                    (entry.val * 100).toFixed(1) + '%' : entry.val.toFixed(4);
+                                cHtml += '<td style="text-align:center;padding:6px 8px;font-family:var(--mlv-mono);' +
+                                    (isBest ? 'color:#4ade80;font-weight:700;background:rgba(74,222,128,.06);border-radius:4px' : 'color:var(--mlv-dim)') + '">' +
+                                    valStr + '</td>';
+                            }
+                            cHtml += '</tr>';
+                        }
+                        cHtml += '</tbody></table>' +
+                            '<div style="font-size:9px;color:var(--mlv-faint);margin-top:6px">★ = Versión en producción · Verde = mejor valor</div>';
+                        compareEl.innerHTML = cHtml;
+                    } else {
+                        compareCard.style.display = 'none';
+                    }
+                } else {
+                    compareCard.style.display = 'none';
+                }
+            })
+            .catch(function() {
+                timeline.innerHTML = '<div style="text-align:center;padding:20px;color:var(--mlv-faint)">Error al cargar versiones. Verifica que el ML Service esté disponible.</div>';
+            });
+    }
+
     function _renderModelView(model) {
         try {
         _injectModelViewCSS();
@@ -653,6 +782,9 @@ const MLManager = (() => {
                     this.classList.add('on');
                     var p = document.getElementById('mlv-p-' + this.dataset.t);
                     if (p) p.classList.add('on');
+                    if (this.dataset.t === 'versions') {
+                        _mvLoadVersions(d.algorithm, d.id);
+                    }
                 });
             })(tabs[ti]);
         }
@@ -2966,5 +3098,51 @@ const MLManager = (() => {
         showAlgorithmInfo: showAlgorithmInfo,
         uploadDataset: uploadDataset,
         handleUploadFile: handleUploadFile,
+        promoteVersion: function(modelId, modelKey) {
+            var apiUrl = _getMlApiUrl();
+            fetch(apiUrl + '/api/ml/models/' + encodeURIComponent(modelKey) + '/promote', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ model_id: modelId })
+            })
+            .then(function(r) { return r.json(); })
+            .then(function(resp) {
+                if (resp.ok) {
+                    showToast('✅ Versión ' + modelId + ' promovida a producción', 'ok');
+                    refreshModels();
+                    // Reload versions tab if visible
+                    var timeline = document.getElementById('mlv-versions-timeline');
+                    if (timeline) _mvLoadVersions(modelKey, modelId);
+                } else {
+                    showToast('Error: ' + (resp.error || resp.detail || 'desconocido'), 'error');
+                }
+            })
+            .catch(function(e) {
+                showToast('Error al promover: ' + e.message, 'error');
+            });
+        },
+        rollbackVersion: function(modelKey) {
+            if (!confirm('¿Rollback a la versión anterior de ' + modelKey + '?')) return;
+            var apiUrl = _getMlApiUrl();
+            fetch(apiUrl + '/api/ml/models/' + encodeURIComponent(modelKey) + '/rollback', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ model_key: modelKey })
+            })
+            .then(function(r) { return r.json(); })
+            .then(function(resp) {
+                if (resp.ok) {
+                    showToast('✅ Rollback a ' + resp.rollback_to + ' completado', 'ok');
+                    refreshModels();
+                    var timeline = document.getElementById('mlv-versions-timeline');
+                    if (timeline) _mvLoadVersions(modelKey, resp.rollback_to);
+                } else {
+                    showToast('Error: ' + (resp.error || resp.detail || 'desconocido'), 'error');
+                }
+            })
+            .catch(function(e) {
+                showToast('Error en rollback: ' + e.message, 'error');
+            });
+        },
     };
 })();
