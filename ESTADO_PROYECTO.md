@@ -194,6 +194,23 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 **Pendiente:** Ejecutar `npm install` en backend/ para instalar `otplib` y `qrcode`.
 
+### 2026-06-29: Ciclo de auto-aprendizaje integrado en AGENTS.md
+
+**Qué:** Se creó la infraestructura de skills en `/mnt/skills/` (user/private/public/examples) y se documentó el ciclo completo de auto-aprendizaje en AGENTS.md.
+
+**Cambios:**
+| Archivo | Cambio |
+|---------|--------|
+| `AGENTS.md` | Añadida sección 🧠 CICLO DE AUTO-APRENDIZAJE (v2) con pipeline de 8 pasos, mecanismo de mejora continua, tabla de aprendizajes/archivos, prioridad de skills y autogeneración |
+| `/mnt/skills/{user,private,public,examples}/` | **NUEVO** — Directorios para skills con prioridad de scope |
+
+**Flujo de mejora continua:**
+```
+Interacción 1 → aprende A → guarda en Brain2
+Interacción 2 → lee A + aprende B → guarda A+B
+Interacción N → responde con N-1 aprendizajes ← CADA VEZ MEJOR
+```
+
 ### 2026-06-24: DEBUG_MODE activado en comando prompt
 
 **Qué:** Se activó `DEBUG_MODE: true` en el comando `/prompt` para mostrar el SKILL AUDIT (modo, errores, skills cargadas, Brain2 accesible) al usuario durante la ejecución.
