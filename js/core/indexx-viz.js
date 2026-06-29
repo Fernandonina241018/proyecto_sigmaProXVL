@@ -920,6 +920,7 @@ function vizRefreshGallery() {
 
 function _V_showGalleryChart(g) {
   _V._activeGalleryId = g.id;
+  vizRefreshGallery();
   var emptyEl = document.getElementById('vizEmptyState');
   var wrapperEl = document.getElementById('vizChartWrapper');
   var ttlEl = document.getElementById('vizChartTtl');
