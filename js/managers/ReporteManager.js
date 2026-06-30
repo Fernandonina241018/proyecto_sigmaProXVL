@@ -1157,8 +1157,8 @@ const ReporteManager = (() => {
                         var signo = d.diferencia > 0 ? '+' : '';
                         return '<tr><td style="padding-left:36px;font-family:monospace;font-size:8pt;color:#c53030">Fila ' + d.fila + '</td><td style="font-family:monospace;text-align:right;font-size:8pt;color:#c53030">' + d.valor.toFixed(4) + '</td><td style="font-size:7.5pt;color:#a0aec0;text-align:right">' + d.especExcedida + ' (' + d.valorEsperado.toFixed(4) + ') · Δ' + signo + d.diferencia.toFixed(4) + '</td></tr>';
                     }).join('');
-                    var extraMsg = pv.detalles.length > MAX_DET ? '<div style="font-size:7.5pt;color:#a0aec0;font-style:italic;padding:2px 0 0 4px">... y ' + (pv.detalles.length - MAX_DET) + ' valores más fuera de especificación</div>' : '';
-                    h += '<tr><td colspan="3" style="padding:4px 14px 2px"><div style="font-size:7.5pt;color:#c53030;font-weight:600;margin-bottom:2px">Detalle — Fuera de especificación</div><table style="width:100%;border-collapse:collapse;font-size:8pt">' + detRows + '</table>' + extraMsg + '</td></tr>';
+                    var extraMsg = pv.detalles.length > MAX_DET ? '<div style="font-size:8pt;color:#a0aec0;font-style:italic;padding:2px 0 0 4px">... y ' + (pv.detalles.length - MAX_DET) + ' valores más fuera de especificación</div>' : '';
+                    h += '<tr><td colspan="3" style="padding:4px 14px 2px"><div style="font-size:8pt;color:#c53030;font-weight:600;margin-bottom:2px">Detalle — Fuera de especificación</div><table style="width:100%;border-collapse:collapse;font-size:8pt">' + detRows + '</table>' + extraMsg + '</td></tr>';
                 }
             }
             // ── Límites de especificación del usuario (desde sidebar) ──
@@ -1212,8 +1212,8 @@ const ReporteManager = (() => {
                                 var signo = d.diferencia > 0 ? '+' : '';
                                 return '<tr><td style="padding-left:36px;font-family:monospace;font-size:8pt;color:#c53030">Fila ' + d.fila + '</td><td style="font-family:monospace;text-align:right;font-size:8pt;color:#c53030">' + d.valor.toFixed(4) + '</td><td style="font-size:7.5pt;color:#a0aec0;text-align:right">' + d.especExcedida + ' (' + d.valorEsperado.toFixed(4) + ') · Δ' + signo + d.diferencia.toFixed(4) + '</td></tr>';
                             }).join('');
-                            var extraMsg2 = specDetalles.length > MAX_DET ? '<div style="font-size:7.5pt;color:#a0aec0;font-style:italic;padding:2px 0 0 4px">... y ' + (specDetalles.length - MAX_DET) + ' valores más fuera de especificación</div>' : '';
-                            h += '<tr><td colspan="3" style="padding:4px 14px 2px"><div style="font-size:7.5pt;color:#c53030;font-weight:600;margin-bottom:2px">Detalle — Fuera de especificación</div><table style="width:100%;border-collapse:collapse;font-size:8pt">' + detRows2 + '</table>' + extraMsg2 + '</td></tr>';
+                            var extraMsg2 = specDetalles.length > MAX_DET ? '<div style="font-size:8pt;color:#a0aec0;font-style:italic;padding:2px 0 0 4px">... y ' + (specDetalles.length - MAX_DET) + ' valores más fuera de especificación</div>' : '';
+                            h += '<tr><td colspan="3" style="padding:4px 14px 2px"><div style="font-size:8pt;color:#c53030;font-weight:600;margin-bottom:2px">Detalle — Fuera de especificación</div><table style="width:100%;border-collapse:collapse;font-size:8pt">' + detRows2 + '</table>' + extraMsg2 + '</td></tr>';
                         }
                     }
                 }
