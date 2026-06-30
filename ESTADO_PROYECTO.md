@@ -2840,3 +2840,23 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 | `js/pages/ml.js:3305-3306` | Fix: `wsData.data` → `wsData.rows`, `wsData.columns` → `wsData.headers` |
 
 **Riesgo:** MUY BAJO — solo cambio de nombres de propiedad en 2 líneas.
+
+### 2026-06-30: Reporte .html — tabla de valores fuera de especificación
+
+**Qué:** El reporte HTML ahora lista los valores específicos que están fuera de especificación (límites configurados), mostrando fila, valor, especificación excedida y diferencia.
+
+**Cambios:**
+- **`ParametrosManager.js:64-116`** — `verificarColumna()` ahora recibe `data.headers` para resolver columna por nombre, retorna `detalles[]` con cada valor fuera de rango (`fila`, `valor`, `especExcedida`, `valorEsperado`, `diferencia`)
+- **`ReporteManager.js`** — Dos nuevas tablas de detalle:
+  1. En sección **PARÁMETROS DE CONTROL** (tras cumplimiento): tabla con `Fila | Valor | Especificación excedida (Mínimo/Máximo) · Δ`
+  2. En sección **ESPECIFICACIONES DEL USUARIO** (sidebar LS/LI): tabla con `Fila | Valor | LS/LI excedido · Δ`
+  - Cada fila violada se muestra con el valor real, el límite que excedió y la diferencia (+/−)
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/managers/ParametrosManager.js:64-116` | `verificarColumna()` usa `headers.indexOf()` para acceso correcto a filas; retorna `detalles[]` con cada valor fuera de especificación |
+| `js/managers/ReporteManager.js:1153-1159` | Nueva tabla de detalle en PARÁMETROS DE CONTROL |
+| `js/managers/ReporteManager.js:1205-1211` | Nueva tabla de detalle en ESPECIFICACIONES DEL USUARIO |
+
+**Riesgo:** BAJO — cambios aditivos (nuevos campos en objeto de retorno, HTML condicional). No se modifica lógica existente de análisis ni generación de datos.

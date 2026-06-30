@@ -66,14 +66,36 @@ const ParametrosManager = (() => {
         const tieneParametros = p.min !== null || p.max !== null || p.esp !== null;
         if (!tieneParametros) return null;
 
-        const valores = data.data
-            .map(row => parseFloat(row[col]))
-            .filter(v => !isNaN(v));
+        const colIdx = data.headers ? data.headers.indexOf(col) : -1;
+        if (colIdx < 0) return null;
 
-        const fueraDeRango = valores.filter(v => {
-            if (p.min !== null && !isNaN(p.min) && v < p.min) return true;
-            if (p.max !== null && !isNaN(p.max) && v > p.max) return true;
-            return false;
+        const detalles = [];
+        const valores = [];
+
+        data.data.forEach((row, idx) => {
+            const v = parseFloat(Array.isArray(row) ? row[colIdx] : row[col]);
+            if (isNaN(v)) return;
+            valores.push(v);
+            let limiteViolado = null;
+            let valorEsperado = null;
+            if (p.min !== null && !isNaN(p.min) && v < p.min) {
+                limiteViolado = 'min';
+                valorEsperado = p.min;
+            } else if (p.max !== null && !isNaN(p.max) && v > p.max) {
+                limiteViolado = 'max';
+                valorEsperado = p.max;
+            }
+            if (limiteViolado) {
+                detalles.push({
+                    fila: idx + 1,
+                    valor: v,
+                    especExcedida: limiteViolado === 'min' ? 'Mínimo' : 'Máximo',
+                    valorEsperado: valorEsperado,
+                    diferencia: limiteViolado === 'min'
+                        ? +(v - valorEsperado).toFixed(4)
+                        : +(v - valorEsperado).toFixed(4),
+                });
+            }
         });
 
         const media = valores.length > 0
@@ -84,11 +106,12 @@ const ParametrosManager = (() => {
             col,
             parametros: p,
             total:       valores.length,
-            fueraDeRango: fueraDeRango.length,
+            fueraDeRango: detalles.length,
             porcentajeCumplimiento: valores.length > 0
-                ? ((valores.length - fueraDeRango.length) / valores.length * 100).toFixed(1)
+                ? ((valores.length - detalles.length) / valores.length * 100).toFixed(1)
                 : '100.0',
             mediaReal: media,
+            detalles: detalles,
         };
     }
 

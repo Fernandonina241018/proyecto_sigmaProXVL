@@ -1150,6 +1150,13 @@ const ReporteManager = (() => {
                 if (p_.esp !== null) h += `<tr><td style="padding-left:26px;color:#555">· Esperanza</td><td style="font-family:monospace;text-align:right;color:#3730a3;font-weight:500">${p_.esp}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">Definido por usuario</td></tr>`;
                 h += `<tr><td style="padding-left:26px;color:#555">· Fuera de rango</td><td style="font-family:monospace;text-align:right;font-weight:600;color:${pv.fueraDeRango > 0 ? '#c53030' : '#276749'}">${pv.fueraDeRango} / ${pv.total}</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">valores</td></tr>`;
                 h += `<tr style="background:${cumplBg}"><td style="padding-left:26px;color:#555;font-weight:600">· Cumplimiento</td><td style="font-family:monospace;text-align:right;font-weight:700;color:${cumplColor}">${pv.porcentajeCumplimiento}%</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">Media real: ${pv.mediaReal !== null ? Number(pv.mediaReal).toFixed(4) : '—'}</td></tr>`;
+                if (pv.detalles && pv.detalles.length > 0) {
+                    var detRows = pv.detalles.map(function(d) {
+                        var signo = d.diferencia > 0 ? '+' : '';
+                        return '<tr><td style="padding-left:36px;font-family:monospace;font-size:8pt;color:#c53030">Fila ' + d.fila + '</td><td style="font-family:monospace;text-align:right;font-size:8pt;color:#c53030">' + d.valor.toFixed(4) + '</td><td style="font-size:7.5pt;color:#a0aec0;text-align:right">' + d.especExcedida + ' (' + d.valorEsperado.toFixed(4) + ') · Δ' + signo + d.diferencia.toFixed(4) + '</td></tr>';
+                    }).join('');
+                    h += '<tr><td colspan="3" style="padding:4px 14px 2px"><div style="font-size:7.5pt;color:#c53030;font-weight:600;margin-bottom:2px">Detalle — Fuera de especificación</div><table style="width:100%;border-collapse:collapse;font-size:8pt">' + detRows + '</table></td></tr>';
+                }
             }
             // ── Límites de especificación del usuario (desde sidebar) ──
             if (typeof getLimits === 'function') {
@@ -1157,20 +1164,30 @@ const ReporteManager = (() => {
                 if (limits && (limits.ls !== null || limits.li !== null)) {
                     var sheet = typeof getCurrentSheet === 'function' ? getCurrentSheet() : null;
                     var colIdx = sheet ? sheet.headers.indexOf(col) : -1;
-                    var vals = [];
-                    if (colIdx >= 0) {
-                        sheet.rows.forEach(function(r){
+                    var within = 0, outside = 0;
+                    var specDetalles = [];
+                    if (colIdx >= 0 && sheet) {
+                        sheet.rows.forEach(function(r, ri){
                             var v = parseFloat(r[colIdx]);
-                            if (!isNaN(v)) vals.push(v);
+                            if (isNaN(v)) return;
+                            var ok = true;
+                            var especExcedida = null;
+                            var valorEsperado = null;
+                            if (limits.ls !== null && v > limits.ls) { ok = false; especExcedida = 'LS'; valorEsperado = limits.ls; }
+                            if (limits.li !== null && v < limits.li) { ok = false; especExcedida = 'LI'; valorEsperado = limits.li; }
+                            if (ok) within++;
+                            else {
+                                outside++;
+                                specDetalles.push({
+                                    fila: ri + 1,
+                                    valor: v,
+                                    especExcedida: especExcedida,
+                                    valorEsperado: valorEsperado,
+                                    diferencia: +(v - valorEsperado).toFixed(4),
+                                });
+                            }
                         });
                     }
-                    var within = 0, outside = 0;
-                    vals.forEach(function(v){
-                        var ok = true;
-                        if (limits.ls !== null && v > limits.ls) ok = false;
-                        if (limits.li !== null && v < limits.li) ok = false;
-                        if (ok) within++; else outside++;
-                    });
                     var total = within + outside;
                     var lsTxt = limits.ls !== null ? limits.ls.toFixed(4) : '—';
                     var liTxt = limits.li !== null ? limits.li.toFixed(4) : '—';
@@ -1185,6 +1202,13 @@ const ReporteManager = (() => {
                         var cumplColor2 = parseFloat(outsidePct) <= 5 ? '#276749' : parseFloat(outsidePct) <= 20 ? '#b7791f' : '#c53030';
                         h += '<tr><td style="padding-left:26px;color:#555">· Dentro de límites</td><td style="font-family:monospace;text-align:right;font-weight:600;color:#276749">' + within + '/' + total + ' (' + withinPct + '%)</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">—</td></tr>';
                         h += '<tr><td style="padding-left:26px;color:#555">· Fuera de límites</td><td style="font-family:monospace;text-align:right;font-weight:600;color:' + cumplColor2 + '">' + outside + '/' + total + ' (' + outsidePct + '%)</td><td style="color:#a0aec0;font-size:8.5pt;font-style:italic;text-align:right">—</td></tr>';
+                        if (specDetalles.length > 0) {
+                            var detRows2 = specDetalles.map(function(d) {
+                                var signo = d.diferencia > 0 ? '+' : '';
+                                return '<tr><td style="padding-left:36px;font-family:monospace;font-size:8pt;color:#c53030">Fila ' + d.fila + '</td><td style="font-family:monospace;text-align:right;font-size:8pt;color:#c53030">' + d.valor.toFixed(4) + '</td><td style="font-size:7.5pt;color:#a0aec0;text-align:right">' + d.especExcedida + ' (' + d.valorEsperado.toFixed(4) + ') · Δ' + signo + d.diferencia.toFixed(4) + '</td></tr>';
+                            }).join('');
+                            h += '<tr><td colspan="3" style="padding:4px 14px 2px"><div style="font-size:7.5pt;color:#c53030;font-weight:600;margin-bottom:2px">Detalle — Fuera de especificación</div><table style="width:100%;border-collapse:collapse;font-size:8pt">' + detRows2 + '</table></td></tr>';
+                        }
                     }
                 }
             }
