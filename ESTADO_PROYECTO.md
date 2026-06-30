@@ -2796,3 +2796,16 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 | `js/pages/ml.js` | +250 líneas: tab Drift, _renderDriftResults, _renderDriftHistory, _mvCheckDrift, checkDrift/loadDriftHistory públicos, CSS drift |
 
 **Riesgo de rotura:** BAJO — drift_detector.py tiene HAS_DRIFT flag con graceful fallback si no se puede importar. Nuevo tab no modifica tabs existentes. Worker es standalone.
+
+### 2026-06-29: Fix — checkDrift no detectaba datos de la hoja de trabajo
+
+**Qué:** El botón "🔍 Ejecutar chequeo" en el tab Drift mostraba "No hay datos en la hoja de trabajo actual" aunque sí hubiera datos cargados.
+
+**Causa:** `checkDrift()` en `js/pages/ml.js` verificaba propiedades `wsData.data` y `wsData.columns`, pero `getCurrentSheet()` devuelve un objeto con `rows` y `headers`. La condición nunca se cumplía.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/pages/ml.js:3305-3306` | Fix: `wsData.data` → `wsData.rows`, `wsData.columns` → `wsData.headers` |
+
+**Riesgo:** MUY BAJO — solo cambio de nombres de propiedad en 2 líneas.

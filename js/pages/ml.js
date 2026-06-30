@@ -3302,8 +3302,8 @@ const MLManager = (() => {
             if (typeof getCurrentSheet !== 'undefined') {
                 try { wsData = getCurrentSheet(); } catch(e) {}
             }
-            if (wsData && wsData.data && wsData.data.length > 0 && wsData.columns && wsData.columns.length > 0) {
-                var body = { data: wsData.data, columns: wsData.columns };
+            if (wsData && wsData.rows && wsData.rows.length > 0 && wsData.headers && wsData.headers.length > 0) {
+                var body = { data: wsData.rows, columns: wsData.headers };
                 fetch(apiUrl + '/api/ml/drift/' + encodeURIComponent(modelId), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
