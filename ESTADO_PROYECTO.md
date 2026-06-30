@@ -45,6 +45,17 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-29: Revertido comando /prompt a versión ligera (765→34 líneas)
+
+**Qué:** El comando `/prompt` se había vuelto demasiado pesado (765 líneas, ~20KB) con sistema de rutas, Brain2, skills, auto-evaluación, etc. No completaba tareas por exceso de overhead.
+
+**Cambios:**
+| Archivo | Antes | Ahora |
+|---------|-------|-------|
+| `prompt.md` | 765 líneas, sistema de 3 rutas, Brain2, skills, autoeval | **34 líneas** — solo las 5 técnicas de optimización, sin subagente |
+| `AGENTS.md` | `/prompt` obligatorio en todos los prompts | Solo cuando el usuario lo solicite |
+| `AGENTS.md` | Sección skills, autogeneración, prioridades | Eliminada (ya no existe el sistema) |
+
 ### 2026-06-26: Botón ⚙ Config en cards de estadísticos
 
 **Qué:** Se agregó botón ⚙ en las tarjetas de estadísticos (stat cards) para reabrir el modal de configuración sin necesidad de deseleccionar y volver a seleccionar el test. Aplica a tests en `HYPOTHESIS_SET` (config de columnas) y `PARAM_CONFIG_SET` (parámetros como F0, MKT).
