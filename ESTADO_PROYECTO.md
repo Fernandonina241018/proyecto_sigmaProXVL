@@ -194,6 +194,26 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 **Pendiente:** Ejecutar `npm install` en backend/ para instalar `otplib` y `qrcode`.
 
+### 2026-06-29: ROUTE SELECTION — comando prompt v2.1.0 con 3 niveles
+
+**Qué:** El comando `/prompt` ahora evalúa el prompt y bifurca en 3 rutas según COMPLEXITY. Tareas simples (atomic → ruta rápida) ya no leen Brain2, skills, ni auto-evaluación. Ahorro estimado de 60-80% tokens en prompts cotidianos.
+
+**Cambios en `prompt.md`:**
+| Función | Antes | Ahora |
+|---------|-------|-------|
+| Brain2 | Siempre 6 archivos | fast: 0, medium: 1, full: 6 |
+| Skills | Siempre escaneo completo | fast: no carga, medium: directas, full: completa+autogen |
+| Auto-evaluación | Siempre 7 checks | fast: skip, medium: 3 checks, full: 7 checks |
+| Documentación | Siempre completa | fast: no, medium: parcial, full: completa |
+| Versión | v2.0.0 | **v2.1.0** |
+
+**Detección automática:**
+| Tipo de prompt | Ruta | Tokens |
+|----------------|------|--------|
+| "haz que el botón se vea mejor" | **fast** | ~500-1000 |
+| "corrige error 401 en auth.js" | **medium** | ~2000-4000 |
+| "migra 15 archivos de JS a TS" | **full** | ~6000-12000 |
+
 ### 2026-06-29: Ciclo de auto-aprendizaje integrado en AGENTS.md
 
 **Qué:** Se creó la infraestructura de skills en `/mnt/skills/` (user/private/public/examples) y se documentó el ciclo completo de auto-aprendizaje en AGENTS.md.
