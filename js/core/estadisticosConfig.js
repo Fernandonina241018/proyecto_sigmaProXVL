@@ -1207,6 +1207,7 @@ const ESTADISTICOS_CONFIG = {
         icono:     '📈',
         minMuestra: 5,
         multiCol: false,
+        columna:   false,
         paramConfig: [
             { key: 'tipo', label: 'Tipo de tendencia', type: 'select', default: 'lineal', options: [{value:'lineal',label:'Lineal (y=mx+b)'},{value:'exponencial',label:'Exponencial (y=a·e^bx)'},{value:'movil',label:'Media Móvil'}] },
             { key: 'pasos', label: 'Pasos a proyectar', type: 'number', default: 5, min: 1, step: 1 },

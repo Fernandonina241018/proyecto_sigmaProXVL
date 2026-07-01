@@ -45,6 +45,23 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-30: Tendencia — modal ⚙ ya no pide columna innecesaria
+
+**Qué:** El modal de configuración de Tendencia ya no muestra un selector de columna que era irrelevante (Tendencia siempre procesa todas las columnas numéricas). También se eliminó el label engañoso "Columna de temperatura (°C)" para Tendencia.
+
+**Cambios:**
+- `estadisticosConfig.js:1209`: +`columna: false` en la entry Tendencia
+- `indexx-analysis.js:560-561`: `_mostrarModalParamConfig()` salta `colHTML` si `cfg.columna === false`
+- `indexx-analysis.js:604-612`: El callback de confirmación también salta el guardado de columna si `cfg.columna === false`
+- El modal ⚙ de Tendencia ahora solo muestra: Tipo, Pasos, Ventana — sin selector de columna
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/estadisticosConfig.js:1209` | +1 `columna: false` en Tendencia |
+| `js/core/indexx-analysis.js:560-561` | +3 salto colHTML |
+| `js/core/indexx-analysis.js:604-612` | +5 salto guardado columna |
+
 ### 2026-06-30: Menú Statistical Analysis — secciones con 1 test ya no muestran submenú redundante
 
 **Qué:** Las secciones del menú Statistical Analysis con un solo test (ej. "📈 Tendencia" que contenía solo "Tendencia") ahora se renderizan como items planos sin submenú flyout, eliminando la duplicación visual donde sección y sub-item tenían el mismo nombre.

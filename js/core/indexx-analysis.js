@@ -557,7 +557,9 @@ function _mostrarModalParamConfig(nombre, callback, existingConfig) {
 
   var multi = cfg.multiCol;
   var colHTML;
-  if (multi) {
+  if (cfg.columna === false) {
+    colHTML = '';
+  } else if (multi) {
     colHTML = '<label style="display:block;font-size:11px;color:var(--text-primary);margin-bottom:4px">Columnas de temperatura (\u00B0C)</label>' +
       '<div style="max-height:180px;overflow-y:auto;border:1.5px solid var(--border);border-radius:6px;padding:6px 8px;background:var(--bg-primary)">' +
       tipos.numCols.map(function(c) {
@@ -599,11 +601,14 @@ function _mostrarModalParamConfig(nombre, callback, existingConfig) {
   document.getElementById('pcgCancel').addEventListener('click', function() { modal.remove(); });
   document.getElementById('pcgConfirm').addEventListener('click', function() {
     var config = {};
-    if (multi) {
+    if (cfg.columna === false) {
+      // no column selector
+    } else if (multi) {
       var chk = document.querySelectorAll('.cfg-col-chk:checked');
       config.columnas = Array.from(chk).map(function(c) { return c.value; });
     } else {
-      config.columna = document.getElementById('cfg-columna').value;
+      var colEl = document.getElementById('cfg-columna');
+      if (colEl) config.columna = colEl.value;
     }
     cfg.paramConfig.forEach(function(p) {
       var el = document.getElementById('cfg-' + p.key);
