@@ -834,9 +834,32 @@ function buildStatAnalysisMenu() {
     if (!isFirst) html += '<div class="dd-separator"></div>';
     isFirst = false;
 
+    // ── Sección con un solo test: render plano sin submenú ──
+    if (seccion.options.length === 1) {
+      var nombre = seccion.options[0];
+      var cfg = getEstadisticoConfig(nombre);
+      var icono = cfg && cfg.icono ? cfg.icono : '📊';
+      var id = 'chk-' + seccionKey + '-' + nombre.replace(/[^a-zA-Z0-9]/g, '_');
+      var nombreEsc = nombre.replace(/'/g, "\\'");
+
+      html += '<div class="dd-item" style="display:flex;align-items:center;gap:6px" '
+            + 'onclick="onSubitemClick(event,\'' + nombreEsc + '\',\'' + seccionKey + '\')">'
+            + '<span style="flex:1;display:flex;align-items:center;gap:6px">'
+            + icono + ' ' + nombre
+            + '<span class="stat-selected-badge" id="badge-' + seccionKey + '">0</span>'
+            + '</span>'
+            + '<input type="checkbox" class="stat-check child-check" '
+            + 'id="' + id + '" '
+            + 'data-nombre="' + nombre.replace(/"/g, '&quot;') + '" '
+            + 'data-seccion="' + seccionKey + '" '
+            + 'onclick="onChildCheck(event,\'' + seccionKey + '\')">'
+            + '</div>';
+      return;
+    }
+
+    // ── Sección con 2+ tests: submenú jerárquico con flyout ──
     html += '<div class="submenu-wrapper" data-seccion="' + seccionKey + '">';
 
-    // ── Item padre con checkbox ──
     html += '<div class="dd-item has-submenu" '
           + 'style="display:flex;align-items:center;gap:6px">'
           + '<span style="flex:1;display:flex;align-items:center;gap:6px">'
@@ -850,7 +873,6 @@ function buildStatAnalysisMenu() {
           + '<span class="dd-arrow">▶</span>'
           + '</div>';
 
-    // ── Subitems con checkbox ──
     html += '<div class="submenu">';
     seccion.options.forEach(function(nombre) {
       var cfg = getEstadisticoConfig(nombre);

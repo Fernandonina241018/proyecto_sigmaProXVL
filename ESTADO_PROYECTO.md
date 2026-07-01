@@ -45,6 +45,17 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-30: Menú Statistical Analysis — secciones con 1 test ya no muestran submenú redundante
+
+**Qué:** Las secciones del menú Statistical Analysis con un solo test (ej. "📈 Tendencia" que contenía solo "Tendencia") ahora se renderizan como items planos sin submenú flyout, eliminando la duplicación visual donde sección y sub-item tenían el mismo nombre.
+
+**Cambio:** en `buildStatAnalysisMenu()` (`indexx-analysis.js:837-858`): si `seccion.options.length === 1`, se renderiza el test como item directo con checkbox `child-check`, sin `submenu-wrapper`, `has-submenu` ni `dd-arrow`. Las secciones con 2+ tests mantienen el submenú jerárquico existente.
+
+**Archivos afectados:**
+| Archivo | Líneas | Cambio |
+|---------|--------|--------|
+| `js/core/indexx-analysis.js:837-858` | ~22 | Nuevo branch `if (seccion.options.length === 1)` renderiza item plano; el else mantiene submenú existente |
+
 ### 2026-06-30: Análisis de Tendencia (Lineal, Exponencial, Media Móvil)
 
 **Qué:** Nuevo estadístico "Tendencia" con 3 tipos de análisis (Lineal, Exponencial, Media Móvil), modal de configuración con selector de tipo + pasos a proyectar, y tabla de proyecciones.
