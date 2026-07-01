@@ -679,6 +679,7 @@ function generateSampleData() {
       '<div class="gen-row">' +
         '<div class="gen-fld"><label>Observaciones (n)</label><input type="number" id="gdNVal" value="100" min="1" max="1000000"></div>' +
         '<div class="gen-fld"><label>Columnas</label><input type="number" id="gdColsVal" value="2" min="1" max="50"></div>' +
+      '<div class="gen-fld"><label>Nombre base</label><input type="text" id="gdColPrefix" value="Col" style="width:100%;height:34px;padding:0 10px;border:.5px solid var(--border);border-radius:8px;background:var(--bg-secondary);font-size:13px;color:var(--text-primary);box-sizing:border-box"></div>' +
       '</div>' +
     '</div>' +
     '<div class="gen-preview-box">' +
@@ -854,7 +855,7 @@ function generateSampleData() {
   function updSummary() {
     var k = document.getElementById('gdDistType').value;
     var n = document.getElementById('gdNVal').value || 100;
-    var c = document.getElementById('gdColsVal').value || 2;
+    var c = parseInt(document.getElementById('gdColsVal').value) || 2;
     var p = getP();
     document.getElementById('gdSumN').textContent = parseInt(n).toLocaleString();
     document.getElementById('gdSumC').textContent = c;
@@ -987,7 +988,10 @@ function generateSampleData() {
     }
 
     var headers = [];
-    for (var c = 0; c < k; c++) headers.push('Col' + (c + 1));
+    var prefix = document.getElementById('gdColPrefix').value.trim() || 'Col';
+    for (var c = 0; c < k; c++) {
+      headers.push(k > 1 ? prefix + ' (' + (c + 1) + ')' : prefix);
+    }
     var rows = [];
     for (var r = 0; r < n; r++) {
       var row = [];
