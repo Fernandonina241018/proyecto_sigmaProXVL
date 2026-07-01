@@ -45,6 +45,23 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-30: Modal de configuración para generar datos en Trabajo
+
+**Qué:** La función `generateSampleData()` ya no genera datos fijos automáticamente. Ahora abre un modal (`genDataModal`) con configuración por columna:
+- **Filas a generar** — input numérico (pre-cargado con el total actual)
+- **Por columna:** tipo de dato (Número / Categoría / Texto fijo) + parámetros configurables
+  - Número: `min,max` → valores aleatorios en rango
+  - Categoría: `A,B,C` → selección aleatoria
+  - Texto fijo: valor constante para toda la columna
+- Función helper `updateGdPlaceholder(idx)` actualiza placeholder al cambiar tipo
+
+**Archivos afectados:**
+| Archivo | Líneas | Cambio |
+|---------|--------|--------|
+| `js/core/indexx-trabajo.js:652-731` | Reemplazada `generateSampleData()` (8 → 80 líneas) + nuevas `generateValue()`, `updateGdPlaceholder()` | Modal de configuración con 3 tipos de dato por columna |
+| `js/core/indexx-ui.js:251` | Label: `🔄 Generar datos` → `⚙️ Configurar datos` | Texto más descriptivo |
+| `js/core/indexx-palette.js:26` | Label+icon: `🎲 Datos de ejemplo` → `⚙️ Configurar datos` | Consistente con UI |
+
 ### 2026-06-29: Revertido comando /prompt a versión ligera (765→34 líneas)
 
 **Qué:** El comando `/prompt` se había vuelto demasiado pesado (765 líneas, ~20KB) con sistema de rutas, Brain2, skills, auto-evaluación, etc. No completaba tareas por exceso de overhead.

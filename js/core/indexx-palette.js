@@ -23,7 +23,7 @@ var COMMANDS = [
   { id:'paste-data',       label:'Pegar datos',       icon:'📋', cat:'Datos',       action:function(){ showPasteModal(); } },
   { id:'new-project',      label:'Nuevo proyecto',    icon:'🆕', cat:'Datos',       action:function(){ nuevoProyecto(); } },
   { id:'export-csv',       label:'Exportar CSV',      icon:'⬇',  cat:'Datos',       action:function(){ handleToolsAction('export-csv'); } },
-  { id:'sample-data',      label:'Datos de ejemplo',  icon:'🎲', cat:'Datos',       action:function(){ generateSampleData(); showToast('Datos de ejemplo cargados'); loadPage('trabajo'); } },
+  { id:'sample-data',      label:'Configurar datos',  icon:'⚙️', cat:'Datos',       action:function(){ generateSampleData(); } },
   // Edit
   { id:'undo',             label:'Deshacer',          icon:'↩️', cat:'Editar',      action:function(){ undoAction(); } },
   { id:'redo',             label:'Rehacer',           icon:'↪️', cat:'Editar',      action:function(){ redoAction(); } },

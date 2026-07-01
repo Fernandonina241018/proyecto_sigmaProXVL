@@ -651,15 +651,84 @@ function clearCurrentSheet() {
 }
 function generateSampleData() {
   var sheet = getCurrentSheet(); if (!sheet) return;
-  pushUndo();
-  sheet.rows = Array.from({length: sheet.rows.length}, function(_, i) {
-    return sheet.headers.map(function(h, j) {
-      if (j === sheet.headers.length - 1) return Math.random() > 0.2 ? 'OK' : 'Revisión';
-      return (Math.random() * 100).toFixed(1);
-    });
+  var existing = document.getElementById('genDataModal');
+  if (existing) existing.remove();
+  var modal = document.createElement('div');
+  modal.id = 'genDataModal';
+  modal.className = 'modal-overlay';
+  modal.onclick = function(){ modal.remove(); };
+  var html = '<div class="modal-box" onclick="event.stopPropagation()">' +
+    '<div class="modal-title">⚙️ Configurar datos</div>' +
+    '<div class="modal-row">' +
+      '<span class="modal-label">Filas:</span>' +
+      '<input id="gdRows" type="number" value="' + sheet.rows.length + '" min="1" max="10000" style="flex:1;padding:5px 8px;border:1px solid var(--border);border-radius:5px;background:var(--bg-primary);color:var(--text-primary)">' +
+    '</div>' +
+    '<div style="font-size:12px;color:var(--text-muted);margin:4px 0">Configuración por columna:</div>' +
+    '<div class="modal-cols" id="gdColsContainer">';
+  for (var i = 0; i < sheet.headers.length; i++) {
+    var h = sheet.headers[i];
+    html += '<div style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:12px;width:100%">' +
+      '<span style="min-width:80px;color:var(--text-primary);font-weight:500;flex-shrink:0">' + escapeHtml(h) + '</span>' +
+      '<select id="gdType' + i + '" onchange="updateGdPlaceholder(' + i + ')" style="flex:0 0 100px;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px">' +
+        '<option value="num">Número</option>' +
+        '<option value="cat">Categoría</option>' +
+        '<option value="fixed">Texto fijo</option>' +
+      '</select>' +
+      '<input id="gdParam' + i + '" type="text" value="0,100" placeholder="min,max" style="flex:1;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px">' +
+    '</div>';
+  }
+  html += '</div>' +
+    '<div class="modal-actions">' +
+      '<button class="btn btn-secondary" onclick="this.closest(\'.modal-overlay\').remove()">Cancelar</button>' +
+      '<button class="btn btn-primary" id="gdBtn">Generar</button>' +
+    '</div></div>';
+  modal.innerHTML = html;
+  document.body.appendChild(modal);
+  document.getElementById('gdBtn').addEventListener('click', function() {
+    var n = Math.min(10000, Math.max(1, parseInt(document.getElementById('gdRows').value) || 1));
+    pushUndo();
+    var rows = [];
+    for (var r = 0; r < n; r++) {
+      var row = [];
+      for (var c = 0; c < sheet.headers.length; c++) {
+        var type = document.getElementById('gdType' + c).value;
+        var param = document.getElementById('gdParam' + c).value.trim();
+        row.push(generateValue(type, param));
+      }
+      rows.push(row);
+    }
+    sheet.rows = rows;
+    _persistAllData();
+    modal.remove();
+    loadPage('trabajo');
+    showToast('✅ Datos generados: ' + n + ' filas x ' + sheet.headers.length + ' columnas');
   });
-  _persistAllData();
-  loadPage('trabajo');
+}
+function generateValue(type, param) {
+  switch (type) {
+    case 'num':
+      var parts = param.split(',');
+      var min = parseFloat(parts[0]) || 0;
+      var max = parts.length > 1 ? (parseFloat(parts[1]) || 100) : 100;
+      return (min + Math.random() * (max - min)).toFixed(2);
+    case 'cat':
+      var opts = param.split(',').map(function(s){ return s.trim(); }).filter(function(s){ return s; });
+      if (!opts.length) return '';
+      return opts[Math.floor(Math.random() * opts.length)];
+    case 'fixed':
+      return param || '';
+  }
+  return '';
+}
+function updateGdPlaceholder(idx) {
+  var sel = document.getElementById('gdType' + idx);
+  var inp = document.getElementById('gdParam' + idx);
+  if (!sel || !inp) return;
+  switch (sel.value) {
+    case 'num':   inp.placeholder = 'min,max'; if (!inp.value || inp.value === 'A,B,C' || inp.value === 'texto fijo') inp.value = '0,100'; break;
+    case 'cat':   inp.placeholder = 'A,B,C';    if (!inp.value || inp.value === '0,100' || inp.value === 'texto fijo') inp.value = 'OK,Revisión,Pendiente'; break;
+    case 'fixed': inp.placeholder = 'texto fijo'; if (!inp.value || inp.value === '0,100' || inp.value === 'A,B,C') inp.value = ''; break;
+  }
 }
 
 // ── Generar datos con distribución normal ──

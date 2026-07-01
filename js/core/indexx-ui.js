@@ -248,7 +248,7 @@ var leftPanels = {
         '<div class="tb-dropdown">' +
           '<button class="btn btn-primary btn-dd" onclick="toggleDropdown(this)">📋 Acciones ▾</button>' +
           '<div class="dd-menu">' +
-            '<div class="dd-item" onclick="generateSampleData()">🔄 Generar datos</div>' +
+            '<div class="dd-item" onclick="generateSampleData()">⚙️ Configurar datos</div>' +
             '<div class="dd-item" onclick="exportTrabajo()">💾 Exportar CSV</div>' +
             '<div class="dd-item" onclick="clearCurrentSheet()">🗑️ Limpiar hoja</div>' +
           '</div>' +
