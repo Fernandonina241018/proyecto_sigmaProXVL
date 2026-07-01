@@ -307,7 +307,7 @@ var leftPanels = {
         '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" id="btnPaste">📋 Pegar</button>' +
       '</div>' +
       '<div style="display:flex;gap:4px;flex-shrink:0">' +
-        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" onclick="generarDatosNormales()">🔢 Normal</button>' +
+        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" onclick="generateSampleData()">🎲 Generar</button>' +
         '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" onclick="ampliarDatos()">📈 Ampliar</button>' +
         '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" onclick="limpiarDataset()">🧹 Limpiar</button>' +
       '</div>' +

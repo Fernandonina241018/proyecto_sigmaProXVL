@@ -1008,3 +1008,30 @@
    MOBILE HAMBURGER — for sidebar toggle
    ============================================ */
 #mobileMenuBtn { display: none; }
+
+/* ── Advanced data generation modal ── */
+.gen-mdl { background:var(--bg-panel); border-radius:12px; width:100%; max-width:440px; border:.5px solid var(--border); margin:auto; }
+.gen-mdl .gen-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.gen-mdl .gen-row.solo { grid-template-columns:1fr; }
+.gen-mdl .gen-fld { display:flex; flex-direction:column; gap:3px; }
+.gen-mdl .gen-fld label { font-size:13px; color:var(--text-muted); }
+.gen-mdl .gen-fld input:not([type=checkbox]):not([type=range]),.gen-mdl .gen-fld select { width:100%; height:34px; padding:0 10px; border:.5px solid var(--border); border-radius:8px; background:var(--bg-secondary); font-size:13px; color:var(--text-primary); box-sizing:border-box; }
+.gen-mdl .gen-slrow { display:flex; align-items:center; gap:6px; }
+.gen-mdl .gen-slrow input[type=range] { flex:1; height:4px; accent-color:#7c3aed; }
+.gen-mdl .gen-slrow span { font-size:12px; font-weight:500; color:var(--text-primary); min-width:32px; text-align:right; font-variant-numeric:tabular-nums; }
+.gen-mdl .gen-adv-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.gen-mdl .gen-adv-fld { display:flex; flex-direction:column; gap:4px; }
+.gen-mdl .gen-adv-fld label { font-size:12px; color:var(--text-muted); }
+.gen-mdl .gen-sm-inp { width:100%; height:30px; padding:0 8px; border:.5px solid var(--border); border-radius:8px; background:var(--bg-secondary); font-size:12px; color:var(--text-primary); box-sizing:border-box; }
+.gen-mdl .gen-preview-box { margin:.875rem 1.25rem 0; border:.5px solid var(--border); border-radius:8px; background:var(--bg-secondary); padding:.5rem .875rem; display:flex; align-items:center; gap:10px; }
+.gen-mdl .gen-preview-label { font-size:11px; color:var(--text-muted); white-space:nowrap; flex-shrink:0; }
+.gen-mdl .gen-preview-svg { flex:1; height:42px; min-width:0; display:block; }
+.gen-mdl .gen-summary-box { margin:.75rem 1.25rem 0; padding:.6rem .875rem; background:rgba(124,58,237,.06); border:.5px solid rgba(124,58,237,.22); border-radius:8px; font-size:12px; color:var(--text-muted); line-height:1.7; }
+.gen-mdl .gen-summary-accent { color:#7c3aed; font-weight:500; }
+.gen-mdl .gen-summary-extras { color:var(--text-muted); }
+.gen-mdl .gen-footer { padding:.875rem 1.25rem 1.125rem; display:flex; justify-content:flex-end; gap:8px; border-top:.5px solid var(--border); margin-top:.875rem; }
+.gen-mdl details { border-top:.5px solid var(--border); margin-top:.875rem; }
+.gen-mdl summary { padding:.65rem 1.25rem; font-size:12px; color:#7c3aed; cursor:pointer; list-style:none; display:flex; align-items:center; gap:5px; user-select:none; }
+.gen-mdl summary::-webkit-details-marker { display:none; }
+.gen-mdl .gen-chev { font-size:12px; margin-left:auto; transition:transform .2s; }
+.gen-mdl details[open] .gen-chev { transform:rotate(180deg); }

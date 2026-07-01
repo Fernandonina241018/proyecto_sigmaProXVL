@@ -650,135 +650,363 @@ function clearCurrentSheet() {
   loadPage('trabajo');
 }
 function generateSampleData() {
-  var sheet = getCurrentSheet(); if (!sheet) return;
   var existing = document.getElementById('genDataModal');
   if (existing) existing.remove();
   var modal = document.createElement('div');
   modal.id = 'genDataModal';
   modal.className = 'modal-overlay';
   modal.onclick = function(){ modal.remove(); };
-  var html = '<div class="modal-box" onclick="event.stopPropagation()">' +
-    '<div class="modal-title">⚙️ Configurar datos</div>' +
-    '<div class="modal-row">' +
-      '<span class="modal-label">Filas:</span>' +
-      '<input id="gdRows" type="number" value="' + sheet.rows.length + '" min="1" max="10000" style="flex:1;padding:5px 8px;border:1px solid var(--border);border-radius:5px;background:var(--bg-primary);color:var(--text-primary)">' +
+  var html = '<div class="gen-mdl" onclick="event.stopPropagation()">' +
+    '<div style="padding:1rem 1.25rem .5rem;display:flex;align-items:center;gap:8px;border-bottom:.5px solid var(--border)">' +
+      '<i class="ti ti-table-options" style="font-size:18px;color:#7c3aed"></i>' +
+      '<h2 style="font-size:15px;font-weight:500;margin:0;color:var(--text-primary)">Generar datos</h2>' +
     '</div>' +
-    '<div style="font-size:12px;color:var(--text-muted);margin:4px 0">Configuración por columna:</div>' +
-    '<div class="modal-cols" id="gdColsContainer">';
-  for (var i = 0; i < sheet.headers.length; i++) {
-    var h = sheet.headers[i];
-    html += '<div style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:12px;width:100%">' +
-      '<span style="min-width:80px;color:var(--text-primary);font-weight:500;flex-shrink:0">' + escapeHtml(h) + '</span>' +
-      '<select id="gdType' + i + '" onchange="updateGdPlaceholder(' + i + ')" style="flex:0 0 100px;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:11px">' +
-        '<option value="num">Número</option>' +
-        '<option value="cat">Categoría</option>' +
-        '<option value="fixed">Texto fijo</option>' +
-      '</select>' +
-      '<input id="gdParam' + i + '" type="text" value="0,100" placeholder="min,max" style="flex:1;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px">' +
-    '</div>';
-  }
-  html += '</div>' +
-    '<div class="modal-actions">' +
-      '<button class="btn btn-secondary" onclick="this.closest(\'.modal-overlay\').remove()">Cancelar</button>' +
-      '<button class="btn btn-primary" id="gdBtn">Generar</button>' +
-    '</div></div>';
+    '<div style="padding:.875rem 1.25rem 0">' +
+      '<div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;font-weight:500;color:var(--text-muted);margin-bottom:.5rem">Distribución</div>' +
+      '<div class="gen-fld"><select id="gdDistType">' +
+        '<option value="normal">Normal</option>' +
+        '<option value="uniform">Uniforme</option>' +
+        '<option value="lognormal">Log-normal</option>' +
+        '<option value="exponential">Exponencial</option>' +
+        '<option value="t">t-Student</option>' +
+        '<option value="beta">Beta</option>' +
+      '</select></div>' +
+      '<p id="gdDistDesc" style="font-size:12px;color:var(--text-muted);margin:6px 0 0;font-style:italic;line-height:1.5"></p>' +
+    '</div>' +
+    '<div id="gdDistParams" style="padding:.75rem 1.25rem 0"></div>' +
+    '<div style="padding:.75rem 1.25rem 0">' +
+      '<div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;font-weight:500;color:var(--text-muted);margin-bottom:.5rem">Muestra</div>' +
+      '<div class="gen-row">' +
+        '<div class="gen-fld"><label>Observaciones (n)</label><input type="number" id="gdNVal" value="100" min="1" max="1000000"></div>' +
+        '<div class="gen-fld"><label>Columnas</label><input type="number" id="gdColsVal" value="2" min="1" max="50"></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="gen-preview-box">' +
+      '<span class="gen-preview-label">Vista previa</span>' +
+      '<svg id="gdCurveSvg" viewBox="0 0 280 42" preserveAspectRatio="none" class="gen-preview-svg"></svg>' +
+    '</div>' +
+    '<details id="gdAdvDet" style="border-top:.5px solid var(--border);margin-top:.875rem">' +
+      '<summary style="padding:.65rem 1.25rem;font-size:12px;color:#7c3aed;cursor:pointer;list-style:none;display:flex;align-items:center;gap:5px;user-select:none">' +
+        '<i class="ti ti-adjustments-horizontal" style="font-size:14px"></i>' +
+        'Comportamiento avanzado' +
+        '<i class="gen-chev ti ti-chevron-down" style="font-size:12px;margin-left:auto"></i>' +
+      '</summary>' +
+      '<div style="padding:0 1.25rem .875rem">' +
+        '<div class="gen-adv-grid">' +
+          '<div class="gen-adv-fld">' +
+            '<label>Outliers</label>' +
+            '<div class="gen-slrow"><input type="range" id="gdOutR" min="0" max="20" value="0" step="1"><span id="gdOutV">0%</span></div>' +
+          '</div>' +
+          '<div class="gen-adv-fld">' +
+            '<label>Valores faltantes</label>' +
+            '<div class="gen-slrow"><input type="range" id="gdMisR" min="0" max="30" value="0" step="1"><span id="gdMisV">0%</span></div>' +
+          '</div>' +
+          '<div class="gen-adv-fld">' +
+            '<label>Correlación (entre cols)</label>' +
+            '<div class="gen-slrow"><input type="range" id="gdCorR" min="-100" max="100" value="0" step="5"><span id="gdCorV">0.00</span></div>' +
+          '</div>' +
+          '<div class="gen-adv-fld">' +
+            '<label>Precisión decimal</label>' +
+            '<input type="number" id="gdDecV" value="2" min="0" max="8" class="gen-sm-inp">' +
+          '</div>' +
+          '<div style="grid-column:span 2;display:flex;align-items:center;gap:8px;margin-top:2px">' +
+            '<label style="font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:6px;cursor:pointer;white-space:nowrap">' +
+              '<input type="checkbox" id="gdSeedCb"> Semilla fija (reproducible)' +
+            '</label>' +
+            '<input type="number" id="gdSeedV" value="42" disabled class="gen-sm-inp" style="opacity:.4;flex:1">' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</details>' +
+    '<div class="gen-summary-box">' +
+      'Generará ' +
+      '<span id="gdSumN" class="gen-summary-accent">100</span> × ' +
+      '<span id="gdSumC" class="gen-summary-accent">2</span> valores ' +
+      '<span id="gdSumD" class="gen-summary-accent">normales</span> ' +
+      'con <span id="gdSumP" class="gen-summary-accent">μ=50, σ=10</span>' +
+      '<span id="gdSumE" class="gen-summary-extras"></span>' +
+    '</div>' +
+    '<div class="gen-footer">' +
+      '<button class="btn btn-secondary" onclick="document.getElementById(\'genDataModal\').remove()">Cancelar</button>' +
+      '<button class="btn btn-primary" id="gdGenBtn">Generar</button>' +
+    '</div>' +
+  '</div>';
   modal.innerHTML = html;
   document.body.appendChild(modal);
-  document.getElementById('gdBtn').addEventListener('click', function() {
-    var n = Math.min(10000, Math.max(1, parseInt(document.getElementById('gdRows').value) || 1));
-    pushUndo();
-    var rows = [];
-    for (var r = 0; r < n; r++) {
-      var row = [];
-      for (var c = 0; c < sheet.headers.length; c++) {
-        var type = document.getElementById('gdType' + c).value;
-        var param = document.getElementById('gdParam' + c).value.trim();
-        row.push(generateValue(type, param));
-      }
-      rows.push(row);
-    }
-    sheet.rows = rows;
-    _persistAllData();
-    modal.remove();
-    loadPage('trabajo');
-    showToast('✅ Datos generados: ' + n + ' filas x ' + sheet.headers.length + ' columnas');
-  });
-}
-function generateValue(type, param) {
-  switch (type) {
-    case 'num':
-      var parts = param.split(',');
-      var min = parseFloat(parts[0]) || 0;
-      var max = parts.length > 1 ? (parseFloat(parts[1]) || 100) : 100;
-      return (min + Math.random() * (max - min)).toFixed(2);
-    case 'cat':
-      var opts = param.split(',').map(function(s){ return s.trim(); }).filter(function(s){ return s; });
-      if (!opts.length) return '';
-      return opts[Math.floor(Math.random() * opts.length)];
-    case 'fixed':
-      return param || '';
-  }
-  return '';
-}
-function updateGdPlaceholder(idx) {
-  var sel = document.getElementById('gdType' + idx);
-  var inp = document.getElementById('gdParam' + idx);
-  if (!sel || !inp) return;
-  switch (sel.value) {
-    case 'num':   inp.placeholder = 'min,max'; if (!inp.value || inp.value === 'A,B,C' || inp.value === 'texto fijo') inp.value = '0,100'; break;
-    case 'cat':   inp.placeholder = 'A,B,C';    if (!inp.value || inp.value === '0,100' || inp.value === 'texto fijo') inp.value = 'OK,Revisión,Pendiente'; break;
-    case 'fixed': inp.placeholder = 'texto fijo'; if (!inp.value || inp.value === '0,100' || inp.value === 'A,B,C') inp.value = ''; break;
-  }
-}
 
-// ── Generar datos con distribución normal ──
-function generarDatosNormales() {
-  var existing = document.getElementById('gaussModal');
-  if (existing) existing.remove();
-  var modal = document.createElement('div');
-  modal.id = 'gaussModal';
-  modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center';
-  modal.onclick = function(){ modal.remove(); };
-  modal.innerHTML = '<div style="background:var(--bg-panel);border-radius:14px;padding:24px;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.5);color:var(--text-primary)" onclick="event.stopPropagation()">' +
-    '<h2 style="margin:0 0 16px;font-size:1.1rem">🔢 Generar datos normales</h2>' +
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;font-size:0.85rem">' +
-    '<label style="color:var(--text-muted)">Media (μ)</label><input id="gaussMean" type="number" value="50" step="any" style="padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem">' +
-    '<label style="color:var(--text-muted)">Desviación (σ)</label><input id="gaussStd" type="number" value="10" step="any" min="0.1" style="padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem">' +
-    '<label style="color:var(--text-muted)">Muestra (n)</label><input id="gaussN" type="number" value="100" min="10" max="10000" style="padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem">' +
-    '<label style="color:var(--text-muted)">Columnas</label><input id="gaussCols" type="number" value="2" min="1" max="20" style="padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem">' +
-    '</div>' +
-    '<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end">' +
-    '<button class="btn btn-secondary" onclick="this.closest(\'#gaussModal\').remove()">Cancelar</button>' +
-    '<button class="btn btn-primary" id="gaussBtn">Generar</button></div></div>';
-  document.body.appendChild(modal);
-  document.getElementById('gaussBtn').addEventListener('click', function() {
-    var mean = parseFloat(document.getElementById('gaussMean').value) || 50;
-    var std = Math.max(0.1, parseFloat(document.getElementById('gaussStd').value) || 10);
-    var n = Math.min(10000, Math.max(10, parseInt(document.getElementById('gaussN').value) || 100));
-    var k = Math.min(20, Math.max(1, parseInt(document.getElementById('gaussCols').value) || 2));
+  var D = {
+    normal: {
+      desc:'Simétrica alrededor de la media. Ideal para datos con variación natural o errores de medición.',
+      params:[{id:'mu',lbl:'Media (μ)',v:50,s:.1},{id:'sig',lbl:'Desviación (σ)',v:10,s:.1,mn:.001}],
+      sf:function(p){return 'μ=' + p.mu + ', σ=' + p.sig;}, nm:'normales'
+    },
+    uniform: {
+      desc:'Probabilidad constante en todo el rango. Sin valores más probables que otros.',
+      params:[{id:'umin',lbl:'Mínimo',v:0},{id:'umax',lbl:'Máximo',v:100}],
+      sf:function(p){return 'rango [' + p.umin + ', ' + p.umax + ']';}, nm:'uniformes'
+    },
+    lognormal: {
+      desc:'Sesgada a la derecha. Solo valores positivos. Común en ingresos, tiempos de reacción.',
+      params:[{id:'lmu',lbl:'Media log (μ)',v:0,s:.1},{id:'lsig',lbl:'Desv. log (σ)',v:1,s:.1,mn:.001}],
+      sf:function(p){return 'μ_log=' + p.lmu + ', σ_log=' + p.lsig;}, nm:'log-normales'
+    },
+    exponential: {
+      desc:'Decrece desde el origen. Modela tiempos de espera y fallos en equipos.',
+      params:[{id:'lam',lbl:'Tasa (λ)',v:.1,s:.01,mn:.001}],
+      sf:function(p){var lam=Math.max(.001,+p.lam||.1);return 'λ=' + lam.toFixed(3) + ', μ≈' + (1/lam).toFixed(1);}, nm:'exponenciales'
+    },
+    t: {
+      desc:'Como la normal pero con colas más pesadas. Adecuada cuando n es pequeño.',
+      params:[{id:'df',lbl:'Grados libertad (df)',v:10,s:1,mn:1},{id:'loc',lbl:'Localización',v:0}],
+      sf:function(p){return 'df=' + p.df + ', loc=' + p.loc;}, nm:'t-Student'
+    },
+    beta: {
+      desc:'Valores entre 0 y 1. Forma flexible según α y β. Útil para proporciones.',
+      params:[{id:'al',lbl:'Forma α',v:2,s:.1,mn:.001},{id:'be',lbl:'Forma β',v:5,s:.1,mn:.001}],
+      sf:function(p){return 'α=' + p.al + ', β=' + p.be;}, nm:'Beta'
+    }
+  };
+
+  function getP() {
+    var k = document.getElementById('gdDistType').value;
+    var v = {};
+    var arr = D[k].params;
+    for (var i = 0; i < arr.length; i++) {
+      var e = document.getElementById('gdP_' + arr[i].id);
+      if (e) v[arr[i].id] = e.value;
+    }
+    return v;
+  }
+
+  function p2svg(pts,W,H) {
+    if (pts.length < 2) return null;
+    var ys = pts.map(function(p){ return p[1]; });
+    var mn = Math.min.apply(null, ys);
+    var mx = Math.max.apply(null, ys);
+    var rng = mx - mn || 1;
+    var sp = W / (pts.length - 1);
+    var sc = (H - 8) / rng;
+    var m = pts.map(function(p,i){ return [i * sp, (H - 4) - (p[1] - mn) * sc]; });
+    var d = 'M' + m[0][0].toFixed(1) + ',' + m[0][1].toFixed(1);
+    for (var i = 1; i < m.length; i++) {
+      d += ' L' + m[i][0].toFixed(1) + ',' + m[i][1].toFixed(1);
+    }
+    return {d:d, m:m};
+  }
+
+  function buildCurve(k,pv,W,H) {
+    var N = 64, pts = [], i, x;
+    if (k === 'normal') {
+      var mu = +pv.mu || 50;
+      var sig = Math.max(.001, Math.abs(+pv.sig) || 10);
+      for (i = 0; i <= N; i++) { x = mu - 4*sig + i/N * 8*sig; pts.push([x, Math.exp(-(x-mu)*(x-mu)/(2*sig*sig))]); }
+    } else if (k === 'uniform') {
+      pts.push([0,0],[.02,0],[.02,1],[.98,1],[.98,0],[1,0]);
+    } else if (k === 'lognormal') {
+      var lmu = +pv.lmu || 0;
+      var lsig = Math.max(.001, Math.abs(+pv.lsig) || 1);
+      for (i = 1; i <= N; i++) { x = i/N * 5; var lnx = Math.log(x); pts.push([x, Math.exp(-(lnx-lmu)*(lnx-lmu)/(2*lsig*lsig))/(x*lsig)]); }
+    } else if (k === 'exponential') {
+      var lam = Math.max(.001, Math.abs(+pv.lam) || .1);
+      for (i = 0; i <= N; i++) { x = i/N * (6/lam); pts.push([x, lam * Math.exp(-lam * x)]); }
+    } else if (k === 't') {
+      var df = Math.max(1, +pv.df || 10);
+      for (i = 0; i <= N; i++) { x = i/N * 8 - 4; pts.push([x, Math.pow(1 + x*x/df, -(df+1)/2)]); }
+    } else {
+      var a = Math.max(.01, +pv.al || 2);
+      var b = Math.max(.01, +pv.be || 5);
+      for (i = 1; i < N; i++) { x = i/N; pts.push([x, Math.pow(x, a-1) * Math.pow(1-x, b-1)]); }
+    }
+    return p2svg(pts, W, H);
+  }
+
+  function drawCurve() {
+    var k = document.getElementById('gdDistType').value;
+    var res = buildCurve(k, getP(), 280, 42);
+    if (!res) return;
+    var d = res.d, m = res.m;
+    var area = d + ' L' + m[m.length-1][0].toFixed(1) + ',42 L' + m[0][0].toFixed(1) + ',42 Z';
+    document.getElementById('gdCurveSvg').innerHTML =
+      '<path d="' + area + '" fill="#7c3aed" opacity="0.1"/>' +
+      '<path d="' + d + '" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>';
+  }
+
+  function renderP(k) {
+    var dist = D[k];
+    var one = dist.params.length === 1;
+    var con = document.getElementById('gdDistParams');
+    var h = '<div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;font-weight:500;color:var(--text-muted);margin-bottom:.5rem">Parámetros</div>';
+    h += '<div class="gen-row' + (one ? ' solo' : '') + '">';
+    for (var i = 0; i < dist.params.length; i++) {
+      var p = dist.params[i];
+      h += '<div class="gen-fld"><label>' + p.lbl + '</label>' +
+        '<input type="number" id="gdP_' + p.id + '" value="' + p.v + '" step="' + (p.s||1) + '"' +
+        (p.mn !== undefined ? ' min="' + p.mn + '"' : '') + '></div>';
+    }
+    h += '</div>';
+    con.innerHTML = h;
+    var inputs = con.querySelectorAll('input');
+    for (var j = 0; j < inputs.length; j++) {
+      inputs[j].addEventListener('input', function(){ drawCurve(); updSummary(); });
+    }
+  }
+
+  function updSummary() {
+    var k = document.getElementById('gdDistType').value;
+    var n = document.getElementById('gdNVal').value || 100;
+    var c = document.getElementById('gdColsVal').value || 2;
+    var p = getP();
+    document.getElementById('gdSumN').textContent = parseInt(n).toLocaleString();
+    document.getElementById('gdSumC').textContent = c;
+    document.getElementById('gdSumD').textContent = D[k].nm;
+    try { document.getElementById('gdSumP').textContent = D[k].sf(p); } catch(e) {}
+    var o = +document.getElementById('gdOutR').value;
+    var ms = +document.getElementById('gdMisR').value;
+    var ex = [];
+    if (o > 0) ex.push(o + '% outliers');
+    if (ms > 0) ex.push(ms + '% faltantes');
+    document.getElementById('gdSumE').textContent = ex.length ? ' · ' + ex.join(', ') : '';
+  }
+
+  var dt = document.getElementById('gdDistType');
+  function onChange() {
+    var k = dt.value;
+    document.getElementById('gdDistDesc').textContent = D[k].desc;
+    renderP(k); drawCurve(); updSummary();
+  }
+  dt.addEventListener('change', onChange);
+  document.getElementById('gdNVal').addEventListener('input', updSummary);
+  document.getElementById('gdColsVal').addEventListener('input', updSummary);
+  document.getElementById('gdOutR').addEventListener('input', function(){
+    document.getElementById('gdOutV').textContent = this.value + '%'; updSummary();
+  });
+  document.getElementById('gdMisR').addEventListener('input', function(){
+    document.getElementById('gdMisV').textContent = this.value + '%'; updSummary();
+  });
+  document.getElementById('gdCorR').addEventListener('input', function(){
+    document.getElementById('gdCorV').textContent = (this.value / 100).toFixed(2);
+  });
+  document.getElementById('gdSeedCb').addEventListener('change', function(){
+    var s = document.getElementById('gdSeedV');
+    s.disabled = !this.checked; s.style.opacity = this.checked ? '1' : '0.4';
+  });
+  var advDet = document.getElementById('gdAdvDet');
+  if (advDet) {
+    advDet.addEventListener('toggle', function(){
+      var chev = document.getElementById('gdAdvChev');
+      if (chev) chev.classList.toggle('open');
+    });
+  }
+
+  document.getElementById('gdGenBtn').addEventListener('click', function(){
+    var distKey = document.getElementById('gdDistType').value;
+    var n = Math.min(1000000, Math.max(1, parseInt(document.getElementById('gdNVal').value) || 100));
+    var k = Math.min(50, Math.max(1, parseInt(document.getElementById('gdColsVal').value) || 2));
+    var dec = Math.min(8, Math.max(0, parseInt(document.getElementById('gdDecV').value) || 2));
+    var outlierPct = +document.getElementById('gdOutR').value / 100;
+    var missingPct = +document.getElementById('gdMisR').value / 100;
+    var corr = +document.getElementById('gdCorR').value / 100;
+    var useSeed = document.getElementById('gdSeedCb').checked;
+    var seedVal = parseInt(document.getElementById('gdSeedV').value) || 42;
+    var pv = getP();
+    var dist = D[distKey];
+
+    var _lcg = seedVal;
+    function _rand() {
+      if (useSeed) { _lcg = (_lcg * 1664525 + 1013904223) & 0x7FFFFFFF; return _lcg / 0x7FFFFFFF; }
+      return Math.random();
+    }
+
+    function _normal(mu, sig, r) { var u1=r(),u2=r(); return mu + sig * Math.sqrt(-2*Math.log(u1||1e-10)) * Math.cos(2*Math.PI*u2); }
+    function _uniform(a,b,r) { return a + r() * (b - a); }
+    function _lognormal(mu,sig,r) { return Math.exp(_normal(mu,sig,r)); }
+    function _exponential(lam,r) { return -Math.log(r()||1e-10) / lam; }
+    function _chiSq(df,r) { var s=0; for(var i=0;i<df;i++){var u1=r(),u2=r();var z=Math.sqrt(-2*Math.log(u1||1e-10))*Math.cos(2*Math.PI*u2);s+=z*z;} return s; }
+    function _tStudent(df,loc,r) { return loc + _normal(0,1,r) / Math.sqrt(_chiSq(Math.round(df),r)/df); }
+    function _gamma(alpha,r) {
+      if (alpha < 1) return _gamma(alpha+1,r) * Math.pow(r(),1/alpha);
+      var d = alpha - 1/3, c = 1 / Math.sqrt(9*d);
+      while (true) {
+        var x, v;
+        do { x = _normal(0,1,r); v = 1 + c*x; } while (v <= 0);
+        v = v*v*v; var u = r();
+        if (u < 1 - 0.0331*x*x*x*x) return d*v;
+        if (Math.log(u) < 0.5*x*x + d*(1 - v + Math.log(v))) return d*v;
+      }
+    }
+    function _beta(a,b,r) { var g1=_gamma(a,r),g2=_gamma(b,r); return g1/(g1+g2); }
+
+    function _genVal(k,pv,r) {
+      switch (k) {
+        case 'normal': return _normal(+pv.mu||50, Math.max(.001,Math.abs(+pv.sig)||10), r);
+        case 'uniform': return _uniform(+pv.umin||0, +pv.umax||100, r);
+        case 'lognormal': return _lognormal(+pv.lmu||0, Math.max(.001,Math.abs(+pv.lsig)||1), r);
+        case 'exponential': return _exponential(Math.max(.001,Math.abs(+pv.lam)||.1), r);
+        case 't': return _tStudent(Math.max(1,+pv.df||10), +pv.loc||0, r);
+        case 'beta': return _beta(Math.max(.01,+pv.al||2), Math.max(.01,+pv.be||5), r);
+        default: return r();
+      }
+    }
+
+    var cols = [];
+    for (var c = 0; c < k; c++) {
+      var col = [];
+      for (var r = 0; r < n; r++) col.push(_genVal(distKey, pv, _rand));
+      cols.push(col);
+    }
+
+    if (Math.abs(corr) > 0.001 && k > 1) {
+      var sqrt1mr2 = Math.sqrt(Math.max(0, 1 - corr*corr));
+      for (var c = 1; c < k; c++) {
+        for (var r = 0; r < n; r++) {
+          cols[c][r] = corr * (+cols[0][r]) + sqrt1mr2 * (+cols[c][r]);
+        }
+      }
+    }
+
+    var decFactor = Math.pow(10, dec);
+    for (var c = 0; c < cols.length; c++) {
+      var vals = cols[c];
+      var mean = 0;
+      for (var r = 0; r < n; r++) mean += +vals[r];
+      mean /= n;
+      var stdev = 0;
+      for (var r = 0; r < n; r++) stdev += Math.pow(+vals[r] - mean, 2);
+      stdev = Math.sqrt(stdev / n) || 1;
+      for (var r = 0; r < n; r++) {
+        var val = +vals[r];
+        if (outlierPct > 0 && _rand() < outlierPct) {
+          var sign = _rand() > 0.5 ? 1 : -1;
+          val = mean + sign * (3 + _rand() * 2) * stdev;
+        }
+        if (missingPct > 0 && _rand() < missingPct) { vals[r] = ''; continue; }
+        if (dec > 0) val = Math.round(val * decFactor) / decFactor;
+        else val = Math.round(val);
+        vals[r] = val;
+      }
+    }
+
     var headers = [];
-    for (var i = 0; i < k; i++) headers.push('Variable' + (i + 1));
+    for (var c = 0; c < k; c++) headers.push('Col' + (c + 1));
     var rows = [];
     for (var r = 0; r < n; r++) {
       var row = [];
-      for (var c = 0; c < k; c++) {
-        // Box-Muller transform for Gaussian distribution
-        var u1 = Math.random();
-        var u2 = Math.random();
-        var z = Math.sqrt(-2 * Math.log(u1 || 0.0001)) * Math.cos(2 * Math.PI * u2);
-        row.push((mean + std * z).toFixed(2));
-      }
+      for (var c = 0; c < k; c++) row.push(cols[c][r]);
       rows.push(row);
     }
+
     pushUndo();
-    trabajoSheets.push({ name: 'Normal_' + n + 'x' + k, headers: headers, rows: rows });
+    var prefix = distKey.charAt(0).toUpperCase() + distKey.slice(1, 10);
+    trabajoSheets.push({ name: prefix + '_' + n + 'x' + k, headers: headers, rows: rows });
     trabajoActiveSheetIndex = trabajoSheets.length - 1;
     trabajoActiveCell = {row:0,col:0};
     _persistAllData();
     modal.remove();
     loadPage('trabajo');
-    showToast('✅ Datos normales generados: ' + n + ' filas x ' + k + ' columnas');
+    showToast('✅ Datos ' + D[distKey].nm + ' generados: ' + n + ' filas × ' + k + ' columnas');
   });
+
+  onChange();
 }
 
 // ── Ampliar datos (data augmentation con ruido) ──

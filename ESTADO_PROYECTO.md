@@ -45,22 +45,35 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
-### 2026-06-30: Modal de configuración para generar datos en Trabajo
+### 2026-06-30: Modal avanzado de generación de datos (reemplazo completo)
 
-**Qué:** La función `generateSampleData()` ya no genera datos fijos automáticamente. Ahora abre un modal (`genDataModal`) con configuración por columna:
-- **Filas a generar** — input numérico (pre-cargado con el total actual)
-- **Por columna:** tipo de dato (Número / Categoría / Texto fijo) + parámetros configurables
-  - Número: `min,max` → valores aleatorios en rango
-  - Categoría: `A,B,C` → selección aleatoria
-  - Texto fijo: valor constante para toda la columna
-- Función helper `updateGdPlaceholder(idx)` actualiza placeholder al cambiar tipo
+**Qué:** Se reemplazó el modal simple de `generateSampleData()` y `generarDatosNormales()` por un modal avanzado con distribuciones estadísticas, preview SVG, outliers/faltantes, correlación y seed reproducible.
+
+**Nuevo modal incluye:**
+- **Distribuciones:** Normal, Uniforme, Log-normal, Exponencial, t-Student, Beta
+- **Parámetros dinámicos:** campos cambian según distribución (μ,σ / min,max / α,β / df,loc / λ)
+- **Vista previa SVG:** curva de densidad se dibuja en tiempo real al cambiar parámetros
+- **Muestra:** observaciones (n) + número de columnas
+- **Opciones avanzadas** (collapsible):
+  - Outliers % (0-20%) — reemplaza valores con extremos ±3σ
+  - Valores faltantes % (0-30%)
+  - Correlación entre columnas (-1 a 1) — implementación con transformación lineal
+  - Precisión decimal (0-8)
+  - Semilla fija LCG (reproducible)
+- **Resumen dinámico:** "Generará 100 × 2 normales con μ=50, σ=10 · 5% outliers"
+- **Generación numérica:** Box-Muller (Normal), Marsaglia-Tsang (Gamma→Beta), chi-squared (t-Student)
+
+**Eliminado:**
+- `generarDatosNormales()` — redundante, reemplazado por el modal
+- `generateValue()`, `updateGdPlaceholder()` — del modal simple anterior
+- Botón `🔢 Normal` en panel Datos → reemplazado por `🎲 Generar`
 
 **Archivos afectados:**
 | Archivo | Líneas | Cambio |
 |---------|--------|--------|
-| `js/core/indexx-trabajo.js:652-731` | Reemplazada `generateSampleData()` (8 → 80 líneas) + nuevas `generateValue()`, `updateGdPlaceholder()` | Modal de configuración con 3 tipos de dato por columna |
-| `js/core/indexx-ui.js:251` | Label: `🔄 Generar datos` → `⚙️ Configurar datos` | Texto más descriptivo |
-| `js/core/indexx-palette.js:26` | Label+icon: `🎲 Datos de ejemplo` → `⚙️ Configurar datos` | Consistente con UI |
+| `js/core/indexx-trabajo.js:652-781` | Reemplazada `generateSampleData()` (80→260 líneas) + eliminadas 3 funciones | Modal avanzado con 6 distribuciones, preview SVG, outliers, correlación, seed |
+| `js/core/indexx-ui.js:310` | `generarDatosNormales()` → `generateSampleData()` | Botón `🔢 Normal` → `🎲 Generar` |
+| `css/core/indexx.css:1011-1058` | +48 líneas | Estilos del modal avanzado (`.gen-mdl`, `.gen-row`, `.gen-slrow`, `.gen-adv-grid`, etc.) |
 
 ### 2026-06-29: Revertido comando /prompt a versión ligera (765→34 líneas)
 
