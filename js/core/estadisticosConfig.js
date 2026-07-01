@@ -1195,6 +1195,40 @@ const ESTADISTICOS_CONFIG = {
         ],
     },
 
+    // ════════════════════════════════════════
+    // SECCIÓN: TENDENCIA
+    // ════════════════════════════════════════
+
+    'Tendencia': {
+        seccion:   'tendencia',
+        calcular:  'calcularTendencia',
+        formula:   'Lineal: y = mx + b / Exponencial: y = a·e^(bx) / Media Móvil: MAₖ = (1/k)Σᵢyᵢ',
+        desc:      'Analiza la tendencia de los datos mediante regresión lineal, exponencial o media móvil. Incluye proyección de valores futuros.',
+        icono:     '📈',
+        minMuestra: 5,
+        multiCol: false,
+        paramConfig: [
+            { key: 'tipo', label: 'Tipo de tendencia', type: 'select', default: 'lineal', options: [{value:'lineal',label:'Lineal (y=mx+b)'},{value:'exponencial',label:'Exponencial (y=a·e^bx)'},{value:'movil',label:'Media Móvil'}] },
+            { key: 'pasos', label: 'Pasos a proyectar', type: 'number', default: 5, min: 1, step: 1 },
+            { key: 'ventana', label: 'Ventana (media móvil)', type: 'number', default: 3, min: 2, step: 1 },
+        ],
+        inputs: {
+            tipo:        'una-columna',
+            grupos:      1,
+            descripcion: 'Un vector numérico con al menos 5 observaciones',
+        },
+        salidas: ['tipo', 'formula', 'r2', 'coeficientes', 'proyecciones'],
+        referencia: [
+            {
+                autores:  'Montgomery, D.C., Jennings, C.L. & Kulahci, M.',
+                anio:     2015,
+                titulo:   'Introduction to Time Series Analysis and Forecasting',
+                revista:  'Wiley',
+                edition:  '2ª ed.'
+            }
+        ],
+    },
+
     'Covarianza': {
         seccion:   'correlacion',
         calcular:  'calcularCovarianza',
@@ -2702,6 +2736,7 @@ function getSeccionesSidebar() {
         hipotesis:      { icon: '🧪', label: 'Hipótesis',       description: 'Pruebas estadísticas para validar suposiciones sobre los datos',          options: [] },
         correlacion:    { icon: '📈', label: 'Correlación',     description: 'Medidas de asociación y dependencia entre variables',                     options: [] },
         regresion:      { icon: '📉', label: 'Regresión',       description: 'Modelos predictivos y métricas de ajuste',                                options: [] },
+        tendencia:      { icon: '📈', label: 'Tendencia',      description: 'Análisis de tendencias y proyección de datos',                            options: [] },
         noParametricos: { icon: '🔬', label: 'No Paramétricos', description: 'Tests sin distribución normal requerida para muestras pequeñas',          options: [] },
         multivariado:   { icon: '🎯', label: 'Multivariado',    description: 'Análisis de múltiples variables simultáneamente',                         options: [] },
         extras:         { icon: '✨', label: 'Extras',          description: 'Técnicas avanzadas de análisis estadístico',                              options: [] },

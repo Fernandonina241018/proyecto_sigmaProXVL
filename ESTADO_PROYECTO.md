@@ -45,6 +45,31 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-06-30: Análisis de Tendencia (Lineal, Exponencial, Media Móvil)
+
+**Qué:** Nuevo estadístico "Tendencia" con 3 tipos de análisis (Lineal, Exponencial, Media Móvil), modal de configuración con selector de tipo + pasos a proyectar, y tabla de proyecciones.
+
+**Detalle técnico:**
+- **Lineal:** regresión por mínimos cuadrados → `y = mx + b` con R², pendiente e intercepto
+- **Exponencial:** log-transform → `y = a·e^(bx)` con R² sobre escala log
+- **Media Móvil:** ventana deslizante MA(k) → valores suavizados
+- **Proyecciones:** tabla con N pasos futuros según el tipo de tendencia
+- **Config modal:** selector tipo (select), pasos (number), ventana para MA (number) — extendido `_mostrarModalParamConfig` para soportar `type:select`
+- **Sidebar:** nueva sección "📈 Tendencia" con categoría dedicada
+- **Renderizado:** cards custom con fórmula, R², coeficientes, dirección, interpretación + tabla de proyecciones
+
+**Archivos afectados:**
+| Archivo | Líneas | Cambio |
+|---------|--------|--------|
+| `estadisticosConfig.js:1200-1233` | +34 | Config entry Tendencia con `paramConfig` (tipo select, pasos, ventana) + `seccion:'tendencia'` |
+| `estadisticosConfig.js:2739` | +1 | Nueva sección `tendencia` en `getSeccionesSidebar()` |
+| `utils.js:157` | +1 | `'Tendencia'` agregado a `PARAM_CONFIG_SET` |
+| `indexx-analysis.js:95` | +1 | `tendencia: '📈 Tendencia'` en `getSectionDisplayName()` |
+| `indexx-analysis.js:539-560` | ~22 | Extendido `_mostrarModalParamConfig` para soportar `type:select` + parsing select en confirm |
+| `EstadisticaDescriptiva.js:3790-3844` | +55 | Nueva función `calcularTendencia(values, tipo, pasos, ventana)` |
+| `EstadisticaDescriptiva.js:4090-4098` | +9 | Nuevo `case 'Tendencia':` en `ejecutarAnalisis()` |
+| `EstadisticaDescriptiva.js:5710-5765` | +56 | Renderizado custom en `kpiCards()` para Tendencia |
+
 ### 2026-06-30: Modal avanzado de generación de datos (reemplazo completo)
 
 **Qué:** Se reemplazó el modal simple de `generateSampleData()` y `generarDatosNormales()` por un modal avanzado con distribuciones estadísticas, preview SVG, outliers/faltantes, correlación y seed reproducible.

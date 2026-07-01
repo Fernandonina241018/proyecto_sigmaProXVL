@@ -92,7 +92,7 @@ function getSectionDisplayName(key) {
   var names = {
     descriptiva: '📊 Descriptiva', hipotesis: '⚖️ Hipótesis',
     correlacion: '🔗 Correlación', regresion: '📈 Regresión',
-    noParametricos: '📉 No Paramétricos', multivariado: '📦 Multivariado',
+    tendencia: '📈 Tendencia', noParametricos: '📉 No Paramétricos', multivariado: '📦 Multivariado',
     extras: '✨ Extras', especificacion: '📐 Especificación', calidad: '⚙️ Calidad'
   };
   return names[key] || key;
@@ -537,6 +537,16 @@ function _mostrarModalParamConfig(nombre, callback, existingConfig) {
   var optsN = tipos.numCols.map(function(c) { return '<option value="' + c.replace(/"/g,'&quot;') + '">' + escapeHtml(c) + '</option>'; }).join('');
   var descHTML = cfg.desc ? '<div style="font-size:12px;color:var(--text-primary);margin-bottom:10px;line-height:1.4">' + escapeHtml(cfg.desc) + '</div>' : '';
   var paramsHTML = cfg.paramConfig.map(function(p) {
+    if (p.type === 'select') {
+      var opts = (p.options || []).map(function(o) {
+        var sel = o.value === (p.default || o.value) ? ' selected' : '';
+        return '<option value="' + o.value + '"' + sel + '>' + escapeHtml(o.label) + '</option>';
+      }).join('');
+      return '<div style="margin-bottom:8px">' +
+        '<label style="display:block;font-size:11px;color:var(--text-primary);margin-bottom:2px">' + escapeHtml(p.label) + '</label>' +
+        '<select id="cfg-' + p.key + '" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem">' + opts + '</select>' +
+        '</div>';
+    }
     return '<div style="margin-bottom:8px">' +
       '<label style="display:block;font-size:11px;color:var(--text-primary);margin-bottom:2px">' + escapeHtml(p.label) + '</label>' +
       '<input type="' + p.type + '" id="cfg-' + p.key + '" value="' + (p.default || '') + '" ' +
@@ -597,8 +607,11 @@ function _mostrarModalParamConfig(nombre, callback, existingConfig) {
     }
     cfg.paramConfig.forEach(function(p) {
       var el = document.getElementById('cfg-' + p.key);
-      var val = p.type === 'number' ? parseFloat(el.value) : el.value;
-      if (val !== undefined && val !== null && !isNaN(val)) config[p.key] = val;
+      var val;
+      if (p.type === 'select') { val = el.value; }
+      else if (p.type === 'number') { val = parseFloat(el.value); if (isNaN(val)) return; }
+      else { val = el.value; }
+      if (val !== undefined && val !== null) config[p.key] = val;
     });
     StateManager.setParamConfig(nombre, config);
     modal.remove();

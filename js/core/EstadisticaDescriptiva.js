@@ -3787,6 +3787,63 @@ interpretacion: interpretacion,
         };
     }
 
+    function calcularTendencia(values, tipo, pasos, ventana) {
+        var n = values.length;
+        if (n < 5) return { error: 'Se requieren al menos 5 observaciones' };
+
+        if (tipo === 'lineal') {
+            var sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+            for (var i = 0; i < n; i++) { sumX += i; sumY += values[i]; sumXY += i * values[i]; sumX2 += i * i; }
+            var denom = n * sumX2 - sumX * sumX;
+            if (Math.abs(denom) < 1e-10) return { error: 'Varianza cero en el eje X' };
+            var m = (n * sumXY - sumX * sumY) / denom;
+            var b = (sumY - m * sumX) / n;
+            var yMean = sumY / n, ssRes = 0, ssTot = 0;
+            for (var i = 0; i < n; i++) { var yPred = m * i + b; ssRes += Math.pow(values[i] - yPred, 2); ssTot += Math.pow(values[i] - yMean, 2); }
+            var r2 = ssTot > 0 ? 1 - ssRes / ssTot : 1;
+            var proyecciones = [];
+            for (var i = 1; i <= pasos; i++) proyecciones.push({ paso: i, valor: Math.round((m * (n - 1 + i) + b) * 10000) / 10000 });
+            return {
+                tipo: 'lineal', formula: 'y = ' + m.toFixed(4) + '·x + ' + b.toFixed(4),
+                pendiente: m, intercepto: b, r2: r2, n: n,
+                direccion: m > 0.001 ? 'creciente' : m < -0.001 ? 'decreciente' : 'estable',
+                proyecciones: proyecciones,
+                interpretacion: 'Tendencia ' + (m > 0.001 ? 'creciente' : m < -0.001 ? 'decreciente' : 'estable') +
+                    ' (R²=' + r2.toFixed(4) + '). ' + (r2 > 0.7 ? 'Ajuste fuerte.' : r2 > 0.3 ? 'Ajuste moderado.' : 'Ajuste débil.')
+            };
+        } else if (tipo === 'exponencial') {
+            var sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, validN = 0;
+            for (var i = 0; i < n; i++) { if (values[i] <= 0) continue; var lnY = Math.log(values[i]); sumX += i; sumY += lnY; sumXY += i * lnY; sumX2 += i * i; validN++; }
+            if (validN < 3) return { error: 'Se requieren al menos 3 valores positivos para exponencial' };
+            var denom = validN * sumX2 - sumX * sumX;
+            if (Math.abs(denom) < 1e-10) return { error: 'Varianza cero en X' };
+            var b = (validN * sumXY - sumX * sumY) / denom;
+            var lnA = (sumY - b * sumX) / validN, a = Math.exp(lnA);
+            var yMean = sumY / validN, ssRes = 0, ssTot = 0;
+            for (var i = 0; i < n; i++) { if (values[i] <= 0) continue; var yPred = lnA + b * i; var lnY = Math.log(values[i]); ssRes += Math.pow(lnY - yPred, 2); ssTot += Math.pow(lnY - yMean, 2); }
+            var r2 = ssTot > 0 ? 1 - ssRes / ssTot : 1;
+            var proyecciones = [];
+            for (var i = 1; i <= pasos; i++) proyecciones.push({ paso: i, valor: Math.round(a * Math.exp(b * (n - 1 + i)) * 10000) / 10000 });
+            return {
+                tipo: 'exponencial', formula: 'y = ' + a.toFixed(4) + '·e^(' + b.toFixed(4) + '·x)',
+                a: a, b: b, r2: r2, n: n,
+                direccion: b > 0.001 ? 'creciente' : b < -0.001 ? 'decreciente' : 'estable',
+                proyecciones: proyecciones,
+                interpretacion: 'Tendencia ' + (b > 0.001 ? 'creciente' : b < -0.001 ? 'decreciente' : 'estable') + ' (R²=' + r2.toFixed(4) + ')'
+            };
+        } else if (tipo === 'movil') {
+            ventana = Math.max(2, Math.min(n, ventana || 3));
+            var ma = [];
+            for (var i = 0; i <= n - ventana; i++) { var s = 0; for (var j = 0; j < ventana; j++) s += values[i + j]; ma.push(Math.round(s / ventana * 10000) / 10000); }
+            return {
+                tipo: 'media_movil', formula: 'MA(' + ventana + ')',
+                ventana: ventana, suavizados: ma, n: n,
+                interpretacion: 'Media móvil MA(' + ventana + '): ' + ma.length + ' valores suavizados de ' + n + ' originales'
+            };
+        }
+        return { error: 'Tipo de tendencia no válido: ' + tipo };
+    }
+
     /**
      * Ejecuta análisis según estadísticos seleccionados
      * @param {Object} data - Datos importados
@@ -4065,6 +4122,18 @@ interpretacion: interpretacion,
                             resultados['Chi-Cuadrado'] = calcularChiCuadrado(tabla);
                         }
                     }
+                    break;
+
+                case 'Tendencia':
+                    resultados['Tendencia'] = {};
+                    var tenCfg = hypothesisConfig['Tendencia'] || {};
+                    var tenTipo = tenCfg.tipo || 'lineal';
+                    var tenPasos = parseInt(tenCfg.pasos) || 5;
+                    var tenVentana = parseInt(tenCfg.ventana) || 3;
+                    numericCols.forEach(col => {
+                        const values = getNumericValues(data, col);
+                        resultados['Tendencia'][col] = calcularTendencia(values, tenTipo, tenPasos, tenVentana);
+                    });
                     break;
 
                 case 'Test de Normalidad':
@@ -5634,6 +5703,48 @@ function generarHTML(analisisResultado) {
                     '</div>' +
                     '<div class="ar-kpi-badge ' + badgeClass + '">' + escapeHtml(badgeText) + '</div>' +
                     '<div class="ar-formula" style="margin-top:8px"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">F0 = ' + (val.F0 ?? '—') + ' min (Δt=' + (val.delta_t ?? '?') + ', z=' + (val.z ?? '?') + ', T_ref=' + (val.T_ref ?? '?') + '°C)</div></div></div>' +
+                '</div>';
+            }).join('');
+        }
+
+        if (statKey === 'Tendencia') {
+            var tenCols = Object.keys(data).filter(function(c) { return data[c] && !data[c].error; });
+            if (!tenCols.length) return '<p class="ar-error">Sin resultados</p>';
+            return tenCols.map(function(col) {
+                var val = data[col];
+                if (val.error) return '<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">' + escapeHtml(col) + '</div><p class="ar-error">' + escapeHtml(val.error) + '</p></div>';
+                var proyHtml = '';
+                if (val.proyecciones && val.proyecciones.length > 0) {
+                    proyHtml = '<div style="margin-top:10px"><div class="ar-kpi-col-label" style="font-size:0.8rem">🔮 Proyecciones</div>' +
+                        '<table style="width:100%;border-collapse:collapse;font-size:0.75rem;margin-top:4px">' +
+                        '<tr style="background:rgba(124,58,237,.1)"><th style="padding:4px;text-align:center">Paso</th><th style="padding:4px;text-align:right">Valor</th></tr>';
+                    val.proyecciones.forEach(function(p) {
+                        proyHtml += '<tr style="border-bottom:.5px solid var(--border)"><td style="padding:3px;text-align:center">' + p.paso + '</td><td style="padding:3px;text-align:right;font-weight:500">' + p.valor + '</td></tr>';
+                    });
+                    proyHtml += '</table></div>';
+                }
+                var suavHtml = '';
+                if (val.suavizados && val.suavizados.length > 0) {
+                    suavHtml = '<div style="margin-top:10px;max-height:200px;overflow-y:auto"><div class="ar-kpi-col-label" style="font-size:0.8rem">📊 Serie suavizada (MA)</div>' +
+                        '<table style="width:100%;border-collapse:collapse;font-size:0.7rem;margin-top:4px">' +
+                        '<tr style="background:rgba(124,58,237,.1)"><th style="padding:3px;text-align:center">#</th><th style="padding:3px;text-align:right">Valor</th></tr>';
+                    val.suavizados.forEach(function(s, i) {
+                        suavHtml += '<tr style="border-bottom:.5px solid var(--border)"><td style="padding:2px;text-align:center">' + (i + 1) + '</td><td style="padding:2px;text-align:right">' + s + '</td></tr>';
+                    });
+                    suavHtml += '</table></div>';
+                }
+                return '<div class="ar-kpi-card ar-kpi-multi">' +
+                    '<div class="ar-kpi-col-label">📈 ' + escapeHtml(col) + ' (' + (val.tipo === 'lineal' ? 'Lineal' : val.tipo === 'exponencial' ? 'Exponencial' : 'Media Móvil') + ')</div>' +
+                    '<div class="ar-kpi-sub-grid" style="grid-template-columns:1fr 1fr">' +
+                        '<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Fórmula</span><span class="ar-kpi-sub-v" style="font-size:0.8rem">' + escapeHtml(val.formula || '—') + '</span></div>' +
+                        (val.r2 !== undefined ? '<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">R²</span><span class="ar-kpi-sub-v">' + val.r2.toFixed(4) + '</span></div>' : '') +
+                        (val.pendiente !== undefined ? '<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Pendiente</span><span class="ar-kpi-sub-v">' + val.pendiente.toFixed(4) + '</span></div>' : '') +
+                        (val.intercepto !== undefined ? '<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Intercepto</span><span class="ar-kpi-sub-v">' + val.intercepto.toFixed(4) + '</span></div>' : '') +
+                        (val.direccion ? '<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Dirección</span><span class="ar-kpi-sub-v">' + escapeHtml(val.direccion) + '</span></div>' : '') +
+                        '<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">' + val.n + '</span></div>' +
+                    '</div>' +
+                    (val.interpretacion ? '<div class="ar-formula" style="margin-top:8px"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">' + escapeHtml(val.interpretacion) + '</div></div></div>' : '') +
+                    proyHtml + suavHtml +
                 '</div>';
             }).join('');
         }
