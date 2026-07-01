@@ -384,7 +384,7 @@
   .preview-tooltip-footer { margin-top:6px; padding-top:4px; border-top:1px solid var(--border); color:var(--text-faint); font-size:10px; text-align:right; }
 
   /* ── Col stats tooltip ── */
-  .col-stats-tooltip { position:fixed; z-index:9999; background:#1a1a1a; border:1px solid var(--accent); border-radius:8px; padding:10px 14px; min-width:160px; box-shadow:0 8px 24px rgba(0,0,0,.6); font-size:11px; display:none; pointer-events:none; }
+  .col-stats-tooltip { position:fixed; z-index:9999; background:var(--bg-panel); border:1px solid var(--accent); border-radius:8px; padding:10px 14px; min-width:160px; box-shadow:0 8px 24px rgba(0,0,0,.15); font-size:11px; display:none; pointer-events:none; }
   .col-stats-tooltip.visible { display:block; }
   .col-stats-title { font-weight:600; color:var(--accent); margin-bottom:6px; font-size:12px; }
   .col-stats-row { display:flex; justify-content:space-between; gap:16px; color:var(--text-muted); padding:2px 0; }
