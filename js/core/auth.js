@@ -60,7 +60,7 @@ const Auth = (() => {
                 return { ok: true, requires2FA: true, username: data.username, role: data.role, tempToken: data.tempToken };
             }
             _token = data.token;
-            return { ok: true, username: data.username, role: data.role, token: data.token, mustChangePassword: data.mustChangePassword || false };
+            return { ok: true, username: data.username, role: data.role, token: data.token, mustChangePassword: data.mustChangePassword || false, defaultPassword: data.defaultPassword };
         } catch {
             return { ok: false, error: 'No se pudo conectar con el servidor.' };
         }
@@ -621,7 +621,7 @@ const Auth = (() => {
             } else {
                 try { localStorage.removeItem('__auth_remembered'); } catch(_e) {}
             }
-            _onLoginSuccess({username:result.username,role:result.role,mustChangePassword:result.mustChangePassword});
+            _onLoginSuccess({username:result.username,role:result.role,mustChangePassword:result.mustChangePassword,defaultPassword:result.defaultPassword});
         } else {
             const blocked=_registerFailedAttempt();
             if(!blocked){
@@ -755,7 +755,11 @@ const Auth = (() => {
             <div style="position:relative;background:var(--bg-card,#fff);border-radius:16px;padding:24px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.4);text-align:center;">
                 <div style="font-size:3rem;margin-bottom:12px;">🔐</div>
                 <h2 style="margin:0 0 8px 0;color:var(--text-primary,#1e293b);">Cambio de contraseña requerido</h2>
-                <p style="margin:0 0 16px 0;color:var(--text-secondary,#64748b);font-size:0.85rem;">Debes crear una nueva contraseña antes de continuar.</p>
+                <p style="margin:0 0 16px 0;color:var(--text-secondary,#64748b);font-size:0.85rem;">Debes crear una nueva contraseña y código de firma antes de continuar.</p>
+
+                <div style="margin-bottom:12px;padding:8px 12px;background:var(--bg-panel,#f8fafc);border-radius:8px;border:1px solid var(--border-color,#e2e8f0);font-size:0.8rem;color:var(--text-secondary,#64748b);text-align:left;">
+                    🔑 Tu contraseña temporal es: <strong style="color:var(--accent,#2563eb);font-family:monospace;">` + (userData.defaultPassword || 'sigma2026') + `</strong>
+                </div>
 
                 <div style="margin-bottom:12px;text-align:left;">
                     <label style="display:block;font-size:0.75rem;font-weight:600;color:var(--text-secondary,#64748b);margin-bottom:4px;">NUEVA CONTRASEÑA <span id="pwd-new-count" style="font-weight:400;color:#94a3b8;font-size:0.7rem;">(0)</span></label>
@@ -775,13 +779,20 @@ const Auth = (() => {
                     <div class="pwd-req" data-req="match" style="border-top:1px solid var(--border-color,#e2e8f0);padding-top:5px;margin-top:2px;"><span class="pwd-dot" style="display:inline-block;width:16px;text-align:center;font-weight:700;color:#94a3b8;">○</span> Contraseñas coinciden</div>
                 </div>
 
-                <div style="margin-bottom:20px;text-align:left;">
+                <div style="margin-bottom:12px;text-align:left;">
                     <label style="display:block;font-size:0.75rem;font-weight:600;color:var(--text-secondary,#64748b);margin-bottom:4px;">CONFIRMAR CONTRASEÑA <span id="pwd-confirm-count" style="font-weight:400;color:#94a3b8;font-size:0.7rem;">(0)</span></label>
                     <div style="position:relative;">
                         <input type="password" id="force-pwd-confirm" autocomplete="new-password" style="width:100%;padding:12px 38px 12px 12px;border:2px solid var(--border-color,#e2e8f0);border-radius:10px;font-size:0.9rem;box-sizing:border-box;background:var(--bg-input,#fff);color:var(--text-primary,#1e293b);">
                         <span id="pwd-confirm-toggle" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:1.1rem;line-height:1;color:#94a3b8;user-select:none;">👁</span>
                     </div>
                     <div id="force-pwd-confirm-error" style="font-size:0.75rem;color:#dc2626;margin-top:4px;display:none;"></div>
+                </div>
+
+                <div style="margin-bottom:16px;text-align:left;">
+                    <label style="display:block;font-size:0.75rem;font-weight:600;color:var(--text-secondary,#64748b);margin-bottom:4px;">CÓDIGO DE FIRMA <span style="font-weight:400;color:#dc2626;font-size:0.7rem;">*obligatorio</span></label>
+                    <input type="text" id="force-pwd-sig" maxlength="50" placeholder="Ej: fn24" style="width:100%;padding:12px;border:2px solid var(--border-color,#e2e8f0);border-radius:10px;font-size:0.9rem;box-sizing:border-box;background:var(--bg-input,#fff);color:var(--text-primary,#1e293b);font-family:monospace;">
+                    <div id="force-pwd-sig-error" style="font-size:0.75rem;color:#dc2626;margin-top:4px;display:none;"></div>
+                    <div style="font-size:0.7rem;color:var(--text-faint,#94a3b8);margin-top:2px;">Mínimo 3 caracteres. Se usará para firmar reportes electrónicos.</div>
                 </div>
 
                 <div id="force-pwd-msg" style="display:none;"></div>
@@ -841,16 +852,21 @@ const Auth = (() => {
         newInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') confirmInput.focus(); });
         confirmInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('force-pwd-submit').click(); });
 
+        const sigInput = document.getElementById('force-pwd-sig');
+
         document.getElementById('force-pwd-submit').addEventListener('click', async () => {
             const newPwd = newInput.value;
             const confirmPwd = confirmInput.value;
+            const sigCode = sigInput.value.trim();
             const newError = document.getElementById('force-pwd-new-error');
             const confirmError = document.getElementById('force-pwd-confirm-error');
+            const sigError = document.getElementById('force-pwd-sig-error');
             const msgEl = document.getElementById('force-pwd-msg');
             const submitBtn = document.getElementById('force-pwd-submit');
 
             newError.style.display = 'none';
             confirmError.style.display = 'none';
+            sigError.style.display = 'none';
             msgEl.style.display = 'none';
 
             if (!newPwd || newPwd.length < 8) { newError.textContent = 'Mínimo 8 caracteres'; newError.style.display = 'block'; return; }
@@ -859,13 +875,14 @@ const Auth = (() => {
             if (!/[0-9]/.test(newPwd)) { newError.textContent = 'Debe contener dígito'; newError.style.display = 'block'; return; }
             if (!/[^A-Za-z0-9]/.test(newPwd)) { newError.textContent = 'Debe contener carácter especial'; newError.style.display = 'block'; return; }
             if (newPwd !== confirmPwd) { confirmError.textContent = 'Las contraseñas no coinciden'; confirmError.style.display = 'block'; return; }
+            if (!sigCode || sigCode.length < 3) { sigError.textContent = 'El código de firma debe tener al menos 3 caracteres'; sigError.style.display = 'block'; return; }
 
             submitBtn.disabled = true;
             submitBtn.textContent = 'Cambiando...';
 
-            const result = await _changePassword(newPwd);
+            const result = await _changePassword(newPwd, sigCode);
             if (result.ok) {
-                showToast('✅ Contraseña cambiada correctamente');
+                showToast('✅ Contraseña y código de firma configurados');
                 modal.remove();
                 const session = _getSession();
                 if (session) {
@@ -883,12 +900,14 @@ const Auth = (() => {
         });
     }
 
-    async function _changePassword(newPassword) {
+    async function _changePassword(newPassword, signatureCode) {
         try {
+            const body = { newPassword };
+            if (signatureCode) body.signatureCode = signatureCode;
             const res = await fetchWithTimeout(`${CFG.API_URL}/api/users/password`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${_token}` },
-                body: JSON.stringify({ newPassword })
+                body: JSON.stringify(body)
             });
             return await res.json();
         } catch {

@@ -516,7 +516,7 @@ app.post('/api/login', loginLimiter, async (req, res) => {
             maxAge: 8 * 60 * 60 * 1000 // 8 horas
         });
 
-        return res.json({ ok: true, token, username: user.username, role: user.role, mustChangePassword });
+        return res.json({ ok: true, token, username: user.username, role: user.role, mustChangePassword, defaultPassword: mustChangePassword ? DEFAULT_USER_PASSWORD : undefined });
 
     } catch (err) {
         console.error('Error en login:', err);
@@ -935,7 +935,7 @@ app.put('/api/users/:id/toggle', requireAuth, requireAdmin, async (req, res) => 
 
 // PUT /api/users/password
 app.put('/api/users/password', requireAuth, async (req, res) => {
-    const { currentPassword, newPassword } = req.body;
+    const { currentPassword, newPassword, signatureCode } = req.body;
     var pwErr = validatePasswordStrength(newPassword);
     if (pwErr) {
         return res.status(400).json({ error: pwErr });
@@ -954,7 +954,13 @@ app.put('/api/users/password', requireAuth, async (req, res) => {
     }
     
     await db.changePassword(req.user.username, newPassword);
-    res.json({ ok: true });
+    
+    // Guardar código de firma si se proporcionó
+    if (signatureCode && signatureCode.trim()) {
+        await db.updateUserProfile(req.user.username, { signatureCode: signatureCode.trim() });
+    }
+    
+    res.json({ ok: true, signatureCode: signatureCode ? signatureCode.trim() : undefined });
 });
 
 // PUT /api/users/profile (usuario actual)

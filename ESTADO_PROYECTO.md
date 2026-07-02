@@ -45,6 +45,25 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-01: Primer login — muestra contraseña temporal + configuración obligatoria de código de firma
+
+**Qué:** Al primer login (password_temp=1), el modal de cambio forzado ahora:
+1. Muestra la contraseña temporal del usuario (`sigma2026`)
+2. Exige configurar el código de firma (mín 3 caracteres) junto con la nueva contraseña
+
+**Cambios:**
+
+| Archivo | Cambio |
+|---------|--------|
+| `backend/server.js:519` | +`defaultPassword` en respuesta login cuando `mustChangePassword=true` |
+| `backend/server.js:956-959` | +acepta `signatureCode` en `PUT /api/users/password`, llama `db.updateUserProfile` |
+| `js/core/auth.js:63` | Captura `data.defaultPassword` |
+| `js/core/auth.js:624` | Pasa `defaultPassword` a `_onLoginSuccess` |
+| `js/core/auth.js:757-761` | +badge "🔑 Tu contraseña temporal es: sigma2026" en modal |
+| `js/core/auth.js:792-803` | +input "CÓDIGO DE FIRMA" obligatorio con validación min 3 chars |
+| `js/core/auth.js:857-868` | Validación de código de firma en submit + envía `signatureCode` al backend |
+| `js/core/auth.js:899-908` | `_changePassword()` acepta y envía `signatureCode` |
+
 ### 2026-06-30: Tendencia — modal ⚙ ya no pide columna innecesaria
 
 **Qué:** El modal de configuración de Tendencia ya no muestra un selector de columna que era irrelevante (Tendencia siempre procesa todas las columnas numéricas). También se eliminó el label engañoso "Columna de temperatura (°C)" para Tendencia.
