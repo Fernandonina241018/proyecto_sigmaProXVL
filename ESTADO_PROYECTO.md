@@ -45,6 +45,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-02: Centralización de validaciones de muestra mínima + fix threshold
+
+**Qué:** Se auditaron y unificaron todas las validaciones de tamaño mínimo de muestra en el motor estadístico. Se creó un helper `_assertMinSample()` que estandariza mensajes de error, y se corrigieron 3 bugs silenciosos donde funciones devolvían datos incorrectos en vez de error.
+
+**Cambios:**
+
+| # | Archivo | Cambio | Impacto |
+|---|---------|--------|---------|
+| 1 | `StatsUtils.js:46` | Fix JSDoc: `threshold` default era `0.8` pero el código usaba `0.5` | 🟢 Documentación |
+| 2 | `EstadisticaDescriptiva.js:85-96` | +`_numCache` (WeakMap existente) + `_MIN_SAMPLE_GLOBAL = 2` + función `_assertMinSample(arr, min, testName)` | 🟢 Helper nuevo |
+| 3 | `EstadisticaDescriptiva.js:4829-5229` | Reemplazadas 20 validaciones inline en switch/case por llamadas a `_assertMinSample()` | 🟡 Estandarización |
+| 4 | `EstadisticaDescriptiva.js:2629` | `powerIterationEigen()`: cambiado silent fallback `{ values:[1], vectors:[[1]], converged:true }` → `{ error: '...' }` | 🔴 Bugfix |
+| 5 | `EstadisticaDescriptiva.js:3416` | PACF: cambiado `continue` silencioso con push de fallback → `break` (sale del loop) | 🔴 Bugfix |
+
+**Tests afectados (switch/case, ~20):**
+- Kruskal-Wallis (groupKeys≥3), Wilcoxon (values≥5), Friedman (blockKeys≥3), Signos (values1≥5), Bootstrap (values≥10), PCA (columns≥2, matrix≥10), Análisis Factorial (columns≥3, data≥3), TOST (values≥2), Cluster (columns≥2, matrix≥5), Discriminante (columns≥2, matrix≥10), M-ANOVA (columns≥2, matrix≥10), Series Temporales (values≥10), Supervivencia (tiempos≥5), Modelos Mixtos (Y≥10), Bayesiano (values≥5)
+
+**Antes:** Cada test tenía su propio `if (x.length < N) return { error: 'mensaje hardcodeado' }` — mensajes inconsistentes, posible desincronización con `estadisticosConfig.minMuestra`.
+
+**Después:** Todos los tests en `ejecutarAnalisis` usan `_assertMinSample(values, N, 'TestName')` que genera mensaje consistente: `"TestName requiere al menos N observaciones (se encontraron X)"`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/StatsUtils.js:46` | 1 línea JSDoc fix |
+| `js/core/EstadisticaDescriptiva.js` | +helper + 22 llamadas + fixes silent |
+
 ### 2026-07-02: Límites de tamaño en reportes + memoización getNumericValues
 
 **Qué:** Se agregaron límites de tamaño en los generadores de reportes (CSV/TXT/HTML) y memoización de `getNumericValues()` en `EstadisticaDescriptiva.js` para evitar que reportes con datasets grandes (200+ columnas, 50K+ filas) fallen por límite de memoria.

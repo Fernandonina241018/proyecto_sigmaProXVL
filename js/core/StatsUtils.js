@@ -43,7 +43,7 @@ const StatsUtils = (function () {
      *
      * @param {Object} data - { headers: string[], data: Array[]|Object[] }
      * @param {Object} options - Configuración opcional
-     * @param {number} options.threshold - Umbral mínimo de valores válidos (0-1, default 0.8)
+     * @param {number} options.threshold - Umbral mínimo de valores válidos (0-1, default 0.5)
      * @param {string[]} options.excludeColumns - Columnas a excluir (default: ['#', 'A', 'Row', 'index', etc.])
      * @returns {string[]} Array de nombres de columnas numéricas
      */

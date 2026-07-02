@@ -90,6 +90,16 @@ const EstadisticaDescriptiva = (() => {
      * Versión con validación estricta (lanza error si no hay datos)
      */
     const _numCache = typeof WeakMap !== 'undefined' ? new WeakMap() : null;
+    const _MIN_SAMPLE_GLOBAL = 2;
+
+    function _assertMinSample(arr, min, testName) {
+        const actual = typeof arr === 'number' ? arr : (arr ? arr.length : 0);
+        if (actual < min) {
+            const msg = `${testName || 'Esta prueba'} requiere al menos ${min} observación${min !== 1 ? 'es' : ''} (se encontraron ${actual})`;
+            return { error: msg };
+        }
+        return null;
+    }
 
     function getNumericValues(data, columnName) {
         if (_numCache) {
@@ -2618,7 +2628,7 @@ interpretacion: interpretacion,
        */
       function powerIterationEigen(matrix) {
         if (!matrix || !Array.isArray(matrix) || matrix.length < 2) {
-          return { values: [1], vectors: [[1]], converged: true };
+          return { error: 'Se necesitan al menos 2 observaciones' };
         }
         
         const n = matrix.length;
@@ -3403,7 +3413,7 @@ interpretacion: interpretacion,
         const pacf = [{ lag: 0, value: 1 }];
         for (let lag = 1; lag <= maxLag; lag++) {
             const r = acf.slice(1, lag + 1).map(a => a.value);
-            if (r.length < 2) { pacf.push({ lag, value: r[0] || 0 }); continue; }
+            if (r.length < 2) { break; }
             const m = r.length;
             const phi = Array(m).fill(0);
             phi[m - 1] = r[m - 1];
@@ -4818,9 +4828,7 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                                  }
                              });
                              const groupKeys = Object.keys(groups);
-                             if (groupKeys.length < 3) {
-                                 resultados['Kruskal-Wallis'] = { error: `Se necesitan al menos 3 grupos (encontrados: ${groupKeys.length})` };
-                             } else {
+                              var _a = _assertMinSample(groupKeys, 3, 'Kruskal-Wallis'); if (_a) { resultados['Kruskal-Wallis'] = _a; } else {
                                  const grupos = groupKeys.map(k => groups[k]);
                                  resultados['Kruskal-Wallis'] = calcularKruskalWallis(grupos);
                                  resultados['Kruskal-Wallis'].columnaAgrupacion = catCol;
@@ -4847,9 +4855,7 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                           } else {
                               const values1 = getNumericValues(data, col1);
                               const values2 = getNumericValues(data, col2);
-                              if (values1.length < 5 || values2.length < 5) {
-                                  resultados['Wilcoxon'] = { error: 'Se necesitan al menos 5 observaciones por muestra' };
-                              } else if (values1.length !== values2.length) {
+                               var _a = _assertMinSample(values1, 5, 'Wilcoxon'); if (_a) { resultados['Wilcoxon'] = _a; break; } var _a2 = _assertMinSample(values2, 5, 'Wilcoxon'); if (_a2) { resultados['Wilcoxon'] = _a2; break; } if (values1.length !== values2.length) {
                                   resultados['Wilcoxon'] = { error: 'Las muestras deben tener el mismo tamaño (muestras pareadas)' };
                               } else {
                                   resultados['Wilcoxon'] = calcularWilcoxon(values1, values2);
@@ -4880,9 +4886,7 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                                   }
                               });
                               const blockKeys = Object.keys(grupos);
-                              if (blockKeys.length < 3) {
-                                  resultados['Friedman'] = { error: 'Se necesitan al menos 3 bloques' };
-                              } else {
+                               var _a = _assertMinSample(blockKeys, 3, 'Friedman'); if (_a) { resultados['Friedman'] = _a; } else {
                                   const k = grupos[blockKeys[0]].length;
                                   if (k < 3) {
                                       resultados['Friedman'] = { error: 'Se necesitan al menos 3 tratamientos por bloque' };
@@ -4912,9 +4916,7 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                           } else {
                               const values1 = getNumericValues(data, col1);
                               const values2 = getNumericValues(data, col2);
-                              if (values1.length < 5) {
-                                  resultados['Test de Signos'] = { error: 'Se necesitan al menos 5 observaciones' };
-                              } else {
+                               var _a = _assertMinSample(values1, 5, 'Test de Signos'); if (_a) { resultados['Test de Signos'] = _a; } else {
                                   resultados['Test de Signos'] = calcularTestSignos(values1, values2);
 resultados['Test de Signos'].columna1 = col1;
                                     resultados['Test de Signos'].columna2 = col2;
@@ -4937,10 +4939,7 @@ resultados['Test de Signos'].columna1 = col1;
                             
                             numericCols.forEach(col => {
                                 const values = getNumericValues(data, col);
-                                if (values.length < 10) {
-                                    resultados['Bootstrap'] = { error: 'Se necesitan al menos 10 observaciones' };
-                                    return;
-                                }
+                                 var _a = _assertMinSample(values, 10, 'Bootstrap'); if (_a) { resultados['Bootstrap'] = _a; return; }
                                 resultados['Bootstrap'] = calcularBootstrap(values, statName, B, nivelConfianza);
                                 resultados['Bootstrap'].columna = col;
                             });
@@ -4962,9 +4961,7 @@ resultados['Test de Signos'].columna1 = col1;
                         
                         debugLog('[PCA] pcaColumns:', pcaColumns);
                         
-                        if (pcaColumns.length < 2) {
-                            resultados['PCA (Componentes Principales)'] = { error: 'Seleccione al menos 2 columnas para PCA en la configuración' };
-                        } else {
+                         var _a = _assertMinSample(pcaColumns, 2, 'PCA (Componentes Principales)'); if (_a) { resultados['PCA (Componentes Principales)'] = _a; } else {
                             const dataMatrix = [];
                             const lengths = pcaColumns.map(col => getNumericValues(data, col).length);
                             const validLengths = lengths.filter(l => l > 0);
@@ -4989,9 +4986,7 @@ resultados['Test de Signos'].columna1 = col1;
                                 
                                 debugLog('[PCA] dataMatrix.length:', dataMatrix.length, 'dataMatrix[0]:', dataMatrix[0]);
                                 
-                                if (dataMatrix.length < 10) {
-                                    resultados['PCA (Componentes Principales)'] = { error: 'Se necesitan al menos 10 observaciones para PCA' };
-                                } else {
+                                 var _a2 = _assertMinSample(dataMatrix, 10, 'PCA (Componentes Principales)'); if (_a2) { resultados['PCA (Componentes Principales)'] = _a2; } else {
                                     const pcaResult = calcularPCA(dataMatrix, pcaColumns.length);
                                     debugLog('[PCA] resultado:', pcaResult);
                                     resultados['PCA (Componentes Principales)'] = pcaResult;
@@ -5011,16 +5006,12 @@ resultados['Test de Signos'].columna1 = col1;
                             afColumns = hypothesisConfig['Análisis Factorial'].columnas;
                         }
                         
-                        if (afColumns.length < 3) {
-                            resultados['Análisis Factorial'] = { error: 'Seleccione al menos 3 columnas para Análisis Factorial' };
-                        } else {
+                         var _a = _assertMinSample(afColumns, 3, 'Análisis Factorial'); if (_a) { resultados['Análisis Factorial'] = _a; } else {
                             const afDataMatrix = [];
                             const afLengths = afColumns.map(col => getNumericValues(data, col).length);
                             const afValidLengths = afLengths.filter(l => l > 0);
                             
-                            if (afValidLengths.length < 3) {
-                                resultados['Análisis Factorial'] = { error: 'No hay suficientes datos válidos en las columnas seleccionadas' };
-                            } else {
+                             var _a2 = _assertMinSample(afValidLengths, 3, 'Análisis Factorial'); if (_a2) { resultados['Análisis Factorial'] = _a2; } else {
                                 // Usar todas las filas pero solo las columnas seleccionadas
                                 const allData = data.data || [];
                                 const minAfRows = allData.length;
@@ -5056,9 +5047,7 @@ resultados['Test de Signos'].columna1 = col1;
                             const values1 = getNumericValues(data, cfg.columnaX);
                             const values2 = getNumericValues(data, cfg.columnaY);
                             const delta = parseFloat(cfg.delta) || 0.5;
-                            if (values1.length < 2 || values2.length < 2) {
-                                resultados['Test TOST (Equivalencia)'] = { error: 'Ambas columnas necesitan al menos 2 valores numéricos' };
-                            } else {
+                             var _a = _assertMinSample(values1, 2, 'Test TOST (Equivalencia)'); if (_a) { resultados['Test TOST (Equivalencia)'] = _a; break; } var _a2 = _assertMinSample(values2, 2, 'Test TOST (Equivalencia)'); if (_a2) { resultados['Test TOST (Equivalencia)'] = _a2; break; } else {
                                 const res = calcularTOST(values1, values2, delta);
                                 res.columnaX = cfg.columnaX;
                                 res.columnaY = cfg.columnaY;
@@ -5079,9 +5068,7 @@ resultados['Test de Signos'].columna1 = col1;
                                 clusterColumns = hypothesisConfig['Análisis de Cluster'].columnas;
                             }
                             const k = hypothesisConfig['Análisis de Cluster']?.k || 3;
-                            if (clusterColumns.length < 2) {
-                                resultados['Análisis de Cluster'] = { error: 'Seleccione al menos 2 columnas numéricas' };
-                            } else {
+                             var _a = _assertMinSample(clusterColumns, 2, 'Análisis de Cluster'); if (_a) { resultados['Análisis de Cluster'] = _a; } else {
                                 const dataMatrix = [];
                                 const minLen = Math.min(...clusterColumns.map(col => getNumericValues(data, col).length));
                                 for (let i = 0; i < minLen; i++) {
@@ -5089,9 +5076,7 @@ resultados['Test de Signos'].columna1 = col1;
                                     if (row.some(v => isNaN(v))) continue;
                                     dataMatrix.push(row);
                                 }
-                                if (dataMatrix.length < 5) {
-                                    resultados['Análisis de Cluster'] = { error: 'Se necesitan al menos 5 observaciones completas' };
-                                } else {
+                                 var _a2 = _assertMinSample(dataMatrix, 5, 'Análisis de Cluster'); if (_a2) { resultados['Análisis de Cluster'] = _a2; } else {
                                     const res = calcularCluster(dataMatrix, k);
                                     res.columnas = clusterColumns;
                                     resultados['Análisis de Cluster'] = res;
@@ -5110,9 +5095,7 @@ resultados['Test de Signos'].columna1 = col1;
                             const numCols = cfg?.columnas || numericCols;
                             if (!catCol) {
                                 resultados['Análisis Discriminante'] = { error: 'Seleccione una columna de grupo y columnas numéricas' };
-                            } else if (numCols.length < 2) {
-                                resultados['Análisis Discriminante'] = { error: 'Seleccione al menos 2 columnas numéricas' };
-                            } else {
+                             } var _a = _assertMinSample(numCols, 2, 'Análisis Discriminante'); if (_a) { resultados['Análisis Discriminante'] = _a; break; } else {
                                 const dataMatrix = [];
                                 const labels = [];
                                 for (let i = 0; i < data.data.length; i++) {
@@ -5121,9 +5104,7 @@ resultados['Test de Signos'].columna1 = col1;
                                     dataMatrix.push(row);
                                     labels.push(data.data[i][catCol]);
                                 }
-                                if (dataMatrix.length < 10) {
-                                    resultados['Análisis Discriminante'] = { error: 'Se necesitan al menos 10 observaciones completas' };
-                                } else {
+                                 var _a2 = _assertMinSample(dataMatrix, 10, 'Análisis Discriminante'); if (_a2) { resultados['Análisis Discriminante'] = _a2; } else {
                                     const res = calcularDiscriminante(dataMatrix, labels);
                                     res.categoricalCol = catCol;
                                     res.columnas = numCols;
@@ -5143,9 +5124,7 @@ resultados['Test de Signos'].columna1 = col1;
                             const numCols = cfg?.columnas || numericCols;
                             if (!catCol) {
                                 resultados['M-ANOVA'] = { error: 'Seleccione una columna de grupo y columnas dependientes' };
-                            } else if (numCols.length < 2) {
-                                resultados['M-ANOVA'] = { error: 'Seleccione al menos 2 variables dependientes' };
-                            } else {
+                             } var _a = _assertMinSample(numCols, 2, 'M-ANOVA'); if (_a) { resultados['M-ANOVA'] = _a; break; } else {
                                 const dataMatrix = [];
                                 const labels = [];
                                 for (let i = 0; i < data.data.length; i++) {
@@ -5154,9 +5133,7 @@ resultados['Test de Signos'].columna1 = col1;
                                     dataMatrix.push(row);
                                     labels.push(data.data[i][catCol]);
                                 }
-                                if (dataMatrix.length < 10) {
-                                    resultados['M-ANOVA'] = { error: 'Se necesitan al menos 10 observaciones completas' };
-                                } else {
+                                 var _a2 = _assertMinSample(dataMatrix, 10, 'M-ANOVA'); if (_a2) { resultados['M-ANOVA'] = _a2; } else {
                                     const res = calcularMANOVA(dataMatrix, labels);
                                     res.categoricalCol = catCol;
                                     res.columnas = numCols;
@@ -5175,9 +5152,7 @@ resultados['Test de Signos'].columna1 = col1;
                             const col = cfg?.numericCol || numericCols[0];
                             const period = cfg?.periodo || Math.max(2, Math.floor(Math.sqrt(data.data.length)));
                             const values = getNumericValues(data, col);
-                            if (values.length < 10) {
-                                resultados['Series Temporales'] = { error: 'Se necesitan al menos 10 observaciones' };
-                            } else {
+                             var _a = _assertMinSample(values, 10, 'Series Temporales'); if (_a) { resultados['Series Temporales'] = _a; } else {
                                 const res = calcularSeriesTemporales(values, period);
                                 res.columna = col;
                                 resultados['Series Temporales'] = res;
@@ -5205,9 +5180,7 @@ resultados['Test de Signos'].columna1 = col1;
                                     return 0;
                                 });
                                 const grupos = grupoCol ? data.data.map(row => row[grupoCol]) : null;
-                                if (tiempos.length < 5) {
-                                    resultados['Análisis de Supervivencia'] = { error: 'Se necesitan al menos 5 observaciones' };
-                                } else {
+                                 var _a = _assertMinSample(tiempos, 5, 'Análisis de Supervivencia'); if (_a) { resultados['Análisis de Supervivencia'] = _a; } else {
                                     const res = calcularSupervivencia(tiempos, eventos, grupos);
                                     res.columnaTiempo = tiempoCol;
                                     res.columnaEvento = eventoCol;
@@ -5231,9 +5204,7 @@ resultados['Test de Signos'].columna1 = col1;
                             } else {
                                 const Y = getNumericValues(data, numCol);
                                 const grupos = data.data.map(row => row[catCol]);
-                                if (Y.length < 10) {
-                                    resultados['Modelos Mixtos'] = { error: 'Se necesitan al menos 10 observaciones' };
-                                } else {
+                                 var _a = _assertMinSample(Y, 10, 'Modelos Mixtos'); if (_a) { resultados['Modelos Mixtos'] = _a; } else {
                                     const res = calcularModelosMixtos(Y, null, grupos);
                                     res.columnaY = numCol;
                                     res.columnaGrupo = catCol;
@@ -5255,9 +5226,7 @@ resultados['Test de Signos'].columna1 = col1;
                                 varianza: parseFloat(cfg?.priorVarianza) || null
                             };
                             const values = getNumericValues(data, col);
-                            if (values.length < 5) {
-                                resultados['Análisis Bayesiano'] = { error: 'Se necesitan al menos 5 observaciones' };
-                            } else {
+                             var _a = _assertMinSample(values, 5, 'Análisis Bayesiano'); if (_a) { resultados['Análisis Bayesiano'] = _a; } else {
                                 if (!prior.varianza) prior.varianza = calcularVarianza(values, true);
                                 const res = calcularBayesiano(values, prior);
                                 res.columna = col;
