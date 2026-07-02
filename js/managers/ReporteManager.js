@@ -10,6 +10,9 @@ const ReporteManager = (() => {
 
     const EXCLUDE_KEYS = new Set(['columnaAgrupacion','columnaValores','grupo1','grupo2']);
 
+    const MAX_REPORT_COLS = 100;
+    const MAX_ROWS_REPORT = 5000;
+
     const FLAGS = {
         CV_HIGH: 30, CV_VERY_HIGH: 50,
         N_MIN: 30,   OUTLIER_IQR: 1.5, SKEW_MODERATE: 0.5
@@ -630,6 +633,8 @@ const ReporteManager = (() => {
         const W=80, L=[], p=s=>L.push(s);
         const lang=currentLang;
         const NA=currentLang==='es'?'NO ESPECIFICADO':'NOT SPECIFIED';
+        const colTrunc=resultados.columnasAnalizadas.length>MAX_REPORT_COLS;
+        if(colTrunc) resultados.columnasAnalizadas.length=MAX_REPORT_COLS;
 
         p(doubleLine(W));
         p(`  ${t('reportTitle')}`);
@@ -664,6 +669,7 @@ const ReporteManager = (() => {
         p(`  ${pad(t('totalRecords')+' :',24)}: ${resultados.totalFilas}`);
         p(`  ${pad(t('numericColumns')+' :',24)}: ${resultados.totalColumnas}`);
         p(`  ${pad(t('analyzed')+' :',24)}: ${resultados.columnasAnalizadas.join(', ')}`);
+        if(colTrunc) p(`  ${pad('⚠  ',24)}: ${currentLang==='es'?`ATENCIÓN: El dataset tiene más de ${MAX_REPORT_COLS} columnas. Solo se muestran las primeras ${MAX_REPORT_COLS}.`:`WARNING: Dataset has more than ${MAX_REPORT_COLS} columns. Only the first ${MAX_REPORT_COLS} are shown.`}`);
         p(`  ${pad(t('statistics')+' :',24)}: ${resultados.estadisticos.join(', ')}`);
         p(`  ${pad(t('integrityHash')+' :',24)}: RPT-${hash}`);
         p('');
@@ -734,10 +740,12 @@ const ReporteManager = (() => {
                      var colIdx = sheet ? sheet.headers.indexOf(col) : -1;
                      var vals = [];
                      if (colIdx >= 0) {
-                         sheet.rows.forEach(function(r){
-                             var v = parseFloat(r[colIdx]);
+                         var maxRowsCalc = Math.min(sheet.rows.length, MAX_ROWS_REPORT);
+                         for (var _ri = 0; _ri < maxRowsCalc; _ri++) {
+                             var v = parseFloat(sheet.rows[_ri][colIdx]);
                              if (!isNaN(v)) vals.push(v);
-                         });
+                         }
+                         if (sheet.rows.length > MAX_ROWS_REPORT) p(`  ${pad('  ⚠ ',28)}: ${currentLang==='es'?`Cálculo limitado a ${MAX_ROWS_REPORT} filas de ${sheet.rows.length}.`:`Calculation limited to ${MAX_ROWS_REPORT} out of ${sheet.rows.length} rows.`}`);
                      }
                      var within = 0, outside = 0;
                      vals.forEach(function(v){
@@ -996,6 +1004,9 @@ const ReporteManager = (() => {
     // ── Generador CSV ─────────────────────
     function generarCSV(resultados, meta, hash) {
         const ext=computeExtendedStats(resultados);
+        const cols=resultados.columnasAnalizadas;
+        const colTrunc=cols.length>MAX_REPORT_COLS;
+        if(colTrunc) cols.length=MAX_REPORT_COLS;
         const rows=[
             `## ${t('reportTitle')}`,
             `## ${t('docId')}|RPT-${hash}`,
@@ -1017,6 +1028,8 @@ const ReporteManager = (() => {
             '##',
              `${t('variable')}|${t('statistic')}|SUB_KEY|${t('value')}|CV_PCT|PARAM_MIN|PARAM_MAX|PARAM_ESP|PARAM_FUERA|PARAM_CUMPLIMIENTO_PCT|FLAG_COUNT|FLAGS`
          ];
+
+         if (colTrunc) rows.push(`## ${currentLang==='es'?`⚠ ATENCIÓN: El dataset tiene más de ${MAX_REPORT_COLS} columnas. Solo se muestran las primeras ${MAX_REPORT_COLS}.`:`⚠ WARNING: Dataset has more than ${MAX_REPORT_COLS} columns. Only the first ${MAX_REPORT_COLS} are shown.`}`);
 
          resultados.columnasAnalizadas.forEach(col=>{
             const cv          = ext[col]?.cv?.toFixed(4) ?? '';
@@ -1059,6 +1072,8 @@ const ReporteManager = (() => {
         const ext=computeExtendedStats(resultados);
         const totalFlags=Object.values(ext).reduce((a,d)=>a+d.flags.length,0);
         const lang=currentLang;
+        const colTrunc=resultados.columnasAnalizadas.length>MAX_REPORT_COLS;
+        if(colTrunc) resultados.columnasAnalizadas.length=MAX_REPORT_COLS;
         
         // Generar contenido del QR - con toda la info
         const qrContent = [
@@ -1172,9 +1187,11 @@ const ReporteManager = (() => {
                     var within = 0, outside = 0;
                     var specDetalles = [];
                     if (colIdx >= 0 && sheet) {
-                        sheet.rows.forEach(function(r, ri){
+                        var maxRowsCalc = Math.min(sheet.rows.length, MAX_ROWS_REPORT);
+                        for (var _ri2 = 0; _ri2 < maxRowsCalc; _ri2++) {
+                            var r = sheet.rows[_ri2];
                             var v = parseFloat(r[colIdx]);
-                            if (isNaN(v)) return;
+                            if (isNaN(v)) continue;
                             var ok = true;
                             var especExcedida = null;
                             var valorEsperado = null;
@@ -1184,7 +1201,7 @@ const ReporteManager = (() => {
                             else {
                                 outside++;
                                 specDetalles.push({
-                                    fila: ri + 1,
+                                    fila: _ri2 + 1,
                                     valor: v,
                                     especExcedida: especExcedida,
                                     valorEsperado: valorEsperado,
@@ -1192,6 +1209,9 @@ const ReporteManager = (() => {
                                 });
                             }
                         });
+                        if (sheet.rows.length > MAX_ROWS_REPORT) {
+                            h += '<tr><td colspan="3" style="padding:2px 14px 2px 36px;font-size:8pt;color:#b7791f;font-style:italic">⚠ ' + (currentLang==='es'?'Cálculo limitado a '+MAX_ROWS_REPORT+' filas de '+sheet.rows.length+'.':'Calculation limited to '+MAX_ROWS_REPORT+' out of '+sheet.rows.length+' rows.') + '</td></tr>';
+                        }
                     }
                     var total = within + outside;
                     var lsTxt = limits.ls !== null ? limits.ls.toFixed(4) : '—';
@@ -1360,6 +1380,7 @@ tr:hover td{background:#f7faff}
       <div style="grid-column:1/-1">${mRow(t('statistics'),resultados.estadisticos.join(' · '))}</div>
       <div style="grid-column:1/-1"><span class="ml">${t('integrityHash')}</span><span class="mv" style="font-family:monospace;font-size:9pt">RPT-${hash}</span></div>
     </div>
+    ${colTrunc ? `<div style="margin-top:10px;padding:10px 14px;background:#fffbeb;border:1px solid #f6e05e;border-radius:6px;color:#92400e;font-size:9pt;font-weight:500">⚠ ${currentLang==='es'?`El dataset tiene más de ${MAX_REPORT_COLS} columnas analizadas. Solo se muestran las primeras ${MAX_REPORT_COLS}.`:`Dataset has more than ${MAX_REPORT_COLS} analyzed columns. Only the first ${MAX_REPORT_COLS} are shown.`}</div>` : ''}
   </div>
   <div class="sec">
     <div class="sec-title"><span class="sec-num">03</span>${t('html_sec3')}</div>
