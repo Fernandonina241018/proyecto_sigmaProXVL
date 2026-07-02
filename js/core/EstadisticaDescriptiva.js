@@ -5093,9 +5093,11 @@ resultados['Test de Signos'].columna1 = col1;
                             const cfg = hypothesisConfig['Análisis Discriminante'];
                             const catCol = cfg?.categoricalCols?.[0];
                             const numCols = cfg?.columnas || numericCols;
-                            if (!catCol) {
+                             if (!catCol) {
                                 resultados['Análisis Discriminante'] = { error: 'Seleccione una columna de grupo y columnas numéricas' };
-                             } var _a = _assertMinSample(numCols, 2, 'Análisis Discriminante'); if (_a) { resultados['Análisis Discriminante'] = _a; break; } else {
+                                break;
+                            }
+                            var _a = _assertMinSample(numCols, 2, 'Análisis Discriminante'); if (_a) { resultados['Análisis Discriminante'] = _a; break; }
                                 const dataMatrix = [];
                                 const labels = [];
                                 for (let i = 0; i < data.data.length; i++) {
@@ -5124,7 +5126,9 @@ resultados['Test de Signos'].columna1 = col1;
                             const numCols = cfg?.columnas || numericCols;
                             if (!catCol) {
                                 resultados['M-ANOVA'] = { error: 'Seleccione una columna de grupo y columnas dependientes' };
-                             } var _a = _assertMinSample(numCols, 2, 'M-ANOVA'); if (_a) { resultados['M-ANOVA'] = _a; break; } else {
+                                break;
+                            }
+                            var _a = _assertMinSample(numCols, 2, 'M-ANOVA'); if (_a) { resultados['M-ANOVA'] = _a; break; }
                                 const dataMatrix = [];
                                 const labels = [];
                                 for (let i = 0; i < data.data.length; i++) {
