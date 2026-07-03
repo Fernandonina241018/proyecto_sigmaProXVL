@@ -192,6 +192,7 @@
   #paneLeft { flex: 0 0 auto; width: 240px; border-right: none; }
   #paneLeft.pane-reportes { width: 320px; }
   #paneLeft.pane-ml { width: 480px; }
+  #paneLeft.pane-trabajo { width: 312px; }
   #paneRight { flex: 1 1 0; min-width: 0; }
   .pane-resizer { width:5px; background:transparent; cursor:col-resize; flex-shrink:0; display:flex; align-items:center; justify-content:center; position:relative; transition:background .15s; z-index:10; }
   .pane-resizer:hover, .pane-resizer.dragging { background:rgba(124,106,247,.35); }
@@ -933,6 +934,7 @@
   #paneLeft { width: 200px; }
   #paneLeft.pane-reportes { width: 260px; }
   #paneLeft.pane-ml { width: 360px; }
+  #paneLeft.pane-trabajo { width: 260px; }
 }
 
 /* ============================================

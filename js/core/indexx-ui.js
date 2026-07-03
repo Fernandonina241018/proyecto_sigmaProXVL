@@ -789,6 +789,7 @@ function loadPage(name) {
   leftPaneBody.style.overflow = (name === 'datos') ? 'hidden' : '';
   document.getElementById('paneLeft')?.classList.toggle('pane-reportes', name === 'reportes');
   document.getElementById('paneLeft')?.classList.toggle('pane-ml', name === 'ml');
+  document.getElementById('paneLeft')?.classList.toggle('pane-trabajo', name === 'trabajo');
   var rightFn = rightPanels[name];
   try { rightPaneBody.innerHTML = rightFn ? rightFn() : '<div class="page-body"><div style="color:var(--text-faint)">Página no encontrada</div></div>'; } catch(e) { rightPaneBody.innerHTML = '<div class="page-body"><div style="padding:20px;color:#f87171;font-size:13px">Error al cargar página: ' + escapeHtml(e.message) + '</div></div>'; }
   if (name === 'datos' || name === 'trabajo') rightPaneBody.classList.add('flush');
