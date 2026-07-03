@@ -363,8 +363,9 @@ function firmaResetSignatures() {
 }
 
 function firmaUpdatePreview(role, field, value) {
-  if (!_firmaCurrentDoc) return;
-  var el = _firmaCurrentDoc.querySelector('[data-signature-role="' + role + '"] [data-signature-field="' + field + '"]');
+  if (!_firmaCurrentDoc) { console.warn('[firma] _firmaCurrentDoc is null'); return; }
+  var selector = '[data-signature-role="' + role + '"] [data-signature-field="' + field + '"]';
+  var el = _firmaCurrentDoc.querySelector(selector);
   if (el) {
     el.textContent = value || '';
     el.style.color = '#1a202c';
@@ -377,6 +378,8 @@ function firmaUpdatePreview(role, field, value) {
         iframe.srcdoc = _firmaCurrentHtml;
       }
     }
+  } else {
+    console.warn('[firma] Elemento no encontrado para selector:', selector);
   }
 }
 
@@ -493,6 +496,7 @@ async function firmaVerify(role, code, password, statusEl) {
     }
     var now = new Date();
     var fechaStr = now.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) + ' ' + now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
+    console.log('[firma] API response data:', JSON.stringify(data));
     _firmaSignatureState[role] = {
       signed: true,
       nombre: data.nombre,
