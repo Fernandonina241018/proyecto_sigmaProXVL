@@ -525,7 +525,7 @@ var rightPanels = {
     var pageRows = rows.slice(start, end);
     var colHeaders = cols.map(function(c, ci){
       var frozenClass = (trabajoFreezeFirstCol && ci === 0) ? ' frozen-col' : '';
-      return '<th style="min-width:100px;text-align:left;font-size:11px;font-weight:500;padding:0;border-right:1px solid var(--border);background:var(--bg-primary);position:sticky;top:0;z-index:' + (trabajoFreezeFirstCol && ci===0 ? 3 : 2) + ';' + (trabajoFreezeFirstCol && ci===0 ? 'left:40px;border-right:2px solid rgba(124,106,247,.4)' : '') + '" class="' + frozenClass + '">' +
+      return '<th style="width:120px;min-width:120px;text-align:left;font-size:11px;font-weight:500;padding:0;border-right:1px solid var(--border);background:var(--bg-primary);position:sticky;top:0;z-index:' + (trabajoFreezeFirstCol && ci===0 ? 3 : 2) + ';' + (trabajoFreezeFirstCol && ci===0 ? 'left:40px;border-right:2px solid rgba(124,106,247,.4)' : '') + '" class="' + frozenClass + '">' +
         '<div class="col-header-editable" contenteditable="true" data-colidx="' + ci + '" onblur="renameColumn(' + ci + ',this.textContent)" onmouseenter="showColStats(event,' + ci + ')" onmouseleave="hideColStats()" title="Hover: estadísticas · Doble clic: renombrar">' + escapeHtml(c) + '</div></th>';
     }).join('');
 
@@ -570,7 +570,7 @@ var rightPanels = {
         '</div>' +
       '</div>' +
       '<div style="flex:1;overflow:auto;position:relative" id="trabajoScrollWrap">' +
-        '<table id="trabajoTable" style="border-collapse:collapse;width:100%;table-layout:fixed;min-width:400px">' +
+        '<table id="trabajoTable" style="border-collapse:collapse;min-width:100%">' +
           '<thead style="position:sticky;top:0;z-index:2"><tr>' +
             '<th style="width:40px;background:var(--bg-primary);border-right:1px solid var(--border);border-bottom:1px solid var(--border);cursor:pointer;position:sticky;top:0;z-index:3;left:0" onclick="selectAll()" title="Seleccionar todo"></th>' +
             colHeaders +
