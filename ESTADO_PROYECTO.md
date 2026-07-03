@@ -73,6 +73,31 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 **Efecto:** Al arrastrar el borde del sidebar para hacerlo más angosto o ancho, los inputs globales de límites ahora se estiran/contraen sin dejar espacio, igual que el input "Código de firma" en la página Firmar Reporte.
 
+### 2026-07-02 (3): Rediseño completo sidebar trabajo al estilo SAP
+
+**Qué:** Se reemplazó el diseño del sidebar de Hoja de Trabajo por el modelo SAP (`sap_sidebar_panel_v2.html`). Incluye:
+
+- **Header**: Título "📋 Hoja de Trabajo" + botón ⋯
+- **Botones de acción**: Grid 3-col para Acciones/Editar/Vista con dropdown menus (misma funcionalidad)
+- **Selector de hoja**: Estilo SAP con label "Hoja", select pulido, botones ✕/+
+- **Resumen**: Badge de estado (✓ Sin anomalías / ⚠ N vacías) + 6 métricas en grid (Filas, Columnas, Vacías, Mínimo, Media, Máximo)
+- **Celda activa**: Ref + valor + estadísticas de columna (μ/σ) + barra visual de posición + flag "fuera de rango"
+- **Límites**: Toggle switch animado + tarjetas LOD (rojo) / MDL (naranja) / LOQ (púrpura) + badge validación secuencia + inputs con labels en grid 2+1
+
+**Cambios:**
+
+| # | Archivo | Cambio |
+|---|---------|--------|
+| 1 | `indexx-ui.js:244-306` | `leftPanels.trabajo`: header, grid acciones, sheet selector, resumen/activa/limites sin `.info-list` |
+| 2 | `indexx-trabajo.js:265-289` | `getTrabajoResumenHTML()`: badge estado + 6 métricas grid (agregó Mín/Media/Máx) |
+| 3 | `indexx-trabajo.js:290-340` | `getTrabajoCeldaActivaHTML()`: ref + valor + col μ/σ + barra visual + flag fuera de rango |
+| 4 | `indexx-trabajo.js:355-440` | `renderLimitsPanel()`: tarjetas LOD/MDL/LOQ coloreadas, badge validación, inputs con labels en grid |
+| 5 | `indexx-trabajo.js:343-353` | `toggleLimitsMode()`: ahora también sincroniza toggle visual (`.toggle-bg`, `.toggle-thumb`) |
+
+**IDs preservados** (no se rompen referencias): `sheetsSelect`, `limitsGlobalToggle`, `trabajoResumen`, `trabajoCeldaActiva`, `trabajoLimitsBody`, `limitGlobalLS/LI/LC`, `limitLS/LI/LC_${i}`, `ddFreezeCol`, `ddCondFormat`
+
+**Efecto:** Sidebar más compacto, informativo y profesional. Las métricas de resumen ahora incluyen estadísticas descriptivas. La celda activa muestra contexto completo. Los límites tienen presentación tipo dashboard con validación visual. Toggle animado.
+
 ### 2026-07-01: Primer login — muestra contraseña temporal + configuración obligatoria de código de firma
 
 **Qué:** Al primer login (password_temp=1), el modal de cambio forzado ahora:

@@ -243,10 +243,15 @@ var rightPaneBody  = document.getElementById('rightPaneBody');
 
 var leftPanels = {
   trabajo: function() {
-    return '<div class="left-panel" style="gap:10px">' +
-      '<div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0">' +
+    var isGlobal = trabajoLimitsMode === 'global';
+    return '<div class="left-panel" style="gap:8px">' +
+      '<div style="display:flex;align-items:center;gap:6px;padding:0 0 4px;flex-shrink:0">' +
+        '<span style="flex:1;font-size:13px;font-weight:600;color:var(--text-primary)">📋 Hoja de Trabajo</span>' +
+        '<button style="width:24px;height:24px;padding:0;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:default;color:var(--text-faint);font-size:16px;border-radius:4px" title="Más opciones">⋯</button>' +
+      '</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;flex-shrink:0;position:relative;z-index:10">' +
         '<div class="tb-dropdown">' +
-          '<button class="btn btn-primary btn-dd" onclick="toggleDropdown(this)">📋 Acciones ▾</button>' +
+          '<button class="btn btn-primary" style="width:100%;height:30px;min-height:30px;font-size:12px;display:flex;align-items:center;justify-content:center;gap:4px" onclick="toggleDropdown(this)">📋 Acciones</button>' +
           '<div class="dd-menu">' +
             '<div class="dd-item" onclick="generateSampleData()">⚙️ Configurar datos</div>' +
             '<div class="dd-item" onclick="exportTrabajo()">💾 Exportar CSV</div>' +
@@ -254,7 +259,7 @@ var leftPanels = {
           '</div>' +
         '</div>' +
         '<div class="tb-dropdown">' +
-          '<button class="btn btn-secondary btn-dd" onclick="toggleDropdown(this)">✏️ Editar ▾</button>' +
+          '<button class="btn btn-secondary" style="width:100%;height:30px;min-height:30px;font-size:12px;display:flex;align-items:center;justify-content:center;gap:4px" onclick="toggleDropdown(this)">✏️ Editar</button>' +
           '<div class="dd-menu">' +
             '<div class="dd-item" onclick="addRow()">➕ Fila</div>' +
             '<div class="dd-item" onclick="addColumn()">➕ Columna</div>' +
@@ -266,31 +271,36 @@ var leftPanels = {
           '</div>' +
         '</div>' +
         '<div class="tb-dropdown">' +
-          '<button class="btn btn-secondary btn-dd" onclick="toggleDropdown(this)">👁️ Vista ▾</button>' +
+          '<button class="btn btn-secondary" style="width:100%;height:30px;min-height:30px;font-size:12px;display:flex;align-items:center;justify-content:center;gap:4px" onclick="toggleDropdown(this)">👁️ Vista</button>' +
           '<div class="dd-menu">' +
             '<div class="dd-item" onclick="toggleFreezeCol()" id="ddFreezeCol">' + (trabajoFreezeFirstCol ? '🔒 Col fija ON' : '🔓 Fijar col 1') + '</div>' +
             '<div class="dd-item" onclick="toggleConditionalFormat()" id="ddCondFormat">' + (trabajoConditionalFormat ? '🎨 CF ON' : '🎨 Formato cond.') + '</div>' +
           '</div>' +
         '</div>' +
       '</div>' +
-      '<div class="info-section" style="flex-shrink:0">' +
+      '<div class="info-section" style="flex-shrink:0;overflow:visible">' +
         '<div class="info-section-header" style="display:flex;justify-content:space-between;align-items:center;padding:4px 10px"><span>Hojas</span></div>' +
-        '<div style="padding:3px 6px 5px;display:flex;gap:4px;align-items:center">' +
-          '<select id="sheetsSelect" class="sheets-select" onchange="switchToSheet(parseInt(this.value))" style="flex:1;padding:3px 4px;border:1px solid var(--border);border-radius:4px;background:var(--bg-primary);color:var(--text-primary);font-size:12px">' + getSheetsOptionsHTML() + '</select>' +
-          (trabajoSheets.length > 1 ? '<button class="sheets-del-btn" onclick="deleteSheet(' + trabajoActiveSheetIndex + ',event)" title="Eliminar hoja" style="background:none;border:none;cursor:pointer;color:var(--text-faint);font-size:20px;line-height:1;padding:0 2px">×</button>' : '') +
-          '<button class="sheets-add-btn" onclick="createNewSheet()" title="Nueva hoja" style="background:none;border:none;cursor:pointer;color:var(--accent);font-size:20px;line-height:1;padding:0 2px">＋</button>' +
+        '<div style="padding:.35rem .75rem .5rem;display:flex;align-items:center;gap:5px">' +
+          '<span style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--text-faint);flex-shrink:0">Hoja</span>' +
+          '<select id="sheetsSelect" class="sheets-select" onchange="switchToSheet(parseInt(this.value))" style="flex:1;min-width:0;height:28px;padding:0 8px;border:.5px solid var(--border);border-radius:6px;background:var(--bg-primary);font-size:12px;color:var(--text-primary)">' + getSheetsOptionsHTML() + '</select>' +
+          (trabajoSheets.length > 1 ? '<button onclick="deleteSheet(' + trabajoActiveSheetIndex + ',event)" style="width:24px;height:24px;padding:0;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:var(--text-faint);font-size:14px;border-radius:4px;flex-shrink:0" title="Eliminar hoja">✕</button>' : '') +
+          '<button onclick="createNewSheet()" style="width:24px;height:24px;padding:0;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:var(--accent);font-size:16px;border-radius:4px;flex-shrink:0" title="Nueva hoja">＋</button>' +
         '</div>' +
       '</div>' +
-      '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">Resumen</div><div class="info-list" id="trabajoResumen">' + getTrabajoResumenHTML() + '</div></div>' +
-      '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">Celda activa</div><div class="info-list" id="trabajoCeldaActiva">' + getTrabajoCeldaActivaHTML() + '</div></div>' +
+      '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">Resumen</div><div id="trabajoResumen">' + getTrabajoResumenHTML() + '</div></div>' +
+      '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">Celda activa</div><div id="trabajoCeldaActiva">' + getTrabajoCeldaActivaHTML() + '</div></div>' +
       '<div class="info-section" style="flex-shrink:0">' +
         '<div class="info-section-header" style="display:flex;align-items:center;justify-content:space-between">' +
           '<span>📐 Límites</span>' +
-          '<label style="font-size:10px;color:var(--text-faint);display:flex;align-items:center;gap:3px;cursor:pointer">' +
-            '<input type="checkbox" id="limitsGlobalToggle" ' + (trabajoLimitsMode === 'global' ? 'checked' : '') + ' onchange="toggleLimitsMode()"> Global' +
+          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:11px;color:var(--text-muted)">' +
+            '<span class="toggle-bg" style="position:relative;width:28px;height:16px;background:' + (isGlobal ? 'var(--accent)' : 'var(--bg-primary)') + ';border:.5px solid var(--border);border-radius:8px;transition:background .15s;pointer-events:none;display:inline-block">' +
+              '<span class="toggle-thumb" style="position:absolute;left:' + (isGlobal ? '14px' : '2px') + ';top:2px;width:10px;height:10px;background:' + (isGlobal ? '#fff' : 'var(--text-muted)') + ';border-radius:50%;transition:transform .15s,background .15s;pointer-events:none"></span>' +
+            '</span>' +
+            '<input type="checkbox" id="limitsGlobalToggle" ' + (isGlobal ? 'checked' : '') + ' onchange="toggleLimitsMode()" style="position:absolute;opacity:0;width:0;height:0">' +
+            '<span>Global</span>' +
           '</label>' +
         '</div>' +
-        '<div class="info-list" id="trabajoLimitsBody"></div>' +
+        '<div id="trabajoLimitsBody"></div>' +
       '</div>' +
     '</div>';
   },
