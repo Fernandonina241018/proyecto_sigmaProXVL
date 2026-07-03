@@ -12,7 +12,8 @@ resizer.addEventListener('mousedown', function(e) {
   document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none';
   function onMove(ev) {
     var rect = panesCont.getBoundingClientRect();
-    var newW = Math.max(160, Math.min(panesCont.offsetWidth - 160 - resizer.offsetWidth, ev.clientX - rect.left));
+    var minW = currentPage === 'trabajo' ? 360 : 160;
+    var newW = Math.max(minW, Math.min(panesCont.offsetWidth - minW - resizer.offsetWidth, ev.clientX - rect.left));
     paneLeft.style.width = newW + 'px';
   }
   function onUp() { resizer.classList.remove('dragging'); document.body.style.cursor = ''; document.body.style.userSelect = ''; document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); }
