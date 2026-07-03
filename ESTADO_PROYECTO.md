@@ -45,44 +45,6 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
-### 2026-07-02: Límites de tamaño en reportes + memoización getNumericValues
-
-**Qué:** Se agregaron límites de tamaño en los generadores de reportes (CSV/TXT/HTML) y memoización de `getNumericValues()` en `EstadisticaDescriptiva.js` para evitar que reportes con datasets grandes (200+ columnas, 50K+ filas) fallen por límite de memoria.
-
-**Límites implementados:**
-- `MAX_REPORT_COLS = 100` — columnas máximas analizadas en reporte
-- `MAX_ROWS_REPORT = 5000` — filas máximas para cálculos de especificación
-
-**Cambios en `ReporteManager.js`:**
-
-| # | Cambio | Líneas |
-|---|--------|--------|
-| 1 | +Constantes `MAX_REPORT_COLS`, `MAX_ROWS_REPORT` al inicio del closure | +2 |
-| 2 | `generarCSV()`: trunca `columnasAnalizadas` a 100, añade fila `## ⚠ ATENCIÓN` | +5 |
-| 3 | `generarTXT()`: trunca columnas a 100, añade warning en metadata | +4 |
-| 4 | `generarHTML()`: trunca columnas a 100, añade banner amarillo | +4 |
-| 5 | TXT spec limits loop: `sheet.rows.forEach` → `for` acotado + warning | +6 |
-| 6 | HTML `statsRows()` spec limits: `sheet.rows.forEach` → `for` acotado + warning | +8 |
-
-**Cambio en `EstadisticaDescriptiva.js`:**
-
-| # | Cambio | Líneas |
-|---|--------|--------|
-| 1 | +`_numCache` (WeakMap) antes de `getNumericValues()` | +1 |
-| 2 | `getNumericValues()`: cachea resultados por `data` reference + `columnName`, evitando ~87 llamadas redundantes por análisis | ~12 |
-
-**Comportamiento esperado:**
-- Datasets con ≤100 columnas y ≤5000 filas: sin cambios
-- Datasets más grandes: reporte generado con primeras 100 columnas + warning claro en cada formato
-- Cálculos de especificación (within/outside limits): limitados a 5000 filas
-- `getNumericValues()`: cada columna se computa una sola vez por análisis (~87 → ~1 llamada por columna)
-
-**Archivos afectados:**
-| Archivo | Cambio |
-|---------|--------|
-| `js/managers/ReporteManager.js` | +6 modificaciones (constantes + 3 generadores + 2 loops) |
-| `js/core/EstadisticaDescriptiva.js` | +WeakMap + cache en `getNumericValues()` |
-
 ### 2026-07-01: Primer login — muestra contraseña temporal + configuración obligatoria de código de firma
 
 **Qué:** Al primer login (password_temp=1), el modal de cambio forzado ahora:
