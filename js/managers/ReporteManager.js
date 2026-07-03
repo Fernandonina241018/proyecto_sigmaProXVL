@@ -65,6 +65,7 @@ const ReporteManager = (() => {
             name:           'Name',
             title:          'Title / Position',
             date:           'Date',
+            signature:      'Signature',
             elecRecord:     'Electronic record',
             endOfReport:    'END OF REPORT',
             variance:       'Variance: s² = Σ(xᵢ - x̄)² / (n-1)  [Bessel correction]',
@@ -345,6 +346,7 @@ const ReporteManager = (() => {
             name:           'Nombre',
             title:          'Título / Cargo',
             date:           'Fecha',
+            signature:      'Firma',
             elecRecord:     'Registro electrónico',
             endOfReport:    'FIN DEL REPORTE',
             variance:       'Varianza: s² = Σ(xᵢ - x̄)² / (n-1) [Corrección de Bessel]',
@@ -1234,11 +1236,11 @@ const ReporteManager = (() => {
         const roleLabels=[t('preparedBy'),t('reviewedBy'),t('approvedBy')];
         const roleKeys=['prepared','reviewed','approved'];
         const sigBlocks=roleKeys.map((k,i)=>{
-            const name=escapeHtml(meta[k+'By']||''), title=escapeHtml(meta[k+'Title']||'—'), date=escapeHtml(formatDate(meta[k+'Date']||''));
+            const name=escapeHtml(meta[k+'By']||''), title=escapeHtml(meta[k+'Title']||'—'), firma=escapeHtml(meta[k+'Signature']||''), date=escapeHtml(formatDate(meta[k+'Date']||''));
             return `<div style="border:1px solid #e2e8f0;border-radius:6px;padding:14px" data-signature-role="${k}">
               <div style="font-family:monospace;font-size:7pt;text-transform:uppercase;letter-spacing:1.5px;color:#1a3a6b;margin-bottom:10px;border-bottom:1px solid #e2e8f0;padding-bottom:5px">${roleLabels[i]}</div>
-              ${[['name',t('name'),name],['title',t('title'),title||'—'],['date',t('date'),date]].map(([field,label,v])=>
-                `<div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">${label}</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:${!v||v==='—'?'#cbd5e0':'#1a202c'};${!v||v==='—'?'font-style:italic':''}" data-signature-field="${field}" data-signature-role="${k}">${v||''}</span></div>`).join('')}
+              ${[['name',t('name'),name],['title',t('title'),title||'—'],['firma',t('signature'),firma],['date',t('date'),date]].map(([field,label,v])=>
+                `<div style="margin-bottom:8px"><span style="font-size:7pt;color:#a0aec0;font-family:monospace;text-transform:uppercase;display:block">${label}</span><span style="font-size:9.5pt;border-bottom:1px solid #e2e8f0;padding-bottom:3px;display:block;color:${!v||v==='—'?'#cbd5e0':'#1a202c'};${!v||v==='—'?'font-style:italic':''}" data-signature-field="${field}" data-signature-role="${k}">${v||'—'}</span></div>`).join('')}
               <div style="border-top:1px solid #1a202c;margin-top:14px;padding-top:5px;font-size:7pt;color:#718096;font-family:monospace">${t('elecRecord')} · ${REGULATORY.standard}</div>
         </div>`;
         }).join('');
