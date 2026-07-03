@@ -45,7 +45,7 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
-### 2026-07-02: Scroll horizontal en Hoja de Trabajo + límite columnas 100→500
+### 2026-07-02: Scroll horizontal en Hoja de Trabajo + límite columnas 100→500 + inputs límites full-width
 
 **Qué:** Se corrigió el ancho de columnas en la Hoja de Trabajo para que sean legibles al pegar muchas columnas. Se eliminó `table-layout:fixed` y `width:100%` de la tabla, y se fijó `width:120px` por columna, forzando scroll horizontal cuando hay muchas columnas. Además se aumentó el límite máximo de columnas de 100 a 500.
 
@@ -56,8 +56,10 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 | 1 | `indexx-ui.js:528` | `min-width:100px` → `width:120px;min-width:120px` por columna |
 | 2 | `indexx-ui.js:573` | `width:100%;table-layout:fixed;min-width:400px` → `min-width:100%` en la tabla |
 | 3 | `StateManager.js:49` | `maxCols: 100` → `maxCols: 500` |
+| 4 | `indexx-trabajo.js:323-325` | Inputs globales: `width:170px` → `width:100%;box-sizing:border-box` |
+| 5 | `indexx.css:218` | Nueva regla `.info-item-value input { width:100%;box-sizing:border-box }` |
 
-**Efecto:** Con muchas columnas, la tabla ahora mide `120px × N` de ancho, el contenedor muestra scroll horizontal, y cada columna mantiene 120px legibles.
+**Efecto:** Con muchas columnas, la tabla ahora mide `120px × N` de ancho, el contenedor muestra scroll horizontal, y cada columna mantiene 120px legibles. Los inputs de límites en el sidebar ocupan todo el ancho disponible.
 
 ### 2026-07-01: Primer login — muestra contraseña temporal + configuración obligatoria de código de firma
 
