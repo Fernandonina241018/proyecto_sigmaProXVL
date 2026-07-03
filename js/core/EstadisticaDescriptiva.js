@@ -5113,6 +5113,7 @@ resultados['Test de Signos'].columna1 = col1;
                                     resultados['Análisis Discriminante'] = res;
                                 }
                             }
+                        }
                         break;
 
                     // ============================================================
@@ -5143,6 +5144,7 @@ resultados['Test de Signos'].columna1 = col1;
                                     resultados['M-ANOVA'] = res;
                                 }
                             }
+                        }
                         break;
 
                     // ============================================================

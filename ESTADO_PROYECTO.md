@@ -45,30 +45,6 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
-### 2026-07-02: Fix sintax error — llaves `}` extra en Discriminante y M-ANOVA
-
-**Qué:** Se corrigió un error de sintaxis que rompía `EstadisticaDescriptiva.js` al cargar. El refactor de validaciones con `_assertMinSample()` dejó 2 llaves `}` huérfanas en las secciones `Análisis Discriminante` y `M-ANOVA` del switch, porque se reemplazaron sus estructuras `if/else if/else` por `if/break` simples pero no se eliminaron los `}` del `else` original. Esto causaba `ReferenceError: EstadisticaDescriptiva is not defined` en toda la app.
-
-**Cambios:**
-
-| # | Archivo | Cambio | Impacto |
-|---|---------|--------|---------|
-| 1 | `EstadisticaDescriptiva.js` | Eliminado `}` extra en `Análisis Discriminante` (~L5115) | 🔴 Bugfix crítico |
-| 2 | `EstadisticaDescriptiva.js` | Eliminado `}` extra en `M-ANOVA` (~L5145) | 🔴 Bugfix crítico |
-
-**Causa raíz:** Al reemplazar:
-```js
-if (!catCol) { ... } else if (x < 2) { ... } else { ... }
-```
-por:
-```js
-if (!catCol) { ... break; }
-var _a = _assertMinSample(x, 2, 'Test'); if (_a) { ... break; }
-```
-no se eliminó el `}` de cierre del `else` original, resultando en `{=7 }=8` en ambas secciones.
-
-**Total llaves tras fix:** 2014 `{` = 2014 `}` ✓
-
 ### 2026-07-02: Centralización de validaciones de muestra mínima + fix threshold
 
 **Qué:** Se auditaron y unificaron todas las validaciones de tamaño mínimo de muestra en el motor estadístico. Se creó un helper `_assertMinSample()` que estandariza mensajes de error, y se corrigieron 3 bugs silenciosos donde funciones devolvían datos incorrectos en vez de error.
