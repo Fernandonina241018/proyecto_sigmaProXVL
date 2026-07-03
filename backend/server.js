@@ -142,7 +142,7 @@ const loginLimiter = rateLimit({
 
 const verifyLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 10,
+    max: 50,
     message: { error: 'Demasiados intentos de verificación. Intente de nuevo en 15 minutos.' },
     standardHeaders: true,
     legacyHeaders: false,
