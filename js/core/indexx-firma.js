@@ -222,6 +222,7 @@ function firmaLoadHtml(html, originalName) {
         signed: true,
         nombre: sd.fields.name,
         cargo: sd.fields.title || '',
+        firma: sd.fields.firma || '',
         fecha: sd.fields.date || ''
       };
     }
@@ -288,6 +289,11 @@ function firmaRenderEditor() {
       cargoRow.id = 'firmaSignedCargo-' + sd.role;
       body.appendChild(cargoRow);
 
+      var firmaRow = document.createElement('div');
+      firmaRow.style.cssText = 'font-size:10px;color:var(--text-faint)';
+      firmaRow.innerHTML = '\uD83D\uDC3B <span id="firmaSignedFirma-' + sd.role + '">' + escapeHtml(state.firma || '\u2014') + '</span>';
+      body.appendChild(firmaRow);
+
       var dateRow = document.createElement('div');
       dateRow.style.cssText = 'font-size:10px;color:var(--text-faint)';
       dateRow.textContent = state.fecha;
@@ -348,6 +354,7 @@ function firmaResetSignatures() {
   _firmaSignatureData.forEach(function(sd){
     firmaUpdatePreview(sd.role, 'name', '—');
     firmaUpdatePreview(sd.role, 'title', '—');
+    firmaUpdatePreview(sd.role, 'firma', '—');
     firmaUpdatePreview(sd.role, 'date', '—');
   });
   firmaRenderEditor();
@@ -490,10 +497,12 @@ async function firmaVerify(role, code, password, statusEl) {
       signed: true,
       nombre: data.nombre,
       cargo: data.cargo,
+      firma: data.firma || '',
       fecha: fechaStr
     };
     firmaUpdatePreview(role, 'name', data.nombre);
     firmaUpdatePreview(role, 'title', data.cargo);
+    firmaUpdatePreview(role, 'firma', data.firma || '');
     firmaUpdatePreview(role, 'date', fechaStr);
     firmaRenderEditor();
     showToast('\u2705 Firma registrada: ' + data.nombre);

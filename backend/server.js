@@ -862,6 +862,7 @@ app.post('/api/verify-signature', verifyLimiter, async (req, res) => {
             ok: true,
             nombre: nombreCompleto,
             cargo: user.cargo || '',
+            firma: user.signature_code || '',
             username: user.username,
         });
     } catch (err) {
