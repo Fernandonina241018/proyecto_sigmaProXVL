@@ -251,7 +251,7 @@ var leftPanels = {
       '</div>' +
       '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;flex-shrink:0;position:relative;z-index:10">' +
         '<div class="tb-dropdown">' +
-          '<button class="btn btn-primary" style="width:100%;height:30px;min-height:30px;font-size:12px;display:flex;align-items:center;justify-content:center;gap:4px" onclick="toggleDropdown(this)">📋 Acciones</button>' +
+          '<button class="btn btn-secondary" style="width:100%;height:30px;min-height:30px;font-size:12px;display:flex;align-items:center;justify-content:center;gap:4px" onclick="toggleDropdown(this)">📋 Acciones</button>' +
           '<div class="dd-menu">' +
             '<div class="dd-item" onclick="generateSampleData()">⚙️ Configurar datos</div>' +
             '<div class="dd-item" onclick="exportTrabajo()">💾 Exportar CSV</div>' +
