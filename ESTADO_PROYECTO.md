@@ -61,6 +61,18 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 **Efecto:** Con muchas columnas, la tabla ahora mide `120px × N` de ancho, el contenedor muestra scroll horizontal, y cada columna mantiene 120px legibles. Los inputs de límites en el sidebar ocupan todo el ancho disponible.
 
+### 2026-07-02 (2): Fix — inputs globales de límites se estiran al redimensionar sidebar
+
+**Qué:** Los inputs de límites en modo global (LS/LI/LC) no se ajustaban al redimensionar el sidebar — quedaba un espacio vacío. Se cambió `.info-item-value` que contiene un `<input>` para que use `display:flex;width:100%` y el input use `flex:1;min-width:0;width:auto`, igualando el comportamiento del input de código de firma.
+
+**Cambios:**
+
+| # | Archivo | Cambio |
+|---|---------|--------|
+| 1 | `indexx.css:219-220` | `.info-item-value:has(> input)` → `display:flex;width:100%` + input → `flex:1;min-width:0;width:auto` |
+
+**Efecto:** Al arrastrar el borde del sidebar para hacerlo más angosto o ancho, los inputs globales de límites ahora se estiran/contraen sin dejar espacio, igual que el input "Código de firma" en la página Firmar Reporte.
+
 ### 2026-07-01: Primer login — muestra contraseña temporal + configuración obligatoria de código de firma
 
 **Qué:** Al primer login (password_temp=1), el modal de cambio forzado ahora:
