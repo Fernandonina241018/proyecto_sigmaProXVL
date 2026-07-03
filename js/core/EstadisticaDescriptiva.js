@@ -89,13 +89,22 @@ const EstadisticaDescriptiva = (() => {
      * Valida y extrae valores numéricos de una columna
      * Versión con validación estricta (lanza error si no hay datos)
      */
+    const _numCache = typeof WeakMap !== 'undefined' ? new WeakMap() : null;
+
     function getNumericValues(data, columnName) {
+        if (_numCache) {
+            if (!_numCache.has(data)) _numCache.set(data, {});
+            const local = _numCache.get(data);
+            if (Object.prototype.hasOwnProperty.call(local, columnName)) return local[columnName];
+            const vals = Stats.getNumericValues(data, columnName);
+            if (vals.length === 0) throw new Error(`La columna "${columnName}" no contiene valores numéricos válidos`);
+            local[columnName] = vals;
+            return vals;
+        }
         const values = Stats.getNumericValues(data, columnName);
-        
         if (values.length === 0) {
             throw new Error(`La columna "${columnName}" no contiene valores numéricos válidos`);
         }
-        
         return values;
     }
     
