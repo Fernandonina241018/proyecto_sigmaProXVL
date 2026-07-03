@@ -61,6 +61,7 @@ function buildPostgres() {
         await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS cargo TEXT`);
         await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS totp_secret TEXT`);
         await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS totp_enabled INTEGER DEFAULT 0`);
+        await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS signature TEXT`);
         await run(`CREATE INDEX IF NOT EXISTS idx_users_signature_code ON users (signature_code)`);
         await run(`UPDATE users SET email = username WHERE email IS NULL OR email = ''`);
         await run(`CREATE TABLE IF NOT EXISTS audit_log (
@@ -113,13 +114,13 @@ function buildPostgres() {
     async function getUserByUsername(username) { return get('SELECT * FROM users WHERE username = $1 AND active = 1', [username]); }
     async function getUserBySignatureCode(code) { return get('SELECT * FROM users WHERE signature_code = $1 AND active = 1', [code]); }
 
-    async function createUser({ username, password, role = 'user', nombre, apellido, email, telefono, signatureCode, cargo, createdBy, passwordTemp }) {
+    async function createUser({ username, password, role = 'user', nombre, apellido, email, telefono, signatureCode, signature, cargo, createdBy, passwordTemp }) {
         const hash = await bcrypt.hash(password, 12);
         const ptemp = passwordTemp ? 1 : 0;
         try {
             const result = await run(
-                `INSERT INTO users (username,password,role,nombre,apellido,email,telefono,signature_code,cargo,created_by,password_temp) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING id`,
-                [username, hash, role, nombre||null, apellido||null, email||username, telefono||null, signatureCode||null, cargo||null, createdBy, ptemp]
+                `INSERT INTO users (username,password,role,nombre,apellido,email,telefono,signature_code,signature,cargo,created_by,password_temp) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING id`,
+                [username, hash, role, nombre||null, apellido||null, email||username, telefono||null, signatureCode||null, signature||null, cargo||null, createdBy, ptemp]
             );
             return { ok: true, id: result.lastID };
         } catch (err) {
@@ -133,7 +134,7 @@ function buildPostgres() {
     }
 
     async function getAllUsers() {
-        return all('SELECT id,username,role,active,created_at,last_login,login_count,nombre,apellido,email,telefono,avatar,updated_at,totp_enabled,password_temp FROM users ORDER BY id ASC');
+        return all('SELECT id,username,role,active,created_at,last_login,login_count,nombre,apellido,email,telefono,avatar,updated_at,totp_enabled,password_temp,signature_code,cargo,signature FROM users ORDER BY id ASC');
     }
 
     async function toggleUserActive(id, active) { await run('UPDATE users SET active=$1 WHERE id=$2', [active, id]); }
@@ -150,16 +151,16 @@ function buildPostgres() {
         return u ? u.password_temp === 1 : false;
     }
 
-    async function updateUserProfile(username, { nombre, apellido, email, telefono, cargo, signatureCode }) {
+    async function updateUserProfile(username, { nombre, apellido, email, telefono, cargo, signatureCode, signature }) {
         const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
-        await run(`UPDATE users SET nombre=$1,apellido=$2,email=$3,telefono=$4,cargo=$5,signature_code=$6,updated_at=$7 WHERE username=$8`,
-            [nombre, apellido, email, telefono, cargo||null, signatureCode||null, now, username]);
+        await run(`UPDATE users SET nombre=$1,apellido=$2,email=$3,telefono=$4,cargo=$5,signature_code=$6,signature=$7,updated_at=$8 WHERE username=$9`,
+            [nombre, apellido, email, telefono, cargo||null, signatureCode||null, signature||null, now, username]);
     }
 
-    async function updateUserProfileById(id, { nombre, apellido, email, telefono, cargo, signatureCode }) {
+    async function updateUserProfileById(id, { nombre, apellido, email, telefono, cargo, signatureCode, signature }) {
         const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
-        await run(`UPDATE users SET nombre=$1,apellido=$2,email=$3,telefono=$4,cargo=$5,signature_code=$6,updated_at=$7 WHERE id=$8`,
-            [nombre, apellido, email, telefono, cargo||null, signatureCode||null, now, id]);
+        await run(`UPDATE users SET nombre=$1,apellido=$2,email=$3,telefono=$4,cargo=$5,signature_code=$6,signature=$7,updated_at=$8 WHERE id=$9`,
+            [nombre, apellido, email, telefono, cargo||null, signatureCode||null, signature||null, now, id]);
     }
 
     async function changeRole(id, role) { await run('UPDATE users SET role=$1 WHERE id=$2', [role, id]); }
@@ -429,7 +430,7 @@ function buildLocalStore() {
             created_by: 'system', created_at: new Date().toISOString(),
             last_login: null, login_count: 0, nombre: null, apellido: null,
             email: username, telefono: null, avatar: null, updated_at: null,
-            password_temp: 0, signature_code: null, cargo: null,
+            password_temp: 0, signature_code: null, signature: null, cargo: null,
         });
         save();
         console.log(`✅ Admin local creado: ${username}`);
@@ -441,7 +442,7 @@ function buildLocalStore() {
     async function getUserByUsername(username) { return findUser(username); }
     async function getUserBySignatureCode(code) { return state.users.find(u => u.signature_code === code && u.active === 1) || null; }
 
-    async function createUser({ username, password, role = 'user', nombre, apellido, email, telefono, signatureCode, cargo, createdBy, passwordTemp }) {
+    async function createUser({ username, password, role = 'user', nombre, apellido, email, telefono, signatureCode, signature, cargo, createdBy, passwordTemp }) {
         if (state.users.find(u => u.username === username)) return { ok: false, error: 'El usuario ya existe' };
         const hash = await bcrypt.hash(password, 12);
         const user = {
@@ -449,7 +450,7 @@ function buildLocalStore() {
             created_by: createdBy || 'system', created_at: new Date().toISOString(),
             last_login: null, login_count: 0, nombre: nombre||null, apellido: apellido||null,
             email: email||username, telefono: telefono||null, avatar: null, updated_at: null,
-            password_temp: passwordTemp ? 1 : 0, signature_code: signatureCode||null, cargo: cargo||null,
+            password_temp: passwordTemp ? 1 : 0, signature_code: signatureCode||null, signature: signature||null, cargo: cargo||null,
         };
         state.users.push(user); save();
         return { ok: true, id: user.id };
@@ -477,17 +478,17 @@ function buildLocalStore() {
     async function setPasswordTemp(username, value) { const u = findUser(username); if (u) { u.password_temp = value ? 1 : 0; save(); } }
     async function getUserPasswordTemp(username) { const u = findUser(username); return u ? u.password_temp === 1 : false; }
 
-    async function updateUserProfile(username, { nombre, apellido, email, telefono, cargo, signatureCode }) {
+    async function updateUserProfile(username, { nombre, apellido, email, telefono, cargo, signatureCode, signature }) {
         const u = findUser(username);
         if (!u) return;
-        Object.assign(u, { nombre, apellido, email, telefono, cargo: cargo||null, signature_code: signatureCode||null, updated_at: new Date().toISOString() });
+        Object.assign(u, { nombre, apellido, email, telefono, cargo: cargo||null, signature_code: signatureCode||null, signature: signature||null, updated_at: new Date().toISOString() });
         save();
     }
 
-    async function updateUserProfileById(id, { nombre, apellido, email, telefono, cargo, signatureCode }) {
+    async function updateUserProfileById(id, { nombre, apellido, email, telefono, cargo, signatureCode, signature }) {
         const u = findById(id);
         if (!u) return;
-        Object.assign(u, { nombre, apellido, email, telefono, cargo: cargo||null, signature_code: signatureCode||null, updated_at: new Date().toISOString() });
+        Object.assign(u, { nombre, apellido, email, telefono, cargo: cargo||null, signature_code: signatureCode||null, signature: signature||null, updated_at: new Date().toISOString() });
         save();
     }
 

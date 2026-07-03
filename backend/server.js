@@ -862,7 +862,7 @@ app.post('/api/verify-signature', verifyLimiter, async (req, res) => {
             ok: true,
             nombre: nombreCompleto,
             cargo: user.cargo || '',
-            firma: user.signature_code || '',
+            firma: user.signature || '',
             username: user.username,
         });
     } catch (err) {
@@ -873,7 +873,7 @@ app.post('/api/verify-signature', verifyLimiter, async (req, res) => {
 
 // POST /api/users (solo admin)
 app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
-    const { username, password, role = 'user', nombre, apellido, email, telefono, signatureCode, cargo } = req.body;
+    const { username, password, role = 'user', nombre, apellido, email, telefono, signatureCode, signature, cargo } = req.body;
 
     if (!username?.trim()) {
         return res.status(400).json({ error: 'Usuario es requerido' });
@@ -913,6 +913,7 @@ app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
         email: email?.trim() || username.trim(),
         telefono: telefono?.trim(),
         signatureCode: sigCode,
+        signature: signature?.trim(),
         cargo: cargo?.trim(),
         createdBy: req.user.username,
         passwordTemp: 1,
@@ -925,7 +926,7 @@ app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
         success: true, ip: getClientIP(req), userAgent: req.headers['user-agent'],
     });
 
-    res.json({ ok: true, id: result.id, defaultPassword: useDefault ? DEFAULT_USER_PASSWORD : undefined, signatureCode: sigCode });
+    res.json({ ok: true, id: result.id, defaultPassword: useDefault ? DEFAULT_USER_PASSWORD : undefined, signatureCode: sigCode, signature: signature?.trim() || null });
 });
 
 // PUT /api/users/:id/toggle (solo admin)
@@ -966,7 +967,7 @@ app.put('/api/users/password', requireAuth, async (req, res) => {
 
 // PUT /api/users/profile (usuario actual)
 app.put('/api/users/profile', requireAuth, async (req, res) => {
-    const { nombre, apellido, email, telefono, cargo, signatureCode } = req.body;
+    const { nombre, apellido, email, telefono, cargo, signatureCode, signature } = req.body;
     if (nombre && nombre.length > 100) return res.status(400).json({ error: 'El nombre no puede exceder 100 caracteres' });
     if (apellido && apellido.length > 100) return res.status(400).json({ error: 'El apellido no puede exceder 100 caracteres' });
     if (email && email.length > 200) return res.status(400).json({ error: 'El email no puede exceder 200 caracteres' });
@@ -978,7 +979,7 @@ app.put('/api/users/profile', requireAuth, async (req, res) => {
 
 // PUT /api/users/:id/profile (admin puede editar cualquier usuario)
 app.put('/api/users/:id/profile', requireAuth, requireAdmin, async (req, res) => {
-    const { nombre, apellido, email, telefono, cargo, signatureCode, role } = req.body;
+    const { nombre, apellido, email, telefono, cargo, signatureCode, signature, role } = req.body;
     await db.updateUserProfileById(req.params.id, { nombre, apellido, email, telefono, cargo, signatureCode });
     if (role) {
         await db.changeRole(req.params.id, role);

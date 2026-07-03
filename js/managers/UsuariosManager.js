@@ -98,6 +98,7 @@ function _generateSecurePassword(length) {
                 email: perfil.email,
                 telefono: perfil.telefono,
                 signatureCode: perfil.signatureCode,
+                signature: perfil.signature,
                 cargo: perfil.cargo
             });
             if (!data.ok) return { ok: false, error: data.error };
@@ -365,7 +366,7 @@ function _generateSecurePassword(length) {
                     <div><div class="sl">Inactividad</div><div class="sv ${inactivity.cls}">${inactivity.label}</div><div class="ssb">${inactivity.risk}</div></div>
                 </div>
                 <div class="ca">
-                    <button class="usr-btn-act usr-btn-edit" data-id="${u.id}" data-username="${escapeHtml(u.username)}" data-nombre="${escapeHtml(u.nombre || '')}" data-apellido="${escapeHtml(u.apellido || '')}" data-email="${escapeHtml(u.email || '')}" data-telefono="${escapeHtml(u.telefono || '')}" data-cargo="${escapeHtml(u.cargo || '')}" data-signaturecode="${escapeHtml(u.signature_code || '')}" data-rol="${escapeHtml(u.role)}" title="Editar usuario">✏️ Editar</button>
+                    <button class="usr-btn-act usr-btn-edit" data-id="${u.id}" data-username="${escapeHtml(u.username)}" data-nombre="${escapeHtml(u.nombre || '')}" data-apellido="${escapeHtml(u.apellido || '')}" data-email="${escapeHtml(u.email || '')}" data-telefono="${escapeHtml(u.telefono || '')}" data-cargo="${escapeHtml(u.cargo || '')}" data-signaturecode="${escapeHtml(u.signature_code || '')}" data-signature="${escapeHtml(u.signature || '')}" data-rol="${escapeHtml(u.role)}" title="Editar usuario">✏️ Editar</button>
                     <select class="usr-role-select" data-id="${u.id}" data-current="${escapeHtml(u.role)}" ${isMe ? 'disabled' : ''} title="Cambiar rol">
                         <option value="user"        ${u.role==='user'        ?'selected':''}>👤 Usuario</option>
                         <option value="admin"       ${u.role==='admin'       ?'selected':''}>🛡️ Admin</option>
@@ -461,7 +462,7 @@ function _generateSecurePassword(length) {
                     id: btn.dataset.id, username: btn.dataset.username,
                     nombre: btn.dataset.nombre, apellido: btn.dataset.apellido,
                     email: btn.dataset.email, telefono: btn.dataset.telefono,
-                    cargo: btn.dataset.cargo, signatureCode: btn.dataset.signaturecode,
+                    cargo: btn.dataset.cargo, signatureCode: btn.dataset.signaturecode, signature: btn.dataset.signature,
                     role: btn.dataset.rol
                 });
             });
@@ -599,6 +600,11 @@ function _generateSecurePassword(length) {
                             <input type="text" id="usr-edit-cargo" value="${escapeHtml(usuario.cargo || '')}" placeholder="Director de Laboratorio" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
                         </div>
                         <div>
+                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">✍️ FIRMA</label>
+                            <input type="text" id="usr-edit-signature" value="${escapeHtml(usuario.signature || '')}" placeholder="Nombre completo como firma" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
+                            <div style="font-size:0.7rem;color:#94a3b8;margin-top:4px;">Firma electrónica que aparecerá en los reportes</div>
+                        </div>
+                        <div>
                             <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">🔑 CÓDIGO DE FIRMA</label>
                             <input type="text" id="usr-edit-signaturecode" value="${escapeHtml(usuario.signatureCode || '')}" placeholder="Ej: ABC-123" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
                             <div style="font-size:0.7rem;color:#94a3b8;margin-top:4px;">Código único para firmar reportes electrónicos</div>
@@ -630,7 +636,8 @@ function _generateSecurePassword(length) {
                 email: document.getElementById('usr-edit-email').value.trim(),
                 telefono: document.getElementById('usr-edit-telefono').value.trim(),
                 cargo: document.getElementById('usr-edit-cargo').value.trim(),
-                signatureCode: document.getElementById('usr-edit-signaturecode').value.trim()
+                signatureCode: document.getElementById('usr-edit-signaturecode').value.trim(),
+                signature: document.getElementById('usr-edit-signature').value.trim()
             };
             const role = document.getElementById('usr-edit-role').value;
 
@@ -757,6 +764,11 @@ function _generateSecurePassword(length) {
                             <input type="text" id="usr-modal-cargo" placeholder="Director de Laboratorio" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
                         </div>
                         <div>
+                            <label style="display:block;font-size:0.75rem;font-weight:600;color:#64748b;margin-bottom:4px;">✍️ FIRMA</label>
+                            <input type="text" id="usr-modal-signature" placeholder="Nombre completo como firma" style="width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;">
+                            <div style="font-size:0.7rem;color:#94a3b8;margin-top:4px;">Firma electrónica que aparecerá en los reportes</div>
+                        </div>
+                        <div>
                             <label style="display:flex;align-items:center;gap:8px;font-size:0.8rem;font-weight:500;color:#475569;cursor:pointer;">
                                 <input type="checkbox" id="usr-modal-auto-signature" checked onchange="document.getElementById('usr-modal-signaturecode-wrap').style.display=this.checked?'none':'block'">
                                 ☑ Autogenerar código de firma
@@ -794,6 +806,7 @@ function _generateSecurePassword(length) {
         const email = document.getElementById('usr-modal-email').value.trim();
         const telefono = document.getElementById('usr-modal-telefono').value.trim();
         const cargo = document.getElementById('usr-modal-cargo').value.trim();
+        const signature = document.getElementById('usr-modal-signature').value.trim();
         const autoSig = document.getElementById('usr-modal-auto-signature').checked;
         const signatureCode = autoSig ? '' : document.getElementById('usr-modal-signaturecode')?.value.trim() || '';
         
@@ -806,7 +819,7 @@ function _generateSecurePassword(length) {
         }
         
         try {
-            const result = await crearUsuario(username, role, { nombre, apellido, email, telefono, cargo, signatureCode });
+            const result = await crearUsuario(username, role, { nombre, apellido, email, telefono, cargo, signature, signatureCode });
             
             const msg = document.getElementById('usr-modal-msg');
             if (result.ok) {
