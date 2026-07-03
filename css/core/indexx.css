@@ -214,8 +214,10 @@
   .info-item:hover { background: var(--item-hover); }
   .info-item.active { background: var(--accent); color: #fff; }
   .info-item-label { color: var(--text-muted); font-size: 11px; margin-bottom: 0.8px; }
-  .info-item-value { font-size: 12px; }
+  .info-item-value { font-size: 12px; width:100%; }
   .info-item-value input { width:100%;box-sizing:border-box; }
+  .info-item-value:has(> input) { display:flex; width:100%; }
+  .info-item-value:has(> input) input { flex:1; min-width:0; width:auto; }
   /* Compactar sección Resumen: menos padding, horizontal */
   .info-section:has(#trabajoResumen) .info-section-header { padding: 4px 10px; font-size: 9px; }
   .info-section:has(#trabajoResumen) #trabajoResumen { flex-direction: row; gap: 2px; padding: 3px 4px; }
