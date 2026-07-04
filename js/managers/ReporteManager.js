@@ -1363,56 +1363,64 @@ tr:hover td{background:#f7faff}
       <div style="grid-column:1/-1"><span class="ml">${t('integrityHash')}</span><span class="mv" style="font-family:monospace;font-size:9pt">RPT-${hash}</span></div>
     </div>
   </div>
-  <div class="sec">
-    <div class="sec-title"><span class="sec-num">03</span>${t('html_sec3')}</div>
-    <div style="background:#f7f8fa;border-left:4px solid #1a3a6b;border-radius:0 6px 6px 0;padding:16px 20px;font-size:10.5pt;line-height:1.7">
-      ${t('html_execSummary',meta.nombreDataset||'N/A',resultados.totalFilas,resultados.totalColumnas,REGULATORY.standard)}<br>
-      ${t('statistics')}: ${resultados.estadisticos.join(' · ')}.
-      ${meta.descripcion?`<br><br><em style="font-size:10pt;color:#4a5568">${escapeHtml(meta.descripcion)}</em>`:''}
-    </div>
-    <div style="margin-top:14px;padding:12px 16px;border-radius:6px;${totalFlags>0?'background:#fffbeb;border:1px solid #f6e05e':'background:#f0fff4;border:1px solid #9ae6b4'}">
-      ${totalFlags>0
-        ?`<strong>${t('html_flagsGlobal',totalFlags)}</strong><br><br>${Object.entries(ext).flatMap(([col,d])=>d.flags.map(f=>`<strong>${escapeHtml(col)}:</strong> ${escapeHtml(f)}`)).join('<br>')}`
-        :`<strong>${t('html_noFlagsGlobal')}</strong>`}
-    </div>
-    ${(() => {
-      const colsConParam = resultados.columnasAnalizadas
-          .map(col => ext[col]?.paramVerificacion)
-          .filter(pv => pv !== null && pv !== undefined);
-      if (colsConParam.length === 0) return '';
-      const totalFuera = colsConParam.reduce((a, pv) => a + pv.fueraDeRango, 0);
-      const rows = colsConParam.map(pv => {
-          const cumplPct = parseFloat(pv.porcentajeCumplimiento);
-          const color = cumplPct >= 95 ? '#276749' : cumplPct >= 80 ? '#b7791f' : '#c53030';
-          const bg    = cumplPct >= 95 ? '#f0fff4' : cumplPct >= 80 ? '#fffbeb' : '#fff5f5';
-          return `<tr style="background:${bg}">
-              <td style="font-weight:600">${escapeHtml(pv.col)}</td>
-              <td style="font-family:monospace;text-align:center">${pv.parametros.min ?? '—'}</td>
-              <td style="font-family:monospace;text-align:center">${pv.parametros.max ?? '—'}</td>
-              <td style="font-family:monospace;text-align:center">${pv.parametros.esp ?? '—'}</td>
-              <td style="font-family:monospace;text-align:right;font-weight:600;color:${pv.fueraDeRango > 0 ? '#c53030' : '#276749'}">${pv.fueraDeRango} / ${pv.total}</td>
-              <td style="font-family:monospace;text-align:right;font-weight:700;color:${color}">${pv.porcentajeCumplimiento}%</td>
-          </tr>`;
-      }).join('');
-      return `
-       <div style="margin-top:14px;border:1px solid #c7d2fe;border-radius:6px;overflow:hidden">
-           <div style="background:#3730a3;color:white;padding:8px 14px;font-family:monospace;font-size:8pt;letter-spacing:1px">
-               🎯 CONTROL DE PARÁMETROS — ${totalFuera === 0 ? '✓ TODOS DENTRO DE LÍMITES' : `⚠ ${totalFuera} VALORES FUERA DE LÍMITES`}
-           </div>
-           <table style="width:100%;border-collapse:collapse;font-size:9pt">
-               <thead><tr style="background:#eef2ff">
-                   <th style="padding:7px 12px;text-align:left;font-family:monospace;font-size:7pt;color:#3730a3">VARIABLE</th>
-                   <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#3730a3">MÍN</th>
-                   <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#3730a3">MÁX</th>
-                   <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#3730a3">ESPERANZA</th>
-                   <th style="padding:7px 12px;text-align:right;font-family:monospace;font-size:7pt;color:#3730a3">FUERA RANGO</th>
-                   <th style="padding:7px 12px;text-align:right;font-family:monospace;font-size:7pt;color:#3730a3">CUMPLIMIENTO</th>
-               </tr></thead>
-               <tbody>${rows}</tbody>
-           </table>
-       </div>`;
-   })()}
-   </div>
+  <table style="width:100%;border-collapse:collapse;margin-bottom:20px">
+    <thead style="display:table-header-group">
+      <tr><td style="padding:0;border:none">
+        <div class="sec-title" style="margin-bottom:16px"><span class="sec-num">03</span>${t('html_sec3')}</div>
+      </td></tr>
+    </thead>
+    <tbody>
+      <tr><td style="padding:0;border:none">
+        <div style="background:#f7f8fa;border-left:4px solid #1a3a6b;border-radius:0 6px 6px 0;padding:16px 20px;font-size:10.5pt;line-height:1.7">
+          ${t('html_execSummary',meta.nombreDataset||'N/A',resultados.totalFilas,resultados.totalColumnas,REGULATORY.standard)}<br>
+          ${t('statistics')}: ${resultados.estadisticos.join(' · ')}.
+          ${meta.descripcion?`<br><br><em style="font-size:10pt;color:#4a5568">${escapeHtml(meta.descripcion)}</em>`:''}
+        </div>
+        <div style="margin-top:14px;padding:12px 16px;border-radius:6px;${totalFlags>0?'background:#fffbeb;border:1px solid #f6e05e':'background:#f0fff4;border:1px solid #9ae6b4'}">
+          ${totalFlags>0
+            ?`<strong>${t('html_flagsGlobal',totalFlags)}</strong><br><br>${Object.entries(ext).flatMap(([col,d])=>d.flags.map(f=>`<strong>${escapeHtml(col)}:</strong> ${escapeHtml(f)}`)).join('<br>')}`
+            :`<strong>${t('html_noFlagsGlobal')}</strong>`}
+        </div>
+        ${(() => {
+          const colsConParam = resultados.columnasAnalizadas
+              .map(col => ext[col]?.paramVerificacion)
+              .filter(pv => pv !== null && pv !== undefined);
+          if (colsConParam.length === 0) return '';
+          const totalFuera = colsConParam.reduce((a, pv) => a + pv.fueraDeRango, 0);
+          const rows = colsConParam.map(pv => {
+              const cumplPct = parseFloat(pv.porcentajeCumplimiento);
+              const color = cumplPct >= 95 ? '#276749' : cumplPct >= 80 ? '#b7791f' : '#c53030';
+              const bg    = cumplPct >= 95 ? '#f0fff4' : cumplPct >= 80 ? '#fffbeb' : '#fff5f5';
+              return `<tr style="background:${bg}">
+                  <td style="font-weight:600">${escapeHtml(pv.col)}</td>
+                  <td style="font-family:monospace;text-align:center">${pv.parametros.min ?? '—'}</td>
+                  <td style="font-family:monospace;text-align:center">${pv.parametros.max ?? '—'}</td>
+                  <td style="font-family:monospace;text-align:center">${pv.parametros.esp ?? '—'}</td>
+                  <td style="font-family:monospace;text-align:right;font-weight:600;color:${pv.fueraDeRango > 0 ? '#c53030' : '#276749'}">${pv.fueraDeRango} / ${pv.total}</td>
+                  <td style="font-family:monospace;text-align:right;font-weight:700;color:${color}">${pv.porcentajeCumplimiento}%</td>
+              </tr>`;
+          }).join('');
+          return `
+           <div style="margin-top:14px;border:1px solid #c7d2fe;border-radius:6px;overflow:hidden">
+               <div style="background:#3730a3;color:white;padding:8px 14px;font-family:monospace;font-size:8pt;letter-spacing:1px">
+                   🎯 CONTROL DE PARÁMETROS — ${totalFuera === 0 ? '✓ TODOS DENTRO DE LÍMITES' : `⚠ ${totalFuera} VALORES FUERA DE LÍMITES`}
+               </div>
+               <table style="width:100%;border-collapse:collapse;font-size:9pt">
+                   <thead><tr style="background:#eef2ff">
+                       <th style="padding:7px 12px;text-align:left;font-family:monospace;font-size:7pt;color:#3730a3">VARIABLE</th>
+                       <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#3730a3">MÍN</th>
+                       <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#3730a3">MÁX</th>
+                       <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#3730a3">ESPERANZA</th>
+                       <th style="padding:7px 12px;text-align:right;font-family:monospace;font-size:7pt;color:#3730a3">FUERA RANGO</th>
+                       <th style="padding:7px 12px;text-align:right;font-family:monospace;font-size:7pt;color:#3730a3">CUMPLIMIENTO</th>
+                   </tr></thead>
+                   <tbody>${rows}</tbody>
+               </table>
+           </div>`;
+      })()}
+      </td></tr>
+    </tbody>
+  </table>
    <div class="sec">
      <div class="sec-title"><span class="sec-num">04</span>${t('html_sec4')}</div>
      ${resultados.columnasAnalizadas.map((col, _varIdx)=>`
