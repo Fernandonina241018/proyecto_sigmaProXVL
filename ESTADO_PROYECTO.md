@@ -75,7 +75,7 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 **Qué:** Se corrigieron 5 bugs:
 1. **Persistencia de estadísticos seleccionados**: Los checkboxes del menú Statistical Analysis no se restauraban al recargar la página. Se agregó escritura/lectura síncrona a `localStorage` con key `sigmaPro_selectedStats`.
-2. **Ancho de reporte con Paged.js**: Paged.js ponía inline `--pagedjs-page-width:210mm` en `.pagedjs_pages`. El script ahora también remueve esas CSS custom properties inline vía `removeProperty()`.
+2. **Ancho de reporte con Paged.js**: La causa raíz era que Paged.js v0.4.3 usa un stylesheet inyectado con `width: var(--pagedjs-width)` en `.pagedjs_sheet` y `.pagedjs_page`. No usa inline styles ni las variables `--pagedjs-page-width` que se estaban removiendo. Se agregó `.pagedjs_sheet{width:100% !important}` al `@media screen`, y se eliminó el script polling incorrecto.
 3. **Parpadeo al cargar Paged.js**: `body{visibility:hidden}` + `.pagedjs_pages{visibility:visible}`.
 4. **Encabezados huérfanos**: +`.sec-title{page-break-after:avoid}` en `@media print`.
 5. **TOC desincronizado**: Los nombres del índice no coincidían con los títulos reales de las secciones. Se reemplazaron hardcoded strings por llamadas `t('html_secN')` para que el TOC refleje exactamente los títulos.
@@ -86,7 +86,8 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 | `js/core/indexx-analysis.js:99` | `syncActiveStatsFromDOM()` — +`localStorage.setItem(...)` |
 | `js/core/indexx-analysis.js:919-934` | `buildStatMenu()` — fallback a localStorage, +`updateBadge()` |
 | `js/managers/ReporteManager.js:1310` | `@media print`: +`.sec-title{page-break-after:avoid}` |
-| `js/managers/ReporteManager.js:1328` | Script polling: +`.pagedjs_pages` en selector, +`removeProperty('--pagedjs-page-*')` |
+| `js/managers/ReporteManager.js:1324` | +`.pagedjs_sheet{width:100% !important}` en `@media screen` |
+| `js/managers/ReporteManager.js:1328` | Script post-Paged.js simplificado a solo fallback visibility |
 | `js/managers/ReporteManager.js:1358-1365` | TOC: hardcoded strings → `t('html_sec1'...6)` |
 
 ### 2026-07-02: Scroll horizontal en Hoja de Trabajo + límite columnas 100→500 + inputs límites full-width

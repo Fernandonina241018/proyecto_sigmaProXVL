@@ -1321,11 +1321,11 @@ tr:hover td{background:#f7faff}
 }
 @page{margin:1.2cm;size:A4;@bottom-center{content:counter(page) " de " counter(pages);font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}}
 body{visibility:hidden}.pagedjs_pages{visibility:visible}
-@media screen{.pagedjs_pages{width:100% !important}.pagedjs_page{width:100% !important;max-width:880px;margin:0 auto 20px;min-width:0 !important;visibility:visible}.pagedjs_pagebox{width:auto !important}.pagedjs_pagearea{width:auto !important}}
+@media screen{.pagedjs_pages{width:100% !important}.pagedjs_sheet{width:100% !important}.pagedjs_page{width:100% !important;max-width:880px;margin:0 auto 20px;min-width:0 !important;visibility:visible}.pagedjs_pagebox{width:auto !important}.pagedjs_pagearea{width:auto !important}}
 
 </style>
 <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
-<script>(function(){function f(){var e=document.querySelectorAll('.pagedjs_pages,.pagedjs_page,.pagedjs_pagebox,.pagedjs_pagearea');if(e.length){for(var i=0;i<e.length;i++){e[i].style.width='';e[i].style.height='';e[i].style.removeProperty('--pagedjs-page-width');e[i].style.removeProperty('--pagedjs-page-height');e[i].style.removeProperty('--pagedjs-page-available-width')}return true}return false}var iv=setInterval(function(){if(f())clearInterval(iv)},100);setTimeout(function(){clearInterval(iv);f();document.body.style.visibility='visible'},5e3)})()</script>
+<script>setTimeout(function(){document.body.style.visibility='visible'},5e3)</script>
 </head><body>
 
 <div class="cover">
