@@ -1989,6 +1989,7 @@ body{visibility:hidden}.pagedjs_pages{visibility:visible}
     <div style="text-align:right">${REGULATORY.standard}<br>${todayFormatted()}</div>
   </div>
 </div>
+<script>document.querySelectorAll('.toc-entry').forEach(function(l){l.addEventListener('click',function(e){e.preventDefault();var t=document.querySelector('[data-id="'+this.getAttribute('href').substring(1)+'"]');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})})})</script>
 </body></html>`;
     }
 

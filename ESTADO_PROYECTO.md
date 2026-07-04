@@ -45,6 +45,17 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-04: Fix — navegación del TOC rota por Paged.js
+
+**Qué:** Paged.js v0.4.3 elimina el atributo `id` del DOM durante la paginación y lo mueve a `data-id` (confirmado por GitHub Issue #240). Al hacer clic en `<a href="#sec02">`, el navegador buscaba `id="sec02"` y no lo encontraba en el contenido paginado visible, causando que no navegara correctamente.
+
+**Fix:** Se agregó un script al final del `<body>` que intercepta clicks en `.toc-entry`, previene el comportamiento default del enlace, busca el target por `[data-id="secXX"]` (preservado por Paged.js) y hace `scrollIntoView()`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/managers/ReporteManager.js:1992` | Script post-render que intercepta TOC clicks y navega por `data-id` |
+
 ### 2026-07-03: Índice (TOC) como sección 01 en reporte .html con ambos idiomas
 
 **Qué:** Se agregó tabla de contenidos como sección 01 dentro del reporte, desplazando la numeración del resto (01→02, 02→03, ... 05B→07, 06→08, 07→09). Cada entrada del índice muestra ambos idiomas (ES / EN). Se agregó espacio de 40px para contenido futuro entre el recuadro de info general y el índice.
