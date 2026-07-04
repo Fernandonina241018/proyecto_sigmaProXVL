@@ -45,6 +45,17 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-03: Page numbers "1 de 56" con Paged.js en reporte preview + PDF
+
+**Qué:** Se agregó numeración de páginas visible en preview y al imprimir, independiente de la configuración del navegador. Usa Paged.js polyfill + CSS `@page @bottom-center`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/managers/ReporteManager.js:1307` | `@page` con `counter(page) " de " counter(pages)` en `@bottom-center` |
+| `js/managers/ReporteManager.js:1310` | Script Paged.js polyfill agregado en `<head>` |
+| `js/managers/ReporteManager.js:1976` | Delay 800ms antes de `w.print()` para esperar paginación |
+
 ### 2026-07-02: Scroll horizontal en Hoja de Trabajo + límite columnas 100→500 + inputs límites full-width
 
 **Qué:** Se corrigió el ancho de columnas en la Hoja de Trabajo para que sean legibles al pegar muchas columnas. Se eliminó `table-layout:fixed` y `width:100%` de la tabla, y se fijó `width:120px` por columna, forzando scroll horizontal cuando hay muchas columnas. Además se aumentó el límite máximo de columnas de 100 a 500.

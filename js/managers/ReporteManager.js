@@ -1303,10 +1303,12 @@ tr:hover td{background:#f7faff}
     .sig-grid{page-break-inside:avoid}
     .audit-box{page-break-inside:avoid}
     .doc-footer{page-break-inside:avoid;page-break-before:avoid}
-    @page{margin:1.2cm;size:A4}
 }
+@page{margin:1.2cm;size:A4;@bottom-center{content:counter(page) " de " counter(pages);font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}}
 
-</style></head><body>
+</style>
+<script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+</head><body>
 
 <div class="cover">
   <div style="position:relative">
@@ -1971,7 +1973,7 @@ tr:hover td{background:#f7faff}
         const base = `RPT-${hash}_${new Date().toISOString().slice(0,10)}`;
         let delay = 0;
         if(formatos.includes('html')){setTimeout(async ()=>{const h=await generarHTML(resultados,meta,hash);downloadBlob(h,`${base}.html`,'text/html;charset=utf-8');},delay);delay+=350;}
-        if(formatos.includes('pdf')){setTimeout(async ()=>{const h=await generarHTML(resultados,meta,hash);const blob=new Blob([h],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const w=window.open(url,'_blank');if(w){w.onload=function(){w.print();URL.revokeObjectURL(url);};}},delay);delay+=350;}
+        if(formatos.includes('pdf')){setTimeout(async ()=>{const h=await generarHTML(resultados,meta,hash);const blob=new Blob([h],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const w=window.open(url,'_blank');if(w){w.onload=function(){setTimeout(function(){w.print();URL.revokeObjectURL(url);},800);};}},delay);delay+=350;}
         if(formatos.includes('txt')){setTimeout(()=>downloadBlob(generarTXT(resultados,meta,hash),`${base}.txt`,'text/plain;charset=utf-8'),delay);delay+=350;}
         if(formatos.includes('csv')){setTimeout(()=>downloadBlob(generarCSV(resultados,meta,hash),`${base}.csv`,'text/csv;charset=utf-8'),delay);}
         
