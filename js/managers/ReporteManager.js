@@ -1325,7 +1325,7 @@ body{visibility:hidden}.pagedjs_pages{visibility:visible}
 
 </style>
 <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
-<script>(function(){function f(){var e=document.querySelectorAll('.pagedjs_page,.pagedjs_pagebox,.pagedjs_pagearea');if(e.length){for(var i=0;i<e.length;i++){e[i].style.width='';e[i].style.height=''}return true}return false}var iv=setInterval(function(){if(f())clearInterval(iv)},100);setTimeout(function(){clearInterval(iv);f();document.body.style.visibility='visible'},5e3)})()</script>
+<script>(function(){function f(){var e=document.querySelectorAll('.pagedjs_pages,.pagedjs_page,.pagedjs_pagebox,.pagedjs_pagearea');if(e.length){for(var i=0;i<e.length;i++){e[i].style.width='';e[i].style.height='';e[i].style.removeProperty('--pagedjs-page-width');e[i].style.removeProperty('--pagedjs-page-height');e[i].style.removeProperty('--pagedjs-page-available-width')}return true}return false}var iv=setInterval(function(){if(f())clearInterval(iv)},100);setTimeout(function(){clearInterval(iv);f();document.body.style.visibility='visible'},5e3)})()</script>
 </head><body>
 
 <div class="cover">
@@ -1355,14 +1355,14 @@ body{visibility:hidden}.pagedjs_pages{visibility:visible}
   <div class="sec" id="sec01">
     <div class="sec-title"><span class="sec-num">01</span>${t('tocTitle')||'Índice / Table of Contents'}</div>
     <div class="toc-body">
-      <a href="#sec02" class="toc-entry"><span class="toc-num">02</span><span class="toc-label">${lang==='es'?'Metadatos del Ensayo':'Study Metadata'} <span class="toc-lang">/ ${lang==='es'?'Study Metadata':'Metadatos del Ensayo'}</span></span></a>
-      <a href="#sec03" class="toc-entry"><span class="toc-num">03</span><span class="toc-label">${lang==='es'?'Parámetros de Control':'Control Parameters'} <span class="toc-lang">/ ${lang==='es'?'Control Parameters':'Parámetros de Control'}</span></span></a>
-      <a href="#sec04" class="toc-entry"><span class="toc-num">04</span><span class="toc-label">${lang==='es'?'Variables y Resultados':'Variables & Results'} <span class="toc-lang">/ ${lang==='es'?'Variables & Results':'Variables y Resultados'}</span></span></a>
-      <a href="#sec05" class="toc-entry"><span class="toc-num">05</span><span class="toc-label">${lang==='es'?'Métodos Analíticos':'Analytical Methods'} <span class="toc-lang">/ ${lang==='es'?'Analytical Methods':'Métodos Analíticos'}</span></span></a>
-      <a href="#sec06" class="toc-entry"><span class="toc-num">06</span><span class="toc-label">${lang==='es'?'Estadísticos Descriptivos':'Descriptive Statistics'} <span class="toc-lang">/ ${lang==='es'?'Descriptive Statistics':'Estadísticos Descriptivos'}</span></span></a>
+      <a href="#sec02" class="toc-entry"><span class="toc-num">02</span><span class="toc-label">${t('html_sec1')} <span class="toc-lang">/ ${lang==='es'?'Overview':'Resumen General'}</span></span></a>
+      <a href="#sec03" class="toc-entry"><span class="toc-num">03</span><span class="toc-label">${t('html_sec2')} <span class="toc-lang">/ ${lang==='es'?'Dataset Traceability':'Trazabilidad del Dataset'}</span></span></a>
+      <a href="#sec04" class="toc-entry"><span class="toc-num">04</span><span class="toc-label">${t('html_sec3')} <span class="toc-lang">/ ${lang==='es'?'Executive Summary':'Resumen Ejecutivo'}</span></span></a>
+      <a href="#sec05" class="toc-entry"><span class="toc-num">05</span><span class="toc-label">${t('html_sec4')} <span class="toc-lang">/ ${lang==='es'?'Statistical Results by Variable':'Resultados Estadísticos por Variable'}</span></span></a>
+      <a href="#sec06" class="toc-entry"><span class="toc-num">06</span><span class="toc-label">${t('html_sec5')} <span class="toc-lang">/ ${lang==='es'?'Methodological Notes':'Notas Metodológicas'}</span></span></a>
       ${hasHyp?`<a href="#sec07" class="toc-entry"><span class="toc-num">07</span><span class="toc-label">Pruebas de Hipótesis<span class="toc-lang"> / Hypothesis Tests</span></span></a>`:''}
       ${hasGrafs?`<a href="#sec08" class="toc-entry"><span class="toc-num">08</span><span class="toc-label">${lang==='es'?'Gráficos y Visualizaciones':'Charts & Visualizations'} <span class="toc-lang">/ ${lang==='es'?'Charts & Visualizations':'Gráficos y Visualizaciones'}</span></span></a>`:''}
-      <a href="#sec09" class="toc-entry"><span class="toc-num">09</span><span class="toc-label">${lang==='es'?'Firmas Electrónicas':'Electronic Signatures'} <span class="toc-lang">/ ${lang==='es'?'Electronic Signatures':'Firmas Electrónicas'}</span></span></a>
+      <a href="#sec09" class="toc-entry"><span class="toc-num">09</span><span class="toc-label">${t('html_sec6')} <span class="toc-lang">/ ${lang==='es'?'Audit Trail & Electronic Signature':'Traza de Auditoría y Firma Electrónica'}</span></span></a>
     </div>
   </div>
   <div class="sec" id="sec02">
