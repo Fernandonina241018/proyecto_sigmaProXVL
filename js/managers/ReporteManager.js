@@ -1307,6 +1307,7 @@ tr:hover td{background:#f7faff}
     .doc{padding:20px 40px}
     .sec{page-break-before:always;page-break-inside:auto}
     .sec:first-of-type{page-break-before:avoid}
+    .sec-title{page-break-after:avoid}
 
     .var-block{page-break-inside:avoid}
 
@@ -1324,7 +1325,7 @@ body{visibility:hidden}.pagedjs_pages{visibility:visible}
 
 </style>
 <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
-<script>setTimeout(function(){document.body.style.visibility='visible'},5e3)</script>
+<script>(function(){function f(){var e=document.querySelectorAll('.pagedjs_page,.pagedjs_pagebox,.pagedjs_pagearea');if(e.length){for(var i=0;i<e.length;i++){e[i].style.width='';e[i].style.height=''}return true}return false}var iv=setInterval(function(){if(f())clearInterval(iv)},100);setTimeout(function(){clearInterval(iv);f();document.body.style.visibility='visible'},5e3)})()</script>
 </head><body>
 
 <div class="cover">
