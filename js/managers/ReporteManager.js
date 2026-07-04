@@ -1923,7 +1923,7 @@ tr:hover td{background:#f7faff}
       return `
       <div class="sec" style="page-break-before:always">
           <div class="sec-title">
-              <span class="sec-num">07</span>
+              <span class="sec-num">06</span>
               ${currentLang === 'es' ? 'Gráficos y Visualizaciones' : 'Charts & Visualizations'}
           </div>
           ${filas}
