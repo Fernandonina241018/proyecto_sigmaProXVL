@@ -141,6 +141,7 @@ const ReporteManager = (() => {
             html_sec5:      'Methodological Notes',
             html_sec6:      'Audit Trail & Electronic Signature',
             html_auditSubpart:'21 CFR Part 11 — Subpart C',
+            tocTitle:       'Index / Table of Contents',
             html_statCol:   'Statistic',
             html_valCol:    'Value',
             html_refCol:    'Formula',
@@ -422,6 +423,7 @@ const ReporteManager = (() => {
             html_sec5:      'Notas Metodológicas',
             html_sec6:      'Traza de Auditoría y Firma Electrónica',
             html_auditSubpart:'21 CFR Part 11 — Subparte C',
+            tocTitle:       'Índice / Tabla de Contenidos',
             html_statCol:   'Estadístico',
             html_valCol:    'Valor',
             html_refCol:    'Fórmula',
@@ -1065,7 +1067,8 @@ const ReporteManager = (() => {
         const multivariadoTests = new Set(['Análisis Factorial', 'PCA (Componentes Principales)', 'PCA', 'Análisis de Cluster', 'Análisis Discriminante', 'M-ANOVA']);
         const hypEntries = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.has(stat) || multivariadoTests.has(stat));
         const hasHyp = hypEntries.length > 0;
-        const hasGrafs = (typeof Visualizacion !== 'undefined') ? Visualizacion.getGraficosParaReporte(document.getElementById('rep-include-all-charts')?.checked).length > 0 : false;
+        const grafsArr = (typeof Visualizacion !== 'undefined') ? Visualizacion.getGraficosParaReporte(document.getElementById('rep-include-all-charts')?.checked) : [];
+        const hasGrafs = grafsArr && grafsArr.length > 0;
         
         // Generar contenido del QR - con toda la info
         const qrContent = [
