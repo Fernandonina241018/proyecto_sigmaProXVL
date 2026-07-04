@@ -1895,16 +1895,6 @@ tr:hover td{background:#f7faff}
         </div>
       </div>`;
   })()}
-  <div class="sec">
-    <div class="sec-title"><span class="sec-num">06</span>${t('html_sec6')} <span style="font-size:7pt;font-weight:400;color:#a0aec0;margin-left:8px">${t('html_auditSubpart')}</span></div>
-    <div class="sig-grid">${sigBlocks}</div><br>
-    <div class="audit-box">
-      <strong style="color:#1a3a6b">${t('html_auditMeta')}</strong><br>
-      ${t('docId')}: RPT-${hash} &nbsp;|&nbsp; ${t('software')}: ${REGULATORY.software} &nbsp;|&nbsp; ${t('generated')}: ${nowFormatted()}<br>
-      Standard: ${REGULATORY.standard} &nbsp;|&nbsp; Guideline: ${REGULATORY.guideline}
-    </div>
-  </div>
-  
   ${(() => {
       const graficos = (typeof Visualizacion !== 'undefined')
           ? Visualizacion.getGraficosParaReporte(document.getElementById('rep-include-all-charts')?.checked)
@@ -1939,6 +1929,16 @@ tr:hover td{background:#f7faff}
           ${filas}
       </div>`;
   })()}
+
+  <div class="sec">
+    <div class="sec-title"><span class="sec-num">06</span>${t('html_sec6')} <span style="font-size:7pt;font-weight:400;color:#a0aec0;margin-left:8px">${t('html_auditSubpart')}</span></div>
+    <div class="sig-grid">${sigBlocks}</div><br>
+    <div class="audit-box">
+      <strong style="color:#1a3a6b">${t('html_auditMeta')}</strong><br>
+      ${t('docId')}: RPT-${hash} &nbsp;|&nbsp; ${t('software')}: ${REGULATORY.software} &nbsp;|&nbsp; ${t('generated')}: ${nowFormatted()}<br>
+      Standard: ${REGULATORY.standard} &nbsp;|&nbsp; Guideline: ${REGULATORY.guideline}
+    </div>
+  </div>
 
   <div class="doc-footer">
     <div><strong style="color:#1a3a6b">RPT-${hash}</strong><br>${REGULATORY.software}</div>
