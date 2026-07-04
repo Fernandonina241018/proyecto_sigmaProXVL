@@ -492,7 +492,7 @@ async function firmaVerify(role, code, password, statusEl) {
       return;
     }
     var now = new Date();
-    var dd=String(now.getDate()).padStart(2,'0'), mm=String(now.getMonth()+1).padStart(2,'0'), yyyy=now.getFullYear(), hh=now.getHours(), min=String(now.getMinutes()).padStart(2,'0'), ampm=hh>=12?'p.m.':'a.m.', h12=String(hh%12||12).padStart(2,'0');
+    var dd=String(now.getDate()).padStart(2,'0'), mm=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][now.getMonth()], yyyy=now.getFullYear(), hh=now.getHours(), min=String(now.getMinutes()).padStart(2,'0'), ampm=hh>=12?'p.m.':'a.m.', h12=String(hh%12||12).padStart(2,'0');
     var fechaStr = dd+'/'+mm+'/'+yyyy+' '+h12+':'+min+' '+ampm;
     _firmaSignatureState[role] = {
       signed: true,

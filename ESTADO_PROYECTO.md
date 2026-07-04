@@ -3089,3 +3089,14 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 |---------|--------|
 | `js/managers/ReporteManager.js:1324-1328` | Reemplazado script timeout simple por MutationObserver + `setProperty` + eventos Paged.js |
 | `js/managers/ReporteManager.js:1992` | Reemplazado direct listeners por event delegation en `document` |
+
+### 2026-07-04: Formato fecha firma electrónica
+
+**Qué:** La fecha que se inserta al firmar electrónicamente un reporte usaba formato largo `toLocaleDateString('es-ES')` que producía cadenas como "4 de julio de 2026 3:45 p. m.".
+
+**Fix:** Cambiado a formato corto `dd/Mon/aaaa hh:mm a.m./p.m.` (ej: `04/Jul/2026 03:45 p.m.`).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-firma.js:494-496` | Reemplazado `toLocaleDateString` por construcción manual con `padStart` + `a.m./p.m.` |
