@@ -527,6 +527,8 @@ var rightPanels = {
     var cols = sheet ? sheet.headers : ['Columna1'];
     var rows = sheet ? sheet.rows : [];
     var totalRows = rows.length;
+    var locked = sheet ? (sheet.locked === undefined ? false : sheet.locked) : false;
+    var editable = locked ? 'false' : 'true';
     if (typeof trabajoPage === 'undefined') trabajoPage = 0;
     if (typeof trabajoPageSize === 'undefined') trabajoPageSize = 200;
     var totalPages = Math.max(1, Math.ceil(totalRows / trabajoPageSize));
@@ -537,7 +539,7 @@ var rightPanels = {
     var colHeaders = cols.map(function(c, ci){
       var frozenClass = (trabajoFreezeFirstCol && ci === 0) ? ' frozen-col' : '';
       return '<th style="width:120px;min-width:120px;text-align:left;font-size:11px;font-weight:500;padding:0;border-right:1px solid var(--border);background:var(--bg-primary);position:sticky;top:0;z-index:' + (trabajoFreezeFirstCol && ci===0 ? 3 : 2) + ';' + (trabajoFreezeFirstCol && ci===0 ? 'left:40px;border-right:2px solid rgba(124,106,247,.4)' : '') + '" class="' + frozenClass + '">' +
-        '<div class="col-header-editable" contenteditable="true" data-colidx="' + ci + '" onblur="renameColumn(' + ci + ',this.textContent)" onmouseenter="showColStats(event,' + ci + ')" onmouseleave="hideColStats()" title="Hover: estadísticas · Doble clic: renombrar">' + escapeHtml(c) + '</div></th>';
+        '<div class="col-header-editable" contenteditable="' + editable + '" data-colidx="' + ci + '" onblur="renameColumn(' + ci + ',this.textContent)" onmouseenter="showColStats(event,' + ci + ')" onmouseleave="hideColStats()" title="Hover: estadísticas · Doble clic: renombrar">' + escapeHtml(c) + '</div></th>';
     }).join('');
 
     var bodyRows = pageRows.map(function(r, ri){
@@ -550,7 +552,7 @@ var rightPanels = {
         var frozenClass = (trabajoFreezeFirstCol && ci === 0) ? ' frozen-col' : '';
         var safeV = escapeHtml(String(v == null ? '' : v));
         return '<td class="excel-cell' + selClass + frozenClass + '" style="padding:0;border-right:1px solid rgba(255,255,255,0.04)' + (trabajoFreezeFirstCol && ci===0 ? ';border-right:2px solid rgba(124,106,247,.4)' : '') + '" onclick="cellClick(event,' + actualRow + ',' + ci + ')">' +
-          '<div class="excel-cell-inner' + (cfClass ? ' ' + cfClass : '') + '" contenteditable="true" data-row="' + actualRow + '" data-col="' + ci + '"' +
+          '<div class="excel-cell-inner' + (cfClass ? ' ' + cfClass : '') + '" contenteditable="' + editable + '" data-row="' + actualRow + '" data-col="' + ci + '"' +
           ' onblur="saveCellData(' + actualRow + ',' + ci + ',this.textContent)"' +
           ' oninput="onCellInput(event,' + actualRow + ',' + ci + ',this.textContent)"' +
           ' onpaste="handleCellPaste(event,' + actualRow + ',' + ci + ')"' +
@@ -578,6 +580,7 @@ var rightPanels = {
           '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="redoAction()">↪</button>' +
           '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="sortColumn()">↕</button>' +
           '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="exportTrabajo()">💾</button>' +
+          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="toggleSheetLock()" title="' + (locked ? 'Desbloquear hoja para editar' : 'Bloquear hoja para proteger datos') + '">' + (locked ? '🔒' : '🔓') + '</button>' +
         '</div>' +
       '</div>' +
       '<div style="flex:1;overflow:auto;position:relative" id="trabajoScrollWrap">' +
@@ -604,7 +607,7 @@ var rightPanels = {
             '<option value="500"' + (trabajoPageSize===500?' selected':'') + '>500</option>' +
             '<option value="1000"' + (trabajoPageSize===1000?' selected':'') + '>1000</option>' +
           '</select>' : '') +
-          totalRows + ' filas · ' + cols.length + ' cols · Pila deshacer: ' + undoStack.length + '</div>' +
+          totalRows + ' filas · ' + cols.length + ' cols · Pila deshacer: ' + undoStack.length + ' · ' + (locked ? '🔒 Bloqueado' : '🔓 Editable') + '</div>' +
       '</div>' +
     '</div>';
   },

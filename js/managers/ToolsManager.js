@@ -823,8 +823,8 @@ function handleToolsAction(action) {
         // Remove old versions if exist
         if (typeof trabajoSheets !== 'undefined') {
           trabajoSheets = trabajoSheets.filter(function(s) { return s.name !== trainName && s.name !== testName; });
-          trabajoSheets.push({ name: trainName, headers: data.headers.slice(), rows: result.train.map(function(r) { return r.slice(); }) });
-          trabajoSheets.push({ name: testName,  headers: data.headers.slice(), rows: result.test.map(function(r) { return r.slice(); }) });
+          trabajoSheets.push({ name: trainName, headers: data.headers.slice(), rows: result.train.map(function(r) { return r.slice(); }), locked: true });
+          trabajoSheets.push({ name: testName,  headers: data.headers.slice(), rows: result.test.map(function(r) { return r.slice(); }), locked: true });
           trabajoActiveSheetIndex = trabajoSheets.length - 2; // go to train sheet
         }
         loadPage('trabajo');

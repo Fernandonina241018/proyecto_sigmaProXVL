@@ -435,7 +435,7 @@ function sendToTrabajo() {
   var existIdx = trabajoSheets.findIndex(function(s){ return s.name === name; });
   if (existIdx !== -1) { trabajoActiveSheetIndex = existIdx; loadPage('trabajo'); return; }
   var rowsToSend = datosFilteredRows.length && datosFilteredRows.length < datosCurrentData.rows.length ? datosFilteredRows : datosCurrentData.rows;
-  trabajoSheets.push({ name:name, headers:datosCurrentData.headers.slice(), rows:rowsToSend.map(function(r){ return r.map(function(v){ return String(v==null?'':v); }); }) });
+  trabajoSheets.push({ name:name, headers:datosCurrentData.headers.slice(), rows:rowsToSend.map(function(r){ return r.map(function(v){ return String(v==null?'':v); }); }), locked:true });
   trabajoActiveSheetIndex = trabajoSheets.length - 1;
   trabajoActiveCell = {row:0,col:0};
   _persistAllData();

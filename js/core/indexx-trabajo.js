@@ -20,11 +20,12 @@ function pushUndo() {
 }
 function undoAction() {
   if (!undoStack.length) { showToast('Nada que deshacer'); return; }
+  var sheet = getCurrentSheet();
+  if (!sheet) return;
+  if (sheet.locked) { showToast('🔒 Hoja bloqueada. Desbloquéala para editar.'); return; }
   var current = snapshotSheet();
   if (current) redoStack.push(current);
   var snap = undoStack.pop();
-  var sheet = getCurrentSheet();
-  if (!sheet) return;
   sheet.headers = snap.headers;
   sheet.rows = snap.rows;
   showToast('↩ Acción deshecha');
@@ -32,11 +33,12 @@ function undoAction() {
 }
 function redoAction() {
   if (!redoStack.length) { showToast('Nada que rehacer'); return; }
+  var sheet = getCurrentSheet();
+  if (!sheet) return;
+  if (sheet.locked) { showToast('🔒 Hoja bloqueada. Desbloquéala para editar.'); return; }
   var current = snapshotSheet();
   if (current) undoStack.push(current);
   var snap = redoStack.pop();
-  var sheet = getCurrentSheet();
-  if (!sheet) return;
   sheet.headers = snap.headers;
   sheet.rows = snap.rows;
   showToast('↪ Acción rehecha');
@@ -525,6 +527,7 @@ function onCellFocus(ri, ci) {
 
 function onCellInput(event, ri, ci, value) {
   var sheet = getCurrentSheet();
+  if (sheet && sheet.locked) return;
   if (sheet && sheet.rows[ri] !== undefined) sheet.rows[ri][ci] = value;
   if (trabajoActiveCell.row === ri && trabajoActiveCell.col === ci) {
     var valEl = document.getElementById('trabajoCellVal');
@@ -535,6 +538,7 @@ function onCellInput(event, ri, ci, value) {
 
 function saveCellData(rowIdx, colIdx, value) {
   var sheet = getCurrentSheet();
+  if (sheet && sheet.locked) { showToast('🔒 Hoja bloqueada. Desbloquéala para editar.'); return; }
   if (sheet && sheet.rows[rowIdx] !== undefined) {
     sheet.rows[rowIdx][colIdx] = value;
     if (trabajoActiveCell.row === rowIdx && trabajoActiveCell.col === colIdx) {
@@ -592,6 +596,7 @@ function applyAutocomplete(event, ri, ci, idx) {
 function renameColumn(colIdx, newName) {
   var sheet = getCurrentSheet();
   if (!sheet) return;
+  if (sheet.locked) { loadPage('trabajo'); return; }
   newName = (newName || '').trim();
   if (!newName) { loadPage('trabajo'); return; }
   if (newName !== sheet.headers[colIdx]) {
@@ -604,11 +609,10 @@ function renameColumn(colIdx, newName) {
 function handleCellPaste(event, rowIdx, colIdx) {
   event.preventDefault();
   event.stopPropagation();
-  pushUndo();
-  var clipData = event.clipboardData || window.clipboardData;
-  var text = clipData.getData('text');
   var sheet = getCurrentSheet();
-  if (!sheet || !text.trim()) return;
+  if (!sheet) return;
+  if (sheet.locked) { showToast('🔒 Hoja bloqueada. Desbloquéala para editar.'); return; }
+  pushUndo();
   var lines = text.trim().split('\n');
   var parsedData = lines.map(function(line) {
     return line.split(/\t|,/).map(function(cell) {
@@ -656,6 +660,7 @@ function handleCellPaste(event, rowIdx, colIdx) {
 // ── Add/Delete rows & columns ──
 function addRow() {
   var sheet = getCurrentSheet(); if (!sheet) return;
+  if (sheet.locked) { showToast('🔒 Hoja bloqueada. Desbloquéala para editar.'); return; }
   if (datosSourceType === 'none') datosSourceType = 'manual';
   pushUndo();
   sheet.rows.push(Array.from({length: sheet.headers.length}, function(){ return ''; }));
@@ -664,6 +669,7 @@ function addRow() {
 }
 function deleteActiveRow() {
   var sheet = getCurrentSheet(); if (!sheet || sheet.rows.length === 0) return;
+  if (sheet.locked) { showToast('🔒 Hoja bloqueada. Desbloquéala para editar.'); return; }
   if (!confirm('¿Eliminar la fila ' + (trabajoActiveCell.row + 1) + '?')) return;
   pushUndo();
   sheet.rows.splice(trabajoActiveCell.row, 1);
@@ -673,6 +679,7 @@ function deleteActiveRow() {
 }
 function addColumn() {
   var sheet = getCurrentSheet(); if (!sheet) return;
+  if (sheet.locked) { showToast('🔒 Hoja bloqueada. Desbloquéala para editar.'); return; }
   if (datosSourceType === 'none') datosSourceType = 'manual';
   pushUndo();
   var newName = 'Col' + (sheet.headers.length + 1);
@@ -683,6 +690,7 @@ function addColumn() {
 }
 function deleteActiveColumn() {
   var sheet = getCurrentSheet(); if (!sheet || sheet.headers.length <= 1) return;
+  if (sheet.locked) { showToast('🔒 Hoja bloqueada. Desbloquéala para editar.'); return; }
   if (!confirm('¿Eliminar la columna "' + sheet.headers[trabajoActiveCell.col] + '"?')) return;
   pushUndo();
   sheet.headers.splice(trabajoActiveCell.col, 1);
@@ -699,6 +707,7 @@ function selectAll() {   trabajoActiveCell = {row:0,col:0};
 
 function sortColumn() {
   var sheet = getCurrentSheet(); if (!sheet) return;
+  if (sheet.locked) { showToast('🔒 Hoja bloqueada. Desbloquéala para editar.'); return; }
   pushUndo();
   var col = trabajoActiveCell.col; var asc = true;
   sheet.rows.sort(function(a,b){ var va=a[col]||'',vb=b[col]||''; var na=parseFloat(va),nb=parseFloat(vb); if(!isNaN(na)&&!isNaN(nb)) return asc?na-nb:nb-na; return asc?String(va).localeCompare(String(vb)):String(vb).localeCompare(String(va)); });
@@ -706,12 +715,25 @@ function sortColumn() {
   loadPage('trabajo');
 }
 
+function toggleSheetLock() {
+  var sheet = getCurrentSheet(); if (!sheet) return;
+  if (sheet.locked) {
+    if (!confirm('¿Desbloquear la hoja? Los datos podrán ser modificados.')) return;
+    sheet.locked = false;
+  } else {
+    sheet.locked = true;
+  }
+  _persistAllData();
+  loadPage('trabajo');
+  showToast(sheet.locked ? '🔒 Hoja bloqueada' : '🔓 Hoja desbloqueada');
+}
+
 function createNewSheet() {
   var name = prompt('Nombre de la nueva hoja:', 'Hoja' + (trabajoSheets.length + 1));
   if (!name || !name.trim()) return;
   name = name.trim();
   if (trabajoSheets.find(function(s){ return s.name === name; })) { showToast('⚠️ Ya existe una hoja con ese nombre.'); return; }
-  trabajoSheets.push({ name:name, headers:['Columna1','Columna2','Columna3','Columna4'], rows:Array.from({length:20}, function(){ return ['','','','']; }) });
+  trabajoSheets.push({ name:name, headers:['Columna1','Columna2','Columna3','Columna4'], rows:Array.from({length:20}, function(){ return ['','','','']; }), locked:false });
   trabajoActiveSheetIndex = trabajoSheets.length - 1;
   trabajoActiveCell = {row:0,col:0};
   _persistAllData();
@@ -734,6 +756,7 @@ function deleteSheet(index, evt) {
 }
 function clearCurrentSheet() {
   var sheet = getCurrentSheet(); if (!sheet) return;
+  if (sheet.locked) { showToast('🔒 Hoja bloqueada. Desbloquéala para editar.'); return; }
   if (!confirm('¿Limpiar todos los datos de "' + sheet.name + '"?')) return;
   pushUndo();
   sheet.rows = sheet.rows.map(function(){ return Array.from({length: sheet.headers.length}, function(){ return ''; }); });
@@ -1092,7 +1115,7 @@ function generateSampleData() {
 
     pushUndo();
     var prefix = distKey.charAt(0).toUpperCase() + distKey.slice(1, 10);
-    trabajoSheets.push({ name: prefix + '_' + n + 'x' + k, headers: headers, rows: rows });
+    trabajoSheets.push({ name: prefix + '_' + n + 'x' + k, headers: headers, rows: rows, locked: true });
     trabajoActiveSheetIndex = trabajoSheets.length - 1;
     trabajoActiveCell = {row:0,col:0};
     _persistAllData();

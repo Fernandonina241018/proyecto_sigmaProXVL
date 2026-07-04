@@ -8,7 +8,8 @@
 var trabajoSheets = [{
   name: 'Hoja1',
   headers: ['Columna1','Columna2','Columna3','Columna4'],
-  rows: Array.from({length:20}, function(){ return ['','','','']; })
+  rows: Array.from({length:20}, function(){ return ['','','','']; }),
+  locked: false
 }];
 var trabajoActiveSheetIndex = 0;
 var trabajoActiveCell = { row: 0, col: 0 };
