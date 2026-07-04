@@ -73,16 +73,17 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ### 2026-07-04: Fix — persistencia estadísticos + ancho Paged.js reporte
 
-**Qué:** Se corrigieron dos bugs reportados por usuarios:
+**Qué:** Se corrigieron tres bugs:
 1. **Persistencia de estadísticos seleccionados**: Los checkboxes del menú Statistical Analysis no se restauraban al recargar la página porque `StateManager.loadFromLocalStorage()` es asíncrono y `buildStatAnalysisMenu()` corre en boot sincrónicamente. Se agregó escritura/lectura síncrona a `localStorage` con key `sigmaPro_selectedStats`.
 2. **Ancho de reporte con Paged.js**: En preview screen, Paged.js usaba `width:A4` (210mm ≈ 794px). Se agregaron reglas `@media screen` con `.pagedjs_pages{width:100%}`, `.pagedjs_page{width:100%;max-width:880px}`, `.pagedjs_pagebox{width:auto}`, `.pagedjs_pagearea{width:auto}`.
+3. **Parpadeo al cargar Paged.js**: El contenido sin paginar se veía brevemente antes de que Paged.js creara las páginas. Se añadió `body{visibility:hidden}` (oculta el raw HTML) + `.pagedjs_pages{visibility:visible}` (muestra solo tras paginación). Fallback 5s si Paged.js no carga.
 
 **Archivos afectados:**
 | Archivo | Cambio |
 |---------|--------|
 | `js/core/indexx-analysis.js:99` | `syncActiveStatsFromDOM()` — +`localStorage.setItem('sigmaPro_selectedStats', ...)` |
 | `js/core/indexx-analysis.js:919-934` | `buildStatMenu()` — fallback a localStorage si `StateManager.getActiveStats()` vacío; +`updateBadge()` en restauración |
-| `js/managers/ReporteManager.js:1322` | Reglas `@media screen` más agresivas para `.pagedjs_pages/page/pagebox/pagearea` |
+| `js/managers/ReporteManager.js:1322` | Reglas `@media screen` más agresivas para `.pagedjs_pages/page/pagebox/pagearea`; +`body{visibility:hidden}` + `.pagedjs_pages{visibility:visible}` + fallback 5s |
 
 ### 2026-07-02: Scroll horizontal en Hoja de Trabajo + límite columnas 100→500 + inputs límites full-width
 

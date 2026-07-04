@@ -1319,10 +1319,12 @@ tr:hover td{background:#f7faff}
     .doc-footer{page-break-inside:avoid;page-break-before:avoid}
 }
 @page{margin:1.2cm;size:A4;@bottom-center{content:counter(page) " de " counter(pages);font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}}
-@media screen{.pagedjs_pages{width:100% !important}.pagedjs_page{width:100% !important;max-width:880px;margin:0 auto 20px !important;min-width:0 !important}.pagedjs_pagebox{width:auto !important}.pagedjs_pagearea{width:auto !important}}
+body{visibility:hidden}.pagedjs_pages{visibility:visible}
+@media screen{.pagedjs_pages{width:100% !important}.pagedjs_page{width:100% !important;max-width:880px;margin:0 auto 20px;min-width:0 !important;visibility:visible}.pagedjs_pagebox{width:auto !important}.pagedjs_pagearea{width:auto !important}}
 
 </style>
 <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+<script>setTimeout(function(){document.body.style.visibility='visible'},5e3)</script>
 </head><body>
 
 <div class="cover">
