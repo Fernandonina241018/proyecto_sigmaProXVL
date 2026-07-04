@@ -1931,7 +1931,7 @@ tr:hover td{background:#f7faff}
   })()}
 
   <div class="sec">
-    <div class="sec-title"><span class="sec-num">06</span>${t('html_sec6')} <span style="font-size:7pt;font-weight:400;color:#a0aec0;margin-left:8px">${t('html_auditSubpart')}</span></div>
+    <div class="sec-title"><span class="sec-num">07</span>${t('html_sec6')} <span style="font-size:7pt;font-weight:400;color:#a0aec0;margin-left:8px">${t('html_auditSubpart')}</span></div>
     <div class="sig-grid">${sigBlocks}</div><br>
     <div class="audit-box">
       <strong style="color:#1a3a6b">${t('html_auditMeta')}</strong><br>
