@@ -1079,7 +1079,7 @@ const ReporteManager = (() => {
             const canvas = document.createElement('canvas');
             await QRCode.toCanvas(canvas, qrContent, {
                 errorCorrectionLevel: 'H',
-                width: 150,
+                width: 120,
                 margin: 1,
                 color: { dark: '#000000', light: '#ffffff' }
             });
@@ -1314,7 +1314,7 @@ tr:hover td{background:#f7faff}
   <div style="position:relative">
     <!-- QR Code en esquina superior derecha -->
     ${qrDataUrl ? `<div style="position:absolute;top:0;right:0;background:white;padding:4px;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
-      <img src="${qrDataUrl}" style="width:150px;height:150px;display:block" alt="QR Code">
+      <img src="${qrDataUrl}" style="width:120px;height:120px;display:block" alt="QR Code">
     </div>` : ''}
     
     <div class="logo" style="font-family:'JetBrains Mono',monospace;font-size:9pt;letter-spacing:3px;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:34px">${t('html_cover_logo')}</div>
