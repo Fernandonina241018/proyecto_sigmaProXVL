@@ -492,7 +492,8 @@ async function firmaVerify(role, code, password, statusEl) {
       return;
     }
     var now = new Date();
-    var fechaStr = now.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) + ' ' + now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
+    var dd=String(now.getDate()).padStart(2,'0'), mm=String(now.getMonth()+1).padStart(2,'0'), yyyy=now.getFullYear(), hh=now.getHours(), min=String(now.getMinutes()).padStart(2,'0'), ampm=hh>=12?'p.m.':'a.m.', h12=String(hh%12||12).padStart(2,'0');
+    var fechaStr = dd+'/'+mm+'/'+yyyy+' '+h12+':'+min+' '+ampm;
     _firmaSignatureState[role] = {
       signed: true,
       nombre: data.nombre,
