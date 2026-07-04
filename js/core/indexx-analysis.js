@@ -96,6 +96,7 @@ function syncActiveStatsFromDOM() {
   if (typeof StateManager !== 'undefined' && StateManager.setActiveStats) {
     StateManager.setActiveStats(names);
   }
+  try { localStorage.setItem('sigmaPro_selectedStats', JSON.stringify(names)); } catch(e) {}
 }
 
 function getSectionDisplayName(key) {
@@ -911,19 +912,26 @@ function buildStatAnalysisMenu() {
 
   dropdown.innerHTML = html;
   // Restaurar checks guardados
+  var saved = null;
   if (typeof StateManager !== 'undefined' && StateManager.getActiveStats) {
-    var saved = StateManager.getActiveStats();
-    if (saved && saved.length) {
-      var savedSet = {};
-      saved.forEach(function(n) { savedSet[n] = true; });
-      dropdown.querySelectorAll('.child-check').forEach(function(chk) {
-        if (savedSet[chk.dataset.nombre]) {
-          chk.checked = true;
-          var sec = chk.dataset.seccion;
-          if (sec) updateParentCheck(sec);
-        }
-      });
-    }
+    saved = StateManager.getActiveStats();
+  }
+  if ((!saved || !saved.length)) {
+    try {
+      var raw = localStorage.getItem('sigmaPro_selectedStats');
+      if (raw) { var p = JSON.parse(raw); if (Array.isArray(p) && p.length) saved = p; }
+    } catch(e) {}
+  }
+  if (saved && saved.length) {
+    var savedSet = {}, secSet = {};
+    saved.forEach(function(n) { savedSet[n] = true; });
+    dropdown.querySelectorAll('.child-check').forEach(function(chk) {
+      if (savedSet[chk.dataset.nombre]) {
+        chk.checked = true;
+        if (chk.dataset.seccion) secSet[chk.dataset.seccion] = true;
+      }
+    });
+    Object.keys(secSet).forEach(function(sec) { updateParentCheck(sec); updateBadge(sec); });
   }
   dropdown.addEventListener('mousedown', function(e) { e.stopPropagation(); });
 }
