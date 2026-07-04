@@ -1325,7 +1325,7 @@ body{visibility:hidden}.pagedjs_pages{visibility:visible}
 
 </style>
 <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
-<script>setTimeout(function(){document.body.style.visibility='visible'},5e3)</script>
+<script>(function(){function f(){document.querySelectorAll('.pagedjs_sheet,.pagedjs_page').forEach(function(e){e.style.setProperty('width','100%','important')});document.querySelectorAll('.pagedjs_page').forEach(function(e){e.style.setProperty('max-width','880px','important')});document.body.style.visibility='visible'}if(window.PagedPolyfill&&PagedPolyfill.on)try{PagedPolyfill.on('rendered',f)}catch(e){}document.addEventListener('pagedjs:rendered',f);var m=new MutationObserver(function(){if(document.querySelector('.pagedjs_sheet')){f();m.disconnect()}});m.observe(document.documentElement,{childList:true,subtree:true});setTimeout(f,5e3)})()</script>
 </head><body>
 
 <div class="cover">
@@ -1989,7 +1989,7 @@ body{visibility:hidden}.pagedjs_pages{visibility:visible}
     <div style="text-align:right">${REGULATORY.standard}<br>${todayFormatted()}</div>
   </div>
 </div>
-<script>document.querySelectorAll('.toc-entry').forEach(function(l){l.addEventListener('click',function(e){e.preventDefault();var t=document.querySelector('[data-id="'+this.getAttribute('href').substring(1)+'"]');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})})})</script>
+<script>document.addEventListener('click',function(e){var e2=e.target.closest('.toc-entry');if(e2){e.preventDefault();var id=e2.getAttribute('href').replace(/^#/,'');var t=document.querySelector('[data-id="'+id+'"]');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}})</script>
 </body></html>`;
     }
 

@@ -3071,3 +3071,21 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 | `js/managers/ReporteManager.js:1205-1211` | Nueva tabla de detalle en ESPECIFICACIONES DEL USUARIO |
 
 **Riesgo:** BAJO — cambios aditivos (nuevos campos en objeto de retorno, HTML condicional). No se modifica lógica existente de análisis ni generación de datos.
+
+### 2026-07-04: Fix definitivo — ancho reporte + navegación TOC
+
+**Qué:** Los dos fixes previos (`.pagedjs_sheet{width:100%!important}` y script TOC con `querySelectorAll`) estaban en el código pero **no funcionaban** porque:
+1. **Ancho:** Paged.js v0.4.3 probablemente setea el width via **inline style JavaScript** (`element.style.width='794px'`), lo que vence el `!important` en CSS. El CSS solo no bastaba.
+2. **TOC:** Los `addEventListener` directos en `.toc-entry` se perdían cuando Paged.js reestructuraba el DOM (movía nodos).
+
+**Fix:**
+| # | Problema | Fix |
+|---|----------|-----|
+| 1 | Ancho angosto | Nuevo script con `style.setProperty('width','100%','important')` via MutationObserver + evento `pagedjs:rendered` + timeout 5s fallback. La clave es `setProperty` con 3er arg `'important'` que crea inline style con `!important`. |
+| 2 | TOC no navega | Cambio de `querySelectorAll().forEach(addEventListener)` a **delegación de eventos** en `document`: un solo listener captura clicks de cualquier `.toc-entry` mediante `e.target.closest('.toc-entry')`, sin importar cómo Paged.js mueva los elementos. |
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/managers/ReporteManager.js:1324-1328` | Reemplazado script timeout simple por MutationObserver + `setProperty` + eventos Paged.js |
+| `js/managers/ReporteManager.js:1992` | Reemplazado direct listeners por event delegation en `document` |
