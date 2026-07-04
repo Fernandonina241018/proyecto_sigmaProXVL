@@ -88,6 +88,16 @@ function getSidebarSelectedTests() {
   return tests;
 }
 
+function syncActiveStatsFromDOM() {
+  var names = [];
+  document.querySelectorAll('.child-check:checked').forEach(function(chk) {
+    if (chk.dataset.nombre) names.push(chk.dataset.nombre);
+  });
+  if (typeof StateManager !== 'undefined' && StateManager.setActiveStats) {
+    StateManager.setActiveStats(names);
+  }
+}
+
 function getSectionDisplayName(key) {
   var names = {
     descriptiva: '📊 Descriptiva', hipotesis: '⚖️ Hipótesis',
@@ -900,6 +910,21 @@ function buildStatAnalysisMenu() {
   });
 
   dropdown.innerHTML = html;
+  // Restaurar checks guardados
+  if (typeof StateManager !== 'undefined' && StateManager.getActiveStats) {
+    var saved = StateManager.getActiveStats();
+    if (saved && saved.length) {
+      var savedSet = {};
+      saved.forEach(function(n) { savedSet[n] = true; });
+      dropdown.querySelectorAll('.child-check').forEach(function(chk) {
+        if (savedSet[chk.dataset.nombre]) {
+          chk.checked = true;
+          var sec = chk.dataset.seccion;
+          if (sec) updateParentCheck(sec);
+        }
+      });
+    }
+  }
   dropdown.addEventListener('mousedown', function(e) { e.stopPropagation(); });
 }
 
@@ -921,6 +946,7 @@ function onChildCheck(event, seccionKey) {
   if (justChecked && PARAM_CONFIG_SET.has(nombre) && !StateManager.getParamConfig(nombre)) {
     _mostrarModalParamConfig(nombre, function() {});
   }
+  syncActiveStatsFromDOM();
 }
 
 function onParentCheck(event, seccionKey) {
@@ -953,6 +979,7 @@ function onParentCheck(event, seccionKey) {
       _showModalSequence(needConfig, 0);
     }
   }
+  syncActiveStatsFromDOM();
 }
 
 function _showModalSequence(tests, index) {
@@ -1041,6 +1068,7 @@ function onSubitemClick(event, nombre, seccionKey) {
 
   // 5. Mostrar cards en panel derecho
   rightPaneBody.innerHTML = rightPanels.analisis();
+  syncActiveStatsFromDOM();
 }
 
 // ── Auth + Initial load ──

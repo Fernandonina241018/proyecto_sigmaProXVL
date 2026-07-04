@@ -594,6 +594,12 @@ const StateManager = (() => {
         scheduleAutoSave();
     }
     
+    function setActiveStats(stats) {
+        state.activeStats = Array.isArray(stats) ? stats : [];
+        notifyListeners('statsChange');
+        scheduleAutoSave();
+    }
+    
     // ========================================
     // CONFIGURACIÓN DE PRUEBAS DE HIPÓTESIS
     // ========================================
@@ -978,6 +984,7 @@ const StateManager = (() => {
         removeActiveStat,
         getActiveStats,
         clearActiveStats,
+        setActiveStats,
         
         // Configuración de hipótesis
         setHypothesisConfig,
