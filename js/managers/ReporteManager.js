@@ -1061,6 +1061,11 @@ const ReporteManager = (() => {
         const ext=computeExtendedStats(resultados);
         const totalFlags=Object.values(ext).reduce((a,d)=>a+d.flags.length,0);
         const lang=currentLang;
+        const hypothesisTests = HYPOTHESIS_SET;
+        const multivariadoTests = new Set(['Análisis Factorial', 'PCA (Componentes Principales)', 'PCA', 'Análisis de Cluster', 'Análisis Discriminante', 'M-ANOVA']);
+        const hypEntries = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.has(stat) || multivariadoTests.has(stat));
+        const hasHyp = hypEntries.length > 0;
+        const hasGrafs = (typeof Visualizacion !== 'undefined') ? Visualizacion.getGraficosParaReporte(document.getElementById('rep-include-all-charts')?.checked).length > 0 : false;
         
         // Generar contenido del QR - con toda la info
         const qrContent = [
@@ -1283,10 +1288,16 @@ tr:hover td{background:#f7faff}
 .sig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .audit-box{background:#f7f8fa;border:1px solid #e2e8f0;border-radius:6px;padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:8pt;color:#718096;line-height:1.8}
 .doc-footer{margin-top:44px;padding-top:18px;border-top:2px solid #1a3a6b;display:flex;justify-content:space-between;align-items:flex-end;font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}
+.toc-body{padding:4px 0}
+.toc-entry{display:flex;align-items:center;text-decoration:none;padding:5px 0;font-family:'JetBrains Mono',monospace;font-size:8.5pt;color:#1a202c;border-bottom:1px solid #edf2f7}
+.toc-num{flex-shrink:0;font-weight:600;color:#1a3a6b;min-width:22px}
+.toc-label{flex:1;margin-left:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.toc-lang{color:#a0aec0;font-size:7.5pt;margin-left:4px}
+.toc-entry::after{content:target-counter(attr(href),page);flex-shrink:0;font-size:8pt;color:#718096;min-width:20px;text-align:right}
 
 @media print{
     body{font-size:9pt}
-    .cover{padding:24px 40px;page-break-after:always}
+    .cover{padding:24px 40px}
     .cover .title{font-size:22pt !important}
     .cover .subtitle{font-size:9pt !important}
     .cover .logo{font-size:8pt !important;margin-bottom:28px}
@@ -1328,12 +1339,27 @@ tr:hover td{background:#f7faff}
       <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('generated')}</strong>${nowFormatted()}</div>
       <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('totalRecords')}</strong>${resultados.totalFilas}</div>
     </div>
+    <!-- space for future content -->
+    <div style="height:40px"></div>
   </div>
 </div>
 
 <div class="doc">
-  <div class="sec">
-    <div class="sec-title"><span class="sec-num">01</span>${t('html_sec1')}</div>
+  <div class="sec" id="sec01">
+    <div class="sec-title"><span class="sec-num">01</span>${t('tocTitle')||'Índice / Table of Contents'}</div>
+    <div class="toc-body">
+      <a href="#sec02" class="toc-entry"><span class="toc-num">02</span><span class="toc-label">${lang==='es'?'Metadatos del Ensayo':'Study Metadata'} <span class="toc-lang">/ ${lang==='es'?'Study Metadata':'Metadatos del Ensayo'}</span></span></a>
+      <a href="#sec03" class="toc-entry"><span class="toc-num">03</span><span class="toc-label">${lang==='es'?'Parámetros de Control':'Control Parameters'} <span class="toc-lang">/ ${lang==='es'?'Control Parameters':'Parámetros de Control'}</span></span></a>
+      <a href="#sec04" class="toc-entry"><span class="toc-num">04</span><span class="toc-label">${lang==='es'?'Variables y Resultados':'Variables & Results'} <span class="toc-lang">/ ${lang==='es'?'Variables & Results':'Variables y Resultados'}</span></span></a>
+      <a href="#sec05" class="toc-entry"><span class="toc-num">05</span><span class="toc-label">${lang==='es'?'Métodos Analíticos':'Analytical Methods'} <span class="toc-lang">/ ${lang==='es'?'Analytical Methods':'Métodos Analíticos'}</span></span></a>
+      <a href="#sec06" class="toc-entry"><span class="toc-num">06</span><span class="toc-label">${lang==='es'?'Estadísticos Descriptivos':'Descriptive Statistics'} <span class="toc-lang">/ ${lang==='es'?'Descriptive Statistics':'Estadísticos Descriptivos'}</span></span></a>
+      ${hasHyp?`<a href="#sec07" class="toc-entry"><span class="toc-num">07</span><span class="toc-label">Pruebas de Hipótesis<span class="toc-lang"> / Hypothesis Tests</span></span></a>`:''}
+      ${hasGrafs?`<a href="#sec08" class="toc-entry"><span class="toc-num">08</span><span class="toc-label">${lang==='es'?'Gráficos y Visualizaciones':'Charts & Visualizations'} <span class="toc-lang">/ ${lang==='es'?'Charts & Visualizations':'Gráficos y Visualizaciones'}</span></span></a>`:''}
+      <a href="#sec09" class="toc-entry"><span class="toc-num">09</span><span class="toc-label">${lang==='es'?'Firmas Electrónicas':'Electronic Signatures'} <span class="toc-lang">/ ${lang==='es'?'Electronic Signatures':'Firmas Electrónicas'}</span></span></a>
+    </div>
+  </div>
+  <div class="sec" id="sec02">
+    <div class="sec-title"><span class="sec-num">02</span>${t('html_sec1')}</div>
     <div class="meta-grid">
       ${mRow(t('organization'),  meta.organizacion)}
       ${mRow(t('department'),    meta.departamento)}
@@ -1351,8 +1377,8 @@ tr:hover td{background:#f7faff}
       ${meta.observaciones ? `<div style="grid-column:1/-1;margin-top:4px">${mRow(t('ui_observaciones'), meta.observaciones)}</div>` : ''}
     </div>
   </div>
-  <div class="sec">
-    <div class="sec-title"><span class="sec-num">02</span>${t('html_sec2')}</div>
+  <div class="sec" id="sec03">
+    <div class="sec-title"><span class="sec-num">03</span>${t('html_sec2')}</div>
     <div class="meta-grid">
       ${mRow(t('datasetName'),   meta.nombreDataset)}
       ${mRow(t('sourceFile'),    meta.archivoFuente)}
@@ -1365,10 +1391,10 @@ tr:hover td{background:#f7faff}
       <div style="grid-column:1/-1"><span class="ml">${t('integrityHash')}</span><span class="mv" style="font-family:monospace;font-size:9pt">RPT-${hash}</span></div>
     </div>
   </div>
-  <table style="width:100%;border-collapse:collapse;margin-bottom:20px">
+  <table id="sec04" style="width:100%;border-collapse:collapse;margin-bottom:20px">
     <thead style="display:table-header-group">
       <tr><td style="padding:0;border:none">
-        <div class="sec-title" style="margin-bottom:16px"><span class="sec-num">03</span>${t('html_sec3')}</div>
+        <div class="sec-title" style="margin-bottom:16px"><span class="sec-num">04</span>${t('html_sec3')}</div>
       </td></tr>
     </thead>
     <tbody>
@@ -1423,8 +1449,8 @@ tr:hover td{background:#f7faff}
       </td></tr>
     </tbody>
   </table>
-   <div class="sec">
-     <div class="sec-title"><span class="sec-num">04</span>${t('html_sec4')}</div>
+   <div class="sec" id="sec05">
+     <div class="sec-title"><span class="sec-num">05</span>${t('html_sec4')}</div>
      ${resultados.columnasAnalizadas.map((col, _varIdx)=>`
      <div class="var-block" style="${_varIdx === 0 ? 'page-break-before:avoid' : 'page-break-before:always'}">
        <div class="var-hdr">
@@ -1441,8 +1467,8 @@ tr:hover td{background:#f7faff}
          :`<div style="padding:10px 16px;background:#f0fff4;border-top:1px solid #c6f6d5;color:#276749;font-size:9pt">${t('html_noFlags')}</div>`}
      </div>`).join('')}
   </div>
-  <div class="sec">
-    <div class="sec-title"><span class="sec-num">05</span>${t('html_sec5')}</div>
+  <div class="sec" id="sec06">
+    <div class="sec-title"><span class="sec-num">06</span>${t('html_sec5')}</div>
     <div class="method-grid">
       ${(() => {
         // Obtener metadata desde estadisticosConfig.js si está disponible
@@ -1889,8 +1915,8 @@ tr:hover td{background:#f7faff}
       }).join('');
 
       return `
-      <div class="sec">
-        <div class="sec-title"><span class="sec-num">05B</span>${lang === 'es' ? 'Pruebas de Hipótesis' : 'Hypothesis Tests'} <span style="font-size:7pt;font-weight:400;color:#a0aec0;margin-left:8px">α = 0.05</span></div>
+      <div class="sec" id="sec07">
+        <div class="sec-title"><span class="sec-num">07</span>${lang === 'es' ? 'Pruebas de Hipótesis' : 'Hypothesis Tests'} <span style="font-size:7pt;font-weight:400;color:#a0aec0;margin-left:8px">α = 0.05</span></div>
         <table style="width:100%;border-collapse:collapse;font-size:9pt">
           <thead><tr style="background:#f0f4f8">
             <th style="padding:7px 12px;text-align:left;font-family:monospace;font-size:7pt;color:#1a3a6b">${lang === 'es' ? 'PRUEBA' : 'TEST'}</th>
@@ -1931,17 +1957,17 @@ tr:hover td{background:#f7faff}
           </div>`).join('');
 
       return `
-      <div class="sec" style="page-break-before:always">
+      <div class="sec" id="sec08" style="page-break-before:always">
           <div class="sec-title">
-              <span class="sec-num">06</span>
+              <span class="sec-num">08</span>
               ${currentLang === 'es' ? 'Gráficos y Visualizaciones' : 'Charts & Visualizations'}
           </div>
           ${filas}
       </div>`;
   })()}
 
-  <div class="sec">
-    <div class="sec-title"><span class="sec-num">07</span>${t('html_sec6')} <span style="font-size:7pt;font-weight:400;color:#a0aec0;margin-left:8px">${t('html_auditSubpart')}</span></div>
+  <div class="sec" id="sec09">
+    <div class="sec-title"><span class="sec-num">09</span>${t('html_sec6')} <span style="font-size:7pt;font-weight:400;color:#a0aec0;margin-left:8px">${t('html_auditSubpart')}</span></div>
     <div class="sig-grid">${sigBlocks}</div><br>
     <div class="audit-box">
       <strong style="color:#1a3a6b">${t('html_auditMeta')}</strong><br>

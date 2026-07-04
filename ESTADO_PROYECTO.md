@@ -45,6 +45,21 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-03: Índice (TOC) como sección 01 en reporte .html con ambos idiomas
+
+**Qué:** Se agregó tabla de contenidos como sección 01 dentro del reporte, desplazando la numeración del resto (01→02, 02→03, ... 05B→07, 06→08, 07→09). Cada entrada del índice muestra ambos idiomas (ES / EN). Se agregó espacio de 40px para contenido futuro entre el recuadro de info general y el índice.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/managers/ReporteManager.js:1348-1360` | Nueva sección 01 con TOC bilingüe + `target-counter` para páginas |
+| `js/managers/ReporteManager.js:1289` | Eliminado `page-break-after:always` del cover para que TOC quede en pág 1 |
+| `js/managers/ReporteManager.js:1297-1306` | CSS `.toc-body`, `.toc-entry`, `.toc-num`, `.toc-label`, `.toc-lang`, `target-counter` |
+| `js/managers/ReporteManager.js:1342-1343` | Spacer `<div style="height:40px">` entre info grid y cierre de cover |
+| `js/managers/ReporteManager.js:1064-1070` | Pre-computo `hasHyp` y `hasGrafs` para entradas condicionales del TOC |
+| `js/managers/ReporteManager.js` | Renumeración: 01→02, 02→03, 03→04, 04→05, 05→06, 05B→07, 06→08, 07→09 |
+| `js/managers/ReporteManager.js` | IDs agregados: `#sec01` a `#sec09` en cada sección para anclas |
+
 ### 2026-07-03: Page numbers "1 de 56" con Paged.js en reporte preview + PDF
 
 **Qué:** Se agregó numeración de páginas visible en preview y al imprimir, independiente de la configuración del navegador. Usa Paged.js polyfill + CSS `@page @bottom-center`.
