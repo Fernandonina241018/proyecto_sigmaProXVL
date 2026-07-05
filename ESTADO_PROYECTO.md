@@ -3072,6 +3072,21 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 
 **Riesgo:** BAJO — cambios aditivos (nuevos campos en objeto de retorno, HTML condicional). No se modifica lógica existente de análisis ni generación de datos.
 
+### 2026-07-04: Fix definitivo v3 — ancho reporte con ResizeObserver + interval 200ms
+
+**Qué:** El fix v2 (interval 500ms, selectores completos) no era suficiente porque Paged.js sobrescribe el inline style CON `element.style.width = '794px'` DESPUÉS de que nuestro interval corrige. El usuario veía el reporte ancho → angosto.
+
+**Fix v3 (línea 1328):**
+- `setInterval` cada **200ms** (antes 500ms), **100 intentos** (20s, antes 10s)
+- `ResizeObserver` que detecta **al instante** cuando Paged.js cambia las dimensiones y revierte width al 100%
+- MutationObserver + eventos `rendered` + timeout 5s se mantienen
+- Auto-stop completo a los 20s
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/managers/ReporteManager.js:1328` | Interval 200ms ×100 + ResizeObserver |
+
 ### 2026-07-04: Fix definitivo v2 — ancho reporte + navegación TOC
 
 **Qué:** Tras 4 intentos previos de fix del ancho, el problema persistía por:
