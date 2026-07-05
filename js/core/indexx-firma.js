@@ -405,6 +405,10 @@ function _firmaUpdateReportBadge() {
   badge.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9999;text-align:center;padding:4px;font-size:9px;font-family:monospace;color:#fff;background:rgba(26,58,107,.85)';
   badge.textContent = '\u270D ' + cnt.signed + '/' + cnt.total + ' firmas';
   _firmaCurrentDoc.body.appendChild(badge);
+  if (_firmaCurrentDoc.title) {
+    var baseTitle = _firmaCurrentDoc.title.replace(/\s*—\s*\d+\/\d+ firmas.*$/, '');
+    _firmaCurrentDoc.title = baseTitle + ' \u2014 ' + cnt.signed + '/' + cnt.total + ' firmas';
+  }
   _firmaCurrentHtml = '<!DOCTYPE html>\n' + _firmaCurrentDoc.documentElement.outerHTML;
   var preview = document.getElementById('firmaPreview');
   if (preview) {
