@@ -1923,19 +1923,23 @@ tr:hover td{background:#f7faff}
 
       return `
       <div class="sec" id="sec07">
-        <div class="sec-title"><span class="sec-num">07</span>${lang === 'es' ? 'Pruebas de Hipótesis' : 'Hypothesis Tests'} <span style="font-size:7pt;font-weight:400;color:#a0aec0;margin-left:8px">α = 0.05</span></div>
-        <table style="width:100%;border-collapse:collapse;font-size:9pt">
-          <thead><tr style="background:#f0f4f8">
-            <th style="padding:7px 12px;text-align:left;font-family:monospace;font-size:7pt;color:#1a3a6b">${lang === 'es' ? 'PRUEBA' : 'TEST'}</th>
-            <th style="padding:7px 12px;text-align:right;font-family:monospace;font-size:7pt;color:#1a3a6b">${lang === 'es' ? 'ESTADÍSTICO' : 'STATISTIC'}</th>
-            <th style="padding:7px 12px;text-align:right;font-family:monospace;font-size:7pt;color:#1a3a6b">${lang === 'es' ? 'VALOR p' : 'p-VALUE'}</th>
-            <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#1a3a6b">${lang === 'es' ? 'DECISIÓN' : 'DECISION'}</th>
-          </tr></thead>
-          <tbody>${hypRows}</tbody>
+        <table class="sec-repeat-table" style="font-size:9pt">
+          <thead>
+            <tr><td colspan="4" class="sec-title" style="margin-bottom:0"><span class="sec-num">07</span>${lang === 'es' ? 'Pruebas de Hipótesis' : 'Hypothesis Tests'} <span style="font-size:7pt;font-weight:400;color:#a0aec0;margin-left:8px">α = 0.05</span></td></tr>
+            <tr style="background:#f0f4f8">
+              <th style="padding:7px 12px;text-align:left;font-family:monospace;font-size:7pt;color:#1a3a6b">${lang === 'es' ? 'PRUEBA' : 'TEST'}</th>
+              <th style="padding:7px 12px;text-align:right;font-family:monospace;font-size:7pt;color:#1a3a6b">${lang === 'es' ? 'ESTADÍSTICO' : 'STATISTIC'}</th>
+              <th style="padding:7px 12px;text-align:right;font-family:monospace;font-size:7pt;color:#1a3a6b">${lang === 'es' ? 'VALOR p' : 'p-VALUE'}</th>
+              <th style="padding:7px 12px;text-align:center;font-family:monospace;font-size:7pt;color:#1a3a6b">${lang === 'es' ? 'DECISIÓN' : 'DECISION'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${hypRows}
+            <tr><td colspan="4" style="padding:10px 14px;background:#f7f8fa;border-radius:4px;font-size:8.5pt;color:#555;border:none">
+              ${lang === 'es' ? 'H₀: Hipótesis nula. Si p < 0.05, se rechaza H₀ con 95% de confianza.' : 'H₀: Null hypothesis. If p < 0.05, H₀ is rejected with 95% confidence.'}
+            </td></tr>
+          </tbody>
         </table>
-        <div style="margin-top:10px;padding:10px 14px;background:#f7f8fa;border-radius:4px;font-size:8.5pt;color:#555">
-          ${lang === 'es' ? 'H₀: Hipótesis nula. Si p < 0.05, se rechaza H₀ con 95% de confianza.' : 'H₀: Null hypothesis. If p < 0.05, H₀ is rejected with 95% confidence.'}
-        </div>
       </div>`;
   })()}
   ${(() => {
@@ -1965,11 +1969,17 @@ tr:hover td{background:#f7faff}
 
       return `
       <div class="sec" id="sec08" style="page-break-before:always">
-          <div class="sec-title">
-              <span class="sec-num">08</span>
-              ${currentLang === 'es' ? 'Gráficos y Visualizaciones' : 'Charts & Visualizations'}
-          </div>
-          ${filas}
+          <table class="sec-repeat-table">
+            <thead>
+              <tr><td class="sec-title" style="margin-bottom:0">
+                <span class="sec-num">08</span>
+                ${currentLang === 'es' ? 'Gráficos y Visualizaciones' : 'Charts & Visualizations'}
+              </td></tr>
+            </thead>
+            <tbody>
+              <tr><td>${filas}</td></tr>
+            </tbody>
+          </table>
       </div>`;
   })()}
 
