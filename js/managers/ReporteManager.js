@@ -1297,6 +1297,7 @@ tr:hover td{background:#f7faff}
 .toc-label{flex:1;margin-left:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .toc-lang{color:#a0aec0;font-size:7.5pt;margin-left:4px}
 .toc-entry::after{content:target-counter(attr(href),page);flex-shrink:0;font-size:8pt;color:#718096;min-width:20px;text-align:right}
+.sec-repeat-table{width:100%;border-collapse:collapse}
 
 @media print{
     body{font-size:9pt}
@@ -1470,64 +1471,68 @@ tr:hover td{background:#f7faff}
      </div>`).join('')}
   </div>
   <div class="sec" id="sec06">
-    <div class="sec-title"><span class="sec-num">06</span>${t('html_sec5')}</div>
-    <div class="method-grid">
-      ${(() => {
-        // Obtener metadata desde estadisticosConfig.js si está disponible
-        let statsInfo = {};
-        
-        if (typeof getStatMetaConfig === 'function') {
-          const metaConfig = getStatMetaConfig();
-          Object.entries(metaConfig).forEach(([key, val]) => {
-            statsInfo[key] = {
-              title: key,
-              desc: val.desc || '',
-              formula: val.formula || '',
-              hipotesis: val.hipotesis || null,
-              supuestos: val.supuestos || [],
-              efectoTamano: val.efectoTamano || null,
-              referencia: formatReferencia(val.referencia) || ''
-            };
-          });
-        } else {
-          // Fallback: objeto hardcoded - si getStatMetaConfig no está disponible
-          // Usar objeto vacío para evitar errores
-          statsInfo = {};
-        }
-        
-        const usedStats = resultados.estadisticos || [];
-        
-        const methodItems = usedStats
-          .filter(stat => statsInfo[stat])
-          .map(stat => {
-            const info = statsInfo[stat];
-            
-            // Construir contenido adicional
-            let extraHtml = '';
-            
-            if (info.hipotesis) {
-                extraHtml += `<div style="margin-top:6px;padding:4px 8px;background:#e7f3ff;border-radius:3px;font-size:7.5pt"><strong>Hipótesis:</strong> H₀: ${info.hipotesis.h0}</div>`;
-            }
-            
-            if (info.supuestos && info.supuestos.length > 0) {
-                extraHtml += `<div style="margin-top:4px;padding:4px 8px;background:#fff3cd;border-radius:3px;font-size:7.5pt"><strong>Supuestos:</strong> ${info.supuestos.join(', ')}</div>`;
-            }
-            
-            if (info.efectoTamano) {
-                extraHtml += `<div style="margin-top:4px;padding:4px 8px;background:#d1ecf1;border-radius:3px;font-size:7.5pt"><strong>Efecto:</strong> ${info.efectoTamano.metrica} (${info.efectoTamano.formula})</div>`;
-            }
-            
-            if (info.referencia) {
-                extraHtml += `<div style="margin-top:4px;padding:4px 8px;background:#f8f9fa;border-radius:3px;font-size:7pt;font-style:italic;color:#6c757d"><strong>Ref:</strong> ${info.referencia}</div>`;
-            }
-            
-            return `<div class="mi"><h4>${info.title}</h4><p>${info.desc}</p><code>${info.formula}</code>${extraHtml}</div>`;
-          })
-          .join('');
-        
-        return methodItems || `<div class="mi"><p>${lang === 'es' ? 'No se seleccionaron estadísticos para el análisis.' : 'No statistics selected for analysis.'}</p></div>`;
-      })()}
-    </div>
+    <table class="sec-repeat-table">
+      <thead>
+        <tr><td class="sec-title"><span class="sec-num">06</span>${t('html_sec5')}</td></tr>
+      </thead>
+      <tbody>
+        <tr><td>
+          <div class="method-grid">
+            ${(() => {
+              let statsInfo = {};
+              
+              if (typeof getStatMetaConfig === 'function') {
+                const metaConfig = getStatMetaConfig();
+                Object.entries(metaConfig).forEach(([key, val]) => {
+                  statsInfo[key] = {
+                    title: key,
+                    desc: val.desc || '',
+                    formula: val.formula || '',
+                    hipotesis: val.hipotesis || null,
+                    supuestos: val.supuestos || [],
+                    efectoTamano: val.efectoTamano || null,
+                    referencia: formatReferencia(val.referencia) || ''
+                  };
+                });
+              } else {
+                statsInfo = {};
+              }
+              
+              const usedStats = resultados.estadisticos || [];
+              
+              const methodItems = usedStats
+                .filter(stat => statsInfo[stat])
+                .map(stat => {
+                  const info = statsInfo[stat];
+                  
+                  let extraHtml = '';
+                  
+                  if (info.hipotesis) {
+                      extraHtml += `<div style="margin-top:6px;padding:4px 8px;background:#e7f3ff;border-radius:3px;font-size:7.5pt"><strong>Hipótesis:</strong> H₀: ${info.hipotesis.h0}</div>`;
+                  }
+                  
+                  if (info.supuestos && info.supuestos.length > 0) {
+                      extraHtml += `<div style="margin-top:4px;padding:4px 8px;background:#fff3cd;border-radius:3px;font-size:7.5pt"><strong>Supuestos:</strong> ${info.supuestos.join(', ')}</div>`;
+                  }
+                  
+                  if (info.efectoTamano) {
+                      extraHtml += `<div style="margin-top:4px;padding:4px 8px;background:#d1ecf1;border-radius:3px;font-size:7.5pt"><strong>Efecto:</strong> ${info.efectoTamano.metrica} (${info.efectoTamano.formula})</div>`;
+                  }
+                  
+                  if (info.referencia) {
+                      extraHtml += `<div style="margin-top:4px;padding:4px 8px;background:#f8f9fa;border-radius:3px;font-size:7pt;font-style:italic;color:#6c757d"><strong>Ref:</strong> ${info.referencia}</div>`;
+                  }
+                  
+                  return `<div class="mi"><h4>${info.title}</h4><p>${info.desc}</p><code>${info.formula}</code>${extraHtml}</div>`;
+                })
+                .join('');
+              
+              return methodItems || `<div class="mi"><p>${lang === 'es' ? 'No se seleccionaron estadísticos para el análisis.' : 'No statistics selected for analysis.'}</p></div>`;
+            })()}
+          </div>
+        </td></tr>
+      </tbody>
+    </table>
   </div>
   ${(() => {
       const hypothesisTests = HYPOTHESIS_SET;
