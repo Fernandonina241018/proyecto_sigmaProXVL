@@ -1325,7 +1325,7 @@ body{visibility:hidden}.pagedjs_pages{visibility:visible}
 
 </style>
 <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
-<script>(function(){function f(){document.querySelectorAll('.pagedjs_sheet,.pagedjs_page').forEach(function(e){e.style.setProperty('width','100%','important')});document.querySelectorAll('.pagedjs_page').forEach(function(e){e.style.setProperty('max-width','880px','important')});document.body.style.visibility='visible'}if(window.PagedPolyfill&&PagedPolyfill.on)try{PagedPolyfill.on('rendered',f)}catch(e){}document.addEventListener('pagedjs:rendered',f);var m=new MutationObserver(function(){if(document.querySelector('.pagedjs_sheet')){f();m.disconnect()}});m.observe(document.documentElement,{childList:true,subtree:true});setTimeout(f,5e3)})()</script>
+<script>(function(){var i,att=0;function f(){var sel='.pagedjs_pages,.pagedjs_sheet,.pagedjs_page,.pagedjs_pagebox,.pagedjs_pagearea';document.querySelectorAll(sel).forEach(function(e){e.style.setProperty('width','100%','important');e.style.setProperty('max-width','880px','important')});document.body.style.visibility='visible'}i=setInterval(function(){f();if(++att>=20)clearInterval(i)},500);var mo=new MutationObserver(f);mo.observe(document.documentElement,{childList:true,subtree:true});if(window.PagedPolyfill&&PagedPolyfill.on)try{PagedPolyfill.on('rendered',function(){f();setTimeout(f,100)})}catch(e){}document.addEventListener('pagedjs:rendered',function(){f();setTimeout(f,100)});setTimeout(f,5e3);setTimeout(function(){mo.disconnect();clearInterval(i)},15e3)})()</script>
 </head><body>
 
 <div class="cover">

@@ -3072,23 +3072,34 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 
 **Riesgo:** BAJO — cambios aditivos (nuevos campos en objeto de retorno, HTML condicional). No se modifica lógica existente de análisis ni generación de datos.
 
-### 2026-07-04: Fix definitivo — ancho reporte + navegación TOC
+### 2026-07-04: Fix definitivo v2 — ancho reporte + navegación TOC
 
-**Qué:** Los dos fixes previos (`.pagedjs_sheet{width:100%!important}` y script TOC con `querySelectorAll`) estaban en el código pero **no funcionaban** porque:
-1. **Ancho:** Paged.js v0.4.3 probablemente setea el width via **inline style JavaScript** (`element.style.width='794px'`), lo que vence el `!important` en CSS. El CSS solo no bastaba.
-2. **TOC:** Los `addEventListener` directos en `.toc-entry` se perdían cuando Paged.js reestructuraba el DOM (movía nodos).
+**Qué:** Tras 4 intentos previos de fix del ancho, el problema persistía por:
+1. **Selectores JS incompletos**: solo se forzaba width en `.pagedjs_sheet,.pagedjs_page` pero no en `.pagedjs_pages`, `.pagedjs_pagebox`, `.pagedjs_pagearea`. Paged.js posiblemente setea inline style en `.pagedjs_pages` que el CSS `!important` no vence.
+2. **MutationObserver se desconectaba**: detectaba el primer `.pagedjs_sheet` y se desconectaba, dejando elementos creados después sin override.
+3. **Paged.js sobrescribe post-render**: aplica inline style después de que el observer corre.
 
-**Fix:**
-| # | Problema | Fix |
-|---|----------|-----|
-| 1 | Ancho angosto | Nuevo script con `style.setProperty('width','100%','important')` via MutationObserver + evento `pagedjs:rendered` + timeout 5s fallback. La clave es `setProperty` con 3er arg `'important'` que crea inline style con `!important`. |
-| 2 | TOC no navega | Cambio de `querySelectorAll().forEach(addEventListener)` a **delegación de eventos** en `document`: un solo listener captura clicks de cualquier `.toc-entry` mediante `e.target.closest('.toc-entry')`, sin importar cómo Paged.js mueva los elementos. |
+**Fix v2 (línea 1328):**
+- Selectores incluyen TODOS: `.pagedjs_pages,.pagedjs_sheet,.pagedjs_page,.pagedjs_pagebox,.pagedjs_pagearea`
+- `setInterval` persistente: 20 intentos cada 500ms
+- MutationObserver **no se desconecta** hasta 15s
+- Re-aplica width 100ms después del evento `rendered` de Paged.js
 
 **Archivos afectados:**
 | Archivo | Cambio |
 |---------|--------|
-| `js/managers/ReporteManager.js:1324-1328` | Reemplazado script timeout simple por MutationObserver + `setProperty` + eventos Paged.js |
-| `js/managers/ReporteManager.js:1992` | Reemplazado direct listeners por event delegation en `document` |
+| `js/managers/ReporteManager.js:1328` | Script persistente con interval + observer + todos los selectores |
+
+### 2026-07-04: Fix — navegación del TOC rota por Paged.js
+
+**Qué:** Paged.js v0.4.3 elimina el atributo `id` del DOM durante la paginación y lo mueve a `data-id`. Al hacer clic en `<a href="#sec02">`, el navegador buscaba `id="sec02"` y no lo encontraba.
+
+**Fix:** Event delegation en `document` con `e.target.closest('.toc-entry')` — navega por `[data-id]`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/managers/ReporteManager.js:1992` | Direct listeners → event delegation |
 
 ### 2026-07-04: Formato fecha firma electrónica
 
