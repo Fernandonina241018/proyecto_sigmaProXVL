@@ -2030,8 +2030,8 @@ tr:hover td{background:#f7faff}
         const fileLabel =isManual?'Digitación manual':fileName;
         const sel       =(lbl)=>`— ${currentLang==='es'?'Seleccionar':'Select'}: ${lbl} —`;
 
-        // ── Preservar estado del formulario antes de regenerar ──
-        const _saved={};
+        // ── Preservar estado del formulario (persistente en localStorage) ──
+        const _saved=JSON.parse(localStorage.getItem('__report_form_state')||'{}');
         ['rep-org','rep-dept','rep-ubicacion','rep-descripcion','rep-marca',
          'rep-modelo','rep-serie','rep-fase','rep-code','rep-ensayo',
           'rep-version','rep-conf','rep-proto','rep-dataset','rep-file','rep-collect','rep-observaciones',
@@ -2039,6 +2039,7 @@ tr:hover td{background:#f7faff}
             const el=document.getElementById(id);
             if(el) _saved[id]=el.type==='checkbox'?el.checked:el.value;
         });
+        localStorage.setItem('__report_form_state',JSON.stringify(_saved));
 
         container.innerHTML=`
         <div class="rep-layout">
@@ -2214,6 +2215,8 @@ tr:hover td{background:#f7faff}
             updateFormatWrap(wrap,cb.checked);
             cb.addEventListener('change',()=>{updateFormatWrap(wrap,cb.checked);updateFmtCount();});
         });
+        const _allCharts=document.getElementById('rep-include-all-charts');
+        if(_allCharts&&_saved['rep-include-all-charts']!==undefined) _allCharts.checked=_saved['rep-include-all-charts'];
         updateFmtCount();
 
         // ── Preview de fechas ──
@@ -2243,9 +2246,32 @@ tr:hover td{background:#f7faff}
             });
         });
 
+        // ── Auto-save del formulario en tiempo real ──
+        const _saveFormState=()=>{
+            const st={};
+            ['rep-org','rep-dept','rep-ubicacion','rep-descripcion','rep-marca',
+             'rep-modelo','rep-serie','rep-fase','rep-code','rep-ensayo',
+             'rep-version','rep-conf','rep-proto','rep-dataset','rep-file','rep-collect','rep-observaciones',
+             'fmt-html','fmt-pdf','fmt-txt','fmt-csv','rep-include-all-charts'].forEach(id=>{
+                const el=document.getElementById(id);
+                if(el) st[id]=el.type==='checkbox'?el.checked:el.value;
+            });
+            localStorage.setItem('__report_form_state',JSON.stringify(st));
+        };
+        container.querySelector('.rep-layout')?.addEventListener('input',_saveFormState);
+        container.querySelector('.rep-layout')?.addEventListener('change',_saveFormState);
+        window.addEventListener('beforeunload',_saveFormState);
+
         // ── Botón enviar a firma ──
         document.getElementById('rep-btn-sign')?.addEventListener('click', async () => {
             if(!tieneRes) return;
+            const existingHtml=localStorage.getItem('__firma_current_html');
+            if(existingHtml){
+                if(confirm('⚠️ Ya existe un reporte firmado guardado.\n\nAl generar uno nuevo, el actual se perderá.\n\n¿Descargar el reporte existente antes de continuar?\n\n• OK = Descargar y continuar\n• Cancelar = Sobrescribir sin descargar')){
+                    const name=localStorage.getItem('__firma_original_name')||'reporte_firmado.html';
+                    downloadBlob(existingHtml,name,'text/html;charset=utf-8');
+                }
+            }
             const meta=collectMeta();
             const hash = await generateHash(meta, resultados);
             const base = `RPT-${hash}_${new Date().toISOString().slice(0,10)}`;
@@ -2388,6 +2414,10 @@ tr:hover td{background:#f7faff}
 
   <button class="rep-btn-download" id="rep-btn-sign" ${!tieneRes?'disabled':''}>
     ✍️ Enviar a firma
+  </button>
+
+  <button id="rep-btn-clear" style="width:100%;padding:10px;background:transparent;color:var(--text-secondary);border:1px solid var(--border);border-radius:8px;font-size:0.8rem;cursor:pointer;transition:all .3s ease;margin-bottom:12px" onmouseover="this.style.borderColor='#e53e3e';this.style.color='#e53e3e'" onmouseout="this.style.borderColor='';this.style.color=''" onclick="if(confirm('${currentLang==='es'?'¿Limpiar todos los campos del formulario?':'Clear all form fields?'}')){localStorage.removeItem('__report_form_state');['rep-org','rep-dept','rep-ubicacion','rep-descripcion','rep-marca','rep-modelo','rep-serie','rep-fase','rep-code','rep-ensayo','rep-version','rep-conf','rep-proto','rep-dataset','rep-file','rep-collect','rep-observaciones'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});['html','pdf','txt','csv'].forEach(function(f){var cb=document.getElementById('fmt-'+f);if(cb)cb.checked=false});var ac=document.getElementById('rep-include-all-charts');if(ac)ac.checked=false;localStorage.setItem('__report_form_state',JSON.stringify({}))}">
+    🧹 Limpiar formulario
   </button>
 
   ${nd}

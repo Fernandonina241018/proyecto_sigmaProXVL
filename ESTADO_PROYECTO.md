@@ -3146,3 +3146,19 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 |---------|--------|
 | `js/managers/ReporteManager.js:1320` | Agregado `#printButton{display:none!important}` en `@media print` |
 | `js/managers/ReporteManager.js:1988` | Agregado `id="printButton"` al `<div>` contenedor del botón |
+
+### 2026-07-04: Feat — persistencia del formulario de reporte + alerta de sobrescritura + botón limpiar
+
+**Qué:** Tres mejoras en la página de reportes:
+1. **Persistencia:** Los campos del formulario (`rep-org`, `rep-dept`, `rep-modelo`, `rep-serie`, etc.) ahora se guardan automáticamente en `localStorage.__report_form_state` al cambiar cualquier campo, al recargar la página (`beforeunload`), y al regenerar la vista.
+2. **Alerta de sobrescritura:** Al clickear "Enviar a firma", si existe un reporte firmado previo en `localStorage.__firma_current_html`, muestra un `confirm()` nativo ofreciendo descargar el reporte existente antes de que sea reemplazado.
+3. **Botón Limpiar:** Nuevo botón "🧹 Limpiar formulario" en la barra lateral que borra todos los campos y elimina `__report_form_state` de localStorage.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/managers/ReporteManager.js:2034-2042` | `_saved` ahora se inicializa desde `localStorage` y se persiste |
+| `js/managers/ReporteManager.js:2218-2219` | Restauración de `rep-include-all-charts` desde `_saved` |
+| `js/managers/ReporteManager.js:2250-2263` | Auto-save en tiempo real (`input`/`change`/`beforeunload`) vía `_saveFormState` |
+| `js/managers/ReporteManager.js:2267-2275` | Alerta `confirm()` si existe `__firma_current_html` antes de enviar a firma |
+| `js/managers/ReporteManager.js:2419` | Botón "🧹 Limpiar formulario" en sidebar |
