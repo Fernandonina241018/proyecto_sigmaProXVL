@@ -3187,3 +3187,18 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 | `js/managers/ReporteManager.js:1474-1536` | sec06 envuelta en `<table><thead><tbody>` para repetición del header |
 | `js/managers/ReporteManager.js:1926-1955` | sec07 (Pruebas de Hipótesis) — título en `<thead>` con colspan, nota H₀ en `<tbody>` |
 | `js/managers/ReporteManager.js:1972-1985` | sec08 (Gráficos) — título en `<thead>`, contenido en `<tbody>` |
+
+### 2026-07-04: Fix — gráficos de datasets anteriores aparecían en el reporte actual
+
+**Qué:** Al generar un reporte para un dataset, se incluían gráficos creados para datasets anteriores porque la galería `_V.gallery` no discriminaba por origen de datos. Esto producía reportes con gráficos que no correspondían al análisis actual.
+
+**Fix:**
+1. Al guardar un gráfico (`indexx-viz.js:892`), se almacena `sourceFile: datosCurrentFileName || ''` para registrar el dataset de origen.
+2. En `getGraficosParaReporte()` (`indexx-viz.js:270`), se filtra: si hay un dataset actual (`datosCurrentFileName`) y el gráfico tiene `sourceFile` de otro dataset, se omite.
+3. Gráficos antiguos (sin `sourceFile`) se incluyen siempre (retrocompatibilidad).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-viz.js:892` | Agregado `sourceFile: datosCurrentFileName \|\| ''` al guardar gráfico |
+| `js/core/indexx-viz.js:267,270` | Filtro `if (currentFile && g.sourceFile && g.sourceFile !== currentFile) return;` |
