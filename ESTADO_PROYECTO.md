@@ -3185,3 +3185,5 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 |---------|--------|
 | `js/managers/ReporteManager.js:1300` | CSS `.sec-repeat-table{width:100%;border-collapse:collapse}` |
 | `js/managers/ReporteManager.js:1474-1536` | sec06 envuelta en `<table><thead><tbody>` para repetición del header |
+| `js/managers/ReporteManager.js:1926-1955` | sec07 (Pruebas de Hipótesis) — título en `<thead>` con colspan, nota H₀ en `<tbody>` |
+| `js/managers/ReporteManager.js:1972-1985` | sec08 (Gráficos) — título en `<thead>`, contenido en `<tbody>` |
