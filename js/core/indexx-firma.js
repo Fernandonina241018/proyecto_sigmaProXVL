@@ -73,11 +73,13 @@ function firmaRestoreState() {
     }
 
     firmaRenderEditor();
+    _firmaUpdateReportBadge();
 
     var status = document.getElementById('firmaStatus');
     if (status) {
       status.style.display = 'block';
-      status.innerHTML = '<div style="font-size:11px;color:var(--accent);padding:8px 12px">↻ Sesión restaurada: ' + escapeHtml(_firmaOriginalName) + ' (' + _firmaSignatureData.length + ' firma(s))</div>';
+      var cnt = _firmaCountSigned();
+      status.innerHTML = '<div style="font-size:11px;color:var(--accent);padding:8px 12px">↻ Sesión restaurada: ' + escapeHtml(_firmaOriginalName) + ' (' + cnt.signed + '/' + cnt.total + ' firmas)</div>';
     }
 
     var actions = document.getElementById('firmaActions');
@@ -229,17 +231,19 @@ function firmaLoadHtml(html, originalName) {
   });
 
   firmaRenderEditor();
+  _firmaUpdateReportBadge();
 
   var status = document.getElementById('firmaStatus');
   if (status) {
     status.style.display = 'block';
-    status.innerHTML = '<div style="font-size:11px;color:var(--accent);padding:8px 12px">✅ Reporte cargado: ' + escapeHtml(originalName) + ' (' + _firmaSignatureData.length + ' firma(s) detectada(s))</div>';
+    var cnt = _firmaCountSigned();
+    status.innerHTML = '<div style="font-size:11px;color:var(--accent);padding:8px 12px">✅ Reporte cargado: ' + escapeHtml(originalName) + ' (' + cnt.signed + '/' + cnt.total + ' firmas)</div>';
   }
 
   var actions = document.getElementById('firmaActions');
   if (actions) actions.style.display = 'flex';
 
-  showToast('Reporte cargado: ' + _firmaSignatureData.length + ' firmas detectadas');
+  showToast('Reporte cargado: ' + cnt.signed + '/' + cnt.total + ' firmas');
 
   firmaPersistState();
   return true;
@@ -353,6 +357,7 @@ function firmaResetRole(role) {
   firmaUpdatePreview(role, 'firma', '—');
   firmaUpdatePreview(role, 'date', '—');
   firmaRenderEditor();
+  _firmaUpdateReportBadge();
   firmaPersistState();
   showToast('Firma reiniciada');
 }
@@ -376,8 +381,36 @@ function firmaResetSignatures() {
     firmaUpdatePreview(sd.role, 'date', '—');
   });
   firmaRenderEditor();
+  _firmaUpdateReportBadge();
   firmaPersistState();
   showToast('Firmas reiniciadas');
+}
+
+function _firmaCountSigned() {
+  if (!_firmaSignatureData) return { signed: 0, total: 0 };
+  var s = 0;
+  _firmaSignatureData.forEach(function(sd){
+    if (_firmaSignatureState && _firmaSignatureState[sd.role] && _firmaSignatureState[sd.role].signed) s++;
+  });
+  return { signed: s, total: _firmaSignatureData.length };
+}
+
+function _firmaUpdateReportBadge() {
+  if (!_firmaCurrentDoc) return;
+  var oldBadge = _firmaCurrentDoc.getElementById('firmaProgressBadge');
+  if (oldBadge) oldBadge.remove();
+  var cnt = _firmaCountSigned();
+  var badge = _firmaCurrentDoc.createElement('div');
+  badge.id = 'firmaProgressBadge';
+  badge.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9999;text-align:center;padding:4px;font-size:9px;font-family:monospace;color:#fff;background:rgba(26,58,107,.85)';
+  badge.textContent = '\u270D ' + cnt.signed + '/' + cnt.total + ' firmas';
+  _firmaCurrentDoc.body.appendChild(badge);
+  _firmaCurrentHtml = '<!DOCTYPE html>\n' + _firmaCurrentDoc.documentElement.outerHTML;
+  var preview = document.getElementById('firmaPreview');
+  if (preview) {
+    var iframe = preview.querySelector('iframe');
+    if (iframe) iframe.srcdoc = _firmaCurrentHtml;
+  }
 }
 
 function firmaUpdatePreview(role, field, value) {
@@ -407,10 +440,17 @@ function firmaDownload() {
     var a = document.createElement('a');
     a.href = url;
 
-    // Append _firmado suffix to avoid browser collision (1) and clearly mark as signed
+    // Append _firmado suffix + signature count (e.g. _firmado_2de3) to track signing progress
     var ts = new Date().toISOString().slice(0,10);
     var baseName = (_firmaOriginalName || 'reporte_firmado').replace(/\.html$/i, '');
-    a.download = baseName + '_firmado_' + ts + '.html';
+    var signedCount = 0;
+    var totalCount = _firmaSignatureData ? _firmaSignatureData.length : 0;
+    if (_firmaSignatureData) {
+      _firmaSignatureData.forEach(function(sd){
+        if (_firmaSignatureState && _firmaSignatureState[sd.role] && _firmaSignatureState[sd.role].signed) signedCount++;
+      });
+    }
+    a.download = baseName + '_firmado_' + signedCount + 'de' + totalCount + '_' + ts + '.html';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -524,6 +564,7 @@ async function firmaVerify(role, code, password, statusEl) {
     firmaUpdatePreview(role, 'firma', data.firma || '');
     firmaUpdatePreview(role, 'date', fechaStr);
     firmaRenderEditor();
+    _firmaUpdateReportBadge();
     showToast('\u2705 Firma registrada: ' + data.nombre);
     firmaPersistState();
   } catch (e) {

@@ -45,6 +45,26 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-05: Conteo de firmas visible en sidebar + badge en reporte + filename
+
+**Qué:** El progreso de firmas ahora es visible en 3 lugares:
+1. **Filename** al descargar: `RPT-XXXX_firmado_2de3_2026-07-05.html`
+2. **Sidebar status**: "✅ Reporte cargado: name (2/3 firmas)"
+3. **Badge en el reporte**: barra fija abajo con "✍ 2/3 firmas" — visible en iframe y al abrir el .html directo
+
+**Solución:**
+- Nueva helper `_firmaCountSigned()` que computa signed/total
+- `_firmaUpdateReportBadge()` inyecta/actualiza badge en `_firmaCurrentDoc.body`
+- Badge se refresca al firmar, reiniciar rol, reiniciar todas y cargar reporte
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-firma.js:387-411` | Nueva `_firmaCountSigned()` + `_firmaUpdateReportBadge()` |
+| `js/core/indexx-firma.js:420` | Filename incluye `_firmado_XdeY` en `firmaDownload()` |
+| `js/core/indexx-firma.js:80,236` | Status bar muestra "2/3 firmas" |
+| `js/core/indexx-firma.js:360,383,566` | Badge refrescado en reset role, reset all y firma verify |
+
 ### 2026-07-05: Per-role reset — cada firmante puede reiniciar su propia firma
 
 **Qué:** Se agregó la capacidad de reiniciar una firma individual por rol, sin afectar las firmas de otros roles. Antes solo existía "Reiniciar todas las firmas" (oculto al cargar desde archivo). Ahora cada rol firmado muestra su propio botón "↺ Reiniciar".
