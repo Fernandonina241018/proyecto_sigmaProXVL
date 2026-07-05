@@ -1316,7 +1316,7 @@ tr:hover td{background:#f7faff}
     .sig-grid{page-break-inside:avoid}
     .audit-box{page-break-inside:avoid}
     .doc-footer{page-break-inside:avoid;page-break-before:avoid}
-    @page{margin:1.2cm;size:A4;@bottom-center{content:counter(page) " de " counter(pages);font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}}
+    @page{margin:1.2cm;size:A4;@bottom-center{content:counter(page) " de " counter(pages);font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}@bottom-right{content:"RPT-${hash}";font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}}
     #printButton{display:none!important}
 }
 
