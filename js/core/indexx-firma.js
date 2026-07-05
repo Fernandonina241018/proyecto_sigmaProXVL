@@ -307,7 +307,7 @@ function firmaRenderEditor() {
       var resetRoleBtn = document.createElement('button');
       resetRoleBtn.textContent = '\u21BA Reiniciar';
       resetRoleBtn.style.cssText = 'margin-top:6px;padding:2px 8px;font-size:10px;background:transparent;color:var(--text-faint);border:1px solid var(--border);border-radius:4px;cursor:pointer';
-      resetRoleBtn.onclick = (function(r){ return function(){ firmaResetRole(r); }; })(sd.role);
+      resetRoleBtn.onclick = (function(r){ return function(){ firmaRequestReset(r); }; })(sd.role);
       body.appendChild(resetRoleBtn);
     } else {
       // Show code input + sign button
@@ -350,7 +350,6 @@ function firmaRenderEditor() {
 }
 
 function firmaResetRole(role) {
-  if (!confirm('¿Estás seguro de reiniciar tu firma para este rol? Esta acción no se puede deshacer.')) return;
   _firmaSignatureState[role] = { signed: false };
   firmaUpdatePreview(role, 'name', '—');
   firmaUpdatePreview(role, 'title', '—');
@@ -575,4 +574,100 @@ async function firmaVerify(role, code, password, statusEl) {
     console.error('Error verifying signature:', e);
     if (statusEl) statusEl.textContent = '\u274C Error de conexi\u00F3n con el servidor';
   }
+}
+
+function firmaRequestReset(role) {
+  var overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  var box = document.createElement('div');
+  box.className = 'modal-box';
+  box.style.cssText = 'max-width:360px';
+
+  var title = document.createElement('div');
+  title.className = 'modal-title';
+  title.textContent = '\uD83D\uDD12 Reiniciar firma';
+  box.appendChild(title);
+
+  var content = document.createElement('div');
+  content.style.cssText = 'padding:12px 16px;display:flex;flex-direction:column;gap:10px';
+
+  var info = document.createElement('div');
+  info.style.cssText = 'font-size:11px;color:var(--text-faint)';
+  info.textContent = 'Ingresa tu c\u00F3digo de firma y contrase\u00F1a para reiniciar esta firma.';
+  content.appendChild(info);
+
+  var codeLabel = document.createElement('label');
+  codeLabel.style.cssText = 'font-size:11px;color:var(--text-primary)';
+  codeLabel.textContent = 'C\u00F3digo de firma';
+  content.appendChild(codeLabel);
+
+  var codeInput = document.createElement('input');
+  codeInput.type = 'text';
+  codeInput.style.cssText = 'width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem;outline:none';
+  codeInput.placeholder = 'Ej: ABC-123';
+  content.appendChild(codeInput);
+
+  var pwLabel = document.createElement('label');
+  pwLabel.style.cssText = 'font-size:11px;color:var(--text-primary)';
+  pwLabel.textContent = 'Contrase\u00F1a';
+  content.appendChild(pwLabel);
+
+  var pwInput = document.createElement('input');
+  pwInput.type = 'password';
+  pwInput.style.cssText = 'width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem;outline:none';
+  pwInput.placeholder = 'Ingresa tu contrase\u00F1a';
+  content.appendChild(pwInput);
+
+  var errorEl = document.createElement('div');
+  errorEl.style.cssText = 'font-size:10px;color:#ef4444;min-height:14px';
+  content.appendChild(errorEl);
+
+  var actions = document.createElement('div');
+  actions.style.cssText = 'display:flex;gap:8px;justify-content:end';
+  var cancelBtn = document.createElement('button');
+  cancelBtn.className = 'btn btn-secondary';
+  cancelBtn.textContent = 'Cancelar';
+  cancelBtn.onclick = function(){ overlay.remove(); };
+  actions.appendChild(cancelBtn);
+  var confirmBtn = document.createElement('button');
+  confirmBtn.className = 'btn btn-primary';
+  confirmBtn.textContent = 'Reiniciar';
+  confirmBtn.onclick = function(){
+    overlay.remove();
+    firmaVerifyReset(role, codeInput.value.trim(), pwInput.value);
+  };
+  actions.appendChild(confirmBtn);
+  content.appendChild(actions);
+  box.appendChild(content);
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+  codeInput.focus();
+  codeInput.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') pwInput.focus();
+  });
+  pwInput.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') confirmBtn.click();
+  });
+}
+
+function firmaVerifyReset(role, code, password) {
+  if (!code || !password) {
+    showToast('\u26A0\uFE0F Ingresa c\u00F3digo de firma y contrase\u00F1a');
+    return;
+  }
+  fetchWithTimeout(API_URL + '/api/verify-signature', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ signatureCode: code, password: password })
+  }).then(function(res){ return res.json(); }).then(function(data){
+    if (!data.ok) {
+      showToast('\u274C ' + (data.error || 'Credenciales inv\u00E1lidas'));
+      return;
+    }
+    firmaResetRole(role);
+    showToast('\u2705 Firma reiniciada');
+  }).catch(function(e){
+    console.error('Error verifying reset:', e);
+    showToast('\u274C Error de conexi\u00F3n con el servidor');
+  });
 }

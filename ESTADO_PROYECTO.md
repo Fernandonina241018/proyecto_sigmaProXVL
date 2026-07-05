@@ -45,6 +45,26 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-05: Reiniciar firma requiere credenciales — código + contraseña
+
+**Qué:** Al presionar "↺ Reiniciar" en una firma, ahora se abre un modal que pide código de firma y contraseña. Solo si la API verifica las credenciales se procede al reset.
+
+**Problema:** Cualquiera podía reiniciar una firma solo con un `confirm()` — sin acreditar identidad.
+
+**Solución:**
+- Nuevo modal `firmaRequestReset(role)` con inputs para código + contraseña
+- `firmaVerifyReset(role, code, password)` llama `POST /api/verify-signature`
+- Si la API valida → ejecuta `firmaResetRole(role)`
+- Se eliminó el `confirm()` redundante de `firmaResetRole()` (la validación del modal ya confirma)
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-firma.js:310` | onclick cambia: `firmaResetRole` → `firmaRequestReset` |
+| `js/core/indexx-firma.js:352` | `confirm()` eliminado de `firmaResetRole()` |
+| `js/core/indexx-firma.js:579-651` | Nuevo `firmaRequestReset(role)` — modal credenciales |
+| `js/core/indexx-firma.js:653-673` | Nuevo `firmaVerifyReset()` — verificación API |
+
 ### 2026-07-05: Conteo de firmas visible en sidebar + badge en reporte + filename
 
 **Qué:** El progreso de firmas ahora es visible en 3 lugares:
