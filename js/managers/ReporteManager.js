@@ -1317,6 +1317,7 @@ tr:hover td{background:#f7faff}
     .audit-box{page-break-inside:avoid}
     .doc-footer{page-break-inside:avoid;page-break-before:avoid}
     @page{margin:1.2cm;size:A4;@bottom-center{content:counter(page) " de " counter(pages);font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}}
+    #printButton{display:none!important}
 }
 
 </style>
@@ -1984,7 +1985,7 @@ tr:hover td{background:#f7faff}
   </div>
 </div>
 <script>document.addEventListener('click',function(e){var e2=e.target.closest('.toc-entry');if(e2){e.preventDefault();var id=e2.getAttribute('href').replace(/^#/,'');var t=document.querySelector('[data-id="'+id+'"]')||document.getElementById(id);if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}})</script>
-<div style="position:fixed;bottom:20px;right:20px;z-index:999"><button onclick="window.print()" style="padding:10px 20px;background:#1a3a6b;color:white;border:none;border-radius:6px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:9pt;box-shadow:0 4px 12px rgba(0,0,0,.2)">🖨️ Imprimir / PDF</button></div>
+<div id="printButton" style="position:fixed;bottom:20px;right:20px;z-index:999"><button onclick="window.print()" style="padding:10px 20px;background:#1a3a6b;color:white;border:none;border-radius:6px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:9pt;box-shadow:0 4px 12px rgba(0,0,0,.2)">🖨️ Imprimir / PDF</button></div>
 </body></html>`;
     }
 

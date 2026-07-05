@@ -3134,3 +3134,15 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 | Archivo | Cambio |
 |---------|--------|
 | `js/core/indexx-firma.js:494-496` | Reemplazado `toLocaleDateString` por construcción manual con `padStart` + `a.m./p.m.` |
+
+### 2026-07-04: Fix — botón Imprimir aparece en previsualización de impresión
+
+**Qué:** El botón flotante 🖨️ Imprimir / PDF se mostraba en el diálogo de previsualización de impresión del navegador (`Ctrl+P`), tapando contenido y rompiendo la maquetación A4.
+
+**Fix:** Se agregó `id="printButton"` al contenedor del botón y `#printButton{display:none!important}` dentro de `@media print`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/managers/ReporteManager.js:1320` | Agregado `#printButton{display:none!important}` en `@media print` |
+| `js/managers/ReporteManager.js:1988` | Agregado `id="printButton"` al `<div>` contenedor del botón |
