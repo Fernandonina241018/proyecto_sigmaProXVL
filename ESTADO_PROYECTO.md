@@ -3162,3 +3162,14 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 | `js/managers/ReporteManager.js:2250-2263` | Auto-save en tiempo real (`input`/`change`/`beforeunload`) vía `_saveFormState` |
 | `js/managers/ReporteManager.js:2267-2275` | Alerta `confirm()` si existe `__firma_current_html` antes de enviar a firma |
 | `js/managers/ReporteManager.js:2419` | Botón "🧹 Limpiar formulario" en sidebar |
+
+### 2026-07-04: Feat — ID del documento en esquina inferior derecha de cada página impresa
+
+**Qué:** El identificador del documento (`RPT-{hash}`) ahora aparece en el margen inferior derecho de cada página al imprimir o generar PDF del reporte HTML, al mismo nivel que los números de página en el centro.
+
+**Cómo:** Se agregó `@bottom-right{content:"RPT-${hash}"}` dentro de la regla `@page` en `@media print`. El hash se incrusta como string literal en CSS (generado estáticamente), lo que funciona en Chrome y Firefox (`content: string()` no tiene soporte en Chrome).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/managers/ReporteManager.js:1319` | Agregado `@bottom-right{content:"RPT-${hash}"}` en `@page` |
