@@ -195,11 +195,6 @@ const Auth = (() => {
                         <label class="auth-label" for="auth-pass">Contraseña</label>
                         <button class="auth-eye-btn" id="auth-eye" type="button" aria-label="Mostrar contraseña"><span id="auth-eye-icon">👁</span></button>
                     </div>
-                    <label class="auth-checkbox-row">
-                        <input type="checkbox" id="auth-show-pass">
-                        <span class="auth-checkbox-custom"></span>
-                        <span class="auth-checkbox-text">Mostrar contraseña</span>
-                    </label>
                     <label class="auth-checkbox-row" style="margin-top:4px">
                         <input type="checkbox" id="auth-remember">
                         <span class="auth-checkbox-custom"></span>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>StatAnalyzer Pro — Login</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --bg: #0B0E14;
+    --surface: #10141C;
+    --surface-2: #171C27;
+    --border: #262C3B;
+    --border-soft: #1D222E;
+    --text-1: #E8EAF0;
+    --text-2: #8B93A7;
+    --text-3: #5A6273;
+    --accent: #9D7BFF;
+    --accent-dim: #6D28D9;
+    --accent-glow: rgba(157,123,255,0.18);
+    --ok: #34D399;
+    --warn: #FBBF24;
+    --danger: #F87171;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--bg);
+    color:var(--text-1);
+    display:flex;
+    min-height:100vh;
+    overflow:hidden;
+  }
+
+  /* ---------- LEFT: brand / signature ---------- */
+  .brand-panel{
+    flex:1.15;
+    position:relative;
+    background:
+      radial-gradient(circle at 15% 85%, var(--accent-glow), transparent 55%),
+      linear-gradient(180deg, #0D1119 0%, #0A0D14 100%);
+    border-right:1px solid var(--border-soft);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:48px 56px;
+  }
+
+  .brand-mark{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .brand-mark .dot{
+    width:9px; height:9px; border-radius:50%;
+    background:var(--ok);
+    box-shadow:0 0 0 3px rgba(52,211,153,0.15);
+  }
+  .brand-mark span{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.08em;
+    color:var(--text-2);
+    text-transform:uppercase;
+  }
+
+  .chart-zone{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:28px;
+  }
+
+  .chart-zone h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:34px;
+    line-height:1.15;
+    letter-spacing:-0.01em;
+    max-width:380px;
+  }
+  .chart-zone h1 em{
+    font-style:normal;
+    color:var(--accent);
+  }
+  .chart-zone p.sub{
+    color:var(--text-2);
+    font-size:14px;
+    max-width:360px;
+    line-height:1.6;
+  }
+
+  .control-chart{
+    width:100%;
+    max-width:440px;
+    background:var(--surface);
+    border:1px solid var(--border-soft);
+    border-radius:12px;
+    padding:20px 20px 14px;
+  }
+  .control-chart .cc-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:10px;
+  }
+  .control-chart .cc-head .cc-title{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--text-2);
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+  }
+  .control-chart .cc-head .cc-status{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--ok);
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .control-chart .cc-head .cc-status::before{
+    content:'';
+    width:6px;height:6px;border-radius:50%;
+    background:var(--ok);
+  }
+
+  svg.cc-svg{ display:block; width:100%; height:150px; }
+  .cc-limit-line{ stroke:var(--border); stroke-width:1; stroke-dasharray:4 4; }
+  .cc-mean-line{ stroke:var(--text-3); stroke-width:1; stroke-dasharray:2 3; }
+  .cc-trace{ fill:none; stroke:var(--accent); stroke-width:1.6; }
+  .cc-point{ fill:var(--bg); stroke:var(--accent); stroke-width:1.6; }
+  .cc-point.flag{ fill:var(--warn); stroke:var(--warn); }
+  .cc-label{ font-family:'IBM Plex Mono', monospace; font-size:9px; fill:var(--text-3); }
+
+  .brand-foot{
+    display:flex;
+    gap:24px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--text-3);
+  }
+  .brand-foot b{ color:var(--text-2); font-weight:500; }
+
+  /* ---------- RIGHT: form ---------- */
+  .form-panel{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--bg);
+    padding:40px;
+  }
+  .form-card{
+    width:100%;
+    max-width:360px;
+  }
+  .form-card h2{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:22px;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .form-card p.hint{
+    color:var(--text-2);
+    font-size:13px;
+    margin-bottom:28px;
+  }
+
+  .status-msg{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    border-left:2px solid var(--text-2);
+    border-radius:8px;
+    padding:11px 14px;
+    font-size:13px;
+    color:var(--text-2);
+    margin-bottom:24px;
+  }
+  .status-msg svg{ width:14px; height:14px; flex-shrink:0; stroke:var(--text-2); }
+
+  .field{ margin-bottom:18px; position:relative; }
+  .field label{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--text-2);
+    margin-bottom:7px;
+  }
+  .field .input-wrap{
+    position:relative;
+    display:flex;
+    align-items:center;
+  }
+  .field input{
+    width:100%;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:12px 14px;
+    font-size:14px;
+    color:var(--text-1);
+    font-family:'Inter', sans-serif;
+    outline:none;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  .field input::placeholder{ color:var(--text-3); }
+  .field input:focus{
+    border-color:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-glow);
+  }
+  .field .toggle-eye{
+    position:absolute;
+    right:12px;
+    cursor:pointer;
+    color:var(--text-3);
+    display:flex;
+    background:none;
+    border:none;
+    padding:4px;
+  }
+  .field .toggle-eye:hover{ color:var(--text-2); }
+  .field .toggle-eye svg{ width:16px; height:16px; stroke:currentColor; fill:none; }
+
+  .row-between{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:24px;
+    font-size:13px;
+  }
+  .remember{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:var(--text-2);
+    cursor:pointer;
+    user-select:none;
+  }
+  .remember input{
+    width:15px; height:15px;
+    accent-color:var(--accent);
+    cursor:pointer;
+  }
+  .row-between a{
+    color:var(--accent);
+    text-decoration:none;
+  }
+  .row-between a:hover{ text-decoration:underline; }
+
+  button.submit{
+    width:100%;
+    background:var(--accent-dim);
+    background-image:linear-gradient(180deg, #7C4FE0, #6D28D9);
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    padding:13px;
+    font-size:14px;
+    font-weight:600;
+    font-family:'Inter', sans-serif;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    transition:filter .15s, transform .05s;
+  }
+  button.submit:hover{ filter:brightness(1.08); }
+  button.submit:active{ transform:scale(0.99); }
+  button.submit:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+  }
+
+  .form-foot{
+    margin-top:22px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--text-3);
+    text-align:center;
+  }
+
+  @media (max-width: 860px){
+    .brand-panel{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="brand-panel">
+    <div class="brand-mark">
+      <span class="dot"></span>
+      <span>StatAnalyzer Pro · Proceso bajo control</span>
+    </div>
+
+    <div class="chart-zone">
+      <h1>El análisis estadístico,<br><em>siempre en control.</em></h1>
+      <p class="sub">Monitoreo continuo, trazabilidad y cumplimiento normativo en cada análisis. Sistema validado bajo GAMP 5.</p>
+
+      <div class="control-chart">
+        <div class="cc-head">
+          <span class="cc-title">Gráfico de control · Lote 0714</span>
+          <span class="cc-status">En control</span>
+        </div>
+        <svg class="cc-svg" viewBox="0 0 400 150" id="ccSvg">
+          <line class="cc-limit-line" x1="0" y1="20" x2="400" y2="20"/>
+          <line class="cc-mean-line" x1="0" y1="75" x2="400" y2="75"/>
+          <line class="cc-limit-line" x1="0" y1="130" x2="400" y2="130"/>
+          <text class="cc-label" x="4" y="16">UCL</text>
+          <text class="cc-label" x="4" y="71">X̄</text>
+          <text class="cc-label" x="4" y="126">LCL</text>
+          <polyline class="cc-trace" id="ccTrace" points=""/>
+          <g id="ccPoints"></g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="brand-foot">
+      <span><b>21 CFR Part 11</b> · validado</span>
+      <span><b>ICH Q9(R1)</b> · gestión de riesgo</span>
+    </div>
+  </div>
+
+  <div class="form-panel">
+    <div class="form-card">
+      <h2>Iniciar sesión</h2>
+      <p class="hint">Accede a tu panel de análisis estadístico.</p>
+
+      <div class="status-msg">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+        Sesión cerrada correctamente.
+      </div>
+
+      <div class="field">
+        <label for="user">Usuario</label>
+        <div class="input-wrap">
+          <input id="user" type="text" placeholder="d.nina" value="d.nina">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="pass">Contraseña</label>
+        <div class="input-wrap">
+          <input id="pass" type="password" placeholder="••••••••••••" value="supersecreta123">
+          <button class="toggle-eye" type="button" onclick="togglePass()" aria-label="Mostrar contraseña">
+            <svg id="eyeIcon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+              <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="row-between">
+        <label class="remember">
+          <input type="checkbox" checked>
+          Recordarme
+        </label>
+        <a href="#">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <button class="submit" type="button">
+        Iniciar sesión
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+
+      <div class="form-foot">Sistema validado · GAMP 5 / Anexo 15 EU GMP</div>
+    </div>
+  </div>
+
+<script>
+  function togglePass(){
+    const input = document.getElementById('pass');
+    input.type = input.type === 'password' ? 'text' : 'password';
+  }
+
+  // Build an animated control-chart trace
+  const data = [62,58,70,55,80,60,45,66,72,58,90,63,50,68,74,59,64,20,61,57];
+  const w = 400, h = 150, padX = 15;
+  const step = (w - padX*2) / (data.length - 1);
+  const yFor = v => 75 - (v - 50) * 1.1;
+
+  const pts = data.map((v,i) => [padX + i*step, yFor(v)]);
+  const pointsStr = pts.map(p => p.join(',')).join(' ');
+  document.getElementById('ccTrace').setAttribute('points', pointsStr);
+
+  const g = document.getElementById('ccPoints');
+  pts.forEach((p,i) => {
+    const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx', p[0]);
+    c.setAttribute('cy', p[1]);
+    c.setAttribute('r', 3);
+    c.setAttribute('class', 'cc-point' + (data[i] < 25 || data[i] > 88 ? ' flag' : ''));
+    g.appendChild(c);
+  });
+
+  // subtle draw-in animation
+  const trace = document.getElementById('ccTrace');
+  const len = trace.getTotalLength ? trace.getTotalLength() : 800;
+  trace.style.strokeDasharray = len;
+  trace.style.strokeDashoffset = len;
+  trace.animate(
+    [{ strokeDashoffset: len },{ strokeDashoffset: 0 }],
+    { duration: 1400, easing: 'ease-out', fill: 'forwards' }
+  );
+</script>
+</body>
+</html>
