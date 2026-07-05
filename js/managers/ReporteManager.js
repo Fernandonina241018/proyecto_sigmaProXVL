@@ -1308,9 +1308,7 @@ tr:hover td{background:#f7faff}
     .sec{page-break-before:always;page-break-inside:auto}
     .sec:first-of-type{page-break-before:avoid}
     .sec-title{page-break-after:avoid}
-
     .var-block{page-break-inside:avoid}
-
     .param-detail-section{page-break-before:always}
     .param-control-section{page-break-before:always}
     .method-grid{page-break-inside:avoid}
@@ -1318,14 +1316,10 @@ tr:hover td{background:#f7faff}
     .sig-grid{page-break-inside:avoid}
     .audit-box{page-break-inside:avoid}
     .doc-footer{page-break-inside:avoid;page-break-before:avoid}
+    @page{margin:1.2cm;size:A4;@bottom-center{content:counter(page) " de " counter(pages);font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}}
 }
-@page{margin:1.2cm;size:A4;@bottom-center{content:counter(page) " de " counter(pages);font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}}
-body{visibility:hidden}.pagedjs_pages{visibility:visible}
-@media screen{.pagedjs_pages{width:100% !important}.pagedjs_sheet{width:100% !important}.pagedjs_page{width:100% !important;max-width:880px;margin:0 auto 20px;min-width:0 !important;visibility:visible}.pagedjs_pagebox{width:auto !important}.pagedjs_pagearea{width:auto !important}}
 
 </style>
-<script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
-<script>(function(){var i,att=0;function f(){var sel='.pagedjs_pages,.pagedjs_sheet,.pagedjs_page,.pagedjs_pagebox,.pagedjs_pagearea';document.querySelectorAll(sel).forEach(function(e){e.style.setProperty('width','100%','important');e.style.setProperty('max-width','880px','important')});document.body.style.visibility='visible'}i=setInterval(function(){f();if(++att>=100)clearInterval(i)},200);var ro=new ResizeObserver(function(entries){entries.forEach(function(e){try{if(e.target.matches('.pagedjs_pages,.pagedjs_sheet,.pagedjs_page,.pagedjs_pagebox,.pagedjs_pagearea'))e.target.style.setProperty('width','100%','important')}catch(x){}})}});var mo=new MutationObserver(function(){document.querySelectorAll('.pagedjs_pages,.pagedjs_sheet,.pagedjs_page,.pagedjs_pagebox,.pagedjs_pagearea').forEach(function(el){if(!el._rw){ro.observe(el);el._rw=true}})});mo.observe(document.documentElement,{childList:true,subtree:true});if(window.PagedPolyfill&&PagedPolyfill.on)try{PagedPolyfill.on('rendered',function(){f();setTimeout(f,100)})}catch(e){}document.addEventListener('pagedjs:rendered',function(){f();setTimeout(f,100)});setTimeout(f,5e3);setTimeout(function(){mo.disconnect();ro.disconnect();clearInterval(i)},20e3)})()</script>
 </head><body>
 
 <div class="cover">
@@ -1989,7 +1983,8 @@ body{visibility:hidden}.pagedjs_pages{visibility:visible}
     <div style="text-align:right">${REGULATORY.standard}<br>${todayFormatted()}</div>
   </div>
 </div>
-<script>document.addEventListener('click',function(e){var e2=e.target.closest('.toc-entry');if(e2){e.preventDefault();var id=e2.getAttribute('href').replace(/^#/,'');var t=document.querySelector('[data-id="'+id+'"]');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}})</script>
+<script>document.addEventListener('click',function(e){var e2=e.target.closest('.toc-entry');if(e2){e.preventDefault();var id=e2.getAttribute('href').replace(/^#/,'');var t=document.querySelector('[data-id="'+id+'"]')||document.getElementById(id);if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}})</script>
+<div style="position:fixed;bottom:20px;right:20px;z-index:999"><button onclick="window.print()" style="padding:10px 20px;background:#1a3a6b;color:white;border:none;border-radius:6px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:9pt;box-shadow:0 4px 12px rgba(0,0,0,.2)">🖨️ Imprimir / PDF</button></div>
 </body></html>`;
     }
 

@@ -3072,22 +3072,30 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 
 **Riesgo:** BAJO — cambios aditivos (nuevos campos en objeto de retorno, HTML condicional). No se modifica lógica existente de análisis ni generación de datos.
 
-### 2026-07-04: Fix definitivo v3 — ancho reporte con ResizeObserver + interval 200ms
+### 2026-07-04: Fix RAÍZ — eliminar Paged.js del screen, reporte full-width nativo
 
-**Qué:** El fix v2 (interval 500ms, selectores completos) no era suficiente porque Paged.js sobrescribe el inline style CON `element.style.width = '794px'` DESPUÉS de que nuestro interval corrige. El usuario veía el reporte ancho → angosto.
+**Qué:** Todos los fixes previos del ancho fallaban porque **Paged.js ES el problema**: su propósito es aplicar `@page{size:A4}` en screen, creando páginas de 794px de ancho. Cualquier fix post-render pelea contra el core de la librería y siempre pierde.
 
-**Fix v3 (línea 1328):**
-- `setInterval` cada **200ms** (antes 500ms), **100 intentos** (20s, antes 10s)
-- `ResizeObserver` que detecta **al instante** cuando Paged.js cambia las dimensiones y revierte width al 100%
-- MutationObserver + eventos `rendered` + timeout 5s se mantienen
-- Auto-stop completo a los 20s
+**Solución definitiva:**
+1. **Eliminado** `<script src="paged.polyfill.js">` del HTML — Paged.js ya no se carga en screen
+2. Movido `@page{margin:1.2cm;size:A4;...}` **dentro de `@media print`** — solo aplica al imprimir/PDF
+3. Eliminado todo el CSS/JS anti-ancho (líneas obsoletas: `body{visibility:hidden}`, `@media screen{...}`, script MutationObserver/ResizeObserver/interval)
+4. TOC handler actualizado con **fallback a `document.getElementById(id)`** para funcionar sin Paged.js (antes solo buscaba por `[data-id]`)
+5. Añadido botón 🖨️ Imprimir / PDF flotante (esquina inferior derecha)
+
+**Cómo funciona ahora:**
+- **Screen:** reporte ocupa 100% del ancho, scroll vertical, sin paginación
+- **Imprimir (Ctrl+P o botón 🖨️):** navegador aplica `@page{size:A4; margin:1.2cm}` nativamente con números de página
 
 **Archivos afectados:**
 | Archivo | Cambio |
 |---------|--------|
-| `js/managers/ReporteManager.js:1328` | Interval 200ms ×100 + ResizeObserver |
+| `js/managers/ReporteManager.js:1301-1320` | `@page` movido dentro de `@media print` |
+| `js/managers/ReporteManager.js:1322-1328` | Eliminados: `</style>`, script Paged.js, CSS obsoleto, script anti-ancho |
+| `js/managers/ReporteManager.js:1986` | TOC handler: `document.querySelector('[data-id]')` ahora con fallback `document.getElementById(id)` |
+| `js/managers/ReporteManager.js:1987` | Nuevo: botón flotante 🖨️ Imprimir / PDF |
 
-### 2026-07-04: Fix definitivo v2 — ancho reporte + navegación TOC
+### 2026-07-04: Fix definitivo v3 — ancho reporte con ResizeObserver + interval 200ms
 
 **Qué:** Tras 4 intentos previos de fix del ancho, el problema persistía por:
 1. **Selectores JS incompletos**: solo se forzaba width en `.pagedjs_sheet,.pagedjs_page` pero no en `.pagedjs_pages`, `.pagedjs_pagebox`, `.pagedjs_pagearea`. Paged.js posiblemente setea inline style en `.pagedjs_pages` que el CSS `!important` no vence.
