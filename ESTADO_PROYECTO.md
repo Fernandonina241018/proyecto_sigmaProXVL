@@ -45,6 +45,25 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-05: Per-role reset — cada firmante puede reiniciar su propia firma
+
+**Qué:** Se agregó la capacidad de reiniciar una firma individual por rol, sin afectar las firmas de otros roles. Antes solo existía "Reiniciar todas las firmas" (oculto al cargar desde archivo). Ahora cada rol firmado muestra su propio botón "↺ Reiniciar".
+
+**Problema:** Cuando un reporte con firmas se descarga como .html y lo abre un segundo firmante:
+1. `_firmaIsNewSession = false` → botón global oculto
+2. `firmaResetSignatures()` reseteaba TODAS las firmas indiscriminadamente
+
+**Solución:**
+- Nueva función `firmaResetRole(role)`: resetea solo el rol indicado, actualiza preview, re-renderiza editor, persiste estado
+- Botón "↺ Reiniciar" por rol en el editor, visible solo cuando el rol está firmado (sin depender de `_firmaIsNewSession`)
+- El botón global "Reiniciar todas las firmas" se mantiene solo para sesiones nuevas (desde ReporteManager)
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-firma.js:348-358` | Nueva función `firmaResetRole(role)` |
+| `js/core/indexx-firma.js:303-307` | Botón "↺ Reiniciar" por rol en `firmaRenderEditor()` |
+
 ### 2026-07-04: Fix — navegación del TOC rota por Paged.js
 
 **Qué:** Paged.js v0.4.3 elimina el atributo `id` del DOM durante la paginación y lo mueve a `data-id` (confirmado por GitHub Issue #240). Al hacer clic en `<a href="#sec02">`, el navegador buscaba `id="sec02"` y no lo encontraba en el contenido paginado visible, causando que no navegara correctamente.

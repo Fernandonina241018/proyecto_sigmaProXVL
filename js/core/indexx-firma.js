@@ -299,6 +299,12 @@ function firmaRenderEditor() {
       dateRow.textContent = state.fecha;
       dateRow.id = 'firmaSignedDate-' + sd.role;
       body.appendChild(dateRow);
+
+      var resetRoleBtn = document.createElement('button');
+      resetRoleBtn.textContent = '\u21BA Reiniciar';
+      resetRoleBtn.style.cssText = 'margin-top:6px;padding:2px 8px;font-size:10px;background:transparent;color:var(--text-faint);border:1px solid var(--border);border-radius:4px;cursor:pointer';
+      resetRoleBtn.onclick = (function(r){ return function(){ firmaResetRole(r); }; })(sd.role);
+      body.appendChild(resetRoleBtn);
     } else {
       // Show code input + sign button
       var codeRow = document.createElement('div');
@@ -337,6 +343,18 @@ function firmaRenderEditor() {
     editor.appendChild(card);
   });
   firmaUpdateResetBtn();
+}
+
+function firmaResetRole(role) {
+  if (!confirm('¿Estás seguro de reiniciar tu firma para este rol? Esta acción no se puede deshacer.')) return;
+  _firmaSignatureState[role] = { signed: false };
+  firmaUpdatePreview(role, 'name', '—');
+  firmaUpdatePreview(role, 'title', '—');
+  firmaUpdatePreview(role, 'firma', '—');
+  firmaUpdatePreview(role, 'date', '—');
+  firmaRenderEditor();
+  firmaPersistState();
+  showToast('Firma reiniciada');
 }
 
 function firmaUpdateResetBtn() {
