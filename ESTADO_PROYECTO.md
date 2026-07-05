@@ -3173,3 +3173,15 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 | Archivo | Cambio |
 |---------|--------|
 | `js/managers/ReporteManager.js:1319` | Agregado `@bottom-right{content:"RPT-${hash}"}` en `@page` |
+
+### 2026-07-04: Fix — encabezado de Notas Metodológicas no se repetía al imprimir en múltiples páginas
+
+**Qué:** La sección "06 Notas Metodológicas" del reporte HTML perdía su encabezado cuando el contenido ocupaba más de una página impresa.
+
+**Fix:** Se envolvió la sección en un `<table class="sec-repeat-table">` con el título en `<thead>`. Los navegadores repiten `<thead>` de forma nativa en cada página al imprimir.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/managers/ReporteManager.js:1300` | CSS `.sec-repeat-table{width:100%;border-collapse:collapse}` |
+| `js/managers/ReporteManager.js:1474-1536` | sec06 envuelta en `<table><thead><tbody>` para repetición del header |
