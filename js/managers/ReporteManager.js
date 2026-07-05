@@ -2363,6 +2363,15 @@ tr:hover td{background:#f7faff}
     </div>
   </div>
 
+  <div class="rep-btn-row" style="display:flex;gap:8px;margin-bottom:16px;margin-top:-4px">
+    <button class="rep-btn-download" id="rep-btn-sign" style="flex:1;margin-bottom:0" ${!tieneRes?'disabled':''}>
+      ✍️ Enviar a firma
+    </button>
+    <button id="rep-btn-clear" style="flex:1;padding:13px;background:transparent;color:var(--text-secondary);border:1px solid var(--border);border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;transition:all .3s ease;margin-bottom:0;box-shadow:none" onmouseover="this.style.borderColor='#e53e3e';this.style.color='#e53e3e'" onmouseout="this.style.borderColor='';this.style.color=''" onclick="if(confirm('${currentLang==='es'?'¿Limpiar todos los campos del formulario?':'Clear all form fields?'}')){localStorage.removeItem('__report_form_state');['rep-org','rep-dept','rep-ubicacion','rep-descripcion','rep-marca','rep-modelo','rep-serie','rep-fase','rep-code','rep-ensayo','rep-version','rep-conf','rep-proto','rep-dataset','rep-file','rep-collect','rep-observaciones'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});['html','pdf','txt','csv'].forEach(function(f){var cb=document.getElementById('fmt-'+f);if(cb)cb.checked=false});var ac=document.getElementById('rep-include-all-charts');if(ac)ac.checked=false;localStorage.setItem('__report_form_state',JSON.stringify({}))}">
+      🧹 Limpiar formulario
+    </button>
+  </div>
+
   <div class="rep-card-title">${t('ui_formatTitle')}</div>
   <p class="rep-format-hint">${t('ui_formatHint')}</p>
 
@@ -2426,14 +2435,6 @@ tr:hover td{background:#f7faff}
   <div class="rep-fmt-count-row">
     <span class="rep-fmt-count" id="rep-fmt-count">${t('ui_formatCount',1)}</span>
   </div>
-
-  <button class="rep-btn-download" id="rep-btn-sign" ${!tieneRes?'disabled':''}>
-    ✍️ Enviar a firma
-  </button>
-
-  <button id="rep-btn-clear" style="width:100%;padding:10px;background:transparent;color:var(--text-secondary);border:1px solid var(--border);border-radius:8px;font-size:0.8rem;cursor:pointer;transition:all .3s ease;margin-bottom:12px" onmouseover="this.style.borderColor='#e53e3e';this.style.color='#e53e3e'" onmouseout="this.style.borderColor='';this.style.color=''" onclick="if(confirm('${currentLang==='es'?'¿Limpiar todos los campos del formulario?':'Clear all form fields?'}')){localStorage.removeItem('__report_form_state');['rep-org','rep-dept','rep-ubicacion','rep-descripcion','rep-marca','rep-modelo','rep-serie','rep-fase','rep-code','rep-ensayo','rep-version','rep-conf','rep-proto','rep-dataset','rep-file','rep-collect','rep-observaciones'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});['html','pdf','txt','csv'].forEach(function(f){var cb=document.getElementById('fmt-'+f);if(cb)cb.checked=false});var ac=document.getElementById('rep-include-all-charts');if(ac)ac.checked=false;localStorage.setItem('__report_form_state',JSON.stringify({}))}">
-    🧹 Limpiar formulario
-  </button>
 
   ${nd}
 
