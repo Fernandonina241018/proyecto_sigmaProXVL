@@ -264,8 +264,10 @@ window.Visualizacion = {
     var graficos = [];
     try {
       var cutoff = Date.now() - 30 * 60 * 1000;
+      var currentFile = typeof datosCurrentFileName !== 'undefined' ? datosCurrentFileName : null;
       _V.gallery.forEach(function(g) {
         if (!includeAll && g.createdAt && g.createdAt < cutoff) return;
+        if (currentFile && g.sourceFile && g.sourceFile !== currentFile) return;
         if (g && g.url) graficos.push({ imagen: g.url, titulo: g.title, tipo: g.type || 'desconocido' });
         else if (g && g.vars) {
           var staticImg = _V_generateStaticImage(g);
@@ -887,7 +889,7 @@ function vizSaveToGallery() {
   var thumb = thumbC.toDataURL('image/png');
 
   var id = Date.now();
-  _V.gallery.unshift({ id: id, title: title, type: _V.type || '', vars: JSON.parse(JSON.stringify(_V.vals)), palette: _V.palette, thumb: thumb, createdAt: Date.now() });
+  _V.gallery.unshift({ id: id, title: title, type: _V.type || '', vars: JSON.parse(JSON.stringify(_V.vals)), palette: _V.palette, thumb: thumb, createdAt: Date.now(), sourceFile: datosCurrentFileName || '' });
   if (_V.gallery.length > 30) _V.gallery = _V.gallery.slice(0, 30);
   vizRefreshGallery();
   _V_saveGallery();
