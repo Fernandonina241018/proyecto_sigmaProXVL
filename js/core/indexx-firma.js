@@ -313,7 +313,7 @@ function firmaRenderEditor() {
       codeGroup.appendChild(codeLabel);
 
       var codeInput = document.createElement('input');
-      codeInput.type = 'text';
+      codeInput.type = 'password';
       codeInput.placeholder = 'Ej: ABC-123';
       codeInput.style.cssText = 'background:var(--bg-primary);border:1px solid var(--border);border-radius:4px;padding:4px 6px;font-size:11px;color:var(--text-primary);outline:none;width:100%';
       codeInput.id = 'firmaCodeInput-' + sd.role;
