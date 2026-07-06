@@ -396,6 +396,12 @@ function _firmaCountSigned() {
 
 function _firmaUpdateReportBadge() {
   if (!_firmaCurrentDoc) return;
+  if (!_firmaCurrentDoc.getElementById('firmaPrintStyle')) {
+    var styleEl = _firmaCurrentDoc.createElement('style');
+    styleEl.id = 'firmaPrintStyle';
+    styleEl.textContent = '@media print{#firmaProgressBadge{display:none!important}}';
+    _firmaCurrentDoc.head.appendChild(styleEl);
+  }
   var oldBadge = _firmaCurrentDoc.getElementById('firmaProgressBadge');
   if (oldBadge) oldBadge.remove();
   var cnt = _firmaCountSigned();
