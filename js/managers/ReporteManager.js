@@ -1342,8 +1342,9 @@ tr:hover td{background:#f7faff}
       <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('generated')}</strong>${nowFormatted()}</div>
       <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('totalRecords')}</strong>${resultados.totalFilas}</div>
     </div>
-    <!-- space for future content -->
-    <div style="height:40px"></div>
+    <div style="text-align:center;padding:16px 0 4px;border-top:1px solid rgba(255,255,255,.15);margin-top:8px">
+      <div style="font-size:16pt;font-weight:300;letter-spacing:2px;color:rgba(255,255,255,.85)">${escapeHtml(meta.departamento)} — ${escapeHtml(meta.codigoProyecto)}</div>
+    </div>
   </div>
 </div>
 

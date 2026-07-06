@@ -45,6 +45,15 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-05: Cover del reporte muestra departamento — código de proyecto
+
+**Qué:** El spacer de 40px entre el info grid y el TOC en la primera página fue reemplazado por el texto centrado `[Departamento] — [Código de Proyecto]` en fuente grande (16pt).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/managers/ReporteManager.js:1345-1347` | Spacer → texto centrado con `meta.departamento` + `meta.codigoProyecto` |
+
 ### 2026-07-05: Reiniciar firma requiere credenciales — código + contraseña
 
 **Qué:** Al presionar "↺ Reiniciar" en una firma, ahora se abre un modal que pide código de firma y contraseña. Solo si la API verifica las credenciales se procede al reset.
