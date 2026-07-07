@@ -1343,7 +1343,7 @@ tr:hover td{background:#f7faff}
       <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('totalRecords')}</strong>${resultados.totalFilas}</div>
     </div>
     <div style="text-align:center;padding:20px 0 8px;border-top:1px solid rgba(255,255,255,.15);margin-top:8px">
-      <div style="font-size:20pt;font-weight:400;letter-spacing:3px;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.4);text-transform:uppercase">${escapeHtml(meta.departamento)} — ${escapeHtml(meta.protocolo)}</div>
+      <div style="font-size:20pt;font-weight:400;letter-spacing:3px;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.4);text-transform:uppercase">${escapeHtml(meta.departamento)} (${escapeHtml(meta.protocolo)})</div>
     </div>
   </div>
 </div>
