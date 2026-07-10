@@ -45,6 +45,15 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-05: Fix — paste directo (Ctrl+V) en Hoja de Trabajo roto
+
+**Qué:** Se corrigió bug crítico en `handleCellPaste()` donde la variable `text` nunca se obtenía del portapapeles, causando TypeError silencioso al pegar datos.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-trabajo.js:615-618` | +lectura de `event.clipboardData.getData('text')`, +guard, `split(/\r?\n/)` para soportar CRLF de Excel |
+
 ### 2026-07-05: Cover del reporte muestra departamento — código de proyecto
 
 **Qué:** El spacer de 40px entre el info grid y el TOC en la primera página fue reemplazado por el texto centrado `[Departamento] — [Código de Proyecto]` en fuente grande (16pt).

@@ -613,7 +613,9 @@ function handleCellPaste(event, rowIdx, colIdx) {
   if (!sheet) return;
   if (sheet.locked) { showToast('🔒 Hoja bloqueada. Desbloquéala para editar.'); return; }
   pushUndo();
-  var lines = text.trim().split('\n');
+  var pastedText = (event.clipboardData || window.clipboardData).getData('text');
+  if (!pastedText) return;
+  var lines = pastedText.trim().split(/\r?\n/);
   var parsedData = lines.map(function(line) {
     return line.split(/\t|,/).map(function(cell) {
       return cell.trim().replace(/^"|"$/g, '');
