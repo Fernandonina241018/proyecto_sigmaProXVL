@@ -304,6 +304,18 @@ function initVizPage() {
 
   _V_observeTheme();
   _V_syncAutoIdxUI();
+
+  document.removeEventListener('keydown', _V_galleryKeydown);
+  document.addEventListener('keydown', _V_galleryKeydown);
+}
+
+function _V_galleryKeydown(e) {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+  if (e.altKey || e.ctrlKey || e.metaKey) return;
+  if (_V.gallery.length < 2) return;
+  var key = e.key.toLowerCase();
+  if (key === 'a') { e.preventDefault(); _V_galleryNavigate(-1); }
+  if (key === 'd') { e.preventDefault(); _V_galleryNavigate(1); }
 }
 
 function _V_observeTheme() {
@@ -896,14 +908,22 @@ function vizSaveToGallery() {
   showToast('✓ Guardado en galería');
 }
 
+function _V_updateGalleryNav() {
+  var nav = document.getElementById('vizGalNav');
+  if (!nav) return;
+  if (_V.gallery.length < 2) { nav.style.display = 'none'; return; }
+  nav.style.display = 'inline-flex';
+}
+
 function vizRefreshGallery() {
   var strip = document.getElementById('vizGallery');
   var countEl = document.getElementById('vizGalCount');
   if (!strip) return;
   if (countEl) countEl.textContent = _V.gallery.length;
 
-  if (!_V.gallery.length) { strip.classList.remove('visible'); return; }
+  if (!_V.gallery.length) { strip.classList.remove('visible'); _V_updateGalleryNav(); return; }
   strip.classList.add('visible');
+  _V_updateGalleryNav();
 
   var existing = strip.querySelectorAll('.gal-thumb');
   existing.forEach(function(el) { el.remove(); });
@@ -918,6 +938,17 @@ function vizRefreshGallery() {
     div.onclick = function() { _V_showGalleryChart(g); };
     strip.appendChild(div);
   });
+}
+
+function _V_galleryNavigate(delta) {
+  if (!_V.gallery || _V.gallery.length < 2) return;
+  var idx = -1;
+  for (var i = 0; i < _V.gallery.length; i++) {
+    if (_V.gallery[i].id === _V._activeGalleryId) { idx = i; break; }
+  }
+  if (idx === -1) idx = 0;
+  idx = (idx + delta + _V.gallery.length) % _V.gallery.length;
+  _V_showGalleryChart(_V.gallery[idx]);
 }
 
 function _V_showGalleryChart(g) {

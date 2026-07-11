@@ -45,6 +45,23 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-05: Navegación entre gráficos con A/D + botones ◀ ▶
+
+**Qué:** Nueva navegación secuencial entre gráficos de la galería, visible siempre (no solo en fullscreen).
+
+- **Teclas `A`** (anterior) / **`D`** (siguiente) — sin conflicto con flechas ← → que navegan páginas
+- **Botones ◀ ▶** en la toolbar, visibles solo si hay ≥2 gráficos guardados
+- **Wrap circular:** al llegar al último, sigue al primero y viceversa
+- Funciona en viewer normal y en fullscreen
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-viz.js:943-952` | Nueva `_V_galleryNavigate(delta)` con wrap-around |
+| `js/core/indexx-viz.js:911-916` | Nueva `_V_updateGalleryNav()` — show/hide botones |
+| `js/core/indexx-viz.js:308-309,312-319` | Listener `_V_galleryKeydown` para A/D en `initVizPage()` |
+| `js/core/indexx-ui.js:755-758` | Botones ◀ ▶ en toolbar con `id="vizGalNav"` |
+
 ### 2026-07-05: Fix — paste directo (Ctrl+V) en Hoja de Trabajo roto
 
 **Qué:** Se corrigió bug crítico en `handleCellPaste()` donde la variable `text` nunca se obtenía del portapapeles, causando TypeError silencioso al pegar datos.

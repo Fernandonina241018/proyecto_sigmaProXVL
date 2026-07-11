@@ -751,6 +751,10 @@ var rightPanels = {
     '</div>' +
     '<div class="toolbar">' +
       '<div class="toolbar-info" id="vizToolbarInfo">Sin datos renderizados</div>' +
+      '<span id="vizGalNav" style="display:none;gap:4px">' +
+        '<button class="tbtn" onclick="_V_galleryNavigate(-1)" title="Anterior">◀</button>' +
+        '<button class="tbtn" onclick="_V_galleryNavigate(1)" title="Siguiente">▶</button>' +
+      '</span>' +
       '<button class="tbtn" onclick="vizExportPNG()">PNG</button>' +
       '<button class="tbtn tbtn-acc" onclick="vizToggleFS()">⛶ Pantalla completa</button>' +
     '</div>' +
