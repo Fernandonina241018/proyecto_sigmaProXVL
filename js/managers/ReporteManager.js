@@ -2015,6 +2015,10 @@ tr:hover td{background:#f7faff}
         URL.revokeObjectURL(link.href);
     }
     async function descargar(formatos, resultados, meta) {
+        if (typeof _userCanGenerateReport === 'function' && !_userCanGenerateReport()) {
+            showToast('🔒 No tienes permiso para descargar reportes');
+            return;
+        }
         const hash = await generateHash(meta, resultados);
         const base = `RPT-${hash}_${new Date().toISOString().slice(0,10)}`;
         let delay = 0;
@@ -2035,6 +2039,11 @@ tr:hover td{background:#f7faff}
     function buildReportesView() {
         const container=document.getElementById('reportes-editor-container');
         if(!container)return;
+
+        if (typeof _userCanGenerateReport === 'function' && !_userCanGenerateReport()) {
+            container.innerHTML = '<div class="page-card"><div class="page-card-body" style="padding:40px;text-align:center;color:var(--text-faint)"><div style="font-size:48px;margin-bottom:12px">🔒</div><div style="font-size:16px;font-weight:600;margin-bottom:6px">Acceso restringido</div><div style="font-size:13px">No tienes permisos para generar reportes.</div></div></div>';
+            return;
+        }
 
         const state     =StateManager.getState();
         const resultados=typeof StateManager!=='undefined'?StateManager.getUltimosResultados():null;
@@ -2280,6 +2289,7 @@ tr:hover td{background:#f7faff}
 
         // ── Botón enviar a firma ──
         document.getElementById('rep-btn-sign')?.addEventListener('click', async () => {
+            if (typeof _userCanGenerateReport === 'function' && !_userCanGenerateReport()) { showToast('🔒 No tienes permiso para generar reportes'); return; }
             if(!tieneRes) return;
             const existingHtml=localStorage.getItem('__firma_current_html');
             if(existingHtml){

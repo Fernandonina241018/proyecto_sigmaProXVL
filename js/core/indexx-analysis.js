@@ -658,6 +658,7 @@ function reopenStatConfig(nombre) {
 
 // ── Ejecutar un único estadístico ──
 function runSingleStat(nombre) {
+  if (typeof _userCanAnalyze === 'function' && !_userCanAnalyze()) { showToast('🔒 No tienes permiso para ejecutar análisis'); return; }
   var data = getDataForEjecutarAnalisis();
   if (!data) { showToast('⚠️ No hay datos en la hoja de trabajo'); return; }
 
@@ -760,6 +761,7 @@ function runSingleStat(nombre) {
 }
 
 function runEDA() {
+  if (typeof _userCanAnalyze === 'function' && !_userCanAnalyze()) { showToast('🔒 No tienes permiso para ejecutar análisis'); return; }
   if (currentPage !== 'analisis') { loadPage('analisis'); }
 
   var data = getDataForEjecutarAnalisis();
@@ -782,6 +784,7 @@ function runEDA() {
 }
 
 function runBatchAnalysis() {
+  if (typeof _userCanAnalyze === 'function' && !_userCanAnalyze()) { showToast('🔒 No tienes permiso para ejecutar análisis'); return; }
   var data = getDataForEjecutarAnalisis();
   if (!data) { showToast('⚠️ No hay datos en la hoja de trabajo'); return; }
 
@@ -1109,16 +1112,19 @@ function _initIndexxApp() {
   Auth.init({
     onLogin: function(session) {
       _restoreAllData();
-      loadPage('datos');
-      var isAdmin = session?.role === 'admin';
-      var adminPages = ['auditoria','usuarios','dispositivos'];
-      adminPages.forEach(function(p){
-        var el = document.querySelector('[data-page="'+p+'"]');
-        if (el) el.style.display = isAdmin ? '' : 'none';
-      });
-      var adminTitle = document.querySelector('.nav-section-title');
-      if (adminTitle) adminTitle.style.display = isAdmin ? '' : 'none';
+      var allowed = typeof _getAllowedPages === 'function' ? _getAllowedPages() : [];
+      if (allowed.length) {
+        document.querySelectorAll('.nav-item[data-page]').forEach(function(el){
+          el.style.display = allowed.indexOf(el.dataset.page) !== -1 ? '' : 'none';
+        });
+        var adminTitle = document.querySelector('.nav-section-title');
+        if (adminTitle) {
+          var hasAdminPages = allowed.indexOf('auditoria') !== -1 || allowed.indexOf('usuarios') !== -1 || allowed.indexOf('dispositivos') !== -1;
+          adminTitle.style.display = hasAdminPages ? '' : 'none';
+        }
+      }
       buildRibbonNavPopup();
+      loadPage('datos');
     }
   });
 }

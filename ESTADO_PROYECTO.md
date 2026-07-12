@@ -43,6 +43,31 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 | Backend API | `https://sigmaproxvl-backend.fly.dev/api/health` | ✅ `database:"connected"` |
 | ML Service | `https://sigmapro-ml.fly.dev/api/ml/health` | ✅ `{"ok":true}` |
 
+### 2026-07-11: Control de acceso por roles — permisos.js
+
+**Qué:** Nuevo sistema de permisos basado en roles. Supervisor, gerente y coordinador solo pueden acceder a "Firmar Reporte". Analista y user mantienen acceso completo (análisis + reportes).
+
+- Nuevo archivo `js/core/permisos.js` con matriz `ALLOWED_PAGES` y helpers (`_userCanAccessPage`, `_userCanAnalyze`, `_userCanGenerateReport`, `_getAllowedPages`)
+- `loadPage()` redirige si la página no está permitida para el rol
+- `buildRibbonNavPopup()` filtra usando la matriz en lugar de hardcode
+- Sidebar nav items se ocultan según `_getAllowedPages()` en `onLogin()`
+- `runSingleStat()`, `runBatchAnalysis()`, `runEDA()` bloquean con `_userCanAnalyze()`
+- `buildReportesView()`, `descargar()`, y botón "Enviar a firma" bloquean con `_userCanGenerateReport()`
+- `readonly` bloqueado de todas las páginas
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/permisos.js` | **NUEVO** — 50 líneas: matriz permisos + helpers |
+| `indexx.html:344` | +`<script>` para permisos.js en loader secuencial |
+| `js/core/indexx-ui.js:781-788` | +check permisos en `loadPage()` |
+| `js/core/indexx-ui.js:877` | `buildRibbonNavPopup()` usa `_getAllowedPages()` |
+| `js/core/indexx-analysis.js:661,766,787` | +`_userCanAnalyze()` en 3 funciones |
+| `js/core/indexx-analysis.js:1113-1127` | `onLogin` usa `_getAllowedPages()` para sidebar |
+| `js/managers/ReporteManager.js:2043-2046` | +check en `buildReportesView()` |
+| `js/managers/ReporteManager.js:2018-2021` | +check en `descargar()` |
+| `js/managers/ReporteManager.js:2292` | +check en botón "Enviar a firma" |
+
 ## CAMBIOS RECIENTES
 
 ### 2026-07-05: Fullscreen para vista previa de firmas

@@ -778,6 +778,14 @@ var pageTitles = { trabajo:'Hoja de Trabajo', datos:'Gestión de Datos', analisi
 
 function loadPage(name) {
   try {
+  if (name !== 'login' && typeof _getAllowedPages === 'function') {
+    var allowed = _getAllowedPages();
+    if (allowed.indexOf(name) === -1) {
+      showToast('🔒 No tienes acceso a esta página');
+      var fallback = allowed.length ? allowed[0] : 'datos';
+      if (name !== fallback) { name = fallback; } else { return; }
+    }
+  }
   currentPage = name;
   document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
   var navEl = document.querySelector('[data-page="' + name + '"]');
@@ -863,12 +871,10 @@ document.querySelectorAll('.nav-item[data-page] .nav-icon').forEach(function(el)
 function buildRibbonNavPopup() {
   var popup = document.getElementById('ribbonNavPopup');
   if (!popup) return;
-  var session = typeof Auth !== 'undefined' ? Auth.getSession() : null;
-  var isAdmin = session?.role === 'admin';
   popup.innerHTML = '';
   document.querySelectorAll('.nav-item[data-page]').forEach(function(item) {
     var page = item.dataset.page;
-    if (!isAdmin && (page === 'auditoria' || page === 'usuarios' || page === 'dispositivos')) return;
+    if (typeof _getAllowedPages === 'function' && _getAllowedPages().indexOf(page) === -1) return;
     var icon = pageIcons[page] || '📄';
     var label = pageTitles[page] || page;
     var el = document.createElement('div');
