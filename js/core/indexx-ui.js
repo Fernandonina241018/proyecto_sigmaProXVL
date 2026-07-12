@@ -766,7 +766,7 @@ var rightPanels = {
   ml: function() { return typeof MLManager !== 'undefined' ? MLManager.buildRightPanel() : ''; },
   firmarReporte: function() { return '<div class="page-body" style="display:flex;flex-direction:column;gap:12px;height:100%">' +
     '<div class="page-card" style="flex:1;display:flex;flex-direction:column;min-height:0">' +
-      '<div class="page-card-header"><span class="page-card-icon">📄</span><span class="page-card-title">Vista previa del reporte</span></div>' +
+      '<div class="page-card-header"><span class="page-card-icon">📄</span><span class="page-card-title">Vista previa del reporte</span><button class="tbtn tbtn-acc" onclick="firmaToggleFS()" style="margin-left:auto;font-size:11px;padding:2px 8px" title="Pantalla completa">⛶</button></div>' +
       '<div class="page-card-body" id="firmaPreview" style="flex:1;padding:0;overflow:auto;display:flex;align-items:center;justify-content:center;min-height:300px">' +
         '<div style="color:var(--text-faint);font-size:13px">Carga un reporte .html para previsualizarlo aquí</div></div></div></div>'; },
   'modelo-estadistico': function() { return typeof MLStatsManager !== 'undefined' ? MLStatsManager.renderModelPage() : '<div class="page-body"><div style="color:var(--text-faint)">Modelo no disponible</div></div>'; },

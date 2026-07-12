@@ -677,3 +677,15 @@ function firmaVerifyReset(role, code, password) {
     showToast('\u274C Error de conexi\u00F3n con el servidor');
   });
 }
+
+function firmaToggleFS() {
+  var el = document.getElementById('firmaPreview');
+  if (!el) return;
+  if (!document.fullscreenElement) {
+    if (el.requestFullscreen) el.requestFullscreen();
+    var iframe = el.querySelector('iframe');
+    if (iframe) iframe.focus();
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen();
+  }
+}

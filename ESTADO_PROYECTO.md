@@ -45,6 +45,21 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-05: Fullscreen para vista previa de firmas
+
+**Qué:** Se agregó botón ⛶ en el header del preview de firmas para expandir a pantalla completa (misma UX que los gráficos).
+
+- Botón `tbtn tbtn-acc` en `.page-card-header` con `onclick="firmaToggleFS()"`
+- Nueva función `firmaToggleFS()` en `indexx-firma.js` — usa Fullscreen API nativa sobre `#firmaPreview`
+- Al entrar en fullscreen, da foco al iframe para que teclado funcione inmediato
+- Navegación ↑↓ / PageUp/PageDown dentro del iframe funciona nativo
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-ui.js:769` | + botón ⛶ en header del preview de firmas |
+| `js/core/indexx-firma.js:681-691` | + función `firmaToggleFS()` |
+
 ### 2026-07-05: Navegación entre gráficos con A/D + botones ◀ ▶
 
 **Qué:** Nueva navegación secuencial entre gráficos de la galería, visible siempre (no solo en fullscreen).
