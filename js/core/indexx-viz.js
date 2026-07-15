@@ -904,7 +904,12 @@ function _V_formatDate(d) {
 function _V_autoTitle() {
   var col = _V.vals.variable || _V.vals.y || _V.vals.y1 || '';
   var typeDef = _V_TYPES[_V.type];
-  return (col ? col + ' · ' : '') + (typeDef ? typeDef.lbl : 'Gráfico') + ' · ' + _V_formatDate(new Date());
+  var parts = [];
+  if (datosCurrentFileName) parts.push(datosCurrentFileName);
+  if (col) parts.push(col);
+  if (typeDef) parts.push(typeDef.lbl);
+  parts.push(_V_formatDate(new Date()));
+  return parts.join(' - ');
 }
 
 // ══ GALLERY ════════════════════════════════════════════════════
