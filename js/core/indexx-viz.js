@@ -994,9 +994,18 @@ function _V_showGalleryChart(g) {
     _V._galleryTitle = g.title;
 
     var prevSheet = -1;
-    if (g.sourceSheetIndex !== undefined && g.sourceSheetIndex >= 0 && typeof trabajoSheets !== 'undefined' && g.sourceSheetIndex < trabajoSheets.length) {
+    var foundIdx = -1;
+    if (g.sourceSheetName && typeof trabajoSheets !== 'undefined') {
+      for (var i = 0; i < trabajoSheets.length; i++) {
+        if (trabajoSheets[i].name === g.sourceSheetName) { foundIdx = i; break; }
+      }
+    }
+    if (foundIdx < 0 && g.sourceSheetIndex !== undefined && g.sourceSheetIndex >= 0 && typeof trabajoSheets !== 'undefined' && g.sourceSheetIndex < trabajoSheets.length) {
+      foundIdx = g.sourceSheetIndex;
+    }
+    if (foundIdx >= 0) {
       prevSheet = typeof trabajoActiveSheetIndex !== 'undefined' ? trabajoActiveSheetIndex : -1;
-      trabajoActiveSheetIndex = g.sourceSheetIndex;
+      trabajoActiveSheetIndex = foundIdx;
     }
 
     vizBuildCatTabs();
