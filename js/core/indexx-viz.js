@@ -1056,6 +1056,7 @@ function vizDelGallery(id) {
   _V.gallery = _V.gallery.filter(function(g) { return g.id !== id; });
   vizRefreshGallery();
   _V_saveGallery();
+  if (!_V.gallery.length) _V_clearChartDisplay();
 }
 
 function vizClearGallery() {
@@ -1065,7 +1066,23 @@ function vizClearGallery() {
   localStorage.removeItem('sigmaPro_vizGallery');
   localStorage.removeItem('sigmaPro_vizGalleryMeta');
   vizRefreshGallery();
+  _V_clearChartDisplay();
   showToast('🗑 Galería limpiada');
+}
+
+function _V_clearChartDisplay() {
+  _V._activeGalleryId = null;
+  var emptyEl = document.getElementById('vizEmptyState');
+  var wrapperEl = document.getElementById('vizChartWrapper');
+  var ttlEl = document.getElementById('vizChartTtl');
+  var tagEl = document.getElementById('vizChartTypeTag');
+  var infoEl = document.getElementById('vizToolbarInfo');
+  if (emptyEl) emptyEl.style.display = '';
+  if (wrapperEl) wrapperEl.classList.remove('vis');
+  if (ttlEl) ttlEl.textContent = '';
+  if (tagEl) tagEl.textContent = '';
+  if (infoEl) infoEl.innerHTML = '';
+  if (_V.chart) { try { _V.chart.destroy(); } catch(e) {} _V.chart = null; }
 }
 
 function _V_saveGallery() {
