@@ -68,6 +68,26 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 | `js/managers/ReporteManager.js:2018-2021` | +check en `descargar()` |
 | `js/managers/ReporteManager.js:2292` | +check en botón "Enviar a firma" |
 
+### 2026-07-14: Gráficos — límite ampliado + persistencia activa + restauración por hoja
+
+**Qué:** 3 mejoras al sistema de gráficos:
+
+1. **Límite de galería aumentado de 30 a 100** — Los gráficos ya no se sobrescriben silenciosamente al alcanzar 30.
+
+2. **Persistencia del gráfico activo** — `vizRenderChart()` guarda `_V.type`, `_V.vals` y `_V.palette` en `sessionStorage`. Al volver a la página de Visualización, `initVizPage()` restaura el gráfico que estabas viendo, sin necesidad de re-configurarlo.
+
+3. **Restauración por hoja de origen** — Cada gráfico guardado en galería ahora almacena `sourceSheetIndex` y `sourceSheetName`. Al abrirlo desde galería, se leen temporalmente los datos de la hoja original para renderizar correctamente, incluso si la hoja activa cambió.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-viz.js:927-928` | Límite 30→100 + `sourceSheetIndex/Name` al guardar |
+| `js/core/indexx-viz.js:1057` | Límite 30→100 al cargar desde localStorage |
+| `js/core/indexx-viz.js:1032-1035,1048-1051` | Persistencia de `sourceSheetIndex/Name` en `_V_saveGallery()` |
+| `js/core/indexx-viz.js:824-828` | `vizRenderChart()` guarda estado en sessionStorage |
+| `js/core/indexx-viz.js:308-322` | `initVizPage()` restaura gráfico activo desde sessionStorage |
+| `js/core/indexx-viz.js:996-1013` | `_V_showGalleryChart()` usa hoja original si existe |
+
 ## CAMBIOS RECIENTES
 
 ### 2026-07-05: Fullscreen para vista previa de firmas

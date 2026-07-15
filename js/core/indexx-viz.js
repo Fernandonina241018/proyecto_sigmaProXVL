@@ -305,6 +305,22 @@ function initVizPage() {
   _V_observeTheme();
   _V_syncAutoIdxUI();
 
+  try {
+    var savedType = sessionStorage.getItem('sigmaPro_vizType');
+    var savedVals = sessionStorage.getItem('sigmaPro_vizVals');
+    var savedPalette = sessionStorage.getItem('sigmaPro_vizPalette');
+    if (savedType && savedVals) {
+      _V.type = savedType;
+      _V.vals = JSON.parse(savedVals);
+      if (savedPalette) _V.palette = savedPalette;
+      vizBuildCatTabs();
+      vizBuildChartGrid();
+      vizBuildAxisConfig();
+      vizBuildPalettes();
+      vizRenderChart();
+    }
+  } catch(e) { /* ignore */ }
+
   document.removeEventListener('keydown', _V_galleryKeydown);
   document.addEventListener('keydown', _V_galleryKeydown);
 }
@@ -821,6 +837,11 @@ function vizRenderChart() {
     infoEl.innerHTML = '<strong>' + (_V_TYPES[_V.type] ? _V_TYPES[_V.type].lbl : '') + '</strong> · Paleta: ' + paletteLabel + ' · ' + axCount + ' variable(s) configurada(s)';
   }
 
+  try {
+    sessionStorage.setItem('sigmaPro_vizType', _V.type || '');
+    sessionStorage.setItem('sigmaPro_vizVals', JSON.stringify(_V.vals || {}));
+    sessionStorage.setItem('sigmaPro_vizPalette', _V.palette || 'violet');
+  } catch(e) {}
   showToast('✓ Gráfico renderizado');
 }
 
@@ -901,8 +922,10 @@ function vizSaveToGallery() {
   var thumb = thumbC.toDataURL('image/png');
 
   var id = Date.now();
-  _V.gallery.unshift({ id: id, title: title, type: _V.type || '', vars: JSON.parse(JSON.stringify(_V.vals)), palette: _V.palette, thumb: thumb, createdAt: Date.now(), sourceFile: datosCurrentFileName || '' });
-  if (_V.gallery.length > 30) _V.gallery = _V.gallery.slice(0, 30);
+  var sheetIdx = typeof trabajoActiveSheetIndex !== 'undefined' ? trabajoActiveSheetIndex : -1;
+  var sheetName = (typeof trabajoSheets !== 'undefined' && trabajoSheets[sheetIdx]) ? trabajoSheets[sheetIdx].name : '';
+  _V.gallery.unshift({ id: id, title: title, type: _V.type || '', vars: JSON.parse(JSON.stringify(_V.vals)), palette: _V.palette, thumb: thumb, createdAt: Date.now(), sourceFile: datosCurrentFileName || '', sourceSheetIndex: sheetIdx, sourceSheetName: sheetName });
+  if (_V.gallery.length > 100) _V.gallery = _V.gallery.slice(0, 100);
   vizRefreshGallery();
   _V_saveGallery();
   showToast('✓ Guardado en galería');
@@ -970,6 +993,12 @@ function _V_showGalleryChart(g) {
     _V._galleryMode = true;
     _V._galleryTitle = g.title;
 
+    var prevSheet = -1;
+    if (g.sourceSheetIndex !== undefined && g.sourceSheetIndex >= 0 && typeof trabajoSheets !== 'undefined' && g.sourceSheetIndex < trabajoSheets.length) {
+      prevSheet = typeof trabajoActiveSheetIndex !== 'undefined' ? trabajoActiveSheetIndex : -1;
+      trabajoActiveSheetIndex = g.sourceSheetIndex;
+    }
+
     vizBuildCatTabs();
     vizBuildChartGrid();
     vizBuildAxisConfig();
@@ -977,9 +1006,11 @@ function _V_showGalleryChart(g) {
 
     vizRenderChart();
 
+    if (prevSheet >= 0) trabajoActiveSheetIndex = prevSheet;
+
     if (ttlEl) ttlEl.textContent = g.title;
     if (tagEl) tagEl.textContent = g.type ? g.type.toUpperCase() : 'GRÁFICO';
-    if (infoEl) infoEl.innerHTML = '<strong>' + escapeHtml(g.title) + '</strong> · Desde galería';
+    if (infoEl) infoEl.innerHTML = '<strong>' + escapeHtml(g.title) + '</strong>' + (g.sourceSheetName ? ' · <span style="opacity:.6">' + escapeHtml(g.sourceSheetName) + '</span>' : '') + ' · Desde galería';
 
   } else {
     if (ttlEl) ttlEl.textContent = g.title;
@@ -1031,6 +1062,8 @@ function _V_saveGallery() {
       if (g.thumb) item.thumb = g.thumb;
       if (g.url) item.url = g.url;
       if (g.createdAt) item.createdAt = g.createdAt;
+      if (g.sourceSheetIndex !== undefined) item.sourceSheetIndex = g.sourceSheetIndex;
+      if (g.sourceSheetName) item.sourceSheetName = g.sourceSheetName;
       return item;
     })));
   } catch(e) {
@@ -1042,6 +1075,8 @@ function _V_saveGallery() {
           if (g.palette) item.palette = g.palette;
           if (g.url) item.url = g.url;
           if (g.createdAt) item.createdAt = g.createdAt;
+          if (g.sourceSheetIndex !== undefined) item.sourceSheetIndex = g.sourceSheetIndex;
+          if (g.sourceSheetName) item.sourceSheetName = g.sourceSheetName;
           return item;
         })));
       } catch(e2) { /* ignore */ }
@@ -1054,7 +1089,7 @@ function _V_loadGallery() {
     var saved = localStorage.getItem('sigmaPro_vizGallery');
     if (saved) {
       var parsed = JSON.parse(saved);
-      if (Array.isArray(parsed)) _V.gallery = parsed.slice(0, 30);
+      if (Array.isArray(parsed)) _V.gallery = parsed.slice(0, 100);
     }
   } catch(e) { /* ignore */ }
 }
