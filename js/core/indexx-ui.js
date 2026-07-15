@@ -596,6 +596,7 @@ var rightPanels = {
         '<div style="overflow-x:auto;flex:1;min-width:0;display:flex;gap:0;align-items:stretch">' +
           getTrabajoTabsHTML() +
         '</div>' +
+        '<div style="padding:4px 8px;font-size:11px;color:var(--text-faint);cursor:pointer;display:flex;align-items:center;flex-shrink:0;border-right:1px solid var(--border)" onclick="deleteAllButFirstSheet()" title="Borrar todas las hojas excepto la primera">🗑️</div>' +
         '<div style="padding:4px 12px;font-size:11px;color:var(--accent);cursor:pointer;display:flex;align-items:center;flex-shrink:0" onclick="createNewSheet()" title="Nueva hoja">+</div>' +
         '<div style="margin-left:auto;padding:4px 12px;font-size:11px;color:var(--text-faint);display:flex;align-items:center;gap:6px;flex-shrink:0">' +
           (totalRows > trabajoPageSize ? '<button class="btn btn-secondary" style="font-size:10px;padding:2px 6px" onclick="trabajoGoPage(0)" ' + (trabajoPage===0?'disabled':'') + '>⏮</button>' +

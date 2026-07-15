@@ -756,6 +756,14 @@ function deleteSheet(index, evt) {
   _persistAllData();
   loadPage('trabajo');
 }
+function deleteAllButFirstSheet() {
+  if (trabajoSheets.length <= 1) { showToast('⚠️ Solo hay una hoja.'); return; }
+  if (!confirm('¿Eliminar TODAS las hojas excepto la primera (' + trabajoSheets[0].name + ')?')) return;
+  for (var i = trabajoSheets.length - 1; i >= 1; i--) trabajoSheets.splice(i, 1);
+  trabajoActiveSheetIndex = 0;
+  _persistAllData();
+  loadPage('trabajo');
+}
 function clearCurrentSheet() {
   var sheet = getCurrentSheet(); if (!sheet) return;
   if (sheet.locked) { showToast('🔒 Hoja bloqueada. Desbloquéala para editar.'); return; }
