@@ -526,20 +526,32 @@ var rightPanels = {
     var sheet = getCurrentSheet();
     var cols = sheet ? sheet.headers : ['Columna1'];
     var rows = sheet ? sheet.rows : [];
-    var totalRows = rows.length;
     var locked = sheet ? (sheet.locked === undefined ? false : sheet.locked) : false;
     var editable = locked ? 'false' : 'true';
     if (typeof trabajoPage === 'undefined') trabajoPage = 0;
     if (typeof trabajoPageSize === 'undefined') trabajoPageSize = 200;
+    var totalRows = rows.length;
     var totalPages = Math.max(1, Math.ceil(totalRows / trabajoPageSize));
     if (trabajoPage >= totalPages) trabajoPage = totalPages - 1;
     var start = trabajoPage * trabajoPageSize;
     var end = Math.min(start + trabajoPageSize, totalRows);
     var pageRows = rows.slice(start, end);
+    if (_trabajoSearchFilter) {
+      pageRows = pageRows.filter(function(r){
+        return r.some(function(v){ return String(v==null?'':v).toLowerCase().includes(_trabajoSearchFilter); });
+      });
+    }
     var colHeaders = cols.map(function(c, ci){
       var frozenClass = (trabajoFreezeFirstCol && ci === 0) ? ' frozen-col' : '';
-      return '<th style="width:120px;min-width:120px;text-align:left;font-size:11px;font-weight:500;padding:0;border-right:1px solid var(--border);background:var(--bg-primary);position:sticky;top:0;z-index:' + (trabajoFreezeFirstCol && ci===0 ? 3 : 2) + ';' + (trabajoFreezeFirstCol && ci===0 ? 'left:40px;border-right:2px solid rgba(124,106,247,.4)' : '') + '" class="' + frozenClass + '">' +
-        '<div class="col-header-editable" contenteditable="' + editable + '" data-colidx="' + ci + '" onblur="renameColumn(' + ci + ',this.textContent)" onmouseenter="showColStats(event,' + ci + ')" onmouseleave="hideColStats()" title="Hover: estadísticas · Doble clic: renombrar">' + escapeHtml(c) + '</div></th>';
+      var statsHTML = getColumnStatsHTML(ci);
+      var colType = getColumnType(ci);
+      return '<th style="width:120px;min-width:120px;text-align:left;font-size:11px;font-weight:500;padding:6px 8px;border-right:1px solid var(--border);background:var(--bg-primary);position:sticky;top:0;z-index:' + (trabajoFreezeFirstCol && ci===0 ? 3 : 2) + ';' + (trabajoFreezeFirstCol && ci===0 ? 'left:40px;border-right:2px solid rgba(124,106,247,.4)' : '') + '" class="' + frozenClass + '" onmouseenter="showColStats(event,' + ci + ')" onmouseleave="hideColStats()">' +
+        '<div style="display:flex;align-items:center;gap:6px">' +
+          '<span contenteditable="' + editable + '" data-colidx="' + ci + '" onblur="renameColumn(' + ci + ',this.textContent)" class="col-header-editable" style="font-weight:500;cursor:pointer" title="Doble clic: renombrar">' + escapeHtml(c) + '</span>' +
+          '<span style="font-size:10px;padding:1px 5px;border-radius:4px;background:var(--bg-accent);color:var(--text-accent);flex-shrink:0">' + colType + '</span>' +
+        '</div>' +
+        statsHTML +
+      '</th>';
     }).join('');
 
     var bodyRows = pageRows.map(function(r, ri){
@@ -550,14 +562,18 @@ var rightPanels = {
         var selClass = isActive ? ' cell-selected' : (inRange ? ' cell-in-range' : '');
         var cfClass = getCFClass(v, ci);
         var frozenClass = (trabajoFreezeFirstCol && ci === 0) ? ' frozen-col' : '';
+        var isEmpty = !v || String(v).trim() === '';
+        var emptyClass = isEmpty ? ' cell-empty' : '';
+        var cellStyle = isEmpty ? 'border-top:2px dashed var(--border-warning);background:var(--bg-warning)' : 'border-right:1px solid rgba(255,255,255,0.04)';
         var safeV = escapeHtml(String(v == null ? '' : v));
-        return '<td class="excel-cell' + selClass + frozenClass + '" style="padding:0;border-right:1px solid rgba(255,255,255,0.04)' + (trabajoFreezeFirstCol && ci===0 ? ';border-right:2px solid rgba(124,106,247,.4)' : '') + '" onclick="cellClick(event,' + actualRow + ',' + ci + ')">' +
-          '<div class="excel-cell-inner' + (cfClass ? ' ' + cfClass : '') + '" contenteditable="' + editable + '" data-row="' + actualRow + '" data-col="' + ci + '"' +
+        var emptyLabel = isEmpty ? '<div style="display:flex;align-items:center;gap:4px;color:var(--text-warning);font-size:11px"><span>⚠️</span><span style="font-size:10px">faltante</span></div>' : '';
+        return '<td class="excel-cell' + selClass + frozenClass + emptyClass + '" style="padding:0;' + cellStyle + (trabajoFreezeFirstCol && ci===0 ? ';border-right:2px solid rgba(124,106,247,.4)' : '') + '" onclick="cellClick(event,' + actualRow + ',' + ci + ')">' +
+          '<div class="excel-cell-inner' + (cfClass ? ' ' + cfClass : '') + '" style="display:flex;align-items:center;gap:4px" contenteditable="' + editable + '" data-row="' + actualRow + '" data-col="' + ci + '"' +
           ' onblur="saveCellData(' + actualRow + ',' + ci + ',this.textContent)"' +
           ' oninput="onCellInput(event,' + actualRow + ',' + ci + ',this.textContent)"' +
           ' onpaste="handleCellPaste(event,' + actualRow + ',' + ci + ')"' +
           ' onfocus="onCellFocus(' + actualRow + ',' + ci + ')">' +
-          safeV + '</div></td>';
+          (isEmpty ? emptyLabel : safeV) + '</div></td>';
       }).join('');
       var rowActive = trabajoActiveCell.row === actualRow;
       return '<tr><td class="excel-row-num' + (rowActive ? ' row-active' : '') + '" onclick="selectRow(' + actualRow + ')">' + (actualRow + 1) + '</td>' + cells + '</tr>';
@@ -566,21 +582,39 @@ var rightPanels = {
     var colLetter = String.fromCharCode(65 + trabajoActiveCell.col);
     var cellRef = colLetter + (trabajoActiveCell.row + 1);
     var cellVal = (sheet && sheet.rows[trabajoActiveCell.row]) ? (sheet.rows[trabajoActiveCell.row][trabajoActiveCell.col] || '') : '';
+    var missingCount = getMissingCount();
 
     return '<div style="display:flex;flex-direction:column;height:100%;overflow:hidden;background:var(--bg-primary)">' +
-      '<div style="display:flex;align-items:center;gap:0;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--card-bg)">' +
-        '<div id="trabajoCellRef" style="padding:6px 10px;font-size:11px;color:var(--text-faint);border-right:1px solid var(--border);min-width:60px;font-family:monospace;flex-shrink:0">' + escapeHtml(cellRef) + '</div>' +
-        '<div style="padding:0 8px;font-size:11px;color:var(--text-faint);border-right:1px solid var(--border);flex-shrink:0">fx</div>' +
-        '<div id="trabajoCellVal" style="padding:6px 12px;font-size:12px;color:var(--text-muted);font-family:monospace;flex:1;border-right:1px solid var(--border)">' + escapeHtml(String(cellVal)) + '</div>' +
-        '<div style="display:flex;gap:4px;padding:4px 8px;flex-shrink:0">' +
-          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="addRow()">+ Fila</button>' +
-          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="addColumn()">+ Col</button>' +
-          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="deleteActiveRow()">– Fila</button>' +
-          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="undoAction()">↩</button>' +
-          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="redoAction()">↪</button>' +
-          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="sortColumn()">↕</button>' +
-          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="exportTrabajo()">💾</button>' +
-          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px" onclick="toggleSheetLock()" title="' + (locked ? 'Desbloquear hoja para editar' : 'Bloquear hoja para proteger datos') + '">' + (locked ? '🔒' : '🔓') + '</button>' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--card-bg)">' +
+        '<div style="display:flex;align-items:center;gap:10px">' +
+          '<span style="font-weight:500;font-size:14px;color:var(--text-primary)">' + escapeHtml(sheet ? sheet.name : 'Hoja de trabajo') + '</span>' +
+          '<span style="color:var(--text-muted);font-size:12px">Hoja de trabajo</span>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;gap:6px;color:var(--text-muted);font-size:12px">' +
+          '<button onclick="toggleSheetLock()" style="background:none;border:none;cursor:pointer;font-size:16px;padding:0;display:flex;align-items:center" title="' + (locked ? 'Desbloquear hoja para editar' : 'Bloquear hoja para proteger datos') + '">' + (locked ? '🔒' : '🔓') + '</button>' +
+          '<span>' + (locked ? 'Bloqueado' : 'Editable') + '</span>' +
+          '<button onclick="exportTrabajo()" style="background:none;border:none;cursor:pointer;font-size:14px;padding:0;margin-left:4px;display:flex;align-items:center" title="Exportar CSV">💾</button>' +
+        '</div>' +
+      '</div>' +
+      '<div style="display:flex;align-items:center;gap:10px;padding:6px 14px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--card-bg);flex-wrap:wrap">' +
+        '<div style="display:flex;align-items:center;gap:0;flex-shrink:0">' +
+          '<div id="trabajoCellRef" style="padding:3px 8px;font-size:11px;color:var(--text-faint);border:1px solid var(--border);border-radius:4px 0 0 4px;font-family:monospace;min-width:50px;text-align:center;background:var(--bg-primary)">' + escapeHtml(cellRef) + '</div>' +
+          '<div style="padding:3px 6px;font-size:11px;color:var(--text-faint);border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg-secondary);font-family:monospace">fx</div>' +
+          '<div id="trabajoCellVal" style="padding:3px 8px;font-size:11px;color:var(--text-muted);font-family:monospace;border:1px solid var(--border);border-radius:0 4px 4px 0;min-width:100px;background:var(--bg-primary)">' + escapeHtml(String(cellVal)) + '</div>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;gap:4px;padding-right:10px;border-right:1px solid var(--border)">' +
+          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 7px" onclick="addRow()" title="Agregar fila">+ Fila</button>' +
+          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 7px" onclick="addColumn()" title="Agregar columna">+ Col</button>' +
+          '<button class="btn btn-secondary" style="font-size:11px;padding:3px 7px;color:var(--text-danger)" onclick="deleteActiveRow()" title="Eliminar fila activa">– Fila</button>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;gap:4px;padding-right:10px;border-right:1px solid var(--border)">' +
+          '<button class="btn btn-secondary" style="font-size:12px;padding:3px 7px" onclick="undoAction()" title="Deshacer">↩</button>' +
+          '<button class="btn btn-secondary" style="font-size:12px;padding:3px 7px" onclick="redoAction()" title="Rehacer">↪</button>' +
+        '</div>' +
+        '<button class="btn btn-secondary" style="font-size:11px;padding:3px 8px;display:flex;align-items:center;gap:4px" onclick="generateSampleData()" title="Generar datos de ejemplo">🎲 Generar</button>' +
+        '<div style="flex:1;min-width:120px;display:flex;align-items:center;gap:4px;background:var(--bg-primary);border:1px solid var(--border);border-radius:6px;padding:3px 8px">' +
+          '<span style="font-size:12px;color:var(--text-faint);flex-shrink:0">🔍</span>' +
+          '<input type="text" id="trabajoSearchInput" placeholder="Buscar o filtrar" oninput="onTrabajoSearch(this.value)" style="border:none;background:transparent;font-size:12px;width:100%;padding:0;outline:none;color:var(--text-primary)" />' +
         '</div>' +
       '</div>' +
       '<div style="flex:1;overflow:auto;position:relative" id="trabajoScrollWrap">' +
@@ -592,25 +626,30 @@ var rightPanels = {
           '<tbody id="trabajoTableBody" style="font-family:monospace">' + bodyRows + '</tbody>' +
         '</table>' +
       '</div>' +
-      '<div style="display:flex;gap:0;border-top:1px solid var(--border);flex-shrink:0;background:var(--card-bg);align-items:stretch">' +
-        '<div style="overflow-x:auto;flex:1;min-width:0;display:flex;gap:0;align-items:stretch">' +
-          getTrabajoTabsHTML() +
+      '<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 14px;border-top:1px solid var(--border);flex-shrink:0;background:var(--card-bg);color:var(--text-muted);font-size:12px">' +
+        '<div style="display:flex;align-items:center;gap:0;flex:1;min-width:0">' +
+          '<div style="overflow-x:auto;flex:1;min-width:0;display:flex;gap:0;align-items:stretch">' +
+            getTrabajoTabsHTML() +
+          '</div>' +
+          '<div style="padding:0 6px;font-size:11px;color:var(--text-faint);cursor:pointer;display:flex;align-items:center;flex-shrink:0" onclick="deleteAllButFirstSheet()" title="Borrar todas las hojas excepto la primera">🗑️</div>' +
+          '<div style="padding:0 8px;font-size:13px;color:var(--accent);cursor:pointer;display:flex;align-items:center;flex-shrink:0" onclick="createNewSheet()" title="Nueva hoja">+</div>' +
         '</div>' +
-        '<div style="padding:4px 8px;font-size:11px;color:var(--text-faint);cursor:pointer;display:flex;align-items:center;flex-shrink:0;border-right:1px solid var(--border)" onclick="deleteAllButFirstSheet()" title="Borrar todas las hojas excepto la primera">🗑️</div>' +
-        '<div style="padding:4px 12px;font-size:11px;color:var(--accent);cursor:pointer;display:flex;align-items:center;flex-shrink:0" onclick="createNewSheet()" title="Nueva hoja">+</div>' +
-        '<div style="margin-left:auto;padding:4px 12px;font-size:11px;color:var(--text-faint);display:flex;align-items:center;gap:6px;flex-shrink:0">' +
-          (totalRows > trabajoPageSize ? '<button class="btn btn-secondary" style="font-size:10px;padding:2px 6px" onclick="trabajoGoPage(0)" ' + (trabajoPage===0?'disabled':'') + '>⏮</button>' +
-          '<button class="btn btn-secondary" style="font-size:10px;padding:2px 6px" onclick="trabajoGoPage(' + (trabajoPage-1) + ')" ' + (trabajoPage===0?'disabled':'') + '>◀</button>' +
-          '<span>' + (trabajoPage+1) + '/' + totalPages + '</span>' +
-          '<button class="btn btn-secondary" style="font-size:10px;padding:2px 6px" onclick="trabajoGoPage(' + (trabajoPage+1) + ')" ' + (trabajoPage>=totalPages-1?'disabled':'') + '>▶</button>' +
-          '<button class="btn btn-secondary" style="font-size:10px;padding:2px 6px" onclick="trabajoGoPage(' + (totalPages-1) + ')" ' + (trabajoPage>=totalPages-1?'disabled':'') + '>⏭</button>' +
-          '<select style="font-size:10px;padding:1px 4px;background:var(--bg-primary);color:var(--text-muted);border:1px solid var(--border);border-radius:4px" onchange="trabajoChangePageSize(parseInt(this.value))">' +
-            '<option value="100"' + (trabajoPageSize===100?' selected':'') + '>100</option>' +
-            '<option value="200"' + (trabajoPageSize===200?' selected':'') + '>200</option>' +
-            '<option value="500"' + (trabajoPageSize===500?' selected':'') + '>500</option>' +
-            '<option value="1000"' + (trabajoPageSize===1000?' selected':'') + '>1000</option>' +
-          '</select>' : '') +
-          totalRows + ' filas · ' + cols.length + ' cols · Pila deshacer: ' + undoStack.length + ' · ' + (locked ? '🔒 Bloqueado' : '🔓 Editable') + '</div>' +
+        '<div style="display:flex;align-items:center;gap:8px;flex-shrink:0">' +
+          '<span style="font-size:11px">' + totalRows + ' filas · ' + cols.length + ' cols · ' + missingCount + ' faltantes</span>' +
+          (totalRows > trabajoPageSize ? '<div style="display:flex;align-items:center;gap:4px">' +
+            '<button class="btn btn-secondary" style="font-size:10px;padding:2px 5px" onclick="trabajoGoPage(0)" ' + (trabajoPage===0?'disabled':'') + ' title="Primera">⏮</button>' +
+            '<button class="btn btn-secondary" style="font-size:10px;padding:2px 5px" onclick="trabajoGoPage(' + (trabajoPage-1) + ')" ' + (trabajoPage===0?'disabled':'') + ' title="Anterior">◀</button>' +
+            '<span style="font-size:11px">' + (trabajoPage+1) + '/' + totalPages + '</span>' +
+            '<button class="btn btn-secondary" style="font-size:10px;padding:2px 5px" onclick="trabajoGoPage(' + (trabajoPage+1) + ')" ' + (trabajoPage>=totalPages-1?'disabled':'') + ' title="Siguiente">▶</button>' +
+            '<button class="btn btn-secondary" style="font-size:10px;padding:2px 5px" onclick="trabajoGoPage(' + (totalPages-1) + ')" ' + (trabajoPage>=totalPages-1?'disabled':'') + ' title="Última">⏭</button>' +
+            '<select style="font-size:10px;padding:1px 4px;background:var(--bg-primary);color:var(--text-muted);border:1px solid var(--border);border-radius:4px" onchange="trabajoChangePageSize(parseInt(this.value))">' +
+              '<option value="100"' + (trabajoPageSize===100?' selected':'') + '>100</option>' +
+              '<option value="200"' + (trabajoPageSize===200?' selected':'') + '>200</option>' +
+              '<option value="500"' + (trabajoPageSize===500?' selected':'') + '>500</option>' +
+              '<option value="1000"' + (trabajoPageSize===1000?' selected':'') + '>1000</option>' +
+            '</select>' +
+          '</div>' : '') +
+        '</div>' +
       '</div>' +
     '</div>';
   },

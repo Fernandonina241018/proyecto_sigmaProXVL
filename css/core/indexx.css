@@ -34,6 +34,14 @@
     --item-bg: #2d2d3d;
     --item-hover: #3a3a4d;
     
+    /* ── Estados y advertencias ── */
+    --bg-accent: rgba(124,106,247,.15);
+    --text-accent: #7c6af7;
+    --bg-warning: rgba(251,146,60,.12);
+    --border-warning: #fb923c;
+    --text-warning: #fb923c;
+    --text-danger: #f87171;
+    
     /* ── Efectos de profundidad ── */
     --shadow-sm: 0 4px 12px rgba(0,0,0,0.4);
     --shadow-md: 0 8px 24px rgba(0,0,0,0.6);
@@ -332,6 +340,10 @@
   .excel-cell:focus-within { outline:2px solid var(--accent); outline-offset:-1px; }
   .cell-selected > .excel-cell-inner { background:rgba(124,106,247,.18); }
   .cell-in-range { background:rgba(124,106,247,.08); }
+  .cell-empty > .excel-cell-inner { color:var(--text-warning); }
+  .col-header-editable { cursor:pointer; border-radius:4px; padding:2px 4px; transition:background .1s; }
+  .col-header-editable:hover { background:rgba(255,255,255,.04); }
+  .col-header-editable:focus { outline:2px solid var(--accent); outline-offset:-1px; background:rgba(124,106,247,.08); }
   .excel-row-num { width:40px; text-align:center; font-size:11px; color:var(--text-faint); background:var(--bg-primary); border-right:1px solid var(--border); border-bottom:1px solid rgba(255,255,255,0.04); padding:5px 4px; position:sticky; left:0; cursor:pointer; user-select:none; z-index:1; }
   tbody tr:hover .excel-row-num { background:rgba(124,106,247,.1); }
   tbody tr { border-bottom:1px solid rgba(255,255,255,.04); }
@@ -742,12 +754,19 @@
      --item-bg: #f1f5f9;
      --item-hover: #e2e8f0;
 
-     --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-     --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-     --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
-   }
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
 
-   [data-theme="light"] .titlebar { background: #e2e8f0; border-bottom-color: #cbd5e1; }
+      --bg-accent: rgba(109,90,230,.1);
+      --text-accent: #6d5ae6;
+      --bg-warning: rgba(245,158,11,.1);
+      --border-warning: #f59e0b;
+      --text-warning: #b45309;
+      --text-danger: #dc2626;
+    }
+
+    [data-theme="light"] .titlebar { background: #e2e8f0; border-bottom-color: #cbd5e1; }
    [data-theme="light"] .dd-separator { background: #e2e8f0; }
    [data-theme="light"] .search-box { background: rgba(0,0,0,0.04); }
    [data-theme="light"] .search-box input { color: var(--text-primary); }

@@ -213,6 +213,45 @@ function showColStats(event, colIdx) {
 function hideColStats() {
   document.getElementById('colStatsTooltip').classList.remove('visible');
 }
+function getColumnType(colIdx) {
+  var sheet = getCurrentSheet();
+  if (!sheet) return 'txt';
+  var vals = sheet.rows.map(function(r){ return r[colIdx]; });
+  var nums = vals.map(function(v){ return parseFloat(v); }).filter(function(v){ return !isNaN(v); });
+  return nums.length > vals.length * 0.5 ? 'num' : 'txt';
+}
+function getColumnStatsHTML(colIdx) {
+  var sheet = getCurrentSheet();
+  if (!sheet) return '';
+  var vals = sheet.rows.map(function(r){ return r[colIdx]; });
+  var nums = vals.map(function(v){ return parseFloat(v); }).filter(function(v){ return !isNaN(v); });
+  var empty = vals.filter(function(v){ return !v || String(v).trim() === ''; }).length;
+  var isNumeric = nums.length > vals.length * 0.5;
+  if (isNumeric && nums.length > 1) {
+    var sum = nums.reduce(function(a,b){ return a+b; }, 0);
+    var avg = sum / nums.length;
+    var sqDiff = nums.map(function(v){ return Math.pow(v - avg, 2); }).reduce(function(a,b){ return a+b; }, 0);
+    var std = Math.sqrt(sqDiff / nums.length);
+    return '<div style="color:var(--text-muted);font-size:10px;font-weight:400;margin-top:1px">μ ' + avg.toFixed(2) + ' · σ ' + std.toFixed(2) + '</div>';
+  }
+  return '';
+}
+function getMissingCount() {
+  var sheet = getCurrentSheet();
+  if (!sheet) return 0;
+  var count = 0;
+  for (var i = 0; i < sheet.rows.length; i++) {
+    for (var j = 0; j < sheet.rows[i].length; j++) {
+      if (!sheet.rows[i][j] || String(sheet.rows[i][j]).trim() === '') count++;
+    }
+  }
+  return count;
+}
+var _trabajoSearchFilter = '';
+function onTrabajoSearch(val) {
+  _trabajoSearchFilter = val.toLowerCase().trim();
+  loadPage('trabajo');
+}
 
 // ════════════════════════════════════════════════════════════════
 // TRABAJO — SHEET HELPERS
