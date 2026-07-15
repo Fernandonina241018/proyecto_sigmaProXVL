@@ -280,13 +280,13 @@ function getTrabajoResumenHTML() {
     '<div style="font-size:10px;padding:1px 6px;border-radius:4px;background:' + (clean ? 'rgba(74,222,128,0.12)' : 'rgba(248,113,113,0.12)') + ';border:.5px solid ' + (clean ? 'rgba(74,222,128,0.3)' : 'rgba(248,113,113,0.3)') + ';color:' + (clean ? '#4ade80' : '#f87171') + ';display:flex;align-items:center;gap:3px">' +
     (clean ? '✓ Sin anomalías' : '⚠ ' + empty + ' vacías') +
     '</div></div>' +
-    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px 8px;padding:0 4px">' +
-    '<div><div style="font-size:10px;color:var(--text-muted)">Filas</div><div style="font-size:13px;font-weight:500;color:var(--text-primary);font-variant-numeric:tabular-nums">' + rows.toLocaleString() + '</div></div>' +
-    '<div><div style="font-size:10px;color:var(--text-muted)">Columnas</div><div style="font-size:13px;font-weight:500;color:var(--text-primary)">' + cols + '</div></div>' +
-    '<div><div style="font-size:10px;color:var(--text-muted)">Vacías</div><div style="font-size:13px;font-weight:500;color:' + (clean ? 'var(--text-muted)' : '#f87171') + '">' + empty + '</div></div>' +
-    '<div><div style="font-size:10px;color:var(--text-muted)">Mínimo</div><div style="font-size:13px;font-weight:500;color:var(--text-primary);font-variant-numeric:tabular-nums">' + (minV !== null ? minV.toFixed(2) : '—') + '</div></div>' +
-    '<div><div style="font-size:10px;color:var(--text-muted)">Media</div><div style="font-size:13px;font-weight:500;color:var(--text-primary);font-variant-numeric:tabular-nums">' + (meanV !== null ? meanV.toFixed(2) : '—') + '</div></div>' +
-    '<div><div style="font-size:10px;color:var(--text-muted)">Máximo</div><div style="font-size:13px;font-weight:500;color:var(--text-primary);font-variant-numeric:tabular-nums">' + (maxV !== null ? maxV.toFixed(2) : '—') + '</div></div>' +
+    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px 6px;padding:0 4px;min-width:0">' +
+    '<div style="min-width:0;overflow:hidden"><div style="font-size:10px;color:var(--text-muted)">Filas</div><div style="font-size:13px;font-weight:500;color:var(--text-primary);font-variant-numeric:tabular-nums;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + rows.toLocaleString() + '</div></div>' +
+    '<div style="min-width:0;overflow:hidden"><div style="font-size:10px;color:var(--text-muted)">Columnas</div><div style="font-size:13px;font-weight:500;color:var(--text-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + cols + '</div></div>' +
+    '<div style="min-width:0;overflow:hidden"><div style="font-size:10px;color:var(--text-muted)">Vacías</div><div style="font-size:13px;font-weight:500;color:' + (clean ? 'var(--text-muted)' : '#f87171') + ';overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + empty + '</div></div>' +
+    '<div style="min-width:0;overflow:hidden"><div style="font-size:10px;color:var(--text-muted)">Mínimo</div><div style="font-size:13px;font-weight:500;color:var(--text-primary);font-variant-numeric:tabular-nums;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (minV !== null ? minV.toFixed(2) : '—') + '</div></div>' +
+    '<div style="min-width:0;overflow:hidden"><div style="font-size:10px;color:var(--text-muted)">Media</div><div style="font-size:13px;font-weight:500;color:var(--text-primary);font-variant-numeric:tabular-nums;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (meanV !== null ? meanV.toFixed(2) : '—') + '</div></div>' +
+    '<div style="min-width:0;overflow:hidden"><div style="font-size:10px;color:var(--text-muted)">Máximo</div><div style="font-size:13px;font-weight:500;color:var(--text-primary);font-variant-numeric:tabular-nums;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (maxV !== null ? maxV.toFixed(2) : '—') + '</div></div>' +
     '</div>';
 }
 function getTrabajoCeldaActivaHTML() {
