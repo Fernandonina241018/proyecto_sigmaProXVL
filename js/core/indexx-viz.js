@@ -905,7 +905,8 @@ function _V_autoTitle() {
   var col = _V.vals.variable || _V.vals.y || _V.vals.y1 || '';
   var typeDef = _V_TYPES[_V.type];
   var parts = [];
-  if (datosCurrentFileName) parts.push(datosCurrentFileName);
+  var sheetName = (typeof trabajoSheets !== 'undefined' && typeof trabajoActiveSheetIndex !== 'undefined' && trabajoSheets[trabajoActiveSheetIndex]) ? trabajoSheets[trabajoActiveSheetIndex].name : '';
+  if (sheetName) parts.push(sheetName);
   if (col) parts.push(col);
   if (typeDef) parts.push(typeDef.lbl);
   parts.push(_V_formatDate(new Date()));
