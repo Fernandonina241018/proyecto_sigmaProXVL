@@ -11,6 +11,7 @@ var _V = {
   opts: { legend: true, grid: true, anim: true, smooth: true },
   chart: null,
   gallery: [],
+  _selectedForReport: null,
 };
 
 // ══ CONSTANTS ════════════════════════════════════════════════════
@@ -261,7 +262,25 @@ function _V_idxData(maxLen) {
 
 // ══ EXTERNAL API (Reportes) ═══════════════════════════════════
 window.Visualizacion = {
+  _getGalleryGraphs: function() {
+    var graficos = [];
+    if (typeof _V === 'undefined' || !_V.gallery) return graficos;
+    _V.gallery.forEach(function(g) {
+      if (g && g.url) graficos.push({ id: g.id, imagen: g.url, titulo: g.title, tipo: g.type || 'desconocido' });
+      else if (g && g.vars) {
+        try {
+          var staticImg = _V_generateStaticImage(g);
+          if (staticImg) graficos.push({ id: g.id, imagen: staticImg, titulo: g.title, tipo: g.type || 'desconocido' });
+        } catch(e) { /* skip */ }
+      }
+    });
+    return graficos;
+  },
   getGraficosParaReporte: function(includeAll) {
+    if (_V._selectedForReport && _V._selectedForReport.length > 0) {
+      var all = this._getGalleryGraphs();
+      return all.filter(function(g){ return _V._selectedForReport.indexOf(g.id) >= 0; });
+    }
     var graficos = [];
     try {
       var cutoff = Date.now() - 30 * 60 * 1000;
@@ -269,14 +288,14 @@ window.Visualizacion = {
       _V.gallery.forEach(function(g) {
         if (!includeAll && g.createdAt && g.createdAt < cutoff) return;
         if (currentFile && g.sourceFile && g.sourceFile !== currentFile) return;
-        if (g && g.url) graficos.push({ imagen: g.url, titulo: g.title, tipo: g.type || 'desconocido' });
+        if (g && g.url) graficos.push({ id: g.id, imagen: g.url, titulo: g.title, tipo: g.type || 'desconocido' });
         else if (g && g.vars) {
           var staticImg = _V_generateStaticImage(g);
-          if (staticImg) graficos.push({ imagen: staticImg, titulo: g.title, tipo: g.type || 'desconocido' });
+          if (staticImg) graficos.push({ id: g.id, imagen: staticImg, titulo: g.title, tipo: g.type || 'desconocido' });
         }
       });
       if (graficos.length === 0 && _V.chart && _V.chart.canvas) {
-        graficos.push({ imagen: _V.chart.canvas.toDataURL('image/png'), titulo: (document.getElementById('vizChartTtl') || {}).textContent || 'Gráfico', tipo: _V.type || 'desconocido' });
+        graficos.push({ id: null, imagen: _V.chart.canvas.toDataURL('image/png'), titulo: (document.getElementById('vizChartTtl') || {}).textContent || 'Gráfico', tipo: _V.type || 'desconocido' });
       }
     } catch(e) { console.warn('[Viz] Error en getGraficosParaReporte:', e); }
     return graficos;

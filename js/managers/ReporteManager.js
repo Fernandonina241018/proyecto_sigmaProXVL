@@ -85,6 +85,7 @@ const ReporteManager = (() => {
             ui_formatCount: (n) => `${n} format${n!==1?'s':''} selected`,
             ui_chartsRecent: 'Only recent charts (30 min)',
             ui_chartsAll: 'Include all saved charts',
+            ui_chartsNone: 'No graphs selected',
             ui_download:    '📥 Download Report',
             ui_noData:      'Run a statistical analysis first to enable download.',
             ui_regTitle:    'Regulatory Framework',
@@ -367,6 +368,7 @@ const ReporteManager = (() => {
             ui_formatCount: (n) => `${n} formato${n!==1?'s':''} seleccionado${n!==1?'s':''}`,
             ui_chartsRecent: 'Solo gráficos recientes (30 min)',
             ui_chartsAll: 'Incluir todos los gráficos guardados',
+            ui_chartsNone: 'Ningún gráfico seleccionado',
             ui_download:    '📥 Descargar Reporte',
             ui_noData:      'Ejecuta un análisis estadístico primero para habilitar la descarga.',
             ui_regTitle:    'Marco Regulatorio',
@@ -2243,6 +2245,7 @@ tr:hover td{background:#f7faff}
         const _allCharts=document.getElementById('rep-include-all-charts');
         if(_allCharts&&_saved['rep-include-all-charts']!==undefined) _allCharts.checked=_saved['rep-include-all-charts'];
         updateFmtCount();
+        actualizarContadorGraficos();
 
         // ── Preview de fechas ──
         [['rep-collect','rep-collect-preview']].forEach(([inputId,previewId])=>{
@@ -2378,7 +2381,7 @@ tr:hover td{background:#f7faff}
     <button class="rep-btn-download" id="rep-btn-sign" style="flex:1;margin-bottom:0" ${!tieneRes?'disabled':''}>
       ✍️ Enviar a firma
     </button>
-    <button id="rep-btn-clear" style="flex:1;padding:13px;background:transparent;color:var(--text-secondary);border:1px solid var(--border);border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;transition:all .3s ease;margin-bottom:0;box-shadow:none" onmouseover="this.style.borderColor='#e53e3e';this.style.color='#e53e3e'" onmouseout="this.style.borderColor='';this.style.color=''" onclick="if(confirm('${currentLang==='es'?'¿Limpiar todos los campos del formulario?':'Clear all form fields?'}')){localStorage.removeItem('__report_form_state');['rep-org','rep-dept','rep-ubicacion','rep-descripcion','rep-marca','rep-modelo','rep-serie','rep-fase','rep-code','rep-ensayo','rep-version','rep-conf','rep-proto','rep-dataset','rep-file','rep-collect','rep-observaciones'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});['html','pdf','txt','csv'].forEach(function(f){var cb=document.getElementById('fmt-'+f);if(cb)cb.checked=false});var ac=document.getElementById('rep-include-all-charts');if(ac)ac.checked=false;localStorage.setItem('__report_form_state',JSON.stringify({}))}">
+    <button id="rep-btn-clear" style="flex:1;padding:13px;background:transparent;color:var(--text-secondary);border:1px solid var(--border);border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;transition:all .3s ease;margin-bottom:0;box-shadow:none" onmouseover="this.style.borderColor='#e53e3e';this.style.color='#e53e3e'" onmouseout="this.style.borderColor='';this.style.color=''" onclick="if(confirm('${currentLang==='es'?'¿Limpiar todos los campos del formulario?':'Clear all form fields?'}')){localStorage.removeItem('__report_form_state');['rep-org','rep-dept','rep-ubicacion','rep-descripcion','rep-marca','rep-modelo','rep-serie','rep-fase','rep-code','rep-ensayo','rep-version','rep-conf','rep-proto','rep-dataset','rep-file','rep-collect','rep-observaciones'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});['html','pdf','txt','csv'].forEach(function(f){var cb=document.getElementById('fmt-'+f);if(cb)cb.checked=false});var ac=document.getElementById('rep-include-all-charts');if(ac)ac.checked=false;if(typeof _V!=='undefined')_V._selectedForReport=null;var gc=document.getElementById('rep-graf-count');if(gc)gc.textContent='${t('ui_chartsNone')}';localStorage.setItem('__report_form_state',JSON.stringify({}))}">
       🧹 Limpiar formulario
     </button>
   </div>
@@ -2443,6 +2446,11 @@ tr:hover td{background:#f7faff}
     </div>
   </label>
 
+  <button onclick="ReporteManager.abrirSelectorGraficos()" style="margin-top:8px;width:100%;padding:10px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;cursor:pointer;color:var(--text-primary);font-size:12px;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .14s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor=''">
+    🎯 Elegir gráficos específicos
+  </button>
+  <div id="rep-graf-count" style="font-size:11px;color:var(--text-muted);text-align:center;margin-top:4px">${t('ui_chartsNone')}</div>
+
   <div class="rep-fmt-count-row">
     <span class="rep-fmt-count" id="rep-fmt-count">${t('ui_formatCount',1)}</span>
   </div>
@@ -2458,6 +2466,79 @@ tr:hover td{background:#f7faff}
 </div>`;
     }
 
+    function abrirSelectorGraficos() {
+      var existing = document.getElementById('rep-selector-graf-modal');
+      if (existing) existing.remove();
+      var allGraphs = [];
+      try { if (typeof Visualizacion !== 'undefined') allGraphs = Visualizacion._getGalleryGraphs(); } catch(e) {}
+      if (!allGraphs.length) { showToast('No hay gráficos en la galería'); return; }
+      var selected = (_V._selectedForReport && _V._selectedForReport.length > 0) ? _V._selectedForReport.slice() : [];
+      var html = '<div class="modal-overlay" id="rep-selector-graf-modal" onclick="if(event.target===this)this.remove()">' +
+        '<div class="modal-box" style="max-width:600px;max-height:80vh;overflow-y:auto;padding:16px">' +
+        '<div class="modal-title" style="margin-bottom:12px">🎯 Seleccionar gráficos para el reporte</div>' +
+        '<div style="display:flex;gap:8px;margin-bottom:12px">' +
+          '<button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px" onclick="ReporteManager.seleccionarTodosGraficos()">Seleccionar todos</button>' +
+          '<button class="btn btn-secondary" style="flex:1;font-size:11px;padding:6px" onclick="ReporteManager.deseleccionarTodosGraficos()">Deseleccionar todos</button>' +
+        '</div>' +
+        '<div id="rep-graf-list">';
+      allGraphs.forEach(function(g) {
+        var isChecked = selected.indexOf(g.id) >= 0;
+        html += '<label style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:6px;cursor:pointer;transition:background .1s;margin-bottom:4px" onmouseenter="this.style.background=\'var(--item-hover)\'" onmouseleave="this.style.background=\'\'">' +
+          '<input type="checkbox" data-graf-id="' + g.id + '" ' + (isChecked ? 'checked' : '') + ' onchange="ReporteManager.toggleGraficoReporte(' + g.id + ',this.checked)" style="width:16px;height:16px;flex-shrink:0">' +
+          '<img src="' + g.imagen + '" alt="" style="width:50px;height:30px;object-fit:cover;border-radius:4px;flex-shrink:0;background:var(--bg-primary)">' +
+          '<div style="flex:1;min-width:0">' +
+            '<div style="font-size:12px;color:var(--text-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + escapeHtml(g.titulo) + '</div>' +
+            '<div style="font-size:10px;color:var(--text-faint)">' + (g.tipo || '') + '</div>' +
+          '</div>' +
+        '</label>';
+      });
+      html += '</div>' +
+        '<div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end">' +
+          '<button class="btn btn-secondary" style="font-size:11px;padding:6px 14px" onclick="this.closest(\'.modal-overlay\').remove()">Cerrar</button>' +
+        '</div>' +
+      '</div></div>';
+      var temp = document.createElement('div');
+      temp.innerHTML = html;
+      document.body.appendChild(temp.firstElementChild);
+    }
+
+    function toggleGraficoReporte(id, checked) {
+      if (!_V._selectedForReport) _V._selectedForReport = [];
+      if (checked) {
+        if (_V._selectedForReport.indexOf(id) < 0) _V._selectedForReport.push(id);
+      } else {
+        _V._selectedForReport = _V._selectedForReport.filter(function(x){ return x !== id; });
+      }
+      actualizarContadorGraficos();
+    }
+
+    function seleccionarTodosGraficos() {
+      try {
+        var all = Visualizacion._getGalleryGraphs();
+        _V._selectedForReport = all.map(function(g){ return g.id; });
+      } catch(e) {}
+      var cbs = document.querySelectorAll('#rep-graf-list input[type=checkbox]');
+      cbs.forEach(function(cb){ cb.checked = true; });
+      actualizarContadorGraficos();
+    }
+
+    function deseleccionarTodosGraficos() {
+      _V._selectedForReport = [];
+      var cbs = document.querySelectorAll('#rep-graf-list input[type=checkbox]');
+      cbs.forEach(function(cb){ cb.checked = false; });
+      actualizarContadorGraficos();
+    }
+
+    function actualizarContadorGraficos() {
+      var el = document.getElementById('rep-graf-count');
+      if (!el) return;
+      if (_V._selectedForReport && _V._selectedForReport.length > 0) {
+        el.textContent = '✓ ' + _V._selectedForReport.length + ' gráfico(s) seleccionado(s)';
+      } else {
+        el.textContent = 'Ningún gráfico seleccionado';
+      }
+    }
+
     return {
         buildReportesView,
         buildReportesSidebar,
@@ -2466,6 +2547,11 @@ tr:hover td{background:#f7faff}
         generarHTML,
         descargar,
         computeExtendedStats,
+        abrirSelectorGraficos,
+        toggleGraficoReporte,
+        seleccionarTodosGraficos,
+        deseleccionarTodosGraficos,
+        actualizarContadorGraficos,
     };
 
 })();
