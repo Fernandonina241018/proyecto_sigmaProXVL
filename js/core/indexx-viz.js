@@ -942,10 +942,10 @@ function vizSaveToGallery() {
   var title = ttlEl ? (ttlEl.textContent || (_V_TYPES[_V.type] ? _V_TYPES[_V.type].lbl : 'Gráfico')) : 'Gráfico';
 
   var thumbC = document.createElement('canvas');
-  thumbC.width = 200; thumbC.height = 120;
+  thumbC.width = 80; thumbC.height = 48;
   var thumbCtx = thumbC.getContext('2d');
-  thumbCtx.drawImage(canvas, 0, 0, 200, 120);
-  var thumb = thumbC.toDataURL('image/png');
+  thumbCtx.drawImage(canvas, 0, 0, 80, 48);
+  var thumb = thumbC.toDataURL('image/jpeg', 0.5);
 
   var id = Date.now();
   var sheetIdx = typeof trabajoActiveSheetIndex !== 'undefined' ? trabajoActiveSheetIndex : -1;
@@ -1288,10 +1288,10 @@ function _V_batchGenerate(type, colX, selectedCols) {
     var thumb = '';
     try {
       var tc = document.createElement('canvas');
-      tc.width = 200; tc.height = 120;
+      tc.width = 80; tc.height = 48;
       var tctx = tc.getContext('2d');
       var tch = new Chart(tctx, config);
-      thumb = tc.toDataURL('image/png');
+      thumb = tc.toDataURL('image/jpeg', 0.5);
       tch.destroy();
     } catch(e) { /* thumbnail optional */ }
 
