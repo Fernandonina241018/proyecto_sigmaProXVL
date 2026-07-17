@@ -190,6 +190,7 @@ function _V_svgDotplot() { return _V_svg([[5,26],[8,20],[12,24],[15,14],[19,22],
 
 // ══ DATA HELPERS ═════════════════════════════════════════════════
 function _V_getSheet() {
+  if (_V._sheetOverride) return _V._sheetOverride;
   try { return getCurrentSheet() || { headers: [], rows: [] }; } catch(e) { return { headers: [], rows: [] }; }
 }
 
@@ -999,7 +1000,6 @@ function _V_showGalleryChart(g) {
     _V._galleryMode = true;
     _V._galleryTitle = g.title;
 
-    var prevSheet = -1;
     var foundIdx = -1;
     if (g.sourceSheetName && typeof trabajoSheets !== 'undefined') {
       for (var i = 0; i < trabajoSheets.length; i++) {
@@ -1009,10 +1009,7 @@ function _V_showGalleryChart(g) {
     if (foundIdx < 0 && g.sourceSheetIndex !== undefined && g.sourceSheetIndex >= 0 && typeof trabajoSheets !== 'undefined' && g.sourceSheetIndex < trabajoSheets.length) {
       foundIdx = g.sourceSheetIndex;
     }
-    if (foundIdx >= 0) {
-      prevSheet = typeof trabajoActiveSheetIndex !== 'undefined' ? trabajoActiveSheetIndex : -1;
-      trabajoActiveSheetIndex = foundIdx;
-    }
+    if (foundIdx >= 0) _V._sheetOverride = trabajoSheets[foundIdx];
 
     vizBuildCatTabs();
     vizBuildChartGrid();
@@ -1021,7 +1018,7 @@ function _V_showGalleryChart(g) {
 
     vizRenderChart();
 
-    if (prevSheet >= 0) trabajoActiveSheetIndex = prevSheet;
+    _V._sheetOverride = null;
 
     if (ttlEl) ttlEl.textContent = g.title;
     if (tagEl) tagEl.textContent = g.type ? g.type.toUpperCase() : 'GRÁFICO';
