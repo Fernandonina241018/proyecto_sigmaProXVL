@@ -329,15 +329,22 @@ function initVizPage() {
     var savedType = sessionStorage.getItem('sigmaPro_vizType');
     var savedVals = sessionStorage.getItem('sigmaPro_vizVals');
     var savedPalette = sessionStorage.getItem('sigmaPro_vizPalette');
+    var savedSheetName = sessionStorage.getItem('sigmaPro_vizSheetName');
     if (savedType && savedVals) {
       _V.type = savedType;
       _V.vals = JSON.parse(savedVals);
       if (savedPalette) _V.palette = savedPalette;
+      if (savedSheetName && typeof trabajoSheets !== 'undefined') {
+        for (var i = 0; i < trabajoSheets.length; i++) {
+          if (trabajoSheets[i].name === savedSheetName) { _V._sheetOverride = trabajoSheets[i]; break; }
+        }
+      }
       vizBuildCatTabs();
       vizBuildChartGrid();
       vizBuildAxisConfig();
       vizBuildPalettes();
       vizRenderChart();
+      _V._sheetOverride = null;
     }
   } catch(e) { /* ignore */ }
 
@@ -861,6 +868,8 @@ function vizRenderChart() {
     sessionStorage.setItem('sigmaPro_vizType', _V.type || '');
     sessionStorage.setItem('sigmaPro_vizVals', JSON.stringify(_V.vals || {}));
     sessionStorage.setItem('sigmaPro_vizPalette', _V.palette || 'violet');
+    var curSheet = _V._sheetOverride || (typeof getCurrentSheet === 'function' ? getCurrentSheet() : null);
+    sessionStorage.setItem('sigmaPro_vizSheetName', curSheet ? curSheet.name : '');
   } catch(e) {}
   showToast('✓ Gráfico renderizado');
 }
@@ -891,12 +900,23 @@ function _V_generateStaticImage(g) {
   var savedType = _V.type;
   var savedVals = JSON.parse(JSON.stringify(_V.vals));
   var savedPalette = _V.palette;
+  var savedOverride = _V._sheetOverride;
+  if (!_V._sheetOverride && typeof trabajoSheets !== 'undefined') {
+    if (g.sourceSheetName) {
+      for (var i = 0; i < trabajoSheets.length; i++) {
+        if (trabajoSheets[i].name === g.sourceSheetName) { _V._sheetOverride = trabajoSheets[i]; break; }
+      }
+    }
+    if (!_V._sheetOverride && g.sourceSheetIndex !== undefined && g.sourceSheetIndex >= 0 && g.sourceSheetIndex < trabajoSheets.length) {
+      _V._sheetOverride = trabajoSheets[g.sourceSheetIndex];
+    }
+  }
   _V.type = g.type;
   _V.vals = JSON.parse(JSON.stringify(g.vars));
   if (g.palette) _V.palette = g.palette;
   var config = _V_buildConfig();
   if (!config) {
-    _V.type = savedType; _V.vals = savedVals; _V.palette = savedPalette;
+    _V.type = savedType; _V.vals = savedVals; _V.palette = savedPalette; _V._sheetOverride = savedOverride;
     return null;
   }
   config = _V_applyReportColors(config);
@@ -909,10 +929,10 @@ function _V_generateStaticImage(g) {
     var tch = new Chart(tctx, config);
     var url = tc.toDataURL('image/png');
     tch.destroy();
-    _V.type = savedType; _V.vals = savedVals; _V.palette = savedPalette;
+    _V.type = savedType; _V.vals = savedVals; _V.palette = savedPalette; _V._sheetOverride = savedOverride;
     return url;
   } catch(e) {
-    _V.type = savedType; _V.vals = savedVals; _V.palette = savedPalette;
+    _V.type = savedType; _V.vals = savedVals; _V.palette = savedPalette; _V._sheetOverride = savedOverride;
     return null;
   }
 }
@@ -1140,9 +1160,11 @@ function _V_loadGallery() {
       var parsed = JSON.parse(saved);
       if (Array.isArray(parsed)) {
         _V.gallery = parsed.slice(0, 100);
+        var dirty = false;
         _V.gallery.forEach(function(g) {
-          if (g.thumb && g.thumb.indexOf('image/png') >= 0) delete g.thumb;
+          if (g.thumb && g.thumb.indexOf('image/png') >= 0) { delete g.thumb; dirty = true; }
         });
+        if (dirty) _V_saveGallery();
       }
     }
   } catch(e) { /* ignore */ }
