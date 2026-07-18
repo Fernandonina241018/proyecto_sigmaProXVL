@@ -48,7 +48,15 @@ function _persistAllData() {
     }
     updateAnalisisDatasetBadge();
   } catch(e) {
-    console.warn('[Persist] Error saving data:', e);
+    if (e.name === 'QuotaExceededError' && typeof _V !== 'undefined' && _V.gallery) {
+      _V.gallery.forEach(function(g) { delete g.thumb; });
+      try {
+        localStorage.setItem('sigmaPro_trabajoSheets', JSON.stringify(trabajoSheets));
+        if (typeof _V_saveGallery === 'function') _V_saveGallery();
+      } catch(e2) { /* ignore */ }
+    } else {
+      console.warn('[Persist] Error saving data:', e);
+    }
   }
 }
 

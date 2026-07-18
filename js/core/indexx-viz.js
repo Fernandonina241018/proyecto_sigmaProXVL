@@ -1116,6 +1116,7 @@ function _V_saveGallery() {
     })));
   } catch(e) {
     if (e.name === 'QuotaExceededError') {
+      _V.gallery.forEach(function(g) { delete g.thumb; });
       try {
         localStorage.setItem('sigmaPro_vizGallery', JSON.stringify(_V.gallery.map(function(g) {
           var item = { id: g.id, title: g.title, type: g.type };
@@ -1137,7 +1138,12 @@ function _V_loadGallery() {
     var saved = localStorage.getItem('sigmaPro_vizGallery');
     if (saved) {
       var parsed = JSON.parse(saved);
-      if (Array.isArray(parsed)) _V.gallery = parsed.slice(0, 100);
+      if (Array.isArray(parsed)) {
+        _V.gallery = parsed.slice(0, 100);
+        _V.gallery.forEach(function(g) {
+          if (g.thumb && g.thumb.indexOf('image/png') >= 0) delete g.thumb;
+        });
+      }
     }
   } catch(e) { /* ignore */ }
 }
