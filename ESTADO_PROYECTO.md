@@ -90,6 +90,41 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-18: Fixes post-rediseño — 5 bugs corregidos en gráficos y persistencia
+
+**Qué:** Corrección de 5 bugs que impedían el correcto funcionamiento de gráficos de galería, persistencia de datos y cambio de tema.
+
+**Bug #1 — Theme Observer corrompe gráficos de galería al cambiar tema**
+- Causa: `_V_observeTheme()` llamaba `vizRenderChart()` sin restaurar `_V._sheetOverride`, por lo que el re-render usaba la hoja activa actual en vez de la hoja origen del gráfico de galería.
+- Fix: El MutationObserver ahora busca el `_V._activeGalleryId` en `_V.gallery`, restaura el `sourceSheetName`/`sourceSheetIndex` como `_V._sheetOverride` antes de re-renderizar, y lo limpia después.
+- **Archivo:** `js/core/indexx-viz.js:366-391`
+
+**Bug #2 — Fallback `sourceSheetIndex` apuntaba a hoja incorrecta**
+- Causa: Cuando `sourceSheetName` no se encontraba (ej. dataset cambiado), el fallback por `sourceSheetIndex` seleccionaba una hoja distinta a la original.
+- Fix: El fallback por índice solo se usa si `sourceSheetName` está vacío (items legacy). Si `sourceSheetName` está seteado pero no se encuentra, se muestra un toast claro: "La hoja X no está en el dataset actual".
+- **Archivo:** `js/core/indexx-viz.js:1059-1073` (`_V_showGalleryChart`), `js/core/indexx-viz.js:921-929` (`_V_generateStaticImage`)
+
+**Bug #3 — `_V_autoTitle()` ignoraba `_V._sheetOverride`**
+- Causa: Usaba `trabajoSheets[trabajoActiveSheetIndex].name` directamente.
+- Fix: Ahora prioriza `_V._sheetOverride?.name`, con fallback a `trabajoActiveSheetIndex`.
+- **Archivo:** `js/core/indexx-viz.js:961-966`
+
+**Bug #4 — QuotaExceededError no recuperable con sheets grandes**
+- Causa: Stripear thumbs de galería (~300KB) no liberaba suficiente espacio si `trabajoSheets` ocupaba >5MB. El retry fallaba silenciosamente.
+- Fix: Estrategia progresiva en 4 pasos: (1) limpiar thumbs, (2) eliminar `sigmaPro_datosCurrentData/SourceType` de localStorage, (3) eliminar la hoja más reciente de `trabajoSheets`, (4) toast persistente "Almacenamiento lleno".
+- **Archivo:** `js/core/indexx-globals.js:37-76`
+
+**Bug #5 — `sourceSheetName` vacío impedía restauración por override**
+- Causa: Cuando `trabajoActiveSheetIndex` era -1 o undefined, se guardaba `sourceSheetName: ""`. Al cargar, el nombre vacío no matcheaba nada.
+- Fix: El fallback por índice ahora solo se activa si `sourceSheetName` está vacío, y adicionalmente valida que `sourceSheetIndex` sea >= 0.
+- **Archivo:** `js/core/indexx-viz.js:1065` (mismo fix que Bug #2)
+
+**Archivos afectados:**
+| Archivo | Líneas |
+|---------|--------|
+| `js/core/indexx-viz.js` | Theme observer, sheet lookup, autoTitle, fallback index |
+| `js/core/indexx-globals.js` | persistAllData con recuperación progresiva |
+
 ### 2026-07-05: Fullscreen para vista previa de firmas
 
 **Qué:** Se agregó botón ⛶ en el header del preview de firmas para expandir a pantalla completa (misma UX que los gráficos).

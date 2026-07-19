@@ -35,29 +35,45 @@ var _auditoriaInited = false;
 var _usuariosInited = false;
 
 function _persistAllData() {
-  try {
-    localStorage.setItem('sigmaPro_trabajoSheets', JSON.stringify(trabajoSheets));
-    localStorage.setItem('sigmaPro_trabajoLimits', JSON.stringify({ limits: trabajoLimits, mode: trabajoLimitsMode }));
-    if (datosCurrentData) {
-      localStorage.setItem('sigmaPro_datosSourceType', JSON.stringify(datosSourceType));
-    localStorage.setItem('sigmaPro_datosCurrentData', JSON.stringify({
-        data: datosCurrentData,
-        fileName: datosCurrentFileName,
-        timestamp: Date.now()
-      }));
-    }
-    updateAnalisisDatasetBadge();
-  } catch(e) {
-    if (e.name === 'QuotaExceededError' && typeof _V !== 'undefined' && _V.gallery) {
-      _V.gallery.forEach(function(g) { delete g.thumb; });
-      try {
-        localStorage.setItem('sigmaPro_trabajoSheets', JSON.stringify(trabajoSheets));
-        if (typeof _V_saveGallery === 'function') _V_saveGallery();
-      } catch(e2) { /* ignore */ }
-    } else {
-      console.warn('[Persist] Error saving data:', e);
+  var quotaStep = 0;
+  var maxSteps = 4;
+  while (quotaStep < maxSteps) {
+    try {
+      localStorage.setItem('sigmaPro_trabajoSheets', JSON.stringify(trabajoSheets));
+      localStorage.setItem('sigmaPro_trabajoLimits', JSON.stringify({ limits: trabajoLimits, mode: trabajoLimitsMode }));
+      if (datosCurrentData) {
+        if (quotaStep < 2) {
+          localStorage.setItem('sigmaPro_datosSourceType', JSON.stringify(datosSourceType));
+          localStorage.setItem('sigmaPro_datosCurrentData', JSON.stringify({
+            data: datosCurrentData,
+            fileName: datosCurrentFileName,
+            timestamp: Date.now()
+          }));
+        }
+      }
+      if (typeof _V_saveGallery === 'function' && quotaStep < 2) _V_saveGallery();
+      updateAnalisisDatasetBadge();
+      return;
+    } catch(e) {
+      if (e.name !== 'QuotaExceededError') {
+        console.warn('[Persist] Error saving data:', e);
+        return;
+      }
+      quotaStep++;
+      if (quotaStep === 1) {
+        if (typeof _V !== 'undefined' && _V.gallery) _V.gallery.forEach(function(g) { delete g.thumb; });
+      } else if (quotaStep === 2) {
+        localStorage.removeItem('sigmaPro_datosCurrentData');
+        localStorage.removeItem('sigmaPro_datosSourceType');
+      } else if (quotaStep === 3) {
+        if (trabajoSheets && trabajoSheets.length > 1) {
+          var removed = trabajoSheets.pop();
+          showToast('⚠️ Cuota de almacenamiento excedida. Se eliminó la hoja "' + removed.name + '" para liberar espacio.', true);
+        }
+      }
     }
   }
+  showToast('⚠️ No se pudo guardar: el almacenamiento local está lleno. Exporta tus datos para no perderlos.', true);
 }
 
 function _restoreAllData() {

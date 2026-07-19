@@ -365,11 +365,28 @@ function _V_observeTheme() {
   var html = document.documentElement;
   var observer = new MutationObserver(function() {
     if (_V.chart && _V.chart.canvas) {
+      if (_V._galleryMode && _V._activeGalleryId) {
+        var activeG = null;
+        for (var gi = 0; gi < _V.gallery.length; gi++) {
+          if (_V.gallery[gi].id === _V._activeGalleryId) { activeG = _V.gallery[gi]; break; }
+        }
+        if (activeG && typeof trabajoSheets !== 'undefined') {
+          if (activeG.sourceSheetName) {
+            for (var si = 0; si < trabajoSheets.length; si++) {
+              if (trabajoSheets[si].name === activeG.sourceSheetName) { _V._sheetOverride = trabajoSheets[si]; break; }
+            }
+          }
+          if (!_V._sheetOverride && activeG.sourceSheetIndex !== undefined && activeG.sourceSheetIndex >= 0 && activeG.sourceSheetIndex < trabajoSheets.length) {
+            _V._sheetOverride = trabajoSheets[activeG.sourceSheetIndex];
+          }
+        }
+      }
       vizRenderChart();
       if (_V._galleryMode) {
         var ttlEl = document.getElementById('vizChartTtl');
         if (ttlEl && _V._galleryTitle) ttlEl.textContent = _V._galleryTitle;
       }
+      _V._sheetOverride = null;
     }
   });
   observer.observe(html, { attributes: true, attributeFilter: ['data-theme'] });
@@ -907,7 +924,7 @@ function _V_generateStaticImage(g) {
         if (trabajoSheets[i].name === g.sourceSheetName) { _V._sheetOverride = trabajoSheets[i]; break; }
       }
     }
-    if (!_V._sheetOverride && g.sourceSheetIndex !== undefined && g.sourceSheetIndex >= 0 && g.sourceSheetIndex < trabajoSheets.length) {
+    if (!_V._sheetOverride && (!g.sourceSheetName) && g.sourceSheetIndex !== undefined && g.sourceSheetIndex >= 0 && g.sourceSheetIndex < trabajoSheets.length) {
       _V._sheetOverride = trabajoSheets[g.sourceSheetIndex];
     }
   }
@@ -945,7 +962,8 @@ function _V_autoTitle() {
   var col = _V.vals.variable || _V.vals.y || _V.vals.y1 || '';
   var typeDef = _V_TYPES[_V.type];
   var parts = [];
-  var sheetName = (typeof trabajoSheets !== 'undefined' && typeof trabajoActiveSheetIndex !== 'undefined' && trabajoSheets[trabajoActiveSheetIndex]) ? trabajoSheets[trabajoActiveSheetIndex].name : '';
+  var sheet = _V._sheetOverride || (typeof trabajoSheets !== 'undefined' && typeof trabajoActiveSheetIndex !== 'undefined' ? trabajoSheets[trabajoActiveSheetIndex] : null);
+  var sheetName = sheet ? sheet.name : '';
   if (sheetName) parts.push(sheetName);
   if (col) parts.push(col);
   if (typeDef) parts.push(typeDef.lbl);
@@ -1045,10 +1063,14 @@ function _V_showGalleryChart(g) {
         if (trabajoSheets[i].name === g.sourceSheetName) { foundIdx = i; break; }
       }
     }
-    if (foundIdx < 0 && g.sourceSheetIndex !== undefined && g.sourceSheetIndex >= 0 && typeof trabajoSheets !== 'undefined' && g.sourceSheetIndex < trabajoSheets.length) {
+    if (foundIdx < 0 && (!g.sourceSheetName) && g.sourceSheetIndex !== undefined && g.sourceSheetIndex >= 0 && typeof trabajoSheets !== 'undefined' && g.sourceSheetIndex < trabajoSheets.length) {
       foundIdx = g.sourceSheetIndex;
     }
-    if (foundIdx >= 0) _V._sheetOverride = trabajoSheets[foundIdx];
+    if (foundIdx >= 0) {
+      _V._sheetOverride = trabajoSheets[foundIdx];
+    } else if (g.sourceSheetName) {
+      showToast('⚠️ La hoja "' + g.sourceSheetName + '" no está en el dataset actual. Carga el archivo original.', true);
+    }
 
     vizBuildCatTabs();
     vizBuildChartGrid();
