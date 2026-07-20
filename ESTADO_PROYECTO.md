@@ -90,6 +90,23 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-18: Thumbnails visibles en modo claro + active indicator
+
+**Qué:** Las miniaturas de galería (80×48 JPEG) se veían negras/oscuras en modo claro. Causa: el canvas de Chart.js tiene fondo transparente, y JPEG convierte transparencia a negro. Además, el thumbnail activo no se distinguía visualmente.
+
+**Fix A — Fondo blanco en thumbnail capture:**
+- `vizSaveToGallery()` y generación batch: se agrega `tctx.fillStyle = '#ffffff'; tctx.fillRect(0, 0, 80, 48);` antes de capturar, para que el thumbnail JPEG tenga fondo blanco y los colores claros sean legibles en modo claro.
+- **Archivo:** `js/core/indexx-viz.js:986-988`, `js/core/indexx-viz.js:1342-1344`
+
+**Fix B — Active thumbnail indicator:**
+- Se agregó `::after` pseudo-element con barra coloreada en la parte inferior del thumbnail activo, más `border-width:2px` y `box-shadow` más prominente.
+- **Archivo:** `js/core/indexx-viz.js:138-139`
+
+**Archivos afectados:**
+| Archivo | Líneas |
+|---------|--------|
+| `js/core/indexx-viz.js` | Fondo blanco thumbs (save + batch), CSS active indicator |
+
 ### 2026-07-18: Fixes post-rediseño — 5 bugs corregidos en gráficos y persistencia
 
 **Qué:** Corrección de 5 bugs que impedían el correcto funcionamiento de gráficos de galería, persistencia de datos y cambio de tema.

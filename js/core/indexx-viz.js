@@ -135,7 +135,8 @@ function _V_injectCSS() {
     + '.viz-root .gal-label{flex-shrink:0;font-size:10px;font-weight:700;letter-spacing:.8px;color:var(--t3);text-transform:uppercase;padding-right:6px;border-right:1px solid var(--sep);margin-right:4px}'
     + '.viz-root .gal-thumb{flex-shrink:0;width:90px;height:62px;background:var(--bg2);border:1.5px solid var(--sep);border-radius:var(--rs);overflow:hidden;position:relative;cursor:pointer;transition:border-color .14s}'
     + '.viz-root .gal-thumb:hover{border-color:var(--acc)}'
-    + '.viz-root .gal-thumb.active{border-color:var(--acc);box-shadow:0 0 0 2px var(--accDim)}'
+    + '.viz-root .gal-thumb.active{border-color:var(--acc);border-width:2px;box-shadow:0 0 0 2px var(--accDim),0 2px 10px rgba(123,111,224,.35)}' +
+'.viz-root .gal-thumb.active::after{content:"";position:absolute;bottom:-2px;left:2px;right:2px;height:3px;background:var(--acc);border-radius:2px;z-index:3}'
     + '.viz-root .gal-thumb img{width:100%;height:100%;object-fit:cover;display:block}'
     + '.viz-root .gal-noimg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--t3);background:var(--bg3)}'
     + '.viz-root .gal-del{position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.75);border:none;color:#fff;font-size:9px;cursor:pointer;display:none;align-items:center;justify-content:center}'
@@ -982,6 +983,8 @@ function vizSaveToGallery() {
   var thumbC = document.createElement('canvas');
   thumbC.width = 80; thumbC.height = 48;
   var thumbCtx = thumbC.getContext('2d');
+  thumbCtx.fillStyle = '#ffffff';
+  thumbCtx.fillRect(0, 0, 80, 48);
   thumbCtx.drawImage(canvas, 0, 0, 80, 48);
   var thumb = thumbC.toDataURL('image/jpeg', 0.5);
 
@@ -1340,6 +1343,8 @@ function _V_batchGenerate(type, colX, selectedCols) {
       var tc = document.createElement('canvas');
       tc.width = 80; tc.height = 48;
       var tctx = tc.getContext('2d');
+      tctx.fillStyle = '#ffffff';
+      tctx.fillRect(0, 0, 80, 48);
       var tch = new Chart(tctx, config);
       thumb = tc.toDataURL('image/jpeg', 0.5);
       tch.destroy();
