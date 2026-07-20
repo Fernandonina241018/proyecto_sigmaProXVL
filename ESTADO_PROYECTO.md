@@ -90,6 +90,36 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-19 (2): Refactor EstadisticaDescriptiva.js — 6869→2838 líneas
+
+**Qué:** División del monolito `EstadisticaDescriptiva.js` (6,869 líneas) en 2 archivos:
+
+**Nuevo `indexx-stats-core.js` (4,185 líneas):**
+- Todas las funciones matemáticas puras: intervalos de confianza, tests de hipótesis (t-test, ANOVA, Chi², Mann-Whitney, Kruskal-Wallis, Wilcoxon, Friedman, normalidad, Shapiro-Wilk, KS, Anderson-Darling, D'Agostino-Pearson), calidad (Pareto, límites), especializadas (Cluster, PCA, Regresiones, Supervivencia, MKT, Factor Letalidad, Tendencia, Bayesiano, etc.)
+- Helpers internos (sortNumbers, lgamma, betaIncomplete, normalCDF, etc.)
+- Wrapped en IIFE con `window.__StatsCore = { ... }`
+- Dependencia: `StatsUtils` para funciones estadísticas básicas
+
+**`EstadisticaDescriptiva.js` slimmeada (2,838 líneas, −59%):**
+- Mantiene: aliases a StatsUtils, `ejecutarAnalisis` (big switch), `generarHTML` (render engine con kpiCards/hypothesisKpiCards), API pública
+- Importa funciones del core via destructuring: `const { ... } = window.__StatsCore`
+
+**`indexx.html`:**
+- +1 script tag: `indexx-stats-core.js` entre `StatsUtils.js` y `EstadisticaDescriptiva.js`
+
+**Verificación:**
+- ✅ Balance de llaves: 0 diferencia en ambos archivos
+- ✅ Cobertura: todas las funciones del API pública verificadas en scope
+- ✅ Backup: `EstadisticaDescriptiva.js.bak` (6,869 líneas) disponible
+- ✅ Sin cambios en API externa: `window.EstadisticaDescriptiva` mantiene misma interfaz
+
+**Archivos afectados:**
+| Archivo | Líneas | Cambio |
+|---------|--------|--------|
+| `js/core/indexx-stats-core.js` | 4,185 | **NUEVO** — funciones matemáticas puras |
+| `js/core/EstadisticaDescriptiva.js` | 6,869→2,838 | Slimmeado (−59%): solo orquestación + render + API |
+| `indexx.html` | 339 | +1 script tag para core module |
+
 ### 2026-07-19: Auditoría innerHTML + Fix riesgos medio + refactor chart.destroy
 
 **Qué:** Auditoría completa de seguridad de `innerHTML` (196 ocurrencias), corrección de 4 casos de riesgo medio, extracción de helper `_V_destroyChart()`, y limpieza de 11 `console.log('✅ ...')` de producción.
