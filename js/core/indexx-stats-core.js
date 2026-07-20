@@ -6,10 +6,8 @@
 (function() {
     'use strict';
     
-    // Referencia a StatsUtils para funciones básicas
     const Stats = typeof StatsUtils !== 'undefined' ? StatsUtils : {};
     
-    // Aliases de StatsUtils para compatibilidad (usados sin prefijo Stats.)
     const calcularMedia = Stats.calcularMedia || (() => NaN);
     const calcularMediana = Stats.calcularMediana || (() => NaN);
     const calcularModa = Stats.calcularModa || (() => NaN);
@@ -26,98 +24,7 @@
     const calcularCovarianza = Stats.calcularCovarianza || (() => NaN);
     const detectarOutliersIQR = Stats.detectarOutliersIQR || (() => []);
     const detectarOutliersZScore = Stats.detectarOutliersZScore || (() => []);
-    
 
-    // ========================================
-    // Exportar al namespace compartido
-    // ========================================
-    window.__StatsCore = {
-        // Internal helpers
-        calcularIntervalosConfianza,
-        sortNumbers,
-        getNumericValues,
-        getNumericColumns,
-        calcularRMSE,
-        calcularMAE,
-        calcularR2,
-        
-        // Math helpers
-        lgamma,
-        calcularValorP_T,
-        betaIncomplete,
-        normalCDF,
-        calcularValorP_ChiCuadrado,
-        gammaIncomplete,
-        normalInverseCDF,
-        
-        // Hypothesis tests
-        calcularTTestUnaMuestra,
-        calcularTTestDosMuestras,
-        calcularMannWhitneyU,
-        calcularKruskalWallis,
-        calcularWilcoxon,
-        calcularFriedman,
-        calcularTestSignos,
-        calcularBootstrap,
-        calcularANOVA,
-        calcularValorP_F,
-        calcularANOVA2Factores,
-        calcularChiCuadrado,
-        calcularTestNormalidad,
-        calcularShapiroWilk,
-        calcularCoeficientesSW,
-        calcularValorP_ShapiroWilk,
-        calcularKolmogorovSmirnov,
-        calcularAndersonDarling,
-        calcularDAgostinoPearson,
-        
-        // Quality
-        calcularPareto,
-        calcularLimitesCuantificacion,
-        calcularLimitesCalibracion,
-        calcularTOST,
-        
-        // Specialized
-        calcularCluster,
-        calcularDiscriminante,
-        calcularMANOVA,
-        calcularSupervivencia,
-        calcularSeriesTemporales,
-        calcularModelosMixtos,
-        calcularBayesiano,
-        randomNormal,
-        calcularFactorLetalidad,
-        calcularMKT,
-        calcularTendencia,
-        
-        // Correlation/Regression helpers
-        calcularCovarianza,
-        calcularCorrelacionPearson,
-        calcularCorrelacionSpearman,
-        calcularKendallTau,
-        calcularRegresionLinealSimple,
-        calcularRegresionMultiple,
-        calcularRegresionPolinomial,
-        calcularRegresionLogistica,
-        
-        // Multivariate
-        calcularPCA,
-        calcularAnalisisFactorial,
-        
-        // Matrix helpers
-        numericAdd,
-        numericDeterminant,
-        
-        // Column analysis
-        analizarColumna,
-        analizarTodasLasColumnas,
-        
-        // Metadata and formatting
-        formatReferencia,
-        generarReporte,
-        getStatMeta
-    };
-})();
     /**
      * Calcula intervalos de confianza usando distribución t
      * Retorna IC al 95%, 90% y 99%
@@ -4183,3 +4090,72 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
             'Kruskal-Wallis': { formula: 'H = [12/(N(N+1))]Σ(Rᵢ²/nᵢ) − 3(N+1)', desc: 'Alternativa no-paramétrica al ANOVA.', icono: '📊' }
         };
     }
+
+    window.__StatsCore = {
+        calcularIntervalosConfianza,
+        sortNumbers,
+        getNumericValues,
+        getNumericColumns,
+        calcularRMSE,
+        calcularMAE,
+        calcularR2,
+        lgamma,
+        calcularValorP_T,
+        betaIncomplete,
+        normalCDF,
+        calcularValorP_ChiCuadrado,
+        gammaIncomplete,
+        normalInverseCDF,
+        calcularTTestUnaMuestra,
+        calcularTTestDosMuestras,
+        calcularMannWhitneyU,
+        calcularKruskalWallis,
+        calcularWilcoxon,
+        calcularFriedman,
+        calcularTestSignos,
+        calcularBootstrap,
+        calcularANOVA,
+        calcularValorP_F,
+        calcularANOVA2Factores,
+        calcularChiCuadrado,
+        calcularTestNormalidad,
+        calcularShapiroWilk,
+        calcularCoeficientesSW,
+        calcularValorP_ShapiroWilk,
+        calcularKolmogorovSmirnov,
+        calcularAndersonDarling,
+        calcularDAgostinoPearson,
+        calcularPareto,
+        calcularLimitesCuantificacion,
+        calcularLimitesCalibracion,
+        calcularTOST,
+        calcularCluster,
+        calcularDiscriminante,
+        calcularMANOVA,
+        calcularSupervivencia,
+        calcularSeriesTemporales,
+        calcularModelosMixtos,
+        calcularBayesiano,
+        randomNormal,
+        calcularFactorLetalidad,
+        calcularMKT,
+        calcularTendencia,
+        calcularCovarianza,
+        calcularCorrelacionPearson,
+        calcularCorrelacionSpearman,
+        calcularKendallTau,
+        calcularRegresionLinealSimple,
+        calcularRegresionMultiple,
+        calcularRegresionPolinomial,
+        calcularRegresionLogistica,
+        calcularPCA,
+        calcularAnalisisFactorial,
+        numericAdd,
+        numericDeterminant,
+        analizarColumna,
+        analizarTodasLasColumnas,
+        formatReferencia,
+        generarReporte,
+        getStatMeta
+    };
+})();
