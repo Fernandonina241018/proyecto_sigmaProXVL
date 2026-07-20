@@ -30,6 +30,10 @@ var _V_PALETTES = [
   { id: 'claro',  lbl: 'Claro',   c: ['#2563eb','#dc2626','#16a34a','#d97706','#9333ea'] },
 ];
 
+function _V_destroyChart() {
+  if (_V.chart) { try { _V.chart.destroy(); } catch(e) {} _V.chart = null; }
+}
+
 var _V_CATS = [
   { id: 'comp',  lbl: 'Comparación', types: ['barras','agrupadas','apiladas'] },
   { id: 'dist',  lbl: 'Distribución', types: ['histograma','dispersion','burbuja'] },
@@ -307,7 +311,7 @@ window.Visualizacion = {
 function initVizPage() {
   _V_injectCSS();
 
-  if (_V.chart) { try { _V.chart.destroy(); } catch(e) {} _V.chart = null; }
+  _V_destroyChart();
 
   _V.cat = 'comp';
   _V.type = null;
@@ -861,7 +865,7 @@ function vizRenderChart() {
   if (emptyEl) emptyEl.style.display = 'none';
   if (wrapperEl) wrapperEl.classList.add('vis');
 
-  if (_V.chart) { try { _V.chart.destroy(); } catch(e) {} _V.chart = null; }
+  _V_destroyChart();
 
   var canvas = document.getElementById('vizMainChart');
   if (!canvas) { showToast('Error: canvas no encontrado'); return; }
@@ -1021,8 +1025,8 @@ function vizRefreshGallery() {
   _V.gallery.forEach(function(g) {
     var div = document.createElement('div');
     div.className = 'gal-thumb' + (_V._activeGalleryId === g.id ? ' active' : '');
-    var thumbSrc = g.thumb || g.url || '';
-    div.innerHTML = (thumbSrc ? '<img src="' + thumbSrc + '" alt="' + g.title.replace(/"/g, '&quot;') + '">' : '<div class="gal-noimg">' + (g.type ? g.type[0].toUpperCase() : '?') + '</div>') +
+    var thumbSrc = escapeHtml(g.thumb || g.url || '');
+    div.innerHTML = (thumbSrc ? '<img src="' + thumbSrc + '" alt="' + escapeHtml(g.title) + '">' : '<div class="gal-noimg">' + (g.type ? g.type[0].toUpperCase() : '?') + '</div>') +
       '<button class="gal-del" onclick="event.stopPropagation();vizDelGallery(' + g.id + ')">✕</button>' +
       '<div class="gal-name">' + escapeHtml(g.title) + '</div>';
     div.onclick = function() { _V_showGalleryChart(g); };
@@ -1093,7 +1097,7 @@ function _V_showGalleryChart(g) {
     if (tagEl) tagEl.textContent = g.type ? g.type.toUpperCase() : 'GRÁFICO';
     if (infoEl) infoEl.innerHTML = '<strong>' + escapeHtml(g.title) + '</strong> · Desde galería (estático)';
 
-    if (_V.chart) { try { _V.chart.destroy(); } catch(e) {} _V.chart = null; }
+    _V_destroyChart();
     _V._galleryMode = false;
 
     if (g.url) {
@@ -1143,7 +1147,7 @@ function _V_clearChartDisplay() {
   if (ttlEl) ttlEl.textContent = '';
   if (tagEl) tagEl.textContent = '';
   if (infoEl) infoEl.innerHTML = '';
-  if (_V.chart) { try { _V.chart.destroy(); } catch(e) {} _V.chart = null; }
+  _V_destroyChart();
 }
 
 function _V_saveGallery() {

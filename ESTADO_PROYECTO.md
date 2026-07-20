@@ -90,6 +90,42 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-19: Auditoría innerHTML + Fix riesgos medio + refactor chart.destroy
+
+**Qué:** Auditoría completa de seguridad de `innerHTML` (196 ocurrencias), corrección de 4 casos de riesgo medio, extracción de helper `_V_destroyChart()`, y limpieza de 11 `console.log('✅ ...')` de producción.
+
+**Auditoría innerHTML (196 ocurrencias):**
+- **0 críticos** — el proyecto usa `escapeHtml()` consistentemente en ~183 casos seguros
+- **4 riesgo medio** corregidos:
+  1. `UsuariosManager.js:826` — `result.signatureCode` sin `escapeHtml()` → agregado
+  2. `auth.js:761` — `userData.defaultPassword` sin `escapeHtml()` → agregado
+  3. `indexx-viz.js:1025` — `g.title` con escape parcial (solo `replace(/"/g)`) y `thumbSrc` sin escapar → ambos ahora usan `escapeHtml()`
+- **13 identificados con riesgo medio (escape parcial o indirecto)** documentados en reporte
+
+**Refactor:**
+- Nueva función `_V_destroyChart()` en `indexx-viz.js:33` — reemplaza el patrón repetido `if (_V.chart) { try { _V.chart.destroy(); } catch(e) {} _V.chart = null; }` en 4 ubicaciones
+
+**Limpieza:**
+- Eliminados 11 `console.log('✅ ... cargado')` en producción: `DeviceFingerprint.js`, `utils.js`, `UsuariosManager.js`, `i18n-core.js`, `auth.js`, `ReporteManager.js`, `EstadisticaDescriptiva.js`, `Logger.js`, `ParametrosManager.js`, `DispositivosManager.js`, `AuditoriaManager.js`
+
+**Archivos afectados:**
+| Archivo | Líneas | Cambio |
+|---------|--------|--------|
+| `js/core/indexx-viz.js` | `33-35`, `314,868,1100,1150` | Nueva `_V_destroyChart()` + 4 reemplazos + fix thumbSrc/g.title |
+| `js/managers/UsuariosManager.js` | `826` | `escapeHtml(signatureCode)` |
+| `js/core/auth.js` | `761` | `escapeHtml(defaultPassword)` en modal |
+| `js/core/DeviceFingerprint.js` | `106` | Eliminado console.log |
+| `js/core/utils.js` | `207` | Eliminado console.log |
+| `js/managers/UsuariosManager.js` | `1058` | Eliminado console.log |
+| `js/core/i18n-core.js` | `243` | Eliminado console.log |
+| `js/core/auth.js` | `1053` | Eliminado console.log |
+| `js/managers/ReporteManager.js` | `2558` | Eliminado console.log |
+| `js/core/EstadisticaDescriptiva.js` | `6870` | Eliminado console.log |
+| `js/core/Logger.js` | `174` | Eliminado console.log |
+| `js/managers/ParametrosManager.js` | `299` | Eliminado console.log |
+| `js/managers/DispositivosManager.js` | `207` | Eliminado console.log |
+| `js/managers/AuditoriaManager.js` | `548` | Eliminado console.log |
+
 ### 2026-07-18: Thumbnails visibles en modo claro + active indicator
 
 **Qué:** Las miniaturas de galería (80×48 JPEG) se veían negras/oscuras en modo claro. Causa: el canvas de Chart.js tiene fondo transparente, y JPEG convierte transparencia a negro. Además, el thumbnail activo no se distinguía visualmente.

@@ -102,6 +102,3 @@ const DeviceFingerprint = (() => {
     };
 })();
 
-if (typeof window !== 'undefined') {
-    if (typeof console !== 'undefined') console.log('✅ DeviceFingerprint cargado');
-}

@@ -6867,4 +6867,3 @@ if (typeof window !== 'undefined') {
     window.EstadisticaDescriptiva = EstadisticaDescriptiva;
 }
 
-console.log('✅ Módulo de Estadística Descriptiva cargado');

@@ -758,7 +758,7 @@ const Auth = (() => {
                 <p style="margin:0 0 16px 0;color:var(--text-secondary,#64748b);font-size:0.85rem;">Debes crear una nueva contraseña y código de firma antes de continuar.</p>
 
                 <div style="margin-bottom:12px;padding:8px 12px;background:var(--bg-panel,#f8fafc);border-radius:8px;border:1px solid var(--border-color,#e2e8f0);font-size:0.8rem;color:var(--text-secondary,#64748b);text-align:left;">
-                    🔑 Tu contraseña temporal es: <strong style="color:var(--accent,#2563eb);font-family:monospace;">` + (userData.defaultPassword || 'sigma2026') + `</strong>
+                    🔑 Tu contraseña temporal es: <strong style="color:var(--accent,#2563eb);font-family:monospace;">` + escapeHtml(userData.defaultPassword || 'sigma2026') + `</strong>
                 </div>
 
                 <div style="margin-bottom:12px;text-align:left;">
@@ -1050,4 +1050,3 @@ const Auth = (() => {
 
 })();
 
-console.log('✅ Auth module cargado');

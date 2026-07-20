@@ -545,4 +545,3 @@ const AuditoriaManager = (() => {
 
 })();
 
-console.log('✅ AuditoriaManager cargado');

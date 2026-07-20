@@ -823,7 +823,7 @@ function _generateSecurePassword(length) {
             
             const msg = document.getElementById('usr-modal-msg');
             if (result.ok) {
-                var sigText = result.signatureCode ? ` | Código firma: <strong>${result.signatureCode}</strong>` : '';
+                var sigText = result.signatureCode ? ' | Código firma: <strong>' + escapeHtml(result.signatureCode) + '</strong>' : '';
                 msg.innerHTML = '✅ Usuario creado.<br><span style="font-size:0.75rem">🔐 Contraseña temporal: <strong>sigma2026</strong>' + sigText + '</span>';
                 msg.style.color = '#10b981';
                 msg.style.background = '#f0fdf4';
@@ -1055,4 +1055,3 @@ window.abrirModalCrearUsuario = UsuariosManager.abrirModalCrearUsuario;
 window.guardarUsuarioModal = UsuariosManager.guardarUsuarioModal;
 window.cerrarModalCrearUsuarioTest = UsuariosManager.cerrarModalCrearUsuarioTest;
 
-console.log('✅ UsuariosManager cargado');

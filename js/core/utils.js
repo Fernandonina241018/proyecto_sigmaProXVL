@@ -204,4 +204,3 @@ function debugLog(...args) {
     if (DEBUG) console.log(...args);
 }
 
-console.log('✅ Utils cargado correctamente');

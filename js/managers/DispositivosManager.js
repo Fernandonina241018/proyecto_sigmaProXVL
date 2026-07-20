@@ -203,6 +203,4 @@ const DispositivosManager = (() => {
     };
 })();
 
-if (typeof window !== 'undefined') {
-    console.log('✅ DispositivosManager cargado');
-}
+

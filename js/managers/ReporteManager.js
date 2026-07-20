@@ -2555,4 +2555,3 @@ tr:hover td{background:#f7faff}
     };
 
 })();
-console.log('✅ ReporteManager cargado — FDA 21 CFR Part 11');

@@ -240,4 +240,3 @@ function setLang(lang) {
     } catch(e) {}
 })();
 
-console.log('✅ i18n-core cargado');

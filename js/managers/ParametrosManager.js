@@ -296,4 +296,3 @@ const ParametrosManager = (() => {
     };
 })();
 
-console.log('✅ ParametrosManager cargado');
