@@ -98,15 +98,21 @@
         var th = (typeof columnAnalysisConfig !== 'undefined' && columnAnalysisConfig)
             ? columnAnalysisConfig.threshold
             : 0.5;
+        var userExcludes = (typeof columnAnalysisConfig !== 'undefined' && columnAnalysisConfig.excludeColumns)
+            ? columnAnalysisConfig.excludeColumns
+            : [];
+        var baseExcludes = ['#', 'Row', 'row', 'INDEX', 'index', 'row_index', 'No.', 'N°'];
+        var mergedExcludes = baseExcludes.concat(userExcludes);
         if (typeof columnAnalysisConfig !== 'undefined' && columnAnalysisConfig.forceInclude) {
             var info = Stats.analyzeColumns(data);
             return info
                 .filter(function(c) { return c.numericRatio > 0; })
-                .map(function(c) { return c.header; });
+                .map(function(c) { return c.header; })
+                .filter(function(h) { return mergedExcludes.indexOf(h) === -1; });
         }
         return Stats.getNumericColumns(data, {
             threshold: th,
-            excludeColumns: ['#', 'Row', 'row', 'INDEX', 'index', 'row_index', 'No.', 'N°']
+            excludeColumns: mergedExcludes
         });
     }
     

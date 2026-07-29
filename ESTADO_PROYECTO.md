@@ -90,6 +90,39 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-28: Modal exclusión de columnas + persistencia
+
+**Qué:** Nuevo modal para excluir columnas del análisis estadístico, con persistencia en localStorage y diseño ejecutivo moderno.
+
+**Modal `showColumnExclusionModal()` (`indexx-analysis.js`):**
+- Checklist de todas las columnas del dataset con search input
+- Columnas excluidas se muestran en rojo con tachado y badge "EXCLUIDA"
+- Tag bar en header con pills removibles (click ✕ para quitar)
+- Botones "Excluir todas" / "Incluir todas"
+- Persiste inmediatamente en localStorage vía `_saveColumnAnalysisConfig()`
+- Tags visibles en sidebar en `#analisisExcludedTags` con ✕ para quitar inline
+
+**Sidebar (`indexx-ui.js:418`):**
+- Botón 🔍 reemplazado por 🚫 que abre `showColumnExclusionModal()`
+- Nueva fila `#analisisExcludedTags` muestra pills de excluidas
+
+**`columnAnalysisConfig` (`indexx-globals.js:115`):**
+- Nuevo campo `excludeColumns: []`
+- Funciones `_saveColumnAnalysisConfig()` / `_loadColumnAnalysisConfig()` con localStorage
+- Carga automática al inicio
+
+**`getNumericColumns()` (`indexx-stats-core.js:97`):**
+- Merge de `excludeColumns` del usuario con excludes hardcodeados
+- También filtra en modo `forceInclude`
+
+**Archivos afectados:**
+| Archivo | Líneas | Cambio |
+|---------|--------|--------|
+| `js/core/indexx-globals.js` | 135→165 | +30: campo excludeColumns + persistencia localStorage |
+| `js/core/indexx-ui.js` | 1,056 | +1 línea: botón 🚫 + contenedor tags |
+| `js/core/indexx-analysis.js` | 1,130→1,250 | +120: showColumnExclusionModal + helpers |
+| `js/core/indexx-stats-core.js` | 4,161 | +3 líneas: merge excludes en getNumericColumns |
+
 ### 2026-07-19 (2): Refactor EstadisticaDescriptiva.js — 6869→2838 líneas
 
 **Qué:** División del monolito `EstadisticaDescriptiva.js` (6,869 líneas) en 2 archivos:

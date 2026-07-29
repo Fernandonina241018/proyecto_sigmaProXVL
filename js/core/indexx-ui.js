@@ -415,8 +415,9 @@ var leftPanels = {
             '<div style="display:flex;gap:4px">' +
               '<label style="display:flex;align-items:center;gap:3px;font-size:10px;color:var(--text-faint);cursor:pointer"><input type="checkbox" id="colForceInclude" onchange="columnAnalysisConfig.forceInclude=this.checked"> Forzar</label>' +
               '<label style="display:flex;align-items:center;gap:3px;font-size:10px;color:var(--text-faint);cursor:pointer"><input type="checkbox" id="colImputeMissing" onchange="columnAnalysisConfig.imputeMissing=this.checked"> Imputar</label>' +
-              '<button class="btn btn-secondary" style="font-size:10px;padding:1px 6px;margin-left:auto" onclick="showColumnAnalysisModal()">🔍</button>' +
+              '<button class="btn btn-secondary" style="font-size:10px;padding:1px 6px;margin-left:auto" onclick="showColumnExclusionModal()">🚫</button>' +
             '</div>' +
+            '<div id="analisisExcludedTags" style="display:flex;flex-wrap:wrap;gap:3px;min-height:0;font-size:10px"></div>' +
           '</div>' +
         '</div>' +
         // ── Último resultado ──

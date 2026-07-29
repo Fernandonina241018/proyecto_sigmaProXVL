@@ -1128,3 +1128,146 @@ function _initIndexxApp() {
     }
   });
 }
+
+// ════════════════════════════════════════════════════════════════
+// COLUMN EXCLUSION MODAL
+// ════════════════════════════════════════════════════════════════
+
+function showColumnExclusionModal() {
+  var sheet = getCurrentSheet();
+  if (!sheet) { showToast('No hay dataset activo'); return; }
+  var headers = sheet.headers;
+  if (!headers || headers.length === 0) { showToast('El dataset no tiene columnas'); return; }
+
+  var excluded = columnAnalysisConfig.excludeColumns || [];
+
+  function toggleCol(col, checked) {
+    if (checked) {
+      if (excluded.indexOf(col) === -1) excluded.push(col);
+    } else {
+      var idx = excluded.indexOf(col);
+      if (idx !== -1) excluded.splice(idx, 1);
+    }
+    columnAnalysisConfig.excludeColumns = excluded;
+    _saveColumnAnalysisConfig();
+    _renderExclusionList();
+    _renderExcludedTags();
+    _updateSidebarExcludedTags();
+  }
+
+  function isExcluded(col) { return excluded.indexOf(col) !== -1; }
+
+  function _renderExcludedTags() {
+    var el = document.getElementById('colExcTags');
+    if (!el) return;
+    if (excluded.length === 0) {
+      el.innerHTML = '<span style="color:var(--text-faint);font-size:11px">Ninguna columna excluida</span>';
+      return;
+    }
+    el.innerHTML = excluded.map(function(col) {
+      return '<span style="display:inline-flex;align-items:center;gap:3px;background:rgba(255,80,80,0.15);color:var(--danger,#e74c3c);padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500">' +
+        escapeHtml(col) +
+        '<span style="cursor:pointer;font-size:13px;line-height:1;opacity:0.7;hover:opacity:1" onclick="var ex=columnAnalysisConfig.excludeColumns;var i=ex.indexOf(\'' + col.replace(/'/g,"\\'") + '\');if(i!==-1){ex.splice(i,1);_saveColumnAnalysisConfig();showColumnExclusionModal();}">&times;</span>' +
+      '</span>';
+    }).join('');
+  }
+
+  function _renderExclusionList() {
+    var el = document.getElementById('colExcList');
+    if (!el) return;
+    var query = (document.getElementById('colExcSearch') || {}).value || '';
+    var q = query.toLowerCase().trim();
+
+    var filtered = headers.filter(function(h) {
+      return !q || h.toLowerCase().indexOf(q) !== -1;
+    });
+
+    if (filtered.length === 0) {
+      el.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-faint);font-size:12px">No hay columnas que coincidan</div>';
+      return;
+    }
+
+    el.innerHTML = filtered.map(function(h) {
+      var exc = isExcluded(h);
+      return '<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;cursor:pointer;transition:background 0.15s;background:' + (exc ? 'rgba(255,80,80,0.08)' : 'transparent') + ';hover:background:var(--item-hover-bg,rgba(255,255,255,0.05))" onclick="var cb=document.getElementById(\'colExc_' + h.replace(/[^a-zA-Z0-9]/g,'_') + '\');if(cb){cb.checked=!cb.checked;cb.onchange();}">' +
+        '<input type="checkbox" id="colExc_' + h.replace(/[^a-zA-Z0-9]/g,'_') + '" ' + (exc ? 'checked' : '') + ' onchange="toggleCol(\'' + h.replace(/'/g,"\\'") + '\', this.checked)" style="accent-color:var(--danger,#e74c3c);width:14px;height:14px;cursor:pointer;flex-shrink:0">' +
+        '<span style="flex:1;font-size:12px;color:' + (exc ? 'var(--danger,#e74c3c)' : 'var(--text-primary)') + ';font-weight:' + (exc ? '500' : '400') + ';text-decoration:' + (exc ? 'line-through' : 'none') + '">' + escapeHtml(h) + '</span>' +
+        (exc ? '<span style="font-size:9px;color:var(--danger,#e74c3c);font-weight:600">EXCLUIDA</span>' : '<span style="font-size:9px;color:var(--accent);font-weight:500">INCLUIDA</span>') +
+      '</div>';
+    }).join('');
+  }
+
+  function selectAll(exclude) {
+    headers.forEach(function(h) {
+      var idx = excluded.indexOf(h);
+      if (exclude && idx === -1) excluded.push(h);
+      if (!exclude && idx !== -1) excluded.splice(idx, 1);
+    });
+    columnAnalysisConfig.excludeColumns = excluded;
+    _saveColumnAnalysisConfig();
+    _renderExclusionList();
+    _renderExcludedTags();
+    _updateSidebarExcludedTags();
+  }
+
+  var countExcluded = excluded.length;
+  var html = '<div class="modal-overlay" id="colExcOverlay" onclick="var m=document.getElementById(\'colExcOverlay\');if(m)m.remove()">' +
+    '<div class="modal-box" style="max-width:480px;width:90%;max-height:85vh;display:flex;flex-direction:column;padding:0" onclick="event.stopPropagation()">' +
+      // ── Header ──
+      '<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--border)">' +
+        '<div>' +
+          '<strong style="font-size:14px">🚫 Excluir columnas</strong>' +
+          '<span style="font-size:11px;color:var(--text-faint);margin-left:10px" id="colExcCounter">' + countExcluded + ' excluidas</span>' +
+        '</div>' +
+        '<button class="modal-close" onclick="var m=document.getElementById(\'colExcOverlay\');if(m)m.remove()" style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--text-faint);padding:0;line-height:1">✕</button>' +
+      '</div>' +
+      // ── Tags bar ──
+      '<div style="padding:8px 18px;border-bottom:1px solid var(--border);min-height:28px;display:flex;flex-wrap:wrap;align-items:center;gap:4px" id="colExcTags"></div>' +
+      // ── Search ──
+      '<div style="padding:8px 18px;border-bottom:1px solid var(--border)">' +
+        '<input type="text" id="colExcSearch" placeholder="Buscar columna..." oninput="_renderExclusionList()" style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--bg-input,var(--bg-panel));color:var(--text-primary);font-size:12px;outline:none;box-sizing:border-box">' +
+      '</div>' +
+      // ── Quick actions ──
+      '<div style="padding:6px 18px;display:flex;gap:8px;border-bottom:1px solid var(--border)">' +
+        '<button class="btn btn-secondary" style="font-size:10px;padding:3px 10px" onclick="selectAll(true)">Excluir todas</button>' +
+        '<button class="btn btn-secondary" style="font-size:10px;padding:3px 10px" onclick="selectAll(false)">Incluir todas</button>' +
+      '</div>' +
+      // ── Column list ──
+      '<div style="flex:1;overflow-y:auto;padding:8px 18px 12px" id="colExcList"></div>' +
+      // ── Footer ──
+      '<div style="padding:10px 18px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end">' +
+        '<button class="btn btn-primary" onclick="var m=document.getElementById(\'colExcOverlay\');if(m)m.remove();_updateSidebarExcludedTags();_updateColumnAnalysisSummary()">Cerrar</button>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+
+  showModalRaw(html);
+  _renderExcludedTags();
+  _renderExclusionList();
+}
+
+function _updateSidebarExcludedTags() {
+  var el = document.getElementById('analisisExcludedTags');
+  if (!el) return;
+  var excluded = columnAnalysisConfig.excludeColumns || [];
+  if (excluded.length === 0) {
+    el.innerHTML = '';
+    return;
+  }
+  el.innerHTML = excluded.map(function(col) {
+    return '<span style="display:inline-flex;align-items:center;gap:2px;background:rgba(255,80,80,0.12);color:var(--danger,#e74c3c);padding:1px 6px;border-radius:3px;font-size:9px;font-weight:500">' +
+      escapeHtml(col) +
+      '<span style="cursor:pointer;font-size:11px;line-height:1;opacity:0.6" onclick="var ex=columnAnalysisConfig.excludeColumns;var i=ex.indexOf(\'' + col.replace(/'/g,"\\'") + '\');if(i!==-1){ex.splice(i,1);_saveColumnAnalysisConfig();_updateSidebarExcludedTags();_updateColumnAnalysisSummary();}">&times;</span>' +
+    '</span>';
+  }).join('');
+}
+
+function _updateColumnAnalysisSummary() {
+  var el = document.getElementById('analisisStatNumeric');
+  if (!el) return;
+  var sheet = getCurrentSheet();
+  if (!sheet) return;
+  var analysis = window.StatsUtils ? StatsUtils.analyzeColumns({ headers: sheet.headers, data: sheet.rows }) : [];
+  var numeric = analysis.filter(function(c) { return c.viable; }).length;
+  el.textContent = numeric + '/' + analysis.length;
+}

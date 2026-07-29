@@ -116,8 +116,25 @@ var columnAnalysisConfig = {
     threshold: 0.5,
     forceInclude: false,
     imputeMissing: false,
-    imputeMethod: 'media'
+    imputeMethod: 'media',
+    excludeColumns: []
 };
+
+function _saveColumnAnalysisConfig() {
+    try {
+        localStorage.setItem('sigma_columnAnalysisConfig', JSON.stringify(columnAnalysisConfig));
+    } catch(e) { console.warn('[Persist] Error saving columnAnalysisConfig:', e); }
+}
+function _loadColumnAnalysisConfig() {
+    try {
+        var saved = localStorage.getItem('sigma_columnAnalysisConfig');
+        if (saved) {
+            var parsed = JSON.parse(saved);
+            Object.assign(columnAnalysisConfig, parsed);
+        }
+    } catch(e) { console.warn('[Persist] Error loading columnAnalysisConfig:', e); }
+}
+_loadColumnAnalysisConfig();
 // Datos table state
 var datosPage = 0;
 var datosPageSize = 50;
