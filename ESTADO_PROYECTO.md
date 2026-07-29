@@ -90,6 +90,39 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-28 (2): Interacción avanzada en gráficos + fix desfase mouse-punto
+
+**Qué:** Corrección del desfase mouse↔punto en gráficos Chart.js + 4 features de interacción: tooltip mejorado, click en dato, cursor pointer, crosshair, zoom/pan.
+
+**Fix desfase (`indexx-viz.js:162`):**
+- `position:absolute; width:100%!important; height:100%!important` → `display:block; width:100%; height:100%`
+- Chart.js 4.x con `responsive:true` ahora maneja el dimensionamiento del canvas sin interferencias CSS, eliminando el mismatch de coordenadas.
+
+**Interacción (`_V_baseOpts()`):**
+- `interaction: { mode: 'nearest', axis: 'xy', intersect: true }` — detección precisa del punto más cercano
+- `onHover` → cambia cursor a `pointer` sobre puntos/datos
+- `onClick` → muestra detalle (serie + etiqueta + valor) en toolbar `#vizToolbarInfo`
+- Tooltip mejorado con `callbacks.label` — valor con 4 decimales, porcentaje en gráficos circulares
+
+**Crosshair (`_V_crosshairPlugin`):**
+- Plugin Chart.js personalizado registrado vía `Chart.register()`
+- Líneas vertical + horizontal + punto central en hover sobre el área del gráfico
+- Color `rgba(123,111,224,0.35)` — semitransparente, no intrusivo
+- Se oculta al salir del canvas
+
+**Zoom/Pan (`chartjs-plugin-zoom` v2.2.0):**
+- +1 CDN script tag en `indexx.html`
+- Zoom con scroll wheel (Ctrl+scroll para precisión)
+- Drag para pan horizontal
+- Límites: min 5 puntos en X, min 0.01 en Y
+- Fondo semitransparente al seleccionar zona de zoom
+
+**Archivos afectados:**
+| Archivo | Líneas | Cambio |
+|---------|--------|--------|
+| `js/core/indexx-viz.js` | 1,385→1,490 | +105: CSS fix, interaction, crosshair plugin, mousemove, zoom config |
+| `indexx.html` | 383 | +1 script tag chartjs-plugin-zoom |
+
 ### 2026-07-28: Modal exclusión de columnas + persistencia
 
 **Qué:** Nuevo modal para excluir columnas del análisis estadístico, con persistencia en localStorage y diseño ejecutivo moderno.

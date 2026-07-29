@@ -34,6 +34,50 @@ function _V_destroyChart() {
   if (_V.chart) { try { _V.chart.destroy(); } catch(e) {} _V.chart = null; }
 }
 
+// ══ CROSSHAIR PLUGIN ════════════════════════════════════════════
+var _V_xhair = { x: null, y: null, show: false };
+
+var _V_crosshairPlugin = {
+  id: 'crosshair',
+  afterDraw: function(chart) {
+    if (!_V_xhair.show || _V_xhair.x === null) return;
+    var chartArea = chart.chartArea;
+    if (!chartArea) return;
+    var ctx = chart.ctx;
+    var x = _V_xhair.x;
+    var y = _V_xhair.y;
+
+    ctx.save();
+    ctx.setLineDash([]);
+    ctx.strokeStyle = 'rgba(123,111,224,0.35)';
+    ctx.lineWidth = 1;
+
+    // Vertical line
+    ctx.beginPath();
+    ctx.moveTo(x, chartArea.top);
+    ctx.lineTo(x, chartArea.bottom);
+    ctx.stroke();
+
+    // Horizontal line
+    ctx.beginPath();
+    ctx.moveTo(chartArea.left, y);
+    ctx.lineTo(chartArea.right, y);
+    ctx.stroke();
+
+    // Center dot
+    ctx.fillStyle = 'rgba(123,111,224,0.5)';
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, 2 * Math.PI);
+    ctx.fill();
+
+    ctx.restore();
+  },
+};
+
+if (typeof Chart !== 'undefined') {
+  Chart.register(_V_crosshairPlugin);
+}
+
 var _V_CATS = [
   { id: 'comp',  lbl: 'Comparación', types: ['barras','agrupadas','apiladas'] },
   { id: 'dist',  lbl: 'Distribución', types: ['histograma','dispersion','burbuja'] },
@@ -159,7 +203,7 @@ function _V_injectCSS() {
     + '.viz-root .chart-ttl{font-size:15px;font-weight:700;text-align:center;color:var(--t1);flex-shrink:0;letter-spacing:-.2px}'
     + '.viz-root .chart-type-tag{font-size:10px;font-weight:700;letter-spacing:.6px;color:var(--acc2);background:var(--accDim);padding:2px 8px;border-radius:99px;display:inline-block;margin:0 auto;flex-shrink:0;width:fit-content;align-self:center}'
     + '.viz-root .canvas-wrap{flex:1;position:relative;min-height:0;min-width:0}'
-    + '.viz-root .canvas-wrap canvas{position:absolute;top:0;left:0;width:100%!important;height:100%!important}'
+    + '.viz-root .canvas-wrap canvas{display:block;width:100%;height:100%}'
     + '.viz-root .toolbar{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1px solid var(--sep);background:var(--bg1);flex-shrink:0}'
     + '.viz-root .toolbar-info{flex:1;font-size:11px;color:var(--t3)}'
     + '.viz-root .toolbar-info strong{color:var(--t2);font-weight:600}'
@@ -539,10 +583,16 @@ function _V_baseOpts() {
   var isLight = _V_isLight();
   var gc = isLight ? 'rgba(0,0,0,.08)' : 'rgba(255,255,255,.06)';
   var tc = isLight ? 'rgba(100,116,139,.8)' : 'rgba(200,200,220,.5)';
+  var acc = isLight ? '#7b6fe0' : '#a397f7';
   return {
     responsive: true,
     maintainAspectRatio: false,
     animation: { duration: _V.opts.anim ? 700 : 0 },
+    interaction: {
+      mode: 'nearest',
+      axis: 'xy',
+      intersect: true,
+    },
     plugins: {
       legend: {
         display: _V.opts.legend,
@@ -555,7 +605,41 @@ function _V_baseOpts() {
         borderColor: isLight ? 'rgba(100,116,139,.25)' : 'rgba(123,111,224,.3)',
         borderWidth: 1,
         padding: 10,
+        callbacks: {
+          label: function(ctx) {
+            var label = ctx.dataset.label || '';
+            var val = ctx.parsed.y != null ? ctx.parsed.y : ctx.parsed.r;
+            var raw = ctx.raw;
+            if (ctx.chart.config.type === 'circular' || ctx.chart.config.type === 'dona' || ctx.chart.config.type === 'polar') {
+              val = ctx.parsed;
+              var total = ctx.dataset.data.reduce(function(a, b) { return a + b; }, 0);
+              var pct = total > 0 ? (val / total * 100).toFixed(1) : 0;
+              return label + ': ' + val.toFixed(2) + ' (' + pct + '%)';
+            }
+            return label + ': ' + (typeof val === 'number' ? val.toFixed(4) : val);
+          },
+        },
       },
+    },
+    onClick: function(e) {
+      var els = this.getElementsAtEventForMode(e, 'nearest', { axis: 'xy', intersect: true }, true);
+      if (els && els.length) {
+        var ds = els[0].datasetIndex;
+        var idx = els[0].index;
+        var chart = this;
+        var dataset = chart.data.datasets[ds];
+        var label = chart.data.labels ? chart.data.labels[idx] : '';
+        var val = dataset.data[idx];
+        var dsLabel = dataset.label || 'Serie ' + (ds + 1);
+        var infoEl = document.getElementById('vizToolbarInfo');
+        if (infoEl) {
+          infoEl.innerHTML = '<strong>' + escapeHtml(dsLabel) + '</strong> · ' + escapeHtml(String(label)) + ' = <strong style="color:' + acc + '">' + (typeof val === 'number' ? val.toFixed(4) : escapeHtml(String(val))) + '</strong>';
+        }
+      }
+    },
+    onHover: function(e) {
+      var point = this.getElementsAtEventForMode(e, 'nearest', { axis: 'xy', intersect: true }, true);
+      e.native.target.style.cursor = point.length ? 'pointer' : 'default';
     },
     scales: {
       x: {
@@ -567,6 +651,15 @@ function _V_baseOpts() {
         grid: { color: _V.opts.grid ? gc : 'transparent' },
         ticks: { color: tc, font: { size: 11 }, padding: 6 },
         border: { display: false },
+      },
+    },
+    zoom: {
+      wheel: { enabled: true, speed: 0.05, modifierKey: 'ctrl' },
+      drag: { enabled: true, mode: 'x', backgroundColor: 'rgba(123,111,224,0.08)', borderColor: acc, borderWidth: 1 },
+      pan: { enabled: true, mode: 'x' },
+      limits: {
+        x: { minRange: 5 },
+        y: { minRange: 0.01 },
       },
     },
   };
@@ -874,6 +967,27 @@ function vizRenderChart() {
     Chart.defaults.color = _V_isLight() ? 'rgba(100,116,139,.7)' : 'rgba(200,200,220,.5)';
     _V.chart = new Chart(canvas.getContext('2d'), config);
   } catch(e) { showToast('Error al renderizar: ' + e.message); return; }
+
+  // Crosshair mouse tracking
+  _V_xhair.show = false;
+  canvas.onmousemove = function(e) {
+    var rect = canvas.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+    var chartArea = _V.chart ? _V.chart.chartArea : null;
+    if (chartArea && x >= chartArea.left && x <= chartArea.right && y >= chartArea.top && y <= chartArea.bottom) {
+      _V_xhair.x = x;
+      _V_xhair.y = y;
+      _V_xhair.show = true;
+    } else {
+      _V_xhair.show = false;
+    }
+    if (_V.chart) _V.chart.draw();
+  };
+  canvas.onmouseleave = function() {
+    _V_xhair.show = false;
+    if (_V.chart) _V.chart.draw();
+  };
 
   var axCount = 0;
   for (var k in _V.vals) { if (_V.vals[k]) axCount++; }
