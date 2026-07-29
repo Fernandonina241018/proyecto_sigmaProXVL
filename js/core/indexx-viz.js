@@ -49,8 +49,8 @@ var _V_crosshairPlugin = {
 
     ctx.save();
     ctx.setLineDash([]);
-    ctx.strokeStyle = 'rgba(123,111,224,0.35)';
-    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(123,111,224,0.55)';
+    ctx.lineWidth = 2;
 
     // Vertical line
     ctx.beginPath();
