@@ -608,7 +608,7 @@ function firmaRequestReset(role) {
   content.appendChild(codeLabel);
 
   var codeInput = document.createElement('input');
-  codeInput.type = 'text';
+  codeInput.type = 'password';
   codeInput.style.cssText = 'width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem;outline:none';
   codeInput.placeholder = 'Ej: ABC-123';
   content.appendChild(codeInput);
