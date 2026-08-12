@@ -607,22 +607,40 @@ function firmaRequestReset(role) {
   codeLabel.textContent = 'C\u00F3digo de firma';
   content.appendChild(codeLabel);
 
+  var codeWrap = document.createElement('div');
+  codeWrap.style.cssText = 'position:relative';
   var codeInput = document.createElement('input');
   codeInput.type = 'password';
-  codeInput.style.cssText = 'width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem;outline:none';
+  codeInput.style.cssText = 'width:100%;padding:8px 30px 8px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem;outline:none;box-sizing:border-box';
   codeInput.placeholder = 'Ej: ABC-123';
-  content.appendChild(codeInput);
+  codeWrap.appendChild(codeInput);
+  var codeEye = document.createElement('button');
+  codeEye.type = 'button';
+  codeEye.textContent = '👁';
+  codeEye.style.cssText = 'position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:13px;padding:2px;line-height:1';
+  codeEye.onclick = function(){ var show = codeInput.type === 'password'; codeInput.type = show ? 'text' : 'password'; codeEye.textContent = show ? '🙈' : '👁'; };
+  codeWrap.appendChild(codeEye);
+  content.appendChild(codeWrap);
 
   var pwLabel = document.createElement('label');
   pwLabel.style.cssText = 'font-size:11px;color:var(--text-primary)';
   pwLabel.textContent = 'Contrase\u00F1a';
   content.appendChild(pwLabel);
 
+  var pwWrap = document.createElement('div');
+  pwWrap.style.cssText = 'position:relative';
   var pwInput = document.createElement('input');
   pwInput.type = 'password';
-  pwInput.style.cssText = 'width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem;outline:none';
+  pwInput.style.cssText = 'width:100%;padding:8px 30px 8px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem;outline:none;box-sizing:border-box';
   pwInput.placeholder = 'Ingresa tu contrase\u00F1a';
-  content.appendChild(pwInput);
+  pwWrap.appendChild(pwInput);
+  var pwEye = document.createElement('button');
+  pwEye.type = 'button';
+  pwEye.textContent = '👁';
+  pwEye.style.cssText = 'position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:13px;padding:2px;line-height:1';
+  pwEye.onclick = function(){ var show = pwInput.type === 'password'; pwInput.type = show ? 'text' : 'password'; pwEye.textContent = show ? '🙈' : '👁'; };
+  pwWrap.appendChild(pwEye);
+  content.appendChild(pwWrap);
 
   var errorEl = document.createElement('div');
   errorEl.style.cssText = 'font-size:10px;color:#ef4444;min-height:14px';
