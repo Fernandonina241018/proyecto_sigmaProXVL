@@ -230,6 +230,10 @@ app.use('/api/ml', requireAuth, async (req, res) => {
             headers: { ...req.headers, host: mlUrl.host },
             timeout: 120000,
         };
+        // No reenviar credenciales del cliente al ML Service (JWT, cookies)
+        delete options.headers['authorization'];
+        delete options.headers['cookie'];
+        delete options.headers['x-api-key'];
         // Remove body-restricted headers for GET/HEAD
         if (['GET', 'HEAD'].includes(req.method)) {
             delete options.headers['content-type'];
@@ -242,7 +246,7 @@ app.use('/api/ml', requireAuth, async (req, res) => {
         });
         proxyReq.on('error', (err) => {
             console.error('ML proxy error:', err.message);
-            res.status(503).json({ ok: false, error: 'ML Service no disponible: ' + err.message });
+            res.status(503).json({ ok: false, error: 'ML Service no disponible' });
         });
         proxyReq.on('timeout', () => {
             proxyReq.destroy();
@@ -254,7 +258,7 @@ app.use('/api/ml', requireAuth, async (req, res) => {
         proxyReq.end();
     } catch (err) {
         console.error('ML proxy error:', err);
-        res.status(500).json({ ok: false, error: err.message });
+        res.status(500).json({ ok: false, error: 'Error interno del ML proxy' });
     }
 });
 

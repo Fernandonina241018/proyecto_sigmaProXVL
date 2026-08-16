@@ -90,6 +90,30 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-29 (2): Auditoría — Fixes nivel bajo (limpieza código muerto + hardening)
+
+**Qué:** Eliminación de código muerto y mejoras menores de seguridad. Sin cambios de comportamiento en API pública.
+
+**Frontend:**
+- `utils.js` — Eliminados `showLoading`/`hideLoading` (0 usos; overlay `global-loading` no existe en DOM)
+- `indexx-stats-core.js` — Eliminada `qrDecomposition` (0 llamadores; jacobiEigenvalues es el método usado)
+- `ml.js` — Eliminadas 7 funciones muertas: `_renderPredictionsTable`, `_hpReset`, `_predCard` + helpers (`_predConfColor`, `_predConfLabel`, `_predMeterBar`, `_predBadge`, `_predFactorsHtml`, `_predMetricsStrip`) — −315 líneas
+- `Logger.js` — Eliminados 7 métodos sin uso (`setEnabled`, `logImport`, `logExport`, `logAnalysis`, `logAnalysisConfig`, `logReportDownload`, `logUserChange`); conservados los usados: `log`, `logDataChange` (StateManager), `logReportGenerate` (ReporteManager), `logError` (indexx.html handler global)
+- `EstadisticaDescriptiva.js:1524` — `escapeHtml` ahora también escapa comillas simples `'` → `&#039;`
+- `EstadisticaDescriptiva.js.bak` — eliminado del filesystem (no estaba versionado)
+
+**Backend:**
+- `server.js` — Proxy ML ya **no reenvía** `Authorization`/`cookie`/`x-api-key` del cliente al ML Service; errores con mensajes genéricos (sin `err.message` interno)
+- `database.js` — Eliminada `getUserPasswordTemp` (exportada pero nunca usada) de ambas impls + exports
+- `package.json`/`package-lock.json` — Eliminada dependencia `cors` (nunca requerida)
+
+**Verificación:**
+- ✅ `deno check` OK: database.js, server.js, utils.js, Logger.js, EstadisticaDescriptiva.js, indexx-stats-core.js, ml.js
+- ✅ Balance paréntesis/llaves + estructura del IIFE de ml.js íntegra
+- ✅ 0 referencias rotas (grep de todas las funciones eliminadas: vacío)
+- ✅ package-lock.json JSON válido
+- ⚠️ Pendiente documentado (decisión de diseño, NO corregido): token JWT en body JSON + renovación de sesión en /api/me (sliding session)
+
 ### 2026-07-29: Auditoría — Fixes nivel medio (backend + frontend)
 
 **Qué:** Corrección de 8 hallazgos de seguridad/media de la auditoría (ver conversación). Sin cambios en API pública.

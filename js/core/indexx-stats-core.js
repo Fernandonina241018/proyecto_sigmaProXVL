@@ -2693,58 +2693,6 @@ interpretacion: interpretacion,
       // Alias para compatibilidad
       const qrEigenvalues = jacobiEigenvalues;
       
-      // Descomposición QR (método de Gram-Schmidt modificado)
-      function qrDecomposition(A) {
-        const n = A.length;
-        const Q = Array(n).fill(0).map(() => Array(n).fill(0));
-        const R = Array(n).fill(0).map(() => Array(n).fill(0));
-        
-        for (let j = 0; j < n; j++) {
-          // Columna j de Q
-          let v = A.map(row => row[j]);
-          
-          for (let i = 0; i < j; i++) {
-            // Proyección de columna j sobre columna i de Q
-            let dot = 0;
-            for (let k = 0; k < n; k++) {
-              dot += Q[k][i] * A[k][j];
-            }
-            R[i][j] = dot;
-            for (let k = 0; k < n; k++) {
-              v[k] -= R[i][j] * Q[k][i];
-            }
-          }
-          
-          // Normalizar para obtener Q[:, j]
-          let norm = 0;
-          for (let k = 0; k < n; k++) {
-            norm += v[k] * v[k];
-          }
-          norm = Math.sqrt(norm);
-          
-          if (norm < 1e-10) {
-            R[j][j] = 0;
-            for (let k = 0; k < n; k++) Q[k][j] = 0;
-          } else {
-            R[j][j] = norm;
-            for (let k = 0; k < n; k++) {
-              Q[k][j] = v[k] / norm;
-            }
-          }
-          
-          // Calcular R[i,j] para i > j
-          for (let i = j + 1; i < n; i++) {
-            let dot = 0;
-            for (let k = 0; k < n; k++) {
-              dot += Q[k][j] * A[k][i];
-            }
-            R[j][i] = dot;
-          }
-        }
-        
-        return { Q, R };
-      }
-
       // ========================================
       // ANÁLISIS FACTORIAL
       // ========================================

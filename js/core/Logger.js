@@ -92,31 +92,9 @@ const Logger = (() => {
 
     // ── Métodos convenience ────────────────────
 
-    // Datos: Importar archivo
-    async function logImport(filename, fileSize = null) {
-        const details = filename ? { filename, fileSize } : null;
-        return log('IMPORT', MODULES.DATOS, details);
-    }
-
-    // Datos: Exportar archivo
-    async function logExport(format, filename) {
-        return log(`EXPORT:${format.toUpperCase()}`, MODULES.DATOS, { format, filename });
-    }
-
     // Datos: Modificaciones
     async function logDataChange(actionType, details) {
         return log(`DATA:${actionType}`, MODULES.DATOS, details);
-    }
-
-    // Análisis: Ejecutar analizar
-    async function logAnalysis(stats, durationMs) {
-        const details = { stats: Array.isArray(stats) ? stats : [stats] };
-        return log('ANALYSIS_RUN', MODULES.ANALISIS, details, durationMs);
-    }
-
-    // Análisis: Cambiar configuración
-    async function logAnalysisConfig(statName, config) {
-        return log(`CONFIG:${statName}`, MODULES.ANALISIS, config);
     }
 
     // Reportes: Generar
@@ -124,34 +102,17 @@ const Logger = (() => {
         return log(`REPORT:${format.toUpperCase()}`, MODULES.REPORTES, { format, hasGraphics });
     }
 
-    // Reportes: Descargar
-    async function logReportDownload(format, filename) {
-        return log(`DOWNLOAD:${format.toUpperCase()}`, MODULES.REPORTES, { format, filename });
-    }
-
     // Sistema: Errores
     async function logError(errorType, errorMessage) {
         return log(`ERROR:${errorType}`, MODULES.SYSTEM, { error: errorMessage });
     }
 
-    // Usuarios: Cambios de configuración
-    async function logUserChange(action, targetUser) {
-        return log(`USER:${action}`, MODULES.USERS, { targetUser });
-    }
-
     return {
         init,
-        setEnabled,
         log,
-        logImport,
-        logExport,
         logDataChange,
-        logAnalysis,
-        logAnalysisConfig,
         logReportGenerate,
-        logReportDownload,
         logError,
-        logUserChange,
         MODULES,
     };
 })();

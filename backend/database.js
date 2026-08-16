@@ -146,11 +146,6 @@ function buildPostgres() {
 
     async function setPasswordTemp(username, value) { await run('UPDATE users SET password_temp=$1 WHERE username=$2', [value ? 1 : 0, username]); }
 
-    async function getUserPasswordTemp(username) {
-        const u = await get('SELECT password_temp FROM users WHERE username=$1', [username]);
-        return u ? u.password_temp === 1 : false;
-    }
-
     async function updateUserProfile(username, { nombre, apellido, email, telefono, cargo, signatureCode, signature }) {
         const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
         await run(`UPDATE users SET nombre=$1,apellido=$2,email=$3,telefono=$4,cargo=$5,signature_code=$6,signature=$7,updated_at=$8 WHERE username=$9`,
@@ -366,7 +361,7 @@ function buildPostgres() {
         return get('SELECT * FROM data_snapshots WHERE id = $1', [id]);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, getUserPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById };
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById };
 }
 
 // ───── Local JSON store ─────
@@ -476,7 +471,6 @@ function buildLocalStore() {
     }
 
     async function setPasswordTemp(username, value) { const u = findUser(username); if (u) { u.password_temp = value ? 1 : 0; save(); } }
-    async function getUserPasswordTemp(username) { const u = findUser(username); return u ? u.password_temp === 1 : false; }
 
     async function updateUserProfile(username, { nombre, apellido, email, telefono, cargo, signatureCode, signature }) {
         const u = findUser(username);
@@ -703,7 +697,7 @@ function buildLocalStore() {
         return state.data_snapshots.find(function(s) { return s.id === id; }) || null;
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, getUserPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById };
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById };
 }
 
 const impl = build();
@@ -718,7 +712,6 @@ module.exports = {
     toggleUserActive:    (...a) => impl.toggleUserActive(...a),
     changePassword:      (...a) => impl.changePassword(...a),
     setPasswordTemp:     (...a) => impl.setPasswordTemp(...a),
-    getUserPasswordTemp: (...a) => impl.getUserPasswordTemp(...a),
     updateUserProfile:   (...a) => impl.updateUserProfile(...a),
     updateUserProfileById: (...a) => impl.updateUserProfileById(...a),
     changeRole:          (...a) => impl.changeRole(...a),
