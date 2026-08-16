@@ -496,10 +496,18 @@ function firmaRequestPassword(role) {
   var content = document.createElement('div');
   content.style.cssText = 'padding:12px 16px;display:flex;flex-direction:column;gap:10px';
 
-  var codeInfo = document.createElement('div');
-  codeInfo.style.cssText = 'font-size:11px;color:var(--text-faint)';
-  codeInfo.textContent = 'C\u00F3digo: ' + code;
-  content.appendChild(codeInfo);
+  var sd = null;
+  if (_firmaSignatureData) {
+    for (var i = 0; i < _firmaSignatureData.length; i++) {
+      if (_firmaSignatureData[i].role === role) { sd = _firmaSignatureData[i]; break; }
+    }
+  }
+  var signerName = sd && sd.fields && sd.fields.name && sd.fields.name !== '' && sd.fields.name !== '\u2014' ? sd.fields.name : null;
+  var signerLabel = sd ? sd.label : role;
+  var signerInfo = document.createElement('div');
+  signerInfo.style.cssText = 'font-size:11px;color:var(--text-faint);display:flex;align-items:center;gap:6px';
+  signerInfo.innerHTML = '\u270D\uFE0F Firmando como: <strong>' + escapeHtml(signerName || signerLabel) + '</strong>' + (signerName ? ' <span style="opacity:.7">(' + escapeHtml(signerLabel) + ')</span>' : '');
+  content.appendChild(signerInfo);
 
   var pwLabel = document.createElement('label');
   pwLabel.style.cssText = 'font-size:11px;color:var(--text-primary)';
