@@ -1010,7 +1010,7 @@ function _generateSecurePassword(length) {
         _loadAndRender();
     }
 
-return { init, buildView, abrirModalCrearUsuario, guardarUsuarioModal, cerrarModalCrearUsuarioTest, _onRefresh };
+return { init, buildView, abrirModalCrearUsuario, guardarUsuarioModal: window.guardarUsuarioModal, cerrarModalCrearUsuarioTest: window.cerrarModalCrearUsuarioTest, _onRefresh };
 })();
 
 // ========================================

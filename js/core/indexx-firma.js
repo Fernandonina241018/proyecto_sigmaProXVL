@@ -13,14 +13,29 @@ var _firmaSignatureState = {};
 var _firmaOriginalName = '';
 var _firmaIsNewSession = false;
 
+// Almacenamiento de estado de firma: sessionStorage (se limpia al cerrar
+// el navegador) con migración automática desde localStorage legacy.
+var _firmaStore = {
+  get: function(k) {
+    try { return sessionStorage.getItem(k) || localStorage.getItem(k); } catch(e) { return null; }
+  },
+  set: function(k, v) {
+    try { sessionStorage.setItem(k, v); localStorage.removeItem(k); } catch(e) {}
+  },
+  remove: function(k) {
+    try { sessionStorage.removeItem(k); localStorage.removeItem(k); } catch(e) {}
+  },
+  has: function(k) { return !!this.get(k); }
+};
+
 function firmaPersistState() {
   if (_firmaCurrentHtml) {
     try {
-      localStorage.setItem('__firma_current_html', _firmaCurrentHtml);
-      localStorage.setItem('__firma_signature_data', JSON.stringify(_firmaSignatureData));
-      localStorage.setItem('__firma_signature_state', JSON.stringify(_firmaSignatureState));
-      localStorage.setItem('__firma_original_name', _firmaOriginalName);
-      localStorage.setItem('__firma_is_new_session', _firmaIsNewSession ? '1' : '0');
+      _firmaStore.set('__firma_current_html', _firmaCurrentHtml);
+      _firmaStore.set('__firma_signature_data', JSON.stringify(_firmaSignatureData));
+      _firmaStore.set('__firma_signature_state', JSON.stringify(_firmaSignatureState));
+      _firmaStore.set('__firma_original_name', _firmaOriginalName);
+      _firmaStore.set('__firma_is_new_session', _firmaIsNewSession ? '1' : '0');
     } catch(e) {
       console.warn('Error persisting signature state:', e.message);
     }
@@ -29,11 +44,11 @@ function firmaPersistState() {
 
 function firmaClearState() {
   try {
-    localStorage.removeItem('__firma_current_html');
-    localStorage.removeItem('__firma_signature_data');
-    localStorage.removeItem('__firma_signature_state');
-    localStorage.removeItem('__firma_original_name');
-    localStorage.removeItem('__firma_is_new_session');
+    _firmaStore.remove('__firma_current_html');
+    _firmaStore.remove('__firma_signature_data');
+    _firmaStore.remove('__firma_signature_state');
+    _firmaStore.remove('__firma_original_name');
+    _firmaStore.remove('__firma_is_new_session');
   } catch(e) {
     console.warn('Error clearing signature state:', e.message);
   }
@@ -41,7 +56,7 @@ function firmaClearState() {
 
 function firmaHasPersistedState() {
   try {
-    return !!localStorage.getItem('__firma_current_html');
+    return !!_firmaStore.get('__firma_current_html');
   } catch(e) {
     return false;
   }
@@ -49,10 +64,10 @@ function firmaHasPersistedState() {
 
 function firmaRestoreState() {
   try {
-    var html = localStorage.getItem('__firma_current_html');
-    var sigData = JSON.parse(localStorage.getItem('__firma_signature_data'));
-    var sigState = JSON.parse(localStorage.getItem('__firma_signature_state'));
-    var origName = localStorage.getItem('__firma_original_name');
+    var html = _firmaStore.get('__firma_current_html');
+    var sigData = JSON.parse(_firmaStore.get('__firma_signature_data'));
+    var sigState = JSON.parse(_firmaStore.get('__firma_signature_state'));
+    var origName = _firmaStore.get('__firma_original_name');
 
     if (!html || !sigData) return false;
 
@@ -65,7 +80,7 @@ function firmaRestoreState() {
     _firmaSignatureData = sigData;
     _firmaSignatureState = sigState || {};
     _firmaOriginalName = origName || 'reporte.html';
-    _firmaIsNewSession = localStorage.getItem('__firma_is_new_session') === '1';
+    _firmaIsNewSession = _firmaStore.get('__firma_is_new_session') === '1';
 
     var preview = document.getElementById('firmaPreview');
     if (preview) {

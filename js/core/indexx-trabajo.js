@@ -19,35 +19,36 @@ function pushUndo() {
   redoStack = [];
 }
 function undoAction() {
-  if (!undoStack.length) { showToast('Nada que deshacer'); return; }
+  if (!undoStack.length) { showUndoToast('Nada que deshacer'); return; }
   var sheet = getCurrentSheet();
   if (!sheet) return;
-  if (sheet.locked) { showToast('🔒 Hoja bloqueada. Desbloquéala para editar.'); return; }
+  if (sheet.locked) { showUndoToast('🔒 Hoja bloqueada. Desbloquéala para editar.'); return; }
   var current = snapshotSheet();
   if (current) redoStack.push(current);
   var snap = undoStack.pop();
   sheet.headers = snap.headers;
   sheet.rows = snap.rows;
-  showToast('↩ Acción deshecha');
+  showUndoToast('↩ Acción deshecha');
   loadPage('trabajo');
 }
 function redoAction() {
-  if (!redoStack.length) { showToast('Nada que rehacer'); return; }
+  if (!redoStack.length) { showUndoToast('Nada que rehacer'); return; }
   var sheet = getCurrentSheet();
   if (!sheet) return;
-  if (sheet.locked) { showToast('🔒 Hoja bloqueada. Desbloquéala para editar.'); return; }
+  if (sheet.locked) { showUndoToast('🔒 Hoja bloqueada. Desbloquéala para editar.'); return; }
   var current = snapshotSheet();
   if (current) undoStack.push(current);
   var snap = redoStack.pop();
   sheet.headers = snap.headers;
   sheet.rows = snap.rows;
-  showToast('↪ Acción rehecha');
+  showUndoToast('↪ Acción rehecha');
   loadPage('trabajo');
 }
 var _toastTimer = null;
-function showToast(msg) {
+function showUndoToast(msg) {
   var t = document.getElementById('undoToast');
   var inner = document.getElementById('undoToastInner');
+  if (!t || !inner) return;
   inner.textContent = msg; t.classList.add('show');
   clearTimeout(_toastTimer);
   _toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2000);

@@ -178,7 +178,7 @@ function recordFailedAttempt(username) {
     let userData = _userFailures.get(username) || { count: 0, lockedUntil: 0 };
     userData.count++;
     if (userData.count >= 5 && !userData.lockedUntil) {
-        userData.lockedUntil = Date.now() + 30 * 1000; // 30 segundos
+        userData.lockedUntil = Date.now() + 5 * 60 * 1000; // 5 minutos
     }
     if (userData.lockedUntil < Date.now()) {
         userData.count = 1;
@@ -472,7 +472,7 @@ app.post('/api/login', loginLimiter, async (req, res) => {
             return res.status(401).json({ error: 'Credenciales incorrectas' });
         }
 
-        const passwordOk = bcrypt.compareSync(password, user.password);
+        const passwordOk = await bcrypt.compare(password, user.password);
         if (!passwordOk) {
             recordFailedAttempt(username.trim());
             checkAndAlertIP(ip, username.trim());
@@ -624,7 +624,7 @@ app.post('/api/2fa/disable', requireAuth, requireAdmin, async (req, res) => {
         }
         // Verificar contraseña del admin que ejecuta
         const adminUser = await db.getUserByUsername(req.user.username);
-        if (!adminUser || !bcrypt.compareSync(password, adminUser.password)) {
+        if (!adminUser || !await bcrypt.compare(password, adminUser.password)) {
             return res.status(401).json({ error: 'Contraseña de administrador incorrecta' });
         }
         await db.disable2FA(username.trim());
@@ -650,7 +650,8 @@ app.get('/api/users/:id/2fa', requireAuth, requireAdmin, async (req, res) => {
         const enabled = await db.has2FAEnabled(user.username);
         res.json({ ok: true, username: user.username, enabled });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Error getting 2FA status:', err);
+        res.status(500).json({ error: 'Error al consultar estado 2FA' });
     }
 });
 
@@ -775,7 +776,8 @@ app.get('/api/2fa/status', requireAuth, async (req, res) => {
         const enabled = await db.has2FAEnabled(req.user.username);
         res.json({ ok: true, enabled });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Error checking 2FA status:', err);
+        res.status(500).json({ error: 'Error al consultar estado 2FA' });
     }
 });
 
@@ -809,7 +811,8 @@ app.get('/api/snapshots', requireAuth, async (req, res) => {
         const snapshots = await db.getSnapshots(username, parseInt(req.query.limit) || 20);
         res.json({ ok: true, snapshots });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Error listing snapshots:', err);
+        res.status(500).json({ error: 'Error al listar snapshots' });
     }
 });
 
@@ -824,14 +827,20 @@ app.get('/api/snapshots/:id', requireAuth, async (req, res) => {
         }
         res.json({ ok: true, snapshot });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Error getting snapshot:', err);
+        res.status(500).json({ error: 'Error al obtener snapshot' });
     }
 });
 
 // GET /api/users (solo admin)
 app.get('/api/users', requireAuth, requireAdmin, async (req, res) => {
-    const users = await db.getAllUsers();
-    res.json({ ok: true, users });
+    try {
+        const users = await db.getAllUsers();
+        res.json({ ok: true, users });
+    } catch (err) {
+        console.error('Error listing users:', err);
+        res.status(500).json({ error: 'Error al listar usuarios' });
+    }
 });
 
 // POST /api/verify-signature — validar código de firma + contraseña
@@ -844,10 +853,24 @@ app.post('/api/verify-signature', verifyLimiter, async (req, res) => {
     try {
         const user = await db.getUserBySignatureCode(signatureCode.trim());
         if (!user) {
+            await db.logAccess({
+                username:  '(desconocido)',
+                action:    'VERIFY_SIGNATURE_FAIL',
+                success:   false,
+                ip:        getClientIP(req),
+                userAgent: req.headers['user-agent'],
+            });
             return res.status(404).json({ error: 'Código de firma no registrado' });
         }
-        const passwordOk = bcrypt.compareSync(password, user.password);
+        const passwordOk = await bcrypt.compare(password, user.password);
         if (!passwordOk) {
+            await db.logAccess({
+                username:  user.username,
+                action:    'VERIFY_SIGNATURE_FAIL',
+                success:   false,
+                ip:        getClientIP(req),
+                userAgent: req.headers['user-agent'],
+            });
             return res.status(401).json({ error: 'Contraseña incorrecta' });
         }
         await db.logAccess({
@@ -931,105 +954,143 @@ app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
 
 // PUT /api/users/:id/toggle (solo admin)
 app.put('/api/users/:id/toggle', requireAuth, requireAdmin, async (req, res) => {
-    await db.toggleUserActive(req.params.id, req.body.active ? 1 : 0);
-    res.json({ ok: true });
+    try {
+        await db.toggleUserActive(req.params.id, req.body.active ? 1 : 0);
+        res.json({ ok: true });
+    } catch (err) {
+        console.error('Error toggling user:', err);
+        res.status(500).json({ error: 'Error al actualizar usuario' });
+    }
 });
 
 // PUT /api/users/password
 app.put('/api/users/password', requireAuth, async (req, res) => {
-    const { currentPassword, newPassword, signatureCode } = req.body;
-    var pwErr = validatePasswordStrength(newPassword);
-    if (pwErr) {
-        return res.status(400).json({ error: pwErr });
-    }
-    const user = await db.getUserByUsername(req.user.username);
-    
-    // Si tiene contraseña temporal, no requiere contraseña actual
-    const isTempPassword = user.password_temp === 1;
-    if (!isTempPassword) {
-        if (!currentPassword) {
-            return res.status(400).json({ error: 'Debe proporcionar la contraseña actual' });
+    try {
+        const { currentPassword, newPassword, signatureCode } = req.body;
+        var pwErr = validatePasswordStrength(newPassword);
+        if (pwErr) {
+            return res.status(400).json({ error: pwErr });
         }
-        if (!bcrypt.compareSync(currentPassword, user.password)) {
-            return res.status(401).json({ error: 'Contraseña actual incorrecta' });
+        const user = await db.getUserByUsername(req.user.username);
+        
+        // Si tiene contraseña temporal, no requiere contraseña actual
+        const isTempPassword = user.password_temp === 1;
+        if (!isTempPassword) {
+            if (!currentPassword) {
+                return res.status(400).json({ error: 'Debe proporcionar la contraseña actual' });
+            }
+            if (!await bcrypt.compare(currentPassword, user.password)) {
+                return res.status(401).json({ error: 'Contraseña actual incorrecta' });
+            }
         }
+        
+        await db.changePassword(req.user.username, newPassword);
+        
+        // Guardar código de firma si se proporcionó
+        if (signatureCode && signatureCode.trim()) {
+            await db.updateUserProfile(req.user.username, { signatureCode: signatureCode.trim() });
+        }
+        
+        res.json({ ok: true, signatureCode: signatureCode ? signatureCode.trim() : undefined });
+    } catch (err) {
+        console.error('Error changing password:', err);
+        res.status(500).json({ error: 'Error al cambiar la contraseña' });
     }
-    
-    await db.changePassword(req.user.username, newPassword);
-    
-    // Guardar código de firma si se proporcionó
-    if (signatureCode && signatureCode.trim()) {
-        await db.updateUserProfile(req.user.username, { signatureCode: signatureCode.trim() });
-    }
-    
-    res.json({ ok: true, signatureCode: signatureCode ? signatureCode.trim() : undefined });
 });
 
 // PUT /api/users/profile (usuario actual)
 app.put('/api/users/profile', requireAuth, async (req, res) => {
-    const { nombre, apellido, email, telefono, cargo, signatureCode, signature } = req.body;
-    if (nombre && nombre.length > 100) return res.status(400).json({ error: 'El nombre no puede exceder 100 caracteres' });
-    if (apellido && apellido.length > 100) return res.status(400).json({ error: 'El apellido no puede exceder 100 caracteres' });
-    if (email && email.length > 200) return res.status(400).json({ error: 'El email no puede exceder 200 caracteres' });
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: 'Email inválido' });
-    if (signatureCode && signatureCode.length > 50) return res.status(400).json({ error: 'El código de firma no puede exceder 50 caracteres' });
-    await db.updateUserProfile(req.user.username, { nombre, apellido, email, telefono, cargo, signatureCode });
-    res.json({ ok: true });
+    try {
+        const { nombre, apellido, email, telefono, cargo, signatureCode, signature } = req.body;
+        if (nombre && nombre.length > 100) return res.status(400).json({ error: 'El nombre no puede exceder 100 caracteres' });
+        if (apellido && apellido.length > 100) return res.status(400).json({ error: 'El apellido no puede exceder 100 caracteres' });
+        if (email && email.length > 200) return res.status(400).json({ error: 'El email no puede exceder 200 caracteres' });
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: 'Email inválido' });
+        if (signatureCode && signatureCode.length > 50) return res.status(400).json({ error: 'El código de firma no puede exceder 50 caracteres' });
+        await db.updateUserProfile(req.user.username, { nombre, apellido, email, telefono, cargo, signatureCode, signature });
+        res.json({ ok: true });
+    } catch (err) {
+        console.error('Error updating profile:', err);
+        res.status(500).json({ error: 'Error al actualizar el perfil' });
+    }
 });
 
 // PUT /api/users/:id/profile (admin puede editar cualquier usuario)
 app.put('/api/users/:id/profile', requireAuth, requireAdmin, async (req, res) => {
-    const { nombre, apellido, email, telefono, cargo, signatureCode, signature, role } = req.body;
-    await db.updateUserProfileById(req.params.id, { nombre, apellido, email, telefono, cargo, signatureCode });
-    if (role) {
-        await db.changeRole(req.params.id, role);
+    try {
+        const { nombre, apellido, email, telefono, cargo, signatureCode, signature, role } = req.body;
+        if (role && !['admin', 'user', 'readonly', 'supervisor', 'analista', 'gerente', 'coordinador'].includes(role)) {
+            return res.status(400).json({ error: 'Rol inválido' });
+        }
+        await db.updateUserProfileById(req.params.id, { nombre, apellido, email, telefono, cargo, signatureCode, signature });
+        if (role) {
+            await db.changeRole(req.params.id, role);
+        }
+        res.json({ ok: true });
+    } catch (err) {
+        console.error('Error updating user profile:', err);
+        res.status(500).json({ error: 'Error al actualizar el perfil' });
     }
-    res.json({ ok: true });
 });
 
 // PUT /api/users/:id/role (solo admin)
 app.put('/api/users/:id/role', requireAuth, requireAdmin, async (req, res) => {
-    const { role } = req.body;
-    if (!['admin', 'user', 'readonly', 'supervisor', 'analista', 'gerente', 'coordinador'].includes(role)) {
-        return res.status(400).json({ error: 'Rol inválido' });
+    try {
+        const { role } = req.body;
+        if (!['admin', 'user', 'readonly', 'supervisor', 'analista', 'gerente', 'coordinador'].includes(role)) {
+            return res.status(400).json({ error: 'Rol inválido' });
+        }
+        await db.changeRole(req.params.id, role);
+        res.json({ ok: true });
+    } catch (err) {
+        console.error('Error changing role:', err);
+        res.status(500).json({ error: 'Error al cambiar el rol' });
     }
-    await db.changeRole(req.params.id, role);
-    res.json({ ok: true });
 });
 
 // PUT /api/users/reset-password (solo admin — resetea contraseña de otro usuario)
 app.put('/api/users/reset-password', requireAuth, requireAdmin, async (req, res) => {
-    const { username, newPassword } = req.body;
-    if (!username?.trim()) {
-        return res.status(400).json({ error: 'Usuario requerido' });
+    try {
+        const { username, newPassword } = req.body;
+        if (!username?.trim()) {
+            return res.status(400).json({ error: 'Usuario requerido' });
+        }
+        var pwErr = validatePasswordStrength(newPassword);
+        if (pwErr) {
+            return res.status(400).json({ error: pwErr });
+        }
+        const user = await db.getUserByUsername(username);
+        if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+
+        await db.changePassword(username, newPassword);
+
+        // Siempre marcar como temporal cuando admin resetea
+        await db.setPasswordTemp(username, true);
+
+        await db.logAccess({
+            username:  req.user.username,
+            action:    `RESET_PASSWORD:${username}`,
+            success:   true,
+            ip:        getClientIP(req),
+            userAgent: req.headers['user-agent'],
+        });
+
+        res.json({ ok: true });
+    } catch (err) {
+        console.error('Error resetting password:', err);
+        res.status(500).json({ error: 'Error al resetear la contraseña' });
     }
-    var pwErr = validatePasswordStrength(newPassword);
-    if (pwErr) {
-        return res.status(400).json({ error: pwErr });
-    }
-    const user = await db.getUserByUsername(username);
-    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
-
-    await db.changePassword(username, newPassword);
-
-    // Siempre marcar como temporal cuando admin resetea
-    await db.setPasswordTemp(username, true);
-
-    await db.logAccess({
-        username:  req.user.username,
-        action:    `RESET_PASSWORD:${username}`,
-        success:   true,
-        ip:        getClientIP(req),
-        userAgent: req.headers['user-agent'],
-    });
-
-    res.json({ ok: true });
 });
 
 // GET /api/audit (solo admin)
 app.get('/api/audit', requireAuth, requireAdmin, async (req, res) => {
-    const logs = await db.getAuditLog(parseInt(req.query.limit) || 100);
-    res.json({ ok: true, logs });
+    try {
+        const logs = await db.getAuditLog(parseInt(req.query.limit) || 100);
+        res.json({ ok: true, logs });
+    } catch (err) {
+        console.error('Error getting audit log:', err);
+        res.status(500).json({ error: 'Error al obtener auditoría' });
+    }
 });
 
 // GET /api/audit/verify - verifica la cadena de hash blockchain (solo admin)
@@ -1045,37 +1106,47 @@ app.get('/api/audit/verify', requireAuth, requireAdmin, async (req, res) => {
 
 // POST /api/audit/event - registra eventos del frontend (usuario autenticado)
 app.post('/api/audit/event', requireAuth, async (req, res) => {
-    const { action, module, details, durationMs } = req.body;
-    if (!action) {
-        return res.status(400).json({ error: 'action es requerido' });
-    }
-    
-    await db.logAuditEvent({
-        username: req.user.username,
-        action,
-        success: 1,
-        ip: getClientIP(req),
-        userAgent: req.headers['user-agent'],
-        module: module || null,
-        details: details || null,
-        durationMs: durationMs || null,
-    });
+    try {
+        const { action, module, details, durationMs } = req.body;
+        if (!action) {
+            return res.status(400).json({ error: 'action es requerido' });
+        }
+        
+        await db.logAuditEvent({
+            username: req.user.username,
+            action,
+            success: 1,
+            ip: getClientIP(req),
+            userAgent: req.headers['user-agent'],
+            module: module || null,
+            details: details || null,
+            durationMs: durationMs || null,
+        });
 
-    res.json({ ok: true });
+        res.json({ ok: true });
+    } catch (err) {
+        console.error('Error logging audit event:', err);
+        res.status(500).json({ error: 'Error al registrar evento' });
+    }
 });
 
 // ── Device Checks (§ 11.10(h)) ─────────────
 // POST /api/devices/register - registrar/actualizar dispositivo actual
 app.post('/api/devices/register', requireAuth, async (req, res) => {
-    const { fingerprint, device_name, browser, os, screen_res, timezone } = req.body;
-    if (!fingerprint) return res.status(400).json({ error: 'fingerprint requerido' });
+    try {
+        const { fingerprint, device_name, browser, os, screen_res, timezone } = req.body;
+        if (!fingerprint) return res.status(400).json({ error: 'fingerprint requerido' });
 
-    await db.registerDevice(req.user.username, fingerprint, {
-        device_name, browser, os, screen_res, timezone
-    });
+        await db.registerDevice(req.user.username, fingerprint, {
+            device_name, browser, os, screen_res, timezone
+        });
 
-    const trusted = await db.isDeviceTrusted(req.user.username, fingerprint);
-    res.json({ ok: true, trusted });
+        const trusted = await db.isDeviceTrusted(req.user.username, fingerprint);
+        res.json({ ok: true, trusted });
+    } catch (err) {
+        console.error('Error registering device:', err);
+        res.status(500).json({ error: 'Error al registrar dispositivo' });
+    }
 });
 
 // GET /api/devices - listar todos los dispositivos (admin) o del usuario
@@ -1085,29 +1156,40 @@ app.get('/api/devices', requireAuth, async (req, res) => {
         const devices = isAdmin ? await db.getAllDevices() : await db.getUserDevices(req.user.username);
         res.json({ ok: true, devices });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Error listing devices:', err);
+        res.status(500).json({ error: 'Error al listar dispositivos' });
     }
 });
 
 // PUT /api/devices/:id/trust - toggle trust (admin only)
 app.put('/api/devices/:id/trust', requireAuth, requireAdmin, async (req, res) => {
-    const trusted = req.body.trusted === 1 || req.body.trusted === true ? 1 : 0;
-    await db.setDeviceTrust(req.params.id, trusted);
-    await db.logAuditEvent({
-        username: req.user.username, action: 'DEVICE_TRUST:' + (trusted ? 'ON' : 'OFF'),
-        success: 1, ip: getClientIP(req), userAgent: req.headers['user-agent'],
-        module: 'SYSTEM', details: { deviceId: req.params.id, trusted },
-    });
-    res.json({ ok: true });
+    try {
+        const trusted = req.body.trusted === 1 || req.body.trusted === true ? 1 : 0;
+        await db.setDeviceTrust(req.params.id, trusted);
+        await db.logAuditEvent({
+            username: req.user.username, action: 'DEVICE_TRUST:' + (trusted ? 'ON' : 'OFF'),
+            success: 1, ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'SYSTEM', details: { deviceId: req.params.id, trusted },
+        });
+        res.json({ ok: true });
+    } catch (err) {
+        console.error('Error toggling device trust:', err);
+        res.status(500).json({ error: 'Error al actualizar dispositivo' });
+    }
 });
 
 // DELETE /api/devices/:id - eliminar dispositivo (admin only)
 app.delete('/api/devices/:id', requireAuth, requireAdmin, async (req, res) => {
-    await db.removeDevice(req.params.id);
-    await db.logAuditEvent({
-        username: req.user.username, action: 'DEVICE_DELETE',
-        success: 1, ip: getClientIP(req), userAgent: req.headers['user-agent'],
-        module: 'SYSTEM', details: { deviceId: req.params.id },
-    });
-    res.json({ ok: true });
+    try {
+        await db.removeDevice(req.params.id);
+        await db.logAuditEvent({
+            username: req.user.username, action: 'DEVICE_DELETE',
+            success: 1, ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'SYSTEM', details: { deviceId: req.params.id },
+        });
+        res.json({ ok: true });
+    } catch (err) {
+        console.error('Error deleting device:', err);
+        res.status(500).json({ error: 'Error al eliminar dispositivo' });
+    }
 });

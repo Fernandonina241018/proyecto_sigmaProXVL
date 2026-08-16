@@ -90,6 +90,28 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-29: Auditoría — Fixes nivel medio (backend + frontend)
+
+**Qué:** Corrección de 8 hallazgos de seguridad/media de la auditoría (ver conversación). Sin cambios en API pública.
+
+**Backend (`backend/server.js`):**
+- **#4** — Fallos de verificación de firma ahora se auditan (`VERIFY_SIGNATURE_FAIL` con `success: false`) para código no registrado y contraseña incorrecta (21 CFR 11)
+- **#5** — Bloqueo por usuario aumentado 30s → **5 minutos**; `err.message` reemplazado por mensajes genéricos en 5 endpoints (2fa status, 2fa status user, snapshots ×2, devices)
+- **#6** — try/catch agregado en 12 handlers async: GET /api/users, toggle, password, profile ×2, role, reset-password, audit, audit/event, devices/register, devices/trust, devices delete
+- **#7** — `bcrypt.compareSync` → `await bcrypt.compare` en login, 2fa/disable, verify-signature, password change (elimina bloqueo del event loop)
+- **#8** — `PUT /api/users/:id/profile` valida `role` contra whitelist; campo `signature` ahora se persiste en profile ×2
+
+**Frontend:**
+- **#9** (`indexx-firma.js`) — Estado de firma movido de `localStorage` → `sessionStorage` con helper `_firmaStore` (migración automática legacy, se limpia al cerrar navegador)
+- **#10** (`indexx-trabajo.js`) — `showToast` local renombrado a `showUndoToast` (elimina doble definición global; undo/redo usan su toast propio)
+- **#11** (`UsuariosManager.js`) — Return del IIFE ahora referencia `window.guardarUsuarioModal` / `window.cerrarModalCrearUsuarioTest` explícitamente
+
+**Verificación:**
+- ✅ `deno check` en server.js, indexx-firma.js, indexx-trabajo.js, UsuariosManager.js
+- ✅ Smoke test `_firmaStore` (migración + get/set/remove) — OK
+- ✅ 0 `bcrypt.compareSync` restantes en server.js
+- ⚠️ vitest no ejecutable (no hay node en el sistema); tests existentes no cubren archivos modificados
+
 ### 2026-07-28 (2): Interacción avanzada en gráficos + fix desfase mouse-punto
 
 **Qué:** Corrección del desfase mouse↔punto en gráficos Chart.js + 4 features de interacción: tooltip mejorado, click en dato, cursor pointer, crosshair, zoom/pan.
