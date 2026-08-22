@@ -47,6 +47,7 @@ const ReporteManager = (() => {
             analysisDate:   'Analysis Date',
             totalRecords:   'Total Records',
             numericColumns: 'Numeric Columns',
+            totalDataPoints: 'Total Data Points',
             analyzed:       'Analyzed',
             statistics:     'Statistics',
             integrityHash:  'Integrity Hash',
@@ -173,7 +174,7 @@ const ReporteManager = (() => {
             html_method_sig:  'Significance',
             html_method_sig_why:'The α = 0.05 level defines the accepted Type I error threshold. It establishes the certainty with which a null hypothesis can be rejected — the international standard in clinical trials (ICH E9) and analytical method validations.',
 
-        html_execSummary:(ds,rows,cols,std) => `Dataset <strong>"${escapeHtml(ds)}"</strong> · <strong>${rows}</strong> observations · <strong>${cols}</strong> numeric variable(s) · ${std}.`,
+        html_execSummary:(ds,rows,cols,totalDatos,std) => `Dataset <strong>"${escapeHtml(ds)}"</strong> · <strong>${rows}</strong> observations · <strong>${cols}</strong> numeric variable(s) · <strong>${totalDatos}</strong> total data points · ${std}.`,
             statRefs: {
                 'Media Aritmética':   'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
                 'Mediana':            'Freedman, D., Pisani, R. & Purves, R. (2007). Statistics (4ª ed.). W.W. Norton.',
@@ -330,6 +331,7 @@ const ReporteManager = (() => {
             analysisDate:   'Fecha de Análisis',
             totalRecords:   'Registros Totales',
             numericColumns: 'Columnas Numéricas',
+            totalDataPoints: 'Datos Totales',
             analyzed:       'Analizadas',
             statistics:     'Estadísticos',
             integrityHash:  'Hash de Integridad',
@@ -449,7 +451,7 @@ const ReporteManager = (() => {
             html_method_cv_why:'El Coeficiente de Variación normaliza la dispersión respecto a la magnitud de la media, permitiendo comparaciones de variabilidad entre columnas con diferentes unidades o escalas. CV > 30% típicamente señala un proceso fuera de control.',
             html_method_sig:  'Significancia',
             html_method_sig_why:'El nivel α = 0.05 define el umbral de error Tipo I aceptado. Establece la certeza con la que se puede rechazar una hipótesis nula — el estándar internacional en ensayos clínicos (ICH E9) y validaciones de métodos analíticos.',
-            html_execSummary:(ds,rows,cols,std) => `Dataset <strong>"${escapeHtml(ds)}"</strong> · <strong>${rows}</strong> observaciones · <strong>${cols}</strong> variable(s) numérica(s) · ${std}.`,
+            html_execSummary:(ds,rows,cols,totalDatos,std) => `Dataset <strong>"${escapeHtml(ds)}"</strong> · <strong>${rows}</strong> observaciones · <strong>${cols}</strong> variable(s) numérica(s) · <strong>${totalDatos}</strong> datos totales · ${std}.`,
         }
     };
 
@@ -669,6 +671,7 @@ const ReporteManager = (() => {
         p(`  ${pad(t('analysisDate')+' :',24)}: ${todayFormatted()}`);
         p(`  ${pad(t('totalRecords')+' :',24)}: ${resultados.totalFilas}`);
         p(`  ${pad(t('numericColumns')+' :',24)}: ${resultados.totalColumnas}`);
+        p(`  ${pad(t('totalDataPoints')+' :',24)}: ${resultados.totalDatos?.toLocaleString() || (resultados.totalFilas * resultados.totalColumnas)}`);
         p(`  ${pad(t('analyzed')+' :',24)}: ${resultados.columnasAnalizadas.join(', ')}`);
         p(`  ${pad(t('statistics')+' :',24)}: ${resultados.estadisticos.join(', ')}`);
         p(`  ${pad(t('integrityHash')+' :',24)}: RPT-${hash}`);
@@ -1019,6 +1022,8 @@ const ReporteManager = (() => {
             `## ${t('datasetName')}|${meta.nombreDataset||''}`,
             `## ${t('preparedBy')}|${meta.preparedBy||''}`,
             `## ${t('totalRecords')}|${resultados.totalFilas}`,
+            `## ${t('numericColumns')}|${resultados.totalColumnas}`,
+            `## ${t('totalDataPoints')}|${resultados.totalDatos?.toLocaleString() || (resultados.totalFilas * resultados.totalColumnas)}`,
             ...(meta.observaciones ? [`## ${t('ui_observaciones')}|${meta.observaciones}`] : []),
             '##',
              `${t('variable')}|${t('statistic')}|SUB_KEY|${t('value')}|CV_PCT|PARAM_MIN|PARAM_MAX|PARAM_ESP|PARAM_FUERA|PARAM_CUMPLIMIENTO_PCT|FLAG_COUNT|FLAGS`
@@ -1343,6 +1348,7 @@ tr:hover td{background:#f7faff}
       <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('phase')}</strong>${escapeHtml(meta.fase)||'—'}</div>
       <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('generated')}</strong>${nowFormatted()}</div>
       <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('totalRecords')}</strong>${resultados.totalFilas}</div>
+      <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('totalDataPoints')}</strong>${resultados.totalDatos?.toLocaleString() || (resultados.totalFilas * resultados.totalColumnas)}</div>
     </div>
     <div style="text-align:center;padding:20px 0 8px;border-top:1px solid rgba(255,255,255,.15);margin-top:8px">
       <div style="font-size:20pt;font-weight:400;letter-spacing:3px;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.4);text-transform:uppercase">${escapeHtml(meta.departamento)} (${escapeHtml(meta.protocolo)})</div>
@@ -1392,6 +1398,7 @@ tr:hover td{background:#f7faff}
       ${mRow(t('analysisDate'),  todayFormatted())}
       ${mRow(t('totalRecords'),  String(resultados.totalFilas))}
       ${mRow(t('numericColumns'),String(resultados.totalColumnas))}
+      ${mRow(t('totalDataPoints'),String(resultados.totalDatos?.toLocaleString() || (resultados.totalFilas * resultados.totalColumnas)))}
       <div style="grid-column:1/-1">${mRow(t('analyzed'),  resultados.columnasAnalizadas.join(' · '))}</div>
       <div style="grid-column:1/-1">${mRow(t('statistics'),resultados.estadisticos.join(' · '))}</div>
       <div style="grid-column:1/-1"><span class="ml">${t('integrityHash')}</span><span class="mv" style="font-family:monospace;font-size:9pt">RPT-${hash}</span></div>
@@ -1406,7 +1413,7 @@ tr:hover td{background:#f7faff}
     <tbody>
       <tr><td style="padding:0;border:none">
         <div style="background:#f7f8fa;border-left:4px solid #1a3a6b;border-radius:0 6px 6px 0;padding:16px 20px;font-size:10.5pt;line-height:1.7">
-          ${t('html_execSummary',meta.nombreDataset||'N/A',resultados.totalFilas,resultados.totalColumnas,REGULATORY.standard)}<br>
+          ${t('html_execSummary',meta.nombreDataset||'N/A',resultados.totalFilas,resultados.totalColumnas,resultados.totalDatos?.toLocaleString() || (resultados.totalFilas * resultados.totalColumnas),REGULATORY.standard)}<br>
           ${t('statistics')}: ${resultados.estadisticos.join(' · ')}.
           ${meta.descripcion?`<br><br><em style="font-size:10pt;color:#4a5568">${escapeHtml(meta.descripcion)}</em>`:''}
         </div>

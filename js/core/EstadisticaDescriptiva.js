@@ -1492,6 +1492,7 @@ resultados['Test de Signos'].columna1 = col1;
             columnasAnalizadas: numericCols,
             totalColumnas: numericCols.length,
             totalFilas: data.rowCount,
+            totalDatos: data.rowCount * numericCols.length,
             estadisticos: estadisticos,
             resultados: resultados
         };
@@ -2643,6 +2644,7 @@ function generarHTML(analisisResultado) {
             <div><span style="color:#c4c4be;">📊 Columnas numéricas</span><br><strong style="font-size:20px;color:#f0f0ed;">${cols.length}</strong></div>
             <div><span style="color:#c4c4be;">📈 Estadísticos ejecutados</span><br><strong style="font-size:20px;color:#f0f0ed;">${statKeys.length}</strong></div>
             <div><span style="color:#c4c4be;">🔬 Filas analizadas</span><br><strong style="font-size:20px;color:#f0f0ed;">${analisisResultado.totalFilas}</strong></div>
+            <div><span style="color:#c4c4be;">📦 Total de datos</span><br><strong style="font-size:20px;color:#f0f0ed;">${analisisResultado.totalDatos?.toLocaleString() || (analisisResultado.totalFilas * cols.length)}</strong></div>
         </div>
     </div>`;
 

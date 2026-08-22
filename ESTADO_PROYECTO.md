@@ -90,6 +90,27 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-07-29 (3): Fix conteo total de datos en informes (todas las columnas)
+
+**Qué:** Se agrega el campo `totalDatos` (filas × columnas) a todos los informes y análisis, para mostrar el total de puntos de datos en lugar de solo filas.
+
+**Frontend:**
+- `EstadisticaDescriptiva.ejecutarAnalisis()` — nuevo campo `totalDatos: data.rowCount * numericCols.length` en el retorno
+- `EDAManager.ejecutarEDA()` — nuevo campo `totalDatos: totalRows * totalCols` en el resumen
+- `EstadisticaDescriptiva.generarHTML()` — muestra "📦 Total de datos" en la tarjeta de KPIs globales
+- `ReporteManager.generarHTML()` — muestra `totalDatos` en portada, trazabilidad del dataset, resumen ejecutivo
+- `ReporteManager.generarTXT()` — incluye "Datos Totales" en la sección de trazabilidad
+- `ReporteManager.generarCSV()` — incluye "Total Data Points" en metadatos
+- `indexx-stats-core.generarReporte()` (×2) — agrega "Total de datos" en la información general
+- `EDAManager.exportarResumen()` y cabecera EDA — muestra "Datos totales"
+
+**I18n:** Agregadas claves `totalDataPoints` (ES: "Datos Totales", EN: "Total Data Points")
+
+**Verificación:**
+- ✅ `deno check` OK en 6 archivos modificados
+- ✅ Backend `deno check` OK (sin cambios)
+- ✅ No hay referencias rotas
+
 ### 2026-07-29 (2): Auditoría — Fixes nivel bajo (limpieza código muerto + hardening)
 
 **Qué:** Eliminación de código muerto y mejoras menores de seguridad. Sin cambios de comportamiento en API pública.

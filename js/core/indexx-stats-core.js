@@ -3833,6 +3833,7 @@ interpretacion: interpretacion,
 ───────────────────────────────────────────────────────────
 Total de filas:              ${analisisResultado.totalFilas}
 Columnas numéricas:          ${analisisResultado.totalColumnas}
+Total de datos:              ${analisisResultado.totalDatos?.toLocaleString() || (analisisResultado.totalFilas * analisisResultado.totalColumnas)}
 Columnas analizadas:         ${analisisResultado.columnasAnalizadas.join(', ')}
 Estadísticos calculados:     ${analisisResultado.estadisticos.length}
 
@@ -3929,6 +3930,7 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
 ──────────────────────────────────────────────────────────
 Total de filas:              ${analisisResultado.totalFilas}
 Columnas numéricas:          ${analisisResultado.totalColumnas}
+Total de datos:              ${analisisResultado.totalDatos?.toLocaleString() || (analisisResultado.totalFilas * analisisResultado.totalColumnas)}
 Columnas analizadas:         ${analisisResultado.columnasAnalizadas.join(', ')}
 Estadísticos calculados:     ${analisisResultado.estadisticos.length}
 

@@ -275,6 +275,7 @@ const EDAManager = (function () {
             resumen: {
                 totalFilas:           totalRows,
                 totalColumnas:        totalCols,
+                totalDatos:           totalRows * totalCols,
                 columnasNumericas:    numericCols.length,
                 columnasCategoricas:  categoricalCols.length,
                 valoresFaltantes:     missingCount,
@@ -431,7 +432,7 @@ const EDAManager = (function () {
                         Análisis Exploratorio Completo
                     </div>
                     <div class="eda-header-info">
-                        Generado: ${escHtml(results.timestamp)} &nbsp;|&nbsp; ${r.totalFilas} filas × ${r.totalColumnas} columnas
+                        Generado: ${escHtml(results.timestamp)} &nbsp;|&nbsp; ${r.totalFilas} filas × ${r.totalColumnas} columnas &nbsp;|&nbsp; ${r.totalDatos?.toLocaleString() || (r.totalFilas * r.totalColumnas)} datos totales
                     </div>
                 </div>
                 <div class="eda-header-actions">
@@ -848,7 +849,7 @@ const EDAManager = (function () {
         txt      += `Generado: ${_edaResults.timestamp}\n\n`;
 
         txt += '📊 RESUMEN GENERAL\n───────────────────────────────────────────\n';
-        txt += `Filas: ${r.totalFilas} | Columnas: ${r.totalColumnas}\n`;
+        txt += `Filas: ${r.totalFilas} | Columnas: ${r.totalColumnas} | Datos totales: ${r.totalDatos?.toLocaleString() || (r.totalFilas * r.totalColumnas)}\n`;
         txt += `Numéricas: ${r.columnasNumericas} | Categóricas: ${r.columnasCategoricas}\n`;
         txt += `Valores faltantes: ${r.valoresFaltantes} (${r.porcentajeFaltantes}%)\n`;
         txt += `Outliers: ${r.totalOutliers} | Corr. fuertes: ${r.correlacionesFuertes}\n\n`;
