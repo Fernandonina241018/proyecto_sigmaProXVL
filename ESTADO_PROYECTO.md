@@ -90,6 +90,30 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-09-03 (4): Fix — Excluir fechas de columnas numéricas (totalDatos correcto)
+
+**Qué:** `getNumericColumns()` en `StatsUtils.js` clasificaba columnas de fecha (ej: `2026-01-15`) como numéricas porque `parseFloat("2026-01-15")` retorna `2026`. Esto inflaba `totalDatos = filas × columnas` incluyendo una columna que no debería analizarse.
+
+**Raíz:** `parseFloat()` toma los dígitos iniciales de strings tipo fecha, pasando el filtro `isFinite()`. 
+
+**Solución:** Agregar detección de patrones de fecha (ISO `YYYY-MM-DD`, `DD/MM/YYYY`, etc.) **antes** de aplicar `parseFloat()`, excluyendo fechas de `getNumericColumns()`.
+
+**Archivos:**
+- `StatsUtils.js:50-69` — Nueva lógica:
+  - Array `datePatterns` con 5 patrones regex (ISO, DD/MM/YYYY, etc.)
+  - Función `isDateLike()` para detectar valores con forma de fecha
+  - Filtrar `nonDateValues` antes de contar numéricos
+  - Calcular ratio numérico solo sobre valores no-fecha
+
+**Verificación (test_dataset_pruebas.csv, 32 filas × 8 columnas):**
+```
+ANTES:  totalColumnas: 6 (incluía Fecha)      → totalDatos: 192 (32×6)  ❌
+DESPUÉS: totalColumnas: 5 (excluye Fecha)    → totalDatos: 160 (32×5)  ✅
+Columnas correctas: [Temperatura, Humedad, Peso, Presion, Defectos]
+```
+- ✅ `deno check` OK en 4 archivos (EstadisticaDescriptiva, EDAManager, ModeloEstadistico, indexx-stats-core)
+- ✅ Sin referencias rotas
+
 ### 2026-07-29 (3): Fix conteo total de datos en informes (todas las columnas)
 
 **Qué:** Se agrega el campo `totalDatos` (filas × columnas) a todos los informes y análisis, para mostrar el total de puntos de datos en lugar de solo filas.

@@ -55,6 +55,20 @@ const StatsUtils = (function () {
             excludeColumns = ['#', 'A', 'Row', 'row', 'INDEX', 'index', 'row_index']
         } = options;
 
+        // Patrón para detectar fechas (ISO, YYYY-MM-DD, DD/MM/YYYY, etc.)
+        const datePatterns = [
+            /^\d{4}-\d{2}-\d{2}/, // ISO format: 2026-01-15
+            /^\d{2}\/\d{2}\/\d{4}/, // DD/MM/YYYY or MM/DD/YYYY
+            /^\d{1,2}-\d{1,2}-\d{2,4}/, // D-M-YY format
+            /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}/i, // Named months
+            /^\d{4}\/\d{2}\/\d{2}/ // YYYY/MM/DD
+        ];
+
+        const isDateLike = (val) => {
+            const str = String(val).trim();
+            return datePatterns.some(pattern => pattern.test(str));
+        };
+
         return data.headers.filter(header => {
             if (excludeColumns.includes(header)) return false;
 
@@ -62,9 +76,18 @@ const StatsUtils = (function () {
                 const idx = data.headers.indexOf(header);
                 return Array.isArray(row) ? row[idx] : row[header];
             });
-            const numericCount = values.filter(v => !isNaN(parseFloat(v)) && isFinite(parseFloat(v))).length;
 
-            return numericCount / values.length >= threshold;
+            // Excluir columnas con patrones de fecha
+            const nonDateValues = values.filter(v => {
+                const str = String(v).trim();
+                return str !== '' && str !== null && !isDateLike(str);
+            });
+
+            if (nonDateValues.length === 0) return false;
+
+            const numericCount = nonDateValues.filter(v => !isNaN(parseFloat(v)) && isFinite(parseFloat(v))).length;
+
+            return numericCount / nonDateValues.length >= threshold;
         });
     }
 
