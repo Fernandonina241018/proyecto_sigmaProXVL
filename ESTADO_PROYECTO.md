@@ -90,6 +90,20 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-09-03 (8): UI — Ocultar label "faltante" en celdas vacías
+
+**Qué:** Se eliminó el label "⚠️ faltante" que aparecía en celdas vacías para reducir ruido visual, manteniendo el borde punteado amarillo como indicador visual de celdas sin datos.
+
+**Cambio visual:**
+- **Antes:** Celda vacía mostraba "⚠️ faltante" con borde punteado
+- **Después:** Celda vacía muestra solo el borde punteado, sin texto
+
+**Archivos:**
+- `indexx-ui.js:566-577` — Eliminado `emptyLabel` y simplificado para mostrar solo `safeV` (que está vacío si la celda está vacía)
+
+**Verificación:**
+- ✅ `deno check` OK en indexx-ui.js
+
 ### 2026-09-03 (7): Fix — Invalidar cache de análisis al editar datos
 
 **Qué:** Cuando el usuario editaba una celda o eliminaba una fila/columna, el reporte HTML NO se actualizaba porque `StateManager.getUltimosResultados()` retornaba datos stale (desactualizados). Se agregó invalidación del cache en todas las funciones que modifican datos.

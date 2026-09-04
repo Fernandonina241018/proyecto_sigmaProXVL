@@ -567,14 +567,14 @@ var rightPanels = {
         var emptyClass = isEmpty ? ' cell-empty' : '';
         var cellStyle = isEmpty ? 'border-top:2px dashed var(--border-warning);background:var(--bg-warning)' : 'border-right:1px solid rgba(255,255,255,0.04)';
         var safeV = escapeHtml(String(v == null ? '' : v));
-        var emptyLabel = isEmpty ? '<div style="display:flex;align-items:center;gap:4px;color:var(--text-warning);font-size:11px"><span>⚠️</span><span style="font-size:10px">faltante</span></div>' : '';
+        // Eliminar label "faltante", mantener solo el borde punteado visual
         return '<td class="excel-cell' + selClass + frozenClass + emptyClass + '" style="padding:0;' + cellStyle + (trabajoFreezeFirstCol && ci===0 ? ';border-right:2px solid rgba(124,106,247,.4)' : '') + '" onclick="cellClick(event,' + actualRow + ',' + ci + ')">' +
           '<div class="excel-cell-inner' + (cfClass ? ' ' + cfClass : '') + '" style="display:flex;align-items:center;gap:4px" contenteditable="' + editable + '" data-row="' + actualRow + '" data-col="' + ci + '"' +
           ' onblur="saveCellData(' + actualRow + ',' + ci + ',this.textContent)"' +
           ' oninput="onCellInput(event,' + actualRow + ',' + ci + ',this.textContent)"' +
           ' onpaste="handleCellPaste(event,' + actualRow + ',' + ci + ')"' +
           ' onfocus="onCellFocus(' + actualRow + ',' + ci + ')">' +
-          (isEmpty ? emptyLabel : safeV) + '</div></td>';
+          safeV + '</div></td>';
       }).join('');
       var rowActive = trabajoActiveCell.row === actualRow;
       return '<tr><td class="excel-row-num' + (rowActive ? ' row-active' : '') + '" onclick="selectRow(' + actualRow + ')">' + (actualRow + 1) + '</td>' + cells + '</tr>';
