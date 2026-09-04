@@ -90,6 +90,23 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-09-03 (6): Mostrar conteo de datos por columna en todas las secciones "Analizadas"
+
+**Qué:** En todos los formatos de reporte (HTML, TXT, CSV), la sección "Analizadas" ahora muestra al lado de cada nombre de columna cuántos datos se analizaron de esa columna.
+
+**Cambio visual:**
+- **Antes:** `Analizadas: Temperatura · Humedad · Peso · Presion · Defectos`
+- **Después:** `Analizadas: Temperatura (32) · Humedad (32) · Peso (30) · Presion (32) · Defectos (32)`
+
+**Archivos:**
+- `ReporteManager.js:1402` — HTML: agregado mapeo de columnas con conteo
+- `ReporteManager.js:675-678` — TXT: agregado mapeo de columnas con conteo
+- `ReporteManager.js:1030-1033` — CSV: nueva línea de metadatos con "Analyzed" + conteos
+
+**Verificación:**
+- ✅ `deno check` OK en ReporteManager.js
+- ✅ Campo `registrosPorColumna` disponible en todos los contextos (se pasa con `resultados`)
+
 ### 2026-09-03 (5): Agregar registros válidos por columna (diferenciación clara)
 
 **Qué:** Nuevo campo `registrosPorColumna` en los análisis que muestra cuántos registros válidos (no-nulos, numéricos) tiene cada columna individualmente. Permite al usuario diferenciar claramente entre:

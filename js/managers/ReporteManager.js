@@ -672,7 +672,10 @@ const ReporteManager = (() => {
         p(`  ${pad(t('totalRecords')+' :',24)}: ${resultados.totalFilas}`);
         p(`  ${pad(t('numericColumns')+' :',24)}: ${resultados.totalColumnas}`);
         p(`  ${pad(t('totalDataPoints')+' :',24)}: ${resultados.totalDatos?.toLocaleString() || (resultados.totalFilas * resultados.totalColumnas)}`);
-        p(`  ${pad(t('analyzed')+' :',24)}: ${resultados.columnasAnalizadas.join(', ')}`);
+        p(`  ${pad(t('analyzed')+' :',24)}: ${resultados.columnasAnalizadas.map(col => {
+            const count = resultados.registrosPorColumna?.[col] || resultados.totalFilas;
+            return `${col} (${count})`;
+        }).join(', ')}`);
         p(`  ${pad(t('statistics')+' :',24)}: ${resultados.estadisticos.join(', ')}`);
         p(`  ${pad(t('integrityHash')+' :',24)}: RPT-${hash}`);
         p('');
@@ -1024,6 +1027,10 @@ const ReporteManager = (() => {
             `## ${t('totalRecords')}|${resultados.totalFilas}`,
             `## ${t('numericColumns')}|${resultados.totalColumnas}`,
             `## ${t('totalDataPoints')}|${resultados.totalDatos?.toLocaleString() || (resultados.totalFilas * resultados.totalColumnas)}`,
+            `## ${t('analyzed')}|${resultados.columnasAnalizadas.map(col => {
+                const count = resultados.registrosPorColumna?.[col] || resultados.totalFilas;
+                return `${col} (${count})`;
+            }).join('; ')}`,
             ...(meta.observaciones ? [`## ${t('ui_observaciones')}|${meta.observaciones}`] : []),
             '##',
              `${t('variable')}|${t('statistic')}|SUB_KEY|${t('value')}|CV_PCT|PARAM_MIN|PARAM_MAX|PARAM_ESP|PARAM_FUERA|PARAM_CUMPLIMIENTO_PCT|FLAG_COUNT|FLAGS`
@@ -1399,7 +1406,10 @@ tr:hover td{background:#f7faff}
       ${mRow(t('totalRecords'),  String(resultados.totalFilas))}
       ${mRow(t('numericColumns'),String(resultados.totalColumnas))}
       ${mRow(t('totalDataPoints'),String(resultados.totalDatos?.toLocaleString() || (resultados.totalFilas * resultados.totalColumnas)))}
-      <div style="grid-column:1/-1">${mRow(t('analyzed'),  resultados.columnasAnalizadas.join(' · '))}</div>
+      <div style="grid-column:1/-1">${mRow(t('analyzed'),  resultados.columnasAnalizadas.map(col => {
+          const count = resultados.registrosPorColumna?.[col] || resultados.totalFilas;
+          return `${col} (${count})`;
+      }).join(' · '))}</div>
       <div style="grid-column:1/-1">${mRow(t('statistics'),resultados.estadisticos.join(' · '))}</div>
       <div style="grid-column:1/-1"><span class="ml">${t('integrityHash')}</span><span class="mv" style="font-family:monospace;font-size:9pt">RPT-${hash}</span></div>
     </div>
