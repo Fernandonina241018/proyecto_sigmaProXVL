@@ -90,6 +90,34 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-09-03 (7): Fix — Invalidar cache de análisis al editar datos
+
+**Qué:** Cuando el usuario editaba una celda o eliminaba una fila/columna, el reporte HTML NO se actualizaba porque `StateManager.getUltimosResultados()` retornaba datos stale (desactualizados). Se agregó invalidación del cache en todas las funciones que modifican datos.
+
+**Problema raíz:** 6 funciones en `indexx-trabajo.js` modificaban datos pero NO llamaban a `StateManager.setUltimosResultados(null)`:
+- `onCellInput()` — editar celda al escribir
+- `saveCellData()` — guardar celda
+- `addRow()` — agregar fila
+- `deleteActiveRow()` — eliminar fila
+- `addColumn()` — agregar columna
+- `deleteActiveColumn()` — eliminar columna
+
+**Solución:** Agregar invalidación en cada una:
+```javascript
+if (typeof StateManager !== 'undefined' && StateManager.setUltimosResultados) {
+  StateManager.setUltimosResultados(null);
+}
+```
+
+**Resultado:** Al editar datos, el reporte mostrará "No hay análisis disponible" hasta que el usuario vuelva a ejecutar análisis con los datos actualizados. Los números en la portada y sección 03 ahora siempre coinciden con los datos actuales.
+
+**Archivos:**
+- `indexx-trabajo.js:571, 598, 715, 725, 751, 765` — Invalidaciones agregadas (6 ubicaciones)
+
+**Verificación:**
+- ✅ `deno check` OK en indexx-trabajo.js
+- ✅ `StateManager.setUltimosResultados` verificado en StateManager.js:1029
+
 ### 2026-09-03 (6): Mostrar conteo de datos por columna en todas las secciones "Analizadas"
 
 **Qué:** En todos los formatos de reporte (HTML, TXT, CSV), la sección "Analizadas" ahora muestra al lado de cada nombre de columna cuántos datos se analizaron de esa columna.

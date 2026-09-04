@@ -573,6 +573,10 @@ function onCellInput(event, ri, ci, value) {
     var valEl = document.getElementById('trabajoCellVal');
     if (valEl) valEl.textContent = value;
   }
+  // Invalidar cache de análisis al modificar datos
+  if (typeof StateManager !== 'undefined' && StateManager.setUltimosResultados) {
+    StateManager.setUltimosResultados(null);
+  }
   showAutocomplete(ri, ci, value);
 }
 
@@ -590,6 +594,10 @@ function saveCellData(rowIdx, colIdx, value) {
     var resumenEl = document.getElementById('trabajoResumen');
     if (resumenEl) resumenEl.innerHTML = getTrabajoResumenHTML();
     _persistAllData();
+    // Invalidar cache de análisis al guardar celda
+    if (typeof StateManager !== 'undefined' && StateManager.setUltimosResultados) {
+      StateManager.setUltimosResultados(null);
+    }
   }
   hideAutocomplete();
 }
@@ -707,6 +715,10 @@ function addRow() {
   pushUndo();
   sheet.rows.push(Array.from({length: sheet.headers.length}, function(){ return ''; }));
   _persistAllData();
+  // Invalidar cache de análisis al agregar fila
+  if (typeof StateManager !== 'undefined' && StateManager.setUltimosResultados) {
+    StateManager.setUltimosResultados(null);
+  }
   loadPage('trabajo');
 }
 function deleteActiveRow() {
@@ -717,6 +729,10 @@ function deleteActiveRow() {
   sheet.rows.splice(trabajoActiveCell.row, 1);
   if (trabajoActiveCell.row >= sheet.rows.length) trabajoActiveCell.row = Math.max(0, sheet.rows.length - 1);
   _persistAllData();
+  // Invalidar cache de análisis al eliminar fila
+  if (typeof StateManager !== 'undefined' && StateManager.setUltimosResultados) {
+    StateManager.setUltimosResultados(null);
+  }
   loadPage('trabajo');
 }
 function addColumn() {
@@ -728,6 +744,10 @@ function addColumn() {
   sheet.headers.push(newName);
   sheet.rows.forEach(function(r){ r.push(''); });
   _persistAllData();
+  // Invalidar cache de análisis al agregar columna
+  if (typeof StateManager !== 'undefined' && StateManager.setUltimosResultados) {
+    StateManager.setUltimosResultados(null);
+  }
   loadPage('trabajo');
 }
 function deleteActiveColumn() {
@@ -739,6 +759,10 @@ function deleteActiveColumn() {
   sheet.rows.forEach(function(r){ r.splice(trabajoActiveCell.col, 1); });
   if (trabajoActiveCell.col >= sheet.headers.length) trabajoActiveCell.col = Math.max(0, sheet.headers.length - 1);
   _persistAllData();
+  // Invalidar cache de análisis al eliminar columna
+  if (typeof StateManager !== 'undefined' && StateManager.setUltimosResultados) {
+    StateManager.setUltimosResultados(null);
+  }
   loadPage('trabajo');
 }
 function selectRow(rowIdx) { trabajoActiveCell.row = rowIdx; loadPage('trabajo'); }
