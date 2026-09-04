@@ -271,6 +271,15 @@ const EDAManager = (function () {
             descriptivas, missingCount, totalRows
         });
 
+        // Contar registros válidos por columna
+        const registrosPorColumna = {};
+        numericCols.forEach(col => {
+            const idx = data.headers.indexOf(col);
+            const values = data.data.map(row => Array.isArray(row) ? row[idx] : row[col])
+                .filter(v => v !== null && v !== '' && !isNaN(parseFloat(v)) && isFinite(parseFloat(v)));
+            registrosPorColumna[col] = values.length;
+        });
+
         _edaResults = {
             resumen: {
                 totalFilas:           totalRows,
@@ -282,7 +291,8 @@ const EDAManager = (function () {
                 porcentajeFaltantes:  parseFloat(((missingCount / (totalRows * totalCols)) * 100).toFixed(2)),
                 totalOutliers,
                 correlacionesFuertes: corrFuertes.length,
-                columnasNoNormales:   Object.values(normalidad).filter(n => !n.esNormal).length
+                columnasNoNormales:   Object.values(normalidad).filter(n => !n.esNormal).length,
+                registrosPorColumna:  registrosPorColumna
             },
             descriptivas,
             normalidad,

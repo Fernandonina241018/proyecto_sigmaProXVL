@@ -90,6 +90,34 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-09-03 (5): Agregar registros válidos por columna (diferenciación clara)
+
+**Qué:** Nuevo campo `registrosPorColumna` en los análisis que muestra cuántos registros válidos (no-nulos, numéricos) tiene cada columna individualmente. Permite al usuario diferenciar claramente entre:
+- **Registros Totales** (filas) = todos los registros en el dataset
+- **Registros por Columna** = valores válidos en cada columna (excluyendo nulls/vacíos)
+- **Datos Totales** = suma de todos los puntos de datos analizados
+
+**Archivos:**
+- `EstadisticaDescriptiva.js:1491-1505` — Nuevo array `registrosPorColumna` con conteo de valores válidos por columna
+- `EstadisticaDescriptiva.generarHTML()` — Nueva sección "📋 Registros válidos por columna" con grid mostrando: nombre columna, count, porcentaje vs totalFilas
+- `EDAManager.js:274-286` — Agregado `registrosPorColumna` al resumen del EDA
+
+**Ejemplo con dataset 32 filas:**
+```
+Registros Totales:              32 (todas las filas)
+Registros por Columna:
+  Temperatura: 32/32 (100%)     [sin valores nulos]
+  Humedad:     32/32 (100%)     [sin valores nulos]
+  Peso:        30/32 (93.75%)   [2 valores nulos]
+  ...
+Datos Totales:                  160 (32 filas × 5 columnas)
+```
+
+**Verificación:**
+- ✅ Motor real ejecutado, `registrosPorColumna` se calcula correctamente
+- ✅ HTML genera grid visual con porcentajes
+- ✅ `deno check` OK en EstadisticaDescriptiva.js, EDAManager.js
+
 ### 2026-09-03 (4): Fix — Excluir fechas de columnas numéricas (totalDatos correcto)
 
 **Qué:** `getNumericColumns()` en `StatsUtils.js` clasificaba columnas de fecha (ej: `2026-01-15`) como numéricas porque `parseFloat("2026-01-15")` retorna `2026`. Esto inflaba `totalDatos = filas × columnas` incluyendo una columna que no debería analizarse.

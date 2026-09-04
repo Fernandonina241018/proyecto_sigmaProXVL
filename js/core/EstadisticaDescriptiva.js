@@ -1488,11 +1488,19 @@ resultados['Test de Signos'].columna1 = col1;
             console.warn('[EstadisticaDescriptiva] Error en auto-training:', e.message);
         }
         
+        // Contar registros válidos por columna (valores numéricos, no-null)
+        const registrosPorColumna = {};
+        numericCols.forEach(col => {
+            const values = getNumericValues(data, col);
+            registrosPorColumna[col] = values.length;
+        });
+
         return {
             columnasAnalizadas: numericCols,
             totalColumnas: numericCols.length,
             totalFilas: data.rowCount,
             totalDatos: data.rowCount * numericCols.length,
+            registrosPorColumna: registrosPorColumna,
             estadisticos: estadisticos,
             resultados: resultados
         };
@@ -2647,6 +2655,25 @@ function generarHTML(analisisResultado) {
             <div><span style="color:#c4c4be;">📦 Total de datos</span><br><strong style="font-size:20px;color:#f0f0ed;">${analisisResultado.totalDatos?.toLocaleString() || (analisisResultado.totalFilas * cols.length)}</strong></div>
         </div>
     </div>`;
+
+    // Mostrar registros válidos por columna (excluye valores faltantes/nulos)
+    if (analisisResultado.registrosPorColumna && Object.keys(analisisResultado.registrosPorColumna).length > 0) {
+        html += `
+    <div style="margin-bottom:20px;">
+        <h4 style="color:#f0f0ed; font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">📋 Registros válidos por columna</h4>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:8px; font-size:11px;">
+        `;
+        Object.entries(analisisResultado.registrosPorColumna).forEach(([col, count]) => {
+            const total = analisisResultado.totalFilas;
+            const pct = ((count / total) * 100).toFixed(1);
+            html += `<div style="background:rgba(255,255,255,.05); padding:8px; border-left:2px solid #c8a951; border-radius:3px;">
+                <span style="color:#c4c4be;">${col}</span><br>
+                <strong style="color:#f0f0ed;">${count}</strong> / ${total} (${pct}%)
+            </div>`;
+        });
+        html += `</div>
+    </div>`;
+    }
 
     // ────────────────────────────────────────────────────────────────────────────
     // 2. ACORDEÓN: un bloque por cada estadístico seleccionado
