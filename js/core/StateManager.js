@@ -82,25 +82,17 @@ const StateManager = (() => {
             startAutoSave();
         }
 
-        // Fallback síncrono: antes de cerrar la pestaña, escribir a localStorage
-        // directamente (IndexedDB es async y no se completa en beforeunload).
+        // Fallback: antes de cerrar la pestaña, no escribir a localStorage
+        // FIX: Cambio de estrategia para evitar QuotaExceededError con datasets grandes (19K+ rows)
+        // ANTES: guardaba a localStorage en beforeunload (SÍNCRONO), causaba quota exceeded
+        // AHORA: confiar en saveToLocalStorage() que ya guarda a IndexedDB (ASYNC)
+        // Si beforeunload dispara y IndexedDB aún no sincronizó, es aceptable perder datos
+        // porque IndexedDB ya tiene el último estado (5s auto-save)
         window.addEventListener('beforeunload', () => {
-            try {
-                const payload = JSON.stringify({
-                    sheets: state.sheets,
-                    activeSheetId: state.activeSheetId,
-                    sheetCounter: state.sheetCounter,
-                    importedData: state.importedData,
-                    fileName: state.fileName,
-                    activeStats: state.activeStats,
-                    hypothesisConfig: state.hypothesisConfig,
-                    paramConfig: state.paramConfig,
-                    savedAt: new Date().toISOString(),
-                });
-                localStorage.setItem('statAnalyzerState', payload);
-            } catch (e) {
-                // Cuota excedida u otro error — ignorar (mejor perder datos que crashear)
-            }
+            // NO escribir a localStorage aquí — evita QuotaExceededError
+            // IndexedDB ya tiene los datos más recientes (auto-saved cada 5 segundos)
+            // El riesgo: perder cambios en los últimos ~5 segundos si tab se cierra
+            // Beneficio: evitar crash "no storage" con datasets de 19K+ filas
         });
     }
     

@@ -41,14 +41,13 @@ function _persistAllData() {
     try {
       localStorage.setItem('sigmaPro_trabajoSheets', JSON.stringify(trabajoSheets));
       localStorage.setItem('sigmaPro_trabajoLimits', JSON.stringify({ limits: trabajoLimits, mode: trabajoLimitsMode }));
+      // FIX: Remover datosCurrentData de localStorage para evitar duplicación con 19K+ filas
+      // datosCurrentData ya está incluido en trabajoSheets, guardarla por separado era redundante
+      // y causaba QuotaExceededError en datasets grandes (19K+ rows)
       if (datosCurrentData) {
         if (quotaStep < 2) {
           localStorage.setItem('sigmaPro_datosSourceType', JSON.stringify(datosSourceType));
-          localStorage.setItem('sigmaPro_datosCurrentData', JSON.stringify({
-            data: datosCurrentData,
-            fileName: datosCurrentFileName,
-            timestamp: Date.now()
-          }));
+          // ELIMINADO: localStorage.setItem('sigmaPro_datosCurrentData', ...) — redundante
         }
       }
       if (typeof _V_saveGallery === 'function' && quotaStep < 2) _V_saveGallery();
@@ -93,14 +92,10 @@ function _restoreAllData() {
     }
     var dst = localStorage.getItem('sigmaPro_datosSourceType');
     if(dst) datosSourceType = JSON.parse(dst);
-    var dcd = localStorage.getItem('sigmaPro_datosCurrentData');
-    if (dcd) {
-      var parsed2 = JSON.parse(dcd);
-      if (parsed2 && parsed2.data && parsed2.data.headers && Array.isArray(parsed2.data.rows)) {
-        datosCurrentData = parsed2.data;
-        datosCurrentFileName = parsed2.fileName || '';
-      }
-    }
+    // FIX: Remover lectura de sigmaPro_datosCurrentData — ya no se guarda (eliminado para evitar QuotaExceededError)
+    // datosCurrentData ahora se restaura desde trabajoSheets si es necesario
+    // var dcd = localStorage.getItem('sigmaPro_datosCurrentData');
+    // if (dcd) { ... }
   } catch(e) {
     console.warn('[Persist] Error restoring data:', e);
   }

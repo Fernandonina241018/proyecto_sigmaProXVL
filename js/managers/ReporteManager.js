@@ -2083,7 +2083,17 @@ tr:hover td{background:#f7faff}
             const el=document.getElementById(id);
             if(el) _saved[id]=el.type==='checkbox'?el.checked:el.value;
         });
-        localStorage.setItem('__report_form_state',JSON.stringify(_saved));
+        // FIX: Agregar try-catch para evitar QuotaExceededError con datasets grandes
+        try {
+          localStorage.setItem('__report_form_state',JSON.stringify(_saved));
+        } catch(e) {
+          if (e.name === 'QuotaExceededError') {
+            console.warn('[ReporteManager] localStorage quota exceeded, report form state not saved');
+            // No mostrar error al usuario — es solo state temporal del formulario
+          } else {
+            console.warn('[ReporteManager] Error saving form state:', e);
+          }
+        }
 
         container.innerHTML=`
         <div class="rep-layout">
@@ -2301,7 +2311,15 @@ tr:hover td{background:#f7faff}
                 const el=document.getElementById(id);
                 if(el) st[id]=el.type==='checkbox'?el.checked:el.value;
             });
-            localStorage.setItem('__report_form_state',JSON.stringify(st));
+            // FIX: Agregar try-catch para evitar QuotaExceededError
+            try {
+              localStorage.setItem('__report_form_state',JSON.stringify(st));
+            } catch(e) {
+              if (e.name === 'QuotaExceededError') {
+                console.warn('[ReporteManager] localStorage quota exceeded (auto-save)');
+                // Silencio — no interrumpir UX del usuario
+              }
+            }
         };
         container.querySelector('.rep-layout')?.addEventListener('input',_saveFormState);
         container.querySelector('.rep-layout')?.addEventListener('change',_saveFormState);

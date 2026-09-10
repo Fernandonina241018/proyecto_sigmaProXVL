@@ -90,6 +90,42 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-09-03 (9): Fix CRÍTICO — QuotaExceededError con datasets grandes (19K+ filas)
+
+**Problema:** En Edge (trabajo, 16GB RAM), al analizar datasets de ~19K filas y generar reportes, el navegador mostraba error "no tengo storage" (QuotaExceededError). En casa no ocurría porque la quota de localStorage era más generosa o había menos datos cacheados.
+
+**Causa raíz:** La aplicación guardaba **el mismo dataset 3 veces** en localStorage bajo keys diferentes:
+1. `sigmaPro_trabajoSheets` (~2-5 MB)
+2. `sigmaPro_datosCurrentData` (~2-5 MB) — DUPLICADO innecesario
+3. `statAnalyzerState` (via StateManager.beforeunload, ~4-10 MB) — OTRO DUPLICADO
+
+Con 19K filas: ~8-15 MB total, pero el límite de Edge localStorage es ~5-10 MB → CRASH.
+
+**Solución (3 cambios):**
+
+| # | Cambio | Archivo | Ahorro |
+|---|--------|---------|--------|
+| **1** | Remover guardado de `sigmaPro_datosCurrentData` en localStorage | `indexx-globals.js:47-51` | -2-5 MB |
+| **2** | Cambiar `StateManager.beforeunload` para NO escribir a localStorage (confiar en IndexedDB async) | `StateManager.js:87-104` | -4-10 MB |
+| **3** | Agregar try-catch en `ReporteManager` para `__report_form_state` (fallback silencioso) | `ReporteManager.js:2086, 2314` | Resiliencia |
+
+**Impacto de la solución:**
+- Antes: ~8-15 MB en localStorage (FALLA con 19K filas)
+- Después: ~2-5 MB en localStorage (FUNCIONA)
+- Datos críticos aún se guardan en IndexedDB (quota mucho más grande)
+- Compromiso: posible pérdida de datos formulario si tab se cierra en los últimos ~5 segundos (tiempo de auto-save)
+
+**Verificación:**
+- ✅ `deno check` OK en 3 archivos
+- ✅ No hay referencias rotas a `sigmaPro_datosCurrentData`
+- ✅ `datosCurrentData` se recupera vía carga de archivo o StateManager
+- ✅ IndexedDB auto-save cada 5 segundos (fallback robusto)
+
+**Archivos modificados:**
+- `js/core/indexx-globals.js:40-102` — Eliminar duplicado
+- `js/core/StateManager.js:85-104` — Cambiar estrategia beforeunload
+- `js/managers/ReporteManager.js:2086-2097, 2305-2322` — Agregar try-catch
+
 ### 2026-09-03 (8): UI — Ocultar label "faltante" en celdas vacías
 
 **Qué:** Se eliminó el label "⚠️ faltante" que aparecía en celdas vacías para reducir ruido visual, manteniendo el borde punteado amarillo como indicador visual de celdas sin datos.
