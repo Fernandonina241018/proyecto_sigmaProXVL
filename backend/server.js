@@ -47,12 +47,8 @@ const PORT = process.env.PORT || 3000;
 // así que lo hacemos manualmente antes de cualquier otra cosa
 app.use((req, res, next) => {
     const origin = req.headers.origin;
-    const allowed = [
-        'https://fernandonina241018.github.io',
-        'http://127.0.0.1:5500',
-        'http://localhost:5500',
-        'http://localhost:3000',
-    ];
+    // FIX SEGURIDAD #13: Orígenes configurables via env (no hardcodear dev origins en production)
+    const allowed = (process.env.CORS_ORIGINS || 'https://fernandonina241018.github.io').split(',');
 
     // Verificar origen permitido
     if (origin && allowed.includes(origin)) {
@@ -77,10 +73,20 @@ app.use((req, res, next) => {
 });
 
 // ── Security headers (HSTS, X-Frame-Options, CSP, etc.) ──
-// Desactivamos CSP por defecto para no romper la SPA vanilla que sirve
-// su propio CSP en <meta>. HSTS queda activo (1 año, includeSubDomains).
+// FIX SEGURIDAD #11: Habilitar CSP con política segura que permita la SPA
 app.use(helmet({
-    contentSecurityPolicy: false,
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'"],  // SPA vanilla necesita inline
+            styleSrc: ["'self'", "'unsafe-inline'"],    // SPA vanilla necesita inline
+            imgSrc: ["'self'", "data:", "https:"],
+            connectSrc: ["'self'", "https://sigmaproxvl-backend.fly.dev", "https://sigmapro-ml.fly.dev"],
+            fontSrc: ["'self'", "data:"],
+            objectSrc: ["'none'"],
+            frameAncestors: ["'none'"],
+        }
+    },
     crossOriginEmbedderPolicy: false,
     hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
     referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
@@ -305,8 +311,8 @@ let server;
         console.error('⚠️ Promesa rechazada:', String(reason));
     });
 
-    // Limpiar blacklist expirada cada hora
-    setInterval(() => db.cleanExpiredBlacklist().catch(() => {}), 3600000);
+    // FIX SEGURIDAD #16: Limpiar blacklist cada 10 minutos (antes 1 hora)
+    setInterval(() => db.cleanExpiredBlacklist().catch(() => {}), 600000);
 
     // Limpiar Maps de tracking de fallos cada 30 minutos para evitar memory leak
     setInterval(() => {
@@ -412,18 +418,12 @@ app.get('/api/health', async (req, res) => {
         dbStatus = 'disconnected';
     }
     
+    // FIX SEGURIDAD #15: Health endpoint solo retorna estado básico (sin info interna)
     res.json({
         ok: true,
         service: 'StatAnalyzer Pro API',
         version: '2.1.0',
-        timestamp: new Date().toISOString(),
-        uptime: `${uptime}s`,
         database: dbStatus,
-        memory: {
-            rss: `${Math.round(mem.rss / 1024 / 1024)}MB`,
-            heapUsed: `${Math.round(mem.heapUsed / 1024 / 1024)}MB`,
-        },
-        pid: process.pid,
     });
 });
 
@@ -504,7 +504,8 @@ app.post('/api/login', loginLimiter, async (req, res) => {
                 { expiresIn: '5m', issuer: 'sigmaproxvl', audience: 'sigmaproxvl-api' }
             );
             await db.logAccess({ username, action: 'LOGIN_2FA_REQUIRED', success: true, ip, userAgent });
-            return res.json({ ok: true, requires2FA: true, tempToken, username: user.username, role: user.role });
+            // FIX SEGURIDAD #8: No leak username/role antes de 2FA — tempToken ya contiene esta info en su payload JWT
+            return res.json({ ok: true, requires2FA: true, tempToken });
         }
 
         await db.logAccess({ username, action: 'LOGIN', success: true, ip, userAgent });

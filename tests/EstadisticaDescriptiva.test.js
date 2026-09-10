@@ -6,7 +6,13 @@ import vm from 'vm';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const core = join(__dirname, '..', 'js', 'core');
 
-// StatsUtils/API_URL/escapeHtml etc. are loaded by setup.js
+// FIX: Deno no tiene 'window', definir como globalThis para compatibilidad
+globalThis.window = globalThis;
+
+// StatsUtils ya se carga en setup.js — NO recargarlo aquí
+// Solo cargar indexx-stats-core que define window.__StatsCore
+vm.runInThisContext(readFileSync(join(core, 'indexx-stats-core.js'), 'utf-8'));
+// Ahora cargar EstadisticaDescriptiva que depende de window.__StatsCore
 vm.runInThisContext(readFileSync(join(core, 'EstadisticaDescriptiva.js'), 'utf-8'));
 
 const ED = EstadisticaDescriptiva;

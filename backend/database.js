@@ -26,7 +26,9 @@ function buildPostgres() {
 
     const pool = new Pool({
         connectionString: process.env.DATABASE_URL,
-        ssl: { rejectUnauthorized: process.env.DB_SSL_INSECURE === '1' ? false : true },
+        // FIX SEGURIDAD #10: Siempre verificar certificados SSL (fail-closed)
+        // DB_SSL_INSECURE ya no se admite — usar certificates válidos en su lugar
+        ssl: process.env.DATABASE_URL?.includes('localhost') ? false : { rejectUnauthorized: true },
         idleTimeoutMillis: 10000,
         connectionTimeoutMillis: 5000,
     });
