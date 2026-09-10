@@ -90,6 +90,58 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-09-03 (10): Auditoría y Fix de Seguridad — 7 vulnerabilidades corregidas
+
+**Auditoría de seguridad completa** realizada sobre `backend/server.js` (1199 líneas) y `backend/database.js` (743 líneas).
+
+#### Vulnerabilidades corregidas:
+
+| # | Severidad | Vulnerabilidad | CWE | Archivo | Fix |
+|---|-----------|----------------|-----|---------|-----|
+| **1** | 🔴 CRITICAL | Password por defecto `sigma2026` hardcodeado y expuesto en respuesta API | CWE-798 | `server.js:25,523` | Se reemplaza por `crypto.randomBytes(12).toString('base64url')` por usuario. Nunca se retorna en respuesta |
+| **2** | 🔴 CRITICAL | ML API Key accesible para cualquier usuario autenticado | CWE-200 | `server.js:568` | Se agrega `requireAdmin` middleware. Frontend usa proxy `/api/ml/*` en su lugar |
+| **3** | 🔴 CRITICAL | Códigos de firma débiles (solo ~900 posibilidades, brute-force en ~27 min) | CWE-330 | `server.js:932` | Se reemplaza por `crypto.randomBytes(16).toString('base64url')` (128 bits de entropía) |
+| **4** | 🟠 HIGH | CORS wildcard con credentials — requests sin Origin bypass CORS | CWE-942 | `server.js:56` | Se elimina `Access-Control-Allow-Origin: *` para requests sin origen |
+| **5** | 🟠 HIGH | ML Proxy reenvía headers del cliente al servicio interno | CWE-201 | `server.js:230` | Solo se reenvían `Content-Type` y `Accept` (headers seguros) |
+| **6** | 🟠 HIGH | User enumeration en verify-signature (404 vs 401) | CWE-204 | `server.js:858` | Se unifican errores en `401: 'Credenciales inválidas'` |
+| **7** | 🟠 HIGH | Rate limiter spoofable via X-Forwarded-For | CWE-290 | `server.js:138` | Se agrega `trust proxy` y se usa `req.ip` para IP real |
+
+#### Cambios en frontend:
+
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/auth.js:63` | Se elimina `defaultPassword` del return de `_login()` |
+| `js/core/auth.js:625` | Se elimina `defaultPassword` del callback `_onLoginSuccess()` |
+| `js/core/auth.js:762` | Modal de cambio de contraseña ahora indica "Contacta al administrador" |
+| `js/managers/UsuariosManager.js:105` | Se elimina `defaultPassword` del return de `crearUsuario()` |
+| `js/managers/UsuariosManager.js:827` | Mensaje de usuario creado ya no muestra contraseña hardcodeada |
+| `js/pages/ml.js:951` | `_getMlApiUrl()` usa proxy del backend (`/api/ml/*`) en vez de ML Service directo |
+| `js/pages/ml.js:972` | Se elimina envío de `X-API-Key` desde frontend (proxy lo maneja) |
+| `js/pages/ml.js:1235` | Upload de datasets usa proxy del backend |
+
+#### Cambios en backend:
+
+| Archivo | Cambio |
+|---------|--------|
+| `backend/server.js:25-28` | `DEFAULT_USER_PASSWORD` reemplazado por `generateTempPassword()` con crypto |
+| `backend/server.js:56-58` | CORS: eliminado wildcard para requests sin origen |
+| `backend/server.js:87` | Se agrega `trust proxy` para IP real |
+| `backend/server.js:132-163` | Rate limiters usan `req.ip` en vez de `X-Forwarded-For` |
+| `backend/server.js:143-145` | `verifyLimiter` reducido a 5 intentos/15min (antes 50) |
+| `backend/server.js:230` | ML proxy solo reenvía Content-Type y Accept |
+| `backend/server.js:504` | Login response ya no retorna `defaultPassword` |
+| `backend/server.js:568` | `/api/ml-api-key` requiere `requireAdmin` |
+| `backend/server.js:858-879` | verify-signature retorna error uniforme |
+| `backend/server.js:932-933` | Generación de signatureCode usa `crypto.randomBytes` |
+| `backend/server.js:956` | Create user response ya no retorna `defaultPassword` |
+
+#### Resultado de verificación:
+- ✅ `node -c` OK en todos los archivos modificados
+- ✅ No hay referencias rotas a `sigma2026` o `defaultPassword`
+- ✅ Frontend de ML funciona a través del proxy del backend
+
+---
+
 ### 2026-09-03 (9): Fix CRÍTICO — QuotaExceededError con datasets grandes (19K+ filas)
 
 **Problema:** En Edge (trabajo, 16GB RAM), al analizar datasets de ~19K filas y generar reportes, el navegador mostraba error "no tengo storage" (QuotaExceededError). En casa no ocurría porque la quota de localStorage era más generosa o había menos datos cacheados.

@@ -949,8 +949,11 @@ const MLManager = (() => {
     }
 
     function _getMlApiUrl() {
-        if (typeof ML_API_URL !== 'undefined') return ML_API_URL;
-        return 'http://localhost:8000';
+        // FIX SEGURIDAD #2: Usar proxy del backend en vez de llamar directamente al ML Service
+        // El proxy del backend (/api/ml/*) maneja autenticación e inyecta la API key internamente
+        if (typeof API_URL !== 'undefined') return API_URL + '/api/ml';
+        if (typeof CFG !== 'undefined' && CFG.API_URL) return CFG.API_URL + '/api/ml';
+        return 'http://localhost:3000/api/ml';
     }
 
     // Endpoints donde un 404 puede ser síntoma de cold start (ruta no registrada
@@ -969,8 +972,8 @@ const MLManager = (() => {
             headers: { 'Content-Type': 'application/json' },
         };
         if (token) opts.headers['Authorization'] = 'Bearer ' + token;
-        var mlApiKey = (typeof Auth !== 'undefined' && Auth.getMlApiKey) ? Auth.getMlApiKey() : null;
-        if (mlApiKey) opts.headers['X-API-Key'] = mlApiKey;
+        // FIX SEGURIDAD #2: La API key ya no se envía desde el frontend
+        // El proxy del backend (/api/ml/*) inyecta la API key internamente
         if (body) opts.body = JSON.stringify(body);
         var controller = new AbortController();
         opts.signal = controller.signal;
@@ -1229,12 +1232,11 @@ const MLManager = (() => {
         try {
             var formData = new FormData();
             formData.append('file', file);
-            var apiUrl = window._ML_API_URL || 'https://sigmapro-ml.fly.dev';
+            var apiUrl = typeof API_URL !== 'undefined' ? API_URL : (typeof CFG !== 'undefined' && CFG.API_URL ? CFG.API_URL : 'http://localhost:3000');
             var token = (typeof Auth !== 'undefined' && Auth.getToken) ? Auth.getToken() : null;
-            var mlApiKey = (typeof Auth !== 'undefined' && Auth.getMlApiKey) ? Auth.getMlApiKey() : null;
+            // FIX SEGURIDAD #2: Usar proxy del backend en vez de llamar directamente al ML Service
             var headers = {};
             if (token) headers['Authorization'] = 'Bearer ' + token;
-            if (mlApiKey) headers['X-API-Key'] = mlApiKey;
             var resp = await fetch(apiUrl + '/api/ml/dataset/upload', {
                 method: 'POST', headers: headers, body: formData,
             });

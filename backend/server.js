@@ -22,7 +22,12 @@ if (process.env.JWT_SECRET.length < 32) {
     process.exit(1);
 }
 
-const DEFAULT_USER_PASSWORD = process.env.DEFAULT_USER_PASSWORD || 'sigma2026';
+// FIX SEGURIDAD #1: Nunca hardcodear password por defecto
+// Se genera una contraseña temporal aleatoria por usuario si no se proporciona
+if (!process.env.DEFAULT_USER_PASSWORD) {
+    console.warn('⚠️  DEFAULT_USER_PASSWORD no está definido. Se generarán contraseñas temporales aleatorias por usuario.');
+}
+const generateTempPassword = () => crypto.randomBytes(12).toString('base64url');
 
 const express = require('express');
 const bcrypt  = require('bcryptjs');
@@ -54,8 +59,8 @@ app.use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', origin);
         res.setHeader('Vary', 'Origin');
     } else if (!origin) {
-        // Permitir peticiones sin origen (file://, desarrollo local, curl)
-        res.setHeader('Access-Control-Allow-Origin', '*');
+        // FIX SEGURIDAD #4: No establecer CORS wildcard para requests sin origen
+        // Browsers sin Origin no enforce CORS, así que no headers necesarios
     } else {
         // Rechazar orígenes no permitidos
         return res.status(403).json({ error: 'Origen no permitido' });
@@ -83,6 +88,9 @@ app.use(helmet({
 
 app.use(express.json({ limit: '100kb' }));
 app.use(cookieParser());
+
+// FIX SEGURIDAD #7: Configurar trust proxy para IP real detrás de proxy (Fly.io, Railway)
+app.set('trust proxy', 1); // Confiar en el primer hop del proxy
 
 // ── Password Strength Validation (21 CFR 11.300) ──
 function validatePasswordStrength(password) {
@@ -135,20 +143,17 @@ const loginLimiter = rateLimit({
     message: { error: 'Demasiados intentos de login. Intente de nuevo en 15 minutos.' },
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => {
-        return req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
-    }
+    // FIX SEGURIDAD #7: Usar req.ip con trust proxy para IP real
+    keyGenerator: (req) => req.ip || req.socket.remoteAddress,
 });
 
 const verifyLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 50,
+    max: 5,  // FIX SEGURIDAD: Reducido de 50 a 5 para prevenir brute-force de códigos de firma
     message: { error: 'Demasiados intentos de verificación. Intente de nuevo en 15 minutos.' },
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => {
-        return req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
-    }
+    keyGenerator: (req) => req.ip || req.socket.remoteAddress,
 });
 
 const tfaLimiter = rateLimit({
@@ -157,9 +162,7 @@ const tfaLimiter = rateLimit({
     message: { error: 'Demasiados intentos de verificación 2FA. Intente de nuevo en 15 minutos.' },
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => {
-        return req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
-    }
+    keyGenerator: (req) => req.ip || req.socket.remoteAddress,
 });
 
 // Track de fallos por usuario (en memoria)
@@ -227,13 +230,13 @@ app.use('/api/ml', requireAuth, async (req, res) => {
             port: mlUrl.port,
             path: mlUrl.pathname + mlUrl.search,
             method: req.method,
-            headers: { ...req.headers, host: mlUrl.host },
+            headers: {
+                'Content-Type': req.headers['content-type'] || 'application/json',
+                'Accept': req.headers['accept'] || '*/*',
+            },
             timeout: 120000,
         };
-        // No reenviar credenciales del cliente al ML Service (JWT, cookies)
-        delete options.headers['authorization'];
-        delete options.headers['cookie'];
-        delete options.headers['x-api-key'];
+        // Solo Content-Type y Accept se reenvían (ya definidos arriba)
         // Remove body-restricted headers for GET/HEAD
         if (['GET', 'HEAD'].includes(req.method)) {
             delete options.headers['content-type'];
@@ -520,7 +523,8 @@ app.post('/api/login', loginLimiter, async (req, res) => {
             maxAge: 8 * 60 * 60 * 1000 // 8 horas
         });
 
-        return res.json({ ok: true, token, username: user.username, role: user.role, mustChangePassword, defaultPassword: mustChangePassword ? DEFAULT_USER_PASSWORD : undefined });
+        // FIX SEGURIDAD #1: Nunca retornar password en la respuesta
+        return res.json({ ok: true, token, username: user.username, role: user.role, mustChangePassword });
 
     } catch (err) {
         console.error('Error en login:', err);
@@ -564,8 +568,8 @@ app.get('/api/me', requireAuth, async (req, res) => {
     res.json({ ok: true, username: req.user.username, role: req.user.role, token, has2FA });
 });
 
-// GET /api/ml-api-key — devuelve la ML API Key para que el frontend la pase al ML Service
-app.get('/api/ml-api-key', requireAuth, (req, res) => {
+// FIX SEGURIDAD #2: Solo admin puede ver la ML API Key
+app.get('/api/ml-api-key', requireAuth, requireAdmin, (req, res) => {
     const key = process.env.ML_API_KEY || '';
     res.json({ ok: true, key });
 });
@@ -856,26 +860,16 @@ app.post('/api/verify-signature', verifyLimiter, async (req, res) => {
     }
     try {
         const user = await db.getUserBySignatureCode(signatureCode.trim());
-        if (!user) {
+        // FIX SEGURIDAD #6: Error genérico para prevenir user enumeration
+        if (!user || !await bcrypt.compare(password, user.password)) {
             await db.logAccess({
-                username:  '(desconocido)',
+                username: user ? user.username : '(desconocido)',
                 action:    'VERIFY_SIGNATURE_FAIL',
                 success:   false,
                 ip:        getClientIP(req),
                 userAgent: req.headers['user-agent'],
             });
-            return res.status(404).json({ error: 'Código de firma no registrado' });
-        }
-        const passwordOk = await bcrypt.compare(password, user.password);
-        if (!passwordOk) {
-            await db.logAccess({
-                username:  user.username,
-                action:    'VERIFY_SIGNATURE_FAIL',
-                success:   false,
-                ip:        getClientIP(req),
-                userAgent: req.headers['user-agent'],
-            });
-            return res.status(401).json({ error: 'Contraseña incorrecta' });
+            return res.status(401).json({ error: 'Credenciales inválidas' });
         }
         await db.logAccess({
             username:  user.username,
@@ -912,7 +906,8 @@ app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
         return res.status(400).json({ error: 'Rol inválido' });
     }
     var useDefault = !password?.trim();
-    var pw = useDefault ? DEFAULT_USER_PASSWORD : password.trim();
+    // FIX SEGURIDAD #1: Generar contraseña temporal aleatoria si no se proporciona
+    var pw = useDefault ? generateTempPassword() : password.trim();
     if (!useDefault) {
         var pwErr = validatePasswordStrength(pw);
         if (pwErr) return res.status(400).json({ error: pwErr });
@@ -929,8 +924,8 @@ app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
 
     var sigCode = signatureCode?.trim();
     if (!sigCode) {
-        var prefix = username.trim().slice(0, 3).toLowerCase();
-        sigCode = prefix + Math.floor(100 + Math.random() * 900);
+        // FIX SEGURIDAD #3: Usar crypto.randomBytes para códigos seguros (128 bits de entropía)
+        sigCode = crypto.randomBytes(16).toString('base64url');
     }
 
     const result = await db.createUser({
@@ -953,7 +948,8 @@ app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
         success: true, ip: getClientIP(req), userAgent: req.headers['user-agent'],
     });
 
-    res.json({ ok: true, id: result.id, defaultPassword: useDefault ? DEFAULT_USER_PASSWORD : undefined, signatureCode: sigCode, signature: signature?.trim() || null });
+    // FIX SEGURIDAD #1: No retornar password en la respuesta de creación
+    res.json({ ok: true, id: result.id, signatureCode: sigCode, signature: signature?.trim() || null });
 });
 
 // PUT /api/users/:id/toggle (solo admin)

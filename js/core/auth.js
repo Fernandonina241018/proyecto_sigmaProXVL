@@ -60,7 +60,8 @@ const Auth = (() => {
                 return { ok: true, requires2FA: true, username: data.username, role: data.role, tempToken: data.tempToken };
             }
             _token = data.token;
-            return { ok: true, username: data.username, role: data.role, token: data.token, mustChangePassword: data.mustChangePassword || false, defaultPassword: data.defaultPassword };
+            // FIX SEGURIDAD #1: defaultPassword ya no se retorna del backend (generada aleatoriamente)
+            return { ok: true, username: data.username, role: data.role, token: data.token, mustChangePassword: data.mustChangePassword || false };
         } catch {
             return { ok: false, error: 'No se pudo conectar con el servidor.' };
         }
@@ -621,7 +622,7 @@ const Auth = (() => {
             } else {
                 try { localStorage.removeItem('__auth_remembered'); } catch(_e) {}
             }
-            _onLoginSuccess({username:result.username,role:result.role,mustChangePassword:result.mustChangePassword,defaultPassword:result.defaultPassword});
+            _onLoginSuccess({username:result.username,role:result.role,mustChangePassword:result.mustChangePassword});
         } else {
             const blocked=_registerFailedAttempt();
             if(!blocked){
@@ -758,7 +759,7 @@ const Auth = (() => {
                 <p style="margin:0 0 16px 0;color:var(--text-secondary,#64748b);font-size:0.85rem;">Debes crear una nueva contraseña y código de firma antes de continuar.</p>
 
                 <div style="margin-bottom:12px;padding:8px 12px;background:var(--bg-panel,#f8fafc);border-radius:8px;border:1px solid var(--border-color,#e2e8f0);font-size:0.8rem;color:var(--text-secondary,#64748b);text-align:left;">
-                    🔑 Tu contraseña temporal es: <strong style="color:var(--accent,#2563eb);font-family:monospace;">` + escapeHtml(userData.defaultPassword || 'sigma2026') + `</strong>
+                    🔑 Contacta al administrador para obtener tu contraseña temporal.
                 </div>
 
                 <div style="margin-bottom:12px;text-align:left;">
