@@ -17,6 +17,31 @@
 </head>
 <body>
 
+<!-- ═════════════════════════════════════════════════════════════ -->
+<!-- CONFIGURACIÓN DE SERVIDORES (Desarrollo vs Producción)       -->
+<!-- ═════════════════════════════════════════════════════════════ -->
+<script>
+  // Detectar si está en desarrollo o producción
+  var isDevelopment = window.location.hostname === 'localhost' || 
+                      window.location.hostname === '127.0.0.1';
+  
+  // API Backend (Autenticación, Usuarios, Auditoría)
+  var API_URL = isDevelopment 
+    ? 'http://localhost:3000'
+    : 'https://sigmaproxvl-backend.fly.dev';
+  
+  // ML Service API (Python/FastAPI)
+  var ML_API_URL = isDevelopment 
+    ? 'http://localhost:8000' 
+    : 'https://sigmapro-ml.fly.dev';
+  
+  console.log('🚀 Configuración:', {
+    environment: isDevelopment ? 'DESARROLLO' : 'PRODUCCIÓN',
+    api_url: API_URL,
+    ml_api_url: ML_API_URL
+  });
+</script>
+
 <div class="titlebar">
   <div class="titlebar-lights">
     <button class="titlebar-btn close"></button>
@@ -321,31 +346,6 @@
 <!-- Autocomplete -->
 <div class="autocomplete-list" id="autocompleteList" style="display:none"></div>
 
-<!-- ═════════════════════════════════════════════════════════════ -->
-<!-- CONFIGURACIÓN DE SERVIDORES (Desarrollo vs Producción)       -->
-<!-- ═════════════════════════════════════════════════════════════ -->
-<script>
-  // Detectar si está en desarrollo o producción
-  var isDevelopment = window.location.hostname === 'localhost' || 
-                      window.location.hostname === '127.0.0.1';
-  
-  // API Backend (Autenticación, Usuarios, Auditoría)
-  var API_URL = isDevelopment 
-    ? 'http://localhost:3000'
-    : 'https://sigmaproxvl-backend.fly.dev';
-  
-  // ML Service API (Python/FastAPI)
-  var ML_API_URL = isDevelopment 
-    ? 'http://localhost:8000' 
-    : 'https://sigmapro-ml.fly.dev';
-  
-  console.log('🚀 Configuración:', {
-    environment: isDevelopment ? 'DESARROLLO' : 'PRODUCCIÓN',
-    api_url: API_URL,
-    ml_api_url: ML_API_URL
-  });
-</script>
-
 <script>
 (function(){
 var t = window._CACHE_BUST || Date.now();
@@ -390,17 +390,17 @@ var files = [
 })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<!-- ML Service URL: cambiar cuando deployes en Render -->
+<script>var ML_API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:8000' : 'https://sigmapro-ml.fly.dev';</script>
 <script>
 (function(){
 var t=document.getElementById('themeToggle'),d=document.documentElement,s=localStorage.getItem('theme');
 function applyTheme(isLight){
-if(isLight){d.setAttribute('data-theme','light');localStorage.setItem('theme','light');t.textContent='☀️'
-if(typeof Chart!=='undefined'){Chart.defaults.color='#64748b';Chart.defaults.plugins.legend.labels.color='#64748b';Chart.defaults.plugins.title.color='#0f172a'}}
-else{d.removeAttribute('data-theme');localStorage.setItem('theme','dark');t.textContent='🌙'
-if(typeof Chart!=='undefined'){Chart.defaults.color='#94a3b8';Chart.defaults.plugins.legend.labels.color='#94a3b8';Chart.defaults.plugins.title.color='#f1f5f9'}}
+if(isLight){d.setAttribute('data-theme','light');localStorage.setItem('theme','light');if(t)t.textContent='☀️';if(typeof Chart!=='undefined'){Chart.defaults.color='#64748b';Chart.defaults.plugins.legend.labels.color='#64748b';Chart.defaults.plugins.title.color='#0f172a'}}
+else{d.removeAttribute('data-theme');localStorage.setItem('theme','dark');if(t)t.textContent='🌙';if(typeof Chart!=='undefined'){Chart.defaults.color='#94a3b8';Chart.defaults.plugins.legend.labels.color='#94a3b8';Chart.defaults.plugins.title.color='#f1f5f9'}}
 }
 if(s==='light')applyTheme(true);
-t.addEventListener('click',function(){var isLight=d.getAttribute('data-theme')==='light';applyTheme(!isLight)})
+if(t)t.addEventListener('click',function(){var isLight=d.getAttribute('data-theme')==='light';applyTheme(!isLight)})
 })()
 </script>
 </body>
