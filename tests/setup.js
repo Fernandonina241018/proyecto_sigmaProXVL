@@ -11,6 +11,11 @@ const mgr  = join(__dirname, '..', 'js', 'managers');
 // (Functions use plain function declarations, no 'use strict', so they become globals)
 vm.runInThisContext(readFileSync(join(core, 'utils.js'), 'utf-8'));
 vm.runInThisContext(readFileSync(join(core, 'StatsUtils.js'), 'utf-8'));
+
+// StatsCore uses window.__StatsCore — polyfill for Node test environment
+globalThis.window = globalThis;
+vm.runInThisContext(readFileSync(join(core, 'indexx-stats-core.js'), 'utf-8'));
+
 vm.runInThisContext(readFileSync(join(core, 'StateManager.js'), 'utf-8'));
 
 // EDAManager depends on estadisticosConfig (loaded in HTML head)

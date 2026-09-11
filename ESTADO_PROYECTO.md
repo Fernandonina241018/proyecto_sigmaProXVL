@@ -90,6 +90,18 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-09-11 (11): Fix de Tests — Error de carga de módulo en entorno Node.js
+
+**Problema:** Los tests de `EstadisticaDescriptiva.test.js` fallaban con `TypeError: Cannot destructure property 'sortNumbers' of '__core' as it is undefined`.
+
+**Causa:** El archivo `EstadisticaDescriptiva.js` depende de `window.__StatsCore` (definido en `indexx-stats-core.js`), pero el setup de tests no cargaba este módulo ni definía `window` en el entorno Node.js.
+
+**Fix en `tests/setup.js`:**
+- Se agregó polyfill `globalThis.window = globalThis` para simular el entorno del navegador
+- Se cargó `indexx-stats-core.js` después de `StatsUtils.js` (orden de dependencias correcto)
+
+**Resultado:** 5 archivos de test, 107 tests — todos pasando.
+
 ### 2026-09-03 (10): Auditoría y Fix de Seguridad — 7 vulnerabilidades corregidas
 
 **Auditoría de seguridad completa** realizada sobre `backend/server.js` (1199 líneas) y `backend/database.js` (743 líneas).
