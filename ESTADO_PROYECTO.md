@@ -90,34 +90,6 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
-### 2026-09-03 (11): Fix Tests + Fixes de Seguridad MEDIUM/LOW
-
-**Qué:** Fix del test roto + 6 fixes de seguridad adicionales (MEDIUM/LOW).
-
-#### Fix de Test:
-| Archivo | Fix |
-|---------|-----|
-| `tests/EstadisticaDescriptiva.test.js` | Agregar `globalThis.window = globalThis` + carga de `indexx-stats-core.js` para compatibilidad con Deno/Vitest |
-| **Resultado** | 5 suites, 107 tests — todos pasan ✅ |
-
-#### Fixes de Seguridad MEDIUM/LOW:
-
-| # | Severidad | Vulnerabilidad | CWE | Fix |
-|---|-----------|----------------|-----|-----|
-| **8** | MEDIUM | Temp Token leak username/role antes de 2FA | CWE-200 | `server.js:507` — Response ya no retorna `username`/`role` antes de completar 2FA |
-| **10** | MEDIUM | `DB_SSL_INSECURE` deshabilita verificación SSL | CWE-295 | `database.js:29` — SSL siempre activo excepto localhost |
-| **11** | MEDIUM | CSP deshabilitado | CWE-693 | `server.js:82-87` — CSP habilitado con política segura para SPA vanilla |
-| **13** | LOW | Orígenes de desarrollo en CORS production | CWE-482 | `server.js:50-55` — CORS_ORIGINS configurable via env |
-| **15** | LOW | Health endpoint expone info interna | CWE-200 | `server.js:421-426` — Solo retorna `ok`, `service`, `version`, `database` |
-| **16** | LOW | Blacklist cleanup interval muy largo | CWE-613 | `server.js:314-315` — Reducido de 1h a 10min |
-
-#### Frontend actualizado:
-| Archivo | Cambio |
-|---------|--------|
-| `js/core/auth.js:58-61` | Login 2FA response ya no espera `username`/`role` |
-
----
-
 ### 2026-09-03 (10): Auditoría y Fix de Seguridad — 7 vulnerabilidades corregidas
 
 **Auditoría de seguridad completa** realizada sobre `backend/server.js` (1199 líneas) y `backend/database.js` (743 líneas).

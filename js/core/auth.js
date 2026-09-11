@@ -57,8 +57,7 @@ const Auth = (() => {
             if (!res.ok) return { ok: false, error: data.error || 'Credenciales incorrectas' };
             if (data.requires2FA) {
                 _tempToken = data.tempToken;
-                // FIX SEGURIDAD #8: username/role ya no se retornan antes de 2FA (están en el payload JWT del tempToken)
-                return { ok: true, requires2FA: true, tempToken: data.tempToken };
+                return { ok: true, requires2FA: true, username: data.username, role: data.role, tempToken: data.tempToken };
             }
             _token = data.token;
             // FIX SEGURIDAD #1: defaultPassword ya no se retorna del backend (generada aleatoriamente)
