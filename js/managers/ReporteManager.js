@@ -2367,13 +2367,13 @@ tr:hover td{background:#f7faff}
         else proto.value='';
     }
     function collectMeta(){
-        const g=id=>document.getElementById(id)?.value.trim()||'';
-        const gOrFallback=(id1,id2)=>document.getElementById(id1)?.value.trim()||document.getElementById(id2)?.value.trim()||'';
+        const g=id=>(document.getElementById(id)?.value.trim()||'').toUpperCase();
+        const gOrFallback=(id1,id2)=>(document.getElementById(id1)?.value.trim()||document.getElementById(id2)?.value.trim()||'').toUpperCase();
         return {
             organizacion:    g('rep-org'),
             departamento:    g('rep-dept'),
             ubicacion:       g('rep-ubicacion'),
-            descripcion:     document.getElementById('rep-descripcion')?.value.trim()||'',
+            descripcion:     (document.getElementById('rep-descripcion')?.value.trim()||'').toUpperCase(),
             ensayo:          g('rep-ensayo'),
             modelo:          g('rep-modelo'),
             serie:           gOrFallback('rep-serie','rep-serial'),
@@ -2385,7 +2385,7 @@ tr:hover td{background:#f7faff}
             nombreDataset:   g('rep-dataset'),
             archivoFuente:   g('rep-file'),
             fechaRecoleccion:g('rep-collect'),
-            confidencialidad:document.getElementById('rep-conf')?.value||'CONFIDENTIAL',
+            confidencialidad:(document.getElementById('rep-conf')?.value||'CONFIDENTIAL').toUpperCase(),
             preparedBy:      g('rep-prep-name'),
             preparedTitle:   g('rep-prep-title'),
             preparedDate:    g('rep-prep-date'),
@@ -2395,7 +2395,7 @@ tr:hover td{background:#f7faff}
             approvedBy:      g('rep-app-name'),
             approvedTitle:   g('rep-app-title'),
             approvedDate:    g('rep-app-date'),
-            observaciones:   document.getElementById('rep-observaciones')?.value.trim()||'',
+            observaciones:   (document.getElementById('rep-observaciones')?.value.trim()||'').toUpperCase(),
         };
     }
 
