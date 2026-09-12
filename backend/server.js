@@ -273,7 +273,7 @@ let server;
     await db.initDatabase();
     await db.createInitialAdmin();
 
-    // '0.0.0.0' es requerido por Render para detectar el puerto
+    // '0.0.0.0' es requerido por el entorno de despliegue para detectar el puerto
     server = app.listen(PORT, '0.0.0.0', () => {
         console.log(`🚀 Servidor corriendo en http://0.0.0.0:${PORT}`);
         console.log(`📋 Health check: http://localhost:${PORT}/api/health`);

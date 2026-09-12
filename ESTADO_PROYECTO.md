@@ -3877,3 +3877,22 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 |---------|--------|
 | `js/core/indexx-viz.js:892` | Agregado `sourceFile: datosCurrentFileName \|\| ''` al guardar gráfico |
 | `js/core/indexx-viz.js:267,270` | Filtro `if (currentFile && g.sourceFile && g.sourceFile !== currentFile) return;` |
+
+### 2026-07-04: Limpieza — eliminar remanentes de Render (deploy runner)
+
+**Qué:** El proyecto despliega en Fly.io, pero el archivo `render.yaml` seguía en la raíz. Render detecta este archivo automáticamente e intenta auto-deploy en cada push, generando correos de error.
+
+**Fix:**
+1. Eliminado `render.yaml` (servicio Render `sigmapro-ml`)
+2. Eliminado `backend/Dockerfile` (era de Render, Fly.io usa `fly.toml`)
+3. Eliminado `ml_service/Dockerfile` (era de Render, Fly.io usa `fly.toml`)
+4. Actualizados comentarios que referenciaban Render en `indexx.html` y `backend/server.js`
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `render.yaml` | **ELIMINADO** |
+| `backend/Dockerfile` | **ELIMINADO** |
+| `ml_service/Dockerfile` | **ELIMINADO** |
+| `indexx.html:368` | Comentario actualizado: "ML Service URL (Fly.io)" |
+| `backend/server.js:276` | Comentario actualizado: "requerido por el entorno de despliegue" |
