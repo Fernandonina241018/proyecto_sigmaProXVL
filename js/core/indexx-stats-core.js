@@ -3043,19 +3043,27 @@ interpretacion: interpretacion,
         if (!dataMatrix || dataMatrix.length < k) return { error: `Se necesitan al menos ${k} observaciones para ${k} clusters` };
         const n = dataMatrix.length, p = dataMatrix[0].length;
         k = Math.max(2, Math.min(k || 3, n - 1));
-        // Inicializar centroides (k-means++)
+        // Inicializar centroides (k-means++) — for loops, no .map anidado
         let centroids = [];
         centroids.push(dataMatrix[Math.floor(Math.random() * n)]);
+        const dist = new Float64Array(n);
         for (let c = 1; c < k; c++) {
-            const dist = dataMatrix.map(pt => Math.min(...centroids.map(cent => {
-                let d = 0; for (let j = 0; j < p; j++) d += (pt[j] - cent[j]) ** 2; return d;
-            })));
-            const totalDist = dist.reduce((a, b) => a + b, 0);
+            let totalDist = 0;
+            for (let i = 0; i < n; i++) {
+                let minD = Infinity;
+                for (let ci = 0; ci < c; ci++) {
+                    let d = 0;
+                    for (let j = 0; j < p; j++) d += (dataMatrix[i][j] - centroids[ci][j]) ** 2;
+                    if (d < minD) minD = d;
+                }
+                dist[i] = minD;
+                totalDist += minD;
+            }
             let r = Math.random() * totalDist;
             for (let i = 0; i < n; i++) { r -= dist[i]; if (r <= 0) { centroids.push(dataMatrix[i]); break; } }
         }
         // Iterar hasta convergencia
-        let labels = new Array(n).fill(0), iterations = 0;
+        let labels = new Int32Array(n), iterations = 0;
         while (iterations++ < 100) {
             let changed = false;
             for (let i = 0; i < n; i++) {
@@ -3067,11 +3075,17 @@ interpretacion: interpretacion,
                 if (labels[i] !== best) { labels[i] = best; changed = true; }
             }
             if (!changed) break;
-            // Recalcular centroides
+            // Recalcular centroides — accumulator arrays, no .filter
+            const counts = new Int32Array(k);
+            for (let c = 0; c < k; c++) { centroids[c] = new Float64Array(p); }
+            for (let i = 0; i < n; i++) {
+                const c = labels[i];
+                counts[c]++;
+                for (let j = 0; j < p; j++) centroids[c][j] += dataMatrix[i][j];
+            }
             for (let c = 0; c < k; c++) {
-                const pts = dataMatrix.filter((_, i) => labels[i] === c);
-                if (pts.length === 0) continue;
-                for (let j = 0; j < p; j++) centroids[c][j] = pts.reduce((s, pt) => s + pt[j], 0) / pts.length;
+                if (counts[c] === 0) continue;
+                for (let j = 0; j < p; j++) centroids[c][j] /= counts[c];
             }
         }
         // Calcular inercia total

@@ -120,15 +120,21 @@ function finishLoad(headers, rows, filename, size) {
   _persistAllData();
 }
 
-// ── Column type detection ──
+// ── Column type detection (single-pass per column) ──
 function detectColTypes(headers, rows) {
   return headers.map(function(_, ci) {
-    var vals = rows.map(function(r){ return r[ci]; }).filter(function(v){ return v !== '' && v != null; });
-    if (!vals.length) return 'empty';
-    var nums = vals.filter(function(v){ return !isNaN(parseFloat(v)) && isFinite(v); });
-    if (nums.length > vals.length * 0.8) return 'number';
-    var dates = vals.filter(function(v){ return !isNaN(Date.parse(v)); });
-    if (dates.length > vals.length * 0.8) return 'date';
+    var total = 0, nonEmpty = 0, nums = 0, dates = 0;
+    for (var r = 0; r < rows.length; r++) {
+      var v = rows[r][ci];
+      if (v == null || v === '') continue;
+      total++;
+      nonEmpty++;
+      if (!isNaN(parseFloat(v)) && isFinite(v)) nums++;
+      else if (!isNaN(Date.parse(v))) dates++;
+    }
+    if (nonEmpty === 0) return 'empty';
+    if (nums > nonEmpty * 0.8) return 'number';
+    if (dates > nonEmpty * 0.8) return 'date';
     return 'text';
   });
 }
