@@ -43,16 +43,17 @@ const app  = express();
 const PORT = process.env.PORT || 3000;
 
 // ── CORS manual — primero que todo ────
-// Railway sobreescribe los headers del paquete 'cors'
-// así que lo hacemos manualmente antes de cualquier otra cosa
+// CORS_ORIGINS configurable via env, con fallback a orígenes del proyecto
 app.use((req, res, next) => {
     const origin = req.headers.origin;
-    const allowed = [
-        'https://fernandonina241018.github.io',
-        'http://127.0.0.1:5500',
-        'http://localhost:5500',
-        'http://localhost:3000',
-    ];
+    const allowed = process.env.CORS_ORIGINS
+        ? process.env.CORS_ORIGINS.split(',').map(s => s.trim()).filter(Boolean)
+        : [
+            'https://fernandonina241018.github.io',
+            'http://127.0.0.1:5500',
+            'http://localhost:5500',
+            'http://localhost:3000',
+        ];
 
     // Verificar origen permitido
     if (origin && allowed.includes(origin)) {
@@ -80,7 +81,18 @@ app.use((req, res, next) => {
 // Desactivamos CSP por defecto para no romper la SPA vanilla que sirve
 // su propio CSP en <meta>. HSTS queda activo (1 año, includeSubDomains).
 app.use(helmet({
-    contentSecurityPolicy: false,
+    contentSecurityPolicy: {
+        reportOnly: true,
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'"],
+            styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+            imgSrc: ["'self'", "data:", "blob:"],
+            fontSrc: ["'self'", "https://fonts.gstatic.com"],
+            connectSrc: ["'self'"],
+            reportUri: '/api/csp-report',
+        }
+    },
     crossOriginEmbedderPolicy: false,
     hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
     referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
@@ -399,11 +411,8 @@ app.get('/', (req, res) => {
     });
 });
 
-// Health check completo
+// Health check — info básica (sin exponer memoria, PID, uptime)
 app.get('/api/health', async (req, res) => {
-    const uptime = Math.floor((Date.now() - startTime) / 1000);
-    const mem = process.memoryUsage();
-    
     let dbStatus = 'unknown';
     try {
         await db.run('SELECT 1');
@@ -417,14 +426,14 @@ app.get('/api/health', async (req, res) => {
         service: 'StatAnalyzer Pro API',
         version: '2.1.0',
         timestamp: new Date().toISOString(),
-        uptime: `${uptime}s`,
         database: dbStatus,
-        memory: {
-            rss: `${Math.round(mem.rss / 1024 / 1024)}MB`,
-            heapUsed: `${Math.round(mem.heapUsed / 1024 / 1024)}MB`,
-        },
-        pid: process.pid,
     });
+});
+
+// CSP violation reports (report-only mode — collect violations)
+app.post('/api/csp-report', express.json({ type: 'application/csp-report' }), (req, res) => {
+    console.warn('CSP violation:', JSON.stringify(req.body, null, 2));
+    res.status(204).end();
 });
 
 // Métricas del servidor (solo admin)
@@ -839,11 +848,13 @@ app.get('/api/snapshots/:id', requireAuth, async (req, res) => {
     }
 });
 
-// GET /api/users (solo admin)
+// GET /api/users (solo admin) — con paginación
 app.get('/api/users', requireAuth, requireAdmin, async (req, res) => {
     try {
-        const users = await db.getAllUsers();
-        res.json({ ok: true, users });
+        const limit = Math.min(parseInt(req.query.limit) || 50, 200);
+        const offset = parseInt(req.query.offset) || 0;
+        const [users, total] = await Promise.all([db.getAllUsers(limit, offset), db.countUsers()]);
+        res.json({ ok: true, users, total, limit, offset });
     } catch (err) {
         console.error('Error listing users:', err);
         res.status(500).json({ error: 'Error al listar usuarios' });
@@ -1081,11 +1092,13 @@ app.put('/api/users/reset-password', requireAuth, requireAdmin, async (req, res)
     }
 });
 
-// GET /api/audit (solo admin)
+// GET /api/audit (solo admin) — con paginación
 app.get('/api/audit', requireAuth, requireAdmin, async (req, res) => {
     try {
-        const logs = await db.getAuditLog(parseInt(req.query.limit) || 100);
-        res.json({ ok: true, logs });
+        const limit = Math.min(parseInt(req.query.limit) || 100, 500);
+        const offset = parseInt(req.query.offset) || 0;
+        const logs = await db.getAuditLog(limit, offset);
+        res.json({ ok: true, logs, limit, offset });
     } catch (err) {
         console.error('Error getting audit log:', err);
         res.status(500).json({ error: 'Error al obtener auditoría' });

@@ -24,9 +24,10 @@ function build() {
 function buildPostgres() {
     const { Pool } = require('pg');
 
+    const isProduction = process.env.NODE_ENV === 'production' || (process.env.DATABASE_URL || '').includes('supabase');
     const pool = new Pool({
         connectionString: process.env.DATABASE_URL,
-        ssl: { rejectUnauthorized: process.env.DB_SSL_INSECURE === '1' ? false : true },
+        ssl: isProduction ? { rejectUnauthorized: true } : false,
         idleTimeoutMillis: 10000,
         connectionTimeoutMillis: 5000,
     });
@@ -133,8 +134,13 @@ function buildPostgres() {
         await run(`UPDATE users SET last_login=to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS'), login_count=login_count+1 WHERE username=$1`, [username]);
     }
 
-    async function getAllUsers() {
-        return all('SELECT id,username,role,active,created_at,last_login,login_count,nombre,apellido,email,telefono,avatar,updated_at,totp_enabled,password_temp,signature_code,cargo,signature FROM users ORDER BY id ASC');
+    async function getAllUsers(limit = 50, offset = 0) {
+        return all('SELECT id,username,role,active,created_at,last_login,login_count,nombre,apellido,email,telefono,avatar,updated_at,totp_enabled,password_temp,signature_code,cargo,signature FROM users ORDER BY id ASC LIMIT $1 OFFSET $2', [limit, offset]);
+    }
+
+    async function countUsers() {
+        const row = await get('SELECT COUNT(*)::int AS total FROM users');
+        return row ? row.total : 0;
     }
 
     async function toggleUserActive(id, active) { await run('UPDATE users SET active=$1 WHERE id=$2', [active, id]); }
@@ -199,7 +205,7 @@ function buildPostgres() {
             [username, action, success !== false ? 1 : 0, ip, userAgent, module||null, detailsJson, durationMs||null, timestamp, prevHash, rowHash]);
     }
 
-    async function getAuditLog(limit = 100) { return all('SELECT * FROM audit_log ORDER BY id DESC LIMIT $1', [limit]); }
+    async function getAuditLog(limit = 100, offset = 0) { return all('SELECT * FROM audit_log ORDER BY id DESC LIMIT $1 OFFSET $2', [limit, offset]); }
 
     async function verifyAuditChain() {
         const rows = await all('SELECT * FROM audit_log ORDER BY id ASC');
@@ -361,8 +367,7 @@ function buildPostgres() {
         return get('SELECT * FROM data_snapshots WHERE id = $1', [id]);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById };
-}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
@@ -459,7 +464,8 @@ function buildLocalStore() {
         save();
     }
 
-    async function getAllUsers() { return state.users.map(({ password, ...u }) => u); }
+    async function getAllUsers(limit = 50, offset = 0) { return state.users.map(({ password, ...u }) => u).slice(offset, offset + limit); }
+    async function countUsers() { return state.users.length; }
     async function toggleUserActive(id, active) { const u = findById(id); if (u) { u.active = active; save(); } }
 
     async function changePassword(username, newPassword) {
@@ -697,8 +703,7 @@ function buildLocalStore() {
         return state.data_snapshots.find(function(s) { return s.id === id; }) || null;
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById };
-}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById };}
 
 const impl = build();
 module.exports = {
@@ -709,6 +714,7 @@ module.exports = {
     createUser:          (...a) => impl.createUser(...a),
     updateLastLogin:     (...a) => impl.updateLastLogin(...a),
     getAllUsers:         (...a) => impl.getAllUsers(...a),
+    countUsers:         (...a) => impl.countUsers(...a),
     toggleUserActive:    (...a) => impl.toggleUserActive(...a),
     changePassword:      (...a) => impl.changePassword(...a),
     setPasswordTemp:     (...a) => impl.setPasswordTemp(...a),

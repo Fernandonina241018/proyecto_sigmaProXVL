@@ -3896,3 +3896,33 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 | `ml_service/Dockerfile` | **ELIMINADO** |
 | `indexx.html:368` | Comentario actualizado: "ML Service URL (Fly.io)" |
 | `backend/server.js:276` | Comentario actualizado: "requerido por el entorno de despliegue" |
+
+### 2026-07-04: Fase 1 Seguridad — 7 fixes fail-safe (sin romper la app)
+
+**Qué:** Aplicación de la Fase 1 del plan de seguridad con approach fail-safe (cada cambio tiene fallback si falta la variable de entorno). Se omitió Fix 7 (temp token leak) porque el frontend depende de `username`/`role` en la respuesta y cambiarlo requeriría modificar auth.js.
+
+**Fixes aplicados:**
+1. **npm audit fix** — express 4.22.1→4.22.2, body-parser, ip-address actualizados (1 HIGH + 2 moderate corregidos)
+2. **`.env.example`** — Documentadas todas las variables de entorno del backend
+3. **CORS_ORIGINS configurable** — `process.env.CORS_ORIGINS` con fallback a la lista hardcodeada existente
+4. **CSP report-only** — Helmet CSP activo en `reportOnly: true` con endpoint `/api/csp-report` para colectar violaciones sin bloquear
+5. **Paginación admin** — GET /api/users soporta `?limit=50&offset=0` (default: 50, max: 200), GET /api/audit soporta `?limit=100&offset=0` (default: 100, max: 500). Respuesta incluye `total` para users
+6. **Health endpoint mínimo** — `/api/health` retorna solo `{ ok, service, version, timestamp, database }` (sin memory, PID, uptime). Info completa en `/api/metrics` (requiere admin)
+7. **DB SSL producción** — SSL forzado solo en producción (`NODE_ENV=production` o URL contiene `supabase`). Local funciona sin SSL
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `backend/package.json` | express 4.22.1→4.22.2 |
+| `backend/.env.example` | **NUEVO** — documentación de env vars |
+| `backend/server.js:45-55` | CORS_ORIGINS configurable via env |
+| `backend/server.js:83-98` | CSP report-only + endpoint /api/csp-report |
+| `backend/server.js:415-428` | Health endpoint minimal |
+| `backend/server.js:862-870` | GET /api/users con paginación |
+| `backend/server.js:1107-1115` | GET /api/audit con paginación |
+| `backend/database.js:24-32` | SSL solo en producción |
+| `backend/database.js:136-143` | getAllUsers(limit, offset) + countUsers |
+| `backend/database.js:207` | getAuditLog(limit, offset) |
+
+**Fix omitido:**
+- Fix 7 (temp token no leak username/role): El frontend (`auth.js:60,625`) usa `data.username` y `data.role` de la respuesta. Sacarlos requeriría modificar auth.js para decodificar el JWT. Bajo riesgo real: el temp token ya contiene esos datos y expira en 5 minutos.
