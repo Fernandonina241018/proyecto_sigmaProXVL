@@ -209,7 +209,13 @@ function _V_injectCSS() {
     + '.viz-root .toolbar-info strong{color:var(--t2);font-weight:600}'
     + '.viz-root .tbtn{padding:6px 12px;border-radius:var(--rs);font-size:11px;font-weight:700;cursor:pointer;background:var(--bg3);color:var(--t2);border:1.5px solid var(--sep);transition:all .14s;font-family:var(--sans)}'
     + '.viz-root .tbtn:hover{background:var(--bg4);color:var(--t1)}'
-    + '.viz-root .tbtn-acc{background:var(--accDim);color:var(--acc2);border-color:var(--accBorder)}';
+    + '.viz-root .tbtn-acc{background:var(--accDim);color:var(--acc2);border-color:var(--accBorder)}'
+    + '.viz-root .tbtn-dropdown{position:relative;display:inline-block}'
+    + '.viz-root .tbtn-dropdown-menu{display:none;position:absolute;bottom:100%;right:0;margin-bottom:4px;background:var(--bg1);border:1px solid var(--sep);border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);min-width:140px;z-index:100;overflow:hidden}'
+    + '.viz-root .tbtn-dropdown-item{width:100%;text-align:left;padding:8px 12px;background:transparent;border:none;color:var(--t1);font:inherit;cursor:pointer;display:flex;align-items:center;gap:8px}'
+    + '.viz-root .tbtn-dropdown-item:hover{background:var(--bg3)}'
+    + '.viz-root .tbtn-dropdown.open .tbtn-dropdown-menu{display:block}'
+    + '.viz-root .tbtn-dropdown.open .tbtn{background:var(--bg4);color:var(--t1)}';
   var style = document.createElement('style');
   style.textContent = css;
   document.head.appendChild(style);
@@ -373,6 +379,12 @@ function initVizPage() {
 
   _V_observeTheme();
   _V_syncAutoIdxUI();
+
+  // Dropdown close on outside click
+  document.addEventListener('click', function(e) {
+    var dd = document.querySelector('.tbtn-dropdown');
+    if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+  });
 
   try {
     var savedType = sessionStorage.getItem('sigmaPro_vizType');
@@ -1351,6 +1363,104 @@ function vizToggleFS() {
     if (el.requestFullscreen) el.requestFullscreen();
   } else {
     if (document.exitFullscreen) document.exitFullscreen();
+  }
+}
+
+// ══ DESCARGA DE GALERÍA ═════════════════════════════════════════════════
+// Carga librerías externas bajo demanda
+function _V_loadScript(url) {
+  return new Promise(function(resolve, reject) {
+    if (document.querySelector('script[src="' + url + '"]')) return resolve();
+    var s = document.createElement('script');
+    s.src = url;
+    s.onload = resolve;
+    s.onerror = function() { reject(new Error('Failed to load ' + url)); };
+    document.head.appendChild(s);
+  });
+}
+
+function vizDownloadGallery() {
+  var dd = document.querySelector('.tbtn-dropdown');
+  if (!dd) return;
+  dd.classList.toggle('open');
+}
+
+// Genera imagen estática para un item de galería
+function _V_generateGalleryImage(g) {
+  var config = _V_buildConfigFromVars(g.vars, g.palette, g.type);
+  if (!config) return null;
+  return _V_generateStaticImage(config);
+}
+
+// Construye config de Chart.js desde vars de galería
+function _V_buildConfigFromVars(vars, palette, type) {
+  if (!vars || !_V_TYPES[type]) return null;
+  var savedType = _V.type, savedVals = _V.vals, savedPalette = _V.palette, savedOverride = _V._sheetOverride;
+  _V.type = type; _V.vals = vars; _V.palette = palette; _V._sheetOverride = null;
+  var config = _V_buildConfig();
+  _V.type = savedType; _V.vals = savedVals; _V.palette = savedPalette; _V._sheetOverride = savedOverride;
+  return config;
+}
+
+// Descargar galería como ZIP (JPEGs)
+async function vizDownloadGalleryZip() {
+  if (!_V.gallery || !_V.gallery.length) { showToast('Galería vacía'); return; }
+  var dd = document.querySelector('.tbtn-dropdown'); if (dd) dd.classList.remove('open');
+  showToast('Generando ZIP...', 0);
+
+  try {
+    await _V_loadScript('https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js');
+    var zip = new JSZip();
+    var count = 0;
+    for (var g of _V.gallery) {
+      var url = _V_generateGalleryImage(g);
+      if (url) {
+        var base64 = url.split(',')[1];
+        var name = (g.title || 'grafico').replace(/[^\w]/g, '_') + '.jpg';
+        zip.file(name, base64, { base64: true });
+        count++;
+      }
+    }
+    if (count === 0) { showToast('No se pudieron generar imágenes'); return; }
+    var blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'viz-gallery-' + Date.now() + '.zip';
+    a.click();
+    showToast('✓ ' + count + ' gráficos en ZIP');
+  } catch(e) {
+    console.error(e);
+    showToast('Error generando ZIP: ' + e.message, 1);
+  }
+}
+
+// Descargar galería como PDF
+async function vizDownloadGalleryPDF() {
+  if (!_V.gallery || !_V.gallery.length) { showToast('Galería vacía'); return; }
+  var dd = document.querySelector('.tbtn-dropdown'); if (dd) dd.classList.remove('open');
+  showToast('Generando PDF...', 0);
+
+  try {
+    await _V_loadScript('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js');
+    var pdf = new jspdf.jsPDF({ orientation: 'landscape', unit: 'px', format: [800, 480] });
+    var count = 0;
+    for (var i = 0; i < _V.gallery.length; i++) {
+      var g = _V.gallery[i];
+      var url = _V_generateGalleryImage(g);
+      if (!url) continue;
+      if (i > 0) pdf.addPage();
+      pdf.addImage(url, 'JPEG', 0, 0, 800, 480);
+      // Título
+      pdf.setFontSize(14);
+      pdf.text(g.title || 'Gráfico ' + (i+1), 40, 30);
+      count++;
+    }
+    if (count === 0) { showToast('No se pudieron generar imágenes'); return; }
+    pdf.save('viz-gallery-' + Date.now() + '.pdf');
+    showToast('✓ ' + count + ' gráficos en PDF');
+  } catch(e) {
+    console.error(e);
+    showToast('Error generando PDF: ' + e.message, 1);
   }
 }
 

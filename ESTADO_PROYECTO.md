@@ -3941,3 +3941,31 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 |---------|--------|
 | `js/core/indexx-datos.js:124-138` | `detectColTypes` — single-pass con contadores |
 | `js/core/indexx-stats-core.js:3042-3082` | `calcularCluster` — Float64Array, accumulator arrays, sin .map/.filter |
+
+### 2026-07-04: Feature — Descargar galería completa (ZIP + PDF)
+
+**Qué:** Botón "Galería" en toolbar de visualización con dropdown para descargar todos los gráficos guardados como ZIP (JPEGs) o PDF multi-página.
+
+**Implementación:**
+1. **Toolbar** (`indexx-ui.js:815`): Botón "📦 Galery" con dropdown (ZIP / PDF)
+2. **CSS** (`indexx-viz.js:210-218`): Dropdown styles + open state
+3. **Handler** (`indexx-viz.js:383-387`): Cierre del dropdown al click fuera
+4. **Funciones** (`indexx-viz.js:1370-1480`):
+   - `vizDownloadGallery()` — toggle dropdown
+   - `_V_loadScript()` — carga JSZip/jsPDF desde CDN bajo demanda
+   - `vizDownloadGalleryZip()` — genera ZIP con JPEGs (600×380, calidad 0.7)
+   - `vizDownloadGalleryPDF()` — genera PDF landscape (800×480, 1 gráfico/página)
+   - `_V_generateGalleryImage()` — usa `_V_generateStaticImage()` existente
+   - `_V_buildConfigFromVars()` — reconstruye config Chart.js desde vars de galería
+
+**Librerías externas (carga bajo demanda):**
+- JSZip 3.10.1 (CDN jsdelivr)
+- jsPDF 2.5.1 (CDN jsdelivr)
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-ui.js:815` | Toolbar con botón dropdown ZIP/PDF |
+| `js/core/indexx-viz.js:210-218` | CSS dropdown |
+| `js/core/indexx-viz.js:383-387` | Click-outside handler |
+| `js/core/indexx-viz.js:1370-1480` | Funciones ZIP/PDF + helpers |
