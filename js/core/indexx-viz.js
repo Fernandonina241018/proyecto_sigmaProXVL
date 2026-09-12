@@ -1061,6 +1061,8 @@ function _V_generateStaticImage(g) {
   var tc = document.createElement('canvas');
   tc.width = 600; tc.height = 380;
   var tctx = tc.getContext('2d');
+  tctx.fillStyle = '#ffffff';
+  tctx.fillRect(0, 0, tc.width, tc.height);
   try {
     var tch = new Chart(tctx, config);
     var url = tc.toDataURL('image/jpeg', 0.7);
