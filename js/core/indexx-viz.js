@@ -1063,13 +1063,16 @@ function _V_generateStaticImage(g) {
   var tctx = tc.getContext('2d');
   tctx.fillStyle = '#ffffff';
   tctx.fillRect(0, 0, tc.width, tc.height);
+  var savedChartColor = Chart.defaults.color;
   try {
     var tch = new Chart(tctx, config);
     var url = tc.toDataURL('image/jpeg', 0.7);
     tch.destroy();
+    Chart.defaults.color = savedChartColor;
     _V.type = savedType; _V.vals = savedVals; _V.palette = savedPalette; _V._sheetOverride = savedOverride;
     return url;
   } catch(e) {
+    Chart.defaults.color = savedChartColor;
     _V.type = savedType; _V.vals = savedVals; _V.palette = savedPalette; _V._sheetOverride = savedOverride;
     return null;
   }
