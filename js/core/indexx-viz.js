@@ -344,7 +344,7 @@ window.Visualizacion = {
         }
       });
       if (graficos.length === 0 && _V.chart && _V.chart.canvas) {
-        graficos.push({ id: null, imagen: _V.chart.canvas.toDataURL('image/png'), titulo: (document.getElementById('vizChartTtl') || {}).textContent || 'Gráfico', tipo: _V.type || 'desconocido' });
+        graficos.push({ id: null, imagen: _V.chart.canvas.toDataURL('image/jpeg', 0.7), titulo: (document.getElementById('vizChartTtl') || {}).textContent || 'Gráfico', tipo: _V.type || 'desconocido' });
       }
     } catch(e) { console.warn('[Viz] Error en getGraficosParaReporte:', e); }
     return graficos;
@@ -1059,11 +1059,11 @@ function _V_generateStaticImage(g) {
   config.options.responsive = false;
   config.options.animation = false;
   var tc = document.createElement('canvas');
-  tc.width = 800; tc.height = 500;
+  tc.width = 600; tc.height = 380;
   var tctx = tc.getContext('2d');
   try {
     var tch = new Chart(tctx, config);
-    var url = tc.toDataURL('image/png');
+    var url = tc.toDataURL('image/jpeg', 0.7);
     tch.destroy();
     _V.type = savedType; _V.vals = savedVals; _V.palette = savedPalette; _V._sheetOverride = savedOverride;
     return url;

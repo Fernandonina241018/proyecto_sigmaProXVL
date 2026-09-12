@@ -90,6 +90,18 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-09-12 (15): Report Charts — Compresión JPEG + reducción de canvas
+
+**Problema:** Reportes con muchos gráficos fallaban por tamaño del HTML (cada chart era PNG base64 ~1MB).
+
+**Fix en `indexx-viz.js`:**
+- `_V_generateStaticImage()`: canvas 800×500 → 600×380, `toDataURL('image/png')` → `toDataURL('image/jpeg', 0.7)`
+- `getGraficosParaReporte()`: fallback del chart actual — mismo cambio PNG → JPEG 0.7
+
+**Impacto:** ~90% reducción de tamaño por gráfico (~1MB → ~100KB). Con 10 gráficos: ~10MB → ~1MB. Sin pérdida visible en impresión/PDF. Ratio 16:10 mantenido.
+
+---
+
 ### 2026-09-12 (14): react-doctor Lote 3 — Fixes de rendimiento
 
 **Fixes aplicados** (react-doctor score 62→70):
