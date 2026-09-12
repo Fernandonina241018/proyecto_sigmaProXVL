@@ -127,6 +127,7 @@ function _generateSecurePassword(length) {
                 headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getToken()}` },
                 body: JSON.stringify({ username, newPassword })
             });
+            if (!res.ok) return { ok: false, error: `HTTP ${res.status}` };
             const data = await res.json();
             if (!data.ok) return { ok: false, error: data.error };
             return { ok: true };

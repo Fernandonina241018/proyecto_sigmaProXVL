@@ -429,8 +429,7 @@ app.get('/api/health', async (req, res) => {
 
 // Métricas del servidor (solo admin)
 app.get('/api/metrics', requireAuth, requireAdmin, async (req, res) => {
-    const users = await db.getAllUsers();
-    const auditLogs = await db.getAuditLog(1);
+    const [users, auditLogs] = await Promise.all([db.getAllUsers(), db.getAuditLog(1)]);
     
     res.json({
         ok: true,

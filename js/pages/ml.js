@@ -666,7 +666,7 @@ const MLManager = (() => {
         if (!container) return;
         var apiUrl = _getMlApiUrl();
         fetch(apiUrl + '/api/ml/models/' + encodeURIComponent(modelId) + '/importance')
-            .then(function(r) { return r.json(); })
+            .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
             .then(function(resp) {
                 if (resp.ok && resp.feature_importance && Object.keys(resp.feature_importance).length > 0) {
                     container.innerHTML = _mvRenderImportanceBars(resp.feature_importance);
@@ -688,7 +688,7 @@ const MLManager = (() => {
         if (!timeline) return;
         var apiUrl = _getMlApiUrl();
         fetch(apiUrl + '/api/ml/models/' + encodeURIComponent(modelKey) + '/versions')
-            .then(function(r) { return r.json(); })
+            .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
             .then(function(resp) {
                 if (!resp.ok || !resp.versions || resp.versions.length === 0) {
                     timeline.innerHTML = '<div style="text-align:center;padding:20px;color:var(--mlv-faint)">No hay otras versiones de este modelo.</div>';
@@ -885,7 +885,7 @@ const MLManager = (() => {
         container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--mlv-faint)">⌛ Ejecutando chequeo de deriva...</div>';
         var apiUrl = _getMlApiUrl();
         fetch(apiUrl + '/api/ml/drift/' + encodeURIComponent(modelId) + '/history?limit=20')
-            .then(function(r) { return r.json(); })
+            .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
             .then(function(resp) {
                 if (resp.ok && resp.history) {
                     _renderDriftHistory(resp.history, modelId);
@@ -2936,7 +2936,7 @@ const MLManager = (() => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ model_id: modelId })
             })
-            .then(function(r) { return r.json(); })
+            .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
             .then(function(resp) {
                 if (resp.ok) {
                     showToast('✅ Versión ' + modelId + ' promovida a producción', 'ok');
@@ -2960,7 +2960,7 @@ const MLManager = (() => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ model_key: modelKey })
             })
-            .then(function(r) { return r.json(); })
+            .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
             .then(function(resp) {
                 if (resp.ok) {
                     showToast('✅ Rollback a ' + resp.rollback_to + ' completado', 'ok');
@@ -2996,7 +2996,7 @@ const MLManager = (() => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(body)
                 })
-                .then(function(r) { return r.json(); })
+                .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
                 .then(function(resp) {
                     if (resp.ok && resp.drift) {
                         _renderDriftResults(resp.drift, modelId);
@@ -3020,7 +3020,7 @@ const MLManager = (() => {
             if (!modelId) { showToast('Selecciona un modelo primero', 'error'); return; }
             var apiUrl = _getMlApiUrl();
             fetch(apiUrl + '/api/ml/drift/' + encodeURIComponent(modelId) + '/history?limit=20')
-                .then(function(r) { return r.json(); })
+            .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
                 .then(function(resp) {
                     if (resp.ok && resp.history) {
                         _renderDriftHistory(resp.history, modelId);

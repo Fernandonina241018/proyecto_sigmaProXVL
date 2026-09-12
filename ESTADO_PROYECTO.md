@@ -90,6 +90,21 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-09-12 (13): react-doctor Lote 2 — Fixes de bugs
+
+**Fixes aplicados** (react-doctor v0.9.14, score 61→62):
+
+| # | Regla | Fix | Archivo |
+|---|-------|-----|---------|
+| 1 | `no-document-write` | `document.write` → `createElement('link')` + `appendChild` para carga de CSS con cache bust | `indexx.html:15` |
+| 2 | `no-fetch-response-used-without-status-check` ×7 | Agregado `if (!r.ok) throw new Error(r.status)` antes de `.json()` en 7 fetch | `ml.js:668,690,887,2934,2958,2994,3022` |
+| 3 | `server-sequential-independent-await` | `getAllUsers()` + `getAuditLog(1)` en paralelo con `Promise.all()` | `server.js:432-433` |
+| 4 | (UsuariosManager) | Status check agregado en `resetPassword()` | `UsuariosManager.js:125` |
+
+**Resultado:** 107/107 tests pasan, score 62. Pendiente: lote 3 (rendimiento).
+
+---
+
 ### 2026-09-12 (12): react-doctor — Config de reglas y falsos positivos
 
 **Análisis de código** ejecutado con `react-doctor v0.9.14` (scope full). Score inicial: 42/100 (Critical), 60 issues.
