@@ -1064,7 +1064,9 @@ function _V_generateStaticImage(g) {
   tctx.fillStyle = '#ffffff';
   tctx.fillRect(0, 0, tc.width, tc.height);
   var savedChartColor = Chart.defaults.color;
+  var whiteBgPlugin = { id: 'whiteBg', beforeDraw: function(chart) { var ctx = chart.ctx; ctx.save(); ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, chart.width, chart.height); ctx.restore(); } };
   try {
+    config.plugins = [whiteBgPlugin];
     var tch = new Chart(tctx, config);
     var url = tc.toDataURL('image/jpeg', 0.7);
     tch.destroy();
