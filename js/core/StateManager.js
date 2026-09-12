@@ -604,7 +604,7 @@ const StateManager = (() => {
     }
 
     function _pushToHistory(type, key, oldValue, newValue) {
-        const entry = { type, key, oldValue: oldValue !== undefined ? JSON.parse(JSON.stringify(oldValue)) : undefined, newValue: newValue !== undefined ? JSON.parse(JSON.stringify(newValue)) : undefined, timestamp: Date.now() };
+        const entry = { type, key, oldValue: oldValue !== undefined ? structuredClone(oldValue) : undefined, newValue: newValue !== undefined ? structuredClone(newValue) : undefined, timestamp: Date.now() };
         state.history = state.history.slice(0, state.historyIndex + 1);
         state.history.push(entry);
         if (state.history.length > state.maxHistorySize) {
@@ -642,9 +642,9 @@ const StateManager = (() => {
         state.historyIndex++;
         const entry = state.history[state.historyIndex];
         if (entry.type === 'hypothesisConfig') {
-            state.hypothesisConfig[entry.key] = entry.newValue !== undefined ? JSON.parse(JSON.stringify(entry.newValue)) : undefined;
+            state.hypothesisConfig[entry.key] = entry.newValue !== undefined ? structuredClone(entry.newValue) : undefined;
         } else if (entry.type === 'paramConfig') {
-            state.paramConfig[entry.key] = entry.newValue !== undefined ? JSON.parse(JSON.stringify(entry.newValue)) : undefined;
+            state.paramConfig[entry.key] = entry.newValue !== undefined ? structuredClone(entry.newValue) : undefined;
         }
         notifyListeners('dataChange');
         scheduleAutoSave();

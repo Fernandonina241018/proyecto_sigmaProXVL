@@ -69,7 +69,8 @@ var ModeloEstadistico = (function () {
 
         if (Stats && data && data.headers) {
             numericCols = Stats.getNumericColumns ? Stats.getNumericColumns(data) : [];
-            categoricalCols = data.headers.filter(function (h) { return numericCols.indexOf(h) === -1; });
+            const numericColSet = new Set(numericCols);
+            categoricalCols = data.headers.filter(function (h) { return !numericColSet.has(h); });
         }
 
         features.n_rows = data && data.data ? data.data.length : 0;

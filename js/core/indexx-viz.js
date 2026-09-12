@@ -694,7 +694,7 @@ function _V_buildConfig() {
       var nc = _V_numCols();
       var d3 = _V_colData(nc[2] || '', lbl.length);
       if (!d1.length) { showToast('No hay datos para Apiladas'); return null; }
-      var o2 = JSON.parse(JSON.stringify(opts));
+      var o2 = structuredClone(opts);
       o2.scales.x.stacked = true; o2.scales.y.stacked = true;
       return { type: 'bar', data: { labels: lbl, datasets: [
         { label: 'Capa A', data: d1, backgroundColor: c[0] + 'cc', borderRadius: 2 },
@@ -742,7 +742,7 @@ function _V_buildConfig() {
       var pts = [];
       var minLen = Math.min(xd.length, yd.length);
       for (var i = 0; i < minLen; i++) pts.push({ x: xd[i], y: yd[i] });
-      var no = JSON.parse(JSON.stringify(opts));
+      var no = structuredClone(opts);
       return { type: 'scatter', data: { datasets: [{ label: 'Datos', data: pts, backgroundColor: c[0] + '99', pointRadius: 6, pointHoverRadius: 8 }]}, options: no };
     }
     case 'linealidad': {
@@ -768,7 +768,7 @@ function _V_buildConfig() {
       }
       var r2 = ssTot > 0 ? 1 - ssRes / ssTot : 0;
       if (!isFinite(r2)) r2 = 0;
-      var no = JSON.parse(JSON.stringify(opts));
+      var no = structuredClone(opts);
       return { type: 'scatter', data: { datasets: [
         { label: 'Datos', data: pts, backgroundColor: c[0] + '99', pointRadius: 5, order: 2 },
         { label: 'Regresión (R²=' + r2.toFixed(4) + ')', data: [{ x: xMin, y: m * xMin + b }, { x: xMax, y: m * xMax + b }], type: 'line', borderColor: c[1], backgroundColor: 'transparent', pointRadius: 0, borderWidth: 2, order: 1 },
@@ -791,7 +791,7 @@ function _V_buildConfig() {
       var dat = _V_colData(v.val || _V_numCols()[0] || '');
       if (!dat.length || !lbl.length) { showToast('No hay datos para Circular'); return null; }
       var vals = lbl.map(function(_, i) { return dat[i] != null ? dat[i] : Math.round(10 + Math.random() * 80); });
-      var noScales = JSON.parse(JSON.stringify(opts));
+      var noScales = structuredClone(opts);
       delete noScales.scales;
       return { type: 'pie', data: { labels: lbl, datasets: [{ data: vals, backgroundColor: c.slice(0, lbl.length), borderColor: 'rgba(0,0,0,.07)', borderWidth: 2, hoverOffset: 8 }]}, options: noScales };
     }
@@ -800,7 +800,7 @@ function _V_buildConfig() {
       var dat = _V_colData(v.val || _V_numCols()[0] || '');
       if (!dat.length || !lbl.length) { showToast('No hay datos para Dona'); return null; }
       var vals = lbl.map(function(_, i) { return dat[i] != null ? dat[i] : Math.round(10 + Math.random() * 80); });
-      var noScales = JSON.parse(JSON.stringify(opts));
+      var noScales = structuredClone(opts);
       delete noScales.scales;
       return { type: 'doughnut', data: { labels: lbl, datasets: [{ data: vals, backgroundColor: c.slice(0, lbl.length), borderColor: 'rgba(0,0,0,.05)', borderWidth: 2, hoverOffset: 6 }]}, options: Object.assign(noScales, { cutout: '62%' }) };
     }
@@ -809,7 +809,7 @@ function _V_buildConfig() {
       var dat = _V_colData(v.val || _V_numCols()[0] || '');
       if (!dat.length || !lbl.length) { showToast('No hay datos para Polar'); return null; }
       var vals = lbl.map(function(_, i) { return dat[i] != null ? dat[i] : Math.round(20 + Math.random() * 80); });
-      var noScales = JSON.parse(JSON.stringify(opts));
+      var noScales = structuredClone(opts);
       delete noScales.scales;
       return { type: 'polarArea', data: { labels: lbl, datasets: [{ data: vals, backgroundColor: c.slice(0, lbl.length).map(function(cl){ return cl + '99'; }), borderColor: c.slice(0, lbl.length), borderWidth: 1 }]}, options: noScales };
     }
@@ -820,7 +820,7 @@ function _V_buildConfig() {
       var vals = lbl.map(function(_, i) { return d1[i] != null ? d1[i] : Math.round(40 + Math.random() * 60); });
       var d2 = _V_colData(_V_numCols()[1] || '', lbl.length);
       var vals2 = d2.length ? d2 : lbl.map(function() { return Math.round(30 + Math.random() * 60); });
-      var noScales = JSON.parse(JSON.stringify(opts));
+      var noScales = structuredClone(opts);
       delete noScales.scales;
       var gc = _V_isLight() ? 'rgba(0,0,0,.07)' : 'rgba(255,255,255,.07)';
       var tc2 = _V_isLight() ? 'rgba(100,116,139,.7)' : 'rgba(200,200,220,.5)';
@@ -838,7 +838,7 @@ function _V_buildConfig() {
       var pts = raw.map(function(val) {
         return { x: (Math.random() - 0.5) * 1.4, y: val };
       });
-      var o = JSON.parse(JSON.stringify(opts));
+      var o = structuredClone(opts);
       o.scales.x = Object.assign(o.scales.x || {}, {
         type: 'linear', min: -1.2, max: 1.2,
         grid: { display: false },
@@ -1034,7 +1034,7 @@ function _V_generateStaticImage(g) {
   if (g.url) return g.url;
   if (!g.vars) return null;
   var savedType = _V.type;
-  var savedVals = JSON.parse(JSON.stringify(_V.vals));
+  var savedVals = structuredClone(_V.vals);
   var savedPalette = _V.palette;
   var savedOverride = _V._sheetOverride;
   if (!_V._sheetOverride && typeof trabajoSheets !== 'undefined') {
@@ -1048,7 +1048,7 @@ function _V_generateStaticImage(g) {
     }
   }
   _V.type = g.type;
-  _V.vals = JSON.parse(JSON.stringify(g.vars));
+  _V.vals = structuredClone(g.vars);
   if (g.palette) _V.palette = g.palette;
   var config = _V_buildConfig();
   if (!config) {
@@ -1109,7 +1109,7 @@ function vizSaveToGallery() {
   var id = Date.now();
   var sheetIdx = typeof trabajoActiveSheetIndex !== 'undefined' ? trabajoActiveSheetIndex : -1;
   var sheetName = (typeof trabajoSheets !== 'undefined' && trabajoSheets[sheetIdx]) ? trabajoSheets[sheetIdx].name : '';
-  _V.gallery.unshift({ id: id, title: title, type: _V.type || '', vars: JSON.parse(JSON.stringify(_V.vals)), palette: _V.palette, thumb: thumb, createdAt: Date.now(), sourceFile: datosCurrentFileName || '', sourceSheetIndex: sheetIdx, sourceSheetName: sheetName });
+  _V.gallery.unshift({ id: id, title: title, type: _V.type || '', vars: structuredClone(_V.vals), palette: _V.palette, thumb: thumb, createdAt: Date.now(), sourceFile: datosCurrentFileName || '', sourceSheetIndex: sheetIdx, sourceSheetName: sheetName });
   if (_V.gallery.length > 100) _V.gallery = _V.gallery.slice(0, 100);
   vizRefreshGallery();
   _V_saveGallery();
@@ -1173,7 +1173,7 @@ function _V_showGalleryChart(g) {
 
   if (g.vars) {
     _V.type = g.type;
-    _V.vals = JSON.parse(JSON.stringify(g.vars));
+    _V.vals = structuredClone(g.vars);
     if (g.palette) _V.palette = g.palette;
     _V._galleryMode = true;
     _V._galleryTitle = g.title;
@@ -1453,7 +1453,7 @@ function _V_batchGenerate(type, colX, selectedCols) {
     config.options.responsive = false;
     config.options.animation = false;
 
-    var savedVars = JSON.parse(JSON.stringify(_V.vals));
+    var savedVars = structuredClone(_V.vals);
     var savedType = _V.type;
 
     var thumb = '';

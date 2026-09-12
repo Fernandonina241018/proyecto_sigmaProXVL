@@ -3272,14 +3272,16 @@ interpretacion: interpretacion,
         if (hasGroups && uniqueGroups.length === 2) {
             const g1 = curvas[0], g2 = curvas[1];
             const allTimes = [...new Set([...g1.km.map(p => p.t), ...g2.km.map(p => p.t)])].sort((a, b) => a - b);
+            const g1Map = new Map(g1.km.map(p => [p.t, p]));
+            const g2Map = new Map(g2.km.map(p => [p.t, p]));
             let O1 = 0, E1 = 0, O2 = 0, E2 = 0;
             for (const t of allTimes) {
                 if (t === 0) continue;
-                const n1 = g1.km.find(p => p.t === t)?.atRisk || 0;
-                const n2 = g2.km.find(p => p.t === t)?.atRisk || 0;
+                const n1 = g1Map.get(t)?.atRisk || 0;
+                const n2 = g2Map.get(t)?.atRisk || 0;
                 const N = n1 + n2;
-                const e1 = g1.km.find(p => p.t === t)?.events || 0;
-                const e2 = g2.km.find(p => p.t === t)?.events || 0;
+                const e1 = g1Map.get(t)?.events || 0;
+                const e2 = g2Map.get(t)?.events || 0;
                 const E = e1 + e2;
                 if (N > 0 && E > 0) { O1 += e1; E1 += n1 * E / N; O2 += e2; E2 += n2 * E / N; }
             }

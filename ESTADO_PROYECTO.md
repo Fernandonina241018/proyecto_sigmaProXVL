@@ -90,6 +90,20 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-09-12 (14): react-doctor Lote 3 — Fixes de rendimiento
+
+**Fixes aplicados** (react-doctor score 62→70):
+
+| # | Regla | Fix | Archivo | Instances |
+|---|-------|-----|---------|-----------|
+| 1 | `no-json-parse-stringify-clone` | `JSON.parse(JSON.stringify())` → `structuredClone()` (nativo, más rápido) | `StateManager.js`, `indexx-viz.js` | 15 |
+| 2 | `js-index-maps` | Pre-build `Map` para lookup O(1) en vez de `array.find()` en loop | `indexx-stats-core.js:3274` | 4 |
+| 3 | `js-set-map-lookups` | `indexOf()` en filter → `Set.has()` para lookup O(1) | `ModeloEstadistico.js:72` | 1 |
+
+**Resultado:** 107/107 tests, score 70. Los 3 lotes de react-doctor completados (42→70, +28 puntos total).
+
+---
+
 ### 2026-09-12 (13): react-doctor Lote 2 — Fixes de bugs
 
 **Fixes aplicados** (react-doctor v0.9.14, score 61→62):
