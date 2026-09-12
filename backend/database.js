@@ -24,10 +24,9 @@ function build() {
 function buildPostgres() {
     const { Pool } = require('pg');
 
-    const isProduction = process.env.NODE_ENV === 'production' || (process.env.DATABASE_URL || '').includes('supabase');
     const pool = new Pool({
         connectionString: process.env.DATABASE_URL,
-        ssl: isProduction ? { rejectUnauthorized: true } : false,
+        ssl: { rejectUnauthorized: process.env.DB_SSL_INSECURE === '1' ? false : true },
         idleTimeoutMillis: 10000,
         connectionTimeoutMillis: 5000,
     });
