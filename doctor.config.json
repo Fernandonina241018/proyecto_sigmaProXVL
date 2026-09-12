@@ -1,0 +1,8 @@
+{
+  "$schema": "https://react.doctor/schema/config.json",
+  "rules": {
+    "react-doctor/insecure-crypto-risk": "off",
+    "react-doctor/auth-token-in-web-storage": "off",
+    "react-doctor/dangerous-html-sink": "off"
+  }
+}

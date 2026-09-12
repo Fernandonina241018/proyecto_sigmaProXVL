@@ -90,6 +90,24 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-09-12 (12): react-doctor — Config de reglas y falsos positivos
+
+**Análisis de código** ejecutado con `react-doctor v0.9.14` (scope full). Score inicial: 42/100 (Critical), 60 issues.
+
+**Falsos positivos identificados y desactivados:**
+
+| # | Regla react-doctor | Archivo | Razón de descarte |
+|---|-------------------|---------|-------------------|
+| 1 | `insecure-crypto-risk` | `database.js:438` | Lookup por ID interno (`signature_code`), no comparación de secreto. Ya se genera con `crypto.randomBytes(16).toString('base64url')` |
+| 2 | `auth-token-in-web-storage` | `auth.js:97,977` | Token en `sessionStorage` (no localStorage). No persiste a disco, no se comparte entre pestañas. Backend maneja sesión vía HTTP-only cookie |
+| 3 | `dangerous-html-sink` | `indexx-trabajo.js:553,592,595`, `indexx-viz.js:462` | HTML generado solo con valores numéricos + SVGs hardcodeados. Sin input de usuario |
+
+**Archivo creado:** `doctor.config.json` — desactiva las 3 reglas falsas positivas.
+
+**Resultado:** Score 42 → 61 (+19), issues 60 → 53. Pendiente: lotes 2 (bugs) y 3 (rendimiento).
+
+---
+
 ### 2026-09-11 (11): Fix de Tests — Error de carga de módulo en entorno Node.js
 
 **Problema:** Los tests de `EstadisticaDescriptiva.test.js` fallaban con `TypeError: Cannot destructure property 'sortNumbers' of '__core' as it is undefined`.
