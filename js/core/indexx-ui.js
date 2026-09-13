@@ -800,9 +800,9 @@ var rightPanels = {
         '<span style="font-size:10px;color:var(--t3);margin-left:2px">A / D</span>' +
       '</span>' +
       '<button class="tbtn" onclick="vizExportPNG()">PNG</button>' +
-      '<div class="tbtn-dropdown" style="position:relative;display:inline-block">' +
+      '<div class="tbtn-dropdown">' +
         '<button class="tbtn" onclick="vizDownloadGallery()" title="Descargar galería completa">📦 Galery</button>' +
-        '<div class="tbtn-dropdown-menu" id="vizDownloadMenu" style="display:none;position:absolute;bottom:100%;right:0;margin-bottom:4px;background:var(--bg1);border:1px solid var(--sep);border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);min-width:140px;z-index:100;overflow:hidden">' +
+        '<div class="tbtn-dropdown-menu" id="vizDownloadMenu">' +
           '<button class="tbtn-dropdown-item" onclick="vizDownloadGalleryZip()" style="width:100%;text-align:left;padding:8px 12px;background:transparent;border:none;color:var(--t1);font:inherit;cursor:pointer;display:flex;align-items:center;gap:8px" onmouseover="this.style.background=\'var(--bg3)\'" onmouseout="this.style.background=\'transparent\'"><span>🗜️</span> Descargar ZIP (JPEGs)</button>' +
           '<button class="tbtn-dropdown-item" onclick="vizDownloadGalleryPDF()" style="width:100%;text-align:left;padding:8px 12px;background:transparent;border:none;color:var(--t1);font:inherit;cursor:pointer;display:flex;align-items:center;gap:8px" onmouseover="this.style.background=\'var(--bg3)\'" onmouseout="this.style.background=\'transparent\'"><span>📄</span> Descargar PDF</button>' +
         '</div>' +
