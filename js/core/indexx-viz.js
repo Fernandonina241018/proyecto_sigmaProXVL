@@ -1387,19 +1387,8 @@ function vizDownloadGallery() {
 
 // Genera imagen estática para un item de galería
 function _V_generateGalleryImage(g) {
-  var config = _V_buildConfigFromVars(g.vars, g.palette, g.type);
-  if (!config) return null;
-  return _V_generateStaticImage(config);
-}
-
-// Construye config de Chart.js desde vars de galería
-function _V_buildConfigFromVars(vars, palette, type) {
-  if (!vars || !_V_TYPES[type]) return null;
-  var savedType = _V.type, savedVals = _V.vals, savedPalette = _V.palette, savedOverride = _V._sheetOverride;
-  _V.type = type; _V.vals = vars; _V.palette = palette; _V._sheetOverride = null;
-  var config = _V_buildConfig();
-  _V.type = savedType; _V.vals = savedVals; _V.palette = savedPalette; _V._sheetOverride = savedOverride;
-  return config;
+  if (!g || !_V_TYPES[g.type]) return null;
+  return _V_generateStaticImage(g);
 }
 
 // Descargar galería como ZIP (JPEGs)
