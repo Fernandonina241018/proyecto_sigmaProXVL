@@ -4077,3 +4077,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Archivos:** `scripts/smoke-sign-sessions.sh` NUEVO, `backend/server.js` (signLimiter), `backend/database.js` (normalización), `backend/tests/pagination.test.js` (+1).
 
 **Verificación:** smoke 15/15 TODO VERDE, backend 25/25, vitest 139/139.
+
+### 2026-09-18 (30): Fix — botón Publicar a bandeja sin respuesta en archivo cargado
+
+**Qué:** El botón se mostraba pero el `onclick` solo se conectaba en 3 caminos de init; en archivo-cargado-a-mano (`firmaHandleFile`) jamás se asignaba → clic al vacío. Fix: `firmaUpdatePublishBtn()` ahora asigna el handler centralizadamente (corre vía `firmaRenderEditor` en todos los caminos).
+
+**Verificación:** `node -c` OK, vitest 139/139.

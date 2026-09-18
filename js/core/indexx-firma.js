@@ -418,11 +418,15 @@ function firmaRenderEditor() {
   if (typeof firmaUpdatePublishBtn === 'function') firmaUpdatePublishBtn();
 }
 
-// FASE 3 — botón Publicar: visible solo con documento local (no sesión)
+// FASE 3 — botón Publicar: visible solo con documento local (no sesión).
+// FIX: el onclick se asigna aquí (centralizado) porque firmaRenderEditor
+// corre en TODOS los caminos de carga; antes solo se conectaba en 3 de
+// ellos y en archivo-cargado-a-mano el clic no hacía nada.
 function firmaUpdatePublishBtn() {
   try {
     var btn = document.getElementById('firmaPublishBtn');
     if (!btn) return;
+    btn.onclick = firmaPublishLoaded;
     btn.style.display = (_firmaCurrentHtml && !_firmaSessionId) ? '' : 'none';
   } catch (e) { /* fail-open */ }
 }
