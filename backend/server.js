@@ -851,6 +851,187 @@ app.get('/api/snapshots/:id', requireAuth, async (req, res) => {
     }
 });
 
+// ── FASE 1 — Bandeja de firmas secuenciales ─────────────
+// El reporte en proceso vive en servidor: nadie descarga para pasarlo.
+// prepared lo firma el creador al publicar; reviewed exige persona
+// distinta; approved exige coordinador/supervisor/gerente o admin.
+// La identidad del firmante sale del código+password verificados
+// (NO del JWT: el firmante puede no ser el logueado).
+
+// Verifica credenciales de firma (misma lógica que /api/verify-signature).
+// Retorna el usuario verificado o null (ya respondió 401).
+async function _checkSignCredentials(req, res) {
+    const { signatureCode, password } = req.body;
+    if (!signatureCode?.trim() || !password?.trim()) {
+        res.status(400).json({ error: 'Código de firma y contraseña son requeridos' });
+        return null;
+    }
+    try {
+        const user = await db.getUserBySignatureCode(signatureCode.trim());
+        if (!user || !await bcrypt.compare(password, user.password)) {
+            await db.logAccess({
+                username: user ? user.username : '(desconocido)',
+                action: 'VERIFY_SIGNATURE_FAIL', success: false,
+                ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            });
+            res.status(401).json({ error: 'Credenciales inválidas' });
+            return null;
+        }
+        return user;
+    } catch (err) {
+        console.error('Error en _checkSignCredentials:', err);
+        res.status(500).json({ error: 'Error interno del servidor' });
+        return null;
+    }
+}
+
+function _stripSignSession(s) {
+    if (!s) return s;
+    const { html, ...rest } = s;
+    const sigs = s.signatures || {};
+    rest.signed_count = ['prepared', 'reviewed', 'approved'].filter((r) => sigs[r] && sigs[r].signed).length;
+    return rest;
+}
+
+// ¿Puede este usuario ver/firmar el siguiente paso? (para scope=pending)
+function _isSignCandidate(session, user) {
+    const next = session.next_role;
+    if (!next) return false;
+    if (user.role === 'admin') return true;
+    if (next === 'reviewed') {
+        const prep = (session.signatures || {}).prepared;
+        if (prep && prep.username && prep.username === user.username) return false;
+        if (session.assigned_reviewer) return session.assigned_reviewer === user.username;
+        return true;
+    }
+    if (next === 'approved') {
+        if (['coordinador', 'supervisor', 'gerente'].indexOf(user.role) === -1) return false;
+        if (session.assigned_approver) return session.assigned_approver === user.username;
+        return true;
+    }
+    return false; // prepared solo lo firma el creador al publicar
+}
+
+// POST /api/sign-sessions — publicar reporte a bandeja (firma prepared incluida)
+app.post('/api/sign-sessions', requireAuth, async (req, res) => {
+    try {
+        const { name, html, assignedReviewer, assignedApprover } = req.body;
+        if (!name?.trim() || !html?.trim()) {
+            return res.status(400).json({ error: 'name y html son requeridos' });
+        }
+        if (!assignedReviewer?.trim()) {
+            return res.status(400).json({ error: 'Debes asignar un revisor' });
+        }
+        const signer = await _checkSignCredentials(req, res);
+        if (!signer) return; // respuesta ya enviada
+        const nombreCompleto = [signer.nombre, signer.apellido].filter(Boolean).join(' ') || signer.username;
+        const session = await db.createSignSession({
+            name: name.trim(), html,
+            createdBy: signer.username,
+            assignedReviewer: assignedReviewer.trim(),
+            assignedApprover: assignedApprover?.trim() || null,
+            preparedSignature: {
+                nombre: nombreCompleto, cargo: signer.cargo || '',
+                firma: signer.signature || '',
+                fecha: new Date().toISOString().slice(0, 10),
+            },
+        });
+        await db.logAuditEvent({
+            username: signer.username, action: 'SIGN_SESSION_CREATE', success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'FIRMA', details: JSON.stringify({ sessionId: session.id, docHash: session.doc_hash }),
+        });
+        res.json({ ok: true, session: _stripSignSession(session) });
+    } catch (err) {
+        console.error('Error creating sign session:', err);
+        res.status(500).json({ error: 'Error al publicar reporte a firma' });
+    }
+});
+
+// GET /api/sign-sessions — bandeja (?scope=mine|pending, ?count=1)
+app.get('/api/sign-sessions', requireAuth, async (req, res) => {
+    try {
+        const scope = req.query.scope === 'mine' ? 'mine' : 'pending';
+        const limit = Math.min(parseInt(req.query.limit) || 50, 200);
+        const offset = parseInt(req.query.offset) || 0;
+        const me = { username: req.user.username, role: req.user.role };
+        let sessions;
+        if (scope === 'mine') {
+            sessions = await db.listSignSessions({ scope: 'mine', username: me.username, limit, offset });
+        } else {
+            const cands = await db.listSignSessions({ scope: 'pending', limit: limit * 3, offset: 0 });
+            sessions = cands.filter((s) => _isSignCandidate(s, me)).slice(offset, offset + limit);
+        }
+        if (req.query.count === '1') {
+            return res.json({ ok: true, count: sessions.length });
+        }
+        res.json({ ok: true, sessions: sessions.map(_stripSignSession), limit, offset });
+    } catch (err) {
+        console.error('Error listing sign sessions:', err);
+        res.status(500).json({ error: 'Error al listar bandeja de firmas' });
+    }
+});
+
+// GET /api/sign-sessions/:id — detalle con HTML (creador, asignados o admin)
+app.get('/api/sign-sessions/:id', requireAuth, async (req, res) => {
+    try {
+        const session = await db.getSignSession(parseInt(req.params.id));
+        if (!session) return res.status(404).json({ error: 'Sesión no encontrada' });
+        const me = req.user.username;
+        const allowed = req.user.role === 'admin' || session.created_by === me ||
+            session.assigned_reviewer === me || session.assigned_approver === me;
+        if (!allowed) return res.status(403).json({ error: 'No autorizado' });
+        res.json({ ok: true, session });
+    } catch (err) {
+        console.error('Error getting sign session:', err);
+        res.status(500).json({ error: 'Error al obtener sesión de firma' });
+    }
+});
+
+// POST /api/sign-sessions/:id/sign — firmar un paso (mismo rate-limit que verify)
+app.post('/api/sign-sessions/:id/sign', requireAuth, verifyLimiter, async (req, res) => {
+    try {
+        const { role, expectedVersion, newAssignee } = req.body;
+        if (['prepared', 'reviewed', 'approved'].indexOf(role) === -1) {
+            return res.status(400).json({ error: 'Rol inválido' });
+        }
+        if (expectedVersion === undefined || expectedVersion === null) {
+            return res.status(400).json({ error: 'expectedVersion es requerido' });
+        }
+        const signer = await _checkSignCredentials(req, res);
+        if (!signer) return; // respuesta ya enviada
+        const nombreCompleto = [signer.nombre, signer.apellido].filter(Boolean).join(' ') || signer.username;
+        const result = await db.signSessionStep({
+            id: parseInt(req.params.id), role,
+            username: signer.username, userRole: signer.role,
+            signature: {
+                nombre: nombreCompleto, cargo: signer.cargo || '',
+                firma: signer.signature || '',
+                fecha: new Date().toISOString().slice(0, 10),
+            },
+            expectedVersion: parseInt(expectedVersion),
+            newAssignee: newAssignee?.trim() || undefined,
+        });
+        if (result.error) {
+            const status = result.code === 'not-found' ? 404 : result.code === 'stale-version' ? 409 : 422;
+            await db.logAccess({
+                username: signer.username, action: 'SIGN_SESSION_FAIL', success: false,
+                ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            });
+            return res.status(status).json({ error: result.error, code: result.code });
+        }
+        await db.logAuditEvent({
+            username: signer.username, action: 'SIGN_SESSION_SIGN', success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, role, version: result.version }),
+        });
+        res.json({ ok: true, session: result });
+    } catch (err) {
+        console.error('Error signing session step:', err);
+        res.status(500).json({ error: 'Error al firmar' });
+    }
+});
+
 // GET /api/users (solo admin) — con paginación
 app.get('/api/users', requireAuth, requireAdmin, async (req, res) => {
     try {

@@ -14,6 +14,58 @@ function hashToken(token) {
 
 const USE_PG = !!process.env.DATABASE_URL;
 
+// ───── FASE 1 — Bandeja de firmas: lógica compartida PG/local ─────
+// Secuencia fija: prepared (elabora, cualquiera) → reviewed (revisa,
+// distinto al preparador) → approved (coordinador/supervisor/gerente).
+// Admin firma todo ("campo libre") salvo la regla de persona distinta.
+const SIGN_ORDER = ['prepared', 'reviewed', 'approved'];
+const APPROVER_ROLES = ['coordinador', 'supervisor', 'gerente'];
+
+function _signNextRole(signatures) {
+    const sigs = signatures || {};
+    for (const r of SIGN_ORDER) {
+        if (!sigs[r] || !sigs[r].signed) return r;
+    }
+    return null; // completa
+}
+
+function _signStatusFor(signatures) {
+    const next = _signNextRole(signatures);
+    if (!next) return 'complete';
+    const any = SIGN_ORDER.some((r) => signatures && signatures[r] && signatures[r].signed);
+    return any ? 'partial' : 'pending';
+}
+
+// user = { username, role }. Retorna { ok:true, next } o { error, code }.
+// codes: complete | out-of-order | wrong-role | wrong-assignee | same-person
+function _signEligibility(session, role, user) {
+    const sigs = session.signatures || {};
+    const next = _signNextRole(sigs);
+    if (!next) return { error: 'Sesión ya completa', code: 'complete' };
+    if (role !== next) return { error: 'Fuera de orden: toca firmar "' + next + '"', code: 'out-of-order' };
+    const isAdmin = user.role === 'admin';
+    if (role === 'approved' && !isAdmin && APPROVER_ROLES.indexOf(user.role) === -1) {
+        return { error: 'Aprobar requiere coordinador, supervisor o gerente', code: 'wrong-role' };
+    }
+    if (role === 'reviewed') {
+        const prep = sigs.prepared;
+        if (prep && prep.username && prep.username === user.username) {
+            return { error: 'El revisor debe ser distinto al preparador', code: 'same-person' };
+        }
+        if (!isAdmin && session.assigned_reviewer && session.assigned_reviewer !== user.username) {
+            return { error: 'Revisión asignada a otro usuario', code: 'wrong-assignee' };
+        }
+    }
+    if (role === 'approved' && !isAdmin && session.assigned_approver && session.assigned_approver !== user.username) {
+        return { error: 'Aprobación asignada a otro usuario', code: 'wrong-assignee' };
+    }
+    return { ok: true, next };
+}
+
+function _signDocHash(html) {
+    return crypto.createHash('sha256').update(String(html || ''), 'utf8').digest('hex');
+}
+
 function build() {
     if (USE_PG) return buildPostgres();
     console.log('📦 DATABASE_URL no definido — usando store JSON local (dev)');
@@ -99,6 +151,23 @@ function buildPostgres() {
         )`);
         await run(`CREATE INDEX IF NOT EXISTS idx_data_snapshots_username ON data_snapshots (username)`);
         await run(`CREATE INDEX IF NOT EXISTS idx_data_snapshots_created ON data_snapshots (created_at DESC)`);
+        // FASE 1 — Bandeja de firmas secuenciales: el reporte en proceso vive
+        // en servidor (no viaja como archivo). signatures = JSONB con los 3
+        // roles {prepared,reviewed,approved}; version = concurrencia optimista.
+        await run(`CREATE TABLE IF NOT EXISTS report_signatures (
+            id SERIAL PRIMARY KEY, doc_hash TEXT NOT NULL, name TEXT NOT NULL,
+            html TEXT NOT NULL, signatures TEXT NOT NULL DEFAULT '{}',
+            status TEXT NOT NULL DEFAULT 'pending',
+            version INTEGER NOT NULL DEFAULT 1,
+            created_by TEXT NOT NULL,
+            assigned_reviewer TEXT, assigned_approver TEXT,
+            created_at TEXT DEFAULT to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS'),
+            updated_at TEXT DEFAULT to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS')
+        )`);
+        await run(`CREATE INDEX IF NOT EXISTS idx_report_signatures_status ON report_signatures (status)`);
+        await run(`CREATE INDEX IF NOT EXISTS idx_report_signatures_reviewer ON report_signatures (assigned_reviewer)`);
+        await run(`CREATE INDEX IF NOT EXISTS idx_report_signatures_approver ON report_signatures (assigned_approver)`);
+        await run(`CREATE INDEX IF NOT EXISTS idx_report_signatures_creator ON report_signatures (created_by)`);
         console.log('✅ Tablas verificadas en PostgreSQL');
         await _migrateAuditHashes();
     }
@@ -410,7 +479,97 @@ function buildPostgres() {
         return get('SELECT * FROM data_snapshots WHERE id = $1', [id]);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById };}
+    // ── FASE 1 — Bandeja de firmas (PG) ──────────────────────────
+    function _parseSignRow(row) {
+        if (!row) return null;
+        let sigs = {};
+        try { sigs = JSON.parse(row.signatures || '{}'); } catch (e) { sigs = {}; }
+        return {
+            id: row.id, doc_hash: row.doc_hash, name: row.name, html: row.html,
+            signatures: sigs, status: row.status, version: row.version,
+            created_by: row.created_by,
+            assigned_reviewer: row.assigned_reviewer, assigned_approver: row.assigned_approver,
+            created_at: row.created_at, updated_at: row.updated_at,
+            next_role: _signNextRole(sigs),
+        };
+    }
+
+    async function createSignSession({ name, html, createdBy, assignedReviewer, assignedApprover, preparedSignature }) {
+        const docHash = _signDocHash(html);
+        // El creador firma prepared al publicar: su username queda registrado
+        // (lo exige la regla "revisor distinto al preparador").
+        const sigs = { prepared: Object.assign({ signed: true, username: createdBy }, preparedSignature || {}) };
+        const status = _signStatusFor(sigs);
+        const rows = await all(
+            `INSERT INTO report_signatures (doc_hash, name, html, signatures, status, version, created_by, assigned_reviewer, assigned_approver)
+             VALUES ($1,$2,$3,$4,$5,1,$6,$7,$8) RETURNING *`,
+            [docHash, name, html, JSON.stringify(sigs), status, createdBy, assignedReviewer || null, assignedApprover || null]
+        );
+        return _parseSignRow(rows[0]);
+    }
+
+    async function getSignSession(id) {
+        const row = await get('SELECT * FROM report_signatures WHERE id = $1', [id]);
+        return _parseSignRow(row);
+    }
+
+    async function listSignSessions({ scope, username, limit = 50, offset = 0 }) {
+        limit = Math.min(Math.max(parseInt(limit) || 50, 1), 200);
+        offset = Math.max(parseInt(offset) || 0, 0);
+        let rows;
+        if (scope === 'mine') {
+            rows = await all(
+                'SELECT * FROM report_signatures WHERE created_by = $1 ORDER BY id DESC LIMIT $2 OFFSET $3',
+                [username, limit, offset]
+            );
+        } else {
+            // pending: no completas; el filtro fino (asignado/elegible) lo hace el endpoint con el rol
+            rows = await all(
+                "SELECT * FROM report_signatures WHERE status <> 'complete' ORDER BY id DESC LIMIT $1 OFFSET $2",
+                [limit, offset]
+            );
+        }
+        return rows.map(_parseSignRow);
+    }
+
+    // Aplica una firma con concurrencia optimista (version). Retorna la
+    // sesión actualizada o un objeto { error, code }. newAssignee reasigna
+    // el siguiente rol (el revisor puede fijar/cambiar el aprobador).
+    async function signSessionStep({ id, role, username, userRole, signature, expectedVersion, newAssignee }) {
+        const row = await get('SELECT * FROM report_signatures WHERE id = $1', [id]);
+        if (!row) return { error: 'Sesión no encontrada', code: 'not-found' };
+        const session = _parseSignRow(row);
+        if (session.version !== expectedVersion) {
+            return { error: 'Otro usuario firmó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
+        }
+        const elig = _signEligibility(
+            { signatures: session.signatures, assigned_reviewer: session.assigned_reviewer, assigned_approver: session.assigned_approver },
+            role, { username, role: userRole }
+        );
+        if (!elig.error) {
+            const sigs = Object.assign({}, session.signatures);
+            sigs[role] = Object.assign({ signed: true, username, signed_at: new Date().toISOString() }, signature || {});
+            let assigneeR = session.assigned_reviewer, assigneeA = session.assigned_approver;
+            if (newAssignee !== undefined && newAssignee !== null && newAssignee !== '') {
+                if (role === 'prepared') assigneeR = newAssignee;
+                else assigneeA = newAssignee;
+            }
+            const status = _signStatusFor(sigs);
+            const updated = await all(
+                `UPDATE report_signatures SET signatures = $1, status = $2, version = version + 1,
+                 assigned_reviewer = $3, assigned_approver = $4, updated_at = to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS')
+                 WHERE id = $5 AND version = $6 RETURNING *`,
+                [JSON.stringify(sigs), status, assigneeR, assigneeA, id, expectedVersion]
+            );
+            if (!updated.length) {
+                return { error: 'Otro usuario firmó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
+            }
+            return _parseSignRow(updated[0]);
+        }
+        return elig;
+    }
+
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
@@ -783,7 +942,77 @@ function buildLocalStore() {
         return state.data_snapshots.find(function(s) { return s.id === id; }) || null;
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById };}
+    // ── FASE 1 — Bandeja de firmas (local, mirror PG) ──────────
+    if (!state.report_signatures) state.report_signatures = [];
+    var _signIdCounter = state.report_signatures.length > 0
+        ? Math.max.apply(null, state.report_signatures.map(function(s) { return s.id; })) + 1 : 1;
+
+    function _localSignView(s) {
+        return {
+            id: s.id, doc_hash: s.doc_hash, name: s.name, html: s.html,
+            signatures: s.signatures, status: s.status, version: s.version,
+            created_by: s.created_by,
+            assigned_reviewer: s.assigned_reviewer, assigned_approver: s.assigned_approver,
+            created_at: s.created_at, updated_at: s.updated_at,
+            next_role: _signNextRole(s.signatures),
+        };
+    }
+
+    async function createSignSession({ name, html, createdBy, assignedReviewer, assignedApprover, preparedSignature }) {
+        // El creador firma prepared al publicar (mirror PG).
+        var sigs = { prepared: Object.assign({ signed: true, username: createdBy }, preparedSignature || {}) };
+        var session = {
+            id: _signIdCounter++, doc_hash: _signDocHash(html), name: name, html: html,
+            signatures: sigs, status: _signStatusFor(sigs), version: 1,
+            created_by: createdBy,
+            assigned_reviewer: assignedReviewer || null, assigned_approver: assignedApprover || null,
+            created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+        };
+        state.report_signatures.push(session);
+        save();
+        return _localSignView(session);
+    }
+
+    async function getSignSession(id) {
+        var s = state.report_signatures.find(function(x) { return x.id === id; }) || null;
+        return s ? _localSignView(s) : null;
+    }
+
+    async function listSignSessions({ scope, username, limit = 50, offset = 0 }) {
+        limit = Math.min(Math.max(parseInt(limit) || 50, 1), 200);
+        offset = Math.max(parseInt(offset) || 0, 0);
+        var list = state.report_signatures.filter(function(s) {
+            if (scope === 'mine') return s.created_by === username;
+            return s.status !== 'complete';
+        });
+        return list.sort(function(a, b) { return b.id - a.id; })
+            .slice(offset, offset + limit).map(_localSignView);
+    }
+
+    async function signSessionStep({ id, role, username, userRole, signature, expectedVersion, newAssignee }) {
+        var s = state.report_signatures.find(function(x) { return x.id === id; });
+        if (!s) return { error: 'Sesión no encontrada', code: 'not-found' };
+        if (s.version !== expectedVersion) {
+            return { error: 'Otro usuario firmó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
+        }
+        var elig = _signEligibility(
+            { signatures: s.signatures, assigned_reviewer: s.assigned_reviewer, assigned_approver: s.assigned_approver },
+            role, { username: username, role: userRole }
+        );
+        if (elig.error) return elig;
+        s.signatures[role] = Object.assign({ signed: true, username: username, signed_at: new Date().toISOString() }, signature || {});
+        if (newAssignee !== undefined && newAssignee !== null && newAssignee !== '') {
+            if (role === 'prepared') s.assigned_reviewer = newAssignee;
+            else s.assigned_approver = newAssignee;
+        }
+        s.status = _signStatusFor(s.signatures);
+        s.version += 1;
+        s.updated_at = new Date().toISOString();
+        save();
+        return _localSignView(s);
+    }
+
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep };}
 
 const impl = build();
 module.exports = {
@@ -824,6 +1053,10 @@ module.exports = {
     has2FAEnabled:        (...a) => impl.has2FAEnabled(...a),
     createSnapshot:       (...a) => impl.createSnapshot(...a),
     getSnapshots:         (...a) => impl.getSnapshots(...a),
+    createSignSession:    (...a) => impl.createSignSession(...a),
+    getSignSession:       (...a) => impl.getSignSession(...a),
+    listSignSessions:     (...a) => impl.listSignSessions(...a),
+    signSessionStep:      (...a) => impl.signSessionStep(...a),
     getSnapshotById:      (...a) => impl.getSnapshotById(...a),
     run:                  (...a) => impl.run(...a),
     all:                 (...a) => impl.all(...a),

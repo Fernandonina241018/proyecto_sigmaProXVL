@@ -4047,3 +4047,11 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** REQUIRED_META 7→11: ubicación (rep-ubicacion), marca (rep-marca), modelo (rep-modelo), serie (rep-serie). Inputs verificados existentes en el formulario (ReporteManager.js:2154-2174). Tests actualizados (conteo 11, mapeo completo).
 
 **Verificación:** `node -c` OK, vitest 134/134.
+
+### 2026-09-18 (26): Fase 1 bandeja de firmas — backend (migración + 4 endpoints + 11 tests)
+
+**Qué:** El reporte en proceso vive en servidor (`report_signatures`: doc_hash SHA-256 calculado en servidor, html, signatures JSON, status pending/partial/complete, version optimista, created_by, assigned_reviewer/approver). Secuencia fija prepared→reviewed→approved; reviewed exige persona distinta; approved exige coordinador/supervisor/gerente; admin firma todo salvo auto-revisión. Endpoints: POST/GET(list,mine|pending,count)/GET by id/POST :id/sign, con rate-limit heredado de verify y auditoría SIGN_SESSION_*. La identidad firmante sale del código+password verificados, NO del JWT.
+
+**Archivos:** `backend/database.js` (tabla, helpers compartidos, PG+local+exports), `backend/server.js` (helpers + 4 endpoints), `backend/tests/sign-sessions.test.js` NUEVO (11 tests).
+
+**Verificación:** `node -c` OK ×2, backend 17/17, vitest 134/134. Incidentes: (1) prepared no guardaba username → same-person no disparaba, cazado por test, corregido en ambas impls; (2) decisión documentada: ni admin auto-revisa (independencia).
