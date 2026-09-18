@@ -99,7 +99,17 @@ app.use(helmet({
     referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
 }));
 
-app.use(express.json({ limit: '100kb' }));
+// FIX: el HTML del reporte (~1MB con JPEGs) superaba el límite global y el
+// publish devolvía 413 (detectado en vivo). Solo las 2 rutas de publicación
+// aceptan cuerpos grandes; el resto mantiene 100kb anti-DoS.
+const _jsonSmall = express.json({ limit: '100kb' });
+const _jsonReport = express.json({ limit: '5mb' });
+app.use((req, res, next) => {
+    if (req.method === 'POST' && (req.path === '/api/sign-sessions' || req.path === '/api/sign-sessions/import')) {
+        return _jsonReport(req, res, next);
+    }
+    return _jsonSmall(req, res, next);
+});
 app.use(cookieParser());
 
 // FIX SEGURIDAD #7: Configurar trust proxy para IP real detrás de proxy (Fly.io, Railway)

@@ -4089,3 +4089,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** El deploy estaba bloqueado: `npm test` (backend) fallaba en el runner con `Cannot find module '.../backend/tests'` — `node --test tests/` con slash final no resuelve en Node 22 (en v26 local sí). Fix: glob explícito `node --test "tests/*.test.js"`. Esto explica por qué `/api/users/list` devolvía 404 en Fly (backend sin desplegar desde fase 2).
 
 **Verificación:** backend `npm test` 25/25 local con el nuevo script.
+
+### 2026-09-18 (32): Fix — publish devolvía 413 (límite 100kb vs HTML ~1MB)
+
+**Qué:** Al publicar, el fetch caía en `catch` y el modal mostraba error de conexión. Causa real (probada en vivo): `express.json({limit:'100kb'})` rechazaba el HTML del reporte con 413. Fix: middleware condicional — las 2 rutas de publicación aceptan 5mb, el resto mantiene 100kb anti-DoS. Smoke ampliado con publish de 1MB (vía archivo: 1MB como argumento rompe ARG_MAX del shell).
+
+**Verificación:** 200KB/1MB → 200 en vivo, smoke 16/16 TODO VERDE.

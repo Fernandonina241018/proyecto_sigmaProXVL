@@ -112,6 +112,16 @@ IMP2=$(curl -s -X POST "$API/api/sign-sessions/import" -H "Authorization: Bearer
 [ "$(J "$IMP2" .code)" = "preparer-mismatch" ] || fail "mismatch no enforced: $IMP2"
 pass "422 preparer-mismatch"
 
+# Publish con HTML grande (~1MB, como reporte real con JPEGs) — regresión 413.
+# OJO: se escribe a archivo porque 1MB como argumento rompe ARG_MAX del shell.
+python3 -c "import json; print(json.dumps({'name':'RPT-BIG','html':'A'*1000000,'assignedReviewer':'smoke_ana','signatureCode':'PUB-1','password':'Pass123!'}))" > /tmp/smoke-big.json
+BIGCODE=$(curl -s -o /tmp/smoke-big-resp.json -w "%{http_code}" --max-time 60 -X POST "$API/api/sign-sessions" -H "Authorization: Bearer $TOK_ADMIN" \
+  -H 'Content-Type: application/json' --data-binary @/tmp/smoke-big.json)
+[ "$BIGCODE" = "200" ] || fail "publish grande HTTP $BIGCODE: $(head -c 200 /tmp/smoke-big-resp.json)"
+[ "$(jq -r .ok < /tmp/smoke-big-resp.json)" = "true" ] || fail "publish grande: $(jq -r .error < /tmp/smoke-big-resp.json)"
+pass "publish 1MB aceptado (sesión #$(jq -r .session.id < /tmp/smoke-big-resp.json))"
+rm -f /tmp/smoke-big.json /tmp/smoke-big-resp.json
+
 # Verify chain intacta
 VRF=$(curl -sf "$API/api/audit/verify" -H "Authorization: Bearer $TOK_ADMIN" | jq -r .valid)
 [ "$VRF" = "true" ] || fail "cadena rota"
