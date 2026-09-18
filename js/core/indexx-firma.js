@@ -133,6 +133,8 @@ function initFirmarReportePage() {
     fileInput.onchange = function() { if (fileInput.files.length) firmaHandleFile(fileInput.files[0]); fileInput.value = ''; };
     var downloadBtn0 = document.getElementById('firmaDownloadBtn');
     if (downloadBtn0) downloadBtn0.onclick = firmaDownload;
+    var publishBtn0 = document.getElementById('firmaPublishBtn');
+    if (publishBtn0) publishBtn0.onclick = firmaPublishLoaded;
     firmaLoadBandeja('pending');
     _firmaOpenSession(parseInt(pendingSessionId));
     return;
@@ -189,6 +191,8 @@ function initFirmarReportePage() {
       fileInput.onchange = function(){ if (fileInput.files.length) firmaHandleFile(fileInput.files[0]); fileInput.value = ''; };
       var downloadBtn = document.getElementById('firmaDownloadBtn');
       if (downloadBtn) downloadBtn.onclick = firmaDownload;
+      var publishBtn = document.getElementById('firmaPublishBtn');
+      if (publishBtn) publishBtn.onclick = firmaPublishLoaded;
       _firmaSessionId = null;
       _firmaSessionVersion = null;
       firmaLoadBandeja('pending');
@@ -407,10 +411,84 @@ function firmaRenderEditor() {
       body.appendChild(statusEl);
     }
 
-    card.appendChild(body);
-    editor.appendChild(card);
+  card.appendChild(body);
+  editor.appendChild(card);
   });
   firmaUpdateResetBtn();
+  if (typeof firmaUpdatePublishBtn === 'function') firmaUpdatePublishBtn();
+}
+
+// FASE 3 — botón Publicar: visible solo con documento local (no sesión)
+function firmaUpdatePublishBtn() {
+  try {
+    var btn = document.getElementById('firmaPublishBtn');
+    if (!btn) return;
+    btn.style.display = (_firmaCurrentHtml && !_firmaSessionId) ? '' : 'none';
+  } catch (e) { /* fail-open */ }
+}
+
+// FASE 3 — publica el .html cargado a mano a la bandeja del servidor
+async function firmaPublishLoaded() {
+  if (!_firmaCurrentHtml) { showToast('Carga un reporte primero'); return; }
+  if (_firmaSessionId) { showToast('Esta sesión ya está publicada (#' + _firmaSessionId + ')'); return; }
+  var overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.innerHTML =
+    '<div class="modal-box" style="max-width:420px">' +
+    '<div class="modal-title">📤 Publicar a bandeja de firmas</div>' +
+    '<div style="padding:12px 16px;display:flex;flex-direction:column;gap:10px">' +
+    '<div style="font-size:11px;color:var(--text-faint)">El archivo se publica con tu firma de <b>elaboración</b>. Si trae firmas de revisión/aprobación, se rechaza (no verificables en servidor).</div>' +
+    '<label style="font-size:11px">Código de firma<input id="fpub-code" type="password" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box"></label>' +
+    '<label style="font-size:11px">Contraseña<input id="fpub-pass" type="password" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box"></label>' +
+    '<label style="font-size:11px">Revisor (obligatorio)<select id="fpub-reviewer" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box"><option value="">Cargando…</option></select></label>' +
+    '<label style="font-size:11px">Aprobador (opcional)<select id="fpub-approver" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box"><option value="">— Cualquiera elegible —</option></select></label>' +
+    '<div id="fpub-err" style="font-size:11px;color:#e53e3e;min-height:16px"></div>' +
+    '<div style="display:flex;gap:8px;justify-content:flex-end">' +
+    '<button id="fpub-cancel" class="btn btn-secondary">Cancelar</button>' +
+    '<button id="fpub-ok" class="btn btn-primary">Publicar y firmar</button>' +
+    '</div></div></div>';
+  document.body.appendChild(overlay);
+  var selR = overlay.querySelector('#fpub-reviewer');
+  var selA = overlay.querySelector('#fpub-approver');
+  try {
+    var data = await _firmaApiGet('/api/users/list');
+    var users = (data && data.ok && data.users) || [];
+    var opt = function(u) {
+      var nm = [u.nombre, u.apellido].filter(Boolean).join(' ') || u.username;
+      return '<option value="' + escapeHtml(u.username) + '">' + escapeHtml(nm) + ' (' + escapeHtml(u.username) + ')</option>';
+    };
+    selR.innerHTML = '<option value="">— Seleccionar —</option>' + users.map(opt).join('');
+    selA.innerHTML = '<option value="">— Cualquiera elegible —</option>' + users.filter(function(u) {
+      return u.role === 'admin' || u.role === 'coordinador' || u.role === 'supervisor' || u.role === 'gerente';
+    }).map(opt).join('');
+  } catch (e) {
+    selR.innerHTML = '<option value="">(sin conexión)</option>';
+  }
+  overlay.querySelector('#fpub-cancel').onclick = function() { overlay.remove(); };
+  overlay.querySelector('#fpub-ok').onclick = async function() {
+    var errEl = overlay.querySelector('#fpub-err');
+    var code = overlay.querySelector('#fpub-code').value.trim();
+    var pass = overlay.querySelector('#fpub-pass').value;
+    var reviewer = selR.value;
+    var approver = selA.value;
+    if (!code || !pass) { errEl.textContent = 'Ingresa tu código de firma y contraseña.'; return; }
+    if (!reviewer) { errEl.textContent = 'Debes asignar un revisor.'; return; }
+    errEl.textContent = 'Publicando…';
+    try {
+      var res = await _firmaApiPost('/api/sign-sessions/import', {
+        name: _firmaOriginalName || 'reporte.html',
+        html: _firmaCurrentHtml,
+        assignedReviewer: reviewer, assignedApprover: approver || null,
+        signatureCode: code, password: pass
+      });
+      if (!res || !res.ok) { errEl.textContent = '❌ ' + ((res && res.error) || 'Error al publicar'); return; }
+      overlay.remove();
+      showToast('✅ Publicado a bandeja (sesión #' + res.session.id + ')');
+      _firmaOpenSession(res.session.id);
+    } catch (e) {
+      errEl.textContent = '❌ Error de conexión con el servidor';
+    }
+  };
 }
 
 function firmaResetRole(role) {

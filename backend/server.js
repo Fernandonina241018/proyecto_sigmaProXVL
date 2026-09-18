@@ -38,6 +38,7 @@ const helmet  = require('helmet');
 const { authenticator } = require('otplib');
 const QRCode  = require('qrcode');
 const db      = require('./database');
+const { extractEmbeddedSignatures } = require('./sign-html'); // FASE 3
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -945,6 +946,49 @@ app.post('/api/sign-sessions', requireAuth, async (req, res) => {
     } catch (err) {
         console.error('Error creating sign session:', err);
         res.status(500).json({ error: 'Error al publicar reporte a firma' });
+    }
+});
+
+// POST /api/sign-sessions/import — publicar un .html cargado a mano.
+// Guards: sin reviewed/approved incrustados; prepared incrustado debe
+// coincidir con la identidad verificada. Con limiter (lleva credenciales).
+app.post('/api/sign-sessions/import', requireAuth, verifyLimiter, async (req, res) => {
+    try {
+        const { name, html, assignedReviewer, assignedApprover } = req.body;
+        if (!name?.trim() || !html?.trim()) {
+            return res.status(400).json({ error: 'name y html son requeridos' });
+        }
+        if (!assignedReviewer?.trim()) {
+            return res.status(400).json({ error: 'Debes asignar un revisor' });
+        }
+        const signer = await _checkSignCredentials(req, res);
+        if (!signer) return; // respuesta ya enviada
+        const nombreCompleto = [signer.nombre, signer.apellido].filter(Boolean).join(' ') || signer.username;
+        const embedded = extractEmbeddedSignatures(html);
+        const session = await db.importSignSession({
+            name: name.trim(), html,
+            createdBy: signer.username,
+            assignedReviewer: assignedReviewer.trim(),
+            assignedApprover: assignedApprover?.trim() || null,
+            preparedSignature: {
+                nombre: nombreCompleto, cargo: signer.cargo || '',
+                firma: signer.signature || '',
+                fecha: new Date().toISOString().slice(0, 10),
+            },
+            embedded,
+        });
+        if (session.error) {
+            return res.status(422).json({ error: session.error, code: session.code });
+        }
+        await db.logAuditEvent({
+            username: signer.username, action: 'SIGN_SESSION_IMPORT', success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'FIRMA', details: JSON.stringify({ sessionId: session.id, docHash: session.doc_hash }),
+        });
+        res.json({ ok: true, session: _stripSignSession(session) });
+    } catch (err) {
+        console.error('Error importing sign session:', err);
+        res.status(500).json({ error: 'Error al publicar reporte a bandeja' });
     }
 });
 

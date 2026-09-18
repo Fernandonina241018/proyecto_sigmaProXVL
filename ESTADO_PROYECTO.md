@@ -4061,3 +4061,11 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** `firmaNotifyPending()` (toast + badge en nav Firmar Reporte) llamado en `onLogin` (fail-open, no bloquea) y al abrir la página. Con esto la fase 2 frontend queda completa: publicar con asignados → bandeja → abrir → firmar en orden → aviso.
 
 **Verificación:** `node -c` OK ×2, vitest 139/139.
+
+### 2026-09-18 (28): Fase 3 — Publicar a bandeja desde .html cargado
+
+**Qué:** Botón "📤 Publicar a bandeja" (visible solo con documento local, no sesión) + `POST /api/sign-sessions/import`. Guards servidor: rechaza 422 si el archivo trae reviewed/approved incrustados (no verificables) o si el prepared incrustado no coincide con la identidad verificada. Parser `backend/sign-html.js` puro + testeado. `db.importSignSession` en ambas impls. Descarga intacta como respaldo.
+
+**Archivos:** `backend/sign-html.js` NUEVO, `backend/database.js`, `backend/server.js`, `js/core/indexx-firma.js` (botón, modal, wiring), `js/core/indexx-ui.js` (template), `backend/tests/sign-html.test.js` + guards en `sign-sessions.test.js` NUEVOS.
+
+**Verificación:** `node -c` OK ×4, backend 24/24 (17 prev + 4 parser + 3 import), vitest 139/139.

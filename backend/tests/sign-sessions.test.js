@@ -140,3 +140,45 @@ test('cadena de auditoría intacta tras sesiones', async () => {
   const v = await db.verifyAuditChain();
   assert.equal(v.valid, true);
 });
+
+// ── FASE 3: import guards ──
+function impBlock(role, name) {
+  const v = name || '—';
+  return (
+    `<div data-signature-role="${role}">` +
+    `<span data-signature-field="name" data-signature-role="${role}">${v}</span>` +
+    `</div>`
+  );
+}
+const impHtml = (prep, rev, app) =>
+  `<html><body>${impBlock('prepared', prep)}${impBlock('reviewed', rev)}${impBlock('approved', app)}</body></html>`;
+
+test('import rechaza archivo con reviewed firmado', async () => {
+  const r = await db.importSignSession({
+    name: 'IMP-1', html: impHtml('Ana', 'Beto', ''), createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' }, embedded: { prepared: { signed: true, name: 'Ana' }, reviewed: { signed: true, name: 'Beto' }, approved: { signed: false, name: '' } },
+  });
+  assert.equal(r.code, 'advanced-signatures');
+});
+
+test('import rechaza preparador que no coincide', async () => {
+  const r = await db.importSignSession({
+    name: 'IMP-2', html: impHtml('Otra Persona', '', ''), createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' }, embedded: { prepared: { signed: true, name: 'Otra Persona' }, reviewed: { signed: false }, approved: { signed: false } },
+  });
+  assert.equal(r.code, 'preparer-mismatch');
+});
+
+test('import acepta archivo limpio y firma prepared', async () => {
+  const r = await db.importSignSession({
+    name: 'IMP-3', html: impHtml('', '', ''), createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: 'carla_sup',
+    preparedSignature: { nombre: 'Ana' }, embedded: { prepared: { signed: false }, reviewed: { signed: false }, approved: { signed: false } },
+  });
+  assert.equal(r.status, 'partial');
+  assert.equal(r.next_role, 'reviewed');
+  assert.equal(r.signatures.prepared.username, 'ana_prep');
+  assert.equal(r.assigned_reviewer, 'beto_rev');
+});

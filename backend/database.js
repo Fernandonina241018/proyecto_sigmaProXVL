@@ -515,8 +515,24 @@ function buildPostgres() {
     }
 
     async function getSignSession(id) {
-        const row = await get('SELECT * FROM report_signatures WHERE id = $1', [id]);
-        return _parseSignRow(row);
+        return get('SELECT * FROM report_signatures WHERE id = $1', [id]);
+    }
+
+    // FASE 3 — importar un .html cargado a mano. Guards: el archivo no
+    // puede traer reviewed/approved (no verificables en servidor) y el
+    // prepared incrustado debe coincidir con quien publica (verificado).
+    // embedded = extractEmbeddedSignatures(html) calculado en servidor.
+    async function importSignSession({ name, html, createdBy, assignedReviewer, assignedApprover, preparedSignature, embedded }) {
+        const emb = embedded || {};
+        if ((emb.reviewed && emb.reviewed.signed) || (emb.approved && emb.approved.signed)) {
+            return { error: 'El archivo ya trae firmas de revisión/aprobación no verificables; reinícialas o publícalo como respaldo', code: 'advanced-signatures' };
+        }
+        const verifiedName = String((preparedSignature && preparedSignature.nombre) || '').trim().toLowerCase();
+        const embeddedName = String((emb.prepared && emb.prepared.name) || '').trim().toLowerCase();
+        if (emb.prepared && emb.prepared.signed && embeddedName !== verifiedName) {
+            return { error: 'El elaborador del archivo no coincide con tu identidad verificada', code: 'preparer-mismatch' };
+        }
+        return createSignSession({ name, html, createdBy, assignedReviewer, assignedApprover, preparedSignature });
     }
 
     async function listSignSessions({ scope, username, limit = 50, offset = 0 }) {
@@ -575,7 +591,7 @@ function buildPostgres() {
         return elig;
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
@@ -956,6 +972,20 @@ function buildLocalStore() {
         return state.data_snapshots.find(function(s) { return s.id === id; }) || null;
     }
 
+    // FASE 3 — mirror local de importSignSession
+    async function importSignSession({ name, html, createdBy, assignedReviewer, assignedApprover, preparedSignature, embedded }) {
+        const emb = embedded || {};
+        if ((emb.reviewed && emb.reviewed.signed) || (emb.approved && emb.approved.signed)) {
+            return { error: 'El archivo ya trae firmas de revisión/aprobación no verificables; reinícialas o publícalo como respaldo', code: 'advanced-signatures' };
+        }
+        const verifiedName = String((preparedSignature && preparedSignature.nombre) || '').trim().toLowerCase();
+        const embeddedName = String((emb.prepared && emb.prepared.name) || '').trim().toLowerCase();
+        if (emb.prepared && emb.prepared.signed && embeddedName !== verifiedName) {
+            return { error: 'El elaborador del archivo no coincide con tu identidad verificada', code: 'preparer-mismatch' };
+        }
+        return createSignSession({ name, html, createdBy, assignedReviewer, assignedApprover, preparedSignature });
+    }
+
     // ── FASE 1 — Bandeja de firmas (local, mirror PG) ──────────
     if (!state.report_signatures) state.report_signatures = [];
     var _signIdCounter = state.report_signatures.length > 0
@@ -1026,7 +1056,7 @@ function buildLocalStore() {
         return _localSignView(s);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession };}
 
 const impl = build();
 module.exports = {
@@ -1072,6 +1102,7 @@ module.exports = {
     getSignSession:       (...a) => impl.getSignSession(...a),
     listSignSessions:     (...a) => impl.listSignSessions(...a),
     signSessionStep:      (...a) => impl.signSessionStep(...a),
+    importSignSession:     (...a) => impl.importSignSession(...a),
     getSnapshotById:      (...a) => impl.getSnapshotById(...a),
     run:                  (...a) => impl.run(...a),
     all:                 (...a) => impl.all(...a),

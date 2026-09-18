@@ -511,6 +511,7 @@ var leftPanels = {
         '<div class="info-section"><div class="info-section-header">📝 Firmas detectadas</div>' +
           '<div class="info-section-body" id="firmaSignatureEditor" style="padding:8px 12px;display:flex;flex-direction:column;gap:10px"></div></div>' +
         '<button class="btn btn-primary" id="firmaDownloadBtn" style="width:100%;justify-content:center;font-size:12px">⬇ Descargar reporte firmado</button>' +
+        '<button class="btn btn-secondary" id="firmaPublishBtn" style="width:100%;justify-content:center;font-size:12px;display:none">📤 Publicar a bandeja</button>' +
         '<button class="btn btn-secondary" id="firmaResetBtn" style="width:100%;justify-content:center;font-size:12px;display:none">🔄 Reiniciar firmas</button></div>' +
     '</div>';
   },
