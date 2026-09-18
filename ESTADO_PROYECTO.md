@@ -3985,3 +3985,11 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Archivos:** `js/core/indexx-globals.js:53` (línea eliminada + comentario), `tests/persist.test.js` NUEVO (harness vm con localStorage stub: persiste sheets, NO llama _V_saveGallery, restaura).
 
 **Verificación:** `node -c` OK, vitest 114/114 (112 prev + 2 nuevos).
+
+### 2026-09-18 (18): Opt-3 — Undo adaptativo + autosave por tamaño
+
+**Qué:** (a) `pushUndo()` usa `_undoLimitForCells()` (nuevo en indexx-globals): ≤50k celdas → 30 niveles idéntico a antes; 50-200k → 15; >200k → 8. Evita cientos de MB en RAM con 19K+ filas. (b) `StateManager.scheduleAutoSave()` usa `_adaptiveDebounceMs()` (nuevo, exportado): 400ms / 1200ms / 2500ms por los mismos umbrales. Riesgo BAJO (datasets pequeños bit-idénticos).
+
+**Archivos:** `js/core/indexx-globals.js` (+helper), `js/core/indexx-trabajo.js:14-22` (pushUndo), `js/core/StateManager.js` (+helper, uso y export), `tests/persist.test.js` (+3 tests umbrales), `tests/StateManager.test.js` (+4 tests debounce).
+
+**Verificación:** `node -c` OK ×3, vitest 121/121. Incidente en el camino: edición anidó mal un describe en persist.test.js → detectado por vitest (suite fail), corregido reescribiendo el archivo, re-verificado en verde.

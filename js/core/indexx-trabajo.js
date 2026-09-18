@@ -15,7 +15,10 @@ function pushUndo() {
   var snap = snapshotSheet();
   if (!snap) return;
   undoStack.push(snap);
-  if (undoStack.length > MAX_UNDO) undoStack.shift();
+  var _sheet = getCurrentSheet();
+  var _cells = _sheet ? _sheet.headers.length * _sheet.rows.length : 0;
+  var _limit = (typeof _undoLimitForCells === 'function') ? _undoLimitForCells(_cells) : MAX_UNDO;
+  while (undoStack.length > _limit) undoStack.shift();
   redoStack = [];
 }
 function undoAction() {

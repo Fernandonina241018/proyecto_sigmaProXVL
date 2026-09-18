@@ -800,12 +800,28 @@ const StateManager = (() => {
         }
     }
     
+    // OPT-3: debounce adaptativo al tamaño del dataset. Stringify completo de
+    // 19K+ filas en cada tecla (400ms) bloquea el hilo; datasets pequeños
+    // mantienen 400ms idéntico a antes.
+    function _adaptiveDebounceMs() {
+        let cells = 0;
+        try {
+            if (state.importedData && Array.isArray(state.importedData.data)) {
+                cells += state.importedData.data.length * (state.importedData.headers?.length || 0);
+            }
+            state.sheets.forEach(function(s) { cells += (s.rows || 0) * (s.cols || 0); });
+        } catch (e) { /* fail-open: usar base */ }
+        if (cells > 200000) return 2500;
+        if (cells > 50000) return 1200;
+        return 400;
+    }
+
     function scheduleAutoSave() {
         if (state.config.autoSave) {
             clearTimeout(debounceSaveTimer);
             debounceSaveTimer = setTimeout(() => {
                 saveToLocalStorage();
-            }, 400);
+            }, _adaptiveDebounceMs());
         }
     }
     
@@ -1026,6 +1042,7 @@ const StateManager = (() => {
         // Utilidades
         getStats,
         getNumericCols,
+        _adaptiveDebounceMs,
         exportState,
         importState,
         resetState,

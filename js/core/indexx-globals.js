@@ -24,6 +24,14 @@ var trabajoPage = 0;
 var trabajoPageSize = 200;
 var redoStack = [];
 var MAX_UNDO = 30;
+// OPT-3: límite de undo adaptativo al tamaño del dataset. Cada snapshot es una
+// copia profunda completa; con 19K+ filas, 30 niveles = cientos de MB en RAM.
+// Datasets pequeños mantienen 30 niveles idéntico a antes.
+function _undoLimitForCells(cellCount) {
+  if (cellCount > 200000) return 8;
+  if (cellCount > 50000) return 15;
+  return MAX_UNDO;
+}
 
 var datosCurrentData = null;
 var datosCurrentFileName = '';

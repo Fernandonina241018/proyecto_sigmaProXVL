@@ -39,7 +39,9 @@ describe('_persistAllData (fuente única / desacople galería)', () => {
     expect(calls.saveGallery).toBe(0);
     expect(calls.badge).toBe(1);
   });
+});
 
+describe('_restoreAllData', () => {
   test('restaura trabajoSheets desde localStorage', () => {
     const { sandbox } = loadGlobalsHarness();
     vm.runInContext(
@@ -48,5 +50,25 @@ describe('_persistAllData (fuente única / desacople galería)', () => {
     );
     const name = vm.runInContext('trabajoSheets[0].name', sandbox);
     expect(name).toBe('X');
+  });
+});
+
+describe('_undoLimitForCells (undo adaptativo)', () => {
+  test('datasets pequeños mantienen 30 niveles', () => {
+    const { sandbox } = loadGlobalsHarness();
+    expect(vm.runInContext('_undoLimitForCells(1000)', sandbox)).toBe(30);
+    expect(vm.runInContext('_undoLimitForCells(50000)', sandbox)).toBe(30);
+  });
+
+  test('datasets medianos bajan a 15 niveles', () => {
+    const { sandbox } = loadGlobalsHarness();
+    expect(vm.runInContext('_undoLimitForCells(50001)', sandbox)).toBe(15);
+    expect(vm.runInContext('_undoLimitForCells(200000)', sandbox)).toBe(15);
+  });
+
+  test('datasets grandes bajan a 8 niveles', () => {
+    const { sandbox } = loadGlobalsHarness();
+    expect(vm.runInContext('_undoLimitForCells(200001)', sandbox)).toBe(8);
+    expect(vm.runInContext('_undoLimitForCells(1000000)', sandbox)).toBe(8);
   });
 });

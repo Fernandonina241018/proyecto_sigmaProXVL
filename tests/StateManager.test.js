@@ -336,3 +336,38 @@ describe('StateManager — setImportedData (regression L2)', () => {
     expect(StateManager.getImportedData()).toBeNull();
   });
 });
+
+// ── OPT-3: debounce adaptativo al tamaño del dataset ──
+describe('StateManager — _adaptiveDebounceMs', () => {
+  test('dataset pequeño usa 400ms (idéntico a antes)', () => {
+    StateManager.clearImportedData();
+    expect(StateManager._adaptiveDebounceMs()).toBe(400);
+  });
+
+  test('dataset mediano (>50k celdas) usa 1200ms', () => {
+    StateManager.setImportedData({
+      headers: ['a', 'b'],
+      data: Array.from({ length: 60000 }, () => [1, 2]),
+    });
+    expect(StateManager._adaptiveDebounceMs()).toBe(1200);
+    StateManager.clearImportedData();
+  });
+
+  test('dataset grande (>200k celdas) usa 2500ms', () => {
+    StateManager.setImportedData({
+      headers: ['a', 'b'],
+      data: Array.from({ length: 110000 }, () => [1, 2]),
+    });
+    expect(StateManager._adaptiveDebounceMs()).toBe(2500);
+    StateManager.clearImportedData();
+  });
+
+  test('vuelve a 400ms al limpiar', () => {
+    StateManager.setImportedData({
+      headers: ['a', 'b'],
+      data: Array.from({ length: 60000 }, () => [1, 2]),
+    });
+    StateManager.clearImportedData();
+    expect(StateManager._adaptiveDebounceMs()).toBe(400);
+  });
+});
