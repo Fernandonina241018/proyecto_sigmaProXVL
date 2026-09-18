@@ -32,6 +32,7 @@ var _V_PALETTES = [
 
 function _V_destroyChart() {
   if (_V.chart) { try { _V.chart.destroy(); } catch(e) {} _V.chart = null; }
+  _V._lastType = null; // OPT-5: invalida reutilización de instancia
 }
 
 // ══ CROSSHAIR PLUGIN ════════════════════════════════════════════
@@ -970,14 +971,30 @@ function vizRenderChart() {
   if (emptyEl) emptyEl.style.display = 'none';
   if (wrapperEl) wrapperEl.classList.add('vis');
 
-  _V_destroyChart();
+  // OPT-5: reutilizar instancia cuando el tipo no cambió — chart.update()
+  // en vez de destroy+new (evita re-layout, re-registro de plugins y GC).
+  // Fail-open: cualquier fallo → destroy + crear como antes.
+  var _reuse = !!(_V.chart && _V._lastType && _V._lastType === _V.type);
+  if (!_reuse) _V_destroyChart();
 
   var canvas = document.getElementById('vizMainChart');
   if (!canvas) { showToast('Error: canvas no encontrado'); return; }
 
   try {
     Chart.defaults.color = _V_isLight() ? 'rgba(100,116,139,.7)' : 'rgba(200,200,220,.5)';
-    _V.chart = new Chart(canvas.getContext('2d'), config);
+    if (_reuse) {
+      try {
+        _V.chart.config.data = config.data;
+        _V.chart.config.options = config.options;
+        _V.chart.update();
+      } catch(_e) {
+        _V_destroyChart();
+        _V.chart = new Chart(canvas.getContext('2d'), config);
+      }
+    } else {
+      _V.chart = new Chart(canvas.getContext('2d'), config);
+    }
+    _V._lastType = _V.type;
   } catch(e) { showToast('Error al renderizar: ' + e.message); return; }
 
   // Crosshair mouse tracking

@@ -4001,3 +4001,11 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Archivos:** `js/core/xlsx-worker.js` NUEVO, `js/core/indexx-datos.js:89-170` (parseXLSX + helpers), `tests/xlsx.test.js` NUEVO (5 tests: transformación ×3, guard 10MB, extensiones).
 
 **Verificación:** `node -c` OK ×2, vitest 126/126 (121 prev + 5 nuevos).
+
+### 2026-09-18 (20): Opt-5 — Reutilización de instancia Chart.js
+
+**Qué:** `vizRenderChart()` hacía destroy+`new Chart` en cada cambio (re-layout, re-registro plugins, GC). Ahora rastrea `_V._lastType`: mismo tipo → `chart.config.data/options` + `chart.update()`; cambio de tipo → destroy+crear. `_V_destroyChart()` invalida `_lastType`. Fail-open con try/catch → ruta original. Riesgo MEDIO-BAJO.
+
+**Archivos:** `js/core/indexx-viz.js:33-35` (destroy), `:973-1000` aprox (render), `tests/viz-render.test.js` NUEVO (harness vm con FakeChart: crea 1 vez, update en mismo tipo, destroy+crea en cambio, invalidación).
+
+**Verificación:** `node -c` OK, vitest 130/130 (126 prev + 4 nuevos).
