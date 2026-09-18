@@ -2350,16 +2350,114 @@ tr:hover td{background:#f7faff}
             const hash = await generateHash(meta, resultados);
             const base = `RPT-${hash}_${new Date().toISOString().slice(0,10)}`;
             const html = await generarHTML(resultados, meta, hash);
-            try {
-                sessionStorage.setItem('__firma_pending_html', html);
-                sessionStorage.setItem('__firma_pending_name', base + '.html');
-            } catch(e) {
-                showToast('Error al preparar reporte para firma: ' + e.message);
-                return;
-            }
-            showToast('Reporte enviado a firma');
-            if (typeof loadPage === 'function') loadPage('firmarReporte');
+            // FASE 2 — publicar a bandeja (firma prepared + asignados).
+            // Fallback local idéntico al flujo anterior si no hay servidor.
+            const goLocal = function(){
+                try {
+                    sessionStorage.setItem('__firma_pending_html', html);
+                    sessionStorage.setItem('__firma_pending_name', base + '.html');
+                } catch(e) {
+                    showToast('Error al preparar reporte para firma: ' + e.message);
+                    return;
+                }
+                showToast('Reporte enviado a firma (sesión local)');
+                if (typeof loadPage === 'function') loadPage('firmarReporte');
+            };
+            showPublishModal(html, base, function(sessionId){
+                showToast('✅ Publicado a bandeja (sesión #' + sessionId + ')');
+                if (typeof loadPage === 'function') loadPage('firmarReporte');
+            }, function(){
+                showToast('⚠️ Sin conexión al servidor: sesión local', true);
+                goLocal();
+            });
         });
+    }
+
+    // FASE 2 — helpers API bandeja (usan globales API_URL/Auth/fetchWithTimeout)
+    function _repApiBase(){
+        try { if (typeof API_URL !== 'undefined' && API_URL) return API_URL; } catch(e){}
+        return '';
+    }
+    async function _repApiGet(path){
+        const res = await fetchWithTimeout(_repApiBase() + path, {
+            headers: { Authorization: 'Bearer ' + ((typeof Auth !== 'undefined' && Auth.getToken) ? Auth.getToken() : '') },
+            credentials: 'include'
+        });
+        return res.json();
+    }
+    async function _repApiPost(path, body){
+        const res = await fetchWithTimeout(_repApiBase() + path, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + ((typeof Auth !== 'undefined' && Auth.getToken) ? Auth.getToken() : '') },
+            body: JSON.stringify(body),
+            credentials: 'include'
+        });
+        return res.json();
+    }
+
+    // FASE 2 — modal publicar a bandeja: firma prepared + asigna revisor/aprobador.
+    // onDone(sessionId) en éxito; onLocal() si el servidor falla (fallback local).
+    async function showPublishModal(html, base, onDone, onLocal){
+        let users = [];
+        try {
+            const data = await _repApiGet('/api/users/list');
+            if (data && data.ok) users = data.users || [];
+        } catch(e) { /* sin lista: fallback local abajo */ }
+        if (!users.length) { onLocal(); return; }
+
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+        const approverOpts = users.filter(function(u){
+            return u.role === 'admin' || u.role === 'coordinador' || u.role === 'supervisor' || u.role === 'gerente';
+        });
+        const opt = function(u){
+            const nm = [u.nombre, u.apellido].filter(Boolean).join(' ') || u.username;
+            return '<option value="' + escapeHtml(u.username) + '">' + escapeHtml(nm) + ' (' + escapeHtml(u.username) + (u.cargo ? ' · ' + escapeHtml(u.cargo) : '') + ')</option>';
+        };
+        overlay.innerHTML =
+            '<div class="modal-box" style="max-width:420px">' +
+            '<div class="modal-title">📤 Publicar a bandeja de firmas</div>' +
+            '<div style="padding:12px 16px;display:flex;flex-direction:column;gap:10px">' +
+            '<div style="font-size:11px;color:var(--text-faint)">Tu firma de <b>elaboración</b> queda registrada al publicar. El revisor lo verá en su bandeja sin descargar nada.</div>' +
+            '<label style="font-size:11px">Código de firma<input id="pub-code" type="password" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box" placeholder="Ej: ABC-123"></label>' +
+            '<label style="font-size:11px">Contraseña<input id="pub-pass" type="password" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box"></label>' +
+            '<label style="font-size:11px">Revisor (obligatorio)<select id="pub-reviewer" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box">' +
+            '<option value="">— Seleccionar —</option>' + users.map(opt).join('') + '</select></label>' +
+            '<label style="font-size:11px">Aprobador (opcional)<select id="pub-approver" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box">' +
+            '<option value="">— Cualquiera elegible —</option>' + approverOpts.map(opt).join('') + '</select></label>' +
+            '<div id="pub-err" style="font-size:11px;color:#e53e3e;min-height:16px"></div>' +
+            '<div style="display:flex;gap:8px;justify-content:flex-end">' +
+            '<button id="pub-cancel" class="btn btn-secondary">Cancelar</button>' +
+            '<button id="pub-ok" class="btn btn-primary">Publicar y firmar</button>' +
+            '</div></div></div>';
+        document.body.appendChild(overlay);
+        const close = function(){ overlay.remove(); };
+        overlay.querySelector('#pub-cancel').onclick = close;
+        overlay.querySelector('#pub-ok').onclick = async function(){
+            const errEl = overlay.querySelector('#pub-err');
+            const code = overlay.querySelector('#pub-code').value.trim();
+            const pass = overlay.querySelector('#pub-pass').value;
+            const reviewer = overlay.querySelector('#pub-reviewer').value;
+            const approver = overlay.querySelector('#pub-approver').value;
+            if (!code || !pass) { errEl.textContent = 'Ingresa tu código de firma y contraseña.'; return; }
+            if (!reviewer) { errEl.textContent = 'Debes asignar un revisor.'; return; }
+            errEl.textContent = 'Publicando…';
+            try {
+                const data = await _repApiPost('/api/sign-sessions', {
+                    name: base, html: html,
+                    assignedReviewer: reviewer, assignedApprover: approver || null,
+                    signatureCode: code, password: pass
+                });
+                if (!data || !data.ok) { errEl.textContent = '❌ ' + ((data && data.error) || 'Error al publicar'); return; }
+                close();
+                try { sessionStorage.setItem('__firma_session_id', String(data.session.id)); } catch(e){}
+                onDone(data.session.id);
+            } catch(e) {
+                close();
+                onLocal();
+            }
+        };
     }
 
     function updateFormatWrap(wrap,checked){wrap.classList.toggle('rep-format-active',checked);}
