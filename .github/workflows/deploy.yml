@@ -7,19 +7,20 @@ on:
 jobs:
   deploy-backend:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
     steps:
       - uses: actions/checkout@v4
-      # OPT-8: gate — no desplegar backend con tests rotos
+      # OPT-8: gate — no desplegar backend con tests rotos.
+      # OJO: sin defaults working-directory — flyctl debe correr desde
+      # la raíz (fly.toml usa 'backend/Dockerfile' relativo a raíz).
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'npm'
           cache-dependency-path: backend/package-lock.json
       - run: npm ci
+        working-directory: backend
       - run: npm test
+        working-directory: backend
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Deploy backend
         run: flyctl deploy --app sigmaproxvl-backend --strategy immediate --yes
