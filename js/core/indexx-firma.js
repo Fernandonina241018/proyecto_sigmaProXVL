@@ -114,7 +114,29 @@ function initFirmarReportePage() {
   var status = document.getElementById('firmaStatus');
   var actions = document.getElementById('firmaActions');
 
+  // FASE 2 — tabs de bandeja (no dependen del dropZone)
+  var bandTabs = document.querySelectorAll('#firmaTabs .firma-tab');
+  bandTabs.forEach(function(t) {
+    t.onclick = function() { firmaLoadBandeja(t.dataset.scope); };
+  });
+
   if (!dropZone || !fileInput || !preview) return;
+
+  // FASE 2 — sesión recién publicada (viene de "Enviar a firma")
+  var pendingSessionId = null;
+  try {
+    pendingSessionId = sessionStorage.getItem('__firma_session_id');
+    if (pendingSessionId) sessionStorage.removeItem('__firma_session_id');
+  } catch (e) { /* ignore */ }
+  if (pendingSessionId) {
+    dropZone.onclick = function() { fileInput.click(); };
+    fileInput.onchange = function() { if (fileInput.files.length) firmaHandleFile(fileInput.files[0]); fileInput.value = ''; };
+    var downloadBtn0 = document.getElementById('firmaDownloadBtn');
+    if (downloadBtn0) downloadBtn0.onclick = firmaDownload;
+    firmaLoadBandeja('pending');
+    _firmaOpenSession(parseInt(pendingSessionId));
+    return;
+  }
 
   // Single event listener for reset button (exists in the left panel template)
   var resetBtn = document.getElementById('firmaResetBtn');
@@ -167,6 +189,9 @@ function initFirmarReportePage() {
       fileInput.onchange = function(){ if (fileInput.files.length) firmaHandleFile(fileInput.files[0]); fileInput.value = ''; };
       var downloadBtn = document.getElementById('firmaDownloadBtn');
       if (downloadBtn) downloadBtn.onclick = firmaDownload;
+      _firmaSessionId = null;
+      _firmaSessionVersion = null;
+      firmaLoadBandeja('pending');
       return;
     }
     // If restore fails, clear corrupted state and fall through to normal init
@@ -195,6 +220,11 @@ function initFirmarReportePage() {
 
   var downloadBtn = document.getElementById('firmaDownloadBtn');
   if (downloadBtn) downloadBtn.onclick = firmaDownload;
+
+  // FASE 2 — la bandeja siempre visible al entrar (fail-open si no hay servidor)
+  _firmaSessionId = null;
+  _firmaSessionVersion = null;
+  firmaLoadBandeja('pending');
 }
 
 function firmaLoadHtml(html, originalName) {
@@ -728,5 +758,125 @@ function firmaToggleFS() {
     if (iframe) iframe.focus();
   } else {
     if (document.exitFullscreen) document.exitFullscreen();
+  }
+}
+
+// ══ FASE 2 — Bandeja de firmas (sesiones en servidor) ════════════
+var _firmaSessionId = null;
+var _firmaSessionVersion = null;
+var _firmaBandejaScope = 'pending';
+
+function _firmaApiBase() {
+  try { if (typeof API_URL !== 'undefined' && API_URL) return API_URL; } catch (e) {}
+  return '';
+}
+function _firmaAuthHeaders() {
+  var t = '';
+  try { if (typeof Auth !== 'undefined' && Auth.getToken) t = Auth.getToken() || ''; } catch (e) {}
+  return { Authorization: 'Bearer ' + t };
+}
+async function _firmaApiGet(path) {
+  var res = await fetchWithTimeout(_firmaApiBase() + path, { headers: _firmaAuthHeaders(), credentials: 'include' });
+  return res.json();
+}
+async function _firmaApiPost(path, body) {
+  var res = await fetchWithTimeout(_firmaApiBase() + path, {
+    method: 'POST',
+    headers: Object.assign({ 'Content-Type': 'application/json' }, _firmaAuthHeaders()),
+    body: JSON.stringify(body), credentials: 'include'
+  });
+  return res.json();
+}
+
+// Badge con pendientes (retorna el conteo; null si sin servidor)
+async function firmaUpdatePendingBadge() {
+  var badge = document.getElementById('firmaPendingBadge');
+  try {
+    var data = await _firmaApiGet('/api/sign-sessions?scope=pending&count=1');
+    if (!data || !data.ok) return null;
+    var n = data.count || 0;
+    if (badge) {
+      badge.style.display = n > 0 ? 'inline-block' : 'none';
+      badge.textContent = n > 99 ? '99+' : String(n);
+    }
+    return n;
+  } catch (e) { return null; }
+}
+
+// Carga la bandeja (tabs Pendientes/Mías)
+async function firmaLoadBandeja(scope) {
+  if (scope) _firmaBandejaScope = scope;
+  var tabs = document.querySelectorAll('#firmaTabs .firma-tab');
+  tabs.forEach(function(t) {
+    var active = t.dataset.scope === _firmaBandejaScope;
+    t.style.cssText = 'flex:1;padding:5px 4px;font-size:10px;font-weight:700;border-radius:5px;cursor:pointer;border:1px solid ' +
+      (active ? 'var(--accBorder)' : 'var(--border)') + ';background:' + (active ? 'var(--accDim)' : 'transparent') +
+      ';color:' + (active ? 'var(--acc2)' : 'var(--t3)') + ';font-family:inherit';
+  });
+  var list = document.getElementById('firmaBandejaList');
+  if (!list) return;
+  list.innerHTML = '<div style="font-size:10px;color:var(--text-faint);text-align:center;padding:6px">Cargando…</div>';
+  try {
+    var data = await _firmaApiGet('/api/sign-sessions?scope=' + _firmaBandejaScope + '&limit=50');
+    if (!data || !data.ok) throw new Error((data && data.error) || 'sin servidor');
+    var sessions = data.sessions || [];
+    firmaUpdatePendingBadge();
+    if (!sessions.length) {
+      list.innerHTML = '<div style="font-size:10px;color:var(--text-faint);text-align:center;padding:6px">' +
+        (_firmaBandejaScope === 'pending' ? 'Sin documentos pendientes' : 'Sin sesiones propias') + '</div>';
+      return;
+    }
+    list.innerHTML = '';
+    sessions.forEach(function(s) {
+      var div = document.createElement('div');
+      div.style.cssText = 'border:1px solid var(--border);border-radius:6px;padding:7px 9px;cursor:pointer;display:flex;flex-direction:column;gap:3px';
+      div.onmouseover = function() { div.style.borderColor = 'var(--accBorder)'; };
+      div.onmouseout = function() { div.style.borderColor = 'var(--border)'; };
+      var stLbl = s.status === 'complete' ? '✅ Completa' : ('✍️ ' + (s.signed_count || 0) + '/3' +
+        (s.next_role ? ' · toca: ' + s.next_role : ''));
+      var who = s.next_role === 'reviewed' && s.assigned_reviewer ? ' → ' + escapeHtml(s.assigned_reviewer)
+        : s.next_role === 'approved' && s.assigned_approver ? ' → ' + escapeHtml(s.assigned_approver) : '';
+      div.innerHTML = '<div style="font-size:11px;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' +
+        escapeHtml(s.name) + '</div>' +
+        '<div style="font-size:9px;color:var(--text-faint)">#' + s.id + ' · ' + stLbl + who + '</div>';
+      div.onclick = function() { _firmaOpenSession(s.id); };
+      list.appendChild(div);
+    });
+  } catch (e) {
+    list.innerHTML = '<div style="font-size:10px;color:var(--text-faint);text-align:center;padding:6px">Bandeja no disponible (sin conexión)</div>';
+  }
+}
+
+// Abre una sesión del servidor en el visor (reutiliza parseo + editor)
+async function _firmaOpenSession(id) {
+  showToast('Abriendo sesión #' + id + '…');
+  try {
+    var data = await _firmaApiGet('/api/sign-sessions/' + id);
+    if (!data || !data.ok) { showToast('❌ ' + ((data && data.error) || 'No se pudo abrir'), true); return; }
+    var session = data.session;
+    firmaClearState();
+    _firmaCurrentDoc = null;
+    _firmaCurrentHtml = '';
+    _firmaSignatureData = null;
+    _firmaSignatureState = {};
+    _firmaOriginalName = session.name || 'reporte.html';
+    _firmaIsNewSession = false;
+    _firmaSessionId = session.id;
+    _firmaSessionVersion = session.version;
+    // Parsea bloques del HTML (roles/etiquetas) y pisa el estado con el del servidor
+    if (!firmaLoadHtml(session.html, _firmaOriginalName)) return;
+    var st = {};
+    ['prepared', 'reviewed', 'approved'].forEach(function(r) {
+      var s = (session.signatures || {})[r];
+      if (s && s.signed) st[r] = { signed: true, nombre: s.nombre || '', cargo: s.cargo || '', firma: s.firma || '', fecha: s.fecha || '' };
+    });
+    _firmaSignatureState = st;
+    firmaRenderEditor();
+    _firmaUpdateReportBadge();
+    firmaPersistState();
+    firmaLoadBandeja();
+    showToast('✅ Sesión #' + session.id + ' abierta (' + (session.next_role ? 'toca: ' + session.next_role : 'completa') + ')');
+  } catch (e) {
+    showToast('❌ Error de conexión con el servidor', true);
   }
 }

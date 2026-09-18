@@ -497,6 +497,15 @@ var leftPanels = {
             '<div style="font-size:18px;margin-bottom:3px">📄</div>' +
             '<div style="font-size:10px;color:var(--text-muted);line-height:1.3">Arrastra un .html aquí<br>o haz clic para seleccionar</div></div>' +
           '<input type="file" id="firmaFileInput" accept=".html" style="display:none"></div></div>' +
+      '<div class="info-section"><div class="info-section-header">📥 Bandeja de firmas <span id="firmaPendingBadge" style="display:none;font-size:9px;padding:1px 7px;border-radius:99px;background:rgba(239,68,68,.15);color:#f87171;font-weight:700;vertical-align:middle"></span></div>' +
+        '<div class="info-section-body" style="padding:8px 12px">' +
+          '<div style="display:flex;gap:4px;margin-bottom:8px" id="firmaTabs">' +
+            '<button class="firma-tab" data-scope="pending" style="flex:1">Pendientes</button>' +
+            '<button class="firma-tab" data-scope="mine" style="flex:1">Mías</button>' +
+          '</div>' +
+          '<div id="firmaBandejaList" style="display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto">' +
+            '<div style="font-size:10px;color:var(--text-faint);text-align:center;padding:6px">Sin datos — abre la página para cargar</div></div>' +
+        '</div></div>' +
       '<div id="firmaStatus" style="display:none"></div>' +
       '<div id="firmaActions" style="display:none;flex-direction:column;gap:8px">' +
         '<div class="info-section"><div class="info-section-header">📝 Firmas detectadas</div>' +
