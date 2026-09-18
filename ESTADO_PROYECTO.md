@@ -4017,3 +4017,11 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Archivos:** `backend/database.js` (PG + local + exports), `backend/server.js` (3 endpoints), `backend/tests/pagination.test.js` NUEVO (6 tests node:test sobre store local: full/tail/anchored, limit+offset audit/devices/snapshots, cadena intacta tras create).
 
 **Verificación:** `node -c` OK ×2, `node --test` 6/6, vitest 130/130. Incidente: primer diseño de tail comparaba primer hash contra null → test lo cazó (valid=false); rediseño con eslabón ancla, re-verificado en verde.
+
+### 2026-09-18 (22): Opt-7 — Entorno unificado (.env veraces, run.sh portable, health-wait)
+
+**Qué:** (a) `backend/.env.example` reescrito: 11/11 vars usadas en código documentadas (faltaban DB_SSL_INSECURE, PORT), DEFAULT_USER_PASSWORD marcado LEGACY (solo evita warning, no crea usuarios), advertencia ML_API_KEY vs API_KEY del ML (el proxy no la reenvía: definirla rompe el proxy). (b) `ml_service/.env.example` NUEVO (PORT, API_KEY + advertencia, MPLBACKEND). (c) `ml_service/run.sh` reescrito portable (tenía path absoluto Windows roto) + ejecutable. (d) `start-all.sh`: health-wait 60s — backend requerido (exit 1 si no levanta), ML degradable (warning). Riesgo BAJO (solo scripts/docs, sin cambio runtime).
+
+**Archivos:** `backend/.env.example`, `ml_service/.env.example` NUEVO, `ml_service/run.sh`, `start-all.sh`.
+
+**Verificación:** `bash -n` OK ×2, 0 líneas malformadas en ambos .env.example, match bidireccional código↔docs 11/11, vitest 130/130.

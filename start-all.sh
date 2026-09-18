@@ -47,6 +47,32 @@ cd "$ROOT_DIR"
 
 echo ""
 echo "────────────────────────────────────────"
+# OPT-7: health-wait — no declarar "listo" sin verificar. Backend es
+# requerido (exit 1 si no levanta); ML es degradable (solo warning, la
+# app funciona sin ML salvo sus páginas).
+wait_for() { # $1=url $2=nombre $3=timeout_s
+    if ! command -v curl >/dev/null 2>&1; then
+        echo "⚠️  Sin curl: salto verificación de $2"
+        return 0
+    fi
+    i=0
+    while [ "$i" -lt "$3" ]; do
+        if curl -sf --max-time 3 "$1" >/dev/null 2>&1; then
+            echo "✅ $2 OK ($1)"
+            return 0
+        fi
+        sleep 2
+        i=$((i + 2))
+    done
+    return 1
+}
+if ! wait_for "http://localhost:3000/api/health" "Backend" 60; then
+    echo "❌ Backend no respondió en 60s — revisa backend/.env y logs"
+    cleanup
+fi
+wait_for "http://localhost:8000/api/ml/health" "ML Service" 60 || \
+    echo "⚠️  ML Service no respondió — la app arranca sin ML"
+echo "────────────────────────────────────────"
 echo "  Prensa Ctrl+C para detener ambos"
 echo "────────────────────────────────────────"
 
