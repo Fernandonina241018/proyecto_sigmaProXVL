@@ -1125,6 +1125,8 @@ function _initIndexxApp() {
       }
       buildRibbonNavPopup();
       loadPage('datos');
+      // FASE 2 — aviso de documentos pendientes de firma (no bloquea login)
+      try { if (typeof firmaNotifyPending === 'function') firmaNotifyPending(); } catch (e) {}
     }
   });
 }

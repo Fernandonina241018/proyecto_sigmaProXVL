@@ -225,6 +225,7 @@ function initFirmarReportePage() {
   _firmaSessionId = null;
   _firmaSessionVersion = null;
   firmaLoadBandeja('pending');
+  firmaNotifyPending();
 }
 
 function firmaLoadHtml(html, originalName) {
@@ -924,6 +925,35 @@ async function _firmaApiPost(path, body) {
     body: JSON.stringify(body), credentials: 'include'
   });
   return res.json();
+}
+
+// Aviso al entrar: toast + badge en nav si hay pendientes (fail-open,
+// nunca bloquea el login). Llamado desde onLogin y al abrir la página.
+async function firmaNotifyPending() {
+  var n = await firmaUpdatePendingBadge();
+  if (n === null || n <= 0) { _firmaSetNavBadge(0); return; }
+  _firmaSetNavBadge(n);
+  showToast('📥 Tienes ' + n + ' documento' + (n === 1 ? '' : 's') + ' pendiente' + (n === 1 ? '' : 's') + ' de firma');
+}
+
+function _firmaSetNavBadge(n) {
+  try {
+    var items = document.querySelectorAll('.nav-item[data-page="firmarReporte"]');
+    items.forEach(function(el) {
+      var b = el.querySelector('.firma-nav-badge');
+      if (n > 0) {
+        if (!b) {
+          b = document.createElement('span');
+          b.className = 'firma-nav-badge';
+          b.style.cssText = 'margin-left:auto;font-size:9px;padding:1px 7px;border-radius:99px;background:rgba(239,68,68,.15);color:#f87171;font-weight:700';
+          el.appendChild(b);
+        }
+        b.textContent = n > 99 ? '99+' : String(n);
+      } else if (b) {
+        b.remove();
+      }
+    });
+  } catch (e) { /* fail-open */ }
 }
 
 // Badge con pendientes (retorna el conteo; null si sin servidor)

@@ -4055,3 +4055,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Archivos:** `backend/database.js` (tabla, helpers compartidos, PG+local+exports), `backend/server.js` (helpers + 4 endpoints), `backend/tests/sign-sessions.test.js` NUEVO (11 tests).
 
 **Verificación:** `node -c` OK ×2, backend 17/17, vitest 134/134. Incidentes: (1) prepared no guardaba username → same-person no disparaba, cazado por test, corregido en ambas impls; (2) decisión documentada: ni admin auto-revisa (independencia).
+
+### 2026-09-18 (27): Fase 2 bandeja — aviso al entrar + cierre frontend
+
+**Qué:** `firmaNotifyPending()` (toast + badge en nav Firmar Reporte) llamado en `onLogin` (fail-open, no bloquea) y al abrir la página. Con esto la fase 2 frontend queda completa: publicar con asignados → bandeja → abrir → firmar en orden → aviso.
+
+**Verificación:** `node -c` OK ×2, vitest 139/139.
