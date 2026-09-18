@@ -824,8 +824,11 @@ app.get('/api/snapshots', requireAuth, async (req, res) => {
     try {
         const isAdmin = req.user.role === 'admin';
         const username = isAdmin && req.query.username ? req.query.username : (isAdmin ? null : req.user.username);
-        const snapshots = await db.getSnapshots(username, parseInt(req.query.limit) || 20);
-        res.json({ ok: true, snapshots });
+        // OPT-6: limit con tope + offset (antes: limit sin tope ni offset)
+        const limit = Math.min(parseInt(req.query.limit) || 20, 100);
+        const offset = parseInt(req.query.offset) || 0;
+        const snapshots = await db.getSnapshots(username, limit, offset);
+        res.json({ ok: true, snapshots, limit, offset });
     } catch (err) {
         console.error('Error listing snapshots:', err);
         res.status(500).json({ error: 'Error al listar snapshots' });
@@ -1106,9 +1109,12 @@ app.get('/api/audit', requireAuth, requireAdmin, async (req, res) => {
 });
 
 // GET /api/audit/verify - verifica la cadena de hash blockchain (solo admin)
+// OPT-6: ?tail=N verifica solo los últimos N eslabones (partial:true).
+// Sin tail = cadena completa (comportamiento original).
 app.get('/api/audit/verify', requireAuth, requireAdmin, async (req, res) => {
     try {
-        const result = await db.verifyAuditChain();
+        const tail = req.query.tail ? Math.min(Math.max(parseInt(req.query.tail) || 0, 0), 5000) : 0;
+        const result = await db.verifyAuditChain(tail ? { tail } : {});
         res.json({ ok: true, ...result });
     } catch (err) {
         console.error('Error verifying audit chain:', err);
@@ -1162,11 +1168,16 @@ app.post('/api/devices/register', requireAuth, async (req, res) => {
 });
 
 // GET /api/devices - listar todos los dispositivos (admin) o del usuario
+// OPT-6: con paginación ?limit=100&offset=0 (mismo patrón que /api/users)
 app.get('/api/devices', requireAuth, async (req, res) => {
     const isAdmin = req.user.role === 'admin';
     try {
-        const devices = isAdmin ? await db.getAllDevices() : await db.getUserDevices(req.user.username);
-        res.json({ ok: true, devices });
+        const limit = Math.min(parseInt(req.query.limit) || 100, 500);
+        const offset = parseInt(req.query.offset) || 0;
+        const [devices, total] = isAdmin
+            ? await Promise.all([db.getAllDevices(limit, offset), db.countDevices()])
+            : await Promise.all([db.getUserDevices(req.user.username, limit, offset), db.countUserDevices(req.user.username)]);
+        res.json({ ok: true, devices, total, limit, offset });
     } catch (err) {
         console.error('Error listing devices:', err);
         res.status(500).json({ error: 'Error al listar dispositivos' });

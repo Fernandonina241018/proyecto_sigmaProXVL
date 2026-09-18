@@ -206,9 +206,33 @@ function buildPostgres() {
 
     async function getAuditLog(limit = 100, offset = 0) { return all('SELECT * FROM audit_log ORDER BY id DESC LIMIT $1 OFFSET $2', [limit, offset]); }
 
-    async function verifyAuditChain() {
-        const rows = await all('SELECT * FROM audit_log ORDER BY id ASC');
-        let expectedHash = null;
+    // OPT-6: verificación de cadena con ventana opcional { tail: N }.
+    // Sin opciones = cadena completa (comportamiento original). Con tail se
+    // verifican los últimos N eslabones con rigor criptográfico completo:
+    // se lee UN eslabón extra como ancla (su row_hash es el prev_hash real
+    // del primer eslabón de la ventana). Si no hay extra, la ventana cubre
+    // desde el génesis. Útil cuando audit_log crece y el full-scan bloquea.
+    async function verifyAuditChain(options = {}) {
+        const tail = Math.min(Math.max(parseInt(options.tail) || 0, 0), 5000);
+        let rows, total = null, anchored = true, expectedHash = null;
+        if (tail > 0) {
+            const countRow = await get('SELECT COUNT(*)::int AS total FROM audit_log');
+            total = countRow ? countRow.total : 0;
+            const raw = await all('SELECT * FROM audit_log ORDER BY id DESC LIMIT $1', [tail + 1]);
+            raw.reverse();
+            if (raw.length > tail) {
+                expectedHash = raw[0].row_hash; // ancla: hash real del predecesor
+                rows = raw.slice(1);
+                anchored = true;
+            } else {
+                rows = raw; // cubre desde el génesis
+                expectedHash = null;
+                anchored = true;
+            }
+        } else {
+            rows = await all('SELECT * FROM audit_log ORDER BY id ASC');
+            expectedHash = null;
+        }
         let checked = 0;
         for (const row of rows) {
             const data = {
@@ -232,7 +256,9 @@ function buildPostgres() {
             expectedHash = computedHash;
             checked++;
         }
-        return { valid: true, checked, lastHash: expectedHash };
+        const out = { valid: true, checked, lastHash: expectedHash };
+        if (tail > 0) { out.partial = true; out.total = total; out.anchored = anchored; }
+        return out;
     }
 
     async function _migrateAuditHashes() {
@@ -297,12 +323,27 @@ function buildPostgres() {
         return row ? row.trusted === 1 : false;
     }
 
-    async function getUserDevices(username) {
-        return all('SELECT * FROM trusted_devices WHERE username=$1 ORDER BY trusted DESC, last_seen DESC', [username]);
+    // OPT-6: paginación (antes sin LIMIT: full-scan en cada listado)
+    async function getUserDevices(username, limit = 100, offset = 0) {
+        limit = Math.min(Math.max(parseInt(limit) || 100, 1), 500);
+        offset = Math.max(parseInt(offset) || 0, 0);
+        return all('SELECT * FROM trusted_devices WHERE username=$1 ORDER BY trusted DESC, last_seen DESC LIMIT $2 OFFSET $3', [username, limit, offset]);
     }
 
-    async function getAllDevices() {
-        return all('SELECT * FROM trusted_devices ORDER BY trusted DESC, last_seen DESC');
+    async function getAllDevices(limit = 100, offset = 0) {
+        limit = Math.min(Math.max(parseInt(limit) || 100, 1), 500);
+        offset = Math.max(parseInt(offset) || 0, 0);
+        return all('SELECT * FROM trusted_devices ORDER BY trusted DESC, last_seen DESC LIMIT $1 OFFSET $2', [limit, offset]);
+    }
+
+    async function countDevices() {
+        const row = await get('SELECT COUNT(*)::int AS total FROM trusted_devices');
+        return row ? row.total : 0;
+    }
+
+    async function countUserDevices(username) {
+        const row = await get('SELECT COUNT(*)::int AS total FROM trusted_devices WHERE username=$1', [username]);
+        return row ? row.total : 0;
     }
 
     async function setDeviceTrust(id, trusted) {
@@ -355,18 +396,21 @@ function buildPostgres() {
         return { ok: true, id: result.lastID };
     }
 
-    async function getSnapshots(username, limit = 20) {
+    // OPT-6: offset para paginar (antes solo limit)
+    async function getSnapshots(username, limit = 20, offset = 0) {
+        limit = Math.min(Math.max(parseInt(limit) || 20, 1), 100);
+        offset = Math.max(parseInt(offset) || 0, 0);
         if (username) {
-            return all('SELECT id, username, sheet_id, data_hash, source_file, row_count, col_count, created_at FROM data_snapshots WHERE username = $1 ORDER BY id DESC LIMIT $2', [username, limit]);
+            return all('SELECT id, username, sheet_id, data_hash, source_file, row_count, col_count, created_at FROM data_snapshots WHERE username = $1 ORDER BY id DESC LIMIT $2 OFFSET $3', [username, limit, offset]);
         }
-        return all('SELECT id, username, sheet_id, data_hash, source_file, row_count, col_count, created_at FROM data_snapshots ORDER BY id DESC LIMIT $1', [limit]);
+        return all('SELECT id, username, sheet_id, data_hash, source_file, row_count, col_count, created_at FROM data_snapshots ORDER BY id DESC LIMIT $1 OFFSET $2', [limit, offset]);
     }
 
     async function getSnapshotById(id) {
         return get('SELECT * FROM data_snapshots WHERE id = $1', [id]);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
@@ -532,11 +576,32 @@ function buildLocalStore() {
         save();
     }
 
-    async function getAuditLog(limit = 100) { return state.audit_log.slice(-limit).reverse(); }
+    // OPT-6: offset (el endpoint ya enviaba offset y el store local lo ignoraba)
+    async function getAuditLog(limit = 100, offset = 0) {
+        limit = Math.min(Math.max(parseInt(limit) || 100, 1), 500);
+        offset = Math.max(parseInt(offset) || 0, 0);
+        return state.audit_log.slice().reverse().slice(offset, offset + limit);
+    }
 
-    async function verifyAuditChain() {
-        const rows = [...state.audit_log].sort((a, b) => a.id - b.id);
-        let expectedHash = null;
+    // OPT-6: mirror de la impl PG — ventana con eslabón ancla
+    async function verifyAuditChain(options = {}) {
+        const tail = Math.min(Math.max(parseInt(options.tail) || 0, 0), 5000);
+        const sorted = [...state.audit_log].sort((a, b) => a.id - b.id);
+        const total = sorted.length;
+        let rows, expectedHash = null;
+        if (tail > 0) {
+            const raw = sorted.slice(-(tail + 1));
+            if (raw.length > tail) {
+                expectedHash = raw[0].row_hash; // ancla: hash real del predecesor
+                rows = raw.slice(1);
+            } else {
+                rows = raw; // cubre desde el génesis
+                expectedHash = null;
+            }
+        } else {
+            rows = sorted;
+            expectedHash = null;
+        }
         let checked = 0;
         for (const row of rows) {
             const data = {
@@ -560,7 +625,9 @@ function buildLocalStore() {
             expectedHash = computedHash;
             checked++;
         }
-        return { valid: true, checked, lastHash: expectedHash };
+        const out = { valid: true, checked, lastHash: expectedHash };
+        if (tail > 0) { out.partial = true; out.total = total; out.anchored = true; }
+        return out;
     }
 
     async function blacklistToken(token) {
@@ -622,14 +689,27 @@ function buildLocalStore() {
         return d ? d.trusted === 1 : false;
     }
 
-    async function getUserDevices(username) {
-        return state.trusted_devices.filter(function(d) { return d.username === username; })
-            .sort(function(a, b) { return (b.trusted - a.trusted) || (new Date(b.last_seen) - new Date(a.last_seen)); });
+    // OPT-6: paginación mirror de la impl PG
+    function _pageDevices(list, limit, offset) {
+        limit = Math.min(Math.max(parseInt(limit) || 100, 1), 500);
+        offset = Math.max(parseInt(offset) || 0, 0);
+        return list
+            .sort(function(a, b) { return (b.trusted - a.trusted) || (new Date(b.last_seen) - new Date(a.last_seen)); })
+            .slice(offset, offset + limit);
     }
 
-    async function getAllDevices() {
-        return state.trusted_devices.slice()
-            .sort(function(a, b) { return (b.trusted - a.trusted) || (new Date(b.last_seen) - new Date(a.last_seen)); });
+    async function getUserDevices(username, limit = 100, offset = 0) {
+        return _pageDevices(state.trusted_devices.filter(function(d) { return d.username === username; }), limit, offset);
+    }
+
+    async function getAllDevices(limit = 100, offset = 0) {
+        return _pageDevices(state.trusted_devices.slice(), limit, offset);
+    }
+
+    async function countDevices() { return state.trusted_devices.length; }
+
+    async function countUserDevices(username) {
+        return state.trusted_devices.filter(function(d) { return d.username === username; }).length;
     }
 
     async function setDeviceTrust(id, trusted) {
@@ -684,25 +764,26 @@ function buildLocalStore() {
         };
         state.data_snapshots.push(snapshot);
         save();
-        /* audit manually */
-        state.audit_log.push({ id: state.nextAuditId++, username: username, action: 'SNAPSHOT_CREATE', success: 1,
-            ip: ip||'', user_agent: userAgent||'', module: 'DATA', details: JSON.stringify({ snapshotId: snapshot.id, sheetId: sheetId||null }),
-            timestamp: new Date().toISOString(), prev_hash: null, row_hash: null, duration_ms: null });
-        save();
+        // Paridad con PG: auditar vía logAuditEvent para no romper verifyAuditChain
+        // (antes se insertaba fila manual con prev_hash/row_hash nulos → cadena inválida).
+        await logAuditEvent({ username: username, action: 'SNAPSHOT_CREATE', success: 1,
+            ip: ip||'', userAgent: userAgent||'', module: 'DATA',
+            details: JSON.stringify({ snapshotId: snapshot.id, sheetId: sheetId||null }) });
         return { ok: true, id: snapshot.id };
     }
 
-    async function getSnapshots(username, limit) {
-        limit = limit || 20;
+    async function getSnapshots(username, limit, offset) {
+        limit = Math.min(Math.max(parseInt(limit) || 20, 1), 100);
+        offset = Math.max(parseInt(offset) || 0, 0);
         var list = state.data_snapshots.filter(function(s) { return username ? s.username === username : true; });
-        return list.sort(function(a, b) { return b.id - a.id; }).slice(0, limit);
+        return list.sort(function(a, b) { return b.id - a.id; }).slice(offset, offset + limit);
     }
 
     async function getSnapshotById(id) {
         return state.data_snapshots.find(function(s) { return s.id === id; }) || null;
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById };}
 
 const impl = build();
 module.exports = {
@@ -731,6 +812,8 @@ module.exports = {
     isDeviceTrusted:      (...a) => impl.isDeviceTrusted(...a),
     getUserDevices:       (...a) => impl.getUserDevices(...a),
     getAllDevices:        (...a) => impl.getAllDevices(...a),
+    countDevices:         (...a) => impl.countDevices(...a),
+    countUserDevices:     (...a) => impl.countUserDevices(...a),
     setDeviceTrust:       (...a) => impl.setDeviceTrust(...a),
     removeDevice:         (...a) => impl.removeDevice(...a),
     getUserById:          (...a) => impl.getUserById(...a),

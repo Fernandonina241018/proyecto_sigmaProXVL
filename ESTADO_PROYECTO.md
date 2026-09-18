@@ -4009,3 +4009,11 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Archivos:** `js/core/indexx-viz.js:33-35` (destroy), `:973-1000` aprox (render), `tests/viz-render.test.js` NUEVO (harness vm con FakeChart: crea 1 vez, update en mismo tipo, destroy+crea en cambio, invalidación).
 
 **Verificación:** `node -c` OK, vitest 130/130 (126 prev + 4 nuevos).
+
+### 2026-09-18 (21): Opt-6 — Paginación devices/snapshots/audit + verify por ventana
+
+**Qué:** (a) `GET /api/devices` con `?limit=100&offset=0` + total (patrón /api/users); `getAllDevices/getUserDevices` con LIMIT/OFFSET + `countDevices/countUserDevices` en ambas impls (PG + local). (b) `GET /api/snapshots` con tope 100 + offset; `getSnapshots` con offset en ambas impls. (c) `GET /api/audit/verify?tail=N`: verifica últimos N eslabones con ancla criptográfica (lee N+1, el extra aporta el prev_hash real); sin tail = full original. (d) Fixes hallados por los tests: store local ignoraba `offset` en `getAuditLog`; `createSnapshot` local insertaba fila manual con hash nulos que rompía la cadena → ahora usa `logAuditEvent` (paridad PG). Frontend callers intactos (respuesta aditiva). Riesgo MEDIO.
+
+**Archivos:** `backend/database.js` (PG + local + exports), `backend/server.js` (3 endpoints), `backend/tests/pagination.test.js` NUEVO (6 tests node:test sobre store local: full/tail/anchored, limit+offset audit/devices/snapshots, cadena intacta tras create).
+
+**Verificación:** `node -c` OK ×2, `node --test` 6/6, vitest 130/130. Incidente: primer diseño de tail comparaba primer hash contra null → test lo cazó (valid=false); rediseño con eslabón ancla, re-verificado en verde.
