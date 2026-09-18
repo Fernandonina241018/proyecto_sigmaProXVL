@@ -759,11 +759,8 @@ async function firmaVerify(role, code, password, statusEl, extra) {
       });
       _firmaSignatureState = st;
       // Refleja en el preview igual que el flujo local
+      _firmaPaintSessionState();
       var me = st[role] || {};
-      firmaUpdatePreview(role, 'name', me.nombre || '');
-      firmaUpdatePreview(role, 'title', me.cargo || '');
-      firmaUpdatePreview(role, 'firma', me.firma || '');
-      firmaUpdatePreview(role, 'date', me.fecha || '');
       firmaRenderEditor();
       _firmaUpdateReportBadge();
       firmaPersistState();
@@ -962,6 +959,23 @@ function _roleLabel(role) {
   return role;
 }
 
+// Pinta en el documento las firmas del estado (nombres/cargo/firma/fecha).
+// Sin esto, la sidebar dice "firmado" pero el reporte visible y el
+// descargable quedan en blanco (firmaUpdatePreview además refresca el
+// iframe y _firmaCurrentHtml, que es lo que serializa firmaDownload).
+function _firmaPaintSessionState() {
+  if (!_firmaSignatureState) return;
+  ['prepared', 'reviewed', 'approved'].forEach(function(r) {
+    var s = _firmaSignatureState[r];
+    if (s && s.signed) {
+      firmaUpdatePreview(r, 'name', s.nombre || '');
+      firmaUpdatePreview(r, 'title', s.cargo || '');
+      firmaUpdatePreview(r, 'firma', s.firma || '');
+      firmaUpdatePreview(r, 'date', s.fecha || '');
+    }
+  });
+}
+
 // Refresca estado local desde el servidor (tras 409/422 o para re-sincronizar)
 async function _firmaRefreshSession() {
   if (!_firmaSessionId) return;
@@ -979,6 +993,7 @@ async function _firmaRefreshSession() {
         if (s && s.signed) st[r] = { signed: true, nombre: s.nombre || '', cargo: s.cargo || '', firma: s.firma || '', fecha: s.fecha || '' };
       });
       _firmaSignatureState = st;
+      _firmaPaintSessionState();
       firmaRenderEditor();
       _firmaUpdateReportBadge();
       firmaPersistState();
@@ -1125,6 +1140,7 @@ async function _firmaOpenSession(id) {
       if (s && s.signed) st[r] = { signed: true, nombre: s.nombre || '', cargo: s.cargo || '', firma: s.firma || '', fecha: s.fecha || '' };
     });
     _firmaSignatureState = st;
+    _firmaPaintSessionState();
     firmaRenderEditor();
     _firmaUpdateReportBadge();
     firmaPersistState();

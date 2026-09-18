@@ -4095,3 +4095,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** Al publicar, el fetch caía en `catch` y el modal mostraba error de conexión. Causa real (probada en vivo): `express.json({limit:'100kb'})` rechazaba el HTML del reporte con 413. Fix: middleware condicional — las 2 rutas de publicación aceptan 5mb, el resto mantiene 100kb anti-DoS. Smoke ampliado con publish de 1MB (vía archivo: 1MB como argumento rompe ARG_MAX del shell).
 
 **Verificación:** 200KB/1MB → 200 en vivo, smoke 16/16 TODO VERDE.
+
+### 2026-09-18 (33): Fix — firmas de sesión se pintan en el reporte visible
+
+**Qué:** Al publicar/abrir sesión, la sidebar decía "firmado" pero el reporte visible y el descargable quedaban en blanco (faltaba `firmaUpdatePreview`). Nuevo helper `_firmaPaintSessionState()` usado en `_firmaOpenSession`, `_firmaRefreshSession` y rama de sesión de `firmaVerify` (reemplaza sus 4 llamadas sueltas).
+
+**Verificación:** `node -c` OK, 4 tests nuevos (pinta 4 campos, actualiza html+iframe, no toca sin firmar, fail-open), vitest 143/143.
