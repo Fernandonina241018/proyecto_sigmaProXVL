@@ -3993,3 +3993,11 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Archivos:** `js/core/indexx-globals.js` (+helper), `js/core/indexx-trabajo.js:14-22` (pushUndo), `js/core/StateManager.js` (+helper, uso y export), `tests/persist.test.js` (+3 tests umbrales), `tests/StateManager.test.js` (+4 tests debounce).
 
 **Verificación:** `node -c` OK ×3, vitest 121/121. Incidente en el camino: edición anidó mal un describe en persist.test.js → detectado por vitest (suite fail), corregido reescribiendo el archivo, re-verificado en verde.
+
+### 2026-09-18 (19): Opt-4 — Parseo XLSX en Web Worker (fail-open)
+
+**Qué:** `parseXLSX()` movía `XLSX.read + sheet_to_json + doble map` en hilo principal (bloqueo UI con 19K filas). Nuevo `js/core/xlsx-worker.js` (SheetJS 0.18.5 pinned igual que indexx.html) parsea off-thread; timeout 30s, `onerror` o sin `Worker` → fallback a ruta síncrona original intacta (`_parseXLSXSync`). Buffer clonado (no transferido) para conservar fallback. Transformación extraída a `_xlsxSheetToRows()` pura, replicada en worker con nota de paridad. Aviso toast si >500k celdas. Riesgo MEDIO-BAJO (fallback conserva comportamiento).
+
+**Archivos:** `js/core/xlsx-worker.js` NUEVO, `js/core/indexx-datos.js:89-170` (parseXLSX + helpers), `tests/xlsx.test.js` NUEVO (5 tests: transformación ×3, guard 10MB, extensiones).
+
+**Verificación:** `node -c` OK ×2, vitest 126/126 (121 prev + 5 nuevos).

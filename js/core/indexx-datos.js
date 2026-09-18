@@ -86,25 +86,79 @@ function parseJSON(file) {
   reader.readAsText(file);
 }
 
+// OPT-4: transformación pura sheet→{headers,rows}. El worker
+// (js/core/xlsx-worker.js) la replica; mantener paridad.
+function _xlsxSheetToRows(jsonData) {
+  var headers = jsonData[0].map(function(h){ return String(h || ''); });
+  var rows = jsonData.slice(1).filter(function(r){ return r.some(function(c){ return c !== ''; }); })
+    .map(function(r){ return headers.map(function(_,i){ return r[i] == null ? '' : String(r[i]); }); });
+  return { headers: headers, rows: rows };
+}
+
+function _parseXLSXSync(arrayBuffer, file) {
+  // Ruta síncrona original — fallback si el Worker no está disponible o falla
+  var data = new Uint8Array(arrayBuffer);
+  // Simple XLSX parser using binary data inspection
+  // Falls back to CSV-like parsing if XLSX lib not available
+  if (typeof XLSX !== 'undefined') {
+    var wb = XLSX.read(data, {type:'array'});
+    var ws = wb.Sheets[wb.SheetNames[0]];
+    var jsonData = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
+    if (!jsonData.length) { showToast('⚠️ El archivo está vacío'); return; }
+    var parsed = _xlsxSheetToRows(jsonData);
+    finishLoad(parsed.headers, parsed.rows, file.name, file.size);
+  } else {
+    showToast('⚠️ Para archivos Excel, instala la librería SheetJS.', true);
+  }
+}
+
+var _XLSX_WORKER_URL = 'js/core/xlsx-worker.js?v=1'; // bump ?v= al cambiar el worker
+var _XLSX_WORKER_TIMEOUT_MS = 30000;
+
 function parseXLSX(file) {
   var reader = new FileReader();
   reader.onload = function(e) {
     try {
-      var data = new Uint8Array(e.target.result);
-      // Simple XLSX parser using binary data inspection
-      // Falls back to CSV-like parsing if XLSX lib not available
-      if (typeof XLSX !== 'undefined') {
-        var wb = XLSX.read(data, {type:'array'});
-        var ws = wb.Sheets[wb.SheetNames[0]];
-        var jsonData = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
-        if (!jsonData.length) { showToast('⚠️ El archivo está vacío'); return; }
-        var headers = jsonData[0].map(function(h){ return String(h || ''); });
-        var rows = jsonData.slice(1).filter(function(r){ return r.some(function(c){ return c !== ''; }); })
-          .map(function(r){ return headers.map(function(_,i){ return r[i] == null ? '' : String(r[i]); }); });
-        finishLoad(headers, rows, file.name, file.size);
-      } else {
-        showToast('⚠️ Para archivos Excel, instala la librería SheetJS.', true);
+      var buffer = e.target.result;
+      // OPT-4: parseo en Worker para no bloquear la UI con 19K+ filas.
+      // Fail-open: sin Worker, error o timeout → ruta síncrona original.
+      // El buffer se clona (no transfiere) para conservarlo en el fallback.
+      if (typeof Worker !== 'undefined') {
+        var done = false;
+        var worker = null;
+        var fallback = function() {
+          if (done) return; done = true;
+          _parseXLSXSync(buffer, file);
+        };
+        var timer = setTimeout(function() {
+          if (done) return; done = true;
+          try { if (worker) worker.terminate(); } catch(_){}
+          _parseXLSXSync(buffer, file);
+        }, _XLSX_WORKER_TIMEOUT_MS);
+        try {
+          worker = new Worker(_XLSX_WORKER_URL);
+          worker.onmessage = function(ev) {
+            if (done) return; done = true; clearTimeout(timer);
+            try { worker.terminate(); } catch(_){}
+            var msg = ev.data || {};
+            if (msg.ok) {
+              if (msg.cells > 500000) showToast('⚠️ Dataset grande (' + msg.rows.length + ' filas): procesando…');
+              finishLoad(msg.headers, msg.rows, file.name, file.size);
+            } else if (msg.error === 'empty') {
+              showToast('⚠️ El archivo está vacío');
+            } else {
+              _parseXLSXSync(buffer, file);
+            }
+          };
+          worker.onerror = function() { clearTimeout(timer); fallback(); };
+          worker.postMessage({ buffer: buffer });
+        } catch(err) {
+          clearTimeout(timer);
+          fallback();
+        }
+        return;
       }
+      _parseXLSXSync(buffer, file);
     } catch(err) { showToast('⚠️ Error Excel: ' + err.message, true); }
   };
   reader.readAsArrayBuffer(file);
