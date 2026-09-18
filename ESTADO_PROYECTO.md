@@ -3969,3 +3969,11 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 | `js/core/indexx-viz.js:210-218` | CSS dropdown |
 | `js/core/indexx-viz.js:383-387` | Click-outside handler |
 | `js/core/indexx-viz.js:1370-1480` | Funciones ZIP/PDF + helpers |
+
+### 2026-09-18 (16): Opt-1 — getNumericColumns canónico + fast-path sampleRows
+
+**Qué:** Unificación de la 4ª implementación divergente (`StateManager.getNumericCols`, 20 filas/0.7 sin excludes ni fechas) hacia `StatsUtils.getNumericColumns` canónico. Nueva opción `sampleRows` (0 = scan completo). `StateManager` delega con `{threshold: 0.7, excludeColumns: [], sampleRows: 20}` + fallback local fail-open si StatsUtils no cargó. Docstring threshold corregido (0.8→0.5 real). 0 llamadores de `getNumericCols` en código → riesgo BAJO.
+
+**Archivos:** `js/core/StatsUtils.js:50-92` (+sampleRows), `js/core/StateManager.js:832-868` (delegación), `tests/StatsUtils.test.js` (+5 tests: equivalencia sampleRows/full, threshold sobre muestra, delegación, caché hash).
+
+**Verificación:** `node -c` OK ×2, vitest 112/112 (107 prev + 5 nuevos).

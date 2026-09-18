@@ -39,12 +39,15 @@ const StatsUtils = (function () {
     }
 
     /**
-     * Identifica columnas numéricas en los datos
+     * Identifica columnas numéricas en los datos.
+     * Implementación canónica: todos los módulos (EstadisticaDescriptiva vía
+     * indexx-stats-core, EDAManager, ModeloEstadistico, StateManager) delegan aquí.
      *
      * @param {Object} data - { headers: string[], data: Array[]|Object[] }
      * @param {Object} options - Configuración opcional
-     * @param {number} options.threshold - Umbral mínimo de valores válidos (0-1, default 0.8)
+     * @param {number} options.threshold - Umbral mínimo de valores válidos (0-1, default 0.5)
      * @param {string[]} options.excludeColumns - Columnas a excluir (default: ['#', 'A', 'Row', 'index', etc.])
+     * @param {number} options.sampleRows - Si > 0, solo evalúa las primeras N filas (fast-path para renders; default 0 = scan completo)
      * @returns {string[]} Array de nombres de columnas numéricas
      */
     function getNumericColumns(data, options = {}) {
@@ -52,8 +55,11 @@ const StatsUtils = (function () {
 
         const {
             threshold = 0.5,
-            excludeColumns = ['#', 'A', 'Row', 'row', 'INDEX', 'index', 'row_index']
+            excludeColumns = ['#', 'A', 'Row', 'row', 'INDEX', 'index', 'row_index'],
+            sampleRows = 0
         } = options;
+
+        const rows = (sampleRows > 0) ? data.data.slice(0, sampleRows) : data.data;
 
         // Patrón para detectar fechas (ISO, YYYY-MM-DD, DD/MM/YYYY, etc.)
         const datePatterns = [
@@ -72,7 +78,7 @@ const StatsUtils = (function () {
         return data.headers.filter(header => {
             if (excludeColumns.includes(header)) return false;
 
-            const values = data.data.map(row => {
+            const values = rows.map(row => {
                 const idx = data.headers.indexOf(header);
                 return Array.isArray(row) ? row[idx] : row[header];
             });

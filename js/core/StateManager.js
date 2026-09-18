@@ -842,10 +842,23 @@ const StateManager = (() => {
         if (_numericColsCache && _numericColsCache.hash === dataHash) {
             return _numericColsCache.result;
         }
-        const result = imported.headers.filter(h => {
-            const vals = imported.data.slice(0, 20).map(r => parseFloat(r[h]));
-            return vals.filter(v => !isNaN(v)).length >= vals.length * 0.7;
-        });
+        // Delegación a la implementación canónica (StatsUtils): mismo fast-path
+        // de 20 filas y umbral 0.7 que la lógica anterior, sin excludes propios
+        // (esta función nunca excluyó columnas por nombre). Fallback local si
+        // StatsUtils no está cargado (fail-open: orden de scripts en tests/HTML).
+        let result;
+        if (typeof StatsUtils !== 'undefined' && StatsUtils.getNumericColumns) {
+            result = StatsUtils.getNumericColumns(imported, {
+                threshold: 0.7,
+                excludeColumns: [],
+                sampleRows: 20
+            });
+        } else {
+            result = imported.headers.filter(h => {
+                const vals = imported.data.slice(0, 20).map(r => parseFloat(r[h]));
+                return vals.filter(v => !isNaN(v)).length >= vals.length * 0.7;
+            });
+        }
         _numericColsCache = { hash: dataHash, result };
         return result;
     }

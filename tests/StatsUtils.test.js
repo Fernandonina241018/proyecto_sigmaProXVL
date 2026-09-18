@@ -116,6 +116,61 @@ describe('calcularPercentil', () => {
   });
 });
 
+describe('getNumericColumns sampleRows (fast-path unificado)', () => {
+  const data = {
+    headers: ['nums', 'mix', 'text'],
+    data: [
+      ['1.0', '1.0', 'foo'],
+      ['2.0', 'abc', 'bar'],
+      ['3.0', '3.0', 'baz'],
+      ['4.0', '4.0', 'qux'],
+    ]
+  };
+
+  test('sampleRows=0 equivale a scan completo', () => {
+    const full = S.getNumericColumns(data, { threshold: 0.5 });
+    const sampled = S.getNumericColumns(data, { threshold: 0.5, sampleRows: 0 });
+    expect(sampled).toEqual(full);
+  });
+
+  test('sampleRows grande equivale a scan completo', () => {
+    const full = S.getNumericColumns(data, { threshold: 0.5 });
+    const sampled = S.getNumericColumns(data, { threshold: 0.5, sampleRows: 100 });
+    expect(sampled).toEqual(full);
+  });
+
+  test('sampleRows respeta threshold sobre la muestra', () => {
+    // mix: 3/4 numéricos en muestra completa, 1/2 en muestra de 2 filas
+    const cols2 = S.getNumericColumns(data, { threshold: 0.7, sampleRows: 2, excludeColumns: [] });
+    expect(cols2).toContain('nums');
+    expect(cols2).not.toContain('mix');
+    expect(cols2).not.toContain('text');
+  });
+
+  test('StateManager.getNumericCols delega al canónico', () => {
+    const objData = {
+      headers: ['nums', 'mix', 'text'],
+      data: [
+        { nums: '1', mix: '1', text: 'a' },
+        { nums: '2', mix: 'x', text: 'b' },
+        { nums: '3', mix: '3', text: 'c' },
+      ]
+    };
+    const viaState = StateManager.getNumericCols(objData);
+    const viaCanonical = S.getNumericColumns(objData, { threshold: 0.7, excludeColumns: [], sampleRows: 20 });
+    expect(viaState).toEqual(viaCanonical);
+    expect(viaState).toContain('nums');
+    expect(viaState).not.toContain('text');
+  });
+
+  test('StateManager.getNumericCols usa caché por hash', () => {
+    const d = { headers: ['a'], data: [{ a: '1' }] };
+    const r1 = StateManager.getNumericCols(d);
+    const r2 = StateManager.getNumericCols(d);
+    expect(r2).toEqual(r1);
+  });
+});
+
 describe('analyzeColumns', () => {
   const data = {
     headers: ['Nums', 'Text'],
