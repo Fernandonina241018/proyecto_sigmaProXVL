@@ -98,3 +98,11 @@ test('devices: limit/offset + conteos', async () => {
   assert.equal(ua3.length, 1);
   for (const d of ua1.concat(ua3)) assert.equal(d.username, 'userA');
 });
+
+test('REGRESIÓN FASE 4: logAccess con booleano no rompe la cadena', async () => {
+  // Al final: inserta filas sin desplazar los conteos de tests anteriores.
+  await db.logAccess({ username: 'u', action: 'LOGIN', success: true, ip: '1', userAgent: 't' });
+  await db.logAccess({ username: 'u', action: 'LOGIN', success: false, ip: '1', userAgent: 't' });
+  const v = await db.verifyAuditChain();
+  assert.equal(v.valid, true);
+});

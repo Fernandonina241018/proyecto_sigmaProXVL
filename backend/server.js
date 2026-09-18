@@ -169,6 +169,20 @@ const verifyLimiter = rateLimit({
     keyGenerator: (req) => req.ip || req.socket.remoteAddress,
 });
 
+// FASE 4 — limiter propio para firmar en sesión: el flujo legítimo genera
+// varios intentos con credenciales VÁLIDAS (orden, versión) y el verify
+// estricto (5/15min) los bloquearía (detectado por smoke E2E: 429 en la
+// aprobación). 30/15min + bcrypt (~300ms/intento) sigue haciendo el
+// brute-force online inviable (códigos de 128 bits).
+const signLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 30,
+    message: { error: 'Demasiados intentos de firma. Intente de nuevo en 15 minutos.' },
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => req.ip || req.socket.remoteAddress,
+});
+
 const tfaLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 5,
@@ -1032,8 +1046,8 @@ app.get('/api/sign-sessions/:id', requireAuth, async (req, res) => {
     }
 });
 
-// POST /api/sign-sessions/:id/sign — firmar un paso (mismo rate-limit que verify)
-app.post('/api/sign-sessions/:id/sign', requireAuth, verifyLimiter, async (req, res) => {
+// POST /api/sign-sessions/:id/sign — firmar un paso (limiter propio, ver arriba)
+app.post('/api/sign-sessions/:id/sign', requireAuth, signLimiter, async (req, res) => {
     try {
         const { role, expectedVersion, newAssignee } = req.body;
         if (['prepared', 'reviewed', 'approved'].indexOf(role) === -1) {

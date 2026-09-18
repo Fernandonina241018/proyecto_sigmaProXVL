@@ -263,10 +263,14 @@ function buildPostgres() {
     async function logAccess({ username, action, success, ip, userAgent }) {
         const prevHash = await _getLastRowHash();
         const timestamp = new Date().toISOString();
-        const data = { username, action, success, ip, userAgent, module: '', details: '', durationMs: '', timestamp };
+        // FASE 4 — normalizar success ANTES de hashear: se hasheaba el
+        // booleano ('true') pero se guardaba 1 → verify recomputaba '1'
+        // y la cadena se rompía en la primera fila (detectado por smoke E2E).
+        const ok = success ? 1 : 0;
+        const data = { username, action, success: ok, ip, userAgent, module: '', details: '', durationMs: '', timestamp };
         const rowHash = _computeRowHash(prevHash, data);
         await run(`INSERT INTO audit_log (username,action,success,ip,user_agent,timestamp,prev_hash,row_hash) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
-            [username, action, success ? 1 : 0, ip, userAgent, timestamp, prevHash, rowHash]);
+            [username, action, ok, ip, userAgent, timestamp, prevHash, rowHash]);
     }
 
     async function logAuditEvent({ username, action, success, ip, userAgent, module, details, durationMs }) {
@@ -749,9 +753,11 @@ function buildLocalStore() {
     async function logAccess({ username, action, success, ip, userAgent }) {
         const prevHash = _getLastRowHash();
         const timestamp = new Date().toISOString();
-        const data = { username, action, success, ip, userAgent, module: '', details: '', durationMs: '', timestamp };
+        // FASE 4 — mirror PG: normalizar success antes de hashear.
+        const ok = success ? 1 : 0;
+        const data = { username, action, success: ok, ip, userAgent, module: '', details: '', durationMs: '', timestamp };
         const rowHash = _computeRowHash(prevHash, data);
-        state.audit_log.push({ id: state.nextAuditId++, username, action, success: success?1:0, ip, user_agent: userAgent, module: null, details: null, duration_ms: null, timestamp, prev_hash: prevHash, row_hash: rowHash });
+        state.audit_log.push({ id: state.nextAuditId++, username, action, success: ok, ip, user_agent: userAgent, module: null, details: null, duration_ms: null, timestamp, prev_hash: prevHash, row_hash: rowHash });
         save();
     }
 

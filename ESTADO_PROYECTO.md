@@ -4069,3 +4069,11 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Archivos:** `backend/sign-html.js` NUEVO, `backend/database.js`, `backend/server.js`, `js/core/indexx-firma.js` (botón, modal, wiring), `js/core/indexx-ui.js` (template), `backend/tests/sign-html.test.js` + guards en `sign-sessions.test.js` NUEVOS.
 
 **Verificación:** `node -c` OK ×4, backend 24/24 (17 prev + 4 parser + 3 import), vitest 139/139.
+
+### 2026-09-18 (29): Fase 4 — Smoke E2E + 2 bugs reales cazados
+
+**Qué:** `scripts/smoke-sign-sessions.sh` (backend vivo + curl/jq: login, 4 usuarios, publish, 422×3, 409, complete, pending, 403, import ×2, chain). El smoke cazó 2 bugs: (1) `signLimiter` nuevo 30/15min — el verify 5/15min bloqueaba aprobaciones legítimas tras 5 intentos válidos (429); (2) **pre-existente**: `logAccess` hasheaba `success` booleano pero guardaba 1/0 → `/api/audit/verify` roto desde la primera fila de LOGIN (normalizado en ambas impls; llamar con 1/0 no cambia). Test regresión al final de pagination.test.js.
+
+**Archivos:** `scripts/smoke-sign-sessions.sh` NUEVO, `backend/server.js` (signLimiter), `backend/database.js` (normalización), `backend/tests/pagination.test.js` (+1).
+
+**Verificación:** smoke 15/15 TODO VERDE, backend 25/25, vitest 139/139.
