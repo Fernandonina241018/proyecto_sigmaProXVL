@@ -4083,3 +4083,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** El botón se mostraba pero el `onclick` solo se conectaba en 3 caminos de init; en archivo-cargado-a-mano (`firmaHandleFile`) jamás se asignaba → clic al vacío. Fix: `firmaUpdatePublishBtn()` ahora asigna el handler centralizadamente (corre vía `firmaRenderEditor` en todos los caminos).
 
 **Verificación:** `node -c` OK, vitest 139/139.
+
+### 2026-09-18 (31): Fix CI — node --test con slash final falla en Node 22
+
+**Qué:** El deploy estaba bloqueado: `npm test` (backend) fallaba en el runner con `Cannot find module '.../backend/tests'` — `node --test tests/` con slash final no resuelve en Node 22 (en v26 local sí). Fix: glob explícito `node --test "tests/*.test.js"`. Esto explica por qué `/api/users/list` devolvía 404 en Fly (backend sin desplegar desde fase 2).
+
+**Verificación:** backend `npm test` 25/25 local con el nuevo script.
