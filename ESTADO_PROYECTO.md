@@ -4033,3 +4033,11 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Archivos:** `.github/workflows/ci.yml`, `.github/workflows/deploy.yml`, `backend/package.json`, `package.json` + `package-lock.json` (coverage dep), `vitest.config.ts`.
 
 **Verificación:** YAML OK ×2, py_compile OK ×3, `npm test` 130/130, backend `npm test` 6/6, `npm audit --audit-level=high` exit 0, `test:coverage` corre verde.
+
+### 2026-09-18 (24): Gate — Firma bloqueada si información del reporte incompleta
+
+**Qué:** El botón "✍️ Enviar a firma" generaba y navegaba a firma sin validar metadatos. Ahora `validateReportMeta()` (pura, exportada) exige 7 campos (organización, departamento, descripción, ensayo, fase, código de proyecto, nombre del dataset); si faltan: toast con los nombres, inputs en rojo que se limpian al escribir y foco en el primero. No navega a `firmarReporte`. Riesgo BAJO (gate aditivo tras el check de permisos existente).
+
+**Archivos:** `js/managers/ReporteManager.js` (REQUIRED_META + validate + highlight + hook + export), `tests/reporte-meta.test.js` NUEVO (4 tests: completa, vacía, detección exacta, mapeo a inputs).
+
+**Verificación:** `node -c` OK, vitest 134/134 (130 prev + 4 nuevos).

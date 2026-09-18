@@ -2337,6 +2337,16 @@ tr:hover td{background:#f7faff}
                 }
             }
             const meta=collectMeta();
+            // GATE: no pasar a firma con información del reporte incompleta
+            const missing=validateReportMeta(meta);
+            if(missing.length){
+                highlightMissingMeta(missing);
+                const names=missing.map(function(m){return m.label;}).join(', ');
+                showToast('⚠️ Completa la información del reporte antes de firmar: ' + names, true);
+                const first=document.getElementById(missing[0].id);
+                if(first) first.focus();
+                return;
+            }
             const hash = await generateHash(meta, resultados);
             const base = `RPT-${hash}_${new Date().toISOString().slice(0,10)}`;
             const html = await generarHTML(resultados, meta, hash);
@@ -2397,6 +2407,48 @@ tr:hover td{background:#f7faff}
             approvedDate:    g('rep-app-date'),
             observaciones:   (document.getElementById('rep-observaciones')?.value.trim()||'').toUpperCase(),
         };
+    }
+
+    // Campos obligatorios de información del reporte para poder firmar.
+    // key = campo de collectMeta(), id = input del formulario, label = etiqueta ES.
+    const REQUIRED_META=[
+        {key:'organizacion',  id:'rep-org',   label:'Organización'},
+        {key:'departamento',  id:'rep-dept',  label:'Departamento'},
+        {key:'descripcion',   id:'rep-descripcion', label:'Descripción'},
+        {key:'ensayo',        id:'rep-ensayo',label:'Ensayo'},
+        {key:'fase',          id:'rep-fase',  label:'Fase'},
+        {key:'codigoProyecto',id:'rep-code',  label:'Código de proyecto'},
+        {key:'nombreDataset', id:'rep-dataset',label:'Nombre del dataset'},
+    ];
+
+    // Pura y testeable: devuelve [{key,id,label}] de los obligatorios vacíos.
+    function validateReportMeta(meta){
+        if(!meta) return REQUIRED_META.slice();
+        return REQUIRED_META.filter(function(f){
+            const v=meta[f.key];
+            return !(v && String(v).trim());
+        });
+    }
+
+    // Marca en rojo los inputs faltantes; se limpia al escribir.
+    function highlightMissingMeta(missing){
+        try{
+            document.querySelectorAll('.rep-field-missing').forEach(function(el){
+                el.classList.remove('rep-field-missing');
+                el.style.borderColor='';
+            });
+            missing.forEach(function(m){
+                const el=document.getElementById(m.id);
+                if(!el) return;
+                el.classList.add('rep-field-missing');
+                el.style.borderColor='#e53e3e';
+                el.addEventListener('input',function h(){
+                    el.classList.remove('rep-field-missing');
+                    el.style.borderColor='';
+                    el.removeEventListener('input',h);
+                });
+            });
+        }catch(e){/* fail-open: el gate ya bloqueó con toast */}
     }
 
     function buildReportesSidebar(tieneRes){
@@ -2587,6 +2639,7 @@ tr:hover td{background:#f7faff}
         seleccionarTodosGraficos,
         deseleccionarTodosGraficos,
         actualizarContadorGraficos,
+        validateReportMeta,
     };
 
 })();
