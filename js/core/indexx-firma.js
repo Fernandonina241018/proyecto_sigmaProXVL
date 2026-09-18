@@ -1097,18 +1097,55 @@ async function firmaLoadBandeja(scope) {
       div.style.cssText = 'border:1px solid var(--border);border-radius:6px;padding:7px 9px;cursor:pointer;display:flex;flex-direction:column;gap:3px';
       div.onmouseover = function() { div.style.borderColor = 'var(--accBorder)'; };
       div.onmouseout = function() { div.style.borderColor = 'var(--border)'; };
-      var stLbl = s.status === 'complete' ? '✅ Completa' : ('✍️ ' + (s.signed_count || 0) + '/3' +
-        (s.next_role ? ' · toca: ' + s.next_role : ''));
+      var stLbl = s.status === 'complete' ? '✅ Completa'
+        : s.status === 'rejected' ? '🚫 Rechazada' + (s.rejected_by ? ' por ' + s.rejected_by : '')
+        : ('✍️ ' + (s.signed_count || 0) + '/3' + (s.next_role ? ' · toca: ' + s.next_role : ''));
       var who = s.next_role === 'reviewed' && s.assigned_reviewer ? ' → ' + escapeHtml(s.assigned_reviewer)
         : s.next_role === 'approved' && s.assigned_approver ? ' → ' + escapeHtml(s.assigned_approver) : '';
-      div.innerHTML = '<div style="font-size:11px;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' +
-        escapeHtml(s.name) + '</div>' +
-        '<div style="font-size:9px;color:var(--text-faint)">#' + s.id + ' · ' + stLbl + who + '</div>';
+      var headHtml = '<div style="display:flex;align-items:center;gap:6px">' +
+        '<div style="flex:1;min-width:0;font-size:11px;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' +
+        escapeHtml(s.name) + '</div>';
+      if (_firmaBandejaScope === 'pending' && s.status !== 'complete' && s.status !== 'rejected') {
+        headHtml += '<button data-reject="' + s.id + '" title="Rechazar y sacar de pendientes" style="flex-shrink:0;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--t3);cursor:pointer;font-family:inherit">🚫</button>';
+      }
+      headHtml += '</div>';
+      div.innerHTML = headHtml +
+        '<div style="font-size:9px;color:var(--text-faint)">#' + s.id + ' · ' + escapeHtml(stLbl) + who +
+        (s.status === 'rejected' && s.rejected_reason ? ' · “' + escapeHtml(s.rejected_reason) + '”' : '') + '</div>';
       div.onclick = function() { _firmaOpenSession(s.id); };
       list.appendChild(div);
     });
+    list.querySelectorAll('[data-reject]').forEach(function(btn) {
+      btn.onclick = function(e) {
+        e.stopPropagation();
+        firmaRejectSession(parseInt(btn.getAttribute('data-reject')));
+      };
+    });
   } catch (e) {
     list.innerHTML = '<div style="font-size:10px;color:var(--text-faint);text-align:center;padding:6px">Bandeja no disponible (sin conexión)</div>';
+  }
+}
+
+// Rechaza una sesión: pide motivo (opcional), la marca y la saca de pendientes
+async function firmaRejectSession(id) {
+  var reason = null;
+  try {
+    reason = prompt('Motivo del rechazo (opcional):');
+    if (reason === null) return; // Cancelar = no hacer nada
+  } catch (e) { reason = ''; }
+  try {
+    var data = await _firmaApiPost('/api/sign-sessions/' + id + '/reject', { reason: reason || '' });
+    if (!data || !data.ok) {
+      showToast('❌ ' + ((data && data.error) || 'No se pudo rechazar'), true);
+      return;
+    }
+    // Si era la sesión abierta, se cierra la vista de sesión (vuelve a local)
+    if (_firmaSessionId === id) { _firmaSessionId = null; _firmaSessionVersion = null; }
+    showToast('🚫 Sesión #' + id + ' rechazada');
+    firmaLoadBandeja();
+    firmaUpdatePendingBadge();
+  } catch (e) {
+    showToast('❌ Error de conexión con el servidor', true);
   }
 }
 

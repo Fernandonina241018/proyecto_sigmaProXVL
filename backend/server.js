@@ -1100,6 +1100,32 @@ app.post('/api/sign-sessions/:id/sign', requireAuth, signLimiter, async (req, re
     }
 });
 
+// POST /api/sign-sessions/:id/reject — rechazar (creador, asignados o admin).
+// No borra: marca rejected con motivo y sale de pendientes. Solo JWT
+// (es gestión de bandeja, no una firma: no pide código+password).
+app.post('/api/sign-sessions/:id/reject', requireAuth, async (req, res) => {
+    try {
+        const result = await db.rejectSignSession({
+            id: parseInt(req.params.id),
+            username: req.user.username, userRole: req.user.role,
+            reason: req.body && req.body.reason,
+        });
+        if (result.error) {
+            const status = result.code === 'not-found' ? 404 : result.code === 'forbidden' ? 403 : 422;
+            return res.status(status).json({ error: result.error, code: result.code });
+        }
+        await db.logAuditEvent({
+            username: req.user.username, action: 'SIGN_SESSION_REJECT', success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, reason: result.rejected_reason }),
+        });
+        res.json({ ok: true, session: _stripSignSession(result) });
+    } catch (err) {
+        console.error('Error rejecting sign session:', err);
+        res.status(500).json({ error: 'Error al rechazar' });
+    }
+});
+
 // GET /api/users (solo admin) — con paginación
 app.get('/api/users', requireAuth, requireAdmin, async (req, res) => {
     try {

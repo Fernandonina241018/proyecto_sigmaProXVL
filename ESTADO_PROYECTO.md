@@ -4101,3 +4101,11 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** Al publicar/abrir sesión, la sidebar decía "firmado" pero el reporte visible y el descargable quedaban en blanco (faltaba `firmaUpdatePreview`). Nuevo helper `_firmaPaintSessionState()` usado en `_firmaOpenSession`, `_firmaRefreshSession` y rama de sesión de `firmaVerify` (reemplaza sus 4 llamadas sueltas).
 
 **Verificación:** `node -c` OK, 4 tests nuevos (pinta 4 campos, actualiza html+iframe, no toca sin firmar, fail-open), vitest 143/143.
+
+### 2026-09-18 (34): Botón Rechazar en pendientes (con motivo, auditable)
+
+**Qué:** Botón 🚫 por item pendiente (pide motivo opcional, una sola ventana). `POST /api/sign-sessions/:id/reject` (solo JWT): pueden creador, asignados o admin; nunca sobre completa. No borra: `status=rejected` + by/reason/at, sale de pendientes, visible en Mías con motivo, bloquea firmas futuras (`rejected`). Auditoría SIGN_SESSION_REJECT. Incidente: bloque de smoke mal ordenado (rechazaba sesión inexistente) → reordenado.
+
+**Archivos:** `backend/database.js` (columnas + reject PG/local + guards sign), `backend/server.js` (endpoint), `js/core/indexx-firma.js` (botón + modal + badge), `backend/tests/sign-sessions.test.js` (+3), `scripts/smoke-sign-sessions.sh` (+3).
+
+**Verificación:** `node -c` OK ×3, backend 28/28, smoke 19/19, vitest 143/143.

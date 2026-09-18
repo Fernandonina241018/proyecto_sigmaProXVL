@@ -112,6 +112,20 @@ IMP2=$(curl -s -X POST "$API/api/sign-sessions/import" -H "Authorization: Bearer
 [ "$(J "$IMP2" .code)" = "preparer-mismatch" ] || fail "mismatch no enforced: $IMP2"
 pass "422 preparer-mismatch"
 
+# Reject: no involucrada → 403; creador → 200 y sale de pendientes
+# (la sesión #2 es la del import; el big publish viene después)
+RJ1=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API/api/sign-sessions/2/reject" -H "Authorization: Bearer $TOK_DORA" \
+  -H 'Content-Type: application/json' -d '{"reason":"x"}')
+[ "$RJ1" = "403" ] || fail "reject ajeno debió ser 403, fue $RJ1"
+pass "403 reject no involucrada"
+RJ2=$(curl -sf -X POST "$API/api/sign-sessions/2/reject" -H "Authorization: Bearer $TOK_ADMIN" \
+  -H 'Content-Type: application/json' -d '{"reason":"datos mal"}') || fail "reject creador"
+[ "$(J "$RJ2" .session.status)" = "rejected" ] || fail "no quedó rejected"
+pass "reject por admin (sesión #2 rechazada)"
+CNT2=$(curl -sf "$API/api/sign-sessions?scope=pending&count=1" -H "Authorization: Bearer $TOK_ADMIN" | jq -r .count)
+[ "$CNT2" = "0" ] || fail "pending debe ser 0 tras reject, es $CNT2"
+pass "rechazada fuera de pendientes"
+
 # Publish con HTML grande (~1MB, como reporte real con JPEGs) — regresión 413.
 # OJO: se escribe a archivo porque 1MB como argumento rompe ARG_MAX del shell.
 python3 -c "import json; print(json.dumps({'name':'RPT-BIG','html':'A'*1000000,'assignedReviewer':'smoke_ana','signatureCode':'PUB-1','password':'Pass123!'}))" > /tmp/smoke-big.json

@@ -141,6 +141,49 @@ test('cadena de auditoría intacta tras sesiones', async () => {
   assert.equal(v.valid, true);
 });
 
+// ── Rechazo ──
+test('asignado rechaza con motivo y sale de pendientes', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-REJ', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' },
+  });
+  const r = await db.rejectSignSession({ id: s.id, username: 'beto_rev', userRole: 'analista', reason: 'Datos mal' });
+  assert.equal(r.status, 'rejected');
+  assert.equal(r.rejected_by, 'beto_rev');
+  assert.equal(r.rejected_reason, 'Datos mal');
+  const pending = await db.listSignSessions({ scope: 'pending', username: 'x' });
+  assert.ok(!pending.some((x) => x.id === s.id), 'fuera de pendientes');
+  const mine = await db.listSignSessions({ scope: 'mine', username: 'ana_prep' });
+  assert.ok(mine.some((x) => x.id === s.id && x.status === 'rejected'), 'visible como rechazada en Mías');
+});
+
+test('rechazada ya no se puede firmar', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-REJ2', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' },
+  });
+  await db.rejectSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista', reason: '' });
+  const r = await db.signSessionStep({
+    id: s.id, role: 'reviewed', username: 'beto_rev', userRole: 'analista',
+    signature: {}, expectedVersion: 2,
+  });
+  assert.equal(r.code, 'rejected');
+});
+
+test('no involucrado no puede rechazar; completa tampoco', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-REJ3', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' },
+  });
+  const f = await db.rejectSignSession({ id: s.id, username: 'dora_otro', userRole: 'analista', reason: '' });
+  assert.equal(f.code, 'forbidden');
+  const c = await db.rejectSignSession({ id: S1.id, username: 'ana_prep', userRole: 'analista', reason: '' });
+  assert.equal(c.code, 'complete'); // S1 quedó complete en tests previos
+});
+
 // ── FASE 3: import guards ──
 function impBlock(role, name) {
   const v = name || '—';
