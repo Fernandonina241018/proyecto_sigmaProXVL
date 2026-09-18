@@ -1045,6 +1045,18 @@ app.get('/api/users', requireAuth, requireAdmin, async (req, res) => {
     }
 });
 
+// GET /api/users/list — lista para selects de asignación (autenticados).
+// Solo campos no sensibles: sin password, totp ni signature_code.
+app.get('/api/users/list', requireAuth, async (req, res) => {
+    try {
+        const users = await db.getUsersList();
+        res.json({ ok: true, users });
+    } catch (err) {
+        console.error('Error listing users:', err);
+        res.status(500).json({ error: 'Error al listar usuarios' });
+    }
+});
+
 // POST /api/verify-signature — validar código de firma + contraseña
 // No requiere autenticación previa; el código de firma es la credencial
 app.post('/api/verify-signature', verifyLimiter, async (req, res) => {

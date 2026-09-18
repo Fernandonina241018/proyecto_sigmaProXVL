@@ -206,6 +206,12 @@ function buildPostgres() {
         return all('SELECT id,username,role,active,created_at,last_login,login_count,nombre,apellido,email,telefono,avatar,updated_at,totp_enabled,password_temp,signature_code,cargo,signature FROM users ORDER BY id ASC LIMIT $1 OFFSET $2', [limit, offset]);
     }
 
+    // FASE 2 — lista pública para selects de asignación (sin secretos:
+    // sin password, totp, signature_code). Cualquier autenticado.
+    async function getUsersList() {
+        return all("SELECT username,nombre,apellido,cargo,role FROM users WHERE active = 1 ORDER BY username ASC");
+    }
+
     async function countUsers() {
         const row = await get('SELECT COUNT(*)::int AS total FROM users');
         return row ? row.total : 0;
@@ -569,7 +575,7 @@ function buildPostgres() {
         return elig;
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
@@ -667,6 +673,14 @@ function buildLocalStore() {
     }
 
     async function getAllUsers(limit = 50, offset = 0) { return state.users.map(({ password, ...u }) => u).slice(offset, offset + limit); }
+
+    // FASE 2 — mirror local (sin password, totp_secret ni signature_code)
+    async function getUsersList() {
+        return state.users
+            .filter(function(u) { return u.active === 1; })
+            .map(function(u) { return { username: u.username, nombre: u.nombre, apellido: u.apellido, cargo: u.cargo, role: u.role }; })
+            .sort(function(a, b) { return a.username < b.username ? -1 : 1; });
+    }
     async function countUsers() { return state.users.length; }
     async function toggleUserActive(id, active) { const u = findById(id); if (u) { u.active = active; save(); } }
 
@@ -1012,7 +1026,7 @@ function buildLocalStore() {
         return _localSignView(s);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep };}
 
 const impl = build();
 module.exports = {
@@ -1023,6 +1037,7 @@ module.exports = {
     createUser:          (...a) => impl.createUser(...a),
     updateLastLogin:     (...a) => impl.updateLastLogin(...a),
     getAllUsers:         (...a) => impl.getAllUsers(...a),
+    getUsersList:        (...a) => impl.getUsersList(...a),
     countUsers:         (...a) => impl.countUsers(...a),
     toggleUserActive:    (...a) => impl.toggleUserActive(...a),
     changePassword:      (...a) => impl.changePassword(...a),
