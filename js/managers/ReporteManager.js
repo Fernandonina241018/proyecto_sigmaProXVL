@@ -2414,8 +2414,12 @@ tr:hover td{background:#f7faff}
     const REQUIRED_META=[
         {key:'organizacion',  id:'rep-org',   label:'Organización'},
         {key:'departamento',  id:'rep-dept',  label:'Departamento'},
+        {key:'ubicacion',     id:'rep-ubicacion', label:'Ubicación'},
         {key:'descripcion',   id:'rep-descripcion', label:'Descripción'},
         {key:'ensayo',        id:'rep-ensayo',label:'Ensayo'},
+        {key:'marca',         id:'rep-marca', label:'Marca del equipo'},
+        {key:'modelo',        id:'rep-modelo',label:'Modelo del equipo'},
+        {key:'serie',         id:'rep-serie', label:'Número de serie'},
         {key:'fase',          id:'rep-fase',  label:'Fase'},
         {key:'codigoProyecto',id:'rep-code',  label:'Código de proyecto'},
         {key:'nombreDataset', id:'rep-dataset',label:'Nombre del dataset'},

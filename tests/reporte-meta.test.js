@@ -27,8 +27,9 @@ function loadReporteHarness() {
 }
 
 const FULL_META = {
-  organizacion: 'ORG', departamento: 'DEPTO', descripcion: 'DESC',
-  ensayo: 'ENS', fase: 'F1', codigoProyecto: 'P-001', nombreDataset: 'datos.csv',
+  organizacion: 'ORG', departamento: 'DEPTO', ubicacion: 'EDIF 01',
+  descripcion: 'DESC', ensayo: 'ENS', marca: 'THERMO', modelo: 'VANQUISH',
+  serie: 'SN123', fase: 'F1', codigoProyecto: 'P-001', nombreDataset: 'datos.csv',
 };
 
 describe('validateReportMeta (gate firma)', () => {
@@ -39,13 +40,13 @@ describe('validateReportMeta (gate firma)', () => {
     expect(missing).toEqual([]);
   });
 
-  test('meta vacía/null → los 7 obligatorios', () => {
+  test('meta vacía/null → los 11 obligatorios', () => {
     const sb = loadReporteHarness();
     sb.__META__ = null;
     const missing = vm.runInContext('ReporteManager.validateReportMeta(__META__)', sb);
-    expect(missing).toHaveLength(7);
+    expect(missing).toHaveLength(11);
     const empty = vm.runInContext('ReporteManager.validateReportMeta({})', sb);
-    expect(empty).toHaveLength(7);
+    expect(empty).toHaveLength(11);
   });
 
   test('detecta exactamente los campos faltantes', () => {
@@ -65,8 +66,12 @@ describe('validateReportMeta (gate firma)', () => {
     expect(ids).toEqual({
       organizacion: 'rep-org',
       departamento: 'rep-dept',
+      ubicacion: 'rep-ubicacion',
       descripcion: 'rep-descripcion',
       ensayo: 'rep-ensayo',
+      marca: 'rep-marca',
+      modelo: 'rep-modelo',
+      serie: 'rep-serie',
       fase: 'rep-fase',
       codigoProyecto: 'rep-code',
       nombreDataset: 'rep-dataset',

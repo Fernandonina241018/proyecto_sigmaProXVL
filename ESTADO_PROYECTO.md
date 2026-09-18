@@ -4041,3 +4041,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Archivos:** `js/managers/ReporteManager.js` (REQUIRED_META + validate + highlight + hook + export), `tests/reporte-meta.test.js` NUEVO (4 tests: completa, vacía, detección exacta, mapeo a inputs).
 
 **Verificación:** `node -c` OK, vitest 134/134 (130 prev + 4 nuevos).
+
+### 2026-09-18 (25): Gate firma — 4 obligatorios extra (ubicación + equipo)
+
+**Qué:** REQUIRED_META 7→11: ubicación (rep-ubicacion), marca (rep-marca), modelo (rep-modelo), serie (rep-serie). Inputs verificados existentes en el formulario (ReporteManager.js:2154-2174). Tests actualizados (conteo 11, mapeo completo).
+
+**Verificación:** `node -c` OK, vitest 134/134.
