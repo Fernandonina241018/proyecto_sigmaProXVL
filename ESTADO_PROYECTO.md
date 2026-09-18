@@ -3977,3 +3977,11 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Archivos:** `js/core/StatsUtils.js:50-92` (+sampleRows), `js/core/StateManager.js:832-868` (delegación), `tests/StatsUtils.test.js` (+5 tests: equivalencia sampleRows/full, threshold sobre muestra, delegación, caché hash).
 
 **Verificación:** `node -c` OK ×2, vitest 112/112 (107 prev + 5 nuevos).
+
+### 2026-09-18 (17): Opt-2 — Desacople persistencia galería de _persistAllData
+
+**Qué:** `_persistAllData()` reescribía `sigmaPro_vizGallery` (JSON con thumbs base64, hasta 100 items) en cada edición de celda (20+ call sites en trabajo/datos). Verificado que las 4 rutas de mutación se auto-persisten (`vizSaveToGallery:1134`, `vizDelGallery:1256`, `_V_loadGallery:1329`, `_V_batchGenerate:1590`) → eliminada la escritura redundante. Riesgo BAJO.
+
+**Archivos:** `js/core/indexx-globals.js:53` (línea eliminada + comentario), `tests/persist.test.js` NUEVO (harness vm con localStorage stub: persiste sheets, NO llama _V_saveGallery, restaura).
+
+**Verificación:** `node -c` OK, vitest 114/114 (112 prev + 2 nuevos).

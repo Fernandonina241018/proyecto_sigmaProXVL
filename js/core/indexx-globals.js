@@ -50,7 +50,9 @@ function _persistAllData() {
           // ELIMINADO: localStorage.setItem('sigmaPro_datosCurrentData', ...) — redundante
         }
       }
-      if (typeof _V_saveGallery === 'function' && quotaStep < 2) _V_saveGallery();
+      // OPT-2: la galería se auto-persiste en cada mutación (vizSaveToGallery,
+      // vizDelGallery, _V_batchGenerate, _V_loadGallery). Reescribirla aquí en
+      // cada edición de celda duplicaba I/O (JSON con thumbs base64). Desacoplado.
       updateAnalisisDatasetBadge();
       return;
     } catch(e) {
