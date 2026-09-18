@@ -7,8 +7,19 @@ on:
 jobs:
   deploy-backend:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
     steps:
       - uses: actions/checkout@v4
+      # OPT-8: gate — no desplegar backend con tests rotos
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - run: npm test
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Deploy backend
         run: flyctl deploy --app sigmaproxvl-backend --strategy immediate --yes
@@ -19,6 +30,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # OPT-8: gate mínimo — el servicio no debe ni compilar roto
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile ml_service/main.py ml_service/drift_worker.py ml_service/nlp_models.py
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Deploy ML Service
         run: flyctl deploy --app sigmapro-ml --config ml_service/fly.toml --strategy rolling --yes

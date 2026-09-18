@@ -4025,3 +4025,11 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Archivos:** `backend/.env.example`, `ml_service/.env.example` NUEVO, `ml_service/run.sh`, `start-all.sh`.
 
 **Verificación:** `bash -n` OK ×2, 0 líneas malformadas en ambos .env.example, match bidireccional código↔docs 11/11, vitest 130/130.
+
+### 2026-09-18 (23): Opt-8 — CI real: Node 22, job backend, coverage, gates de deploy
+
+**Qué:** (a) `ci.yml`: Node 18→22 (vitest 4 no corría), job `frontend` (npm ci + test + coverage) y job `backend` NUEVO (npm ci + `node --test` + `node -c` + `npm audit --audit-level=high`). (b) `backend/package.json`: script `test`. (c) `@vitest/coverage-v8@4.1.8` + script `test:coverage` (report-only, sin umbrales). NOTA HONESTA: coverage reporta 0% porque los tests cargan el código vía `vm.runInThisContext` (el provider v8 no lo instrumenta); queda como base para cuando haya módulos ESM. (d) `deploy.yml`: gates — backend no despliega con tests rotos; ML exige `py_compile` verde. Riesgo BAJO (solo CI/config).
+
+**Archivos:** `.github/workflows/ci.yml`, `.github/workflows/deploy.yml`, `backend/package.json`, `package.json` + `package-lock.json` (coverage dep), `vitest.config.ts`.
+
+**Verificación:** YAML OK ×2, py_compile OK ×3, `npm test` 130/130, backend `npm test` 6/6, `npm audit --audit-level=high` exit 0, `test:coverage` corre verde.

@@ -7,16 +7,40 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  frontend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          # OPT-8: vitest 4.x exige Node 22+ (antes 18 → suite no corría)
+          node-version: 22
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
       - run: npm ci
       - run: npm test
+      # Coverage en modo reporte (sin umbrales bloqueantes aún; ver vitest.config.ts)
+      - run: npm run test:coverage
+
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - run: npm ci
+      - run: npm test
+      - run: node -c server.js && node -c database.js
+      # Gate: solo HIGH/CRITICAL bloquean (los 2 moderate de qs/express4
+      # están documentados; el fix real es migrar a express 5)
+      - run: npm audit --audit-level=high
