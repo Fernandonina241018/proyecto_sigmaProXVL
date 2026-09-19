@@ -4204,3 +4204,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** nadie puede asignarse a sí mismo como revisor/aprobador. Guard en `createSignSession` PG + local (`{error, code:'self-assignment'}`); `importSignSession` lo hereda por delegación. Rutas publish/import lo traducen a 400. Modal excluye al propio usuario (`Auth.getSession()`) de ambos dropdowns + validación previa con aviso si no quedan candidatos.
 
 **Verificación:** backend 55/55 (2 tests nuevos), vitest 161/161.
+
+### 2026-09-19 (51): Tab Cargado + snapshot con sesión viva + anti-fantasma
+
+**Qué (cambio único, 3 piezas):** (1) Tab "Cargado" junto a Pendientes/Mías: muestra el borrador local (nombre, conteo, Publicar/Descartar con confirm); cargar archivo o recibir pendingHtml activa el tab; publicar mueve a Mías. Modal local fpub también excluye auto-asignación (consistencia entrada 50). (2) Snapshot con sesión viva: se persisten `__firma_session_id/version`, el init ya no los anula (el polling retoma tras recargar — fix vista congelada en móvil); `_firmaRevalidateRestored()` re-abre silencioso si cambió versión, limpia si 404 (eliminada/purgada), conserva si offline o borrador. (3) Mías abre completas/rechazadas sin cambios (verificado: sin gate de status). `firmaClearMainView()` reutilizable.
+
+**Verificación:** `node --check` ×2 OK, vitest 169/169 (8 tests nuevos en `tests/firma-cargado.test.js`), backend 55/55.

@@ -36,6 +36,15 @@ function firmaPersistState() {
       _firmaStore.set('__firma_signature_state', JSON.stringify(_firmaSignatureState));
       _firmaStore.set('__firma_original_name', _firmaOriginalName);
       _firmaStore.set('__firma_is_new_session', _firmaIsNewSession ? '1' : '0');
+      // P2 — sesión viva: persistir id+versión para retomar polling/refetch tras recargar.
+      // Sin sesión abierta se limpian (evita id viejo pegado a un borrador nuevo).
+      if (_firmaSessionId) {
+        _firmaStore.set('__firma_session_id', String(_firmaSessionId));
+        _firmaStore.set('__firma_session_version', String(_firmaSessionVersion == null ? '' : _firmaSessionVersion));
+      } else {
+        _firmaStore.remove('__firma_session_id');
+        _firmaStore.remove('__firma_session_version');
+      }
     } catch(e) {
       console.warn('Error persisting signature state:', e.message);
     }
@@ -49,6 +58,8 @@ function firmaClearState() {
     _firmaStore.remove('__firma_signature_state');
     _firmaStore.remove('__firma_original_name');
     _firmaStore.remove('__firma_is_new_session');
+    _firmaStore.remove('__firma_session_id');
+    _firmaStore.remove('__firma_session_version');
   } catch(e) {
     console.warn('Error clearing signature state:', e.message);
   }
@@ -81,6 +92,11 @@ function firmaRestoreState() {
     _firmaSignatureState = sigState || {};
     _firmaOriginalName = origName || 'reporte.html';
     _firmaIsNewSession = _firmaStore.get('__firma_is_new_session') === '1';
+    // P2 — restaurar sesión viva (el init ya no los anula: el polling retoma solo).
+    var _rsid = parseInt(_firmaStore.get('__firma_session_id') || '', 10);
+    _firmaSessionId = isNaN(_rsid) ? null : _rsid;
+    var _rsv = parseInt(_firmaStore.get('__firma_session_version') || '', 10);
+    _firmaSessionVersion = isNaN(_rsv) ? null : _rsv;
 
     var preview = document.getElementById('firmaPreview');
     if (preview) {
@@ -186,7 +202,8 @@ function initFirmarReportePage() {
     var downloadBtn = document.getElementById('firmaDownloadBtn');
     if (downloadBtn) downloadBtn.onclick = firmaDownload;
 
-    firmaLoadHtml(pendingHtml, pendingName);
+    // P1 — borrador entrante del publicador: se muestra en el tab Cargado.
+    if (firmaLoadHtml(pendingHtml, pendingName)) firmaLoadBandeja('cargado');
     return;
   }
 
@@ -203,9 +220,14 @@ function initFirmarReportePage() {
       if (downloadBtn) downloadBtn.onclick = firmaDownload;
       var publishBtn = document.getElementById('firmaPublishBtn');
       if (publishBtn) publishBtn.onclick = firmaPublishLoaded;
-      _firmaSessionId = null;
-      _firmaSessionVersion = null;
-      firmaLoadBandeja('pending');
+      // P2+P3 — el restore ya trae sessionId/version (el polling retoma solo).
+      // Borrador local → tab Cargado; sesión de servidor → revalidar contra API.
+      if (_firmaSessionId) {
+        firmaLoadBandeja('pending');
+        _firmaRevalidateRestored();
+      } else {
+        firmaLoadBandeja('cargado');
+      }
       return;
     }
     // If restore fails, clear corrupted state and fall through to normal init
@@ -318,7 +340,8 @@ function firmaHandleFile(file) {
   _firmaIsNewSession = false;
   var reader = new FileReader();
   reader.onload = function(e){
-    firmaLoadHtml(e.target.result, file.name);
+    // P1 — archivo cargado a mano = borrador: se muestra en el tab Cargado.
+    if (firmaLoadHtml(e.target.result, file.name) && !_firmaSessionId) firmaLoadBandeja('cargado');
   };
   reader.readAsText(file);
 }
@@ -527,8 +550,15 @@ async function firmaPublishLoaded() {
       var nm = [u.nombre, u.apellido].filter(Boolean).join(' ') || u.username;
       return '<option value="' + escapeHtml(u.username) + '">' + escapeHtml(nm) + ' (' + escapeHtml(u.username) + ')</option>';
     };
-    selR.innerHTML = '<option value="">— Seleccionar —</option>' + users.map(opt).join('');
+    // Segregación (entrada 50): excluirme de ambas listas, igual que el modal de reportes.
+    var mePub2 = null;
+    try {
+      var sPub2 = (typeof Auth !== 'undefined' && Auth.getSession) ? Auth.getSession() : null;
+      if (sPub2) mePub2 = sPub2.username;
+    } catch (e2) {}
+    selR.innerHTML = '<option value="">— Seleccionar —</option>' + users.filter(function(u) { return u.username !== mePub2; }).map(opt).join('');
     selA.innerHTML = '<option value="">— Cualquiera elegible —</option>' + users.filter(function(u) {
+      if (u.username === mePub2) return false;
       return u.role === 'admin' || u.role === 'coordinador' || u.role === 'supervisor' || u.role === 'gerente';
     }).map(opt).join('');
   } catch (e) {
@@ -544,6 +574,7 @@ async function firmaPublishLoaded() {
     if (!code || !pass) { errEl.textContent = 'Ingresa tu código de firma y contraseña.'; return; }
     if (!reviewer) { errEl.textContent = 'Debes asignar un revisor.'; return; }
     if (!approver) { errEl.textContent = 'Debes asignar un aprobador.'; return; }
+    if (mePub2 && (reviewer === mePub2 || approver === mePub2)) { errEl.textContent = 'No puedes asignarte a ti mismo.'; return; }
     errEl.textContent = 'Publicando…';
     try {
       var res = await _firmaApiPost('/api/sign-sessions/import', {
@@ -556,7 +587,8 @@ async function firmaPublishLoaded() {
       if (!res || !res.ok) { errEl.textContent = '❌ ' + ((res && res.error) || 'Error al publicar'); return; }
       overlay.remove();
       showToast('✅ Publicado a bandeja (sesión #' + res.session.id + ')');
-      _firmaOpenSession(res.session.id);
+      // P1 — el borrador ya es sesión: se abre y el tab pasa a Mías.
+      _firmaOpenSession(res.session.id).then(function() { firmaLoadBandeja('mine'); });
     } catch (e) {
       errEl.textContent = '❌ Error de conexión con el servidor';
     }
@@ -1215,6 +1247,53 @@ async function _firmaRefreshSession() {
   } catch (e) { /* fail-open: se mantiene estado local */ }
 }
 
+// Vista principal vacía (sin reporte): mismo render que el init normal.
+// Usada al descartar borrador, al detectar sesión fantasma (404) y en el gate anti-fantasma.
+function firmaClearMainView() {
+  _firmaCurrentDoc = null;
+  _firmaCurrentHtml = '';
+  _firmaSignatureData = null;
+  _firmaSignatureState = {};
+  _firmaOriginalName = '';
+  _firmaIsNewSession = false;
+  _firmaSessionId = null;
+  _firmaSessionVersion = null;
+  _firmaSessionAssignees = { reviewer: null, approver: null };
+  var preview = document.getElementById('firmaPreview');
+  if (preview) preview.innerHTML = '<div style="color:var(--text-faint);font-size:13px">Carga un reporte .html para previsualizarlo aquí</div>';
+  var editor = document.getElementById('firmaSignatureEditor');
+  if (editor) editor.innerHTML = '';
+  var status = document.getElementById('firmaStatus');
+  if (status) { status.style.display = 'none'; status.innerHTML = ''; }
+  var actions = document.getElementById('firmaActions');
+  if (actions) actions.style.display = 'none';
+  try { firmaRenderStepper(); } catch (e) {}
+  try { _firmaUpdateReportBadge(); } catch (e) {}
+}
+
+// P2 — revalida un snapshot restaurado contra el servidor (fail-open).
+// - Versión distinta → re-apertura silenciosa + toast (fix vista congelada en móvil).
+// - 404 (eliminada/purgada) → limpia el fantasma y muestra vista vacía.
+// - Borrador local u offline → se conserva tal cual.
+async function _firmaRevalidateRestored() {
+  if (!_firmaSessionId) return; // borrador local: nada que revalidar
+  try {
+    var res = await fetchWithTimeout(_firmaApiBase() + '/api/sign-sessions/' + _firmaSessionId,
+      { headers: _firmaAuthHeaders(), credentials: 'include' });
+    if (res.status === 404) {
+      firmaClearState();
+      firmaClearMainView();
+      showToast('La sesión guardada ya no existe en el servidor', true);
+      return;
+    }
+    var data = await res.json();
+    if (data && data.ok && data.session && data.session.version !== _firmaSessionVersion) {
+      await _firmaOpenSession(_firmaSessionId, true);
+      showToast('🔄 Sesión actualizada desde el servidor');
+    }
+  } catch (e) { /* fail-open: se conserva el snapshot */ }
+}
+
 function _firmaApiBase() {
   try { if (typeof API_URL !== 'undefined' && API_URL) return API_URL; } catch (e) {}
   return '';
@@ -1315,7 +1394,41 @@ async function firmaUpdatePendingBadge() {
   } catch (e) { return null; }
 }
 
-// Carga la bandeja (tabs Pendientes/Mías)
+// P1 — Tab "Cargado": borrador local (sin sesión de servidor). No consulta API.
+function firmaRenderCargado(list) {
+  if (!list) return;
+  list.innerHTML = '';
+  if (_firmaCurrentHtml && !_firmaSessionId) {
+    var cnt = (typeof _firmaCountSigned === 'function') ? _firmaCountSigned() : { signed: 0, total: 3 };
+    var div = document.createElement('div');
+    div.style.cssText = 'border:1px solid var(--border);border-radius:6px;padding:7px 9px;display:flex;flex-direction:column;gap:5px';
+    div.innerHTML =
+      '<div style="font-size:11px;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">📄 ' +
+      escapeHtml(_firmaOriginalName || 'reporte.html') + '</div>' +
+      '<div style="font-size:9px;color:var(--text-faint)">Borrador local · ' + (cnt.signed || 0) + '/' + (cnt.total || 3) + ' firmas · sin publicar</div>' +
+      '<div style="display:flex;gap:6px">' +
+      '<button data-cargado-pub style="flex:1;font-size:10px;padding:4px 8px;border-radius:4px;border:1px solid var(--accBorder);background:var(--accent);color:#fff;cursor:pointer;font-family:inherit">📤 Publicar</button>' +
+      '<button data-cargado-del style="font-size:10px;padding:4px 8px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-faint);cursor:pointer;font-family:inherit">🗑</button>' +
+      '</div>';
+    div.querySelector('[data-cargado-pub]').onclick = function() { firmaPublishLoaded(); };
+    div.querySelector('[data-cargado-del]').onclick = function() { firmaDiscardDraft(); };
+    list.appendChild(div);
+  } else {
+    list.innerHTML = '<div style="font-size:10px;color:var(--text-faint);text-align:center;padding:6px">Sin borrador — carga un .html en "Cargar reporte"</div>';
+  }
+}
+
+// Descarta el borrador local (con confirmación: es trabajo no publicado).
+function firmaDiscardDraft() {
+  if (_firmaSessionId) return; // con sesión abierta no hay borrador que descartar
+  if (!confirm('¿Descartar el borrador cargado? Esta acción no se puede deshacer.')) return;
+  firmaClearState();
+  firmaClearMainView();
+  firmaLoadBandeja('cargado');
+  showToast('Borrador descartado');
+}
+
+// Carga la bandeja (tabs Pendientes/Mías/Cargado)
 async function firmaLoadBandeja(scope) {
   if (scope) _firmaBandejaScope = scope;
   var tabs = document.querySelectorAll('#firmaTabs .firma-tab');
@@ -1326,6 +1439,7 @@ async function firmaLoadBandeja(scope) {
   });
   var list = document.getElementById('firmaBandejaList');
   if (!list) return;
+  if (_firmaBandejaScope === 'cargado') { firmaRenderCargado(list); return; }
   list.innerHTML = '<div style="font-size:10px;color:var(--text-faint);text-align:center;padding:6px">Cargando…</div>';
   try {
     var data = await _firmaApiGet('/api/sign-sessions?scope=' + _firmaBandejaScope + '&limit=50');
