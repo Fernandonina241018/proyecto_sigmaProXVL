@@ -170,6 +170,13 @@ describe('_firmaCanSeeReset (solo quien firmó)', () => {
     setupState(sb, null, ST2, { username: 'dora', role: 'analista' });
     expect(vm.runInContext(`_firmaCanSeeReset('reviewed')`, sb)).toBe(true);
   });
+
+  test('sesión: admin ve cualquier rol firmado (apertura) → true', () => {
+    const { sandbox: sb } = loadFirmaHarness();
+    setupState(sb, 1, ST2, { username: 'root', role: 'admin' });
+    expect(vm.runInContext(`_firmaCanSeeReset('prepared')`, sb)).toBe(true);
+    expect(vm.runInContext(`_firmaCanSeeReset('reviewed')`, sb)).toBe(true);
+  });
 });
 
 describe('_firmaPaintSessionState (pinta firmas en el reporte)', () => {

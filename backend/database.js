@@ -531,9 +531,10 @@ function buildPostgres() {
         return _parseSignRow(row);
     }
 
-    // Reinicio de firma: solo el ÚLTIMO rol firmado, solo quien lo firmó
-    // (o admin como escape auditado). Sin cascada: la cadena nunca queda
-    // incoherente. Motivo obligatorio → auditoría.
+    // Reinicio de firma: solo el ÚLTIMO rol firmado, solo quien lo firmó.
+    // Override admin ("apertura"): puede reiniciar CUALQUIER rol; si no es
+    // el último, invalida en cascada los posteriores (si no, quedaría la
+    // incoherencia prohibida: firmas sin su base). Todo auditado.
     async function unsignSessionStep({ id, role, username, userRole, expectedVersion }) {
         const row = await get('SELECT * FROM report_signatures WHERE id = $1', [id]);
         if (!row) return { error: 'Sesión no encontrada', code: 'not-found' };
@@ -545,10 +546,11 @@ function buildPostgres() {
         const signedRoles = SIGN_ORDER.filter((r) => sigs[r] && sigs[r].signed);
         const last = signedRoles[signedRoles.length - 1] || null;
         if (!last) return { error: 'No hay firmas que reiniciar', code: 'nothing-signed' };
-        if (role !== last) {
+        const isAdmin = userRole === 'admin';
+        let cascaded = [];
+        if (role !== last && !isAdmin) {
             return { error: 'Solo se puede reiniciar la última firma ("' + last + '")', code: 'not-last' };
         }
-        const isAdmin = userRole === 'admin';
         if (!isAdmin && sigs[role].username !== username) {
             return { error: 'Solo quien firmó puede reiniciar esta firma', code: 'wrong-person' };
         }
@@ -557,6 +559,14 @@ function buildPostgres() {
         }
         const fresh = Object.assign({}, sigs);
         delete fresh[role];
+        if (isAdmin && role !== last) {
+            // Cascada admin: todo lo posterior al rol reiniciado se invalida
+            const idx = SIGN_ORDER.indexOf(role);
+            SIGN_ORDER.slice(idx + 1).forEach(function(r) {
+                if (fresh[r] && fresh[r].signed) cascaded.push(r);
+                delete fresh[r];
+            });
+        }
         const status = _signStatusFor(fresh);
         const updated = await all(
             `UPDATE report_signatures SET signatures = $1, status = $2, version = version + 1,
@@ -567,7 +577,9 @@ function buildPostgres() {
         if (!updated.length) {
             return { error: 'Otro usuario firmó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
         }
-        return _parseSignRow(updated[0]);
+        const out = _parseSignRow(updated[0]);
+        if (cascaded.length) out.admin_cascade = cascaded;
+        return out;
     }
 
     // Borrado real solo de rechazadas, solo creador o admin.
@@ -1070,7 +1082,7 @@ function buildLocalStore() {
         return state.data_snapshots.find(function(s) { return s.id === id; }) || null;
     }
 
-    // Mirror local de unsignSessionStep
+    // Mirror local de unsignSessionStep (con cascada admin)
     async function unsignSessionStep({ id, role, username, userRole, expectedVersion }) {
         var s = state.report_signatures.find(function(x) { return x.id === id; });
         if (!s) return { error: 'Sesión no encontrada', code: 'not-found' };
@@ -1080,10 +1092,11 @@ function buildLocalStore() {
         var signedRoles = SIGN_ORDER.filter(function(r) { return s.signatures[r] && s.signatures[r].signed; });
         var last = signedRoles[signedRoles.length - 1] || null;
         if (!last) return { error: 'No hay firmas que reiniciar', code: 'nothing-signed' };
-        if (role !== last) {
+        var isAdmin = userRole === 'admin';
+        var cascaded = [];
+        if (role !== last && !isAdmin) {
             return { error: 'Solo se puede reiniciar la última firma ("' + last + '")', code: 'not-last' };
         }
-        var isAdmin = userRole === 'admin';
         if (!isAdmin && s.signatures[role].username !== username) {
             return { error: 'Solo quien firmó puede reiniciar esta firma', code: 'wrong-person' };
         }
@@ -1091,11 +1104,20 @@ function buildLocalStore() {
             return { error: 'Otro usuario firmó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
         }
         delete s.signatures[role];
+        if (isAdmin && role !== last) {
+            var idx = SIGN_ORDER.indexOf(role);
+            SIGN_ORDER.slice(idx + 1).forEach(function(r) {
+                if (s.signatures[r] && s.signatures[r].signed) cascaded.push(r);
+                delete s.signatures[r];
+            });
+        }
         s.status = _signStatusFor(s.signatures);
         s.version += 1;
         s.updated_at = new Date().toISOString();
         save();
-        return _localSignView(s);
+        var out = _localSignView(s);
+        if (cascaded.length) out.admin_cascade = cascaded;
+        return out;
     }
 
     // Mirror local de deleteSignSession

@@ -37,7 +37,8 @@ mkuser() { curl -sf -X POST "$API/api/users" -H "Authorization: Bearer $TOK_ADMI
 [ "$(mkuser '{"username":"smoke_ana","password":"Pass123!","role":"analista","nombre":"Ana Rev","signatureCode":"ANA-1"}')" = "true" ] || fail "crear ana"
 [ "$(mkuser '{"username":"smoke_sup","password":"Pass123!","role":"supervisor","nombre":"Sup Ap","signatureCode":"SUP-1"}')" = "true" ] || fail "crear sup"
 [ "$(mkuser '{"username":"smoke_dora","password":"Pass123!","role":"analista","signatureCode":"DORA-1"}')" = "true" ] || fail "crear dora"
-pass "4 usuarios con códigos"
+[ "$(mkuser '{"username":"smoke_root","password":"Pass123!","role":"admin","signatureCode":"ROOT-1"}')" = "true" ] || fail "crear root"
+pass "5 usuarios con códigos"
 
 HTML='<html><body><div data-signature-role="prepared"><span data-signature-field="name" data-signature-role="prepared">—</span></div></body></html>'
 PUB=$(curl -sf -X POST "$API/api/sign-sessions" -H "Authorization: Bearer $TOK_ADMIN" \
@@ -82,6 +83,20 @@ AP=$(curl -sf -X POST "$API/api/sign-sessions/$SID/sign" -H "Authorization: Bear
   -H 'Content-Type: application/json' -d '{"role":"approved","signatureCode":"SUP-1","password":"Pass123!","expectedVersion":2}') || fail "approved"
 [ "$(J "$AP" .session.status)" = "complete" ] || fail "no completa"
 pass "approved → complete"
+
+# Unsign admin con cascada: completa 3 firmas y revierte prepared
+UCG=$(curl -sf -X POST "$API/api/sign-sessions" -H "Authorization: Bearer $TOK_ADMIN" \
+  -H 'Content-Type: application/json' -d '{"name":"RPT-CASC","html":"<h1>c</h1>","assignedReviewer":"smoke_ana","assignedApprover":"smoke_sup","signatureCode":"PUB-1","password":"Pass123!"}') || fail "publish cascada"
+SIDC=$(J "$UCG" .session.id)
+curl -sf -X POST "$API/api/sign-sessions/$SIDC/sign" -H "Authorization: Bearer $TOK_ADMIN" \
+  -H 'Content-Type: application/json' -d '{"role":"reviewed","signatureCode":"ANA-1","password":"Pass123!","expectedVersion":1}' >/dev/null || fail "cascada reviewed"
+curl -sf -X POST "$API/api/sign-sessions/$SIDC/sign" -H "Authorization: Bearer $TOK_ADMIN" \
+  -H 'Content-Type: application/json' -d '{"role":"approved","signatureCode":"SUP-1","password":"Pass123!","expectedVersion":2}' >/dev/null || fail "cascada approved"
+UCO=$(curl -sf -X POST "$API/api/sign-sessions/$SIDC/unsign" -H "Authorization: Bearer $TOK_ADMIN" \
+  -H 'Content-Type: application/json' -d '{"role":"prepared","signatureCode":"ROOT-1","password":"Pass123!","expectedVersion":3,"reason":"rehacer"}') || fail "unsign admin"
+[ "$(J "$UCO" .session.next_role)" = "prepared" ] || fail "cascada no revirtió: $UCO"
+echo "$UCO" | jq -e '.session.admin_cascade == ["reviewed","approved"]' >/dev/null || fail "cascada incompleta: $UCO"
+pass "unsign admin con cascada (vuelve a prepared)"
 
 # Bandeja: pendientes de ana (login como ana)
 TOK_ANA=$(curl -sf -X POST "$API/api/login" -H 'Content-Type: application/json' \

@@ -195,6 +195,44 @@ test('ajeno no reinicia; admin sí', async () => {
   assert.equal(a.signatures.prepared, undefined);
 });
 
+test('admin reinicia rol anterior con cascada (apertura total)', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-ADMCASC', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: 'carla_sup',
+    preparedSignature: { nombre: 'Ana' },
+  });
+  await db.signSessionStep({
+    id: s.id, role: 'reviewed', username: 'beto_rev', userRole: 'analista',
+    signature: {}, expectedVersion: 1,
+  });
+  await db.signSessionStep({
+    id: s.id, role: 'approved', username: 'carla_sup', userRole: 'supervisor',
+    signature: {}, expectedVersion: 2,
+  });
+  const r = await db.unsignSessionStep({
+    id: s.id, role: 'prepared', username: 'root_adm', userRole: 'admin', expectedVersion: 3,
+  });
+  assert.deepEqual(r.admin_cascade, ['reviewed', 'approved']);
+  assert.equal(r.status, 'pending');
+  assert.equal(r.next_role, 'prepared');
+  assert.equal(r.signatures.reviewed, undefined);
+  assert.equal(r.signatures.approved, undefined);
+  assert.equal(r.version, 4);
+});
+
+test('admin reinicia último sin cascada', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-ADMNL', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' },
+  });
+  const r = await db.unsignSessionStep({
+    id: s.id, role: 'prepared', username: 'root_adm', userRole: 'admin', expectedVersion: 1,
+  });
+  assert.equal(r.admin_cascade, undefined);
+  assert.equal(r.next_role, 'prepared');
+});
+
 test('unsign con versión vieja → stale-version', async () => {
   const s = await db.createSignSession({
     name: 'RPT-UNS3', html: HTML, createdBy: 'ana_prep',

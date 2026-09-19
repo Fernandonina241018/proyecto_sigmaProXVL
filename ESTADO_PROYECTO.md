@@ -4147,3 +4147,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** Solo reinicia quien firmó (username verificado vs registrado) o admin; solo el último rol (sin cascada); motivo obligatorio (auditoría en sesión); reset global solo admin logueado. Endpoint POST :id/unsign + db.unsignSessionStep (PG+local). Local guarda username al firmar y compara. Editor muestra ↺ con gating. Incidentes: smoke reordenado 2 veces por conteos (sesiones de prueba vivas).
 
 **Verificación:** backend 37/37, smoke 25/25, vitest 157/157.
+
+### 2026-09-19 (41): Admin apertura total — override con cascada
+
+**Qué:** El admin puede reiniciar CUALQUIER rol (no solo el último); si no es el último, invalida en cascada los posteriores (si no, quedaría la incoherencia prohibida). Respuesta incluye `admin_cascade`, auditoría lo registra, frontend muestra aviso y limpia el pintado de invalidadas. Gating del botón actualizado.
+
+**Verificación:** backend 39/39, smoke 26/26, vitest 158/158.

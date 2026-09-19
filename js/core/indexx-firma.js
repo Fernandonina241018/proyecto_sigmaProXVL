@@ -552,23 +552,24 @@ async function firmaPublishLoaded() {
 }
 
 // ¿Se muestra ↺ para este rol? Local: siempre (decide la verificación).
-// Sesión: solo último firmado y (soy el firmante o admin o sin login visible).
+// Sesión: admin ve todos (apertura total con cascada); el resto solo su
+// último rol. Sin login visible se muestra y el servidor decide.
 function _firmaCanSeeReset(role) {
   var state = (_firmaSignatureState && _firmaSignatureState[role]) || {};
   if (!state.signed) return false;
   if (!_firmaSessionId) return true;
-  var last = null;
-  ['prepared', 'reviewed', 'approved'].forEach(function(r) {
-    if (_firmaSignatureState[r] && _firmaSignatureState[r].signed) last = r;
-  });
-  if (role !== last) return false;
   var me = null, myRole = null;
   try {
     var s = (typeof Auth !== 'undefined' && Auth.getSession) ? Auth.getSession() : null;
     if (s) { me = s.username; myRole = s.role; }
   } catch (e) {}
   if (myRole === 'admin') return true;
-  if (!me) return true; // sin login visible: muestra y el servidor decide
+  var last = null;
+  ['prepared', 'reviewed', 'approved'].forEach(function(r) {
+    if (_firmaSignatureState[r] && _firmaSignatureState[r].signed) last = r;
+  });
+  if (role !== last) return false;
+  if (!me) return true;
   return !!(state.username && me === state.username);
 }
 
@@ -1054,12 +1055,23 @@ async function firmaUnsignSession(role, code, password, reason) {
       if (s && s.signed) st[r] = { signed: true, username: s.username || '', nombre: s.nombre || '', cargo: s.cargo || '', firma: s.firma || '', fecha: s.fecha || '' };
     });
     _firmaSignatureState = st;
+    // Limpia el pintado de roles sin firma (cascada admin) y pinta los vigentes
+    ['prepared', 'reviewed', 'approved'].forEach(function(r) {
+      if (!st[r] || !st[r].signed) {
+        firmaUpdatePreview(r, 'name', '—');
+        firmaUpdatePreview(r, 'title', '—');
+        firmaUpdatePreview(r, 'firma', '—');
+        firmaUpdatePreview(r, 'date', '—');
+      }
+    });
     _firmaPaintSessionState();
     firmaRenderEditor();
     _firmaUpdateReportBadge();
     firmaPersistState();
     firmaLoadBandeja();
-    showToast('✅ Firma reiniciada: ' + (reason || ''));
+    var _casc = (session.admin_cascade && session.admin_cascade.length)
+      ? ' (invalidadas en cascada: ' + session.admin_cascade.join(', ') + ')' : '';
+    showToast('✅ Firma reiniciada: ' + (reason || '') + _casc);
   } catch (e) {
     console.error('Error unsigning:', e);
     showToast('❌ Error de conexión con el servidor', true);

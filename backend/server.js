@@ -1090,9 +1090,9 @@ app.post('/api/sign-sessions/:id/sign', requireAuth, signLimiter, async (req, re
             return res.status(status).json({ error: result.error, code: result.code });
         }
         await db.logAuditEvent({
-            username: signer.username, action: 'SIGN_SESSION_SIGN', success: 1,
+            username: signer.username, action: 'SIGN_SESSION_UNSIGN', success: 1,
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
-            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, role, version: result.version }),
+            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, role, version: result.version, adminCascade: result.admin_cascade || [] }),
         });
         res.json({ ok: true, session: result });
     } catch (err) {
