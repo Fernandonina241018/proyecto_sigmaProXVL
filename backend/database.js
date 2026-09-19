@@ -66,6 +66,23 @@ function _signDocHash(html) {
     return crypto.createHash('sha256').update(String(html || ''), 'utf8').digest('hex');
 }
 
+// LOTE A — Purga por retención (compartido PG/local): solo complete/
+// rejected viejas por updated_at. Jamás toca pending/partial.
+function _purgeEligible(sessions, retentionDays, rejectedDays, nowMs) {
+    const rMs = Math.max(parseInt(retentionDays) || 365, 1) * 86400000;
+    const jMs = Math.max(parseInt(rejectedDays) || 90, 1) * 86400000;
+    return sessions.filter(function(s) {
+        const age = nowMs - new Date(s.updated_at || s.created_at || 0).getTime();
+        if (s.status === 'complete') return age > rMs;
+        if (s.status === 'rejected') return age > jMs;
+        return false;
+    });
+}
+
+function _purgeMeta(t) {
+    return { id: t.id, name: t.name, doc_hash: t.doc_hash, status: t.status, created_by: t.created_by, created_at: t.created_at, updated_at: t.updated_at };
+}
+
 function build() {
     if (USE_PG) return buildPostgres();
     console.log('📦 DATABASE_URL no definido — usando store JSON local (dev)');
@@ -605,6 +622,24 @@ function buildPostgres() {
         return _parseSignRow(updated[0]);
     }
 
+    async function purgeSignSessions({ retentionDays = 365, rejectedDays = 90, dryRun = true, limit = 200, _now } = {}) {
+        limit = Math.min(Math.max(parseInt(limit) || 200, 1), 1000);
+        const rows = await all(
+            `SELECT id, name, doc_hash, status, created_by, created_at, updated_at
+             FROM report_signatures WHERE status IN ('complete','rejected')
+             ORDER BY id ASC LIMIT $1`,
+            [limit]
+        );
+        const targets = _purgeEligible(rows, retentionDays, rejectedDays, _now || Date.now());
+        if (dryRun) return { dryRun: true, candidates: targets.map(_purgeMeta), count: targets.length };
+        const deleted = [];
+        for (const t of targets) {
+            await run('DELETE FROM report_signatures WHERE id = $1', [t.id]);
+            deleted.push(_purgeMeta(t));
+        }
+        return { dryRun: false, deleted, count: deleted.length };
+    }
+
     // Borrado real solo de rechazadas, solo creador o admin.
     // (La auditoría conserva SIGN_SESSION_REJECT como rastro.)
     async function deleteSignSession({ id, username, userRole }) {
@@ -724,7 +759,7 @@ function buildPostgres() {
         return elig;
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession, unsignSessionStep, dismissSignSession };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
@@ -1145,6 +1180,22 @@ function buildLocalStore() {
         return out;
     }
 
+    // Mirror local de purgeSignSessions
+    async function purgeSignSessions({ retentionDays = 365, rejectedDays = 90, dryRun = true, limit = 200, _now } = {}) {
+        limit = Math.min(Math.max(parseInt(limit) || 200, 1), 1000);
+        var cands = state.report_signatures
+            .filter(function(s) { return s.status === 'complete' || s.status === 'rejected'; })
+            .sort(function(a, b) { return a.id - b.id; })
+            .slice(0, limit);
+        var targets = _purgeEligible(cands, retentionDays, rejectedDays, _now || Date.now());
+        if (dryRun) return { dryRun: true, candidates: targets.map(_purgeMeta), count: targets.length };
+        var ids = {};
+        targets.forEach(function(t) { ids[t.id] = true; });
+        state.report_signatures = state.report_signatures.filter(function(s) { return !ids[s.id]; });
+        save();
+        return { dryRun: false, deleted: targets.map(_purgeMeta), count: targets.length };
+    }
+
     // Mirror local de deleteSignSession
     async function deleteSignSession({ id, username, userRole }) {
         var idx = -1;
@@ -1290,7 +1341,7 @@ function buildLocalStore() {
         return _localSignView(s);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession, unsignSessionStep, dismissSignSession };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 const impl = build();
 module.exports = {
@@ -1341,6 +1392,7 @@ module.exports = {
     deleteSignSession:      (...a) => impl.deleteSignSession(...a),
     unsignSessionStep:     (...a) => impl.unsignSessionStep(...a),
     dismissSignSession:     (...a) => impl.dismissSignSession(...a),
+    purgeSignSessions:      (...a) => impl.purgeSignSessions(...a),
     getSnapshotById:      (...a) => impl.getSnapshotById(...a),
     run:                  (...a) => impl.run(...a),
     all:                 (...a) => impl.all(...a),

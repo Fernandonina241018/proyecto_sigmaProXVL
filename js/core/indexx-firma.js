@@ -1362,9 +1362,23 @@ async function firmaLoadBandeja(scope) {
         headHtml += '<button data-del="' + s.id + '" title="Eliminar definitivamente (ya rechazada)" style="flex-shrink:0;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid rgba(239,68,68,.4);background:transparent;color:#f87171;cursor:pointer;font-family:inherit">🗑</button>';
       }
       headHtml += '</div>';
+      // LOTE A — aviso de expiración por retención (365 complete / 90 rejected)
+      var _expTxt = '';
+      try {
+        if ((s.status === 'complete' || s.status === 'rejected') && s.updated_at) {
+          var _days = s.status === 'complete' ? 365 : 90;
+          var _expMs = new Date(s.updated_at).getTime() + _days * 86400000 - Date.now();
+          if (_expMs > 0 && _expMs < 30 * 86400000) {
+            var _expD = new Date(new Date(s.updated_at).getTime() + _days * 86400000);
+            var _mm = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'][_expD.getMonth()];
+            var _p2 = function(n) { return String(n).padStart(2, '0'); };
+            _expTxt = ' · ⏳ expira ' + _p2(_expD.getDate()) + '/' + _mm + '/' + _expD.getFullYear();
+          }
+        }
+      } catch (_e) { /* fail-open */ }
       div.innerHTML = headHtml +
         '<div style="font-size:9px;color:var(--text-faint)">#' + s.id + ' · ' + escapeHtml(stLbl) + who +
-        (s.status === 'rejected' && s.rejected_reason ? ' · “' + escapeHtml(s.rejected_reason) + '”' : '') + '</div>';
+        (s.status === 'rejected' && s.rejected_reason ? ' · “' + escapeHtml(s.rejected_reason) + '”' : '') + escapeHtml(_expTxt) + '</div>';
       div.onclick = function() { _firmaOpenSession(s.id); };
       list.appendChild(div);
     });

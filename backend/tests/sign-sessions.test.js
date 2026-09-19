@@ -151,7 +151,37 @@ test('cadena de auditoría intacta tras sesiones', async () => {
   assert.equal(v.valid, true);
 });
 
-// ── Dismiss (quitar de mis pendientes) ──
+test('import rechaza archivo con reviewed firmado', async () => {
+  const r = await db.importSignSession({
+    name: 'IMP-1', html: impHtml('Ana', 'Beto', ''), createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' }, embedded: { prepared: { signed: true, name: 'Ana' }, reviewed: { signed: true, name: 'Beto' }, approved: { signed: false, name: '' } },
+  });
+  assert.equal(r.code, 'advanced-signatures');
+});
+
+test('import rechaza preparador que no coincide', async () => {
+  const r = await db.importSignSession({
+    name: 'IMP-2', html: impHtml('Otra Persona', '', ''), createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' }, embedded: { prepared: { signed: true, name: 'Otra Persona' }, reviewed: { signed: false }, approved: { signed: false } },
+  });
+  assert.equal(r.code, 'preparer-mismatch');
+});
+
+test('import acepta archivo limpio y firma prepared', async () => {
+  const r = await db.importSignSession({
+    name: 'IMP-3', html: impHtml('', '', ''), createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: 'carla_sup',
+    preparedSignature: { nombre: 'Ana' }, embedded: { prepared: { signed: false }, reviewed: { signed: false }, approved: { signed: false } },
+  });
+  assert.equal(r.status, 'partial');
+  assert.equal(r.next_role, 'reviewed');
+  assert.equal(r.signatures.prepared.username, 'ana_prep');
+  assert.equal(r.assigned_reviewer, 'beto_rev');
+});
+
+
 test('dismiss oculta solo para quien marcó', async () => {
   const s = await db.createSignSession({
     name: 'RPT-DISM', html: HTML, createdBy: 'ana_prep',
@@ -355,32 +385,53 @@ function impBlock(role, name) {
 const impHtml = (prep, rev, app) =>
   `<html><body>${impBlock('prepared', prep)}${impBlock('reviewed', rev)}${impBlock('approved', app)}</body></html>`;
 
-test('import rechaza archivo con reviewed firmado', async () => {
-  const r = await db.importSignSession({
-    name: 'IMP-1', html: impHtml('Ana', 'Beto', ''), createdBy: 'ana_prep',
-    assignedReviewer: 'beto_rev', assignedApprover: null,
-    preparedSignature: { nombre: 'Ana' }, embedded: { prepared: { signed: true, name: 'Ana' }, reviewed: { signed: true, name: 'Beto' }, approved: { signed: false, name: '' } },
-  });
-  assert.equal(r.code, 'advanced-signatures');
-});
-
-test('import rechaza preparador que no coincide', async () => {
-  const r = await db.importSignSession({
-    name: 'IMP-2', html: impHtml('Otra Persona', '', ''), createdBy: 'ana_prep',
-    assignedReviewer: 'beto_rev', assignedApprover: null,
-    preparedSignature: { nombre: 'Ana' }, embedded: { prepared: { signed: true, name: 'Otra Persona' }, reviewed: { signed: false }, approved: { signed: false } },
-  });
-  assert.equal(r.code, 'preparer-mismatch');
-});
-
-test('import acepta archivo limpio y firma prepared', async () => {
-  const r = await db.importSignSession({
-    name: 'IMP-3', html: impHtml('', '', ''), createdBy: 'ana_prep',
+// ── LOTE A: purga por retención ──
+test('purge dryRun lista sin borrar; real borra viejas complete', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-PURGE', html: HTML, createdBy: 'ana_prep',
     assignedReviewer: 'beto_rev', assignedApprover: 'carla_sup',
-    preparedSignature: { nombre: 'Ana' }, embedded: { prepared: { signed: false }, reviewed: { signed: false }, approved: { signed: false } },
+    preparedSignature: { nombre: 'Ana' },
   });
-  assert.equal(r.status, 'partial');
-  assert.equal(r.next_role, 'reviewed');
-  assert.equal(r.signatures.prepared.username, 'ana_prep');
-  assert.equal(r.assigned_reviewer, 'beto_rev');
+  await db.signSessionStep({
+    id: s.id, role: 'reviewed', username: 'beto_rev', userRole: 'analista',
+    signature: {}, expectedVersion: 1,
+  });
+  await db.signSessionStep({
+    id: s.id, role: 'approved', username: 'carla_sup', userRole: 'supervisor',
+    signature: {}, expectedVersion: 2,
+  });
+  const future = Date.now() + 400 * 86400000; // +400 días
+  const dry = await db.purgeSignSessions({ retentionDays: 365, dryRun: true, _now: future });
+  assert.equal(dry.dryRun, true);
+  assert.ok(dry.candidates.some((c) => c.id === s.id));
+  assert.ok((await db.getSignSession(s.id)) !== null, 'dryRun no borra');
+  const real = await db.purgeSignSessions({ retentionDays: 365, dryRun: false, _now: future });
+  assert.ok(real.deleted.some((d) => d.id === s.id && d.doc_hash));
+  assert.equal(await db.getSignSession(s.id), null);
 });
+
+test('purge jamás toca pending/partial ni recientes', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-PURGE2', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: 'carla_sup',
+    preparedSignature: { nombre: 'Ana' },
+  });
+  const future = Date.now() + 400 * 86400000;
+  // pending aunque vieja → intacta
+  const r1 = await db.purgeSignSessions({ retentionDays: 365, dryRun: false, _now: future });
+  assert.ok(!r1.deleted.some((d) => d.id === s.id));
+  // complete reciente → intacta
+  await db.signSessionStep({
+    id: s.id, role: 'reviewed', username: 'beto_rev', userRole: 'analista',
+    signature: {}, expectedVersion: 1,
+  });
+  await db.signSessionStep({
+    id: s.id, role: 'approved', username: 'carla_sup', userRole: 'supervisor',
+    signature: {}, expectedVersion: 2,
+  });
+  const r2 = await db.purgeSignSessions({ retentionDays: 365, dryRun: false });
+  assert.ok(!r2.deleted.some((d) => d.id === s.id));
+  assert.ok((await db.getSignSession(s.id)) !== null);
+});
+
+// ── Dismiss (quitar de mis pendientes) ──

@@ -1,0 +1,43 @@
+name: Purge
+
+# LOTE A — purga semanal de bandeja por retención.
+# Secrets requeridos: BACKEND_URL, ADMIN_USERNAME, ADMIN_PASSWORD.
+# Flujo: dryRun primero (visible en logs); solo purga real si DRY_RUN=false.
+# Nunca toca pending/partial (lo garantiza el endpoint).
+
+on:
+  schedule:
+    - cron: '0 3 * * 0' # domingos 03:00 UTC
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Solo simular (true/false)'
+        required: false
+        default: 'true'
+
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login admin
+        id: login
+        run: |
+          TOKEN=$(curl -sf -X POST "${{ secrets.BACKEND_URL }}/api/login" \
+            -H 'Content-Type: application/json' \
+            -d "{\"username\":\"${{ secrets.ADMIN_USERNAME }}\",\"password\":\"${{ secrets.ADMIN_PASSWORD }}\"}" | jq -r .token)
+          [ -n "$TOKEN" ] && [ "$TOKEN" != "null" ] || { echo "login fallido"; exit 1; }
+          echo "::add-mask::$TOKEN"
+          echo "token=$TOKEN" >> "$GITHUB_OUTPUT"
+
+      - name: Dry run (siempre)
+        run: |
+          curl -sf -X POST "${{ secrets.BACKEND_URL }}/api/admin/purge" \
+            -H "Authorization: Bearer ${{ steps.login.outputs.token }}" \
+            -H 'Content-Type: application/json' -d '{}'
+
+      - name: Purga real (solo si dry_run=false)
+        if: inputs.dry_run == 'false'
+        run: |
+          curl -sf -X POST "${{ secrets.BACKEND_URL }}/api/admin/purge" \
+            -H "Authorization: Bearer ${{ steps.login.outputs.token }}" \
+            -H 'Content-Type: application/json' -d '{"dryRun":false}'

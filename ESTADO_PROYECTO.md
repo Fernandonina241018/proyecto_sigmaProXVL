@@ -4165,3 +4165,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** (1) `assignedApprover` requerido en publish/import (400) y ambos modales; smoke/tests actualizados. (2) `dismissed_by` por usuario (PG TEXT[] + local): modal post-firma con resumen y botón Entendido que quita de MIS pendientes sin afectar al resto; badge se refresca tras firmar (antes no). (3) Estatus vivo: polling 30s (solo pestaña visible + en página) con reapertura silenciosa ante cambio de versión + botón ↻ manual.
 
 **Verificación:** backend 45/45 (+2 dismiss), smoke TODO VERDE (+400 aprobador), vitest 158/158.
+
+### 2026-09-19 (44): Lote A — purga por retención (365/90 días)
+
+**Qué:** `db.purgeSignSessions` (PG+local, `_now` inyectable) + `POST /api/admin/purge` (dryRun default, auditoría SIGN_SESSION_PURGE) + cron semanal `.github/workflows/purge.yml` (dry-run siempre, real solo manual) + env RETENTION_DAYS/REJECTED_DAYS + etiqueta "⏳ expira" en Mías (<30 días). Nunca toca pending/partial. Incidente: tests de purga borraban S1 compartida → movidos al final.
+
+**Verificación:** backend 47/47, vitest 158/158, YAML OK.

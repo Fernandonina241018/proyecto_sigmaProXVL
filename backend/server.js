@@ -1213,6 +1213,33 @@ app.delete('/api/sign-sessions/:id', requireAuth, async (req, res) => {
     }
 });
 
+// POST /api/admin/purge — purga por retención (solo admin).
+// Borra complete/rejected viejas (nunca pending/partial). dryRun lista.
+// Defaults por env RETENTION_DAYS (365) y REJECTED_DAYS (90).
+app.post('/api/admin/purge', requireAuth, requireAdmin, async (req, res) => {
+    try {
+        const retentionDays = parseInt((req.body && req.body.retentionDays) ?? process.env.RETENTION_DAYS ?? 365);
+        const rejectedDays = parseInt((req.body && req.body.rejectedDays) ?? process.env.REJECTED_DAYS ?? 90);
+        const dryRun = !req.body || req.body.dryRun !== false;
+        const result = await db.purgeSignSessions({ retentionDays, rejectedDays, dryRun });
+        if (!dryRun && result.count > 0) {
+            await db.logAuditEvent({
+                username: req.user.username, action: 'SIGN_SESSION_PURGE', success: 1,
+                ip: getClientIP(req), userAgent: req.headers['user-agent'],
+                module: 'FIRMA', details: JSON.stringify({
+                    count: result.count,
+                    ids: result.deleted.map(function(d) { return d.id; }),
+                    retentionDays, rejectedDays,
+                }),
+            });
+        }
+        res.json({ ok: true, ...result, retentionDays, rejectedDays });
+    } catch (err) {
+        console.error('Error purging sign sessions:', err);
+        res.status(500).json({ error: 'Error en purga' });
+    }
+});
+
 // GET /api/users (solo admin) — con paginación
 app.get('/api/users', requireAuth, requireAdmin, async (req, res) => {
     try {
