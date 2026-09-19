@@ -59,6 +59,12 @@ app.use((req, res, next) => {
             'http://localhost:3000',
         ];
 
+    // LOTE B: visibilidad en arranque (fallback incluye localhost de dev)
+    if (!process.env.CORS_ORIGINS && !global.__corsWarned) {
+        global.__corsWarned = true;
+        console.warn('⚠️ CORS_ORIGINS no definido — usando fallback dev:', allowed.join(', '));
+    }
+
     // Verificar origen permitido
     if (origin && allowed.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
@@ -86,6 +92,9 @@ app.use((req, res, next) => {
 // su propio CSP en <meta>. HSTS queda activo (1 año, includeSubDomains).
 app.use(helmet({
     contentSecurityPolicy: {
+        // LOTE B: sigue reportOnly (enforce total rompería los onclick/inline
+        // de la SPA; requiere refactor con nonces — pendiente). Se endurecen
+        // las directivas sin impacto: object/base/frame + Permissions-Policy.
         reportOnly: true,
         directives: {
             defaultSrc: ["'self'"],
@@ -94,6 +103,9 @@ app.use(helmet({
             imgSrc: ["'self'", "data:", "blob:"],
             fontSrc: ["'self'", "https://fonts.gstatic.com"],
             connectSrc: ["'self'"],
+            objectSrc: ["'none'"],
+            baseUri: ["'self'"],
+            frameAncestors: ["'self'"],
             reportUri: '/api/csp-report',
         }
     },
@@ -101,6 +113,11 @@ app.use(helmet({
     hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
     referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
 }));
+// LOTE B: sin impacto en inline — bloquea sensores no usados por la app
+app.use((req, res, next) => {
+    res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=(), usb=()');
+    next();
+});
 
 // FIX: el HTML del reporte (~1MB con JPEGs) superaba el límite global y el
 // publish devolvía 413 (detectado en vivo). Solo las 2 rutas de publicación
@@ -256,54 +273,17 @@ function checkAndAlertIP(ip, username) {
 }
 
 
-// ── Proxy /api/ml/* → Python ML Service (FastAPI :8000) ──
-const http = require('http');
+// ── Proxy /api/ml/* → Python ML Service (ver ml-proxy.js) ──
 const crypto = require('crypto');
 
 const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://localhost:8000';
 
-app.use('/api/ml', requireAuth, async (req, res) => {
-    try {
-        const mlUrl = new URL(ML_SERVICE_URL + req.originalUrl);
-        const options = {
-            hostname: mlUrl.hostname,
-            port: mlUrl.port,
-            path: mlUrl.pathname + mlUrl.search,
-            method: req.method,
-            headers: {
-                'Content-Type': req.headers['content-type'] || 'application/json',
-                'Accept': req.headers['accept'] || '*/*',
-            },
-            timeout: 120000,
-        };
-        // Solo Content-Type y Accept se reenvían (ya definidos arriba)
-        // Remove body-restricted headers for GET/HEAD
-        if (['GET', 'HEAD'].includes(req.method)) {
-            delete options.headers['content-type'];
-            delete options.headers['content-length'];
-        }
-        const proxyReq = http.request(options, (proxyRes) => {
-            res.status(proxyRes.statusCode);
-            proxyRes.headers && Object.entries(proxyRes.headers).forEach(([k, v]) => res.setHeader(k, v));
-            proxyRes.pipe(res);
-        });
-        proxyReq.on('error', (err) => {
-            console.error('ML proxy error:', err.message);
-            res.status(503).json({ ok: false, error: 'ML Service no disponible' });
-        });
-        proxyReq.on('timeout', () => {
-            proxyReq.destroy();
-            res.status(504).json({ ok: false, error: 'ML Service timeout' });
-        });
-        if (req.body && Object.keys(req.body).length) {
-            proxyReq.write(JSON.stringify(req.body));
-        }
-        proxyReq.end();
-    } catch (err) {
-        console.error('ML proxy error:', err);
-        res.status(500).json({ ok: false, error: 'Error interno del ML proxy' });
-    }
-});
+// LOTE B: proxy extraído a ml-proxy.js (https + X-API-Key del servidor)
+const { createMlProxy } = require('./ml-proxy');
+app.use('/api/ml', requireAuth, createMlProxy({
+    target: ML_SERVICE_URL,
+    apiKey: process.env.ML_API_KEY || '',
+}));
 
 // ── Inicializar BD al arrancar ────────
 const startTime = Date.now();

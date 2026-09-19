@@ -4171,3 +4171,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** `db.purgeSignSessions` (PG+local, `_now` inyectable) + `POST /api/admin/purge` (dryRun default, auditoría SIGN_SESSION_PURGE) + cron semanal `.github/workflows/purge.yml` (dry-run siempre, real solo manual) + env RETENTION_DAYS/REJECTED_DAYS + etiqueta "⏳ expira" en Mías (<30 días). Nunca toca pending/partial. Incidente: tests de purga borraban S1 compartida → movidos al final.
 
 **Verificación:** backend 47/47, vitest 158/158, YAML OK.
+
+### 2026-09-19 (45): Lote B — proxy ML https+clave, CSP/Permissions, CORS log
+
+**Qué:** Proxy extraído a `backend/ml-proxy.js` (testeable): soporta https (antes solo http → 503 contra Fly), inyecta X-API-Key del servidor, y fix real: el delete de Content-Type en GET nunca funcionaba (case mismatch). CSP report-only reforzado (object/base/frame) + Permissions-Policy + aviso de fallback CORS en arranque. Full enforce queda pendiente (requiere refactor de inline scripts).
+
+**Verificación:** backend 52/52 (+5 proxy), `node -c` OK.
