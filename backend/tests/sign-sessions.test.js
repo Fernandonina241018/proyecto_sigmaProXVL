@@ -151,6 +151,17 @@ test('cadena de auditoría intacta tras sesiones', async () => {
   assert.equal(v.valid, true);
 });
 
+// ── LOTE E: códigos de firma únicos ──
+test('isSignatureCodeTaken detecta duplicados', async () => {
+  await db.createUser({ username: 'dup_a', password: 'x', role: 'analista', signatureCode: 'DUP-1' });
+  await db.createUser({ username: 'dup_b', password: 'x', role: 'analista', signatureCode: 'DUP-2' });
+  assert.equal(await db.isSignatureCodeTaken('DUP-1', 'otro'), true);
+  assert.equal(await db.isSignatureCodeTaken('DUP-1', 'dup_a'), false); // propio excluido
+  assert.equal(await db.isSignatureCodeTaken('LIBRE-9', 'x'), false);
+  assert.equal(await db.isSignatureCodeTaken('', 'x'), false);
+  assert.equal(await db.isSignatureCodeTaken(null, 'x'), false);
+});
+
 test('import rechaza archivo con reviewed firmado', async () => {
   const r = await db.importSignSession({
     name: 'IMP-1', html: impHtml('Ana', 'Beto', ''), createdBy: 'ana_prep',

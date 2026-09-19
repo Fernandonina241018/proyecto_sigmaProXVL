@@ -34,6 +34,7 @@ const bcrypt  = require('bcryptjs');
 const jwt     = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
+const { ipKeyGenerator } = rateLimit;
 const helmet  = require('helmet');
 const { authenticator } = require('otplib');
 const QRCode  = require('qrcode');
@@ -187,7 +188,7 @@ const loginLimiter = rateLimit({
     standardHeaders: true,
     legacyHeaders: false,
     // FIX SEGURIDAD #7: Usar req.ip con trust proxy para IP real
-    keyGenerator: (req) => req.ip || req.socket.remoteAddress,
+    keyGenerator: (req) => ipKeyGenerator(req.ip || req.socket.remoteAddress),
 });
 
 const verifyLimiter = rateLimit({
@@ -196,7 +197,7 @@ const verifyLimiter = rateLimit({
     message: { error: 'Demasiados intentos de verificación. Intente de nuevo en 15 minutos.' },
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => req.ip || req.socket.remoteAddress,
+    keyGenerator: (req) => ipKeyGenerator(req.ip || req.socket.remoteAddress),
 });
 
 // FASE 4 — limiter propio para firmar en sesión: el flujo legítimo genera
@@ -210,7 +211,7 @@ const signLimiter = rateLimit({
     message: { error: 'Demasiados intentos de firma. Intente de nuevo en 15 minutos.' },
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => req.ip || req.socket.remoteAddress,
+    keyGenerator: (req) => ipKeyGenerator(req.ip || req.socket.remoteAddress),
 });
 
 const tfaLimiter = rateLimit({
@@ -219,7 +220,7 @@ const tfaLimiter = rateLimit({
     message: { error: 'Demasiados intentos de verificación 2FA. Intente de nuevo en 15 minutos.' },
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => req.ip || req.socket.remoteAddress,
+    keyGenerator: (req) => ipKeyGenerator(req.ip || req.socket.remoteAddress),
 });
 
 // Track de fallos por usuario (en memoria)
@@ -1322,6 +1323,10 @@ app.post('/api/users', requireAuth, requireAdmin, async (req, res) => {
         // FIX SEGURIDAD #3: Usar crypto.randomBytes para códigos seguros (128 bits de entropía)
         sigCode = crypto.randomBytes(16).toString('base64url');
     }
+    // LOTE E: códigos únicos (duplicados = el primero siempre gana al verificar)
+    if (await db.isSignatureCodeTaken(sigCode, username.trim())) {
+        return res.status(409).json({ error: 'Ese código de firma ya está en uso' });
+    }
 
     const result = await db.createUser({
         username: username.trim(), password: pw, role,
@@ -1380,9 +1385,13 @@ app.put('/api/users/password', requireAuth, async (req, res) => {
         }
         
         await db.changePassword(req.user.username, newPassword);
-        
+
         // Guardar código de firma si se proporcionó
         if (signatureCode && signatureCode.trim()) {
+            // LOTE E: códigos únicos
+            if (await db.isSignatureCodeTaken(signatureCode, req.user.username)) {
+                return res.status(409).json({ error: 'Ese código de firma ya está en uso' });
+            }
             await db.updateUserProfile(req.user.username, { signatureCode: signatureCode.trim() });
         }
         
@@ -1402,6 +1411,10 @@ app.put('/api/users/profile', requireAuth, async (req, res) => {
         if (email && email.length > 200) return res.status(400).json({ error: 'El email no puede exceder 200 caracteres' });
         if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: 'Email inválido' });
         if (signatureCode && signatureCode.length > 50) return res.status(400).json({ error: 'El código de firma no puede exceder 50 caracteres' });
+        // LOTE E: códigos únicos
+        if (signatureCode && signatureCode.trim() && await db.isSignatureCodeTaken(signatureCode, req.user.username)) {
+            return res.status(409).json({ error: 'Ese código de firma ya está en uso' });
+        }
         await db.updateUserProfile(req.user.username, { nombre, apellido, email, telefono, cargo, signatureCode, signature });
         res.json({ ok: true });
     } catch (err) {
@@ -1416,6 +1429,13 @@ app.put('/api/users/:id/profile', requireAuth, requireAdmin, async (req, res) =>
         const { nombre, apellido, email, telefono, cargo, signatureCode, signature, role } = req.body;
         if (role && !['admin', 'user', 'readonly', 'supervisor', 'analista', 'gerente', 'coordinador'].includes(role)) {
             return res.status(400).json({ error: 'Rol inválido' });
+        }
+        // LOTE E: códigos únicos (excluyendo al propio usuario editado)
+        if (signatureCode && signatureCode.trim()) {
+            const target = await db.getUserById(req.params.id);
+            if (target && await db.isSignatureCodeTaken(signatureCode, target.username)) {
+                return res.status(409).json({ error: 'Ese código de firma ya está en uso' });
+            }
         }
         await db.updateUserProfileById(req.params.id, { nombre, apellido, email, telefono, cargo, signatureCode, signature });
         if (role) {

@@ -67,3 +67,8 @@ types.d.ts
 # Logs
 *.log
 npm-debug.log*
+
+# Playwright E2E
+test-results/
+playwright-report/
+playwright/.auth/

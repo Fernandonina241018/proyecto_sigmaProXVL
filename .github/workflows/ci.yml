@@ -40,7 +40,34 @@ jobs:
 
       - run: npm ci
       - run: npm test
-      - run: node -c server.js && node -c database.js
+      # LOTE E: coverage backend real (node --test la mide nativo).
+      # concurrency=1: los archivos comparten data.json local en CI.
+      - run: node --test --test-concurrency=1 --experimental-test-coverage "tests/*.test.js"
+      - run: node -c server.js && node -c database.js && node -c ml-proxy.js && node -c sign-html.js && node -c sign-stamp.js
       # Gate: solo HIGH/CRITICAL bloquean (los 2 moderate de qs/express4
       # están documentados; el fix real es migrar a express 5)
       - run: npm audit --audit-level=high
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: test-results/

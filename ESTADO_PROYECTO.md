@@ -4186,3 +4186,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 
 ### 2026-09-19 (47): Lote C — remember-me sin password + caché columnas
 (Ver entrada 46 por verificación; este commit agrupa los archivos.)
+
+### 2026-09-19 (48): Lote E — E2E Playwright + unicidad códigos + fixes CI
+
+**Qué:** (1) E2E `e2e/sign-flow.spec.js` (login + force-password + bandeja + firma + dismiss) con usuarios únicos por run, config con webServers efímeros y job CI con chromium. (2) Códigos de firma únicos: índice parcial + 409 en crear/editar/password (el E2E reveló colisiones entre runs). (3) `ipKeyGenerator` en limiters (ValidationError IPv6 en v8). (4) `--test-concurrency=1` (archivos comparten data.json; corrige flaky). (5) Coverage backend en CI + gitignore e2e.
+
+**Verificación:** E2E 1/1, backend 53/53, vitest 161/161.

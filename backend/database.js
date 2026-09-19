@@ -132,6 +132,14 @@ function buildPostgres() {
         await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS totp_enabled INTEGER DEFAULT 0`);
         await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS signature TEXT`);
         await run(`CREATE INDEX IF NOT EXISTS idx_users_signature_code ON users (signature_code)`);
+        // LOTE E: códigos únicos (sin el índice, dos usuarios con el mismo
+        // código hacen que siempre verifique el primero). No-fatal por si hay
+        // duplicados legacy: se valida en app y se avisa en log.
+        try {
+            await run(`CREATE UNIQUE INDEX IF NOT EXISTS uq_users_signature_code ON users (signature_code) WHERE signature_code IS NOT NULL AND signature_code <> ''`);
+        } catch (e) {
+            console.warn('⚠️ Hay códigos de firma duplicados en BD; no se creó el índice único. Normalízalos y reinicia.');
+        }
         await run(`UPDATE users SET email = username WHERE email IS NULL OR email = ''`);
         await run(`CREATE TABLE IF NOT EXISTS audit_log (
             id SERIAL PRIMARY KEY, username TEXT NOT NULL, action TEXT NOT NULL,
@@ -203,6 +211,16 @@ function buildPostgres() {
 
     async function getUserByUsername(username) { return get('SELECT * FROM users WHERE username = $1 AND active = 1', [username]); }
     async function getUserBySignatureCode(code) { return get('SELECT * FROM users WHERE signature_code = $1 AND active = 1', [code]); }
+
+    // LOTE E: ¿código en uso por OTRO usuario?
+    async function isSignatureCodeTaken(signatureCode, excludeUsername) {
+        if (!signatureCode || !String(signatureCode).trim()) return false;
+        const row = await get(
+            'SELECT username FROM users WHERE signature_code = $1 AND username <> $2 LIMIT 1',
+            [String(signatureCode).trim(), excludeUsername || '']
+        );
+        return !!row;
+    }
 
     async function createUser({ username, password, role = 'user', nombre, apellido, email, telefono, signatureCode, signature, cargo, createdBy, passwordTemp }) {
         const hash = await bcrypt.hash(password, 12);
@@ -759,7 +777,7 @@ function buildPostgres() {
         return elig;
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
@@ -833,6 +851,13 @@ function buildLocalStore() {
 
     async function getUserByUsername(username) { return findUser(username); }
     async function getUserBySignatureCode(code) { return state.users.find(u => u.signature_code === code && u.active === 1) || null; }
+
+    // LOTE E: mirror local
+    async function isSignatureCodeTaken(signatureCode, excludeUsername) {
+        if (!signatureCode || !String(signatureCode).trim()) return false;
+        const code = String(signatureCode).trim();
+        return state.users.some(function(u) { return u.signature_code === code && u.username !== excludeUsername; });
+    }
 
     async function createUser({ username, password, role = 'user', nombre, apellido, email, telefono, signatureCode, signature, cargo, createdBy, passwordTemp }) {
         if (state.users.find(u => u.username === username)) return { ok: false, error: 'El usuario ya existe' };
@@ -1341,7 +1366,7 @@ function buildLocalStore() {
         return _localSignView(s);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 const impl = build();
 module.exports = {
@@ -1349,6 +1374,7 @@ module.exports = {
     createInitialAdmin:  (...a) => impl.createInitialAdmin(...a),
     getUserByUsername:   (...a) => impl.getUserByUsername(...a),
     getUserBySignatureCode: (...a) => impl.getUserBySignatureCode(...a),
+    isSignatureCodeTaken:    (...a) => impl.isSignatureCodeTaken(...a),
     createUser:          (...a) => impl.createUser(...a),
     updateLastLogin:     (...a) => impl.updateLastLogin(...a),
     getAllUsers:         (...a) => impl.getAllUsers(...a),

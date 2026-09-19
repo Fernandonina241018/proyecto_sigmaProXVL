@@ -9,6 +9,7 @@
     "doctor": "npx react-doctor@latest"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@vitest/coverage-v8": "^4.1.8",
     "happy-dom": "^20.9.0",
     "react-doctor": "^0.9.14",
