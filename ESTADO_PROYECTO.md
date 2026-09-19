@@ -4121,3 +4121,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** La bandeja mostraba 1/3 pero al abrir todo vacío. Causa: `getSignSession` PG devolvía la fila cruda con `signatures` como TEXT; el frontend leía `.prepared` → undefined → estado vacío. Solo fallaba contra Supabase real (local guarda objetos: tests y smoke nunca lo cazaron). Fix: `_parseSignRow` en getSignSession + refresh del status con conteo del servidor + test contrato. Lección: el harness happy-dom de apertura ahora cubre el flujo real.
 
 **Verificación:** backend 31/31, vitest 148/148 (3 integración happy-dom).
+
+### 2026-09-19 (37): Fix — fecha de firma unificada dd/Mmm/AAAA HH:MM:SS
+
+**Qué:** El flujo de bandeja guardaba fecha ISO (AAAA-MM-DD) mientras el local usaba dd/Mmm 12h → formato inconsistente. Nuevo formato único 24h local en ambos: `backend/sign-stamp.js` (servidor, 3 endpoints) + `_firmaNowStamp()` (cliente, firmaVerify). Ej: 19/Sep/2026 14:35:22. Las fechas de formulario (sin hora) siguen dd/Mmm/AAAA vía formatDate.
+
+**Verificación:** backend 34/34 (+3 stamp), vitest 150/150 (+2 stamp).

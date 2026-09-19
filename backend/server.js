@@ -39,6 +39,7 @@ const { authenticator } = require('otplib');
 const QRCode  = require('qrcode');
 const db      = require('./database');
 const { extractEmbeddedSignatures } = require('./sign-html'); // FASE 3
+const { signStamp } = require('./sign-stamp');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -958,7 +959,7 @@ app.post('/api/sign-sessions', requireAuth, async (req, res) => {
             preparedSignature: {
                 nombre: nombreCompleto, cargo: signer.cargo || '',
                 firma: signer.signature || '',
-                fecha: new Date().toISOString().slice(0, 10),
+                fecha: signStamp(new Date()),
             },
         });
         await db.logAuditEvent({
@@ -997,7 +998,7 @@ app.post('/api/sign-sessions/import', requireAuth, verifyLimiter, async (req, re
             preparedSignature: {
                 nombre: nombreCompleto, cargo: signer.cargo || '',
                 firma: signer.signature || '',
-                fecha: new Date().toISOString().slice(0, 10),
+                fecha: signStamp(new Date()),
             },
             embedded,
         });
@@ -1075,7 +1076,7 @@ app.post('/api/sign-sessions/:id/sign', requireAuth, signLimiter, async (req, re
             signature: {
                 nombre: nombreCompleto, cargo: signer.cargo || '',
                 firma: signer.signature || '',
-                fecha: new Date().toISOString().slice(0, 10),
+                fecha: signStamp(new Date()),
             },
             expectedVersion: parseInt(expectedVersion),
             newAssignee: newAssignee?.trim() || undefined,

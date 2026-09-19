@@ -784,9 +784,7 @@ async function firmaVerify(role, code, password, statusEl, extra) {
       if (statusEl) statusEl.innerHTML = '\u274C ' + escapeHtml(data.error || 'Error de verificaci\u00F3n');
       return;
     }
-    var now = new Date();
-    var dd=String(now.getDate()).padStart(2,'0'), mm=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][now.getMonth()], yyyy=now.getFullYear(), hh=now.getHours(), min=String(now.getMinutes()).padStart(2,'0'), ampm=hh>=12?'p.m.':'a.m.', h12=String(hh%12||12).padStart(2,'0');
-    var fechaStr = dd+'/'+mm+'/'+yyyy+' '+h12+':'+min+' '+ampm;
+    var fechaStr = _firmaNowStamp();
     _firmaSignatureState[role] = {
       signed: true,
       nombre: data.nombre,
@@ -941,6 +939,16 @@ var _firmaBandejaScope = 'pending';
 var _firmaSessionAssignees = { reviewer: null, approver: null };
 
 var _FIRMA_SIGN_ORDER = ['prepared', 'reviewed', 'approved'];
+
+// Formato único de fecha de firma: dd/Mmm/AAAA HH:MM:SS (24h, hora local).
+// Ej: 19/Sep/2026 14:35:22. Mirror servidor en backend/sign-stamp.js.
+function _firmaNowStamp(d) {
+  var t = d instanceof Date ? d : new Date();
+  var p2 = function(n) { return String(n).padStart(2, '0'); };
+  var mm = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'][t.getMonth()];
+  return p2(t.getDate()) + '/' + mm + '/' + t.getFullYear() + ' ' +
+    p2(t.getHours()) + ':' + p2(t.getMinutes()) + ':' + p2(t.getSeconds());
+}
 
 // Siguiente rol pendiente según estado local (mirror del servidor)
 function _firmaSessionNext() {

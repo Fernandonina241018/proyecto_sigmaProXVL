@@ -115,6 +115,20 @@ describe('_firmaTake/ClearPendingSession (ID persistente)', () => {
   });
 });
 
+describe('_firmaNowStamp (formato dd/Mmm/AAAA HH:MM:SS)', () => {
+  test('fecha fija en hora local', () => {
+    const { sandbox: sb } = loadFirmaHarness();
+    const s = vm.runInContext(`_firmaNowStamp(new Date(2026, 8, 19, 14, 5, 9))`, sb);
+    expect(s).toBe('19/Sep/2026 14:05:09');
+  });
+
+  test('coincide con el formato del servidor', () => {
+    const { sandbox: sb } = loadFirmaHarness();
+    const s = vm.runInContext(`_firmaNowStamp(new Date(2026, 0, 1, 0, 0, 0))`, sb);
+    expect(s).toBe('01/Ene/2026 00:00:00');
+  });
+});
+
 describe('_firmaPaintSessionState (pinta firmas en el reporte)', () => {
   test('pinta los 4 campos del rol firmado', () => {
     const { sandbox: sb, previewIframe } = loadFirmaHarness();
