@@ -34,6 +34,16 @@ test('crear sesión firma prepared y calcula doc_hash', async () => {
   assert.equal(S1.version, 1);
 });
 
+test('CONTRATO: getSignSession devuelve signatures parseado + next_role', async () => {
+  // Regresión del bug Supabase: la fila PG trae signatures TEXT; si no se
+  // parsea, el frontend ve todo vacío (solo fallaba contra PG real).
+  const g = await db.getSignSession(S1.id);
+  assert.equal(typeof g.signatures, 'object');
+  assert.equal(g.signatures.prepared.signed, true);
+  assert.equal(g.signatures.prepared.username, 'ana_prep');
+  assert.equal(g.next_role, 'reviewed');
+});
+
 test('fuera de orden: approved antes de reviewed → 422', async () => {
   const r = await db.signSessionStep({
     id: S1.id, role: 'approved', username: 'carla_sup', userRole: 'supervisor',

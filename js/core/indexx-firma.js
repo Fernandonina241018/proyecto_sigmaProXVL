@@ -1234,6 +1234,20 @@ async function _firmaOpenSession(id) {
     });
     _firmaSignatureState = st;
     _firmaPaintSessionState();
+    // FIX: el status lo dejaba firmaLoadHtml con el conteo incrustado (0/3);
+    // se refresca con el conteo real del servidor.
+    try {
+      var _cnt = { signed: 0, total: 3 };
+      ['prepared', 'reviewed', 'approved'].forEach(function(r) {
+        if (st[r] && st[r].signed) _cnt.signed++;
+      });
+      var statusEl = document.getElementById('firmaStatus');
+      if (statusEl) {
+        statusEl.style.display = 'block';
+        statusEl.innerHTML = '<div style="font-size:11px;color:var(--accent);padding:8px 12px">✅ Sesión #' + session.id + ': ' +
+          escapeHtml(session.name || '') + ' (' + _cnt.signed + '/' + _cnt.total + ' firmas)</div>';
+      }
+    } catch (_e) { /* fail-open */ }
     firmaRenderEditor();
     _firmaUpdateReportBadge();
     firmaPersistState();

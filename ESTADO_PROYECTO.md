@@ -4115,3 +4115,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** (a) El ID pendiente se borraba antes de abrir: doble init o fallo lo perdía y caía a estado local vacío 0/3 sin error (tu síntoma). Ahora se consume solo en éxito + guardia anti-doble-apertura + toast de error con causa. (b) En Mías: 🚫 Rechazar pendientes propias + 🗑 Eliminar rechazadas (creador/admin). Nuevo DELETE /api/sign-sessions/:id (solo rejected + creador/admin; auditoría conserva rastro).
 
 **Verificación:** backend 30/30, smoke 21/21, vitest 145/145.
+
+### 2026-09-19 (36): Fix — apertura vacía contra Supabase (signatures sin parsear)
+
+**Qué:** La bandeja mostraba 1/3 pero al abrir todo vacío. Causa: `getSignSession` PG devolvía la fila cruda con `signatures` como TEXT; el frontend leía `.prepared` → undefined → estado vacío. Solo fallaba contra Supabase real (local guarda objetos: tests y smoke nunca lo cazaron). Fix: `_parseSignRow` en getSignSession + refresh del status con conteo del servidor + test contrato. Lección: el harness happy-dom de apertura ahora cubre el flujo real.
+
+**Verificación:** backend 31/31, vitest 148/148 (3 integración happy-dom).

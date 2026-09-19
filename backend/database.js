@@ -524,7 +524,11 @@ function buildPostgres() {
     }
 
     async function getSignSession(id) {
-        return get('SELECT * FROM report_signatures WHERE id = $1', [id]);
+        // FIX: parsear la fila (signatures viene TEXT en PG; sin parseo el
+        // frontend recibe un string, session.signatures.prepared es undefined
+        // y la apertura muestra todo vacío — solo fallaba contra Supabase).
+        const row = await get('SELECT * FROM report_signatures WHERE id = $1', [id]);
+        return _parseSignRow(row);
     }
 
     // Borrado real solo de rechazadas, solo creador o admin.
