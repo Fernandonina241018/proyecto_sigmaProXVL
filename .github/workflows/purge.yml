@@ -4,6 +4,8 @@ name: Purge
 # Secrets requeridos: BACKEND_URL, ADMIN_USERNAME, ADMIN_PASSWORD.
 # Flujo: dryRun primero (visible en logs); solo purga real si DRY_RUN=false.
 # Nunca toca pending/partial (lo garantiza el endpoint).
+# Retry anti-cold-start: el backend en Fly duerme (min_machines_running=0);
+# el login reintenta 5 veces con pausas para darle tiempo a despertar.
 
 on:
   schedule:
@@ -22,10 +24,17 @@ jobs:
       - name: Login admin
         id: login
         run: |
-          TOKEN=$(curl -sf -X POST "${{ secrets.BACKEND_URL }}/api/login" \
-            -H 'Content-Type: application/json' \
-            -d "{\"username\":\"${{ secrets.ADMIN_USERNAME }}\",\"password\":\"${{ secrets.ADMIN_PASSWORD }}\"}" | jq -r .token)
-          [ -n "$TOKEN" ] && [ "$TOKEN" != "null" ] || { echo "login fallido"; exit 1; }
+          TOKEN=""
+          for i in 1 2 3 4 5; do
+            echo "Intento de login $i/5..."
+            TOKEN=$(curl -sf --max-time 90 -X POST "${{ secrets.BACKEND_URL }}/api/login" \
+              -H 'Content-Type: application/json' \
+              -d "{\"username\":\"${{ secrets.ADMIN_USERNAME }}\",\"password\":\"${{ secrets.ADMIN_PASSWORD }}\"}" | jq -r .token) || true
+            if [ -n "$TOKEN" ] && [ "$TOKEN" != "null" ]; then break; fi
+            TOKEN=""
+            if [ "$i" -lt 5 ]; then echo "Backend aun despertando; esperando 20s..."; sleep 20; fi
+          done
+          if [ -z "$TOKEN" ]; then echo "login fallido tras 5 intentos"; exit 1; fi
           echo "::add-mask::$TOKEN"
           echo "token=$TOKEN" >> "$GITHUB_OUTPUT"
 
