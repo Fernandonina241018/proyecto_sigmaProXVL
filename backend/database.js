@@ -547,9 +547,16 @@ function buildPostgres() {
     }
 
     async function createSignSession({ name, html, createdBy, assignedReviewer, assignedApprover, preparedSignature }) {
+        // Segregación de funciones: nadie puede asignarse a sí mismo como
+        // revisor/aprobador al publicar (revisor distinto al preparador).
+        if (assignedReviewer && assignedReviewer === createdBy) {
+            return { error: 'No puedes asignarte a ti mismo como revisor', code: 'self-assignment' };
+        }
+        if (assignedApprover && assignedApprover === createdBy) {
+            return { error: 'No puedes asignarte a ti mismo como aprobador', code: 'self-assignment' };
+        }
         const docHash = _signDocHash(html);
-        // El creador firma prepared al publicar: su username queda registrado
-        // (lo exige la regla "revisor distinto al preparador").
+        // El creador firma prepared al publicar: su username queda registrado.
         const sigs = { prepared: Object.assign({ signed: true, username: createdBy }, preparedSignature || {}) };
         const status = _signStatusFor(sigs);
         const rows = await all(
@@ -1309,6 +1316,13 @@ function buildLocalStore() {
     }
 
     async function createSignSession({ name, html, createdBy, assignedReviewer, assignedApprover, preparedSignature }) {
+        // Segregación de funciones (mirror PG): sin auto-asignación.
+        if (assignedReviewer && assignedReviewer === createdBy) {
+            return { error: 'No puedes asignarte a ti mismo como revisor', code: 'self-assignment' };
+        }
+        if (assignedApprover && assignedApprover === createdBy) {
+            return { error: 'No puedes asignarte a ti mismo como aprobador', code: 'self-assignment' };
+        }
         // El creador firma prepared al publicar (mirror PG).
         var sigs = { prepared: Object.assign({ signed: true, username: createdBy }, preparedSignature || {}) };
         var session = {

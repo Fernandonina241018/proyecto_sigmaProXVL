@@ -948,6 +948,9 @@ app.post('/api/sign-sessions', requireAuth, async (req, res) => {
                 fecha: _signFecha(req),
             },
         });
+        if (session.error) {
+            return res.status(session.code === 'self-assignment' ? 400 : 500).json({ error: session.error });
+        }
         await db.logAuditEvent({
             username: signer.username, action: 'SIGN_SESSION_CREATE', success: 1,
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
@@ -992,7 +995,8 @@ app.post('/api/sign-sessions/import', requireAuth, verifyLimiter, async (req, re
             embedded,
         });
         if (session.error) {
-            return res.status(422).json({ error: session.error, code: session.code });
+            const status = session.code === 'self-assignment' ? 400 : 422;
+            return res.status(status).json({ error: session.error, code: session.code });
         }
         await db.logAuditEvent({
             username: signer.username, action: 'SIGN_SESSION_IMPORT', success: 1,

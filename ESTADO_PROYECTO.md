@@ -4198,3 +4198,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** el backend en Fly duerme (`min_machines_running=0`) y el cron dominical lo encontraba dormido → login fallaba en el primer intento. El paso `Login admin` ahora reintenta 5 veces con pausas de 20s + `--max-time 90` por intento. Se usan `if` y `|| true` (no `&&` encadenado) porque los steps corren con `bash -e`.
 
 **Verificación:** YAML OK, `bash -n` OK, loop validado contra stub HTTP (2×503 → éxito al 3er intento, token enmascarado y exportado a `GITHUB_OUTPUT`). Incidente previo de secrets mal configurados (`ADMIN_USERNAME`/`ADMIN_PASSWORD`) resuelto por el usuario; purge en verde.
+
+### 2026-09-19 (50): Anti-autoasignación al publicar reportes
+
+**Qué:** nadie puede asignarse a sí mismo como revisor/aprobador. Guard en `createSignSession` PG + local (`{error, code:'self-assignment'}`); `importSignSession` lo hereda por delegación. Rutas publish/import lo traducen a 400. Modal excluye al propio usuario (`Auth.getSession()`) de ambos dropdowns + validación previa con aviso si no quedan candidatos.
+
+**Verificación:** backend 55/55 (2 tests nuevos), vitest 161/161.

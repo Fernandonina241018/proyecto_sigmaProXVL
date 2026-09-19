@@ -2408,7 +2408,15 @@ tr:hover td{background:#f7faff}
 
         const overlay = document.createElement('div');
         overlay.className = 'modal-overlay';
+        // Segregación de funciones: excluirme de ambas listas (nadie se auto-asigna).
+        var mePub = null;
+        try {
+            var sPub = (typeof Auth !== 'undefined' && Auth.getSession) ? Auth.getSession() : null;
+            if (sPub) mePub = sPub.username;
+        } catch(e) {}
+        const reviewerOpts = users.filter(function(u){ return u.username !== mePub; });
         const approverOpts = users.filter(function(u){
+            if (u.username === mePub) return false;
             return u.role === 'admin' || u.role === 'coordinador' || u.role === 'supervisor' || u.role === 'gerente';
         });
         const opt = function(u){
@@ -2423,7 +2431,7 @@ tr:hover td{background:#f7faff}
             '<label style="font-size:11px">Código de firma<input id="pub-code" type="password" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box" placeholder="Ej: ABC-123"></label>' +
             '<label style="font-size:11px">Contraseña<input id="pub-pass" type="password" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box"></label>' +
             '<label style="font-size:11px">Revisor (obligatorio)<select id="pub-reviewer" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box">' +
-            '<option value="">— Seleccionar —</option>' + users.map(opt).join('') + '</select></label>' +
+            '<option value="">— Seleccionar —</option>' + reviewerOpts.map(opt).join('') + '</select></label>' +
             '<label style="font-size:11px">Aprobador (obligatorio)<select id="pub-approver" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box">' +
             '<option value="">— Seleccionar —</option>' + approverOpts.map(opt).join('') + '</select></label>' +
             '<div id="pub-err" style="font-size:11px;color:#e53e3e;min-height:16px"></div>' +
@@ -2441,8 +2449,10 @@ tr:hover td{background:#f7faff}
             const reviewer = overlay.querySelector('#pub-reviewer').value;
             const approver = overlay.querySelector('#pub-approver').value;
             if (!code || !pass) { errEl.textContent = 'Ingresa tu código de firma y contraseña.'; return; }
-            if (!reviewer) { errEl.textContent = 'Debes asignar un revisor.'; return; }
-            if (!approver) { errEl.textContent = 'Debes asignar un aprobador.'; return; }
+            if (!reviewer) { errEl.textContent = reviewerOpts.length ? 'Debes asignar un revisor.' : 'No hay otros usuarios para asignar como revisor.'; return; }
+            if (!approver) { errEl.textContent = approverOpts.length ? 'Debes asignar un aprobador.' : 'No hay otro aprobador disponible (requiere rol coordinador/supervisor/gerente/admin).'; return; }
+            // Defensa en el cliente (el backend lo rechaza de todos modos): sin auto-asignación.
+            if (mePub && (reviewer === mePub || approver === mePub)) { errEl.textContent = 'No puedes asignarte a ti mismo.'; return; }
             errEl.textContent = 'Publicando…';
             try {
                 const data = await _repApiPost('/api/sign-sessions', {

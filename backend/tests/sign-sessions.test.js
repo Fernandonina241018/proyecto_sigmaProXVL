@@ -151,6 +151,27 @@ test('cadena de auditoría intacta tras sesiones', async () => {
   assert.equal(v.valid, true);
 });
 
+// ── Segregación de funciones: sin auto-asignación al publicar ──
+test('publicar con self-reviewer se rechaza', async () => {
+  const r = await db.createSignSession({
+    name: 'RPT-SELF-1', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'ana_prep', assignedApprover: 'carla_sup',
+    preparedSignature: { nombre: 'Ana', cargo: '', firma: '', fecha: '2026-01-01' },
+  });
+  assert.equal(r.code, 'self-assignment');
+  assert.match(r.error, /revisor/);
+});
+
+test('publicar con self-approver se rechaza', async () => {
+  const r = await db.createSignSession({
+    name: 'RPT-SELF-2', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: 'ana_prep',
+    preparedSignature: { nombre: 'Ana', cargo: '', firma: '', fecha: '2026-01-01' },
+  });
+  assert.equal(r.code, 'self-assignment');
+  assert.match(r.error, /aprobador/);
+});
+
 // ── LOTE E: códigos de firma únicos ──
 test('isSignatureCodeTaken detecta duplicados', async () => {
   await db.createUser({ username: 'dup_a', password: 'x', role: 'analista', signatureCode: 'DUP-1' });
