@@ -488,31 +488,40 @@ var leftPanels = {
   usuarios: function() { return '<div class="left-panel" style="gap:10px"><div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px"><button class="btn btn-primary" style="width:100%;justify-content:center" onclick="if(typeof UsuariosManager!==\'undefined\')UsuariosManager.abrirModalCrearUsuario()">+ Nuevo usuario</button></div><div class="info-section"><div class="info-section-header">Usuarios</div><div class="usr-toolbar" style="display:flex;flex-direction:column;gap:8px;padding:8px"><input class="usr-search" id="usr-search" type="text" placeholder="🔍 Buscar usuario..." style="padding:8px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:0.82rem;font-family:inherit;color:var(--text-primary);background:var(--bg-panel);outline:none;transition:border-color 0.2s"><div style="display:flex;align-items:center;justify-content:space-between"><div class="usr-count" id="usr-count" style="font-size:0.8rem;color:var(--text-faint)">—</div><button class="usr-btn-refresh" id="usr-btn-refresh" title="Recargar" style="padding:6px 10px;background:var(--item-bg);border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:0.9rem;transition:all 0.2s">🔄</button></div></div></div></div>'; },
   ml: function() { return typeof MLManager !== 'undefined' ? MLManager.buildLeftPanel() : ''; },
   firmarReporte: function() {
-    return '<div class="left-panel" style="gap:10px">' +
-      '<div class="info-section"><div class="info-section-header">✍️ Firmar Reporte</div>' +
-        '<div class="info-section-body" style="font-size:11px;color:var(--text-faint);padding:8px 12px">Carga un reporte .html generado por StatAnalyzer Pro para revisar y firmar electrónicamente.</div></div>' +
-      '<div class="info-section"><div class="info-section-header">📂 Cargar reporte</div>' +
-        '<div class="info-section-body" style="padding:8px 12px">' +
-          '<div class="upload-zone" id="firmaDropZone" style="border:2px dashed var(--border);border-radius:8px;padding:10px;text-align:center;cursor:pointer;transition:all .2s">' +
-            '<div style="font-size:18px;margin-bottom:3px">📄</div>' +
-            '<div style="font-size:10px;color:var(--text-muted);line-height:1.3">Arrastra un .html aquí<br>o haz clic para seleccionar</div></div>' +
-          '<input type="file" id="firmaFileInput" accept=".html" style="display:none"></div></div>' +
-      '<div class="info-section"><div class="info-section-header">📥 Bandeja de firmas <span id="firmaPendingBadge" style="display:none;font-size:9px;padding:1px 7px;border-radius:99px;background:rgba(239,68,68,.15);color:#f87171;font-weight:700;vertical-align:middle"></span></div>' +
-        '<div class="info-section-body" style="padding:8px 12px">' +
-          '<div style="display:flex;gap:4px;margin-bottom:8px" id="firmaTabs">' +
-            '<button class="firma-tab" data-scope="pending" style="flex:1">Pendientes</button>' +
-            '<button class="firma-tab" data-scope="mine" style="flex:1">Mías</button>' +
+    return '<div class="left-panel" style="gap:0;padding:0;overflow:hidden">' +
+      '<div class="fp-panel" aria-label="Firmar reporte">' +
+      '<div class="fp-body">' +
+        '<div class="fp-doc"><b id="firmaDocName">Sin documento</b><span class="fp-restored" id="firmaDocState"></span></div>' +
+        '<div id="firmaStepper"></div>' +
+        '<div id="firmaActions" style="display:none;flex-direction:column;gap:8px">' +
+          '<div id="firmaSignatureEditor" style="display:flex;flex-direction:column;gap:10px;overflow-y:auto;min-height:0"></div></div>' +
+        '<div id="firmaStatus" style="display:none"></div>' +
+        '<details class="fp-acc" id="firmaAccBandeja" open>' +
+          '<summary>Bandeja de firmas <span class="fp-badge" id="firmaPendingBadge" style="display:none"></span></summary>' +
+          '<div class="fp-acc-body">' +
+            '<div class="fp-tabs" id="firmaTabs" role="tablist">' +
+              '<button type="button" class="firma-tab" role="tab" data-scope="pending" aria-selected="true">Pendientes</button>' +
+              '<button type="button" class="firma-tab" role="tab" data-scope="mine" aria-selected="false">Mías</button>' +
+            '</div>' +
+            '<div class="fp-list" id="firmaBandejaList">' +
+              '<div style="font-size:10px;color:var(--text-faint);text-align:center;padding:6px">Sin datos — abre la página para cargar</div></div>' +
           '</div>' +
-          '<div id="firmaBandejaList" style="display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto">' +
-            '<div style="font-size:10px;color:var(--text-faint);text-align:center;padding:6px">Sin datos — abre la página para cargar</div></div>' +
-        '</div></div>' +
-      '<div id="firmaStatus" style="display:none"></div>' +
-      '<div id="firmaActions" style="display:none;flex-direction:column;gap:8px">' +
-        '<div class="info-section"><div class="info-section-header">📝 Firmas detectadas</div>' +
-          '<div class="info-section-body" id="firmaSignatureEditor" style="padding:8px 12px;display:flex;flex-direction:column;gap:10px"></div></div>' +
-        '<button class="btn btn-primary" id="firmaDownloadBtn" style="width:100%;justify-content:center;font-size:12px">⬇ Descargar reporte firmado</button>' +
-        '<button class="btn btn-secondary" id="firmaPublishBtn" style="width:100%;justify-content:center;font-size:12px;display:none">📤 Publicar a bandeja</button>' +
-        '<button class="btn btn-secondary" id="firmaResetBtn" style="width:100%;justify-content:center;font-size:12px;display:none">🔄 Reiniciar firmas</button></div>' +
+        '</details>' +
+        '<details class="fp-acc" id="firmaAccCargar">' +
+          '<summary>Cargar reporte</summary>' +
+          '<div class="fp-acc-body">' +
+            '<div class="fp-drop" id="firmaDropZone" role="button" tabindex="0">📄<br>Arrastra un .html aquí o haz clic para seleccionar</div>' +
+            '<input type="file" id="firmaFileInput" accept=".html" style="display:none">' +
+          '</div>' +
+        '</details>' +
+      '</div>' +
+      '<div class="fp-foot">' +
+        '<button type="button" class="fp-btn" id="firmaDownloadBtn">⬇ Descargar reporte firmado</button>' +
+        '<button type="button" class="fp-btn" id="firmaPublishBtn" style="display:none">📤 Publicar a bandeja</button>' +
+        '<button type="button" class="fp-btn" id="firmaResetBtn" style="display:none">🔄 Reiniciar firmas</button>' +
+        '<p class="fp-hint" id="firmaFootHint"></p>' +
+      '</div>' +
+      '</div>' +
     '</div>';
   },
   'modelo-estadistico': function() {

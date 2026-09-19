@@ -230,6 +230,7 @@ function initFirmarReportePage() {
   _firmaSessionVersion = null;
   firmaLoadBandeja('pending');
   firmaNotifyPending();
+  firmaRenderStepper();
 }
 
 function firmaLoadHtml(html, originalName) {
@@ -310,6 +311,59 @@ function firmaHandleFile(file) {
     firmaLoadHtml(e.target.result, file.name);
   };
   reader.readAsText(file);
+}
+
+// LAYOUT FP — stepper + encabezado de documento + hint del pie.
+// Etiquetas desde el reporte con fallback corto. No toca la lógica.
+function firmaRenderStepper() {
+  try {
+    var box = document.getElementById('firmaStepper');
+    if (!box) return;
+    if (!_firmaSignatureData || !_firmaSignatureData.length) { box.innerHTML = ''; }
+    else {
+      var shortFallback = { prepared: 'Preparado', reviewed: 'Revisado', approved: 'Aprobado' };
+      var order = ['prepared', 'reviewed', 'approved'];
+      var cur = null, done = 0;
+      order.forEach(function(r) {
+        var s = _firmaSignatureState && _firmaSignatureState[r];
+        if (s && s.signed) done++;
+        else if (cur === null) cur = r;
+      });
+      var labels = {};
+      _firmaSignatureData.forEach(function(sd) {
+        var base = (sd.label || '').replace(/\s+por\s*$/i, '');
+        labels[sd.role] = base || shortFallback[sd.role] || sd.role;
+      });
+      box.innerHTML = '<div class="fp-steps">' + order.map(function(r) {
+        var signed = _firmaSignatureState && _firmaSignatureState[r] && _firmaSignatureState[r].signed;
+        var cls = signed ? 'is-done' : (r === cur ? 'is-now' : '');
+        var dot = signed ? '<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 6.3l2.2 2.2 4.8-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '';
+        return '<div class="fp-step ' + cls + '"><span class="fp-dot">' + dot + '</span>' + escapeHtml(labels[r] || r) + '</div>';
+      }).join('') + '</div>' +
+        '<p class="fp-count">' + done + ' de 3 firmas' + (done === 3 ? ' · completo' : '') + '</p>';
+    }
+    var docName = document.getElementById('firmaDocName');
+    if (docName) docName.textContent = _firmaOriginalName || 'Sin documento';
+    var docState = document.getElementById('firmaDocState');
+    if (docState) {
+      docState.textContent = _firmaSessionId ? 'Sesión #' + _firmaSessionId
+        : (_firmaIsNewSession ? '' : ((_firmaCurrentHtml && _firmaSignatureData && _firmaSignatureData.length) ? '↻ Sesión restaurada' : ''));
+    }
+    var hint = document.getElementById('firmaFootHint');
+    if (hint) {
+      var cnt = (typeof _firmaCountSigned === 'function') ? _firmaCountSigned() : { signed: 0, total: 0 };
+      var missing = Math.max(0, 3 - (cnt.signed || 0));
+      hint.textContent = (cnt.total > 0 && missing > 0)
+        ? 'Faltan ' + missing + ' firma' + (missing > 1 ? 's' : '') + ': se descarga como borrador.' : '';
+    }
+    var dlBtn = document.getElementById('firmaDownloadBtn');
+    if (dlBtn && _firmaSignatureData && _firmaSignatureData.length) {
+      var cnt2 = (typeof _firmaCountSigned === 'function') ? _firmaCountSigned() : { signed: 0 };
+      var full = (cnt2.signed || 0) >= 3;
+      dlBtn.textContent = full ? '⬇ Descargar reporte firmado' : '⬇ Descargar borrador';
+      dlBtn.classList.toggle('is-primary', full);
+    }
+  } catch (e) { /* fail-open: el editor sigue funcionando */ }
 }
 
 function firmaRenderEditor() {
@@ -416,6 +470,7 @@ function firmaRenderEditor() {
   });
   firmaUpdateResetBtn();
   if (typeof firmaUpdatePublishBtn === 'function') firmaUpdatePublishBtn();
+  firmaRenderStepper();
 }
 
 // FASE 3 — botón Publicar: visible solo con documento local (no sesión).
@@ -1085,9 +1140,8 @@ async function firmaLoadBandeja(scope) {
   var tabs = document.querySelectorAll('#firmaTabs .firma-tab');
   tabs.forEach(function(t) {
     var active = t.dataset.scope === _firmaBandejaScope;
-    t.style.cssText = 'flex:1;padding:5px 4px;font-size:10px;font-weight:700;border-radius:5px;cursor:pointer;border:1px solid ' +
-      (active ? 'var(--accBorder)' : 'var(--border)') + ';background:' + (active ? 'var(--accDim)' : 'transparent') +
-      ';color:' + (active ? 'var(--acc2)' : 'var(--t3)') + ';font-family:inherit';
+    t.classList.toggle('act', active);
+    t.setAttribute('aria-selected', active ? 'true' : 'false');
   });
   var list = document.getElementById('firmaBandejaList');
   if (!list) return;

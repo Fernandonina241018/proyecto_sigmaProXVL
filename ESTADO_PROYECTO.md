@@ -4133,3 +4133,11 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** `dd/Mmm/AAAA HH:MM:SS AM/PM` en servidor (`sign-stamp.js`) y cliente (`_firmaNowStamp`). Ej: 19/Sep/2026 02:05:09 PM. Tests actualizados (incluye medianoche/mediodía).
 
 **Verificación:** backend 3/3 stamp, vitest firma-session 13/13.
+
+### 2026-09-19 (39): Layout sidebar Firmar Reporte (port mock fp-*)
+
+**Qué:** Estructura doc → stepper → editor → acordeones (bandeja abierta, cargar colapsado) + pie fijo con Descargar/Publicar/Reset siempre visibles. Stepper done/now desde estado con etiquetas del reporte. Tabs por clase CSS (antes inline). Mismos IDs: lógica intacta.
+
+**Archivos:** `css/core/indexx.css` (bloque fp-* con tokens), `js/core/indexx-ui.js` (template), `js/core/indexx-firma.js` (firmaRenderStepper + wiring), `tests/firma-open.test.js` (+2 layout).
+
+**Verificación:** `node -c` OK ×2, vitest 150/150. Pendiente confirmación visual del usuario (3 puntos).

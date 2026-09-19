@@ -101,3 +101,30 @@ describe('_firmaOpenSession integración real (happy-dom)', () => {
     expect(document.getElementById('firmaStatus').textContent).toMatch('1/3');
   });
 });
+
+describe('layout FP (stepper + doc + pie)', () => {
+  test('stepper: 1 done + 1 now + count', async () => {
+    const { sandbox, document } = loadOpenHarness();
+    document.body.innerHTML += '<div id="firmaStepper"></div><b id="firmaDocName"></b>' +
+      '<span id="firmaDocState"></span><p id="firmaFootHint"></p>' +
+      '<button id="firmaDownloadBtn"></button>';
+    await vm.runInContext('_firmaOpenSession(99)', sandbox);
+    const steps = document.querySelectorAll('#firmaStepper .fp-step');
+    expect(steps.length).toBe(3);
+    expect(document.querySelectorAll('#firmaStepper .fp-step.is-done').length).toBe(1);
+    expect(document.querySelectorAll('#firmaStepper .fp-step.is-now').length).toBe(1);
+    expect(document.querySelector('#firmaStepper .fp-count').textContent).toMatch('1 de 3 firmas');
+  });
+
+  test('doc header + hint borrador + botón descarga', async () => {
+    const { sandbox, document } = loadOpenHarness();
+    document.body.innerHTML += '<div id="firmaStepper"></div><b id="firmaDocName"></b>' +
+      '<span id="firmaDocState"></span><p id="firmaFootHint"></p>' +
+      '<button id="firmaDownloadBtn"></button>';
+    await vm.runInContext('_firmaOpenSession(99)', sandbox);
+    expect(document.getElementById('firmaDocName').textContent).toBe('RPT-T');
+    expect(document.getElementById('firmaDocState').textContent).toMatch('Sesión #99');
+    expect(document.getElementById('firmaFootHint').textContent).toMatch('borrador');
+    expect(document.getElementById('firmaDownloadBtn').textContent).toMatch('borrador');
+  });
+});
