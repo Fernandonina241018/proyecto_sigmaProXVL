@@ -4177,3 +4177,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** Proxy extraído a `backend/ml-proxy.js` (testeable): soporta https (antes solo http → 503 contra Fly), inyecta X-API-Key del servidor, y fix real: el delete de Content-Type en GET nunca funcionaba (case mismatch). CSP report-only reforzado (object/base/frame) + Permissions-Policy + aviso de fallback CORS en arranque. Full enforce queda pendiente (requiere refactor de inline scripts).
 
 **Verificación:** backend 52/52 (+5 proxy), `node -c` OK.
+
+### 2026-09-19 (46): Lote C — remember-me sin password + caché columnas
+
+**Qué:** (1) `auth.js` ya no guarda password (ni XOR): solo username + purga entradas legacy con password. (2) `StatsUtils.getNumericColumns` con memo LRU-20 por fingerprint; `clearNumericColumnsCache()` exportado e invocado desde `StateManager.invalidateNumericColsCache`.
+
+**Verificación:** `node -c` OK ×3, 71/71 en suites afectadas.
