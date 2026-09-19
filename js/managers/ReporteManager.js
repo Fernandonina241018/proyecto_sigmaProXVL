@@ -2424,8 +2424,8 @@ tr:hover td{background:#f7faff}
             '<label style="font-size:11px">Contraseña<input id="pub-pass" type="password" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box"></label>' +
             '<label style="font-size:11px">Revisor (obligatorio)<select id="pub-reviewer" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box">' +
             '<option value="">— Seleccionar —</option>' + users.map(opt).join('') + '</select></label>' +
-            '<label style="font-size:11px">Aprobador (opcional)<select id="pub-approver" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box">' +
-            '<option value="">— Cualquiera elegible —</option>' + approverOpts.map(opt).join('') + '</select></label>' +
+            '<label style="font-size:11px">Aprobador (obligatorio)<select id="pub-approver" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box">' +
+            '<option value="">— Seleccionar —</option>' + approverOpts.map(opt).join('') + '</select></label>' +
             '<div id="pub-err" style="font-size:11px;color:#e53e3e;min-height:16px"></div>' +
             '<div style="display:flex;gap:8px;justify-content:flex-end">' +
             '<button id="pub-cancel" class="btn btn-secondary">Cancelar</button>' +
@@ -2442,13 +2442,13 @@ tr:hover td{background:#f7faff}
             const approver = overlay.querySelector('#pub-approver').value;
             if (!code || !pass) { errEl.textContent = 'Ingresa tu código de firma y contraseña.'; return; }
             if (!reviewer) { errEl.textContent = 'Debes asignar un revisor.'; return; }
+            if (!approver) { errEl.textContent = 'Debes asignar un aprobador.'; return; }
             errEl.textContent = 'Publicando…';
             try {
                 const data = await _repApiPost('/api/sign-sessions', {
                     name: base, html: html,
-                    assignedReviewer: reviewer, assignedApprover: approver || null,
-                    signatureCode: code, password: pass,
-                    tzOffset: new Date().getTimezoneOffset()
+                    assignedReviewer: reviewer, assignedApprover: approver,
+                    signatureCode: code, password: pass
                 });
                 if (!data || !data.ok) { errEl.textContent = '❌ ' + ((data && data.error) || 'Error al publicar'); return; }
                 close();

@@ -151,6 +151,31 @@ test('cadena de auditoría intacta tras sesiones', async () => {
   assert.equal(v.valid, true);
 });
 
+// ── Dismiss (quitar de mis pendientes) ──
+test('dismiss oculta solo para quien marcó', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-DISM', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: 'carla_sup',
+    preparedSignature: { nombre: 'Ana' },
+  });
+  const d = await db.dismissSignSession({ id: s.id, username: 'beto_rev' });
+  assert.deepEqual(d.dismissed_by, ['beto_rev']);
+  // Idempotente: doble dismiss no duplica
+  const d2 = await db.dismissSignSession({ id: s.id, username: 'beto_rev' });
+  assert.deepEqual(d2.dismissed_by, ['beto_rev']);
+  const pb = await db.listSignSessions({ scope: 'pending', username: 'beto_rev' });
+  assert.ok(!pb.some((x) => x.id === s.id), 'fuera de pendientes de beto');
+  const pc = await db.listSignSessions({ scope: 'pending', username: 'carla_sup' });
+  assert.ok(pc.some((x) => x.id === s.id), 'sigue visible para carla');
+  const mine = await db.listSignSessions({ scope: 'mine', username: 'ana_prep' });
+  assert.ok(mine.some((x) => x.id === s.id), 'creadora la sigue viendo');
+});
+
+test('dismiss en completa/rechazada → 422', async () => {
+  const c = await db.dismissSignSession({ id: S1.id, username: 'ana_prep' });
+  assert.equal(c.code, 'not-pending'); // S1 está complete
+});
+
 // ── Unsign (solo último + solo quien firmó) ──
 test('firmante reinicia su última firma y vuelve el estado', async () => {
   const s = await db.createSignSession({

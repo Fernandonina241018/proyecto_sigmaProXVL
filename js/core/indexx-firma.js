@@ -119,6 +119,16 @@ function initFirmarReportePage() {
   bandTabs.forEach(function(t) {
     t.onclick = function() { firmaLoadBandeja(t.dataset.scope); };
   });
+  var refreshBtn = document.getElementById('firmaRefreshBtn');
+  if (refreshBtn) {
+    refreshBtn.onclick = function() {
+      firmaLoadBandeja();
+      firmaUpdatePendingBadge();
+      if (_firmaSessionId) _firmaPollSession();
+      showToast('🔄 Bandeja actualizada');
+    };
+  }
+  firmaStartPolling();
 
   if (!dropZone || !fileInput || !preview) return;
 
@@ -501,7 +511,7 @@ async function firmaPublishLoaded() {
     '<label style="font-size:11px">Código de firma<input id="fpub-code" type="password" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box"></label>' +
     '<label style="font-size:11px">Contraseña<input id="fpub-pass" type="password" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box"></label>' +
     '<label style="font-size:11px">Revisor (obligatorio)<select id="fpub-reviewer" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box"><option value="">Cargando…</option></select></label>' +
-    '<label style="font-size:11px">Aprobador (opcional)<select id="fpub-approver" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box"><option value="">— Cualquiera elegible —</option></select></label>' +
+    '<label style="font-size:11px">Aprobador (obligatorio)<select id="fpub-approver" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);box-sizing:border-box"><option value="">— Seleccionar —</option></select></label>' +
     '<div id="fpub-err" style="font-size:11px;color:#e53e3e;min-height:16px"></div>' +
     '<div style="display:flex;gap:8px;justify-content:flex-end">' +
     '<button id="fpub-cancel" class="btn btn-secondary">Cancelar</button>' +
@@ -533,12 +543,13 @@ async function firmaPublishLoaded() {
     var approver = selA.value;
     if (!code || !pass) { errEl.textContent = 'Ingresa tu código de firma y contraseña.'; return; }
     if (!reviewer) { errEl.textContent = 'Debes asignar un revisor.'; return; }
+    if (!approver) { errEl.textContent = 'Debes asignar un aprobador.'; return; }
     errEl.textContent = 'Publicando…';
     try {
       var res = await _firmaApiPost('/api/sign-sessions/import', {
         name: _firmaOriginalName || 'reporte.html',
         html: _firmaCurrentHtml,
-        assignedReviewer: reviewer, assignedApprover: approver || null,
+        assignedReviewer: reviewer, assignedApprover: approver,
         signatureCode: code, password: pass,
         tzOffset: new Date().getTimezoneOffset()
       });
@@ -762,7 +773,7 @@ function firmaRequestPassword(role) {
     approverSel = document.createElement('select');
     approverSel.style.cssText = 'width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem;outline:none;box-sizing:border-box';
     var curAp = _firmaSessionAssignees.approver;
-    approverSel.innerHTML = '<option value="">— Cualquiera elegible —</option>' +
+    approverSel.innerHTML = '<option value="">— Conservar actual —</option>' +
       (curAp ? '<option value="' + escapeHtml(curAp) + '" selected>' + escapeHtml(curAp) + ' (actual)</option>' : '');
     content.appendChild(approverSel);
     _firmaApiGet('/api/users/list').then(function(data) {
@@ -770,7 +781,7 @@ function firmaRequestPassword(role) {
       var opts = (data.users || []).filter(function(u) {
         return u.role === 'admin' || u.role === 'coordinador' || u.role === 'supervisor' || u.role === 'gerente';
       });
-      var html = '<option value="">— Cualquiera elegible —</option>' + opts.map(function(u) {
+      var html = '<option value="">— Conservar actual —</option>' + opts.map(function(u) {
         var nm = [u.nombre, u.apellido].filter(Boolean).join(' ') || u.username;
         var sel = (curAp && u.username === curAp) ? ' selected' : '';
         return '<option value="' + escapeHtml(u.username) + '"' + sel + '>' + escapeHtml(nm) + ' (' + escapeHtml(u.username) + ')</option>';
@@ -808,6 +819,37 @@ function firmaRequestPassword(role) {
   pwInput.addEventListener('keydown', function(e){
     if (e.key === 'Enter') confirmBtn.click();
   });
+}
+
+// Modal post-firma: confirma, muestra el siguiente paso y quita la sesión
+// de MIS pendientes (dismiss; al resto no le afecta). Reemplaza el toast.
+function firmaShowPostSignModal(session, role) {
+  try {
+    var sigs = session.signatures || {};
+    var n = ['prepared', 'reviewed', 'approved'].filter(function(r) { return sigs[r] && sigs[r].signed; }).length;
+    var isComplete = !session.next_role;
+    var overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    var detail = isComplete
+      ? 'Reporte completo (' + n + '/3). Solo queda en <b>' + escapeHtml(session.created_by || '') + '</b>, quien puede descargarlo con todas las firmas.'
+      : 'Sesión #' + session.id + ' · ' + n + '/3 firmas. Sigue visible para <b>' + escapeHtml(session.assigned_approver || 'el aprobador') + '</b>. Ya no aparecerá en tus pendientes.';
+    overlay.innerHTML =
+      '<div class="modal-box" style="max-width:380px">' +
+      '<div class="modal-title">' + (isComplete ? '✅ Reporte completo' : '✅ ' + (role === 'reviewed' ? 'Revisión' : 'Firma') + ' registrada') + '</div>' +
+      '<div style="padding:12px 16px;display:flex;flex-direction:column;gap:10px">' +
+      '<div style="font-size:12px;color:var(--text-primary)">' + escapeHtml(session.name || '') + '</div>' +
+      '<div style="font-size:11px;color:var(--text-faint)">' + detail + '</div>' +
+      '<div style="display:flex;justify-content:flex-end">' +
+      '<button id="fps-ok" class="btn btn-primary">Entendido</button>' +
+      '</div></div></div>';
+    document.body.appendChild(overlay);
+    overlay.querySelector('#fps-ok').onclick = async function() {
+      overlay.remove();
+      try { await _firmaApiPost('/api/sign-sessions/' + session.id + '/dismiss', {}); } catch (e) { /* ya se oculta por elegibilidad; best-effort */ }
+      firmaLoadBandeja();
+      firmaUpdatePendingBadge();
+    };
+  } catch (e) { /* fail-open: sin modal, el toast de bandeja ya informó */ }
 }
 
 async function firmaVerify(role, code, password, statusEl, extra) {
@@ -848,10 +890,11 @@ async function firmaVerify(role, code, password, statusEl, extra) {
       _firmaPaintSessionState();
       var me = st[role] || {};
       firmaRenderEditor();
+      firmaUpdatePendingBadge();
+      firmaShowPostSignModal(session, role);
       _firmaUpdateReportBadge();
       firmaPersistState();
       firmaLoadBandeja();
-      showToast('\u2705 Firma registrada en servidor: ' + (me.nombre || role));
     } catch (e) {
       console.error('Error signing session:', e);
       if (statusEl) statusEl.textContent = '\u274C Error de conexi\u00F3n con el servidor';
@@ -1223,6 +1266,40 @@ function _firmaSetNavBadge(n) {
   } catch (e) { /* fail-open */ }
 }
 
+// Estatus vivo: polling ligero (30s, solo pestaña visible y en esta página)
+// + botón manual. Si la sesión abierta cambió de versión, la re-abre.
+var _firmaPollTimer = null;
+
+function firmaStartPolling() {
+  firmaStopPolling();
+  try {
+    _firmaPollTimer = setInterval(function() {
+      try {
+        if (typeof document !== 'undefined' && document.hidden) return;
+        if (typeof currentPage !== 'undefined' && currentPage !== 'firmarReporte') return;
+        firmaLoadBandeja();
+        firmaUpdatePendingBadge();
+        if (_firmaSessionId) _firmaPollSession();
+      } catch (e) { /* fail-open */ }
+    }, 30000);
+  } catch (e) { /* fail-open */ }
+}
+
+function firmaStopPolling() {
+  try { if (_firmaPollTimer) { clearInterval(_firmaPollTimer); _firmaPollTimer = null; } } catch (e) {}
+}
+
+async function _firmaPollSession() {
+  if (!_firmaSessionId) return;
+  try {
+    var data = await _firmaApiGet('/api/sign-sessions/' + _firmaSessionId);
+    if (data && data.ok && data.session && data.session.version !== _firmaSessionVersion) {
+      await _firmaOpenSession(_firmaSessionId, true);
+      showToast('🔄 La sesión se actualizó (otro usuario firmó)');
+    }
+  } catch (e) { /* fail-open: se reintenta en 30s */ }
+}
+
 // Badge con pendientes (retorna el conteo; null si sin servidor)
 async function firmaUpdatePendingBadge() {
   var badge = document.getElementById('firmaPendingBadge');
@@ -1373,10 +1450,10 @@ function _firmaClearPendingSession() {
   try { sessionStorage.removeItem('__firma_session_id'); } catch (e) {}
 }
 
-async function _firmaOpenSession(id) {
+async function _firmaOpenSession(id, silent) {
   if (_firmaOpeningSession === id) return false; // ya abriéndose: no duplicar
   _firmaOpeningSession = id;
-  showToast('Abriendo sesión #' + id + '…');
+  if (!silent) showToast('Abriendo sesión #' + id + '…');
   try {
     var data = await _firmaApiGet('/api/sign-sessions/' + id);
     if (!data || !data.ok) { showToast('❌ ' + ((data && data.error) || 'No se pudo abrir'), true); return false; }
@@ -1421,7 +1498,7 @@ async function _firmaOpenSession(id) {
     _firmaUpdateReportBadge();
     firmaPersistState();
     firmaLoadBandeja();
-    showToast('✅ Sesión #' + session.id + ' abierta (' + (session.next_role ? 'toca: ' + session.next_role : 'completa') + ')');
+    if (!silent) showToast('✅ Sesión #' + session.id + ' abierta (' + (session.next_role ? 'toca: ' + session.next_role : 'completa') + ')');
     return true;
   } catch (e) {
     console.error('Error abriendo sesión:', e);

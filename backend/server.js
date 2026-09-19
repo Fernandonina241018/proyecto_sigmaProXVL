@@ -950,6 +950,9 @@ app.post('/api/sign-sessions', requireAuth, async (req, res) => {
         if (!assignedReviewer?.trim()) {
             return res.status(400).json({ error: 'Debes asignar un revisor' });
         }
+        if (!assignedApprover?.trim()) {
+            return res.status(400).json({ error: 'Debes asignar un aprobador' });
+        }
         const signer = await _checkSignCredentials(req, res);
         if (!signer) return; // respuesta ya enviada
         const nombreCompleto = [signer.nombre, signer.apellido].filter(Boolean).join(' ') || signer.username;
@@ -987,6 +990,9 @@ app.post('/api/sign-sessions/import', requireAuth, verifyLimiter, async (req, re
         }
         if (!assignedReviewer?.trim()) {
             return res.status(400).json({ error: 'Debes asignar un revisor' });
+        }
+        if (!assignedApprover?.trim()) {
+            return res.status(400).json({ error: 'Debes asignar un aprobador' });
         }
         const signer = await _checkSignCredentials(req, res);
         if (!signer) return; // respuesta ya enviada
@@ -1163,6 +1169,24 @@ app.post('/api/sign-sessions/:id/unsign', requireAuth, signLimiter, async (req, 
     } catch (err) {
         console.error('Error unsigning session step:', err);
         res.status(500).json({ error: 'Error al reiniciar firma' });
+    }
+});
+
+// POST /api/sign-sessions/:id/dismiss — quitar de MIS pendientes.
+// Preferencia de vista por usuario: no afecta al resto ni audita contenido.
+app.post('/api/sign-sessions/:id/dismiss', requireAuth, async (req, res) => {
+    try {
+        const result = await db.dismissSignSession({
+            id: parseInt(req.params.id), username: req.user.username,
+        });
+        if (result.error) {
+            const status = result.code === 'not-found' ? 404 : 422;
+            return res.status(status).json({ error: result.error, code: result.code });
+        }
+        res.json({ ok: true, id: result.id });
+    } catch (err) {
+        console.error('Error dismissing sign session:', err);
+        res.status(500).json({ error: 'Error al quitar de pendientes' });
     }
 });
 

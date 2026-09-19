@@ -499,10 +499,13 @@ var leftPanels = {
         '<details class="fp-acc" id="firmaAccBandeja" open>' +
           '<summary>Bandeja de firmas <span class="fp-badge" id="firmaPendingBadge" style="display:none"></span></summary>' +
           '<div class="fp-acc-body">' +
-            '<div class="fp-tabs" id="firmaTabs" role="tablist">' +
+          '<div style="display:flex;gap:6px;align-items:stretch">' +
+            '<div class="fp-tabs" id="firmaTabs" role="tablist" style="flex:1">' +
               '<button type="button" class="firma-tab" role="tab" data-scope="pending" aria-selected="true">Pendientes</button>' +
               '<button type="button" class="firma-tab" role="tab" data-scope="mine" aria-selected="false">Mías</button>' +
             '</div>' +
+            '<button type="button" class="fp-btn" id="firmaRefreshBtn" title="Refrescar bandeja" style="height:34px;padding:0 10px">↻</button>' +
+          '</div>' +
             '<div class="fp-list" id="firmaBandejaList">' +
               '<div style="font-size:10px;color:var(--text-faint);text-align:center;padding:6px">Sin datos — abre la página para cargar</div></div>' +
           '</div>' +

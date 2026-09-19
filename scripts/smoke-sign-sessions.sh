@@ -48,6 +48,12 @@ SID=$(J "$PUB" .session.id); VER=$(J "$PUB" .session.version)
 [ "$(J "$PUB" .session.signatures.prepared.username)" = "smoke_pub" ] || fail "prepared no es pub"
 pass "publish sesión #$SID (prepared=smoke_pub)"
 
+# Publish sin aprobador → 400 (obligatorio)
+NOAP=$(curl -s -X POST "$API/api/sign-sessions" -H "Authorization: Bearer $TOK_ADMIN" \
+  -H 'Content-Type: application/json' -d '{"name":"R-NOAP","html":"<h1>x</h1>","assignedReviewer":"smoke_ana","signatureCode":"PUB-1","password":"Pass123!"}')
+echo "$NOAP" | jq -e '.error == "Debes asignar un aprobador"' >/dev/null || fail "aprobador debió exigirse: $NOAP"
+pass "400 aprobador obligatorio"
+
 # Fuera de orden
 OOO=$(curl -s -X POST "$API/api/sign-sessions/$SID/sign" -H "Authorization: Bearer $TOK_ADMIN" \
   -H 'Content-Type: application/json' -d '{"role":"approved","signatureCode":"SUP-1","password":"Pass123!","expectedVersion":1}')
@@ -107,7 +113,7 @@ pass "pending count de ana = 0 (ya firmó todo)"
 
 # Unsign: solo último + solo quien firmó + motivo obligatorio
 UG=$(curl -sf -X POST "$API/api/sign-sessions" -H "Authorization: Bearer $TOK_ADMIN" \
-  -H 'Content-Type: application/json' -d '{"name":"RPT-UNS","html":"<h1>u</h1>","assignedReviewer":"smoke_ana","signatureCode":"PUB-1","password":"Pass123!"}') || fail "publish unsign"
+  -H 'Content-Type: application/json' -d '{"name":"RPT-UNS","html":"<h1>u</h1>","assignedReviewer":"smoke_ana","assignedApprover":"smoke_sup","signatureCode":"PUB-1","password":"Pass123!"}') || fail "publish unsign"
 SIDU=$(J "$UG" .session.id)
 curl -sf -X POST "$API/api/sign-sessions/$SIDU/sign" -H "Authorization: Bearer $TOK_ADMIN" \
   -H 'Content-Type: application/json' -d '{"role":"reviewed","signatureCode":"ANA-1","password":"Pass123!","expectedVersion":1}' >/dev/null || fail "reviewed unsign-setup"
@@ -141,13 +147,13 @@ pass "403 para no involucrada"
 # Import: archivo limpio con prepared coincidente (PUB TEST)
 HTML2='<html><body><div data-signature-role="prepared"><span data-signature-field="name" data-signature-role="prepared">PUB TEST</span></div><div data-signature-role="reviewed"><span data-signature-field="name" data-signature-role="reviewed">—</span></div></body></html>'
 IMP=$(curl -sf -X POST "$API/api/sign-sessions/import" -H "Authorization: Bearer $TOK_ADMIN" \
-  -H 'Content-Type: application/json' -d "$(jq -n --arg h "$HTML2" '{name:"RPT-IMP", html:$h, assignedReviewer:"smoke_ana", signatureCode:"PUB-1", password:"Pass123!"}')") || fail "import"
+  -H 'Content-Type: application/json' -d "$(jq -n --arg h "$HTML2" '{name:"RPT-IMP", html:$h, assignedReviewer:"smoke_ana", assignedApprover:"smoke_sup", signatureCode:"PUB-1", password:"Pass123!"}')") || fail "import"
 [ "$(J "$IMP" .ok)" = "true" ] || fail "import: $(J "$IMP" .error)"
 pass "import aceptado (sesión #$(J "$IMP" .session.id))"
 
 # Import: mismatch de preparador
 IMP2=$(curl -s -X POST "$API/api/sign-sessions/import" -H "Authorization: Bearer $TOK_ADMIN" \
-  -H 'Content-Type: application/json' -d "$(jq -n --arg h "$HTML2" '{name:"RPT-IMP2", html:$h, assignedReviewer:"smoke_ana", signatureCode:"ANA-1", password:"Pass123!"}')")
+  -H 'Content-Type: application/json' -d "$(jq -n --arg h "$HTML2" '{name:"RPT-IMP2", html:$h, assignedReviewer:"smoke_ana", assignedApprover:"smoke_sup", signatureCode:"ANA-1", password:"Pass123!"}')")
 [ "$(J "$IMP2" .code)" = "preparer-mismatch" ] || fail "mismatch no enforced: $IMP2"
 pass "422 preparer-mismatch"
 
@@ -174,7 +180,7 @@ pass "rechazada eliminada (404 posterior)"
 
 # Publish con HTML grande (~1MB, como reporte real con JPEGs) — regresión 413.
 # OJO: se escribe a archivo porque 1MB como argumento rompe ARG_MAX del shell.
-python3 -c "import json; print(json.dumps({'name':'RPT-BIG','html':'A'*1000000,'assignedReviewer':'smoke_ana','signatureCode':'PUB-1','password':'Pass123!'}))" > /tmp/smoke-big.json
+python3 -c "import json; print(json.dumps({'name':'RPT-BIG','html':'A'*1000000,'assignedReviewer':'smoke_ana','assignedApprover':'smoke_sup','signatureCode':'PUB-1','password':'Pass123!'}))" > /tmp/smoke-big.json
 BIGCODE=$(curl -s -o /tmp/smoke-big-resp.json -w "%{http_code}" --max-time 60 -X POST "$API/api/sign-sessions" -H "Authorization: Bearer $TOK_ADMIN" \
   -H 'Content-Type: application/json' --data-binary @/tmp/smoke-big.json)
 [ "$BIGCODE" = "200" ] || fail "publish grande HTTP $BIGCODE: $(head -c 200 /tmp/smoke-big-resp.json)"
@@ -184,7 +190,7 @@ rm -f /tmp/smoke-big.json /tmp/smoke-big-resp.json
 
 # Fecha con zona del firmante (tzOffset 360 = UTC-6)
 TZP=$(curl -sf -X POST "$API/api/sign-sessions" -H "Authorization: Bearer $TOK_ADMIN" \
-  -H 'Content-Type: application/json' -d '{"name":"RPT-TZ","html":"<h1>z</h1>","assignedReviewer":"smoke_ana","signatureCode":"PUB-1","password":"Pass123!","tzOffset":360}') || fail "publish tz"
+  -H 'Content-Type: application/json' -d '{"name":"RPT-TZ","html":"<h1>z</h1>","assignedReviewer":"smoke_ana","assignedApprover":"smoke_sup","signatureCode":"PUB-1","password":"Pass123!","tzOffset":360}') || fail "publish tz"
 TZF=$(J "$TZP" .session.signatures.prepared.fecha)
 echo "$TZF" | grep -Eq '^[0-9]{2}/[A-Z][a-z]{2}/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2} (AM|PM)$' || fail "formato fecha con tz: $TZF"
 pass "fecha en zona del firmante ($TZF)"
