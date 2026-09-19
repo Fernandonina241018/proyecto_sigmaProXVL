@@ -39,7 +39,9 @@ const { authenticator } = require('otplib');
 const QRCode  = require('qrcode');
 const db      = require('./database');
 const { extractEmbeddedSignatures } = require('./sign-html'); // FASE 3
-const { signStamp } = require('./sign-stamp');
+const { signStampTZ } = require('./sign-stamp');
+// tzOffset: minutos de Date.getTimezoneOffset() del firmante (UTC-local).
+function _signFecha(req) { return signStampTZ(new Date(), req.body && req.body.tzOffset); }
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -959,7 +961,7 @@ app.post('/api/sign-sessions', requireAuth, async (req, res) => {
             preparedSignature: {
                 nombre: nombreCompleto, cargo: signer.cargo || '',
                 firma: signer.signature || '',
-                fecha: signStamp(new Date()),
+                fecha: _signFecha(req),
             },
         });
         await db.logAuditEvent({
@@ -998,7 +1000,7 @@ app.post('/api/sign-sessions/import', requireAuth, verifyLimiter, async (req, re
             preparedSignature: {
                 nombre: nombreCompleto, cargo: signer.cargo || '',
                 firma: signer.signature || '',
-                fecha: signStamp(new Date()),
+                fecha: _signFecha(req),
             },
             embedded,
         });
@@ -1076,7 +1078,7 @@ app.post('/api/sign-sessions/:id/sign', requireAuth, signLimiter, async (req, re
             signature: {
                 nombre: nombreCompleto, cargo: signer.cargo || '',
                 firma: signer.signature || '',
-                fecha: signStamp(new Date()),
+                fecha: _signFecha(req),
             },
             expectedVersion: parseInt(expectedVersion),
             newAssignee: newAssignee?.trim() || undefined,

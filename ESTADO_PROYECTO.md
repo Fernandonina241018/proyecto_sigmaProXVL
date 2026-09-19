@@ -4153,3 +4153,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** El admin puede reiniciar CUALQUIER rol (no solo el último); si no es el último, invalida en cascada los posteriores (si no, quedaría la incoherencia prohibida). Respuesta incluye `admin_cascade`, auditoría lo registra, frontend muestra aviso y limpia el pintado de invalidadas. Gating del botón actualizado.
 
 **Verificación:** backend 39/39, smoke 26/26, vitest 158/158.
+
+### 2026-09-19 (42): Fix — fecha de firma en zona horaria del firmante
+
+**Qué:** La bandeja guardaba hora del servidor (UTC en Fly) en vez de la del PC. Frontend envía `tzOffset` en publicar/importar/firmar; `signStampTZ()` convierte con getters UTC (inmune a zona del servidor). Sin offset → comportamiento anterior. `signed_at` interno sigue UTC.
+
+**Verificación:** backend 43/43 (+4 TZ), smoke 27/27 (fecha `18/Sep/2026 09:09:22 PM` con offset 360), vitest 158/158.

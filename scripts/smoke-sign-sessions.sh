@@ -182,6 +182,13 @@ BIGCODE=$(curl -s -o /tmp/smoke-big-resp.json -w "%{http_code}" --max-time 60 -X
 pass "publish 1MB aceptado (sesión #$(jq -r .session.id < /tmp/smoke-big-resp.json))"
 rm -f /tmp/smoke-big.json /tmp/smoke-big-resp.json
 
+# Fecha con zona del firmante (tzOffset 360 = UTC-6)
+TZP=$(curl -sf -X POST "$API/api/sign-sessions" -H "Authorization: Bearer $TOK_ADMIN" \
+  -H 'Content-Type: application/json' -d '{"name":"RPT-TZ","html":"<h1>z</h1>","assignedReviewer":"smoke_ana","signatureCode":"PUB-1","password":"Pass123!","tzOffset":360}') || fail "publish tz"
+TZF=$(J "$TZP" .session.signatures.prepared.fecha)
+echo "$TZF" | grep -Eq '^[0-9]{2}/[A-Z][a-z]{2}/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2} (AM|PM)$' || fail "formato fecha con tz: $TZF"
+pass "fecha en zona del firmante ($TZF)"
+
 # Verify chain intacta
 VRF=$(curl -sf "$API/api/audit/verify" -H "Authorization: Bearer $TOK_ADMIN" | jq -r .valid)
 [ "$VRF" = "true" ] || fail "cadena rota"

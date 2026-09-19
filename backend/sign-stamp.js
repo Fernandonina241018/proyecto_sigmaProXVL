@@ -20,4 +20,22 @@ function signStamp(d) {
     );
 }
 
-module.exports = { signStamp, MESES };
+// Formatea un instante en la zona horaria del firmante.
+// tzOffsetMin = Date.getTimezoneOffset() del cliente (UTC - local, en minutos).
+// Usa getters UTC: inmune a la zona del servidor (Fly corre en UTC).
+// Sin offset válido → hora local del servidor (comportamiento anterior).
+function signStampTZ(d, tzOffsetMin) {
+    const t = d instanceof Date ? d : new Date();
+    const off = parseInt(tzOffsetMin);
+    if (!Number.isFinite(off)) return signStamp(t);
+    const shifted = new Date(t.getTime() - off * 60000);
+    const h24 = shifted.getUTCHours();
+    const ampm = h24 >= 12 ? 'PM' : 'AM';
+    const h12 = h24 % 12 || 12;
+    return (
+        pad2(shifted.getUTCDate()) + '/' + MESES[shifted.getUTCMonth()] + '/' + shifted.getUTCFullYear() + ' ' +
+        pad2(h12) + ':' + pad2(shifted.getUTCMinutes()) + ':' + pad2(shifted.getUTCSeconds()) + ' ' + ampm
+    );
+}
+
+module.exports = { signStamp, signStampTZ, MESES };

@@ -2447,7 +2447,8 @@ tr:hover td{background:#f7faff}
                 const data = await _repApiPost('/api/sign-sessions', {
                     name: base, html: html,
                     assignedReviewer: reviewer, assignedApprover: approver || null,
-                    signatureCode: code, password: pass
+                    signatureCode: code, password: pass,
+                    tzOffset: new Date().getTimezoneOffset()
                 });
                 if (!data || !data.ok) { errEl.textContent = '❌ ' + ((data && data.error) || 'Error al publicar'); return; }
                 close();

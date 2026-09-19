@@ -539,7 +539,8 @@ async function firmaPublishLoaded() {
         name: _firmaOriginalName || 'reporte.html',
         html: _firmaCurrentHtml,
         assignedReviewer: reviewer, assignedApprover: approver || null,
-        signatureCode: code, password: pass
+        signatureCode: code, password: pass,
+        tzOffset: new Date().getTimezoneOffset()
       });
       if (!res || !res.ok) { errEl.textContent = '❌ ' + ((res && res.error) || 'Error al publicar'); return; }
       overlay.remove();
@@ -818,7 +819,7 @@ async function firmaVerify(role, code, password, statusEl, extra) {
   if (_firmaSessionId) {
     if (statusEl) statusEl.textContent = '\u23F3 Firmando en servidor...';
     try {
-      var body = { role: role, signatureCode: code, password: password, expectedVersion: _firmaSessionVersion };
+      var body = { role: role, signatureCode: code, password: password, expectedVersion: _firmaSessionVersion, tzOffset: new Date().getTimezoneOffset() };
       if (extra && extra.newAssignee) body.newAssignee = extra.newAssignee;
       var sres = await _firmaApiPost('/api/sign-sessions/' + _firmaSessionId + '/sign', body);
       var sdata = sres;
