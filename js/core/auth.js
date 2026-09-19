@@ -5,23 +5,10 @@
 
 const Auth = (() => {
 
-    function _xorObfuscate(str, key) {
-        var result = '';
-        for (var i = 0; i < str.length; i++) {
-            result += String.fromCharCode(str.charCodeAt(i) ^ key.charCodeAt(i % key.length));
-        }
-        return btoa(result);
-    }
-    function _xorDeobfuscate(str, key) {
-        try {
-            var decoded = atob(str);
-            var result = '';
-            for (var i = 0; i < decoded.length; i++) {
-                result += String.fromCharCode(decoded.charCodeAt(i) ^ key.charCodeAt(i % key.length));
-            }
-            return result;
-        } catch(_e) { return ''; }
-    }
+    // LOTE C: remember-me seguro — SOLO username, nunca password.
+    // Antes se guardaba el password con XOR reversible (recuperable por
+    // cualquiera con acceso al navegador). Ahora solo se autocompleta el
+    // usuario; la contraseña siempre se escribe a mano.
 
     const CFG = {
         SESSION_TIMEOUT_MS: 5 * 60 * 1000,
@@ -231,9 +218,13 @@ const Auth = (() => {
         _renderParticles();
         try {
             var saved = JSON.parse(localStorage.getItem('__auth_remembered'));
+            // Migración: si hay entrada legacy con password, se purga
+            if (saved && saved.password) {
+                localStorage.removeItem('__auth_remembered');
+                saved = null;
+            }
             if (saved && saved.username) {
                 document.getElementById('auth-user').value = saved.username;
-                document.getElementById('auth-pass').value = saved.password ? _xorDeobfuscate(saved.password, saved.username) : '';
                 document.getElementById('auth-remember').checked = true;
             }
         } catch(_e) {}
@@ -618,7 +609,7 @@ const Auth = (() => {
             _attempts=0;
             var rememberCb = document.getElementById('auth-remember');
             if (rememberCb && rememberCb.checked) {
-                try { localStorage.setItem('__auth_remembered', JSON.stringify({username: user, password: _xorObfuscate(pass, user)})); } catch(_e) {}
+                try { localStorage.setItem('__auth_remembered', JSON.stringify({username: user})); } catch(_e) {}
             } else {
                 try { localStorage.removeItem('__auth_remembered'); } catch(_e) {}
             }

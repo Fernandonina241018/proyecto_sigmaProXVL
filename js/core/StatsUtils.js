@@ -50,6 +50,28 @@ const StatsUtils = (function () {
      * @param {number} options.sampleRows - Si > 0, solo evalúa las primeras N filas (fast-path para renders; default 0 = scan completo)
      * @returns {string[]} Array de nombres de columnas numéricas
      */
+    // LOTE C: memo de columnas por fingerprint del dataset. Cada análisis
+    // (descriptiva, EDA, modelo) re-parseaba todo por estadístico; con el
+    // caché el 2º+ uso es O(1). LRU simple de 20 entradas; invalidación
+    // explícita vía clearNumericColumnsCache() (StateManager lo llama al
+    // importar/limpiar datos). Misma política de hash que getNumericCols.
+    const _numColsCache = new Map();
+
+    function _numColsFingerprint(data, threshold, excludeColumns, sampleRows) {
+        const firstRow = data.data[0];
+        const lastRow = data.data[data.data.length - 1];
+        return [
+            data.headers.join('|'), data.data.length,
+            threshold, excludeColumns.join(','), sampleRows,
+            firstRow ? JSON.stringify(firstRow).slice(0, 200) : '',
+            lastRow ? JSON.stringify(lastRow).slice(0, 200) : '',
+        ].join('~');
+    }
+
+    function clearNumericColumnsCache() {
+        _numColsCache.clear();
+    }
+
     function getNumericColumns(data, options = {}) {
         if (!data || !data.headers || !data.data) return [];
 
@@ -58,6 +80,14 @@ const StatsUtils = (function () {
             excludeColumns = ['#', 'A', 'Row', 'row', 'INDEX', 'index', 'row_index'],
             sampleRows = 0
         } = options;
+
+        const fp = _numColsFingerprint(data, threshold, excludeColumns, sampleRows);
+        const hit = _numColsCache.get(fp);
+        if (hit) {
+            _numColsCache.delete(fp); // LRU: reinsertar al final
+            _numColsCache.set(fp, hit);
+            return hit.slice();
+        }
 
         const rows = (sampleRows > 0) ? data.data.slice(0, sampleRows) : data.data;
 
@@ -75,26 +105,26 @@ const StatsUtils = (function () {
             return datePatterns.some(pattern => pattern.test(str));
         };
 
-        return data.headers.filter(header => {
+        const result = data.headers.filter(function(header) {
             if (excludeColumns.includes(header)) return false;
-
-            const values = rows.map(row => {
+            const values = rows.map(function(row) {
                 const idx = data.headers.indexOf(header);
                 return Array.isArray(row) ? row[idx] : row[header];
             });
-
-            // Excluir columnas con patrones de fecha
-            const nonDateValues = values.filter(v => {
+            const nonDateValues = values.filter(function(v) {
                 const str = String(v).trim();
                 return str !== '' && str !== null && !isDateLike(str);
             });
-
             if (nonDateValues.length === 0) return false;
-
-            const numericCount = nonDateValues.filter(v => !isNaN(parseFloat(v)) && isFinite(parseFloat(v))).length;
-
+            const numericCount = nonDateValues.filter(function(v) { return !isNaN(parseFloat(v)) && isFinite(parseFloat(v)); }).length;
             return numericCount / nonDateValues.length >= threshold;
         });
+        _numColsCache.set(fp, result.slice());
+        if (_numColsCache.size > 20) {
+            const oldest = _numColsCache.keys().next().value;
+            _numColsCache.delete(oldest);
+        }
+        return result;
     }
 
     /**
@@ -573,6 +603,7 @@ const StatsUtils = (function () {
         // Extracción y validación
         getNumericValues,
         getNumericColumns,
+        clearNumericColumnsCache,
         countMissingValues,
 
         // Tendencia central

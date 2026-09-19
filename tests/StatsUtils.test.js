@@ -48,6 +48,37 @@ describe('getNumericColumns', () => {
   });
 });
 
+describe('getNumericColumns caché (LOTE C)', () => {
+  const data = {
+    headers: ['nums', 'text'],
+    data: [['1', 'a'], ['2', 'b'], ['3', 'c']],
+  };
+
+  test('segundo llamado devuelve lo mismo (hit)', () => {
+    S.clearNumericColumnsCache();
+    const r1 = S.getNumericColumns(data, { threshold: 0.5 });
+    const r2 = S.getNumericColumns(data, { threshold: 0.5 });
+    expect(r2).toEqual(r1);
+    expect(r2).toContain('nums');
+  });
+
+  test('threshold distinto no colisiona', () => {
+    S.clearNumericColumnsCache();
+    const strict = S.getNumericColumns(data, { threshold: 0.99 });
+    const loose = S.getNumericColumns(data, { threshold: 0.1 });
+    expect(loose).toContain('nums');
+    expect(strict).toEqual(loose); // mismo dataset 100% numérico
+  });
+
+  test('clear invalida (recomputa tras cambio simulado)', () => {
+    S.clearNumericColumnsCache();
+    const d2 = { headers: ['c'], data: [['x']] };
+    expect(S.getNumericColumns(d2)).toEqual([]);
+    S.clearNumericColumnsCache();
+    expect(S.getNumericColumns(data, { threshold: 0.5 })).toContain('nums');
+  });
+});
+
 describe('calcularMedia', () => {
   test('correct mean', () => {
     expect(S.calcularMedia([1, 2, 3, 4, 5])).toBe(3);

@@ -881,6 +881,12 @@ const StateManager = (() => {
 
     function invalidateNumericColsCache() {
         _numericColsCache = null;
+        // LOTE C: el caché canónico vive en StatsUtils; invalidarlo también
+        try {
+            if (typeof StatsUtils !== 'undefined' && StatsUtils.clearNumericColumnsCache) {
+                StatsUtils.clearNumericColumnsCache();
+            }
+        } catch (e) { /* fail-open */ }
     }
 
     function getStats() {

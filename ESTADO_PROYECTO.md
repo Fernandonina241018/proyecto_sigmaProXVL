@@ -4183,3 +4183,6 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** (1) `auth.js` ya no guarda password (ni XOR): solo username + purga entradas legacy con password. (2) `StatsUtils.getNumericColumns` con memo LRU-20 por fingerprint; `clearNumericColumnsCache()` exportado e invocado desde `StateManager.invalidateNumericColsCache`.
 
 **Verificación:** `node -c` OK ×3, 71/71 en suites afectadas.
+
+### 2026-09-19 (47): Lote C — remember-me sin password + caché columnas
+(Ver entrada 46 por verificación; este commit agrupa los archivos.)
