@@ -115,17 +115,17 @@ describe('_firmaTake/ClearPendingSession (ID persistente)', () => {
   });
 });
 
-describe('_firmaNowStamp (formato dd/Mmm/AAAA HH:MM:SS)', () => {
+describe('_firmaNowStamp (formato dd/Mmm/AAAA HH:MM:SS AM/PM)', () => {
   test('fecha fija en hora local', () => {
     const { sandbox: sb } = loadFirmaHarness();
     const s = vm.runInContext(`_firmaNowStamp(new Date(2026, 8, 19, 14, 5, 9))`, sb);
-    expect(s).toBe('19/Sep/2026 14:05:09');
+    expect(s).toBe('19/Sep/2026 02:05:09 PM');
   });
 
   test('coincide con el formato del servidor', () => {
     const { sandbox: sb } = loadFirmaHarness();
     const s = vm.runInContext(`_firmaNowStamp(new Date(2026, 0, 1, 0, 0, 0))`, sb);
-    expect(s).toBe('01/Ene/2026 00:00:00');
+    expect(s).toBe('01/Ene/2026 12:00:00 AM');
   });
 });
 

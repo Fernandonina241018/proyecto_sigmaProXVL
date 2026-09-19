@@ -4127,3 +4127,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** El flujo de bandeja guardaba fecha ISO (AAAA-MM-DD) mientras el local usaba dd/Mmm 12h → formato inconsistente. Nuevo formato único 24h local en ambos: `backend/sign-stamp.js` (servidor, 3 endpoints) + `_firmaNowStamp()` (cliente, firmaVerify). Ej: 19/Sep/2026 14:35:22. Las fechas de formulario (sin hora) siguen dd/Mmm/AAAA vía formatDate.
 
 **Verificación:** backend 34/34 (+3 stamp), vitest 150/150 (+2 stamp).
+
+### 2026-09-19 (38): Fecha de firma a 12h AM/PM
+
+**Qué:** `dd/Mmm/AAAA HH:MM:SS AM/PM` en servidor (`sign-stamp.js`) y cliente (`_firmaNowStamp`). Ej: 19/Sep/2026 02:05:09 PM. Tests actualizados (incluye medianoche/mediodía).
+
+**Verificación:** backend 3/3 stamp, vitest firma-session 13/13.

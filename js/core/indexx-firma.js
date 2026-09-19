@@ -940,14 +940,17 @@ var _firmaSessionAssignees = { reviewer: null, approver: null };
 
 var _FIRMA_SIGN_ORDER = ['prepared', 'reviewed', 'approved'];
 
-// Formato único de fecha de firma: dd/Mmm/AAAA HH:MM:SS (24h, hora local).
-// Ej: 19/Sep/2026 14:35:22. Mirror servidor en backend/sign-stamp.js.
+// Formato único de fecha de firma: dd/Mmm/AAAA HH:MM:SS AM/PM (12h, hora local).
+// Ej: 19/Sep/2026 02:35:22 PM. Mirror servidor en backend/sign-stamp.js.
 function _firmaNowStamp(d) {
   var t = d instanceof Date ? d : new Date();
   var p2 = function(n) { return String(n).padStart(2, '0'); };
   var mm = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'][t.getMonth()];
+  var h24 = t.getHours();
+  var ampm = h24 >= 12 ? 'PM' : 'AM';
+  var h12 = h24 % 12 || 12;
   return p2(t.getDate()) + '/' + mm + '/' + t.getFullYear() + ' ' +
-    p2(t.getHours()) + ':' + p2(t.getMinutes()) + ':' + p2(t.getSeconds());
+    p2(h12) + ':' + p2(t.getMinutes()) + ':' + p2(t.getSeconds()) + ' ' + ampm;
 }
 
 // Siguiente rol pendiente según estado local (mirror del servidor)
