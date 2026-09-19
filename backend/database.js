@@ -531,6 +531,45 @@ function buildPostgres() {
         return _parseSignRow(row);
     }
 
+    // Reinicio de firma: solo el ÚLTIMO rol firmado, solo quien lo firmó
+    // (o admin como escape auditado). Sin cascada: la cadena nunca queda
+    // incoherente. Motivo obligatorio → auditoría.
+    async function unsignSessionStep({ id, role, username, userRole, expectedVersion }) {
+        const row = await get('SELECT * FROM report_signatures WHERE id = $1', [id]);
+        if (!row) return { error: 'Sesión no encontrada', code: 'not-found' };
+        const session = _parseSignRow(row);
+        if (session.status === 'rejected') {
+            return { error: 'La sesión fue rechazada', code: 'rejected' };
+        }
+        const sigs = session.signatures || {};
+        const signedRoles = SIGN_ORDER.filter((r) => sigs[r] && sigs[r].signed);
+        const last = signedRoles[signedRoles.length - 1] || null;
+        if (!last) return { error: 'No hay firmas que reiniciar', code: 'nothing-signed' };
+        if (role !== last) {
+            return { error: 'Solo se puede reiniciar la última firma ("' + last + '")', code: 'not-last' };
+        }
+        const isAdmin = userRole === 'admin';
+        if (!isAdmin && sigs[role].username !== username) {
+            return { error: 'Solo quien firmó puede reiniciar esta firma', code: 'wrong-person' };
+        }
+        if (session.version !== expectedVersion) {
+            return { error: 'Otro usuario firmó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
+        }
+        const fresh = Object.assign({}, sigs);
+        delete fresh[role];
+        const status = _signStatusFor(fresh);
+        const updated = await all(
+            `UPDATE report_signatures SET signatures = $1, status = $2, version = version + 1,
+             updated_at = to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS')
+             WHERE id = $3 AND version = $4 RETURNING *`,
+            [JSON.stringify(fresh), status, id, expectedVersion]
+        );
+        if (!updated.length) {
+            return { error: 'Otro usuario firmó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
+        }
+        return _parseSignRow(updated[0]);
+    }
+
     // Borrado real solo de rechazadas, solo creador o admin.
     // (La auditoría conserva SIGN_SESSION_REJECT como rastro.)
     async function deleteSignSession({ id, username, userRole }) {
@@ -648,7 +687,7 @@ function buildPostgres() {
         return elig;
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession, unsignSessionStep };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
@@ -1031,6 +1070,34 @@ function buildLocalStore() {
         return state.data_snapshots.find(function(s) { return s.id === id; }) || null;
     }
 
+    // Mirror local de unsignSessionStep
+    async function unsignSessionStep({ id, role, username, userRole, expectedVersion }) {
+        var s = state.report_signatures.find(function(x) { return x.id === id; });
+        if (!s) return { error: 'Sesión no encontrada', code: 'not-found' };
+        if (s.status === 'rejected') {
+            return { error: 'La sesión fue rechazada', code: 'rejected' };
+        }
+        var signedRoles = SIGN_ORDER.filter(function(r) { return s.signatures[r] && s.signatures[r].signed; });
+        var last = signedRoles[signedRoles.length - 1] || null;
+        if (!last) return { error: 'No hay firmas que reiniciar', code: 'nothing-signed' };
+        if (role !== last) {
+            return { error: 'Solo se puede reiniciar la última firma ("' + last + '")', code: 'not-last' };
+        }
+        var isAdmin = userRole === 'admin';
+        if (!isAdmin && s.signatures[role].username !== username) {
+            return { error: 'Solo quien firmó puede reiniciar esta firma', code: 'wrong-person' };
+        }
+        if (s.version !== expectedVersion) {
+            return { error: 'Otro usuario firmó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
+        }
+        delete s.signatures[role];
+        s.status = _signStatusFor(s.signatures);
+        s.version += 1;
+        s.updated_at = new Date().toISOString();
+        save();
+        return _localSignView(s);
+    }
+
     // Mirror local de deleteSignSession
     async function deleteSignSession({ id, username, userRole }) {
         var idx = -1;
@@ -1161,7 +1228,7 @@ function buildLocalStore() {
         return _localSignView(s);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession, unsignSessionStep };}
 
 const impl = build();
 module.exports = {
@@ -1210,6 +1277,7 @@ module.exports = {
     importSignSession:     (...a) => impl.importSignSession(...a),
     rejectSignSession:      (...a) => impl.rejectSignSession(...a),
     deleteSignSession:      (...a) => impl.deleteSignSession(...a),
+    unsignSessionStep:     (...a) => impl.unsignSessionStep(...a),
     getSnapshotById:      (...a) => impl.getSnapshotById(...a),
     run:                  (...a) => impl.run(...a),
     all:                 (...a) => impl.all(...a),

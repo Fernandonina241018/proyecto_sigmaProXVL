@@ -1127,6 +1127,43 @@ app.post('/api/sign-sessions/:id/reject', requireAuth, async (req, res) => {
     }
 });
 
+// POST /api/sign-sessions/:id/unsign — reiniciar última firma.
+// Solo quien la firmó (o admin), solo el último rol, con motivo obligatorio.
+app.post('/api/sign-sessions/:id/unsign', requireAuth, signLimiter, async (req, res) => {
+    try {
+        const { role, expectedVersion, reason } = req.body;
+        if (['prepared', 'reviewed', 'approved'].indexOf(role) === -1) {
+            return res.status(400).json({ error: 'Rol inválido' });
+        }
+        if (expectedVersion === undefined || expectedVersion === null) {
+            return res.status(400).json({ error: 'expectedVersion es requerido' });
+        }
+        if (!reason?.trim()) {
+            return res.status(400).json({ error: 'El motivo es obligatorio' });
+        }
+        const signer = await _checkSignCredentials(req, res);
+        if (!signer) return; // respuesta ya enviada
+        const result = await db.unsignSessionStep({
+            id: parseInt(req.params.id), role,
+            username: signer.username, userRole: signer.role,
+            expectedVersion: parseInt(expectedVersion),
+        });
+        if (result.error) {
+            const status = result.code === 'not-found' ? 404 : 422;
+            return res.status(status).json({ error: result.error, code: result.code });
+        }
+        await db.logAuditEvent({
+            username: signer.username, action: 'SIGN_SESSION_UNSIGN', success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, role, reason: reason.trim().slice(0, 500), version: result.version }),
+        });
+        res.json({ ok: true, session: result });
+    } catch (err) {
+        console.error('Error unsigning session step:', err);
+        res.status(500).json({ error: 'Error al reiniciar firma' });
+    }
+});
+
 // DELETE /api/sign-sessions/:id — eliminar rechazada (creador o admin)
 app.delete('/api/sign-sessions/:id', requireAuth, async (req, res) => {
     try {
@@ -1209,6 +1246,7 @@ app.post('/api/verify-signature', verifyLimiter, async (req, res) => {
             cargo: user.cargo || '',
             firma: user.signature || '',
             username: user.username,
+            role: user.role || 'user',
         });
     } catch (err) {
         console.error('Error en verify-signature:', err);

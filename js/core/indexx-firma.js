@@ -423,8 +423,9 @@ function firmaRenderEditor() {
       dateRow.id = 'firmaSignedDate-' + sd.role;
       body.appendChild(dateRow);
 
-      // FASE 2 — en modo sesión no hay "desfirmar" (el servidor no lo permite)
-      if (!_firmaSessionId) {
+      // Solo quien firmó (o admin) ve ↺; en sesión además solo el último rol.
+      // La verificación real ocurre con código+password (servidor o local).
+      if (_firmaCanSeeReset(sd.role)) {
         var resetRoleBtn = document.createElement('button');
         resetRoleBtn.textContent = '\u21BA Reiniciar';
         resetRoleBtn.style.cssText = 'margin-top:6px;padding:2px 8px;font-size:10px;background:transparent;color:var(--text-faint);border:1px solid var(--border);border-radius:4px;cursor:pointer';
@@ -550,6 +551,27 @@ async function firmaPublishLoaded() {
   };
 }
 
+// ¿Se muestra ↺ para este rol? Local: siempre (decide la verificación).
+// Sesión: solo último firmado y (soy el firmante o admin o sin login visible).
+function _firmaCanSeeReset(role) {
+  var state = (_firmaSignatureState && _firmaSignatureState[role]) || {};
+  if (!state.signed) return false;
+  if (!_firmaSessionId) return true;
+  var last = null;
+  ['prepared', 'reviewed', 'approved'].forEach(function(r) {
+    if (_firmaSignatureState[r] && _firmaSignatureState[r].signed) last = r;
+  });
+  if (role !== last) return false;
+  var me = null, myRole = null;
+  try {
+    var s = (typeof Auth !== 'undefined' && Auth.getSession) ? Auth.getSession() : null;
+    if (s) { me = s.username; myRole = s.role; }
+  } catch (e) {}
+  if (myRole === 'admin') return true;
+  if (!me) return true; // sin login visible: muestra y el servidor decide
+  return !!(state.username && me === state.username);
+}
+
 function firmaResetRole(role) {
   _firmaSignatureState[role] = { signed: false };
   firmaUpdatePreview(role, 'name', '—');
@@ -570,6 +592,13 @@ function firmaUpdateResetBtn() {
 }
 
 function firmaResetSignatures() {
+  // Solo admin (logueado): antes bastaba cualquier código válido.
+  var _isAdmin = false;
+  try {
+    var _sess = (typeof Auth !== 'undefined' && Auth.getSession) ? Auth.getSession() : null;
+    _isAdmin = !!(_sess && _sess.role === 'admin');
+  } catch (e) {}
+  if (!_isAdmin) { showToast('🔒 Solo un administrador puede reiniciar todas las firmas', true); return; }
   if (!confirm('¿Estás seguro de reiniciar todas las firmas? Esta acción no se puede deshacer.')) return;
   for (var role in _firmaSignatureState) {
     _firmaSignatureState[role] = { signed: false };
@@ -810,7 +839,7 @@ async function firmaVerify(role, code, password, statusEl, extra) {
       var st = {};
       ['prepared', 'reviewed', 'approved'].forEach(function(r) {
         var s = (session.signatures || {})[r];
-        if (s && s.signed) st[r] = { signed: true, nombre: s.nombre || '', cargo: s.cargo || '', firma: s.firma || '', fecha: s.fecha || '' };
+        if (s && s.signed) st[r] = { signed: true, username: s.username || '', nombre: s.nombre || '', cargo: s.cargo || '', firma: s.firma || '', fecha: s.fecha || '' };
       });
       _firmaSignatureState = st;
       // Refleja en el preview igual que el flujo local
@@ -842,6 +871,7 @@ async function firmaVerify(role, code, password, statusEl, extra) {
     var fechaStr = _firmaNowStamp();
     _firmaSignatureState[role] = {
       signed: true,
+      username: data.username || '',
       nombre: data.nombre,
       cargo: data.cargo,
       firma: data.firma || '',
@@ -921,6 +951,17 @@ function firmaRequestReset(role) {
   pwWrap.appendChild(pwEye);
   content.appendChild(pwWrap);
 
+  var reasonLabel = document.createElement('label');
+  reasonLabel.style.cssText = 'font-size:11px;color:var(--text-primary)';
+  reasonLabel.textContent = 'Motivo (obligatorio)';
+  content.appendChild(reasonLabel);
+
+  var reasonInput = document.createElement('input');
+  reasonInput.type = 'text';
+  reasonInput.placeholder = 'Ej: dato erróneo en ensayo';
+  reasonInput.style.cssText = 'width:100%;padding:8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem;outline:none;box-sizing:border-box';
+  content.appendChild(reasonInput);
+
   var errorEl = document.createElement('div');
   errorEl.style.cssText = 'font-size:10px;color:#ef4444;min-height:14px';
   content.appendChild(errorEl);
@@ -936,8 +977,16 @@ function firmaRequestReset(role) {
   confirmBtn.className = 'btn btn-primary';
   confirmBtn.textContent = 'Reiniciar';
   confirmBtn.onclick = function(){
+    var reason = reasonInput.value.trim();
+    if (!reason) {
+      errorEl.textContent = '⚠️ El motivo es obligatorio';
+      reasonInput.focus();
+      return;
+    }
     overlay.remove();
-    firmaVerifyReset(role, codeInput.value.trim(), pwInput.value);
+    // En sesión va al servidor; en local verifica y compara titular
+    if (_firmaSessionId) firmaUnsignSession(role, codeInput.value.trim(), pwInput.value, reason);
+    else firmaVerifyReset(role, codeInput.value.trim(), pwInput.value, reason);
   };
   actions.appendChild(confirmBtn);
   content.appendChild(actions);
@@ -953,7 +1002,7 @@ function firmaRequestReset(role) {
   });
 }
 
-function firmaVerifyReset(role, code, password) {
+function firmaVerifyReset(role, code, password, reason) {
   if (!code || !password) {
     showToast('\u26A0\uFE0F Ingresa c\u00F3digo de firma y contrase\u00F1a');
     return;
@@ -967,12 +1016,54 @@ function firmaVerifyReset(role, code, password) {
       showToast('\u274C ' + (data.error || 'Credenciales inv\u00E1lidas'));
       return;
     }
+    // Solo quien firmó (o admin): compara username verificado vs registrado
+    var recorded = (_firmaSignatureState && _firmaSignatureState[role]) || {};
+    var isAdmin = data.role === 'admin';
+    if (!isAdmin && (!recorded.username || recorded.username !== data.username)) {
+      showToast('\u274C Solo quien firmó puede reiniciar esta firma', true);
+      return;
+    }
     firmaResetRole(role);
-    showToast('\u2705 Firma reiniciada');
+    showToast('\u2705 Firma reiniciada' + (reason ? ': ' + reason : ''));
   }).catch(function(e){
     console.error('Error verifying reset:', e);
     showToast('\u274C Error de conexi\u00F3n con el servidor');
   });
+}
+
+// Reinicio en modo sesión: va al servidor (último rol + titular + motivo)
+async function firmaUnsignSession(role, code, password, reason) {
+  if (!code || !password) { showToast('⚠️ Ingresa código de firma y contraseña'); return; }
+  if (!_firmaSessionId) { showToast('⚠️ Sin sesión activa'); return; }
+  showToast('Reiniciando firma…');
+  try {
+    var data = await _firmaApiPost('/api/sign-sessions/' + _firmaSessionId + '/unsign', {
+      role: role, signatureCode: code, password: password,
+      expectedVersion: _firmaSessionVersion, reason: reason || ''
+    });
+    if (!data || !data.ok) {
+      showToast('❌ ' + ((data && data.error) || 'No se pudo reiniciar'), true);
+      if (data && (data.code === 'stale-version' || data.code === 'not-last')) await _firmaRefreshSession();
+      return;
+    }
+    var session = data.session;
+    _firmaSessionVersion = session.version;
+    var st = {};
+    ['prepared', 'reviewed', 'approved'].forEach(function(r) {
+      var s = (session.signatures || {})[r];
+      if (s && s.signed) st[r] = { signed: true, username: s.username || '', nombre: s.nombre || '', cargo: s.cargo || '', firma: s.firma || '', fecha: s.fecha || '' };
+    });
+    _firmaSignatureState = st;
+    _firmaPaintSessionState();
+    firmaRenderEditor();
+    _firmaUpdateReportBadge();
+    firmaPersistState();
+    firmaLoadBandeja();
+    showToast('✅ Firma reiniciada: ' + (reason || ''));
+  } catch (e) {
+    console.error('Error unsigning:', e);
+    showToast('❌ Error de conexión con el servidor', true);
+  }
 }
 
 function firmaToggleFS() {
@@ -1056,7 +1147,7 @@ async function _firmaRefreshSession() {
       var st = {};
       ['prepared', 'reviewed', 'approved'].forEach(function(r) {
         var s = (data.session.signatures || {})[r];
-        if (s && s.signed) st[r] = { signed: true, nombre: s.nombre || '', cargo: s.cargo || '', firma: s.firma || '', fecha: s.fecha || '' };
+        if (s && s.signed) st[r] = { signed: true, username: s.username || '', nombre: s.nombre || '', cargo: s.cargo || '', firma: s.firma || '', fecha: s.fecha || '' };
       });
       _firmaSignatureState = st;
       _firmaPaintSessionState();
@@ -1295,7 +1386,7 @@ async function _firmaOpenSession(id) {
     var st = {};
     ['prepared', 'reviewed', 'approved'].forEach(function(r) {
       var s = (session.signatures || {})[r];
-      if (s && s.signed) st[r] = { signed: true, nombre: s.nombre || '', cargo: s.cargo || '', firma: s.firma || '', fecha: s.fecha || '' };
+      if (s && s.signed) st[r] = { signed: true, username: s.username || '', nombre: s.nombre || '', cargo: s.cargo || '', firma: s.firma || '', fecha: s.fecha || '' };
     });
     _firmaSignatureState = st;
     _firmaPaintSessionState();

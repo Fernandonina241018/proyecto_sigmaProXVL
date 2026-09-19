@@ -151,6 +151,62 @@ test('cadena de auditoría intacta tras sesiones', async () => {
   assert.equal(v.valid, true);
 });
 
+// ── Unsign (solo último + solo quien firmó) ──
+test('firmante reinicia su última firma y vuelve el estado', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-UNS', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' },
+  });
+  await db.signSessionStep({
+    id: s.id, role: 'reviewed', username: 'beto_rev', userRole: 'analista',
+    signature: {}, expectedVersion: 1,
+  });
+  // prepared ya no es último → 422
+  const nl = await db.unsignSessionStep({
+    id: s.id, role: 'prepared', username: 'ana_prep', userRole: 'analista', expectedVersion: 2,
+  });
+  assert.equal(nl.code, 'not-last');
+  // revisor reinicia lo suyo → vuelve a reviewed pendiente
+  const ok = await db.unsignSessionStep({
+    id: s.id, role: 'reviewed', username: 'beto_rev', userRole: 'analista', expectedVersion: 2,
+  });
+  assert.equal(ok.status, 'partial');
+  assert.equal(ok.next_role, 'reviewed');
+  assert.equal(ok.version, 3);
+  assert.equal(ok.signatures.reviewed, undefined);
+  assert.equal(ok.signatures.prepared.username, 'ana_prep');
+});
+
+test('ajeno no reinicia; admin sí', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-UNS2', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' },
+  });
+  const w = await db.unsignSessionStep({
+    id: s.id, role: 'prepared', username: 'dora_otro', userRole: 'analista', expectedVersion: 1,
+  });
+  assert.equal(w.code, 'wrong-person');
+  const a = await db.unsignSessionStep({
+    id: s.id, role: 'prepared', username: 'root_adm', userRole: 'admin', expectedVersion: 1,
+  });
+  assert.equal(a.next_role, 'prepared');
+  assert.equal(a.signatures.prepared, undefined);
+});
+
+test('unsign con versión vieja → stale-version', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-UNS3', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' },
+  });
+  const r = await db.unsignSessionStep({
+    id: s.id, role: 'prepared', username: 'ana_prep', userRole: 'analista', expectedVersion: 99,
+  });
+  assert.equal(r.code, 'stale-version');
+});
+
 // ── Borrado de rechazadas ──
 test('creador elimina rechazada; desaparece', async () => {
   const s = await db.createSignSession({

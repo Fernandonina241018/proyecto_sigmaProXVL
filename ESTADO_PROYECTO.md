@@ -4141,3 +4141,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Archivos:** `css/core/indexx.css` (bloque fp-* con tokens), `js/core/indexx-ui.js` (template), `js/core/indexx-firma.js` (firmaRenderStepper + wiring), `tests/firma-open.test.js` (+2 layout).
 
 **Verificación:** `node -c` OK ×2, vitest 150/150. Pendiente confirmación visual del usuario (3 puntos).
+
+### 2026-09-19 (40): Reset solo-quien-firmó (último rol + motivo + admin escape)
+
+**Qué:** Solo reinicia quien firmó (username verificado vs registrado) o admin; solo el último rol (sin cascada); motivo obligatorio (auditoría en sesión); reset global solo admin logueado. Endpoint POST :id/unsign + db.unsignSessionStep (PG+local). Local guarda username al firmar y compara. Editor muestra ↺ con gating. Incidentes: smoke reordenado 2 veces por conteos (sesiones de prueba vivas).
+
+**Verificación:** backend 37/37, smoke 25/25, vitest 157/157.

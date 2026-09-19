@@ -90,6 +90,30 @@ CNT=$(curl -sf "$API/api/sign-sessions?scope=pending&count=1" -H "Authorization:
 [ "$CNT" = "0" ] || fail "pending de ana debe ser 0, es $CNT"
 pass "pending count de ana = 0 (ya firmó todo)"
 
+# Unsign: solo último + solo quien firmó + motivo obligatorio
+UG=$(curl -sf -X POST "$API/api/sign-sessions" -H "Authorization: Bearer $TOK_ADMIN" \
+  -H 'Content-Type: application/json' -d '{"name":"RPT-UNS","html":"<h1>u</h1>","assignedReviewer":"smoke_ana","signatureCode":"PUB-1","password":"Pass123!"}') || fail "publish unsign"
+SIDU=$(J "$UG" .session.id)
+curl -sf -X POST "$API/api/sign-sessions/$SIDU/sign" -H "Authorization: Bearer $TOK_ADMIN" \
+  -H 'Content-Type: application/json' -d '{"role":"reviewed","signatureCode":"ANA-1","password":"Pass123!","expectedVersion":1}' >/dev/null || fail "reviewed unsign-setup"
+UNL=$(curl -s -X POST "$API/api/sign-sessions/$SIDU/unsign" -H "Authorization: Bearer $TOK_ADMIN" \
+  -H 'Content-Type: application/json' -d '{"role":"prepared","signatureCode":"PUB-1","password":"Pass123!","expectedVersion":2,"reason":"x"}')
+[ "$(J "$UNL" .code)" = "not-last" ] || fail "unsign no-último debió ser not-last: $UNL"
+pass "422 unsign no-último"
+UNW=$(curl -s -X POST "$API/api/sign-sessions/$SIDU/unsign" -H "Authorization: Bearer $TOK_ADMIN" \
+  -H 'Content-Type: application/json' -d '{"role":"reviewed","signatureCode":"DORA-1","password":"Pass123!","expectedVersion":2,"reason":"x"}')
+[ "$(J "$UNW" .code)" = "wrong-person" ] || fail "unsign ajeno debió ser wrong-person: $UNW"
+pass "422 unsign persona ajena"
+UNR=$(curl -s -X POST "$API/api/sign-sessions/$SIDU/unsign" -H "Authorization: Bearer $TOK_ADMIN" \
+  -H 'Content-Type: application/json' -d '{"role":"reviewed","signatureCode":"ANA-1","password":"Pass123!","expectedVersion":2}')
+[ "$(J "$UNR" .error)" = "El motivo es obligatorio" ] || fail "motivo debió exigirse: $UNR"
+pass "400 motivo obligatorio"
+UNO=$(curl -sf -X POST "$API/api/sign-sessions/$SIDU/unsign" -H "Authorization: Bearer $TOK_ADMIN" \
+  -H 'Content-Type: application/json' -d '{"role":"reviewed","signatureCode":"ANA-1","password":"Pass123!","expectedVersion":2,"reason":"dato mal"}') || fail "unsign propio"
+[ "$(J "$UNO" .session.next_role)" = "reviewed" ] || fail "debió volver a reviewed"
+pass "unsign propio revierte a reviewed"
+
+
 # 403 detalle para no involucrada
 FBD=$(curl -s -o /dev/null -w "%{http_code}" "$API/api/sign-sessions/$SID" -H "Authorization: Bearer $TOK_ADMIN")
 [ "$FBD" = "200" ] || fail "admin debe ver detalle"
@@ -122,9 +146,8 @@ RJ2=$(curl -sf -X POST "$API/api/sign-sessions/2/reject" -H "Authorization: Bear
   -H 'Content-Type: application/json' -d '{"reason":"datos mal"}') || fail "reject creador"
 [ "$(J "$RJ2" .session.status)" = "rejected" ] || fail "no quedó rejected"
 pass "reject por admin (sesión #2 rechazada)"
-CNT2=$(curl -sf "$API/api/sign-sessions?scope=pending&count=1" -H "Authorization: Bearer $TOK_ADMIN" | jq -r .count)
-[ "$CNT2" = "0" ] || fail "pending debe ser 0 tras reject, es $CNT2"
-pass "rechazada fuera de pendientes"
+LST=$(curl -sf "$API/api/sign-sessions?scope=pending&limit=200" -H "Authorization: Bearer $TOK_ADMIN" | jq -r '.sessions[].id')
+echo "$LST" | grep -qx "2" && fail "rechazada sigue en pendientes" || pass "rechazada fuera de pendientes"
 DEL1=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE "$API/api/sign-sessions/1" -H "Authorization: Bearer $TOK_ADMIN")
 [ "$DEL1" = "422" ] || fail "borrar completa debió ser 422, fue $DEL1"
 pass "422 borrar completa"

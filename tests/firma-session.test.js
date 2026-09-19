@@ -129,6 +129,49 @@ describe('_firmaNowStamp (formato dd/Mmm/AAAA HH:MM:SS AM/PM)', () => {
   });
 });
 
+describe('_firmaCanSeeReset (solo quien firmó)', () => {
+  function setupState(sb, sessionId, state, session) {
+    vm.runInContext(`_firmaSessionId = ${JSON.stringify(sessionId)};`, sb);
+    sb.__ST__ = state;
+    vm.runInContext(`_firmaSignatureState = __ST__;`, sb);
+    sb.Auth.getSession = () => session;
+  }
+  const ST2 = {
+    prepared: { signed: true, username: 'ana' },
+    reviewed: { signed: true, username: 'beto' },
+  };
+
+  test('sesión: último rol y soy el firmante → true', () => {
+    const { sandbox: sb } = loadFirmaHarness();
+    setupState(sb, 1, ST2, { username: 'beto', role: 'analista' });
+    expect(vm.runInContext(`_firmaCanSeeReset('reviewed')`, sb)).toBe(true);
+  });
+
+  test('sesión: último rol pero soy otro → false', () => {
+    const { sandbox: sb } = loadFirmaHarness();
+    setupState(sb, 1, ST2, { username: 'dora', role: 'analista' });
+    expect(vm.runInContext(`_firmaCanSeeReset('reviewed')`, sb)).toBe(false);
+  });
+
+  test('sesión: rol no-último aunque sea mío → false', () => {
+    const { sandbox: sb } = loadFirmaHarness();
+    setupState(sb, 1, ST2, { username: 'ana', role: 'analista' });
+    expect(vm.runInContext(`_firmaCanSeeReset('prepared')`, sb)).toBe(false);
+  });
+
+  test('sesión: admin lo ve todo → true', () => {
+    const { sandbox: sb } = loadFirmaHarness();
+    setupState(sb, 1, ST2, { username: 'root', role: 'admin' });
+    expect(vm.runInContext(`_firmaCanSeeReset('reviewed')`, sb)).toBe(true);
+  });
+
+  test('local: siempre visible (decide la verificación) → true', () => {
+    const { sandbox: sb } = loadFirmaHarness();
+    setupState(sb, null, ST2, { username: 'dora', role: 'analista' });
+    expect(vm.runInContext(`_firmaCanSeeReset('reviewed')`, sb)).toBe(true);
+  });
+});
+
 describe('_firmaPaintSessionState (pinta firmas en el reporte)', () => {
   test('pinta los 4 campos del rol firmado', () => {
     const { sandbox: sb, previewIframe } = loadFirmaHarness();
