@@ -4109,3 +4109,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Archivos:** `backend/database.js` (columnas + reject PG/local + guards sign), `backend/server.js` (endpoint), `js/core/indexx-firma.js` (botón + modal + badge), `backend/tests/sign-sessions.test.js` (+3), `scripts/smoke-sign-sessions.sh` (+3).
 
 **Verificación:** `node -c` OK ×3, backend 28/28, smoke 19/19, vitest 143/143.
+
+### 2026-09-18 (35): Fix pérdida de sesión + Rechazar/Eliminar en Mías
+
+**Qué:** (a) El ID pendiente se borraba antes de abrir: doble init o fallo lo perdía y caía a estado local vacío 0/3 sin error (tu síntoma). Ahora se consume solo en éxito + guardia anti-doble-apertura + toast de error con causa. (b) En Mías: 🚫 Rechazar pendientes propias + 🗑 Eliminar rechazadas (creador/admin). Nuevo DELETE /api/sign-sessions/:id (solo rejected + creador/admin; auditoría conserva rastro).
+
+**Verificación:** backend 30/30, smoke 21/21, vitest 145/145.

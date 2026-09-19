@@ -141,6 +141,36 @@ test('cadena de auditoría intacta tras sesiones', async () => {
   assert.equal(v.valid, true);
 });
 
+// ── Borrado de rechazadas ──
+test('creador elimina rechazada; desaparece', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-DEL', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' },
+  });
+  await db.rejectSignSession({ id: s.id, username: 'beto_rev', userRole: 'analista', reason: 'x' });
+  const d = await db.deleteSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista' });
+  assert.equal(d.ok, true);
+  assert.equal(await db.getSignSession(s.id), null);
+});
+
+test('no se puede eliminar pendiente, completa ni ajena', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-DEL2', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' },
+  });
+  const p = await db.deleteSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista' });
+  assert.equal(p.code, 'not-rejected');
+  const c = await db.deleteSignSession({ id: S1.id, username: 'ana_prep', userRole: 'analista' });
+  assert.equal(c.code, 'not-rejected'); // S1 está complete
+  await db.rejectSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista', reason: '' });
+  const f = await db.deleteSignSession({ id: s.id, username: 'dora_otro', userRole: 'analista' });
+  assert.equal(f.code, 'forbidden');
+  const a = await db.deleteSignSession({ id: s.id, username: 'root_adm', userRole: 'admin' });
+  assert.equal(a.ok, true);
+});
+
 // ── Rechazo ──
 test('asignado rechaza con motivo y sale de pendientes', async () => {
   const s = await db.createSignSession({

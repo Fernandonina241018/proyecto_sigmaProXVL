@@ -125,6 +125,14 @@ pass "reject por admin (sesión #2 rechazada)"
 CNT2=$(curl -sf "$API/api/sign-sessions?scope=pending&count=1" -H "Authorization: Bearer $TOK_ADMIN" | jq -r .count)
 [ "$CNT2" = "0" ] || fail "pending debe ser 0 tras reject, es $CNT2"
 pass "rechazada fuera de pendientes"
+DEL1=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE "$API/api/sign-sessions/1" -H "Authorization: Bearer $TOK_ADMIN")
+[ "$DEL1" = "422" ] || fail "borrar completa debió ser 422, fue $DEL1"
+pass "422 borrar completa"
+DEL2=$(curl -sf -X DELETE "$API/api/sign-sessions/2" -H "Authorization: Bearer $TOK_ADMIN") || fail "borrar rechazada"
+[ "$(J "$DEL2" .ok)" = "true" ] || fail "borrar rechazada"
+GONE=$(curl -s -o /dev/null -w "%{http_code}" "$API/api/sign-sessions/2" -H "Authorization: Bearer $TOK_ADMIN")
+[ "$GONE" = "404" ] || fail "eliminada debió ser 404, fue $GONE"
+pass "rechazada eliminada (404 posterior)"
 
 # Publish con HTML grande (~1MB, como reporte real con JPEGs) — regresión 413.
 # OJO: se escribe a archivo porque 1MB como argumento rompe ARG_MAX del shell.

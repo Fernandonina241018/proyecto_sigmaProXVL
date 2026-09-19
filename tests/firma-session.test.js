@@ -88,6 +88,33 @@ describe('_firmaSessionNext (orden prepared→reviewed→approved)', () => {
   });
 });
 
+describe('_firmaTake/ClearPendingSession (ID persistente)', () => {
+  test('take lee sin borrar; clear borra', () => {
+    const { sandbox: sb } = loadFirmaHarness();
+    vm.runInContext(`try { sessionStorage.setItem('__firma_session_id', '42'); } catch(e){}`, sb);
+    // harness sessionStorage es stub: se simula con variable interna
+    vm.runInContext(
+      `var __store = {}; try { sessionStorage.setItem = function(k,v){ __store[k]=String(v); }; sessionStorage.getItem = function(k){ return (__store[k] !== undefined ? __store[k] : null); }; sessionStorage.removeItem = function(k){ delete __store[k]; }; } catch(e){}`,
+      sb
+    );
+    vm.runInContext(`sessionStorage.setItem('__firma_session_id', '42');`, sb);
+    expect(vm.runInContext(`_firmaTakePendingSession()`, sb)).toBe('42');
+    // take NO borra: segunda lectura devuelve lo mismo (antes se perdía)
+    expect(vm.runInContext(`_firmaTakePendingSession()`, sb)).toBe('42');
+    vm.runInContext(`_firmaClearPendingSession();`, sb);
+    expect(vm.runInContext(`_firmaTakePendingSession()`, sb)).toBeNull();
+  });
+
+  test('guardia anti-doble-apertura', () => {
+    const { sandbox: sb } = loadFirmaHarness();
+    vm.runInContext(`_firmaOpeningSession = 7;`, sb);
+    return vm.runInContext(`_firmaOpenSession(7)`, sb).then((ok) => {
+      expect(ok).toBe(false);
+      vm.runInContext(`_firmaOpeningSession = null;`, sb);
+    });
+  });
+});
+
 describe('_firmaPaintSessionState (pinta firmas en el reporte)', () => {
   test('pinta los 4 campos del rol firmado', () => {
     const { sandbox: sb, previewIframe } = loadFirmaHarness();

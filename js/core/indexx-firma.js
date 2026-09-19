@@ -122,12 +122,10 @@ function initFirmarReportePage() {
 
   if (!dropZone || !fileInput || !preview) return;
 
-  // FASE 2 — sesión recién publicada (viene de "Enviar a firma")
-  var pendingSessionId = null;
-  try {
-    pendingSessionId = sessionStorage.getItem('__firma_session_id');
-    if (pendingSessionId) sessionStorage.removeItem('__firma_session_id');
-  } catch (e) { /* ignore */ }
+  // FASE 2 — sesión recién publicada (viene de "Enviar a firma").
+  // FIX: el ID se consume SOLO si la apertura tiene éxito; si falla o el
+  // init se repite, el siguiente intento lo reintenta en vez de perderse.
+  var pendingSessionId = _firmaTakePendingSession();
   if (pendingSessionId) {
     dropZone.onclick = function() { fileInput.click(); };
     fileInput.onchange = function() { if (fileInput.files.length) firmaHandleFile(fileInput.files[0]); fileInput.value = ''; };
@@ -136,7 +134,9 @@ function initFirmarReportePage() {
     var publishBtn0 = document.getElementById('firmaPublishBtn');
     if (publishBtn0) publishBtn0.onclick = firmaPublishLoaded;
     firmaLoadBandeja('pending');
-    _firmaOpenSession(parseInt(pendingSessionId));
+    _firmaOpenSession(parseInt(pendingSessionId)).then(function(ok) {
+      if (ok) _firmaClearPendingSession();
+    });
     return;
   }
 
@@ -1102,11 +1102,18 @@ async function firmaLoadBandeja(scope) {
         : ('✍️ ' + (s.signed_count || 0) + '/3' + (s.next_role ? ' · toca: ' + s.next_role : ''));
       var who = s.next_role === 'reviewed' && s.assigned_reviewer ? ' → ' + escapeHtml(s.assigned_reviewer)
         : s.next_role === 'approved' && s.assigned_approver ? ' → ' + escapeHtml(s.assigned_approver) : '';
+      var _me = null;
+      try { var _sess = (typeof Auth !== 'undefined' && Auth.getSession) ? Auth.getSession() : null; if (_sess) _me = _sess; } catch (e) {}
+      var _isMine = _me && (s.created_by === _me.username || _me.role === 'admin');
       var headHtml = '<div style="display:flex;align-items:center;gap:6px">' +
         '<div style="flex:1;min-width:0;font-size:11px;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' +
         escapeHtml(s.name) + '</div>';
-      if (_firmaBandejaScope === 'pending' && s.status !== 'complete' && s.status !== 'rejected') {
+      if (s.status !== 'complete' && s.status !== 'rejected') {
         headHtml += '<button data-reject="' + s.id + '" title="Rechazar y sacar de pendientes" style="flex-shrink:0;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--t3);cursor:pointer;font-family:inherit">🚫</button>';
+      }
+      // En Mías: eliminar rechazadas (creador o admin) para limpiar reemplazos
+      if (_firmaBandejaScope === 'mine' && s.status === 'rejected' && _isMine) {
+        headHtml += '<button data-del="' + s.id + '" title="Eliminar definitivamente (ya rechazada)" style="flex-shrink:0;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid rgba(239,68,68,.4);background:transparent;color:#f87171;cursor:pointer;font-family:inherit">🗑</button>';
       }
       headHtml += '</div>';
       div.innerHTML = headHtml +
@@ -1119,6 +1126,12 @@ async function firmaLoadBandeja(scope) {
       btn.onclick = function(e) {
         e.stopPropagation();
         firmaRejectSession(parseInt(btn.getAttribute('data-reject')));
+      };
+    });
+    list.querySelectorAll('[data-del]').forEach(function(btn) {
+      btn.onclick = function(e) {
+        e.stopPropagation();
+        firmaDeleteSession(parseInt(btn.getAttribute('data-del')));
       };
     });
   } catch (e) {
@@ -1149,12 +1162,55 @@ async function firmaRejectSession(id) {
   }
 }
 
+// Elimina definitivamente una sesión rechazada (creador o admin).
+// La auditoría conserva SIGN_SESSION_REJECT como rastro.
+async function firmaDeleteSession(id) {
+  var ok = false;
+  try {
+    ok = confirm('¿Eliminar definitivamente la sesión #' + id + '? Solo se puede porque ya fue rechazada.');
+  } catch (e) { ok = true; }
+  if (!ok) return;
+  try {
+    var res = await fetchWithTimeout(_firmaApiBase() + '/api/sign-sessions/' + id, {
+      method: 'DELETE', headers: _firmaAuthHeaders(), credentials: 'include'
+    });
+    var data = await res.json();
+    if (!data || !data.ok) {
+      showToast('❌ ' + ((data && data.error) || 'No se pudo eliminar'), true);
+      return;
+    }
+    if (_firmaSessionId === id) { _firmaSessionId = null; _firmaSessionVersion = null; }
+    showToast('🗑 Sesión #' + id + ' eliminada');
+    firmaLoadBandeja();
+    firmaUpdatePendingBadge();
+  } catch (e) {
+    showToast('❌ Error de conexión con el servidor', true);
+  }
+}
+
 // Abre una sesión del servidor en el visor (reutiliza parseo + editor)
+// FIX pérdida de sesión: el ID pendiente se conserva hasta abrir con éxito
+// (antes se borraba antes del fetch: un doble init o un fallo lo perdía y
+// caía a estado local vacío sin error). Guardia anti-doble-apertura.
+// Retorna true/false para que el llamador decida si consume el ID.
+var _firmaOpeningSession = null;
+
+function _firmaTakePendingSession() {
+  try { return sessionStorage.getItem('__firma_session_id'); }
+  catch (e) { return null; }
+}
+
+function _firmaClearPendingSession() {
+  try { sessionStorage.removeItem('__firma_session_id'); } catch (e) {}
+}
+
 async function _firmaOpenSession(id) {
+  if (_firmaOpeningSession === id) return false; // ya abriéndose: no duplicar
+  _firmaOpeningSession = id;
   showToast('Abriendo sesión #' + id + '…');
   try {
     var data = await _firmaApiGet('/api/sign-sessions/' + id);
-    if (!data || !data.ok) { showToast('❌ ' + ((data && data.error) || 'No se pudo abrir'), true); return; }
+    if (!data || !data.ok) { showToast('❌ ' + ((data && data.error) || 'No se pudo abrir'), true); return false; }
     var session = data.session;
     firmaClearState();
     _firmaCurrentDoc = null;
@@ -1170,7 +1226,7 @@ async function _firmaOpenSession(id) {
       approver: session.assigned_approver || null
     };
     // Parsea bloques del HTML (roles/etiquetas) y pisa el estado con el del servidor
-    if (!firmaLoadHtml(session.html, _firmaOriginalName)) return;
+    if (!firmaLoadHtml(session.html, _firmaOriginalName)) { return false; }
     var st = {};
     ['prepared', 'reviewed', 'approved'].forEach(function(r) {
       var s = (session.signatures || {})[r];
@@ -1183,7 +1239,12 @@ async function _firmaOpenSession(id) {
     firmaPersistState();
     firmaLoadBandeja();
     showToast('✅ Sesión #' + session.id + ' abierta (' + (session.next_role ? 'toca: ' + session.next_role : 'completa') + ')');
+    return true;
   } catch (e) {
-    showToast('❌ Error de conexión con el servidor', true);
+    console.error('Error abriendo sesión:', e);
+    showToast('❌ No se pudo abrir la sesión #' + id + ': ' + (e && e.message ? e.message : 'error inesperado'), true);
+    return false;
+  } finally {
+    if (_firmaOpeningSession === id) _firmaOpeningSession = null;
   }
 }

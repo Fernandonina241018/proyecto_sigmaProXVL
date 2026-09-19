@@ -1126,6 +1126,29 @@ app.post('/api/sign-sessions/:id/reject', requireAuth, async (req, res) => {
     }
 });
 
+// DELETE /api/sign-sessions/:id — eliminar rechazada (creador o admin)
+app.delete('/api/sign-sessions/:id', requireAuth, async (req, res) => {
+    try {
+        const result = await db.deleteSignSession({
+            id: parseInt(req.params.id),
+            username: req.user.username, userRole: req.user.role,
+        });
+        if (result.error) {
+            const status = result.code === 'not-found' ? 404 : result.code === 'forbidden' ? 403 : 422;
+            return res.status(status).json({ error: result.error, code: result.code });
+        }
+        await db.logAuditEvent({
+            username: req.user.username, action: 'SIGN_SESSION_DELETE', success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id }),
+        });
+        res.json({ ok: true, id: result.id });
+    } catch (err) {
+        console.error('Error deleting sign session:', err);
+        res.status(500).json({ error: 'Error al eliminar' });
+    }
+});
+
 // GET /api/users (solo admin) — con paginación
 app.get('/api/users', requireAuth, requireAdmin, async (req, res) => {
     try {

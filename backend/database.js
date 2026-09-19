@@ -527,6 +527,22 @@ function buildPostgres() {
         return get('SELECT * FROM report_signatures WHERE id = $1', [id]);
     }
 
+    // Borrado real solo de rechazadas, solo creador o admin.
+    // (La auditoría conserva SIGN_SESSION_REJECT como rastro.)
+    async function deleteSignSession({ id, username, userRole }) {
+        const row = await get('SELECT * FROM report_signatures WHERE id = $1', [id]);
+        if (!row) return { error: 'Sesión no encontrada', code: 'not-found' };
+        const session = _parseSignRow(row);
+        if (session.status !== 'rejected') {
+            return { error: 'Solo se pueden eliminar sesiones rechazadas', code: 'not-rejected' };
+        }
+        if (userRole !== 'admin' && session.created_by !== username) {
+            return { error: 'Solo el creador o un admin', code: 'forbidden' };
+        }
+        await run('DELETE FROM report_signatures WHERE id = $1', [id]);
+        return { ok: true, id };
+    }
+
     // Rechazo: solo creador, asignados o admin; nunca sobre completa.
     // No borra: marca rejected (auditable) y sale de pendientes.
     async function rejectSignSession({ id, username, userRole, reason }) {
@@ -628,7 +644,7 @@ function buildPostgres() {
         return elig;
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
@@ -1011,6 +1027,25 @@ function buildLocalStore() {
         return state.data_snapshots.find(function(s) { return s.id === id; }) || null;
     }
 
+    // Mirror local de deleteSignSession
+    async function deleteSignSession({ id, username, userRole }) {
+        var idx = -1;
+        for (var i = 0; i < state.report_signatures.length; i++) {
+            if (state.report_signatures[i].id === id) { idx = i; break; }
+        }
+        if (idx === -1) return { error: 'Sesión no encontrada', code: 'not-found' };
+        var s = state.report_signatures[idx];
+        if (s.status !== 'rejected') {
+            return { error: 'Solo se pueden eliminar sesiones rechazadas', code: 'not-rejected' };
+        }
+        if (userRole !== 'admin' && s.created_by !== username) {
+            return { error: 'Solo el creador o un admin', code: 'forbidden' };
+        }
+        state.report_signatures.splice(idx, 1);
+        save();
+        return { ok: true, id: id };
+    }
+
     // FASE 3 — mirror local de importSignSession
     async function importSignSession({ name, html, createdBy, assignedReviewer, assignedApprover, preparedSignature, embedded }) {
         const emb = embedded || {};
@@ -1122,7 +1157,7 @@ function buildLocalStore() {
         return _localSignView(s);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession };}
 
 const impl = build();
 module.exports = {
@@ -1170,6 +1205,7 @@ module.exports = {
     signSessionStep:      (...a) => impl.signSessionStep(...a),
     importSignSession:     (...a) => impl.importSignSession(...a),
     rejectSignSession:      (...a) => impl.rejectSignSession(...a),
+    deleteSignSession:      (...a) => impl.deleteSignSession(...a),
     getSnapshotById:      (...a) => impl.getSnapshotById(...a),
     run:                  (...a) => impl.run(...a),
     all:                 (...a) => impl.all(...a),
