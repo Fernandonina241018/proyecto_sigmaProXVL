@@ -372,16 +372,18 @@ test('creador elimina rechazada; desaparece', async () => {
   assert.equal(await db.getSignSession(s.id), null);
 });
 
-test('no se puede eliminar pendiente, completa ni ajena', async () => {
+test('pendiente bloqueada; completa sí (creador); ajena bloqueada', async () => {
   const s = await db.createSignSession({
     name: 'RPT-DEL2', html: HTML, createdBy: 'ana_prep',
     assignedReviewer: 'beto_rev', assignedApprover: null,
     preparedSignature: { nombre: 'Ana' },
   });
   const p = await db.deleteSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista' });
-  assert.equal(p.code, 'not-rejected');
+  assert.equal(p.code, 'not-deletable');
+  // S1 está complete → el creador sí puede eliminarla (con descarga previa en UI)
   const c = await db.deleteSignSession({ id: S1.id, username: 'ana_prep', userRole: 'analista' });
-  assert.equal(c.code, 'not-rejected'); // S1 está complete
+  assert.equal(c.ok, true);
+  assert.equal(await db.getSignSession(S1.id), null);
   await db.rejectSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista', reason: '' });
   const f = await db.deleteSignSession({ id: s.id, username: 'dora_otro', userRole: 'analista' });
   assert.equal(f.code, 'forbidden');
@@ -428,8 +430,22 @@ test('no involucrado no puede rechazar; completa tampoco', async () => {
   });
   const f = await db.rejectSignSession({ id: s.id, username: 'dora_otro', userRole: 'analista', reason: '' });
   assert.equal(f.code, 'forbidden');
-  const c = await db.rejectSignSession({ id: S1.id, username: 'ana_prep', userRole: 'analista', reason: '' });
-  assert.equal(c.code, 'complete'); // S1 quedó complete en tests previos
+  // Completa propia del test (S1 se elimina en el test de borrado)
+  const full = await db.createSignSession({
+    name: 'RPT-REJ4', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: 'carla_sup',
+    preparedSignature: { nombre: 'Ana' },
+  });
+  await db.signSessionStep({
+    id: full.id, role: 'reviewed', username: 'beto_rev', userRole: 'analista',
+    signature: {}, expectedVersion: 1,
+  });
+  await db.signSessionStep({
+    id: full.id, role: 'approved', username: 'carla_sup', userRole: 'supervisor',
+    signature: {}, expectedVersion: 2,
+  });
+  const c = await db.rejectSignSession({ id: full.id, username: 'ana_prep', userRole: 'analista', reason: '' });
+  assert.equal(c.code, 'complete');
 });
 
 // ── FASE 3: import guards ──

@@ -4290,3 +4290,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** `firmaRenderEditor` reescrito al diseño rail (nodo ✓/punto/número + conector + cuerpo) namespacado `fsg-*`, con tema claro y `aria-current`. Editor envuelto en `<details class="fp-acc">` colapsable como la bandeja. Ids, handlers, textos y 3 hijos preservados.
 
 **Verificación:** `node --check` ×2 OK, vitest 178/178 (2 tests nuevos de timeline), backend 60/60.
+
+### 2026-09-20 (66): Eliminar reportes completos con alerta y descarga previa
+
+**Qué:** (1) Backend `deleteSignSession` (PG+local) admite `complete` además de `rejected`; parciales/pendientes siguen bloqueadas (`not-deletable`); creador o admin; auditoría conserva `SIGN_SESSION_DELETE`. (2) Frontend: 🗑 en filas completas de Mías abre modal con alerta ("se recomienda descargarlo antes... no se puede recuperar") y 3 acciones: Descargar primero (abre + descarga), Eliminar de todos modos, Cancelar. Refactor `_firmaDoDelete` compartido.
+
+**Verificación:** `node -c` + `node --check` OK, backend 60/60 (test de borrado actualizado + RPT-REJ4 autosuficiente), vitest 182/182 (4 tests nuevos del modal).

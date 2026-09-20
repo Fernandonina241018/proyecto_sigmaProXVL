@@ -1493,9 +1493,14 @@ async function firmaLoadBandeja(scope) {
       if (s.status !== 'complete' && s.status !== 'rejected') {
         headHtml += '<button data-reject="' + s.id + '" title="Rechazar y sacar de pendientes" class="fglass-btn">🚫</button>';
       }
-      // En Mías: eliminar rechazadas (creador o admin) para limpiar reemplazos
-      if (_firmaBandejaScope === 'mine' && s.status === 'rejected' && _isMine) {
-        headHtml += '<button data-del="' + s.id + '" title="Eliminar definitivamente (ya rechazada)" class="fglass-btn is-danger">🗑</button>';
+      // En Mías: eliminar rechazadas (creador o admin) para limpiar reemplazos,
+      // y completas (con alerta + descarga previa recomendada).
+      if (_firmaBandejaScope === 'mine' && _isMine && (s.status === 'rejected' || s.status === 'complete')) {
+        if (s.status === 'complete') {
+          headHtml += '<button data-del-complete="' + s.id + '" data-name="' + escapeHtml(s.name) + '" title="Eliminar reporte completo (recomienda descargar antes)" class="fglass-btn is-danger">🗑</button>';
+        } else {
+          headHtml += '<button data-del="' + s.id + '" title="Eliminar definitivamente (ya rechazada)" class="fglass-btn is-danger">🗑</button>';
+        }
       }
       headHtml += '</div>';
       // LOTE A — aviso de expiración por retención (182 complete / 90 rejected)
@@ -1528,6 +1533,12 @@ async function firmaLoadBandeja(scope) {
       btn.onclick = function(e) {
         e.stopPropagation();
         firmaDeleteSession(parseInt(btn.getAttribute('data-del')));
+      };
+    });
+    list.querySelectorAll('[data-del-complete]').forEach(function(btn) {
+      btn.onclick = function(e) {
+        e.stopPropagation();
+        firmaDeleteComplete(parseInt(btn.getAttribute('data-del-complete')), btn.getAttribute('data-name'));
       };
     });
   } catch (e) {
@@ -1567,6 +1578,12 @@ async function firmaDeleteSession(id) {
     ok = confirm('¿Eliminar definitivamente la sesión #' + id + '? Solo se puede porque ya fue rechazada.');
   } catch (e) { ok = true; }
   if (!ok) return;
+  await _firmaDoDelete(id);
+}
+
+// Núcleo del borrado (DELETE + limpieza + refresco). Lo usan el confirm de
+// rechazadas y el modal de completas (con descarga previa recomendada).
+async function _firmaDoDelete(id) {
   try {
     var res = await fetchWithTimeout(_firmaApiBase() + '/api/sign-sessions/' + id, {
       method: 'DELETE', headers: _firmaAuthHeaders(), credentials: 'include'
@@ -1574,7 +1591,7 @@ async function firmaDeleteSession(id) {
     var data = await res.json();
     if (!data || !data.ok) {
       showToast('❌ ' + ((data && data.error) || 'No se pudo eliminar'), true);
-      return;
+      return false;
     }
     // Si era la sesión abierta, se limpia vista + snapshot (antes quedaba el
     // reporte fantasma pintado con las bandejas vacías).
@@ -1582,9 +1599,76 @@ async function firmaDeleteSession(id) {
     showToast('🗑 Sesión #' + id + ' eliminada');
     firmaLoadBandeja();
     firmaUpdatePendingBadge();
+    return true;
   } catch (e) {
     showToast('❌ Error de conexión con el servidor', true);
+    return false;
   }
+}
+
+// Eliminar reporte COMPLETO: alerta con recomendación de descarga previa.
+// [Descargar primero] abre + descarga y deja eliminar después; [Eliminar]
+// borra directo; la auditoría conserva SIGN_SESSION_DELETE como rastro.
+function firmaDeleteComplete(id, name) {
+  var overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  var box = document.createElement('div');
+  box.className = 'modal-box';
+  box.style.cssText = 'max-width:380px';
+  var title = document.createElement('div');
+  title.className = 'modal-title';
+  title.textContent = '🗑 Eliminar reporte completo';
+  box.appendChild(title);
+  var content = document.createElement('div');
+  content.style.cssText = 'padding:12px 16px;display:flex;flex-direction:column;gap:10px';
+  var info = document.createElement('div');
+  info.style.cssText = 'font-size:11px;color:var(--text-primary)';
+  info.innerHTML = 'Se eliminará del servidor <b>definitivamente</b>:<br>“' +
+    escapeHtml(name || ('sesión #' + id)) + '”';
+  content.appendChild(info);
+  var warn = document.createElement('div');
+  warn.style.cssText = 'font-size:11px;color:#b45309;background:#fef3c7;border:1px solid #fcd34d;border-radius:8px;padding:8px 10px';
+  warn.textContent = '⚠️ Se recomienda descargarlo antes para conservarlo. Una vez eliminado no se puede recuperar.';
+  content.appendChild(warn);
+  var btns = document.createElement('div');
+  btns.style.cssText = 'display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap';
+  var dlBtn = document.createElement('button');
+  dlBtn.className = 'btn btn-primary';
+  dlBtn.setAttribute('data-act', 'dl');
+  dlBtn.textContent = '⬇ Descargar primero';
+  var delBtn = document.createElement('button');
+  delBtn.className = 'btn btn-secondary';
+  delBtn.setAttribute('data-act', 'del');
+  delBtn.style.cssText = 'color:#f87171;border-color:rgba(239,68,68,.4)';
+  delBtn.textContent = 'Eliminar de todos modos';
+  var cancelBtn = document.createElement('button');
+  cancelBtn.className = 'btn btn-secondary';
+  cancelBtn.setAttribute('data-act', 'cancel');
+  cancelBtn.textContent = 'Cancelar';
+  btns.appendChild(dlBtn);
+  btns.appendChild(delBtn);
+  btns.appendChild(cancelBtn);
+  content.appendChild(btns);
+  box.appendChild(content);
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+  var close = function() { overlay.remove(); };
+  cancelBtn.onclick = close;
+  overlay.onclick = function(e) { if (e.target === overlay) close(); };
+  dlBtn.onclick = async function() {
+    dlBtn.disabled = true;
+    var ok = await _firmaOpenSession(id);
+    if (ok) {
+      firmaDownload();
+      showToast('✅ Descargado — ya puedes eliminarlo con seguridad');
+    }
+    close();
+  };
+  delBtn.onclick = async function() {
+    delBtn.disabled = true;
+    await _firmaDoDelete(id);
+    close();
+  };
 }
 
 // Abre una sesión del servidor en el visor (reutiliza parseo + editor)

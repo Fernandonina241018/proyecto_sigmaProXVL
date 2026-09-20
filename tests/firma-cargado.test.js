@@ -37,7 +37,8 @@ function sessionV(version, extraSig) {
 }
 
 // Harness con fetch que expone status (para 404/offline del revalidate).
-function loadHarness(handler) {
+function loadHarness(handler, extra) {
+  extra = extra || {};
   const window = new Window();
   const document = window.document;
   document.body.innerHTML =
@@ -63,7 +64,10 @@ function loadHarness(handler) {
     fetchWithTimeout: async (url, opts) => handler(String(url), opts || {}),
     Auth: { getToken: () => 't', getSession: () => ({ username: 'ana', role: 'analista' }) },
     API_URL: 'http://x',
+    URL: { createObjectURL: () => 'blob:mock', revokeObjectURL: () => {} },
+    Blob: window.Blob || function (parts) { this.parts = parts; },
   };
+  for (const k of Object.keys(extra)) sandbox[k] = extra[k];
   sandbox.globalThis = sandbox;
   sandbox.self = sandbox;
   vm.createContext(sandbox);
@@ -272,6 +276,75 @@ describe('Timeline fsg del editor', () => {
     expect(steps.length).toBe(3);
     expect(steps[0].className).toMatch('is-todo');
     expect(document.getElementById('firmaCodeInput-approved')).not.toBeNull();
+  });
+});
+
+describe('Eliminar completa: modal con alerta y descarga previa', () => {
+  function complete99() {
+    const full = sessionV(3, {
+      reviewed: { signed: true, username: 'beto', nombre: 'Beto', cargo: 'Rev', firma: 'G', fecha: 'f2' },
+      approved: { signed: true, username: 'carla', nombre: 'Carla', cargo: 'Sup', firma: 'H', fecha: 'f3' },
+    });
+    full.status = 'complete';
+    full.next_role = null;
+    return full;
+  }
+  function loadDelHarness() {
+    const full = complete99();
+    return { full, h: loadHarness(async (url, opts) => {
+      if ((opts.method || 'GET') === 'DELETE') return { status: 200, json: async () => ({ ok: true, id: 99 }) };
+      if (url.includes('scope=')) return { status: 200, json: async () => ({ ok: true, sessions: [] }) };
+      return { status: 200, json: async () => ({ ok: true, session: full }) };
+    }) };
+  }
+
+  test('modal recomienda descargar antes de eliminar', async () => {
+    const { h: { sandbox, document } } = loadDelHarness();
+    await vm.runInContext("firmaDeleteComplete(99, 'RPT-T')", sandbox);
+    const ov = document.querySelector('.modal-overlay');
+    expect(ov).not.toBeNull();
+    expect(ov.textContent).toMatch('descargarlo');
+    expect(ov.textContent).toMatch('no se puede recuperar');
+    expect(ov.querySelector('[data-act="dl"]')).not.toBeNull();
+    expect(ov.querySelector('[data-act="del"]')).not.toBeNull();
+    expect(ov.querySelector('[data-act="cancel"]')).not.toBeNull();
+  });
+
+  test('Eliminar borra y limpia la vista abierta', async () => {
+    const { h: { sandbox, document, toasts } } = loadDelHarness();
+    await vm.runInContext('_firmaOpenSession(99)', sandbox);
+    await vm.runInContext("firmaDeleteComplete(99, 'RPT-T')", sandbox);
+    document.querySelector('[data-act="del"]').click();
+    await new Promise((r) => setTimeout(r, 60));
+    expect(await vm.runInContext('firmaHasPersistedState()', sandbox)).toBe(false);
+    expect(document.getElementById('firmaPreview').textContent).toMatch('Carga un reporte');
+    expect(document.querySelector('.modal-overlay')).toBeNull();
+    expect(toasts.join('|')).toMatch('eliminada');
+  });
+
+  test('Descargar primero abre la sesión y descarga', async () => {
+    const { h: { sandbox, document, toasts } } = loadDelHarness();
+    await vm.runInContext("firmaDeleteComplete(99, 'RPT-T')", sandbox);
+    document.querySelector('[data-act="dl"]').click();
+    await new Promise((r) => setTimeout(r, 60));
+    // Abrió la sesión (preview con iframe) y descargó (toast), modal cerrado.
+    expect(document.querySelector('#firmaPreview iframe')).not.toBeNull();
+    expect(toasts.join('|')).toMatch('Descargado');
+    expect(document.querySelector('.modal-overlay')).toBeNull();
+  });
+
+  test('Cancelar no hace nada', async () => {
+    let dels = 0;
+    const full = complete99();
+    const { sandbox, document } = loadHarness(async (url, opts) => {
+      if ((opts.method || 'GET') === 'DELETE') { dels++; return { status: 200, json: async () => ({ ok: true }) }; }
+      return { status: 200, json: async () => ({ ok: true, session: full }) };
+    });
+    await vm.runInContext("firmaDeleteComplete(99, 'RPT-T')", sandbox);
+    document.querySelector('[data-act="cancel"]').click();
+    await new Promise((r) => setTimeout(r, 30));
+    expect(dels).toBe(0);
+    expect(document.querySelector('.modal-overlay')).toBeNull();
   });
 });
 

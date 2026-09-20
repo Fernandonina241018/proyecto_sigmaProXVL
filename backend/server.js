@@ -1179,7 +1179,7 @@ app.post('/api/sign-sessions/:id/dismiss', requireAuth, async (req, res) => {
     }
 });
 
-// DELETE /api/sign-sessions/:id — eliminar rechazada (creador o admin)
+// DELETE /api/sign-sessions/:id — eliminar rechazada o completa (creador o admin)
 app.delete('/api/sign-sessions/:id', requireAuth, async (req, res) => {
     try {
         const result = await db.deleteSignSession({

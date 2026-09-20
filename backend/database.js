@@ -674,14 +674,14 @@ function buildPostgres() {
         return { dryRun: false, deleted, count: deleted.length };
     }
 
-    // Borrado real solo de rechazadas, solo creador o admin.
-    // (La auditoría conserva SIGN_SESSION_REJECT como rastro.)
+    // Borrado real solo de rechazadas o completas, solo creador o admin.
+    // (La auditoría conserva SIGN_SESSION_REJECT/DELETE como rastro.)
     async function deleteSignSession({ id, username, userRole }) {
         const row = await get('SELECT * FROM report_signatures WHERE id = $1', [id]);
         if (!row) return { error: 'Sesión no encontrada', code: 'not-found' };
         const session = _parseSignRow(row);
-        if (session.status !== 'rejected') {
-            return { error: 'Solo se pueden eliminar sesiones rechazadas', code: 'not-rejected' };
+        if (session.status !== 'rejected' && session.status !== 'complete') {
+            return { error: 'Solo se pueden eliminar sesiones rechazadas o completas', code: 'not-deletable' };
         }
         if (userRole !== 'admin' && session.created_by !== username) {
             return { error: 'Solo el creador o un admin', code: 'forbidden' };
@@ -1266,8 +1266,8 @@ function buildLocalStore() {
         }
         if (idx === -1) return { error: 'Sesión no encontrada', code: 'not-found' };
         var s = state.report_signatures[idx];
-        if (s.status !== 'rejected') {
-            return { error: 'Solo se pueden eliminar sesiones rechazadas', code: 'not-rejected' };
+        if (s.status !== 'rejected' && s.status !== 'complete') {
+            return { error: 'Solo se pueden eliminar sesiones rechazadas o completas', code: 'not-deletable' };
         }
         if (userRole !== 'admin' && s.created_by !== username) {
             return { error: 'Solo el creador o un admin', code: 'forbidden' };
