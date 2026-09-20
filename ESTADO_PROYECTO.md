@@ -4330,3 +4330,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-09-20 (73): Mínimo 350px para el panel de datos
 
 **Qué:** mismo patrón que firmas — resizer + `min-width` vía clase `pane-datos` (tarjetas vidrio y recientes no se estrechan).
+
+### 2026-09-20 (74): Sidebar de navegación en liquid-glass
+
+**Qué:** secciones Módulos/Administración en tarjetas vidrio (`.snav-card`), items estilo fila glass (separador hairline, hover vidrio, activo con borde accent + glow en icono, sin barra lateral), search-box vidrio con foco accent. Solo markup estático + CSS; JS/iconos/delegación intactos. Tema claro incluido.
+
+**Verificación:** cambio visual sin cobertura de tests — verificación pendiente del usuario.
