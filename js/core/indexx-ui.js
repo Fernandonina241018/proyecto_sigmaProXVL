@@ -268,10 +268,10 @@ var leftPanels = {
     var _shRows = _sh ? _sh.rows.length : 0;
     var _shCols = _sh ? _sh.headers.length : 0;
     return '<div class="left-panel datos" id="panelTrabajo" aria-label="Hoja de trabajo" style="gap:12px;padding:8px">' +
-      '<section class="gl">' +
+      '<details class="gl">' +
+        '<summary class="gl-sum">📋 Hoja de Trabajo</summary><div class="gl-body">' +
         '<div class="estado' + (_sh ? ' on' : '') + '"><span class="pt"></span><span class="nom" title="' + escapeHtml(_shName) + '">' + escapeHtml(_shName) + '</span>' +
         '<span class="cnt">' + _shRows + ' filas · ' + _shCols + ' col</span></div>' +
-        '<div style="font-size:13px;font-weight:600;color:var(--text-primary);padding:2px 0 0">📋 Hoja de Trabajo</div>' +
         '<div class="sec">Acciones</div>' +
         '<div class="mr" role="button" tabindex="0" onclick="generateSampleData()"><svg class="ic"><use href="#i-gear"/></svg><span class="fl">Configurar datos</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
         '<div class="mr" role="button" tabindex="0" onclick="exportTrabajo()"><svg class="ic"><use href="#i-download"/></svg><span class="fl">Exportar CSV</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
@@ -286,23 +286,25 @@ var leftPanels = {
         '<div class="sec">Vista</div>' +
         '<div class="mr' + (trabajoFreezeFirstCol ? ' on' : '') + '" role="button" tabindex="0" onclick="toggleFreezeCol()"><svg class="ic"><use href="#i-lock"/></svg><span class="fl">Fijar columna 1</span><span class="pill">' + (trabajoFreezeFirstCol ? 'ON' : 'OFF') + '</span></div>' +
         '<div class="mr' + (trabajoConditionalFormat ? ' on' : '') + '" role="button" tabindex="0" onclick="toggleConditionalFormat()"><svg class="ic"><use href="#i-palette"/></svg><span class="fl">Formato condicional</span><span class="pill">' + (trabajoConditionalFormat ? 'ON' : 'OFF') + '</span></div>' +
-      '</section>' +
-      '<section class="gl">' +
-        '<div class="sec" style="margin-top:0">Hojas</div>' +
+      '</div></details>' +
+      '<details class="gl" open>' +
+        '<summary class="gl-sum">📑 Hojas</summary><div class="gl-body">' +
         '<div class="sheetrow">' +
           '<select id="sheetsSelect" class="sheets-select" onchange="switchToSheet(parseInt(this.value))" aria-label="Hoja activa">' + getSheetsOptionsHTML() + '</select>' +
           (trabajoSheets.length > 1 ? '<button class="rbtn" onclick="deleteSheet(' + trabajoActiveSheetIndex + ',event)" title="Eliminar hoja">✕</button>' : '') +
           '<button class="rbtn acc" onclick="createNewSheet()" title="Nueva hoja">＋</button>' +
         '</div>' +
-      '</section>' +
-      '<section class="gl">' +
-        '<div class="sec" style="margin-top:0">Resumen</div><div id="trabajoResumen">' + getTrabajoResumenHTML() + '</div>' +
-      '</section>' +
-      '<section class="gl">' +
-        '<div class="sec" style="margin-top:0">Celda activa</div><div id="trabajoCeldaActiva">' + getTrabajoCeldaActivaHTML() + '</div>' +
-      '</section>' +
-      '<section class="gl">' +
-        '<div class="sec" style="margin-top:0">📐 Límites</div>' +
+      '</div></details>' +
+      '<details class="gl" open>' +
+        '<summary class="gl-sum">📊 Resumen</summary><div class="gl-body">' +
+        '<div id="trabajoResumen">' + getTrabajoResumenHTML() + '</div>' +
+      '</div></details>' +
+      '<details class="gl" open>' +
+        '<summary class="gl-sum">🎯 Celda activa</summary><div class="gl-body">' +
+        '<div id="trabajoCeldaActiva">' + getTrabajoCeldaActivaHTML() + '</div>' +
+      '</div></details>' +
+      '<details class="gl" open>' +
+        '<summary class="gl-sum">📐 Límites</summary><div class="gl-body">' +
         '<div style="display:flex;align-items:center;gap:8px">' +
           '<span style="font-size:11px;color:var(--text-muted)">Modo</span>' +
           '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:11px;color:var(--text-muted)">' +
@@ -314,7 +316,7 @@ var leftPanels = {
           '</label>' +
         '</div>' +
         '<div id="trabajoLimitsBody"></div>' +
-      '</section>' +
+      '</div></details>' +
     '</div>';
   },
   datos: function() {

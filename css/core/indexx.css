@@ -1378,6 +1378,16 @@ html[data-theme="light"] .datos select{background:#fff;color:#111827;border-colo
   background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.14);color:#fff;outline:none;font-family:inherit;
   font-variant-numeric:tabular-nums}
 html[data-theme="light"] .datos .limgrid input{background:#fff;color:#111827;border-color:#cbd5e1}
+/* Secciones colapsables (details) sobre tarjeta .gl */
+details.gl{padding:0}
+details.gl > summary.gl-sum{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;
+  padding:12px 14px;font-size:13px;font-weight:600;color:var(--text-primary);border-radius:16px}
+details.gl > summary.gl-sum::-webkit-details-marker{display:none}
+details.gl > summary.gl-sum::before{content:"▸";color:var(--text-faint);transition:transform .15s;flex:none}
+details.gl[open] > summary.gl-sum::before{transform:rotate(90deg)}
+details.gl > summary.gl-sum:focus-visible{outline:2px solid #b3a6ff;outline-offset:-2px}
+details.gl > .gl-body{padding:0 14px 14px}
+@media (prefers-reduced-motion:reduce){details.gl > summary.gl-sum::before{transition:none}}
 .datos .rr .x{width:26px;height:26px;display:flex;align-items:center;justify-content:center;color:var(--txt3);opacity:0;border-radius:50%}
 .datos .rr:hover .x,.datos .rr:focus-within .x{opacity:1}
 .datos .rr.act .nm b{color:#d8d0ff}

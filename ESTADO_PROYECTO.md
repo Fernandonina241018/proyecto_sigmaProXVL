@@ -4352,3 +4352,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** template reescrito al sistema `.datos` (estado + 11 filas directas con 8 símbolos nuevos al sprite + Hojas/Resumen/Celda/Límites intactos con sus IDs); dropdowns eliminados; teclado por delegación scopeada; toggles Vista con pill ON/OFF (recargan página como antes).
 
 **Verificación:** `node --check` ×3 OK, vitest 195/195 (test nuevo teclado), backend 60/60. Visual pendiente del usuario.
+
+### 2026-09-20 (78): Secciones trabajo colapsables (1ª cerrada)
+
+**Qué:** las 5 secciones del panel trabajo son `<details class="gl">` con summary (Hoja/Hojas/Resumen/Celda/Límites); la primera (la más grande) inicia siempre colapsada, el resto abiertas. CSS `gl-sum` con chevron y foco visible.
+
+**Verificación:** `node --check` OK, vitest del panel OK.
