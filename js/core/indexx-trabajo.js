@@ -3,6 +3,15 @@
 //                     limits, cell interaction, keyboard nav
 // ════════════════════════════════════════════════════════════════
 
+// Teclado para filas .mr del panel trabajo (el ratón va por onclick inline).
+// Scopeado a #panelTrabajo para no duplicar el handler del panel de datos.
+document.addEventListener('keydown', function(e){
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('#panelTrabajo .mr[onclick]')) {
+    e.preventDefault();
+    e.target.click();
+  }
+});
+
 // ════════════════════════════════════════════════════════════════
 // TRABAJO — UNDO/REDO
 // ════════════════════════════════════════════════════════════════

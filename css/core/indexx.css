@@ -1339,6 +1339,45 @@
 .datos .rr .tp-xlsx,.datos .rr .tp-xls{color:#9ec5ff}
 [data-theme="light"] .datos .rr .tp-json{color:#b45309}
 [data-theme="light"] .datos .rr .tp-xlsx,[data-theme="light"] .datos .rr .tp-xls{color:#2563eb}
+/* ── Panel trabajo: piezas propias sobre el sistema .datos ── */
+.datos .pill{flex:none;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;
+  background:rgba(255,255,255,.08);color:var(--txt3)}
+.datos .mr.on .pill{background:rgba(124,106,247,.2);color:#b9aefc}
+html[data-theme="light"] .datos .mr.on .pill{background:rgba(109,90,230,.12);color:#6d5ae6}
+.datos .sheetrow{display:flex;align-items:center;gap:8px}
+.datos select{flex:1;min-width:0;height:36px;padding:0 10px;border-radius:12px;font-size:12px;
+  background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.14);color:#fff;outline:none;font-family:inherit}
+html[data-theme="light"] .datos select{background:#fff;color:#111827;border-color:#cbd5e1}
+.datos .rbtn{width:36px;height:36px;flex:none;border-radius:50%;font-size:15px;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:var(--txt)}
+.datos .rbtn.acc{color:var(--accent);font-size:19px}
+.datos .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 6px;margin-top:8px}
+.datos .kpis div{min-width:0;overflow:hidden}
+.datos .kpis small{display:block;font-size:10px;color:var(--txt2)}
+.datos .kpis b{display:block;font-size:13px;font-weight:500;color:var(--txt);font-variant-numeric:tabular-nums;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.datos .flag{display:inline-flex;align-items:center;gap:3px;font-size:10px;padding:1px 6px;border-radius:4px;
+  background:rgba(74,222,128,.12);border:.5px solid rgba(74,222,128,.3);color:#4ade80}
+.datos .cell{display:flex;align-items:center;gap:8px}
+.datos .cell code{font-size:11px;padding:2px 5px;background:rgba(0,0,0,.28);border:.5px solid rgba(255,255,255,.14);
+  border-radius:4px;color:var(--txt2);font-family:ui-monospace,Menlo,monospace}
+.datos .cell b{font-size:15px;font-weight:500;font-variant-numeric:tabular-nums;font-family:ui-monospace,Menlo,monospace}
+.datos .cell .mu{margin-left:auto;text-align:right;font-size:10px;color:var(--txt2)}
+.datos .bar{height:3px;background:rgba(128,128,160,.3);border-radius:1.5px;position:relative;margin-top:8px}
+.datos .bar i{position:absolute;top:-2px;width:2px;height:7px;background:var(--accent);border-radius:1px}
+.datos .tgl{margin-left:auto;position:relative;width:38px;height:22px;border-radius:11px;flex:none;
+  background:rgba(128,128,160,.4);transition:background .15s;cursor:pointer}
+.datos .tgl::after{content:"";position:absolute;left:3px;top:3px;width:16px;height:16px;border-radius:50%;
+  background:#fff;transition:left .15s}
+.datos .tgl[aria-checked="true"]{background:var(--accent)}
+.datos .tgl[aria-checked="true"]::after{left:19px}
+.datos .limgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px}
+.datos .limgrid small{display:block;font-size:10px;color:var(--txt2);margin-bottom:2px}
+.datos .limgrid input{width:100%;min-width:0;height:30px;padding:0 8px;border-radius:8px;font-size:11px;
+  background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.14);color:#fff;outline:none;font-family:inherit;
+  font-variant-numeric:tabular-nums}
+html[data-theme="light"] .datos .limgrid input{background:#fff;color:#111827;border-color:#cbd5e1}
 .datos .rr .x{width:26px;height:26px;display:flex;align-items:center;justify-content:center;color:var(--txt3);opacity:0;border-radius:50%}
 .datos .rr:hover .x,.datos .rr:focus-within .x{opacity:1}
 .datos .rr.act .nm b{color:#d8d0ff}

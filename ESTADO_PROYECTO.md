@@ -4346,3 +4346,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-09-20 (76): Panel arranca siempre en su mínimo
 
 **Qué:** helper `paneMinWidthFor(page)` como fuente única (resizer + apertura); `showPage` fija el ancho al mínimo de cada página (trabajo 360, firmas 400, datos 350, resto 160).
+
+### 2026-09-20 (77): Panel trabajo al estilo datos (dropdowns aplanados)
+
+**Qué:** template reescrito al sistema `.datos` (estado + 11 filas directas con 8 símbolos nuevos al sprite + Hojas/Resumen/Celda/Límites intactos con sus IDs); dropdowns eliminados; teclado por delegación scopeada; toggles Vista con pill ON/OFF (recargan página como antes).
+
+**Verificación:** `node --check` ×3 OK, vitest 195/195 (test nuevo teclado), backend 60/60. Visual pendiente del usuario.
