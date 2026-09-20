@@ -4296,3 +4296,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** (1) Backend `deleteSignSession` (PG+local) admite `complete` además de `rejected`; parciales/pendientes siguen bloqueadas (`not-deletable`); creador o admin; auditoría conserva `SIGN_SESSION_DELETE`. (2) Frontend: 🗑 en filas completas de Mías abre modal con alerta ("se recomienda descargarlo antes... no se puede recuperar") y 3 acciones: Descargar primero (abre + descarga), Eliminar de todos modos, Cancelar. Refactor `_firmaDoDelete` compartido.
 
 **Verificación:** `node -c` + `node --check` OK, backend 60/60 (test de borrado actualizado + RPT-REJ4 autosuficiente), vitest 182/182 (4 tests nuevos del modal).
+
+### 2026-09-20 (67): Tabs más grandes y centrados + ↻ a juego (54px)
+
+**Qué:** botones de la píldora 36→44px alto, icono 17→20px, label 13px; `align-items:center` en la píldora (con `stretch` quedaban arriba); ↻ a 54px para seguir homólogo.
