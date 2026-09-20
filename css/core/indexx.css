@@ -1158,6 +1158,10 @@
 .firma-tab.act i{transform:scale(1.15);filter:drop-shadow(0 0 6px rgba(170,150,255,.85))}
 .firma-tab.act .l{max-width:90px;opacity:1;margin-left:7px;font-weight:600}
 .firma-tab:focus-visible{outline:2px solid #b3a6ff;outline-offset:1px}
+/* Neutraliza reglas genéricas .fp-tabs (líneas ~1135-1137): sin cajas ni fondos
+   por botón — solo icono + label sobre el vidrio de la píldora. */
+#firmaTabs.fp-tabs button{height:36px;border:0;border-radius:999px;background:transparent}
+#firmaTabs.fp-tabs button[aria-selected="true"]{background:transparent}
 [data-theme="light"] #firmaTabs.fp-tabs{background:rgba(20,22,40,.08);border-color:rgba(20,22,40,.2);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.65),inset 0 -1px 0 rgba(20,22,40,.05),0 8px 24px rgba(0,0,0,.12)}
 @media (prefers-reduced-motion:reduce){#firmaTabs.fp-tabs *{transition:none}}

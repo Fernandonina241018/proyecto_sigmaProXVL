@@ -4258,3 +4258,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** los tabs Pendientes/Mías/Cargado ahora son píldora flotante liquid-glass sin marcos internos (solo la píldora tiene borde), iconos emoji + etiqueta que se expande en el activo + brillo, con override de tema claro, `focus-visible` y `prefers-reduced-motion`. Solo CSS (`indexx.css`) + markup (`indexx-ui.js`); la lógica del toggle (`act`/`aria-selected`) intacta.
 
 **Verificación:** `node --check` OK, vitest 176/176. Sin test DOM dedicado (indexx-ui.js no es aislable en harness); verificación visual pendiente del usuario.
+
+### 2026-09-20 (60): Fix fondo oscuro en icono activo de tabs
+
+**Qué:** la regla genérica `.fp-tabs button[aria-selected="true"]` pintaba caja oscura (`var(--fp-card)`) tras el icono activo + `height:28px/radius:5px` heredados. Neutralizado con overrides de ID (`#firmaTabs.fp-tabs button...`): botones 100% transparentes, solo icono + label sobre el vidrio.
+
+**Verificación:** especificidad revisada (ID gana); cambio solo-CSS sin cobertura de tests — verificación visual pendiente del usuario.
