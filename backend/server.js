@@ -1200,10 +1200,10 @@ app.delete('/api/sign-sessions/:id', requireAuth, async (req, res) => {
 
 // POST /api/admin/purge — purga por retención (solo admin).
 // Borra complete/rejected viejas (nunca pending/partial). dryRun lista.
-// Defaults por env RETENTION_DAYS (365) y REJECTED_DAYS (90).
+// Defaults por env RETENTION_DAYS (182) y REJECTED_DAYS (90).
 app.post('/api/admin/purge', requireAuth, requireAdmin, async (req, res) => {
     try {
-        const retentionDays = parseInt((req.body && req.body.retentionDays) ?? process.env.RETENTION_DAYS ?? 365);
+        const retentionDays = parseInt((req.body && req.body.retentionDays) ?? process.env.RETENTION_DAYS ?? 182);
         const rejectedDays = parseInt((req.body && req.body.rejectedDays) ?? process.env.REJECTED_DAYS ?? 90);
         const dryRun = !req.body || req.body.dryRun !== false;
         const result = await db.purgeSignSessions({ retentionDays, rejectedDays, dryRun });

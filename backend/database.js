@@ -69,7 +69,7 @@ function _signDocHash(html) {
 // LOTE A — Purga por retención (compartido PG/local): solo complete/
 // rejected viejas por updated_at. Jamás toca pending/partial.
 function _purgeEligible(sessions, retentionDays, rejectedDays, nowMs) {
-    const rMs = Math.max(parseInt(retentionDays) || 365, 1) * 86400000;
+    const rMs = Math.max(parseInt(retentionDays) || 182, 1) * 86400000;
     const jMs = Math.max(parseInt(rejectedDays) || 90, 1) * 86400000;
     return sessions.filter(function(s) {
         const age = nowMs - new Date(s.updated_at || s.created_at || 0).getTime();
@@ -656,7 +656,7 @@ function buildPostgres() {
         return _parseSignRow(updated[0]);
     }
 
-    async function purgeSignSessions({ retentionDays = 365, rejectedDays = 90, dryRun = true, limit = 200, _now } = {}) {
+    async function purgeSignSessions({ retentionDays = 182, rejectedDays = 90, dryRun = true, limit = 200, _now } = {}) {
         limit = Math.min(Math.max(parseInt(limit) || 200, 1), 1000);
         const rows = await all(
             `SELECT id, name, doc_hash, status, created_by, created_at, updated_at
@@ -1243,7 +1243,7 @@ function buildLocalStore() {
     }
 
     // Mirror local de purgeSignSessions
-    async function purgeSignSessions({ retentionDays = 365, rejectedDays = 90, dryRun = true, limit = 200, _now } = {}) {
+    async function purgeSignSessions({ retentionDays = 182, rejectedDays = 90, dryRun = true, limit = 200, _now } = {}) {
         limit = Math.min(Math.max(parseInt(limit) || 200, 1), 1000);
         var cands = state.report_signatures
             .filter(function(s) { return s.status === 'complete' || s.status === 'rejected'; })

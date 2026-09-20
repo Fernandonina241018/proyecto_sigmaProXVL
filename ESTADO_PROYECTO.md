@@ -4240,3 +4240,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Decisión:** las sesiones completas y verificadas quedan cerradas sin ninguna vía de corrección en la app (ni reinicio, ni rechazo, ni válvula admin). Verificado: el reset/cambio de contraseña es independiente (tabla `users`, sin chequeos de sesión) y sigue funcionando con 3 firmas. Ante error en una completa, el proceso es emitir un reporte nuevo corregido; la purga por retención (365 días) retira la vieja. Sin cambios de código.
 
 **Verificación:** lectura de guards `complete` (`database.js`: firmar :44, reiniciar :595, dismiss :644, rechazar :699) + endpoints de password sin referencias a sesiones.
+
+### 2026-09-19 (57): Retención de completas 365→182 días
+
+**Qué:** la mitad (~6 meses). Cambiado el default en `purgeSignSessions` (PG+local), fallback de `_purgeEligible`, default del endpoint, `.env.example` y etiqueta "⏳ expira" del frontend. Rechazadas siguen en 90. Tests con `retentionDays` explícito intactos.
+
+**Verificación:** sintaxis OK ×3, backend 59/59, vitest 176/176.

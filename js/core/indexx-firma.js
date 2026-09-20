@@ -1496,11 +1496,11 @@ async function firmaLoadBandeja(scope) {
         headHtml += '<button data-del="' + s.id + '" title="Eliminar definitivamente (ya rechazada)" style="flex-shrink:0;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid rgba(239,68,68,.4);background:transparent;color:#f87171;cursor:pointer;font-family:inherit">🗑</button>';
       }
       headHtml += '</div>';
-      // LOTE A — aviso de expiración por retención (365 complete / 90 rejected)
+      // LOTE A — aviso de expiración por retención (182 complete / 90 rejected)
       var _expTxt = '';
       try {
         if ((s.status === 'complete' || s.status === 'rejected') && s.updated_at) {
-          var _days = s.status === 'complete' ? 365 : 90;
+          var _days = s.status === 'complete' ? 182 : 90;
           var _expMs = new Date(s.updated_at).getTime() + _days * 86400000 - Date.now();
           if (_expMs > 0 && _expMs < 30 * 86400000) {
             var _expD = new Date(new Date(s.updated_at).getTime() + _days * 86400000);
