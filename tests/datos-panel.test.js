@@ -95,6 +95,53 @@ describe('Panel datos F1: delegación data-act', () => {
   });
 });
 
+describe('Panel datos F3: recientes', () => {
+  const SEED = '[{"name":"a.csv","type":"CSV","size":2048,"rows":[[1]],"headers":["h"],"totalRows":100},' +
+    '{"name":"b.json","type":"JSON","size":512,"rows":[],"headers":[]}]';
+  async function seedHarness() {
+    const h = loadDatosHarness();
+    await vm.runInContext('datosRecentFiles = ' + SEED + ';', h.sandbox);
+    await vm.runInContext('renderRecentFiles();', h.sandbox);
+    return h;
+  }
+  test('renderiza filas .rr con icono, tipo y quitar', async () => {
+    const { document } = await seedHarness();
+    const rows = document.querySelectorAll('#listaRec .rr');
+    expect(rows.length).toBe(2);
+    expect(rows[0].querySelector('.nm b').textContent).toBe('a.csv');
+    expect(rows[0].querySelector('.tp').textContent).toBe('CSV');
+    expect(rows[1].querySelector('.tp-json')).not.toBeNull();
+    expect(rows[0].querySelector('[data-quitar]')).not.toBeNull();
+    expect(rows[0].querySelector('use').getAttribute('href')).toBe('#i-file');
+  });
+
+  test('quitar elimina y persiste', async () => {
+    const { sandbox, document } = await seedHarness();
+    await vm.runInContext('initDatosPage()', sandbox);
+    document.querySelector('[data-quitar="a.csv"]').click();
+    const len = await vm.runInContext('datosRecentFiles.length', sandbox);
+    expect(len).toBe(1);
+    expect(JSON.parse(sandbox.localStorage.getItem('datosRecentFiles')).length).toBe(1);
+    expect(document.querySelectorAll('#listaRec .rr').length).toBe(1);
+  });
+
+  test('clic en fila carga el reciente (marca act)', async () => {
+    const { sandbox, document } = await seedHarness();
+    await vm.runInContext('initDatosPage()', sandbox);
+    document.querySelector('[data-load="a.csv"]').click();
+    await new Promise((r) => setTimeout(r, 30));
+    const cur = await vm.runInContext('datosCurrentFileName', sandbox);
+    expect(cur).toBe('a.csv');
+    expect(document.querySelector('#listaRec .rr.act')).not.toBeNull();
+  });
+
+  test('sin recientes muestra vacío', async () => {
+    const { sandbox, document } = loadDatosHarness();
+    await vm.runInContext('renderRecentFiles();', sandbox);
+    expect(document.querySelector('#listaRec .vacio')).not.toBeNull();
+  });
+});
+
 describe('Panel datos F1: sync de estado', () => {
   test('sin datos: apagado y limpiar deshabilitado', async () => {
     const { sandbox, document } = loadDatosHarness();

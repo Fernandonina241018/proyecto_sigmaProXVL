@@ -4314,3 +4314,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** sprite SVG global (10 iconos + braces para JSON) en `indexx.html`; sistema `.datos` en CSS (tokens, fluido, tema claro, táctil, reduced-motion); template `leftPanels.datos` reemplazado (estado + drop + filas CSV/JSON(nueva)/Excel/Pegar/Generar/Ampliar/Limpiar + sección Recientes pendiente F3); `initDatosPage` recableado por delegación `data-act` + teclado; `datosSyncPanel()` como punto único (enganchado en `updateDatosUI`). Se conserva `id=fileInput` (atajo ⌘O del menú).
 
 **Verificación:** `node --check` ×3 OK, vitest 187/187 (5 tests nuevos `datos-panel`), backend 60/60.
+
+### 2026-09-20 (71): Datos F3 — recientes al diseño (quitar-uno + preview)
+
+**Qué:** `renderRecentFiles` al formato `.rr` (sprite por tipo, kb/filas, marca `act`, badge de tipo con color); nuevo `quitarReciente` (borrar-uno con persistencia); clic delega a `loadRecentFile` por nombre; preview hover recableado; `borrarTodo` sigue con `confirm()` hasta F4.
+
+**Verificación:** `node --check` ×2 OK, vitest 9/9 en `datos-panel` (4 tests nuevos F3).

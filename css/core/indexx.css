@@ -1303,6 +1303,10 @@
 .datos .rr .nm i{display:block;margin-top:2px;font-style:normal;font-family:ui-monospace,Menlo,Consolas,monospace;
   font-variant-numeric:tabular-nums;font-size:11px;color:var(--txt3)}
 .datos .rr .tp{font-size:11px;font-weight:600;letter-spacing:.04em;color:#8ee6b0}
+.datos .rr .tp-json{color:#ffd28a}
+.datos .rr .tp-xlsx,.datos .rr .tp-xls{color:#9ec5ff}
+[data-theme="light"] .datos .rr .tp-json{color:#b45309}
+[data-theme="light"] .datos .rr .tp-xlsx,[data-theme="light"] .datos .rr .tp-xls{color:#2563eb}
 .datos .rr .x{width:26px;height:26px;display:flex;align-items:center;justify-content:center;color:var(--txt3);opacity:0;border-radius:50%}
 .datos .rr:hover .x,.datos .rr:focus-within .x{opacity:1}
 .datos .rr.act .nm b{color:#d8d0ff}

@@ -341,7 +341,7 @@ var leftPanels = {
         '<div class="rec-h"><b>Recientes</b>' +
           '<span class="lk" id="borrarTodo" role="button" tabindex="0" data-act="borrar-todo"><svg class="ic sm"><use href="#i-trash"/></svg><span>Borrar todo</span></span>' +
         '</div>' +
-        '<div id="listaRec"><div class="vacio">Recientes disponibles tras migrar la lista (F3)</div></div>' +
+        '<div id="listaRec"><div class="vacio">Sin archivos recientes</div></div>' +
       '</section>' +
     '</div>';
   },

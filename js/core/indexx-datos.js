@@ -25,12 +25,30 @@ function initDatosPage() {
   if (panel) {
     // Delegación: clic + teclado (Enter/Espacio) para [role=button]
     panel.addEventListener('click', function(e){
+      var q = e.target.closest('[data-quitar]');
+      if (q && panel.contains(q)) { quitarReciente(q.getAttribute('data-quitar')); return; }
+      var l = e.target.closest('[data-load]');
+      if (l && panel.contains(l)) {
+        var idx = indiceReciente(l.getAttribute('data-load'));
+        if (idx !== -1) { loadRecentFile(idx); renderRecentFiles(); }
+        return;
+      }
       var el = e.target.closest('[data-act]');
       if (!el || !panel.contains(el)) return;
       datosAccion(el.getAttribute('data-act'));
     });
     panel.addEventListener('keydown', function(e){
       if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[role=button]')) { e.preventDefault(); e.target.click(); }
+    });
+    // Preview flotante al hover (recableado al markup .rr)
+    panel.addEventListener('mouseover', function(e){
+      var l = e.target.closest('[data-load]');
+      if (!l || !panel.contains(l)) return;
+      var idx = indiceReciente(l.getAttribute('data-load'));
+      if (idx !== -1) showDatasetPreview(e, idx);
+    });
+    panel.addEventListener('mouseout', function(e){
+      if (e.target.closest('[data-load]')) hideDatasetPreview();
     });
   }
 
@@ -490,24 +508,47 @@ function clearRecentFiles() {
   try { localStorage.setItem('datosRecentFiles', '[]'); } catch(e){}
   renderRecentFiles();
 }
+// F3 — render al formato .rr del diseño (con sprite, sin emoji).
 function renderRecentFiles() {
-  var container = document.getElementById('recentFilesList');
+  var container = document.getElementById('listaRec');
   if (!container) return;
-  if (!datosRecentFiles.length) { container.innerHTML = '<div style="color:var(--text-faint);font-size:11px;padding:8px;text-align:center">Sin archivos recientes</div>'; return; }
-  container.innerHTML = datosRecentFiles.map(function(file, i) {
-    var icon = file.type === 'CSV' ? '📄' : file.type === 'JSON' ? '📋' : '📊';
-    var bc = file.type === 'CSV' ? 'badge-ok' : file.type === 'JSON' ? 'badge-warn' : 'badge-info';
-    var kb = Math.max(1, Math.round((file.size||0) / 1024));
-    var hasData = file.headers && file.rows;
-    return '<div class="file-item" style="flex-direction:column;align-items:flex-start;gap:3px" onclick="loadRecentFile(' + i + ')" ' +
-      (hasData ? 'onmouseenter="showDatasetPreview(event,' + i + ')" onmouseleave="hideDatasetPreview()"' : '') + '>' +
-      '<div style="display:flex;align-items:center;gap:8px;width:100%">' +
-        '<span style="font-size:16px">' + icon + '</span>' +
-        '<div style="flex:1;min-width:0"><div class="file-item-name" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + escapeHtml(file.name) + '</div>' +
-        '<div class="file-item-meta">' + kb + ' KB · ' + (file.totalRows || (file.rows && file.rows.length) || 0) + ' filas</div></div>' +
-        '<span class="badge ' + bc + '">' + file.type + '</span>' +
-      '</div></div>';
+  if (!datosRecentFiles.length) {
+    container.innerHTML = '<div class="vacio">Sin archivos recientes</div>';
+    return;
+  }
+  var curName = (typeof datosCurrentFileName !== 'undefined') ? datosCurrentFileName : '';
+  container.innerHTML = datosRecentFiles.map(function(file) {
+    var t = String(file.type || '').toUpperCase();
+    var icon = t === 'JSON' ? 'i-braces' : (t === 'XLSX' || t === 'XLS') ? 'i-table' : 'i-file';
+    var kb = Math.max(1, Math.round((file.size || 0) / 1024));
+    var filas = file.totalRows || (file.rows && file.rows.length) || 0;
+    var act = curName && file.name === curName ? ' act' : '';
+    return '<div class="rr' + act + '">' +
+      '<div class="main" role="button" tabindex="0" data-load="' + escapeHtml(String(file.name)) + '">' +
+        '<svg class="ic big"><use href="#' + icon + '"/></svg>' +
+        '<div class="nm"><b title="' + escapeHtml(file.name) + '">' + escapeHtml(file.name) + '</b>' +
+        '<i>' + kb + ' KB · ' + filas + ' filas</i></div>' +
+        '<span class="tp tp-' + t.toLowerCase() + '">' + escapeHtml(t || '—') + '</span>' +
+      '</div>' +
+      '<div class="x" role="button" tabindex="0" aria-label="Quitar ' + escapeHtml(file.name) + ' de recientes" data-quitar="' + escapeHtml(String(file.name)) + '">' +
+        '<svg class="ic sm"><use href="#i-x"/></svg>' +
+      '</div>' +
+    '</div>';
   }).join('');
+}
+
+// F3 — quitar un reciente (nuevo; antes solo existía borrar todo).
+function quitarReciente(name) {
+  datosRecentFiles = datosRecentFiles.filter(function(f){ return f.name !== name; });
+  try { localStorage.setItem('datosRecentFiles', JSON.stringify(datosRecentFiles)); } catch(e){}
+  renderRecentFiles();
+}
+
+function indiceReciente(name) {
+  for (var i = 0; i < datosRecentFiles.length; i++) {
+    if (datosRecentFiles[i].name === name) return i;
+  }
+  return -1;
 }
 
 var _tooltipEl = document.getElementById('datasetTooltipEl');
