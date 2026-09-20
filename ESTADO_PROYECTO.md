@@ -4246,3 +4246,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** la mitad (~6 meses). Cambiado el default en `purgeSignSessions` (PG+local), fallback de `_purgeEligible`, default del endpoint, `.env.example` y etiqueta "⏳ expira" del frontend. Rechazadas siguen en 90. Tests con `retentionDays` explícito intactos.
 
 **Verificación:** sintaxis OK ×3, backend 59/59, vitest 176/176.
+
+### 2026-09-19 (58): Anti-caché API + indicador de backend en perfil
+
+**Qué:** (1) Los GET de API no emitían `Cache-Control` y los navegadores móviles servían la bandeja desde caché (Mías pegada en 1/3 con la sesión ya completa). Nuevo middleware `backend/no-store.js` (`no-store, no-cache` + Pragma/Expires) montado en `/api`. (2) El modal de perfil muestra el host del backend (local vs Fly) en la barra de estado y al pie, para no dudar entre dispositivos.
+
+**Verificación:** `node -c` OK ×2, backend 60/60 (test nuevo `no-store`), vitest 176/176.

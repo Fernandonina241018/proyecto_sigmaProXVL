@@ -120,6 +120,10 @@ app.use((req, res, next) => {
     next();
 });
 
+// Anti-caché de API: sin esto los GET de bandeja se sirven de caché HTTP
+// (típico en móvil) y Mías muestra conteos viejos. Ver backend/no-store.js.
+app.use('/api', require('./no-store').apiNoStore);
+
 // FIX: el HTML del reporte (~1MB con JPEGs) superaba el límite global y el
 // publish devolvía 413 (detectado en vivo). Solo las 2 rutas de publicación
 // aceptan cuerpos grandes; el resto mantiene 100kb anti-DoS.

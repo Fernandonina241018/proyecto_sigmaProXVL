@@ -137,8 +137,16 @@ function showPerfilModal() {
     .then(function(data) {
       if (!data.ok) throw new Error(data.error || 'Error al cargar');
       var user = data.profile || { username: data.username, role: data.role };
-      if (statusEl) { statusEl.innerHTML = '✓ Conectado al servidor'; statusEl.style.background = 'rgba(74,222,128,0.12)'; statusEl.style.color = '#4ade80'; }
+      // Indicador de backend (local vs Fly): evita dudas entre dispositivos.
+      var _host = String(apiUrl || '').replace(/^https?:\/\//, '').split('/')[0] || 'mismo origen';
+      if (statusEl) { statusEl.innerHTML = '✓ ' + escapeHtml(_host); statusEl.style.background = 'rgba(74,222,128,0.12)'; statusEl.style.color = '#4ade80'; }
       renderPerfil(box, user);
+      try {
+        var _row = document.createElement('div');
+        _row.style.cssText = 'padding:6px 24px 12px;font-size:10px;color:var(--text-faint);text-align:center';
+        _row.textContent = '🌐 Backend: ' + _host;
+        box.appendChild(_row);
+      } catch (_e) {}
     })
     .catch(function() {
       if (statusEl) { statusEl.innerHTML = '✕ Sin conexión al servidor'; statusEl.style.background = 'rgba(248,113,113,0.12)'; statusEl.style.color = '#f87171'; }
