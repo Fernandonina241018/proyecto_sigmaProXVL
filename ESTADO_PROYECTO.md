@@ -4326,3 +4326,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** limpiar y borrar-todo con confirmación inline del diseño (auto-reversión 4s/3s; `skipConfirm` en `limpiarDataset`/`clearRecentFiles`, únicos llamados desde el panel). Migración del sidebar completa: F1 carcasa + F3 recientes + F4 confirms.
 
 **Verificación:** `node --check` ×3 OK, vitest 194/194 (3 tests nuevos F4), backend 60/60.
+
+### 2026-09-20 (73): Mínimo 350px para el panel de datos
+
+**Qué:** mismo patrón que firmas — resizer + `min-width` vía clase `pane-datos` (tarjetas vidrio y recientes no se estrechan).

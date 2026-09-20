@@ -203,6 +203,8 @@
   #paneLeft.pane-trabajo { width: 360px; }
   /* Panel de firmas: nunca bajo 400px (píldora + editor se distorsionan). */
   #paneLeft.pane-firmarReporte { width: 400px; min-width: 400px; }
+  /* Panel de datos: nunca bajo 350px (tarjetas vidrio + recientes). */
+  #paneLeft.pane-datos { width: 350px; min-width: 350px; }
   #paneRight { flex: 1 1 0; min-width: 0; }
   .pane-resizer { width:5px; background:transparent; cursor:col-resize; flex-shrink:0; display:flex; align-items:center; justify-content:center; position:relative; transition:background .15s; z-index:10; }
   .pane-resizer:hover, .pane-resizer.dragging { background:rgba(124,106,247,.35); }
