@@ -13,6 +13,7 @@ function paneMinWidthFor(page) {
   if (page === 'trabajo') return 360;
   if (page === 'firmarReporte') return 400;
   if (page === 'datos') return 350;
+  if (page === 'analisis') return 350;
   return 160;
 }
 resizer.addEventListener('mousedown', function(e) {
@@ -408,52 +409,44 @@ var leftPanels = {
       var dsRows = analisisSheet ? analisisSheet.rows.length : 0;
       var dsCols = analisisSheet ? analisisSheet.headers.length : 0;
 
-      return '<div class="left-panel" style="gap:10px">' +
-        // ── Dataset activo ──
-        '<div class="info-section" style="flex-shrink:0">' +
-          '<div class="info-section-header">Dataset activo</div>' +
-          '<div class="info-list">' +
-            '<div class="info-item"><div class="info-item-label">Nombre</div><div class="info-item-value" id="analisisDsName" style="font-weight:600;color:var(--accent)">' + escapeHtml(dsName) + '</div></div>' +
-            '<div class="info-item"><div class="info-item-label">Filas</div><div class="info-item-value" id="analisisDsRows">' + dsRows + '</div></div>' +
-            '<div class="info-item"><div class="info-item-label">Columnas</div><div class="info-item-value" id="analisisDsCols">' + dsCols + '</div></div>' +
+      return '<div class="left-panel datos" id="panelAnalisis" aria-label="Análisis estadísticos" style="gap:12px;padding:8px">' +
+        // ── Dataset activo (estado vivo: updateAnalisisDatasetBadge escribe estos 3 ids) ──
+        '<section class="gl">' +
+          '<div class="estado' + (analisisSheet ? ' on' : '') + '"><span class="pt"></span>' +
+          '<span class="nom" id="analisisDsName" title="' + escapeHtml(dsName) + '">' + escapeHtml(dsName) + '</span>' +
+          '<span class="cnt"><span id="analisisDsRows">' + dsRows + '</span> filas · <span id="analisisDsCols">' + dsCols + '</span> col</span></div>' +
+          '<div class="sec">Columnas</div>' +
+          '<div style="display:flex;align-items:center;gap:6px">' +
+            '<span id="analisisStatNumeric" style="font-size:11px;font-weight:600;color:var(--accent)">?</span>' +
+            '<span style="font-size:10px;color:var(--text-faint)">numéricas</span>' +
           '</div>' +
-        '</div>' +
-        // ── Columnas activas ──
-        '<div class="info-section" style="flex-shrink:0">' +
-          '<div class="info-section-header">Columnas</div>' +
-          '<div class="info-list" style="gap:4px">' +
-            '<div class="info-item" style="display:flex;align-items:center;gap:6px">' +
-              '<span id="analisisStatNumeric" style="font-size:11px;font-weight:600;color:var(--accent)">?</span>' +
-              '<span style="font-size:10px;color:var(--text-faint)">numéricas</span>' +
-            '</div>' +
-            '<div style="display:flex;align-items:center;gap:6px;padding:2px 0">' +
-              '<span style="font-size:10px;color:var(--text-faint);min-width:60px">Umbral:</span>' +
-              '<input type="range" id="colThresholdSlider" min="0" max="100" value="50" style="flex:1;height:4px" oninput="columnAnalysisConfig.threshold=this.value/100;document.getElementById(\'colThresholdVal\').textContent=this.value+\'%\'">' +
-              '<span id="colThresholdVal" style="font-size:10px;color:var(--text-primary);min-width:28px;text-align:right">50%</span>' +
-            '</div>' +
-            '<div style="display:flex;gap:4px">' +
-              '<label style="display:flex;align-items:center;gap:3px;font-size:10px;color:var(--text-faint);cursor:pointer"><input type="checkbox" id="colForceInclude" onchange="columnAnalysisConfig.forceInclude=this.checked"> Forzar</label>' +
-              '<label style="display:flex;align-items:center;gap:3px;font-size:10px;color:var(--text-faint);cursor:pointer"><input type="checkbox" id="colImputeMissing" onchange="columnAnalysisConfig.imputeMissing=this.checked"> Imputar</label>' +
-              '<button class="btn btn-secondary" style="font-size:10px;padding:1px 6px;margin-left:auto" onclick="showColumnExclusionModal()">🚫</button>' +
-            '</div>' +
-            '<div id="analisisExcludedTags" style="display:flex;flex-wrap:wrap;gap:3px;min-height:0;font-size:10px"></div>' +
+          '<div style="display:flex;align-items:center;gap:6px;padding:6px 0 2px">' +
+            '<span style="font-size:10px;color:var(--text-faint);min-width:60px">Umbral:</span>' +
+            '<input type="range" id="colThresholdSlider" min="0" max="100" value="50" style="flex:1;height:4px" oninput="columnAnalysisConfig.threshold=this.value/100;document.getElementById(\'colThresholdVal\').textContent=this.value+\'%\'">' +
+            '<span id="colThresholdVal" style="font-size:10px;color:var(--text-primary);min-width:28px;text-align:right">50%</span>' +
           '</div>' +
-        '</div>' +
-        // ── Último resultado ──
-        '<div class="info-section" style="flex-shrink:0">' +
-          '<div class="info-section-header">Último resultado</div>' +
-          '<div class="info-list" id="analisisLastResultList">' +
-            '<div class="info-item"><div class="info-item-label">Test</div><div class="info-item-value" id="analisisLastTest">' + lastTest + '</div></div>' +
-            '<div class="info-item"><div class="info-item-label">p-valor</div><div class="info-item-value" id="analisisLastPVal">' + lastPVal + '</div></div>' +
-            '<div class="info-item"><div class="info-item-label">Decisión</div><div class="info-item-value" id="analisisLastDecision" style="color:' + decColor + '">' + lastDec + '</div></div>' +
+          '<div style="display:flex;gap:8px;align-items:center">' +
+            '<label style="display:flex;align-items:center;gap:3px;font-size:10px;color:var(--text-faint);cursor:pointer"><input type="checkbox" id="colForceInclude" onchange="columnAnalysisConfig.forceInclude=this.checked"> Forzar</label>' +
+            '<label style="display:flex;align-items:center;gap:3px;font-size:10px;color:var(--text-faint);cursor:pointer"><input type="checkbox" id="colImputeMissing" onchange="columnAnalysisConfig.imputeMissing=this.checked"> Imputar</label>' +
+            '<button class="fglass-btn is-round40" style="width:30px;height:30px;font-size:12px;margin-left:auto" onclick="showColumnExclusionModal()" title="Excluir columnas">🚫</button>' +
           '</div>' +
-        '</div>' +
+          '<div id="analisisExcludedTags" style="display:flex;flex-wrap:wrap;gap:3px;min-height:0;font-size:10px"></div>' +
+        '</section>' +
+        // ── Último resultado (updateAnalisisLastResult escribe estos ids) ──
+        '<section class="gl">' +
+          '<div class="sec" style="margin-top:0">Último resultado</div>' +
+          '<div id="analisisLastResultList" style="display:flex;flex-direction:column;gap:4px">' +
+            '<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px"><span style="color:var(--text-faint)">Test</span><span id="analisisLastTest" style="color:var(--text-primary);font-weight:600">' + lastTest + '</span></div>' +
+            '<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px"><span style="color:var(--text-faint)">p-valor</span><span id="analisisLastPVal" style="color:var(--text-primary);font-variant-numeric:tabular-nums">' + lastPVal + '</span></div>' +
+            '<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px"><span style="color:var(--text-faint)">Decisión</span><span id="analisisLastDecision" style="color:' + decColor + ';font-weight:600">' + lastDec + '</span></div>' +
+          '</div>' +
+        '</section>' +
         // ── Tests seleccionados (solo este scroll) ──
-        '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0">' +
-          '<div class="info-section-header">Test seleccionado</div>' +
-          '<div id="analisisSelectedTestsScroll" style="overflow-y:auto;flex:1;padding:6px;display:flex;flex-direction:column;gap:3px">' + selectedTestsHtml + '</div>' +
-        '</div>' +
-      '</div>'; 
+        '<section class="gl" style="flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0">' +
+          '<div class="sec" style="margin-top:0">Test seleccionado</div>' +
+          '<div id="analisisSelectedTestsScroll" style="overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:3px;min-height:40px">' + selectedTestsHtml + '</div>' +
+        '</section>' +
+      '</div>';
     },
 
   visualizacion: function()  { return '<div class="left-panel viz-root" style="gap:0;padding:0;overflow:hidden;display:flex;flex-direction:column;overflow-y:auto">' +
@@ -904,6 +897,7 @@ function loadPage(name) {
   document.getElementById('paneLeft')?.classList.toggle('pane-trabajo', name === 'trabajo');
   document.getElementById('paneLeft')?.classList.toggle('pane-firmarReporte', name === 'firmarReporte');
   document.getElementById('paneLeft')?.classList.toggle('pane-datos', name === 'datos');
+  document.getElementById('paneLeft')?.classList.toggle('pane-analisis', name === 'analisis');
   // El panel siempre arranca en su mínimo permitido (se puede ensanchar, pero
   // al entrar a cada página vuelve al mínimo).
   try {

@@ -4358,3 +4358,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** las 5 secciones del panel trabajo son `<details class="gl">` con summary (Hoja/Hojas/Resumen/Celda/Límites); la primera (la más grande) inicia siempre colapsada, el resto abiertas. CSS `gl-sum` con chevron y foco visible.
 
 **Verificación:** `node --check` OK, vitest del panel OK.
+
+### 2026-09-20 (79): Sidebar análisis al estilo datos + mínimo 350px
+
+**Qué:** template `analisis` reescrito a secciones `.gl` (estado vivo, columnas con umbral/checks/excluir, último resultado, tests scroll); conservados los 9 IDs vivos + handlers inline. Mínimo 350px vía helper + clase `pane-analisis` + CSS.
+
+**Verificación:** `node --check` OK, vitest 195/195, backend intacto. Visual pendiente del usuario.
