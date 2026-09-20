@@ -4222,3 +4222,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** (1) Los inputs del modal de cambio forzado usaban `var(--text-primary)` (blanco en tema oscuro) sobre fondo blanco → texto invisible. Fijado explícito `background:#fff;color:#111827` + placeholder gris; mismo fix en `usr-reset-pwd-display` (UsuariosManager). (`indexx-analysis.js` verificado sin defecto: fondo oscuro + texto claro.) (2) Si el backend exige contraseña actual (cuenta fuera de estado temporal), el modal revela el campo CONTRASEÑA ACTUAL y reintenta con él; el endpoint ya lo aceptaba.
 
 **Verificación:** `node --check` ×2 OK, vitest 175/175 (3 tests nuevos en `tests/auth-password.test.js`), backend 55/55.
+
+### 2026-09-19 (54): Fix borrado colateral al fijar código tras reset
+
+**Qué:** `updateUserProfile/ById` (PG+local) hacían sobreescritura total: fijar el código de firma tras un reset (objeto de 1 campo) ponía en NULL nombre/apellido/email/teléfono/cargo/firma. Ahora son updates parciales (`COALESCE` en PG; solo-claves-definidas en local); `undefined`=conservar, `''`=limpiar (semántica preservada). Sin cambios de frontend (el backend se volvió tolerante; el modal de edición también quedó cubierto).
+
+**Verificación:** `node -c` OK, backend 58/58 (3 tests nuevos en `backend/tests/user-profile.test.js`), vitest 175/175.

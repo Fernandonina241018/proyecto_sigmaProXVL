@@ -265,16 +265,20 @@ function buildPostgres() {
 
     async function setPasswordTemp(username, value) { await run('UPDATE users SET password_temp=$1 WHERE username=$2', [value ? 1 : 0, username]); }
 
+    // FIX borrado colateral: update PARCIAL — solo toca campos provistos.
+    // undefined = conservar (COALESCE); '' provisto = limpiar (NULL).
+    // (Antes era sobreescritura total: fijar el código tras un reset borraba
+    // nombre/apellido/email/teléfono/cargo/firma.)
     async function updateUserProfile(username, { nombre, apellido, email, telefono, cargo, signatureCode, signature }) {
         const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
-        await run(`UPDATE users SET nombre=$1,apellido=$2,email=$3,telefono=$4,cargo=$5,signature_code=$6,signature=$7,updated_at=$8 WHERE username=$9`,
-            [nombre, apellido, email, telefono, cargo||null, signatureCode||null, signature||null, now, username]);
+        await run(`UPDATE users SET nombre=COALESCE($1,nombre),apellido=COALESCE($2,apellido),email=COALESCE($3,email),telefono=COALESCE($4,telefono),cargo=COALESCE($5,cargo),signature_code=COALESCE($6,signature_code),signature=COALESCE($7,signature),updated_at=$8 WHERE username=$9`,
+            [nombre ?? null, apellido ?? null, email ?? null, telefono ?? null, cargo||null, signatureCode||null, signature||null, now, username]);
     }
 
     async function updateUserProfileById(id, { nombre, apellido, email, telefono, cargo, signatureCode, signature }) {
         const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
-        await run(`UPDATE users SET nombre=$1,apellido=$2,email=$3,telefono=$4,cargo=$5,signature_code=$6,signature=$7,updated_at=$8 WHERE id=$9`,
-            [nombre, apellido, email, telefono, cargo||null, signatureCode||null, signature||null, now, id]);
+        await run(`UPDATE users SET nombre=COALESCE($1,nombre),apellido=COALESCE($2,apellido),email=COALESCE($3,email),telefono=COALESCE($4,telefono),cargo=COALESCE($5,cargo),signature_code=COALESCE($6,signature_code),signature=COALESCE($7,signature),updated_at=$8 WHERE id=$9`,
+            [nombre ?? null, apellido ?? null, email ?? null, telefono ?? null, cargo||null, signatureCode||null, signature||null, now, id]);
     }
 
     async function changeRole(id, role) { await run('UPDATE users SET role=$1 WHERE id=$2', [role, id]); }
@@ -910,17 +914,34 @@ function buildLocalStore() {
 
     async function setPasswordTemp(username, value) { const u = findUser(username); if (u) { u.password_temp = value ? 1 : 0; save(); } }
 
+    // FIX borrado colateral (mirror PG): solo campos provistos (undefined = conservar).
     async function updateUserProfile(username, { nombre, apellido, email, telefono, cargo, signatureCode, signature }) {
         const u = findUser(username);
         if (!u) return;
-        Object.assign(u, { nombre, apellido, email, telefono, cargo: cargo||null, signature_code: signatureCode||null, signature: signature||null, updated_at: new Date().toISOString() });
+        const patch = { updated_at: new Date().toISOString() };
+        if (nombre !== undefined) patch.nombre = nombre;
+        if (apellido !== undefined) patch.apellido = apellido;
+        if (email !== undefined) patch.email = email;
+        if (telefono !== undefined) patch.telefono = telefono;
+        if (cargo !== undefined) patch.cargo = cargo || null;
+        if (signatureCode !== undefined) patch.signature_code = signatureCode || null;
+        if (signature !== undefined) patch.signature = signature || null;
+        Object.assign(u, patch);
         save();
     }
 
     async function updateUserProfileById(id, { nombre, apellido, email, telefono, cargo, signatureCode, signature }) {
         const u = findById(id);
         if (!u) return;
-        Object.assign(u, { nombre, apellido, email, telefono, cargo: cargo||null, signature_code: signatureCode||null, signature: signature||null, updated_at: new Date().toISOString() });
+        const patch = { updated_at: new Date().toISOString() };
+        if (nombre !== undefined) patch.nombre = nombre;
+        if (apellido !== undefined) patch.apellido = apellido;
+        if (email !== undefined) patch.email = email;
+        if (telefono !== undefined) patch.telefono = telefono;
+        if (cargo !== undefined) patch.cargo = cargo || null;
+        if (signatureCode !== undefined) patch.signature_code = signatureCode || null;
+        if (signature !== undefined) patch.signature = signature || null;
+        Object.assign(u, patch);
         save();
     }
 
