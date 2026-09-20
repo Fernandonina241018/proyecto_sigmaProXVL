@@ -242,6 +242,39 @@ describe('Sesión completa: sin reinicio (cerrada e inmutable)', () => {
   });
 });
 
+describe('Timeline fsg del editor', () => {
+  test('parcial: done ✓, actual con aria-current, futuro numerado + espera', async () => {
+    const v1 = sessionV(1);
+    const { sandbox, document } = loadHarness(async (url) => {
+      if (url.includes('scope=')) return { status: 200, json: async () => ({ ok: true, sessions: [] }) };
+      return { status: 200, json: async () => ({ ok: true, session: v1 }) };
+    });
+    await vm.runInContext('_firmaOpenSession(99)', sandbox);
+    const steps = document.querySelectorAll('#firmaSignatureEditor > .fsg-step');
+    expect(steps.length).toBe(3);
+    expect(steps[0].className).toMatch('is-done');
+    expect(steps[0].querySelector('.fsg-node').textContent).toBe('✓');
+    expect(steps[1].className).toMatch('cur');
+    expect(steps[1].getAttribute('aria-current')).toBe('step');
+    expect(steps[1].querySelector('.fsg-node i')).not.toBeNull();
+    expect(steps[2].className).toMatch('is-todo');
+    expect(steps[2].querySelector('.fsg-node').textContent).toBe('3');
+    expect(steps[2].textContent).toMatch('Esperando firma');
+    // Ids funcionales preservados
+    expect(document.getElementById('firmaSignedName-prepared')).not.toBeNull();
+    expect(document.getElementById('firmaCodeInput-reviewed')).not.toBeNull();
+  });
+
+  test('borrador local: 3 pasos numerados con inputs', async () => {
+    const { sandbox, document } = loadHarness(async () => ({ status: 200, json: async () => ({ ok: true, sessions: [] }) }));
+    await vm.runInContext("firmaLoadHtml(__SESS_HTML__, 'b.html')".replace('__SESS_HTML__', JSON.stringify(SESSION_HTML)), sandbox);
+    const steps = document.querySelectorAll('#firmaSignatureEditor > .fsg-step');
+    expect(steps.length).toBe(3);
+    expect(steps[0].className).toMatch('is-todo');
+    expect(document.getElementById('firmaCodeInput-approved')).not.toBeNull();
+  });
+});
+
 describe('Mías abre sesión completa', () => {
   test('completa (3/3) se abre y pinta las tres firmas', async () => {
     const full = sessionV(3, {

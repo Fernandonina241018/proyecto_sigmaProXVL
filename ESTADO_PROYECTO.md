@@ -4284,3 +4284,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-09-20 (64): Botón ↻ homólogo a la píldora (46px redondo)
 
 **Qué:** `#firmaRefreshBtn` a 46×46 (misma altura que la píldora de tabs) manteniendo forma circular y estilo vidrio.
+
+### 2026-09-20 (65): Editor de firmas como timeline liquid-glass colapsable
+
+**Qué:** `firmaRenderEditor` reescrito al diseño rail (nodo ✓/punto/número + conector + cuerpo) namespacado `fsg-*`, con tema claro y `aria-current`. Editor envuelto en `<details class="fp-acc">` colapsable como la bandeja. Ids, handlers, textos y 3 hijos preservados.
+
+**Verificación:** `node --check` ×2 OK, vitest 178/178 (2 tests nuevos de timeline), backend 60/60.

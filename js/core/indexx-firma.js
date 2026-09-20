@@ -401,59 +401,74 @@ function firmaRenderStepper() {
   } catch (e) { /* fail-open: el editor sigue funcionando */ }
 }
 
+// Timeline liquid-glass (diseño .gl namespacado a fsg-*): riel con nodos +
+// cuerpo por rol. Conserva todos los ids, handlers y textos (tests incluidos).
 function firmaRenderEditor() {
   var editor = document.getElementById('firmaSignatureEditor');
   if (!editor || !_firmaSignatureData) return;
   editor.innerHTML = '';
 
-  _firmaSignatureData.forEach(function(sd){
-    var card = document.createElement('div');
-    card.style.cssText = 'border:1px solid var(--border);border-radius:6px;overflow:hidden';
-
-    var header = document.createElement('div');
-    header.style.cssText = 'padding:6px 10px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border)';
-    header.textContent = sd.label;
-    card.appendChild(header);
-
-    var body = document.createElement('div');
-    body.style.cssText = 'padding:8px 10px;display:flex;flex-direction:column;gap:6px';
-
+  _firmaSignatureData.forEach(function(sd, idx){
     var state = _firmaSignatureState && _firmaSignatureState[sd.role];
+    var signed = !!(state && state.signed);
     // FASE 2 — en modo sesión solo el siguiente rol es firmable; los
     // futuros muestran espera (el servidor también lo exige).
     var _nextRole = _firmaSessionId ? _firmaSessionNext() : null;
-    if (_firmaSessionId && _nextRole && sd.role !== _nextRole && !(state && state.signed)) {
+    var isCur = !signed && !!(_firmaSessionId && sd.role === _nextRole);
+    var waiting = _firmaSessionId && _nextRole && sd.role !== _nextRole && !signed;
+
+    var step = document.createElement('div');
+    step.className = 'fsg-step' + (signed ? ' is-done' : (isCur ? ' cur' : ' is-todo'));
+    if (isCur) step.setAttribute('aria-current', 'step');
+
+    var rail = document.createElement('div');
+    rail.className = 'fsg-rail';
+    var node = document.createElement('div');
+    node.className = 'fsg-node';
+    if (signed) node.textContent = '✓';
+    else if (isCur) node.innerHTML = '<i></i>';
+    else node.textContent = String(idx + 1);
+    rail.appendChild(node);
+    var line = document.createElement('div');
+    line.className = 'fsg-line';
+    rail.appendChild(line);
+    step.appendChild(rail);
+
+    var body = document.createElement('div');
+    body.className = 'fsg-bd';
+    var lab = document.createElement('small');
+    lab.textContent = sd.label;
+    body.appendChild(lab);
+
+    if (waiting) {
       var waitRow = document.createElement('div');
-      waitRow.style.cssText = 'font-size:10px;color:var(--text-faint);padding:4px 0';
+      waitRow.className = 'fsg-wait';
       var _who = '';
       if (sd.role === 'reviewed' && _firmaSessionAssignees.reviewer) _who = ' → ' + _firmaSessionAssignees.reviewer;
       if (sd.role === 'approved' && _firmaSessionAssignees.approver) _who = ' → ' + _firmaSessionAssignees.approver;
       waitRow.textContent = '⏳ Esperando firma de "' + _roleLabel(_nextRole) + '"' + _who;
       body.appendChild(waitRow);
-      card.appendChild(body);
-      editor.appendChild(card);
+      step.appendChild(body);
+      editor.appendChild(step);
       return;
     }
-    if (state && state.signed) {
+    if (signed) {
       // Show signed state
-      var signedRow = document.createElement('div');
-      signedRow.style.cssText = 'display:flex;align-items:center;gap:6px;color:#16a34a;font-size:11px;font-weight:600';
-      signedRow.innerHTML = '\u2705 Firmado por <span id="firmaSignedName-' + sd.role + '">' + escapeHtml(state.nombre) + '</span>';
-      body.appendChild(signedRow);
+      var nm = document.createElement('strong');
+      nm.innerHTML = '<span id="firmaSignedName-' + sd.role + '">' + escapeHtml(state.nombre) + '</span>';
+      body.appendChild(nm);
 
-      var cargoRow = document.createElement('div');
-      cargoRow.style.cssText = 'font-size:10px;color:var(--text-primary)';
+      var cargoRow = document.createElement('em');
       cargoRow.textContent = state.cargo || '\u2014';
       cargoRow.id = 'firmaSignedCargo-' + sd.role;
       body.appendChild(cargoRow);
 
-      var firmaRow = document.createElement('div');
-      firmaRow.style.cssText = 'font-size:10px;color:var(--text-faint)';
+      var firmaRow = document.createElement('span');
+      firmaRow.className = 'fsg-firma';
       firmaRow.innerHTML = '\uD83D\uDC3B <span id="firmaSignedFirma-' + sd.role + '">' + escapeHtml(state.firma || '\u2014') + '</span>';
       body.appendChild(firmaRow);
 
-      var dateRow = document.createElement('div');
-      dateRow.style.cssText = 'font-size:10px;color:var(--text-faint)';
+      var dateRow = document.createElement('code');
       dateRow.textContent = state.fecha;
       dateRow.id = 'firmaSignedDate-' + sd.role;
       body.appendChild(dateRow);
@@ -463,46 +478,36 @@ function firmaRenderEditor() {
       if (_firmaCanSeeReset(sd.role)) {
         var resetRoleBtn = document.createElement('button');
         resetRoleBtn.textContent = '\u21BA Reiniciar';
-        resetRoleBtn.style.cssText = 'margin-top:6px;padding:2px 8px;font-size:10px;background:transparent;color:var(--text-faint);border:1px solid var(--border);border-radius:4px;cursor:pointer';
+        resetRoleBtn.className = 'fsg-reset';
         resetRoleBtn.onclick = (function(r){ return function(){ firmaRequestReset(r); }; })(sd.role);
         body.appendChild(resetRoleBtn);
       }
     } else {
       // Show code input + sign button
       var codeRow = document.createElement('div');
-      codeRow.style.cssText = 'display:flex;gap:6px;align-items:end';
-
-      var codeGroup = document.createElement('div');
-      codeGroup.style.cssText = 'display:flex;flex-direction:column;gap:2px;flex:1';
-
-      var codeLabel = document.createElement('span');
-      codeLabel.style.cssText = 'font-size:9px;color:var(--text-faint);text-transform:uppercase';
-      codeLabel.textContent = 'C\u00F3digo de firma';
-      codeGroup.appendChild(codeLabel);
+      codeRow.className = 'fsg-row';
 
       var codeInput = document.createElement('input');
       codeInput.type = 'password';
-      codeInput.placeholder = 'Ej: ABC-123';
-      codeInput.style.cssText = 'background:var(--bg-primary);border:1px solid var(--border);border-radius:4px;padding:4px 6px;font-size:11px;color:var(--text-primary);outline:none;width:100%';
+      codeInput.placeholder = 'Código de firma (Ej: ABC-123)';
+      codeInput.setAttribute('aria-label', 'C\u00F3digo de firma');
       codeInput.id = 'firmaCodeInput-' + sd.role;
-      codeGroup.appendChild(codeInput);
-      codeRow.appendChild(codeGroup);
+      codeRow.appendChild(codeInput);
 
       var signBtn = document.createElement('button');
       signBtn.textContent = '\u270D\uFE0F Firmar';
-      signBtn.style.cssText = 'padding:4px 12px;font-size:11px;background:var(--accent);color:white;border:none;border-radius:4px;cursor:pointer;white-space:nowrap;height:fit-content';
       signBtn.onclick = function(r) { return function(){ firmaRequestPassword(r); }; }(sd.role);
       codeRow.appendChild(signBtn);
       body.appendChild(codeRow);
 
       var statusEl = document.createElement('div');
       statusEl.id = 'firmaStatusMsg-' + sd.role;
-      statusEl.style.cssText = 'font-size:10px;color:var(--text-faint);min-height:16px';
+      statusEl.className = 'fsg-statusmsg';
       body.appendChild(statusEl);
     }
 
-  card.appendChild(body);
-  editor.appendChild(card);
+    step.appendChild(body);
+    editor.appendChild(step);
   });
   firmaUpdateResetBtn();
   if (typeof firmaUpdatePublishBtn === 'function') firmaUpdatePublishBtn();

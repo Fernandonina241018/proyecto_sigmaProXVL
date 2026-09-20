@@ -503,7 +503,10 @@ var leftPanels = {
         '<div class="fp-doc"><b id="firmaDocName">Sin documento</b><span class="fp-restored" id="firmaDocState"></span></div>' +
         '<div id="firmaStepper"></div>' +
         '<div id="firmaActions" style="display:none;flex-direction:column;gap:8px">' +
-          '<div id="firmaSignatureEditor" style="display:flex;flex-direction:column;gap:10px;overflow-y:auto;min-height:0"></div></div>' +
+          '<details class="fp-acc" id="firmaAccFirmas" open>' +
+          '<summary>Firmas</summary><div class="fp-acc-body">' +
+          '<div id="firmaSignatureEditor" style="display:flex;flex-direction:column;gap:10px;overflow-y:auto;min-height:0"></div>' +
+          '</div></details></div>' +
         '<div id="firmaStatus" style="display:none"></div>' +
         '<details class="fp-acc" id="firmaAccBandeja" open>' +
           '<summary>Bandeja de firmas <span class="fp-badge" id="firmaPendingBadge" style="display:none"></span></summary>' +
