@@ -4280,3 +4280,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-09-20 (63): Mínimo panel firmas 280→350px
 
 **Qué:** ajuste pedido por el usuario (280 aún estrecho para el editor). Resizer + candado CSS.
+
+### 2026-09-20 (64): Botón ↻ homólogo a la píldora (46px redondo)
+
+**Qué:** `#firmaRefreshBtn` a 46×46 (misma altura que la píldora de tabs) manteniendo forma circular y estilo vidrio.
