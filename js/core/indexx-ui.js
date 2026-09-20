@@ -317,7 +317,7 @@ var leftPanels = {
   datos: function() {
     // Panel Gestión de Datos estilo liquid-glass (diseño .datos).
     // Acciones por data-act (delegación en initDatosPage); estado vía datosSyncPanel().
-    return '<div class="left-panel datos" id="panelDatos" aria-label="Gestión de datos" style="gap:0;padding:8px">' +
+    return '<div class="left-panel datos" id="panelDatos" aria-label="Gestión de datos" style="gap:12px;padding:8px">' +
       '<section class="gl">' +
         '<div class="estado" id="estado"><span class="pt"></span><span class="nom">Sin dataset</span><span class="cnt">— filas · — col</span></div>' +
         '<div class="drop" id="drop" role="button" tabindex="0" data-act="abrir">' +
