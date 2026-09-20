@@ -4234,3 +4234,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** `unsignSessionStep` (PG+local) rechaza con `code:'complete'` si la sesión está completa y verificada — ni firmante ni admin pueden reiniciarla (el override con cascada de la entrada 41 ahora aplica solo en parciales; test actualizado). Frontend: `_firmaSessionStatus` sincronizado al abrir/refrescar/firmar/revalidar, `↺` oculto en completas y pre-chequeo con toast en `firmaRequestReset`. La vía ante error en una completa es rechazar con motivo, no reiniciar.
 
 **Verificación:** `node --check` OK, backend 59/59, vitest 176/176 (test backend `complete` + test frontend sin-↺).
+
+### 2026-09-19 (56): Decisión — inmutabilidad estricta de completas (opción A)
+
+**Decisión:** las sesiones completas y verificadas quedan cerradas sin ninguna vía de corrección en la app (ni reinicio, ni rechazo, ni válvula admin). Verificado: el reset/cambio de contraseña es independiente (tabla `users`, sin chequeos de sesión) y sigue funcionando con 3 firmas. Ante error en una completa, el proceso es emitir un reporte nuevo corregido; la purga por retención (365 días) retira la vieja. Sin cambios de código.
+
+**Verificación:** lectura de guards `complete` (`database.js`: firmar :44, reiniciar :595, dismiss :644, rechazar :699) + endpoints de password sin referencias a sesiones.
