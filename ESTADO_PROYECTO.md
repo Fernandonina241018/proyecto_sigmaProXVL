@@ -4304,3 +4304,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-09-20 (68): Botones 🚫/🗑 de filas más grandes y centrados
 
 **Qué:** nueva variante `.fglass-btn.is-row` (40px, icono 15px, radius 12px) aplicada a rechazar/eliminar de reportes; la fila ya centraba en Y. A la derecha como antes.
+
+### 2026-09-20 (69): Botones 🚫/🗑 redondos y centrados en la tarjeta
+
+**Qué:** nueva variante `.fglass-btn.is-round40` (40×40 circular); el item reestructura a columna texto + columna acciones (`has-side`/`fglass-main`/`fglass-side`) para centrado Y exacto en toda la tarjeta.

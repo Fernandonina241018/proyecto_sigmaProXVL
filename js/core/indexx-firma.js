@@ -1479,7 +1479,7 @@ async function firmaLoadBandeja(scope) {
     list.innerHTML = '';
     sessions.forEach(function(s) {
       var div = document.createElement('div');
-      div.className = 'fglass-item';
+      div.className = 'fglass-item has-side';
       var stLbl = s.status === 'complete' ? '✅ Completa'
         : s.status === 'rejected' ? '🚫 Rechazada' + (s.rejected_by ? ' por ' + s.rejected_by : '')
         : ('✍️ ' + (s.signed_count || 0) + '/3' + (s.next_role ? ' · toca: ' + s.next_role : ''));
@@ -1488,20 +1488,21 @@ async function firmaLoadBandeja(scope) {
       var _me = null;
       try { var _sess = (typeof Auth !== 'undefined' && Auth.getSession) ? Auth.getSession() : null; if (_sess) _me = _sess; } catch (e) {}
       var _isMine = _me && (s.created_by === _me.username || _me.role === 'admin');
-      var headHtml = '<div class="fglass-row">' +
-        '<div class="fglass-name">' + escapeHtml(s.name) + '</div>';
+      var btnsHtml = '';
       if (s.status !== 'complete' && s.status !== 'rejected') {
-        headHtml += '<button data-reject="' + s.id + '" title="Rechazar y sacar de pendientes" class="fglass-btn is-row">🚫</button>';
+        btnsHtml += '<button data-reject="' + s.id + '" title="Rechazar y sacar de pendientes" class="fglass-btn is-round40">🚫</button>';
       }
       // En Mías: eliminar rechazadas (creador o admin) para limpiar reemplazos,
       // y completas (con alerta + descarga previa recomendada).
       if (_firmaBandejaScope === 'mine' && _isMine && (s.status === 'rejected' || s.status === 'complete')) {
         if (s.status === 'complete') {
-          headHtml += '<button data-del-complete="' + s.id + '" data-name="' + escapeHtml(s.name) + '" title="Eliminar reporte completo (recomienda descargar antes)" class="fglass-btn is-danger is-row">🗑</button>';
+          btnsHtml += '<button data-del-complete="' + s.id + '" data-name="' + escapeHtml(s.name) + '" title="Eliminar reporte completo (recomienda descargar antes)" class="fglass-btn is-danger is-round40">🗑</button>';
         } else {
-          headHtml += '<button data-del="' + s.id + '" title="Eliminar definitivamente (ya rechazada)" class="fglass-btn is-danger is-row">🗑</button>';
+          btnsHtml += '<button data-del="' + s.id + '" title="Eliminar definitivamente (ya rechazada)" class="fglass-btn is-danger is-round40">🗑</button>';
         }
       }
+      var headHtml = '<div class="fglass-main">' +
+        '<div class="fglass-name">' + escapeHtml(s.name) + '</div>';
       headHtml += '</div>';
       // LOTE A — aviso de expiración por retención (182 complete / 90 rejected)
       var _expTxt = '';
@@ -1519,7 +1520,8 @@ async function firmaLoadBandeja(scope) {
       } catch (_e) { /* fail-open */ }
       div.innerHTML = headHtml +
         '<div class="fglass-meta">#' + s.id + ' · ' + escapeHtml(stLbl) + who +
-        (s.status === 'rejected' && s.rejected_reason ? ' · “' + escapeHtml(s.rejected_reason) + '”' : '') + escapeHtml(_expTxt) + '</div>';
+        (s.status === 'rejected' && s.rejected_reason ? ' · “' + escapeHtml(s.rejected_reason) + '”' : '') + escapeHtml(_expTxt) + '</div></div>' +
+        (btnsHtml ? '<div class="fglass-side">' + btnsHtml + '</div>' : '');
       div.onclick = function() { _firmaOpenSession(s.id); };
       list.appendChild(div);
     });
