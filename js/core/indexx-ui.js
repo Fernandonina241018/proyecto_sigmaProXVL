@@ -508,10 +508,10 @@ var leftPanels = {
           '<summary>Bandeja de firmas <span class="fp-badge" id="firmaPendingBadge" style="display:none"></span></summary>' +
           '<div class="fp-acc-body">' +
           '<div style="display:flex;gap:6px;align-items:stretch">' +
-            '<div class="fp-tabs" id="firmaTabs" role="tablist" style="flex:1">' +
-              '<button type="button" class="firma-tab" role="tab" data-scope="pending" aria-selected="true">Pendientes</button>' +
-              '<button type="button" class="firma-tab" role="tab" data-scope="mine" aria-selected="false">Mías</button>' +
-              '<button type="button" class="firma-tab" role="tab" data-scope="cargado" aria-selected="false">Cargado</button>' +
+            '<div class="fp-tabs" id="firmaTabs" role="tablist" style="margin:0 auto">' +
+              '<button type="button" class="firma-tab" role="tab" data-scope="pending" aria-selected="true"><i>📥</i><span class="l">Pendientes</span></button>' +
+              '<button type="button" class="firma-tab" role="tab" data-scope="mine" aria-selected="false"><i>👤</i><span class="l">Mías</span></button>' +
+              '<button type="button" class="firma-tab" role="tab" data-scope="cargado" aria-selected="false"><i>📄</i><span class="l">Cargado</span></button>' +
             '</div>' +
             '<button type="button" class="fp-btn" id="firmaRefreshBtn" title="Refrescar bandeja" style="height:34px;padding:0 10px">↻</button>' +
           '</div>' +
