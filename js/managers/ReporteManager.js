@@ -2568,28 +2568,35 @@ tr:hover td{background:#f7faff}
         const ls = currentLang==='es'?'active':'';
         const le = currentLang==='en'?'active':'';
         const nd = !tieneRes ? '<p class="rep-no-data-msg">'+t('ui_noData')+'</p>' : '';
-        return `<div class="rep-sidebar-inner">
-  <div class="rep-lang-toggle">
-    <span class="rep-lang-label">🌐 Idioma / Language</span>
-    <div class="rep-lang-btns">
-      <button class="rep-lang-btn ${ls}" id="rep-lang-es">🇪🇸 Español</button>
-      <button class="rep-lang-btn ${le}" id="rep-lang-en">🇺🇸 English</button>
+        // Sidebar estilo liquid-glass: secciones colapsables (Formato siempre cerrada).
+        return `<div class="rep-sidebar-inner datos" id="panelReportes" aria-label="Opciones de reporte">
+  ${nd}
+  <details class="gl" open>
+    <summary class="gl-sum">⚙️ Acciones</summary><div class="gl-body">
+    <div class="rep-lang-toggle">
+      <span class="rep-lang-label">🌐 Idioma / Language</span>
+      <div class="rep-lang-btns">
+        <button class="rep-lang-btn ${ls}" id="rep-lang-es">🇪🇸 Español</button>
+        <button class="rep-lang-btn ${le}" id="rep-lang-en">🇺🇸 English</button>
+      </div>
     </div>
-  </div>
 
-  <div class="rep-btn-row" style="display:flex;gap:8px;margin-bottom:16px;margin-top:-4px">
-    <button class="rep-btn-download" id="rep-btn-sign" style="flex:1;margin-bottom:0" ${!tieneRes?'disabled':''}>
-      ✍️ Enviar a firma
-    </button>
-    <button id="rep-btn-clear" style="flex:1;padding:13px;background:transparent;color:var(--text-secondary);border:1px solid var(--border);border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;transition:all .3s ease;margin-bottom:0;box-shadow:none" onmouseover="this.style.borderColor='#e53e3e';this.style.color='#e53e3e'" onmouseout="this.style.borderColor='';this.style.color=''" onclick="if(confirm('${currentLang==='es'?'¿Limpiar todos los campos del formulario?':'Clear all form fields?'}')){localStorage.removeItem('__report_form_state');['rep-org','rep-dept','rep-ubicacion','rep-descripcion','rep-marca','rep-modelo','rep-serie','rep-fase','rep-code','rep-ensayo','rep-version','rep-conf','rep-proto','rep-dataset','rep-file','rep-collect','rep-observaciones'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});['html','pdf','txt','csv'].forEach(function(f){var cb=document.getElementById('fmt-'+f);if(cb)cb.checked=false});var ac=document.getElementById('rep-include-all-charts');if(ac)ac.checked=false;if(typeof _V!=='undefined')_V._selectedForReport=null;var gc=document.getElementById('rep-graf-count');if(gc)gc.textContent='${t('ui_chartsNone')}';localStorage.setItem('__report_form_state',JSON.stringify({}))}">
-      🧹 Limpiar formulario
-    </button>
-  </div>
+    <div class="rep-btn-row" style="display:flex;gap:8px;margin-bottom:4px;margin-top:10px">
+      <button class="rep-btn-download" id="rep-btn-sign" style="flex:1;margin-bottom:0" ${!tieneRes?'disabled':''}>
+        ✍️ Enviar a firma
+      </button>
+      <button id="rep-btn-clear" style="flex:1;padding:13px;background:transparent;color:var(--text-secondary);border:1px solid var(--border);border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;transition:all .3s ease;margin-bottom:0;box-shadow:none" onmouseover="this.style.borderColor='#e53e3e';this.style.color='#e53e3e'" onmouseout="this.style.borderColor='';this.style.color=''" onclick="if(confirm('${currentLang==='es'?'¿Limpiar todos los campos del formulario?':'Clear all form fields?'}')){localStorage.removeItem('__report_form_state');['rep-org','rep-dept','rep-ubicacion','rep-descripcion','rep-marca','rep-modelo','rep-serie','rep-fase','rep-code','rep-ensayo','rep-version','rep-conf','rep-proto','rep-dataset','rep-file','rep-collect','rep-observaciones'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});['html','pdf','txt','csv'].forEach(function(f){var cb=document.getElementById('fmt-'+f);if(cb)cb.checked=false});var ac=document.getElementById('rep-include-all-charts');if(ac)ac.checked=false;if(typeof _V!=='undefined')_V._selectedForReport=null;var gc=document.getElementById('rep-graf-count');if(gc)gc.textContent='${t('ui_chartsNone')}';localStorage.setItem('__report_form_state',JSON.stringify({}))}">
+        🧹 Limpiar formulario
+      </button>
+    </div>
+    </div>
+  </details>
 
-  <div class="rep-card-title">${t('ui_formatTitle')}</div>
-  <p class="rep-format-hint">${t('ui_formatHint')}</p>
+  <details class="gl">
+    <summary class="gl-sum">⬇️ ${t('ui_formatTitle')}</summary><div class="gl-body">
+    <p class="rep-format-hint">${t('ui_formatHint')}</p>
 
-  <div class="rep-format-list">
+    <div class="rep-format-list">
     <label class="rep-format-item" id="fmt-html-wrap">
       <input type="checkbox" id="fmt-html" value="html" checked>
       <div class="rep-format-body">
@@ -2654,15 +2661,18 @@ tr:hover td{background:#f7faff}
   <div class="rep-fmt-count-row">
     <span class="rep-fmt-count" id="rep-fmt-count">${t('ui_formatCount',1)}</span>
   </div>
-
-  ${nd}
-
-  <div class="rep-reg-box">
-    <div class="rep-reg-title">${t('ui_regTitle')}</div>
-    <div class="rep-reg-row">📋 ${REGULATORY.standard}</div>
-    <div class="rep-reg-row">📐 ${REGULATORY.guideline}</div>
-    <div class="rep-reg-row">⚗️ ${REGULATORY.software}</div>
   </div>
+  </details>
+
+  <details class="gl" open>
+    <summary class="gl-sum">📜 ${t('ui_regTitle')}</summary><div class="gl-body">
+    <div class="rep-reg-box" style="background:transparent;border:none;padding:0">
+      <div class="rep-reg-row">📋 ${REGULATORY.standard}</div>
+      <div class="rep-reg-row">📐 ${REGULATORY.guideline}</div>
+      <div class="rep-reg-row">⚗️ ${REGULATORY.software}</div>
+    </div>
+    </div>
+  </details>
 </div>`;
     }
 

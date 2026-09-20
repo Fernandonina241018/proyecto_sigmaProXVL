@@ -4364,3 +4364,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** template `analisis` reescrito a secciones `.gl` (estado vivo, columnas con umbral/checks/excluir, último resultado, tests scroll); conservados los 9 IDs vivos + handlers inline. Mínimo 350px vía helper + clase `pane-analisis` + CSS.
 
 **Verificación:** `node --check` OK, vitest 195/195, backend intacto. Visual pendiente del usuario.
+
+### 2026-09-20 (80): Sidebar reportes en vidrio colapsable + 350px
+
+**Qué:** `buildReportesSidebar` envuelto en 3 `details.gl` (Acciones abierta, Formato de descarga siempre cerrada, Regulatorio abierta) + puente vidrio en `rep-format-body` + gap; mínimo 350px (helper + clase + CSS). Los 12 IDs/handlers intactos.
+
+**Verificación:** `node --check` OK, vitest 195/195, backend intacto, balance details 3/3. Visual pendiente del usuario.

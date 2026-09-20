@@ -237,6 +237,8 @@
   #paneLeft.pane-datos { width: 350px; min-width: 350px; }
   /* Panel de análisis: nunca bajo 350px (mismo sistema). */
   #paneLeft.pane-analisis { width: 350px; min-width: 350px; }
+  /* Panel de reportes: nunca bajo 350px (mismo sistema). */
+  #paneLeft.pane-reportes { width: 350px; min-width: 350px; }
   #paneRight { flex: 1 1 0; min-width: 0; }
   .pane-resizer { width:5px; background:transparent; cursor:col-resize; flex-shrink:0; display:flex; align-items:center; justify-content:center; position:relative; transition:background .15s; z-index:10; }
   .pane-resizer:hover, .pane-resizer.dragging { background:rgba(124,106,247,.35); }
@@ -731,6 +733,13 @@
   .rep-format-hint { font-size:0.8rem; color:var(--text-faint); margin-bottom:16px; line-height:1.5; }
   .rep-format-list { display:flex; flex-direction:column; gap:10px; margin-bottom:16px; }
   .rep-format-item { cursor:pointer; display:block; }
+  /* Puente vidrio: items de formato dentro de la tarjeta (panel reportes) */
+  #panelReportes{display:flex;flex-direction:column;gap:12px}
+  #panelReportes .rep-format-body{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+    border-radius:12px;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+  #panelReportes .rep-format-item:hover .rep-format-body{border-color:var(--accent)}
+  #panelReportes .rep-format-active .rep-format-body{border-color:var(--accent)}
+  [data-theme="light"] #panelReportes .rep-format-body{background:rgba(255,255,255,.65);border-color:rgba(20,22,40,.1)}
   .rep-format-item input[type="checkbox"] { display:none; }
   .rep-format-body { display:flex; align-items:center; gap:12px; padding:14px; border:1px solid var(--border); border-radius:10px; background:var(--bg-panel); transition:all .2s ease; }
   .rep-format-item:hover .rep-format-body { border-color:var(--accent); background:rgba(102,126,234,0.06); }

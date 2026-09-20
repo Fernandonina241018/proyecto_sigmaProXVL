@@ -14,6 +14,7 @@ function paneMinWidthFor(page) {
   if (page === 'firmarReporte') return 400;
   if (page === 'datos') return 350;
   if (page === 'analisis') return 350;
+  if (page === 'reportes') return 350;
   return 160;
 }
 resizer.addEventListener('mousedown', function(e) {
@@ -898,6 +899,7 @@ function loadPage(name) {
   document.getElementById('paneLeft')?.classList.toggle('pane-firmarReporte', name === 'firmarReporte');
   document.getElementById('paneLeft')?.classList.toggle('pane-datos', name === 'datos');
   document.getElementById('paneLeft')?.classList.toggle('pane-analisis', name === 'analisis');
+  document.getElementById('paneLeft')?.classList.toggle('pane-reportes', name === 'reportes');
   // El panel siempre arranca en su mínimo permitido (se puede ensanchar, pero
   // al entrar a cada página vuelve al mínimo).
   try {
