@@ -239,6 +239,8 @@
   #paneLeft.pane-analisis { width: 350px; min-width: 350px; }
   /* Panel de reportes: nunca bajo 350px (mismo sistema). */
   #paneLeft.pane-reportes { width: 350px; min-width: 350px; }
+  /* Panel de visualización: nunca bajo 450px (galería de gráficos). */
+  #paneLeft.pane-visualizacion { width: 450px; min-width: 450px; }
   #paneRight { flex: 1 1 0; min-width: 0; }
   .pane-resizer { width:5px; background:transparent; cursor:col-resize; flex-shrink:0; display:flex; align-items:center; justify-content:center; position:relative; transition:background .15s; z-index:10; }
   .pane-resizer:hover, .pane-resizer.dragging { background:rgba(124,106,247,.35); }

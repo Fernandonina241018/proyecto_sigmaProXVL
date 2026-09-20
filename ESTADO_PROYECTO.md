@@ -4370,3 +4370,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** `buildReportesSidebar` envuelto en 3 `details.gl` (Acciones abierta, Formato de descarga siempre cerrada, Regulatorio abierta) + puente vidrio en `rep-format-body` + gap; mínimo 350px (helper + clase + CSS). Los 12 IDs/handlers intactos.
 
 **Verificación:** `node --check` OK, vitest 195/195, backend intacto, balance details 3/3. Visual pendiente del usuario.
+
+### 2026-09-20 (81): Panel visualización en vidrio colapsable + 450px
+
+**Qué:** secciones a `details.gl` (Tipo/Variables/Estilo/Acciones, abiertas) sobre sistema `.datos`; estilos internos `.viz-root` y todos los IDs/handlers intactos (`vizToggleSec` queda sin uso). Mínimo 450px con apertura en ese mínimo.
+
+**Verificación:** `node --check` OK, vitest 195/195. Visual pendiente del usuario.

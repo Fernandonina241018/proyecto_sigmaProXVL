@@ -15,6 +15,7 @@ function paneMinWidthFor(page) {
   if (page === 'datos') return 350;
   if (page === 'analisis') return 350;
   if (page === 'reportes') return 350;
+  if (page === 'visualizacion') return 450;
   return 160;
 }
 resizer.addEventListener('mousedown', function(e) {
@@ -450,31 +451,24 @@ var leftPanels = {
       '</div>';
     },
 
-  visualizacion: function()  { return '<div class="left-panel viz-root" style="gap:0;padding:0;overflow:hidden;display:flex;flex-direction:column;overflow-y:auto">' +
-    '<div class="sec" style="flex-shrink:0">' +
-      '<div class="sec-hdr" onclick="vizToggleSec(this)">' +
-        '<span class="sec-hdr-label">Tipo de gráfico</span>' +
-        '<span class="chev">▼</span>' +
-      '</div>' +
+  visualizacion: function()  { return '<div class="left-panel viz-root datos" id="panelViz" aria-label="Visualización" style="gap:12px;padding:8px;overflow:hidden;display:flex;flex-direction:column;overflow-y:auto">' +
+    '<details class="gl" open>' +
+      '<summary class="gl-sum">📊 Tipo de gráfico</summary><div class="gl-body">' +
       '<div class="sec-body" id="vizSecType">' +
         '<div class="cat-tabs" id="vizCatTabs"></div>' +
         '<div class="chart-grid" id="vizChartGrid"></div>' +
       '</div>' +
-    '</div>' +
-    '<div class="sec">' +
-      '<div class="sec-hdr" onclick="vizToggleSec(this)">' +
-        '<span class="sec-hdr-label">Variables</span>' +
-        '<span class="chev">▼</span>' +
       '</div>' +
+    '</details>' +
+    '<details class="gl" open>' +
+      '<summary class="gl-sum">🔤 Variables</summary><div class="gl-body">' +
       '<div class="sec-body" id="vizSecAxis">' +
         '<div class="axis-body" id="vizAxisBody"><div class="axis-hint">Selecciona un tipo de gráfico primero</div></div>' +
       '</div>' +
-    '</div>' +
-    '<div class="sec">' +
-      '<div class="sec-hdr" onclick="vizToggleSec(this)">' +
-        '<span class="sec-hdr-label">Estilo y opciones</span>' +
-        '<span class="chev">▼</span>' +
       '</div>' +
+    '</details>' +
+    '<details class="gl" open>' +
+      '<summary class="gl-sum">🎨 Estilo y opciones</summary><div class="gl-body">' +
       '<div class="sec-body" id="vizSecStyle">' +
         '<div class="style-body">' +
           '<div class="style-row"><label class="style-lbl">Título del gráfico</label><input id="vizChartTitle" class="style-inp" type="text" placeholder="Ej: Ventas por mes 2024"></div>' +
@@ -489,12 +483,17 @@ var leftPanels = {
           '</div>' +
         '</div>' +
       '</div>' +
-    '</div>' +
-    '<div class="action-bar">' +
-      '<button class="btn btn-viz btn-prim" onclick="vizRenderChart()">⚡ Renderizar</button>' +
-      '<button class="btn btn-viz btn-sec"  onclick="vizSaveToGallery()">💾</button>' +
-      '<button class="btn btn-viz btn-sec"  onclick="vizExportPNG()">↗ PNG</button>' +
-    '</div>' +
+      '</div>' +
+    '</details>' +
+    '<details class="gl" open>' +
+      '<summary class="gl-sum">⚡ Acciones</summary><div class="gl-body">' +
+      '<div class="action-bar">' +
+        '<button class="btn btn-viz btn-prim" onclick="vizRenderChart()">⚡ Renderizar</button>' +
+        '<button class="btn btn-viz btn-sec"  onclick="vizSaveToGallery()">💾</button>' +
+        '<button class="btn btn-viz btn-sec"  onclick="vizExportPNG()">↗ PNG</button>' +
+      '</div>' +
+      '</div>' +
+    '</details>' +
   '</div>'; },
   reportes: function() { return '<div class="left-panel" style="gap:10px"><div id="reportes-sidebar-container"></div></div>'; },
   auditoria: function() { return '<div class="left-panel" style="gap:10px"><button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:11px;flex-shrink:0" onclick="if(typeof AuditoriaManager!==\'undefined\')AuditoriaManager.exportarCSV()">📥 Exportar log completo</button><div class="info-section"><div class="info-section-header">Filtros</div><div style="font-size:11px;color:var(--text-faint);padding:8px">Usa los filtros incluidos en el panel de resultados</div></div></div>'; },
@@ -900,6 +899,7 @@ function loadPage(name) {
   document.getElementById('paneLeft')?.classList.toggle('pane-datos', name === 'datos');
   document.getElementById('paneLeft')?.classList.toggle('pane-analisis', name === 'analisis');
   document.getElementById('paneLeft')?.classList.toggle('pane-reportes', name === 'reportes');
+  document.getElementById('paneLeft')?.classList.toggle('pane-visualizacion', name === 'visualizacion');
   // El panel siempre arranca en su mínimo permitido (se puede ensanchar, pero
   // al entrar a cada página vuelve al mínimo).
   try {
