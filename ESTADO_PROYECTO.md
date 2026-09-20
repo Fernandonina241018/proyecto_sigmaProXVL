@@ -4276,3 +4276,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** el resizer dejaba el panel (`paneLeft`) en 160px y la píldora/editor se aplastaban. Mínimo de arrastre 280px solo en `firmarReporte` + clase `pane-firmarReporte` con `min-width:280px` como candado CSS (vale también en tablet; el resto de páginas intacto).
 
 **Verificación:** `node --check` OK, vitest 176/176. Verificación visual pendiente del usuario.
+
+### 2026-09-20 (63): Mínimo panel firmas 280→350px
+
+**Qué:** ajuste pedido por el usuario (280 aún estrecho para el editor). Resizer + candado CSS.
