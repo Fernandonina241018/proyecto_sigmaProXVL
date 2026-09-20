@@ -23,6 +23,12 @@ function loadDatosHarness() {
     '<div class="mr" role="button" tabindex="0" data-act="generar"></div>' +
     '<div class="mr" role="button" tabindex="0" data-act="ampliar"></div>' +
     '<div class="mr dis" id="filaLimpiar" role="button" tabindex="-1" data-act="limpiar"></div>' +
+    '<div class="mr conf" id="confLimpiar" hidden>' +
+    '<span class="fl">¿Limpiar el dataset?</span>' +
+    '<span class="lk" role="button" tabindex="0" data-act="cancelar-limpiar">Cancelar</span>' +
+    '<span class="lk pel" role="button" tabindex="0" data-act="confirmar-limpiar">Sí, limpiar</span>' +
+    '</div>' +
+    '<span class="lk" id="borrarTodo" role="button" tabindex="0" data-act="borrar-todo"><span>Borrar todo</span></span>' +
     '<div id="listaRec"></div>' +
     '</div>';
   const calls = [];
@@ -69,6 +75,10 @@ describe('Panel datos F1: delegación data-act', () => {
 
   test('pegar abre el modal real; generar/ampliar/limpiar delegan', async () => {
     const { sandbox, document, calls } = loadDatosHarness();
+    await vm.runInContext(
+      'datosCurrentData = { headers: ["a"], rows: [[1]] }; datosCurrentFileName = "x.csv";',
+      sandbox,
+    );
     await vm.runInContext('initDatosPage()', sandbox);
     document.querySelector('[data-act="pegar"]').click();
     expect(document.getElementById('pasteTA')).not.toBeNull();
@@ -78,7 +88,8 @@ describe('Panel datos F1: delegación data-act', () => {
     await new Promise((r) => setTimeout(r, 30));
     expect(calls).toContainEqual(['generar']);
     expect(calls).toContainEqual(['ampliar']);
-    expect(calls).toContainEqual(['limpiar']);
+    // F4: limpiar con datos muestra la confirmación inline (no llama directo)
+    expect(document.getElementById('confLimpiar').hidden).toBe(false);
   });
 
   test('drop enruta al handleFile real (rechaza extensión mala) y quita .over', async () => {
@@ -139,6 +150,53 @@ describe('Panel datos F3: recientes', () => {
     const { sandbox, document } = loadDatosHarness();
     await vm.runInContext('renderRecentFiles();', sandbox);
     expect(document.querySelector('#listaRec .vacio')).not.toBeNull();
+  });
+});
+
+describe('Panel datos F4: confirms inline', () => {
+  test('limpiar sin datos avisa y no muestra confirm', async () => {
+    const { sandbox, document, calls } = loadDatosHarness();
+    await vm.runInContext('initDatosPage()', sandbox);
+    document.querySelector('[data-act="limpiar"]').click();
+    expect(calls.some((c) => c[0] === 'toast')).toBe(true);
+    expect(document.getElementById('confLimpiar').hidden).toBe(true);
+    expect(calls.filter((c) => c[0] === 'limpiar').length).toBe(0);
+  });
+
+  test('limpiar con datos: muestra, cancela y confirma', async () => {
+    const { sandbox, document, calls } = loadDatosHarness();
+    await vm.runInContext(
+      'datosCurrentData = { headers: ["a"], rows: [[1]] }; datosCurrentFileName = "x.csv";',
+      sandbox,
+    );
+    await vm.runInContext('initDatosPage()', sandbox);
+    document.querySelector('[data-act="limpiar"]').click();
+    expect(document.getElementById('filaLimpiar').hidden).toBe(true);
+    expect(document.getElementById('confLimpiar').hidden).toBe(false);
+    document.querySelector('[data-act="cancelar-limpiar"]').click();
+    expect(document.getElementById('confLimpiar').hidden).toBe(true);
+    expect(document.getElementById('filaLimpiar').hidden).toBe(false);
+    document.querySelector('[data-act="limpiar"]').click();
+    document.querySelector('[data-act="confirmar-limpiar"]').click();
+    await new Promise((r) => setTimeout(r, 30));
+    expect(calls).toContainEqual(['limpiar']);
+  });
+
+  test('borrar-todo en 2 pasos limpia recientes', async () => {
+    const { sandbox, document } = loadDatosHarness();
+    await vm.runInContext(
+      'datosRecentFiles = [{ name: "a.csv", type: "CSV", size: 10 }];',
+      sandbox,
+    );
+    await vm.runInContext('initDatosPage()', sandbox);
+    const bt = document.getElementById('borrarTodo');
+    bt.click();
+    expect(bt.textContent).toMatch('¿Confirmar?');
+    bt.click();
+    await new Promise((r) => setTimeout(r, 30));
+    const len = await vm.runInContext('datosRecentFiles.length', sandbox);
+    expect(len).toBe(0);
+    expect(bt.textContent).toMatch('Borrar todo');
   });
 });
 

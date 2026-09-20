@@ -4320,3 +4320,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** `renderRecentFiles` al formato `.rr` (sprite por tipo, kb/filas, marca `act`, badge de tipo con color); nuevo `quitarReciente` (borrar-uno con persistencia); clic delega a `loadRecentFile` por nombre; preview hover recableado; `borrarTodo` sigue con `confirm()` hasta F4.
 
 **Verificación:** `node --check` ×2 OK, vitest 9/9 en `datos-panel` (4 tests nuevos F3).
+
+### 2026-09-20 (72): Datos F4 — confirms inline + cierre de migración
+
+**Qué:** limpiar y borrar-todo con confirmación inline del diseño (auto-reversión 4s/3s; `skipConfirm` en `limpiarDataset`/`clearRecentFiles`, únicos llamados desde el panel). Migración del sidebar completa: F1 carcasa + F3 recientes + F4 confirms.
+
+**Verificación:** `node --check` ×3 OK, vitest 194/194 (3 tests nuevos F4), backend 60/60.

@@ -1279,12 +1279,13 @@ function ampliarDatos() {
 }
 
 // ── Limpiar dataset ──
-function limpiarDataset() {
+function limpiarDataset(skipConfirm) {
   if (!datosCurrentData && (!trabajoSheets || trabajoSheets.length === 0 || !trabajoSheets[0].rows.some(function(r){ return r.some(function(c){ return c && c.toString().trim(); }); }))) {
     showToast('⚠️ No hay datos cargados para limpiar');
     return;
   }
-  if (!confirm('¿Limpiar el dataset actual? Se perderán los datos en la hoja de trabajo.')) return;
+  // skipConfirm: el panel .datos ya confirmó inline (sin doble diálogo).
+  if (!skipConfirm && !confirm('¿Limpiar el dataset actual? Se perderán los datos en la hoja de trabajo.')) return;
   datosCurrentData = null;
   trabajoSheets = [{ name:'Hoja1', headers:['Columna1','Columna2','Columna3','Columna4'], rows:Array.from({length:20}, function(){ return ['','','','']; }) }];
   trabajoActiveSheetIndex = 0;

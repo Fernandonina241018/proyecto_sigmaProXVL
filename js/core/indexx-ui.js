@@ -336,6 +336,11 @@ var leftPanels = {
         '<div class="mr dis" id="filaLimpiar" role="button" tabindex="-1" aria-disabled="true" data-act="limpiar">' +
           '<svg class="ic"><use href="#i-eraser"/></svg><span class="fl">Limpiar dataset</span>' +
         '</div>' +
+        '<div class="mr conf" id="confLimpiar" hidden>' +
+          '<span class="fl">¿Limpiar el dataset?</span>' +
+          '<span class="lk" role="button" tabindex="0" data-act="cancelar-limpiar">Cancelar</span>' +
+          '<span class="lk pel" role="button" tabindex="0" data-act="confirmar-limpiar">Sí, limpiar</span>' +
+        '</div>' +
       '</section>' +
       '<section class="gl">' +
         '<div class="rec-h"><b>Recientes</b>' +

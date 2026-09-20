@@ -76,9 +76,65 @@ function datosAccion(a) {
     case 'pegar': showPasteModal(); break;
     case 'generar': generateSampleData(); break;
     case 'ampliar': ampliarDatos(); break;
-    case 'limpiar': limpiarDataset(); break;
-    case 'borrar-todo': clearRecentFiles(); break;
+    case 'limpiar': pedirConfLimpiar(); break;
+    case 'cancelar-limpiar': cancelarConfLimpiar(); break;
+    case 'confirmar-limpiar': confirmarConfLimpiar(); break;
+    case 'borrar-todo': pedirConfBorrarTodo(); break;
   }
+}
+
+// F4 — confirmación inline para limpiar (reemplaza el confirm() nativo).
+var _confLimpiarTimer = null;
+function pedirConfLimpiar() {
+  if (!((typeof datosCurrentData !== 'undefined') && datosCurrentData)) {
+    showToast('⚠️ No hay datos cargados para limpiar');
+    return;
+  }
+  var fila = document.getElementById('filaLimpiar');
+  var conf = document.getElementById('confLimpiar');
+  if (!fila || !conf) { limpiarDataset(); return; } // sin markup nuevo: flujo anterior
+  fila.hidden = true;
+  conf.hidden = false;
+  clearTimeout(_confLimpiarTimer);
+  _confLimpiarTimer = setTimeout(cancelarConfLimpiar, 4000);
+  var cancel = conf.querySelector('[data-act="cancelar-limpiar"]');
+  if (cancel) cancel.focus();
+}
+function cancelarConfLimpiar() {
+  clearTimeout(_confLimpiarTimer);
+  var fila = document.getElementById('filaLimpiar');
+  var conf = document.getElementById('confLimpiar');
+  if (conf) conf.hidden = true;
+  if (fila) fila.hidden = false;
+}
+function confirmarConfLimpiar() {
+  cancelarConfLimpiar();
+  limpiarDataset(true); // sin confirm nativo (ya confirmó inline)
+}
+
+// F4 — borrar-todo en 2 pasos inline (reemplaza el confirm() nativo).
+var _borrarTodoTimer = null;
+function pedirConfBorrarTodo() {
+  var bt = document.getElementById('borrarTodo');
+  if (!bt) { clearRecentFiles(); return; } // sin markup nuevo: flujo anterior
+  if (bt.dataset.conf) {
+    resetConfBorrarTodo();
+    clearRecentFiles(true); // sin confirm nativo (ya confirmó inline)
+    return;
+  }
+  bt.dataset.conf = '1';
+  var label = bt.querySelector('span:last-child') || bt;
+  label.textContent = '¿Confirmar?';
+  clearTimeout(_borrarTodoTimer);
+  _borrarTodoTimer = setTimeout(resetConfBorrarTodo, 3000);
+}
+function resetConfBorrarTodo() {
+  clearTimeout(_borrarTodoTimer);
+  var bt = document.getElementById('borrarTodo');
+  if (!bt) return;
+  delete bt.dataset.conf;
+  var label = bt.querySelector('span:last-child') || bt;
+  label.textContent = 'Borrar todo';
 }
 
 // Puente estado → panel .datos: lee los mismos globales que updateDatosUI,
@@ -502,8 +558,9 @@ function addToRecentFiles(info, data) {
   try { localStorage.setItem('datosRecentFiles', JSON.stringify(datosRecentFiles)); } catch(e){}
   renderRecentFiles();
 }
-function clearRecentFiles() {
-  if (!confirm('¿Eliminar todo el historial?')) return;
+function clearRecentFiles(skipConfirm) {
+  // skipConfirm: el panel .datos ya confirmó inline en 2 pasos.
+  if (!skipConfirm && !confirm('¿Eliminar todo el historial?')) return;
   datosRecentFiles = [];
   try { localStorage.setItem('datosRecentFiles', '[]'); } catch(e){}
   renderRecentFiles();
