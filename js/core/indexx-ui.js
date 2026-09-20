@@ -12,7 +12,8 @@ resizer.addEventListener('mousedown', function(e) {
   document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none';
   function onMove(ev) {
     var rect = panesCont.getBoundingClientRect();
-    var minW = currentPage === 'trabajo' ? 360 : 160;
+    // Mínimos por página: el panel de firmas (píldora+editor) se distorsiona bajo 280px.
+    var minW = currentPage === 'trabajo' ? 360 : currentPage === 'firmarReporte' ? 280 : 160;
     var newW = Math.max(minW, Math.min(panesCont.offsetWidth - minW - resizer.offsetWidth, ev.clientX - rect.left));
     paneLeft.style.width = newW + 'px';
   }
@@ -888,6 +889,7 @@ function loadPage(name) {
   document.getElementById('paneLeft')?.classList.toggle('pane-reportes', name === 'reportes');
   document.getElementById('paneLeft')?.classList.toggle('pane-ml', name === 'ml');
   document.getElementById('paneLeft')?.classList.toggle('pane-trabajo', name === 'trabajo');
+  document.getElementById('paneLeft')?.classList.toggle('pane-firmarReporte', name === 'firmarReporte');
   var rightFn = rightPanels[name];
   try { rightPaneBody.innerHTML = rightFn ? rightFn() : '<div class="page-body"><div style="color:var(--text-faint)">Página no encontrada</div></div>'; } catch(e) { rightPaneBody.innerHTML = '<div class="page-body"><div style="padding:20px;color:#f87171;font-size:13px">Error al cargar página: ' + escapeHtml(e.message) + '</div></div>'; }
   if (name === 'datos' || name === 'trabajo') rightPaneBody.classList.add('flush');

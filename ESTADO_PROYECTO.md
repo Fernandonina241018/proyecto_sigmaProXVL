@@ -4270,3 +4270,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** sistema `fglass` en `indexx.css` (acordeón, items de lista con hover lift, botones ghost/primary/danger/redondo, status pill, hints) con override de tema claro; `indexx-firma.js` migra inline→clases (lista, Cargado, hints, 3 status); botón ↻ a redondo vidrio. Sin cambios de lógica/textos/selectores.
 
 **Verificación:** `node --check` ×2 OK, vitest 176/176. Verificación visual pendiente del usuario.
+
+### 2026-09-20 (62): Mínimo 280px para el panel de firmas
+
+**Qué:** el resizer dejaba el panel (`paneLeft`) en 160px y la píldora/editor se aplastaban. Mínimo de arrastre 280px solo en `firmarReporte` + clase `pane-firmarReporte` con `min-width:280px` como candado CSS (vale también en tablet; el resto de páginas intacto).
+
+**Verificación:** `node --check` OK, vitest 176/176. Verificación visual pendiente del usuario.
