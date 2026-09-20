@@ -12,8 +12,8 @@ resizer.addEventListener('mousedown', function(e) {
   document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none';
   function onMove(ev) {
     var rect = panesCont.getBoundingClientRect();
-    // Mínimos por página: el panel de firmas (píldora+editor) se distorsiona bajo 350px.
-    var minW = currentPage === 'trabajo' ? 360 : currentPage === 'firmarReporte' ? 350 : 160;
+    // Mínimos por página: el panel de firmas (píldora+editor) se distorsiona bajo 400px.
+    var minW = currentPage === 'trabajo' ? 360 : currentPage === 'firmarReporte' ? 400 : 160;
     var newW = Math.max(minW, Math.min(panesCont.offsetWidth - minW - resizer.offsetWidth, ev.clientX - rect.left));
     paneLeft.style.width = newW + 'px';
   }
