@@ -4308,3 +4308,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-09-20 (69): Botones 🚫/🗑 redondos y centrados en la tarjeta
 
 **Qué:** nueva variante `.fglass-btn.is-round40` (40×40 circular); el item reestructura a columna texto + columna acciones (`has-side`/`fglass-main`/`fglass-side`) para centrado Y exacto en toda la tarjeta.
+
+### 2026-09-20 (70): Datos F1 — carcasa liquid-glass + acciones + estado
+
+**Qué:** sprite SVG global (10 iconos + braces para JSON) en `indexx.html`; sistema `.datos` en CSS (tokens, fluido, tema claro, táctil, reduced-motion); template `leftPanels.datos` reemplazado (estado + drop + filas CSV/JSON(nueva)/Excel/Pegar/Generar/Ampliar/Limpiar + sección Recientes pendiente F3); `initDatosPage` recableado por delegación `data-act` + teclado; `datosSyncPanel()` como punto único (enganchado en `updateDatosUI`). Se conserva `id=fileInput` (atajo ⌘O del menú).
+
+**Verificación:** `node --check` ×3 OK, vitest 187/187 (5 tests nuevos `datos-panel`), backend 60/60.

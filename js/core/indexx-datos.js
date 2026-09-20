@@ -11,33 +11,86 @@
 })();
 
 function initDatosPage() {
-  var dropZone = document.getElementById('dropZone');
+  var panel = document.getElementById('panelDatos');
+  var dropZone = document.getElementById('drop');
   var fileInput = document.getElementById('fileInput');
-  var btnCsv = document.getElementById('btnCsv');
-  var btnXlsx = document.getElementById('btnXlsx');
-  var btnPaste = document.getElementById('btnPaste');
-  var btnExport = document.getElementById('btnExport');
-  var btnSendToTrabajo = document.getElementById('btnSendToTrabajo');
-  var btnFilterRows = document.getElementById('btnFilterRows');
-  var clearHistBtn = document.getElementById('clearHistoryBtn');
 
   if (dropZone) {
-    dropZone.addEventListener('click', function(){ fileInput && fileInput.click(); });
-    dropZone.addEventListener('dragover', function(e){ e.preventDefault(); dropZone.style.borderColor='var(--accent)'; dropZone.style.background='rgba(124,106,247,.15)'; });
-    dropZone.addEventListener('dragleave', function(){ dropZone.style.borderColor=''; dropZone.style.background=''; });
-    dropZone.addEventListener('drop', function(e){ e.preventDefault(); dropZone.style.borderColor=''; dropZone.style.background=''; if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]); });
+    dropZone.addEventListener('click', function(){ abrirSelectorDatos('.csv,.json,.xlsx,.xls'); });
+    dropZone.addEventListener('dragover', function(e){ e.preventDefault(); dropZone.classList.add('over'); });
+    dropZone.addEventListener('dragleave', function(){ dropZone.classList.remove('over'); });
+    dropZone.addEventListener('drop', function(e){ e.preventDefault(); dropZone.classList.remove('over'); if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]); });
   }
   if (fileInput) fileInput.addEventListener('change', function(e){ if (e.target.files.length > 0) handleFile(e.target.files[0]); });
-  if (btnCsv) btnCsv.addEventListener('click', function(){ fileInput.accept='.csv'; fileInput.click(); });
-  if (btnXlsx) btnXlsx.addEventListener('click', function(){ fileInput.accept='.xlsx,.xls'; fileInput.click(); });
-  if (btnPaste) btnPaste.addEventListener('click', showPasteModal);
-  if (btnExport) btnExport.addEventListener('click', showExportModal);
-  if (btnSendToTrabajo) btnSendToTrabajo.addEventListener('click', sendToTrabajo);
-  if (clearHistBtn) clearHistBtn.addEventListener('click', clearRecentFiles);
-  if (btnFilterRows) btnFilterRows.addEventListener('click', showFilterModal);
+  if (panel) {
+    // Delegación: clic + teclado (Enter/Espacio) para [role=button]
+    panel.addEventListener('click', function(e){
+      var el = e.target.closest('[data-act]');
+      if (!el || !panel.contains(el)) return;
+      datosAccion(el.getAttribute('data-act'));
+    });
+    panel.addEventListener('keydown', function(e){
+      if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[role=button]')) { e.preventDefault(); e.target.click(); }
+    });
+  }
 
   renderRecentFiles();
+  datosSyncPanel();
   if (datosCurrentData) updateDatosUI();
+}
+
+function abrirSelectorDatos(accept) {
+  var fileInput = document.getElementById('fileInput');
+  if (!fileInput) return;
+  fileInput.accept = accept;
+  fileInput.value = '';
+  fileInput.click();
+}
+
+// Acciones del panel (data-act). Limpiar/borrar-todo usan confirm() nativo
+// hasta F4, que los pasa a confirmación inline del diseño.
+function datosAccion(a) {
+  switch (a) {
+    case 'abrir': abrirSelectorDatos('.csv,.json,.xlsx,.xls'); break;
+    case 'csv': abrirSelectorDatos('.csv'); break;
+    case 'json': abrirSelectorDatos('.json'); break;
+    case 'excel': abrirSelectorDatos('.xlsx,.xls'); break;
+    case 'pegar': showPasteModal(); break;
+    case 'generar': generateSampleData(); break;
+    case 'ampliar': ampliarDatos(); break;
+    case 'limpiar': limpiarDataset(); break;
+    case 'borrar-todo': clearRecentFiles(); break;
+  }
+}
+
+// Puente estado → panel .datos: lee los mismos globales que updateDatosUI,
+// así cualquier carga/limpieza se refleja sin nuevos call sites.
+function datosSyncPanel() {
+  try {
+    var panel = document.getElementById('panelDatos');
+    if (!panel) return;
+    var has = !!((typeof datosCurrentData !== 'undefined') && datosCurrentData);
+    var estado = document.getElementById('estado');
+    if (estado) estado.classList.toggle('on', has);
+    var nom = estado && estado.querySelector('.nom');
+    if (nom) {
+      var n = has ? ((typeof datosCurrentFileName !== 'undefined' && datosCurrentFileName) || 'Dataset') : 'Sin dataset';
+      nom.textContent = n;
+      nom.title = n;
+    }
+    var cnt = estado && estado.querySelector('.cnt');
+    if (cnt) {
+      cnt.textContent = has
+        ? (datosCurrentData.rows.length + ' filas · ' + datosCurrentData.headers.length + ' col')
+        : '— filas · — col';
+    }
+    var fila = document.getElementById('filaLimpiar');
+    if (fila) {
+      fila.classList.toggle('dis', !has);
+      fila.setAttribute('aria-disabled', String(!has));
+      fila.tabIndex = has ? 0 : -1;
+    }
+  } catch (e) {}
 }
 
 function handleFile(file) {
@@ -283,6 +336,7 @@ function changePageSize(v) {
 }
 
 function updateDatosUI() {
+  datosSyncPanel(); // refleja estado en el panel .datos (punto único)
   var nameEl = document.getElementById('datosDatasetName');
   var rowsEl = document.getElementById('datosRowCount');
   var colsEl = document.getElementById('datosColCount');

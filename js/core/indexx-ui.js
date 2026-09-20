@@ -315,34 +315,34 @@ var leftPanels = {
     '</div>';
   },
   datos: function() {
-    return '<div class="left-panel" style="gap:6px;padding:8px" id="datosLeftPanel">' +
-      '<div class="upload-zone compact" id="dropZone" style="padding:6px 8px;flex-shrink:0">' +
-        '<div class="upload-zone-icon" style="font-size:14px">📂</div>' +
-        '<div class="upload-zone-text" style="font-size:10px">Arrastra o haz clic</div>' +
-      '</div>' +
-      '<input type="file" id="fileInput" style="display:none" accept=".csv,.json,.xlsx,.xls">' +
-      '<div style="display:flex;gap:4px;flex-shrink:0">' +
-        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" id="btnCsv">📄 CSV</button>' +
-        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" id="btnXlsx">📊 Excel</button>' +
-        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" id="btnPaste">📋 Pegar</button>' +
-      '</div>' +
-      '<div style="display:flex;gap:4px;flex-shrink:0">' +
-        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" onclick="generateSampleData()">🎲 Generar</button>' +
-        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" onclick="ampliarDatos()">📈 Ampliar</button>' +
-        '<button class="btn btn-secondary" style="flex:1;font-size:10px;padding:4px 4px" onclick="limpiarDataset()">🧹 Limpiar</button>' +
-      '</div>' +
-      '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">Estado</div><div class="info-list">' +
-        '<div class="info-item"><div class="info-item-label">Dataset</div><div class="info-item-value" id="datosDatasetName">Sin cargar</div></div>' +
-        '<div class="info-item"><div class="info-item-label">Filas</div><div class="info-item-value" id="datosRowCount">—</div></div>' +
-        '<div class="info-item"><div class="info-item-label">Columnas</div><div class="info-item-value" id="datosColCount">—</div></div>' +
-      '</div></div>' +
-      '<div class="info-section" style="flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0">' +
-        '<div class="info-section-header" style="display:flex;justify-content:space-between;align-items:center">' +
-          '<span>Recientes</span>' +
-          '<span id="clearHistoryBtn" title="Limpiar historial" style="cursor:pointer;font-size:11px;padding:2px 6px;border-radius:4px;color:var(--text-faint)" onmouseenter="this.style.background=\'rgba(255,255,255,.08)\';this.style.color=\'var(--text-muted)\'" onmouseleave="this.style.background=\'transparent\';this.style.color=\'var(--text-faint)\'">🗑️</span>' +
+    // Panel Gestión de Datos estilo liquid-glass (diseño .datos).
+    // Acciones por data-act (delegación en initDatosPage); estado vía datosSyncPanel().
+    return '<div class="left-panel datos" id="panelDatos" aria-label="Gestión de datos" style="gap:0;padding:8px">' +
+      '<section class="gl">' +
+        '<div class="estado" id="estado"><span class="pt"></span><span class="nom">Sin dataset</span><span class="cnt">— filas · — col</span></div>' +
+        '<div class="drop" id="drop" role="button" tabindex="0" data-act="abrir">' +
+          '<svg class="ic"><use href="#i-upload"/></svg><span>Arrastra un archivo o haz clic</span>' +
         '</div>' +
-        '<div style="overflow-y:auto;flex:1;padding:6px;display:flex;flex-direction:column;gap:4px" id="recentFilesList"></div>' +
-      '</div>' +
+        '<input type="file" id="fileInput" style="display:none" accept=".csv,.json,.xlsx,.xls">' +
+        '<div class="sec">Cargar</div>' +
+        '<div class="mr" role="button" tabindex="0" data-act="csv"><svg class="ic"><use href="#i-file"/></svg><span class="fl">Archivo CSV</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
+        '<div class="mr" role="button" tabindex="0" data-act="json"><svg class="ic"><use href="#i-braces"/></svg><span class="fl">Archivo JSON</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
+        '<div class="mr" role="button" tabindex="0" data-act="excel"><svg class="ic"><use href="#i-table"/></svg><span class="fl">Excel</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
+        '<div class="mr" role="button" tabindex="0" data-act="pegar"><svg class="ic"><use href="#i-clip"/></svg><span class="fl">Pegar</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
+        '<div class="sec">Crear</div>' +
+        '<div class="mr" role="button" tabindex="0" data-act="generar"><svg class="ic"><use href="#i-dice"/></svg><span class="fl">Generar</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
+        '<div class="mr" role="button" tabindex="0" data-act="ampliar"><svg class="ic"><use href="#i-trend"/></svg><span class="fl">Ampliar</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
+        '<div class="sec">Dataset</div>' +
+        '<div class="mr dis" id="filaLimpiar" role="button" tabindex="-1" aria-disabled="true" data-act="limpiar">' +
+          '<svg class="ic"><use href="#i-eraser"/></svg><span class="fl">Limpiar dataset</span>' +
+        '</div>' +
+      '</section>' +
+      '<section class="gl">' +
+        '<div class="rec-h"><b>Recientes</b>' +
+          '<span class="lk" id="borrarTodo" role="button" tabindex="0" data-act="borrar-todo"><svg class="ic sm"><use href="#i-trash"/></svg><span>Borrar todo</span></span>' +
+        '</div>' +
+        '<div id="listaRec"><div class="vacio">Recientes disponibles tras migrar la lista (F3)</div></div>' +
+      '</section>' +
     '</div>';
   },
   analisis: function() { 
