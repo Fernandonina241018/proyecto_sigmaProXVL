@@ -4342,3 +4342,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** los 11 accesos son tarjetas (icono + nombre + descripción) en secciones vidrio; activo con borde accent + glow. Selectores JS renombrados (5 sitios); iconos/delegación intactos. Fix de regalo: el gating por rol ocultaba el título equivocado y dejaba la tarjeta admin vacía — ahora oculta la sección completa.
 
 **Verificación:** `node --check` ×3 OK, vitest 194/194. Visual pendiente del usuario.
+
+### 2026-09-20 (76): Panel arranca siempre en su mínimo
+
+**Qué:** helper `paneMinWidthFor(page)` como fuente única (resizer + apertura); `showPage` fija el ancho al mínimo de cada página (trabajo 360, firmas 400, datos 350, resto 160).

@@ -7,13 +7,20 @@
 var resizer = document.getElementById('paneResizer');
 var paneLeft = document.getElementById('paneLeft');
 var panesCont = document.getElementById('panesContainer');
+// Mínimos por página (fuente única: resizer + apertura).
+// Firmas bajo 400px y datos bajo 350px se distorsionan.
+function paneMinWidthFor(page) {
+  if (page === 'trabajo') return 360;
+  if (page === 'firmarReporte') return 400;
+  if (page === 'datos') return 350;
+  return 160;
+}
 resizer.addEventListener('mousedown', function(e) {
   e.preventDefault(); resizer.classList.add('dragging');
   document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none';
   function onMove(ev) {
     var rect = panesCont.getBoundingClientRect();
-    // Mínimos por página: firmas (píldora+editor) bajo 400px y datos (vidrio) bajo 350px se distorsionan.
-    var minW = currentPage === 'trabajo' ? 360 : currentPage === 'firmarReporte' ? 400 : currentPage === 'datos' ? 350 : 160;
+    var minW = paneMinWidthFor(currentPage);
     var newW = Math.max(minW, Math.min(panesCont.offsetWidth - minW - resizer.offsetWidth, ev.clientX - rect.left));
     paneLeft.style.width = newW + 'px';
   }
@@ -899,6 +906,12 @@ function loadPage(name) {
   document.getElementById('paneLeft')?.classList.toggle('pane-trabajo', name === 'trabajo');
   document.getElementById('paneLeft')?.classList.toggle('pane-firmarReporte', name === 'firmarReporte');
   document.getElementById('paneLeft')?.classList.toggle('pane-datos', name === 'datos');
+  // El panel siempre arranca en su mínimo permitido (se puede ensanchar, pero
+  // al entrar a cada página vuelve al mínimo).
+  try {
+    var _pl = document.getElementById('paneLeft');
+    if (_pl) _pl.style.width = paneMinWidthFor(name) + 'px';
+  } catch (_e) {}
   var rightFn = rightPanels[name];
   try { rightPaneBody.innerHTML = rightFn ? rightFn() : '<div class="page-body"><div style="color:var(--text-faint)">Página no encontrada</div></div>'; } catch(e) { rightPaneBody.innerHTML = '<div class="page-body"><div style="padding:20px;color:#f87171;font-size:13px">Error al cargar página: ' + escapeHtml(e.message) + '</div></div>'; }
   if (name === 'datos' || name === 'trabajo') rightPaneBody.classList.add('flush');
