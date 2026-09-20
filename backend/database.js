@@ -590,6 +590,11 @@ function buildPostgres() {
         if (session.status === 'rejected') {
             return { error: 'La sesión fue rechazada', code: 'rejected' };
         }
+        // Registro cerrado e inmutable (21 CFR 11): ni el firmante ni el admin
+        // pueden reiniciar una sesión completa y verificada.
+        if (session.status === 'complete') {
+            return { error: 'La sesión está completa y verificada; no se puede reiniciar', code: 'complete' };
+        }
         const sigs = session.signatures || {};
         const signedRoles = SIGN_ORDER.filter((r) => sigs[r] && sigs[r].signed);
         const last = signedRoles[signedRoles.length - 1] || null;
@@ -1201,6 +1206,10 @@ function buildLocalStore() {
         if (!s) return { error: 'Sesión no encontrada', code: 'not-found' };
         if (s.status === 'rejected') {
             return { error: 'La sesión fue rechazada', code: 'rejected' };
+        }
+        // Registro cerrado e inmutable (mirror PG).
+        if (s.status === 'complete') {
+            return { error: 'La sesión está completa y verificada; no se puede reiniciar', code: 'complete' };
         }
         var signedRoles = SIGN_ORDER.filter(function(r) { return s.signatures[r] && s.signatures[r].signed; });
         var last = signedRoles[signedRoles.length - 1] || null;

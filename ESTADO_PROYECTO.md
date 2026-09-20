@@ -4228,3 +4228,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** `updateUserProfile/ById` (PG+local) hacían sobreescritura total: fijar el código de firma tras un reset (objeto de 1 campo) ponía en NULL nombre/apellido/email/teléfono/cargo/firma. Ahora son updates parciales (`COALESCE` en PG; solo-claves-definidas en local); `undefined`=conservar, `''`=limpiar (semántica preservada). Sin cambios de frontend (el backend se volvió tolerante; el modal de edición también quedó cubierto).
 
 **Verificación:** `node -c` OK, backend 58/58 (3 tests nuevos en `backend/tests/user-profile.test.js`), vitest 175/175.
+
+### 2026-09-19 (55): Sesión completa cerrada e inmutable (sin reinicio)
+
+**Qué:** `unsignSessionStep` (PG+local) rechaza con `code:'complete'` si la sesión está completa y verificada — ni firmante ni admin pueden reiniciarla (el override con cascada de la entrada 41 ahora aplica solo en parciales; test actualizado). Frontend: `_firmaSessionStatus` sincronizado al abrir/refrescar/firmar/revalidar, `↺` oculto en completas y pre-chequeo con toast en `firmaRequestReset`. La vía ante error en una completa es rechazar con motivo, no reiniciar.
+
+**Verificación:** `node --check` OK, backend 59/59, vitest 176/176 (test backend `complete` + test frontend sin-↺).

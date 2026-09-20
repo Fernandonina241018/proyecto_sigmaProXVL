@@ -282,7 +282,7 @@ test('ajeno no reinicia; admin sí', async () => {
   assert.equal(a.signatures.prepared, undefined);
 });
 
-test('admin reinicia rol anterior con cascada (apertura total)', async () => {
+test('admin reinicia rol anterior con cascada (solo en parcial, nunca en completa)', async () => {
   const s = await db.createSignSession({
     name: 'RPT-ADMCASC', html: HTML, createdBy: 'ana_prep',
     assignedReviewer: 'beto_rev', assignedApprover: 'carla_sup',
@@ -292,19 +292,15 @@ test('admin reinicia rol anterior con cascada (apertura total)', async () => {
     id: s.id, role: 'reviewed', username: 'beto_rev', userRole: 'analista',
     signature: {}, expectedVersion: 1,
   });
-  await db.signSessionStep({
-    id: s.id, role: 'approved', username: 'carla_sup', userRole: 'supervisor',
-    signature: {}, expectedVersion: 2,
-  });
+  // Sesión parcial (falta approved): admin reinicia prepared con cascada de reviewed
   const r = await db.unsignSessionStep({
-    id: s.id, role: 'prepared', username: 'root_adm', userRole: 'admin', expectedVersion: 3,
+    id: s.id, role: 'prepared', username: 'root_adm', userRole: 'admin', expectedVersion: 2,
   });
-  assert.deepEqual(r.admin_cascade, ['reviewed', 'approved']);
+  assert.deepEqual(r.admin_cascade, ['reviewed']);
   assert.equal(r.status, 'pending');
   assert.equal(r.next_role, 'prepared');
   assert.equal(r.signatures.reviewed, undefined);
-  assert.equal(r.signatures.approved, undefined);
-  assert.equal(r.version, 4);
+  assert.equal(r.version, 3);
 });
 
 test('admin reinicia último sin cascada', async () => {
@@ -318,6 +314,37 @@ test('admin reinicia último sin cascada', async () => {
   });
   assert.equal(r.admin_cascade, undefined);
   assert.equal(r.next_role, 'prepared');
+});
+
+test('completa y verificada: ni firmante ni admin pueden reiniciar', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-LOCKED', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: 'carla_sup',
+    preparedSignature: { nombre: 'Ana' },
+  });
+  await db.signSessionStep({
+    id: s.id, role: 'reviewed', username: 'beto_rev', userRole: 'analista',
+    signature: {}, expectedVersion: 1,
+  });
+  const full = await db.signSessionStep({
+    id: s.id, role: 'approved', username: 'carla_sup', userRole: 'supervisor',
+    signature: {}, expectedVersion: 2,
+  });
+  assert.equal(full.status, 'complete');
+  // La aprobadora (último rol + propio) → bloqueado
+  const r1 = await db.unsignSessionStep({
+    id: s.id, role: 'approved', username: 'carla_sup', userRole: 'supervisor', expectedVersion: 3,
+  });
+  assert.equal(r1.code, 'complete');
+  // Admin con cascada → también bloqueado
+  const r2 = await db.unsignSessionStep({
+    id: s.id, role: 'prepared', username: 'root_adm', userRole: 'admin', expectedVersion: 3,
+  });
+  assert.equal(r2.code, 'complete');
+  // La sesión sigue intacta
+  const g = await db.getSignSession(s.id);
+  assert.equal(g.status, 'complete');
+  assert.equal(g.signatures.approved.username, 'carla_sup');
 });
 
 test('unsign con versión vieja → stale-version', async () => {

@@ -216,6 +216,32 @@ describe('Eliminar/rechazar la sesión abierta limpia la vista', () => {
   });
 });
 
+describe('Sesión completa: sin reinicio (cerrada e inmutable)', () => {
+  function completeByAna() {
+    const full = sessionV(3, {
+      reviewed: { signed: true, username: 'beto', nombre: 'Beto', cargo: 'Rev', firma: 'G', fecha: 'f2' },
+      approved: { signed: true, username: 'ana', nombre: 'Ana', cargo: 'Lab', firma: 'F', fecha: 'f3' },
+    });
+    full.status = 'complete';
+    full.next_role = null;
+    return full;
+  }
+  test('abierta por quien la firmó → no muestra ↺ y el intento avisa', async () => {
+    const full = completeByAna();
+    const { sandbox, document, toasts } = loadHarness(async (url) => {
+      if (url.includes('scope=')) return { status: 200, json: async () => ({ ok: true, sessions: [] }) };
+      return { status: 200, json: async () => ({ ok: true, session: full }) };
+    });
+    const ok = await vm.runInContext('_firmaOpenSession(99)', sandbox);
+    expect(ok).toBe(true);
+    expect(document.getElementById('firmaSignatureEditor').textContent).not.toMatch('Reiniciar');
+    const overlaysBefore = document.querySelectorAll('.modal-overlay').length;
+    await vm.runInContext("firmaRequestReset('approved')", sandbox);
+    expect(document.querySelectorAll('.modal-overlay').length).toBe(overlaysBefore);
+    expect(toasts.join('|')).toMatch('no se puede reiniciar');
+  });
+});
+
 describe('Mías abre sesión completa', () => {
   test('completa (3/3) se abre y pinta las tres firmas', async () => {
     const full = sessionV(3, {

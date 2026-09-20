@@ -97,6 +97,8 @@ function firmaRestoreState() {
     _firmaSessionId = isNaN(_rsid) ? null : _rsid;
     var _rsv = parseInt(_firmaStore.get('__firma_session_version') || '', 10);
     _firmaSessionVersion = isNaN(_rsv) ? null : _rsv;
+    // Estado desconocido hasta revalidar (el revalidate lo sincroniza).
+    _firmaSessionStatus = null;
 
     var preview = document.getElementById('firmaPreview');
     if (preview) {
@@ -601,6 +603,8 @@ async function firmaPublishLoaded() {
 function _firmaCanSeeReset(role) {
   var state = (_firmaSignatureState && _firmaSignatureState[role]) || {};
   if (!state.signed) return false;
+  // Sesión completa y verificada: cerrada e inmutable, sin ↺ para nadie.
+  if (_firmaSessionId && _firmaSessionStatus === 'complete') return false;
   if (!_firmaSessionId) return true;
   var me = null, myRole = null;
   try {
@@ -908,6 +912,7 @@ async function firmaVerify(role, code, password, statusEl, extra) {
       }
       var session = sdata.session;
       _firmaSessionVersion = session.version;
+      _firmaSessionStatus = session.status || null;
       _firmaSessionAssignees = {
         reviewer: session.assigned_reviewer || null,
         approver: session.assigned_approver || null
@@ -969,6 +974,11 @@ async function firmaVerify(role, code, password, statusEl, extra) {
 }
 
 function firmaRequestReset(role) {
+  // Pre-chequeo local (el servidor lo rechaza de todos modos con code complete).
+  if (_firmaSessionId && _firmaSessionStatus === 'complete') {
+    showToast('🔒 Sesión completa y verificada: no se puede reiniciar', true);
+    return;
+  }
   var overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
   var box = document.createElement('div');
@@ -1125,6 +1135,7 @@ async function firmaUnsignSession(role, code, password, reason) {
     }
     var session = data.session;
     _firmaSessionVersion = session.version;
+    _firmaSessionStatus = session.status || null;
     var st = {};
     ['prepared', 'reviewed', 'approved'].forEach(function(r) {
       var s = (session.signatures || {})[r];
@@ -1169,6 +1180,8 @@ function firmaToggleFS() {
 // ══ FASE 2 — Bandeja de firmas (sesiones en servidor) ════════════
 var _firmaSessionId = null;
 var _firmaSessionVersion = null;
+// Estado de la sesión abierta (complete = cerrada e inmutable: sin ↺).
+var _firmaSessionStatus = null;
 var _firmaBandejaScope = 'pending';
 var _firmaSessionAssignees = { reviewer: null, approver: null };
 
@@ -1228,6 +1241,7 @@ async function _firmaRefreshSession() {
     var data = await _firmaApiGet('/api/sign-sessions/' + _firmaSessionId);
     if (data && data.ok && data.session) {
       _firmaSessionVersion = data.session.version;
+      _firmaSessionStatus = data.session.status || null;
       _firmaSessionAssignees = {
         reviewer: data.session.assigned_reviewer || null,
         approver: data.session.assigned_approver || null
@@ -1258,6 +1272,7 @@ function firmaClearMainView() {
   _firmaIsNewSession = false;
   _firmaSessionId = null;
   _firmaSessionVersion = null;
+  _firmaSessionStatus = null;
   _firmaSessionAssignees = { reviewer: null, approver: null };
   var preview = document.getElementById('firmaPreview');
   if (preview) preview.innerHTML = '<div style="color:var(--text-faint);font-size:13px">Carga un reporte .html para previsualizarlo aquí</div>';
@@ -1287,6 +1302,11 @@ async function _firmaRevalidateRestored() {
       return;
     }
     var data = await res.json();
+    if (data && data.ok && data.session) {
+      // Sincroniza estado aunque la versión no cambie (p.ej. snapshot restaurado).
+      _firmaSessionStatus = data.session.status || null;
+      firmaRenderEditor();
+    }
     if (data && data.ok && data.session && data.session.version !== _firmaSessionVersion) {
       await _firmaOpenSession(_firmaSessionId, true);
       showToast('🔄 Sesión actualizada desde el servidor');
@@ -1598,6 +1618,7 @@ async function _firmaOpenSession(id, silent) {
     _firmaIsNewSession = false;
     _firmaSessionId = session.id;
     _firmaSessionVersion = session.version;
+    _firmaSessionStatus = session.status || null;
     _firmaSessionAssignees = {
       reviewer: session.assigned_reviewer || null,
       approver: session.assigned_approver || null
