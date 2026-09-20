@@ -112,7 +112,7 @@ function firmaRestoreState() {
     if (status) {
       status.style.display = 'block';
       var cnt = _firmaCountSigned();
-      status.innerHTML = '<div style="font-size:11px;color:var(--accent);padding:8px 12px">↻ Sesión restaurada: ' + escapeHtml(_firmaOriginalName) + ' (' + cnt.signed + '/' + cnt.total + ' firmas)</div>';
+      status.innerHTML = '<div class="fglass-status">↻ Sesión restaurada: ' + escapeHtml(_firmaOriginalName) + ' (' + cnt.signed + '/' + cnt.total + ' firmas)</div>';
     }
 
     var actions = document.getElementById('firmaActions');
@@ -322,7 +322,7 @@ function firmaLoadHtml(html, originalName) {
   if (status) {
     status.style.display = 'block';
     var cnt = _firmaCountSigned();
-    status.innerHTML = '<div style="font-size:11px;color:var(--accent);padding:8px 12px">✅ Reporte cargado: ' + escapeHtml(originalName) + ' (' + cnt.signed + '/' + cnt.total + ' firmas)</div>';
+    status.innerHTML = '<div class="fglass-status">✅ Reporte cargado: ' + escapeHtml(originalName) + ' (' + cnt.signed + '/' + cnt.total + ' firmas)</div>';
   }
 
   var actions = document.getElementById('firmaActions');
@@ -1421,20 +1421,20 @@ function firmaRenderCargado(list) {
   if (_firmaCurrentHtml && !_firmaSessionId) {
     var cnt = (typeof _firmaCountSigned === 'function') ? _firmaCountSigned() : { signed: 0, total: 3 };
     var div = document.createElement('div');
-    div.style.cssText = 'border:1px solid var(--border);border-radius:6px;padding:7px 9px;display:flex;flex-direction:column;gap:5px';
+    div.className = 'fglass-item';
+    div.style.cursor = 'default';
     div.innerHTML =
-      '<div style="font-size:11px;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">📄 ' +
-      escapeHtml(_firmaOriginalName || 'reporte.html') + '</div>' +
-      '<div style="font-size:9px;color:var(--text-faint)">Borrador local · ' + (cnt.signed || 0) + '/' + (cnt.total || 3) + ' firmas · sin publicar</div>' +
-      '<div style="display:flex;gap:6px">' +
-      '<button data-cargado-pub style="flex:1;font-size:10px;padding:4px 8px;border-radius:4px;border:1px solid var(--accBorder);background:var(--accent);color:#fff;cursor:pointer;font-family:inherit">📤 Publicar</button>' +
-      '<button data-cargado-del style="font-size:10px;padding:4px 8px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-faint);cursor:pointer;font-family:inherit">🗑</button>' +
+      '<div class="fglass-name">📄 ' + escapeHtml(_firmaOriginalName || 'reporte.html') + '</div>' +
+      '<div class="fglass-meta">Borrador local · ' + (cnt.signed || 0) + '/' + (cnt.total || 3) + ' firmas · sin publicar</div>' +
+      '<div class="fglass-row">' +
+      '<button data-cargado-pub class="fglass-btn is-primary">📤 Publicar</button>' +
+      '<button data-cargado-del class="fglass-btn">🗑</button>' +
       '</div>';
     div.querySelector('[data-cargado-pub]').onclick = function() { firmaPublishLoaded(); };
     div.querySelector('[data-cargado-del]').onclick = function() { firmaDiscardDraft(); };
     list.appendChild(div);
   } else {
-    list.innerHTML = '<div style="font-size:10px;color:var(--text-faint);text-align:center;padding:6px">Sin borrador — carga un .html en "Cargar reporte"</div>';
+    list.innerHTML = '<div class="fglass-hint">Sin borrador — carga un .html en "Cargar reporte"</div>';
   }
 }
 
@@ -1460,23 +1460,21 @@ async function firmaLoadBandeja(scope) {
   var list = document.getElementById('firmaBandejaList');
   if (!list) return;
   if (_firmaBandejaScope === 'cargado') { firmaRenderCargado(list); return; }
-  list.innerHTML = '<div style="font-size:10px;color:var(--text-faint);text-align:center;padding:6px">Cargando…</div>';
+  list.innerHTML = '<div class="fglass-hint">Cargando…</div>';
   try {
     var data = await _firmaApiGet('/api/sign-sessions?scope=' + _firmaBandejaScope + '&limit=50');
     if (!data || !data.ok) throw new Error((data && data.error) || 'sin servidor');
     var sessions = data.sessions || [];
     firmaUpdatePendingBadge();
     if (!sessions.length) {
-      list.innerHTML = '<div style="font-size:10px;color:var(--text-faint);text-align:center;padding:6px">' +
+      list.innerHTML = '<div class="fglass-hint">' +
         (_firmaBandejaScope === 'pending' ? 'Sin documentos pendientes' : 'Sin sesiones propias') + '</div>';
       return;
     }
     list.innerHTML = '';
     sessions.forEach(function(s) {
       var div = document.createElement('div');
-      div.style.cssText = 'border:1px solid var(--border);border-radius:6px;padding:7px 9px;cursor:pointer;display:flex;flex-direction:column;gap:3px';
-      div.onmouseover = function() { div.style.borderColor = 'var(--accBorder)'; };
-      div.onmouseout = function() { div.style.borderColor = 'var(--border)'; };
+      div.className = 'fglass-item';
       var stLbl = s.status === 'complete' ? '✅ Completa'
         : s.status === 'rejected' ? '🚫 Rechazada' + (s.rejected_by ? ' por ' + s.rejected_by : '')
         : ('✍️ ' + (s.signed_count || 0) + '/3' + (s.next_role ? ' · toca: ' + s.next_role : ''));
@@ -1485,15 +1483,14 @@ async function firmaLoadBandeja(scope) {
       var _me = null;
       try { var _sess = (typeof Auth !== 'undefined' && Auth.getSession) ? Auth.getSession() : null; if (_sess) _me = _sess; } catch (e) {}
       var _isMine = _me && (s.created_by === _me.username || _me.role === 'admin');
-      var headHtml = '<div style="display:flex;align-items:center;gap:6px">' +
-        '<div style="flex:1;min-width:0;font-size:11px;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' +
-        escapeHtml(s.name) + '</div>';
+      var headHtml = '<div class="fglass-row">' +
+        '<div class="fglass-name">' + escapeHtml(s.name) + '</div>';
       if (s.status !== 'complete' && s.status !== 'rejected') {
-        headHtml += '<button data-reject="' + s.id + '" title="Rechazar y sacar de pendientes" style="flex-shrink:0;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--t3);cursor:pointer;font-family:inherit">🚫</button>';
+        headHtml += '<button data-reject="' + s.id + '" title="Rechazar y sacar de pendientes" class="fglass-btn">🚫</button>';
       }
       // En Mías: eliminar rechazadas (creador o admin) para limpiar reemplazos
       if (_firmaBandejaScope === 'mine' && s.status === 'rejected' && _isMine) {
-        headHtml += '<button data-del="' + s.id + '" title="Eliminar definitivamente (ya rechazada)" style="flex-shrink:0;font-size:9px;padding:2px 8px;border-radius:4px;border:1px solid rgba(239,68,68,.4);background:transparent;color:#f87171;cursor:pointer;font-family:inherit">🗑</button>';
+        headHtml += '<button data-del="' + s.id + '" title="Eliminar definitivamente (ya rechazada)" class="fglass-btn is-danger">🗑</button>';
       }
       headHtml += '</div>';
       // LOTE A — aviso de expiración por retención (182 complete / 90 rejected)
@@ -1511,7 +1508,7 @@ async function firmaLoadBandeja(scope) {
         }
       } catch (_e) { /* fail-open */ }
       div.innerHTML = headHtml +
-        '<div style="font-size:9px;color:var(--text-faint)">#' + s.id + ' · ' + escapeHtml(stLbl) + who +
+        '<div class="fglass-meta">#' + s.id + ' · ' + escapeHtml(stLbl) + who +
         (s.status === 'rejected' && s.rejected_reason ? ' · “' + escapeHtml(s.rejected_reason) + '”' : '') + escapeHtml(_expTxt) + '</div>';
       div.onclick = function() { _firmaOpenSession(s.id); };
       list.appendChild(div);
@@ -1529,7 +1526,7 @@ async function firmaLoadBandeja(scope) {
       };
     });
   } catch (e) {
-    list.innerHTML = '<div style="font-size:10px;color:var(--text-faint);text-align:center;padding:6px">Bandeja no disponible (sin conexión)</div>';
+    list.innerHTML = '<div class="fglass-hint">Bandeja no disponible (sin conexión)</div>';
   }
 }
 
@@ -1642,7 +1639,7 @@ async function _firmaOpenSession(id, silent) {
       var statusEl = document.getElementById('firmaStatus');
       if (statusEl) {
         statusEl.style.display = 'block';
-        statusEl.innerHTML = '<div style="font-size:11px;color:var(--accent);padding:8px 12px">✅ Sesión #' + session.id + ': ' +
+        statusEl.innerHTML = '<div class="fglass-status">✅ Sesión #' + session.id + ': ' +
           escapeHtml(session.name || '') + ' (' + _cnt.signed + '/' + _cnt.total + ' firmas)</div>';
       }
     } catch (_e) { /* fail-open */ }

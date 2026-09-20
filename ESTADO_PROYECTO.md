@@ -4264,3 +4264,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** la regla genérica `.fp-tabs button[aria-selected="true"]` pintaba caja oscura (`var(--fp-card)`) tras el icono activo + `height:28px/radius:5px` heredados. Neutralizado con overrides de ID (`#firmaTabs.fp-tabs button...`): botones 100% transparentes, solo icono + label sobre el vidrio.
 
 **Verificación:** especificidad revisada (ID gana); cambio solo-CSS sin cobertura de tests — verificación visual pendiente del usuario.
+
+### 2026-09-20 (61): Bandeja completa en liquid-glass (armonía fnav)
+
+**Qué:** sistema `fglass` en `indexx.css` (acordeón, items de lista con hover lift, botones ghost/primary/danger/redondo, status pill, hints) con override de tema claro; `indexx-firma.js` migra inline→clases (lista, Cargado, hints, 3 status); botón ↻ a redondo vidrio. Sin cambios de lógica/textos/selectores.
+
+**Verificación:** `node --check` ×2 OK, vitest 176/176. Verificación visual pendiente del usuario.

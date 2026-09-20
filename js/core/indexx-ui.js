@@ -513,7 +513,7 @@ var leftPanels = {
               '<button type="button" class="firma-tab" role="tab" data-scope="mine" aria-selected="false"><i>👤</i><span class="l">Mías</span></button>' +
               '<button type="button" class="firma-tab" role="tab" data-scope="cargado" aria-selected="false"><i>📄</i><span class="l">Cargado</span></button>' +
             '</div>' +
-            '<button type="button" class="fp-btn" id="firmaRefreshBtn" title="Refrescar bandeja" style="height:34px;padding:0 10px">↻</button>' +
+            '<button type="button" class="fp-btn fglass-btn is-round" id="firmaRefreshBtn" title="Refrescar bandeja">↻</button>' +
           '</div>' +
             '<div class="fp-list" id="firmaBandejaList">' +
               '<div style="font-size:10px;color:var(--text-faint);text-align:center;padding:6px">Sin datos — abre la página para cargar</div></div>' +
