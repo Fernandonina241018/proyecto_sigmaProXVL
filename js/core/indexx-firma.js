@@ -1352,7 +1352,7 @@ async function firmaNotifyPending() {
 
 function _firmaSetNavBadge(n) {
   try {
-    var items = document.querySelectorAll('.nav-item[data-page="firmarReporte"]');
+    var items = document.querySelectorAll('.snav-card[data-page="firmarReporte"]');
     items.forEach(function(el) {
       var b = el.querySelector('.firma-nav-badge');
       if (n > 0) {

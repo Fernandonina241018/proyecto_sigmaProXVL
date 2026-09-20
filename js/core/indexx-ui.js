@@ -877,7 +877,7 @@ function loadPage(name) {
     }
   }
   currentPage = name;
-  document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
+  document.querySelectorAll('.snav-card').forEach(function(n){ n.classList.remove('active'); });
   var navEl = document.querySelector('[data-page="' + name + '"]');
   if (navEl) navEl.classList.add('active');
   var pageTab = tabbar.querySelector('[data-page-tab="' + name + '"]');
@@ -949,13 +949,13 @@ function updateToolsMenuState() {
 }
 
 document.querySelector('.sidebar-nav')?.addEventListener('click', function(e) {
-  var item = e.target.closest('.nav-item[data-page]');
+  var item = e.target.closest('.snav-card[data-page]');
   if (item) loadPage(item.dataset.page);
 });
 
 // Sync sidebar nav icons from pageIcons map
-document.querySelectorAll('.nav-item[data-page] .nav-icon').forEach(function(el){
-  var page = el.closest('.nav-item').dataset.page;
+document.querySelectorAll('.snav-card[data-page] .nav-icon').forEach(function(el){
+  var page = el.closest('.snav-card').dataset.page;
   if (page && pageIcons[page]) el.textContent = pageIcons[page];
 });
 
@@ -964,7 +964,7 @@ function buildRibbonNavPopup() {
   var popup = document.getElementById('ribbonNavPopup');
   if (!popup) return;
   popup.innerHTML = '';
-  document.querySelectorAll('.nav-item[data-page]').forEach(function(item) {
+  document.querySelectorAll('.snav-card[data-page]').forEach(function(item) {
     var page = item.dataset.page;
     if (typeof _getAllowedPages === 'function' && _getAllowedPages().indexOf(page) === -1) return;
     var icon = pageIcons[page] || '📄';

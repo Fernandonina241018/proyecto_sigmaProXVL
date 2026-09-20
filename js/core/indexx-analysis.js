@@ -1114,13 +1114,15 @@ function _initIndexxApp() {
       _restoreAllData();
       var allowed = typeof _getAllowedPages === 'function' ? _getAllowedPages() : [];
       if (allowed.length) {
-        document.querySelectorAll('.nav-item[data-page]').forEach(function(el){
+        document.querySelectorAll('.snav-card[data-page]').forEach(function(el){
           el.style.display = allowed.indexOf(el.dataset.page) !== -1 ? '' : 'none';
         });
-        var adminTitle = document.querySelector('.nav-section-title');
-        if (adminTitle) {
+        // Sin páginas de admin se oculta la sección completa (antes ocultaba
+        // por error el primer título y quedaba la tarjeta vacía).
+        var adminSec = document.querySelector('.snav-group[aria-label="Administración"]');
+        if (adminSec) {
           var hasAdminPages = allowed.indexOf('auditoria') !== -1 || allowed.indexOf('usuarios') !== -1 || allowed.indexOf('dispositivos') !== -1;
-          adminTitle.style.display = hasAdminPages ? '' : 'none';
+          adminSec.style.display = hasAdminPages ? '' : 'none';
         }
       }
       buildRibbonNavPopup();
