@@ -4300,3 +4300,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-09-20 (67): Tabs más grandes y centrados + ↻ a juego (54px)
 
 **Qué:** botones de la píldora 36→44px alto, icono 17→20px, label 13px; `align-items:center` en la píldora (con `stretch` quedaban arriba); ↻ a 54px para seguir homólogo.
+
+### 2026-09-20 (68): Botones 🚫/🗑 de filas más grandes y centrados
+
+**Qué:** nueva variante `.fglass-btn.is-row` (40px, icono 15px, radius 12px) aplicada a rechazar/eliminar de reportes; la fila ya centraba en Y. A la derecha como antes.

@@ -1194,6 +1194,9 @@
 .fglass-btn.is-danger:hover{border-color:#f87171;background:rgba(239,68,68,.12)}
 .fglass-btn.is-round{width:34px;height:34px;padding:0;border-radius:50%;font-size:14px;
   display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+/* Acciones de fila (🚫/🗑): grandes y centradas en Y vía .fglass-row. */
+.fglass-btn.is-row{min-width:40px;height:40px;padding:0 10px;font-size:15px;border-radius:12px;
+  display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
 /* ↻ homólogo a la píldora (54px = 44 botón + 5+5 padding), sigue redondo. */
 #firmaRefreshBtn.fglass-btn.is-round{width:54px;height:54px;font-size:18px;align-self:center}
 [data-theme="light"] .fp-acc{background:rgba(255,255,255,.7);border-color:rgba(20,22,40,.12);

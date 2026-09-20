@@ -1491,15 +1491,15 @@ async function firmaLoadBandeja(scope) {
       var headHtml = '<div class="fglass-row">' +
         '<div class="fglass-name">' + escapeHtml(s.name) + '</div>';
       if (s.status !== 'complete' && s.status !== 'rejected') {
-        headHtml += '<button data-reject="' + s.id + '" title="Rechazar y sacar de pendientes" class="fglass-btn">🚫</button>';
+        headHtml += '<button data-reject="' + s.id + '" title="Rechazar y sacar de pendientes" class="fglass-btn is-row">🚫</button>';
       }
       // En Mías: eliminar rechazadas (creador o admin) para limpiar reemplazos,
       // y completas (con alerta + descarga previa recomendada).
       if (_firmaBandejaScope === 'mine' && _isMine && (s.status === 'rejected' || s.status === 'complete')) {
         if (s.status === 'complete') {
-          headHtml += '<button data-del-complete="' + s.id + '" data-name="' + escapeHtml(s.name) + '" title="Eliminar reporte completo (recomienda descargar antes)" class="fglass-btn is-danger">🗑</button>';
+          headHtml += '<button data-del-complete="' + s.id + '" data-name="' + escapeHtml(s.name) + '" title="Eliminar reporte completo (recomienda descargar antes)" class="fglass-btn is-danger is-row">🗑</button>';
         } else {
-          headHtml += '<button data-del="' + s.id + '" title="Eliminar definitivamente (ya rechazada)" class="fglass-btn is-danger">🗑</button>';
+          headHtml += '<button data-del="' + s.id + '" title="Eliminar definitivamente (ya rechazada)" class="fglass-btn is-danger is-row">🗑</button>';
         }
       }
       headHtml += '</div>';
