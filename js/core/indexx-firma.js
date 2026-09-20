@@ -1526,8 +1526,9 @@ async function firmaRejectSession(id) {
       showToast('❌ ' + ((data && data.error) || 'No se pudo rechazar'), true);
       return;
     }
-    // Si era la sesión abierta, se cierra la vista de sesión (vuelve a local)
-    if (_firmaSessionId === id) { _firmaSessionId = null; _firmaSessionVersion = null; }
+    // Si era la sesión abierta, se cierra la vista de verdad (limpia pintado
+    // y snapshot; la rechazada sigue en Mías y se re-abre con clic).
+    if (_firmaSessionId === id) { firmaClearState(); firmaClearMainView(); }
     showToast('🚫 Sesión #' + id + ' rechazada');
     firmaLoadBandeja();
     firmaUpdatePendingBadge();
@@ -1553,7 +1554,9 @@ async function firmaDeleteSession(id) {
       showToast('❌ ' + ((data && data.error) || 'No se pudo eliminar'), true);
       return;
     }
-    if (_firmaSessionId === id) { _firmaSessionId = null; _firmaSessionVersion = null; }
+    // Si era la sesión abierta, se limpia vista + snapshot (antes quedaba el
+    // reporte fantasma pintado con las bandejas vacías).
+    if (_firmaSessionId === id) { firmaClearState(); firmaClearMainView(); }
     showToast('🗑 Sesión #' + id + ' eliminada');
     firmaLoadBandeja();
     firmaUpdatePendingBadge();

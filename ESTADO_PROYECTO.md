@@ -4210,3 +4210,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué (cambio único, 3 piezas):** (1) Tab "Cargado" junto a Pendientes/Mías: muestra el borrador local (nombre, conteo, Publicar/Descartar con confirm); cargar archivo o recibir pendingHtml activa el tab; publicar mueve a Mías. Modal local fpub también excluye auto-asignación (consistencia entrada 50). (2) Snapshot con sesión viva: se persisten `__firma_session_id/version`, el init ya no los anula (el polling retoma tras recargar — fix vista congelada en móvil); `_firmaRevalidateRestored()` re-abre silencioso si cambió versión, limpia si 404 (eliminada/purgada), conserva si offline o borrador. (3) Mías abre completas/rechazadas sin cambios (verificado: sin gate de status). `firmaClearMainView()` reutilizable.
 
 **Verificación:** `node --check` ×2 OK, vitest 169/169 (8 tests nuevos en `tests/firma-cargado.test.js`), backend 55/55.
+
+### 2026-09-19 (52): Fix fantasma al eliminar/rechazar sesión abierta
+
+**Qué:** `firmaDeleteSession`/`firmaRejectSession` anulaban el id pero dejaban pintado el preview y el snapshot → el reporte seguía visible con bandejas vacías (en PC y celular). Ahora, si era la sesión abierta: `firmaClearState()` + `firmaClearMainView()`. La rechazada sigue en Mías y se re-abre con clic.
+
+**Verificación:** `node --check` OK, vitest 172/172 (3 tests nuevos), backend 55/55.

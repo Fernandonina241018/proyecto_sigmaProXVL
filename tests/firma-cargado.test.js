@@ -60,7 +60,7 @@ function loadHarness(handler) {
     confirm: () => true,
     showToast: (m) => { toasts.push(String(m)); },
     escapeHtml: (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'),
-    fetchWithTimeout: async (url, opts) => handler(String(url)),
+    fetchWithTimeout: async (url, opts) => handler(String(url), opts || {}),
     Auth: { getToken: () => 't', getSession: () => ({ username: 'ana', role: 'analista' }) },
     API_URL: 'http://x',
   };
@@ -158,6 +158,61 @@ describe('Revalidación de snapshot restaurado (fix móvil)', () => {
     await vm.runInContext("firmaLoadHtml(__SESS_HTML__, 'b.html')".replace('__SESS_HTML__', JSON.stringify(SESSION_HTML)), sandbox);
     await vm.runInContext('_firmaRevalidateRestored()', sandbox);
     expect(calls).toBe(0);
+  });
+});
+
+describe('Eliminar/rechazar la sesión abierta limpia la vista', () => {
+  function loadMethodHarness(route) {
+    return loadHarness(async (url, opts) => route(String(url), opts || {}));
+  }
+  async function open99(sandbox) {
+    const ok = await vm.runInContext('_firmaOpenSession(99)', sandbox);
+    expect(ok).toBe(true);
+    expect(await vm.runInContext('firmaHasPersistedState()', sandbox)).toBe(true);
+  }
+
+  test('eliminar la abierta → vista vacía y sin snapshot', async () => {
+    const v1 = sessionV(1);
+    const { sandbox, document, toasts } = loadMethodHarness(async (url, opts) => {
+      if ((opts.method || 'GET') === 'DELETE') return { status: 200, json: async () => ({ ok: true, id: 99 }) };
+      if (url.includes('scope=')) return { status: 200, json: async () => ({ ok: true, sessions: [] }) };
+      return { status: 200, json: async () => ({ ok: true, session: v1 }) };
+    });
+    await open99(sandbox);
+    await vm.runInContext('firmaDeleteSession(99)', sandbox);
+    expect(await vm.runInContext('firmaHasPersistedState()', sandbox)).toBe(false);
+    expect(await vm.runInContext('_firmaSessionId', sandbox)).toBeNull();
+    expect(document.getElementById('firmaPreview').textContent).toMatch('Carga un reporte');
+    // firmaLoadBandeja() es async sin await: esperar el refetch antes de asertar la lista.
+    await new Promise((r) => setTimeout(r, 50));
+    expect(document.getElementById('firmaBandejaList').textContent).toMatch('Sin documentos pendientes');
+    expect(toasts.join('|')).toMatch('eliminada');
+  });
+
+  test('rechazar la abierta → vista vacía y sin snapshot', async () => {
+    const v1 = sessionV(1);
+    const { sandbox, document } = loadMethodHarness(async (url, opts) => {
+      if (url.includes('/reject')) return { status: 200, json: async () => ({ ok: true }) };
+      if (url.includes('scope=')) return { status: 200, json: async () => ({ ok: true, sessions: [] }) };
+      return { status: 200, json: async () => ({ ok: true, session: v1 }) };
+    });
+    await open99(sandbox);
+    await vm.runInContext('firmaRejectSession(99)', sandbox);
+    expect(await vm.runInContext('firmaHasPersistedState()', sandbox)).toBe(false);
+    expect(document.getElementById('firmaPreview').textContent).toMatch('Carga un reporte');
+  });
+
+  test('eliminar otra (no abierta) → la vista se conserva', async () => {
+    const v1 = sessionV(1);
+    const { sandbox, document } = loadMethodHarness(async (url, opts) => {
+      if ((opts.method || 'GET') === 'DELETE') return { status: 200, json: async () => ({ ok: true, id: 7 }) };
+      if (url.includes('scope=')) return { status: 200, json: async () => ({ ok: true, sessions: [] }) };
+      return { status: 200, json: async () => ({ ok: true, session: v1 }) };
+    });
+    await open99(sandbox);
+    await vm.runInContext('firmaDeleteSession(7)', sandbox);
+    expect(await vm.runInContext('firmaHasPersistedState()', sandbox)).toBe(true);
+    expect(document.querySelector('#firmaPreview iframe')).not.toBeNull();
   });
 });
 
