@@ -4216,3 +4216,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** `firmaDeleteSession`/`firmaRejectSession` anulaban el id pero dejaban pintado el preview y el snapshot → el reporte seguía visible con bandejas vacías (en PC y celular). Ahora, si era la sesión abierta: `firmaClearState()` + `firmaClearMainView()`. La rechazada sigue en Mías y se re-abre con clic.
 
 **Verificación:** `node --check` OK, vitest 172/172 (3 tests nuevos), backend 55/55.
+
+### 2026-09-19 (53): Inputs con letras negras + campo actual dinámico
+
+**Qué:** (1) Los inputs del modal de cambio forzado usaban `var(--text-primary)` (blanco en tema oscuro) sobre fondo blanco → texto invisible. Fijado explícito `background:#fff;color:#111827` + placeholder gris; mismo fix en `usr-reset-pwd-display` (UsuariosManager). (`indexx-analysis.js` verificado sin defecto: fondo oscuro + texto claro.) (2) Si el backend exige contraseña actual (cuenta fuera de estado temporal), el modal revela el campo CONTRASEÑA ACTUAL y reintenta con él; el endpoint ya lo aceptaba.
+
+**Verificación:** `node --check` ×2 OK, vitest 175/175 (3 tests nuevos en `tests/auth-password.test.js`), backend 55/55.

@@ -756,7 +756,7 @@ const Auth = (() => {
                 <div style="margin-bottom:12px;text-align:left;">
                     <label style="display:block;font-size:0.75rem;font-weight:600;color:var(--text-secondary,#64748b);margin-bottom:4px;">NUEVA CONTRASEÑA <span id="pwd-new-count" style="font-weight:400;color:#94a3b8;font-size:0.7rem;">(0)</span></label>
                     <div style="position:relative;">
-                        <input type="password" id="force-pwd-new" autocomplete="new-password" style="width:100%;padding:12px 38px 12px 12px;border:2px solid var(--border-color,#e2e8f0);border-radius:10px;font-size:0.9rem;box-sizing:border-box;background:var(--bg-input,#fff);color:var(--text-primary,#1e293b);">
+                        <input type="password" id="force-pwd-new" autocomplete="new-password" style="width:100%;padding:12px 38px 12px 12px;border:2px solid var(--border-color,#e2e8f0);border-radius:10px;font-size:0.9rem;box-sizing:border-box;background:#fff;color:#111827;">
                         <span id="pwd-new-toggle" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:1.1rem;line-height:1;color:#94a3b8;user-select:none;">👁</span>
                     </div>
                     <div id="force-pwd-new-error" style="font-size:0.75rem;color:#dc2626;margin-top:4px;display:none;"></div>
@@ -774,7 +774,7 @@ const Auth = (() => {
                 <div style="margin-bottom:12px;text-align:left;">
                     <label style="display:block;font-size:0.75rem;font-weight:600;color:var(--text-secondary,#64748b);margin-bottom:4px;">CONFIRMAR CONTRASEÑA <span id="pwd-confirm-count" style="font-weight:400;color:#94a3b8;font-size:0.7rem;">(0)</span></label>
                     <div style="position:relative;">
-                        <input type="password" id="force-pwd-confirm" autocomplete="new-password" style="width:100%;padding:12px 38px 12px 12px;border:2px solid var(--border-color,#e2e8f0);border-radius:10px;font-size:0.9rem;box-sizing:border-box;background:var(--bg-input,#fff);color:var(--text-primary,#1e293b);">
+                        <input type="password" id="force-pwd-confirm" autocomplete="new-password" style="width:100%;padding:12px 38px 12px 12px;border:2px solid var(--border-color,#e2e8f0);border-radius:10px;font-size:0.9rem;box-sizing:border-box;background:#fff;color:#111827;">
                         <span id="pwd-confirm-toggle" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:1.1rem;line-height:1;color:#94a3b8;user-select:none;">👁</span>
                     </div>
                     <div id="force-pwd-confirm-error" style="font-size:0.75rem;color:#dc2626;margin-top:4px;display:none;"></div>
@@ -782,12 +782,20 @@ const Auth = (() => {
 
                 <div style="margin-bottom:16px;text-align:left;">
                     <label style="display:block;font-size:0.75rem;font-weight:600;color:var(--text-secondary,#64748b);margin-bottom:4px;">CÓDIGO DE FIRMA <span style="font-weight:400;color:#dc2626;font-size:0.7rem;">*obligatorio</span></label>
-                    <input type="text" id="force-pwd-sig" maxlength="50" placeholder="Ej: fn24" style="width:100%;padding:12px;border:2px solid var(--border-color,#e2e8f0);border-radius:10px;font-size:0.9rem;box-sizing:border-box;background:var(--bg-input,#fff);color:var(--text-primary,#1e293b);font-family:monospace;">
+                    <input type="text" id="force-pwd-sig" maxlength="50" placeholder="Ej: fn24" style="width:100%;padding:12px;border:2px solid var(--border-color,#e2e8f0);border-radius:10px;font-size:0.9rem;box-sizing:border-box;background:#fff;color:#111827;font-family:monospace;">
                     <div id="force-pwd-sig-error" style="font-size:0.75rem;color:#dc2626;margin-top:4px;display:none;"></div>
                     <div style="font-size:0.7rem;color:var(--text-faint,#94a3b8);margin-top:2px;">Mínimo 3 caracteres. Se usará para firmar reportes electrónicos.</div>
                 </div>
 
+                <div id="force-pwd-current-wrap" style="margin-bottom:12px;text-align:left;display:none;">
+                    <label style="display:block;font-size:0.75rem;font-weight:600;color:var(--text-secondary,#64748b);margin-bottom:4px;">CONTRASEÑA ACTUAL</label>
+                    <input type="password" id="force-pwd-current" autocomplete="current-password" style="width:100%;padding:12px;border:2px solid var(--border-color,#e2e8f0);border-radius:10px;font-size:0.9rem;box-sizing:border-box;background:#fff;color:#111827;">
+                    <div id="force-pwd-current-error" style="font-size:0.75rem;color:#dc2626;margin-top:4px;display:none;"></div>
+                    <div style="font-size:0.7rem;color:var(--text-faint,#94a3b8);margin-top:2px;">Tu cuenta ya no está en estado temporal: confirma tu contraseña vigente.</div>
+                </div>
+
                 <div id="force-pwd-msg" style="display:none;"></div>
+                <style>#force-pwd-modal input::placeholder{color:#9ca3b8;opacity:1;}</style>
 
                 <button id="force-pwd-submit" style="padding:14px 20px;background:linear-gradient(135deg,#3b82f6,#2563eb);color:white;border:none;border-radius:12px;cursor:pointer;font-weight:600;width:100%;font-size:1rem;">Cambiar contraseña</button>
             </div>`;
@@ -845,6 +853,8 @@ const Auth = (() => {
         confirmInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('force-pwd-submit').click(); });
 
         const sigInput = document.getElementById('force-pwd-sig');
+        const curInput = document.getElementById('force-pwd-current');
+        const curWrap = document.getElementById('force-pwd-current-wrap');
 
         document.getElementById('force-pwd-submit').addEventListener('click', async () => {
             const newPwd = newInput.value;
@@ -872,7 +882,7 @@ const Auth = (() => {
             submitBtn.disabled = true;
             submitBtn.textContent = 'Cambiando...';
 
-            const result = await _changePassword(newPwd, sigCode);
+            const result = await _changePassword(newPwd, sigCode, curInput.value);
             if (result.ok) {
                 showToast('✅ Contraseña y código de firma configurados');
                 modal.remove();
@@ -884,6 +894,11 @@ const Auth = (() => {
                 _registerActivityListeners();
                 if (_onLogin) _onLogin(session || userData);
             } else {
+                // La cuenta salió del estado temporal: revelar campo actual y reintentar con él.
+                if (/actual/i.test(result.error || '') && curWrap.style.display !== 'block') {
+                    curWrap.style.display = 'block';
+                    curInput.focus();
+                }
                 msgEl.textContent = '❌ ' + (result.error || 'Error al cambiar contraseña');
                 msgEl.style.cssText = 'display:block;color:#dc2626;background:#fef2f2;padding:12px;border-radius:10px;margin-top:12px;font-size:0.85rem;';
                 submitBtn.disabled = false;
@@ -892,10 +907,11 @@ const Auth = (() => {
         });
     }
 
-    async function _changePassword(newPassword, signatureCode) {
+    async function _changePassword(newPassword, signatureCode, currentPassword) {
         try {
             const body = { newPassword };
             if (signatureCode) body.signatureCode = signatureCode;
+            if (currentPassword) body.currentPassword = currentPassword;
             const res = await fetchWithTimeout(`${CFG.API_URL}/api/users/password`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${_token}` },

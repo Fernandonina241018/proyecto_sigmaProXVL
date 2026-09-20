@@ -518,7 +518,7 @@ function _generateSecurePassword(length) {
                 <div style="background:var(--bg-input,#f8fafc);border:2px solid var(--border-color,#e2e8f0);border-radius:10px;padding:12px;margin-bottom:12px;">
                     <div style="font-size:0.75rem;font-weight:600;color:var(--text-secondary,#64748b);margin-bottom:4px;">CONTRASEÑA GENERADA</div>
                     <div style="display:flex;gap:8px;align-items:center;">
-                        <input type="text" readonly value="${escapeHtml(newPwd)}" id="usr-reset-pwd-display" style="flex:1;padding:10px;border:1px solid #d1d5db;border-radius:8px;font-family:monospace;font-size:0.9rem;background:var(--bg-card,#fff);color:var(--text-primary,#1e293b);">
+                        <input type="text" readonly value="${escapeHtml(newPwd)}" id="usr-reset-pwd-display" style="flex:1;padding:10px;border:1px solid #d1d5db;border-radius:8px;font-family:monospace;font-size:0.9rem;background:#fff;color:#111827;">
                         <button id="usr-reset-copy-btn" style="padding:10px 14px;background:var(--bg-input,#e2e8f0);border:none;border-radius:8px;cursor:pointer;font-size:1.1rem;" title="Copiar">📋</button>
                     </div>
                 </div>
