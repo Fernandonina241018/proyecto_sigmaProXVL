@@ -4376,3 +4376,17 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Qué:** secciones a `details.gl` (Tipo/Variables/Estilo/Acciones, abiertas) sobre sistema `.datos`; estilos internos `.viz-root` y todos los IDs/handlers intactos (`vizToggleSec` queda sin uso). Mínimo 450px con apertura en ese mínimo.
 
 **Verificación:** `node --check` OK, vitest 195/195. Visual pendiente del usuario.
+
+### 2026-09-22 (82): Remediación auditoría estadística — 4 SEVERE + MODERATE
+
+**Qué:** fix de los hallazgos del informe de auditoría estadística en `js/core/indexx-stats-core.js` + `js/core/EstadisticaDescriptiva.js` + nuevo `tests/stats-audit-fix.test.js` (19 tests).
+- SEVERE-1 `erf()` (:1970): fórmula A&S mal transcripta (`poly·t⁵`, `e^(−x²)` global) → `erf→0`, `calcularCDF_T`→0.5, **p=1 para df>120**. Corregida a A&S 7.1.26 (error <1e-6 vs referencia).
+- SEVERE-2 OLS múltiple (:2191): SE usaba última columna de `(X'X)⁻¹` en vez de diagonal → ahora `√(s²·diag)` verificado contra solver independiente.
+- SEVERE-3 Shapiro p (:1196): `0.05±diff·5` fabricado → transformada tipo-Royston `z=(ln(1−W)−m)/s` con m,s **calibrados por simulación** (numpy, semilla 20260922, formas de Royston/AS R94; Type-I 4–6% n≥8, ver comentario en código).
+- SEVERE-4 LDA (:3167-3181): `1−p` invertido + Mahalanobis indexado por clase + `labels.indexOf(classes[…])` (−1 con labels string) → p directo, diagonal por variable, `labIdx`, confusión correcta.
+- MODERATE: Signos CC (`+0.5` hacia la media; golden 9/10→p≈0.0269), Wilcoxon empates `/48`, Pearson IC Fisher-z con 1.96 (no t-crítico), Kendall empates-dobles + guarda NaN.
+- Pairing por filas: helper `getPairedValues()` (filas completas) reemplaza `slice(0,minLength)` en Pearson/Spearman/RegSimple/RegMúltiple/Covarianza/Kendall/RMSE/Wilcoxon/Signos/Chi²-fallback. T-dos-muestras (grupos independientes) intacto.
+- Unilaterales (antes muertos): `alternativa='bilateral'|'mayor'|'menor'` en t-tests, Wilcoxon, Signos, MW, Pearson, Spearman, Kendall + helpers `normalizarAlternativa/valorPNormalAlternativa/valorPTAlternativa`. Default bilateral = conducta anterior intacta.
+- Exports aditivos: `erf, calcularCDF_T`, helpers alternativa, `getPairedValues` (solo para testear; sin cambios de API existente).
+
+**Verificación:** `node --check` OK ×2, vitest **214/214** (195+19), backend 60/60, réplica node 36/36, calibración Python Type-I 4–6% + potencia exponencial >80%. Nota: `npx` cuelga en red en este entorno → usar `./node_modules/.bin/vitest`.

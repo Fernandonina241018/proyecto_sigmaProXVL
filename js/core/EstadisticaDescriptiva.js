@@ -66,6 +66,23 @@ const EstadisticaDescriptiva = (() => {
         analizarColumna, analizarTodasLasColumnas,
         formatReferencia, generarReporte, getStatMeta
     } = __core;
+
+    // FIX-AUDIT (pairing por filas): extrae columnas ALINEADAS por fila — conserva solo
+    // las filas donde TODAS las columnas son numéricas válidas (misma semántica parseFloat
+    // + isFinite que Stats.getNumericValues). Reemplaza el patrón
+    // getNumericValues(col) + slice(0, minLength), que desalineaba pares cuando había
+    // NaN/vacíos en posiciones distintas por columna.
+    function getPairedValues(data, cols) {
+        if (!data || !data.headers || !data.data || !Array.isArray(cols) || cols.length === 0) return [];
+        const idxs = cols.map(c => data.headers.indexOf(c));
+        if (idxs.some(i => i === -1)) return [];
+        const out = cols.map(() => []);
+        for (const row of data.data) {
+            const vals = cols.map((c, k) => parseFloat(Array.isArray(row) ? row[idxs[k]] : row[c]));
+            if (vals.every(v => !isNaN(v) && isFinite(v))) vals.forEach((v, k) => out[k].push(v));
+        }
+        return out;
+    }
     
     function ejecutarAnalisis(data, estadisticos, hypothesisConfig = {}) {
         // Imputación si está configurada
@@ -320,9 +337,9 @@ const EstadisticaDescriptiva = (() => {
                         resultados['Chi-Cuadrado'].valores1 = valores1;
                         resultados['Chi-Cuadrado'].valores2 = valores2;
                     } else if (numericCols.length >= 2) {
-                        // Fallback: usar columnas numéricas con binning (comportamiento anterior)
-                        const col1 = getNumericValues(data, numericCols[0]);
-                        const col2 = getNumericValues(data, numericCols[1]);
+                        // Fallback: usar columnas numéricas con binning (pareadas por fila)
+                        // FIX-AUDIT: antes dos filtros independientes + col2[i] desalineado
+                        const [col1, col2] = getPairedValues(data, [numericCols[0], numericCols[1]]);
                         const bins = 4;
                         const min1 = Math.min(...col1), max1 = Math.max(...col1);
                         const min2 = Math.min(...col2), max2 = Math.max(...col2);
@@ -614,23 +631,18 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                              resultados['Correlación Pearson'] = { error: 'Seleccione ambas columnas X e Y' };
                          } else if (colX === colY) {
                              resultados['Correlación Pearson'] = { error: 'Las columnas X e Y deben ser diferentes' };
-                         } else {
-                             const valuesX = getNumericValues(data, colX);
-                             const valuesY = getNumericValues(data, colY);
-                             
-                             if (valuesX.length === 0 || valuesY.length === 0) {
-                                 resultados['Correlación Pearson'] = { error: 'Una o ambas columnas no tienen valores numéricos válidos' };
-                             } else {
-                                 // Tomar la longitud mínima para emparejar valores
-                                 const minLength = Math.min(valuesX.length, valuesY.length);
-                                 const xValues = valuesX.slice(0, minLength);
-                                 const yValues = valuesY.slice(0, minLength);
-                                 
-                                 resultados['Correlación Pearson'] = calcularCorrelacionPearson(xValues, yValues);
-                                 resultados['Correlación Pearson'].columnaX = colX;
-                                 resultados['Correlación Pearson'].columnaY = colY;
-                             }
-                         }
+                          } else {
+                              // FIX-AUDIT: pares alineados por fila (antes slice por longitud mínima desalineaba con NaN)
+                              const [xValues, yValues] = getPairedValues(data, [colX, colY]);
+
+                              if (xValues.length === 0 || yValues.length === 0) {
+                                  resultados['Correlación Pearson'] = { error: 'Una o ambas columnas no tienen valores numéricos válidos' };
+                              } else {
+                                  resultados['Correlación Pearson'] = calcularCorrelacionPearson(xValues, yValues);
+                                  resultados['Correlación Pearson'].columnaX = colX;
+                                  resultados['Correlación Pearson'].columnaY = colY;
+                              }
+                          }
                      } else {
                          resultados['Correlación Pearson'] = { error: 'Configuración no encontrada. Configure la correlación en el menú de hipótesis.' };
                      }
@@ -645,23 +657,18 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                              resultados['Correlación Spearman'] = { error: 'Seleccione ambas columnas X e Y' };
                          } else if (colX === colY) {
                              resultados['Correlación Spearman'] = { error: 'Las columnas X e Y deben ser diferentes' };
-                         } else {
-                             const valuesX = getNumericValues(data, colX);
-                             const valuesY = getNumericValues(data, colY);
-                             
-                             if (valuesX.length === 0 || valuesY.length === 0) {
-                                 resultados['Correlación Spearman'] = { error: 'Una o ambas columnas no tienen valores numéricos válidos' };
-                             } else {
-                                 // Tomar la longitud mínima para emparejar valores
-                                 const minLength = Math.min(valuesX.length, valuesY.length);
-                                 const xValues = valuesX.slice(0, minLength);
-                                 const yValues = valuesY.slice(0, minLength);
-                                 
-                                 resultados['Correlación Spearman'] = calcularCorrelacionSpearman(xValues, yValues);
-                                 resultados['Correlación Spearman'].columnaX = colX;
-                                 resultados['Correlación Spearman'].columnaY = colY;
-                             }
-                         }
+                          } else {
+                              // FIX-AUDIT: pares alineados por fila
+                              const [xValues, yValues] = getPairedValues(data, [colX, colY]);
+
+                              if (xValues.length === 0 || yValues.length === 0) {
+                                  resultados['Correlación Spearman'] = { error: 'Una o ambas columnas no tienen valores numéricos válidos' };
+                              } else {
+                                  resultados['Correlación Spearman'] = calcularCorrelacionSpearman(xValues, yValues);
+                                  resultados['Correlación Spearman'].columnaX = colX;
+                                  resultados['Correlación Spearman'].columnaY = colY;
+                              }
+                          }
                      } else {
                          resultados['Correlación Spearman'] = { error: 'Configuración no encontrada. Configure la correlación en el menú de hipótesis.' };
                      }
@@ -676,22 +683,18 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                              resultados['Regresión Lineal Simple'] = { error: 'Seleccione columnas X e Y' };
                          } else if (colX === colY) {
                              resultados['Regresión Lineal Simple'] = { error: 'Las columnas X e Y deben ser diferentes' };
-                         } else {
-                             const valuesX = getNumericValues(data, colX);
-                             const valuesY = getNumericValues(data, colY);
-                             
-                             if (valuesX.length === 0 || valuesY.length === 0) {
-                                 resultados['Regresión Lineal Simple'] = { error: 'Una o ambas columnas no tienen valores numéricos válidos' };
-                             } else {
-                                 const minLength = Math.min(valuesX.length, valuesY.length);
-                                 const xValues = valuesX.slice(0, minLength);
-                                 const yValues = valuesY.slice(0, minLength);
-                                 
-                                 resultados['Regresión Lineal Simple'] = calcularRegresionLinealSimple(xValues, yValues);
-                                 resultados['Regresión Lineal Simple'].columnaX = colX;
-                                 resultados['Regresión Lineal Simple'].columnaY = colY;
-                             }
-                         }
+                          } else {
+                              // FIX-AUDIT: pares alineados por fila
+                              const [xValues, yValues] = getPairedValues(data, [colX, colY]);
+
+                              if (xValues.length === 0 || yValues.length === 0) {
+                                  resultados['Regresión Lineal Simple'] = { error: 'Una o ambas columnas no tienen valores numéricos válidos' };
+                              } else {
+                                  resultados['Regresión Lineal Simple'] = calcularRegresionLinealSimple(xValues, yValues);
+                                  resultados['Regresión Lineal Simple'].columnaX = colX;
+                                  resultados['Regresión Lineal Simple'].columnaY = colY;
+                              }
+                          }
                       } else {
                           resultados['Regresión Lineal Simple'] = { error: 'Configure la regresión en el menú de correlación.' };
                       }
@@ -705,19 +708,18 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                           if (!colY || !colsX || colsX.length === 0) {
                               resultados['Regresión Lineal Múltiple'] = { error: 'Seleccione variable Y y al menos una X' };
                           } else {
-                              const yValues = getNumericValues(data, colY);
-                              const xValues = colsX.map(col => getNumericValues(data, col));
-                              
-                              if (yValues.length === 0 || xValues.some(arr => arr.length === 0)) {
+                              // FIX-AUDIT: filas completas alineadas en Y + todas las X (antes slice por longitud mínima desalineaba)
+                              const paired = getPairedValues(data, [colY, ...colsX]);
+                              const ySlice = paired[0] || [];
+                              const xCols = paired.slice(1);
+
+                              if (ySlice.length === 0 || xCols.some(arr => arr.length === 0)) {
                                   resultados['Regresión Lineal Múltiple'] = { error: 'Una o más columnas no tienen valores numéricos válidos' };
                               } else {
-                                  const minLength = Math.min(yValues.length, ...xValues.map(arr => arr.length));
-                                  const ySlice = yValues.slice(0, minLength);
-                                  
                                   // CORRECCIÓN: Transponer X para que cada array interno sea una observación
                                   const xTransposed = [];
-                                  for (let i = 0; i < minLength; i++) {
-                                      const row = xValues.map(arr => arr[i]);
+                                  for (let i = 0; i < ySlice.length; i++) {
+                                      const row = xCols.map(arr => arr[i]);
                                       xTransposed.push(row);
                                   }
                                   
@@ -853,11 +855,11 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                              resultados['Covarianza'] = { error: 'Seleccione ambas columnas X e Y' };
                          } else if (colX === colY) {
                              resultados['Covarianza'] = { error: 'Las columnas X e Y deben ser diferentes' };
-                         } else {
-                             const valuesX = getNumericValues(data, colX);
-                             const valuesY = getNumericValues(data, colY);
-                             const minLength = Math.min(valuesX.length, valuesY.length);
-                             const cov = calcularCovarianza(valuesX.slice(0, minLength), valuesY.slice(0, minLength));
+                          } else {
+                              // FIX-AUDIT: pares alineados por fila
+                              const [xValues, yValues] = getPairedValues(data, [colX, colY]);
+                              const minLength = xValues.length;
+                              const cov = calcularCovarianza(xValues, yValues);
                              resultados['Covarianza'] = {
                                  covarianza: cov,
                                  columnaX: colX,
@@ -879,11 +881,10 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                              resultados['Correlación Kendall Tau'] = { error: 'Seleccione ambas columnas X e Y' };
                          } else if (colX === colY) {
                              resultados['Correlación Kendall Tau'] = { error: 'Las columnas X e Y deben ser diferentes' };
-                         } else {
-                             const valuesX = getNumericValues(data, colX);
-                             const valuesY = getNumericValues(data, colY);
-                             const minLength = Math.min(valuesX.length, valuesY.length);
-                             resultados['Correlación Kendall Tau'] = calcularKendallTau(valuesX.slice(0, minLength), valuesY.slice(0, minLength));
+                          } else {
+                              // FIX-AUDIT: pares alineados por fila
+                              const [xValues, yValues] = getPairedValues(data, [colX, colY]);
+                              resultados['Correlación Kendall Tau'] = calcularKendallTau(xValues, yValues);
                              resultados['Correlación Kendall Tau'].columnaX = colX;
                              resultados['Correlación Kendall Tau'].columnaY = colY;
                          }
@@ -904,12 +905,12 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                              resultados['RMSE'] = { error: 'Las columnas seleccionadas no son válidas. Reconfigure las métricas de error.' };
                          } else if (colObs === colPred) {
                              resultados['RMSE'] = { error: 'Las columnas deben ser diferentes' };
-                         } else {
-                             const obs = getNumericValues(data, colObs);
-                             const pred = getNumericValues(data, colPred);
-                             const minLength = Math.min(obs.length, pred.length);
-                             resultados['RMSE'] = {
-                                 rmse: calcularRMSE(obs.slice(0, minLength), pred.slice(0, minLength)),
+                          } else {
+                              // FIX-AUDIT: pares alineados por fila
+                              const [obs, pred] = getPairedValues(data, [colObs, colPred]);
+                              const minLength = obs.length;
+                              resultados['RMSE'] = {
+                                  rmse: calcularRMSE(obs, pred),
                                  columnaObservada: colObs,
                                  columnaPredicha: colPred,
                                  n: minLength
@@ -1052,19 +1053,17 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                           const col2 = cfg.numericCols?.[1];
                           if (!col1 || !col2) {
                               resultados['Wilcoxon'] = { error: 'Seleccione dos columnas numéricas pareadas' };
-                          } else {
-                              const values1 = getNumericValues(data, col1);
-                              const values2 = getNumericValues(data, col2);
-                              if (values1.length < 5 || values2.length < 5) {
-                                  resultados['Wilcoxon'] = { error: 'Se necesitan al menos 5 observaciones por muestra' };
-                              } else if (values1.length !== values2.length) {
-                                  resultados['Wilcoxon'] = { error: 'Las muestras deben tener el mismo tamaño (muestras pareadas)' };
-                              } else {
-                                  resultados['Wilcoxon'] = calcularWilcoxon(values1, values2);
-                                  resultados['Wilcoxon'].columna1 = col1;
-                                  resultados['Wilcoxon'].columna2 = col2;
-                              }
-                          }
+                           } else {
+                               // FIX-AUDIT: pareo por fila (antes dos filtros independientes desalineaban + error de tamaño)
+                               const [values1, values2] = getPairedValues(data, [col1, col2]);
+                               if (values1.length < 5 || values2.length < 5) {
+                                   resultados['Wilcoxon'] = { error: 'Se necesitan al menos 5 pares completos' };
+                               } else {
+                                   resultados['Wilcoxon'] = calcularWilcoxon(values1, values2);
+                                   resultados['Wilcoxon'].columna1 = col1;
+                                   resultados['Wilcoxon'].columna2 = col2;
+                               }
+                           }
                       } else {
                           resultados['Wilcoxon'] = { error: 'Seleccione dos columnas numéricas pareadas' };
                       }
@@ -1117,13 +1116,13 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                           const col2 = cfg.numericCols?.[1];
                           if (!col1 || !col2) {
                               resultados['Test de Signos'] = { error: 'Seleccione dos columnas numéricas pareadas' };
-                          } else {
-                              const values1 = getNumericValues(data, col1);
-                              const values2 = getNumericValues(data, col2);
-                              if (values1.length < 5) {
-                                  resultados['Test de Signos'] = { error: 'Se necesitan al menos 5 observaciones' };
-                              } else {
-                                  resultados['Test de Signos'] = calcularTestSignos(values1, values2);
+                           } else {
+                               // FIX-AUDIT: pareo por fila
+                               const [values1, values2] = getPairedValues(data, [col1, col2]);
+                               if (values1.length < 5) {
+                                   resultados['Test de Signos'] = { error: 'Se necesitan al menos 5 pares completos' };
+                               } else {
+                                   resultados['Test de Signos'] = calcularTestSignos(values1, values2);
 resultados['Test de Signos'].columna1 = col1;
                                     resultados['Test de Signos'].columna2 = col2;
                                 }
@@ -2849,6 +2848,7 @@ function generarHTML(analisisResultado) {
         
         // Utilidades
         getNumericColumns,
+        getPairedValues, // FIX-AUDIT: pareo por filas para análisis de dos+ columnas
         
         // ════════════════════════════════════════════════════════════════════════════════
         // FUNCIONES DE CALIDAD

@@ -226,6 +226,30 @@
     }
 
     /**
+     * Valor p según hipótesis alternativa ('bilateral' por defecto, 'mayor', 'menor').
+     * FIX-AUDIT: los tests unilaterales estaban "muertos" (solo existía bilateral).
+     * El default 'bilateral' reproduce exactamente el comportamiento anterior.
+     */
+    function normalizarAlternativa(alternativa) {
+        const a = String(alternativa || 'bilateral').toLowerCase();
+        if (a === 'mayor' || a === 'greater' || a === '>' || a === 'unilateral-mayor') return 'mayor';
+        if (a === 'menor' || a === 'less' || a === '<' || a === 'unilateral-menor') return 'menor';
+        return 'bilateral';
+    }
+    function valorPNormalAlternativa(zSigned, alternativa) {
+        const a = normalizarAlternativa(alternativa);
+        if (a === 'mayor') return Math.max(0, Math.min(1, 1 - normalCDF(zSigned)));
+        if (a === 'menor') return Math.max(0, Math.min(1, normalCDF(zSigned)));
+        return Math.max(0, Math.min(1, 2 * (1 - normalCDF(Math.abs(zSigned)))));
+    }
+    function valorPTAlternativa(tSigned, df, alternativa) {
+        const a = normalizarAlternativa(alternativa);
+        if (a === 'mayor') return Math.max(0, Math.min(1, 1 - calcularCDF_T(tSigned, df)));
+        if (a === 'menor') return Math.max(0, Math.min(1, calcularCDF_T(tSigned, df)));
+        return calcularValorP_T(tSigned, df);
+    }
+
+    /**
      * Aproximación de la función Beta incompleta regularizada
      */
     function betaIncomplete(a, b, x) {
@@ -319,7 +343,7 @@
      * T-Test de una muestra
      * Compara la media muestral con un valor hipotético
      */
-    function calcularTTestUnaMuestra(values, mediaHipotesis = 0) {
+    function calcularTTestUnaMuestra(values, mediaHipotesis = 0, alternativa = 'bilateral') {
         values = values.filter(v => !isNaN(v) && isFinite(v));
         const n = values.length;
         if (n < 2) return { error: 'Se necesitan al menos 2 observaciones válidas' };
@@ -330,12 +354,15 @@
         const se = sd / Math.sqrt(n);
         const t = (media - mediaHipotesis) / se;
         const df = n - 1;
-        const valorP = calcularValorP_T(t, df);
+        const alt = normalizarAlternativa(alternativa);
+        const valorP = valorPTAlternativa(t, df, alt);
+        const h1 = alt === 'mayor' ? 'mayor que' : alt === 'menor' ? 'menor que' : 'diferente de';
 
         return {
             prueba: 'T-Test (una muestra)',
             mediaMuestral: media,
             mediaHipotesis: mediaHipotesis,
+            alternativa: alt,
             desviacionEstandar: sd,
             errorEstandar: se,
             estadisticoT: t,
@@ -343,8 +370,8 @@
             valorP: valorP,
             significativo: valorP < 0.05,
             interpretacion: valorP < 0.05
-                ? `Se rechaza H₀ (p=${valorP.toFixed(4)} < 0.05). La media (${media.toFixed(4)}) es significativamente diferente de ${mediaHipotesis}.`
-                : `No se rechaza H₀ (p=${valorP.toFixed(4)} ≥ 0.05). No hay evidencia suficiente para concluir que la media difiere de ${mediaHipotesis}.`
+                ? `Se rechaza H₀ (p=${valorP.toFixed(4)} < 0.05). La media (${media.toFixed(4)}) es significativamente ${h1} ${mediaHipotesis}.`
+                : `No se rechaza H₀ (p=${valorP.toFixed(4)} ≥ 0.05). No hay evidencia suficiente para concluir que la media es ${h1} ${mediaHipotesis}.`
         };
     }
 
@@ -352,7 +379,7 @@
      * T-Test de dos muestras independientes
      * Compara las medias de dos grupos
      */
-    function calcularTTestDosMuestras(values) {
+    function calcularTTestDosMuestras(values, alternativa = 'bilateral') {
         if (!Array.isArray(values) || values.length !== 2) {
             return { error: 'Se requieren exactamente 2 grupos de datos' };
         }
@@ -378,19 +405,22 @@
         const den = Math.pow(var1 / n1, 2) / (n1 - 1) + Math.pow(var2 / n2, 2) / (n2 - 1);
         const df = num / den;
 
-        const valorP = calcularValorP_T(t, df);
+        const alt = normalizarAlternativa(alternativa);
+        const valorP = valorPTAlternativa(t, df, alt);
+        const h1 = alt === 'mayor' ? 'media1 > media2' : alt === 'menor' ? 'media1 < media2' : 'medias diferentes';
 
         return {
             prueba: 'T-Test (dos muestras)',
             grupo1: { n: n1, media: media1, varianza: var1 },
             grupo2: { n: n2, media: media2, varianza: var2 },
+            alternativa: alt,
             diferenciaMedias: media1 - media2,
             estadisticoT: t,
             gradosLibertad: df,
             valorP: valorP,
             significativo: valorP < 0.05,
             interpretacion: valorP < 0.05
-                ? `Se rechaza H₀ (p=${valorP.toFixed(4)} < 0.05). Las medias son significativamente diferentes.`
+                ? `Se rechaza H₀ (p=${valorP.toFixed(4)} < 0.05). Evidencia de ${h1}.`
                 : `No se rechaza H₀ (p=${valorP.toFixed(4)} ≥ 0.05). No hay diferencia significativa entre las medias.`
         };
     }
@@ -400,7 +430,7 @@
      * Alternativa no-paramétrica al t-test de dos muestras
      * No asume distribución normal ni varianzas iguales
      */
-    function calcularMannWhitneyU(grupo1, grupo2) {
+    function calcularMannWhitneyU(grupo1, grupo2, alternativa = 'bilateral') {
         if (!Array.isArray(grupo1) || !Array.isArray(grupo2)) {
             return { error: 'Se requieren dos arrays de datos' };
         }
@@ -450,8 +480,10 @@
         const sdU = Math.sqrt((n1 * n2 * (n1 + n2 + 1)) / 12);
         const z = (U - meanU) / sdU;
 
-        // Valor p bilateral
-        const p = 2 * normalCDF(z);
+        // Unilateral usa U1 con signo ('mayor' = grupo1 > grupo2); bilateral idéntico al anterior
+        const alt = normalizarAlternativa(alternativa);
+        const zSigned = (U1 - meanU) / sdU;
+        const p = alt === 'bilateral' ? 2 * normalCDF(z) : valorPNormalAlternativa(zSigned, alt);
 
         // Tamaño del efecto (r de correlación)
         const N = n1 + n2;
@@ -471,10 +503,11 @@
             prueba: 'Test de Mann-Whitney U',
             grupo1: { n: n1, mediana: mediana1, sumaRangos: R1 },
             grupo2: { n: n2, mediana: mediana2, sumaRangos: R2 },
+            alternativa: alt,
             U1: parseFloat(U1.toFixed(4)),
             U2: parseFloat(U2.toFixed(4)),
             U: parseFloat(U.toFixed(4)),
-            z: parseFloat(z.toFixed(4)),
+            z: parseFloat((alt === 'bilateral' ? z : zSigned).toFixed(4)),
             valorP: parseFloat(p.toFixed(6)),
             significativo: p < 0.05,
             tamanoEfecto: parseFloat(r.toFixed(4)),
@@ -576,7 +609,7 @@
      * Test de Wilcoxon (signed-rank test)
      * Para muestras pareadas - alternativa no paramétrica al t-test pareado
      */
-    function calcularWilcoxon(datos1, datos2) {
+    function calcularWilcoxon(datos1, datos2, alternativa = 'bilateral') {
         if (!Array.isArray(datos1) || !Array.isArray(datos2) || datos1.length !== datos2.length) {
             return { error: 'Las muestras deben tener el mismo tamaño' };
         }
@@ -636,21 +669,26 @@
         const meanW = (N * (N + 1)) / 4;
         let varW = (N * (N + 1) * (2 * N + 1)) / 24;
         
-        // Corrección por empates
+        // Corrección por empates: Var(W) = N(N+1)(2N+1)/24 − Σ(t³−t)/48
+        // FIX-AUDIT: antes se dividía por 24·N·(N−1) → varianza inflada, p erróneo con empates
         if (correccionEmpates > 0) {
-            varW -= (correccionEmpates / (24 * N * (N - 1)));
+            varW -= (correccionEmpates / 48);
         }
         
         const z = (W - meanW) / Math.sqrt(varW);
-        const p = 2 * (1 - normalCDF(Math.abs(z))); // Bilateral
-        
+        // Unilateral usa z con signo desde Wpos ('mayor' = datos2 > datos1); bilateral idéntico al anterior
+        const alt = normalizarAlternativa(alternativa);
+        const zSigned = (Wpos - meanW) / Math.sqrt(varW);
+        const p = alt === 'bilateral' ? 2 * (1 - normalCDF(Math.abs(z))) : valorPNormalAlternativa(zSigned, alt);
+
         return {
             prueba: 'Test de Wilcoxon',
             n: N,
+            alternativa: alt,
             W: parseFloat(W.toFixed(4)),
             Wpositivo: parseFloat(Wpos.toFixed(4)),
             Wnegativo: parseFloat(Wneg.toFixed(4)),
-            z: parseFloat(z.toFixed(4)),
+            z: parseFloat((alt === 'bilateral' ? z : zSigned).toFixed(4)),
             valorP: parseFloat(p.toFixed(6)),
             significativo: p < 0.05,
             interpretacion: p < 0.05
@@ -746,7 +784,7 @@
      * Test de Signos (Sign test)
      * Para muestras pareadas - prueba no paramétrica simple
      */
-    function calcularTestSignos(datos1, datos2) {
+    function calcularTestSignos(datos1, datos2, alternativa = 'bilateral') {
         if (!Array.isArray(datos1) || !Array.isArray(datos2)) {
             return { error: 'Datos inválidos' };
         }
@@ -772,17 +810,25 @@
         // Usar el menor de los dos conteos como estadístico
         const k = Math.min(positivos, negativos);
         
-        // Aproximación normal (con corrección de continuidad)
+        // Aproximación normal (con corrección de continuidad hacia la media;
+        // k = min(positivos,negativos) ≤ media → se suma 0.5)
+        // FIX-AUDIT: antes (k - mean - 0.5) alejaba de la media → |z| inflado, p subestimado
         const mean = N / 2;
         const varianza = N / 4;
-        const z = (k - mean - 0.5) / Math.sqrt(varianza);
-        
-        // Valor p bilateral
-        const p = 2 * (1 - normalCDF(Math.abs(z)));
-        
+        const z = (k - mean + 0.5) / Math.sqrt(varianza);
+
+        // Unilateral con CC hacia la media ('mayor' = más positivos); bilateral idéntico al anterior
+        const alt = normalizarAlternativa(alternativa);
+        const zMayor = (positivos - 0.5 - mean) / Math.sqrt(varianza);
+        const zMenor = (positivos + 0.5 - mean) / Math.sqrt(varianza);
+        const p = alt === 'bilateral' ? 2 * (1 - normalCDF(Math.abs(z)))
+            : alt === 'mayor' ? Math.max(0, Math.min(1, 1 - normalCDF(zMayor)))
+            : Math.max(0, Math.min(1, normalCDF(zMenor)));
+
         return {
             prueba: 'Test de Signos',
             n: n,
+            alternativa: alt,
             ceros: ceros,
             positivos: positivos,
 negativos: negativos,
@@ -1158,53 +1204,39 @@ negativos: negativos,
          return a;
      }
 
-     /**
-      * Calcula valor p para Shapiro-Wilk
-      * Usa tabla de valores críticos interpolada para n=3 a 5000
-      */
-     function calcularValorP_ShapiroWilk(W, n) {
-         // Tabla de valores críticos de Shapiro-Wilk para alpha=0.05
-         // Fuente: Royston (1995), Approximating Shapiro-Wilk test
-         const tablaCritica = {
-             3: 0.767, 4: 0.748, 5: 0.762, 6: 0.788, 7: 0.803,
-             8: 0.818, 9: 0.829, 10: 0.842, 11: 0.850, 12: 0.859,
-             13: 0.866, 14: 0.874, 15: 0.881, 16: 0.887, 17: 0.892,
-             18: 0.897, 19: 0.901, 20: 0.905, 25: 0.918, 30: 0.927,
-             35: 0.934, 40: 0.940, 45: 0.944, 50: 0.947, 60: 0.952,
-             70: 0.956, 80: 0.959, 90: 0.962, 100: 0.964, 150: 0.971,
-             200: 0.976, 300: 0.981, 400: 0.984, 500: 0.986, 1000: 0.991,
-             2000: 0.994, 5000: 0.997
-         };
-
-         // Encontrar valores críticos más cercanos
-         const keys = Object.keys(tablaCritica).map(Number).sort((a,b)=>a-b);
-         let lower = keys[0], upper = keys[keys.length - 1];
-
-         for (let i = 0; i < keys.length - 1; i++) {
-             if (n >= keys[i] && n <= keys[i+1]) {
-                 lower = keys[i];
-                 upper = keys[i+1];
-                 break;
-             }
-         }
-
-         // Interpolación lineal del valor crítico
-         const wCrit = tablaCritica[lower] + (tablaCritica[upper] - tablaCritica[lower]) * (n - lower) / (upper - lower);
-
-         // Si W > valor crítico, no se rechaza H0 (datos normales)
-         // Calcular p-value aproximado basado en distancia al valor crítico
-         if (W >= wCrit) {
-             // p > 0.05, estimar cuánto mayor
-             const diff = W - wCrit;
-             const p = Math.min(0.99, 0.05 + diff * 5);
-             return p;
-         } else {
-             // p < 0.05, estimar cuánto menor
-             const diff = wCrit - W;
-             const p = Math.max(0.001, 0.05 - diff * 5);
-             return p;
-         }
-     }
+      /**
+       * Calcula valor p para Shapiro-Wilk con transformación normalizante tipo-Royston:
+       *   y = 1 − W ; z = (ln y − m(n)) / s(n) ; p = 1 − Φ(z)  [Royston 1992, forma AS R94]
+       * FIX-AUDIT: antes p = 0.05 ± diff·5 (fórmula inventada) → p-valores fabricados.
+       * Calibración: m(n), s(n) ajustados por mínimos cuadrados a la distribución nula
+       * SIMULADA del propio estadístico implementado (pesos de Blom), formas funcionales
+       * de Royston — mismo procedimiento del artículo original. Script reproducible:
+       * /tmp (calibrate_royston.py, semilla 20260922, numpy 2.5.3; réplica del W
+       * verificada bit a bit contra este JS). Validación: tasa de rechazo bajo H0
+       * 4–6% para n≥8 (nominal 5%; n=3–5 conservador), testeada en tests/stats-audit-fix.
+       * Limitación documentada: los pesos de Blom aproximan los coeficientes SW exactos;
+       * el p es exacto para el estadístico implementado (calibración end-to-end).
+       */
+      function calcularValorP_ShapiroWilk(W, n) {
+          if (!(W > 0)) return 0.000001;
+          if (W >= 1) return 0.999999;
+          const nn = Math.max(3, Math.min(5000, Math.floor(n)));
+          const y = Math.max(1e-12, 1 - W);
+          const logY = Math.log(y);
+          let m, s;
+          if (nn <= 11) {
+              const x = nn;
+              m = -6.1318487047 + 1.4745869664 * x - 0.1959290351 * x * x + 0.0080845360 * x * x * x;
+              s = Math.exp(3.6681308411 - 1.4667722082 * x + 0.1746428341 * x * x - 0.0069049112 * x * x * x);
+          } else {
+              const u = Math.log(nn);
+              m = -1.7588950932 - 0.2855979339 * u - 0.0845487083 * u * u + 0.0038191080 * u * u * u;
+              s = Math.exp(-0.2432842638 - 0.1307692827 * u + 0.0061422828 * u * u);
+          }
+          const z = (logY - m) / s;
+          const p = 1 - normalCDF(z); // cola superior
+          return Math.max(0.000001, Math.min(0.999999, p));
+      }
 
      /**
       * Función inversa de la CDF normal (aproximación de Beasley-Springer-Moro)
@@ -1501,10 +1533,10 @@ negativos: negativos,
       * @param {Array<number>} y - Segunda variable
       * @returns {Object} Resultados de la correlación
       */
-     function calcularCorrelacionPearson(x, y) {
-       if (x.length !== y.length || x.length < 3) {
-         return { error: 'Se necesitan al menos 3 pares de datos válidos' };
-       }
+      function calcularCorrelacionPearson(x, y, alternativa = 'bilateral') {
+        if (x.length !== y.length || x.length < 3) {
+          return { error: 'Se necesitan al menos 3 pares de datos válidos' };
+        }
        
        const n = x.length;
        
@@ -1560,13 +1592,15 @@ negativos: negativos,
        const t = r * Math.sqrt((nVal - 2) / (1 - r * r));
        const df = nVal - 2;
        
-       // Valor p usando distribución t
-       const p = 2 * (1 - calcularCDF_T(Math.abs(t), df));
-       
-       // Intervalo de confianza usando transformación de Fisher
+        // Valor p usando distribución t (unilateral soportado vía alternativa)
+        const alt = normalizarAlternativa(alternativa);
+        const p = alt === 'bilateral' ? 2 * (1 - calcularCDF_T(Math.abs(t), df)) : valorPTAlternativa(t, df, alt);
+
+        // Intervalo de confianza usando transformación de Fisher
        const z = 0.5 * Math.log((1 + r) / (1 - r));
        const seZ = 1 / Math.sqrt(nVal - 3);
-       const zCrit = calcularValorP_TInverso(0.975, nVal - 2); // Aproximación para 95%
+        // FIX-AUDIT: el IC de Fisher-z usa cuantil NORMAL 1.96, no t-crítico (antes IC demasiado ancho con n chico)
+        const zCrit = 1.96; // cuantil normal 97.5% para IC 95%
        const zLower = z - zCrit * seZ;
        const zUpper = z + zCrit * seZ;
        const rLower = (Math.exp(2 * zLower) - 1) / (Math.exp(2 * zLower) + 1);
@@ -1587,9 +1621,10 @@ negativos: negativos,
          interpretacion = r > 0 ? 'Correlación positiva MUY DÉBIL' : 'Correlación negativa MUY DÉBIL';
        }
        
-       return {
-         prueba: 'Correlación de Pearson',
-         r: parseFloat(r.toFixed(4)),
+        return {
+          prueba: 'Correlación de Pearson',
+          alternativa: alt,
+          r: parseFloat(r.toFixed(4)),
          r2: parseFloat(r2.toFixed(4)),
          t: parseFloat(t.toFixed(4)),
          df: df,
@@ -1611,7 +1646,7 @@ negativos: negativos,
       * @param {Array<number>} y - Segunda variable
       * @returns {Object} Resultados de la correlación
       */
-     function calcularCorrelacionSpearman(x, y) {
+     function calcularCorrelacionSpearman(x, y, alternativa = 'bilateral') {
        if (x.length !== y.length || x.length < 3) {
          return { error: 'Se necesitan al menos 3 pares de datos válidos' };
        }
@@ -1667,12 +1702,13 @@ negativos: negativos,
        const rho = numerator / denominator;
        const rho2 = rho * rho;
        
-       // Estadístico t para prueba de significancia
-       const t = rho * Math.sqrt((nVal - 2) / (1 - rho * rho));
-       const df = nVal - 2;
-       
-       // Valor p usando distribución t
-       const p = 2 * (1 - calcularCDF_T(Math.abs(t), df));
+        // Estadístico t para prueba de significancia
+        const t = rho * Math.sqrt((nVal - 2) / (1 - rho * rho));
+        const df = nVal - 2;
+
+        // Valor p usando distribución t (unilateral soportado vía alternativa)
+        const altSp = normalizarAlternativa(alternativa);
+        const p = altSp === 'bilateral' ? 2 * (1 - calcularCDF_T(Math.abs(t), df)) : valorPTAlternativa(t, df, altSp);
        
        // Interpretación
        let interpretacion = '';
@@ -1689,9 +1725,10 @@ negativos: negativos,
          interpretacion = rho > 0 ? 'Correlación positiva MUY DÉBIL' : 'Correlación negativa MUY DÉBIL';
        }
        
-       return {
-         prueba: 'Correlación de Spearman',
-         rho: parseFloat(rho.toFixed(4)),
+        return {
+          prueba: 'Correlación de Spearman',
+          alternativa: altSp,
+          rho: parseFloat(rho.toFixed(4)),
          rho2: parseFloat(rho2.toFixed(4)),
          t: parseFloat(t.toFixed(4)),
          df: df,
@@ -1740,13 +1777,13 @@ negativos: negativos,
        * Mide la asociación ordinal entre dos variables
        * Más robusta que Spearman para datos con muchos empates
        */
-      function calcularKendallTau(x, y) {
-          if (x.length !== y.length) {
-              throw new Error('Los arrays deben tener la misma longitud');
-          }
-          if (x.length < 3) {
-              throw new Error('Se necesitan al menos 3 pares de datos');
-          }
+       function calcularKendallTau(x, y, alternativa = 'bilateral') {
+           if (x.length !== y.length) {
+               throw new Error('Los arrays deben tener la misma longitud');
+           }
+           if (x.length < 3) {
+               throw new Error('Se necesitan al menos 3 pares de datos');
+           }
           
           const n = x.length;
           let concordantes = 0;
@@ -1759,8 +1796,10 @@ negativos: negativos,
                   const dx = x[i] - x[j];
                   const dy = y[i] - y[j];
                   
-                  if (dx === 0 && dy === 0) continue; // Empate en ambos
-                  
+                  // FIX-AUDIT: los pares empatados en AMBAS variables cuentan como empate
+                  // en X y en Y (tau-b estándar); antes se excluían → denominador sesgado
+                  if (dx === 0 && dy === 0) { empatesX++; empatesY++; continue; }
+
                   if (dx === 0) {
                       empatesX++;
                   } else if (dy === 0) {
@@ -1776,16 +1815,23 @@ negativos: negativos,
           const n0 = n * (n - 1) / 2;
           const n1 = empatesX;
           const n2 = empatesY;
+
+          // Tau-b (corrige empates); denominador 0 = todo empatado → indefinido
+          // FIX-AUDIT: antes devolvía NaN silencioso
+          const denomTau = Math.sqrt(Math.max(0, (n0 - n1)) * Math.max(0, (n0 - n2)));
+          if (denomTau === 0) {
+              throw new Error('Correlación indefinida: todos los valores están empatados');
+          }
+          const tauB = (concordantes - discordantes) / denomTau;
           
-          // Tau-b (corrige empates)
-          const tauB = (concordantes - discordantes) / Math.sqrt((n0 - n1) * (n0 - n2));
-          
-          // Estadístico z para prueba de significancia
+          // Estadístico z para prueba de significancia (aprox. normal sin corrección por empates)
           const varTau = (2 * (2 * n + 5)) / (9 * n * (n - 1));
           const z = Math.abs(tauB) / Math.sqrt(varTau);
-          
-          // Valor p usando distribución normal
-          const p = 2 * (1 - normalCDF(z));
+
+          // Valor p usando distribución normal (unilateral soportado vía alternativa)
+          const altK = normalizarAlternativa(alternativa);
+          const zSignedK = tauB / Math.sqrt(varTau);
+          const p = altK === 'bilateral' ? 2 * (1 - normalCDF(z)) : valorPNormalAlternativa(zSignedK, altK);
           
           // Interpretación
           let interpretacion = '';
@@ -1804,6 +1850,7 @@ negativos: negativos,
           
           return {
               prueba: 'Correlación de Kendall Tau-b',
+              alternativa: altK,
               tau: parseFloat(tauB.toFixed(4)),
               concordantes: concordantes,
               discordantes: discordantes,
@@ -1952,10 +1999,11 @@ negativos: negativos,
       * @param {number} x - Valor de entrada
       * @returns {number} erf(x)
       */
-     function erf(x) {
-       // Aproximación de la función error
-       const sign = x >= 0 ? 1 : -1;
-       x = Math.abs(x);
+      function erf(x) {
+        // Aproximación de la función error
+        if (x === 0) return 0;
+        const sign = x >= 0 ? 1 : -1;
+        x = Math.abs(x);
        
        // Constantes para aproximación
        const a1 =  0.254829592;
@@ -1965,12 +2013,12 @@ negativos: negativos,
        const a5 =  1.061405429;
        const p  =  0.3275911;
        
-       // Aproximación de Abramowitz y Stegun: erf(x) = 1 - (a₁t + a₂t² + a₃t³ + a₄t⁴ + a₅t⁵)exp(-x²)
-       const t = 1.0 / (1.0 + p * x);
-       let y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * t * t * t * t;
-       y = y * Math.exp(-x * x);
-       
-        return sign * y; // erf(-x) = -erf(x);
+        // Aproximación de Abramowitz y Stegun (7.1.26): erf(x) = 1 - (a₁t + a₂t² + a₃t³ + a₄t⁴ + a₅t⁵)·exp(-x²), t = 1/(1+px)
+        // FIX-AUDIT: antes se calculaba (1 - poly·t⁵)·exp(-x²) → erf→0 con x grande → p=1 para df>120
+        const t = 1.0 / (1.0 + p * x);
+        const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+
+         return sign * y; // erf(-x) = -erf(x);
       }
      
      /**
@@ -2187,8 +2235,10 @@ negativos: negativos,
        const r2Adj = n > k + 1 ? 1 - (SCResidual / (n - k - 1)) / (SCTotal / (n - 1)) : 0;
        const errorEstandar = Math.sqrt(SCResidual / (n - k - 1));
        
-       // Error estándar de coeficientes
-       const eeCoef = XtXInv.map(row => Math.sqrt(row[row.length - 1] * SCResidual / (n - k - 1)));
+        // Error estándar de coeficientes: SE(βᵢ) = √[s²·(X'X)⁻¹ᵢᵢ] — diagonal, NO última columna
+        // FIX-AUDIT: antes usaba row[row.length-1] (última columna) → SE falsos/nulos
+        const s2 = SCResidual / (n - k - 1);
+        const eeCoef = XtXInv.map((row, i) => Math.sqrt(Math.max(0, row[i]) * s2));
        
        // Valores t y p para cada coeficiente
        const tStats = betas.map((b, i) => eeCoef[i] !== 0 ? b / eeCoef[i] : 0);
@@ -3161,38 +3211,44 @@ interpretacion: interpretacion,
         const lambda = eigenvals[0] || 0;
         // Wilks' Lambda aproximado
         const wilks = eigenvals.reduce((prod, ev) => prod * (1 / (1 + ev)), 1);
-        // Chi-cuadrado para significancia
+        // Chi-cuadrado para significancia (calcularValorP_ChiCuadrado YA devuelve cola superior)
+        // FIX-AUDIT: antes pValue = 1 - p (invertido) y el test pValue<0.05 quedaba al revés
         const chi2 = -(n - 1 - (p + nClasses) / 2) * Math.log(wilks);
         const gl = p * (nClasses - 1);
-        const pValue = 1 - calcularValorP_ChiCuadrado(chi2, gl);
-        // Clasificación simple (distancia de Mahalanobis)
+        const pValue = calcularValorP_ChiCuadrado(chi2, gl);
+        // Índice de clase por observación (labels puede ser string: no usar labels[i] como índice)
+        // FIX-AUDIT: antes labels.indexOf(classes[labels[i]]) → -1 con labels no numéricos
+        const labIdx = labels.map(l => classes.indexOf(l));
+        // Clasificación simple (distancia de Mahalanobis con varianzas intra-clase por variable)
+        // FIX-AUDIT: antes Sw[c]?.[c] (indexado por clase) → ahora diagonal Sw[j][j] por variable
+        const swDiag = []; for (let j = 0; j < p; j++) swDiag.push(Math.abs(Sw[j]?.[j] || 0) > 1e-12 ? Sw[j][j] : 1);
         const classified = dataMatrix.map((row, idx) => {
             let minDist = Infinity, best = 0;
             for (let c = 0; c < nClasses; c++) {
-                let d = 0; for (let j = 0; j < p; j++) d += (row[j] - classMeans[c][j]) ** 2 / (Sw[c]?.[c] || 1);
+                let d = 0; for (let j = 0; j < p; j++) d += (row[j] - classMeans[c][j]) ** 2 / swDiag[j];
                 if (d < minDist) { minDist = d; best = c; }
             }
             return best;
         });
-        const correctos = classified.filter((c, i) => c === labels.indexOf(classes[labels[i]])).length;
+        const correctos = classified.filter((c, i) => c === labIdx[i]).length;
         const accuracy = n > 0 ? correctos / n : 0;
         // Matriz de confusión
         const confusion = Array.from({ length: nClasses }, () => Array(nClasses).fill(0));
-        for (let i = 0; i < n; i++) confusion[labels.indexOf(classes[labels[i]])][classified[i]]++;
+        for (let i = 0; i < n; i++) { if (labIdx[i] >= 0) confusion[labIdx[i]][classified[i]]++; }
         return {
             funcionesDiscriminantes: nFunciones,
             cargas: eigenvals.slice(0, nFunciones).map(v => parseFloat(v.toFixed(4))),
             lambda: parseFloat(wilks.toFixed(4)),
             chi2: parseFloat(chi2.toFixed(4)),
             gl: gl,
-            p: parseFloat((1 - pValue).toFixed(4)),
+            p: parseFloat(pValue.toFixed(4)),
             clasificacion: classified.map(c => classes[c]),
             accuracy: parseFloat(accuracy.toFixed(4)),
             matrizConfusion: confusion,
             warnings: warningsDisc.length > 0 ? warningsDisc : undefined,
             interpretacion: pValue < 0.05
-                ? `Función discriminante significativa (χ²=${chi2.toFixed(2)}, p=${(1-pValue).toFixed(4)}, Λ=${wilks.toFixed(4)}), accuracy=${(accuracy*100).toFixed(1)}%`
-                : `Función discriminante no significativa (p=${(1-pValue).toFixed(4)} ≥ 0.05)`
+                ? `Función discriminante significativa (χ²=${chi2.toFixed(2)}, p=${pValue.toFixed(4)}, Λ=${wilks.toFixed(4)}), accuracy=${(accuracy*100).toFixed(1)}%`
+                : `Función discriminante no significativa (p=${pValue.toFixed(4)} ≥ 0.05)`
         };
     }
 
@@ -4073,8 +4129,13 @@ Estadísticos calculados:     ${analisisResultado.estadisticos.length}
         calcularR2,
         lgamma,
         calcularValorP_T,
+        normalizarAlternativa,
+        valorPNormalAlternativa,
+        valorPTAlternativa,
         betaIncomplete,
         normalCDF,
+        erf,
+        calcularCDF_T,
         calcularValorP_ChiCuadrado,
         gammaIncomplete,
         normalInverseCDF,
