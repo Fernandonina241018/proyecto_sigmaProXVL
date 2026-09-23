@@ -4390,3 +4390,17 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - Exports aditivos: `erf, calcularCDF_T`, helpers alternativa, `getPairedValues` (solo para testear; sin cambios de API existente).
 
 **Verificación:** `node --check` OK ×2, vitest **214/214** (195+19), backend 60/60, réplica node 36/36, calibración Python Type-I 4–6% + potencia exponencial >80%. Nota: `npx` cuelga en red en este entorno → usar `./node_modules/.bin/vitest`.
+
+### 2026-09-23 (83): Notificaciones por publicación — email + campana (título+firmante, opt-in 182d)
+
+**Qué:** notificaciones solo al publicar (`POST /api/sign-sessions` → `prepared`), solo título+firmante, solo usuarios con acceso. Preview validado en Mailtrap sandbox `4925922` ID `5719043772` + `/tmp/opencode/notif-preview.html` con botón al proyecto.
+- Backend: `backend/notifications/mailtrap.js` (Bearer, sandbox `sandbox.api.mailtrap.io/api/send/{inbox}` en dev, `send.api.mailtrap.io` en prod con dominio verificado) + `backend/notifications/index.js` (buildEmailContent id `ID: {id}` sin doc_hash, enqueue async fire-and-forget, idempotente por unique, filtra `active+email+@` y excluye creador).
+- DB: `notification_preferences(username PK, on_publish)` default 1 + `notification_deliveries(id, sign_session_id, recipient_username/email, channel, status queued|sent|bounced|skipped_optout, provider_msg_id, error, unique(session,recipient,channel))` en PG + local JSON (`notification_preferences/deliveries/nextNotifId`), índices session/recipient/status, purge 182d en `POST /api/admin/purge` (suma `notifPurged`).
+- Endpoints: `GET /api/me/notifications` (pref), `PUT /api/me/notifications {on_publish}` (audit NOTIFICATION_PREF_UPDATE), `GET /api/notifications/deliveries?session_id&limit&offset` (RBAC: usuario ve solo suyas, admin ve todas), log `NOTIFICATION_ENQUEUED/SENT/BOUNCED/SKIPPED_OPTOUT`.
+- Frontend: `js/core/indexx-ui.js: renderPerfil` añade toggle opt-in (`#perfilNotifToggle` + `initPerfilNotifToggle` con GET/PUT) y campana `fglass` (`#notifBell/#notifDrop` + `initNotificationBell` + polling 60s + `refreshNotificationDeliveries`).
+- Env: `backend/.env.example` añade `MAILTRAP_API_TOKEN, MAILTRAP_INBOX_ID, MAIL_FROM_EMAIL/NAME, FRONTEND_URL`.
+- ADR: `ADR-notificaciones-publicacion.md` con contrato y tradeoffs.
+- Tests: `backend/tests/zz_notifications.test.js` (5 tests: default/opt-out, buildEmailContent sin doc_hash, enqueue filtra email/opt-in/excluye creador+idempotencia, RBAC list, purge 182d) — archivo `zz_` para correr último y no contaminar `pagination.test`. `rm -f backend/data.json` antes de suite.
+
+**Verificación:** `node --check` ×4 OK, vitest **214/214**, backend **65/65** (60+5), Mailtrap sandbox `200 {success:true}`, no secrets hardcodeados (`grep fc4ab0` solo en bash history), `data.json` git-ignored, `apiNoStore` y `verifyAuditChain` intactos. Hook `void enqueueNotifications` no bloquea 200 de publish.
+

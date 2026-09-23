@@ -197,6 +197,28 @@ function buildPostgres() {
         await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS rejected_reason TEXT`);
         await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS rejected_at TEXT`);
         await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS dismissed_by TEXT[] NOT NULL DEFAULT '{}'`);
+        // Notificaciones por publicación (solo usuarios con acceso, título+firmante, opt-in 182d)
+        await run(`CREATE TABLE IF NOT EXISTS notification_preferences (
+            username TEXT PRIMARY KEY REFERENCES users(username) ON DELETE CASCADE,
+            on_publish INTEGER NOT NULL DEFAULT 1,
+            updated_at TEXT DEFAULT to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS')
+        )`);
+        await run(`CREATE TABLE IF NOT EXISTS notification_deliveries (
+            id SERIAL PRIMARY KEY,
+            sign_session_id INTEGER NOT NULL REFERENCES report_signatures(id) ON DELETE CASCADE,
+            recipient_username TEXT NOT NULL,
+            recipient_email TEXT NOT NULL,
+            channel TEXT NOT NULL DEFAULT 'email',
+            status TEXT NOT NULL DEFAULT 'queued',
+            provider_msg_id TEXT,
+            error TEXT,
+            created_at TEXT DEFAULT to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS'),
+            updated_at TEXT DEFAULT to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS'),
+            UNIQUE(sign_session_id, recipient_username, channel)
+        )`);
+        await run(`CREATE INDEX IF NOT EXISTS idx_notif_deliveries_session ON notification_deliveries(sign_session_id)`);
+        await run(`CREATE INDEX IF NOT EXISTS idx_notif_deliveries_recipient ON notification_deliveries(recipient_username)`);
+        await run(`CREATE INDEX IF NOT EXISTS idx_notif_deliveries_status ON notification_deliveries(status)`);
         console.log('✅ Tablas verificadas en PostgreSQL');
         await _migrateAuditHashes();
     }
@@ -674,6 +696,61 @@ function buildPostgres() {
         return { dryRun: false, deleted, count: deleted.length };
     }
 
+    // ── Notificaciones (solo publish, título+firmante, opt-in) ──
+    async function getNotificationPreference(username) {
+        const row = await get('SELECT * FROM notification_preferences WHERE username=$1', [username]);
+        if (!row) return { username, on_publish: 1 };
+        return row;
+    }
+    async function setNotificationPreference(username, onPublish) {
+        const v = onPublish ? 1 : 0;
+        const row = await get(`INSERT INTO notification_preferences (username, on_publish, updated_at)
+            VALUES ($1,$2,to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS'))
+            ON CONFLICT (username) DO UPDATE SET on_publish=$2, updated_at=to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS')
+            RETURNING *`, [username, v]);
+        return row;
+    }
+    async function createNotificationDelivery({ signSessionId, recipientUsername, recipientEmail, channel='email', status='queued', providerMsgId=null, error=null }) {
+        const row = await get(`INSERT INTO notification_deliveries (sign_session_id, recipient_username, recipient_email, channel, status, provider_msg_id, error)
+            VALUES ($1,$2,$3,$4,$5,$6,$7) ON CONFLICT (sign_session_id, recipient_username, channel) DO NOTHING RETURNING *`,
+            [signSessionId, recipientUsername, recipientEmail, channel, status, providerMsgId, error]);
+        if (row) return row;
+        return get('SELECT * FROM notification_deliveries WHERE sign_session_id=$1 AND recipient_username=$2 AND channel=$3', [signSessionId, recipientUsername, channel]);
+    }
+    async function getNotificationDelivery(signSessionId, recipientUsername, channel='email') {
+        return get('SELECT * FROM notification_deliveries WHERE sign_session_id=$1 AND recipient_username=$2 AND channel=$3', [signSessionId, recipientUsername, channel]);
+    }
+    async function updateNotificationDelivery(id, { status, provider_msg_id, error }) {
+        const sets = []; const vals = []; let i=1;
+        if (status !== undefined) { sets.push(`status=$${i++}`); vals.push(status); }
+        if (provider_msg_id !== undefined) { sets.push(`provider_msg_id=$${i++}`); vals.push(provider_msg_id); }
+        if (error !== undefined) { sets.push(`error=$${i++}`); vals.push(error); }
+        if (!sets.length) return get('SELECT * FROM notification_deliveries WHERE id=$1', [id]);
+        sets.push(`updated_at=to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS')`);
+        vals.push(id);
+        const row = await get(`UPDATE notification_deliveries SET ${sets.join(', ')} WHERE id=$${i} RETURNING *`, vals);
+        return row;
+    }
+    async function listNotificationDeliveries({ signSessionId, recipientUsername, limit=50, offset=0 } = {}) {
+        limit = Math.min(Math.max(parseInt(limit)||50,1),200); offset = Math.max(parseInt(offset)||0,0);
+        const conds=[]; const vals=[]; let idx=1;
+        if (signSessionId) { conds.push(`sign_session_id=$${idx++}`); vals.push(signSessionId); }
+        if (recipientUsername) { conds.push(`recipient_username=$${idx++}`); vals.push(recipientUsername); }
+        const where = conds.length ? `WHERE ${conds.join(' AND ')}` : '';
+        vals.push(limit, offset);
+        return all(`SELECT * FROM notification_deliveries ${where} ORDER BY id DESC LIMIT $${idx++} OFFSET $${idx}`, vals);
+    }
+    async function purgeNotificationDeliveries({ retentionDays=182, dryRun=true, limit=500, _now } = {}) {
+        limit = Math.min(Math.max(parseInt(limit)||500,1),1000);
+        const rows = await all(`SELECT id, sign_session_id, recipient_username, status, created_at FROM notification_deliveries ORDER BY id ASC LIMIT $1`, [limit]);
+        const rMs = Math.max(parseInt(retentionDays)||182,1)*86400000;
+        const now = _now || Date.now();
+        const targets = rows.filter(r => (now - new Date(r.created_at).getTime()) > rMs);
+        if (dryRun) return { dryRun:true, candidates: targets, count: targets.length };
+        for (const t of targets) await run('DELETE FROM notification_deliveries WHERE id=$1', [t.id]);
+        return { dryRun:false, deleted: targets, count: targets.length };
+    }
+
     // Borrado real solo de rechazadas o completas, solo creador o admin.
     // (La auditoría conserva SIGN_SESSION_REJECT/DELETE como rastro.)
     async function deleteSignSession({ id, username, userRole }) {
@@ -793,12 +870,12 @@ function buildPostgres() {
         return elig;
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions, getNotificationPreference, setNotificationPreference, createNotificationDelivery, getNotificationDelivery, updateNotificationDelivery, listNotificationDeliveries, purgeNotificationDeliveries };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
     const DATA_FILE = path.join(__dirname, 'data.json');
-    let state = { users: [], audit_log: [], nextUserId: 1, nextAuditId: 1 };
+    let state = { users: [], audit_log: [], nextUserId: 1, nextAuditId: 1, notification_preferences: [], notification_deliveries: [], nextNotifId: 1 };
 
     function load() {
         try { state = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8')); }
@@ -1258,6 +1335,57 @@ function buildLocalStore() {
         return { dryRun: false, deleted: targets.map(_purgeMeta), count: targets.length };
     }
 
+    // ── Notificaciones local (mirror PG) ──
+    if (!state.notification_preferences) state.notification_preferences = [];
+    if (!state.notification_deliveries) state.notification_deliveries = [];
+    if (!state.nextNotifId) state.nextNotifId = state.notification_deliveries.length ? Math.max(...state.notification_deliveries.map(d=>d.id))+1 : 1;
+    async function getNotificationPreference(username) {
+        const row = state.notification_preferences.find(r=>r.username===username);
+        if (!row) return { username, on_publish: 1 };
+        return row;
+    }
+    async function setNotificationPreference(username, onPublish) {
+        let row = state.notification_preferences.find(r=>r.username===username);
+        const v = onPublish ? 1 : 0;
+        if (!row) { row = { username, on_publish: v, updated_at: new Date().toISOString() }; state.notification_preferences.push(row); }
+        else { row.on_publish = v; row.updated_at = new Date().toISOString(); }
+        save(); return row;
+    }
+    async function createNotificationDelivery({ signSessionId, recipientUsername, recipientEmail, channel='email', status='queued', providerMsgId=null, error=null }) {
+        const existing = state.notification_deliveries.find(d=>d.sign_session_id===signSessionId && d.recipient_username===recipientUsername && d.channel===channel);
+        if (existing) return existing;
+        const row = { id: state.nextNotifId++, sign_session_id: signSessionId, recipient_username: recipientUsername, recipient_email: recipientEmail, channel, status, provider_msg_id: providerMsgId, error, created_at: new Date().toISOString(), updated_at: new Date().toISOString() };
+        state.notification_deliveries.push(row); save(); return row;
+    }
+    async function getNotificationDelivery(signSessionId, recipientUsername, channel='email') {
+        return state.notification_deliveries.find(d=>d.sign_session_id===signSessionId && d.recipient_username===recipientUsername && d.channel===channel) || null;
+    }
+    async function updateNotificationDelivery(id, { status, provider_msg_id, error }) {
+        const row = state.notification_deliveries.find(d=>d.id===id);
+        if (!row) return null;
+        if (status!==undefined) row.status=status;
+        if (provider_msg_id!==undefined) row.provider_msg_id=provider_msg_id;
+        if (error!==undefined) row.error=error;
+        row.updated_at=new Date().toISOString(); save(); return row;
+    }
+    async function listNotificationDeliveries({ signSessionId, recipientUsername, limit=50, offset=0 }={}) {
+        limit=Math.min(Math.max(parseInt(limit)||50,1),200); offset=Math.max(parseInt(offset)||0,0);
+        let list=state.notification_deliveries.slice();
+        if (signSessionId) list=list.filter(d=>d.sign_session_id===signSessionId);
+        if (recipientUsername) list=list.filter(d=>d.recipient_username===recipientUsername);
+        return list.sort((a,b)=>b.id-a.id).slice(offset,offset+limit);
+    }
+    async function purgeNotificationDeliveries({ retentionDays=182, dryRun=true, limit=500, _now }={}) {
+        limit=Math.min(Math.max(parseInt(limit)||500,1),1000);
+        const rMs=Math.max(parseInt(retentionDays)||182,1)*86400000; const now=_now||Date.now();
+        const cands=state.notification_deliveries.slice().sort((a,b)=>a.id-b.id).slice(0,limit);
+        const targets=cands.filter(r=> (now - new Date(r.created_at).getTime()) > rMs);
+        if (dryRun) return { dryRun:true, candidates: targets, count: targets.length };
+        const ids={}; targets.forEach(t=>ids[t.id]=true);
+        state.notification_deliveries=state.notification_deliveries.filter(d=>!ids[d.id]); save();
+        return { dryRun:false, deleted: targets, count: targets.length };
+    }
+
     // Mirror local de deleteSignSession
     async function deleteSignSession({ id, username, userRole }) {
         var idx = -1;
@@ -1410,7 +1538,7 @@ function buildLocalStore() {
         return _localSignView(s);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions, getNotificationPreference, setNotificationPreference, createNotificationDelivery, getNotificationDelivery, updateNotificationDelivery, listNotificationDeliveries, purgeNotificationDeliveries };}
 
 const impl = build();
 module.exports = {
@@ -1464,6 +1592,13 @@ module.exports = {
     dismissSignSession:     (...a) => impl.dismissSignSession(...a),
     purgeSignSessions:      (...a) => impl.purgeSignSessions(...a),
     getSnapshotById:      (...a) => impl.getSnapshotById(...a),
+    getNotificationPreference: (...a) => impl.getNotificationPreference(...a),
+    setNotificationPreference: (...a) => impl.setNotificationPreference(...a),
+    createNotificationDelivery: (...a) => impl.createNotificationDelivery(...a),
+    getNotificationDelivery: (...a) => impl.getNotificationDelivery(...a),
+    updateNotificationDelivery: (...a) => impl.updateNotificationDelivery(...a),
+    listNotificationDeliveries: (...a) => impl.listNotificationDeliveries(...a),
+    purgeNotificationDeliveries: (...a) => impl.purgeNotificationDeliveries(...a),
     run:                  (...a) => impl.run(...a),
     all:                 (...a) => impl.all(...a),
     get:                 (...a) => impl.get(...a),

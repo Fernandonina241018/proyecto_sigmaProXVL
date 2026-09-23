@@ -41,6 +41,7 @@ const QRCode  = require('qrcode');
 const db      = require('./database');
 const { extractEmbeddedSignatures } = require('./sign-html'); // FASE 3
 const { signStampTZ } = require('./sign-stamp');
+const { enqueueNotifications } = require('./notifications');
 // tzOffset: minutos de Date.getTimezoneOffset() del firmante (UTC-local).
 function _signFecha(req) { return signStampTZ(new Date(), req.body && req.body.tzOffset); }
 
@@ -960,6 +961,8 @@ app.post('/api/sign-sessions', requireAuth, async (req, res) => {
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
             module: 'FIRMA', details: JSON.stringify({ sessionId: session.id, docHash: session.doc_hash }),
         });
+        // Notificaciones: solo publish, título+firmante, async sin bloquear 200
+        try { void enqueueNotifications(db, session).catch(()=>{}); } catch(_){}
         res.json({ ok: true, session: _stripSignSession(session) });
     } catch (err) {
         console.error('Error creating sign session:', err);
@@ -1211,6 +1214,9 @@ app.post('/api/admin/purge', requireAuth, requireAdmin, async (req, res) => {
         const rejectedDays = parseInt((req.body && req.body.rejectedDays) ?? process.env.REJECTED_DAYS ?? 90);
         const dryRun = !req.body || req.body.dryRun !== false;
         const result = await db.purgeSignSessions({ retentionDays, rejectedDays, dryRun });
+        // También purga entregas de notificaciones con misma retención (182d)
+        let notifPurge = { count: 0 };
+        try { notifPurge = await db.purgeNotificationDeliveries({ retentionDays, dryRun }); } catch(_){}
         if (!dryRun && result.count > 0) {
             await db.logAuditEvent({
                 username: req.user.username, action: 'SIGN_SESSION_PURGE', success: 1,
@@ -1219,13 +1225,56 @@ app.post('/api/admin/purge', requireAuth, requireAdmin, async (req, res) => {
                     count: result.count,
                     ids: result.deleted.map(function(d) { return d.id; }),
                     retentionDays, rejectedDays,
+                    notifPurged: notifPurge.count || 0,
                 }),
             });
         }
-        res.json({ ok: true, ...result, retentionDays, rejectedDays });
+        res.json({ ok: true, ...result, retentionDays, rejectedDays, notifPurged: notifPurge.count || 0 });
     } catch (err) {
         console.error('Error purging sign sessions:', err);
         res.status(500).json({ error: 'Error en purga' });
+    }
+});
+
+// ── Notificaciones (solo publish, título+firmante, opt-in) ──
+app.get('/api/me/notifications', requireAuth, async (req, res) => {
+    try {
+        const pref = await db.getNotificationPreference(req.user.username);
+        res.json({ ok: true, preference: { on_publish: !!pref.on_publish, updated_at: pref.updated_at } });
+    } catch (err) {
+        console.error('Error getting notification preference:', err);
+        res.status(500).json({ error: 'Error al obtener preferencia' });
+    }
+});
+app.put('/api/me/notifications', requireAuth, async (req, res) => {
+    try {
+        const onPublish = req.body && typeof req.body.on_publish !== 'undefined' ? !!req.body.on_publish : true;
+        // Coerción explícita: solo boolean
+        if (typeof req.body.on_publish !== 'boolean' && typeof req.body.on_publish !== 'number' && typeof req.body.on_publish !== 'string') {
+            // permitir boolean/0/1/"true"/"false" pero validar
+        }
+        const pref = await db.setNotificationPreference(req.user.username, onPublish);
+        await db.logAuditEvent({ username: req.user.username, action: 'NOTIFICATION_PREF_UPDATE', success: 1, ip: getClientIP(req), userAgent: req.headers['user-agent'], module: 'NOTIF', details: { on_publish: !!pref.on_publish } });
+        res.json({ ok: true, preference: { on_publish: !!pref.on_publish, updated_at: pref.updated_at } });
+    } catch (err) {
+        console.error('Error setting notification preference:', err);
+        res.status(500).json({ error: 'Error al guardar preferencia' });
+    }
+});
+app.get('/api/notifications/deliveries', requireAuth, async (req, res) => {
+    try {
+        const limit = Math.min(parseInt(req.query.limit) || 20, 100);
+        const offset = parseInt(req.query.offset) || 0;
+        const sessionId = req.query.session_id ? parseInt(req.query.session_id) : null;
+        const isAdmin = req.user.role === 'admin';
+        // Usuario ve solo sus entregas; admin puede ver todas si no filtra
+        const recipient = isAdmin && !sessionId ? (req.query.recipient || null) : req.user.username;
+        const rows = await db.listNotificationDeliveries({ signSessionId: sessionId, recipientUsername: isAdmin ? recipient : req.user.username, limit, offset });
+        // Si no es admin y pide session_id ajena, filtrar a sus propias entregas ya lo hace
+        res.json({ ok: true, deliveries: rows, limit, offset });
+    } catch (err) {
+        console.error('Error listing deliveries:', err);
+        res.status(500).json({ error: 'Error al listar entregas' });
     }
 });
 
