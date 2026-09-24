@@ -4413,3 +4413,5 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 **Verificación:** `node --check` OK, vitest **230/230** (18 archivos), backend 60/60 intacto.
 
 ### 2026-09-24 (84b): Rail 56px → 64px (+15%)
+
+### 2026-09-24 (84c): Rail 64px → 70px (+10% botones colapsados)

@@ -161,7 +161,7 @@
 .sidebar { width: 230px; background: var(--bg-sidebar); display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 16px; margin: 8px 0 8px 8px; flex-shrink: 0; overflow: hidden; transition: width .22s cubic-bezier(.4,0,.2,1), opacity .18s ease, border-radius .22s ease; }
   .sidebar.collapsed { width:0; opacity:0; pointer-events:none; border:none; margin:0; }
   /* ── Modo rail: iconos con badges siempre visibles (Ctrl+B) ── */
-  .sidebar.rail { width:64px; border-radius:12px; }
+  .sidebar.rail { width:70px; border-radius:12px; }
   .sidebar.rail .snav-card { padding:10px 0; justify-content:center; }
   .sidebar.rail .snav-card .snav-tx, .sidebar.rail .snav-card .snav-chev { display:none; }
   .sidebar.rail .snav-card .nav-icon { width:auto; }
