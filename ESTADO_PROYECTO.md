@@ -4390,3 +4390,15 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - Exports aditivos: `erf, calcularCDF_T`, helpers alternativa, `getPairedValues` (solo para testear; sin cambios de API existente).
 
 **Verificación:** `node --check` OK ×2, vitest **214/214** (195+19), backend 60/60, réplica node 36/36, calibración Python Type-I 4–6% + potencia exponencial >80%. Nota: `npx` cuelga en red en este entorno → usar `./node_modules/.bin/vitest`.
+
+### 2026-09-24 (83): Aislamiento de datos locales por usuario (StorageScope)
+
+**Qué:** datasets, historiales, galería y modelo ML ya no se comparten entre cuentas del mismo navegador. Nuevo `js/core/StorageScope.js` (sin dependencias, Auth lazy): clave efectiva `base::username` con sesión, legacy sin cambios sin sesión, siembra una vez desde legacy, `clearMine()` solo espacio propio.
+- Migradas 10 claves: `sigmaPro_trabajoSheets/Limits/datosSourceType`, `sigmaPro_vizGallery/Meta`, `sigmaPro_mlStatsModel`, `statAnalyzerState`, `sigmaPro_analisis/graficos` (vía `StorageAdapter.scopedKey/getItemMigrated/setItemScoped/removeItemScoped`).
+- `indexx-globals.js`: `_storageScope()` fallback + `resetTrabajoMemoryToDefault()` (solo memoria, sin escrituras).
+- `indexx-analysis.js`: onLogin recarga `_restoreAllData` + galería + `ModeloEstadistico.reload()`; onLogout resetea memoria (el autoguardado ya persistió por usuario).
+- `indexx-trabajo.js`: botón Limpiar usa `clearMine()` (antes `localStorage.clear()` borraba todas las cuentas); `nuevoProyecto` con remove scoped.
+- `indexx-ui.js`: banner `#datasetOwnerBanner` ("📁 Espacio de datos: user · N hojas · aislado por usuario"), oculto sin sesión.
+- Tests: `tests/storage-scope.test.js` (10: aislamiento, migración, clearMine, restore/reset/persist, adapter) + mock StorageAdapter ampliado en `StateManager.test.js`. Nota: suite corre en node sin happy-dom → stub localStorage en el test.
+
+**Verificación:** `node --check` ×9 OK, vitest **224/224** (17 archivos), backend 60/60 intacto.

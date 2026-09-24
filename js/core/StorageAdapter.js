@@ -31,11 +31,42 @@ var StorageAdapter = (function() {
   function migrateFromLocalStorage() {
     var data = localStorage.getItem('statAnalyzerState');
     if (data) {
-      return setItem('statAnalyzerState', data).then(function() {
+      return setItem(scopedKey('statAnalyzerState'), data).then(function() {
         localStorage.removeItem('statAnalyzerState');
       });
     }
     return Promise.resolve();
+  }
+
+  // Clave efectiva según el usuario en sesión (aislamiento por cuenta).
+  // Sin sesión o sin StorageScope: clave legacy (conducta previa).
+  function scopedKey(base) {
+    try {
+      if (typeof StorageScope !== 'undefined' && StorageScope) return StorageScope.key(base);
+    } catch (e) {}
+    return base;
+  }
+
+  // Lectura con siembra: si el espacio del usuario está vacío y existe
+  // valor legacy, se copia una vez al espacio propio.
+  function getItemMigrated(base) {
+    var sk = scopedKey(base);
+    return getItem(sk).then(function(v) {
+      if (v !== null && v !== undefined) return v;
+      if (sk === base) return v;
+      return getItem(base).then(function(legacy) {
+        if (legacy === null || legacy === undefined) return legacy;
+        return setItem(sk, legacy).then(function() { return legacy; });
+      });
+    });
+  }
+
+  function setItemScoped(base, value) {
+    return setItem(scopedKey(base), value);
+  }
+
+  function removeItemScoped(base) {
+    return removeItem(scopedKey(base));
   }
 
   function setItem(key, value) {
@@ -109,6 +140,10 @@ var StorageAdapter = (function() {
     getItem: getItem,
     removeItem: removeItem,
     clear: clear,
-    migrateFromLocalStorage: migrateFromLocalStorage
+    migrateFromLocalStorage: migrateFromLocalStorage,
+    scopedKey: scopedKey,
+    getItemMigrated: getItemMigrated,
+    setItemScoped: setItemScoped,
+    removeItemScoped: removeItemScoped
   };
 })();

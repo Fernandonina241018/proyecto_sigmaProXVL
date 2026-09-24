@@ -42,19 +42,30 @@ var currentPage = 'trabajo';
 var _auditoriaInited = false;
 var _usuariosInited = false;
 
+function _storageScope() {
+  // StorageScope puede no existir en contextos de test: fallback a localStorage directo.
+  if (typeof StorageScope !== 'undefined' && StorageScope) return StorageScope;
+  return {
+    sGet: function(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    sSet: function(k, v) { try { localStorage.setItem(k, v); return true; } catch (e) { return false; } },
+    sRemove: function(k) { try { localStorage.removeItem(k); } catch (e) {} }
+  };
+}
+
 function _persistAllData() {
   var quotaStep = 0;
   var maxSteps = 4;
+  var SS = _storageScope();
   while (quotaStep < maxSteps) {
     try {
-      localStorage.setItem('sigmaPro_trabajoSheets', JSON.stringify(trabajoSheets));
-      localStorage.setItem('sigmaPro_trabajoLimits', JSON.stringify({ limits: trabajoLimits, mode: trabajoLimitsMode }));
+      SS.sSet('sigmaPro_trabajoSheets', JSON.stringify(trabajoSheets));
+      SS.sSet('sigmaPro_trabajoLimits', JSON.stringify({ limits: trabajoLimits, mode: trabajoLimitsMode }));
       // FIX: Remover datosCurrentData de localStorage para evitar duplicación con 19K+ filas
       // datosCurrentData ya está incluido en trabajoSheets, guardarla por separado era redundante
       // y causaba QuotaExceededError en datasets grandes (19K+ rows)
       if (datosCurrentData) {
         if (quotaStep < 2) {
-          localStorage.setItem('sigmaPro_datosSourceType', JSON.stringify(datosSourceType));
+          SS.sSet('sigmaPro_datosSourceType', JSON.stringify(datosSourceType));
           // ELIMINADO: localStorage.setItem('sigmaPro_datosCurrentData', ...) — redundante
         }
       }
@@ -72,8 +83,8 @@ function _persistAllData() {
       if (quotaStep === 1) {
         if (typeof _V !== 'undefined' && _V.gallery) _V.gallery.forEach(function(g) { delete g.thumb; });
       } else if (quotaStep === 2) {
-        localStorage.removeItem('sigmaPro_datosCurrentData');
-        localStorage.removeItem('sigmaPro_datosSourceType');
+        SS.sRemove('sigmaPro_datosCurrentData');
+        SS.sRemove('sigmaPro_datosSourceType');
       } else if (quotaStep === 3) {
         if (trabajoSheets && trabajoSheets.length > 1) {
           var removed = trabajoSheets.pop();
@@ -87,20 +98,21 @@ function _persistAllData() {
 
 function _restoreAllData() {
   try {
-    var ts = localStorage.getItem('sigmaPro_trabajoSheets');
+    var SS = _storageScope();
+    var ts = SS.sGet('sigmaPro_trabajoSheets');
     if (ts) {
       var parsed = JSON.parse(ts);
       if (Array.isArray(parsed) && parsed.length > 0) {
         trabajoSheets = parsed;
       }
     }
-    var tl = localStorage.getItem('sigmaPro_trabajoLimits');
+    var tl = SS.sGet('sigmaPro_trabajoLimits');
     if (tl) {
       var parsedTL = JSON.parse(tl);
       trabajoLimits = parsedTL.limits || null;
       trabajoLimitsMode = parsedTL.mode || 'global';
     }
-    var dst = localStorage.getItem('sigmaPro_datosSourceType');
+    var dst = SS.sGet('sigmaPro_datosSourceType');
     if(dst) datosSourceType = JSON.parse(dst);
     // FIX: Remover lectura de sigmaPro_datosCurrentData — ya no se guarda (eliminado para evitar QuotaExceededError)
     // datosCurrentData ahora se restaura desde trabajoSheets si es necesario
@@ -109,6 +121,34 @@ function _restoreAllData() {
   } catch(e) {
     console.warn('[Persist] Error restoring data:', e);
   }
+}
+// Resetea la memoria de hojas al estado inicial (logout / cambio de cuenta).
+// NO escribe a storage: el espacio del usuario ya se persistió por autoguardado.
+function _defaultTrabajoSheets() {
+  return [{
+    name: 'Hoja1',
+    headers: ['Columna1','Columna2','Columna3','Columna4'],
+    rows: Array.from({length:20}, function(){ return ['','','','']; }),
+    locked: false
+  }];
+}
+function resetTrabajoMemoryToDefault() {
+  trabajoSheets = _defaultTrabajoSheets();
+  trabajoActiveSheetIndex = 0;
+  trabajoActiveCell = { row: 0, col: 0 };
+  trabajoSelectionRange = null;
+  trabajoImportedData = null;
+  trabajoLimits = null;
+  trabajoLimitsMode = 'global';
+  trabajoFreezeFirstCol = false;
+  trabajoConditionalFormat = false;
+  trabajoPage = 0;
+  undoStack = [];
+  redoStack = [];
+  datosCurrentData = null;
+  datosCurrentFileName = '';
+  datosSourceType = 'none';
+  datosRecentFiles = [];
 }
 // Analysis page state - dynamic tests
 var analisisSelectedCategory = 'descriptiva';

@@ -1112,6 +1112,11 @@ function _initIndexxApp() {
   Auth.init({
     onLogin: function(session) {
       _restoreAllData();
+      // Aislamiento por usuario: recargar galería y modelo del espacio propio
+      // (init de viz/modelo pudo cargar legacy antes del login).
+      try { if (typeof _V_loadGallery === 'function') { _V_loadGallery(); if (typeof vizRefreshGallery === 'function') vizRefreshGallery(); } } catch (e) {}
+      try { if (typeof ModeloEstadistico !== 'undefined' && ModeloEstadistico.getInstance) { var _mi = ModeloEstadistico.getInstance(); if (_mi && typeof _mi.reload === 'function') _mi.reload(); } } catch (e) {}
+      try { if (typeof updateDatasetOwnerBanner === 'function') updateDatasetOwnerBanner(); } catch (e) {}
       var allowed = typeof _getAllowedPages === 'function' ? _getAllowedPages() : [];
       if (allowed.length) {
         document.querySelectorAll('.snav-card[data-page]').forEach(function(el){
@@ -1129,6 +1134,13 @@ function _initIndexxApp() {
       loadPage('datos');
       // FASE 2 — aviso de documentos pendientes de firma (no bloquea login)
       try { if (typeof firmaNotifyPending === 'function') firmaNotifyPending(); } catch (e) {}
+    },
+    onLogout: function() {
+      // Cambio de cuenta: limpiar memoria (el espacio ya se autoguardó por
+      // usuario). Sin escrituras a storage aquí: la sesión ya se cerró y las
+      // claves resolverían a legacy.
+      try { if (typeof resetTrabajoMemoryToDefault === 'function') resetTrabajoMemoryToDefault(); } catch (e) {}
+      try { if (typeof updateDatasetOwnerBanner === 'function') updateDatasetOwnerBanner(); } catch (e) {}
     }
   });
 }

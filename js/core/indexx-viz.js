@@ -1278,8 +1278,8 @@ function vizClearGallery() {
   if (!_V.gallery.length) { showToast('No hay gráficos guardados'); return; }
   if (!confirm('¿Borrar todos los ' + _V.gallery.length + ' gráficos guardados?')) return;
   _V.gallery = [];
-  localStorage.removeItem('sigmaPro_vizGallery');
-  localStorage.removeItem('sigmaPro_vizGalleryMeta');
+  _V_scopedRemove('sigmaPro_vizGallery');
+  _V_scopedRemove('sigmaPro_vizGalleryMeta');
   vizRefreshGallery();
   _V_clearChartDisplay();
   showToast('🗑 Galería limpiada');
@@ -1300,9 +1300,19 @@ function _V_clearChartDisplay() {
   _V_destroyChart();
 }
 
+function _V_storageScope() {
+  if (typeof StorageScope !== 'undefined' && StorageScope) return StorageScope;
+  return {
+    sGet: function(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    sSet: function(k, v) { try { localStorage.setItem(k, v); return true; } catch (e) { return false; } },
+    sRemove: function(k) { try { localStorage.removeItem(k); } catch (e) {} }
+  };
+}
+function _V_scopedRemove(k) { _V_storageScope().sRemove(k); }
+
 function _V_saveGallery() {
   try {
-    localStorage.setItem('sigmaPro_vizGallery', JSON.stringify(_V.gallery.map(function(g) {
+    _V_storageScope().sSet('sigmaPro_vizGallery', JSON.stringify(_V.gallery.map(function(g) {
       var item = { id: g.id, title: g.title, type: g.type };
       if (g.vars) item.vars = g.vars;
       if (g.palette) item.palette = g.palette;
@@ -1317,7 +1327,7 @@ function _V_saveGallery() {
     if (e.name === 'QuotaExceededError') {
       _V.gallery.forEach(function(g) { delete g.thumb; });
       try {
-        localStorage.setItem('sigmaPro_vizGallery', JSON.stringify(_V.gallery.map(function(g) {
+        _V_storageScope().sSet('sigmaPro_vizGallery', JSON.stringify(_V.gallery.map(function(g) {
           var item = { id: g.id, title: g.title, type: g.type };
           if (g.vars) item.vars = g.vars;
           if (g.palette) item.palette = g.palette;
@@ -1334,7 +1344,7 @@ function _V_saveGallery() {
 
 function _V_loadGallery() {
   try {
-    var saved = localStorage.getItem('sigmaPro_vizGallery');
+    var saved = _V_storageScope().sGet('sigmaPro_vizGallery');
     if (saved) {
       var parsed = JSON.parse(saved);
       if (Array.isArray(parsed)) {

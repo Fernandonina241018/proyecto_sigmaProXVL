@@ -711,7 +711,7 @@ const StateManager = (() => {
                 savedAt: state.savedAt
             });
             
-            await StorageAdapter.setItem('statAnalyzerState', serialized);
+            await StorageAdapter.setItemScoped('statAnalyzerState', serialized);
             return true;
         } catch (error) {
             console.error('❌ Error al guardar estado:', error);
@@ -721,7 +721,7 @@ const StateManager = (() => {
     
     async function loadFromLocalStorage() {
         try {
-            const serialized = await StorageAdapter.getItem('statAnalyzerState');
+            const serialized = await StorageAdapter.getItemMigrated('statAnalyzerState');
             if (!serialized) {
                 return false;
             }
@@ -746,9 +746,10 @@ const StateManager = (() => {
     }
     
     async function clearLocalStorage() {
-        await StorageAdapter.removeItem('statAnalyzerState');
-        await StorageAdapter.removeItem('sigmaPro_analisis');
-        await StorageAdapter.removeItem('sigmaPro_graficos');
+        // Solo el espacio del usuario actual (nunca el de otras cuentas).
+        await StorageAdapter.removeItemScoped('statAnalyzerState');
+        await StorageAdapter.removeItemScoped('sigmaPro_analisis');
+        await StorageAdapter.removeItemScoped('sigmaPro_graficos');
     }
 
     // ========================================
@@ -757,25 +758,25 @@ const StateManager = (() => {
 
     async function getAnalisisHistory() {
         try {
-            const data = await StorageAdapter.getItem('sigmaPro_analisis');
+            const data = await StorageAdapter.getItemMigrated('sigmaPro_analisis');
             return data ? JSON.parse(data) : [];
         } catch (e) { return []; }
     }
 
     async function setAnalisisHistory(arr) {
-        try { await StorageAdapter.setItem('sigmaPro_analisis', JSON.stringify(arr)); }
+        try { await StorageAdapter.setItemScoped('sigmaPro_analisis', JSON.stringify(arr)); }
         catch (e) { console.error('Error guardando historial de análisis:', e); }
     }
 
     async function getGraficosHistory() {
         try {
-            const data = await StorageAdapter.getItem('sigmaPro_graficos');
+            const data = await StorageAdapter.getItemMigrated('sigmaPro_graficos');
             return data ? JSON.parse(data) : [];
         } catch (e) { return []; }
     }
 
     async function setGraficosHistory(arr) {
-        try { await StorageAdapter.setItem('sigmaPro_graficos', JSON.stringify(arr)); }
+        try { await StorageAdapter.setItemScoped('sigmaPro_graficos', JSON.stringify(arr)); }
         catch (e) { console.error('Error guardando historial de gráficos:', e); }
     }
     

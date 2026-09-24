@@ -405,7 +405,14 @@ var ModeloEstadistico = (function () {
         });
     };
 
-    /* ── Persistencia ─────────────────────────────────────────── */
+    /* ── Persistencia (aislada por usuario vía StorageScope) ────── */
+    function _scopedStore() {
+        if (typeof StorageScope !== 'undefined' && StorageScope) return StorageScope;
+        return {
+            sGet: function(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+            sSet: function(k, v) { try { localStorage.setItem(k, v); return true; } catch (e) { return false; } }
+        };
+    }
     ModeloEstadistico.prototype._save = function () {
         try {
             var data = {
@@ -414,7 +421,7 @@ var ModeloEstadistico = (function () {
                 weights: this.weights,
                 performance: this.performance
             };
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            _scopedStore().sSet(STORAGE_KEY, JSON.stringify(data));
         } catch (e) {
             console.warn('[ModeloEstadistico] Error al guardar:', e.message);
         }
@@ -422,13 +429,29 @@ var ModeloEstadistico = (function () {
 
     ModeloEstadistico.prototype._load = function () {
         try {
-            var raw = localStorage.getItem(STORAGE_KEY);
+            var raw = _scopedStore().sGet(STORAGE_KEY);
             if (!raw) return null;
             return JSON.parse(raw);
         } catch (e) {
             console.warn('[ModeloEstadistico] Error al cargar:', e.message);
             return null;
         }
+    };
+
+    // Recarga el modelo del usuario actual (login / cambio de cuenta).
+    ModeloEstadistico.prototype.reload = function () {
+        this.analyses = [];
+        this.trees = {};
+        this.weights = { knn: 0.5, tree: 0.5 };
+        this.performance = { total: 0, accepted: 0, byCategory: {} };
+        var self = this;
+        Object.keys(CATEGORIES).forEach(function (cat) {
+            self.performance.byCategory[cat] = { total: 0, accepted: 0 };
+            self.trees[cat] = null;
+        });
+        this._dirty = false;
+        this._loaded = false;
+        return this.init();
     };
 
     /* ── API publica ──────────────────────────────────────────── */

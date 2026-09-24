@@ -6,6 +6,11 @@ beforeEach(async () => {
     setItem: (key, val) => { mockStore[key] = val; return Promise.resolve(); },
     getItem: (key) => Promise.resolve(mockStore[key] || null),
     removeItem: (key) => { delete mockStore[key]; return Promise.resolve(); },
+    // Mirror del aislamiento por usuario (sin sesión en tests: claves base).
+    scopedKey: (key) => key,
+    setItemScoped: function(key, val) { return this.setItem(key, val); },
+    getItemMigrated: function(key) { return this.getItem(key); },
+    removeItemScoped: function(key) { return this.removeItem(key); },
     migrateFromLocalStorage: () => {},
   };
   globalThis.Logger = {

@@ -66,10 +66,16 @@ function showUndoToast(msg) {
   _toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2000);
 }
 
+function scopedStorageRemove(base) {
+  try {
+    if (typeof StorageScope !== 'undefined' && StorageScope) StorageScope.sRemove(base);
+    else localStorage.removeItem(base);
+  } catch (e) {}
+}
 function nuevoProyecto() {
   if (!confirm('¿Crear un nuevo proyecto? Se perderán los datos actuales.')) return;
   if (typeof StateManager !== 'undefined') StateManager.resetState();
-  localStorage.removeItem('statAnalyzerState');
+  scopedStorageRemove('statAnalyzerState');
   location.reload();
 }
 
@@ -154,7 +160,7 @@ function showSettingsModal() {
     '</div>' +
     '<div class="settings-row" style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg-base);border-radius:8px">' +
       '<span>🗑️ Datos guardados</span>' +
-      '<button class="btn btn-sm" style="padding:2px 10px;font-size:0.8rem;color:var(--danger)" onclick="if(confirm(\'¿Limpiar todos los datos guardados?\\nEsto cerrará la sesión actual.\')){localStorage.clear();sessionStorage.clear();location.reload()}">Limpiar</button>' +
+      '<button class="btn btn-sm" style="padding:2px 10px;font-size:0.8rem;color:var(--danger)" onclick="if(confirm(\'¿Limpiar tus datos guardados?\\nSolo se borra tu espacio (no el de otras cuentas).\\nEsto cerrará la sesión actual.\')){if(typeof StorageScope!==\'undefined\'&&StorageScope){StorageScope.clearMine();}else{localStorage.clear();}sessionStorage.clear();location.reload()}">Limpiar</button>' +
     '</div>' +
     '</div>' +
     '<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);font-size:0.75rem;color:var(--text-faint)">' +

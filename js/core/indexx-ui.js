@@ -127,6 +127,34 @@ document.addEventListener('click', function(e) {
   }
 });
 
+// ── Banner titularidad del espacio de datos ──
+// Muestra de quién son los datos cargados (aislamiento por usuario).
+// Se actualiza en login/logout (ver Auth.init en indexx-analysis.js).
+(function initDatasetOwnerBanner() {
+  try {
+    if (document.getElementById('datasetOwnerBanner')) return;
+    var bar = document.querySelector('.titlebar');
+    if (!bar || !bar.parentNode) return;
+    var b = document.createElement('div');
+    b.id = 'datasetOwnerBanner';
+    b.style.cssText = 'display:none;align-items:center;gap:8px;padding:4px 14px;font-size:11px;color:var(--text-muted);background:var(--bg-secondary);border-bottom:1px solid var(--border)';
+    bar.parentNode.insertBefore(b, bar.nextSibling);
+  } catch (e) {}
+})();
+function updateDatasetOwnerBanner() {
+  try {
+    var b = document.getElementById('datasetOwnerBanner');
+    if (!b) return;
+    var u = (typeof StorageScope !== 'undefined' && StorageScope) ? StorageScope.currentUser() : null;
+    if (!u) { b.style.display = 'none'; b.innerHTML = ''; return; }
+    var n = (typeof trabajoSheets !== 'undefined' && trabajoSheets) ? trabajoSheets.length : 0;
+    b.style.display = 'flex';
+    b.innerHTML = '<span>📁 Espacio de datos: <b style="color:var(--text-primary)">' + escapeHtml(u) + '</b></span>'
+      + '<span>' + n + ' hoja(s)</span>'
+      + '<span style="opacity:.6">· aislado por usuario</span>';
+  } catch (e) {}
+}
+
 // ── Perfil modal ──
 function showPerfilModal() {
   var session = typeof Auth !== 'undefined' ? Auth.getSession() : null;
