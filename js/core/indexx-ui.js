@@ -65,6 +65,8 @@ document.addEventListener('click', function(e) {
 });
 
 // ── Sidebar toggle ──
+// Desktop: alterna modo rail (iconos + badges) en vez de ocultar.
+// Móvil: overlay con .open (sin cambios).
 function toggleSidebar() {
   var sidebar = document.getElementById('sidebar');
   var toggle = document.getElementById('sidebarToggle');
@@ -75,10 +77,8 @@ function toggleSidebar() {
     if (backdrop) backdrop.classList.toggle('show');
     return;
   }
-  var isNowCollapsed = !sidebar.classList.contains('collapsed');
-  sidebar.classList.toggle('collapsed');
+  sidebar.classList.toggle('rail');
   if (toggle) toggle.classList.toggle('rotated');
-  try { localStorage.setItem('sidebar_collapsed', isNowCollapsed); } catch(e) {}
 }
 document.getElementById('sidebarToggle').addEventListener('click', toggleSidebar);
 document.addEventListener('keydown', function(e) {
@@ -154,6 +154,48 @@ function updateDatasetOwnerBanner() {
       + '<span style="opacity:.6">· aislado por usuario</span>';
   } catch (e) {}
 }
+
+// ── Tooltip del modo rail (título + descripción al hover) ──
+function _railTipEl() {
+  var tip = document.getElementById('railTip');
+  if (!tip) {
+    tip = document.createElement('div');
+    tip.id = 'railTip';
+    tip.className = 'rail-tip';
+    document.body.appendChild(tip);
+  }
+  return tip;
+}
+function updateRailTip(card) {
+  var tip = _railTipEl();
+  var sidebar = document.getElementById('sidebar');
+  if (!card || !sidebar || !sidebar.classList.contains('rail') || window.innerWidth <= 768) {
+    tip.style.display = 'none';
+    return;
+  }
+  var b = card.querySelector('.snav-tx b');
+  var d = card.querySelector('.snav-tx span');
+  var r = card.getBoundingClientRect();
+  tip.innerHTML = escapeHtml(b ? b.textContent : '') + '<small>' + escapeHtml(d ? d.textContent : '') + '</small>';
+  tip.style.display = 'block';
+  tip.style.left = (r.right + 10) + 'px';
+  tip.style.top = (r.top + r.height / 2 - 20) + 'px';
+}
+function hideRailTip() {
+  var t = document.getElementById('railTip');
+  if (t) t.style.display = 'none';
+}
+(function initRailTip() {
+  try {
+    var nav = document.querySelector('.sidebar-nav');
+    if (!nav || !nav.addEventListener) return;
+    nav.addEventListener('mouseover', function(e) {
+      var card = e.target && e.target.closest ? e.target.closest('.snav-card[data-page]') : null;
+      updateRailTip(card);
+    });
+    nav.addEventListener('mouseleave', hideRailTip);
+  } catch (e) {}
+})();
 
 // ── Perfil modal ──
 function showPerfilModal() {
@@ -1030,16 +1072,11 @@ document.getElementById('sidebarBackdrop')?.addEventListener('click', function()
   this.classList.remove('show');
 });
 
-// ── Restore sidebar collapsed state (desktop only) ──
+// ── El sidebar siempre abre colapsado en rail (desktop) ──
 try {
   if (window.innerWidth > 768) {
-    var savedCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
     var sidebar = document.getElementById('sidebar');
-    var toggle = document.getElementById('sidebarToggle');
-    if (savedCollapsed && sidebar && toggle) {
-      sidebar.classList.add('collapsed');
-      toggle.classList.add('rotated');
-    }
+    if (sidebar) sidebar.classList.add('rail');
   }
 } catch(e) {}
 

@@ -4402,3 +4402,12 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - Tests: `tests/storage-scope.test.js` (10: aislamiento, migración, clearMine, restore/reset/persist, adapter) + mock StorageAdapter ampliado en `StateManager.test.js`. Nota: suite corre en node sin happy-dom → stub localStorage en el test.
 
 **Verificación:** `node --check` ×9 OK, vitest **224/224** (17 archivos), backend 60/60 intacto.
+
+### 2026-09-24 (84): Sidebar modo rail (Ctrl+B) — iconos + badges siempre visibles
+
+**Qué:** el sidebar ya no se oculta con `width:0`; colapsa a rail de 56px con iconos y badges (prototipo previo en `/tmp/opencode/icon-rail-prototype.html`).
+- `css/core/indexx.css`: base redondeada (`border` completo, `radius:16px`, margen 8px); `.sidebar.rail` 56px + radius 12px; en rail se ocultan `.snav-tx`/`.snav-chev`, títulos a `···`, badge `.firma-nav-badge` como burbuja esquina; `.rail-tip` tooltip; móvil ≤768px desactiva rail (overlay 240px intacto); `prefers-reduced-motion` sin transición.
+- `js/core/indexx-ui.js`: `toggleSidebar()` alterna `rail` en desktop (móvil `.open` intacto); boot siempre abre en rail desktop (sin persistencia); `updateRailTip`/`hideRailTip` + listeners (título+descripción al hover, solo rail desktop). Badge de firma se sincroniza solo vía `_firmaSetNavBadge` existente (sin cambios en firma).
+- Tests: `tests/sidebar-rail.test.js` (6: boot rail, toggle desktop, open móvil, tooltip visible/oculto, hide) con stubs DOM mínimos — la suite corre en node sin happy-dom.
+
+**Verificación:** `node --check` OK, vitest **230/230** (18 archivos), backend 60/60 intacto.

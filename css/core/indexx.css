@@ -158,8 +158,18 @@
 .ribbon-nav-item { display:flex; align-items:center; gap:8px; padding:6px 10px; border-radius:6px; font-size:13px; color:var(--text-muted); cursor:pointer; transition:background .1s,color .1s; }
 .ribbon-nav-item:hover { background:rgba(255,255,255,.06); color:var(--text-primary); }
 .ribbon-nav-item.active { background:var(--accent); color:#fff; }
-.sidebar { width: 230px; background: var(--bg-sidebar); display: flex; flex-direction: column; border-right: 1px solid var(--border); flex-shrink: 0; overflow: hidden; transition: width .22s cubic-bezier(.4,0,.2,1), opacity .18s ease; }
-  .sidebar.collapsed { width:0; opacity:0; pointer-events:none; border-right:none; }
+.sidebar { width: 230px; background: var(--bg-sidebar); display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 16px; margin: 8px 0 8px 8px; flex-shrink: 0; overflow: hidden; transition: width .22s cubic-bezier(.4,0,.2,1), opacity .18s ease, border-radius .22s ease; }
+  .sidebar.collapsed { width:0; opacity:0; pointer-events:none; border:none; margin:0; }
+  /* ── Modo rail: iconos con badges siempre visibles (Ctrl+B) ── */
+  .sidebar.rail { width:56px; border-radius:12px; }
+  .sidebar.rail .snav-card { padding:10px 0; justify-content:center; }
+  .sidebar.rail .snav-card .snav-tx, .sidebar.rail .snav-card .snav-chev { display:none; }
+  .sidebar.rail .snav-card .nav-icon { width:auto; }
+  .sidebar.rail .nav-section-title { font-size:0; padding:4px 0 0; text-align:center; }
+  .sidebar.rail .nav-section-title::after { content:'···'; font-size:10px; color:var(--text-faint); }
+  .sidebar.rail .snav-card .firma-nav-badge { position:absolute; top:2px; right:2px; margin:0; min-width:18px; height:18px; padding:0 4px; display:grid; place-items:center; border-radius:99px; border:2px solid var(--bg-sidebar); }
+  .rail-tip { position:fixed; z-index:9999; pointer-events:none; background:var(--bg-panel); border:1px solid var(--border); border-radius:8px; padding:6px 10px; font-size:12px; color:var(--text-primary); box-shadow:0 8px 24px rgba(0,0,0,.4); display:none; max-width:230px; }
+  .rail-tip small { display:block; color:var(--text-muted); font-size:11px; }
   .sidebar-header { display:flex; align-items:center; padding:8px 10px; gap:6px; flex-shrink:0; }
   .search-box { flex:1; display:flex; align-items:center; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.16); border-radius:12px; padding:5px 10px; gap:6px;
     -webkit-backdrop-filter:blur(12px) saturate(1.6); backdrop-filter:blur(12px) saturate(1.6);
@@ -204,6 +214,7 @@
   [data-theme="light"] .snav-card:hover { background:rgba(20,22,40,.05); }
   [data-theme="light"] .snav-card.active { background:rgba(109,90,230,.1); }
   @media (prefers-reduced-motion:reduce){.snav-card *,.snav-card{transition:none}}
+  @media (prefers-reduced-motion:reduce){.sidebar{transition:none}}
   .sidebar-footer { margin-top:auto; padding:10px 12px; display:flex; align-items:center; justify-content:space-between; border-top:1px solid var(--border); flex-shrink:0; }
   .vault-name { display:flex; align-items:center; gap:6px; font-size:13px; color:var(--text-muted); cursor:pointer; }
   .vault-name:hover { color:var(--text-primary); }
@@ -1029,6 +1040,14 @@
     border-right: 1px solid var(--border);
   }
   .sidebar.open { transform: translateX(0); }
+  /* En móvil el rail se desactiva: overlay siempre expandido */
+  .sidebar.rail { width:240px; border:none; border-right:1px solid var(--border); border-radius:0; margin:0; }
+  .sidebar.rail .snav-card { padding:10px 12px; justify-content:flex-start; }
+  .sidebar.rail .snav-card .snav-tx { display:block; }
+  .sidebar.rail .snav-card .snav-chev { display:block; }
+  .sidebar.rail .snav-card .firma-nav-badge { position:static; margin-left:auto; border:none; min-width:0; height:auto; display:block; }
+  .sidebar.rail .nav-section-title { font-size:10px; padding:6px 10px 2px; text-align:left; }
+  .sidebar.rail .nav-section-title::after { content:''; }
   .sidebar-backdrop {
     position: fixed; inset: 0; z-index: 99;
     background: rgba(0,0,0,0.5);
