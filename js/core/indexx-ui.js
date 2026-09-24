@@ -194,12 +194,8 @@ function renderPerfil(box, u) {
     + '<span>🕐 ' + escapeHtml(lastLogin) + '</span>'
     + '<span>🔑 ' + (u.login_count || 0) + ' logins</span>'
     + '</div>'
-    + '<div id="perfilNotifBox" style="padding:12px 14px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:12px"><div><div style="font-size:12px;font-weight:700;color:var(--text-primary)">🔔 Notificaciones por publicación</div><div style="font-size:11px;color:var(--text-muted)">Recibe email cuando se publique un reporte (solo título + firmante)</div></div><label style="position:relative;display:inline-flex;align-items:center;cursor:pointer"><input type="checkbox" id="perfilNotifToggle" style="sr-only" checked><span style="width:42px;height:24px;background:var(--accent);border-radius:999px;position:relative;transition:.2s;display:inline-block"><span style="position:absolute;left:3px;top:3px;width:18px;height:18px;background:white;border-radius:50%;transition:.2s" id="perfilNotifThumb"></span></span></label></div>'
-    + '<div id="perfilNotifStatus" style="font-size:11px;color:var(--text-muted);text-align:center;min-height:14px"></div>'
     + '<button class="btn btn-secondary" style="width:100%;justify-content:center" onclick="this.closest(\'.modal-overlay\').remove()">Cerrar</button>'
     + '</div>';
-  // Cargar preferencia async sin bloquear render
-  setTimeout(function(){ try{ initPerfilNotifToggle(); }catch(_){} }, 0);
 }
 
 function renderPerfilSimple(box, session) {
@@ -218,46 +214,6 @@ function renderPerfilSimple(box, session) {
 function campoPerfil(label, value) {
   return '<div style="display:flex;flex-direction:column;gap:4px;background:var(--item-bg);padding:10px 12px;border-radius:8px"><span style="font-size:10px;font-weight:600;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.5px">' + label + '</span><span style="font-size:13px;font-weight:500;color:var(--text-primary)">' + escapeHtml(value || '—') + '</span></div>';
 }
-function initPerfilNotifToggle(){
-  var toggle=document.getElementById('perfilNotifToggle'); var thumb=document.getElementById('perfilNotifThumb'); var status=document.getElementById('perfilNotifStatus'); if(!toggle||!thumb) return;
-  var apiUrl=typeof API_URL!=='undefined'?API_URL:''; var token=typeof Auth!=='undefined'?Auth.getToken():'';
-  function paint(on){ toggle.checked=on; thumb.style.transform=on?'translateX(18px)':''; thumb.parentElement.style.background=on?'var(--accent)':'var(--border)'; if(status) status.textContent=on?'✓ Recibirás emails al publicar':'— Sin notificaciones por email'; }
-  fetchWithTimeout(apiUrl+'/api/me/notifications',{headers:{Authorization:'Bearer '+(token||'')}}).then(function(r){return r.json();}).then(function(d){ if(d&&d.preference) paint(!!d.preference.on_publish); }).catch(function(){ paint(true); });
-  toggle.addEventListener('change',function(){
-    var on=toggle.checked; paint(on); if(status) status.textContent='Guardando...';
-    fetch(apiUrl+'/api/me/notifications',{method:'PUT',headers:{'Content-Type':'application/json',Authorization:'Bearer '+(token||'')},body:JSON.stringify({on_publish:on})}).then(function(r){return r.json();}).then(function(d){ if(d&&d.preference) paint(!!d.preference.on_publish); if(status) status.textContent=d.ok?'✓ Guardado':'Error'; }).catch(function(){ if(status) status.textContent='✕ Error al guardar'; });
-  });
-}
-// ── Campana notificaciones (solo publish, título+firmante) ──
-var _notifBellPoll=null;
-function initNotificationBell(){
-  var bar=document.getElementById('tabbar'); if(!bar||document.getElementById('notifBell')) return;
-  var bell=document.createElement('button'); bell.id='notifBell'; bell.title='Notificaciones'; bell.style.cssText='position:relative;margin-left:8px;padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:var(--bg-secondary);cursor:pointer;font-size:14px;display:inline-flex;align-items:center;gap:6px';
-  bell.innerHTML='🔔<span id="notifBadge" style="display:none;min-width:18px;height:18px;padding:0 4px;border-radius:999px;background:#ef4444;color:white;font-size:11px;font-weight:800;align-items:center;justify-content:center">0</span>';
-  var end=document.querySelector('.tabbar-end'); if(end) end.prepend(bell); else bar.appendChild(bell);
-  var drop=document.createElement('div'); drop.id='notifDrop'; drop.style.cssText='display:none;position:fixed;right:12px;top:48px;width:360px;max-height:420px;overflow:auto;background:var(--bg-panel);border:1px solid var(--border);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.3);z-index:9999';
-  drop.innerHTML='<div style="padding:10px 12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><b style="font-size:12px">Notificaciones</b><span style="font-size:11px;color:var(--text-muted)">solo publicaciones</span></div><div id="notifList" style="padding:8px;display:flex;flex-direction:column;gap:8px"><div style="font-size:12px;color:var(--text-muted);text-align:center;padding:18px">Sin notificaciones</div></div>';
-  document.body.appendChild(drop);
-  bell.addEventListener('click',function(e){ e.stopPropagation(); drop.style.display=drop.style.display==='none'?'block':'none'; if(drop.style.display==='block') refreshNotificationDeliveries(); });
-  document.addEventListener('click',function(e){ if(!drop.contains(e.target)&&e.target!==bell) drop.style.display='none'; });
-  function poll(){ refreshNotificationDeliveries(); }
-  poll(); _notifBellPoll=setInterval(poll, 60000);
-}
-function refreshNotificationDeliveries(){
-  var apiUrl=typeof API_URL!=='undefined'?API_URL:''; var token=typeof Auth!=='undefined'?Auth.getToken():''; if(!token) return;
-  fetchWithTimeout(apiUrl+'/api/notifications/deliveries?limit=20',{headers:{Authorization:'Bearer '+(token||'')}}).then(function(r){return r.json();}).then(function(d){
-    var list=document.getElementById('notifList'); var badge=document.getElementById('notifBadge'); if(!list) return;
-    var rows=(d&&d.deliveries)||[]; var unread=rows.filter(function(r){return r.status==='sent'||r.status==='queued';}).length;
-    if(badge){ badge.textContent=unread>99?'99+':unread; badge.style.display=unread?'inline-flex':'none'; }
-    if(!rows.length){ list.innerHTML='<div style="font-size:12px;color:var(--text-muted);text-align:center;padding:18px">Sin notificaciones</div>'; return; }
-    list.innerHTML=rows.slice(0,20).map(function(r){
-      var st={sent:'✓ Enviado',queued:'… En cola',bounced:'✕ Rebote',skipped_optout:'— Omitido (opt-out)'}[r.status]||r.status;
-      var dt=r.created_at?String(r.created_at).slice(0,16).replace('T',' '):'';
-      return '<div style="padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--item-bg)"><div style="font-size:12px;font-weight:700;color:var(--text-primary)">'+escapeHtml(String(r.sign_session_id))+' · '+escapeHtml(r.recipient_email||'')+'</div><div style="font-size:11px;color:var(--text-muted)">'+escapeHtml(st)+' · '+escapeHtml(dt)+'</div></div>';
-    }).join('');
-  }).catch(function(){});
-}
-if(typeof window!=='undefined'){ window.addEventListener('load',function(){ try{ initNotificationBell(); }catch(_){} }); }
 
 // ── Tab management ──
 var tabbar = document.getElementById('tabbar');
