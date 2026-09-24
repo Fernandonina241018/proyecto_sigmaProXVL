@@ -4411,3 +4411,5 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - Tests: `tests/sidebar-rail.test.js` (6: boot rail, toggle desktop, open móvil, tooltip visible/oculto, hide) con stubs DOM mínimos — la suite corre en node sin happy-dom.
 
 **Verificación:** `node --check` OK, vitest **230/230** (18 archivos), backend 60/60 intacto.
+
+### 2026-09-24 (84b): Rail 56px → 64px (+15%)
