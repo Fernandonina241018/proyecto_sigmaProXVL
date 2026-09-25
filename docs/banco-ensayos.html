@@ -2,19 +2,50 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Banco de Ensayos — Calificación (documento de trabajo)</title>
+<title>Banco de Ensayos — DQ / IQ / OQ / PQ</title>
 </head>
 <body>
 
-<h1>Banco de Ensayos — Documento de trabajo</h1>
-<p><strong>Estado:</strong> borrador · <strong>Uso:</strong> listado base antes de migrar al módulo de calificación.
-Cada ensayo usa la misma ficha (id estable + campos fijos) para que la migración sea mecánica.</p>
-<p><strong>Convención de IDs:</strong> BAL balanza · PH pH-metro · AUT autoclave · HOR horno/estufa ·
-REF refrigerador/congelador · ALM almacén · HVAC climatización · AGU agua purificada ·
-INS instrumento genérico · SW software.</p>
+<h1>Banco de Ensayos</h1>
+<p><a href="#dq">DQ</a> · <a href="#iq">IQ</a> · <a href="#oq">OQ</a> · <a href="#pq">PQ</a></p>
 
-<!-- ================================================================ -->
-<h2>1. EQUIPOS</h2>
+<!-- ============================ DQ ============================ -->
+<h2 id="dq">DQ — Calificación de Diseño</h2>
+
+<article class="ensayo" data-id="DQ-001" data-categoria="equipo" data-fase="DQ">
+  <h3>DQ-001 — Revisión de diseño vs. URS (equipo)</h3>
+  <p><strong>Objetivo:</strong> Confirmar que el diseño ofertado cubre todos los requisitos de usuario (URS).</p>
+  <p><strong>Procedimiento:</strong> 1) Matriz URS vs. propuesta del proveedor, requisito por requisito. 2) Registrar cumplimientos, desviaciones y justificaciones. 3) Aprobar o rechazar el diseño.</p>
+  <p><strong>Criterio de aceptación:</strong> 100% requisitos críticos cubiertos; desviaciones justificadas y aprobadas.</p>
+  <p><strong>Referencia:</strong> GAMP 5; GMP Anexo 15.</p>
+</article>
+
+<article class="ensayo" data-id="DQ-002" data-categoria="software" data-fase="DQ">
+  <h3>DQ-002 — Trazabilidad URS → especificación funcional (software)</h3>
+  <p><strong>Objetivo:</strong> Verificar que cada requisito de usuario tiene su correspondiente especificación funcional y de diseño.</p>
+  <p><strong>Procedimiento:</strong> 1) Construir matriz de trazabilidad URS→FS→DS. 2) Detectar requisitos huérfanos o specs sin origen. 3) Cerrar brechas antes de codificar/configurar.</p>
+  <p><strong>Criterio de aceptación:</strong> 0 requisitos sin trazabilidad; 0 specs sin requisito origen.</p>
+  <p><strong>Referencia:</strong> GAMP 5; 21 CFR Part 11.</p>
+</article>
+
+<article class="ensayo" data-id="DQ-003" data-categoria="almacen" data-fase="DQ">
+  <h3>DQ-003 — Revisión de diseño de almacén (layout y flujos)</h3>
+  <p><strong>Objetivo:</strong> Aprobar layout, zonificación y flujos de material/personal antes de construir.</p>
+  <p><strong>Procedimiento:</strong> 1) Revisar plano: zonas aprobado/cuarentena/rechazado, flujos unidireccionales, esclusas. 2) Verificar capacidad vs. pronóstico. 3) Ubicación de sensores T/H en plano.</p>
+  <p><strong>Criterio de aceptación:</strong> Flujos sin cruces limpio/sucio; capacidad ≥ 120% pronóstico; sensores cubren 100% zonas.</p>
+  <p><strong>Referencia:</strong> GDP; OMS TRS 1010 Anexo 7.</p>
+</article>
+
+<article class="ensayo" data-id="DQ-004" data-categoria="instrumento" data-fase="DQ">
+  <h3>DQ-004 — Adecuación del rango del instrumento a la necesidad analítica</h3>
+  <p><strong>Objetivo:</strong> Confirmar que rango, resolución y exactitud ofertados cubren el uso analítico previsto.</p>
+  <p><strong>Procedimiento:</strong> 1) Definir rango de uso y tolerancia requerida por el método. 2) Cotejar contra datasheet del instrumento. 3) Verificar disponibilidad de patrones de calibración trazables.</p>
+  <p><strong>Criterio de aceptación:</strong> Rango cubre 100% uso previsto; resolución ≤ 1/10 de la tolerancia; patrones disponibles.</p>
+  <p><strong>Referencia:</strong> USP &lt;1058&gt;; ISO 17025.</p>
+</article>
+
+<!-- ============================ IQ ============================ -->
+<h2 id="iq">IQ — Calificación de Instalación</h2>
 
 <article class="ensayo" data-id="AUT-001" data-categoria="autoclave" data-fase="IQ">
   <h3>AUT-001 — Verificación de instalación contra especificaciones de compra</h3>
@@ -23,6 +54,33 @@ INS instrumento genérico · SW software.</p>
   <p><strong>Criterio de aceptación:</strong> Concordancia 100% modelo/serie/specs; utilities según plano (pasa/falla).</p>
   <p><strong>Referencia:</strong> GMP Anexo 1; manual del fabricante.</p>
 </article>
+
+<article class="ensayo" data-id="HVAC-001" data-categoria="hvac" data-fase="IQ">
+  <h3>HVAC-001 — Verificación de componentes y planos</h3>
+  <p><strong>Objetivo:</strong> Confirmar que ductos, filtros, sensores y controladores corresponden a planos y specs.</p>
+  <p><strong>Procedimiento:</strong> 1) Recorrido con plano as-built. 2) Registrar modelo/serie de UMA, filtros HEPA, sensores T/H/presión diferencial. 3) Verificar certificados de filtros.</p>
+  <p><strong>Criterio de aceptación:</strong> Concordancia 100% vs. plano; certificados HEPA vigentes (pasa/falla).</p>
+  <p><strong>Referencia:</strong> GMP Anexo 1; ISO 14644.</p>
+</article>
+
+<article class="ensayo" data-id="ALM-001" data-categoria="almacen" data-fase="IQ">
+  <h3>ALM-001 — Verificación de layout, zonificación y sensores</h3>
+  <p><strong>Objetivo:</strong> Confirmar zonificación (aprobado/cuarentena/rechazado), estanterías y sensores T/H instalados.</p>
+  <p><strong>Procedimiento:</strong> 1) Cotejar layout vs. plano. 2) Inventariar sensores (modelo/serie/ubicación). 3) Verificar calibración vigente de cada sensor. 4) Verificar señalización de zonas.</p>
+  <p><strong>Criterio de aceptación:</strong> Layout 100% según plano; 100% sensores calibrados; zonas señalizadas (pasa/falla).</p>
+  <p><strong>Referencia:</strong> GDP; OMS TRS 1010 Anexo 7.</p>
+</article>
+
+<article class="ensayo" data-id="SW-001" data-categoria="software" data-fase="IQ">
+  <h3>SW-001 — Verificación de instalación y control de versiones</h3>
+  <p><strong>Objetivo:</strong> Confirmar versión instalada, entorno y accesos iniciales del sistema.</p>
+  <p><strong>Procedimiento:</strong> 1) Registrar versión, build, SO/motor BD. 2) Cotejar contra especificación aprobada. 3) Listar cuentas iniciales y permisos. 4) Verificar instalador/hash si aplica.</p>
+  <p><strong>Criterio de aceptación:</strong> Versión = especificada; hash coincide; matriz de accesos iniciales documentada.</p>
+  <p><strong>Referencia:</strong> GAMP 5; 21 CFR Part 11.</p>
+</article>
+
+<!-- ============================ OQ ============================ -->
+<h2 id="oq">OQ — Calificación de Operación</h2>
 
 <article class="ensayo" data-id="AUT-002" data-categoria="autoclave" data-fase="OQ">
   <h3>AUT-002 — Distribución de calor en cámara vacía</h3>
@@ -38,25 +96,6 @@ INS instrumento genérico · SW software.</p>
   <p><strong>Procedimiento:</strong> 1) Colocar paquete Bowie-Dick en punto frío (drenaje). 2) Correr ciclo 134°C × 3.5 min. 3) Interpretar viraje uniforme del indicador.</p>
   <p><strong>Criterio de aceptación:</strong> Viraje uniforme, sin zonas claras (pasa/falla, con evidencia fotográfica).</p>
   <p><strong>Referencia:</strong> EN 285; ISO 11140-4.</p>
-</article>
-
-<article class="ensayo" data-id="AUT-004" data-categoria="autoclave" data-fase="PQ">
-  <h3>AUT-004 — Penetración de calor con carga máxima</h3>
-  <p><strong>Objetivo:</strong> Demostrar esterilización efectiva en la configuración de carga máxima rutinaria.</p>
-  <p><strong>Procedimiento:</strong> 1) Cargar patrón máximo definido. 2) Ubicar termopares + indicadores biológicos en puntos fríos. 3) Correr 3 ciclos productivos. 4) Incubar IBs.</p>
-  <p><strong>Criterio de aceptación:</strong> Fo ≥ 12 en todos los puntos; IBs negativos 3/3 ciclos.</p>
-  <p><strong>Referencia:</strong> PDA TR-01; USP &lt;1229&gt;.</p>
-</article>
-
-<!-- ================================================================ -->
-<h2>2. SISTEMAS</h2>
-
-<article class="ensayo" data-id="HVAC-001" data-categoria="hvac" data-fase="IQ">
-  <h3>HVAC-001 — Verificación de componentes y planos</h3>
-  <p><strong>Objetivo:</strong> Confirmar que ductos, filtros, sensores y controladores corresponden a planos y specs.</p>
-  <p><strong>Procedimiento:</strong> 1) Recorrido con plano as-built. 2) Registrar modelo/serie de UMA, filtros HEPA, sensores T/H/presión diferencial. 3) Verificar certificados de filtros.</p>
-  <p><strong>Criterio de aceptación:</strong> Concordancia 100% vs. plano; certificados HEPA vigentes (pasa/falla).</p>
-  <p><strong>Referencia:</strong> GMP Anexo 1; ISO 14644.</p>
 </article>
 
 <article class="ensayo" data-id="HVAC-002" data-categoria="hvac" data-fase="OQ">
@@ -75,25 +114,6 @@ INS instrumento genérico · SW software.</p>
   <p><strong>Referencia:</strong> USP &lt;1231&gt;; EP 2.2.38.</p>
 </article>
 
-<article class="ensayo" data-id="AGU-002" data-categoria="agua" data-fase="PQ">
-  <h3>AGU-002 — Monitoreo de desempeño anual del sistema de agua</h3>
-  <p><strong>Objetivo:</strong> Demostrar control sostenido del sistema durante un año de operación rutinaria.</p>
-  <p><strong>Procedimiento:</strong> 1) Compilar resultados del plan de monitoreo (puntos rotativos + fijos). 2) Análisis de tendencias y OOS/OOT. 3) Revisar sanitizaciones.</p>
-  <p><strong>Criterio de aceptación:</strong> ≥ 95% resultados conformes; OOS investigados con CAPA cerrada; tendencia bajo control.</p>
-  <p><strong>Referencia:</strong> USP &lt;1231&gt;; PDA TR-13.</p>
-</article>
-
-<!-- ================================================================ -->
-<h2>3. ALMACENES</h2>
-
-<article class="ensayo" data-id="ALM-001" data-categoria="almacen" data-fase="IQ">
-  <h3>ALM-001 — Verificación de layout, zonificación y sensores</h3>
-  <p><strong>Objetivo:</strong> Confirmar zonificación (aprobado/cuarentena/rechazado), estanterías y sensores T/H instalados.</p>
-  <p><strong>Procedimiento:</strong> 1) Cotejar layout vs. plano. 2) Inventariar sensores (modelo/serie/ubicación). 3) Verificar calibración vigente de cada sensor. 4) Verificar señalización de zonas.</p>
-  <p><strong>Criterio de aceptación:</strong> Layout 100% según plano; 100% sensores calibrados; zonas señalizadas (pasa/falla).</p>
-  <p><strong>Referencia:</strong> GDP; OMS TRS 1010 Anexo 7.</p>
-</article>
-
 <article class="ensayo" data-id="ALM-002" data-categoria="almacen" data-fase="OQ">
   <h3>ALM-002 — Mapeo térmico en vacío</h3>
   <p><strong>Objetivo:</strong> Identificar puntos fríos/calientes y demostrar uniformidad sin carga.</p>
@@ -101,17 +121,6 @@ INS instrumento genérico · SW software.</p>
   <p><strong>Criterio de aceptación:</strong> 100% lecturas dentro del rango declarado (ej. 15–25°C); MKT dentro de rango.</p>
   <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
-
-<article class="ensayo" data-id="ALM-003" data-categoria="almacen" data-fase="PQ">
-  <h3>ALM-003 — Mapeo térmico con carga + prueba de excursión</h3>
-  <p><strong>Objetivo:</strong> Demostrar control de temperatura con carga real y recuperación ante apertura de puertas.</p>
-  <p><strong>Procedimiento:</strong> 1) Repetir mapeo con ocupación ≥ 80%. 2) Excursión programada: puerta abierta 5 min, medir tiempo de recuperación. 3) Simular corte de energía (peor caso documentado).</p>
-  <p><strong>Criterio de aceptación:</strong> Rango mantenido con carga; recuperación &lt; 30 min; alarma de excursión operativa.</p>
-  <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; PDA TR-64.</p>
-</article>
-
-<!-- ================================================================ -->
-<h2>4. INSTRUMENTOS</h2>
 
 <article class="ensayo" data-id="BAL-001" data-categoria="balanza" data-fase="OQ">
   <h3>BAL-001 — Exactitud y excentricidad de carga</h3>
@@ -153,25 +162,6 @@ INS instrumento genérico · SW software.</p>
   <p><strong>Referencia:</strong> OMS TRS 1010; PDA TR-64.</p>
 </article>
 
-<article class="ensayo" data-id="REF-002" data-categoria="refrigerador" data-fase="PQ">
-  <h3>REF-002 — Mapeo con carga + recuperación puerta abierta</h3>
-  <p><strong>Objetivo:</strong> Verificar desempeño con carga rutinaria y recuperación ante apertura.</p>
-  <p><strong>Procedimiento:</strong> 1) Mapeo con carga ≥ 70% (7 días). 2) Apertura 5 min, medir recuperación a 8°C. 3) Verificar alarma y registro continuo.</p>
-  <p><strong>Criterio de aceptación:</strong> Rango 2–8°C con carga; recuperación &lt; 30 min; alarma operativa.</p>
-  <p><strong>Referencia:</strong> OMS TRS 1010; PDA TR-64.</p>
-</article>
-
-<!-- ================================================================ -->
-<h2>5. SOFTWARE (CSV / GAMP 5)</h2>
-
-<article class="ensayo" data-id="SW-001" data-categoria="software" data-fase="IQ">
-  <h3>SW-001 — Verificación de instalación y control de versiones</h3>
-  <p><strong>Objetivo:</strong> Confirmar versión instalada, entorno y accesos iniciales del sistema.</p>
-  <p><strong>Procedimiento:</strong> 1) Registrar versión, build, SO/motor BD. 2) Cotejar contra especificación aprobada. 3) Listar cuentas iniciales y permisos. 4) Verificar instalador/hash si aplica.</p>
-  <p><strong>Criterio de aceptación:</strong> Versión = especificada; hash coincide; matriz de accesos iniciales documentada.</p>
-  <p><strong>Referencia:</strong> GAMP 5; 21 CFR Part 11.</p>
-</article>
-
 <article class="ensayo" data-id="SW-002" data-categoria="software" data-fase="OQ">
   <h3>SW-002 — Pruebas funcionales y segregación de roles</h3>
   <p><strong>Objetivo:</strong> Verificar funciones críticas y que cada rol solo accede a lo autorizado.</p>
@@ -188,6 +178,41 @@ INS instrumento genérico · SW software.</p>
   <p><strong>Referencia:</strong> 21 CFR 11.10(a)(e); MHRA Data Integrity.</p>
 </article>
 
+<!-- ============================ PQ ============================ -->
+<h2 id="pq">PQ — Calificación de Desempeño</h2>
+
+<article class="ensayo" data-id="AUT-004" data-categoria="autoclave" data-fase="PQ">
+  <h3>AUT-004 — Penetración de calor con carga máxima</h3>
+  <p><strong>Objetivo:</strong> Demostrar esterilización efectiva en la configuración de carga máxima rutinaria.</p>
+  <p><strong>Procedimiento:</strong> 1) Cargar patrón máximo definido. 2) Ubicar termopares + indicadores biológicos en puntos fríos. 3) Correr 3 ciclos productivos. 4) Incubar IBs.</p>
+  <p><strong>Criterio de aceptación:</strong> Fo ≥ 12 en todos los puntos; IBs negativos 3/3 ciclos.</p>
+  <p><strong>Referencia:</strong> PDA TR-01; USP &lt;1229&gt;.</p>
+</article>
+
+<article class="ensayo" data-id="AGU-002" data-categoria="agua" data-fase="PQ">
+  <h3>AGU-002 — Monitoreo de desempeño anual del sistema de agua</h3>
+  <p><strong>Objetivo:</strong> Demostrar control sostenido del sistema durante un año de operación rutinaria.</p>
+  <p><strong>Procedimiento:</strong> 1) Compilar resultados del plan de monitoreo (puntos rotativos + fijos). 2) Análisis de tendencias y OOS/OOT. 3) Revisar sanitizaciones.</p>
+  <p><strong>Criterio de aceptación:</strong> ≥ 95% resultados conformes; OOS investigados con CAPA cerrada; tendencia bajo control.</p>
+  <p><strong>Referencia:</strong> USP &lt;1231&gt;; PDA TR-13.</p>
+</article>
+
+<article class="ensayo" data-id="ALM-003" data-categoria="almacen" data-fase="PQ">
+  <h3>ALM-003 — Mapeo térmico con carga + prueba de excursión</h3>
+  <p><strong>Objetivo:</strong> Demostrar control de temperatura con carga real y recuperación ante apertura de puertas.</p>
+  <p><strong>Procedimiento:</strong> 1) Repetir mapeo con ocupación ≥ 80%. 2) Excursión programada: puerta abierta 5 min, medir tiempo de recuperación. 3) Simular corte de energía (peor caso documentado).</p>
+  <p><strong>Criterio de aceptación:</strong> Rango mantenido con carga; recuperación &lt; 30 min; alarma de excursión operativa.</p>
+  <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; PDA TR-64.</p>
+</article>
+
+<article class="ensayo" data-id="REF-002" data-categoria="refrigerador" data-fase="PQ">
+  <h3>REF-002 — Mapeo con carga + recuperación puerta abierta</h3>
+  <p><strong>Objetivo:</strong> Verificar desempeño con carga rutinaria y recuperación ante apertura.</p>
+  <p><strong>Procedimiento:</strong> 1) Mapeo con carga ≥ 70% (7 días). 2) Apertura 5 min, medir recuperación a 8°C. 3) Verificar alarma y registro continuo.</p>
+  <p><strong>Criterio de aceptación:</strong> Rango 2–8°C con carga; recuperación &lt; 30 min; alarma operativa.</p>
+  <p><strong>Referencia:</strong> OMS TRS 1010; PDA TR-64.</p>
+</article>
+
 <article class="ensayo" data-id="SW-004" data-categoria="software" data-fase="PQ">
   <h3>SW-004 — Desempeño en producción e integridad de datos</h3>
   <p><strong>Objetivo:</strong> Verificar comportamiento con carga y usuarios reales durante uso rutinario.</p>
@@ -195,14 +220,6 @@ INS instrumento genérico · SW software.</p>
   <p><strong>Criterio de aceptación:</strong> Cero pérdida de datos; restauración exitosa; 100% firmas con los 3 atributos (nombre/fecha/significado).</p>
   <p><strong>Referencia:</strong> GAMP 5; 21 CFR 11.50/11.70.</p>
 </article>
-
-<!-- ================================================================ -->
-<h2>6. NOTAS DE TRABAJO (no migrar)</h2>
-<ul>
-  <li>Agregar ensayos nuevos copiando un bloque <code>&lt;article&gt;</code> y cambiando data-id / data-categoria / data-fase.</li>
-  <li>No cambiar IDs una vez asignados (serán claves en la BD futura).</li>
-  <li>Marcar ensayos propuestos con <code><!-- PROPUESTO: ... --></code> hasta aprobarlos.</li>
-</ul>
 
 </body>
 </html>

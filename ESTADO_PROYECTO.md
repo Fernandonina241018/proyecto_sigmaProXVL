@@ -4421,3 +4421,5 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-09-24 (85): Banco de ensayos — documento de trabajo
 
 ### 2026-09-24 (85b): Banco de ensayos movido a docs/ (versionado, 21 fichas)
+
+### 2026-09-24 (85c): Banco reestructurado por fase DQ/IQ/OQ/PQ (25 fichas)
