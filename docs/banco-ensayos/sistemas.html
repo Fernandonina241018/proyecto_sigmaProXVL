@@ -9,6 +9,15 @@
 <p><a href="index.html">← Índice</a></p>
 <h1>Sistemas — Entidades</h1>
 
+<p><label for="sistemaSelect"><strong>Seleccionar sistema:</strong></label>
+<select id="sistemaSelect" onchange="var a=document.querySelector('[data-entidad=\''+this.value+'\']');if(a)a.scrollIntoView();">
+  <option value="">— elegir —</option>
+  <option value="hvac">HVAC / Climatización</option>
+  <option value="agua-purificada">Agua purificada / WFI</option>
+  <option value="vapor-limpio">Vapor limpio</option>
+  <option value="aire-comprimido">Aire comprimido grado proceso</option>
+</select></p>
+
 <article class="entidad" data-entidad="hvac" data-categoria="sistemas" data-estado="con-ensayos">
   <h3>HVAC / Climatización</h3>
   <p><strong>Descripción:</strong> Climatización de áreas clasificadas: UMA, filtros HEPA, diferenciales de presión.</p>

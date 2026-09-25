@@ -9,6 +9,15 @@
 <p><a href="index.html">← Índice</a></p>
 <h1>Almacenes — Entidades</h1>
 
+<p><label for="almacenSelect"><strong>Seleccionar almacén:</strong></label>
+<select id="almacenSelect" onchange="var a=document.querySelector('[data-entidad=\''+this.value+'\']');if(a)a.scrollIntoView();">
+  <option value="">— elegir —</option>
+  <option value="almacen-ambiente-a">Almacén 15–25°C / HR &lt; 65%</option>
+  <option value="almacen-ambiente-b">Almacén 0–30°C / HR &lt; 80%</option>
+  <option value="cuarto-frio">Cuarto frío (2–8°C)</option>
+  <option value="congelador">Congelador (−20°C / −80°C)</option>
+</select></p>
+
 <article class="entidad" data-entidad="almacen-ambiente-a" data-categoria="almacenes" data-estado="con-ensayos">
   <h3>Almacén temperatura ambiente (15–25°C) Humedad Relativa (< 65.0%)</h3>
   <p><strong>Descripción:</strong> Almacén general con zonificación aprobado/cuarentena/rechazado y monitoreo T/H.</p>
