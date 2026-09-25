@@ -549,6 +549,21 @@ function updFiltro() {
     var cond = a.getAttribute('data-cond') || 'ambas';
     a.style.display = (c === 'ambas' || cond === 'ambas' || cond === c) ? '' : 'none';
   });
+  renumera();
+}
+// Numera visible 1..N sin saltos (el ID fijo se conserva para trazabilidad)
+function renumera() {
+  document.querySelectorAll('section[id^="fase-"]').forEach(function(sec) {
+    if (sec.style.display === 'none') return;
+    var vis = Array.prototype.filter.call(sec.querySelectorAll('article.ensayo'), function(a) {
+      return a.style.display !== 'none';
+    });
+    vis.forEach(function(a, i) {
+      var b = a.querySelector('.seq');
+      if (!b) { b = document.createElement('span'); b.className = 'seq'; a.insertBefore(b, a.firstChild); }
+      b.textContent = 'ENSAYO ' + (i + 1) + ' DE ' + vis.length + ' — ';
+    });
+  });
 }
 updFiltro();
 </script>
