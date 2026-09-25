@@ -30,8 +30,8 @@
 <section id="fase-dq">
 <h2>DQ — Ensayos</h2>
 
-<article class="ensayo" data-id="DQ-003" data-fase="DQ">
-  <h3>DQ-003 — Revisión de diseño de almacén (layout y flujos)</h3>
+<article class="ensayo" data-id="ALM-DQ-001" data-fase="DQ">
+  <h3>ALM-DQ-001 — Revisión de diseño de almacén (layout y flujos)</h3>
   <p><strong>Objetivo:</strong> Aprobar layout, zonificación y flujos de material/personal antes de construir.</p>
   <p><strong>Procedimiento:</strong> 1) Revisar plano: zonas aprobado/cuarentena/rechazado, flujos unidireccionales, esclusas. 2) Verificar capacidad vs. pronóstico. 3) Ubicación de sensores T/H en plano con setpoints <span class="rango">15–25 °C / HR &lt; 65 %</span>.</p>
   <p><strong>Criterio de aceptación:</strong> Flujos sin cruces limpio/sucio; capacidad ≥ 120% pronóstico; sensores cubren 100% zonas.</p>
@@ -43,8 +43,8 @@
 <section id="fase-iq">
 <h2>IQ — Ensayos</h2>
 
-<article class="ensayo" data-id="ALM-001" data-fase="IQ">
-  <h3>ALM-001 — Verificación de layout, zonificación y sensores</h3>
+<article class="ensayo" data-id="ALM-IQ-001" data-fase="IQ">
+  <h3>ALM-IQ-001 — Verificación de layout, zonificación y sensores</h3>
   <p><strong>Objetivo:</strong> Confirmar zonificación (aprobado/cuarentena/rechazado), estanterías y sensores T/H instalados.</p>
   <p><strong>Procedimiento:</strong> 1) Cotejar layout vs. plano. 2) Inventariar sensores (modelo/serie/ubicación). 3) Verificar calibración vigente de cada sensor. 4) Verificar señalización de zonas y setpoints <span class="rango">15–25 °C / HR &lt; 65 %</span>.</p>
   <p><strong>Criterio de aceptación:</strong> Layout 100% según plano; 100% sensores calibrados; zonas señalizadas (pasa/falla).</p>
@@ -56,45 +56,46 @@
 <section id="fase-oq">
 <h2>OQ — Ensayos</h2>
 
-<article class="ensayo" data-id="ALM-002" data-fase="OQ">
-  <h3>ALM-002 — Mapeo térmico en vacío</h3>
-  <p><strong>Objetivo:</strong> Identificar puntos fríos/calientes y demostrar uniformidad sin carga.</p>
-  <p><strong>Procedimiento:</strong> 1) Distribuir 9–15 data loggers calibrados (esquinas, centro, puerta, techo). 2) Registrar ≥ 7 días continuos (1 lectura/5 min). 3) Analizar MKT, mín/máx, normalidad.</p>
-  <p><strong>Criterio de aceptación:</strong> 100% lecturas dentro de <span class="rango">15–25 °C / HR &lt; 65 %</span>; MKT dentro de rango.</p>
-  <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; PDA TR-64.</p>
-</article>
-</section>
+<article class="ensayo" data-id="ALM-OQ-001" data-fase="OQ">
 
-<!-- ================= PQ ================= -->
-<section id="fase-pq">
-<h2>PQ — Ensayos</h2>
-
-<article class="ensayo" data-id="ALM-003" data-fase="PQ">
-  <h3>ALM-003 — Prueba de excursión (apertura de puertas)</h3>
+<article class="ensayo" data-id="ALM-OQ-002" data-fase="OQ">
+  <h3>ALM-OQ-002 — Prueba de excursión (apertura de puertas)</h3>
   <p><strong>Objetivo:</strong> Demostrar control de temperatura con carga real y recuperación ante apertura de puertas.</p>
   <p><strong>Procedimiento:</strong> 1) Mapeo con ocupación ≥ 80%. 2) Excursión programada: puerta abierta 5 min, medir tiempo de recuperación a <span class="rango">15–25 °C / HR &lt; 65 %</span>. 3) Verificar alarma y registro continuo.</p>
   <p><strong>Criterio de aceptación:</strong> Rango mantenido con carga; recuperación &lt; 30 min; alarma de excursión operativa.</p>
   <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
 
-<article class="ensayo" data-id="ALM-004" data-fase="PQ">
-  <h3>ALM-004 — Prueba de corte energético</h3>
+<article class="ensayo" data-id="ALM-OQ-003" data-fase="OQ">
+  <h3>ALM-OQ-003 — Prueba de corte energético</h3>
   <p><strong>Objetivo:</strong> Demostrar que ante un corte de energía el almacén mantiene el rango o activa respaldo/alarma según lo previsto.</p>
   <p><strong>Procedimiento:</strong> 1) Con carga rutinaria, simular corte de energía (desconexión programada). 2) Registrar deriva de T°/HR y tiempo fuera de <span class="rango">15–25 °C / HR &lt; 65 %</span>. 3) Verificar arranque de respaldo (UPS/grupo electrógeno) y alarma. 4) Restablecer energía y medir recuperación.</p>
   <p><strong>Criterio de aceptación:</strong> Respaldo operativo &lt; 60 s; alarma inmediata; recuperación al rango &lt; 30 min tras restablecer; producto evaluado según procedimiento de excursiones.</p>
   <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; GDP.</p>
 </article>
+</section>
 
-<article class="ensayo" data-id="ALM-005" data-fase="PQ">
-  <h3>ALM-005 — Mapeo térmico con carga media (50%) + prueba de excursión</h3>
+  <h3>ALM-OQ-001 — Mapeo térmico en vacío</h3>
+  <p><strong>Objetivo:</strong> Identificar puntos fríos/calientes y demostrar uniformidad sin carga.</p>
+  <p><strong>Procedimiento:</strong> 1) Distribuir 9–15 data loggers calibrados (esquinas, centro, puerta, techo). 2) Registrar ≥ 7 días continuos (1 lectura/5 min). 3) Analizar MKT, mín/máx, normalidad.</p>
+  <p><strong>Criterio de aceptación:</strong> 100% lecturas dentro de <span class="rango">15–25 °C / HR &lt; 65 %</span>; MKT dentro de rango.</p>
+  <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; PDA TR-64.</p>
+</article>
+
+<!-- ================= PQ ================= -->
+<section id="fase-pq">
+<h2>PQ — Ensayos</h2>
+
+<article class="ensayo" data-id="ALM-PQ-001" data-fase="PQ">
+  <h3>ALM-PQ-001 — Mapeo térmico con carga media (50%) / estática / dinámica</h3>
   <p><strong>Objetivo:</strong> Demostrar uniformidad y recuperación con ocupación media representativa.</p>
   <p><strong>Procedimiento:</strong> 1) Mapeo con ocupación ≈ 50%. 2) Excursión programada: puerta abierta 5 min, medir tiempo de recuperación a <span class="rango">15–25 °C / HR &lt; 65 %</span>. 3) Verificar alarma y registro continuo.</p>
   <p><strong>Criterio de aceptación:</strong> 100% lecturas dentro de rango; recuperación &lt; 30 min; alarma operativa.</p>
   <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
 
-<article class="ensayo" data-id="ALM-006" data-fase="PQ">
-  <h3>ALM-006 — Mapeo térmico con carga máxima (100%) + prueba de excursión</h3>
+<article class="ensayo" data-id="ALM-PQ-002" data-fase="PQ">
+  <h3>ALM-PQ-002 — Mapeo térmico con carga máxima (100%) / estática / dinámica</h3>
   <p><strong>Objetivo:</strong> Demostrar uniformidad y recuperación en el peor caso de ocupación (almacén lleno).</p>
   <p><strong>Procedimiento:</strong> 1) Mapeo con ocupación ≈ 100% (peor caso). 2) Excursión programada: puerta abierta 5 min, medir tiempo de recuperación a <span class="rango">15–25 °C / HR &lt; 65 %</span>. 3) Verificar alarma y registro continuo.</p>
   <p><strong>Criterio de aceptación:</strong> 100% lecturas dentro de rango; recuperación &lt; 30 min; alarma operativa.</p>
