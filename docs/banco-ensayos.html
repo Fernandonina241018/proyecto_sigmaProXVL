@@ -18,12 +18,14 @@
 
 <div class="responsabilidades">
 <p><strong>RESPONSABILIDADES DEL PROTOCOLO</strong></p>
-  <p><label>Analista de validaciones:<br><input list="lista-personal" data-rol="analista" onchange="guardaResp(this)"></label></p>
-  <p><label>Coordinador de validaciones:<br><input list="lista-personal" data-rol="coordinador" onchange="guardaResp(this)"></label></p>
-  <p><label>Gerente dueño del equipo:<br><input list="lista-personal" data-rol="gerente-equipo" onchange="guardaResp(this)"></label></p>
-  <p><label>Gerente de gestión de calidad:<br><input list="lista-personal" data-rol="gerente-calidad" onchange="guardaResp(this)"></label></p>
+<ul>
+  <li>Analista de validaciones</li>
+  <li>Coordinador de validaciones</li>
+  <li>Gerente dueño del objeto calificado (equipo, almacén, sistema, instrumento o software)</li>
+  <li>Gerente de gestión de calidad</li>
+</ul>
 </div>
-<datalist id="lista-personal"></datalist>
+
 
 <article class="ensayo" data-id="EQ-DQ-001" data-categoria="equipo" data-fase="DQ">
   <h3>EQ-DQ-001 — Revisión de diseño vs. URS (equipo)</h3>
@@ -80,10 +82,12 @@
 
 <div class="responsabilidades">
 <p><strong>RESPONSABILIDADES DEL PROTOCOLO</strong></p>
-  <p><label>Analista de validaciones:<br><input list="lista-personal" data-rol="analista" onchange="guardaResp(this)"></label></p>
-  <p><label>Coordinador de validaciones:<br><input list="lista-personal" data-rol="coordinador" onchange="guardaResp(this)"></label></p>
-  <p><label>Gerente dueño del equipo:<br><input list="lista-personal" data-rol="gerente-equipo" onchange="guardaResp(this)"></label></p>
-  <p><label>Gerente de gestión de calidad:<br><input list="lista-personal" data-rol="gerente-calidad" onchange="guardaResp(this)"></label></p>
+<ul>
+  <li>Analista de validaciones</li>
+  <li>Coordinador de validaciones</li>
+  <li>Gerente dueño del objeto calificado (equipo, almacén, sistema, instrumento o software)</li>
+  <li>Gerente de gestión de calidad</li>
+</ul>
 </div>
 
 
@@ -349,10 +353,12 @@
 
 <div class="responsabilidades">
 <p><strong>RESPONSABILIDADES DEL PROTOCOLO</strong></p>
-  <p><label>Analista de validaciones:<br><input list="lista-personal" data-rol="analista" onchange="guardaResp(this)"></label></p>
-  <p><label>Coordinador de validaciones:<br><input list="lista-personal" data-rol="coordinador" onchange="guardaResp(this)"></label></p>
-  <p><label>Gerente dueño del equipo:<br><input list="lista-personal" data-rol="gerente-equipo" onchange="guardaResp(this)"></label></p>
-  <p><label>Gerente de gestión de calidad:<br><input list="lista-personal" data-rol="gerente-calidad" onchange="guardaResp(this)"></label></p>
+<ul>
+  <li>Analista de validaciones</li>
+  <li>Coordinador de validaciones</li>
+  <li>Gerente dueño del objeto calificado (equipo, almacén, sistema, instrumento o software)</li>
+  <li>Gerente de gestión de calidad</li>
+</ul>
 </div>
 
 
@@ -613,10 +619,12 @@
 
 <div class="responsabilidades">
 <p><strong>RESPONSABILIDADES DEL PROTOCOLO</strong></p>
-  <p><label>Analista de validaciones:<br><input list="lista-personal" data-rol="analista" onchange="guardaResp(this)"></label></p>
-  <p><label>Coordinador de validaciones:<br><input list="lista-personal" data-rol="coordinador" onchange="guardaResp(this)"></label></p>
-  <p><label>Gerente dueño del equipo:<br><input list="lista-personal" data-rol="gerente-equipo" onchange="guardaResp(this)"></label></p>
-  <p><label>Gerente de gestión de calidad:<br><input list="lista-personal" data-rol="gerente-calidad" onchange="guardaResp(this)"></label></p>
+<ul>
+  <li>Analista de validaciones</li>
+  <li>Coordinador de validaciones</li>
+  <li>Gerente dueño del objeto calificado (equipo, almacén, sistema, instrumento o software)</li>
+  <li>Gerente de gestión de calidad</li>
+</ul>
 </div>
 
 
@@ -734,30 +742,6 @@
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
 
-<script>
-function cargaResp() {
-  try {
-    var nombres = JSON.parse(localStorage.getItem('resp-nombres') || '[]');
-    var dl = document.getElementById('lista-personal');
-    if (dl) dl.innerHTML = nombres.map(function(n) { return '<option value="' + n.replace(/"/g, '&quot;') + '">'; }).join('');
-    document.querySelectorAll('input[data-rol]').forEach(function(i) {
-      i.value = localStorage.getItem('resp-' + i.getAttribute('data-rol')) || '';
-    });
-  } catch (e) {}
-}
-function guardaResp(el) {
-  try {
-    localStorage.setItem('resp-' + el.getAttribute('data-rol'), el.value);
-    var nombres = JSON.parse(localStorage.getItem('resp-nombres') || '[]');
-    if (el.value && nombres.indexOf(el.value) < 0) {
-      nombres.push(el.value);
-      localStorage.setItem('resp-nombres', JSON.stringify(nombres));
-    }
-    cargaResp();
-  } catch (e) {}
-}
-cargaResp();
-</script>
 
 </body>
 </html>
