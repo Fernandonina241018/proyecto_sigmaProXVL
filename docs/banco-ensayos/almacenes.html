@@ -81,11 +81,11 @@
   <p><strong>Referencia:</strong><br>GDP; OMS TRS 1010 Anexo 7.</p>
 </article>
 
-<article id="art-ALM-DQ-002" class="ensayo" data-id="ALM-DQ-002" data-fase="DQ" data-cond="ambas">
+<article id="art-ALM-DQ-002" class="ensayo" data-id="ALM-DQ-002" data-fase="DQ" data-cond="ambas" data-resumen="DQ">
   <h3>ALM-DQ-002 — Tabla resumen de los ensayos del DQ</h3>
   <p><strong>Objetivo:</strong><br>Consolidar en una matriz el resultado de todos los ensayos DQ como acta de cierre de la fase.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Listar los ensayos ALM-DQ-001 con su veredicto (pasa/falla) y fecha de ejecución<br>
+  1) Listar los ensayos del protocolo (<span class="lista-resumen" data-fase-lista="DQ"></span>) con su veredicto (pasa/falla) y fecha de ejecución<br>
   2) Adjuntar a cada fila sus documentos entregables (referencia al legajo, no copias duplicadas)<br>
   3) Listar desviaciones abiertas con su estado y plan de cierre<br>
   4) Firmar el acta de cierre DQ (responsable de validación + jefe de almacén + calidad)</p>
@@ -332,11 +332,11 @@
   <p><strong>Referencia:</strong><br>GDP; normativa local de seguridad industrial; OMS TRS 1010 Anexo 7.</p>
 </article>
 
-<article class="ensayo" data-id="ALM-IQ-010" data-fase="IQ" data-cond="est">
+<article class="ensayo" data-id="ALM-IQ-010" data-fase="IQ" data-cond="est" data-resumen="IQ">
   <h3>ALM-IQ-010 — Tabla resumen de los ensayos del IQ</h3>
   <p><strong>Objetivo:</strong><br>Consolidar en una matriz el resultado de todos los ensayos IQ como acta de cierre de la fase.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Listar los ensayos ALM-IQ-001 a ALM-IQ-009 con su veredicto (pasa/falla) y fecha de ejecución<br>
+  1) Listar los ensayos del protocolo (<span class="lista-resumen" data-fase-lista="IQ"></span>) con su veredicto (pasa/falla) y fecha de ejecución<br>
   2) Adjuntar a cada fila sus documentos entregables (referencia al legajo, no copias duplicadas)<br>
   3) Listar desviaciones abiertas con su estado y plan de cierre<br>
   4) Firmar el acta de cierre IQ (responsable de validación + jefe de almacén + calidad)</p>
@@ -534,11 +534,11 @@
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; GDP.</p>
 </article>
 
-<article id="art-ALM-OQ-008" class="ensayo" data-id="ALM-OQ-008" data-fase="OQ" data-cond="ambas">
+<article id="art-ALM-OQ-008" class="ensayo" data-id="ALM-OQ-008" data-fase="OQ" data-cond="ambas" data-resumen="OQ">
   <h3>ALM-OQ-008 — Tabla resumen de los ensayos del OQ</h3>
   <p><strong>Objetivo:</strong><br>Consolidar en una matriz el resultado de todos los ensayos OQ como acta de cierre de la fase.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Listar los ensayos ALM-OQ-001 a ALM-OQ-007 con su veredicto (pasa/falla) y fecha de ejecución<br>
+  1) Listar los ensayos del protocolo (<span class="lista-resumen" data-fase-lista="OQ"></span>) con su veredicto (pasa/falla) y fecha de ejecución<br>
   2) Adjuntar a cada fila sus documentos entregables (referencia al legajo, no copias duplicadas)<br>
   3) Listar desviaciones abiertas con su estado y plan de cierre<br>
   4) Firmar el acta de cierre OQ (responsable de validación + jefe de almacén + calidad)</p>
@@ -654,11 +654,11 @@
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
 
-<article id="art-ALM-PQ-005" class="ensayo" data-id="ALM-PQ-005" data-fase="PQ" data-cond="ambas">
+<article id="art-ALM-PQ-005" class="ensayo" data-id="ALM-PQ-005" data-fase="PQ" data-cond="ambas" data-resumen="PQ">
   <h3>ALM-PQ-005 — Tabla resumen de los ensayos del PQ</h3>
   <p><strong>Objetivo:</strong><br>Consolidar en una matriz el resultado de todos los ensayos PQ como acta de cierre de la fase.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Listar los ensayos ALM-PQ-001 a ALM-PQ-004 con su veredicto (pasa/falla) y fecha de ejecución<br>
+  1) Listar los ensayos del protocolo (<span class="lista-resumen" data-fase-lista="PQ"></span>) con su veredicto (pasa/falla) y fecha de ejecución<br>
   2) Adjuntar a cada fila sus documentos entregables (referencia al legajo, no copias duplicadas)<br>
   3) Listar desviaciones abiertas con su estado y plan de cierre<br>
   4) Firmar el acta de cierre PQ (responsable de validación + jefe de almacén + calidad)</p>
@@ -734,6 +734,17 @@ function renumera() {
       nav.appendChild(link);
       nav.appendChild(document.createElement('br'));
     });
+  });
+  // Listas de tablas resumen: solo ensayos visibles bajo el filtro activo
+  document.querySelectorAll('.lista-resumen').forEach(function(sp) {
+    var fl = sp.getAttribute('data-fase-lista') || '';
+    var ids = [];
+    document.querySelectorAll('article.ensayo[data-fase="' + fl + '"]').forEach(function(a) {
+      if (a.style.display === 'none' || a.hasAttribute('data-resumen')) return;
+      var hid = a.getAttribute('data-id');
+      if (hid) ids.push(hid);
+    });
+    sp.textContent = ids.join(', ');
   });
 }
 // Enlace a ensayo dependiente: revela su protocolo y salta hacia él
