@@ -4417,3 +4417,5 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-09-24 (84c): Rail 64px → 70px (+10% botones colapsados)
 
 ### 2026-09-24 (84d): Búsqueda superior colapsa a lupa en rail
+
+### 2026-09-24 (85): Banco de ensayos — documento de trabajo
