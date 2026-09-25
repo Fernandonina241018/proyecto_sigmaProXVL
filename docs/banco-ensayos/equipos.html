@@ -2,16 +2,62 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Banco de Ensayos — Equipos</title>
+<title>Banco de Ensayos — Equipos e Instrumentos</title>
 </head>
 <body>
 
 <p><a href="index.html">← Índice</a></p>
-<h1>Equipos — Entidades</h1>
+<h1>Equipos e Instrumentos</h1>
+
+<!-- ============ SECCIÓN 1: LISTADO (solo nombres, sin detalles) ============ -->
+<h2>Listado de equipos más comunes en industria farmacéutica</h2>
+
+<h3>Producción</h3>
+<ul>
+  <li>Tableteadora rotativa</li>
+  <li>Encapsuladora</li>
+  <li>Mezclador en V / Bin Blender</li>
+  <li>Granulador de alto corte</li>
+  <li>Lecho fluido (secado/granulación)</li>
+  <li>Bombeadora / Llenadora de líquidos</li>
+  <li>Liofilizador</li>
+  <li>Autoclave</li>
+  <li>Horno de calor seco / Estufa</li>
+  <li>Túnel de despirogenización</li>
+  <li>Etiquetadora</li>
+  <li>Blístera / Encartonadora</li>
+</ul>
+
+<h3>Laboratorio / Control de calidad</h3>
+<ul>
+  <li>Balanza analítica</li>
+  <li>Balanza de precisión</li>
+  <li>pH-metro</li>
+  <li>Espectrofotómetro UV-Vis</li>
+  <li>HPLC</li>
+  <li>Cromatógrafo de gases (GC)</li>
+  <li>Disolutor</li>
+  <li>Desintegrador</li>
+  <li>Friabilómetro</li>
+  <li>Durómetro</li>
+  <li>Karl Fischer (humedad)</li>
+  <li>TOC (carbono orgánico total)</li>
+  <li>Conductímetro</li>
+  <li>Viscosímetro</li>
+  <li>Microscopio</li>
+  <li>Incubadora</li>
+  <li>Cabina de flujo laminar</li>
+  <li>Refrigerador de laboratorio (2–8°C)</li>
+  <li>Congelador (−20°C / −80°C)</li>
+  <li>Centrífuga</li>
+  <li>Termómetros / Data loggers</li>
+</ul>
+
+<!-- ============ SECCIÓN 2: ENSAYOS POR ENTIDAD (separado del listado) ============ -->
+<h2>Ensayos por entidad</h2>
 
 <article class="entidad" data-entidad="autoclave" data-categoria="equipos" data-estado="con-ensayos">
   <h3>Autoclave</h3>
-  <p><strong>Descripción:</strong> Esterilizador por vapor a presión para cargas porosas, líquidos y utensilios.</p>
   <p><strong>Ensayos DQ:</strong> DQ-001</p>
   <p><strong>Ensayos IQ:</strong> AUT-001</p>
   <p><strong>Ensayos OQ:</strong> AUT-002, AUT-003</p>
@@ -20,7 +66,6 @@
 
 <article class="entidad" data-entidad="horno-estufa" data-categoria="equipos" data-estado="pendiente">
   <h3>Horno / Estufa de laboratorio</h3>
-  <p><strong>Descripción:</strong> Calor seco para esterilización, despirogenización y secado.</p>
   <p><strong>Ensayos DQ:</strong> DQ-001 (pendiente adaptar)</p>
   <p><strong>Ensayos IQ:</strong> pendiente</p>
   <p><strong>Ensayos OQ:</strong> pendiente</p>
@@ -29,7 +74,6 @@
 
 <article class="entidad" data-entidad="liofilizador" data-categoria="equipos" data-estado="pendiente">
   <h3>Liofilizador</h3>
-  <p><strong>Descripción:</strong> Secado por congelación para productos termolábiles.</p>
   <p><strong>Ensayos DQ:</strong> pendiente</p>
   <p><strong>Ensayos IQ:</strong> pendiente</p>
   <p><strong>Ensayos OQ:</strong> pendiente</p>
@@ -38,7 +82,46 @@
 
 <article class="entidad" data-entidad="centrifuga" data-categoria="equipos" data-estado="pendiente">
   <h3>Centrífuga</h3>
-  <p><strong>Descripción:</strong> Separación por fuerza centrífuga (piso o mesa, refrigerada o no).</p>
+  <p><strong>Ensayos DQ:</strong> pendiente</p>
+  <p><strong>Ensayos IQ:</strong> pendiente</p>
+  <p><strong>Ensayos OQ:</strong> pendiente</p>
+  <p><strong>Ensayos PQ:</strong> pendiente</p>
+</article>
+
+<article class="entidad" data-entidad="balanza" data-categoria="equipos" data-estado="con-ensayos">
+  <h3>Balanza analítica / precisión</h3>
+  <p><strong>Ensayos DQ:</strong> DQ-004</p>
+  <p><strong>Ensayos IQ:</strong> pendiente (verificación instalación + calibración inicial)</p>
+  <p><strong>Ensayos OQ:</strong> BAL-001, BAL-002, BAL-003</p>
+  <p><strong>Ensayos PQ:</strong> pendiente (verificación rutinaria / re-calificación)</p>
+</article>
+
+<article class="entidad" data-entidad="phmetro" data-categoria="equipos" data-estado="con-ensayos">
+  <h3>pH-metro</h3>
+  <p><strong>Ensayos DQ:</strong> DQ-004 (pendiente adaptar)</p>
+  <p><strong>Ensayos IQ:</strong> pendiente</p>
+  <p><strong>Ensayos OQ:</strong> PH-001</p>
+  <p><strong>Ensayos PQ:</strong> pendiente</p>
+</article>
+
+<article class="entidad" data-entidad="refrigerador-lab" data-categoria="equipos" data-estado="con-ensayos">
+  <h3>Refrigerador de laboratorio (2–8°C)</h3>
+  <p><strong>Ensayos DQ:</strong> pendiente</p>
+  <p><strong>Ensayos IQ:</strong> pendiente</p>
+  <p><strong>Ensayos OQ:</strong> REF-001</p>
+  <p><strong>Ensayos PQ:</strong> REF-002</p>
+</article>
+
+<article class="entidad" data-entidad="termometro" data-categoria="equipos" data-estado="pendiente">
+  <h3>Termómetros / data loggers</h3>
+  <p><strong>Ensayos DQ:</strong> pendiente</p>
+  <p><strong>Ensayos IQ:</strong> pendiente</p>
+  <p><strong>Ensayos OQ:</strong> pendiente</p>
+  <p><strong>Ensayos PQ:</strong> pendiente</p>
+</article>
+
+<article class="entidad" data-entidad="espectrofotometro" data-categoria="equipos" data-estado="pendiente">
+  <h3>Espectrofotómetro UV-Vis</h3>
   <p><strong>Ensayos DQ:</strong> pendiente</p>
   <p><strong>Ensayos IQ:</strong> pendiente</p>
   <p><strong>Ensayos OQ:</strong> pendiente</p>
