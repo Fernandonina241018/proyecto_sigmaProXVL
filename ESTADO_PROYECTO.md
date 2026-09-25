@@ -4419,3 +4419,5 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-09-24 (84d): Búsqueda superior colapsa a lupa en rail
 
 ### 2026-09-24 (85): Banco de ensayos — documento de trabajo
+
+### 2026-09-24 (85b): Banco de ensayos movido a docs/ (versionado, 21 fichas)
