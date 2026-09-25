@@ -38,12 +38,20 @@
   <option value="dina">Solo dinámica</option>
 </select></p>
 
+<p><strong>Protocolos para .docx:</strong><br>
+<label><input type="checkbox" class="docx-prot" value="dq" checked onchange="updDocx()"> DQ</label>
+<label><input type="checkbox" class="docx-prot" value="iq" checked onchange="updDocx()"> IQ</label>
+<label><input type="checkbox" class="docx-prot" value="oq" checked onchange="updDocx()"> OQ</label>
+<label><input type="checkbox" class="docx-prot" value="pq" checked onchange="updDocx()"> PQ</label>
+</p>
+<p id="docxResumen"><strong>DOCUMENTOS A GENERAR:</strong> <span id="docxLista"></span></p>
+
 <!-- ================= DQ ================= -->
 <section id="fase-dq">
 <h2>DQ — Ensayos</h2>
 
 <div class="responsabilidades">
-<p><strong>RESPONSABILIDADES DEL PROTOCOLO</strong></p>
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
 <p><strong>Responsabilidad del Analista de validaciones:</strong></p>
 <ol><li>Coordinar la ejecución de las actividades de calificación con las áreas involucradas, asegurando la disponibilidad del personal, equipos, instrumentos, documentación y demás recursos necesarios.</li><li>Verificar previamente que los instrumentos y equipos utilizados durante la calificación se encuentren identificados, disponibles y con calibración vigente, cuando aplique.</li><li>Ejecutar y/o supervisar las pruebas establecidas en el protocolo, de acuerdo con los procedimientos y criterios de aceptación previamente aprobados.</li><li>Verificar la correcta instalación y ubicación de los instrumentos de medición y dataloggers utilizados para la evaluación de las condiciones ambientales del <span class="equipo">almacén</span>, de acuerdo con el análisis de riesgos y la configuración definida en el protocolo.</li><li>Registrar y/o verificar los datos obtenidos durante la ejecución de las pruebas, asegurando que la información sea completa, legible, trazable y se encuentre asociada a los instrumentos y puntos de medición correspondientes.</li><li>Realizar el análisis de los resultados obtenidos durante la calificación, incluyendo, cuando aplique, el análisis estadístico de los parámetros evaluados, tales como temperatura, humedad relativa y otras variables definidas.</li><li>Identificar y documentar las desviaciones que se presenten durante la ejecución de las actividades de calificación, de acuerdo con los procedimientos internos vigentes.</li><li>Evaluar técnicamente el impacto de las desviaciones sobre los resultados y el estado de calificación del {eq}, en conjunto con las áreas responsables cuando corresponda.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos de evidencia.</li><li>Dar seguimiento al cierre de desviaciones y acciones correctivas hasta su cierre documentado.</li><li>Determinar técnicamente, con base en los resultados obtenidos y dentro del alcance de sus responsabilidades, si las pruebas ejecutadas cumplen con los criterios establecidos y si existe evidencia suficiente para sustentar el estado de calificación del <span class="equipo">almacén</span>.</li></ol>
 <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
@@ -106,7 +114,7 @@
 <h2>IQ — Ensayos</h2>
 
 <div class="responsabilidades">
-<p><strong>RESPONSABILIDADES DEL PROTOCOLO</strong></p>
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
 <p><strong>Responsabilidad del Analista de validaciones:</strong></p>
 <ol><li>Coordinar la ejecución de las actividades de calificación con las áreas involucradas, asegurando la disponibilidad del personal, equipos, instrumentos, documentación y demás recursos necesarios.</li><li>Verificar previamente que los instrumentos y equipos utilizados durante la calificación se encuentren identificados, disponibles y con calibración vigente, cuando aplique.</li><li>Ejecutar y/o supervisar las pruebas establecidas en el protocolo, de acuerdo con los procedimientos y criterios de aceptación previamente aprobados.</li><li>Verificar la correcta instalación y ubicación de los instrumentos de medición y dataloggers utilizados para la evaluación de las condiciones ambientales del <span class="equipo">almacén</span>, de acuerdo con el análisis de riesgos y la configuración definida en el protocolo.</li><li>Registrar y/o verificar los datos obtenidos durante la ejecución de las pruebas, asegurando que la información sea completa, legible, trazable y se encuentre asociada a los instrumentos y puntos de medición correspondientes.</li><li>Realizar el análisis de los resultados obtenidos durante la calificación, incluyendo, cuando aplique, el análisis estadístico de los parámetros evaluados, tales como temperatura, humedad relativa y otras variables definidas.</li><li>Identificar y documentar las desviaciones que se presenten durante la ejecución de las actividades de calificación, de acuerdo con los procedimientos internos vigentes.</li><li>Evaluar técnicamente el impacto de las desviaciones sobre los resultados y el estado de calificación del {eq}, en conjunto con las áreas responsables cuando corresponda.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos de evidencia.</li><li>Dar seguimiento al cierre de desviaciones y acciones correctivas hasta su cierre documentado.</li><li>Determinar técnicamente, con base en los resultados obtenidos y dentro del alcance de sus responsabilidades, si las pruebas ejecutadas cumplen con los criterios establecidos y si existe evidencia suficiente para sustentar el estado de calificación del <span class="equipo">almacén</span>.</li></ol>
 <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
@@ -118,7 +126,7 @@
 </div>
 
 
-<article id="art-ALM-IQ-002" class="ensayo" data-id="ALM-IQ-002" data-fase="IQ" data-cond="est">
+<article id="art-ALM-IQ-002" class="ensayo" data-id="ALM-IQ-002" data-fase="IQ" data-cond="ambas">
   <h3>ALM-IQ-002 — Verificación de planos: arquitectónicos, tuberías, HVAC, flujos e iluminación</h3>
   <p><strong>Objetivo:</strong><br>Confirmar que el legajo de planos está completo, vigente y corresponde a lo construido.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -142,7 +150,7 @@
   <p><strong>Referencia:</strong><br>GDP; OMS TRS 1010 Anexo 7.</p>
 </article>
 
-<article id="art-ALM-IQ-003" class="ensayo" data-id="ALM-IQ-003" data-fase="IQ" data-cond="est">
+<article id="art-ALM-IQ-003" class="ensayo" data-id="ALM-IQ-003" data-fase="IQ" data-cond="ambas">
   <h3>ALM-IQ-003 — Verificación de la ubicación geográfica del<span class="equipo">almacén</span></h3>
   <p><strong>Objetivo:</strong><br>Confirmar que la ubicación no expone el<span class="equipo">almacén</span> a riesgos externos y cuenta con servicios y accesos adecuados.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -164,7 +172,7 @@
   <p><strong>Referencia:</strong><br>GDP; OMS TRS 1010 Anexo 7.</p>
 </article>
 
-<article id="art-ALM-IQ-004" class="ensayo" data-id="ALM-IQ-004" data-fase="IQ" data-cond="est">
+<article id="art-ALM-IQ-004" class="ensayo" data-id="ALM-IQ-004" data-fase="IQ" data-cond="ambas">
   <h3>ALM-IQ-004 — Verificación de paredes con exposición al sol</h3>
   <p><strong>Objetivo:</strong><br>Identificar muros con radiación solar directa y verificar que el acabado/aislamiento protege el rango térmico.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -186,7 +194,7 @@
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
 
-<article id="art-ALM-IQ-005" class="ensayo" data-id="ALM-IQ-005" data-fase="IQ" data-cond="est">
+<article id="art-ALM-IQ-005" class="ensayo" data-id="ALM-IQ-005" data-fase="IQ" data-cond="ambas">
   <h3>ALM-IQ-005 — Verificación de la condición del techo y el piso</h3>
   <p><strong>Objetivo:</strong><br>Confirmar que techo y piso están en condiciones de proteger el producto y permitir operación limpia y segura.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -210,7 +218,7 @@
   <p><strong>Referencia:</strong><br>GDP; OMS TRS 1010 Anexo 7.</p>
 </article>
 
-<article id="art-ALM-IQ-006" class="ensayo" data-id="ALM-IQ-006" data-fase="IQ" data-cond="est">
+<article id="art-ALM-IQ-006" class="ensayo" data-id="ALM-IQ-006" data-fase="IQ" data-cond="ambas">
   <h3>ALM-IQ-006 — Verificación de procedimientos: limpieza, seguridad, flujo y distribución</h3>
   <p><strong>Objetivo:</strong><br>Confirmar que los procedimientos que gobiernan el<span class="equipo">almacén</span> existen, están vigentes, aprobados y difundidos.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -233,7 +241,7 @@
   <p><strong>Referencia:</strong><br>GDP; OMS TRS 1010 Anexo 7.</p>
 </article>
 
-<article id="art-ALM-IQ-001" class="ensayo" data-id="ALM-IQ-001" data-fase="IQ" data-cond="est">
+<article id="art-ALM-IQ-001" class="ensayo" data-id="ALM-IQ-001" data-fase="IQ" data-cond="ambas">
   <h3>ALM-IQ-001 — Verificación de layout, zonificación y sensores</h3>
   <p><strong>Objetivo:</strong><br>Confirmar que lo instalado corresponde al diseño aprobado: zonificación, estanterías, sensores T/H y señalización.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -260,7 +268,7 @@
   <p><strong>Referencia:</strong><br>GDP; OMS TRS 1010 Anexo 7.</p>
 </article>
 
-<article id="art-ALM-IQ-007" class="ensayo" data-id="ALM-IQ-007" data-fase="IQ" data-cond="est">
+<article id="art-ALM-IQ-007" class="ensayo" data-id="ALM-IQ-007" data-fase="IQ" data-cond="ambas">
   <h3>ALM-IQ-007 — Verificación de las medidas del<span class="equipo">almacén</span></h3>
   <p><strong>Objetivo:</strong><br>Confirmar que las dimensiones reales del<span class="equipo">almacén</span> corresponden a los planos aprobados.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -282,7 +290,7 @@
   <p><strong>Referencia:</strong><br>GDP; OMS TRS 1010 Anexo 7.</p>
 </article>
 
-<article id="art-ALM-IQ-008" class="ensayo" data-id="ALM-IQ-008" data-fase="IQ" data-cond="est">
+<article id="art-ALM-IQ-008" class="ensayo" data-id="ALM-IQ-008" data-fase="IQ" data-cond="ambas">
   <h3>ALM-IQ-008 — Verificación de las especificaciones técnicas</h3>
   <p><strong>Objetivo:</strong><br>Confirmar que materiales, acabados y capacidades instaladas cumplen las especificaciones de diseño y la URS.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -307,7 +315,7 @@
   <p><strong>Referencia:</strong><br>GDP; OMS TRS 1010 Anexo 7; GAMP 5 (sistemas asociados).</p>
 </article>
 
-<article class="ensayo" data-id="ALM-IQ-009" data-fase="IQ" data-cond="est">
+<article class="ensayo" data-id="ALM-IQ-009" data-fase="IQ" data-cond="ambas">
   <h3>ALM-IQ-009 — Verificación de apartados de seguridad en el <span class="equipo">almacén</span></h3>
   <p><strong>Objetivo:</strong><br>Confirmar que los dispositivos y apartados de seguridad están instalados, señalizados y vigentes.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -332,7 +340,7 @@
   <p><strong>Referencia:</strong><br>GDP; normativa local de seguridad industrial; OMS TRS 1010 Anexo 7.</p>
 </article>
 
-<article class="ensayo" data-id="ALM-IQ-010" data-fase="IQ" data-cond="est" data-resumen="IQ">
+<article class="ensayo" data-id="ALM-IQ-010" data-fase="IQ" data-cond="ambas" data-resumen="IQ">
   <h3>ALM-IQ-010 — Tabla resumen de los ensayos del IQ</h3>
   <p><strong>Objetivo:</strong><br>Consolidar en una matriz el resultado de todos los ensayos IQ como acta de cierre de la fase.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -358,7 +366,7 @@
 <h2>OQ — Ensayos</h2>
 
 <div class="responsabilidades">
-<p><strong>RESPONSABILIDADES DEL PROTOCOLO</strong></p>
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
 <p><strong>Responsabilidad del Analista de validaciones:</strong></p>
 <ol><li>Coordinar la ejecución de las actividades de calificación con las áreas involucradas, asegurando la disponibilidad del personal, equipos, instrumentos, documentación y demás recursos necesarios.</li><li>Verificar previamente que los instrumentos y equipos utilizados durante la calificación se encuentren identificados, disponibles y con calibración vigente, cuando aplique.</li><li>Ejecutar y/o supervisar las pruebas establecidas en el protocolo, de acuerdo con los procedimientos y criterios de aceptación previamente aprobados.</li><li>Verificar la correcta instalación y ubicación de los instrumentos de medición y dataloggers utilizados para la evaluación de las condiciones ambientales del <span class="equipo">almacén</span>, de acuerdo con el análisis de riesgos y la configuración definida en el protocolo.</li><li>Registrar y/o verificar los datos obtenidos durante la ejecución de las pruebas, asegurando que la información sea completa, legible, trazable y se encuentre asociada a los instrumentos y puntos de medición correspondientes.</li><li>Realizar el análisis de los resultados obtenidos durante la calificación, incluyendo, cuando aplique, el análisis estadístico de los parámetros evaluados, tales como temperatura, humedad relativa y otras variables definidas.</li><li>Identificar y documentar las desviaciones que se presenten durante la ejecución de las actividades de calificación, de acuerdo con los procedimientos internos vigentes.</li><li>Evaluar técnicamente el impacto de las desviaciones sobre los resultados y el estado de calificación del {eq}, en conjunto con las áreas responsables cuando corresponda.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos de evidencia.</li><li>Dar seguimiento al cierre de desviaciones y acciones correctivas hasta su cierre documentado.</li><li>Determinar técnicamente, con base en los resultados obtenidos y dentro del alcance de sus responsabilidades, si las pruebas ejecutadas cumplen con los criterios establecidos y si existe evidencia suficiente para sustentar el estado de calificación del <span class="equipo">almacén</span>.</li></ol>
 <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
@@ -366,7 +374,7 @@
 <p><strong>Responsabilidad del Gerente de Logística:</strong></p>
 <ol><li>Garantizar la disponibilidad del <span class="equipo">almacén</span> y los accesos necesarios para la ejecución de las pruebas.</li><li>Proveer la carga/producto requerido o autorizar el uso de carga simulada.</li><li>Coordinar la operación normal del <span class="equipo">almacén</span> durante las pruebas dinámicas.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
 <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
-<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li><li>Asegurar el archivo y la trazabilidad del legajo de calificación.</li></ol>
+<ol><li>Aprobar el PROTOCOLO: y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li><li>Asegurar el archivo y la trazabilidad del legajo de calificación.</li></ol>
 </div>
 
 
@@ -560,7 +568,7 @@
 <h2>PQ — Ensayos</h2>
 
 <div class="responsabilidades">
-<p><strong>RESPONSABILIDADES DEL PROTOCOLO</strong></p>
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
 <p><strong>Responsabilidad del Analista de validaciones:</strong></p>
 <ol><li>Coordinar la ejecución de las actividades de calificación con las áreas involucradas, asegurando la disponibilidad del personal, equipos, instrumentos, documentación y demás recursos necesarios.</li><li>Verificar previamente que los instrumentos y equipos utilizados durante la calificación se encuentren identificados, disponibles y con calibración vigente, cuando aplique.</li><li>Ejecutar y/o supervisar las pruebas establecidas en el protocolo, de acuerdo con los procedimientos y criterios de aceptación previamente aprobados.</li><li>Verificar la correcta instalación y ubicación de los instrumentos de medición y dataloggers utilizados para la evaluación de las condiciones ambientales del <span class="equipo">almacén</span>, de acuerdo con el análisis de riesgos y la configuración definida en el protocolo.</li><li>Registrar y/o verificar los datos obtenidos durante la ejecución de las pruebas, asegurando que la información sea completa, legible, trazable y se encuentre asociada a los instrumentos y puntos de medición correspondientes.</li><li>Realizar el análisis de los resultados obtenidos durante la calificación, incluyendo, cuando aplique, el análisis estadístico de los parámetros evaluados, tales como temperatura, humedad relativa y otras variables definidas.</li><li>Identificar y documentar las desviaciones que se presenten durante la ejecución de las actividades de calificación, de acuerdo con los procedimientos internos vigentes.</li><li>Evaluar técnicamente el impacto de las desviaciones sobre los resultados y el estado de calificación del {eq}, en conjunto con las áreas responsables cuando corresponda.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos de evidencia.</li><li>Dar seguimiento al cierre de desviaciones y acciones correctivas hasta su cierre documentado.</li><li>Determinar técnicamente, con base en los resultados obtenidos y dentro del alcance de sus responsabilidades, si las pruebas ejecutadas cumplen con los criterios establecidos y si existe evidencia suficiente para sustentar el estado de calificación del <span class="equipo">almacén</span>.</li></ol>
 <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
@@ -707,7 +715,40 @@ function updFiltro() {
     a.style.display = (c === 'ambas' || cond === 'ambas' || cond === c) ? '' : 'none';
   });
   renumera();
+  updDocx();
 }
+// Selección de protocolos para .docx (un documento independiente por protocolo)
+function docxSel() {
+  var sel = [];
+  document.querySelectorAll('.docx-prot').forEach(function(ch) {
+    if (ch.checked) sel.push(ch.value);
+  });
+  return sel;
+}
+function updDocx() {
+  var c = (document.getElementById('condicSelect') || {}).value || 'ambas';
+  var parts = docxSel().map(function(f) {
+    var n = 0;
+    document.querySelectorAll('section[id="fase-' + f + '"] article.ensayo').forEach(function(a) {
+      var cond = a.getAttribute('data-cond') || 'ambas';
+      if (c === 'ambas' || cond === 'ambas' || cond === c) n++;
+    });
+    return f.toUpperCase() + ' (' + n + ' ensayos)';
+  });
+  var el = document.getElementById('docxLista');
+  if (el) el.textContent = parts.length ? parts.join(' · ') : 'ninguno seleccionado';
+  try { localStorage.setItem('docx-protocolos', JSON.stringify(docxSel())); } catch (e) {}
+}
+(function cargaDocx() {
+  try {
+    var sel = JSON.parse(localStorage.getItem('docx-protocolos') || 'null');
+    if (Array.isArray(sel)) {
+      document.querySelectorAll('.docx-prot').forEach(function(ch) {
+        ch.checked = sel.indexOf(ch.value) >= 0;
+      });
+    }
+  } catch (e) {}
+})();
 // Numera visible 1..N sin saltos (el ID fijo se conserva para trazabilidad)
 function renumera() {
   document.querySelectorAll('section[id^="fase-"]').forEach(function(sec) {
