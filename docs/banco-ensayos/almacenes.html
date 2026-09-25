@@ -12,7 +12,7 @@
 
 <p><a href="index.html">← Índice</a></p>
 <h1>Almacenes — Banco compartido</h1>
-<p>El banco es el mismo para los 4 almacenes; solo varían los aspectos marcados con <strong>[RANGO]</strong>, que se ajustan solos al almacén elegido.</p>
+<p>El banco es el mismo para los 4 almacenes; solo varían los aspectos marcados con <strong>[RANGO]</strong>, que se ajustan solos al<span class="equipo">almacén</span> elegido.</p>
 
 <p><label for="almSelect"><strong>Almacén:</strong></label>
 <select id="almSelect" onchange="updAlm()">
@@ -20,6 +20,7 @@
   <option value="almacen-ambiente-b">Almacén 0–30°C / HR &lt; 80%</option>
   <option value="cuarto-frio">Cuarto frío (2–8°C)</option>
   <option value="congelador">Congelador (−20°C / −80°C)</option>
+  <option value="congelador">Congelador (−10°C / −25°C)</option>
 </select></p>
 
 <p><label for="protSelect"><strong>Protocolo:</strong></label>
@@ -43,9 +44,9 @@
 
 <article class="ensayo" data-id="ALM-DQ-001" data-fase="DQ">
   <h3>ALM-DQ-001 — Revisión de diseño de almacén (layout y flujos)</h3>
-  <p><strong>Objetivo:</strong><br>Aprobar layout, zonificación y flujos de material/personal antes de construir o habilitar el almacén.</p>
+  <p><strong>Objetivo:</strong><br>Aprobar layout, zonificación y flujos de material/personal antes de construir o habilitar el<span class="equipo">almacén</span>.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Recopilar URS del almacén (capacidad, rangos, tipos de producto):<br>
+  1) Recopilar URS del<span class="equipo">almacén</span> (capacidad, rangos, tipos de producto):<br>
      a) Rango de diseño: <span class="rango">15–25 °C / HR &lt; 65 %</span><br>
      b) Pronóstico de ocupación máxima y rotación<br>
   2) Revisar plano contra URS, punto por punto:<br>
@@ -60,7 +61,7 @@
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de trazabilidad URS → diseño<br>
   - Plano revisado y firmado<br>
-  - Lista de desviaciones con justificación y aprobación<br>
+  - Lista de desviaciones con justificación y aprobación (Si aplica)<br>
   - Acta de aprobación del DQ</p>
   <p><strong>Nota:</strong><br>
   El DQ se aprueba antes de comprar equipos o construir. Todo cambio posterior al diseño aprobado requiere control de cambios documentado.</p>
@@ -97,14 +98,14 @@
 </article>
 
 <article class="ensayo" data-id="ALM-IQ-003" data-fase="IQ">
-  <h3>ALM-IQ-003 — Verificación de la ubicación geográfica del almacén</h3>
-  <p><strong>Objetivo:</strong><br>Confirmar que la ubicación no expone el almacén a riesgos externos y cuenta con servicios y accesos adecuados.</p>
+  <h3>ALM-IQ-003 — Verificación de la ubicación geográfica del<span class="equipo">almacén</span></h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que la ubicación no expone el<span class="equipo">almacén</span> a riesgos externos y cuenta con servicios y accesos adecuados.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Registrar ubicación: coordenadas, plano de sitio, accesos viales (recepción/despacho)<br>
   2) Evaluar riesgos externos en un radio definido:<br>
      a) Zonas inundables, cauces, nivel freático<br>
      b) Industrias vecinas (polvo, humos, vibración, plagas)<br>
-     c) Vías de alto tráfico pegadas a muros del almacén<br>
+     c) Vías de alto tráfico pegadas a muros del<span class="equipo">almacén</span><br>
   3) Verificar servicios: agua, energía (principal + respaldo), drenajes, comunicaciones<br>
   4) Verificar perímetro: cercado, control de acceso, iluminación exterior</p>
   <p><strong>Criterio de aceptación:</strong><br>
@@ -122,7 +123,7 @@
   <h3>ALM-IQ-004 — Verificación de paredes con exposición al sol</h3>
   <p><strong>Objetivo:</strong><br>Identificar muros con radiación solar directa y verificar que el acabado/aislamiento protege el rango térmico.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Determinar orientación del almacén (norte/sur/este/oeste) con brújula o plano<br>
+  1) Determinar orientación del<span class="equipo">almacén</span> (norte/sur/este/oeste) con brújula o plano<br>
   2) Identificar paredes con exposición solar directa (mañana/tarde) y registrar horarios pico<br>
   3) Verificar por pared expuesta:<br>
      a) Acabado exterior sin deterioro (grietas, desprendimientos)<br>
@@ -166,7 +167,7 @@
 
 <article class="ensayo" data-id="ALM-IQ-006" data-fase="IQ">
   <h3>ALM-IQ-006 — Verificación de procedimientos: limpieza, seguridad, flujo y distribución</h3>
-  <p><strong>Objetivo:</strong><br>Confirmar que los procedimientos que gobiernan el almacén existen, están vigentes, aprobados y difundidos.</p>
+  <p><strong>Objetivo:</strong><br>Confirmar que los procedimientos que gobiernan el<span class="equipo">almacén</span> existen, están vigentes, aprobados y difundidos.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Recopilar procedimientos aplicables y verificar por cada uno:<br>
      a) Limpieza (frecuencias, agentes, responsables, registros)<br>
@@ -174,12 +175,12 @@
      c) Flujo de materiales y personal (recepción → cuarentena → aprobado → despacho)<br>
      d) Distribución y ubicación (slotting, FEFO/FIFO, mapeo de posiciones)<br>
   2) Verificar para cada procedimiento: versión vigente, firmas de aprobación, fecha de próxima revisión<br>
-  3) Verificar difusión: registros de capacitación del personal asignado al almacén<br>
+  3) Verificar difusión: registros de capacitación del personal asignado al<span class="equipo">almacén</span><br>
   4) Verificar que los formatos/registros que exigen existen y están disponibles</p>
   <p><strong>Criterio de aceptación:</strong><br>
   100% de procedimientos requeridos vigentes y aprobados; 100% del personal capacitado con registro; formatos disponibles.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Lista maestra de procedimientos del almacén (código/versión/vigencia)<br>
+  - Lista maestra de procedimientos del<span class="equipo">almacén</span> (código/versión/vigencia)<br>
   - Registros de capacitación<br>
   - Reporte de brechas documentales (si aplica)</p>
   <p><strong>Nota:</strong><br>
@@ -215,8 +216,8 @@
 </article>
 
 <article class="ensayo" data-id="ALM-IQ-007" data-fase="IQ">
-  <h3>ALM-IQ-007 — Verificación de las medidas del almacén</h3>
-  <p><strong>Objetivo:</strong><br>Confirmar que las dimensiones reales del almacén corresponden a los planos aprobados.</p>
+  <h3>ALM-IQ-007 — Verificación de las medidas del<span class="equipo">almacén</span></h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que las dimensiones reales del<span class="equipo">almacén</span> corresponden a los planos aprobados.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Medir con cinta láser o cinta métrica verificada:<br>
      a) Largo, ancho y alto libre interior (3 lecturas por dimensión, promediar)<br>
@@ -297,10 +298,10 @@
 </article>
 
 <article class="ensayo" data-id="ALM-OQ-002" data-fase="OQ">
-  <h3>ALM-OQ-002 — Cálculo de número de sensores para el almacén</h3>
+  <h3>ALM-OQ-002 — Cálculo de número de sensores para el<span class="equipo">almacén</span></h3>
   <p><strong>Objetivo:</strong><br>Determinar el número mínimo y la ubicación de sensores T/H para cumplir con la norma OMS TRS 1010 Anexo 7.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Medir dimensiones internas del almacén: Largo × Ancho × Alto útil<br>
+  1) Medir dimensiones internas del<span class="equipo">almacén</span>: Largo × Ancho × Alto útil<br>
   2) Calcular volumen: V = L × A × H (m³)<br>
   3) Aplicar regla ISPE según volumen:<br>
      a) V &lt; 2 m³ → mínimo 9 sensores<br>
@@ -324,13 +325,13 @@
   <p><strong>Objetivo:</strong><br>Identificar puntos fríos/calientes y demostrar uniformidad sin carga antes de operar con producto.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Instalar los sensores calculados en ALM-OQ-002 según plano de ubicación<br>
-  2) Estabilizar el almacén en su setpoint: <span class="rango">15–25 °C / HR &lt; 65 %</span> (mínimo 24 h antes de iniciar)<br>
+  2) Estabilizar el<span class="equipo">almacén</span> en su setpoint: <span class="rango">15–25 °C / HR &lt; 65 %</span> (mínimo 24 h antes de iniciar)<br>
   3) Registrar ≥ 7 días continuos, 1 lectura cada 5 min, sin abrir puertas salvo lo programado<br>
   4) Analizar por punto:<br>
      a) Temperatura mínima, máxima y promedio<br>
      b) MKT (temperatura cinética media, fórmula de Haynes/Arrhenius)<br>
      c) Normalidad de la distribución (Shapiro-Wilk)<br>
-  5) Identificar punto frío y punto caliente del almacén</p>
+  5) Identificar punto frío y punto caliente del<span class="equipo">almacén</span></p>
   <p><strong>Criterio de aceptación:</strong><br>
   100% de lecturas dentro de <span class="rango">15–25 °C / HR &lt; 65 %</span>; MKT dentro de rango; puntos frío/caliente identificados y documentados.</p>
   <p><strong>Documentos entregables:</strong><br>
@@ -344,8 +345,8 @@
 </article>
 
 <article class="ensayo" data-id="ALM-OQ-004" data-fase="OQ">
-  <h3>ALM-OQ-004 — Prueba de niveles de iluminación en los almacenes</h3>
-  <p><strong>Objetivo:</strong><br>Demostrar que los niveles de iluminación en los almacenes cumplen con el nivel mínimo definido en el protocolo.</p>
+  <h3>ALM-OQ-004 — Prueba de niveles de iluminación en los <span class="equipo-pl">almacenes</span></h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que los niveles de iluminación en los <span class="equipo-pl">almacenes</span> cumplen con el nivel mínimo definido en el protocolo.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Verificar luxómetro con calibración vigente (ver ALM-OQ-001)<br>
   2) Definir grilla de puntos: pasillos, zonas de picking, recepción/despacho y frente a estanterías (mínimo 1 punto cada 10 m²)<br>
@@ -385,7 +386,7 @@
 
 <article class="ensayo" data-id="ALM-OQ-006" data-fase="OQ" data-cond="est">
   <h3>ALM-OQ-006 — Prueba de corte energético</h3>
-  <p><strong>Objetivo:</strong><br>Demostrar que ante un corte de energía el almacén mantiene el rango o activa respaldo/alarma según lo previsto.</p>
+  <p><strong>Objetivo:</strong><br>Demostrar que ante un corte de energía el<span class="equipo">almacén</span> mantiene el rango o activa respaldo/alarma según lo previsto.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Con carga rutinaria, simular corte de energía (desconexión programada y autorizada)<br>
   2) Registrar deriva de T°/HR y tiempo fuera de <span class="rango">15–25 °C / HR &lt; 65 %</span><br>
@@ -430,10 +431,10 @@
 </article>
 
 <article class="ensayo" data-id="ALM-PQ-002" data-fase="PQ">
-  <h3>ALM-PQ-002 — Cálculo del volumen óptimo en el almacén</h3>
+  <h3>ALM-PQ-002 — Cálculo del volumen óptimo en el<span class="equipo">almacén</span></h3>
   <p><strong>Objetivo:</strong><br>Determinar el volumen óptimo de almacenamiento para mantener la uniformidad térmica y la recuperación dentro de los límites establecidos.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Medir dimensiones internas del almacén: Largo × Ancho × Alto útil<br>
+  1) Medir dimensiones internas del<span class="equipo">almacén</span>: Largo × Ancho × Alto útil<br>
   2) Calcular volumen útil total: V útil = L × A × H (excluye pasillos, oficinas y zonas no almacenables)<br>
   3) Calcular volumen de carga con la fórmula: % Ocupación = (V ocupado ÷ V útil) × 100<br>
      a) Carga media (PQ-003): V carga = 0.50 × V útil<br>
@@ -467,7 +468,7 @@
   - Tabla comparativa vacío vs. carga media<br>
   - Informe de mapeo con carga media</p>
   <p><strong>Nota:</strong><br>
-  Se utilizan el número de sensores calculado en el ensayo ALM-OQ-002. El mapeo se realiza en carga media para representar el funcionamiento típico del almacén.</p>
+  Se utilizan el número de sensores calculado en el ensayo ALM-OQ-002. El mapeo se realiza en carga media para representar el funcionamiento típico del<span class="equipo">almacén</span>.</p>
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
 
@@ -487,7 +488,7 @@
   - Tabla comparativa vacío / media / máxima<br>
   - Informe de mapeo en peor caso</p>
   <p><strong>Nota:</strong><br>
-  Se utilizan el número de sensores calculado en el ensayo ALM-OQ-002. El mapeo se realiza en carga máxima para representar el peor caso de funcionamiento del almacén.</p>
+  Se utilizan el número de sensores calculado en el ensayo ALM-OQ-002. El mapeo se realiza en carga máxima para representar el peor caso de funcionamiento del<span class="equipo">almacén</span>.</p>
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
 </section>
@@ -499,9 +500,18 @@ var RANGOS = {
   'cuarto-frio': '2–8 °C',
   'congelador': '−20 °C (−80 °C ultracongelador)'
 };
+var NOMBRES = {
+  'almacen-ambiente-a': ['almacén (15–25 °C)', 'almacenes'],
+  'almacen-ambiente-b': ['almacén (0–30 °C)', 'almacenes'],
+  'cuarto-frio': ['cuarto frío', 'cuartos fríos'],
+  'congelador': ['congelador', 'congeladores']
+};
 function updAlm() {
   var v = document.getElementById('almSelect').value;
   document.querySelectorAll('.rango').forEach(function(s) { s.textContent = RANGOS[v] || ''; });
+  var n = NOMBRES[v] || ['almacén', 'almacenes'];
+  document.querySelectorAll('.equipo').forEach(function(s) { s.textContent = n[0]; });
+  document.querySelectorAll('.equipo-pl').forEach(function(s) { s.textContent = n[1]; });
 }
 function updFiltro() {
   var p = document.getElementById('protSelect').value;
