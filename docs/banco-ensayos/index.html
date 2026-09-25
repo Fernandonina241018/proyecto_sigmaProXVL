@@ -29,5 +29,13 @@
   <li><a href="../banco-ensayos.html#pq">PQ</a></li>
 </ul>
 
+<h2>Restricciones de migración a .docx (no cambiar sin aprobación)</h2>
+<ol>
+  <li><strong>Cada protocolo (DQ/IQ/OQ/PQ) = un documento .docx independiente.</strong> Nunca un solo documento combinado. Cada .docx lleva su propio bloque de responsabilidades, su índice y sus ensayos con su numeración 1..N.</li>
+  <li>Los IDs fijos (ALM-OQ-003) son las claves: nunca se renombran ni reutilizan; la numeración visible 1..N es solo presentación.</li>
+  <li>Los atributos data-fase / data-cond / data-resumen definen qué ensayos entran en cada .docx según filtros (almacén + condición).</li>
+  <li>Las marcas dinámicas (.rango / .equipo / .cond / .lista-resumen) se resuelven a texto fijo al generar el .docx.</li>
+</ol>
+
 </body>
 </html>

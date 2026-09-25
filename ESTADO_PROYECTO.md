@@ -4427,3 +4427,5 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-09-24 (85d): Multipage banco — hub + 5 pages por categoria (20 entidades)
 
 ### 2026-09-24 (85e): Equipos+instrumentos unificados, listado farma, almacenes con IDs unicos
+
+### 2026-09-24 (85f): Restricción migración .docx — cada protocolo (DQ/IQ/OQ/PQ) un documento independiente
