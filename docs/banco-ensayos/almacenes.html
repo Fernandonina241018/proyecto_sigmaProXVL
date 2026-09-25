@@ -261,6 +261,51 @@
   Este ensayo cierra el IQ: resume y referencia los IQ-001 a IQ-007 como evidencia de respaldo.</p>
   <p><strong>Referencia:</strong><br>GDP; OMS TRS 1010 Anexo 7; GAMP 5 (sistemas asociados).</p>
 </article>
+
+<article class="ensayo" data-id="ALM-IQ-009" data-fase="IQ" data-cond="est">
+  <h3>ALM-IQ-009 — Verificación de apartados de seguridad en el <span class="equipo">almacén</span></h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que los dispositivos y apartados de seguridad están instalados, señalizados y vigentes.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Recorrer el <span class="equipo">almacén</span> con lista de verificación de seguridad:<br>
+     a) Extintores: tipo adecuado, carga vigente, ubicación señalizada y accesible<br>
+     b) Salidas de emergencia: despejadas, señalizadas y con iluminación de emergencia<br>
+     c) Ducha de emergencia y lavaojos (si aplica por productos almacenados)<br>
+     d) Botiquín de primeros auxilios dotado y vigente<br>
+     e) Señalización: rutas de evacuación, riesgos eléctricos, capacidad de estanterías<br>
+  2) Verificar plano de evacuación publicado y visible<br>
+  3) Verificar registros de inspección/recarga de extintores<br>
+  4) Registrar hallazgos con foto y ubicación</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% de dispositivos instalados, vigentes y señalizados; plano de evacuación publicado; cero bloqueos en salidas y rutas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Checklist de seguridad ejecutado<br>
+  - Registro fotográfico de dispositivos y señalización<br>
+  - Certificados de recarga de extintores<br>
+  - Plano de evacuación publicado (copia)</p>
+  <p><strong>Nota:</strong><br>
+  La seguridad industrial no sustituye el análisis de riesgos del sitio; los hallazgos críticos bloquean el inicio de OQ.</p>
+  <p><strong>Referencia:</strong><br>GDP; normativa local de seguridad industrial; OMS TRS 1010 Anexo 7.</p>
+</article>
+
+<article class="ensayo" data-id="ALM-IQ-010" data-fase="IQ" data-cond="est">
+  <h3>ALM-IQ-010 — Tabla resumen de los ensayos del IQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar en una matriz el resultado de todos los ensayos IQ como acta de cierre de la fase.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Listar los ensayos ALM-IQ-001 a ALM-IQ-009 con su veredicto (pasa/falla) y fecha de ejecución<br>
+  2) Adjuntar a cada fila sus documentos entregables (referencia al legajo, no copias duplicadas)<br>
+  3) Listar desviaciones abiertas con su estado y plan de cierre<br>
+  4) Firmar el acta de cierre IQ (responsable de validación + jefe de almacén + calidad)</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% de ensayos IQ ejecutados con veredicto; cero desviaciones críticas abiertas; acta firmada por las tres partes.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz resumen IQ (tabla firmada)<br>
+  - Índice del legajo IQ con ubicación de cada entregable<br>
+  - Acta de cierre de fase IQ</p>
+  <p><strong>Nota:</strong><br>
+  Esta tabla es el último ensayo del IQ: sin ella firmada no se autoriza el inicio del OQ.</p>
+  <p><strong>Referencia:</strong><br>GDP; OMS TRS 1010 Anexo 7.</p>
+</article>
+
 </section>
 
 <!-- ================= OQ ================= -->
@@ -560,10 +605,24 @@ function renumera() {
     var vis = Array.prototype.filter.call(sec.querySelectorAll('article.ensayo'), function(a) {
       return a.style.display !== 'none';
     });
+    var nav = sec.querySelector('nav.toc');
+    if (!nav) {
+      nav = document.createElement('nav');
+      nav.className = 'toc';
+      var first = sec.querySelector('article.ensayo');
+      sec.insertBefore(nav, first);
+    }
+    nav.innerHTML = '<strong>ÍNDICE DEL PROTOCOLO</strong><br>';
     vis.forEach(function(a, i) {
       var b = a.querySelector('.seq');
       if (!b) { b = document.createElement('span'); b.className = 'seq'; a.insertBefore(b, a.firstChild); }
       b.textContent = 'ENSAYO ' + (i + 1) + ' DE ' + vis.length + ' — ';
+      var h = a.querySelector('h3');
+      var link = document.createElement('a');
+      link.href = '#' + a.id;
+      link.textContent = (i + 1) + '. ' + (h ? h.textContent : a.getAttribute('data-id'));
+      nav.appendChild(link);
+      nav.appendChild(document.createElement('br'));
     });
   });
 }
