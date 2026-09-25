@@ -10,7 +10,7 @@
 <h1>Almacenes — Entidades</h1>
 
 <p><label for="almacenSelect"><strong>Seleccionar almacén:</strong></label>
-<select id="almacenSelect" onchange="var a=document.querySelector('[data-entidad=\''+this.value+'\']');if(a)a.scrollIntoView();">
+<select id="almacenSelect" onchange="if(this.value)location.href='almacenes/'+this.value+'.html';">
   <option value="">— elegir —</option>
   <option value="almacen-ambiente-a">Almacén 15–25°C / HR &lt; 65%</option>
   <option value="almacen-ambiente-b">Almacén 0–30°C / HR &lt; 80%</option>
@@ -18,41 +18,8 @@
   <option value="congelador">Congelador (−20°C / −80°C)</option>
 </select></p>
 
-<article class="entidad" data-entidad="almacen-ambiente-a" data-categoria="almacenes" data-estado="con-ensayos">
-  <h3>Almacén temperatura ambiente (15–25°C) Humedad Relativa (< 65.0%)</h3>
-  <p><strong>Descripción:</strong> Almacén general con zonificación aprobado/cuarentena/rechazado y monitoreo T/H.</p>
-  <p><strong>Ensayos DQ:</strong> DQ-003</p>
-  <p><strong>Ensayos IQ:</strong> ALM-001</p>
-  <p><strong>Ensayos OQ:</strong> ALM-002</p>
-  <p><strong>Ensayos PQ:</strong> ALM-003</p>
-</article>
-
-<article class="entidad" data-entidad="almacen-ambiente-b" data-categoria="almacenes" data-estado="con-ensayos">
-  <h3>Almacén temperatura ambiente (0.0–30.0°C) Humedad Relativa (< 80.0%)</h3>
-  <p><strong>Descripción:</strong> Almacén general con zonificación aprobado/cuarentena/rechazado y monitoreo T/H.</p>
-  <p><strong>Ensayos DQ:</strong> DQ-003</p>
-  <p><strong>Ensayos IQ:</strong> ALM-001</p>
-  <p><strong>Ensayos OQ:</strong> ALM-002</p>
-  <p><strong>Ensayos PQ:</strong> ALM-003</p>
-</article>
-
-<article class="entidad" data-entidad="cuarto-frio" data-categoria="almacenes" data-estado="pendiente">
-  <h3>Cuarto frío (2–8°C)</h3>
-  <p><strong>Descripción:</strong> Cámara de refrigeración para producto terminado y materia prima cadena de frío.</p>
-  <p><strong>Ensayos DQ:</strong> DQ-003 (pendiente adaptar)</p>
-  <p><strong>Ensayos IQ:</strong> pendiente</p>
-  <p><strong>Ensayos OQ:</strong> pendiente</p>
-  <p><strong>Ensayos PQ:</strong> pendiente</p>
-</article>
-
-<article class="entidad" data-entidad="congelador" data-categoria="almacenes" data-estado="pendiente">
-  <h3>Congelador (−20°C / −80°C ultracongelador)</h3>
-  <p><strong>Descripción:</strong> Congelación para muestras, patrones biológicos y producto que lo requiera.</p>
-  <p><strong>Ensayos DQ:</strong> pendiente</p>
-  <p><strong>Ensayos IQ:</strong> pendiente</p>
-  <p><strong>Ensayos OQ:</strong> pendiente</p>
-  <p><strong>Ensayos PQ:</strong> pendiente</p>
-</article>
+<h2>Ensayos por entidad</h2>
+<p>Cada entidad tiene su propia page. Usa el combobox de arriba para ir a la ficha.</p>
 
 </body>
 </html>

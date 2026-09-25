@@ -10,7 +10,7 @@
 <h1>Sistemas — Entidades</h1>
 
 <p><label for="sistemaSelect"><strong>Seleccionar sistema:</strong></label>
-<select id="sistemaSelect" onchange="var a=document.querySelector('[data-entidad=\''+this.value+'\']');if(a)a.scrollIntoView();">
+<select id="sistemaSelect" onchange="if(this.value)location.href='sistemas/'+this.value+'.html';">
   <option value="">— elegir —</option>
   <option value="hvac">HVAC / Climatización</option>
   <option value="agua-purificada">Agua purificada / WFI</option>
@@ -18,41 +18,8 @@
   <option value="aire-comprimido">Aire comprimido grado proceso</option>
 </select></p>
 
-<article class="entidad" data-entidad="hvac" data-categoria="sistemas" data-estado="con-ensayos">
-  <h3>HVAC / Climatización</h3>
-  <p><strong>Descripción:</strong> Climatización de áreas clasificadas: UMA, filtros HEPA, diferenciales de presión.</p>
-  <p><strong>Ensayos DQ:</strong> pendiente</p>
-  <p><strong>Ensayos IQ:</strong> HVAC-001</p>
-  <p><strong>Ensayos OQ:</strong> HVAC-002</p>
-  <p><strong>Ensayos PQ:</strong> pendiente</p>
-</article>
-
-<article class="entidad" data-entidad="agua-purificada" data-categoria="sistemas" data-estado="con-ensayos">
-  <h3>Agua purificada / WFI</h3>
-  <p><strong>Descripción:</strong> Sistema de generación, almacenamiento y distribución de agua purificada.</p>
-  <p><strong>Ensayos DQ:</strong> pendiente</p>
-  <p><strong>Ensayos IQ:</strong> pendiente</p>
-  <p><strong>Ensayos OQ:</strong> AGU-001</p>
-  <p><strong>Ensayos PQ:</strong> AGU-002</p>
-</article>
-
-<article class="entidad" data-entidad="vapor-limpio" data-categoria="sistemas" data-estado="pendiente">
-  <h3>Vapor limpio</h3>
-  <p><strong>Descripción:</strong> Generación y distribución de vapor para esterilización e humidificación.</p>
-  <p><strong>Ensayos DQ:</strong> pendiente</p>
-  <p><strong>Ensayos IQ:</strong> pendiente</p>
-  <p><strong>Ensayos OQ:</strong> pendiente</p>
-  <p><strong>Ensayos PQ:</strong> pendiente</p>
-</article>
-
-<article class="entidad" data-entidad="aire-comprimido" data-categoria="sistemas" data-estado="pendiente">
-  <h3>Aire comprimido grado proceso</h3>
-  <p><strong>Descripción:</strong> Aire comprimido libre de aceite, seco y filtrado para contacto con producto.</p>
-  <p><strong>Ensayos DQ:</strong> pendiente</p>
-  <p><strong>Ensayos IQ:</strong> pendiente</p>
-  <p><strong>Ensayos OQ:</strong> pendiente</p>
-  <p><strong>Ensayos PQ:</strong> pendiente</p>
-</article>
+<h2>Ensayos por entidad</h2>
+<p>Cada entidad tiene su propia page. Usa el combobox de arriba para ir a la ficha.</p>
 
 </body>
 </html>
