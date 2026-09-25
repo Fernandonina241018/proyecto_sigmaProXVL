@@ -7,19 +7,96 @@
 <body>
 
 <p><a href="index.html">← Índice</a></p>
-<h1>Almacenes — Entidades</h1>
+<h1>Almacenes — Banco compartido</h1>
+<p>El banco es el mismo para los 4 almacenes; solo varían los aspectos marcados con <strong>[RANGO]</strong>, que se ajustan solos al almacén elegido.</p>
 
-<p><label for="almacenSelect"><strong>Seleccionar almacén:</strong></label>
-<select id="almacenSelect" onchange="if(this.value)location.href='almacenes/'+this.value+'.html';">
-  <option value="">— elegir —</option>
+<p><label for="almSelect"><strong>Almacén:</strong></label>
+<select id="almSelect" onchange="updAlm()">
   <option value="almacen-ambiente-a">Almacén 15–25°C / HR &lt; 65%</option>
   <option value="almacen-ambiente-b">Almacén 0–30°C / HR &lt; 80%</option>
   <option value="cuarto-frio">Cuarto frío (2–8°C)</option>
   <option value="congelador">Congelador (−20°C / −80°C)</option>
 </select></p>
 
-<h2>Ensayos por entidad</h2>
-<p>Cada entidad tiene su propia page. Usa el combobox de arriba para ir a la ficha.</p>
+<p><label for="protSelect"><strong>Protocolo:</strong></label>
+<select id="protSelect" onchange="updProt()">
+  <option value="dq">DQ — Diseño</option>
+  <option value="iq">IQ — Instalación</option>
+  <option value="oq">OQ — Operación</option>
+  <option value="pq">PQ — Desempeño</option>
+</select></p>
+
+<!-- ================= DQ ================= -->
+<section id="fase-dq">
+<h2>DQ — Ensayos</h2>
+
+<article class="ensayo" data-id="DQ-003" data-fase="DQ">
+  <h3>DQ-003 — Revisión de diseño de almacén (layout y flujos)</h3>
+  <p><strong>Objetivo:</strong> Aprobar layout, zonificación y flujos de material/personal antes de construir.</p>
+  <p><strong>Procedimiento:</strong> 1) Revisar plano: zonas aprobado/cuarentena/rechazado, flujos unidireccionales, esclusas. 2) Verificar capacidad vs. pronóstico. 3) Ubicación de sensores T/H en plano con setpoints <span class="rango">15–25 °C / HR &lt; 65 %</span>.</p>
+  <p><strong>Criterio de aceptación:</strong> Flujos sin cruces limpio/sucio; capacidad ≥ 120% pronóstico; sensores cubren 100% zonas.</p>
+  <p><strong>Referencia:</strong> GDP; OMS TRS 1010 Anexo 7.</p>
+</article>
+</section>
+
+<!-- ================= IQ ================= -->
+<section id="fase-iq">
+<h2>IQ — Ensayos</h2>
+
+<article class="ensayo" data-id="ALM-001" data-fase="IQ">
+  <h3>ALM-001 — Verificación de layout, zonificación y sensores</h3>
+  <p><strong>Objetivo:</strong> Confirmar zonificación (aprobado/cuarentena/rechazado), estanterías y sensores T/H instalados.</p>
+  <p><strong>Procedimiento:</strong> 1) Cotejar layout vs. plano. 2) Inventariar sensores (modelo/serie/ubicación). 3) Verificar calibración vigente de cada sensor. 4) Verificar señalización de zonas y setpoints <span class="rango">15–25 °C / HR &lt; 65 %</span>.</p>
+  <p><strong>Criterio de aceptación:</strong> Layout 100% según plano; 100% sensores calibrados; zonas señalizadas (pasa/falla).</p>
+  <p><strong>Referencia:</strong> GDP; OMS TRS 1010 Anexo 7.</p>
+</article>
+</section>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq">
+<h2>OQ — Ensayos</h2>
+
+<article class="ensayo" data-id="ALM-002" data-fase="OQ">
+  <h3>ALM-002 — Mapeo térmico en vacío</h3>
+  <p><strong>Objetivo:</strong> Identificar puntos fríos/calientes y demostrar uniformidad sin carga.</p>
+  <p><strong>Procedimiento:</strong> 1) Distribuir 9–15 data loggers calibrados (esquinas, centro, puerta, techo). 2) Registrar ≥ 7 días continuos (1 lectura/5 min). 3) Analizar MKT, mín/máx, normalidad.</p>
+  <p><strong>Criterio de aceptación:</strong> 100% lecturas dentro de <span class="rango">15–25 °C / HR &lt; 65 %</span>; MKT dentro de rango.</p>
+  <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; PDA TR-64.</p>
+</article>
+</section>
+
+<!-- ================= PQ ================= -->
+<section id="fase-pq">
+<h2>PQ — Ensayos</h2>
+
+<article class="ensayo" data-id="ALM-003" data-fase="PQ">
+  <h3>ALM-003 — Mapeo térmico con carga + prueba de excursión</h3>
+  <p><strong>Objetivo:</strong> Demostrar control de temperatura con carga real y recuperación ante apertura de puertas.</p>
+  <p><strong>Procedimiento:</strong> 1) Repetir mapeo con ocupación ≥ 80%. 2) Excursión programada: puerta abierta 5 min, medir tiempo de recuperación a <span class="rango">15–25 °C / HR &lt; 65 %</span>. 3) Simular corte de energía (peor caso documentado).</p>
+  <p><strong>Criterio de aceptación:</strong> Rango mantenido con carga; recuperación &lt; 30 min; alarma de excursión operativa.</p>
+  <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; PDA TR-64.</p>
+</article>
+</section>
+
+<script>
+var RANGOS = {
+  'almacen-ambiente-a': '15–25 °C / HR < 65 %',
+  'almacen-ambiente-b': '0–30 °C / HR < 80 %',
+  'cuarto-frio': '2–8 °C',
+  'congelador': '−20 °C (−80 °C ultracongelador)'
+};
+function updAlm() {
+  var v = document.getElementById('almSelect').value;
+  document.querySelectorAll('.rango').forEach(function(s) { s.textContent = RANGOS[v] || ''; });
+}
+function updProt() {
+  var p = document.getElementById('protSelect').value;
+  ['dq', 'iq', 'oq', 'pq'].forEach(function(f) {
+    document.getElementById('fase-' + f).style.display = (p === f) ? '' : 'none';
+  });
+}
+updProt();
+</script>
 
 </body>
 </html>
