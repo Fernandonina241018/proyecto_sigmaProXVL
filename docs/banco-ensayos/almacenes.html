@@ -479,7 +479,7 @@
 </article>
 
 <article class="ensayo" data-id="ALM-PQ-003" data-fase="PQ" data-cond="ambas">
-  <h3>ALM-PQ-003 — Mapeo térmico con carga media (50%) / estática / dinámica</h3>
+  <h3>ALM-PQ-003 — Mapeo térmico con carga media (50%) / <span class="cond">estática / dinámica</span></h3>
   <p><strong>Objetivo:</strong><br>Demostrar uniformidad y recuperación con ocupación media representativa del funcionamiento típico.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Cargar al 50% según cálculo de ALM-PQ-002<br>
@@ -499,7 +499,7 @@
 </article>
 
 <article class="ensayo" data-id="ALM-PQ-004" data-fase="PQ" data-cond="ambas">
-  <h3>ALM-PQ-004 — Mapeo térmico con carga máxima (100%) / estática / dinámica</h3>
+  <h3>ALM-PQ-004 — Mapeo térmico con carga máxima (100%) / <span class="cond">estática / dinámica</span></h3>
   <p><strong>Objetivo:</strong><br>Demostrar uniformidad y recuperación en el peor caso de ocupación (<span class="equipo">almacén</span> lleno).</p>
   <p><strong>Procedimiento:</strong><br>
   1) Cargar al 100% según cálculo de ALM-PQ-002 (peor caso)<br>
@@ -539,9 +539,11 @@ function updAlm() {
   document.querySelectorAll('.equipo').forEach(function(s) { s.textContent = n[0]; });
   document.querySelectorAll('.equipo-pl').forEach(function(s) { s.textContent = n[1]; });
 }
+var CONDNOMB = { 'ambas': 'estática / dinámica', 'est': 'estática', 'dina': 'dinámica' };
 function updFiltro() {
   var p = document.getElementById('protSelect').value;
   var c = document.getElementById('condicSelect').value;
+  document.querySelectorAll('.cond').forEach(function(s) { s.textContent = CONDNOMB[c] || s.textContent; });
   ['dq', 'iq', 'oq', 'pq'].forEach(function(f) {
     document.getElementById('fase-' + f).style.display = (p === f) ? '' : 'none';
   });
