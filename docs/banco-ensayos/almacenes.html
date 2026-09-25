@@ -42,6 +42,15 @@
 <section id="fase-dq">
 <h2>DQ — Ensayos</h2>
 
+<div class="responsabilidades">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO</strong></p>
+  <p><label>Analista de validaciones:<br><input list="lista-personal" data-rol="analista" onchange="guardaResp(this)"></label></p>
+  <p><label>Coordinador de validaciones:<br><input list="lista-personal" data-rol="coordinador" onchange="guardaResp(this)"></label></p>
+  <p><label>Gerente dueño del equipo:<br><input list="lista-personal" data-rol="gerente-equipo" onchange="guardaResp(this)"></label></p>
+  <p><label>Gerente de gestión de calidad:<br><input list="lista-personal" data-rol="gerente-calidad" onchange="guardaResp(this)"></label></p>
+</div>
+<datalist id="lista-personal"></datalist>
+
 <article id="art-ALM-DQ-001" class="ensayo" data-id="ALM-DQ-001" data-fase="DQ" data-cond="ambas">
   <h3>ALM-DQ-001 — Revisión de diseño del <span class="equipo">almacén</span> (layout y flujos)</h3>
   <p><strong>Objetivo:</strong><br>Aprobar layout, zonificación y flujos de material/personal antes de construir o habilitar el<span class="equipo">almacén</span>.</p>
@@ -72,6 +81,15 @@
 <!-- ================= IQ ================= -->
 <section id="fase-iq">
 <h2>IQ — Ensayos</h2>
+
+<div class="responsabilidades">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO</strong></p>
+  <p><label>Analista de validaciones:<br><input list="lista-personal" data-rol="analista" onchange="guardaResp(this)"></label></p>
+  <p><label>Coordinador de validaciones:<br><input list="lista-personal" data-rol="coordinador" onchange="guardaResp(this)"></label></p>
+  <p><label>Gerente dueño del equipo:<br><input list="lista-personal" data-rol="gerente-equipo" onchange="guardaResp(this)"></label></p>
+  <p><label>Gerente de gestión de calidad:<br><input list="lista-personal" data-rol="gerente-calidad" onchange="guardaResp(this)"></label></p>
+</div>
+
 
 <article id="art-ALM-IQ-002" class="ensayo" data-id="ALM-IQ-002" data-fase="IQ" data-cond="est">
   <h3>ALM-IQ-002 — Verificación de planos: arquitectónicos, tuberías, HVAC, flujos e iluminación</h3>
@@ -312,6 +330,15 @@
 <section id="fase-oq">
 <h2>OQ — Ensayos</h2>
 
+<div class="responsabilidades">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO</strong></p>
+  <p><label>Analista de validaciones:<br><input list="lista-personal" data-rol="analista" onchange="guardaResp(this)"></label></p>
+  <p><label>Coordinador de validaciones:<br><input list="lista-personal" data-rol="coordinador" onchange="guardaResp(this)"></label></p>
+  <p><label>Gerente dueño del equipo:<br><input list="lista-personal" data-rol="gerente-equipo" onchange="guardaResp(this)"></label></p>
+  <p><label>Gerente de gestión de calidad:<br><input list="lista-personal" data-rol="gerente-calidad" onchange="guardaResp(this)"></label></p>
+</div>
+
+
 <article id="art-ALM-OQ-001" class="ensayo" data-id="ALM-OQ-001" data-fase="OQ" data-cond="ambas">
   <h3>ALM-OQ-001 — Verificación de instrumentos de medición utilizados en los ensayos</h3>
   <p><strong>Objetivo:</strong><br>Confirmar que todos los instrumentos de medición empleados en pruebas OQ cumplen con calibración vigente y son trazables a estándares nacionales/internacionales.</p>
@@ -481,6 +508,15 @@
 <section id="fase-pq">
 <h2>PQ — Ensayos</h2>
 
+<div class="responsabilidades">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO</strong></p>
+  <p><label>Analista de validaciones:<br><input list="lista-personal" data-rol="analista" onchange="guardaResp(this)"></label></p>
+  <p><label>Coordinador de validaciones:<br><input list="lista-personal" data-rol="coordinador" onchange="guardaResp(this)"></label></p>
+  <p><label>Gerente dueño del equipo:<br><input list="lista-personal" data-rol="gerente-equipo" onchange="guardaResp(this)"></label></p>
+  <p><label>Gerente de gestión de calidad:<br><input list="lista-personal" data-rol="gerente-calidad" onchange="guardaResp(this)"></label></p>
+</div>
+
+
 <article id="art-ALM-PQ-001" class="ensayo" data-id="ALM-PQ-001" data-fase="PQ" data-cond="ambas">
   <h3>ALM-PQ-001 — Re-verificación de instrumentos antes del PQ</h3>
   <p><strong>Objetivo:</strong><br>Confirmar que los instrumentos verificados en <a href="#art-ALM-OQ-001" data-goto="ALM-OQ-001">ALM-OQ-001</a> mantienen calibración vigente durante todo el período PQ.</p>
@@ -642,6 +678,31 @@ document.addEventListener('click', function(e) {
   t.scrollIntoView();
 });
 updFiltro();
+</script>
+
+<script>
+function cargaResp() {
+  try {
+    var nombres = JSON.parse(localStorage.getItem('resp-nombres') || '[]');
+    var dl = document.getElementById('lista-personal');
+    if (dl) dl.innerHTML = nombres.map(function(n) { return '<option value="' + n.replace(/"/g, '&quot;') + '">'; }).join('');
+    document.querySelectorAll('input[data-rol]').forEach(function(i) {
+      i.value = localStorage.getItem('resp-' + i.getAttribute('data-rol')) || '';
+    });
+  } catch (e) {}
+}
+function guardaResp(el) {
+  try {
+    localStorage.setItem('resp-' + el.getAttribute('data-rol'), el.value);
+    var nombres = JSON.parse(localStorage.getItem('resp-nombres') || '[]');
+    if (el.value && nombres.indexOf(el.value) < 0) {
+      nombres.push(el.value);
+      localStorage.setItem('resp-nombres', JSON.stringify(nombres));
+    }
+    cargaResp();
+  } catch (e) {}
+}
+cargaResp();
 </script>
 
 </body>
