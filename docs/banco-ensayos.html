@@ -28,12 +28,30 @@
   <p><strong>Referencia:</strong> GAMP 5; 21 CFR Part 11.</p>
 </article>
 
-<article class="ensayo" data-id="ALM-DQ-001" data-categoria="almacen" data-fase="DQ">
+<article class="ensayo" data-id="ALM-DQ-001" data-fase="DQ">
   <h3>ALM-DQ-001 — Revisión de diseño de almacén (layout y flujos)</h3>
-  <p><strong>Objetivo:</strong> Aprobar layout, zonificación y flujos de material/personal antes de construir.</p>
-  <p><strong>Procedimiento:</strong> 1) Revisar plano: zonas aprobado/cuarentena/rechazado, flujos unidireccionales, esclusas. 2) Verificar capacidad vs. pronóstico. 3) Ubicación de sensores T/H en plano.</p>
-  <p><strong>Criterio de aceptación:</strong> Flujos sin cruces limpio/sucio; capacidad ≥ 120% pronóstico; sensores cubren 100% zonas.</p>
-  <p><strong>Referencia:</strong> GDP; OMS TRS 1010 Anexo 7.</p>
+  <p><strong>Objetivo:</strong><br>Aprobar layout, zonificación y flujos de material/personal antes de construir o habilitar el almacén.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Recopilar URS del almacén (capacidad, rangos, tipos de producto):<br>
+     a) Rango de diseño: <span class="rango">15–25 °C / HR &lt; 65 %</span><br>
+     b) Pronóstico de ocupación máxima y rotación<br>
+  2) Revisar plano contra URS, punto por punto:<br>
+     a) Zonas de aprobado / cuarentena / rechazado delimitadas y señalizadas en plano<br>
+     b) Flujos unidireccionales de material y personal, sin cruces limpio/sucio<br>
+     c) Esclusas, vestidores y salidas de emergencia<br>
+  3) Verificar capacidad: volumen útil ≥ 120% del pronóstico de ocupación máxima<br>
+  4) Revisar ubicación de sensores T/H en plano (cobertura de esquinas, centro, puerta, zonas altas/bajas)<br>
+  5) Registrar cada desviación diseño-vs-URS con justificación técnica y aprobación</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% de requisitos críticos URS cubiertos en el diseño. Flujos sin cruces limpio/sucio. Capacidad ≥ 120% del pronóstico. Sensores cubren 100% de zonas. Desviaciones justificadas y aprobadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de trazabilidad URS → diseño<br>
+  - Plano revisado y firmado<br>
+  - Lista de desviaciones con justificación y aprobación<br>
+  - Acta de aprobación del DQ</p>
+  <p><strong>Nota:</strong><br>
+  El DQ se aprueba antes de comprar equipos o construir. Todo cambio posterior al diseño aprobado requiere control de cambios documentado.</p>
+  <p><strong>Referencia:</strong><br>GDP; OMS TRS 1010 Anexo 7.</p>
 </article>
 
 <article class="ensayo" data-id="INS-DQ-001" data-categoria="instrumento" data-fase="DQ">
@@ -63,12 +81,31 @@
   <p><strong>Referencia:</strong> GMP Anexo 1; ISO 14644.</p>
 </article>
 
-<article class="ensayo" data-id="ALM-IQ-001" data-categoria="almacen" data-fase="IQ">
+<article class="ensayo" data-id="ALM-IQ-001" data-fase="IQ">
   <h3>ALM-IQ-001 — Verificación de layout, zonificación y sensores</h3>
-  <p><strong>Objetivo:</strong> Confirmar zonificación (aprobado/cuarentena/rechazado), estanterías y sensores T/H instalados.</p>
-  <p><strong>Procedimiento:</strong> 1) Cotejar layout vs. plano. 2) Inventariar sensores (modelo/serie/ubicación). 3) Verificar calibración vigente de cada sensor. 4) Verificar señalización de zonas.</p>
-  <p><strong>Criterio de aceptación:</strong> Layout 100% según plano; 100% sensores calibrados; zonas señalizadas (pasa/falla).</p>
-  <p><strong>Referencia:</strong> GDP; OMS TRS 1010 Anexo 7.</p>
+  <p><strong>Objetivo:</strong><br>Confirmar que lo instalado corresponde al diseño aprobado: zonificación, estanterías, sensores T/H y señalización.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Recorrido con plano as-built y lista de verificación:<br>
+     a) Layout ejecutado = plano aprobado (medir y anotar diferencias)<br>
+     b) Zonas de aprobado / cuarentena / rechazado físicamente delimitadas y señalizadas<br>
+     c) Estanterías instaladas según plano (niveles, capacidad por nivel)<br>
+  2) Inventariar sensores T/H instalados:<br>
+     a) Registrar modelo, N° serie y ubicación de cada sensor<br>
+     b) Verificar certificado de calibración vigente por sensor (no vencido)<br>
+     c) Confirmar setpoints configurados: <span class="rango">15–25 °C / HR &lt; 65 %</span><br>
+  3) Verificar sistema de monitoreo: registro continuo, alarmas y respaldos de datos<br>
+  4) Registrar desviaciones instalación-vs-diseño con justificación</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Layout 100% según plano aprobado. 100% de sensores instalados y calibrados. Zonas señalizadas. Setpoints correctos. Desviaciones justificadas (pasa/falla por ítem).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Checklist de verificación IQ ejecutado<br>
+  - Inventario de sensores (modelo/serie/ubicación/certificado)<br>
+  - Copias de certificados de calibración<br>
+  - Plano as-built<br>
+  - Reporte de desviaciones (si aplica)</p>
+  <p><strong>Nota:</strong><br>
+  Ningún sensor con calibración vencida puede participar en OQ/PQ. Si vence durante la calificación, se recalibra y se documenta en el protocolo.</p>
+  <p><strong>Referencia:</strong><br>GDP; OMS TRS 1010 Anexo 7.</p>
 </article>
 
 <article class="ensayo" data-id="SW-IQ-001" data-categoria="software" data-fase="IQ">
@@ -114,28 +151,81 @@
   <p><strong>Referencia:</strong> USP &lt;1231&gt;; EP 2.2.38.</p>
 </article>
 
-<article class="ensayo" data-id="ALM-OQ-001" data-categoria="almacen" data-fase="OQ">
-  <h3>ALM-OQ-001 — Mapeo térmico en vacío</h3>
-  <p><strong>Objetivo:</strong> Identificar puntos fríos/calientes y demostrar uniformidad sin carga.</p>
-  <p><strong>Procedimiento:</strong> 1) Distribuir 9–15 data loggers calibrados (esquinas, centro, puerta, techo). 2) Registrar ≥ 7 días continuos (1 lectura/5 min). 3) Analizar MKT, mín/máx, normalidad.</p>
-  <p><strong>Criterio de aceptación:</strong> 100% lecturas dentro del rango declarado (ej. 15–25°C); MKT dentro de rango.</p>
-  <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; PDA TR-64.</p>
+<article class="ensayo" data-id="ALM-OQ-001" data-fase="OQ">
+  <h3>ALM-OQ-001 — Verificación de instrumentos de medición utilizados en ensayos</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que todos los instrumentos de medición empleados en pruebas OQ cumplen con calibración vigente y son trazables a estándares nacionales/internacionales.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inventariar todos los instrumentos que serán usados en OQ:<br>
+  2) Para cada instrumento, verificar:<br>
+     a) Existencia de certificado de calibración vigente (no vencido)<br>
+     b) Rango de medición certificado incluye rangos a medir en OQ/PQ<br>
+     c) Incertidumbre de medición ≤ 1/10 de la tolerancia a verificar<br>
+     d) Trazabilidad explícita a NIST, OIML u organismo nacional equivalente<br>
+     e) Identificación única del instrumento (número de serie o etiqueta de laboratorio)<br>
+  3) Registrar en hoja de verificación: instrumento, certificado No., fecha calibración, próxima calibración, incertidumbre<br>
+  4) Para instrumentos sin calibración vigente:<br>
+     - Enviar a laboratorio de calibración acreditado (ISO/IEC 17025)<br>
+     - Documentar requisición, laboratorio seleccionado, justificación técnica<br>
+  5) Anexar copias de certificados de calibración al protocolo OQ/PQ<br>
+  6) Crear matriz de trazabilidad: instrumento → certificado → parámetro a medir → tolerancia</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% de instrumentos tienen certificado de calibración vigente. La incertidumbre de medición es aceptable para los parámetros a medir. Trazabilidad documentada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Checklist de verificación de calibración de instrumentos<br>
+  - Matriz de trazabilidad (instrumento-parámetro-tolerancia-incertidumbre)<br>
+  - Copias de certificados de calibración<br>
+  - Requisiciones de calibración (instrumentos que requirieron calibración)<br>
+  - Calendario de próximas calibraciones</p>
+  <p><strong>Nota:</strong><br>
+  Todos los certificados de calibración originales se anexan al informe de calificación. Se recomienda mantener copia digital escaneada en expediente de validación para auditorías futuras.</p>
+  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; ISO/IEC 17025; PDA TR-64; 21 CFR Part 58.</p>
 </article>
 
-<article class="ensayo" data-id="ALM-OQ-002" data-categoria="almacen" data-fase="OQ">
-  <h3>ALM-OQ-002 — Prueba de excursión (apertura de puertas)</h3>
-  <p><strong>Objetivo:</strong> Demostrar control de temperatura con carga real y recuperación ante apertura de puertas.</p>
-  <p><strong>Procedimiento:</strong> 1) Mapeo con ocupación ≥ 80%. 2) Excursión programada: puerta abierta 5 min, medir recuperación al rango. 3) Verificar alarma y registro continuo.</p>
-  <p><strong>Criterio de aceptación:</strong> Rango mantenido con carga; recuperación &lt; 30 min; alarma de excursión operativa.</p>
-  <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; PDA TR-64.</p>
+<article class="ensayo" data-id="ALM-OQ-002" data-fase="OQ">
+  <h3>ALM-OQ-002 — Cálculo de número de sensores para el almacén</h3>
+  <p><strong>Objetivo:</strong><br>Determinar el número mínimo y la ubicación de sensores T/H para cumplir con la norma OMS TRS 1010 Anexo 7.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir dimensiones internas del almacén: Largo × Ancho × Alto útil<br>
+  2) Calcular volumen: V = L × A × H (m³)<br>
+  3) Aplicar regla ISPE según volumen:<br>
+     a) V &lt; 2 m³ → mínimo 9 sensores<br>
+     b) 2 m³ ≤ V ≤ 20 m³ → mínimo 15 sensores<br>
+     c) V &gt; 20 m³ → N = 16 + (V − 20) ÷ 20 (redondear hacia arriba)<br>
+  4) Definir ubicación estratégica en plano: esquinas (arriba/abajo), centro, puerta, zonas junto a difusores y puntos fríos conocidos<br>
+  5) Asignar N° de sensor a cada punto y registrar en plano de ubicación</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Número de sensores calculado y ubicado según norma; cobertura completa de zonas críticas (esquinas, centro, puerta, puntos de riesgo).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Hoja de cálculo de número de sensores (firmada)<br>
+  - Plano de ubicación de sensores con numeración<br>
+  - Lista de sensores asignados por punto</p>
+  <p><strong>Nota:</strong><br>
+  Si el mapeo en vacío revela puntos calientes/fríos no cubiertos, se agregan sensores y se documenta la ampliación. Los mapeos PQ usan este mismo número de sensores.</p>
+  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64; ISPE Good Practice Guide: Cold Chain Management.</p>
 </article>
 
-<article class="ensayo" data-id="ALM-OQ-003" data-categoria="almacen" data-fase="OQ">
-  <h3>ALM-OQ-003 — Prueba de corte energético</h3>
-  <p><strong>Objetivo:</strong> Demostrar que ante un corte de energía el almacén mantiene el rango o activa respaldo/alarma según lo previsto.</p>
-  <p><strong>Procedimiento:</strong> 1) Con carga rutinaria, simular corte de energía. 2) Registrar deriva de T°/HR y tiempo fuera de rango. 3) Verificar respaldo (UPS/grupo) y alarma. 4) Restablecer y medir recuperación.</p>
-  <p><strong>Criterio de aceptación:</strong> Respaldo operativo &lt; 60 s; alarma inmediata; recuperación &lt; 30 min; producto evaluado según procedimiento de excursiones.</p>
-  <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; GDP.</p>
+<article class="ensayo" data-id="ALM-OQ-003" data-fase="OQ">
+  <h3>ALM-OQ-003 — Mapeo térmico en vacío</h3>
+  <p><strong>Objetivo:</strong><br>Identificar puntos fríos/calientes y demostrar uniformidad sin carga antes de operar con producto.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Instalar los sensores calculados en ALM-OQ-002 según plano de ubicación<br>
+  2) Estabilizar el almacén en su setpoint: <span class="rango">15–25 °C / HR &lt; 65 %</span> (mínimo 24 h antes de iniciar)<br>
+  3) Registrar ≥ 7 días continuos, 1 lectura cada 5 min, sin abrir puertas salvo lo programado<br>
+  4) Analizar por punto:<br>
+     a) Temperatura mínima, máxima y promedio<br>
+     b) MKT (temperatura cinética media, fórmula de Haynes/Arrhenius)<br>
+     c) Normalidad de la distribución (Shapiro-Wilk)<br>
+  5) Identificar punto frío y punto caliente del almacén</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% de lecturas dentro de <span class="rango">15–25 °C / HR &lt; 65 %</span>; MKT dentro de rango; puntos frío/caliente identificados y documentados.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros crudos de los sensores (archivo + respaldo)<br>
+  - Gráficos de tendencia por punto<br>
+  - Tabla de MKT, mín/máx y normalidad<br>
+  - Informe de mapeo en vacío con puntos frío/caliente</p>
+  <p><strong>Nota:</strong><br>
+  El punto frío identificado aquí es donde se colocan los indicadores/termopares de los desafíos PQ (excursión y corte energético).</p>
+  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
 
 <article class="ensayo" data-id="BAL-OQ-001" data-categoria="balanza" data-fase="OQ">
@@ -194,6 +284,67 @@
   <p><strong>Referencia:</strong> 21 CFR 11.10(a)(e); MHRA Data Integrity.</p>
 </article>
 
+<article class="ensayo" data-id="ALM-OQ-006" data-fase="OQ">
+  <h3>ALM-OQ-006 — Prueba de corte energético</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que ante un corte de energía el almacén mantiene el rango o activa respaldo/alarma según lo previsto.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con carga rutinaria, simular corte de energía (desconexión programada y autorizada)<br>
+  2) Registrar deriva de T°/HR y tiempo fuera de <span class="rango">15–25 °C / HR &lt; 65 %</span><br>
+  3) Verificar arranque automático de respaldo (UPS/grupo electrógeno) y tiempo de transferencia<br>
+  4) Verificar alarma inmediata por corte<br>
+  5) Restablecer energía y medir tiempo de recuperación al rango</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Respaldo operativo &lt; 60 s; alarma inmediata; recuperación al rango &lt; 30 min tras restablecer; producto evaluado según procedimiento de excursiones.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de deriva térmica durante el corte<br>
+  - Tiempos de transferencia y recuperación<br>
+  - Evidencia de alarma y de arranque del respaldo<br>
+  - Evaluación de producto expuesto (si aplica)</p>
+  <p><strong>Nota:</strong><br>
+  Coordinar con mantenimiento y seguridad: la simulación nunca se hace con producto crítico sin aprobación de calidad.</p>
+  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; GDP.</p>
+</article>
+
+<article class="ensayo" data-id="ALM-OQ-005" data-fase="OQ">
+  <h3>ALM-OQ-005 — Prueba de excursión (apertura de puertas)</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar control de temperatura con carga real y recuperación ante apertura de puertas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Configurar ocupación ≥ 80% (producto real o simulado, ver ALM-PQ-002)<br>
+  2) Estabilizar y registrar línea base 24 h en <span class="rango">15–25 °C / HR &lt; 65 %</span><br>
+  3) Excursión programada: abrir puerta principal 5 min (cronometrados)<br>
+  4) Medir tiempo de recuperación al rango desde el cierre<br>
+  5) Verificar activación de alarma y registro continuo durante la excursión</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Rango mantenido con carga; recuperación &lt; 30 min; alarma de excursión operativa y registrada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la excursión (gráfico antes/durante/después)<br>
+  - Tiempo de recuperación calculado<br>
+  - Evidencia de alarma (pantallazo/registro del sistema)</p>
+  <p><strong>Nota:</strong><br>
+  Si la recuperación supera 30 min, se investiga causa (infiltración, potencia, sellos) y se repite tras la corrección.</p>
+  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>
+</article>
+
+<article class="ensayo" data-id="ALM-OQ-004" data-fase="OQ">
+  <h3>ALM-OQ-004 — Prueba de niveles de iluminación en los almacenes</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que los niveles de iluminación en los almacenes cumplen con el nivel mínimo definido en el protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar luxómetro con calibración vigente (ver ALM-OQ-001)<br>
+  2) Definir grilla de puntos: pasillos, zonas de picking, recepción/despacho y frente a estanterías (mínimo 1 punto cada 10 m²)<br>
+  3) Medir a 1 m del piso, con todas las luminarias encendidas y puertas cerradas<br>
+  4) Repetir en turno nocturno si opera 24 h (solo luz artificial)<br>
+  5) Registrar cada punto en plano con su lectura en lux</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% de puntos ≥ nivel mínimo del protocolo (referencia usual: 200 lux en áreas de trabajo); uniformidad sin zonas oscuras en rutas de personal.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Plano de puntos de medición con lecturas<br>
+  - Certificado de calibración del luxómetro<br>
+  - Informe de iluminación con puntos no conformes (si aplica) y acciones</p>
+  <p><strong>Nota:</strong><br>
+  Luminarias fundidas o puntos bajo el mínimo se corrigen y se re-mide solo el punto afectado, documentando la re-medición.</p>
+  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64; IESNA (niveles recomendados).</p>
+</article>
+
 <!-- ============================ PQ ============================ -->
 <h2 id="pq">PQ — Calificación de Desempeño</h2>
 
@@ -213,20 +364,46 @@
   <p><strong>Referencia:</strong> USP &lt;1231&gt;; PDA TR-13.</p>
 </article>
 
-<article class="ensayo" data-id="ALM-PQ-001" data-categoria="almacen" data-fase="PQ">
-  <h3>ALM-PQ-001 — Cálculo del volumen óptimo en el almacén</h3>
-  <p><strong>Objetivo:</strong> Determinar el volumen óptimo de almacenamiento para mantener la uniformidad térmica y la recuperación dentro de los límites establecidos.</p>
-  <p><strong>Procedimiento:</strong> 1) Medir dimensiones internas del almacén. 2) Calcular volumen útil total: V útil = Largo × Ancho × Alto útil (excluye pasillos, oficinas y zonas no almacenables). 3) Calcular volumen de carga necesario con la fórmula: % Ocupación = (V ocupado ÷ V útil) × 100 → para carga media 50%: V carga = 0.50 × V útil. 4) Completar con producto real o simulado hasta V carga. 5) Verificar ubicación estratégica según flujo de aire y zonas críticas.</p>
-  <p><strong>Criterio de aceptación:</strong> Volumen óptimo calculado y ubicado según norma; cobertura completa de zonas críticas.</p>
-  <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; PDA TR-64.</p>
+<article class="ensayo" data-id="ALM-PQ-001" data-fase="PQ">
+  <h3>ALM-PQ-001 — Re-verificación de instrumentos antes del PQ</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que los instrumentos verificados en ALM-OQ-001 mantienen calibración vigente durante todo el período PQ.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Revisar matriz de trazabilidad de ALM-OQ-001 contra el calendario PQ:<br>
+     a) Ningún certificado puede vencer a mitad del PQ; si vence, recalibrar antes de iniciar<br>
+     b) Confirmar mismos N° de serie / etiquetas<br>
+  2) Registrar verificación en hoja de re-verificación con fecha y responsable<br>
+  3) Anexar certificados nuevos o renovados al legajo PQ</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% de instrumentos con calibración vigente cubriendo todo el período PQ; trazabilidad intacta desde OQ.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Hoja de re-verificación firmada<br>
+  - Certificados renovados (si aplica)<br>
+  - Matriz de trazabilidad actualizada</p>
+  <p><strong>Nota:</strong><br>
+  Si un instrumento se reemplaza durante el PQ, el nuevo debe cumplir ALM-OQ-001 completo antes de usarse.</p>
+  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; ISO/IEC 17025.</p>
 </article>
 
-<article class="ensayo" data-id="ALM-PQ-002" data-categoria="almacen" data-fase="PQ">
-  <h3>ALM-PQ-002 — Mapeo térmico con carga máxima (100%) / estática / dinámica</h3>
-  <p><strong>Objetivo:</strong> Demostrar uniformidad y recuperación en el peor caso de ocupación (almacén lleno).</p>
-  <p><strong>Procedimiento:</strong> 1) Mapeo con ocupación ≈ 100% (peor caso). 2) Excursión programada: puerta abierta 5 min, medir recuperación al rango. 3) Verificar alarma y registro continuo.</p>
-  <p><strong>Criterio de aceptación:</strong> 100% lecturas dentro de rango; recuperación &lt; 30 min; alarma operativa.</p>
-  <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; PDA TR-64.</p>
+<article class="ensayo" data-id="ALM-PQ-002" data-fase="PQ">
+  <h3>ALM-PQ-002 — Cálculo del volumen óptimo en el almacén</h3>
+  <p><strong>Objetivo:</strong><br>Determinar el volumen óptimo de almacenamiento para mantener la uniformidad térmica y la recuperación dentro de los límites establecidos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir dimensiones internas del almacén: Largo × Ancho × Alto útil<br>
+  2) Calcular volumen útil total: V útil = L × A × H (excluye pasillos, oficinas y zonas no almacenables)<br>
+  3) Calcular volumen de carga con la fórmula: % Ocupación = (V ocupado ÷ V útil) × 100<br>
+     a) Carga media (PQ-003): V carga = 0.50 × V útil<br>
+     b) Carga máxima (PQ-004): V carga = 1.00 × V útil<br>
+  4) Completar con producto real o simulado hasta V carga calculado<br>
+  5) Verificar ubicación según flujo de aire y zonas críticas (ver plano ALM-OQ-002)</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Volumen óptimo calculado y ubicado según norma; % ocupación real dentro de ±5% del objetivo; cobertura completa de zonas críticas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Hoja de cálculo de volumen (firmada)<br>
+  - Plano de ocupación con distribución de carga<br>
+  - Registro fotográfico de la carga</p>
+  <p><strong>Nota:</strong><br>
+  La carga simulada debe tener masa térmica similar al producto real (botellas con agua/glicol); cajas vacías no son aceptables como simulación.</p>
+  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
 
 <article class="ensayo" data-id="REF-PQ-001" data-categoria="refrigerador" data-fase="PQ">
@@ -243,6 +420,46 @@
   <p><strong>Procedimiento:</strong> 1) Operar N semanas con usuarios entrenados. 2) Revisar incidentes, tiempos de respuesta, backups/restauración (1 simulacro). 3) Revisar firmas electrónicas emitidas.</p>
   <p><strong>Criterio de aceptación:</strong> Cero pérdida de datos; restauración exitosa; 100% firmas con los 3 atributos (nombre/fecha/significado).</p>
   <p><strong>Referencia:</strong> GAMP 5; 21 CFR 11.50/11.70.</p>
+</article>
+
+<article class="ensayo" data-id="ALM-PQ-004" data-fase="PQ">
+  <h3>ALM-PQ-004 — Mapeo térmico con carga máxima (100%) / estática / dinámica</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar uniformidad y recuperación en el peor caso de ocupación (almacén lleno).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Cargar al 100% según cálculo de ALM-PQ-002 (peor caso)<br>
+  2) Instalar el número de sensores de ALM-OQ-002 en los mismos puntos<br>
+  3) Registrar ≥ 7 días continuos, 1 lectura cada 5 min<br>
+  4) Ejecutar excursión programada (puerta 5 min) y medir recuperación a <span class="rango">15–25 °C / HR &lt; 65 %</span><br>
+  5) Analizar: mín/máx por punto, MKT, normalidad; comparar contra vacío y carga media</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% de lecturas dentro de rango; recuperación &lt; 30 min; alarma operativa; desempeño documentado en peor caso.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros crudos + gráficos por punto<br>
+  - Tabla comparativa vacío / media / máxima<br>
+  - Informe de mapeo en peor caso</p>
+  <p><strong>Nota:</strong><br>
+  Se utilizan el número de sensores calculado en el ensayo ALM-OQ-002. El mapeo se realiza en carga máxima para representar el peor caso de funcionamiento del almacén.</p>
+  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>
+</article>
+
+<article class="ensayo" data-id="ALM-PQ-003" data-fase="PQ">
+  <h3>ALM-PQ-003 — Mapeo térmico con carga media (50%) / estática / dinámica</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar uniformidad y recuperación con ocupación media representativa del funcionamiento típico.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Cargar al 50% según cálculo de ALM-PQ-002<br>
+  2) Instalar el número de sensores de ALM-OQ-002 en los mismos puntos del mapeo en vacío<br>
+  3) Registrar ≥ 7 días continuos, 1 lectura cada 5 min<br>
+  4) Ejecutar excursión programada (puerta 5 min) y medir recuperación a <span class="rango">15–25 °C / HR &lt; 65 %</span><br>
+  5) Analizar: mín/máx por punto, MKT, normalidad; comparar contra mapeo en vacío (ALM-OQ-003)</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% de lecturas dentro de rango; recuperación &lt; 30 min; alarma operativa; sin puntos nuevos fuera de rango vs. vacío.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros crudos + gráficos por punto<br>
+  - Tabla comparativa vacío vs. carga media<br>
+  - Informe de mapeo con carga media</p>
+  <p><strong>Nota:</strong><br>
+  Se utilizan el número de sensores calculado en el ensayo ALM-OQ-002. El mapeo se realiza en carga media para representar el funcionamiento típico del almacén.</p>
+  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
 
 </body>
