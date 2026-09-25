@@ -12,62 +12,64 @@
 <!-- ============ SECCIÓN 1: LISTADO (solo nombres, sin detalles) ============ -->
 <h2>Listado de equipos más comunes en industria farmacéutica</h2>
 
-<h3>Producción</h3>
-<ul>
-  <li>Tableteadora rotativa</li>
-  <li>Encapsuladora</li>
-  <li>Mezclador en V / Bin Blender</li>
-  <li>Granulador de alto corte</li>
-  <li>Lecho fluido (secado/granulación)</li>
-  <li>Bombeadora / Llenadora de líquidos</li>
-  <li>Liofilizador</li>
-  <li>Autoclave</li>
-  <li>Horno de calor seco / Estufa</li>
-  <li>Túnel de despirogenización</li>
-  <li>Etiquetadora</li>
-  <li>Blístera / Encartonadora</li>
-  <li>Cabina de flujo laminar</li>
-  <li>Cabina de bioseguridad</li>
-  <li>Cabina de vacío</li>
-  <li>Cabina de filtración</li>
-  <li>Cabina de estabilidad</li>
-  <li>Recubridora</li>
-  <li>Secador de bandejas</li>
-  <li>Secador de tambor rotativo</li>
-  <li>Granulador</li>
-  <li>Reactor</li>
-  <li>Capsuladora</li>
-  <li>Mezclador de bines / dobles / simples</li>
-  <li>Llenadora de líquidos</li>
-  <li>Detector de metales</li>
-</ul>
-
-<h3>Laboratorio / Control de calidad</h3>
-<ul>
-  <li>Balanza analítica</li>
-  <li>Balanza de precisión</li>
-  <li>Espectrofotómetro UV-Vis</li>
-  <li>HPLC</li>
-  <li>Cromatógrafo de gases (GC)</li>
-  <li>Disolutor</li>
-  <li>Desintegrador</li>
-  <li>Friabilómetro</li>
-  <li>Durómetro</li>
-  <li>Karl Fischer (humedad)</li>
-  <li>TOC (carbono orgánico total)</li>
-  <li>Viscosímetro</li>
-  <li>Incubadora</li>
-  <li>Cabina de flujo laminar</li>
-  <li>Refrigerador (2–8°C)</li>
-  <li>Congelador (−10°C / −25°C)</li>
-  <li>Centrífuga</li>
-  <li>Cabina de estabilidad</li>
-  <li>Autoclave</li>
-  <li>Horno de vacío</li>
-  <li>Espectrofotómetro UV-Vis</li>
-  <li>Espectrofotómetro IR</li>
-  <li>Espectrómetro</li>
-</ul>
+<p><label for="equipoSelect"><strong>Seleccionar equipo / instrumento:</strong></label>
+<select id="equipoSelect" onchange="var a=document.querySelector('[data-entidad=\''+this.value+'\']');if(a)a.scrollIntoView();">
+  <option value="">— elegir —</option>
+  <optgroup label="Producción">
+    <option value="tableteadora">Tableteadora rotativa</option>
+    <option value="encapsuladora">Encapsuladora</option>
+    <option value="encapsuladora">Capsuladora</option>
+    <option value="mezclador">Mezclador en V / Bin Blender</option>
+    <option value="mezclador">Mezclador de bines / dobles / simples</option>
+    <option value="granulador">Granulador de alto corte</option>
+    <option value="granulador">Granulador</option>
+    <option value="lecho-fluido">Lecho fluido (secado/granulación)</option>
+    <option value="llenadora">Bombeadora / Llenadora de líquidos</option>
+    <option value="llenadora">Llenadora de líquidos</option>
+    <option value="liofilizador">Liofilizador</option>
+    <option value="autoclave">Autoclave</option>
+    <option value="horno-estufa">Horno de calor seco / Estufa</option>
+    <option value="tunel-despirogenizacion">Túnel de despirogenización</option>
+    <option value="etiquetadora">Etiquetadora</option>
+    <option value="blistera">Blístera / Encartonadora</option>
+    <option value="cabina-flujo">Cabina de flujo laminar</option>
+    <option value="cabina-bioseguridad">Cabina de bioseguridad</option>
+    <option value="cabina-vacio">Cabina de vacío</option>
+    <option value="cabina-filtracion">Cabina de filtración</option>
+    <option value="cabina-estabilidad">Cabina de estabilidad</option>
+    <option value="recubridora">Recubridora</option>
+    <option value="secador-bandejas">Secador de bandejas</option>
+    <option value="secador-tambor">Secador de tambor rotativo</option>
+    <option value="reactor">Reactor</option>
+    <option value="detector-metales">Detector de metales</option>
+  </optgroup>
+  <optgroup label="Laboratorio / Control de calidad">
+    <option value="balanza">Balanza analítica</option>
+    <option value="balanza">Balanza de precisión</option>
+    <option value="phmetro">pH-metro</option>
+    <option value="espectrofotometro">Espectrofotómetro UV-Vis</option>
+    <option value="espectrofotometro-ir">Espectrofotómetro IR</option>
+    <option value="espectrometro">Espectrómetro</option>
+    <option value="hplc">HPLC</option>
+    <option value="gc">Cromatógrafo de gases (GC)</option>
+    <option value="disolutor">Disolutor</option>
+    <option value="desintegrador">Desintegrador</option>
+    <option value="friabilometro">Friabilómetro</option>
+    <option value="durometro">Durómetro</option>
+    <option value="karl-fischer">Karl Fischer (humedad)</option>
+    <option value="toc">TOC (carbono orgánico total)</option>
+    <option value="viscosimetro">Viscosímetro</option>
+    <option value="incubadora">Incubadora</option>
+    <option value="cabina-flujo">Cabina de flujo laminar</option>
+    <option value="refrigerador-lab">Refrigerador (2–8°C)</option>
+    <option value="congelador">Congelador (−10°C / −25°C)</option>
+    <option value="centrifuga">Centrífuga</option>
+    <option value="cabina-estabilidad">Cabina de estabilidad</option>
+    <option value="autoclave">Autoclave</option>
+    <option value="horno-vacio">Horno de vacío</option>
+    <option value="termometro">Termómetros / data loggers</option>
+  </optgroup>
+</select></p>
 
 <!-- ============ SECCIÓN 2: ENSAYOS POR ENTIDAD (separado del listado) ============ -->
 <h2>Ensayos por entidad</h2>
