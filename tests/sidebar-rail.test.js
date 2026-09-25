@@ -34,6 +34,9 @@ function fakeEl() {
 }
 
 const sidebarFake = fakeEl();
+const searchInputFake = fakeEl();
+searchInputFake.focused = false;
+searchInputFake.focus = function() { searchInputFake.focused = true; };
 const els = {
   paneResizer: fakeEl(),
   paneLeft: fakeEl(),
@@ -44,6 +47,7 @@ const els = {
   sidebarUserDropdown: fakeEl(),
   tabNew: fakeEl(),
   sidebar: sidebarFake,
+  sidebarSearch: searchInputFake,
 };
 let railTipEl = null;
 const memStore = new Map();
@@ -70,6 +74,7 @@ vm.runInThisContext(readFileSync(join(core, 'indexx-ui.js'), 'utf-8'));
 const toggleSidebar = globalThis.toggleSidebar;
 const updateRailTip = globalThis.updateRailTip;
 const hideRailTip = globalThis.hideRailTip;
+const expandSidebarFromRailSearch = globalThis.expandSidebarFromRailSearch;
 
 function fakeCard() {
   return {
@@ -129,5 +134,28 @@ describe('sidebar rail (Ctrl+B)', () => {
     expect(railTipEl.style.display).toBe('block');
     hideRailTip();
     expect(railTipEl.style.display).toBe('none');
+  });
+});
+
+describe('lupa en rail expande y enfoca', () => {
+  const boxEvt = { target: { closest: (sel) => (sel === '.search-box' ? {} : null) } };
+  const noBoxEvt = { target: { closest: () => null } };
+  test('click en lupa con rail expande y enfoca búsqueda', async () => {
+    if (!sidebarFake.classList.contains('rail')) toggleSidebar();
+    searchInputFake.focused = false;
+    expect(expandSidebarFromRailSearch(boxEvt)).toBe(true);
+    expect(sidebarFake.classList.contains('rail')).toBe(false);
+    await new Promise((r) => setTimeout(r, 300));
+    expect(searchInputFake.focused).toBe(true);
+    toggleSidebar(); // restaura rail
+  });
+  test('sin rail o fuera de la caja no hace nada', () => {
+    if (!sidebarFake.classList.contains('rail')) toggleSidebar();
+    expect(expandSidebarFromRailSearch(noBoxEvt)).toBe(false);
+    expect(sidebarFake.classList.contains('rail')).toBe(true);
+    toggleSidebar(); // expande
+    expect(expandSidebarFromRailSearch(boxEvt)).toBe(false);
+    expect(sidebarFake.classList.contains('rail')).toBe(false);
+    toggleSidebar(); // restaura rail
   });
 });

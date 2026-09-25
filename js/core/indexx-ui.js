@@ -185,6 +185,28 @@ function hideRailTip() {
   var t = document.getElementById('railTip');
   if (t) t.style.display = 'none';
 }
+// Click en la lupa con rail: expande y enfoca la búsqueda (testeable).
+function expandSidebarFromRailSearch(e) {
+  try {
+    var sidebar = document.getElementById('sidebar');
+    if (!sidebar || !sidebar.classList.contains('rail')) return false;
+    var box = e && e.target && e.target.closest ? e.target.closest('.search-box') : null;
+    if (!box) return false;
+    toggleSidebar();
+    setTimeout(function() {
+      var i = document.getElementById('sidebarSearch');
+      if (i && i.focus) i.focus();
+    }, 250);
+    return true;
+  } catch (err) { return false; }
+}
+(function initRailSearchExpand() {
+  try {
+    var header = document.querySelector('.sidebar-header');
+    if (!header || !header.addEventListener) return;
+    header.addEventListener('click', expandSidebarFromRailSearch);
+  } catch (e) {}
+})();
 (function initRailTip() {
   try {
     var nav = document.querySelector('.sidebar-nav');
