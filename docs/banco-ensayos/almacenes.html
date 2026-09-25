@@ -206,8 +206,55 @@
   - Plano as-built<br>
   - Reporte de desviaciones (si aplica)</p>
   <p><strong>Nota:</strong><br>
-  Ningún sensor con calibración vencida puede participar en OQ/PQ. Si vence durante la calificación, se recalibra y se documenta en el protocolo.</p>
+  Sin procedimientos vigentes no inicia OQ: la operación durante la calificación debe seguirlos para que el PQ sea representativo.</p>
   <p><strong>Referencia:</strong><br>GDP; OMS TRS 1010 Anexo 7.</p>
+</article>
+
+<article class="ensayo" data-id="ALM-IQ-007" data-fase="IQ">
+  <h3>ALM-IQ-007 — Verificación de las medidas del almacén</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que las dimensiones reales del almacén corresponden a los planos aprobados.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir con cinta láser o cinta métrica verificada:<br>
+     a) Largo, ancho y alto libre interior (3 lecturas por dimensión, promediar)<br>
+     b) Dimensiones de puertas, muelles y accesos (ancho × alto)<br>
+     c) Altura de estanterías y niveles útiles<br>
+  2) Calcular área (m²) y volumen interior (m³)<br>
+  3) Cotejar cada medida contra el plano aprobado y registrar desviación<br>
+  4) Marcar en plano las medidas tomadas con su N° de punto</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Desviación ≤ ±1% por dimensión vs. plano; puertas y accesos aptos para montacargas y flujo previsto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Plano de medidas con puntos numerados<br>
+  - Tabla medida-vs-plano con desviaciones<br>
+  - Certificado/verificación del instrumento de medición</p>
+  <p><strong>Nota:</strong><br>
+  Estas medidas alimentan el cálculo de volumen útil de ALM-PQ-002; si difieren del plano, se usa la medida real.</p>
+  <p><strong>Referencia:</strong><br>GDP; OMS TRS 1010 Anexo 7.</p>
+</article>
+
+<article class="ensayo" data-id="ALM-IQ-008" data-fase="IQ">
+  <h3>ALM-IQ-008 — Verificación de las especificaciones técnicas</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que materiales, acabados y capacidades instaladas cumplen las especificaciones de diseño y la URS.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Recopilar especificaciones de diseño y fichas técnicas de lo instalado<br>
+  2) Verificar por sistema:<br>
+     a) Materiales de muros, piso y techo (tipo, espesor, acabado sanitario)<br>
+     b) Estanterías (material, capacidad por nivel, certificado del fabricante)<br>
+     c) HVAC (caudal, filtración, N° de renovaciones/hora según diseño)<br>
+     d) Eléctrico e iluminación (potencia, N° de luminarias, respaldo)<br>
+     e) Sensores y monitoreo (modelos, rangos, exactitud declarada)<br>
+  3) Cotejar placas de identificación de equipos contra fichas técnicas<br>
+  4) Registrar cada incumplimiento como desviación con impacto evaluado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% de especificaciones críticas conformes; desviaciones menores justificadas sin impacto en el rango térmico.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz especificación-diseño-vs-instalado<br>
+  - Fichas técnicas y certificados de materiales/equipos<br>
+  - Registro fotográfico de placas de identificación<br>
+  - Reporte de desviaciones (si aplica)</p>
+  <p><strong>Nota:</strong><br>
+  Este ensayo cierra el IQ: resume y referencia los IQ-001 a IQ-007 como evidencia de respaldo.</p>
+  <p><strong>Referencia:</strong><br>GDP; OMS TRS 1010 Anexo 7; GAMP 5 (sistemas asociados).</p>
 </article>
 </section>
 
@@ -312,7 +359,7 @@
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64; IESNA (niveles recomendados).</p>
 </article>
 
-<article class="ensayo" data-id="ALM-OQ-005" data-fase="OQ" data-cond="dina">
+<article class="ensayo" data-id="ALM-OQ-005" data-fase="OQ" data-cond="est">
   <h3>ALM-OQ-005 — Prueba de excursión (apertura de puertas)</h3>
   <p><strong>Objetivo:</strong><br>Demostrar control de temperatura con carga real y recuperación ante apertura de puertas.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -332,7 +379,7 @@
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
 
-<article class="ensayo" data-id="ALM-OQ-006" data-fase="OQ">
+<article class="ensayo" data-id="ALM-OQ-006" data-fase="OQ" data-cond="est">
   <h3>ALM-OQ-006 — Prueba de corte energético</h3>
   <p><strong>Objetivo:</strong><br>Demostrar que ante un corte de energía el almacén mantiene el rango o activa respaldo/alarma según lo previsto.</p>
   <p><strong>Procedimiento:</strong><br>
