@@ -198,10 +198,34 @@
 </article>
 
 <article class="ensayo" data-id="ALM-003" data-categoria="almacen" data-fase="PQ">
-  <h3>ALM-003 — Mapeo térmico con carga + prueba de excursión</h3>
+  <h3>ALM-003 — Prueba de excursión (apertura de puertas)</h3>
   <p><strong>Objetivo:</strong> Demostrar control de temperatura con carga real y recuperación ante apertura de puertas.</p>
-  <p><strong>Procedimiento:</strong> 1) Repetir mapeo con ocupación ≥ 80%. 2) Excursión programada: puerta abierta 5 min, medir tiempo de recuperación. 3) Simular corte de energía (peor caso documentado).</p>
+  <p><strong>Procedimiento:</strong> 1) Mapeo con ocupación ≥ 80%. 2) Excursión programada: puerta abierta 5 min, medir tiempo de recuperación al rango del almacén. 3) Verificar alarma y registro continuo.</p>
   <p><strong>Criterio de aceptación:</strong> Rango mantenido con carga; recuperación &lt; 30 min; alarma de excursión operativa.</p>
+  <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; PDA TR-64.</p>
+</article>
+
+<article class="ensayo" data-id="ALM-004" data-categoria="almacen" data-fase="PQ">
+  <h3>ALM-004 — Prueba de corte energético</h3>
+  <p><strong>Objetivo:</strong> Demostrar que ante un corte de energía el almacén mantiene el rango o activa respaldo/alarma según lo previsto.</p>
+  <p><strong>Procedimiento:</strong> 1) Con carga rutinaria, simular corte de energía. 2) Registrar deriva de T°/HR y tiempo fuera de rango. 3) Verificar respaldo (UPS/grupo) y alarma. 4) Restablecer y medir recuperación.</p>
+  <p><strong>Criterio de aceptación:</strong> Respaldo operativo &lt; 60 s; alarma inmediata; recuperación &lt; 30 min; producto evaluado según procedimiento de excursiones.</p>
+  <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; GDP.</p>
+</article>
+
+<article class="ensayo" data-id="ALM-005" data-categoria="almacen" data-fase="PQ">
+  <h3>ALM-005 — Mapeo térmico con carga media (50%) + prueba de excursión</h3>
+  <p><strong>Objetivo:</strong> Demostrar uniformidad y recuperación con ocupación media representativa.</p>
+  <p><strong>Procedimiento:</strong> 1) Mapeo con ocupación ≈ 50%. 2) Excursión programada: puerta abierta 5 min, medir recuperación al rango. 3) Verificar alarma y registro continuo.</p>
+  <p><strong>Criterio de aceptación:</strong> 100% lecturas dentro de rango; recuperación &lt; 30 min; alarma operativa.</p>
+  <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; PDA TR-64.</p>
+</article>
+
+<article class="ensayo" data-id="ALM-006" data-categoria="almacen" data-fase="PQ">
+  <h3>ALM-006 — Mapeo térmico con carga máxima (100%) + prueba de excursión</h3>
+  <p><strong>Objetivo:</strong> Demostrar uniformidad y recuperación en el peor caso de ocupación (almacén lleno).</p>
+  <p><strong>Procedimiento:</strong> 1) Mapeo con ocupación ≈ 100% (peor caso). 2) Excursión programada: puerta abierta 5 min, medir recuperación al rango. 3) Verificar alarma y registro continuo.</p>
+  <p><strong>Criterio de aceptación:</strong> 100% lecturas dentro de rango; recuperación &lt; 30 min; alarma operativa.</p>
   <p><strong>Referencia:</strong> OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
 
