@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos — Estabilidad (ICH Q1A)</title>
+</head>
+<body>
+
+<p><a href="index.html">← Índice</a></p>
+<h1>Cámaras de estabilidad — Banco compartido (ICH Q1A)</h1>
+<p>El banco es el mismo para las 7 cámaras; solo varían los aspectos marcados con <strong>[RANGO]</strong>, que se ajustan solos al<span class="equipo">almacén</span> elegido.</p>
+
+<p><label for="almSelect"><strong>Almacén:</strong></label>
+<select id="almSelect" onchange="updAlm()">
+  <option value="cabina-est-acelerada">Cabina de Estabilidad Acelerada (38–42°C / HR 70–80%)</option>
+  <option value="cabina-est-real">Cabina de Estabilidad Real (28–32°C / HR 70–80%)</option>
+  <option value="cuarto-est-acelerada">Cuarto de Estabilidad Acelerada (38–42°C / HR 70–80%)</option>
+  <option value="cuarto-est-real">Cuarto de Estabilidad Real (28–32°C / HR 70–80%)</option>
+  <option value="incubadora-22-27">Incubadora Condición (22–27°C)</option>
+  <option value="incubadora-38-42">Incubadora (38–42°C)</option>
+  <option value="horno-secado">Horno Secado (38–42°C / HR 70–80%)</option>
+</select></p>
+
+<p><label for="protSelect"><strong>Protocolo:</strong></label>
+<select id="protSelect" onchange="updFiltro()">
+  <option value="dq">DQ — Diseño</option>
+  <option value="iq">IQ — Instalación</option>
+  <option value="oq">OQ — Operación</option>
+  <option value="pq">PQ — Desempeño</option>
+</select></p>
+
+<p><label for="condicSelect"><strong>Condición:</strong></label>
+<select id="condicSelect" onchange="updFiltro()">
+  <option value="ambas">Estática + dinámica</option>
+  <option value="est">Solo estática</option>
+  <option value="dina">Solo dinámica</option>
+</select></p>
+
+<p><strong>Protocolos para .docx:</strong><br>
+<label><input type="checkbox" class="docx-prot" value="dq" checked onchange="updDocx()"> DQ</label>
+<label><input type="checkbox" class="docx-prot" value="iq" checked onchange="updDocx()"> IQ</label>
+<label><input type="checkbox" class="docx-prot" value="oq" checked onchange="updDocx()"> OQ</label>
+<label><input type="checkbox" class="docx-prot" value="pq" checked onchange="updDocx()"> PQ</label>
+</p>
+<p id="docxResumen"><strong>DOCUMENTOS A GENERAR:</strong> <span id="docxLista"></span></p>
+
+<!-- ================= DQ ================= -->
+<section id="fase-dq">
+<h2>DQ — Ensayos</h2>
+
+<div class="responsabilidades">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+<p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+<ol><li>Coordinar la ejecución de las actividades de calificación con las áreas involucradas, asegurando la disponibilidad del personal, equipos, instrumentos, documentación y demás recursos necesarios.</li><li>Verificar previamente que los instrumentos y equipos utilizados durante la calificación se encuentren identificados, disponibles y con calibración vigente, cuando aplique.</li><li>Ejecutar y/o supervisar las pruebas establecidas en el protocolo, de acuerdo con los procedimientos y criterios de aceptación previamente aprobados.</li><li>Verificar la correcta instalación y ubicación de los instrumentos de medición y dataloggers utilizados para la evaluación de las condiciones ambientales del <span class="equipo">almacén</span>, de acuerdo con el análisis de riesgos y la configuración definida en el protocolo.</li><li>Registrar y/o verificar los datos obtenidos durante la ejecución de las pruebas, asegurando que la información sea completa, legible, trazable y se encuentre asociada a los instrumentos y puntos de medición correspondientes.</li><li>Realizar el análisis de los resultados obtenidos durante la calificación, incluyendo, cuando aplique, el análisis estadístico de los parámetros evaluados, tales como temperatura, humedad relativa y otras variables definidas.</li><li>Identificar y documentar las desviaciones que se presenten durante la ejecución de las actividades de calificación, de acuerdo con los procedimientos internos vigentes.</li><li>Evaluar técnicamente el impacto de las desviaciones sobre los resultados y el estado de calificación del {eq}, en conjunto con las áreas responsables cuando corresponda.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos de evidencia.</li><li>Dar seguimiento al cierre de desviaciones y acciones correctivas hasta su cierre documentado.</li><li>Determinar técnicamente, con base en los resultados obtenidos y dentro del alcance de sus responsabilidades, si las pruebas ejecutadas cumplen con los criterios establecidos y si existe evidencia suficiente para sustentar el estado de calificación del <span class="equipo">almacén</span>.</li></ol>
+<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos con las áreas involucradas.</li><li>Verificar el cierre documentado de cada fase e informar su estado para autorizar el inicio de la siguiente.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas, y emitir recomendación técnica.</li><li>Revisar el informe final de calificación y emitir concepto técnico.</li></ol>
+<p><strong>Responsabilidad del Gerente de Logística:</strong></p>
+<ol><li>Garantizar la disponibilidad del <span class="equipo">almacén</span> y los accesos necesarios para la ejecución de las pruebas.</li><li>Proveer la carga/producto requerido o autorizar el uso de carga simulada.</li><li>Coordinar la operación normal del <span class="equipo">almacén</span> durante las pruebas dinámicas.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li><li>Asegurar el archivo y la trazabilidad del legajo de calificación.</li></ol>
+</div>
+
+<article id="art-EST-DQ-001" class="ensayo" data-id="EST-DQ-001" data-fase="DQ" data-cond="ambas">
+  <h3>EST-DQ-001 — Revisión de diseño de la <span class="equipo">cámara</span> (setpoint y uniformidad)</h3>
+  <p><strong>Objetivo:</strong><br>Aprobar que el diseño alcanza el setpoint y la uniformidad exigida.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar setpoint <span class="rango">38–42 °C / HR 70–80 %</span> contra URS.<br>
+  2) Confirmar uniformidad de diseño ±2 °C / ±5 %HR y distribución de sensores.<br>
+  3) Registrar desviaciones con justificación.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Setpoint y uniformidad de diseño conformes; desviaciones justificadas y aprobadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros crudos firmados<br>
+  - Gráficos e informe del ensayo</p>
+  <p><strong>Nota:</strong><br>
+  Condición de la cámara: <span class="rango">38–42 °C / HR 70–80 %</span>. Toda desviación se documenta antes de cerrar el ensayo.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A; OMS TRS 1010 Anexo 7.</p>
+</article>
+
+<article id="art-EST-DQ-002" class="ensayo" data-id="EST-DQ-002" data-fase="DQ" data-cond="ambas" data-resumen="DQ">
+  <h3>EST-DQ-002 — Tabla resumen de los ensayos del DQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el cierre del DQ.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Listar los ensayos del protocolo (<span class="lista-resumen" data-fase-lista="DQ"></span>) con veredicto.<br>
+  2) Firmar acta de cierre DQ.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% ensayos DQ con veredicto; acta firmada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros crudos firmados<br>
+  - Gráficos e informe del ensayo</p>
+  <p><strong>Nota:</strong><br>
+  Condición de la cámara: <span class="rango">38–42 °C / HR 70–80 %</span>. Toda desviación se documenta antes de cerrar el ensayo.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A; OMS TRS 1010 Anexo 7.</p>
+</article>
+</section>
+
+<!-- ================= IQ ================= -->
+<section id="fase-iq">
+<h2>IQ — Ensayos</h2>
+
+<div class="responsabilidades">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+<p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+<ol><li>Coordinar la ejecución de las actividades de calificación con las áreas involucradas, asegurando la disponibilidad del personal, equipos, instrumentos, documentación y demás recursos necesarios.</li><li>Verificar previamente que los instrumentos y equipos utilizados durante la calificación se encuentren identificados, disponibles y con calibración vigente, cuando aplique.</li><li>Ejecutar y/o supervisar las pruebas establecidas en el protocolo, de acuerdo con los procedimientos y criterios de aceptación previamente aprobados.</li><li>Verificar la correcta instalación y ubicación de los instrumentos de medición y dataloggers utilizados para la evaluación de las condiciones ambientales del <span class="equipo">almacén</span>, de acuerdo con el análisis de riesgos y la configuración definida en el protocolo.</li><li>Registrar y/o verificar los datos obtenidos durante la ejecución de las pruebas, asegurando que la información sea completa, legible, trazable y se encuentre asociada a los instrumentos y puntos de medición correspondientes.</li><li>Realizar el análisis de los resultados obtenidos durante la calificación, incluyendo, cuando aplique, el análisis estadístico de los parámetros evaluados, tales como temperatura, humedad relativa y otras variables definidas.</li><li>Identificar y documentar las desviaciones que se presenten durante la ejecución de las actividades de calificación, de acuerdo con los procedimientos internos vigentes.</li><li>Evaluar técnicamente el impacto de las desviaciones sobre los resultados y el estado de calificación del {eq}, en conjunto con las áreas responsables cuando corresponda.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos de evidencia.</li><li>Dar seguimiento al cierre de desviaciones y acciones correctivas hasta su cierre documentado.</li><li>Determinar técnicamente, con base en los resultados obtenidos y dentro del alcance de sus responsabilidades, si las pruebas ejecutadas cumplen con los criterios establecidos y si existe evidencia suficiente para sustentar el estado de calificación del <span class="equipo">almacén</span>.</li></ol>
+<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos con las áreas involucradas.</li><li>Verificar el cierre documentado de cada fase e informar su estado para autorizar el inicio de la siguiente.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas, y emitir recomendación técnica.</li><li>Revisar el informe final de calificación y emitir concepto técnico.</li></ol>
+<p><strong>Responsabilidad del Gerente de Logística:</strong></p>
+<ol><li>Garantizar la disponibilidad del <span class="equipo">almacén</span> y los accesos necesarios para la ejecución de las pruebas.</li><li>Proveer la carga/producto requerido o autorizar el uso de carga simulada.</li><li>Coordinar la operación normal del <span class="equipo">almacén</span> durante las pruebas dinámicas.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li><li>Asegurar el archivo y la trazabilidad del legajo de calificación.</li></ol>
+</div>
+
+<article id="art-EST-IQ-001" class="ensayo" data-id="EST-IQ-001" data-fase="IQ" data-cond="ambas">
+  <h3>EST-IQ-001 — Verificación de instalación de la <span class="equipo">cámara</span> (ubicación, utilities, controlador)</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar instalación según diseño aprobado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ubicación, nivelación y espacio de servicio.<br>
+  2) Utilities: energía, drenaje, agua (si aplica).<br>
+  3) Controlador: setpoint <span class="rango">38–42 °C / HR 70–80 %</span>, sonda T/H instalada y calibrada.<br>
+  4) Alarmas configuradas.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Instalación 100% según plano; controlador y sonda operativos; alarmas configuradas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros crudos firmados<br>
+  - Gráficos e informe del ensayo</p>
+  <p><strong>Nota:</strong><br>
+  Condición de la cámara: <span class="rango">38–42 °C / HR 70–80 %</span>. Toda desviación se documenta antes de cerrar el ensayo.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A; OMS TRS 1010 Anexo 7.</p>
+</article>
+
+<article id="art-EST-IQ-002" class="ensayo" data-id="EST-IQ-002" data-fase="IQ" data-cond="ambas">
+  <h3>EST-IQ-002 — Verificación de instrumentos y calibración</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar calibración vigente y trazable de lo que medirá en OQ/PQ.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inventariar dataloggers y patrones.<br>
+  2) Certificados vigentes, trazables, incertidumbre ≤ 1/10 de la tolerancia (±2 °C / ±5 %HR).<br>
+  3) Matriz instrumento → certificado → parámetro.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% instrumentos calibrados y trazables.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros crudos firmados<br>
+  - Gráficos e informe del ensayo</p>
+  <p><strong>Nota:</strong><br>
+  Condición de la cámara: <span class="rango">38–42 °C / HR 70–80 %</span>. Toda desviación se documenta antes de cerrar el ensayo.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A; OMS TRS 1010 Anexo 7.</p>
+</article>
+
+<article id="art-EST-IQ-003" class="ensayo" data-id="EST-IQ-003" data-fase="IQ" data-cond="ambas" data-resumen="IQ">
+  <h3>EST-IQ-003 — Tabla resumen de los ensayos del IQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el cierre del IQ.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Listar los ensayos del protocolo (<span class="lista-resumen" data-fase-lista="IQ"></span>) con veredicto.<br>
+  2) Firmar acta de cierre IQ.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% ensayos IQ con veredicto; acta firmada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros crudos firmados<br>
+  - Gráficos e informe del ensayo</p>
+  <p><strong>Nota:</strong><br>
+  Condición de la cámara: <span class="rango">38–42 °C / HR 70–80 %</span>. Toda desviación se documenta antes de cerrar el ensayo.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A; OMS TRS 1010 Anexo 7.</p>
+</article>
+</section>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq">
+<h2>OQ — Ensayos</h2>
+
+<div class="responsabilidades">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+<p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+<ol><li>Coordinar la ejecución de las actividades de calificación con las áreas involucradas, asegurando la disponibilidad del personal, equipos, instrumentos, documentación y demás recursos necesarios.</li><li>Verificar previamente que los instrumentos y equipos utilizados durante la calificación se encuentren identificados, disponibles y con calibración vigente, cuando aplique.</li><li>Ejecutar y/o supervisar las pruebas establecidas en el protocolo, de acuerdo con los procedimientos y criterios de aceptación previamente aprobados.</li><li>Verificar la correcta instalación y ubicación de los instrumentos de medición y dataloggers utilizados para la evaluación de las condiciones ambientales del <span class="equipo">almacén</span>, de acuerdo con el análisis de riesgos y la configuración definida en el protocolo.</li><li>Registrar y/o verificar los datos obtenidos durante la ejecución de las pruebas, asegurando que la información sea completa, legible, trazable y se encuentre asociada a los instrumentos y puntos de medición correspondientes.</li><li>Realizar el análisis de los resultados obtenidos durante la calificación, incluyendo, cuando aplique, el análisis estadístico de los parámetros evaluados, tales como temperatura, humedad relativa y otras variables definidas.</li><li>Identificar y documentar las desviaciones que se presenten durante la ejecución de las actividades de calificación, de acuerdo con los procedimientos internos vigentes.</li><li>Evaluar técnicamente el impacto de las desviaciones sobre los resultados y el estado de calificación del {eq}, en conjunto con las áreas responsables cuando corresponda.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos de evidencia.</li><li>Dar seguimiento al cierre de desviaciones y acciones correctivas hasta su cierre documentado.</li><li>Determinar técnicamente, con base en los resultados obtenidos y dentro del alcance de sus responsabilidades, si las pruebas ejecutadas cumplen con los criterios establecidos y si existe evidencia suficiente para sustentar el estado de calificación del <span class="equipo">almacén</span>.</li></ol>
+<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos con las áreas involucradas.</li><li>Verificar el cierre documentado de cada fase e informar su estado para autorizar el inicio de la siguiente.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas, y emitir recomendación técnica.</li><li>Revisar el informe final de calificación y emitir concepto técnico.</li></ol>
+<p><strong>Responsabilidad del Gerente de Logística:</strong></p>
+<ol><li>Garantizar la disponibilidad del <span class="equipo">almacén</span> y los accesos necesarios para la ejecución de las pruebas.</li><li>Proveer la carga/producto requerido o autorizar el uso de carga simulada.</li><li>Coordinar la operación normal del <span class="equipo">almacén</span> durante las pruebas dinámicas.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+<ol><li>Aprobar el PROTOCOLO: y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li><li>Asegurar el archivo y la trazabilidad del legajo de calificación.</li></ol>
+</div>
+
+<article id="art-EST-OQ-001" class="ensayo" data-id="EST-OQ-001" data-fase="OQ" data-cond="est">
+  <h3>EST-OQ-001 — Mapeo de uniformidad en vacío (±2 °C / ±5 %HR)</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar uniformidad sin carga en todo el volumen útil.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) 9–15 sensores según volumen (regla ISPE).<br>
+  2) Estabilizar en <span class="rango">38–42 °C / HR 70–80 %</span> ≥ 24 h.<br>
+  3) Registrar ≥ 48 h, lectura cada 5 min.<br>
+  4) Uniformidad: máx − mín por lectura; identificar punto frío/caliente.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Uniformidad ≤ ±2 °C y ≤ ±5 %HR en 100% de lecturas; puntos identificados.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros crudos firmados<br>
+  - Gráficos e informe del ensayo</p>
+  <p><strong>Nota:</strong><br>
+  Condición de la cámara: <span class="rango">38–42 °C / HR 70–80 %</span>. Toda desviación se documenta antes de cerrar el ensayo.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A; OMS TRS 1010 Anexo 7.</p>
+</article>
+
+<article id="art-EST-OQ-002" class="ensayo" data-id="EST-OQ-002" data-fase="OQ" data-cond="dina">
+  <h3>EST-OQ-002 — Apertura de puerta y recuperación</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar recuperación tras apertura en operación simulada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con carga simulada, estabilizar en <span class="rango">38–42 °C / HR 70–80 %</span>.<br>
+  2) Abrir puerta 1 min, cerrar, medir recuperación.<br>
+  3) Verificar alarma.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Recuperación dentro del tiempo definido en protocolo; alarma operativa.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros crudos firmados<br>
+  - Gráficos e informe del ensayo</p>
+  <p><strong>Nota:</strong><br>
+  Condición de la cámara: <span class="rango">38–42 °C / HR 70–80 %</span>. Toda desviación se documenta antes de cerrar el ensayo.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A; OMS TRS 1010 Anexo 7.</p>
+</article>
+
+<article id="art-EST-OQ-003" class="ensayo" data-id="EST-OQ-003" data-fase="OQ" data-cond="ambas" data-resumen="OQ">
+  <h3>EST-OQ-003 — Tabla resumen de los ensayos del OQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el cierre del OQ.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Listar los ensayos del protocolo (<span class="lista-resumen" data-fase-lista="OQ"></span>) con veredicto.<br>
+  2) Firmar acta de cierre OQ.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% ensayos OQ con veredicto; acta firmada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros crudos firmados<br>
+  - Gráficos e informe del ensayo</p>
+  <p><strong>Nota:</strong><br>
+  Condición de la cámara: <span class="rango">38–42 °C / HR 70–80 %</span>. Toda desviación se documenta antes de cerrar el ensayo.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A; OMS TRS 1010 Anexo 7.</p>
+</article>
+</section>
+
+<!-- ================= PQ ================= -->
+<section id="fase-pq">
+<h2>PQ — Ensayos</h2>
+
+<div class="responsabilidades">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+<p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+<ol><li>Coordinar la ejecución de las actividades de calificación con las áreas involucradas, asegurando la disponibilidad del personal, equipos, instrumentos, documentación y demás recursos necesarios.</li><li>Verificar previamente que los instrumentos y equipos utilizados durante la calificación se encuentren identificados, disponibles y con calibración vigente, cuando aplique.</li><li>Ejecutar y/o supervisar las pruebas establecidas en el protocolo, de acuerdo con los procedimientos y criterios de aceptación previamente aprobados.</li><li>Verificar la correcta instalación y ubicación de los instrumentos de medición y dataloggers utilizados para la evaluación de las condiciones ambientales del <span class="equipo">almacén</span>, de acuerdo con el análisis de riesgos y la configuración definida en el protocolo.</li><li>Registrar y/o verificar los datos obtenidos durante la ejecución de las pruebas, asegurando que la información sea completa, legible, trazable y se encuentre asociada a los instrumentos y puntos de medición correspondientes.</li><li>Realizar el análisis de los resultados obtenidos durante la calificación, incluyendo, cuando aplique, el análisis estadístico de los parámetros evaluados, tales como temperatura, humedad relativa y otras variables definidas.</li><li>Identificar y documentar las desviaciones que se presenten durante la ejecución de las actividades de calificación, de acuerdo con los procedimientos internos vigentes.</li><li>Evaluar técnicamente el impacto de las desviaciones sobre los resultados y el estado de calificación del {eq}, en conjunto con las áreas responsables cuando corresponda.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos de evidencia.</li><li>Dar seguimiento al cierre de desviaciones y acciones correctivas hasta su cierre documentado.</li><li>Determinar técnicamente, con base en los resultados obtenidos y dentro del alcance de sus responsabilidades, si las pruebas ejecutadas cumplen con los criterios establecidos y si existe evidencia suficiente para sustentar el estado de calificación del <span class="equipo">almacén</span>.</li></ol>
+<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos con las áreas involucradas.</li><li>Verificar el cierre documentado de cada fase e informar su estado para autorizar el inicio de la siguiente.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas, y emitir recomendación técnica.</li><li>Revisar el informe final de calificación y emitir concepto técnico.</li></ol>
+<p><strong>Responsabilidad del Gerente de Logística:</strong></p>
+<ol><li>Garantizar la disponibilidad del <span class="equipo">almacén</span> y los accesos necesarios para la ejecución de las pruebas.</li><li>Proveer la carga/producto requerido o autorizar el uso de carga simulada.</li><li>Coordinar la operación normal del <span class="equipo">almacén</span> durante las pruebas dinámicas.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li><li>Asegurar el archivo y la trazabilidad del legajo de calificación.</li></ol>
+</div>
+
+<article id="art-EST-PQ-001" class="ensayo" data-id="EST-PQ-001" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-001 — Mapeo de uniformidad con carga</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar uniformidad con carga representativa.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Cargar según % ocupación definido.<br>
+  2) Registrar ≥ 7 días en <span class="rango">38–42 °C / HR 70–80 %</span>.<br>
+  3) Comparar contra vacío (EST-OQ-001).</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Uniformidad ≤ ±2 °C y ≤ ±5 %HR con carga; sin puntos nuevos fuera de especificación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros crudos firmados<br>
+  - Gráficos e informe del ensayo</p>
+  <p><strong>Nota:</strong><br>
+  Condición de la cámara: <span class="rango">38–42 °C / HR 70–80 %</span>. Toda desviación se documenta antes de cerrar el ensayo.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A; OMS TRS 1010 Anexo 7.</p>
+</article>
+
+<article id="art-EST-PQ-002" class="ensayo" data-id="EST-PQ-002" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-002 — Corte energético y respaldo</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar comportamiento ante corte y respaldo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular corte con carga.<br>
+  2) Registrar deriva fuera de <span class="rango">38–42 °C / HR 70–80 %</span>.<br>
+  3) Verificar respaldo y alarma; medir recuperación.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Respaldo operativo; recuperación documentada; producto evaluado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros crudos firmados<br>
+  - Gráficos e informe del ensayo</p>
+  <p><strong>Nota:</strong><br>
+  Condición de la cámara: <span class="rango">38–42 °C / HR 70–80 %</span>. Toda desviación se documenta antes de cerrar el ensayo.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A; OMS TRS 1010 Anexo 7.</p>
+</article>
+
+<article id="art-EST-PQ-003" class="ensayo" data-id="EST-PQ-003" data-fase="PQ" data-cond="ambas" data-resumen="PQ">
+  <h3>EST-PQ-003 — Tabla resumen de los ensayos del PQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el cierre del PQ.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Listar los ensayos del protocolo (<span class="lista-resumen" data-fase-lista="PQ"></span>) con veredicto.<br>
+  2) Firmar acta de cierre PQ.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% ensayos PQ con veredicto; acta firmada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros crudos firmados<br>
+  - Gráficos e informe del ensayo</p>
+  <p><strong>Nota:</strong><br>
+  Condición de la cámara: <span class="rango">38–42 °C / HR 70–80 %</span>. Toda desviación se documenta antes de cerrar el ensayo.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A; OMS TRS 1010 Anexo 7.</p>
+</article>
+</section>
+
+<script>
+var RANGOS = {
+  'cabina-est-acelerada': '38–42 °C / HR 70–80 %',
+  'cabina-est-real': '28–32 °C / HR 70–80 %',
+  'cuarto-est-acelerada': '38–42 °C / HR 70–80 %',
+  'cuarto-est-real': '28–32 °C / HR 70–80 %',
+  'incubadora-22-27': '22–27 °C',
+  'incubadora-38-42': '38–42 °C',
+  'horno-secado': '38–42 °C / HR 70–80 %'
+};
+var NOMBRES = {
+  'cabina-est-acelerada': ['cabina de estabilidad acelerada', 'cabina de estabilidad aceleradas'],
+  'cabina-est-real': ['cabina de estabilidad real', 'cabina de estabilidad reals'],
+  'cuarto-est-acelerada': ['cuarto de estabilidad acelerada', 'cuarto de estabilidad aceleradas'],
+  'cuarto-est-real': ['cuarto de estabilidad real', 'cuarto de estabilidad reals'],
+  'incubadora-22-27': ['incubadora (22–27 °C)', 'incubadora (22–27 °C)s'],
+  'incubadora-38-42': ['incubadora (38–42 °C)', 'incubadora (38–42 °C)s'],
+  'horno-secado': ['horno de secado', 'horno de secados']
+};
+function updAlm() {
+  var v = document.getElementById('almSelect').value;
+  document.querySelectorAll('.rango').forEach(function(s) { s.textContent = RANGOS[v] || ''; });
+  var n = NOMBRES[v] || ['almacén', 'almacenes'];
+  document.querySelectorAll('.equipo').forEach(function(s) { s.textContent = n[0]; });
+  document.querySelectorAll('.equipo-pl').forEach(function(s) { s.textContent = n[1]; });
+}
+var CONDNOMB = { 'ambas': 'estática / dinámica', 'est': 'estática', 'dina': 'dinámica' };
+function updFiltro() {
+  var p = document.getElementById('protSelect').value;
+  var c = document.getElementById('condicSelect').value;
+  document.querySelectorAll('.cond').forEach(function(s) { s.textContent = CONDNOMB[c] || s.textContent; });
+  ['dq', 'iq', 'oq', 'pq'].forEach(function(f) {
+    document.getElementById('fase-' + f).style.display = (p === f) ? '' : 'none';
+  });
+  document.querySelectorAll('article.ensayo').forEach(function(a) {
+    var cond = a.getAttribute('data-cond') || 'ambas';
+    a.style.display = (c === 'ambas' || cond === 'ambas' || cond === c) ? '' : 'none';
+  });
+  renumera();
+  updDocx();
+}
+// Selección de protocolos para .docx (un documento independiente por protocolo)
+function docxSel() {
+  var sel = [];
+  document.querySelectorAll('.docx-prot').forEach(function(ch) {
+    if (ch.checked) sel.push(ch.value);
+  });
+  return sel;
+}
+function updDocx() {
+  var c = (document.getElementById('condicSelect') || {}).value || 'ambas';
+  var parts = docxSel().map(function(f) {
+    var n = 0;
+    document.querySelectorAll('section[id="fase-' + f + '"] article.ensayo').forEach(function(a) {
+      var cond = a.getAttribute('data-cond') || 'ambas';
+      if (c === 'ambas' || cond === 'ambas' || cond === c) n++;
+    });
+    return f.toUpperCase() + ' (' + n + ' ensayos)';
+  });
+  var el = document.getElementById('docxLista');
+  if (el) el.textContent = parts.length ? parts.join(' · ') : 'ninguno seleccionado';
+  try { localStorage.setItem('docx-protocolos', JSON.stringify(docxSel())); } catch (e) {}
+}
+(function cargaDocx() {
+  try {
+    var sel = JSON.parse(localStorage.getItem('docx-protocolos') || 'null');
+    if (Array.isArray(sel)) {
+      document.querySelectorAll('.docx-prot').forEach(function(ch) {
+        ch.checked = sel.indexOf(ch.value) >= 0;
+      });
+    }
+  } catch (e) {}
+})();
+// Numera visible 1..N sin saltos (el ID fijo se conserva para trazabilidad)
+function renumera() {
+  document.querySelectorAll('section[id^="fase-"]').forEach(function(sec) {
+    if (sec.style.display === 'none') return;
+    var vis = Array.prototype.filter.call(sec.querySelectorAll('article.ensayo'), function(a) {
+      return a.style.display !== 'none';
+    });
+    var nav = sec.querySelector('nav.toc');
+    if (!nav) {
+      nav = document.createElement('nav');
+      nav.className = 'toc';
+      var first = sec.querySelector('article.ensayo');
+      sec.insertBefore(nav, first);
+    }
+    nav.innerHTML = '<strong>ÍNDICE DEL PROTOCOLO</strong><br>';
+    vis.forEach(function(a, i) {
+      var b = a.querySelector('.seq');
+      if (!b) { b = document.createElement('span'); b.className = 'seq'; a.insertBefore(b, a.firstChild); }
+      b.textContent = 'ENSAYO ' + (i + 1) + ' DE ' + vis.length + ' — ';
+      var h = a.querySelector('h3');
+      var link = document.createElement('a');
+      link.href = '#' + a.id;
+      link.textContent = (i + 1) + '. ' + (h ? h.textContent : a.getAttribute('data-id'));
+      nav.appendChild(link);
+      nav.appendChild(document.createElement('br'));
+    });
+  });
+  // Listas de tablas resumen: solo ensayos visibles bajo el filtro activo
+  document.querySelectorAll('.lista-resumen').forEach(function(sp) {
+    var fl = sp.getAttribute('data-fase-lista') || '';
+    var ids = [];
+    document.querySelectorAll('article.ensayo[data-fase="' + fl + '"]').forEach(function(a) {
+      if (a.style.display === 'none' || a.hasAttribute('data-resumen')) return;
+      var hid = a.getAttribute('data-id');
+      if (hid) ids.push(hid);
+    });
+    sp.textContent = ids.join(', ');
+  });
+}
+// Enlace a ensayo dependiente: revela su protocolo y salta hacia él
+document.addEventListener('click', function(e) {
+  var a = e.target.closest ? e.target.closest('a[data-goto]') : null;
+  if (!a) return;
+  var t = document.getElementById('art-' + a.getAttribute('data-goto'));
+  if (!t) return;
+  e.preventDefault();
+  var fase = (t.getAttribute('data-fase') || '').toLowerCase();
+  var ps = document.getElementById('protSelect');
+  if (ps && fase) ps.value = fase;
+  var cs = document.getElementById('condicSelect');
+  if (cs) cs.value = 'ambas';
+  updFiltro();
+  t.scrollIntoView();
+});
+updFiltro();
+</script>
+
+
+</body>
+</html>
