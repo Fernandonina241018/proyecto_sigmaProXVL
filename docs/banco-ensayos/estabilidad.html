@@ -12,6 +12,15 @@
 
 <p><a href="index.html">← Índice</a></p>
 <h1>Cámaras de estabilidad — Banco compartido (ICH Q1A)</h1>
+
+<div class="plantilla-entidad">
+<p><strong>PLANTILLA — DATOS DE LA ENTIDAD A CALIFICAR</strong> (se replica en las 4 portadas)</p>
+<p><label>Logo:<br><input type="file" id="entLogoFile" accept="image/*"></label></p>
+<p><label>Descripción:<br><input id="entDescripcion" size="50"></label></p>
+<p><label>Marca:<br><input id="entMarca" size="30"></label></p>
+<p><label>Modelo:<br><input id="entModelo" size="30"></label></p>
+<p><label>Código:<br><input id="entCodigo" size="30"></label></p>
+</div>
 <p>El banco es el mismo para las 7 cámaras; solo varían los aspectos marcados con <strong>[RANGO]</strong>, que se ajustan solos al<span class="equipo">almacén</span> elegido.</p>
 
 <p><label for="almSelect"><strong>Almacén:</strong></label>
@@ -51,6 +60,17 @@
 <!-- ================= DQ ================= -->
 <section id="fase-dq">
 <h2>DQ — Ensayos</h2>
+
+<div class="portada">
+<p><strong>PORTADA DEL PROTOCOLO DQ</strong></p>
+<p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+<p><strong>Calificación de <span class="equipo">cámara</span>:</strong> <span class="ent-descripcion">______</span></p>
+<ol>
+  <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+  <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+  <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+</ol>
+</div>
 
 <div class="firmas">
 <p><strong>FLUJO DE FIRMAS DEL PROTOCOLO</strong></p>
@@ -171,6 +191,17 @@
 <!-- ================= IQ ================= -->
 <section id="fase-iq">
 <h2>IQ — Ensayos</h2>
+
+<div class="portada">
+<p><strong>PORTADA DEL PROTOCOLO IQ</strong></p>
+<p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+<p><strong>Calificación de <span class="equipo">cámara</span>:</strong> <span class="ent-descripcion">______</span></p>
+<ol>
+  <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+  <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+  <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+</ol>
+</div>
 
 <div class="firmas">
 <p><strong>FLUJO DE FIRMAS DEL PROTOCOLO</strong></p>
@@ -548,6 +579,17 @@
 <section id="fase-oq">
 <h2>OQ — Ensayos</h2>
 
+<div class="portada">
+<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>
+<p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+<p><strong>Calificación de <span class="equipo">cámara</span>:</strong> <span class="ent-descripcion">______</span></p>
+<ol>
+  <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+  <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+  <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+</ol>
+</div>
+
 <div class="firmas">
 <p><strong>FLUJO DE FIRMAS DEL PROTOCOLO</strong></p>
 <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>
@@ -851,6 +893,17 @@
 <!-- ================= PQ ================= -->
 <section id="fase-pq">
 <h2>PQ — Ensayos</h2>
+
+<div class="portada">
+<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>
+<p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+<p><strong>Calificación de <span class="equipo">cámara</span>:</strong> <span class="ent-descripcion">______</span></p>
+<ol>
+  <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+  <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+  <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+</ol>
+</div>
 
 <div class="firmas">
 <p><strong>FLUJO DE FIRMAS DEL PROTOCOLO</strong></p>
@@ -1224,6 +1277,60 @@ document.addEventListener('click', function(e) {
 updFiltro();
 </script>
 
+
+<script>
+function cargaEnt() {
+  try {
+    var v = JSON.parse(localStorage.getItem('ent-datos') || '{}');
+    if (v.logo) document.querySelectorAll('.ent-logo').forEach(function(i) { i.src = v.logo; });
+    [['entDescripcion', '.ent-descripcion'], ['entMarca', '.ent-marca'],
+     ['entModelo', '.ent-modelo'], ['entCodigo', '.ent-codigo']].forEach(function(p) {
+      var inp = document.getElementById(p[0]);
+      if (inp && v[p[0]]) inp.value = v[p[0]];
+    });
+    aplicaEnt();
+  } catch (e) {}
+}
+function aplicaEnt() {
+  try {
+    var v = {
+      entDescripcion: (document.getElementById('entDescripcion') || {}).value || '',
+      entMarca: (document.getElementById('entMarca') || {}).value || '',
+      entModelo: (document.getElementById('entModelo') || {}).value || '',
+      entCodigo: (document.getElementById('entCodigo') || {}).value || ''
+    };
+    var old = JSON.parse(localStorage.getItem('ent-datos') || '{}');
+    v.logo = old.logo || '';
+    localStorage.setItem('ent-datos', JSON.stringify(v));
+    [['.ent-descripcion', v.entDescripcion || '______'], ['.ent-marca', v.entMarca || '______'],
+     ['.ent-modelo', v.entModelo || '______'], ['.ent-codigo', v.entCodigo || '______']].forEach(function(p) {
+      document.querySelectorAll(p[0]).forEach(function(s) { s.textContent = p[1]; });
+    });
+  } catch (e) {}
+}
+(function initEnt() {
+  ['entDescripcion', 'entMarca', 'entModelo', 'entCodigo'].forEach(function(id) {
+    var i = document.getElementById(id);
+    if (i) i.addEventListener('input', aplicaEnt);
+  });
+  var lf = document.getElementById('entLogoFile');
+  if (lf) lf.addEventListener('change', function() {
+    var f = lf.files && lf.files[0];
+    if (!f) return;
+    var r = new FileReader();
+    r.onload = function() {
+      document.querySelectorAll('.ent-logo').forEach(function(img) { img.src = r.result; });
+      try {
+        var v = JSON.parse(localStorage.getItem('ent-datos') || '{}');
+        v.logo = r.result;
+        localStorage.setItem('ent-datos', JSON.stringify(v));
+      } catch (e) {}
+    };
+    r.readAsDataURL(f);
+  });
+  cargaEnt();
+})();
+</script>
 
 </body>
 </html>
