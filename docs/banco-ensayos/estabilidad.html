@@ -1352,12 +1352,21 @@ function updDocx() {
     }
   } catch (e) {}
 })();
-// Numera visible 1..N sin saltos (el ID fijo se conserva para trazabilidad)
+// Numera por bloque (2.1, 3.1...); el ID fijo se conserva para trazabilidad
 function renumera() {
+  var BLOQUES = {'1': 'PORTADA · FIRMAS · RESPONSABILIDADES', '2': 'PRELIMINARES',
+    '3': 'CALIFICACIÓN', '4': 'RESUMEN', '5': 'FIRMAS DEL PERSONAL',
+    '6': 'REFERENCIAS', '7': 'HISTORIAL'};
   document.querySelectorAll('section[id^="fase-"]').forEach(function(sec) {
     if (sec.style.display === 'none') return;
     var vis = Array.prototype.filter.call(sec.querySelectorAll('article.ensayo'), function(a) {
       return a.style.display !== 'none';
+    });
+    var byBlock = {};
+    vis.forEach(function(a) {
+      var bl = a.getAttribute('data-bloque') || '3';
+      if (!byBlock[bl]) byBlock[bl] = [];
+      byBlock[bl].push(a);
     });
     var nav = sec.querySelector('nav.toc');
     if (!nav) {
@@ -1367,19 +1376,15 @@ function renumera() {
       sec.insertBefore(nav, first);
     }
     nav.innerHTML = '<strong>ÍNDICE DEL PROTOCOLO</strong><br>';
-    var BLOQUES = {'1': 'PORTADA · FIRMAS · RESPONSABILIDADES', '2': 'PRELIMINARES',
-      '3': 'CALIFICACIÓN', '4': 'RESUMEN', '5': 'FIRMAS DEL PERSONAL',
-      '6': 'REFERENCIAS', '7': 'HISTORIAL'};
-    vis.forEach(function(a, i) {
-      var b = a.querySelector('.seq');
-      if (!b) { b = document.createElement('span'); b.className = 'seq'; a.insertBefore(b, a.firstChild); }
-      b.textContent = 'ENSAYO ' + (i + 1) + ' DE ' + vis.length + ' — ';
-    });
-    ['2', '3', '4', '5', '6', '7'].forEach(function(bl) {
-      var items = vis.filter(function(a) { return (a.getAttribute('data-bloque') || '3') === bl; });
-      if (!items.length) return;
+    Object.keys(byBlock).sort().forEach(function(bl) {
+      var items = byBlock[bl];
+      items.forEach(function(a, j) {
+        var b = a.querySelector('.seq');
+        if (!b) { b = document.createElement('span'); b.className = 'seq'; a.insertBefore(b, a.firstChild); }
+        b.textContent = 'ENSAYO ' + bl + '.' + (j + 1) + ' DE ' + items.length + ' — ';
+      });
       var hd = document.createElement('strong');
-      hd.textContent = 'BLOQUE ' + bl + ' — ' + BLOQUES[bl];
+      hd.textContent = 'BLOQUE ' + bl + ' — ' + (BLOQUES[bl] || '');
       nav.appendChild(hd);
       nav.appendChild(document.createElement('br'));
       items.forEach(function(a) {
@@ -1401,17 +1406,6 @@ function renumera() {
       w.textContent = 'SIN BLOQUE: ' + sinBloque.join(', ');
       nav.appendChild(w);
     }
-  });
-  // Listas de tablas resumen: solo ensayos visibles bajo el filtro activo
-  document.querySelectorAll('.lista-resumen').forEach(function(sp) {
-    var fl = sp.getAttribute('data-fase-lista') || '';
-    var ids = [];
-    document.querySelectorAll('article.ensayo[data-fase="' + fl + '"]').forEach(function(a) {
-      if (a.style.display === 'none' || a.hasAttribute('data-resumen')) return;
-      var hid = a.getAttribute('data-id');
-      if (hid) ids.push(hid);
-    });
-    sp.textContent = ids.join(', ');
   });
 }
 // Enlace a ensayo dependiente: revela su protocolo y salta hacia él
