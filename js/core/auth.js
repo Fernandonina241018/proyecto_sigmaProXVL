@@ -28,13 +28,24 @@ const Auth = (() => {
 
     // Puerta de área: antes de entrar a la app se exige área válida
     // (Estadística | Validaciones). Sin AreaSelect, entra directo.
-    function _enterWithArea(next) {
+    function _enterWithArea(next, retried) {
         try {
             if (typeof AreaSelect !== 'undefined' && AreaSelect.ensureArea) {
                 AreaSelect.ensureArea(next);
                 return;
             }
         } catch (e) {}
+        // Respaldo: si AreaSelect no cargó (indexx.html viejo en caché),
+        // se inyecta bajo demanda y se reintenta una vez.
+        if (!retried) {
+            try {
+                var el = document.createElement('script');
+                el.src = 'js/core/area-select.js?t=' + Date.now();
+                el.onload = el.onerror = function() { _enterWithArea(next, true); };
+                document.body.appendChild(el);
+                return;
+            } catch (e2) {}
+        }
         if (next) next(null);
     }
     let _token=null;
