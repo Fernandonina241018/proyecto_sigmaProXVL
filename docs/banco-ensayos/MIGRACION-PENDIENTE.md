@@ -25,3 +25,9 @@ Todo artículo lleva `data-bloque` (1-7). Orden del .docx = bloques 1→7:
 instrumentos, sensores, volumen, fuentes) · 3 calificación · 4 resumen ·
 5 firmas personal · 6 referencias · 7 historial.
 Todo ensayo nuevo debe declarar su bloque al crearse (el índice avisa "SIN BLOQUE").
+
+## Bloques (actualizado)
+
+Orden .docx 1→8: 1 portada/firmas/responsabilidades/índice/alcance/def-USP/nota-datos ·
+2 preliminares · 3 calificación · 4 resumen · 5 firmas personal · 6 referencias ·
+7 historial · 8 anexos. Rol oficial: Gerente de Área (revisa). Veredicto C/NC/NA.
