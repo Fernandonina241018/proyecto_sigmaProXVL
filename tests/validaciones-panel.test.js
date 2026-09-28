@@ -1,4 +1,4 @@
-// Panel del área de Validaciones: se muestra/oculta según el área activa.
+// Shell independiente del área de Validaciones + mini-router por hash.
 // Suite en node sin DOM: stubs mínimos para cargar indexx-validaciones.js.
 import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
@@ -21,32 +21,36 @@ function fakeEl() {
     appendChild: (c) => c,
     remove: () => {},
     getAttribute: () => null,
+    setAttribute: () => {},
+    removeAttribute: () => {},
     querySelector: () => null,
+    querySelectorAll: () => [],
     closest: () => null,
   };
 }
 
-let viewEl = null;
+let appEl = null;
 const listeners = {};
 
 function resetStubs() {
-  viewEl = null;
+  appEl = null;
   globalThis.window = globalThis;
+  globalThis.location = { hash: '' };
   globalThis.addEventListener = (ev, fn) => { listeners[ev] = fn; };
   globalThis.dispatchEvent = () => true;
-  const view = fakeEl();
   globalThis.document = {
-    getElementById: (id) => (id === 'validaciones-view' ? viewEl : null),
+    getElementById: (id) => (id === 'validaciones-app' ? appEl : null),
     querySelector: () => null,
     querySelectorAll: () => [],
     addEventListener: () => {},
     createElement: () => fakeEl(),
-    body: { appendChild: (c) => { viewEl = view; return c; } },
+    body: { appendChild: (c) => { appEl = fakeEl(); return c; } },
     readyState: 'complete',
   };
   delete globalThis.Auth;
   delete globalThis.AreaSelect;
   delete globalThis.Validaciones;
+  delete globalThis.ValidacionesManifest;
 }
 
 resetStubs();
@@ -57,6 +61,14 @@ describe('Validaciones', () => {
     resetStubs();
   });
 
+  test('parseRoute valida rutas y cae a banco', () => {
+    expect(Validaciones.parseRoute('#/banco')).toBe('banco');
+    expect(Validaciones.parseRoute('#/generador')).toBe('generador');
+    expect(Validaciones.parseRoute('#/firmas')).toBe('firmas');
+    expect(Validaciones.parseRoute('#/otro')).toBe('banco');
+    expect(Validaciones.parseRoute('')).toBe('banco');
+  });
+
   test('5 categorías con href a docs', () => {
     expect(Validaciones.CATS.length).toBe(5);
     for (const c of Validaciones.CATS) {
@@ -64,16 +76,20 @@ describe('Validaciones', () => {
     }
   });
 
-  test('apply validaciones muestra, estadistica oculta', () => {
+  test('4 rutas en el riel', () => {
+    expect(Validaciones.ROUTES.map((r) => r.id)).toEqual(['banco', 'generador', 'protocolos', 'firmas']);
+  });
+
+  test('apply validaciones muestra shell, estadistica la oculta', () => {
     Validaciones.apply('validaciones');
-    expect(viewEl).not.toBe(null);
+    expect(appEl).not.toBe(null);
     Validaciones.apply('estadistica');
   });
 
-  test('evento sigma-area conmuta el panel', () => {
+  test('evento sigma-area conmuta el shell', () => {
     expect(typeof listeners['sigma-area']).toBe('function');
     listeners['sigma-area']({ detail: { area: 'validaciones' } });
-    expect(viewEl).not.toBe(null);
+    expect(appEl).not.toBe(null);
   });
 
   test('sin DOM falla seguro', () => {

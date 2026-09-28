@@ -1,0 +1,224 @@
+/* ========================================
+   validaciones.css — SigmaProXVL · Área de Validaciones
+   Base visual INDEPENDIENTE. Todo vive bajo #validaciones-app.
+   No toca ni hereda de indexx.css (solo pila de fuentes).
+   ======================================== */
+#validaciones-app {
+  --val-bg: #0e1420;
+  --val-bg-soft: #151d2e;
+  --val-panel: #1a2338;
+  --val-panel-2: #202b45;
+  --val-border: #2c3a58;
+  --val-text: #eaf0fa;
+  --val-muted: #9aa7c2;
+  --val-accent: #4f9cf7;
+  --val-accent-2: #7c5cf0;
+  --val-ok: #34c98e;
+  --val-warn: #f5b544;
+  --val-radius: 14px;
+  --val-font: Tahoma, "Segoe UI", system-ui, sans-serif;
+  position: fixed;
+  inset: 0;
+  z-index: 90000;
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  grid-template-rows: 60px 1fr;
+  grid-template-areas: "head head" "rail main";
+  background: var(--val-bg);
+  color: var(--val-text);
+  font-family: var(--val-font);
+  font-size: 14px;
+}
+
+/* Cabecera con glass sutil */
+#validaciones-app .val-head {
+  grid-area: head;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 18px;
+  background: rgba(21, 29, 46, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--val-border);
+}
+#validaciones-app .val-logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  background: linear-gradient(135deg, var(--val-accent), var(--val-accent-2));
+}
+#validaciones-app .val-title { font-size: 16px; font-weight: 700; }
+#validaciones-app .val-title small {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--val-muted);
+}
+#validaciones-app .val-head-spacer { flex: 1; }
+#validaciones-app .val-user { font-size: 13px; color: var(--val-muted); }
+#validaciones-app .val-linkbtn {
+  cursor: pointer;
+  background: none;
+  border: 1px solid var(--val-border);
+  border-radius: 8px;
+  color: var(--val-text);
+  font-size: 12px;
+  padding: 6px 12px;
+}
+#validaciones-app .val-linkbtn:hover { border-color: var(--val-accent); }
+
+/* Riel de navegación */
+#validaciones-app .val-rail {
+  grid-area: rail;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 0;
+  background: var(--val-bg-soft);
+  border-right: 1px solid var(--val-border);
+}
+#validaciones-app .val-rail button {
+  width: 56px;
+  height: 56px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: none;
+  color: var(--val-muted);
+  cursor: pointer;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+#validaciones-app .val-rail button .ico { font-size: 20px; }
+#validaciones-app .val-rail button:hover { color: var(--val-text); background: var(--val-panel); }
+#validaciones-app .val-rail button[aria-current="page"] {
+  color: var(--val-text);
+  background: var(--val-panel-2);
+  border-color: var(--val-accent);
+}
+
+/* Contenido */
+#validaciones-app .val-main {
+  grid-area: main;
+  overflow-y: auto;
+  padding: clamp(16px, 3vw, 36px);
+}
+#validaciones-app .val-main h1 { font-size: clamp(20px, 2.6vw, 28px); margin: 0 0 4px; }
+#validaciones-app .val-sub { color: var(--val-muted); margin: 0 0 22px; font-size: 13px; }
+
+/* Tarjetas de stats */
+#validaciones-app .val-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+#validaciones-app .val-stat {
+  background: var(--val-panel);
+  border: 1px solid var(--val-border);
+  border-radius: var(--val-radius);
+  padding: 14px;
+}
+#validaciones-app .val-stat .n { font-size: 26px; font-weight: 700; }
+#validaciones-app .val-stat .l { font-size: 12px; color: var(--val-muted); }
+
+/* Tarjetas de categorías */
+#validaciones-app .val-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+#validaciones-app .val-card {
+  display: block;
+  text-decoration: none;
+  color: var(--val-text);
+  background: var(--val-panel);
+  border: 1px solid var(--val-border);
+  border-radius: var(--val-radius);
+  padding: 18px 14px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+#validaciones-app .val-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--val-accent);
+  box-shadow: 0 8px 24px rgba(79, 156, 247, 0.18);
+}
+#validaciones-app .val-card .ico { font-size: 30px; }
+#validaciones-app .val-card .t { font-size: 15px; font-weight: 700; margin-top: 8px; }
+#validaciones-app .val-card .d { font-size: 12px; color: var(--val-muted); margin-top: 4px; }
+#validaciones-app .val-card .c {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--val-accent);
+}
+
+/* Panel generador */
+#validaciones-app .val-gen {
+  margin-top: 22px;
+  border: 1px dashed var(--val-border);
+  border-radius: var(--val-radius);
+  padding: 22px;
+  background: var(--val-panel);
+  text-align: center;
+}
+#validaciones-app .val-gen .t { font-size: 18px; font-weight: 700; }
+#validaciones-app .val-gen .d { font-size: 13px; color: var(--val-muted); }
+#validaciones-app .val-gen button {
+  margin-top: 12px;
+  padding: 10px 26px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+}
+#validaciones-app .val-gen button:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* Vistas placeholder */
+#validaciones-app .val-empty {
+  border: 1px solid var(--val-border);
+  border-radius: var(--val-radius);
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--val-muted);
+  background: var(--val-panel);
+}
+
+/* Accesibilidad */
+#validaciones-app button:focus-visible,
+#validaciones-app a:focus-visible {
+  outline: 2px solid var(--val-accent);
+  outline-offset: 2px;
+}
+
+/* Responsive: riel inferior en móvil */
+@media (max-width: 640px) {
+  #validaciones-app {
+    grid-template-columns: 1fr;
+    grid-template-rows: 56px 1fr 64px;
+    grid-template-areas: "head" "main" "rail";
+  }
+  #validaciones-app .val-rail {
+    flex-direction: row;
+    justify-content: space-around;
+    border-right: none;
+    border-top: 1px solid var(--val-border);
+    padding: 6px;
+  }
+  #validaciones-app .val-rail button { width: 60px; height: 52px; }
+  #validaciones-app .val-user { display: none; }
+}
+
+/* Movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  #validaciones-app .val-card { transition: none; }
+  #validaciones-app .val-card:hover { transform: none; }
+}
