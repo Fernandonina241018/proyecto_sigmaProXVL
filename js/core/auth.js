@@ -25,6 +25,18 @@ const Auth = (() => {
 
     let _sessionTimer=null, _warnTimer=null, _countdownTimer=null;
     let _attempts=0, _locked=false, _onLogin=null, _onLogout=null;
+
+    // Puerta de área: antes de entrar a la app se exige área válida
+    // (Estadística | Validaciones). Sin AreaSelect, entra directo.
+    function _enterWithArea(next) {
+        try {
+            if (typeof AreaSelect !== 'undefined' && AreaSelect.ensureArea) {
+                AreaSelect.ensureArea(next);
+                return;
+            }
+        } catch (e) {}
+        if (next) next(null);
+    }
     let _token=null;
     let _mlApiKey=null;
 
@@ -733,7 +745,7 @@ const Auth = (() => {
                 return;
             }
             _registerActivityListeners();
-            if(_onLogin) _onLogin(userData);
+            _enterWithArea(()=>{ if(_onLogin) _onLogin(userData); });
         },600);
     }
 
@@ -892,7 +904,7 @@ const Auth = (() => {
                     sessionStorage.setItem(CFG.SESSION_STORAGE_KEY, JSON.stringify(session));
                 }
                 _registerActivityListeners();
-                if (_onLogin) _onLogin(session || userData);
+                _enterWithArea(()=>{ if (_onLogin) _onLogin(session || userData); });
             } else {
                 // La cuenta salió del estado temporal: revelar campo actual y reintentar con él.
                 if (/actual/i.test(result.error || '') && curWrap.style.display !== 'block') {
@@ -996,13 +1008,29 @@ const Auth = (() => {
             _showForceChangePasswordModal(session);
             return;
         }
-        if(_onLogin) _onLogin(session);
+        _enterWithArea(()=>{ if(_onLogin) _onLogin(session); });
     }
 
     function logout(){
         _closeAllModals();
         fetchWithTimeout(`${CFG.API_URL}/api/logout`,{method:'POST',credentials:'include',headers:{Authorization:'Bearer '+(_token||'')}}).catch(()=>{});
+        try { if (typeof AreaSelect !== 'undefined' && AreaSelect.clearArea) AreaSelect.clearArea(); } catch (e) {}
         _clearSession(); _unregisterActivityListeners(); showLogin('logout'); if(_onLogout) _onLogout('logout');
+    }
+
+    function getArea(){
+        try {
+            if (typeof AreaSelect !== 'undefined' && AreaSelect.getArea) return AreaSelect.getArea();
+        } catch (e) {}
+        return null;
+    }
+
+    function selectArea(next) {
+        try {
+            if (typeof AreaSelect !== 'undefined' && AreaSelect.showModal) return AreaSelect.showModal(next);
+        } catch (e) {}
+        if (next) next(null);
+        return false;
     }
 
     function keepAlive(){ _resetActivityTimer(); const w=document.getElementById('auth-timeout-warn'); if(w) w.style.opacity='0'; }
@@ -1054,7 +1082,7 @@ const Auth = (() => {
         } catch { return { error: 'Error de conexión' }; }
     }
 
-    return { init, showLogin, logout, keepAlive, getSession, isAuthenticated, getToken, getMlApiKey, get2FAStatus, setup2FA, enable2FA, disable2FA };
+    return { init, showLogin, logout, keepAlive, getSession, isAuthenticated, getToken, getMlApiKey, get2FAStatus, setup2FA, enable2FA, disable2FA, getArea, selectArea };
 
 })();
 

@@ -4431,3 +4431,5 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-09-24 (85f): Restricción migración .docx — cada protocolo (DQ/IQ/OQ/PQ) un documento independiente
 
 ### 2026-09-24 (85g): Sistema de 7 bloques + data-bloque + índice agrupado
+
+### 2026-09-28 (86): Selector de área post-login (Estadística/Validaciones) + panel banco + entrada generador
