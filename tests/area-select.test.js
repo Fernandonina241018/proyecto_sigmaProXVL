@@ -102,6 +102,32 @@ describe('AreaSelect', () => {
     expect(picked).toBe('no-llamado');
   });
 
+  test('no-admin con validaciones guardada cae a estadistica', () => {
+    AreaSelect.setArea('validaciones');
+    let picked = null;
+    AreaSelect.ensureArea((a) => { picked = a; }, { role: 'user' });
+    expect(picked).toBe('estadistica');
+    expect(AreaSelect.getArea()).toBe('estadistica');
+  });
+
+  test('admin conserva validaciones', () => {
+    AreaSelect.setArea('validaciones');
+    let picked = null;
+    AreaSelect.ensureArea((a) => { picked = a; }, { role: 'admin' });
+    expect(picked).toBe('validaciones');
+  });
+
+  test('modal marca validaciones bloqueada para no-admin', () => {
+    AreaSelect.ensureArea(() => {}, { role: 'user' });
+    expect(overlayEl.innerHTML).toMatch('Próximamente');
+    expect(overlayEl.innerHTML).toMatch('disabled');
+  });
+
+  test('modal sin bloqueo para admin', () => {
+    AreaSelect.ensureArea(() => {}, { role: 'admin' });
+    expect(overlayEl.innerHTML).not.toMatch('Próximamente');
+  });
+
   test('showModal sin document falla seguro', () => {
     const keep = globalThis.document;
     delete globalThis.document;

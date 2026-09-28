@@ -54,6 +54,26 @@ const Validaciones = (() => {
     return '';
   }
 
+  function isAdmin() {
+    try {
+      if (typeof Auth !== 'undefined' && Auth.getSession) {
+        const s = Auth.getSession();
+        if (s) return s.role === 'admin';
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  function viewDev() {
+    return '<h1>Área de Validaciones</h1>'
+      + '<p class="val-sub">Calificación DQ · IQ · OQ · PQ</p>'
+      + '<div class="val-empty">'
+      + '<div style="font-size:44px">🚧</div>'
+      + '<div style="font-size:18px;font-weight:700;margin:10px 0;color:var(--val-text)">En desarrollo</div>'
+      + '<div>Esta área estará en funcionamiento próximamente.</div>'
+      + '</div>';
+  }
+
   function esc(s) {
     return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
   }
@@ -100,6 +120,11 @@ const Validaciones = (() => {
   function render() {
     const root = document.getElementById('validaciones-app');
     if (!root) return;
+    if (!isAdmin()) {
+      const main = root.querySelector('.val-main');
+      if (main) main.innerHTML = viewDev();
+      return;
+    }
     const route = parseRoute(window.location.hash);
     const main = root.querySelector('.val-main');
     if (main) {

@@ -10,7 +10,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const core = join(__dirname, '..', 'js', 'core');
 
 function fakeEl() {
-  return {
+  const el = {
     style: {},
     dataset: {},
     textContent: '',
@@ -27,13 +27,16 @@ function fakeEl() {
     querySelectorAll: () => [],
     closest: () => null,
   };
+  return el;
 }
 
 let appEl = null;
+let mainEl = null;
 const listeners = {};
 
 function resetStubs() {
   appEl = null;
+  mainEl = fakeEl();
   globalThis.window = globalThis;
   globalThis.location = { hash: '' };
   globalThis.addEventListener = (ev, fn) => { listeners[ev] = fn; };
@@ -43,8 +46,12 @@ function resetStubs() {
     querySelector: () => null,
     querySelectorAll: () => [],
     addEventListener: () => {},
-    createElement: () => fakeEl(),
-    body: { appendChild: (c) => { appEl = fakeEl(); return c; } },
+    createElement: () => {
+      const el = fakeEl();
+      el.querySelector = () => mainEl;
+      return el;
+    },
+    body: { appendChild: (c) => { appEl = fakeEl(); appEl.querySelector = () => mainEl; return c; } },
     readyState: 'complete',
   };
   delete globalThis.Auth;
@@ -90,6 +97,15 @@ describe('Validaciones', () => {
     expect(typeof listeners['sigma-area']).toBe('function');
     listeners['sigma-area']({ detail: { area: 'validaciones' } });
     expect(appEl).not.toBe(null);
+  });
+
+  test('no-admin ve En desarrollo, admin ve dashboard', () => {
+    globalThis.Auth = { getSession: () => ({ username: 'u', role: 'user' }), getArea: () => 'validaciones' };
+    Validaciones.apply('validaciones');
+    expect(mainEl.innerHTML).toMatch('En desarrollo');
+    globalThis.Auth = { getSession: () => ({ username: 'a', role: 'admin' }), getArea: () => 'validaciones' };
+    Validaciones.apply('validaciones');
+    expect(mainEl.innerHTML).toMatch('Banco de ensayos');
   });
 
   test('sin DOM falla seguro', () => {

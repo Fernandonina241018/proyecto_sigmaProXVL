@@ -4435,3 +4435,5 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-09-28 (86): Selector de área post-login (Estadística/Validaciones) + panel banco + entrada generador
 
 ### 2026-09-28 (87): Área Validaciones independiente (shell+layout propios, mini-router, dashboard)
+
+### 2026-09-28 (88): Validaciones solo admin (otros ven En desarrollo)

@@ -28,10 +28,11 @@ const Auth = (() => {
 
     // Puerta de área: antes de entrar a la app se exige área válida
     // (Estadística | Validaciones). Sin AreaSelect, entra directo.
-    function _enterWithArea(next, retried) {
+    function _enterWithArea(next, role, retried) {
+        if (typeof retried === 'undefined' && (role === true || role === false)) { retried = role; role = null; }
         try {
             if (typeof AreaSelect !== 'undefined' && AreaSelect.ensureArea) {
-                AreaSelect.ensureArea(next);
+                AreaSelect.ensureArea(next, { role: role || null });
                 return;
             }
         } catch (e) {}
@@ -756,7 +757,7 @@ const Auth = (() => {
                 return;
             }
             _registerActivityListeners();
-            _enterWithArea(()=>{ if(_onLogin) _onLogin(userData); });
+            _enterWithArea(()=>{ if(_onLogin) _onLogin(userData); }, userData && userData.role);
         },600);
     }
 
@@ -915,7 +916,7 @@ const Auth = (() => {
                     sessionStorage.setItem(CFG.SESSION_STORAGE_KEY, JSON.stringify(session));
                 }
                 _registerActivityListeners();
-                _enterWithArea(()=>{ if (_onLogin) _onLogin(session || userData); });
+                _enterWithArea(()=>{ if (_onLogin) _onLogin(session || userData); }, (session && session.role) || (userData && userData.role));
             } else {
                 // La cuenta salió del estado temporal: revelar campo actual y reintentar con él.
                 if (/actual/i.test(result.error || '') && curWrap.style.display !== 'block') {
@@ -1019,7 +1020,7 @@ const Auth = (() => {
             _showForceChangePasswordModal(session);
             return;
         }
-        _enterWithArea(()=>{ if(_onLogin) _onLogin(session); });
+        _enterWithArea(()=>{ if(_onLogin) _onLogin(session); }, session && session.role);
     }
 
     function logout(){

@@ -54,13 +54,27 @@ const AreaSelect = (() => {
     } catch (e) {}
   }
 
+  let _role = null;
+
+  function setRoleContext(role) {
+    _role = role || null;
+  }
+
+  function areaLocked(id) {
+    return id === 'validaciones' && _role && _role !== 'admin';
+  }
+
   function cardHTML(a) {
+    const locked = areaLocked(a.id);
     return '<button type="button" class="area-card" data-area="' + a.id + '"'
-      + ' style="cursor:pointer;border:1px solid var(--border);border-radius:12px;padding:24px 20px;'
-      + 'background:var(--bg-panel);color:var(--text-primary);min-width:200px">'
+      + (locked ? ' disabled aria-disabled="true"' : '')
+      + ' style="cursor:' + (locked ? 'not-allowed' : 'pointer') + ';border:1px solid var(--border);'
+      + 'border-radius:12px;padding:24px 20px;background:var(--bg-panel);'
+      + 'color:var(--text-primary);min-width:200px;opacity:' + (locked ? '.55' : '1') + '">'
       + '<div style="font-size:40px">' + a.icono + '</div>'
       + '<div style="font-size:18px;font-weight:700;margin-top:8px">' + a.nombre + '</div>'
       + '<div style="font-size:13px;color:var(--text-muted);margin-top:4px">' + a.desc + '</div>'
+      + (locked ? '<div style="font-size:12px;margin-top:8px;color:var(--text-muted)">Solo admin · Próximamente</div>' : '')
       + '</button>';
   }
 
@@ -80,9 +94,9 @@ const AreaSelect = (() => {
         + '</div></div>';
       ov.addEventListener('click', function (e) {
         const btn = e.target && e.target.closest ? e.target.closest('[data-area]') : null;
-        if (!btn) return;
+        if (!btn || btn.disabled) return;
         const id = btn.getAttribute('data-area');
-        if (!setArea(id)) return;
+        if (areaLocked(id) || !setArea(id)) return;
         ov.remove();
         if (next) next(id);
       });
@@ -91,8 +105,16 @@ const AreaSelect = (() => {
     } catch (e) { return false; }
   }
 
-  function ensureArea(next) {
-    const a = getArea();
+  function ensureArea(next, opts) {
+    // Gating por rol: solo admin entra a Validaciones. Si un no-admin la
+    // tenía guardada (o la elige), cae a Estadística.
+    const role = (opts && opts.role) || null;
+    setRoleContext(role);
+    let a = getArea();
+    if (a === 'validaciones' && role && role !== 'admin') {
+      a = 'estadistica';
+      setArea(a);
+    }
     if (a) {
       dispatch(a);
       if (next) next(a);
@@ -103,5 +125,5 @@ const AreaSelect = (() => {
     return false;
   }
 
-  return { AREAS, KEY, getArea, setArea, clearArea, isValid, ensureArea, showModal };
+  return { AREAS, KEY, getArea, setArea, clearArea, isValid, ensureArea, showModal, setRoleContext };
 })();
