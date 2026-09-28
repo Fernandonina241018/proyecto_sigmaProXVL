@@ -17,3 +17,11 @@ Responder antes de migrar HTML → BD + generador .docx:
 - Marcas dinámicas (.rango / .equipo / .cond / .lista-resumen) se congelan a texto.
 - El usuario final NO ve ensayos: elige entidad + protocolos + condición + datos,
   presiona Generar y el sistema arma los documentos.
+
+## Regla de bloques (2026-09-24)
+
+Todo artículo lleva `data-bloque` (1-7). Orden del .docx = bloques 1→7:
+1 portada/firmas/responsabilidades/índice · 2 preliminares (compuertas,
+instrumentos, sensores, volumen, fuentes) · 3 calificación · 4 resumen ·
+5 firmas personal · 6 referencias · 7 historial.
+Todo ensayo nuevo debe declarar su bloque al crearse (el índice avisa "SIN BLOQUE").
