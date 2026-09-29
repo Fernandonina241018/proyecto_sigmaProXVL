@@ -17,7 +17,9 @@
   --v7-blue: #4f9cf7;
   --v7-green: #34c98e;
   --v7-border: #2b303b;
-  --v7-radius: 20px;
+  --v7-radius: 22px;
+  --v7-float: 0 12px 32px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+  --v7-float-soft: 0 8px 22px rgba(0, 0, 0, 0.42);
   --v7-font: Tahoma, "Segoe UI", system-ui, sans-serif;
   position: fixed;
   inset: 0;
@@ -149,9 +151,11 @@
 #validaciones-app .v7-stat {
   background: var(--v7-card);
   color: var(--v7-card-ink);
-  border-radius: 16px;
-  padding: 12px 14px;
+  border-radius: 22px;
+  padding: 14px 16px;
   min-height: 96px;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: var(--v7-float);
 }
 #validaciones-app .v7-stat .t { font-size: 12px; color: var(--v7-card-muted); }
 #validaciones-app .v7-stat .v { font-size: 22px; font-weight: 800; margin: 2px 0; }
@@ -166,10 +170,11 @@
   margin-bottom: 14px;
 }
 #validaciones-app .v7-panel {
-  background: var(--v7-panel);
-  border: 1px solid var(--v7-border);
-  border-radius: var(--v7-radius);
-  padding: 16px;
+  background: linear-gradient(180deg, #20242e, var(--v7-panel));
+  border: 1px solid #363c49;
+  border-radius: 24px;
+  padding: 18px;
+  box-shadow: var(--v7-float);
 }
 #validaciones-app .v7-panel .ph {
   display: flex;
@@ -221,15 +226,21 @@
 #validaciones-app .v7-cat {
   display: block;
   text-decoration: none;
-  border-radius: 16px;
-  padding: 14px 12px;
+  border-radius: 22px;
+  padding: 16px 14px;
   background: var(--v7-card);
   color: var(--v7-card-ink);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: var(--v7-float-soft);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 #validaciones-app .v7-cat:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+}
+#validaciones-app .v7-cat.hot {
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 14px 34px rgba(255, 92, 26, 0.4);
 }
 #validaciones-app .v7-cat.hot { background: var(--v7-accent); color: #fff; }
 #validaciones-app .v7-cat .ico { font-size: 30px; }
@@ -287,10 +298,11 @@
   gap: 10px;
   align-items: center;
   background: var(--v7-panel-2);
-  border: 1px solid var(--v7-border);
-  border-radius: 12px;
-  padding: 9px 10px;
-  margin-bottom: 8px;
+  border: 1px solid #363c49;
+  border-radius: 18px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  box-shadow: var(--v7-float-soft);
 }
 #validaciones-app .v7-item .im {
   width: 36px;
