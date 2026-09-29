@@ -1,4 +1,4 @@
-// Shell independiente del área de Validaciones + mini-router por hash.
+// Shell V7 del área de Validaciones + mini-router por hash.
 // Suite en node sin DOM: stubs mínimos para cargar indexx-validaciones.js.
 import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
@@ -49,9 +49,10 @@ function resetStubs() {
     createElement: () => {
       const el = fakeEl();
       el.querySelector = () => mainEl;
+      el.querySelectorAll = () => [];
       return el;
     },
-    body: { appendChild: (c) => { appEl = fakeEl(); appEl.querySelector = () => mainEl; return c; } },
+    body: { appendChild: (c) => { appEl = fakeEl(); appEl.querySelector = () => mainEl; appEl.querySelectorAll = () => []; return c; } },
     readyState: 'complete',
   };
   delete globalThis.Auth;
@@ -63,7 +64,7 @@ function resetStubs() {
 resetStubs();
 vm.runInThisContext(readFileSync(join(core, 'indexx-validaciones.js'), 'utf-8'));
 
-describe('Validaciones', () => {
+describe('Validaciones V7', () => {
   beforeEach(() => {
     resetStubs();
   });
@@ -105,7 +106,7 @@ describe('Validaciones', () => {
     expect(mainEl.innerHTML).toMatch('En desarrollo');
     globalThis.Auth = { getSession: () => ({ username: 'a', role: 'admin' }), getArea: () => 'validaciones' };
     Validaciones.apply('validaciones');
-    expect(mainEl.innerHTML).toMatch('Banco de ensayos');
+    expect(mainEl.innerHTML).toMatch('vas a calificar');
   });
 
   test('sin DOM falla seguro', () => {

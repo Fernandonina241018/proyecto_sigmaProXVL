@@ -1,0 +1,343 @@
+/* ========================================
+   validaciones-v7.css — SigmaProXVL · Área de Validaciones
+   Réplica del layout "Admin Dashboard V7" (dark glass).
+   Base INDEPENDIENTE: todo bajo #validaciones-app. No toca indexx.css.
+   ======================================== */
+#validaciones-app {
+  --v7-bg: #101319;
+  --v7-panel: #1b1f27;
+  --v7-panel-2: #22262f;
+  --v7-card: #f4f5f7;
+  --v7-card-ink: #171a21;
+  --v7-card-muted: #6b7280;
+  --v7-ink: #f2f4f8;
+  --v7-muted: #9aa3b2;
+  --v7-accent: #ff5c1a;
+  --v7-accent-soft: rgba(255, 92, 26, 0.16);
+  --v7-blue: #4f9cf7;
+  --v7-green: #34c98e;
+  --v7-border: #2b303b;
+  --v7-radius: 20px;
+  --v7-font: Tahoma, "Segoe UI", system-ui, sans-serif;
+  position: fixed;
+  inset: 0;
+  z-index: 90000;
+  display: grid;
+  grid-template-columns: 72px 1fr 300px;
+  grid-template-rows: 76px 1fr;
+  grid-template-areas: "rail main side" "rail main side";
+  background: var(--v7-bg);
+  color: var(--v7-ink);
+  font-family: var(--v7-font);
+  font-size: 14px;
+}
+
+/* ── Riel ultrafino ── */
+#validaciones-app .v7-rail {
+  grid-area: rail;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 0;
+  background: #14171d;
+  border-right: 1px solid var(--v7-border);
+}
+#validaciones-app .v7-rail .v7-dots {
+  color: var(--v7-accent);
+  font-size: 14px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+#validaciones-app .v7-rail button {
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 14px;
+  background: none;
+  color: var(--v7-muted);
+  cursor: pointer;
+  font-size: 19px;
+  display: grid;
+  place-items: center;
+}
+#validaciones-app .v7-rail button:hover { color: var(--v7-ink); background: var(--v7-panel-2); }
+#validaciones-app .v7-rail button[aria-current="page"] {
+  background: var(--v7-accent);
+  color: #fff;
+}
+#validaciones-app .v7-rail .v7-spacer { flex: 1; }
+#validaciones-app .v7-rail .v7-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--v7-accent);
+  color: #fff;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+
+/* ── Columna principal ── */
+#validaciones-app .v7-main {
+  grid-area: main;
+  overflow-y: auto;
+  padding: 18px 22px 28px;
+}
+#validaciones-app .v7-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+#validaciones-app .v7-hello { font-size: 19px; font-weight: 700; }
+#validaciones-app .v7-hello small {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--v7-muted);
+}
+#validaciones-app .v7-search {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--v7-panel);
+  border: 1px solid var(--v7-border);
+  border-radius: 999px;
+  padding: 8px 16px;
+  min-width: 220px;
+}
+#validaciones-app .v7-search input {
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--v7-ink);
+  font-size: 13px;
+  width: 100%;
+  font-family: inherit;
+}
+#validaciones-app .v7-search input::placeholder { color: var(--v7-muted); }
+#validaciones-app .v7-bell {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--v7-border);
+  background: var(--v7-panel);
+  color: var(--v7-ink);
+  cursor: pointer;
+  font-size: 16px;
+}
+#validaciones-app .v7-bell .dot {
+  position: absolute;
+  top: 8px;
+  right: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--v7-accent);
+}
+
+/* ── Mini-cards blancas ── */
+#validaciones-app .v7-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+#validaciones-app .v7-stat {
+  background: var(--v7-card);
+  color: var(--v7-card-ink);
+  border-radius: 16px;
+  padding: 12px 14px;
+  min-height: 96px;
+}
+#validaciones-app .v7-stat .t { font-size: 12px; color: var(--v7-card-muted); }
+#validaciones-app .v7-stat .v { font-size: 22px; font-weight: 800; margin: 2px 0; }
+#validaciones-app .v7-stat .v small { font-size: 11px; font-weight: 400; color: var(--v7-card-muted); }
+#validaciones-app .v7-stat svg { display: block; width: 100%; height: 30px; }
+
+/* ── Panel actividad + generador ── */
+#validaciones-app .v7-mid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+#validaciones-app .v7-panel {
+  background: var(--v7-panel);
+  border: 1px solid var(--v7-border);
+  border-radius: var(--v7-radius);
+  padding: 16px;
+}
+#validaciones-app .v7-panel .ph {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+#validaciones-app .v7-panel .ph select {
+  background: var(--v7-panel-2);
+  color: var(--v7-ink);
+  border: 1px solid var(--v7-border);
+  border-radius: 999px;
+  font-size: 12px;
+  padding: 4px 10px;
+  font-family: inherit;
+}
+#validaciones-app .v7-panel svg.chart { display: block; width: 100%; height: 150px; }
+#validaciones-app .v7-gen { text-align: left; }
+#validaciones-app .v7-gen .gt { font-size: 15px; font-weight: 700; }
+#validaciones-app .v7-gen .big { font-size: 26px; font-weight: 800; margin: 6px 0 2px; }
+#validaciones-app .v7-gen .sub { font-size: 12px; color: var(--v7-muted); }
+#validaciones-app .v7-gen button {
+  margin-top: 12px;
+  padding: 9px 22px;
+  border-radius: 10px;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+}
+#validaciones-app .v7-gen button:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* ── Fila categorías ── */
+#validaciones-app .v7-cats-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 4px 2px 10px;
+}
+#validaciones-app .v7-cats-head a { font-size: 12px; color: var(--v7-muted); }
+#validaciones-app .v7-cats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+#validaciones-app .v7-cat {
+  display: block;
+  text-decoration: none;
+  border-radius: 16px;
+  padding: 14px 12px;
+  background: var(--v7-card);
+  color: var(--v7-card-ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+#validaciones-app .v7-cat:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+#validaciones-app .v7-cat.hot { background: var(--v7-accent); color: #fff; }
+#validaciones-app .v7-cat .ico { font-size: 30px; }
+#validaciones-app .v7-cat .t { font-size: 13px; font-weight: 700; margin-top: 6px; }
+#validaciones-app .v7-cat .d { font-size: 11px; opacity: 0.75; margin-top: 2px; }
+
+/* ── Panel derecho ── */
+#validaciones-app .v7-side {
+  grid-area: side;
+  overflow-y: auto;
+  background: var(--v7-panel);
+  border-left: 1px solid var(--v7-border);
+  padding: 16px 14px 24px;
+}
+#validaciones-app .v7-profile { text-align: center; margin-bottom: 12px; }
+#validaciones-app .v7-profile .av {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  margin: 0 auto;
+  background: linear-gradient(135deg, var(--v7-accent), #ffb03a);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  font-weight: 800;
+}
+#validaciones-app .v7-profile .nm { font-size: 14px; font-weight: 700; margin-top: 6px; }
+#validaciones-app .v7-profile .rl { font-size: 11px; color: var(--v7-muted); }
+#validaciones-app .v7-pstats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 10px 0 16px;
+  text-align: center;
+}
+#validaciones-app .v7-pstats .pv { font-size: 15px; font-weight: 800; }
+#validaciones-app .v7-pstats .pl { font-size: 10px; color: var(--v7-muted); }
+#validaciones-app .v7-cal { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+#validaciones-app .v7-cal table { width: 100%; border-collapse: collapse; font-size: 11px; }
+#validaciones-app .v7-cal th { color: var(--v7-muted); font-weight: 400; padding: 3px; }
+#validaciones-app .v7-cal td { text-align: center; padding: 4px 2px; border-radius: 50%; }
+#validaciones-app .v7-cal td.mk { background: var(--v7-green); color: #06281c; font-weight: 700; }
+#validaciones-app .v7-cal td.mk2 { background: var(--v7-accent); color: #fff; font-weight: 700; }
+#validaciones-app .v7-sched { margin-top: 16px; }
+#validaciones-app .v7-sched .sh {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+#validaciones-app .v7-sched .sh a { color: var(--v7-muted); font-weight: 400; }
+#validaciones-app .v7-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: var(--v7-panel-2);
+  border: 1px solid var(--v7-border);
+  border-radius: 12px;
+  padding: 9px 10px;
+  margin-bottom: 8px;
+}
+#validaciones-app .v7-item .im {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--v7-border);
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+#validaciones-app .v7-item .tt { font-size: 12px; font-weight: 700; }
+#validaciones-app .v7-item .ts { font-size: 11px; color: var(--v7-muted); }
+
+/* Vistas internas (generador/protocolos/firmas) */
+#validaciones-app .v7-view h1 { font-size: clamp(20px, 2.4vw, 26px); margin: 0 0 4px; }
+#validaciones-app .v7-view .sub { color: var(--v7-muted); font-size: 13px; margin: 0 0 18px; }
+#validaciones-app .v7-empty {
+  border: 1px solid var(--v7-border);
+  border-radius: var(--v7-radius);
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--v7-muted);
+  background: var(--v7-panel);
+}
+
+/* Accesibilidad */
+#validaciones-app button:focus-visible,
+#validaciones-app a:focus-visible,
+#validaciones-app input:focus-visible {
+  outline: 2px solid var(--v7-accent);
+  outline-offset: 2px;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  #validaciones-app { grid-template-columns: 64px 1fr; grid-template-areas: "rail main" "rail main"; }
+  #validaciones-app .v7-side { display: none; }
+  #validaciones-app .v7-cats { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 700px) {
+  #validaciones-app .v7-stats { grid-template-columns: repeat(2, 1fr); }
+  #validaciones-app .v7-mid { grid-template-columns: 1fr; }
+  #validaciones-app .v7-cats { grid-template-columns: repeat(2, 1fr); }
+  #validaciones-app .v7-search { min-width: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #validaciones-app .v7-cat { transition: none; }
+  #validaciones-app .v7-cat:hover { transform: none; }
+}
