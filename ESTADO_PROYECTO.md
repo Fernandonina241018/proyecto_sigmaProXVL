@@ -4448,3 +4448,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Fix clave:** `indexx.html` tiene `<base target="_blank">` → todos los `<a>` in-app ahora llevan `target="_self"`.
 - **Archivos:** `js/core/indexx-validaciones.js` (CATS/ENTIDADES/SCHEMAS/parseRoute/viewEntidad/bindEntidad), `css/validaciones-v7.css` (estilos formulario), `tests/validaciones-panel.test.js` (10 tests).
 - **Tests:** Vitest 253/253, backend 60/60. Screenshot flujo verificado sin errores de consola.
+
+### 2026-09-29 (92): Schema almacenes mejorado + soporte tipo number
+- **Qué:** usuario agregó campos numéricos a `SCHEMAS.almacenes` (temperaturaMin/Max °C req, humedadMin/Max %HR opcional) tras el rediseño con codigo/descripcion/ubicacion/tipo.
+- **Fix:** `fieldHtml()` no soportaba `tipo:'number'` (caía a text) → rama nueva `<input type="number" step="any">`.
+- **Tests:** `validaciones-panel.test.js` actualizado al nuevo esquema de almacenes + aserciones de soporte number.
+- **Verificación:** headless muestra 8 campos requeridos y borrador con números guardado; Vitest 253/253, backend 60/60.

@@ -103,7 +103,6 @@ const Validaciones = (() => {
         tipo: 'text',
         req: true
       },
-
       {
         k: 'descripcion',
         label: 'Descripción',
@@ -127,7 +126,31 @@ const Validaciones = (() => {
           'Cuarto frío',
           'Congelador'
         ]
-      }
+      },
+      {
+        k: 'temperaturaMin',
+        label: 'Temperatura mínima (°C)',
+        tipo: 'number',
+        req: true
+      },
+      {
+        k: 'temperaturaMax',
+        label: 'Temperatura máxima (°C)',
+        tipo: 'number',
+        req: true
+      },
+      {
+        k: 'humedadMin',
+        label: 'Humedad relativa mínima (%HR)',
+        tipo: 'number',
+        req: false
+      },
+      {
+        k: 'humedadMax',
+        label: 'Humedad relativa máxima (%HR)',
+        tipo: 'number',
+        req: false
+      },
     ],
     
     estabilidad: [
@@ -390,6 +413,9 @@ const Validaciones = (() => {
     }
     if (f.tipo === 'date') {
       return lab + '<input type="date" data-k="' + f.k + '"' + req + ' value="' + esc(v) + '"></label>';
+    }
+    if (f.tipo === 'number') {
+      return lab + '<input type="number" step="any" data-k="' + f.k + '"' + req + ' value="' + esc(v) + '"></label>';
     }
     if (f.tipo === 'file') {
       return lab + '<input type="file" accept="image/*" data-k="' + f.k + '"' + req + '></label>';

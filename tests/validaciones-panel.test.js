@@ -103,8 +103,12 @@ describe('Validaciones V7', () => {
     for (const k of comun) expect(eq).toContain(k);
     for (const k of ['marca', 'modelo', 'codigo', 'ubicacion']) expect(eq).toContain(k);
     const alm = Validaciones.getSchema('almacenes').map((f) => f.k);
-    for (const k of ['rango', 'dimensiones', 'tipo']) expect(alm).toContain(k);
+    for (const k of ['codigo', 'descripcion', 'ubicacion', 'tipo', 'temperaturaMin', 'temperaturaMax', 'humedadMin', 'humedadMax']) expect(alm).toContain(k);
     expect(alm).not.toContain('marca');
+    // campos numéricos reales: deben renderizar como <input type="number">
+    const src2 = readFileSync(join(core, 'indexx-validaciones.js'), 'utf-8');
+    expect(src2).toContain("f.tipo === 'number'");
+    expect(src2).toContain('type="number"');
   });
 
   test('borrador por entidad persiste en sessionStorage', () => {
