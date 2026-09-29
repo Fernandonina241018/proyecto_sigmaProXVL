@@ -240,6 +240,7 @@ const Validaciones = (() => {
         + '<div class="v7-dots">•••</div>'
         + ROUTES.map((r) => '<button type="button" data-route="' + r.id + '" aria-label="' + r.id + '">' + r.icono + '</button>').join('')
         + '<div class="v7-spacer"></div>'
+        + '<button type="button" data-act="area" aria-label="Cambiar de área" title="Cambiar de área">⇄</button>'
         + '<div class="v7-avatar">' + esc(firstLetter(currentUser())) + '</div>'
         + '</nav>'
         + '<main class="v7-main"></main>'
@@ -250,8 +251,9 @@ const Validaciones = (() => {
           try { window.location.hash = '#/' + rb.getAttribute('data-route'); } catch (err) {}
           return;
         }
-        const av = e.target && e.target.closest ? e.target.closest('.v7-avatar') : null;
-        if (av) {
+        const sw = e.target && e.target.closest
+          ? (e.target.closest('[data-act="area"]') || e.target.closest('.v7-avatar')) : null;
+        if (sw) {
           try {
             if (typeof Auth !== 'undefined' && Auth.selectArea) { Auth.selectArea(); return; }
             if (typeof AreaSelect !== 'undefined' && AreaSelect.showModal) AreaSelect.showModal();

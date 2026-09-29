@@ -106,6 +106,8 @@ document.getElementById('sidebarUser').addEventListener('click', function(e) {
   document.getElementById('sudName').textContent = session.username || 'Usuario';
   document.getElementById('sudEmail').textContent = session.email || (session.username + '@sigmapro.com');
   document.getElementById('sudAvatar').textContent = (session.username || 'U').charAt(0).toUpperCase();
+  var areaItem = document.getElementById('sudAreaItem');
+  if (areaItem) areaItem.style.display = (session.role === 'admin') ? '' : 'none';
   dd.classList.toggle('open');
 });
 document.getElementById('sidebarUserDropdown').addEventListener('click', function(e) {
@@ -114,6 +116,7 @@ document.getElementById('sidebarUserDropdown').addEventListener('click', functio
   var dd = document.getElementById('sidebarUserDropdown');
   dd.classList.remove('open');
   if (item.getAttribute('data-action') === 'perfil') { if (typeof showPerfilModal === 'function') showPerfilModal(); return; }
+  if (item.getAttribute('data-action') === 'area' && typeof Auth !== 'undefined' && Auth.selectArea) { Auth.selectArea(); return; }
   if (item.getAttribute('data-action') === 'logout' && typeof Auth !== 'undefined') Auth.logout();
 });
 document.addEventListener('click', function(e) {

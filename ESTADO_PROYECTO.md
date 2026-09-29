@@ -4439,3 +4439,5 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-09-28 (88): Validaciones solo admin (otros ven En desarrollo)
 
 ### 2026-09-29 (89): Layout V7 Validaciones (réplica Admin Dashboard: riel, saludo, stats, actividad, panel derecho)
+
+### 2026-09-29 (90): Botón ⇄ cambio de área en ambos módulos (solo admin)
