@@ -97,11 +97,39 @@ const Validaciones = (() => {
       { k: 'fecha', label: 'Fecha', tipo: 'date', req: true },
     ],
     almacenes: [
-      { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },
-      { k: 'rango', label: 'Rango T°/HR', tipo: 'text', req: true },
-      { k: 'dimensiones', label: 'Dimensiones L×A×H', tipo: 'text', req: true },
-      { k: 'tipo', label: 'Tipo', tipo: 'select', req: true, opciones: ['Ambiente', 'Cuarto frío', 'Congelador'] },
+      {
+        k: 'codigo',
+        label: 'Código',
+        tipo: 'text',
+        req: true
+      },
+
+      {
+        k: 'descripcion',
+        label: 'Descripción',
+        tipo: 'text',
+        req: true
+      },
+      {
+        k: 'ubicacion',
+        label: 'Ubicación',
+        tipo: 'text',
+        req: true
+      },
+      {
+        k: 'tipo',
+        label: 'Tipo de almacén',
+        tipo: 'select',
+        req: true,
+        opciones: [
+          'Ambiente',
+          'Temperatura controlada',
+          'Cuarto frío',
+          'Congelador'
+        ]
+      }
     ],
+    
     estabilidad: [
       { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },
       { k: 'setpoint', label: 'Setpoint T°/HR', tipo: 'text', req: true },
