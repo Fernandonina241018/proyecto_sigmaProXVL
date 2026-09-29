@@ -4441,3 +4441,10 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-09-29 (89): Layout V7 Validaciones (réplica Admin Dashboard: riel, saludo, stats, actividad, panel derecho)
 
 ### 2026-09-29 (90): Botón ⇄ cambio de área en ambos módulos (solo admin)
+
+### 2026-09-29 (91): Categoría → planilla de datos adaptativa (flujo ciego, sin ensayos)
+- **Qué:** clic en categoría del área V7 ya NO abre docs (pestaña nueva): abre la planilla de datos de la entidad dentro del área.
+- **Cómo:** `#/entidad/<cat>` (selector de entidad → formulario adaptativo con esquema por categoría + campos comunes logo/responsable/fecha), borrador en sessionStorage (`val-borrador-<ent>`), validación de obligatorios, botón Generar deshabilitado "próximamente", cero enlaces a `docs/banco-ensayos`.
+- **Fix clave:** `indexx.html` tiene `<base target="_blank">` → todos los `<a>` in-app ahora llevan `target="_self"`.
+- **Archivos:** `js/core/indexx-validaciones.js` (CATS/ENTIDADES/SCHEMAS/parseRoute/viewEntidad/bindEntidad), `css/validaciones-v7.css` (estilos formulario), `tests/validaciones-panel.test.js` (10 tests).
+- **Tests:** Vitest 253/253, backend 60/60. Screenshot flujo verificado sin errores de consola.

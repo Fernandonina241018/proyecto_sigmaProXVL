@@ -8,12 +8,158 @@
 
 const Validaciones = (() => {
   const CATS = [
-    { id: 'almacenes', nombre: 'Almacenes', icono: '📦', href: 'docs/banco-ensayos/almacenes.html', desc: '43 ensayos', hot: true },
-    { id: 'equipos', nombre: 'Equipos', icono: '🔧', href: 'docs/banco-ensayos/equipos.html', desc: 'Banco de equipos' },
-    { id: 'sistemas', nombre: 'Sistemas', icono: '🏭', href: 'docs/banco-ensayos/sistemas.html', desc: 'HVAC · agua · vapor' },
-    { id: 'estabilidad', nombre: 'Estabilidad', icono: '🌡️', href: 'docs/banco-ensayos/estabilidad.html', desc: '60 ensayos · ICH Q1A' },
-    { id: 'software', nombre: 'Software', icono: '💾', href: 'docs/banco-ensayos/software.html', desc: 'CSV / GAMP 5' },
+    { id: 'almacenes', nombre: 'Almacenes', icono: '📦', desc: 'Frío · ambiente · congelador', hot: true },
+    { id: 'equipos', nombre: 'Equipos', icono: '🔧', desc: 'Producción y laboratorio' },
+    { id: 'sistemas', nombre: 'Sistemas', icono: '🏭', desc: 'HVAC · agua · vapor' },
+    { id: 'estabilidad', nombre: 'Estabilidad', icono: '🌡️', desc: 'Cámaras · ICH Q1A' },
+    { id: 'software', nombre: 'Software', icono: '💾', desc: 'CSV / GAMP 5' },
   ];
+
+  // Entidades calificables por categoría (el usuario nunca ve ensayos, solo esto).
+  const ENTIDADES = {
+    almacenes: [
+      { id: 'almacen-ambiente-a', nombre: 'Almacén 15–25 °C / HR < 65%' },
+      { id: 'almacen-ambiente-b', nombre: 'Almacén 0–30 °C / HR < 80%' },
+      { id: 'cuarto-frio', nombre: 'Cuarto frío (2–8 °C)' },
+      { id: 'congelador', nombre: 'Congelador (−20 °C)' },
+    ],
+    equipos: [
+      { id: 'tableteadora', nombre: 'Tableteadora rotativa' },
+      { id: 'encapsuladora', nombre: 'Encapsuladora / capsuladora' },
+      { id: 'mezclador', nombre: 'Mezclador (V / bins)' },
+      { id: 'granulador', nombre: 'Granulador' },
+      { id: 'lecho-fluido', nombre: 'Lecho fluido' },
+      { id: 'llenadora', nombre: 'Llenadora de líquidos' },
+      { id: 'liofilizador', nombre: 'Liofilizador' },
+      { id: 'autoclave', nombre: 'Autoclave' },
+      { id: 'horno-estufa', nombre: 'Horno / estufa' },
+      { id: 'tunel-despirogenizacion', nombre: 'Túnel de despirogenización' },
+      { id: 'etiquetadora', nombre: 'Etiquetadora' },
+      { id: 'blistera', nombre: 'Blístera / encartonadora' },
+      { id: 'recubridora', nombre: 'Recubridora' },
+      { id: 'secador-bandejas', nombre: 'Secador de bandejas' },
+      { id: 'secador-tambor', nombre: 'Secador de tambor' },
+      { id: 'reactor', nombre: 'Reactor' },
+      { id: 'detector-metales', nombre: 'Detector de metales' },
+      { id: 'balanza', nombre: 'Balanza analítica / precisión' },
+      { id: 'phmetro', nombre: 'pH-metro' },
+      { id: 'espectrofotometro', nombre: 'Espectrofotómetro UV-Vis' },
+      { id: 'espectrofotometro-ir', nombre: 'Espectrofotómetro IR' },
+      { id: 'espectrometro', nombre: 'Espectrómetro' },
+      { id: 'hplc', nombre: 'HPLC' },
+      { id: 'gc', nombre: 'Cromatógrafo de gases (GC)' },
+      { id: 'disolutor', nombre: 'Disolutor' },
+      { id: 'desintegrador', nombre: 'Desintegrador' },
+      { id: 'friabilometro', nombre: 'Friabilómetro' },
+      { id: 'durometro', nombre: 'Durómetro' },
+      { id: 'karl-fischer', nombre: 'Karl Fischer' },
+      { id: 'toc', nombre: 'TOC' },
+      { id: 'viscosimetro', nombre: 'Viscosímetro' },
+      { id: 'incubadora', nombre: 'Incubadora' },
+      { id: 'refrigerador-lab', nombre: 'Refrigerador de laboratorio' },
+      { id: 'congelador-lab', nombre: 'Congelador de laboratorio' },
+      { id: 'centrifuga', nombre: 'Centrífuga' },
+      { id: 'termometro', nombre: 'Termómetros / data loggers' },
+      { id: 'horno-vacio', nombre: 'Horno de vacío' },
+      { id: 'cabina-flujo', nombre: 'Cabina de flujo laminar' },
+      { id: 'cabina-bioseguridad', nombre: 'Cabina de bioseguridad' },
+      { id: 'cabina-estabilidad', nombre: 'Cabina de estabilidad' },
+    ],
+    sistemas: [
+      { id: 'hvac', nombre: 'HVAC / Climatización' },
+      { id: 'agua-purificada', nombre: 'Agua purificada / WFI' },
+      { id: 'vapor-limpio', nombre: 'Vapor limpio' },
+      { id: 'aire-comprimido', nombre: 'Aire comprimido' },
+    ],
+    estabilidad: [
+      { id: 'cabina-est-acelerada', nombre: 'Cabina estabilidad acelerada (38–42 °C)' },
+      { id: 'cabina-est-real', nombre: 'Cabina estabilidad real (28–32 °C)' },
+      { id: 'cuarto-est-acelerada', nombre: 'Cuarto estabilidad acelerada' },
+      { id: 'cuarto-est-real', nombre: 'Cuarto estabilidad real' },
+      { id: 'incubadora-22-27', nombre: 'Incubadora (22–27 °C)' },
+      { id: 'incubadora-38-42', nombre: 'Incubadora (38–42 °C)' },
+      { id: 'horno-secado', nombre: 'Horno de secado' },
+    ],
+    software: [
+      { id: 'software-gxp', nombre: 'Sistema computarizado GxP' },
+      { id: 'lims', nombre: 'LIMS' },
+      { id: 'erp', nombre: 'ERP' },
+      { id: 'excel-validado', nombre: 'Hojas de cálculo validadas' },
+    ],
+  };
+
+  // Plantilla adaptativa: comunes + específicos por categoría.
+  // tipo: text | select | date. req: obligatorio.
+  const SCHEMAS = {
+    _comun: [
+      { k: 'logo', label: 'Logo', tipo: 'file', req: false },
+      { k: 'responsable', label: 'Responsable', tipo: 'text', req: true },
+      { k: 'fecha', label: 'Fecha', tipo: 'date', req: true },
+    ],
+    almacenes: [
+      { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },
+      { k: 'rango', label: 'Rango T°/HR', tipo: 'text', req: true },
+      { k: 'dimensiones', label: 'Dimensiones L×A×H', tipo: 'text', req: true },
+      { k: 'tipo', label: 'Tipo', tipo: 'select', req: true, opciones: ['Ambiente', 'Cuarto frío', 'Congelador'] },
+    ],
+    estabilidad: [
+      { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },
+      { k: 'setpoint', label: 'Setpoint T°/HR', tipo: 'text', req: true },
+      { k: 'camara', label: 'Cámara', tipo: 'text', req: true },
+      { k: 'norma', label: 'Norma', tipo: 'select', req: true, opciones: ['ICH Q1A', 'Otra'] },
+    ],
+    equipos: [
+      { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },
+      { k: 'marca', label: 'Marca', tipo: 'text', req: true },
+      { k: 'modelo', label: 'Modelo', tipo: 'text', req: true },
+      { k: 'serie', label: 'Serie', tipo: 'text', req: false },
+      { k: 'codigo', label: 'Código', tipo: 'text', req: true },
+      { k: 'ubicacion', label: 'Ubicación', tipo: 'text', req: true },
+    ],
+    sistemas: [
+      { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },
+      { k: 'sistema', label: 'Sistema', tipo: 'select', req: true, opciones: ['HVAC', 'Agua purificada', 'Vapor limpio', 'Aire comprimido'] },
+      { k: 'area', label: 'Área que atiende', tipo: 'text', req: true },
+      { k: 'setpoints', label: 'Setpoints', tipo: 'text', req: true },
+    ],
+    software: [
+      { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },
+      { k: 'version', label: 'Versión / build', tipo: 'text', req: true },
+      { k: 'modulos', label: 'Módulos en alcance', tipo: 'text', req: true },
+      { k: 'gamp', label: 'Categoría GAMP 5', tipo: 'select', req: true, opciones: ['1', '3', '4', '5'] },
+    ],
+  };
+
+  function getSchema(cat) {
+    return (SCHEMAS._comun || []).concat(SCHEMAS[cat] || []);
+  }
+
+  function getEntidades(cat) {
+    return ENTIDADES[cat] || [];
+  }
+
+  function draftKey(entId) {
+    return 'val-borrador-' + entId;
+  }
+
+  function saveDraft(entId, data) {
+    try {
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.setItem(draftKey(entId), JSON.stringify(data || {}));
+        return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  function loadDraft(entId) {
+    try {
+      if (typeof sessionStorage !== 'undefined') {
+        return JSON.parse(sessionStorage.getItem(draftKey(entId)) || '{}');
+      }
+    } catch (e) {}
+    return {};
+  }
 
   const ROUTES = [
     { id: 'banco', icono: '▦' },
@@ -26,7 +172,14 @@ const Validaciones = (() => {
 
   function parseRoute(hash) {
     const h = String(hash || '').replace(/^#\/?/, '').split('?')[0];
-    return VALID_ROUTES.indexOf(h) >= 0 ? h : 'banco';
+    if (VALID_ROUTES.indexOf(h) >= 0) return h;
+    const m = h.match(/^entidad\/([a-z-]+)$/);
+    if (m && ENTIDADES[m[1]]) return h;
+    return 'banco';
+  }
+
+  function catById(id) {
+    return CATS.filter((c) => c.id === id)[0] || null;
   }
 
   function manifest() {
@@ -141,9 +294,9 @@ const Validaciones = (() => {
       + '<div class="sub">ensayos listos · 1 .docx por protocolo</div>'
       + '<button type="button" disabled>Próximamente</button></div>'
       + '</div>'
-      + '<div class="v7-cats-head">Categorías <a href="#/banco">ver todo</a></div>'
+      + '<div class="v7-cats-head">Categorías <a href="#/banco" target="_self">ver todo</a></div>'
       + '<div class="v7-cats" id="v7-cats">'
-      + CATS.map((c) => '<a class="v7-cat' + (c.hot ? ' hot' : '') + '" href="' + c.href + '" target="_blank" rel="noopener" data-name="' + esc(c.nombre) + '">'
+      + CATS.map((c) => '<a class="v7-cat' + (c.hot ? ' hot' : '') + '" href="#/entidad/' + c.id + '" target="_self" data-name="' + esc(c.nombre) + '">'
         + '<div class="ico">' + c.icono + '</div>'
         + '<div class="t">' + esc(c.nombre) + '</div>'
         + '<div class="d">' + esc(c.desc) + '</div></a>').join('')
@@ -197,6 +350,127 @@ const Validaciones = (() => {
       + '<div class="v7-empty">Vista en construcción — llegará con el módulo.</div></div>';
   }
 
+  function fieldHtml(f, val) {
+    const v = val == null ? '' : String(val);
+    const req = f.req ? ' data-req="1"' : '';
+    const lab = '<label class="v7-field"><span>' + esc(f.label) + (f.req ? ' *' : '') + '</span>';
+    if (f.tipo === 'select') {
+      const opts = ['<option value="">— Seleccione —</option>'].concat(
+        (f.opciones || []).map((o) => '<option value="' + esc(o) + '"' + (o === v ? ' selected' : '') + '>' + esc(o) + '</option>')
+      ).join('');
+      return lab + '<select data-k="' + f.k + '"' + req + '>' + opts + '</select></label>';
+    }
+    if (f.tipo === 'date') {
+      return lab + '<input type="date" data-k="' + f.k + '"' + req + ' value="' + esc(v) + '"></label>';
+    }
+    if (f.tipo === 'file') {
+      return lab + '<input type="file" accept="image/*" data-k="' + f.k + '"' + req + '></label>';
+    }
+    return lab + '<input type="text" data-k="' + f.k + '"' + req + ' value="' + esc(v) + '"></label>';
+  }
+
+  function viewEntidad(catId) {
+    const cat = catById(catId);
+    if (!cat) return viewBanco();
+    const ents = getEntidades(catId);
+    const schema = getSchema(catId);
+    return '<div class="v7-view v7-form-flow">'
+      + '<div class="v7-crumb"><a href="#/banco" target="_self">Banco</a> <span>›</span> ' + esc(cat.nombre) + '</div>'
+      + '<h1>' + esc(cat.nombre) + ' · Planilla de datos</h1>'
+      + '<p class="sub">Cargue los datos de la entidad. No se muestran ensayos: el protocolo se genera después con estos datos.</p>'
+      + '<div class="v7-step" data-step="1">'
+      + '<div class="gt">1 · Seleccione la entidad</div>'
+      + '<div class="v7-ents">'
+      + ents.map((e) => '<button type="button" class="v7-ent" data-ent="' + esc(e.id) + '">' + esc(e.nombre) + '</button>').join('')
+      + '</div></div>'
+      + '<div class="v7-step" data-step="2" hidden>'
+      + '<div class="gt">2 · Datos de la entidad</div>'
+      + '<form class="v7-dataform" novalidate>'
+      + schema.map((f) => fieldHtml(f, '')).join('')
+      + '<div class="v7-form-actions">'
+      + '<span class="v7-form-msg" role="status"></span>'
+      + '<button type="button" class="v7-btn-save">Guardar borrador</button>'
+      + '<button type="button" class="v7-btn-gen" disabled title="Próximamente">Generar (próximamente)</button>'
+      + '</div></form>'
+      + '</div></div>';
+  }
+
+  function bindEntidad(main, catId) {
+    const schema = getSchema(catId);
+    const step2 = main.querySelector('.v7-step[data-step="2"]');
+    const form = main.querySelector('.v7-dataform');
+    if (!step2 || !form) return;
+    let entActual = null;
+    const msg = form.querySelector('.v7-form-msg');
+
+    function setMsg(text, ok) {
+      if (msg) {
+        msg.textContent = text || '';
+        msg.className = 'v7-form-msg' + (text ? (ok ? ' ok' : ' err') : '');
+      }
+    }
+
+    function validar() {
+      let falta = 0;
+      schema.forEach((f) => {
+        if (!f.req) return;
+        const el = form.querySelector('[data-k="' + f.k + '"]');
+        if (!el || (el.type !== 'file' && !String(el.value || '').trim())) falta++;
+      });
+      return falta;
+    }
+
+    function recoger() {
+      const data = {};
+      schema.forEach((f) => {
+        const el = form.querySelector('[data-k="' + f.k + '"]');
+        if (!el) return;
+        if (f.tipo === 'file') { if (el.files && el.files[0]) data[f.k] = el.files[0].name; return; }
+        data[f.k] = String(el.value || '');
+      });
+      data._entidad = entActual;
+      data._cat = catId;
+      return data;
+    }
+
+    function cargar(data) {
+      schema.forEach((f) => {
+        const el = form.querySelector('[data-k="' + f.k + '"]');
+        if (el && f.tipo !== 'file' && data[f.k] != null) el.value = data[f.k];
+      });
+    }
+
+    main.addEventListener('click', function (e) {
+      const ent = e.target && e.target.closest ? e.target.closest('.v7-ent') : null;
+      if (ent) {
+        entActual = ent.getAttribute('data-ent');
+        main.querySelectorAll('.v7-ent').forEach((b) => b.classList.toggle('sel', b === ent));
+        step2.hidden = false;
+        const draft = loadDraft(entActual);
+        cargar(draft);
+        setMsg(Object.keys(draft).length ? 'Borrador cargado' : '', true);
+        try { step2.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (err) {}
+        return;
+      }
+      if (e.target && e.target.classList && e.target.classList.contains('v7-btn-save')) {
+        e.preventDefault();
+        const falta = validar();
+        if (falta) { setMsg('Complete ' + falta + ' campo(s) obligatorio(s).', false); return; }
+        const ok = saveDraft(entActual, recoger());
+        setMsg(ok ? 'Borrador guardado' : 'No se pudo guardar', ok);
+        return;
+      }
+      if (e.target && e.target.classList && e.target.classList.contains('v7-btn-gen')) {
+        e.preventDefault();
+      }
+    });
+
+    if (form.addEventListener) {
+      form.addEventListener('submit', function (e) { e.preventDefault(); });
+      form.addEventListener('input', function () { setMsg(''); });
+    }
+  }
+
   function render() {
     const root = document.getElementById('validaciones-app');
     if (!root) return;
@@ -209,10 +483,17 @@ const Validaciones = (() => {
     const mains = root.querySelectorAll('.v7-main');
     const main = mains && mains.length ? mains[mains.length - 1] : root.querySelector('.val-main');
     if (main) {
-      main.innerHTML = route === 'banco' ? viewBanco()
-        : route === 'generador' ? '<div class="v7-view"><h1>Generador de protocolos</h1><p class="sub">Un .docx independiente por protocolo</p><div class="v7-panel v7-gen"><div class="gt">📄 Generador (.docx)</div><button type="button" disabled>Próximamente</button></div></div>'
-        : route === 'protocolos' ? viewSoon('Protocolos', 'Documentos generados y su estado')
-        : viewSoon('Firmas', 'Flujo de firmas de protocolos');
+      const isEnt = route.indexOf('entidad/') === 0;
+      if (isEnt) {
+        const catId = route.slice('entidad/'.length);
+        main.innerHTML = viewEntidad(catId);
+        bindEntidad(main, catId);
+      } else {
+        main.innerHTML = route === 'banco' ? viewBanco()
+          : route === 'generador' ? '<div class="v7-view"><h1>Generador de protocolos</h1><p class="sub">Un .docx independiente por protocolo</p><div class="v7-panel v7-gen"><div class="gt">📄 Generador (.docx)</div><button type="button" disabled>Próximamente</button></div></div>'
+          : route === 'protocolos' ? viewSoon('Protocolos', 'Documentos generados y su estado')
+          : viewSoon('Firmas', 'Flujo de firmas de protocolos');
+      }
       const si = document.getElementById('v7-search');
       if (si && si.addEventListener) {
         si.addEventListener('input', function () {
@@ -308,5 +589,8 @@ const Validaciones = (() => {
 
   try { init(); } catch (e) {}
 
-  return { CATS, ROUTES, parseRoute, show, hide, apply, currentArea };
+  return {
+    CATS, ROUTES, ENTIDADES, SCHEMAS, parseRoute, catById, getSchema, getEntidades,
+    saveDraft, loadDraft, show, hide, apply, currentArea, render,
+  };
 })();

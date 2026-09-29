@@ -77,11 +77,41 @@ describe('Validaciones V7', () => {
     expect(Validaciones.parseRoute('')).toBe('banco');
   });
 
-  test('5 categorías con href a docs', () => {
+  test('5 categorías SIN enlaces a docs (flujo ciego)', () => {
     expect(Validaciones.CATS.length).toBe(5);
     for (const c of Validaciones.CATS) {
-      expect(c.href).toMatch(/^docs\/banco-ensayos\//);
+      expect(c.href).toBeUndefined();
+      expect(Validaciones.getEntidades(c.id).length).toBeGreaterThan(0);
+      expect(Validaciones.getSchema(c.id).length).toBeGreaterThanOrEqual(7);
     }
+    // <base target="_blank"> en indexx.html: los enlaces in-app deben forzar _self
+    const src = readFileSync(join(core, 'indexx-validaciones.js'), 'utf-8');
+    const catLine = src.split('\n').find((l) => l.indexOf('class="v7-cat') >= 0) || '';
+    expect(catLine).toContain('target="_self"');
+    expect(src).not.toContain('docs/banco-ensayos');
+  });
+
+  test('ruta de entidad válida y desconocida cae a banco', () => {
+    expect(Validaciones.parseRoute('#/entidad/almacenes')).toBe('entidad/almacenes');
+    expect(Validaciones.parseRoute('#/entidad/no-existe')).toBe('banco');
+    expect(Validaciones.parseRoute('#/entidad')).toBe('banco');
+  });
+
+  test('planilla adaptativa: comunes + específicos por categoría', () => {
+    const comun = ['logo', 'responsable', 'fecha'];
+    const eq = Validaciones.getSchema('equipos').map((f) => f.k);
+    for (const k of comun) expect(eq).toContain(k);
+    for (const k of ['marca', 'modelo', 'codigo', 'ubicacion']) expect(eq).toContain(k);
+    const alm = Validaciones.getSchema('almacenes').map((f) => f.k);
+    for (const k of ['rango', 'dimensiones', 'tipo']) expect(alm).toContain(k);
+    expect(alm).not.toContain('marca');
+  });
+
+  test('borrador por entidad persiste en sessionStorage', () => {
+    expect(Validaciones.saveDraft('cuarto-frio', { descripcion: 'CF-01' })).toBe(true);
+    expect(Validaciones.loadDraft('cuarto-frio').descripcion).toBe('CF-01');
+    expect(Validaciones.loadDraft('otra-entidad')).toEqual({});
+    expect(Validaciones.getSchema('cuarto-frio')).toBeDefined();
   });
 
   test('4 rutas en el riel', () => {
