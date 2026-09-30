@@ -4469,3 +4469,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-09-29 (95): Tipografía estilo iPhone solo en la planilla
 - **Qué:** `.v7-form-flow` usa stack Apple (`-apple-system, SF Pro Text/Display...`); el resto del área V7 sigue en Tahoma y el futuro .docx no se toca.
 - **Verificación:** computed font del formulario e inputs = stack Apple, riel = Tahoma; screenshot sin errores.
+
+### 2026-09-29 (96) [PROD-FIX]: fecha de firma = fecha del navegador
+- **Bug:** reporte mostraba portada con fecha local del navegador y firma con fecha UTC del servidor (Fly.io) — no coincidían.
+- **Causa:** `POST /api/sign-sessions` (publicar reporte, `ReporteManager.js:2458`) no enviaba `tzOffset`; el backend caía al fallback UTC. Los flujos de firma sueltos sí lo enviaban.
+- **Fix (solo frontend, 1 línea):** body del publish incluye `tzOffset: new Date().getTimezoneOffset()`; el backend ya soportaba `signStampTZ` (sin redeploy).
+- **Tests:** +2 guardias en `reporte-meta.test.js` (tzOffset en publish + signStampTZ en backend); simulación node confirma misma fecha. Vitest 256/256, backend 60/60.

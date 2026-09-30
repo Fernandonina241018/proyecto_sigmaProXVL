@@ -2458,7 +2458,10 @@ tr:hover td{background:#f7faff}
                 const data = await _repApiPost('/api/sign-sessions', {
                     name: base, html: html,
                     assignedReviewer: reviewer, assignedApprover: approver,
-                    signatureCode: code, password: pass
+                    signatureCode: code, password: pass,
+                    // Zona horaria del firmante: el servidor estampa la firma en hora local
+                    // del navegador (igual que la portada). Sin esto cae a UTC (Fly.io).
+                    tzOffset: new Date().getTimezoneOffset()
                 });
                 if (!data || !data.ok) { errEl.textContent = '❌ ' + ((data && data.error) || 'Error al publicar'); return; }
                 close();

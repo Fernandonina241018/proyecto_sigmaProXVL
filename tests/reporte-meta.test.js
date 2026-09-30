@@ -78,3 +78,16 @@ describe('validateReportMeta (gate firma)', () => {
     });
   });
 });
+
+describe('fecha de firma = fecha del navegador (no UTC del servidor)', () => {
+  test('publicar reporte envía tzOffset al backend', () => {
+    const src = readFileSync(join(mgr, 'ReporteManager.js'), 'utf-8');
+    const pub = src.slice(src.indexOf("'/api/sign-sessions'"));
+    expect(pub).toContain('tzOffset');
+    expect(pub).toContain('getTimezoneOffset');
+  });
+  test('backend estampa con la zona del firmante', () => {
+    const srv = readFileSync(join(__dirname, '..', 'backend', 'server.js'), 'utf-8');
+    expect(srv).toContain('signStampTZ(new Date(), req.body && req.body.tzOffset)');
+  });
+});
