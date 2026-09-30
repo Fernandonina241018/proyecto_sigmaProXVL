@@ -4475,3 +4475,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Causa:** `POST /api/sign-sessions` (publicar reporte, `ReporteManager.js:2458`) no enviaba `tzOffset`; el backend caía al fallback UTC. Los flujos de firma sueltos sí lo enviaban.
 - **Fix (solo frontend, 1 línea):** body del publish incluye `tzOffset: new Date().getTimezoneOffset()`; el backend ya soportaba `signStampTZ` (sin redeploy).
 - **Tests:** +2 guardias en `reporte-meta.test.js` (tzOffset en publish + signStampTZ en backend); simulación node confirma misma fecha. Vitest 256/256, backend 60/60.
+
+### 2026-09-29 (97): Generador .docx de Almacenes (paso 3 + descarga automática)
+- **Qué:** paso "3 · Protocolos a generar" en la planilla de Almacenes: checkboxes DQ/IQ/OQ/PQ + condición (estática/dinámica/ambas) + resumen en vivo + botón verde "Generar y descargar". Un .docx por protocolo, descarga automática.
+- **Cómo:** `scripts/extraer-banco-almacenes.mjs` (happy-dom) congela el banco en `js/core/banco-almacenes-data.js` (43 artículos, IDs únicos); `js/core/generador-docx.js` arma el modelo puro (portada 13 campos, índice, bloques 1→8, numeración ENSAYO b.n, marcas congeladas) y renderiza con lib `docx@8.5.0` por CDN (UMD). Resto de categorías: "Próximamente".
+- **Verificación:** .docx reales descargados en headless (DQ 5 + OQ 12 ensayos), contenido validado (título, portada, índice, bloques, sin marcas sin congelar). Vitest 266/266, backend 60/60.

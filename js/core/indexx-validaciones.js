@@ -481,12 +481,63 @@ const Validaciones = (() => {
     return lab + '<input type="text" data-k="' + f.k + '"' + req + ' value="' + esc(v) + '"></label>';
   }
 
+  const FASES_GEN = ['DQ', 'IQ', 'OQ', 'PQ'];
+  const GEN_CATS = ['almacenes'];
+
+  function genKey(entId) {
+    return 'val-gen-' + entId;
+  }
+
+  function saveGen(entId, sel) {
+    try {
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.setItem(genKey(entId), JSON.stringify(sel || {}));
+        return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  function loadGen(entId) {
+    try {
+      if (typeof sessionStorage !== 'undefined') {
+        const s = JSON.parse(sessionStorage.getItem(genKey(entId)) || 'null');
+        if (s && Array.isArray(s.fases)) return { fases: s.fases, cond: s.cond || 'ambas' };
+      }
+    } catch (e) {}
+    return { fases: FASES_GEN.slice(), cond: 'ambas' };
+  }
+
+  function contarGen(fase, cond) {
+    try {
+      if (typeof GeneradorDocx !== 'undefined' && GeneradorDocx.contarEnsayos) {
+        return GeneradorDocx.contarEnsayos(fase, cond);
+      }
+    } catch (e) {}
+    return null;
+  }
+
+  function paso3Html() {
+    return '<div class="v7-genrow">'
+      + FASES_GEN.map((f) => '<label class="v7-check"><input type="checkbox" class="gen-fase" value="' + f + '" checked><span>' + f + '</span></label>').join('')
+      + '<label class="v7-cond">Condición '
+      + '<select class="gen-cond"><option value="ambas">Estática + dinámica</option>'
+      + '<option value="est">Solo estática</option><option value="dina">Solo dinámica</option></select></label>'
+      + '</div>'
+      + '<div class="v7-genresumen" role="status"></div>'
+      + '<div class="v7-form-actions">'
+      + '<span class="v7-gen-msg" role="status"></span>'
+      + '<button type="button" class="v7-btn-download">Generar y descargar</button>'
+      + '</div>';
+  }
+
   function viewEntidad(catId) {
     const cat = catById(catId);
     if (!cat) return viewBanco();
     const ents = getEntidades(catId);
     const comun = SCHEMAS._comun || [];
     const espec = SCHEMAS[catId] || [];
+    const conGen = GEN_CATS.indexOf(catId) >= 0;
     return '<div class="v7-view v7-form-flow">'
       + '<div class="v7-crumb"><a href="#/banco" target="_self">Banco</a> <span>›</span> ' + esc(cat.nombre) + '</div>'
       + '<h1>' + esc(cat.nombre) + ' · Planilla de datos</h1>'
@@ -508,16 +559,23 @@ const Validaciones = (() => {
       + '<div class="v7-form-actions">'
       + '<span class="v7-form-msg" role="status"></span>'
       + '<button type="button" class="v7-btn-save">Guardar borrador</button>'
-      + '<button type="button" class="v7-btn-gen" disabled title="Próximamente">Generar (próximamente)</button>'
+      + (conGen ? '' : '<button type="button" class="v7-btn-gen" disabled title="Próximamente">Generar (próximamente)</button>')
       + '</div></form>'
+      + '</div>'
+      + '<div class="v7-step" data-step="3" hidden>'
+      + '<div class="gt">3 · Protocolos a generar</div>'
+      + (conGen ? paso3Html()
+        : '<div class="v7-empty">Generador disponible próximamente para esta categoría.</div>')
       + '</div></div>';
   }
 
   function bindEntidad(main, catId) {
     const schema = getSchema(catId);
     const step2 = main.querySelector('.v7-step[data-step="2"]');
+    const step3 = main.querySelector('.v7-step[data-step="3"]');
     const form = main.querySelector('.v7-dataform');
     if (!step2 || !form) return;
+    const conGen = GEN_CATS.indexOf(catId) >= 0;
     let entActual = null;
     const msg = form.querySelector('.v7-form-msg');
 
@@ -558,6 +616,87 @@ const Validaciones = (() => {
       });
     }
 
+    function entidadObj() {
+      const list = getEntidades(catId);
+      for (let i = 0; i < list.length; i++) {
+        if (list[i].id === entActual) return list[i];
+      }
+      return { id: entActual, nombre: entActual };
+    }
+
+    function leerSel3() {
+      const fases = [];
+      if (step3) {
+        step3.querySelectorAll('.gen-fase').forEach((ch) => { if (ch.checked) fases.push(ch.value); });
+      }
+      const condEl = step3 ? step3.querySelector('.gen-cond') : null;
+      return { fases: fases, cond: condEl ? condEl.value : 'ambas' };
+    }
+
+    function pintarResumen3() {
+      if (!step3 || !conGen) return;
+      const sel = leerSel3();
+      const box = step3.querySelector('.v7-genresumen');
+      if (box) {
+        const parts = sel.fases.map((f) => {
+          const n = contarGen(f, sel.cond);
+          return f + (n == null ? '' : ' (' + n + ' ensayos)');
+        });
+        box.innerHTML = '<strong>DOCUMENTOS A GENERAR:</strong> '
+          + (parts.length ? esc(parts.join(' · ')) : 'ninguno seleccionado');
+      }
+      if (entActual) saveGen(entActual, sel);
+    }
+
+    function restaurarSel3() {
+      if (!step3 || !conGen || !entActual) return;
+      const sel = loadGen(entActual);
+      step3.querySelectorAll('.gen-fase').forEach((ch) => {
+        ch.checked = sel.fases.indexOf(ch.value) >= 0;
+      });
+      const condEl = step3.querySelector('.gen-cond');
+      if (condEl) condEl.value = sel.cond;
+      pintarResumen3();
+    }
+
+    function setGenMsg(text, ok) {
+      const gm = step3 ? step3.querySelector('.v7-gen-msg') : null;
+      if (gm) {
+        gm.textContent = text || '';
+        gm.className = 'v7-gen-msg' + (text ? (ok ? ' ok' : ' err') : '');
+      }
+    }
+
+    async function generarDescargar() {
+      if (!conGen || typeof GeneradorDocx === 'undefined') {
+        setGenMsg('Generador no disponible.', false);
+        return;
+      }
+      if (typeof window !== 'undefined' && !window.docx) {
+        setGenMsg('Cargando librería docx… reintente en unos segundos.', false);
+        return;
+      }
+      const falta = validar();
+      if (falta) { setGenMsg('Complete el borrador del paso 2 (' + falta + ' campo(s)).', false); return; }
+      const sel = leerSel3();
+      if (!sel.fases.length) { setGenMsg('Seleccione al menos un protocolo.', false); return; }
+      saveGen(entActual, sel);
+      const draft = recoger();
+      const ent = entidadObj();
+      const btn = step3.querySelector('.v7-btn-download');
+      if (btn) btn.disabled = true;
+      try {
+        for (let i = 0; i < sel.fases.length; i++) {
+          setGenMsg('Generando ' + sel.fases[i] + '… (' + (i + 1) + '/' + sel.fases.length + ')', true);
+          await GeneradorDocx.descargar(sel.fases[i], draft, ent, sel.cond);
+        }
+        setGenMsg('Descargados ' + sel.fases.length + ' documento(s).', true);
+      } catch (err) {
+        setGenMsg('Error al generar: ' + (err && err.message ? err.message : err), false);
+      }
+      if (btn) btn.disabled = false;
+    }
+
     main.addEventListener('click', function (e) {
       const ent = e.target && e.target.closest ? e.target.closest('.v7-ent') : null;
       if (ent) {
@@ -567,6 +706,10 @@ const Validaciones = (() => {
         const draft = loadDraft(entActual);
         cargar(draft);
         setMsg(Object.keys(draft).length ? 'Borrador cargado' : '', true);
+        if (step3 && conGen) {
+          step3.hidden = false;
+          restaurarSel3();
+        }
         try { step2.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (err) {}
         return;
       }
@@ -580,8 +723,23 @@ const Validaciones = (() => {
       }
       if (e.target && e.target.classList && e.target.classList.contains('v7-btn-gen')) {
         e.preventDefault();
+        return;
+      }
+      if (e.target && e.target.classList && e.target.classList.contains('v7-btn-download')) {
+        e.preventDefault();
+        generarDescargar();
+        return;
+      }
+      if (e.target && e.target.classList && e.target.classList.contains('gen-fase')) {
+        pintarResumen3();
       }
     });
+
+    if (step3 && step3.addEventListener) {
+      step3.addEventListener('change', function (e) {
+        if (e.target && e.target.classList && e.target.classList.contains('gen-cond')) pintarResumen3();
+      });
+    }
 
     if (form.addEventListener) {
       form.addEventListener('submit', function (e) { e.preventDefault(); });
@@ -708,7 +866,7 @@ const Validaciones = (() => {
   try { init(); } catch (e) {}
 
   return {
-    CATS, ROUTES, ENTIDADES, SCHEMAS, parseRoute, catById, getSchema, getEntidades,
-    saveDraft, loadDraft, viewEntidad, show, hide, apply, currentArea, render,
+    CATS, ROUTES, ENTIDADES, SCHEMAS, FASES_GEN, parseRoute, catById, getSchema, getEntidades,
+    saveDraft, loadDraft, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render,
   };
 })();

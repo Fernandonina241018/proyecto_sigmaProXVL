@@ -119,7 +119,6 @@ describe('Validaciones V7', () => {
     expect(html).toContain('data-f="temperaturaMin"');
     expect(html).toContain('type="number"');
     expect(html).toContain('Guardar borrador');
-    expect(html).toContain('Generar (próximamente)');
     expect(html).not.toContain('docs/banco-ensayos');
     expect(Validaciones.viewEntidad('no-existe')).toContain('vas a calificar');
     // tipografía estilo iPhone solo en la planilla (no toca el .docx futuro)
@@ -128,6 +127,23 @@ describe('Validaciones V7', () => {
     expect(css).toContain('-apple-system');
   });
 
+  test('paso 3 solo en almacenes; resto queda en Próximamente', () => {
+    const alm = Validaciones.viewEntidad('almacenes');
+    expect(alm).toContain('Protocolos a generar');
+    expect(alm).toContain('class="gen-fase"');
+    expect(alm).toContain('Generar y descargar');
+    expect(alm).not.toContain('Generar (próximamente)');
+    const eq = Validaciones.viewEntidad('equipos');
+    expect(eq).toContain('Generar (próximamente)');
+    expect(eq).toContain('próximamente para esta categoría');
+    expect(Validaciones.FASES_GEN).toEqual(['DQ', 'IQ', 'OQ', 'PQ']);
+  });
+
+  test('selección de protocolos persiste por entidad', () => {
+    expect(Validaciones.saveGen('cuarto-frio', { fases: ['DQ', 'OQ'], cond: 'dina' })).toBe(true);
+    expect(Validaciones.loadGen('cuarto-frio')).toEqual({ fases: ['DQ', 'OQ'], cond: 'dina' });
+    expect(Validaciones.loadGen('otra')).toEqual({ fases: ['DQ', 'IQ', 'OQ', 'PQ'], cond: 'ambas' });
+  });
   test('borrador por entidad persiste en sessionStorage', () => {
     expect(Validaciones.saveDraft('cuarto-frio', { descripcion: 'CF-01' })).toBe(true);
     expect(Validaciones.loadDraft('cuarto-frio').descripcion).toBe('CF-01');
