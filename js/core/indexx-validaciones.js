@@ -672,10 +672,6 @@ const Validaciones = (() => {
         setGenMsg('Generador no disponible.', false);
         return;
       }
-      if (typeof window !== 'undefined' && !window.docx) {
-        setGenMsg('Cargando librería docx… reintente en unos segundos.', false);
-        return;
-      }
       const falta = validar();
       if (falta) { setGenMsg('Complete el borrador del paso 2 (' + falta + ' campo(s)).', false); return; }
       const sel = leerSel3();
@@ -687,8 +683,21 @@ const Validaciones = (() => {
       if (btn) btn.disabled = true;
       try {
         for (let i = 0; i < sel.fases.length; i++) {
-          setGenMsg('Generando ' + sel.fases[i] + '… (' + (i + 1) + '/' + sel.fases.length + ')', true);
-          await GeneradorDocx.descargar(sel.fases[i], draft, ent, sel.cond);
+          const f = sel.fases[i];
+          setGenMsg('Generando ' + f + '… (' + (i + 1) + '/' + sel.fases.length + ')', true);
+          // IQ/OQ/PQ: plantilla real del modelo; DQ: ensamblador propio.
+          if (typeof PlantillaDocx !== 'undefined' && PlantillaDocx.soporta(f)) {
+            if (typeof window !== 'undefined' && (typeof DecompressionStream === 'undefined' || typeof CompressionStream === 'undefined')) {
+              throw new Error('El navegador no soporta compresión ZIP (use Edge/Chrome).');
+            }
+            const r = await PlantillaDocx.descargar(f, draft, ent, sel.cond);
+            if (r && r.avisos && r.avisos.length) setGenMsg('[' + f + '] ' + r.avisos[0], true);
+          } else {
+            if (typeof window !== 'undefined' && !window.docx) {
+              throw new Error('Cargando librería docx… reintente en unos segundos.');
+            }
+            await GeneradorDocx.descargar(f, draft, ent, sel.cond);
+          }
         }
         setGenMsg('Descargados ' + sel.fases.length + ' documento(s).', true);
       } catch (err) {

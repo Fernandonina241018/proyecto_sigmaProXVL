@@ -4486,3 +4486,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Cómo:** `generador-docx.js` reescrito con textos fijos del modelo; `docx@8.5.0` también instalado local (tests de render en node con unzip propio); RESUMEN como H2 dentro de procedimiento (igual que el modelo).
 - **Verificación:** comparación estructural modelo vs generado (11 H1, tablas, footer, TOC, saltos); descarga real en headless sin errores. Vitest 269/269, backend 60/60.
 - **Nota:** el TOC muestra páginas al abrir en Word (actualizar campos); tabla de evidencia deriva filas de los puntos del procedimiento.
+
+### 2026-09-30 (99): Integración ZIP tal cual — IQ/OQ/PQ con plantilla real
+- **Qué:** `PlantillaDocx` integrado: IQ/OQ/PQ se generan por cirugía de plantilla sobre los modelos reales (formato 100% idéntico); DQ sigue en `GeneradorDocx`. Descarga automática, sesión actual, solo Almacenes.
+- **Archivos:** `js/core/plantilla-docx.js`, `docs/plantillas/*.docx` (md5 = originales), `scripts/cargar-banco.mjs`, `scripts/generar-plantillas.mjs`, `tests/plantilla-docx.test.js` (adaptado: require relativo + strip `/@fs` de vitest).
+- **Wiring:** `indexx.html` carga `plantilla-docx.js`; `generarDescargar` usa `PlantillaDocx.descargar` si `soporta(f)` (con chequeo CompressionStream para Edge/Chrome) y avisa la 1ª advertencia en el panel.
+- **Verificación:** terminal genera IQ/OQ/PQ completos; vitest 12/12 del motor; descarga IQ real en headless (379 párr, 36 tablas, 26 PAGEREF, sin errores). Vitest 281/281, backend 60/60.
