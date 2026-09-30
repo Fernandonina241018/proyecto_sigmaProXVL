@@ -388,6 +388,9 @@
 #validaciones-app .v7-ent:hover { border-color: var(--v7-accent); }
 #validaciones-app .v7-ent.sel { background: var(--v7-accent); border-color: var(--v7-accent); color: #fff; }
 /* ----- formulario profesional ----- */
+#validaciones-app .v7-form-flow {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
 #validaciones-app .v7-dataform { display: flex; flex-direction: column; gap: 8px; }
 #validaciones-app .v7-fs {
   border: 1px solid var(--v7-border);

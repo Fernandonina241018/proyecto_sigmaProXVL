@@ -122,6 +122,10 @@ describe('Validaciones V7', () => {
     expect(html).toContain('Generar (próximamente)');
     expect(html).not.toContain('docs/banco-ensayos');
     expect(Validaciones.viewEntidad('no-existe')).toContain('vas a calificar');
+    // tipografía estilo iPhone solo en la planilla (no toca el .docx futuro)
+    const css = readFileSync(join(__dirname, '..', 'css', 'validaciones-v7.css'), 'utf-8');
+    expect(css).toContain('.v7-form-flow');
+    expect(css).toContain('-apple-system');
   });
 
   test('borrador por entidad persiste en sessionStorage', () => {
