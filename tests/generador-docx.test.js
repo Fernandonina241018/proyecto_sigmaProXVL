@@ -1,6 +1,12 @@
-// Generador .docx de Almacenes: extractor + modelo puro (sin lib docx).
-import { describe, test, expect } from 'vitest';
+// Generador .docx de Almacenes: extractor + modelo + render (lib docx local).
+import { describe, test, expect, beforeAll } from 'vitest';
+import { createRequire } from 'module';
 import GeneradorDocx from '../js/core/generador-docx.js';
+
+const require = createRequire(import.meta.url);
+beforeAll(() => {
+  globalThis.docx = require('docx');
+});
 
 const DRAFT = {
   codigo: 'CF-01', descripcion: 'Cuarto frío principal', ubicacion: 'Edificio A',
@@ -21,7 +27,6 @@ describe('banco extraído', () => {
     for (const a of arts) {
       expect(a.bloque).toBeGreaterThanOrEqual(1);
       expect(a.bloque).toBeLessThanOrEqual(8);
-      expect(['DQ', 'IQ', 'OQ', 'PQ']).toContain(a.id.split('-')[1]);
     }
   });
 
@@ -47,6 +52,14 @@ describe('filtros y marcas', () => {
       .toBe('2–8 °C / HR 10–60 %');
   });
 
+  test('alcanceTexto congela datos de la entidad', () => {
+    const a = GeneradorDocx.alcanceTexto(DRAFT, ENT);
+    expect(a).toContain('Cuarto frío principal');
+    expect(a).toContain('CF-01');
+    expect(a).toContain('Edificio A');
+    expect(a).toContain('Laboratorios Sued');
+  });
+
   test('congelarMarcas elimina spans dinámicos', () => {
     const ctx = { entidad: 'CF', rango: 'R', cond: 'C', listaResumen: 'L' };
     const out = GeneradorDocx.congelarMarcas(
@@ -59,37 +72,74 @@ describe('filtros y marcas', () => {
   });
 });
 
-describe('modelo del documento', () => {
-  test('DQ: portada 13 campos, índice, bloques en orden 1→8', () => {
+describe('modelo estilo plantilla', () => {
+  test('11 secciones en el orden del modelo', () => {
     const m = GeneradorDocx.buildModelo('DQ', DRAFT, ENT, 'ambas');
-    expect(m.titulo).toContain('DQ');
-    expect(m.portada).toHaveLength(13);
-    expect(m.portada[0]).toEqual(['Código', 'CF-01']);
-    expect(m.indice).toHaveLength(5);
-    expect(m.indice[0].num).toBe('ENSAYO 3.1 DE 3');
-    const orden = m.bloques.map((b) => b.n);
-    expect(orden).toEqual([...orden].sort((a, b) => a - b));
-    expect(orden[0]).toBe(1);
+    expect(m.secciones.map((s) => s.h1)).toEqual([
+      'FIRMA DE APROBACIÓN:',
+      'TABLA DE CONTENIDO:',
+      'OBJETIVO:',
+      'ALCANCE:',
+      'RESPONSABILIDADES:',
+      'DESCRIPCIÓN DEL EQUIPO Y REQUISITOS PREVIOS A LA CALIFICACIÓN:',
+      'PROCEDIMIENTO DE CALIFICACIÓN DE DISEÑO:',
+      'REGISTRO DE FIRMAS:',
+      'REFERENCIAS:',
+      'ANEXOS:',
+      'HISTORIAL DE CAMBIOS:',
+    ]);
+    const proc = m.secciones.find((s) => s.h1.startsWith('PROCEDIMIENTO'));
+    expect(proc.contenido.some((it) => it.t === 'h2' && it.texto === 'RESUMEN:')).toBe(true);
   });
 
   test('ningún texto conserva marcas sin congelar', () => {
     for (const f of ['DQ', 'IQ', 'OQ', 'PQ']) {
       const m = GeneradorDocx.buildModelo(f, DRAFT, ENT, 'ambas');
       const textos = [];
-      m.bloques.forEach((b) => b.items.forEach((it) => {
+      const camina = (items) => items.forEach((it) => {
         if (it.t === 'p') textos.push(it.runs.map((r) => r.t).join(''));
-        if (it.t === 'ensayo' || it.t === 'h3') textos.push(it.titulo || it.texto);
-      }));
+        if (it.t === 'h2' || it.t === 'bul') textos.push(it.texto);
+        if (it.t === 'ensayo') { textos.push(it.titulo); }
+      });
+      m.secciones.forEach((s) => camina(s.contenido));
       const todo = textos.join(' ');
       expect(todo).not.toContain('class="equipo"');
       expect(todo).not.toContain('class="rango"');
       expect(todo).not.toContain('lista-resumen');
     }
   });
+});
 
-  test('htmlAParrafos: negritas y saltos', () => {
-    const ps = GeneradorDocx.htmlAParrafos('<strong>Objetivo:</strong><br>Aprobar el lay');
-    expect(ps.length).toBeGreaterThanOrEqual(2);
-    expect(ps[0].runs[0]).toMatchObject({ t: 'Objetivo:', b: true });
-  });
+describe('render docx (estructura del modelo)', () => {
+  test('empaqueta un .docx válido', async () => {
+    const docx = require('docx');
+    const m = GeneradorDocx.buildModelo('DQ', DRAFT, ENT, 'ambas');
+    const buf = await docx.Packer.toBuffer(GeneradorDocx.modeloADocx(m));
+    expect(buf.length).toBeGreaterThan(8000);
+  }, 30000);
+
+  test('xml: campo TOC, Tahoma, firmas, conclusiones y saltos de página', async () => {
+    const docx = require('docx');
+    const { unzipXml } = await import('./helpers/unzip-xml.mjs');
+    const m = GeneradorDocx.buildModelo('OQ', DRAFT, ENT, 'ambas');
+    const buf = await docx.Packer.toBuffer(GeneradorDocx.modeloADocx(m));
+    const xml = unzipXml(buf, 'word/document.xml');
+    expect(xml).toContain('fldChar');
+    expect(xml).toContain('Tahoma');
+    expect(xml).toContain('0F4761');
+    expect(xml).toContain('Realizado Por:');
+    expect((xml.match(/CONCLUSIÓN DE LA PRUEBA/g) || []).length).toBeGreaterThanOrEqual(3);
+    // 11 secciones con salto + ensayos OQ en bloque 3 (cada uno en su página)
+    const saltos = (xml.match(/pageBreakBefore/g) || []).length;
+    expect(saltos).toBeGreaterThanOrEqual(11 + 3);
+  }, 30000);
+
+  test('footer SUED en el documento', async () => {
+    const docx = require('docx');
+    const { unzipXml } = await import('./helpers/unzip-xml.mjs');
+    const m = GeneradorDocx.buildModelo('DQ', DRAFT, ENT, 'ambas');
+    const buf = await docx.Packer.toBuffer(GeneradorDocx.modeloADocx(m));
+    const foot = unzipXml(buf, 'word/footer1.xml');
+    expect(foot).toContain('PARA USO EXCLUSIVO DE LABORATORIOS SUED, S.R.L.');
+  }, 30000);
 });

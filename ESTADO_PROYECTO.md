@@ -4480,3 +4480,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Qué:** paso "3 · Protocolos a generar" en la planilla de Almacenes: checkboxes DQ/IQ/OQ/PQ + condición (estática/dinámica/ambas) + resumen en vivo + botón verde "Generar y descargar". Un .docx por protocolo, descarga automática.
 - **Cómo:** `scripts/extraer-banco-almacenes.mjs` (happy-dom) congela el banco en `js/core/banco-almacenes-data.js` (43 artículos, IDs únicos); `js/core/generador-docx.js` arma el modelo puro (portada 13 campos, índice, bloques 1→8, numeración ENSAYO b.n, marcas congeladas) y renderiza con lib `docx@8.5.0` por CDN (UMD). Resto de categorías: "Próximamente".
 - **Verificación:** .docx reales descargados en headless (DQ 5 + OQ 12 ensayos), contenido validado (título, portada, índice, bloques, sin marcas sin congelar). Vitest 266/266, backend 60/60.
+
+### 2026-09-29 (98): Generador con esqueleto del modelo DQ-1-400AAAA
+- **Qué:** el .docx ahora replica la plantilla: 11 H1 en orden (firmas 2×2, TOC con páginas reales vía campo Word, objetivo, alcance con datos del borrador, responsabilidades 4 roles con bullets, descripción + tabla de datos, procedimiento, registro 17×4, referencias, anexos, historial) + footer SUED + Tahoma 11 (H1 azul 0F4761) + cada ensayo en su propia página + tabla de evidencia y CONCLUSIÓN DE LA PRUEBA por ensayo.
+- **Cómo:** `generador-docx.js` reescrito con textos fijos del modelo; `docx@8.5.0` también instalado local (tests de render en node con unzip propio); RESUMEN como H2 dentro de procedimiento (igual que el modelo).
+- **Verificación:** comparación estructural modelo vs generado (11 H1, tablas, footer, TOC, saltos); descarga real en headless sin errores. Vitest 269/269, backend 60/60.
+- **Nota:** el TOC muestra páginas al abrir en Word (actualizar campos); tabla de evidencia deriva filas de los puntos del procedimiento.
