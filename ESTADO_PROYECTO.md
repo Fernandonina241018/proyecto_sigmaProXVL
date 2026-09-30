@@ -4454,3 +4454,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Fix:** `fieldHtml()` no soportaba `tipo:'number'` (caía a text) → rama nueva `<input type="number" step="any">`.
 - **Tests:** `validaciones-panel.test.js` actualizado al nuevo esquema de almacenes + aserciones de soporte number.
 - **Verificación:** headless muestra 8 campos requeridos y borrador con números guardado; Vitest 253/253, backend 60/60.
+
+### 2026-09-29 (93): Campos de estudio de mapeo en planilla Almacenes
+- **Qué:** +6 campos en `SCHEMAS.almacenes`: tipoCalificacion (4 opciones), estudio (5), condicionEstudio (5), duracionEstudio, intervaloRegistro (text) y cantidadDataLoggers (number opcional).
+- **Estado:** 17 campos / 13 requeridos, render + borrador verificados en headless sin errores.
+- **Pendiente menor:** indentación de los 2 primeros objetos nuevos desalineada (solo legibilidad); considerar bajar duracion/intervalo/condicion a opcional.
+- **Tests:** Vitest 253/253, backend 60/60.
