@@ -4504,3 +4504,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Qué:** input `Versión del protocolo` en planilla Almacenes → cajetín VERSIÓN del header (reemplaza "AA") + columna VERSIÓN del historial (reemplaza "01"); vacío = modelo.
 - **Esquema corregido:** eliminado `cantidadDataLoggers` duplicado, restaurado `humedadMax`, indentación normalizada; 19 campos únicos (3 comunes + 16).
 - **Tests:** versión en cajetín/historial, esquema sin duplicados. Vitest 286/286, backend 60/60. E2E headless: PQ con 1000625/CC-042/02 verificado en XML, sin errores.
+
+### 2026-09-30 (102): Timeout 15 min en Validaciones + salida al expirar
+- **Qué:** sesión dura 15 min en Validaciones (planillas largas) y 5 min en el resto; aviso de 60 s igual. Al expirar en Validaciones: se oculta el módulo (`Validaciones.hide`), se limpia el área y aparece el login ("expiró por inactividad"); al re-loguear va al selector de área. Borradores intactos.
+- **Cómo:** `auth.js`: `VALIDACIONES_TIMEOUT_MS` + `_timeoutMs()` por área, `_salirDeValidaciones()` antes del login en `_expireSession`, hook `sigma-area` (una vez) que reprograma al cambiar de área.
+- **Tests:** `tests/auth-timeout.test.js` (15 vs 5 min con timers falsos + aserciones de cableado); E2E headless (extensiones 15/5, shell removido, área nula, login visible, sin errores). Vitest 288/288, backend 60/60.

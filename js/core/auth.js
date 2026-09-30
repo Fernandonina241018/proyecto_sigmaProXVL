@@ -12,6 +12,7 @@ const Auth = (() => {
 
     const CFG = {
         SESSION_TIMEOUT_MS: 5 * 60 * 1000,
+        VALIDACIONES_TIMEOUT_MS: 15 * 60 * 1000,
         MAX_ATTEMPTS:       10,
         SESSION_STORAGE_KEY:'auth_session',
         TOKEN_STORAGE_KEY:  'auth_token',
@@ -120,17 +121,29 @@ const Auth = (() => {
     }
     function _isSessionValid() { const s=_getSession(); return s&&Date.now()<s.expiresAt; }
 
+    // Timeout por área: Validaciones 15 min (planillas largas), resto 5 min.
+    function _timeoutMs() {
+        try {
+            if (typeof AreaSelect !== 'undefined' && AreaSelect.getArea
+                && AreaSelect.getArea() === 'validaciones') {
+                return CFG.VALIDACIONES_TIMEOUT_MS;
+            }
+        } catch (e) {}
+        return CFG.SESSION_TIMEOUT_MS;
+    }
+
     function _resetActivityTimer() {
         const s=_getSession(); if(!s) return;
-        s.expiresAt=Date.now()+CFG.SESSION_TIMEOUT_MS;
+        s.expiresAt=Date.now()+_timeoutMs();
         sessionStorage.setItem(CFG.SESSION_STORAGE_KEY,JSON.stringify(s));
         _scheduleTimers();
         const w=document.getElementById('auth-timeout-warn'); if(w) w.style.opacity='0';
     }
     function _scheduleTimers() {
         clearTimeout(_sessionTimer); clearTimeout(_warnTimer); clearInterval(_countdownTimer);
-        _warnTimer   = setTimeout(()=>_showTimeoutWarning(), CFG.SESSION_TIMEOUT_MS-CFG.WARN_BEFORE_MS);
-        _sessionTimer= setTimeout(()=>_expireSession(),      CFG.SESSION_TIMEOUT_MS);
+        const t=_timeoutMs();
+        _warnTimer   = setTimeout(()=>_showTimeoutWarning(), t-CFG.WARN_BEFORE_MS);
+        _sessionTimer= setTimeout(()=>_expireSession(),      t);
     }
     function _showTimeoutWarning() {
         const w=document.getElementById('auth-timeout-warn'); if(!w) return;
@@ -149,7 +162,19 @@ const Auth = (() => {
         });
     }
 
-    function _expireSession() { _closeAllModals(); _clearSession(); showLogin('timeout'); if(_onLogout) _onLogout('timeout'); }
+    // Al expirar en Validaciones: salir del módulo (ocultar shell + limpiar
+    // área) antes del login. Los borradores en sessionStorage se conservan.
+    function _salirDeValidaciones() {
+        try {
+            let enVal = false;
+            try { enVal = (typeof AreaSelect !== 'undefined' && AreaSelect.getArea) ? AreaSelect.getArea() === 'validaciones' : false; } catch (e) {}
+            if (!enVal) return;
+            try { if (typeof Validaciones !== 'undefined' && Validaciones.hide) Validaciones.hide(); } catch (e) {}
+            try { if (typeof AreaSelect !== 'undefined' && AreaSelect.clearArea) AreaSelect.clearArea(); } catch (e) {}
+        } catch (e) {}
+    }
+
+    function _expireSession() { _closeAllModals(); _salirDeValidaciones(); _clearSession(); showLogin('timeout'); if(_onLogout) _onLogout('timeout'); }
 
     // ── Intentos ──────────────────────────
     function _registerFailedAttempt() {
@@ -1015,6 +1040,13 @@ const Auth = (() => {
         const session = _getSession();
         _scheduleTimers();
         _registerActivityListeners();
+        // Cambio de área: reprogramar con el timeout que corresponda (15/5 min).
+        try {
+            if (typeof window !== 'undefined' && window.addEventListener && !window.__authAreaHook) {
+                window.__authAreaHook = true;
+                window.addEventListener('sigma-area', function () { _resetActivityTimer(); });
+            }
+        } catch (e) {}
         if (session && session.mustChangePassword) {
             document.getElementById('auth-overlay')?.remove();
             _showForceChangePasswordModal(session);
