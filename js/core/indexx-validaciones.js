@@ -146,8 +146,8 @@ const Validaciones = (() => {
         req: false
       },
       {
-        k: 'cantidadDataLoggers',
-        label: 'Cantidad de data loggers',
+        k: 'humedadMax',
+        label: 'Humedad relativa máxima (%HR)',
         tipo: 'number',
         req: false
       },
@@ -158,62 +158,67 @@ const Validaciones = (() => {
         req: false
       },
       {
-  k: 'tipoCalificacion',
-  label: 'Tipo de calificación',
-  tipo: 'select',
-  req: true,
-  opciones: [
-    'Calificación inicial',
-    'Recalificación',
-    'Calificación posterior a modificación',
-    'Calificación posterior a traslado'
-  ]
-},
-{
-  k: 'estudio',
-  label: 'Tipo de estudio',
-  tipo: 'select',
-  req: true,
-  opciones: [
-    'Distribución de temperatura',
-    'Distribución de temperatura y humedad',
-    'Mapeo térmico',
-    'Mapeo térmico bajo carga',
-    'Mapeo térmico sin carga'
-  ]
-    },
-    {
-      k: 'condicionEstudio',
-      label: 'Condición del estudio',
-      tipo: 'select',
-      req: true,
-      opciones: [
-        'Sin carga',
-        'Carga mínima',
-        'Carga normal',
-        'Carga máxima',
-        'Carga representativa'
-      ]
-    },
-    {
-      k: 'duracionEstudio',
-      label: 'Duración del estudio',
-      tipo: 'text',
-      req: true
-    },
-    {
-      k: 'intervaloRegistro',
-      label: 'Intervalo de registro',
-      tipo: 'text',
-      req: true
-    },
-    {
-      k: 'cantidadDataLoggers',
-      label: 'Cantidad de data loggers',
-      tipo: 'number',
-      req: false
-    }
-
+        k: 'versionProtocolo',
+        label: 'Versión del protocolo',
+        tipo: 'text',
+        req: false
+      },
+      {
+        k: 'tipoCalificacion',
+        label: 'Tipo de calificación',
+        tipo: 'select',
+        req: true,
+        opciones: [
+          'Calificación inicial',
+          'Recalificación',
+          'Calificación posterior a modificación',
+          'Calificación posterior a traslado'
+        ]
+      },
+      {
+        k: 'estudio',
+        label: 'Tipo de estudio',
+        tipo: 'select',
+        req: true,
+        opciones: [
+          'Distribución de temperatura',
+          'Distribución de temperatura y humedad',
+          'Mapeo térmico',
+          'Mapeo térmico bajo carga',
+          'Mapeo térmico sin carga'
+        ]
+      },
+      {
+        k: 'condicionEstudio',
+        label: 'Condición del estudio',
+        tipo: 'select',
+        req: true,
+        opciones: [
+          'Sin carga',
+          'Carga mínima',
+          'Carga normal',
+          'Carga máxima',
+          'Carga representativa'
+        ]
+      },
+      {
+        k: 'duracionEstudio',
+        label: 'Duración del estudio',
+        tipo: 'text',
+        req: true
+      },
+      {
+        k: 'intervaloRegistro',
+        label: 'Intervalo de registro',
+        tipo: 'text',
+        req: true
+      },
+      {
+        k: 'cantidadDataLoggers',
+        label: 'Cantidad de data loggers',
+        tipo: 'number',
+        req: false
+      }
     ],
     
     estabilidad: [

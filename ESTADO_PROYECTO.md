@@ -4499,3 +4499,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Control de cambios:** nuevo input opcional en planilla Almacenes → historial última página: `Creación por control de cambios #N` (vacío = texto del modelo). Aplicado en motor plantilla y DQ + EJEMPLO del script.
 - **Tests:** +4 en plantilla (header, historial con/sin, firmas), esquema con controlCambios. Vitest 285/285, backend 60/60.
 - **Nota revisión:** en tu esquema hay `cantidadDataLoggers` duplicado (líneas ~149 y ~212) y falta `humedadMax` — dime si los ajusto.
+
+### 2026-09-30 (101): Versión del protocolo en cajetín e historial + esquema corregido
+- **Qué:** input `Versión del protocolo` en planilla Almacenes → cajetín VERSIÓN del header (reemplaza "AA") + columna VERSIÓN del historial (reemplaza "01"); vacío = modelo.
+- **Esquema corregido:** eliminado `cantidadDataLoggers` duplicado, restaurado `humedadMax`, indentación normalizada; 19 campos únicos (3 comunes + 16).
+- **Tests:** versión en cajetín/historial, esquema sin duplicados. Vitest 286/286, backend 60/60. E2E headless: PQ con 1000625/CC-042/02 verificado en XML, sin errores.

@@ -63,7 +63,7 @@ describe.each(['IQ', 'OQ', 'PQ'])('%s con formato del modelo', (fase) => {
 });
 
 describe('ajustes del usuario: firmas, encabezado, control de cambios', () => {
-  const D2 = { ...DRAFT, codigo: '1000625', controlCambios: 'CC-042' };
+  const D2 = { ...DRAFT, codigo: '1000625', controlCambios: 'CC-042', versionProtocolo: '02' };
   let r, arch;
   const prep = async () => {
     if (r) return;
@@ -84,6 +84,16 @@ describe('ajustes del usuario: firmas, encabezado, control de cambios', () => {
   it('historial: control de cambios en la última página', async () => {
     await prep();
     expect(arch['word/document.xml']).toContain('Creación por control de cambios #CC-042');
+  });
+
+  it('versión del grid en cajetín y en historial', async () => {
+    await prep();
+    const hs = Object.keys(arch).filter((n) => /^word\/header\d+\.xml$/.test(n)).map((n) => arch[n]).join('');
+    expect(hs).toContain('>02<');
+    expect(hs).not.toContain('>AA<');
+    const doc = arch['word/document.xml'];
+    const iH = doc.indexOf('HISTORIAL DE CAMBIOS');
+    expect(doc.slice(iH, iH + 4000)).toContain('>02<');
   });
 
   it('historial sin número: conserva texto del modelo', async () => {

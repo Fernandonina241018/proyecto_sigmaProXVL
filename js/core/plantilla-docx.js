@@ -790,6 +790,7 @@ const PlantillaDocx = (() => {
     const nombre = String(d.descripcion || '').trim() || (entidad && entidad.nombre) || '';
     const fecha = fechaTexto(d.fecha);
     const codigo = String(d.codigo || '').trim();
+    const version = String(d.versionProtocolo || '').trim();
     const iPrimerH1 = H1s.length ? inf.findIndex((x) => x.estilo === 'Heading1') : 0;
     for (let i = 0; i < iPrimerH1; i++) {
       let x = parts[i].xml;
@@ -876,7 +877,17 @@ const PlantillaDocx = (() => {
             if (fs.length > 1) {
               const c = celdas(fs[1]);
               if (c.length > 2) {
+                if (version) c[0] = textoCelda(c[0], version);
                 c[2] = textoCelda(c[2], 'Creación por control de cambios #' + ccHist);
+                hxml = conFilas(hxml, [fs[0], conCeldas(fs[1], c)].concat(fs.slice(2)));
+              }
+            }
+          } else if (version) {
+            const fs = filas(hxml);
+            if (fs.length > 1) {
+              const c = celdas(fs[1]);
+              if (c.length > 0) {
+                c[0] = textoCelda(c[0], version);
                 hxml = conFilas(hxml, [fs[0], conCeldas(fs[1], c)].concat(fs.slice(2)));
               }
             }
@@ -952,6 +963,8 @@ const PlantillaDocx = (() => {
       let x = dec(a.datos);
       // DOCUMENTO NO.: FASE-CÓDIGO (el modelo trae "PQ-1/400AAAA" → queda "PQ-1000625")
       if (codigo) x = reemplazarTexto(x, '1/400AAAA', codigo).xml;
+      // VERSIÓN del cajetín (el modelo trae "AA")
+      if (version) x = reemplazarTexto(x, 'AA', version).xml;
       if (fecha) x = reemplazarTexto(x, 'DD/MMM/AAAA', fecha).xml;
       if (nombre) x = reemplazarTexto(x, 'NOMBRE DEL EQUIPO', nombre.toUpperCase()).xml;
       x = reemplazarTexto(x, ' SIN MARCA NI MODELO', '').xml;
@@ -959,6 +972,7 @@ const PlantillaDocx = (() => {
       a.datos = enc(x);
     });
     if (!codigo) avisos.push('Sin código: el número de documento conserva "1/400AAAA".');
+    if (!version) avisos.push('Sin versión: el cajetín y el historial conservan "AA"/"01".');
     if (!fecha) avisos.push('Sin fecha: la fecha de emisión conserva "DD/MMM/AAAA".');
     avisos.push('Versión del documento ("AA") y número de solicitud del historial se completan manualmente.');
 

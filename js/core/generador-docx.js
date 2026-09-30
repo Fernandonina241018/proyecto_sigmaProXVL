@@ -281,7 +281,8 @@ const GeneradorDocx = (() => {
     // 11. HISTORIAL
     const fecha = String((draft || {}).fecha || '').trim() || '—';
     const ccDQ = String((draft || {}).controlCambios || '').trim();
-    H1('HISTORIAL DE CAMBIOS:', [{ t: 'historial', fecha, cambios: ccDQ ? 'Creación por control de cambios #' + ccDQ : 'Creación del documento' }]);
+    const verDQ = String((draft || {}).versionProtocolo || '').trim() || '1.0';
+    H1('HISTORIAL DE CAMBIOS:', [{ t: 'historial', fecha, version: verDQ, cambios: ccDQ ? 'Creación por control de cambios #' + ccDQ : 'Creación del documento' }]);
     return {
       fase, version: B.version || '', condicion: filtro,
       entidad: ctx.entidad, ctx,
@@ -413,7 +414,7 @@ const GeneradorDocx = (() => {
           TABLA(['NOMBRE', 'DEPARTAMENTO', 'FIRMA', 'FECHA'], rows);
         }
         else if (it.t === 'tablaRef') TABLA(['SECCIÓN', 'TÍTULO'], it.filas);
-        else if (it.t === 'historial') TABLA(['VERSIÓN', 'FECHAS', 'CAMBIOS'], [['1.0', it.fecha, it.cambios || 'Creación del documento']]);
+        else if (it.t === 'historial') TABLA(['VERSIÓN', 'FECHAS', 'CAMBIOS'], [[it.version || '1.0', it.fecha, it.cambios || 'Creación del documento']]);
       });
     });
 
