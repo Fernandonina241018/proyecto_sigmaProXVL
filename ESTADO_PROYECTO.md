@@ -4492,3 +4492,10 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Archivos:** `js/core/plantilla-docx.js`, `docs/plantillas/*.docx` (md5 = originales), `scripts/cargar-banco.mjs`, `scripts/generar-plantillas.mjs`, `tests/plantilla-docx.test.js` (adaptado: require relativo + strip `/@fs` de vitest).
 - **Wiring:** `indexx.html` carga `plantilla-docx.js`; `generarDescargar` usa `PlantillaDocx.descargar` si `soporta(f)` (con chequeo CompressionStream para Edge/Chrome) y avisa la 1ª advertencia en el panel.
 - **Verificación:** terminal genera IQ/OQ/PQ completos; vitest 12/12 del motor; descarga IQ real en headless (379 párr, 36 tablas, 26 PAGEREF, sin errores). Vitest 281/281, backend 60/60.
+
+### 2026-09-30 (100): Firmas T11 + encabezado FASE-CÓDIGO + input control de cambios
+- **Firmas Tahoma 11:** `blindarFirmas()` reescribe fuentes+tamaño de cada run de la sección FIRMA (conserva negrita/color) + `docDefaults` bajado a 11pt (era 12 y afectaba a runs heredados).
+- **Encabezado:** `1/400AAAA` → código del grid: `PQ-1/1000625` ahora sale `PQ-1000625` (verificado en header1.xml).
+- **Control de cambios:** nuevo input opcional en planilla Almacenes → historial última página: `Creación por control de cambios #N` (vacío = texto del modelo). Aplicado en motor plantilla y DQ + EJEMPLO del script.
+- **Tests:** +4 en plantilla (header, historial con/sin, firmas), esquema con controlCambios. Vitest 285/285, backend 60/60.
+- **Nota revisión:** en tu esquema hay `cantidadDataLoggers` duplicado (líneas ~149 y ~212) y falta `humedadMax` — dime si los ajusto.

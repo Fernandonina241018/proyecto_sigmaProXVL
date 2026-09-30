@@ -146,12 +146,17 @@ const Validaciones = (() => {
         req: false
       },
       {
-        k: 'humedadMax',
-        label: 'Humedad relativa máxima (%HR)',
+        k: 'cantidadDataLoggers',
+        label: 'Cantidad de data loggers',
         tipo: 'number',
         req: false
       },
-
+      {
+        k: 'controlCambios',
+        label: 'Control de cambios #',
+        tipo: 'text',
+        req: false
+      },
       {
   k: 'tipoCalificacion',
   label: 'Tipo de calificación',

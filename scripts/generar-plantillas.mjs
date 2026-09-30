@@ -2,7 +2,7 @@
 // Uso:  node scripts/generar-plantillas.mjs [borrador.json] [salida/]
 //   borrador.json (opcional): { codigo, descripcion, ubicacion, tipo, temperaturaMin, temperaturaMax,
 //   humedadMin, humedadMax, responsable, fecha, condicionEstudio, duracionEstudio,
-//   intervaloRegistro, cantidadDataLoggers, usoPrevisto, marca, modelo, area }
+//   intervaloRegistro, cantidadDataLoggers, controlCambios, usoPrevisto, marca, modelo, area }
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { createRequire } from 'module';
 import { resolve } from 'path';
@@ -17,6 +17,7 @@ const EJEMPLO = {
   codigo: 'CF-01', descripcion: 'Cuarto frío principal', ubicacion: 'Edificio A', tipo: 'Cuarto frío',
   temperaturaMin: '2', temperaturaMax: '8', responsable: '', fecha: new Date().toISOString().slice(0, 10),
   condicionEstudio: 'ambas', duracionEstudio: '72 h', intervaloRegistro: '5 min', cantidadDataLoggers: '9',
+  controlCambios: '',
 };
 const draft = process.argv[2] && existsSync(process.argv[2]) ? JSON.parse(readFileSync(process.argv[2], 'utf8')) : EJEMPLO;
 const salida = resolve(process.argv[3] || 'salida-protocolos');

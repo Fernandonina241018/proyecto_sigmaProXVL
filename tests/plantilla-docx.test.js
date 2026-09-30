@@ -61,3 +61,46 @@ describe.each(['IQ', 'OQ', 'PQ'])('%s con formato del modelo', (fase) => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 });
+
+describe('ajustes del usuario: firmas, encabezado, control de cambios', () => {
+  const D2 = { ...DRAFT, codigo: '1000625', controlCambios: 'CC-042' };
+  let r, arch;
+  const prep = async () => {
+    if (r) return;
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));
+    r = await P.generar('PQ', u8, banco, D2, ENT, 'ambas');
+    arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+  };
+
+  it('encabezado: PQ-1000625 sin el 1/ del medio', async () => {
+    await prep();
+    const hs = Object.keys(arch).filter((n) => /^word\/header\d+\.xml$/.test(n)).map((n) => arch[n]).join('');
+    const txt = hs.replace(/<[^>]+>/g, '');
+    expect(txt).toContain('PQ-1000625');
+    expect(txt).not.toContain('1/400AAAA');
+    expect(txt).not.toContain('400AAAA');
+  });
+
+  it('historial: control de cambios en la última página', async () => {
+    await prep();
+    expect(arch['word/document.xml']).toContain('Creación por control de cambios #CC-042');
+  });
+
+  it('historial sin número: conserva texto del modelo', async () => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));
+    const r0 = await P.generar('PQ', u8, banco, DRAFT, ENT, 'ambas');
+    const a0 = Object.fromEntries((await P._interno.leerZip(r0.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    expect(a0['word/document.xml']).toContain('Creación del documento por solicitud');
+    expect(a0['word/document.xml']).not.toContain('control de cambios #');
+  });
+
+  it('firmas en Tahoma 11 blindado (nada en 12)', async () => {
+    await prep();
+    const xml = arch['word/document.xml'];
+    const seg = xml.slice(xml.indexOf('FIRMA DE APROBACIÓN'), xml.indexOf('TABLA DE CONTENIDO'));
+    expect(seg.length).toBeGreaterThan(1000);
+    expect(seg).not.toContain('w:val="24"');
+    expect(seg).toContain('w:val="22"');
+    expect(arch['word/styles.xml']).not.toMatch(/<w:docDefaults>[\s\S]*?w:val="24"/);
+  });
+});

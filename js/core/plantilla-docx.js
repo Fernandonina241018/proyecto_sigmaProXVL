@@ -584,6 +584,34 @@ const PlantillaDocx = (() => {
     return conFilas(clonar(tpl), [conCeldas(fs[0], cab)].concat(params, [fs[5]], items));
   }
 
+  // Firmas en Tahoma 11 blindado: reescribe fuentes+tamaño de cada run de la
+  // sección FIRMA DE APROBACIÓN (conserva negrita, color y resto del rPr).
+  const TAHOMA11 = '<w:rFonts w:ascii="Tahoma" w:hAnsi="Tahoma" w:cs="Tahoma"/><w:sz w:val="22"/><w:szCs w:val="22"/>';
+  function fijarTahoma11(xml) {
+    let out = String(xml || '').replace(/<w:rPr>([\s\S]*?)<\/w:rPr>/g, (m, inner) => {
+      const limpio = inner
+        .replace(/<w:rFonts\b[^>]*\/>/g, '')
+        .replace(/<w:sz\b[^>]*\/>/g, '')
+        .replace(/<w:szCs\b[^>]*\/>/g, '');
+      return '<w:rPr>' + TAHOMA11 + limpio + '</w:rPr>';
+    });
+    out = out.replace(/<w:r(\s[^>]*)?>(<w:t)/g, '<w:r$1><w:rPr>' + TAHOMA11 + '</w:rPr>$2');
+    return out;
+  }
+
+  function blindarFirmas(parts, inf) {
+    const iF = inf.findIndex((x) => x.estilo === 'Heading1' && /^FIRMA/.test(sinEsp(x.texto).toUpperCase()));
+    if (iF < 0) return 0;
+    let n = 0;
+    for (let i = iF; i < parts.length; i++) {
+      if (i > iF && inf[i].estilo === 'Heading1') break;
+      const antes = parts[i].xml;
+      parts[i] = { tag: parts[i].tag, xml: fijarTahoma11(antes) };
+      if (parts[i].xml !== antes) n++;
+    }
+    return n;
+  }
+
   async function generar(fase, plantillaU8, banco, draft, entidad, filtroCond) {
     if (FASES.indexOf(fase) < 0) throw new Error('Fase no soportada por plantilla: ' + fase);
     const filtro = filtroCond || 'ambas';
@@ -837,9 +865,25 @@ const PlantillaDocx = (() => {
       parts[iAnx + 1] = { tag: 'w:tbl', xml: conFilas(parts[iAnx + 1].xml, [fs[0]].concat(datos)) };
     }
     const iHist = inf.findIndex((x) => x.estilo === 'Heading1' && /^HISTORIAL/.test(sinEsp(x.texto).toUpperCase()));
-    if (iHist >= 0 && fecha) {
+    const ccHist = String(d.controlCambios || '').trim();
+    if (iHist >= 0 && (fecha || ccHist)) {
       for (let i = iHist + 1; i < parts.length; i++) {
-        if (parts[i].tag === 'w:tbl') { parts[i] = { tag: 'w:tbl', xml: reemplazarTexto(parts[i].xml, 'DD/Mmm/AAAA', fecha).xml }; break; }
+        if (parts[i].tag === 'w:tbl') {
+          let hxml = fecha ? reemplazarTexto(parts[i].xml, 'DD/Mmm/AAAA', fecha).xml : parts[i].xml;
+          // Control de cambios del grid → celda CAMBIOS de la última página
+          if (ccHist) {
+            const fs = filas(hxml);
+            if (fs.length > 1) {
+              const c = celdas(fs[1]);
+              if (c.length > 2) {
+                c[2] = textoCelda(c[2], 'Creación por control de cambios #' + ccHist);
+                hxml = conFilas(hxml, [fs[0], conCeldas(fs[1], c)].concat(fs.slice(2)));
+              }
+            }
+          }
+          parts[i] = { tag: 'w:tbl', xml: hxml };
+          break;
+        }
       }
     }
 
@@ -899,17 +943,22 @@ const PlantillaDocx = (() => {
       parts[iToc] = { tag: 'w:tbl', xml: conFilas(parts[iToc].xml, [fs[0]].concat(nuevas)) };
     }
 
+    // ---- firmas en Tahoma 11 blindado (nada en 12) ----
+    blindarFirmas(parts, inf);
+    inf = parts.map(info);
+
     // ---- encabezado ----
     archivos.filter((a) => /^word\/header\d+\.xml$/.test(a.nombre)).forEach((a) => {
       let x = dec(a.datos);
-      if (codigo) x = reemplazarTexto(x, '400AAAA', codigo).xml;
+      // DOCUMENTO NO.: FASE-CÓDIGO (el modelo trae "PQ-1/400AAAA" → queda "PQ-1000625")
+      if (codigo) x = reemplazarTexto(x, '1/400AAAA', codigo).xml;
       if (fecha) x = reemplazarTexto(x, 'DD/MMM/AAAA', fecha).xml;
       if (nombre) x = reemplazarTexto(x, 'NOMBRE DEL EQUIPO', nombre.toUpperCase()).xml;
       x = reemplazarTexto(x, ' SIN MARCA NI MODELO', '').xml;
       x = reemplazarTexto(x, 'CALIFICACION DE ', 'CALIFICACIÓN DE ').xml; // tilde ausente en el encabezado de los modelos
       a.datos = enc(x);
     });
-    if (!codigo) avisos.push('Sin código: el número de documento conserva "400AAAA".');
+    if (!codigo) avisos.push('Sin código: el número de documento conserva "1/400AAAA".');
     if (!fecha) avisos.push('Sin fecha: la fecha de emisión conserva "DD/MMM/AAAA".');
     avisos.push('Versión del documento ("AA") y número de solicitud del historial se completan manualmente.');
 
@@ -917,6 +966,13 @@ const PlantillaDocx = (() => {
     const cuerpoXml = parts.map((x) => x.xml).join('');
     setTxt('word/document.xml', docXml.slice(0, iBody) + cuerpoXml + docXml.slice(fBody));
     if (numsNuevos.length) setTxt('word/numbering.xml', numXml.replace('</w:numbering>', numsNuevos.join('') + '</w:numbering>'));
+    // docDefaults a 11pt: ningún run heredado puede mostrar 12pt en Word
+    const stGet = get('word/styles.xml');
+    if (stGet) {
+      const stx = dec(stGet.datos).replace(/<w:docDefaults>[\s\S]*?<\/w:docDefaults>/, (m) =>
+        m.replace(/w:sz w:val="24"/g, 'w:sz w:val="22"').replace(/w:szCs w:val="24"/g, 'w:szCs w:val="22"'));
+      setTxt('word/styles.xml', stx);
+    }
     let sett = dec(get('word/settings.xml').datos);
     if (!/<w:updateFields\b/.test(sett)) {
       const ancla = ['<w:hdrShapeDefaults', '<w:footnotePr', '<w:endnotePr', '<w:compat', '<w:docVars', '<w:rsids', '</w:settings>']
