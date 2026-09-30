@@ -462,7 +462,7 @@ const Validaciones = (() => {
   function fieldHtml(f, val) {
     const v = val == null ? '' : String(val);
     const req = f.req ? ' data-req="1"' : '';
-    const lab = '<label class="v7-field"><span>' + esc(f.label) + (f.req ? ' *' : '') + '</span>';
+    const lab = '<label class="v7-field" data-f="' + f.k + '"><span>' + esc(f.label) + (f.req ? ' <b>*</b>' : '') + '</span>';
     if (f.tipo === 'select') {
       const opts = ['<option value="">— Seleccione —</option>'].concat(
         (f.opciones || []).map((o) => '<option value="' + esc(o) + '"' + (o === v ? ' selected' : '') + '>' + esc(o) + '</option>')
@@ -485,7 +485,8 @@ const Validaciones = (() => {
     const cat = catById(catId);
     if (!cat) return viewBanco();
     const ents = getEntidades(catId);
-    const schema = getSchema(catId);
+    const comun = SCHEMAS._comun || [];
+    const espec = SCHEMAS[catId] || [];
     return '<div class="v7-view v7-form-flow">'
       + '<div class="v7-crumb"><a href="#/banco" target="_self">Banco</a> <span>›</span> ' + esc(cat.nombre) + '</div>'
       + '<h1>' + esc(cat.nombre) + ' · Planilla de datos</h1>'
@@ -498,7 +499,12 @@ const Validaciones = (() => {
       + '<div class="v7-step" data-step="2" hidden>'
       + '<div class="gt">2 · Datos de la entidad</div>'
       + '<form class="v7-dataform" novalidate>'
-      + schema.map((f) => fieldHtml(f, '')).join('')
+      + '<fieldset class="v7-fs"><legend>Datos generales</legend><div class="v7-grid">'
+      + comun.map((f) => fieldHtml(f, '')).join('')
+      + '</div></fieldset>'
+      + '<fieldset class="v7-fs"><legend>' + esc(cat.nombre) + ' · Datos específicos</legend><div class="v7-grid">'
+      + espec.map((f) => fieldHtml(f, '')).join('')
+      + '</div></fieldset>'
       + '<div class="v7-form-actions">'
       + '<span class="v7-form-msg" role="status"></span>'
       + '<button type="button" class="v7-btn-save">Guardar borrador</button>'
@@ -703,6 +709,6 @@ const Validaciones = (() => {
 
   return {
     CATS, ROUTES, ENTIDADES, SCHEMAS, parseRoute, catById, getSchema, getEntidades,
-    saveDraft, loadDraft, show, hide, apply, currentArea, render,
+    saveDraft, loadDraft, viewEntidad, show, hide, apply, currentArea, render,
   };
 })();

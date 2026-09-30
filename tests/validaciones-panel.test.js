@@ -111,6 +111,19 @@ describe('Validaciones V7', () => {
     expect(src2).toContain('type="number"');
   });
 
+  test('formulario profesional: secciones, etiquetas con data-f y ruta', () => {
+    const html = Validaciones.viewEntidad('almacenes');
+    expect(html).toContain('Datos generales');
+    expect(html).toContain('Datos específicos');
+    expect(html).toContain('<fieldset');
+    expect(html).toContain('data-f="temperaturaMin"');
+    expect(html).toContain('type="number"');
+    expect(html).toContain('Guardar borrador');
+    expect(html).toContain('Generar (próximamente)');
+    expect(html).not.toContain('docs/banco-ensayos');
+    expect(Validaciones.viewEntidad('no-existe')).toContain('vas a calificar');
+  });
+
   test('borrador por entidad persiste en sessionStorage', () => {
     expect(Validaciones.saveDraft('cuarto-frio', { descripcion: 'CF-01' })).toBe(true);
     expect(Validaciones.loadDraft('cuarto-frio').descripcion).toBe('CF-01');

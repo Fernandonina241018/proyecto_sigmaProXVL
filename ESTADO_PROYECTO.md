@@ -4460,3 +4460,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Estado:** 17 campos / 13 requeridos, render + borrador verificados en headless sin errores.
 - **Pendiente menor:** indentación de los 2 primeros objetos nuevos desalineada (solo legibilidad); considerar bajar duracion/intervalo/condicion a opcional.
 - **Tests:** Vitest 253/253, backend 60/60.
+
+### 2026-09-29 (94): Formulario profesional en 2 columnas con secciones
+- **Qué:** la planilla dejó el grid improvisado: ahora tiene secciones ("Datos generales" + "<Categoría> · Datos específicos") con fieldset/legend, grid de 2 columnas (descripciones a ancho completo), etiquetas en mayúsculas con asterisco rojo, inputs de 44px con anillo de foco naranja, selects con flecha propia, acciones alineadas a la derecha con separador, y 1 columna en móvil (<640px).
+- **Cómo:** `viewEntidad()` divide comunes/específicos en fieldsets, `fieldHtml()` agrega `data-f` al label (CSS decide el ancho por campo); estilos en `css/validaciones-v7.css`; `viewEntidad` exportado para tests.
+- **Verificación:** screenshots desktop (2 col) y móvil (1 col) sin errores; Vitest 254/254, backend 60/60.
