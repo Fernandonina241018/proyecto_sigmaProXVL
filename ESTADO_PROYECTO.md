@@ -4509,3 +4509,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Qué:** sesión dura 15 min en Validaciones (planillas largas) y 5 min en el resto; aviso de 60 s igual. Al expirar en Validaciones: se oculta el módulo (`Validaciones.hide`), se limpia el área y aparece el login ("expiró por inactividad"); al re-loguear va al selector de área. Borradores intactos.
 - **Cómo:** `auth.js`: `VALIDACIONES_TIMEOUT_MS` + `_timeoutMs()` por área, `_salirDeValidaciones()` antes del login en `_expireSession`, hook `sigma-area` (una vez) que reprograma al cambiar de área.
 - **Tests:** `tests/auth-timeout.test.js` (15 vs 5 min con timers falsos + aserciones de cableado); E2E headless (extensiones 15/5, shell removido, área nula, login visible, sin errores). Vitest 288/288, backend 60/60.
+
+### 2026-09-30 (103): Aviso de nueva versión sin Ctrl+Shift+R
+- **Qué:** `js/core/version-check.js` compara `version.json` (siempre fresco, `cache:no-store`) cada 2 min + al volver a la pestaña; si cambia muestra toast "🆕 Nueva versión disponible" con botón Recargar. No recarga solo (protege planillas sin guardar).
+- **Proceso:** `version.json` + meta `build-revision` se actualizan con el hash en cada commit/push.
+- **Tests:** `tests/version-check.test.js` (sin cambio/cambio/recarga/error de red + forma de version.json); E2E headless con toast visible y sin errores. Vitest 291/291, backend 60/60.
