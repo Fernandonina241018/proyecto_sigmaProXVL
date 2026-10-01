@@ -494,6 +494,47 @@ const Validaciones = (() => {
   const FASES_GEN = ['DQ', 'IQ', 'OQ', 'PQ'];
   const GEN_CATS = ['almacenes'];
 
+  // Gerencias sugeridas para el Revisor Gerente (T2). El campo acepta texto libre.
+  const AREAS_GERENCIA = ['Validaciones', 'Gestión de Calidad', 'Producción',
+    'Almacén y Distribución', 'Laboratorio de Control de Calidad', 'Mantenimiento', 'Documentación'];
+
+  function puestoGerente(area, cargoFb) {
+    const a = String(area || '').trim();
+    if (/^gerente\b/i.test(a)) return a;
+    if (a) return 'Gerente de ' + a.charAt(0).toUpperCase() + a.slice(1);
+    return String(cargoFb || '').trim();
+  }
+
+  function firmantesHtml() {
+    return '<fieldset class="v7-fs"><legend>Firmantes</legend><div class="v7-grid">'
+      + '<label class="v7-field" data-f="realizadoPor"><span>Realizado por (automático) <b>*</b></span>'
+      + '<input type="text" data-k="realizadoPor" data-req="1" readonly placeholder="Cargando usuario…"></label>'
+      + '<label class="v7-field" data-f="revisorGerente"><span>Revisor Gerente · nombre <b>*</b></span>'
+      + '<select data-k="revisorGerente" data-req="1"><option value="">— Seleccione —</option></select></label>'
+      + '<label class="v7-field" data-f="gerenciaArea"><span>Revisor Gerente · gerencia que revisa <b>*</b></span>'
+      + '<input type="text" data-k="gerenciaArea" data-req="1" list="v7-areas-dl" placeholder="Ej. Calidad">'
+      + '<datalist id="v7-areas-dl">' + AREAS_GERENCIA.map((a) => '<option value="' + esc(a) + '">').join('') + '</datalist></label>'
+      + '</div></fieldset>';
+  }
+
+  function apiBase() {
+    try { if (typeof API_URL !== 'undefined' && API_URL) return API_URL; } catch (e) {}
+    return '';
+  }
+
+  function apiHeaders() {
+    let t = '';
+    try { if (typeof Auth !== 'undefined' && Auth.getToken) t = Auth.getToken() || ''; } catch (e) {}
+    return { Authorization: 'Bearer ' + t };
+  }
+
+  async function apiGet(path) {
+    const base = apiBase();
+    const f = (typeof fetchWithTimeout !== 'undefined') ? fetchWithTimeout : fetch;
+    const res = await f(base + path, { headers: apiHeaders(), credentials: 'include' });
+    return res.json();
+  }
+
   function genKey(entId) {
     return 'val-gen-' + entId;
   }
@@ -566,6 +607,7 @@ const Validaciones = (() => {
       + '<fieldset class="v7-fs"><legend>' + esc(cat.nombre) + ' · Datos específicos</legend><div class="v7-grid">'
       + espec.map((f) => fieldHtml(f, '')).join('')
       + '</div></fieldset>'
+      + (conGen ? firmantesHtml() : '')
       + '<div class="v7-form-actions">'
       + '<span class="v7-form-msg" role="status"></span>'
       + '<button type="button" class="v7-btn-save">Guardar borrador</button>'
@@ -626,6 +668,96 @@ const Validaciones = (() => {
       });
     }
 
+    // ---- Firmantes (T0 automático + T2 con 2 combobox) ----
+    let firmMe = null;
+    let firmGerentes = [];
+
+    function firmNombres(u) {
+      return ([u.nombre, u.apellido].filter(Boolean).join(' ') || u.username || '').trim();
+    }
+
+    function pintarFirmantes(firm) {
+      const f = firm || {};
+      const rea = form.querySelector('[data-k="realizadoPor"]');
+      const sel = form.querySelector('[data-k="revisorGerente"]');
+      const area = form.querySelector('[data-k="gerenciaArea"]');
+      if (rea && f.realizado && (f.realizado.nombre || f.realizado.username)) {
+        rea.value = f.realizado.nombre + (f.realizado.cargo ? ' / (' + f.realizado.cargo + ')' : '');
+        firmMe = f.realizado;
+      }
+      if (sel) {
+        sel.innerHTML = '<option value="">— Seleccione —</option>' + firmGerentes.map((u) =>
+          '<option value="' + esc(u.username) + '"' + (f.revisor && f.revisor.username === u.username ? ' selected' : '') + '>'
+          + esc(firmNombres(u)) + '</option>').join('');
+      }
+      if (area && f.revisor && f.revisor.area != null) area.value = f.revisor.area;
+    }
+
+    function leerFirmantes() {
+      const rea = form.querySelector('[data-k="realizadoPor"]');
+      const sel = form.querySelector('[data-k="revisorGerente"]');
+      const area = form.querySelector('[data-k="gerenciaArea"]');
+      const g = firmGerentes.filter((u) => sel && u.username === sel.value)[0] || null;
+      const areaV = area ? String(area.value || '').trim() : '';
+      return {
+        realizado: firmMe,
+        revisor: g ? {
+          username: g.username,
+          nombre: firmNombres(g),
+          area: areaV,
+          puesto: puestoGerente(areaV, g.cargo),
+        } : { username: '', nombre: '', area: areaV, puesto: '' },
+        _reaTxt: rea ? String(rea.value || '').trim() : '',
+      };
+    }
+
+    function validarFirmantes() {
+      if (!conGen) return 0;
+      const f = leerFirmantes();
+      let falta = 0;
+      if (!f.realizado || !(f.realizado.nombre || f.realizado.username)) falta++;
+      if (!f.revisor.username) falta++;
+      if (!f.revisor.area) falta++;
+      return falta;
+    }
+
+    async function cargarFirmantes() {
+      if (!conGen) return;
+      const sel = form.querySelector('[data-k="revisorGerente"]');
+      const rea = form.querySelector('[data-k="realizadoPor"]');
+      try {
+        const me = await apiGet('/api/me');
+        const prof = (me && (me.profile || me)) || {};
+        const s = (typeof Auth !== 'undefined' && Auth.getSession) ? Auth.getSession() : null;
+        firmMe = {
+          username: (s && s.username) || me.username || '',
+          nombre: firmNombres(prof) || ((s && s.username) || ''),
+          cargo: String(prof.cargo || '').trim(),
+        };
+        const ul = await apiGet('/api/users/list');
+        firmGerentes = ((ul && ul.users) || []).filter((u) => u.role === 'gerente');
+        pintarFirmantes(entActual ? { realizado: firmMe, revisor: (loadDraft(entActual).firmantes || {}).revisor } : { realizado: firmMe });
+        // Sugerir gerencia desde el cargo del gerente elegido
+        if (sel && sel.addEventListener) {
+          sel.addEventListener('change', function () {
+            const g = firmGerentes.filter((u) => u.username === sel.value)[0];
+            const area = form.querySelector('[data-k="gerenciaArea"]');
+            if (g && area && !String(area.value || '').trim() && g.cargo) {
+              const m = String(g.cargo).match(/gerente\s+de\s+(.+)/i);
+              if (m) area.value = m[1].trim();
+            }
+          });
+        }
+      } catch (e) {
+        if (rea) rea.placeholder = '(sin conexión)';
+        if (sel) sel.innerHTML = '<option value="">(sin conexión)</option>';
+        try {
+          const df = entActual ? loadDraft(entActual) : {};
+          if (df && df.firmantes) pintarFirmantes(df.firmantes);
+        } catch (e2) {}
+      }
+    }
+
     function entidadObj() {
       const list = getEntidades(catId);
       for (let i = 0; i < list.length; i++) {
@@ -682,12 +814,13 @@ const Validaciones = (() => {
         setGenMsg('Generador no disponible.', false);
         return;
       }
-      const falta = validar();
+      const falta = validar() + validarFirmantes();
       if (falta) { setGenMsg('Complete el borrador del paso 2 (' + falta + ' campo(s)).', false); return; }
       const sel = leerSel3();
       if (!sel.fases.length) { setGenMsg('Seleccione al menos un protocolo.', false); return; }
       saveGen(entActual, sel);
       const draft = recoger();
+      draft.firmantes = leerFirmantes();
       // Blindaje: sin fecha o código no se genera (el .docx conservaría DD/MMM/AAAA)
       if (!String(draft.fecha || '').trim()) { setGenMsg('Complete la Fecha del paso 2 antes de generar.', false); return; }
       if (!String(draft.codigo || '').trim()) { setGenMsg('Complete el Código del paso 2 antes de generar.', false); return; }
@@ -728,6 +861,7 @@ const Validaciones = (() => {
         const draft = loadDraft(entActual);
         cargar(draft);
         setMsg(Object.keys(draft).length ? 'Borrador cargado' : '', true);
+        if (conGen) cargarFirmantes();
         if (step3 && conGen) {
           step3.hidden = false;
           restaurarSel3();
@@ -737,9 +871,11 @@ const Validaciones = (() => {
       }
       if (e.target && e.target.classList && e.target.classList.contains('v7-btn-save')) {
         e.preventDefault();
-        const falta = validar();
+        const falta = validar() + validarFirmantes();
         if (falta) { setMsg('Complete ' + falta + ' campo(s) obligatorio(s).', false); return; }
-        const ok = saveDraft(entActual, recoger());
+        const data = recoger();
+        data.firmantes = leerFirmantes();
+        const ok = saveDraft(entActual, data);
         setMsg(ok ? 'Borrador guardado' : 'No se pudo guardar', ok);
         return;
       }
@@ -888,7 +1024,7 @@ const Validaciones = (() => {
   try { init(); } catch (e) {}
 
   return {
-    CATS, ROUTES, ENTIDADES, SCHEMAS, FASES_GEN, parseRoute, catById, getSchema, getEntidades,
-    saveDraft, loadDraft, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render,
+    CATS, ROUTES, ENTIDADES, SCHEMAS, FASES_GEN, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
+    puestoGerente, firmantesHtml, saveDraft, loadDraft, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render,
   };
 })();

@@ -141,6 +141,19 @@ describe('Validaciones V7', () => {
     expect(Validaciones.FASES_GEN).toEqual(['DQ', 'IQ', 'OQ', 'PQ']);
   });
 
+  test('firmantes: helpers de puesto y fieldset', () => {
+    expect(Validaciones.puestoGerente('Calidad')).toBe('Gerente de Calidad');
+    expect(Validaciones.puestoGerente('Gerente de Calidad')).toBe('Gerente de Calidad');
+    expect(Validaciones.puestoGerente('', 'Analista')).toBe('Analista');
+    expect(Validaciones.puestoGerente('')).toBe('');
+    expect(Validaciones.AREAS_GERENCIA.length).toBeGreaterThan(3);
+    const h = Validaciones.firmantesHtml();
+    expect(h).toContain('data-k="realizadoPor"');
+    expect(h).toContain('data-k="revisorGerente"');
+    expect(h).toContain('data-k="gerenciaArea"');
+    expect(h).toContain('readonly');
+  });
+
   test('selección de protocolos persiste por entidad', () => {
     expect(Validaciones.saveGen('cuarto-frio', { fases: ['DQ', 'OQ'], cond: 'dina' })).toBe(true);
     expect(Validaciones.loadGen('cuarto-frio')).toEqual({ fases: ['DQ', 'OQ'], cond: 'dina' });

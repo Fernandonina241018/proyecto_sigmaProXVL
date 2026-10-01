@@ -143,3 +143,23 @@ describe('render docx (estructura del modelo)', () => {
     expect(foot).toContain('PARA USO EXCLUSIVO DE LABORATORIOS SUED, S.R.L.');
   }, 30000);
 });
+
+describe('firmantes DQ dinámicos', () => {
+  const DF = {
+    firmantes: {
+      realizado: { username: 'jp', nombre: 'Juan Pérez', cargo: 'Analista' },
+      revisor: { username: 'ag', nombre: 'Ana Gómez', area: 'Calidad', puesto: 'Gerente de Calidad' },
+    },
+  };
+  test('T0/T2 con datos, T1/T3 del modelo', () => {
+    const f = GeneradorDocx.firmantesModelo(DF);
+    expect(f[0]).toEqual({ t: 'Realizado Por:', nombre: 'Juan Pérez / (Analista)' });
+    expect(f[1].nombre).toContain('Nombre Personal');
+    expect(f[2]).toEqual({ t: 'Revisado Por:', nombre: 'Ana Gómez / (Gerente de Calidad)' });
+    expect(f[3].nombre).toContain('Nombre Personal');
+  });
+  test('sin firmantes conserva el modelo', () => {
+    const f = GeneradorDocx.firmantesModelo({});
+    expect(f.every((x) => x.nombre.indexOf('Nombre Personal') >= 0)).toBe(true);
+  });
+});

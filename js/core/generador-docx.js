@@ -60,6 +60,22 @@ const GeneradorDocx = (() => {
     ],
   };
 
+  // T0 (Realizado) y T2 (Revisor Gerente) dinámicos; T1/T3 fijos del modelo.
+  function firmantesModelo(draft) {
+    const f = ((draft || {}).firmantes) || {};
+    const r0 = f.realizado || {};
+    const r2 = f.revisor || {};
+    const n0 = [String(r0.nombre || '').trim(), r0.cargo ? '(' + String(r0.cargo).trim() + ')' : '']
+      .filter(Boolean).join(' ');
+    let puesto2 = String(r2.puesto || '').trim();
+    if (!puesto2 && r2.area) puesto2 = 'Gerente de ' + String(r2.area).trim();
+    const n2 = String(r2.nombre || '').trim() + (puesto2 ? ' / (' + puesto2 + ')' : '');
+    const base = T.firmas.map((x) => ({ t: x.t, nombre: x.nombre }));
+    if (n0) base[0] = { t: 'Realizado Por:', nombre: n0.replace(/^(.+?) \(/, '$1 / (') };
+    if (String(r2.nombre || '').trim()) base[2] = { t: 'Revisado Por:', nombre: n2 };
+    return base;
+  }
+
   function lib() {
     try {
       if (typeof window !== 'undefined' && window.docx) return window.docx;
@@ -287,6 +303,7 @@ const GeneradorDocx = (() => {
       fase, version: B.version || '', condicion: filtro,
       entidad: ctx.entidad, ctx,
       titulo: 'PROTOCOLO DE CALIFICACIÓN ' + fase + ' — ' + ctx.entidad.toUpperCase(),
+      firmantes: firmantesModelo(draft),
       secciones: secs,
     };
   }
@@ -341,7 +358,7 @@ const GeneradorDocx = (() => {
       kids.push(new D.Table({ rows: rs }));
     };
     const TABLA_FIRMAS = () => {
-      T.firmas.forEach((f) => {
+      (modelo.firmantes || T.firmas).forEach((f) => {
         kids.push(new D.Table({ rows: [
           new D.TableRow({ children: [cellTxt(f.t, true), cellTxt('', false)] }),
           new D.TableRow({ children: [cellTxt(f.nombre, false), cellTxt('Fecha', false)] }),
@@ -447,7 +464,7 @@ const GeneradorDocx = (() => {
 
   return {
     FASE_NOMBRE, COND_TXT, FOOTER_TXT, T, lib, banco, pasaCondicion, rangoTexto, entidadTexto,
-    congelarMarcas, htmlAParrafos, portadaCampos, alcanceTexto, puntosEvidencia,
+    congelarMarcas, htmlAParrafos, portadaCampos, alcanceTexto, puntosEvidencia, firmantesModelo,
     buildModelo, contarEnsayos, estilosBase, modeloADocx, descargar,
   };
 })();

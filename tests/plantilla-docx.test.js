@@ -119,3 +119,42 @@ describe('ajustes del usuario: firmas, encabezado, control de cambios', () => {
     expect(arch['word/styles.xml']).not.toMatch(/<w:docDefaults>[\s\S]*?w:val="24"/);
   });
 });
+
+describe('firmantes T0/T2 dinámicos, T1/T3 fijos, header negro', () => {
+  const DF = {
+    ...DRAFT,
+    codigo: '1000625', fecha: '2026-09-30',
+    firmantes: {
+      realizado: { username: 'jperez', nombre: 'Juan Pérez', cargo: 'Analista de Validaciones' },
+      revisor: { username: 'gomez', nombre: 'Ana Gómez', area: 'Calidad', puesto: 'Gerente de Calidad' },
+    },
+  };
+  let r, arch;
+  const prep = async () => {
+    if (r) return;
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));
+    r = await P.generar('PQ', u8, banco, DF, ENT, 'ambas');
+    arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+  };
+
+  it('T0 con realizado y T2 con revisor; T1/T3 intactos', async () => {
+    await prep();
+    const doc = arch['word/document.xml'];
+    expect(doc).toContain('Juan Pérez / (Analista de Validaciones)');
+    expect(doc).toContain('Ana Gómez / (Gerente de Calidad)');
+    expect(doc).toContain('Martin Agüero');
+    expect(doc).toContain('Noemí Terrero');
+    expect(doc).not.toContain('Nombre Personal');
+    // nombres reales en negro (no rojo de pendiente)
+    const iJ = doc.indexOf('Juan Pérez');
+    expect(doc.slice(Math.max(0, iJ - 1500), iJ + 500)).not.toContain('FF0000');
+    const iA = doc.indexOf('Ana Gómez');
+    expect(doc.slice(Math.max(0, iA - 1500), iA + 500)).not.toContain('FF0000');
+  });
+
+  it('encabezado 100% negro', async () => {
+    await prep();
+    const hs = Object.keys(arch).filter((n) => /^word\/header\d+\.xml$/.test(n)).map((n) => arch[n]).join('');
+    expect(hs).not.toContain('FF0000');
+  });
+});

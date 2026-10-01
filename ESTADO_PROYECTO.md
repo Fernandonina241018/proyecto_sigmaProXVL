@@ -4524,3 +4524,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-09-30 (105): Fecha del cajetín en mayúsculas, historial intacto
 - **Qué:** `DD/MMM/AAAA` del encabezado ahora se llena como `30/SEP/2026` (mayúsculas); la última página (Historial) conserva `30/Sep/2026`.
 - **Tests:** header exige mayúsculas + historial exige formato original. Vitest 291/291, backend 60/60.
+
+### 2026-10-01 (106): Firmantes T0 auto + T2 con 2 combobox, header negro
+- **Grid (Almacenes):** fieldset Firmantes — Realizado auto con login (`/api/me`, solo lectura) + Revisor Gerente nombre (select de gerentes) + Gerencia que revisa (combobox con sugerencias + autohint desde el cargo); los 3 obligatorios (bloquean Guardar/Generar); se congelan en el borrador. Offline → `(sin conexión)` + bloqueo con aviso.
+- **Motores (todos los protocolos):** T0/T2 con nombre/(cargo) en negro; T1/T3 intactos; header `FF0000→000000` (cajetín 100% negro); DQ igual con `firmantesModelo`.
+- **Tests:** puestoGerente, fieldset, T0/T2 en negro, header negro, DQ dinámico; E2E con endpoints mock (listas, requerido, autohint, descarga PQ verificada). Vitest 296/296, backend 60/60.

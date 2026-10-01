@@ -584,6 +584,43 @@ const PlantillaDocx = (() => {
     return conFilas(clonar(tpl), [conCeldas(fs[0], cab)].concat(params, [fs[5]], items));
   }
 
+  // Firmantes T0 (Realizado, automático) y T2 (Revisor Gerente, combobox).
+  // T1 y T3 quedan fijos como en el modelo. Devuelve avisos.
+  function llenarFirmas(parts, inf, draft) {
+    const avisos = [];
+    const f = (draft && draft.firmantes) || {};
+    const r0 = f.realizado || {};
+    const r2 = f.revisor || {};
+    const n0 = [String(r0.nombre || '').trim(), r0.cargo ? '(' + String(r0.cargo).trim() + ')' : ''].filter(Boolean).join(' ');
+    const nombre0 = n0 ? n0.replace(/^(.+?) \(/, '$1 / (') : '';
+    let puesto2 = String(r2.puesto || '').trim();
+    if (!puesto2 && r2.area) puesto2 = 'Gerente de ' + String(r2.area).trim();
+    const nombre2 = String(r2.nombre || '').trim() ? String(r2.nombre).trim() + (puesto2 ? ' / (' + puesto2 + ')' : '') : '';
+    const iF = inf.findIndex((x) => x.estilo === 'Heading1' && /^FIRMA/.test(sinEsp(x.texto).toUpperCase()));
+    if (iF < 0) return avisos;
+    const tbls = [];
+    for (let i = iF + 1; i < parts.length && tbls.length < 4; i++) {
+      if (parts[i].tag === 'w:tbl') tbls.push(i);
+      if (inf[i].estilo === 'Heading1') break;
+    }
+    const poner = (ti, nombre) => {
+      if (ti == null || !nombre) return false;
+      const fs = filas(parts[ti].xml);
+      if (fs.length < 2) return false;
+      const c = celdas(fs[1]);
+      if (!c.length) return false;
+      // Nombre real: en negro (el rojo del modelo marca pendiente)
+      c[0] = textoCelda(c[0], nombre).replace(/w:val="FF0000"/g, 'w:val="000000"');
+      parts[ti] = { tag: 'w:tbl', xml: conFilas(parts[ti].xml, [fs[0], conCeldas(fs[1], c)].concat(fs.slice(2))) };
+      return true;
+    };
+    if (nombre0) poner(tbls[0], nombre0);
+    else avisos.push('Sin Realizado automático: la tabla de firmas conserva el modelo.');
+    if (nombre2) poner(tbls[2], nombre2);
+    else avisos.push('Sin Revisor Gerente: la tabla T2 conserva el modelo.');
+    return avisos;
+  }
+
   // Firmas en Tahoma 11 blindado: reescribe fuentes+tamaño de cada run de la
   // sección FIRMA DE APROBACIÓN (conserva negrita, color y resto del rPr).
   const TAHOMA11 = '<w:rFonts w:ascii="Tahoma" w:hAnsi="Tahoma" w:cs="Tahoma"/><w:sz w:val="22"/><w:szCs w:val="22"/>';
@@ -954,7 +991,8 @@ const PlantillaDocx = (() => {
       parts[iToc] = { tag: 'w:tbl', xml: conFilas(parts[iToc].xml, [fs[0]].concat(nuevas)) };
     }
 
-    // ---- firmas en Tahoma 11 blindado (nada en 12) ----
+    // ---- firmas T0/T2 dinámicas (T1/T3 fijas) + Tahoma 11 blindado ----
+    llenarFirmas(parts, inf, d).forEach((a) => avisos.push(a));
     blindarFirmas(parts, inf);
     inf = parts.map(info);
 
@@ -970,6 +1008,8 @@ const PlantillaDocx = (() => {
       if (nombre) x = reemplazarTexto(x, 'NOMBRE DEL EQUIPO', nombre.toUpperCase()).xml;
       x = reemplazarTexto(x, ' SIN MARCA NI MODELO', '').xml;
       x = reemplazarTexto(x, 'CALIFICACION DE ', 'CALIFICACIÓN DE ').xml; // tilde ausente en el encabezado de los modelos
+      // Encabezado 100% negro: los valores del modelo vienen en rojo (FF0000)
+      x = x.replace(/w:val="FF0000"/g, 'w:val="000000"');
       a.datos = enc(x);
     });
     if (!codigo) avisos.push('Sin código: el número de documento conserva "1/400AAAA".');
@@ -1039,7 +1079,7 @@ const PlantillaDocx = (() => {
 
   return {
     FASES, PLANTILLAS, OPC, soporta, configurar, generar, descargar, banco,
-    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, fechaTexto, crc32 },
+    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, fechaTexto, crc32, llenarFirmas, fijarTahoma11 },
   };
 })();
 
