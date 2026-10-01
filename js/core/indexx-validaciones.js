@@ -495,8 +495,9 @@ const Validaciones = (() => {
   const GEN_CATS = ['almacenes'];
 
   // Gerencias sugeridas para el Revisor Gerente (T2). El campo acepta texto libre.
-  const AREAS_GERENCIA = ['Validaciones', 'Gestión de Calidad', 'Producción',
-    'Almacén y Distribución', 'Laboratorio de Control de Calidad', 'Mantenimiento', 'Documentación'];
+  const AREAS_GERENCIA = ['Gerente Validaciones', 'Gerente Gestión de Calidad', 'Gerente Sr. Producción',
+    'Gerente de Logística', 'Gerente Control de Calidad', 'Gerente Servicios Generales', 'Gerente Investigación y Desarrollo', 
+    'Gerente de Ingeniería', 'Gerente de Mantenimiento', 'Gerente de Auditoria'];
 
   function puestoGerente(area, cargoFb) {
     const a = String(area || '').trim();
