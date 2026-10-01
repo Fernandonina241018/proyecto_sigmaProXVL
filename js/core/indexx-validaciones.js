@@ -498,7 +498,9 @@ const Validaciones = (() => {
   }
 
   const FASES_GEN = ['DQ', 'IQ', 'OQ', 'PQ'];
-  const GEN_CATS = ['almacenes'];
+  const GEN_CATS = ['almacenes', 'equipos'];
+  // Fases con generador por categoría (equipos: solo IQ, banco común).
+  const GEN_FASES = { almacenes: FASES_GEN.slice(), equipos: ['IQ'] };
 
   // Gerencias sugeridas para el Revisor Gerente (T2). El campo acepta texto libre.
   const AREAS_GERENCIA = ['Gerente Validaciones', 'Gerente Gestión de Calidad', 'Gerente Sr. Producción',
@@ -556,18 +558,25 @@ const Validaciones = (() => {
     return false;
   }
 
-  function loadGen(entId) {
+    function loadGen(entId, catId) {
+    const porDefecto = (catId && GEN_FASES[catId]) ? GEN_FASES[catId].slice() : FASES_GEN.slice();
     try {
       if (typeof sessionStorage !== 'undefined') {
         const s = JSON.parse(sessionStorage.getItem(genKey(entId)) || 'null');
         if (s && Array.isArray(s.fases)) return { fases: s.fases, cond: s.cond || 'ambas' };
       }
     } catch (e) {}
-    return { fases: FASES_GEN.slice(), cond: 'ambas' };
+    return { fases: porDefecto, cond: 'ambas' };
   }
 
-  function contarGen(fase, cond) {
+  function contarGen(fase, cond, catId) {
     try {
+      // Equipos: banco común (artículos bloques 2-3 que pasan el filtro).
+      if (catId === 'equipos' && typeof BancoEquipos !== 'undefined' && BancoEquipos.fases) {
+        const items = (BancoEquipos.fases[fase] || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3));
+        const flt = cond || 'ambas';
+        return items.filter((i) => flt === 'ambas' || i.cond === 'ambas' || i.cond === flt).length;
+      }
       if (typeof GeneradorDocx !== 'undefined' && GeneradorDocx.contarEnsayos) {
         return GeneradorDocx.contarEnsayos(fase, cond);
       }
@@ -575,9 +584,10 @@ const Validaciones = (() => {
     return null;
   }
 
-  function paso3Html() {
+  function paso3Html(catId) {
+    const fases = GEN_FASES[catId] || FASES_GEN.slice();
     return '<div class="v7-genrow">'
-      + FASES_GEN.map((f) => '<label class="v7-check"><input type="checkbox" class="gen-fase" value="' + f + '" checked><span>' + f + '</span></label>').join('')
+      + fases.map((f) => '<label class="v7-check"><input type="checkbox" class="gen-fase" value="' + f + '" checked><span>' + f + '</span></label>').join('')
       + '<label class="v7-cond">Condición '
       + '<select class="gen-cond"><option value="ambas">Estática + dinámica</option>'
       + '<option value="est">Solo estática</option><option value="dina">Solo dinámica</option></select></label>'
@@ -623,7 +633,7 @@ const Validaciones = (() => {
       + '</div>'
       + '<div class="v7-step" data-step="3" hidden>'
       + '<div class="gt">3 · Protocolos a generar</div>'
-      + (conGen ? paso3Html()
+      + (conGen ? paso3Html(catId)
         : '<div class="v7-empty">Generador disponible próximamente para esta categoría.</div>')
       + '</div></div>';
   }
@@ -788,7 +798,7 @@ const Validaciones = (() => {
       const box = step3.querySelector('.v7-genresumen');
       if (box) {
         const parts = sel.fases.map((f) => {
-          const n = contarGen(f, sel.cond);
+          const n = contarGen(f, sel.cond, catId);
           return f + (n == null ? '' : ' (' + n + ' ensayos)');
         });
         box.innerHTML = '<strong>DOCUMENTOS A GENERAR:</strong> '
@@ -799,7 +809,7 @@ const Validaciones = (() => {
 
     function restaurarSel3() {
       if (!step3 || !conGen || !entActual) return;
-      const sel = loadGen(entActual);
+      const sel = loadGen(entActual, catId);
       step3.querySelectorAll('.gen-fase').forEach((ch) => {
         ch.checked = sel.fases.indexOf(ch.value) >= 0;
       });
@@ -843,7 +853,7 @@ const Validaciones = (() => {
             if (typeof window !== 'undefined' && (typeof DecompressionStream === 'undefined' || typeof CompressionStream === 'undefined')) {
               throw new Error('El navegador no soporta compresión ZIP (use Edge/Chrome).');
             }
-            const r = await PlantillaDocx.descargar(f, draft, ent, sel.cond);
+            const r = await PlantillaDocx.descargar(f, draft, ent, sel.cond, catId);
             if (r && r.avisos && r.avisos.length) setGenMsg('[' + f + '] ' + r.avisos[0], true);
           } else {
             if (typeof window !== 'undefined' && !window.docx) {
@@ -1031,7 +1041,7 @@ const Validaciones = (() => {
   try { init(); } catch (e) {}
 
   return {
-    CATS, ROUTES, ENTIDADES, SCHEMAS, FASES_GEN, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
+    CATS, ROUTES, ENTIDADES, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
     puestoGerente, firmantesHtml, saveDraft, loadDraft, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render,
   };
 })();

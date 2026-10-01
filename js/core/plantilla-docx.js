@@ -294,6 +294,24 @@ const PlantillaDocx = (() => {
     return abre + ppr + (o.bold != null ? run(negrita(rpr, o.bold), t) : run(rpr, t)) + '</w:p>';
   }
 
+  // Mantiene una tabla en una sola página (filas sin partir + keepNext en cada párrafo
+  // salvo la última fila), para que la CONCLUSIÓN no quede cortada entre páginas.
+  function juntar(tbl) {
+    const fs = filas(tbl);
+    const out = fs.map((tr, k) => {
+      let x = /<w:trPr>/.test(tr) ? tr.replace(/<w:trPr>/, '<w:trPr><w:cantSplit/>')
+        : tr.replace(/^<w:tr\b[^>]*>/, (m) => m + '<w:trPr><w:cantSplit/></w:trPr>');
+      if (k < fs.length - 1) {
+        x = x.replace(/<w:p(?=[ >])([^>]*)>(\s*<w:pPr>(<w:pStyle[^>]*\/>)?)?/g, (m, at, conPPr, est) => {
+          if (conPPr) return '<w:p' + at + '><w:pPr>' + (est || '') + '<w:keepNext/>';
+          return '<w:p' + at + '><w:pPr><w:keepNext/></w:pPr>';
+        });
+      }
+      return x;
+    });
+    return conFilas(tbl, out);
+  }
+
   let SDT = 700000000;
   function clonar(xml) {
     // Clon apto para insertar varias veces: ids de controles únicos, sin paraId ni marcadores.
@@ -717,7 +735,7 @@ const PlantillaDocx = (() => {
     const P = (xml) => nuevo.push({ tag: 'w:p', xml });
     const TBL = (xml) => nuevo.push({ tag: 'w:tbl', xml });
 
-    nuevo.push(parts[loc.iProc]);
+    nuevo.push({ tag: 'w:p', xml: ajustarPPrEn(parts[loc.iProc].xml, { salto: true }) });
     loc.subs.filter((s) => s.tipo === 'usp' || s.tipo === 'req').forEach((s) => {
       nSub++;
       const seg = recortar(parts.slice(s.ini, s.fin).map((x) => ({ tag: x.tag, xml: x.xml })));
@@ -727,6 +745,18 @@ const PlantillaDocx = (() => {
       nuevo.push(...seg);
       conclusiones += seg.filter((x) => x.tag === 'w:tbl' && /^CONCLUSI/.test(norm(texto(x.xml)))).length;
     });
+
+    // Tablas (no de conclusión) de la sección del modelo cuyo título contiene la clave
+    function tablasDelModelo(clave) {
+      const k = sinEsp(clave).toUpperCase();
+      const s = loc.subs.find((x) => x.tipo === 'ensayo' && sinEsp(inf[x.ini].texto).toUpperCase().indexOf(k) >= 0);
+      if (!s) return [];
+      const out = [];
+      for (let i = s.ini; i < s.fin; i++) {
+        if (inf[i].tag === 'w:tbl' && !/^CONCLUSI/.test(inf[i].texto)) out.push(parts[i].xml);
+      }
+      return out;
+    }
 
     const resumenFilas = [];
     ensayos.forEach((art) => {
@@ -763,12 +793,29 @@ const PlantillaDocx = (() => {
       if (art.tabla) avisos.push(art.id + ': tiene una tabla propia en el banco que no se incluye (se usa la tabla del modelo).');
       P(clonar(T.vacio));
       const caption = 'Tabla ' + nProc + '.' + nSub + '-1';
+      // Tablas propias del modelo: el artículo indica qué sección del modelo copiar
+      // (data-tabla-modelo="IDENTIFICACIÓN DEL EQUIPO"); se clonan todas sus tablas.
+      const tModelo = art.tablaModelo ? tablasDelModelo(art.tablaModelo) : [];
+      if (art.tablaModelo && !tModelo.length) avisos.push(art.id + ': no se encontró en el modelo la sección "' + art.tablaModelo + '"; se usa lista de verificación.');
+      if (tModelo.length) {
+        tModelo.forEach((tx, k) => {
+          if (k) P(clonar(T.vacio));
+          const fs = filas(tx);
+          const cab = celdas(fs[0]);
+          cab[0] = textoCelda(cab[0], 'Tabla ' + nProc + '.' + nSub + '-' + (k + 1));
+          TBL(conFilas(clonar(tx), [conCeldas(fs[0], cab)].concat(fs.slice(1))));
+        });
+        P(clonar(T.vacio));
+        TBL(juntar(clonar(T.conclusion)));
+        conclusiones++;
+        return;
+      }
       const usaRegistro = art.tablaTipo ? art.tablaTipo === 'registro'
         : (fase !== 'IQ' && !!T.registro && OPC.reRegistro.test(tit + ' ' + e.objetivo));
       if (usaRegistro && T.registro) TBL(tablaRegistro(T.registro, caption, tit, d, ctx));
       else TBL(tablaVerificacion(T.verificacion, caption, tit, puntosVerificacion(e)));
       P(clonar(T.vacio));
-      TBL(clonar(T.conclusion));
+      TBL(juntar(clonar(T.conclusion)));
       conclusiones++;
     });
 
@@ -1059,19 +1106,20 @@ const PlantillaDocx = (() => {
     return FASES.indexOf(fase) >= 0;
   }
 
-  function banco() {
+  function banco(cat) {
     try {
+      if (cat === 'equipos' && typeof BancoEquipos !== 'undefined') return BancoEquipos;
       if (typeof BancoAlmacenes !== 'undefined') return BancoAlmacenes;
       if (typeof GeneradorDocx !== 'undefined' && GeneradorDocx.banco) return GeneradorDocx.banco();
     } catch (e) { /* sigue */ }
     return { version: '', fases: {} };
   }
 
-  async function descargar(fase, draft, entidad, filtroCond) {
+  async function descargar(fase, draft, entidad, filtroCond, cat) {
     const resp = await fetch(PLANTILLAS[fase], { cache: 'no-store' });
     if (!resp.ok) throw new Error('No se encontró la plantilla ' + PLANTILLAS[fase] + ' (' + resp.status + ').');
     const u8 = new Uint8Array(await resp.arrayBuffer());
-    const r = await generar(fase, u8, banco(), draft, entidad, filtroCond);
+    const r = await generar(fase, u8, banco(cat), draft, entidad, filtroCond);
     const blob = new Blob([r.bytes], { type: MIME_DOCX });
     const entId = (entidad && entidad.id) ? entidad.id : 'entidad';
     const a = document.createElement('a');

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos — Equipos e Instrumentos (común)</title>
+</head>
+<body>
+
+<p><a href="equipos.html">← Equipos e Instrumentos</a></p>
+<h2>Equipos e Instrumentos — Banco común</h2>
+<p>Versión del banco: <span data-banco-version>EQ-COMUN 2026-10-01 v2</span></p>
+
+<div class="plantilla-entidad">
+<p><strong>PLANTILLA — DATOS DE LA ENTIDAD A CALIFICAR</strong> (se replica en la portada)</p>
+<p><label>Logo:<br><input type="file" id="entLogoFile" accept="image/*"></label></p>
+<p><label>Descripción:<br><input id="entDescripcion" size="50"></label></p>
+<p><label>Marca:<br><input id="entMarca" size="30"></label></p>
+<p><label>Modelo:<br><input id="entModelo" size="30"></label></p>
+<p><label>Código:<br><input id="entCodigo" size="30"></label></p>
+</div>
+<p>El banco es común para todos los equipos e instrumentos; los ensayos marcados <strong>(si aplica)</strong> se ejecutan o se declaran No Aplica (NA) con justificación según el <span class="equipo">equipo</span> calificado.</p>
+
+<!-- ================= DQ ================= -->
+<section id="fase-dq">
+<h2>DQ — Ensayos</h2>
+<p>Pendiente: el DQ de equipos se mantiene en sus fichas por entidad.</p>
+</section>
+
+<!-- ================= IQ ================= -->
+<section id="fase-iq">
+<h2>IQ — Ensayos</h2>
+
+<div class="portada" data-bloque="1">
+<p><strong>PORTADA DEL PROTOCOLO IQ</strong></p>
+<p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+<p><strong>Calificación de Instalación de <span class="equipo">equipo</span>:</strong> <span class="ent-descripcion">______</span></p>
+<ol>
+  <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+  <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+  <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+</ol>
+</div>
+
+<div class="firmas" data-bloque="1">
+<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>
+<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>
+<ol>
+  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+</ol>
+</div>
+
+<div class="responsabilidades" data-bloque="1">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+<p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+<ol><li>Coordinar la ejecución de la Calificación de Instalación con las áreas involucradas, asegurando la disponibilidad del personal, el <span class="equipo">equipo</span>, los instrumentos de medición y la documentación necesaria.</li><li>Verificar previamente que los instrumentos de medición utilizados se encuentren identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar las verificaciones del protocolo de acuerdo con los procedimientos y criterios de aceptación aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Identificar y documentar las desviaciones de acuerdo con los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos de evidencia.</li></ol>
+<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos con las áreas involucradas.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final de calificación y autorizar el inicio de la OQ.</li></ol>
+<p><strong>Responsabilidad del Gerente de Área:</strong></p>
+<ol><li>Garantizar la disponibilidad del <span class="equipo">equipo</span> y los accesos necesarios para la ejecución de las verificaciones.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>
+</div>
+
+<div class="alcance" data-bloque="1">
+<p><strong>ALCANCE</strong></p>
+<p>Esta calificación aplica a <span class="equipo">equipo</span>, según protocolo IQ, y cubre los ensayos listados en el índice.</p>
+</div>
+
+<div class="def-usp" data-bloque="1">
+<p><strong>DEFINICIÓN USP</strong></p>
+<p>Calificación de Instalación: conjunto documentado de actividades necesarias para establecer que un instrumento se entrega según su diseño y especificación, y que está correctamente instalado en el entorno seleccionado y es adecuado para él (USP &lt;1058&gt;).</p>
+</div>
+
+<div class="nota-datos" data-bloque="1">
+<p><strong>NOTA — DATOS DIGITALES</strong></p>
+<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>
+</div>
+
+<article data-bloque="2" id="art-EQ-IQ-001" class="ensayo" data-id="EQ-IQ-001" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-001 — Requisitos previos a la Calificación de Instalación</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la documentación, la información técnica y las condiciones previas necesarias para ejecutar la Calificación de Instalación del <span class="equipo">equipo</span> se encuentran disponibles, vigentes y aprobadas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Calificación de Diseño (DQ) aprobada, o justificación documentada cuando no aplique (equipo estándar de catálogo)<br>
+  2) Especificación de requisitos de usuario (URS) aprobada<br>
+  3) Clasificación del equipo según USP &lt;1058&gt; (grupo A, B o C) o análisis de riesgo documentado<br>
+  4) Manual de instalación, operación y mantenimiento del fabricante disponible<br>
+  5) Equipo registrado en SAP con su código interno<br>
+  6) Instructivo de operación y limpieza vigente o en borrador aprobado para la calificación<br>
+  7) Personal ejecutor capacitado en el presente protocolo<br>
+  8) Sin desviaciones ni controles de cambio abiertos que impidan iniciar la IQ</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los requisitos previos cumplen o cuentan con justificación documentada de No Aplica.<br>
+  La IQ no se inicia con requisitos en estado No Cumple.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de requisitos previos completada<br>
+  - Referencia del DQ / URS aprobados<br>
+  - Registro de capacitación del personal ejecutor</p>
+  <p><strong>Nota:</strong><br>
+  Todo requisito No Cumple se registra en el reporte de desviación de la sección de requisitos antes de continuar con la calificación.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="2" id="art-EQ-IQ-002" class="ensayo" data-id="EQ-IQ-002" data-fase="IQ" data-cond="ambas" data-tabla-modelo="INSTRUMENTOS DE MEDICIÓN">
+  <h3>EQ-IQ-002 — Verificación de los instrumentos de medición a utilizar</h3>
+  <p><strong>Objetivo:</strong><br>Asegurar que todos los equipos e instrumentos de medición utilizados en la calificación están correctamente identificados y cuentan con calibración vigente, garantizando la confiabilidad y trazabilidad de los resultados.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar cada instrumento requerido para las verificaciones de calificación<br>
+  2) Inspeccionar la etiqueta de calibración de cada instrumento y comprobar que su vigencia cubre el periodo de la calificación<br>
+  3) Registrar en la tabla correspondiente los datos de cada instrumento:<br>
+     a) Nombre del instrumento o equipo<br>
+     b) Fabricante y modelo<br>
+     c) Número de serie y código interno<br>
+     d) Fecha de última calibración y fecha de vencimiento<br>
+  4) Recopilar los certificados de calibración para su inclusión en los anexos del informe</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los instrumentos presentan etiqueta de calibración vigente que cubre la fecha de ejecución de la calificación.<br>
+  La información registrada coincide con los certificados de calibración.<br>
+  Los certificados están disponibles y anexados al informe.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de instrumentos de medición completada<br>
+  - Copias de los certificados de calibración</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-003" class="ensayo" data-id="EQ-IQ-003" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-003 — Verificación de recepción y entrega del <span class="equipo">equipo</span></h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el <span class="equipo">equipo</span>, sus accesorios, software, manuales y documentación fueron entregados conforme a la orden de compra y sin daños de transporte.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Comparar lo recibido contra la orden de compra y la lista de empaque del fabricante:<br>
+     a) Equipo principal y número de serie coinciden con la orden de compra<br>
+     b) Accesorios, repuestos y consumibles iniciales completos<br>
+     c) Software, firmware y licencias entregados (si aplica)<br>
+     d) Manuales, certificado de conformidad o FAT y certificados de materiales entregados (si aplica)<br>
+  2) Inspeccionar el embalaje y el equipo en busca de daños de transporte (golpes, humedad, indicadores de impacto o inclinación activados)<br>
+  3) Registrar faltantes o daños y notificarlos al proveedor y a Compras<br>
+  4) Conservar evidencia fotográfica del estado de recepción</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Lo recibido coincide con la orden de compra y la lista de empaque.<br>
+  No existen daños que afecten el funcionamiento o la calidad; los hallazgos están documentados y evaluados.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Lista de empaque verificada y firmada<br>
+  - Registro fotográfico de recepción<br>
+  - Reporte de faltantes o daños (si aplica)</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt;.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-004" class="ensayo" data-id="EQ-IQ-004" data-fase="IQ" data-cond="ambas" data-tabla-modelo="IDENTIFICACIÓN DEL EQUIPO">
+  <h3>EQ-IQ-004 — Verificación de identificación del <span class="equipo">equipo</span></h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la identificación del <span class="equipo">equipo</span> está correctamente colocada, es legible y corresponde con la información técnica y documental disponible, garantizando su trazabilidad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Realizar una inspección visual del equipo<br>
+  2) Verificar la presencia y legibilidad de la placa de identificación del fabricante<br>
+  3) Confirmar que la información de la placa coincide con la documentación técnica y con el registro en SAP:<br>
+     a) Nombre del equipo<br>
+     b) Fabricante y marca<br>
+     c) Modelo<br>
+     d) Número de serie<br>
+     e) Código o identificación interna<br>
+  4) Registrar la información obtenida en la tabla correspondiente<br>
+  5) Documentar cualquier discrepancia identificada</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La placa de identificación está instalada, visible y en buen estado.<br>
+  La información de la placa es legible y coincide con la documentación técnica (SAP).<br>
+  El equipo posee una identificación interna única que permite su trazabilidad.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de identificación completada<br>
+  - Fotografía de la placa de identificación</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt;.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-005" class="ensayo" data-id="EQ-IQ-005" data-fase="IQ" data-cond="ambas" data-tabla-modelo="UBICACIÓN DE INSTALACIÓN">
+  <h3>EQ-IQ-005 — Verificación de la ubicación de instalación</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que el <span class="equipo">equipo</span> está instalado en el área física autorizada y que el espacio circundante cumple con los requerimientos de diseño, flujos, mantenimiento y seguridad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Solicitar el plano de distribución de planta (layout) vigente y aprobado del área de instalación<br>
+  2) Inspeccionar visualmente la ubicación del equipo y constatar que corresponde a la sala y posición indicadas en el plano<br>
+  3) Verificar que las distancias perimetrales permiten el acceso a paneles eléctricos, puntos de mantenimiento y remoción de partes<br>
+  4) Confirmar que la ubicación no interfiere con salidas de emergencia, flujos de aire del HVAC ni pasillos de tránsito de personal o materiales<br>
+  5) Registrar el número y la versión del plano utilizado y las observaciones en la tabla correspondiente</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El equipo se encuentra en la sala y posición especificadas en el plano vigente.<br>
+  El espacio circundante cumple los espacios mínimos de mantenimiento indicados por el fabricante.<br>
+  No se identifican interferencias físicas ni riesgos de contaminación cruzada por la ubicación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Copia o referencia del plano de distribución vigente<br>
+  - Tabla de ubicación completada</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-020" class="ensayo" data-id="EQ-IQ-020" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-020 — Verificación de montaje, nivelación, anclaje y conexiones</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el <span class="equipo">equipo</span> está montado, nivelado, fijado y conectado según las instrucciones del fabricante, sin fugas ni conexiones provisionales.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la nivelación del equipo con su indicador de nivel o con un nivel de burbuja, según el manual del fabricante<br>
+  2) Verificar la fijación del equipo, según aplique:<br>
+     a) Anclaje al piso o a la estructura<br>
+     b) Mesa antivibratoria o base de pesaje (balanzas, disolutores)<br>
+     c) Ruedas bloqueadas o soportes regulables ajustados<br>
+  3) Verificar las conexiones de utilidades (eléctrica, aire, agua, vapor, gases, vacío, drenaje y extracción): identificadas, sin conexiones provisionales y de acuerdo con el plano o el manual<br>
+  4) Verificar la ausencia de fugas en conexiones hidráulicas, neumáticas, de gases o de fase móvil<br>
+  5) Verificar que el cableado y las mangueras están canalizados, sin tensión mecánica ni riesgo de tropiezo<br>
+  6) Registrar las verificaciones y documentar cualquier ajuste realizado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El equipo está nivelado dentro de la tolerancia del fabricante.<br>
+  El equipo está fijado o asentado según su manual; no hay vibraciones transmitidas que afecten su funcionamiento.<br>
+  Todas las conexiones son definitivas, están identificadas y no presentan fugas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de nivelación y fijación<br>
+  - Registro de verificación de conexiones y fugas<br>
+  - Evidencia fotográfica</p>
+  <p><strong>Nota:</strong><br>
+  Si el equipo es portátil o no requiere nivelación, fijación ni conexiones, el ensayo se declara No Aplica con justificación.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt; (Montaje e instalación); manual del fabricante.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-006" class="ensayo" data-id="EQ-IQ-006" data-fase="IQ" data-cond="ambas" data-tabla-modelo="MANTENIMIENTO PREVENTIVO">
+  <h3>EQ-IQ-006 — Verificación de mantenimiento preventivo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar en SAP la existencia y correcta creación del plan de mantenimiento preventivo del <span class="equipo">equipo</span>, asegurando que se encuentra vigente y alineado con las recomendaciones del fabricante.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Consultar en SAP el plan y la orden de mantenimiento asociados al equipo<br>
+  2) Confirmar que el plan de mantenimiento preventivo está creado, aprobado y vigente<br>
+  3) Revisar que los intervalos programados corresponden a las recomendaciones del fabricante y a los requerimientos internos<br>
+  4) Registrar en la tabla correspondiente los datos del último servicio efectuado<br>
+  5) Conservar como evidencia el plan de mantenimiento generado en SAP</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El equipo cuenta con un plan de mantenimiento preventivo vigente en SAP.<br>
+  La información registrada es exacta, completa y corresponde al equipo evaluado.<br>
+  La evidencia del plan de mantenimiento está anexada al informe.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Impresión o reporte del plan de mantenimiento en SAP<br>
+  - Tabla de mantenimiento completada</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Capítulo 3.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-007" class="ensayo" data-id="EQ-IQ-007" data-fase="IQ" data-cond="ambas" data-tabla-modelo="VERIFICACIÓN DE LA CALIBRACIÓN">
+  <h3>EQ-IQ-007 — Verificación de la calibración</h3>
+  <p><strong>Objetivo:</strong><br>Verificar, mediante inspección visual y revisión documental, que la calibración del <span class="equipo">equipo</span> está vigente y es trazable a patrones nacionales o internacionales.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inspeccionar la etiqueta de calibración del equipo y confirmar que está vigente a la fecha de ejecución<br>
+  2) Revisar que la etiqueta indica código del equipo, fecha de calibración, fecha de vencimiento y responsable<br>
+  3) Registrar en la tabla correspondiente los datos de calibración (código, fechas, orden de calibración)<br>
+  4) Verificar el certificado de calibración: fecha de emisión, trazabilidad metrológica e incertidumbre declarada<br>
+  5) Anexar el certificado de calibración al informe</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La etiqueta de calibración está vigente, legible y adherida al equipo.<br>
+  Los datos registrados coinciden con el certificado de calibración.<br>
+  El certificado es válido, trazable y está anexado al informe.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Copia del certificado de calibración<br>
+  - Tabla de calibración completada</p>
+  <p><strong>Nota:</strong><br>
+  Si el equipo no posee elementos de medición sujetos a calibración, el ensayo se declara No Aplica con justificación.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt;; ISO/IEC 17025.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-008" class="ensayo" data-id="EQ-IQ-008" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-008 — Verificación de componentes principales</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los componentes principales del <span class="equipo">equipo</span> están presentes y correctamente instalados, de acuerdo con las especificaciones del fabricante y la documentación técnica.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Consultar el manual del equipo, el listado oficial de piezas o la documentación técnica del fabricante<br>
+  2) Identificar los componentes principales, piezas y accesorios críticos del equipo<br>
+  3) Confirmar por inspección visual y documental la instalación, fijación y ubicación de cada componente<br>
+  4) Verificar que no existen daños físicos, partes faltantes ni desviaciones respecto al diseño original<br>
+  5) En equipos con sistema de refrigeración, verificar en la placa el tipo y la carga de refrigerante, y que el condensador y el compresor tienen ventilación libre<br>
+  6) Registrar el estatus de cada componente (C/NC) en el listado de componentes</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los componentes principales están presentes, instalados y en condiciones adecuadas.<br>
+  No existen piezas faltantes, daños visibles ni desviaciones respecto a la documentación técnica.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Listado de componentes principales verificado (anexo del informe)</p>
+  <p><strong>Nota:</strong><br>
+  El listado de componentes se incluye como anexo para dar flexibilidad al número de componentes de cada equipo.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt;.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-009" class="ensayo" data-id="EQ-IQ-009" data-fase="IQ" data-cond="ambas" data-tabla-modelo="UTILIDADES">
+  <h3>EQ-IQ-009 — Verificación de utilidades y condiciones ambientales</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las utilidades requeridas para el funcionamiento del <span class="equipo">equipo</span> y las condiciones ambientales del área de instalación cumplen con las especificaciones del fabricante y los requerimientos del proceso.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar, con base en la información del fabricante y la URS, las utilidades y condiciones ambientales que aplican al equipo<br>
+  2) Medir y registrar en la tabla correspondiente las que apliquen, entre ellas:<br>
+     a) Alimentación eléctrica: voltaje, frecuencia, fases y puesta a tierra<br>
+     b) Aire comprimido: presión, caudal y calidad<br>
+     c) Vapor, agua purificada o agua helada: presión, temperatura y caudal<br>
+     d) Vacío y gases de proceso<br>
+     e) Temperatura y humedad relativa ambiental<br>
+     f) Diferenciales de presión y clasificación del área<br>
+     g) Iluminación y nivel de ruido<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar el reporte generado<br>
+  4) Declarar No Aplica, con justificación, las utilidades que el equipo no requiere</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las utilidades y condiciones ambientales aplicables están disponibles y cumplen las especificaciones del fabricante y del proceso.<br>
+  Cada tabla se evalúa con sus propios límites.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tablas de utilidades y condiciones ambientales completadas<br>
+  - Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>
+  Los niveles de iluminación y ruido fuera de especificación se tratan como desviación menor y se notifican al departamento de Seguridad Industrial.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt;; ISPE Baseline Guide Vol. 5.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-021" class="ensayo" data-id="EQ-IQ-021" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-021 — Verificación de recipientes a presión y dispositivos de alivio (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los recipientes a presión del <span class="equipo">equipo</span> y sus dispositivos de alivio están certificados, identificados y son adecuados para las condiciones de operación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar los recipientes, cámaras o camisas sometidos a presión o vacío<br>
+  2) Verificar la placa o estampado del recipiente: fabricante, número de serie, código de diseño, presión y temperatura de diseño<br>
+  3) Verificar el certificado de diseño y de prueba hidrostática del recipiente<br>
+  4) Verificar los dispositivos de alivio instalados:<br>
+     a) Válvulas de seguridad: presión de tarado, certificado de tarado vigente y precinto<br>
+     b) Discos de ruptura: presión de rotura y certificado<br>
+     c) Paneles de venteo o supresión de explosión, cuando el equipo maneja polvos o solventes<br>
+  5) Confirmar que la presión de tarado es menor o igual a la presión máxima de trabajo del recipiente y mayor que la presión de operación<br>
+  6) Verificar que la descarga de los dispositivos de alivio está dirigida a una zona segura</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los recipientes a presión cuentan con placa legible y certificado de diseño y prueba.<br>
+  Los dispositivos de alivio están instalados, identificados, con certificado de tarado vigente y presión de tarado coherente con el diseño.<br>
+  La descarga de los dispositivos de alivio no representa riesgo para el personal ni para el producto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Certificado de diseño y prueba hidrostática del recipiente<br>
+  - Certificados de tarado de válvulas de seguridad o discos de ruptura<br>
+  - Registro fotográfico de placas</p>
+  <p><strong>Nota:</strong><br>
+  Aplica a autoclaves, liofilizadores, reactores, lechos fluidos, secadores con vapor o vacío y equipos similares; en los demás casos se declara No Aplica.</p>
+  <p><strong>Referencia:</strong><br>ASME BPVC Sección VIII; normativa nacional de recipientes a presión; manual del fabricante.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-022" class="ensayo" data-id="EQ-IQ-022" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-022 — Verificación de filtros HEPA y filtros de proceso instalados (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los filtros HEPA y los filtros de proceso del <span class="equipo">equipo</span> corresponden a la especificación, están certificados por el fabricante y correctamente instalados.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar los filtros del equipo (suministro, extracción, venteo o aire de proceso)<br>
+  2) Registrar para cada filtro:<br>
+     a) Fabricante, modelo y número de serie<br>
+     b) Clase de filtración (por ejemplo, H13 o H14 según EN 1822) o grado de retención<br>
+     c) Dimensiones y posición de instalación<br>
+  3) Verificar el certificado de prueba de fábrica de cada filtro<br>
+  4) Verificar visualmente que el filtro, el marco y las juntas no presentan daños y que el filtro está instalado en la orientación correcta<br>
+  5) Verificar que el filtro de venteo de cámaras estériles (autoclave, liofilizador) es hidrofóbico y de grado esterilizante, cuando aplique</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los filtros instalados coinciden con la especificación del fabricante y de la URS.<br>
+  Cada filtro cuenta con certificado de prueba de fábrica trazable a su número de serie.<br>
+  Los filtros, marcos y juntas no presentan daños y están instalados en la orientación correcta.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Listado de filtros instalados<br>
+  - Certificados de fábrica de los filtros</p>
+  <p><strong>Nota:</strong><br>
+  La prueba de integridad de los filtros (DOP/PAO) y el conteo de partículas se ejecutan en la OQ.</p>
+  <p><strong>Referencia:</strong><br>ISO 14644-3; EN 1822; EU GMP Anexo 1.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-010" class="ensayo" data-id="EQ-IQ-010" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-010 — Verificación de software, firmware, red y almacenamiento de datos (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el software y firmware del <span class="equipo">equipo</span> están instalados en la versión especificada, y que su configuración de seguridad, red y almacenamiento de datos garantiza la integridad de los datos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar el nombre y la versión del software y del firmware instalados, y compararlos con la versión especificada por el fabricante o la URS<br>
+  2) Verificar la configuración de acceso:<br>
+     a) Usuarios individuales con contraseña, sin cuentas genéricas compartidas<br>
+     b) Perfiles y privilegios asignados según el rol<br>
+  3) Verificar que la pista de auditoría (audit trail) está habilitada y no puede ser desactivada por usuarios operativos<br>
+  4) Verificar la sincronización de fecha y hora del sistema<br>
+  5) Verificar la conexión a red y la ruta de almacenamiento de datos, cuando aplique<br>
+  6) Verificar que existe procedimiento de respaldo y restauración de datos<br>
+  7) Verificar la clasificación GAMP del software y su evaluación de 21 CFR Part 11</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las versiones instaladas coinciden con las especificadas.<br>
+  El acceso es individual y por perfiles; la pista de auditoría está activa.<br>
+  Fecha y hora del sistema correctas; respaldo de datos definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Captura de pantalla de versiones de software y firmware<br>
+  - Listado de usuarios y perfiles configurados<br>
+  - Evidencia de pista de auditoría activa</p>
+  <p><strong>Nota:</strong><br>
+  Si el equipo no tiene software ni firmware configurable (USP &lt;1058&gt; grupo A), el ensayo se declara No Aplica.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt;; GAMP 5; 21 CFR Part 11; EU GMP Anexo 11.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-011" class="ensayo" data-id="EQ-IQ-011" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-011 — Verificación de instalación: encendido y diagnóstico inicial</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el <span class="equipo">equipo</span> enciende correctamente y supera las pruebas de diagnóstico inicial del fabricante tras su instalación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar que las utilidades del equipo fueron verificadas y están conectadas<br>
+  2) Encender el equipo según el manual del fabricante<br>
+  3) Ejecutar las pruebas de autodiagnóstico o de arranque disponibles<br>
+  4) Verificar que no se presentan alarmas, mensajes de error ni ruidos o vibraciones anormales<br>
+  5) Registrar el resultado y anexar el reporte de diagnóstico, cuando el equipo lo genere</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El equipo enciende y completa el diagnóstico inicial sin errores ni alarmas.<br>
+  El reporte de diagnóstico, cuando aplique, está anexado al informe.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Reporte de autodiagnóstico o registro de arranque</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt;.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-012" class="ensayo" data-id="EQ-IQ-012" data-fase="IQ" data-cond="ambas" data-tabla-modelo="RUGOSIDAD">
+  <h3>EQ-IQ-012 — Verificación de rugosidad en superficies en contacto con el producto (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las superficies del <span class="equipo">equipo</span> en contacto directo con el producto cumplen con la rugosidad superficial especificada, garantizando su limpiabilidad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar las superficies en contacto directo con el producto que requieren verificación<br>
+  2) Confirmar que las superficies están limpias, secas y libres de residuos<br>
+  3) Verificar que el rugosímetro cuenta con certificado de calibración vigente<br>
+  4) Medir la rugosidad (Ra) en los puntos definidos, según el instructivo vigente (IT-VAL-0014)<br>
+  5) Registrar el valor de cada punto en la tabla correspondiente<br>
+  6) Realizar el reporte estadístico de los datos y anexar los gráficos</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todas las superficies en contacto con el producto cumplen la rugosidad especificada por diseño o por el fabricante.<br>
+  Sin especificación del fabricante: Ra ≤ 0,8 µm.<br>
+  No se observan poros, fisuras, rayaduras profundas ni rebabas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de rugosidad completada<br>
+  - Reporte estadístico y gráficos</p>
+  <p><strong>Nota:</strong><br>
+  Aplica solo a equipos con superficies en contacto con el producto; en los demás casos se declara No Aplica.</p>
+  <p><strong>Referencia:</strong><br>ASME BPE; EU GMP Capítulo 3.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-013" class="ensayo" data-id="EQ-IQ-013" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-013 — Verificación preliminar del tipo de acero inoxidable mediante imán (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar de forma cualitativa que las superficies en contacto con el producto presentan un comportamiento magnético compatible con acero inoxidable austenítico (AISI 316L).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar las superficies del equipo en contacto directo con el producto<br>
+  2) Acercar un imán permanente de intensidad conocida (preferiblemente de neodimio) a cada superficie, evitando golpes o rayaduras<br>
+  3) Registrar el comportamiento del material frente al imán<br>
+  4) Comparar el resultado con los certificados de materiales (MTC) del fabricante</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las superficies de acero inoxidable AISI 316L no presentan atracción magnética significativa, o solo una atracción débil atribuible a zonas trabajadas en frío o soldaduras.<br>
+  Toda atracción fuerte se investiga contra los MTC o mediante identificación positiva del material (PMI).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la verificación con imán<br>
+  - Certificados de materiales (MTC)</p>
+  <p><strong>Nota:</strong><br>
+  Es una verificación preliminar; no sustituye los certificados de materiales.</p>
+  <p><strong>Referencia:</strong><br>ASME BPE.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-023" class="ensayo" data-id="EQ-IQ-023" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-023 — Verificación de materiales no metálicos y lubricantes en contacto con el producto (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los materiales no metálicos en contacto con el producto y los lubricantes que puedan entrar en contacto con él son aptos para uso farmacéutico.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar los componentes no metálicos en contacto con el producto (juntas, sellos, empaques, mangueras, membranas, plásticos)<br>
+  2) Verificar para cada material el certificado de conformidad del fabricante, según aplique:<br>
+     a) FDA 21 CFR 177 (materiales en contacto con alimentos)<br>
+     b) USP &lt;88&gt; Clase VI y/o USP &lt;87&gt; (citotoxicidad)<br>
+     c) Libre de origen animal (TSE/BSE), cuando aplique<br>
+  3) Identificar los lubricantes usados en zonas con riesgo de contacto con el producto<br>
+  4) Verificar que los lubricantes son de grado alimenticio NSF H1 y registrar marca, referencia y ficha técnica<br>
+  5) Registrar los materiales y lubricantes verificados en el listado correspondiente</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los materiales no metálicos en contacto con el producto cuentan con certificado de conformidad.<br>
+  Los lubricantes con riesgo de contacto con el producto son grado NSF H1.<br>
+  El listado de materiales y lubricantes está completo y trazable a sus certificados.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Listado de materiales no metálicos y lubricantes<br>
+  - Certificados de conformidad y fichas técnicas</p>
+  <p><strong>Nota:</strong><br>
+  Complementa EQ-IQ-013 (acero inoxidable). Aplica solo a equipos con contacto con el producto; en los demás casos se declara No Aplica.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Capítulo 3 (3.39); FDA 21 CFR 177; USP &lt;88&gt;; NSF H1.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-014" class="ensayo" data-id="EQ-IQ-014" data-fase="IQ" data-cond="ambas" data-tabla-modelo="SEGURIDAD INDUSTRIAL">
+  <h3>EQ-IQ-014 — Verificación de seguridad industrial</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el <span class="equipo">equipo</span> cumple con los lineamientos de seguridad industrial del fabricante y de Laboratorios Sued, S.R.L.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inspeccionar el equipo y el área de instalación para confirmar los elementos de seguridad indicados en la tabla correspondiente<br>
+  2) Verificar las protecciones eléctricas: puesta a tierra, fusibles, breakers y parada de emergencia<br>
+  3) Confirmar las señalizaciones de advertencia, etiquetas de seguridad y accesos libres a dispositivos de emergencia<br>
+  4) Revisar la disponibilidad de instructivos de operación segura, limpieza y mantenimiento<br>
+  5) Confirmar que los operadores asignados están entrenados en el uso seguro del equipo<br>
+  6) Registrar los resultados y adjuntar evidencia fotográfica o documental</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las medidas de seguridad física y operativa están implementadas y funcionales.<br>
+  Las señalizaciones son visibles, legibles y están en los puntos requeridos.<br>
+  Los instructivos y registros de capacitación están disponibles y vigentes.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de seguridad industrial completada<br>
+  - Evidencia fotográfica</p>
+  <p><strong>Referencia:</strong><br>Políticas de Seguridad Industrial de Laboratorios Sued, S.R.L.; manual del fabricante.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-015" class="ensayo" data-id="EQ-IQ-015" data-fase="IQ" data-cond="ambas" data-tabla-modelo="DISPONIBILIDAD DE DOCUMENTOS">
+  <h3>EQ-IQ-015 — Disponibilidad de documentos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la documentación técnica, administrativa y de soporte del <span class="equipo">equipo</span> está disponible, vigente y aprobada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar la documentación aplicable al equipo, incluyendo:<br>
+     a) Manual de instalación, operación y mantenimiento (IOM)<br>
+     b) Plan de mantenimiento preventivo y correctivo<br>
+     c) Protocolos e informes de calificación previos<br>
+     d) Instructivo de operación y limpieza<br>
+     e) Bitácora de uso y limpieza<br>
+  2) Revisar que cada documento está vigente, firmado y controlado en el sistema de gestión documental<br>
+  3) Registrar título, código, revisión y fecha de cada documento en la tabla correspondiente<br>
+  4) Anexar copias o referencias digitales de los documentos relevantes</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los documentos requeridos están disponibles, vigentes y aprobados.<br>
+  La información registrada es correcta, completa y trazable.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de documentos completada<br>
+  - Referencias digitales o copias anexadas</p>
+  <p><strong>Referencia:</strong><br>EU GMP Capítulo 4.</p>
+</article>
+
+<article data-bloque="4" id="art-EQ-IQ-016" class="ensayo" data-id="EQ-IQ-016" data-fase="IQ" data-cond="ambas" data-resumen="IQ">
+  <h3>EQ-IQ-016 — Tabla resumen de los ensayos del IQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar en una matriz el resultado de todos los ensayos IQ como acta de cierre de la fase.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Listar los ensayos del protocolo (<span class="lista-resumen" data-fase-lista="IQ"></span>) con su veredicto (C/NC/NA) y fecha de ejecución<br>
+  2) Justificar cada ensayo declarado No Aplica<br>
+  3) Listar desviaciones abiertas con su estado y plan de cierre<br>
+  4) Firmar el acta de cierre IQ</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% de ensayos IQ ejecutados o justificados como No Aplica; cero desviaciones críticas abiertas; acta firmada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz resumen IQ firmada<br>
+  - Acta de cierre de fase IQ</p>
+  <p><strong>Nota:</strong><br>
+  Sin la matriz resumen firmada no se autoriza el inicio de la OQ.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="5" id="art-EQ-IQ-017" class="ensayo tabla-info" data-id="EQ-IQ-017" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-017 — Firmas del personal involucrado en la ejecución</h3>
+  <table border="1" cellpadding="4">
+  <tr><th>Nombre</th><th>Área</th><th>Firma</th><th>Fecha</th></tr>
+  <tr><td>________________________</td><td>________________________</td><td>________________________</td><td>________________________</td></tr>
+  <tr><td>________________________</td><td>________________________</td><td>________________________</td><td>________________________</td></tr>
+  <tr><td>________________________</td><td>________________________</td><td>________________________</td><td>________________________</td></tr>
+  <tr><td>________________________</td><td>________________________</td><td>________________________</td><td>________________________</td></tr>
+  <tr><td>________________________</td><td>________________________</td><td>________________________</td><td>________________________</td></tr>
+  <tr><td>________________________</td><td>________________________</td><td>________________________</td><td>________________________</td></tr>
+  <tr><td>________________________</td><td>________________________</td><td>________________________</td><td>________________________</td></tr>
+  <tr><td>________________________</td><td>________________________</td><td>________________________</td><td>________________________</td></tr>
+  </table>
+</article>
+
+<article data-bloque="6" id="art-EQ-IQ-018" class="ensayo tabla-info" data-id="EQ-IQ-018" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-018 — Referencias</h3>
+  <table border="1" cellpadding="4">
+  <tr><th>N°</th><th>Documento</th><th>Código / Versión</th></tr>
+  <tr><td>1</td><td>USP &lt;1058&gt; Analytical Instrument Qualification</td><td>USP vigente</td></tr>
+  <tr><td>2</td><td>EU GMP Anexo 15 — Calificación y validación</td><td>2015</td></tr>
+  <tr><td>3</td><td>EU GMP Anexo 11 — Sistemas informatizados</td><td>2011</td></tr>
+  <tr><td>4</td><td>ISPE GAMP 5 — A Risk-Based Approach to Compliant GxP Computerized Systems</td><td>2.ª edición, 2022</td></tr>
+  <tr><td>5</td><td>21 CFR Part 11 — Electronic Records; Electronic Signatures</td><td>Vigente</td></tr>
+  <tr><td>6</td><td>ISPE Baseline Guide Vol. 5 — Commissioning and Qualification</td><td>2.ª edición, 2019</td></tr>
+  <tr><td>7</td><td>ASME BPE — Bioprocessing Equipment</td><td>Edición vigente</td></tr>
+  <tr><td>8</td><td>ASME BPVC Sección VIII — Recipientes a presión</td><td>Edición vigente</td></tr>
+  <tr><td>9</td><td>ISO 14644-3 / EN 1822 — Salas limpias y filtros de alta eficiencia</td><td>Edición vigente</td></tr>
+  <tr><td>10</td><td>FDA 21 CFR 177 / USP &lt;88&gt; — Materiales poliméricos en contacto</td><td>Vigente</td></tr>
+  <tr><td>11</td><td>______</td><td>______</td></tr>
+  </table>
+</article>
+
+<article data-bloque="7" id="art-EQ-IQ-019" class="ensayo tabla-info" data-id="EQ-IQ-019" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-019 — Historial de cambios</h3>
+  <table border="1" cellpadding="4">
+  <tr><th>Versión</th><th>Fecha</th><th>Código</th><th>Descripción del cambio</th></tr>
+  <tr><td>01</td><td>______</td><td>______</td><td>Creación del documento</td></tr>
+  </table>
+</article>
+
+<div class="anexos" data-bloque="8">
+<p><strong>ANEXOS</strong></p>
+<ul>
+  <li>Anexo A — Certificados de calibración de los instrumentos utilizados</li>
+  <li>Anexo B — Lista de empaque y registro fotográfico de recepción</li>
+  <li>Anexo C — Listado de componentes principales verificados</li>
+  <li>Anexo D — Data cruda y reporte estadístico de utilidades</li>
+  <li>Anexo E — Evidencias de software, firmware y diagnóstico inicial</li>
+  <li>Anexo F — Certificados de recipientes a presión, dispositivos de alivio y filtros</li>
+  <li>Anexo G — Certificados de materiales en contacto y fichas de lubricantes</li>
+</ul>
+</div>
+
+</section>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq">
+<h2>OQ — Ensayos</h2>
+<p>Pendiente: los ensayos OQ son específicos por equipo y se mantienen en sus fichas.</p>
+</section>
+
+<!-- ================= PQ ================= -->
+<section id="fase-pq">
+<h2>PQ — Ensayos</h2>
+<p>Pendiente: los ensayos PQ son específicos por equipo y se mantienen en sus fichas.</p>
+</section>
+
+</body>
+</html>

@@ -82,7 +82,7 @@ describe('Validaciones V7', () => {
     for (const c of Validaciones.CATS) {
       expect(c.href).toBeUndefined();
       expect(Validaciones.getEntidades(c.id).length).toBeGreaterThan(0);
-      expect(Validaciones.getSchema(c.id).length).toBeGreaterThanOrEqual(7);
+      expect(Validaciones.getSchema(c.id).length).toBeGreaterThanOrEqual(6);
     }
     // <base target="_blank"> en indexx.html: los enlaces in-app deben forzar _self
     const src = readFileSync(join(core, 'indexx-validaciones.js'), 'utf-8');
@@ -98,7 +98,7 @@ describe('Validaciones V7', () => {
   });
 
   test('planilla adaptativa: comunes + específicos por categoría', () => {
-    const comun = ['logo', 'responsable', 'fecha'];
+    const comun = ['responsable', 'fecha'];
     const eq = Validaciones.getSchema('equipos').map((f) => f.k);
     for (const k of comun) expect(eq).toContain(k);
     for (const k of ['marca', 'modelo', 'codigo', 'ubicacion']) expect(eq).toContain(k);
@@ -129,16 +129,29 @@ describe('Validaciones V7', () => {
     expect(css).toContain('-apple-system');
   });
 
-  test('paso 3 solo en almacenes; resto queda en Próximamente', () => {
+  test('paso 3 con generador; resto queda en Próximamente', () => {
     const alm = Validaciones.viewEntidad('almacenes');
     expect(alm).toContain('Protocolos a generar');
     expect(alm).toContain('class="gen-fase"');
     expect(alm).toContain('Generar y descargar');
     expect(alm).not.toContain('Generar (próximamente)');
-    const eq = Validaciones.viewEntidad('equipos');
-    expect(eq).toContain('Generar (próximamente)');
-    expect(eq).toContain('próximamente para esta categoría');
+    for (const cat of ['sistemas', 'estabilidad', 'software']) {
+      const h = Validaciones.viewEntidad(cat);
+      expect(h).toContain('Generar (próximamente)');
+      expect(h).toContain('próximamente para esta categoría');
+    }
     expect(Validaciones.FASES_GEN).toEqual(['DQ', 'IQ', 'OQ', 'PQ']);
+  });
+
+  test('paso 3: equipos solo IQ; almacenes todas', () => {
+    expect(Validaciones.GEN_FASES.equipos).toEqual(['IQ']);
+    expect(Validaciones.GEN_FASES.almacenes).toEqual(['DQ', 'IQ', 'OQ', 'PQ']);
+    const html = Validaciones.viewEntidad('equipos');
+    expect(html).toContain('Protocolos a generar');
+    expect(html).toContain('value="IQ"');
+    expect(html).not.toContain('value="DQ"');
+    expect(html).not.toContain('value="OQ"');
+    expect(html).not.toContain('value="PQ"');
   });
 
   test('firmantes: helpers de puesto y fieldset', () => {

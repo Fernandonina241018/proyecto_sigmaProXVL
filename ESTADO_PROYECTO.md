@@ -4534,3 +4534,10 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Bug:** la celda del modelo trae 2 párrafos (nombre + cargo viejo) y `textoCelda` solo reemplazaba el primero → `Fernando Nina / (Analista Sr...)` + resto `(Analista Validaciones)`.
 - **Fix:** `llenarFirmas` reemplaza la celda completa por un solo párrafo con el nombre real (conserva estilo, en negro). Auditados los demás usos (resumen/referencias/evidencia: celdas de 1 párrafo, sin riesgo).
 - **Tests:** sin restos `(Analista Validaciones)` ni `(Gerente de Área)`; caso exacto del reporte verificado. Vitest 296/296, backend 60/60.
+
+### 2026-10-01 (108): Banco común IQ de Equipos integrado (solo IQ)
+- **Qué:** `docs/banco-ensayos/equipos-comun.html` (23 artículos EQ-IQ, 9 con tabla del modelo) + `scripts/extraer-banco.mjs` generalizado + `banco-equipos-data.js` regenerado con happy-dom (23 únicos).
+- **Parche (4 bloques manuales) en plantilla-docx.js:** `juntar()` (conclusión sin cortar), `tablasDelModelo()` + rama por `data-tabla-modelo`, salto en procedimiento; `banco(cat)`/`descargar(...,cat)`.
+- **Wiring:** `GEN_CATS += equipos`, paso 3 equipos solo-IQ (conteo por banco), link en `equipos.html`, `banco-equipos-data.js` antes del motor.
+- **Diferencias bloques 5/7/8 vs almacenes (tu verificación pendiente):** firmas 9 filas (vs 17), referencias 12 filas (vs 5), historial 2 filas (vs 3); título erróneo "RESUMEN DE CALIFICACIÓN" se copia del modelo; ensayos ★/◆ y ediciones de referencias sin revisar.
+- **Tests:** `plantilla-equipos.test.js` (18 ensayos, requisitos EQ-IQ-001, tablas modelo, cantSplit) + paso-3 IQ-only; E2E balanza→IQ con firmantes, sin errores. Vitest 300/300, backend 60/60.
