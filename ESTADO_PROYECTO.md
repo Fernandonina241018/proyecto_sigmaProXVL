@@ -4551,3 +4551,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Paso 1:** categorías con >10 entidades (equipos, 40) usan combobox con buscador (`input + datalist`, escribe y selecciona); el resto sigue con botones. Texto libre fuera de lista muestra aviso y no avanza.
 - **Título:** encabezado genérico solo con descripción (revertido MARCA/MODELO del título; el alcance sí conserva modelo).
 - **Tests:** combobox/botones por categoría + `entidadPorNombre`; título sin MM. E2E (búsqueda, selección, aviso, 0 errores). Vitest 301/301, backend 60/60.
+
+### 2026-10-01 (111): Responsabilidad del gerente dinámica (T2)
+- **Qué:** el título `Es Responsabilidad del Gerente de Área:` se arma solo con la gerencia del Revisor Gerente (`Es Responsabilidad del Gerente de <área>:`); sin revisor conserva el modelo. Vale para almacenes y equipos (plantilla + DQ).
+- **Verificación:** unit tests en ambos motores + E2E (cargo Gerente de Producción → título dinámico, viejo ausente, 0 errores). Vitest 305/305, backend 60/60.

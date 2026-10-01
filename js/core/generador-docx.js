@@ -237,10 +237,15 @@ const GeneradorDocx = (() => {
     H1('OBJETIVO:', [{ t: 'h2', texto: T.objetivo }]);
     // 4. ALCANCE
     H1('ALCANCE:', [{ t: 'h2', texto: alcanceTexto(draft, entidad) }]);
-    // 5. RESPONSABILIDADES
+    // 5. RESPONSABILIDADES (título del gerente dinámico según T2)
     const resp = [];
+    const _rg = ((draft || {}).firmantes || {}).revisor || {};
+    let _pg = String(_rg.puesto || '').trim();
+    if (!_pg && _rg.area) _pg = 'Gerente de ' + String(_rg.area).trim();
     T.roles.forEach((r) => {
-      resp.push({ t: 'h2', texto: r.rol });
+      const titulo = (r.rol === 'Es Responsabilidad del Gerente de Área:' && _pg)
+        ? 'Es Responsabilidad del ' + _pg + ':' : r.rol;
+      resp.push({ t: 'h2', texto: titulo });
       r.items.forEach((it) => resp.push({ t: 'bul', texto: it }));
     });
     H1('RESPONSABILIDADES:', resp);

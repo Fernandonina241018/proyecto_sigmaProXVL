@@ -161,3 +161,26 @@ describe('firmantes T0/T2 dinámicos, T1/T3 fijos, header negro', () => {
     expect(hs).not.toContain('FF0000');
   });
 });
+
+describe('responsabilidad del gerente dinámica (T2)', () => {
+  const DG = {
+    ...DRAFT, codigo: '1000625', fecha: '2026-09-30',
+    firmantes: { revisor: { username: 'g', nombre: 'Ana Gómez', area: 'Calidad', puesto: 'Gerente de Calidad' } },
+  };
+  test('título con la gerencia del revisor en IQ', async () => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));
+    const r = await P.generar('PQ', u8, banco, DG, ENT, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    const doc = arch['word/document.xml'].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    expect(doc).toContain('Es Responsabilidad del Gerente de Calidad:');
+    expect(doc).not.toContain('Es Responsabilidad del Gerente de Área:');
+  });
+
+  test('sin revisor conserva el modelo', async () => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));
+    const r = await P.generar('PQ', u8, banco, DRAFT, ENT, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    const norm = arch['word/document.xml'].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    expect(norm).toContain('Es Responsabilidad del Gerente de Área');
+  });
+});

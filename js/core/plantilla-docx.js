@@ -917,6 +917,18 @@ const PlantillaDocx = (() => {
       avisos.push('La imagen de la entidad no se inserta automáticamente ("Imagen del equipo").');
     }
 
+    // ---- responsabilidad del gerente: título dinámico según la gerencia del revisor (T2) ----
+    const _revG = (d.firmantes && d.firmantes.revisor) || {};
+    let _puestoG = String(_revG.puesto || '').trim();
+    if (!_puestoG && _revG.area) _puestoG = 'Gerente de ' + String(_revG.area).trim();
+    if (_puestoG) {
+      const iGer = inf.findIndex((x) => x.estilo === 'Heading2'
+        && sinEsp(x.texto).toUpperCase() === 'ESRESPONSABILIDADDELGERENTEDEÁREA:');
+      if (iGer >= 0) {
+        parts[iGer] = { tag: 'w:p', xml: textoParrafo(parts[iGer].xml, 'Es Responsabilidad del ' + _puestoG + ':') };
+      }
+    }
+
     // ---- referencias y anexos del banco ----
     const iRef = inf.findIndex((x) => x.estilo === 'Heading1' && /^REFERENCIAS/.test(sinEsp(x.texto).toUpperCase()));
     const refArt = items.find((i) => i.bloque === 6 && i.tabla && pasaCondicion(i.cond, filtro));

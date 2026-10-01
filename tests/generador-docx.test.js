@@ -163,3 +163,20 @@ describe('firmantes DQ dinámicos', () => {
     expect(f.every((x) => x.nombre.indexOf('Nombre Personal') >= 0)).toBe(true);
   });
 });
+
+describe('responsabilidad del gerente dinámica en DQ', () => {
+  const DF = { firmantes: { revisor: { username: 'g', nombre: 'Ana', area: 'Producción', puesto: 'Gerente de Producción' } } };
+  test('título con la gerencia del revisor', () => {
+    const m = GeneradorDocx.buildModelo('DQ', DF, { id: 'x', nombre: 'CF' }, 'ambas');
+    const textos = [];
+    m.secciones.forEach((s) => s.contenido.forEach((it) => { if (it.t === 'h2') textos.push(it.texto); }));
+    expect(textos).toContain('Es Responsabilidad del Gerente de Producción:');
+    expect(textos).not.toContain('Es Responsabilidad del Gerente de Área:');
+  });
+  test('sin revisor conserva el modelo', () => {
+    const m = GeneradorDocx.buildModelo('DQ', {}, { id: 'x', nombre: 'CF' }, 'ambas');
+    const textos = [];
+    m.secciones.forEach((s) => s.contenido.forEach((it) => { if (it.t === 'h2') textos.push(it.texto); }));
+    expect(textos).toContain('Es Responsabilidad del Gerente de Área:');
+  });
+});
