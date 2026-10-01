@@ -4520,3 +4520,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Fix:** versión reemplaza el run exacto `>AA<` (único en el header); fecha y código intactos. Verificado: header `30/Sep/2026` + `PQ-1000625` + `02`, sin corrupción.
 - **Blindaje:** sin fecha o código no se genera (mensaje en panel, cero descargas).
 - **Tests:** regresión versión-vs-fecha en plantilla; E2E (generación OK + bloqueo con fecha vacía). Vitest 291/291, backend 60/60.
+
+### 2026-09-30 (105): Fecha del cajetín en mayúsculas, historial intacto
+- **Qué:** `DD/MMM/AAAA` del encabezado ahora se llena como `30/SEP/2026` (mayúsculas); la última página (Historial) conserva `30/Sep/2026`.
+- **Tests:** header exige mayúsculas + historial exige formato original. Vitest 291/291, backend 60/60.

@@ -965,7 +965,8 @@ const PlantillaDocx = (() => {
       if (codigo) x = reemplazarTexto(x, '1/400AAAA', codigo).xml;
       // VERSIÓN del cajetín: run exacto ">AA<" (buscar "AA" a secas rompería "DD/MMM/AAAA")
       if (version) x = x.split('>AA<').join('>' + esc(version) + '<');
-      if (fecha) x = reemplazarTexto(x, 'DD/MMM/AAAA', fecha).xml;
+      // Fecha del cajetín en mayúsculas (30/SEP/2026); el historial queda como está
+      if (fecha) x = reemplazarTexto(x, 'DD/MMM/AAAA', fecha.toUpperCase()).xml;
       if (nombre) x = reemplazarTexto(x, 'NOMBRE DEL EQUIPO', nombre.toUpperCase()).xml;
       x = reemplazarTexto(x, ' SIN MARCA NI MODELO', '').xml;
       x = reemplazarTexto(x, 'CALIFICACION DE ', 'CALIFICACIÓN DE ').xml; // tilde ausente en el encabezado de los modelos
