@@ -570,3 +570,19 @@
 }
 #validaciones-app .v7-btn-download:hover { filter: brightness(1.06); }
 #validaciones-app .v7-btn-download:disabled { opacity: 0.5; cursor: wait; }
+
+/* ----- paso 1: combobox con buscador ----- */
+#validaciones-app .v7-combo { max-width: 560px; }
+#validaciones-app .v7-ent-input {
+  font: inherit;
+  font-size: 14px;
+  color: var(--v7-ink);
+  background: var(--v7-panel-2);
+  border: 1px solid var(--v7-border);
+  border-radius: 12px;
+  height: 44px;
+  padding: 0 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+#validaciones-app .v7-ent-input:focus { outline: none; border-color: var(--v7-accent); box-shadow: 0 0 0 3px var(--v7-accent-soft); }

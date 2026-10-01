@@ -154,6 +154,20 @@ describe('Validaciones V7', () => {
     expect(html).not.toContain('value="PQ"');
   });
 
+  test('paso 1: combobox con buscador en equipos, botones en el resto', () => {
+    const eq = Validaciones.viewEntidad('equipos');
+    expect(eq).toContain('v7-ent-input');
+    expect(eq).toContain('v7-ents-dl');
+    expect(eq).toContain('Escriba para buscar');
+    expect(eq).not.toContain('class="v7-ent"');
+    const alm = Validaciones.viewEntidad('almacenes');
+    expect(alm).toContain('class="v7-ent"');
+    expect(alm).not.toContain('v7-ent-input');
+    expect(Validaciones.entidadPorNombre('equipos', 'balanza analítica / precisión')).toEqual({ id: 'balanza', nombre: 'Balanza analítica / precisión' });
+    expect(Validaciones.entidadPorNombre('equipos', 'no existe')).toBe(null);
+    expect(Validaciones.entidadPorNombre('equipos', '')).toBe(null);
+  });
+
   test('firmantes: helpers de puesto y fieldset', () => {
     expect(Validaciones.puestoGerente('Calidad')).toBe('Gerente de Calidad');
     expect(Validaciones.puestoGerente('Gerente de Calidad')).toBe('Gerente de Calidad');

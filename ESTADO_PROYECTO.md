@@ -4546,3 +4546,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Título con marca/modelo:** `SIN MARCA NI MODELO` → `MARCA X MODELO Y` si el draft los trae; si no, se borra como antes (almacenes intacto).
 - **Schema equipos:** +`controlCambios` y `versionProtocolo` (opcionales) → cajetín, historial y avisos funcionan igual que en almacenes. Rango T°/HR no aplica a equipos (se deja el aviso del banco).
 - **Verificación:** E2E balanza (título MM, IQ-4001234, 02, CC-007, T2 Ana, 0 errores). Vitest 300/300, backend 60/60.
+
+### 2026-10-01 (110): Combobox con buscador en equipos + título solo descripción
+- **Paso 1:** categorías con >10 entidades (equipos, 40) usan combobox con buscador (`input + datalist`, escribe y selecciona); el resto sigue con botones. Texto libre fuera de lista muestra aviso y no avanza.
+- **Título:** encabezado genérico solo con descripción (revertido MARCA/MODELO del título; el alcance sí conserva modelo).
+- **Tests:** combobox/botones por categoría + `entidadPorNombre`; título sin MM. E2E (búsqueda, selección, aviso, 0 errores). Vitest 301/301, backend 60/60.

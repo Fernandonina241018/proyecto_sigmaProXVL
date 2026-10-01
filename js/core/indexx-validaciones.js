@@ -601,6 +601,32 @@ const Validaciones = (() => {
       + '</div>';
   }
 
+  // Paso 1: botones si hay pocas entidades, combobox con buscador si hay muchas.
+  const UMBRAL_COMBO = 10;
+
+  function entidadPorNombre(catId, nombre) {
+    const n = String(nombre || '').trim().toLowerCase();
+    if (!n) return null;
+    const list = getEntidades(catId);
+    for (let i = 0; i < list.length; i++) {
+      if (String(list[i].nombre).trim().toLowerCase() === n) return list[i];
+    }
+    return null;
+  }
+
+  function paso1Html(catId, ents) {
+    if (ents.length > UMBRAL_COMBO) {
+      return '<div class="v7-combo">'
+        + '<input type="text" class="v7-ent-input" list="v7-ents-dl" placeholder="Escriba para buscar el equipo…" autocomplete="off" aria-label="Buscar entidad">'
+        + '<datalist id="v7-ents-dl">'
+        + ents.map((e) => '<option value="' + esc(e.nombre) + '">').join('')
+        + '</datalist></div>';
+    }
+    return '<div class="v7-ents">'
+      + ents.map((e) => '<button type="button" class="v7-ent" data-ent="' + esc(e.id) + '">' + esc(e.nombre) + '</button>').join('')
+      + '</div>';
+  }
+
   function viewEntidad(catId) {
     const cat = catById(catId);
     if (!cat) return viewBanco();
@@ -614,9 +640,8 @@ const Validaciones = (() => {
       + '<p class="sub">Cargue los datos de la entidad. No se muestran ensayos: el protocolo se genera después con estos datos.</p>'
       + '<div class="v7-step" data-step="1">'
       + '<div class="gt">1 · Seleccione la entidad</div>'
-      + '<div class="v7-ents">'
-      + ents.map((e) => '<button type="button" class="v7-ent" data-ent="' + esc(e.id) + '">' + esc(e.nombre) + '</button>').join('')
-      + '</div></div>'
+      + paso1Html(catId, ents)
+      + '</div>'
       + '<div class="v7-step" data-step="2" hidden>'
       + '<div class="gt">2 · Datos de la entidad</div>'
       + '<form class="v7-dataform" novalidate>'
@@ -871,21 +896,27 @@ const Validaciones = (() => {
       if (btn) btn.disabled = false;
     }
 
+    function elegirEntidad(entId) {
+      if (!entId) return false;
+      entActual = entId;
+      main.querySelectorAll('.v7-ent').forEach((b) => b.classList.toggle('sel', b.getAttribute('data-ent') === entId));
+      step2.hidden = false;
+      const draft = loadDraft(entActual);
+      cargar(draft);
+      setMsg(Object.keys(draft).length ? 'Borrador cargado' : '', true);
+      if (conGen) cargarFirmantes();
+      if (step3 && conGen) {
+        step3.hidden = false;
+        restaurarSel3();
+      }
+      try { step2.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (err) {}
+      return true;
+    }
+
     main.addEventListener('click', function (e) {
       const ent = e.target && e.target.closest ? e.target.closest('.v7-ent') : null;
       if (ent) {
-        entActual = ent.getAttribute('data-ent');
-        main.querySelectorAll('.v7-ent').forEach((b) => b.classList.toggle('sel', b === ent));
-        step2.hidden = false;
-        const draft = loadDraft(entActual);
-        cargar(draft);
-        setMsg(Object.keys(draft).length ? 'Borrador cargado' : '', true);
-        if (conGen) cargarFirmantes();
-        if (step3 && conGen) {
-          step3.hidden = false;
-          restaurarSel3();
-        }
-        try { step2.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (err) {}
+        elegirEntidad(ent.getAttribute('data-ent'));
         return;
       }
       if (e.target && e.target.classList && e.target.classList.contains('v7-btn-save')) {
@@ -915,6 +946,16 @@ const Validaciones = (() => {
     if (step3 && step3.addEventListener) {
       step3.addEventListener('change', function (e) {
         if (e.target && e.target.classList && e.target.classList.contains('gen-cond')) pintarResumen3();
+      });
+    }
+
+    // Combobox con buscador (categorías con muchas entidades)
+    const comboInput = main.querySelector('.v7-ent-input');
+    if (comboInput && comboInput.addEventListener) {
+      comboInput.addEventListener('change', function () {
+        const found = entidadPorNombre(catId, comboInput.value);
+        if (found) elegirEntidad(found.id);
+        else setMsg('Escriba y seleccione una entidad de la lista.', false);
       });
     }
 
@@ -1044,6 +1085,7 @@ const Validaciones = (() => {
 
   return {
     CATS, ROUTES, ENTIDADES, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
+    entidadPorNombre,
     puestoGerente, firmantesHtml, saveDraft, loadDraft, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render,
   };
 })();

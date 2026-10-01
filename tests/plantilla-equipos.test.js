@@ -51,7 +51,9 @@ describe('IQ equipos con banco común', () => {
     const hsFlat = hs.replace(/\s+/g, '');
     expect(hsFlat).toContain('IQ-4001234');
     expect(hsFlat).not.toContain('1/400AAAA');
-    expect(hs).toContain('MARCA Mettler Toledo MODELO XPR205');
+    // Título genérico: solo descripción, nunca marca/modelo en el encabezado
+    expect(hs).not.toContain('MARCA Mettler');
+    expect(hs).not.toContain('MODELO XPR205');
     expect(hs).not.toContain('SIN MARCA NI MODELO');
     const hsRaw = Object.keys(arch).filter((n) => /^word\/header\d+\.xml$/.test(n)).map((n) => arch[n]).join('');
     expect(hsRaw).not.toContain('>AA<');
