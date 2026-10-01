@@ -1059,7 +1059,10 @@ const PlantillaDocx = (() => {
       // Fecha del cajetín en mayúsculas (30/SEP/2026); el historial queda como está
       if (fecha) x = reemplazarTexto(x, 'DD/MMM/AAAA', fecha.toUpperCase()).xml;
       if (nombre) x = reemplazarTexto(x, 'NOMBRE DEL EQUIPO', nombre.toUpperCase()).xml;
-      x = reemplazarTexto(x, ' SIN MARCA NI MODELO', '').xml;
+      // Título con marca/modelo si el borrador los trae; si no, se borra como antes
+      const mmTxt = [d.marca ? 'MARCA ' + String(d.marca).trim() : '', d.modelo ? 'MODELO ' + String(d.modelo).trim() : ''].filter(Boolean).join(' ');
+      if (mmTxt) x = reemplazarTexto(x, 'SIN MARCA NI MODELO', mmTxt).xml;
+      else x = reemplazarTexto(x, ' SIN MARCA NI MODELO', '').xml;
       x = reemplazarTexto(x, 'CALIFICACION DE ', 'CALIFICACIÓN DE ').xml; // tilde ausente en el encabezado de los modelos
       // Encabezado 100% negro: los valores del modelo vienen en rojo (FF0000)
       x = x.replace(/w:val="FF0000"/g, 'w:val="000000"');

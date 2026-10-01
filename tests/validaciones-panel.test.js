@@ -101,7 +101,7 @@ describe('Validaciones V7', () => {
     const comun = ['responsable', 'fecha'];
     const eq = Validaciones.getSchema('equipos').map((f) => f.k);
     for (const k of comun) expect(eq).toContain(k);
-    for (const k of ['marca', 'modelo', 'codigo', 'ubicacion']) expect(eq).toContain(k);
+    for (const k of ['marca', 'modelo', 'codigo', 'ubicacion', 'controlCambios', 'versionProtocolo']) expect(eq).toContain(k);
     const alm = Validaciones.getSchema('almacenes').map((f) => f.k);
     for (const k of ['codigo', 'descripcion', 'ubicacion', 'tipo', 'temperaturaMin', 'temperaturaMax', 'humedadMin', 'humedadMax', 'controlCambios', 'versionProtocolo']) expect(alm).toContain(k);
     expect(alm).not.toContain('marca');

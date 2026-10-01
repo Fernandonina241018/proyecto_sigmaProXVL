@@ -240,6 +240,8 @@ const Validaciones = (() => {
       { k: 'serie', label: 'Serie', tipo: 'text', req: false },
       { k: 'codigo', label: 'Código', tipo: 'text', req: true },
       { k: 'ubicacion', label: 'Ubicación', tipo: 'text', req: true },
+      { k: 'controlCambios', label: 'Control de cambios #', tipo: 'text', req: false },
+      { k: 'versionProtocolo', label: 'Versión del protocolo', tipo: 'text', req: false },
     ],
     sistemas: [
       { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },

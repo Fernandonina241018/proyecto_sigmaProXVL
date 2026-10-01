@@ -13,7 +13,8 @@ const dec = (u8) => new TextDecoder().decode(u8);
 
 const DRAFT = {
   codigo: '4001234', descripcion: 'Balanza analítica Mettler Toledo XPR205', ubicacion: 'Lab', tipo: 'Instrumento',
-  fecha: '2026-10-01',
+  marca: 'Mettler Toledo', modelo: 'XPR205', fecha: '2026-10-01',
+  versionProtocolo: '02', controlCambios: 'CC-007',
 };
 const ENT = { id: 'balanza', nombre: 'Balanza analítica' };
 
@@ -46,9 +47,17 @@ describe('IQ equipos con banco común', () => {
   it('datos del borrador congelados y conclusión sin cortar', async () => {
     await prep();
     const doc = arch['word/document.xml'];
-    const hs = Object.keys(arch).filter((n) => /^word\/header\d+\.xml$/.test(n)).map((n) => arch[n]).join('').replace(/<[^>]+>/g, '');
-    expect(hs).toContain('IQ-4001234');
+    const hs = Object.keys(arch).filter((n) => /^word\/header\d+\.xml$/.test(n)).map((n) => arch[n]).join('').replace(/<[^>]+>/g, ' ');
+    const hsFlat = hs.replace(/\s+/g, '');
+    expect(hsFlat).toContain('IQ-4001234');
+    expect(hsFlat).not.toContain('1/400AAAA');
+    expect(hs).toContain('MARCA Mettler Toledo MODELO XPR205');
+    expect(hs).not.toContain('SIN MARCA NI MODELO');
+    const hsRaw = Object.keys(arch).filter((n) => /^word\/header\d+\.xml$/.test(n)).map((n) => arch[n]).join('');
+    expect(hsRaw).not.toContain('>AA<');
+    expect(/>\s*02\s*</.test(hsRaw)).toBe(true);
     expect(doc).toContain('BALANZA ANALÍTICA METTLER TOLEDO XPR205');
     expect(doc).toContain('cantSplit');
+    expect(doc).toContain('Creación por control de cambios #CC-007');
   });
 });
