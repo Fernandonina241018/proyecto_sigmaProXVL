@@ -150,6 +150,9 @@ describe('firmantes T0/T2 dinámicos, T1/T3 fijos, header negro', () => {
     expect(doc.slice(Math.max(0, iJ - 1500), iJ + 500)).not.toContain('FF0000');
     const iA = doc.indexOf('Ana Gómez');
     expect(doc.slice(Math.max(0, iA - 1500), iA + 500)).not.toContain('FF0000');
+    // la celda queda con UN solo párrafo (sin restos del modelo)
+    expect(doc).not.toContain('Analista Validaciones )');
+    expect(doc).not.toContain('Gerente de Área)');
   });
 
   it('encabezado 100% negro', async () => {

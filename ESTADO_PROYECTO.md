@@ -4529,3 +4529,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Grid (Almacenes):** fieldset Firmantes — Realizado auto con login (`/api/me`, solo lectura) + Revisor Gerente nombre (select de gerentes) + Gerencia que revisa (combobox con sugerencias + autohint desde el cargo); los 3 obligatorios (bloquean Guardar/Generar); se congelan en el borrador. Offline → `(sin conexión)` + bloqueo con aviso.
 - **Motores (todos los protocolos):** T0/T2 con nombre/(cargo) en negro; T1/T3 intactos; header `FF0000→000000` (cajetín 100% negro); DQ igual con `firmantesModelo`.
 - **Tests:** puestoGerente, fieldset, T0/T2 en negro, header negro, DQ dinámico; E2E con endpoints mock (listas, requerido, autohint, descarga PQ verificada). Vitest 296/296, backend 60/60.
+
+### 2026-10-01 (107) [FIX]: firmas sin restos del modelo (celda de 2 párrafos)
+- **Bug:** la celda del modelo trae 2 párrafos (nombre + cargo viejo) y `textoCelda` solo reemplazaba el primero → `Fernando Nina / (Analista Sr...)` + resto `(Analista Validaciones)`.
+- **Fix:** `llenarFirmas` reemplaza la celda completa por un solo párrafo con el nombre real (conserva estilo, en negro). Auditados los demás usos (resumen/referencias/evidencia: celdas de 1 párrafo, sin riesgo).
+- **Tests:** sin restos `(Analista Validaciones)` ni `(Gerente de Área)`; caso exacto del reporte verificado. Vitest 296/296, backend 60/60.

@@ -609,8 +609,14 @@ const PlantillaDocx = (() => {
       if (fs.length < 2) return false;
       const c = celdas(fs[1]);
       if (!c.length) return false;
-      // Nombre real: en negro (el rojo del modelo marca pendiente)
-      c[0] = textoCelda(c[0], nombre).replace(/w:val="FF0000"/g, 'w:val="000000"');
+      // La celda del modelo trae 2 párrafos (nombre + cargo viejo): se reemplaza
+      // TODO el contenido por un solo párrafo con el nombre real, en negro.
+      const tcPr = (/<w:tcPr>[\s\S]*?<\/w:tcPr>/.exec(c[0]) || [''])[0];
+      const primerP = /<w:p[ >][\s\S]*?<\/w:p>/.exec(c[0]);
+      const nuevoP = primerP ? textoParrafo(primerP[0], nombre)
+        : '<w:p><w:r><w:t xml:space="preserve">' + esc(nombre) + '</w:t></w:r></w:p>';
+      c[0] = c[0].slice(0, c[0].indexOf('>') + 1) + tcPr + nuevoP + '</w:tc>';
+      c[0] = c[0].replace(/w:val="FF0000"/g, 'w:val="000000"');
       parts[ti] = { tag: 'w:tbl', xml: conFilas(parts[ti].xml, [fs[0], conCeldas(fs[1], c)].concat(fs.slice(2))) };
       return true;
     };
