@@ -92,9 +92,15 @@ const Validaciones = (() => {
   // tipo: text | select | date. req: obligatorio.
   const SCHEMAS = {
     _comun: [
-      { k: 'logo', label: 'Logo', tipo: 'file', req: false },
-      { k: 'responsable', label: 'Responsable', tipo: 'text', req: true },
-      { k: 'fecha', label: 'Fecha', tipo: 'date', req: true },
+      { k: 'responsable', 
+        label: 'Responsable', 
+        tipo: 'text', 
+        req: true 
+      },
+      { k: 'fecha', 
+        label: 'Fecha', 
+        tipo: 'date', 
+        req: true },
     ],
     almacenes: [
       {
