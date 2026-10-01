@@ -4514,3 +4514,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Qué:** `js/core/version-check.js` compara `version.json` (siempre fresco, `cache:no-store`) cada 2 min + al volver a la pestaña; si cambia muestra toast "🆕 Nueva versión disponible" con botón Recargar. No recarga solo (protege planillas sin guardar).
 - **Proceso:** `version.json` + meta `build-revision` se actualizan con el hash en cada commit/push.
 - **Tests:** `tests/version-check.test.js` (sin cambio/cambio/recarga/error de red + forma de version.json); E2E headless con toast visible y sin errores. Vitest 291/291, backend 60/60.
+
+### 2026-09-30 (104) [PROD-FIX]: fecha DD/MMM/02AA — la versión rompía el marcador
+- **Bug:** con Versión llena (ej. "02"), el reemplazo `AA → versión` mordía primero dentro de `DD/MMM/AAAA` → quedaba `DD/MMM/02AA` y la fecha nunca se aplicaba.
+- **Fix:** versión reemplaza el run exacto `>AA<` (único en el header); fecha y código intactos. Verificado: header `30/Sep/2026` + `PQ-1000625` + `02`, sin corrupción.
+- **Blindaje:** sin fecha o código no se genera (mensaje en panel, cero descargas).
+- **Tests:** regresión versión-vs-fecha en plantilla; E2E (generación OK + bloqueo con fecha vacía). Vitest 291/291, backend 60/60.

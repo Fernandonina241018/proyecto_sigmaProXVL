@@ -963,8 +963,8 @@ const PlantillaDocx = (() => {
       let x = dec(a.datos);
       // DOCUMENTO NO.: FASE-CÓDIGO (el modelo trae "PQ-1/400AAAA" → queda "PQ-1000625")
       if (codigo) x = reemplazarTexto(x, '1/400AAAA', codigo).xml;
-      // VERSIÓN del cajetín (el modelo trae "AA")
-      if (version) x = reemplazarTexto(x, 'AA', version).xml;
+      // VERSIÓN del cajetín: run exacto ">AA<" (buscar "AA" a secas rompería "DD/MMM/AAAA")
+      if (version) x = x.split('>AA<').join('>' + esc(version) + '<');
       if (fecha) x = reemplazarTexto(x, 'DD/MMM/AAAA', fecha).xml;
       if (nombre) x = reemplazarTexto(x, 'NOMBRE DEL EQUIPO', nombre.toUpperCase()).xml;
       x = reemplazarTexto(x, ' SIN MARCA NI MODELO', '').xml;

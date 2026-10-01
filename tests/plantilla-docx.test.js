@@ -91,6 +91,9 @@ describe('ajustes del usuario: firmas, encabezado, control de cambios', () => {
     const hs = Object.keys(arch).filter((n) => /^word\/header\d+\.xml$/.test(n)).map((n) => arch[n]).join('');
     expect(hs).toContain('>02<');
     expect(hs).not.toContain('>AA<');
+    // la versión no debe romper el marcador de fecha (regresión DD/MMM/02AA)
+    expect(hs).toContain('30/Sep/2026');
+    expect(hs).not.toContain('02AA');
     const doc = arch['word/document.xml'];
     const iH = doc.indexOf('HISTORIAL DE CAMBIOS');
     expect(doc.slice(iH, iH + 4000)).toContain('>02<');

@@ -688,6 +688,9 @@ const Validaciones = (() => {
       if (!sel.fases.length) { setGenMsg('Seleccione al menos un protocolo.', false); return; }
       saveGen(entActual, sel);
       const draft = recoger();
+      // Blindaje: sin fecha o código no se genera (el .docx conservaría DD/MMM/AAAA)
+      if (!String(draft.fecha || '').trim()) { setGenMsg('Complete la Fecha del paso 2 antes de generar.', false); return; }
+      if (!String(draft.codigo || '').trim()) { setGenMsg('Complete el Código del paso 2 antes de generar.', false); return; }
       const ent = entidadObj();
       const btn = step3.querySelector('.v7-btn-download');
       if (btn) btn.disabled = true;
