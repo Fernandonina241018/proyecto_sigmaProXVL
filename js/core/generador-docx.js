@@ -245,7 +245,10 @@ const GeneradorDocx = (() => {
     T.roles.forEach((r) => {
       const titulo = (r.rol === 'Es Responsabilidad del Gerente de Área:' && _pg)
         ? 'Es Responsabilidad del ' + _pg + ':' : r.rol;
-      resp.push({ t: 'h2', texto: titulo });
+      // Gerencia dinámica en negrita (como el modelo); el resto igual
+      const dyn = (r.rol === 'Es Responsabilidad del Gerente de Área:' && _pg)
+        ? { t: 'h2', texto: 'Es Responsabilidad del ', negrita: _pg + ':' } : null;
+      resp.push(dyn || { t: 'h2', texto: titulo });
       r.items.forEach((it) => resp.push({ t: 'bul', texto: it }));
     });
     H1('RESPONSABILIDADES:', resp);
@@ -339,10 +342,13 @@ const GeneradorDocx = (() => {
       pageBreakBefore: !primera,
       children: [new D.TextRun({ text: texto, bold: true, font: 'Tahoma', size: 22, color: '0F4761' })],
     }));
-    const H2 = (texto, salto) => kids.push(new D.Paragraph({
+    const H2 = (texto, salto, negrita) => kids.push(new D.Paragraph({
       heading: D.HeadingLevel.HEADING_2,
       pageBreakBefore: !!salto,
-      children: [new D.TextRun({ text: texto, font: 'Tahoma', size: 22, color: '0D0D0D' })],
+      children: negrita
+        ? [new D.TextRun({ text: texto, font: 'Tahoma', size: 22, color: '0D0D0D' }),
+           new D.TextRun({ text: negrita, bold: true, font: 'Tahoma', size: 22, color: '0D0D0D' })]
+        : [new D.TextRun({ text: texto, font: 'Tahoma', size: 22, color: '0D0D0D' })],
     }));
     const P = (runs) => kids.push(new D.Paragraph({
       children: runs.map((r) => new D.TextRun({ text: r.t, bold: !!r.b, font: 'Tahoma', size: 22, color: '0D0D0D' })),
@@ -417,7 +423,7 @@ const GeneradorDocx = (() => {
     modelo.secciones.forEach((sec) => {
       H1(sec.h1, sec.primera);
       sec.contenido.forEach((it) => {
-        if (it.t === 'h2') H2(it.texto, it.salto);
+        if (it.t === 'h2') H2(it.texto, it.salto, it.negrita);
         else if (it.t === 'p') P(it.runs);
         else if (it.t === 'bul') BUL(it.texto);
         else if (it.t === 'toc') {

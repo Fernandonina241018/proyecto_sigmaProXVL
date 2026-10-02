@@ -171,9 +171,15 @@ describe('responsabilidad del gerente dinámica (T2)', () => {
     const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));
     const r = await P.generar('PQ', u8, banco, DG, ENT, 'ambas');
     const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
-    const doc = arch['word/document.xml'].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    const doc = arch['word/document.xml'].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').replace(/ :/g, ':');
     expect(doc).toContain('Es Responsabilidad del Gerente de Calidad:');
     expect(doc).not.toContain('Es Responsabilidad del Gerente de Área:');
+    // la gerencia va en negrita en el H2 (run bold con el puesto + ':')
+    const raw = arch['word/document.xml'];
+    const paras = raw.split('</w:p>');
+    const segH2 = paras.find((p) => p.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').includes('Es Responsabilidad del Gerente de Calidad')) || '';
+    expect(segH2).toContain('Gerente de Calidad');
+    expect(segH2).toContain('<w:b/>');
   });
 
   test('sin revisor conserva el modelo', async () => {

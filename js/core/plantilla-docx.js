@@ -925,7 +925,12 @@ const PlantillaDocx = (() => {
       const iGer = inf.findIndex((x) => x.estilo === 'Heading2'
         && sinEsp(x.texto).toUpperCase() === 'ESRESPONSABILIDADDELGERENTEDEÁREA:');
       if (iGer >= 0) {
-        parts[iGer] = { tag: 'w:p', xml: textoParrafo(parts[iGer].xml, 'Es Responsabilidad del ' + _puestoG + ':') };
+        // Solo la gerencia en negrita, como el modelo ("...del Analista...")
+        parts[iGer] = { tag: 'w:p', xml: parrafo(parts[iGer].xml, [
+          { t: 'Es Responsabilidad del ' },
+          { t: _puestoG, b: true },
+          { t: ':' },
+        ]) };
       }
     }
 

@@ -4555,3 +4555,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-01 (111): Responsabilidad del gerente dinámica (T2)
 - **Qué:** el título `Es Responsabilidad del Gerente de Área:` se arma solo con la gerencia del Revisor Gerente (`Es Responsabilidad del Gerente de <área>:`); sin revisor conserva el modelo. Vale para almacenes y equipos (plantilla + DQ).
 - **Verificación:** unit tests en ambos motores + E2E (cargo Gerente de Producción → título dinámico, viejo ausente, 0 errores). Vitest 305/305, backend 60/60.
+
+### 2026-10-01 (112): Gerencia dinámica en negrita (opción 1)
+- **Qué:** en `Es Responsabilidad del Gerente de X:`, solo la gerencia va en bold (resto normal), igual que el modelo. Plantilla (IQ/OQ/PQ) y DQ.
+- **Verificación:** run bold confirmado en .docx real + tests; Vitest 305/305, backend 60/60.
