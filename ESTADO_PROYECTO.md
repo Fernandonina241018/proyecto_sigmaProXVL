@@ -4568,3 +4568,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-02 (114): Cada acápite numerado abre página nueva (SALTO_H1)
 - **Qué:** tabla `SALTO_H1` ('1'..'11' → false = en flujo) + `debeSaltarH1(num)` en `plantilla-docx.js` (aplicada en bucle TOC a H1 con numId, salvo el 1.º y vacíos) y espejo en `generador-docx.js` (contador nH1 en H1 render). Causa del reporte: ningún H1 del modelo traía salto; solo Procedimiento lo recibía.
 - **Verificación:** IQ y PQ reales con 11/11 H1 (1.º sin salto, 2.º-11.º con salto); Vitest 314/314, backend 60/60.
+
+### 2026-10-02 (115): Salto configurable en H2 del modelo (SALTO_H2)
+- **Qué:** tabla `SALTO_H2` ('6.1','6.2',... → true = abre página; ausente = en flujo, default actual) + `debeSaltarH2(num)` aplicada en bucle H2 del TOC (`plantilla-docx.js`). Guard: H2 con `_SigmaSec` (banco/USP/resumen) la ignoran, los manda SALTO_PAGINA. Sin espejo DQ (no tiene H2 del modelo).
+- **Verificación:** PQ real con tabla vacía idéntico a hoy; con '6.2':true solo 6.2 con salto; Vitest 317/317, backend 60/60.
+- **Nota:** tests de SALTO_H1/H2 aíslan la tabla del usuario (conTablaH1/conTablaH2) para no romperse con sus excepciones. Config usuario vigente: SALTO_H1 {'4','5','10','11': false}.

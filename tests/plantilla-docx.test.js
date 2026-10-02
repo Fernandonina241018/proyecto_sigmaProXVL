@@ -238,6 +238,16 @@ describe('SALTO_PAGINA: condición de salto por ensayo', () => {
 });
 
 describe('SALTO_H1: cada acápite numerado abre página nueva', () => {
+  // Los tests aíslan la tabla del usuario (puede tener sus excepciones).
+  const conTablaH1 = async (t, fn) => {
+    const bak = { ...P.SALTO_H1 };
+    Object.keys(P.SALTO_H1).forEach((k) => delete P.SALTO_H1[k]);
+    Object.assign(P.SALTO_H1, t);
+    try { return await fn(); } finally {
+      Object.keys(P.SALTO_H1).forEach((k) => delete P.SALTO_H1[k]);
+      Object.assign(P.SALTO_H1, bak);
+    }
+  };
   const h1Nums = (xml) => [...xml.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)].map((m) => m[0])
     .filter((p) => /Heading1/.test((/<w:pPr>[\s\S]*?<\/w:pPr>/.exec(p) || [''])[0])
       && /<w:numId/.test((/<w:pPr>[\s\S]*?<\/w:pPr>/.exec(p) || [''])[0]))
@@ -264,26 +274,80 @@ describe('SALTO_H1: cada acápite numerado abre página nueva', () => {
   });
 
   test('11 acápites: el 1.º sin salto, del 2.º al 11.º con salto', async () => {
-    const h1s = h1Nums(await genPQ());
-    expect(h1s.map((h) => h.texto)).toEqual([
-      'FIRMA DE APROBACIÓN:', 'TABLA DE CONTENIDO:', 'OBJETIVO:', 'ALCANCE:',
-      'RESPONSABILIDADES:', expect.stringContaining('DESCRIPCIÓN'),
-      expect.stringContaining('PROCEDIMIENTO'), 'REGISTRO DE FIRMAS:',
-      'REFERENCIAS:', 'ANEXOS:', 'HISTORIAL DE CAMBIOS:',
-    ]);
-    expect(h1s[0].salto).toBe(false);
-    for (const h of h1s.slice(1)) expect(h.salto).toBe(true);
+    await conTablaH1({}, async () => {
+      const h1s = h1Nums(await genPQ());
+      expect(h1s.map((h) => h.texto)).toEqual([
+        'FIRMA DE APROBACIÓN:', 'TABLA DE CONTENIDO:', 'OBJETIVO:', 'ALCANCE:',
+        'RESPONSABILIDADES:', expect.stringContaining('DESCRIPCIÓN'),
+        expect.stringContaining('PROCEDIMIENTO'), 'REGISTRO DE FIRMAS:',
+        'REFERENCIAS:', 'ANEXOS:', 'HISTORIAL DE CAMBIOS:',
+      ]);
+      expect(h1s[0].salto).toBe(false);
+      for (const h of h1s.slice(1)) expect(h.salto).toBe(true);
+    });
   });
 
   test('excepción en tabla: acápite 3 en flujo', async () => {
-    P.SALTO_H1['3'] = false;
-    try {
+    await conTablaH1({ 3: false }, async () => {
       const h1s = h1Nums(await genPQ());
       expect(h1s[2].texto).toBe('OBJETIVO:');
       expect(h1s[2].salto).toBe(false);
       expect(h1s[1].salto).toBe(true);
-    } finally {
-      delete P.SALTO_H1['3'];
+    });
+  });
+});
+
+describe('SALTO_H2: salto configurable en H2 del modelo (6.1, 6.2, ...)', () => {
+  const conTablaH2 = async (t, fn) => {
+    const bak = { ...P.SALTO_H2 };
+    Object.keys(P.SALTO_H2).forEach((k) => delete P.SALTO_H2[k]);
+    Object.assign(P.SALTO_H2, t);
+    try { return await fn(); } finally {
+      Object.keys(P.SALTO_H2).forEach((k) => delete P.SALTO_H2[k]);
+      Object.assign(P.SALTO_H2, bak);
     }
+  };
+  const h2Modelo = (xml, bm) => [...xml.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)].map((m) => m[0])
+    .find((p) => p.includes('bookmarkStart') && p.includes('w:name="' + bm + '"'));
+  const conSalto = (p) => p.split('<w:bookmarkStart')[0].includes('pageBreakBefore');
+  const genPQ = async () => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));
+    const r = await P.generar('PQ', u8, banco, DRAFT, ENT, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    return arch['word/document.xml'];
+  };
+
+  test('debeSaltarH2: default false (en flujo), true activa', async () => {
+    await conTablaH2({}, async () => {
+      expect(P._interno.debeSaltarH2('6.2')).toBe(false);
+      expect(P._interno.debeSaltarH2(null)).toBe(false);
+    });
+    await conTablaH2({ '6.2': true }, async () => {
+      expect(P._interno.debeSaltarH2('6.2')).toBe(true);
+      expect(P._interno.debeSaltarH2(6.2)).toBe(true);
+    });
+  });
+
+  test('default: 6.1 y 6.2 en flujo', async () => {
+    await conTablaH2({}, async () => {
+      const xml = await genPQ();
+      expect(conSalto(h2Modelo(xml, '_SigmaH2_6_1'))).toBe(false);
+      expect(conSalto(h2Modelo(xml, '_SigmaH2_6_2'))).toBe(false);
+    });
+  });
+
+  test("'6.2': true -> solo 6.2 abre página; ensayos del banco intactos", async () => {
+    await conTablaH2({ '6.2': true }, async () => {
+      const xml = await genPQ();
+      expect(conSalto(h2Modelo(xml, '_SigmaH2_6_1'))).toBe(false);
+      expect(conSalto(h2Modelo(xml, '_SigmaH2_6_2'))).toBe(true);
+      // guard: un ensayo del banco conserva su salto (SALTO_PAGINA manda;
+      // se excluyen USP/requisitos, que van en flujo por diseño)
+      const hEns = [...xml.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)].map((m) => m[0])
+        .find((p) => p.includes('bookmarkStart') && /w:name="_SigmaSec\d+_\d+"/.test(p)
+          && !/DEFINICI[ÓO]N USP|REQUISITOS PREVIO/.test(p.replace(/<[^>]+>/g, ' ')));
+      expect(hEns).toBeTruthy();
+      expect(conSalto(hEns)).toBe(true);
+    });
   });
 });

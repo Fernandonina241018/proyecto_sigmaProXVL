@@ -44,6 +44,13 @@ const PlantillaDocx = (() => {
   const SALTO_H1 = {'4': false, '5': false, '10': false, '11': false};
   const debeSaltarH1 = (num) => SALTO_H1[String(num)] !== false;
 
+  // Salto de página por H2 del modelo con número de TOC ('6.1', '6.2', ...):
+  // 'n' -> true = abre página nueva; ausente = en flujo (comportamiento actual).
+  // Solo aplica a H2 del modelo; los del banco (ensayos, USP, resumen) los
+  // manda SALTO_PAGINA / su código propio.
+  const SALTO_H2 = {};
+  const debeSaltarH2 = (num) => SALTO_H2[String(num)] === true;
+
   let zipProv = null; // { inflate(u8)->Promise<u8>, deflate(u8)->Promise<u8> | null }
 
   // ---------------------------------------------------------------
@@ -1047,7 +1054,13 @@ const PlantillaDocx = (() => {
           if (!/^(DESCRIPCI|PROCEDIMIENTO)/.test(h1Texto)) return;
           const num = h1 + '.' + h2;
           let bm = (/w:name="(_SigmaSec[^"]+)"/.exec(x.xml) || [])[1];
-          if (!bm) { bm = '_SigmaH2_' + h1 + '_' + h2; parts[i] = { tag: 'w:p', xml: conMarcador(x.xml, bm) }; }
+          if (!bm) {
+            bm = '_SigmaH2_' + h1 + '_' + h2;
+            let hx = conMarcador(x.xml, bm);
+            // H2 del modelo: salto solo si la tabla lo pide (default en flujo)
+            if (debeSaltarH2(num)) hx = ajustarPPrEn(hx, { salto: true });
+            parts[i] = { tag: 'w:p', xml: hx };
+          }
           entradas.push({ nivel: 2, num, texto: toc[bm] || nombresModelo[num] || y.texto.replace(/\s*:\s*$/, ''), bm });
         }
       });
@@ -1165,8 +1178,8 @@ const PlantillaDocx = (() => {
   }
 
   return {
-    FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, soporta, configurar, generar, descargar, banco,
-    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar, debeSaltarH1 },
+    FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, soporta, configurar, generar, descargar, banco,
+    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar, debeSaltarH1, debeSaltarH2 },
   };
 })();
 
