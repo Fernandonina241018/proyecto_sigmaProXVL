@@ -48,8 +48,22 @@ const PlantillaDocx = (() => {
   // 'n' -> true = abre página nueva; ausente = en flujo (comportamiento actual).
   // Solo aplica a H2 del modelo; los del banco (ensayos, USP, resumen) los
   // manda SALTO_PAGINA / su código propio.
-  const SALTO_H2 = {'6.2': true};
+  const SALTO_H2 = {};
   const debeSaltarH2 = (num) => SALTO_H2[String(num)] === true;
+
+  // Salto previo por tabla de ensayo: clave 'ENSAYO_ID:TIPO' o comodín '*:TIPO'
+  // (TIPO: conclusion, verificacion, registro, modelo). true = la tabla abre
+  // página nueva (párrafo con salto antes de ella); ausente = en flujo.
+  // Empieza con conclusiones; el resto de tipos se activan igual cuando se pida.
+  const SALTO_TABLA = {};
+  const debeSaltarTabla = (id, tipo) => {
+    const v = SALTO_TABLA[String(id) + ':' + tipo];
+    if (v !== undefined) return !!v;
+    return !!SALTO_TABLA['*:' + tipo];
+  };
+  // Párrafo de salto para insertar antes de una tabla (las tablas no aceptan
+  // pageBreakBefore directo). El TOC lo ignora (no es Heading).
+  const saltoPrevio = () => '<w:p><w:pPr><w:pageBreakBefore/></w:pPr><w:r><w:t xml:space="preserve"></w:t></w:r></w:p>';
 
   let zipProv = null; // { inflate(u8)->Promise<u8>, deflate(u8)->Promise<u8> | null }
 
@@ -825,6 +839,7 @@ const PlantillaDocx = (() => {
           TBL(conFilas(clonar(tx), [conCeldas(fs[0], cab)].concat(fs.slice(1))));
         });
         P(clonar(T.vacio));
+        if (debeSaltarTabla(art.id, 'conclusion')) P(saltoPrevio());
         TBL(juntar(clonar(T.conclusion)));
         conclusiones++;
         return;
@@ -834,6 +849,7 @@ const PlantillaDocx = (() => {
       if (usaRegistro && T.registro) TBL(tablaRegistro(T.registro, caption, tit, d, ctx));
       else TBL(tablaVerificacion(T.verificacion, caption, tit, puntosVerificacion(e)));
       P(clonar(T.vacio));
+      if (debeSaltarTabla(art.id, 'conclusion')) P(saltoPrevio());
       TBL(juntar(clonar(T.conclusion)));
       conclusiones++;
     });
@@ -1116,6 +1132,22 @@ const PlantillaDocx = (() => {
     if (!fecha) avisos.push('Sin fecha: la fecha de emisión conserva "DD/MMM/AAAA".');
     avisos.push('Versión del documento ("AA") y número de solicitud del historial se completan manualmente.');
 
+    // ---- comodín '*:conclusion': TODA tabla de conclusión abre página nueva ----
+    // (banco por ID/salto ya puesto, más las que vienen del modelo: sección 6,
+    // USP/req, resumen). No duplica: si la previa ya trae salto, se respeta.
+    if (SALTO_TABLA['*:conclusion']) {
+      const esSalto = (x) => x && x.tag === 'w:p' && x.xml.includes('pageBreakBefore');
+      const conSalto = [];
+      parts.forEach((x, k) => {
+        if (x.tag === 'w:tbl' && /^CONCLUSI/.test(norm(texto(x.xml))) && !esSalto(conSalto[conSalto.length - 1])) {
+          conSalto.push({ tag: 'w:p', xml: saltoPrevio() });
+        }
+        conSalto.push(x);
+      });
+      parts = conSalto;
+      inf = parts.map(info);
+    }
+
     // ---- ensamblar ----
     const cuerpoXml = parts.map((x) => x.xml).join('');
     setTxt('word/document.xml', docXml.slice(0, iBody) + cuerpoXml + docXml.slice(fBody));
@@ -1178,8 +1210,8 @@ const PlantillaDocx = (() => {
   }
 
   return {
-    FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, soporta, configurar, generar, descargar, banco,
-    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar, debeSaltarH1, debeSaltarH2 },
+    FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, soporta, configurar, generar, descargar, banco,
+    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio },
   };
 })();
 

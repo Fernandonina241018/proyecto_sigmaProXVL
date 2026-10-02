@@ -351,3 +351,60 @@ describe('SALTO_H2: salto configurable en H2 del modelo (6.1, 6.2, ...)', () => 
     });
   });
 });
+
+describe('SALTO_TABLA: salto previo en conclusiones (prueba inicial)', () => {
+  const conTabla = async (t, fn) => {
+    const bak = { ...P.SALTO_TABLA };
+    Object.keys(P.SALTO_TABLA).forEach((k) => delete P.SALTO_TABLA[k]);
+    Object.assign(P.SALTO_TABLA, t);
+    try { return await fn(); } finally {
+      Object.keys(P.SALTO_TABLA).forEach((k) => delete P.SALTO_TABLA[k]);
+      Object.assign(P.SALTO_TABLA, bak);
+    }
+  };
+  const genPQ = async () => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));
+    const r = await P.generar('PQ', u8, banco, DRAFT, ENT, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    return arch['word/document.xml'];
+  };
+  // tablas de conclusión: las que contienen 'CONCLUSIÓN DE LA PRUEBA' (con su posición)
+  const conclusiones = (xml) => [...xml.matchAll(/<w:tbl\b[\s\S]*?<\/w:tbl>/g)]
+    .filter((m) => m[0].includes('CONCLUSI'));
+  const previaConSalto = (xml, m) => {
+    const previo = [...xml.slice(0, m.index).matchAll(/<w:p\b[\s\S]*?<\/w:p>|<w:tbl\b[\s\S]*?<\/w:tbl>/g)].pop();
+    return previo && previo[0].startsWith('<w:p') && previo[0].includes('pageBreakBefore');
+  };
+
+  test('debeSaltarTabla: default false; específica gana al comodín', async () => {
+    await conTabla({}, async () => {
+      expect(P._interno.debeSaltarTabla('ALM-PQ-003', 'conclusion')).toBe(false);
+    });
+    await conTabla({ '*:conclusion': true }, async () => {
+      expect(P._interno.debeSaltarTabla('ALM-PQ-003', 'conclusion')).toBe(true);
+      expect(P._interno.debeSaltarTabla('ALM-PQ-003', 'verificacion')).toBe(false);
+    });
+    await conTabla({ '*:conclusion': true, 'ALM-PQ-003:conclusion': false }, async () => {
+      expect(P._interno.debeSaltarTabla('ALM-PQ-003', 'conclusion')).toBe(false);
+      expect(P._interno.debeSaltarTabla('ALM-PQ-004', 'conclusion')).toBe(true);
+    });
+  });
+
+  test('default: ninguna conclusión con salto previo', async () => {
+    await conTabla({}, async () => {
+      const xml = await genPQ();
+      const conc = conclusiones(xml);
+      expect(conc.length).toBeGreaterThan(0);
+      for (const t of conc) expect(previaConSalto(xml, t)).toBe(false);
+    });
+  });
+
+  test("'* :conclusion': toda conclusión abre página nueva", async () => {
+    await conTabla({ '*:conclusion': true }, async () => {
+      const xml = await genPQ();
+      const conc = conclusiones(xml);
+      expect(conc.length).toBeGreaterThan(0);
+      for (const t of conc) expect(previaConSalto(xml, t)).toBe(true);
+    });
+  });
+});

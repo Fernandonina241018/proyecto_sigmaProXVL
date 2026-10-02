@@ -4573,3 +4573,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Qué:** tabla `SALTO_H2` ('6.1','6.2',... → true = abre página; ausente = en flujo, default actual) + `debeSaltarH2(num)` aplicada en bucle H2 del TOC (`plantilla-docx.js`). Guard: H2 con `_SigmaSec` (banco/USP/resumen) la ignoran, los manda SALTO_PAGINA. Sin espejo DQ (no tiene H2 del modelo).
 - **Verificación:** PQ real con tabla vacía idéntico a hoy; con '6.2':true solo 6.2 con salto; Vitest 317/317, backend 60/60.
 - **Nota:** tests de SALTO_H1/H2 aíslan la tabla del usuario (conTablaH1/conTablaH2) para no romperse con sus excepciones. Config usuario vigente: SALTO_H1 {'4','5','10','11': false}.
+
+### 2026-10-02 (116): Salto previo en conclusiones (SALTO_TABLA, prueba inicial)
+- **Qué:** tabla `SALTO_TABLA` (clave 'ID:conclusion' o comodín '*:conclusion') + `debeSaltarTabla` + `saltoPrevio()` (párrafo con salto; las tablas no aceptan pageBreakBefore) en `plantilla-docx.js` (conclusiones del banco por ID + post-pase global para el comodín, cubre modelo: sec.6/USP/resumen, sin duplicar) y espejo en `generador-docx.js`. Conclusiones ya no se parten (juntar preexistente).
+- **Verificación:** PQ real default 0/8 con salto, comodín 8/8; Vitest 322/322, backend 60/60.

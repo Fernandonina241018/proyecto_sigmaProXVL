@@ -22,6 +22,15 @@ const GeneradorDocx = (() => {
   const SALTO_H1 = {};
   const debeSaltarH1 = (num) => SALTO_H1[String(num)] !== false;
 
+  // Salto previo por tabla de ensayo: 'ENSAYO_ID:TIPO' o '*:TIPO' (conclusion,
+  // verificacion, registro, modelo). Empieza con conclusiones.
+  const SALTO_TABLA = {};
+  const debeSaltarTabla = (id, tipo) => {
+    const v = SALTO_TABLA[String(id) + ':' + tipo];
+    if (v !== undefined) return !!v;
+    return !!SALTO_TABLA['*:' + tipo];
+  };
+
   // ---- Textos fijos del modelo DQ-1-400AAAA ----
   const T = {
     firmaIntro: 'Los firmantes del presente documento certifican que han revisado y aprobado el protocolo de calificación para su ejecución. Cualquier modificación al alcance, contenido, metodología o criterios establecidos en este protocolo deberá ser documentada, justificada y aprobada formalmente antes de su implementación por parte de los responsables correspondientes.',
@@ -423,6 +432,9 @@ const GeneradorDocx = (() => {
         const titulo = 'Tabla — ' + it.num;
         const filas = pts.length ? pts.map((p) => [p, p, 'C   NC   NA']) : [['Ver criterios del ensayo', 'Ver criterios del ensayo', 'C   NC   NA']];
         TABLA([titulo, it.titulo, 'Cumple (C) / No Cumple (NC)'], filas);
+        if (debeSaltarTabla(it.articulo.id, 'conclusion')) {
+          kids.push(new D.Paragraph({ pageBreakBefore: true, children: [new D.TextRun({ text: '', font: 'Tahoma', size: 22 })] }));
+        }
         TABLA_CONC();
       } else if (it.articulo.tabla) {
         const tb = it.articulo.tabla;
@@ -486,7 +498,7 @@ const GeneradorDocx = (() => {
   return {
     FASE_NOMBRE, COND_TXT, FOOTER_TXT, T, lib, banco, pasaCondicion, rangoTexto, entidadTexto,
     congelarMarcas, htmlAParrafos, portadaCampos, alcanceTexto, puntosEvidencia, firmantesModelo,
-    buildModelo, contarEnsayos, estilosBase, modeloADocx, descargar, SALTO_PAGINA, SALTO_H1,
+    buildModelo, contarEnsayos, estilosBase, modeloADocx, descargar, SALTO_PAGINA, SALTO_H1, SALTO_TABLA,
   };
 })();
 

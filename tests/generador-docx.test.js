@@ -263,3 +263,48 @@ describe('SALTO_H1 en DQ: cada acápite abre página nueva', () => {
     }
   }, 30000);
 });
+
+describe('SALTO_TABLA en DQ: salto previo en conclusiones (prueba inicial)', () => {
+  const conTabla = async (t, fn) => {
+    const bak = { ...GeneradorDocx.SALTO_TABLA };
+    Object.keys(GeneradorDocx.SALTO_TABLA).forEach((k) => delete GeneradorDocx.SALTO_TABLA[k]);
+    Object.assign(GeneradorDocx.SALTO_TABLA, t);
+    try { return await fn(); } finally {
+      Object.keys(GeneradorDocx.SALTO_TABLA).forEach((k) => delete GeneradorDocx.SALTO_TABLA[k]);
+      Object.assign(GeneradorDocx.SALTO_TABLA, bak);
+    }
+  };
+  const bloquesDe = async (fase) => {
+    const docx = require('docx');
+    const { unzipXml } = await import('./helpers/unzip-xml.mjs');
+    const m = GeneradorDocx.buildModelo(fase, DRAFT, ENT, 'ambas');
+    const buf = await docx.Packer.toBuffer(GeneradorDocx.modeloADocx(m));
+    const xml = unzipXml(buf, 'word/document.xml');
+    return [...xml.matchAll(/<w:p\b[\s\S]*?<\/w:p>|<w:tbl\b[\s\S]*?<\/w:tbl>/g)].map((x) => x[0]);
+  };
+  const esConclusion = (b) => b.startsWith('<w:tbl') && b.includes('CONCLUSI');
+
+  test('default: ninguna conclusión con salto previo', async () => {
+    await conTabla({}, async () => {
+      const bs = await bloquesDe('OQ');
+      const conc = bs.filter(esConclusion);
+      expect(conc.length).toBeGreaterThan(0);
+      for (const t of conc) {
+        const previo = bs[bs.indexOf(t) - 1];
+        expect(previo.startsWith('<w:p') && previo.includes('pageBreakBefore')).toBe(false);
+      }
+    });
+  }, 30000);
+
+  test("'* :conclusion': toda conclusión abre página nueva", async () => {
+    await conTabla({ '*:conclusion': true }, async () => {
+      const bs = await bloquesDe('OQ');
+      const conc = bs.filter(esConclusion);
+      expect(conc.length).toBeGreaterThan(0);
+      for (const t of conc) {
+        const previo = bs[bs.indexOf(t) - 1];
+        expect(previo.startsWith('<w:p') && previo.includes('pageBreakBefore')).toBe(true);
+      }
+    });
+  }, 30000);
+});
