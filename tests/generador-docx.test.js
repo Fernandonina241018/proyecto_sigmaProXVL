@@ -228,3 +228,38 @@ describe('SALTO_PAGINA en DQ: condición de salto por ensayo', () => {
     }
   }, 30000);
 });
+
+describe('SALTO_H1 en DQ: cada acápite abre página nueva', () => {
+  const h1sDe = async (fase) => {
+    const docx = require('docx');
+    const { unzipXml } = await import('./helpers/unzip-xml.mjs');
+    const m = GeneradorDocx.buildModelo(fase, DRAFT, ENT, 'ambas');
+    const buf = await docx.Packer.toBuffer(GeneradorDocx.modeloADocx(m));
+    const xml = unzipXml(buf, 'word/document.xml');
+    return [...xml.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)].map((x) => x[0])
+      .filter((p) => /Heading1/.test((/<w:pPr>[\s\S]*?<\/w:pPr>/.exec(p) || [''])[0]))
+      .map((p) => ({
+        texto: p.replace(/<[^>]+>/g, '').trim(),
+        salto: (/<w:pPr>[\s\S]*?<\/w:pPr>/.exec(p)[0].split('<w:t')[0]).includes('pageBreakBefore'),
+      }));
+  };
+
+  test('11 H1: el 1.º sin salto, resto con salto', async () => {
+    const h1s = await h1sDe('DQ');
+    expect(h1s).toHaveLength(11);
+    expect(h1s[0].salto).toBe(false);
+    for (const h of h1s.slice(1)) expect(h.salto).toBe(true);
+  }, 30000);
+
+  test('excepción en tabla: acápite 3 en flujo', async () => {
+    GeneradorDocx.SALTO_H1['3'] = false;
+    try {
+      const h1s = await h1sDe('DQ');
+      expect(h1s[2].texto).toBe('OBJETIVO:');
+      expect(h1s[2].salto).toBe(false);
+      expect(h1s[1].salto).toBe(true);
+    } finally {
+      delete GeneradorDocx.SALTO_H1['3'];
+    }
+  }, 30000);
+});

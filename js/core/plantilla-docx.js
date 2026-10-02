@@ -38,6 +38,12 @@ const PlantillaDocx = (() => {
   const SALTO_PAGINA = {};
   const debeSaltar = (art) => !art || SALTO_PAGINA[art.id] !== false;
 
+  // Salto de página por acápite (H1 numerado del TOC, '1'..'11'):
+  // 'n' -> false = continúa en flujo; ausente = abre página nueva.
+  // El acápite 1 (Firmas) nunca lleva salto (página 1 del documento).
+  const SALTO_H1 = {};
+  const debeSaltarH1 = (num) => SALTO_H1[String(num)] !== false;
+
   let zipProv = null; // { inflate(u8)->Promise<u8>, deflate(u8)->Promise<u8> | null }
 
   // ---------------------------------------------------------------
@@ -1031,7 +1037,10 @@ const PlantillaDocx = (() => {
         if (y.estilo === 'Heading1' && y.numId) {
           h1++; h2 = 0; h1Texto = sinEsp(y.texto).toUpperCase();
           const bm = '_SigmaH1_' + h1;
-          parts[i] = { tag: 'w:p', xml: /_SigmaSec/.test(x.xml) ? x.xml : conMarcador(x.xml, bm) };
+          let hx = /_SigmaSec/.test(x.xml) ? x.xml : conMarcador(x.xml, bm);
+          // Cada acápite numerado abre página nueva (salvo el 1.º y H1 vacíos/exceptuados)
+          if (h1 > 1 && sinEsp(y.texto).replace(/:/g, '') && debeSaltarH1(h1)) hx = ajustarPPrEn(hx, { salto: true });
+          parts[i] = { tag: 'w:p', xml: hx };
           entradas.push({ nivel: 1, num: String(h1), texto: nombresModelo[String(h1)] || y.texto.replace(/\s*:\s*$/, ''), bm });
         } else if (y.estilo === 'Heading2' && y.numId) {
           h2++;
@@ -1156,8 +1165,8 @@ const PlantillaDocx = (() => {
   }
 
   return {
-    FASES, PLANTILLAS, OPC, SALTO_PAGINA, soporta, configurar, generar, descargar, banco,
-    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar },
+    FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, soporta, configurar, generar, descargar, banco,
+    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar, debeSaltarH1 },
   };
 })();
 

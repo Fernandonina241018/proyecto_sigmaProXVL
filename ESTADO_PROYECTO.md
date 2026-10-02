@@ -4564,3 +4564,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Qué:** tabla `SALTO_PAGINA` (id banco → false = continúa en flujo; ausente = abre página) + `debeSaltar(art)` en `plantilla-docx.js` (L769) y espejo en `generador-docx.js` (L398). Tabla vacía = documentos bit-idénticos.
 - **Verificación:** USP sigue sin salto (diseño); 6/6 ensayos banco + resumen con salto en PQ real; Vitest 309/309, backend 60/60.
 - **Nota entorno:** node del sistema pedía libsimdjson.so.33 (solo existe .34) → symlink .33→.34 + ldconfig; funciona con warning ABI.
+
+### 2026-10-02 (114): Cada acápite numerado abre página nueva (SALTO_H1)
+- **Qué:** tabla `SALTO_H1` ('1'..'11' → false = en flujo) + `debeSaltarH1(num)` en `plantilla-docx.js` (aplicada en bucle TOC a H1 con numId, salvo el 1.º y vacíos) y espejo en `generador-docx.js` (contador nH1 en H1 render). Causa del reporte: ningún H1 del modelo traía salto; solo Procedimiento lo recibía.
+- **Verificación:** IQ y PQ reales con 11/11 H1 (1.º sin salto, 2.º-11.º con salto); Vitest 314/314, backend 60/60.

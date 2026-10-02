@@ -18,6 +18,10 @@ const GeneradorDocx = (() => {
   const SALTO_PAGINA = {};
   const debeSaltar = (art) => !art || SALTO_PAGINA[art.id] !== false;
 
+  // Salto por acápite H1 ('1'..'11'): 'n' -> false = en flujo; ausente = página nueva.
+  const SALTO_H1 = {};
+  const debeSaltarH1 = (num) => SALTO_H1[String(num)] !== false;
+
   // ---- Textos fijos del modelo DQ-1-400AAAA ----
   const T = {
     firmaIntro: 'Los firmantes del presente documento certifican que han revisado y aprobado el protocolo de calificación para su ejecución. Cualquier modificación al alcance, contenido, metodología o criterios establecidos en este protocolo deberá ser documentada, justificada y aprobada formalmente antes de su implementación por parte de los responsables correspondientes.',
@@ -342,11 +346,12 @@ const GeneradorDocx = (() => {
     const D = lib();
     if (!D) throw new Error('Librería docx no cargada');
     const kids = [];
-    const H1 = (texto, primera) => kids.push(new D.Paragraph({
+    let nH1 = 0;
+    const H1 = (texto, primera) => { nH1++; kids.push(new D.Paragraph({
       heading: D.HeadingLevel.HEADING_1,
-      pageBreakBefore: !primera,
+      pageBreakBefore: !primera && debeSaltarH1(nH1),
       children: [new D.TextRun({ text: texto, bold: true, font: 'Tahoma', size: 22, color: '0F4761' })],
-    }));
+    })); };
     const H2 = (texto, salto, negrita) => kids.push(new D.Paragraph({
       heading: D.HeadingLevel.HEADING_2,
       pageBreakBefore: !!salto,
@@ -481,7 +486,7 @@ const GeneradorDocx = (() => {
   return {
     FASE_NOMBRE, COND_TXT, FOOTER_TXT, T, lib, banco, pasaCondicion, rangoTexto, entidadTexto,
     congelarMarcas, htmlAParrafos, portadaCampos, alcanceTexto, puntosEvidencia, firmantesModelo,
-    buildModelo, contarEnsayos, estilosBase, modeloADocx, descargar, SALTO_PAGINA,
+    buildModelo, contarEnsayos, estilosBase, modeloADocx, descargar, SALTO_PAGINA, SALTO_H1,
   };
 })();
 

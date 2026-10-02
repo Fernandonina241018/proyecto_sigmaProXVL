@@ -213,6 +213,7 @@ describe('SALTO_PAGINA: condición de salto por ensayo', () => {
   });
 
   test('ensayo en flujo: H2 sin pageBreakBefore; resto con salto', async () => {
+
     const ens = (banco.fases.PQ || [])
       .filter((i) => i.kind === 'ensayo' && i.id && (i.bloque === 2 || i.bloque === 3) && pasa(i.cond, 'ambas')
         && !/requisitos previos/i.test(i.titulo || ''));
@@ -232,6 +233,57 @@ describe('SALTO_PAGINA: condición de salto por ensayo', () => {
       expect(hS.slice(0, hS.indexOf('<w:r')).includes('pageBreakBefore')).toBe(true);
     } finally {
       delete P.SALTO_PAGINA[enFlujo.id];
+    }
+  });
+});
+
+describe('SALTO_H1: cada acápite numerado abre página nueva', () => {
+  const h1Nums = (xml) => [...xml.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)].map((m) => m[0])
+    .filter((p) => /Heading1/.test((/<w:pPr>[\s\S]*?<\/w:pPr>/.exec(p) || [''])[0])
+      && /<w:numId/.test((/<w:pPr>[\s\S]*?<\/w:pPr>/.exec(p) || [''])[0]))
+    .map((p) => ({
+      texto: p.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').replace(/ :/g, ':').trim(),
+      salto: (/<w:pPr>[\s\S]*?<\/w:pPr>/.exec(p)[0].split('<w:r')[0]).includes('pageBreakBefore'),
+    }));
+  const genPQ = async () => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));
+    const r = await P.generar('PQ', u8, banco, DRAFT, ENT, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    return arch['word/document.xml'];
+  };
+
+  test('debeSaltarH1: default true, primero y excepciones', () => {
+    expect(P._interno.debeSaltarH1(2)).toBe(true);
+    P.SALTO_H1['3'] = false;
+    try {
+      expect(P._interno.debeSaltarH1(3)).toBe(false);
+      expect(P._interno.debeSaltarH1('3')).toBe(false);
+    } finally {
+      delete P.SALTO_H1['3'];
+    }
+  });
+
+  test('11 acápites: el 1.º sin salto, del 2.º al 11.º con salto', async () => {
+    const h1s = h1Nums(await genPQ());
+    expect(h1s.map((h) => h.texto)).toEqual([
+      'FIRMA DE APROBACIÓN:', 'TABLA DE CONTENIDO:', 'OBJETIVO:', 'ALCANCE:',
+      'RESPONSABILIDADES:', expect.stringContaining('DESCRIPCIÓN'),
+      expect.stringContaining('PROCEDIMIENTO'), 'REGISTRO DE FIRMAS:',
+      'REFERENCIAS:', 'ANEXOS:', 'HISTORIAL DE CAMBIOS:',
+    ]);
+    expect(h1s[0].salto).toBe(false);
+    for (const h of h1s.slice(1)) expect(h.salto).toBe(true);
+  });
+
+  test('excepción en tabla: acápite 3 en flujo', async () => {
+    P.SALTO_H1['3'] = false;
+    try {
+      const h1s = h1Nums(await genPQ());
+      expect(h1s[2].texto).toBe('OBJETIVO:');
+      expect(h1s[2].salto).toBe(false);
+      expect(h1s[1].salto).toBe(true);
+    } finally {
+      delete P.SALTO_H1['3'];
     }
   });
 });
