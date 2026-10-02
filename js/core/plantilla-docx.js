@@ -55,7 +55,7 @@ const PlantillaDocx = (() => {
   // (TIPO: conclusion, verificacion, registro, modelo). true = la tabla abre
   // página nueva (párrafo con salto antes de ella); ausente = en flujo.
   // Empieza con conclusiones; el resto de tipos se activan igual cuando se pida.
-  const SALTO_TABLA = {};
+  const SALTO_TABLA = {'*:conclusion': true};
   const debeSaltarTabla = (id, tipo) => {
     const v = SALTO_TABLA[String(id) + ':' + tipo];
     if (v !== undefined) return !!v;
