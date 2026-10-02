@@ -41,7 +41,7 @@ const PlantillaDocx = (() => {
   // Salto de página por acápite (H1 numerado del TOC, '1'..'11'):
   // 'n' -> false = continúa en flujo; ausente = abre página nueva.
   // El acápite 1 (Firmas) nunca lleva salto (página 1 del documento).
-  const SALTO_H1 = {'4': false};
+  const SALTO_H1 = {'4': false, '5': false, '10': false, '11': false};
   const debeSaltarH1 = (num) => SALTO_H1[String(num)] !== false;
 
   let zipProv = null; // { inflate(u8)->Promise<u8>, deflate(u8)->Promise<u8> | null }
