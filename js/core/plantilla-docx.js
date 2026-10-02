@@ -48,7 +48,7 @@ const PlantillaDocx = (() => {
   // 'n' -> true = abre página nueva; ausente = en flujo (comportamiento actual).
   // Solo aplica a H2 del modelo; los del banco (ensayos, USP, resumen) los
   // manda SALTO_PAGINA / su código propio.
-  const SALTO_H2 = {};
+  const SALTO_H2 = {'6.2': true};
   const debeSaltarH2 = (num) => SALTO_H2[String(num)] === true;
 
   let zipProv = null; // { inflate(u8)->Promise<u8>, deflate(u8)->Promise<u8> | null }
