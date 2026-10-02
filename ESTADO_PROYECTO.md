@@ -4559,3 +4559,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-01 (112): Gerencia dinámica en negrita (opción 1)
 - **Qué:** en `Es Responsabilidad del Gerente de X:`, solo la gerencia va en bold (resto normal), igual que el modelo. Plantilla (IQ/OQ/PQ) y DQ.
 - **Verificación:** run bold confirmado en .docx real + tests; Vitest 305/305, backend 60/60.
+
+### 2026-10-02 (113): Condición de salto por ensayo (SALTO_PAGINA)
+- **Qué:** tabla `SALTO_PAGINA` (id banco → false = continúa en flujo; ausente = abre página) + `debeSaltar(art)` en `plantilla-docx.js` (L769) y espejo en `generador-docx.js` (L398). Tabla vacía = documentos bit-idénticos.
+- **Verificación:** USP sigue sin salto (diseño); 6/6 ensayos banco + resumen con salto en PQ real; Vitest 309/309, backend 60/60.
+- **Nota entorno:** node del sistema pedía libsimdjson.so.33 (solo existe .34) → symlink .33→.34 + ldconfig; funciona con warning ABI.

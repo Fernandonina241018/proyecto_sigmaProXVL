@@ -190,3 +190,48 @@ describe('responsabilidad del gerente dinámica (T2)', () => {
     expect(norm).toContain('Es Responsabilidad del Gerente de Área');
   });
 });
+
+describe('SALTO_PAGINA: condición de salto por ensayo', () => {
+  const parasDe = (xml) => [...xml.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)].map((m) => m[0]);
+  const h2De = (xml, titulo) => {
+    const limpio = String(titulo || '').replace(/^[A-Z]{2,5}-[A-Z]{2}-\d{2,4}\s*[—–-]\s*/, '').trim()
+      .slice(0, 30).toUpperCase();
+    return parasDe(xml).find((p) =>
+      p.includes('bookmarkStart') && p.includes('_SigmaSec') &&
+      p.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').toUpperCase().includes(limpio));
+  };
+
+  test('debeSaltar: default true, false desactiva', () => {
+    expect(P._interno.debeSaltar({ id: 'XX-1' })).toBe(true);
+    expect(P._interno.debeSaltar(null)).toBe(true);
+    P.SALTO_PAGINA['XX-1'] = false;
+    try {
+      expect(P._interno.debeSaltar({ id: 'XX-1' })).toBe(false);
+    } finally {
+      delete P.SALTO_PAGINA['XX-1'];
+    }
+  });
+
+  test('ensayo en flujo: H2 sin pageBreakBefore; resto con salto', async () => {
+    const ens = (banco.fases.PQ || [])
+      .filter((i) => i.kind === 'ensayo' && i.id && (i.bloque === 2 || i.bloque === 3) && pasa(i.cond, 'ambas')
+        && !/requisitos previos/i.test(i.titulo || ''));
+    const enFlujo = ens[1];
+    const conSalto = ens[2];
+    P.SALTO_PAGINA[enFlujo.id] = false;
+    try {
+      const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));
+      const r = await P.generar('PQ', u8, banco, DRAFT, ENT, 'ambas');
+      const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+      const xml = arch['word/document.xml'];
+      const hF = h2De(xml, enFlujo.titulo);
+      const hS = h2De(xml, conSalto.titulo);
+      expect(hF).toBeTruthy();
+      expect(hS).toBeTruthy();
+      expect(hF.slice(0, hF.indexOf('<w:r')).includes('pageBreakBefore')).toBe(false);
+      expect(hS.slice(0, hS.indexOf('<w:r')).includes('pageBreakBefore')).toBe(true);
+    } finally {
+      delete P.SALTO_PAGINA[enFlujo.id];
+    }
+  });
+});

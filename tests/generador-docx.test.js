@@ -183,3 +183,48 @@ describe('responsabilidad del gerente dinámica en DQ', () => {
     expect(textos).toContain('Es Responsabilidad del Gerente de Área:');
   });
 });
+
+describe('SALTO_PAGINA en DQ: condición de salto por ensayo', () => {
+  const procEnsayos = (fase) => {
+    const m = GeneradorDocx.buildModelo(fase, DRAFT, ENT, 'ambas');
+    return m.secciones.find((s) => s.h1.startsWith('PROCEDIMIENTO')).contenido
+      .filter((it) => it.t === 'ensayo');
+  };
+  const h2Num = (xml, num) => [...xml.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)].map((x) => x[0])
+    .find((p) => p.replace(/<[^>]+>/g, '').trim().startsWith(num));
+
+  test('tabla vacía: todos los ensayos abren página', async () => {
+    const docx = require('docx');
+    const { unzipXml } = await import('./helpers/unzip-xml.mjs');
+    const m = GeneradorDocx.buildModelo('OQ', DRAFT, ENT, 'ambas');
+    const buf = await docx.Packer.toBuffer(GeneradorDocx.modeloADocx(m));
+    const xml = unzipXml(buf, 'word/document.xml');
+    for (const it of procEnsayos('OQ')) {
+      const h = h2Num(xml, it.num);
+      expect(h).toBeTruthy();
+      expect(h.slice(0, h.indexOf('<w:t')).includes('pageBreakBefore')).toBe(true);
+    }
+  }, 30000);
+
+  test('ensayo en flujo: su H2 sin pageBreakBefore; resto con salto', async () => {
+    const docx = require('docx');
+    const { unzipXml } = await import('./helpers/unzip-xml.mjs');
+    const ens = procEnsayos('OQ');
+    const enFlujo = ens[1];
+    const conSalto = ens[0];
+    GeneradorDocx.SALTO_PAGINA[enFlujo.articulo.id] = false;
+    try {
+      const m = GeneradorDocx.buildModelo('OQ', DRAFT, ENT, 'ambas');
+      const buf = await docx.Packer.toBuffer(GeneradorDocx.modeloADocx(m));
+      const xml = unzipXml(buf, 'word/document.xml');
+      const hF = h2Num(xml, enFlujo.num);
+      const hS = h2Num(xml, conSalto.num);
+      expect(hF).toBeTruthy();
+      expect(hS).toBeTruthy();
+      expect(hF.slice(0, hF.indexOf('<w:t')).includes('pageBreakBefore')).toBe(false);
+      expect(hS.slice(0, hS.indexOf('<w:t')).includes('pageBreakBefore')).toBe(true);
+    } finally {
+      delete GeneradorDocx.SALTO_PAGINA[enFlujo.articulo.id];
+    }
+  }, 30000);
+});

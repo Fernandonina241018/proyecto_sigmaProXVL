@@ -32,6 +32,12 @@ const PlantillaDocx = (() => {
     reRegistro: /mapeo|distribuci[oó]n de (temperatura|humedad)|perfil t[eé]rmico|estudio t[eé]rmico/i,
   };
 
+  // Salto de página por ensayo: id del banco -> false = continúa en flujo,
+  // cualquier otro valor o ausente = abre página nueva (comportamiento actual).
+  // Vive aquí (no en el banco) porque el banco se regenera desde el HTML.
+  const SALTO_PAGINA = {};
+  const debeSaltar = (art) => !art || SALTO_PAGINA[art.id] !== false;
+
   let zipProv = null; // { inflate(u8)->Promise<u8>, deflate(u8)->Promise<u8> | null }
 
   // ---------------------------------------------------------------
@@ -766,7 +772,7 @@ const PlantillaDocx = (() => {
       const bm = '_SigmaSec' + nProc + '_' + nSub;
       toc[bm] = tit;
       resumenFilas.push(tit);
-      P(parrafo(T.h2, [{ t: tit.toUpperCase() + ':', b: true }], { salto: true, marcador: bm }));
+      P(parrafo(T.h2, [{ t: tit.toUpperCase() + ':', b: true }], { salto: debeSaltar(art), marcador: bm }));
       if (OPC.incluirCodigoEnsayo) {
         P(parrafo(T.nota, [{ t: 'Código del ensayo en el banco: ', b: true }, { t: art.id }], { sinNum: true, runNormal: 1 }));
       }
@@ -1150,8 +1156,8 @@ const PlantillaDocx = (() => {
   }
 
   return {
-    FASES, PLANTILLAS, OPC, soporta, configurar, generar, descargar, banco,
-    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, fechaTexto, crc32, llenarFirmas, fijarTahoma11 },
+    FASES, PLANTILLAS, OPC, SALTO_PAGINA, soporta, configurar, generar, descargar, banco,
+    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar },
   };
 })();
 

@@ -13,6 +13,11 @@ const GeneradorDocx = (() => {
   const COND_TXT = { est: 'estática', dina: 'dinámica', ambas: 'estática y dinámica' };
   const FOOTER_TXT = 'PARA USO EXCLUSIVO DE LABORATORIOS SUED, S.R.L.';
 
+  // Salto de página por ensayo (espejo de plantilla-docx.js): id del banco
+  // -> false = continúa en flujo; ausente = abre página nueva (default actual).
+  const SALTO_PAGINA = {};
+  const debeSaltar = (art) => !art || SALTO_PAGINA[art.id] !== false;
+
   // ---- Textos fijos del modelo DQ-1-400AAAA ----
   const T = {
     firmaIntro: 'Los firmantes del presente documento certifican que han revisado y aprobado el protocolo de calificación para su ejecución. Cualquier modificación al alcance, contenido, metodología o criterios establecidos en este protocolo deberá ser documentada, justificada y aprobada formalmente antes de su implementación por parte de los responsables correspondientes.',
@@ -395,7 +400,7 @@ const GeneradorDocx = (() => {
       ] }));
     };
     const ensayoADoc = (it, ctx) => {
-      H2(it.num + ' — ' + it.titulo, true);
+      H2(it.num + ' — ' + it.titulo, debeSaltar(it.articulo));
       (it.articulo.secciones || []).forEach((s) => {
         htmlAParrafos(congelarMarcas(s.html.replace(/^<strong>[^<]*:<\/strong><br>\s*/i, ''), ctx))
           .forEach((p) => {
@@ -476,7 +481,7 @@ const GeneradorDocx = (() => {
   return {
     FASE_NOMBRE, COND_TXT, FOOTER_TXT, T, lib, banco, pasaCondicion, rangoTexto, entidadTexto,
     congelarMarcas, htmlAParrafos, portadaCampos, alcanceTexto, puntosEvidencia, firmantesModelo,
-    buildModelo, contarEnsayos, estilosBase, modeloADocx, descargar,
+    buildModelo, contarEnsayos, estilosBase, modeloADocx, descargar, SALTO_PAGINA,
   };
 })();
 
