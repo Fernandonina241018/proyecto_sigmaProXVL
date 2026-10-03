@@ -4586,3 +4586,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-03 (118): OQ autoclave — 18 ensayos por familia
 - **Qué:** nuevo `docs/banco-ensayos/equipos/oq-autoclave.html` (18 articles EQ-OQ-AU-001…018, `familia="autoclave"`, refs EN 285/ISO 17665/USP 1229/PDA TR-01/Anexo 15 + anexos). Extractor: `data-familia` por sección como fallback; refArt/anxDiv del motor filtran por familia (antes la primera familia contaminaba a la otra).
 - **Verificación:** OQ autoclave real con 18 ensayos, refs EN 285, sin mezcla con lecho; Vitest 328/328, backend 60/60.
+
+### 2026-10-03 (119): Artículo común OQ — instrumentos (EQ-OQ-COM-001)
+- **Qué:** nuevo `docs/banco-ensayos/equipos/oq-comun.html` (fase OQ sin shells) con EQ-OQ-COM-001 sin `data-familia` → aplica a todas las familias y sale primero (7.2). Extractor lo procesa antes que los de familia; sección con `data-familia` como fallback ya existía.
+- **Verificación:** lecho 12 (11+1), autoclave 19 (18+1), balanza solo COM-001; Vitest 328/328, backend 60/60.

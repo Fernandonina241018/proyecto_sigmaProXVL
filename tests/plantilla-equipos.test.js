@@ -85,20 +85,22 @@ describe('OQ lecho fluido (banco por familia)', () => {
     expect(ids.filter((id) => /^EQ-OQ-LF-00[1-9]$|^EQ-OQ-LF-01[01]$/.test(id))).toHaveLength(11);
   });
 
-  it('lecho-fluido genera sus 11 ensayos con títulos y códigos', async () => {
+  it('lecho-fluido genera sus 11 ensayos + el común, con títulos y códigos', async () => {
     const { r, doc } = await genOQ(ENT_LF);
-    expect(r.ensayos).toHaveLength(11);
-    expect(r.ensayos[0]).toBe('EQ-OQ-LF-001');
+    expect(r.ensayos).toHaveLength(12); // 11 familia + EQ-OQ-COM-001
+    expect(r.ensayos[0]).toBe('EQ-OQ-COM-001');
+    expect(r.ensayos[1]).toBe('EQ-OQ-LF-001');
     for (const id of r.ensayos) expect(doc).toContain(id);
     const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
     expect(txt).toContain('PARADA DE EMERGENCIA');
     expect(txt).toContain('GASKET INFLABLE');
   });
 
-  it('otra familia no recibe ensayos de lecho fluido', async () => {
+  it('otra familia recibe solo el común hasta tener banco propio', async () => {
     const { r, doc } = await genOQ({ id: 'balanza', nombre: 'Balanza' });
-    expect(r.ensayos).toHaveLength(0);
+    expect(r.ensayos).toEqual(['EQ-OQ-COM-001']);
     expect(doc).not.toContain('EQ-OQ-LF-001');
+    expect(doc).not.toContain('EQ-OQ-AU-001');
   });
 });
 
@@ -123,10 +125,11 @@ describe('OQ autoclave (banco por familia)', () => {
     expect(new Set(todos).size).toBe(todos.length);
   });
 
-  it('autoclave genera sus 18 ensayos; lecho fluido no se mezcla', async () => {
+  it('autoclave genera sus 18 ensayos + el común; lecho fluido no se mezcla', async () => {
     const { r, doc } = await genOQ(ENT_AU);
-    expect(r.ensayos).toHaveLength(18);
-    expect(r.ensayos[0]).toBe('EQ-OQ-AU-001');
+    expect(r.ensayos).toHaveLength(19); // 18 familia + EQ-OQ-COM-001
+    expect(r.ensayos[0]).toBe('EQ-OQ-COM-001');
+    expect(r.ensayos[1]).toBe('EQ-OQ-AU-001');
     for (const id of r.ensayos) expect(doc).toContain(id);
     const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
     expect(txt).toContain('BOWIE-DICK');

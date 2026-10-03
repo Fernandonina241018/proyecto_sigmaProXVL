@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-LF 2026-10-02 v1 + EQ-OQ-AU 2026-10-03 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-02 v1 + EQ-OQ-AU 2026-10-03 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-LF 2026-10-02 v1 + EQ-OQ-AU 2026-10-03 v1",
+ "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-02 v1 + EQ-OQ-AU 2026-10-03 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -868,6 +868,36 @@ var BancoEquipos = {
    }
   ],
   "OQ": [
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-COM-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-COM-001 — Verificación de los instrumentos de medición a utilizar en el OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Asegurar que todos los equipos e instrumentos de medición y los patrones utilizados en la Calificación de Operación del <span class=\"equipo\">equipo</span> están correctamente identificados y cuentan con calibración vigente que cubre toda la ejecución del OQ."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Listar cada instrumento requerido por los ensayos del OQ: patrones de temperatura y presión, termopares, manómetros diferenciales, anemómetros, higrómetros y cronómetros<br>\n  2) Inspeccionar la etiqueta de calibración de cada instrumento y comprobar que su vigencia cubre todo el periodo de ejecución del OQ, aunque haya estado vigente durante la IQ<br>\n  3) Registrar en la tabla correspondiente los datos de cada instrumento:<br>\n  a) Nombre del instrumento o equipo<br>\n  b) Fabricante y modelo<br>\n  c) Número de serie y código interno<br>\n  d) Fecha de última calibración y fecha de vencimiento<br>\n  4) Recopilar los certificados de calibración para su inclusión en los anexos del informe"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los instrumentos presentan calibración vigente que cubre la fecha de ejecución del OQ.<br>\n  La información registrada coincide con los certificados de calibración.<br>\n  Los certificados están disponibles y anexados al informe."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de instrumentos de medición del OQ completada<br>\n  - Copias de los certificados de calibración"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null
+   },
    {
     "kind": "div",
     "clase": "portada",
