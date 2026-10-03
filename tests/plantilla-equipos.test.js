@@ -163,10 +163,11 @@ describe('PQ lecho fluido (banco por familia)', () => {
     expect(ids.filter((id) => /^EQ-PQ-LF-0\d\d$/.test(id))).toHaveLength(16);
   });
 
-  it('lecho fluido genera sus 16 ensayos con contenido PQ', async () => {
+  it('lecho fluido genera sus 16 ensayos + el común, con contenido PQ', async () => {
     const { r, doc } = await genPQ({ id: 'lecho-fluido', nombre: 'Lecho fluido' });
-    expect(r.ensayos).toHaveLength(16);
-    expect(r.ensayos[0]).toBe('EQ-PQ-LF-001');
+    expect(r.ensayos).toHaveLength(17); // 16 familia + EQ-PQ-COM-001
+    expect(r.ensayos[0]).toBe('EQ-PQ-COM-001');
+    expect(r.ensayos[1]).toBe('EQ-PQ-LF-001');
     for (const id of r.ensayos) expect(doc).toContain(id);
     const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
     expect(txt).toContain('TRES LOTES CONSECUTIVOS');
@@ -200,10 +201,11 @@ describe('PQ autoclave (banco por familia, fuente ENSAYOS.txt)', () => {
     expect(an.sort()).toEqual(['EQ-PQ-AU-001', 'EQ-PQ-AU-002', 'EQ-PQ-AU-004', 'EQ-PQ-AU-005', 'EQ-PQ-AU-008', 'EQ-PQ-AU-009', 'EQ-PQ-AU-010', 'EQ-PQ-AU-011', 'EQ-PQ-AU-013', 'EQ-PQ-AU-014']);
   });
 
-  it('autoclave genera sus 17 ensayos con contenido PQ', async () => {
+  it('autoclave genera sus 17 ensayos + el común, con contenido PQ', async () => {
     const { r, doc } = await genPQ({ id: 'autoclave', nombre: 'Autoclave' });
-    expect(r.ensayos).toHaveLength(17);
-    expect(r.ensayos[0]).toBe('EQ-PQ-AU-001');
+    expect(r.ensayos).toHaveLength(18); // 17 familia + EQ-PQ-COM-001
+    expect(r.ensayos[0]).toBe('EQ-PQ-COM-001');
+    expect(r.ensayos[1]).toBe('EQ-PQ-AU-001');
     for (const id of r.ensayos) expect(doc).toContain(id);
     const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
     expect(txt).toContain('PUNTO FR');

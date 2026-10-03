@@ -4602,3 +4602,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-03 (122): PQ autoclave — 17 ensayos desde ENSAYOS.txt
 - **Qué:** nuevo `docs/banco-ensayos/equipos/pq-autoclave.html` (17 articles EQ-PQ-AU-001…017, `familia="autoclave"`, 10 con `data-analisis="si"` según marcas del .txt, refs EN 285/ISO 17665/USP 1229/PDA TR-01/OMS TRS 961 + anexos). Fuente: ENSAYOS.txt (distribución, penetración, BI, repetibilidad, secado, desempeño, espera estéril). Se agregó EQ-PQ-AU-017 Secado (no estaba en el .txt; quitar si no aplica).
 - **Verificación:** PQ real con 17 ensayos, 11 H1; sin mezcla entre familias; Vitest 336/336, backend 60/60.
+
+### 2026-10-03 (123): Artículo común PQ de instrumentos (EQ-PQ-COM-001)
+- **Qué:** nuevo `docs/banco-ensayos/equipos/pq-comun.html` con EQ-PQ-COM-001 sin familia (cubre patrones, termopares, balanzas y lab analítico con vigencia durante todo el PQ). Extractor lo procesa antes que familias; lecho PQ 17 (16+1), autoclave 18 (17+1).
+- **Verificación:** Vitest 336/336, backend 60/60.
