@@ -4598,3 +4598,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-03 (121): Paso y entregable de análisis estadístico (data-analisis)
 - **Qué:** 20 ensayos con `data-analisis="si"` (ALM-OQ-003, ALM-PQ-003/004; EQ-IQ-009/012 armonizados al texto estándar; LF-005/006/007; AU-007/010/014/015/018; PQ-004/005/006/011/012/013/015): último paso "Procesar los datos crudos de [parámetro] en el módulo de análisis estadístico..." + entregable "Data cruda y reporte estadístico...". Extractor lleva `analisis`; tests amarran paso+entregable por flag en ambos bancos.
 - **Verificación:** PQ real con pasos presentes (13 menciones: 6×2 procedimiento+tabla, 1×1 por tabla de registro en PQ-013); Vitest 333/333, backend 60/60.
+
+### 2026-10-03 (122): PQ autoclave — 17 ensayos desde ENSAYOS.txt
+- **Qué:** nuevo `docs/banco-ensayos/equipos/pq-autoclave.html` (17 articles EQ-PQ-AU-001…017, `familia="autoclave"`, 10 con `data-analisis="si"` según marcas del .txt, refs EN 285/ISO 17665/USP 1229/PDA TR-01/OMS TRS 961 + anexos). Fuente: ENSAYOS.txt (distribución, penetración, BI, repetibilidad, secado, desempeño, espera estéril). Se agregó EQ-PQ-AU-017 Secado (no estaba en el .txt; quitar si no aplica).
+- **Verificación:** PQ real con 17 ensayos, 11 H1; sin mezcla entre familias; Vitest 336/336, backend 60/60.

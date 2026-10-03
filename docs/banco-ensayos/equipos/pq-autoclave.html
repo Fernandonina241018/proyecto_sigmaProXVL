@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Autoclave</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>PQ — Autoclave (banco por familia)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-AU 2026-10-03 v1</span></p>
+<p>Ensayos de Calificación de Desempeño específicos del autoclave (<span class="equipo">equipo</span>) con carga real. Se filtran por familia (<code>data-familia="autoclave"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt de protocolo.</p>
+
+<!-- ================= PQ ================= -->
+<section id="fase-pq" data-familia="autoclave">
+<h2>PQ — Ensayos</h2>
+
+<div class="portada" data-bloque="1">
+<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>
+<p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+<p><strong>Calificación de Desempeño de <span class="equipo">equipo</span>:</strong> <span class="ent-descripcion">______</span></p>
+<ol>
+  <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+  <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+  <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+</ol>
+</div>
+
+<div class="firmas" data-bloque="1">
+<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>
+<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>
+<ol>
+  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+</ol>
+</div>
+
+<div class="responsabilidades" data-bloque="1">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+<p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+<ol><li>Coordinar la ejecución de la Calificación de Desempeño con producción y microbiología, asegurando personal, <span class="equipo">equipo</span>, cargas, indicadores biológicos, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente durante todo el PQ.</li><li>Ejecutar y/o supervisar los ciclos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>
+<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y dictaminar el desempeño del equipo.</li></ol>
+<p><strong>Responsabilidad del Gerente de Área:</strong></p>
+<ol><li>Garantizar la disponibilidad del <span class="equipo">equipo</span>, de las cargas y de los accesos para la ejecución.</li><li>Facilitar la documentación de proceso y del fabricante.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>
+</div>
+
+<div class="alcance" data-bloque="1">
+<p><strong>ALCANCE</strong></p>
+<p>Esta calificación aplica a <span class="equipo">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice.</p>
+</div>
+
+<div class="def-usp" data-bloque="1">
+<p><strong>DEFINICIÓN USP</strong></p>
+<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (USP &lt;1058&gt;).</p>
+</div>
+
+<div class="nota-datos" data-bloque="1">
+<p><strong>NOTA — DATOS DIGITALES</strong></p>
+<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>
+</div>
+
+<article data-bloque="3" id="art-EQ-PQ-AU-001" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-001" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-001 — Mapeo de la cámara con carga de referencia</h3>
+  <p><strong>Objetivo:</strong><br>Determinar la distribución de temperatura con carga de referencia, el ΔT entre sondas y respecto al sensor de control, y definir el punto frío del <span class="equipo">equipo</span>.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir la carga de referencia (composición, masa y patrón de carga validado) y disponer de termopares calibrados<br>
+  2) Distribuir 12 termopares como mínimo en la carga, el drenaje y junto al sensor de control, según el plano de ubicación<br>
+  3) Correr el ciclo a 121 °C registrando la temperatura cada 30 segundos<br>
+  4) En meseta, calcular por sonda el promedio, el máximo y el mínimo; el ΔT entre sondas; y el ΔT contra el sensor de control<br>
+  a) Todas las sondas entre 121 y 124 °C en meseta, o dentro de la banda de la URS<br>
+  b) El ΔT entre sondas está dentro de ±1 °C<br>
+  5) Definir y registrar el punto frío de la carga de referencia<br>
+  6) Procesar los datos crudos de temperatura del mapeo con carga en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Uniformidad en banda en meseta; punto frío definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Plano de ubicación de termopares en la carga<br>
+  - Curvas de temperatura y tabla por sonda con ΔT<br>
+  - Data cruda y reporte estadístico del análisis de temperatura del mapeo con carga</p>
+  <p><strong>Referencia:</strong><br>EN 285 §16.2 (termometría con carga); ISO 17665-1.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-AU-002" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-002" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-002 — Tiempo de equilibrio</h3>
+  <p><strong>Objetivo:</strong><br>Determinar cuánto tarda la carga en alcanzar la temperatura de esterilización frente al sensor de cámara del <span class="equipo">equipo</span>.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con los datos del mapeo del ensayo EQ-PQ-AU-001, medir por sonda el tiempo desde que el sensor de control alcanza la temperatura hasta que cada punto de la carga la alcanza<br>
+  2) Determinar el tiempo de equilibrio como el mayor tiempo medido (punto frío)<br>
+  3) Confirmar que el tiempo de mantenimiento programado cubre el equilibrio más la exposición requerida<br>
+  a) Equilibrio dentro del límite del diseño y mantenimiento posterior completo<br>
+  4) Procesar los datos crudos de tiempos de equilibrio por posición en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Equilibrio conocido y cubierto por el tiempo de mantenimiento del ciclo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de tiempos de equilibrio por sonda y posición<br>
+  - Data cruda y reporte estadístico del análisis de tiempos de equilibrio</p>
+  <p><strong>Referencia:</strong><br>EN 285 §3.13–3.14 (equilibrio y mantenimiento); OMS TRS 961 §6.2.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-AU-003" class="ensayo" data-id="EQ-PQ-AU-003" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-003 — El drenaje o sensor de control representa a la carga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la temperatura del drenaje o del sensor de control del <span class="equipo">equipo</span> representa lo que ocurre en la carga.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Comparar la curva del sensor de control contra la del punto frío en 3 ciclos con carga<br>
+  2) Calcular la diferencia máxima y el retraso entre ambas curvas<br>
+  3) Confirmar que el control nunca libera el ciclo antes de que la carga complete su exposición<br>
+  a) La diferencia está dentro de lo previsto en el diseño del ciclo<br>
+  4) Anexar la comparativa control contra punto frío por ciclo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El control representa a la carga en todos los ciclos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Comparativa control contra punto frío por ciclo</p>
+  <p><strong>Referencia:</strong><br>OMS TRS 961 §6 (punto más frío).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-AU-004" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-004" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-004 — Sondas en el punto más difícil por tipo de carga</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar la penetración de calor en el punto más difícil de cada tipo de carga del <span class="equipo">equipo</span> (poroso, lumen, denso).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir los tipos de carga del sitio y el punto más difícil de cada uno<br>
+  2) Ubicar sondas calibradas y retos (PCD) en el punto difícil de cada tipo, con plano<br>
+  3) Correr un ciclo por tipo de carga registrando la temperatura interna<br>
+  4) Confirmar meseta completa en el punto difícil de cada tipo<br>
+  a) El punto difícil alcanza la banda y la mantiene toda la meseta<br>
+  5) Procesar los datos crudos de penetración por tipo de carga en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Penetración demostrada en el punto difícil de cada tipo de carga.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de penetración por tipo de carga con curvas<br>
+  - Data cruda y reporte estadístico del análisis de penetración por tipo de carga</p>
+  <p><strong>Referencia:</strong><br>PDA TR-01 (cargas porosas y duras); EN 285 (cargas de prueba).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-AU-005" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-005" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-005 — F0 en el punto frío</h3>
+  <p><strong>Objetivo:</strong><br>Calcular el F0 o equivalencia letal en el punto frío del <span class="equipo">equipo</span> con el criterio mínimo definido en el protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con los datos de temperatura del punto frío, calcular el F0 por integración (z igual a 10, Tref 121,1 °C)<br>
+  2) Comparar contra el F0 mínimo del protocolo (12 minutos o el definido)<br>
+  3) Comparar el F0 físico contra el F0 biológico (acuerdo físico-biológico)<br>
+  a) F0 físico mayor o igual al mínimo y coherente con el biológico<br>
+  4) Procesar los datos crudos de letalidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
+  5) Anexar la memoria de cálculo del F0</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Letalidad demostrada con F0 mayor o igual al mínimo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Memoria de cálculo del F0 en el punto frío<br>
+  - Data cruda y reporte estadístico del análisis de letalidad</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1229&gt;; PDA TR-01 (F0 físico y biológico).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-AU-006" class="ensayo" data-id="EQ-PQ-AU-006" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-006 — Penetración de vapor en poroso o lúmenes</h3>
+  <p><strong>Objetivo:</strong><br>Detectar aire residual en material poroso o con lúmenes del <span class="equipo">equipo</span> mediante retos definidos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Preparar el reto (hélix o lumen definido) con indicador químico y sonda interna<br>
+  2) Correr el ciclo y evaluar el viraje del indicador con la temperatura interna<br>
+  3) Repetir en 3 ciclos<br>
+  a) Viraje completo y temperatura en banda en el reto, en todos los ciclos<br>
+  4) Anexar los retos evaluados con su lectura</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin aire residual en el reto en los 3 ciclos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Retos (PCD) evaluados por ciclo</p>
+  <p><strong>Referencia:</strong><br>EN 285 (cargas huecas y porosas); ISO 11140.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-AU-007" class="ensayo" data-id="EQ-PQ-AU-007" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-007 — Indicadores biológicos</h3>
+  <p><strong>Objetivo:</strong><br>Desafiar el ciclo del <span class="equipo">equipo</span> con <span class="equipo">Geobacillus stearothermophilus</span> junto a las sondas en el punto frío, con controles positivos y negativos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Disponer de indicadores biológicos con población y valor D conocidos, más controles positivos (sin exponer) y negativos (medio)<br>
+  2) Ubicar los expuestos junto a las sondas del punto frío en 3 ciclos con carga<br>
+  3) Incubar según el fabricante (55 a 60 °C por 7 días)<br>
+  4) Leer: expuestos negativos, positivo positivo y negativo negativo<br>
+  a) Muerte completa en expuestos con controles válidos<br>
+  5) Registrar los indicadores por ciclo con lote y posición</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Eficacia demostrada con controles válidos en los 3 ciclos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de indicadores biológicos por ciclo con controles</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1229.5&gt;; ISO 11138.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-AU-008" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-008" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-008 — Tres ciclos consecutivos por configuración</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar la repetibilidad del <span class="equipo">equipo</span> con los mismos criterios en tres ciclos consecutivos por configuración de carga.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir las configuraciones de carga del sitio (porosa, mixta y líquidos si aplica)<br>
+  2) Correr 3 ciclos consecutivos por configuración sin cambios al proceso<br>
+  3) Comparar parámetros críticos y atributos entre los 3 ciclos de cada configuración<br>
+  a) Los 3 ciclos cumplen idénticos criterios por configuración<br>
+  4) Procesar los datos crudos inter-ciclo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Repetibilidad demostrada por configuración.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Comparativa de los 3 ciclos por configuración<br>
+  - Data cruda y reporte estadístico del análisis inter-ciclo</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15 §§4.16–4.19.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-AU-009" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-009" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-009 — Carga mínima y carga máxima</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño del <span class="equipo">equipo</span> en los extremos de carga mínima y máxima.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir la carga mínima y la carga máxima según la URS<br>
+  2) Correr un ciclo completo con cada extremo, con mapeo reducido (5 sondas como mínimo más el control)<br>
+  3) Comparar uniformidad, equilibrio y F0 de cada extremo contra la corrida nominal<br>
+  a) Extremos conformes en uniformidad, equilibrio y F0<br>
+  4) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Extremos de carga conformes.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de ciclo de cada extremo con mapeo reducido<br>
+  - Data cruda y reporte estadístico del análisis comparativo de extremos</p>
+  <p><strong>Referencia:</strong><br>URS del equipo; EU GMP Anexo 15 (rango y bracketing).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-AU-010" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-010" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-010 — Peor caso</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño del <span class="equipo">equipo</span> en el peor caso: carga más densa, envoltorio más difícil o paquete con mayor masa térmica.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir el peor caso con el análisis de riesgo y anexar su justificación<br>
+  2) Instrumentar el peor caso completo y correr con indicadores biológicos<br>
+  3) Confirmar meseta, F0 y muerte en el peor caso<br>
+  a) Peor caso conforme en meseta, F0 e indicadores<br>
+  4) Procesar los datos crudos del peor caso en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Peor caso conforme en todo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Definición del peor caso con análisis de riesgo<br>
+  - Registros del peor caso con indicadores<br>
+  - Data cruda y reporte estadístico del análisis del peor caso</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15 (peor caso); PDA TR-01.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-AU-011" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-011" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-011 — Tiempo de enfriamiento</h3>
+  <p><strong>Objetivo:</strong><br>Determinar el tiempo de enfriamiento del <span class="equipo">equipo</span> hasta temperatura segura para manipulación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Al fin del ciclo, registrar la temperatura de la carga cada 5 minutos hasta 40 °C o menos<br>
+  2) Medir el tiempo total de enfriamiento en 3 ciclos<br>
+  3) Confirmar la integridad de los empaques (sin condensación interna)<br>
+  a) Tiempo dentro del límite y empaques secos<br>
+  4) Procesar los datos crudos de enfriamiento en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Enfriamiento definido y repetible con empaques íntegros.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Curvas de enfriamiento por ciclo<br>
+  - Data cruda y reporte estadístico del análisis de enfriamiento</p>
+  <p><strong>Referencia:</strong><br>Receta aprobada; OMS TRS 961 §6.21.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-AU-012" class="ensayo" data-id="EQ-PQ-AU-012" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-012 — Bowie-Dick con carga (si aplica, poroso)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la remoción de aire con carga porosa del <span class="equipo">equipo</span>; si no hay cargas porosas, declarar No Aplica con justificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar si el sitio procesa cargas porosas; si no, pasar al paso 4)<br>
+  2) Ubicar el paquete Bowie-Dick en el punto definido con la carga presente<br>
+  3) Correr el ciclo Bowie-Dick y evaluar el viraje uniforme, repitiendo en 3 corridas<br>
+  a) Viraje uniforme en todas las corridas<br>
+  4) Sin cargas porosas: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Conforme con carga porosa, o No Aplica justificado y firmado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Hojas Bowie-Dick evaluadas o justificación de No Aplica firmada</p>
+  <p><strong>Referencia:</strong><br>EN 285 §17.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-AU-013" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-013" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-013 — Estabilidad de presión y temperatura</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar la estabilidad de la presión y la temperatura del <span class="equipo">equipo</span> durante la esterilización, sin desviaciones de alarma.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar la presión y la temperatura cada 30 segundos en meseta, en 3 ciclos con carga<br>
+  2) Calcular la estabilidad (rango y SD) y listar las alarmas ocurridas<br>
+  a) Dentro de banda el 100% del tiempo, con cero alarmas no gestionadas<br>
+  3) Procesar los datos crudos de estabilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Meseta estable sin alarmas no gestionadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de presión y temperatura en meseta<br>
+  - Data cruda y reporte estadístico del análisis de estabilidad</p>
+  <p><strong>Referencia:</strong><br>EN 285 (bandas); EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-AU-014" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-014" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-014 — Vacío y pulsos con carga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el vacío y los pulsos del <span class="equipo">equipo</span> alcanzan el nivel requerido con carga.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar el nivel de vacío por pulso (número de pulsos y presión mínima) en 3 ciclos con carga<br>
+  2) Comparar contra el setpoint y contra el vacío para confirmar el efecto de la carga<br>
+  3) Confirmar la remoción de aire por la vía asociada (Bowie-Dick o mapeo del ciclo)<br>
+  a) Niveles conformes en todos los ciclos<br>
+  4) Procesar los datos crudos de vacío en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Vacío conforme con carga en todos los ciclos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de vacío por pulso y ciclo<br>
+  - Data cruda y reporte estadístico del análisis de vacío</p>
+  <p><strong>Referencia:</strong><br>Receta aprobada; EN 285.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-AU-015" class="ensayo" data-id="EQ-PQ-AU-015" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-015 — Tiempo de espera de material estéril</h3>
+  <p><strong>Objetivo:</strong><br>Validar el tiempo de espera del material estéril del <span class="equipo">equipo</span> tras el ciclo (validez del almacenado).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir el tiempo propuesto en días por tipo de empaque y almacén<br>
+  2) Almacenar en las condiciones definidas y evaluar la integridad del empaque al vencimiento (inspección más prueba de integridad)<br>
+  3) Opcional: desafío microbiológico del contenido al vencimiento<br>
+  4) Registrar la validez aprobada por tipo de empaque<br>
+  a) Empaque íntegro al vencimiento del tiempo declarado<br>
+  5) Anexar el estudio con la validez declarada</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Tiempo de espera validado por empaque.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Estudio de tiempo de espera con validez declarada</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1211&gt; (tiempos de espera); práctica 7–30 días según empaque.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-AU-016" class="ensayo" data-id="EQ-PQ-AU-016" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-016 — No estéril y liberación de la carga</h3>
+  <p><strong>Objetivo:</strong><br>Establecer los criterios y registros del material no esterilizado y de la liberación de la carga del <span class="equipo">equipo</span>.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir los criterios de segregación: cinta indicadora, etiquetas y área de no estéril<br>
+  2) Verificar que ninguna carga sale sin ciclo completo y sin registro aprobado<br>
+  3) Definir la liberación por calidad (revisión del registro del ciclo más indicadores si aplica)<br>
+  4) Simular un hallazgo de ciclo abortado y confirmar la segregación efectiva<br>
+  a) Cero mezclas; liberación solo con registro aprobado<br>
+  5) Anexar el procedimiento y el registro del simulacro</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sistema a prueba de mezcla de estéril con no estéril.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Procedimiento de segregación y liberación<br>
+  - Registro del simulacro de hallazgo</p>
+  <p><strong>Referencia:</strong><br>OMS TRS 961 §§5.9–5.10 (patrones de carga y registros por corrida).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-AU-017" class="ensayo" data-id="EQ-PQ-AU-017" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-017 — Secado de la carga (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el secado de la carga del <span class="equipo">equipo</span> cuando el programa incluye fase de secado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar si los programas califican fase de secado; si no, declarar No Aplica<br>
+  2) Al abrir, inspeccionar la carga: sin humedad visible ni empaques mojados<br>
+  3) Pesar elementos testigo antes y después cuando aplique<br>
+  a) Carga seca en todos los ciclos con secado<br>
+  4) Anexar el registro de inspección</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Secado efectivo o No Aplica justificado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de inspección de secado</p>
+  <p><strong>Referencia:</strong><br>EN 285 (sequedad de carga); receta aprobada.</p>
+</article>
+
+<article data-bloque="4" id="art-EQ-PQ-AU-RES" class="ensayo" data-id="EQ-PQ-AU-RES" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-RES — Tabla resumen de los ensayos del PQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ del autoclave para la tabla resumen del protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar que los ensayos EQ-PQ-AU-001 a EQ-PQ-AU-017 están incluidos en el índice del protocolo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los 17 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="6" id="art-EQ-PQ-AU-REF" class="ensayo tabla-info" data-id="EQ-PQ-AU-REF" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-PQ-AU-REF — Referencias del PQ de autoclave</h3>
+  <table>
+    <tr><th>SECCIÓN</th><th>TÍTULO</th><th>ESTADO</th></tr>
+    <tr><td>6.1</td><td>EN 285:2015+A1:2021 — Esterilizadores a vapor: tiempo de equilibrio, meseta, termometría con carga y calidad de vapor</td><td>VIGENTE</td></tr>
+    <tr><td>6.2</td><td>ISO 17665-1 — Calor húmedo: desarrollo, validación y control de la esterilización</td><td>VIGENTE</td></tr>
+    <tr><td>6.3</td><td>USP &lt;1229&gt; / &lt;1229.1&gt; / &lt;1229.5&gt; — Esterilización, F0 e indicadores biológicos</td><td>VIGENTE</td></tr>
+    <tr><td>6.4</td><td>PDA TR-01 — Calor húmedo: equilibrio, F0 físico y biológico, y penetración por tipo de carga</td><td>VIGENTE</td></tr>
+    <tr><td>6.5</td><td>OMS TRS 961 Anexo 6 — Patrones de carga validados, punto más frío y registros por corrida</td><td>VIGENTE</td></tr>
+    <tr><td>6.6</td><td>USP &lt;1211&gt; — Tiempos de espera de material esterilizado y estéril</td><td>VIGENTE</td></tr>
+    <tr><td>6.7</td><td>EU GMP Anexo 15 — PQ con cargas de producción: repetibilidad en tres ciclos salvo justificación</td><td>VIGENTE</td></tr>
+    <tr><td>6.8</td><td>Manual del fabricante del autoclave — Programas, setpoints y límites de diseño</td><td>VIGENTE</td></tr>
+  </table>
+</article>
+
+<div class="anexos" data-bloque="8">
+<p><strong>ANEXOS:</strong></p>
+<table>
+<tr><th>SECCIÓN</th><th>TÍTULO</th></tr>
+<tr><td>8.1</td><td>Anexo A — Registros de ciclo, curvas de temperatura y presión, y cálculos (equilibrio, F0)</td></tr>
+<tr><td>8.2</td><td>Anexo B — Indicadores biológicos y químicos, y certificados de termopares e instrumentos</td></tr>
+<tr><td>8.3</td><td>Anexo C — Planos de carga y sondas, memorias de cálculo y estudio de tiempo de espera</td></tr>
+</table>
+</div>
+
+</section>
+
+</body>
+</html>

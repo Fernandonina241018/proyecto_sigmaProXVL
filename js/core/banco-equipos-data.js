@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-02 v1 + EQ-OQ-AU 2026-10-03 v1 + EQ-PQ-LF 2026-10-03 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-02 v1 + EQ-OQ-AU 2026-10-03 v1 + EQ-PQ-LF 2026-10-03 v1 + EQ-PQ-AU 2026-10-03 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-02 v1 + EQ-OQ-AU 2026-10-03 v1 + EQ-PQ-LF 2026-10-03 v1",
+ "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-02 v1 + EQ-OQ-AU 2026-10-03 v1 + EQ-PQ-LF 2026-10-03 v1 + EQ-PQ-AU 2026-10-03 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -2698,6 +2698,677 @@ var BancoEquipos = {
     "bloque": 8,
     "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de ciclo, curvas de secado, ΔP y temperaturas por lote</td></tr>\n<tr><td>8.2</td><td>Anexo B — Reportes analíticos (humedad, granulometría, densidades, valoración) y certificados de instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Balances de masa, matrices de uniformidad y análisis de riesgo del número de lotes</td></tr>\n</tbody></table>",
     "familia": "lecho-fluido"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>\n<p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n<p><strong>Calificación de Desempeño de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n<ol>\n  <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n  <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n  <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n</ol>",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n<ol>\n  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n</ol>",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n<p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n<ol><li>Coordinar la ejecución de la Calificación de Desempeño con producción y microbiología, asegurando personal, <span class=\"equipo\">equipo</span>, cargas, indicadores biológicos, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente durante todo el PQ.</li><li>Ejecutar y/o supervisar los ciclos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y dictaminar el desempeño del equipo.</li></ol>\n<p><strong>Responsabilidad del Gerente de Área:</strong></p>\n<ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span>, de las cargas y de los accesos para la ejecución.</li><li>Facilitar la documentación de proceso y del fabricante.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice.</p>",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (USP &lt;1058&gt;).</p>",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-AU-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-001 — Mapeo de la cámara con carga de referencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Determinar la distribución de temperatura con carga de referencia, el ΔT entre sondas y respecto al sensor de control, y definir el punto frío del <span class=\"equipo\">equipo</span>."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir la carga de referencia (composición, masa y patrón de carga validado) y disponer de termopares calibrados<br>\n  2) Distribuir 12 termopares como mínimo en la carga, el drenaje y junto al sensor de control, según el plano de ubicación<br>\n  3) Correr el ciclo a 121 °C registrando la temperatura cada 30 segundos<br>\n  4) En meseta, calcular por sonda el promedio, el máximo y el mínimo; el ΔT entre sondas; y el ΔT contra el sensor de control<br>\n  a) Todas las sondas entre 121 y 124 °C en meseta, o dentro de la banda de la URS<br>\n  b) El ΔT entre sondas está dentro de ±1 °C<br>\n  5) Definir y registrar el punto frío de la carga de referencia<br>\n  6) Procesar los datos crudos de temperatura del mapeo con carga en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Uniformidad en banda en meseta; punto frío definido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de ubicación de termopares en la carga<br>\n  - Curvas de temperatura y tabla por sonda con ΔT<br>\n  - Data cruda y reporte estadístico del análisis de temperatura del mapeo con carga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EN 285 §16.2 (termometría con carga); ISO 17665-1."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-AU-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-002 — Tiempo de equilibrio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Determinar cuánto tarda la carga en alcanzar la temperatura de esterilización frente al sensor de cámara del <span class=\"equipo\">equipo</span>."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con los datos del mapeo del ensayo EQ-PQ-AU-001, medir por sonda el tiempo desde que el sensor de control alcanza la temperatura hasta que cada punto de la carga la alcanza<br>\n  2) Determinar el tiempo de equilibrio como el mayor tiempo medido (punto frío)<br>\n  3) Confirmar que el tiempo de mantenimiento programado cubre el equilibrio más la exposición requerida<br>\n  a) Equilibrio dentro del límite del diseño y mantenimiento posterior completo<br>\n  4) Procesar los datos crudos de tiempos de equilibrio por posición en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Equilibrio conocido y cubierto por el tiempo de mantenimiento del ciclo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de tiempos de equilibrio por sonda y posición<br>\n  - Data cruda y reporte estadístico del análisis de tiempos de equilibrio"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EN 285 §3.13–3.14 (equilibrio y mantenimiento); OMS TRS 961 §6.2."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-AU-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-003 — El drenaje o sensor de control representa a la carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la temperatura del drenaje o del sensor de control del <span class=\"equipo\">equipo</span> representa lo que ocurre en la carga."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Comparar la curva del sensor de control contra la del punto frío en 3 ciclos con carga<br>\n  2) Calcular la diferencia máxima y el retraso entre ambas curvas<br>\n  3) Confirmar que el control nunca libera el ciclo antes de que la carga complete su exposición<br>\n  a) La diferencia está dentro de lo previsto en el diseño del ciclo<br>\n  4) Anexar la comparativa control contra punto frío por ciclo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El control representa a la carga en todos los ciclos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Comparativa control contra punto frío por ciclo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>OMS TRS 961 §6 (punto más frío)."
+     }
+    ],
+    "tabla": null,
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-AU-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-004 — Sondas en el punto más difícil por tipo de carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar la penetración de calor en el punto más difícil de cada tipo de carga del <span class=\"equipo\">equipo</span> (poroso, lumen, denso)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir los tipos de carga del sitio y el punto más difícil de cada uno<br>\n  2) Ubicar sondas calibradas y retos (PCD) en el punto difícil de cada tipo, con plano<br>\n  3) Correr un ciclo por tipo de carga registrando la temperatura interna<br>\n  4) Confirmar meseta completa en el punto difícil de cada tipo<br>\n  a) El punto difícil alcanza la banda y la mantiene toda la meseta<br>\n  5) Procesar los datos crudos de penetración por tipo de carga en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Penetración demostrada en el punto difícil de cada tipo de carga."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de penetración por tipo de carga con curvas<br>\n  - Data cruda y reporte estadístico del análisis de penetración por tipo de carga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>PDA TR-01 (cargas porosas y duras); EN 285 (cargas de prueba)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-AU-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-005 — F0 en el punto frío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Calcular el F0 o equivalencia letal en el punto frío del <span class=\"equipo\">equipo</span> con el criterio mínimo definido en el protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con los datos de temperatura del punto frío, calcular el F0 por integración (z igual a 10, Tref 121,1 °C)<br>\n  2) Comparar contra el F0 mínimo del protocolo (12 minutos o el definido)<br>\n  3) Comparar el F0 físico contra el F0 biológico (acuerdo físico-biológico)<br>\n  a) F0 físico mayor o igual al mínimo y coherente con el biológico<br>\n  4) Procesar los datos crudos de letalidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  5) Anexar la memoria de cálculo del F0"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Letalidad demostrada con F0 mayor o igual al mínimo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Memoria de cálculo del F0 en el punto frío<br>\n  - Data cruda y reporte estadístico del análisis de letalidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1229&gt;; PDA TR-01 (F0 físico y biológico)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-AU-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-006 — Penetración de vapor en poroso o lúmenes",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Detectar aire residual en material poroso o con lúmenes del <span class=\"equipo\">equipo</span> mediante retos definidos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Preparar el reto (hélix o lumen definido) con indicador químico y sonda interna<br>\n  2) Correr el ciclo y evaluar el viraje del indicador con la temperatura interna<br>\n  3) Repetir en 3 ciclos<br>\n  a) Viraje completo y temperatura en banda en el reto, en todos los ciclos<br>\n  4) Anexar los retos evaluados con su lectura"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin aire residual en el reto en los 3 ciclos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Retos (PCD) evaluados por ciclo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EN 285 (cargas huecas y porosas); ISO 11140."
+     }
+    ],
+    "tabla": null,
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-AU-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-007 — Indicadores biológicos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Desafiar el ciclo del <span class=\"equipo\">equipo</span> con <span class=\"equipo\">Geobacillus stearothermophilus</span> junto a las sondas en el punto frío, con controles positivos y negativos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Disponer de indicadores biológicos con población y valor D conocidos, más controles positivos (sin exponer) y negativos (medio)<br>\n  2) Ubicar los expuestos junto a las sondas del punto frío en 3 ciclos con carga<br>\n  3) Incubar según el fabricante (55 a 60 °C por 7 días)<br>\n  4) Leer: expuestos negativos, positivo positivo y negativo negativo<br>\n  a) Muerte completa en expuestos con controles válidos<br>\n  5) Registrar los indicadores por ciclo con lote y posición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Eficacia demostrada con controles válidos en los 3 ciclos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de indicadores biológicos por ciclo con controles"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1229.5&gt;; ISO 11138."
+     }
+    ],
+    "tabla": null,
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-AU-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-008 — Tres ciclos consecutivos por configuración",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar la repetibilidad del <span class=\"equipo\">equipo</span> con los mismos criterios en tres ciclos consecutivos por configuración de carga."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir las configuraciones de carga del sitio (porosa, mixta y líquidos si aplica)<br>\n  2) Correr 3 ciclos consecutivos por configuración sin cambios al proceso<br>\n  3) Comparar parámetros críticos y atributos entre los 3 ciclos de cada configuración<br>\n  a) Los 3 ciclos cumplen idénticos criterios por configuración<br>\n  4) Procesar los datos crudos inter-ciclo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Repetibilidad demostrada por configuración."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Comparativa de los 3 ciclos por configuración<br>\n  - Data cruda y reporte estadístico del análisis inter-ciclo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15 §§4.16–4.19."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-AU-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-009 — Carga mínima y carga máxima",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño del <span class=\"equipo\">equipo</span> en los extremos de carga mínima y máxima."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir la carga mínima y la carga máxima según la URS<br>\n  2) Correr un ciclo completo con cada extremo, con mapeo reducido (5 sondas como mínimo más el control)<br>\n  3) Comparar uniformidad, equilibrio y F0 de cada extremo contra la corrida nominal<br>\n  a) Extremos conformes en uniformidad, equilibrio y F0<br>\n  4) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Extremos de carga conformes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de ciclo de cada extremo con mapeo reducido<br>\n  - Data cruda y reporte estadístico del análisis comparativo de extremos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS del equipo; EU GMP Anexo 15 (rango y bracketing)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-AU-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-010 — Peor caso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño del <span class=\"equipo\">equipo</span> en el peor caso: carga más densa, envoltorio más difícil o paquete con mayor masa térmica."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el peor caso con el análisis de riesgo y anexar su justificación<br>\n  2) Instrumentar el peor caso completo y correr con indicadores biológicos<br>\n  3) Confirmar meseta, F0 y muerte en el peor caso<br>\n  a) Peor caso conforme en meseta, F0 e indicadores<br>\n  4) Procesar los datos crudos del peor caso en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Peor caso conforme en todo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Definición del peor caso con análisis de riesgo<br>\n  - Registros del peor caso con indicadores<br>\n  - Data cruda y reporte estadístico del análisis del peor caso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15 (peor caso); PDA TR-01."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-AU-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-011 — Tiempo de enfriamiento",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Determinar el tiempo de enfriamiento del <span class=\"equipo\">equipo</span> hasta temperatura segura para manipulación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Al fin del ciclo, registrar la temperatura de la carga cada 5 minutos hasta 40 °C o menos<br>\n  2) Medir el tiempo total de enfriamiento en 3 ciclos<br>\n  3) Confirmar la integridad de los empaques (sin condensación interna)<br>\n  a) Tiempo dentro del límite y empaques secos<br>\n  4) Procesar los datos crudos de enfriamiento en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Enfriamiento definido y repetible con empaques íntegros."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curvas de enfriamiento por ciclo<br>\n  - Data cruda y reporte estadístico del análisis de enfriamiento"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Receta aprobada; OMS TRS 961 §6.21."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-AU-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-012 — Bowie-Dick con carga (si aplica, poroso)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la remoción de aire con carga porosa del <span class=\"equipo\">equipo</span>; si no hay cargas porosas, declarar No Aplica con justificación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el sitio procesa cargas porosas; si no, pasar al paso 4)<br>\n  2) Ubicar el paquete Bowie-Dick en el punto definido con la carga presente<br>\n  3) Correr el ciclo Bowie-Dick y evaluar el viraje uniforme, repitiendo en 3 corridas<br>\n  a) Viraje uniforme en todas las corridas<br>\n  4) Sin cargas porosas: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Conforme con carga porosa, o No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Hojas Bowie-Dick evaluadas o justificación de No Aplica firmada"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EN 285 §17."
+     }
+    ],
+    "tabla": null,
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-AU-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-013 — Estabilidad de presión y temperatura",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar la estabilidad de la presión y la temperatura del <span class=\"equipo\">equipo</span> durante la esterilización, sin desviaciones de alarma."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la presión y la temperatura cada 30 segundos en meseta, en 3 ciclos con carga<br>\n  2) Calcular la estabilidad (rango y SD) y listar las alarmas ocurridas<br>\n  a) Dentro de banda el 100% del tiempo, con cero alarmas no gestionadas<br>\n  3) Procesar los datos crudos de estabilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Meseta estable sin alarmas no gestionadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de presión y temperatura en meseta<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EN 285 (bandas); EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-AU-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-014 — Vacío y pulsos con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el vacío y los pulsos del <span class=\"equipo\">equipo</span> alcanzan el nivel requerido con carga."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el nivel de vacío por pulso (número de pulsos y presión mínima) en 3 ciclos con carga<br>\n  2) Comparar contra el setpoint y contra el vacío para confirmar el efecto de la carga<br>\n  3) Confirmar la remoción de aire por la vía asociada (Bowie-Dick o mapeo del ciclo)<br>\n  a) Niveles conformes en todos los ciclos<br>\n  4) Procesar los datos crudos de vacío en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Vacío conforme con carga en todos los ciclos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de vacío por pulso y ciclo<br>\n  - Data cruda y reporte estadístico del análisis de vacío"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Receta aprobada; EN 285."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-AU-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-015 — Tiempo de espera de material estéril",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Validar el tiempo de espera del material estéril del <span class=\"equipo\">equipo</span> tras el ciclo (validez del almacenado)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el tiempo propuesto en días por tipo de empaque y almacén<br>\n  2) Almacenar en las condiciones definidas y evaluar la integridad del empaque al vencimiento (inspección más prueba de integridad)<br>\n  3) Opcional: desafío microbiológico del contenido al vencimiento<br>\n  4) Registrar la validez aprobada por tipo de empaque<br>\n  a) Empaque íntegro al vencimiento del tiempo declarado<br>\n  5) Anexar el estudio con la validez declarada"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tiempo de espera validado por empaque."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Estudio de tiempo de espera con validez declarada"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1211&gt; (tiempos de espera); práctica 7–30 días según empaque."
+     }
+    ],
+    "tabla": null,
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-AU-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-016 — No estéril y liberación de la carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Establecer los criterios y registros del material no esterilizado y de la liberación de la carga del <span class=\"equipo\">equipo</span>."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir los criterios de segregación: cinta indicadora, etiquetas y área de no estéril<br>\n  2) Verificar que ninguna carga sale sin ciclo completo y sin registro aprobado<br>\n  3) Definir la liberación por calidad (revisión del registro del ciclo más indicadores si aplica)<br>\n  4) Simular un hallazgo de ciclo abortado y confirmar la segregación efectiva<br>\n  a) Cero mezclas; liberación solo con registro aprobado<br>\n  5) Anexar el procedimiento y el registro del simulacro"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sistema a prueba de mezcla de estéril con no estéril."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Procedimiento de segregación y liberación<br>\n  - Registro del simulacro de hallazgo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>OMS TRS 961 §§5.9–5.10 (patrones de carga y registros por corrida)."
+     }
+    ],
+    "tabla": null,
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-AU-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-017 — Secado de la carga (si aplica)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el secado de la carga del <span class=\"equipo\">equipo</span> cuando el programa incluye fase de secado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si los programas califican fase de secado; si no, declarar No Aplica<br>\n  2) Al abrir, inspeccionar la carga: sin humedad visible ni empaques mojados<br>\n  3) Pesar elementos testigo antes y después cuando aplique<br>\n  a) Carga seca en todos los ciclos con secado<br>\n  4) Anexar el registro de inspección"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Secado efectivo o No Aplica justificado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de inspección de secado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EN 285 (sequedad de carga); receta aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "autoclave"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-PQ-AU-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-RES — Tabla resumen de los ensayos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ del autoclave para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-AU-001 a EQ-PQ-AU-017 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 17 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "autoclave"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-PQ-AU-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-AU-REF — Referencias del PQ de autoclave",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EN 285:2015+A1:2021 — Esterilizadores a vapor: tiempo de equilibrio, meseta, termometría con carga y calidad de vapor",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "ISO 17665-1 — Calor húmedo: desarrollo, validación y control de la esterilización",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <1229> / <1229.1> / <1229.5> — Esterilización, F0 e indicadores biológicos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "PDA TR-01 — Calor húmedo: equilibrio, F0 físico y biológico, y penetración por tipo de carga",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "OMS TRS 961 Anexo 6 — Patrones de carga validados, punto más frío y registros por corrida",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "USP <1211> — Tiempos de espera de material esterilizado y estéril",
+       "VIGENTE"
+      ],
+      [
+       "6.7",
+       "EU GMP Anexo 15 — PQ con cargas de producción: repetibilidad en tres ciclos salvo justificación",
+       "VIGENTE"
+      ],
+      [
+       "6.8",
+       "Manual del fabricante del autoclave — Programas, setpoints y límites de diseño",
+       "VIGENTE"
+      ]
+     ]
+    },
+    "familia": "autoclave"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de ciclo, curvas de temperatura y presión, y cálculos (equilibrio, F0)</td></tr>\n<tr><td>8.2</td><td>Anexo B — Indicadores biológicos y químicos, y certificados de termopares e instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Planos de carga y sondas, memorias de cálculo y estudio de tiempo de espera</td></tr>\n</tbody></table>",
+    "familia": "autoclave"
    }
   ]
  }
