@@ -999,7 +999,8 @@ const PlantillaDocx = (() => {
 
     // ---- referencias y anexos del banco ----
     const iRef = inf.findIndex((x) => x.estilo === 'Heading1' && /^REFERENCIAS/.test(sinEsp(x.texto).toUpperCase()));
-    const refArt = items.find((i) => i.bloque === 6 && i.tabla && pasaCondicion(i.cond, filtro));
+    const refArt = items.find((i) => i.bloque === 6 && i.tabla && pasaCondicion(i.cond, filtro)
+      && (!i.familia || !entId || i.familia === entId));
     const nRef = H1s.length ? inf.filter((x, i) => x.estilo === 'Heading1' && i <= iRef).length : 9;
     if (iRef >= 0 && refArt && parts[iRef + 1] && parts[iRef + 1].tag === 'w:tbl') {
       const vacio = (s) => !String(s || '').replace(/[_\s—-]/g, '');
@@ -1020,7 +1021,7 @@ const PlantillaDocx = (() => {
       }
     }
     const iAnx = inf.findIndex((x) => x.estilo === 'Heading1' && /^ANEXOS/.test(sinEsp(x.texto).toUpperCase()));
-    const anxDiv = items.find((i) => !i.id && i.bloque === 8);
+    const anxDiv = items.find((i) => !i.id && i.bloque === 8 && (!i.familia || !entId || i.familia === entId));
     if (iAnx >= 0 && anxDiv && parts[iAnx + 1] && parts[iAnx + 1].tag === 'w:tbl') {
       const anx = lineas(congelar(anxDiv.html, ctx)).filter((l) => !/^ANEXOS$/i.test(l));
       const fs = filas(parts[iAnx + 1].xml);

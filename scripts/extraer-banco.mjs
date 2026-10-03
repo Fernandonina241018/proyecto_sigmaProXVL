@@ -14,7 +14,7 @@ const BANCOS = {
   almacenes: { src: ['almacenes.html'], dst: 'banco-almacenes-data.js', global: 'BancoAlmacenes' },
   // equipos: banco común + un archivo por familia y fase (p. ej. OQ/PQ de lecho fluido).
   // Los artículos llevan `familia` (data-familia); ausente = común a todas.
-  equipos: { src: ['equipos-comun.html', 'equipos/oq-lecho-fluido.html'], dst: 'banco-equipos-data.js', global: 'BancoEquipos' },
+  equipos: { src: ['equipos-comun.html', 'equipos/oq-lecho-fluido.html', 'equipos/oq-autoclave.html'], dst: 'banco-equipos-data.js', global: 'BancoEquipos' },
 };
 const cat = process.argv[2] || 'equipos';
 const cfg = BANCOS[cat];
@@ -76,18 +76,26 @@ async function main() {
     for (const f of FASES) {
       const sec = doc.querySelector('section[id="fase-' + f + '"]');
       if (!sec) continue; // un archivo de familia solo trae su fase
+      const famSec = sec.getAttribute('data-familia') || '';
       const items = [];
       sec.querySelectorAll('[data-bloque]').forEach((el) => {
         const tag = el.tagName.toLowerCase();
+        // familia del ítem o, en su defecto, de la sección (archivos por familia)
+        const famItem = el.getAttribute('data-familia') || famSec || '';
         if (tag === 'article') {
-          items.push(extractArticle(el));
+          const it = extractArticle(el);
+          if (famItem && !it.familia) it.familia = famItem;
+          items.push(it);
         } else if (tag === 'div') {
-          items.push({
+          const div = {
             kind: 'div',
             clase: el.getAttribute('class') || '',
             bloque: parseInt(el.getAttribute('data-bloque') || '1', 10),
             html: el.innerHTML.trim(),
-          });
+          };
+          const fam = el.getAttribute('data-familia') || famSec;
+          if (fam) div.familia = fam;
+          items.push(div);
         }
       });
       out.fases[f.toUpperCase()] = (out.fases[f.toUpperCase()] || []).concat(items);

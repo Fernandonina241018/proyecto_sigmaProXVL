@@ -78,7 +78,8 @@ describe('OQ lecho fluido (banco por familia)', () => {
   };
 
   it('banco OQ: 11 ensayos de la familia lecho-fluido, IDs únicos', () => {
-    const ids = (banco.fases.OQ || []).filter((i) => i.id).map((i) => i.id);
+    const ids = (banco.fases.OQ || [])
+      .filter((i) => i.id && i.familia === 'lecho-fluido').map((i) => i.id);
     expect(ids).toHaveLength(13); // 11 ensayos + RES + REF
     expect(new Set(ids).size).toBe(13);
     expect(ids.filter((id) => /^EQ-OQ-LF-00[1-9]$|^EQ-OQ-LF-01[01]$/.test(id))).toHaveLength(11);
@@ -98,5 +99,44 @@ describe('OQ lecho fluido (banco por familia)', () => {
     const { r, doc } = await genOQ({ id: 'balanza', nombre: 'Balanza' });
     expect(r.ensayos).toHaveLength(0);
     expect(doc).not.toContain('EQ-OQ-LF-001');
+  });
+});
+
+describe('OQ autoclave (banco por familia)', () => {
+  const DRAFT_AU = {
+    codigo: '400500', descripcion: 'Autoclave', ubicacion: 'PRODUCCION PLANTA 3',
+    tipo: 'Equipo', marca: 'COMASA', modelo: '430L', fecha: '2026-10-03',
+  };
+  const ENT_AU = { id: 'autoclave', nombre: 'Autoclave' };
+  const genOQ = async (ent) => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.OQ)));
+    const r = await P.generar('OQ', u8, banco, DRAFT_AU, ent, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    return { r, doc: arch['word/document.xml'] };
+  };
+
+  it('banco OQ autoclave: 18 ensayos, IDs únicos', () => {
+    const ids = (banco.fases.OQ || [])
+      .filter((i) => i.id && i.familia === 'autoclave').map((i) => i.id);
+    expect(ids.filter((id) => /^EQ-OQ-AU-0\d\d$/.test(id) && !/RES|REF/.test(id))).toHaveLength(18);
+    const todos = ['DQ', 'IQ', 'OQ', 'PQ'].flatMap((f) => (banco.fases[f] || []).filter((i) => i.id).map((i) => i.id));
+    expect(new Set(todos).size).toBe(todos.length);
+  });
+
+  it('autoclave genera sus 18 ensayos; lecho fluido no se mezcla', async () => {
+    const { r, doc } = await genOQ(ENT_AU);
+    expect(r.ensayos).toHaveLength(18);
+    expect(r.ensayos[0]).toBe('EQ-OQ-AU-001');
+    for (const id of r.ensayos) expect(doc).toContain(id);
+    const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    expect(txt).toContain('BOWIE-DICK');
+    expect(txt).not.toContain('GASKET INFLABLE');
+    expect(txt).not.toContain('LECHO FLUIDO');
+  });
+
+  it('lecho fluido no recibe ensayos de autoclave', async () => {
+    const { r, doc } = await genOQ({ id: 'lecho-fluido', nombre: 'Lecho fluido' });
+    expect(r.ensayos.every((id) => !id.includes('-AU-'))).toBe(true);
+    expect(doc).not.toContain('EQ-OQ-AU-001');
   });
 });

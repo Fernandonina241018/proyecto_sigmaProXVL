@@ -4582,3 +4582,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Qué:** nuevo `docs/banco-ensayos/equipos/oq-lecho-fluido.html` (fase OQ + shells + 11 articles EQ-OQ-LF-001…011 con procedimiento paso a paso, `data-familia="lecho-fluido"`, refs bloque 6 y anexos bloque 8). Extractor multifichero + atributo `familia`; filtro por `entidad.id` en `generar()`; `tituloLimpio` acepta IDs con familia; `GEN_FASES.equipos` suma OQ.
 - **Reparación bloqueante:** commit 121d61a había reemplazado las plantillas por versiones con style IDs numéricos (939/940/966) → `info()` no detectaba H1/H2 (28 tests en rojo). Ahora resuelve por `styles.xml` con tolerancia de idioma; helper de test H1 usa bookmarks `_SigmaH1_`.
 - **Verificación:** OQ lecho fluido real con 11 ensayos, 11 H1, 14 H2; balanza recibe 0 ensayos OQ; Vitest 325/325, backend 60/60.
+
+### 2026-10-03 (118): OQ autoclave — 18 ensayos por familia
+- **Qué:** nuevo `docs/banco-ensayos/equipos/oq-autoclave.html` (18 articles EQ-OQ-AU-001…018, `familia="autoclave"`, refs EN 285/ISO 17665/USP 1229/PDA TR-01/Anexo 15 + anexos). Extractor: `data-familia` por sección como fallback; refArt/anxDiv del motor filtran por familia (antes la primera familia contaminaba a la otra).
+- **Verificación:** OQ autoclave real con 18 ensayos, refs EN 285, sin mezcla con lecho; Vitest 328/328, backend 60/60.

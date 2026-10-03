@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos OQ — Autoclave</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>OQ — Autoclave (banco por familia)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-OQ-AU 2026-10-03 v1</span></p>
+<p>Ensayos de Calificación de Operación específicos del autoclave (<span class="equipo">equipo</span>). Se filtran por familia (<code>data-familia="autoclave"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq" data-familia="autoclave">
+<h2>OQ — Ensayos</h2>
+
+<div class="portada" data-bloque="1">
+<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>
+<p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+<p><strong>Calificación de Operación de <span class="equipo">equipo</span>:</strong> <span class="ent-descripcion">______</span></p>
+<ol>
+  <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+  <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+  <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+</ol>
+</div>
+
+<div class="firmas" data-bloque="1">
+<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>
+<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>
+<ol>
+  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+</ol>
+</div>
+
+<div class="responsabilidades" data-bloque="1">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+<p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+<ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class="equipo">equipo</span>, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>
+<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar el inicio de la PQ.</li></ol>
+<p><strong>Responsabilidad del Gerente de Área:</strong></p>
+<ol><li>Garantizar la disponibilidad del <span class="equipo">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>
+</div>
+
+<div class="alcance" data-bloque="1">
+<p><strong>ALCANCE</strong></p>
+<p>Esta calificación aplica a <span class="equipo">equipo</span>, según protocolo OQ, y cubre los ensayos listados en el índice.</p>
+</div>
+
+<div class="def-usp" data-bloque="1">
+<p><strong>DEFINICIÓN USP</strong></p>
+<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (USP &lt;1058&gt;).</p>
+</div>
+
+<div class="nota-datos" data-bloque="1">
+<p><strong>NOTA — DATOS DIGITALES</strong></p>
+<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>
+</div>
+
+<article data-bloque="3" id="art-EQ-OQ-AU-001" class="ensayo" data-id="EQ-OQ-AU-001" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-001 — Parada de emergencia y aborto de ciclo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la parada de emergencia o el aborto del ciclo deja la cámara en estado seguro, despresuriza de forma controlada y mantiene la puerta bloqueada hasta presión segura en el <span class="equipo">equipo</span>.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar IQ aprobada y <span class="equipo">equipo</span> liberado para OQ, con ciclo de prueba programado en cámara vacía<br>
+  2) Arrancar el ciclo y esperar a la fase de esterilización<br>
+  3) Accionar la parada de emergencia o el aborto y medir con cronómetro el tiempo hasta el corte del vapor<br>
+  4) Confirmar la despresurización controlada sin apertura de la puerta<br>
+  5) Intentar abrir la puerta con la cámara presurizada o por encima de 80 °C<br>
+  a) La puerta queda bloqueada hasta presión menor o igual a 0,2 bar y temperatura segura<br>
+  6) Confirmar que el rearranque exige una acción deliberada del operador y que el equipo no continúa el ciclo solo<br>
+  7) Dejar el <span class="equipo">equipo</span> en condición segura y anotar cualquier desviación</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Estado seguro con despresurización controlada; puerta bloqueada hasta condición segura.<br>
+  Sin rearranque automático ni continuación del ciclo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de tiempos, presiones y temperaturas del aborto<br>
+  - Constancia del bloqueo de puerta</p>
+  <p><strong>Referencia:</strong><br>EN 285 (control y seguridades); GAMP5 2.ª ed.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-AU-002" class="ensayo" data-id="EQ-OQ-AU-002" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-002 — Interlocks de puertas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar los bloqueos de puerta del <span class="equipo">equipo</span> por presión o temperatura alta, la inhibición con puerta mal cerrada y la exclusión mutua en doble puerta.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Dejar el <span class="equipo">equipo</span> detenido en condición segura y disponer de la matriz de interlocks<br>
+  2) Presurizar la cámara a 1 bar o calentarla por encima de 80 °C e intentar abrir la puerta<br>
+  a) La apertura queda bloqueada<br>
+  3) Dejar la puerta mal cerrada e intentar iniciar el ciclo<br>
+  a) El inicio queda inhibido con mensaje en el HMI<br>
+  4) En autoclave de doble puerta: abrir el lado de carga e intentar abrir el lado de descarga<br>
+  a) La segunda puerta queda bloqueada, y viceversa<br>
+  5) Cerrar correctamente y confirmar el permiso de marcha<br>
+  6) Registrar cada intento con hora, condición y respuesta del <span class="equipo">equipo</span></p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100% de los bloqueos ensayados es efectivo, incluyendo la exclusión mutua en doble puerta.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de interlocks con intentos y respuestas</p>
+  <p><strong>Referencia:</strong><br>EN 285 §4.3.2 (puertas); GAMP5 2.ª ed.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-AU-003" class="ensayo" data-id="EQ-OQ-AU-003" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-003 — Válvula de seguridad y recipiente a presión</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el certificado vigente de la válvula de seguridad, su prueba de alivio y la conformidad del recipiente a presión del <span class="equipo">equipo</span> según la normativa local.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Recopilar el certificado de la válvula de seguridad (presión de tarado y vigencia) y el expediente del recipiente<br>
+  2) Confirmar la placa del recipiente con su norma de diseño y fabricación<br>
+  3) Presenciar o documentar la prueba de alivio a la presión de tarado, verificando apertura y recierre<br>
+  4) Verificar los manómetros del <span class="equipo">equipo</span> contra patrón en el rango de trabajo<br>
+  a) Los certificados están vigentes y archivados<br>
+  5) Anexar los certificados y el acta de la prueba de alivio al protocolo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Válvula certificada, vigente y funcional; recipiente conforme a la normativa local.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Certificado de la válvula de seguridad y expediente del recipiente<br>
+  - Acta de la prueba de alivio</p>
+  <p><strong>Referencia:</strong><br>Normativa local de recipientes a presión; EN 764-1.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-AU-004" class="ensayo" data-id="EQ-OQ-AU-004" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-004 — Alarmas y límites</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada alarma del <span class="equipo">equipo</span> dispara en su límite y ejecuta su acción (alta y baja temperatura, alta presión, falla de vacío, tiempo excedido y falla de vapor).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Listar las alarmas con sus límites según el HMI y la receta, y disponer de cronómetro y formato de registro<br>
+  2) Provocar o simular alta temperatura por encima del límite y confirmar alarma con su acción<br>
+  a) El tiempo entre el evento y la alarma es menor a 5 segundos<br>
+  3) Provocar o simular baja temperatura por debajo del límite y confirmar alarma con su acción<br>
+  4) Provocar o simular alta presión por encima del límite y confirmar alarma con su acción<br>
+  5) Interrumpir la bomba de vacío y confirmar la alarma de falla de vacío con su acción<br>
+  6) Reducir el setpoint de tiempo para forzar tiempo de ciclo excedido y confirmar la alarma<br>
+  7) Cerrar el suministro de vapor y confirmar la alarma de falla de vapor con su acción<br>
+  8) Acusar cada alarma, verificar que el acuse queda registrado, normalizar y confirmar el retorno a operación</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100% de las alarmas dispara en su límite, ejecuta su acción en menos de 5 segundos y queda registrada con acuse.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de alarmas con límite, acción, tiempo de respuesta y acuse<br>
+  - Extracto del histórico de alarmas del HMI</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; GAMP5 2.ª ed.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-AU-005" class="ensayo" data-id="EQ-OQ-AU-005" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-005 — Falla y recuperación de energía</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el estado del <span class="equipo">equipo</span> y del ciclo en curso ante un corte de energía y su recuperación sin pérdida de datos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Poner el <span class="equipo">equipo</span> en ciclo de prueba en fase de esterilización y coordinar el corte real o simulado<br>
+  2) Cortar la energía, anotar la hora exacta y la fase del ciclo<br>
+  3) Confirmar el estado seguro: vapor cortado, puerta bloqueada y alarmas correspondientes activas<br>
+  4) Esperar 5 minutos sin energía<br>
+  5) Restablecer la energía y confirmar que el <span class="equipo">equipo</span> no rearranca solo ni continúa el ciclo como si nada: el ciclo se aborta o se reanuda manualmente según el diseño<br>
+  6) Revisar el lote de datos: registro del ciclo completo hasta el corte, sin corrupción ni huecos injustificados según ALCOA+<br>
+  7) Anexar el registro del evento y la verificación de datos, documentando las desviaciones si las hubo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Estado seguro al corte; sin rearranque automático; ciclo invalidado o reanudado según procedimiento.<br>
+  Datos íntegros y trazables tras la recuperación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del evento con hora y fase del ciclo<br>
+  - Verificación de integridad de datos</p>
+  <p><strong>Referencia:</strong><br>GAMP5 2.ª ed.; 21 CFR Part 11.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-AU-006" class="ensayo" data-id="EQ-OQ-AU-006" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-006 — Registro del ciclo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la impresora o el registrador independiente del <span class="equipo">equipo</span> coincide con la lectura del equipo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Correr un ciclo de prueba con el registro impresor o independiente activo<br>
+  2) Comparar punto por punto la temperatura, la presión, los tiempos de fase y las alarmas entre el equipo y el registro independiente<br>
+  a) Las diferencias de temperatura y presión están dentro de la exactitud declarada del registrador<br>
+  3) Confirmar la identificación del ciclo (número, fecha y programa) en ambos registros<br>
+  4) Anexar la tira o gráfica firmada al protocolo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Coincidencia total entre el equipo y el registro independiente, con el ciclo identificado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tira o gráfica del registro independiente anexada y firmada</p>
+  <p><strong>Referencia:</strong><br>EN 285 (medición y registro); EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-AU-007" class="ensayo" data-id="EQ-OQ-AU-007" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-007 — Exactitud y correlación temperatura contra presión</h3>
+  <p><strong>Objetivo:</strong><br>Verificar los sensores de control e independiente del <span class="equipo">equipo</span> y su correlación según las tablas de vapor saturado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ubicar el sensor patrón calibrado (exactitud igual o mejor a ±0,2 °C) junto al sensor de control<br>
+  2) En meseta a 121 °C, comparar el sensor de control contra el patrón y calcular la temperatura teórica de saturación a la presión medida<br>
+  a) La diferencia entre control y patrón es menor o igual a ±0,5 °C<br>
+  b) La temperatura medida es coherente con la saturación, sin sobrecalentamiento significativo<br>
+  3) Repetir en 134 °C si el <span class="equipo">equipo</span> opera ese programa<br>
+  4) Confirmar la calibración vigente de ambos canales y anexar la tabla de temperatura, presión y teórica</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Exactitud ±0,5 °C y correlación con vapor saturado conformes.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de temperatura, presión y teórica de saturación<br>
+  - Certificados de los sensores</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt;; EN 285 (termometría).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-AU-008" class="ensayo" data-id="EQ-OQ-AU-008" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-008 — Temporizadores de las fases</h3>
+  <p><strong>Objetivo:</strong><br>Verificar los tiempos de acondicionamiento, esterilización y secado del <span class="equipo">equipo</span> contra sus setpoints.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Programar un ciclo de prueba con tiempos conocidos y disponer de cronómetro independiente<br>
+  2) Medir cada fase (acondicionamiento, esterilización y secado) y comparar con el HMI<br>
+  a) La diferencia es menor o igual a ±1% o ±5 segundos, lo mayor<br>
+  3) Repetir en un segundo programa si el <span class="equipo">equipo</span> lo tiene calificado<br>
+  4) Anexar la tabla de setpoint contra medido por fase</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Temporizadores exactos dentro de la tolerancia en todos los programas ensayados.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de setpoint contra medido por fase y programa</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-AU-009" class="ensayo" data-id="EQ-OQ-AU-009" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-009 — Programas de ciclo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la transición entre fases, los setpoints y los tiempos de cada programa calificado del <span class="equipo">equipo</span>.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Listar los programas a calificar según las recetas aprobadas<br>
+  2) Correr cada programa en vacío y confirmar la secuencia de fases según su receta<br>
+  3) Confirmar que los setpoints ejecutados de temperatura, presión, tiempos y pulsos de vacío son los programados<br>
+  4) Confirmar el fin de ciclo, la impresión del registro y la liberación de la puerta solo al final<br>
+  a) Cada programa ejecuta su receta completa sin desvíos<br>
+  5) Completar el checklist por programa con sus registros anexados</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100% de los programas ejecuta su receta completa sin desvíos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Checklist por programa con registros de ciclo</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; recetas aprobadas.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-AU-010" class="ensayo" data-id="EQ-OQ-AU-010" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-010 — Prueba de fuga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la tasa de aumento de presión de la cámara del <span class="equipo">equipo</span> está dentro del criterio de la URS o de la norma adoptada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Dejar la cámara vacía, seca y fría, y estabilizarla con un ciclo de calentamiento previo según EN 285<br>
+  2) Evacuar al nivel del ensayo, aislar la cámara y estabilizar 300 segundos<br>
+  3) Medir el aumento de presión durante 600 segundos con instrumento calibrado<br>
+  4) Calcular la tasa en kPa por minuto<br>
+  a) La tasa es menor o igual a 0,13 kPa por minuto, o al criterio de la URS si es más estricto<br>
+  5) Si no cumple, investigar fugas en puerta, sellos y válvulas, corregir y repetir<br>
+  6) Anexar la curva de presión contra tiempo con el cálculo de la tasa</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Tasa de fuga conforme al criterio adoptado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Curva de presión contra tiempo con cálculo de tasa<br>
+  - Certificado del instrumento de medición</p>
+  <p><strong>Referencia:</strong><br>EN 285 §18.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-AU-011" class="ensayo" data-id="EQ-OQ-AU-011" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-011 — Bowie-Dick o equivalente</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la penetración de vapor y la remoción de aire en cargas porosas del <span class="equipo">equipo</span> con paquete de prueba.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Preparar el paquete Bowie-Dick textil o el indicador Clase B según ISO 11140, y ubicarlo en el punto definido (típicamente centro-bajo, sobre el drenaje)<br>
+  2) Correr el ciclo Bowie-Dick a 134 °C por 3,5 minutos o el programa del <span class="equipo">equipo</span><br>
+  3) Evaluar la hoja indicadora inmediatamente después del ciclo: viraje uniforme sin zonas sin procesar<br>
+  4) Repetir en 3 corridas según el procedimiento<br>
+  a) Viraje uniforme en todas las corridas<br>
+  5) Ante cualquier falla, investigar aire residual (fuga, vapor o vacío) antes de continuar con la calificación<br>
+  6) Anexar las hojas indicadoras firmadas al protocolo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Viraje uniforme en todas las corridas; pasa o no pasa por uniformidad.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Hojas indicadoras anexadas y firmadas</p>
+  <p><strong>Referencia:</strong><br>EN 285 §17; ISO 11140.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-AU-012" class="ensayo" data-id="EQ-OQ-AU-012" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-012 — Detector de aire (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el detector de aire del <span class="equipo">equipo</span> desafía el ciclo y registra pasa o falla; si el equipo no lo tiene, declarar No Aplica con justificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar si el <span class="equipo">equipo</span> cuenta con detector de aire; si no existe, pasar al paso 4)<br>
+  2) Correr un ciclo con ingreso dosificado de aire de 1,0 ±0,1 kPa por minuto y confirmar que el detector lo registra como falla<br>
+  3) Correr un ciclo sin ingreso de aire y confirmar el registro de pasa<br>
+  a) El detector discrimina pasa y falla correctamente<br>
+  4) Sin detector: redactar la justificación de No Aplica indicando que el equipo no cuenta con detector de aire, con firma del ejecutor y del revisor</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Detector funcional que discrimina pasa y falla, o No Aplica justificado y firmado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros del detector o justificación de No Aplica firmada</p>
+  <p><strong>Referencia:</strong><br>EN 285 §19 (provisión opcional).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-AU-013" class="ensayo" data-id="EQ-OQ-AU-013" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-013 — Integridad y estado del sello de la puerta</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la integridad y el estado del sello o empaque de la puerta del <span class="equipo">equipo</span>.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inspeccionar visualmente el sello: cortes, deformación, endurecimiento y residuos<br>
+  2) Confirmar el asentamiento uniforme con la puerta cerrada, sin fugas audibles ni visibles de vapor en ciclo<br>
+  3) Si el diseño lo permite, correr una retención de vacío corta como evidencia complementaria<br>
+  4) Registrar el estado del sello como apto o programar su reemplazo<br>
+  a) Sin daños y sin fugas durante el ciclo<br>
+  5) Anexar la constancia con evidencia fotográfica</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sello íntegro y funcional, sin fugas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Constancia del estado del sello con evidencia fotográfica</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; EN 285 §18 (prueba global de fugas).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-AU-014" class="ensayo" data-id="EQ-OQ-AU-014" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-014 — Mapeo de temperatura en cámara vacía</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la uniformidad y la estabilidad de la temperatura durante la esterilización en cámara vacía, el ΔT entre sensores y respecto al control, e identificar el punto frío para el PQ.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Distribuir 10 termopares calibrados como mínimo (esquinas, centro, drenaje y niveles alto, medio y bajo) según el plano de ubicación<br>
+  2) Correr el ciclo a 121 °C en vacío, registrando la temperatura cada 30 segundos<br>
+  3) En meseta, calcular por sensor el promedio, el máximo y el mínimo; el ΔT entre sensores; y el ΔT contra el sensor de control<br>
+  a) Todos los sensores entre 121 y 124 °C en meseta, o dentro de la banda de la URS<br>
+  b) El ΔT entre sensores está dentro de ±1 °C<br>
+  4) Repetir en 134 °C si el <span class="equipo">equipo</span> opera ese programa<br>
+  5) Identificar y registrar el punto frío para el PQ<br>
+  6) Anexar el plano de termopares, las curvas y la tabla por sensor</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Uniformidad y estabilidad conformes en meseta; punto frío identificado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Plano de ubicación de termopares<br>
+  - Curvas de temperatura y tabla por sensor con ΔT<br>
+  - Certificados de los termopares</p>
+  <p><strong>Referencia:</strong><br>EN 285 §16 (termometría); USP &lt;1229.1&gt;.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-AU-015" class="ensayo" data-id="EQ-OQ-AU-015" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-015 — Sobrecalentamiento y condensado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el vapor en la cámara del <span class="equipo">equipo</span> corresponde a saturación a la presión medida, sin sobrecalentamiento relevante, y que el condensado drena correctamente.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Durante la meseta del mapeo, calcular la temperatura teórica de saturación a la presión de cámara con las tablas de vapor<br>
+  2) Comparar la temperatura medida menos la teórica en cada sensor<br>
+  a) La diferencia está dentro de ±2 °C (vapor saturado, no sobrecalentado)<br>
+  3) Confirmar trampas de vapor y drenaje operativos, sin encharcamiento, revisando mirilla y drenaje<br>
+  4) Anexar la tabla de temperatura medida contra teórica por sensor</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Vapor saturado y condensado drenado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de temperatura medida contra teórica por sensor</p>
+  <p><strong>Referencia:</strong><br>EN 285 (calidad de vapor); PDA TR-01.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-AU-016" class="ensayo" data-id="EQ-OQ-AU-016" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-016 — Calidad de vapor (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la fracción de sequedad, los gases no condensables y el sobrecalentamiento cuando el vapor del <span class="equipo">equipo</span> es de proceso; si la empresa los ejecuta en PQ, dejar justificada su ubicación en el protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar si el vapor es de proceso y si la calidad se ejecuta en este OQ o en el PQ; si va en PQ, pasar al paso 4) con la justificación<br>
+  2) Con el kit según EN 285, medir la fracción de sequedad, los gases no condensables y el sobrecalentamiento<br>
+  a) Sequedad mayor o igual a 0,95<br>
+  b) Gases no condensables menor o igual a 3,5 ml por 100 ml de condensado<br>
+  c) Sobrecalentamiento menor a 25 °C a presión atmosférica<br>
+  3) Anexar el reporte de calidad de vapor<br>
+  4) Si va en PQ: redactar la justificación de su ubicación en el protocolo con firma del ejecutor y del revisor</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Parámetros conformes o ubicación en PQ justificada y firmada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Reporte de calidad de vapor o justificación de ubicación firmada</p>
+  <p><strong>Referencia:</strong><br>EN 285 (vapor); ISPE (sequedad ≥0,95).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-AU-017" class="ensayo" data-id="EQ-OQ-AU-017" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-017 — Secado en cámara vacía o carga inerte</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la efectividad del secado del <span class="equipo">equipo</span> en cámara vacía o con carga inerte, sin humedad residual atribuible al equipo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Dejar la cámara vacía o con la carga inerte definida, como bandejas metálicas<br>
+  2) Correr el ciclo completo con su fase de secado según el programa<br>
+  3) Al abrir, inspeccionar superficies y trampas al tacto y visualmente, sin gotas ni humedad<br>
+  4) Si aplica, pesar los elementos testigo antes y después<br>
+  a) Sin humedad residual atribuible al equipo; diferencia de pesada dentro del criterio de la URS<br>
+  5) Anexar el registro de inspección o de pesadas</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Secado efectivo sin humedad residual del equipo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de inspección o de pesadas de secado</p>
+  <p><strong>Referencia:</strong><br>EN 285 (sequedad de carga).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-AU-018" class="ensayo" data-id="EQ-OQ-AU-018" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-018 — Enfriamiento y control de presión (si aplica, líquidos)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la fase de enfriado y el control de presión en ciclos de líquidos del <span class="equipo">equipo</span>, si opera esos ciclos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar si el <span class="equipo">equipo</span> opera ciclos de líquidos; si no, pasar al paso 5)<br>
+  2) Preparar la carga líquida simulada con botellas con agua en volumen representativo<br>
+  3) Correr el programa de líquidos y verificar la rampa de enfriamiento sin ebullición violenta, con la sobrepresión de apoyo según el diseño<br>
+  4) Confirmar el diferencial de temperatura y el tiempo de enfriado dentro de la receta, con tapones y cierres íntegros<br>
+  a) Enfriamiento controlado sin daño a la carga<br>
+  5) Sin ciclos de líquidos: redactar la justificación de No Aplica con firma del ejecutor y del revisor<br>
+  6) Anexar la curva de enfriamiento o la justificación</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Enfriamiento controlado conforme, o No Aplica justificado y firmado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Curva de enfriamiento o justificación de No Aplica firmada</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1229.2&gt; (líquidos); receta aprobada.</p>
+</article>
+
+<article data-bloque="4" id="art-EQ-OQ-AU-RES" class="ensayo" data-id="EQ-OQ-AU-RES" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-RES — Tabla resumen de los ensayos del OQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ del autoclave para la tabla resumen del protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar que los ensayos EQ-OQ-AU-001 a EQ-OQ-AU-018 están incluidos en el índice del protocolo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los 18 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="6" id="art-EQ-OQ-AU-REF" class="ensayo tabla-info" data-id="EQ-OQ-AU-REF" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
+  <h3>EQ-OQ-AU-REF — Referencias del OQ de autoclave</h3>
+  <table>
+    <tr><th>SECCIÓN</th><th>TÍTULO</th><th>ESTADO</th></tr>
+    <tr><td>6.1</td><td>EN 285:2015+A1:2021 — Esterilización, esterilizadores a vapor, grandes esterilizadores: Bowie-Dick, fuga, detector de aire, termometría y calidad de vapor</td><td>VIGENTE</td></tr>
+    <tr><td>6.2</td><td>ISO 17665-1 — Esterilización de productos sanitarios por calor húmedo: desarrollo, validación y control</td><td>VIGENTE</td></tr>
+    <tr><td>6.3</td><td>USP &lt;1229&gt; / &lt;1229.1&gt; / &lt;1229.2&gt; — Esterilización de artículos compendiales, F0 y líquidos acuosos</td><td>VIGENTE</td></tr>
+    <tr><td>6.4</td><td>PDA TR-01 — Esterilización por calor húmedo: cinética D/z y estudios de distribución y penetración</td><td>VIGENTE</td></tr>
+    <tr><td>6.5</td><td>EU GMP Anexo 15 — Cualificación y validación: la OQ demuestra operación según especificaciones aprobadas</td><td>VIGENTE</td></tr>
+    <tr><td>6.6</td><td>GAMP5 2.ª ed. — Challenge a funciones de seguridad, interlocks, alarmas e integridad de datos</td><td>VIGENTE</td></tr>
+    <tr><td>6.7</td><td>Normativa local de recipientes a presión — Conformidad del recipiente y válvula de seguridad</td><td>VIGENTE</td></tr>
+    <tr><td>6.8</td><td>Manual del fabricante del autoclave — Setpoints, secuencias, programas y límites de diseño</td><td>VIGENTE</td></tr>
+  </table>
+</article>
+
+<div class="anexos" data-bloque="8">
+<p><strong>ANEXOS:</strong></p>
+<table>
+<tr><th>SECCIÓN</th><th>TÍTULO</th></tr>
+<tr><td>8.1</td><td>Anexo A — Registros de ciclo, curvas de temperatura y presión, y cálculos (tasa de fuga, F0 de referencia)</td></tr>
+<tr><td>8.2</td><td>Anexo B — Certificados de calibración de termopares, manómetros e instrumentos patrón</td></tr>
+<tr><td>8.3</td><td>Anexo C — Hojas Bowie-Dick, matrices de interlocks y alarmas, y certificados de válvula de seguridad</td></tr>
+</table>
+</div>
+
+</section>
+
+</body>
+</html>
