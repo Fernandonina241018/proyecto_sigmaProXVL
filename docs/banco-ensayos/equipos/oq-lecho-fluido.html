@@ -157,7 +157,7 @@
   <p><strong>Referencia:</strong><br>GAMP5 2.ª ed.; EU GMP Anexo 15; 21 CFR Part 11 (datos).</p>
 </article>
 
-<article data-bloque="3" id="art-EQ-OQ-LF-005" class="ensayo" data-id="EQ-OQ-LF-005" data-fase="OQ" data-cond="ambas" data-familia="lecho-fluido">
+<article data-bloque="3" id="art-EQ-OQ-LF-005" class="ensayo" data-analisis="si" data-id="EQ-OQ-LF-005" data-fase="OQ" data-cond="ambas" data-familia="lecho-fluido">
   <h3>EQ-OQ-LF-005 — Flujo de aire y curva del ventilador</h3>
   <p><strong>Objetivo:</strong><br>Verificar el caudal de aire en mínimo, nominal y máximo, y establecer la relación entre la frecuencia del ventilador y el caudal del <span class="equipo">equipo</span>.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -169,18 +169,20 @@
   6) Calcular el promedio y el RSD por punto<br>
   a) El RSD de cada punto es menor o igual a 5%<br>
   7) Graficar la curva frecuencia contra caudal y confirmar que es monótona creciente y que los 3 puntos están dentro de la especificación del fabricante ±5%<br>
-  8) Archivar la curva como referencia para la PQ</p>
+  8) Archivar la curva como referencia para la PQ<br>
+  9) Procesar los datos crudos de caudal de aire y curva del ventilador en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
   <p><strong>Criterio de aceptación:</strong><br>
   Los caudales mínimo, nominal y máximo están dentro de la especificación del fabricante ±5% con RSD ≤5%.<br>
   La curva frecuencia contra caudal queda documentada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de frecuencia contra caudal con promedios y RSD<br>
   - Gráfica de la curva del ventilador<br>
-  - Certificado del instrumento de medición</p>
+  - Certificado del instrumento de medición<br>
+  - Data cruda y reporte estadístico del análisis de caudal de aire y curva del ventilador</p>
   <p><strong>Referencia:</strong><br>Especificación del fabricante; EU GMP Anexo 15.</p>
 </article>
 
-<article data-bloque="3" id="art-EQ-OQ-LF-006" class="ensayo" data-id="EQ-OQ-LF-006" data-fase="OQ" data-cond="ambas" data-familia="lecho-fluido">
+<article data-bloque="3" id="art-EQ-OQ-LF-006" class="ensayo" data-analisis="si" data-id="EQ-OQ-LF-006" data-fase="OQ" data-cond="ambas" data-familia="lecho-fluido">
   <h3>EQ-OQ-LF-006 — Control de temperatura del aire de entrada</h3>
   <p><strong>Objetivo:</strong><br>Verificar la exactitud, la estabilidad y el tiempo de respuesta del lazo de temperatura del aire de entrada del <span class="equipo">equipo</span> en setpoints bajo, medio y alto.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -191,18 +193,20 @@
   a) La variación durante la estabilidad es menor o igual a ±1 °C<br>
   4) Repetir los pasos 2) y 3) en setpoint medio y en setpoint alto<br>
   5) Desde el setpoint bajo estable, cambiar al setpoint alto y medir con cronómetro el tiempo hasta que el patrón esté dentro de ±1 °C del nuevo setpoint, registrando la curva de temperatura contra tiempo<br>
-  6) Devolver el setpoint al valor de reposo aprobado y anexar los gráficos y la tabla de exactitud</p>
+  6) Devolver el setpoint al valor de reposo aprobado y anexar los gráficos y la tabla de exactitud<br>
+  7) Procesar los datos crudos de temperatura del aire de entrada en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
   <p><strong>Criterio de aceptación:</strong><br>
   Exactitud ±0,5 °C en los tres setpoints; estabilidad ±1 °C durante 30 minutos.<br>
   Tiempo de respuesta dentro del límite del fabricante.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de exactitud equipo contra patrón en 3 setpoints<br>
   - Gráficos de temperatura contra tiempo y de tiempo de respuesta<br>
-  - Certificado del sensor patrón</p>
+  - Certificado del sensor patrón<br>
+  - Data cruda y reporte estadístico del análisis de temperatura del aire de entrada</p>
   <p><strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15.</p>
 </article>
 
-<article data-bloque="3" id="art-EQ-OQ-LF-007" class="ensayo" data-id="EQ-OQ-LF-007" data-fase="OQ" data-cond="ambas" data-familia="lecho-fluido">
+<article data-bloque="3" id="art-EQ-OQ-LF-007" class="ensayo" data-analisis="si" data-id="EQ-OQ-LF-007" data-fase="OQ" data-cond="ambas" data-familia="lecho-fluido">
   <h3>EQ-OQ-LF-007 — Control de humedad del aire de entrada (si aplica)</h3>
   <p><strong>Objetivo:</strong><br>Verificar el control de humedad o punto de rocío del aire de entrada cuando el <span class="equipo">equipo</span> cuenta con deshumidificación; si no cuenta con ella, declarar No Aplica con justificación.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -212,12 +216,14 @@
   4) Registrar la humedad relativa o el punto de rocío cada 5 minutos durante 30 minutos<br>
   a) La variación durante la estabilidad está dentro de ±3% HR<br>
   5) Provocar una desviación cambiando el setpoint ±10%, confirmar la alarma de desviación de humedad y normalizar verificando el retorno<br>
-  6) Con sistema: anexar el registro de humedad contra tiempo; sin sistema: redactar la justificación de No Aplica indicando que el equipo no cuenta con deshumidificación y que el parámetro no existe en el diseño, con firma del ejecutor y del revisor</p>
+  6) Con sistema: anexar el registro de humedad contra tiempo; sin sistema: redactar la justificación de No Aplica indicando que el equipo no cuenta con deshumidificación y que el parámetro no existe en el diseño, con firma del ejecutor y del revisor<br>
+  7) Cuando aplique este ensayo, procesar los datos crudos de humedad del aire de entrada en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
   <p><strong>Criterio de aceptación:</strong><br>
   Con sistema: estabilidad ±3% HR y alarma de desviación operativa.<br>
   Sin sistema: No Aplica justificado y firmado.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registro de humedad contra tiempo o justificación de No Aplica firmada</p>
+  - Registro de humedad contra tiempo o justificación de No Aplica firmada<br>
+  - Data cruda y reporte estadístico del análisis de humedad del aire de entrada</p>
   <p><strong>Referencia:</strong><br>Especificación del fabricante; EU GMP Anexo 15.</p>
 </article>
 

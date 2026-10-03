@@ -47,6 +47,10 @@ function extractArticle(art) {
   if (tm) item.tablaModelo = tm;
   const tt = art.getAttribute('data-tabla-tipo');
   if (tt) item.tablaTipo = tt;
+  // data-analisis="si": el ensayo documenta un parámetro que se sustenta con
+  // análisis estadístico (paso + entregable de data cruda y reporte en el banco)
+  const an = art.getAttribute('data-analisis');
+  if (an) item.analisis = an;
   const fam = art.getAttribute('data-familia');
   if (fam) item.familia = fam;
   art.querySelectorAll('p').forEach((p) => {

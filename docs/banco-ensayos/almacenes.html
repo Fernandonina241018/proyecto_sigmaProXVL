@@ -696,7 +696,7 @@
   Si el mapeo en vacío revela puntos calientes/fríos no cubiertos, se agregan sensores y se documenta la ampliación. Los mapeos PQ usan este mismo número de sensores.</p>
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64; ISPE Good Practice Guide: Cold Chain Management.</p>
 </article>
-<article data-bloque="3" id="art-ALM-OQ-003" class="ensayo" data-id="ALM-OQ-003" data-fase="OQ" data-cond="est">
+<article data-bloque="3" id="art-ALM-OQ-003" class="ensayo" data-analisis="si" data-id="ALM-OQ-003" data-fase="OQ" data-cond="est">
   <h3>ALM-OQ-003 — Mapeo térmico en vacío</h3>
   <p><strong>Objetivo:</strong><br>Identificar puntos fríos/calientes y demostrar uniformidad sin carga antes de operar con producto.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -707,14 +707,16 @@
      a) Temperatura mínima, máxima y promedio<br>
      b) MKT (temperatura cinética media, fórmula de Haynes/Arrhenius)<br>
      c) Normalidad de la distribución (Shapiro-Wilk)<br>
-  5) Identificar punto frío y punto caliente del<span class="equipo">almacén</span></p>
+  5) Identificar punto frío y punto caliente del<span class="equipo">almacén</span><br>
+  6) Procesar los datos crudos de temperatura y humedad relativa del mapeo en vacío en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
   <p><strong>Criterio de aceptación:</strong><br>
   100% de lecturas dentro de <span class="rango">15–25 °C / HR &lt; 65 %</span>; MKT dentro de rango; puntos frío/caliente identificados y documentados.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros crudos de los sensores (archivo + respaldo)<br>
   - Gráficos de tendencia por punto<br>
   - Tabla de promedio, SD, %RSD, MKT, mín/máx y normalidad<br>
-  - Informe de mapeo en vacío con puntos frío/caliente</p>
+  - Informe de mapeo en vacío con puntos frío/caliente<br>
+  - Data cruda y reporte estadístico del análisis de temperatura y humedad relativa del mapeo en vacío</p>
   <p><strong>Nota:</strong><br>
   El punto frío identificado aquí es donde se colocan los indicadores/termopares de los desafíos PQ (excursión y corte energético).</p>
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>
@@ -984,7 +986,7 @@
   La carga simulada debe tener masa térmica similar al producto real (botellas con agua/glicol); cajas vacías no son aceptables como simulación.</p>
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
-<article data-bloque="3" id="art-ALM-PQ-003" class="ensayo" data-id="ALM-PQ-003" data-fase="PQ" data-cond="ambas">
+<article data-bloque="3" id="art-ALM-PQ-003" class="ensayo" data-analisis="si" data-id="ALM-PQ-003" data-fase="PQ" data-cond="ambas">
   <h3>ALM-PQ-003 — Mapeo térmico con carga media (50%) / <span class="cond">estática / dinámica</span></h3>
   <p><strong>Objetivo:</strong><br>Demostrar uniformidad y recuperación con ocupación media representativa del funcionamiento típico.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -992,18 +994,20 @@
   2) Instalar el número de sensores de <a href="#art-ALM-OQ-002" data-goto="ALM-OQ-002">ALM-OQ-002</a> en los mismos puntos del mapeo en vacío<br>
   3) Registrar ≥ 7 días continuos, 1 lectura cada 5 min<br>
   4) Ejecutar excursión programada (puerta 5 min) y medir recuperación a <span class="rango">15–25 °C / HR &lt; 65 %</span><br>
-  5) Analizar: promedio, SD, %RSD, mín/máx por punto, MKT, normalidad; comparar contra mapeo en vacío (<a href="#art-ALM-OQ-003" data-goto="ALM-OQ-003">ALM-OQ-003</a>)</p>
+  5) Analizar: promedio, SD, %RSD, mín/máx por punto, MKT, normalidad; comparar contra mapeo en vacío (<a href="#art-ALM-OQ-003" data-goto="ALM-OQ-003">ALM-OQ-003</a>)<br>
+  6) Procesar los datos crudos de temperatura y humedad relativa del mapeo con carga media en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
   <p><strong>Criterio de aceptación:</strong><br>
   100% de lecturas dentro de rango; recuperación &lt; 30 min; alarma operativa; sin puntos nuevos fuera de rango vs. vacío.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros crudos + gráficos por punto<br>
   - Tabla comparativa vacío vs. carga media<br>
-  - Informe de mapeo con carga media</p>
+  - Informe de mapeo con carga media<br>
+  - Data cruda y reporte estadístico del análisis de temperatura y humedad relativa del mapeo con carga media</p>
   <p><strong>Nota:</strong><br>
   Se utilizan el número de sensores calculado en el ensayo <a href="#art-ALM-OQ-002" data-goto="ALM-OQ-002">ALM-OQ-002</a>. El mapeo se realiza en carga media para representar el funcionamiento típico del<span class="equipo">almacén</span>.</p>
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
-<article data-bloque="3" id="art-ALM-PQ-004" class="ensayo" data-id="ALM-PQ-004" data-fase="PQ" data-cond="ambas">
+<article data-bloque="3" id="art-ALM-PQ-004" class="ensayo" data-analisis="si" data-id="ALM-PQ-004" data-fase="PQ" data-cond="ambas">
   <h3>ALM-PQ-004 — Mapeo térmico con carga máxima (100%) / <span class="cond">estática / dinámica</span></h3>
   <p><strong>Objetivo:</strong><br>Demostrar uniformidad y recuperación en el peor caso de ocupación (<span class="equipo">almacén</span> lleno).</p>
   <p><strong>Procedimiento:</strong><br>
@@ -1011,13 +1015,15 @@
   2) Instalar el número de sensores de <a href="#art-ALM-OQ-002" data-goto="ALM-OQ-002">ALM-OQ-002</a> en los mismos puntos<br>
   3) Registrar ≥ 7 días continuos, 1 lectura cada 5 min<br>
   4) Ejecutar excursión programada (puerta 5 min) y medir recuperación a <span class="rango">15–25 °C / HR &lt; 65 %</span><br>
-  5) Analizar: promedio, SD, %RSD, mín/máx por punto, MKT, normalidad; comparar contra vacío y carga media</p>
+  5) Analizar: promedio, SD, %RSD, mín/máx por punto, MKT, normalidad; comparar contra vacío y carga media<br>
+  6) Procesar los datos crudos de temperatura y humedad relativa del mapeo con carga máxima en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
   <p><strong>Criterio de aceptación:</strong><br>
   100% de lecturas dentro de rango; recuperación &lt; 30 min; alarma operativa; desempeño documentado en peor caso.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros crudos + gráficos por punto<br>
   - Tabla comparativa vacío / media / máxima<br>
-  - Informe de mapeo en peor caso</p>
+  - Informe de mapeo en peor caso<br>
+  - Data cruda y reporte estadístico del análisis de temperatura y humedad relativa del mapeo con carga máxima</p>
   <p><strong>Nota:</strong><br>
   Se utilizan el número de sensores calculado en el ensayo <a href="#art-ALM-OQ-002" data-goto="ALM-OQ-002">ALM-OQ-002</a>. El mapeo se realiza en carga máxima para representar el peor caso de funcionamiento del<span class="equipo">almacén</span>.</p>
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>

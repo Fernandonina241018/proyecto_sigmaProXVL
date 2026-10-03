@@ -1,4 +1,4 @@
-// Generado por scripts/extraer-banco-almacenes.mjs — NO EDITAR A MANO.
+// Generado por scripts/extraer-banco.mjs almacenes — NO EDITAR A MANO.
 // Fuente: docs/banco-ensayos/almacenes.html (versión: sin-version).
 var BancoAlmacenes = {
  "version": "sin-version",
@@ -1075,7 +1075,7 @@ var BancoAlmacenes = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Instalar los sensores calculados en <a href=\"#art-ALM-OQ-002\" data-goto=\"ALM-OQ-002\">ALM-OQ-002</a> según plano de ubicación<br>\n  2) Estabilizar el<span class=\"equipo\">almacén</span> en su setpoint: <span class=\"rango\">15–25 °C / HR &lt; 65 %</span> (mínimo 24 h antes de iniciar)<br>\n  3) Registrar ≥ 7 días continuos, 1 lectura cada 5 min, sin abrir puertas salvo lo programado<br>\n  4) Analizar por punto:<br>\n     a) Temperatura mínima, máxima y promedio<br>\n     b) MKT (temperatura cinética media, fórmula de Haynes/Arrhenius)<br>\n     c) Normalidad de la distribución (Shapiro-Wilk)<br>\n  5) Identificar punto frío y punto caliente del<span class=\"equipo\">almacén</span>"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Instalar los sensores calculados en <a href=\"#art-ALM-OQ-002\" data-goto=\"ALM-OQ-002\">ALM-OQ-002</a> según plano de ubicación<br>\n  2) Estabilizar el<span class=\"equipo\">almacén</span> en su setpoint: <span class=\"rango\">15–25 °C / HR &lt; 65 %</span> (mínimo 24 h antes de iniciar)<br>\n  3) Registrar ≥ 7 días continuos, 1 lectura cada 5 min, sin abrir puertas salvo lo programado<br>\n  4) Analizar por punto:<br>\n     a) Temperatura mínima, máxima y promedio<br>\n     b) MKT (temperatura cinética media, fórmula de Haynes/Arrhenius)<br>\n     c) Normalidad de la distribución (Shapiro-Wilk)<br>\n  5) Identificar punto frío y punto caliente del<span class=\"equipo\">almacén</span><br>\n  6) Procesar los datos crudos de temperatura y humedad relativa del mapeo en vacío en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -1083,7 +1083,7 @@ var BancoAlmacenes = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros crudos de los sensores (archivo + respaldo)<br>\n  - Gráficos de tendencia por punto<br>\n  - Tabla de promedio, SD, %RSD, MKT, mín/máx y normalidad<br>\n  - Informe de mapeo en vacío con puntos frío/caliente"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros crudos de los sensores (archivo + respaldo)<br>\n  - Gráficos de tendencia por punto<br>\n  - Tabla de promedio, SD, %RSD, MKT, mín/máx y normalidad<br>\n  - Informe de mapeo en vacío con puntos frío/caliente<br>\n  - Data cruda y reporte estadístico del análisis de temperatura y humedad relativa del mapeo en vacío"
      },
      {
       "et": "Nota",
@@ -1094,7 +1094,8 @@ var BancoAlmacenes = {
       "html": "<strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64."
      }
     ],
-    "tabla": null
+    "tabla": null,
+    "analisis": "si"
    },
    {
     "kind": "ensayo",
@@ -1603,7 +1604,7 @@ var BancoAlmacenes = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar al 50% según cálculo de <a href=\"#art-ALM-PQ-002\" data-goto=\"ALM-PQ-002\">ALM-PQ-002</a><br>\n  2) Instalar el número de sensores de <a href=\"#art-ALM-OQ-002\" data-goto=\"ALM-OQ-002\">ALM-OQ-002</a> en los mismos puntos del mapeo en vacío<br>\n  3) Registrar ≥ 7 días continuos, 1 lectura cada 5 min<br>\n  4) Ejecutar excursión programada (puerta 5 min) y medir recuperación a <span class=\"rango\">15–25 °C / HR &lt; 65 %</span><br>\n  5) Analizar: promedio, SD, %RSD, mín/máx por punto, MKT, normalidad; comparar contra mapeo en vacío (<a href=\"#art-ALM-OQ-003\" data-goto=\"ALM-OQ-003\">ALM-OQ-003</a>)"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar al 50% según cálculo de <a href=\"#art-ALM-PQ-002\" data-goto=\"ALM-PQ-002\">ALM-PQ-002</a><br>\n  2) Instalar el número de sensores de <a href=\"#art-ALM-OQ-002\" data-goto=\"ALM-OQ-002\">ALM-OQ-002</a> en los mismos puntos del mapeo en vacío<br>\n  3) Registrar ≥ 7 días continuos, 1 lectura cada 5 min<br>\n  4) Ejecutar excursión programada (puerta 5 min) y medir recuperación a <span class=\"rango\">15–25 °C / HR &lt; 65 %</span><br>\n  5) Analizar: promedio, SD, %RSD, mín/máx por punto, MKT, normalidad; comparar contra mapeo en vacío (<a href=\"#art-ALM-OQ-003\" data-goto=\"ALM-OQ-003\">ALM-OQ-003</a>)<br>\n  6) Procesar los datos crudos de temperatura y humedad relativa del mapeo con carga media en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -1611,7 +1612,7 @@ var BancoAlmacenes = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros crudos + gráficos por punto<br>\n  - Tabla comparativa vacío vs. carga media<br>\n  - Informe de mapeo con carga media"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros crudos + gráficos por punto<br>\n  - Tabla comparativa vacío vs. carga media<br>\n  - Informe de mapeo con carga media<br>\n  - Data cruda y reporte estadístico del análisis de temperatura y humedad relativa del mapeo con carga media"
      },
      {
       "et": "Nota",
@@ -1622,7 +1623,8 @@ var BancoAlmacenes = {
       "html": "<strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64."
      }
     ],
-    "tabla": null
+    "tabla": null,
+    "analisis": "si"
    },
    {
     "kind": "ensayo",
@@ -1637,7 +1639,7 @@ var BancoAlmacenes = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar al 100% según cálculo de <a href=\"#art-ALM-PQ-002\" data-goto=\"ALM-PQ-002\">ALM-PQ-002</a> (peor caso)<br>\n  2) Instalar el número de sensores de <a href=\"#art-ALM-OQ-002\" data-goto=\"ALM-OQ-002\">ALM-OQ-002</a> en los mismos puntos<br>\n  3) Registrar ≥ 7 días continuos, 1 lectura cada 5 min<br>\n  4) Ejecutar excursión programada (puerta 5 min) y medir recuperación a <span class=\"rango\">15–25 °C / HR &lt; 65 %</span><br>\n  5) Analizar: promedio, SD, %RSD, mín/máx por punto, MKT, normalidad; comparar contra vacío y carga media"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar al 100% según cálculo de <a href=\"#art-ALM-PQ-002\" data-goto=\"ALM-PQ-002\">ALM-PQ-002</a> (peor caso)<br>\n  2) Instalar el número de sensores de <a href=\"#art-ALM-OQ-002\" data-goto=\"ALM-OQ-002\">ALM-OQ-002</a> en los mismos puntos<br>\n  3) Registrar ≥ 7 días continuos, 1 lectura cada 5 min<br>\n  4) Ejecutar excursión programada (puerta 5 min) y medir recuperación a <span class=\"rango\">15–25 °C / HR &lt; 65 %</span><br>\n  5) Analizar: promedio, SD, %RSD, mín/máx por punto, MKT, normalidad; comparar contra vacío y carga media<br>\n  6) Procesar los datos crudos de temperatura y humedad relativa del mapeo con carga máxima en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -1645,7 +1647,7 @@ var BancoAlmacenes = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros crudos + gráficos por punto<br>\n  - Tabla comparativa vacío / media / máxima<br>\n  - Informe de mapeo en peor caso"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros crudos + gráficos por punto<br>\n  - Tabla comparativa vacío / media / máxima<br>\n  - Informe de mapeo en peor caso<br>\n  - Data cruda y reporte estadístico del análisis de temperatura y humedad relativa del mapeo con carga máxima"
      },
      {
       "et": "Nota",
@@ -1656,7 +1658,8 @@ var BancoAlmacenes = {
       "html": "<strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64."
      }
     ],
-    "tabla": null
+    "tabla": null,
+    "analisis": "si"
    },
    {
     "kind": "ensayo",

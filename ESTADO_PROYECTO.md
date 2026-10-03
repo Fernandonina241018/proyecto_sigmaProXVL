@@ -4594,3 +4594,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-03 (120): PQ lecho fluido — 16 ensayos (cadena completa IQ→PQ)
 - **Qué:** nuevo `docs/banco-ensayos/equipos/pq-lecho-fluido.html` (16 articles EQ-PQ-LF-001…016, `familia="lecho-fluido"`, refs USP 731/786/616 + Anexo 15 + 21 CFR 211 + anexos). Extractor suma el archivo; `GEN_FASES.equipos` suma PQ. Base: ENSAYOS.txt de protocolo + Anexo 15 §§4.16-4.19 (3 lotes salvo riesgo) + práctica PQ (LOD, uniformidad, curva).
 - **Verificación:** PQ real con 16 ensayos, 11 H1; autoclave recibe 0 PQ; Vitest 331/331, backend 60/60.
+
+### 2026-10-03 (121): Paso y entregable de análisis estadístico (data-analisis)
+- **Qué:** 20 ensayos con `data-analisis="si"` (ALM-OQ-003, ALM-PQ-003/004; EQ-IQ-009/012 armonizados al texto estándar; LF-005/006/007; AU-007/010/014/015/018; PQ-004/005/006/011/012/013/015): último paso "Procesar los datos crudos de [parámetro] en el módulo de análisis estadístico..." + entregable "Data cruda y reporte estadístico...". Extractor lleva `analisis`; tests amarran paso+entregable por flag en ambos bancos.
+- **Verificación:** PQ real con pasos presentes (13 menciones: 6×2 procedimiento+tabla, 1×1 por tabla de registro en PQ-013); Vitest 333/333, backend 60/60.

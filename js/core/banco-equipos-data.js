@@ -345,7 +345,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar, con base en la información del fabricante y la URS, las utilidades y condiciones ambientales que aplican al equipo<br>\n  2) Medir y registrar en la tabla correspondiente las que apliquen, entre ellas:<br>\n     a) Alimentación eléctrica: voltaje, frecuencia, fases y puesta a tierra<br>\n     b) Aire comprimido: presión, caudal y calidad<br>\n     c) Vapor, agua purificada o agua helada: presión, temperatura y caudal<br>\n     d) Vacío y gases de proceso<br>\n     e) Temperatura y humedad relativa ambiental<br>\n     f) Diferenciales de presión y clasificación del área<br>\n     g) Iluminación y nivel de ruido<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar el reporte generado<br>\n  4) Declarar No Aplica, con justificación, las utilidades que el equipo no requiere"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar, con base en la información del fabricante y la URS, las utilidades y condiciones ambientales que aplican al equipo<br>\n  2) Medir y registrar en la tabla correspondiente las que apliquen, entre ellas:<br>\n     a) Alimentación eléctrica: voltaje, frecuencia, fases y puesta a tierra<br>\n     b) Aire comprimido: presión, caudal y calidad<br>\n     c) Vapor, agua purificada o agua helada: presión, temperatura y caudal<br>\n     d) Vacío y gases de proceso<br>\n     e) Temperatura y humedad relativa ambiental<br>\n     f) Diferenciales de presión y clasificación del área<br>\n     g) Iluminación y nivel de ruido<br>\n  3) Procesar los datos crudos de utilidades y condiciones ambientales en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  4) Declarar No Aplica, con justificación, las utilidades que el equipo no requiere"
      },
      {
       "et": "Criterio de aceptación",
@@ -353,7 +353,7 @@ var BancoEquipos = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Tablas de utilidades y condiciones ambientales completadas<br>\n  - Data cruda y reporte estadístico"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tablas de utilidades y condiciones ambientales completadas<br>\n  - Data cruda y reporte estadístico del análisis de utilidades y condiciones ambientales"
      },
      {
       "et": "Nota",
@@ -365,7 +365,8 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
-    "tablaModelo": "UTILIDADES"
+    "tablaModelo": "UTILIDADES",
+    "analisis": "si"
    },
    {
     "kind": "ensayo",
@@ -512,7 +513,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar las superficies en contacto directo con el producto que requieren verificación<br>\n  2) Confirmar que las superficies están limpias, secas y libres de residuos<br>\n  3) Verificar que el rugosímetro cuenta con certificado de calibración vigente<br>\n  4) Medir la rugosidad (Ra) en los puntos definidos, según el instructivo vigente (IT-VAL-0014)<br>\n  5) Registrar el valor de cada punto en la tabla correspondiente<br>\n  6) Realizar el reporte estadístico de los datos y anexar los gráficos"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar las superficies en contacto directo con el producto que requieren verificación<br>\n  2) Confirmar que las superficies están limpias, secas y libres de residuos<br>\n  3) Verificar que el rugosímetro cuenta con certificado de calibración vigente<br>\n  4) Medir la rugosidad (Ra) en los puntos definidos, según el instructivo vigente (IT-VAL-0014)<br>\n  5) Registrar el valor de cada punto en la tabla correspondiente<br>\n  6) Procesar los datos crudos de rugosidad (Ra) en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Criterio de aceptación",
@@ -520,7 +521,7 @@ var BancoEquipos = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de rugosidad completada<br>\n  - Reporte estadístico y gráficos"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de rugosidad completada<br>\n  - Data cruda y reporte estadístico del análisis de rugosidad (Ra)"
      },
      {
       "et": "Nota",
@@ -532,7 +533,8 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
-    "tablaModelo": "RUGOSIDAD"
+    "tablaModelo": "RUGOSIDAD",
+    "analisis": "si"
    },
    {
     "kind": "ensayo",
@@ -1077,7 +1079,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Disponer de anemómetro o tubo Pitot con calibración vigente cuyo rango cubra el caudal del <span class=\"equipo\">equipo</span>, e identificar el punto de medición en el ducto de impulsión según el plano<br>\n  2) Poner el <span class=\"equipo\">equipo</span> en marcha sin producto, con los dampers en posición de trabajo, y disponer del formato frecuencia contra caudal<br>\n  3) Fijar el variador en la frecuencia del caudal mínimo, esperar estabilización de 5 minutos como mínimo y tomar 3 lecturas de caudal<br>\n  4) Repetir la medición en caudal nominal y en caudal máximo, con 3 lecturas en cada punto<br>\n  5) Tomar 2 puntos intermedios adicionales hasta completar 5 puntos como mínimo de frecuencia contra caudal<br>\n  6) Calcular el promedio y el RSD por punto<br>\n  a) El RSD de cada punto es menor o igual a 5%<br>\n  7) Graficar la curva frecuencia contra caudal y confirmar que es monótona creciente y que los 3 puntos están dentro de la especificación del fabricante ±5%<br>\n  8) Archivar la curva como referencia para la PQ"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Disponer de anemómetro o tubo Pitot con calibración vigente cuyo rango cubra el caudal del <span class=\"equipo\">equipo</span>, e identificar el punto de medición en el ducto de impulsión según el plano<br>\n  2) Poner el <span class=\"equipo\">equipo</span> en marcha sin producto, con los dampers en posición de trabajo, y disponer del formato frecuencia contra caudal<br>\n  3) Fijar el variador en la frecuencia del caudal mínimo, esperar estabilización de 5 minutos como mínimo y tomar 3 lecturas de caudal<br>\n  4) Repetir la medición en caudal nominal y en caudal máximo, con 3 lecturas en cada punto<br>\n  5) Tomar 2 puntos intermedios adicionales hasta completar 5 puntos como mínimo de frecuencia contra caudal<br>\n  6) Calcular el promedio y el RSD por punto<br>\n  a) El RSD de cada punto es menor o igual a 5%<br>\n  7) Graficar la curva frecuencia contra caudal y confirmar que es monótona creciente y que los 3 puntos están dentro de la especificación del fabricante ±5%<br>\n  8) Archivar la curva como referencia para la PQ<br>\n  9) Procesar los datos crudos de caudal de aire y curva del ventilador en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -1085,7 +1087,7 @@ var BancoEquipos = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de frecuencia contra caudal con promedios y RSD<br>\n  - Gráfica de la curva del ventilador<br>\n  - Certificado del instrumento de medición"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de frecuencia contra caudal con promedios y RSD<br>\n  - Gráfica de la curva del ventilador<br>\n  - Certificado del instrumento de medición<br>\n  - Data cruda y reporte estadístico del análisis de caudal de aire y curva del ventilador"
      },
      {
       "et": "Referencia",
@@ -1093,6 +1095,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "lecho-fluido"
    },
    {
@@ -1108,7 +1111,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Ubicar el sensor patrón calibrado (exactitud igual o mejor a ±0,2 °C) junto al sensor del <span class=\"equipo\">equipo</span>, sin contacto con superficies calientes, y fijar el caudal nominal durante toda la prueba<br>\n  2) Fijar el setpoint bajo, esperar estabilización hasta obtener 3 lecturas consecutivas del patrón dentro de ±0,3 °C en 10 minutos, y registrar equipo contra patrón<br>\n  a) La diferencia entre el equipo y el patrón es menor o igual a ±0,5 °C<br>\n  3) Mantener el setpoint bajo 30 minutos registrando cada 5 minutos<br>\n  a) La variación durante la estabilidad es menor o igual a ±1 °C<br>\n  4) Repetir los pasos 2) y 3) en setpoint medio y en setpoint alto<br>\n  5) Desde el setpoint bajo estable, cambiar al setpoint alto y medir con cronómetro el tiempo hasta que el patrón esté dentro de ±1 °C del nuevo setpoint, registrando la curva de temperatura contra tiempo<br>\n  6) Devolver el setpoint al valor de reposo aprobado y anexar los gráficos y la tabla de exactitud"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ubicar el sensor patrón calibrado (exactitud igual o mejor a ±0,2 °C) junto al sensor del <span class=\"equipo\">equipo</span>, sin contacto con superficies calientes, y fijar el caudal nominal durante toda la prueba<br>\n  2) Fijar el setpoint bajo, esperar estabilización hasta obtener 3 lecturas consecutivas del patrón dentro de ±0,3 °C en 10 minutos, y registrar equipo contra patrón<br>\n  a) La diferencia entre el equipo y el patrón es menor o igual a ±0,5 °C<br>\n  3) Mantener el setpoint bajo 30 minutos registrando cada 5 minutos<br>\n  a) La variación durante la estabilidad es menor o igual a ±1 °C<br>\n  4) Repetir los pasos 2) y 3) en setpoint medio y en setpoint alto<br>\n  5) Desde el setpoint bajo estable, cambiar al setpoint alto y medir con cronómetro el tiempo hasta que el patrón esté dentro de ±1 °C del nuevo setpoint, registrando la curva de temperatura contra tiempo<br>\n  6) Devolver el setpoint al valor de reposo aprobado y anexar los gráficos y la tabla de exactitud<br>\n  7) Procesar los datos crudos de temperatura del aire de entrada en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -1116,7 +1119,7 @@ var BancoEquipos = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de exactitud equipo contra patrón en 3 setpoints<br>\n  - Gráficos de temperatura contra tiempo y de tiempo de respuesta<br>\n  - Certificado del sensor patrón"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de exactitud equipo contra patrón en 3 setpoints<br>\n  - Gráficos de temperatura contra tiempo y de tiempo de respuesta<br>\n  - Certificado del sensor patrón<br>\n  - Data cruda y reporte estadístico del análisis de temperatura del aire de entrada"
      },
      {
       "et": "Referencia",
@@ -1124,6 +1127,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "lecho-fluido"
    },
    {
@@ -1139,7 +1143,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar en el diseño si el <span class=\"equipo\">equipo</span> cuenta con sistema de deshumidificación; si no existe, pasar al paso 6)<br>\n  2) Disponer del higrómetro patrón calibrado en el ducto de entrada y fijar el setpoint de receta<br>\n  3) Esperar estabilización de 15 minutos como mínimo<br>\n  4) Registrar la humedad relativa o el punto de rocío cada 5 minutos durante 30 minutos<br>\n  a) La variación durante la estabilidad está dentro de ±3% HR<br>\n  5) Provocar una desviación cambiando el setpoint ±10%, confirmar la alarma de desviación de humedad y normalizar verificando el retorno<br>\n  6) Con sistema: anexar el registro de humedad contra tiempo; sin sistema: redactar la justificación de No Aplica indicando que el equipo no cuenta con deshumidificación y que el parámetro no existe en el diseño, con firma del ejecutor y del revisor"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar en el diseño si el <span class=\"equipo\">equipo</span> cuenta con sistema de deshumidificación; si no existe, pasar al paso 6)<br>\n  2) Disponer del higrómetro patrón calibrado en el ducto de entrada y fijar el setpoint de receta<br>\n  3) Esperar estabilización de 15 minutos como mínimo<br>\n  4) Registrar la humedad relativa o el punto de rocío cada 5 minutos durante 30 minutos<br>\n  a) La variación durante la estabilidad está dentro de ±3% HR<br>\n  5) Provocar una desviación cambiando el setpoint ±10%, confirmar la alarma de desviación de humedad y normalizar verificando el retorno<br>\n  6) Con sistema: anexar el registro de humedad contra tiempo; sin sistema: redactar la justificación de No Aplica indicando que el equipo no cuenta con deshumidificación y que el parámetro no existe en el diseño, con firma del ejecutor y del revisor<br>\n  7) Cuando aplique este ensayo, procesar los datos crudos de humedad del aire de entrada en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -1147,7 +1151,7 @@ var BancoEquipos = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de humedad contra tiempo o justificación de No Aplica firmada"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de humedad contra tiempo o justificación de No Aplica firmada<br>\n  - Data cruda y reporte estadístico del análisis de humedad del aire de entrada"
      },
      {
       "et": "Referencia",
@@ -1155,6 +1159,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "lecho-fluido"
    },
    {
@@ -1604,7 +1609,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Ubicar el sensor patrón calibrado (exactitud igual o mejor a ±0,2 °C) junto al sensor de control<br>\n  2) En meseta a 121 °C, comparar el sensor de control contra el patrón y calcular la temperatura teórica de saturación a la presión medida<br>\n  a) La diferencia entre control y patrón es menor o igual a ±0,5 °C<br>\n  b) La temperatura medida es coherente con la saturación, sin sobrecalentamiento significativo<br>\n  3) Repetir en 134 °C si el <span class=\"equipo\">equipo</span> opera ese programa<br>\n  4) Confirmar la calibración vigente de ambos canales y anexar la tabla de temperatura, presión y teórica"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ubicar el sensor patrón calibrado (exactitud igual o mejor a ±0,2 °C) junto al sensor de control<br>\n  2) En meseta a 121 °C, comparar el sensor de control contra el patrón y calcular la temperatura teórica de saturación a la presión medida<br>\n  a) La diferencia entre control y patrón es menor o igual a ±0,5 °C<br>\n  b) La temperatura medida es coherente con la saturación, sin sobrecalentamiento significativo<br>\n  3) Repetir en 134 °C si el <span class=\"equipo\">equipo</span> opera ese programa<br>\n  4) Confirmar la calibración vigente de ambos canales y anexar la tabla de temperatura, presión y teórica<br>\n  5) Procesar los datos crudos de temperatura y presión (correlación con vapor saturado) en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -1612,7 +1617,7 @@ var BancoEquipos = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de temperatura, presión y teórica de saturación<br>\n  - Certificados de los sensores"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de temperatura, presión y teórica de saturación<br>\n  - Certificados de los sensores<br>\n  - Data cruda y reporte estadístico del análisis de temperatura y presión (correlación con vapor saturado)"
      },
      {
       "et": "Referencia",
@@ -1620,6 +1625,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "autoclave"
    },
    {
@@ -1697,7 +1703,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Dejar la cámara vacía, seca y fría, y estabilizarla con un ciclo de calentamiento previo según EN 285<br>\n  2) Evacuar al nivel del ensayo, aislar la cámara y estabilizar 300 segundos<br>\n  3) Medir el aumento de presión durante 600 segundos con instrumento calibrado<br>\n  4) Calcular la tasa en kPa por minuto<br>\n  a) La tasa es menor o igual a 0,13 kPa por minuto, o al criterio de la URS si es más estricto<br>\n  5) Si no cumple, investigar fugas en puerta, sellos y válvulas, corregir y repetir<br>\n  6) Anexar la curva de presión contra tiempo con el cálculo de la tasa"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Dejar la cámara vacía, seca y fría, y estabilizarla con un ciclo de calentamiento previo según EN 285<br>\n  2) Evacuar al nivel del ensayo, aislar la cámara y estabilizar 300 segundos<br>\n  3) Medir el aumento de presión durante 600 segundos con instrumento calibrado<br>\n  4) Calcular la tasa en kPa por minuto<br>\n  a) La tasa es menor o igual a 0,13 kPa por minuto, o al criterio de la URS si es más estricto<br>\n  5) Si no cumple, investigar fugas en puerta, sellos y válvulas, corregir y repetir<br>\n  6) Anexar la curva de presión contra tiempo con el cálculo de la tasa<br>\n  7) Procesar los datos crudos de presión de la prueba de fuga (tasa y curva) en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -1705,7 +1711,7 @@ var BancoEquipos = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Curva de presión contra tiempo con cálculo de tasa<br>\n  - Certificado del instrumento de medición"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curva de presión contra tiempo con cálculo de tasa<br>\n  - Certificado del instrumento de medición<br>\n  - Data cruda y reporte estadístico del análisis de presión de la prueba de fuga (tasa y curva)"
      },
      {
       "et": "Referencia",
@@ -1713,6 +1719,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "autoclave"
    },
    {
@@ -1821,7 +1828,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Distribuir 10 termopares calibrados como mínimo (esquinas, centro, drenaje y niveles alto, medio y bajo) según el plano de ubicación<br>\n  2) Correr el ciclo a 121 °C en vacío, registrando la temperatura cada 30 segundos<br>\n  3) En meseta, calcular por sensor el promedio, el máximo y el mínimo; el ΔT entre sensores; y el ΔT contra el sensor de control<br>\n  a) Todos los sensores entre 121 y 124 °C en meseta, o dentro de la banda de la URS<br>\n  b) El ΔT entre sensores está dentro de ±1 °C<br>\n  4) Repetir en 134 °C si el <span class=\"equipo\">equipo</span> opera ese programa<br>\n  5) Identificar y registrar el punto frío para el PQ<br>\n  6) Anexar el plano de termopares, las curvas y la tabla por sensor"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Distribuir 10 termopares calibrados como mínimo (esquinas, centro, drenaje y niveles alto, medio y bajo) según el plano de ubicación<br>\n  2) Correr el ciclo a 121 °C en vacío, registrando la temperatura cada 30 segundos<br>\n  3) En meseta, calcular por sensor el promedio, el máximo y el mínimo; el ΔT entre sensores; y el ΔT contra el sensor de control<br>\n  a) Todos los sensores entre 121 y 124 °C en meseta, o dentro de la banda de la URS<br>\n  b) El ΔT entre sensores está dentro de ±1 °C<br>\n  4) Repetir en 134 °C si el <span class=\"equipo\">equipo</span> opera ese programa<br>\n  5) Identificar y registrar el punto frío para el PQ<br>\n  6) Anexar el plano de termopares, las curvas y la tabla por sensor<br>\n  7) Procesar los datos crudos de temperatura del mapeo en cámara vacía en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -1829,7 +1836,7 @@ var BancoEquipos = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de ubicación de termopares<br>\n  - Curvas de temperatura y tabla por sensor con ΔT<br>\n  - Certificados de los termopares"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de ubicación de termopares<br>\n  - Curvas de temperatura y tabla por sensor con ΔT<br>\n  - Certificados de los termopares<br>\n  - Data cruda y reporte estadístico del análisis de temperatura del mapeo en cámara vacía"
      },
      {
       "et": "Referencia",
@@ -1837,6 +1844,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "autoclave"
    },
    {
@@ -1852,7 +1860,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Durante la meseta del mapeo, calcular la temperatura teórica de saturación a la presión de cámara con las tablas de vapor<br>\n  2) Comparar la temperatura medida menos la teórica en cada sensor<br>\n  a) La diferencia está dentro de ±2 °C (vapor saturado, no sobrecalentado)<br>\n  3) Confirmar trampas de vapor y drenaje operativos, sin encharcamiento, revisando mirilla y drenaje<br>\n  4) Anexar la tabla de temperatura medida contra teórica por sensor"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Durante la meseta del mapeo, calcular la temperatura teórica de saturación a la presión de cámara con las tablas de vapor<br>\n  2) Comparar la temperatura medida menos la teórica en cada sensor<br>\n  a) La diferencia está dentro de ±2 °C (vapor saturado, no sobrecalentado)<br>\n  3) Confirmar trampas de vapor y drenaje operativos, sin encharcamiento, revisando mirilla y drenaje<br>\n  4) Anexar la tabla de temperatura medida contra teórica por sensor<br>\n  5) Procesar los datos crudos de temperatura de saturación (medida contra teórica) en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -1860,7 +1868,7 @@ var BancoEquipos = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de temperatura medida contra teórica por sensor"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de temperatura medida contra teórica por sensor<br>\n  - Data cruda y reporte estadístico del análisis de temperatura de saturación (medida contra teórica)"
      },
      {
       "et": "Referencia",
@@ -1868,6 +1876,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "autoclave"
    },
    {
@@ -1945,7 +1954,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el <span class=\"equipo\">equipo</span> opera ciclos de líquidos; si no, pasar al paso 5)<br>\n  2) Preparar la carga líquida simulada con botellas con agua en volumen representativo<br>\n  3) Correr el programa de líquidos y verificar la rampa de enfriamiento sin ebullición violenta, con la sobrepresión de apoyo según el diseño<br>\n  4) Confirmar el diferencial de temperatura y el tiempo de enfriado dentro de la receta, con tapones y cierres íntegros<br>\n  a) Enfriamiento controlado sin daño a la carga<br>\n  5) Sin ciclos de líquidos: redactar la justificación de No Aplica con firma del ejecutor y del revisor<br>\n  6) Anexar la curva de enfriamiento o la justificación"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el <span class=\"equipo\">equipo</span> opera ciclos de líquidos; si no, pasar al paso 5)<br>\n  2) Preparar la carga líquida simulada con botellas con agua en volumen representativo<br>\n  3) Correr el programa de líquidos y verificar la rampa de enfriamiento sin ebullición violenta, con la sobrepresión de apoyo según el diseño<br>\n  4) Confirmar el diferencial de temperatura y el tiempo de enfriado dentro de la receta, con tapones y cierres íntegros<br>\n  a) Enfriamiento controlado sin daño a la carga<br>\n  5) Sin ciclos de líquidos: redactar la justificación de No Aplica con firma del ejecutor y del revisor<br>\n  6) Anexar la curva de enfriamiento o la justificación<br>\n  7) Cuando aplique este ensayo, procesar los datos crudos de temperatura de la curva de enfriamiento en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -1953,7 +1962,7 @@ var BancoEquipos = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Curva de enfriamiento o justificación de No Aplica firmada"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curva de enfriamiento o justificación de No Aplica firmada<br>\n  - Data cruda y reporte estadístico del análisis de temperatura de la curva de enfriamiento"
      },
      {
       "et": "Referencia",
@@ -1961,6 +1970,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "autoclave"
    },
    {
@@ -2205,7 +2215,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el punto final por humedad [ ]% LOD según la especificación del producto y el método (balanza halógena o Karl Fischer)<br>\n  2) Al alcanzar el punto final en cada corrida (nominal, extremos y peor caso), tomar muestras por triplicado en 4 ubicaciones: superior, medio, inferior y lateral del lecho<br>\n  3) Medir la humedad de cada muestra con instrumento calibrado y registrar con identificación de ubicación y hora<br>\n  4) Calcular por corrida el promedio, el rango y el RSD entre ubicaciones<br>\n  a) Todas las ubicaciones dentro de la especificación de humedad<br>\n  b) El RSD entre ubicaciones es menor o igual a [5]%<br>\n  5) Repetir el muestreo en los tres lotes nominales y comparar la repetibilidad entre lotes"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el punto final por humedad [ ]% LOD según la especificación del producto y el método (balanza halógena o Karl Fischer)<br>\n  2) Al alcanzar el punto final en cada corrida (nominal, extremos y peor caso), tomar muestras por triplicado en 4 ubicaciones: superior, medio, inferior y lateral del lecho<br>\n  3) Medir la humedad de cada muestra con instrumento calibrado y registrar con identificación de ubicación y hora<br>\n  4) Calcular por corrida el promedio, el rango y el RSD entre ubicaciones<br>\n  a) Todas las ubicaciones dentro de la especificación de humedad<br>\n  b) El RSD entre ubicaciones es menor o igual a [5]%<br>\n  5) Repetir el muestreo en los tres lotes nominales y comparar la repetibilidad entre lotes<br>\n  6) Procesar los datos crudos de humedad residual y uniformidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -2213,7 +2223,7 @@ var BancoEquipos = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de puntos de muestreo en el lecho<br>\n  - Tabla de humedad por ubicación, corrida y lote con estadística"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de puntos de muestreo en el lecho<br>\n  - Tabla de humedad por ubicación, corrida y lote con estadística<br>\n  - Data cruda y reporte estadístico del análisis de humedad residual y uniformidad"
      },
      {
       "et": "Referencia",
@@ -2221,6 +2231,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "lecho-fluido"
    },
    {
@@ -2236,7 +2247,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Durante una corrida nominal, tomar muestras de humedad cada [10] minutos desde el inicio hasta pasado el punto final<br>\n  2) Registrar en paralelo la temperatura de producto, del aire de salida y del aire de entrada con la misma base de tiempo<br>\n  3) Graficar humedad contra tiempo y temperaturas contra tiempo en un solo eje temporal<br>\n  4) Identificar el punto final (humedad dentro de especificación sostenida) y el tiempo de secado correspondiente<br>\n  5) Repetir la curva en los tres lotes y superponerlas<br>\n  a) Las tres curvas son superponibles dentro de ±[10]% del tiempo de secado<br>\n  b) El punto final queda confirmado y es repetible<br>\n  6) Fijar el punto final y el tiempo de secado en la receta o en el informe"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Durante una corrida nominal, tomar muestras de humedad cada [10] minutos desde el inicio hasta pasado el punto final<br>\n  2) Registrar en paralelo la temperatura de producto, del aire de salida y del aire de entrada con la misma base de tiempo<br>\n  3) Graficar humedad contra tiempo y temperaturas contra tiempo en un solo eje temporal<br>\n  4) Identificar el punto final (humedad dentro de especificación sostenida) y el tiempo de secado correspondiente<br>\n  5) Repetir la curva en los tres lotes y superponerlas<br>\n  a) Las tres curvas son superponibles dentro de ±[10]% del tiempo de secado<br>\n  b) El punto final queda confirmado y es repetible<br>\n  6) Fijar el punto final y el tiempo de secado en la receta o en el informe<br>\n  7) Procesar los datos crudos de curva de secado en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -2244,7 +2255,7 @@ var BancoEquipos = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Curvas de secado por lote con temperaturas asociadas<br>\n  - Punto final y tiempo de secado fijados"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curvas de secado por lote con temperaturas asociadas<br>\n  - Punto final y tiempo de secado fijados<br>\n  - Data cruda y reporte estadístico del análisis de curva de secado"
      },
      {
       "et": "Referencia",
@@ -2252,6 +2263,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "lecho-fluido"
    },
    {
@@ -2267,7 +2279,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Tomar muestra representativa del granulado seco de cada lote (nominal, extremos y peor caso) según el plan de muestreo<br>\n  2) Medir la distribución de tamaño de partícula por tamizado o difracción láser con método validado<br>\n  3) Medir la densidad aparente y la densidad compactada, y calcular el índice de Carr o Hausner<br>\n  4) Comparar contra la especificación del producto granulado<br>\n  a) Granulometría dentro de especificación en todos los lotes<br>\n  b) Densidades e índices dentro de especificación<br>\n  5) Anexar los reportes del laboratorio con los métodos utilizados"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Tomar muestra representativa del granulado seco de cada lote (nominal, extremos y peor caso) según el plan de muestreo<br>\n  2) Medir la distribución de tamaño de partícula por tamizado o difracción láser con método validado<br>\n  3) Medir la densidad aparente y la densidad compactada, y calcular el índice de Carr o Hausner<br>\n  4) Comparar contra la especificación del producto granulado<br>\n  a) Granulometría dentro de especificación en todos los lotes<br>\n  b) Densidades e índices dentro de especificación<br>\n  5) Anexar los reportes del laboratorio con los métodos utilizados<br>\n  6) Procesar los datos crudos de granulometría y densidades en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -2275,7 +2287,7 @@ var BancoEquipos = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Reportes de granulometría y densidades por lote<br>\n  - Métodos analíticos utilizados"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Reportes de granulometría y densidades por lote<br>\n  - Métodos analíticos utilizados<br>\n  - Data cruda y reporte estadístico del análisis de granulometría y densidades"
      },
      {
       "et": "Referencia",
@@ -2283,6 +2295,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "lecho-fluido"
    },
    {
@@ -2422,7 +2435,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar la carga inicial (masa húmeda) con instrumento calibrado y registrar<br>\n  2) Descargar el granulado seco, pesar la descarga total y registrar<br>\n  3) Recuperar y pesar el material retenido en mangas y filtros<br>\n  4) Calcular el rendimiento: descarga contra carga ajustada por humedad, y la pérdida de finos<br>\n  5) Comparar contra el criterio de la receta<br>\n  a) Rendimiento mayor o igual a [95]%<br>\n  b) Pérdida de finos menor o igual a [2]%<br>\n  6) Repetir el balance en cada lote y corrida, y anexar las pesadas"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar la carga inicial (masa húmeda) con instrumento calibrado y registrar<br>\n  2) Descargar el granulado seco, pesar la descarga total y registrar<br>\n  3) Recuperar y pesar el material retenido en mangas y filtros<br>\n  4) Calcular el rendimiento: descarga contra carga ajustada por humedad, y la pérdida de finos<br>\n  5) Comparar contra el criterio de la receta<br>\n  a) Rendimiento mayor o igual a [95]%<br>\n  b) Pérdida de finos menor o igual a [2]%<br>\n  6) Repetir el balance en cada lote y corrida, y anexar las pesadas<br>\n  7) Procesar los datos crudos de rendimiento y balance de masa en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -2430,7 +2443,7 @@ var BancoEquipos = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Balances de masa por lote con pesadas de carga, descarga y filtros"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Balances de masa por lote con pesadas de carga, descarga y filtros<br>\n  - Data cruda y reporte estadístico del análisis de rendimiento y balance de masa"
      },
      {
       "et": "Referencia",
@@ -2438,6 +2451,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "lecho-fluido"
    },
    {
@@ -2453,7 +2467,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la temperatura de producto (sonda en lecho) y del aire de salida cada [10] minutos durante cada corrida<br>\n  2) Comparar contra los límites del proceso: producto [ ] °C y salida [ ] °C<br>\n  3) Confirmar que no se exceden los límites en ningún momento del ciclo<br>\n  4) Correlacionar con la curva de secado del ensayo EQ-PQ-LF-005 (meseta de temperatura al punto final)<br>\n  a) Temperaturas dentro de límites durante todo el ciclo<br>\n  5) Anexar las curvas de temperatura por corrida"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la temperatura de producto (sonda en lecho) y del aire de salida cada [10] minutos durante cada corrida<br>\n  2) Comparar contra los límites del proceso: producto [ ] °C y salida [ ] °C<br>\n  3) Confirmar que no se exceden los límites en ningún momento del ciclo<br>\n  4) Correlacionar con la curva de secado del ensayo EQ-PQ-LF-005 (meseta de temperatura al punto final)<br>\n  a) Temperaturas dentro de límites durante todo el ciclo<br>\n  5) Anexar las curvas de temperatura por corrida<br>\n  6) Procesar los datos crudos de temperatura de producto y aire de salida en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -2461,7 +2475,7 @@ var BancoEquipos = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Curvas de temperatura de producto y salida por corrida"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curvas de temperatura de producto y salida por corrida<br>\n  - Data cruda y reporte estadístico del análisis de temperatura de producto y aire de salida"
      },
      {
       "et": "Referencia",
@@ -2469,6 +2483,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "lecho-fluido"
    },
    {
@@ -2484,7 +2499,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el activo es termolábil o el proceso es crítico a la temperatura; si no, pasar al paso 6)<br>\n  2) Distribuir sondas calibradas dentro del producto (superior, medio, inferior y lateral) con plano de ubicación<br>\n  3) Correr una corrida nominal registrando temperatura por sonda cada [5] minutos<br>\n  4) Calcular por sonda promedio, máximo y mínimo, y el ΔT entre sondas<br>\n  a) ΔT entre sondas menor o igual a [3] °C<br>\n  b) Ninguna sonda excede la temperatura máxima del activo<br>\n  5) Anexar el plano, las curvas y la tabla por sonda<br>\n  6) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el activo es termolábil o el proceso es crítico a la temperatura; si no, pasar al paso 6)<br>\n  2) Distribuir sondas calibradas dentro del producto (superior, medio, inferior y lateral) con plano de ubicación<br>\n  3) Correr una corrida nominal registrando temperatura por sonda cada [5] minutos<br>\n  4) Calcular por sonda promedio, máximo y mínimo, y el ΔT entre sondas<br>\n  a) ΔT entre sondas menor o igual a [3] °C<br>\n  b) Ninguna sonda excede la temperatura máxima del activo<br>\n  5) Anexar el plano, las curvas y la tabla por sonda<br>\n  6) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor<br>\n  7) Cuando aplique este ensayo, procesar los datos crudos de temperatura del mapeo con carga en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -2492,7 +2507,7 @@ var BancoEquipos = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de sondas, curvas y tabla por sonda, o justificación de No Aplica firmada"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de sondas, curvas y tabla por sonda, o justificación de No Aplica firmada<br>\n  - Data cruda y reporte estadístico del análisis de temperatura del mapeo con carga"
      },
      {
       "et": "Referencia",
@@ -2500,6 +2515,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "lecho-fluido"
    },
    {
@@ -2546,7 +2562,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el proceso tiene pasos manuales (carga, muestreo, descarga); si es totalmente automático, pasar al paso 5)<br>\n  2) Asignar operarios o turnos distintos a los lotes de la PQ<br>\n  3) Comparar atributos críticos (humedad, tiempo de secado, rendimiento) entre operarios o turnos<br>\n  4) Evaluar estadísticamente si hay efecto del operario o turno<br>\n  a) Sin efecto significativo del operario o turno en los atributos<br>\n  5) Si no aplica: redactar la justificación de No Aplica (proceso automático) con firma del ejecutor y del revisor"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el proceso tiene pasos manuales (carga, muestreo, descarga); si es totalmente automático, pasar al paso 5)<br>\n  2) Asignar operarios o turnos distintos a los lotes de la PQ<br>\n  3) Comparar atributos críticos (humedad, tiempo de secado, rendimiento) entre operarios o turnos<br>\n  4) Evaluar estadísticamente si hay efecto del operario o turno<br>\n  a) Sin efecto significativo del operario o turno en los atributos<br>\n  5) Si no aplica: redactar la justificación de No Aplica (proceso automático) con firma del ejecutor y del revisor<br>\n  6) Cuando aplique este ensayo, procesar los datos crudos de atributos críticos por operario o turno en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -2554,7 +2570,7 @@ var BancoEquipos = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Comparativa de atributos por operario o turno, o justificación de No Aplica firmada"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Comparativa de atributos por operario o turno, o justificación de No Aplica firmada<br>\n  - Data cruda y reporte estadístico del análisis de atributos críticos por operario o turno"
      },
      {
       "et": "Referencia",
@@ -2562,6 +2578,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "lecho-fluido"
    },
    {

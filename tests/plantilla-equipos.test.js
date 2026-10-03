@@ -179,3 +179,17 @@ describe('PQ lecho fluido (banco por familia)', () => {
     expect(doc).not.toContain('EQ-PQ-LF-001');
   });
 });
+
+describe('data-analisis: paso + entregable estadístico en cada marcado', () => {
+  const texto = (secs) => (secs || []).map((s) => (s.html || '').replace(/<[^>]+>/g, ' ')).join(' ');
+  it('todo artículo con analisis trae el paso y el entregable', () => {
+    const marcados = ['DQ', 'IQ', 'OQ', 'PQ']
+      .flatMap((f) => banco.fases[f].filter((i) => i.analisis));
+    expect(marcados.length).toBeGreaterThanOrEqual(17);
+    for (const a of marcados) {
+      const t = texto(a.secciones);
+      expect(t).toContain('módulo de análisis estadístico');
+      expect(t).toContain('Data cruda y reporte estadístico');
+    }
+  });
+});
