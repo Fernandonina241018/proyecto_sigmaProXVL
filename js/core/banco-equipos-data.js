@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html (versión: EQ-COMUN 2026-10-01 v2).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-LF 2026-10-02 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2",
+ "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-LF 2026-10-02 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -867,7 +867,466 @@ var BancoEquipos = {
     "html": "<p><strong>ANEXOS</strong></p>\n<ul>\n  <li>Anexo A — Certificados de calibración de los instrumentos utilizados</li>\n  <li>Anexo B — Lista de empaque y registro fotográfico de recepción</li>\n  <li>Anexo C — Listado de componentes principales verificados</li>\n  <li>Anexo D — Data cruda y reporte estadístico de utilidades</li>\n  <li>Anexo E — Evidencias de software, firmware y diagnóstico inicial</li>\n  <li>Anexo F — Certificados de recipientes a presión, dispositivos de alivio y filtros</li>\n  <li>Anexo G — Certificados de materiales en contacto y fichas de lubricantes</li>\n</ul>"
    }
   ],
-  "OQ": [],
+  "OQ": [
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n<p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n<p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n<ol>\n  <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n  <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n  <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n</ol>"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n<ol>\n  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n</ol>"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n<p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n<ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar el inicio de la PQ.</li></ol>\n<p><strong>Responsabilidad del Gerente de Área:</strong></p>\n<ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo OQ, y cubre los ensayos listados en el índice.</p>"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (USP &lt;1058&gt;).</p>"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LF-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LF-001 — Parada de emergencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada parada de emergencia del <span class=\"equipo\">equipo</span> detiene de inmediato el ventilador, la calefacción y los movimientos, exige rearme manual y señaliza el estado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar IQ aprobada y <span class=\"equipo\">equipo</span> liberado para OQ; identificar todas las paradas de emergencia (panel principal y perimetrales) y anotar su ubicación en la tabla<br>\n  2) Avisar a los operadores del área que se ejecutará la prueba y disponer de cronómetro y formato de registro<br>\n  3) Arrancar el <span class=\"equipo\">equipo</span> y llevarlo a marcha nominal con ventilador y calefacción activos según el setpoint medio del BMR<br>\n  4) Accionar la parada de emergencia y medir con cronómetro el tiempo hasta la detención total del ventilador y el corte de la calefacción<br>\n  a) El tiempo medido es menor o igual a 3 segundos<br>\n  b) El HMI muestra el mensaje \"EMERGENCY STOP ACTIVE\" o equivalente<br>\n  5) Sin rearmar, intentar arrancar desde el HMI y confirmar que el arranque queda impedido<br>\n  6) Rearmar la parada según el procedimiento del fabricante y confirmar que el <span class=\"equipo\">equipo</span> queda en condición segura sin arrancar solo<br>\n  7) Repetir los pasos 3) a 6) por cada parada de emergencia del <span class=\"equipo\">equipo</span><br>\n  8) Dejar el <span class=\"equipo\">equipo</span> en condición segura y anotar cualquier desviación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todas las paradas detienen el ventilador y la calefacción en 3 segundos o menos.<br>\n  Sin rearme manual el arranque es imposible y el estado queda señalizado en el HMI."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de paradas de emergencia con ubicación y tiempos medidos<br>\n  - Registro de mensajes del HMI por cada prueba"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; GAMP5 2.ª ed. (challenge de funciones de seguridad)."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LF-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LF-002 — Interlocks de proceso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el <span class=\"equipo\">equipo</span> impide el arranque o detiene la operación ante cada condición insegura (contenedor, filtros, puerta, ventilador y calefacción)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Dejar el <span class=\"equipo\">equipo</span> detenido en condición segura y disponer de la matriz de interlocks (condición y respuesta esperada)<br>\n  2) Desinflar el gasket del contenedor e intentar arrancar el ciclo<br>\n  a) El arranque queda inhibido y el HMI muestra el mensaje de interlock<br>\n  3) Desplazar el contenedor de su posición e intentar arrancar<br>\n  a) El arranque queda inhibido y el HMI muestra el mensaje de interlock<br>\n  4) Retirar una manga o filtro e intentar arrancar<br>\n  a) El arranque queda inhibido y el HMI muestra el mensaje de interlock<br>\n  5) Abrir la puerta de la cámara e intentar arrancar<br>\n  a) El arranque queda inhibido y el HMI muestra el mensaje de interlock<br>\n  6) Con el ventilador detenido, demandar calefacción y confirmar que la calefacción no energiza<br>\n  7) Arrancar en condición normal, abrir la puerta durante la marcha y confirmar la detención del ciclo<br>\n  8) Restituir todas las condiciones a normal, confirmar marcha permitida y cerrar la matriz con hora y respuesta de cada prueba"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de los interlocks ensayados inhibe el arranque o detiene la marcha con mensaje en el HMI.<br>\n  La calefacción no energiza sin ventilador en marcha."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de interlocks con condición provocada, respuesta del equipo y mensaje del HMI"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>GAMP5 2.ª ed.; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LF-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LF-003 — Alarmas y límites",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada alarma del <span class=\"equipo\">equipo</span> dispara en su límite configurado y ejecuta su acción asociada (alta temperatura de entrada, alta temperatura de producto, alto ΔP en filtros y bajo flujo de aire)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Listar las alarmas con su límite configurado según el HMI y el BMR, y confirmar calibración vigente de los sensores asociados<br>\n  2) Disponer de cronómetro y formato con columnas: alarma, límite, hora del evento, tiempo de respuesta, acción ejecutada y acuse<br>\n  3) Forzar o simular alta temperatura de entrada por encima del límite y confirmar alarma visual y audible, corte o inhibición de la calefacción y registro en el histórico<br>\n  a) El tiempo entre el evento y la alarma es menor a 5 segundos<br>\n  4) Simular alta temperatura de producto por encima del límite del BMR y confirmar la alarma y su acción configurada<br>\n  5) Simular alto diferencial de presión en filtros por encima del límite del fabricante y confirmar el aviso o la alarma según el diseño<br>\n  6) Bajar la consigna de flujo bajo el mínimo y confirmar la alarma con inhibición de la calefacción<br>\n  7) Acusar cada alarma, verificar que el acuse queda registrado, normalizar la condición y confirmar el retorno a operación<br>\n  8) Verificar en el histórico y el audit trail que las alarmas quedaron registradas con fecha, hora y acuse, y devolver los setpoints a sus valores aprobados"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las alarmas dispara en su límite, ejecuta su acción en menos de 5 segundos y queda registrada con acuse."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de alarmas con límite, acción, tiempo de respuesta y acuse<br>\n  - Extracto del histórico de alarmas del HMI"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;1058&gt; (sensores asociados)."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LF-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LF-004 — Falla y recuperación de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que ante un corte de energía el <span class=\"equipo\">equipo</span> queda en estado seguro, no rearranca solo y los datos del proceso se conservan íntegros."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Poner el <span class=\"equipo\">equipo</span> en marcha nominal con la receta de prueba cargada y coordinar el corte con mantenimiento y eléctrica<br>\n  2) Interrumpir la alimentación principal (real o simulada según el procedimiento de planta) y anotar la hora exacta del evento<br>\n  3) Confirmar el estado seguro: calefacción desenergizada, alarmas correspondientes activas y posición de dampers según el diseño<br>\n  4) Esperar 5 minutos sin energía<br>\n  5) Restablecer la energía y confirmar que el <span class=\"equipo\">equipo</span> no rearranca solo y exige una acción deliberada del operador en el HMI<br>\n  6) Rearrancar manualmente y confirmar la operación normal del ciclo<br>\n  7) Revisar el lote de datos: receta, registros de proceso, audit trail y alarmas, confirmando continuidad sin corrupción ni huecos injustificados según ALCOA+<br>\n  8) Anexar el registro del evento y la verificación de datos al protocolo, documentando las desviaciones si las hubo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Al corte el equipo queda en estado seguro; no hay rearranque automático.<br>\n  Los datos del proceso están íntegros y trazables tras la recuperación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del evento de corte y recuperación con horas<br>\n  - Verificación de integridad de datos (receta, registros, audit trail)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>GAMP5 2.ª ed.; EU GMP Anexo 15; 21 CFR Part 11 (datos)."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LF-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LF-005 — Flujo de aire y curva del ventilador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el caudal de aire en mínimo, nominal y máximo, y establecer la relación entre la frecuencia del ventilador y el caudal del <span class=\"equipo\">equipo</span>."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Disponer de anemómetro o tubo Pitot con calibración vigente cuyo rango cubra el caudal del <span class=\"equipo\">equipo</span>, e identificar el punto de medición en el ducto de impulsión según el plano<br>\n  2) Poner el <span class=\"equipo\">equipo</span> en marcha sin producto, con los dampers en posición de trabajo, y disponer del formato frecuencia contra caudal<br>\n  3) Fijar el variador en la frecuencia del caudal mínimo, esperar estabilización de 5 minutos como mínimo y tomar 3 lecturas de caudal<br>\n  4) Repetir la medición en caudal nominal y en caudal máximo, con 3 lecturas en cada punto<br>\n  5) Tomar 2 puntos intermedios adicionales hasta completar 5 puntos como mínimo de frecuencia contra caudal<br>\n  6) Calcular el promedio y el RSD por punto<br>\n  a) El RSD de cada punto es menor o igual a 5%<br>\n  7) Graficar la curva frecuencia contra caudal y confirmar que es monótona creciente y que los 3 puntos están dentro de la especificación del fabricante ±5%<br>\n  8) Archivar la curva como referencia para la PQ"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los caudales mínimo, nominal y máximo están dentro de la especificación del fabricante ±5% con RSD ≤5%.<br>\n  La curva frecuencia contra caudal queda documentada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de frecuencia contra caudal con promedios y RSD<br>\n  - Gráfica de la curva del ventilador<br>\n  - Certificado del instrumento de medición"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del fabricante; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LF-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LF-006 — Control de temperatura del aire de entrada",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud, la estabilidad y el tiempo de respuesta del lazo de temperatura del aire de entrada del <span class=\"equipo\">equipo</span> en setpoints bajo, medio y alto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ubicar el sensor patrón calibrado (exactitud igual o mejor a ±0,2 °C) junto al sensor del <span class=\"equipo\">equipo</span>, sin contacto con superficies calientes, y fijar el caudal nominal durante toda la prueba<br>\n  2) Fijar el setpoint bajo, esperar estabilización hasta obtener 3 lecturas consecutivas del patrón dentro de ±0,3 °C en 10 minutos, y registrar equipo contra patrón<br>\n  a) La diferencia entre el equipo y el patrón es menor o igual a ±0,5 °C<br>\n  3) Mantener el setpoint bajo 30 minutos registrando cada 5 minutos<br>\n  a) La variación durante la estabilidad es menor o igual a ±1 °C<br>\n  4) Repetir los pasos 2) y 3) en setpoint medio y en setpoint alto<br>\n  5) Desde el setpoint bajo estable, cambiar al setpoint alto y medir con cronómetro el tiempo hasta que el patrón esté dentro de ±1 °C del nuevo setpoint, registrando la curva de temperatura contra tiempo<br>\n  6) Devolver el setpoint al valor de reposo aprobado y anexar los gráficos y la tabla de exactitud"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Exactitud ±0,5 °C en los tres setpoints; estabilidad ±1 °C durante 30 minutos.<br>\n  Tiempo de respuesta dentro del límite del fabricante."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de exactitud equipo contra patrón en 3 setpoints<br>\n  - Gráficos de temperatura contra tiempo y de tiempo de respuesta<br>\n  - Certificado del sensor patrón"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LF-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LF-007 — Control de humedad del aire de entrada (si aplica)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el control de humedad o punto de rocío del aire de entrada cuando el <span class=\"equipo\">equipo</span> cuenta con deshumidificación; si no cuenta con ella, declarar No Aplica con justificación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar en el diseño si el <span class=\"equipo\">equipo</span> cuenta con sistema de deshumidificación; si no existe, pasar al paso 6)<br>\n  2) Disponer del higrómetro patrón calibrado en el ducto de entrada y fijar el setpoint de receta<br>\n  3) Esperar estabilización de 15 minutos como mínimo<br>\n  4) Registrar la humedad relativa o el punto de rocío cada 5 minutos durante 30 minutos<br>\n  a) La variación durante la estabilidad está dentro de ±3% HR<br>\n  5) Provocar una desviación cambiando el setpoint ±10%, confirmar la alarma de desviación de humedad y normalizar verificando el retorno<br>\n  6) Con sistema: anexar el registro de humedad contra tiempo; sin sistema: redactar la justificación de No Aplica indicando que el equipo no cuenta con deshumidificación y que el parámetro no existe en el diseño, con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Con sistema: estabilidad ±3% HR y alarma de desviación operativa.<br>\n  Sin sistema: No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de humedad contra tiempo o justificación de No Aplica firmada"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del fabricante; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LF-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LF-008 — Presión diferencial de la cámara de producto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la presión negativa o diferencial de la cámara de producto del <span class=\"equipo\">equipo</span> según el diseño, incluyendo su recuperación y su alarma."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Conectar el manómetro diferencial calibrado a la toma de la cámara y al ambiente, verificando mangueras sin fugas ni dobleces, con puertas cerradas y el <span class=\"equipo\">equipo</span> en marcha nominal<br>\n  2) Registrar el ΔP cada 5 minutos durante 30 minutos en marcha nominal<br>\n  a) El 100% de las lecturas está dentro de la especificación de diseño<br>\n  3) Abrir la puerta 10 segundos y cerrarla, midiendo el tiempo de recuperación del ΔP<br>\n  4) Simular la pérdida del diferencial según el diseño y confirmar la alarma correspondiente<br>\n  5) Normalizar, confirmar el retorno del ΔP y el silencio de la alarma<br>\n  6) Anexar la tabla de ΔP por condición con el instrumento utilizado y su certificado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  ΔP dentro de la especificación en marcha nominal, con recuperación tras apertura y alarma operativa."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de ΔP por condición (nominal, apertura, pérdida simulada)<br>\n  - Certificado del manómetro diferencial"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; OMS TRS 1010 Anexo 7 (contención)."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LF-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LF-009 — Sistema de sacudido de filtros",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la secuencia, los tiempos y los intervalos del sacudido de mangas del <span class=\"equipo\">equipo</span>, y la recuperación del diferencial de presión."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Copiar del manual y del HMI la secuencia diseñada de válvulas o solenoides con sus setpoints de tiempo ON e intervalo<br>\n  2) Disponer de cronómetro y formato con columnas: válvula, orden, tiempo medido en 3 ciclos<br>\n  3) En modo manual, disparar un sacudido y confirmar que cada válvula actúa en el orden diseñado<br>\n  4) En modo automático, dejar correr 3 ciclos completos midiendo tiempos ON e intervalos por válvula<br>\n  a) Los tiempos medidos están dentro de ±10% del setpoint<br>\n  5) Medir el ΔP de los filtros antes y después del sacudido y confirmar su recuperación tras cada ciclo<br>\n  6) Observar el lecho durante el sacudido y confirmar que la fluidización no se interrumpe de forma anormal<br>\n  7) Dejar el modo automático o de reposo según el procedimiento y anexar la tabla de tiempos medidos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Secuencia igual al diseño; tiempos ±10% del setpoint; el ΔP se recupera tras el sacudido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de secuencia y tiempos medidos por válvula<br>\n  - Registros de ΔP antes y después del sacudido"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LF-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LF-010 — Sellado del gasket inflable con retención de presión",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el sellado del contenedor mediante el gasket inflable, su retención de presión y su interlock con la marcha del <span class=\"equipo\">equipo</span>."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Posicionar el contenedor e inspeccionar visualmente el gasket (sin grietas ni deformaciones); disponer del manómetro del circuito de sellado calibrado y legible<br>\n  2) Inflar el gasket a la presión de trabajo, registrarla y aislar el circuito cerrando la alimentación<br>\n  3) Medir la caída de presión durante 10 minutos registrando hora y presión<br>\n  a) La caída de presión es menor o igual a 0,1 bar<br>\n  4) Con el gasket desinflado, intentar arrancar y confirmar que la marcha queda inhibida con mensaje en el HMI<br>\n  5) Sangrar hasta quedar bajo la presión mínima y confirmar la alarma de baja presión de sellado<br>\n  6) Re-inflar a la presión de trabajo y confirmar el permiso de marcha<br>\n  7) Anexar el registro de retención y dejar constancia del estado del gasket (apto o reporte de reemplazo)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Retención de presión dentro del límite; sin sellado no hay marcha; alarma de baja presión operativa."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de retención de presión con hora y lecturas<br>\n  - Constancia del estado del gasket"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; GAMP5 2.ª ed. (interlock)."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LF-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LF-011 — Posicionamiento y bloqueo del contenedor",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el posicionamiento correcto y el bloqueo mecánico del contenedor como condición para la marcha del <span class=\"equipo\">equipo</span>."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Disponer del contenedor vacío y limpio, identificar los sensores o switches de posición y de bloqueo con sus señales en el HMI, y preparar la matriz de 4 casos<br>\n  2) Caso 1: posicionar el contenedor visiblemente descentrado e intentar arrancar<br>\n  a) La marcha queda inhibida<br>\n  3) Caso 2: centrar correctamente sin activar el bloqueo e intentar arrancar<br>\n  a) La marcha queda inhibida<br>\n  4) Caso 3: centrar y bloquear, confirmar en el HMI las señales de contenedor en posición y bloqueo activo, y confirmar que la marcha se permite<br>\n  5) Caso 4: con el <span class=\"equipo\">equipo</span> en marcha nominal sin producto, simular el desbloqueo según lo permita el diseño sin riesgo y confirmar la detención o inhibición inmediata<br>\n  6) Registrar cada caso con hora, acción ejecutada y respuesta del <span class=\"equipo\">equipo</span><br>\n  7) Dejar el contenedor bloqueado o según indique el procedimiento de reposo, y cerrar la matriz con firma"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La marcha solo se permite con el contenedor posicionado y bloqueado; el desbloqueo en marcha detiene o inhibe."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de los 4 casos con hora, acción y respuesta del equipo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>GAMP5 2.ª ed.; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-LF-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LF-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ del lecho fluido para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-LF-001 a EQ-OQ-LF-011 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 11 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-LF-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LF-REF — Referencias del OQ de lecho fluido",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "GAMP5 2.ª ed. — A Risk-Based Approach to Compliant GxP Computerized Systems — Enfoque de challenge a funciones de seguridad e interlocks",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "ISPE Baseline Guide Vol. 5 C&Q 2.ª ed. — Commissioning and Qualification con gestión de riesgo",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Cualificación y validación: la OQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "USP <1058> — Analytical Instrument Qualification: exactitud de sensores e instrumentos asociados",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "OMS TRS 1010 Anexo 7 — Buenas prácticas de almacenamiento y contención",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Manual del fabricante del lecho fluido — Setpoints, secuencias y límites de diseño",
+       "VIGENTE"
+      ]
+     ]
+    },
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros crudos, gráficos y curvas (frecuencia-caudal, temperatura-tiempo, retención de presión)</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de instrumentos y sensores patrón</td></tr>\n<tr><td>8.3</td><td>Anexo C — Matrices de interlocks, alarmas y posicionamiento completadas</td></tr>\n</tbody></table>"
+   }
+  ],
   "PQ": []
  }
 };

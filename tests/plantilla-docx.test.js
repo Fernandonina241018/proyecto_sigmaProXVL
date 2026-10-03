@@ -249,11 +249,12 @@ describe('SALTO_H1: cada acápite numerado abre página nueva', () => {
     }
   };
   const h1Nums = (xml) => [...xml.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)].map((m) => m[0])
-    .filter((p) => /Heading1/.test((/<w:pPr>[\s\S]*?<\/w:pPr>/.exec(p) || [''])[0])
-      && /<w:numId/.test((/<w:pPr>[\s\S]*?<\/w:pPr>/.exec(p) || [''])[0]))
-    .map((p) => ({
-      texto: p.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').replace(/ :/g, ':').trim(),
-      salto: (/<w:pPr>[\s\S]*?<\/w:pPr>/.exec(p)[0].split('<w:r')[0]).includes('pageBreakBefore'),
+    .map((p) => ({ p, m: /w:name="(_SigmaH1_(\d+))"/.exec(p) }))
+    .filter((x) => x.m && x.p.includes('bookmarkStart'))
+    .sort((a, b) => +a.m[2] - +b.m[2])
+    .map((x) => ({
+      texto: x.p.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').replace(/ :/g, ':').trim(),
+      salto: x.p.split('<w:bookmarkStart')[0].includes('pageBreakBefore'),
     }));
   const genPQ = async () => {
     const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));

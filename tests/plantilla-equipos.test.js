@@ -63,3 +63,40 @@ describe('IQ equipos con banco común', () => {
     expect(doc).toContain('Creación por control de cambios #CC-007');
   });
 });
+
+describe('OQ lecho fluido (banco por familia)', () => {
+  const DRAFT_LF = {
+    codigo: '400678', descripcion: 'Lecho fluido', ubicacion: 'PRODUCCION PLANTA 3',
+    tipo: 'Equipo', marca: 'COMASA', modelo: '430L', fecha: '2026-10-02',
+  };
+  const ENT_LF = { id: 'lecho-fluido', nombre: 'Lecho fluido' };
+  const genOQ = async (ent) => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.OQ)));
+    const r = await P.generar('OQ', u8, banco, DRAFT_LF, ent, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    return { r, doc: arch['word/document.xml'] };
+  };
+
+  it('banco OQ: 11 ensayos de la familia lecho-fluido, IDs únicos', () => {
+    const ids = (banco.fases.OQ || []).filter((i) => i.id).map((i) => i.id);
+    expect(ids).toHaveLength(13); // 11 ensayos + RES + REF
+    expect(new Set(ids).size).toBe(13);
+    expect(ids.filter((id) => /^EQ-OQ-LF-00[1-9]$|^EQ-OQ-LF-01[01]$/.test(id))).toHaveLength(11);
+  });
+
+  it('lecho-fluido genera sus 11 ensayos con títulos y códigos', async () => {
+    const { r, doc } = await genOQ(ENT_LF);
+    expect(r.ensayos).toHaveLength(11);
+    expect(r.ensayos[0]).toBe('EQ-OQ-LF-001');
+    for (const id of r.ensayos) expect(doc).toContain(id);
+    const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    expect(txt).toContain('PARADA DE EMERGENCIA');
+    expect(txt).toContain('GASKET INFLABLE');
+  });
+
+  it('otra familia no recibe ensayos de lecho fluido', async () => {
+    const { r, doc } = await genOQ({ id: 'balanza', nombre: 'Balanza' });
+    expect(r.ensayos).toHaveLength(0);
+    expect(doc).not.toContain('EQ-OQ-LF-001');
+  });
+});

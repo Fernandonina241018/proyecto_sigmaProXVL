@@ -143,14 +143,14 @@ describe('Validaciones V7', () => {
     expect(Validaciones.FASES_GEN).toEqual(['DQ', 'IQ', 'OQ', 'PQ']);
   });
 
-  test('paso 3: equipos solo IQ; almacenes todas', () => {
-    expect(Validaciones.GEN_FASES.equipos).toEqual(['IQ']);
+  test('paso 3: equipos IQ+OQ; almacenes todas', () => {
+    expect(Validaciones.GEN_FASES.equipos).toEqual(['IQ', 'OQ']);
     expect(Validaciones.GEN_FASES.almacenes).toEqual(['DQ', 'IQ', 'OQ', 'PQ']);
     const html = Validaciones.viewEntidad('equipos');
     expect(html).toContain('Protocolos a generar');
     expect(html).toContain('value="IQ"');
+    expect(html).toContain('value="OQ"');
     expect(html).not.toContain('value="DQ"');
-    expect(html).not.toContain('value="OQ"');
     expect(html).not.toContain('value="PQ"');
   });
 

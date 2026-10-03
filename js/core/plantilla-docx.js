@@ -67,6 +67,21 @@ const PlantillaDocx = (() => {
 
   let zipProv = null; // { inflate(u8)->Promise<u8>, deflate(u8)->Promise<u8> | null }
 
+  // Mapa styleId -> nombre de estilo (styles.xml), para plantillas re-guardadas
+  // con IDs numéricos. Se carga en cada generar().
+  let ESTILOS = {};
+  function cargarEstilos(archivos) {
+    ESTILOS = {};
+    try {
+      const st = archivos.find((a) => a.nombre === 'word/styles.xml');
+      if (!st) return;
+      const sx = dec(st.datos);
+      const re = /<w:style[^>]*w:styleId="([^"]+)"[^>]*>[\s\S]*?<w:name w:val="([^"]+)"/g;
+      let m;
+      while ((m = re.exec(sx))) ESTILOS[m[1]] = m[2];
+    } catch (e) { /* sigue con mapa vacío */ }
+  }
+
   // ---------------------------------------------------------------
   // ZIP (lectura de plantillas y escritura del .docx)
   // ---------------------------------------------------------------
@@ -244,11 +259,18 @@ const PlantillaDocx = (() => {
     if (parte.tag !== 'w:p') return { tag: parte.tag, texto: norm(texto(parte.xml)) };
     const ppr = pPrDe(parte.xml);
     const est = /<w:pStyle w:val="([^"]+)"/.exec(ppr);
+    // Las plantillas re-guardadas en Word/OnlyOffice traen IDs numéricos
+    // (939 = "Heading 1"); se resuelven por styles.xml con tolerancia de idioma.
+    let estilo = est ? est[1] : '';
+    const nom = ESTILOS[estilo];
+    if (nom) estilo = nom;
+    if (/^\s*heading\s*1\s*$/i.test(estilo) || /^\s*t[íi]tulo\s*1\s*$/i.test(estilo)) estilo = 'Heading1';
+    else if (/^\s*heading\s*2\s*$/i.test(estilo) || /^\s*t[íi]tulo\s*2\s*$/i.test(estilo)) estilo = 'Heading2';
     const il = /<w:ilvl w:val="(\d+)"/.exec(ppr);
     const ni = /<w:numId w:val="(\d+)"/.exec(ppr);
     return {
       tag: 'w:p',
-      estilo: est ? est[1] : '',
+      estilo,
       ilvl: il ? +il[1] : null,
       numId: ni ? ni[1] : null,
       texto: norm(texto(parte.xml)),
@@ -532,7 +554,7 @@ const PlantillaDocx = (() => {
   }
 
   const tituloLimpio = (art) => String(art.titulo || art.id || '')
-    .replace(/^[A-Z]{2,5}-[A-Z]{2}-\d{2,4}\s*[—–-]\s*/, '').trim();
+    .replace(/^[A-Z]{2,5}-[A-Z]{2}(-[A-Z]{2})?-\d{2,4}\s*[—–-]\s*/, '').trim();
 
   function fechaTexto(f) {
     const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(f || ''));
@@ -715,7 +737,12 @@ const PlantillaDocx = (() => {
 
     // ---- banco ----
     const items = (banco && banco.fases && banco.fases[fase]) || [];
-    const ensayosTodos = items.filter((i) => i.id && (i.bloque === 2 || i.bloque === 3) && i.kind !== 'tabla' && pasaCondicion(i.cond, filtro));
+    // Filtro por familia: los artículos con `familia` solo entran si la entidad
+    // elegida coincide (entidad.id); sin familia = común a todas. Sin entidad
+    // (tests) entran todos.
+    const entId = String((entidad && entidad.id) || '').trim();
+    const ensayosTodos = items.filter((i) => i.id && (i.bloque === 2 || i.bloque === 3) && i.kind !== 'tabla' && pasaCondicion(i.cond, filtro)
+      && (!i.familia || !entId || i.familia === entId));
     const artReq = ensayosTodos.find((a) => /requisitos previos/i.test(a.titulo || ''));
     const ensayos = ensayosTodos.filter((a) => a !== artReq);
     const ctx = contexto(d, entidad, filtro, ensayosTodos);
@@ -724,6 +751,7 @@ const PlantillaDocx = (() => {
 
     // ---- plantilla ----
     const archivos = await leerZip(plantillaU8);
+    cargarEstilos(archivos);
     const get = (n) => archivos.find((a) => a.nombre === n);
     const setTxt = (n, s) => { get(n).datos = enc(s); };
     const docXml = dec(get('word/document.xml').datos);

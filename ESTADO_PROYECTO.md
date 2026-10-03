@@ -4577,3 +4577,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-02 (116): Salto previo en conclusiones (SALTO_TABLA, prueba inicial)
 - **Qué:** tabla `SALTO_TABLA` (clave 'ID:conclusion' o comodín '*:conclusion') + `debeSaltarTabla` + `saltoPrevio()` (párrafo con salto; las tablas no aceptan pageBreakBefore) en `plantilla-docx.js` (conclusiones del banco por ID + post-pase global para el comodín, cubre modelo: sec.6/USP/resumen, sin duplicar) y espejo en `generador-docx.js`. Conclusiones ya no se parten (juntar preexistente).
 - **Verificación:** PQ real default 0/8 con salto, comodín 8/8; Vitest 322/322, backend 60/60.
+
+### 2026-10-03 (117): OQ lecho fluido — 11 ensayos desarrollados y cargados
+- **Qué:** nuevo `docs/banco-ensayos/equipos/oq-lecho-fluido.html` (fase OQ + shells + 11 articles EQ-OQ-LF-001…011 con procedimiento paso a paso, `data-familia="lecho-fluido"`, refs bloque 6 y anexos bloque 8). Extractor multifichero + atributo `familia`; filtro por `entidad.id` en `generar()`; `tituloLimpio` acepta IDs con familia; `GEN_FASES.equipos` suma OQ.
+- **Reparación bloqueante:** commit 121d61a había reemplazado las plantillas por versiones con style IDs numéricos (939/940/966) → `info()` no detectaba H1/H2 (28 tests en rojo). Ahora resuelve por `styles.xml` con tolerancia de idioma; helper de test H1 usa bookmarks `_SigmaH1_`.
+- **Verificación:** OQ lecho fluido real con 11 ensayos, 11 H1, 14 H2; balanza recibe 0 ensayos OQ; Vitest 325/325, backend 60/60.
