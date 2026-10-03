@@ -143,3 +143,39 @@ describe('OQ autoclave (banco por familia)', () => {
     expect(doc).not.toContain('EQ-OQ-AU-001');
   });
 });
+
+describe('PQ lecho fluido (banco por familia)', () => {
+  const DRAFT_PQ = {
+    codigo: '400678', descripcion: 'Lecho fluido', ubicacion: 'PRODUCCION PLANTA 3',
+    tipo: 'Equipo', marca: 'COMASA', modelo: '430L', fecha: '2026-10-03',
+  };
+  const genPQ = async (ent) => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));
+    const r = await P.generar('PQ', u8, banco, DRAFT_PQ, ent, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    return { r, doc: arch['word/document.xml'] };
+  };
+
+  it('banco PQ: 16 ensayos lecho fluido + RES + REF, IDs únicos', () => {
+    const ids = (banco.fases.PQ || [])
+      .filter((i) => i.id && i.familia === 'lecho-fluido').map((i) => i.id);
+    expect(ids).toHaveLength(18);
+    expect(ids.filter((id) => /^EQ-PQ-LF-0\d\d$/.test(id))).toHaveLength(16);
+  });
+
+  it('lecho fluido genera sus 16 ensayos con contenido PQ', async () => {
+    const { r, doc } = await genPQ({ id: 'lecho-fluido', nombre: 'Lecho fluido' });
+    expect(r.ensayos).toHaveLength(16);
+    expect(r.ensayos[0]).toBe('EQ-PQ-LF-001');
+    for (const id of r.ensayos) expect(doc).toContain(id);
+    const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    expect(txt).toContain('TRES LOTES CONSECUTIVOS');
+    expect(txt).toContain('HUMEDAD RESIDUAL');
+  });
+
+  it('autoclave no recibe ensayos PQ de lecho fluido', async () => {
+    const { r, doc } = await genPQ({ id: 'autoclave', nombre: 'Autoclave' });
+    expect(r.ensayos).toHaveLength(0);
+    expect(doc).not.toContain('EQ-PQ-LF-001');
+  });
+});

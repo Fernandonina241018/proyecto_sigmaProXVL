@@ -14,7 +14,7 @@ const BANCOS = {
   almacenes: { src: ['almacenes.html'], dst: 'banco-almacenes-data.js', global: 'BancoAlmacenes' },
   // equipos: banco común + un archivo por familia y fase (p. ej. OQ/PQ de lecho fluido).
   // Los artículos llevan `familia` (data-familia); ausente = común a todas.
-  equipos: { src: ['equipos-comun.html', 'equipos/oq-comun.html', 'equipos/oq-lecho-fluido.html', 'equipos/oq-autoclave.html'], dst: 'banco-equipos-data.js', global: 'BancoEquipos' },
+  equipos: { src: ['equipos-comun.html', 'equipos/oq-comun.html', 'equipos/oq-lecho-fluido.html', 'equipos/oq-autoclave.html', 'equipos/pq-lecho-fluido.html'], dst: 'banco-equipos-data.js', global: 'BancoEquipos' },
 };
 const cat = process.argv[2] || 'equipos';
 const cfg = BANCOS[cat];

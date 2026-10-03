@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-02 v1 + EQ-OQ-AU 2026-10-03 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-02 v1 + EQ-OQ-AU 2026-10-03 v1 + EQ-PQ-LF 2026-10-03 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-02 v1 + EQ-OQ-AU 2026-10-03 v1",
+ "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-02 v1 + EQ-OQ-AU 2026-10-03 v1 + EQ-PQ-LF 2026-10-03 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -2056,7 +2056,633 @@ var BancoEquipos = {
     "familia": "autoclave"
    }
   ],
-  "PQ": []
+  "PQ": [
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>\n<p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n<p><strong>Calificación de Desempeño de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n<ol>\n  <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n  <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n  <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n</ol>",
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n<ol>\n  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n</ol>",
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n<p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n<ol><li>Coordinar la ejecución de la Calificación de Desempeño con producción y control de calidad, asegurando personal, <span class=\"equipo\">equipo</span>, producto o simulado, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente durante todo el PQ.</li><li>Ejecutar y/o supervisar las corridas del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos con producción.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y dictaminar el desempeño del equipo.</li></ol>\n<p><strong>Responsabilidad del Gerente de Área:</strong></p>\n<ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span>, del producto o simulado y de los accesos para la ejecución.</li><li>Facilitar la documentación de proceso (BMR, especificaciones) y del fabricante.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice.</p>",
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (USP &lt;1058&gt;).</p>",
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>",
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LF-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LF-001 — Tres lotes consecutivos a condiciones nominales",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el <span class=\"equipo\">equipo</span> produce granulado conforme de forma repetible en tres lotes consecutivos a condiciones nominales y carga habitual, con el número de lotes justificado por análisis de riesgo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Aprobar el análisis de riesgo que justifica el número de lotes (mínimo tres consecutivos) y anexarlo al protocolo<br>\n  2) Definir la carga habitual [ ] kg, la receta nominal (temperatura, flujo, tiempos) y los atributos a medir por lote<br>\n  3) Ejecutar el lote 1 a condiciones nominales registrando todos los parámetros críticos del ciclo<br>\n  4) Repetir en forma consecutiva los lotes 2 y 3 sin cambios al proceso entre ellos<br>\n  5) Medir en cada lote los atributos de calidad (humedad, granulometría, densidad) según los ensayos EQ-PQ-LF-004 a EQ-PQ-LF-006<br>\n  6) Comparar los tres lotes entre sí<br>\n  a) Los tres lotes cumplen todos los atributos dentro de especificación<br>\n  b) No hay tendencias ni desviaciones sin causa asignable entre lotes<br>\n  7) Documentar cualquier desviación, alarma o intervención ocurrida durante las corridas"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tres lotes consecutivos conformes en todos los atributos, sin desviaciones abiertas.<br>\n  Justificación por riesgo del número de lotes anexada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Análisis de riesgo que justifica el número de lotes<br>\n  - Registros de ciclo y resultados de atributos por lote"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15 §§4.16–4.19 (tres lotes consecutivos salvo justificación)."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LF-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LF-002 — Corrida con carga mínima y máxima",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el <span class=\"equipo\">equipo</span> seca en forma conforme en los extremos del rango de carga declarado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir la carga mínima [ ] kg y la carga máxima [ ] kg del rango declarado en la URS<br>\n  2) Ejecutar una corrida completa con carga mínima registrando parámetros y atributos (humedad, uniformidad)<br>\n  3) Ejecutar una corrida completa con carga máxima registrando los mismos atributos<br>\n  4) Comparar ambas corridas contra la corrida nominal del ensayo EQ-PQ-LF-001<br>\n  a) Carga mínima y máxima cumplen humedad y uniformidad dentro de especificación<br>\n  5) Registrar tiempos de secado por carga y confirmar que están dentro de lo previsto en la receta"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambas cargas extremas conformes en humedad y uniformidad."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de ciclo y atributos por carga extrema<br>\n  - Comparativa contra corrida nominal"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15 (rango previsto y peor caso); URS del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LF-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LF-003 — Corrida en condiciones de peor caso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el <span class=\"equipo\">equipo</span> seca en forma conforme en la combinación más retadora: masa con mayor humedad inicial, flujo de aire en el límite bajo y temperatura en el límite alto o bajo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el peor caso con el análisis de riesgo: humedad inicial máxima [ ]%, flujo en límite bajo [ ] m³/h y temperatura en el límite ([alto/bajo] según riesgo)<br>\n  2) Preparar la masa con la mayor humedad inicial del rango y verificarla antes de cargar<br>\n  3) Ejecutar la corrida completa en peor caso registrando parámetros, alarmas y atributos<br>\n  4) Medir humedad final y uniformidad en múltiples ubicaciones según el ensayo EQ-PQ-LF-004<br>\n  5) Confirmar que el tiempo de secado está dentro del máximo previsto<br>\n  a) Humedad y uniformidad conformes aun en peor caso<br>\n  6) Documentar alarmas o intervenciones y su tratamiento"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Peor caso conforme en humedad, uniformidad y tiempo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Definición del peor caso con análisis de riesgo<br>\n  - Registro de ciclo y atributos del peor caso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15 (peor caso justificado); URS del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LF-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LF-004 — Humedad residual y uniformidad en múltiples ubicaciones",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar la humedad residual al punto final y su uniformidad en el lecho (superior, medio, inferior y lateral). Es el ensayo central del PQ."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el punto final por humedad [ ]% LOD según la especificación del producto y el método (balanza halógena o Karl Fischer)<br>\n  2) Al alcanzar el punto final en cada corrida (nominal, extremos y peor caso), tomar muestras por triplicado en 4 ubicaciones: superior, medio, inferior y lateral del lecho<br>\n  3) Medir la humedad de cada muestra con instrumento calibrado y registrar con identificación de ubicación y hora<br>\n  4) Calcular por corrida el promedio, el rango y el RSD entre ubicaciones<br>\n  a) Todas las ubicaciones dentro de la especificación de humedad<br>\n  b) El RSD entre ubicaciones es menor o igual a [5]%<br>\n  5) Repetir el muestreo en los tres lotes nominales y comparar la repetibilidad entre lotes"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Humedad conforme en el 100% de las ubicaciones y lotes; uniformidad dentro del criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de puntos de muestreo en el lecho<br>\n  - Tabla de humedad por ubicación, corrida y lote con estadística"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;731&gt; (pérdida por secado); especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LF-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LF-005 — Curva de secado y punto final",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Establecer la curva de secado (humedad contra tiempo) con temperatura de producto, de salida y de entrada, para fijar y confirmar el punto final y la repetibilidad entre lotes."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Durante una corrida nominal, tomar muestras de humedad cada [10] minutos desde el inicio hasta pasado el punto final<br>\n  2) Registrar en paralelo la temperatura de producto, del aire de salida y del aire de entrada con la misma base de tiempo<br>\n  3) Graficar humedad contra tiempo y temperaturas contra tiempo en un solo eje temporal<br>\n  4) Identificar el punto final (humedad dentro de especificación sostenida) y el tiempo de secado correspondiente<br>\n  5) Repetir la curva en los tres lotes y superponerlas<br>\n  a) Las tres curvas son superponibles dentro de ±[10]% del tiempo de secado<br>\n  b) El punto final queda confirmado y es repetible<br>\n  6) Fijar el punto final y el tiempo de secado en la receta o en el informe"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Curva de secado establecida, punto final confirmado y repetible entre lotes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curvas de secado por lote con temperaturas asociadas<br>\n  - Punto final y tiempo de secado fijados"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Desarrollo de proceso; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LF-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LF-006 — Granulometría y densidades del granulado seco",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la distribución de tamaño de partícula, la densidad aparente y la densidad compactada del granulado seco del <span class=\"equipo\">equipo</span>."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Tomar muestra representativa del granulado seco de cada lote (nominal, extremos y peor caso) según el plan de muestreo<br>\n  2) Medir la distribución de tamaño de partícula por tamizado o difracción láser con método validado<br>\n  3) Medir la densidad aparente y la densidad compactada, y calcular el índice de Carr o Hausner<br>\n  4) Comparar contra la especificación del producto granulado<br>\n  a) Granulometría dentro de especificación en todos los lotes<br>\n  b) Densidades e índices dentro de especificación<br>\n  5) Anexar los reportes del laboratorio con los métodos utilizados"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Granulometría y densidades conformes en todos los lotes y condiciones."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Reportes de granulometría y densidades por lote<br>\n  - Métodos analíticos utilizados"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;786&gt; (tamaño de partícula); USP &lt;616&gt; (densidad aparente y compactada)."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LF-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LF-007 — Valoración y degradación (si aplica, termolábil)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la valoración del activo y sus productos de degradación cuando el activo es termolábil; si no lo es, declarar No Aplica con justificación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar en el dossier si el activo es termolábil; si no lo es, pasar al paso 5)<br>\n  2) Tomar muestras del granulado seco de cada lote y analizar valoración y productos de degradación por método validado<br>\n  3) Comparar contra la especificación del producto y contra el material antes del secado<br>\n  4) Evaluar el impacto térmico del ciclo sobre el activo<br>\n  a) Valoración y degradación dentro de especificación en todos los lotes<br>\n  5) Si no aplica: redactar la justificación de No Aplica (activo no termolábil según dossier) con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Conforme en valoración y degradación, o No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Reportes analíticos por lote o justificación de No Aplica firmada"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto; dossier del activo."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LF-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LF-008 — Aspecto del granulado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el aspecto del granulado seco: sin grumos, sin sobresecado ni material pegado a la malla."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Al descargar cada lote, inspeccionar visualmente el granulado con luz adecuada<br>\n  2) Buscar grumos, finos en exceso, cambio de color por sobresecado y material adherido a la malla del contenedor<br>\n  3) Registrar el aspecto por lote con evidencia fotográfica<br>\n  4) Si hay hallazgos, evaluar su impacto y documentar la disposición<br>\n  a) Aspecto conforme en todos los lotes<br>\n  5) Anexar las fotografías con identificación de lote y fecha"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Aspecto conforme en el 100% de los lotes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de aspecto por lote con evidencia fotográfica"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto; BMR."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LF-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LF-009 — Fluidización con producto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la fluidización con producto a lo largo del ciclo: sin canalización, sin zonas muertas ni colapso del lecho."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Durante cada corrida, observar el lecho por la mirilla en 3 momentos: inicio (masa húmeda), mitad y punto final<br>\n  2) Buscar canalización (chorros localizados), zonas muertas (material estático) y colapso del lecho<br>\n  3) Confirmar la expansión uniforme del lecho y el movimiento homogéneo del producto<br>\n  4) Registrar la observación por momento y corrida, con hora y operador<br>\n  5) Ante cualquier anomalía, detener, investigar causa (carga, flujo, humedad) y documentar<br>\n  a) Fluidización uniforme en todos los momentos y corridas<br>\n  6) Anexar el registro de observaciones por corrida"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Lecho fluidizado uniforme sin canalización, zonas muertas ni colapso."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de observaciones de fluidización por corrida"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Desarrollo de proceso; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LF-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LF-010 — ΔP del filtro durante el ciclo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Monitorear el diferencial de presión del filtro durante el ciclo: sin obstrucción que afecte el flujo ni pérdida de producto por el sacudido."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el ΔP del filtro cada [15] minutos durante cada corrida, con el sacudido en automático según receta<br>\n  2) Graficar el ΔP contra el tiempo e identificar tendencias de obstrucción<br>\n  3) Confirmar que el flujo de aire se mantiene dentro de lo previsto pese al aumento de ΔP<br>\n  4) Verificar que el sacudido no arrastra producto fuera del contenedor (inspección de mangas y ductos)<br>\n  a) ΔP siempre por debajo del límite de alarma durante el ciclo<br>\n  b) Sin pérdida de producto atribuible al sacudido<br>\n  5) Anexar las curvas de ΔP por corrida"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  ΔP bajo control todo el ciclo, sin obstrucción crítica ni pérdida de producto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curvas de ΔP contra tiempo por corrida"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Receta aprobada; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LF-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LF-011 — Rendimiento y pérdida de finos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el rendimiento del <span class=\"equipo\">equipo</span> y la pérdida de finos mediante balance de masa entre carga y descarga, incluyendo el material en filtros."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar la carga inicial (masa húmeda) con instrumento calibrado y registrar<br>\n  2) Descargar el granulado seco, pesar la descarga total y registrar<br>\n  3) Recuperar y pesar el material retenido en mangas y filtros<br>\n  4) Calcular el rendimiento: descarga contra carga ajustada por humedad, y la pérdida de finos<br>\n  5) Comparar contra el criterio de la receta<br>\n  a) Rendimiento mayor o igual a [95]%<br>\n  b) Pérdida de finos menor o igual a [2]%<br>\n  6) Repetir el balance en cada lote y corrida, y anexar las pesadas"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Rendimiento y pérdida de finos dentro de lo previsto en todos los lotes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Balances de masa por lote con pesadas de carga, descarga y filtros"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>BMR; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LF-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LF-012 — Temperatura de producto y aire de salida",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el control de la temperatura de producto y del aire de salida frente a lo definido en el proceso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la temperatura de producto (sonda en lecho) y del aire de salida cada [10] minutos durante cada corrida<br>\n  2) Comparar contra los límites del proceso: producto [ ] °C y salida [ ] °C<br>\n  3) Confirmar que no se exceden los límites en ningún momento del ciclo<br>\n  4) Correlacionar con la curva de secado del ensayo EQ-PQ-LF-005 (meseta de temperatura al punto final)<br>\n  a) Temperaturas dentro de límites durante todo el ciclo<br>\n  5) Anexar las curvas de temperatura por corrida"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Temperaturas de producto y salida dentro de lo definido en el proceso."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curvas de temperatura de producto y salida por corrida"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Receta aprobada; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LF-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LF-013 — Mapeo de temperatura del lecho con carga (si aplica)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Mapear la temperatura del lecho con carga mediante sondas dentro del producto, cuando el activo es termolábil o el proceso es crítico a la temperatura."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el activo es termolábil o el proceso es crítico a la temperatura; si no, pasar al paso 6)<br>\n  2) Distribuir sondas calibradas dentro del producto (superior, medio, inferior y lateral) con plano de ubicación<br>\n  3) Correr una corrida nominal registrando temperatura por sonda cada [5] minutos<br>\n  4) Calcular por sonda promedio, máximo y mínimo, y el ΔT entre sondas<br>\n  a) ΔT entre sondas menor o igual a [3] °C<br>\n  b) Ninguna sonda excede la temperatura máxima del activo<br>\n  5) Anexar el plano, las curvas y la tabla por sonda<br>\n  6) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Uniformidad térmica con carga conforme, o No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de sondas, curvas y tabla por sonda, o justificación de No Aplica firmada"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Dossier del activo; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LF-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LF-014 — Estado de mangas filtrantes tras el ciclo (si aplica)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Revisar el estado de las mangas o bolsas filtrantes tras el ciclo: sin roturas ni pérdida de integridad."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Al finalizar cada corrida, inspeccionar visualmente las mangas con luz adecuada<br>\n  2) Buscar roturas, descosidos, adelgazamiento y deformaciones<br>\n  3) Confirmar la limpieza o el reemplazo según el procedimiento antes del siguiente lote<br>\n  4) Registrar el estado por corrida con evidencia fotográfica si hay hallazgos<br>\n  a) Mangas íntegras en todas las corridas<br>\n  5) Si hay rotura, investigar pérdida de producto y contaminación cruzada, y documentar la disposición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Mangas íntegras, o hallazgo investigado y dispuesto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del estado de mangas por corrida"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Procedimiento de limpieza y mantenimiento; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LF-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LF-015 — Repetibilidad entre operarios o turnos (si aplica)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la repetibilidad del proceso entre operarios o turnos cuando el proceso es manual en parte."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el proceso tiene pasos manuales (carga, muestreo, descarga); si es totalmente automático, pasar al paso 5)<br>\n  2) Asignar operarios o turnos distintos a los lotes de la PQ<br>\n  3) Comparar atributos críticos (humedad, tiempo de secado, rendimiento) entre operarios o turnos<br>\n  4) Evaluar estadísticamente si hay efecto del operario o turno<br>\n  a) Sin efecto significativo del operario o turno en los atributos<br>\n  5) Si no aplica: redactar la justificación de No Aplica (proceso automático) con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Proceso repetible entre operarios o turnos, o No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Comparativa de atributos por operario o turno, o justificación de No Aplica firmada"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15 (personal capacitado, §3.11)."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LF-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LF-016 — Revisión de registros de lote",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Revisar los registros de lote de la PQ: parámetros críticos dentro de límites, alarmas ocurridas y acciones tomadas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Recopilar los registros de lote (BMR) de todas las corridas de la PQ<br>\n  2) Verificar que los parámetros críticos están dentro de límites y firmados en cada etapa<br>\n  3) Listar las alarmas ocurridas, sus causas y las acciones tomadas con su cierre<br>\n  4) Confirmar la revisión por producción y por calidad con firmas y fechas<br>\n  5) Verificar la trazabilidad entre registros de equipo, análisis de laboratorio y registros de lote<br>\n  a) Registros completos, coherentes y cerrados<br>\n  6) Anexar la lista de verificación de registros diligenciada"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Registros completos y coherentes, alarmas cerradas y trazabilidad total."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de verificación de registros de lote diligenciada"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.180/211.188 (registros de lote); EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-PQ-LF-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LF-RES — Tabla resumen de los ensayos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ del lecho fluido para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-LF-001 a EQ-PQ-LF-016 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 16 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-PQ-LF-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LF-REF — Referencias del PQ de lecho fluido",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: PQ tras IQ/OQ; tres lotes consecutivos salvo justificación por riesgo",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "USP <731> — Pérdida por secado: humedad residual del granulado",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <786> — Distribución de tamaño de partícula del granulado",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "USP <616> — Densidad aparente y compactada, índice de Carr/Hausner",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "21 CFR 211.180/211.188 — Registros de lote: revisión, alarmas y trazabilidad",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "BMR y especificación del producto — Atributos, receta nominal y punto final de secado",
+       "VIGENTE"
+      ],
+      [
+       "6.7",
+       "Manual del fabricante del lecho fluido — Rangos de carga, curva del ventilador y límites de diseño",
+       "VIGENTE"
+      ]
+     ]
+    },
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de ciclo, curvas de secado, ΔP y temperaturas por lote</td></tr>\n<tr><td>8.2</td><td>Anexo B — Reportes analíticos (humedad, granulometría, densidades, valoración) y certificados de instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Balances de masa, matrices de uniformidad y análisis de riesgo del número de lotes</td></tr>\n</tbody></table>",
+    "familia": "lecho-fluido"
+   }
+  ]
  }
 };
 if (typeof module !== "undefined" && module.exports) module.exports = BancoEquipos;

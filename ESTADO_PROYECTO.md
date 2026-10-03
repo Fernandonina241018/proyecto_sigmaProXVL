@@ -4590,3 +4590,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-03 (119): Artículo común OQ — instrumentos (EQ-OQ-COM-001)
 - **Qué:** nuevo `docs/banco-ensayos/equipos/oq-comun.html` (fase OQ sin shells) con EQ-OQ-COM-001 sin `data-familia` → aplica a todas las familias y sale primero (7.2). Extractor lo procesa antes que los de familia; sección con `data-familia` como fallback ya existía.
 - **Verificación:** lecho 12 (11+1), autoclave 19 (18+1), balanza solo COM-001; Vitest 328/328, backend 60/60.
+
+### 2026-10-03 (120): PQ lecho fluido — 16 ensayos (cadena completa IQ→PQ)
+- **Qué:** nuevo `docs/banco-ensayos/equipos/pq-lecho-fluido.html` (16 articles EQ-PQ-LF-001…016, `familia="lecho-fluido"`, refs USP 731/786/616 + Anexo 15 + 21 CFR 211 + anexos). Extractor suma el archivo; `GEN_FASES.equipos` suma PQ. Base: ENSAYOS.txt de protocolo + Anexo 15 §§4.16-4.19 (3 lotes salvo riesgo) + práctica PQ (LOD, uniformidad, curva).
+- **Verificación:** PQ real con 16 ensayos, 11 H1; autoclave recibe 0 PQ; Vitest 331/331, backend 60/60.
