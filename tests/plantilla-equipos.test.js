@@ -220,6 +220,46 @@ describe('PQ autoclave (banco por familia, fuente ENSAYOS.txt)', () => {
   });
 });
 
+describe('PQ mezclador (banco por familia, fuente ENSAYOS.txt)', () => {
+  const DRAFT_MZ = {
+    codigo: '400700', descripcion: 'Mezclador V', ubicacion: 'PLANTA 3',
+    tipo: 'Equipo', marca: 'COMASA', modelo: 'V-500', fecha: '2026-10-04',
+  };
+  const genPQ = async (ent) => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));
+    const r = await P.generar('PQ', u8, banco, DRAFT_MZ, ent, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    return { r, doc: arch['word/document.xml'] };
+  };
+
+  it('banco PQ mezclador: 14 ensayos + RES + REF, 13 con analisis', () => {
+    const ids = (banco.fases.PQ || [])
+      .filter((i) => i.id && i.familia === 'mezclador').map((i) => i.id);
+    expect(ids).toHaveLength(16);
+    expect(ids.filter((id) => /^EQ-PQ-MZ-\d+$/.test(id) && !/RES|REF/.test(id))).toHaveLength(14);
+    const an = (banco.fases.PQ || []).filter((i) => i.familia === 'mezclador' && i.analisis).map((i) => i.id);
+    expect(an).toHaveLength(13);
+  });
+
+  it('mezclador genera 14 + común, con uniformidad y sin mezcla', async () => {
+    const { r, doc } = await genPQ({ id: 'mezclador', nombre: 'Mezclador V' });
+    expect(r.ensayos).toHaveLength(15); // 14 familia + EQ-PQ-COM-001
+    expect(r.ensayos[0]).toBe('EQ-PQ-COM-001');
+    expect(r.ensayos[1]).toBe('EQ-PQ-MZ-001');
+    for (const id of r.ensayos) expect(doc).toContain(id);
+    const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    expect(txt).toContain('TIEMPO DE MEZCLA');
+    expect(txt).not.toContain('BOWIE-DICK');
+    expect(txt).not.toContain('LECHO FLUIDO');
+  });
+
+  it('autoclave no recibe ensayos PQ de mezclador', async () => {
+    const { r, doc } = await genPQ({ id: 'autoclave', nombre: 'Autoclave' });
+    expect(r.ensayos.every((id) => !id.includes('-MZ-'))).toBe(true);
+    expect(doc).not.toContain('EQ-PQ-MZ-001');
+  });
+});
+
 describe('OQ mezclador (banco por familia, fuente ENSAYOS.txt)', () => {
   const DRAFT_MZ = {
     codigo: '400700', descripcion: 'Mezclador V', ubicacion: 'PLANTA 3',

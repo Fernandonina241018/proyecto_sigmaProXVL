@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-02 v1 + EQ-OQ-AU 2026-10-03 v1 + EQ-OQ-MZ 2026-10-04 v1 + EQ-PQ-LF 2026-10-03 v1 + EQ-PQ-AU 2026-10-03 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-02 v1 + EQ-OQ-AU 2026-10-03 v1 + EQ-OQ-MZ 2026-10-04 v1 + EQ-PQ-LF 2026-10-03 v1 + EQ-PQ-AU 2026-10-03 v1 + EQ-PQ-MZ 2026-10-04 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-02 v1 + EQ-OQ-AU 2026-10-03 v1 + EQ-OQ-MZ 2026-10-04 v1 + EQ-PQ-LF 2026-10-03 v1 + EQ-PQ-AU 2026-10-03 v1",
+ "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-02 v1 + EQ-OQ-AU 2026-10-03 v1 + EQ-OQ-MZ 2026-10-04 v1 + EQ-PQ-LF 2026-10-03 v1 + EQ-PQ-AU 2026-10-03 v1 + EQ-PQ-MZ 2026-10-04 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -3924,6 +3924,582 @@ var BancoEquipos = {
     "bloque": 8,
     "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de ciclo, curvas de temperatura y presión, y cálculos (equilibrio, F0)</td></tr>\n<tr><td>8.2</td><td>Anexo B — Indicadores biológicos y químicos, y certificados de termopares e instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Planos de carga y sondas, memorias de cálculo y estudio de tiempo de espera</td></tr>\n</tbody></table>",
     "familia": "autoclave"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>\n<p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n<p><strong>Calificación de Desempeño de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n<ol>\n  <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n  <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n  <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n</ol>",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n<ol>\n  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n</ol>",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n<p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n<ol><li>Coordinar la ejecución de la Calificación de Desempeño con producción y control de calidad, asegurando personal, <span class=\"equipo\">equipo</span>, producto o placebo, instrumentos y documentación.</li><li>Verificar que los instrumentos y balanzas estén identificados y con calibración vigente durante todo el PQ.</li><li>Ejecutar y/o supervisar las corridas del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y dictaminar el desempeño del equipo.</li></ol>\n<p><strong>Responsabilidad del Gerente de Área:</strong></p>\n<ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span>, del producto o placebo y de los accesos para la ejecución.</li><li>Facilitar la documentación de proceso (BMR, especificaciones) y del fabricante.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice.</p>",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (USP &lt;1058&gt;).</p>",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-MZ-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-MZ-001 — Estudio de tiempo de mezcla",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Identificar cuándo se alcanza la homogeneidad mediante muestreo a varios tiempos y confirmar que no hay desmezcla por exceso de tiempo en el <span class=\"equipo\">equipo</span>."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar el producto o placebo a la carga de trabajo con la receta nominal y arrancar el ciclo<br>\n  2) Detener a los 5, 10, 15 y 20 minutos (o tiempos del estudio) y tomar muestras en puntos fijos en cada parada, reanudando hasta completar el perfil<br>\n  3) Analizar el activo o trazador por método validado en cada tiempo<br>\n  4) Graficar RSD contra tiempo e identificar el punto de homogeneidad y la meseta<br>\n  a) RSD menor o igual a 5,0% desde el tiempo de homogeneidad en adelante<br>\n  b) Sin aumento de RSD por exceso de tiempo (sin desmezcla)<br>\n  5) Procesar los datos crudos del perfil de mezcla en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tiempo de homogeneidad identificado, sin desmezcla posterior."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Perfil de RSD contra tiempo por punto de muestreo<br>\n  - Data cruda y reporte estadístico del análisis del perfil de mezcla"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>FDA/PQRI (uniformidad de mezcla); desarrollo de proceso."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-MZ-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-MZ-002 — Tiempo y velocidad de rutina con margen",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Fijar el tiempo y la velocidad de mezcla de rutina del <span class=\"equipo\">equipo</span> con base en el estudio, más un margen justificado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Tomar el tiempo de homogeneidad del ensayo EQ-PQ-MZ-001 y la velocidad nominal calificada en OQ<br>\n  2) Fijar el tiempo de rutina como homogeneidad más un margen justificado (por ejemplo +20% o +5 min, el mayor)<br>\n  3) Correr una corrida de confirmación al tiempo y velocidad fijados con muestreo completo<br>\n  4) Confirmar RSD menor o igual a 5,0% en la corrida de confirmación<br>\n  a) La corrida de confirmación cumple con el tiempo y velocidad fijados<br>\n  5) Procesar los datos crudos de confirmación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  6) Registrar el tiempo, la velocidad y el margen en la receta o en el informe"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Parámetros de rutina fijados, confirmados y con margen justificado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Justificación del margen con la corrida de confirmación<br>\n  - Data cruda y reporte estadístico del análisis de confirmación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Desarrollo de proceso; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-MZ-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-MZ-003 — Muestreo en múltiples ubicaciones con zonas de peor mezcla",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar la uniformidad con muestreo en múltiples ubicaciones del <span class=\"equipo\">equipo</span>, incluyendo obligatoriamente las zonas de peor mezcla, con réplicas por ubicación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir 10 puntos de muestreo como mínimo en dos profundidades del eje, incluyendo zonas de peor mezcla (fondo, descarga, tapa y paredes)<br>\n  2) Correr el ciclo a parámetros de rutina fijados en el ensayo EQ-PQ-MZ-002<br>\n  3) Tomar las muestras con muestreador validado, sin segregar, e identificar punto, profundidad y réplica<br>\n  4) Analizar el activo o trazador por método validado<br>\n  5) Calcular media, SD y RSD del conjunto e individuales contra la media<br>\n  a) RSD menor o igual a 5,0% e individuales dentro de ±10% absoluto de la media<br>\n  6) Procesar los datos crudos de ubicaciones en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Uniformidad demostrada incluyendo zonas de peor mezcla."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de puntos con resultados por punto y réplica<br>\n  - Data cruda y reporte estadístico del análisis de uniformidad por ubicación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>FDA/PQRI (≥10 puntos, 2 profundidades, réplicas)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-MZ-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-MZ-004 — Criterio sobre el contenido del activo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la media del contenido del activo está dentro del rango de la especificación y el RSD dentro del límite definido en el <span class=\"equipo\">equipo</span>."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con las muestras del ensayo EQ-PQ-MZ-003, calcular la media del contenido del activo contra la especificación (por ejemplo 90,0 a 110,0% del nominal)<br>\n  2) Calcular el RSD del conjunto contra el límite definido (por ejemplo menor o igual a 5%)<br>\n  3) Evaluar cada individual contra su criterio (por ejemplo dentro de ±10% de la media)<br>\n  a) Media dentro de especificación, RSD dentro del límite e individuales conformes<br>\n  4) Procesar los datos crudos del contenido en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Contenido del activo conforme en media, RSD e individuales."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de contenido por muestra con media, RSD e individuales<br>\n  - Data cruda y reporte estadístico del análisis de contenido del activo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto; FDA/PQRI."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-MZ-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-MZ-005 — Réplicas independientes por punto (si aplica)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Separar la variabilidad del muestreo de la del método con al menos tres réplicas independientes por punto; si el método ya lo resuelve, declarar No Aplica."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si se requieren réplicas independientes adicionales a las del ensayo EQ-PQ-MZ-003; si no, pasar al paso 5)<br>\n  2) Tomar 3 réplicas independientes por punto en los puntos críticos<br>\n  3) Analizar cada réplica por separado con el método validado<br>\n  4) Descomponer la varianza: entre puntos contra dentro del punto (repetibilidad del método)<br>\n  a) Variabilidad del método menor que la variabilidad entre puntos, o ambas dentro de lo previsto<br>\n  5) Procesar los datos crudos de réplicas en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  6) Si no aplica: redactar la justificación de No Aplica (proceso automático) con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Variabilidad descompuesta y aceptada, o No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de réplicas por punto con descomposición de varianza, o justificación de No Aplica firmada<br>\n  - Data cruda y reporte estadístico del análisis de réplicas"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>FDA/PQRI (réplicas y errores de muestreo)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-MZ-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-MZ-006 — Tres lotes consecutivos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar repetibilidad en tres lotes consecutivos a condiciones nominales, con el número justificado por análisis de riesgo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Aprobar el análisis de riesgo que justifica el número de lotes (mínimo tres consecutivos) y anexarlo<br>\n  2) Ejecutar los tres lotes a receta nominal sin cambios al proceso entre ellos<br>\n  3) Medir en cada lote la uniformidad (RSD) y los atributos definidos<br>\n  4) Comparar los tres lotes entre sí<br>\n  a) Los tres lotes cumplen uniformidad y atributos dentro de especificación<br>\n  b) Sin tendencias ni desviaciones sin causa asignable<br>\n  5) Procesar los datos crudos inter-lote en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  6) Documentar desviaciones, alarmas o intervenciones de las corridas"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tres lotes consecutivos conformes, sin desviaciones abiertas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Análisis de riesgo del número de lotes<br>\n  - Resultados por lote con comparativa<br>\n  - Data cruda y reporte estadístico del análisis inter-lote"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15 §§4.16–4.19."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-MZ-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-MZ-007 — Llenado mínimo y máximo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Probar el rango de llenado declarado con llenado mínimo y máximo, que es el ensayo que de verdad prueba el rango."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el llenado mínimo [ ]% y máximo [ ]% del rango declarado en la URS<br>\n  2) Ejecutar una corrida completa con llenado mínimo y muestreo completo de uniformidad<br>\n  3) Ejecutar una corrida completa con llenado máximo y muestreo completo de uniformidad<br>\n  4) Comparar ambas contra la corrida nominal<br>\n  a) Mínimo y máximo cumplen RSD menor o igual a 5,0%<br>\n  5) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Extremos de llenado conformes en uniformidad."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Resultados de uniformidad por llenado extremo con comparativa<br>\n  - Data cruda y reporte estadístico del análisis comparativo de llenado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS del equipo; EU GMP Anexo 15 (rango y bracketing)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-MZ-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-MZ-008 — Peor caso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar uniformidad en el peor caso: activo de menor concentración, mayor diferencia de densidad o tamaño de partícula, o excipiente más cohesivo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el peor caso con el análisis de riesgo y anexar su justificación<br>\n  2) Ejecutar la corrida completa en peor caso con muestreo completo de uniformidad<br>\n  3) Confirmar RSD e individuales dentro de criterio en el peor caso<br>\n  a) Peor caso conforme en uniformidad<br>\n  4) Procesar los datos crudos del peor caso en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Peor caso conforme en uniformidad."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Definición del peor caso con análisis de riesgo<br>\n  - Resultados del peor caso<br>\n  - Data cruda y reporte estadístico del análisis del peor caso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15 (peor caso)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-MZ-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-MZ-009 — Segregación en descarga y manejo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que no hay segregación en la descarga y el manejo: muestreo al inicio, mitad y final de la descarga, y tras el transporte o la espera previa a compresión o llenado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Al descargar, tomar muestras al inicio, a la mitad y al final de la descarga<br>\n  2) Repetir el muestreo tras el transporte o la espera previa a la siguiente etapa, según aplique<br>\n  3) Analizar y comparar contra la uniformidad del mezclador<br>\n  4) Confirmar que la descarga y el manejo no degradan la uniformidad<br>\n  a) Inicio, mitad y final conformes con RSD menor o igual a 5,0%<br>\n  5) Procesar los datos crudos de segregación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin segregación atribuible a descarga o manejo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Resultados por momento de descarga y post-manejo<br>\n  - Data cruda y reporte estadístico del análisis de segregación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>FDA/PQRI (segregación post-mezcla); EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-MZ-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-MZ-010 — Tiempo máximo de espera entre mezcla y uso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Confirmar con estudio de hold time que la uniformidad se mantiene hasta el tiempo máximo de espera entre la mezcla y su uso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el tiempo máximo de espera propuesto [ ] horas en el contenedor de proceso<br>\n  2) Mezclar a parámetros de rutina y mantener la mezcla el tiempo propuesto sin moverla<br>\n  3) Al vencimiento, muestrear y analizar uniformidad completa<br>\n  4) Comparar contra la uniformidad recién mezclado<br>\n  a) Uniformidad al vencimiento dentro de criterio (RSD menor o igual a 5,0%)<br>\n  5) Procesar los datos crudos del hold time en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  6) Declarar el hold time aprobado en el informe"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Uniformidad mantenida hasta el hold time declarado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Resultados al vencimiento con comparativa<br>\n  - Data cruda y reporte estadístico del análisis de hold time<br>\n  - Hold time declarado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1211&gt; (tiempos de espera); EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-MZ-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-MZ-011 — Densidad y fluidez del mezclado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar densidad aparente y compactada, y fluidez, como control de que la mezcla es apta para la etapa siguiente."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Tomar muestra representativa de la mezcla final de cada lote<br>\n  2) Medir densidad aparente y compactada, calcular Carr o Hausner, y medir fluidez (ángulo de reposo o flujo por orificio)<br>\n  3) Comparar contra la especificación de mezcla para compresión o llenado<br>\n  a) Densidades y fluidez dentro de especificación<br>\n  4) Procesar los datos crudos de densidades en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Densidades y fluidez aptas para la etapa siguiente en todos los lotes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Reportes de densidades y fluidez por lote<br>\n  - Data cruda y reporte estadístico del análisis de densidades del mezclado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;616&gt; (densidades); especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-MZ-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-MZ-012 — Distribución de tamaño de partícula",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la distribución de tamaño de partícula de la mezcla, si es un atributo crítico."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Tomar muestra representativa de la mezcla final de cada lote según el plan de muestreo<br>\n  2) Medir por tamizado o difracción láser con método validado<br>\n  3) Comparar d10, d50 y d90 contra la especificación<br>\n  a) Distribución dentro de especificación en todos los lotes<br>\n  4) Procesar los datos crudos de granulometría en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Granulometría conforme en todos los lotes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Reportes de granulometría por lote<br>\n  - Data cruda y reporte estadístico del análisis de granulometría"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;786&gt; (tamaño de partícula); especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-MZ-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-MZ-013 — Aspecto de la mezcla",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el aspecto de la mezcla: sin grumos, sin aglomerados ni material pegado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Al descargar cada lote, inspeccionar visualmente la mezcla con luz adecuada<br>\n  2) Buscar grumos, aglomerados, segregación visible y material adherido al bin<br>\n  3) Registrar el aspecto por lote con evidencia fotográfica<br>\n  4) Ante hallazgos, evaluar impacto y documentar la disposición<br>\n  a) Aspecto conforme en todos los lotes<br>\n  5) Anexar las fotografías con identificación de lote y fecha"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Aspecto conforme en el 100% de los lotes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de aspecto por lote con evidencia fotográfica"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto; BMR."
+     }
+    ],
+    "tabla": null,
+    "familia": "mezclador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-MZ-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-MZ-014 — Rendimiento y balance de masa",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el rendimiento del <span class=\"equipo\">equipo</span> con balance de masa entre carga y descarga, incluyendo pérdida por adherencia o polvo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar la carga inicial con instrumento calibrado y registrar<br>\n  2) Descargar, pesar la descarga total y recuperar el material adherido al bin<br>\n  3) Calcular el rendimiento y la pérdida por adherencia o polvo<br>\n  4) Comparar contra el criterio de la receta<br>\n  a) Rendimiento mayor o igual a [98]% con pérdida dentro de lo previsto<br>\n  5) Procesar los datos crudos de balances en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  6) Repetir el balance en cada lote y anexar las pesadas"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Rendimiento y pérdida dentro de lo previsto en todos los lotes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Balances de masa por lote con pesadas<br>\n  - Data cruda y reporte estadístico del análisis de balances"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>BMR; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "mezclador"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-PQ-MZ-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-MZ-RES — Tabla resumen de los ensayos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ del mezclador para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-MZ-001 a EQ-PQ-MZ-014 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 14 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "mezclador"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-PQ-MZ-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-MZ-REF — Referencias del PQ de mezclador",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "FDA/PQRI — Guía de uniformidad de mezcla en polvos: muestreo estratificado, réplicas, RSD ≤5,0% e individuales ±10%",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "EU GMP Anexo 15 — PQ con tres lotes consecutivos salvo justificación por riesgo; peor caso y bracketing",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <616> — Densidad aparente y compactada de polvos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "USP <786> — Distribución de tamaño de partícula",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "USP <1211> — Tiempos de espera entre operaciones",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "BMR y especificación del producto — Atributos, receta nominal y punto final de mezcla",
+       "VIGENTE"
+      ],
+      [
+       "6.7",
+       "Manual del fabricante del mezclador — Cargas, velocidades y límites de diseño",
+       "VIGENTE"
+      ]
+     ]
+    },
+    "familia": "mezclador"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de ciclos, perfiles de mezcla y curvas RSD-tiempo por lote</td></tr>\n<tr><td>8.2</td><td>Anexo B — Reportes analíticos (contenido, densidades, granulometría) y certificados de instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Planos de muestreo, balances de masa y análisis de riesgo del número de lotes</td></tr>\n</tbody></table>",
+    "familia": "mezclador"
    }
   ]
  }

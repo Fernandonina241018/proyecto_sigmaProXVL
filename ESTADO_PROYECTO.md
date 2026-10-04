@@ -4618,3 +4618,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-04 (126): Tabla de recolección vacía en ensayos con análisis
 - **Qué:** `puntosTabla(art, e)` en `plantilla-docx.js`: si el ensayo lleva `data-analisis`, su tabla de verificación sale con filas numeradas VACÍAS (misma cantidad, sin repetir el procedimiento) para llenar a mano en ejecución. Registro y modelo intactos; requisitos previos intactos.
 - **Verificación:** PQ lecho real: tabla de curva de secado con celdas vacías, tabla de tres lotes con texto; Vitest 342/342, backend 60/60.
+
+### 2026-10-04 (127): PQ mezclador — 14 ensayos desde ENSAYOS.txt
+- **Qué:** nuevo `docs/banco-ensayos/equipos/pq-mezclador.html` (14 articles EQ-PQ-MZ-001…014, `familia="mezclador"`, 13 con `data-analisis` según marcas del .txt, refs FDA/PQRI + Anexo 15 + USP 616/786/1211 + anexos). Fuente: ENSAYOS.txt (tiempo de mezcla, uniformidad, repetibilidad, segregación, hold, atributos, rendimiento).
+- **Verificación:** PQ real con 15 ensayos (14+COM), 11 H1; sin mezcla entre familias; Vitest 345/345, backend 60/60.
