@@ -95,7 +95,8 @@ const Validaciones = (() => {
       { k: 'responsable', 
         label: 'Responsable', 
         tipo: 'text', 
-        req: true 
+        req: true,
+        auto: 'login' // se llena solo con el usuario logueado, como Realizado por
       },
       { k: 'fecha', 
         label: 'Fecha', 
@@ -480,23 +481,24 @@ const Validaciones = (() => {
   function fieldHtml(f, val) {
     const v = val == null ? '' : String(val);
     const req = f.req ? ' data-req="1"' : '';
-    const lab = '<label class="v7-field" data-f="' + f.k + '"><span>' + esc(f.label) + (f.req ? ' <b>*</b>' : '') + '</span>';
+    const auto = f.auto === 'login' ? ' readonly placeholder="Cargando usuario…"' : '';
+    const lab = '<label class="v7-field" data-f="' + f.k + '"><span>' + esc(f.label) + (f.auto === 'login' ? ' (automático)' : '') + (f.req ? ' <b>*</b>' : '') + '</span>';
     if (f.tipo === 'select') {
       const opts = ['<option value="">— Seleccione —</option>'].concat(
         (f.opciones || []).map((o) => '<option value="' + esc(o) + '"' + (o === v ? ' selected' : '') + '>' + esc(o) + '</option>')
       ).join('');
-      return lab + '<select data-k="' + f.k + '"' + req + '>' + opts + '</select></label>';
+      return lab + '<select data-k="' + f.k + '"' + req + auto + '>' + opts + '</select></label>';
     }
     if (f.tipo === 'date') {
-      return lab + '<input type="date" data-k="' + f.k + '"' + req + ' value="' + esc(v) + '"></label>';
+      return lab + '<input type="date" data-k="' + f.k + '"' + req + auto + ' value="' + esc(v) + '"></label>';
     }
     if (f.tipo === 'number') {
-      return lab + '<input type="number" step="any" data-k="' + f.k + '"' + req + ' value="' + esc(v) + '"></label>';
+      return lab + '<input type="number" step="any" data-k="' + f.k + '"' + req + auto + ' value="' + esc(v) + '"></label>';
     }
     if (f.tipo === 'file') {
-      return lab + '<input type="file" accept="image/*" data-k="' + f.k + '"' + req + '></label>';
+      return lab + '<input type="file" accept="image/*" data-k="' + f.k + '"' + req + auto + '></label>';
     }
-    return lab + '<input type="text" data-k="' + f.k + '"' + req + ' value="' + esc(v) + '"></label>';
+    return lab + '<input type="text" data-k="' + f.k + '"' + req + auto + ' value="' + esc(v) + '"></label>';
   }
 
   const FASES_GEN = ['DQ', 'IQ', 'OQ', 'PQ'];
@@ -729,6 +731,12 @@ const Validaciones = (() => {
         rea.value = f.realizado.nombre + (f.realizado.cargo ? ' / (' + f.realizado.cargo + ')' : '');
         firmMe = f.realizado;
       }
+      // Responsable automático: mismo usuario del login que Realizado por
+      const resp = form.querySelector('[data-k="responsable"]');
+      const me = (f.realizado && (f.realizado.nombre || f.realizado.username)) ? f.realizado : firmMe;
+      if (resp && me && (me.nombre || me.username)) {
+        resp.value = (me.nombre || me.username) + (me.cargo ? ' / (' + me.cargo + ')' : '');
+      }
       if (sel) {
         sel.innerHTML = '<option value="">— Seleccione —</option>' + firmGerentes.map((u) =>
           '<option value="' + esc(u.username) + '"' + (f.revisor && f.revisor.username === u.username ? ' selected' : '') + '>'
@@ -794,6 +802,8 @@ const Validaciones = (() => {
         }
       } catch (e) {
         if (rea) rea.placeholder = '(sin conexión)';
+        const resp0 = form.querySelector('[data-k="responsable"]');
+        if (resp0 && !String(resp0.value || '').trim()) resp0.placeholder = '(sin conexión)';
         if (sel) sel.innerHTML = '<option value="">(sin conexión)</option>';
         try {
           const df = entActual ? loadDraft(entActual) : {};

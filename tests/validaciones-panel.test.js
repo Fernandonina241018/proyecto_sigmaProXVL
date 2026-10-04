@@ -224,4 +224,16 @@ describe('Validaciones V7', () => {
     expect(Validaciones.show()).toBe(false);
     globalThis.document = keep;
   });
+
+  test('responsable automático desde login, como Realizado por', () => {
+    const comun = Validaciones.SCHEMAS._comun.find((f) => f.k === 'responsable');
+    expect(comun.auto).toBe('login');
+    const html = Validaciones.viewEntidad('almacenes');
+    expect(html).toContain('Responsable (automático)');
+    expect(html).toContain('data-k="responsable" data-req="1" readonly');
+    // pintarFirmantes llena responsable con el mismo usuario del login
+    const src = readFileSync(join(core, 'indexx-validaciones.js'), 'utf-8');
+    const pf = src.slice(src.indexOf('function pintarFirmantes'));
+    expect(pf.slice(0, 1600)).toContain('data-k="responsable"');
+  });
 });

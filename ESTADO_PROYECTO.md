@@ -4606,3 +4606,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-03 (123): Artículo común PQ de instrumentos (EQ-PQ-COM-001)
 - **Qué:** nuevo `docs/banco-ensayos/equipos/pq-comun.html` con EQ-PQ-COM-001 sin familia (cubre patrones, termopares, balanzas y lab analítico con vigencia durante todo el PQ). Extractor lo procesa antes que familias; lecho PQ 17 (16+1), autoclave 18 (17+1).
 - **Verificación:** Vitest 336/336, backend 60/60.
+
+### 2026-10-04 (124): Responsable automático desde login
+- **Qué:** campo `responsable` (SCHEMAS._comun) con `auto:'login'`: readonly + etiqueta "(automático)" vía fieldHtml, y llenado en `pintarFirmantes` con el mismo usuario de /api/me que Realizado por (nombre + cargo). Aplica a todas las categorías; offline usa el realizado guardado.
+- **Verificación:** Vitest 337/337, backend 60/60.
