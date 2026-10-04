@@ -4610,3 +4610,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-04 (124): Responsable automático desde login
 - **Qué:** campo `responsable` (SCHEMAS._comun) con `auto:'login'`: readonly + etiqueta "(automático)" vía fieldHtml, y llenado en `pintarFirmantes` con el mismo usuario de /api/me que Realizado por (nombre + cargo). Aplica a todas las categorías; offline usa el realizado guardado.
 - **Verificación:** Vitest 337/337, backend 60/60.
+
+### 2026-10-04 (125): OQ mezclador — 13 ensayos desde ENSAYOS.txt
+- **Qué:** nuevo `docs/banco-ensayos/equipos/oq-mezclador.html` (13 articles EQ-OQ-MZ-001…013, `familia="mezclador"`, 3 con `data-analisis` (006/007 del .txt + 010 uniformidad agregada), refs FDA/PQRI + Anexo 15 + GAMP5 + USP 1058 + anexos). Fuente: ENSAYOS.txt (seguridad 4-8, mecánico 9-12, contenedor 16-18).
+- **Verificación:** OQ real con 14 ensayos (13+COM), 11 H1; sin mezcla entre familias; Vitest 340/340, backend 60/60.

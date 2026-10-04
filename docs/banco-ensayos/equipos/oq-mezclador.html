@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos OQ — Mezclador</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>OQ — Mezclador V / bins (banco por familia)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-OQ-MZ 2026-10-04 v1</span></p>
+<p>Ensayos de Calificación de Operación específicos del mezclador (<span class="equipo">equipo</span>). Se filtran por familia (<code>data-familia="mezclador"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt de protocolo.</p>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq" data-familia="mezclador">
+<h2>OQ — Ensayos</h2>
+
+<div class="portada" data-bloque="1">
+<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>
+<p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+<p><strong>Calificación de Operación de <span class="equipo">equipo</span>:</strong> <span class="ent-descripcion">______</span></p>
+<ol>
+  <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+  <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+  <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+</ol>
+</div>
+
+<div class="firmas" data-bloque="1">
+<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>
+<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>
+<ol>
+  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+</ol>
+</div>
+
+<div class="responsabilidades" data-bloque="1">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+<p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+<ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class="equipo">equipo</span>, bins, placebo o excipiente, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>
+<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar el inicio de la PQ.</li></ol>
+<p><strong>Responsabilidad del Gerente de Área:</strong></p>
+<ol><li>Garantizar la disponibilidad del <span class="equipo">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>
+</div>
+
+<div class="alcance" data-bloque="1">
+<p><strong>ALCANCE</strong></p>
+<p>Esta calificación aplica a <span class="equipo">equipo</span>, según protocolo OQ, y cubre los ensayos listados en el índice.</p>
+</div>
+
+<div class="def-usp" data-bloque="1">
+<p><strong>DEFINICIÓN USP</strong></p>
+<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (USP &lt;1058&gt;).</p>
+</div>
+
+<div class="nota-datos" data-bloque="1">
+<p><strong>NOTA — DATOS DIGITALES</strong></p>
+<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>
+</div>
+
+<article data-bloque="3" id="art-EQ-OQ-MZ-001" class="ensayo" data-id="EQ-OQ-MZ-001" data-fase="OQ" data-cond="ambas" data-familia="mezclador">
+  <h3>EQ-OQ-MZ-001 — Parada de emergencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la parada de emergencia del <span class="equipo">equipo</span> detiene la rotación en el tiempo previsto y deja el equipo en estado seguro.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar IQ aprobada y <span class="equipo">equipo</span> liberado para OQ, con el bin acoplado y cargado según el procedimiento<br>
+  2) Arrancar la rotación a velocidad nominal y confirmar marcha estable<br>
+  3) Accionar la parada de emergencia y medir con cronómetro el tiempo hasta la detención total<br>
+  4) Confirmar el estado seguro: sin rotación, variador en falla o reposo según diseño, y mensaje en el HMI<br>
+  a) Tiempo de detención dentro del límite del fabricante<br>
+  5) Sin rearmar, intentar arrancar y confirmar que queda impedido<br>
+  6) Rearmar según el fabricante y confirmar condición segura sin arranque solo<br>
+  7) Repetir por cada parada de emergencia y dejar el <span class="equipo">equipo</span> en condición segura</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Detención en el tiempo previsto; estado seguro; sin arranque sin rearme.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de paradas con tiempos de detención medidos</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; GAMP5 2.ª ed.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-MZ-002" class="ensayo" data-id="EQ-OQ-MZ-002" data-fase="OQ" data-cond="ambas" data-familia="mezclador">
+  <h3>EQ-OQ-MZ-002 — Interlocks de seguridad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el <span class="equipo">equipo</span> no arranca ni continúa con la jaula o guarda abierta, el contenedor sin bloquear, el bin ausente o la puerta de carga abierta.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Dejar el <span class="equipo">equipo</span> detenido en condición segura y disponer de la matriz de interlocks<br>
+  2) Abrir la jaula o guarda e intentar arrancar<br>
+  a) El arranque queda inhibido con mensaje en el HMI<br>
+  3) Desbloquear el contenedor o retirar el bin e intentar arrancar<br>
+  a) El arranque queda inhibido con mensaje en el HMI<br>
+  4) Abrir la puerta de carga e intentar arrancar<br>
+  a) El arranque queda inhibido con mensaje en el HMI<br>
+  5) Arrancar en condición normal y abrir la guarda durante la marcha, confirmando la detención<br>
+  6) Restituir todo a normal, confirmar marcha permitida y cerrar la matriz</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100% de los interlocks inhibe el arranque o detiene la marcha.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de interlocks con condición, respuesta y mensaje</p>
+  <p><strong>Referencia:</strong><br>GAMP5 2.ª ed.; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-MZ-003" class="ensayo" data-id="EQ-OQ-MZ-003" data-fase="OQ" data-cond="ambas" data-familia="mezclador">
+  <h3>EQ-OQ-MZ-003 — Alarmas y límites</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada alarma del <span class="equipo">equipo</span> dispara en su límite y ejecuta su acción (sobrecorriente o sobrecarga del motor, sobrevelocidad, falla del variador y freno).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Listar las alarmas con sus límites según el HMI y el manual, con cronómetro y formato de registro<br>
+  2) Provocar o simular sobrecorriente o sobrecarga del motor y confirmar alarma con su acción<br>
+  a) Tiempo de respuesta menor a 5 segundos con acuse registrado<br>
+  3) Provocar o simular sobrevelocidad y confirmar alarma con su acción<br>
+  4) Simular falla del variador y confirmar alarma con detención segura<br>
+  5) Verificar la alarma o estado del freno según el diseño<br>
+  6) Acusar cada alarma, normalizar y confirmar el retorno a operación con el histórico completo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100% de las alarmas dispara, ejecuta su acción y queda registrada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de alarmas con límite, acción, tiempo y acuse</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; GAMP5 2.ª ed.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-MZ-004" class="ensayo" data-id="EQ-OQ-MZ-004" data-fase="OQ" data-cond="ambas" data-familia="mezclador">
+  <h3>EQ-OQ-MZ-004 — Falla y recuperación de energía</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que ante un corte de energía el <span class="equipo">equipo</span> queda en estado seguro, sin arranque espontáneo, y los datos se conservan.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Poner el <span class="equipo">equipo</span> en rotación nominal con receta de prueba y coordinar el corte real o simulado<br>
+  2) Cortar la energía, anotar la hora y confirmar el estado seguro (sin rotación, freno según diseño, alarmas)<br>
+  3) Esperar 5 minutos sin energía<br>
+  4) Restablecer y confirmar que no arranca solo y exige acción deliberada del operador<br>
+  5) Rearrancar manualmente, confirmar operación normal y verificar integridad de registros y contadores (ALCOA+)<br>
+  6) Anexar el registro del evento y la verificación de datos</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Estado seguro al corte; sin arranque espontáneo; datos íntegros.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del evento con hora y verificación de datos</p>
+  <p><strong>Referencia:</strong><br>GAMP5 2.ª ed.; 21 CFR Part 11.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-MZ-005" class="ensayo" data-id="EQ-OQ-MZ-005" data-fase="OQ" data-cond="ambas" data-familia="mezclador">
+  <h3>EQ-OQ-MZ-005 — Freno con carga máxima</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el tiempo y la distancia de frenado del <span class="equipo">equipo</span> con carga máxima.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Cargar el bin a la carga máxima declarada [ ] kg según la URS<br>
+  2) Rotar a velocidad nominal hasta marcha estable<br>
+  3) Ordenar la detención y medir con cronómetro el tiempo hasta detención total, repitiendo 3 veces<br>
+  4) Medir la distancia o vueltas de frenado (marcas de referencia en el bin y la estructura) en cada repetición<br>
+  a) Tiempo y distancia dentro del límite del fabricante en las 3 repeticiones<br>
+  5) Confirmar que el freno no patina ni genera ruidos anormales<br>
+  6) Anexar la tabla de tiempos y distancias por repetición</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Freno conforme en tiempo y distancia con carga máxima.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de tiempos y distancias de frenado por repetición</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-MZ-006" class="ensayo" data-analisis="si" data-id="EQ-OQ-MZ-006" data-fase="OQ" data-cond="ambas" data-familia="mezclador">
+  <h3>EQ-OQ-MZ-006 — Velocidad de rotación</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud de la velocidad de rotación del <span class="equipo">equipo</span> en mínimo, nominal y máximo contra tacómetro independiente.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Disponer de tacómetro con calibración vigente y definir los setpoints mínimo, nominal y máximo [ ] rpm<br>
+  2) Fijar la velocidad mínima, esperar estabilización y medir 3 lecturas con el tacómetro contra la indicación del equipo<br>
+  3) Repetir en velocidad nominal y en velocidad máxima<br>
+  4) Calcular el error porcentual por punto contra el tacómetro<br>
+  a) Error menor o igual a ±[2]% en los tres puntos<br>
+  5) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Exactitud ±2% en mínimo, nominal y máximo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de velocidad equipo contra tacómetro por punto<br>
+  - Data cruda y reporte estadístico del análisis de velocidad de rotación<br>
+  - Certificado del tacómetro</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt;; manual del fabricante.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-MZ-007" class="ensayo" data-analisis="si" data-id="EQ-OQ-MZ-007" data-fase="OQ" data-cond="ambas" data-familia="mezclador">
+  <h3>EQ-OQ-MZ-007 — Temporizador y contador de revoluciones</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud del temporizador y del contador de revoluciones del <span class="equipo">equipo</span> frente a un cronómetro de referencia.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Disponer de cronómetro de referencia calibrado o trazable<br>
+  2) Programar 3 tiempos (corto, medio y largo: [1], [10] y [30] min) y medir cada uno con el cronómetro<br>
+  3) Programar un número de revoluciones [ ] y contarlas de forma independiente (tacómetro con conteo o conteo manual asistido)<br>
+  4) Comparar tiempos y revoluciones del equipo contra la referencia<br>
+  a) Diferencia de tiempo menor o igual a ±[1]% o ±5 segundos, lo mayor<br>
+  b) Revoluciones exactas sin pérdidas de conteo<br>
+  5) Procesar los datos crudos de tiempos y revoluciones en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Temporizador y contador exactos en los puntos ensayados.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de tiempos y revoluciones equipo contra referencia<br>
+  - Data cruda y reporte estadístico del análisis de temporizador y revoluciones</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-MZ-008" class="ensayo" data-id="EQ-OQ-MZ-008" data-fase="OQ" data-cond="ambas" data-familia="mezclador">
+  <h3>EQ-OQ-MZ-008 — Sentido de giro y rampas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el sentido de giro y las rampas de aceleración y desaceleración del <span class="equipo">equipo</span>.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Marcar el sentido de giro de diseño en el bin y en la estructura<br>
+  2) Arrancar y confirmar visualmente el sentido correcto en ambos sentidos si el equipo es reversible<br>
+  3) Medir con cronómetro los tiempos de rampa de aceleración (reposo a nominal) y de desaceleración (nominal a reposo)<br>
+  4) Confirmar arranque y parada suaves, sin sacudidas ni sobrecorriente de arranque fuera de lo previsto<br>
+  a) Sentido correcto y rampas dentro de lo previsto por el fabricante<br>
+  5) Registrar tiempos de rampa y sentido por prueba</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sentido correcto y rampas conformes.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de sentido de giro y tiempos de rampa</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-MZ-009" class="ensayo" data-id="EQ-OQ-MZ-009" data-fase="OQ" data-cond="ambas" data-familia="mezclador">
+  <h3>EQ-OQ-MZ-009 — Posición de parada</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la precisión de la parada en posición de carga y de descarga del <span class="equipo">equipo</span>, repetida varias veces.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Marcar las posiciones de carga y de descarga con referencias fijas medibles (regla o goniómetro)<br>
+  2) Ordenar la parada en posición de carga 5 veces y medir la desviación en cada una<br>
+  3) Repetir 5 veces en posición de descarga<br>
+  4) Calcular la desviación máxima y promedio por posición<br>
+  a) Desviación dentro de la tolerancia que permite el acople y la descarga (±[ ] cm o grados)<br>
+  5) Anexar la tabla de desviaciones por repetición y posición</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Parada repetible en ambas posiciones dentro de tolerancia.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de desviaciones por repetición y posición</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-MZ-010" class="ensayo" data-analisis="si" data-id="EQ-OQ-MZ-010" data-fase="OQ" data-cond="ambas" data-familia="mezclador">
+  <h3>EQ-OQ-MZ-010 — Uniformidad de mezcla con placebo</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar la uniformidad de mezcla del <span class="equipo">equipo</span> con placebo o excipiente trazador, con muestreo estratificado y criterio RSD.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Cargar placebo o excipiente con trazador cuantificable a la carga de trabajo, según plan de mezcla aprobado (tiempo y velocidad nominales)<br>
+  2) Definir 10 puntos de muestreo como mínimo en dos profundidades del eje del bin, incluyendo zonas de riesgo (fondo, tapa, descarga)<br>
+  3) Tomar 3 réplicas por punto con muestreador validado, sin segregar la muestra<br>
+  4) Analizar el trazador por método validado y calcular media, SD y RSD del conjunto<br>
+  a) RSD menor o igual a 5,0% e individuales dentro de ±10% absoluto de la media<br>
+  5) Procesar los datos crudos de uniformidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Mezcla uniforme según criterio RSD.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Plano de puntos de muestreo con resultados por punto y réplica<br>
+  - Data cruda y reporte estadístico del análisis de uniformidad de mezcla<br>
+  - Método analítico del trazador</p>
+  <p><strong>Referencia:</strong><br>FDA/PQRI (uniformidad de mezcla en polvos); EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-MZ-011" class="ensayo" data-id="EQ-OQ-MZ-011" data-fase="OQ" data-cond="ambas" data-familia="mezclador">
+  <h3>EQ-OQ-MZ-011 — Bloqueo y acoplamiento del bin</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el mecanismo de bloqueo y acoplamiento del bin con carga máxima, sin holgura ni desacople durante la rotación; si hay varios bins, cada uno se califica o se justifica un agrupamiento.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Cargar el bin a la carga máxima declarada y acoplarlo según el procedimiento<br>
+  2) Activar el bloqueo y verificar retención: intentar el desacople manual (no debe soltarse) y medir holguras con galgas<br>
+  3) Rotar un ciclo completo observando el acople (sin ruidos, desplazamientos ni holgura progresiva)<br>
+  4) Repetir con cada bin del sitio, o documentar el agrupamiento justificado (mismo diseño, tolerancias y uso)<br>
+  a) Retención firme sin holgura fuera de tolerancia en todos los bins calificados<br>
+  5) Registrar bin por bin con su identificación y resultado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Bloqueo y acople firmes en todos los bins calificados o agrupamiento justificado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro por bin con holguras medidas o justificación de agrupamiento</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-MZ-012" class="ensayo" data-id="EQ-OQ-MZ-012" data-fase="OQ" data-cond="ambas" data-familia="mezclador">
+  <h3>EQ-OQ-MZ-012 — Válvula de descarga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la apertura, el cierre y la estanqueidad de la válvula de descarga del <span class="equipo">equipo</span>.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con el bin cargado con placebo, accionar la apertura y confirmar descarga completa sin atascos<br>
+  2) Cerrar y verificar estanqueidad: sin goteo ni fuga de polvo por la válvula cerrada durante la rotación<br>
+  3) Repetir apertura y cierre 3 veces<br>
+  4) Pesar el retenido en la válvula y zonas muertas, si aplica<br>
+  a) Apertura y cierre correctos con estanqueidad total<br>
+  5) Registrar cada accionamiento con su resultado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Válvula operativa y estanca.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de accionamientos de la válvula con resultados</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-MZ-013" class="ensayo" data-id="EQ-OQ-MZ-013" data-fase="OQ" data-cond="ambas" data-familia="mezclador">
+  <h3>EQ-OQ-MZ-013 — Sellos y juntas de la tapa (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los sellos y juntas de la tapa no fugan polvo con rotación y carga de placebo; si el diseño no lleva sellos, declarar No Aplica.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar si el <span class="equipo">equipo</span> lleva sellos o juntas en la tapa; si no, pasar al paso 4)<br>
+  2) Cargar placebo, cerrar y rotar un ciclo completo a velocidad nominal<br>
+  3) Inspeccionar tapa, sellos y alrededores: papel oscuro o paño para detectar fuga de polvo<br>
+  a) Sin fuga de polvo en sellos ni juntas<br>
+  4) Sin sellos en el diseño: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin fugas, o No Aplica justificado y firmado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de inspección de sellos o justificación de No Aplica firmada</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="4" id="art-EQ-OQ-MZ-RES" class="ensayo" data-id="EQ-OQ-MZ-RES" data-fase="OQ" data-cond="ambas" data-familia="mezclador">
+  <h3>EQ-OQ-MZ-RES — Tabla resumen de los ensayos del OQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ del mezclador para la tabla resumen del protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar que los ensayos EQ-OQ-MZ-001 a EQ-OQ-MZ-013 están incluidos en el índice del protocolo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los 13 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="6" id="art-EQ-OQ-MZ-REF" class="ensayo tabla-info" data-id="EQ-OQ-MZ-REF" data-fase="OQ" data-cond="ambas" data-familia="mezclador">
+  <h3>EQ-OQ-MZ-REF — Referencias del OQ de mezclador</h3>
+  <table>
+    <tr><th>SECCIÓN</th><th>TÍTULO</th><th>ESTADO</th></tr>
+    <tr><td>6.1</td><td>FDA/PQRI — Guía de uniformidad de mezcla en polvos: muestreo estratificado, RSD ≤5,0% e individuales ±10%</td><td>VIGENTE</td></tr>
+    <tr><td>6.2</td><td>EU GMP Anexo 15 — Cualificación y validación: la OQ demuestra operación según especificaciones aprobadas</td><td>VIGENTE</td></tr>
+    <tr><td>6.3</td><td>GAMP5 2.ª ed. — Challenge a funciones de seguridad, interlocks, alarmas e integridad de datos</td><td>VIGENTE</td></tr>
+    <tr><td>6.4</td><td>USP &lt;1058&gt; — Analytical Instrument Qualification: tacómetros, cronómetros e instrumentos asociados</td><td>VIGENTE</td></tr>
+    <tr><td>6.5</td><td>Manual del fabricante del mezclador — Velocidades, freno, bloqueo de bin y límites de diseño</td><td>VIGENTE</td></tr>
+  </table>
+</article>
+
+<div class="anexos" data-bloque="8">
+<p><strong>ANEXOS:</strong></p>
+<table>
+<tr><th>SECCIÓN</th><th>TÍTULO</th></tr>
+<tr><td>8.1</td><td>Anexo A — Registros de ciclos, tiempos, velocidades y revoluciones por ensayo</td></tr>
+<tr><td>8.2</td><td>Anexo B — Datos de uniformidad de mezcla, reportes analíticos y certificados de instrumentos</td></tr>
+<tr><td>8.3</td><td>Anexo C — Matrices de interlocks y alarmas, y registros por bin</td></tr>
+</table>
+</div>
+
+</section>
+
+</body>
+</html>
