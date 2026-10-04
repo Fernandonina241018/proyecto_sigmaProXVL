@@ -273,3 +273,47 @@ describe('data-analisis: paso + entregable estadístico en cada marcado', () => 
     }
   });
 });
+
+describe('puntosTabla: analisis → tabla de recolección vacía', () => {
+  const genPQ = async () => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));
+    const r = await P.generar('PQ', u8, banco,
+      { codigo: '400678', descripcion: 'Lecho fluido', fecha: '2026-10-03' },
+      { id: 'lecho-fluido', nombre: 'Lecho fluido' }, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    return arch['word/document.xml'];
+  };
+  const celdasFila = (tr) => [...tr.matchAll(/<w:tc\b[\s\S]*?<\/w:tc>/g)]
+    .map((m) => m[0].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim());
+
+  test('unitario: con analisis devuelve blancos del mismo largo', () => {
+    const e = { procedimiento: [{ nivel: 0, t: 'a' }, { nivel: 0, t: 'b' }], criterios: [] };
+    expect(P._interno.puntosTabla({ id: 'X', analisis: 'si' }, e)).toEqual(['', '']);
+    expect(P._interno.puntosTabla({ id: 'X' }, e)).toEqual(['a', 'b']);
+  });
+
+  test('en docx: tabla de ensayo con analisis sale vacía; sin analisis repite procedimiento', async () => {
+    const xml = await genPQ();
+    const tbls = [...xml.matchAll(/<w:tbl\b[\s\S]*?<\/w:tbl>/g)].map((m) => m[0]);
+    // solo tablas de verificación (caption Tabla 7.N-1): el TOC también lista títulos
+    const porTitulo = (t) => tbls.find((x) => {
+      const s = x.replace(/<[^>]+>/g, ' ');
+      return /Tabla 7\.\d+-1/.test(s) && s.includes(t) && !x.includes('CONCLUSI');
+    });
+    // EQ-PQ-LF-005 curva de secado (con analisis): celdas de datos vacías
+    // (el encabezado lleva el título con ID en caso original)
+    const tv = porTitulo('Curva de secado');
+    expect(tv).toBeTruthy();
+    const filasV = [...tv.matchAll(/<w:tr\b[\s\S]*?<\/w:tr>/g)].map((m) => m[0]);
+    expect(filasV.length).toBeGreaterThan(2);
+    for (const tr of filasV.slice(2)) {
+      const c = celdasFila(tr);
+      expect(c.length).toBeGreaterThanOrEqual(2);
+      expect(c[1]).toBe('');
+    }
+    // EQ-PQ-LF-001 tres lotes (sin analisis): repite el procedimiento
+    const tn = porTitulo('Tres lotes consecutivos');
+    expect(tn).toBeTruthy();
+    expect(tn.replace(/<[^>]+>/g, ' ')).toContain('lotes consecutivos');
+  });
+});

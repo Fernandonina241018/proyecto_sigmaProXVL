@@ -553,6 +553,15 @@ const PlantillaDocx = (() => {
     return pts.map((t) => t.replace(/:$/, ''));
   }
 
+  // Filas de la tabla de verificación: si el ensayo lleva análisis estadístico
+  // (data-analisis), la tabla de recolección sale VACÍA para llenar a mano en
+  // ejecución (misma cantidad de filas que puntos, sin repetir el procedimiento).
+  function puntosTabla(art, e) {
+    const pts = puntosVerificacion(e);
+    if (art && art.analisis) return pts.map(() => '');
+    return pts;
+  }
+
   const tituloLimpio = (art) => String(art.titulo || art.id || '')
     .replace(/^[A-Z]{2,5}-[A-Z]{2}(-[A-Z]{2})?-\d{2,4}\s*[—–-]\s*/, '').trim();
 
@@ -875,7 +884,7 @@ const PlantillaDocx = (() => {
       const usaRegistro = art.tablaTipo ? art.tablaTipo === 'registro'
         : (fase !== 'IQ' && !!T.registro && OPC.reRegistro.test(tit + ' ' + e.objetivo));
       if (usaRegistro && T.registro) TBL(tablaRegistro(T.registro, caption, tit, d, ctx));
-      else TBL(tablaVerificacion(T.verificacion, caption, tit, puntosVerificacion(e)));
+      else TBL(tablaVerificacion(T.verificacion, caption, tit, puntosTabla(art, e)));
       P(clonar(T.vacio));
       if (debeSaltarTabla(art.id, 'conclusion')) P(saltoPrevio());
       TBL(juntar(clonar(T.conclusion)));
@@ -1240,7 +1249,7 @@ const PlantillaDocx = (() => {
 
   return {
     FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, soporta, configurar, generar, descargar, banco,
-    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio },
+    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, puntosTabla, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio },
   };
 })();
 

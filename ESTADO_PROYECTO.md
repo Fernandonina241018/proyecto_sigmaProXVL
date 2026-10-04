@@ -4614,3 +4614,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-04 (125): OQ mezclador — 13 ensayos desde ENSAYOS.txt
 - **Qué:** nuevo `docs/banco-ensayos/equipos/oq-mezclador.html` (13 articles EQ-OQ-MZ-001…013, `familia="mezclador"`, 3 con `data-analisis` (006/007 del .txt + 010 uniformidad agregada), refs FDA/PQRI + Anexo 15 + GAMP5 + USP 1058 + anexos). Fuente: ENSAYOS.txt (seguridad 4-8, mecánico 9-12, contenedor 16-18).
 - **Verificación:** OQ real con 14 ensayos (13+COM), 11 H1; sin mezcla entre familias; Vitest 340/340, backend 60/60.
+
+### 2026-10-04 (126): Tabla de recolección vacía en ensayos con análisis
+- **Qué:** `puntosTabla(art, e)` en `plantilla-docx.js`: si el ensayo lleva `data-analisis`, su tabla de verificación sale con filas numeradas VACÍAS (misma cantidad, sin repetir el procedimiento) para llenar a mano en ejecución. Registro y modelo intactos; requisitos previos intactos.
+- **Verificación:** PQ lecho real: tabla de curva de secado con celdas vacías, tabla de tres lotes con texto; Vitest 342/342, backend 60/60.
