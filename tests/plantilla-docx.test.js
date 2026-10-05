@@ -422,18 +422,21 @@ describe('Objetivo en su propia línea (etiqueta sola + texto debajo)', () => {
 
   test('cada ensayo del banco: etiqueta sola + texto en el párrafo siguiente', async () => {
     const { r, xml } = await genPQ();
-    const paras = parasDe(xml).map(texto);
+    const raw = parasDe(xml);
+    const paras = raw.map(texto);
     // etiquetas exactas: una por ensayo del banco
     expect(paras.filter((t) => t === 'Objetivo:')).toHaveLength(r.ensayos.length);
     // el texto del objetivo de cada ensayo NO comparte párrafo con la etiqueta
+    // y conserva su número de acápite (numPr: está por debajo de Objetivo:)
     for (const id of r.ensayos) {
       const art = banco.fases.PQ.find((i) => i.id === id);
       const obj = art.secciones.find((s) => /^objetivo/i.test(s.et || ''));
       const plano = obj.html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
         .replace(/^Objetivo:\s*/i, '');
-      const holder = paras.find((t) => t.includes(plano.slice(0, 30)));
-      expect(holder).toBeTruthy();
-      expect(holder.startsWith('Objetivo:')).toBe(false);
+      const idx = paras.findIndex((t) => t.includes(plano.slice(0, 30)));
+      expect(idx).toBeGreaterThan(0);
+      expect(paras[idx].startsWith('Objetivo:')).toBe(false);
+      expect(/<w:numId/.test(raw[idx])).toBe(true);
     }
   });
 });

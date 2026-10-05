@@ -4633,3 +4633,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Qué:** `Objetivo:` dividido en etiqueta sola + párrafo de texto en vía plantilla (ensayos del banco y objetivo de requisitos/modelo, con splice + refresh de inf) y en DQ (etiqueta bold agregada en ensayoADoc, pues el DQ la omitía). Formato igual a Procedimiento/Criterios.
 - **Verificación:** PQ real con 17/17 etiquetas solas; Vitest 363/363, backend 60/60.
 - **Nota:** el "Objetivo:" del bloque USP del modelo conserva su formato original (contenido de plantilla, se edita en Word).
+
+### 2026-10-04 (130): Texto de Objetivo conserva su número de acápite
+- **Qué:** el párrafo de texto bajo `Objetivo:` conserva su `numPr` (misma lista numId/ilvl que la etiqueta), indicando que está por debajo de Objetivo como los demás ítems. Aplica en ensayos del banco y requisitos/modelo (vía plantilla). DQ sin numeración por diseño del motor.
+- **Verificación:** PQ real con numId=2/ilvl=2 en texto; Vitest 363/363, backend 60/60.
