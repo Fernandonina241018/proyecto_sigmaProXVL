@@ -409,3 +409,31 @@ describe('SALTO_TABLA: salto previo en conclusiones (prueba inicial)', () => {
     });
   });
 });
+
+describe('Objetivo en su propia línea (etiqueta sola + texto debajo)', () => {
+  const parasDe = (xml) => [...xml.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)].map((m) => m[0]);
+  const texto = (p) => p.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').replace(/ :/g, ':').trim();
+  const genPQ = async () => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));
+    const r = await P.generar('PQ', u8, banco, DRAFT, ENT, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    return { r, xml: arch['word/document.xml'] };
+  };
+
+  test('cada ensayo del banco: etiqueta sola + texto en el párrafo siguiente', async () => {
+    const { r, xml } = await genPQ();
+    const paras = parasDe(xml).map(texto);
+    // etiquetas exactas: una por ensayo del banco
+    expect(paras.filter((t) => t === 'Objetivo:')).toHaveLength(r.ensayos.length);
+    // el texto del objetivo de cada ensayo NO comparte párrafo con la etiqueta
+    for (const id of r.ensayos) {
+      const art = banco.fases.PQ.find((i) => i.id === id);
+      const obj = art.secciones.find((s) => /^objetivo/i.test(s.et || ''));
+      const plano = obj.html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+        .replace(/^Objetivo:\s*/i, '');
+      const holder = paras.find((t) => t.includes(plano.slice(0, 30)));
+      expect(holder).toBeTruthy();
+      expect(holder.startsWith('Objetivo:')).toBe(false);
+    }
+  });
+});

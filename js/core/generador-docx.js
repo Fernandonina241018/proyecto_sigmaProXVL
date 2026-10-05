@@ -416,6 +416,8 @@ const GeneradorDocx = (() => {
     const ensayoADoc = (it, ctx) => {
       H2(it.num + ' — ' + it.titulo, debeSaltar(it.articulo));
       (it.articulo.secciones || []).forEach((s) => {
+        // Etiqueta 'Objetivo:' sola en su línea (igual que en vía plantilla) + texto debajo
+        if (/^objetivo/i.test(s.et || '')) P([{ t: 'Objetivo:', b: true }]);
         htmlAParrafos(congelarMarcas(s.html.replace(/^<strong>[^<]*:<\/strong><br>\s*/i, ''), ctx))
           .forEach((p) => {
             const txt = p.runs.map((r) => r.t).join('');

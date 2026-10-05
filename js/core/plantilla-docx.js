@@ -840,7 +840,11 @@ const PlantillaDocx = (() => {
       if (OPC.incluirCodigoEnsayo) {
         P(parrafo(T.nota, [{ t: 'Código del ensayo en el banco: ', b: true }, { t: art.id }], { sinNum: true, runNormal: 1 }));
       }
-      if (e.objetivo) P(parrafo(T.objetivo, [{ t: 'Objetivo: ', b: true }, { t: e.objetivo }], { runNormal: 1 }));
+      if (e.objetivo) {
+        // Etiqueta sola en su línea (igual que Procedimiento/Criterios) + texto debajo
+        P(parrafo(T.etiqueta, [{ t: 'Objetivo:', b: true }]));
+        P(parrafo(T.objetivo, [{ t: e.objetivo }], { sinNum: true, runNormal: 1 }));
+      }
       const lista = (etq, its) => {
         if (!its.length) return;
         P(parrafo(T.etiqueta, [{ t: etq, b: true }]));
@@ -928,7 +932,12 @@ const PlantillaDocx = (() => {
       const pts = puntosVerificacion(e);
       for (let i = iReq + 1; i < parts.length && inf[i].estilo !== 'Heading1' && inf[i].estilo !== 'Heading2'; i++) {
         if (inf[i].tag === 'w:p' && /^Objetivo:/.test(inf[i].texto) && e.objetivo) {
-          parts[i] = { tag: 'w:p', xml: parrafo(parts[i].xml, [{ t: 'Objetivo: ', b: true }, { t: e.objetivo }], { runNormal: 1 }) };
+          // Etiqueta sola en su línea + texto debajo (igual que en ensayos)
+          parts.splice(i, 1,
+            { tag: 'w:p', xml: parrafo(parts[i].xml, [{ t: 'Objetivo:', b: true }]) },
+            { tag: 'w:p', xml: parrafo(parts[i].xml, [{ t: e.objetivo }], { sinNum: true, runNormal: 1 }) });
+          inf = parts.map(info);
+          i++; // el bucle avanza al párrafo de texto ya procesado
         }
         if (inf[i].tag === 'w:tbl' && /^Tabla/.test(inf[i].texto) && /Requisito/i.test(inf[i].texto)) {
           const fs = filas(parts[i].xml);

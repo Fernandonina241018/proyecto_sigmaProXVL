@@ -4628,3 +4628,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Fix propio del review:** `contarGen(fase,cond,catId,entId)` filtra por familia (paso 3 mostraba conteos inflados) + test.
 - **Fix adicional:** fila REF 6.6 USP<1211> → Anexo 1 (hallazgo del contrato).
 - **Verificación:** OQ lecho real 12 ensayos; Vitest 360/360 (26 files), backend 60/60.
+
+### 2026-10-04 (129): Objetivo en su propia línea (etiqueta sola + texto debajo)
+- **Qué:** `Objetivo:` dividido en etiqueta sola + párrafo de texto en vía plantilla (ensayos del banco y objetivo de requisitos/modelo, con splice + refresh de inf) y en DQ (etiqueta bold agregada en ensayoADoc, pues el DQ la omitía). Formato igual a Procedimiento/Criterios.
+- **Verificación:** PQ real con 17/17 etiquetas solas; Vitest 363/363, backend 60/60.
+- **Nota:** el "Objetivo:" del bloque USP del modelo conserva su formato original (contenido de plantilla, se edita en Word).

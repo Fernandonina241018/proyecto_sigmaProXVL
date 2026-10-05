@@ -357,3 +357,23 @@ describe('puntosTabla: analisis → tabla de recolección vacía', () => {
     expect(tn.replace(/<[^>]+>/g, ' ')).toContain('lotes consecutivos');
   });
 });
+
+describe('Objetivo en su propia línea (requisitos del modelo)', () => {
+  test('IQ equipos: objetivo de requisitos previos dividido', async () => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.IQ)));
+    const r = await P.generar('IQ', u8, banco, DRAFT,
+      { id: 'balanza', nombre: 'Balanza' }, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    const xml = arch['word/document.xml'];
+    const paras = [...xml.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)]
+      .map((m) => m[0].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').replace(/ :/g, ':').trim());
+    // etiqueta exacta presente y texto de requisitos fuera de ella
+    expect(paras).toContain('Objetivo:');
+    const art = banco.fases.IQ.find((i) => /requisitos previos/i.test(i.titulo || ''));
+    const plano = art.secciones.find((s) => /^objetivo/i.test(s.et || '')).html
+      .replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().replace(/^Objetivo:\s*/i, '');
+    const holder = paras.find((t) => t.includes(plano.slice(0, 30)));
+    expect(holder).toBeTruthy();
+    expect(holder.startsWith('Objetivo:')).toBe(false);
+  });
+});

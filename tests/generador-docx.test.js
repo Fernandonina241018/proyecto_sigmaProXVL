@@ -321,3 +321,20 @@ describe('data-analisis en almacenes: paso + entregable estadístico', () => {
     }
   });
 });
+
+describe('Objetivo en su propia línea en DQ', () => {
+  test('etiqueta sola + texto debajo por ensayo con objetivo', async () => {
+    const docx = require('docx');
+    const { unzipXml } = await import('./helpers/unzip-xml.mjs');
+    const m = GeneradorDocx.buildModelo('DQ', DRAFT, ENT, 'ambas');
+    const proc = m.secciones.find((s) => s.h1.startsWith('PROCEDIMIENTO')).contenido
+      .filter((it) => it.t === 'ensayo');
+    const conObj = proc.filter((it) => (it.articulo.secciones || []).some((s) => /^objetivo/i.test(s.et || '')));
+    expect(conObj.length).toBeGreaterThan(0);
+    const buf = await docx.Packer.toBuffer(GeneradorDocx.modeloADocx(m));
+    const xml = unzipXml(buf, 'word/document.xml');
+    const paras = [...xml.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)]
+      .map((x) => x[0].replace(/<[^>]+>/g, '').trim().replace(/\s+/g, ' '));
+    expect(paras.filter((t) => t === 'Objetivo:')).toHaveLength(conObj.length);
+  }, 30000);
+});
