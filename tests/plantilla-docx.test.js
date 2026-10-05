@@ -424,10 +424,16 @@ describe('Objetivo en su propia línea (etiqueta sola + texto debajo)', () => {
     const { r, xml } = await genPQ();
     const raw = parasDe(xml);
     const paras = raw.map(texto);
+    const numDe = (p) => {
+      const pr = (/<w:pPr>[\s\S]*?<\/w:pPr>/.exec(p) || [''])[0];
+      const n = /<w:numId w:val="(\d+)"/.exec(pr);
+      const l = /<w:ilvl w:val="(\d+)"/.exec(pr);
+      return { numId: n && n[1], ilvl: l && +l[1] };
+    };
     // etiquetas exactas: una por ensayo del banco
     expect(paras.filter((t) => t === 'Objetivo:')).toHaveLength(r.ensayos.length);
     // el texto del objetivo de cada ensayo NO comparte párrafo con la etiqueta
-    // y conserva su número de acápite (numPr: está por debajo de Objetivo:)
+    // y va en SUBNIVEL (7.2.1.1): mismo numId, ilvl +1 respecto a la etiqueta
     for (const id of r.ensayos) {
       const art = banco.fases.PQ.find((i) => i.id === id);
       const obj = art.secciones.find((s) => /^objetivo/i.test(s.et || ''));
@@ -437,6 +443,11 @@ describe('Objetivo en su propia línea (etiqueta sola + texto debajo)', () => {
       expect(idx).toBeGreaterThan(0);
       expect(paras[idx].startsWith('Objetivo:')).toBe(false);
       expect(/<w:numId/.test(raw[idx])).toBe(true);
+      const lab = numDe(raw[idx - 1]);
+      const txt = numDe(raw[idx]);
+      expect(paras[idx - 1]).toBe('Objetivo:');
+      expect(txt.numId).toBe(lab.numId);
+      expect(txt.ilvl).toBe(lab.ilvl + 1);
     }
   });
 });

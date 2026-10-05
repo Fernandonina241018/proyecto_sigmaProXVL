@@ -4637,3 +4637,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-04 (130): Texto de Objetivo conserva su número de acápite
 - **Qué:** el párrafo de texto bajo `Objetivo:` conserva su `numPr` (misma lista numId/ilvl que la etiqueta), indicando que está por debajo de Objetivo como los demás ítems. Aplica en ensayos del banco y requisitos/modelo (vía plantilla). DQ sin numeración por diseño del motor.
 - **Verificación:** PQ real con numId=2/ilvl=2 en texto; Vitest 363/363, backend 60/60.
+
+### 2026-10-04 (131): Texto de Objetivo en subnivel 7.2.1.1
+- **Qué:** el párrafo de texto bajo `Objetivo:` usa mismo numId con ilvl+1 (7.2.1 → 7.2.1.1) en ensayos y requisitos. Hallazgo: `ajustarPPr` exigía `<w:ilvl .../>` sin espacio y las plantillas traen `<w:ilvl ... />` → reemplazo silencioso sin efecto; regex tolerante a espacio ahora (también en numId).
+- **Verificación:** PQ real etiqueta ilvl=2 / texto ilvl=3 misma lista; Vitest 363/363, backend 60/60.
