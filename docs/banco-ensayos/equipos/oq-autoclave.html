@@ -12,7 +12,7 @@
 
 <p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
 <h2>OQ — Autoclave (banco por familia)</h2>
-<p>Versión del banco: <span data-banco-version>EQ-OQ-AU 2026-10-03 v1</span></p>
+<p>Versión del banco: <span data-banco-version>EQ-OQ-AU 2026-10-05 v2</span></p>
 <p>Ensayos de Calificación de Operación específicos del autoclave (<span class="equipo">equipo</span>). Se filtran por familia (<code>data-familia="autoclave"</code>) según la entidad elegida en el paso 1.</p>
 
 <!-- ================= OQ ================= -->
@@ -250,7 +250,7 @@
   6) Anexar la curva de presión contra tiempo con el cálculo de la tasa<br>
   7) Procesar los datos crudos de presión de la prueba de fuga (tasa y curva) en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Tasa de fuga conforme al criterio adoptado.</p>
+  Tasa de fuga menor o igual a 0,13 kPa/min (EN 285), o el criterio más estricto de la URS registrado en el protocolo antes de la ejecución.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Curva de presión contra tiempo con cálculo de tasa<br>
   - Certificado del instrumento de medición<br>
@@ -262,7 +262,7 @@
   <h3>EQ-OQ-AU-011 — Bowie-Dick o equivalente</h3>
   <p><strong>Objetivo:</strong><br>Verificar la penetración de vapor y la remoción de aire en cargas porosas del <span class="equipo">equipo</span> con paquete de prueba.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Preparar el paquete Bowie-Dick textil o el indicador Clase B según ISO 11140, y ubicarlo en el punto definido (típicamente centro-bajo, sobre el drenaje)<br>
+  1) Preparar el paquete Bowie-Dick textil estándar (EN 285) con hoja indicadora clase 2 según ISO 11140-5, o el dispositivo alternativo clase 2 según ISO 11140-4, y ubicarlo en el punto definido (típicamente centro-bajo, sobre el drenaje)<br>
   2) Correr el ciclo Bowie-Dick a 134 °C por 3,5 minutos o el programa del <span class="equipo">equipo</span><br>
   3) Evaluar la hoja indicadora inmediatamente después del ciclo: viraje uniforme sin zonas sin procesar<br>
   4) Repetir en 3 corridas según el procedimiento<br>
@@ -273,7 +273,7 @@
   Viraje uniforme en todas las corridas; pasa o no pasa por uniformidad.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Hojas indicadoras anexadas y firmadas</p>
-  <p><strong>Referencia:</strong><br>EN 285 §17; ISO 11140.</p>
+  <p><strong>Referencia:</strong><br>EN 285 §17; ISO 11140-4 e ISO 11140-5 (indicadores clase 2 para remoción de aire).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-012" class="ensayo" data-id="EQ-OQ-AU-012" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
@@ -329,7 +329,8 @@
   - Curvas de temperatura y tabla por sensor con ΔT<br>
   - Certificados de los termopares<br>
   - Data cruda y reporte estadístico del análisis de temperatura del mapeo en cámara vacía</p>
-  <p><strong>Referencia:</strong><br>EN 285 §16 (termometría); USP &lt;1229.1&gt;.</p>
+  <p><strong>Nota:</strong><br>El número y la ubicación de los termopares se justifican en el plano según el volumen útil y la geometría de la cámara (drenaje, entrada de vapor, zona de puerta y esquinas); 10 es el mínimo del banco y se aumenta en cámaras grandes.</p>
+  <p><strong>Referencia:</strong><br>EN 285 §16 (termometría); ISO 17665-1; USP &lt;1229.1&gt;; PDA TR-01.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-015" class="ensayo" data-analisis="si" data-id="EQ-OQ-AU-015" data-fase="OQ" data-cond="ambas" data-familia="autoclave">

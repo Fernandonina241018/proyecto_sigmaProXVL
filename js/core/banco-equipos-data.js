@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-02 v1 + EQ-OQ-AU 2026-10-03 v1 + EQ-OQ-MZ 2026-10-04 v1 + EQ-PQ-LF 2026-10-03 v1 + EQ-PQ-AU 2026-10-03 v1 + EQ-PQ-MZ 2026-10-04 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-02 v1 + EQ-OQ-AU 2026-10-03 v1 + EQ-OQ-MZ 2026-10-04 v1 + EQ-PQ-LF 2026-10-03 v1 + EQ-PQ-AU 2026-10-03 v1 + EQ-PQ-MZ 2026-10-04 v1",
+ "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -1115,7 +1115,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Exactitud ±0,5 °C en los tres setpoints; estabilidad ±1 °C durante 30 minutos.<br>\n  Tiempo de respuesta dentro del límite del fabricante."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Exactitud ±0,5 °C en los tres setpoints; estabilidad ±1 °C durante 30 minutos.<br>\n  Tiempo de respuesta menor o igual al declarado por el fabricante (registrar el valor y su fuente antes de iniciar)."
      },
      {
       "et": "Documentos entregables",
@@ -1175,7 +1175,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Conectar el manómetro diferencial calibrado a la toma de la cámara y al ambiente, verificando mangueras sin fugas ni dobleces, con puertas cerradas y el <span class=\"equipo\">equipo</span> en marcha nominal<br>\n  2) Registrar el ΔP cada 5 minutos durante 30 minutos en marcha nominal<br>\n  a) El 100% de las lecturas está dentro de la especificación de diseño<br>\n  3) Abrir la puerta 10 segundos y cerrarla, midiendo el tiempo de recuperación del ΔP<br>\n  4) Simular la pérdida del diferencial según el diseño y confirmar la alarma correspondiente<br>\n  5) Normalizar, confirmar el retorno del ΔP y el silencio de la alarma<br>\n  6) Anexar la tabla de ΔP por condición con el instrumento utilizado y su certificado"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Conectar el manómetro diferencial calibrado a la toma de la cámara y al ambiente, verificando mangueras sin fugas ni dobleces, con puertas cerradas y el <span class=\"equipo\">equipo</span> en marcha nominal<br>\n  2) Registrar el ΔP cada 5 minutos durante 30 minutos en marcha nominal<br>\n  a) El 100% de las lecturas está dentro de la especificación de diseño (registrar el rango de ΔP y su fuente antes de iniciar)<br>\n  3) Abrir la puerta 10 segundos y cerrarla, midiendo el tiempo de recuperación del ΔP<br>\n  4) Simular la pérdida del diferencial según el diseño y confirmar la alarma correspondiente<br>\n  5) Normalizar, confirmar el retorno del ΔP y el silencio de la alarma<br>\n  6) Anexar la tabla de ΔP por condición con el instrumento utilizado y su certificado"
      },
      {
       "et": "Criterio de aceptación",
@@ -1707,7 +1707,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tasa de fuga conforme al criterio adoptado."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tasa de fuga menor o igual a 0,13 kPa/min (EN 285), o el criterio más estricto de la URS registrado en el protocolo antes de la ejecución."
      },
      {
       "et": "Documentos entregables",
@@ -1735,7 +1735,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Preparar el paquete Bowie-Dick textil o el indicador Clase B según ISO 11140, y ubicarlo en el punto definido (típicamente centro-bajo, sobre el drenaje)<br>\n  2) Correr el ciclo Bowie-Dick a 134 °C por 3,5 minutos o el programa del <span class=\"equipo\">equipo</span><br>\n  3) Evaluar la hoja indicadora inmediatamente después del ciclo: viraje uniforme sin zonas sin procesar<br>\n  4) Repetir en 3 corridas según el procedimiento<br>\n  a) Viraje uniforme en todas las corridas<br>\n  5) Ante cualquier falla, investigar aire residual (fuga, vapor o vacío) antes de continuar con la calificación<br>\n  6) Anexar las hojas indicadoras firmadas al protocolo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Preparar el paquete Bowie-Dick textil estándar (EN 285) con hoja indicadora clase 2 según ISO 11140-5, o el dispositivo alternativo clase 2 según ISO 11140-4, y ubicarlo en el punto definido (típicamente centro-bajo, sobre el drenaje)<br>\n  2) Correr el ciclo Bowie-Dick a 134 °C por 3,5 minutos o el programa del <span class=\"equipo\">equipo</span><br>\n  3) Evaluar la hoja indicadora inmediatamente después del ciclo: viraje uniforme sin zonas sin procesar<br>\n  4) Repetir en 3 corridas según el procedimiento<br>\n  a) Viraje uniforme en todas las corridas<br>\n  5) Ante cualquier falla, investigar aire residual (fuga, vapor o vacío) antes de continuar con la calificación<br>\n  6) Anexar las hojas indicadoras firmadas al protocolo"
      },
      {
       "et": "Criterio de aceptación",
@@ -1747,7 +1747,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>EN 285 §17; ISO 11140."
+      "html": "<strong>Referencia:</strong><br>EN 285 §17; ISO 11140-4 e ISO 11140-5 (indicadores clase 2 para remoción de aire)."
      }
     ],
     "tabla": null,
@@ -1839,8 +1839,12 @@ var BancoEquipos = {
       "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de ubicación de termopares<br>\n  - Curvas de temperatura y tabla por sensor con ΔT<br>\n  - Certificados de los termopares<br>\n  - Data cruda y reporte estadístico del análisis de temperatura del mapeo en cámara vacía"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El número y la ubicación de los termopares se justifican en el plano según el volumen útil y la geometría de la cámara (drenaje, entrada de vapor, zona de puerta y esquinas); 10 es el mínimo del banco y se aumenta en cámaras grandes."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>EN 285 §16 (termometría); USP &lt;1229.1&gt;."
+      "html": "<strong>Referencia:</strong><br>EN 285 §16 (termometría); ISO 17665-1; USP &lt;1229.1&gt;; PDA TR-01."
      }
     ],
     "tabla": null,
@@ -2244,11 +2248,11 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar el bin a la carga máxima declarada [ ] kg según la URS<br>\n  2) Rotar a velocidad nominal hasta marcha estable<br>\n  3) Ordenar la detención y medir con cronómetro el tiempo hasta detención total, repitiendo 3 veces<br>\n  4) Medir la distancia o vueltas de frenado (marcas de referencia en el bin y la estructura) en cada repetición<br>\n  a) Tiempo y distancia dentro del límite del fabricante en las 3 repeticiones<br>\n  5) Confirmar que el freno no patina ni genera ruidos anormales<br>\n  6) Anexar la tabla de tiempos y distancias por repetición"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar el bin a la carga máxima declarada en la URS (registrar el valor en kg y su fuente antes de iniciar)<br>\n  2) Rotar a velocidad nominal hasta marcha estable<br>\n  3) Ordenar la detención y medir con cronómetro el tiempo hasta detención total, repitiendo 3 veces<br>\n  4) Medir la distancia o vueltas de frenado (marcas de referencia en el bin y la estructura) en cada repetición<br>\n  a) Tiempo y distancia dentro del límite del fabricante en las 3 repeticiones<br>\n  5) Confirmar que el freno no patina ni genera ruidos anormales<br>\n  6) Anexar la tabla de tiempos y distancias por repetición"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Freno conforme en tiempo y distancia con carga máxima."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tiempo y distancia de frenado dentro del límite del fabricante en las 3 repeticiones con carga máxima, sin patinaje (límite y fuente registrados antes de iniciar)."
      },
      {
       "et": "Documentos entregables",
@@ -2275,7 +2279,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Disponer de tacómetro con calibración vigente y definir los setpoints mínimo, nominal y máximo [ ] rpm<br>\n  2) Fijar la velocidad mínima, esperar estabilización y medir 3 lecturas con el tacómetro contra la indicación del equipo<br>\n  3) Repetir en velocidad nominal y en velocidad máxima<br>\n  4) Calcular el error porcentual por punto contra el tacómetro<br>\n  a) Error menor o igual a ±[2]% en los tres puntos<br>\n  5) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Disponer de tacómetro con calibración vigente y definir los setpoints mínimo, nominal y máximo (registrar los valores en rpm según la URS o el manual del fabricante)<br>\n  2) Fijar la velocidad mínima, esperar estabilización y medir 3 lecturas con el tacómetro contra la indicación del equipo<br>\n  3) Repetir en velocidad nominal y en velocidad máxima<br>\n  4) Calcular el error porcentual por punto contra el tacómetro<br>\n  a) Error menor o igual a ±[2]% en los tres puntos<br>\n  5) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Criterio de aceptación",
@@ -2307,7 +2311,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Disponer de cronómetro de referencia calibrado o trazable<br>\n  2) Programar 3 tiempos (corto, medio y largo: [1], [10] y [30] min) y medir cada uno con el cronómetro<br>\n  3) Programar un número de revoluciones [ ] y contarlas de forma independiente (tacómetro con conteo o conteo manual asistido)<br>\n  4) Comparar tiempos y revoluciones del equipo contra la referencia<br>\n  a) Diferencia de tiempo menor o igual a ±[1]% o ±5 segundos, lo mayor<br>\n  b) Revoluciones exactas sin pérdidas de conteo<br>\n  5) Procesar los datos crudos de tiempos y revoluciones en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Disponer de cronómetro de referencia calibrado o trazable<br>\n  2) Programar 3 tiempos (corto, medio y largo: [1], [10] y [30] min) y medir cada uno con el cronómetro<br>\n  3) Programar un número de revoluciones (100 o el valor de la receta, registrado antes de iniciar) y contarlas de forma independiente (tacómetro con conteo o conteo manual asistido)<br>\n  4) Comparar tiempos y revoluciones del equipo contra la referencia<br>\n  a) Diferencia de tiempo menor o igual a ±[1]% o ±5 segundos, lo mayor<br>\n  b) Revoluciones exactas sin pérdidas de conteo<br>\n  5) Procesar los datos crudos de tiempos y revoluciones en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Criterio de aceptación",
@@ -2370,7 +2374,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Marcar las posiciones de carga y de descarga con referencias fijas medibles (regla o goniómetro)<br>\n  2) Ordenar la parada en posición de carga 5 veces y medir la desviación en cada una<br>\n  3) Repetir 5 veces en posición de descarga<br>\n  4) Calcular la desviación máxima y promedio por posición<br>\n  a) Desviación dentro de la tolerancia que permite el acople y la descarga (±[ ] cm o grados)<br>\n  5) Anexar la tabla de desviaciones por repetición y posición"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Marcar las posiciones de carga y de descarga con referencias fijas medibles (regla o goniómetro)<br>\n  2) Ordenar la parada en posición de carga 5 veces y medir la desviación en cada una<br>\n  3) Repetir 5 veces en posición de descarga<br>\n  4) Calcular la desviación máxima y promedio por posición<br>\n  a) Desviación dentro de la tolerancia que permite el acople y la descarga (tolerancia del fabricante registrada en cm o grados antes de iniciar)<br>\n  5) Anexar la tabla de desviaciones por repetición y posición"
      },
      {
       "et": "Criterio de aceptación",
@@ -2677,7 +2681,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Aprobar el análisis de riesgo que justifica el número de lotes (mínimo tres consecutivos) y anexarlo al protocolo<br>\n  2) Definir la carga habitual [ ] kg, la receta nominal (temperatura, flujo, tiempos) y los atributos a medir por lote<br>\n  3) Ejecutar el lote 1 a condiciones nominales registrando todos los parámetros críticos del ciclo<br>\n  4) Repetir en forma consecutiva los lotes 2 y 3 sin cambios al proceso entre ellos<br>\n  5) Medir en cada lote los atributos de calidad (humedad, granulometría, densidad) según los ensayos EQ-PQ-LF-004 a EQ-PQ-LF-006<br>\n  6) Comparar los tres lotes entre sí<br>\n  a) Los tres lotes cumplen todos los atributos dentro de especificación<br>\n  b) No hay tendencias ni desviaciones sin causa asignable entre lotes<br>\n  7) Documentar cualquier desviación, alarma o intervención ocurrida durante las corridas"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Aprobar el análisis de riesgo que justifica el número de lotes (mínimo tres consecutivos) y anexarlo al protocolo<br>\n  2) Definir la carga habitual (registrar en kg según el BMR), la receta nominal (temperatura, flujo, tiempos) y los atributos a medir por lote<br>\n  3) Ejecutar el lote 1 a condiciones nominales registrando todos los parámetros críticos del ciclo<br>\n  4) Repetir en forma consecutiva los lotes 2 y 3 sin cambios al proceso entre ellos<br>\n  5) Medir en cada lote los atributos de calidad (humedad, granulometría, densidad) según los ensayos EQ-PQ-LF-004 a EQ-PQ-LF-006<br>\n  6) Comparar los tres lotes entre sí<br>\n  a) Los tres lotes cumplen todos los atributos dentro de especificación<br>\n  b) No hay tendencias ni desviaciones sin causa asignable entre lotes<br>\n  7) Documentar cualquier desviación, alarma o intervención ocurrida durante las corridas"
      },
      {
       "et": "Criterio de aceptación",
@@ -2708,7 +2712,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir la carga mínima [ ] kg y la carga máxima [ ] kg del rango declarado en la URS<br>\n  2) Ejecutar una corrida completa con carga mínima registrando parámetros y atributos (humedad, uniformidad)<br>\n  3) Ejecutar una corrida completa con carga máxima registrando los mismos atributos<br>\n  4) Comparar ambas corridas contra la corrida nominal del ensayo EQ-PQ-LF-001<br>\n  a) Carga mínima y máxima cumplen humedad y uniformidad dentro de especificación<br>\n  5) Registrar tiempos de secado por carga y confirmar que están dentro de lo previsto en la receta"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir la carga mínima y la carga máxima del rango declarado en la URS (registrar ambos valores en kg)<br>\n  2) Ejecutar una corrida completa con carga mínima registrando parámetros y atributos (humedad, uniformidad)<br>\n  3) Ejecutar una corrida completa con carga máxima registrando los mismos atributos<br>\n  4) Comparar ambas corridas contra la corrida nominal del ensayo EQ-PQ-LF-001<br>\n  a) Carga mínima y máxima cumplen humedad y uniformidad dentro de especificación<br>\n  5) Registrar tiempos de secado por carga y confirmar que están dentro de lo previsto en la receta"
      },
      {
       "et": "Criterio de aceptación",
@@ -2717,6 +2721,10 @@ var BancoEquipos = {
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de ciclo y atributos por carga extrema<br>\n  - Comparativa contra corrida nominal"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Se ejecuta una corrida por extremo porque la repetibilidad se demuestra en los tres lotes nominales del ensayo EQ-PQ-LF-001 (bracketing). Si el análisis de riesgo no sustenta el bracketing, repetir cada extremo en tres corridas."
      },
      {
       "et": "Referencia",
@@ -2739,7 +2747,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el peor caso con el análisis de riesgo: humedad inicial máxima [ ]%, flujo en límite bajo [ ] m³/h y temperatura en el límite ([alto/bajo] según riesgo)<br>\n  2) Preparar la masa con la mayor humedad inicial del rango y verificarla antes de cargar<br>\n  3) Ejecutar la corrida completa en peor caso registrando parámetros, alarmas y atributos<br>\n  4) Medir humedad final y uniformidad en múltiples ubicaciones según el ensayo EQ-PQ-LF-004<br>\n  5) Confirmar que el tiempo de secado está dentro del máximo previsto<br>\n  a) Humedad y uniformidad conformes aun en peor caso<br>\n  6) Documentar alarmas o intervenciones y su tratamiento"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el peor caso con el análisis de riesgo: humedad inicial máxima, flujo en el límite bajo y temperatura en el límite alto o bajo según el riesgo (registrar los valores en %, m³/h y °C con su fuente: BMR, desarrollo o URS)<br>\n  2) Preparar la masa con la mayor humedad inicial del rango y verificarla antes de cargar<br>\n  3) Ejecutar la corrida completa en peor caso registrando parámetros, alarmas y atributos<br>\n  4) Medir humedad final y uniformidad en múltiples ubicaciones según el ensayo EQ-PQ-LF-004<br>\n  5) Confirmar que el tiempo de secado está dentro del máximo previsto<br>\n  a) Humedad y uniformidad conformes aun en peor caso<br>\n  6) Documentar alarmas o intervenciones y su tratamiento"
      },
      {
       "et": "Criterio de aceptación",
@@ -2748,6 +2756,10 @@ var BancoEquipos = {
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Definición del peor caso con análisis de riesgo<br>\n  - Registro de ciclo y atributos del peor caso"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Una corrida en peor caso es suficiente cuando el análisis de riesgo lo justifica y la repetibilidad está demostrada en EQ-PQ-LF-001; en caso contrario, ejecutar tres corridas."
      },
      {
       "et": "Referencia",
@@ -2770,7 +2782,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el punto final por humedad [ ]% LOD según la especificación del producto y el método (balanza halógena o Karl Fischer)<br>\n  2) Al alcanzar el punto final en cada corrida (nominal, extremos y peor caso), tomar muestras por triplicado en 4 ubicaciones: superior, medio, inferior y lateral del lecho<br>\n  3) Medir la humedad de cada muestra con instrumento calibrado y registrar con identificación de ubicación y hora<br>\n  4) Calcular por corrida el promedio, el rango y el RSD entre ubicaciones<br>\n  a) Todas las ubicaciones dentro de la especificación de humedad<br>\n  b) El RSD entre ubicaciones es menor o igual a [5]%<br>\n  5) Repetir el muestreo en los tres lotes nominales y comparar la repetibilidad entre lotes<br>\n  6) Procesar los datos crudos de humedad residual y uniformidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el punto final por humedad según la especificación del producto (registrar el límite en % LOD) y el método (balanza halógena o Karl Fischer)<br>\n  2) Al alcanzar el punto final en cada corrida (nominal, extremos y peor caso), tomar muestras por triplicado en 4 ubicaciones: superior, medio, inferior y lateral del lecho<br>\n  3) Medir la humedad de cada muestra con instrumento calibrado y registrar con identificación de ubicación y hora<br>\n  4) Calcular por corrida el promedio, el rango y el RSD entre ubicaciones<br>\n  a) Todas las ubicaciones dentro de la especificación de humedad<br>\n  b) El RSD entre ubicaciones es menor o igual a [5]%<br>\n  5) Repetir el muestreo en los tres lotes nominales y comparar la repetibilidad entre lotes<br>\n  6) Procesar los datos crudos de humedad residual y uniformidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -2846,7 +2858,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;786&gt; (tamaño de partícula); USP &lt;616&gt; (densidad aparente y compactada)."
+      "html": "<strong>Referencia:</strong><br>USP &lt;786&gt; (tamizado); USP &lt;429&gt; (difracción láser); USP &lt;616&gt; (densidad aparente y compactada)."
      }
     ],
     "tabla": null,
@@ -3022,7 +3034,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la temperatura de producto (sonda en lecho) y del aire de salida cada [10] minutos durante cada corrida<br>\n  2) Comparar contra los límites del proceso: producto [ ] °C y salida [ ] °C<br>\n  3) Confirmar que no se exceden los límites en ningún momento del ciclo<br>\n  4) Correlacionar con la curva de secado del ensayo EQ-PQ-LF-005 (meseta de temperatura al punto final)<br>\n  a) Temperaturas dentro de límites durante todo el ciclo<br>\n  5) Anexar las curvas de temperatura por corrida<br>\n  6) Procesar los datos crudos de temperatura de producto y aire de salida en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la temperatura de producto (sonda en lecho) y del aire de salida cada [10] minutos durante cada corrida<br>\n  2) Comparar contra los límites del proceso: producto y salida según la receta aprobada (registrar ambos límites en °C antes de iniciar)<br>\n  3) Confirmar que no se exceden los límites en ningún momento del ciclo<br>\n  4) Correlacionar con la curva de secado del ensayo EQ-PQ-LF-005 (meseta de temperatura al punto final)<br>\n  a) Temperaturas dentro de límites durante todo el ciclo<br>\n  5) Anexar las curvas de temperatura por corrida<br>\n  6) Procesar los datos crudos de temperatura de producto y aire de salida en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -3404,11 +3416,11 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir los tipos de carga del sitio y el punto más difícil de cada uno<br>\n  2) Ubicar sondas calibradas y retos (PCD) en el punto difícil de cada tipo, con plano<br>\n  3) Correr un ciclo por tipo de carga registrando la temperatura interna<br>\n  4) Confirmar meseta completa en el punto difícil de cada tipo<br>\n  a) El punto difícil alcanza la banda y la mantiene toda la meseta<br>\n  5) Procesar los datos crudos de penetración por tipo de carga en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir los tipos de carga del sitio y el punto más difícil de cada uno<br>\n  2) Ubicar sondas calibradas y retos (PCD) en el punto difícil de cada tipo, con plano<br>\n  3) Correr 3 ciclos consecutivos por tipo de carga registrando la temperatura interna (un ciclo por tipo solo si el bracketing está justificado en el análisis de riesgo y el tipo queda cubierto por EQ-PQ-AU-008)<br>\n  4) Confirmar meseta completa en el punto difícil de cada tipo<br>\n  a) El punto difícil alcanza la banda y la mantiene toda la meseta<br>\n  5) Procesar los datos crudos de penetración por tipo de carga en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Penetración demostrada en el punto difícil de cada tipo de carga."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Penetración demostrada en el punto difícil de cada tipo de carga en los 3 ciclos consecutivos, o bracketing justificado."
      },
      {
       "et": "Documentos entregables",
@@ -3440,11 +3452,15 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Letalidad demostrada con F0 mayor o igual al mínimo."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  F0 físico en el punto frío mayor o igual al mínimo definido (12 minutos por defecto, enfoque de sobremuerte) y coherente con el F0 biológico, demostrando un SAL menor o igual a 10⁻⁶."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Memoria de cálculo del F0 en el punto frío<br>\n  - Data cruda y reporte estadístico del análisis de letalidad"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El F0 mínimo se justifica según el enfoque: sobremuerte (reducción de 12 log de un indicador con D121 de 1 minuto, F0 = 12 min) o basado en biocarga (F0 = D121 × (log N0 − log SAL), con N0 la biocarga máxima y D121 del organismo más resistente). Anexar la memoria de cálculo con el enfoque elegido."
      },
      {
       "et": "Referencia",
@@ -3499,7 +3515,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Disponer de indicadores biológicos con población y valor D conocidos, más controles positivos (sin exponer) y negativos (medio)<br>\n  2) Ubicar los expuestos junto a las sondas del punto frío en 3 ciclos con carga<br>\n  3) Incubar según el fabricante (55 a 60 °C por 7 días)<br>\n  4) Leer: expuestos negativos, positivo positivo y negativo negativo<br>\n  a) Muerte completa en expuestos con controles válidos<br>\n  5) Registrar los indicadores por ciclo con lote y posición"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Disponer de indicadores biológicos de Geobacillus stearothermophilus con población certificada (habitualmente 10⁶ esporas por unidad; mínimo 10⁵ según ISO 11138-3) y D121 de 1,5 minutos o más, registrando lote y vencimiento, más controles positivos (sin exponer) y negativos (medio)<br>\n  2) Ubicar los expuestos junto a las sondas del punto frío en 3 ciclos con carga<br>\n  3) Incubar según el fabricante (55 a 60 °C por 7 días)<br>\n  4) Leer: expuestos sin crecimiento; control positivo con crecimiento; control negativo sin crecimiento<br>\n  a) Muerte completa en expuestos con controles válidos<br>\n  5) Registrar los indicadores por ciclo con lote y posición"
      },
      {
       "et": "Criterio de aceptación",
@@ -3511,7 +3527,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1229.5&gt;; ISO 11138."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1229.5&gt;; ISO 11138-1 e ISO 11138-3 (indicadores biológicos para calor húmedo)."
      }
     ],
     "tabla": null,
@@ -3765,7 +3781,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1211&gt; (tiempos de espera); práctica 7–30 días según empaque."
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 1 (tiempos de almacenamiento del material estéril); ISO 11607-1 (sistemas de barrera estéril); práctica 7–30 días según empaque."
      }
     ],
     "tabla": null,
@@ -3901,7 +3917,7 @@ var BancoEquipos = {
       ],
       [
        "6.6",
-       "USP <1211> — Tiempos de espera de material esterilizado y estéril",
+       "EU GMP Anexo 1 — Fabricación de medicamentos estériles: almacenamiento y barrera del material estéril",
        "VIGENTE"
       ],
       [
@@ -3912,6 +3928,21 @@ var BancoEquipos = {
       [
        "6.8",
        "Manual del fabricante del autoclave — Programas, setpoints y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.9",
+       "ISO 11138-3 — Indicadores biológicos para procesos de esterilización por calor húmedo",
+       "VIGENTE"
+      ],
+      [
+       "6.10",
+       "ISO 11140-5 — Indicadores clase 2 para ensayos de remoción de aire tipo Bowie-Dick",
+       "VIGENTE"
+      ],
+      [
+       "6.11",
+       "ISO 11607-1 — Envases para productos sanitarios esterilizados terminalmente",
        "VIGENTE"
       ]
      ]
@@ -4055,6 +4086,10 @@ var BancoEquipos = {
       "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de puntos con resultados por punto y réplica<br>\n  - Data cruda y reporte estadístico del análisis de uniformidad por ubicación"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>10 puntos es el mínimo para mezcladores de volteo (V, bins, doble cono). En mezcladores convectivos (cinta, planetario, alto corte) usar 20 puntos como mínimo."
+     },
+     {
       "et": "Referencia",
       "html": "<strong>Referencia:</strong><br>FDA/PQRI (≥10 puntos, 2 profundidades, réplicas)."
      }
@@ -4112,7 +4147,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Variabilidad descompuesta y aceptada, o No Aplica justificado y firmado."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Varianza dentro del punto (método y muestreo) menor que la varianza entre puntos según ANOVA de un factor (α = 0,05), o ambas con RSD dentro del criterio de EQ-PQ-MZ-003; o No Aplica justificado y firmado."
      },
      {
       "et": "Documentos entregables",
@@ -4172,7 +4207,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el llenado mínimo [ ]% y máximo [ ]% del rango declarado en la URS<br>\n  2) Ejecutar una corrida completa con llenado mínimo y muestreo completo de uniformidad<br>\n  3) Ejecutar una corrida completa con llenado máximo y muestreo completo de uniformidad<br>\n  4) Comparar ambas contra la corrida nominal<br>\n  a) Mínimo y máximo cumplen RSD menor o igual a 5,0%<br>\n  5) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el llenado mínimo y máximo del rango declarado en la URS (registrar ambos en % del volumen útil)<br>\n  2) Ejecutar una corrida completa con llenado mínimo y muestreo completo de uniformidad<br>\n  3) Ejecutar una corrida completa con llenado máximo y muestreo completo de uniformidad<br>\n  4) Comparar ambas contra la corrida nominal<br>\n  a) Mínimo y máximo cumplen RSD menor o igual a 5,0%<br>\n  5) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Criterio de aceptación",
@@ -4268,7 +4303,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el tiempo máximo de espera propuesto [ ] horas en el contenedor de proceso<br>\n  2) Mezclar a parámetros de rutina y mantener la mezcla el tiempo propuesto sin moverla<br>\n  3) Al vencimiento, muestrear y analizar uniformidad completa<br>\n  4) Comparar contra la uniformidad recién mezclado<br>\n  a) Uniformidad al vencimiento dentro de criterio (RSD menor o igual a 5,0%)<br>\n  5) Procesar los datos crudos del hold time en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  6) Declarar el hold time aprobado en el informe"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el tiempo máximo de espera propuesto en el contenedor de proceso (registrar en horas, con la temperatura y humedad de almacenamiento)<br>\n  2) Mezclar a parámetros de rutina y mantener la mezcla el tiempo propuesto sin moverla<br>\n  3) Al vencimiento, muestrear y analizar uniformidad completa<br>\n  4) Comparar contra la uniformidad recién mezclado<br>\n  a) Uniformidad al vencimiento dentro de criterio (RSD menor o igual a 5,0%)<br>\n  5) Procesar los datos crudos del hold time en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  6) Declarar el hold time aprobado en el informe"
      },
      {
       "et": "Criterio de aceptación",
@@ -4280,7 +4315,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1211&gt; (tiempos de espera); EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15 (tiempos de espera); 21 CFR 211.111 (límites de tiempo en producción)."
      }
     ],
     "tabla": null,
@@ -4399,7 +4434,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Rendimiento y pérdida dentro de lo previsto en todos los lotes."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Rendimiento mayor o igual al límite de la receta (98% por defecto) en todos los lotes, con la pérdida por adherencia o polvo cuantificada."
      },
      {
       "et": "Documentos entregables",
@@ -4477,7 +4512,7 @@ var BancoEquipos = {
       ],
       [
        "6.5",
-       "USP <1211> — Tiempos de espera entre operaciones",
+       "21 CFR 211.111 — Límites de tiempo en producción (tiempos de espera)",
        "VIGENTE"
       ],
       [

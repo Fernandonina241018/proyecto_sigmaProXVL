@@ -4622,3 +4622,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-04 (127): PQ mezclador — 14 ensayos desde ENSAYOS.txt
 - **Qué:** nuevo `docs/banco-ensayos/equipos/pq-mezclador.html` (14 articles EQ-PQ-MZ-001…014, `familia="mezclador"`, 13 con `data-analisis` según marcas del .txt, refs FDA/PQRI + Anexo 15 + USP 616/786/1211 + anexos). Fuente: ENSAYOS.txt (tiempo de mezcla, uniformidad, repetibilidad, segregación, hold, atributos, rendimiento).
 - **Verificación:** PQ real con 15 ensayos (14+COM), 11 H1; sin mezcla entre familias; Vitest 345/345, backend 60/60.
+
+### 2026-10-05 (128): Integración revisión externa OQ/PQ (kit 2026-10-05)
+- **Qué:** kit adoptado verbatim (`aplicar-correcciones-bancos.mjs` + hook local `saltar`, `correcciones-2026-10-05.mjs` con 13 ops disputadas omitidas, `extraer-banco.mjs` con validaciones, `bancos-contrato.test.js` adaptado). Aplicadas 44/57: placeholders→registro con fuente, USP<429>/<1211>/ISO 11140-5, SAL/F0/BI, ANOVA, bracketing, 21 CFR 211.111. Omitidas pendientes de usuario: LF-012/013+REF/RES, MZ-010+RES, AU-012 (5 ops).
+- **Fix propio del review:** `contarGen(fase,cond,catId,entId)` filtra por familia (paso 3 mostraba conteos inflados) + test.
+- **Fix adicional:** fila REF 6.6 USP<1211> → Anexo 1 (hallazgo del contrato).
+- **Verificación:** OQ lecho real 12 ensayos; Vitest 360/360 (26 files), backend 60/60.

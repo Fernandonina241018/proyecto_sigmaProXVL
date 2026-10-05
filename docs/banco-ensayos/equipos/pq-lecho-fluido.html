@@ -12,7 +12,7 @@
 
 <p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
 <h2>PQ — Lecho fluido (banco por familia)</h2>
-<p>Versión del banco: <span data-banco-version>EQ-PQ-LF 2026-10-03 v1</span></p>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-LF 2026-10-05 v2</span></p>
 <p>Ensayos de Calificación de Desempeño específicos del lecho fluido (<span class="equipo">equipo</span>) con producto real o simulado calificado. Se filtran por familia (<code>data-familia="lecho-fluido"</code>) según la entidad elegida en el paso 1.</p>
 
 <!-- ================= PQ ================= -->
@@ -73,7 +73,7 @@
   <p><strong>Objetivo:</strong><br>Demostrar que el <span class="equipo">equipo</span> produce granulado conforme de forma repetible en tres lotes consecutivos a condiciones nominales y carga habitual, con el número de lotes justificado por análisis de riesgo.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Aprobar el análisis de riesgo que justifica el número de lotes (mínimo tres consecutivos) y anexarlo al protocolo<br>
-  2) Definir la carga habitual [ ] kg, la receta nominal (temperatura, flujo, tiempos) y los atributos a medir por lote<br>
+  2) Definir la carga habitual (registrar en kg según el BMR), la receta nominal (temperatura, flujo, tiempos) y los atributos a medir por lote<br>
   3) Ejecutar el lote 1 a condiciones nominales registrando todos los parámetros críticos del ciclo<br>
   4) Repetir en forma consecutiva los lotes 2 y 3 sin cambios al proceso entre ellos<br>
   5) Medir en cada lote los atributos de calidad (humedad, granulometría, densidad) según los ensayos EQ-PQ-LF-004 a EQ-PQ-LF-006<br>
@@ -94,7 +94,7 @@
   <h3>EQ-PQ-LF-002 — Corrida con carga mínima y máxima</h3>
   <p><strong>Objetivo:</strong><br>Demostrar que el <span class="equipo">equipo</span> seca en forma conforme en los extremos del rango de carga declarado.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Definir la carga mínima [ ] kg y la carga máxima [ ] kg del rango declarado en la URS<br>
+  1) Definir la carga mínima y la carga máxima del rango declarado en la URS (registrar ambos valores en kg)<br>
   2) Ejecutar una corrida completa con carga mínima registrando parámetros y atributos (humedad, uniformidad)<br>
   3) Ejecutar una corrida completa con carga máxima registrando los mismos atributos<br>
   4) Comparar ambas corridas contra la corrida nominal del ensayo EQ-PQ-LF-001<br>
@@ -105,6 +105,7 @@
   <p><strong>Documentos entregables:</strong><br>
   - Registros de ciclo y atributos por carga extrema<br>
   - Comparativa contra corrida nominal</p>
+  <p><strong>Nota:</strong><br>Se ejecuta una corrida por extremo porque la repetibilidad se demuestra en los tres lotes nominales del ensayo EQ-PQ-LF-001 (bracketing). Si el análisis de riesgo no sustenta el bracketing, repetir cada extremo en tres corridas.</p>
   <p><strong>Referencia:</strong><br>EU GMP Anexo 15 (rango previsto y peor caso); URS del equipo.</p>
 </article>
 
@@ -112,7 +113,7 @@
   <h3>EQ-PQ-LF-003 — Corrida en condiciones de peor caso</h3>
   <p><strong>Objetivo:</strong><br>Demostrar que el <span class="equipo">equipo</span> seca en forma conforme en la combinación más retadora: masa con mayor humedad inicial, flujo de aire en el límite bajo y temperatura en el límite alto o bajo.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Definir el peor caso con el análisis de riesgo: humedad inicial máxima [ ]%, flujo en límite bajo [ ] m³/h y temperatura en el límite ([alto/bajo] según riesgo)<br>
+  1) Definir el peor caso con el análisis de riesgo: humedad inicial máxima, flujo en el límite bajo y temperatura en el límite alto o bajo según el riesgo (registrar los valores en %, m³/h y °C con su fuente: BMR, desarrollo o URS)<br>
   2) Preparar la masa con la mayor humedad inicial del rango y verificarla antes de cargar<br>
   3) Ejecutar la corrida completa en peor caso registrando parámetros, alarmas y atributos<br>
   4) Medir humedad final y uniformidad en múltiples ubicaciones según el ensayo EQ-PQ-LF-004<br>
@@ -124,6 +125,7 @@
   <p><strong>Documentos entregables:</strong><br>
   - Definición del peor caso con análisis de riesgo<br>
   - Registro de ciclo y atributos del peor caso</p>
+  <p><strong>Nota:</strong><br>Una corrida en peor caso es suficiente cuando el análisis de riesgo lo justifica y la repetibilidad está demostrada en EQ-PQ-LF-001; en caso contrario, ejecutar tres corridas.</p>
   <p><strong>Referencia:</strong><br>EU GMP Anexo 15 (peor caso justificado); URS del equipo.</p>
 </article>
 
@@ -131,7 +133,7 @@
   <h3>EQ-PQ-LF-004 — Humedad residual y uniformidad en múltiples ubicaciones</h3>
   <p><strong>Objetivo:</strong><br>Demostrar la humedad residual al punto final y su uniformidad en el lecho (superior, medio, inferior y lateral). Es el ensayo central del PQ.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Definir el punto final por humedad [ ]% LOD según la especificación del producto y el método (balanza halógena o Karl Fischer)<br>
+  1) Definir el punto final por humedad según la especificación del producto (registrar el límite en % LOD) y el método (balanza halógena o Karl Fischer)<br>
   2) Al alcanzar el punto final en cada corrida (nominal, extremos y peor caso), tomar muestras por triplicado en 4 ubicaciones: superior, medio, inferior y lateral del lecho<br>
   3) Medir la humedad de cada muestra con instrumento calibrado y registrar con identificación de ubicación y hora<br>
   4) Calcular por corrida el promedio, el rango y el RSD entre ubicaciones<br>
@@ -188,7 +190,7 @@
   - Reportes de granulometría y densidades por lote<br>
   - Métodos analíticos utilizados<br>
   - Data cruda y reporte estadístico del análisis de granulometría y densidades</p>
-  <p><strong>Referencia:</strong><br>USP &lt;786&gt; (tamaño de partícula); USP &lt;616&gt; (densidad aparente y compactada).</p>
+  <p><strong>Referencia:</strong><br>USP &lt;786&gt; (tamizado); USP &lt;429&gt; (difracción láser); USP &lt;616&gt; (densidad aparente y compactada).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-LF-007" class="ensayo" data-id="EQ-PQ-LF-007" data-fase="PQ" data-cond="ambas" data-familia="lecho-fluido">
@@ -287,7 +289,7 @@
   <p><strong>Objetivo:</strong><br>Verificar el control de la temperatura de producto y del aire de salida frente a lo definido en el proceso.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Registrar la temperatura de producto (sonda en lecho) y del aire de salida cada [10] minutos durante cada corrida<br>
-  2) Comparar contra los límites del proceso: producto [ ] °C y salida [ ] °C<br>
+  2) Comparar contra los límites del proceso: producto y salida según la receta aprobada (registrar ambos límites en °C antes de iniciar)<br>
   3) Confirmar que no se exceden los límites en ningún momento del ciclo<br>
   4) Correlacionar con la curva de secado del ensayo EQ-PQ-LF-005 (meseta de temperatura al punto final)<br>
   a) Temperaturas dentro de límites durante todo el ciclo<br>

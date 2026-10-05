@@ -12,7 +12,7 @@
 
 <p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
 <h2>PQ — Autoclave (banco por familia)</h2>
-<p>Versión del banco: <span data-banco-version>EQ-PQ-AU 2026-10-03 v1</span></p>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-AU 2026-10-05 v2</span></p>
 <p>Ensayos de Calificación de Desempeño específicos del autoclave (<span class="equipo">equipo</span>) con carga real. Se filtran por familia (<code>data-familia="autoclave"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt de protocolo.</p>
 
 <!-- ================= PQ ================= -->
@@ -128,12 +128,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Definir los tipos de carga del sitio y el punto más difícil de cada uno<br>
   2) Ubicar sondas calibradas y retos (PCD) en el punto difícil de cada tipo, con plano<br>
-  3) Correr un ciclo por tipo de carga registrando la temperatura interna<br>
+  3) Correr 3 ciclos consecutivos por tipo de carga registrando la temperatura interna (un ciclo por tipo solo si el bracketing está justificado en el análisis de riesgo y el tipo queda cubierto por EQ-PQ-AU-008)<br>
   4) Confirmar meseta completa en el punto difícil de cada tipo<br>
   a) El punto difícil alcanza la banda y la mantiene toda la meseta<br>
   5) Procesar los datos crudos de penetración por tipo de carga en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Penetración demostrada en el punto difícil de cada tipo de carga.</p>
+  Penetración demostrada en el punto difícil de cada tipo de carga en los 3 ciclos consecutivos, o bracketing justificado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de penetración por tipo de carga con curvas<br>
   - Data cruda y reporte estadístico del análisis de penetración por tipo de carga</p>
@@ -151,10 +151,11 @@
   4) Procesar los datos crudos de letalidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
   5) Anexar la memoria de cálculo del F0</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Letalidad demostrada con F0 mayor o igual al mínimo.</p>
+  F0 físico en el punto frío mayor o igual al mínimo definido (12 minutos por defecto, enfoque de sobremuerte) y coherente con el F0 biológico, demostrando un SAL menor o igual a 10⁻⁶.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Memoria de cálculo del F0 en el punto frío<br>
   - Data cruda y reporte estadístico del análisis de letalidad</p>
+  <p><strong>Nota:</strong><br>El F0 mínimo se justifica según el enfoque: sobremuerte (reducción de 12 log de un indicador con D121 de 1 minuto, F0 = 12 min) o basado en biocarga (F0 = D121 × (log N0 − log SAL), con N0 la biocarga máxima y D121 del organismo más resistente). Anexar la memoria de cálculo con el enfoque elegido.</p>
   <p><strong>Referencia:</strong><br>USP &lt;1229&gt;; PDA TR-01 (F0 físico y biológico).</p>
 </article>
 
@@ -178,17 +179,17 @@
   <h3>EQ-PQ-AU-007 — Indicadores biológicos</h3>
   <p><strong>Objetivo:</strong><br>Desafiar el ciclo del <span class="equipo">equipo</span> con <span class="equipo">Geobacillus stearothermophilus</span> junto a las sondas en el punto frío, con controles positivos y negativos.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Disponer de indicadores biológicos con población y valor D conocidos, más controles positivos (sin exponer) y negativos (medio)<br>
+  1) Disponer de indicadores biológicos de Geobacillus stearothermophilus con población certificada (habitualmente 10⁶ esporas por unidad; mínimo 10⁵ según ISO 11138-3) y D121 de 1,5 minutos o más, registrando lote y vencimiento, más controles positivos (sin exponer) y negativos (medio)<br>
   2) Ubicar los expuestos junto a las sondas del punto frío en 3 ciclos con carga<br>
   3) Incubar según el fabricante (55 a 60 °C por 7 días)<br>
-  4) Leer: expuestos negativos, positivo positivo y negativo negativo<br>
+  4) Leer: expuestos sin crecimiento; control positivo con crecimiento; control negativo sin crecimiento<br>
   a) Muerte completa en expuestos con controles válidos<br>
   5) Registrar los indicadores por ciclo con lote y posición</p>
   <p><strong>Criterio de aceptación:</strong><br>
   Eficacia demostrada con controles válidos en los 3 ciclos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de indicadores biológicos por ciclo con controles</p>
-  <p><strong>Referencia:</strong><br>USP &lt;1229.5&gt;; ISO 11138.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1229.5&gt;; ISO 11138-1 e ISO 11138-3 (indicadores biológicos para calor húmedo).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-AU-008" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-008" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
@@ -323,7 +324,7 @@
   Tiempo de espera validado por empaque.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Estudio de tiempo de espera con validez declarada</p>
-  <p><strong>Referencia:</strong><br>USP &lt;1211&gt; (tiempos de espera); práctica 7–30 días según empaque.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1 (tiempos de almacenamiento del material estéril); ISO 11607-1 (sistemas de barrera estéril); práctica 7–30 días según empaque.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-AU-016" class="ensayo" data-id="EQ-PQ-AU-016" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
@@ -379,9 +380,12 @@
     <tr><td>6.3</td><td>USP &lt;1229&gt; / &lt;1229.1&gt; / &lt;1229.5&gt; — Esterilización, F0 e indicadores biológicos</td><td>VIGENTE</td></tr>
     <tr><td>6.4</td><td>PDA TR-01 — Calor húmedo: equilibrio, F0 físico y biológico, y penetración por tipo de carga</td><td>VIGENTE</td></tr>
     <tr><td>6.5</td><td>OMS TRS 961 Anexo 6 — Patrones de carga validados, punto más frío y registros por corrida</td><td>VIGENTE</td></tr>
-    <tr><td>6.6</td><td>USP &lt;1211&gt; — Tiempos de espera de material esterilizado y estéril</td><td>VIGENTE</td></tr>
+    <tr><td>6.6</td><td>EU GMP Anexo 1 — Fabricación de medicamentos estériles: almacenamiento y barrera del material estéril</td><td>VIGENTE</td></tr>
     <tr><td>6.7</td><td>EU GMP Anexo 15 — PQ con cargas de producción: repetibilidad en tres ciclos salvo justificación</td><td>VIGENTE</td></tr>
     <tr><td>6.8</td><td>Manual del fabricante del autoclave — Programas, setpoints y límites de diseño</td><td>VIGENTE</td></tr>
+    <tr><td>6.9</td><td>ISO 11138-3 — Indicadores biológicos para procesos de esterilización por calor húmedo</td><td>VIGENTE</td></tr>
+    <tr><td>6.10</td><td>ISO 11140-5 — Indicadores clase 2 para ensayos de remoción de aire tipo Bowie-Dick</td><td>VIGENTE</td></tr>
+    <tr><td>6.11</td><td>ISO 11607-1 — Envases para productos sanitarios esterilizados terminalmente</td><td>VIGENTE</td></tr>
   </table>
 </article>
 

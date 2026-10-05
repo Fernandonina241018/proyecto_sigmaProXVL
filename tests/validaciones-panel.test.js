@@ -4,6 +4,7 @@ import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import vm from 'vm';
+import { createRequire } from 'module';
 import { describe, test, expect, beforeEach } from 'vitest';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -152,6 +153,21 @@ describe('Validaciones V7', () => {
     expect(html).toContain('value="OQ"');
     expect(html).toContain('value="PQ"');
     expect(html).not.toContain('value="DQ"');
+  });
+
+  test('contarGen filtra por entidad (familia), igual que generar()', () => {
+    const require = createRequire(import.meta.url);
+    globalThis.BancoEquipos = require('../js/core/banco-equipos-data.js');
+    try {
+      // lecho fluido OQ: común (1) + familia (11)
+      expect(Validaciones.contarGen('OQ', 'ambas', 'equipos', 'lecho-fluido')).toBe(12);
+      // autoclave OQ: común (1) + familia (18)
+      expect(Validaciones.contarGen('OQ', 'ambas', 'equipos', 'autoclave')).toBe(19);
+      // sin entidad: todo el banco OQ (antes inflaba el paso 3)
+      expect(Validaciones.contarGen('OQ', 'ambas', 'equipos')).toBeGreaterThan(19);
+    } finally {
+      delete globalThis.BancoEquipos;
+    }
   });
 
   test('paso 1: combobox con buscador en equipos, botones en el resto', () => {

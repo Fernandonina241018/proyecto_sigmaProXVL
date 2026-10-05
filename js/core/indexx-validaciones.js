@@ -573,13 +573,15 @@ const Validaciones = (() => {
     return { fases: porDefecto, cond: 'ambas' };
   }
 
-  function contarGen(fase, cond, catId) {
+  function contarGen(fase, cond, catId, entId) {
     try {
-      // Equipos: banco común (artículos bloques 2-3 que pasan el filtro).
+      // Equipos: mismo criterio que generar() — bloques 2-3, condición y familia/entidad.
       if (catId === 'equipos' && typeof BancoEquipos !== 'undefined' && BancoEquipos.fases) {
         const items = (BancoEquipos.fases[fase] || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3));
         const flt = cond || 'ambas';
-        return items.filter((i) => flt === 'ambas' || i.cond === 'ambas' || i.cond === flt).length;
+        const ent = String(entId || '').trim();
+        return items.filter((i) => (flt === 'ambas' || i.cond === 'ambas' || i.cond === flt)
+          && (!i.familia || !ent || i.familia === ent)).length;
       }
       if (typeof GeneradorDocx !== 'undefined' && GeneradorDocx.contarEnsayos) {
         return GeneradorDocx.contarEnsayos(fase, cond);
@@ -835,7 +837,7 @@ const Validaciones = (() => {
       const box = step3.querySelector('.v7-genresumen');
       if (box) {
         const parts = sel.fases.map((f) => {
-          const n = contarGen(f, sel.cond, catId);
+          const n = contarGen(f, sel.cond, catId, entActual);
           return f + (n == null ? '' : ' (' + n + ' ensayos)');
         });
         box.innerHTML = '<strong>DOCUMENTOS A GENERAR:</strong> '
@@ -1096,6 +1098,6 @@ const Validaciones = (() => {
   return {
     CATS, ROUTES, ENTIDADES, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
     entidadPorNombre,
-    puestoGerente, firmantesHtml, saveDraft, loadDraft, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render,
+    puestoGerente, firmantesHtml, saveDraft, loadDraft, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen,
   };
 })();

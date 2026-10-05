@@ -12,7 +12,7 @@
 
 <p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
 <h2>PQ — Mezclador V / bins (banco por familia)</h2>
-<p>Versión del banco: <span data-banco-version>EQ-PQ-MZ 2026-10-04 v1</span></p>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-MZ 2026-10-05 v2</span></p>
 <p>Ensayos de Calificación de Desempeño específicos del mezclador (<span class="equipo">equipo</span>) con producto o placebo. Se filtran por familia (<code>data-familia="mezclador"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt de protocolo.</p>
 
 <!-- ================= PQ ================= -->
@@ -122,6 +122,7 @@
   <p><strong>Documentos entregables:</strong><br>
   - Plano de puntos con resultados por punto y réplica<br>
   - Data cruda y reporte estadístico del análisis de uniformidad por ubicación</p>
+  <p><strong>Nota:</strong><br>10 puntos es el mínimo para mezcladores de volteo (V, bins, doble cono). En mezcladores convectivos (cinta, planetario, alto corte) usar 20 puntos como mínimo.</p>
   <p><strong>Referencia:</strong><br>FDA/PQRI (≥10 puntos, 2 profundidades, réplicas).</p>
 </article>
 
@@ -154,7 +155,7 @@
   5) Procesar los datos crudos de réplicas en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
   6) Si no aplica: redactar la justificación de No Aplica (proceso automático) con firma del ejecutor y del revisor</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Variabilidad descompuesta y aceptada, o No Aplica justificado y firmado.</p>
+  Varianza dentro del punto (método y muestreo) menor que la varianza entre puntos según ANOVA de un factor (α = 0,05), o ambas con RSD dentro del criterio de EQ-PQ-MZ-003; o No Aplica justificado y firmado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de réplicas por punto con descomposición de varianza, o justificación de No Aplica firmada<br>
   - Data cruda y reporte estadístico del análisis de réplicas</p>
@@ -186,7 +187,7 @@
   <h3>EQ-PQ-MZ-007 — Llenado mínimo y máximo</h3>
   <p><strong>Objetivo:</strong><br>Probar el rango de llenado declarado con llenado mínimo y máximo, que es el ensayo que de verdad prueba el rango.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Definir el llenado mínimo [ ]% y máximo [ ]% del rango declarado en la URS<br>
+  1) Definir el llenado mínimo y máximo del rango declarado en la URS (registrar ambos en % del volumen útil)<br>
   2) Ejecutar una corrida completa con llenado mínimo y muestreo completo de uniformidad<br>
   3) Ejecutar una corrida completa con llenado máximo y muestreo completo de uniformidad<br>
   4) Comparar ambas contra la corrida nominal<br>
@@ -240,7 +241,7 @@
   <h3>EQ-PQ-MZ-010 — Tiempo máximo de espera entre mezcla y uso</h3>
   <p><strong>Objetivo:</strong><br>Confirmar con estudio de hold time que la uniformidad se mantiene hasta el tiempo máximo de espera entre la mezcla y su uso.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Definir el tiempo máximo de espera propuesto [ ] horas en el contenedor de proceso<br>
+  1) Definir el tiempo máximo de espera propuesto en el contenedor de proceso (registrar en horas, con la temperatura y humedad de almacenamiento)<br>
   2) Mezclar a parámetros de rutina y mantener la mezcla el tiempo propuesto sin moverla<br>
   3) Al vencimiento, muestrear y analizar uniformidad completa<br>
   4) Comparar contra la uniformidad recién mezclado<br>
@@ -253,7 +254,7 @@
   - Resultados al vencimiento con comparativa<br>
   - Data cruda y reporte estadístico del análisis de hold time<br>
   - Hold time declarado</p>
-  <p><strong>Referencia:</strong><br>USP &lt;1211&gt; (tiempos de espera); EU GMP Anexo 15.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15 (tiempos de espera); 21 CFR 211.111 (límites de tiempo en producción).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-MZ-011" class="ensayo" data-analisis="si" data-id="EQ-PQ-MZ-011" data-fase="PQ" data-cond="ambas" data-familia="mezclador">
@@ -319,7 +320,7 @@
   5) Procesar los datos crudos de balances en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
   6) Repetir el balance en cada lote y anexar las pesadas</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Rendimiento y pérdida dentro de lo previsto en todos los lotes.</p>
+  Rendimiento mayor o igual al límite de la receta (98% por defecto) en todos los lotes, con la pérdida por adherencia o polvo cuantificada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Balances de masa por lote con pesadas<br>
   - Data cruda y reporte estadístico del análisis de balances</p>
@@ -344,7 +345,7 @@
     <tr><td>6.2</td><td>EU GMP Anexo 15 — PQ con tres lotes consecutivos salvo justificación por riesgo; peor caso y bracketing</td><td>VIGENTE</td></tr>
     <tr><td>6.3</td><td>USP &lt;616&gt; — Densidad aparente y compactada de polvos</td><td>VIGENTE</td></tr>
     <tr><td>6.4</td><td>USP &lt;786&gt; — Distribución de tamaño de partícula</td><td>VIGENTE</td></tr>
-    <tr><td>6.5</td><td>USP &lt;1211&gt; — Tiempos de espera entre operaciones</td><td>VIGENTE</td></tr>
+    <tr><td>6.5</td><td>21 CFR 211.111 — Límites de tiempo en producción (tiempos de espera)</td><td>VIGENTE</td></tr>
     <tr><td>6.6</td><td>BMR y especificación del producto — Atributos, receta nominal y punto final de mezcla</td><td>VIGENTE</td></tr>
     <tr><td>6.7</td><td>Manual del fabricante del mezclador — Cargas, velocidades y límites de diseño</td><td>VIGENTE</td></tr>
   </table>
