@@ -61,6 +61,7 @@ const Validaciones = (() => {
       { id: 'centrifuga', nombre: 'Centrífuga' },
       { id: 'termometro', nombre: 'Termómetros / data loggers' },
       { id: 'horno-vacio', nombre: 'Horno de vacío' },
+      { id: 'horno-secado', nombre: 'Horno de secado' },
       { id: 'cabina-flujo', nombre: 'Cabina de flujo laminar' },
       { id: 'cabina-bioseguridad', nombre: 'Cabina de bioseguridad' },
     ],
@@ -77,7 +78,6 @@ const Validaciones = (() => {
       { id: 'cuarto-est-real', nombre: 'Cuarto estabilidad real' },
       { id: 'incubadora-22-27', nombre: 'Incubadora (22–27 °C)' },
       { id: 'incubadora-38-42', nombre: 'Incubadora (38–42 °C)' },
-      { id: 'horno-secado', nombre: 'Horno de secado' },
     ],
     software: [
       { id: 'software-gxp', nombre: 'Sistema computarizado GxP' },

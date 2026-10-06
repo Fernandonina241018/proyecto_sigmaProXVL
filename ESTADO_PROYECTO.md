@@ -4666,3 +4666,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-06 (137): IQ cámaras con núcleo compartido de equipos (opción C)
 - **Qué:** nuevo `estabilidad/iq-camaras.html` (2 específicos EST-IQ-001/002 + shells + refs). `mezclarComun()` en descargar fusiona núcleo IQ equipos (bloques 2-3 sin familia) + específicos, sin duplicar ni mutar; refs/anexos salen del archivo propio. `GEN_FASES.estabilidad` suma IQ; `contarGen` con la misma mezcla.
 - **Verificación:** IQ real con 20 ensayos + requisitos EQ-IQ-001, 11 H1; Vitest 374/374, backend 60/60.
+
+### 2026-10-06 (138): Horno de secado movido a equipos
+- **Qué:** entidad `horno-secado` de ENTIDADES.estabilidad a ENTIDADES.equipos + working page movida (git mv) + opción en dropdown de equipos.html. Tests de ubicación agregados.
+- **Pendiente:** banco OQ/PQ `familia="horno-secado"` (hoy genera IQ común + COMs). Nota: `horno-estufa` sigue en equipos (posible solape, por decidir).
+- **Verificación:** Vitest 372/372, backend 60/60.

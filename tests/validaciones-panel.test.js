@@ -277,6 +277,13 @@ describe('Validaciones V7', () => {
     expect(est).toContain('cabina-est-acelerada');
   });
 
+  test('horno-secado vive en equipos (movido desde estabilidad)', () => {
+    const eq = Validaciones.getEntidades('equipos').map((e) => e.id);
+    const est = Validaciones.getEntidades('estabilidad').map((e) => e.id);
+    expect(eq).toContain('horno-secado');
+    expect(est).not.toContain('horno-secado');
+  });
+
   test('responsable automático desde login, como Realizado por', () => {
     const comun = Validaciones.SCHEMAS._comun.find((f) => f.k === 'responsable');
     expect(comun.auto).toBe('login');
