@@ -1252,7 +1252,7 @@ const PlantillaDocx = (() => {
     const resp = await fetch(PLANTILLAS[fase], { cache: 'no-store' });
     if (!resp.ok) throw new Error('No se encontró la plantilla ' + PLANTILLAS[fase] + ' (' + resp.status + ').');
     const u8 = new Uint8Array(await resp.arrayBuffer());
-    const r = await generar(fase, u8, banco(cat), draft, entidad, filtroCond);
+    const r = await generar(fase, u8, mezclarComun(banco(cat), fase, cat), draft, entidad, filtroCond);
     const blob = new Blob([r.bytes], { type: MIME_DOCX });
     const entId = (entidad && entidad.id) ? entidad.id : 'entidad';
     const a = document.createElement('a');
@@ -1264,8 +1264,26 @@ const PlantillaDocx = (() => {
     return r;
   }
 
+  // Núcleo compartido: estabilidad IQ hereda los ensayos comunes (bloques 2-3
+  // sin familia) del IQ de equipos; los específicos van después. Referencias y
+  // anexos salen del archivo propio (no del núcleo). Sin duplicar contenido.
+  function mezclarComun(bancoBase, fase, cat) {
+    if (cat !== 'estabilidad' || fase !== 'IQ') return bancoBase;
+    let nucleo = [];
+    try {
+      if (typeof BancoEquipos !== 'undefined' && BancoEquipos.fases) {
+        nucleo = (BancoEquipos.fases[fase] || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3) && !i.familia);
+      }
+    } catch (e) { /* sin núcleo: solo específicos */ }
+    if (!nucleo.length || !bancoBase || !bancoBase.fases) return bancoBase;
+    const fases = {};
+    Object.keys(bancoBase.fases).forEach((f) => { fases[f] = bancoBase.fases[f]; });
+    fases[fase] = nucleo.concat(bancoBase.fases[fase] || []);
+    return { version: bancoBase.version, fases };
+  }
+
   return {
-    FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, soporta, configurar, generar, descargar, banco,
+    FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, soporta, configurar, generar, descargar, banco, mezclarComun,
     _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, puntosTabla, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio },
   };
 })();

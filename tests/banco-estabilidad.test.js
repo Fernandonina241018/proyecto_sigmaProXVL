@@ -57,6 +57,46 @@ describe('OQ cámaras de estabilidad con formato del modelo', () => {
   });
 });
 
+describe('IQ cámaras: núcleo compartido con equipos (opción C)', () => {
+  const bancoEq = cargarBanco(resolve(raiz, 'js/core/banco-equipos-data.js'));
+  const nucleoIQ = (bancoEq.fases.IQ || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3) && !i.familia);
+  // mezclarComun lee el núcleo del global (en navegador lo carga indexx.html)
+  const conNucleo = async (fn) => {
+    globalThis.BancoEquipos = bancoEq;
+    try { return await fn(); } finally { delete globalThis.BancoEquipos; }
+  };
+
+  it('mezclarComun: fusiona núcleo + específicos sin mutar', async () => {
+    await conNucleo(async () => {
+      const m = P.mezclarComun(banco, 'IQ', 'estabilidad');
+      expect(m.fases.IQ.filter((i) => i.id && (i.bloque === 2 || i.bloque === 3)))
+        .toHaveLength(nucleoIQ.length + 2);
+      // no muta el banco base
+      expect(banco.fases.IQ.filter((i) => i.id && (i.bloque === 2 || i.bloque === 3))).toHaveLength(2);
+      // otras fases/categorías intactas
+      expect(P.mezclarComun(banco, 'OQ', 'estabilidad')).toBe(banco);
+    });
+  });
+
+  it('IQ genera núcleo común + 2 específicos con referencias propias', async () => {
+    await conNucleo(async () => {
+      const m = P.mezclarComun(banco, 'IQ', 'estabilidad');
+      const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.IQ)));
+      const r = await P.generar('IQ', u8, m, DRAFT, ENT, 'ambas');
+      // núcleo menos requisitos previos (va en su sección) + 2 específicos
+      expect(r.ensayos).toHaveLength(nucleoIQ.length + 1);
+      expect(r.requisitos).toBe('EQ-IQ-001');
+      expect(r.ensayos).toContain('EQ-IQ-002');
+      expect(r.ensayos).toContain('EST-IQ-001');
+      expect(r.ensayos).toContain('EST-IQ-002');
+      const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+      const txt = arch['word/document.xml'].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+      expect(txt).toContain('ESTANTER');
+      expect(txt).toContain('ICH Q1A');
+    });
+  });
+});
+
 describe('PQ cámaras de estabilidad (fuente ENSAYOS.txt)', () => {
   const genPQ = async (ent) => {
     const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));

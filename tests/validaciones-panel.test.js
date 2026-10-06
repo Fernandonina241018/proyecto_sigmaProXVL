@@ -148,12 +148,12 @@ describe('Validaciones V7', () => {
   });
 
   test('paso 3: estabilidad OQ+PQ (cámaras ICH Q1A)', () => {
-    expect(Validaciones.GEN_FASES.estabilidad).toEqual(['OQ', 'PQ']);
+    expect(Validaciones.GEN_FASES.estabilidad).toEqual(['IQ', 'OQ', 'PQ']);
     const html = Validaciones.viewEntidad('estabilidad');
     expect(html).toContain('Protocolos a generar');
+    expect(html).toContain('value="IQ"');
     expect(html).toContain('value="OQ"');
     expect(html).toContain('value="PQ"');
-    expect(html).not.toContain('value="IQ"');
   });
 
   test('paso 3: equipos IQ+OQ+PQ; almacenes todas', () => {
@@ -179,6 +179,21 @@ describe('Validaciones V7', () => {
       expect(Validaciones.contarGen('OQ', 'ambas', 'equipos')).toBeGreaterThan(19);
     } finally {
       delete globalThis.BancoEquipos;
+    }
+  });
+
+  test('contarGen estabilidad IQ suma núcleo común + específicos', () => {
+    const require = createRequire(import.meta.url);
+    globalThis.BancoEquipos = require('../js/core/banco-equipos-data.js');
+    globalThis.BancoEstabilidad = require('../js/core/banco-estabilidad-data.js');
+    try {
+      const n = Validaciones.contarGen('IQ', 'ambas', 'estabilidad', 'cabina-est-acelerada');
+      const nucleo = globalThis.BancoEquipos.fases.IQ
+        .filter((i) => i.id && (i.bloque === 2 || i.bloque === 3) && !i.familia).length;
+      expect(n).toBe(nucleo + 2);
+    } finally {
+      delete globalThis.BancoEquipos;
+      delete globalThis.BancoEstabilidad;
     }
   });
 

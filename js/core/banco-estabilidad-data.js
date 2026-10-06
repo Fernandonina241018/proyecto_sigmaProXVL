@@ -1,8 +1,175 @@
 // Generado por scripts/extraer-banco.mjs estabilidad — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/estabilidad/oq-camaras.html + docs/banco-ensayos/estabilidad/pq-camaras.html (versión: EST-OQ-CAM 2026-10-06 v1 + EST-PQ-CAM 2026-10-06 v1).
+// Fuente: docs/banco-ensayos/estabilidad/iq-camaras.html + docs/banco-ensayos/estabilidad/oq-camaras.html + docs/banco-ensayos/estabilidad/pq-camaras.html (versión: EST-IQ-CAM 2026-10-06 v1 + EST-OQ-CAM 2026-10-06 v1 + EST-PQ-CAM 2026-10-06 v1).
 var BancoEstabilidad = {
- "version": "EST-OQ-CAM 2026-10-06 v1 + EST-PQ-CAM 2026-10-06 v1",
+ "version": "EST-IQ-CAM 2026-10-06 v1 + EST-OQ-CAM 2026-10-06 v1 + EST-PQ-CAM 2026-10-06 v1",
  "fases": {
+  "IQ": [
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO IQ</strong></p>\n<p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n<p><strong>Calificación de Instalación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n<ol>\n  <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n  <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n  <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n</ol>"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n<ol>\n  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n</ol>"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n<p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n<ol><li>Coordinar la ejecución de la Calificación de Instalación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar las verificaciones del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar el inicio de la OQ.</li></ol>\n<p><strong>Responsabilidad del Gerente de Área:</strong></p>\n<ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo IQ, y cubre los ensayos listados en el índice.</p>"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Instalación: conjunto documentado de actividades necesarias para establecer que un instrumento se entrega según su diseño y especificación, y que está correctamente instalado en el entorno seleccionado y es adecuado para él (USP &lt;1058&gt;).</p>"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EST-IQ-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EST-IQ-001 — Estanterías y parrillas internas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las estanterías y parrillas internas del <span class=\"equipo\">equipo</span> corresponden al diseño, están correctamente instaladas y soportan la carga prevista."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar estanterías y parrillas según plano y lista de empaque del fabricante<br>\n  2) Verificar material (acero inoxidable u otro aprobado), acabado sin rebabas y niveles ajustables operativos<br>\n  3) Confirmar instalación firme, sin movimientos ni deformaciones, con carga de prueba según capacidad declarada<br>\n  4) Registrar cantidad, posiciones y capacidad por nivel<br>\n  a) Instalación firme con capacidad declarada disponible<br>\n  5) Fotografiar la configuración instalada"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Estanterías conformes al diseño, firmes y con capacidad declarada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de estanterías con capacidades y evidencia fotográfica"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; plano de la cámara."
+     }
+    ],
+    "tabla": null
+   },
+   {
+    "kind": "ensayo",
+    "id": "EST-IQ-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EST-IQ-002 — Controlador de setpoints de temperatura y HR",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el controlador del <span class=\"equipo\">equipo</span> permite programar los setpoints de temperatura y HR del rango declarado, con la resolución y los programas requeridos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender el controlador y confirmar arranque sin errores<br>\n  2) Programar el setpoint mínimo, uno medio y el máximo del rango y confirmar su aceptación<br>\n  3) Verificar la resolución de programación (0,1 °C y 1% HR o mejor, según modelo)<br>\n  4) Confirmar programas o recetas disponibles (acelerada, real, personalizados) y protección por contraseña o niveles de acceso<br>\n  5) Registrar firmware o versión de software del controlador<br>\n  a) Setpoints, resolución, programas y accesos conformes al manual<br>\n  6) Anexar pantallazos o registro de la configuración verificada"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Controlador programa todo el rango con la resolución requerida y accesos protegidos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de setpoints programados con resolución y versión de firmware"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null
+   },
+   {
+    "kind": "resumen",
+    "id": "EST-IQ-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EST-IQ-RES — Tabla resumen de los ensayos del IQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos específicos del IQ de cámaras para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos específicos EST-IQ-001 y EST-IQ-002 están incluidos en el índice junto al núcleo común"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ensayos específicos en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null
+   },
+   {
+    "kind": "tabla",
+    "id": "EST-IQ-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EST-IQ-REF — Referencias del IQ de cámaras de estabilidad",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "ICH Q1A(R2) — Estabilidad: condiciones y tolerancias de cámaras",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "USP <1058> — Analytical Instrument Qualification",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Cualificación y validación",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de la cámara — Instalación y controlador",
+       "VIGENTE"
+      ]
+     ]
+    }
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de instalación y configuración del controlador</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de instrumentos y evidencia fotográfica</td></tr>\n</tbody></table>"
+   }
+  ],
   "OQ": [
    {
     "kind": "div",

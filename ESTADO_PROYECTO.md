@@ -4662,3 +4662,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Qué:** eliminada la entidad `cabina-estabilidad` de ENTIDADES.equipos + 2 opciones del dropdown de equipos.html + archivo de trabajo `equipos/cabina-estabilidad.html` (git rm). Las cámaras viven solo en estabilidad (7 entidades). Test anti-duplicidad agregado.
 - **Nota:** incubadora/refrigerador/congelador/hornos/cabinas de flujo quedan en equipos como instrumentos de laboratorio (entidades distintas, sin duplicidad real).
 - **Verificación:** Vitest 371/371, backend 60/60.
+
+### 2026-10-06 (137): IQ cámaras con núcleo compartido de equipos (opción C)
+- **Qué:** nuevo `estabilidad/iq-camaras.html` (2 específicos EST-IQ-001/002 + shells + refs). `mezclarComun()` en descargar fusiona núcleo IQ equipos (bloques 2-3 sin familia) + específicos, sin duplicar ni mutar; refs/anexos salen del archivo propio. `GEN_FASES.estabilidad` suma IQ; `contarGen` con la misma mezcla.
+- **Verificación:** IQ real con 20 ensayos + requisitos EQ-IQ-001, 11 H1; Vitest 374/374, backend 60/60.

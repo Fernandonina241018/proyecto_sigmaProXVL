@@ -510,7 +510,7 @@ const Validaciones = (() => {
   const FASES_GEN = ['DQ', 'IQ', 'OQ', 'PQ'];
   const GEN_CATS = ['almacenes', 'equipos', 'estabilidad'];
   // Fases con generador por categoría (equipos: IQ común + OQ/PQ por familia).
-  const GEN_FASES = { almacenes: FASES_GEN.slice(), equipos: ['IQ', 'OQ', 'PQ'], estabilidad: ['OQ', 'PQ'] };
+  const GEN_FASES = { almacenes: FASES_GEN.slice(), equipos: ['IQ', 'OQ', 'PQ'], estabilidad: ['IQ', 'OQ', 'PQ'] };
 
   // Gerencias sugeridas para el Revisor Gerente (T2). El campo acepta texto libre.
   const AREAS_GERENCIA = ['Gerente Validaciones', 'Gerente Gestión de Calidad', 'Gerente Sr. Producción',
@@ -586,7 +586,13 @@ const Validaciones = (() => {
         ? (typeof BancoEstabilidad !== 'undefined' ? BancoEstabilidad : null)
         : (typeof BancoEquipos !== 'undefined' ? BancoEquipos : null);
       if ((catId === 'equipos' || catId === 'estabilidad') && BB && BB.fases) {
-        const items = (BB.fases[fase] || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3));
+        // Núcleo compartido (igual que mezclarComun en descargar): estabilidad IQ
+        // suma los ensayos comunes del IQ de equipos.
+        let items = (BB.fases[fase] || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3));
+        if (catId === 'estabilidad' && fase === 'IQ' && typeof BancoEquipos !== 'undefined' && BancoEquipos.fases) {
+          const nucleo = (BancoEquipos.fases[fase] || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3) && !i.familia);
+          items = nucleo.concat(items);
+        }
         const flt = cond || 'ambas';
         const ent = String(entId || '').trim();
         return items.filter((i) => (flt === 'ambas' || i.cond === 'ambas' || i.cond === flt)
