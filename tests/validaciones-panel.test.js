@@ -108,6 +108,9 @@ describe('Validaciones V7', () => {
     expect(alm).not.toContain('marca');
     // sin duplicados en el esquema
     expect(new Set(alm).size).toBe(alm.length);
+    // estabilidad: mismos campos de identificación que equipos (portada/encabezado completos)
+    const est = Validaciones.getSchema('estabilidad').map((f) => f.k);
+    for (const k of ['codigo', 'descripcion', 'marca', 'modelo', 'ubicacion', 'setpoint', 'camara', 'norma']) expect(est).toContain(k);
     // campos numéricos reales: deben renderizar como <input type="number">
     const src2 = readFileSync(join(core, 'indexx-validaciones.js'), 'utf-8');
     expect(src2).toContain("f.tipo === 'number'");

@@ -230,6 +230,11 @@ const Validaciones = (() => {
     
     estabilidad: [
       { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },
+      { k: 'marca', label: 'Marca', tipo: 'text', req: true },
+      { k: 'modelo', label: 'Modelo', tipo: 'text', req: true },
+      { k: 'serie', label: 'Serie', tipo: 'text', req: false },
+      { k: 'codigo', label: 'Código', tipo: 'text', req: true },
+      { k: 'ubicacion', label: 'Ubicación', tipo: 'text', req: true },
       { k: 'setpoint', label: 'Setpoint T°/HR', tipo: 'text', req: true },
       { k: 'camara', label: 'Cámara', tipo: 'text', req: true },
       { k: 'norma', label: 'Norma', tipo: 'select', req: true, opciones: ['ICH Q1A', 'Otra'] },

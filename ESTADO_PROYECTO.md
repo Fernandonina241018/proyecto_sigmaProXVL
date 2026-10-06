@@ -4646,3 +4646,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Qué:** `docs/banco-ensayos/estabilidad/oq-camaras.html` (19 articles EST-OQ-001…019 comunes, 12 con `data-analisis`, refs ICH Q1A/OMS/USP1058 + anexos). Integración completa: extractor, `banco-estabilidad-data.js`, script tag en indexx.html, rama `banco(cat)`, GEN_CATS/FASES (OQ), rama `contarGen`, tests espejo.
 - **Verificación:** OQ real (cabina acelerada) con 19 ensayos, 11 H1; cuarto real hereda los 19; Vitest 368/368, backend 60/60.
 - **Nota:** `estabilidad.html` (página de trabajo legacy) usa IDs EST-* propios distintos; no choca (archivos separados), pero conviene alinear nomenclatura a futuro.
+
+### 2026-10-06 (133): Esquema estabilidad con identificación completa
+- **Qué:** SCHEMAS.estabilidad suma codigo/marca/modelo/serie/ubicacion (paridad con equipos). Antes el OQ salía con portada y encabezado sin llenar (1/400AAAA, MARCA/MODELO/CÓDIGO/ÁREA).
+- **Verificación:** OQ real con OQ-500100 en encabezado y portada llena; Vitest 368/368, backend 60/60.
