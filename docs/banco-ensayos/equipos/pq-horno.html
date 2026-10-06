@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Horno de secado</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>PQ — Horno de secado (banco por familia)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-HO 2026-10-06 v1</span></p>
+<p>Ensayos de Calificación de Desempeño específicos del horno de secado (<span class="equipo">equipo</span>) con carga. Se filtran por familia (<code>data-familia="horno-secado"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt de protocolo.</p>
+
+<!-- ================= PQ ================= -->
+<section id="fase-pq" data-familia="horno-secado">
+<h2>PQ — Ensayos</h2>
+
+<div class="portada" data-bloque="1">
+<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>
+<p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+<p><strong>Calificación de Desempeño de <span class="equipo">equipo</span>:</strong> <span class="ent-descripcion">______</span></p>
+<ol>
+  <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+  <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+  <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+</ol>
+</div>
+
+<div class="firmas" data-bloque="1">
+<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>
+<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>
+<ol>
+  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+</ol>
+</div>
+
+<div class="responsabilidades" data-bloque="1">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+<p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+<ol><li>Coordinar la ejecución de la Calificación de Desempeño con producción y calidad, asegurando personal, <span class="equipo">equipo</span>, carga, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente durante todo el PQ.</li><li>Ejecutar y/o supervisar los ciclos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>
+<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y dictaminar el desempeño del equipo.</li></ol>
+<p><strong>Responsabilidad del Gerente de Área:</strong></p>
+<ol><li>Garantizar la disponibilidad del <span class="equipo">equipo</span>, de la carga y de los accesos para la ejecución.</li><li>Facilitar la documentación de proceso y del fabricante.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>
+</div>
+
+<div class="alcance" data-bloque="1">
+<p><strong>ALCANCE</strong></p>
+<p>Esta calificación aplica a <span class="equipo">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice.</p>
+</div>
+
+<div class="def-usp" data-bloque="1">
+<p><strong>DEFINICIÓN USP</strong></p>
+<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (USP &lt;1058&gt;).</p>
+</div>
+
+<div class="nota-datos" data-bloque="1">
+<p><strong>NOTA — DATOS DIGITALES</strong></p>
+<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>
+</div>
+
+<article data-bloque="3" id="art-EQ-PQ-HO-001" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-001" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-001 — Mapeo con carga máxima por ciclo de rutina</h3>
+  <p><strong>Objetivo:</strong><br>Mapear el <span class="equipo">equipo</span> con la carga máxima en cada ciclo de rutina: uniformidad, ΔT entre sondas y respecto al sensor de control.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir la carga máxima por ciclo de rutina (configuración más densa) y distribuir los termopares según el plano<br>
+  2) Correr el mapeo por ciclo de rutina durante el periodo definido, registrando al intervalo establecido<br>
+  3) Calcular por sonda promedio, máximo y mínimo; ΔT entre sondas y contra el control<br>
+  a) Todos los sensores dentro de los límites del URS durante todo el estudio<br>
+  4) Procesar los datos crudos del mapeo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Mapeo conforme en todos los ciclos de rutina.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Plano de sensores con carga máxima<br>
+  - Curvas y tabla por sonda y ciclo<br>
+  - Data cruda y reporte estadístico del análisis del mapeo</p>
+  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; URS del equipo.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-HO-002" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-002" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-002 — Mapeo con carga mínima (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Mapear con carga mínima, pues con poca masa térmica el horno se comporta distinto, con calentamiento más rápido y mayor oscilación; si siempre opera lleno, declarar No Aplica.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar si el horno opera con cargas variables; si no, pasar al paso 5)<br>
+  2) Configurar la carga mínima representativa y mapear por ciclo crítico<br>
+  3) Comparar oscilación y ciclos contra la carga máxima del ensayo EQ-PQ-HO-001<br>
+  a) Dentro de límites aun con mayor oscilación, o limitación documentada<br>
+  4) Procesar los datos crudos de carga mínima en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
+  5) Sin cargas variables: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Carga mínima conforme o limitación documentada, o No Aplica justificado y firmado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Mapeo con carga mínima y comparativa, o justificación de No Aplica firmada<br>
+  - Data cruda y reporte estadístico del análisis de carga mínima</p>
+  <p><strong>Referencia:</strong><br>URS del equipo; EU GMP Anexo 15 (rango).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-HO-003" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-003" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-003 — Punto frío con carga</h3>
+  <p><strong>Objetivo:</strong><br>Identificar el punto frío del <span class="equipo">equipo</span> con carga, que puede estar en un lugar distinto al del OQ vacío, y revisar la posición del sensor de control y de monitoreo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con los datos del mapeo del ensayo EQ-PQ-HO-001, identificar el punto más lento y frío de la carga<br>
+  2) Comparar contra el punto frío del OQ en vacío y determinar si se desplazó, con su causa<br>
+  3) Revisar la posición del sensor de control y del monitoreo contra el nuevo punto frío<br>
+  4) Reubicar el monitoreo si cambió el punto crítico y registrar la nueva posición<br>
+  a) Punto frío con carga identificado con sensores en posiciones representativas<br>
+  5) Procesar los datos crudos de extremos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Punto frío con carga identificado con monitoreo correcto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Comparativa vacío contra carga con plano actualizado<br>
+  - Data cruda y reporte estadístico del análisis de extremos</p>
+  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-HO-004" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-004" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-004 — Tiempo de equilibrio del punto lento</h3>
+  <p><strong>Objetivo:</strong><br>Medir el tiempo de equilibrio del <span class="equipo">equipo</span>: cuánto tarda el punto más lento de la carga en alcanzar la temperatura de proceso frente al sensor de control.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con los datos del mapeo, medir por sonda el tiempo desde que el control alcanza la temperatura hasta que cada punto la alcanza<br>
+  2) Determinar el equilibrio como el mayor tiempo (punto frío)<br>
+  3) Confirmar que el tiempo de mantenimiento programado cubre el equilibrio más la exposición requerida<br>
+  a) Equilibrio dentro del límite y mantenimiento posterior completo<br>
+  4) Procesar los datos crudos de equilibrio en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Equilibrio conocido y cubierto por el ciclo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de tiempos de equilibrio por sonda<br>
+  - Data cruda y reporte estadístico del análisis de equilibrio</p>
+  <p><strong>Referencia:</strong><br>EN 285 §equilibrio (concepto); receta aprobada.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-HO-005" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-005" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-005 — Penetración en el punto difícil por tipo de carga</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar la penetración de calor en el punto más difícil de cada tipo de carga del <span class="equipo">equipo</span> (contenedores cerrados, bandejas apiladas, material denso).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir los tipos de carga del sitio y el punto más difícil de cada uno<br>
+  2) Ubicar sondas en el punto difícil de cada tipo, con plano<br>
+  3) Correr un ciclo por tipo registrando la temperatura interna<br>
+  4) Confirmar meseta completa en el punto difícil de cada tipo<br>
+  a) El punto difícil alcanza la banda y la mantiene toda la meseta<br>
+  5) Procesar los datos crudos de penetración en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Penetración demostrada por tipo de carga.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de penetración por tipo de carga con curvas<br>
+  - Data cruda y reporte estadístico del análisis de penetración</p>
+  <p><strong>Referencia:</strong><br>PDA TR-01 (tipos de carga); receta aprobada.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-HO-006" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-006" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-006 — Mantenimiento del punto lento y equivalencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el punto más lento del <span class="equipo">equipo</span> mantiene el tiempo a temperatura requerido (o la equivalencia letal) con el criterio mínimo del protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con los datos del punto frío, confirmar el tiempo a temperatura en cada ciclo<br>
+  2) Calcular la equivalencia (letalidad o exposición acumulada) si el proceso la requiere, contra el criterio mínimo definido<br>
+  3) Comparar contra el criterio mínimo del protocolo<br>
+  a) Tiempo y equivalencia mayores o iguales al mínimo en todos los ciclos<br>
+  4) Procesar los datos crudos de mantenimiento en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Punto lento con tiempo y equivalencia conformes.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Cálculo de tiempo y equivalencia en el punto frío<br>
+  - Data cruda y reporte estadístico del análisis de mantenimiento</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1229&gt; (concepto de letalidad); receta aprobada.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-HO-007" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-007" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-007 — Conteo del ciclo desde el punto frío</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el tiempo del ciclo del <span class="equipo">equipo</span> cuenta desde que el punto frío alcanza la temperatura y no desde que lo hace el sensor de control.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Comparar el inicio del conteo del controlador contra el momento en que el punto frío alcanza la temperatura, en 3 ciclos<br>
+  2) Cuantificar la diferencia y su efecto en la exposición del punto frío<br>
+  3) Ajustar el ciclo o el procedimiento si el conteo parte del control<br>
+  a) El conteo parte del punto frío, o la diferencia está justificada y cubierta<br>
+  4) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Conteo del ciclo anclado al punto frío.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Comparativa control contra punto frío por ciclo<br>
+  - Data cruda y reporte estadístico del análisis comparativo</p>
+  <p><strong>Referencia:</strong><br>OMS TRS 961 §6 (punto más frío); receta aprobada.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-HO-008" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-008" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-008 — Tres ciclos consecutivos por configuración</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar repetibilidad en tres ciclos consecutivos por configuración de carga del <span class="equipo">equipo</span>, con el número justificado por riesgo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Aprobar el análisis de riesgo que justifica el número de ciclos y anexarlo<br>
+  2) Correr 3 ciclos consecutivos por configuración sin cambios al proceso<br>
+  3) Comparar parámetros críticos y atributos entre ciclos<br>
+  a) Los 3 ciclos cumplen idénticos criterios por configuración<br>
+  4) Procesar los datos crudos inter-ciclo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
+  5) Documentar desviaciones, alarmas o intervenciones</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Repetibilidad demostrada por configuración.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Análisis de riesgo del número de ciclos<br>
+  - Comparativa de los 3 ciclos por configuración<br>
+  - Data cruda y reporte estadístico del análisis inter-ciclo</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15 §§4.16–4.19.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-HO-009" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-009" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-009 — Peor caso (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño del <span class="equipo">equipo</span> en el peor caso: carga más densa, mayor masa, bandejas más apiladas o menor espacio para el flujo de aire.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir el peor caso con el análisis de riesgo; si no hay peor caso diferenciable, pasar al paso 4)<br>
+  2) Correr instrumentado el peor caso y confirmar meseta y uniformidad<br>
+  a) Peor caso conforme en todo<br>
+  3) Procesar los datos crudos del peor caso en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
+  4) Sin peor caso diferenciable: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Peor caso conforme, o No Aplica justificado y firmado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Definición del peor caso con análisis de riesgo, o justificación de No Aplica firmada<br>
+  - Data cruda y reporte estadístico del análisis del peor caso</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15 (peor caso).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-HO-010" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-010" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-010 — Humedad residual del secado (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la humedad residual del producto o material secado con el mismo método validado y puntos definidos de muestreo, cuando aplique al uso del horno.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar si el horno seca producto con especificación de humedad; si es solo calentamiento, pasar al paso 5)<br>
+  2) Muestrear el material secado en puntos definidos y medir humedad con método validado<br>
+  3) Comparar contra la especificación del producto<br>
+  a) Humedad dentro de especificación en todos los puntos<br>
+  4) Procesar los datos crudos de humedad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
+  5) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Humedad conforme, o No Aplica justificado y firmado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Resultados de humedad por punto, o justificación de No Aplica firmada<br>
+  - Data cruda y reporte estadístico del análisis de humedad</p>
+  <p><strong>Referencia:</strong><br>USP &lt;731&gt; (pérdida por secado); especificación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-HO-011" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-011" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-011 — Estado de la carga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el estado de la carga del <span class="equipo">equipo</span>: sin deformación, daño térmico ni degradación del material o producto.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Al descargar cada ciclo, inspeccionar visualmente la carga con luz adecuada<br>
+  2) Buscar deformación, decoloración, daño térmico y degradación<br>
+  3) Registrar el estado por ciclo con evidencia fotográfica si hay hallazgos<br>
+  4) Ante hallazgos, evaluar impacto y documentar la disposición<br>
+  a) Carga sin daño térmico en todos los ciclos<br>
+  5) Procesar los datos crudos de estado en el módulo de análisis estadístico cuando aplique medición (por ejemplo conteo de unidades afectadas) y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Carga sin daño atribuible al ciclo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del estado de la carga por ciclo<br>
+  - Data cruda y reporte estadístico, si aplica medición</p>
+  <p><strong>Referencia:</strong><br>Especificación del producto; BMR.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-HO-012" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-012" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-012 — Valoración y degradación (si aplica, termolábil)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la valoración y los productos de degradación cuando el producto es termolábil; si no lo es, declarar No Aplica.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar en el dossier si el producto es termolábil; si no, pasar al paso 5)<br>
+  2) Analizar valoración y degradación por método validado en muestras de cada ciclo<br>
+  3) Comparar contra la especificación y contra el material antes del horno<br>
+  4) Evaluar el impacto térmico del ciclo<br>
+  a) Valoración y degradación dentro de especificación<br>
+  5) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor<br>
+  6) Procesar los datos crudos analíticos en el módulo de análisis estadístico (cuando aplique) y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Conforme, o No Aplica justificado y firmado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Reportes analíticos por ciclo, o justificación de No Aplica firmada<br>
+  - Data cruda y reporte estadístico del análisis de valoración</p>
+  <p><strong>Referencia:</strong><br>Especificación del producto; dossier del activo.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-HO-013" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-013" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-013 — Estabilidad de temperatura en mantenimiento</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar la estabilidad de la temperatura del <span class="equipo">equipo</span> durante el mantenimiento, sin excursiones fuera de límites.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar la temperatura cada intervalo definido durante la meseta, en 3 ciclos con carga<br>
+  2) Calcular estabilidad (rango y SD) y listar alarmas ocurridas<br>
+  a) Dentro de banda el 100% del tiempo, con cero alarmas no gestionadas<br>
+  3) Procesar los datos crudos de estabilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Meseta estable sin alarmas no gestionadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de temperatura en meseta por ciclo<br>
+  - Data cruda y reporte estadístico del análisis de estabilidad</p>
+  <p><strong>Referencia:</strong><br>Receta aprobada; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-HO-014" class="ensayo" data-id="EQ-PQ-HO-014" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-014 — Respuesta de alarmas con carga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las alarmas del <span class="equipo">equipo</span> disparan dentro del retardo definido, con carga en la cámara.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con carga en la cámara, provocar o simular las alarmas críticas del ciclo<br>
+  2) Medir el tiempo entre la condición y el disparo, y confirmar el acuse<br>
+  3) Confirmar registro en el histórico con hora<br>
+  a) Disparo dentro del retardo con acuse y registro<br>
+  4) Anexar la matriz de alarmas con tiempos medidos</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Alarmas funcionales con carga dentro del retardo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de alarmas con tiempos y acuse</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; GAMP5 2.ª ed.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-HO-015" class="ensayo" data-id="EQ-PQ-HO-015" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-015 — Falla de energía con carga (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el comportamiento del ciclo y el criterio de rechazo o repetición de la carga ante falla de energía con carga.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir el escenario de falla a ensayar (duración y fase del ciclo); si el procedimiento no lo exige, pasar al paso 5)<br>
+  2) Cortar la energía con carga, anotar hora y fase, y registrar la deriva<br>
+  3) Restablecer y evaluar la carga según el criterio: rechazar o repetir<br>
+  4) Documentar la disposición con firmas<br>
+  a) Escenario cubierto con criterio de disposición aplicado<br>
+  5) Sin requisito: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Falla caracterizada con criterio de disposición, o No Aplica justificado y firmado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la falla con disposición de la carga, o justificación de No Aplica firmada</p>
+  <p><strong>Referencia:</strong><br>GAMP5 2.ª ed.; procedimiento de excursiones.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-HO-016" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-016" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-016 — Registrador frente a control y mapeo</h3>
+  <p><strong>Objetivo:</strong><br>Comparar el registrador independiente del <span class="equipo">equipo</span> frente al sensor de control y las sondas de mapeo durante la corrida, con diferencia dentro del criterio.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar en paralelo control, registrador independiente y mapeo durante una corrida nominal con carga<br>
+  2) Calcular las diferencias punto a punto entre las tres fuentes<br>
+  3) Confirmar que las tres cuentan la misma historia del proceso<br>
+  a) Diferencias dentro del criterio (±0,5 °C)<br>
+  4) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las tres fuentes coinciden dentro del criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Comparativa de las tres fuentes con diferencias<br>
+  - Data cruda y reporte estadístico del análisis comparativo</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-HO-017" class="ensayo" data-id="EQ-PQ-HO-017" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-017 — Revisión de registros de cada ciclo</h3>
+  <p><strong>Objetivo:</strong><br>Revisar los registros de cada ciclo del <span class="equipo">equipo</span>: parámetros críticos, alarmas y acciones tomadas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Recopilar los registros de todos los ciclos del PQ<br>
+  2) Verificar parámetros críticos dentro de límites y firmados por etapa<br>
+  3) Listar alarmas con causas, acciones y cierres<br>
+  4) Confirmar revisión por el área ejecutora y por calidad<br>
+  a) Registros completos, coherentes y cerrados<br>
+  5) Anexar la lista de verificación de registros diligenciada</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Registros completos con alarmas cerradas y trazabilidad total.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Lista de verificación de registros diligenciada</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.180; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-HO-018" class="ensayo" data-id="EQ-PQ-HO-018" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-018 — Criterios de liberación de rutina</h3>
+  <p><strong>Objetivo:</strong><br>Derivar del PQ los criterios de liberación de rutina del <span class="equipo">equipo</span> y llevarlos al SOP.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Recopilar los criterios demostrados en el PQ (tiempos, temperaturas, uniformidad, alarmas)<br>
+  2) Redactar los criterios de liberación de rutina (qué se verifica por ciclo y sus límites)<br>
+  3) Referenciar el SOP donde quedan oficializados, con su versión<br>
+  4) Aprobar los criterios con calidad<br>
+  a) Criterios de rutina definidos, trazables al PQ y en el SOP<br>
+  5) Anexar la tabla de criterios con su trazabilidad al ensayo que los demostró</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Liberación de rutina definida y en el SOP.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de criterios de liberación con trazabilidad al PQ</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; SOP del equipo.</p>
+</article>
+
+<article data-bloque="4" id="art-EQ-PQ-HO-RES" class="ensayo" data-id="EQ-PQ-HO-RES" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-RES — Tabla resumen de los ensayos del PQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ del horno de secado para la tabla resumen del protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar que los ensayos EQ-PQ-HO-001 a EQ-PQ-HO-018 están incluidos en el índice del protocolo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los 18 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="6" id="art-EQ-PQ-HO-REF" class="ensayo tabla-info" data-id="EQ-PQ-HO-REF" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
+  <h3>EQ-PQ-HO-REF — Referencias del PQ de horno de secado</h3>
+  <table>
+    <tr><th>SECCIÓN</th><th>TÍTULO</th><th>ESTADO</th></tr>
+    <tr><td>6.1</td><td>OMS TRS 1010 Anexo 7 — Mapeo, uniformidad y monitoreo de cámaras y hornos</td><td>VIGENTE</td></tr>
+    <tr><td>6.2</td><td>USP &lt;1058&gt; — Analytical Instrument Qualification: sensores y patrones asociados</td><td>VIGENTE</td></tr>
+    <tr><td>6.3</td><td>USP &lt;1229.8&gt; — Esterilización por calor seco: conceptos de letalidad aplicables</td><td>VIGENTE</td></tr>
+    <tr><td>6.4</td><td>USP &lt;731&gt; — Pérdida por secado: humedad residual del material secado</td><td>VIGENTE</td></tr>
+    <tr><td>6.5</td><td>EU GMP Anexo 15 — PQ con tres ciclos salvo justificación por riesgo</td><td>VIGENTE</td></tr>
+    <tr><td>6.6</td><td>21 CFR 211.180 — Registros de lote y trazabilidad</td><td>VIGENTE</td></tr>
+    <tr><td>6.7</td><td>Manual del fabricante del horno — Ciclos, setpoints, alarmas y límites de diseño</td><td>VIGENTE</td></tr>
+  </table>
+</article>
+
+<div class="anexos" data-bloque="8">
+<p><strong>ANEXOS:</strong></p>
+<table>
+<tr><th>SECCIÓN</th><th>TÍTULO</th></tr>
+<tr><td>8.1</td><td>Anexo A — Registros de ciclos, curvas de temperatura y mapeos con carga</td></tr>
+<tr><td>8.2</td><td>Anexo B — Reportes analíticos y certificados de patrones e instrumentos</td></tr>
+<tr><td>8.3</td><td>Anexo C — Matrices de alarmas, registros de fallas y listas de verificación</td></tr>
+</table>
+</div>
+
+</section>
+
+</body>
+</html>
