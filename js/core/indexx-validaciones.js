@@ -238,6 +238,8 @@ const Validaciones = (() => {
       { k: 'setpoint', label: 'Setpoint T°/HR', tipo: 'text', req: true },
       { k: 'camara', label: 'Cámara', tipo: 'text', req: true },
       { k: 'norma', label: 'Norma', tipo: 'select', req: true, opciones: ['ICH Q1A', 'Otra'] },
+      { k: 'controlCambios', label: 'Control de cambios #', tipo: 'text', req: false },
+      { k: 'versionProtocolo', label: 'Versión del protocolo', tipo: 'text', req: false },
     ],
     equipos: [
       { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },

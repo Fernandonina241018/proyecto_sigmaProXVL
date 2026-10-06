@@ -4650,3 +4650,6 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-06 (133): Esquema estabilidad con identificación completa
 - **Qué:** SCHEMAS.estabilidad suma codigo/marca/modelo/serie/ubicacion (paridad con equipos). Antes el OQ salía con portada y encabezado sin llenar (1/400AAAA, MARCA/MODELO/CÓDIGO/ÁREA).
 - **Verificación:** OQ real con OQ-500100 en encabezado y portada llena; Vitest 368/368, backend 60/60.
+
+### 2026-10-06 (134): Control de cambios y versión en estabilidad
+- **Qué:** SCHEMAS.estabilidad suma controlCambios + versionProtocolo (paridad equipos). Causa del reporte: sin esos campos el cajetín conservaba AA y no había dónde ingresar el CC. Verificado: cajetín con 02 e historial con CC.
