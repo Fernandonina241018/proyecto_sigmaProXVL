@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2",
+ "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -2593,6 +2593,637 @@ var BancoEquipos = {
     "bloque": 8,
     "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de ciclos, tiempos, velocidades y revoluciones por ensayo</td></tr>\n<tr><td>8.2</td><td>Anexo B — Datos de uniformidad de mezcla, reportes analíticos y certificados de instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Matrices de interlocks y alarmas, y registros por bin</td></tr>\n</tbody></table>",
     "familia": "mezclador"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n<p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n<p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n<ol>\n  <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n  <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n  <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n</ol>",
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n<ol>\n  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n</ol>",
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n<p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n<ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, instrumentos patrón y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar el inicio de la PQ.</li></ol>\n<p><strong>Responsabilidad del Gerente de Área:</strong></p>\n<ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo OQ, y cubre los ensayos listados en el índice.</p>",
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (USP &lt;1058&gt;).</p>",
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>",
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HO-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HO-001 — Parada de emergencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la parada de emergencia del <span class=\"equipo\">equipo</span> corta la calefacción y deja el horno en estado seguro."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar IQ aprobada y <span class=\"equipo\">equipo</span> liberado para OQ, en calentamiento nominal<br>\n  2) Accionar la parada de emergencia y medir con cronómetro el tiempo hasta el corte de calefacción y paro de ventilación<br>\n  3) Confirmar el estado seguro y el mensaje en el controlador<br>\n  a) Corte efectivo dentro del límite del fabricante<br>\n  4) Sin rearmar, intentar arrancar y confirmar que queda impedido<br>\n  5) Rearmar según el fabricante y confirmar condición segura sin arranque solo<br>\n  6) Repetir por cada parada y dejar el <span class=\"equipo\">equipo</span> en condición segura"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Corte efectivo; estado seguro; sin arranque sin rearme."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba con tiempos medidos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; GAMP5 2.ª ed."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HO-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HO-002 — Protección independiente de sobretemperatura",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la protección independiente de sobretemperatura corta la calefacción al llegar al límite, con el control principal inhabilitado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar el termostato o controlador independiente y su setpoint (registrar el valor en °C y su fuente antes de iniciar)<br>\n  2) Inhabilitar el control principal según el procedimiento del fabricante, bajo supervisión<br>\n  3) Elevar la temperatura de forma controlada hasta el límite de seguridad<br>\n  4) Confirmar el corte de la calefacción por el dispositivo independiente y su alarma<br>\n  a) Corte efectivo al límite con el control principal inhabilitado<br>\n  5) Restituir el control principal, normalizar y confirmar operación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Protección independiente funcional al límite declarado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba con setpoint y respuesta"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HO-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HO-003 — Interlocks de puerta y ventilación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los interlocks del <span class=\"equipo\">equipo</span>: puerta abierta y falla de ventilación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Dejar el <span class=\"equipo\">equipo</span> en calentamiento nominal y disponer de la matriz de interlocks<br>\n  2) Abrir la puerta y confirmar la respuesta diseñada (corte de calefacción, alarma o detención)<br>\n  3) Simular falla de ventilación y confirmar la inhibición de la calefacción<br>\n  4) Intentar arrancar con la puerta abierta y confirmar que queda impedido<br>\n  a) Cada interlock ejecuta su acción diseñada con mensaje<br>\n  5) Restituir todo a normal y cerrar la matriz"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de los interlocks ejecuta su acción."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de interlocks con condición y respuesta"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>GAMP5 2.ª ed.; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HO-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HO-004 — Alarmas y límites",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada alarma del <span class=\"equipo\">equipo</span> dispara en su límite y ejecuta su acción (alta temperatura, desviación, falla de sensor)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Listar las alarmas con sus límites según el controlador, con cronómetro y formato<br>\n  2) Provocar o simular alta temperatura y confirmar alarma con su acción<br>\n  a) Tiempo de respuesta menor a 5 segundos con acuse registrado<br>\n  3) Provocar o simular desviación de temperatura y falla de sensor (desconexión)<br>\n  4) Acusar cada alarma, normalizar y confirmar el retorno a operación con el histórico completo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las alarmas dispara, ejecuta su acción y queda registrada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de alarmas con límite, acción, tiempo y acuse"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; GAMP5 2.ª ed."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HO-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HO-005 — Falla y recuperación de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que ante un corte de energía el <span class=\"equipo\">equipo</span> queda en estado seguro, sin arranque espontáneo, y los registros se conservan."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Poner el <span class=\"equipo\">equipo</span> en calentamiento nominal y coordinar el corte real o simulado<br>\n  2) Cortar la energía, anotar la hora y confirmar el estado seguro y las alarmas<br>\n  3) Esperar 5 minutos sin energía<br>\n  4) Restablecer y confirmar que no arranca solo y exige acción deliberada del operador<br>\n  5) Rearrancar manualmente, confirmar operación normal y verificar integridad de registros (ALCOA+)<br>\n  6) Anexar el registro del evento y la verificación de datos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Estado seguro al corte; sin arranque espontáneo; datos íntegros."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del evento con hora y verificación de datos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>GAMP5 2.ª ed.; 21 CFR Part 11."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HO-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HO-006 — Exactitud del sensor frente a patrón por setpoint",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud del sensor de control del <span class=\"equipo\">equipo</span> frente a un patrón de referencia en cada setpoint de la tabla."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Disponer del patrón de referencia calibrado y de la tabla de setpoints aprobada del horno<br>\n  2) Estabilizar en cada setpoint de la tabla y comparar control contra patrón<br>\n  3) Registrar por setpoint ambas lecturas y la diferencia<br>\n  a) Diferencia menor o igual a ±0,5 °C o la tolerancia del URS<br>\n  4) Repetir en todos los setpoints de la tabla<br>\n  5) Procesar los datos crudos de exactitud en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Exactitud conforme en todos los setpoints de la tabla."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de setpoints con control contra patrón<br>\n  - Data cruda y reporte estadístico del análisis de exactitud<br>\n  - Certificado del patrón de referencia"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HO-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HO-007 — Estabilidad y sobreimpulso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la estabilidad del control del <span class=\"equipo\">equipo</span> en setpoints bajo, medio y alto del rango, y su sobreimpulso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Fijar el setpoint bajo del rango, estabilizar y registrar cada 5 minutos durante 30 minutos como mínimo<br>\n  2) Medir el sobreimpulso al alcanzar cada setpoint desde ambiente<br>\n  3) Repetir en setpoint medio y en setpoint alto<br>\n  4) Calcular por setpoint el promedio, el rango y el sobreimpulso máximo<br>\n  a) Estabilidad dentro de ±1 °C y sobreimpulso menor o igual al límite del fabricante<br>\n  5) Procesar los datos crudos de estabilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Estabilidad y sobreimpulso conformes en los tres setpoints."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de estabilidad y sobreimpulso por setpoint<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HO-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HO-008 — Tiempos de calentamiento y enfriamiento",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Medir el tiempo de calentamiento del <span class=\"equipo\">equipo</span> hasta el setpoint y el tiempo de enfriamiento hasta temperatura segura para descarga."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Partir del horno a temperatura ambiente registrada y fijar el setpoint de trabajo<br>\n  2) Medir con cronómetro el tiempo hasta entrar en banda y estabilizar<br>\n  3) Apagar o llevar a reposo y medir el tiempo de enfriamiento hasta temperatura segura de descarga [40] °C<br>\n  4) Repetir en un segundo setpoint representativo<br>\n  a) Tiempos dentro de lo previsto por el fabricante o la receta<br>\n  5) Procesar los datos crudos de tiempos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tiempos de calentamiento y enfriamiento conformes y repetibles."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curvas de calentamiento y enfriamiento por setpoint<br>\n  - Data cruda y reporte estadístico del análisis de tiempos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HO-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HO-009 — Temporizador y rampas o mesetas (si aplica)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el temporizador y los programas de rampa o meseta del <span class=\"equipo\">equipo</span> frente a un cronómetro de referencia; si no tiene programas, declarar No Aplica."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el horno tiene temporizador y programas de rampa o meseta; si no, pasar al paso 5)<br>\n  2) Programar 3 tiempos y medir cada uno con el cronómetro de referencia<br>\n  3) Programar una rampa y una meseta, y verificar segmentos contra tiempo real<br>\n  4) Comparar tiempos del equipo contra la referencia<br>\n  a) Diferencia menor o igual a ±1% o ±5 segundos, lo mayor<br>\n  5) Sin programas: redactar la justificación de No Aplica con firma del ejecutor y del revisor<br>\n  6) Procesar los datos crudos de tiempos en el módulo de análisis estadístico (cuando aplique) y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Temporizador y programas exactos, o No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de tiempos equipo contra referencia, o justificación de No Aplica firmada<br>\n  - Data cruda y reporte estadístico del análisis de tiempos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HO-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HO-010 — Recuperación tras apertura de puerta",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Medir la recuperación del <span class=\"equipo\">equipo</span> tras apertura de puerta, con duración definida según el uso real."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Estabilizar el horno en su setpoint de trabajo y definir la duración de apertura según el uso real<br>\n  2) Abrir la puerta el tiempo definido, cerrarla y medir el tiempo de retorno a banda<br>\n  3) Repetir 3 veces y registrar cada recuperación<br>\n  4) Confirmar que el uso real queda cubierto por lo ensayado<br>\n  a) Recuperación dentro del límite en las 3 repeticiones<br>\n  5) Procesar los datos crudos de recuperación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Recuperación en el tiempo previsto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de recuperación por repetición<br>\n  - Data cruda y reporte estadístico del análisis de recuperación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HO-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HO-011 — Mapeo en cada setpoint a calificar",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Mapear el <span class=\"equipo\">equipo</span> en cada setpoint a calificar, con termopares distribuidos en esquinas, centro, cerca de puerta, de resistencias y de la salida de aire; el número de sensores se justifica por el volumen de la cámara."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Justificar el número de sensores por el volumen y distribuirlos según el plano (esquinas, centro, puerta, resistencias, salida de aire)<br>\n  2) Correr el mapeo por setpoint durante el periodo definido, registrando al intervalo establecido<br>\n  3) Calcular por sensor promedio, máximo y mínimo; ΔT entre sensores<br>\n  a) Uniformidad dentro de la tolerancia en todos los setpoints<br>\n  4) Procesar los datos crudos del mapeo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Mapeo conforme en todos los setpoints con sensores justificados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de sensores con justificación por volumen<br>\n  - Curvas y tabla por sensor y setpoint<br>\n  - Data cruda y reporte estadístico del análisis del mapeo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HO-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HO-012 — Duración del estudio por setpoint",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Definir y justificar la duración del estudio con la cámara estable para cada setpoint."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Fijar la duración por setpoint con su justificación (mínimo 24 h salvo justificación)<br>\n  2) Ejecutar el periodo completo sin interrupciones injustificadas<br>\n  3) Confirmar estabilidad sostenida durante todo el periodo<br>\n  a) Periodo completo ejecutado con estabilidad sostenida<br>\n  4) Procesar los datos crudos de duración en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Duración justificada y ejecutada con estabilidad sostenida."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Justificación de la duración por setpoint<br>\n  - Data cruda y reporte estadístico del análisis de duración"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS del equipo; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HO-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HO-013 — Puntos frío y caliente y sensores representativos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Identificar el punto frío y el punto caliente del <span class=\"equipo\">equipo</span>, y verificar que el sensor de control y el de monitoreo están en posiciones representativas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con los datos del mapeo del ensayo EQ-OQ-HO-011, identificar los puntos extremos<br>\n  2) Declarar el punto frío y el caliente con su justificación<br>\n  3) Verificar la posición del sensor de control y del monitoreo contra los extremos<br>\n  4) Reubicar el monitoreo si no está en posición representativa y registrar la nueva posición<br>\n  a) Puntos identificados con sensores en posiciones representativas<br>\n  5) Procesar los datos crudos de extremos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Puntos identificados con monitoreo representativo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano con puntos extremos y posición de sensores<br>\n  - Data cruda y reporte estadístico del análisis de extremos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HO-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HO-014 — Criterio sin excursiones",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que todos los termopares están dentro de los límites del URS durante todo el estudio, con ΔT máximo entre sensores definido."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Recopilar todos los registros de termopares del estudio<br>\n  2) Verificar punto por punto contra los límites del URS y el ΔT máximo definido<br>\n  3) Listar cualquier excursión con su investigación y disposición<br>\n  a) Cero excursiones fuera de URS, o excursiones investigadas y dispuestas<br>\n  4) Procesar los datos crudos de cumplimiento en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cumplimiento total URS sin excursiones abiertas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de cumplimiento por sensor y setpoint<br>\n  - Data cruda y reporte estadístico del análisis de cumplimiento<br>\n  - Investigaciones de excursión, si las hubo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HO-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HO-015 — Registrador independiente frente a control y patrón",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Comparar el registrador independiente del <span class=\"equipo\">equipo</span> frente al sensor de control y al patrón de referencia, con diferencia dentro del criterio."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar en paralelo control, registrador independiente y patrón durante una corrida nominal de 24 h<br>\n  2) Calcular las diferencias punto a punto entre las tres fuentes<br>\n  3) Confirmar que el registrador refleja fielmente el control y el patrón<br>\n  a) Diferencia del registrador dentro del criterio (±0,5 °C)<br>\n  4) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Registrador fiel al control y al patrón dentro del criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Comparativa de las tres fuentes con diferencias<br>\n  - Data cruda y reporte estadístico del análisis comparativo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HO-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HO-016 — Intervalo de registro y marca de tiempo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el intervalo de registro y la exactitud de la marca de tiempo del <span class=\"equipo\">equipo</span>."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Configurar el intervalo declarado y correr 24 h<br>\n  2) Descargar el registro y verificar la regularidad del intervalo en todo el periodo<br>\n  3) Comparar la marca de tiempo contra hora oficial al inicio y al fin<br>\n  4) Confirmar que no hay huecos ni duplicados injustificados<br>\n  a) Intervalo regular con marca exacta<br>\n  5) Procesar los datos crudos de intervalos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Intervalo regular y marca de tiempo exacta."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Verificación de intervalos y deriva del reloj<br>\n  - Data cruda y reporte estadístico del análisis de intervalos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Part 11; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-HO-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HO-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ del horno de secado para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-HO-001 a EQ-OQ-HO-016 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 16 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-HO-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HO-REF — Referencias del OQ de horno de secado",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "OMS TRS 1010 Anexo 7 — Mapeo, uniformidad y monitoreo de cámaras y hornos",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "USP <1058> — Analytical Instrument Qualification: sensores y patrones asociados",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Cualificación y validación: la OQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "GAMP5 2.ª ed. — Challenge a funciones de seguridad, interlocks, alarmas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "21 CFR Part 11 — Registros electrónicos: intervalo, marca de tiempo e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Manual del fabricante del horno — Setpoints, alarmas, temporizador y límites de diseño",
+       "VIGENTE"
+      ]
+     ]
+    },
+    "familia": "horno-secado"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de ciclos, curvas de temperatura y mapeos por setpoint</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de patrones e instrumentos, y planos de sensores</td></tr>\n<tr><td>8.3</td><td>Anexo C — Matrices de interlocks y alarmas, y evidencias de notificaciones</td></tr>\n</tbody></table>",
+    "familia": "horno-secado"
    }
   ],
   "PQ": [

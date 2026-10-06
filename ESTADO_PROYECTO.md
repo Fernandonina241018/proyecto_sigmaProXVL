@@ -4671,3 +4671,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Qué:** entidad `horno-secado` de ENTIDADES.estabilidad a ENTIDADES.equipos + working page movida (git mv) + opción en dropdown de equipos.html. Tests de ubicación agregados.
 - **Pendiente:** banco OQ/PQ `familia="horno-secado"` (hoy genera IQ común + COMs). Nota: `horno-estufa` sigue en equipos (posible solape, por decidir).
 - **Verificación:** Vitest 375/375, backend 60/60.
+
+### 2026-10-06 (139): OQ horno de secado — 16 ensayos (5 seguridad + 11 del .txt)
+- **Qué:** nuevo `docs/banco-ensayos/equipos/oq-horno.html` (16 articles EQ-OQ-HO-001…016, `familia="horno-secado"`, 11 con `data-analisis` según marcas del .txt, refs OMS/USP1058/Anexo15/GAMP5/21CFR11 + anexos). Fuente: ENSAYOS.txt (control, mapeo, monitoreo) + bloque de seguridad agregado (E-stop, sobretemperatura, interlocks, alarmas, energía).
+- **Verificación:** OQ real con 17 ensayos (16+COM), 11 H1; sin mezcla; contrato con 4 familias; Vitest 379/379, backend 60/60.

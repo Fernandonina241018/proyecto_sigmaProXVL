@@ -300,6 +300,46 @@ describe('OQ mezclador (banco por familia, fuente ENSAYOS.txt)', () => {
   });
 });
 
+describe('OQ horno de secado (banco por familia, fuente ENSAYOS.txt)', () => {
+  const DRAFT_HO = {
+    codigo: '400800', descripcion: 'Horno de secado', ubicacion: 'PLANTA 3',
+    tipo: 'Equipo', marca: 'COMASA', modelo: 'H-200', fecha: '2026-10-06',
+  };
+  const genOQ = async (ent) => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.OQ)));
+    const r = await P.generar('OQ', u8, banco, DRAFT_HO, ent, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    return { r, doc: arch['word/document.xml'] };
+  };
+
+  it('banco OQ horno: 16 ensayos + RES + REF, 11 con analisis', () => {
+    const ids = (banco.fases.OQ || [])
+      .filter((i) => i.id && i.familia === 'horno-secado').map((i) => i.id);
+    expect(ids).toHaveLength(18);
+    expect(ids.filter((id) => /^EQ-OQ-HO-\d+$/.test(id))).toHaveLength(16);
+    const an = (banco.fases.OQ || []).filter((i) => i.familia === 'horno-secado' && i.analisis).map((i) => i.id);
+    expect(an).toHaveLength(11);
+  });
+
+  it('horno genera 16 + común, con mapeo y sin mezcla', async () => {
+    const { r, doc } = await genOQ({ id: 'horno-secado', nombre: 'Horno de secado' });
+    expect(r.ensayos).toHaveLength(17); // 16 familia + EQ-OQ-COM-001
+    expect(r.ensayos[0]).toBe('EQ-OQ-COM-001');
+    expect(r.ensayos[1]).toBe('EQ-OQ-HO-001');
+    for (const id of r.ensayos) expect(doc).toContain(id);
+    const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    expect(txt).toContain('SOBRETEMPERATURA');
+    expect(txt).not.toContain('BOWIE-DICK');
+    expect(txt).not.toContain('LECHO FLUIDO');
+  });
+
+  it('autoclave no recibe ensayos de horno', async () => {
+    const { r, doc } = await genOQ({ id: 'autoclave', nombre: 'Autoclave' });
+    expect(r.ensayos.every((id) => !id.includes('-HO-'))).toBe(true);
+    expect(doc).not.toContain('EQ-OQ-HO-001');
+  });
+});
+
 describe('data-analisis: paso + entregable estadístico en cada marcado', () => {
   const texto = (secs) => (secs || []).map((s) => (s.html || '').replace(/<[^>]+>/g, ' ')).join(' ');
   it('todo artículo con analisis trae el paso y el entregable', () => {
