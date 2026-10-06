@@ -63,7 +63,6 @@ const Validaciones = (() => {
       { id: 'horno-vacio', nombre: 'Horno de vacío' },
       { id: 'cabina-flujo', nombre: 'Cabina de flujo laminar' },
       { id: 'cabina-bioseguridad', nombre: 'Cabina de bioseguridad' },
-      { id: 'cabina-estabilidad', nombre: 'Cabina de estabilidad' },
     ],
     sistemas: [
       { id: 'hvac', nombre: 'HVAC / Climatización' },

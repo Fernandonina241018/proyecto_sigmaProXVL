@@ -253,6 +253,15 @@ describe('Validaciones V7', () => {
     globalThis.document = keep;
   });
 
+  test('sin duplicidad con estabilidad: equipos sin cabina-estabilidad', () => {
+    const ids = Validaciones.getEntidades('equipos').map((e) => e.id);
+    expect(ids).not.toContain('cabina-estabilidad');
+    const html = readFileSync(join(__dirname, '..', 'docs', 'banco-ensayos', 'equipos.html'), 'utf-8');
+    expect(html).not.toContain('cabina-estabilidad');
+    const est = Validaciones.getEntidades('estabilidad').map((e) => e.id);
+    expect(est).toContain('cabina-est-acelerada');
+  });
+
   test('responsable automático desde login, como Realizado por', () => {
     const comun = Validaciones.SCHEMAS._comun.find((f) => f.k === 'responsable');
     expect(comun.auto).toBe('login');
