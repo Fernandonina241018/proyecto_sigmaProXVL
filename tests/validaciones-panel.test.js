@@ -147,13 +147,13 @@ describe('Validaciones V7', () => {
     expect(Validaciones.FASES_GEN).toEqual(['DQ', 'IQ', 'OQ', 'PQ']);
   });
 
-  test('paso 3: estabilidad solo OQ (piloto cámaras)', () => {
-    expect(Validaciones.GEN_FASES.estabilidad).toEqual(['OQ']);
+  test('paso 3: estabilidad OQ+PQ (cámaras ICH Q1A)', () => {
+    expect(Validaciones.GEN_FASES.estabilidad).toEqual(['OQ', 'PQ']);
     const html = Validaciones.viewEntidad('estabilidad');
     expect(html).toContain('Protocolos a generar');
     expect(html).toContain('value="OQ"');
+    expect(html).toContain('value="PQ"');
     expect(html).not.toContain('value="IQ"');
-    expect(html).not.toContain('value="PQ"');
   });
 
   test('paso 3: equipos IQ+OQ+PQ; almacenes todas', () => {

@@ -4653,3 +4653,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 
 ### 2026-10-06 (134): Control de cambios y versión en estabilidad
 - **Qué:** SCHEMAS.estabilidad suma controlCambios + versionProtocolo (paridad equipos). Causa del reporte: sin esos campos el cajetín conservaba AA y no había dónde ingresar el CC. Verificado: cajetín con 02 e historial con CC.
+
+### 2026-10-06 (135): PQ cámaras de estabilidad — 19 ensayos desde ENSAYOS.txt
+- **Qué:** nuevo `docs/banco-ensayos/estabilidad/pq-camaras.html` (19 articles EST-PQ-001…019 comunes, 16 con `data-analisis` según marcas del .txt —grupos e individuales—, refs ICH Q1A/OMS/USP1058 + anexos). `GEN_FASES.estabilidad` suma PQ.
+- **Verificación:** PQ real con 19 ensayos, 11 H1; Vitest 370/370, backend 60/60.

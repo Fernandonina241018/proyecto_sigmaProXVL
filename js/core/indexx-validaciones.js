@@ -511,7 +511,7 @@ const Validaciones = (() => {
   const FASES_GEN = ['DQ', 'IQ', 'OQ', 'PQ'];
   const GEN_CATS = ['almacenes', 'equipos', 'estabilidad'];
   // Fases con generador por categoría (equipos: IQ común + OQ/PQ por familia).
-  const GEN_FASES = { almacenes: FASES_GEN.slice(), equipos: ['IQ', 'OQ', 'PQ'], estabilidad: ['OQ'] };
+  const GEN_FASES = { almacenes: FASES_GEN.slice(), equipos: ['IQ', 'OQ', 'PQ'], estabilidad: ['OQ', 'PQ'] };
 
   // Gerencias sugeridas para el Revisor Gerente (T2). El campo acepta texto libre.
   const AREAS_GERENCIA = ['Gerente Validaciones', 'Gerente Gestión de Calidad', 'Gerente Sr. Producción',

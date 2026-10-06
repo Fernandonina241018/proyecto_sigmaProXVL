@@ -19,7 +19,7 @@ const BANCOS = {
   // Los artículos llevan `familia` (data-familia); ausente = común a todas.
   equipos: { src: ['equipos-comun.html', 'equipos/oq-comun.html', 'equipos/pq-comun.html', 'equipos/oq-lecho-fluido.html', 'equipos/oq-autoclave.html', 'equipos/oq-mezclador.html', 'equipos/pq-lecho-fluido.html', 'equipos/pq-autoclave.html', 'equipos/pq-mezclador.html'], dst: 'banco-equipos-data.js', global: 'BancoEquipos' },
   // estabilidad: banco común de cámaras ICH Q1A (sin familias por ahora).
-  estabilidad: { src: ['estabilidad/oq-camaras.html'], dst: 'banco-estabilidad-data.js', global: 'BancoEstabilidad' },
+  estabilidad: { src: ['estabilidad/oq-camaras.html', 'estabilidad/pq-camaras.html'], dst: 'banco-estabilidad-data.js', global: 'BancoEstabilidad' },
 };
 const cat = process.argv[2] && !process.argv[2].startsWith('--') ? process.argv[2] : 'equipos';
 const ESTRICTO = process.argv.includes('--estricto');

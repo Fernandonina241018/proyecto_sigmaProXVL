@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Cámaras de estabilidad</title>
+</head>
+<body>
+
+<p><a href="../estabilidad.html">← Estabilidad</a></p>
+<h2>PQ — Cámaras de estabilidad (banco común ICH Q1A)</h2>
+<p>Versión del banco: <span data-banco-version>EST-PQ-CAM 2026-10-06 v1</span></p>
+<p>Ensayos de Calificación de Desempeño comunes a las cámaras de estabilidad (<span class="equipo">equipo</span>) con carga. Sin <code>data-familia</code>: aplican a todas las cámaras. Fuente: ENSAYOS.txt de protocolo.</p>
+
+<!-- ================= PQ ================= -->
+<section id="fase-pq">
+<h2>PQ — Ensayos</h2>
+
+<div class="portada" data-bloque="1">
+<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>
+<p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+<p><strong>Calificación de Desempeño de <span class="equipo">equipo</span>:</strong> <span class="ent-descripcion">______</span></p>
+<ol>
+  <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+  <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+  <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+</ol>
+</div>
+
+<div class="firmas" data-bloque="1">
+<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>
+<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>
+<ol>
+  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+</ol>
+</div>
+
+<div class="responsabilidades" data-bloque="1">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+<p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+<ol><li>Coordinar la ejecución de la Calificación de Desempeño con estabilidad y calidad, asegurando personal, <span class="equipo">equipo</span>, carga, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente durante todo el PQ.</li><li>Ejecutar y/o supervisar los estudios del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones y excursiones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>
+<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones y excursiones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y dictaminar el desempeño del equipo.</li></ol>
+<p><strong>Responsabilidad del Gerente de Área:</strong></p>
+<ol><li>Garantizar la disponibilidad del <span class="equipo">equipo</span>, de la carga y de los accesos para la ejecución.</li><li>Facilitar la documentación de proceso y del fabricante.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y excursiones con sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>
+</div>
+
+<div class="alcance" data-bloque="1">
+<p><strong>ALCANCE</strong></p>
+<p>Esta calificación aplica a <span class="equipo">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice.</p>
+</div>
+
+<div class="def-usp" data-bloque="1">
+<p><strong>DEFINICIÓN USP</strong></p>
+<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (USP &lt;1058&gt;).</p>
+</div>
+
+<div class="nota-datos" data-bloque="1">
+<p><strong>NOTA — DATOS DIGITALES</strong></p>
+<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>
+</div>
+
+<article data-bloque="3" id="art-EST-PQ-001" class="ensayo" data-analisis="si" data-id="EST-PQ-001" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-001 — Mapeo de temperatura con carga máxima</h3>
+  <p><strong>Objetivo:</strong><br>Mapear la temperatura del <span class="equipo">equipo</span> con la carga máxima en cada setpoint calificado, con sensores en esquinas, centro, cerca de puerta, humidificador y ventilación, más sensores dentro o junto a la carga.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir la carga máxima (configuración más densa) y distribuir los sensores según el plano, incluyendo dentro o junto a la carga<br>
+  2) Correr el mapeo por setpoint calificado durante el periodo definido, registrando al intervalo establecido<br>
+  3) Calcular por sensor promedio, máximo y mínimo; ΔT entre sensores y contra el control<br>
+  a) Todos los sensores dentro de los límites del URS durante todo el estudio, sin excursiones<br>
+  4) Procesar los datos crudos del mapeo con carga máxima en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Mapeo conforme en todos los setpoints, sin excursiones.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Plano de sensores con carga máxima<br>
+  - Curvas y tabla por sensor y setpoint<br>
+  - Data cruda y reporte estadístico del análisis del mapeo con carga máxima</p>
+  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; ICH Q1A(R2).</p>
+</article>
+
+<article data-bloque="3" id="art-EST-PQ-002" class="ensayo" data-analisis="si" data-id="EST-PQ-002" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-002 — Mapeo de HR con carga (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Mapear la HR del <span class="equipo">equipo</span> en los mismos setpoints del mapeo de temperatura, donde se controle HR.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar si la cámara controla HR; si no, pasar al paso 5)<br>
+  2) Con los mismos sensores y plano del ensayo EST-PQ-001, registrar HR por setpoint con carga<br>
+  3) Calcular uniformidad y estabilidad de HR por setpoint<br>
+  a) HR dentro de los límites del URS durante todo el estudio<br>
+  4) Procesar los datos crudos de HR en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
+  5) Sin control de HR: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Mapeo de HR conforme, o No Aplica justificado y firmado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Curvas y tabla de HR por sensor, o justificación de No Aplica firmada<br>
+  - Data cruda y reporte estadístico del análisis de HR</p>
+  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; ICH Q1A(R2).</p>
+</article>
+
+<article data-bloque="3" id="art-EST-PQ-003" class="ensayo" data-analisis="si" data-id="EST-PQ-003" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-003 — Duración del estudio por setpoint</h3>
+  <p><strong>Objetivo:</strong><br>Definir y justificar la duración del mapeo con carga, normalmente de 24 a 72 h por setpoint con la cámara estable, extendida si la URS pide más estabilidad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Fijar la duración por setpoint con su justificación (mínimo 24 h; 72 h si la URS exige estabilidad extendida)<br>
+  2) Ejecutar el periodo completo sin interrupciones injustificadas<br>
+  3) Confirmar estabilidad sostenida durante todo el periodo (sin derivas fuera de banda)<br>
+  a) Periodo completo ejecutado con estabilidad sostenida<br>
+  4) Procesar los datos crudos de duración en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
+  5) Si la URS pide más estabilidad, extender el periodo y documentar la extensión</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Duración justificada y ejecutada con estabilidad sostenida.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Justificación de la duración por setpoint<br>
+  - Data cruda y reporte estadístico del análisis de duración</p>
+  <p><strong>Referencia:</strong><br>URS del equipo; ICH Q1A(R2).</p>
+</article>
+
+<article data-bloque="3" id="art-EST-PQ-004" class="ensayo" data-analisis="si" data-id="EST-PQ-004" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-004 — Mapeo con carga mínima (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Mapear con carga mínima, pues una cámara casi vacía se comporta distinto, con ciclos más rápidos y mayor oscilación; si la cámara siempre opera llena, declarar No Aplica.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar si la cámara opera con cargas variables; si siempre va llena, pasar al paso 5)<br>
+  2) Configurar la carga mínima representativa y mapear por setpoint crítico<br>
+  3) Comparar oscilación y ciclos contra la carga máxima del ensayo EST-PQ-001<br>
+  a) Dentro de límites aun con mayor oscilación, o limitación documentada<br>
+  4) Procesar los datos crudos de carga mínima en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
+  5) Sin cargas variables: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Carga mínima conforme o limitación documentada, o No Aplica justificado y firmado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Mapeo con carga mínima y comparativa, o justificación de No Aplica firmada<br>
+  - Data cruda y reporte estadístico del análisis de carga mínima</p>
+  <p><strong>Referencia:</strong><br>URS del equipo; EU GMP Anexo 15 (rango).</p>
+</article>
+
+<article data-bloque="3" id="art-EST-PQ-005" class="ensayo" data-analisis="si" data-id="EST-PQ-005" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-005 — Puntos críticos del OQ con carga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los puntos fríos, calientes, secos y húmedos del OQ se mantienen con carga, o si se desplazaron, y reubicar el sensor de monitoreo si cambió el punto crítico.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Comparar los puntos extremos del mapeo con carga contra los del OQ en vacío<br>
+  2) Determinar si cada punto crítico se mantiene o se desplazó, con su causa (carga, flujo, puerta)<br>
+  3) Si cambió el punto crítico, reubicar el sensor de monitoreo y registrar la nueva posición en el plano<br>
+  4) Confirmar que el monitoreo de rutina queda en el peor caso con carga<br>
+  a) Puntos confirmados o reubicación documentada con monitoreo en el peor caso<br>
+  5) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Puntos críticos confirmados o reubicados con monitoreo correcto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Comparativa vacío contra carga con plano actualizado<br>
+  - Data cruda y reporte estadístico del análisis comparativo</p>
+  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; ICH Q1A(R2) (monitoreo).</p>
+</article>
+
+<article data-bloque="3" id="art-EST-PQ-006" class="ensayo" data-analisis="si" data-id="EST-PQ-006" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-006 — Criterio de aceptación sin excursiones</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que todos los sensores están dentro de los límites del URS durante todo el estudio, sin excursiones.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Recopilar todos los registros de sensores del estudio con carga<br>
+  2) Verificar punto por punto contra los límites del URS, incluyendo picos de apertura si aplican al criterio<br>
+  3) Listar cualquier excursión con su investigación y disposición<br>
+  a) Cero excursiones fuera de URS, o excursiones investigadas y dispuestas<br>
+  4) Procesar los datos crudos de cumplimiento en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cumplimiento total URS sin excursiones abiertas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de cumplimiento por sensor y setpoint<br>
+  - Data cruda y reporte estadístico del análisis de cumplimiento<br>
+  - Investigaciones de excursión, si las hubo</p>
+  <p><strong>Referencia:</strong><br>URS del equipo; ICH Q1A(R2).</p>
+</article>
+
+<article data-bloque="3" id="art-EST-PQ-007" class="ensayo" data-analisis="si" data-id="EST-PQ-007" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-007 — Apertura de puerta con carga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la apertura de puerta con carga con duración y frecuencia definidas según el uso real, con tiempo de recuperación a límites.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir duración (por ejemplo 1 a 5 min) y frecuencia de apertura según el uso real de la cámara<br>
+  2) Abrir la puerta el tiempo definido con carga, cerrarla y medir el tiempo de retorno a límites<br>
+  3) Repetir 3 veces y registrar cada recuperación con el registro continuo<br>
+  4) Confirmar que el uso real queda cubierto por lo ensayado<br>
+  a) Recuperación dentro del límite en las 3 repeticiones<br>
+  5) Procesar los datos crudos de recuperación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Recuperación en el tiempo previsto con carga.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de apertura y recuperación por repetición<br>
+  - Data cruda y reporte estadístico del análisis de recuperación</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2) (picos por apertura); EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EST-PQ-008" class="ensayo" data-analisis="si" data-id="EST-PQ-008" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-008 — Falla de energía con carga</h3>
+  <p><strong>Objetivo:</strong><br>Medir el tiempo que la cámara mantiene condiciones sin alimentación y el tiempo de recuperación al restablecer, definiendo la duración según el escenario a cubrir.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir la duración de la prueba según el escenario (por ejemplo falla de 30 min) y coordinar el corte<br>
+  2) Cortar la energía con carga, anotar la hora y registrar la deriva de temperatura y HR<br>
+  3) Medir el tiempo que se mantienen condiciones y el tiempo de recuperación al restablecer<br>
+  4) Evaluar el impacto en la carga y definir acciones (mantener, mover o descartar según el caso)<br>
+  a) Tiempos medidos y escenario cubierto con acciones definidas<br>
+  5) Procesar los datos crudos de la falla en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Escenario de falla caracterizado con acciones definidas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Curvas de deriva y recuperación con tiempos<br>
+  - Data cruda y reporte estadístico del análisis de falla<br>
+  - Acciones definidas ante falla real</p>
+  <p><strong>Referencia:</strong><br>GAMP5 2.ª ed.; ICH Q1A(R2) (excursiones por falla).</p>
+</article>
+
+<article data-bloque="3" id="art-EST-PQ-009" class="ensayo" data-analisis="si" data-id="EST-PQ-009" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-009 — Respuesta de alarmas con carga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la alarma dispara dentro del retardo definido y el sistema de notificación funciona, con carga en la cámara.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con carga en la cámara, provocar o simular las alarmas críticas (desviación de temperatura, HR y puerta)<br>
+  2) Medir el tiempo entre la condición y el disparo, y entre el disparo y la notificación<br>
+  3) Confirmar acuse y registro en el histórico con hora<br>
+  a) Disparo dentro del retardo y notificación recibida<br>
+  4) Procesar los datos crudos de respuesta en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Alarmas y notificación funcionales con carga.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de alarmas con tiempos y notificación<br>
+  - Data cruda y reporte estadístico del análisis de respuesta</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; GAMP5 2.ª ed.</p>
+</article>
+
+<article data-bloque="3" id="art-EST-PQ-010" class="ensayo" data-analisis="si" data-id="EST-PQ-010" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-010 — Falla de humidificador o compresor</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el comportamiento de la cámara y el tiempo hasta alarma ante falla del humidificador o del compresor.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular la falla del humidificador (sin aporte de humedad) con carga y registrar la deriva de HR<br>
+  2) Simular la falla del compresor (sin frío) y registrar la deriva de temperatura<br>
+  3) Medir en cada caso el tiempo hasta la alarma y hasta salir de límites<br>
+  4) Definir acciones ante falla real (traslado de carga, tiempo máximo de tolerancia)<br>
+  a) Alarmas en tiempo y acciones definidas por falla<br>
+  5) Procesar los datos crudos de fallas en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Fallas caracterizadas con alarmas y acciones definidas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Curvas de deriva por falla con tiempos<br>
+  - Data cruda y reporte estadístico del análisis de fallas</p>
+  <p><strong>Referencia:</strong><br>GAMP5 2.ª ed.; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EST-PQ-011" class="ensayo" data-analisis="si" data-id="EST-PQ-011" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-011 — Operación continua representativa</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar la operación continua del <span class="equipo">equipo</span> durante un período representativo, con carga y apertura de puerta de rutina (algunas empresas lo hacen 7 días o más, justificado por riesgo).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Justificar el período por análisis de riesgo (mínimo 7 días continuos salvo justificación) y anexar la justificación<br>
+  2) Operar con carga y aperturas de rutina según el uso real, sin intervenciones extraordinarias<br>
+  3) Registrar condiciones, alarmas y aperturas durante todo el periodo<br>
+  4) Confirmar cumplimiento continuo de límites en todo el periodo<br>
+  a) Periodo completo dentro de límites con uso de rutina<br>
+  5) Procesar los datos crudos del periodo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Operación continua conforme durante el periodo justificado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Justificación del periodo por riesgo<br>
+  - Registros continuos del periodo<br>
+  - Data cruda y reporte estadístico del análisis del periodo</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; análisis de riesgo del sitio.</p>
+</article>
+
+<article data-bloque="3" id="art-EST-PQ-012" class="ensayo" data-analisis="si" data-id="EST-PQ-012" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-012 — Condiciones ambientales externas (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el desempeño con condiciones ambientales externas cuando la cámara está en un local sin climatización; el peor caso es la temperatura y humedad ambiente más altas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar si el local tiene climatización; si la tiene, pasar al paso 5)<br>
+  2) Identificar la estación o condición de peor caso (ambiente más caliente y húmedo del año)<br>
+  3) Ejecutar el periodo representativo en peor caso con carga, registrando ambiente exterior e interior<br>
+  4) Confirmar cumplimiento interior pese al peor caso exterior<br>
+  a) Cámara cumple aun en peor caso exterior<br>
+  5) Con local climatizado: redactar la justificación de No Aplica con firma del ejecutor y del revisor<br>
+  6) Procesar los datos crudos comparativos en el módulo de análisis estadístico (cuando aplique) y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Desempeño conforme en peor caso exterior, o No Aplica justificado y firmado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros interior contra exterior, o justificación de No Aplica firmada<br>
+  - Data cruda y reporte estadístico del análisis comparativo</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15 (peor caso).</p>
+</article>
+
+<article data-bloque="3" id="art-EST-PQ-013" class="ensayo" data-analisis="si" data-id="EST-PQ-013" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-013 — Control contra monitoreo contra mapeo</h3>
+  <p><strong>Objetivo:</strong><br>Comparar el sensor de control, el de monitoreo y los de mapeo durante la corrida: la diferencia debe estar dentro del criterio.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar en paralelo control, monitoreo y mapeo durante una corrida nominal con carga<br>
+  2) Calcular las diferencias punto a punto entre las tres fuentes<br>
+  3) Confirmar que las tres cuentan la misma historia del proceso<br>
+  a) Diferencias dentro del criterio (temperatura ±0,5 °C, HR ±3%)<br>
+  4) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las tres fuentes coinciden dentro del criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Comparativa de las tres fuentes con diferencias<br>
+  - Data cruda y reporte estadístico del análisis comparativo</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EST-PQ-014" class="ensayo" data-id="EST-PQ-014" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-014 — Continuidad del registro y marca de tiempo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la continuidad del registro durante todo el estudio, sin huecos de datos, y la marca de tiempo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Descargar el registro completo del estudio y verificar la regularidad del intervalo en todo el periodo<br>
+  2) Comparar la marca de tiempo contra hora oficial al inicio y al fin<br>
+  3) Confirmar que no hay huecos ni duplicados injustificados<br>
+  a) Registro continuo con marca exacta<br>
+  4) Anexar la verificación de continuidad del estudio completo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Registro continuo y trazable en el tiempo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Verificación de continuidad y marca de tiempo del estudio</p>
+  <p><strong>Referencia:</strong><br>21 CFR Part 11; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EST-PQ-015" class="ensayo" data-id="EST-PQ-015" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-015 — Alarmas del monitoreo independiente</h3>
+  <p><strong>Objetivo:</strong><br>Probar las alarmas del sistema de monitoreo independiente: límites, retardos y destinatarios.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Listar las alarmas del monitoreo independiente con límites, retardos y destinatarios configurados<br>
+  2) Provocar o simular cada una y confirmar disparo, retardo y destinatario correcto<br>
+  3) Confirmar acuse y registro con hora en el histórico independiente<br>
+  a) Todas las alarmas disparan a su destinatario con su retardo<br>
+  4) Anexar la matriz de alarmas del monitoreo con evidencias</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Monitoreo independiente con alarmas funcionales.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de alarmas del monitoreo con evidencias</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; procedimiento de monitoreo.</p>
+</article>
+
+<article data-bloque="3" id="art-EST-PQ-016" class="ensayo" data-id="EST-PQ-016" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-016 — Respaldo de datos y revisión de registros</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el respaldo de datos y la revisión de los registros del estudio completo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar el respaldo de los datos del estudio según el procedimiento y confirmar su restauración de prueba<br>
+  2) Revisar los registros completos: condiciones, alarmas, aperturas y firmas por etapa<br>
+  3) Confirmar revisión por el área ejecutora y por calidad con firmas y fechas<br>
+  4) Verificar la trazabilidad entre sensores, registros y el informe<br>
+  a) Respaldo funcional y registros revisados y cerrados<br>
+  5) Anexar la lista de verificación de registros diligenciada</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Respaldo probado y registros cerrados con trazabilidad total.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Prueba de respaldo y restauración<br>
+  - Lista de verificación de registros diligenciada</p>
+  <p><strong>Referencia:</strong><br>21 CFR Part 11; 21 CFR 211.180.</p>
+</article>
+
+<article data-bloque="3" id="art-EST-PQ-017" class="ensayo" data-analisis="si" data-id="EST-PQ-017" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-017 — Procedimiento de excursión</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el procedimiento de excursión: cómo se detecta, se registra, se evalúa su impacto en las muestras y se documenta.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular o tomar una excursión real registrada: detección por monitoreo y alarma<br>
+  2) Registrarla en el formato de excursiones con hora, duración, magnitud y sensores afectados<br>
+  3) Evaluar el impacto en las muestras almacenadas según estabilidad del producto<br>
+  4) Documentar la disposición (mantener, mover o descartar) con firmas<br>
+  a) Excursión detectada, evaluada y dispuesta según procedimiento<br>
+  5) Procesar los datos crudos de la excursión en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Procedimiento de excursión funcional y documentado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de excursión diligenciado con evaluación y disposición<br>
+  - Data cruda y reporte estadístico del análisis de la excursión</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2) (excursiones); procedimiento de excursiones.</p>
+</article>
+
+<article data-bloque="3" id="art-EST-PQ-018" class="ensayo" data-analisis="si" data-id="EST-PQ-018" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-018 — Tiempo máximo de excursión aceptable</h3>
+  <p><strong>Objetivo:</strong><br>Definir el tiempo máximo de excursión aceptable desde la estabilidad del producto y no desde el valor de fábrica.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Recopilar datos de estabilidad del producto que soportan exposiciones breves fuera de rango<br>
+  2) Definir el tiempo máximo aceptable por tipo de excursión (temperatura y HR) con su justificación técnica<br>
+  3) Aprobar el límite con calidad y registrarlo en el procedimiento de excursiones<br>
+  4) Aplicar el límite a las excursiones del estudio y confirmar su uso<br>
+  a) Límite definido, justificado y aplicado<br>
+  5) Procesar los datos crudos de soporte en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Límite de excursión justificado desde el producto y vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Justificación del tiempo máximo con datos de estabilidad<br>
+  - Data cruda y reporte estadístico del análisis de soporte</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); datos de estabilidad del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EST-PQ-019" class="ensayo" data-analisis="si" data-id="EST-PQ-019" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-019 — Cambio de setpoint en uso múltiple</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el cambio de setpoint en uso múltiple: tiempo de transición y estabilidad antes de cargar muestras nuevas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con la cámara estable en un setpoint, cambiar al siguiente setpoint de uso<br>
+  2) Medir el tiempo de transición hasta entrar en banda y estabilizar<br>
+  3) Confirmar estabilidad sostenida antes de autorizar la carga de muestras nuevas<br>
+  4) Registrar el tiempo de transición aprobado por cambio en la matriz de uso múltiple<br>
+  a) Transición medida y estabilidad confirmada antes de cada carga<br>
+  5) Procesar los datos crudos de transiciones en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cambios de setpoint caracterizados con estabilidad previa a cada carga.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de transiciones con tiempos y estabilidades<br>
+  - Data cruda y reporte estadístico del análisis de transiciones</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; procedimiento de uso de cámaras.</p>
+</article>
+
+<article data-bloque="4" id="art-EST-PQ-RES" class="ensayo" data-id="EST-PQ-RES" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-RES — Tabla resumen de los ensayos del PQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ de cámaras de estabilidad para la tabla resumen del protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar que los ensayos EST-PQ-001 a EST-PQ-019 están incluidos en el índice del protocolo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los 19 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="6" id="art-EST-PQ-REF" class="ensayo tabla-info" data-id="EST-PQ-REF" data-fase="PQ" data-cond="ambas">
+  <h3>EST-PQ-REF — Referencias del PQ de cámaras de estabilidad</h3>
+  <table>
+    <tr><th>SECCIÓN</th><th>TÍTULO</th><th>ESTADO</th></tr>
+    <tr><td>6.1</td><td>ICH Q1A(R2) — Estabilidad: condiciones 25/60, 30/65 y 40/75; tolerancias y excursiones</td><td>VIGENTE</td></tr>
+    <tr><td>6.2</td><td>OMS TRS 1010 Anexo 7 — Mapeo, uniformidad y monitoreo de cámaras</td><td>VIGENTE</td></tr>
+    <tr><td>6.3</td><td>USP &lt;1058&gt; — Analytical Instrument Qualification: sensores y patrones asociados</td><td>VIGENTE</td></tr>
+    <tr><td>6.4</td><td>EU GMP Anexo 15 — PQ tras IQ/OQ; repetibilidad y peor caso justificados</td><td>VIGENTE</td></tr>
+    <tr><td>6.5</td><td>21 CFR Part 11 / 21 CFR 211.180 — Registros electrónicos, respaldo y registros de lote</td><td>VIGENTE</td></tr>
+    <tr><td>6.6</td><td>Manual del fabricante de la cámara — Rangos, alarmas y límites de diseño</td><td>VIGENTE</td></tr>
+  </table>
+</article>
+
+<div class="anexos" data-bloque="8">
+<p><strong>ANEXOS:</strong></p>
+<table>
+<tr><th>SECCIÓN</th><th>TÍTULO</th></tr>
+<tr><td>8.1</td><td>Anexo A — Registros de mapeos, curvas de temperatura y HR por setpoint</td></tr>
+<tr><td>8.2</td><td>Anexo B — Certificados de patrones e instrumentos, y planos de sensores</td></tr>
+<tr><td>8.3</td><td>Anexo C — Registros de excursiones, alarmas y respaldos con verificaciones</td></tr>
+</table>
+</div>
+
+</section>
+
+</body>
+</html>

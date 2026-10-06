@@ -56,3 +56,31 @@ describe('OQ cámaras de estabilidad con formato del modelo', () => {
     expect(r.ensayos).toHaveLength(19);
   });
 });
+
+describe('PQ cámaras de estabilidad (fuente ENSAYOS.txt)', () => {
+  const genPQ = async (ent) => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));
+    const r = await P.generar('PQ', u8, banco, DRAFT, ent, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    return { r, doc: arch['word/document.xml'] };
+  };
+
+  it('banco PQ: 19 ensayos + RES + REF, 16 con analisis', () => {
+    const ids = (banco.fases.PQ || []).filter((i) => i.id).map((i) => i.id);
+    expect(ids).toHaveLength(21);
+    expect(new Set(ids).size).toBe(21);
+    expect(ids.filter((id) => /^EST-PQ-\d+$/.test(id))).toHaveLength(19);
+    const an = (banco.fases.PQ || []).filter((i) => i.analisis).map((i) => i.id);
+    expect(an).toHaveLength(16);
+  });
+
+  it('cabina acelerada genera 19 con ICH Q1A y sin mezcla OQ', async () => {
+    const { r, doc } = await genPQ(ENT);
+    expect(r.ensayos).toHaveLength(19);
+    expect(r.ensayos[0]).toBe('EST-PQ-001');
+    for (const id of r.ensayos) expect(doc).toContain(id);
+    const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    expect(txt).toContain('ICH Q1A');
+    expect(txt).not.toContain('EST-OQ-001');
+  });
+});
