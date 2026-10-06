@@ -1241,6 +1241,7 @@ const PlantillaDocx = (() => {
   function banco(cat) {
     try {
       if (cat === 'equipos' && typeof BancoEquipos !== 'undefined') return BancoEquipos;
+      if (cat === 'estabilidad' && typeof BancoEstabilidad !== 'undefined') return BancoEstabilidad;
       if (typeof BancoAlmacenes !== 'undefined') return BancoAlmacenes;
       if (typeof GeneradorDocx !== 'undefined' && GeneradorDocx.banco) return GeneradorDocx.banco();
     } catch (e) { /* sigue */ }

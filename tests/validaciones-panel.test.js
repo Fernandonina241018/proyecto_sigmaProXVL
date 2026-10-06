@@ -136,12 +136,21 @@ describe('Validaciones V7', () => {
     expect(alm).toContain('class="gen-fase"');
     expect(alm).toContain('Generar y descargar');
     expect(alm).not.toContain('Generar (próximamente)');
-    for (const cat of ['sistemas', 'estabilidad', 'software']) {
+    for (const cat of ['sistemas', 'software']) {
       const h = Validaciones.viewEntidad(cat);
       expect(h).toContain('Generar (próximamente)');
       expect(h).toContain('próximamente para esta categoría');
     }
     expect(Validaciones.FASES_GEN).toEqual(['DQ', 'IQ', 'OQ', 'PQ']);
+  });
+
+  test('paso 3: estabilidad solo OQ (piloto cámaras)', () => {
+    expect(Validaciones.GEN_FASES.estabilidad).toEqual(['OQ']);
+    const html = Validaciones.viewEntidad('estabilidad');
+    expect(html).toContain('Protocolos a generar');
+    expect(html).toContain('value="OQ"');
+    expect(html).not.toContain('value="IQ"');
+    expect(html).not.toContain('value="PQ"');
   });
 
   test('paso 3: equipos IQ+OQ+PQ; almacenes todas', () => {

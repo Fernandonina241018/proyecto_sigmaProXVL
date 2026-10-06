@@ -4641,3 +4641,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-04 (131): Texto de Objetivo en subnivel 7.2.1.1
 - **Qué:** el párrafo de texto bajo `Objetivo:` usa mismo numId con ilvl+1 (7.2.1 → 7.2.1.1) en ensayos y requisitos. Hallazgo: `ajustarPPr` exigía `<w:ilvl .../>` sin espacio y las plantillas traen `<w:ilvl ... />` → reemplazo silencioso sin efecto; regex tolerante a espacio ahora (también en numId).
 - **Verificación:** PQ real etiqueta ilvl=2 / texto ilvl=3 misma lista; Vitest 363/363, backend 60/60.
+
+### 2026-10-06 (132): Nueva categoría estabilidad — OQ cámaras ICH Q1A
+- **Qué:** `docs/banco-ensayos/estabilidad/oq-camaras.html` (19 articles EST-OQ-001…019 comunes, 12 con `data-analisis`, refs ICH Q1A/OMS/USP1058 + anexos). Integración completa: extractor, `banco-estabilidad-data.js`, script tag en indexx.html, rama `banco(cat)`, GEN_CATS/FASES (OQ), rama `contarGen`, tests espejo.
+- **Verificación:** OQ real (cabina acelerada) con 19 ensayos, 11 H1; cuarto real hereda los 19; Vitest 368/368, backend 60/60.
+- **Nota:** `estabilidad.html` (página de trabajo legacy) usa IDs EST-* propios distintos; no choca (archivos separados), pero conviene alinear nomenclatura a futuro.

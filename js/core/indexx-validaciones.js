@@ -502,9 +502,9 @@ const Validaciones = (() => {
   }
 
   const FASES_GEN = ['DQ', 'IQ', 'OQ', 'PQ'];
-  const GEN_CATS = ['almacenes', 'equipos'];
+  const GEN_CATS = ['almacenes', 'equipos', 'estabilidad'];
   // Fases con generador por categoría (equipos: IQ común + OQ/PQ por familia).
-  const GEN_FASES = { almacenes: FASES_GEN.slice(), equipos: ['IQ', 'OQ', 'PQ'] };
+  const GEN_FASES = { almacenes: FASES_GEN.slice(), equipos: ['IQ', 'OQ', 'PQ'], estabilidad: ['OQ'] };
 
   // Gerencias sugeridas para el Revisor Gerente (T2). El campo acepta texto libre.
   const AREAS_GERENCIA = ['Gerente Validaciones', 'Gerente Gestión de Calidad', 'Gerente Sr. Producción',
@@ -575,9 +575,12 @@ const Validaciones = (() => {
 
   function contarGen(fase, cond, catId, entId) {
     try {
-      // Equipos: mismo criterio que generar() — bloques 2-3, condición y familia/entidad.
-      if (catId === 'equipos' && typeof BancoEquipos !== 'undefined' && BancoEquipos.fases) {
-        const items = (BancoEquipos.fases[fase] || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3));
+      // Equipos/estabilidad: mismo criterio que generar() — bloques 2-3, condición y familia/entidad.
+      const BB = catId === 'estabilidad'
+        ? (typeof BancoEstabilidad !== 'undefined' ? BancoEstabilidad : null)
+        : (typeof BancoEquipos !== 'undefined' ? BancoEquipos : null);
+      if ((catId === 'equipos' || catId === 'estabilidad') && BB && BB.fases) {
+        const items = (BB.fases[fase] || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3));
         const flt = cond || 'ambas';
         const ent = String(entId || '').trim();
         return items.filter((i) => (flt === 'ambas' || i.cond === 'ambas' || i.cond === flt)
