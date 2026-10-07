@@ -421,6 +421,8 @@
   color: var(--v7-muted);
 }
 #validaciones-app .v7-field > span > b { color: var(--v7-accent); font-weight: 700; }
+/* preview de cómo saldrá la descripción en encabezado/portada */
+#validaciones-app .v7-desc-preview { font-size: 11px; color: var(--v7-muted); font-style: italic; }
 /* descripciones y textos largos: ancho completo */
 #validaciones-app .v7-field[data-f="descripcion"],
 #validaciones-app .v7-field[data-f="modulos"],

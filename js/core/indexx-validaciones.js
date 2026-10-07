@@ -684,6 +684,19 @@ const Validaciones = (() => {
       + '</div></div>';
   }
 
+  // Lógica pura del autofill de descripción (testeable sin DOM):
+  // devuelve { valor, manual } dado el valor actual, el nombre de la entidad
+  // elegida, el nombre de la entidad anterior y si ya era manual.
+  function resolverDescripcion(val, nom, ult, manual) {
+    const v = String(val == null ? '' : val);
+    const n = String(nom || '');
+    const u = String(ult || '');
+    if (!v.trim() || v.trim() === n.trim() || (!manual && u.trim() && v.trim() === u.trim())) {
+      return { valor: n, manual: false };
+    }
+    return { valor: v, manual: true };
+  }
+
   function bindEntidad(main, catId) {
     const schema = getSchema(catId);
     const step2 = main.querySelector('.v7-step[data-step="2"]');
@@ -923,6 +936,37 @@ const Validaciones = (() => {
       if (btn) btn.disabled = false;
     }
 
+    // ---- Descripción automática desde la entidad (fuente única + override manual) ----
+    // Al elegir entidad se rellena con su nombre salvo edición manual previa;
+    // el preview muestra cómo saldrá en encabezado/portada (mayúsculas).
+    function nombreEntidad() {
+      const o = entidadObj();
+      return String((o && o.nombre) || entActual || '');
+    }
+    function pintarDescripcion() {
+      const inp = form.querySelector('[data-k="descripcion"]');
+      if (!inp) return;
+      let prev = form.querySelector('.v7-desc-preview');
+      if (!prev && inp.parentNode && inp.parentNode.insertAdjacentHTML) {
+        inp.parentNode.insertAdjacentHTML('beforeend', '<div class="v7-desc-preview" role="status"></div>');
+        prev = form.querySelector('.v7-desc-preview');
+      }
+      const nom = nombreEntidad();
+      const r = resolverDescripcion(inp.value, nom, ultEntNombre, !!(inp.dataset && inp.dataset.manual === '1'));
+      inp.value = r.valor;
+      try {
+        if (r.manual) inp.dataset.manual = '1';
+        else delete inp.dataset.manual;
+      } catch (e) {}
+      if (prev) {
+        const v = String(inp.value || '').trim();
+        prev.textContent = 'Saldrá como: ' + (v ? v.toUpperCase() : '—')
+          + (inp.dataset && inp.dataset.manual ? ' (personalizado)' : '');
+      }
+      ultEntNombre = nom;
+    }
+    let ultEntNombre = '';
+
     function elegirEntidad(entId) {
       if (!entId) return false;
       entActual = entId;
@@ -930,6 +974,7 @@ const Validaciones = (() => {
       step2.hidden = false;
       const draft = loadDraft(entActual);
       cargar(draft);
+      pintarDescripcion();
       setMsg(Object.keys(draft).length ? 'Borrador cargado' : '', true);
       if (conGen) cargarFirmantes();
       if (step3 && conGen) {
@@ -989,6 +1034,27 @@ const Validaciones = (() => {
     if (form.addEventListener) {
       form.addEventListener('submit', function (e) { e.preventDefault(); });
       form.addEventListener('input', function () { setMsg(''); });
+      // Edición manual de la descripción: se respeta ante cambios de entidad
+      form.addEventListener('input', function (e) {
+        const t = e && e.target;
+        if (t && t.getAttribute && t.getAttribute('data-k') === 'descripcion') {
+          try {
+            if (String(t.value || '').trim() !== nombreEntidad().trim()) t.dataset.manual = '1';
+            else delete t.dataset.manual;
+          } catch (err) {}
+          pintarDescripcionPreviewSolo();
+        }
+      });
+    }
+
+    function pintarDescripcionPreviewSolo() {
+      const inp = form.querySelector('[data-k="descripcion"]');
+      const prev = form.querySelector('.v7-desc-preview');
+      if (inp && prev) {
+        const v = String(inp.value || '').trim();
+        prev.textContent = 'Saldrá como: ' + (v ? v.toUpperCase() : '—')
+          + (inp.dataset && inp.dataset.manual ? ' (personalizado)' : '');
+      }
     }
   }
 
@@ -1113,6 +1179,6 @@ const Validaciones = (() => {
   return {
     CATS, ROUTES, ENTIDADES, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
     entidadPorNombre,
-    puestoGerente, firmantesHtml, saveDraft, loadDraft, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen,
+    puestoGerente, firmantesHtml, saveDraft, loadDraft, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, resolverDescripcion,
   };
 })();

@@ -295,4 +295,21 @@ describe('Validaciones V7', () => {
     const pf = src.slice(src.indexOf('function pintarFirmantes'));
     expect(pf.slice(0, 1600)).toContain('data-k="responsable"');
   });
+
+  test('descripcion: autofill desde entidad + override manual + preview', () => {
+    const R = Validaciones.resolverDescripcion;
+    // vacío → rellena con la entidad, no manual
+    expect(R('', 'Lecho fluido', '', false)).toEqual({ valor: 'Lecho fluido', manual: false });
+    // igual a la entidad → limpio
+    expect(R('Balanza', 'Balanza', '', false)).toEqual({ valor: 'Balanza', manual: false });
+    // trae el nombre auto de la anterior → cambia a la nueva (cambio de entidad)
+    expect(R('Lecho fluido', 'Balanza', 'Lecho fluido', false)).toEqual({ valor: 'Balanza', manual: false });
+    // texto distinto = edición manual, se respeta
+    expect(R('Lecho fluido Glatt', 'Lecho fluido', '', false)).toEqual({ valor: 'Lecho fluido Glatt', manual: true });
+    expect(R('Lecho fluido Glatt', 'Balanza', 'Lecho fluido', true)).toEqual({ valor: 'Lecho fluido Glatt', manual: true });
+    // el preview existe en el HTML del paso 2 (fuente del JS, sin DOM)
+    const src2 = readFileSync(join(core, 'indexx-validaciones.js'), 'utf-8');
+    expect(src2).toContain('v7-desc-preview');
+    expect(src2).toContain('Saldrá como: ');
+  });
 });

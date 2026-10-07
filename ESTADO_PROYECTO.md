@@ -4683,3 +4683,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-06 (141): OQ+PQ horno de vacío desde ENSAYOS.txt
 - **Qué:** nuevos `oq-horno-vacio.html` (18: 17 del .txt + E-stop agregada, 12 con `data-analisis`) y `pq-horno-vacio.html` (10, todos con `data-analisis` por grupos), `familia="horno-vacio"`, refs DIN 12880/USP1058/USP731/Anexo15 + anexos.
 - **Verificación:** OQ real 19 ensayos (18+COM) y PQ real 11 (10+COM), 11 H1; sin mezcla; Vitest 385/385, backend 60/60.
+
+### 2026-10-07 (142): Descripción automática desde la entidad + preview
+- **Qué:** al elegir entidad se rellena `descripcion` con su nombre (fuente única); edición manual respetada con dirty flag (incluye cambio de entidad con nombre auto anterior); preview vivo "Saldrá como: X (personalizado)" con el formato de encabezado/portada. Borradores viejos personalizados se respetan.
+- **Verificación:** lógica pura `resolverDescripcion` testeada (5 casos); Vitest 386/386, backend 60/60.
