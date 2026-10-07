@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos IQ — Horno de Vacío</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>IQ — Horno de Vacío (banco por familia, Nivel 3)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-IQ-VA 2026-10-07 v1</span></p>
+<p>Ensayos de Calificación de Instalación específicos del horno de vacío. Se suman al núcleo común (EQ-IQ-001…EQ-IQ-023) y se filtran por familia (<code>data-familia="horno-vacio"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= IQ ================= -->
+<section id="fase-iq" data-familia="horno-vacio">
+<h2>IQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-IQ-VA-001" class="ensayo" data-id="EQ-IQ-VA-001" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-VA-001 — Verificación del P&amp;I contra lo instalado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el P&amp;I del horno de vacío (cámara, vacío, calentamiento y control) corresponde con la instalación física real.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Obtener la revisión vigente del P&amp;I aprobado<br>
+  2) Recorrer la instalación identificando cámara, bomba de vacío, resistencias, sensores y líneas asociadas<br>
+  3) Confirmar tag, diámetro, material y trazado de cada línea contra el P&amp;I<br>
+  4) Registrar toda desviación como hallazgo con su disposición</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El P&amp;I corresponde con lo instalado en su revisión vigente.<br>
+  No existen líneas, válvulas ni instrumentos sin identificar.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - P&amp;I verificado y firmado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del horno.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-VA-002" class="ensayo" data-id="EQ-IQ-VA-002" data-fase="IQ" data-cond="ambas" data-tabla-modelo="UTILIDADES HORNO VACÍO">
+  <h3>EQ-IQ-VA-002 — Verificación de conexiones de utilidades del horno</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las utilidades del horno de vacío están conectadas según especificación: energía eléctrica, agua de enfriamiento, aire y extracción.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la acometida eléctrica: voltaje, fases, calibre, protección y puesta a tierra<br>
+  2) Verificar el agua de enfriamiento de la bomba y de la camisa (si aplica): caudal y válvulas de corte<br>
+  3) Verificar el aire de instrumentos (si aplica): presión, filtro y regulador<br>
+  4) Verificar la extracción o venteo de la bomba hacia zona segura<br>
+  5) Registrar los parámetros de cada utilidad en la tabla de utilidades</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todas las utilidades están conectadas y sus parámetros están dentro de lo especificado.<br>
+  Cada utilidad cuenta con su elemento de corte accesible.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de utilidades verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del horno.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-VA-003" class="ensayo" data-id="EQ-IQ-VA-003" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-VA-003 — Verificación de cámara, puerta y protección contra implosión</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la cámara, la puerta y sus protecciones cumplen material, acabados y seguridad contra implosión especificados.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el material de la cámara y de la puerta contra el certificado del fabricante<br>
+  2) Inspeccionar acabados internos: ausencia de picaduras, grietas y zonas de corrosión<br>
+  3) Verificar el vidrio o mirilla (si aplica): laminado de seguridad, marco y protección contra implosión<br>
+  4) Verificar el empaque de la puerta: material, asentamiento uniforme y ausencia de daños<br>
+  5) Verificar el mecanismo de cierre y su enclavamiento: no abre con cámara bajo vacío</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cámara, puerta y protecciones corresponden a lo especificado y están en condiciones adecuadas.<br>
+  El enclavamiento de puerta bajo vacío opera correctamente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro fotográfico de cámara, puerta y protecciones (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del horno.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-VA-004" class="ensayo" data-id="EQ-IQ-VA-004" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-VA-004 — Verificación de la bomba de vacío y su protección antirretorno</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la bomba de vacío está instalada según especificación con protección antirretorno de aceite hacia la cámara.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la bomba de vacío: modelo, número de serie, tipo y nivel de aceite<br>
+  2) Verificar la válvula antirretorno o de aislamiento entre bomba y cámara<br>
+  3) Verificar el trazado de la línea de vacío: pendiente hacia la bomba, sin sifones que atrapen aceite<br>
+  4) Verificar el filtro de neblina de aceite en la descarga (si aplica)<br>
+  5) Verificar anclaje antivibratorio y guardas de la bomba</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La bomba corresponde a lo especificado con protección antirretorno instalada.<br>
+  La línea de vacío tiene trazado correcto sin puntos de atrapamiento.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la bomba de vacío verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la bomba.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-VA-005" class="ensayo" data-id="EQ-IQ-VA-005" data-fase="IQ" data-cond="ambas" data-tabla-modelo="COMPONENTES CRÍTICOS HORNO VACÍO">
+  <h3>EQ-IQ-VA-005 — Verificación de componentes críticos del horno</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los componentes críticos del horno de vacío están instalados, identificados y con su documentación de soporte.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar resistencias o elementos calefactores: potencia, conexión y tag por zona<br>
+  2) Verificar sensores de temperatura de control y monitoreo, con calibración vigente<br>
+  3) Verificar el vacuómetro o medidor de vacío: rango, ubicación y calibración vigente<br>
+  4) Verificar válvulas de vacío, venteo y ruptura con filtro: tipo y actuador<br>
+  5) Verificar el termostato o limitador independiente de sobretemperatura<br>
+  6) Registrar cada componente con su estatus en la tabla de componentes críticos</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los componentes críticos están instalados, identificados y documentados.<br>
+  Los sensores y el medidor de vacío cuentan con calibración vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de componentes críticos verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt;.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-VA-006" class="ensayo" data-id="EQ-IQ-VA-006" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-VA-006 — Verificación del sistema de control, alarmas y enclavamientos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el controlador del horno, sus programas, alarmas y enclavamientos corresponden a lo especificado y están operativos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar modelo y versión de firmware del controlador<br>
+  2) Verificar los programas cargados contra la lista aprobada (rampas, mesetas, vacío y versión)<br>
+  3) Verificar la lista de alarmas: sobretemperatura, falla de sensor, falla de vacío, falla de energía<br>
+  4) Verificar la protección independiente de sobretemperatura: ajuste y corte efectivo<br>
+  5) Verificar enclavamientos: no calienta sin vacío mínimo (si aplica), no abre puerta bajo vacío<br>
+  6) Verificar respaldo de programas y procedimiento de restauración</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El sistema de control corresponde a lo especificado con programas y alarmas aprobados.<br>
+  La protección de sobretemperatura y los enclavamientos operan correctamente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Listado de programas y alarmas verificado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del horno.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-VA-007" class="ensayo" data-id="EQ-IQ-VA-007" data-fase="IQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-IQ-VA-007 — Verificación de hermeticidad de la cámara (tasa de fuga base)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la hermeticidad de la cámara del horno mediante la tasa de aumento de presión con cámara aislada, como línea base de instalación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Evacuar la cámara vacía hasta el nivel de vacío definido para la prueba<br>
+  2) Aislar la cámara cerrando la válvula hacia la bomba<br>
+  3) Registrar la presión a intervalos definidos durante el tiempo de observación<br>
+  4) Calcular la tasa de aumento de presión por unidad de tiempo<br>
+  5) Procesar los datos crudos de presión contra tiempo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La tasa de aumento de presión no supera el límite especificado por el fabricante.<br>
+  El empaque y las conexiones no presentan fugas detectables.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de presión contra tiempo con data cruda y reporte (anexo del informe)<br>
+  - Data cruda y reporte estadístico del análisis de hermeticidad</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del horno.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-VA-008" class="ensayo" data-id="EQ-IQ-VA-008" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-VA-008 — Verificación de puertos de validación y documentación del fabricante</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el horno cuenta con los accesos para termopares de validación y con el paquete documental completo del fabricante.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el puerto de validación y su prensaestopas: ubicación, diámetro y sellado bajo vacío<br>
+  2) Verificar manuales de operación y mantenimiento en su revisión vigente<br>
+  3) Verificar certificados de materiales de cámara y componentes internos<br>
+  4) Verificar protocolos FAT/SAT (si se ejecutaron) con sus desviaciones cerradas<br>
+  5) Verificar lista de repuestos críticos recomendados por el fabricante</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El puerto de validación existe y sella correctamente bajo vacío.<br>
+  El paquete documental del fabricante está completo y vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Lista de verificación documental diligenciada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del horno.</p>
+</article>
+
+</section>
+</body>
+</html>

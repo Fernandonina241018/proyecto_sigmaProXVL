@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos IQ — Túnel de Despirogenización</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>IQ — Túnel de Despirogenización (banco por familia, Nivel 3)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-IQ-TD 2026-10-07 v1</span></p>
+<p>Ensayos de Calificación de Instalación específicos del túnel de despirogenización. Se suman al núcleo común (EQ-IQ-001…EQ-IQ-023) y se filtran por familia (<code>data-familia="tunel-despirogenizacion"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= IQ ================= -->
+<section id="fase-iq" data-familia="tunel-despirogenizacion">
+<h2>IQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-IQ-TD-001" class="ensayo" data-id="EQ-IQ-TD-001" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-TD-001 — Verificación de zonas, flujo y P&amp;I del túnel</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las zonas del túnel (carga, calentamiento, enfriamiento, descarga), el sentido de flujo y el P&amp;I corresponden con lo instalado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Obtener la revisión vigente del P&amp;I y del plano de zonas aprobados<br>
+  2) Recorrer el túnel identificando zona de carga, zona caliente, zona de enfriamiento y zona de descarga<br>
+  3) Confirmar el sentido de flujo del producto y la segregación entre zona sucia y zona limpia<br>
+  4) Confirmar tag, ubicación y conexión de cada instrumento contra el P&amp;I<br>
+  5) Registrar toda desviación como hallazgo con su disposición</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las zonas, el flujo y el P&amp;I corresponden con lo instalado en su revisión vigente.<br>
+  La segregación entre zona sucia y zona limpia es física y verificable.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - P&amp;I y plano de zonas verificados y firmados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>ISPE Baseline Guide: Sterile Product Manufacturing Facilities.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-TD-002" class="ensayo" data-id="EQ-IQ-TD-002" data-fase="IQ" data-cond="ambas" data-tabla-modelo="UTILIDADES TÚNEL">
+  <h3>EQ-IQ-TD-002 — Verificación de conexiones de utilidades del túnel</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las utilidades del túnel están conectadas según especificación: energía eléctrica, aire, agua de enfriamiento y extracción.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la acometida eléctrica por zona: voltaje, fases, calibre y protección termomagnética<br>
+  2) Verificar el suministro de aire de proceso e instrumentos: presión, filtro y regulador<br>
+  3) Verificar el agua de enfriamiento de la zona fría: caudal, válvulas de corte y retorno<br>
+  4) Verificar el ducto de extracción: trazado, compuertas y conexión al sistema de extracción<br>
+  5) Registrar los parámetros de cada utilidad en la tabla de utilidades</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todas las utilidades están conectadas y sus parámetros están dentro de lo especificado.<br>
+  Cada utilidad cuenta con su elemento de corte accesible.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de utilidades verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del túnel.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-TD-003" class="ensayo" data-id="EQ-IQ-TD-003" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-TD-003 — Verificación de cámara, cinta transportadora y puertas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la cámara del túnel, la cinta transportadora y las puertas cumplen material, acabados y mecanismos especificados.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el material de la cámara y de la cinta contra el certificado del fabricante<br>
+  2) Inspeccionar acabados internos: ausencia de picaduras, grietas y zonas de corrosión<br>
+  3) Verificar la cinta: tensión, alineación, malla íntegra y variador de velocidad instalado<br>
+  4) Verificar puertas de acceso e inspección: cierre hermético y enclavamiento entre zona sucia y limpia<br>
+  5) Verificar guías y rieles de vialería (si aplican): nivelación y ausencia de puntos de atascamiento</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cámara, cinta y puertas corresponden a lo especificado y están en condiciones adecuadas.<br>
+  El enclavamiento entre zonas opera correctamente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro fotográfico de cámara, cinta y puertas (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del túnel.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-TD-004" class="ensayo" data-id="EQ-IQ-TD-004" data-fase="IQ" data-cond="ambas" data-tabla-modelo="FILTROS TÚNEL">
+  <h3>EQ-IQ-TD-004 — Verificación de filtros HEPA y diferenciales de presión</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los filtros HEPA del túnel y los medidores de diferencial están instalados con sus certificados y con la clasificación especificada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar cada filtro HEPA: ubicación, clasificación, número de serie y certificado de integridad de fábrica<br>
+  2) Verificar el asentamiento y sellado de cada filtro en su marco, sin fugas visibles de bypass<br>
+  3) Verificar los medidores de presión diferencial por zona: rango, calibración vigente e identificación<br>
+  4) Verificar prefiltros (si aplican): tipo y programa de recambio<br>
+  5) Registrar cada filtro y medidor en la tabla de filtros</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los filtros corresponden a la clasificación especificada y cuentan con certificado.<br>
+  Los medidores de diferencial están calibrados y vigentes.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de filtros con certificados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>ISO 14644-3 (ensayos de salas limpias).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-TD-005" class="ensayo" data-id="EQ-IQ-TD-005" data-fase="IQ" data-cond="ambas" data-tabla-modelo="COMPONENTES CRÍTICOS TÚNEL">
+  <h3>EQ-IQ-TD-005 — Verificación de componentes críticos del túnel</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los componentes críticos del túnel están instalados, identificados y con su documentación de soporte.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar resistencias o baterías de calentamiento por zona: potencia, conexión y tag<br>
+  2) Verificar ventiladores de recirculación y de enfriamiento: modelo, sentido de giro y guardas<br>
+  3) Verificar sensores de temperatura de control y monitoreo por zona, con calibración vigente<br>
+  4) Verificar variador de velocidad de la cinta: modelo, parametrización base y respaldo<br>
+  5) Verificar válvulas y dampers de balanceo de aire: posición de diseño y bloqueo<br>
+  6) Registrar cada componente con su estatus en la tabla de componentes críticos</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los componentes críticos están instalados, identificados y documentados.<br>
+  Los sensores de temperatura cuentan con calibración vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de componentes críticos verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1228&gt; (despirogenización por calor seco).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-TD-006" class="ensayo" data-id="EQ-IQ-TD-006" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-TD-006 — Verificación del sistema de control, recetas, alarmas y enclavamientos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el PLC del túnel, sus recetas, alarmas y enclavamientos corresponden a lo especificado y están operativos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar modelo y versión de firmware del PLC y de la pantalla de operación<br>
+  2) Verificar las recetas cargadas contra la lista aprobada (temperatura por zona, velocidad de cinta y versión)<br>
+  3) Verificar la lista de alarmas: sobretemperatura, falla de sensor, falla de flujo, paro de cinta<br>
+  4) Verificar enclavamientos: no calienta sin flujo de aire, paro de cinta detiene el conteo de exposición<br>
+  5) Verificar usuarios, niveles de acceso y registro electrónico de eventos (si aplica 21 CFR Parte 11)<br>
+  6) Verificar respaldo de recetas y procedimiento de restauración</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El sistema de control corresponde a lo especificado con recetas y alarmas aprobadas.<br>
+  Los enclavamientos de seguridad operan correctamente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Listado de recetas, alarmas y usuarios verificado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>21 CFR Parte 11 (registros electrónicos, si aplica).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-TD-007" class="ensayo" data-id="EQ-IQ-TD-007" data-fase="IQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-IQ-TD-007 — Verificación de acabados sanitarios y rugosidad de la zona caliente</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las superficies de la zona caliente cumplen el acabado sanitario y la rugosidad especificados.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inspeccionar visualmente las superficies internas de la zona caliente: uniformes, sin poros ni decoloración excesiva<br>
+  2) Medir la rugosidad (Ra) en los puntos definidos del mapa con rugosímetro calibrado, por triplicado<br>
+  3) Verificar los registros de soldador calificado de las uniones sanitarias (si aplican)<br>
+  4) Procesar los datos crudos de rugosidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las superficies cumplen el acabado sanitario especificado.<br>
+  La rugosidad promedio cumple el límite especificado en cada punto medido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Mapa de puntos y reporte de rugosidad con data cruda (anexo del informe)<br>
+  - Data cruda y reporte estadístico del análisis de rugosidad</p>
+  <p><strong>Referencia:</strong><br>ASME BPE (equipos de bioprocesamiento).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-TD-008" class="ensayo" data-id="EQ-IQ-TD-008" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-TD-008 — Verificación de termopares de validación y documentación del fabricante</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el túnel cuenta con los accesos para termopares de validación y con el paquete documental completo del fabricante.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar los puertos o accesos para termopares de validación por zona y su sellado<br>
+  2) Verificar manuales de operación y mantenimiento en su revisión vigente<br>
+  3) Verificar certificados de materiales de cámara y cinta<br>
+  4) Verificar protocolos FAT/SAT (si se ejecutaron) con sus desviaciones cerradas<br>
+  5) Verificar lista de repuestos críticos recomendados por el fabricante</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los accesos para termopares existen y sellan correctamente.<br>
+  El paquete documental del fabricante está completo y vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Lista de verificación documental diligenciada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>PDA TR 03 (túneles de despirogenización).</p>
+</article>
+
+</section>
+</body>
+</html>

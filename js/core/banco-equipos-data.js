@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
+ "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -867,6 +867,1796 @@ var BancoEquipos = {
     "clase": "anexos",
     "bloque": 8,
     "html": "<p><strong>ANEXOS</strong></p>\n<ul>\n  <li>Anexo A — Certificados de calibración de los instrumentos utilizados</li>\n  <li>Anexo B — Lista de empaque y registro fotográfico de recepción</li>\n  <li>Anexo C — Listado de componentes principales verificados</li>\n  <li>Anexo D — Data cruda y reporte estadístico de utilidades</li>\n  <li>Anexo E — Evidencias de software, firmware y diagnóstico inicial</li>\n  <li>Anexo F — Certificados de recipientes a presión, dispositivos de alivio y filtros</li>\n  <li>Anexo G — Certificados de materiales en contacto y fichas de lubricantes</li>\n</ul>"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-AU-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-AU-001 — Verificación del P&I y del diagrama de flujo contra lo instalado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el diagrama de tuberías e instrumentación (P&amp;I) y el diagrama de flujo del autoclave corresponden con la instalación física real."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Obtener la revisión vigente del P&amp;I y del diagrama de flujo aprobados<br>\n  2) Recorrer la instalación identificando cámara, camisa, generador de vapor (si aplica), trampas, válvulas, instrumentos y drenajes<br>\n  3) Confirmar tag, diámetro, material y pendiente de cada línea contra el P&amp;I<br>\n  4) Registrar toda desviación como hallazgo con su disposición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El P&amp;I y el diagrama de flujo corresponden con lo instalado en su revisión vigente.<br>\n  No existen líneas, válvulas ni instrumentos sin identificar."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - P&amp;I y diagrama de flujo verificados y firmados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ISPE Baseline Guide: Sterile Product Manufacturing Facilities."
+     }
+    ],
+    "tabla": null,
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-AU-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-AU-002 — Verificación de conexiones de utilidades del autoclave",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las utilidades del autoclave están conectadas según especificación: vapor, agua, drenaje, energía eléctrica y aire de instrumentos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la acometida de vapor: presión de suministro, reductor, filtro y trampa en la línea de alimentación<br>\n  2) Verificar la acometida de agua de alimentación y enfriamiento con sus válvulas de corte<br>\n  3) Verificar el drenaje con trampa y pendiente hacia el punto de descarga, sin sifones indebidos<br>\n  4) Verificar la acometida eléctrica: voltaje, fases, calibre de conductores y protección termomagnética<br>\n  5) Verificar el aire de instrumentos para válvulas neumáticas: presión, filtro y regulador<br>\n  6) Registrar los parámetros de cada utilidad en la tabla de utilidades"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todas las utilidades están conectadas y sus parámetros están dentro de lo especificado por el fabricante.<br>\n  Cada utilidad cuenta con su elemento de corte y medición accesible."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de utilidades verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del autoclave."
+     }
+    ],
+    "tabla": null,
+    "tablaModelo": "UTILIDADES AUTOCLAVE",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-AU-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-AU-003 — Verificación de cámara, puerta y empaque del autoclave",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la cámara, la puerta y su empaque cumplen el material, los acabados y el mecanismo de cierre especificados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el material de la cámara y de la puerta contra el certificado del fabricante<br>\n  2) Inspeccionar visualmente los acabados internos: ausencia de picaduras, grietas y zonas de corrosión<br>\n  3) Verificar el empaque de la puerta: material, asentamiento uniforme y ausencia de daños<br>\n  4) Verificar el mecanismo de cierre y su enclavamiento: la puerta no abre con cámara presurizada<br>\n  5) Verificar rieles o carros de carga instalados y nivelados"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cámara, puerta y empaque corresponden a lo especificado y están en condiciones adecuadas.<br>\n  El enclavamiento de puerta opera correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro fotográfico de cámara, puerta y empaque (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EN 285 (esterilizadores a vapor de gran capacidad)."
+     }
+    ],
+    "tabla": null,
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-AU-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-AU-004 — Verificación del recipiente a presión y sus dispositivos de alivio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el autoclave como recipiente a presión cuenta con placa de datos, memoria de cálculo y dispositivos de alivio calibrados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la placa de datos del recipiente: presión y temperatura de diseño, año y número de serie<br>\n  2) Verificar la memoria de cálculo y el certificado de fabricación del recipiente<br>\n  3) Verificar la válvula de seguridad: capacidad, presión de ajuste y certificado de calibración vigente<br>\n  4) Verificar el manómetro de cámara: rango, certificado de calibración vigente e identificación<br>\n  5) Confirmar que la descarga de la válvula de seguridad está conducida a zona segura"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El recipiente cuenta con placa, memoria de cálculo y dispositivos de alivio calibrados y vigentes.<br>\n  La presión de ajuste de la válvula de seguridad no supera la presión máxima admisible."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Copia de placa, memoria de cálculo y certificados de calibración (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ASME BPVC Sección VIII (recipientes a presión)."
+     }
+    ],
+    "tabla": null,
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-AU-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-AU-005 — Verificación de componentes críticos del autoclave",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los componentes críticos del autoclave están instalados, identificados y con su documentación de soporte."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar trampas de vapor de cámara y camisa: tipo, tamaño y sentido de flujo<br>\n  2) Verificar válvulas de control y solenoides: tag, posición y conexión al PLC<br>\n  3) Verificar sensores de temperatura y presión de control y monitoreo, con calibración vigente<br>\n  4) Verificar el sistema de vacío (si aplica): bomba, conexiones y válvula antirretorno<br>\n  5) Verificar filtros de venteo y de aire de ruptura de vacío (si aplican): grado y certificado<br>\n  6) Registrar cada componente con su estatus en la tabla de componentes críticos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los componentes críticos están instalados, identificados y documentados.<br>\n  Los instrumentos de control y monitoreo cuentan con calibración vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de componentes críticos verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1229&gt; (esterilización por vapor)."
+     }
+    ],
+    "tabla": null,
+    "tablaModelo": "COMPONENTES CRÍTICOS AUTOCLAVE",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-AU-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-AU-006 — Verificación del sistema de control, alarmas y enclavamientos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el PLC del autoclave, sus programas, alarmas y enclavamientos corresponden a lo especificado y están operativos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar modelo y versión de firmware del PLC y de la pantalla de operación<br>\n  2) Verificar los programas de esterilización cargados contra la lista aprobada (nombre, parámetros y versión)<br>\n  3) Verificar la lista de alarmas configuradas: sobretemperatura, falla de sensor, falla de vapor, falla de vacío<br>\n  4) Verificar enclavamientos: no inicia ciclo con puerta abierta, no abre puerta con presión residual<br>\n  5) Verificar usuarios, niveles de acceso y registro electrónico de eventos (si aplica 21 CFR Parte 11)<br>\n  6) Verificar respaldo del programa y procedimiento de restauración"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sistema de control corresponde a lo especificado con programas y alarmas aprobados.<br>\n  Los enclavamientos de seguridad operan correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Listado de programas, alarmas y usuarios verificado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11 (registros electrónicos, si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-AU-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-AU-007 — Verificación de soldaduras sanitarias y rugosidad de la cámara",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las soldaduras en contacto con vapor puro y condensado son sanitarias y que la rugosidad de la cámara cumple lo especificado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el mapa de soldaduras y los registros de soldador calificado con sus certificados<br>\n  2) Inspeccionar visualmente las soldaduras: uniformes, sin poros, socavados ni decoloración excesiva<br>\n  3) Medir la rugosidad (Ra) en los puntos definidos del mapa con rugosímetro calibrado, por triplicado<br>\n  4) Verificar pasivado de la cámara con su certificado (si aplica)<br>\n  5) Procesar los datos crudos de rugosidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las soldaduras son sanitarias y continuas, con soldadores calificados.<br>\n  La rugosidad promedio cumple el límite especificado en cada punto medido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Mapa de soldaduras, certificados de soldador y reporte de rugosidad con data cruda (anexo del informe)<br>\n  - Data cruda y reporte estadístico del análisis de rugosidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ASME BPE (equipos de bioprocesamiento)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-AU-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-AU-008 — Verificación de puertos de validación y documentación del fabricante",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el autoclave cuenta con los puertos para termopares de validación y con el paquete documental completo del fabricante."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el puerto de validación y su prensaestopas: ubicación, diámetro y sellado<br>\n  2) Verificar manuales de operación y mantenimiento en su revisión vigente<br>\n  3) Verificar certificados de materiales de cámara y componentes en contacto con vapor<br>\n  4) Verificar protocolos FAT/SAT (si se ejecutaron) con sus desviaciones cerradas<br>\n  5) Verificar lista de repuestos críticos recomendados por el fabricante"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El puerto de validación existe, sella correctamente y permite el paso de termopares.<br>\n  El paquete documental del fabricante está completo y vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de verificación documental diligenciada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>PDA TR 01 (validación de esterilización por vapor)."
+     }
+    ],
+    "tabla": null,
+    "familia": "autoclave"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-TD-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-TD-001 — Verificación de zonas, flujo y P&I del túnel",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las zonas del túnel (carga, calentamiento, enfriamiento, descarga), el sentido de flujo y el P&amp;I corresponden con lo instalado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Obtener la revisión vigente del P&amp;I y del plano de zonas aprobados<br>\n  2) Recorrer el túnel identificando zona de carga, zona caliente, zona de enfriamiento y zona de descarga<br>\n  3) Confirmar el sentido de flujo del producto y la segregación entre zona sucia y zona limpia<br>\n  4) Confirmar tag, ubicación y conexión de cada instrumento contra el P&amp;I<br>\n  5) Registrar toda desviación como hallazgo con su disposición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las zonas, el flujo y el P&amp;I corresponden con lo instalado en su revisión vigente.<br>\n  La segregación entre zona sucia y zona limpia es física y verificable."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - P&amp;I y plano de zonas verificados y firmados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ISPE Baseline Guide: Sterile Product Manufacturing Facilities."
+     }
+    ],
+    "tabla": null,
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-TD-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-TD-002 — Verificación de conexiones de utilidades del túnel",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las utilidades del túnel están conectadas según especificación: energía eléctrica, aire, agua de enfriamiento y extracción."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la acometida eléctrica por zona: voltaje, fases, calibre y protección termomagnética<br>\n  2) Verificar el suministro de aire de proceso e instrumentos: presión, filtro y regulador<br>\n  3) Verificar el agua de enfriamiento de la zona fría: caudal, válvulas de corte y retorno<br>\n  4) Verificar el ducto de extracción: trazado, compuertas y conexión al sistema de extracción<br>\n  5) Registrar los parámetros de cada utilidad en la tabla de utilidades"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todas las utilidades están conectadas y sus parámetros están dentro de lo especificado.<br>\n  Cada utilidad cuenta con su elemento de corte accesible."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de utilidades verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del túnel."
+     }
+    ],
+    "tabla": null,
+    "tablaModelo": "UTILIDADES TÚNEL",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-TD-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-TD-003 — Verificación de cámara, cinta transportadora y puertas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la cámara del túnel, la cinta transportadora y las puertas cumplen material, acabados y mecanismos especificados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el material de la cámara y de la cinta contra el certificado del fabricante<br>\n  2) Inspeccionar acabados internos: ausencia de picaduras, grietas y zonas de corrosión<br>\n  3) Verificar la cinta: tensión, alineación, malla íntegra y variador de velocidad instalado<br>\n  4) Verificar puertas de acceso e inspección: cierre hermético y enclavamiento entre zona sucia y limpia<br>\n  5) Verificar guías y rieles de vialería (si aplican): nivelación y ausencia de puntos de atascamiento"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cámara, cinta y puertas corresponden a lo especificado y están en condiciones adecuadas.<br>\n  El enclavamiento entre zonas opera correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro fotográfico de cámara, cinta y puertas (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del túnel."
+     }
+    ],
+    "tabla": null,
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-TD-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-TD-004 — Verificación de filtros HEPA y diferenciales de presión",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los filtros HEPA del túnel y los medidores de diferencial están instalados con sus certificados y con la clasificación especificada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar cada filtro HEPA: ubicación, clasificación, número de serie y certificado de integridad de fábrica<br>\n  2) Verificar el asentamiento y sellado de cada filtro en su marco, sin fugas visibles de bypass<br>\n  3) Verificar los medidores de presión diferencial por zona: rango, calibración vigente e identificación<br>\n  4) Verificar prefiltros (si aplican): tipo y programa de recambio<br>\n  5) Registrar cada filtro y medidor en la tabla de filtros"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los filtros corresponden a la clasificación especificada y cuentan con certificado.<br>\n  Los medidores de diferencial están calibrados y vigentes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de filtros con certificados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ISO 14644-3 (ensayos de salas limpias)."
+     }
+    ],
+    "tabla": null,
+    "tablaModelo": "FILTROS TÚNEL",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-TD-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-TD-005 — Verificación de componentes críticos del túnel",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los componentes críticos del túnel están instalados, identificados y con su documentación de soporte."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar resistencias o baterías de calentamiento por zona: potencia, conexión y tag<br>\n  2) Verificar ventiladores de recirculación y de enfriamiento: modelo, sentido de giro y guardas<br>\n  3) Verificar sensores de temperatura de control y monitoreo por zona, con calibración vigente<br>\n  4) Verificar variador de velocidad de la cinta: modelo, parametrización base y respaldo<br>\n  5) Verificar válvulas y dampers de balanceo de aire: posición de diseño y bloqueo<br>\n  6) Registrar cada componente con su estatus en la tabla de componentes críticos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los componentes críticos están instalados, identificados y documentados.<br>\n  Los sensores de temperatura cuentan con calibración vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de componentes críticos verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1228&gt; (despirogenización por calor seco)."
+     }
+    ],
+    "tabla": null,
+    "tablaModelo": "COMPONENTES CRÍTICOS TÚNEL",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-TD-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-TD-006 — Verificación del sistema de control, recetas, alarmas y enclavamientos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el PLC del túnel, sus recetas, alarmas y enclavamientos corresponden a lo especificado y están operativos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar modelo y versión de firmware del PLC y de la pantalla de operación<br>\n  2) Verificar las recetas cargadas contra la lista aprobada (temperatura por zona, velocidad de cinta y versión)<br>\n  3) Verificar la lista de alarmas: sobretemperatura, falla de sensor, falla de flujo, paro de cinta<br>\n  4) Verificar enclavamientos: no calienta sin flujo de aire, paro de cinta detiene el conteo de exposición<br>\n  5) Verificar usuarios, niveles de acceso y registro electrónico de eventos (si aplica 21 CFR Parte 11)<br>\n  6) Verificar respaldo de recetas y procedimiento de restauración"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sistema de control corresponde a lo especificado con recetas y alarmas aprobadas.<br>\n  Los enclavamientos de seguridad operan correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Listado de recetas, alarmas y usuarios verificado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11 (registros electrónicos, si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-TD-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-TD-007 — Verificación de acabados sanitarios y rugosidad de la zona caliente",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las superficies de la zona caliente cumplen el acabado sanitario y la rugosidad especificados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar visualmente las superficies internas de la zona caliente: uniformes, sin poros ni decoloración excesiva<br>\n  2) Medir la rugosidad (Ra) en los puntos definidos del mapa con rugosímetro calibrado, por triplicado<br>\n  3) Verificar los registros de soldador calificado de las uniones sanitarias (si aplican)<br>\n  4) Procesar los datos crudos de rugosidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las superficies cumplen el acabado sanitario especificado.<br>\n  La rugosidad promedio cumple el límite especificado en cada punto medido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Mapa de puntos y reporte de rugosidad con data cruda (anexo del informe)<br>\n  - Data cruda y reporte estadístico del análisis de rugosidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ASME BPE (equipos de bioprocesamiento)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-TD-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-TD-008 — Verificación de termopares de validación y documentación del fabricante",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el túnel cuenta con los accesos para termopares de validación y con el paquete documental completo del fabricante."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar los puertos o accesos para termopares de validación por zona y su sellado<br>\n  2) Verificar manuales de operación y mantenimiento en su revisión vigente<br>\n  3) Verificar certificados de materiales de cámara y cinta<br>\n  4) Verificar protocolos FAT/SAT (si se ejecutaron) con sus desviaciones cerradas<br>\n  5) Verificar lista de repuestos críticos recomendados por el fabricante"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los accesos para termopares existen y sellan correctamente.<br>\n  El paquete documental del fabricante está completo y vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de verificación documental diligenciada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>PDA TR 03 (túneles de despirogenización)."
+     }
+    ],
+    "tabla": null,
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LI-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LI-001 — Verificación del P&I contra lo instalado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el P&amp;I del liofilizador (cámara, condensador, refrigeración, vacío, hidráulico) corresponde con la instalación física real."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Obtener la revisión vigente del P&amp;I aprobado<br>\n  2) Recorrer la instalación identificando cámara de producto, condensador, grupo frigorífico, bomba de vacío, central hidráulica y líneas asociadas<br>\n  3) Confirmar tag, diámetro, material y aislamiento de cada línea contra el P&amp;I<br>\n  4) Registrar toda desviación como hallazgo con su disposición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El P&amp;I corresponde con lo instalado en su revisión vigente.<br>\n  No existen líneas, válvulas ni instrumentos sin identificar."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - P&amp;I verificado y firmado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ISPE Baseline Guide: Sterile Product Manufacturing Facilities."
+     }
+    ],
+    "tabla": null,
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LI-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LI-002 — Verificación de conexiones de utilidades del liofilizador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las utilidades del liofilizador están conectadas según especificación: energía eléctrica, agua de proceso y enfriamiento, aire y drenajes."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la acometida eléctrica: voltaje, fases, calibre, protección y puesta a tierra<br>\n  2) Verificar el agua de proceso y de enfriamiento del grupo frigorífico: caudal, válvulas de corte y retorno<br>\n  3) Verificar el aire de instrumentos: presión, filtro y regulador<br>\n  4) Verificar drenajes de cámara, condensador y sala técnica con pendiente y trampa adecuadas<br>\n  5) Verificar el suministro de nitrógeno o gas inerte (si aplica) con su regulador<br>\n  6) Registrar los parámetros de cada utilidad en la tabla de utilidades"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todas las utilidades están conectadas y sus parámetros están dentro de lo especificado.<br>\n  Cada utilidad cuenta con su elemento de corte accesible."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de utilidades verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del liofilizador."
+     }
+    ],
+    "tabla": null,
+    "tablaModelo": "UTILIDADES LIOFILIZADOR",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LI-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LI-003 — Verificación de cámara, bandejas y puerta",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la cámara de producto, las bandejas y la puerta cumplen material, acabados y mecanismos especificados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el material de la cámara y de las bandejas contra el certificado del fabricante<br>\n  2) Inspeccionar acabados internos: ausencia de picaduras, grietas y zonas de corrosión<br>\n  3) Verificar la puerta: cierre hermético, empaque íntegro y enclavamiento con cámara bajo vacío<br>\n  4) Verificar planitud y nivelación de bandejas y del sistema de carga (si aplica)<br>\n  5) Verificar iluminación interior y mirillas (si aplican)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cámara, bandejas y puerta corresponden a lo especificado y están en condiciones adecuadas.<br>\n  El enclavamiento de puerta bajo vacío opera correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro fotográfico de cámara, bandejas y puerta (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del liofilizador."
+     }
+    ],
+    "tabla": null,
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LI-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LI-004 — Verificación del sistema de refrigeración",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el grupo frigorífico del liofilizador está instalado según especificación con su refrigerante, placa y seguridades."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar compresores: modelo, número de serie y montaje antivibratorio<br>\n  2) Verificar en placa el tipo y la carga de refrigerante instalada<br>\n  3) Verificar condensadores y ventilación de la sala técnica con espacio libre especificado<br>\n  4) Verificar presostatos de alta y baja con sus ajustes y certificados<br>\n  5) Verificar aislamiento de líneas frías y ausencia de condensación en puntos indebidos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sistema de refrigeración corresponde a lo especificado con refrigerante declarado en placa.<br>\n  Las seguridades de presión están ajustadas y documentadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del sistema de refrigeración con placa y ajustes (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del grupo frigorífico."
+     }
+    ],
+    "tabla": null,
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LI-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LI-005 — Verificación del sistema de vacío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la bomba de vacío y sus líneas están instaladas según especificación con protección antirretorno de aceite."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la bomba de vacío: modelo, número de serie, tipo y nivel de aceite<br>\n  2) Verificar la válvula antirretorno o de aislamiento entre bomba y condensador<br>\n  3) Verificar el trazado de la línea de vacío: pendiente hacia la bomba, sin sifones que atrapen aceite<br>\n  4) Verificar la extracción o venteo de la bomba hacia zona segura<br>\n  5) Verificar medidores de vacío (Pirani, capacitancia): rango, ubicación y calibración vigente"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sistema de vacío corresponde a lo especificado con protección antirretorno instalada.<br>\n  Los medidores de vacío están calibrados y vigentes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del sistema de vacío verificado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del liofilizador."
+     }
+    ],
+    "tabla": null,
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LI-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LI-006 — Verificación de componentes críticos del liofilizador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los componentes críticos del liofilizador están instalados, identificados y con su documentación de soporte."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar válvulas de aislamiento cámara-condensador: tipo, actuador y posición<br>\n  2) Verificar sensores de temperatura de bandejas y de producto, con calibración vigente<br>\n  3) Verificar el sistema hidráulico de tapones: central, cilindros, mangueras y nivel de aceite<br>\n  4) Verificar filtros de venteo y de ruptura de vacío: grado y certificado<br>\n  5) Verificar sondas de presión y control de punto final (si aplican)<br>\n  6) Registrar cada componente con su estatus en la tabla de componentes críticos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los componentes críticos están instalados, identificados y documentados.<br>\n  Los sensores de temperatura y vacío cuentan con calibración vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de componentes críticos verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>PDA TR 45 (liofilización, si aplica)."
+     }
+    ],
+    "tabla": null,
+    "tablaModelo": "COMPONENTES CRÍTICOS LIOFILIZADOR",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LI-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LI-007 — Verificación del sistema de control, recetas y registros electrónicos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el SCADA/PLC del liofilizador, sus recetas, usuarios y registros electrónicos corresponden a lo especificado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar modelo y versión de firmware del controlador y del SCADA<br>\n  2) Verificar las recetas cargadas contra la lista aprobada (etapas, rampas, presiones y versión)<br>\n  3) Verificar la lista de alarmas: falla de vacío, falla de refrigeración, desviación de bandeja, falla hidráulica<br>\n  4) Verificar usuarios, niveles de acceso, firmas electrónicas y pista de auditoría (21 CFR Parte 11)<br>\n  5) Verificar respaldo de recetas y procedimiento de restauración<br>\n  6) Verificar sincronización de fecha y hora con la red (si aplica)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sistema de control corresponde a lo especificado con recetas y alarmas aprobadas.<br>\n  Los controles de registros electrónicos cumplen 21 CFR Parte 11."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Listado de recetas, alarmas y usuarios verificado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11 (registros y firmas electrónicas)."
+     }
+    ],
+    "tabla": null,
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LI-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LI-008 — Verificación de soldaduras sanitarias y rugosidad de la cámara",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las soldaduras de la cámara de producto son sanitarias y que la rugosidad cumple lo especificado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el mapa de soldaduras y los registros de soldador calificado con sus certificados<br>\n  2) Inspeccionar visualmente las soldaduras: uniformes, sin poros, socavados ni decoloración excesiva<br>\n  3) Medir la rugosidad (Ra) en los puntos definidos del mapa con rugosímetro calibrado, por triplicado<br>\n  4) Verificar pasivado de la cámara con su certificado (si aplica)<br>\n  5) Procesar los datos crudos de rugosidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las soldaduras son sanitarias y continuas, con soldadores calificados.<br>\n  La rugosidad promedio cumple el límite especificado en cada punto medido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Mapa de soldaduras, certificados de soldador y reporte de rugosidad con data cruda (anexo del informe)<br>\n  - Data cruda y reporte estadístico del análisis de rugosidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ASME BPE (equipos de bioprocesamiento)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LI-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LI-009 — Verificación de accesos de validación y documentación del fabricante",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el liofilizador cuenta con los accesos para sensores de validación y con el paquete documental completo del fabricante."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar los puertos para termopares y sensores de validación en cámara y condensador, con su sellado<br>\n  2) Verificar manuales de operación y mantenimiento en su revisión vigente<br>\n  3) Verificar certificados de materiales de cámara, bandejas y condensador<br>\n  4) Verificar protocolos FAT/SAT (si se ejecutaron) con sus desviaciones cerradas<br>\n  5) Verificar lista de repuestos críticos recomendados por el fabricante"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los accesos para validación existen y sellan correctamente bajo vacío.<br>\n  El paquete documental del fabricante está completo y vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de verificación documental diligenciada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>PDA TR 45 (liofilización, si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-RC-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-RC-001 — Verificación del P&I contra lo instalado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el P&amp;I del reactor (vaso, chaqueta o serpentín, agitación, adición, venteo y drenaje) corresponde con la instalación física real."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Obtener la revisión vigente del P&amp;I aprobado<br>\n  2) Recorrer la instalación identificando vaso, chaqueta o serpentín, agitador, líneas de adición, venteo, filtros y drenaje<br>\n  3) Confirmar tag, diámetro, material y pendiente de cada línea contra el P&amp;I<br>\n  4) Registrar toda desviación como hallazgo con su disposición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El P&amp;I corresponde con lo instalado en su revisión vigente.<br>\n  No existen líneas, válvulas ni instrumentos sin identificar."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - P&amp;I verificado y firmado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ISPE Baseline Guide: Oral Solid Dosage Forms (criterio de diseño aplicable)."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-RC-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-RC-002 — Verificación de conexiones de utilidades del reactor",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las utilidades del reactor están conectadas según especificación: medio calefactor y refrigerante, energía eléctrica, aire de instrumentos y drenajes."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la acometida del medio calefactor (vapor o agua caliente): presión, reductor, filtro y trampa<br>\n  2) Verificar la acometida del medio refrigerante: caudal, válvulas de corte y retorno<br>\n  3) Verificar la acometida eléctrica del agitador y del control: voltaje, fases, calibre y protección<br>\n  4) Verificar el aire de instrumentos: presión, filtro y regulador<br>\n  5) Verificar drenajes de vaso y chaqueta con pendiente y trampa adecuadas<br>\n  6) Registrar los parámetros de cada utilidad en la tabla de utilidades"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todas las utilidades están conectadas y sus parámetros están dentro de lo especificado.<br>\n  Cada utilidad cuenta con su elemento de corte accesible."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de utilidades verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del reactor."
+     }
+    ],
+    "tabla": null,
+    "tablaModelo": "UTILIDADES REACTOR",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-RC-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-RC-003 — Verificación del recipiente a presión y sus dispositivos de alivio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el vaso del reactor como recipiente a presión cuenta con placa de datos, memoria de cálculo y dispositivos de alivio calibrados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la placa de datos del vaso: presión y temperatura de diseño, año y número de serie<br>\n  2) Verificar la memoria de cálculo y el certificado de fabricación del vaso y de la chaqueta<br>\n  3) Verificar la válvula de seguridad y el disco de ruptura (si aplica): capacidad, presión de ajuste y certificado<br>\n  4) Verificar el manómetro del vaso: rango, certificado de calibración vigente e identificación<br>\n  5) Confirmar que la descarga de los alivios está conducida a zona segura"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El vaso cuenta con placa, memoria de cálculo y dispositivos de alivio calibrados y vigentes.<br>\n  La presión de ajuste no supera la presión máxima admisible."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Copia de placa, memoria de cálculo y certificados de calibración (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ASME BPVC Sección VIII (recipientes a presión)."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-RC-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-RC-004 — Verificación del sistema de agitación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sistema de agitación (motor, reductor, eje, impulsor y sello) está instalado según especificación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar motor y reductor: modelo, potencia, número de serie y montaje<br>\n  2) Verificar el eje y el impulsor: tipo, material, fijación y concentricidad visual<br>\n  3) Verificar el sello mecánico o empaquetadura: tipo, conexiones de lubricación o barrera (si aplican)<br>\n  4) Verificar el variador de velocidad: modelo, parametrización base y respaldo<br>\n  5) Verificar deflectores internos (si aplican): presencia, fijación y material"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sistema de agitación corresponde a lo especificado y gira libremente sin roces.<br>\n  El sello no presenta fugas visibles en inspección estática."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del sistema de agitación verificado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del reactor."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-RC-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-RC-005 — Verificación de componentes críticos del reactor",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los componentes críticos del reactor están instalados, identificados y con su documentación de soporte."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar válvulas de fondo, adición y transferencia: tipo, tag y actuador<br>\n  2) Verificar sensores de temperatura, presión, nivel y pH (si aplican), con calibración vigente<br>\n  3) Verificar celdas de carga (si aplican): capacidad, certificado y lectura inicial<br>\n  4) Verificar filtro de venteo y rompedor de vacío: grado, certificado y ubicación<br>\n  5) Verificar mirillas, luces y tomamuestras: integridad y sellado<br>\n  6) Registrar cada componente con su estatus en la tabla de componentes críticos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los componentes críticos están instalados, identificados y documentados.<br>\n  Los instrumentos de control y monitoreo cuentan con calibración vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de componentes críticos verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;."
+     }
+    ],
+    "tabla": null,
+    "tablaModelo": "COMPONENTES CRÍTICOS REACTOR",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-RC-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-RC-006 — Verificación del sistema de control, alarmas y enclavamientos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sistema de control del reactor, sus lazos, alarmas y enclavamientos corresponden a lo especificado y están operativos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar modelo y versión de firmware del controlador<br>\n  2) Verificar los lazos de control configurados: temperatura de vaso y chaqueta, agitación, presión<br>\n  3) Verificar la lista de alarmas: sobrepresión, sobretemperatura, falla de agitación, bajo nivel<br>\n  4) Verificar enclavamientos: corte de calentamiento por sobretemperatura, paro de agitación por nivel bajo (si aplican)<br>\n  5) Verificar usuarios y niveles de acceso (si aplica 21 CFR Parte 11)<br>\n  6) Verificar respaldo de la configuración y procedimiento de restauración"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sistema de control corresponde a lo especificado con lazos y alarmas aprobados.<br>\n  Los enclavamientos de seguridad operan correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Listado de lazos, alarmas y usuarios verificado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de control."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-RC-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-RC-007 — Verificación de hermeticidad del vaso y la chaqueta",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el vaso y la chaqueta son herméticos a la presión de prueba especificada, con registro de presión contra tiempo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar la presión de prueba aprobada y el medio de prueba (neumática o hidrostática)<br>\n  2) Presurizar el vaso y la chaqueta por separado hasta la presión de prueba<br>\n  3) Registrar la presión a intervalos definidos durante el tiempo de sostenimiento<br>\n  4) Inspeccionar uniones, bridas y conexiones con solución espumante (prueba neumática) o visual (hidrostática)<br>\n  5) Procesar los datos crudos de presión contra tiempo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La caída de presión durante el sostenimiento no supera el límite especificado.<br>\n  No se detectan fugas en uniones, bridas ni conexiones."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de presión contra tiempo con data cruda y reporte (anexo del informe)<br>\n  - Data cruda y reporte estadístico del análisis de hermeticidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ASME BPVC Sección VIII (pruebas de recipientes)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-RC-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-RC-008 — Verificación de materiales en contacto, soldaduras y documentación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los materiales en contacto con el producto, las soldaduras sanitarias y el paquete documental cumplen lo especificado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar certificados de materiales del vaso, tapa, agitador y líneas de producto<br>\n  2) Verificar el mapa de soldaduras y los registros de soldador calificado<br>\n  3) Inspeccionar acabados internos: uniformes, sin poros ni decoloración excesiva<br>\n  4) Verificar manuales de operación y mantenimiento en su revisión vigente<br>\n  5) Verificar protocolos FAT/SAT (si se ejecutaron) con sus desviaciones cerradas"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los materiales y soldaduras cumplen lo especificado con soldadores calificados.<br>\n  El paquete documental del fabricante está completo y vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Certificados de materiales, mapa de soldaduras y lista documental (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ASME BPE (equipos de bioprocesamiento)."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-VA-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-VA-001 — Verificación del P&I contra lo instalado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el P&amp;I del horno de vacío (cámara, vacío, calentamiento y control) corresponde con la instalación física real."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Obtener la revisión vigente del P&amp;I aprobado<br>\n  2) Recorrer la instalación identificando cámara, bomba de vacío, resistencias, sensores y líneas asociadas<br>\n  3) Confirmar tag, diámetro, material y trazado de cada línea contra el P&amp;I<br>\n  4) Registrar toda desviación como hallazgo con su disposición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El P&amp;I corresponde con lo instalado en su revisión vigente.<br>\n  No existen líneas, válvulas ni instrumentos sin identificar."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - P&amp;I verificado y firmado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del horno."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-VA-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-VA-002 — Verificación de conexiones de utilidades del horno",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las utilidades del horno de vacío están conectadas según especificación: energía eléctrica, agua de enfriamiento, aire y extracción."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la acometida eléctrica: voltaje, fases, calibre, protección y puesta a tierra<br>\n  2) Verificar el agua de enfriamiento de la bomba y de la camisa (si aplica): caudal y válvulas de corte<br>\n  3) Verificar el aire de instrumentos (si aplica): presión, filtro y regulador<br>\n  4) Verificar la extracción o venteo de la bomba hacia zona segura<br>\n  5) Registrar los parámetros de cada utilidad en la tabla de utilidades"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todas las utilidades están conectadas y sus parámetros están dentro de lo especificado.<br>\n  Cada utilidad cuenta con su elemento de corte accesible."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de utilidades verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del horno."
+     }
+    ],
+    "tabla": null,
+    "tablaModelo": "UTILIDADES HORNO VACÍO",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-VA-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-VA-003 — Verificación de cámara, puerta y protección contra implosión",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la cámara, la puerta y sus protecciones cumplen material, acabados y seguridad contra implosión especificados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el material de la cámara y de la puerta contra el certificado del fabricante<br>\n  2) Inspeccionar acabados internos: ausencia de picaduras, grietas y zonas de corrosión<br>\n  3) Verificar el vidrio o mirilla (si aplica): laminado de seguridad, marco y protección contra implosión<br>\n  4) Verificar el empaque de la puerta: material, asentamiento uniforme y ausencia de daños<br>\n  5) Verificar el mecanismo de cierre y su enclavamiento: no abre con cámara bajo vacío"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cámara, puerta y protecciones corresponden a lo especificado y están en condiciones adecuadas.<br>\n  El enclavamiento de puerta bajo vacío opera correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro fotográfico de cámara, puerta y protecciones (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del horno."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-VA-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-VA-004 — Verificación de la bomba de vacío y su protección antirretorno",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la bomba de vacío está instalada según especificación con protección antirretorno de aceite hacia la cámara."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la bomba de vacío: modelo, número de serie, tipo y nivel de aceite<br>\n  2) Verificar la válvula antirretorno o de aislamiento entre bomba y cámara<br>\n  3) Verificar el trazado de la línea de vacío: pendiente hacia la bomba, sin sifones que atrapen aceite<br>\n  4) Verificar el filtro de neblina de aceite en la descarga (si aplica)<br>\n  5) Verificar anclaje antivibratorio y guardas de la bomba"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La bomba corresponde a lo especificado con protección antirretorno instalada.<br>\n  La línea de vacío tiene trazado correcto sin puntos de atrapamiento."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la bomba de vacío verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la bomba."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-VA-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-VA-005 — Verificación de componentes críticos del horno",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los componentes críticos del horno de vacío están instalados, identificados y con su documentación de soporte."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar resistencias o elementos calefactores: potencia, conexión y tag por zona<br>\n  2) Verificar sensores de temperatura de control y monitoreo, con calibración vigente<br>\n  3) Verificar el vacuómetro o medidor de vacío: rango, ubicación y calibración vigente<br>\n  4) Verificar válvulas de vacío, venteo y ruptura con filtro: tipo y actuador<br>\n  5) Verificar el termostato o limitador independiente de sobretemperatura<br>\n  6) Registrar cada componente con su estatus en la tabla de componentes críticos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los componentes críticos están instalados, identificados y documentados.<br>\n  Los sensores y el medidor de vacío cuentan con calibración vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de componentes críticos verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;."
+     }
+    ],
+    "tabla": null,
+    "tablaModelo": "COMPONENTES CRÍTICOS HORNO VACÍO",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-VA-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-VA-006 — Verificación del sistema de control, alarmas y enclavamientos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el controlador del horno, sus programas, alarmas y enclavamientos corresponden a lo especificado y están operativos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar modelo y versión de firmware del controlador<br>\n  2) Verificar los programas cargados contra la lista aprobada (rampas, mesetas, vacío y versión)<br>\n  3) Verificar la lista de alarmas: sobretemperatura, falla de sensor, falla de vacío, falla de energía<br>\n  4) Verificar la protección independiente de sobretemperatura: ajuste y corte efectivo<br>\n  5) Verificar enclavamientos: no calienta sin vacío mínimo (si aplica), no abre puerta bajo vacío<br>\n  6) Verificar respaldo de programas y procedimiento de restauración"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sistema de control corresponde a lo especificado con programas y alarmas aprobados.<br>\n  La protección de sobretemperatura y los enclavamientos operan correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Listado de programas y alarmas verificado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del horno."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-VA-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-VA-007 — Verificación de hermeticidad de la cámara (tasa de fuga base)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la hermeticidad de la cámara del horno mediante la tasa de aumento de presión con cámara aislada, como línea base de instalación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Evacuar la cámara vacía hasta el nivel de vacío definido para la prueba<br>\n  2) Aislar la cámara cerrando la válvula hacia la bomba<br>\n  3) Registrar la presión a intervalos definidos durante el tiempo de observación<br>\n  4) Calcular la tasa de aumento de presión por unidad de tiempo<br>\n  5) Procesar los datos crudos de presión contra tiempo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La tasa de aumento de presión no supera el límite especificado por el fabricante.<br>\n  El empaque y las conexiones no presentan fugas detectables."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de presión contra tiempo con data cruda y reporte (anexo del informe)<br>\n  - Data cruda y reporte estadístico del análisis de hermeticidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del horno."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-VA-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-VA-008 — Verificación de puertos de validación y documentación del fabricante",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el horno cuenta con los accesos para termopares de validación y con el paquete documental completo del fabricante."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el puerto de validación y su prensaestopas: ubicación, diámetro y sellado bajo vacío<br>\n  2) Verificar manuales de operación y mantenimiento en su revisión vigente<br>\n  3) Verificar certificados de materiales de cámara y componentes internos<br>\n  4) Verificar protocolos FAT/SAT (si se ejecutaron) con sus desviaciones cerradas<br>\n  5) Verificar lista de repuestos críticos recomendados por el fabricante"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El puerto de validación existe y sella correctamente bajo vacío.<br>\n  El paquete documental del fabricante está completo y vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de verificación documental diligenciada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del horno."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LL-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LL-001 — Verificación del diagrama de flujo contra lo instalado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el diagrama de flujo de la llenadora (tanque, línea de producto, dosificación, tapado y salida) corresponde con la instalación física real."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Obtener la revisión vigente del diagrama de flujo aprobado<br>\n  2) Recorrer la línea identificando tanque pulmón, línea de producto, estaciones de llenado, tapado y banda de salida<br>\n  3) Confirmar tag, diámetro y material de cada tramo contra el diagrama<br>\n  4) Registrar toda desviación como hallazgo con su disposición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El diagrama de flujo corresponde con lo instalado en su revisión vigente.<br>\n  No existen tramos, válvulas ni estaciones sin identificar."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Diagrama de flujo verificado y firmado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ISPE Baseline Guide: Sterile Product Manufacturing Facilities (si aplica proceso aséptico)."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LL-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LL-002 — Verificación de conexiones de utilidades de la llenadora",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las utilidades de la llenadora están conectadas según especificación: energía eléctrica, aire comprimido, vacío y drenajes."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la acometida eléctrica: voltaje, fases, calibre, protección y puesta a tierra<br>\n  2) Verificar el aire comprimido: presión, filtro, regulador y punto de uso por estación<br>\n  3) Verificar el vacío (si aplica): conexión, válvula antirretorno y medición<br>\n  4) Verificar drenajes de la zona de llenado con pendiente adecuada<br>\n  5) Registrar los parámetros de cada utilidad en la tabla de utilidades"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todas las utilidades están conectadas y sus parámetros están dentro de lo especificado.<br>\n  Cada utilidad cuenta con su elemento de corte accesible."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de utilidades verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la llenadora."
+     }
+    ],
+    "tabla": null,
+    "tablaModelo": "UTILIDADES LLENADORA",
+    "familia": "llenadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LL-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LL-003 — Verificación de materiales en contacto y acabados sanitarios",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los materiales en contacto con el producto y los acabados sanitarios de la línea cumplen lo especificado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar certificados de materiales del tanque, línea de producto, agujas y válvulas dosificadoras<br>\n  2) Inspeccionar acabados de superficies en contacto: uniformes, sin poros ni decoloración excesiva<br>\n  3) Verificar conexiones sanitarias (clamp, orbitales): tipo, empaques y apriete<br>\n  4) Verificar mangueras de producto (si aplican): grado, certificado y fecha de vigencia<br>\n  5) Verificar lubricantes en contacto incidental con su grado alimenticio o farmacéutico (si aplican)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los materiales en contacto cumplen lo especificado con certificados vigentes.<br>\n  Las conexiones sanitarias están completas y en condiciones adecuadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Certificados de materiales recopilados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ASME BPE (equipos de bioprocesamiento)."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LL-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LL-004 — Verificación de componentes críticos de dosificación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los componentes críticos de dosificación están instalados, identificados y con su documentación de soporte."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar bombas o cilindros dosificadores: modelo, número de serie y capacidad<br>\n  2) Verificar agujas o boquillas de llenado: calibre, cantidad y estado<br>\n  3) Verificar válvulas de producto: tipo, tag y actuador<br>\n  4) Verificar sensores de nivel, presencia de envase y torque (si aplican), con calibración vigente<br>\n  5) Verificar el sistema de rechazo o conteo (si aplica): instalación y conexión al control<br>\n  6) Registrar cada componente con su estatus en la tabla de componentes críticos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los componentes críticos están instalados, identificados y documentados.<br>\n  Los sensores cuentan con calibración vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de componentes críticos verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la llenadora."
+     }
+    ],
+    "tabla": null,
+    "tablaModelo": "COMPONENTES CRÍTICOS LLENADORA",
+    "familia": "llenadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LL-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LL-005 — Verificación de filtros de línea y venteos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los filtros de la línea de producto, del gas de cobertura y los venteos están instalados con sus certificados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el filtro de línea de producto: grado, número de serie y certificado<br>\n  2) Verificar el filtro de gas de cobertura o nitrógeno (si aplica): grado y certificado<br>\n  3) Verificar filtros de venteo del tanque: grado y certificado<br>\n  4) Verificar carcasas: material, drenaje, venteo y conexiones sanitarias<br>\n  5) Verificar programa de recambio y prueba de integridad inicial documentada"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los filtros corresponden al grado especificado y cuentan con certificado.<br>\n  Las carcasas drenan y ventean correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de filtros con certificados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>PDA TR 26 (filtración esterilizante, si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LL-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LL-006 — Verificación del sistema de control, formatos, alarmas y enclavamientos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el PLC de la llenadora, sus formatos, alarmas y enclavamientos corresponden a lo especificado y están operativos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar modelo y versión de firmware del PLC y de la pantalla de operación<br>\n  2) Verificar los formatos cargados contra la lista aprobada (envase, volumen y versión)<br>\n  3) Verificar la lista de alarmas: sin envase, nivel bajo, falla de dosificación, paro de emergencia<br>\n  4) Verificar enclavamientos: no dosifica sin envase presente, paro ante guarda abierta<br>\n  5) Verificar usuarios y niveles de acceso (si aplica 21 CFR Parte 11)<br>\n  6) Verificar respaldo de formatos y procedimiento de restauración"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sistema de control corresponde a lo especificado con formatos y alarmas aprobados.<br>\n  Los enclavamientos de seguridad operan correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Listado de formatos, alarmas y usuarios verificado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11 (registros electrónicos, si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LL-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LL-007 — Verificación dimensional de partes de formato instaladas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las partes de formato instaladas (guías, estrella, boquillas) corresponden al formato declarado y cumplen sus dimensiones críticas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar el formato instalado y su código contra la lista aprobada<br>\n  2) Medir las dimensiones críticas de las partes de formato con instrumento calibrado, por triplicado<br>\n  3) Verificar el montaje y ajuste de guías y estrella sin juegos excesivos<br>\n  4) Procesar los datos crudos dimensionales en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las partes instaladas corresponden al formato declarado.<br>\n  Las dimensiones críticas están dentro de tolerancia en todas las réplicas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro dimensional con data cruda y reporte (anexo del informe)<br>\n  - Data cruda y reporte estadístico del análisis dimensional de partes de formato"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Planos del fabricante de las partes de formato."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LL-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LL-008 — Verificación de seguridades y documentación del fabricante",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las guardas y paros de emergencia están instalados y que el paquete documental del fabricante está completo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar guardas de partes móviles: presencia, fijación e interruptores de guarda<br>\n  2) Verificar paros de emergencia: ubicación, identificación y rearme<br>\n  3) Verificar manuales de operación y mantenimiento en su revisión vigente<br>\n  4) Verificar protocolos FAT/SAT (si se ejecutaron) con sus desviaciones cerradas<br>\n  5) Verificar lista de repuestos críticos recomendados por el fabricante"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las guardas y paros están instalados y operativos.<br>\n  El paquete documental del fabricante está completo y vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de verificación documental diligenciada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la llenadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LF-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LF-001 — Verificación del P&I contra lo instalado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el P&amp;I del lecho fluido (impulsión, calentamiento, cámara de producto, filtros y extracción) corresponde con la instalación física real."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Obtener la revisión vigente del P&amp;I aprobado<br>\n  2) Recorrer la instalación identificando impulsor, batería de calentamiento, plenum, cámara de producto, filtros de mangas y ducto de extracción<br>\n  3) Confirmar tag, diámetro, material y trazado de cada tramo contra el P&amp;I<br>\n  4) Registrar toda desviación como hallazgo con su disposición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El P&amp;I corresponde con lo instalado en su revisión vigente.<br>\n  No existen tramos, válvulas ni instrumentos sin identificar."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - P&amp;I verificado y firmado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del lecho fluido."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LF-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LF-002 — Verificación de conexiones de utilidades del lecho fluido",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las utilidades del lecho fluido están conectadas según especificación: energía eléctrica, vapor o agua caliente, aire comprimido y extracción."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la acometida eléctrica: voltaje, fases, calibre, protección y puesta a tierra<br>\n  2) Verificar el medio calefactor (vapor o agua caliente): presión o temperatura, reductor, filtro y trampa<br>\n  3) Verificar el aire comprimido para boquillas y sacudido de mangas: presión, filtro y regulador<br>\n  4) Verificar el ducto de extracción: trazado, compuertas y conexión al sistema de extracción<br>\n  5) Registrar los parámetros de cada utilidad en la tabla de utilidades"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todas las utilidades están conectadas y sus parámetros están dentro de lo especificado.<br>\n  Cada utilidad cuenta con su elemento de corte accesible."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de utilidades verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del lecho fluido."
+     }
+    ],
+    "tabla": null,
+    "tablaModelo": "UTILIDADES LECHO FLUIDO",
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LF-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LF-003 — Verificación de cámara, distribuidor y carro de producto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la cámara de producto, el distribuidor de aire y el carro cumplen material, acabados y mecanismos especificados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el material de la cámara, el distribuidor y el carro contra el certificado del fabricante<br>\n  2) Inspeccionar acabados internos: ausencia de picaduras, grietas y zonas de corrosión<br>\n  3) Verificar el distribuidor: integridad de la malla, asentamiento y sellado perimetral<br>\n  4) Verificar el carro de producto: rodaje, freno, nivelación y acople hermético a la cámara<br>\n  5) Verificar empaques de cámara: material, asentamiento uniforme y ausencia de daños"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cámara, distribuidor y carro corresponden a lo especificado y están en condiciones adecuadas.<br>\n  El acople del carro sella correctamente sin fugas visibles de aire."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro fotográfico de cámara, distribuidor y carro (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del lecho fluido."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LF-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LF-004 — Verificación de filtros de mangas y sistema antipolvo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los filtros de mangas y el sistema de sacudido están instalados con sus certificados y con la clasificación especificada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar cada manga: material, clasificación, número de lote y certificado<br>\n  2) Verificar el montaje de las mangas en su placa: asentamiento, sellado y ausencia de roturas<br>\n  3) Verificar el sistema de sacudido (aire comprimido o mecánico): conexiones, temporización base y operación manual<br>\n  4) Verificar el medidor de presión diferencial de filtros: rango, calibración vigente e identificación<br>\n  5) Verificar la conexión equipotencial y puesta a tierra del conjunto (control de polvo, si aplica ATEX)<br>\n  6) Registrar cada manga y medidor en la tabla de filtros"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las mangas corresponden a lo especificado y cuentan con certificado.<br>\n  El sistema de sacudido y el diferencial están operativos y calibrados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de filtros con certificados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del lecho fluido."
+     }
+    ],
+    "tabla": null,
+    "tablaModelo": "FILTROS LECHO FLUIDO",
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LF-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LF-005 — Verificación de componentes críticos del lecho fluido",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los componentes críticos del lecho fluido están instalados, identificados y con su documentación de soporte."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar ventiladores de impulsión y extracción: modelo, sentido de giro, variadores y guardas<br>\n  2) Verificar batería de calentamiento: potencia, conexiones y seguridades térmicas<br>\n  3) Verificar sensores de temperatura, humedad y flujo, con calibración vigente<br>\n  4) Verificar boquillas de aspersión y bomba de solución (si aplican): modelo, conexiones y filtros de línea<br>\n  5) Verificar válvulas y dampers de balanceo: posición de diseño y bloqueo<br>\n  6) Registrar cada componente con su estatus en la tabla de componentes críticos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los componentes críticos están instalados, identificados y documentados.<br>\n  Los sensores cuentan con calibración vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de componentes críticos verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del lecho fluido."
+     }
+    ],
+    "tabla": null,
+    "tablaModelo": "COMPONENTES CRÍTICOS LECHO FLUIDO",
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LF-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LF-006 — Verificación del sistema de control, recetas, alarmas y enclavamientos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el PLC del lecho fluido, sus recetas, alarmas y enclavamientos corresponden a lo especificado y están operativos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar modelo y versión de firmware del PLC y de la pantalla de operación<br>\n  2) Verificar las recetas cargadas contra la lista aprobada (temperaturas, flujos, tiempos y versión)<br>\n  3) Verificar la lista de alarmas: sobretemperatura, falla de sensor, falla de flujo, diferencial alto de filtros<br>\n  4) Verificar enclavamientos: no calienta sin flujo de aire, paro por sobretemperatura independiente<br>\n  5) Verificar usuarios y niveles de acceso (si aplica 21 CFR Parte 11)<br>\n  6) Verificar respaldo de recetas y procedimiento de restauración"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sistema de control corresponde a lo especificado con recetas y alarmas aprobadas.<br>\n  Los enclavamientos de seguridad operan correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Listado de recetas, alarmas y usuarios verificado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11 (registros electrónicos, si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LF-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LF-007 — Verificación de soldaduras sanitarias y rugosidad de la cámara",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las soldaduras de la cámara de producto son sanitarias y que la rugosidad cumple lo especificado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el mapa de soldaduras y los registros de soldador calificado con sus certificados<br>\n  2) Inspeccionar visualmente las soldaduras: uniformes, sin poros, socavados ni decoloración excesiva<br>\n  3) Medir la rugosidad (Ra) en los puntos definidos del mapa con rugosímetro calibrado, por triplicado<br>\n  4) Procesar los datos crudos de rugosidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las soldaduras son sanitarias y continuas, con soldadores calificados.<br>\n  La rugosidad promedio cumple el límite especificado en cada punto medido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Mapa de soldaduras, certificados de soldador y reporte de rugosidad con data cruda (anexo del informe)<br>\n  - Data cruda y reporte estadístico del análisis de rugosidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ASME BPE (equipos de bioprocesamiento)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "lecho-fluido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LF-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LF-008 — Verificación de puertos de validación y documentación del fabricante",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el lecho fluido cuenta con los accesos para sensores de validación y con el paquete documental completo del fabricante."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar los puertos para termopares y sensores de validación en cámara y ductos, con su sellado<br>\n  2) Verificar manuales de operación y mantenimiento en su revisión vigente<br>\n  3) Verificar certificados de materiales de cámara, distribuidor y carro<br>\n  4) Verificar protocolos FAT/SAT (si se ejecutaron) con sus desviaciones cerradas<br>\n  5) Verificar lista de repuestos críticos recomendados por el fabricante"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los accesos para validación existen y sellan correctamente.<br>\n  El paquete documental del fabricante está completo y vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de verificación documental diligenciada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del lecho fluido."
+     }
+    ],
+    "tabla": null,
+    "familia": "lecho-fluido"
    }
   ],
   "OQ": [

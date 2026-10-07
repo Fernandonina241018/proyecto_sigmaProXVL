@@ -4687,3 +4687,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-07 (142): Descripción automática desde la entidad + preview
 - **Qué:** al elegir entidad se rellena `descripcion` con su nombre (fuente única); edición manual respetada con dirty flag (incluye cambio de entidad con nombre auto anterior); preview vivo "Saldrá como: X (personalizado)" con el formato de encabezado/portada. Borradores viejos personalizados se respetan.
 - **Verificación:** lógica pura `resolverDescripcion` testeada (5 casos); Vitest 386/386, backend 60/60.
+
+### 2026-10-07 (143): IQ Nivel 3 — 7 bancos por familia (57 ensayos)
+- **Qué:** clasificación N1/N2/N3 aprobada por usuario; generados `iq-autoclave` (8), `iq-tunel-despirogenizacion` (8), `iq-liofilizador` (9), `iq-reactor` (8), `iq-horno-vacio` (8), `iq-llenadora` (8), `iq-lecho-fluido` (8). Se suman al núcleo común EQ-IQ-001…023, filtro por `data-familia` = entidad.id. 7 con `data-analisis="si"` (rugosidad Ra, hermeticidad, dimensional) con paso + entregable estándar.
+- **Archivos:** `docs/banco-ensayos/equipos/iq-*.html` (7 nuevos), `scripts/extraer-banco.mjs` (src), `js/core/banco-equipos-data.js` (regenerado: 253 artículos), `tests/bancos-contrato.test.js` (conteos IQ + familias).
+- **Verificación:** extractor `--estricto` OK (0 pendientes); Vitest 393/393, backend 60/60.

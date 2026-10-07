@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos IQ — Autoclave</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>IQ — Autoclave (banco por familia, Nivel 3)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-IQ-AU 2026-10-07 v1</span></p>
+<p>Ensayos de Calificación de Instalación específicos del autoclave. Se suman al núcleo común (EQ-IQ-001…EQ-IQ-023) y se filtran por familia (<code>data-familia="autoclave"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= IQ ================= -->
+<section id="fase-iq" data-familia="autoclave">
+<h2>IQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-IQ-AU-001" class="ensayo" data-id="EQ-IQ-AU-001" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-AU-001 — Verificación del P&amp;I y del diagrama de flujo contra lo instalado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el diagrama de tuberías e instrumentación (P&amp;I) y el diagrama de flujo del autoclave corresponden con la instalación física real.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Obtener la revisión vigente del P&amp;I y del diagrama de flujo aprobados<br>
+  2) Recorrer la instalación identificando cámara, camisa, generador de vapor (si aplica), trampas, válvulas, instrumentos y drenajes<br>
+  3) Confirmar tag, diámetro, material y pendiente de cada línea contra el P&amp;I<br>
+  4) Registrar toda desviación como hallazgo con su disposición</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El P&amp;I y el diagrama de flujo corresponden con lo instalado en su revisión vigente.<br>
+  No existen líneas, válvulas ni instrumentos sin identificar.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - P&amp;I y diagrama de flujo verificados y firmados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>ISPE Baseline Guide: Sterile Product Manufacturing Facilities.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-AU-002" class="ensayo" data-id="EQ-IQ-AU-002" data-fase="IQ" data-cond="ambas" data-tabla-modelo="UTILIDADES AUTOCLAVE">
+  <h3>EQ-IQ-AU-002 — Verificación de conexiones de utilidades del autoclave</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las utilidades del autoclave están conectadas según especificación: vapor, agua, drenaje, energía eléctrica y aire de instrumentos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la acometida de vapor: presión de suministro, reductor, filtro y trampa en la línea de alimentación<br>
+  2) Verificar la acometida de agua de alimentación y enfriamiento con sus válvulas de corte<br>
+  3) Verificar el drenaje con trampa y pendiente hacia el punto de descarga, sin sifones indebidos<br>
+  4) Verificar la acometida eléctrica: voltaje, fases, calibre de conductores y protección termomagnética<br>
+  5) Verificar el aire de instrumentos para válvulas neumáticas: presión, filtro y regulador<br>
+  6) Registrar los parámetros de cada utilidad en la tabla de utilidades</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todas las utilidades están conectadas y sus parámetros están dentro de lo especificado por el fabricante.<br>
+  Cada utilidad cuenta con su elemento de corte y medición accesible.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de utilidades verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del autoclave.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-AU-003" class="ensayo" data-id="EQ-IQ-AU-003" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-AU-003 — Verificación de cámara, puerta y empaque del autoclave</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la cámara, la puerta y su empaque cumplen el material, los acabados y el mecanismo de cierre especificados.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el material de la cámara y de la puerta contra el certificado del fabricante<br>
+  2) Inspeccionar visualmente los acabados internos: ausencia de picaduras, grietas y zonas de corrosión<br>
+  3) Verificar el empaque de la puerta: material, asentamiento uniforme y ausencia de daños<br>
+  4) Verificar el mecanismo de cierre y su enclavamiento: la puerta no abre con cámara presurizada<br>
+  5) Verificar rieles o carros de carga instalados y nivelados</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cámara, puerta y empaque corresponden a lo especificado y están en condiciones adecuadas.<br>
+  El enclavamiento de puerta opera correctamente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro fotográfico de cámara, puerta y empaque (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>EN 285 (esterilizadores a vapor de gran capacidad).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-AU-004" class="ensayo" data-id="EQ-IQ-AU-004" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-AU-004 — Verificación del recipiente a presión y sus dispositivos de alivio</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el autoclave como recipiente a presión cuenta con placa de datos, memoria de cálculo y dispositivos de alivio calibrados.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la placa de datos del recipiente: presión y temperatura de diseño, año y número de serie<br>
+  2) Verificar la memoria de cálculo y el certificado de fabricación del recipiente<br>
+  3) Verificar la válvula de seguridad: capacidad, presión de ajuste y certificado de calibración vigente<br>
+  4) Verificar el manómetro de cámara: rango, certificado de calibración vigente e identificación<br>
+  5) Confirmar que la descarga de la válvula de seguridad está conducida a zona segura</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El recipiente cuenta con placa, memoria de cálculo y dispositivos de alivio calibrados y vigentes.<br>
+  La presión de ajuste de la válvula de seguridad no supera la presión máxima admisible.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Copia de placa, memoria de cálculo y certificados de calibración (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>ASME BPVC Sección VIII (recipientes a presión).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-AU-005" class="ensayo" data-id="EQ-IQ-AU-005" data-fase="IQ" data-cond="ambas" data-tabla-modelo="COMPONENTES CRÍTICOS AUTOCLAVE">
+  <h3>EQ-IQ-AU-005 — Verificación de componentes críticos del autoclave</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los componentes críticos del autoclave están instalados, identificados y con su documentación de soporte.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar trampas de vapor de cámara y camisa: tipo, tamaño y sentido de flujo<br>
+  2) Verificar válvulas de control y solenoides: tag, posición y conexión al PLC<br>
+  3) Verificar sensores de temperatura y presión de control y monitoreo, con calibración vigente<br>
+  4) Verificar el sistema de vacío (si aplica): bomba, conexiones y válvula antirretorno<br>
+  5) Verificar filtros de venteo y de aire de ruptura de vacío (si aplican): grado y certificado<br>
+  6) Registrar cada componente con su estatus en la tabla de componentes críticos</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los componentes críticos están instalados, identificados y documentados.<br>
+  Los instrumentos de control y monitoreo cuentan con calibración vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de componentes críticos verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1229&gt; (esterilización por vapor).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-AU-006" class="ensayo" data-id="EQ-IQ-AU-006" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-AU-006 — Verificación del sistema de control, alarmas y enclavamientos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el PLC del autoclave, sus programas, alarmas y enclavamientos corresponden a lo especificado y están operativos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar modelo y versión de firmware del PLC y de la pantalla de operación<br>
+  2) Verificar los programas de esterilización cargados contra la lista aprobada (nombre, parámetros y versión)<br>
+  3) Verificar la lista de alarmas configuradas: sobretemperatura, falla de sensor, falla de vapor, falla de vacío<br>
+  4) Verificar enclavamientos: no inicia ciclo con puerta abierta, no abre puerta con presión residual<br>
+  5) Verificar usuarios, niveles de acceso y registro electrónico de eventos (si aplica 21 CFR Parte 11)<br>
+  6) Verificar respaldo del programa y procedimiento de restauración</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El sistema de control corresponde a lo especificado con programas y alarmas aprobados.<br>
+  Los enclavamientos de seguridad operan correctamente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Listado de programas, alarmas y usuarios verificado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>21 CFR Parte 11 (registros electrónicos, si aplica).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-AU-007" class="ensayo" data-id="EQ-IQ-AU-007" data-fase="IQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-IQ-AU-007 — Verificación de soldaduras sanitarias y rugosidad de la cámara</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las soldaduras en contacto con vapor puro y condensado son sanitarias y que la rugosidad de la cámara cumple lo especificado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el mapa de soldaduras y los registros de soldador calificado con sus certificados<br>
+  2) Inspeccionar visualmente las soldaduras: uniformes, sin poros, socavados ni decoloración excesiva<br>
+  3) Medir la rugosidad (Ra) en los puntos definidos del mapa con rugosímetro calibrado, por triplicado<br>
+  4) Verificar pasivado de la cámara con su certificado (si aplica)<br>
+  5) Procesar los datos crudos de rugosidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las soldaduras son sanitarias y continuas, con soldadores calificados.<br>
+  La rugosidad promedio cumple el límite especificado en cada punto medido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Mapa de soldaduras, certificados de soldador y reporte de rugosidad con data cruda (anexo del informe)<br>
+  - Data cruda y reporte estadístico del análisis de rugosidad</p>
+  <p><strong>Referencia:</strong><br>ASME BPE (equipos de bioprocesamiento).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-AU-008" class="ensayo" data-id="EQ-IQ-AU-008" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-AU-008 — Verificación de puertos de validación y documentación del fabricante</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el autoclave cuenta con los puertos para termopares de validación y con el paquete documental completo del fabricante.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el puerto de validación y su prensaestopas: ubicación, diámetro y sellado<br>
+  2) Verificar manuales de operación y mantenimiento en su revisión vigente<br>
+  3) Verificar certificados de materiales de cámara y componentes en contacto con vapor<br>
+  4) Verificar protocolos FAT/SAT (si se ejecutaron) con sus desviaciones cerradas<br>
+  5) Verificar lista de repuestos críticos recomendados por el fabricante</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El puerto de validación existe, sella correctamente y permite el paso de termopares.<br>
+  El paquete documental del fabricante está completo y vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Lista de verificación documental diligenciada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>PDA TR 01 (validación de esterilización por vapor).</p>
+</article>
+
+</section>
+</body>
+</html>

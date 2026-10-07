@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos IQ — Reactor</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>IQ — Reactor (banco por familia, Nivel 3)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-IQ-RC 2026-10-07 v1</span></p>
+<p>Ensayos de Calificación de Instalación específicos del reactor. Se suman al núcleo común (EQ-IQ-001…EQ-IQ-023) y se filtran por familia (<code>data-familia="reactor"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= IQ ================= -->
+<section id="fase-iq" data-familia="reactor">
+<h2>IQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-IQ-RC-001" class="ensayo" data-id="EQ-IQ-RC-001" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-RC-001 — Verificación del P&amp;I contra lo instalado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el P&amp;I del reactor (vaso, chaqueta o serpentín, agitación, adición, venteo y drenaje) corresponde con la instalación física real.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Obtener la revisión vigente del P&amp;I aprobado<br>
+  2) Recorrer la instalación identificando vaso, chaqueta o serpentín, agitador, líneas de adición, venteo, filtros y drenaje<br>
+  3) Confirmar tag, diámetro, material y pendiente de cada línea contra el P&amp;I<br>
+  4) Registrar toda desviación como hallazgo con su disposición</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El P&amp;I corresponde con lo instalado en su revisión vigente.<br>
+  No existen líneas, válvulas ni instrumentos sin identificar.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - P&amp;I verificado y firmado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>ISPE Baseline Guide: Oral Solid Dosage Forms (criterio de diseño aplicable).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-RC-002" class="ensayo" data-id="EQ-IQ-RC-002" data-fase="IQ" data-cond="ambas" data-tabla-modelo="UTILIDADES REACTOR">
+  <h3>EQ-IQ-RC-002 — Verificación de conexiones de utilidades del reactor</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las utilidades del reactor están conectadas según especificación: medio calefactor y refrigerante, energía eléctrica, aire de instrumentos y drenajes.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la acometida del medio calefactor (vapor o agua caliente): presión, reductor, filtro y trampa<br>
+  2) Verificar la acometida del medio refrigerante: caudal, válvulas de corte y retorno<br>
+  3) Verificar la acometida eléctrica del agitador y del control: voltaje, fases, calibre y protección<br>
+  4) Verificar el aire de instrumentos: presión, filtro y regulador<br>
+  5) Verificar drenajes de vaso y chaqueta con pendiente y trampa adecuadas<br>
+  6) Registrar los parámetros de cada utilidad en la tabla de utilidades</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todas las utilidades están conectadas y sus parámetros están dentro de lo especificado.<br>
+  Cada utilidad cuenta con su elemento de corte accesible.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de utilidades verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del reactor.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-RC-003" class="ensayo" data-id="EQ-IQ-RC-003" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-RC-003 — Verificación del recipiente a presión y sus dispositivos de alivio</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el vaso del reactor como recipiente a presión cuenta con placa de datos, memoria de cálculo y dispositivos de alivio calibrados.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la placa de datos del vaso: presión y temperatura de diseño, año y número de serie<br>
+  2) Verificar la memoria de cálculo y el certificado de fabricación del vaso y de la chaqueta<br>
+  3) Verificar la válvula de seguridad y el disco de ruptura (si aplica): capacidad, presión de ajuste y certificado<br>
+  4) Verificar el manómetro del vaso: rango, certificado de calibración vigente e identificación<br>
+  5) Confirmar que la descarga de los alivios está conducida a zona segura</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El vaso cuenta con placa, memoria de cálculo y dispositivos de alivio calibrados y vigentes.<br>
+  La presión de ajuste no supera la presión máxima admisible.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Copia de placa, memoria de cálculo y certificados de calibración (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>ASME BPVC Sección VIII (recipientes a presión).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-RC-004" class="ensayo" data-id="EQ-IQ-RC-004" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-RC-004 — Verificación del sistema de agitación</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el sistema de agitación (motor, reductor, eje, impulsor y sello) está instalado según especificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar motor y reductor: modelo, potencia, número de serie y montaje<br>
+  2) Verificar el eje y el impulsor: tipo, material, fijación y concentricidad visual<br>
+  3) Verificar el sello mecánico o empaquetadura: tipo, conexiones de lubricación o barrera (si aplican)<br>
+  4) Verificar el variador de velocidad: modelo, parametrización base y respaldo<br>
+  5) Verificar deflectores internos (si aplican): presencia, fijación y material</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El sistema de agitación corresponde a lo especificado y gira libremente sin roces.<br>
+  El sello no presenta fugas visibles en inspección estática.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del sistema de agitación verificado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del reactor.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-RC-005" class="ensayo" data-id="EQ-IQ-RC-005" data-fase="IQ" data-cond="ambas" data-tabla-modelo="COMPONENTES CRÍTICOS REACTOR">
+  <h3>EQ-IQ-RC-005 — Verificación de componentes críticos del reactor</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los componentes críticos del reactor están instalados, identificados y con su documentación de soporte.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar válvulas de fondo, adición y transferencia: tipo, tag y actuador<br>
+  2) Verificar sensores de temperatura, presión, nivel y pH (si aplican), con calibración vigente<br>
+  3) Verificar celdas de carga (si aplican): capacidad, certificado y lectura inicial<br>
+  4) Verificar filtro de venteo y rompedor de vacío: grado, certificado y ubicación<br>
+  5) Verificar mirillas, luces y tomamuestras: integridad y sellado<br>
+  6) Registrar cada componente con su estatus en la tabla de componentes críticos</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los componentes críticos están instalados, identificados y documentados.<br>
+  Los instrumentos de control y monitoreo cuentan con calibración vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de componentes críticos verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1058&gt;.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-RC-006" class="ensayo" data-id="EQ-IQ-RC-006" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-RC-006 — Verificación del sistema de control, alarmas y enclavamientos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el sistema de control del reactor, sus lazos, alarmas y enclavamientos corresponden a lo especificado y están operativos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar modelo y versión de firmware del controlador<br>
+  2) Verificar los lazos de control configurados: temperatura de vaso y chaqueta, agitación, presión<br>
+  3) Verificar la lista de alarmas: sobrepresión, sobretemperatura, falla de agitación, bajo nivel<br>
+  4) Verificar enclavamientos: corte de calentamiento por sobretemperatura, paro de agitación por nivel bajo (si aplican)<br>
+  5) Verificar usuarios y niveles de acceso (si aplica 21 CFR Parte 11)<br>
+  6) Verificar respaldo de la configuración y procedimiento de restauración</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El sistema de control corresponde a lo especificado con lazos y alarmas aprobados.<br>
+  Los enclavamientos de seguridad operan correctamente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Listado de lazos, alarmas y usuarios verificado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de control.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-RC-007" class="ensayo" data-id="EQ-IQ-RC-007" data-fase="IQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-IQ-RC-007 — Verificación de hermeticidad del vaso y la chaqueta</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el vaso y la chaqueta son herméticos a la presión de prueba especificada, con registro de presión contra tiempo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar la presión de prueba aprobada y el medio de prueba (neumática o hidrostática)<br>
+  2) Presurizar el vaso y la chaqueta por separado hasta la presión de prueba<br>
+  3) Registrar la presión a intervalos definidos durante el tiempo de sostenimiento<br>
+  4) Inspeccionar uniones, bridas y conexiones con solución espumante (prueba neumática) o visual (hidrostática)<br>
+  5) Procesar los datos crudos de presión contra tiempo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La caída de presión durante el sostenimiento no supera el límite especificado.<br>
+  No se detectan fugas en uniones, bridas ni conexiones.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de presión contra tiempo con data cruda y reporte (anexo del informe)<br>
+  - Data cruda y reporte estadístico del análisis de hermeticidad</p>
+  <p><strong>Referencia:</strong><br>ASME BPVC Sección VIII (pruebas de recipientes).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-RC-008" class="ensayo" data-id="EQ-IQ-RC-008" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-RC-008 — Verificación de materiales en contacto, soldaduras y documentación</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los materiales en contacto con el producto, las soldaduras sanitarias y el paquete documental cumplen lo especificado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar certificados de materiales del vaso, tapa, agitador y líneas de producto<br>
+  2) Verificar el mapa de soldaduras y los registros de soldador calificado<br>
+  3) Inspeccionar acabados internos: uniformes, sin poros ni decoloración excesiva<br>
+  4) Verificar manuales de operación y mantenimiento en su revisión vigente<br>
+  5) Verificar protocolos FAT/SAT (si se ejecutaron) con sus desviaciones cerradas</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los materiales y soldaduras cumplen lo especificado con soldadores calificados.<br>
+  El paquete documental del fabricante está completo y vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Certificados de materiales, mapa de soldaduras y lista documental (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>ASME BPE (equipos de bioprocesamiento).</p>
+</article>
+
+</section>
+</body>
+</html>

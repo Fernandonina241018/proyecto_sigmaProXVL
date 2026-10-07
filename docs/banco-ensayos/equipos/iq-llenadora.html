@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos IQ — Llenadora de Líquidos</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>IQ — Llenadora de Líquidos (banco por familia, Nivel 3)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-IQ-LL 2026-10-07 v1</span></p>
+<p>Ensayos de Calificación de Instalación específicos de la llenadora de líquidos. Se suman al núcleo común (EQ-IQ-001…EQ-IQ-023) y se filtran por familia (<code>data-familia="llenadora"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= IQ ================= -->
+<section id="fase-iq" data-familia="llenadora">
+<h2>IQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-IQ-LL-001" class="ensayo" data-id="EQ-IQ-LL-001" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-LL-001 — Verificación del diagrama de flujo contra lo instalado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el diagrama de flujo de la llenadora (tanque, línea de producto, dosificación, tapado y salida) corresponde con la instalación física real.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Obtener la revisión vigente del diagrama de flujo aprobado<br>
+  2) Recorrer la línea identificando tanque pulmón, línea de producto, estaciones de llenado, tapado y banda de salida<br>
+  3) Confirmar tag, diámetro y material de cada tramo contra el diagrama<br>
+  4) Registrar toda desviación como hallazgo con su disposición</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El diagrama de flujo corresponde con lo instalado en su revisión vigente.<br>
+  No existen tramos, válvulas ni estaciones sin identificar.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Diagrama de flujo verificado y firmado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>ISPE Baseline Guide: Sterile Product Manufacturing Facilities (si aplica proceso aséptico).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-LL-002" class="ensayo" data-id="EQ-IQ-LL-002" data-fase="IQ" data-cond="ambas" data-tabla-modelo="UTILIDADES LLENADORA">
+  <h3>EQ-IQ-LL-002 — Verificación de conexiones de utilidades de la llenadora</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las utilidades de la llenadora están conectadas según especificación: energía eléctrica, aire comprimido, vacío y drenajes.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la acometida eléctrica: voltaje, fases, calibre, protección y puesta a tierra<br>
+  2) Verificar el aire comprimido: presión, filtro, regulador y punto de uso por estación<br>
+  3) Verificar el vacío (si aplica): conexión, válvula antirretorno y medición<br>
+  4) Verificar drenajes de la zona de llenado con pendiente adecuada<br>
+  5) Registrar los parámetros de cada utilidad en la tabla de utilidades</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todas las utilidades están conectadas y sus parámetros están dentro de lo especificado.<br>
+  Cada utilidad cuenta con su elemento de corte accesible.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de utilidades verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la llenadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-LL-003" class="ensayo" data-id="EQ-IQ-LL-003" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-LL-003 — Verificación de materiales en contacto y acabados sanitarios</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los materiales en contacto con el producto y los acabados sanitarios de la línea cumplen lo especificado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar certificados de materiales del tanque, línea de producto, agujas y válvulas dosificadoras<br>
+  2) Inspeccionar acabados de superficies en contacto: uniformes, sin poros ni decoloración excesiva<br>
+  3) Verificar conexiones sanitarias (clamp, orbitales): tipo, empaques y apriete<br>
+  4) Verificar mangueras de producto (si aplican): grado, certificado y fecha de vigencia<br>
+  5) Verificar lubricantes en contacto incidental con su grado alimenticio o farmacéutico (si aplican)</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los materiales en contacto cumplen lo especificado con certificados vigentes.<br>
+  Las conexiones sanitarias están completas y en condiciones adecuadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Certificados de materiales recopilados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>ASME BPE (equipos de bioprocesamiento).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-LL-004" class="ensayo" data-id="EQ-IQ-LL-004" data-fase="IQ" data-cond="ambas" data-tabla-modelo="COMPONENTES CRÍTICOS LLENADORA">
+  <h3>EQ-IQ-LL-004 — Verificación de componentes críticos de dosificación</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los componentes críticos de dosificación están instalados, identificados y con su documentación de soporte.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar bombas o cilindros dosificadores: modelo, número de serie y capacidad<br>
+  2) Verificar agujas o boquillas de llenado: calibre, cantidad y estado<br>
+  3) Verificar válvulas de producto: tipo, tag y actuador<br>
+  4) Verificar sensores de nivel, presencia de envase y torque (si aplican), con calibración vigente<br>
+  5) Verificar el sistema de rechazo o conteo (si aplica): instalación y conexión al control<br>
+  6) Registrar cada componente con su estatus en la tabla de componentes críticos</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los componentes críticos están instalados, identificados y documentados.<br>
+  Los sensores cuentan con calibración vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de componentes críticos verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la llenadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-LL-005" class="ensayo" data-id="EQ-IQ-LL-005" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-LL-005 — Verificación de filtros de línea y venteos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los filtros de la línea de producto, del gas de cobertura y los venteos están instalados con sus certificados.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el filtro de línea de producto: grado, número de serie y certificado<br>
+  2) Verificar el filtro de gas de cobertura o nitrógeno (si aplica): grado y certificado<br>
+  3) Verificar filtros de venteo del tanque: grado y certificado<br>
+  4) Verificar carcasas: material, drenaje, venteo y conexiones sanitarias<br>
+  5) Verificar programa de recambio y prueba de integridad inicial documentada</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los filtros corresponden al grado especificado y cuentan con certificado.<br>
+  Las carcasas drenan y ventean correctamente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de filtros con certificados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>PDA TR 26 (filtración esterilizante, si aplica).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-LL-006" class="ensayo" data-id="EQ-IQ-LL-006" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-LL-006 — Verificación del sistema de control, formatos, alarmas y enclavamientos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el PLC de la llenadora, sus formatos, alarmas y enclavamientos corresponden a lo especificado y están operativos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar modelo y versión de firmware del PLC y de la pantalla de operación<br>
+  2) Verificar los formatos cargados contra la lista aprobada (envase, volumen y versión)<br>
+  3) Verificar la lista de alarmas: sin envase, nivel bajo, falla de dosificación, paro de emergencia<br>
+  4) Verificar enclavamientos: no dosifica sin envase presente, paro ante guarda abierta<br>
+  5) Verificar usuarios y niveles de acceso (si aplica 21 CFR Parte 11)<br>
+  6) Verificar respaldo de formatos y procedimiento de restauración</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El sistema de control corresponde a lo especificado con formatos y alarmas aprobados.<br>
+  Los enclavamientos de seguridad operan correctamente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Listado de formatos, alarmas y usuarios verificado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>21 CFR Parte 11 (registros electrónicos, si aplica).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-LL-007" class="ensayo" data-id="EQ-IQ-LL-007" data-fase="IQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-IQ-LL-007 — Verificación dimensional de partes de formato instaladas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las partes de formato instaladas (guías, estrella, boquillas) corresponden al formato declarado y cumplen sus dimensiones críticas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar el formato instalado y su código contra la lista aprobada<br>
+  2) Medir las dimensiones críticas de las partes de formato con instrumento calibrado, por triplicado<br>
+  3) Verificar el montaje y ajuste de guías y estrella sin juegos excesivos<br>
+  4) Procesar los datos crudos dimensionales en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las partes instaladas corresponden al formato declarado.<br>
+  Las dimensiones críticas están dentro de tolerancia en todas las réplicas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro dimensional con data cruda y reporte (anexo del informe)<br>
+  - Data cruda y reporte estadístico del análisis dimensional de partes de formato</p>
+  <p><strong>Referencia:</strong><br>Planos del fabricante de las partes de formato.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-LL-008" class="ensayo" data-id="EQ-IQ-LL-008" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-LL-008 — Verificación de seguridades y documentación del fabricante</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las guardas y paros de emergencia están instalados y que el paquete documental del fabricante está completo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar guardas de partes móviles: presencia, fijación e interruptores de guarda<br>
+  2) Verificar paros de emergencia: ubicación, identificación y rearme<br>
+  3) Verificar manuales de operación y mantenimiento en su revisión vigente<br>
+  4) Verificar protocolos FAT/SAT (si se ejecutaron) con sus desviaciones cerradas<br>
+  5) Verificar lista de repuestos críticos recomendados por el fabricante</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las guardas y paros están instalados y operativos.<br>
+  El paquete documental del fabricante está completo y vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Lista de verificación documental diligenciada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la llenadora.</p>
+</article>
+
+</section>
+</body>
+</html>

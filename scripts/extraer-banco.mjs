@@ -15,9 +15,9 @@ const root = join(__dirname, '..');
 
 const BANCOS = {
   almacenes: { src: ['almacenes.html'], dst: 'banco-almacenes-data.js', global: 'BancoAlmacenes' },
-  // equipos: banco común + un archivo por familia y fase (p. ej. OQ/PQ de lecho fluido).
+  // equipos: banco común + un archivo por familia y fase (p. ej. IQ/OQ/PQ de lecho fluido).
   // Los artículos llevan `familia` (data-familia); ausente = común a todas.
-  equipos: { src: ['equipos-comun.html', 'equipos/oq-comun.html', 'equipos/pq-comun.html', 'equipos/oq-lecho-fluido.html', 'equipos/oq-autoclave.html', 'equipos/oq-mezclador.html', 'equipos/oq-horno.html', 'equipos/pq-lecho-fluido.html', 'equipos/pq-autoclave.html', 'equipos/pq-mezclador.html', 'equipos/pq-horno.html', 'equipos/pq-horno-vacio.html', 'equipos/oq-horno-vacio.html'], dst: 'banco-equipos-data.js', global: 'BancoEquipos' },
+  equipos: { src: ['equipos-comun.html', 'equipos/oq-comun.html', 'equipos/pq-comun.html', 'equipos/iq-autoclave.html', 'equipos/iq-tunel-despirogenizacion.html', 'equipos/iq-liofilizador.html', 'equipos/iq-reactor.html', 'equipos/iq-horno-vacio.html', 'equipos/iq-llenadora.html', 'equipos/iq-lecho-fluido.html', 'equipos/oq-lecho-fluido.html', 'equipos/oq-autoclave.html', 'equipos/oq-mezclador.html', 'equipos/oq-horno.html', 'equipos/pq-lecho-fluido.html', 'equipos/pq-autoclave.html', 'equipos/pq-mezclador.html', 'equipos/pq-horno.html', 'equipos/pq-horno-vacio.html', 'equipos/oq-horno-vacio.html'], dst: 'banco-equipos-data.js', global: 'BancoEquipos' },
   // estabilidad: banco común de cámaras ICH Q1A (sin familias por ahora).
   estabilidad: { src: ['estabilidad/iq-camaras.html', 'estabilidad/oq-camaras.html', 'estabilidad/pq-camaras.html'], dst: 'banco-estabilidad-data.js', global: 'BancoEstabilidad' },
 };

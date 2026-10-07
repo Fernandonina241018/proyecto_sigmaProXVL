@@ -37,10 +37,17 @@ describe('banco de equipos: contrato', () => {
 
   it('solo familias conocidas', () => {
     const fams = [...new Set(todos.filter((x) => x.familia).map((x) => x.familia))].sort();
-    expect(fams).toEqual(['autoclave', 'horno-secado', 'horno-vacio', 'lecho-fluido', 'mezclador']);
+    expect(fams).toEqual(['autoclave', 'horno-secado', 'horno-vacio', 'lecho-fluido', 'liofilizador', 'llenadora', 'mezclador', 'reactor', 'tunel-despirogenizacion']);
   });
 
   it.each([
+    ['IQ', 'autoclave', 8], // Nivel 3 (2026-10-07)
+    ['IQ', 'tunel-despirogenizacion', 8], // Nivel 3 (2026-10-07)
+    ['IQ', 'liofilizador', 9], // Nivel 3 (2026-10-07)
+    ['IQ', 'reactor', 8], // Nivel 3 (2026-10-07)
+    ['IQ', 'horno-vacio', 8], // Nivel 3 (2026-10-07)
+    ['IQ', 'llenadora', 8], // Nivel 3 (2026-10-07)
+    ['IQ', 'lecho-fluido', 8], // Nivel 3 (2026-10-07)
     ['OQ', 'lecho-fluido', 11], // 13 cuando se aprueben LF-012/LF-013 (ops omitidas)
     ['OQ', 'autoclave', 18],
     ['OQ', 'mezclador', 13], // 12 si se retira MZ-010 (op omitida)
