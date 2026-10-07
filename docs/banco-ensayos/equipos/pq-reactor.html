@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Reactor</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>PQ — Reactor (banco por familia, Nivel 3)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-RC 2026-10-07 v1</span></p>
+<p>Ensayos de Calificación de Desempeño específicos del reactor, tomados del ENSAYOS.txt del usuario. Se filtran por familia (<code>data-familia="reactor"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= PQ ================= -->
+<section id="fase-pq" data-familia="reactor">
+<h2>PQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-PQ-RC-001" class="ensayo" data-id="EQ-PQ-RC-001" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RC-001 — Tres lotes consecutivos a tamaño nominal y condiciones de rutina</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño consistente del reactor con tres lotes consecutivos a tamaño nominal y condiciones de rutina.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir el protocolo de fabricación de rutina y sus parámetros de control<br>
+  2) Fabricar tres lotes consecutivos a tamaño nominal registrando todos los parámetros críticos<br>
+  3) Muestrear cada lote según el plan de muestreo aprobado<br>
+  4) Evaluar los atributos de calidad de cada lote contra especificación<br>
+  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los tres lotes cumplen todos los atributos de calidad.<br>
+  La variabilidad entre lotes está dentro de lo esperado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de los tres lotes con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de lotes consecutivos</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RC-002" class="ensayo" data-id="EQ-PQ-RC-002" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RC-002 — Lote a volumen mínimo</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño del reactor al volumen mínimo (donde más falla la mezcla, por el vórtice, la sumersión del impulsor y los puntos muertos).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Fabricar un lote al volumen mínimo con el protocolo de rutina<br>
+  2) Registrar parámetros críticos con énfasis en mezcla y temperatura<br>
+  3) Muestrear superior, medio e inferior evaluando uniformidad<br>
+  4) Procesar los datos crudos del lote mínimo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El lote a volumen mínimo cumple todos los atributos de calidad.<br>
+  La uniformidad superior, medio e inferior cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del lote mínimo con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de lote a volumen mínimo</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RC-003" class="ensayo" data-id="EQ-PQ-RC-003" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RC-003 — Lote de peor caso</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño del reactor en el peor caso definido (mayor viscosidad, mayor carga de sólidos, activo menos soluble o menor temperatura).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir y justificar el peor caso (mayor viscosidad, mayor carga de sólidos, activo menos soluble o menor temperatura)<br>
+  2) Fabricar el lote de peor caso registrando los parámetros críticos<br>
+  3) Muestrear según el plan de muestreo aprobado con énfasis en uniformidad<br>
+  4) Procesar los datos crudos del peor caso en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El lote de peor caso cumple todos los atributos de calidad.<br>
+  La justificación del peor caso está documentada y aprobada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Justificación del peor caso y registro del lote con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de peor caso</p>
+  <p><strong>Referencia:</strong><br>Análisis de riesgo del proceso.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RC-004" class="ensayo" data-id="EQ-PQ-RC-004" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RC-004 — Tiempo de disolución del activo y de los excipientes</h3>
+  <p><strong>Objetivo:</strong><br>Determinar el tiempo de disolución del activo y de los excipientes hasta ausencia de partículas visibles al final de la mezcla.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con el protocolo de rutina, registrar el tiempo desde la adición hasta la disolución completa<br>
+  2) Verificar ausencia de partículas visibles al final de la mezcla en cada lote PQ<br>
+  3) Repetir en los lotes de rutina, mínimo y peor caso<br>
+  4) Procesar los datos crudos de tiempos de disolución en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ausencia de partículas visibles al final de la mezcla en todos los lotes.<br>
+  Los tiempos de disolución están dentro de lo establecido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de tiempos de disolución con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de tiempo de disolución</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RC-005" class="ensayo" data-id="EQ-PQ-RC-005" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RC-005 — Uniformidad de mezcla en tanque y descarga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la uniformidad con muestras en superior, medio e inferior, y después de la descarga al inicio, a la mitad y al final, con criterio sobre la valoración (media y RSD).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Muestrear el tanque en superior, medio e inferior al final de la mezcla<br>
+  2) Muestrear la descarga al inicio, a la mitad y al final del lote<br>
+  3) Valorar cada muestra por el método aprobado<br>
+  4) Calcular media y RSD por punto y global<br>
+  5) Procesar los datos crudos de valoración en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La media y el RSD de cada punto cumplen el criterio de valoración.<br>
+  No existe tendencia significativa entre inicio, mitad y final de descarga.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Plan de muestreo y valoraciones con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de uniformidad de mezcla</p>
+  <p><strong>Referencia:</strong><br>Especificación de calidad del producto a granel.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RC-006" class="ensayo" data-id="EQ-PQ-RC-006" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RC-006 — Caracterización de suspensiones y emulsiones</h3>
+  <p><strong>Objetivo:</strong><br>Verificar en suspensiones y emulsiones (si aplica): tamaño de partícula o de gota, viscosidad, redispersabilidad, sedimentación y estabilidad física a lo largo de la descarga.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir el tamaño de partícula o de gota al inicio, mitad y final de la descarga (si aplica)<br>
+  2) Medir la viscosidad del granel en cada lote PQ<br>
+  3) Evaluar redispersabilidad y sedimentación según el método aprobado<br>
+  4) Verificar la estabilidad física a lo largo de la descarga<br>
+  5) Procesar los datos crudos de caracterización en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Tamaño de partícula o gota, viscosidad y redispersabilidad cumplen especificación.<br>
+  Sin separación de fases durante la descarga.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de caracterización con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de suspensiones y emulsiones</p>
+  <p><strong>Referencia:</strong><br>Especificación de calidad del producto a granel.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RC-007" class="ensayo" data-id="EQ-PQ-RC-007" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RC-007 — Atributos del producto a granel</h3>
+  <p><strong>Objetivo:</strong><br>Verificar los atributos del producto a granel: pH, densidad, viscosidad, aspecto y claridad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir pH, densidad y viscosidad del granel en cada lote PQ con instrumentos calibrados<br>
+  2) Evaluar aspecto y claridad contra el patrón visual aprobado<br>
+  3) Registrar cada atributo por lote<br>
+  4) Procesar los datos crudos de atributos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los atributos cumplen la especificación del granel en cada lote.<br>
+  Aspecto y claridad conformes al patrón.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de atributos con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de atributos del granel</p>
+  <p><strong>Referencia:</strong><br>Especificación de calidad del producto a granel.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RC-008" class="ensayo" data-id="EQ-PQ-RC-008" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RC-008 — Perfil de temperatura del producto real</h3>
+  <p><strong>Objetivo:</strong><br>Registrar el perfil de temperatura del producto real durante calentamiento, mantenimiento y enfriamiento: tiempos y ausencia de sobrecalentamiento local en la pared.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Instrumentar el lote con termopares en producto y cerca de pared<br>
+  2) Registrar el perfil completo: calentamiento, mantenimiento y enfriamiento<br>
+  3) Determinar los tiempos de cada etapa y verificar ausencia de sobrecalentamiento local en la pared<br>
+  4) Procesar los datos crudos del perfil en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los tiempos de cada etapa cumplen lo establecido.<br>
+  Sin sobrecalentamiento local en la pared fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Perfiles de temperatura con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de perfil térmico del producto</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RC-009" class="ensayo" data-id="EQ-PQ-RC-009" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RC-009 — Degradación en activos termolábiles</h3>
+  <p><strong>Objetivo:</strong><br>Verificar los productos de degradación al final del ciclo más exigente (si aplica, activos termolábiles).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar el ciclo más exigente térmicamente (si aplica, activos termolábiles)<br>
+  2) Muestrear el producto al final de dicho ciclo<br>
+  3) Cuantificar los productos de degradación por el método aprobado<br>
+  4) Procesar los datos crudos de degradación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los productos de degradación no superan el límite especificado.<br>
+  El balance de masas es consistente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Cromatogramas y cuantificación con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de degradación</p>
+  <p><strong>Referencia:</strong><br>Especificación de impurezas del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RC-010" class="ensayo" data-id="EQ-PQ-RC-010" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RC-010 — Uniformidad durante la transferencia y el llenado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la uniformidad durante la transferencia y el llenado con muestras al inicio, mitad y final del lote.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Muestrear el producto transferido al inicio, mitad y final del lote<br>
+  2) Valorar cada muestra por el método aprobado<br>
+  3) Calcular media y RSD por punto<br>
+  4) Procesar los datos crudos de valoración en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La media y el RSD de cada punto cumplen el criterio.<br>
+  Sin tendencia significativa durante la transferencia.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Valoraciones de transferencia con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de uniformidad en transferencia</p>
+  <p><strong>Referencia:</strong><br>Especificación de calidad del producto a granel.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RC-011" class="ensayo" data-id="EQ-PQ-RC-011" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RC-011 — Volumen residual y rendimiento</h3>
+  <p><strong>Objetivo:</strong><br>Determinar el volumen residual (heel) en el tanque y las líneas, y el rendimiento del lote.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Al final de la descarga, recuperar y medir el volumen residual del tanque y las líneas<br>
+  2) Calcular el rendimiento del lote (producto obtenido contra teórico)<br>
+  3) Repetir en cada lote PQ<br>
+  4) Procesar los datos crudos de residual y rendimiento en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El volumen residual no supera el límite establecido.<br>
+  El rendimiento cumple el rango especificado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de residual y rendimiento con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de volumen residual y rendimiento</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RC-012" class="ensayo" data-id="EQ-PQ-RC-012" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RC-012 — Formación de espuma e incorporación de aire</h3>
+  <p><strong>Objetivo:</strong><br>Evaluar la formación de espuma e incorporación de aire (si aplica): densidad antes y después de la agitación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la densidad del producto antes de la agitación (si aplica evaluación de espuma)<br>
+  2) Medir la densidad después de la agitación de rutina<br>
+  3) Evaluar visualmente la espuma formada y su tiempo de colapso<br>
+  4) Procesar los datos crudos de densidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La diferencia de densidad está dentro de lo aceptado.<br>
+  La espuma colapsa dentro del tiempo establecido sin afectar la descarga.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de densidades con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de espuma e incorporación de aire</p>
+  <p><strong>Referencia:</strong><br>Especificación de calidad del producto a granel.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RC-013" class="ensayo" data-id="EQ-PQ-RC-013" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RC-013 — Desempeño del filtro de proceso</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el desempeño del filtro de proceso (si aplica): caudal, presión diferencial y ausencia de pérdida de activo por adsorción.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar el caudal y la presión diferencial del filtro durante la transferencia del lote (si aplica)<br>
+  2) Valorar el activo antes y después del filtro para descartar pérdida por adsorción<br>
+  3) Verificar la integridad del filtro después del uso<br>
+  4) Procesar los datos crudos de caudal, diferencial y valoración en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Caudal y diferencial dentro de lo especificado durante la transferencia.<br>
+  Sin pérdida de activo por adsorción fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de filtración con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de desempeño del filtro</p>
+  <p><strong>Referencia:</strong><br>PDA TR 26 (filtración, si aplica).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RC-014" class="ensayo" data-id="EQ-PQ-RC-014" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-RC-014 — Control microbiológico y tiempo de espera del granel</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la carga microbiana del producto a granel y del agua (si aplica), y el tiempo de espera del granel antes de envasar.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Muestrear el granel para carga microbiana según el plan (si aplica)<br>
+  2) Verificar la calidad microbiológica del agua utilizada (si aplica)<br>
+  3) Registrar el tiempo de espera del granel antes de envasar contra el límite establecido<br>
+  4) Evaluar resultados contra la especificación microbiológica</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La carga microbiana cumple la especificación.<br>
+  El tiempo de espera no supera el límite validado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Resultados microbiológicos y registro de tiempos de espera (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1111&gt; (límites microbianos, si aplica).</p>
+</article>
+
+</section>
+</body>
+</html>

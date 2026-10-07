@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
+ "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -2689,6 +2689,825 @@ var BancoEquipos = {
      }
     ],
     "tabla": null
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-001 — Verificación de parada de emergencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la parada de emergencia detiene el agitador, la calefacción y las bombas del reactor de forma segura."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con el reactor en operación simulada (agitación, calentamiento y bomba en marcha), accionar la parada de emergencia<br>\n  2) Verificar la detención del agitador, el corte de calefacción y la parada de las bombas<br>\n  3) Verificar la señalización del paro y el requerimiento de rearme manual<br>\n  4) Restablecer y verificar el rearranque controlado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La parada de emergencia detiene agitador, calefacción y bombas.<br>\n  El rearranque exige rearme manual deliberado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de accionamiento de parada de emergencia (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del reactor."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-002 — Verificación de interlocks del reactor",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los interlocks del reactor impiden condiciones inseguras: tapa abierta, agitador sin nivel mínimo, válvula de fondo abierta y presión de camisa."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con tapa o boca de hombre abierta, intentar arrancar la agitación y el calentamiento: no debe permitirlo<br>\n  2) Con nivel por debajo del mínimo, intentar arrancar el agitador: no debe girar en seco ni con las aspas descubiertas<br>\n  3) Con la válvula de fondo abierta durante el proceso, verificar la acción del interlock según diseño<br>\n  4) Simular presión de camisa fuera de rango y verificar la acción del interlock<br>\n  5) Registrar cada interlock con su respuesta"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los interlocks impiden la condición insegura correspondiente.<br>\n  Ningún interlock puede puentearse sin herramienta o clave."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de interlocks con respuesta verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del reactor."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-003 — Verificación de alarmas y límites",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada alarma del reactor dispara ante su condición y que la acción asociada ocurre: temperatura, nivel, sobrecorriente, sello y presión."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Forzar o simular alta y baja temperatura y verificar el disparo de cada alarma con su acción<br>\n  2) Forzar o simular alto y bajo nivel y verificar el disparo con su acción<br>\n  3) Simular sobrecorriente del motor del agitador y verificar la alarma y la protección<br>\n  4) Simular falla del sello mecánico (si aplica monitoreo) y verificar la alarma<br>\n  5) Simular alta presión (si aplica) y verificar la alarma y la acción<br>\n  6) Verificar el registro de cada alarma en el histórico de eventos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma dispara ante su condición y ejecuta su acción asociada.<br>\n  Todas las alarmas quedan registradas en el histórico."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de alarmas con disparo y acción verificados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de control."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-004 — Verificación de válvula de seguridad o alivio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la válvula de seguridad o alivio del tanque o la camisa (si presurizan) cuenta con certificado y abre a su presión de ajuste."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el certificado de la válvula de seguridad con su presión de ajuste (si el tanque o la camisa presurizan)<br>\n  2) Verificar la prueba de apertura documentada (banco o en sitio según procedimiento)<br>\n  3) Verificar que la descarga está conducida a zona segura<br>\n  4) Registrar el ajuste contra la presión máxima admisible del recipiente"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La válvula cuenta con certificado vigente y abre a su presión de ajuste.<br>\n  El ajuste no supera la presión máxima admisible."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Certificado de la válvula de seguridad (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ASME BPVC Sección VIII (recipientes a presión)."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-005 — Verificación de falla y recuperación de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que ante una falla de energía el reactor queda en estado seguro y no rearranca espontáneamente al retornar."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con el reactor en operación simulada, interrumpir la energía<br>\n  2) Verificar el estado seguro: agitación detenida, calentamiento cortado, válvulas en posición segura<br>\n  3) Restablecer la energía y verificar que no hay arranque espontáneo<br>\n  4) Verificar el rearranque manual controlado y el registro del evento"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ante la falla el reactor queda en estado seguro.<br>\n  No existe arranque espontáneo al retornar la energía."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de falla y recuperación de energía (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del reactor."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-006 — Verificación de exactitud de velocidad de agitación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud de la velocidad del agitador en mínimo, nominal y máximo frente a un tacómetro independiente."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>\n  2) Medir cada punto con un tacómetro independiente calibrado, por triplicado<br>\n  3) Registrar la lectura del control y la del tacómetro en cada punto<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad indicada está dentro de la tolerancia especificada en los tres puntos.<br>\n  La repetibilidad cumple el criterio en cada punto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidades con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad de agitación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del reactor."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-007 — Verificación de sentido de giro y rampas del agitador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el sentido de giro del agitador y sus rampas de aceleración y desaceleración."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Arrancar el agitador y verificar visualmente el sentido de giro contra el indicado en placa o manual<br>\n  2) Medir el tiempo de aceleración hasta la velocidad nominal<br>\n  3) Medir el tiempo de desaceleración hasta la detención<br>\n  4) Verificar ausencia de golpes o vibración anormal durante las rampas"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sentido de giro corresponde al especificado.<br>\n  Las rampas están dentro de los tiempos especificados sin anomalías."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de sentido de giro y rampas (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del reactor."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-008 — Verificación de corriente del motor con agua a volumen mínimo y máximo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la corriente del motor del agitador con agua a volumen mínimo y máximo no presenta picos anormales."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar agua al volumen mínimo y operar a la velocidad nominal registrando la corriente<br>\n  2) Cargar agua al volumen máximo y operar a la velocidad nominal registrando la corriente<br>\n  3) Registrar la corriente de arranque en ambos casos<br>\n  4) Comparar contra la corriente nominal de placa del motor"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La corriente de operación no supera la nominal de placa en ningún volumen.<br>\n  No existen picos anormales durante la operación estable."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de corrientes por volumen (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Placa del motor del agitador."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-009 — Verificación de vibración, ruido y estado del sello mecánico",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar vibración y ruido del conjunto de agitación (si aplica medición) y el estado del sello mecánico sin fugas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar a velocidad nominal y registrar vibración y ruido (si aplica medición con instrumento)<br>\n  2) Inspeccionar el sello mecánico: ausencia de fugas de producto o de fluido de barrera<br>\n  3) Verificar el fluido de barrera (si lo hay): nivel, presión y conexiones correctas<br>\n  4) Verificar temperatura del sello al tacto o con instrumento (sin sobrecalentamiento)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Vibración y ruido dentro de lo esperado, sin anomalías.<br>\n  El sello no presenta fugas y el fluido de barrera es correcto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de vibración y estado del sello (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del reactor."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-010 — Verificación visual del vórtice y sumersión del impulsor",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar visualmente el vórtice y la sumersión del impulsor a volumen mínimo, que define el límite real de operación del tanque."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar agua al volumen mínimo de operación<br>\n  2) Operar a la velocidad de rutina y observar el vórtice formado<br>\n  3) Verificar que el impulsor permanece sumergido sin aspiración de aire<br>\n  4) Registrar el nivel mínimo operativo real confirmado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  A volumen mínimo el impulsor opera sumergido sin aspiración de aire.<br>\n  El nivel mínimo operativo queda establecido y documentado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro fotográfico del vórtice y nivel mínimo (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación del reactor."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-011 — Verificación del homogeneizador o sistema de alto cizallamiento",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el homogeneizador o sistema de alto cizallamiento (si aplica): velocidad, sentido de giro y enclavamiento."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la velocidad del homogeneizador frente a instrumento independiente (si aplica), por triplicado<br>\n  2) Verificar el sentido de giro contra lo especificado<br>\n  3) Verificar el enclavamiento: no opera sin nivel mínimo ni con tapa abierta<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad está dentro de tolerancia y el sentido es correcto.<br>\n  El enclavamiento impide la operación en condiciones inseguras."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del homogeneizador con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad del homogeneizador"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del homogeneizador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-012 — Verificación de exactitud del sensor de control de temperatura",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud del sensor de control de temperatura frente a un patrón, en setpoints bajo, medio y alto del rango del proceso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Estabilizar el reactor con agua en el setpoint bajo, medio y alto del rango del proceso<br>\n  2) Medir cada punto con un patrón de referencia calibrado, por triplicado<br>\n  3) Registrar la lectura del control y la del patrón en cada punto<br>\n  4) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sensor de control está dentro de la tolerancia especificada en los tres setpoints.<br>\n  La repetibilidad cumple el criterio en cada punto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de exactitud con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de exactitud del sensor de temperatura"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Certificado del patrón de referencia."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-013 — Verificación de velocidad de calentamiento y enfriamiento",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la velocidad de calentamiento y de enfriamiento con agua, a volumen mínimo y máximo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con agua a volumen mínimo, registrar la curva de calentamiento hasta el setpoint y luego la de enfriamiento<br>\n  2) Repetir con agua a volumen máximo<br>\n  3) Calcular las velocidades promedio de calentamiento y enfriamiento en cada caso<br>\n  4) Procesar los datos crudos de temperatura contra tiempo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las velocidades de calentamiento y enfriamiento cumplen lo especificado a ambos volúmenes.<br>\n  Las curvas son reproducibles entre réplicas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curvas de calentamiento y enfriamiento con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad de calentamiento y enfriamiento"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación del reactor."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-014 — Verificación de estabilidad y sobreimpulso en el setpoint",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la estabilidad y el sobreimpulso de la temperatura en el setpoint, con la agitación de rutina."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Estabilizar el reactor con agua en el setpoint de rutina con la agitación de rutina<br>\n  2) Registrar la temperatura a intervalos definidos durante el tiempo de observación<br>\n  3) Determinar el sobreimpulso máximo y la banda de estabilidad alcanzada<br>\n  4) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sobreimpulso no supera el límite especificado.<br>\n  La temperatura se mantiene dentro de la banda de estabilidad especificada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de estabilidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad y sobreimpulso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación del reactor."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-015 — Mapeo de temperatura del líquido",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la uniformidad de temperatura del líquido con termopares en varios puntos (superior, medio, inferior y cerca de pared), a volumen mínimo y máximo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Instalar termopares calibrados en superior, medio, inferior y cerca de pared<br>\n  2) Mapear con agua a volumen mínimo en el setpoint de rutina<br>\n  3) Mapear con agua a volumen máximo en el setpoint de rutina<br>\n  4) Procesar los datos crudos de mapeo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La dispersión entre puntos no supera el límite especificado a ambos volúmenes.<br>\n  No existen puntos fríos o calientes fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Mapas de temperatura con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de mapeo de temperatura"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación del reactor."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-016 — Verificación de suministro y retorno de medio térmico",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el suministro y retorno de vapor, agua de enfriamiento o fluido térmico: presión, caudal y trampas de vapor (si aplican)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la presión y el caudal de suministro del medio térmico en operación<br>\n  2) Verificar el retorno: temperatura o presión de retorno dentro de lo esperado<br>\n  3) Verificar las trampas de vapor (si aplican): tipo, descarga y ausencia de vapor vivo<br>\n  4) Procesar los datos crudos de presión y caudal en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Presión y caudal de suministro cumplen lo especificado.<br>\n  Las trampas descargan condensado sin paso de vapor vivo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de suministro y retorno con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de suministro de medio térmico"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del reactor."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-017 — Verificación de volumen o peso y calibración de medición",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el volumen o peso con agua en varios niveles; si hay celdas de carga, calibración con pesas patrón; si hay sensor de nivel, calibración volumétrica."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar agua en varios niveles y registrar la indicación del sistema<br>\n  2) Si hay celdas de carga, calibrar con pesas patrón trazables en varios puntos<br>\n  3) Si hay sensor de nivel, verificar contra volumen medido (calibración volumétrica)<br>\n  4) Procesar los datos crudos de volumen o peso en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La indicación de volumen o peso está dentro de tolerancia en todos los niveles.<br>\n  Las pesas patrón cuentan con certificado vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de calibración con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de volumen o peso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Certificados de pesas patrón."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-018 — Verificación de exactitud de las adiciones",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud de las adiciones por peso o por volumen (si aplica sistema de adición)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar adiciones de prueba por peso o por volumen en los rangos de uso (si aplica)<br>\n  2) Pesar o medir cada adición con instrumento independiente, por triplicado<br>\n  3) Registrar la cantidad programada contra la realmente adicionada<br>\n  4) Procesar los datos crudos de adiciones en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada adición está dentro de la tolerancia especificada.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de adiciones con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de exactitud de adiciones"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación del reactor."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-019 — Prueba de fuga con presión o vacío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la hermeticidad del tanque con presión o vacío (si opera a presión distinta de la atmosférica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Presurizar o evacuar el tanque (si opera a presión distinta de la atmosférica) hasta el valor de prueba<br>\n  2) Aislar y registrar la presión o el vacío a intervalos definidos<br>\n  3) Inspeccionar uniones, bridas y conexiones<br>\n  4) Calcular la tasa de cambio y compararla contra el límite"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La tasa de cambio no supera el límite especificado.<br>\n  No se detectan fugas en uniones ni conexiones."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de prueba de fuga (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del reactor."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-020",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-020 — Verificación de válvula de fondo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la apertura, el cierre y la ausencia de goteo de la válvula de fondo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con el tanque cargado, abrir la válvula de fondo y verificar descarga libre<br>\n  2) Cerrar la válvula y verificar ausencia de goteo durante el tiempo de observación<br>\n  3) Verificar el accionamiento (manual o automático) y su enclavamiento si aplica"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La válvula abre y cierra completamente.<br>\n  No existe goteo con la válvula cerrada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de válvula de fondo (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del reactor."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-021",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-021 — Verificación de bomba de transferencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la bomba de transferencia (si aplica): caudal, presión y recirculación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar la bomba de transferencia (si aplica) con agua al volumen de rutina<br>\n  2) Medir el caudal y la presión de descarga<br>\n  3) Verificar la recirculación al tanque sin fugas en sellos ni conexiones<br>\n  4) Verificar el sentido de giro y la ausencia de cavitación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El caudal y la presión cumplen lo especificado.<br>\n  No existen fugas ni cavitación sostenida."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de bomba de transferencia (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la bomba."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-022",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-022 — Verificación de venteo y filtro de venteo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el venteo del tanque y la integridad del filtro de venteo hidrofóbico (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el venteo del tanque: trazado libre sin obstrucciones<br>\n  2) Verificar el filtro de venteo hidrofóbico (si aplica): grado, instalación y certificado<br>\n  3) Verificar la prueba de integridad del filtro documentada<br>\n  4) Verificar que el venteo no permite ingreso de contaminantes"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El venteo está libre y el filtro corresponde al grado especificado.<br>\n  La integridad del filtro está verificada y documentada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de venteo y certificado del filtro (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>PDA TR 26 (filtración, si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-023",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-023 — Verificación de drenabilidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el tanque, las líneas y la válvula de fondo se vacían sin retención, con pendientes y puntos bajos adecuados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar agua al volumen de rutina y drenar completamente por la válvula de fondo<br>\n  2) Inspeccionar el tanque, las líneas y la válvula: ausencia de retención o charcos<br>\n  3) Verificar pendientes hacia el drenaje y ausencia de puntos bajos indebidos<br>\n  4) Medir el volumen residual si el diseño lo exige"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sistema drena completamente sin retención.<br>\n  Las pendientes conducen al punto de drenaje."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de drenabilidad (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ASME BPE (diseño sanitario)."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-024",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-024 — Verificación de cobertura del CIP",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la cobertura de limpieza del CIP (si aplica): prueba con riboflavina o equivalente en bolas de aspersión, con caudal y presión definidos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Aplicar riboflavina o equivalente en las superficies internas (si aplica CIP)<br>\n  2) Ejecutar el ciclo CIP con el caudal y la presión definidos<br>\n  3) Inspeccionar con luz ultravioleta la remoción completa en bolas de aspersión y superficies<br>\n  4) Registrar el ensayo en un solo protocolo (OQ o PQ de limpieza, sin duplicar)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cobertura completa sin puntos sin enjuagar.<br>\n  Caudal y presión dentro de lo definido durante el ciclo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cobertura CIP (anexo del informe)"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>\n  Si la empresa ejecuta este ensayo en el PQ de limpieza, se asigna a un solo protocolo para no duplicarlo."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>PDA TR 29 (limpieza, si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-025",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-025 — Verificación de integridad del filtro de proceso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la integridad del filtro de proceso (si aplica) mediante prueba de burbuja o difusión."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar el filtro de proceso instalado (si aplica) con su grado y certificado<br>\n  2) Ejecutar la prueba de integridad (burbuja o difusión) según el procedimiento del fabricante del filtro<br>\n  3) Registrar el valor obtenido contra el límite del certificado<br>\n  4) Verificar la carcasa: drenaje, venteo y conexiones sanitarias"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La prueba de integridad cumple el límite del fabricante.<br>\n  El filtro instalado corresponde al grado especificado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de integridad del filtro (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>PDA TR 26 (filtración esterilizante, si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-026",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-026 — Ciclo completo con agua a volumen máximo y mínimo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar un ciclo completo con agua al volumen máximo y al mínimo: carga, calentamiento, agitación, enfriamiento y descarga, sin alarmas ni desviaciones."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar el ciclo completo con agua al volumen máximo registrando cada etapa<br>\n  2) Ejecutar el ciclo completo con agua al volumen mínimo registrando cada etapa<br>\n  3) Verificar la secuencia: carga, calentamiento, agitación, enfriamiento y descarga<br>\n  4) Registrar alarmas, intervenciones y desviaciones (no debe haber ninguna no justificada)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambos ciclos se completan según la secuencia aprobada.<br>\n  Sin alarmas ni desviaciones no justificadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de ciclo a volumen máximo y mínimo (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación del reactor."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
    },
    {
     "kind": "div",
@@ -5740,6 +6559,453 @@ var BancoEquipos = {
      }
     ],
     "tabla": null
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RC-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RC-001 — Tres lotes consecutivos a tamaño nominal y condiciones de rutina",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño consistente del reactor con tres lotes consecutivos a tamaño nominal y condiciones de rutina."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el protocolo de fabricación de rutina y sus parámetros de control<br>\n  2) Fabricar tres lotes consecutivos a tamaño nominal registrando todos los parámetros críticos<br>\n  3) Muestrear cada lote según el plan de muestreo aprobado<br>\n  4) Evaluar los atributos de calidad de cada lote contra especificación<br>\n  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los tres lotes cumplen todos los atributos de calidad.<br>\n  La variabilidad entre lotes está dentro de lo esperado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de los tres lotes con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de lotes consecutivos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RC-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RC-002 — Lote a volumen mínimo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño del reactor al volumen mínimo (donde más falla la mezcla, por el vórtice, la sumersión del impulsor y los puntos muertos)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Fabricar un lote al volumen mínimo con el protocolo de rutina<br>\n  2) Registrar parámetros críticos con énfasis en mezcla y temperatura<br>\n  3) Muestrear superior, medio e inferior evaluando uniformidad<br>\n  4) Procesar los datos crudos del lote mínimo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El lote a volumen mínimo cumple todos los atributos de calidad.<br>\n  La uniformidad superior, medio e inferior cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del lote mínimo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de lote a volumen mínimo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RC-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RC-003 — Lote de peor caso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño del reactor en el peor caso definido (mayor viscosidad, mayor carga de sólidos, activo menos soluble o menor temperatura)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir y justificar el peor caso (mayor viscosidad, mayor carga de sólidos, activo menos soluble o menor temperatura)<br>\n  2) Fabricar el lote de peor caso registrando los parámetros críticos<br>\n  3) Muestrear según el plan de muestreo aprobado con énfasis en uniformidad<br>\n  4) Procesar los datos crudos del peor caso en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El lote de peor caso cumple todos los atributos de calidad.<br>\n  La justificación del peor caso está documentada y aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Justificación del peor caso y registro del lote con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de peor caso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Análisis de riesgo del proceso."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RC-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RC-004 — Tiempo de disolución del activo y de los excipientes",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Determinar el tiempo de disolución del activo y de los excipientes hasta ausencia de partículas visibles al final de la mezcla."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con el protocolo de rutina, registrar el tiempo desde la adición hasta la disolución completa<br>\n  2) Verificar ausencia de partículas visibles al final de la mezcla en cada lote PQ<br>\n  3) Repetir en los lotes de rutina, mínimo y peor caso<br>\n  4) Procesar los datos crudos de tiempos de disolución en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ausencia de partículas visibles al final de la mezcla en todos los lotes.<br>\n  Los tiempos de disolución están dentro de lo establecido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de tiempos de disolución con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de tiempo de disolución"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RC-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RC-005 — Uniformidad de mezcla en tanque y descarga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la uniformidad con muestras en superior, medio e inferior, y después de la descarga al inicio, a la mitad y al final, con criterio sobre la valoración (media y RSD)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear el tanque en superior, medio e inferior al final de la mezcla<br>\n  2) Muestrear la descarga al inicio, a la mitad y al final del lote<br>\n  3) Valorar cada muestra por el método aprobado<br>\n  4) Calcular media y RSD por punto y global<br>\n  5) Procesar los datos crudos de valoración en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La media y el RSD de cada punto cumplen el criterio de valoración.<br>\n  No existe tendencia significativa entre inicio, mitad y final de descarga."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plan de muestreo y valoraciones con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de uniformidad de mezcla"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de calidad del producto a granel."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RC-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RC-006 — Caracterización de suspensiones y emulsiones",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar en suspensiones y emulsiones (si aplica): tamaño de partícula o de gota, viscosidad, redispersabilidad, sedimentación y estabilidad física a lo largo de la descarga."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el tamaño de partícula o de gota al inicio, mitad y final de la descarga (si aplica)<br>\n  2) Medir la viscosidad del granel en cada lote PQ<br>\n  3) Evaluar redispersabilidad y sedimentación según el método aprobado<br>\n  4) Verificar la estabilidad física a lo largo de la descarga<br>\n  5) Procesar los datos crudos de caracterización en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tamaño de partícula o gota, viscosidad y redispersabilidad cumplen especificación.<br>\n  Sin separación de fases durante la descarga."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de caracterización con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de suspensiones y emulsiones"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de calidad del producto a granel."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RC-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RC-007 — Atributos del producto a granel",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los atributos del producto a granel: pH, densidad, viscosidad, aspecto y claridad."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir pH, densidad y viscosidad del granel en cada lote PQ con instrumentos calibrados<br>\n  2) Evaluar aspecto y claridad contra el patrón visual aprobado<br>\n  3) Registrar cada atributo por lote<br>\n  4) Procesar los datos crudos de atributos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los atributos cumplen la especificación del granel en cada lote.<br>\n  Aspecto y claridad conformes al patrón."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de atributos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de atributos del granel"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de calidad del producto a granel."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RC-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RC-008 — Perfil de temperatura del producto real",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Registrar el perfil de temperatura del producto real durante calentamiento, mantenimiento y enfriamiento: tiempos y ausencia de sobrecalentamiento local en la pared."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Instrumentar el lote con termopares en producto y cerca de pared<br>\n  2) Registrar el perfil completo: calentamiento, mantenimiento y enfriamiento<br>\n  3) Determinar los tiempos de cada etapa y verificar ausencia de sobrecalentamiento local en la pared<br>\n  4) Procesar los datos crudos del perfil en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los tiempos de cada etapa cumplen lo establecido.<br>\n  Sin sobrecalentamiento local en la pared fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Perfiles de temperatura con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de perfil térmico del producto"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RC-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RC-009 — Degradación en activos termolábiles",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los productos de degradación al final del ciclo más exigente (si aplica, activos termolábiles)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar el ciclo más exigente térmicamente (si aplica, activos termolábiles)<br>\n  2) Muestrear el producto al final de dicho ciclo<br>\n  3) Cuantificar los productos de degradación por el método aprobado<br>\n  4) Procesar los datos crudos de degradación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los productos de degradación no superan el límite especificado.<br>\n  El balance de masas es consistente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Cromatogramas y cuantificación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de degradación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de impurezas del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RC-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RC-010 — Uniformidad durante la transferencia y el llenado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la uniformidad durante la transferencia y el llenado con muestras al inicio, mitad y final del lote."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear el producto transferido al inicio, mitad y final del lote<br>\n  2) Valorar cada muestra por el método aprobado<br>\n  3) Calcular media y RSD por punto<br>\n  4) Procesar los datos crudos de valoración en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La media y el RSD de cada punto cumplen el criterio.<br>\n  Sin tendencia significativa durante la transferencia."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Valoraciones de transferencia con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de uniformidad en transferencia"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de calidad del producto a granel."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RC-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RC-011 — Volumen residual y rendimiento",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Determinar el volumen residual (heel) en el tanque y las líneas, y el rendimiento del lote."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Al final de la descarga, recuperar y medir el volumen residual del tanque y las líneas<br>\n  2) Calcular el rendimiento del lote (producto obtenido contra teórico)<br>\n  3) Repetir en cada lote PQ<br>\n  4) Procesar los datos crudos de residual y rendimiento en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El volumen residual no supera el límite establecido.<br>\n  El rendimiento cumple el rango especificado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de residual y rendimiento con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de volumen residual y rendimiento"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RC-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RC-012 — Formación de espuma e incorporación de aire",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Evaluar la formación de espuma e incorporación de aire (si aplica): densidad antes y después de la agitación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la densidad del producto antes de la agitación (si aplica evaluación de espuma)<br>\n  2) Medir la densidad después de la agitación de rutina<br>\n  3) Evaluar visualmente la espuma formada y su tiempo de colapso<br>\n  4) Procesar los datos crudos de densidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia de densidad está dentro de lo aceptado.<br>\n  La espuma colapsa dentro del tiempo establecido sin afectar la descarga."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de densidades con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de espuma e incorporación de aire"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de calidad del producto a granel."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RC-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RC-013 — Desempeño del filtro de proceso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el desempeño del filtro de proceso (si aplica): caudal, presión diferencial y ausencia de pérdida de activo por adsorción."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el caudal y la presión diferencial del filtro durante la transferencia del lote (si aplica)<br>\n  2) Valorar el activo antes y después del filtro para descartar pérdida por adsorción<br>\n  3) Verificar la integridad del filtro después del uso<br>\n  4) Procesar los datos crudos de caudal, diferencial y valoración en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Caudal y diferencial dentro de lo especificado durante la transferencia.<br>\n  Sin pérdida de activo por adsorción fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de filtración con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de desempeño del filtro"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>PDA TR 26 (filtración, si aplica)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RC-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RC-014 — Control microbiológico y tiempo de espera del granel",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la carga microbiana del producto a granel y del agua (si aplica), y el tiempo de espera del granel antes de envasar."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear el granel para carga microbiana según el plan (si aplica)<br>\n  2) Verificar la calidad microbiológica del agua utilizada (si aplica)<br>\n  3) Registrar el tiempo de espera del granel antes de envasar contra el límite establecido<br>\n  4) Evaluar resultados contra la especificación microbiológica"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La carga microbiana cumple la especificación.<br>\n  El tiempo de espera no supera el límite validado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Resultados microbiológicos y registro de tiempos de espera (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1111&gt; (límites microbianos, si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
    },
    {
     "kind": "div",

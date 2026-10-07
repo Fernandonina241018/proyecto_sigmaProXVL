@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos OQ — Reactor</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>OQ — Reactor (banco por familia, Nivel 3)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-OQ-RC 2026-10-07 v1</span></p>
+<p>Ensayos de Calificación de Operación específicos del reactor, tomados del ENSAYOS.txt del usuario. Se filtran por familia (<code>data-familia="reactor"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq" data-familia="reactor">
+<h2>OQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-001" class="ensayo" data-id="EQ-OQ-RC-001" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RC-001 — Verificación de parada de emergencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la parada de emergencia detiene el agitador, la calefacción y las bombas del reactor de forma segura.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con el reactor en operación simulada (agitación, calentamiento y bomba en marcha), accionar la parada de emergencia<br>
+  2) Verificar la detención del agitador, el corte de calefacción y la parada de las bombas<br>
+  3) Verificar la señalización del paro y el requerimiento de rearme manual<br>
+  4) Restablecer y verificar el rearranque controlado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La parada de emergencia detiene agitador, calefacción y bombas.<br>
+  El rearranque exige rearme manual deliberado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de accionamiento de parada de emergencia (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del reactor.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-002" class="ensayo" data-id="EQ-OQ-RC-002" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RC-002 — Verificación de interlocks del reactor</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los interlocks del reactor impiden condiciones inseguras: tapa abierta, agitador sin nivel mínimo, válvula de fondo abierta y presión de camisa.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con tapa o boca de hombre abierta, intentar arrancar la agitación y el calentamiento: no debe permitirlo<br>
+  2) Con nivel por debajo del mínimo, intentar arrancar el agitador: no debe girar en seco ni con las aspas descubiertas<br>
+  3) Con la válvula de fondo abierta durante el proceso, verificar la acción del interlock según diseño<br>
+  4) Simular presión de camisa fuera de rango y verificar la acción del interlock<br>
+  5) Registrar cada interlock con su respuesta</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los interlocks impiden la condición insegura correspondiente.<br>
+  Ningún interlock puede puentearse sin herramienta o clave.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de interlocks con respuesta verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del reactor.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-003" class="ensayo" data-id="EQ-OQ-RC-003" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RC-003 — Verificación de alarmas y límites</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada alarma del reactor dispara ante su condición y que la acción asociada ocurre: temperatura, nivel, sobrecorriente, sello y presión.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Forzar o simular alta y baja temperatura y verificar el disparo de cada alarma con su acción<br>
+  2) Forzar o simular alto y bajo nivel y verificar el disparo con su acción<br>
+  3) Simular sobrecorriente del motor del agitador y verificar la alarma y la protección<br>
+  4) Simular falla del sello mecánico (si aplica monitoreo) y verificar la alarma<br>
+  5) Simular alta presión (si aplica) y verificar la alarma y la acción<br>
+  6) Verificar el registro de cada alarma en el histórico de eventos</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada alarma dispara ante su condición y ejecuta su acción asociada.<br>
+  Todas las alarmas quedan registradas en el histórico.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de alarmas con disparo y acción verificados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de control.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-004" class="ensayo" data-id="EQ-OQ-RC-004" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RC-004 — Verificación de válvula de seguridad o alivio</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la válvula de seguridad o alivio del tanque o la camisa (si presurizan) cuenta con certificado y abre a su presión de ajuste.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el certificado de la válvula de seguridad con su presión de ajuste (si el tanque o la camisa presurizan)<br>
+  2) Verificar la prueba de apertura documentada (banco o en sitio según procedimiento)<br>
+  3) Verificar que la descarga está conducida a zona segura<br>
+  4) Registrar el ajuste contra la presión máxima admisible del recipiente</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La válvula cuenta con certificado vigente y abre a su presión de ajuste.<br>
+  El ajuste no supera la presión máxima admisible.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Certificado de la válvula de seguridad (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>ASME BPVC Sección VIII (recipientes a presión).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-005" class="ensayo" data-id="EQ-OQ-RC-005" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RC-005 — Verificación de falla y recuperación de energía</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que ante una falla de energía el reactor queda en estado seguro y no rearranca espontáneamente al retornar.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con el reactor en operación simulada, interrumpir la energía<br>
+  2) Verificar el estado seguro: agitación detenida, calentamiento cortado, válvulas en posición segura<br>
+  3) Restablecer la energía y verificar que no hay arranque espontáneo<br>
+  4) Verificar el rearranque manual controlado y el registro del evento</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ante la falla el reactor queda en estado seguro.<br>
+  No existe arranque espontáneo al retornar la energía.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de falla y recuperación de energía (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del reactor.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-006" class="ensayo" data-id="EQ-OQ-RC-006" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RC-006 — Verificación de exactitud de velocidad de agitación</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud de la velocidad del agitador en mínimo, nominal y máximo frente a un tacómetro independiente.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>
+  2) Medir cada punto con un tacómetro independiente calibrado, por triplicado<br>
+  3) Registrar la lectura del control y la del tacómetro en cada punto<br>
+  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La velocidad indicada está dentro de la tolerancia especificada en los tres puntos.<br>
+  La repetibilidad cumple el criterio en cada punto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de velocidades con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de velocidad de agitación</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del reactor.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-007" class="ensayo" data-id="EQ-OQ-RC-007" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RC-007 — Verificación de sentido de giro y rampas del agitador</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el sentido de giro del agitador y sus rampas de aceleración y desaceleración.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Arrancar el agitador y verificar visualmente el sentido de giro contra el indicado en placa o manual<br>
+  2) Medir el tiempo de aceleración hasta la velocidad nominal<br>
+  3) Medir el tiempo de desaceleración hasta la detención<br>
+  4) Verificar ausencia de golpes o vibración anormal durante las rampas</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El sentido de giro corresponde al especificado.<br>
+  Las rampas están dentro de los tiempos especificados sin anomalías.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de sentido de giro y rampas (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del reactor.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-008" class="ensayo" data-id="EQ-OQ-RC-008" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RC-008 — Verificación de corriente del motor con agua a volumen mínimo y máximo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la corriente del motor del agitador con agua a volumen mínimo y máximo no presenta picos anormales.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Cargar agua al volumen mínimo y operar a la velocidad nominal registrando la corriente<br>
+  2) Cargar agua al volumen máximo y operar a la velocidad nominal registrando la corriente<br>
+  3) Registrar la corriente de arranque en ambos casos<br>
+  4) Comparar contra la corriente nominal de placa del motor</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La corriente de operación no supera la nominal de placa en ningún volumen.<br>
+  No existen picos anormales durante la operación estable.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de corrientes por volumen (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Placa del motor del agitador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-009" class="ensayo" data-id="EQ-OQ-RC-009" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RC-009 — Verificación de vibración, ruido y estado del sello mecánico</h3>
+  <p><strong>Objetivo:</strong><br>Verificar vibración y ruido del conjunto de agitación (si aplica medición) y el estado del sello mecánico sin fugas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar a velocidad nominal y registrar vibración y ruido (si aplica medición con instrumento)<br>
+  2) Inspeccionar el sello mecánico: ausencia de fugas de producto o de fluido de barrera<br>
+  3) Verificar el fluido de barrera (si lo hay): nivel, presión y conexiones correctas<br>
+  4) Verificar temperatura del sello al tacto o con instrumento (sin sobrecalentamiento)</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Vibración y ruido dentro de lo esperado, sin anomalías.<br>
+  El sello no presenta fugas y el fluido de barrera es correcto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de vibración y estado del sello (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del reactor.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-010" class="ensayo" data-id="EQ-OQ-RC-010" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RC-010 — Verificación visual del vórtice y sumersión del impulsor</h3>
+  <p><strong>Objetivo:</strong><br>Verificar visualmente el vórtice y la sumersión del impulsor a volumen mínimo, que define el límite real de operación del tanque.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Cargar agua al volumen mínimo de operación<br>
+  2) Operar a la velocidad de rutina y observar el vórtice formado<br>
+  3) Verificar que el impulsor permanece sumergido sin aspiración de aire<br>
+  4) Registrar el nivel mínimo operativo real confirmado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  A volumen mínimo el impulsor opera sumergido sin aspiración de aire.<br>
+  El nivel mínimo operativo queda establecido y documentado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro fotográfico del vórtice y nivel mínimo (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación del reactor.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-011" class="ensayo" data-id="EQ-OQ-RC-011" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RC-011 — Verificación del homogeneizador o sistema de alto cizallamiento</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el homogeneizador o sistema de alto cizallamiento (si aplica): velocidad, sentido de giro y enclavamiento.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la velocidad del homogeneizador frente a instrumento independiente (si aplica), por triplicado<br>
+  2) Verificar el sentido de giro contra lo especificado<br>
+  3) Verificar el enclavamiento: no opera sin nivel mínimo ni con tapa abierta<br>
+  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La velocidad está dentro de tolerancia y el sentido es correcto.<br>
+  El enclavamiento impide la operación en condiciones inseguras.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del homogeneizador con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de velocidad del homogeneizador</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del homogeneizador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-012" class="ensayo" data-id="EQ-OQ-RC-012" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RC-012 — Verificación de exactitud del sensor de control de temperatura</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud del sensor de control de temperatura frente a un patrón, en setpoints bajo, medio y alto del rango del proceso.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Estabilizar el reactor con agua en el setpoint bajo, medio y alto del rango del proceso<br>
+  2) Medir cada punto con un patrón de referencia calibrado, por triplicado<br>
+  3) Registrar la lectura del control y la del patrón en cada punto<br>
+  4) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El sensor de control está dentro de la tolerancia especificada en los tres setpoints.<br>
+  La repetibilidad cumple el criterio en cada punto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de exactitud con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de exactitud del sensor de temperatura</p>
+  <p><strong>Referencia:</strong><br>Certificado del patrón de referencia.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-013" class="ensayo" data-id="EQ-OQ-RC-013" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RC-013 — Verificación de velocidad de calentamiento y enfriamiento</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la velocidad de calentamiento y de enfriamiento con agua, a volumen mínimo y máximo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con agua a volumen mínimo, registrar la curva de calentamiento hasta el setpoint y luego la de enfriamiento<br>
+  2) Repetir con agua a volumen máximo<br>
+  3) Calcular las velocidades promedio de calentamiento y enfriamiento en cada caso<br>
+  4) Procesar los datos crudos de temperatura contra tiempo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las velocidades de calentamiento y enfriamiento cumplen lo especificado a ambos volúmenes.<br>
+  Las curvas son reproducibles entre réplicas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Curvas de calentamiento y enfriamiento con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de velocidad de calentamiento y enfriamiento</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación del reactor.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-014" class="ensayo" data-id="EQ-OQ-RC-014" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RC-014 — Verificación de estabilidad y sobreimpulso en el setpoint</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la estabilidad y el sobreimpulso de la temperatura en el setpoint, con la agitación de rutina.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Estabilizar el reactor con agua en el setpoint de rutina con la agitación de rutina<br>
+  2) Registrar la temperatura a intervalos definidos durante el tiempo de observación<br>
+  3) Determinar el sobreimpulso máximo y la banda de estabilidad alcanzada<br>
+  4) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El sobreimpulso no supera el límite especificado.<br>
+  La temperatura se mantiene dentro de la banda de estabilidad especificada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de estabilidad con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de estabilidad y sobreimpulso</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación del reactor.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-015" class="ensayo" data-id="EQ-OQ-RC-015" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RC-015 — Mapeo de temperatura del líquido</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la uniformidad de temperatura del líquido con termopares en varios puntos (superior, medio, inferior y cerca de pared), a volumen mínimo y máximo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Instalar termopares calibrados en superior, medio, inferior y cerca de pared<br>
+  2) Mapear con agua a volumen mínimo en el setpoint de rutina<br>
+  3) Mapear con agua a volumen máximo en el setpoint de rutina<br>
+  4) Procesar los datos crudos de mapeo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La dispersión entre puntos no supera el límite especificado a ambos volúmenes.<br>
+  No existen puntos fríos o calientes fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Mapas de temperatura con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de mapeo de temperatura</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación del reactor.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-016" class="ensayo" data-id="EQ-OQ-RC-016" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RC-016 — Verificación de suministro y retorno de medio térmico</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el suministro y retorno de vapor, agua de enfriamiento o fluido térmico: presión, caudal y trampas de vapor (si aplican).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la presión y el caudal de suministro del medio térmico en operación<br>
+  2) Verificar el retorno: temperatura o presión de retorno dentro de lo esperado<br>
+  3) Verificar las trampas de vapor (si aplican): tipo, descarga y ausencia de vapor vivo<br>
+  4) Procesar los datos crudos de presión y caudal en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Presión y caudal de suministro cumplen lo especificado.<br>
+  Las trampas descargan condensado sin paso de vapor vivo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de suministro y retorno con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de suministro de medio térmico</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del reactor.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-017" class="ensayo" data-id="EQ-OQ-RC-017" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RC-017 — Verificación de volumen o peso y calibración de medición</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el volumen o peso con agua en varios niveles; si hay celdas de carga, calibración con pesas patrón; si hay sensor de nivel, calibración volumétrica.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Cargar agua en varios niveles y registrar la indicación del sistema<br>
+  2) Si hay celdas de carga, calibrar con pesas patrón trazables en varios puntos<br>
+  3) Si hay sensor de nivel, verificar contra volumen medido (calibración volumétrica)<br>
+  4) Procesar los datos crudos de volumen o peso en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La indicación de volumen o peso está dentro de tolerancia en todos los niveles.<br>
+  Las pesas patrón cuentan con certificado vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de calibración con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de volumen o peso</p>
+  <p><strong>Referencia:</strong><br>Certificados de pesas patrón.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-018" class="ensayo" data-id="EQ-OQ-RC-018" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RC-018 — Verificación de exactitud de las adiciones</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud de las adiciones por peso o por volumen (si aplica sistema de adición).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar adiciones de prueba por peso o por volumen en los rangos de uso (si aplica)<br>
+  2) Pesar o medir cada adición con instrumento independiente, por triplicado<br>
+  3) Registrar la cantidad programada contra la realmente adicionada<br>
+  4) Procesar los datos crudos de adiciones en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada adición está dentro de la tolerancia especificada.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de adiciones con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de exactitud de adiciones</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación del reactor.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-019" class="ensayo" data-id="EQ-OQ-RC-019" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RC-019 — Prueba de fuga con presión o vacío</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la hermeticidad del tanque con presión o vacío (si opera a presión distinta de la atmosférica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Presurizar o evacuar el tanque (si opera a presión distinta de la atmosférica) hasta el valor de prueba<br>
+  2) Aislar y registrar la presión o el vacío a intervalos definidos<br>
+  3) Inspeccionar uniones, bridas y conexiones<br>
+  4) Calcular la tasa de cambio y compararla contra el límite</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La tasa de cambio no supera el límite especificado.<br>
+  No se detectan fugas en uniones ni conexiones.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de prueba de fuga (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del reactor.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-020" class="ensayo" data-id="EQ-OQ-RC-020" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RC-020 — Verificación de válvula de fondo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la apertura, el cierre y la ausencia de goteo de la válvula de fondo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con el tanque cargado, abrir la válvula de fondo y verificar descarga libre<br>
+  2) Cerrar la válvula y verificar ausencia de goteo durante el tiempo de observación<br>
+  3) Verificar el accionamiento (manual o automático) y su enclavamiento si aplica</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La válvula abre y cierra completamente.<br>
+  No existe goteo con la válvula cerrada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de válvula de fondo (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del reactor.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-021" class="ensayo" data-id="EQ-OQ-RC-021" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RC-021 — Verificación de bomba de transferencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la bomba de transferencia (si aplica): caudal, presión y recirculación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar la bomba de transferencia (si aplica) con agua al volumen de rutina<br>
+  2) Medir el caudal y la presión de descarga<br>
+  3) Verificar la recirculación al tanque sin fugas en sellos ni conexiones<br>
+  4) Verificar el sentido de giro y la ausencia de cavitación</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El caudal y la presión cumplen lo especificado.<br>
+  No existen fugas ni cavitación sostenida.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de bomba de transferencia (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la bomba.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-022" class="ensayo" data-id="EQ-OQ-RC-022" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RC-022 — Verificación de venteo y filtro de venteo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el venteo del tanque y la integridad del filtro de venteo hidrofóbico (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el venteo del tanque: trazado libre sin obstrucciones<br>
+  2) Verificar el filtro de venteo hidrofóbico (si aplica): grado, instalación y certificado<br>
+  3) Verificar la prueba de integridad del filtro documentada<br>
+  4) Verificar que el venteo no permite ingreso de contaminantes</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El venteo está libre y el filtro corresponde al grado especificado.<br>
+  La integridad del filtro está verificada y documentada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de venteo y certificado del filtro (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>PDA TR 26 (filtración, si aplica).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-023" class="ensayo" data-id="EQ-OQ-RC-023" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RC-023 — Verificación de drenabilidad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el tanque, las líneas y la válvula de fondo se vacían sin retención, con pendientes y puntos bajos adecuados.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Cargar agua al volumen de rutina y drenar completamente por la válvula de fondo<br>
+  2) Inspeccionar el tanque, las líneas y la válvula: ausencia de retención o charcos<br>
+  3) Verificar pendientes hacia el drenaje y ausencia de puntos bajos indebidos<br>
+  4) Medir el volumen residual si el diseño lo exige</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El sistema drena completamente sin retención.<br>
+  Las pendientes conducen al punto de drenaje.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de drenabilidad (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>ASME BPE (diseño sanitario).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-024" class="ensayo" data-id="EQ-OQ-RC-024" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RC-024 — Verificación de cobertura del CIP</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la cobertura de limpieza del CIP (si aplica): prueba con riboflavina o equivalente en bolas de aspersión, con caudal y presión definidos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Aplicar riboflavina o equivalente en las superficies internas (si aplica CIP)<br>
+  2) Ejecutar el ciclo CIP con el caudal y la presión definidos<br>
+  3) Inspeccionar con luz ultravioleta la remoción completa en bolas de aspersión y superficies<br>
+  4) Registrar el ensayo en un solo protocolo (OQ o PQ de limpieza, sin duplicar)</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cobertura completa sin puntos sin enjuagar.<br>
+  Caudal y presión dentro de lo definido durante el ciclo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de cobertura CIP (anexo del informe)</p>
+  <p><strong>Nota:</strong><br>
+  Si la empresa ejecuta este ensayo en el PQ de limpieza, se asigna a un solo protocolo para no duplicarlo.</p>
+  <p><strong>Referencia:</strong><br>PDA TR 29 (limpieza, si aplica).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-025" class="ensayo" data-id="EQ-OQ-RC-025" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RC-025 — Verificación de integridad del filtro de proceso</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la integridad del filtro de proceso (si aplica) mediante prueba de burbuja o difusión.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar el filtro de proceso instalado (si aplica) con su grado y certificado<br>
+  2) Ejecutar la prueba de integridad (burbuja o difusión) según el procedimiento del fabricante del filtro<br>
+  3) Registrar el valor obtenido contra el límite del certificado<br>
+  4) Verificar la carcasa: drenaje, venteo y conexiones sanitarias</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La prueba de integridad cumple el límite del fabricante.<br>
+  El filtro instalado corresponde al grado especificado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de integridad del filtro (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>PDA TR 26 (filtración esterilizante, si aplica).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RC-026" class="ensayo" data-id="EQ-OQ-RC-026" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RC-026 — Ciclo completo con agua a volumen máximo y mínimo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar un ciclo completo con agua al volumen máximo y al mínimo: carga, calentamiento, agitación, enfriamiento y descarga, sin alarmas ni desviaciones.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar el ciclo completo con agua al volumen máximo registrando cada etapa<br>
+  2) Ejecutar el ciclo completo con agua al volumen mínimo registrando cada etapa<br>
+  3) Verificar la secuencia: carga, calentamiento, agitación, enfriamiento y descarga<br>
+  4) Registrar alarmas, intervenciones y desviaciones (no debe haber ninguna no justificada)</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ambos ciclos se completan según la secuencia aprobada.<br>
+  Sin alarmas ni desviaciones no justificadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de ciclo a volumen máximo y mínimo (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación del reactor.</p>
+</article>
+
+</section>
+</body>
+</html>

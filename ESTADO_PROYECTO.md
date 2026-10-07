@@ -4692,3 +4692,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Qué:** clasificación N1/N2/N3 aprobada por usuario; generados `iq-autoclave` (8), `iq-tunel-despirogenizacion` (8), `iq-liofilizador` (9), `iq-reactor` (8), `iq-horno-vacio` (8), `iq-llenadora` (8), `iq-lecho-fluido` (8). Se suman al núcleo común EQ-IQ-001…023, filtro por `data-familia` = entidad.id. 7 con `data-analisis="si"` (rugosidad Ra, hermeticidad, dimensional) con paso + entregable estándar.
 - **Archivos:** `docs/banco-ensayos/equipos/iq-*.html` (7 nuevos), `scripts/extraer-banco.mjs` (src), `js/core/banco-equipos-data.js` (regenerado: 253 artículos), `tests/bancos-contrato.test.js` (conteos IQ + familias).
 - **Verificación:** extractor `--estricto` OK (0 pendientes); Vitest 393/393, backend 60/60.
+
+### 2026-10-07 (144): OQ + PQ reactor desde ENSAYOS.txt (40 ensayos)
+- **Qué:** `.txt` traía OQ+PQ reactor (verificado: 58 líneas, flags literales). Creados `oq-reactor.html` (26 ensayos EQ-OQ-RC, 9 con análisis: velocidad, homogeneizador, sensor T, rampas, estabilidad, mapeo, medio térmico, volumen, adiciones) y `pq-reactor.html` (14 ensayos EQ-PQ-RC, 13 con análisis por grupos marcados: corridas, disolución/uniformidad, térmico, transferencia; micro sin flag como el original).
+- **Verificación:** extractor `--estricto` OK (293 artículos, 0 pendientes); Vitest 395/395, backend 60/60.
