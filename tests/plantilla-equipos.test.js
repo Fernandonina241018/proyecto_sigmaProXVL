@@ -340,6 +340,54 @@ describe('OQ horno de secado (banco por familia, fuente ENSAYOS.txt)', () => {
   });
 });
 
+describe('OQ/PQ horno de vacío (banco por familia, fuente ENSAYOS.txt)', () => {
+  const DRAFT_VA = {
+    codigo: '400900', descripcion: 'Horno de vacío', ubicacion: 'LABORATORIO',
+    tipo: 'Equipo', marca: 'COMASA', modelo: 'VAC-50', fecha: '2026-10-06',
+  };
+  const genFase = async (fase, ent) => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS[fase])));
+    const r = await P.generar(fase, u8, banco, DRAFT_VA, ent, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    return { r, doc: arch['word/document.xml'] };
+  };
+  const ENT_VA = { id: 'horno-vacio', nombre: 'Horno de vacío' };
+
+  it('banco vacío: OQ 18 + PQ 10, flags del .txt respetados', () => {
+    const oq = (banco.fases.OQ || []).filter((i) => i.id && i.familia === 'horno-vacio').map((i) => i.id);
+    expect(oq).toHaveLength(20);
+    expect(oq.filter((id) => /^EQ-OQ-VA-\d+$/.test(id))).toHaveLength(18);
+    const pq = (banco.fases.PQ || []).filter((i) => i.id && i.familia === 'horno-vacio').map((i) => i.id);
+    expect(pq).toHaveLength(12);
+    expect(pq.filter((id) => /^EQ-PQ-VA-\d+$/.test(id))).toHaveLength(10);
+    const anOQ = (banco.fases.OQ || []).filter((i) => i.familia === 'horno-vacio' && i.analisis).length;
+    const anPQ = (banco.fases.PQ || []).filter((i) => i.familia === 'horno-vacio' && i.analisis).length;
+    expect(anOQ).toBe(12);
+    expect(anPQ).toBe(10);
+  });
+
+  it('vacío genera OQ 18+1 y PQ 10+1, sin mezcla con secado', async () => {
+    const o = await genFase('OQ', ENT_VA);
+    expect(o.r.ensayos).toHaveLength(19); // 18 familia + EQ-OQ-COM-001
+    expect(o.r.ensayos).toContain('EQ-OQ-VA-008');
+    const p = await genFase('PQ', ENT_VA);
+    expect(p.r.ensayos).toHaveLength(11); // 10 familia + EQ-PQ-COM-001
+    expect(p.r.ensayos).toContain('EQ-PQ-VA-001');
+    for (const id of o.r.ensayos) expect(o.doc).toContain(id);
+    for (const id of p.r.ensayos) expect(p.doc).toContain(id);
+    const txt = (o.doc + p.doc).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    expect(txt).toContain('VACÍO');
+    expect(txt).not.toContain('BOWIE-DICK');
+    expect(txt).not.toContain('GASKET INFLABLE');
+  });
+
+  it('horno de secado no recibe ensayos de vacío', async () => {
+    const o = await genFase('OQ', { id: 'horno-secado', nombre: 'Horno de secado' });
+    expect(o.r.ensayos.every((id) => !id.includes('-VA-'))).toBe(true);
+    expect(o.doc).not.toContain('EQ-OQ-VA-001');
+  });
+});
+
 describe('PQ horno de secado (banco por familia, fuente ENSAYOS.txt)', () => {
   const DRAFT_HO = {
     codigo: '400800', descripcion: 'Horno de secado', ubicacion: 'PLANTA 3',

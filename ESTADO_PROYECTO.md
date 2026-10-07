@@ -4679,3 +4679,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-06 (140): PQ horno de secado — 18 ensayos desde ENSAYOS.txt
 - **Qué:** nuevo `docs/banco-ensayos/equipos/pq-horno.html` (18 articles EQ-PQ-HO-001…018, `familia="horno-secado"`, 14 con `data-analisis` según marcas del .txt, refs OMS/USP1058/1229.8/731/Anexo15/211 + anexos). Fuente: ENSAYOS.txt (distribución, penetración, repetibilidad, atributos, desempeño, monitoreo).
 - **Verificación:** PQ real con 19 ensayos (18+COM), 11 H1; sin mezcla; Vitest 382/382, backend 60/60.
+
+### 2026-10-06 (141): OQ+PQ horno de vacío desde ENSAYOS.txt
+- **Qué:** nuevos `oq-horno-vacio.html` (18: 17 del .txt + E-stop agregada, 12 con `data-analisis`) y `pq-horno-vacio.html` (10, todos con `data-analisis` por grupos), `familia="horno-vacio"`, refs DIN 12880/USP1058/USP731/Anexo15 + anexos.
+- **Verificación:** OQ real 19 ensayos (18+COM) y PQ real 11 (10+COM), 11 H1; sin mezcla; Vitest 385/385, backend 60/60.

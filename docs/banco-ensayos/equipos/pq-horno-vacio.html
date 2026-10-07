@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Horno de vacío</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>PQ — Horno de vacío (banco por familia)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-VA 2026-10-06 v1</span></p>
+<p>Ensayos de Calificación de Desempeño específicos del horno de vacío (<span class="equipo">equipo</span>) con material y carga real. Se filtran por familia (<code>data-familia="horno-vacio"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt de protocolo.</p>
+
+<!-- ================= PQ ================= -->
+<section id="fase-pq" data-familia="horno-vacio">
+<h2>PQ — Ensayos</h2>
+
+<div class="portada" data-bloque="1">
+<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>
+<p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+<p><strong>Calificación de Desempeño de <span class="equipo">equipo</span>:</strong> <span class="ent-descripcion">______</span></p>
+<ol>
+  <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+  <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+  <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+</ol>
+</div>
+
+<div class="firmas" data-bloque="1">
+<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>
+<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>
+<ol>
+  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+</ol>
+</div>
+
+<div class="responsabilidades" data-bloque="1">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+<p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+<ol><li>Coordinar la ejecución de la Calificación de Desempeño con laboratorio y calidad, asegurando personal, <span class="equipo">equipo</span>, material de referencia, carga real, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente durante todo el PQ.</li><li>Ejecutar y/o supervisar los ciclos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>
+<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y dictaminar el desempeño del equipo.</li></ol>
+<p><strong>Responsabilidad del Gerente de Área:</strong></p>
+<ol><li>Garantizar la disponibilidad del <span class="equipo">equipo</span>, del material y de los accesos para la ejecución.</li><li>Facilitar la documentación de métodos y del fabricante.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>
+</div>
+
+<div class="alcance" data-bloque="1">
+<p><strong>ALCANCE</strong></p>
+<p>Esta calificación aplica a <span class="equipo">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice.</p>
+</div>
+
+<div class="def-usp" data-bloque="1">
+<p><strong>DEFINICIÓN USP</strong></p>
+<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (USP &lt;1058&gt;).</p>
+</div>
+
+<div class="nota-datos" data-bloque="1">
+<p><strong>NOTA — DATOS DIGITALES</strong></p>
+<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>
+</div>
+
+<article data-bloque="3" id="art-EQ-PQ-VA-001" class="ensayo" data-analisis="si" data-id="EQ-PQ-VA-001" data-fase="PQ" data-cond="ambas" data-familia="horno-vacio">
+  <h3>EQ-PQ-VA-001 — Secado del material de referencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el secado del material de referencia del <span class="equipo">equipo</span> en las condiciones del método más exigente, contra el valor certificado o contra un horno ya calificado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir el material de referencia (patrón, muestra certificada o material caracterizado) y el método más exigente del laboratorio<br>
+  2) Ejecutar el secado completo según el método, registrando condiciones y tiempos<br>
+  3) Medir el resultado (humedad residual, peso constante u otro parámetro del método) con método validado<br>
+  4) Comparar contra el valor certificado o contra el horno ya calificado<br>
+  a) Resultado dentro del criterio (igual al certificado o a la referencia dentro de la tolerancia)<br>
+  5) Procesar los datos crudos del secado en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Secado conforme al valor certificado o a la referencia.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del secado con resultado y comparativa<br>
+  - Data cruda y reporte estadístico del análisis del secado<br>
+  - Certificado del material de referencia</p>
+  <p><strong>Referencia:</strong><br>Métodos del laboratorio; USP &lt;731&gt;.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-VA-002" class="ensayo" data-analisis="si" data-id="EQ-PQ-VA-002" data-fase="PQ" data-cond="ambas" data-familia="horno-vacio">
+  <h3>EQ-PQ-VA-002 — Repetibilidad en una corrida</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar repetibilidad con al menos seis réplicas en una sola corrida del <span class="equipo">equipo</span>, con RSD dentro del criterio.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Preparar 6 réplicas del material en posiciones distribuidas de la cámara<br>
+  2) Correr el ciclo completo una sola vez con las 6 réplicas<br>
+  3) Medir el resultado de cada réplica con el método del ensayo EQ-PQ-VA-001<br>
+  4) Calcular media, SD y RSD del conjunto<br>
+  a) RSD dentro del criterio (por ejemplo menor o igual a 5,0%)<br>
+  5) Procesar los datos crudos de réplicas en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Repetibilidad demostrada en una corrida.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de 6 réplicas con media, SD y RSD<br>
+  - Data cruda y reporte estadístico del análisis de repetibilidad</p>
+  <p><strong>Referencia:</strong><br>Métodos del laboratorio; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-VA-003" class="ensayo" data-analisis="si" data-id="EQ-PQ-VA-003" data-fase="PQ" data-cond="ambas" data-familia="horno-vacio">
+  <h3>EQ-PQ-VA-003 — Reproducibilidad entre corridas y analistas</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar reproducibilidad entre corridas y entre analistas del <span class="equipo">equipo</span>, en días distintos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Asignar corridas a analistas distintos en días distintos (mínimo 2 analistas y 2 días)<br>
+  2) Ejecutar el secado del material de referencia en cada combinación con el mismo método<br>
+  3) Comparar resultados entre corridas y entre analistas<br>
+  4) Evaluar el efecto del analista y del día<br>
+  a) Sin efecto significativo del analista ni del día; resultados dentro del criterio<br>
+  5) Procesar los datos crudos de reproducibilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Reproducibilidad demostrada entre corridas y analistas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla por corrida, analista y día con comparativa<br>
+  - Data cruda y reporte estadístico del análisis de reproducibilidad</p>
+  <p><strong>Referencia:</strong><br>Métodos del laboratorio; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-VA-004" class="ensayo" data-analisis="si" data-id="EQ-PQ-VA-004" data-fase="PQ" data-cond="ambas" data-familia="horno-vacio">
+  <h3>EQ-PQ-VA-004 — Posiciones de bandeja</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el desempeño del <span class="equipo">equipo</span> en varias posiciones de bandeja (superior, media e inferior), con la bandeja cargada como en uso real.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Cargar bandejas como en uso real en las posiciones superior, media e inferior<br>
+  2) Correr el ciclo completo y medir el resultado por posición<br>
+  3) Comparar las posiciones entre sí y contra el criterio<br>
+  a) Todas las posiciones conformes sin efecto significativo de la posición<br>
+  4) Procesar los datos crudos por posición en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Desempeño uniforme en todas las posiciones.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Resultados por posición de bandeja con comparativa<br>
+  - Data cruda y reporte estadístico del análisis por posición</p>
+  <p><strong>Referencia:</strong><br>Métodos del laboratorio; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-VA-005" class="ensayo" data-analisis="si" data-id="EQ-PQ-VA-005" data-fase="PQ" data-cond="ambas" data-familia="horno-vacio">
+  <h3>EQ-PQ-VA-005 — Peso constante del método</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el tiempo de método del <span class="equipo">equipo</span> alcanza el peso constante, sin sobresecar ni degradar el material.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pesar el material antes del ciclo con balanza calibrada y registrar<br>
+  2) Correr el tiempo de método completo y pesar al final<br>
+  3) Extender 30 minutos adicionales y volver a pesar para confirmar constancia<br>
+  4) Confirmar que no hay degradación (aspecto, color) por sobreexposición<br>
+  a) Peso constante alcanzado en el tiempo de método sin degradación<br>
+  5) Procesar los datos crudos de pesadas en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Peso constante en el tiempo de método sin degradación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Pesadas antes, al final y extendidas<br>
+  - Data cruda y reporte estadístico del análisis de peso constante</p>
+  <p><strong>Referencia:</strong><br>USP &lt;731&gt; (pérdida por secado); métodos del laboratorio.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-VA-006" class="ensayo" data-analisis="si" data-id="EQ-PQ-VA-006" data-fase="PQ" data-cond="ambas" data-familia="horno-vacio">
+  <h3>EQ-PQ-VA-006 — Mapeo con carga representativa</h3>
+  <p><strong>Objetivo:</strong><br>Mapear el <span class="equipo">equipo</span> con carga representativa: número y tamaño de recipientes habituales, bajo vacío y a la temperatura de método, pues las muestras en recipiente cerrado o apilado se calientan distinto.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir la carga representativa (número, tamaño y apilado de recipientes habituales)<br>
+  2) Distribuir termopares en la carga, incluyendo recipientes cerrados y apilados, con plano<br>
+  3) Correr el ciclo bajo vacío a la temperatura de método, registrando al intervalo definido<br>
+  4) Calcular uniformidad y comparar recipiente abierto contra cerrado y apilado<br>
+  a) Uniformidad dentro de tolerancia con la carga representativa<br>
+  5) Procesar los datos crudos del mapeo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Mapeo conforme con carga representativa.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Plano de carga y sensores con curvas por sonda<br>
+  - Data cruda y reporte estadístico del análisis del mapeo</p>
+  <p><strong>Referencia:</strong><br>DIN 12880 (hornos); métodos del laboratorio.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-VA-007" class="ensayo" data-analisis="si" data-id="EQ-PQ-VA-007" data-fase="PQ" data-cond="ambas" data-familia="horno-vacio">
+  <h3>EQ-PQ-VA-007 — Temperatura dentro del recipiente</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la temperatura dentro del recipiente o de la muestra del <span class="equipo">equipo</span>, no solo la del aire de la cámara.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ubicar sondas dentro del recipiente o de la muestra, además de las de cámara<br>
+  2) Correr el ciclo y comparar interior contra cámara a lo largo del tiempo<br>
+  3) Medir el retraso térmico y la diferencia máxima<br>
+  4) Confirmar que el interior alcanza la temperatura requerida en el tiempo previsto<br>
+  a) Interior conforme con retraso conocido y aceptado<br>
+  5) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Temperatura interior verificada y aceptada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Curvas interior contra cámara con retraso<br>
+  - Data cruda y reporte estadístico del análisis comparativo</p>
+  <p><strong>Referencia:</strong><br>Métodos del laboratorio; DIN 12880.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-VA-008" class="ensayo" data-analisis="si" data-id="EQ-PQ-VA-008" data-fase="PQ" data-cond="ambas" data-familia="horno-vacio">
+  <h3>EQ-PQ-VA-008 — Carga máxima: vacío y evacuación</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el efecto de la carga máxima del <span class="equipo">equipo</span> en el nivel de vacío alcanzable y en el tiempo de evacuación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Configurar la carga máxima declarada y evacuar registrando presión contra tiempo<br>
+  2) Comparar nivel y tiempo contra la cámara vacía del ensayo EQ-OQ-VA-006<br>
+  3) Confirmar que el vacío de método se alcanza con carga máxima<br>
+  a) Vacío y tiempo conformes con carga máxima<br>
+  4) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Vacío de método alcanzable con carga máxima.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Curvas de evacuación con y sin carga<br>
+  - Data cruda y reporte estadístico del análisis comparativo</p>
+  <p><strong>Referencia:</strong><br>URS del equipo; métodos del laboratorio.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-VA-009" class="ensayo" data-analisis="si" data-id="EQ-PQ-VA-009" data-fase="PQ" data-cond="ambas" data-familia="horno-vacio">
+  <h3>EQ-PQ-VA-009 — Peor caso con volátiles o carga densa</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño del <span class="equipo">equipo</span> en el peor caso: muestra con mayor contenido de volátiles, solventes de baja presión de vapor, o configuración de carga más densa.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir el peor caso con el análisis de riesgo y anexar su justificación<br>
+  2) Correr instrumentado el peor caso y confirmar secado y uniformidad<br>
+  3) Confirmar que el vacío se mantiene pese a la carga de volátiles<br>
+  a) Peor caso conforme en todo<br>
+  4) Procesar los datos crudos del peor caso en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Peor caso conforme.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Definición del peor caso con análisis de riesgo<br>
+  - Registros del peor caso<br>
+  - Data cruda y reporte estadístico del análisis del peor caso</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15 (peor caso).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-VA-010" class="ensayo" data-analisis="si" data-id="EQ-PQ-VA-010" data-fase="PQ" data-cond="ambas" data-familia="horno-vacio">
+  <h3>EQ-PQ-VA-010 — Operación continua del método más largo</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar la operación continua del <span class="equipo">equipo</span> durante la duración más larga de un método.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar el método de mayor duración del laboratorio y su tiempo total<br>
+  2) Correr el ciclo completo de esa duración con carga y monitoreo continuo<br>
+  3) Confirmar mantenimiento de vacío y temperatura sin intervenciones extraordinarias<br>
+  4) Confirmar el resultado del material al final<br>
+  a) Operación continua conforme durante el método más largo<br>
+  5) Procesar los datos crudos del periodo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Operación continua conforme.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros continuos del método más largo<br>
+  - Data cruda y reporte estadístico del análisis del periodo</p>
+  <p><strong>Referencia:</strong><br>Métodos del laboratorio; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="4" id="art-EQ-PQ-VA-RES" class="ensayo" data-id="EQ-PQ-VA-RES" data-fase="PQ" data-cond="ambas" data-familia="horno-vacio">
+  <h3>EQ-PQ-VA-RES — Tabla resumen de los ensayos del PQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ del horno de vacío para la tabla resumen del protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar que los ensayos EQ-PQ-VA-001 a EQ-PQ-VA-010 están incluidos en el índice del protocolo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los 10 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="6" id="art-EQ-PQ-VA-REF" class="ensayo tabla-info" data-id="EQ-PQ-VA-REF" data-fase="PQ" data-cond="ambas" data-familia="horno-vacio">
+  <h3>EQ-PQ-VA-REF — Referencias del PQ de horno de vacío</h3>
+  <table>
+    <tr><th>SECCIÓN</th><th>TÍTULO</th><th>ESTADO</th></tr>
+    <tr><td>6.1</td><td>DIN 12880 — Aparatos eléctricos de laboratorio: hornos, desempeño térmico</td><td>VIGENTE</td></tr>
+    <tr><td>6.2</td><td>USP &lt;731&gt; — Pérdida por secado: peso constante y humedad residual</td><td>VIGENTE</td></tr>
+    <tr><td>6.3</td><td>USP &lt;1058&gt; — Analytical Instrument Qualification: sensores y patrones asociados</td><td>VIGENTE</td></tr>
+    <tr><td>6.4</td><td>EU GMP Anexo 15 — PQ con repetibilidad y reproducibilidad justificadas</td><td>VIGENTE</td></tr>
+    <tr><td>6.5</td><td>Métodos del laboratorio — Material de referencia, réplicas y criterios de aceptación</td><td>VIGENTE</td></tr>
+    <tr><td>6.6</td><td>Manual del fabricante del horno de vacío — Vacío, setpoints y límites de diseño</td><td>VIGENTE</td></tr>
+  </table>
+</article>
+
+<div class="anexos" data-bloque="8">
+<p><strong>ANEXOS:</strong></p>
+<table>
+<tr><th>SECCIÓN</th><th>TÍTULO</th></tr>
+<tr><td>8.1</td><td>Anexo A — Registros de ciclos, curvas de vacío y temperatura, y mapeos con carga</td></tr>
+<tr><td>8.2</td><td>Anexo B — Certificados del material de referencia, patrones e instrumentos</td></tr>
+<tr><td>8.3</td><td>Anexo C — Comparativas entre corridas, analistas y posiciones</td></tr>
+</table>
+</div>
+
+</section>
+
+</body>
+</html>

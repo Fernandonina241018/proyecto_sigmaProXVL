@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1",
+ "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -3224,6 +3224,700 @@ var BancoEquipos = {
     "bloque": 8,
     "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de ciclos, curvas de temperatura y mapeos por setpoint</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de patrones e instrumentos, y planos de sensores</td></tr>\n<tr><td>8.3</td><td>Anexo C — Matrices de interlocks y alarmas, y evidencias de notificaciones</td></tr>\n</tbody></table>",
     "familia": "horno-secado"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n<p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n<p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n<ol>\n  <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n  <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n  <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n</ol>",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n<ol>\n  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n</ol>",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n<p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n<ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, bomba de vacío, instrumentos patrón y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar el inicio de la PQ.</li></ol>\n<p><strong>Responsabilidad del Gerente de Área:</strong></p>\n<ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo OQ, y cubre los ensayos listados en el índice.</p>",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (USP &lt;1058&gt;).</p>",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VA-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-001 — Parada de emergencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la parada de emergencia del <span class=\"equipo\">equipo</span> corta la calefacción y deja el horno en estado seguro, sin aporte de vacío inseguro."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar IQ aprobada y <span class=\"equipo\">equipo</span> liberado para OQ, en calentamiento nominal con vacío aplicado<br>\n  2) Accionar la parada de emergencia y medir con cronómetro el tiempo hasta el corte de calefacción<br>\n  3) Confirmar el estado seguro (sin calentamiento, bomba según diseño fail-safe) y el mensaje en el controlador<br>\n  a) Corte efectivo dentro del límite del fabricante<br>\n  4) Sin rearmar, intentar arrancar y confirmar que queda impedido<br>\n  5) Rearmar según el fabricante y confirmar condición segura sin arranque solo<br>\n  6) Repetir por cada parada y dejar el <span class=\"equipo\">equipo</span> en condición segura"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Corte efectivo; estado seguro; sin arranque sin rearme."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba con tiempos medidos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; GAMP5 2.ª ed."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VA-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-002 — Protección de sobretemperatura independiente",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la protección de sobretemperatura del <span class=\"equipo\">equipo</span> es independiente del control principal y corta la calefacción al llegar al límite."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar el termostato o controlador independiente y su setpoint (registrar el valor en °C y su fuente antes de iniciar)<br>\n  2) Inhabilitar el control principal según el procedimiento del fabricante, bajo supervisión<br>\n  3) Elevar la temperatura de forma controlada hasta el límite de seguridad<br>\n  4) Confirmar el corte de la calefacción por el dispositivo independiente y su alarma<br>\n  a) Corte efectivo al límite con el control principal inhabilitado<br>\n  5) Restituir el control principal, normalizar y confirmar operación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Protección independiente funcional al límite declarado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba con setpoint y respuesta"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VA-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-003 — Alarmas y límites",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada alarma del <span class=\"equipo\">equipo</span> dispara en su límite y ejecuta su acción (alta y baja temperatura, falla de sensor y falla de vacío, si el equipo las tiene)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Listar las alarmas disponibles en el equipo con sus límites, con cronómetro y formato<br>\n  2) Provocar o simular alta temperatura y confirmar alarma con su acción<br>\n  a) Tiempo de respuesta menor a 5 segundos con acuse registrado<br>\n  3) Provocar o simular baja temperatura, falla de sensor (desconexión) y falla de vacío, según apliquen al modelo<br>\n  4) Acusar cada alarma disponible, normalizar y confirmar el retorno a operación con el histórico completo<br>\n  5) Registrar las alarmas que el modelo no tiene como No Aplica con justificación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todas las alarmas disponibles disparan, ejecutan su acción y quedan registradas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de alarmas con límite, acción, tiempo y acuse"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; GAMP5 2.ª ed."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VA-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-004 — Puerta y vidrio de seguridad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el cierre, el enclavamiento y la protección contra implosión de la puerta y el vidrio del <span class=\"equipo\">equipo</span>."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar el vidrio (sin fisuras, rayaduras profundas ni delaminación) y su marco de protección<br>\n  2) Cerrar y confirmar el enclavamiento mecánico de la puerta antes de aplicar vacío<br>\n  3) Intentar arrancar el ciclo de vacío con la puerta mal cerrada y confirmar que queda impedido<br>\n  4) Con vacío aplicado, intentar abrir y confirmar el bloqueo<br>\n  a) Enclavamiento efectivo y vidrio íntegro<br>\n  5) Registrar el resultado con evidencia fotográfica del vidrio"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Puerta enclavada y vidrio íntegro con protección."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba con evidencia fotográfica"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VA-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-005 — Falla y recuperación de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el estado seguro del <span class=\"equipo\">equipo</span> ante falla de energía y el comportamiento del vacío (la válvula no debe retroalimentar aceite de la bomba a la cámara)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Poner el <span class=\"equipo\">equipo</span> en calentamiento nominal con vacío aplicado y coordinar el corte real o simulado<br>\n  2) Cortar la energía, anotar la hora y confirmar el estado: calefacción cortada, alarmas y posición de válvulas<br>\n  3) Confirmar que no hay retroalimentación de aceite de la bomba hacia la cámara (válvula antirretorno o diseño)<br>\n  4) Esperar 5 minutos sin energía<br>\n  5) Restablecer y confirmar que no arranca solo y exige acción deliberada del operador<br>\n  6) Rearrancar manualmente, confirmar operación normal y verificar integridad de registros (ALCOA+)<br>\n  7) Anexar el registro del evento y la verificación de datos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Estado seguro sin retroalimentación de aceite; sin arranque espontáneo; datos íntegros."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del evento con hora y verificación de datos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; GAMP5 2.ª ed.; 21 CFR Part 11."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VA-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-006 — Nivel de vacío y tiempo de evacuación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la presión mínima alcanzable del <span class=\"equipo\">equipo</span> y el tiempo de evacuación hasta el valor requerido por los métodos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con la cámara vacía, limpia y seca, cerrar y arrancar la evacuación registrando presión contra tiempo<br>\n  2) Medir la presión mínima sostenida y el tiempo hasta el valor requerido por los métodos<br>\n  3) Repetir 3 veces y comparar repetibilidad<br>\n  4) Confirmar que el vacío requerido por los métodos se alcanza con margen<br>\n  a) Presión mínima y tiempo dentro de lo previsto en las 3 repeticiones<br>\n  5) Procesar los datos crudos de evacuated en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Vacío y tiempo conformes y repetibles."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curvas de evacuación por repetición<br>\n  - Data cruda y reporte estadístico del análisis de evacuación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; métodos del laboratorio."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VA-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-007 — Exactitud del manómetro de vacío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud del manómetro del <span class=\"equipo\">equipo</span> frente a un patrón de referencia en varios puntos del rango."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Disponer del patrón de vacío calibrado conectado a la cámara o a toma equivalente<br>\n  2) Estabilizar en al menos 3 puntos del rango (alto, medio y bajo vacío) y comparar equipo contra patrón<br>\n  3) Registrar por punto ambas lecturas y la diferencia<br>\n  a) Diferencia dentro de la tolerancia del URS o del fabricante en los 3 puntos<br>\n  4) Procesar los datos crudos de exactitud en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Exactitud conforme en todo el rango."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de equipo contra patrón por punto<br>\n  - Data cruda y reporte estadístico del análisis de exactitud<br>\n  - Certificado del patrón de vacío"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VA-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-008 — Prueba de fuga (tasa de aumento de presión)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Medir el aumento de presión del <span class=\"equipo\">equipo</span> tras aislar la cámara, durante un tiempo definido, con criterio tomado de la URS."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Evacuar al nivel de trabajo, aislar la cámara (cerrar válvula a la bomba) y anotar la hora<br>\n  2) Registrar la presión a intervalos definidos durante el tiempo del ensayo (por ejemplo 10 min)<br>\n  3) Calcular la tasa de aumento (mbar/min) por regresión o diferencia<br>\n  4) Comparar contra el criterio de la URS registrado antes de iniciar<br>\n  a) Tasa menor o igual al criterio URS<br>\n  5) Procesar los datos crudos de fuga en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tasa de fuga dentro del criterio URS."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curva de aumento de presión con cálculo de tasa<br>\n  - Data cruda y reporte estadístico del análisis de fuga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS del equipo; ASTM F2338 (concepto de decaimiento de vacío)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VA-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-009 — Estabilidad del vacío con calentamiento",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la estabilidad del vacío del <span class=\"equipo\">equipo</span> durante el calentamiento y a la temperatura máxima."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Evacuar al nivel de trabajo y calentar hasta la temperatura máxima de uso<br>\n  2) Mantener 30 minutos registrando presión y temperatura cada 5 minutos<br>\n  3) Confirmar que el vacío se mantiene dentro de banda pese al desgasificado inicial<br>\n  a) Vacío estable dentro de banda durante el mantenimiento a T máxima<br>\n  4) Procesar los datos crudos de estabilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Vacío estable a temperatura máxima."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de presión y temperatura del mantenimiento<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VA-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-010 — Ventilación y purga con gas seco (si aplica)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la válvula de ventilación y la purga con gas seco del <span class=\"equipo\">equipo</span> (nitrógeno): control, filtro y velocidad de ventilación sin remover el material."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el horno tiene purga con gas seco; si no, pasar al paso 6)<br>\n  2) Verificar el filtro de la línea de gas y su estado<br>\n  3) Ventilar de forma controlada midiendo el tiempo hasta presión atmosférica<br>\n  4) Confirmar que la velocidad de ventilación no remueve ni desplaza el material (prueba con placebo si aplica)<br>\n  a) Ventilación controlada sin remoción de material, con filtro íntegro<br>\n  5) Procesar los datos crudos de ventilación en el módulo de análisis estadístico (cuando aplique) y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  6) Sin purga: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ventilación controlada con filtro íntegro, o No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de ventilación con filtro, o justificación de No Aplica firmada<br>\n  - Data cruda y reporte estadístico del análisis de ventilación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VA-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-011 — Bomba de vacío y trampa",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la bomba del <span class=\"equipo\">equipo</span>: estado del aceite o tipo de bomba seca, trampa fría y compatibilidad con los solventes que se evaporan."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar el tipo de bomba (aceite o seca) y registrar marca, modelo y mantenimiento vigente<br>\n  2) Si es de aceite: verificar nivel, color y fecha de cambio; si es seca: verificar horas y mantenimiento<br>\n  3) Verificar la trampa fría (si existe): temperatura, capacidad y drenaje<br>\n  4) Confirmar la compatibilidad con los solventes evaporados (tabla del fabricante o evaluación de riesgo)<br>\n  a) Bomba mantenida con trampa operativa y compatibilidad confirmada<br>\n  5) Registrar el resultado con el plan de mantenimiento asociado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Bomba apta y compatible con el uso previsto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Ficha de bomba y trampa con mantenimiento<br>\n  - Evaluación de compatibilidad con solventes"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; plan de mantenimiento."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VA-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-012 — Exactitud de temperatura por setpoint",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud del sensor de control del <span class=\"equipo\">equipo</span> frente a un patrón en cada setpoint de la tabla."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Disponer del patrón de referencia calibrado y de la tabla de setpoints aprobada<br>\n  2) Estabilizar en cada setpoint de la tabla (con vacío aplicado según método) y comparar control contra patrón<br>\n  3) Registrar por setpoint ambas lecturas y la diferencia<br>\n  a) Diferencia menor o igual a ±0,5 °C o la tolerancia del URS<br>\n  4) Repetir en todos los setpoints de la tabla<br>\n  5) Procesar los datos crudos de exactitud en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Exactitud conforme en todos los setpoints."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de setpoints con control contra patrón<br>\n  - Data cruda y reporte estadístico del análisis de exactitud<br>\n  - Certificado del patrón"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VA-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-013 — Estabilidad y sobreimpulso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la estabilidad del control del <span class=\"equipo\">equipo</span> en setpoints bajo, medio y alto, y su sobreimpulso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Fijar el setpoint bajo del rango, estabilizar y registrar cada 5 minutos durante 30 minutos<br>\n  2) Medir el sobreimpulso al alcanzar cada setpoint desde ambiente<br>\n  3) Repetir en setpoint medio y en setpoint alto<br>\n  4) Calcular por setpoint el promedio, el rango y el sobreimpulso máximo<br>\n  a) Estabilidad dentro de ±1 °C y sobreimpulso menor o igual al límite del fabricante<br>\n  5) Procesar los datos crudos de estabilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Estabilidad y sobreimpulso conformes en los tres setpoints."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de estabilidad y sobreimpulso por setpoint<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VA-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-014 — Calentamiento y recuperación con vacío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Medir el tiempo de calentamiento del <span class=\"equipo\">equipo</span> hasta el setpoint con vacío aplicado y el tiempo de recuperación tras ventilar y reabrir la puerta."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Partir del horno a temperatura ambiente, aplicar el vacío de trabajo y fijar el setpoint<br>\n  2) Medir con cronómetro el tiempo hasta entrar en banda y estabilizar<br>\n  3) Ventilar, abrir la puerta el tiempo definido, cerrar, re-evaporar y medir el tiempo de recuperación<br>\n  4) Repetir en un segundo setpoint representativo<br>\n  a) Tiempos dentro de lo previsto por el fabricante<br>\n  5) Procesar los datos crudos de tiempos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tiempos de calentamiento y recuperación conformes y repetibles."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curvas de calentamiento y recuperación por setpoint<br>\n  - Data cruda y reporte estadístico del análisis de tiempos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VA-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-015 — Temporizador (si aplica)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el temporizador del <span class=\"equipo\">equipo</span> frente a un cronómetro de referencia; si no tiene temporizador programable, declarar No Aplica."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el horno tiene temporizador programable; si no, pasar al paso 4)<br>\n  2) Programar 3 tiempos y medir cada uno con el cronómetro de referencia<br>\n  3) Comparar tiempos del equipo contra la referencia<br>\n  a) Diferencia menor o igual a ±1% o ±5 segundos, lo mayor<br>\n  4) Sin temporizador: redactar la justificación de No Aplica con firma del ejecutor y del revisor<br>\n  5) Procesar los datos crudos de tiempos en el módulo de análisis estadístico (cuando aplique) y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Temporizador exacto, o No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de tiempos equipo contra referencia, o justificación de No Aplica firmada<br>\n  - Data cruda y reporte estadístico del análisis de tiempos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VA-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-016 — Mapeo con vacío de trabajo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Mapear el <span class=\"equipo\">equipo</span> con el vacío de trabajo definido, en cada setpoint a calificar, con termopares distribuidos en bandejas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Justificar el número de sensores por el volumen y distribuirlos según el plano (esquinas, centro, cerca de puerta y de la fuente de calor)<br>\n  2) Aplicar el vacío de trabajo definido y correr el mapeo por setpoint durante el periodo establecido<br>\n  3) Calcular por sensor promedio, máximo y mínimo; ΔT entre sensores<br>\n  a) Uniformidad dentro de la tolerancia en todos los setpoints<br>\n  4) Procesar los datos crudos del mapeo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Mapeo conforme en todos los setpoints con sensores justificados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de sensores con justificación por volumen<br>\n  - Curvas y tabla por sensor y setpoint<br>\n  - Data cruda y reporte estadístico del análisis del mapeo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>DIN 12880 (hornos); OMS TRS 1010 Anexo 7."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VA-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-017 — Duración justificada por setpoint",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Definir y justificar la duración del mapeo del <span class=\"equipo\">equipo</span> por setpoint, con la cámara estable."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Fijar la duración por setpoint con su justificación (mínimo 24 h salvo justificación)<br>\n  2) Ejecutar el periodo completo sin interrupciones injustificadas<br>\n  3) Confirmar estabilidad sostenida durante todo el periodo<br>\n  a) Periodo completo ejecutado con estabilidad sostenida<br>\n  4) Procesar los datos crudos de duración en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Duración justificada y ejecutada con estabilidad sostenida."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Justificación de la duración por setpoint<br>\n  - Data cruda y reporte estadístico del análisis de duración"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS del equipo; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VA-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-018 — Puntos frío y caliente con vacío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Identificar el punto frío y el caliente del <span class=\"equipo\">equipo</span> con vacío de trabajo, y ubicar el sensor de control respecto a ellos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con los datos del mapeo del ensayo EQ-OQ-VA-016, identificar los puntos extremos<br>\n  2) Declarar el punto frío y el caliente con su justificación<br>\n  3) Verificar la posición del sensor de control y del monitoreo contra los extremos<br>\n  4) Reubicar el monitoreo si no está en posición representativa y registrar la nueva posición<br>\n  a) Puntos identificados con sensores en posiciones representativas<br>\n  5) Procesar los datos crudos de extremos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Puntos identificados con monitoreo representativo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano con puntos extremos y posición de sensores<br>\n  - Data cruda y reporte estadístico del análisis de extremos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>DIN 12880 (hornos); OMS TRS 1010 Anexo 7."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-VA-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ del horno de vacío para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-VA-001 a EQ-OQ-VA-018 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 18 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-VA-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VA-REF — Referencias del OQ de horno de vacío",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "DIN 12880 — Aparatos eléctricos de laboratorio: hornos e incubadoras, desempeño térmico",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "USP <1058> — Analytical Instrument Qualification: sensores y patrones asociados",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Cualificación y validación: la OQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "GAMP5 2.ª ed. — Challenge a funciones de seguridad, interlocks, alarmas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "21 CFR Part 11 — Registros electrónicos: intervalo, marca de tiempo e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Manual del fabricante del horno de vacío — Vacío, setpoints, alarmas y límites de diseño",
+       "VIGENTE"
+      ]
+     ]
+    },
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de vacío, curvas de temperatura y mapeos por setpoint</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de patrones e instrumentos, y planos de sensores</td></tr>\n<tr><td>8.3</td><td>Anexo C — Matrices de interlocks y alarmas, y ficha de bomba y trampa</td></tr>\n</tbody></table>",
+    "familia": "horno-vacio"
    }
   ],
   "PQ": [
@@ -5867,6 +6561,450 @@ var BancoEquipos = {
     "bloque": 8,
     "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de ciclos, curvas de temperatura y mapeos con carga</td></tr>\n<tr><td>8.2</td><td>Anexo B — Reportes analíticos y certificados de patrones e instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Matrices de alarmas, registros de fallas y listas de verificación</td></tr>\n</tbody></table>",
     "familia": "horno-secado"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>\n<p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n<p><strong>Calificación de Desempeño de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n<ol>\n  <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n  <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n  <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n</ol>",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n<ol>\n  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n</ol>",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n<p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n<ol><li>Coordinar la ejecución de la Calificación de Desempeño con laboratorio y calidad, asegurando personal, <span class=\"equipo\">equipo</span>, material de referencia, carga real, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente durante todo el PQ.</li><li>Ejecutar y/o supervisar los ciclos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y dictaminar el desempeño del equipo.</li></ol>\n<p><strong>Responsabilidad del Gerente de Área:</strong></p>\n<ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span>, del material y de los accesos para la ejecución.</li><li>Facilitar la documentación de métodos y del fabricante.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice.</p>",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (USP &lt;1058&gt;).</p>",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-VA-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-VA-001 — Secado del material de referencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el secado del material de referencia del <span class=\"equipo\">equipo</span> en las condiciones del método más exigente, contra el valor certificado o contra un horno ya calificado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el material de referencia (patrón, muestra certificada o material caracterizado) y el método más exigente del laboratorio<br>\n  2) Ejecutar el secado completo según el método, registrando condiciones y tiempos<br>\n  3) Medir el resultado (humedad residual, peso constante u otro parámetro del método) con método validado<br>\n  4) Comparar contra el valor certificado o contra el horno ya calificado<br>\n  a) Resultado dentro del criterio (igual al certificado o a la referencia dentro de la tolerancia)<br>\n  5) Procesar los datos crudos del secado en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Secado conforme al valor certificado o a la referencia."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del secado con resultado y comparativa<br>\n  - Data cruda y reporte estadístico del análisis del secado<br>\n  - Certificado del material de referencia"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Métodos del laboratorio; USP &lt;731&gt;."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-VA-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-VA-002 — Repetibilidad en una corrida",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar repetibilidad con al menos seis réplicas en una sola corrida del <span class=\"equipo\">equipo</span>, con RSD dentro del criterio."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Preparar 6 réplicas del material en posiciones distribuidas de la cámara<br>\n  2) Correr el ciclo completo una sola vez con las 6 réplicas<br>\n  3) Medir el resultado de cada réplica con el método del ensayo EQ-PQ-VA-001<br>\n  4) Calcular media, SD y RSD del conjunto<br>\n  a) RSD dentro del criterio (por ejemplo menor o igual a 5,0%)<br>\n  5) Procesar los datos crudos de réplicas en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Repetibilidad demostrada en una corrida."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de 6 réplicas con media, SD y RSD<br>\n  - Data cruda y reporte estadístico del análisis de repetibilidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Métodos del laboratorio; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-VA-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-VA-003 — Reproducibilidad entre corridas y analistas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar reproducibilidad entre corridas y entre analistas del <span class=\"equipo\">equipo</span>, en días distintos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Asignar corridas a analistas distintos en días distintos (mínimo 2 analistas y 2 días)<br>\n  2) Ejecutar el secado del material de referencia en cada combinación con el mismo método<br>\n  3) Comparar resultados entre corridas y entre analistas<br>\n  4) Evaluar el efecto del analista y del día<br>\n  a) Sin efecto significativo del analista ni del día; resultados dentro del criterio<br>\n  5) Procesar los datos crudos de reproducibilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Reproducibilidad demostrada entre corridas y analistas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla por corrida, analista y día con comparativa<br>\n  - Data cruda y reporte estadístico del análisis de reproducibilidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Métodos del laboratorio; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-VA-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-VA-004 — Posiciones de bandeja",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el desempeño del <span class=\"equipo\">equipo</span> en varias posiciones de bandeja (superior, media e inferior), con la bandeja cargada como en uso real."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar bandejas como en uso real en las posiciones superior, media e inferior<br>\n  2) Correr el ciclo completo y medir el resultado por posición<br>\n  3) Comparar las posiciones entre sí y contra el criterio<br>\n  a) Todas las posiciones conformes sin efecto significativo de la posición<br>\n  4) Procesar los datos crudos por posición en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Desempeño uniforme en todas las posiciones."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Resultados por posición de bandeja con comparativa<br>\n  - Data cruda y reporte estadístico del análisis por posición"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Métodos del laboratorio; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-VA-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-VA-005 — Peso constante del método",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el tiempo de método del <span class=\"equipo\">equipo</span> alcanza el peso constante, sin sobresecar ni degradar el material."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar el material antes del ciclo con balanza calibrada y registrar<br>\n  2) Correr el tiempo de método completo y pesar al final<br>\n  3) Extender 30 minutos adicionales y volver a pesar para confirmar constancia<br>\n  4) Confirmar que no hay degradación (aspecto, color) por sobreexposición<br>\n  a) Peso constante alcanzado en el tiempo de método sin degradación<br>\n  5) Procesar los datos crudos de pesadas en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Peso constante en el tiempo de método sin degradación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Pesadas antes, al final y extendidas<br>\n  - Data cruda y reporte estadístico del análisis de peso constante"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;731&gt; (pérdida por secado); métodos del laboratorio."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-VA-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-VA-006 — Mapeo con carga representativa",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Mapear el <span class=\"equipo\">equipo</span> con carga representativa: número y tamaño de recipientes habituales, bajo vacío y a la temperatura de método, pues las muestras en recipiente cerrado o apilado se calientan distinto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir la carga representativa (número, tamaño y apilado de recipientes habituales)<br>\n  2) Distribuir termopares en la carga, incluyendo recipientes cerrados y apilados, con plano<br>\n  3) Correr el ciclo bajo vacío a la temperatura de método, registrando al intervalo definido<br>\n  4) Calcular uniformidad y comparar recipiente abierto contra cerrado y apilado<br>\n  a) Uniformidad dentro de tolerancia con la carga representativa<br>\n  5) Procesar los datos crudos del mapeo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Mapeo conforme con carga representativa."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de carga y sensores con curvas por sonda<br>\n  - Data cruda y reporte estadístico del análisis del mapeo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>DIN 12880 (hornos); métodos del laboratorio."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-VA-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-VA-007 — Temperatura dentro del recipiente",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la temperatura dentro del recipiente o de la muestra del <span class=\"equipo\">equipo</span>, no solo la del aire de la cámara."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ubicar sondas dentro del recipiente o de la muestra, además de las de cámara<br>\n  2) Correr el ciclo y comparar interior contra cámara a lo largo del tiempo<br>\n  3) Medir el retraso térmico y la diferencia máxima<br>\n  4) Confirmar que el interior alcanza la temperatura requerida en el tiempo previsto<br>\n  a) Interior conforme con retraso conocido y aceptado<br>\n  5) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Temperatura interior verificada y aceptada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curvas interior contra cámara con retraso<br>\n  - Data cruda y reporte estadístico del análisis comparativo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Métodos del laboratorio; DIN 12880."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-VA-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-VA-008 — Carga máxima: vacío y evacuación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el efecto de la carga máxima del <span class=\"equipo\">equipo</span> en el nivel de vacío alcanzable y en el tiempo de evacuación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Configurar la carga máxima declarada y evacuar registrando presión contra tiempo<br>\n  2) Comparar nivel y tiempo contra la cámara vacía del ensayo EQ-OQ-VA-006<br>\n  3) Confirmar que el vacío de método se alcanza con carga máxima<br>\n  a) Vacío y tiempo conformes con carga máxima<br>\n  4) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Vacío de método alcanzable con carga máxima."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curvas de evacuación con y sin carga<br>\n  - Data cruda y reporte estadístico del análisis comparativo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS del equipo; métodos del laboratorio."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-VA-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-VA-009 — Peor caso con volátiles o carga densa",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño del <span class=\"equipo\">equipo</span> en el peor caso: muestra con mayor contenido de volátiles, solventes de baja presión de vapor, o configuración de carga más densa."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el peor caso con el análisis de riesgo y anexar su justificación<br>\n  2) Correr instrumentado el peor caso y confirmar secado y uniformidad<br>\n  3) Confirmar que el vacío se mantiene pese a la carga de volátiles<br>\n  a) Peor caso conforme en todo<br>\n  4) Procesar los datos crudos del peor caso en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Peor caso conforme."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Definición del peor caso con análisis de riesgo<br>\n  - Registros del peor caso<br>\n  - Data cruda y reporte estadístico del análisis del peor caso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15 (peor caso)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-VA-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-VA-010 — Operación continua del método más largo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar la operación continua del <span class=\"equipo\">equipo</span> durante la duración más larga de un método."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar el método de mayor duración del laboratorio y su tiempo total<br>\n  2) Correr el ciclo completo de esa duración con carga y monitoreo continuo<br>\n  3) Confirmar mantenimiento de vacío y temperatura sin intervenciones extraordinarias<br>\n  4) Confirmar el resultado del material al final<br>\n  a) Operación continua conforme durante el método más largo<br>\n  5) Procesar los datos crudos del periodo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Operación continua conforme."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros continuos del método más largo<br>\n  - Data cruda y reporte estadístico del análisis del periodo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Métodos del laboratorio; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-PQ-VA-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-VA-RES — Tabla resumen de los ensayos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ del horno de vacío para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-VA-001 a EQ-PQ-VA-010 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 10 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-PQ-VA-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-VA-REF — Referencias del PQ de horno de vacío",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "DIN 12880 — Aparatos eléctricos de laboratorio: hornos, desempeño térmico",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "USP <731> — Pérdida por secado: peso constante y humedad residual",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <1058> — Analytical Instrument Qualification: sensores y patrones asociados",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "EU GMP Anexo 15 — PQ con repetibilidad y reproducibilidad justificadas",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Métodos del laboratorio — Material de referencia, réplicas y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Manual del fabricante del horno de vacío — Vacío, setpoints y límites de diseño",
+       "VIGENTE"
+      ]
+     ]
+    },
+    "familia": "horno-vacio"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de ciclos, curvas de vacío y temperatura, y mapeos con carga</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados del material de referencia, patrones e instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Comparativas entre corridas, analistas y posiciones</td></tr>\n</tbody></table>",
+    "familia": "horno-vacio"
    }
   ]
  }
