@@ -1087,7 +1087,7 @@ app.post('/api/sign-sessions/:id/sign', requireAuth, signLimiter, async (req, re
             return res.status(status).json({ error: result.error, code: result.code });
         }
         await db.logAuditEvent({
-            username: signer.username, action: 'SIGN_SESSION_UNSIGN', success: 1,
+            username: signer.username, action: 'SIGN_SESSION_SIGN', success: 1,
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
             module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, role, version: result.version, adminCascade: result.admin_cascade || [] }),
         });
@@ -1161,6 +1161,105 @@ app.post('/api/sign-sessions/:id/unsign', requireAuth, signLimiter, async (req, 
     }
 });
 
+// POST /api/sign-sessions/:id/reopen — reabrir rechazada (Opción A).
+// Requiere credenciales de firma + motivo + expectedVersion. Solo involucrados.
+app.post('/api/sign-sessions/:id/reopen', requireAuth, signLimiter, async (req, res) => {
+    try {
+        const { reason, expectedVersion } = req.body;
+        if (expectedVersion === undefined || expectedVersion === null) {
+            return res.status(400).json({ error: 'expectedVersion es requerido' });
+        }
+        const signer = await _checkSignCredentials(req, res);
+        if (!signer) return; // respuesta ya enviada
+        const result = await db.reopenSignSession({
+            id: parseInt(req.params.id),
+            username: signer.username, userRole: signer.role,
+            reason, expectedVersion: parseInt(expectedVersion),
+        });
+        if (result.error) {
+            const status = result.code === 'not-found' ? 404 : result.code === 'stale-version' ? 409 : result.code === 'forbidden' ? 403 : 422;
+            return res.status(status).json({ error: result.error, code: result.code });
+        }
+        await db.logAuditEvent({
+            username: signer.username, action: 'SIGN_SESSION_REOPEN', success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, version: result.version, reason: result.reopened_reason }),
+        });
+        res.json({ ok: true, session: _stripSignSession(result) });
+    } catch (err) {
+        console.error('Error reopening sign session:', err);
+        res.status(500).json({ error: 'Error al reabrir' });
+    }
+});
+
+// POST /api/sign-sessions/:id/sendback — devolver al rol anterior (Opción A).
+// Requiere credenciales de firma + comentario + expectedVersion.
+app.post('/api/sign-sessions/:id/sendback', requireAuth, signLimiter, async (req, res) => {
+    try {
+        const { toRole, reason, expectedVersion } = req.body;
+        if (['prepared', 'reviewed', 'approved'].indexOf(toRole) === -1) {
+            return res.status(400).json({ error: 'Rol destino inválido' });
+        }
+        if (expectedVersion === undefined || expectedVersion === null) {
+            return res.status(400).json({ error: 'expectedVersion es requerido' });
+        }
+        const signer = await _checkSignCredentials(req, res);
+        if (!signer) return; // respuesta ya enviada
+        const result = await db.sendbackSignSession({
+            id: parseInt(req.params.id), toRole,
+            username: signer.username, userRole: signer.role,
+            reason, expectedVersion: parseInt(expectedVersion),
+        });
+        if (result.error) {
+            const status = result.code === 'not-found' ? 404 : result.code === 'stale-version' ? 409 : result.code === 'forbidden' ? 403 : 422;
+            return res.status(status).json({ error: result.error, code: result.code });
+        }
+        await db.logAuditEvent({
+            username: signer.username, action: 'SIGN_SESSION_SENDBACK', success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, toRole, invalidated: result.invalidated || [], version: result.version, reason: result.sentback_reason }),
+        });
+        res.json({ ok: true, session: _stripSignSession(result) });
+    } catch (err) {
+        console.error('Error sending back sign session:', err);
+        res.status(500).json({ error: 'Error al devolver' });
+    }
+});
+
+// POST /api/sign-sessions/:id/amend — enmendar contenido (Opción A).
+// Solo creador (o admin), en pending/partial. Renueva prepared e invalida lo posterior.
+app.post('/api/sign-sessions/:id/amend', requireAuth, signLimiter, async (req, res) => {
+    try {
+        const { html, expectedVersion } = req.body;
+        if (!String(html || '').trim()) {
+            return res.status(400).json({ error: 'Contenido vacío' });
+        }
+        if (expectedVersion === undefined || expectedVersion === null) {
+            return res.status(400).json({ error: 'expectedVersion es requerido' });
+        }
+        const signer = await _checkSignCredentials(req, res);
+        if (!signer) return; // respuesta ya enviada
+        const result = await db.amendSignSession({
+            id: parseInt(req.params.id), html: String(html),
+            username: signer.username, userRole: signer.role,
+            expectedVersion: parseInt(expectedVersion),
+        });
+        if (result.error) {
+            const status = result.code === 'not-found' ? 404 : result.code === 'stale-version' ? 409 : result.code === 'forbidden' ? 403 : 422;
+            return res.status(status).json({ error: result.error, code: result.code });
+        }
+        await db.logAuditEvent({
+            username: signer.username, action: 'SIGN_SESSION_AMEND', success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, version: result.version, prevHash: result.prev_hash, newHash: result.doc_hash }),
+        });
+        res.json({ ok: true, session: _stripSignSession(result) });
+    } catch (err) {
+        console.error('Error amending sign session:', err);
+        res.status(500).json({ error: 'Error al enmendar' });
+    }
+});
+
 // POST /api/sign-sessions/:id/dismiss — quitar de MIS pendientes.
 // Preferencia de vista por usuario: no afecta al resto ni audita contenido.
 app.post('/api/sign-sessions/:id/dismiss', requireAuth, async (req, res) => {
@@ -1179,12 +1278,14 @@ app.post('/api/sign-sessions/:id/dismiss', requireAuth, async (req, res) => {
     }
 });
 
-// DELETE /api/sign-sessions/:id — eliminar rechazada o completa (creador o admin)
+// DELETE /api/sign-sessions/:id — borrado suave de rechazada o completa (creador o admin).
+// La fila queda como lápida visible N días en bandeja (aviso al revisor). Motivo obligatorio.
 app.delete('/api/sign-sessions/:id', requireAuth, async (req, res) => {
     try {
         const result = await db.deleteSignSession({
             id: parseInt(req.params.id),
             username: req.user.username, userRole: req.user.role,
+            reason: req.body && req.body.reason,
         });
         if (result.error) {
             const status = result.code === 'not-found' ? 404 : result.code === 'forbidden' ? 403 : 422;
@@ -1193,9 +1294,9 @@ app.delete('/api/sign-sessions/:id', requireAuth, async (req, res) => {
         await db.logAuditEvent({
             username: req.user.username, action: 'SIGN_SESSION_DELETE', success: 1,
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
-            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id }),
+            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, reason: result.deleted_reason }),
         });
-        res.json({ ok: true, id: result.id });
+        res.json({ ok: true, id: result.id, session: _stripSignSession(result) });
     } catch (err) {
         console.error('Error deleting sign session:', err);
         res.status(500).json({ error: 'Error al eliminar' });

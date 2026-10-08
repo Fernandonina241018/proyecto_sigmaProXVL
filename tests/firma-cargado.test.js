@@ -59,6 +59,7 @@ function loadHarness(handler, extra) {
     localStorage: window.localStorage,
     sessionStorage: window.sessionStorage,
     confirm: () => true,
+    prompt: () => 'motivo de prueba',
     showToast: (m) => { toasts.push(String(m)); },
     escapeHtml: (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'),
     fetchWithTimeout: async (url, opts) => handler(String(url), opts || {}),
@@ -177,8 +178,12 @@ describe('Eliminar/rechazar la sesión abierta limpia la vista', () => {
 
   test('eliminar la abierta → vista vacía y sin snapshot', async () => {
     const v1 = sessionV(1);
+    let deleteBody = null;
     const { sandbox, document, toasts } = loadMethodHarness(async (url, opts) => {
-      if ((opts.method || 'GET') === 'DELETE') return { status: 200, json: async () => ({ ok: true, id: 99 }) };
+      if ((opts.method || 'GET') === 'DELETE') {
+        deleteBody = opts.body;
+        return { status: 200, json: async () => ({ ok: true, id: 99 }) };
+      }
       if (url.includes('scope=')) return { status: 200, json: async () => ({ ok: true, sessions: [] }) };
       return { status: 200, json: async () => ({ ok: true, session: v1 }) };
     });
@@ -191,6 +196,8 @@ describe('Eliminar/rechazar la sesión abierta limpia la vista', () => {
     await new Promise((r) => setTimeout(r, 50));
     expect(document.getElementById('firmaBandejaList').textContent).toMatch('Sin documentos pendientes');
     expect(toasts.join('|')).toMatch('eliminada');
+    // Opción A: el motivo de eliminación viaja en el cuerpo del DELETE
+    expect(JSON.parse(deleteBody).reason).toBe('motivo de prueba');
   });
 
   test('rechazar la abierta → vista vacía y sin snapshot', async () => {

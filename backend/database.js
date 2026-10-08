@@ -66,15 +66,37 @@ function _signDocHash(html) {
     return crypto.createHash('sha256').update(String(html || ''), 'utf8').digest('hex');
 }
 
+// Opción A — elegibilidad de devolución (compartido PG/local): puede
+// devolver quien firmó un rol posterior a `to`, quien tiene el turno actual
+// (devuelve en vez de firmar) o un admin. Códigos: bad-target | forbidden.
+function _sendbackEligible(session, toRole, actor) {
+    const sigs = (session && session.signatures) || {};
+    const idx = SIGN_ORDER.indexOf(toRole);
+    if (idx < 0 || !sigs[toRole] || !sigs[toRole].signed) {
+        return { error: 'Destino inválido: debe ser un rol ya firmado', code: 'bad-target' };
+    }
+    if (actor.role === 'admin') return { ok: true };
+    const laterByActor = SIGN_ORDER.slice(idx + 1)
+        .some((r) => sigs[r] && sigs[r].signed && sigs[r].username === actor.username);
+    if (laterByActor) return { ok: true };
+    const next = _signNextRole(sigs);
+    if (next && idx < SIGN_ORDER.indexOf(next)) {
+        const elig = _signEligibility(session, next, actor);
+        if (!elig.error) return { ok: true };
+    }
+    return { error: 'Solo quien debe firmar ahora, quien firmó después (o un admin) puede devolver', code: 'forbidden' };
+}
+
 // LOTE A — Purga por retención (compartido PG/local): solo complete/
-// rejected viejas por updated_at. Jamás toca pending/partial.
+// rejected/deleted viejas por updated_at. Jamás toca pending/partial.
+// Las lápidas purgan con el plazo de rechazadas.
 function _purgeEligible(sessions, retentionDays, rejectedDays, nowMs) {
     const rMs = Math.max(parseInt(retentionDays) || 182, 1) * 86400000;
     const jMs = Math.max(parseInt(rejectedDays) || 90, 1) * 86400000;
     return sessions.filter(function(s) {
         const age = nowMs - new Date(s.updated_at || s.created_at || 0).getTime();
         if (s.status === 'complete') return age > rMs;
-        if (s.status === 'rejected') return age > jMs;
+        if (s.status === 'rejected' || s.status === 'deleted') return age > jMs;
         return false;
     });
 }
@@ -197,6 +219,16 @@ function buildPostgres() {
         await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS rejected_reason TEXT`);
         await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS rejected_at TEXT`);
         await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS dismissed_by TEXT[] NOT NULL DEFAULT '{}'`);
+        await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS reopened_by TEXT`);
+        await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS reopened_reason TEXT`);
+        await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS reopened_at TEXT`);
+        await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS sentback_by TEXT`);
+        await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS sentback_to TEXT`);
+        await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS sentback_reason TEXT`);
+        await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS sentback_at TEXT`);
+        await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS deleted_by TEXT`);
+        await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS deleted_reason TEXT`);
+        await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS deleted_at TEXT`);
         console.log('✅ Tablas verificadas en PostgreSQL');
         await _migrateAuditHashes();
     }
@@ -544,6 +576,12 @@ function buildPostgres() {
             assigned_reviewer: row.assigned_reviewer, assigned_approver: row.assigned_approver,
             rejected_by: row.rejected_by || null, rejected_reason: row.rejected_reason || null,
             rejected_at: row.rejected_at || null,
+            reopened_by: row.reopened_by || null, reopened_reason: row.reopened_reason || null,
+            reopened_at: row.reopened_at || null,
+            sentback_by: row.sentback_by || null, sentback_to: row.sentback_to || null,
+            sentback_reason: row.sentback_reason || null, sentback_at: row.sentback_at || null,
+            deleted_by: row.deleted_by || null, deleted_reason: row.deleted_reason || null,
+            deleted_at: row.deleted_at || null,
             dismissed_by: row.dismissed_by || [],
             created_at: row.created_at, updated_at: row.updated_at,
             next_role: _signNextRole(sigs),
@@ -595,6 +633,9 @@ function buildPostgres() {
         if (session.status === 'complete') {
             return { error: 'La sesión está completa y verificada; no se puede reiniciar', code: 'complete' };
         }
+        if (session.status === 'deleted') {
+            return { error: 'La sesión fue eliminada', code: 'deleted' };
+        }
         const sigs = session.signatures || {};
         const signedRoles = SIGN_ORDER.filter((r) => sigs[r] && sigs[r].signed);
         const last = signedRoles[signedRoles.length - 1] || null;
@@ -641,6 +682,7 @@ function buildPostgres() {
         const row = await get('SELECT * FROM report_signatures WHERE id = $1', [id]);
         if (!row) return { error: 'Sesión no encontrada', code: 'not-found' };
         const session = _parseSignRow(row);
+        // Lápidas sí se pueden descartar (limpiar el aviso); completas/rechazadas no.
         if (session.status === 'complete' || session.status === 'rejected') {
             return { error: 'La sesión ya no está pendiente', code: 'not-pending' };
         }
@@ -660,7 +702,7 @@ function buildPostgres() {
         limit = Math.min(Math.max(parseInt(limit) || 200, 1), 1000);
         const rows = await all(
             `SELECT id, name, doc_hash, status, created_by, created_at, updated_at
-             FROM report_signatures WHERE status IN ('complete','rejected')
+             FROM report_signatures WHERE status IN ('complete','rejected','deleted')
              ORDER BY id ASC LIMIT $1`,
             [limit]
         );
@@ -674,9 +716,11 @@ function buildPostgres() {
         return { dryRun: false, deleted, count: deleted.length };
     }
 
-    // Borrado real solo de rechazadas o completas, solo creador o admin.
+    // Borrado suave (Opción A): solo rechazadas o completas, solo creador o
+    // admin, con motivo obligatorio. La fila queda como lápida visible N días
+    // en bandeja (aviso al revisor) en vez de desaparecer con un 404 mudo.
     // (La auditoría conserva SIGN_SESSION_REJECT/DELETE como rastro.)
-    async function deleteSignSession({ id, username, userRole }) {
+    async function deleteSignSession({ id, username, userRole, reason }) {
         const row = await get('SELECT * FROM report_signatures WHERE id = $1', [id]);
         if (!row) return { error: 'Sesión no encontrada', code: 'not-found' };
         const session = _parseSignRow(row);
@@ -686,8 +730,140 @@ function buildPostgres() {
         if (userRole !== 'admin' && session.created_by !== username) {
             return { error: 'Solo el creador o un admin', code: 'forbidden' };
         }
-        await run('DELETE FROM report_signatures WHERE id = $1', [id]);
-        return { ok: true, id };
+        if (!String(reason || '').trim()) {
+            return { error: 'El motivo de eliminación es obligatorio', code: 'reason-required' };
+        }
+        const updated = await all(
+            `UPDATE report_signatures SET status = 'deleted', version = version + 1,
+             deleted_by = $1, deleted_reason = $2, deleted_at = to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS'),
+             updated_at = to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS')
+             WHERE id = $3 RETURNING *`,
+            [username, String(reason).trim().slice(0, 500), id]
+        );
+        return _parseSignRow(updated[0]);
+    }
+
+    // Opción A — re-revisión: aviso de borrado visible N días en bandeja.
+    const AVISO_BORRADO_DIAS = 7;
+
+    // Opción A — re-revisión: reabrir una sesión rechazada para corregir y
+    // volver a firmar. Conserva las firmas existentes y el rechazo como
+    // historia (rejected_* queda + reopened_* nuevo). Todo auditado.
+    async function reopenSignSession({ id, username, userRole, reason, expectedVersion }) {
+        const row = await get('SELECT * FROM report_signatures WHERE id = $1', [id]);
+        if (!row) return { error: 'Sesión no encontrada', code: 'not-found' };
+        const session = _parseSignRow(row);
+        if (session.status === 'complete') {
+            return { error: 'La sesión está completa y verificada; no se puede reabrir', code: 'complete' };
+        }
+        if (session.status !== 'rejected') {
+            return { error: 'Solo se pueden reabrir sesiones rechazadas', code: 'not-rejected' };
+        }
+        const involved = userRole === 'admin' || session.created_by === username ||
+            session.assigned_reviewer === username || session.assigned_approver === username;
+        if (!involved) return { error: 'No autorizado', code: 'forbidden' };
+        if (!String(reason || '').trim()) {
+            return { error: 'El motivo de reapertura es obligatorio', code: 'reason-required' };
+        }
+        if (session.version !== expectedVersion) {
+            return { error: 'Otro usuario actuó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
+        }
+        const updated = await all(
+            `UPDATE report_signatures SET status = $1, version = version + 1,
+             reopened_by = $2, reopened_reason = $3, reopened_at = to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS'),
+             updated_at = to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS')
+             WHERE id = $4 AND version = $5 RETURNING *`,
+            [_signStatusFor(session.signatures), username, String(reason).trim().slice(0, 500), id, expectedVersion]
+        );
+        if (!updated.length) {
+            return { error: 'Otro usuario actuó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
+        }
+        return _parseSignRow(updated[0]);
+    }
+
+    // Opción A — devolución al rol anterior: quien firmó un rol posterior (o
+    // admin) devuelve a `toRole` con comentario; se invalidan `toRole` y
+    // posteriores (reinicio desde ese punto). Todo auditado.
+    async function sendbackSignSession({ id, toRole, username, userRole, reason, expectedVersion }) {
+        const row = await get('SELECT * FROM report_signatures WHERE id = $1', [id]);
+        if (!row) return { error: 'Sesión no encontrada', code: 'not-found' };
+        const session = _parseSignRow(row);
+        if (session.status === 'complete') {
+            return { error: 'La sesión está completa y verificada; no se puede devolver', code: 'complete' };
+        }
+        if (session.status === 'rejected' || session.status === 'deleted') {
+            return { error: 'La sesión no está en revisión', code: 'not-pending' };
+        }
+        const sigs = session.signatures || {};
+        const idx = SIGN_ORDER.indexOf(toRole);
+        const perm = _sendbackEligible(session, toRole, { username, role: userRole });
+        if (perm.error) return perm;
+        if (!String(reason || '').trim()) {
+            return { error: 'El comentario de devolución es obligatorio', code: 'reason-required' };
+        }
+        if (session.version !== expectedVersion) {
+            return { error: 'Otro usuario actuó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
+        }
+        const invalidated = SIGN_ORDER.slice(idx).filter((r) => sigs[r] && sigs[r].signed);
+        const fresh = Object.assign({}, sigs);
+        SIGN_ORDER.slice(idx).forEach((r) => { delete fresh[r]; });
+        const updated = await all(
+            `UPDATE report_signatures SET signatures = $1, status = $2, version = version + 1,
+             sentback_by = $3, sentback_to = $4, sentback_reason = $5, sentback_at = to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS'),
+             updated_at = to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS')
+             WHERE id = $6 AND version = $7 RETURNING *`,
+            [JSON.stringify(fresh), _signStatusFor(fresh), username, toRole, String(reason).trim().slice(0, 500), id, expectedVersion]
+        );
+        if (!updated.length) {
+            return { error: 'Otro usuario actuó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
+        }
+        const out = _parseSignRow(updated[0]);
+        out.invalidated = invalidated;
+        return out;
+    }
+
+    // Opción A — enmienda de contenido: solo el creador (o admin), solo en
+    // pending/partial (una rechazada se reabre primero). Renueva prepared del
+    // creador e invalida reviewed/approved. Auditado con hash antes/después.
+    async function amendSignSession({ id, html, username, userRole, expectedVersion }) {
+        const row = await get('SELECT * FROM report_signatures WHERE id = $1', [id]);
+        if (!row) return { error: 'Sesión no encontrada', code: 'not-found' };
+        const session = _parseSignRow(row);
+        if (session.status === 'complete') {
+            return { error: 'La sesión está completa y verificada; no se puede enmendar', code: 'complete' };
+        }
+        if (session.status === 'rejected' || session.status === 'deleted') {
+            return { error: 'La sesión no admite enmiendas en su estado', code: 'not-pending' };
+        }
+        const isAdmin = userRole === 'admin';
+        if (!isAdmin && session.created_by !== username) {
+            return { error: 'Solo el creador puede enmendar el contenido', code: 'forbidden' };
+        }
+        if (!String(html || '').trim()) {
+            return { error: 'Contenido vacío', code: 'empty-html' };
+        }
+        if (session.version !== expectedVersion) {
+            return { error: 'Otro usuario actuó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
+        }
+        const prev = session.signatures.prepared || {};
+        const fresh = {
+            prepared: Object.assign({}, prev, {
+                signed: true, username: session.created_by,
+                signed_at: new Date().toISOString(), amended: true,
+            }),
+        };
+        const updated = await all(
+            `UPDATE report_signatures SET html = $1, doc_hash = $2, signatures = $3, status = $4, version = version + 1,
+             updated_at = to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS')
+             WHERE id = $5 AND version = $6 RETURNING *`,
+            [String(html), _signDocHash(html), JSON.stringify(fresh), _signStatusFor(fresh), id, expectedVersion]
+        );
+        if (!updated.length) {
+            return { error: 'Otro usuario actuó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
+        }
+        const out = _parseSignRow(updated[0]);
+        out.prev_hash = session.doc_hash;
+        return out;
     }
 
     // Rechazo: solo creador, asignados o admin; nunca sobre completa.
@@ -698,6 +874,9 @@ function buildPostgres() {
         const session = _parseSignRow(row);
         if (session.status === 'complete') {
             return { error: 'La sesión ya está completa', code: 'complete' };
+        }
+        if (session.status === 'deleted') {
+            return { error: 'La sesión fue eliminada', code: 'deleted' };
         }
         if (session.status === 'rejected') {
             return { error: 'La sesión ya fue rechazada', code: 'already-rejected' };
@@ -742,10 +921,17 @@ function buildPostgres() {
             );
         } else {
             // pending: ni completas ni rechazadas ni descartadas por mí;
-            // el filtro fino (asignado/elegible) lo hace el endpoint con el rol
+            // el filtro fino (asignado/elegible) lo hace el endpoint con el rol.
+            // Opción A: las lápidas recientes (N días) siguen visibles para los
+            // involucrados como aviso (quién la eliminó y por qué).
             rows = await all(
-                `SELECT * FROM report_signatures WHERE status NOT IN ('complete','rejected')
-                 AND NOT (COALESCE(dismissed_by, '{}') @> ARRAY[$1::text])
+                `SELECT * FROM report_signatures
+                 WHERE (status NOT IN ('complete','rejected','deleted')
+                        AND NOT (COALESCE(dismissed_by, '{}') @> ARRAY[$1::text]))
+                    OR (status = 'deleted'
+                        AND deleted_at > to_char(now() - interval '7 days','YYYY-MM-DD"T"HH24:MI:SS')
+                        AND (created_by = $1 OR assigned_reviewer = $1 OR assigned_approver = $1)
+                        AND NOT (COALESCE(dismissed_by, '{}') @> ARRAY[$1::text]))
                  ORDER BY id DESC LIMIT $2 OFFSET $3`,
                 [username || '', limit, offset]
             );
@@ -762,6 +948,9 @@ function buildPostgres() {
         const session = _parseSignRow(row);
         if (session.status === 'rejected') {
             return { error: 'La sesión fue rechazada', code: 'rejected' };
+        }
+        if (session.status === 'deleted') {
+            return { error: 'La sesión fue eliminada', code: 'deleted' };
         }
         if (session.version !== expectedVersion) {
             return { error: 'Otro usuario firmó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
@@ -793,7 +982,7 @@ function buildPostgres() {
         return elig;
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
@@ -1211,6 +1400,9 @@ function buildLocalStore() {
         if (s.status === 'complete') {
             return { error: 'La sesión está completa y verificada; no se puede reiniciar', code: 'complete' };
         }
+        if (s.status === 'deleted') {
+            return { error: 'La sesión fue eliminada', code: 'deleted' };
+        }
         var signedRoles = SIGN_ORDER.filter(function(r) { return s.signatures[r] && s.signatures[r].signed; });
         var last = signedRoles[signedRoles.length - 1] || null;
         if (!last) return { error: 'No hay firmas que reiniciar', code: 'nothing-signed' };
@@ -1246,7 +1438,7 @@ function buildLocalStore() {
     async function purgeSignSessions({ retentionDays = 182, rejectedDays = 90, dryRun = true, limit = 200, _now } = {}) {
         limit = Math.min(Math.max(parseInt(limit) || 200, 1), 1000);
         var cands = state.report_signatures
-            .filter(function(s) { return s.status === 'complete' || s.status === 'rejected'; })
+            .filter(function(s) { return s.status === 'complete' || s.status === 'rejected' || s.status === 'deleted'; })
             .sort(function(a, b) { return a.id - b.id; })
             .slice(0, limit);
         var targets = _purgeEligible(cands, retentionDays, rejectedDays, _now || Date.now());
@@ -1258,8 +1450,8 @@ function buildLocalStore() {
         return { dryRun: false, deleted: targets.map(_purgeMeta), count: targets.length };
     }
 
-    // Mirror local de deleteSignSession
-    async function deleteSignSession({ id, username, userRole }) {
+    // Mirror local de deleteSignSession (borrado suave Opción A)
+    async function deleteSignSession({ id, username, userRole, reason }) {
         var idx = -1;
         for (var i = 0; i < state.report_signatures.length; i++) {
             if (state.report_signatures[i].id === id) { idx = i; break; }
@@ -1272,9 +1464,119 @@ function buildLocalStore() {
         if (userRole !== 'admin' && s.created_by !== username) {
             return { error: 'Solo el creador o un admin', code: 'forbidden' };
         }
-        state.report_signatures.splice(idx, 1);
+        if (!String(reason || '').trim()) {
+            return { error: 'El motivo de eliminación es obligatorio', code: 'reason-required' };
+        }
+        s.status = 'deleted';
+        s.version += 1;
+        s.deleted_by = username;
+        s.deleted_reason = String(reason).trim().slice(0, 500);
+        s.deleted_at = new Date().toISOString();
+        s.updated_at = new Date().toISOString();
         save();
-        return { ok: true, id: id };
+        return _localSignView(s);
+    }
+
+    // Mirror local de reopenSignSession
+    async function reopenSignSession({ id, username, userRole, reason, expectedVersion }) {
+        var s = state.report_signatures.find(function(x) { return x.id === id; });
+        if (!s) return { error: 'Sesión no encontrada', code: 'not-found' };
+        if (s.status === 'complete') {
+            return { error: 'La sesión está completa y verificada; no se puede reabrir', code: 'complete' };
+        }
+        if (s.status !== 'rejected') {
+            return { error: 'Solo se pueden reabrir sesiones rechazadas', code: 'not-rejected' };
+        }
+        var involved = userRole === 'admin' || s.created_by === username ||
+            s.assigned_reviewer === username || s.assigned_approver === username;
+        if (!involved) return { error: 'No autorizado', code: 'forbidden' };
+        if (!String(reason || '').trim()) {
+            return { error: 'El motivo de reapertura es obligatorio', code: 'reason-required' };
+        }
+        if (s.version !== expectedVersion) {
+            return { error: 'Otro usuario actuó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
+        }
+        s.status = _signStatusFor(s.signatures);
+        s.version += 1;
+        s.reopened_by = username;
+        s.reopened_reason = String(reason).trim().slice(0, 500);
+        s.reopened_at = new Date().toISOString();
+        s.updated_at = new Date().toISOString();
+        save();
+        return _localSignView(s);
+    }
+
+    // Mirror local de sendbackSignSession
+    async function sendbackSignSession({ id, toRole, username, userRole, reason, expectedVersion }) {
+        var s = state.report_signatures.find(function(x) { return x.id === id; });
+        if (!s) return { error: 'Sesión no encontrada', code: 'not-found' };
+        if (s.status === 'complete') {
+            return { error: 'La sesión está completa y verificada; no se puede devolver', code: 'complete' };
+        }
+        if (s.status === 'rejected' || s.status === 'deleted') {
+            return { error: 'La sesión no está en revisión', code: 'not-pending' };
+        }
+        var sigs = s.signatures || {};
+        var idx = SIGN_ORDER.indexOf(toRole);
+        var perm = _sendbackEligible(s, toRole, { username: username, role: userRole });
+        if (perm.error) return perm;
+        if (!String(reason || '').trim()) {
+            return { error: 'El comentario de devolución es obligatorio', code: 'reason-required' };
+        }
+        if (s.version !== expectedVersion) {
+            return { error: 'Otro usuario actuó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
+        }
+        var invalidated = SIGN_ORDER.slice(idx).filter(function(r) { return sigs[r] && sigs[r].signed; });
+        SIGN_ORDER.slice(idx).forEach(function(r) { delete sigs[r]; });
+        s.status = _signStatusFor(sigs);
+        s.version += 1;
+        s.sentback_by = username;
+        s.sentback_to = toRole;
+        s.sentback_reason = String(reason).trim().slice(0, 500);
+        s.sentback_at = new Date().toISOString();
+        s.updated_at = new Date().toISOString();
+        save();
+        var out = _localSignView(s);
+        out.invalidated = invalidated;
+        return out;
+    }
+
+    // Mirror local de amendSignSession
+    async function amendSignSession({ id, html, username, userRole, expectedVersion }) {
+        var s = state.report_signatures.find(function(x) { return x.id === id; });
+        if (!s) return { error: 'Sesión no encontrada', code: 'not-found' };
+        if (s.status === 'complete') {
+            return { error: 'La sesión está completa y verificada; no se puede enmendar', code: 'complete' };
+        }
+        if (s.status === 'rejected' || s.status === 'deleted') {
+            return { error: 'La sesión no admite enmiendas en su estado', code: 'not-pending' };
+        }
+        var isAdmin = userRole === 'admin';
+        if (!isAdmin && s.created_by !== username) {
+            return { error: 'Solo el creador puede enmendar el contenido', code: 'forbidden' };
+        }
+        if (!String(html || '').trim()) {
+            return { error: 'Contenido vacío', code: 'empty-html' };
+        }
+        if (s.version !== expectedVersion) {
+            return { error: 'Otro usuario actuó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
+        }
+        var prev = s.signatures.prepared || {};
+        var prevHash = s.doc_hash;
+        s.html = String(html);
+        s.doc_hash = _signDocHash(html);
+        var renewed = Object.assign({}, prev, {
+            signed: true, username: s.created_by,
+            signed_at: new Date().toISOString(), amended: true,
+        });
+        s.signatures = { prepared: renewed };
+        s.status = _signStatusFor(s.signatures);
+        s.version += 1;
+        s.updated_at = new Date().toISOString();
+        save();
+        var out2 = _localSignView(s);
+        out2.prev_hash = prevHash;
+        return out2;
     }
 
     // FASE 3 — mirror local de importSignSession
@@ -1304,6 +1606,12 @@ function buildLocalStore() {
             assigned_reviewer: s.assigned_reviewer, assigned_approver: s.assigned_approver,
             rejected_by: s.rejected_by || null, rejected_reason: s.rejected_reason || null,
             rejected_at: s.rejected_at || null,
+            reopened_by: s.reopened_by || null, reopened_reason: s.reopened_reason || null,
+            reopened_at: s.reopened_at || null,
+            sentback_by: s.sentback_by || null, sentback_to: s.sentback_to || null,
+            sentback_reason: s.sentback_reason || null, sentback_at: s.sentback_at || null,
+            deleted_by: s.deleted_by || null, deleted_reason: s.deleted_reason || null,
+            deleted_at: s.deleted_at || null,
             dismissed_by: s.dismissed_by || [],
             created_at: s.created_at, updated_at: s.updated_at,
             next_role: _signNextRole(s.signatures),
@@ -1328,6 +1636,9 @@ function buildLocalStore() {
         if (!s) return { error: 'Sesión no encontrada', code: 'not-found' };
         if (s.status === 'complete') {
             return { error: 'La sesión ya está completa', code: 'complete' };
+        }
+        if (s.status === 'deleted') {
+            return { error: 'La sesión fue eliminada', code: 'deleted' };
         }
         if (s.status === 'rejected') {
             return { error: 'La sesión ya fue rechazada', code: 'already-rejected' };
@@ -1376,8 +1687,16 @@ function buildLocalStore() {
         limit = Math.min(Math.max(parseInt(limit) || 50, 1), 200);
         offset = Math.max(parseInt(offset) || 0, 0);
         var dismissed = function(s) { return (s.dismissed_by || []).indexOf(username) !== -1; };
+        var involved = function(s) {
+            return s.created_by === username || s.assigned_reviewer === username || s.assigned_approver === username;
+        };
+        // Aviso de borrado: lápidas recientes visibles para los involucrados.
+        var cutoff = new Date(Date.now() - 7 * 86400000).toISOString();
         var list = state.report_signatures.filter(function(s) {
             if (scope === 'mine') return s.created_by === username;
+            if (s.status === 'deleted') {
+                return involved(s) && String(s.deleted_at || '') > cutoff && !dismissed(s);
+            }
             return s.status !== 'complete' && s.status !== 'rejected' && !dismissed(s);
         });
         return list.sort(function(a, b) { return b.id - a.id; })
@@ -1389,6 +1708,9 @@ function buildLocalStore() {
         if (!s) return { error: 'Sesión no encontrada', code: 'not-found' };
         if (s.status === 'rejected') {
             return { error: 'La sesión fue rechazada', code: 'rejected' };
+        }
+        if (s.status === 'deleted') {
+            return { error: 'La sesión fue eliminada', code: 'deleted' };
         }
         if (s.version !== expectedVersion) {
             return { error: 'Otro usuario firmó entremedio; recarga e intenta de nuevo', code: 'stale-version' };
@@ -1410,7 +1732,7 @@ function buildLocalStore() {
         return _localSignView(s);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 const impl = build();
 module.exports = {
@@ -1459,6 +1781,9 @@ module.exports = {
     signSessionStep:      (...a) => impl.signSessionStep(...a),
     importSignSession:     (...a) => impl.importSignSession(...a),
     rejectSignSession:      (...a) => impl.rejectSignSession(...a),
+    reopenSignSession:      (...a) => impl.reopenSignSession(...a),
+    sendbackSignSession:    (...a) => impl.sendbackSignSession(...a),
+    amendSignSession:       (...a) => impl.amendSignSession(...a),
     deleteSignSession:      (...a) => impl.deleteSignSession(...a),
     unsignSessionStep:     (...a) => impl.unsignSessionStep(...a),
     dismissSignSession:     (...a) => impl.dismissSignSession(...a),

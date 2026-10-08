@@ -4730,3 +4730,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-08 (151): IQ Nivel 2 granulador (add-on 5 ensayos)
 - **Qué:** `iq-granulador.html` derivado del modelo (EQ-IQ-GR-001…005): P&ID, cuba/impulsor/chopper, adición de aglutinante, camisa/descarga/molino, control/seguridades/placa. Se suma al núcleo común. Granulador queda IQ+OQ+PQ completa (tercera Nivel 2 cerrada).
 - **Verificación:** extractor `--estricto` OK (436 artículos); Vitest 413/413, backend 60/60.
+
+### 2026-10-08 (152): Opción A re-revisión de firmas (reopen + sendback + amend + borrado suave)
+- **Qué (DB PG+mirror):** `reopenSignSession` (rechazada→revisión, conserva firmas+historia), `sendbackSignSession` (devolución al rol firmado con cascada, actor=firmante posterior/en-turno/admin), `amendSignSession` (creador enmienda html, renueva prepared, invalida lo posterior, con hash antes/después), `deleteSignSession` a borrado suave (lápida + motivo obligatorio, visible 7 días en bandeja a involucrados). Guards `deleted` en sign/unsign/reject/amend. Purga trata lápidas como rechazadas. 10 columnas nuevas + vistas.
+- **Qué (server):** `POST /:id/reopen|sendback|amend` (credenciales+mótivo+versión, auditados), `DELETE` con motivo y respuesta con sesión, fix etiqueta `SIGN_SESSION_SIGN` (era UNSIGN).
+- **Qué (frontend):** borrado pide motivo (prompt) y lo envía en el cuerpo; toast aclara visibilidad temporal.
+- **Verificación:** backend 67/67 (10 tests nuevos incl. ciclo completo reject→reopen→amend→complete e inmutabilidad), Vitest 413/413. PG SQL revisado por inspección (sin PG local para ejecutar).

@@ -233,9 +233,28 @@ test('dismiss oculta solo para quien marcó', async () => {
   assert.ok(mine.some((x) => x.id === s.id), 'creadora la sigue viendo');
 });
 
-test('dismiss en completa/rechazada → 422', async () => {
-  const c = await db.dismissSignSession({ id: S1.id, username: 'ana_prep' });
-  assert.equal(c.code, 'not-pending'); // S1 está complete
+test('dismiss en completa/rechazada → 422; en lápida sí (limpia el aviso)', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-DISM2', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' },
+  });
+  await db.signSessionStep({
+    id: s.id, role: 'reviewed', username: 'beto_rev', userRole: 'analista',
+    signature: {}, expectedVersion: 1,
+  });
+  await db.signSessionStep({
+    id: s.id, role: 'approved', username: 'carla_sup', userRole: 'supervisor',
+    signature: {}, expectedVersion: 2,
+  });
+  const c = await db.dismissSignSession({ id: s.id, username: 'ana_prep' });
+  assert.equal(c.code, 'not-pending'); // completa no se descarta
+  const d = await db.deleteSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista', reason: 'x' });
+  assert.equal(d.status, 'deleted');
+  const l = await db.dismissSignSession({ id: s.id, username: 'beto_rev' });
+  assert.deepEqual(l.dismissed_by, ['beto_rev']); // la lápida sí se puede ocultar
+  const pb = await db.listSignSessions({ scope: 'pending', username: 'beto_rev' });
+  assert.ok(!pb.some((x) => x.id === s.id), 'aviso oculto tras dismiss');
 });
 
 // ── Unsign (solo último + solo quien firmó) ──
@@ -360,35 +379,53 @@ test('unsign con versión vieja → stale-version', async () => {
 });
 
 // ── Borrado de rechazadas ──
-test('creador elimina rechazada; desaparece', async () => {
+test('creador elimina rechazada con motivo; queda lápida visible', async () => {
   const s = await db.createSignSession({
     name: 'RPT-DEL', html: HTML, createdBy: 'ana_prep',
     assignedReviewer: 'beto_rev', assignedApprover: null,
     preparedSignature: { nombre: 'Ana' },
   });
   await db.rejectSignSession({ id: s.id, username: 'beto_rev', userRole: 'analista', reason: 'x' });
-  const d = await db.deleteSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista' });
-  assert.equal(d.ok, true);
-  assert.equal(await db.getSignSession(s.id), null);
+  const sinMotivo = await db.deleteSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista' });
+  assert.equal(sinMotivo.code, 'reason-required');
+  const d = await db.deleteSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista', reason: 'duplicada' });
+  assert.equal(d.status, 'deleted');
+  assert.equal(d.deleted_by, 'ana_prep');
+  assert.equal(d.deleted_reason, 'duplicada');
+  assert.ok(d.deleted_at);
+  const g = await db.getSignSession(s.id);
+  assert.equal(g.status, 'deleted'); // consultable, no 404 mudo
+  // Aviso: la lápida sigue en pendientes de los involucrados...
+  const pb = await db.listSignSessions({ scope: 'pending', username: 'beto_rev' });
+  assert.ok(pb.some((x) => x.id === s.id && x.status === 'deleted'), 'revisor ve el aviso');
+  // ...pero no para ajenos
+  const po = await db.listSignSessions({ scope: 'pending', username: 'dora_otro' });
+  assert.ok(!po.some((x) => x.id === s.id), 'ajeno no ve la lápida');
+  // Firmar sobre lápida → bloqueado
+  const sg = await db.signSessionStep({
+    id: s.id, role: 'reviewed', username: 'beto_rev', userRole: 'analista',
+    signature: {}, expectedVersion: d.version,
+  });
+  assert.equal(sg.code, 'deleted');
 });
 
-test('pendiente bloqueada; completa sí (creador); ajena bloqueada', async () => {
+test('pendiente bloqueada; completa → lápida (creador); ajena bloqueada', async () => {
   const s = await db.createSignSession({
     name: 'RPT-DEL2', html: HTML, createdBy: 'ana_prep',
     assignedReviewer: 'beto_rev', assignedApprover: null,
     preparedSignature: { nombre: 'Ana' },
   });
-  const p = await db.deleteSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista' });
+  const p = await db.deleteSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista', reason: 'x' });
   assert.equal(p.code, 'not-deletable');
-  // S1 está complete → el creador sí puede eliminarla (con descarga previa en UI)
-  const c = await db.deleteSignSession({ id: S1.id, username: 'ana_prep', userRole: 'analista' });
-  assert.equal(c.ok, true);
-  assert.equal(await db.getSignSession(S1.id), null);
+  // S1 está complete → el creador la convierte en lápida (con descarga previa en UI)
+  const c = await db.deleteSignSession({ id: S1.id, username: 'ana_prep', userRole: 'analista', reason: 'cierre' });
+  assert.equal(c.status, 'deleted');
+  assert.notEqual(await db.getSignSession(S1.id), null);
   await db.rejectSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista', reason: '' });
-  const f = await db.deleteSignSession({ id: s.id, username: 'dora_otro', userRole: 'analista' });
+  const f = await db.deleteSignSession({ id: s.id, username: 'dora_otro', userRole: 'analista', reason: 'x' });
   assert.equal(f.code, 'forbidden');
-  const a = await db.deleteSignSession({ id: s.id, username: 'root_adm', userRole: 'admin' });
-  assert.equal(a.ok, true);
+  const a = await db.deleteSignSession({ id: s.id, username: 'root_adm', userRole: 'admin', reason: 'admin' });
+  assert.equal(a.status, 'deleted');
 });
 
 // ── Rechazo ──
@@ -510,3 +547,187 @@ test('purge jamás toca pending/partial ni recientes', async () => {
 });
 
 // ── Dismiss (quitar de mis pendientes) ──
+
+// ── Opción A: reabrir rechazada ──
+test('reopen: rechazada vuelve a revisión con firmas e historia', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-REOPEN', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: 'carla_sup',
+    preparedSignature: { nombre: 'Ana' },
+  });
+  await db.signSessionStep({
+    id: s.id, role: 'reviewed', username: 'beto_rev', userRole: 'analista',
+    signature: {}, expectedVersion: 1,
+  });
+  const rej = await db.rejectSignSession({ id: s.id, username: 'beto_rev', userRole: 'analista', reason: 'datos mal' });
+  assert.equal(rej.status, 'rejected');
+  // Sin motivo no reabre
+  const sr = await db.reopenSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista', reason: '', expectedVersion: rej.version });
+  assert.equal(sr.code, 'reason-required');
+  // Ajeno no reabre
+  const fr = await db.reopenSignSession({ id: s.id, username: 'dora_otro', userRole: 'analista', reason: 'x', expectedVersion: rej.version });
+  assert.equal(fr.code, 'forbidden');
+  // Creador reabre: conserva firmas + rechazo como historia
+  const ro = await db.reopenSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista', reason: 'corregido', expectedVersion: rej.version });
+  assert.equal(ro.status, 'partial');
+  assert.equal(ro.signatures.prepared.signed, true);
+  assert.equal(ro.signatures.reviewed.signed, true);
+  assert.equal(ro.rejected_reason, 'datos mal');
+  assert.equal(ro.reopened_by, 'ana_prep');
+  assert.equal(ro.reopened_reason, 'corregido');
+  assert.ok(ro.reopened_at);
+  // Reabrir lo no-rechazado → 422
+  const nr = await db.reopenSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista', reason: 'x', expectedVersion: ro.version });
+  assert.equal(nr.code, 'not-rejected');
+});
+
+test('reopen con versión vieja → stale-version', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-REOPEN2', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' },
+  });
+  const rej = await db.rejectSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista', reason: 'x' });
+  const r = await db.reopenSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista', reason: 'x', expectedVersion: rej.version - 1 });
+  assert.equal(r.code, 'stale-version');
+});
+
+// ── Opción A: devolución al rol anterior ──
+test('sendback: revisor devuelve a prepared e invalida lo posterior', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-SENDBACK', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: 'carla_sup',
+    preparedSignature: { nombre: 'Ana' },
+  });
+  await db.signSessionStep({
+    id: s.id, role: 'reviewed', username: 'beto_rev', userRole: 'analista',
+    signature: {}, expectedVersion: 1,
+  });
+  // Sin comentario no devuelve
+  const sc = await db.sendbackSignSession({ id: s.id, toRole: 'prepared', username: 'beto_rev', userRole: 'analista', reason: '', expectedVersion: 2 });
+  assert.equal(sc.code, 'reason-required');
+  // Ajeno (no firmó después) no puede devolver
+  const fb = await db.sendbackSignSession({ id: s.id, toRole: 'prepared', username: 'dora_otro', userRole: 'analista', reason: 'x', expectedVersion: 2 });
+  assert.equal(fb.code, 'forbidden');
+  // Destino no firmado → 422
+  const bt = await db.sendbackSignSession({ id: s.id, toRole: 'approved', username: 'beto_rev', userRole: 'analista', reason: 'x', expectedVersion: 2 });
+  assert.equal(bt.code, 'bad-target');
+  const sb = await db.sendbackSignSession({ id: s.id, toRole: 'prepared', username: 'beto_rev', userRole: 'analista', reason: 'corregir datos', expectedVersion: 2 });
+  assert.deepEqual(sb.invalidated, ['prepared', 'reviewed']);
+  assert.equal(sb.status, 'pending');
+  assert.equal(sb.next_role, 'prepared');
+  assert.equal(sb.sentback_by, 'beto_rev');
+  assert.equal(sb.sentback_to, 'prepared');
+  assert.equal(sb.sentback_reason, 'corregir datos');
+  // El creador vuelve a firmar prepared y el flujo continúa
+  const rp = await db.signSessionStep({
+    id: s.id, role: 'prepared', username: 'ana_prep', userRole: 'analista',
+    signature: {}, expectedVersion: sb.version,
+  });
+  assert.equal(rp.next_role, 'reviewed');
+});
+
+test('sendback: aprobador devuelve a reviewed en su turno; admin con cascada', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-SENDBACK2', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: 'carla_sup',
+    preparedSignature: { nombre: 'Ana' },
+  });
+  await db.signSessionStep({
+    id: s.id, role: 'reviewed', username: 'beto_rev', userRole: 'analista',
+    signature: {}, expectedVersion: 1,
+  });
+  // La aprobadora, en su turno y sin firmar aún, devuelve a reviewed
+  const sb = await db.sendbackSignSession({ id: s.id, toRole: 'reviewed', username: 'carla_sup', userRole: 'supervisor', reason: 'revisar de nuevo', expectedVersion: 2 });
+  assert.deepEqual(sb.invalidated, ['reviewed']);
+  assert.equal(sb.next_role, 'reviewed');
+  assert.equal(sb.signatures.prepared.signed, true); // lo anterior se conserva
+  assert.equal(sb.sentback_to, 'reviewed');
+  // Admin devuelve aunque no sea su turno ni haya firmado (cascada)
+  const s2 = await db.createSignSession({
+    name: 'RPT-SENDBACK3', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' },
+  });
+  await db.signSessionStep({
+    id: s2.id, role: 'reviewed', username: 'beto_rev', userRole: 'analista',
+    signature: {}, expectedVersion: 1,
+  });
+  const adm = await db.sendbackSignSession({ id: s2.id, toRole: 'prepared', username: 'root_adm', userRole: 'admin', reason: 'auditoría', expectedVersion: 2 });
+  assert.deepEqual(adm.invalidated, ['prepared', 'reviewed']);
+  assert.equal(adm.status, 'pending');
+});
+
+// ── Opción A: enmienda de contenido ──
+test('amend: creador cambia html, renueva prepared e invalida lo posterior', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-AMEND', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' },
+  });
+  await db.signSessionStep({
+    id: s.id, role: 'reviewed', username: 'beto_rev', userRole: 'analista',
+    signature: {}, expectedVersion: 1,
+  });
+  // No creador no puede enmendar
+  const f = await db.amendSignSession({ id: s.id, html: '<html>v2</html>', username: 'beto_rev', userRole: 'analista', expectedVersion: 2 });
+  assert.equal(f.code, 'forbidden');
+  const am = await db.amendSignSession({ id: s.id, html: '<html>v2</html>', username: 'ana_prep', userRole: 'analista', expectedVersion: 2 });
+  assert.notEqual(am.doc_hash, s.doc_hash);
+  assert.equal(am.prev_hash, s.doc_hash);
+  assert.equal(am.signatures.prepared.signed, true);
+  assert.equal(am.signatures.prepared.username, 'ana_prep');
+  assert.equal(am.signatures.reviewed, undefined);
+  assert.equal(am.status, 'partial');
+  assert.equal(am.next_role, 'reviewed');
+});
+
+// ── Opción A: ciclo completo rechazar → reabrir → enmendar → firmar → completa ──
+test('ciclo re-revisión completo termina en complete', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-CICLO', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: 'carla_sup',
+    preparedSignature: { nombre: 'Ana' },
+  });
+  await db.signSessionStep({
+    id: s.id, role: 'reviewed', username: 'beto_rev', userRole: 'analista',
+    signature: {}, expectedVersion: 1,
+  });
+  const rej = await db.rejectSignSession({ id: s.id, username: 'beto_rev', userRole: 'analista', reason: 'error en tabla 3' });
+  const ro = await db.reopenSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista', reason: 'tabla corregida', expectedVersion: rej.version });
+  const am = await db.amendSignSession({ id: s.id, html: '<html>corregido</html>', username: 'ana_prep', userRole: 'analista', expectedVersion: ro.version });
+  const rv = await db.signSessionStep({
+    id: s.id, role: 'reviewed', username: 'beto_rev', userRole: 'analista',
+    signature: {}, expectedVersion: am.version,
+  });
+  assert.equal(rv.next_role, 'approved');
+  const ap = await db.signSessionStep({
+    id: s.id, role: 'approved', username: 'carla_sup', userRole: 'supervisor',
+    signature: {}, expectedVersion: rv.version,
+  });
+  assert.equal(ap.status, 'complete');
+  // Completa sigue inmutable: ni reopen ni sendback ni amend
+  const r1 = await db.reopenSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista', reason: 'x', expectedVersion: ap.version });
+  assert.equal(r1.code, 'complete');
+  const r2 = await db.sendbackSignSession({ id: s.id, toRole: 'prepared', username: 'root_adm', userRole: 'admin', reason: 'x', expectedVersion: ap.version });
+  assert.equal(r2.code, 'complete');
+  const r3 = await db.amendSignSession({ id: s.id, html: 'x', username: 'ana_prep', userRole: 'analista', expectedVersion: ap.version });
+  assert.equal(r3.code, 'complete');
+});
+
+// ── Opción A: purga incluye lápidas como rechazadas ──
+test('purge elimina lápidas viejas con plazo de rechazadas', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-PURGE-DEL', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' },
+  });
+  await db.rejectSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista', reason: 'x' });
+  const g = await db.getSignSession(s.id);
+  await db.deleteSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista', reason: 'x' });
+  const future = Date.now() + 400 * 86400000;
+  const dry = await db.purgeSignSessions({ rejectedDays: 90, dryRun: true, _now: future });
+  assert.ok(dry.candidates.some((c) => c.id === s.id && c.status === 'deleted'));
+  assert.ok((await db.getSignSession(s.id)) !== null, 'dryRun no borra');
+  assert.equal(g.status, 'rejected');
+});

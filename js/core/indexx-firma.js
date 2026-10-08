@@ -1572,23 +1572,43 @@ async function firmaRejectSession(id) {
   }
 }
 
-// Elimina definitivamente una sesión rechazada (creador o admin).
-// La auditoría conserva SIGN_SESSION_REJECT como rastro.
+// Elimina una sesión rechazada (creador o admin) con motivo obligatorio.
+// Queda como lápida visible N días en bandeja (aviso al revisor).
 async function firmaDeleteSession(id) {
+  var reason = null;
+  try {
+    reason = prompt('Motivo de eliminación de la sesión #' + id + ' (queda registrado):', '');
+  } catch (e) { reason = null; }
+  if (reason === null) return; // cancelado
+  if (!String(reason).trim()) {
+    showToast('❌ El motivo de eliminación es obligatorio', true);
+    return;
+  }
   var ok = false;
   try {
-    ok = confirm('¿Eliminar definitivamente la sesión #' + id + '? Solo se puede porque ya fue rechazada.');
+    ok = confirm('¿Eliminar la sesión #' + id + '? Solo se puede porque ya fue rechazada.');
   } catch (e) { ok = true; }
   if (!ok) return;
-  await _firmaDoDelete(id);
+  await _firmaDoDelete(id, String(reason).trim());
 }
 
 // Núcleo del borrado (DELETE + limpieza + refresco). Lo usan el confirm de
 // rechazadas y el modal de completas (con descarga previa recomendada).
-async function _firmaDoDelete(id) {
+async function _firmaDoDelete(id, reason) {
   try {
+    var motivo = reason;
+    if (motivo === undefined) {
+      try { motivo = prompt('Motivo de eliminación de la sesión #' + id + ' (queda registrado):', ''); }
+      catch (e) { motivo = null; }
+      if (motivo === null) return false;
+      if (!String(motivo).trim()) {
+        showToast('❌ El motivo de eliminación es obligatorio', true);
+        return false;
+      }
+    }
     var res = await fetchWithTimeout(_firmaApiBase() + '/api/sign-sessions/' + id, {
-      method: 'DELETE', headers: _firmaAuthHeaders(), credentials: 'include'
+      method: 'DELETE', headers: Object.assign({ 'Content-Type': 'application/json' }, _firmaAuthHeaders()),
+      credentials: 'include', body: JSON.stringify({ reason: String(motivo).trim() })
     });
     var data = await res.json();
     if (!data || !data.ok) {
@@ -1598,7 +1618,7 @@ async function _firmaDoDelete(id) {
     // Si era la sesión abierta, se limpia vista + snapshot (antes quedaba el
     // reporte fantasma pintado con las bandejas vacías).
     if (_firmaSessionId === id) { firmaClearState(); firmaClearMainView(); }
-    showToast('🗑 Sesión #' + id + ' eliminada');
+    showToast('🗑 Sesión #' + id + ' eliminada (visible unos días en bandeja como aviso)');
     firmaLoadBandeja();
     firmaUpdatePendingBadge();
     return true;
