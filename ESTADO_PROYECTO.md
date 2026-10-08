@@ -4696,3 +4696,12 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-07 (144): OQ + PQ reactor desde ENSAYOS.txt (40 ensayos)
 - **Qué:** `.txt` traía OQ+PQ reactor (verificado: 58 líneas, flags literales). Creados `oq-reactor.html` (26 ensayos EQ-OQ-RC, 9 con análisis: velocidad, homogeneizador, sensor T, rampas, estabilidad, mapeo, medio térmico, volumen, adiciones) y `pq-reactor.html` (14 ensayos EQ-PQ-RC, 13 con análisis por grupos marcados: corridas, disolución/uniformidad, térmico, transferencia; micro sin flag como el original).
 - **Verificación:** extractor `--estricto` OK (293 artículos, 0 pendientes); Vitest 395/395, backend 60/60.
+
+### 2026-10-08 (145): Bloque 1 auditoría FDA (motor) + quick wins H-22/H-28/H-29/H-30/H-31
+- **Qué (H-01):** OQ/PQ sin banco de familia no se emite: `tieneBancoFam()` desmarca+deshabilita+rotula en Paso 3 y bloquea en descarga (doble defensa). IQ/estabilidad/almacenes siempre permitidos.
+- **Qué (H-05):** tabla `LIMITES` (15 entradas, 12 ensayos: HO/MZ/LF/EST) con parámetro/valor/unidad/fuente/versión/estado provisional; `aplicarLimites` sustituye `[n]` en el .docx y anexa trazabilidad; `limitesPendientes` badge en Paso 3 (⚠ provisional / ⛔ sin tabla bloquea la fase); contrato exige toda `[n]` con entrada.
+- **Qué (H-08/H-11):** bloques fijos `DESVIACIONES Y REENSAYOS` + `INFORME DE CALIFICACIÓN Y DICTAMEN` en motores plantilla (7.x finales, fuera del resumen) y DQ (bullets + H1 informe).
+- **Qué (H-09):** campos URS/riesgo (código+versión) en Datos generales, obligatorios al generar; anexo `TRAZABILIDAD URS–RIESGO–ENSAYO` en ambos motores.
+- **Quick wins:** H-22 horno-secado fuera del selector de estabilidad; H-31 RC-001→P&ID/URS/ASME-BPE y TD-005→USP <1228.1>; H-30 LL-005 método+límite; H-28 MZ-010 rotulado pre-PQ + nota; H-29 Ra ≤0,8 µm en AU/LF/LI/TD-007.
+- **Rechazados con justificación:** H-26 (duplicación aparente es diseño: filtro por familia evita duplicar en .docx), H-27 (3 ciclos defendible en equipo térmico).
+- **Verificación:** extractor `--estricto` OK (293+46); Vitest 404/404, backend 60/60.

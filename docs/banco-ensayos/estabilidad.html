@@ -31,7 +31,6 @@
   <option value="cuarto-est-real">Cuarto de Estabilidad Real (28–32°C / HR 70–80%)</option>
   <option value="incubadora-22-27">Incubadora Condición (22–27°C)</option>
   <option value="incubadora-38-42">Incubadora (38–42°C)</option>
-  <option value="horno-secado">Horno Secado (38–42°C / HR 70–80%)</option>
 </select></p>
 
 <p><label for="protSelect"><strong>Protocolo:</strong></label>
@@ -1414,8 +1413,7 @@ var RANGOS = {
   'cuarto-est-acelerada': '38–42 °C / HR 70–80 %',
   'cuarto-est-real': '28–32 °C / HR 70–80 %',
   'incubadora-22-27': '22–27 °C',
-  'incubadora-38-42': '38–42 °C',
-  'horno-secado': '38–42 °C / HR 70–80 %'
+  'incubadora-38-42': '38–42 °C'
 };
 var NOMBRES = {
   'cabina-est-acelerada': ['cabina de estabilidad acelerada', 'cabina de estabilidad aceleradas'],
@@ -1423,8 +1421,7 @@ var NOMBRES = {
   'cuarto-est-acelerada': ['cuarto de estabilidad acelerada', 'cuarto de estabilidad aceleradas'],
   'cuarto-est-real': ['cuarto de estabilidad real', 'cuarto de estabilidad reals'],
   'incubadora-22-27': ['incubadora (22–27 °C)', 'incubadora (22–27 °C)s'],
-  'incubadora-38-42': ['incubadora (38–42 °C)', 'incubadora (38–42 °C)s'],
-  'horno-secado': ['horno de secado', 'horno de secados']
+  'incubadora-38-42': ['incubadora (38–42 °C)', 'incubadora (38–42 °C)s']
 };
 function updAlm() {
   var v = document.getElementById('almSelect').value;

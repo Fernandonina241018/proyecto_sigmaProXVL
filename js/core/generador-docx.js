@@ -299,6 +299,13 @@ const GeneradorDocx = (() => {
     articulos.filter((a) => a.bloque === 4).forEach((a) => {
       proc.push({ t: 'ensayo', num: numera(a), titulo: a.titulo, articulo: a, sinConclusion: true });
     });
+    // H-08 (auditoría FDA): bloque fijo de desviaciones y reensayos al cierre del procedimiento.
+    proc.push({ t: 'h2', texto: 'DESVIACIONES Y REENSAYOS:', salto: true });
+    proc.push({ t: 'bul', texto: 'Registrar la desviación en el momento de detectarla sin alterar el dato original.' });
+    proc.push({ t: 'bul', texto: 'Clasificar la desviación (crítica, mayor o menor) y evaluar su impacto en los resultados.' });
+    proc.push({ t: 'bul', texto: 'Investigar y asignar causa (asignable) de forma documentada.' });
+    proc.push({ t: 'bul', texto: 'Definir disposición y acción correctiva con aprobación previa del revisor.' });
+    proc.push({ t: 'bul', texto: 'Reensayar solo con aprobación previa: el reensayo no sustituye el resultado original.' });
     H1('PROCEDIMIENTO DE CALIFICACIÓN DE ' + (FASE_NOMBRE[fase] || fase) + ':', proc);
     // 8. REGISTRO DE FIRMAS
     H1('REGISTRO DE FIRMAS:', [
@@ -313,13 +320,29 @@ const GeneradorDocx = (() => {
       if (nb.length) refFilas = nb.map((r) => [r[0] || '', r[1] || '']);
     }
     H1('REFERENCIAS:', [{ t: 'tablaRef', filas: refFilas }]);
-    // 10. ANEXOS (banco)
+    // 10. ANEXOS (banco + trazabilidad URS–riesgo H-09)
     const anex = [];
     items.filter((i) => !i.id && i.bloque === 8).forEach((dv) => {
       htmlAParrafos(congelarMarcas(dv.html, ctx)).forEach((p) => anex.push({ t: 'p', runs: p.runs }));
     });
+    const _u = String((draft || {}).ursCodigo || '').trim();
+    const _uv = String((draft || {}).ursVersion || '').trim();
+    const _r = String((draft || {}).riesgoCodigo || '').trim();
+    const _rv = String((draft || {}).riesgoVersion || '').trim();
+    if (_u || _r) {
+      anex.push({ t: 'h2', texto: 'TRAZABILIDAD URS–RIESGO–ENSAYO: URS ' + (_u || '—') + ' v' + (_uv || '—')
+        + ' · Análisis de riesgo ' + (_r || '—') + ' v' + (_rv || '—') });
+      articulos.forEach((a) => anex.push({ t: 'bul', texto: a.id + ' → URS ' + (_u || '—') + ' · Riesgo ' + (_r || '—') }));
+    }
     if (!anex.length) anex.push({ t: 'p', runs: [{ t: '—', b: false }] });
     H1('ANEXOS:', anex);
+    // 11. INFORME DE CALIFICACIÓN Y DICTAMEN (plantilla H-11)
+    H1('INFORME DE CALIFICACIÓN Y DICTAMEN DE LIBERACIÓN:', [
+      { t: 'bul', texto: 'Consignar los resultados por ensayo (Cumple / No cumple) con referencia a la evidencia.' },
+      { t: 'bul', texto: 'Listar las desviaciones con su disposición y los reensayos ejecutados.' },
+      { t: 'bul', texto: 'Emitir la conclusión de la calificación.' },
+      { t: 'bul', texto: 'Dictamen: ______ (LIBERADO / NO LIBERADO) — Nombre: ______ Firma: ______ Fecha: ______' },
+    ]);
     // 11. HISTORIAL
     const fecha = String((draft || {}).fecha || '').trim() || '—';
     const ccDQ = String((draft || {}).controlCambios || '').trim();

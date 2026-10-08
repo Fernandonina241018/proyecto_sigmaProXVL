@@ -430,8 +430,8 @@ describe('Objetivo en su propia línea (etiqueta sola + texto debajo)', () => {
       const l = /<w:ilvl w:val="(\d+)"/.exec(pr);
       return { numId: n && n[1], ilvl: l && +l[1] };
     };
-    // etiquetas exactas: una por ensayo del banco
-    expect(paras.filter((t) => t === 'Objetivo:')).toHaveLength(r.ensayos.length);
+    // etiquetas exactas: una por ensayo del banco + 2 bloques fijos (H-08/H-11)
+    expect(paras.filter((t) => t === 'Objetivo:')).toHaveLength(r.ensayos.length + 2);
     // el texto del objetivo de cada ensayo NO comparte párrafo con la etiqueta
     // y va en SUBNIVEL (7.2.1.1): mismo numId, ilvl +1 respecto a la etiqueta
     for (const id of r.ensayos) {
@@ -449,5 +449,40 @@ describe('Objetivo en su propia línea (etiqueta sola + texto debajo)', () => {
       expect(txt.numId).toBe(lab.numId);
       expect(txt.ilvl).toBe(lab.ilvl + 1);
     }
+  });
+
+  describe('H-05/H-08/H-09/H-11: límites, bloques fijos y trazabilidad', () => {
+    test('aplicarLimites sustituye "[n]" desde la tabla (EQ-OQ-MZ-006)', () => {
+      const items = [{ id: 'EQ-OQ-MZ-006', bloque: 3, secciones: [{ et: 'Procedimiento', html: 'Error menor o igual a ±[2]% en los tres puntos' }] }];
+      const out = P.aplicarLimites(items);
+      expect(out[0].secciones[0].html).toContain('±2%');
+      expect(out[0].secciones[0].html).not.toContain('[2]');
+      expect(out[0].limitesAplicados.length).toBeGreaterThan(0);
+    });
+
+    test('limitesPendientes detecta tokens sin entrada y provisionales', () => {
+      const items = [
+        { id: 'EQ-OQ-MZ-006', bloque: 3, secciones: [{ et: 'Procedimiento', html: '±[2]%' }] },
+        { id: 'EQ-XX-999', bloque: 3, secciones: [{ et: 'Procedimiento', html: 'límite [7] días' }] },
+      ];
+      const r = P.limitesPendientes(items);
+      expect(r.sinEntrada).toEqual(['EQ-XX-999 [7]']);
+      expect(r.provisionales).toEqual(['EQ-OQ-MZ-006 [2]']);
+    });
+
+    test('bloquesFijos trae desviaciones e informe (fuera de resumen)', () => {
+      const f = P.bloquesFijos('OQ');
+      expect(f.map((x) => x.titulo)).toEqual(['DESVIACIONES Y REENSAYOS', 'INFORME DE CALIFICACIÓN Y DICTAMEN DE LIBERACIÓN']);
+      expect(f.every((x) => x.fijo && x.bloque === 3)).toBe(true);
+      expect(P.bloquesFijos('XX')).toEqual([]);
+    });
+
+    test('rtmLineas arma trazabilidad por ensayo', () => {
+      const d = { ursCodigo: 'URS-01', ursVersion: '1.0', riesgoCodigo: 'AR-01', riesgoVersion: '2.0' };
+      const ls = P.rtmLineas(d, [{ id: 'EQ-OQ-RC-001' }, { id: null }]);
+      expect(ls[0]).toContain('URS-01');
+      expect(ls).toContain('EQ-OQ-RC-001 → URS URS-01 · Riesgo AR-01');
+      expect(P.rtmLineas({}, [{ id: 'X' }])).toEqual([]);
+    });
   });
 });

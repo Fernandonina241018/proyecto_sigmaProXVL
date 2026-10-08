@@ -1073,7 +1073,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las soldaduras son sanitarias y continuas, con soldadores calificados.<br>\n  La rugosidad promedio cumple el límite especificado en cada punto medido."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las soldaduras son sanitarias y continuas, con soldadores calificados.<br>\n  La rugosidad promedio cumple Ra ≤0,8 µm en superficies en contacto con producto (o el valor de la URS aprobada) en cada punto medido."
      },
      {
       "et": "Documentos entregables",
@@ -1270,7 +1270,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1228&gt; (despirogenización por calor seco)."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1228.1&gt; (despirogenización por calor seco)."
      }
     ],
     "tabla": null,
@@ -1325,7 +1325,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las superficies cumplen el acabado sanitario especificado.<br>\n  La rugosidad promedio cumple el límite especificado en cada punto medido."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las superficies cumplen el acabado sanitario especificado.<br>\n  La rugosidad promedio cumple Ra ≤0,8 µm en superficies en contacto con producto (o el valor de la URS aprobada) en cada punto medido."
      },
      {
       "et": "Documentos entregables",
@@ -1607,7 +1607,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las soldaduras son sanitarias y continuas, con soldadores calificados.<br>\n  La rugosidad promedio cumple el límite especificado en cada punto medido."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las soldaduras son sanitarias y continuas, con soldadores calificados.<br>\n  La rugosidad promedio cumple Ra ≤0,8 µm en superficies en contacto con producto (o el valor de la URS aprobada) en cada punto medido."
      },
      {
       "et": "Documentos entregables",
@@ -1678,7 +1678,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>ISPE Baseline Guide: Oral Solid Dosage Forms (criterio de diseño aplicable)."
+      "html": "<strong>Referencia:</strong><br>P&amp;I y URS aprobados del proyecto; ASME BPE (materiales y acabados sanitarios)."
      }
     ],
     "tabla": null,
@@ -2294,11 +2294,11 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el filtro de línea de producto: grado, número de serie y certificado<br>\n  2) Verificar el filtro de gas de cobertura o nitrógeno (si aplica): grado y certificado<br>\n  3) Verificar filtros de venteo del tanque: grado y certificado<br>\n  4) Verificar carcasas: material, drenaje, venteo y conexiones sanitarias<br>\n  5) Verificar programa de recambio y prueba de integridad inicial documentada"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el filtro de línea de producto: grado, número de serie y certificado<br>\n  2) Verificar el filtro de gas de cobertura o nitrógeno (si aplica): grado y certificado<br>\n  3) Verificar filtros de venteo del tanque: grado y certificado<br>\n  4) Verificar carcasas: material, drenaje, venteo y conexiones sanitarias<br>\n  5) Verificar programa de recambio y prueba de integridad inicial documentada (punto de burbuja o difusión, según el fabricante del filtro)"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los filtros corresponden al grado especificado y cuentan con certificado.<br>\n  Las carcasas drenan y ventean correctamente."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los filtros corresponden al grado especificado y cuentan con certificado.<br>\n  La integridad cumple el límite del fabricante del filtro (punto de burbuja o difusión).<br>\n  Las carcasas drenan y ventean correctamente."
      },
      {
       "et": "Documentos entregables",
@@ -2612,7 +2612,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las soldaduras son sanitarias y continuas, con soldadores calificados.<br>\n  La rugosidad promedio cumple el límite especificado en cada punto medido."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las soldaduras son sanitarias y continuas, con soldadores calificados.<br>\n  La rugosidad promedio cumple Ra ≤0,8 µm en superficies en contacto con producto (o el valor de la URS aprobada) en cada punto medido."
      },
      {
       "et": "Documentos entregables",
@@ -5006,7 +5006,7 @@ var BancoEquipos = {
     "id": "EQ-OQ-MZ-010",
     "bloque": 3,
     "cond": "ambas",
-    "titulo": "EQ-OQ-MZ-010 — Uniformidad de mezcla con placebo",
+    "titulo": "EQ-OQ-MZ-010 — Uniformidad de mezcla con placebo (prueba previa al PQ)",
     "secciones": [
      {
       "et": "Objetivo",
@@ -5023,6 +5023,10 @@ var BancoEquipos = {
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de puntos de muestreo con resultados por punto y réplica<br>\n  - Data cruda y reporte estadístico del análisis de uniformidad de mezcla<br>\n  - Método analítico del trazador"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>\n  Ensayo de caracterización previa al PQ: demuestra la capacidad de mezcla con placebo; la uniformidad con producto se demuestra en el PQ."
      },
      {
       "et": "Referencia",

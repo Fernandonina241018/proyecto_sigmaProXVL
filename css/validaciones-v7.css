@@ -423,6 +423,9 @@
 #validaciones-app .v7-field > span > b { color: var(--v7-accent); font-weight: 700; }
 /* preview de cómo saldrá la descripción en encabezado/portada */
 #validaciones-app .v7-desc-preview { font-size: 11px; color: var(--v7-muted); font-style: italic; }
+/* H-01: fases sin banco de familia (no se generan) */
+#validaciones-app .v7-check.sin-banco { color: #a00; text-decoration: line-through; }
+#validaciones-app .v7-sin-banco { color: #a00; font-weight: 700; }
 /* descripciones y textos largos: ancho completo */
 #validaciones-app .v7-field[data-f="descripcion"],
 #validaciones-app .v7-field[data-f="modulos"],

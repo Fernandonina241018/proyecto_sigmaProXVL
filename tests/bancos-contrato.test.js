@@ -75,4 +75,20 @@ describe('banco de equipos: contrato', () => {
       .filter((x) => { const t = plano(x) + ' ' + JSON.stringify(x.tabla || ''); return malas.some((r) => r.test(t)); });
     expect(hits.map((x) => x.id)).toEqual([]);
   });
+
+  it('H-05: todo "[n]" del banco tiene entrada en la tabla de límites', () => {
+    const P05 = require('../js/core/plantilla-docx.js');
+    const BE = require('../js/core/banco-estabilidad-data.js');
+    const deFases = (BB) => Object.entries(BB.fases).flatMap(([fase, xs]) => xs.map((x) => ({ ...x, fase })));
+    const todosB = deFases(B).concat(deFases(BE));
+    const ens = todosB.filter((x) => x.kind === 'ensayo' && (x.bloque === 2 || x.bloque === 3) && x.id);
+    const sin = [];
+    ens.forEach((x) => {
+      const toks = (plano(x).match(/\[[0-9][^\]]*\]/g) || []).map((t) => t.replace(/^\[|\]$/g, ''));
+      toks.forEach((t) => {
+        if (!P05.limitesDe(x.id).some((l) => l.token === t)) sin.push(x.id + ' [' + t + ']');
+      });
+    });
+    expect(sin).toEqual([]);
+  });
 });

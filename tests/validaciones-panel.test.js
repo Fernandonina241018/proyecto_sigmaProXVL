@@ -312,4 +312,25 @@ describe('Validaciones V7', () => {
     expect(src2).toContain('v7-desc-preview');
     expect(src2).toContain('Saldrá como: ');
   });
+
+  test('H-01: OQ/PQ sin banco de familia se detecta (tieneBancoFam)', () => {
+    globalThis.BancoEquipos = require('../js/core/banco-equipos-data.js');
+    try {
+      expect(Validaciones.tieneBancoFam('OQ', 'equipos', 'tableteadora')).toBe(false);
+      expect(Validaciones.tieneBancoFam('PQ', 'equipos', 'tableteadora')).toBe(false);
+      expect(Validaciones.tieneBancoFam('OQ', 'equipos', 'reactor')).toBe(true);
+      expect(Validaciones.tieneBancoFam('PQ', 'equipos', 'mezclador')).toBe(true);
+      expect(Validaciones.tieneBancoFam('IQ', 'equipos', 'tableteadora')).toBe(true);
+      expect(Validaciones.tieneBancoFam('OQ', 'estabilidad', 'cabina-est-acelerada')).toBe(true);
+      expect(Validaciones.tieneBancoFam('OQ', 'almacenes', 'cuarto-frio')).toBe(true);
+    } finally { delete globalThis.BancoEquipos; }
+  });
+
+  test('H-09: esquema común trae URS y riesgo con código y versión', () => {
+    const ks = Validaciones.SCHEMAS._comun.map((f) => f.k);
+    ['ursCodigo', 'ursVersion', 'riesgoCodigo', 'riesgoVersion'].forEach((k) => expect(ks).toContain(k));
+    const src3 = readFileSync(join(core, 'indexx-validaciones.js'), 'utf-8');
+    expect(src3).toContain('Complete URS y análisis de riesgo');
+    expect(src3).toContain('Sin banco de familia');
+  });
 });

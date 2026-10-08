@@ -572,6 +572,145 @@ const PlantillaDocx = (() => {
   }
 
   // ---------------------------------------------------------------
+  // H-05 (auditoría FDA): tabla de límites preaprobados.
+  // Cada valor por defecto "[n]" del banco tiene aquí su entrada con parámetro,
+  // valor, unidad, fuente y versión. `aplicarLimites` sustituye el token en el
+  // protocolo y anexa la tabla de trazabilidad; lo que no tenga entrada sale
+  // en `limitesPendientes` y se rotula en el Paso 3 (nunca silencioso).
+  // Estado inicial "provisional": confirmar cada valor contra la URS aprobada
+  // y cambiar estado a "aprobado" con la versión de la URS como fuente.
+  // ---------------------------------------------------------------
+  const LIMITES = [
+    { id: 'EQ-OQ-HO-008', token: '40', parametro: 'Temperatura segura de descarga', valor: '40', unidad: '°C', fuente: 'banco de ensayos', version: 'EQ-OQ-HO 2026-10-06 v1', estado: 'provisional — confirmar contra URS' },
+    { id: 'EQ-OQ-MZ-006', token: '2', parametro: 'Error de velocidad de agitación', valor: '2', unidad: '% (tolerancia ±)', fuente: 'banco de ensayos', version: 'EQ-OQ-MZ 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { id: 'EQ-OQ-MZ-007', token: '1', parametro: 'Tiempo corto de prueba / tolerancia de tiempo', valor: '1', unidad: 'min / %', fuente: 'banco de ensayos', version: 'EQ-OQ-MZ 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { id: 'EQ-OQ-MZ-007', token: '10', parametro: 'Tiempo medio de prueba', valor: '10', unidad: 'min', fuente: 'banco de ensayos', version: 'EQ-OQ-MZ 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { id: 'EQ-OQ-MZ-007', token: '30', parametro: 'Tiempo largo de prueba', valor: '30', unidad: 'min', fuente: 'banco de ensayos', version: 'EQ-OQ-MZ 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { id: 'EQ-PQ-LF-004', token: '5', parametro: 'RSD de humedad entre ubicaciones', valor: '5', unidad: '%', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { id: 'EQ-PQ-LF-005', token: '10', parametro: 'Intervalo de muestreo / superposición de curvas', valor: '10', unidad: 'min / %', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { id: 'EQ-PQ-LF-010', token: '15', parametro: 'Intervalo de registro de ΔP', valor: '15', unidad: 'min', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { id: 'EQ-PQ-LF-011', token: '95', parametro: 'Rendimiento mínimo', valor: '95', unidad: '%', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { id: 'EQ-PQ-LF-011', token: '2', parametro: 'Pérdida máxima de finos', valor: '2', unidad: '%', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { id: 'EQ-PQ-LF-012', token: '10', parametro: 'Intervalo de registro de temperatura', valor: '10', unidad: 'min', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { id: 'EQ-PQ-LF-013', token: '5', parametro: 'Intervalo de registro por sonda', valor: '5', unidad: 'min', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { id: 'EQ-PQ-LF-013', token: '3', parametro: 'ΔT máximo entre sondas', valor: '3', unidad: '°C', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { id: 'EQ-PQ-MZ-014', token: '98', parametro: 'Rendimiento mínimo', valor: '98', unidad: '%', fuente: 'banco de ensayos', version: 'EQ-PQ-MZ 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { id: 'EST-OQ-010', token: '2', parametro: 'Sobreimpulso máximo', valor: '2', unidad: '°C', fuente: 'banco de ensayos', version: 'EST-OQ-CAM 2026-10-06 v1', estado: 'provisional — confirmar contra URS' },
+  ];
+
+  function limitesDe(id) {
+    return LIMITES.filter((l) => l.id === id);
+  }
+
+  // Sustituye "[token]" por el valor aprobado (solo en el ensayo de la entrada).
+  function aplicarLimites(items) {
+    return (items || []).map((it) => {
+      const ls = it && it.id ? limitesDe(it.id) : [];
+      if (!ls.length) return it;
+      const cl = Object.assign({}, it);
+      cl.secciones = (it.secciones || []).map((s) => {
+        let html = String(s.html || '');
+        ls.forEach((l) => { html = html.split('[' + l.token + ']').join(l.valor); });
+        return Object.assign({}, s, { html });
+      });
+      cl.limitesAplicados = ls;
+      return cl;
+    });
+  }
+
+  const RE_LIMITE = /\[[0-9][^\]]*\]/;
+  // Tokens "[n]" sin entrada en la tabla + entradas provisionales del conjunto.
+  function limitesPendientes(items) {
+    const sinEntrada = [];
+    const provisionales = [];
+    (items || []).forEach((it) => {
+      if (!it || !it.id || (it.bloque !== 2 && it.bloque !== 3)) return;
+      const plano = (it.secciones || []).map((s) => String(s.html || '').replace(/<[^>]+>/g, ' ')).join(' ');
+      const toks = plano.match(/\[[0-9][^\]]*\]/g) || [];
+      toks.forEach((t) => {
+        const token = t.replace(/^\[|\]$/g, '');
+        if (!limitesDe(it.id).some((l) => l.token === token)) sinEntrada.push(it.id + ' ' + t);
+      });
+      limitesDe(it.id).forEach((l) => {
+        if (!/^aprobado/i.test(l.estado || '')) provisionales.push(it.id + ' [' + l.token + ']');
+      });
+    });
+    return { sinEntrada, provisionales };
+  }
+
+  // Resumen de pendientes para el Paso 3 (misma selección que generar()).
+  function limitesResumen(fase, catId, entId, cond) {
+    try {
+      const b = mezclarComun(banco(catId), fase, catId);
+      const items = ((b.fases && b.fases[fase]) || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3)
+        && pasaCondicion(i.cond, cond || 'ambas') && (!i.familia || !entId || i.familia === entId));
+      return limitesPendientes(aplicarLimites(items));
+    } catch (e) { return { sinEntrada: [], provisionales: [] }; }
+  }
+
+  // H-08/H-11 (auditoría FDA): bloques fijos al final de cada protocolo.
+  // Se concatenan tras los ensayos del banco: salen como últimas secciones 7.x,
+  // fuera del resumen (fijo:true) y sin código de banco.
+  function bloquesFijos(fase) {
+    const F = String(fase || '').toUpperCase();
+    if (FASES.indexOf(F) < 0) return [];
+    const desv = {
+      kind: 'ensayo', id: '', bloque: 3, cond: 'ambas', fijo: 'desv',
+      titulo: 'DESVIACIONES Y REENSAYOS',
+      secciones: [
+        { et: 'Objetivo', html: '<strong>Objetivo:</strong><br>Establecer el tratamiento de toda desviación y reensayo: el resultado original permanece intacto, se asigna causa y se aprueba antes de reensayar.' },
+        { et: 'Procedimiento', html: '<strong>Procedimiento:</strong><br>1) Registrar la desviación en el momento de detectarla sin alterar el dato original<br>2) Clasificar la desviación (crítica, mayor o menor) y evaluar su impacto en los resultados<br>3) Investigar y asignar causa (asignable) de forma documentada<br>4) Definir disposición y acción correctiva con aprobación previa del revisor<br>5) Reensayar solo con aprobación previa: el reensayo no sustituye el resultado original' },
+        { et: 'Criterios de aceptación', html: '<strong>Criterios de aceptación:</strong><br>Toda desviación queda registrada con causa asignable y disposición aprobada.<br>Ningún reensayo sustituye un resultado original sin aprobación previa documentada.' },
+        { et: 'Documentos entregables', html: '<strong>Documentos entregables:</strong><br>- Registro de desviaciones y reensayos (anexo del informe)' },
+        { et: 'Referencia', html: '<strong>Referencia:</strong><br>21 CFR 211.192; 21 CFR 211.100(b).' },
+      ],
+    };
+    const inf = {
+      kind: 'ensayo', id: '', bloque: 3, cond: 'ambas', fijo: 'informe',
+      titulo: 'INFORME DE CALIFICACIÓN Y DICTAMEN DE LIBERACIÓN',
+      secciones: [
+        { et: 'Objetivo', html: '<strong>Objetivo:</strong><br>Plantilla del informe final de la calificación ' + F + ' con el dictamen de liberación del equipo.' },
+        { et: 'Procedimiento', html: '<strong>Procedimiento:</strong><br>1) Consignar los resultados por ensayo (Cumple / No cumple) con referencia a la evidencia<br>2) Listar las desviaciones con su disposición y los reensayos ejecutados<br>3) Emitir la conclusión de la calificación<br>4) Firmar el dictamen de liberación o no liberación del equipo<br>Dictamen: ______ (LIBERADO / NO LIBERADO)<br>Nombre: ______ Firma: ______ Fecha: ______' },
+        { et: 'Criterios de aceptación', html: '<strong>Criterios de aceptación:</strong><br>El informe contiene resultados por ensayo, desviaciones con disposición, conclusión y dictamen firmado.' },
+        { et: 'Documentos entregables', html: '<strong>Documentos entregables:</strong><br>- Informe de calificación firmado con dictamen de liberación' },
+        { et: 'Referencia', html: '<strong>Referencia:</strong><br>21 CFR 211.180; 21 CFR 211.194; EU GMP Anexo 15.' },
+      ],
+    };
+    return [desv, inf];
+  }
+
+  // H-09 (auditoría FDA): anexo de trazabilidad URS–riesgo–ensayo.
+  function rtmLineas(d, items) {
+    const u = String((d && d.ursCodigo) || '').trim();
+    const uv = String((d && d.ursVersion) || '').trim();
+    const r = String((d && d.riesgoCodigo) || '').trim();
+    const rv = String((d && d.riesgoVersion) || '').trim();
+    if (!u && !r) return [];
+    const out = ['TRAZABILIDAD URS–RIESGO–ENSAYO: URS ' + (u || '—') + ' v' + (uv || '—')
+      + ' · Análisis de riesgo ' + (r || '—') + ' v' + (rv || '—')];
+    (items || []).forEach((it) => {
+      if (it && it.id) out.push(it.id + ' → URS ' + (u || '—') + ' · Riesgo ' + (r || '—'));
+    });
+    return out;
+  }
+
+  // Líneas de trazabilidad para el anexo (valor, unidad, fuente y versión).
+  function lineasLimites(items) {
+    const vistos = {};
+    const out = [];
+    (items || []).forEach((it) => {
+      (it && it.limitesAplicados || []).forEach((l) => {
+        const k = it.id + ' [' + l.token + ']';
+        if (vistos[k]) return;
+        vistos[k] = true;
+        out.push('LÍMITE ' + it.id + ': ' + l.parametro + ' = ' + l.valor + ' ' + l.unidad
+          + ' (' + l.fuente + ' ' + l.version + ', ' + l.estado + ')');
+      });
+    });
+    return out;
+  }
+
+  // ---------------------------------------------------------------
   // Generación
   // ---------------------------------------------------------------
   function localizarProcedimiento(parts, inf) {
@@ -753,7 +892,9 @@ const PlantillaDocx = (() => {
     const ensayosTodos = items.filter((i) => i.id && (i.bloque === 2 || i.bloque === 3) && i.kind !== 'tabla' && pasaCondicion(i.cond, filtro)
       && (!i.familia || !entId || i.familia === entId));
     const artReq = ensayosTodos.find((a) => /requisitos previos/i.test(a.titulo || ''));
-    const ensayos = ensayosTodos.filter((a) => a !== artReq);
+    // H-05: los valores "[n]" se sustituyen desde la tabla de límites (trazables).
+    // H-08/H-11: bloques fijos de desviaciones e informe al final (fuera del resumen).
+    const ensayos = aplicarLimites(ensayosTodos.filter((a) => a !== artReq)).concat(bloquesFijos(fase));
     const ctx = contexto(d, entidad, filtro, ensayosTodos);
     if (!ctx.rango) avisos.push('Sin rango de temperatura/HR en el borrador: se imprime el rango del banco.');
     if (!ensayos.length) avisos.push('El banco no tiene ensayos ' + fase + ' para la condición seleccionada.');
@@ -835,9 +976,9 @@ const PlantillaDocx = (() => {
       const tit = tituloLimpio(art);
       const bm = '_SigmaSec' + nProc + '_' + nSub;
       toc[bm] = tit;
-      resumenFilas.push(tit);
+      if (!art.fijo) resumenFilas.push(tit);
       P(parrafo(T.h2, [{ t: tit.toUpperCase() + ':', b: true }], { salto: debeSaltar(art), marcador: bm }));
-      if (OPC.incluirCodigoEnsayo) {
+      if (OPC.incluirCodigoEnsayo && !art.fijo) {
         P(parrafo(T.nota, [{ t: 'Código del ensayo en el banco: ', b: true }, { t: art.id }], { sinNum: true, runNormal: 1 }));
       }
       if (e.objetivo) {
@@ -1048,7 +1189,9 @@ const PlantillaDocx = (() => {
     const iAnx = inf.findIndex((x) => x.estilo === 'Heading1' && /^ANEXOS/.test(sinEsp(x.texto).toUpperCase()));
     const anxDiv = items.find((i) => !i.id && i.bloque === 8 && (!i.familia || !entId || i.familia === entId));
     if (iAnx >= 0 && anxDiv && parts[iAnx + 1] && parts[iAnx + 1].tag === 'w:tbl') {
-      const anx = lineas(congelar(anxDiv.html, ctx)).filter((l) => !/^ANEXOS$/i.test(l));
+      // H-05/H-09: al anexo se suman los límites aplicados y la trazabilidad URS–riesgo.
+      const anx = lineas(congelar(anxDiv.html, ctx)).filter((l) => !/^ANEXOS$/i.test(l))
+        .concat(lineasLimites(ensayos)).concat(rtmLineas(d, ensayosTodos));
       const fs = filas(parts[iAnx + 1].xml);
       const base = fs[1];
       const total = anx.length || (fs.length - 1);
@@ -1223,7 +1366,8 @@ const PlantillaDocx = (() => {
     const bytes = await escribirZip(archivos);
     return {
       bytes, fase, avisos,
-      ensayos: ensayos.map((a) => a.id),
+      // Solo ensayos del banco: los bloques fijos (desviaciones/informe) van aparte.
+      ensayos: ensayos.filter((a) => !a.fijo).map((a) => a.id),
       requisitos: artReq ? artReq.id : null,
       conclusiones,
     };
@@ -1284,6 +1428,7 @@ const PlantillaDocx = (() => {
 
   return {
     FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, soporta, configurar, generar, descargar, banco, mezclarComun,
+    LIMITES, limitesDe, aplicarLimites, limitesPendientes, limitesResumen, bloquesFijos, rtmLineas,
     _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, puntosTabla, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio },
   };
 })();

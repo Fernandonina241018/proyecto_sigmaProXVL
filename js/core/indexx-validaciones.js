@@ -101,6 +101,24 @@ const Validaciones = (() => {
         label: 'Fecha', 
         tipo: 'date', 
         req: true },
+      // H-09 (auditoría FDA): URS y análisis de riesgo con código y versión.
+      // No son `req` para no romper borradores viejos: se exigen al generar.
+      { k: 'ursCodigo',
+        label: 'URS (código)',
+        tipo: 'text',
+        req: false },
+      { k: 'ursVersion',
+        label: 'URS (versión)',
+        tipo: 'text',
+        req: false },
+      { k: 'riesgoCodigo',
+        label: 'Análisis de riesgo (código)',
+        tipo: 'text',
+        req: false },
+      { k: 'riesgoVersion',
+        label: 'Análisis de riesgo (versión)',
+        tipo: 'text',
+        req: false },
     ],
     almacenes: [
       {
@@ -579,6 +597,21 @@ const Validaciones = (() => {
     return { fases: porDefecto, cond: 'ambas' };
   }
 
+  // H-01 (auditoría FDA): OQ/PQ sin banco de familia no se emite — solo saldría
+  // el artículo común y el protocolo no demostraría operación ni desempeño.
+  // IQ siempre tiene núcleo común; estabilidad/almacenes tienen bancos completos.
+  function tieneBancoFam(fase, catId, entId) {
+    if (catId !== 'equipos' || (fase !== 'OQ' && fase !== 'PQ')) return true;
+    try {
+      if (typeof BancoEquipos !== 'undefined' && BancoEquipos.fases) {
+        const items = (BancoEquipos.fases[fase] || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3));
+        const ent = String(entId || '').trim();
+        return items.some((i) => i.familia && (!ent || i.familia === ent));
+      }
+    } catch (e) {}
+    return true;
+  }
+
   function contarGen(fase, cond, catId, entId) {
     try {
       // Equipos/estabilidad: mismo criterio que generar() — bloques 2-3, condición y familia/entidad.
@@ -861,15 +894,37 @@ const Validaciones = (() => {
 
     function pintarResumen3() {
       if (!step3 || !conGen) return;
+      // Fases sin banco de familia: se desmarcan, se deshabilitan y se rotulan.
+      step3.querySelectorAll('.gen-fase').forEach((ch) => {
+        const bloqueada = !tieneBancoFam(ch.value, catId, entActual);
+        if (bloqueada) ch.checked = false;
+        ch.disabled = bloqueada;
+        if (bloqueada) ch.title = 'Sin banco de ensayos de esta familia: no se genera protocolo vacío.';
+        else ch.removeAttribute('title');
+        const lab = ch.closest ? ch.closest('.v7-check') : null;
+        if (lab) lab.classList.toggle('sin-banco', bloqueada);
+      });
       const sel = leerSel3();
       const box = step3.querySelector('.v7-genresumen');
       if (box) {
         const parts = sel.fases.map((f) => {
           const n = contarGen(f, sel.cond, catId, entActual);
-          return f + (n == null ? '' : ' (' + n + ' ensayos)');
+          let extra = '';
+          // H-05: rotula límites provisionales o sin tabla (nunca silencioso).
+          if (typeof PlantillaDocx !== 'undefined' && PlantillaDocx.limitesResumen) {
+            try {
+              const pend = PlantillaDocx.limitesResumen(f, catId, entActual, sel.cond);
+              if ((pend.sinEntrada || []).length) extra += ' · ⛔ ' + pend.sinEntrada.length + ' límite(s) sin tabla';
+              else if ((pend.provisionales || []).length) extra += ' · ⚠ ' + pend.provisionales.length + ' límite(s) provisional(es)';
+            } catch (e) {}
+          }
+          return f + (n == null ? '' : ' (' + n + ' ensayos)') + extra;
         });
+        const todas = (GEN_FASES[catId] || FASES_GEN.slice());
+        const sinBanco = todas.filter((f) => !tieneBancoFam(f, catId, entActual));
         box.innerHTML = '<strong>DOCUMENTOS A GENERAR:</strong> '
-          + (parts.length ? esc(parts.join(' · ')) : 'ninguno seleccionado');
+          + (parts.length ? esc(parts.join(' · ')) : 'ninguno seleccionado')
+          + (sinBanco.length ? ' — <span class="v7-sin-banco">SIN BANCO DE FAMILIA: ' + esc(sinBanco.join(', ')) + '</span>' : '');
       }
       if (entActual) saveGen(entActual, sel);
     }
@@ -878,7 +933,8 @@ const Validaciones = (() => {
       if (!step3 || !conGen || !entActual) return;
       const sel = loadGen(entActual, catId);
       step3.querySelectorAll('.gen-fase').forEach((ch) => {
-        ch.checked = sel.fases.indexOf(ch.value) >= 0;
+        // Nunca se restaura una fase sin banco (defensa en profundidad H-01).
+        ch.checked = !ch.disabled && sel.fases.indexOf(ch.value) >= 0;
       });
       const condEl = step3.querySelector('.gen-cond');
       if (condEl) condEl.value = sel.cond;
@@ -902,12 +958,37 @@ const Validaciones = (() => {
       if (falta) { setGenMsg('Complete el borrador del paso 2 (' + falta + ' campo(s)).', false); return; }
       const sel = leerSel3();
       if (!sel.fases.length) { setGenMsg('Seleccione al menos un protocolo.', false); return; }
+      // H-01: nunca emitir OQ/PQ sin banco de familia (defensa en profundidad).
+      const bloqueadas = sel.fases.filter((f) => !tieneBancoFam(f, catId, entActual));
+      let permitidas = sel.fases.filter((f) => tieneBancoFam(f, catId, entActual));
+      if (!permitidas.length) { setGenMsg('Sin banco de ensayos de la familia para ' + bloqueadas.join(', ') + ': no se genera protocolo vacío.', false); return; }
+      // H-05: fases con "[n]" sin entrada en la tabla de límites no se emiten.
+      if (typeof PlantillaDocx !== 'undefined' && PlantillaDocx.limitesResumen) {
+        const sinTabla = permitidas.filter((f) => {
+          try {
+            return (PlantillaDocx.limitesResumen(f, catId, entActual, sel.cond).sinEntrada || []).length > 0;
+          } catch (e) { return false; }
+        });
+        if (sinTabla.length) {
+          if (sinTabla.length === permitidas.length) {
+            setGenMsg('Límites "[n]" sin tabla preaprobada en ' + sinTabla.join(', ') + ': complete la tabla de límites antes de generar.', false); return;
+          }
+          bloqueadas.push.apply(bloqueadas, sinTabla);
+          permitidas = permitidas.filter((f) => sinTabla.indexOf(f) < 0);
+        }
+      }
+      sel.fases = permitidas;
       saveGen(entActual, sel);
       const draft = recoger();
       draft.firmantes = leerFirmantes();
       // Blindaje: sin fecha o código no se genera (el .docx conservaría DD/MMM/AAAA)
       if (!String(draft.fecha || '').trim()) { setGenMsg('Complete la Fecha del paso 2 antes de generar.', false); return; }
       if (!String(draft.codigo || '').trim()) { setGenMsg('Complete el Código del paso 2 antes de generar.', false); return; }
+      // H-09: URS y riesgo con código y versión son obligatorios para generar.
+      if (!String(draft.ursCodigo || '').trim() || !String(draft.ursVersion || '').trim()
+        || !String(draft.riesgoCodigo || '').trim() || !String(draft.riesgoVersion || '').trim()) {
+        setGenMsg('Complete URS y análisis de riesgo (código y versión) del paso 2 antes de generar.', false); return;
+      }
       const ent = entidadObj();
       const btn = step3.querySelector('.v7-btn-download');
       if (btn) btn.disabled = true;
@@ -930,6 +1011,7 @@ const Validaciones = (() => {
           }
         }
         setGenMsg('Descargados ' + sel.fases.length + ' documento(s).', true);
+        if (bloqueadas.length) setGenMsg('Descargados ' + sel.fases.length + ' documento(s). Sin banco de familia (no generados): ' + bloqueadas.join(', ') + '.', true);
       } catch (err) {
         setGenMsg('Error al generar: ' + (err && err.message ? err.message : err), false);
       }
@@ -1179,6 +1261,6 @@ const Validaciones = (() => {
   return {
     CATS, ROUTES, ENTIDADES, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
     entidadPorNombre,
-    puestoGerente, firmantesHtml, saveDraft, loadDraft, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, resolverDescripcion,
+    puestoGerente, firmantesHtml, saveDraft, loadDraft, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, resolverDescripcion,
   };
 })();

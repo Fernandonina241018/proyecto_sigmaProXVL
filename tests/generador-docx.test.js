@@ -73,7 +73,7 @@ describe('filtros y marcas', () => {
 });
 
 describe('modelo estilo plantilla', () => {
-  test('11 secciones en el orden del modelo', () => {
+  test('12 secciones en el orden del modelo (H-11: informe final)', () => {
     const m = GeneradorDocx.buildModelo('DQ', DRAFT, ENT, 'ambas');
     expect(m.secciones.map((s) => s.h1)).toEqual([
       'FIRMA DE APROBACIÓN:',
@@ -86,6 +86,7 @@ describe('modelo estilo plantilla', () => {
       'REGISTRO DE FIRMAS:',
       'REFERENCIAS:',
       'ANEXOS:',
+      'INFORME DE CALIFICACIÓN Y DICTAMEN DE LIBERACIÓN:',
       'HISTORIAL DE CAMBIOS:',
     ]);
     const proc = m.secciones.find((s) => s.h1.startsWith('PROCEDIMIENTO'));
@@ -244,9 +245,9 @@ describe('SALTO_H1 en DQ: cada acápite abre página nueva', () => {
       }));
   };
 
-  test('11 H1: el 1.º sin salto, resto con salto', async () => {
+  test('12 H1: el 1.º sin salto, resto con salto (H-11: informe final)', async () => {
     const h1s = await h1sDe('DQ');
-    expect(h1s).toHaveLength(11);
+    expect(h1s).toHaveLength(12);
     expect(h1s[0].salto).toBe(false);
     for (const h of h1s.slice(1)) expect(h.salto).toBe(true);
   }, 30000);
@@ -337,4 +338,24 @@ describe('Objetivo en su propia línea en DQ', () => {
       .map((x) => x[0].replace(/<[^>]+>/g, '').trim().replace(/\s+/g, ' '));
     expect(paras.filter((t) => t === 'Objetivo:')).toHaveLength(conObj.length);
   }, 30000);
+
+  test('H-08/H-11: el modelo DQ trae desviaciones e informe final', () => {
+    const m = GeneradorDocx.buildModelo('DQ', DRAFT, ENT, 'ambas');
+    const h1s = m.secciones.map((s) => s.h1);
+    const proc = m.secciones.find((s) => /^PROCEDIMIENTO/.test(s.h1));
+    expect(proc.contenido.some((c) => c.texto === 'DESVIACIONES Y REENSAYOS:')).toBe(true);
+    expect(h1s.some((h) => /INFORME DE CALIFICACIÓN/.test(h))).toBe(true);
+  });
+
+  test('H-09: el anexo DQ trae trazabilidad cuando el borrador trae URS/riesgo', () => {
+    const d = { ...DRAFT, ursCodigo: 'URS-01', ursVersion: '1.0', riesgoCodigo: 'AR-01', riesgoVersion: '2.0' };
+    const m = GeneradorDocx.buildModelo('DQ', d, ENT, 'ambas');
+    const anx = m.secciones.find((s) => /^ANEXOS/.test(s.h1));
+    const plano = anx.contenido.map((c) => c.texto || '').join(' ');
+    expect(plano).toContain('TRAZABILIDAD URS–RIESGO–ENSAYO');
+    expect(plano).toContain('URS-01');
+    const m0 = GeneradorDocx.buildModelo('DQ', DRAFT, ENT, 'ambas');
+    const anx0 = m0.secciones.find((s) => /^ANEXOS/.test(s.h1));
+    expect(anx0.contenido.map((c) => c.texto || '').join(' ')).not.toContain('TRAZABILIDAD');
+  });
 });
