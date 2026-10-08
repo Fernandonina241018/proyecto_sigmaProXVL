@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos OQ — Encapsuladora</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>OQ — Encapsuladora (banco por familia, Nivel 2)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-OQ-EN 2026-10-08 v1</span></p>
+<p>Ensayos de Calificación de Operación específicos de la encapsuladora, tomados del ENSAYOS.txt del usuario. Se filtran por familia (<code>data-familia="encapsuladora"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq" data-familia="encapsuladora">
+<h2>OQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-001" class="ensayo" data-id="EQ-OQ-EN-001" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-EN-001 — Verificación de parada de emergencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la parada de emergencia detiene la máquina en un tiempo seguro y la deja en estado seguro.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con la máquina en marcha sin producto, accionar la parada de emergencia<br>
+  2) Medir el tiempo de detención<br>
+  3) Verificar el estado seguro sin rearranque espontáneo<br>
+  4) Restablecer y verificar el rearranque controlado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La máquina se detiene dentro del tiempo especificado.<br>
+  No existe rearranque espontáneo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de parada de emergencia (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-002" class="ensayo" data-id="EQ-OQ-EN-002" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-EN-002 — Verificación de interlocks</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los interlocks impiden el arranque ante guardas y puertas abiertas, tolva y cabezal de dosificación mal posicionado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con cada guarda o puerta abierta, intentar arrancar: no debe permitirlo<br>
+  2) Con la tolva retirada o sin nivel (si aplica sensor), verificar la acción<br>
+  3) Con el cabezal de dosificación mal posicionado, verificar que no arranca<br>
+  4) Registrar cada interlock con su respuesta</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ningún interlock permite la operación en condición insegura.<br>
+  Ningún interlock puede puentearse sin herramienta o clave.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de interlocks con respuesta verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-003" class="ensayo" data-id="EQ-OQ-EN-003" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-EN-003 — Verificación de alarmas y límites</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada alarma dispara y ejecuta su acción: falta de cápsulas, nivel bajo de polvo, falla de vacío, sobrecorriente, cápsula atascada, falla de cierre y falla de extracción.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular falta de cápsulas y verificar alarma y acción<br>
+  2) Simular nivel bajo de polvo y verificar alarma<br>
+  3) Simular falla de vacío y verificar alarma<br>
+  4) Simular sobrecorriente y verificar protección<br>
+  5) Simular cápsula atascada, falla de cierre y falla de extracción, verificando cada alarma<br>
+  6) Verificar el registro en el histórico</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada alarma dispara ante su condición y ejecuta su acción.<br>
+  Todas quedan registradas en el histórico.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de alarmas con disparo y acción verificados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-004" class="ensayo" data-id="EQ-OQ-EN-004" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-EN-004 — Verificación de falla y recuperación de energía</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el estado seguro ante falla de energía, sin arranque espontáneo, y el comportamiento de las cápsulas en proceso.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con la máquina en marcha, interrumpir la energía<br>
+  2) Verificar el estado seguro y la ausencia de arranque espontáneo al retornar<br>
+  3) Verificar el comportamiento de las cápsulas en proceso (retención sin daño indebido)<br>
+  4) Verificar el rearranque manual controlado y el descarte definido si aplica</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Estado seguro sin arranque espontáneo.<br>
+  Las cápsulas en proceso se tratan según lo definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de falla y recuperación de energía (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-005" class="ensayo" data-id="EQ-OQ-EN-005" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-EN-005 — Verificación de exactitud de velocidad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud de la velocidad (cápsulas por minuto) en mínimo, nominal y máximo frente a contador o cronómetro independiente.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>
+  2) Medir cada punto con contador o cronómetro independiente, por triplicado<br>
+  3) Registrar la lectura del control y la independiente<br>
+  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La velocidad indicada está dentro de tolerancia en los tres puntos.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de velocidades con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de velocidad</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-006" class="ensayo" data-id="EQ-OQ-EN-006" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-EN-006 — Verificación de corriente del motor</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la corriente del motor en cada velocidad, sin picos anormales.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar en cada velocidad y registrar la corriente estable y de arranque<br>
+  2) Comparar contra la corriente nominal de placa<br>
+  3) Verificar ausencia de picos anormales</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La corriente no supera la nominal de placa.<br>
+  Sin picos anormales en operación estable.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de corrientes (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Placa del motor principal.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-007" class="ensayo" data-id="EQ-OQ-EN-007" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-EN-007 — Verificación de vibración, ruido y temperatura</h3>
+  <p><strong>Objetivo:</strong><br>Verificar vibración, ruido y temperatura de cojinetes (si aplica medición).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar a velocidad nominal y registrar vibración y ruido (si aplica)<br>
+  2) Medir la temperatura de cojinetes tras la estabilización<br>
+  3) Comparar contra los límites del fabricante</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Vibración, ruido y temperatura dentro de lo esperado.<br>
+  Sin puntos calientes ni ruidos anormales.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de vibración y temperaturas (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-008" class="ensayo" data-id="EQ-OQ-EN-008" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-EN-008 — Verificación de piezas de cambio de formato</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada tamaño de cápsula se monta con sus piezas de formato, con ajuste y alineación correctos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Montar las piezas de formato de cada tamaño de cápsula declarado<br>
+  2) Verificar ajuste y alineación de segmentos, dosificadores y cabezal<br>
+  3) Verificar la identificación de cada juego de piezas<br>
+  4) Registrar el tiempo de cambio si el procedimiento lo exige</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada tamaño monta con ajuste y alineación correctos.<br>
+  Juegos identificados sin piezas intercambiadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de cambio de formato (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-009" class="ensayo" data-id="EQ-OQ-EN-009" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-EN-009 — Verificación de orientación de cápsulas vacías</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la orientación con cápsulas vacías: porcentaje correctamente orientado contra el criterio mínimo definido.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Correr cápsulas vacías a velocidad nominal<br>
+  2) Contar cápsulas correctamente orientadas contra el total en muestras definidas<br>
+  3) Calcular el porcentaje de orientación correcta<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El porcentaje de orientación cumple el mínimo definido.<br>
+  Sin deterioro del porcentaje a velocidad máxima.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de orientación con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de orientación</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-010" class="ensayo" data-id="EQ-OQ-EN-010" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-EN-010 — Verificación de separación de tapa y cuerpo por vacío</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el porcentaje de cápsulas bien separadas y el nivel de vacío en cada posición.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Correr cápsulas vacías registrando el nivel de vacío por posición<br>
+  2) Contar cápsulas bien separadas contra el total<br>
+  3) Calcular el porcentaje de separación correcta<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El porcentaje de separación cumple el mínimo definido.<br>
+  El vacío por posición está dentro de rango.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de separación con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de separación</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-011" class="ensayo" data-id="EQ-OQ-EN-011" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-EN-011 — Verificación de cierre de cápsula</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la longitud de la cápsula cerrada y el bloqueo (locking) correcto en una muestra, sin cápsulas abolladas o perforadas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Correr cápsulas vacías y tomar una muestra definida<br>
+  2) Medir la longitud de cierre con instrumento calibrado<br>
+  3) Verificar el bloqueo (locking) correcto por tracción o inspección definida<br>
+  4) Inspeccionar abolladuras y perforaciones<br>
+  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La longitud de cierre está dentro de especificación.<br>
+  Bloqueo correcto sin abolladuras ni perforaciones.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de cierre con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de cierre</p>
+  <p><strong>Referencia:</strong><br>Especificación de la cápsula vacía.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-012" class="ensayo" data-id="EQ-OQ-EN-012" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-EN-012 — Verificación de fuerza o presión de cierre</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el ajuste y la repetibilidad de la fuerza o presión de cierre (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la fuerza o presión de cierre en varios puntos (si aplica)<br>
+  2) Medir el valor resultante con instrumento independiente, por triplicado<br>
+  3) Verificar repetibilidad en el punto nominal<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La fuerza o presión responde al ajuste dentro de tolerancia.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de fuerza de cierre</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-013" class="ensayo" data-id="EQ-OQ-EN-013" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-EN-013 — Verificación del agitador de tolva y alimentador</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el giro y la velocidad del agitador de tolva y del alimentador (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el giro del agitador de tolva y del alimentador (si aplica)<br>
+  2) Medir la velocidad en los puntos de ajuste, por triplicado<br>
+  3) Verificar el sentido de giro contra lo especificado<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Giro correcto con velocidad dentro de tolerancia.<br>
+  Sentido de giro conforme a especificación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del agitador y alimentador</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-014" class="ensayo" data-id="EQ-OQ-EN-014" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-EN-014 — Verificación del ajuste del volumen de dosificación</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la respuesta y repetibilidad del ajuste del volumen de dosificación (altura del disco o de los pistones) al cambiarlo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar el volumen de dosificación en mínimo, medio y máximo<br>
+  2) Dosificar placebo y pesar el llenado resultante, por triplicado<br>
+  3) Verificar la respuesta del ajuste sin juego excesivo<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El llenado responde al ajuste dentro de tolerancia.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de volumen de dosificación</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-015" class="ensayo" data-id="EQ-OQ-EN-015" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-EN-015 — Verificación de fuerza de compactación del tamping</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud de la fuerza de compactación del tamping (si aplica) frente a un patrón.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la fuerza de compactación indicada contra referencia (si aplica), por triplicado<br>
+  2) Registrar en varios puntos del rango<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La fuerza indicada está dentro de tolerancia.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de tamping</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-016" class="ensayo" data-id="EQ-OQ-EN-016" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-EN-016 — Verificación de linealidad entre ajuste y peso de llenado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la linealidad entre el ajuste y el peso de llenado, con placebo en varios puntos del rango.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Variar el ajuste de dosificación en al menos cinco puntos del rango<br>
+  2) Dosificar placebo y pesar el llenado, por triplicado<br>
+  3) Ajustar la recta de regresión ajuste contra peso<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La relación es lineal dentro del criterio.<br>
+  Sin histéresis significativa.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Curva de linealidad con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de linealidad</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-017" class="ensayo" data-id="EQ-OQ-EN-017" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-EN-017 — Verificación de estabilidad del llenado en continuo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la estabilidad del llenado en operación continua a cada velocidad probada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar en continuo a cada velocidad probada durante el tiempo definido<br>
+  2) Pesar el llenado a intervalos definidos<br>
+  3) Evaluar deriva y variabilidad<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El llenado se mantiene en banda sin deriva.<br>
+  La variabilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de estabilidad de llenado</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-018" class="ensayo" data-id="EQ-OQ-EN-018" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-EN-018 — Verificación de balanza en línea o muestreador</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud de la balanza en línea o del muestreador (si aplica) frente a pesas patrón.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la balanza en línea con pesas patrón trazables en varios puntos (si aplica)<br>
+  2) Verificar el muestreador: toma en intervalos programados y representatividad (si aplica)<br>
+  3) Registrar por triplicado<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La balanza está dentro de tolerancia en todos los puntos.<br>
+  El muestreador es representativo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de balanza o muestreador</p>
+  <p><strong>Referencia:</strong><br>Certificados de pesas patrón.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-019" class="ensayo" data-id="EQ-OQ-EN-019" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-EN-019 — Verificación del mecanismo de rechazo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las cápsulas fuera de límites, vacías o mal cerradas se desvían al rechazo, con conteo correcto y sin que ninguna mala llegue al recipiente de buenas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inducir cápsulas malas de forma controlada (vacías, mal cerradas, fuera de peso)<br>
+  2) Verificar el desvío de cada una al recipiente de rechazo<br>
+  3) Verificar el conteo de rechazadas contra las inducidas<br>
+  4) Inspeccionar el recipiente de buenas: ninguna mala presente<br>
+  5) Procesar los datos crudos de conteo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100% de las cápsulas malas inducidas se rechaza.<br>
+  Ninguna mala llega al recipiente de buenas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de rechazo con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de rechazo</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-020" class="ensayo" data-id="EQ-OQ-EN-020" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-EN-020 — Verificación del lazo de corrección automático</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la respuesta del lazo de corrección automático (si aplica) ante una variación inducida y su tiempo de corrección.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar con placebo con el lazo activo (si aplica)<br>
+  2) Inducir una variación de peso y registrar la respuesta<br>
+  3) Medir el tiempo de corrección hasta retornar a la banda<br>
+  4) Verificar ausencia de oscilación sostenida<br>
+  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El lazo corrige dentro del tiempo especificado.<br>
+  Sin oscilación sostenida.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del lazo con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del lazo de corrección</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de control.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-021" class="ensayo" data-id="EQ-OQ-EN-021" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-EN-021 — Verificación de extracción en cámara y desempolvador</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la presión negativa y el caudal de extracción en la cámara de llenado y en el desempolvador.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la presión negativa en la cámara de llenado con instrumento calibrado<br>
+  2) Medir el caudal de extracción en los puntos definidos<br>
+  3) Verificar el desempolvador: operación y aspiración conectada<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Presión negativa y caudal dentro de lo especificado.<br>
+  Sin acumulación visible de polvo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de extracción con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de extracción</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-022" class="ensayo" data-id="EQ-OQ-EN-022" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-EN-022 — Verificación del pulidor o desempolvador</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el funcionamiento del pulidor o desempolvador (si aplica) y la ausencia de polvo residual sobre la cápsula.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar con placebo y activar el pulidor o desempolvador (si aplica)<br>
+  2) Inspeccionar las cápsulas a la salida: ausencia de polvo residual<br>
+  3) Verificar elementos pulidores sin daño a las cápsulas<br>
+  4) Procesar los datos crudos de inspección en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las cápsulas salen sin polvo residual visible.<br>
+  Sin daño a las cápsulas por el pulido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del pulidor</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-023" class="ensayo" data-id="EQ-OQ-EN-023" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-EN-023 — Verificación de integridad de filtros de extracción</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la integridad de los filtros de extracción (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar los filtros del sistema de extracción (si aplica) con su clasificación<br>
+  2) Verificar certificados y programa de recambio<br>
+  3) Verificar asentamiento sin bypass y diferencial con calibración vigente<br>
+  4) Procesar los datos crudos de diferencial en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los filtros corresponden a lo especificado con certificados vigentes.<br>
+  Diferencial dentro de rango sin bypass.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de filtros</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de extracción.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-024" class="ensayo" data-id="EQ-OQ-EN-024" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-EN-024 — Corrida con placebo a tres velocidades</h3>
+  <p><strong>Objetivo:</strong><br>Verificar una corrida con placebo a velocidad mínima, nominal y máxima: peso de llenado, cierre y rechazo dentro de lo esperado, sin alarmas ni desviaciones.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Correr placebo a velocidad mínima registrando llenado, cierre y rechazo<br>
+  2) Repetir a velocidad nominal y a velocidad máxima<br>
+  3) Registrar alarmas e intervenciones<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Llenado, cierre y rechazo dentro de lo esperado a las tres velocidades.<br>
+  Sin alarmas ni desviaciones no justificadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de corrida con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de corrida con placebo</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación de la encapsuladora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-EN-025" class="ensayo" data-id="EQ-OQ-EN-025" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-EN-025 — Cambio de ajuste con la máquina en marcha</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la respuesta estable ante un cambio de ajuste con la máquina en marcha.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar con placebo de forma estable<br>
+  2) Cambiar el ajuste en escalones definidos sin detener la máquina<br>
+  3) Registrar el llenado resultante en cada escalón<br>
+  4) Verificar ausencia de saltos o inestabilidad<br>
+  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El llenado responde de forma estable y sin saltos.<br>
+  Los atributos se mantienen dentro de lo esperado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de cambio de ajuste</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora.</p>
+</article>
+
+</section>
+</body>
+</html>

@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
+ "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -4486,6 +4486,799 @@ var BancoEquipos = {
     "familia": "tableteadora"
    },
    {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-001 — Verificación de parada de emergencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la parada de emergencia detiene la máquina en un tiempo seguro y la deja en estado seguro."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con la máquina en marcha sin producto, accionar la parada de emergencia<br>\n  2) Medir el tiempo de detención<br>\n  3) Verificar el estado seguro sin rearranque espontáneo<br>\n  4) Restablecer y verificar el rearranque controlado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La máquina se detiene dentro del tiempo especificado.<br>\n  No existe rearranque espontáneo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de parada de emergencia (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-002 — Verificación de interlocks",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los interlocks impiden el arranque ante guardas y puertas abiertas, tolva y cabezal de dosificación mal posicionado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con cada guarda o puerta abierta, intentar arrancar: no debe permitirlo<br>\n  2) Con la tolva retirada o sin nivel (si aplica sensor), verificar la acción<br>\n  3) Con el cabezal de dosificación mal posicionado, verificar que no arranca<br>\n  4) Registrar cada interlock con su respuesta"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ningún interlock permite la operación en condición insegura.<br>\n  Ningún interlock puede puentearse sin herramienta o clave."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de interlocks con respuesta verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-003 — Verificación de alarmas y límites",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada alarma dispara y ejecuta su acción: falta de cápsulas, nivel bajo de polvo, falla de vacío, sobrecorriente, cápsula atascada, falla de cierre y falla de extracción."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular falta de cápsulas y verificar alarma y acción<br>\n  2) Simular nivel bajo de polvo y verificar alarma<br>\n  3) Simular falla de vacío y verificar alarma<br>\n  4) Simular sobrecorriente y verificar protección<br>\n  5) Simular cápsula atascada, falla de cierre y falla de extracción, verificando cada alarma<br>\n  6) Verificar el registro en el histórico"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma dispara ante su condición y ejecuta su acción.<br>\n  Todas quedan registradas en el histórico."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de alarmas con disparo y acción verificados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-004 — Verificación de falla y recuperación de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el estado seguro ante falla de energía, sin arranque espontáneo, y el comportamiento de las cápsulas en proceso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con la máquina en marcha, interrumpir la energía<br>\n  2) Verificar el estado seguro y la ausencia de arranque espontáneo al retornar<br>\n  3) Verificar el comportamiento de las cápsulas en proceso (retención sin daño indebido)<br>\n  4) Verificar el rearranque manual controlado y el descarte definido si aplica"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Estado seguro sin arranque espontáneo.<br>\n  Las cápsulas en proceso se tratan según lo definido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de falla y recuperación de energía (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-005 — Verificación de exactitud de velocidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud de la velocidad (cápsulas por minuto) en mínimo, nominal y máximo frente a contador o cronómetro independiente."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>\n  2) Medir cada punto con contador o cronómetro independiente, por triplicado<br>\n  3) Registrar la lectura del control y la independiente<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad indicada está dentro de tolerancia en los tres puntos.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidades con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-006 — Verificación de corriente del motor",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la corriente del motor en cada velocidad, sin picos anormales."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar en cada velocidad y registrar la corriente estable y de arranque<br>\n  2) Comparar contra la corriente nominal de placa<br>\n  3) Verificar ausencia de picos anormales"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La corriente no supera la nominal de placa.<br>\n  Sin picos anormales en operación estable."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de corrientes (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Placa del motor principal."
+     }
+    ],
+    "tabla": null,
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-007 — Verificación de vibración, ruido y temperatura",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar vibración, ruido y temperatura de cojinetes (si aplica medición)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar a velocidad nominal y registrar vibración y ruido (si aplica)<br>\n  2) Medir la temperatura de cojinetes tras la estabilización<br>\n  3) Comparar contra los límites del fabricante"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Vibración, ruido y temperatura dentro de lo esperado.<br>\n  Sin puntos calientes ni ruidos anormales."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de vibración y temperaturas (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-008 — Verificación de piezas de cambio de formato",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada tamaño de cápsula se monta con sus piezas de formato, con ajuste y alineación correctos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Montar las piezas de formato de cada tamaño de cápsula declarado<br>\n  2) Verificar ajuste y alineación de segmentos, dosificadores y cabezal<br>\n  3) Verificar la identificación de cada juego de piezas<br>\n  4) Registrar el tiempo de cambio si el procedimiento lo exige"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada tamaño monta con ajuste y alineación correctos.<br>\n  Juegos identificados sin piezas intercambiadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cambio de formato (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-009 — Verificación de orientación de cápsulas vacías",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la orientación con cápsulas vacías: porcentaje correctamente orientado contra el criterio mínimo definido."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Correr cápsulas vacías a velocidad nominal<br>\n  2) Contar cápsulas correctamente orientadas contra el total en muestras definidas<br>\n  3) Calcular el porcentaje de orientación correcta<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El porcentaje de orientación cumple el mínimo definido.<br>\n  Sin deterioro del porcentaje a velocidad máxima."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de orientación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de orientación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-010 — Verificación de separación de tapa y cuerpo por vacío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el porcentaje de cápsulas bien separadas y el nivel de vacío en cada posición."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Correr cápsulas vacías registrando el nivel de vacío por posición<br>\n  2) Contar cápsulas bien separadas contra el total<br>\n  3) Calcular el porcentaje de separación correcta<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El porcentaje de separación cumple el mínimo definido.<br>\n  El vacío por posición está dentro de rango."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de separación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de separación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-011 — Verificación de cierre de cápsula",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la longitud de la cápsula cerrada y el bloqueo (locking) correcto en una muestra, sin cápsulas abolladas o perforadas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Correr cápsulas vacías y tomar una muestra definida<br>\n  2) Medir la longitud de cierre con instrumento calibrado<br>\n  3) Verificar el bloqueo (locking) correcto por tracción o inspección definida<br>\n  4) Inspeccionar abolladuras y perforaciones<br>\n  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La longitud de cierre está dentro de especificación.<br>\n  Bloqueo correcto sin abolladuras ni perforaciones."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cierre con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de cierre"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de la cápsula vacía."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-012 — Verificación de fuerza o presión de cierre",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el ajuste y la repetibilidad de la fuerza o presión de cierre (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la fuerza o presión de cierre en varios puntos (si aplica)<br>\n  2) Medir el valor resultante con instrumento independiente, por triplicado<br>\n  3) Verificar repetibilidad en el punto nominal<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La fuerza o presión responde al ajuste dentro de tolerancia.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de fuerza de cierre"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-013 — Verificación del agitador de tolva y alimentador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el giro y la velocidad del agitador de tolva y del alimentador (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el giro del agitador de tolva y del alimentador (si aplica)<br>\n  2) Medir la velocidad en los puntos de ajuste, por triplicado<br>\n  3) Verificar el sentido de giro contra lo especificado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Giro correcto con velocidad dentro de tolerancia.<br>\n  Sentido de giro conforme a especificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del agitador y alimentador"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-014 — Verificación del ajuste del volumen de dosificación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la respuesta y repetibilidad del ajuste del volumen de dosificación (altura del disco o de los pistones) al cambiarlo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar el volumen de dosificación en mínimo, medio y máximo<br>\n  2) Dosificar placebo y pesar el llenado resultante, por triplicado<br>\n  3) Verificar la respuesta del ajuste sin juego excesivo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El llenado responde al ajuste dentro de tolerancia.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de volumen de dosificación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-015 — Verificación de fuerza de compactación del tamping",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud de la fuerza de compactación del tamping (si aplica) frente a un patrón."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la fuerza de compactación indicada contra referencia (si aplica), por triplicado<br>\n  2) Registrar en varios puntos del rango<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La fuerza indicada está dentro de tolerancia.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de tamping"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-016 — Verificación de linealidad entre ajuste y peso de llenado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la linealidad entre el ajuste y el peso de llenado, con placebo en varios puntos del rango."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Variar el ajuste de dosificación en al menos cinco puntos del rango<br>\n  2) Dosificar placebo y pesar el llenado, por triplicado<br>\n  3) Ajustar la recta de regresión ajuste contra peso<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La relación es lineal dentro del criterio.<br>\n  Sin histéresis significativa."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curva de linealidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de linealidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-017 — Verificación de estabilidad del llenado en continuo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la estabilidad del llenado en operación continua a cada velocidad probada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar en continuo a cada velocidad probada durante el tiempo definido<br>\n  2) Pesar el llenado a intervalos definidos<br>\n  3) Evaluar deriva y variabilidad<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El llenado se mantiene en banda sin deriva.<br>\n  La variabilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad de llenado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-018 — Verificación de balanza en línea o muestreador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud de la balanza en línea o del muestreador (si aplica) frente a pesas patrón."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la balanza en línea con pesas patrón trazables en varios puntos (si aplica)<br>\n  2) Verificar el muestreador: toma en intervalos programados y representatividad (si aplica)<br>\n  3) Registrar por triplicado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La balanza está dentro de tolerancia en todos los puntos.<br>\n  El muestreador es representativo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de balanza o muestreador"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Certificados de pesas patrón."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-019 — Verificación del mecanismo de rechazo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las cápsulas fuera de límites, vacías o mal cerradas se desvían al rechazo, con conteo correcto y sin que ninguna mala llegue al recipiente de buenas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inducir cápsulas malas de forma controlada (vacías, mal cerradas, fuera de peso)<br>\n  2) Verificar el desvío de cada una al recipiente de rechazo<br>\n  3) Verificar el conteo de rechazadas contra las inducidas<br>\n  4) Inspeccionar el recipiente de buenas: ninguna mala presente<br>\n  5) Procesar los datos crudos de conteo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las cápsulas malas inducidas se rechaza.<br>\n  Ninguna mala llega al recipiente de buenas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rechazo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de rechazo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-020",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-020 — Verificación del lazo de corrección automático",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la respuesta del lazo de corrección automático (si aplica) ante una variación inducida y su tiempo de corrección."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar con placebo con el lazo activo (si aplica)<br>\n  2) Inducir una variación de peso y registrar la respuesta<br>\n  3) Medir el tiempo de corrección hasta retornar a la banda<br>\n  4) Verificar ausencia de oscilación sostenida<br>\n  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El lazo corrige dentro del tiempo especificado.<br>\n  Sin oscilación sostenida."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del lazo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del lazo de corrección"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de control."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-021",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-021 — Verificación de extracción en cámara y desempolvador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la presión negativa y el caudal de extracción en la cámara de llenado y en el desempolvador."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la presión negativa en la cámara de llenado con instrumento calibrado<br>\n  2) Medir el caudal de extracción en los puntos definidos<br>\n  3) Verificar el desempolvador: operación y aspiración conectada<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Presión negativa y caudal dentro de lo especificado.<br>\n  Sin acumulación visible de polvo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de extracción con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de extracción"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-022",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-022 — Verificación del pulidor o desempolvador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el funcionamiento del pulidor o desempolvador (si aplica) y la ausencia de polvo residual sobre la cápsula."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar con placebo y activar el pulidor o desempolvador (si aplica)<br>\n  2) Inspeccionar las cápsulas a la salida: ausencia de polvo residual<br>\n  3) Verificar elementos pulidores sin daño a las cápsulas<br>\n  4) Procesar los datos crudos de inspección en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las cápsulas salen sin polvo residual visible.<br>\n  Sin daño a las cápsulas por el pulido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del pulidor"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-023",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-023 — Verificación de integridad de filtros de extracción",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la integridad de los filtros de extracción (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar los filtros del sistema de extracción (si aplica) con su clasificación<br>\n  2) Verificar certificados y programa de recambio<br>\n  3) Verificar asentamiento sin bypass y diferencial con calibración vigente<br>\n  4) Procesar los datos crudos de diferencial en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los filtros corresponden a lo especificado con certificados vigentes.<br>\n  Diferencial dentro de rango sin bypass."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de filtros"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de extracción."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-024",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-024 — Corrida con placebo a tres velocidades",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar una corrida con placebo a velocidad mínima, nominal y máxima: peso de llenado, cierre y rechazo dentro de lo esperado, sin alarmas ni desviaciones."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Correr placebo a velocidad mínima registrando llenado, cierre y rechazo<br>\n  2) Repetir a velocidad nominal y a velocidad máxima<br>\n  3) Registrar alarmas e intervenciones<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Llenado, cierre y rechazo dentro de lo esperado a las tres velocidades.<br>\n  Sin alarmas ni desviaciones no justificadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de corrida con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de corrida con placebo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-025",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-025 — Cambio de ajuste con la máquina en marcha",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la respuesta estable ante un cambio de ajuste con la máquina en marcha."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar con placebo de forma estable<br>\n  2) Cambiar el ajuste en escalones definidos sin detener la máquina<br>\n  3) Registrar el llenado resultante en cada escalón<br>\n  4) Verificar ausencia de saltos o inestabilidad<br>\n  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El llenado responde de forma estable y sin saltos.<br>\n  Los atributos se mantienen dentro de lo esperado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de cambio de ajuste"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
     "kind": "div",
     "clase": "portada",
     "bloque": 1,
@@ -8594,6 +9387,582 @@ var BancoEquipos = {
     "tabla": null,
     "analisis": "si",
     "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-EN-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-001 — Tres lotes consecutivos a velocidad nominal",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño consistente con tres lotes consecutivos a velocidad nominal, justificado por análisis de riesgo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Justificar el número de lotes con el análisis de riesgo aprobado<br>\n  2) Fabricar tres lotes consecutivos a velocidad nominal registrando parámetros críticos<br>\n  3) Muestrear cada lote según el plan de muestreo aprobado<br>\n  4) Evaluar los atributos de calidad de cada lote contra especificación<br>\n  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los tres lotes cumplen todos los atributos de calidad.<br>\n  La variabilidad entre lotes está dentro de lo esperado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de los tres lotes con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de lotes consecutivos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt; (uniformidad de unidades de dosificación); EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-EN-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-002 — Corrida a velocidad mínima y máxima",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño en los extremos del rango declarado (a mayor velocidad baja el tiempo de llenado del orificio de dosificación), si aplica."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Fabricar una corrida a velocidad mínima registrando atributos críticos<br>\n  2) Fabricar una corrida a velocidad máxima registrando atributos críticos<br>\n  3) Muestrear inicio, mitad y final de cada corrida<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambas corridas cumplen todos los atributos de calidad.<br>\n  Sin llenado incompleto atribuible a la velocidad fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de corridas extremas con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad mínima y máxima"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-EN-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-003 — Lote de peor caso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño en el peor caso definido (polvo de menor fluidez o menor densidad aparente, tamaño de cápsula más pequeño o más grande, peso de llenado mínimo y máximo)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir y justificar el peor caso con el análisis de riesgo aprobado<br>\n  2) Fabricar el lote de peor caso registrando los parámetros críticos<br>\n  3) Muestrear según el plan de muestreo aprobado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El lote de peor caso cumple todos los atributos de calidad.<br>\n  La justificación del peor caso está documentada y aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Justificación del peor caso y registro del lote con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de peor caso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Análisis de riesgo del proceso; USP &lt;905&gt;."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-EN-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-004 — Muestreo al inicio, mitad y final de la corrida",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los atributos con muestreo al inicio, a la mitad y al final de la corrida, y tras paros o ajustes."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear al inicio, a la mitad y al final de cada corrida PQ<br>\n  2) Muestrear adicionalmente tras cada paro o ajuste<br>\n  3) Evaluar peso de llenado, cierre y aspecto por punto<br>\n  4) Procesar los datos crudos por punto en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los puntos cumplen los atributos dentro de especificación.<br>\n  Sin tendencia significativa entre inicio, mitad y final."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plan de muestreo y resultados con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de muestreo por punto"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; plan de muestreo aprobado."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-EN-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-005 — Peso neto de llenado individual y promedio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el peso neto de llenado individual y promedio: cápsula llena menos la tara de la cápsula vacía del mismo lote."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Tarar cápsulas vacías del mismo lote<br>\n  2) Pesar cápsulas llenas y calcular el neto individual y promedio<br>\n  3) Evaluar la variación de peso contra el criterio<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El peso neto cumple especificación individual y promedio.<br>\n  La variación de peso cumple el criterio aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de peso neto con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de peso de llenado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-EN-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-006 — Uniformidad de unidades de dosificación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la uniformidad por variación de peso o uniformidad de contenido, según la farmacopea y la especificación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Aplicar el método de la especificación (variación de peso o uniformidad de contenido)<br>\n  2) Evaluar las unidades requeridas por lote según USP &lt;905&gt;<br>\n  3) Calcular el valor de aceptación en cada lote<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El valor de aceptación cumple USP &lt;905&gt; en cada lote.<br>\n  Sin unidades fuera de los límites individuales."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Valoraciones y cálculo de aceptación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de uniformidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt; (uniformidad de unidades de dosificación)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-EN-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-007 — Longitud de cierre y aspecto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la longitud de cierre y el aspecto: sin separación, abolladuras, perforaciones, polvo en el exterior ni cápsulas sin tapa."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la longitud de cierre en la muestra de cada lote<br>\n  2) Inspeccionar aspecto contra el patrón de defectos<br>\n  3) Clasificar y contar defectos por tipo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La longitud de cierre está dentro de especificación.<br>\n  Los defectos están dentro del nivel aceptado sin defectos críticos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cierre y aspecto con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de cierre y aspecto"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Patrón de defectos aprobado; especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-EN-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-008 — Desintegración y disolución del producto terminado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la desintegración y la disolución del producto terminado en cada lote PQ."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Determinar la desintegración según el método aprobado en cada lote<br>\n  2) Determinar el perfil de disolución según el método aprobado en cada lote<br>\n  3) Registrar los resultados por lote y punto de muestreo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Desintegración y disolución cumplen especificación en cada lote.<br>\n  Sin diferencias significativas entre lotes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Resultados con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de desintegración y disolución"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;701&gt; (desintegración); USP &lt;711&gt; (disolución)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-EN-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-009 — Uniformidad entre estaciones de dosificación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el peso por segmento o por estación de dosificación (si aplica): detecta orificios o pistones con desgaste o llenado desigual que el promedio oculta."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir los segmentos o estaciones a evaluar (si aplica)<br>\n  2) Recoger cápsulas por segmento durante la corrida<br>\n  3) Pesar el llenado neto por segmento<br>\n  4) Procesar los datos crudos por segmento en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los segmentos evaluados cumplen el peso de llenado.<br>\n  Ningún segmento se desvía significativamente del promedio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Resultados por segmento con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis entre estaciones"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; análisis de riesgo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-EN-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-010 — Estabilidad del peso de llenado durante la corrida",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la estabilidad del peso de llenado durante toda la corrida, con tendencia y sin deriva."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el peso de llenado a intervalos definidos durante la corrida<br>\n  2) Graficar la tendencia contra el tiempo<br>\n  3) Evaluar deriva y variabilidad<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El peso se mantiene en banda sin deriva.<br>\n  La variabilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tendencia de peso con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad de llenado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-EN-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-011 — Flujo del polvo en la tolva",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el flujo del polvo en la tolva: sin puentes ni canalización, y llenado estable al bajar el nivel."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Observar el flujo en tolva durante la corrida<br>\n  2) Registrar eventos de puentes o canalización<br>\n  3) Verificar el llenado con nivel bajo de tolva<br>\n  4) Procesar los datos crudos de peso contra nivel en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Flujo continuo sin puentes ni canalización.<br>\n  Sin variación de llenado atribuible al nivel bajo fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de flujo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de flujo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del polvo; análisis de riesgo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-EN-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-012 — Segregación en tolva",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la segregación en tolva (si aplica): contenido del activo al inicio, medio y final."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear al inicio, medio y final de la corrida (si aplica evaluación)<br>\n  2) Valorar el contenido de activo en cada punto<br>\n  3) Comparar los tres puntos entre sí<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin diferencia significativa entre inicio, medio y final.<br>\n  El contenido cumple especificación en los tres puntos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Valoraciones por punto con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de segregación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; análisis de riesgo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-EN-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-013 — Rechazo automático con producto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que con producto se rechazan las cápsulas fuera de límites y no las buenas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Durante la corrida PQ, registrar las cápsulas rechazadas por el sistema<br>\n  2) Verificar una muestra de rechazadas: corresponden a causa real<br>\n  3) Verificar que las cápsulas buenas no se desvían al rechazo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las rechazadas corresponden a causa real verificable.<br>\n  Sin desvío indebido de cápsulas buenas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rechazo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de rechazo con producto"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-EN-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-014 — Generación de polvo y desempeño de extracción",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la generación de polvo durante la corrida con producto y el desempeño de la extracción y del desempolvado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la presión negativa y el caudal durante la corrida<br>\n  2) Recoger y pesar el polvo retenido por lote<br>\n  3) Inspeccionar la cámara al final: sin acumulación indebida<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La extracción mantiene los parámetros durante la corrida.<br>\n  El polvo generado está dentro de lo esperado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de polvo y extracción"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-EN-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-015 — Rendimiento y balance de masa",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el rendimiento y el balance de masa: carga contra cápsulas buenas, rechazos (incluidas las vacías) y pérdida de polvo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar la carga inicial de polvo y las cápsulas vacías de cada lote<br>\n  2) Contar y pesar cápsulas buenas, rechazos (incluidas vacías) y polvo recogido<br>\n  3) Cerrar el balance de masa<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El rendimiento cumple el rango especificado.<br>\n  El balance de masa cierra dentro de tolerancia."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Balances de masa con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de rendimiento"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-EN-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-016 — Operación continua durante la duración máxima del lote",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la operación continua durante la duración más larga prevista de un lote (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar de forma continua durante la duración más larga prevista (si aplica)<br>\n  2) Registrar parámetros críticos y atributos a intervalos definidos<br>\n  3) Registrar intervenciones, paros y alarmas<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Operación continua sin deriva fuera de criterio.<br>\n  Los atributos se mantienen en especificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de operación continua"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-EN-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-017 — Paros y reinicios",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el comportamiento tras una detención y reanudación (si aplica) y el descarte del material afectado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar una detención controlada durante la corrida (si aplica evaluación)<br>\n  2) Registrar el material afectado y aplicar el descarte definido<br>\n  3) Reanudar y verificar el retorno a especificación<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El material afectado se descarta según lo definido.<br>\n  Tras la reanudación los atributos retornan a especificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de paros y reinicios"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Procedimiento de operación de la encapsuladora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-EN-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-018 — Humedad ambiental en cápsulas de gelatina",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el efecto de la humedad ambiental baja o alta (si aplica): las cápsulas de gelatina se vuelven frágiles o blandas fuera de su rango, y eso afecta la separación y el cierre."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la humedad ambiental durante cada corrida PQ (si aplica)<br>\n  2) Correlacionar humedad contra separación, cierre y defectos<br>\n  3) Verificar el control ambiental del área<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro del rango ambiental controlado los atributos cumplen especificación.<br>\n  El rango ambiental queda establecido y documentado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros ambientales con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de humedad ambiental"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de la cápsula; control ambiental del área."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "encapsuladora"
    },
    {
     "kind": "div",

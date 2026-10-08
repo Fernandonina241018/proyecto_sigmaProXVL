@@ -4714,3 +4714,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-08 (147): IQ Nivel 2 tableteadora (add-on 5 ensayos)
 - **Qué:** `iq-tableteadora.html` derivado del modelo (EQ-IQ-TB-001…005): diagrama de flujo, torreta/estaciones/punzones con certificados, control de fuerza-peso-rechazo, extracción/desempolvador, guardas/sobrecarga/placa. Se suma al núcleo común EQ-IQ-001…023. Tableteadora queda IQ+OQ+PQ completa (primera Nivel 2 cerrada).
 - **Verificación:** extractor `--estricto` OK (343 artículos); Vitest 407/407, backend 60/60.
+
+### 2026-10-08 (148): OQ + PQ encapsuladora desde ENSAYOS.txt (43 ensayos)
+- **Qué:** `.txt` traía OQ+PQ encapsuladora. Creados `oq-encapsuladora.html` (25 ensayos EQ-OQ-EN, 18 con análisis: velocidad, orientación, separación por vacío, cierre, fuerza cierre, dosificación completa, peso/rechazo, extracción, placebo) y `pq-encapsuladora.html` (18 ensayos EQ-PQ-EN, todos con análisis por flags de grupo: 3 lotes, extremos, peor caso, USP 905/701/711, estaciones, segregación, gelatina/humedad).
+- **Verificación:** extractor `--estricto` OK (386 artículos); Vitest 409/409, backend 60/60. Encapsuladora: 8ª familia con OQ+PQ propio (IQ Nivel 2 pendiente).
