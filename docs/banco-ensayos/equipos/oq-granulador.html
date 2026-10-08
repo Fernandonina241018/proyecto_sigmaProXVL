@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos OQ — Granulador</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>OQ — Granulador (banco por familia, Nivel 2)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-OQ-GR 2026-10-08 v1</span></p>
+<p>Ensayos de Calificación de Operación específicos del granulador de alto cizallamiento, tomados del ENSAYOS.txt del usuario. Se filtran por familia (<code>data-familia="granulador"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq" data-familia="granulador">
+<h2>OQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-001" class="ensayo" data-id="EQ-OQ-GR-001" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-GR-001 — Verificación de parada de emergencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la parada de emergencia detiene el impulsor y el chopper en un tiempo seguro.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con impulsor y chopper girando sin producto, accionar la parada de emergencia<br>
+  2) Medir el tiempo de detención de ambos<br>
+  3) Verificar el estado seguro sin rearranque espontáneo<br>
+  4) Restablecer y verificar el rearranque controlado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Impulsor y chopper se detienen dentro del tiempo especificado.<br>
+  No existe rearranque espontáneo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de parada de emergencia (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-002" class="ensayo" data-id="EQ-OQ-GR-002" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-GR-002 — Verificación de interlocks</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que ni impulsor ni chopper giran con tapa abierta, cuba mal posicionada o sin bloquear, o válvula de descarga abierta durante el proceso.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con la tapa abierta, intentar arrancar impulsor y chopper: no debe permitirlo<br>
+  2) Con la cuba mal posicionada o sin bloquear, intentar arrancar: no debe permitirlo<br>
+  3) Con la válvula de descarga abierta durante el proceso, verificar la acción del interlock<br>
+  4) Registrar cada interlock con su respuesta</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ningún interlock permite el giro en condición insegura.<br>
+  Ningún interlock puede puentearse sin herramienta o clave.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de interlocks con respuesta verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-003" class="ensayo" data-id="EQ-OQ-GR-003" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-GR-003 — Verificación de alarmas y límites</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada alarma dispara y ejecuta su acción: sobrecorriente o sobrecarga del motor, falla del sello, alta temperatura, falla de aire de sello y sobrepresión de la cuba (si aplican).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular sobrecorriente o sobrecarga del motor y verificar alarma y protección<br>
+  2) Simular falla del sello y verificar la alarma<br>
+  3) Simular alta temperatura (si aplica sensor) y verificar la alarma<br>
+  4) Simular falla de aire de sello y sobrepresión de cuba (si aplican) y verificar cada alarma<br>
+  5) Verificar el registro en el histórico</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada alarma dispara ante su condición y ejecuta su acción.<br>
+  Todas quedan registradas en el histórico.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de alarmas con disparo y acción verificados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-004" class="ensayo" data-id="EQ-OQ-GR-004" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-GR-004 — Verificación de falla y recuperación de energía</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el estado seguro ante falla de energía, sin arranque espontáneo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con impulsor y chopper girando, interrumpir la energía<br>
+  2) Verificar el estado seguro y la ausencia de arranque espontáneo al retornar<br>
+  3) Verificar el rearranque manual controlado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Estado seguro sin arranque espontáneo.<br>
+  Rearranque manual controlado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de falla y recuperación de energía (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-005" class="ensayo" data-id="EQ-OQ-GR-005" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-005 — Verificación de exactitud de velocidad del impulsor</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la velocidad del impulsor en mínimo, nominal y máximo frente a un tacómetro independiente.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>
+  2) Medir cada punto con un tacómetro independiente calibrado, por triplicado<br>
+  3) Registrar la lectura del control y la del tacómetro<br>
+  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La velocidad indicada está dentro de tolerancia en los tres puntos.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de velocidades con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de velocidad del impulsor</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-006" class="ensayo" data-id="EQ-OQ-GR-006" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-006 — Verificación de velocidad del chopper</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la velocidad del chopper (si aplica) en las mismas condiciones que el impulsor.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la velocidad del chopper en mínimo, nominal y máximo (si aplica)<br>
+  2) Medir cada punto con instrumento independiente, por triplicado<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La velocidad está dentro de tolerancia en los tres puntos.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de velocidad del chopper</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-007" class="ensayo" data-id="EQ-OQ-GR-007" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-007 — Verificación de sentido de giro y rampas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el sentido de giro y las rampas de aceleración y desaceleración del impulsor y el chopper.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el sentido de giro de impulsor y chopper contra lo especificado<br>
+  2) Medir los tiempos de aceleración y desaceleración<br>
+  3) Verificar ausencia de golpes o vibración anormal en las rampas<br>
+  4) Procesar los datos crudos de tiempos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sentidos de giro correctos con rampas dentro de lo especificado.<br>
+  Sin anomalías durante las rampas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de rampas</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-008" class="ensayo" data-id="EQ-OQ-GR-008" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-008 — Verificación dimensional de holguras impulsor-cuba y chopper-cuba</h3>
+  <p><strong>Objetivo:</strong><br>Verificar dimensionalmente la holgura impulsor-cuba y chopper-cuba.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la holgura impulsor-cuba en los puntos definidos con instrumento calibrado<br>
+  2) Medir la holgura chopper-cuba en los puntos definidos<br>
+  3) Comparar contra la especificación del fabricante<br>
+  4) Procesar los datos crudos dimensionales en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las holguras están dentro de especificación en todos los puntos.<br>
+  Sin roces ni desgaste anormal.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro dimensional con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de holguras</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-009" class="ensayo" data-id="EQ-OQ-GR-009" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-009 — Verificación de consumo de potencia o torque</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el consumo de potencia o torque en vacío y con carga inerte, con exactitud frente a un patrón. Es la señal que muchas plantas usan como punto final.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar la potencia o torque en vacío a las velocidades de uso<br>
+  2) Registrar con carga inerte a las velocidades de uso<br>
+  3) Verificar la exactitud de la lectura frente a un patrón<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La lectura es exacta frente al patrón en vacío y con carga.<br>
+  La señal es estable y repetible.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de potencia con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de potencia o torque</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-010" class="ensayo" data-id="EQ-OQ-GR-010" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-010 — Verificación de vibración, ruido y temperatura</h3>
+  <p><strong>Objetivo:</strong><br>Verificar vibración, ruido y temperatura del motor y reductor (si aplica medición).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar a velocidad nominal y registrar vibración y ruido (si aplica)<br>
+  2) Medir la temperatura del motor y reductor tras la estabilización<br>
+  3) Comparar contra los límites del fabricante<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Vibración, ruido y temperatura dentro de lo esperado.<br>
+  Sin puntos calientes ni ruidos anormales.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de vibración y temperatura</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-011" class="ensayo" data-id="EQ-OQ-GR-011" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-011 — Verificación del sello del eje y aire de sello</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el sello del eje: sin fugas de producto ni de aire, con presión de aire de sello en rango (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inspeccionar el sello del eje: ausencia de fugas de producto y de aire<br>
+  2) Medir la presión del aire de sello y verificar que está en rango (si aplica)<br>
+  3) Verificar el fluido de barrera si lo hay: nivel y conexiones<br>
+  4) Procesar los datos crudos de presión en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin fugas en el sello del eje.<br>
+  La presión de aire de sello está en rango.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del sello</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-012" class="ensayo" data-id="EQ-OQ-GR-012" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-012 — Verificación de exactitud del caudal de aglutinante</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud del caudal de la bomba o línea de líquido en el rango de uso, con agua, en varios puntos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar el caudal en varios puntos del rango de uso<br>
+  2) Medir el caudal real con agua por método gravimétrico o volumétrico, por triplicado<br>
+  3) Registrar el ajuste contra el caudal medido<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El caudal está dentro de tolerancia en todos los puntos.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de caudales con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de caudal</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la bomba.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-013" class="ensayo" data-id="EQ-OQ-GR-013" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-013 — Verificación de boquilla de adición y patrón de aspersión</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el tipo y la posición de la boquilla o del tubo de adición: patrón de aspersión y punto de impacto sobre el lecho.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el tipo de boquilla instalada y su posición contra el diseño<br>
+  2) Verificar el patrón de aspersión con agua sobre superficie de prueba<br>
+  3) Verificar el punto de impacto sobre el lecho<br>
+  4) Procesar los datos crudos de cobertura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El patrón de aspersión es uniforme y cubre el lecho.<br>
+  La posición corresponde al diseño.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de aspersión</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-014" class="ensayo" data-id="EQ-OQ-GR-014" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-014 — Verificación de repetibilidad del caudal entre corridas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la repetibilidad del caudal entre corridas y su estabilidad durante la adición.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar adiciones de agua de igual duración en corridas sucesivas<br>
+  2) Registrar el caudal durante cada adición a intervalos definidos<br>
+  3) Evaluar la estabilidad intra-adición y la repetibilidad entre corridas<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El caudal es estable durante la adición.<br>
+  La repetibilidad entre corridas cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de repetibilidad de caudal</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la bomba.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-015" class="ensayo" data-id="EQ-OQ-GR-015" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-015 — Verificación de presión del aire de atomización</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la presión del aire de atomización (si hay boquilla neumática).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la presión del aire de atomización en el rango de uso (si aplica boquilla neumática)<br>
+  2) Medir la presión real con instrumento independiente, por triplicado<br>
+  3) Verificar estabilidad durante la aspersión<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La presión está dentro de tolerancia y es estable.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de aire de atomización</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-016" class="ensayo" data-id="EQ-OQ-GR-016" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-016 — Verificación del control de temperatura de la camisa</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el control de temperatura de la camisa (si aplica): exactitud, velocidad de calentamiento y enfriamiento con agua, a volumen mínimo y máximo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Estabilizar con agua a volumen mínimo y verificar exactitud en setpoints definidos (si aplica camisa)<br>
+  2) Registrar las curvas de calentamiento y enfriamiento a volumen mínimo y máximo<br>
+  3) Calcular velocidades y estabilidad<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Exactitud dentro de tolerancia a ambos volúmenes.<br>
+  Velocidades de calentamiento y enfriamiento según lo especificado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Curvas con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis térmico de camisa</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-017" class="ensayo" data-id="EQ-OQ-GR-017" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-017 — Verificación del sistema de vacío o presión de la cuba</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el sistema de vacío o presión de la cuba (si aplica): nivel alcanzable y prueba de fuga.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Evacuar o presurizar la cuba (si aplica) hasta el nivel de prueba<br>
+  2) Registrar el nivel alcanzable contra lo especificado<br>
+  3) Aislar y ejecutar la prueba de fuga con registro a intervalos<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El nivel alcanzable cumple lo especificado.<br>
+  La fuga no supera el límite.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de vacío o presión</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-018" class="ensayo" data-id="EQ-OQ-GR-018" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-018 — Verificación de inertización con nitrógeno</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la inertización con nitrógeno (si se usa): caudal y sensor de O₂.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar el caudal de nitrógeno en el rango de uso (si aplica inertización)<br>
+  2) Medir el caudal real y registrar la lectura del sensor de O₂<br>
+  3) Verificar que el O₂ baja al nivel especificado<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El caudal está dentro de tolerancia.<br>
+  El O₂ alcanza el nivel especificado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de inertización</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-019" class="ensayo" data-id="EQ-OQ-GR-019" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-019 — Verificación de suministros en rango operativo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el suministro de aire comprimido, agua y electricidad en rango operativo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la presión del aire comprimido en operación<br>
+  2) Verificar el suministro de agua (presión y caudal si aplica)<br>
+  3) Verificar el voltaje de alimentación en operación<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los suministros están dentro de su rango operativo.<br>
+  Sin caídas fuera de rango durante la operación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de suministros</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-020" class="ensayo" data-id="EQ-OQ-GR-020" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-020 — Calibración de celdas de carga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar las celdas de carga (si aplican): calibración con pesas patrón en varios niveles.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Calibrar las celdas de carga con pesas patrón trazables en varios niveles (si aplican)<br>
+  2) Registrar la indicación contra el patrón, por triplicado<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La indicación está dentro de tolerancia en todos los niveles.<br>
+  Las pesas cuentan con certificado vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de calibración con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de celdas de carga</p>
+  <p><strong>Referencia:</strong><br>Certificados de pesas patrón.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-021" class="ensayo" data-id="EQ-OQ-GR-021" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-021 — Verificación de válvula de descarga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la válvula de descarga: apertura, cierre, estanqueidad y ausencia de retención de material.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar la válvula de descarga: apertura y cierre completos<br>
+  2) Verificar estanqueidad con la válvula cerrada<br>
+  3) Descargar placebo y verificar ausencia de retención de material<br>
+  4) Procesar los datos crudos de retención en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Apertura y cierre completos con estanqueidad.<br>
+  Sin retención de material fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de descarga</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-022" class="ensayo" data-id="EQ-OQ-GR-022" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-022 — Verificación del molino de descarga o calibrador integrado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el molino de descarga o calibrador integrado (si aplica): velocidad, malla y sentido de giro.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la velocidad del molino contra lo especificado (si aplica)<br>
+  2) Verificar la malla instalada: tipo, número e integridad<br>
+  3) Verificar el sentido de giro<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Velocidad y sentido correctos con malla íntegra.<br>
+  La malla instalada corresponde a la especificada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del molino</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-023" class="ensayo" data-id="EQ-OQ-GR-023" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-023 — Corrida con placebo a volumen mínimo y máximo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar una corrida con polvo placebo al volumen mínimo y máximo: mezcla en seco, adición de líquido y amasado, sin alarmas ni desviaciones, con movimiento del lecho e impulsor cubierto.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Correr placebo al volumen mínimo: mezcla en seco, adición y amasado<br>
+  2) Correr placebo al volumen máximo con la misma secuencia<br>
+  3) Verificar visualmente el movimiento del lecho y que el impulsor no quede descubierto<br>
+  4) Registrar alarmas e intervenciones<br>
+  5) Procesar los datos crudos de potencia en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ambas corridas se completan sin alarmas ni desviaciones no justificadas.<br>
+  Movimiento del lecho adecuado con impulsor cubierto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de corrida con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de corrida con placebo</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-GR-024" class="ensayo" data-id="EQ-OQ-GR-024" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-GR-024 — Perfil de potencia con placebo y agua</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el perfil de potencia con placebo y agua: la señal responde a la adición y es repetible entre corridas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar el perfil de potencia durante la adición de agua al placebo<br>
+  2) Repetir en corridas sucesivas<br>
+  3) Comparar la forma y los valores entre corridas<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La señal responde a la adición de forma consistente.<br>
+  Los perfiles son repetibles entre corridas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Perfiles de potencia con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de perfil de potencia</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación del granulador.</p>
+</article>
+
+</section>
+</body>
+</html>

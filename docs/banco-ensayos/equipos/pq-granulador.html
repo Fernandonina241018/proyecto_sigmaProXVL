@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Granulador</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>PQ — Granulador (banco por familia, Nivel 2)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-GR 2026-10-08 v1</span></p>
+<p>Ensayos de Calificación de Desempeño específicos del granulador de alto cizallamiento, tomados del ENSAYOS.txt del usuario (grupos PQ marcados con análisis). Se filtran por familia (<code>data-familia="granulador"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= PQ ================= -->
+<section id="fase-pq" data-familia="granulador">
+<h2>PQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-PQ-GR-001" class="ensayo" data-id="EQ-PQ-GR-001" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-GR-001 — Tres lotes consecutivos a tamaño nominal</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño consistente con tres lotes consecutivos a tamaño nominal, con el número justificado por análisis de riesgo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Justificar el número de lotes con el análisis de riesgo aprobado<br>
+  2) Fabricar tres lotes consecutivos a tamaño nominal registrando parámetros críticos<br>
+  3) Muestrear cada lote según el plan de muestreo aprobado<br>
+  4) Evaluar los atributos del granulado de cada lote contra especificación<br>
+  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los tres lotes cumplen todos los atributos de calidad.<br>
+  La variabilidad entre lotes está dentro de lo esperado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de los tres lotes con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de lotes consecutivos</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; análisis de riesgo del proceso.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-GR-002" class="ensayo" data-id="EQ-PQ-GR-002" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-GR-002 — Lote mínimo y máximo del rango declarado</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño en los extremos del rango declarado (el mínimo es el más crítico porque el impulsor puede quedar parcialmente descubierto), si aplica.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Fabricar un lote al tamaño mínimo registrando el cubrimiento del impulsor<br>
+  2) Fabricar un lote al tamaño máximo<br>
+  3) Muestrear según el plan de muestreo aprobado<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ambos lotes cumplen todos los atributos de calidad.<br>
+  A tamaño mínimo el impulsor opera cubierto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de lotes extremos con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de rango declarado</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-GR-003" class="ensayo" data-id="EQ-PQ-GR-003" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-GR-003 — Lote de peor caso</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño en el peor caso definido (materia prima más higroscópica, mayor humedad de entrada, activo de menor fluidez, mayor concentración de aglutinante, o mayor tiempo de adición).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir y justificar el peor caso con el análisis de riesgo aprobado<br>
+  2) Fabricar el lote de peor caso registrando los parámetros críticos<br>
+  3) Muestrear según el plan de muestreo aprobado<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El lote de peor caso cumple todos los atributos de calidad.<br>
+  La justificación del peor caso está documentada y aprobada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Justificación del peor caso y registro del lote con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de peor caso</p>
+  <p><strong>Referencia:</strong><br>Análisis de riesgo del proceso.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-GR-004" class="ensayo" data-id="EQ-PQ-GR-004" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-GR-004 — Perfil de potencia o torque durante la granulación</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el perfil de potencia o torque durante toda la granulación: forma, valor al punto final y repetibilidad entre lotes.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar el perfil de potencia o torque en cada lote PQ<br>
+  2) Determinar la forma del perfil y el valor al punto final<br>
+  3) Comparar los perfiles entre lotes<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La forma del perfil es consistente entre lotes.<br>
+  El valor al punto final está dentro de la banda aprobada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Perfiles de potencia con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de perfil de potencia</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-GR-005" class="ensayo" data-id="EQ-PQ-GR-005" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-GR-005 — Adición del aglutinante con producto</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la adición del aglutinante: tiempo, caudal real y cantidad total, sin acumulación en paredes ni formación de masas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar el tiempo, el caudal real y la cantidad total adicionada en cada lote<br>
+  2) Inspeccionar paredes y tapa: sin acumulación ni formación de masas<br>
+  3) Comparar contra lo definido en el protocolo de fabricación<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Tiempo, caudal y cantidad cumplen lo definido.<br>
+  Sin acumulación en paredes ni masas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de adición con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de adición</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-GR-006" class="ensayo" data-id="EQ-PQ-GR-006" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-GR-006 — Confirmación del criterio de punto final</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar el criterio de punto final: por potencia, por tiempo o por una combinación. Debe responder a variaciones de humedad o de materia prima, y no ser solo un valor fijo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Aplicar el criterio de punto final definido (potencia, tiempo o combinación)<br>
+  2) Verificar su respuesta ante variaciones de humedad o materia prima entre lotes<br>
+  3) Confirmar que el criterio discrimina el punto correcto (atributos del granulado)<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El criterio responde a variaciones y no es un valor fijo ciego.<br>
+  El granulado en el punto final cumple atributos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Justificación del punto final con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de punto final</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-GR-007" class="ensayo" data-id="EQ-PQ-GR-007" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-GR-007 — Temperatura de la masa durante el amasado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la temperatura de la masa durante el amasado (si aplica, especialmente si el activo es termolábil).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar la temperatura de la masa durante el amasado en cada lote (si aplica)<br>
+  2) Verificar que no supera el límite para activos termolábiles<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La temperatura de la masa no supera el límite especificado.<br>
+  Sin excursiones fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros térmicos con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de temperatura de masa</p>
+  <p><strong>Referencia:</strong><br>Especificación del producto (activos termolábiles).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-GR-008" class="ensayo" data-id="EQ-PQ-GR-008" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-GR-008 — Muestreo del granulado en cuba y descarga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar los atributos con muestreo en varias ubicaciones al final (superior, medio, inferior y cerca de pared) y durante la descarga (inicio, medio y fin).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Muestrear superior, medio, inferior y cerca de pared al final del amasado<br>
+  2) Muestrear la descarga al inicio, medio y fin<br>
+  3) Evaluar humedad y aspecto por punto<br>
+  4) Procesar los datos crudos por punto en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los puntos cumplen dentro de especificación.<br>
+  Sin diferencias significativas entre ubicaciones.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Plan de muestreo y resultados con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de muestreo</p>
+  <p><strong>Referencia:</strong><br>Plan de muestreo aprobado.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-GR-009" class="ensayo" data-id="EQ-PQ-GR-009" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-GR-009 — Humedad del granulado húmedo y residual</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la humedad del granulado húmedo y, tras el secado, la humedad residual (con referencia cruzada al protocolo del secador).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la humedad del granulado húmedo al final del amasado<br>
+  2) Medir la humedad residual tras el secado según el protocolo del secador<br>
+  3) Referenciar los resultados al protocolo del secador correspondiente<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La humedad del granulado húmedo está en el rango definido.<br>
+  La humedad residual cumple especificación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de humedad con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de humedad</p>
+  <p><strong>Referencia:</strong><br>Protocolo del secador (referencia cruzada).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-GR-010" class="ensayo" data-id="EQ-PQ-GR-010" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-GR-010 — Distribución de tamaño, densidades y fluidez</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la distribución de tamaño de partícula, densidad aparente y compactada, y fluidez del granulado seco o calibrado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Determinar la distribución de tamaño de partícula por tamizado<br>
+  2) Medir densidad aparente, compactada y calcular el índice de compresibilidad<br>
+  3) Medir la fluidez (ángulo de reposo o caudal por orificio)<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Distribución, densidades y fluidez cumplen especificación.<br>
+  Sin finos excesivos fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Granulometrías y densidades con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis granulométrico</p>
+  <p><strong>Referencia:</strong><br>USP &lt;786&gt; (tamizado); USP &lt;616&gt; (densidad).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-GR-011" class="ensayo" data-id="EQ-PQ-GR-011" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-GR-011 — Uniformidad de contenido del activo en granulado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la uniformidad de contenido del activo (valoración en granulado, media y RSD) para demostrar que no hay segregación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Valorar el activo en las muestras de cuba y descarga<br>
+  2) Calcular media y RSD por lote<br>
+  3) Comparar contra el criterio de uniformidad<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La media y el RSD cumplen el criterio en cada lote.<br>
+  Sin evidencia de segregación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Valoraciones con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de uniformidad</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt; (criterio aplicable).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-GR-012" class="ensayo" data-id="EQ-PQ-GR-012" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-GR-012 — Aspecto del granulado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el aspecto: sin grumos, sin material pegado a las paredes y sin zonas sobrehúmedas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inspeccionar visualmente el granulado de cada lote<br>
+  2) Inspeccionar paredes y tapa de la cuba tras la descarga<br>
+  3) Clasificar hallazgos (grumos, pegado, zonas sobrehúmedas)<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin grumos ni zonas sobrehúmedas fuera de criterio.<br>
+  Sin pegado significativo en paredes.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de aspecto con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de aspecto</p>
+  <p><strong>Referencia:</strong><br>Especificación del granulado.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-GR-013" class="ensayo" data-id="EQ-PQ-GR-013" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-GR-013 — Estado del lecho durante el amasado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el estado del lecho durante el amasado: sin adherencia excesiva al impulsor ni a la cuba, sin sobrecarga de motor.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Observar el movimiento del lecho durante el amasado<br>
+  2) Verificar ausencia de adherencia excesiva al impulsor y a la cuba<br>
+  3) Registrar la corriente del motor durante el amasado<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Movimiento del lecho adecuado sin adherencia excesiva.<br>
+  Sin sobrecarga del motor.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del lecho</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-GR-014" class="ensayo" data-id="EQ-PQ-GR-014" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-GR-014 — Descarga y rendimiento</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la descarga y el rendimiento: balance de masa entre carga y descarga, material residual en la cuba y pérdida de polvo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pesar la carga inicial de cada lote<br>
+  2) Pesar el granulado descargado, el residual de cuba y el polvo recogido<br>
+  3) Cerrar el balance de masa<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El rendimiento cumple el rango especificado.<br>
+  El balance de masa cierra dentro de tolerancia.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Balances de masa con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de descarga y rendimiento</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-GR-015" class="ensayo" data-id="EQ-PQ-GR-015" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-GR-015 — Molino o calibrador de descarga con producto</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el molino o calibrador de descarga (si aplica): rendimiento y distribución de tamaño tras la molienda en húmedo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pasar el granulado húmedo por el molino o calibrador (si aplica)<br>
+  2) Determinar el rendimiento de la molienda<br>
+  3) Medir la distribución de tamaño tras la molienda<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El rendimiento de molienda cumple lo especificado.<br>
+  La distribución tras la molienda está en especificación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de molienda con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del molino</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-GR-016" class="ensayo" data-id="EQ-PQ-GR-016" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-GR-016 — Aptitud del granulado para la siguiente etapa</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la compresibilidad o aptitud del granulado para la siguiente etapa (si aplica): fluidez, dureza de tabletas o llenado de cápsulas en una prueba de desafío.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar la prueba de desafío definida (compresión de tabletas o llenado de cápsulas con el granulado, si aplica)<br>
+  2) Medir fluidez y atributos resultantes<br>
+  3) Comparar contra los criterios de aptitud<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El granulado es apto para la siguiente etapa según la prueba de desafío.<br>
+  Los atributos resultantes cumplen especificación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Resultados de la prueba de desafío con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de aptitud</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+</section>
+</body>
+</html>

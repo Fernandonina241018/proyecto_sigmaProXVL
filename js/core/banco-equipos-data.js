@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
+ "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -5435,6 +5435,770 @@ var BancoEquipos = {
     "familia": "encapsuladora"
    },
    {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-001 — Verificación de parada de emergencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la parada de emergencia detiene el impulsor y el chopper en un tiempo seguro."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con impulsor y chopper girando sin producto, accionar la parada de emergencia<br>\n  2) Medir el tiempo de detención de ambos<br>\n  3) Verificar el estado seguro sin rearranque espontáneo<br>\n  4) Restablecer y verificar el rearranque controlado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Impulsor y chopper se detienen dentro del tiempo especificado.<br>\n  No existe rearranque espontáneo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de parada de emergencia (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-002 — Verificación de interlocks",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que ni impulsor ni chopper giran con tapa abierta, cuba mal posicionada o sin bloquear, o válvula de descarga abierta durante el proceso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con la tapa abierta, intentar arrancar impulsor y chopper: no debe permitirlo<br>\n  2) Con la cuba mal posicionada o sin bloquear, intentar arrancar: no debe permitirlo<br>\n  3) Con la válvula de descarga abierta durante el proceso, verificar la acción del interlock<br>\n  4) Registrar cada interlock con su respuesta"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ningún interlock permite el giro en condición insegura.<br>\n  Ningún interlock puede puentearse sin herramienta o clave."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de interlocks con respuesta verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-003 — Verificación de alarmas y límites",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada alarma dispara y ejecuta su acción: sobrecorriente o sobrecarga del motor, falla del sello, alta temperatura, falla de aire de sello y sobrepresión de la cuba (si aplican)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular sobrecorriente o sobrecarga del motor y verificar alarma y protección<br>\n  2) Simular falla del sello y verificar la alarma<br>\n  3) Simular alta temperatura (si aplica sensor) y verificar la alarma<br>\n  4) Simular falla de aire de sello y sobrepresión de cuba (si aplican) y verificar cada alarma<br>\n  5) Verificar el registro en el histórico"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma dispara ante su condición y ejecuta su acción.<br>\n  Todas quedan registradas en el histórico."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de alarmas con disparo y acción verificados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-004 — Verificación de falla y recuperación de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el estado seguro ante falla de energía, sin arranque espontáneo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con impulsor y chopper girando, interrumpir la energía<br>\n  2) Verificar el estado seguro y la ausencia de arranque espontáneo al retornar<br>\n  3) Verificar el rearranque manual controlado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Estado seguro sin arranque espontáneo.<br>\n  Rearranque manual controlado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de falla y recuperación de energía (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-005 — Verificación de exactitud de velocidad del impulsor",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la velocidad del impulsor en mínimo, nominal y máximo frente a un tacómetro independiente."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>\n  2) Medir cada punto con un tacómetro independiente calibrado, por triplicado<br>\n  3) Registrar la lectura del control y la del tacómetro<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad indicada está dentro de tolerancia en los tres puntos.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidades con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad del impulsor"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-006 — Verificación de velocidad del chopper",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la velocidad del chopper (si aplica) en las mismas condiciones que el impulsor."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad del chopper en mínimo, nominal y máximo (si aplica)<br>\n  2) Medir cada punto con instrumento independiente, por triplicado<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad está dentro de tolerancia en los tres puntos.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad del chopper"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-007 — Verificación de sentido de giro y rampas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el sentido de giro y las rampas de aceleración y desaceleración del impulsor y el chopper."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el sentido de giro de impulsor y chopper contra lo especificado<br>\n  2) Medir los tiempos de aceleración y desaceleración<br>\n  3) Verificar ausencia de golpes o vibración anormal en las rampas<br>\n  4) Procesar los datos crudos de tiempos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sentidos de giro correctos con rampas dentro de lo especificado.<br>\n  Sin anomalías durante las rampas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de rampas"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-008 — Verificación dimensional de holguras impulsor-cuba y chopper-cuba",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar dimensionalmente la holgura impulsor-cuba y chopper-cuba."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la holgura impulsor-cuba en los puntos definidos con instrumento calibrado<br>\n  2) Medir la holgura chopper-cuba en los puntos definidos<br>\n  3) Comparar contra la especificación del fabricante<br>\n  4) Procesar los datos crudos dimensionales en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las holguras están dentro de especificación en todos los puntos.<br>\n  Sin roces ni desgaste anormal."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro dimensional con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de holguras"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-009 — Verificación de consumo de potencia o torque",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el consumo de potencia o torque en vacío y con carga inerte, con exactitud frente a un patrón. Es la señal que muchas plantas usan como punto final."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la potencia o torque en vacío a las velocidades de uso<br>\n  2) Registrar con carga inerte a las velocidades de uso<br>\n  3) Verificar la exactitud de la lectura frente a un patrón<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La lectura es exacta frente al patrón en vacío y con carga.<br>\n  La señal es estable y repetible."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de potencia con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de potencia o torque"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-010 — Verificación de vibración, ruido y temperatura",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar vibración, ruido y temperatura del motor y reductor (si aplica medición)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar a velocidad nominal y registrar vibración y ruido (si aplica)<br>\n  2) Medir la temperatura del motor y reductor tras la estabilización<br>\n  3) Comparar contra los límites del fabricante<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Vibración, ruido y temperatura dentro de lo esperado.<br>\n  Sin puntos calientes ni ruidos anormales."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de vibración y temperatura"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-011 — Verificación del sello del eje y aire de sello",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el sello del eje: sin fugas de producto ni de aire, con presión de aire de sello en rango (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar el sello del eje: ausencia de fugas de producto y de aire<br>\n  2) Medir la presión del aire de sello y verificar que está en rango (si aplica)<br>\n  3) Verificar el fluido de barrera si lo hay: nivel y conexiones<br>\n  4) Procesar los datos crudos de presión en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin fugas en el sello del eje.<br>\n  La presión de aire de sello está en rango."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del sello"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-012 — Verificación de exactitud del caudal de aglutinante",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud del caudal de la bomba o línea de líquido en el rango de uso, con agua, en varios puntos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar el caudal en varios puntos del rango de uso<br>\n  2) Medir el caudal real con agua por método gravimétrico o volumétrico, por triplicado<br>\n  3) Registrar el ajuste contra el caudal medido<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El caudal está dentro de tolerancia en todos los puntos.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de caudales con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de caudal"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la bomba."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-013 — Verificación de boquilla de adición y patrón de aspersión",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el tipo y la posición de la boquilla o del tubo de adición: patrón de aspersión y punto de impacto sobre el lecho."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el tipo de boquilla instalada y su posición contra el diseño<br>\n  2) Verificar el patrón de aspersión con agua sobre superficie de prueba<br>\n  3) Verificar el punto de impacto sobre el lecho<br>\n  4) Procesar los datos crudos de cobertura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El patrón de aspersión es uniforme y cubre el lecho.<br>\n  La posición corresponde al diseño."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de aspersión"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-014 — Verificación de repetibilidad del caudal entre corridas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la repetibilidad del caudal entre corridas y su estabilidad durante la adición."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar adiciones de agua de igual duración en corridas sucesivas<br>\n  2) Registrar el caudal durante cada adición a intervalos definidos<br>\n  3) Evaluar la estabilidad intra-adición y la repetibilidad entre corridas<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El caudal es estable durante la adición.<br>\n  La repetibilidad entre corridas cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de repetibilidad de caudal"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la bomba."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-015 — Verificación de presión del aire de atomización",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la presión del aire de atomización (si hay boquilla neumática)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la presión del aire de atomización en el rango de uso (si aplica boquilla neumática)<br>\n  2) Medir la presión real con instrumento independiente, por triplicado<br>\n  3) Verificar estabilidad durante la aspersión<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La presión está dentro de tolerancia y es estable.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de aire de atomización"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-016 — Verificación del control de temperatura de la camisa",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el control de temperatura de la camisa (si aplica): exactitud, velocidad de calentamiento y enfriamiento con agua, a volumen mínimo y máximo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Estabilizar con agua a volumen mínimo y verificar exactitud en setpoints definidos (si aplica camisa)<br>\n  2) Registrar las curvas de calentamiento y enfriamiento a volumen mínimo y máximo<br>\n  3) Calcular velocidades y estabilidad<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Exactitud dentro de tolerancia a ambos volúmenes.<br>\n  Velocidades de calentamiento y enfriamiento según lo especificado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curvas con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis térmico de camisa"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-017 — Verificación del sistema de vacío o presión de la cuba",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el sistema de vacío o presión de la cuba (si aplica): nivel alcanzable y prueba de fuga."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Evacuar o presurizar la cuba (si aplica) hasta el nivel de prueba<br>\n  2) Registrar el nivel alcanzable contra lo especificado<br>\n  3) Aislar y ejecutar la prueba de fuga con registro a intervalos<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El nivel alcanzable cumple lo especificado.<br>\n  La fuga no supera el límite."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de vacío o presión"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-018 — Verificación de inertización con nitrógeno",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la inertización con nitrógeno (si se usa): caudal y sensor de O₂."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar el caudal de nitrógeno en el rango de uso (si aplica inertización)<br>\n  2) Medir el caudal real y registrar la lectura del sensor de O₂<br>\n  3) Verificar que el O₂ baja al nivel especificado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El caudal está dentro de tolerancia.<br>\n  El O₂ alcanza el nivel especificado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de inertización"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-019 — Verificación de suministros en rango operativo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el suministro de aire comprimido, agua y electricidad en rango operativo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la presión del aire comprimido en operación<br>\n  2) Verificar el suministro de agua (presión y caudal si aplica)<br>\n  3) Verificar el voltaje de alimentación en operación<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los suministros están dentro de su rango operativo.<br>\n  Sin caídas fuera de rango durante la operación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de suministros"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-020",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-020 — Calibración de celdas de carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar las celdas de carga (si aplican): calibración con pesas patrón en varios niveles."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Calibrar las celdas de carga con pesas patrón trazables en varios niveles (si aplican)<br>\n  2) Registrar la indicación contra el patrón, por triplicado<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La indicación está dentro de tolerancia en todos los niveles.<br>\n  Las pesas cuentan con certificado vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de calibración con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de celdas de carga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Certificados de pesas patrón."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-021",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-021 — Verificación de válvula de descarga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la válvula de descarga: apertura, cierre, estanqueidad y ausencia de retención de material."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar la válvula de descarga: apertura y cierre completos<br>\n  2) Verificar estanqueidad con la válvula cerrada<br>\n  3) Descargar placebo y verificar ausencia de retención de material<br>\n  4) Procesar los datos crudos de retención en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Apertura y cierre completos con estanqueidad.<br>\n  Sin retención de material fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de descarga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-022",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-022 — Verificación del molino de descarga o calibrador integrado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el molino de descarga o calibrador integrado (si aplica): velocidad, malla y sentido de giro."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la velocidad del molino contra lo especificado (si aplica)<br>\n  2) Verificar la malla instalada: tipo, número e integridad<br>\n  3) Verificar el sentido de giro<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Velocidad y sentido correctos con malla íntegra.<br>\n  La malla instalada corresponde a la especificada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del molino"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-023",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-023 — Corrida con placebo a volumen mínimo y máximo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar una corrida con polvo placebo al volumen mínimo y máximo: mezcla en seco, adición de líquido y amasado, sin alarmas ni desviaciones, con movimiento del lecho e impulsor cubierto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Correr placebo al volumen mínimo: mezcla en seco, adición y amasado<br>\n  2) Correr placebo al volumen máximo con la misma secuencia<br>\n  3) Verificar visualmente el movimiento del lecho y que el impulsor no quede descubierto<br>\n  4) Registrar alarmas e intervenciones<br>\n  5) Procesar los datos crudos de potencia en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambas corridas se completan sin alarmas ni desviaciones no justificadas.<br>\n  Movimiento del lecho adecuado con impulsor cubierto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de corrida con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de corrida con placebo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GR-024",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-024 — Perfil de potencia con placebo y agua",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el perfil de potencia con placebo y agua: la señal responde a la adición y es repetible entre corridas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el perfil de potencia durante la adición de agua al placebo<br>\n  2) Repetir en corridas sucesivas<br>\n  3) Comparar la forma y los valores entre corridas<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La señal responde a la adición de forma consistente.<br>\n  Los perfiles son repetibles entre corridas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Perfiles de potencia con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de perfil de potencia"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
     "kind": "div",
     "clase": "portada",
     "bloque": 1,
@@ -10119,6 +10883,518 @@ var BancoEquipos = {
     "tabla": null,
     "analisis": "si",
     "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-GR-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-GR-001 — Tres lotes consecutivos a tamaño nominal",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño consistente con tres lotes consecutivos a tamaño nominal, con el número justificado por análisis de riesgo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Justificar el número de lotes con el análisis de riesgo aprobado<br>\n  2) Fabricar tres lotes consecutivos a tamaño nominal registrando parámetros críticos<br>\n  3) Muestrear cada lote según el plan de muestreo aprobado<br>\n  4) Evaluar los atributos del granulado de cada lote contra especificación<br>\n  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los tres lotes cumplen todos los atributos de calidad.<br>\n  La variabilidad entre lotes está dentro de lo esperado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de los tres lotes con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de lotes consecutivos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; análisis de riesgo del proceso."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-GR-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-GR-002 — Lote mínimo y máximo del rango declarado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño en los extremos del rango declarado (el mínimo es el más crítico porque el impulsor puede quedar parcialmente descubierto), si aplica."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Fabricar un lote al tamaño mínimo registrando el cubrimiento del impulsor<br>\n  2) Fabricar un lote al tamaño máximo<br>\n  3) Muestrear según el plan de muestreo aprobado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambos lotes cumplen todos los atributos de calidad.<br>\n  A tamaño mínimo el impulsor opera cubierto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de lotes extremos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de rango declarado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-GR-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-GR-003 — Lote de peor caso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño en el peor caso definido (materia prima más higroscópica, mayor humedad de entrada, activo de menor fluidez, mayor concentración de aglutinante, o mayor tiempo de adición)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir y justificar el peor caso con el análisis de riesgo aprobado<br>\n  2) Fabricar el lote de peor caso registrando los parámetros críticos<br>\n  3) Muestrear según el plan de muestreo aprobado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El lote de peor caso cumple todos los atributos de calidad.<br>\n  La justificación del peor caso está documentada y aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Justificación del peor caso y registro del lote con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de peor caso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Análisis de riesgo del proceso."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-GR-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-GR-004 — Perfil de potencia o torque durante la granulación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el perfil de potencia o torque durante toda la granulación: forma, valor al punto final y repetibilidad entre lotes."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el perfil de potencia o torque en cada lote PQ<br>\n  2) Determinar la forma del perfil y el valor al punto final<br>\n  3) Comparar los perfiles entre lotes<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La forma del perfil es consistente entre lotes.<br>\n  El valor al punto final está dentro de la banda aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Perfiles de potencia con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de perfil de potencia"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-GR-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-GR-005 — Adición del aglutinante con producto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la adición del aglutinante: tiempo, caudal real y cantidad total, sin acumulación en paredes ni formación de masas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el tiempo, el caudal real y la cantidad total adicionada en cada lote<br>\n  2) Inspeccionar paredes y tapa: sin acumulación ni formación de masas<br>\n  3) Comparar contra lo definido en el protocolo de fabricación<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tiempo, caudal y cantidad cumplen lo definido.<br>\n  Sin acumulación en paredes ni masas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de adición con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de adición"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-GR-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-GR-006 — Confirmación del criterio de punto final",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Confirmar el criterio de punto final: por potencia, por tiempo o por una combinación. Debe responder a variaciones de humedad o de materia prima, y no ser solo un valor fijo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Aplicar el criterio de punto final definido (potencia, tiempo o combinación)<br>\n  2) Verificar su respuesta ante variaciones de humedad o materia prima entre lotes<br>\n  3) Confirmar que el criterio discrimina el punto correcto (atributos del granulado)<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El criterio responde a variaciones y no es un valor fijo ciego.<br>\n  El granulado en el punto final cumple atributos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Justificación del punto final con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de punto final"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-GR-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-GR-007 — Temperatura de la masa durante el amasado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la temperatura de la masa durante el amasado (si aplica, especialmente si el activo es termolábil)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la temperatura de la masa durante el amasado en cada lote (si aplica)<br>\n  2) Verificar que no supera el límite para activos termolábiles<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La temperatura de la masa no supera el límite especificado.<br>\n  Sin excursiones fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros térmicos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de temperatura de masa"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto (activos termolábiles)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-GR-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-GR-008 — Muestreo del granulado en cuba y descarga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los atributos con muestreo en varias ubicaciones al final (superior, medio, inferior y cerca de pared) y durante la descarga (inicio, medio y fin)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear superior, medio, inferior y cerca de pared al final del amasado<br>\n  2) Muestrear la descarga al inicio, medio y fin<br>\n  3) Evaluar humedad y aspecto por punto<br>\n  4) Procesar los datos crudos por punto en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los puntos cumplen dentro de especificación.<br>\n  Sin diferencias significativas entre ubicaciones."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plan de muestreo y resultados con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de muestreo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Plan de muestreo aprobado."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-GR-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-GR-009 — Humedad del granulado húmedo y residual",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la humedad del granulado húmedo y, tras el secado, la humedad residual (con referencia cruzada al protocolo del secador)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la humedad del granulado húmedo al final del amasado<br>\n  2) Medir la humedad residual tras el secado según el protocolo del secador<br>\n  3) Referenciar los resultados al protocolo del secador correspondiente<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La humedad del granulado húmedo está en el rango definido.<br>\n  La humedad residual cumple especificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de humedad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de humedad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo del secador (referencia cruzada)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-GR-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-GR-010 — Distribución de tamaño, densidades y fluidez",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la distribución de tamaño de partícula, densidad aparente y compactada, y fluidez del granulado seco o calibrado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Determinar la distribución de tamaño de partícula por tamizado<br>\n  2) Medir densidad aparente, compactada y calcular el índice de compresibilidad<br>\n  3) Medir la fluidez (ángulo de reposo o caudal por orificio)<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Distribución, densidades y fluidez cumplen especificación.<br>\n  Sin finos excesivos fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Granulometrías y densidades con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis granulométrico"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;786&gt; (tamizado); USP &lt;616&gt; (densidad)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-GR-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-GR-011 — Uniformidad de contenido del activo en granulado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la uniformidad de contenido del activo (valoración en granulado, media y RSD) para demostrar que no hay segregación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Valorar el activo en las muestras de cuba y descarga<br>\n  2) Calcular media y RSD por lote<br>\n  3) Comparar contra el criterio de uniformidad<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La media y el RSD cumplen el criterio en cada lote.<br>\n  Sin evidencia de segregación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Valoraciones con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de uniformidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt; (criterio aplicable)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-GR-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-GR-012 — Aspecto del granulado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el aspecto: sin grumos, sin material pegado a las paredes y sin zonas sobrehúmedas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar visualmente el granulado de cada lote<br>\n  2) Inspeccionar paredes y tapa de la cuba tras la descarga<br>\n  3) Clasificar hallazgos (grumos, pegado, zonas sobrehúmedas)<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin grumos ni zonas sobrehúmedas fuera de criterio.<br>\n  Sin pegado significativo en paredes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de aspecto con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de aspecto"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del granulado."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-GR-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-GR-013 — Estado del lecho durante el amasado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el estado del lecho durante el amasado: sin adherencia excesiva al impulsor ni a la cuba, sin sobrecarga de motor."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Observar el movimiento del lecho durante el amasado<br>\n  2) Verificar ausencia de adherencia excesiva al impulsor y a la cuba<br>\n  3) Registrar la corriente del motor durante el amasado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Movimiento del lecho adecuado sin adherencia excesiva.<br>\n  Sin sobrecarga del motor."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del lecho"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-GR-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-GR-014 — Descarga y rendimiento",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la descarga y el rendimiento: balance de masa entre carga y descarga, material residual en la cuba y pérdida de polvo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar la carga inicial de cada lote<br>\n  2) Pesar el granulado descargado, el residual de cuba y el polvo recogido<br>\n  3) Cerrar el balance de masa<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El rendimiento cumple el rango especificado.<br>\n  El balance de masa cierra dentro de tolerancia."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Balances de masa con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de descarga y rendimiento"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-GR-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-GR-015 — Molino o calibrador de descarga con producto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el molino o calibrador de descarga (si aplica): rendimiento y distribución de tamaño tras la molienda en húmedo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar el granulado húmedo por el molino o calibrador (si aplica)<br>\n  2) Determinar el rendimiento de la molienda<br>\n  3) Medir la distribución de tamaño tras la molienda<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El rendimiento de molienda cumple lo especificado.<br>\n  La distribución tras la molienda está en especificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de molienda con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del molino"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del granulador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-GR-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-GR-016 — Aptitud del granulado para la siguiente etapa",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la compresibilidad o aptitud del granulado para la siguiente etapa (si aplica): fluidez, dureza de tabletas o llenado de cápsulas en una prueba de desafío."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar la prueba de desafío definida (compresión de tabletas o llenado de cápsulas con el granulado, si aplica)<br>\n  2) Medir fluidez y atributos resultantes<br>\n  3) Comparar contra los criterios de aptitud<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El granulado es apto para la siguiente etapa según la prueba de desafío.<br>\n  Los atributos resultantes cumplen especificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Resultados de la prueba de desafío con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de aptitud"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "granulador"
    },
    {
     "kind": "div",
