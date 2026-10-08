@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos OQ — Tableteadora</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>OQ — Tableteadora (banco por familia, Nivel 2)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-OQ-TB 2026-10-08 v1</span></p>
+<p>Ensayos de Calificación de Operación específicos de la tableteadora rotativa, tomados del ENSAYOS.txt del usuario. Se filtran por familia (<code>data-familia="tableteadora"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq" data-familia="tableteadora">
+<h2>OQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-001" class="ensayo" data-id="EQ-OQ-TB-001" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-TB-001 — Verificación de parada de emergencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la parada de emergencia detiene la torreta en un tiempo seguro y deja la máquina en estado seguro.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con la torreta girando a velocidad nominal sin producto, accionar la parada de emergencia<br>
+  2) Medir el tiempo de detención de la torreta<br>
+  3) Verificar el estado seguro: torreta detenida, alimentador parado, sin rearranque espontáneo<br>
+  4) Restablecer y verificar el rearranque controlado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La torreta se detiene dentro del tiempo especificado.<br>
+  No existe rearranque espontáneo tras el restablecimiento de energía.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de parada de emergencia (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-002" class="ensayo" data-id="EQ-OQ-TB-002" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-TB-002 — Verificación de interlocks</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los interlocks impiden el arranque o detienen la máquina ante puertas y guardas abiertas, ventana de compresión, tolva y contención aislada (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con cada puerta o guarda abierta, intentar arrancar: no debe permitirlo<br>
+  2) Con la ventana de compresión abierta (si aplica), intentar operar: no debe permitirlo<br>
+  3) Con la tolva retirada o sin nivel (si aplica sensor), verificar la acción del interlock<br>
+  4) Con la contención aislada abierta (si aplica), verificar que no arranca<br>
+  5) Registrar cada interlock con su respuesta</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ningún interlock permite la operación en condición insegura.<br>
+  Ningún interlock puede puentearse sin herramienta o clave.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de interlocks con respuesta verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-003" class="ensayo" data-id="EQ-OQ-TB-003" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-TB-003 — Verificación de protección de sobrecarga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la protección de sobrecarga corta la compresión al superar la fuerza máxima de diseño o de punzones.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar el sistema de sobrecarga (hidráulico o mecánico) y su ajuste<br>
+  2) Simular o provocar la condición de sobrecarga según el procedimiento del fabricante<br>
+  3) Verificar el corte de la compresión y la señalización<br>
+  4) Verificar el rearme y la recuperación de la operación</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La protección actúa al superar la fuerza máxima sin daño a punzones ni matriz.<br>
+  La máquina señaliza la sobrecarga y permite el rearme controlado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de protección de sobrecarga (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-004" class="ensayo" data-id="EQ-OQ-TB-004" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-TB-004 — Verificación de alarmas y límites</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada alarma dispara ante su condición y que la acción ocurre: sobrecorriente, fuerza fuera de límites, falla del alimentador, falla de extracción de polvo y nivel bajo de tolva (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular sobrecorriente del motor y verificar alarma y protección<br>
+  2) Simular fuerza fuera de límites y verificar alarma y acción (rechazo o paro)<br>
+  3) Simular falla del alimentador y verificar la alarma<br>
+  4) Simular falla de extracción de polvo y verificar la alarma<br>
+  5) Simular nivel bajo de tolva (si aplica sensor) y verificar la alarma<br>
+  6) Verificar el registro de cada alarma en el histórico</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada alarma dispara ante su condición y ejecuta su acción asociada.<br>
+  Todas las alarmas quedan registradas en el histórico.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de alarmas con disparo y acción verificados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-005" class="ensayo" data-id="EQ-OQ-TB-005" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-TB-005 — Verificación de falla y recuperación de energía</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que ante una falla de energía la tableteadora queda en estado seguro y sin arranque espontáneo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con la torreta girando, interrumpir la energía<br>
+  2) Verificar el estado seguro: torreta detenida, alimentador parado, sin movimientos residuales peligrosos<br>
+  3) Restablecer la energía y verificar que no hay arranque espontáneo<br>
+  4) Verificar el rearranque manual controlado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ante la falla la máquina queda en estado seguro.<br>
+  No existe arranque espontáneo al retornar la energía.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de falla y recuperación de energía (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-006" class="ensayo" data-id="EQ-OQ-TB-006" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-TB-006 — Verificación de exactitud de velocidad de la torreta</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud de la velocidad de la torreta en mínimo, nominal y máximo frente a un tacómetro independiente.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>
+  2) Medir cada punto con un tacómetro independiente calibrado, por triplicado<br>
+  3) Registrar la lectura del control y la del tacómetro en cada punto<br>
+  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La velocidad indicada está dentro de la tolerancia especificada en los tres puntos.<br>
+  La repetibilidad cumple el criterio en cada punto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de velocidades con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de velocidad de torreta</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-007" class="ensayo" data-id="EQ-OQ-TB-007" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-TB-007 — Verificación de velocidad del alimentador forzado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud y el sentido de giro de la velocidad del alimentador forzado (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la velocidad del alimentador en mínimo, nominal y máximo (si aplica)<br>
+  2) Medir cada punto con instrumento independiente, por triplicado<br>
+  3) Verificar el sentido de giro contra lo especificado<br>
+  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La velocidad está dentro de tolerancia y el sentido es correcto.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del alimentador con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de velocidad del alimentador</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-008" class="ensayo" data-id="EQ-OQ-TB-008" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-TB-008 — Verificación de concentricidad de torreta y holgura punzón-matriz</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la concentricidad de la torreta (TIR) y la holgura punzón-matriz dentro de especificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la concentricidad (TIR) de la torreta con comparador en los puntos definidos<br>
+  2) Medir la holgura punzón-matriz en una muestra de estaciones<br>
+  3) Comparar contra la especificación del fabricante y del juego de punzones<br>
+  4) Registrar desgaste o daño visible en punzones y matrices</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El TIR y la holgura están dentro de especificación.<br>
+  Sin punzones ni matrices dañados en la muestra.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de concentricidad y holguras (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Especificación del fabricante de punzones y matrices (TSM/EU).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-009" class="ensayo" data-id="EQ-OQ-TB-009" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-TB-009 — Verificación de regulación de profundidad de llenado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la respuesta y repetibilidad de la regulación de profundidad de llenado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la profundidad de llenado en mínimo, medio y máximo<br>
+  2) Medir la profundidad resultante con instrumento calibrado, por triplicado en cada punto<br>
+  3) Verificar la respuesta del ajuste (sin juego excesivo ni saltos)<br>
+  4) Procesar los datos crudos de profundidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La profundidad responde al ajuste dentro de tolerancia en los tres puntos.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de profundidad con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de profundidad de llenado</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-010" class="ensayo" data-id="EQ-OQ-TB-010" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-TB-010 — Verificación de regulación de espesor</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el ajuste de la altura de compresión y la repetibilidad de la regulación de espesor.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la altura de compresión en varios puntos del rango<br>
+  2) Comprimir placebo y medir el espesor resultante con micrómetro calibrado<br>
+  3) Verificar repetibilidad en el punto nominal<br>
+  4) Verificar ausencia de juego excesivo en el mecanismo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El espesor responde al ajuste dentro de tolerancia.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de espesor por ajuste (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-011" class="ensayo" data-id="EQ-OQ-TB-011" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-TB-011 — Verificación de corriente del motor principal</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la corriente del motor principal a velocidad mínima y máxima, sin picos anormales.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar a velocidad mínima y registrar la corriente estable y de arranque<br>
+  2) Operar a velocidad máxima y registrar la corriente estable y de arranque<br>
+  3) Comparar contra la corriente nominal de placa<br>
+  4) Verificar ausencia de picos anormales en operación estable</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La corriente no supera la nominal de placa en ningún punto.<br>
+  Sin picos anormales en operación estable.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de corrientes (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Placa del motor principal.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-012" class="ensayo" data-id="EQ-OQ-TB-012" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-TB-012 — Verificación de vibración, ruido y temperatura</h3>
+  <p><strong>Objetivo:</strong><br>Verificar vibración, ruido y temperatura de cojinetes y motor (si aplica medición).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar a velocidad nominal y registrar vibración y ruido (si aplica medición)<br>
+  2) Medir la temperatura de cojinetes principales y del motor tras la estabilización<br>
+  3) Comparar contra los límites del fabricante<br>
+  4) Verificar ausencia de ruidos anormales localizados</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Vibración, ruido y temperatura dentro de lo esperado.<br>
+  Sin puntos calientes ni ruidos anormales.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de vibración y temperaturas (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-013" class="ensayo" data-id="EQ-OQ-TB-013" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-TB-013 — Verificación de lubricación del sistema de punzones</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la lubricación del sistema de punzones (si aplica sistema automático).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el nivel y tipo de lubricante contra lo especificado (si aplica)<br>
+  2) Verificar la dosificación del sistema automático en los puntos de lubricación<br>
+  3) Verificar ausencia de exceso de lubricante que contamine el producto<br>
+  4) Verificar la alarma de nivel bajo (si aplica)</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La lubricación corresponde a lo especificado sin exceso contaminante.<br>
+  La alarma de nivel (si aplica) opera.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de lubricación (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-014" class="ensayo" data-id="EQ-OQ-TB-014" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-TB-014 — Verificación de exactitud de la fuerza de compresión principal</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud de la fuerza de compresión principal frente a la celda de referencia, en varios puntos del rango declarado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Instalar la celda de referencia calibrada según el procedimiento del fabricante<br>
+  2) Medir la fuerza indicada contra la referencia en varios puntos del rango declarado, por triplicado<br>
+  3) Registrar la lectura del control y la de la celda en cada punto<br>
+  4) Procesar los datos crudos de fuerza en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La fuerza indicada está dentro de la tolerancia especificada en todos los puntos.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de fuerzas con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de fuerza de compresión</p>
+  <p><strong>Referencia:</strong><br>Certificado de la celda de referencia.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-015" class="ensayo" data-id="EQ-OQ-TB-015" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-TB-015 — Verificación de exactitud de precompresión y fuerza de eyección</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud de la precompresión y de la fuerza de eyección frente a referencia.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la precompresión indicada contra referencia en varios puntos, por triplicado<br>
+  2) Medir la fuerza de eyección contra referencia en varios puntos, por triplicado<br>
+  3) Registrar lecturas del control y de referencia<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Precompresión y eyección dentro de tolerancia en todos los puntos.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de precompresión y eyección</p>
+  <p><strong>Referencia:</strong><br>Certificado de la celda de referencia.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-016" class="ensayo" data-id="EQ-OQ-TB-016" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-TB-016 — Verificación de linealidad entre ajuste y fuerza medida</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la linealidad entre el ajuste de profundidad o espesor y la fuerza medida.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Variar el ajuste de profundidad o espesor en al menos cinco puntos del rango<br>
+  2) Registrar la fuerza medida en cada punto, por triplicado<br>
+  3) Ajustar la recta de regresión ajuste contra fuerza<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La relación es lineal dentro del criterio (coeficiente de correlación aprobado).<br>
+  Sin histéresis significativa al subir y bajar el ajuste.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Curva de linealidad con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de linealidad</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-017" class="ensayo" data-id="EQ-OQ-TB-017" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-TB-017 — Verificación de estabilidad de la fuerza en operación continua</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la estabilidad de la fuerza en operación continua a cada velocidad probada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar en continuo a cada velocidad probada durante el tiempo definido<br>
+  2) Registrar la fuerza principal a intervalos definidos<br>
+  3) Evaluar deriva y variabilidad en cada velocidad<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La fuerza se mantiene dentro de la banda especificada sin deriva.<br>
+  La variabilidad cumple el criterio a cada velocidad.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de estabilidad con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de estabilidad de fuerza</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-018" class="ensayo" data-id="EQ-OQ-TB-018" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-TB-018 — Verificación del control automático de peso</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la respuesta del lazo de control automático de peso (si aplica) ante una variación inducida, y su tiempo de corrección.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar con placebo a velocidad nominal con el control automático activo (si aplica)<br>
+  2) Inducir una variación de peso (cambio de ajuste) y registrar la respuesta del lazo<br>
+  3) Medir el tiempo de corrección hasta retornar a la banda<br>
+  4) Verificar ausencia de oscilación sostenida<br>
+  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El lazo corrige la variación dentro del tiempo especificado.<br>
+  Sin oscilación sostenida tras la corrección.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de respuesta del lazo con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de control de peso</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de control.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-019" class="ensayo" data-id="EQ-OQ-TB-019" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-TB-019 — Verificación del mecanismo de rechazo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las tabletas fuera de límites se desvían al rechazo, con conteo correcto y sin que ninguna mala pase al recipiente de buenas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inducir tabletas fuera de límites (ajuste de fuerza fuera de banda) de forma controlada<br>
+  2) Verificar el desvío de cada tableta mala al recipiente de rechazo<br>
+  3) Verificar el conteo de rechazadas contra las inducidas<br>
+  4) Inspeccionar el recipiente de buenas: ninguna mala debe estar presente<br>
+  5) Procesar los datos crudos de conteo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100% de las tabletas malas inducidas se rechaza.<br>
+  Ninguna tableta mala llega al recipiente de buenas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de rechazo con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de rechazo</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-020" class="ensayo" data-id="EQ-OQ-TB-020" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-TB-020 — Verificación del muestreador automático</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el funcionamiento y la representatividad del muestreador automático (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar con placebo y activar el muestreador automático (si aplica)<br>
+  2) Verificar la toma en los intervalos programados<br>
+  3) Comparar la muestra automática contra muestreo manual simultáneo<br>
+  4) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El muestreador toma en los intervalos programados.<br>
+  La muestra automática es representativa (sin sesgo contra el manual).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del muestreador con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del muestreador</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-021" class="ensayo" data-id="EQ-OQ-TB-021" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-TB-021 — Verificación del contador de tabletas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud del contador de tabletas (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar una cantidad conocida de ciclos con el contador activo (si aplica)<br>
+  2) Contar manualmente o por método independiente el mismo lote<br>
+  3) Comparar ambas cuentas, por triplicado<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El conteo automático coincide con el independiente dentro de tolerancia.<br>
+  Sin tabletas contadas de más ni de menos fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de conteo con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del contador</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-022" class="ensayo" data-id="EQ-OQ-TB-022" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-TB-022 — Verificación de extracción y control de polvo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la presión negativa y el caudal de extracción en la cámara de compresión y en el desempolvador.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la presión negativa en la cámara de compresión con instrumento calibrado<br>
+  2) Medir el caudal de extracción en los puntos definidos<br>
+  3) Verificar el desempolvador: operación y puntos de aspiración libres<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Presión negativa y caudal dentro de lo especificado.<br>
+  Sin acumulación visible de polvo en la cámara.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de extracción con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de extracción</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-023" class="ensayo" data-id="EQ-OQ-TB-023" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-TB-023 — Verificación de integridad de filtros de extracción</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la integridad de los filtros del sistema de extracción (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar los filtros del sistema de extracción (si aplica) con su clasificación<br>
+  2) Verificar certificados y programa de recambio<br>
+  3) Verificar asentamiento y sellado sin bypass<br>
+  4) Verificar el diferencial de presión con calibración vigente</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los filtros corresponden a lo especificado con certificados vigentes.<br>
+  Sin bypass y con diferencial dentro de rango.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de filtros de extracción (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de extracción.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-024" class="ensayo" data-id="EQ-OQ-TB-024" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-TB-024 — Verificación del desempolvador</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el funcionamiento del desempolvador (si aplica) y la ausencia de polvo residual sobre la tableta.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar con placebo y activar el desempolvador (si aplica)<br>
+  2) Inspeccionar visualmente las tabletas a la salida: ausencia de polvo residual<br>
+  3) Verificar perforaciones o tamices del desempolvador libres y sin daño<br>
+  4) Verificar la aspiración conectada al desempolvador</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las tabletas salen sin polvo residual visible.<br>
+  El desempolvador opera sin daño a las tabletas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del desempolvador (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-025" class="ensayo" data-id="EQ-OQ-TB-025" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-TB-025 — Corrida con placebo a tres velocidades</h3>
+  <p><strong>Objetivo:</strong><br>Verificar una corrida con granulado placebo a velocidad mínima, nominal y máxima: peso, espesor, dureza y friabilidad dentro de lo esperado, sin alarmas ni desviaciones.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Correr granulado placebo a velocidad mínima registrando peso, espesor, dureza y friabilidad<br>
+  2) Repetir a velocidad nominal y a velocidad máxima<br>
+  3) Registrar alarmas e intervenciones en cada corrida<br>
+  4) Procesar los datos crudos de atributos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Peso, espesor, dureza y friabilidad dentro de lo esperado a las tres velocidades.<br>
+  Sin alarmas ni desviaciones no justificadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de corrida con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de corrida con placebo</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-TB-026" class="ensayo" data-id="EQ-OQ-TB-026" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-TB-026 — Cambio de ajuste de fuerza con la máquina en marcha</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la respuesta estable y sin saltos ante un cambio de ajuste de fuerza con la máquina en marcha.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar con placebo a velocidad nominal de forma estable<br>
+  2) Cambiar el ajuste de fuerza en escalones definidos sin detener la máquina<br>
+  3) Registrar la fuerza y los atributos resultantes en cada escalón<br>
+  4) Verificar ausencia de saltos o inestabilidad en la transición<br>
+  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La fuerza responde al ajuste de forma estable y sin saltos.<br>
+  Los atributos se mantienen dentro de lo esperado en cada escalón.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de cambios de ajuste con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de cambio de ajuste</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+</section>
+</body>
+</html>

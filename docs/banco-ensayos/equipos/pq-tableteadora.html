@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Tableteadora</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>PQ — Tableteadora (banco por familia, Nivel 2)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-TB 2026-10-08 v1</span></p>
+<p>Ensayos de Calificación de Desempeño específicos de la tableteadora rotativa, tomados del ENSAYOS.txt del usuario (grupo PQ marcado con análisis). Se filtran por familia (<code>data-familia="tableteadora"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= PQ ================= -->
+<section id="fase-pq" data-familia="tableteadora">
+<h2>PQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-001" class="ensayo" data-id="EQ-PQ-TB-001" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-001 — Tres lotes consecutivos a velocidad nominal</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño consistente de la tableteadora con tres lotes consecutivos a velocidad nominal, con el número justificado por análisis de riesgo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Justificar el número de lotes con el análisis de riesgo aprobado<br>
+  2) Fabricar tres lotes consecutivos a velocidad nominal registrando los parámetros críticos<br>
+  3) Muestrear cada lote según el plan de muestreo aprobado<br>
+  4) Evaluar los atributos de calidad de cada lote contra especificación<br>
+  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los tres lotes cumplen todos los atributos de calidad.<br>
+  La variabilidad entre lotes está dentro de lo esperado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de los tres lotes con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de lotes consecutivos</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt; (uniformidad de unidades de dosificación); EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-002" class="ensayo" data-id="EQ-PQ-TB-002" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-002 — Corrida a velocidad mínima y máxima</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño en los extremos del rango declarado (a mayor velocidad baja el tiempo de residencia y cambia el llenado), si aplica al rango operativo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Fabricar una corrida a velocidad mínima registrando atributos críticos<br>
+  2) Fabricar una corrida a velocidad máxima registrando atributos críticos<br>
+  3) Muestrear inicio, mitad y final de cada corrida<br>
+  4) Procesar los datos crudos de ambas corridas en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ambas corridas cumplen todos los atributos de calidad.<br>
+  Sin deriva de peso atribuible a la velocidad fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de corridas extremas con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de velocidad mínima y máxima</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-003" class="ensayo" data-id="EQ-PQ-TB-003" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-003 — Lote de peor caso</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño en el peor caso definido (granulado de menor fluidez, mayor finos, dureza máxima, fuerza más alta, o tableta más fina o con mayor tendencia a laminar).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir y justificar el peor caso con el análisis de riesgo aprobado<br>
+  2) Fabricar el lote de peor caso registrando los parámetros críticos<br>
+  3) Muestrear según el plan de muestreo aprobado<br>
+  4) Procesar los datos crudos del peor caso en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El lote de peor caso cumple todos los atributos de calidad.<br>
+  La justificación del peor caso está documentada y aprobada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Justificación del peor caso y registro del lote con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de peor caso</p>
+  <p><strong>Referencia:</strong><br>Análisis de riesgo del proceso; USP &lt;905&gt;.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-004" class="ensayo" data-id="EQ-PQ-TB-004" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-004 — Muestreo al inicio, mitad y final de la corrida</h3>
+  <p><strong>Objetivo:</strong><br>Verificar los atributos con muestreo al inicio, a la mitad y al final de la corrida, y tras paros o ajustes.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Muestrear al inicio, a la mitad y al final de cada corrida PQ<br>
+  2) Muestrear adicionalmente tras cada paro o ajuste de la máquina<br>
+  3) Evaluar peso, espesor, dureza y friabilidad por punto<br>
+  4) Procesar los datos crudos por punto en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los puntos cumplen los atributos dentro de especificación.<br>
+  Sin tendencia significativa entre inicio, mitad y final.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Plan de muestreo y resultados con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de muestreo por punto</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; plan de muestreo aprobado.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-005" class="ensayo" data-id="EQ-PQ-TB-005" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-005 — Peso individual y promedio, espesor, dureza y friabilidad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar peso individual y promedio (variación de peso), espesor, dureza y friabilidad en cada lote PQ.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pesar tabletas individuales y calcular promedio y variación de peso por lote<br>
+  2) Medir espesor y dureza con instrumentos calibrados<br>
+  3) Determinar la friabilidad según el método aprobado<br>
+  4) Procesar los datos crudos de atributos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Peso, espesor, dureza y friabilidad cumplen especificación en cada lote.<br>
+  La variación de peso cumple el criterio aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de atributos con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de atributos de tableta</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1216&gt; (friabilidad); USP &lt;1217&gt; (dureza); especificación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-006" class="ensayo" data-id="EQ-PQ-TB-006" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-006 — Uniformidad de dosis</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la uniformidad de dosis por variación de peso o uniformidad de contenido, según la especificación del producto.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Aplicar el método de la especificación (variación de peso o uniformidad de contenido)<br>
+  2) Evaluar las unidades requeridas por lote según USP &lt;905&gt;<br>
+  3) Calcular el valor de aceptación en cada lote<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El valor de aceptación cumple USP &lt;905&gt; en cada lote.<br>
+  Sin unidades fuera de los límites individuales.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Valoraciones y cálculo de aceptación con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de uniformidad de dosis</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt; (uniformidad de unidades de dosificación).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-007" class="ensayo" data-id="EQ-PQ-TB-007" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-007 — Desintegración y disolución del producto terminado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la desintegración y la disolución del producto terminado en cada lote PQ.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Determinar la desintegración según el método aprobado en cada lote<br>
+  2) Determinar el perfil de disolución según el método aprobado en cada lote<br>
+  3) Registrar los resultados por lote y punto de muestreo<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Desintegración y disolución cumplen especificación en cada lote.<br>
+  Sin diferencias significativas entre lotes.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Resultados de desintegración y disolución con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de desintegración y disolución</p>
+  <p><strong>Referencia:</strong><br>USP &lt;701&gt; (desintegración); USP &lt;711&gt; (disolución).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-008" class="ensayo" data-id="EQ-PQ-TB-008" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-008 — Aspecto de la tableta</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el aspecto: sin laminación, capping, pegado (sticking, picking), descostrado ni manchas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inspeccionar visualmente las muestras de cada lote contra el patrón de defectos<br>
+  2) Clasificar y contar defectos por tipo (laminación, capping, sticking, picking, descostrado, manchas)<br>
+  3) Registrar los defectos por lote y punto de muestreo<br>
+  4) Procesar los datos crudos de defectos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los defectos están dentro del nivel aceptado por tipo.<br>
+  Sin defectos críticos en ningún lote.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de defectos con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de aspecto</p>
+  <p><strong>Referencia:</strong><br>Patrón de defectos aprobado; especificación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-009" class="ensayo" data-id="EQ-PQ-TB-009" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-009 — Uniformidad entre estaciones (variación por punzón)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la variación de peso y de dureza por estación de punzón (todas las estaciones o una muestra justificada), para detectar punzones con desgaste, holgura o llenado desigual.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir las estaciones a evaluar (todas o muestra justificada por riesgo)<br>
+  2) Recoger tabletas por estación identificada durante la corrida<br>
+  3) Medir peso y dureza por estación<br>
+  4) Procesar los datos crudos por estación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todas las estaciones evaluadas cumplen peso y dureza.<br>
+  Ninguna estación se desvía significativamente del promedio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Resultados por estación con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis entre estaciones</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; análisis de riesgo (muestra de estaciones).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-010" class="ensayo" data-id="EQ-PQ-TB-010" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-010 — Estabilidad de la fuerza durante la corrida</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la estabilidad de la fuerza de compresión, precompresión y eyección durante toda la corrida, con tendencia y sin deriva.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar la fuerza de compresión, precompresión y eyección a intervalos definidos durante la corrida<br>
+  2) Graficar la tendencia de cada fuerza contra el tiempo<br>
+  3) Evaluar deriva y variabilidad<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las fuerzas se mantienen en banda sin deriva durante la corrida.<br>
+  La variabilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tendencias de fuerza con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de estabilidad de fuerza</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-011" class="ensayo" data-id="EQ-PQ-TB-011" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-011 — Control automático de peso con producto</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el control automático de peso con producto (si aplica) mantiene el peso dentro de límites durante la corrida y corrige derivas sin oscilar.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar la corrida con el control automático activo (si aplica)<br>
+  2) Registrar el peso promedio reportado por el sistema contra verificaciones manuales<br>
+  3) Verificar la corrección de derivas sin oscilación<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El peso se mantiene dentro de límites durante toda la corrida.<br>
+  Las correcciones no generan oscilación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del control con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de control de peso</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de control.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-012" class="ensayo" data-id="EQ-PQ-TB-012" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-012 — Fluidez del granulado en tolva y alimentador</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la fluidez y el flujo del granulado en tolva y alimentador: sin puentes, sin canalización y sin variación de llenado por nivel bajo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Observar el flujo en tolva y alimentador durante la corrida<br>
+  2) Registrar eventos de puentes, canalización o interrupciones de flujo<br>
+  3) Verificar el llenado con nivel bajo de tolva<br>
+  4) Procesar los datos crudos de peso contra nivel en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Flujo continuo sin puentes ni canalización.<br>
+  Sin variación de llenado atribuible al nivel bajo fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de flujo con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de fluidez</p>
+  <p><strong>Referencia:</strong><br>Especificación del granulado; análisis de riesgo.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-013" class="ensayo" data-id="EQ-PQ-TB-013" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-013 — Segregación en tolva</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la segregación en tolva (si aplica): contenido del activo al inicio, medio y final de la corrida.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Muestrear el granulado o las tabletas al inicio, medio y final de la corrida (si aplica evaluación de segregación)<br>
+  2) Valorar el contenido de activo en cada punto<br>
+  3) Comparar los tres puntos entre sí<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin diferencia significativa de contenido entre inicio, medio y final.<br>
+  El contenido cumple especificación en los tres puntos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Valoraciones por punto con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de segregación</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; análisis de riesgo.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-014" class="ensayo" data-id="EQ-PQ-TB-014" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-014 — Rechazo automático con producto</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que con producto las tabletas fuera de límites se rechazan y las buenas no.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Durante la corrida PQ, registrar las tabletas rechazadas por el sistema automático<br>
+  2) Verificar una muestra de rechazadas: corresponden a causa real (fuera de límites)<br>
+  3) Verificar que las tabletas buenas no se desvían al rechazo<br>
+  4) Procesar los datos crudos de rechazo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las rechazadas corresponden a causa real verificable.<br>
+  Sin desvío indebido de tabletas buenas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de rechazo con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de rechazo con producto</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-015" class="ensayo" data-id="EQ-PQ-TB-015" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-015 — Generación de polvo y desempeño de la extracción</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la generación de polvo y finos durante la corrida con producto, y el desempeño de la extracción.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar la presión negativa y el caudal de extracción durante la corrida<br>
+  2) Recoger y pesar el polvo retenido en el sistema de extracción por lote<br>
+  3) Inspeccionar la cámara de compresión al final: sin acumulación indebida<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La extracción mantiene los parámetros durante toda la corrida.<br>
+  El polvo generado está dentro de lo esperado sin acumulación indebida.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de extracción y polvo con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de polvo y extracción</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-016" class="ensayo" data-id="EQ-PQ-TB-016" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-016 — Rendimiento y balance de masa</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el rendimiento y el balance de masa: carga contra tabletas buenas, rechazos y pérdida de polvo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pesar la carga inicial de granulado de cada lote<br>
+  2) Pesar tabletas buenas, rechazos y polvo recogido al final<br>
+  3) Calcular el rendimiento y cerrar el balance de masa<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El rendimiento cumple el rango especificado.<br>
+  El balance de masa cierra dentro de tolerancia.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Balances de masa con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de rendimiento</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-017" class="ensayo" data-id="EQ-PQ-TB-017" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-017 — Operación continua durante la duración máxima del lote</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la operación continua durante la duración más larga prevista de un lote (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar de forma continua durante la duración más larga prevista (si aplica)<br>
+  2) Registrar parámetros críticos y atributos a intervalos definidos<br>
+  3) Registrar intervenciones, paros y alarmas<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La máquina sostiene la operación continua sin deriva fuera de criterio.<br>
+  Los atributos se mantienen en especificación durante toda la duración.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de operación continua con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de operación continua</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-018" class="ensayo" data-id="EQ-PQ-TB-018" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-018 — Paros y reinicios</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el comportamiento tras una detención y reanudación (si aplica): descarte del material afectado y retorno a especificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar una detención controlada durante la corrida (si aplica evaluación)<br>
+  2) Registrar el material afectado y aplicar el descarte definido<br>
+  3) Reanudar y verificar el retorno a especificación<br>
+  4) Procesar los datos crudos del antes y después en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El material afectado se descarta según lo definido.<br>
+  Tras la reanudación los atributos retornan a especificación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de paro y reanudación con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de paros y reinicios</p>
+  <p><strong>Referencia:</strong><br>Procedimiento de operación de la tableteadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-TB-019" class="ensayo" data-id="EQ-PQ-TB-019" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-TB-019 — Variación de humedad ambiental en producto higroscópico</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el efecto de la variación de humedad ambiental (si aplica, producto higroscópico) sobre los atributos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar la humedad ambiental durante cada corrida PQ (si aplica, producto higroscópico)<br>
+  2) Correlacionar humedad contra peso, dureza y friabilidad<br>
+  3) Verificar el control ambiental del área durante las corridas<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Dentro del rango ambiental controlado los atributos cumplen especificación.<br>
+  El rango ambiental queda establecido y documentado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros ambientales con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de humedad ambiental</p>
+  <p><strong>Referencia:</strong><br>Especificación del producto; control ambiental del área.</p>
+</article>
+
+</section>
+</body>
+</html>

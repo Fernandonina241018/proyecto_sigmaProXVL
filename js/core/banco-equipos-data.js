@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
+ "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -3510,6 +3510,826 @@ var BancoEquipos = {
     "familia": "reactor"
    },
    {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-001 — Verificación de parada de emergencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la parada de emergencia detiene la torreta en un tiempo seguro y deja la máquina en estado seguro."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con la torreta girando a velocidad nominal sin producto, accionar la parada de emergencia<br>\n  2) Medir el tiempo de detención de la torreta<br>\n  3) Verificar el estado seguro: torreta detenida, alimentador parado, sin rearranque espontáneo<br>\n  4) Restablecer y verificar el rearranque controlado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La torreta se detiene dentro del tiempo especificado.<br>\n  No existe rearranque espontáneo tras el restablecimiento de energía."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de parada de emergencia (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-002 — Verificación de interlocks",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los interlocks impiden el arranque o detienen la máquina ante puertas y guardas abiertas, ventana de compresión, tolva y contención aislada (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con cada puerta o guarda abierta, intentar arrancar: no debe permitirlo<br>\n  2) Con la ventana de compresión abierta (si aplica), intentar operar: no debe permitirlo<br>\n  3) Con la tolva retirada o sin nivel (si aplica sensor), verificar la acción del interlock<br>\n  4) Con la contención aislada abierta (si aplica), verificar que no arranca<br>\n  5) Registrar cada interlock con su respuesta"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ningún interlock permite la operación en condición insegura.<br>\n  Ningún interlock puede puentearse sin herramienta o clave."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de interlocks con respuesta verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-003 — Verificación de protección de sobrecarga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la protección de sobrecarga corta la compresión al superar la fuerza máxima de diseño o de punzones."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar el sistema de sobrecarga (hidráulico o mecánico) y su ajuste<br>\n  2) Simular o provocar la condición de sobrecarga según el procedimiento del fabricante<br>\n  3) Verificar el corte de la compresión y la señalización<br>\n  4) Verificar el rearme y la recuperación de la operación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La protección actúa al superar la fuerza máxima sin daño a punzones ni matriz.<br>\n  La máquina señaliza la sobrecarga y permite el rearme controlado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de protección de sobrecarga (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-004 — Verificación de alarmas y límites",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada alarma dispara ante su condición y que la acción ocurre: sobrecorriente, fuerza fuera de límites, falla del alimentador, falla de extracción de polvo y nivel bajo de tolva (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular sobrecorriente del motor y verificar alarma y protección<br>\n  2) Simular fuerza fuera de límites y verificar alarma y acción (rechazo o paro)<br>\n  3) Simular falla del alimentador y verificar la alarma<br>\n  4) Simular falla de extracción de polvo y verificar la alarma<br>\n  5) Simular nivel bajo de tolva (si aplica sensor) y verificar la alarma<br>\n  6) Verificar el registro de cada alarma en el histórico"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma dispara ante su condición y ejecuta su acción asociada.<br>\n  Todas las alarmas quedan registradas en el histórico."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de alarmas con disparo y acción verificados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-005 — Verificación de falla y recuperación de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que ante una falla de energía la tableteadora queda en estado seguro y sin arranque espontáneo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con la torreta girando, interrumpir la energía<br>\n  2) Verificar el estado seguro: torreta detenida, alimentador parado, sin movimientos residuales peligrosos<br>\n  3) Restablecer la energía y verificar que no hay arranque espontáneo<br>\n  4) Verificar el rearranque manual controlado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ante la falla la máquina queda en estado seguro.<br>\n  No existe arranque espontáneo al retornar la energía."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de falla y recuperación de energía (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-006 — Verificación de exactitud de velocidad de la torreta",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud de la velocidad de la torreta en mínimo, nominal y máximo frente a un tacómetro independiente."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>\n  2) Medir cada punto con un tacómetro independiente calibrado, por triplicado<br>\n  3) Registrar la lectura del control y la del tacómetro en cada punto<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad indicada está dentro de la tolerancia especificada en los tres puntos.<br>\n  La repetibilidad cumple el criterio en cada punto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidades con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad de torreta"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-007 — Verificación de velocidad del alimentador forzado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud y el sentido de giro de la velocidad del alimentador forzado (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad del alimentador en mínimo, nominal y máximo (si aplica)<br>\n  2) Medir cada punto con instrumento independiente, por triplicado<br>\n  3) Verificar el sentido de giro contra lo especificado<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad está dentro de tolerancia y el sentido es correcto.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del alimentador con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad del alimentador"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-008 — Verificación de concentricidad de torreta y holgura punzón-matriz",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la concentricidad de la torreta (TIR) y la holgura punzón-matriz dentro de especificación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la concentricidad (TIR) de la torreta con comparador en los puntos definidos<br>\n  2) Medir la holgura punzón-matriz en una muestra de estaciones<br>\n  3) Comparar contra la especificación del fabricante y del juego de punzones<br>\n  4) Registrar desgaste o daño visible en punzones y matrices"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El TIR y la holgura están dentro de especificación.<br>\n  Sin punzones ni matrices dañados en la muestra."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de concentricidad y holguras (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del fabricante de punzones y matrices (TSM/EU)."
+     }
+    ],
+    "tabla": null,
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-009 — Verificación de regulación de profundidad de llenado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la respuesta y repetibilidad de la regulación de profundidad de llenado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la profundidad de llenado en mínimo, medio y máximo<br>\n  2) Medir la profundidad resultante con instrumento calibrado, por triplicado en cada punto<br>\n  3) Verificar la respuesta del ajuste (sin juego excesivo ni saltos)<br>\n  4) Procesar los datos crudos de profundidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La profundidad responde al ajuste dentro de tolerancia en los tres puntos.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de profundidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de profundidad de llenado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-010 — Verificación de regulación de espesor",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el ajuste de la altura de compresión y la repetibilidad de la regulación de espesor."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la altura de compresión en varios puntos del rango<br>\n  2) Comprimir placebo y medir el espesor resultante con micrómetro calibrado<br>\n  3) Verificar repetibilidad en el punto nominal<br>\n  4) Verificar ausencia de juego excesivo en el mecanismo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El espesor responde al ajuste dentro de tolerancia.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de espesor por ajuste (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-011 — Verificación de corriente del motor principal",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la corriente del motor principal a velocidad mínima y máxima, sin picos anormales."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar a velocidad mínima y registrar la corriente estable y de arranque<br>\n  2) Operar a velocidad máxima y registrar la corriente estable y de arranque<br>\n  3) Comparar contra la corriente nominal de placa<br>\n  4) Verificar ausencia de picos anormales en operación estable"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La corriente no supera la nominal de placa en ningún punto.<br>\n  Sin picos anormales en operación estable."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de corrientes (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Placa del motor principal."
+     }
+    ],
+    "tabla": null,
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-012 — Verificación de vibración, ruido y temperatura",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar vibración, ruido y temperatura de cojinetes y motor (si aplica medición)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar a velocidad nominal y registrar vibración y ruido (si aplica medición)<br>\n  2) Medir la temperatura de cojinetes principales y del motor tras la estabilización<br>\n  3) Comparar contra los límites del fabricante<br>\n  4) Verificar ausencia de ruidos anormales localizados"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Vibración, ruido y temperatura dentro de lo esperado.<br>\n  Sin puntos calientes ni ruidos anormales."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de vibración y temperaturas (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-013 — Verificación de lubricación del sistema de punzones",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la lubricación del sistema de punzones (si aplica sistema automático)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el nivel y tipo de lubricante contra lo especificado (si aplica)<br>\n  2) Verificar la dosificación del sistema automático en los puntos de lubricación<br>\n  3) Verificar ausencia de exceso de lubricante que contamine el producto<br>\n  4) Verificar la alarma de nivel bajo (si aplica)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La lubricación corresponde a lo especificado sin exceso contaminante.<br>\n  La alarma de nivel (si aplica) opera."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de lubricación (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-014 — Verificación de exactitud de la fuerza de compresión principal",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud de la fuerza de compresión principal frente a la celda de referencia, en varios puntos del rango declarado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Instalar la celda de referencia calibrada según el procedimiento del fabricante<br>\n  2) Medir la fuerza indicada contra la referencia en varios puntos del rango declarado, por triplicado<br>\n  3) Registrar la lectura del control y la de la celda en cada punto<br>\n  4) Procesar los datos crudos de fuerza en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La fuerza indicada está dentro de la tolerancia especificada en todos los puntos.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de fuerzas con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de fuerza de compresión"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Certificado de la celda de referencia."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-015 — Verificación de exactitud de precompresión y fuerza de eyección",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud de la precompresión y de la fuerza de eyección frente a referencia."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la precompresión indicada contra referencia en varios puntos, por triplicado<br>\n  2) Medir la fuerza de eyección contra referencia en varios puntos, por triplicado<br>\n  3) Registrar lecturas del control y de referencia<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Precompresión y eyección dentro de tolerancia en todos los puntos.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de precompresión y eyección"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Certificado de la celda de referencia."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-016 — Verificación de linealidad entre ajuste y fuerza medida",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la linealidad entre el ajuste de profundidad o espesor y la fuerza medida."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Variar el ajuste de profundidad o espesor en al menos cinco puntos del rango<br>\n  2) Registrar la fuerza medida en cada punto, por triplicado<br>\n  3) Ajustar la recta de regresión ajuste contra fuerza<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La relación es lineal dentro del criterio (coeficiente de correlación aprobado).<br>\n  Sin histéresis significativa al subir y bajar el ajuste."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curva de linealidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de linealidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-017 — Verificación de estabilidad de la fuerza en operación continua",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la estabilidad de la fuerza en operación continua a cada velocidad probada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar en continuo a cada velocidad probada durante el tiempo definido<br>\n  2) Registrar la fuerza principal a intervalos definidos<br>\n  3) Evaluar deriva y variabilidad en cada velocidad<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La fuerza se mantiene dentro de la banda especificada sin deriva.<br>\n  La variabilidad cumple el criterio a cada velocidad."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de estabilidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad de fuerza"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-018 — Verificación del control automático de peso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la respuesta del lazo de control automático de peso (si aplica) ante una variación inducida, y su tiempo de corrección."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar con placebo a velocidad nominal con el control automático activo (si aplica)<br>\n  2) Inducir una variación de peso (cambio de ajuste) y registrar la respuesta del lazo<br>\n  3) Medir el tiempo de corrección hasta retornar a la banda<br>\n  4) Verificar ausencia de oscilación sostenida<br>\n  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El lazo corrige la variación dentro del tiempo especificado.<br>\n  Sin oscilación sostenida tras la corrección."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de respuesta del lazo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de control de peso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de control."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-019 — Verificación del mecanismo de rechazo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las tabletas fuera de límites se desvían al rechazo, con conteo correcto y sin que ninguna mala pase al recipiente de buenas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inducir tabletas fuera de límites (ajuste de fuerza fuera de banda) de forma controlada<br>\n  2) Verificar el desvío de cada tableta mala al recipiente de rechazo<br>\n  3) Verificar el conteo de rechazadas contra las inducidas<br>\n  4) Inspeccionar el recipiente de buenas: ninguna mala debe estar presente<br>\n  5) Procesar los datos crudos de conteo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las tabletas malas inducidas se rechaza.<br>\n  Ninguna tableta mala llega al recipiente de buenas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rechazo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de rechazo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-020",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-020 — Verificación del muestreador automático",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el funcionamiento y la representatividad del muestreador automático (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar con placebo y activar el muestreador automático (si aplica)<br>\n  2) Verificar la toma en los intervalos programados<br>\n  3) Comparar la muestra automática contra muestreo manual simultáneo<br>\n  4) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El muestreador toma en los intervalos programados.<br>\n  La muestra automática es representativa (sin sesgo contra el manual)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del muestreador con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del muestreador"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-021",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-021 — Verificación del contador de tabletas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud del contador de tabletas (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar una cantidad conocida de ciclos con el contador activo (si aplica)<br>\n  2) Contar manualmente o por método independiente el mismo lote<br>\n  3) Comparar ambas cuentas, por triplicado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El conteo automático coincide con el independiente dentro de tolerancia.<br>\n  Sin tabletas contadas de más ni de menos fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de conteo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del contador"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-022",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-022 — Verificación de extracción y control de polvo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la presión negativa y el caudal de extracción en la cámara de compresión y en el desempolvador."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la presión negativa en la cámara de compresión con instrumento calibrado<br>\n  2) Medir el caudal de extracción en los puntos definidos<br>\n  3) Verificar el desempolvador: operación y puntos de aspiración libres<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Presión negativa y caudal dentro de lo especificado.<br>\n  Sin acumulación visible de polvo en la cámara."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de extracción con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de extracción"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-023",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-023 — Verificación de integridad de filtros de extracción",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la integridad de los filtros del sistema de extracción (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar los filtros del sistema de extracción (si aplica) con su clasificación<br>\n  2) Verificar certificados y programa de recambio<br>\n  3) Verificar asentamiento y sellado sin bypass<br>\n  4) Verificar el diferencial de presión con calibración vigente"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los filtros corresponden a lo especificado con certificados vigentes.<br>\n  Sin bypass y con diferencial dentro de rango."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de filtros de extracción (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de extracción."
+     }
+    ],
+    "tabla": null,
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-024",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-024 — Verificación del desempolvador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el funcionamiento del desempolvador (si aplica) y la ausencia de polvo residual sobre la tableta."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar con placebo y activar el desempolvador (si aplica)<br>\n  2) Inspeccionar visualmente las tabletas a la salida: ausencia de polvo residual<br>\n  3) Verificar perforaciones o tamices del desempolvador libres y sin daño<br>\n  4) Verificar la aspiración conectada al desempolvador"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las tabletas salen sin polvo residual visible.<br>\n  El desempolvador opera sin daño a las tabletas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del desempolvador (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-025",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-025 — Corrida con placebo a tres velocidades",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar una corrida con granulado placebo a velocidad mínima, nominal y máxima: peso, espesor, dureza y friabilidad dentro de lo esperado, sin alarmas ni desviaciones."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Correr granulado placebo a velocidad mínima registrando peso, espesor, dureza y friabilidad<br>\n  2) Repetir a velocidad nominal y a velocidad máxima<br>\n  3) Registrar alarmas e intervenciones en cada corrida<br>\n  4) Procesar los datos crudos de atributos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Peso, espesor, dureza y friabilidad dentro de lo esperado a las tres velocidades.<br>\n  Sin alarmas ni desviaciones no justificadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de corrida con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de corrida con placebo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TB-026",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-026 — Cambio de ajuste de fuerza con la máquina en marcha",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la respuesta estable y sin saltos ante un cambio de ajuste de fuerza con la máquina en marcha."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar con placebo a velocidad nominal de forma estable<br>\n  2) Cambiar el ajuste de fuerza en escalones definidos sin detener la máquina<br>\n  3) Registrar la fuerza y los atributos resultantes en cada escalón<br>\n  4) Verificar ausencia de saltos o inestabilidad en la transición<br>\n  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La fuerza responde al ajuste de forma estable y sin saltos.<br>\n  Los atributos se mantienen dentro de lo esperado en cada escalón."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cambios de ajuste con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de cambio de ajuste"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
     "kind": "div",
     "clase": "portada",
     "bloque": 1,
@@ -7010,6 +7830,614 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-001 — Tres lotes consecutivos a velocidad nominal",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño consistente de la tableteadora con tres lotes consecutivos a velocidad nominal, con el número justificado por análisis de riesgo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Justificar el número de lotes con el análisis de riesgo aprobado<br>\n  2) Fabricar tres lotes consecutivos a velocidad nominal registrando los parámetros críticos<br>\n  3) Muestrear cada lote según el plan de muestreo aprobado<br>\n  4) Evaluar los atributos de calidad de cada lote contra especificación<br>\n  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los tres lotes cumplen todos los atributos de calidad.<br>\n  La variabilidad entre lotes está dentro de lo esperado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de los tres lotes con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de lotes consecutivos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt; (uniformidad de unidades de dosificación); EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-002 — Corrida a velocidad mínima y máxima",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño en los extremos del rango declarado (a mayor velocidad baja el tiempo de residencia y cambia el llenado), si aplica al rango operativo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Fabricar una corrida a velocidad mínima registrando atributos críticos<br>\n  2) Fabricar una corrida a velocidad máxima registrando atributos críticos<br>\n  3) Muestrear inicio, mitad y final de cada corrida<br>\n  4) Procesar los datos crudos de ambas corridas en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambas corridas cumplen todos los atributos de calidad.<br>\n  Sin deriva de peso atribuible a la velocidad fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de corridas extremas con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad mínima y máxima"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-003 — Lote de peor caso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño en el peor caso definido (granulado de menor fluidez, mayor finos, dureza máxima, fuerza más alta, o tableta más fina o con mayor tendencia a laminar)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir y justificar el peor caso con el análisis de riesgo aprobado<br>\n  2) Fabricar el lote de peor caso registrando los parámetros críticos<br>\n  3) Muestrear según el plan de muestreo aprobado<br>\n  4) Procesar los datos crudos del peor caso en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El lote de peor caso cumple todos los atributos de calidad.<br>\n  La justificación del peor caso está documentada y aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Justificación del peor caso y registro del lote con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de peor caso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Análisis de riesgo del proceso; USP &lt;905&gt;."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-004 — Muestreo al inicio, mitad y final de la corrida",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los atributos con muestreo al inicio, a la mitad y al final de la corrida, y tras paros o ajustes."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear al inicio, a la mitad y al final de cada corrida PQ<br>\n  2) Muestrear adicionalmente tras cada paro o ajuste de la máquina<br>\n  3) Evaluar peso, espesor, dureza y friabilidad por punto<br>\n  4) Procesar los datos crudos por punto en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los puntos cumplen los atributos dentro de especificación.<br>\n  Sin tendencia significativa entre inicio, mitad y final."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plan de muestreo y resultados con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de muestreo por punto"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; plan de muestreo aprobado."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-005 — Peso individual y promedio, espesor, dureza y friabilidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar peso individual y promedio (variación de peso), espesor, dureza y friabilidad en cada lote PQ."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar tabletas individuales y calcular promedio y variación de peso por lote<br>\n  2) Medir espesor y dureza con instrumentos calibrados<br>\n  3) Determinar la friabilidad según el método aprobado<br>\n  4) Procesar los datos crudos de atributos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Peso, espesor, dureza y friabilidad cumplen especificación en cada lote.<br>\n  La variación de peso cumple el criterio aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de atributos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de atributos de tableta"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1216&gt; (friabilidad); USP &lt;1217&gt; (dureza); especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-006 — Uniformidad de dosis",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la uniformidad de dosis por variación de peso o uniformidad de contenido, según la especificación del producto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Aplicar el método de la especificación (variación de peso o uniformidad de contenido)<br>\n  2) Evaluar las unidades requeridas por lote según USP &lt;905&gt;<br>\n  3) Calcular el valor de aceptación en cada lote<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El valor de aceptación cumple USP &lt;905&gt; en cada lote.<br>\n  Sin unidades fuera de los límites individuales."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Valoraciones y cálculo de aceptación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de uniformidad de dosis"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt; (uniformidad de unidades de dosificación)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-007 — Desintegración y disolución del producto terminado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la desintegración y la disolución del producto terminado en cada lote PQ."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Determinar la desintegración según el método aprobado en cada lote<br>\n  2) Determinar el perfil de disolución según el método aprobado en cada lote<br>\n  3) Registrar los resultados por lote y punto de muestreo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Desintegración y disolución cumplen especificación en cada lote.<br>\n  Sin diferencias significativas entre lotes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Resultados de desintegración y disolución con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de desintegración y disolución"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;701&gt; (desintegración); USP &lt;711&gt; (disolución)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-008 — Aspecto de la tableta",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el aspecto: sin laminación, capping, pegado (sticking, picking), descostrado ni manchas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar visualmente las muestras de cada lote contra el patrón de defectos<br>\n  2) Clasificar y contar defectos por tipo (laminación, capping, sticking, picking, descostrado, manchas)<br>\n  3) Registrar los defectos por lote y punto de muestreo<br>\n  4) Procesar los datos crudos de defectos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los defectos están dentro del nivel aceptado por tipo.<br>\n  Sin defectos críticos en ningún lote."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de defectos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de aspecto"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Patrón de defectos aprobado; especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-009 — Uniformidad entre estaciones (variación por punzón)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la variación de peso y de dureza por estación de punzón (todas las estaciones o una muestra justificada), para detectar punzones con desgaste, holgura o llenado desigual."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir las estaciones a evaluar (todas o muestra justificada por riesgo)<br>\n  2) Recoger tabletas por estación identificada durante la corrida<br>\n  3) Medir peso y dureza por estación<br>\n  4) Procesar los datos crudos por estación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todas las estaciones evaluadas cumplen peso y dureza.<br>\n  Ninguna estación se desvía significativamente del promedio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Resultados por estación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis entre estaciones"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; análisis de riesgo (muestra de estaciones)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-010 — Estabilidad de la fuerza durante la corrida",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la estabilidad de la fuerza de compresión, precompresión y eyección durante toda la corrida, con tendencia y sin deriva."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la fuerza de compresión, precompresión y eyección a intervalos definidos durante la corrida<br>\n  2) Graficar la tendencia de cada fuerza contra el tiempo<br>\n  3) Evaluar deriva y variabilidad<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las fuerzas se mantienen en banda sin deriva durante la corrida.<br>\n  La variabilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tendencias de fuerza con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad de fuerza"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-011 — Control automático de peso con producto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el control automático de peso con producto (si aplica) mantiene el peso dentro de límites durante la corrida y corrige derivas sin oscilar."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar la corrida con el control automático activo (si aplica)<br>\n  2) Registrar el peso promedio reportado por el sistema contra verificaciones manuales<br>\n  3) Verificar la corrección de derivas sin oscilación<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El peso se mantiene dentro de límites durante toda la corrida.<br>\n  Las correcciones no generan oscilación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del control con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de control de peso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de control."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-012 — Fluidez del granulado en tolva y alimentador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la fluidez y el flujo del granulado en tolva y alimentador: sin puentes, sin canalización y sin variación de llenado por nivel bajo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Observar el flujo en tolva y alimentador durante la corrida<br>\n  2) Registrar eventos de puentes, canalización o interrupciones de flujo<br>\n  3) Verificar el llenado con nivel bajo de tolva<br>\n  4) Procesar los datos crudos de peso contra nivel en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Flujo continuo sin puentes ni canalización.<br>\n  Sin variación de llenado atribuible al nivel bajo fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de flujo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de fluidez"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del granulado; análisis de riesgo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-013 — Segregación en tolva",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la segregación en tolva (si aplica): contenido del activo al inicio, medio y final de la corrida."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear el granulado o las tabletas al inicio, medio y final de la corrida (si aplica evaluación de segregación)<br>\n  2) Valorar el contenido de activo en cada punto<br>\n  3) Comparar los tres puntos entre sí<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin diferencia significativa de contenido entre inicio, medio y final.<br>\n  El contenido cumple especificación en los tres puntos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Valoraciones por punto con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de segregación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; análisis de riesgo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-014 — Rechazo automático con producto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que con producto las tabletas fuera de límites se rechazan y las buenas no."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Durante la corrida PQ, registrar las tabletas rechazadas por el sistema automático<br>\n  2) Verificar una muestra de rechazadas: corresponden a causa real (fuera de límites)<br>\n  3) Verificar que las tabletas buenas no se desvían al rechazo<br>\n  4) Procesar los datos crudos de rechazo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las rechazadas corresponden a causa real verificable.<br>\n  Sin desvío indebido de tabletas buenas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rechazo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de rechazo con producto"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-015 — Generación de polvo y desempeño de la extracción",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la generación de polvo y finos durante la corrida con producto, y el desempeño de la extracción."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la presión negativa y el caudal de extracción durante la corrida<br>\n  2) Recoger y pesar el polvo retenido en el sistema de extracción por lote<br>\n  3) Inspeccionar la cámara de compresión al final: sin acumulación indebida<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La extracción mantiene los parámetros durante toda la corrida.<br>\n  El polvo generado está dentro de lo esperado sin acumulación indebida."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de extracción y polvo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de polvo y extracción"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-016 — Rendimiento y balance de masa",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el rendimiento y el balance de masa: carga contra tabletas buenas, rechazos y pérdida de polvo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar la carga inicial de granulado de cada lote<br>\n  2) Pesar tabletas buenas, rechazos y polvo recogido al final<br>\n  3) Calcular el rendimiento y cerrar el balance de masa<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El rendimiento cumple el rango especificado.<br>\n  El balance de masa cierra dentro de tolerancia."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Balances de masa con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de rendimiento"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-017 — Operación continua durante la duración máxima del lote",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la operación continua durante la duración más larga prevista de un lote (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar de forma continua durante la duración más larga prevista (si aplica)<br>\n  2) Registrar parámetros críticos y atributos a intervalos definidos<br>\n  3) Registrar intervenciones, paros y alarmas<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La máquina sostiene la operación continua sin deriva fuera de criterio.<br>\n  Los atributos se mantienen en especificación durante toda la duración."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de operación continua con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de operación continua"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-018 — Paros y reinicios",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el comportamiento tras una detención y reanudación (si aplica): descarte del material afectado y retorno a especificación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar una detención controlada durante la corrida (si aplica evaluación)<br>\n  2) Registrar el material afectado y aplicar el descarte definido<br>\n  3) Reanudar y verificar el retorno a especificación<br>\n  4) Procesar los datos crudos del antes y después en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El material afectado se descarta según lo definido.<br>\n  Tras la reanudación los atributos retornan a especificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de paro y reanudación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de paros y reinicios"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Procedimiento de operación de la tableteadora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TB-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-019 — Variación de humedad ambiental en producto higroscópico",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el efecto de la variación de humedad ambiental (si aplica, producto higroscópico) sobre los atributos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la humedad ambiental durante cada corrida PQ (si aplica, producto higroscópico)<br>\n  2) Correlacionar humedad contra peso, dureza y friabilidad<br>\n  3) Verificar el control ambiental del área durante las corridas<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro del rango ambiental controlado los atributos cumplen especificación.<br>\n  El rango ambiental queda establecido y documentado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros ambientales con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de humedad ambiental"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto; control ambiental del área."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tableteadora"
    },
    {
     "kind": "div",

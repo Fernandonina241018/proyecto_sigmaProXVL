@@ -4705,3 +4705,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Quick wins:** H-22 horno-secado fuera del selector de estabilidad; H-31 RC-001→P&ID/URS/ASME-BPE y TD-005→USP <1228.1>; H-30 LL-005 método+límite; H-28 MZ-010 rotulado pre-PQ + nota; H-29 Ra ≤0,8 µm en AU/LF/LI/TD-007.
 - **Rechazados con justificación:** H-26 (duplicación aparente es diseño: filtro por familia evita duplicar en .docx), H-27 (3 ciclos defendible en equipo térmico).
 - **Verificación:** extractor `--estricto` OK (293+46); Vitest 404/404, backend 60/60.
+
+### 2026-10-08 (146): OQ + PQ tableteadora desde ENSAYOS.txt (45 ensayos)
+- **Qué:** `.txt` traía OQ+PQ tableteadora. Creados `oq-tableteadora.html` (26 ensayos EQ-OQ-TB, 14 con análisis: torreta, alimentador, llenado, fuerza principal/precompresión/eyección, linealidad, estabilidad, control peso, rechazo, muestreador, contador, extracción, placebo 3 velocidades, cambio en marcha) y `pq-tableteadora.html` (19 ensayos EQ-PQ-TB, todos con análisis por flag de grupo: 3 lotes, extremos, peor caso, atributos, USP 905/701/711/1216/1217, estaciones, segregación, balance).
+- **Nota:** flag suelto de línea 1 sin grupo se trató como artefacto (convención: inline→individual, encabezado→grupo); OQ solo inline, PQ todo el grupo.
+- **Verificación:** extractor `--estricto` OK (338 artículos); Vitest 406/406, backend 60/60. Tableteadora: 7ª familia con OQ+PQ propio.

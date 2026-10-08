@@ -37,7 +37,7 @@ describe('banco de equipos: contrato', () => {
 
   it('solo familias conocidas', () => {
     const fams = [...new Set(todos.filter((x) => x.familia).map((x) => x.familia))].sort();
-    expect(fams).toEqual(['autoclave', 'horno-secado', 'horno-vacio', 'lecho-fluido', 'liofilizador', 'llenadora', 'mezclador', 'reactor', 'tunel-despirogenizacion']);
+    expect(fams).toEqual(['autoclave', 'horno-secado', 'horno-vacio', 'lecho-fluido', 'liofilizador', 'llenadora', 'mezclador', 'reactor', 'tableteadora', 'tunel-despirogenizacion']);
   });
 
   it.each([
@@ -54,6 +54,8 @@ describe('banco de equipos: contrato', () => {
     ['OQ', 'horno-secado', 16],
     ['OQ', 'reactor', 26], // ENSAYOS.txt usuario (2026-10-07)
     ['PQ', 'reactor', 14], // ENSAYOS.txt usuario (2026-10-07)
+    ['OQ', 'tableteadora', 26], // ENSAYOS.txt usuario (2026-10-08)
+    ['PQ', 'tableteadora', 19], // ENSAYOS.txt usuario (2026-10-08)
     ['PQ', 'lecho-fluido', 16],
     ['PQ', 'autoclave', 17],
     ['PQ', 'mezclador', 14],
