@@ -4718,3 +4718,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-08 (148): OQ + PQ encapsuladora desde ENSAYOS.txt (43 ensayos)
 - **Qué:** `.txt` traía OQ+PQ encapsuladora. Creados `oq-encapsuladora.html` (25 ensayos EQ-OQ-EN, 18 con análisis: velocidad, orientación, separación por vacío, cierre, fuerza cierre, dosificación completa, peso/rechazo, extracción, placebo) y `pq-encapsuladora.html` (18 ensayos EQ-PQ-EN, todos con análisis por flags de grupo: 3 lotes, extremos, peor caso, USP 905/701/711, estaciones, segregación, gelatina/humedad).
 - **Verificación:** extractor `--estricto` OK (386 artículos); Vitest 409/409, backend 60/60. Encapsuladora: 8ª familia con OQ+PQ propio (IQ Nivel 2 pendiente).
+
+### 2026-10-08 (149): IQ Nivel 2 encapsuladora (add-on 5 ensayos)
+- **Qué:** `iq-encapsuladora.html` derivado del modelo (EQ-IQ-EN-001…005): diagrama de flujo, cabezal/dosificadores/piezas de formato, vacío-control-rechazo, extracción/desempolvado, guardas/placa. Se suma al núcleo común. Encapsuladora queda IQ+OQ+PQ completa (segunda Nivel 2 cerrada).
+- **Verificación:** extractor `--estricto` OK (391 artículos); Vitest 410/410, backend 60/60.
