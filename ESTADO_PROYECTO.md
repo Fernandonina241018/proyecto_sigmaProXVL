@@ -4710,3 +4710,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Qué:** `.txt` traía OQ+PQ tableteadora. Creados `oq-tableteadora.html` (26 ensayos EQ-OQ-TB, 14 con análisis: torreta, alimentador, llenado, fuerza principal/precompresión/eyección, linealidad, estabilidad, control peso, rechazo, muestreador, contador, extracción, placebo 3 velocidades, cambio en marcha) y `pq-tableteadora.html` (19 ensayos EQ-PQ-TB, todos con análisis por flag de grupo: 3 lotes, extremos, peor caso, atributos, USP 905/701/711/1216/1217, estaciones, segregación, balance).
 - **Nota:** flag suelto de línea 1 sin grupo se trató como artefacto (convención: inline→individual, encabezado→grupo); OQ solo inline, PQ todo el grupo.
 - **Verificación:** extractor `--estricto` OK (338 artículos); Vitest 406/406, backend 60/60. Tableteadora: 7ª familia con OQ+PQ propio.
+
+### 2026-10-08 (147): IQ Nivel 2 tableteadora (add-on 5 ensayos)
+- **Qué:** `iq-tableteadora.html` derivado del modelo (EQ-IQ-TB-001…005): diagrama de flujo, torreta/estaciones/punzones con certificados, control de fuerza-peso-rechazo, extracción/desempolvador, guardas/sobrecarga/placa. Se suma al núcleo común EQ-IQ-001…023. Tableteadora queda IQ+OQ+PQ completa (primera Nivel 2 cerrada).
+- **Verificación:** extractor `--estricto` OK (343 artículos); Vitest 407/407, backend 60/60.

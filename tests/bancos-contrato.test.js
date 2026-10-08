@@ -48,6 +48,7 @@ describe('banco de equipos: contrato', () => {
     ['IQ', 'horno-vacio', 8], // Nivel 3 (2026-10-07)
     ['IQ', 'llenadora', 8], // Nivel 3 (2026-10-07)
     ['IQ', 'lecho-fluido', 8], // Nivel 3 (2026-10-07)
+    ['IQ', 'tableteadora', 5], // Nivel 2 (2026-10-08)
     ['OQ', 'lecho-fluido', 11], // 13 cuando se aprueben LF-012/LF-013 (ops omitidas)
     ['OQ', 'autoclave', 18],
     ['OQ', 'mezclador', 13], // 12 si se retira MZ-010 (op omitida)
