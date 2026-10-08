@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos IQ — Granulador</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>IQ — Granulador (banco por familia, Nivel 2)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-IQ-GR 2026-10-08 v1</span></p>
+<p>Add-on de Calificación de Instalación específico del granulador de alto cizallamiento (derivado del modelo). Se suma al núcleo común (EQ-IQ-001…EQ-IQ-023) y se filtra por familia (<code>data-familia="granulador"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= IQ ================= -->
+<section id="fase-iq" data-familia="granulador">
+<h2>IQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-IQ-GR-001" class="ensayo" data-id="EQ-IQ-GR-001" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-GR-001 — Verificación del P&amp;I contra lo instalado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el P&amp;I del granulador (cuba, impulsor, chopper, adición de aglutinante, camisa, descarga y molino) corresponde con la instalación física real.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Obtener la revisión vigente del P&amp;I aprobado<br>
+  2) Recorrer la instalación identificando cuba, impulsor, chopper, línea de aglutinante con boquilla, camisa, válvula de descarga y molino<br>
+  3) Confirmar tag, diámetro, material y trazado de cada línea contra el P&amp;I<br>
+  4) Registrar toda desviación como hallazgo con su disposición</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El P&amp;I corresponde con lo instalado en su revisión vigente.<br>
+  No existen líneas, válvulas ni instrumentos sin identificar.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - P&amp;I verificado y firmado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-GR-002" class="ensayo" data-id="EQ-IQ-GR-002" data-fase="IQ" data-cond="ambas" data-tabla-modelo="CUBA E IMPULSOR">
+  <h3>EQ-IQ-GR-002 — Verificación de cuba, impulsor y chopper</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la cuba, el impulsor y el chopper instalados corresponden a lo especificado con sus materiales y certificados.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el material de la cuba, el impulsor y el chopper contra el certificado del fabricante<br>
+  2) Inspeccionar acabados internos: ausencia de picaduras, grietas y zonas de corrosión<br>
+  3) Verificar el montaje del impulsor y el chopper: fijación, concentricidad visual y giro libre<br>
+  4) Verificar el sello del eje: tipo instalado y conexiones de aire de sello o barrera<br>
+  5) Registrar cada componente en la tabla de cuba e impulsor</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cuba, impulsor y chopper corresponden a lo especificado y giran libremente.<br>
+  El sello instalado corresponde al especificado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de cuba e impulsor con certificados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-GR-003" class="ensayo" data-id="EQ-IQ-GR-003" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-GR-003 — Verificación del sistema de adición de aglutinante</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la bomba, la línea y la boquilla de adición de aglutinante están instaladas según especificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la bomba de adición: modelo, número de serie y montaje<br>
+  2) Verificar la línea de líquido: trazado, material y conexiones sanitarias<br>
+  3) Verificar la boquilla o tubo de adición: tipo, posición y fijación sobre la cuba<br>
+  4) Verificar el aire de atomización (si aplica): conexión, filtro y regulador</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El sistema de adición corresponde a lo especificado.<br>
+  La boquilla está posicionada según el diseño.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del sistema de adición verificado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-GR-004" class="ensayo" data-id="EQ-IQ-GR-004" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-GR-004 — Verificación de camisa, descarga y molino</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la camisa (si aplica), la válvula de descarga y el molino o calibrador están instalados según especificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la camisa (si aplica): conexiones de entrada y salida del medio térmico<br>
+  2) Verificar la válvula de descarga: tipo, actuador y asentamiento<br>
+  3) Verificar el molino o calibrador (si aplica): modelo, malla instalada y montaje<br>
+  4) Verificar celdas de carga (si aplican): montaje y conexión al control</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Camisa, descarga y molino corresponden a lo especificado.<br>
+  La válvula cierra herméticamente en inspección estática.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de camisa, descarga y molino (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-GR-005" class="ensayo" data-id="EQ-IQ-GR-005" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-GR-005 — Verificación del control, seguridades y placa de datos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el panel de control con sus seguridades está instalado y que la placa de datos corresponde a la especificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el panel de control: modelo, versión y conexión de impulsor, chopper y bomba<br>
+  2) Verificar guardas y tapa con sus interruptores conectados<br>
+  3) Verificar paros de emergencia: ubicación, identificación y acceso<br>
+  4) Verificar la placa de datos: modelo, serie, capacidad y potencias</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Control y seguridades instalados y operativos.<br>
+  La placa de datos corresponde a la especificación de compra.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de control, seguridades y placa (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+</article>
+
+</section>
+</body>
+</html>

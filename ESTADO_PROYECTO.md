@@ -4726,3 +4726,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-08 (150): OQ + PQ granulador desde ENSAYOS.txt (40 ensayos)
 - **Qué:** `.txt` traía OQ+PQ granulador alto cizallamiento. Creados `oq-granulador.html` (24 ensayos EQ-OQ-GR, 20 con análisis: impulsor/chopper, potencia/torque punto final, caudal aglutinante, aspersión, camisa, vacío, celdas, descarga, placebo min/max) y `pq-granulador.html` (16 ensayos EQ-PQ-GR, todos con análisis: 3 lotes, extremos, peor caso, perfil potencia, punto final, granulometría USP 786/616, uniformidad, aptitud aguas abajo).
 - **Verificación:** extractor `--estricto` OK (431 artículos); Vitest 412/412, backend 60/60. Granulador: 9ª familia con OQ+PQ propio (IQ Nivel 2 pendiente).
+
+### 2026-10-08 (151): IQ Nivel 2 granulador (add-on 5 ensayos)
+- **Qué:** `iq-granulador.html` derivado del modelo (EQ-IQ-GR-001…005): P&ID, cuba/impulsor/chopper, adición de aglutinante, camisa/descarga/molino, control/seguridades/placa. Se suma al núcleo común. Granulador queda IQ+OQ+PQ completa (tercera Nivel 2 cerrada).
+- **Verificación:** extractor `--estricto` OK (436 artículos); Vitest 413/413, backend 60/60.
