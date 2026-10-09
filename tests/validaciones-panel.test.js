@@ -316,9 +316,9 @@ describe('Validaciones V7', () => {
   test('H-01: OQ/PQ sin banco de familia se detecta (tieneBancoFam)', () => {
     globalThis.BancoEquipos = require('../js/core/banco-equipos-data.js');
     try {
-      expect(Validaciones.tieneBancoFam('OQ', 'equipos', 'blistera')).toBe(false);
-      expect(Validaciones.tieneBancoFam('PQ', 'equipos', 'blistera')).toBe(false);
-      expect(Validaciones.tieneBancoFam('OQ', 'equipos', 'recubridora')).toBe(true);
+      expect(Validaciones.tieneBancoFam('OQ', 'equipos', 'etiquetadora')).toBe(false);
+      expect(Validaciones.tieneBancoFam('PQ', 'equipos', 'etiquetadora')).toBe(false);
+      expect(Validaciones.tieneBancoFam('OQ', 'equipos', 'blistera')).toBe(true);
       expect(Validaciones.tieneBancoFam('OQ', 'equipos', 'reactor')).toBe(true);
       expect(Validaciones.tieneBancoFam('PQ', 'equipos', 'mezclador')).toBe(true);
       expect(Validaciones.tieneBancoFam('IQ', 'equipos', 'tableteadora')).toBe(true);

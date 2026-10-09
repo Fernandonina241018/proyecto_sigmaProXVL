@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos OQ — Blistera</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>OQ — Blistera (banco por familia, Nivel 2)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-OQ-BL 2026-10-09 v1</span></p>
+<p>Ensayos de Calificación de Operación específicos de la blistera, tomados del ENSAYOS.txt del usuario. Se filtran por familia (<code>data-familia="blistera"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq" data-familia="blistera">
+<h2>OQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-001" class="ensayo" data-id="EQ-OQ-BL-001" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-BL-001 — Verificación de parada de emergencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la parada de emergencia detiene la línea y deja las estaciones calientes en estado seguro.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con la línea en marcha sin producto, accionar la parada de emergencia<br>
+  2) Medir el tiempo de detención<br>
+  3) Verificar el estado seguro de las estaciones calientes<br>
+  4) Restablecer y verificar el rearranque controlado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La línea se detiene dentro del tiempo especificado.<br>
+  Estaciones calientes en estado seguro sin rearranque espontáneo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de parada de emergencia (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-002" class="ensayo" data-id="EQ-OQ-BL-002" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-BL-002 — Verificación de interlocks y protección de dedos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que ninguna estación de formado, sellado o troquelado se mueve con guardas o puertas abiertas, y la protección de dedos en la zona de sellado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con cada guarda o puerta abierta, intentar operar cada estación: no debe moverse<br>
+  2) Verificar la protección de dedos en la zona de sellado<br>
+  3) Registrar cada interlock con su respuesta</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ninguna estación se mueve con guardas abiertas.<br>
+  La protección de dedos está instalada y operativa.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de interlocks con respuesta verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-003" class="ensayo" data-id="EQ-OQ-BL-003" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-BL-003 — Verificación de alarmas y límites</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada alarma dispara y ejecuta su acción: fin de film o aluminio, rotura de film, temperatura de formado y sellado, presión de aire, falta de producto, falla del alimentador y atasco en el troquel.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular cada condición de alarma aplicable y verificar disparo y acción<br>
+  2) Verificar el registro de cada alarma en el histórico</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada alarma dispara ante su condición y ejecuta su acción.<br>
+  Todas quedan registradas en el histórico.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de alarmas con disparo y acción verificados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-004" class="ensayo" data-id="EQ-OQ-BL-004" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-BL-004 — Verificación de falla y recuperación de energía</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el estado seguro ante falla de energía, sin arranque espontáneo, y el tratamiento del material en estaciones calientes (riesgo de quemar el film y contaminar el sellado).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con la línea en marcha, interrumpir la energía<br>
+  2) Verificar el estado seguro y la ausencia de arranque espontáneo<br>
+  3) Verificar el tratamiento definido para el material en estaciones calientes<br>
+  4) Verificar el rearranque manual controlado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Estado seguro sin arranque espontáneo.<br>
+  El material afectado se trata según lo definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de falla y recuperación de energía (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-005" class="ensayo" data-id="EQ-OQ-BL-005" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-BL-005 — Verificación de exactitud de velocidad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la velocidad (ciclos por minuto) en mínimo, nominal y máximo frente a un contador independiente.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>
+  2) Medir cada punto con un contador independiente, por triplicado<br>
+  3) Registrar la lectura del control y la independiente<br>
+  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La velocidad indicada está dentro de tolerancia en los tres puntos.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de velocidades con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de velocidad</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-006" class="ensayo" data-id="EQ-OQ-BL-006" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-BL-006 — Verificación del avance del film y registro</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el avance del film: longitud de paso y repetibilidad, con registro correcto entre formado, sellado e impresión.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la longitud de paso del avance en ciclos sucesivos, por triplicado<br>
+  2) Verificar el registro entre formado, sellado e impresión<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La longitud de paso está dentro de tolerancia con repetibilidad.<br>
+  El registro entre estaciones es correcto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de avance con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de avance del film</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-007" class="ensayo" data-id="EQ-OQ-BL-007" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-BL-007 — Verificación de tensión del film</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la tensión del film en el desbobinado y en el avance (si aplica): estabilidad y ausencia de arrugas o desalineación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la tensión del film en desbobinado y avance (si aplica medición)<br>
+  2) Inspeccionar arrugas o desalineación durante la marcha<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La tensión es estable dentro de rango.<br>
+  Sin arrugas ni desalineación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de tensión del film</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-008" class="ensayo" data-id="EQ-OQ-BL-008" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-BL-008 — Verificación de cambio de formato</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada molde se monta con alineación y ajuste correctos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Montar cada molde declarado y verificar su alineación<br>
+  2) Verificar el ajuste de formado, sellado y troquel por molde<br>
+  3) Registrar el tiempo de cambio si el procedimiento lo exige<br>
+  4) Procesar los datos crudos de alineación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada molde monta con alineación y ajuste correctos.<br>
+  Sin piezas intercambiadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de cambio de formato con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de cambio de formato</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-009" class="ensayo" data-id="EQ-OQ-BL-009" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-BL-009 — Verificación de calentamiento del film para formado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud de la temperatura de formado frente a un patrón, en varios puntos del rango, y la uniformidad sobre la placa.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la temperatura de formado en varios puntos del rango<br>
+  2) Medir con patrón de referencia en cada punto, por triplicado<br>
+  3) Medir la uniformidad sobre la placa de formado<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La temperatura está dentro de tolerancia en todos los puntos.<br>
+  La uniformidad sobre la placa cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro térmico con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de temperatura de formado</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-010" class="ensayo" data-id="EQ-OQ-BL-010" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-BL-010 — Verificación de presión de aire o vacío de formado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud y estabilidad de la presión de aire o vacío de formado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la presión o vacío de formado en el rango de uso<br>
+  2) Medir con instrumento independiente, por triplicado<br>
+  3) Verificar estabilidad durante ciclos sucesivos<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La presión o vacío está dentro de tolerancia y es estable.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de presión de formado</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-011" class="ensayo" data-id="EQ-OQ-BL-011" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-BL-011 — Verificación de tiempo de formado y enfriamiento del molde</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el tiempo de formado y el enfriamiento del molde (si aplica): agua de enfriamiento con caudal y temperatura en rango.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el tiempo de formado programado contra el real<br>
+  2) Medir el caudal y la temperatura del agua de enfriamiento del molde (si aplica)<br>
+  3) Verificar que están en rango durante la operación<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El tiempo de formado corresponde al programado.<br>
+  Caudal y temperatura de enfriamiento en rango.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de formado y enfriamiento</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-012" class="ensayo" data-id="EQ-OQ-BL-012" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-BL-012 — Verificación dimensional de cavidades formadas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la profundidad y el espesor de la cavidad en una muestra a velocidad mínima, nominal y máxima, sin adelgazamiento ni perforación en las esquinas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Formar cavidades a velocidad mínima, nominal y máxima<br>
+  2) Medir profundidad y espesor, con énfasis en esquinas<br>
+  3) Inspeccionar adelgazamiento y perforación<br>
+  4) Procesar los datos crudos dimensionales en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Profundidad y espesor dentro de especificación a las tres velocidades.<br>
+  Sin adelgazamiento ni perforación en esquinas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro dimensional con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis dimensional de cavidades</p>
+  <p><strong>Referencia:</strong><br>Especificación del material de formado.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-013" class="ensayo" data-id="EQ-OQ-BL-013" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-BL-013 — Verificación del alimentador de producto</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el alimentador (cepillos, canal vibratorio o rodillos): velocidad, amplitud de vibración y sentido de giro (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar el alimentador en sus ajustes de uso (si aplica)<br>
+  2) Verificar velocidad, amplitud de vibración y sentido de giro<br>
+  3) Verificar ausencia de daño al producto en la alimentación</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El alimentador opera dentro de sus ajustes sin dañar el producto.<br>
+  Sentido de giro correcto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del alimentador (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-014" class="ensayo" data-id="EQ-OQ-BL-014" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-BL-014 — Verificación de llenado de cavidades con placebo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el llenado de cavidades con placebo: porcentaje de cavidades llenas y sin doble llenado, a cada velocidad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Correr placebo a cada velocidad de uso<br>
+  2) Contar cavidades llenas, vacías y con doble llenado<br>
+  3) Calcular el porcentaje de llenado correcto por velocidad</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El porcentaje de cavidades llenas cumple el mínimo definido.<br>
+  Sin doble llenado fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de llenado por velocidad (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-015" class="ensayo" data-id="EQ-OQ-BL-015" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-BL-015 — Verificación del sensor de presencia en cavidad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el sensor de presencia de producto en la cavidad (si aplica): detecta cavidades vacías o con doble tableta, con desafío de cavidades vacías creadas a propósito.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Crear cavidades vacías a propósito como desafío (si aplica sensor)<br>
+  2) Verificar la detección de cada cavidad vacía o doble<br>
+  3) Verificar la acción asociada (rechazo o paro)</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100% de las cavidades desafío se detecta.<br>
+  La acción asociada ocurre correctamente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del desafío del sensor (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-016" class="ensayo" data-id="EQ-OQ-BL-016" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-BL-016 — Verificación de temperatura de sellado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud y estabilidad de la temperatura de sellado frente a un patrón en setpoints bajo, medio y alto, con uniformidad sobre la placa o el rodillo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la temperatura de sellado en setpoint bajo, medio y alto<br>
+  2) Medir con patrón de referencia en cada punto, por triplicado<br>
+  3) Medir la uniformidad sobre la placa o el rodillo<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La temperatura está dentro de tolerancia en los tres setpoints.<br>
+  La uniformidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro térmico con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de temperatura de sellado</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-017" class="ensayo" data-id="EQ-OQ-BL-017" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-BL-017 — Verificación de presión de sellado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud y distribución de la presión de sellado sobre toda la superficie. Una prueba con papel sensible a presión muestra si hay zonas de poco contacto.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la presión de sellado en el rango de uso<br>
+  2) Medir la presión resultante con instrumento independiente<br>
+  3) Ejecutar la prueba con papel sensible a presión sobre toda la superficie<br>
+  4) Identificar zonas de poco contacto<br>
+  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La presión está dentro de tolerancia.<br>
+  El papel sensible muestra contacto uniforme sin zonas frías.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro y papel sensible con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de presión de sellado</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-018" class="ensayo" data-id="EQ-OQ-BL-018" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-BL-018 — Verificación de tiempo de contacto y su relación con la velocidad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el tiempo de contacto (dwell) y su relación con la velocidad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir el tiempo de contacto a velocidad mínima, nominal y máxima<br>
+  2) Establecer la relación dwell contra velocidad<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El dwell corresponde a lo especificado a cada velocidad.<br>
+  La relación es consistente y reproducible.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de dwell</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-019" class="ensayo" data-id="EQ-OQ-BL-019" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-BL-019 — Definición de ventana de sellado por diseño de experimentos</h3>
+  <p><strong>Objetivo:</strong><br>Definir la ventana de sellado (si aplica): combinaciones de temperatura, presión y tiempo con resultado aceptable. Se define con un diseño de experimentos y no con un único punto.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Diseñar el experimento con combinaciones de temperatura, presión y tiempo (si aplica)<br>
+  2) Ejecutar las corridas del diseño evaluando integridad del sello<br>
+  3) Delimitar la ventana con resultado aceptable<br>
+  4) Fijar los parámetros de rutina dentro de la ventana</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La ventana de sellado queda definida y documentada.<br>
+  Los parámetros de rutina están dentro de la ventana.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Diseño de experimentos y ventana definida (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>ICH Q8 (desarrollo farmacéutico, si aplica).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-020" class="ensayo" data-id="EQ-OQ-BL-020" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-BL-020 — Integridad del sello y resistencia al pelado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la integridad del sello: prueba de fuga con azul de metileno o con vacío (si aplica), y resistencia al pelado (peel) con dinamómetro (si aplica), en una muestra a velocidad mínima, nominal y máxima.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Tomar muestras a velocidad mínima, nominal y máxima<br>
+  2) Ejecutar la prueba de fuga con azul de metileno o por vacío (si aplica)<br>
+  3) Medir la resistencia al pelado con dinamómetro (si aplica)<br>
+  4) Registrar los resultados por velocidad</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin fugas en la prueba aplicada.<br>
+  La resistencia al pelado cumple el criterio (si aplica).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de integridad por velocidad (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1207&gt; (integridad de empaque, si aplica).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-021" class="ensayo" data-id="EQ-OQ-BL-021" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-BL-021 — Aspecto del sello</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el aspecto del sello: patrón continuo, sin arrugas, canales ni quemaduras.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inspeccionar visualmente el sello de muestras a cada velocidad<br>
+  2) Clasificar defectos (arrugas, canales, quemaduras)<br>
+  3) Registrar por velocidad</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Patrón de sello continuo en todas las velocidades.<br>
+  Sin arrugas, canales ni quemaduras.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de aspecto del sello (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Patrón de defectos aprobado.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-022" class="ensayo" data-id="EQ-OQ-BL-022" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-BL-022 — Verificación de codificación de lote y vencimiento</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la impresión o grabado en relieve de lote y vencimiento: legibilidad, posición y contraste, a todas las velocidades.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar legibilidad, posición y contraste del lote y vencimiento a cada velocidad<br>
+  2) Registrar defectos de impresión<br>
+  3) Verificar contra la orden de acondicionamiento</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Lote y vencimiento legibles y bien posicionados a todas las velocidades.<br>
+  Sin omisiones ni borrosidad.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de codificación (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Orden de acondicionamiento del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-023" class="ensayo" data-id="EQ-OQ-BL-023" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-BL-023 — Verificación del sistema de visión con muestras de desafío</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el sistema de visión con muestras de desafío: cavidades vacías, producto roto, producto equivocado, lote ilegible y sello defectuoso. Cada una debe detectarse y rechazarse.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Preparar muestras de desafío de cada tipo de defecto<br>
+  2) Pasar cada muestra y verificar su detección y rechazo<br>
+  3) Registrar el resultado por tipo de defecto</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100% de las muestras de desafío se detecta y rechaza.<br>
+  Sin defectos no detectados.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del desafío de visión (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de visión.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-024" class="ensayo" data-id="EQ-OQ-BL-024" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-BL-024 — Verificación del mecanismo de rechazo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los blísteres defectuosos se desvían, con conteo correcto y sin que ninguno malo llegue al recipiente de buenos. Incluye rechazo ante falla de la cámara.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inducir blísteres defectuosos de forma controlada<br>
+  2) Verificar el desvío de cada uno al rechazo<br>
+  3) Simular falla de la cámara y verificar el rechazo asociado<br>
+  4) Verificar el conteo y la ausencia de malos en buenos</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100% de los defectos inducidos se rechaza.<br>
+  Ningún malo llega al recipiente de buenos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de rechazo (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-025" class="ensayo" data-id="EQ-OQ-BL-025" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-BL-025 — Verificación de troquelado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el troquelado: dimensiones del blíster, borde limpio sin rebabas ni delaminación, y desgaste del troquel (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir las dimensiones del blíster troquelado<br>
+  2) Inspeccionar el borde: limpio, sin rebabas ni delaminación<br>
+  3) Evaluar el desgaste del troquel (si aplica medición)</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Dimensiones dentro de especificación.<br>
+  Borde limpio sin rebabas ni delaminación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de troquelado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Especificación del blíster.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-026" class="ensayo" data-id="EQ-OQ-BL-026" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-BL-026 — Evacuación y recolección de retal</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la evacuación y recolección de residuos de film (retal).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar la línea y verificar la evacuación continua del retal<br>
+  2) Verificar el enrollado o recolección sin atascos<br>
+  3) Verificar que el retal no interfiere con la línea</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Evacuación continua sin atascos.<br>
+  Sin interferencia con la operación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de evacuación de retal (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BL-027" class="ensayo" data-id="EQ-OQ-BL-027" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-BL-027 — Corrida con placebo a tres velocidades</h3>
+  <p><strong>Objetivo:</strong><br>Verificar una corrida completa con placebo a velocidad mínima, nominal y máxima: formado, llenado, sellado, codificación, troquelado y rechazo, sin alarmas ni desviaciones.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Correr placebo a velocidad mínima con la secuencia completa<br>
+  2) Repetir a velocidad nominal y a velocidad máxima<br>
+  3) Registrar alarmas e intervenciones<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La secuencia completa opera a las tres velocidades.<br>
+  Sin alarmas ni desviaciones no justificadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de corrida con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de corrida con placebo</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación de la blistera.</p>
+</article>
+
+</section>
+</body>
+</html>

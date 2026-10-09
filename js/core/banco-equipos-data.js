@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
+ "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -7271,6 +7271,855 @@ var BancoEquipos = {
     "familia": "recubridora"
    },
    {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-001 — Verificación de parada de emergencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la parada de emergencia detiene la línea y deja las estaciones calientes en estado seguro."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con la línea en marcha sin producto, accionar la parada de emergencia<br>\n  2) Medir el tiempo de detención<br>\n  3) Verificar el estado seguro de las estaciones calientes<br>\n  4) Restablecer y verificar el rearranque controlado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La línea se detiene dentro del tiempo especificado.<br>\n  Estaciones calientes en estado seguro sin rearranque espontáneo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de parada de emergencia (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-002 — Verificación de interlocks y protección de dedos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que ninguna estación de formado, sellado o troquelado se mueve con guardas o puertas abiertas, y la protección de dedos en la zona de sellado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con cada guarda o puerta abierta, intentar operar cada estación: no debe moverse<br>\n  2) Verificar la protección de dedos en la zona de sellado<br>\n  3) Registrar cada interlock con su respuesta"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ninguna estación se mueve con guardas abiertas.<br>\n  La protección de dedos está instalada y operativa."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de interlocks con respuesta verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-003 — Verificación de alarmas y límites",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada alarma dispara y ejecuta su acción: fin de film o aluminio, rotura de film, temperatura de formado y sellado, presión de aire, falta de producto, falla del alimentador y atasco en el troquel."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular cada condición de alarma aplicable y verificar disparo y acción<br>\n  2) Verificar el registro de cada alarma en el histórico"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma dispara ante su condición y ejecuta su acción.<br>\n  Todas quedan registradas en el histórico."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de alarmas con disparo y acción verificados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-004 — Verificación de falla y recuperación de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el estado seguro ante falla de energía, sin arranque espontáneo, y el tratamiento del material en estaciones calientes (riesgo de quemar el film y contaminar el sellado)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con la línea en marcha, interrumpir la energía<br>\n  2) Verificar el estado seguro y la ausencia de arranque espontáneo<br>\n  3) Verificar el tratamiento definido para el material en estaciones calientes<br>\n  4) Verificar el rearranque manual controlado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Estado seguro sin arranque espontáneo.<br>\n  El material afectado se trata según lo definido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de falla y recuperación de energía (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-005 — Verificación de exactitud de velocidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la velocidad (ciclos por minuto) en mínimo, nominal y máximo frente a un contador independiente."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>\n  2) Medir cada punto con un contador independiente, por triplicado<br>\n  3) Registrar la lectura del control y la independiente<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad indicada está dentro de tolerancia en los tres puntos.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidades con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-006 — Verificación del avance del film y registro",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el avance del film: longitud de paso y repetibilidad, con registro correcto entre formado, sellado e impresión."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la longitud de paso del avance en ciclos sucesivos, por triplicado<br>\n  2) Verificar el registro entre formado, sellado e impresión<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La longitud de paso está dentro de tolerancia con repetibilidad.<br>\n  El registro entre estaciones es correcto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de avance con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de avance del film"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-007 — Verificación de tensión del film",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la tensión del film en el desbobinado y en el avance (si aplica): estabilidad y ausencia de arrugas o desalineación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la tensión del film en desbobinado y avance (si aplica medición)<br>\n  2) Inspeccionar arrugas o desalineación durante la marcha<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La tensión es estable dentro de rango.<br>\n  Sin arrugas ni desalineación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de tensión del film"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-008 — Verificación de cambio de formato",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada molde se monta con alineación y ajuste correctos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Montar cada molde declarado y verificar su alineación<br>\n  2) Verificar el ajuste de formado, sellado y troquel por molde<br>\n  3) Registrar el tiempo de cambio si el procedimiento lo exige<br>\n  4) Procesar los datos crudos de alineación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada molde monta con alineación y ajuste correctos.<br>\n  Sin piezas intercambiadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cambio de formato con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de cambio de formato"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-009 — Verificación de calentamiento del film para formado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud de la temperatura de formado frente a un patrón, en varios puntos del rango, y la uniformidad sobre la placa."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la temperatura de formado en varios puntos del rango<br>\n  2) Medir con patrón de referencia en cada punto, por triplicado<br>\n  3) Medir la uniformidad sobre la placa de formado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La temperatura está dentro de tolerancia en todos los puntos.<br>\n  La uniformidad sobre la placa cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro térmico con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de temperatura de formado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-010 — Verificación de presión de aire o vacío de formado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud y estabilidad de la presión de aire o vacío de formado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la presión o vacío de formado en el rango de uso<br>\n  2) Medir con instrumento independiente, por triplicado<br>\n  3) Verificar estabilidad durante ciclos sucesivos<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La presión o vacío está dentro de tolerancia y es estable.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de presión de formado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-011 — Verificación de tiempo de formado y enfriamiento del molde",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el tiempo de formado y el enfriamiento del molde (si aplica): agua de enfriamiento con caudal y temperatura en rango."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el tiempo de formado programado contra el real<br>\n  2) Medir el caudal y la temperatura del agua de enfriamiento del molde (si aplica)<br>\n  3) Verificar que están en rango durante la operación<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El tiempo de formado corresponde al programado.<br>\n  Caudal y temperatura de enfriamiento en rango."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de formado y enfriamiento"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-012 — Verificación dimensional de cavidades formadas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la profundidad y el espesor de la cavidad en una muestra a velocidad mínima, nominal y máxima, sin adelgazamiento ni perforación en las esquinas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Formar cavidades a velocidad mínima, nominal y máxima<br>\n  2) Medir profundidad y espesor, con énfasis en esquinas<br>\n  3) Inspeccionar adelgazamiento y perforación<br>\n  4) Procesar los datos crudos dimensionales en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Profundidad y espesor dentro de especificación a las tres velocidades.<br>\n  Sin adelgazamiento ni perforación en esquinas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro dimensional con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis dimensional de cavidades"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del material de formado."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-013 — Verificación del alimentador de producto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el alimentador (cepillos, canal vibratorio o rodillos): velocidad, amplitud de vibración y sentido de giro (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar el alimentador en sus ajustes de uso (si aplica)<br>\n  2) Verificar velocidad, amplitud de vibración y sentido de giro<br>\n  3) Verificar ausencia de daño al producto en la alimentación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El alimentador opera dentro de sus ajustes sin dañar el producto.<br>\n  Sentido de giro correcto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del alimentador (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-014 — Verificación de llenado de cavidades con placebo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el llenado de cavidades con placebo: porcentaje de cavidades llenas y sin doble llenado, a cada velocidad."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Correr placebo a cada velocidad de uso<br>\n  2) Contar cavidades llenas, vacías y con doble llenado<br>\n  3) Calcular el porcentaje de llenado correcto por velocidad"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El porcentaje de cavidades llenas cumple el mínimo definido.<br>\n  Sin doble llenado fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de llenado por velocidad (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-015 — Verificación del sensor de presencia en cavidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el sensor de presencia de producto en la cavidad (si aplica): detecta cavidades vacías o con doble tableta, con desafío de cavidades vacías creadas a propósito."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Crear cavidades vacías a propósito como desafío (si aplica sensor)<br>\n  2) Verificar la detección de cada cavidad vacía o doble<br>\n  3) Verificar la acción asociada (rechazo o paro)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las cavidades desafío se detecta.<br>\n  La acción asociada ocurre correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del desafío del sensor (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-016 — Verificación de temperatura de sellado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud y estabilidad de la temperatura de sellado frente a un patrón en setpoints bajo, medio y alto, con uniformidad sobre la placa o el rodillo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la temperatura de sellado en setpoint bajo, medio y alto<br>\n  2) Medir con patrón de referencia en cada punto, por triplicado<br>\n  3) Medir la uniformidad sobre la placa o el rodillo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La temperatura está dentro de tolerancia en los tres setpoints.<br>\n  La uniformidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro térmico con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de temperatura de sellado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-017 — Verificación de presión de sellado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud y distribución de la presión de sellado sobre toda la superficie. Una prueba con papel sensible a presión muestra si hay zonas de poco contacto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la presión de sellado en el rango de uso<br>\n  2) Medir la presión resultante con instrumento independiente<br>\n  3) Ejecutar la prueba con papel sensible a presión sobre toda la superficie<br>\n  4) Identificar zonas de poco contacto<br>\n  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La presión está dentro de tolerancia.<br>\n  El papel sensible muestra contacto uniforme sin zonas frías."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro y papel sensible con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de presión de sellado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-018 — Verificación de tiempo de contacto y su relación con la velocidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el tiempo de contacto (dwell) y su relación con la velocidad."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el tiempo de contacto a velocidad mínima, nominal y máxima<br>\n  2) Establecer la relación dwell contra velocidad<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El dwell corresponde a lo especificado a cada velocidad.<br>\n  La relación es consistente y reproducible."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de dwell"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-019 — Definición de ventana de sellado por diseño de experimentos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Definir la ventana de sellado (si aplica): combinaciones de temperatura, presión y tiempo con resultado aceptable. Se define con un diseño de experimentos y no con un único punto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Diseñar el experimento con combinaciones de temperatura, presión y tiempo (si aplica)<br>\n  2) Ejecutar las corridas del diseño evaluando integridad del sello<br>\n  3) Delimitar la ventana con resultado aceptable<br>\n  4) Fijar los parámetros de rutina dentro de la ventana"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La ventana de sellado queda definida y documentada.<br>\n  Los parámetros de rutina están dentro de la ventana."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Diseño de experimentos y ventana definida (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q8 (desarrollo farmacéutico, si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-020",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-020 — Integridad del sello y resistencia al pelado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la integridad del sello: prueba de fuga con azul de metileno o con vacío (si aplica), y resistencia al pelado (peel) con dinamómetro (si aplica), en una muestra a velocidad mínima, nominal y máxima."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Tomar muestras a velocidad mínima, nominal y máxima<br>\n  2) Ejecutar la prueba de fuga con azul de metileno o por vacío (si aplica)<br>\n  3) Medir la resistencia al pelado con dinamómetro (si aplica)<br>\n  4) Registrar los resultados por velocidad"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin fugas en la prueba aplicada.<br>\n  La resistencia al pelado cumple el criterio (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de integridad por velocidad (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1207&gt; (integridad de empaque, si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-021",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-021 — Aspecto del sello",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el aspecto del sello: patrón continuo, sin arrugas, canales ni quemaduras."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar visualmente el sello de muestras a cada velocidad<br>\n  2) Clasificar defectos (arrugas, canales, quemaduras)<br>\n  3) Registrar por velocidad"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Patrón de sello continuo en todas las velocidades.<br>\n  Sin arrugas, canales ni quemaduras."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de aspecto del sello (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Patrón de defectos aprobado."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-022",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-022 — Verificación de codificación de lote y vencimiento",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la impresión o grabado en relieve de lote y vencimiento: legibilidad, posición y contraste, a todas las velocidades."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar legibilidad, posición y contraste del lote y vencimiento a cada velocidad<br>\n  2) Registrar defectos de impresión<br>\n  3) Verificar contra la orden de acondicionamiento"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Lote y vencimiento legibles y bien posicionados a todas las velocidades.<br>\n  Sin omisiones ni borrosidad."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de codificación (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento del producto."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-023",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-023 — Verificación del sistema de visión con muestras de desafío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el sistema de visión con muestras de desafío: cavidades vacías, producto roto, producto equivocado, lote ilegible y sello defectuoso. Cada una debe detectarse y rechazarse."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Preparar muestras de desafío de cada tipo de defecto<br>\n  2) Pasar cada muestra y verificar su detección y rechazo<br>\n  3) Registrar el resultado por tipo de defecto"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las muestras de desafío se detecta y rechaza.<br>\n  Sin defectos no detectados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del desafío de visión (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de visión."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-024",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-024 — Verificación del mecanismo de rechazo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los blísteres defectuosos se desvían, con conteo correcto y sin que ninguno malo llegue al recipiente de buenos. Incluye rechazo ante falla de la cámara."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inducir blísteres defectuosos de forma controlada<br>\n  2) Verificar el desvío de cada uno al rechazo<br>\n  3) Simular falla de la cámara y verificar el rechazo asociado<br>\n  4) Verificar el conteo y la ausencia de malos en buenos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de los defectos inducidos se rechaza.<br>\n  Ningún malo llega al recipiente de buenos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rechazo (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-025",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-025 — Verificación de troquelado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el troquelado: dimensiones del blíster, borde limpio sin rebabas ni delaminación, y desgaste del troquel (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir las dimensiones del blíster troquelado<br>\n  2) Inspeccionar el borde: limpio, sin rebabas ni delaminación<br>\n  3) Evaluar el desgaste del troquel (si aplica medición)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dimensiones dentro de especificación.<br>\n  Borde limpio sin rebabas ni delaminación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de troquelado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del blíster."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-026",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-026 — Evacuación y recolección de retal",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la evacuación y recolección de residuos de film (retal)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar la línea y verificar la evacuación continua del retal<br>\n  2) Verificar el enrollado o recolección sin atascos<br>\n  3) Verificar que el retal no interfiere con la línea"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Evacuación continua sin atascos.<br>\n  Sin interferencia con la operación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de evacuación de retal (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-027",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-027 — Corrida con placebo a tres velocidades",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar una corrida completa con placebo a velocidad mínima, nominal y máxima: formado, llenado, sellado, codificación, troquelado y rechazo, sin alarmas ni desviaciones."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Correr placebo a velocidad mínima con la secuencia completa<br>\n  2) Repetir a velocidad nominal y a velocidad máxima<br>\n  3) Registrar alarmas e intervenciones<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La secuencia completa opera a las tres velocidades.<br>\n  Sin alarmas ni desviaciones no justificadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de corrida con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de corrida con placebo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación de la blistera."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
     "kind": "div",
     "clase": "portada",
     "bloque": 1,
@@ -13042,6 +13891,609 @@ var BancoEquipos = {
     "tabla": null,
     "analisis": "si",
     "familia": "recubridora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-001 — Tres lotes consecutivos a velocidad nominal",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño consistente con tres lotes consecutivos a velocidad nominal, con el número justificado por análisis de riesgo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Justificar el número de lotes con el análisis de riesgo aprobado<br>\n  2) Fabricar tres lotes consecutivos a velocidad nominal registrando parámetros críticos<br>\n  3) Muestrear cada lote según el plan de muestreo aprobado<br>\n  4) Evaluar los atributos de calidad de cada lote contra especificación<br>\n  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los tres lotes cumplen todos los atributos de calidad.<br>\n  La variabilidad entre lotes está dentro de lo esperado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de los tres lotes con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de lotes consecutivos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; análisis de riesgo del proceso."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-002 — Velocidad mínima y máxima del rango declarado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño en los extremos del rango declarado (a mayor velocidad baja el tiempo de contacto de sellado y se acorta el enfriamiento del film), si aplica."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Fabricar una corrida a velocidad mínima registrando atributos críticos<br>\n  2) Fabricar una corrida a velocidad máxima<br>\n  3) Muestrear inicio, medio y fin de cada corrida<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambas corridas cumplen todos los atributos de calidad.<br>\n  Sellado íntegro a velocidad máxima."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de corridas extremas con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidades extremas"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-003 — Lote de peor caso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño en el peor caso definido (producto de forma más difícil, film más grueso o más rígido, aluminio más fino, o material en el límite de especificación)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir y justificar el peor caso con el análisis de riesgo aprobado<br>\n  2) Fabricar el lote de peor caso registrando los parámetros críticos<br>\n  3) Muestrear según el plan de muestreo aprobado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El lote de peor caso cumple todos los atributos de calidad.<br>\n  La justificación del peor caso está documentada y aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Justificación del peor caso y registro del lote con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de peor caso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Análisis de riesgo del proceso."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-004 — Lote de material de empaque distinto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar con un lote de material de empaque distinto (si aplica) que el desempeño no depende de un solo lote de film."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Fabricar con un lote distinto de film o aluminio (si aplica)<br>\n  2) Evaluar formado, sellado e integridad contra los mismos criterios<br>\n  3) Comparar contra los lotes de rutina<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El desempeño con el lote distinto cumple los mismos criterios.<br>\n  Sin dependencia de un solo lote de material."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro comparativo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de lote de material distinto"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del material de empaque."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-005 — Prueba de fuga muestreada durante la corrida",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la integridad con prueba de fuga con azul de metileno o por vacío, muestreada durante toda la corrida (inicio, medio, fin) y tras paros o ajustes."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear al inicio, medio y fin de cada corrida PQ<br>\n  2) Muestrear adicionalmente tras cada paro o ajuste<br>\n  3) Ejecutar la prueba de fuga en cada muestra<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin fugas en ninguna muestra de la corrida.<br>\n  Sin fugas tras paros o ajustes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de fuga con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de integridad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1207&gt; (integridad de empaque, si aplica)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-006 — Resistencia del sello en posiciones y carriles",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la resistencia del sello (si aplica): peel en varias posiciones del blíster y entre carriles, con RSD y mínimo definidos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la resistencia al pelado en varias posiciones del blíster y entre carriles (si aplica)<br>\n  2) Calcular media, RSD y mínimo<br>\n  3) Comparar contra el criterio<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La resistencia cumple el mínimo en todas las posiciones.<br>\n  El RSD entre posiciones cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Mediciones de peel con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de resistencia del sello"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del blíster."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-007 — Aspecto del sello y del formado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el aspecto del sello y del formado: sin arrugas, canales de fuga, perforaciones, quemaduras ni adelgazamiento en esquinas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar visualmente sello y formado de las muestras de cada lote<br>\n  2) Clasificar defectos por tipo<br>\n  3) Registrar por lote y punto de muestreo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los defectos están dentro del nivel aceptado.<br>\n  Sin defectos críticos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de aspecto (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Patrón de defectos aprobado."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-008 — Dimensiones del blíster y del troquel",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar las dimensiones del blíster y del troquel (si aplica), dentro de especificación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir las dimensiones del blíster en la muestra de cada lote (si aplica)<br>\n  2) Comparar contra especificación<br>\n  3) Procesar los datos crudos dimensionales en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las dimensiones están dentro de especificación.<br>\n  Sin deriva entre lotes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro dimensional con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis dimensional"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del blíster."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-009 — Detección y rechazo de cavidades vacías y llenado doble",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sistema de visión detecta y rechaza el 100% de las cavidades vacías y llenado doble del desafío, y que la tasa real de defectos durante la corrida queda dentro de lo esperado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar las muestras de desafío (vacías y dobles) y verificar su detección y rechazo<br>\n  2) Registrar la tasa real de defectos durante la corrida<br>\n  3) Comparar contra lo esperado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% del desafío se detecta y rechaza.<br>\n  La tasa real está dentro de lo esperado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del desafío con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de detección"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de visión."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-010 — Producto roto o dañado en alimentación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el producto roto o dañado: porcentaje de tabletas partidas por la alimentación, dentro del límite definido."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Recoger muestras durante la corrida y contar tabletas partidas o dañadas<br>\n  2) Calcular el porcentaje contra el total<br>\n  3) Comparar contra el límite definido<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El porcentaje de rotas cumple el límite definido.<br>\n  Sin tendencia creciente durante la corrida."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rotas con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de producto dañado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-011 — Rendimiento y balance de masa",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el rendimiento y el balance de masa: producto cargado contra blísteres buenos, rechazos y producto recuperado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el producto cargado de cada lote<br>\n  2) Contar blísteres buenos, rechazos y producto recuperado<br>\n  3) Cerrar el balance de masa<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El rendimiento cumple el rango especificado.<br>\n  El balance de masa cierra dentro de tolerancia."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Balances de masa con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de rendimiento"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-012 — Legibilidad de lote y vencimiento",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la legibilidad del lote y vencimiento en todas las muestras: sin borrosidad, desalineación ni omisión. Verificación contra la orden de acondicionamiento."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar legibilidad en todas las muestras de cada lote<br>\n  2) Comparar contra la orden de acondicionamiento<br>\n  3) Registrar defectos de impresión"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Lote y vencimiento legibles en el 100% de la muestra.<br>\n  Sin omisiones ni borrosidad."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de legibilidad (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento del producto."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-013 — Conciliación de material impreso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la conciliación de material impreso (si aplica): uso de film o aluminio impreso con lote y cifra de rechazo, para evitar mezcla de lotes."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el material impreso usado por lote (si aplica)<br>\n  2) Conciliar contra lo declarado con la cifra de rechazo<br>\n  3) Verificar que no hay mezcla de lotes"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La conciliación cierra dentro de tolerancia.<br>\n  Sin mezcla de lotes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de conciliación (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento del producto."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-014 — Rechazo con producto y falsos rechazos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que con producto el sistema de visión y el de presencia rechazan los defectos y no las buenas, con porcentaje de falsos rechazos dentro de lo aceptable."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Durante la corrida PQ, registrar los rechazos del sistema<br>\n  2) Verificar una muestra de rechazadas: corresponden a defectos reales<br>\n  3) Estimar el porcentaje de falsos rechazos<br>\n  4) Verificar que las buenas no se desvían indebidamente"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las rechazadas corresponden a defectos reales.<br>\n  Los falsos rechazos están dentro de lo aceptable."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rechazo con producto (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de visión."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-015 — Paros y reinicios con estaciones calientes",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el comportamiento tras una detención con las estaciones calientes (si aplica): descarte de los blísteres del ciclo afectado. Es un punto crítico por el sobrecalentamiento del film."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar una detención controlada durante la corrida (si aplica evaluación)<br>\n  2) Identificar y descartar los blísteres del ciclo afectado<br>\n  3) Reanudar y verificar el retorno a especificación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los blísteres afectados se descartan según lo definido.<br>\n  Tras la reanudación los atributos retornan a especificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de paro y reanudación (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Procedimiento de operación de la blistera."
+     }
+    ],
+    "tabla": null,
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-016 — Estabilidad térmica y de proceso durante la corrida",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la estabilidad de temperatura de formado y de sellado, presión y velocidad durante toda la corrida, sin deriva."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar temperaturas, presión y velocidad a intervalos definidos durante la corrida<br>\n  2) Evaluar deriva y variabilidad<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los parámetros se mantienen en banda sin deriva.<br>\n  La variabilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tendencias con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad del proceso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-017 — Operación continua durante la duración máxima del lote",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la operación continua durante la duración más larga prevista de un lote (si aplica), con data de atributos en el tiempo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar de forma continua durante la duración más larga prevista (si aplica)<br>\n  2) Registrar parámetros críticos y atributos a intervalos definidos<br>\n  3) Evaluar la estabilidad de atributos en el tiempo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los atributos se mantienen en especificación durante toda la duración.<br>\n  Sin deriva significativa."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de operación continua"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-018 — Estuchado sin atascos ni daños",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el estuchado o empaque secundario (si aplica): los blísteres pasan por el estuchador sin atascos ni daños."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar los blísteres por el estuchador (si aplica)<br>\n  2) Registrar atascos y daños<br>\n  3) Procesar los datos crudos de defectos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin atascos que detengan la línea fuera de criterio.<br>\n  Sin daños a los blísteres por el estuchado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estuchado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del estuchador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-BL-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-019 — Protección del producto por la barrera del blíster",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la barrera del blíster cubre la protección requerida (si aplica). Se cubre con el estudio de estabilidad y con la especificación del material."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Referenciar el estudio de estabilidad aplicable al producto en blíster (si aplica)<br>\n  2) Verificar la especificación de barrera del material<br>\n  3) Procesar los datos de respaldo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El estudio de estabilidad respalda la vida útil en el blíster.<br>\n  El material cumple la especificación de barrera."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Referencia al estudio con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de barrera"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Estudio de estabilidad del producto; especificación del material."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "blistera"
    },
    {
     "kind": "div",

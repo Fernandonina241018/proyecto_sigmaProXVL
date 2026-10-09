@@ -4749,3 +4749,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-09 (155): IQ Nivel 2 recubridora (add-on 5 ensayos)
 - **Qué:** `iq-recubridora.html` derivado del modelo (EQ-IQ-RB-001…005): P&ID, bombo/deflectores/pistolas, aire-proceso/control, spray/tanque, puerta/guardas/placa. Se suma al núcleo común. Recubridora queda IQ+OQ+PQ completa (cuarta Nivel 2 cerrada).
 - **Verificación:** extractor `--estricto` OK (483 artículos); Vitest 420/420, backend 67/67.
+
+### 2026-10-09 (156): OQ + PQ blistera desde ENSAYOS.txt (46 ensayos)
+- **Qué:** `.txt` traía OQ+PQ blistera. Creados `oq-blistera.html` (27 ensayos EQ-OQ-BL, 12 con análisis: velocidad, avance/registro, tensión, formato, formado térmico/dimensional, sellado completo con papel sensible, ventana DoE, visión con desafío, rechazo incl. falla de cámara, placebo) y `pq-blistera.html` (19 ensayos EQ-PQ-BL, 14 con análisis: 3 lotes, extremos, peor caso, lote material distinto, fuga muestreada, peel, dimensiones, detección 100%, rotas, balance, estabilidad, op continua, estuchado, barrera; aspecto/legibilidad/conciliación/rechazo/paros sin flag como el original).
+- **Nota:** mapeo propio verificado ítem por ítem (OQ 27 = 5-11,14-32,36; PQ 19 = 6-24 sin saltos).
+- **Verificación:** extractor `--estricto` OK (529 artículos); Vitest 422/422, backend 67/67. Blistera: 11ª familia con OQ+PQ propio (IQ Nivel 2 pendiente).

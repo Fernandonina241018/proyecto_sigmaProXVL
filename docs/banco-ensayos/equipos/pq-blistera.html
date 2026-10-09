@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Blistera</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>PQ — Blistera (banco por familia, Nivel 2)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-BL 2026-10-09 v1</span></p>
+<p>Ensayos de Calificación de Desempeño específicos de la blistera, tomados del ENSAYOS.txt del usuario (grupos PQ marcados con análisis y flags individuales). Se filtran por familia (<code>data-familia="blistera"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= PQ ================= -->
+<section id="fase-pq" data-familia="blistera">
+<h2>PQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-001" class="ensayo" data-id="EQ-PQ-BL-001" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-BL-001 — Tres lotes consecutivos a velocidad nominal</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño consistente con tres lotes consecutivos a velocidad nominal, con el número justificado por análisis de riesgo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Justificar el número de lotes con el análisis de riesgo aprobado<br>
+  2) Fabricar tres lotes consecutivos a velocidad nominal registrando parámetros críticos<br>
+  3) Muestrear cada lote según el plan de muestreo aprobado<br>
+  4) Evaluar los atributos de calidad de cada lote contra especificación<br>
+  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los tres lotes cumplen todos los atributos de calidad.<br>
+  La variabilidad entre lotes está dentro de lo esperado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de los tres lotes con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de lotes consecutivos</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; análisis de riesgo del proceso.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-002" class="ensayo" data-id="EQ-PQ-BL-002" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-BL-002 — Velocidad mínima y máxima del rango declarado</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño en los extremos del rango declarado (a mayor velocidad baja el tiempo de contacto de sellado y se acorta el enfriamiento del film), si aplica.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Fabricar una corrida a velocidad mínima registrando atributos críticos<br>
+  2) Fabricar una corrida a velocidad máxima<br>
+  3) Muestrear inicio, medio y fin de cada corrida<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ambas corridas cumplen todos los atributos de calidad.<br>
+  Sellado íntegro a velocidad máxima.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de corridas extremas con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de velocidades extremas</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-003" class="ensayo" data-id="EQ-PQ-BL-003" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-BL-003 — Lote de peor caso</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño en el peor caso definido (producto de forma más difícil, film más grueso o más rígido, aluminio más fino, o material en el límite de especificación).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir y justificar el peor caso con el análisis de riesgo aprobado<br>
+  2) Fabricar el lote de peor caso registrando los parámetros críticos<br>
+  3) Muestrear según el plan de muestreo aprobado<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El lote de peor caso cumple todos los atributos de calidad.<br>
+  La justificación del peor caso está documentada y aprobada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Justificación del peor caso y registro del lote con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de peor caso</p>
+  <p><strong>Referencia:</strong><br>Análisis de riesgo del proceso.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-004" class="ensayo" data-id="EQ-PQ-BL-004" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-BL-004 — Lote de material de empaque distinto</h3>
+  <p><strong>Objetivo:</strong><br>Verificar con un lote de material de empaque distinto (si aplica) que el desempeño no depende de un solo lote de film.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Fabricar con un lote distinto de film o aluminio (si aplica)<br>
+  2) Evaluar formado, sellado e integridad contra los mismos criterios<br>
+  3) Comparar contra los lotes de rutina<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El desempeño con el lote distinto cumple los mismos criterios.<br>
+  Sin dependencia de un solo lote de material.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro comparativo con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de lote de material distinto</p>
+  <p><strong>Referencia:</strong><br>Especificación del material de empaque.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-005" class="ensayo" data-id="EQ-PQ-BL-005" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-BL-005 — Prueba de fuga muestreada durante la corrida</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la integridad con prueba de fuga con azul de metileno o por vacío, muestreada durante toda la corrida (inicio, medio, fin) y tras paros o ajustes.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Muestrear al inicio, medio y fin de cada corrida PQ<br>
+  2) Muestrear adicionalmente tras cada paro o ajuste<br>
+  3) Ejecutar la prueba de fuga en cada muestra<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin fugas en ninguna muestra de la corrida.<br>
+  Sin fugas tras paros o ajustes.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de fuga con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de integridad</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1207&gt; (integridad de empaque, si aplica).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-006" class="ensayo" data-id="EQ-PQ-BL-006" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-BL-006 — Resistencia del sello en posiciones y carriles</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la resistencia del sello (si aplica): peel en varias posiciones del blíster y entre carriles, con RSD y mínimo definidos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la resistencia al pelado en varias posiciones del blíster y entre carriles (si aplica)<br>
+  2) Calcular media, RSD y mínimo<br>
+  3) Comparar contra el criterio<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La resistencia cumple el mínimo en todas las posiciones.<br>
+  El RSD entre posiciones cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Mediciones de peel con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de resistencia del sello</p>
+  <p><strong>Referencia:</strong><br>Especificación del blíster.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-007" class="ensayo" data-id="EQ-PQ-BL-007" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-BL-007 — Aspecto del sello y del formado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el aspecto del sello y del formado: sin arrugas, canales de fuga, perforaciones, quemaduras ni adelgazamiento en esquinas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inspeccionar visualmente sello y formado de las muestras de cada lote<br>
+  2) Clasificar defectos por tipo<br>
+  3) Registrar por lote y punto de muestreo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los defectos están dentro del nivel aceptado.<br>
+  Sin defectos críticos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de aspecto (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Patrón de defectos aprobado.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-008" class="ensayo" data-id="EQ-PQ-BL-008" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-BL-008 — Dimensiones del blíster y del troquel</h3>
+  <p><strong>Objetivo:</strong><br>Verificar las dimensiones del blíster y del troquel (si aplica), dentro de especificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir las dimensiones del blíster en la muestra de cada lote (si aplica)<br>
+  2) Comparar contra especificación<br>
+  3) Procesar los datos crudos dimensionales en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las dimensiones están dentro de especificación.<br>
+  Sin deriva entre lotes.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro dimensional con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis dimensional</p>
+  <p><strong>Referencia:</strong><br>Especificación del blíster.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-009" class="ensayo" data-id="EQ-PQ-BL-009" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-BL-009 — Detección y rechazo de cavidades vacías y llenado doble</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el sistema de visión detecta y rechaza el 100% de las cavidades vacías y llenado doble del desafío, y que la tasa real de defectos durante la corrida queda dentro de lo esperado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pasar las muestras de desafío (vacías y dobles) y verificar su detección y rechazo<br>
+  2) Registrar la tasa real de defectos durante la corrida<br>
+  3) Comparar contra lo esperado<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100% del desafío se detecta y rechaza.<br>
+  La tasa real está dentro de lo esperado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del desafío con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de detección</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de visión.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-010" class="ensayo" data-id="EQ-PQ-BL-010" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-BL-010 — Producto roto o dañado en alimentación</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el producto roto o dañado: porcentaje de tabletas partidas por la alimentación, dentro del límite definido.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Recoger muestras durante la corrida y contar tabletas partidas o dañadas<br>
+  2) Calcular el porcentaje contra el total<br>
+  3) Comparar contra el límite definido<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El porcentaje de rotas cumple el límite definido.<br>
+  Sin tendencia creciente durante la corrida.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de rotas con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de producto dañado</p>
+  <p><strong>Referencia:</strong><br>Especificación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-011" class="ensayo" data-id="EQ-PQ-BL-011" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-BL-011 — Rendimiento y balance de masa</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el rendimiento y el balance de masa: producto cargado contra blísteres buenos, rechazos y producto recuperado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar el producto cargado de cada lote<br>
+  2) Contar blísteres buenos, rechazos y producto recuperado<br>
+  3) Cerrar el balance de masa<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El rendimiento cumple el rango especificado.<br>
+  El balance de masa cierra dentro de tolerancia.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Balances de masa con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de rendimiento</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-012" class="ensayo" data-id="EQ-PQ-BL-012" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-BL-012 — Legibilidad de lote y vencimiento</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la legibilidad del lote y vencimiento en todas las muestras: sin borrosidad, desalineación ni omisión. Verificación contra la orden de acondicionamiento.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar legibilidad en todas las muestras de cada lote<br>
+  2) Comparar contra la orden de acondicionamiento<br>
+  3) Registrar defectos de impresión</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Lote y vencimiento legibles en el 100% de la muestra.<br>
+  Sin omisiones ni borrosidad.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de legibilidad (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Orden de acondicionamiento del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-013" class="ensayo" data-id="EQ-PQ-BL-013" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-BL-013 — Conciliación de material impreso</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la conciliación de material impreso (si aplica): uso de film o aluminio impreso con lote y cifra de rechazo, para evitar mezcla de lotes.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar el material impreso usado por lote (si aplica)<br>
+  2) Conciliar contra lo declarado con la cifra de rechazo<br>
+  3) Verificar que no hay mezcla de lotes</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La conciliación cierra dentro de tolerancia.<br>
+  Sin mezcla de lotes.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de conciliación (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Orden de acondicionamiento del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-014" class="ensayo" data-id="EQ-PQ-BL-014" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-BL-014 — Rechazo con producto y falsos rechazos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que con producto el sistema de visión y el de presencia rechazan los defectos y no las buenas, con porcentaje de falsos rechazos dentro de lo aceptable.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Durante la corrida PQ, registrar los rechazos del sistema<br>
+  2) Verificar una muestra de rechazadas: corresponden a defectos reales<br>
+  3) Estimar el porcentaje de falsos rechazos<br>
+  4) Verificar que las buenas no se desvían indebidamente</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las rechazadas corresponden a defectos reales.<br>
+  Los falsos rechazos están dentro de lo aceptable.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de rechazo con producto (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de visión.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-015" class="ensayo" data-id="EQ-PQ-BL-015" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-BL-015 — Paros y reinicios con estaciones calientes</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el comportamiento tras una detención con las estaciones calientes (si aplica): descarte de los blísteres del ciclo afectado. Es un punto crítico por el sobrecalentamiento del film.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar una detención controlada durante la corrida (si aplica evaluación)<br>
+  2) Identificar y descartar los blísteres del ciclo afectado<br>
+  3) Reanudar y verificar el retorno a especificación</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los blísteres afectados se descartan según lo definido.<br>
+  Tras la reanudación los atributos retornan a especificación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de paro y reanudación (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Procedimiento de operación de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-016" class="ensayo" data-id="EQ-PQ-BL-016" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-BL-016 — Estabilidad térmica y de proceso durante la corrida</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la estabilidad de temperatura de formado y de sellado, presión y velocidad durante toda la corrida, sin deriva.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar temperaturas, presión y velocidad a intervalos definidos durante la corrida<br>
+  2) Evaluar deriva y variabilidad<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los parámetros se mantienen en banda sin deriva.<br>
+  La variabilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tendencias con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de estabilidad del proceso</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-017" class="ensayo" data-id="EQ-PQ-BL-017" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-BL-017 — Operación continua durante la duración máxima del lote</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la operación continua durante la duración más larga prevista de un lote (si aplica), con data de atributos en el tiempo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar de forma continua durante la duración más larga prevista (si aplica)<br>
+  2) Registrar parámetros críticos y atributos a intervalos definidos<br>
+  3) Evaluar la estabilidad de atributos en el tiempo<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los atributos se mantienen en especificación durante toda la duración.<br>
+  Sin deriva significativa.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de operación continua</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-018" class="ensayo" data-id="EQ-PQ-BL-018" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-BL-018 — Estuchado sin atascos ni daños</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el estuchado o empaque secundario (si aplica): los blísteres pasan por el estuchador sin atascos ni daños.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pasar los blísteres por el estuchador (si aplica)<br>
+  2) Registrar atascos y daños<br>
+  3) Procesar los datos crudos de defectos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin atascos que detengan la línea fuera de criterio.<br>
+  Sin daños a los blísteres por el estuchado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de estuchado</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del estuchador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-BL-019" class="ensayo" data-id="EQ-PQ-BL-019" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-BL-019 — Protección del producto por la barrera del blíster</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la barrera del blíster cubre la protección requerida (si aplica). Se cubre con el estudio de estabilidad y con la especificación del material.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Referenciar el estudio de estabilidad aplicable al producto en blíster (si aplica)<br>
+  2) Verificar la especificación de barrera del material<br>
+  3) Procesar los datos de respaldo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El estudio de estabilidad respalda la vida útil en el blíster.<br>
+  El material cumple la especificación de barrera.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Referencia al estudio con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de barrera</p>
+  <p><strong>Referencia:</strong><br>Estudio de estabilidad del producto; especificación del material.</p>
+</article>
+
+</section>
+</body>
+</html>
