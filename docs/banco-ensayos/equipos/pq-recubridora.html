@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Recubridora</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>PQ — Recubridora (banco por familia, Nivel 2)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-RB 2026-10-09 v1</span></p>
+<p>Ensayos de Calificación de Desempeño específicos de la recubridora de bombo, tomados del ENSAYOS.txt del usuario (grupos PQ marcados con análisis y flags individuales). Se filtran por familia (<code>data-familia="recubridora"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= PQ ================= -->
+<section id="fase-pq" data-familia="recubridora">
+<h2>PQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-PQ-RB-001" class="ensayo" data-id="EQ-PQ-RB-001" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RB-001 — Tres lotes consecutivos a carga nominal</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño consistente con tres lotes consecutivos a carga nominal, con el número justificado por análisis de riesgo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Justificar el número de lotes con el análisis de riesgo aprobado<br>
+  2) Fabricar tres lotes consecutivos a carga nominal registrando parámetros críticos<br>
+  3) Muestrear cada lote según el plan de muestreo aprobado<br>
+  4) Evaluar los atributos de calidad de cada lote contra especificación<br>
+  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los tres lotes cumplen todos los atributos de calidad.<br>
+  La variabilidad entre lotes está dentro de lo esperado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de los tres lotes con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de lotes consecutivos</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; análisis de riesgo del proceso.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RB-002" class="ensayo" data-id="EQ-PQ-RB-002" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RB-002 — Carga mínima y máxima</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño en los extremos de carga (con poca carga el lecho no cubre la sonda ni se mueve bien, y con mucha carga la aspersión llega menos a las tabletas inferiores), si aplica.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Fabricar un lote a carga mínima registrando el movimiento del lecho<br>
+  2) Fabricar un lote a carga máxima<br>
+  3) Muestrear según el plan de muestreo aprobado<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ambos lotes cumplen todos los atributos de calidad.<br>
+  Movimiento del lecho adecuado en ambos extremos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de cargas extremas con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de carga mínima y máxima</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RB-003" class="ensayo" data-id="EQ-PQ-RB-003" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RB-003 — Lote de peor caso</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño en el peor caso definido (núcleo más friable o higroscópico, mayor aumento de peso, mayor caudal de spray, y condiciones ambientales más húmedas).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir y justificar el peor caso con el análisis de riesgo aprobado<br>
+  2) Fabricar el lote de peor caso registrando los parámetros críticos<br>
+  3) Muestrear según el plan de muestreo aprobado<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El lote de peor caso cumple todos los atributos de calidad.<br>
+  La justificación del peor caso está documentada y aprobada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Justificación del peor caso y registro del lote con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de peor caso</p>
+  <p><strong>Referencia:</strong><br>Análisis de riesgo del proceso.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RB-004" class="ensayo" data-id="EQ-PQ-RB-004" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RB-004 — Aumento de peso promedio</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el aumento de peso promedio: peso de una muestra grande (por ejemplo 100 tabletas) antes y después del recubrimiento.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pesar la muestra grande antes del recubrimiento<br>
+  2) Pesar la misma muestra después del recubrimiento<br>
+  3) Calcular el aumento de peso porcentual<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El aumento de peso está dentro del rango especificado.<br>
+  La repetibilidad entre lotes cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de aumento de peso con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de aumento de peso</p>
+  <p><strong>Referencia:</strong><br>Especificación del producto recubierto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RB-005" class="ensayo" data-id="EQ-PQ-RB-005" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RB-005 — Uniformidad entre tabletas (dispersión del recubrimiento)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la uniformidad entre tabletas: peso individual de una muestra al final, para ver la dispersión del recubrimiento (RSD) y no solo el promedio.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pesar tabletas individuales de la muestra final<br>
+  2) Calcular media, desviación y RSD del aumento de peso<br>
+  3) Comparar contra el criterio de uniformidad<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El RSD entre tabletas cumple el criterio especificado.<br>
+  Sin tabletas fuera de los límites individuales.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Pesos individuales con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de uniformidad entre tabletas</p>
+  <p><strong>Referencia:</strong><br>Especificación del producto recubierto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RB-006" class="ensayo" data-id="EQ-PQ-RB-006" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RB-006 — Uniformidad de color entre ubicaciones</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la uniformidad de color (si aplica): colorímetro (ΔE) entre tabletas de ubicaciones distintas del lote.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Tomar tabletas de distintas ubicaciones del lote (si aplica evaluación de color)<br>
+  2) Medir el color con colorímetro calibrado y calcular ΔE<br>
+  3) Comparar entre ubicaciones<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El ΔE entre ubicaciones cumple el criterio especificado.<br>
+  Sin diferencias visuales fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Mediciones de color con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de color</p>
+  <p><strong>Referencia:</strong><br>Especificación de color del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RB-007" class="ensayo" data-id="EQ-PQ-RB-007" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RB-007 — Uniformidad entre ubicaciones del bombo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la uniformidad entre ubicaciones: muestras tomadas de distintas zonas del bombo al final.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Muestrear distintas zonas del bombo al final del recubrimiento<br>
+  2) Determinar el aumento de peso por zona<br>
+  3) Comparar las zonas entre sí<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todas las zonas cumplen el aumento de peso.<br>
+  Sin zona significativamente distinta.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Resultados por zona con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis entre ubicaciones</p>
+  <p><strong>Referencia:</strong><br>Plan de muestreo aprobado.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RB-008" class="ensayo" data-id="EQ-PQ-RB-008" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-RB-008 — Aspecto de la tableta recubierta</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el aspecto: sin pegado entre tabletas (twinning), piel de naranja, erosión de bordes, pérdida de logotipo (bridging), grietas ni manchas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inspeccionar visualmente las muestras de cada lote contra el patrón de defectos<br>
+  2) Clasificar y contar defectos por tipo<br>
+  3) Registrar los defectos por lote</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los defectos están dentro del nivel aceptado por tipo.<br>
+  Sin defectos críticos en ningún lote.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de defectos (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Patrón de defectos aprobado; especificación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RB-009" class="ensayo" data-id="EQ-PQ-RB-009" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RB-009 — Humedad del núcleo y del producto recubierto</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la humedad del núcleo y del producto recubierto: el spray acuoso incorpora humedad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la humedad del núcleo antes del recubrimiento<br>
+  2) Medir la humedad del producto recubierto al final<br>
+  3) Comparar contra los límites especificados<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La humedad del producto recubierto cumple especificación.<br>
+  Sin ganancia de humedad fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de humedad con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de humedad</p>
+  <p><strong>Referencia:</strong><br>Especificación del producto recubierto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RB-010" class="ensayo" data-id="EQ-PQ-RB-010" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RB-010 — Disolución y desintegración del recubierto</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la disolución y desintegración del producto recubierto. En recubrimientos entéricos o de liberación modificada, esto es el criterio crítico (resistencia en medio ácido o perfil de liberación).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Determinar la desintegración según el método aprobado en cada lote<br>
+  2) Determinar el perfil de disolución (incluida resistencia en medio ácido si aplica entérico)<br>
+  3) Registrar los resultados por lote<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Desintegración y disolución cumplen especificación en cada lote.<br>
+  Resistencia en medio ácido (si aplica) dentro de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Resultados con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de disolución</p>
+  <p><strong>Referencia:</strong><br>USP &lt;701&gt; (desintegración); USP &lt;711&gt; (disolución).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RB-011" class="ensayo" data-id="EQ-PQ-RB-011" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RB-011 — Valoración y degradación en recubierto</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la valoración y los productos de degradación (si aplica, activos termolábiles o sensibles a humedad).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Valorar el activo en el producto recubierto de cada lote (si aplica)<br>
+  2) Cuantificar los productos de degradación por el método aprobado<br>
+  3) Comparar contra especificación<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La valoración cumple especificación.<br>
+  Los productos de degradación no superan el límite.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Valoraciones y degradación con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de valoración</p>
+  <p><strong>Referencia:</strong><br>Especificación de valoración e impurezas.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RB-012" class="ensayo" data-id="EQ-PQ-RB-012" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RB-012 — Friabilidad y desgaste en el bombo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la friabilidad y el desgaste en el bombo (si aplica): fragmentos o tabletas rotas al final.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Determinar la friabilidad del producto recubierto (si aplica)<br>
+  2) Recoger y pesar fragmentos y tabletas rotas al final del lote<br>
+  3) Comparar contra el criterio<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La friabilidad cumple especificación.<br>
+  Fragmentos y rotas dentro del nivel aceptado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Resultados con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de friabilidad</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1216&gt; (friabilidad).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RB-013" class="ensayo" data-id="EQ-PQ-RB-013" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RB-013 — Perfil térmico y de flujo durante el ciclo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el perfil de temperatura del producto, de escape y de entrada, y del flujo de aire durante todo el ciclo, sin desvíos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar temperaturas de producto, escape y entrada durante todo el ciclo<br>
+  2) Registrar el flujo de aire durante el ciclo<br>
+  3) Verificar ausencia de desvíos contra las bandas definidas<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los perfiles se mantienen en banda durante todo el ciclo.<br>
+  Sin desvíos fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Perfiles con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de perfiles</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RB-014" class="ensayo" data-id="EQ-PQ-RB-014" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RB-014 — Caudal de spray real contra programado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el caudal de spray real contra el programado, con estabilidad durante la aspersión y sin obstrucción de pistolas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar el caudal real durante la aspersión a intervalos definidos<br>
+  2) Comparar contra el caudal programado<br>
+  3) Verificar estabilidad y ausencia de obstrucción de pistolas<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El caudal real sigue al programado dentro de tolerancia.<br>
+  Sin obstrucción de pistolas durante la aspersión.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de caudal con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de caudal de spray</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RB-015" class="ensayo" data-id="EQ-PQ-RB-015" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RB-015 — Eficiencia de recubrimiento y balance</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la eficiencia de recubrimiento: balance entre sólidos aplicados y recubrimiento recuperado en las tabletas, con pérdida en paredes, filtros y pistolas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pesar los sólidos de suspensión aplicados en cada lote<br>
+  2) Determinar el recubrimiento recuperado en las tabletas por aumento de peso<br>
+  3) Estimar las pérdidas en paredes, filtros y pistolas<br>
+  4) Calcular la eficiencia y cerrar el balance<br>
+  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La eficiencia cumple el rango especificado.<br>
+  El balance cierra dentro de tolerancia.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Balances de recubrimiento con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de eficiencia</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RB-016" class="ensayo" data-id="EQ-PQ-RB-016" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RB-016 — Secado final y enfriamiento</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el tiempo de secado final y enfriamiento: la humedad y la temperatura del lecho alcanzan los criterios antes de descargar.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar el secado final y enfriamiento según el protocolo<br>
+  2) Medir la humedad y la temperatura del lecho al final<br>
+  3) Verificar que alcanzan los criterios antes de descargar<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Humedad y temperatura del lecho en criterio antes de la descarga.<br>
+  Tiempo de secado dentro de lo establecido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de secado con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de secado final</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RB-017" class="ensayo" data-id="EQ-PQ-RB-017" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RB-017 — Comportamiento de la suspensión y hold time</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el comportamiento de la suspensión: viscosidad, agitación y estabilidad durante la aspersión, y límite de tiempo de espera (hold time) de la suspensión preparada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la viscosidad de la suspensión antes y durante la aspersión<br>
+  2) Verificar la agitación continua sin sedimentación<br>
+  3) Verificar el hold time: comportamiento al límite del tiempo de espera definido<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Viscosidad estable durante la aspersión.<br>
+  La suspensión es apta hasta el hold time definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de suspensión con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de suspensión</p>
+  <p><strong>Referencia:</strong><br>Especificación de la suspensión de recubrimiento.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RB-018" class="ensayo" data-id="EQ-PQ-RB-018" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-RB-018 — Rotura en descarga, rendimiento y balance de masa</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la descarga: rotura o daño, rendimiento y balance de masa.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Descargar el lote e inspeccionar rotura o daño por la descarga<br>
+  2) Pesar el producto descargado y calcular el rendimiento<br>
+  3) Cerrar el balance de masa del lote<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin rotura o daño atribuible a la descarga fuera de criterio.<br>
+  Rendimiento y balance dentro de lo especificado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de descarga con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de descarga</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+</section>
+</body>
+</html>

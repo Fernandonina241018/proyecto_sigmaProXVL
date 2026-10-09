@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos OQ — Recubridora</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>OQ — Recubridora (banco por familia, Nivel 2)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-OQ-RB 2026-10-09 v1</span></p>
+<p>Ensayos de Calificación de Operación específicos de la recubridora de bombo, tomados del ENSAYOS.txt del usuario. Se filtran por familia (<code>data-familia="recubridora"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq" data-familia="recubridora">
+<h2>OQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-001" class="ensayo" data-id="EQ-OQ-RB-001" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RB-001 — Verificación de parada de emergencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la parada de emergencia detiene el bombo, el spray y la calefacción de forma segura.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con bombo girando, spray y calefacción activos sin producto, accionar la parada de emergencia<br>
+  2) Verificar la detención del bombo y el corte de spray y calefacción<br>
+  3) Verificar el estado seguro sin rearranque espontáneo<br>
+  4) Restablecer y verificar el rearranque controlado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Bombo, spray y calefacción se detienen o cortan correctamente.<br>
+  No existe rearranque espontáneo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de parada de emergencia (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-002" class="ensayo" data-id="EQ-OQ-RB-002" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RB-002 — Verificación de interlocks</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que no hay spray sin flujo de aire, ni calefacción sin ventilador, ni giro del bombo con la puerta abierta, y el modo de giro lento (inching) para carga y limpieza.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con la puerta abierta, intentar girar el bombo: no debe permitirlo<br>
+  2) Sin flujo de aire, intentar activar el spray: no debe permitirlo<br>
+  3) Sin ventilador, intentar activar la calefacción: no debe permitirlo<br>
+  4) Verificar el modo de giro lento (inching) para carga y limpieza<br>
+  5) Registrar cada interlock con su respuesta</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los interlocks impiden la condición insegura.<br>
+  El inching opera solo en su modo previsto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de interlocks con respuesta verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-003" class="ensayo" data-id="EQ-OQ-RB-003" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RB-003 — Verificación de alarmas y límites</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada alarma dispara y ejecuta su acción: alta temperatura de entrada, bajo flujo de aire, falla de bomba, baja presión de atomización, pistola obstruida, alto ΔP del filtro y sobrecorriente del motor (si aplican).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular cada condición de alarma aplicable y verificar disparo y acción<br>
+  2) Verificar la alarma de pistola obstruida (si aplica detección)<br>
+  3) Verificar la alarma de alto ΔP del filtro<br>
+  4) Verificar el registro de cada alarma en el histórico</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada alarma dispara ante su condición y ejecuta su acción.<br>
+  Todas quedan registradas en el histórico.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de alarmas con disparo y acción verificados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-004" class="ensayo" data-id="EQ-OQ-RB-004" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RB-004 — Verificación de falla y recuperación de energía</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el estado seguro ante falla de energía, sin arranque espontáneo y con corte inmediato del spray.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con el equipo en operación simulada, interrumpir la energía<br>
+  2) Verificar el corte inmediato del spray y el estado seguro<br>
+  3) Restablecer y verificar que no hay arranque espontáneo<br>
+  4) Verificar el rearranque manual controlado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Corte inmediato del spray ante la falla.<br>
+  Sin arranque espontáneo al retornar la energía.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de falla y recuperación de energía (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-005" class="ensayo" data-id="EQ-OQ-RB-005" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RB-005 — Verificación de exactitud de velocidad del bombo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la velocidad del bombo en mínimo, nominal y máximo frente a un tacómetro independiente.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>
+  2) Medir cada punto con un tacómetro independiente calibrado, por triplicado<br>
+  3) Registrar la lectura del control y la del tacómetro<br>
+  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La velocidad indicada está dentro de tolerancia en los tres puntos.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de velocidades con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de velocidad del bombo</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-006" class="ensayo" data-id="EQ-OQ-RB-006" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RB-006 — Verificación de sentido de giro, rampas y parada</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el sentido de giro (recubrimiento y descarga), las rampas y la parada del bombo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el sentido de giro de recubrimiento y el de descarga<br>
+  2) Medir los tiempos de aceleración y parada<br>
+  3) Verificar ausencia de golpes o vibración anormal<br>
+  4) Procesar los datos crudos de tiempos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sentidos de giro correctos con rampas y parada dentro de lo especificado.<br>
+  Sin anomalías.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de giro y rampas</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-007" class="ensayo" data-id="EQ-OQ-RB-007" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RB-007 — Verificación de corriente del motor</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la corriente del motor con carga inerte mínima y máxima, sin picos anormales.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar con carga inerte mínima y registrar la corriente estable y de arranque<br>
+  2) Operar con carga inerte máxima y registrar la corriente<br>
+  3) Comparar contra la corriente nominal de placa<br>
+  4) Verificar ausencia de picos anormales</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La corriente no supera la nominal de placa.<br>
+  Sin picos anormales en operación estable.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de corrientes (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Placa del motor del bombo.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-008" class="ensayo" data-id="EQ-OQ-RB-008" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RB-008 — Verificación de vibración, ruido y sellos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar vibración y ruido (si aplica medición), y el estado de los sellos del bombo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar a velocidad nominal y registrar vibración y ruido (si aplica)<br>
+  2) Inspeccionar los sellos del bombo: integridad y ausencia de fugas<br>
+  3) Comparar contra los límites del fabricante</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Vibración y ruido dentro de lo esperado.<br>
+  Sellos íntegros sin fugas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de vibración y sellos (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-009" class="ensayo" data-id="EQ-OQ-RB-009" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RB-009 — Verificación de flujo de aire y relación ventilador-caudal</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el flujo de aire de entrada y de escape en mínimo, nominal y máximo, y la relación frecuencia del ventilador contra caudal.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar el ventilador en mínimo, nominal y máximo<br>
+  2) Medir el caudal de entrada y de escape en cada punto, por triplicado<br>
+  3) Determinar la relación frecuencia contra caudal<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los caudales cumplen lo especificado en los tres puntos.<br>
+  La relación frecuencia-caudal es consistente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de caudales con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de flujo de aire</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-010" class="ensayo" data-id="EQ-OQ-RB-010" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RB-010 — Verificación del control de temperatura del aire de entrada</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el control de temperatura del aire de entrada: exactitud, estabilidad y sobreimpulso en setpoints bajo, medio y alto, y tiempo de respuesta.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Estabilizar en setpoint bajo, medio y alto del rango de proceso<br>
+  2) Medir exactitud contra patrón, estabilidad y sobreimpulso en cada punto<br>
+  3) Medir el tiempo de respuesta ante cambio de setpoint<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Exactitud dentro de tolerancia en los tres setpoints.<br>
+  Sobreimpulso y tiempo de respuesta dentro de lo especificado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros térmicos con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de control de temperatura</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-011" class="ensayo" data-id="EQ-OQ-RB-011" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RB-011 — Verificación del control de humedad del aire de entrada</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el control de humedad o punto de rocío del aire de entrada (si hay deshumidificación).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar el sistema de deshumidificación (si aplica) en sus puntos de ajuste<br>
+  2) Medir la humedad o punto de rocío con instrumento independiente, por triplicado<br>
+  3) Verificar estabilidad en cada punto<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La humedad o punto de rocío está dentro de tolerancia.<br>
+  Estabilidad dentro de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de humedad del aire</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de tratamiento de aire.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-012" class="ensayo" data-id="EQ-OQ-RB-012" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RB-012 — Verificación de presión diferencial del bombo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la presión diferencial (ligeramente negativa) en el bombo y su alarma de desvío.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar el bombo con extracción nominal y medir el diferencial<br>
+  2) Verificar que se mantiene ligeramente negativo de forma estable<br>
+  3) Forzar el desvío y verificar la alarma<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El diferencial se mantiene en la banda especificada.<br>
+  La alarma de desvío dispara correctamente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de diferencial</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-013" class="ensayo" data-id="EQ-OQ-RB-013" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RB-013 — Verificación de limpieza o sacudido de filtros de escape</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la secuencia de limpieza o sacudido de filtros de escape: secuencia, tiempos y respuesta ante alto ΔP.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la secuencia programada de limpieza o sacudido<br>
+  2) Medir los tiempos de cada etapa<br>
+  3) Simular alto ΔP y verificar la respuesta del sistema<br>
+  4) Verificar el diferencial antes y después del ciclo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La secuencia y los tiempos corresponden a lo programado.<br>
+  El diferencial se recupera tras el ciclo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de limpieza de filtros (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-014" class="ensayo" data-id="EQ-OQ-RB-014" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RB-014 — Verificación de exactitud del caudal de spray</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la calibración y exactitud del caudal de la bomba en el rango de uso, con agua, en varios puntos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar el caudal en varios puntos del rango de uso<br>
+  2) Medir el caudal real con agua por método gravimétrico o volumétrico, por triplicado<br>
+  3) Registrar el ajuste contra el caudal medido<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El caudal está dentro de tolerancia en todos los puntos.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de caudales con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de caudal de spray</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la bomba.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-015" class="ensayo" data-id="EQ-OQ-RB-015" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RB-015 — Verificación de presiones de atomización y patrón</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la presión del aire de atomización y de patrón (abanico) en cada pistola, con repetibilidad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar las presiones de atomización y patrón en cada pistola<br>
+  2) Medir con instrumento independiente, por triplicado por pistola<br>
+  3) Verificar repetibilidad entre pistolas<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las presiones están dentro de tolerancia en cada pistola.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de presiones</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-016" class="ensayo" data-id="EQ-OQ-RB-016" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RB-016 — Verificación del patrón de spray con agua</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el patrón de spray con agua: ancho, forma y uniformidad de las pistolas, y ausencia de goteo al cerrar.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Asperjar agua sobre superficie de prueba con cada pistola<br>
+  2) Medir el ancho y evaluar la forma y uniformidad del patrón<br>
+  3) Cerrar y verificar ausencia de goteo durante el tiempo definido<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El patrón es uniforme con ancho dentro de especificación.<br>
+  Sin goteo al cerrar.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de patrones con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de patrón de spray</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-017" class="ensayo" data-id="EQ-OQ-RB-017" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RB-017 — Verificación de posición documentada de pistolas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la posición de las pistolas: distancia y ángulo respecto al lecho, y separación entre ellas. Debe quedar documentada y reproducible.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la distancia y el ángulo de cada pistola respecto al lecho<br>
+  2) Medir la separación entre pistolas (si hay más de una)<br>
+  3) Documentar las posiciones con croquis acotado<br>
+  4) Desmontar y remontar verificando reproducibilidad<br>
+  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las posiciones están dentro de lo definido y documentadas.<br>
+  La posición es reproducible tras desmontar y remontar.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Croquis acotado con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de posición de pistolas</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-018" class="ensayo" data-id="EQ-OQ-RB-018" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-RB-018 — Verificación de distribución del caudal entre pistolas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la distribución del caudal entre pistolas (si hay más de una).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir el caudal individual de cada pistola con agua (si hay más de una)<br>
+  2) Calcular la participación porcentual de cada una<br>
+  3) Comparar contra el criterio de uniformidad de reparto</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El reparto entre pistolas está dentro del criterio.<br>
+  Sin pistola con caudal significativamente distinto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de reparto entre pistolas (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-019" class="ensayo" data-id="EQ-OQ-RB-019" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RB-019 — Verificación de agitación y recirculación del tanque</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la agitación del tanque de suspensión y la recirculación (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la agitación del tanque: operación continua sin zonas muertas visibles<br>
+  2) Verificar la recirculación (si aplica): caudal y retorno al tanque<br>
+  3) Verificar ausencia de sedimentación en el tiempo de espera definido<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Agitación continua sin zonas muertas.<br>
+  Sin sedimentación en el tiempo de espera definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de agitación</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-020" class="ensayo" data-id="EQ-OQ-RB-020" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RB-020 — Verificación de repetibilidad del caudal entre corridas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la repetibilidad del caudal entre corridas y su estabilidad durante la aspersión.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar aspersiones de agua de igual duración en corridas sucesivas<br>
+  2) Registrar el caudal durante cada aspersión a intervalos definidos<br>
+  3) Evaluar estabilidad intra-aspersión y repetibilidad entre corridas<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El caudal es estable durante la aspersión.<br>
+  La repetibilidad entre corridas cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de repetibilidad</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la bomba.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-021" class="ensayo" data-id="EQ-OQ-RB-021" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RB-021 — Mapeo de temperatura del aire en el bombo vacío</h3>
+  <p><strong>Objetivo:</strong><br>Mapear la temperatura del aire en el bombo vacío con termopares en varios puntos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Instalar termopares calibrados en los puntos definidos del bombo vacío<br>
+  2) Mapear en el setpoint de rutina durante el tiempo definido<br>
+  3) Determinar la dispersión entre puntos<br>
+  4) Procesar los datos crudos de mapeo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La dispersión entre puntos no supera el límite especificado.<br>
+  Sin puntos fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Mapa de temperatura con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de mapeo</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-022" class="ensayo" data-id="EQ-OQ-RB-022" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RB-022 — Correlación de temperaturas con carga inerte</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la correlación entre temperatura de entrada, de escape y del lecho con carga inerte.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar con carga inerte registrando entrada, escape y lecho<br>
+  2) Variar la entrada en el rango de uso y registrar las respuestas<br>
+  3) Establecer la correlación entre las tres temperaturas<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La correlación es consistente y reproducible.<br>
+  Las tres temperaturas responden según lo esperado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Curvas de correlación con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de correlación</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-023" class="ensayo" data-id="EQ-OQ-RB-023" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RB-023 — Capacidad de evaporación (techo de velocidad de spray)</h3>
+  <p><strong>Objetivo:</strong><br>Determinar la capacidad de evaporación: aspersión de agua al caudal máximo declarado con carga inerte, verificando que el escape no se satura ni cambia el comportamiento del lecho. Es el ensayo que fija el techo real de velocidad de spray.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Asperjar agua al caudal máximo declarado con carga inerte<br>
+  2) Registrar la humedad o temperatura del escape durante la aspersión<br>
+  3) Verificar que el escape no se satura y el lecho no cambia su comportamiento<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Al caudal máximo el escape no se satura.<br>
+  El lecho mantiene su comportamiento (sin sobrehumectación).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de capacidad con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de capacidad de evaporación</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación de la recubridora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-RB-024" class="ensayo" data-id="EQ-OQ-RB-024" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-RB-024 — Corrida con placebo a carga mínima y máxima</h3>
+  <p><strong>Objetivo:</strong><br>Verificar una corrida completa con tabletas placebo y agua a carga mínima y máxima: movimiento del lecho, ausencia de pegado, rotura o erosión, sin alarmas ni desviaciones.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Correr placebo con agua a carga mínima registrando el comportamiento del lecho<br>
+  2) Correr placebo con agua a carga máxima<br>
+  3) Inspeccionar pegado, rotura o erosión en ambas cargas<br>
+  4) Registrar alarmas e intervenciones<br>
+  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Movimiento del lecho adecuado en ambas cargas.<br>
+  Sin pegado, rotura, erosión, alarmas ni desviaciones no justificadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de corrida con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de corrida con placebo</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación de la recubridora.</p>
+</article>
+
+</section>
+</body>
+</html>

@@ -4741,3 +4741,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Causa:** `showBatchGraphModal` marcaba todos los checkboxes por defecto (opt-out) en lista con scroll; doble apertura duplicaba el set en el DOM (`querySelectorAll` global).
 - **Qué:** checkboxes sin marcar por defecto + contador vivo y botón `Generar (N)`; modal con id y dedupe al abrir; recolección con alcance al modal + dedupe de columnas repetidas.
 - **Verificación:** nuevo `tests/viz-batch-modal.test.js` (4 tests funcionales happy-dom); Vitest 417/417.
+
+### 2026-10-09 (154): OQ + PQ recubridora desde ENSAYOS.txt (42 ensayos)
+- **Qué:** `.txt` traía OQ+PQ recubridora de bombo. Creados `oq-recubridora.html` (24 ensayos EQ-OQ-RB, 16 con análisis: bombo, aire entrada/humedad/diferencial, spray completo, posición pistolas, mapeo, capacidad evaporación como techo de spray, placebo) y `pq-recubridora.html` (18 ensayos EQ-PQ-RB, 17 con análisis: 3 lotes, extremos, peor caso, aumento peso/RSD/color/ubicaciones, disolución entérica, eficiencia, hold time; aspecto visual sin flag como el original).
+- **Verificación:** extractor `--estricto` OK (478 artículos); Vitest 419/419, backend 67/67. Recubridora: 10ª familia con OQ+PQ propio (IQ Nivel 2 pendiente).
