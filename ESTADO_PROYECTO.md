@@ -4736,3 +4736,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Qué (server):** `POST /:id/reopen|sendback|amend` (credenciales+mótivo+versión, auditados), `DELETE` con motivo y respuesta con sesión, fix etiqueta `SIGN_SESSION_SIGN` (era UNSIGN).
 - **Qué (frontend):** borrado pide motivo (prompt) y lo envía en el cuerpo; toast aclara visibilidad temporal.
 - **Verificación:** backend 67/67 (10 tests nuevos incl. ciclo completo reject→reopen→amend→complete e inmutabilidad), Vitest 413/413. PG SQL revisado por inspección (sin PG local para ejecutar).
+
+### 2026-10-09 (153): Fix gráficos múltiples no seleccionados (opt-in + dedupe)
+- **Causa:** `showBatchGraphModal` marcaba todos los checkboxes por defecto (opt-out) en lista con scroll; doble apertura duplicaba el set en el DOM (`querySelectorAll` global).
+- **Qué:** checkboxes sin marcar por defecto + contador vivo y botón `Generar (N)`; modal con id y dedupe al abrir; recolección con alcance al modal + dedupe de columnas repetidas.
+- **Verificación:** nuevo `tests/viz-batch-modal.test.js` (4 tests funcionales happy-dom); Vitest 417/417.

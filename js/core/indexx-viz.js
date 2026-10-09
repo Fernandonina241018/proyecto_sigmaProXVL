@@ -1491,14 +1491,19 @@ var _V_TYPE_MAP = {
 function showBatchGraphModal() {
   var sheet = _V_getSheet();
   if (!sheet || !sheet.headers || !sheet.headers.length) { showToast('No hay datos cargados'); return; }
+  // Sin modales duplicados: un modal previo abierto duplicaría los checkboxes
+  // y generaría columnas repetidas o ya desmarcadas en el otro modal.
+  var prev = document.getElementById('vizBatchModal');
+  if (prev) prev.remove();
   var modal = document.createElement('div');
   modal.className = 'modal-overlay';
+  modal.id = 'vizBatchModal';
   var colOpts = '<option value="">— Seleccionar —</option>';
   sheet.headers.forEach(function(c) { colOpts += '<option value="' + c.replace(/"/g, '&quot;') + '">' + escapeHtml(c) + '</option>'; });
   var colChkHtml = sheet.headers.map(function(col) {
     var safeId = 'vizModalChk-' + String(col).replace(/[^a-zA-Z0-9_-]/g, '_');
     return '<label style="font-size:11px;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;gap:2px;padding:2px 0">' +
-      '<input type="checkbox" class="viz-modal-batch-chk" data-col="' + col.replace(/"/g, '&quot;') + '" id="' + safeId + '" checked> ' + escapeHtml(col) + '</label>';
+      '<input type="checkbox" class="viz-modal-batch-chk" data-col="' + col.replace(/"/g, '&quot;') + '" id="' + safeId + '"> ' + escapeHtml(col) + '</label>';
   }).join('');
   modal.innerHTML = '<div class="modal-box" style="min-width:420px">' +
     '<div class="modal-title">🔁 Generar múltiples gráficos</div>' +
@@ -1520,11 +1525,22 @@ function showBatchGraphModal() {
       '<input type="checkbox" id="vizModalAutoIdx"' + (_V.vals.x === '__index__' ? ' checked' : '') + '> 🔢 Índice automático (1, 2, 3...)</label>' +
     '<div style="font-size:11px;color:var(--text-faint);margin:4px 0 2px">Columnas a graficar:</div>' +
     '<div style="display:flex;flex-wrap:wrap;gap:4px 12px;max-height:200px;overflow-y:auto;padding:4px 0">' + colChkHtml + '</div>' +
+    '<div id="vizModalSelCount" style="font-size:11px;color:var(--text-faint);margin-top:4px">0 columnas seleccionadas</div>' +
     '<div class="modal-actions" style="margin-top:10px">' +
       '<button class="btn btn-secondary" id="vizModalCancel">Cancelar</button>' +
       '<button class="btn btn-primary" id="vizModalGenerate">🎨 Generar</button>' +
     '</div></div>';
   document.body.appendChild(modal);
+  // Contador vivo + alcance al modal (nunca al documento: evita fugas entre modales).
+  var updBatchCount = function() {
+    var n = modal.querySelectorAll('.viz-modal-batch-chk:checked').length;
+    var cc = modal.querySelector('#vizModalSelCount');
+    if (cc) cc.textContent = n + (n === 1 ? ' columna seleccionada' : ' columnas seleccionadas');
+    var gb = modal.querySelector('#vizModalGenerate');
+    if (gb) gb.textContent = '🎨 Generar' + (n ? ' (' + n + ')' : '');
+  };
+  modal.querySelectorAll('.viz-modal-batch-chk').forEach(function(cb) { cb.addEventListener('change', updBatchCount); });
+  updBatchCount();
   document.getElementById('vizModalAutoIdx').onchange = function() {
     _V.vals.x = this.checked ? '__index__' : '';
     _V_syncAutoIdxUI();
@@ -1534,9 +1550,12 @@ function showBatchGraphModal() {
     var type = document.getElementById('vizModalType').value;
     var autoIdx = document.getElementById('vizModalAutoIdx').checked;
     var colX = autoIdx ? '__index__' : document.getElementById('vizModalColX').value;
-    var checkboxes = document.querySelectorAll('.viz-modal-batch-chk:checked');
+    var checkboxes = modal.querySelectorAll('.viz-modal-batch-chk:checked');
     var selected = [];
     checkboxes.forEach(function(cb) { if (cb.checked) selected.push(cb.dataset.col); });
+    // Sin repetidos (encabezados duplicados en la hoja generarían el mismo gráfico dos veces).
+    var seenCols = {};
+    selected = selected.filter(function(c) { if (seenCols[c]) return false; seenCols[c] = true; return true; });
     if (!selected.length) { showToast('Selecciona al menos una columna'); return; }
     if (type !== 'histogram' && type !== 'dotplot' && !autoIdx && !colX) { showToast('Selecciona Eje X o activa índice automático'); return; }
     modal.remove();
