@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos IQ — Blistera</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>IQ — Blistera (banco por familia, Nivel 2)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-IQ-BL 2026-10-09 v1</span></p>
+<p>Add-on de Calificación de Instalación específico de la blistera (derivado del modelo). Se suma al núcleo común (EQ-IQ-001…EQ-IQ-023) y se filtra por familia (<code>data-familia="blistera"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= IQ ================= -->
+<section id="fase-iq" data-familia="blistera">
+<h2>IQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-IQ-BL-001" class="ensayo" data-id="EQ-IQ-BL-001" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-BL-001 — Verificación del diagrama de flujo contra lo instalado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el diagrama de flujo de la blistera (desbobinado, formado, alimentación, sellado, codificación, troquelado y rechazo) corresponde con la instalación física real.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Obtener la revisión vigente del diagrama de flujo aprobado<br>
+  2) Recorrer la línea identificando desbobinados, estación de formado, alimentador, estación de sellado, codificador, troquel y desviador de rechazo<br>
+  3) Confirmar tag, ubicación y conexión de cada componente contra el diagrama<br>
+  4) Registrar toda desviación como hallazgo con su disposición</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El diagrama de flujo corresponde con lo instalado en su revisión vigente.<br>
+  No existen componentes, líneas ni instrumentos sin identificar.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Diagrama de flujo verificado y firmado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-BL-002" class="ensayo" data-id="EQ-IQ-BL-002" data-fase="IQ" data-cond="ambas" data-tabla-modelo="ESTACIONES Y MOLDES">
+  <h3>EQ-IQ-BL-002 — Verificación de estaciones, moldes y troquel</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las estaciones de formado, sellado y troquelado, con sus moldes, corresponden a lo especificado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar las estaciones de formado, sellado y troquelado: modelo y montaje<br>
+  2) Verificar los moldes por formato: juego completo, identificación y estado<br>
+  3) Verificar el troquel: tipo, filo y montaje<br>
+  4) Verificar placas calefactoras y sensores instalados en cada estación<br>
+  5) Registrar cada componente en la tabla de estaciones y moldes</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Estaciones, moldes y troquel corresponden a lo especificado.<br>
+  Sin piezas dañadas, intercambiadas o sin identificar.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de estaciones y moldes con certificados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-BL-003" class="ensayo" data-id="EQ-IQ-BL-003" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-BL-003 — Verificación del sistema de visión, codificación y rechazo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el sistema de visión, el codificador y el desviador de rechazo están instalados y conectados al control.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar cámaras del sistema de visión: ubicación, enfoque e iluminación<br>
+  2) Verificar el codificador de lote y vencimiento: instalación y conexión<br>
+  3) Verificar el desviador o compuerta de rechazo: actuador, conexión y recipiente identificado<br>
+  4) Verificar el sensor de presencia (si aplica): instalación y conexión<br>
+  5) Verificar calibración vigente de los instrumentos instalados</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los componentes están instalados, identificados y conectados.<br>
+  Los instrumentos cuentan con calibración vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de visión, codificación y rechazo verificado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-BL-004" class="ensayo" data-id="EQ-IQ-BL-004" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-BL-004 — Verificación de utilidades de formado y sellado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el aire o vacío de formado, el agua de enfriamiento y la energía de sellado están conectados según especificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el aire comprimido o vacío de formado: presión, filtro y regulador<br>
+  2) Verificar el agua de enfriamiento de moldes (si aplica): caudal y válvulas de corte<br>
+  3) Verificar la acometida eléctrica de estaciones calientes: voltaje, fases y protección<br>
+  4) Registrar los parámetros de cada utilidad</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todas las utilidades están conectadas y en rango.<br>
+  Cada utilidad cuenta con su elemento de corte accesible.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de utilidades verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-BL-005" class="ensayo" data-id="EQ-IQ-BL-005" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-BL-005 — Verificación de guardas, seguridades y placa de datos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las guardas con sus interruptores, la protección de dedos y los paros de emergencia están instalados, y que la placa de datos corresponde a la especificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar guardas de estaciones móviles: presencia, fijación e interruptores conectados<br>
+  2) Verificar la protección de dedos en la zona de sellado<br>
+  3) Verificar paros de emergencia: ubicación, identificación y acceso<br>
+  4) Verificar la placa de datos: modelo, serie y velocidad máxima</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Guardas, protección de dedos y paros instalados y operativos.<br>
+  La placa de datos corresponde a la especificación de compra.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de seguridades y placa de datos (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+</article>
+
+</section>
+</body>
+</html>

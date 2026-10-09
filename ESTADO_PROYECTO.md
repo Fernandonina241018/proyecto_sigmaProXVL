@@ -4754,3 +4754,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Qué:** `.txt` traía OQ+PQ blistera. Creados `oq-blistera.html` (27 ensayos EQ-OQ-BL, 12 con análisis: velocidad, avance/registro, tensión, formato, formado térmico/dimensional, sellado completo con papel sensible, ventana DoE, visión con desafío, rechazo incl. falla de cámara, placebo) y `pq-blistera.html` (19 ensayos EQ-PQ-BL, 14 con análisis: 3 lotes, extremos, peor caso, lote material distinto, fuga muestreada, peel, dimensiones, detección 100%, rotas, balance, estabilidad, op continua, estuchado, barrera; aspecto/legibilidad/conciliación/rechazo/paros sin flag como el original).
 - **Nota:** mapeo propio verificado ítem por ítem (OQ 27 = 5-11,14-32,36; PQ 19 = 6-24 sin saltos).
 - **Verificación:** extractor `--estricto` OK (529 artículos); Vitest 422/422, backend 67/67. Blistera: 11ª familia con OQ+PQ propio (IQ Nivel 2 pendiente).
+
+### 2026-10-09 (157): IQ Nivel 2 blistera (add-on 5 ensayos)
+- **Qué:** `iq-blistera.html` derivado del modelo (EQ-IQ-BL-001…005): diagrama de flujo, estaciones/moldes/troquel, visión-codificación-rechazo, utilidades de formado/sellado, guardas/protección-dedos/placa. Se suma al núcleo común. Blistera queda IQ+OQ+PQ completa (quinta Nivel 2 cerrada; OSD producción 5/5 completo).
+- **Verificación:** extractor `--estricto` OK (534 artículos); Vitest 423/423, backend 67/67.
