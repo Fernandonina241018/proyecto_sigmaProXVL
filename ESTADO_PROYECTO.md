@@ -4767,3 +4767,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-11 (159): IQ Nivel 2 detector de metales (add-on 5 ensayos)
 - **Qué:** `iq-detector-metales.html` derivado del modelo (EQ-IQ-DM-001…005): diagrama de flujo, cabezal/apertura con zona libre de metal, rechazo-confirmación-contenedor, control/ajustes bloqueados/piezas certificadas, guardas/placa. Se suma al núcleo común. Detector queda IQ+OQ+PQ completa (sexta Nivel 2 cerrada).
 - **Verificación:** extractor `--estricto` OK (574 artículos); Vitest 426/426, backend 67/67.
+
+### 2026-10-11 (160): OQ + PQ etiquetadora desde ENSAYOS.txt (49 ensayos)
+- **Qué:** `.txt` traía OQ+PQ etiquetadora. Creados `oq-etiquetadora.html` (29 ensayos EQ-OQ-ET, 4 con análisis: velocidad, sincronización, repetibilidad en 30, formatos extremos) y `pq-etiquetadora.html` (20 ensayos EQ-PQ-ET, 6 con análisis: 3 lotes, extremos, peor caso, lote material distinto, op continua, cambio de formato).
+- **Nota:** flag suelto de línea 1 tratado como artefacto (convención vigente); numeración del .txt con saltos respetada.
+- **Verificación:** extractor `--estricto` OK (623 artículos); Vitest 428/428, backend 67/67. Etiquetadora: 13ª familia con OQ+PQ propio (IQ Nivel 2 pendiente).

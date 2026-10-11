@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos OQ — Etiquetadora</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>OQ — Etiquetadora (banco por familia, Nivel 2)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-OQ-ET 2026-10-11 v1</span></p>
+<p>Ensayos de Calificación de Operación específicos de la etiquetadora, tomados del ENSAYOS.txt del usuario. Se filtran por familia (<code>data-familia="etiquetadora"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq" data-familia="etiquetadora">
+<h2>OQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-001" class="ensayo" data-id="EQ-OQ-ET-001" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-001 — Verificación de parada de emergencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la parada de emergencia detiene la línea y la deja en estado seguro.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con la línea en marcha sin producto, accionar la parada de emergencia<br>
+  2) Medir el tiempo de detención<br>
+  3) Verificar el estado seguro sin rearranque espontáneo<br>
+  4) Restablecer y verificar el rearranque controlado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La línea se detiene dentro del tiempo especificado.<br>
+  No existe rearranque espontáneo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de parada de emergencia (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-002" class="ensayo" data-id="EQ-OQ-ET-002" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-002 — Verificación de interlocks y protecciones</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que ninguna parte móvil funciona con guardas o puertas abiertas, con protección en el transportador y en el cabezal de aplicación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con cada guarda o puerta abierta, intentar operar: ninguna parte móvil debe funcionar<br>
+  2) Verificar la protección del transportador y del cabezal de aplicación<br>
+  3) Registrar cada interlock con su respuesta</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ninguna parte móvil funciona con guardas abiertas.<br>
+  Protecciones instaladas y operativas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de interlocks con respuesta verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-003" class="ensayo" data-id="EQ-OQ-ET-003" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-003 — Verificación de alarmas y límites</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada alarma dispara y ejecuta su acción: fin de rollo de etiquetas, rotura o desalineación de la cinta, etiqueta no detectada, falta de envase, atasco, falla del codificador y falla de la cámara.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular cada condición de alarma aplicable y verificar disparo y acción<br>
+  2) Verificar el registro de cada alarma en el histórico</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada alarma dispara ante su condición y ejecuta su acción.<br>
+  Todas quedan registradas en el histórico.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de alarmas con disparo y acción verificados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-004" class="ensayo" data-id="EQ-OQ-ET-004" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-004 — Verificación de falla y recuperación de energía</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el estado seguro ante falla de energía, sin arranque espontáneo, y el tratamiento de la etiqueta y el envase que estaban en proceso.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con la línea en marcha, interrumpir la energía<br>
+  2) Verificar el estado seguro y la ausencia de arranque espontáneo<br>
+  3) Verificar el tratamiento definido para la etiqueta y el envase en proceso<br>
+  4) Verificar el rearranque manual controlado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Estado seguro sin arranque espontáneo.<br>
+  El material en proceso se trata según lo definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de falla y recuperación de energía (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-005" class="ensayo" data-id="EQ-OQ-ET-005" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-ET-005 — Verificación de exactitud de velocidad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la velocidad (unidades por minuto) en mínimo, nominal y máximo frente a un contador independiente.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>
+  2) Medir cada punto con un contador independiente, por triplicado<br>
+  3) Registrar la lectura del control y la independiente<br>
+  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La velocidad indicada está dentro de tolerancia en los tres puntos.<br>
+  La repetibilidad cumple el criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de velocidades con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de velocidad</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-006" class="ensayo" data-id="EQ-OQ-ET-006" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-ET-006 — Sincronización transportador, sensor y dispensador</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la sincronización entre el transportador, el sensor de producto y el dispensador, a cada velocidad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar a cada velocidad de uso y verificar la secuencia sensor-dispensado-aplicación<br>
+  2) Registrar desfaces o errores de sincronización<br>
+  3) Procesar los datos crudos de sincronización en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sincronización correcta a cada velocidad.<br>
+  Sin errores de secuencia fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de sincronización con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de sincronización</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-007" class="ensayo" data-id="EQ-OQ-ET-007" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-007 — Tensión y avance de la cinta de etiquetas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la tensión y el avance de la cinta de etiquetas: estabilidad y ausencia de arrugas o roturas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar la línea y observar la tensión y el avance de la cinta<br>
+  2) Verificar ausencia de arrugas, tirones o roturas<br>
+  3) Registrar los ajustes de tensión aprobados</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Avance estable sin arrugas ni roturas.<br>
+  Tensión dentro del rango aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de cinta de etiquetas (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-008" class="ensayo" data-id="EQ-OQ-ET-008" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-008 — Cambio de formato con parámetros registrados</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada juego de piezas de formato se monta con alineación y ajuste correctos, con registro de los parámetros de cada formato.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Montar cada juego de piezas declarado y verificar alineación y ajuste<br>
+  2) Registrar los parámetros de cada formato<br>
+  3) Verificar la identificación de cada juego</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada formato monta con alineación y ajuste correctos.<br>
+  Parámetros registrados por formato.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de cambio de formato (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-009" class="ensayo" data-id="EQ-OQ-ET-009" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-009 — Sensor de producto en todo el rango de velocidad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el sensor de producto detecta envases de cada formato, incluidos los transparentes o reflectantes, en todo el rango de velocidad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pasar envases de cada formato, incluidos transparentes o reflectantes (si aplican)<br>
+  2) Verificar la detección a velocidad mínima, nominal y máxima<br>
+  3) Registrar el resultado por formato y velocidad</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Detección del 100% en cada formato y velocidad.<br>
+  Sin envases no detectados.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del sensor de producto (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-010" class="ensayo" data-id="EQ-OQ-ET-010" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-010 — Sensor de etiqueta y detección de faltante</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el sensor de etiqueta detecta el borde o la marca de la etiqueta con cada tipo de soporte, y detecta etiqueta faltante.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pasar cada tipo de soporte declarado y verificar la detección del borde o marca<br>
+  2) Simular etiqueta faltante y verificar la detección<br>
+  3) Registrar el resultado por soporte</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Detección correcta en cada tipo de soporte.<br>
+  Etiqueta faltante siempre detectada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del sensor de etiqueta (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-011" class="ensayo" data-id="EQ-OQ-ET-011" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-011 — Detección de rollo agotado y empalme</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la detección de rollo agotado y de empalme (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular fin de rollo y verificar la detección y la acción (si aplica)<br>
+  2) Pasar un empalme y verificar su detección (si aplica)<br>
+  3) Registrar el resultado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Fin de rollo y empalme detectados según lo configurado.<br>
+  Acción asociada correcta.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de detección de rollo y empalme (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-012" class="ensayo" data-id="EQ-OQ-ET-012" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-012 — Posición de la etiqueta contra tolerancia URS</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la posición de la etiqueta: altura, desplazamiento lateral y ángulo respecto al envase, medidos en una muestra a velocidad mínima, nominal y máxima, y comparados con la tolerancia de la URS.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Etiquetar muestras a velocidad mínima, nominal y máxima<br>
+  2) Medir altura, desplazamiento lateral y ángulo con instrumento calibrado<br>
+  3) Comparar contra la tolerancia de la URS aprobada</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La posición está dentro de la tolerancia de la URS a las tres velocidades.<br>
+  Sin unidades fuera de tolerancia fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro dimensional de posición (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>URS aprobada del equipo.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-013" class="ensayo" data-id="EQ-OQ-ET-013" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-ET-013 — Repetibilidad de la posición en treinta unidades</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la repetibilidad de la posición con al menos treinta unidades consecutivas por velocidad, con media y dispersión.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Etiquetar al menos treinta unidades consecutivas por velocidad<br>
+  2) Medir la posición de cada unidad y calcular media y dispersión<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Posición dentro de tolerancia con dispersión controlada.<br>
+  Sin deriva durante las treinta unidades.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de repetibilidad con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de repetibilidad de posición</p>
+  <p><strong>Referencia:</strong><br>URS aprobada del equipo.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-014" class="ensayo" data-id="EQ-OQ-ET-014" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-014 — Calidad de adhesión inmediata</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la calidad de adhesión inmediata: sin burbujas, arrugas, bordes levantados ni etiqueta torcida.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inspeccionar visualmente las unidades etiquetadas a cada velocidad<br>
+  2) Clasificar defectos de adhesión inmediata<br>
+  3) Registrar por velocidad</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin defectos de adhesión inmediata fuera del nivel aceptado.<br>
+  Sin etiquetas torcidas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de adhesión inmediata (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Patrón de defectos aprobado.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-015" class="ensayo" data-id="EQ-OQ-ET-015" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-015 — Rodillo o banda de alisado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la presión y velocidad del rodillo o de la banda de alisado (si aplica): ajuste y repetibilidad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la presión y velocidad del rodillo o banda (si aplica)<br>
+  2) Verificar repetibilidad del ajuste<br>
+  3) Inspeccionar el alisado resultante</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ajuste repetible dentro de rango.<br>
+  Alisado uniforme sin daño a la etiqueta.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del rodillo o banda (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-016" class="ensayo" data-id="EQ-OQ-ET-016" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-ET-016 — Formatos extremos y diámetro mínimo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar los formatos extremos: envase más pequeño y más grande, y diámetro mínimo por la curvatura, con el criterio de posición.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Etiquetar el envase más pequeño y el más grande declarados<br>
+  2) Medir la posición en cada formato, por triplicado<br>
+  3) Verificar el comportamiento en el diámetro mínimo<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Posición dentro de tolerancia en ambos extremos.<br>
+  Sin fallos sistemáticos en el diámetro mínimo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro por formato con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de formatos extremos</p>
+  <p><strong>Referencia:</strong><br>URS aprobada del equipo.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-017" class="ensayo" data-id="EQ-OQ-ET-017" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-017 — Etiqueta envolvente con solape y cierre</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la etiqueta envolvente (si aplica): solape y cierre en envases cilíndricos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Etiquetar envases cilíndricos con etiqueta envolvente (si aplica)<br>
+  2) Medir el solape y verificar el cierre<br>
+  3) Inspeccionar bordes levantados o despegue</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Solape dentro de lo especificado con cierre completo.<br>
+  Sin bordes levantados.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de etiqueta envolvente (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Especificación de la etiqueta.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-018" class="ensayo" data-id="EQ-OQ-ET-018" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-018 — Contenido del código contra la orden</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el contenido codificado coincide con lo programado (lote, vencimiento, fabricación y precio si aplica). La verificación es una lectura contra la orden, no una revisión visual del operario.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Programar los datos según la orden de prueba<br>
+  2) Leer el código con lector independiente y comparar contra la orden<br>
+  3) Registrar el resultado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Coincidencia del 100% contra la orden.<br>
+  Sin caracteres omitidos o alterados.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de contenido del código (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Orden de acondicionamiento de prueba.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-019" class="ensayo" data-id="EQ-OQ-ET-019" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-019 — Legibilidad, contraste y posición del código</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la legibilidad, el contraste y la posición del código en cada velocidad, con rango de calidad definido.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Codificar a cada velocidad de uso<br>
+  2) Evaluar legibilidad, contraste y posición contra el rango definido<br>
+  3) Registrar por velocidad</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Código legible y bien posicionado a todas las velocidades.<br>
+  Contraste dentro del rango definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de calidad del código (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Orden de acondicionamiento de prueba.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-020" class="ensayo" data-id="EQ-OQ-ET-020" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-020 — Cambio de datos de lote sin restos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que ante un cambio de datos de lote el nuevo código se aplica desde la primera unidad, sin restos del lote anterior.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Codificar un lote inicial<br>
+  2) Cambiar los datos al lote siguiente<br>
+  3) Verificar las primeras unidades del nuevo lote: sin restos del anterior</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Primera unidad del nuevo lote ya trae el código nuevo.<br>
+  Sin mezcla de códigos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de cambio de datos (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Orden de acondicionamiento de prueba.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-021" class="ensayo" data-id="EQ-OQ-ET-021" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-021 — Consumibles del codificador y alarma de agotamiento</h3>
+  <p><strong>Objetivo:</strong><br>Verificar los consumibles del codificador (si aplica): cinta o tinta, nivel y alarma de agotamiento.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el nivel de cinta o tinta del codificador (si aplica)<br>
+  2) Simular agotamiento y verificar la alarma<br>
+  3) Registrar la respuesta</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Nivel visible o monitoreado.<br>
+  Alarma de agotamiento operativa.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del codificador (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del codificador.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-022" class="ensayo" data-id="EQ-OQ-ET-022" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-022 — Grado de calidad del código de barras o Datamatrix</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el código de barras o Datamatrix (si aplica): grado de calidad según la norma elegida.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Imprimir códigos de prueba (si aplica)<br>
+  2) Medir el grado con verificador calibrado según la norma elegida<br>
+  3) Registrar el grado obtenido</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Grado de calidad dentro del mínimo definido.<br>
+  Sin códigos ilegibles por el verificador.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de grado del código (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Norma de verificación elegida.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-023" class="ensayo" data-id="EQ-OQ-ET-023" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-023 — Sistema de visión con muestras de desafío</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el sistema de visión con muestras de desafío: etiqueta ausente, torcida, doblada, ilegible, dañada o con código incorrecto, cada defecto preparado a propósito. Cada una debe detectarse y rechazarse.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Preparar muestras de desafío de cada tipo de defecto<br>
+  2) Pasar cada muestra y verificar su detección y rechazo<br>
+  3) Registrar el resultado por tipo de defecto</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100% de las muestras de desafío se detecta y rechaza.<br>
+  Sin defectos no detectados.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del desafío de visión (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de visión.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-024" class="ensayo" data-id="EQ-OQ-ET-024" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-024 — Detección de etiqueta equivocada de otro producto o lote</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que una etiqueta de otro producto o de otro lote en el rollo se reconoce (si aplica). Es el ensayo más crítico del equipo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Introducir una etiqueta de otro producto o lote en el rollo de prueba (si aplica)<br>
+  2) Verificar su detección y rechazo<br>
+  3) Registrar el resultado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La etiqueta equivocada se detecta y rechaza.<br>
+  Ninguna unidad con etiqueta equivocada pasa como buena.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de etiqueta equivocada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de visión.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-025" class="ensayo" data-id="EQ-OQ-ET-025" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-025 — Mecanismo de rechazo a cada velocidad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los envases defectuosos se desvían, con conteo correcto y sin que ninguno malo llegue al recipiente de buenos, a cada velocidad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inducir envases defectuosos de forma controlada a cada velocidad<br>
+  2) Verificar el desvío de cada uno al rechazo<br>
+  3) Verificar el conteo y la ausencia de malos en buenos</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100% de los defectos inducidos se rechaza.<br>
+  Ningún malo llega al recipiente de buenos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de rechazo (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-026" class="ensayo" data-id="EQ-OQ-ET-026" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-026 — Rechazo ante falla de la cámara o comunicación</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que ante falla de la cámara o pérdida de comunicación el equipo detiene la línea o rechaza todo, y no deja pasar sin verificar.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular falla de la cámara<br>
+  2) Simular pérdida de comunicación con la visión<br>
+  3) Verificar que la línea se detiene o todo se rechaza</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin producto verificado como bueno durante la falla.<br>
+  Línea detenida o rechazo total.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de falla de visión (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-027" class="ensayo" data-id="EQ-OQ-ET-027" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-027 — Contenedor de rechazo con llave y alarma</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el contenedor de rechazo con llave o cierre, con alarma si se abre o se llena.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el cierre o llave del contenedor<br>
+  2) Abrir el contenedor y verificar la alarma<br>
+  3) Llenar al nivel de alarma y verificar la respuesta</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Solo personal autorizado abre el contenedor.<br>
+  Apertura o llenado generan alarma.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del contenedor (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-028" class="ensayo" data-id="EQ-OQ-ET-028" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-028 — Confirmación del rechazo por sensor</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la confirmación del rechazo (si aplica): el sensor verifica que el envase salió por el canal de rechazo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar rechazos controlados (si aplica sensor de confirmación)<br>
+  2) Verificar la confirmación de cada uno<br>
+  3) Bloquear el canal y verificar la alarma o parada</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada rechazo queda confirmado.<br>
+  La falta de confirmación alarma o detiene.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de confirmación (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-ET-029" class="ensayo" data-id="EQ-OQ-ET-029" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-ET-029 — Corrida con placebo a tres velocidades</h3>
+  <p><strong>Objetivo:</strong><br>Verificar una corrida con envases vacíos o placebo y etiquetas de prueba a velocidad mínima, nominal y máxima: aplicación, codificación, verificación y rechazo, sin alarmas ni desviaciones.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Correr a velocidad mínima con la secuencia completa<br>
+  2) Repetir a velocidad nominal y a velocidad máxima<br>
+  3) Registrar alarmas e intervenciones</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La secuencia completa opera a las tres velocidades.<br>
+  Sin alarmas ni desviaciones no justificadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de corrida con placebo (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Especificación de operación de la etiquetadora.</p>
+</article>
+
+</section>
+</body>
+</html>

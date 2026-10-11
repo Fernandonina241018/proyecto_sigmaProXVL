@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
+ "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -9058,6 +9058,909 @@ var BancoEquipos = {
     "familia": "detector-metales"
    },
    {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-001 — Verificación de parada de emergencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la parada de emergencia detiene la línea y la deja en estado seguro."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con la línea en marcha sin producto, accionar la parada de emergencia<br>\n  2) Medir el tiempo de detención<br>\n  3) Verificar el estado seguro sin rearranque espontáneo<br>\n  4) Restablecer y verificar el rearranque controlado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La línea se detiene dentro del tiempo especificado.<br>\n  No existe rearranque espontáneo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de parada de emergencia (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-002 — Verificación de interlocks y protecciones",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que ninguna parte móvil funciona con guardas o puertas abiertas, con protección en el transportador y en el cabezal de aplicación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con cada guarda o puerta abierta, intentar operar: ninguna parte móvil debe funcionar<br>\n  2) Verificar la protección del transportador y del cabezal de aplicación<br>\n  3) Registrar cada interlock con su respuesta"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ninguna parte móvil funciona con guardas abiertas.<br>\n  Protecciones instaladas y operativas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de interlocks con respuesta verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-003 — Verificación de alarmas y límites",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada alarma dispara y ejecuta su acción: fin de rollo de etiquetas, rotura o desalineación de la cinta, etiqueta no detectada, falta de envase, atasco, falla del codificador y falla de la cámara."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular cada condición de alarma aplicable y verificar disparo y acción<br>\n  2) Verificar el registro de cada alarma en el histórico"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma dispara ante su condición y ejecuta su acción.<br>\n  Todas quedan registradas en el histórico."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de alarmas con disparo y acción verificados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-004 — Verificación de falla y recuperación de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el estado seguro ante falla de energía, sin arranque espontáneo, y el tratamiento de la etiqueta y el envase que estaban en proceso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con la línea en marcha, interrumpir la energía<br>\n  2) Verificar el estado seguro y la ausencia de arranque espontáneo<br>\n  3) Verificar el tratamiento definido para la etiqueta y el envase en proceso<br>\n  4) Verificar el rearranque manual controlado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Estado seguro sin arranque espontáneo.<br>\n  El material en proceso se trata según lo definido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de falla y recuperación de energía (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-005 — Verificación de exactitud de velocidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la velocidad (unidades por minuto) en mínimo, nominal y máximo frente a un contador independiente."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>\n  2) Medir cada punto con un contador independiente, por triplicado<br>\n  3) Registrar la lectura del control y la independiente<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad indicada está dentro de tolerancia en los tres puntos.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidades con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-006 — Sincronización transportador, sensor y dispensador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la sincronización entre el transportador, el sensor de producto y el dispensador, a cada velocidad."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar a cada velocidad de uso y verificar la secuencia sensor-dispensado-aplicación<br>\n  2) Registrar desfaces o errores de sincronización<br>\n  3) Procesar los datos crudos de sincronización en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sincronización correcta a cada velocidad.<br>\n  Sin errores de secuencia fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de sincronización con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de sincronización"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-007 — Tensión y avance de la cinta de etiquetas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la tensión y el avance de la cinta de etiquetas: estabilidad y ausencia de arrugas o roturas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar la línea y observar la tensión y el avance de la cinta<br>\n  2) Verificar ausencia de arrugas, tirones o roturas<br>\n  3) Registrar los ajustes de tensión aprobados"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Avance estable sin arrugas ni roturas.<br>\n  Tensión dentro del rango aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cinta de etiquetas (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-008 — Cambio de formato con parámetros registrados",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada juego de piezas de formato se monta con alineación y ajuste correctos, con registro de los parámetros de cada formato."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Montar cada juego de piezas declarado y verificar alineación y ajuste<br>\n  2) Registrar los parámetros de cada formato<br>\n  3) Verificar la identificación de cada juego"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada formato monta con alineación y ajuste correctos.<br>\n  Parámetros registrados por formato."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cambio de formato (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-009 — Sensor de producto en todo el rango de velocidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sensor de producto detecta envases de cada formato, incluidos los transparentes o reflectantes, en todo el rango de velocidad."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar envases de cada formato, incluidos transparentes o reflectantes (si aplican)<br>\n  2) Verificar la detección a velocidad mínima, nominal y máxima<br>\n  3) Registrar el resultado por formato y velocidad"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Detección del 100% en cada formato y velocidad.<br>\n  Sin envases no detectados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del sensor de producto (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-010 — Sensor de etiqueta y detección de faltante",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sensor de etiqueta detecta el borde o la marca de la etiqueta con cada tipo de soporte, y detecta etiqueta faltante."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar cada tipo de soporte declarado y verificar la detección del borde o marca<br>\n  2) Simular etiqueta faltante y verificar la detección<br>\n  3) Registrar el resultado por soporte"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Detección correcta en cada tipo de soporte.<br>\n  Etiqueta faltante siempre detectada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del sensor de etiqueta (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-011 — Detección de rollo agotado y empalme",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la detección de rollo agotado y de empalme (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular fin de rollo y verificar la detección y la acción (si aplica)<br>\n  2) Pasar un empalme y verificar su detección (si aplica)<br>\n  3) Registrar el resultado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Fin de rollo y empalme detectados según lo configurado.<br>\n  Acción asociada correcta."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de detección de rollo y empalme (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-012 — Posición de la etiqueta contra tolerancia URS",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la posición de la etiqueta: altura, desplazamiento lateral y ángulo respecto al envase, medidos en una muestra a velocidad mínima, nominal y máxima, y comparados con la tolerancia de la URS."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Etiquetar muestras a velocidad mínima, nominal y máxima<br>\n  2) Medir altura, desplazamiento lateral y ángulo con instrumento calibrado<br>\n  3) Comparar contra la tolerancia de la URS aprobada"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La posición está dentro de la tolerancia de la URS a las tres velocidades.<br>\n  Sin unidades fuera de tolerancia fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro dimensional de posición (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-013 — Repetibilidad de la posición en treinta unidades",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la repetibilidad de la posición con al menos treinta unidades consecutivas por velocidad, con media y dispersión."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Etiquetar al menos treinta unidades consecutivas por velocidad<br>\n  2) Medir la posición de cada unidad y calcular media y dispersión<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Posición dentro de tolerancia con dispersión controlada.<br>\n  Sin deriva durante las treinta unidades."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de repetibilidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de repetibilidad de posición"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-014 — Calidad de adhesión inmediata",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la calidad de adhesión inmediata: sin burbujas, arrugas, bordes levantados ni etiqueta torcida."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar visualmente las unidades etiquetadas a cada velocidad<br>\n  2) Clasificar defectos de adhesión inmediata<br>\n  3) Registrar por velocidad"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin defectos de adhesión inmediata fuera del nivel aceptado.<br>\n  Sin etiquetas torcidas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de adhesión inmediata (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Patrón de defectos aprobado."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-015 — Rodillo o banda de alisado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la presión y velocidad del rodillo o de la banda de alisado (si aplica): ajuste y repetibilidad."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la presión y velocidad del rodillo o banda (si aplica)<br>\n  2) Verificar repetibilidad del ajuste<br>\n  3) Inspeccionar el alisado resultante"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ajuste repetible dentro de rango.<br>\n  Alisado uniforme sin daño a la etiqueta."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del rodillo o banda (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-016 — Formatos extremos y diámetro mínimo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los formatos extremos: envase más pequeño y más grande, y diámetro mínimo por la curvatura, con el criterio de posición."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Etiquetar el envase más pequeño y el más grande declarados<br>\n  2) Medir la posición en cada formato, por triplicado<br>\n  3) Verificar el comportamiento en el diámetro mínimo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Posición dentro de tolerancia en ambos extremos.<br>\n  Sin fallos sistemáticos en el diámetro mínimo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro por formato con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de formatos extremos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-017 — Etiqueta envolvente con solape y cierre",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la etiqueta envolvente (si aplica): solape y cierre en envases cilíndricos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Etiquetar envases cilíndricos con etiqueta envolvente (si aplica)<br>\n  2) Medir el solape y verificar el cierre<br>\n  3) Inspeccionar bordes levantados o despegue"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Solape dentro de lo especificado con cierre completo.<br>\n  Sin bordes levantados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de etiqueta envolvente (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de la etiqueta."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-018 — Contenido del código contra la orden",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el contenido codificado coincide con lo programado (lote, vencimiento, fabricación y precio si aplica). La verificación es una lectura contra la orden, no una revisión visual del operario."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Programar los datos según la orden de prueba<br>\n  2) Leer el código con lector independiente y comparar contra la orden<br>\n  3) Registrar el resultado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Coincidencia del 100% contra la orden.<br>\n  Sin caracteres omitidos o alterados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de contenido del código (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento de prueba."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-019 — Legibilidad, contraste y posición del código",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la legibilidad, el contraste y la posición del código en cada velocidad, con rango de calidad definido."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Codificar a cada velocidad de uso<br>\n  2) Evaluar legibilidad, contraste y posición contra el rango definido<br>\n  3) Registrar por velocidad"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Código legible y bien posicionado a todas las velocidades.<br>\n  Contraste dentro del rango definido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de calidad del código (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento de prueba."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-020",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-020 — Cambio de datos de lote sin restos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que ante un cambio de datos de lote el nuevo código se aplica desde la primera unidad, sin restos del lote anterior."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Codificar un lote inicial<br>\n  2) Cambiar los datos al lote siguiente<br>\n  3) Verificar las primeras unidades del nuevo lote: sin restos del anterior"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Primera unidad del nuevo lote ya trae el código nuevo.<br>\n  Sin mezcla de códigos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cambio de datos (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento de prueba."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-021",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-021 — Consumibles del codificador y alarma de agotamiento",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los consumibles del codificador (si aplica): cinta o tinta, nivel y alarma de agotamiento."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el nivel de cinta o tinta del codificador (si aplica)<br>\n  2) Simular agotamiento y verificar la alarma<br>\n  3) Registrar la respuesta"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Nivel visible o monitoreado.<br>\n  Alarma de agotamiento operativa."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del codificador (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del codificador."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-022",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-022 — Grado de calidad del código de barras o Datamatrix",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el código de barras o Datamatrix (si aplica): grado de calidad según la norma elegida."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Imprimir códigos de prueba (si aplica)<br>\n  2) Medir el grado con verificador calibrado según la norma elegida<br>\n  3) Registrar el grado obtenido"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Grado de calidad dentro del mínimo definido.<br>\n  Sin códigos ilegibles por el verificador."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de grado del código (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Norma de verificación elegida."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-023",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-023 — Sistema de visión con muestras de desafío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el sistema de visión con muestras de desafío: etiqueta ausente, torcida, doblada, ilegible, dañada o con código incorrecto, cada defecto preparado a propósito. Cada una debe detectarse y rechazarse."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Preparar muestras de desafío de cada tipo de defecto<br>\n  2) Pasar cada muestra y verificar su detección y rechazo<br>\n  3) Registrar el resultado por tipo de defecto"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las muestras de desafío se detecta y rechaza.<br>\n  Sin defectos no detectados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del desafío de visión (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de visión."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-024",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-024 — Detección de etiqueta equivocada de otro producto o lote",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que una etiqueta de otro producto o de otro lote en el rollo se reconoce (si aplica). Es el ensayo más crítico del equipo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Introducir una etiqueta de otro producto o lote en el rollo de prueba (si aplica)<br>\n  2) Verificar su detección y rechazo<br>\n  3) Registrar el resultado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La etiqueta equivocada se detecta y rechaza.<br>\n  Ninguna unidad con etiqueta equivocada pasa como buena."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de etiqueta equivocada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de visión."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-025",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-025 — Mecanismo de rechazo a cada velocidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los envases defectuosos se desvían, con conteo correcto y sin que ninguno malo llegue al recipiente de buenos, a cada velocidad."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inducir envases defectuosos de forma controlada a cada velocidad<br>\n  2) Verificar el desvío de cada uno al rechazo<br>\n  3) Verificar el conteo y la ausencia de malos en buenos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de los defectos inducidos se rechaza.<br>\n  Ningún malo llega al recipiente de buenos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rechazo (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-026",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-026 — Rechazo ante falla de la cámara o comunicación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que ante falla de la cámara o pérdida de comunicación el equipo detiene la línea o rechaza todo, y no deja pasar sin verificar."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular falla de la cámara<br>\n  2) Simular pérdida de comunicación con la visión<br>\n  3) Verificar que la línea se detiene o todo se rechaza"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin producto verificado como bueno durante la falla.<br>\n  Línea detenida o rechazo total."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de falla de visión (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-027",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-027 — Contenedor de rechazo con llave y alarma",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el contenedor de rechazo con llave o cierre, con alarma si se abre o se llena."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el cierre o llave del contenedor<br>\n  2) Abrir el contenedor y verificar la alarma<br>\n  3) Llenar al nivel de alarma y verificar la respuesta"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Solo personal autorizado abre el contenedor.<br>\n  Apertura o llenado generan alarma."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del contenedor (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-028",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-028 — Confirmación del rechazo por sensor",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la confirmación del rechazo (si aplica): el sensor verifica que el envase salió por el canal de rechazo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar rechazos controlados (si aplica sensor de confirmación)<br>\n  2) Verificar la confirmación de cada uno<br>\n  3) Bloquear el canal y verificar la alarma o parada"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada rechazo queda confirmado.<br>\n  La falta de confirmación alarma o detiene."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de confirmación (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-029",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-029 — Corrida con placebo a tres velocidades",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar una corrida con envases vacíos o placebo y etiquetas de prueba a velocidad mínima, nominal y máxima: aplicación, codificación, verificación y rechazo, sin alarmas ni desviaciones."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Correr a velocidad mínima con la secuencia completa<br>\n  2) Repetir a velocidad nominal y a velocidad máxima<br>\n  3) Registrar alarmas e intervenciones"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La secuencia completa opera a las tres velocidades.<br>\n  Sin alarmas ni desviaciones no justificadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de corrida con placebo (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
     "kind": "div",
     "clase": "portada",
     "bloque": 1,
@@ -15899,6 +16802,632 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-001 — Tres lotes consecutivos a velocidad nominal",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño consistente con tres lotes consecutivos a velocidad nominal, con el número justificado por análisis de riesgo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Justificar el número de lotes con el análisis de riesgo aprobado<br>\n  2) Etiquetar tres lotes consecutivos a velocidad nominal registrando parámetros críticos<br>\n  3) Muestrear cada lote según el plan de muestreo aprobado<br>\n  4) Evaluar los atributos de calidad de cada lote contra especificación<br>\n  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los tres lotes cumplen todos los atributos de calidad.<br>\n  La variabilidad entre lotes está dentro de lo esperado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de los tres lotes con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de lotes consecutivos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; análisis de riesgo del proceso."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-002 — Velocidad mínima y máxima del rango declarado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño en los extremos del rango (a mayor velocidad aumentan la desalineación y las arrugas), si aplica."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Etiquetar una corrida a velocidad mínima registrando atributos críticos<br>\n  2) Etiquetar una corrida a velocidad máxima<br>\n  3) Muestrear inicio, medio y fin de cada corrida<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambas corridas cumplen todos los atributos de calidad.<br>\n  Sin desalineación ni arrugas fuera de criterio a velocidad máxima."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de corridas extremas con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidades extremas"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-003 — Lote de peor caso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño en el peor caso definido (envase más pequeño o con mayor curvatura, material más difícil, etiqueta más grande o más rígida, humedad extrema y rollo cerca de su final)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir y justificar el peor caso con el análisis de riesgo aprobado<br>\n  2) Etiquetar el lote de peor caso registrando los parámetros críticos<br>\n  3) Muestrear según el plan de muestreo aprobado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El lote de peor caso cumple todos los atributos de calidad.<br>\n  La justificación del peor caso está documentada y aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Justificación del peor caso y registro del lote con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de peor caso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Análisis de riesgo del proceso."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-004 — Lotes de etiquetas distintos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar con lotes de etiquetas distintos (si aplica) que el desempeño no depende de un solo lote de material."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Etiquetar con un lote distinto de etiquetas (si aplica)<br>\n  2) Evaluar aplicación y código contra los mismos criterios<br>\n  3) Comparar contra los lotes de rutina<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El desempeño con el lote distinto cumple los mismos criterios.<br>\n  Sin dependencia de un solo lote de material."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro comparativo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de lote de material distinto"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de la etiqueta."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-005 — Posición, alineación y adhesión durante la corrida",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la posición, alineación y adhesión con muestras al inicio, a la mitad y al final de la corrida, y tras paros, empalmes o ajustes."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear al inicio, a la mitad y al final de cada corrida PQ<br>\n  2) Muestrear adicionalmente tras cada paro, empalme o ajuste<br>\n  3) Evaluar posición, alineación y adhesión por punto"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los puntos cumplen dentro de especificación.<br>\n  Sin tendencia significativa entre puntos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plan de muestreo y resultados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Plan de muestreo aprobado."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-006 — Adhesión en el tiempo y condiciones de manejo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la adhesión en el tiempo (si aplica): la etiqueta se mantiene sin levantarse tras las condiciones de almacenamiento y manejo definidas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Someter muestras a las condiciones definidas (si aplica, refrigeración, condensación o frotamiento)<br>\n  2) Inspeccionar levantamiento de bordes tras cada condición<br>\n  3) Registrar el resultado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin levantamiento fuera del nivel aceptado.<br>\n  Adhesión conservada tras las condiciones definidas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de adhesión en el tiempo (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de la etiqueta."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-007 — Aspecto de la unidad etiquetada",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el aspecto: sin burbujas, arrugas, bordes levantados, etiquetas torcidas ni residuos de adhesivo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar visualmente las muestras de cada lote<br>\n  2) Clasificar defectos por tipo<br>\n  3) Registrar por lote y punto de muestreo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los defectos están dentro del nivel aceptado.<br>\n  Sin defectos críticos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de aspecto (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Patrón de defectos aprobado."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-008 — Verificación del cien por ciento del código contra la orden",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el cien por ciento del código contra la orden (lote, vencimiento y fabricación), con lector y con inspección manual de una muestra de referencia."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Leer cada código con lector y comparar contra la orden<br>\n  2) Inspeccionar manualmente la muestra de referencia<br>\n  3) Registrar coincidencias y desvíos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Coincidencia del 100% contra la orden.<br>\n  Sin códigos omitidos o alterados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de verificación del código (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento del producto."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-009 — Legibilidad y contraste sin degradación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la legibilidad y el contraste del código en toda la corrida, sin degradación por consumo de cinta o tinta."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Evaluar legibilidad y contraste al inicio, medio y fin de la corrida<br>\n  2) Verificar el consumo de cinta o tinta durante la corrida<br>\n  3) Registrar el resultado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Código legible en toda la corrida.<br>\n  Sin degradación por consumo fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de legibilidad (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento del producto."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-010 — Cambio de lote sin mezcla con doble verificación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el cambio de lote (si aplica): primera y últimas unidades sin mezcla de códigos, con verificación por una segunda persona o sistema."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar el cambio de lote según el procedimiento (si aplica)<br>\n  2) Verificar primeras y últimas unidades sin mezcla<br>\n  3) Registrar la verificación por segunda persona o sistema"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin mezcla de códigos en el cambio.<br>\n  Verificación independiente registrada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cambio de lote (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento del producto."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-011 — Desafío con etiqueta equivocada de otro rollo o lote",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la visión rechaza el 100% de las unidades de un rollo, un lote o un producto distinto introducido a propósito, al arranque, en medio y tras un cambio."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Introducir unidades con etiqueta equivocada al arranque, en medio y tras un cambio<br>\n  2) Verificar su detección y rechazo<br>\n  3) Registrar el resultado por momento"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las unidades equivocadas se rechaza.<br>\n  Ninguna pasa como buena."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del desafío mix-up (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de visión."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-012 — Despeje de línea entre lotes con doble verificación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el despeje de línea: tras cada lote, ninguna etiqueta, envase ni material del lote anterior queda en la línea, con verificación por una segunda persona."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar el despeje de línea según el procedimiento<br>\n  2) Inspeccionar la línea completa<br>\n  3) Registrar la verificación por segunda persona"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Línea despejada sin restos del lote anterior.<br>\n  Verificación independiente registrada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de despeje de línea (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Procedimiento de despeje de línea."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-013 — Conciliación de etiquetas con registro firmado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la conciliación de etiquetas: recibidas iguales a aplicadas más rechazadas más sobrantes más destruidas, con límite de diferencia definido y registro firmado. Es un control de seguridad, no solo contable."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Contar etiquetas recibidas, aplicadas, rechazadas, sobrantes y destruidas<br>\n  2) Cerrar la conciliación contra el límite definido<br>\n  3) Firmar el registro de conciliación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La conciliación cierra dentro del límite definido.<br>\n  Registro firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de conciliación firmado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento del producto."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-014 — Rechazo de defectos con falsos rechazos en límite",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que todos los defectos del desafío se rechazan, y que el porcentaje de falsos rechazos queda dentro del límite definido."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Durante la corrida PQ, registrar los rechazos del sistema<br>\n  2) Verificar una muestra de rechazadas: corresponden a defectos reales<br>\n  3) Estimar el porcentaje de falsos rechazos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los defectos del desafío se rechazan.<br>\n  Los falsos rechazos están dentro del límite definido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rechazo con producto (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de visión."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-015 — Producto rechazado separado e identificado según SOP",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el producto rechazado se separa, se identifica y se maneja según el SOP (reinspección o destrucción)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la separación e identificación del producto rechazado<br>\n  2) Verificar su manejo según el SOP definido<br>\n  3) Registrar la decisión y disposición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Producto rechazado separado e identificado.<br>\n  Manejo conforme al SOP."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de producto rechazado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>SOP de manejo de rechazos."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-016 — Operación continua durante la duración máxima del lote",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la operación continua durante la duración más larga prevista de un lote (si aplica), con data de atributos en el tiempo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar de forma continua durante la duración más larga prevista (si aplica)<br>\n  2) Registrar parámetros críticos y atributos a intervalos definidos<br>\n  3) Evaluar la estabilidad de atributos en el tiempo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los atributos se mantienen en especificación durante toda la duración.<br>\n  Sin deriva significativa."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de operación continua"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-017 — Paros, empalmes y reinicios recuperan posición y código",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que tras paros, empalmes de rollo y reinicios la posición y el código se recuperan sin unidades defectuosas no detectadas, y las que se generan se rechazan o se descartan."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar un paro, un empalme y un reinicio controlados<br>\n  2) Verificar la recuperación de posición y código<br>\n  3) Verificar el rechazo o descarte de las unidades afectadas"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Posición y código recuperados tras cada evento.<br>\n  Unidades afectadas rechazadas o descartadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de paros y reinicios (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Procedimiento de operación de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-018 — Cambio de formato con primera unidad y liberación probadas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el cambio de formato: procedimiento de ajuste, verificación de la primera unidad y liberación de arranque documentados y probados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar el cambio de formato según el procedimiento<br>\n  2) Verificar la primera unidad contra especificación<br>\n  3) Registrar la liberación de arranque<br>\n  4) Procesar los datos crudos de verificación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Primera unidad conforme antes de liberar.<br>\n  Liberación documentada y firmada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cambio de formato con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de cambio de formato"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Procedimiento de cambio de formato."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-019 — Estuchado o encajado sin atascos ni daño",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las unidades etiquetadas pasan por el estuchado o el encajado sin atascos ni daño."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar las unidades por el estuchado o encajado (si aplica)<br>\n  2) Registrar atascos y daños<br>\n  3) Verificar la integridad de etiqueta y código tras el paso"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin atascos que detengan la línea fuera de criterio.<br>\n  Sin daño a etiqueta ni código."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de aguas abajo (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del estuchador."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ET-020",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-020 — Serialización y agregación con trazabilidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la serialización y agregación (si aplica): lectura y comunicación de los códigos con el sistema de trazabilidad, y manejo de unidades rechazadas en la base de datos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Leer los códigos con el sistema de trazabilidad (si aplica)<br>\n  2) Verificar la comunicación y el registro de cada unidad<br>\n  3) Verificar el manejo de rechazadas en la base de datos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Lectura y comunicación correctas con trazabilidad.<br>\n  Rechazadas correctamente excluidas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de serialización (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del sistema de trazabilidad."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
    },
    {
     "kind": "div",
