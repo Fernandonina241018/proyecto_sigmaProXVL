@@ -4776,3 +4776,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-11 (161): IQ Nivel 2 etiquetadora (add-on 5 ensayos)
 - **Qué:** `iq-etiquetadora.html` derivado del modelo (EQ-IQ-ET-001…005): diagrama de flujo, dispensador/cabezal/piezas de formato, sensores-codificador-visión-rechazo, utilidades de transporte/aplicación, guardas/placa. Se suma al núcleo común. Etiquetadora queda IQ+OQ+PQ completa (séptima Nivel 2 cerrada).
 - **Verificación:** extractor `--estricto` OK (628 artículos); Vitest 429/429, backend 67/67.
+
+### 2026-10-11 (162): IQ Nivel 2 mezclador + horno-secado (add-on 5+5)
+- **Qué:** `iq-mezclador.html` (EQ-IQ-MZ-001…005): diagrama, cuba/bin/intensificador, motriz/velocidad, extracción/contención, seguridades/placa. `iq-horno-secado.html` (EQ-IQ-HO-001…005): diagrama, cámara/bandejas/ventilación, control/sobretemperatura, utilidades/extracción, puerta/guardas/placa. Ambos se suman al núcleo común.
+- **Verificación:** extractor `--estricto` OK (638 artículos); Vitest 431/431, backend 67/67.
