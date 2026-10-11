@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos IQ — Detector de Metales</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>IQ — Detector de Metales (banco por familia, Nivel 2)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-IQ-DM 2026-10-11 v1</span></p>
+<p>Add-on de Calificación de Instalación específico del detector de metales (derivado del modelo). Se suma al núcleo común (EQ-IQ-001…EQ-IQ-023) y se filtra por familia (<code>data-familia="detector-metales"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= IQ ================= -->
+<section id="fase-iq" data-familia="detector-metales">
+<h2>IQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-IQ-DM-001" class="ensayo" data-id="EQ-IQ-DM-001" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-DM-001 — Verificación del diagrama de flujo contra lo instalado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el diagrama de flujo del detector de metales (transporte, cabezal, rechazo, confirmación y contenedor) corresponde con la instalación física real.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Obtener la revisión vigente del diagrama de flujo aprobado<br>
+  2) Recorrer la línea identificando banda o tubo de transporte, cabezal detector, desviador de rechazo, sensor de confirmación y contenedor<br>
+  3) Confirmar tag, ubicación y conexión de cada componente contra el diagrama<br>
+  4) Registrar toda desviación como hallazgo con su disposición</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El diagrama de flujo corresponde con lo instalado en su revisión vigente.<br>
+  No existen componentes, líneas ni instrumentos sin identificar.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Diagrama de flujo verificado y firmado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-DM-002" class="ensayo" data-id="EQ-IQ-DM-002" data-fase="IQ" data-cond="ambas" data-tabla-modelo="CABEZAL Y APERTURA">
+  <h3>EQ-IQ-DM-002 — Verificación del cabezal detector y la apertura</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el cabezal detector y su apertura corresponden a lo especificado, con ubicación libre de interferencias metálicas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el cabezal: modelo, número de serie y dimensiones de apertura contra la especificación<br>
+  2) Verificar la zona libre de metal alrededor del cabezal según la distancia del fabricante<br>
+  3) Verificar soportes no metálicos y ausencia de estructuras móviles metálicas próximas no declaradas<br>
+  4) Registrar cada componente en la tabla de cabezal y apertura</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El cabezal y la apertura corresponden a lo especificado.<br>
+  La zona libre de metal cumple la distancia del fabricante.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de cabezal y apertura verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-DM-003" class="ensayo" data-id="EQ-IQ-DM-003" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-DM-003 — Verificación del sistema de rechazo, confirmación y contenedor</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el desviador de rechazo, el sensor de confirmación y el contenedor están instalados y conectados al control.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el desviador: tipo, actuador y conexión al control<br>
+  2) Verificar el sensor de confirmación: ubicación y conexión<br>
+  3) Verificar el contenedor de rechazo: ubicación, cierre o llave e identificación<br>
+  4) Verificar el aire comprimido del rechazo (si aplica): conexión, filtro y regulador</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los componentes están instalados, identificados y conectados.<br>
+  El contenedor cuenta con cierre o llave.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del sistema de rechazo verificado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-DM-004" class="ensayo" data-id="EQ-IQ-DM-004" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-DM-004 — Verificación del control, ajustes bloqueados y piezas de prueba</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el panel de control está instalado con los ajustes de fábrica, el umbral bloqueado y el juego de piezas de prueba disponible con certificados.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el panel de control: modelo, versión y montaje<br>
+  2) Verificar los ajustes de frecuencia, fase y umbral contra los aprobados, con bloqueo activo<br>
+  3) Verificar el juego de piezas de prueba: tipos, tamaños y certificados vigentes<br>
+  4) Verificar usuarios y contraseñas de acceso a ajustes (si aplica)</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Control instalado con ajustes aprobados y bloqueados.<br>
+  Piezas de prueba disponibles con certificados vigentes.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del control y piezas de prueba (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-DM-005" class="ensayo" data-id="EQ-IQ-DM-005" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-DM-005 — Verificación de seguridades y placa de datos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las guardas con sus interruptores y los paros de emergencia están instalados, y que la placa de datos corresponde a la especificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar guardas de partes móviles del transporte: presencia, fijación e interruptores conectados<br>
+  2) Verificar paros de emergencia: ubicación, identificación y acceso<br>
+  3) Verificar la placa de datos del cabezal y del control: modelo y serie<br>
+  4) Verificar que la placa corresponde a la especificación de compra</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Guardas y paros instalados y operativos.<br>
+  La placa de datos corresponde a la especificación de compra.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de seguridades y placa de datos (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+</section>
+</body>
+</html>
