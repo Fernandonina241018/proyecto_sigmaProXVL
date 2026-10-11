@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos OQ — Detector de Metales</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>OQ — Detector de Metales (banco por familia, Nivel 2)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-OQ-DM 2026-10-11 v1</span></p>
+<p>Ensayos de Calificación de Operación específicos del detector de metales, tomados del ENSAYOS.txt del usuario. Se filtran por familia (<code>data-familia="detector-metales"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq" data-familia="detector-metales">
+<h2>OQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-001" class="ensayo" data-id="EQ-OQ-DM-001" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-DM-001 — Verificación de parada de emergencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la parada de emergencia detiene la línea y deja el equipo en estado seguro (si aplica a la configuración instalada).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con la línea en marcha sin producto, accionar la parada de emergencia<br>
+  2) Verificar la detención de la banda o del flujo y el estado seguro del cabezal<br>
+  3) Restablecer y verificar el rearranque controlado sin pérdida de ajustes</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La línea se detiene y queda en estado seguro.<br>
+  No existe rearranque espontáneo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de parada de emergencia (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-002" class="ensayo" data-id="EQ-OQ-DM-002" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-DM-002 — Verificación de alarmas y límites</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada alarma dispara y ejecuta su acción: falla del detector, pérdida de señal, bajo suministro de aire al rechazo, contenedor de rechazo lleno o abierto, falla del sensor de confirmación y pérdida de equilibrio de la bobina.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular cada condición de alarma aplicable y verificar disparo y acción<br>
+  2) Verificar el registro de cada alarma en el histórico del equipo o de línea</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada alarma dispara ante su condición y ejecuta su acción asociada.<br>
+  Todas quedan registradas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de alarmas con disparo y acción verificados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-003" class="ensayo" data-id="EQ-OQ-DM-003" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-DM-003 — Verificación de falla segura (fail-safe)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que ante pérdida de energía, de aire comprimido o falla interna, el equipo detiene la línea o rechaza el producto, y nunca lo deja pasar sin detección.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Interrumpir la energía y verificar que la línea se detiene o el producto se retiene<br>
+  2) Interrumpir el aire comprimido (si aplica al rechazo) y verificar la acción segura<br>
+  3) Simular la falla interna según el procedimiento del fabricante y verificar que ningún producto pasa sin detección</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ante cualquier falla el producto no pasa sin detección.<br>
+  La línea se detiene o el producto se desvía a rechazo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de falla segura (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-004" class="ensayo" data-id="EQ-OQ-DM-004" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-DM-004 — Verificación de falla y recuperación de energía</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el estado seguro ante falla de energía, sin arranque espontáneo, y la vuelta al estado calibrado sin pérdida de la sensibilidad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Con el equipo en marcha, interrumpir la energía<br>
+  2) Verificar el estado seguro y la ausencia de arranque espontáneo al retornar<br>
+  3) Verificar que los ajustes de sensibilidad se conservan y el equipo vuelve al estado calibrado<br>
+  4) Verificar con una pieza de prueba que la detección sigue operativa</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Estado seguro sin arranque espontáneo.<br>
+  Sensibilidad conservada tras la recuperación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de falla y recuperación de energía (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-005" class="ensayo" data-id="EQ-OQ-DM-005" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-DM-005 — Verificación del contenedor de rechazo con acceso restringido</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el contenedor de rechazo solo lo abre personal autorizado y que su apertura genera alarma.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el cierre o llave del contenedor de rechazo<br>
+  2) Abrir el contenedor y verificar que se genera la alarma o parada definida<br>
+  3) Verificar el registro del evento</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Solo personal autorizado puede abrir el contenedor.<br>
+  La apertura genera alarma.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del contenedor de rechazo (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-006" class="ensayo" data-id="EQ-OQ-DM-006" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-DM-006 — Sensibilidad por tipo de metal en el centro de la apertura</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la sensibilidad en cada tipo de metal (ferroso, no ferroso y acero inoxidable) y en cada tamaño definido, con la pieza pasando por el centro de la apertura, que es la zona de menor sensibilidad y por tanto el peor caso.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pasar cada pieza de prueba certificada (ferrosa, no ferrosa y de acero inoxidable, en cada tamaño definido) por el centro de la apertura<br>
+  2) Registrar la detección de cada pasada, por triplicado como mínimo<br>
+  3) Procesar los datos crudos de detección en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Detección del 100% de las pasadas en cada tipo de metal y tamaño.<br>
+  Sin piezas no detectadas en el centro de la apertura.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de sensibilidad con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de sensibilidad por tipo de metal</p>
+  <p><strong>Referencia:</strong><br>Certificados de las piezas de prueba.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-007" class="ensayo" data-id="EQ-OQ-DM-007" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-DM-007 — Sensibilidad en distintas posiciones de la apertura</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la sensibilidad en distintas posiciones de la apertura (centro, bordes y esquinas), con registro de la variación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pasar las piezas de prueba por el centro, los bordes y las esquinas de la apertura<br>
+  2) Registrar la señal o detección en cada posición, por triplicado<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Detección del 100% en todas las posiciones.<br>
+  La variación entre posiciones queda registrada y dentro de lo esperado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro por posición con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de sensibilidad por posición</p>
+  <p><strong>Referencia:</strong><br>Certificados de las piezas de prueba.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-008" class="ensayo" data-id="EQ-OQ-DM-008" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-DM-008 — Efecto de la orientación de la pieza</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el efecto de la orientación de la pieza (si aplica al transporte en banda): una pieza alargada se detecta peor en ciertas orientaciones.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pasar una pieza alargada (alambre) en distintas orientaciones respecto al sentido de avance (si aplica)<br>
+  2) Registrar la detección en cada orientación, por triplicado<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Detección del 100% en todas las orientaciones evaluadas.<br>
+  La orientación más desfavorable queda identificada y documentada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro por orientación con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de orientación de pieza</p>
+  <p><strong>Referencia:</strong><br>Certificados de las piezas de prueba.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-009" class="ensayo" data-id="EQ-OQ-DM-009" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-DM-009 — Repetibilidad con diez pasadas por pieza</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la repetibilidad con al menos diez pasadas por tipo y tamaño de pieza, con detección del 100%. Un criterio menor no basta para un control crítico.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pasar cada pieza de prueba al menos diez veces consecutivas por el centro de la apertura<br>
+  2) Registrar cada resultado individual<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Detección del 100% de las pasadas en cada pieza.<br>
+  Sin fallos de detección en ninguna de las diez pasadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de repetibilidad con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de repetibilidad</p>
+  <p><strong>Referencia:</strong><br>Certificados de las piezas de prueba.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-010" class="ensayo" data-id="EQ-OQ-DM-010" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-DM-010 — Estabilidad de la sensibilidad en operación continua</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la estabilidad de la sensibilidad en operación continua durante un período definido, sin deriva ni falsos rechazos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar el equipo de forma continua durante el período definido<br>
+  2) Pasar piezas de prueba a intervalos definidos y registrar la detección<br>
+  3) Registrar falsos rechazos durante el período<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Detección del 100% en todas las verificaciones intermedias.<br>
+  Sin deriva de sensibilidad ni falsos rechazos fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de estabilidad con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de estabilidad de sensibilidad</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-011" class="ensayo" data-id="EQ-OQ-DM-011" data-fase="OQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-OQ-DM-011 — Detección a velocidad mínima, nominal y máxima</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la detección a velocidad mínima, nominal y máxima de la banda o del flujo (si aplica), porque la sensibilidad baja al subir la velocidad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pasar las piezas de prueba a velocidad mínima, nominal y máxima (si aplica)<br>
+  2) Registrar la detección en cada velocidad, por triplicado<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Detección del 100% en las tres velocidades.<br>
+  Sin pérdida de sensibilidad a velocidad máxima.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro por velocidad con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de velocidad</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-012" class="ensayo" data-id="EQ-OQ-DM-012" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-DM-012 — Frecuencia, fase y control de acceso a ajustes</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los ajustes de fábrica (frecuencia de trabajo y fase) se mantienen y que solo personal autorizado los modifica, con control de acceso físico y por contraseña.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar los valores de frecuencia y fase contra los de fábrica<br>
+  2) Intentar modificarlos sin credencial autorizada: el equipo no debe permitirlo<br>
+  3) Verificar el bloqueo físico de accesos a tarjetas o potenciómetros (si aplica)</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los ajustes corresponden a los de fábrica o a los aprobados.<br>
+  Sin acceso no autorizado a los ajustes.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de ajustes y control de acceso (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-013" class="ensayo" data-id="EQ-OQ-DM-013" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-DM-013 — Umbral de sensibilidad bloqueado y trazable</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que el nivel de umbral de sensibilidad está bloqueado y que cualquier cambio queda registrado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar el nivel de umbral aprobado<br>
+  2) Verificar que está bloqueado contra cambios no autorizados<br>
+  3) Verificar que un cambio autorizado queda registrado con usuario y fecha</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El umbral aprobado está bloqueado.<br>
+  Todo cambio queda registrado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del umbral y su bloqueo (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-014" class="ensayo" data-id="EQ-OQ-DM-014" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-DM-014 — Respuesta ante interferencias</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la respuesta ante interferencias: vibración, campos electromagnéticos de motores cercanos y metal en movimiento próximo. Sin falsos rechazos ni pérdida de sensibilidad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar el equipo en su ubicación definitiva con los equipos vecinos en marcha<br>
+  2) Verificar ausencia de falsos rechazos durante el período definido<br>
+  3) Pasar piezas de prueba y verificar que la sensibilidad se mantiene</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin falsos rechazos atribuibles a interferencias.<br>
+  Sensibilidad conservada con los equipos vecinos en marcha.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de interferencias (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-015" class="ensayo" data-id="EQ-OQ-DM-015" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-DM-015 — Tiempo de rechazo y sincronización</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el tiempo de rechazo y la sincronización: el producto que contiene la pieza de prueba se desvía, y el producto bueno no. Verificar a cada velocidad probada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pasar piezas de prueba a cada velocidad probada y verificar su desvío al rechazo<br>
+  2) Verificar que el producto bueno inmediatamente anterior y posterior no se desvía<br>
+  3) Medir el retardo entre detección y actuación del desviador</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100% de las piezas de prueba se desvía al rechazo.<br>
+  Ningún producto bueno se desvía indebidamente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de tiempo y sincronización (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-016" class="ensayo" data-id="EQ-OQ-DM-016" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-DM-016 — Presión de aire o fuerza del desviador</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la presión de aire o la fuerza del desviador (si aplica): rango operativo y efecto sobre la precisión del rechazo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la presión de aire del desviador (si aplica) en su rango operativo<br>
+  2) Verificar el desvío efectivo en los extremos del rango<br>
+  3) Registrar el ajuste aprobado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La presión o fuerza está dentro del rango operativo aprobado.<br>
+  Desvío efectivo en todo el rango.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del desviador (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-017" class="ensayo" data-id="EQ-OQ-DM-017" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-DM-017 — Confirmación del rechazo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el sensor confirma que el producto salió por el canal de rechazo. Si no, la línea se detiene o se activa una alarma.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar rechazos controlados y verificar la confirmación del sensor<br>
+  2) Bloquear el canal de rechazo y verificar que la línea se detiene o alarma<br>
+  3) Verificar el registro del evento</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada rechazo queda confirmado por el sensor.<br>
+  La falta de confirmación detiene la línea o alarma.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de confirmación de rechazo (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-018" class="ensayo" data-id="EQ-OQ-DM-018" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-DM-018 — Rechazo en cascada</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que ante varios rechazos seguidos (si aplica) el sistema se mantiene y no se satura.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar rechazos consecutivos de forma controlada (si aplica)<br>
+  2) Verificar que todos se desvían correctamente<br>
+  3) Verificar que el sistema no se satura ni pierde sincronización</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los rechazos consecutivos se desvían.<br>
+  Sin saturación ni pérdida de sincronización.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de rechazo en cascada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-019" class="ensayo" data-id="EQ-OQ-DM-019" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-DM-019 — Parada de línea ante detección o falla</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el mecanismo de parada de línea (si aplica): al detectar metal o ante una falla, el flujo se corta, con tiempo y estado definidos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar una detección y verificar la parada de línea (si aplica esta configuración)<br>
+  2) Simular una falla del detector y verificar la parada<br>
+  3) Medir el tiempo de parada y verificar el estado resultante</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La línea se detiene ante detección o falla según lo configurado.<br>
+  Tiempo y estado dentro de lo definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de parada de línea (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-DM-020" class="ensayo" data-id="EQ-OQ-DM-020" data-fase="OQ" data-cond="ambas">
+  <h3>EQ-OQ-DM-020 — Corrida con placebo y piezas en el flujo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar una corrida con producto placebo (tabletas o cápsulas) a velocidad mínima, nominal y máxima, con piezas de prueba introducidas en el flujo, no pasadas a mano: todas se detectan y se rechazan, y ningún producto bueno se rechaza sin motivo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Correr placebo a velocidad mínima, nominal y máxima<br>
+  2) Introducir piezas de prueba dentro del flujo de producto en cada velocidad<br>
+  3) Verificar la detección y el rechazo de cada pieza<br>
+  4) Verificar que ningún producto bueno se rechaza sin motivo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100% de las piezas introducidas se detecta y rechaza.<br>
+  Sin rechazos indebidos de producto bueno.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de corrida con placebo (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+</section>
+</body>
+</html>

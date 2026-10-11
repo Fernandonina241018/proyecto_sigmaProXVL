@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Detector de Metales</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>PQ — Detector de Metales (banco por familia, Nivel 2)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-DM 2026-10-11 v1</span></p>
+<p>Ensayos de Calificación de Desempeño específicos del detector de metales, tomados del ENSAYOS.txt del usuario (grupos PQ sin flag y flags individuales). Se filtran por familia (<code>data-familia="detector-metales"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= PQ ================= -->
+<section id="fase-pq" data-familia="detector-metales">
+<h2>PQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-PQ-DM-001" class="ensayo" data-id="EQ-PQ-DM-001" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-DM-001 — Caracterización de la señal del producto</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la caracterización de la señal del producto: el equipo aprende el producto con las piezas de prueba y se confirma que no hay señal de producto que enmascare la detección. Los productos con humedad, sales o recubrimiento conductor aumentan esta señal.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar el aprendizaje del producto según el procedimiento del fabricante<br>
+  2) Pasar producto bueno sin piezas y registrar la señal de producto<br>
+  3) Confirmar que la señal de producto no enmascara la detección de las piezas</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Producto bueno sin piezas no genera rechazo.<br>
+  La señal de producto queda caracterizada y documentada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de aprendizaje y señal de producto (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-DM-002" class="ensayo" data-id="EQ-PQ-DM-002" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-DM-002 — Sensibilidad con producto real</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la sensibilidad con producto real: detección de las piezas de prueba (ferroso, no ferroso y acero inoxidable) con el producto fluyendo, en cada tamaño definido. La sensibilidad con producto es menor que en aire, así que el criterio del PQ prevalece sobre el del OQ.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Introducir cada pieza de prueba dentro del flujo de producto real<br>
+  2) Verificar la detección y el rechazo de cada pieza en cada tamaño definido<br>
+  3) Registrar los resultados por tipo de metal y tamaño</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Detección del 100% con producto real en todos los tamaños definidos.<br>
+  El criterio del PQ prevalece como sensibilidad de rutina.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de sensibilidad con producto (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Certificados de las piezas de prueba.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-DM-003" class="ensayo" data-id="EQ-PQ-DM-003" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-DM-003 — Producto de peor caso</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el peor caso (si aplica): el producto con mayor efecto (más húmedo, más conductor o con mayor contenido de sales), el de mayor densidad de flujo y la velocidad máxima.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir el producto y las condiciones de peor caso (si aplica)<br>
+  2) Introducir las piezas de prueba en ese producto y condiciones<br>
+  3) Verificar la detección y el rechazo de cada pieza</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Detección del 100% en el peor caso definido.<br>
+  El peor caso queda documentado y justificado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del peor caso (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Certificados de las piezas de prueba.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-DM-004" class="ensayo" data-id="EQ-PQ-DM-004" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-DM-004 — Corrida con producto real y piezas aleatorias</h3>
+  <p><strong>Objetivo:</strong><br>Verificar una corrida con producto real a velocidad nominal, con piezas de prueba introducidas dentro del flujo en distintos momentos (inicio, medio y fin) y de forma aleatoria. Toda pieza debe detectarse y rechazarse.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Correr producto real a velocidad nominal<br>
+  2) Introducir piezas de prueba dentro del flujo al inicio, en el medio, al fin y en momentos aleatorios<br>
+  3) Registrar la detección y el rechazo de cada pieza con su momento<br>
+  4) Procesar los datos crudos de detección en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100% de las piezas introducidas se detecta y rechaza.<br>
+  Sin piezas no detectadas en ningún momento de la corrida.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de corrida con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de detección en corrida</p>
+  <p><strong>Referencia:</strong><br>Certificados de las piezas de prueba.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-DM-005" class="ensayo" data-id="EQ-PQ-DM-005" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>EQ-PQ-DM-005 — Detección a velocidad mínima y máxima con producto</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la detección a velocidad mínima y máxima del rango declarado (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Correr producto real a velocidad mínima e introducir piezas de prueba (si aplica)<br>
+  2) Correr a velocidad máxima e introducir piezas de prueba<br>
+  3) Registrar la detección en cada velocidad<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Detección del 100% a velocidad mínima y máxima.<br>
+  Sin pérdida de sensibilidad en los extremos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro por velocidad con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de velocidad con producto</p>
+  <p><strong>Referencia:</strong><br>Certificados de las piezas de prueba.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-DM-006" class="ensayo" data-id="EQ-PQ-DM-006" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-DM-006 — Tasa de falsos rechazos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la tasa de falsos rechazos: porcentaje de producto bueno rechazado durante la corrida, dentro del límite definido. Una tasa alta indica un umbral demasiado sensible o interferencias.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Correr producto bueno sin piezas durante el período definido<br>
+  2) Contar los rechazos de producto bueno contra el total procesado<br>
+  3) Calcular la tasa de falsos rechazos</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La tasa de falsos rechazos está dentro del límite definido.<br>
+  Sin causa asignable sin tratar.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de falsos rechazos (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-DM-007" class="ensayo" data-id="EQ-PQ-DM-007" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-DM-007 — Estabilidad durante el lote con verificaciones intermedias</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la estabilidad durante la duración más larga prevista de un lote (si aplica), con verificaciones intermedias de sensibilidad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Correr durante la duración más larga prevista (si aplica)<br>
+  2) Pasar piezas de prueba a intervalos definidos y registrar la detección<br>
+  3) Registrar falsos rechazos durante la corrida</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Detección del 100% en todas las verificaciones intermedias.<br>
+  Sin deriva fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de estabilidad del lote (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-DM-008" class="ensayo" data-id="EQ-PQ-DM-008" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-DM-008 — Paros y reinicios conservan aprendizaje y sensibilidad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que tras una detención (si aplica), el equipo mantiene el aprendizaje del producto y la sensibilidad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar una detención controlada durante la corrida (si aplica evaluación)<br>
+  2) Reanudar y verificar que el aprendizaje del producto se conserva<br>
+  3) Pasar piezas de prueba y verificar la detección tras el reinicio</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El aprendizaje se conserva tras la detención.<br>
+  Detección del 100% tras el reinicio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de paro y reinicio (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-DM-009" class="ensayo" data-id="EQ-PQ-DM-009" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-DM-009 — Cambio de producto con reaprendizaje documentado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el cambio de producto o de formato: procedimiento de reaprendizaje y verificación con las piezas de prueba antes de arrancar. Debe estar documentado y probado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar el cambio de producto según el procedimiento<br>
+  2) Ejecutar el reaprendizaje y registrar los nuevos parámetros<br>
+  3) Verificar con piezas de prueba antes de arrancar la producción</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Reaprendizaje ejecutado y documentado.<br>
+  Verificación con piezas aprobada antes de arrancar.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de cambio y reaprendizaje (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Procedimiento de cambio de producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-DM-010" class="ensayo" data-id="EQ-PQ-DM-010" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-DM-010 — Producto rechazado al contenedor correcto con confirmación</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el producto rechazado cae en el contenedor correcto, sin mezclarse con el bueno, y que el sistema de confirmación lo detecta.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar rechazos controlados con producto real<br>
+  2) Verificar que cada rechazo cae en el contenedor correcto<br>
+  3) Verificar la confirmación del sistema por cada rechazo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100% de los rechazos cae en el contenedor correcto.<br>
+  Sin mezcla con producto bueno.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de rechazo con producto (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-DM-011" class="ensayo" data-id="EQ-PQ-DM-011" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-DM-011 — Contenedor lleno, abierto o ausente genera alarma o parada</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que con el contenedor de rechazo lleno, abierto o ausente se genera alarma o parada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Llenar el contenedor al nivel de alarma y verificar la respuesta<br>
+  2) Abrir el contenedor durante la marcha y verificar la alarma o parada<br>
+  3) Retirar el contenedor (si aplica) y verificar la respuesta</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada condición genera su alarma o parada.<br>
+  Sin operación normal con el contenedor en falta.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del contenedor (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-DM-012" class="ensayo" data-id="EQ-PQ-DM-012" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-DM-012 — Reinspección del producto rechazado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el procedimiento de reinspección del producto rechazado (si aplica): revisar el rechazo, identificar el metal y decidir el destino del lote.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Aplicar el procedimiento de reinspección al producto rechazado (si aplica)<br>
+  2) Identificar el metal encontrado cuando sea posible<br>
+  3) Registrar la decisión sobre el destino del lote</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Procedimiento aplicado y documentado.<br>
+  Destino del lote decidido y registrado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de reinspección (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Procedimiento de manejo de rechazos.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-DM-013" class="ensayo" data-id="EQ-PQ-DM-013" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-DM-013 — Prueba de rutina y retención ante fallo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la prueba de rutina con las piezas de prueba al inicio y al final de la producción, y a intervalos definidos. Registrar el resultado y qué se hace si falla (qué producto se retiene o se reinspecciona desde la última verificación correcta).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar la prueba de rutina al inicio, a intervalos definidos y al final de la producción<br>
+  2) Registrar cada resultado<br>
+  3) Verificar que el procedimiento define la retención o reinspección desde la última verificación correcta ante un fallo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Pruebas de rutina ejecutadas y registradas.<br>
+  El procedimiento de retención ante fallo está definido y es aplicable.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de pruebas de rutina (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Procedimiento de verificación de rutina.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-DM-014" class="ensayo" data-id="EQ-PQ-DM-014" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-DM-014 — Prueba tras cambio, reparación o apagado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la prueba con piezas tras un cambio, reparación o apagado del equipo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Tras cada cambio, reparación o apagado, pasar las piezas de prueba<br>
+  2) Verificar la detección del 100% antes de liberar la línea<br>
+  3) Registrar cada evento y su verificación</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Verificación aprobada antes de cada liberación.<br>
+  Sin producción liberada sin prueba.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de pruebas post-evento (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Procedimiento de verificación de rutina.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-DM-015" class="ensayo" data-id="EQ-PQ-DM-015" data-fase="PQ" data-cond="ambas">
+  <h3>EQ-PQ-DM-015 — Aislamiento y reinspección ante fallo de verificación</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que ante un fallo de verificación el procedimiento indica el aislamiento y la reinspección del producto pasado desde la última prueba aprobada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular documentalmente un fallo de verificación<br>
+  2) Aplicar el procedimiento: aislar el producto desde la última prueba aprobada<br>
+  3) Verificar la reinspección definida y el registro de la decisión</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Producto afectado aislado y reinspeccionado.<br>
+  Decisión registrada conforme al procedimiento.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de aislamiento y reinspección (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Procedimiento de manejo de fallos de verificación.</p>
+</article>
+
+</section>
+</body>
+</html>

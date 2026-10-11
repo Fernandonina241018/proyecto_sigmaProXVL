@@ -4758,3 +4758,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-09 (157): IQ Nivel 2 blistera (add-on 5 ensayos)
 - **Qué:** `iq-blistera.html` derivado del modelo (EQ-IQ-BL-001…005): diagrama de flujo, estaciones/moldes/troquel, visión-codificación-rechazo, utilidades de formado/sellado, guardas/protección-dedos/placa. Se suma al núcleo común. Blistera queda IQ+OQ+PQ completa (quinta Nivel 2 cerrada; OSD producción 5/5 completo).
 - **Verificación:** extractor `--estricto` OK (534 artículos); Vitest 423/423, backend 67/67.
+
+### 2026-10-11 (158): OQ + PQ detector de metales desde ENSAYOS.txt (35 ensayos)
+- **Qué:** `.txt` traía OQ+PQ detector de metales. Creados `oq-detector-metales.html` (20 ensayos EQ-OQ-DM, 6 con análisis: sensibilidad por tipo/posición/orientación, repetibilidad 10 pasadas, estabilidad, velocidad) y `pq-detector-metales.html` (15 ensayos EQ-PQ-DM, 2 con análisis: corrida con piezas aleatorias, velocidades extremas; resto sin flag como el original).
+- **Nota:** flag suelto de línea 1 tratado como artefacto (convención vigente); OQ con flags individuales, PQ con flags individuales.
+- **Verificación:** extractor `--estricto` OK (569 artículos); Vitest 425/425, backend 67/67. Detector: 12ª familia con OQ+PQ propio (IQ Nivel 2 pendiente).

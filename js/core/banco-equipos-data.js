@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
+ "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -8276,6 +8276,632 @@ var BancoEquipos = {
     "familia": "blistera"
    },
    {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-001 — Verificación de parada de emergencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la parada de emergencia detiene la línea y deja el equipo en estado seguro (si aplica a la configuración instalada)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con la línea en marcha sin producto, accionar la parada de emergencia<br>\n  2) Verificar la detención de la banda o del flujo y el estado seguro del cabezal<br>\n  3) Restablecer y verificar el rearranque controlado sin pérdida de ajustes"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La línea se detiene y queda en estado seguro.<br>\n  No existe rearranque espontáneo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de parada de emergencia (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-002 — Verificación de alarmas y límites",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada alarma dispara y ejecuta su acción: falla del detector, pérdida de señal, bajo suministro de aire al rechazo, contenedor de rechazo lleno o abierto, falla del sensor de confirmación y pérdida de equilibrio de la bobina."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular cada condición de alarma aplicable y verificar disparo y acción<br>\n  2) Verificar el registro de cada alarma en el histórico del equipo o de línea"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma dispara ante su condición y ejecuta su acción asociada.<br>\n  Todas quedan registradas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de alarmas con disparo y acción verificados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-003 — Verificación de falla segura (fail-safe)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que ante pérdida de energía, de aire comprimido o falla interna, el equipo detiene la línea o rechaza el producto, y nunca lo deja pasar sin detección."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Interrumpir la energía y verificar que la línea se detiene o el producto se retiene<br>\n  2) Interrumpir el aire comprimido (si aplica al rechazo) y verificar la acción segura<br>\n  3) Simular la falla interna según el procedimiento del fabricante y verificar que ningún producto pasa sin detección"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ante cualquier falla el producto no pasa sin detección.<br>\n  La línea se detiene o el producto se desvía a rechazo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de falla segura (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-004 — Verificación de falla y recuperación de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el estado seguro ante falla de energía, sin arranque espontáneo, y la vuelta al estado calibrado sin pérdida de la sensibilidad."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con el equipo en marcha, interrumpir la energía<br>\n  2) Verificar el estado seguro y la ausencia de arranque espontáneo al retornar<br>\n  3) Verificar que los ajustes de sensibilidad se conservan y el equipo vuelve al estado calibrado<br>\n  4) Verificar con una pieza de prueba que la detección sigue operativa"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Estado seguro sin arranque espontáneo.<br>\n  Sensibilidad conservada tras la recuperación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de falla y recuperación de energía (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-005 — Verificación del contenedor de rechazo con acceso restringido",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el contenedor de rechazo solo lo abre personal autorizado y que su apertura genera alarma."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el cierre o llave del contenedor de rechazo<br>\n  2) Abrir el contenedor y verificar que se genera la alarma o parada definida<br>\n  3) Verificar el registro del evento"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Solo personal autorizado puede abrir el contenedor.<br>\n  La apertura genera alarma."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del contenedor de rechazo (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-006 — Sensibilidad por tipo de metal en el centro de la apertura",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la sensibilidad en cada tipo de metal (ferroso, no ferroso y acero inoxidable) y en cada tamaño definido, con la pieza pasando por el centro de la apertura, que es la zona de menor sensibilidad y por tanto el peor caso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar cada pieza de prueba certificada (ferrosa, no ferrosa y de acero inoxidable, en cada tamaño definido) por el centro de la apertura<br>\n  2) Registrar la detección de cada pasada, por triplicado como mínimo<br>\n  3) Procesar los datos crudos de detección en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Detección del 100% de las pasadas en cada tipo de metal y tamaño.<br>\n  Sin piezas no detectadas en el centro de la apertura."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de sensibilidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de sensibilidad por tipo de metal"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Certificados de las piezas de prueba."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-007 — Sensibilidad en distintas posiciones de la apertura",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la sensibilidad en distintas posiciones de la apertura (centro, bordes y esquinas), con registro de la variación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar las piezas de prueba por el centro, los bordes y las esquinas de la apertura<br>\n  2) Registrar la señal o detección en cada posición, por triplicado<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Detección del 100% en todas las posiciones.<br>\n  La variación entre posiciones queda registrada y dentro de lo esperado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro por posición con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de sensibilidad por posición"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Certificados de las piezas de prueba."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-008 — Efecto de la orientación de la pieza",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el efecto de la orientación de la pieza (si aplica al transporte en banda): una pieza alargada se detecta peor en ciertas orientaciones."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar una pieza alargada (alambre) en distintas orientaciones respecto al sentido de avance (si aplica)<br>\n  2) Registrar la detección en cada orientación, por triplicado<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Detección del 100% en todas las orientaciones evaluadas.<br>\n  La orientación más desfavorable queda identificada y documentada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro por orientación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de orientación de pieza"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Certificados de las piezas de prueba."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-009 — Repetibilidad con diez pasadas por pieza",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la repetibilidad con al menos diez pasadas por tipo y tamaño de pieza, con detección del 100%. Un criterio menor no basta para un control crítico."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar cada pieza de prueba al menos diez veces consecutivas por el centro de la apertura<br>\n  2) Registrar cada resultado individual<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Detección del 100% de las pasadas en cada pieza.<br>\n  Sin fallos de detección en ninguna de las diez pasadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de repetibilidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de repetibilidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Certificados de las piezas de prueba."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-010 — Estabilidad de la sensibilidad en operación continua",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la estabilidad de la sensibilidad en operación continua durante un período definido, sin deriva ni falsos rechazos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar el equipo de forma continua durante el período definido<br>\n  2) Pasar piezas de prueba a intervalos definidos y registrar la detección<br>\n  3) Registrar falsos rechazos durante el período<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Detección del 100% en todas las verificaciones intermedias.<br>\n  Sin deriva de sensibilidad ni falsos rechazos fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de estabilidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad de sensibilidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-011 — Detección a velocidad mínima, nominal y máxima",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la detección a velocidad mínima, nominal y máxima de la banda o del flujo (si aplica), porque la sensibilidad baja al subir la velocidad."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar las piezas de prueba a velocidad mínima, nominal y máxima (si aplica)<br>\n  2) Registrar la detección en cada velocidad, por triplicado<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Detección del 100% en las tres velocidades.<br>\n  Sin pérdida de sensibilidad a velocidad máxima."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro por velocidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-012 — Frecuencia, fase y control de acceso a ajustes",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los ajustes de fábrica (frecuencia de trabajo y fase) se mantienen y que solo personal autorizado los modifica, con control de acceso físico y por contraseña."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar los valores de frecuencia y fase contra los de fábrica<br>\n  2) Intentar modificarlos sin credencial autorizada: el equipo no debe permitirlo<br>\n  3) Verificar el bloqueo físico de accesos a tarjetas o potenciómetros (si aplica)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los ajustes corresponden a los de fábrica o a los aprobados.<br>\n  Sin acceso no autorizado a los ajustes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de ajustes y control de acceso (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-013 — Umbral de sensibilidad bloqueado y trazable",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Confirmar que el nivel de umbral de sensibilidad está bloqueado y que cualquier cambio queda registrado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el nivel de umbral aprobado<br>\n  2) Verificar que está bloqueado contra cambios no autorizados<br>\n  3) Verificar que un cambio autorizado queda registrado con usuario y fecha"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El umbral aprobado está bloqueado.<br>\n  Todo cambio queda registrado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del umbral y su bloqueo (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-014 — Respuesta ante interferencias",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la respuesta ante interferencias: vibración, campos electromagnéticos de motores cercanos y metal en movimiento próximo. Sin falsos rechazos ni pérdida de sensibilidad."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar el equipo en su ubicación definitiva con los equipos vecinos en marcha<br>\n  2) Verificar ausencia de falsos rechazos durante el período definido<br>\n  3) Pasar piezas de prueba y verificar que la sensibilidad se mantiene"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin falsos rechazos atribuibles a interferencias.<br>\n  Sensibilidad conservada con los equipos vecinos en marcha."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de interferencias (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-015 — Tiempo de rechazo y sincronización",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el tiempo de rechazo y la sincronización: el producto que contiene la pieza de prueba se desvía, y el producto bueno no. Verificar a cada velocidad probada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar piezas de prueba a cada velocidad probada y verificar su desvío al rechazo<br>\n  2) Verificar que el producto bueno inmediatamente anterior y posterior no se desvía<br>\n  3) Medir el retardo entre detección y actuación del desviador"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las piezas de prueba se desvía al rechazo.<br>\n  Ningún producto bueno se desvía indebidamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de tiempo y sincronización (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-016 — Presión de aire o fuerza del desviador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la presión de aire o la fuerza del desviador (si aplica): rango operativo y efecto sobre la precisión del rechazo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la presión de aire del desviador (si aplica) en su rango operativo<br>\n  2) Verificar el desvío efectivo en los extremos del rango<br>\n  3) Registrar el ajuste aprobado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La presión o fuerza está dentro del rango operativo aprobado.<br>\n  Desvío efectivo en todo el rango."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del desviador (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-017 — Confirmación del rechazo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sensor confirma que el producto salió por el canal de rechazo. Si no, la línea se detiene o se activa una alarma."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar rechazos controlados y verificar la confirmación del sensor<br>\n  2) Bloquear el canal de rechazo y verificar que la línea se detiene o alarma<br>\n  3) Verificar el registro del evento"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada rechazo queda confirmado por el sensor.<br>\n  La falta de confirmación detiene la línea o alarma."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de confirmación de rechazo (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-018 — Rechazo en cascada",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que ante varios rechazos seguidos (si aplica) el sistema se mantiene y no se satura."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar rechazos consecutivos de forma controlada (si aplica)<br>\n  2) Verificar que todos se desvían correctamente<br>\n  3) Verificar que el sistema no se satura ni pierde sincronización"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los rechazos consecutivos se desvían.<br>\n  Sin saturación ni pérdida de sincronización."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rechazo en cascada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-019 — Parada de línea ante detección o falla",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el mecanismo de parada de línea (si aplica): al detectar metal o ante una falla, el flujo se corta, con tiempo y estado definidos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar una detección y verificar la parada de línea (si aplica esta configuración)<br>\n  2) Simular una falla del detector y verificar la parada<br>\n  3) Medir el tiempo de parada y verificar el estado resultante"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La línea se detiene ante detección o falla según lo configurado.<br>\n  Tiempo y estado dentro de lo definido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de parada de línea (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DM-020",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-020 — Corrida con placebo y piezas en el flujo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar una corrida con producto placebo (tabletas o cápsulas) a velocidad mínima, nominal y máxima, con piezas de prueba introducidas en el flujo, no pasadas a mano: todas se detectan y se rechazan, y ningún producto bueno se rechaza sin motivo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Correr placebo a velocidad mínima, nominal y máxima<br>\n  2) Introducir piezas de prueba dentro del flujo de producto en cada velocidad<br>\n  3) Verificar la detección y el rechazo de cada pieza<br>\n  4) Verificar que ningún producto bueno se rechaza sin motivo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las piezas introducidas se detecta y rechaza.<br>\n  Sin rechazos indebidos de producto bueno."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de corrida con placebo (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
     "kind": "div",
     "clase": "portada",
     "bloque": 1,
@@ -14650,6 +15276,473 @@ var BancoEquipos = {
     "tabla": null,
     "analisis": "si",
     "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-DM-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-DM-001 — Caracterización de la señal del producto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la caracterización de la señal del producto: el equipo aprende el producto con las piezas de prueba y se confirma que no hay señal de producto que enmascare la detección. Los productos con humedad, sales o recubrimiento conductor aumentan esta señal."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar el aprendizaje del producto según el procedimiento del fabricante<br>\n  2) Pasar producto bueno sin piezas y registrar la señal de producto<br>\n  3) Confirmar que la señal de producto no enmascara la detección de las piezas"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Producto bueno sin piezas no genera rechazo.<br>\n  La señal de producto queda caracterizada y documentada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de aprendizaje y señal de producto (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-DM-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-DM-002 — Sensibilidad con producto real",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la sensibilidad con producto real: detección de las piezas de prueba (ferroso, no ferroso y acero inoxidable) con el producto fluyendo, en cada tamaño definido. La sensibilidad con producto es menor que en aire, así que el criterio del PQ prevalece sobre el del OQ."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Introducir cada pieza de prueba dentro del flujo de producto real<br>\n  2) Verificar la detección y el rechazo de cada pieza en cada tamaño definido<br>\n  3) Registrar los resultados por tipo de metal y tamaño"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Detección del 100% con producto real en todos los tamaños definidos.<br>\n  El criterio del PQ prevalece como sensibilidad de rutina."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de sensibilidad con producto (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Certificados de las piezas de prueba."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-DM-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-DM-003 — Producto de peor caso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el peor caso (si aplica): el producto con mayor efecto (más húmedo, más conductor o con mayor contenido de sales), el de mayor densidad de flujo y la velocidad máxima."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el producto y las condiciones de peor caso (si aplica)<br>\n  2) Introducir las piezas de prueba en ese producto y condiciones<br>\n  3) Verificar la detección y el rechazo de cada pieza"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Detección del 100% en el peor caso definido.<br>\n  El peor caso queda documentado y justificado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del peor caso (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Certificados de las piezas de prueba."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-DM-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-DM-004 — Corrida con producto real y piezas aleatorias",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar una corrida con producto real a velocidad nominal, con piezas de prueba introducidas dentro del flujo en distintos momentos (inicio, medio y fin) y de forma aleatoria. Toda pieza debe detectarse y rechazarse."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Correr producto real a velocidad nominal<br>\n  2) Introducir piezas de prueba dentro del flujo al inicio, en el medio, al fin y en momentos aleatorios<br>\n  3) Registrar la detección y el rechazo de cada pieza con su momento<br>\n  4) Procesar los datos crudos de detección en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las piezas introducidas se detecta y rechaza.<br>\n  Sin piezas no detectadas en ningún momento de la corrida."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de corrida con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de detección en corrida"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Certificados de las piezas de prueba."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-DM-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-DM-005 — Detección a velocidad mínima y máxima con producto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la detección a velocidad mínima y máxima del rango declarado (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Correr producto real a velocidad mínima e introducir piezas de prueba (si aplica)<br>\n  2) Correr a velocidad máxima e introducir piezas de prueba<br>\n  3) Registrar la detección en cada velocidad<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Detección del 100% a velocidad mínima y máxima.<br>\n  Sin pérdida de sensibilidad en los extremos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro por velocidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad con producto"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Certificados de las piezas de prueba."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-DM-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-DM-006 — Tasa de falsos rechazos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la tasa de falsos rechazos: porcentaje de producto bueno rechazado durante la corrida, dentro del límite definido. Una tasa alta indica un umbral demasiado sensible o interferencias."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Correr producto bueno sin piezas durante el período definido<br>\n  2) Contar los rechazos de producto bueno contra el total procesado<br>\n  3) Calcular la tasa de falsos rechazos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La tasa de falsos rechazos está dentro del límite definido.<br>\n  Sin causa asignable sin tratar."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de falsos rechazos (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-DM-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-DM-007 — Estabilidad durante el lote con verificaciones intermedias",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la estabilidad durante la duración más larga prevista de un lote (si aplica), con verificaciones intermedias de sensibilidad."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Correr durante la duración más larga prevista (si aplica)<br>\n  2) Pasar piezas de prueba a intervalos definidos y registrar la detección<br>\n  3) Registrar falsos rechazos durante la corrida"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Detección del 100% en todas las verificaciones intermedias.<br>\n  Sin deriva fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de estabilidad del lote (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-DM-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-DM-008 — Paros y reinicios conservan aprendizaje y sensibilidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que tras una detención (si aplica), el equipo mantiene el aprendizaje del producto y la sensibilidad."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar una detención controlada durante la corrida (si aplica evaluación)<br>\n  2) Reanudar y verificar que el aprendizaje del producto se conserva<br>\n  3) Pasar piezas de prueba y verificar la detección tras el reinicio"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El aprendizaje se conserva tras la detención.<br>\n  Detección del 100% tras el reinicio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de paro y reinicio (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-DM-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-DM-009 — Cambio de producto con reaprendizaje documentado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el cambio de producto o de formato: procedimiento de reaprendizaje y verificación con las piezas de prueba antes de arrancar. Debe estar documentado y probado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar el cambio de producto según el procedimiento<br>\n  2) Ejecutar el reaprendizaje y registrar los nuevos parámetros<br>\n  3) Verificar con piezas de prueba antes de arrancar la producción"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Reaprendizaje ejecutado y documentado.<br>\n  Verificación con piezas aprobada antes de arrancar."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cambio y reaprendizaje (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Procedimiento de cambio de producto."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-DM-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-DM-010 — Producto rechazado al contenedor correcto con confirmación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el producto rechazado cae en el contenedor correcto, sin mezclarse con el bueno, y que el sistema de confirmación lo detecta."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar rechazos controlados con producto real<br>\n  2) Verificar que cada rechazo cae en el contenedor correcto<br>\n  3) Verificar la confirmación del sistema por cada rechazo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de los rechazos cae en el contenedor correcto.<br>\n  Sin mezcla con producto bueno."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rechazo con producto (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-DM-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-DM-011 — Contenedor lleno, abierto o ausente genera alarma o parada",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que con el contenedor de rechazo lleno, abierto o ausente se genera alarma o parada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Llenar el contenedor al nivel de alarma y verificar la respuesta<br>\n  2) Abrir el contenedor durante la marcha y verificar la alarma o parada<br>\n  3) Retirar el contenedor (si aplica) y verificar la respuesta"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada condición genera su alarma o parada.<br>\n  Sin operación normal con el contenedor en falta."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del contenedor (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del detector de metales."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-DM-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-DM-012 — Reinspección del producto rechazado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el procedimiento de reinspección del producto rechazado (si aplica): revisar el rechazo, identificar el metal y decidir el destino del lote."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Aplicar el procedimiento de reinspección al producto rechazado (si aplica)<br>\n  2) Identificar el metal encontrado cuando sea posible<br>\n  3) Registrar la decisión sobre el destino del lote"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Procedimiento aplicado y documentado.<br>\n  Destino del lote decidido y registrado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de reinspección (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Procedimiento de manejo de rechazos."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-DM-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-DM-013 — Prueba de rutina y retención ante fallo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la prueba de rutina con las piezas de prueba al inicio y al final de la producción, y a intervalos definidos. Registrar el resultado y qué se hace si falla (qué producto se retiene o se reinspecciona desde la última verificación correcta)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar la prueba de rutina al inicio, a intervalos definidos y al final de la producción<br>\n  2) Registrar cada resultado<br>\n  3) Verificar que el procedimiento define la retención o reinspección desde la última verificación correcta ante un fallo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Pruebas de rutina ejecutadas y registradas.<br>\n  El procedimiento de retención ante fallo está definido y es aplicable."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de pruebas de rutina (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Procedimiento de verificación de rutina."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-DM-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-DM-014 — Prueba tras cambio, reparación o apagado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la prueba con piezas tras un cambio, reparación o apagado del equipo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Tras cada cambio, reparación o apagado, pasar las piezas de prueba<br>\n  2) Verificar la detección del 100% antes de liberar la línea<br>\n  3) Registrar cada evento y su verificación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Verificación aprobada antes de cada liberación.<br>\n  Sin producción liberada sin prueba."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de pruebas post-evento (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Procedimiento de verificación de rutina."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-DM-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-DM-015 — Aislamiento y reinspección ante fallo de verificación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que ante un fallo de verificación el procedimiento indica el aislamiento y la reinspección del producto pasado desde la última prueba aprobada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular documentalmente un fallo de verificación<br>\n  2) Aplicar el procedimiento: aislar el producto desde la última prueba aprobada<br>\n  3) Verificar la reinspección definida y el registro de la decisión"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Producto afectado aislado y reinspeccionado.<br>\n  Decisión registrada conforme al procedimiento."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de aislamiento y reinspección (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Procedimiento de manejo de fallos de verificación."
+     }
+    ],
+    "tabla": null,
+    "familia": "detector-metales"
    },
    {
     "kind": "div",
