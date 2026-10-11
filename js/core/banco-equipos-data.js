@@ -4837,7 +4837,7 @@ var BancoEquipos = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cobertura CIP (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cobertura CIP (anexo del informe)<br>\n  - Referencia obligatoria al protocolo de limpieza validado (código y versión) donde se demuestra la eficacia de limpieza del reactor"
      },
      {
       "et": "Nota",
@@ -4845,7 +4845,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>PDA TR 29 (limpieza, si aplica)."
+      "html": "<strong>Referencia:</strong><br>PDA TR 29 (limpieza, si aplica); 21 CFR 211.67 (procedimientos de limpieza validados)."
      }
     ],
     "tabla": null,
@@ -4908,6 +4908,37 @@ var BancoEquipos = {
      {
       "et": "Referencia",
       "html": "<strong>Referencia:</strong><br>Especificación de operación del reactor."
+     }
+    ],
+    "tabla": null,
+    "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RC-027",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-027 — Puesta a tierra y protección ATEX (si aplica, solventes)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la puesta a tierra del reactor y sus protecciones contra atmósferas explosivas cuando procesa solventes inflamables (si aplica según la evaluación de riesgo)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar la evaluación de riesgo de atmósferas explosivas; si el reactor no procesa solventes inflamables, declarar No Aplica con justificación<br>\n  2) Medir la continuidad de puesta a tierra del vaso, tapa y accesorios contra el criterio del fabricante<br>\n  3) Verificar la conexión equipotencial de partes móviles y mangueras conductivas (si aplican)<br>\n  4) Verificar el concepto de protección de los componentes eléctricos en zona clasificada (si aplica)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Continuidad de tierra dentro del criterio en todos los puntos medidos.<br>\n  Protecciones ATEX instaladas según la evaluación de riesgo (o No Aplica justificado)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de tierras y evaluación ATEX (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Directiva 2014/34/UE (ATEX); IEC TS 60079-32-1 (electricidad estática)."
      }
     ],
     "tabla": null,
@@ -20871,6 +20902,37 @@ var BancoEquipos = {
     "familia": "horno-vacio"
    },
    {
+    "kind": "ensayo",
+    "id": "EQ-PQ-VA-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-VA-011 — Solventes residuales tras el secado (si aplica)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los solventes residuales del material secado cumplen la especificación cuando el método lo exige (si aplica). La humedad o el peso constante no sustituyen este ensayo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir con el laboratorio si el material requiere determinación de solventes residuales; si no, declarar No Aplica con justificación<br>\n  2) Secar la muestra según el método calificado y determinar los solventes residuales por el método validado del laboratorio<br>\n  3) Comparar contra los límites de la especificación (ICH Q3C según clase de solvente)<br>\n  4) Anexar el certificado o reporte analítico como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los solventes residuales cumplen la especificación del material (o No Aplica justificado).<br>\n  Reporte analítico anexado con método validado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Reporte analítico de solventes residuales (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q3C — Impurezas: solventes residuales; USP &lt;467&gt; — Solventes residuales."
+     }
+    ],
+    "tabla": null,
+    "familia": "horno-vacio"
+   },
+   {
     "kind": "resumen",
     "id": "EQ-PQ-VA-RES",
     "bloque": 4,
@@ -20883,11 +20945,11 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-VA-001 a EQ-PQ-VA-010 están incluidos en el índice del protocolo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-VA-001 a EQ-PQ-VA-011 están incluidos en el índice del protocolo"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 10 ensayos aparecen en la tabla resumen con su veredicto."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 11 ensayos aparecen en la tabla resumen con su veredicto."
      },
      {
       "et": "Referencia",
@@ -20939,6 +21001,16 @@ var BancoEquipos = {
       [
        "6.6",
        "Manual del fabricante del horno de vacío — Vacío, setpoints y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.7",
+       "ICH Q3C — Impurezas: solventes residuales (si aplica al material)",
+       "VIGENTE"
+      ],
+      [
+       "6.8",
+       "USP <467> — Solventes residuales (si aplica al material)",
        "VIGENTE"
       ]
      ]

@@ -4780,3 +4780,12 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-11 (162): IQ Nivel 2 mezclador + horno-secado (add-on 5+5)
 - **Qué:** `iq-mezclador.html` (EQ-IQ-MZ-001…005): diagrama, cuba/bin/intensificador, motriz/velocidad, extracción/contención, seguridades/placa. `iq-horno-secado.html` (EQ-IQ-HO-001…005): diagrama, cámara/bandejas/ventilación, control/sobretemperatura, utilidades/extracción, puerta/guardas/placa. Ambos se suman al núcleo común.
 - **Verificación:** extractor `--estricto` OK (638 artículos); Vitest 431/431, backend 67/67.
+
+### 2026-10-11 (163): Lote 6-automático auditoría (retiro estufa, H-21, H-23, H-13/H-14, H-15)
+- **Retiro horno-estufa (duplicado):** fuera de ENTIDADES, del selector de equipos y eliminada su ficha; cero restos en repo.
+- **H-21:** 6 fichas de estabilidad OQ→001–019 y PQ→001–019, igualadas al banco (19/19).
+- **H-23:** refs WHO TRS 961 An.9 Sup.8 + USP <1079.4> en tablas ALM-OQ-011, ALM-PQ-009, EST-OQ-REF y EST-PQ-REF (en almacenes sustituyen la fila `______` pendiente).
+- **H-13/H-14 reactor:** RC-024 con referencia obligatoria al protocolo de limpieza validado + 21 CFR 211.67; nuevo RC-027 puesta a tierra y ATEX condicional (si aplica solventes).
+- **H-15 horno-vacío:** nuevo VA-011 solventes residuales condicional (ICH Q3C / USP <467>) + filas 6.7–6.8 en REF + RES a 11 ensayos.
+- **Pendiente con decisión tuya:** 13 ops omitidas (LF-012/013, MZ-010, AU-012 — 5 decisiones), H-06/H-07 parametrización por entidad, H-18 fotoestabilidad, H-19/H-20 valores numéricos, split horno-secado-lab.
+- **Verificación:** extractores equipos/estabilidad/almacenes `--estricto` OK (640+46+43); Vitest 431/431, backend 67/67.

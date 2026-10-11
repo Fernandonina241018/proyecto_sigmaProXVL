@@ -1446,8 +1446,13 @@ var BancoAlmacenes = {
       ],
       [
        "4",
-       "______",
-       "______"
+       "OMS TRS 961 Anexo 9 Suplemento 8 — Buenas prácticas de almacenamiento y mapeo térmico",
+       "Vigente"
+      ],
+      [
+       "5",
+       "USP <1079.4> — Monitoreo y mapeo de almacenes con temperatura controlada",
+       "Vigente"
       ]
      ]
     }
@@ -1908,8 +1913,13 @@ var BancoAlmacenes = {
       ],
       [
        "4",
-       "______",
-       "______"
+       "OMS TRS 961 Anexo 9 Suplemento 8 — Buenas prácticas de almacenamiento y mapeo térmico",
+       "Vigente"
+      ],
+      [
+       "5",
+       "USP <1079.4> — Monitoreo y mapeo de almacenes con temperatura controlada",
+       "Vigente"
       ]
      ]
     }

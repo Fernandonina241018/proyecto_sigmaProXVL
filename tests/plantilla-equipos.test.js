@@ -353,25 +353,25 @@ describe('OQ/PQ horno de vacío (banco por familia, fuente ENSAYOS.txt)', () => 
   };
   const ENT_VA = { id: 'horno-vacio', nombre: 'Horno de vacío' };
 
-  it('banco vacío: OQ 18 + PQ 10, flags del .txt respetados', () => {
+  it('banco vacío: OQ 18 + PQ 11, flags del .txt respetados', () => {
     const oq = (banco.fases.OQ || []).filter((i) => i.id && i.familia === 'horno-vacio').map((i) => i.id);
     expect(oq).toHaveLength(20);
     expect(oq.filter((id) => /^EQ-OQ-VA-\d+$/.test(id))).toHaveLength(18);
     const pq = (banco.fases.PQ || []).filter((i) => i.id && i.familia === 'horno-vacio').map((i) => i.id);
-    expect(pq).toHaveLength(12);
-    expect(pq.filter((id) => /^EQ-PQ-VA-\d+$/.test(id))).toHaveLength(10);
+    expect(pq).toHaveLength(13);
+    expect(pq.filter((id) => /^EQ-PQ-VA-\d+$/.test(id))).toHaveLength(11);
     const anOQ = (banco.fases.OQ || []).filter((i) => i.familia === 'horno-vacio' && i.analisis).length;
     const anPQ = (banco.fases.PQ || []).filter((i) => i.familia === 'horno-vacio' && i.analisis).length;
     expect(anOQ).toBe(12);
     expect(anPQ).toBe(10);
   });
 
-  it('vacío genera OQ 18+1 y PQ 10+1, sin mezcla con secado', async () => {
+  it('vacío genera OQ 18+1 y PQ 11+1, sin mezcla con secado', async () => {
     const o = await genFase('OQ', ENT_VA);
     expect(o.r.ensayos).toHaveLength(19); // 18 familia + EQ-OQ-COM-001
     expect(o.r.ensayos).toContain('EQ-OQ-VA-008');
     const p = await genFase('PQ', ENT_VA);
-    expect(p.r.ensayos).toHaveLength(11); // 10 familia + EQ-PQ-COM-001
+    expect(p.r.ensayos).toHaveLength(12); // 11 familia + EQ-PQ-COM-001
     expect(p.r.ensayos).toContain('EQ-PQ-VA-001');
     for (const id of o.r.ensayos) expect(o.doc).toContain(id);
     for (const id of p.r.ensayos) expect(p.doc).toContain(id);

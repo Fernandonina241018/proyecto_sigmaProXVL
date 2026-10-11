@@ -32,7 +32,6 @@ const Validaciones = (() => {
       { id: 'llenadora', nombre: 'Llenadora de líquidos' },
       { id: 'liofilizador', nombre: 'Liofilizador' },
       { id: 'autoclave', nombre: 'Autoclave' },
-      { id: 'horno-estufa', nombre: 'Horno / estufa' },
       { id: 'tunel-despirogenizacion', nombre: 'Túnel de despirogenización' },
       { id: 'etiquetadora', nombre: 'Etiquetadora' },
       { id: 'blistera', nombre: 'Blístera / encartonadora' },

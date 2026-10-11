@@ -61,7 +61,7 @@ describe('banco de equipos: contrato', () => {
     ['OQ', 'autoclave', 18],
     ['OQ', 'mezclador', 13], // 12 si se retira MZ-010 (op omitida)
     ['OQ', 'horno-secado', 16],
-    ['OQ', 'reactor', 26], // ENSAYOS.txt usuario (2026-10-07)
+    ['OQ', 'reactor', 27], // ENSAYOS.txt usuario (2026-10-07) + RC-027 ATEX (H-14)
     ['PQ', 'reactor', 14], // ENSAYOS.txt usuario (2026-10-07)
     ['OQ', 'tableteadora', 26], // ENSAYOS.txt usuario (2026-10-08)
     ['PQ', 'tableteadora', 19], // ENSAYOS.txt usuario (2026-10-08)

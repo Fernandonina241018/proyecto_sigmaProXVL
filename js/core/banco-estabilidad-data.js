@@ -858,6 +858,16 @@ var BancoEstabilidad = {
        "6.6",
        "Manual del fabricante de la cámara — Setpoints, alarmas, ventilación y límites de diseño",
        "VIGENTE"
+      ],
+      [
+       "6.7",
+       "OMS TRS 961 Anexo 9 Suplemento 8 — Mapeo térmico y monitoreo de cámaras de estabilidad",
+       "VIGENTE"
+      ],
+      [
+       "6.8",
+       "USP <1079.4> — Monitoreo y mapeo de cámaras con temperatura controlada",
+       "VIGENTE"
       ]
      ]
     }
@@ -1560,6 +1570,16 @@ var BancoEstabilidad = {
       [
        "6.6",
        "Manual del fabricante de la cámara — Rangos, alarmas y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.7",
+       "OMS TRS 961 Anexo 9 Suplemento 8 — Mapeo térmico y monitoreo de cámaras de estabilidad",
+       "VIGENTE"
+      ],
+      [
+       "6.8",
+       "USP <1079.4> — Monitoreo y mapeo de cámaras con temperatura controlada",
        "VIGENTE"
       ]
      ]
