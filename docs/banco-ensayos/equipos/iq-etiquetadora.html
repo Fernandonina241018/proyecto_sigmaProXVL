@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos IQ — Etiquetadora</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>IQ — Etiquetadora (banco por familia, Nivel 2)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-IQ-ET 2026-10-11 v1</span></p>
+<p>Add-on de Calificación de Instalación específico de la etiquetadora (derivado del modelo). Se suma al núcleo común (EQ-IQ-001…EQ-IQ-023) y se filtra por familia (<code>data-familia="etiquetadora"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= IQ ================= -->
+<section id="fase-iq" data-familia="etiquetadora">
+<h2>IQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-IQ-ET-001" class="ensayo" data-id="EQ-IQ-ET-001" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-ET-001 — Verificación del diagrama de flujo contra lo instalado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el diagrama de flujo de la etiquetadora (transporte, dispensado, aplicación, codificación, verificación y rechazo) corresponde con la instalación física real.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Obtener la revisión vigente del diagrama de flujo aprobado<br>
+  2) Recorrer la línea identificando transportador, dispensador, cabezal de aplicación, codificador, cámara de verificación y desviador de rechazo<br>
+  3) Confirmar tag, ubicación y conexión de cada componente contra el diagrama<br>
+  4) Registrar toda desviación como hallazgo con su disposición</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El diagrama de flujo corresponde con lo instalado en su revisión vigente.<br>
+  No existen componentes, líneas ni instrumentos sin identificar.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Diagrama de flujo verificado y firmado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-ET-002" class="ensayo" data-id="EQ-IQ-ET-002" data-fase="IQ" data-cond="ambas" data-tabla-modelo="DISPENSADOR Y FORMATO">
+  <h3>EQ-IQ-ET-002 — Verificación del dispensador, cabezal y piezas de formato</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el dispensador, el cabezal de aplicación y las piezas de formato instaladas corresponden a lo especificado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el dispensador: modelo, número de serie y montaje<br>
+  2) Verificar el cabezal de aplicación y el rodillo o banda de alisado (si aplica)<br>
+  3) Verificar las piezas de formato por envase: juego completo, identificación y estado<br>
+  4) Verificar guías del transportador: ajuste y ausencia de daños<br>
+  5) Registrar cada componente en la tabla de dispensador y formato</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El dispensador, el cabezal y las piezas corresponden a lo especificado.<br>
+  Sin piezas dañadas, intercambiadas o sin identificar.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de dispensador y formato con certificados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-ET-003" class="ensayo" data-id="EQ-IQ-ET-003" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-ET-003 — Verificación de sensores, codificador, visión y rechazo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los sensores de producto y etiqueta, el codificador, la cámara de verificación y el desviador de rechazo están instalados y conectados al control.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar los sensores de producto y de etiqueta: ubicación y conexión<br>
+  2) Verificar el codificador de lote y vencimiento: instalación y conexión<br>
+  3) Verificar la cámara de verificación: ubicación, enfoque e iluminación<br>
+  4) Verificar el desviador o compuerta de rechazo: actuador, conexión y recipiente identificado<br>
+  5) Verificar calibración vigente de los instrumentos instalados</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los componentes están instalados, identificados y conectados.<br>
+  Los instrumentos cuentan con calibración vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de sensores, codificación, visión y rechazo verificado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-ET-004" class="ensayo" data-id="EQ-IQ-ET-004" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-ET-004 — Verificación de utilidades del transporte y aplicación</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el aire comprimido del aplicador y la energía del transporte y cabezal están conectados según especificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el aire comprimido del aplicador y del rechazo (si aplica): presión, filtro y regulador<br>
+  2) Verificar la acometida eléctrica del transporte, dispensador y codificador: voltaje, fases y protección<br>
+  3) Registrar los parámetros de cada utilidad</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todas las utilidades están conectadas y en rango.<br>
+  Cada utilidad cuenta con su elemento de corte accesible.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de utilidades verificada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-ET-005" class="ensayo" data-id="EQ-IQ-ET-005" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-ET-005 — Verificación de guardas, seguridades y placa de datos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las guardas con sus interruptores y los paros de emergencia están instalados, y que la placa de datos corresponde a la especificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar guardas del transportador y del cabezal: presencia, fijación e interruptores conectados<br>
+  2) Verificar paros de emergencia: ubicación, identificación y acceso<br>
+  3) Verificar la placa de datos: modelo, serie y velocidad máxima<br>
+  4) Verificar que la placa corresponde a la especificación de compra</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Guardas y paros instalados y operativos.<br>
+  La placa de datos corresponde a la especificación de compra.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de seguridades y placa de datos (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+</article>
+
+</section>
+</body>
+</html>

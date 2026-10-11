@@ -4772,3 +4772,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Qué:** `.txt` traía OQ+PQ etiquetadora. Creados `oq-etiquetadora.html` (29 ensayos EQ-OQ-ET, 4 con análisis: velocidad, sincronización, repetibilidad en 30, formatos extremos) y `pq-etiquetadora.html` (20 ensayos EQ-PQ-ET, 6 con análisis: 3 lotes, extremos, peor caso, lote material distinto, op continua, cambio de formato).
 - **Nota:** flag suelto de línea 1 tratado como artefacto (convención vigente); numeración del .txt con saltos respetada.
 - **Verificación:** extractor `--estricto` OK (623 artículos); Vitest 428/428, backend 67/67. Etiquetadora: 13ª familia con OQ+PQ propio (IQ Nivel 2 pendiente).
+
+### 2026-10-11 (161): IQ Nivel 2 etiquetadora (add-on 5 ensayos)
+- **Qué:** `iq-etiquetadora.html` derivado del modelo (EQ-IQ-ET-001…005): diagrama de flujo, dispensador/cabezal/piezas de formato, sensores-codificador-visión-rechazo, utilidades de transporte/aplicación, guardas/placa. Se suma al núcleo común. Etiquetadora queda IQ+OQ+PQ completa (séptima Nivel 2 cerrada).
+- **Verificación:** extractor `--estricto` OK (628 artículos); Vitest 429/429, backend 67/67.
